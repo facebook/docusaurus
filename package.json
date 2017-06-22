@@ -21,7 +21,7 @@
     "babel-preset-react": "^6.24.1"
   },
   "name": "docusaurus",
-  "version": "0.0.9-e",
+  "version": "1.0.0-alpha.0",
   "bin": {
     "docusaurus-start": "./lib/start-server.js",
     "docusaurus-build": "./lib/build-files.js",

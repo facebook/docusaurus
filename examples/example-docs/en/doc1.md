@@ -1,11 +1,4 @@
----
-id: doc1
-title: Docusaurus
-layout: docs
-category: Docusaurus
-permalink: docs/en/doc1.html
-next: doc2
----
+# Docusaurus
 
 ## Getting Started
 
@@ -22,10 +15,10 @@ In your `package.json` file, add the following scripts for docusaurus:
 
 ```json
 "scripts": {
-  "docusaurus-start": "docusaurus-start",
-  "docusaurus-build": "docusaurus-build",
-  "docusaurus-publish": "docusaurus-publish",
-  "docusaurus-examples": "docusaurus-examples"
+  "doc-start": "docusaurus-start",
+  "doc-build": "docusaurus-build",
+  "doc-publish": "docusaurus-publish",
+  "doc-examples": "docusaurus-examples"
 }
 ```
 
@@ -44,6 +37,8 @@ example-docs/en/doc2.md
 example-docs/en/doc3.md
 example-docs/en/exampledoc4.md
 example-docs/en/exampledoc5.md
+example-blog/2016-03-11-blog-post.md
+example-blog/2017-04-10-blog-post-two.md
 i18n/en.js
 src/en/help.js
 src/en/index.js
@@ -56,7 +51,21 @@ siteConfig.js
 
 ## Configuration
 
-The provided example files contain configurations for an example project `deltice/test-site` and the documents in `example-docs/`. These are provided for your reference to help you configure your project. Documents in `example-docs/` are provided for your reference for how to write markdown files, including necessary front matter information, and are not necessary while all other generated files are needed to build and publish your website.
+The provided example files contain configurations for an example project `deltice/test-site` and with the documents in `example-docs/` and blog posts in `example-blog/`. These are provided for your reference to help you configure your project and are not necessary while all other generated files are needed to build and publish your website.
+
+Documentation should contain that follows this example:
+```
+---
+id: doc1 <!-- used for docs to find each other and to map links -->
+title: Document Title
+layout: docs1 <!-- used to determine different sidebar groupings -->
+category: Sidebar Category 1 <!-- Category on the sidebar under which this doc goes -->
+permalink: docs/en/doc1.html <!-- link to the document that is used for site -->
+previous: doc0 <!-- previous doc on sidebar for navigation -->
+next: doc2 <!-- next doc on the sidebar for navigation -->
+<!-- don't include next if this is the last doc; don't include previous if first doc -->
+---
+```
 
 Blog posts should be written as markdown files with the following front matter:
 ```
@@ -124,7 +133,7 @@ deployment:
       - git config --global user.email "test-site-bot@users.noreply.github.com"
       - git config --global user.name "Website Deployment Script"
       - echo "machine github.com login test-site-bot password $GITHUB_TOKEN" > ~/.netrc
-      - cd website && GIT_USER=test-site-bot npm run docusaurus-publish
+      - cd website && npm install && GIT_USER=test-site-bot npm run doc-publish
 ```
 
 Note that in this case a GitHub user `test-site-bot` is created to use just for publishing. Make sure to give your Git user push permissions for your project and to set a GITHUB_TOKEN environment variable in Circle if you choose to publish this way.
@@ -132,5 +141,5 @@ Note that in this case a GitHub user `test-site-bot` is created to use just for 
 If you wish to manually publish your website with the `docusaurus-publish` script, run the following example command with the appropriate variables for your project:
 
 ```
-DEPLOY_USER=deltice GIT_USER=test-site-bot CIRCLE_PROJECT_USERNAME=deltice CIRCLE_PROJECT_REPONAME=test-site npm run docusaurus-publish
+DEPLOY_USER=deltice GIT_USER=test-site-bot CIRCLE_PROJECT_USERNAME=deltice CIRCLE_PROJECT_REPONAME=test-site npm run doc-publish
 ```
