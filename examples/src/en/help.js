@@ -9,8 +9,18 @@ const siteConfig = require(process.cwd() + '/siteConfig.js');
 class Help extends React.Component {
   render() {
     const supportLinks = [
-      siteConfig[this.props.language].support.browse,
-      siteConfig[this.props.language].support.join,
+      {
+        content: 'Learn more using the [documentation on this site.](/test-site/docs/en/doc1.html)\n',
+        title: 'Browse Docs',
+      },
+      {
+        content: 'Ask questions about the documentation and project\n',
+        title: 'Join the community',
+      },
+      {
+        content: 'Find out what\'s new with this project\n',
+        title: 'Stay up to date',
+      },
     ];
 
     return (
@@ -19,12 +29,12 @@ class Help extends React.Component {
           <Container className="mainContainer documentContainer postContainer">
             <div className="post">
               <header className="postHeader">
-                <h2>{siteConfig[this.props.language].support.header.title}</h2>
+                <h2>Need help?</h2>
               </header>
               <p>
-                {siteConfig[this.props.language].support.header.content}
+                This project is maintained by a dedicated group of people;
               </p>
-              <GridBlock contents={supportLinks} layout="threeColumn" />
+              <GridBlock contents={supportLinks} layout="fourColumn" />
             </div>
           </Container>
         </div>

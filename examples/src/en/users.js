@@ -21,18 +21,18 @@ class Users extends React.Component {
           <Container padding={['bottom', 'top']}>
             <div className="showcaseSection">
               <div className="prose">
-                <h1>{siteConfig[this.props.language].using.header.title}</h1>
-                <p>{siteConfig[this.props.language].using.header.content}</p>
+                <h1>Who's Using This?</h1>
+                <p>This project is used by many folks</p>
               </div>
               <div className="logos">
                 {showcase}
               </div>
-              <p>{siteConfig[this.props.language].using.prompt}</p>
+              <p>Are you using this project?</p>
               <a
                 href="https://github.com/deltice/test-site/edit/master/website/siteConfig.js"
                 className="button"
               >
-                {siteConfig[this.props.language].using.prompt_cta}
+                Add your company
               </a>
             </div>
           </Container>

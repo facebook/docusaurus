@@ -39,13 +39,13 @@ class HomeSplash extends React.Component {
             <div className="inner">
               <h2 className="projectTitle">
                 {siteConfig.title}
-                <small>{siteConfig[this.props.language].tagline}</small>
+                <small>My Tagline</small>
               </h2>
               <div className="section promoSection">
                 <div className="promoRow">
                   <div className="pluginRowBlock">
                     <Button href="#try">
-                      {siteConfig[this.props.language].promo.try}
+                      Try It Out
                     </Button>
                     <Button
                       href={
@@ -54,7 +54,7 @@ class HomeSplash extends React.Component {
                           '/doc1.html'
                       }
                     >
-                      {siteConfig[this.props.language].promo.doc1}
+                      Example Link
                     </Button>
                     <Button
                       href={
@@ -63,7 +63,7 @@ class HomeSplash extends React.Component {
                           '/doc2.html'
                       }
                     >
-                      {siteConfig[this.props.language].promo.doc2}
+                      Example Link 2
                     </Button>
                   </div>
                 </div>
@@ -103,7 +103,20 @@ class Index extends React.Component {
           <Container padding={['bottom', 'top']}>
             <GridBlock
               align="center"
-              contents={siteConfig[language].features}
+              contents={[
+                {
+                  content: 'This is the content of my feature',
+                  image: '/test-site/img/docusaurus.svg',
+                  imageAlign: 'top',
+                  title: 'Feature One',
+                },
+                {
+                  content: 'The content of my second feature',
+                  image: '/test-site/img/docusaurus.svg',
+                  imageAlign: 'top',
+                  title: 'Feature Two',
+                }
+              ]}
               layout="fourColumn"
             />
           </Container>
@@ -111,9 +124,9 @@ class Index extends React.Component {
           <div
             className="productShowcaseSection paddingBottom"
             style={{textAlign: 'center'}}>
-            <h2>{siteConfig[language].featureCallout.title}</h2>
+            <h2>Feature Callout</h2>
             <Marked>
-              {siteConfig[language].featureCallout.content}
+              These are features of this project
             </Marked>
           </div>
 
@@ -121,10 +134,10 @@ class Index extends React.Component {
             <GridBlock
               contents={[
                 {
-                  content: siteConfig[language].belowFold.learn.content,
+                  content: 'Talk about learning how to use this',
                   image: '/test-site/img/docusaurus.svg',
                   imageAlign: 'right',
-                  title: siteConfig[language].belowFold.learn.title,
+                  title: 'Learn How',
                 },
               ]}
             />
@@ -134,10 +147,10 @@ class Index extends React.Component {
             <GridBlock
               contents={[
                 {
-                  content: siteConfig[language].belowFold.try.content,
+                  content: 'Talk about trying this out',
                   image: '/test-site/img/docusaurus.svg',
                   imageAlign: 'left',
-                  title: siteConfig[language].belowFold.try.title,
+                  title: 'Try it Out',
                 },
               ]}
             />
@@ -147,10 +160,10 @@ class Index extends React.Component {
             <GridBlock
               contents={[
                 {
-                  content: siteConfig[language].belowFold.description.content,
+                  content: 'This is another description of how this project is useful',
                   image: '/test-site/img/docusaurus.svg',
                   imageAlign: 'right',
-                  title: siteConfig[language].belowFold.description.title,
+                  title: 'Description',
                 },
               ]}
             />
@@ -158,14 +171,14 @@ class Index extends React.Component {
 
           
           <div className="productShowcaseSection paddingBottom">
-            <h2>{siteConfig[language].belowFold.using.title}</h2>
-            <p>{siteConfig[language].belowFold.using.content}</p>
+            <h2>Who's Using This?</h2>
+            <p>This project is used by all these people</p>
             <div className="logos">
               {showcase}
             </div>
             <div className="more-users">
               <a className="button" href={siteConfig.baseUrl + "users.html"} target="_self">
-                {siteConfig[language].belowFold.using.button}
+                More Docusaurus Users
               </a>
             </div>
           </div> 
