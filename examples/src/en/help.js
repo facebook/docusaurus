@@ -34,7 +34,7 @@ class Help extends React.Component {
               <p>
                 This project is maintained by a dedicated group of people;
               </p>
-              <GridBlock contents={supportLinks} layout="fourColumn" />
+              <GridBlock contents={supportLinks} layout="threeColumn" />
             </div>
           </Container>
         </div>

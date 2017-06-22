@@ -21,4 +21,5 @@ module.exports = {
     Help: 'Help',
     Blog: 'Blog'
   },
+  tagline: 'Tagline',
 };
