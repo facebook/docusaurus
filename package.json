@@ -2,7 +2,7 @@
   "scripts": {
     "start": "./lib/start-server.js",
     "build": "./lib/build-files.js",
-    "publish": "./lib/publish-gh-pages.js",
+    "publish-gh-pages": "./lib/publish-gh-pages.js",
     "examples": "./lib/copy-examples.js"
   },
   "dependencies": {
@@ -21,7 +21,7 @@
     "babel-preset-react": "^6.24.1"
   },
   "name": "docusaurus",
-  "version": "0.0.8-t",
+  "version": "0.0.8-y",
   "bin": {
     "docusaurus-start": "./lib/start-server.js",
     "docusaurus-build": "./lib/build-files.js",
