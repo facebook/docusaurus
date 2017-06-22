@@ -759,10 +759,12 @@ a:hover code {
   padding: 0;
 }
 .gridBlock .twoByGridBlock,
+.gridBlock .threeByGridBlock,
 .gridBlock .fourByGridBlock {
   padding: 5px 0;
 }
 .gridBlock .twoByGridBlock img,
+.gridBlock .threeByGridBlock img,
 .gridBlock .fourByGridBlock img {
   max-width: 100%;
 }
@@ -899,6 +901,11 @@ a:hover code {
     flex: 1 0 50%;
     padding: 10px;
   }
+  .gridBlock .threeByGridBlock {
+    box-sizing: border-box;
+    flex: 1 0 26%;
+    padding: 10px;
+  }
   .gridBlock .fourByGridBlock {
     box-sizing: border-box;
     flex: 1 0 25%;
@@ -920,6 +927,11 @@ a:hover code {
     box-sizing: border-box;
     flex: 1 0 50%;
     padding: 10px 20px;
+  }
+  .gridBlock .threeByGridBlock {
+    box-sizing: border-box;
+    flex: 1 0 26%;
+    padding: 10px;
   }
   .gridBlock .fourByGridBlock {
     box-sizing: border-box;
