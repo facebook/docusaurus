@@ -86,7 +86,7 @@ Next, customize core/Footer.js which will serve as the footer for each page on y
 
 Include your own top-level pages as React components in `src/en/`. Any `.js` files at `src/en/` will be copied to `src/` as well, so `your-site/index.html` will be the same as `your-site/en/index.html`. Three pages are provided for your reference and to use as templates if you so desire. They also contain examples of React components that are available for your use. Currently, if you want to add other React components to a file, you must include all of it inside that file due to how `require` paths are currently set-up. This may be changed in future updates.
 
-All images and other files you wish to include should be placed inside the `src` folder. Currently, docusaurus will attempt to compile any `.js` files into React pages if it is not in `src/js/`.
+All images and other files you wish to include should be placed inside the `src` folder. Currently, docusaurus will attempt to compile any `.js` files into React pages if it is not in `src/js/` or `src/lib/`.
 
 ## Using Docusaurus
 
