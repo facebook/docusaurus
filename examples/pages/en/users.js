@@ -1,9 +1,9 @@
-const React = require('react');
+const React = require("react");
 
-const CompLibrary = require('../../core/CompLibrary.js');
+const CompLibrary = require("../../core/CompLibrary.js");
 const Container = CompLibrary.Container;
 
-const siteConfig = require(process.cwd() + '/siteConfig.js');
+const siteConfig = require(process.cwd() + "/siteConfig.js");
 
 class Users extends React.Component {
   render() {
@@ -18,7 +18,7 @@ class Users extends React.Component {
     return (
       <div>
         <div className="mainContainer">
-          <Container padding={['bottom', 'top']}>
+          <Container padding={["bottom", "top"]}>
             <div className="showcaseSection">
               <div className="prose">
                 <h1>Who's Using This?</h1>
@@ -39,12 +39,11 @@ class Users extends React.Component {
         </div>
       </div>
     );
-
   }
 }
 
 Users.defaultProps = {
-  language: 'en',
+  language: "en"
 };
 
 module.exports = Users;

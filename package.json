@@ -14,6 +14,7 @@
     "glob": "^7.1.2",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
+    "request": "^2.81.0",
     "shelljs": "^0.7.8"
   },
   "devDependencies": {
@@ -21,7 +22,7 @@
     "babel-preset-react": "^6.24.1"
   },
   "name": "docusaurus",
-  "version": "1.0.0-alpha.4",
+  "version": "1.0.0-alpha.6",
   "bin": {
     "docusaurus-start": "./lib/start-server.js",
     "docusaurus-build": "./lib/build-files.js",

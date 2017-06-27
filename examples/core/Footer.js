@@ -1,4 +1,4 @@
-const React = require('react');
+const React = require("react");
 
 const githubButton = (
   <a
@@ -8,7 +8,8 @@ const githubButton = (
     data-count-href="/deltice/test-site/stargazers"
     data-count-api="/repos/deltice/test-site#stargazers_count"
     data-count-aria-label="# stargazers on GitHub"
-    aria-label="Star this project on GitHub">
+    aria-label="Star this project on GitHub"
+  >
     Star
   </a>
 );
@@ -31,21 +32,30 @@ class Footer extends React.Component {
             <h5>Docs</h5>
             <a
               href={
-                this.props.config.baseUrl + 'docs/' + this.props.language + '/doc1.html'
+                this.props.config.baseUrl +
+                "docs/" +
+                this.props.language +
+                "/doc1.html"
               }
             >
               Getting Started (or other categories)
             </a>
             <a
               href={
-                this.props.config.baseUrl + 'docs/' + this.props.language + '/doc2.html'
+                this.props.config.baseUrl +
+                "docs/" +
+                this.props.language +
+                "/doc2.html"
               }
             >
               Guides (or other categories)
             </a>
-            <a 
+            <a
               href={
-                this.props.config.baseUrl + 'docs/' + this.props.language + '/doc3.html'
+                this.props.config.baseUrl +
+                "docs/" +
+                this.props.language +
+                "/doc3.html"
               }
             >
               API Reference (or other categories)
@@ -53,7 +63,11 @@ class Footer extends React.Component {
           </div>
           <div>
             <h5>Community</h5>
-            <a href={this.props.config.baseUrl + this.props.language + '/users.html'}>
+            <a
+              href={
+                this.props.config.baseUrl + this.props.language + "/users.html"
+              }
+            >
               User Showcase
             </a>
             <a
@@ -62,12 +76,10 @@ class Footer extends React.Component {
             >
               Stack Overflow
             </a>
-            <a
-              href="https://discordapp.com/"
-            >
-              Project Chat
+            <a href="https://discordapp.com/">Project Chat</a>
+            <a href="https://twitter.com/" target="_blank">
+              Twitter
             </a>
-            <a href="https://twitter.com/" target="_blank">Twitter</a>
           </div>
           <div>
             <h5>More</h5>
@@ -96,7 +108,5 @@ class Footer extends React.Component {
     );
   }
 }
-
-
 
 module.exports = Footer;

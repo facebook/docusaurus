@@ -22,17 +22,17 @@ In your `package.json` file, add the following scripts for docusaurus:
 
 ```json
 "scripts": {
-  "doc-start": "docusaurus-start",
-  "doc-build": "docusaurus-build",
-  "doc-publish": "docusaurus-publish",
-  "doc-examples": "docusaurus-examples"
+  "start": "docusaurus-start",
+  "build": "docusaurus-build",
+  "publish-gh-pages": "docusaurus-publish",
+  "examples": "docusaurus-examples"
 }
 ```
 
-To create example files for configuration, run `docusaurus-examples` using npm:
+To create example files for configuration, run `examples` using npm:
 
 ```
-npm run docusaurus-examples
+npm run examples
 ```
 
 This will create the following files in your website folder:
@@ -47,20 +47,23 @@ example-docs/en/exampledoc5.md
 example-blog/2016-03-11-blog-post.md
 example-blog/2017-04-10-blog-post-two.md
 i18n/en.js
-src/en/help.js
-src/en/index.js
-src/en/users.js
+pages/en/help.js
+pages/en/index.js
+pages/en/users.js
+static/img/...
 languages.js
 siteConfig.js
 ```
 
-`docusaurus-examples` will not overwrite any existing files of the same name in your website folder.
+`examples` will not overwrite any existing files of the same name in your website folder.
 
 ## Configuration
 
-The provided example files contain configurations for an example project `deltice/test-site` and with the documents in `example-docs/` and blog posts in `example-blog/`. These are provided for your reference to help you configure your project and are not necessary while all other generated files are needed to build and publish your website.
+The provided example files contain configurations for an example project `deltice/test-site` and with the documents in `example-docs/` and blog posts in `example-blog/`. These are provided for your reference to help you configure your project.
 
-Documentation should contain that follows this example:
+### Document and Blog Front Matters
+
+Documentation should contain front matter that follows this example:
 ```
 ---
 id: doc1 <!-- used for docs to find each other and to map links -->
@@ -85,15 +88,23 @@ authorFBID: 21315325 <!-- id to get author's picture -->
 ```
 In the blog post you should include a line `<!--truncate-->`. This will determine under which point text will be ignored when generating the preview of your blog post. Blog posts should have the file name format: `yyyy-mm-dd-your-file-name.md`.
 
-First, configure the siteConfig.js file which has comments guiding you through what needs to be done and how each configuration affects your website.
+### Language Configurations
 
-Keep languages.js as is with just English enabled. Enter English strings for your website in i18n/en.js manually. In future updates, these files will be used by docusaurus to support translations/localization.
+If you wish to support websites for other languages, the `languages.js` file provides a list of what languages you wish to enable. Files in the `i18n` folder will provide localized versions of various strings.
 
-Next, customize core/Footer.js which will serve as the footer for each page on your website.
+If you only wish to have an English version of your site, the `i18n` folder and the `languages.js` file are not necessary to run Docusaurus and should be deleted. 
 
-Include your own top-level pages as React components in `src/en/`. Any `.js` files at `src/en/` will be copied to `src/` as well, so `your-site/index.html` will be the same as `your-site/en/index.html`. Three pages are provided for your reference and to use as templates if you so desire. They also contain examples of React components that are available for your use. Currently, if you want to add other React components to a file, you must include all of it inside that file due to how `require` paths are currently set-up. This may be changed in future updates.
+### Site Configurations
 
-All images and other files you wish to include should be placed inside the `src` folder. Currently, docusaurus will attempt to compile any `.js` files into React pages if it is not in `src/js/` or `src/lib/`.
+Configure the siteConfig.js file which has comments guiding you through what needs to be done and how each configuration affects your website.
+
+Customize core/Footer.js which will serve as the footer for each page on your website.
+
+Include your own top-level pages as React components in `pages/`. These components should just be the body sections of the pages you want, and they will be included with the header and footer that the rest of Docusaurus uses. Examples are provided for your reference. Currently, if you want to add other React components toy our pages, you must include all of it inside that file due to how `require` paths are set-up. You may also include `.html` files directly, but this is not recommended, and these will just be served as is and will not have any of the header/footer/styles shared by the rest of Docusaurus.
+
+All images and other static assets you wish to include should be placed inside the `static` folder. Any `.css` files provided in `static` will be concatenated to the standard styles provided by Docusaurus and used site-wide.
+
+Files placed in `static/` will be accessible in the following way: `static/img/image.png` will be accessible at `img/image.png`.
 
 ## Using Docusaurus
 
@@ -102,7 +113,7 @@ All images and other files you wish to include should be placed inside the `src`
 To run your website locally run the script:
 
 ```
-npm run docusaurus-start
+npm run start
 ```
 
 This will start a server hosting your website locally at `localhost:3000`. This server will ignore any occurences `siteConfig.baseUrl` in URLs, e.g. `localhost:3000/your-site/index.html` will be the same as `localhost:3000/index.html`. Any changes to configured files will be reflected by refreshing the page, i.e. the server does not need to be restarted to show changes.
@@ -113,10 +124,10 @@ This will start a server hosting your website locally at `localhost:3000`. This 
 To create a static build of your website, run the script:
 
 ```
-npm run docusaurus-build
+npm run build
 ```
 
-This will generate `.html` files from all of your docs and other pages included in `src`. This allows you to check whether or not all your files are being generated correctly. The build folder is inside Docusaurus's directory inside `node_modules`.
+This will generate `.html` files from all of your docs and other pages included in `pages/`. This allows you to check whether or not all your files are being generated correctly. The build folder is inside Docusaurus's directory inside `node_modules`.
 
 ### Publishing Your Website
 
@@ -140,13 +151,13 @@ deployment:
       - git config --global user.email "test-site-bot@users.noreply.github.com"
       - git config --global user.name "Website Deployment Script"
       - echo "machine github.com login test-site-bot password $GITHUB_TOKEN" > ~/.netrc
-      - cd website && npm install && GIT_USER=test-site-bot npm run doc-publish
+      - cd website && npm install && GIT_USER=test-site-bot npm run publish-gh-pages
 ```
 
 Note that in this case a GitHub user `test-site-bot` is created to use just for publishing. Make sure to give your Git user push permissions for your project and to set a GITHUB_TOKEN environment variable in Circle if you choose to publish this way.
 
-If you wish to manually publish your website with the `docusaurus-publish` script, run the following example command with the appropriate variables for your project:
+If you wish to manually publish your website with the `publish-gh-pages` script, run the following example command with the appropriate variables for your project:
 
 ```
-DEPLOY_USER=deltice GIT_USER=test-site-bot CIRCLE_PROJECT_USERNAME=deltice CIRCLE_PROJECT_REPONAME=test-site npm run doc-publish
+DEPLOY_USER=deltice GIT_USER=test-site-bot CIRCLE_PROJECT_USERNAME=deltice CIRCLE_PROJECT_REPONAME=test-site CIRCLE_BRANCH=master npm run publish-gh-pages
 ```
