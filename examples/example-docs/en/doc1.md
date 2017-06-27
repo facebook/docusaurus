@@ -100,7 +100,7 @@ Configure the siteConfig.js file which has comments guiding you through what nee
 
 Customize core/Footer.js which will serve as the footer for each page on your website.
 
-Include your own top-level pages as React components in `pages/`. These components should just be the body sections of the pages you want, and they will be included with the header and footer that the rest of Docusaurus uses. Examples are provided for your reference. Currently, if you want to add other React components toy our pages, you must include all of it inside that file due to how `require` paths are set-up. You may also include `.html` files directly, but this is not recommended, and these will just be served as is and will not have any of the header/footer/styles shared by the rest of Docusaurus.
+Include your own top-level pages as React components in `pages/`. These components should just be the body sections of the pages you want, and they will be included with the header and footer that the rest of Docusaurus uses. Examples are provided for your reference. Currently, if you want to add other React components to your pages, you must include all of it inside that file due to how `require` paths are set-up. You may also include `.html` files directly, but this is not recommended, and these will just be served as is and will not have any of the header/footer/styles shared by the rest of Docusaurus.
 
 All images and other static assets you wish to include should be placed inside the `static` folder. Any `.css` files provided in `static` will be concatenated to the standard styles provided by Docusaurus and used site-wide.
 
