@@ -14,7 +14,7 @@ const siteConfig = {
   title: "Test Site" /* title for your website */,
   url: "https://deltice.github.io" /* your github url */,
   baseUrl: "/test-site/" /* base url for your project */,
-  projectName: "test-site"
+  projectName: "test-site",
   repo: "deltice/test-site" /* repo for your project */,
   users,
   /* base url for editing docs, usage example: editUrl + 'en/doc1.md' */
