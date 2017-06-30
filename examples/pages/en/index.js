@@ -68,10 +68,7 @@ class HomeSplash extends React.Component {
 
 class Index extends React.Component {
   render() {
-    let language = this.props.language;
-    if (language === undefined) {
-      language = "en";
-    }
+    let language = this.props.language || "en";
     const showcase = siteConfig.users
       .filter(user => {
         return user.pinned;
@@ -168,10 +165,12 @@ class Index extends React.Component {
             <div className="more-users">
               <a
                 className="button"
-                href={siteConfig.baseUrl + "users.html"}
+                href={
+                  siteConfig.baseUrl + this.props.language + "/" + "users.html"
+                }
                 target="_self"
               >
-                More Docusaurus Users
+                More "Docusaurus" Users
               </a>
             </div>
           </div>

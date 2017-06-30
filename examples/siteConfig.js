@@ -14,6 +14,7 @@ const siteConfig = {
   title: "Test Site" /* title for your website */,
   url: "https://deltice.github.io" /* your github url */,
   baseUrl: "/test-site/" /* base url for your project */,
+  projectName: "test-site"
   repo: "deltice/test-site" /* repo for your project */,
   users,
   /* base url for editing docs, usage example: editUrl + 'en/doc1.md' */
@@ -54,13 +55,15 @@ const siteConfig = {
     secondaryColor: "#205C3B",
     prismColor:
       "rgba(46, 133, 85, 0.03)" /* primaryColor in rgba form, with 0.03 alpha */
-  }
+  },
+  tagline: "My Tagline",
+  recruitingLink: "https://crowdin.com/project/test-site" /* translation site "help translate" link */
 };
 
 let languages;
 if (fs.existsSync("./languages.js")) {
   languages = require("./languages.js");
-  siteConfig["en"] = require("./i18n/en.js");
+  siteConfig["en"] = require("./i18n/en.json");
 } else {
   languages = [
     {

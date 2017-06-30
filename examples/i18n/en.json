@@ -1,0 +1,59 @@
+{
+  "localized-strings": {
+    "doc1": "Docusaurus",
+    "doc2": "The Second in a Series of Documents",
+    "doc3": "The Third in a Series of Documents",
+    "doc4": "Separate Sidebar Document 1",
+    "doc5": "Separate Sidebar Document 2",
+    "Docusaurus": "Docusaurus Guide",
+    "First Category": "Example Category 1",
+    "Second Category": "Example Category 2",
+    "previous": "Previous",
+    "next": "Continue Reading",
+    "Docs": "Docs",
+    "API": "API",
+    "GitHub": "GitHub",
+    "Help": "Help",
+    "Blog": "Blog"
+  },
+  "tagline": "Tagline",
+  "pages-strings": {
+    "index": {
+      "My Tagline": "My Tagline",
+      "Try It Out": "Try It Out",
+      "Example Link": "Example Link",
+      "Example Link 2": "Example Link 2",
+      "This is the content of my feature": "This is the content of my feature",
+      "The content of my second feature": "The content of my second feature",
+      "These are features of this project": "These are features of this project",
+      "Talk about learning how to use this": "Talk about learning how to use this",
+      "Talk about trying this out": "Talk about trying this out",
+      "This is another description of how this project is useful": "This is another description of how this project is useful",
+      "This project is used by all these people": "This project is used by all these people",
+      "More \"Docusaurus\" Users": "More \"Docusaurus\" Users",
+      "Feature One": "Feature One",
+      "Feature Two": "Feature Two",
+      "Feature Callout": "Feature Callout",
+      "Learn How": "Learn How",
+      "Try it Out": "Try it Out",
+      "Description": "Description",
+      "Who's Using This?": "Who's Using This?"
+    },
+    "help": {
+      "Learn more using the [documentation on this site.](/test-site/docs/en/doc1.html)": "Learn more using the [documentation on this site.](/test-site/docs/en/doc1.html)",
+      "Browse Docs": "Browse Docs",
+      "Ask questions about the documentation and project": "Ask questions about the documentation and project",
+      "Join the community": "Join the community",
+      "Find out what's new with this project": "Find out what's new with this project",
+      "Stay up to date": "Stay up to date",
+      "Need help?": "Need help?",
+      "This project is maintained by a dedicated group of people.": "This project is maintained by a dedicated group of people."
+    },
+    "users": {
+      "Who's Using This?": "Who's Using This?",
+      "This project is used by many folks": "This project is used by many folks",
+      "Are you using this project?": "Are you using this project?",
+      "Add your company": "Add your company"
+    }
+  }
+}

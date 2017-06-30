@@ -1175,7 +1175,7 @@ ul#languages li {
     font-weight: 300;
     line-height: 1.2em;
     padding: 6px 10px;
-    height: auto;
+    height: 32px;
     font-size: 1em;
   }
   .navigationSlider .slidingNav ul li a:hover {
