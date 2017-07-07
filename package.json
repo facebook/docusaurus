@@ -6,6 +6,7 @@
     "examples": "./lib/copy-examples.js"
   },
   "dependencies": {
+    "babel-cli": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "babel-register": "^6.24.1",
     "classnames": "^2.2.5",
@@ -16,10 +17,6 @@
     "react-dom": "^15.5.4",
     "request": "^2.81.0",
     "shelljs": "^0.7.8"
-  },
-  "devDependencies": {
-    "babel-cli": "^6.24.1",
-    "babel-preset-react": "^6.24.1"
   },
   "name": "docusaurus",
   "version": "1.0.0-alpha.12",
