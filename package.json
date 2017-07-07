@@ -1,0 +1,32 @@
+{
+  "scripts": {
+    "start": "./lib/start-server.js",
+    "build": "./lib/build-files.js",
+    "publish-gh-pages": "./lib/publish-gh-pages.js",
+    "examples": "./lib/copy-examples.js"
+  },
+  "dependencies": {
+    "babel-preset-react": "^6.24.1",
+    "babel-register": "^6.24.1",
+    "classnames": "^2.2.5",
+    "express": "^4.15.3",
+    "fs-extra": "^3.0.1",
+    "glob": "^7.1.2",
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4",
+    "request": "^2.81.0",
+    "shelljs": "^0.7.8"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-preset-react": "^6.24.1"
+  },
+  "name": "docusaurus",
+  "version": "1.0.0-alpha.12",
+  "bin": {
+    "docusaurus-start": "./lib/start-server.js",
+    "docusaurus-build": "./lib/build-files.js",
+    "docusaurus-publish": "./lib/publish-gh-pages.js",
+    "docusaurus-examples": "./lib/copy-examples.js"
+  }
+}
