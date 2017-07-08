@@ -8,6 +8,8 @@
   "dependencies": {
     "babel-preset-react": "^6.24.1",
     "babel-register": "^6.24.1",
+    "babel-traverse": "^6.25.0",
+    "babylon": "^6.17.4",
     "classnames": "^2.2.5",
     "express": "^4.15.3",
     "fs-extra": "^3.0.1",
@@ -16,10 +18,6 @@
     "react-dom": "^15.5.4",
     "request": "^2.81.0",
     "shelljs": "^0.7.8"
-  },
-  "devDependencies": {
-    "babel-cli": "^6.24.1",
-    "babel-preset-react": "^6.24.1"
   },
   "name": "docusaurus",
   "version": "1.0.0-alpha.12",

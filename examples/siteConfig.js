@@ -79,7 +79,6 @@ const siteConfig = {
 let languages;
 if (fs.existsSync("./languages.js")) {
   languages = require("./languages.js");
-  siteConfig["en"] = require("./i18n/en.json");
 } else {
   languages = [
     {
