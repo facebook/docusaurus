@@ -7,8 +7,6 @@
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 
-const fs = require("fs");
-
 /* List of projects/orgs using your project for the users page */
 const users = [
   {
@@ -75,6 +73,11 @@ const siteConfig = {
   /* remove this to disable google analytics tracking */
   /* gaTrackingId: "" */
 };
+
+
+/* DO NOT EDIT BELOW THIS LINE */
+
+const fs = require("fs");
 
 let languages;
 if (fs.existsSync("./languages.js")) {
