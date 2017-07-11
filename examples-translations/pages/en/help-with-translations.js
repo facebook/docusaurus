@@ -52,7 +52,7 @@ class Help extends React.Component {
               </h2>
             </header>
             <p>
-              <translate>
+              <translate desc="statement made to reader">
                 This project is maintained by a dedicated group of people.
               </translate>
             </p>
