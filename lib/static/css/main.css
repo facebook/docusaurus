@@ -181,6 +181,7 @@ header h2 {
 
 .mainContainer {
   background: #f9f9f9;
+  flex: 1;
 }
 .mainContainer .wrapper {
   text-align: left;
