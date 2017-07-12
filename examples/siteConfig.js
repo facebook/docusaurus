@@ -7,8 +7,6 @@
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 
-const fs = require("fs");
-
 /* List of projects/orgs using your project for the users page */
 const users = [
   {
@@ -66,35 +64,16 @@ const siteConfig = {
       "rgba(46, 133, 85, 0.03)" /* primaryColor in rgba form, with 0.03 alpha */
   },
   tagline: "My Tagline",
-  recruitingLink: "https://crowdin.com/project/test-site" /* translation site "help translate" link */,
+  recruitingLink:
+    "https://crowdin.com/project/test-site" /* translation site "help translate" link */,
   /* remove this section to disable search bar */
   algolia: {
-    apiKey: "0f9f28b9ab9efae89810921a351753b5", /* use your search-only api key */
+    apiKey:
+      "0f9f28b9ab9efae89810921a351753b5" /* use your search-only api key */,
     indexName: "github"
-  },
+  }
   /* remove this to disable google analytics tracking */
   /* gaTrackingId: "" */
 };
-
-let languages;
-if (fs.existsSync("./languages.js")) {
-  languages = require("./languages.js");
-  siteConfig["en"] = require("./i18n/en.json");
-} else {
-  languages = [
-    {
-      enabled: true,
-      name: "English",
-      tag: "en"
-    }
-  ];
-}
-
-const enabledLanguages = languages.filter(lang => lang.enabled);
-
-siteConfig["languages"] = enabledLanguages;
-
-/* INJECT LOCALIZED FILES BEGIN */
-/* INJECT LOCALIZED FILES END */
 
 module.exports = siteConfig;

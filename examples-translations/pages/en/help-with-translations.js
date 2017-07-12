@@ -13,23 +13,32 @@ const CompLibrary = require("../../core/CompLibrary.js");
 const Container = CompLibrary.Container;
 const GridBlock = CompLibrary.GridBlock;
 
+const translate = require("../../server/translate.js").translate;
+
 const siteConfig = require(process.cwd() + "/siteConfig.js");
 
 class Help extends React.Component {
   render() {
     const supportLinks = [
       {
-        content:
-          "Learn more using the [documentation on this site.](/test-site/docs/en/doc1.html)",
-        title: "Browse Docs"
+        content: (
+          <translate>
+            Learn more using the [documentation on this site.](/test-site/docs/en/doc1.html)
+          </translate>
+        ),
+        title: <translate>Browse Docs</translate>
       },
       {
-        content: "Ask questions about the documentation and project",
-        title: "Join the community"
+        content: (
+          <translate>
+            Ask questions about the documentation and project
+          </translate>
+        ),
+        title: <translate>Join the community</translate>
       },
       {
-        content: "Find out what's new with this project",
-        title: "Stay up to date"
+        content: <translate>Find out what's new with this project</translate>,
+        title: <translate>Stay up to date</translate>
       }
     ];
 
@@ -38,9 +47,15 @@ class Help extends React.Component {
         <Container className="mainContainer documentContainer postContainer">
           <div className="post">
             <header className="postHeader">
-              <h2>Need help?</h2>
+              <h2>
+                <translate>Need help?</translate>
+              </h2>
             </header>
-            <p>This project is maintained by a dedicated group of people.</p>
+            <p>
+              <translate desc="statement made to reader">
+                This project is maintained by a dedicated group of people.
+              </translate>
+            </p>
             <GridBlock contents={supportLinks} layout="threeColumn" />
           </div>
         </Container>
