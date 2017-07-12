@@ -6,6 +6,17 @@
 
 In your project repo, all of your documentation files should be placed inside a `docs` folder. Any blog posts should be inside a `blog` folder. Create a `website` folder inside which you will install and run docusaurus.
 
+Example project structure:
+```
+project-repo/
+  blog/
+    2017-05-06-blog-post.md
+  docs/
+    en/
+      doc1.md
+  website/
+```
+
 ### Installation
 
 Inside of your `website` folder, create a `package.json` file with the following scripts for Docusaurus:
