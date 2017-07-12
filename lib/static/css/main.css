@@ -978,6 +978,7 @@ a:hover code {
 .navigationSlider .slidingNav ul li {
   flex: 1;
   text-align: center;
+  white-space: nowrap;
   margin: 0;
 }
 .navigationSlider .slidingNav ul li a {
