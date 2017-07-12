@@ -76,28 +76,4 @@ const siteConfig = {
   /* gaTrackingId: "" */
 };
 
-/* DO NOT EDIT BELOW THIS LINE */
-
-const fs = require("fs");
-
-let languages;
-if (fs.existsSync("./languages.js")) {
-  languages = require("./languages.js");
-} else {
-  languages = [
-    {
-      enabled: true,
-      name: "English",
-      tag: "en"
-    }
-  ];
-}
-
-const enabledLanguages = languages.filter(lang => lang.enabled);
-
-siteConfig["languages"] = enabledLanguages;
-
-/* INJECT LOCALIZED FILES BEGIN */
-/* INJECT LOCALIZED FILES END */
-
 module.exports = siteConfig;
