@@ -11,6 +11,7 @@
     "babel-traverse": "^6.25.0",
     "babylon": "^6.17.4",
     "classnames": "^2.2.5",
+    "commander": "^2.11.0",
     "express": "^4.15.3",
     "fs-extra": "^3.0.1",
     "glob": "^7.1.2",
