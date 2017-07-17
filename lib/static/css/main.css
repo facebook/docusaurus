@@ -1187,6 +1187,9 @@ ul#languages li {
     color: #fff;
   }
 }
+.algolia-autocomplete {
+  bottom: 10px;
+}
 
 .docs-prevnext {
   margin: 20px 0;
