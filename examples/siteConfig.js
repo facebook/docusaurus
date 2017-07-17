@@ -48,6 +48,7 @@ const siteConfig = {
   ],
   /* path to images for header/footer */
   headerIcon: "img/docusaurus.svg",
+  disableHeaderTitle: false /* disable title text in header (only show headerIcon) */,
   footerIcon: "img/docusaurus.svg",
   favicon: "img/favicon.png",
   /* default link for docsSidebar */
