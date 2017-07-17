@@ -1554,6 +1554,17 @@ table tr th {
   overflow: hidden;
   width: 70px;
 }
+.blog-recent-bar {
+  margin: 20px 0;
+}
+.blog-recent {
+  float: left;
+}
+@media only screen and (min-device-width: 360px) and (max-device-width: 736px) {
+  .blog-recent-bar {
+    height: 40px;
+  }
+}
 
 .header-link {
   position: absolute;
