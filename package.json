@@ -21,7 +21,7 @@
     "shelljs": "^0.7.8"
   },
   "name": "docusaurus",
-  "version": "1.0.0-alpha.18",
+  "version": "1.0.0-alpha.19",
   "bin": {
     "docusaurus-start": "./lib/start-server.js",
     "docusaurus-build": "./lib/build-files.js",
