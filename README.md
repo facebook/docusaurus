@@ -6,6 +6,17 @@
 
 In your project repo, all of your documentation files should be placed inside a `docs` folder. Any blog posts should be inside a `blog` folder. Create a `website` folder inside which you will install and run docusaurus.
 
+Example project structure:
+```
+project-repo/
+  blog/
+    2017-05-06-blog-post.md
+  docs/
+    en/
+      doc1.md
+  website/
+```
+
 ### Installation
 
 Inside of your `website` folder, create a `package.json` file with the following scripts for Docusaurus:
@@ -129,8 +140,10 @@ yarn run start
 ```
 
 
-This will start a server hosting your website locally at `localhost:3000`. This server will ignore any occurences `siteConfig.baseUrl` in URLs, e.g. `localhost:3000/your-site/index.html` will be the same as `localhost:3000/index.html`. Any changes to configured files will be reflected by refreshing the page, i.e. the server does not need to be restarted to show changes. You may also specify a different port to start your server on as a command line argument, e.g. `npm run start 9000`.
-
+This will start a server hosting your website locally at `localhost:3000`. This server will ignore any occurences `siteConfig.baseUrl` in URLs, e.g. `localhost:3000/your-site/index.html` will be the same as `localhost:3000/index.html`. Any changes to configured files will be reflected by refreshing the page, i.e. the server does not need to be restarted to show changes. You may also specify a different port to start your server on by using a `--port` flag:
+```
+npm run start -- --port 9000
+```
 
 ### Build Static Pages
 
