@@ -51,12 +51,6 @@ const siteConfig = {
   disableHeaderTitle: false /* disable title text in header (only show headerIcon) */,
   footerIcon: "img/docusaurus.svg",
   favicon: "img/favicon.png",
-  /* default link for docsSidebar */
-  docsSidebarDefaults: {
-    layout: "docs",
-    root: "/test-site/docs/en/doc1.html",
-    title: "Docs"
-  },
   /* colors for website */
   colors: {
     primaryColor: "#2E8555",
