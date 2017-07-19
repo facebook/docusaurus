@@ -4,7 +4,7 @@ title: Translations with Docusaurus
 layout: docs
 category: Docusaurus
 permalink: docs/en/translation.html
-previous: getting-started
+previous: doc-markdown
 next: search
 ---
 
