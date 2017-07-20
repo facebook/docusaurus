@@ -32,8 +32,6 @@ The `siteConfig` object contains the bulk of the configuration settings for your
 
 `projectName` - Project name.
 
-`editUrl` - url for editing docs, usage example: `editUrl + 'en/doc1.md'`
-
 `headerLinksInternal` - Header links for targets on this site. `'LANGUAGE'` will be replaced by whatever language the page is for, for example, `'en'`.
 
 `headerLinksExternal` - Header links for targets outside this site.
@@ -46,13 +44,15 @@ The `siteConfig` object contains the bulk of the configuration settings for your
 
 ### Optional Fields
 
+`editUrl` - url for editing docs, usage example: `editUrl + 'en/doc1.md'`. If this field is omitted, there will be no "Edit this Doc" button for each document.
+
 `users` - The `users` array mentioned earlier.
 
 `disableHeaderTitle` - An option to disable showing the title in the header next to the header icon. Exclude this field to keep the header as normal, otherwise set to `true`.
 
 `footerIcon` - url for a footer icon. Currently used in the `core/Footer.js` file provided as an example, but it can be removed from that file.
 
-`recruitingLink` - url for the `Help Translate` tab of language selection when languages besides English are enabled. Include this if you are using translations.
+`recruitingLink` - url for the `Help Translate` tab of language selection when languages besides English are enabled. This can be included you are using translations but does not have to be.
 
 `algolia` - Information for Algolia search integration. If this field is excluded, the search bar will not appear in the header.
 
@@ -78,7 +78,6 @@ const siteConfig = {
   baseUrl: "/test-site/",
 // baseUrl: "/",
   projectName: "docusaurus",
-  editUrl: "https://github.com/deltice/test-site/edit/master/docs/",
   headerLinksInternal: [
     {
       section: "docs",
@@ -108,6 +107,7 @@ const siteConfig = {
   },
 
 
+  editUrl: "https://github.com/deltice/test-site/edit/master/docs/",
   users,
   disableHeaderTitle: true,
   footerIcon: "img/docusaurus.svg",
