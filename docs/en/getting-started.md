@@ -83,7 +83,7 @@ blog-examples-from-docusaurus
 docs-examples-from-docusaurus
 ```
 
-`examples` will not overwrite any existing files of the same name in your website folder.
+If any of the files created by `yarn run examples` already exists, Docusaurus will not overwrite them.
 
 The provided example files contain configurations for an example site.  
 
@@ -96,7 +96,7 @@ The `siteConfig.js` file is the main configuration file used by Docusaurus.
 
 You will need to keep the `siteConfig.js` and `core/Footer.js` files, but may edit them as you wish.
 
-You should keep the `pages` and `static` folders, but may change the content inside them as you wish.
+You should keep the `pages` and `static` folders, but may change the content inside them as you wish. At the bare minimum you should have an `en/index.js` or `en/index.html` file inside `pages` and an image to use as your header icon inside `static`.
 
 The `blog-examples-from-docusaurus` and `docs-examples-from-docusaurus` folders contain example blog and document markdown files. If you wish to run Docusaurus with these files, you need to rename the folders to `blog` and `docs`, respectively.
 
@@ -112,6 +112,7 @@ Include your own top-level pages as React components in `pages`:
  - These components should just be the body sections of the pages you want, and they will be included with the header and footer that the rest of Docusaurus uses.  
  - Currently, if you want to add other React components to your pages, you must include all of it inside each `.js` file in `pages` due to how `require` paths are set-up.  
  - You may also include `.html` files directly, but this is not recommended, and these will just be served as is and will not have any of the header/footer/styles shared by the rest of Docusaurus.
+ - Any files in `pages/en` will also be copied into `pages` when the server is run and when the site is statically built. i.e. Putting a file in `pages/en/index.js` will make it available at `/en/index.html` and `/index.html`.
 
 All images and other static assets you wish to include should be placed inside the `static` folder. Any `.css` files provided in `static` will be concatenated to the standard styles provided by Docusaurus and used site-wide.
 
