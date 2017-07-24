@@ -15,6 +15,7 @@
     "express": "^4.15.3",
     "fs-extra": "^3.0.1",
     "glob": "^7.1.2",
+    "prettier": "^1.5.3",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "request": "^2.81.0",
@@ -27,6 +28,7 @@
     "docusaurus-build": "./lib/build-files.js",
     "docusaurus-publish": "./lib/publish-gh-pages.js",
     "docusaurus-examples": "./lib/copy-examples.js",
-    "docusaurus-write-translations": "./lib/write-translations.js"
+    "docusaurus-write-translations": "./lib/write-translations.js",
+    "docusaurus-gen-doc-sidebar": "./lib/gen-doc-sidebar.js"
   }
 }
