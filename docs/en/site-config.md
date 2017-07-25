@@ -46,9 +46,15 @@ The `siteConfig` object contains the bulk of the configuration settings for your
 
 `editUrl` - url for editing docs, usage example: `editUrl + 'en/doc1.md'`. If this field is omitted, there will be no "Edit this Doc" button for each document.
 
+`externalLinkTarget` - Target attribute for header external links. If this field is omitted, the default target of `"_self"` will be used.
+
 `users` - The `users` array mentioned earlier.
 
 `disableHeaderTitle` - An option to disable showing the title in the header next to the header icon. Exclude this field to keep the header as normal, otherwise set to `true`.
+
+`disableTitleTagline` - An option to disable showing the tagline in the title of main pages. Exclude this field to keep page titles as `Title • Tagline`. Set to `true` to make page titles just `Title`.
+
+`separateCss` - Folders inside which any `css` files will not be processed and concatenated to Docusaurus's styles. This is to support static `html` pages that may be separate from Docusaurus with completely separate styles.
 
 `footerIcon` - url for a footer icon. Currently used in the `core/Footer.js` file provided as an example, but it can be removed from that file.
 
@@ -108,8 +114,11 @@ const siteConfig = {
 
 
   editUrl: "https://github.com/deltice/test-site/edit/master/docs/",
+  externalLinkTarget: "_blank",
   users,
   disableHeaderTitle: true,
+  disableTitleTagline: true,
+  separateCss: ["static/css/non-docusaurus", "static/assets/separate-css"],
   footerIcon: "img/docusaurus.svg",
   recruitingLink:
     "https://crowdin.com/project/docusaurus",
