@@ -492,6 +492,7 @@ header h2 {
   display: flex;
   flex-flow: row nowrap;
   height: 34px;
+  z-index: 10000;
 }
 .fixedHeaderContainer header {
   display: flex;
