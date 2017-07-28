@@ -9,20 +9,6 @@
 
 const React = require("react");
 
-const githubButton = (
-  <a
-    className="github-button"
-    href="https://github.com/facebookexperimental/docusaurus"
-    data-icon="octicon-star"
-    data-count-href="/facebookexperimental/docusaurus/stargazers"
-    data-count-api="/repos/facebookexperimental/docusaurus#stargazers_count"
-    data-count-aria-label="# stargazers on GitHub"
-    aria-label="Star this project on GitHub"
-  >
-    Star
-  </a>
-);
-
 class Footer extends React.Component {
   render() {
     const currentYear = new Date().getFullYear();
@@ -31,7 +17,7 @@ class Footer extends React.Component {
         <section className="sitemap">
           <a href={this.props.config.baseUrl} className="nav-home">
             <img
-              src={this.props.config.baseUrl + this.props.config.footerIcon}
+              src={`${this.props.config.baseUrl}${this.props.config.footerIcon}`}
               alt={this.props.config.title}
               width="66"
               height="58"
@@ -40,12 +26,9 @@ class Footer extends React.Component {
           <div>
             <h5>Docs</h5>
             <a
-              href={
-                this.props.config.baseUrl +
-                "docs/" +
-                this.props.language +
-                "/getting-started.html"
-              }
+              href={`
+                ${this.props.config.baseUrl}docs/${this.props
+                .language}/getting-started.html`}
             >
               Getting Started
             </a>
@@ -53,17 +36,28 @@ class Footer extends React.Component {
           <div>
             <h5>Community</h5>
             <a
-              href={
-                this.props.config.baseUrl + this.props.language + "/users.html"
-              }
+              href={`${this.props.config.baseUrl}${this.props
+                .language}/users.html`}
             >
               User Showcase
             </a>
           </div>
           <div>
             <h5>More</h5>
-            <a href="https://github.com/facebookexperimental/docusaurus">GitHub</a>
-            {githubButton}
+            <a href="https://github.com/facebookexperimental/docusaurus">
+              GitHub
+            </a>
+            <a
+              className="github-button"
+              href="https://github.com/facebookexperimental/docusaurus"
+              data-icon="octicon-star"
+              data-count-href="/facebookexperimental/docusaurus/stargazers"
+              data-count-api="/repos/facebookexperimental/docusaurus#stargazers_count"
+              data-count-aria-label="# stargazers on GitHub"
+              aria-label="Star this project on GitHub"
+            >
+              Star
+            </a>
           </div>
         </section>
 
@@ -73,7 +67,7 @@ class Footer extends React.Component {
           className="fbOpenSource"
         >
           <img
-            src={this.props.config.baseUrl + "img/oss_logo.png"}
+            src={`${this.props.config.baseUrl}img/oss_logo.png`}
             alt="Facebook Open Source"
             width="170"
             height="45"

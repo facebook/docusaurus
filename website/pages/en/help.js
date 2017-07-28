@@ -16,6 +16,10 @@ const GridBlock = CompLibrary.GridBlock;
 const siteConfig = require(process.cwd() + "/siteConfig.js");
 
 class Help extends React.Component {
+  static defaultProps = {
+    language: "en"
+  };
+
   render() {
     const supportLinks = [
       {
@@ -24,11 +28,13 @@ class Help extends React.Component {
         title: "Browse Docs"
       },
       {
-        content: "Submit issues and pull requests for any new features you may want to see or bugs you've found on [GitHub](https://github.com/facebookexperimental/docusaurus).",
+        content:
+          "Submit issues and pull requests for any new features you may want to see or bugs you've found on [GitHub](https://github.com/facebookexperimental/docusaurus).",
         title: "Join the community"
       },
       {
-        content: "Find out what's new with this project by checking back on the site.",
+        content:
+          "Find out what's new with this project by checking back on the site.",
         title: "Stay up to date"
       }
     ];
@@ -48,9 +54,5 @@ class Help extends React.Component {
     );
   }
 }
-
-Help.defaultProps = {
-  language: "en"
-};
 
 module.exports = Help;

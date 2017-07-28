@@ -1,9 +1,9 @@
 {
   "scripts": {
-    "start": "chmod +x ../lib/start-server.js && ../lib/start-server.js",
-    "build": "chmod +x ../lib/build-files.js && ../lib/build-files.js",
-    "publish-gh-pages": "chmod +x ../lib/publish-gh-pages.js && ../lib/publish-gh-pages.js",
-    "examples": "chmod +x ../lib/copy-examples.js && ../lib/copy-examples.js",
-    "write-translations": "chmod +x ../lib/write-translations.js && ../lib/write-translations.js"
+    "start": "../lib/start-server.js",
+    "build": "../lib/build-files.js",
+    "publish-gh-pages": "../lib/publish-gh-pages.js",
+    "examples": "../lib/copy-examples.js",
+    "write-translations": "../lib/write-translations.js"
   }
 }

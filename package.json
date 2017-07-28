@@ -6,7 +6,9 @@
     "examples": "./lib/copy-examples.js"
   },
   "dependencies": {
+    "babel-preset-latest": "^6.24.1",
     "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
     "babel-register": "^6.24.1",
     "babel-traverse": "^6.25.0",
     "babylon": "^6.17.4",
