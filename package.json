@@ -28,7 +28,6 @@
     "docusaurus-build": "./lib/build-files.js",
     "docusaurus-publish": "./lib/publish-gh-pages.js",
     "docusaurus-examples": "./lib/copy-examples.js",
-    "docusaurus-write-translations": "./lib/write-translations.js",
-    "docusaurus-gen-doc-sidebar": "./lib/gen-doc-sidebar.js"
+    "docusaurus-write-translations": "./lib/write-translations.js"
   }
 }
