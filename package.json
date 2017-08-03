@@ -20,7 +20,6 @@
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "request": "^2.81.0",
-    "semver": "^5.4.1",
     "shelljs": "^0.7.8"
   },
   "name": "docusaurus",
