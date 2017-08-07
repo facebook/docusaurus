@@ -94,24 +94,24 @@ class Index extends React.Component {
               contents={[
                 {
                   content:
-                    "Write all of your documentation and blog posts in Markdown and have it built into a website you can publish",
+                    "Save time and focus on your project's documentation. Simply write docs and blog posts with Markdown and Docusaurus will publish a set of static html files ready to serve.",
                   image: `${siteConfig.baseUrl}img/markdown.png`,
                   imageAlign: "top",
-                  title: "Markdown Documentation"
+                  title: "Powered by Markdown"
                 },
                 {
                   content:
-                    "Write the content of your main pages as React components that automatically share a header and footer",
+                    "Extend or customize your project's layout by reusing React. Docusaurus can be extended while reusing the same header and footer.",
                   image: `${siteConfig.baseUrl}img/react.svg`,
                   imageAlign: "top",
-                  title: "React Main Pages"
+                  title: "Built Using React"
                 },
                 {
                   content:
-                    "Translate your docs and your website using Crowdin integration",
+                    "Localization comes pre-configured. Use Crowdin to translate your docs into over 70 languages.",
                   image: `${siteConfig.baseUrl}img/translation.svg`,
                   imageAlign: "top",
-                  title: "Translations"
+                  title: "Ready for Translations"
                 }
               ]}
               layout="threeColumn"
@@ -123,14 +123,14 @@ class Index extends React.Component {
               contents={[
                 {
                   content:
-                    "Support users of all versions by easily providing documentation for each version of your program",
+                    "Support users on all versions of your project. Document Versioning helps you keep documentation in sync with project releases.",
                   image: `${siteConfig.baseUrl}img/docusaurus.svg`,
                   imageAlign: "top",
-                  title: "Versioning"
+                  title: "Document Versioning"
                 },
                 {
                   content:
-                    "Provide search for your documentation using Algolia DocSearch integration",
+                    "Make it easy for your community to find what they need in your documentation. Currently supports Algolia DocSearch.",
                   image: `${siteConfig.baseUrl}img/docusaurus.svg`,
                   imageAlign: "top",
                   title: "Document Search"
@@ -144,7 +144,7 @@ class Index extends React.Component {
               contents={[
                 {
                   content:
-                    "The provided site template lets you get a website for your project up and running quickly without having having to worry about all the site design. Provided example files help you configure your site.",
+                    "Get up and running quickly without having having to worry about site design.",
                   imageAlign: "right",
                   image: `${siteConfig.baseUrl}img/docusaurus.svg`,
                   title: "Quick Setup"
@@ -158,10 +158,10 @@ class Index extends React.Component {
               contents={[
                 {
                   content:
-                    "Use a local server to see how file changes affect your website without having to reload the server. Publish your site to GitHub pages manually using a script or with continuous integration like CircleCI.",
+                    "Make design and documentation changes by using the included live server. Publish your site to GitHub pages or other static file hosts manually, using a script, or with continuous integration like CircleCI.",
                   imageAlign: "left",
-                  image: `${siteConfig.baseUrl}img/docusaurus.svg`,
-                  title: "Development and Deployment"
+                  image: `${siteConfig.baseUrl}img/docusaurus_live.webp`,
+                  title: "Develop and Deploy"
                 }
               ]}
               layout="twoColumn"
