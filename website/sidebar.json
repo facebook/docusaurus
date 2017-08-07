@@ -1,11 +1,15 @@
 {
   "docs": {
-    "Docusaurus": [
-      "getting-started",
-      "site-config",
-      "doc-markdown",
+    "Getting Started": [
+      "getting-started"
+    ],
+    "Guides": [
       "translation",
       "search"
+    ],
+    "API": [
+      "site-config",
+      "doc-markdown"
     ]
   }
 }

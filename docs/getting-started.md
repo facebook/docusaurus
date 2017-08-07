@@ -1,6 +1,6 @@
 ---
 id: getting-started
-title: Docusaurus
+title: Up and Running
 ---
 
 ## Getting Started
