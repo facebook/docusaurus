@@ -1,3 +1,4 @@
 node_modules
 .DS_Store
 lib/core/metadata.js
+yarn.lock
