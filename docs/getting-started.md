@@ -1,10 +1,6 @@
 ---
 id: getting-started
 title: Docusaurus
-layout: docs
-category: Docusaurus
-permalink: docs/en/getting-started.html
-next: site-config
 ---
 
 ## Getting Started

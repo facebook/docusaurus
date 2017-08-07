@@ -1,11 +1,6 @@
 ---
 id: doc-markdown
 title: Documentation Markdown Features
-layout: docs
-category: Docusaurus
-permalink: docs/en/doc-markdown.html
-previous: site-config
-next: translation
 ---
 
 Docusaurus supports some extra features when writing documentation in markdown.

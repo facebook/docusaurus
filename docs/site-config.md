@@ -1,11 +1,6 @@
 ---
 id: site-config
 title: Customizing siteConfig
-layout: docs
-category: Docusaurus
-permalink: docs/en/site-config.html
-previous: getting-started
-next: doc-markdown
 ---
 
 A large part of site configuration is done by editing the `siteConfig.js` file.

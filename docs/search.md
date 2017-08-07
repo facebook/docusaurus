@@ -1,10 +1,6 @@
 ---
 id: search
 title: Documentation Search
-layout: docs
-category: Docusaurus
-permalink: docs/en/search.html
-previous: translation
 ---
 
 ## Algolia Search Integration
