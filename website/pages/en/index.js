@@ -172,7 +172,7 @@ class Index extends React.Component {
               contents={[
                 {
                   content:
-                    "Docusaurus currently provides support to help your website use [translations](/docs/en/translation.html), [search](/docs/en/search.html), and [versioning](/docs/en/versioning.html), along with some other special [documentation markdown features](/docs/en/doc-markdown.html). If you have ideas for useful features, feel free to contribute on [GitHub](https://github.com/facebookexperimental/docusaurus)!",
+                    "Docusaurus currently provides support to help your website use [translations](/docs/translation.html), [search](/docs/search.html), and [versioning](/docs/versioning.html), along with some other special [documentation markdown features](/docs/doc-markdown.html). If you have ideas for useful features, feel free to contribute on [GitHub](https://github.com/facebookexperimental/docusaurus)!",
                   imageAlign: "right",
                   image: `${siteConfig.baseUrl}img/docusaurus.svg`,
                   title: "Website Features"
