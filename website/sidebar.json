@@ -1,0 +1,11 @@
+{
+  "docs": {
+    "Docusaurus": [
+      "getting-started",
+      "site-config",
+      "doc-markdown",
+      "translation",
+      "search"
+    ]
+  }
+}

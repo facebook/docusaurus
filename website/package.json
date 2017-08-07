@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "start": "../lib/start-server.js",
+    "build": "../lib/build-files.js",
+    "publish-gh-pages": "../lib/publish-gh-pages.js",
+    "examples": "../lib/copy-examples.js",
+    "write-translations": "../lib/write-translations.js"
+  }
+}
