@@ -1,6 +1,6 @@
 ---
 id: versioning
-title: Versioning Documentation
+title: Documentation Versioning
 ---
 
 ## Overview
