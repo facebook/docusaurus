@@ -32,7 +32,7 @@ const siteConfig = {
   headerLinks: [
     {...}
     {...}
-    searchBar
+    { search: true }
     {...}
     {...}
   ],
@@ -43,3 +43,5 @@ const siteConfig = {
 ### Disabling the Search Bar
 
 To disable the search bar, comment out (recommended) or delete the `algolia` section in the `siteConfig.js` file.
+
+Also, if you have customized the location of the search bar in `headerLinks`, set `search: false`.
