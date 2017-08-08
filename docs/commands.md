@@ -70,7 +70,7 @@ Sets up a minimally configured example website in your project. This command is 
 ---
 
 ### `docusaurus-publish`
-Alias: `run publish`
+Alias: `run publish-gh-pages`
 
 [Builds](commands.md#docusaurus-build), then deploys the static website to GitHub Pages. This command is meant to be run during the deployment step in Circle CI, and therefore expects a few environment variables to be defined:
 
