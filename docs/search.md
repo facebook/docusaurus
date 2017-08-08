@@ -1,6 +1,6 @@
 ---
 id: search
-title: Documentation Search
+title: Enabling Search
 ---
 
 ## Algolia Search Integration
@@ -19,4 +19,3 @@ const siteConfig = {
   ...
 }
 ```
-

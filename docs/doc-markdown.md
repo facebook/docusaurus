@@ -1,6 +1,6 @@
 ---
 id: doc-markdown
-title: Documentation Markdown Features
+title: Markdown Features
 ---
 
 Docusaurus supports some extra features when writing documentation in markdown.
