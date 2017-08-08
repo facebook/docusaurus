@@ -14,6 +14,7 @@
     "babylon": "^6.17.4",
     "classnames": "^2.2.5",
     "commander": "^2.11.0",
+    "diff": "^3.3.0",
     "express": "^4.15.3",
     "fs-extra": "^3.0.1",
     "glob": "^7.1.2",
@@ -30,6 +31,7 @@
     "docusaurus-build": "./lib/build-files.js",
     "docusaurus-publish": "./lib/publish-gh-pages.js",
     "docusaurus-examples": "./lib/copy-examples.js",
-    "docusaurus-write-translations": "./lib/write-translations.js"
+    "docusaurus-write-translations": "./lib/write-translations.js",
+    "docusaurus-version": "./lib/version.js"
   }
 }

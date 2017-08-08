@@ -1,9 +1,13 @@
 {
   "docs": {
     "Getting Started": [
+      "installation",
+      "site-preparation",
+      "site-creation",
       "getting-started"
     ],
     "Guides": [
+      "navigation",
       "translation",
       "search"
     ],

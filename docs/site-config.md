@@ -1,6 +1,6 @@
 ---
 id: site-config
-title: Customizing siteConfig
+title: siteConfig.js
 ---
 
 A large part of site configuration is done by editing the `siteConfig.js` file.
@@ -122,10 +122,9 @@ const siteConfig = {
       "0f9f28b9ab9efae89810921a351753b5",
     indexName: "github"
   }
-  gaTrackingId: "U-A2352" 
+  gaTrackingId: "U-A2352"
 };
 
 module.exports = siteConfig;
 
 ```
-
