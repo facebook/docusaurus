@@ -1,6 +1,6 @@
 ---
 id: translation
-title: Translations with Docusaurus
+title: Translations
 ---
 
 ## Overview
