@@ -29,7 +29,7 @@ const siteConfig = {
   headerLinksInternal: [
     {
       section: "docs",
-      href: "/docusaurus/docs/getting-started.html",
+      href: "/docusaurus/docs/installation.html",
       text: "Docs"
     },
     { section: "help", href: "/docusaurus/LANGUAGE/help.html", text: "Help" }
