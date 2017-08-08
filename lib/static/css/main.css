@@ -512,6 +512,13 @@ header h2 {
   position: relative;
   z-index: 9999;
 }
+.fixedHeaderContainer header h3 {
+  text-decoration: underline;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  color: white;
+  margin-left: 10px;
+  font-size: 16px;
+}
 
 .promoSection {
   display: flex;
