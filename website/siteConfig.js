@@ -26,19 +26,12 @@ const siteConfig = {
   users,
   editUrl:
     "https://github.com/facebookexperimental/docusaurus/edit/master/docs/",
-  headerLinksInternal: [
+  headerLinks: [
+    { doc: "installation", label: "Docs" },
+    { page: "help", label: "Help" },
     {
-      section: "docs",
-      href: "/docusaurus/docs/getting-started.html",
-      text: "Docs"
-    },
-    { section: "help", href: "/docusaurus/LANGUAGE/help.html", text: "Help" }
-  ],
-  headerLinksExternal: [
-    {
-      section: "github",
       href: "https://github.com/facebookexperimental/docusaurus",
-      text: "GitHub"
+      label: "GitHub"
     }
   ],
   headerIcon: "img/docusaurus.svg",
@@ -55,8 +48,7 @@ const siteConfig = {
   colors: {
     primaryColor: "#2E8555",
     secondaryColor: "#205C3B",
-    prismColor:
-      "rgba(46, 133, 85, 0.03)"
+    prismColor: "rgba(46, 133, 85, 0.03)"
   }
 };
 
