@@ -3,13 +3,13 @@
     "Getting Started": [
       "installation",
       "site-preparation",
-      "site-creation",
-      "getting-started"
+      "site-creation"
     ],
     "Guides": [
       "navigation",
       "translation",
-      "search"
+      "search",
+      "versioning"
     ],
     "API": [
       "commands",

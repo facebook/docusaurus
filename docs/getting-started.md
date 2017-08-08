@@ -1,8 +1,3 @@
----
-id: getting-started
-title: Up and Running
----
-
 ## Getting Started
 
 ### Project Structure
