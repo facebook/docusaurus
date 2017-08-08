@@ -8,7 +8,8 @@
     "Guides": [
       "navigation",
       "translation",
-      "search"
+      "search",
+      "versioning"
     ],
     "API": [
       "site-config",
