@@ -29,7 +29,7 @@ const siteConfig = {
   headerLinksInternal: [
     {
       section: "docs",
-      href: "/docusaurus/docs/getting-started.html",
+      href: "/docusaurus/docs/installation.html",
       text: "Docs"
     },
     { section: "help", href: "/docusaurus/LANGUAGE/help.html", text: "Help" }
@@ -44,6 +44,14 @@ const siteConfig = {
   headerIcon: "img/docusaurus.svg",
   footerIcon: "img/docusaurus.svg",
   favicon: "img/favicon.png",
+  // See https://docusaurus.io/docs/search for more information about Aloglia
+  // search
+  /*
+  algolia: {
+    apiKey: "my-search-only-api-key-1234",
+    indexName: "my-index-name"
+  },
+  */
   colors: {
     primaryColor: "#2E8555",
     secondaryColor: "#205C3B",
