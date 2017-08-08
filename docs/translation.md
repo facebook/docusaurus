@@ -1,11 +1,6 @@
 ---
 id: translation
-title: Translations with Docusaurus
-layout: docs
-category: Docusaurus
-permalink: docs/en/translation.html
-previous: doc-markdown
-next: search
+title: Translations
 ---
 
 ## Overview

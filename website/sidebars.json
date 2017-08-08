@@ -1,0 +1,16 @@
+{
+  "docs": {
+    "Getting Started": [
+      "getting-started"
+    ],
+    "Guides": [
+      "navigation",
+      "translation",
+      "search"
+    ],
+    "API": [
+      "site-config",
+      "doc-markdown"
+    ]
+  }
+}

@@ -1,10 +1,6 @@
 ---
 id: getting-started
-title: Docusaurus
-layout: docs
-category: Docusaurus
-permalink: docs/en/getting-started.html
-next: site-config
+title: Up and Running
 ---
 
 ## Getting Started
@@ -230,5 +226,5 @@ DEPLOY_USER=deltice GIT_USER=test-site-bot CIRCLE_PROJECT_USERNAME=deltice CIRCL
 
 ## More Information
 
-For details on how to set up translation support, read [here](/docs/en/translation.md).
-For details on how to set up documentation search, read [here](/docs/en/search.md).
+For details on how to set up translation support, read [here](translation.md).
+For details on how to set up documentation search, read [here](search.md).

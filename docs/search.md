@@ -1,10 +1,6 @@
 ---
 id: search
-title: Documentation Search
-layout: docs
-category: Docusaurus
-permalink: docs/en/search.html
-previous: translation
+title: Enabling Search
 ---
 
 ## Algolia Search Integration
@@ -23,4 +19,3 @@ const siteConfig = {
   ...
 }
 ```
-
