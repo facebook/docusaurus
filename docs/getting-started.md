@@ -29,7 +29,7 @@ Inside of your `website` folder, create a `package.json` file with the following
   "scripts": {
     "start": "docusaurus-start",
     "build": "docusaurus-build",
-    "publish-gh-pages": "docusaurus-publish",
+    "publish": "docusaurus-publish",
     "examples": "docusaurus-examples"
   }
 }

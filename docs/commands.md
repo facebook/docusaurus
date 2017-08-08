@@ -53,6 +53,37 @@ Docusaurus provides some default mappings to allow you to run commands following
 
 ## Reference
 
+### `docusaurus-build`
+Alias: `run build`.
+
+Generates the static website, applying translations if necessary. Useful for building the website prior to deployment. 
+
+See also [`docusaurus-start`](commands.md#docusaurus-start-port-number).
+
+---
+
+### `docusaurus-examples`
+Alias: `run examples`
+
+Sets up a minimally configured example website in your project. This command is covered in depth in the [Site Preparation guide](./getting-started-preparation.md).
+
+---
+
+### `docusaurus-publish`
+Alias: `run publish`
+
+[Builds](commands.md#docusaurus-build), then deploys the static website to GitHub Pages. This command is meant to be run during the deployment step in Circle CI, and therefore expects a few environment variables to be defined:
+
+ - `GIT_USER`: The git user to be associated with the deploy commit.
+ - `CIRCLE_BRANCH`: The git branch associated with the commit that triggered the CI run.
+ - `CIRCLE_PROJECT_USERNAME`: The GitHub username or organization name that hosts the git repo, e.g. "FacebookExperimental".
+ - `CIRCLE_PROJECT_REPONAME`: The name of the git repo, e.g. "Docusaurus".
+ - `CI_PULL_REQUEST`: Expected to be truthy if the current CI run was triggered by a commit in a pull request.
+
+You can learn more about configuring automatic deployments with CircleCI in the [Publishing guide](./publishing.md).
+
+---
+
 ### `docusaurus-start [--port <number>]`
 Alias: `run start`. 
 
@@ -60,28 +91,16 @@ This script will build the static website, apply translations if necessary, and 
 
 ---
 
-### `docusaurus-build`
-Alias: `run build`.
+### `docusaurus-version <version>`
+Alias: `run version`
 
-Build the static website and apply translations if necessary. Useful for generating the website prior to deployment.
+Generates a new version of the docs. This will result in a new copy of your site being generated and stored in its own versioned folder. Useful for capturing snapshots of API docs that map to specific versions of your software. Accepts any string as a version number.
 
----
-
-### `docusaurus-publish`
-Alias: `run publish`
-
-Deploy the static website to GitHub Pages.
-
----
-
-### `docusaurus-examples`
-Alias: `run examples`
-
-Examplicate.
+See the [Versioning guide](./versioning.md) to learn more.
 
 ---
 
 ### `docusaurus-write-translations`
 Alias: `run translations`
 
-Apply translations.
+Applies any translations provided by the community. The script will go through every markdown file and through the `siteConfig.js` file and generate localized files for any supported languages as needed. See the [Translation guide](./translation.md) to learn more.
