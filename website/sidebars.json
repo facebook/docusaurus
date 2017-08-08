@@ -1,6 +1,7 @@
 {
   "docs": {
     "Getting Started": [
+      "installation",
       "getting-started"
     ],
     "Guides": [
