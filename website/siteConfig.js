@@ -35,7 +35,7 @@ const siteConfig = {
     }
   ],
   headerIcon: "img/docusaurus.svg",
-  footerIcon: "img/docusaurus.svg",
+  footerIcon: "img/docusaurus_monochrome.svg",
   favicon: "img/favicon.png",
   // See https://docusaurus.io/docs/search for more information about Aloglia
   // search

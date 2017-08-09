@@ -39,7 +39,7 @@ class HomeSplash extends React.Component {
         <div className="homeSplashFade">
           <div className="wrapper homeWrapper">
             <div className="projectLogo">
-              <img src={`${siteConfig.baseUrl}img/docusaurus.svg`} />
+              <img src={`${siteConfig.baseUrl}img/docusaurus_keytar.svg`} />
             </div>
             <div className="inner">
               <h2 className="projectTitle">
@@ -124,14 +124,14 @@ class Index extends React.Component {
                 {
                   content:
                     "Support users on all versions of your project. Document Versioning helps you keep documentation in sync with project releases.",
-                  image: `${siteConfig.baseUrl}img/docusaurus.svg`,
+                  image: `${siteConfig.baseUrl}img/docusaurus_monochrome.svg`,
                   imageAlign: "top",
                   title: "Document Versioning"
                 },
                 {
                   content:
                     "Make it easy for your community to find what they need in your documentation. Currently supports Algolia DocSearch.",
-                  image: `${siteConfig.baseUrl}img/docusaurus.svg`,
+                  image: `${siteConfig.baseUrl}img/docusaurus_monochrome.svg`,
                   imageAlign: "top",
                   title: "Document Search"
                 }
@@ -146,7 +146,7 @@ class Index extends React.Component {
                   content:
                     "Get up and running quickly without having having to worry about site design.",
                   imageAlign: "right",
-                  image: `${siteConfig.baseUrl}img/docusaurus.svg`,
+                  image: `${siteConfig.baseUrl}img/docusaurus_monochrome.svg`,
                   title: "Quick Setup"
                 }
               ]}
@@ -174,7 +174,7 @@ class Index extends React.Component {
                   content:
                     "Docusaurus currently provides support to help your website use [translations](/docs/translation.html), [search](/docs/search.html), and [versioning](/docs/versioning.html), along with some other special [documentation markdown features](/docs/doc-markdown.html). If you have ideas for useful features, feel free to contribute on [GitHub](https://github.com/facebookexperimental/docusaurus)!",
                   imageAlign: "right",
-                  image: `${siteConfig.baseUrl}img/docusaurus.svg`,
+                  image: `${siteConfig.baseUrl}img/docusaurus_monochrome.svg`,
                   title: "Website Features"
                 }
               ]}
