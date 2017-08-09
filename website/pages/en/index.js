@@ -146,7 +146,7 @@ class Index extends React.Component {
                   content:
                     "Get up and running quickly without having having to worry about site design.",
                   imageAlign: "right",
-                  image: `${siteConfig.baseUrl}img/docusaurus_monochrome.svg`,
+                  image: `${siteConfig.baseUrl}img/docusaurus_speed.svg`,
                   title: "Quick Setup"
                 }
               ]}
@@ -160,7 +160,7 @@ class Index extends React.Component {
                   content:
                     "Make design and documentation changes by using the included live server. Publish your site to GitHub pages or other static file hosts manually, using a script, or with continuous integration like CircleCI.",
                   imageAlign: "left",
-                  image: `${siteConfig.baseUrl}img/docusaurus_live.webp`,
+                  image: `${siteConfig.baseUrl}img/docusaurus_live.gif`,
                   title: "Develop and Deploy"
                 }
               ]}
