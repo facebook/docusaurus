@@ -16,6 +16,7 @@ const GridBlock = CompLibrary.GridBlock;
 const siteConfig = require(process.cwd() + "/siteConfig.js");
 
 class Help extends React.Component {
+
   render() {
     const supportLinks = [
       {
@@ -48,9 +49,5 @@ class Help extends React.Component {
     );
   }
 }
-
-Help.defaultProps = {
-  language: "en"
-};
 
 module.exports = Help;
