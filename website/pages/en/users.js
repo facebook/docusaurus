@@ -49,8 +49,4 @@ class Users extends React.Component {
   }
 }
 
-Users.defaultProps = {
-  language: "en"
-};
-
 module.exports = Users;

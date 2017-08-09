@@ -17,10 +17,6 @@ const GridBlock = CompLibrary.GridBlock;
 const siteConfig = require(process.cwd() + "/siteConfig.js");
 
 class Button extends React.Component {
-  static defaultProps = {
-    target: "_self"
-  };
-
   render() {
     return (
       <div className="pluginWrapper buttonWrapper">
@@ -31,6 +27,10 @@ class Button extends React.Component {
     );
   }
 }
+
+Button.defaultProps = {
+  target: "_self"
+};
 
 class HomeSplash extends React.Component {
   render() {
