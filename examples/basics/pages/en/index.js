@@ -44,7 +44,9 @@ class HomeSplash extends React.Component {
             <div className="inner">
               <h2 className="projectTitle">
                 {siteConfig.title}
-                <small>{siteConfig.tagline}</small>
+                <small>
+                  {siteConfig.tagline}
+                </small>
               </h2>
               <div className="section promoSection">
                 <div className="promoRow">
@@ -52,14 +54,20 @@ class HomeSplash extends React.Component {
                     <Button href="#try">Try It Out</Button>
                     <Button
                       href={
-                        siteConfig.baseUrl + "docs/" + this.props.language + "/doc1.html"
+                        siteConfig.baseUrl +
+                        "docs/" +
+                        this.props.language +
+                        "/doc1.html"
                       }
                     >
                       Example Link
                     </Button>
                     <Button
                       href={
-                        siteConfig.baseUrl + "docs/" + this.props.language + "/doc2.html"
+                        siteConfig.baseUrl +
+                        "docs/" +
+                        this.props.language +
+                        "/doc2.html"
                       }
                     >
                       Example Link 2
@@ -177,9 +185,8 @@ class Index extends React.Component {
                 href={
                   siteConfig.baseUrl + this.props.language + "/" + "users.html"
                 }
-                target="_self"
               >
-                More "Docusaurus" Users
+                More Docusaurus Users
               </a>
             </div>
           </div>

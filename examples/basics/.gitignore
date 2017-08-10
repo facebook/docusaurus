@@ -1,0 +1,5 @@
+.DS_Store
+node_modules
+translated_docs
+i18n
+yarn.lock
