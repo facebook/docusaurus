@@ -11,6 +11,7 @@
     "babel-register": "^6.24.1",
     "babel-traverse": "^6.25.0",
     "babylon": "^6.17.4",
+    "chalk": "^2.1.0",
     "classnames": "^2.2.5",
     "commander": "^2.11.0",
     "diff": "^3.3.0",
