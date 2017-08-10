@@ -14,6 +14,12 @@ const users = [
     image: "/docusaurus/img/prettier.png",
     infoLink: "https://www.prettier.io",
     pinned: true
+  },
+  {
+    caption: "Docusaurus",
+    image: "/docusaurus/img/docusaurus.svg",
+    infoLink: "https://www.docusaurus.io",
+    pinned: true
   }
 ];
 
