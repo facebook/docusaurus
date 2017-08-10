@@ -454,7 +454,7 @@ header h2 {
     display: flex;
     justify-content: flex-end;
     left: 0;
-    padding: 2em 20px 4em;
+    padding: 2em 100px 4em;
     position: absolute;
     right: 0;
     top: 0;
@@ -856,7 +856,7 @@ a:hover code {
 .imageAlignSide .blockImage {
   max-width: 500px;
   flex: 0 1 500px;
-  margin-right: 20px;
+  margin-right: 40px;
 }
 @media only screen and (min-device-width: 360px) and (max-device-width: 736px) {
   .imageAlignSide .blockImage {
