@@ -66,7 +66,7 @@ article p img {
 }
 
 a {
-  color: {primaryColor};
+  color: $primaryColor;
   text-decoration: none;
 }
 
@@ -104,7 +104,7 @@ blockquote {
 h1, h2, h3, h4 {
   font-family: "Helvetica Neue", Arial, sans-serif;
   font-weight: 300;
-  color: {primaryColor};
+  color: $primaryColor;
 }
 
 header h2 {
@@ -114,7 +114,7 @@ header h2 {
 
 .homeContainer {
   background: #fff;
-  color: {primaryColor};
+  color: $primaryColor;
   text-align: center;
 }
 
@@ -217,7 +217,7 @@ header h2 {
   text-align: left;
 }
 .container .wrapper h2 {
-  color: {primaryColor};
+  color: $primaryColor;
   font-size: 22px;
   line-height: 1em;
   margin-top: 20px;
@@ -231,13 +231,13 @@ header h2 {
   padding: 10px 0;
 }
 .container .wrapper h3 {
-  color: {primaryColor};
+  color: $primaryColor;
   font-size: 18px;
   margin-top: 10px;
   padding: 10px 0;
 }
 .container .wrapper h4 {
-  color: {primaryColor};
+  color: $primaryColor;
   font-size: 16px;
   font-weight: 300;
   margin: 0;
@@ -308,7 +308,7 @@ header h2 {
   padding-top: 1em;
 }
 .mainContainer .wrapper .post .docPagination {
-  background: {primaryColor};
+  background: $primaryColor;
   bottom: 0px;
   left: 0px;
   position: absolute;
@@ -477,7 +477,7 @@ header h2 {
 }
 .fixedHeaderContainer {
   box-sizing: border-box;
-  background: {primaryColor};
+  background: $primaryColor;
   color: #fff;
   height: 50px;
   padding: 10px 0 8px;
@@ -552,9 +552,9 @@ header h2 {
 }
 .button {
   margin: 4px;
-  border: 1px solid {primaryColor};
+  border: 1px solid $primaryColor;
   border-radius: 3px;
-  color: {primaryColor};
+  color: $primaryColor;
   display: inline-block;
   font-size: 14px;
   font-weight: 400;
@@ -565,7 +565,7 @@ header h2 {
   transition: background 0.3s, color 0.3s;
 }
 .button:hover {
-  background: {primaryColor};
+  background: $primaryColor;
   color: #fff;
 }
 
@@ -619,19 +619,19 @@ input[type="search"] {
   right: 0 !important;
 }
 .navSearchWrapper .aa-dropdown-menu .algolia-docsearch-suggestion--category-header {
-  background: {primaryColor};
+  background: $primaryColor;
   color: white;
   font-family: "Helvetica Neue", Arial, sans-serif;
   font-weight: 400;
   font-size: 14px;
 }
 .navSearchWrapper .aa-dropdown-menu .algolia-docsearch-suggestion--category-header .algolia-docsearch-suggestion--highlight {
-  background-color: {primaryColor};
+  background-color: $primaryColor;
   color: #fff;
 }
 .navSearchWrapper .aa-dropdown-menu .algolia-docsearch-suggestion--title .algolia-docsearch-suggestion--highlight,
 .navSearchWrapper .aa-dropdown-menu .algolia-docsearch-suggestion--subcategory-column .algolia-docsearch-suggestion--highlight {
-  color: {primaryColor};
+  color: $primaryColor;
 }
 .navSearchWrapper .aa-dropdown-menu .algolia-docsearch-suggestion__secondary,
 .navSearchWrapper .aa-dropdown-menu .algolia-docsearch-suggestion--subcategory-column {
@@ -680,7 +680,7 @@ code,
 a code,
 .mainContainer .wrapper a code,
 .mainContainer .wrapper a:focus code {
-  color: {primaryColor};
+  color: $primaryColor;
   font-family: Hack, monospace;
   font-size: 90%;
   font-weight: 300;
@@ -697,12 +697,12 @@ a:hover code {
   font-family: 'source-code-pro', Menlo, 'Courier New', Consolas, monospace;
   font-size: 13px;
   line-height: 20px;
-  border-left: 4px solid {primaryColor};
+  border-left: 4px solid $primaryColor;
   overflow-x: scroll;
   -webkit-overflow-scrolling: touch;
   padding: 5px 10px;
   margin: 14px 0 14px 20px;
-  background-color: {prismColor};
+  background-color: $prismColor;
 }
 
 .prism + .prism {
@@ -1038,7 +1038,7 @@ a:hover code {
   margin-top: 50px;
   width: 100%;
   padding: 0;
-  background: {secondaryColor};
+  background: $secondaryColor;
   color: #fff;
 }
 .navigationSlider .slidingNav.slidingNavActive ul {
@@ -1051,7 +1051,7 @@ a:hover code {
   margin: 0;
 }
 .navigationSlider .slidingNav ul li a {
-  color: {primaryColor};
+  color: $primaryColor;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1066,7 +1066,7 @@ a:hover code {
 }
 .navigationSlider .slidingNav ul li a:focus,
 .navigationSlider .slidingNav ul li a:hover {
-  background: {primaryColor};
+  background: $primaryColor;
 }
 
 .languages-icon {
@@ -1084,7 +1084,7 @@ a:hover code {
 }
 ul#languages-dropdown-items {
   display: flex;
-  background-color: {primaryColor};
+  background-color: $primaryColor;
   flex-direction: column;
   min-width: 120px;
 }
@@ -1165,7 +1165,7 @@ ul#languages li {
     width: 100%;
   }
   .reactNavSearchWrapper input#search_input_react:focus, .reactNavSearchWrapper input#search_input_react:active {
-    background-color: {primaryColor};
+    background-color: $primaryColor;
     color: #fff;
   }
   .reactNavSearchWrapper .algolia-docsearch-suggestion--subcategory-inline {
@@ -1197,7 +1197,7 @@ ul#languages li {
 
   ul#languages-dropdown-items {
     display: flex;
-    background-color: {primaryColor};
+    background-color: $primaryColor;
     flex-direction: row;
   }
 }
@@ -1427,10 +1427,10 @@ nav.toc .toggleNav .navGroup h3 i:not(:empty) {
   transition: color 0.2s;
 }
 nav.toc .toggleNav .navGroup h3:hover {
-  color: {primaryColor};
+  color: $primaryColor;
 }
 nav.toc .toggleNav .navGroup h3:hover i:not(:empty) {
-  color: {primaryColor};
+  color: $primaryColor;
 }
 nav.toc .toggleNav .navGroup.navGroupActive {
   background: #e0e0e0;
@@ -1442,7 +1442,7 @@ nav.toc .toggleNav .navGroup.navGroupActive ul {
   padding-top: 10px;
 }
 nav.toc .toggleNav .navGroup.navGroupActive h3 {
-  background: {primaryColor};
+  background: $primaryColor;
   color: #fff;
 }
 nav.toc .toggleNav ul {
@@ -1465,10 +1465,10 @@ nav.toc .toggleNav ul li a {
   transition: color 0.3s;
 }
 nav.toc .toggleNav ul li a:hover, nav.toc .toggleNav ul li a:focus {
-  color: {primaryColor};
+  color: $primaryColor;
 }
 nav.toc .toggleNav ul li a.navItemActive {
-  color: {primaryColor};
+  color: $primaryColor;
   font-weight: 600;
 }
 .docsSliderActive nav.toc .navBreadcrumb {
@@ -1672,7 +1672,7 @@ h6:hover .header-link {
   text-align: center;
 }
 .poweredByContainer {
-  background: {primaryColor};
+  background: $primaryColor;
   color: #fff;
   margin-bottom: 20px;
 }
@@ -1740,7 +1740,7 @@ h6:hover .header-link {
   padding-bottom: 80px;
 }
 .productShowcaseSection h2 {
-  color: {primaryColor};
+  color: $primaryColor;
   font-size: 30px;
   line-height: 1em;
   margin-top: 20px;
@@ -1837,7 +1837,7 @@ div.video iframe {
   margin: 0 auto;
 }
 .showcaseSection .prose h1 {
-  color: {primaryColor};
+  color: $primaryColor;
   font-family: "Helvetica Neue", Arial, sans-serif;
   text-align: center;
   padding: 1.4em 0 0.4em;
