@@ -25,8 +25,29 @@ The `pages/en/help-with-translations.js` file is the same example help page gene
 The `languages.js` file tells Docusaurus what languages you want to enable for your site.
 The `crowdin.yaml` file is used to configure crowdin integration, and is copied out one level into your project repo.
 
+## Writing Pages to be Translated
 
-## How Docusaurus Finds Strings to Translate
+Any pages with text you want to be translated should go into the `website/pages/en` folder. Simply wrap any strings you want translated in a `<translate>` tag, and add the following `require` statement to the top of the file:
+```jsx
+...
+const translate = require("../../server/translate.js").translate;
+...
+<h2>
+  <translate>This is a Header I want translated</translate>
+</h2>
+...
+```
+
+You can also include an optional description attribute to give more context to a translator about how to translate the string:
+```jsx
+<p>
+  <translate desc="flower, not verb">Rose</translate>
+<p>
+```
+
+Documentation files do not need to be changed to support translations. They will be uploaded to Crowdin to be translated directly.
+
+## Gathering Strings to Translate
 
 Add the following script to your package.json file:
 ```json
@@ -40,17 +61,15 @@ Add the following script to your package.json file:
 Running the script will generate a `website/i18n/en.json` file containing all the strings that will be translated from English into other languages.
 
 The script will include text from the following places:
-  - title strings and category strings in documentation front matter
+  - `title` and `sidebar_label` strings in document markdown headers
+  - category names in `sidebars.json`
   - tagline in `siteConfig.js`
-  - internal and external header link text strings in `siteConfig.js`
+  - header link `label` strings in `siteConfig.js`
+  - strings wrapped in the `<translate>` tag in any `.js` files inside `pages`
 
-It will also include any strings in any `.js` files in the `pages` folder that are wrapped in a `<translate>` tag. You can also include an optional description attribute to give more context to a translator about how to translate the string.
+## How Strings Get Translated
 
-In addition to these strings in the `i18n/en.json` file, the whole documentation files themselves will be translated.
-
-## How Docusaurus Translates Strings
-
-Docusaurus itself does not do any translation from one language to another. Instead, it uses Crowdin to manage translations and then downloads appropriately translated files from Crowdin. More information on how to set up Crowdin translations later.
+Docusaurus itself does not do any translation from one language to another. Instead, it uses [Crowdin](https://crowdin.com/) to manage translations and then downloads appropriately translated files from Crowdin. More information on how to set up Crowdin translations later.
 
 ## How Docusaurus Uses String Translations
 
