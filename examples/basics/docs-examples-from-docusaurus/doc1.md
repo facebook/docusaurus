@@ -1,7 +1,7 @@
 ---
 id: doc1
 title: Docusaurus
-sidebar_title: Docusaurus Guide
+sidebar_label: Docusaurus Guide
 ---
 
 ## Getting Started
