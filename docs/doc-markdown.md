@@ -38,6 +38,29 @@ original_id: doc1
 ---
 ```
 
+### Blog Posts
+
+Blog Posts use the following markdown header fields that are enclosed by a line `---` on either side:
+
+`title`: The title of this blog post.
+
+`author`: The author of this blog post. If this field is omitted, no author name will be shown.
+
+`authorURL`: A page to link to when a site user clicks the author's name. If this field is omitted, the author's name will not link to anything.
+
+`authorFBID`: The author's Facebook id, used only to get the author's profile picture to display with the blog post. If this field is omitted, no author picture will be shown for the blog post.
+
+For example:
+
+```markdown
+---
+title: My First Blog Post
+author: Frank Li
+authorURL: http://twitter.com/franchementli
+authorFBID: 100002976521003
+---
+```
+
 ## Extra Features
 
 Docusaurus supports some extra features when writing documentation in markdown.
