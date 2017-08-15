@@ -17,11 +17,8 @@ After loading the example site, you should see a structure in your repo that loo
 
 ```
 project-repo/
-  blog/
-    2017-05-06-blog-post.md
   docs/
-    en/
-      doc1.md
+    doc1.md
   website/
     blog/
       2017-05-06-blog-post.md
