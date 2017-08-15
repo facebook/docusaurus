@@ -61,11 +61,12 @@ Add the following script to your package.json file:
 Running the script will generate a `website/i18n/en.json` file containing all the strings that will be translated from English into other languages.
 
 The script will include text from the following places:
-  - `title` and `sidebar_label` strings in document markdown headers
-  - category names in `sidebars.json`
-  - tagline in `siteConfig.js`
-  - header link `label` strings in `siteConfig.js`
-  - strings wrapped in the `<translate>` tag in any `.js` files inside `pages`
+
+- `title` and `sidebar_label` strings in document markdown headers
+- category names in `sidebars.json`
+- tagline in `siteConfig.js`
+- header link `label` strings in `siteConfig.js`
+- strings wrapped in the `<translate>` tag in any `.js` files inside `pages`
 
 ## How Strings Get Translated
 
@@ -123,7 +124,9 @@ The `crowdin` command uses the `crowdin.yaml` file generated with the `examples`
 
 Note that in the `crowdin.yaml` file, `CROWDIN_PROJECT_ID` and `CROWDIN_API_KEY` are environment variables set-up in Circle for your Crowdin project. They can be found in your Crowdin project settings.
 
-Now, Circle will help you automatically get translations prior to building your website. If you wish to use crowdin on your machine locally, you can install the [Crowdin CLI tool](https://support.crowdin.com/cli-tool/) and run the same commands found in the `circle.yaml` file, making sure you actually set the `project_identifier` and `api_key` in the `crowdin.yaml` file. The provided `crowdin.yaml` file will copy translated documents into `website/translated_docs/`, and translated versions of the `i18n/en.json` strings file will into `i18n/${language}.json`.
+Now, Circle will help you automatically get translations prior to building your website. The provided `crowdin.yaml` file will copy translated documents into `website/translated_docs/`, and translated versions of the `i18n/en.json` strings file will into `i18n/${language}.json`.
+
+If you wish to use Crowdin on your machine locally, you can install the [Crowdin CLI tool](https://support.crowdin.com/cli-tool/) and run the same commands found in the `circle.yaml` file. The only difference is that you must set `project_identifier` and `api_key` values in the `crowdin.yaml` file since you will not have Circle environment variables set up. 
 
 ## Translations and Versioning
 
