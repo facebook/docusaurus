@@ -71,7 +71,7 @@ After creating a new section of the site by adding to `sidebars.json`, you can l
 ```
 headerLinks: [
   ...
-  {doc: 'intro', label: 'Getting Started'},
+  { doc: 'intro', label: 'Getting Started' },
   ...
 ],
 ```
@@ -83,7 +83,7 @@ To add custom pages to the navigation bar, entries can be added to the `headerLi
 ```
 headerLinks: [
   ...
-  {page: 'help', label: 'Help'},
+  { page: 'help', label: 'Help' },
   ...
 ],
 ```
@@ -95,7 +95,7 @@ Custom links can be added to the nav bar with the following entry in `siteConfig
 ```
 headerLinks: [
   ...
-  {href: 'https://github.com/facebookexperimental/Docusaurus', label: 'GitHub'},
+  { href: 'https://github.com/facebookexperimental/Docusaurus', label: 'GitHub' },
   ...
 ],
 ```
@@ -108,8 +108,19 @@ If search is enabled on your site, your search bar will appear to the right of y
 
 ```
 headerLinks: [
-  {doc: 'foo', label: 'Foo'},
-  {search: true},
-  {doc: 'bar', label: 'Bar'},
+  { doc: 'foo', label: 'Foo' },
+  { search: true },
+  { doc: 'bar', label: 'Bar' },
+],
+```
+## Languages drop down position in nav bar
+
+If translations is enabled on your site, the language drop down will appear to the right of your links (and to the left of the search bar, if search is enabled). If you want to put the language selection drop down between links in the header, add a languages entry in the `headerLinks` config array:
+
+```
+headerLinks: [
+  { doc: 'foo', label: 'Foo' },
+  { languages: true },
+  { doc: 'bar', label: 'Bar' },
 ],
 ```
