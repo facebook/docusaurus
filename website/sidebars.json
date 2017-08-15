@@ -12,6 +12,7 @@
       "versioning"
     ],
     "API": [
+      "api-pages",
       "site-config",
       "doc-markdown"
     ]
