@@ -1,11 +1,7 @@
 ---
 id: doc1
 title: Docusaurus
-sidebar_title: Docusaurus Guide
-layout: docs
-category: Docusaurus
-permalink: docs/en/doc1.html
-next: doc2
+sidebar_label: Docusaurus Guide
 ---
 
 ## Getting Started
