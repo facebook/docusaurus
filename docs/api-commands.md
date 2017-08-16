@@ -5,8 +5,8 @@ title: CLI Commands
 
 Docusaurus provides a set of scripts to help you generate, serve, and deploy your website. These scripts can be invoked with the `run` command when using Yarn or npm. Some common commands are:
 
-* [`yarn run start`](commands.md#docusaurus-start-port-number): build and serve the website from a local server
-* [`yarn run examples`](commands.md#docusaurus-examples): create example configuration files
+* [`yarn run start`](api-commands.md#docusaurus-start-port-number): build and serve the website from a local server
+* [`yarn run examples`](api-commands.md#docusaurus-examples): create example configuration files
 
 
 ## Running from the command line 
@@ -58,21 +58,21 @@ Alias: `build`.
 
 Generates the static website, applying translations if necessary. Useful for building the website prior to deployment. 
 
-See also [`docusaurus-start`](commands.md#docusaurus-start-port-number).
+See also [`docusaurus-start`](api-commands.md#docusaurus-start-port-number).
 
 ---
 
-### `docusaurus-examples`
+### `docusaurus-examples [feature]`
 Alias: `examples`
 
-Sets up a minimally configured example website in your project. This command is covered in depth in the [Site Preparation guide](getting-started-preparation.md).
+When no feature is specified, sets up a minimally configured example website in your project. This command is covered in depth in the [Site Preparation guide](getting-started-preparation.md). Specify a feature `translations` or `versions` to generate the extra example files for that feature.
 
 ---
 
 ### `docusaurus-publish`
 Alias: `publish-gh-pages`
 
-[Builds](commands.md#docusaurus-build), then deploys the static website to GitHub Pages. This command is meant to be run during the deployment step in Circle CI, and therefore expects a few environment variables to be defined:
+[Builds](api-commands.md#docusaurus-build), then deploys the static website to GitHub Pages. This command is meant to be run during the deployment step in Circle CI, and therefore expects a few environment variables to be defined:
 
  - `GIT_USER`: The git user to be associated with the deploy commit.
  - `CIRCLE_BRANCH`: The git branch associated with the commit that triggered the CI run.
@@ -110,6 +110,6 @@ See the [Versioning guide](guides-versioning.md) to learn more.
 ---
 
 ### `docusaurus-write-translations`
-Alias: `translations`
+Alias: `write-translations`
 
-Applies any translations provided by the community. The script will go through every markdown file and through the `siteConfig.js` file and generate localized files for any supported languages as needed. See the [Translation guide](guides-translation.md) to learn more.
+Writes the English for any strings that need to be translated into an `website/i18n/en.json` file. The script will go through every file in `website/pages/en` and through the `siteConfig.js` file and other config files to fetch English strings that will then be translated on Crowdin. See the [Translation guide](guides-translation.md) to learn more.
