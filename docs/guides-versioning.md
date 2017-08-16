@@ -38,13 +38,39 @@ Users can create version numbers in whatever format they wish, and a new version
 
 ## Storing Files for Each Version
 
-Versioned documents are placed into `website/versioned_docs/version-${version}`, where `${version}` is the version number you supplied the `version` script. The front matter for each versioned doc is altered by appending `"version-${version}-"` to the id and by adding an `original_id` field. Versioned sidebars are copied into `website/versioned_sidebars` and are named as `version-${version}-sidebar.json`. A `website/versions.json` file is created the first time you cut a version and is used by Docusaurus to detect what versions exist. Each time a new version is added, it gets added to the `versions.json` file. If you wish to change the documentation for a past version, you can access the files for that respective version. 
+Versioned documents are placed into `website/versioned_docs/version-${version}`, where `${version}` is the version number you supplied the `version` script. 
+
+The markdown header for each versioned doc is altered by appending `"version-${version}-"` to the id and by adding an `original_id` field.
+
+Versioned sidebars are copied into `website/versioned_sidebars` and are named as `version-${version}-sidebar.json`. 
+
+A `website/versions.json` file is created the first time you cut a version and is used by Docusaurus to detect what versions exist. Each time a new version is added, it gets added to the `versions.json` file. 
+
+If you wish to change the documentation for a past version, you can access the files for that respective version. 
 
 ## Fallback Functionality
 
 Only files in the `docs` folder and sidebar files that differ from those of the latest version will get copied each time a new version is specified. If there is no change across versions, Docusaurus will use the file from the latest version with that file.
 
 For example, a document with the original id `doc1` exists for the latest version, `1.0.0`, and has the same content as the document with the id `doc1` in the `docs` folder. When a new version `2.0.0` is created, the file for `doc1` will not be copied into `versioned_docs/version-2.0.0/`. There will still be a page for `docs/2.0.0/doc1.html`, but it will use the file from version `1.0.0`.
+
+## Renaming Existing Versions
+
+To rename an existing version number to something else, first make sure the following script is in your `package.json` file:
+
+```json
+...
+"scripts": {
+  "rename-version": "docusaurus-rename-version"
+},
+...
+```
+
+Run the script with command line arguments of first, the current version name, then second, the new version name. e.g.,
+
+```bash
+npm run rename-version 1.0.0 1.0.1
+```
 
 ## Versioning and Translations
 

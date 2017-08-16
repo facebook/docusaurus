@@ -3,7 +3,7 @@ id: site-preparation
 title: Site Preparation
 ---
 
-After [installing Docusaurus](./getting-started-installation.md), you will want to install and run the example site included. This serves dual purposes.
+After [installing Docusaurus](getting-started-installation.md), you will want to install and run the example site included. This serves dual purposes.
 
 1. Verifying that Docusaurus was installed correctly.
 1. Providing you the skeleton to create your site.

@@ -3,3 +3,5 @@ node_modules
 lib/core/metadata.js
 lib/core/MetadataBlog.js
 yarn.lock
+website
+docs

@@ -14,6 +14,12 @@ const users = [
     image: "/docusaurus/img/prettier.png",
     infoLink: "https://www.prettier.io",
     pinned: true
+  },
+  {
+    caption: "Docusaurus",
+    image: "/docusaurus/img/docusaurus.svg",
+    infoLink: "https://www.docusaurus.io",
+    pinned: true
   }
 ];
 
@@ -35,7 +41,7 @@ const siteConfig = {
     }
   ],
   headerIcon: "img/docusaurus.svg",
-  footerIcon: "img/docusaurus.svg",
+  footerIcon: "img/docusaurus_monochrome.svg",
   favicon: "img/favicon.png",
   // See https://docusaurus.io/docs/search for more information about Aloglia
   // search

@@ -6,7 +6,7 @@ preserve_hierarchy: true
 files:
   -
     source: '/docs/en/*.md'
-    translation: '/docs/%locale%/%original_file_name%'
+    translation: '/website/translated_docs/%locale%/%original_file_name%'
     languages_mapping: &anchor
       locale:
         'af': 'af'
