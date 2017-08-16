@@ -20,6 +20,10 @@
   },
   "name": "docusaurus",
   "version": "1.0.0-alpha.35",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebookexperimental/Docusaurus.git"
+  },
   "bin": {
     "docusaurus-start": "./lib/start-server.js",
     "docusaurus-build": "./lib/build-files.js",
