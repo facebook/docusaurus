@@ -35,7 +35,7 @@ const siteConfig = {
   url: "https://docusaurus.io",
   baseUrl: "/",
   projectName: "docusaurus",
-  cname: "docusaurus.io"
+  cname: "docusaurus.io",
   users,
   editUrl:
     "https://github.com/facebookexperimental/docusaurus/edit/master/docs/",
