@@ -34,7 +34,7 @@ const siteConfig = {
   tagline: "Open Source Documentation Websites",
   url: "https://docusaurus.io",
   baseUrl: "/",
-  projectName: "docusaurus",
+  projectName: "Docusaurus",
   cname: "docusaurus.io",
   users,
   editUrl:
