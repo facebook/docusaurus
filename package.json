@@ -1,10 +1,4 @@
 {
-  "scripts": {
-    "start": "./lib/start-server.js",
-    "build": "./lib/build-files.js",
-    "publish-gh-pages": "./lib/publish-gh-pages.js",
-    "examples": "./lib/copy-examples.js"
-  },
   "dependencies": {
     "babel-preset-latest": "^6.24.1",
     "babel-preset-react": "^6.24.1",
