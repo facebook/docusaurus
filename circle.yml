@@ -13,6 +13,5 @@ deployment:
     branch: master
     commands:
       - git config --global user.email "facebook-github-bot@users.noreply.github.com"
-      - git config --global user.name "Facebook GitHub Bot"
-      - echo "machine github.com login facebook-github-bot password $GITHUB_AUTH_TOKEN" > ~/.netrc
+      - git config --global user.name "Docusaurus Documentation Deploy Script"
       - npm install && cd website && GIT_USER=facebook-github-bot npm run publish-gh-pages
