@@ -124,14 +124,14 @@ class Index extends React.Component {
                 {
                   content:
                     "Support users on all versions of your project. Document Versioning helps you keep documentation in sync with project releases.",
-                  image: `${siteConfig.baseUrl}img/docusaurus_monochrome.svg`,
+                  image: `${siteConfig.baseUrl}img/versioning.svg`,
                   imageAlign: "top",
                   title: "Document Versioning"
                 },
                 {
                   content:
                     "Make it easy for your community to find what they need in your documentation. Currently supports Algolia DocSearch.",
-                  image: `${siteConfig.baseUrl}img/docusaurus_monochrome.svg`,
+                  image: `${siteConfig.baseUrl}img/search.svg`,
                   imageAlign: "top",
                   title: "Document Search"
                 }

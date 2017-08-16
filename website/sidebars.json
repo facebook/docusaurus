@@ -7,11 +7,13 @@
     ],
     "Guides": [
       "navigation",
+      "blog",
       "translation",
       "search",
       "versioning"
     ],
     "API": [
+      "commands",
       "api-pages",
       "site-config",
       "doc-markdown"

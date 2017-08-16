@@ -13,14 +13,14 @@ const CompLibrary = require("../../core/CompLibrary.js");
 const Container = CompLibrary.Container;
 const GridBlock = CompLibrary.GridBlock;
 
-const siteConfig = require(process.cwd() + "/siteConfig.js");
+// const siteConfig = require(process.cwd() + "/siteConfig.js");
 
 class Help extends React.Component {
   render() {
     const supportLinks = [
       {
         content:
-          "Learn more using the [documentation on this site](/docusaurus/docs/en/getting-started.html).",
+          "Learn more using the [documentation on this site](/docs/installation.html).",
         title: "Browse Docs"
       },
       {

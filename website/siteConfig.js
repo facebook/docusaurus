@@ -11,13 +11,19 @@
 const users = [
   {
     caption: "Prettier",
-    image: "/docusaurus/img/prettier.png",
+    image: "/img/prettier.png",
     infoLink: "https://www.prettier.io",
     pinned: true
   },
   {
+    caption: "FastText",
+    image: "/img/fasttext.png",
+    infoLink: "https://fasttext.cc",
+    pinned: true
+  },
+  {
     caption: "Docusaurus",
-    image: "/docusaurus/img/docusaurus.svg",
+    image: "/img/docusaurus.svg",
     infoLink: "https://www.docusaurus.io",
     pinned: true
   }
@@ -26,9 +32,10 @@ const users = [
 const siteConfig = {
   title: "Docusaurus",
   tagline: "Open Source Documentation Websites",
-  url: "https://facebookexperimental.github.io",
-  baseUrl: "/docusaurus/",
+  url: "https://docusaurus.io",
+  baseUrl: "/",
   projectName: "docusaurus",
+  cname: "docusaurus.io",
   users,
   editUrl:
     "https://github.com/facebookexperimental/docusaurus/edit/master/docs/",

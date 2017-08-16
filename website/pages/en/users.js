@@ -37,10 +37,10 @@ class Users extends React.Component {
             </div>
             <p>Are you using this project?</p>
             <a
-              href="https://github.com/deltice/test-site/edit/master/website/siteConfig.js"
+              href="https://github.com/facebookexperimental/docusaurus/edit/master/website/siteConfig.js"
               className="button"
             >
-              Add your company
+              Add your project
             </a>
           </div>
         </Container>
