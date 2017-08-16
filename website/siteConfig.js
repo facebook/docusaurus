@@ -16,6 +16,12 @@ const users = [
     pinned: true
   },
   {
+    caption: "FastText",
+    image: "/docusaurus/img/fasttext.png",
+    infoLink: "https://fasttext.cc",
+    pinned: true
+  },
+  {
     caption: "Docusaurus",
     image: "/docusaurus/img/docusaurus.svg",
     infoLink: "https://www.docusaurus.io",
