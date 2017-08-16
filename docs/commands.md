@@ -41,7 +41,7 @@ npm run start -- --port 8080
 
 ## Configuration
 
-These scripts are set up under the `"scripts"` key in your `website/package.json` file as part of the installation process. If you need help setting them up again, please refer to the [Installation guide](getting-started.md#installation).
+These scripts are set up under the `"scripts"` key in your `website/package.json` file as part of the installation process. If you need help setting them up again, please refer to the [Installation guide](getting-started-installation.md).
 
 Docusaurus provides some default mappings to allow you to run commands following Node conventions. Instead of typing `docusaurus-start` every time, you can type `yarn run start` or `npm start` to achieve the same.
 
@@ -65,7 +65,7 @@ See also [`docusaurus-start`](commands.md#docusaurus-start-port-number).
 ### `docusaurus-examples`
 Alias: `examples`
 
-Sets up a minimally configured example website in your project. This command is covered in depth in the [Site Preparation guide](./getting-started-preparation.md).
+Sets up a minimally configured example website in your project. This command is covered in depth in the [Site Preparation guide](getting-started-preparation.md).
 
 ---
 
@@ -80,7 +80,7 @@ Alias: `publish-gh-pages`
  - `CIRCLE_PROJECT_REPONAME`: The name of the git repo, e.g. "Docusaurus".
  - `CI_PULL_REQUEST`: Expected to be truthy if the current CI run was triggered by a commit in a pull request.
 
-You can learn more about configuring automatic deployments with CircleCI in the [Publishing guide](./publishing.md).
+You can learn more about configuring automatic deployments with CircleCI in the [Publishing guide](publishing.md).
 
 ---
 
@@ -89,7 +89,7 @@ Alias: `rename-version`
 
 Renames an existing version of the docs to a new version name.
 
-See the [Versioning guide](./guides-versioning.md#renaming-existing-versions) to learn more.
+See the [Versioning guide](guides-versioning.md#renaming-existing-versions) to learn more.
 
 ---
 
@@ -105,11 +105,11 @@ Alias: `version`
 
 Generates a new version of the docs. This will result in a new copy of your site being generated and stored in its own versioned folder. Useful for capturing snapshots of API docs that map to specific versions of your software. Accepts any string as a version number.
 
-See the [Versioning guide](./guides-versioning.md) to learn more.
+See the [Versioning guide](guides-versioning.md) to learn more.
 
 ---
 
 ### `docusaurus-write-translations`
 Alias: `translations`
 
-Applies any translations provided by the community. The script will go through every markdown file and through the `siteConfig.js` file and generate localized files for any supported languages as needed. See the [Translation guide](./translation.md) to learn more.
+Applies any translations provided by the community. The script will go through every markdown file and through the `siteConfig.js` file and generate localized files for any supported languages as needed. See the [Translation guide](guides-translation.md) to learn more.
