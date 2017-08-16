@@ -17,7 +17,8 @@ class Footer extends React.Component {
         <section className="sitemap">
           <a href={this.props.config.baseUrl} className="nav-home">
             <img
-              src={`${this.props.config.baseUrl}${this.props.config.footerIcon}`}
+              src={`${this.props.config.baseUrl}${this.props.config
+                .footerIcon}`}
               alt={this.props.config.title}
               width="66"
               height="58"
@@ -27,8 +28,7 @@ class Footer extends React.Component {
             <h5>Docs</h5>
             <a
               href={`
-                ${this.props.config.baseUrl}docs/${this.props
-                .language}/getting-started.html`}
+                ${this.props.config.baseUrl}docs/installation.html`}
             >
               Getting Started
             </a>
