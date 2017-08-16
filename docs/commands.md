@@ -54,7 +54,7 @@ Docusaurus provides some default mappings to allow you to run commands following
 ## Reference
 
 ### `docusaurus-build`
-Alias: `run build`.
+Alias: `build`.
 
 Generates the static website, applying translations if necessary. Useful for building the website prior to deployment. 
 
@@ -63,14 +63,14 @@ See also [`docusaurus-start`](commands.md#docusaurus-start-port-number).
 ---
 
 ### `docusaurus-examples`
-Alias: `run examples`
+Alias: `examples`
 
 Sets up a minimally configured example website in your project. This command is covered in depth in the [Site Preparation guide](./getting-started-preparation.md).
 
 ---
 
 ### `docusaurus-publish`
-Alias: `run publish-gh-pages`
+Alias: `publish-gh-pages`
 
 [Builds](commands.md#docusaurus-build), then deploys the static website to GitHub Pages. This command is meant to be run during the deployment step in Circle CI, and therefore expects a few environment variables to be defined:
 
@@ -84,23 +84,32 @@ You can learn more about configuring automatic deployments with CircleCI in the 
 
 ---
 
+### `docusaurus-rename-version <currentVersion> <newVersion>`
+Alias: `rename-version`
+
+Renames an existing version of the docs to a new version name.
+
+See the [Versioning guide](./guides-versioning.md#renaming-existing-versions) to learn more.
+
+---
+
 ### `docusaurus-start [--port <number>]`
-Alias: `run start`. 
+Alias: `start`. 
 
 This script will build the static website, apply translations if necessary, and then start a local server. The website will be served from port 3000 by default.
 
 ---
 
 ### `docusaurus-version <version>`
-Alias: `run version`
+Alias: `version`
 
 Generates a new version of the docs. This will result in a new copy of your site being generated and stored in its own versioned folder. Useful for capturing snapshots of API docs that map to specific versions of your software. Accepts any string as a version number.
 
-See the [Versioning guide](./versioning.md) to learn more.
+See the [Versioning guide](./guides-versioning.md) to learn more.
 
 ---
 
 ### `docusaurus-write-translations`
-Alias: `run translations`
+Alias: `translations`
 
 Applies any translations provided by the community. The script will go through every markdown file and through the `siteConfig.js` file and generate localized files for any supported languages as needed. See the [Translation guide](./translation.md) to learn more.
