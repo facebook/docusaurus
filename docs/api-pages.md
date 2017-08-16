@@ -3,19 +3,11 @@ id: api-pages
 title: Pages and Styles
 ---
 
-Docusaurus provides support for writing pages as React components inside the `pages` folder which will share the same header, footer, and styles as the rest of the site.
+Docusaurus provides support for writing pages as React components inside the `website/pages` folder which will share the same header, footer, and styles as the rest of the site.
 
 ## Urls for Pages
 
-Any files in `pages` will be rendered to static html with the path of the file after "pages". For example, with a baseUrl of `"/docusaurus/"`:
-
-A page for `pages/en/help.js` will be found at the url `/docusaurus/en/help.js`.
-
-A page for `pages/mypage.js` will be found at the url `/docusaurus/mypage.js`.
-
-The only exception to this is that any files in `pages/en` will also get copied out into `pages` and will override any of the files of the same name in `pages`. i.e.,
-
-`/docusaurus/help.js` will be the same as `/docusaurus/en/help.js` if a `pages/en/help.js` file exists, even if `pages/help.js` is different.
+Any `.js` files in `website/pages` will be rendered to static html using the path of the file after "pages". Files in `website/pages/en` will also get copied out into `pages` and will OVERRIDE any files of the same name in `pages`. For example, the page for the `website/pages/en/help.js` file will be found at the url `${baseUrl}en/help.js` as well as the url `${baseUrl}help.js`, where `${baseUrl}` is the `baseUrl` field set in your [siteConfig.js file](api-site-config.md).
 
 
 ## Page Require Paths
@@ -104,7 +96,7 @@ More examples of how these components are used can be found in the [generated ex
 
 ## Translating Strings
 
-When translations are enabled, any pages inside `pages/en` will be translated for all enabled languages. Urls for non-English pages will use their language codes as specified in the `languages.js` file. E.g. The url for a French page of `pages/en/help.js` would be found at `docusaurus/fr/help.html`.
+When translations are enabled, any pages inside `website/pages/en` will be translated for all enabled languages. Urls for non-English pages will use their language tags as specified in the `languages.js` file. E.g. The url for a French page of `website/pages/en/help.js` would be found at `${baseUrl}fr/help.html`.
 
 When writing pages that you wish to translate, wrap any strings to be translated inside a `<translate>` tag. e.g.,
 
@@ -115,7 +107,9 @@ When writing pages that you wish to translate, wrap any strings to be translated
 You can also provide an optional description attribute to provide context for translators. e.g,
 
 ```jsx
-<p><translate desc="statement made to reader">I like translations</translate></p>
+<a href="/community">
+  <translate desc="footer link to page referring to community github and slack">Community</translate>
+</a>
 ```
 
 Add the following require statement as well:
@@ -137,10 +131,10 @@ You should configure your site's primary, secondary, and Prism colors using the 
 
 You can provide your own custom styles by adding them anywhere in the `website/static` folder. Any `.css` files you provide in the `static` folder will get concatenated to the end of Docusaurus's provided styles, allowing you to add to or override Docusaurus default styles as you wish.
 
-An easy way to figure out what classes you wish to override or add to is to start your server locally and use your browser's inspect element tool.
+An easy way to figure out what classes you wish to override or add to is to [start your server locally](api-commands.md) and use your browser's inspect element tool.
 
 ## Adding Static Pages
 
-It is not encouraged to do so, but it is also possible to provide static `.html` files to use. These can be added to the `static` folder in the same way as other static assets. Alternatively, they can be placed in the `pages` folder and would be served as-is instead of being rendered from React. They will not include Docusaurus's header, footer, or styles by default.
+Static `.html` files can also be used, but they will not include Docusaurus's header, footer, or styles by default. These can be added to the `static` folder in the same way as other static assets. Alternatively, they can be placed in the `pages` folder and would be served as-is instead of being rendered from React.
 
 If you wish to use Docusaurus's stylesheet, you can access it at `${baseUrl}css/main.css`. If you wish to use separate css for these static pages, you can exclude them from being concatenated to Docusaurus's styles by adding them into the `siteConfig.separateCss` field.
