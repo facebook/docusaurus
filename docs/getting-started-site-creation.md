@@ -38,7 +38,7 @@ To create a fully functional site, you only need to do a few steps:
   > If you do not add your documentation to the `sidebars.json` file, the docs will be rendered, but they can only be linked to from other documentation and visited with the known URL.
 
 1. Modify the `website/siteConfig.js` file to [configure your site](api-site-config.md), following the comments included in that file to guide you.
-1. [Customize](LINK_HERE_TO_CUSTOMIZATION) the `website/core/Footer.js` file that provides the footer for your site.
+1. [Customize](guides-custom-pages.md) the `website/core/Footer.js` file that provides the footer for your site.
 1. Place assets, such as images, in the `website/static/` folder.
 1. Run the site to see the results of your changes.  
 
