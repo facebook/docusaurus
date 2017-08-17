@@ -12,17 +12,12 @@
 const shell = require("shelljs");
 const chalk = require("chalk");
 const fs = require("fs");
-const program = require("commander");
 
 const CWD = process.cwd();
 
-program.option("--yarn", "Use yarn instead of npm.").parse(process.argv);
-
-const useYarn = program.yarn;
-
-if (useYarn && !shell.which("yarn")) {
-  console.error(chalk.yellow("Yarn is not installed.\n"));
-  process.exit(1);
+let useYarn = false;
+if (shell.which("yarn")) {
+  useYarn = true;
 }
 
 if (fs.existsSync(CWD + "/website")) {
@@ -32,7 +27,7 @@ if (fs.existsSync(CWD + "/website")) {
 
 shell.cd(CWD);
 
-shell.exec("mkdir website");
+shell.mkdir("website");
 
 console.log(chalk.green("Website folder created!\n"));
 
