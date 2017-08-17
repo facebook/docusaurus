@@ -25,7 +25,7 @@ The `siteConfig` object contains the bulk of the configuration settings for your
 
 `baseUrl` - baseUrl for your site.
 
-`projectName` - Project name.
+`projectName` - Project name. This must match your GitHub repo project name (case sensitive).
 
 `headerLinks` - Links that will be used in the header navigation bar. The `label` field of each object will be the link text and will also be translated for each language.
 
