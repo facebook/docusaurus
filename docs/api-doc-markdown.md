@@ -17,7 +17,7 @@ Documents use the following markdown header fields that are enclosed by a line `
 
 For example:
 
-```markdown
+```markup
 ---
 id: doc1
 title: My Document
@@ -29,7 +29,7 @@ Versioned documents have their ids altered to include the version number when th
 
 For example:
 
-```markdown
+```markup
 ---
 id: version-1.0.0-doc1
 title: My Document
@@ -52,7 +52,7 @@ Blog Posts use the following markdown header fields that are enclosed by a line 
 
 For example:
 
-```markdown
+```markup
 ---
 title: My First Blog Post
 author: Frank Li
