@@ -1657,6 +1657,9 @@ table tr th {
   .blog-recent {
     height: 40px;
   }
+  .blogContainer .lonePost {
+    margin-top: 0;
+  }
 }
 
 .header-link {
@@ -1979,4 +1982,15 @@ footer .fbOpenSource:hover {
 footer .copyright {
   color: rgba(255, 255, 255, 0.4);
   text-align: center;
+}
+
+.entry-share {
+  padding: 36px 0;
+  display: block;
+}
+
+@media screen and (max-width: 768px) {
+  .entry-share {
+    display: none;
+  }
 }
