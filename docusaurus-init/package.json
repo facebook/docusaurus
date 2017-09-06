@@ -1,0 +1,12 @@
+{
+  "name": "docusaurus-init",
+  "version": "1.0.0-alpha.0",
+  "preferGlobal": true,
+  "bin": {
+    "docusaurus-init": "initialize.js"
+  },
+  "dependencies": {
+    "chalk": "^2.1.0",
+    "shelljs": "^0.7.8"
+  }
+}
