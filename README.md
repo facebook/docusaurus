@@ -41,7 +41,7 @@ npm install --save-dev docusaurus
 or
 
 ```
-yarn add docusaurus -dev
+yarn add docusaurus --dev
 ```
 
 ## Configuration
