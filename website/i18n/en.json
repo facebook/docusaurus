@@ -1,0 +1,38 @@
+{
+  "localized-strings": {
+    "next": "Next",
+    "previous": "Previous",
+    "tagline": "Easy to Maintain Open Source Documentation Websites",
+    "commands": "CLI Commands",
+    "doc-markdown": "Markdown Features",
+    "api-pages": "Pages and Styles",
+    "site-config": "siteConfig.js",
+    "installation": "Installation",
+    "site-preparation": "Site Preparation",
+    "site-creation": "Creating your site",
+    "getting-started": "getting-started",
+    "blog": "Adding a Blog",
+    "custom-pages": "Custom Pages",
+    "navigation": "Navigation and Sidebars",
+    "search": "Enabling Search",
+    "translation": "Translations & Localization",
+    "versioning": "Versioning",
+    "Docs": "Docs",
+    "Help": "Help",
+    "Blog": "Blog",
+    "GitHub": "GitHub",
+    "Getting Started": "Getting Started",
+    "Guides": "Guides",
+    "API": "API"
+  },
+  "pages-strings": {
+    "Learn more using the [documentation on this site.](/test-site/docs/en/doc1.html)|no description given": "Learn more using the [documentation on this site.](/test-site/docs/en/doc1.html)",
+    "Browse Docs|no description given": "Browse Docs",
+    "Ask questions about the documentation and project|no description given": "Ask questions about the documentation and project",
+    "Join the community|no description given": "Join the community",
+    "Find out what's new with this project|no description given": "Find out what's new with this project",
+    "Stay up to date|no description given": "Stay up to date",
+    "Need help?|no description given": "Need help?",
+    "This project is maintained by a dedicated group of people.|statement made to reader": "This project is maintained by a dedicated group of people."
+  }
+}

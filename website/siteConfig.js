@@ -31,7 +31,7 @@ const users = [
 
 const siteConfig = {
   title: "Docusaurus",
-  tagline: "Open Source Documentation Websites",
+  tagline: "Easy to Maintain Open Source Documentation Websites",
   url: "https://docusaurus.io",
   baseUrl: "/",
   projectName: "Docusaurus",
@@ -42,6 +42,8 @@ const siteConfig = {
   headerLinks: [
     { doc: "installation", label: "Docs" },
     { page: "help", label: "Help" },
+    { blog: true, label: "Blog" },
+    { languages: true },
     {
       href: "https://github.com/facebookexperimental/docusaurus",
       label: "GitHub"

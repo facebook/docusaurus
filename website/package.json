@@ -1,10 +1,13 @@
 {
   "scripts": {
-    "start": "../lib/start-server.js",
-    "build": "../lib/build-files.js",
-    "publish-gh-pages": "../lib/publish-gh-pages.js",
-    "examples": "../lib/copy-examples.js",
-    "write-translations": "../lib/write-translations.js",
-    "version": "../lib/version.js"
+    "start": "docusaurus-start",
+    "build": "docusaurus-build",
+    "publish-gh-pages": "docusaurus-publish",
+    "examples": "docusaurus-examples",
+    "write-translations": "docusaurus-write-translations",
+    "version": "docusaurus-version",
+    "rename-version": "docusaurus-rename-version",
+	  "crowdin-upload": "export CROWDIN_PROJECT_ID=docusaurus; export CROWDIN_API_KEY=d618a1663b548eca3fc7fc7c4294512e; crowdin-cli --config ../crowdin.yaml upload sources --auto-update -b master",
+	  "crowdin-download": "export CROWDIN_PROJECT_ID=docusaurus; export CROWDIN_API_KEY=d618a1663b548eca3fc7fc7c4294512e; crowdin-cli --config ../crowdin.yaml download -b master"
   }
 }
