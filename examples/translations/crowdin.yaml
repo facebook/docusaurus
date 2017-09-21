@@ -1,11 +1,11 @@
-project_identifier_env: CROWDIN_PROJECT_ID
-api_key_env: CROWDIN_API_KEY
+project_identifier_env: CROWDIN_DOCUSAURUS_PROJECT_ID
+api_key_env: CROWDIN_DOCUSAURUS_API_KEY
 base_path: "./"
 preserve_hierarchy: true
 
 files:
   -
-    source: '/docs/en/*.md'
+    source: '/docs/*.md'
     translation: '/website/translated_docs/%locale%/%original_file_name%'
     languages_mapping: &anchor
       locale:

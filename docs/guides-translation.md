@@ -117,8 +117,8 @@ You can add the following to your `package.json` to manually trigger crowdin.
 
 ```json
 "scripts": {
-  "crowdin-upload": "export CROWDIN_PROJECT_ID=$YOUR_CROWDIN_ID; export CROWDIN_API_KEY=$YOUR_CROWDIN_API_KEY; crowdin-cli --config ../crowdin.yaml upload sources --auto-update -b master",
-  "crowdin-download": "export CROWDIN_PROJECT_ID=$YOUR_CROWDIN_ID; export CROWDIN_API_KEY=$YOUR_CROWDIN_API_KEY; crowdin-cli --config ../crowdin.yaml download -b master"
+  "crowdin-upload": "export CROWDIN_DOCUSAURUS_PROJECT_ID=$YOUR_CROWDIN_ID; export CROWDIN_DOCUSAURUS_API_KEY=$YOUR_CROWDIN_API_KEY; crowdin-cli --config ../crowdin.yaml upload sources --auto-update -b master",
+  "crowdin-download": "export CROWDIN_DOCUSAURUS_PROJECT_ID=$YOUR_CROWDIN_ID; export CROWDIN_DOCUSAURUS_API_KEY=$YOUR_CROWDIN_API_KEY; crowdin-cli --config ../crowdin.yaml download -b master"
 },
 ```
 

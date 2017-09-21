@@ -14,7 +14,7 @@ const languages = [
     tag: "en"
   },
   {
-    enabled: false,
+    enabled: true,
     name: "日本語",
     tag: "ja"
   },

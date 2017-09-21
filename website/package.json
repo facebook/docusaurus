@@ -7,7 +7,7 @@
     "write-translations": "docusaurus-write-translations",
     "version": "docusaurus-version",
     "rename-version": "docusaurus-rename-version",
-	  "crowdin-upload": "export CROWDIN_PROJECT_ID=docusaurus; export CROWDIN_API_KEY=d618a1663b548eca3fc7fc7c4294512e; crowdin-cli --config ../crowdin.yaml upload sources --auto-update -b master",
-	  "crowdin-download": "export CROWDIN_PROJECT_ID=docusaurus; export CROWDIN_API_KEY=d618a1663b548eca3fc7fc7c4294512e; crowdin-cli --config ../crowdin.yaml download -b master"
+	  "crowdin-upload": "crowdin-cli --config ../crowdin.yaml upload sources --auto-update -b master",
+	  "crowdin-download": "crowdin-cli --config ../crowdin.yaml download -b master"
   }
 }
