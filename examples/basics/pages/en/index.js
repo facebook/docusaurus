@@ -177,7 +177,7 @@ class Index extends React.Component {
                   siteConfig.baseUrl + this.props.language + "/" + "users.html"
                 }
               >
-                More Docusaurus Users
+                More {siteConfig.title} Users
               </a>
             </div>
           </div>
