@@ -30,7 +30,7 @@ class HomeSplash extends React.Component {
         <div className="homeSplashFade">
           <div className="wrapper homeWrapper">
             <div className="projectLogo">
-              <img src="/test-site/img/docusaurus.svg" />
+              <img src={siteConfig.baseUrl + "/img/docusaurus.svg"} />
             </div>
             <div className="inner">
               <h2 className="projectTitle">
@@ -99,13 +99,13 @@ class Index extends React.Component {
               contents={[
                 {
                   content: "This is the content of my feature",
-                  image: "/test-site/img/docusaurus.svg",
+                  image: siteConfig.baseUrl + "img/docusaurus.svg",
                   imageAlign: "top",
                   title: "Feature One"
                 },
                 {
                   content: "The content of my second feature",
-                  image: "/test-site/img/docusaurus.svg",
+                  image: siteConfig.baseUrl + "img/docusaurus.svg",
                   imageAlign: "top",
                   title: "Feature Two"
                 }
@@ -127,7 +127,7 @@ class Index extends React.Component {
               contents={[
                 {
                   content: "Talk about learning how to use this",
-                  image: "/test-site/img/docusaurus.svg",
+                  image: siteConfig.baseUrl + "img/docusaurus.svg",
                   imageAlign: "right",
                   title: "Learn How"
                 }
@@ -140,7 +140,7 @@ class Index extends React.Component {
               contents={[
                 {
                   content: "Talk about trying this out",
-                  image: "/test-site/img/docusaurus.svg",
+                  image: siteConfig.baseUrl + "img/docusaurus.svg",
                   imageAlign: "left",
                   title: "Try it Out"
                 }
@@ -154,7 +154,7 @@ class Index extends React.Component {
                 {
                   content:
                     "This is another description of how this project is useful",
-                  image: "/test-site/img/docusaurus.svg",
+                  image: siteConfig.baseUrl + "img/docusaurus.svg",
                   imageAlign: "right",
                   title: "Description"
                 }
@@ -177,7 +177,7 @@ class Index extends React.Component {
                   siteConfig.baseUrl + this.props.language + "/" + "users.html"
                 }
               >
-                More Docusaurus Users
+                More {siteConfig.title} Users
               </a>
             </div>
           </div>
