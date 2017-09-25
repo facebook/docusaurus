@@ -1,12 +1,12 @@
 {
 	"scripts": {
-		"start": "docusaurus-start",
-		"build": "docusaurus-build",
-		"publish-gh-pages": "docusaurus-publish",
-		"examples": "docusaurus-examples",
-		"write-translations": "docusaurus-write-translations",
-		"version": "docusaurus-version",
-		"rename-version": "docusaurus-rename-version",
+		"start": "../lib/start-server.js",
+		"build": "../lib/build-files.js",
+		"publish-gh-pages": "../lib/publish-gh-pages.js",
+		"examples": "../lib/copy-examples.js",
+		"write-translations": "../lib/write-translations.js",
+		"version": "../lib/version.js",
+		"rename-version": "../lib/rename-version.js",
 		"crowdin-upload": "crowdin-cli --config ../crowdin.yaml upload sources --auto-update -b master",
 		"crowdin-download": "crowdin-cli --config ../crowdin.yaml download -b master"
 	}
