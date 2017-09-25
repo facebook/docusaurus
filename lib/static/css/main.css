@@ -54,8 +54,13 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+p {
+  line-height: 1.4;
+}
+
 img {
   max-width: 100%;
+  height: auto;
 }
 
 article p img {
@@ -92,9 +97,9 @@ a.hash-link:hover {
 
 blockquote {
   padding: 15px 30px 15px 15px;
-  margin: 20px 0 0 10px;
+  margin: 20px 0;
   background-color: rgba(204, 122, 111, 0.1);
-  border-left: 10px solid rgba(191, 87, 73, 0.2);
+  border-left: 5px solid rgba(191, 87, 73, 0.2);
 }
 
 #fb_oss a {
@@ -105,6 +110,10 @@ h1, h2, h3, h4 {
   font-family: "Helvetica Neue", Arial, sans-serif;
   font-weight: 300;
   color: $primaryColor;
+}
+
+h4 {
+  line-height: 2em;
 }
 
 header h2 {
@@ -182,6 +191,7 @@ header h2 {
 .mainContainer {
   background: #f9f9f9;
   flex: 1;
+  font-size: 18px;
 }
 .mainContainer .wrapper {
   text-align: left;
@@ -260,10 +270,10 @@ header h2 {
   list-style: disc;
 }
 .mainContainer .wrapper ol, .mainContainer .wrapper ul {
-  padding: 10px 0 10px 24px;
+  padding: 10px 0 0 24px;
 }
 .mainContainer .wrapper ol li, .mainContainer .wrapper ul li {
-  padding-bottom: 4px;
+  margin: 0 0 10px 0;
 }
 .mainContainer .wrapper strong {
   font-weight: bold;
@@ -341,6 +351,19 @@ header h2 {
 .mainContainer .wrapper .posts .post {
   margin-bottom: 6vh;
 }
+
+.mainContainer .wrapper .post h1,
+.mainContainer .wrapper .post h2, 
+.mainContainer .wrapper .post h3 {
+    font-weight: 300;
+}
+
+.mainContainer .wrapper .post h4,
+.mainContainer .wrapper .post h5,
+.mainContainer .wrapper .post h6 {
+  font-weight: 400;
+}
+
 
 #integrations_title {
   font-size: 250%;
@@ -479,7 +502,7 @@ header h2 {
   box-sizing: border-box;
   background: $primaryColor;
   color: #fff;
-  height: 50px;
+  min-height: 50px;
   padding: 10px 0 8px;
   position: fixed;
   width: 100%;
@@ -610,7 +633,7 @@ input[type="search"] {
   z-index: 1;
 }
 .navSearchWrapper .aa-dropdown-menu {
-  background: #f9f9f9;
+  background: '#f9f9f9';
   border: 3px solid rgba(57, 57, 57, 0.25);
   color: #393939;
   font-size: 14px;
@@ -682,7 +705,6 @@ a code,
 .mainContainer .wrapper a:focus code {
   color: $primaryColor;
   font-family: Hack, monospace;
-  font-size: 90%;
   font-weight: 300;
 }
 a code {
@@ -700,8 +722,8 @@ a:hover code {
   border-left: 4px solid $primaryColor;
   overflow-x: scroll;
   -webkit-overflow-scrolling: touch;
-  padding: 5px 10px;
-  margin: 14px 0 14px 20px;
+  padding: 15px 10px;
+  margin: 20px 0;
   background-color: $prismColor;
 }
 
@@ -818,7 +840,7 @@ a:hover code {
   text-decoration: none;
 }
 @media only screen and (min-device-width: 360px) and (max-device-width: 736px) {
-  .edit-page-link {
+  a.edit-page-link.button{
     display: none;
   }
 }
@@ -1316,7 +1338,7 @@ ul#languages li {
   padding: 0 3px;
 }
 nav.toc {
-  width: 224px;
+  width: 240px;
 }
 nav.toc section {
   padding: 0px;
@@ -1409,7 +1431,7 @@ nav.toc .toggleNav .navGroup ul {
 nav.toc .toggleNav .navGroup h3 {
   background: #adadad;
   color: #393939;
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 400;
   line-height: 1.2em;
   margin: 0;
@@ -1938,7 +1960,7 @@ footer .sitemap h5 {
 footer .sitemap h6,
 footer .sitemap h5 > a,
 footer .sitemap h6 > a {
-  color: #cca0a7;
+  color: white;
 }
 footer .sitemap h5 > a,
 footer .sitemap h6 > a {
