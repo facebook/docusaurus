@@ -76,9 +76,9 @@ class Index extends React.Component {
       .filter(user => {
         return user.pinned;
       })
-      .map(user => {
+      .map((user, i) => {
         return (
-          <a href={user.infoLink}>
+          <a href={user.infoLink} key={i}>
             <img src={user.image} title={user.caption} />
           </a>
         );
