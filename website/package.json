@@ -1,13 +1,13 @@
 {
-  "scripts": {
-    "start": "docusaurus-start",
-    "build": "docusaurus-build",
-    "publish-gh-pages": "docusaurus-publish",
-    "examples": "docusaurus-examples",
-    "write-translations": "docusaurus-write-translations",
-    "version": "docusaurus-version",
-    "rename-version": "docusaurus-rename-version",
-	  "crowdin-upload": "crowdin-cli --config ../crowdin.yaml upload sources --auto-update -b master",
-	  "crowdin-download": "crowdin-cli --config ../crowdin.yaml download -b master"
-  }
+	"scripts": {
+		"start": "docusaurus-start",
+		"build": "docusaurus-build",
+		"publish-gh-pages": "docusaurus-publish",
+		"examples": "docusaurus-examples",
+		"write-translations": "docusaurus-write-translations",
+		"version": "docusaurus-version",
+		"rename-version": "docusaurus-rename-version",
+		"crowdin-upload": "crowdin-cli --config ../crowdin.yaml upload sources --auto-update -b master",
+		"crowdin-download": "crowdin-cli --config ../crowdin.yaml download -b master"
+	}
 }
