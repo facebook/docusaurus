@@ -34,8 +34,6 @@ const siteConfig = {
   headerIcon: "img/docusaurus.svg",
   footerIcon: "img/docusaurus.svg",
   favicon: "img/favicon.png",
-  /* the name of your custom css file that resides in static/css/ */ 
-  // customCssFileName: "custom.css",
   /* colors for website */
   colors: {
     primaryColor: "#2E8555",
