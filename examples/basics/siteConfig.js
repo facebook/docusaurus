@@ -24,10 +24,10 @@ const siteConfig = {
   baseUrl: "/test-site/" /* base url for your project */,
   projectName: "test-site",
   headerLinks: [
-    { doc: "doc1", label: "Docs" },
-    { doc: "doc4", label: "API" },
-    { page: "help", label: "Help" },
-    { blog: true, label: "Blog" }
+    {doc: "doc1", label: "Docs"},
+    {doc: "doc4", label: "API"},
+    {page: "help", label: "Help"},
+    {blog: true, label: "Blog"}
   ],
   users,
   /* path to images for header/footer */
@@ -40,7 +40,12 @@ const siteConfig = {
     secondaryColor: "#205C3B",
     prismColor:
       "rgba(46, 133, 85, 0.03)" /* primaryColor in rgba form, with 0.03 alpha */
-  }
+  },
+  // This copyright info is used in /core/Footer.js and blog rss/atom feeds.
+  copyright:
+    "Copyright © " +
+    new Date().getFullYear() +
+    " Your Name or Your Company Name"
 };
 
 module.exports = siteConfig;

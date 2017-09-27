@@ -11,7 +11,6 @@ const React = require("react");
 
 class Footer extends React.Component {
   render() {
-    const currentYear = new Date().getFullYear();
     return (
       <footer className="nav-footer" id="footer">
         <section className="sitemap">
@@ -74,7 +73,9 @@ class Footer extends React.Component {
           />
         </a>
         <section className="copyright">
-          Copyright &copy; {currentYear} Facebook Inc.
+          {this.props.config.copyright && (
+            <span>{this.props.config.copyright}</span>
+          )}
         </section>
       </footer>
     );
