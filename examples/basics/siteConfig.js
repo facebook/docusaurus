@@ -41,6 +41,7 @@ const siteConfig = {
     prismColor:
       "rgba(46, 133, 85, 0.03)" /* primaryColor in rgba form, with 0.03 alpha */
   },
+  // This copyright info is used in /core/Footer.js and blog rss/atom feeds.
   copyright:
     "Copyright © " +
     new Date().getFullYear() +
