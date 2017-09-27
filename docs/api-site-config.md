@@ -57,6 +57,8 @@ headerLinks: [
   - `prismColor` is the color used in the background of syntax highlighting for code in documentation. It is recommended to be the same color as `primaryColor` in `rgba` form with an alpha value of `0.03`. Other fields can be added
   - Custom color configurations can also be added. For example, if user styles are added with colors specified as `$myColor`, then adding a `myColor` field to `colors` will allow you to easily configure this color.
 
+`copyright` - The copyright string at footer of site and within feed
+
 ### Optional Fields
 
 `editUrl` - url for editing docs, usage example: `editUrl + 'en/doc1.md'`. If this field is omitted, there will be no "Edit this Doc" button for each document.

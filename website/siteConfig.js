@@ -40,10 +40,10 @@ const siteConfig = {
   editUrl:
     "https://github.com/facebookexperimental/docusaurus/edit/master/docs/",
   headerLinks: [
-    { doc: "installation", label: "Docs" },
-    { page: "help", label: "Help" },
-    { blog: true, label: "Blog" },
-    { languages: false },
+    {doc: "installation", label: "Docs"},
+    {page: "help", label: "Help"},
+    {blog: true, label: "Blog"},
+    {languages: false},
     {
       href: "https://github.com/facebookexperimental/docusaurus",
       label: "GitHub"
@@ -53,7 +53,6 @@ const siteConfig = {
   footerIcon: "img/docusaurus_monochrome.svg",
   favicon: "img/docusaurus.ico",
   // See https://docusaurus.io/docs/search for more information about Aloglia
-  // search
   algolia: {
     apiKey: "3eb9507824b8be89e7a199ecaa1a9d2c",
     indexName: "docusaurus"
@@ -62,7 +61,8 @@ const siteConfig = {
     primaryColor: "#2E8555",
     secondaryColor: "#205C3B",
     prismColor: "rgba(46, 133, 85, 0.03)"
-  }
+  },
+  copyright: "Copyright © " + new Date().getFullYear() + " Facebook Inc."
 };
 
 module.exports = siteConfig;
