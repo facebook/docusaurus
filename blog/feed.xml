@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+    <channel>
+        <title>Docusaurus Blog</title>
+        <link>https://docusaurus.io/blog</link>
+        <description>The best place to stay up-to-date with the latest Docusaurus news and events.</description>
+        <lastBuildDate>Tue, 26 Sep 2017 06:00:00 GMT</lastBuildDate>
+        <docs>http://blogs.law.harvard.edu/tech/rss</docs>
+        <generator>Feed for Node.js</generator>
+        <image>
+            <title>Docusaurus Blog</title>
+            <url>https://docusaurus.ioimg/docusaurus.svg</url>
+            <link>https://docusaurus.io/blog</link>
+        </image>
+        <copyright>Copyright © 2017 Facebook Inc.</copyright>
+        <item>
+            <title><![CDATA[Adding RSS Support]]></title>
+            <link>https://docusaurus.io/blog/2017/09/26/adding-rss.html</link>
+            <guid>https://docusaurus.io/blog/2017/09/26/adding-rss.html</guid>
+            <pubDate>Tue, 26 Sep 2017 06:00:00 GMT</pubDate>
+            <description><![CDATA[
+This is a test post.
+
+]]></description>
+        </item>
+        <item>
+            <title><![CDATA[Adding RSS Support]]></title>
+            <link>https://docusaurus.io/blog/2017/09/25/testing-rss.html</link>
+            <guid>https://docusaurus.io/blog/2017/09/25/testing-rss.html</guid>
+            <pubDate>Mon, 25 Sep 2017 06:00:00 GMT</pubDate>
+            <description><![CDATA[1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
+
+This should be truncated.
+]]></description>
+        </item>
+    </channel>
+</rss>
