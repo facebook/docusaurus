@@ -40,10 +40,10 @@ const siteConfig = {
   editUrl:
     "https://github.com/facebookexperimental/docusaurus/edit/master/docs/",
   headerLinks: [
-    {doc: "installation", label: "Docs"},
-    {page: "help", label: "Help"},
-    {blog: true, label: "Blog"},
-    {languages: false},
+    { doc: "installation", label: "Docs" },
+    { page: "help", label: "Help" },
+    { blog: true, label: "Blog" },
+    { languages: false },
     {
       href: "https://github.com/facebookexperimental/docusaurus",
       label: "GitHub"
