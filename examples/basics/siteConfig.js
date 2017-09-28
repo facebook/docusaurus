@@ -24,10 +24,10 @@ const siteConfig = {
   baseUrl: "/test-site/" /* base url for your project */,
   projectName: "test-site",
   headerLinks: [
-    {doc: "doc1", label: "Docs"},
-    {doc: "doc4", label: "API"},
-    {page: "help", label: "Help"},
-    {blog: true, label: "Blog"}
+    { doc: "doc1", label: "Docs" },
+    { doc: "doc4", label: "API" },
+    { page: "help", label: "Help" },
+    { blog: true, label: "Blog" }
   ],
   users,
   /* path to images for header/footer */
