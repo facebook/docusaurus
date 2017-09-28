@@ -26,9 +26,6 @@
     "type": "git",
     "url": "https://github.com/facebookexperimental/Docusaurus.git"
   },
-  "devDependencies": {
-    "jest": "^21.2.0"
-  },
   "bin": {
     "docusaurus-start": "./lib/start-server.js",
     "docusaurus-build": "./lib/build-files.js",
