@@ -3,7 +3,8 @@
     "Getting Started": [
       "installation",
       "site-preparation",
-      "site-creation"
+      "site-creation",
+      "publish"
     ],
     "Guides": [
       "custom-pages",
@@ -13,11 +14,6 @@
       "search",
       "versioning"
     ],
-    "API": [
-      "commands",
-      "api-pages",
-      "site-config",
-      "doc-markdown"
-    ]
+    "API": ["commands", "api-pages", "site-config", "doc-markdown"]
   }
 }
