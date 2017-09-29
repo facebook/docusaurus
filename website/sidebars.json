@@ -4,6 +4,7 @@
       "installation",
       "site-preparation",
       "site-creation",
+      "publish",
       "publishing"
     ],
     "Guides": [
@@ -14,11 +15,6 @@
       "search",
       "versioning"
     ],
-    "API": [
-      "commands",
-      "api-pages",
-      "site-config",
-      "doc-markdown"
-    ]
+    "API": ["commands", "api-pages", "site-config", "doc-markdown"]
   }
 }
