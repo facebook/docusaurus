@@ -3,7 +3,8 @@
     "Getting Started": [
       "installation",
       "site-preparation",
-      "site-creation"
+      "site-creation",
+      "publishing"
     ],
     "Guides": [
       "custom-pages",
