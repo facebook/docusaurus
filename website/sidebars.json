@@ -4,7 +4,8 @@
       "installation",
       "site-preparation",
       "site-creation",
-      "publish"
+      "publish",
+      "publishing"
     ],
     "Guides": [
       "custom-pages",
