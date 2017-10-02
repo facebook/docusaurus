@@ -41,6 +41,8 @@ const siteConfig = {
     prismColor:
       "rgba(46, 133, 85, 0.03)" /* primaryColor in rgba form, with 0.03 alpha */
   },
+  /* Highlight.js theme, see https://github.com/isagalaev/highlight.js/tree/master/src/styles for a full list. Remove key to opt out of code highlighting */
+  highlight: "default",
   // This copyright info is used in /core/Footer.js and blog rss/atom feeds.
   copyright:
     "Copyright © " +
