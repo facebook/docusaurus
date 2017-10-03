@@ -33,7 +33,7 @@ Example Usage:
 ```js
 headerLinks: [
   // Links to document with id doc1 for current language/version
-  { doc: "doc1", label: "Getting Started" }, 
+  { doc: "doc1", label: "Getting Started" },
   // Link to page found at pages/en/help.js or if that does not exist, pages/help.js, for current language
   { page: "help", label: "Help" },
   // Links to href destination
@@ -52,8 +52,8 @@ headerLinks: [
 
 `colors` - Color configurations for the site.
 
-  - `primaryColor` is the color used the header navigation bar and sidebars. 
-  - `secondaryColor` is the color seen in the second row of the header navigation bar when the site window is narrow (including on mobile). 
+  - `primaryColor` is the color used the header navigation bar and sidebars.
+  - `secondaryColor` is the color seen in the second row of the header navigation bar when the site window is narrow (including on mobile).
   - `prismColor` is the color used in the background of syntax highlighting for code in documentation. It is recommended to be the same color as `primaryColor` in `rgba` form with an alpha value of `0.03`. Other fields can be added
   - Custom color configurations can also be added. For example, if user styles are added with colors specified as `$myColor`, then adding a `myColor` field to `colors` will allow you to easily configure this color.
 
@@ -78,6 +78,9 @@ headerLinks: [
 `algolia` - Information for Algolia search integration. If this field is excluded, the search bar will not appear in the header.
 
 `gaTrackingId` - Google Analytics tracking ID to track page views.
+
+
+`sourceCodeButton` - the type of button to use for pointing to your source code. If this field is non-null, the site will pull in the appropriate button code in the header, for you to be able to render as you see fit. Currently accepted values: `"github"`, `"none"`. Defaults to `"github"`.
 
 Users can also add their own custom fields if they wish to provide some data across different files.
 
@@ -130,8 +133,9 @@ const siteConfig = {
     apiKey:
       "0f9f28b9ab9efae89810921a351753b5",
     indexName: "github"
-  }
-  gaTrackingId: "U-A2352"
+  },
+  gaTrackingId: "U-A2352",
+  sourceCodeButton: "github"
 };
 
 module.exports = siteConfig;
