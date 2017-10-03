@@ -353,7 +353,7 @@ header h2 {
 }
 
 .mainContainer .wrapper .post h1,
-.mainContainer .wrapper .post h2, 
+.mainContainer .wrapper .post h2,
 .mainContainer .wrapper .post h3 {
     font-weight: 300;
 }
@@ -712,6 +712,19 @@ a code {
 }
 a:hover code {
   text-decoration: none;
+}
+
+pre {
+  white-space: pre-wrap;
+  font-family: 'source-code-pro', Menlo, 'Courier New', Consolas, monospace;
+  font-size: 13px;
+  line-height: 20px;
+  border-left: 4px solid $primaryColor;
+  overflow-x: scroll;
+  -webkit-overflow-scrolling: touch;
+  padding: 15px 10px;
+  margin: 20px 0;
+  background-color: $prismColor;
 }
 
 .prism {
