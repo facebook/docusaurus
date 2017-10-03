@@ -114,7 +114,7 @@ and each function will link to their corresponding sections in the page.
 
 ## Syntax Highlighting
 
-Syntax highlighting is enabled by default on fenced code blocks. The language should be detected automatically, but you can sometimes get better results by specifying the language. You can do so using an [info string](https://github.github.com/gfm/#example-111), following the opening backticks. The following JavaScript example...
+Syntax highlighting is enabled by default on fenced code blocks. The language should be detected automatically, but you can sometimes get better results by specifying the language. You can do so using an [info string](https://github.github.com/gfm/#example-111), following the three opening backticks. The following JavaScript example...
 
     ```javascript
     ReactDOM.render(
