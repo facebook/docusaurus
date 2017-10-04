@@ -1994,3 +1994,37 @@ footer .copyright {
     display: none;
   }
 }
+
+
+/** Web player **/
+.web-player > iframe {
+  display: none;
+}
+
+.web-player > .prism {
+  display: none;
+}
+  
+.web-player.desktop > iframe {
+  display: block; }
+
+.web-player.mobile > .prism {
+  display: block; }
+
+.token.keyword {
+  color: #1990b8;
+}
+
+.token.string,
+.token.regex {
+  color: #2f9c0a;
+}
+
+.token.boolean,
+.token.number {
+  color: #c92c2c;
+}
+
+.token.comment {
+  color: #7d8b99;
+}
