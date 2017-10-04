@@ -1,4 +1,4 @@
-Sometimes you want to run the latest version of Docusaurus via `npm` or `yarn` without having to publish it to npm itself. For example, you may want to use the latest code in `master`.
+Sometimes you want to test the latest version of Docusaurus via `npm` or `yarn` without having to publish it to npm itself. For example, you may want to use the latest code in `master`.
 
 There are a couple of ways to use a local version of an npm package.
 
@@ -81,7 +81,11 @@ In another terminal window, get ready to publish your local npm package:
 
 ```
 cd /path/to/root/of/local/docusaurus/repo/
-npm adduser --registry http://localhost:4873 # use anything for user, password, email
+
+# use anything for user, password, email
+# You should only have to do this once as long as you keep verdaccio installed
+npm adduser --registry http://localhost:4873
+
 npm publish --registry http://localhost:4873
 ```
 
@@ -92,7 +96,7 @@ You can navigate to localhost:4873 and you can see that your package was publish
 Now install the package in the repo you want to test Docusaurus on.
 
 ```
-cd /path/to/root/of/repo/where/you/want/to/run/docusaurus
+cd /path/to/root/of/repo/where/you/want/to/run/docusaurus/website
 npm install docusaurus --registry http://localhost:4873 # this may be slower than the normal npm registry
 npm run examples # or whatever you want to test, if anything
 npm run start
