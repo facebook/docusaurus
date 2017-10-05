@@ -1,3 +1,5 @@
+package-lock.json
+
 node_modules
 .DS_Store
 lib/core/metadata.js
