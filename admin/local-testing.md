@@ -6,10 +6,10 @@ There are a couple of ways to use a local version of an npm package.
 
 > If you want to use the docusaurus-init script for testing, you will have to update the `initialize.js` file to point to the local Docusaurus repo instead of installing it from the npm server. In some ways, it is just easier to do the manual steps.
 
-### Install the package from the repo
+### Install the package from the Docusaurus repo
 
 ```
-cd /path/to/root/of/repo/where/you/want/to/run/docusaurus
+cd /path/to/testing_project
 mkdir website # if this does not exist already
 cd website
 ```
@@ -30,7 +30,8 @@ If you do not have a `package.json` file in the `website` directory, create one 
 Then:
 
 ```
-npm install ../../path/to/root/of/local/docusaurus/repo/
+# Path to your Docusaurus clone
+npm install ../../path/to/docusaurus/
 ```
 
 ### Clowntown!
@@ -80,7 +81,8 @@ verdaccio
 In another terminal window, get ready to publish your local npm package:
 
 ```
-cd /path/to/root/of/local/docusaurus/repo/
+# Your clone of Docusaurus
+cd /path/to/docusaurus/
 
 # use anything for user, password, email
 # You should only have to do this once as long as you keep verdaccio installed
@@ -96,7 +98,27 @@ You can navigate to localhost:4873 and you can see that your package was publish
 Now install the package in the repo you want to test Docusaurus on.
 
 ```
-cd /path/to/root/of/repo/where/you/want/to/run/docusaurus/website
+cd /path/to/testing_project/
+mkdir website # if this does not exist already
+cd website
+```
+
+If you do not have a `package.json` file in the `website` directory, create one with the following content:
+
+```
+{
+  "scripts": {
+    "start": "docusaurus-start",
+    "build": "docusaurus-build",
+    "publish-gh-pages": "docusaurus-publish",
+    "examples": "docusaurus-examples"
+  }
+}
+```
+
+Then:
+
+```
 npm install docusaurus --registry http://localhost:4873 # this may be slower than the normal npm registry
 npm run examples # or whatever you want to test, if anything
 npm run start
