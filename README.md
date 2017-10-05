@@ -33,6 +33,4 @@ To help you get your feet wet and get you familiar with our contribution process
 
 ### License
 
-React is [? licensed](./LICENSE).
-
-React documentation is [? licensed](./LICENSE-docs). 
+Docusaurus is [MIT licensed](./LICENSE).
