@@ -15,7 +15,10 @@
   <span class="token operator">...</span>
   algolia<span class="token punctuation">:</span> <span class="token punctuation">{</span>
     <span class="token operator">...</span>
-    algoliaOptions<span class="token punctuation">:</span> <span class="token string">&#x27;{ facetFilters: [ &quot;tags:VERSION&quot; ], hitsPerPage: 5 }&#x27;</span>
+    algoliaOptions<span class="token punctuation">:</span> <span class="token punctuation">{</span> 
+      facetFilters<span class="token punctuation">:</span> <span class="token punctuation">[</span> <span class="token string">&quot;tags:VERSION&quot;</span> <span class="token punctuation">]</span><span class="token punctuation">,</span> 
+      hitsPerPage<span class="token punctuation">:</span> <span class="token number">5</span> 
+    <span class="token punctuation">}</span>
   <span class="token punctuation">}</span><span class="token punctuation">,</span>
 <span class="token punctuation">}</span></pre><h3><a class="anchor" name="controlling-the-location-of-the-search-bar"></a>Controlling the Location of the Search Bar <a class="hash-link" href="#controlling-the-location-of-the-search-bar">#</a></h3><p>By default, the search bar will be the rightmost element in the top navigation bar.</p><p>If you want to change the default location, add the <code>searchBar</code> flag in the <code>headerLinks</code> field of <code>siteConfig.js</code> in your desired location. For example, you may want the search bar in between your internal and external links.</p><pre class="prism language-js"><span class="token keyword">const</span> siteConfig <span class="token operator">=</span> <span class="token punctuation">{</span>
   <span class="token operator">...</span>
