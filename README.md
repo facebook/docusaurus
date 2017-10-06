@@ -34,3 +34,5 @@ To help you get your feet wet and get you familiar with our contribution process
 ### License
 
 Docusaurus is [MIT licensed](./LICENSE).
+
+The Docusaurus documentation (e.g., `.md` files in the `/docs` folder) is [Creative Commons licensed](./LICENSE-docs).
