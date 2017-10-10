@@ -48,7 +48,7 @@ table {
 body {
   background: #f9f9f9;
   color: #393939;
-  font: normal 16px/1.4em "Helvetica Neue", Arial, sans-serif;
+  font: normal 16px/1.4em -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Arial,sans-serif;
   height: 100vh;
   text-align: left;
   text-rendering: optimizeLegibility;
@@ -107,7 +107,7 @@ blockquote {
 }
 
 h1, h2, h3, h4 {
-  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Arial,sans-serif;
   font-weight: 300;
   color: $primaryColor;
 }
@@ -140,14 +140,14 @@ header h2 {
   margin-bottom: 0px;
 }
 .homeContainer .homeWrapper h1#project_title {
-  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Arial,sans-serif;
   font-size: 300%;
   letter-spacing: -0.08em;
   line-height: 1em;
   margin-bottom: 80px;
 }
 .homeContainer .homeWrapper h2#project_tagline {
-  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Arial,sans-serif;
   font-size: 200%;
   letter-spacing: -0.04em;
   line-height: 1em;
@@ -173,7 +173,7 @@ header h2 {
 }
 
 .fbossFontLight {
-  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Arial,sans-serif;
   font-weight: 300;
   font-style: normal;
 }
@@ -353,7 +353,7 @@ header h2 {
 }
 
 .mainContainer .wrapper .post h1,
-.mainContainer .wrapper .post h2, 
+.mainContainer .wrapper .post h2,
 .mainContainer .wrapper .post h3 {
     font-weight: 300;
 }
@@ -529,7 +529,7 @@ header h2 {
 }
 .fixedHeaderContainer header h2 {
   display: block;
-  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Arial,sans-serif;
   font-weight: 400;
   line-height: 18px;
   position: relative;
@@ -537,7 +537,7 @@ header h2 {
 }
 .fixedHeaderContainer header h3 {
   text-decoration: underline;
-  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Arial,sans-serif;
   color: white;
   margin-left: 10px;
   font-size: 16px;
@@ -644,7 +644,7 @@ input[type="search"] {
 .navSearchWrapper .aa-dropdown-menu .algolia-docsearch-suggestion--category-header {
   background: $primaryColor;
   color: white;
-  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Arial,sans-serif;
   font-weight: 400;
   font-size: 14px;
 }
@@ -663,7 +663,7 @@ input[type="search"] {
 input#search_input_react {
   padding-left: 25px;
   font-size: 14px;
-  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Arial,sans-serif;
   font-weight: 300;
   line-height: 20px;
   border-radius: 20px;
@@ -704,7 +704,7 @@ a code,
 .mainContainer .wrapper a code,
 .mainContainer .wrapper a:focus code {
   color: $primaryColor;
-  font-family: Hack, monospace;
+  font-family: "SFMono-Regular",source-code-pro,Menlo,Monaco,Consolas,"Roboto Mono","Droid Sans Mono","Liberation Mono",Consolas,"Courier New",Courier,monospace;
   font-weight: 300;
 }
 a code {
@@ -716,7 +716,7 @@ a:hover code {
 
 .prism {
   white-space: pre-wrap;
-  font-family: 'source-code-pro', Menlo, 'Courier New', Consolas, monospace;
+  font-family: "SFMono-Regular",source-code-pro,Menlo,Monaco,Consolas,"Roboto Mono","Droid Sans Mono","Liberation Mono",Consolas,"Courier New",Courier,monospace;
   font-size: 13px;
   line-height: 20px;
   border-left: 4px solid $primaryColor;
@@ -1607,7 +1607,7 @@ table tr th code, table tr td code {
 table tr th {
   color: #000000;
   font-weight: bold;
-  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Arial,sans-serif;
   text-transform: uppercase;
 }
 
@@ -1863,7 +1863,7 @@ div.video iframe {
 }
 .showcaseSection .prose h1 {
   color: $primaryColor;
-  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Arial,sans-serif;
   text-align: center;
   padding: 1.4em 0 0.4em;
 }
@@ -2004,7 +2004,7 @@ footer .copyright {
 .web-player > .prism {
   display: none;
 }
-  
+
 .web-player.desktop > iframe {
   display: block; }
 
