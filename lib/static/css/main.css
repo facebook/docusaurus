@@ -353,7 +353,7 @@ header h2 {
 }
 
 .mainContainer .wrapper .post h1,
-.mainContainer .wrapper .post h2, 
+.mainContainer .wrapper .post h2,
 .mainContainer .wrapper .post h3 {
     font-weight: 300;
 }
@@ -1491,7 +1491,6 @@ nav.toc .toggleNav ul li a:hover, nav.toc .toggleNav ul li a:focus {
 }
 nav.toc .toggleNav ul li a.navItemActive {
   color: $primaryColor;
-  font-weight: 600;
 }
 .docsSliderActive nav.toc .navBreadcrumb {
   background: #c6c6c6;
@@ -2004,7 +2003,7 @@ footer .copyright {
 .web-player > .prism {
   display: none;
 }
-  
+
 .web-player.desktop > iframe {
   display: block; }
 
