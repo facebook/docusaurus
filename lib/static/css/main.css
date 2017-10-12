@@ -1491,7 +1491,6 @@ nav.toc .toggleNav ul li a:hover, nav.toc .toggleNav ul li a:focus {
 }
 nav.toc .toggleNav ul li a.navItemActive {
   color: $primaryColor;
-  font-weight: 600;
 }
 .docsSliderActive nav.toc .navBreadcrumb {
   background: #c6c6c6;
