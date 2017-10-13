@@ -41,7 +41,6 @@ const siteConfig = {
     { doc: "installation", label: "Docs" },
     { page: "help", label: "Help" },
     { blog: true, label: "Blog" },
-    { languages: false },
     {
       href: "https://github.com/facebookexperimental/docusaurus",
       label: "GitHub"
@@ -60,6 +59,7 @@ const siteConfig = {
     secondaryColor: "#205C3B",
     prismColor: "rgba(46, 133, 85, 0.03)"
   },
+  translationRecruitingLink: "https://crowdin.com/project/docusaurus",
   copyright: "Copyright © " + new Date().getFullYear() + " Facebook Inc."
 };
 

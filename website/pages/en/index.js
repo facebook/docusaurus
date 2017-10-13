@@ -14,6 +14,8 @@ const GridBlock = CompLibrary.GridBlock;
 
 const siteConfig = require(process.cwd() + "/siteConfig.js");
 
+const translate = require("../../server/translate.js").translate;
+
 class Button extends React.Component {
   render() {
     return (
@@ -42,9 +44,7 @@ class HomeSplash extends React.Component {
             <div className="inner">
               <h2 className="projectTitle">
                 {siteConfig.title}
-                <small>
-                  {siteConfig.tagline}
-                </small>
+                <small>{siteConfig.tagline}</small>
               </h2>
               <div className="section promoSection">
                 <div className="promoRow">
@@ -52,8 +52,7 @@ class HomeSplash extends React.Component {
                     <Button
                       href={`
                         ${siteConfig.baseUrl}docs/installation.html
-                        `}
-                    >
+                        `}>
                       Get Started
                     </Button>
                   </div>
@@ -181,18 +180,13 @@ class Index extends React.Component {
           </Container>
 
           <div className="productShowcaseSection paddingBottom">
-            <h2>
-              {"Who's Using This?"}
-            </h2>
+            <h2>{"Who's Using This?"}</h2>
             <p>Docusaurus is building websites for these projects</p>
-            <div className="logos">
-              {showcase}
-            </div>
+            <div className="logos">{showcase}</div>
             <div className="more-users">
               <a
                 className="button"
-                href={`${siteConfig.baseUrl}${this.props.language}/users.html`}
-              >
+                href={`${siteConfig.baseUrl}${this.props.language}/users.html`}>
                 All Docusaurus Users
               </a>
             </div>
