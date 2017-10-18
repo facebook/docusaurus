@@ -75,7 +75,7 @@ headerLinks: [
 
 `footerIcon` - url for a footer icon. Currently used in the `core/Footer.js` file provided as an example, but it can be removed from that file.
 
-`recruitingLink` - url for the `Help Translate` tab of language selection when languages besides English are enabled. This can be included you are using translations but does not have to be.
+`translationRecruitingLink` - url for the `Help Translate` tab of language selection when languages besides English are enabled. This can be included you are using translations but does not have to be.
 
 `algolia` - Information for Algolia search integration. If this field is excluded, the search bar will not appear in the header.
 
@@ -130,7 +130,7 @@ const siteConfig = {
   disableTitleTagline: true,
   separateCss: ["static/css/non-docusaurus", "static/assets/separate-css"],
   footerIcon: "img/docusaurus.svg",
-  recruitingLink:
+  translationRecruitingLink:
     "https://crowdin.com/project/docusaurus",
   algolia: {
     apiKey:

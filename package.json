@@ -19,7 +19,8 @@
     "react-dom": "^15.5.4",
     "react-dom-factories": "^1.0.1",
     "request": "^2.81.0",
-    "shelljs": "^0.7.8"
+    "shelljs": "^0.7.8",
+    "sitemap": "^1.13.0"
   },
   "name": "docusaurus",
   "version": "1.0.0-beta.1",

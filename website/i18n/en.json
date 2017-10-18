@@ -9,7 +9,7 @@
     "site-config": "siteConfig.js",
     "installation": "Installation",
     "site-preparation": "Site Preparation",
-    "publish": "Publishing Your Website",
+    "publishing": "Publishing your site",
     "site-creation": "Creating your site",
     "blog": "Adding a Blog",
     "custom-pages": "Custom Pages",
@@ -25,5 +25,7 @@
     "Guides": "Guides",
     "API": "API"
   },
-  "pages-strings": {}
+  "pages-strings": {
+    "Help Translate|recruit community translators for your project": "Help Translate"
+  }
 }
