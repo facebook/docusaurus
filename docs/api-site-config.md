@@ -27,6 +27,8 @@ The `siteConfig` object contains the bulk of the configuration settings for your
 
 `projectName` - Project name. This must match your GitHub repo project name (case sensitive).
 
+`noIndex` - Boolean. If true, Docusaurus will politely ask crawlers and search engines to avoid indexing your site. This is done with a header tag and so only applies to docs and pages. Will not attempt to hide static resources. This is a best effort request. Malicious crawlers can and will still index your site.
+
 `headerLinks` - Links that will be used in the header navigation bar. The `label` field of each object will be the link text and will also be translated for each language.
 
 Example Usage:
@@ -104,6 +106,7 @@ const siteConfig = {
   baseUrl: "/test-site/",
 // baseUrl: "/",
   projectName: "docusaurus",
+  noIndex: false,
   headerLinks: [
     { doc: "doc1", label: "Docs" },
     { page: "help", label: "Help" },
