@@ -607,6 +607,9 @@ input[type="search"] {
   position: absolute;
   top: 15px;
   right: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .navSearchWrapper::before {
   border: 3px solid #e5e5e5;
@@ -1276,9 +1279,6 @@ ul#languages li {
   .navigationSlider .slidingNav ul li.navItemActive a {
     color: #fff;
   }
-}
-.algolia-autocomplete {
-  bottom: 10px;
 }
 
 .docs-prevnext {
