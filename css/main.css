@@ -557,6 +557,15 @@ header h2 {
   margin-left: 10px;
   font-size: 16px;
 }
+@media (max-width: 375px) {
+  .logo {
+    display: none;
+  }
+
+  .headerTitle {
+    font-size: 17px;
+  }
+}
 
 .promoSection {
   display: flex;
