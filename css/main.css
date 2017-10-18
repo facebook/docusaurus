@@ -503,7 +503,7 @@ header h2 {
   background: #2E8555;
   color: #fff;
   min-height: 50px;
-  padding: 9px 0;
+  padding: 10px 0 8px;
   position: fixed;
   width: 100%;
   z-index: 9999;
