@@ -315,19 +315,13 @@ header h2 {
 .mainContainer .wrapper .post ol {
   list-style: decimal outside none;
 }
-.mainContainer .wrapper .post .postHeader {
-  padding: 2em 0 0;
-}
 .mainContainer .wrapper .post .postHeader h1 {
   font-size: 150%;
   line-height: 1em;
-  padding: 0.4em 0 0;
+  padding: 0;
 }
 .mainContainer .wrapper .post .postHeader h1 a {
   border: none;
-}
-.mainContainer .wrapper .post .postHeader .post-meta {
-  text-align: center;
 }
 .mainContainer .wrapper .post .postSocialPlugins {
   padding-top: 1em;
@@ -362,9 +356,6 @@ header h2 {
 }
 .mainContainer .wrapper .post .docPagination a .pagerTitle {
   display: none;
-}
-.mainContainer .wrapper .posts .post {
-  margin-bottom: 6vh;
 }
 
 .mainContainer .wrapper .post h1,
@@ -474,7 +465,6 @@ header h2 {
     font-size: 250%;
   }
   .mainContainer .wrapper .posts .post {
-    margin-bottom: 4vh;
     width: 100%;
   }
 }
@@ -863,7 +853,6 @@ a:hover code {
   float: right;
   font-size: 10px;
   font-weight: normal;
-  margin-top: 20px;
   text-decoration: none;
 }
 @media only screen and (min-device-width: 360px) and (max-device-width: 736px) {
@@ -1533,10 +1522,6 @@ nav.toc .toggleNav .navBreadcrumb h2 {
   display: block;
 }
 
-.sideNavVisible .navPusher .mainContainer {
-  padding-top: 35px;
-}
-
 @media only screen and (min-width: 900px) {
   nav.toc section .navGroups {
     padding: 40px 0 0;
@@ -1633,42 +1618,52 @@ table tr th {
   font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Arial,sans-serif;
   text-transform: uppercase;
 }
-
-.blogContainer .posts {
-  margin-top: 60px;
+.mainContainer:not(.blogContainer) .wrapper .post,
+.blogContainer .posts,
+.blogContainer .lonePost {
+  padding-top: 40px;
 }
 .blogContainer .posts .post {
   border-bottom: 1px solid #e0e0e0;
   border-radius: 3px;
-  padding: 0 10px 20px;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
 }
-.blogContainer .lonePost {
-  margin-top: 60px;
-}
-.blogContainer .postHeader h1 {
-  text-align: center;
+
+.blogContainer .postHeader {
+  margin-bottom: 10px;
 }
 .blogContainer .postHeader a {
   text-decoration: none;
 }
 .blogContainer .postHeader p.post-meta {
   padding: 0;
+  margin-bottom: 10px;
 }
 
+.blogContainer .postHeader .authorBlock {
+  display: flex;
+}
 .blogContainer .postHeader .post-authorName {
   color: rgba(57, 57, 57, 0.7);
+  display: flex;
+  flex-direction: column;
   font-size: 14px;
   font-weight: 400;
+  justify-content: center;
   margin-top: 0;
+  margin-right: 10px;
   padding: 0;
-  text-align: center;
 }
 .blogContainer .postHeader .authorPhoto {
   border-radius: 50%;
-  height: 70px;
-  margin: 0 auto;
+  height: 30px;
   overflow: hidden;
-  width: 70px;
+  width: 30px;
+}
+.blogContainer .postHeader .authorPhoto.authorPhoto-big {
+  height: 50px;
+  width: 50px;
 }
 .blog-recent {
   margin: 20px 0;
@@ -1679,9 +1674,6 @@ table tr th {
 @media only screen and (min-device-width: 360px) and (max-device-width: 736px) {
   .blog-recent {
     height: 40px;
-  }
-  .blogContainer .lonePost {
-    margin-top: 0;
   }
 }
 
