@@ -205,13 +205,13 @@ header h2 {
 }
 .mainContainer .wrapper a,
 .inner .projectIntro a {
-  text-decoration: underline;
+  text-decoration: none;
 }
 .mainContainer .wrapper a:hover,
 .mainContainer .wrapper a:focus,
 .inner .projectIntro a:hover,
 .inner .projectIntro a:focus {
-  text-decoration: none;
+  text-decoration: underline;
 }
 .mainContainer .wrapper em, .mainContainer .wrapper i {
   font-style: italic;
@@ -264,7 +264,7 @@ header h2 {
 }
 .mainContainer .wrapper p,
 .blockElement p {
-  padding: 0.8em 0;
+  padding: 0.8em 0 0 0;
 }
 .mainContainer .wrapper ul {
   list-style: disc;
@@ -274,6 +274,21 @@ header h2 {
 }
 .mainContainer .wrapper ol li, .mainContainer .wrapper ul li {
   margin: 0 0 10px 0;
+}
+.mainContainer .wrapper p,
+.blockElement p,
+.mainContainer .wrapper ul li,
+.mainContainer .wrapper ol li {
+  line-height: 1.7;
+  max-width: 50rem;
+}
+@media (max-width: 1024px) {
+  .mainContainer .wrapper p,
+  .blockElement p,
+  .mainContainer .wrapper ul li,
+  .mainContainer .wrapper ol li {
+    font-size: 16px;
+  }
 }
 .mainContainer .wrapper strong {
   font-weight: bold;
@@ -503,7 +518,7 @@ header h2 {
   background: $primaryColor;
   color: #fff;
   min-height: 50px;
-  padding: 10px 0 8px;
+  padding: 9px 0;
   position: fixed;
   width: 100%;
   z-index: 9999;
@@ -607,6 +622,9 @@ input[type="search"] {
   position: absolute;
   top: 15px;
   right: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .navSearchWrapper::before {
   border: 3px solid #e5e5e5;
@@ -1041,10 +1059,10 @@ a:hover code {
 }
 .navigationSlider .slidingNav {
   box-sizing: border-box;
-  position: absolute;
-  left: -10px;
-  right: -10px;
-  top: -10px;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
   bottom: auto;
 }
 .navigationSlider .slidingNav.slidingNavActive {
@@ -1276,9 +1294,6 @@ ul#languages li {
   .navigationSlider .slidingNav ul li.navItemActive a {
     color: #fff;
   }
-}
-.algolia-autocomplete {
-  bottom: 10px;
 }
 
 .docs-prevnext {
