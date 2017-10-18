@@ -503,7 +503,7 @@ header h2 {
   background: $primaryColor;
   color: #fff;
   min-height: 50px;
-  padding: 10px 0 8px;
+  padding: 9px 0;
   position: fixed;
   width: 100%;
   z-index: 9999;
