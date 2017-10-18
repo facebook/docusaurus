@@ -357,9 +357,6 @@ header h2 {
 .mainContainer .wrapper .post .docPagination a .pagerTitle {
   display: none;
 }
-.mainContainer .wrapper .posts .post {
-  margin-bottom: 6vh;
-}
 
 .mainContainer .wrapper .post h1,
 .mainContainer .wrapper .post h2,
@@ -468,7 +465,6 @@ header h2 {
     font-size: 250%;
   }
   .mainContainer .wrapper .posts .post {
-    margin-bottom: 4vh;
     width: 100%;
   }
 }
@@ -1515,10 +1511,6 @@ nav.toc .toggleNav .navBreadcrumb h2 {
 }
 .docsSliderActive nav.toc section .navGroups {
   display: block;
-}
-
-.sideNavVisible .navPusher .mainContainer {
-  padding-top: 35px;
 }
 
 @media only screen and (min-width: 900px) {
