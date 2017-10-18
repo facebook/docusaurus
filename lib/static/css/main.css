@@ -1044,10 +1044,10 @@ a:hover code {
 }
 .navigationSlider .slidingNav {
   box-sizing: border-box;
-  position: absolute;
-  left: -10px;
-  right: -10px;
-  top: -10px;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
   bottom: auto;
 }
 .navigationSlider .slidingNav.slidingNavActive {
