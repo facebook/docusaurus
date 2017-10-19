@@ -23,7 +23,7 @@
     "sitemap": "^1.13.0"
   },
   "name": "docusaurus",
-  "version": "1.0.0-beta.3",
+  "version": "1.0.0-beta.4",
   "repository": {
     "type": "git",
     "url": "https://github.com/facebookexperimental/Docusaurus.git"
