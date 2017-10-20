@@ -111,4 +111,33 @@ will lead to a table of contents of the functions:
 - `docusaurus.function(a, b)`
 - `docdoc(file)`
 ```
+
 and each function will link to their corresponding sections in the page.
+
+## Syntax Highlighting
+
+Syntax highlighting is enabled by default on fenced code blocks. The language should be detected automatically, but you can sometimes get better results by specifying the language. You can do so using an [info string](https://github.github.com/gfm/#example-111), following the three opening backticks. The following JavaScript example...
+
+    ```javascript
+    ReactDOM.render(
+      <h1>Hello, world!</h1>,
+      document.getElementById('root')
+    );
+    ```
+
+...would be rendered with syntax highlighting like so:
+
+```javascript
+ReactDOM.render(
+  <h1>Hello, world!</h1>,
+  document.getElementById('root')
+);
+```
+
+Highlighting is provided by Highlight.js using the theme specified in your `siteConfig.js` file:
+
+```
+  highlight: "default",
+```
+
+You can find the full list of supported themes in the Highlight.js [`styles`](https://github.com/isagalaev/highlight.js/tree/master/src/styles) directory. Docusaurus's own site uses the styles provided by `solarized-light.css` by specifying "solarized-light" as the value for the `highlight` configuration key.

@@ -43,7 +43,13 @@ const siteConfig = {
   copyright:
     "Copyright © " +
     new Date().getFullYear() +
-    " Your Name or Your Company Name"
+    " Your Name or Your Company Name",
+  /**
+   * Optional. Specifies Highlight.js theme to be used.
+   * See https://github.com/isagalaev/highlight.js/tree/master/src/styles for a
+   * full list.
+   */    
+  highlight: "default"
 };
 
 module.exports = siteConfig;

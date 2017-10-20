@@ -61,7 +61,8 @@ const siteConfig = {
     prismColor: "rgba(46, 133, 85, 0.03)"
   },
   translationRecruitingLink: "https://crowdin.com/project/docusaurus",
-  copyright: "Copyright © " + new Date().getFullYear() + " Facebook Inc."
+  copyright: "Copyright © " + new Date().getFullYear() + " Facebook Inc.",
+  highlight: "solarized-light"
 };
 
 module.exports = siteConfig;
