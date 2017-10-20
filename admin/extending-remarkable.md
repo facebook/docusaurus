@@ -80,7 +80,29 @@ md.renderer.rules.heading_close = function(tokens, idx /*, options, env */) {
 };
 ```
 
-Note that we are referring to `tokens[idx+1]` and `tokens[idx-1]` at various poiints in the code. In the case of `idx+1` in `heading_open`, it refers to the next token after `heading_open`, which is a `text` inline token. Same for `heading_close`, where we get the same `text` token by grabbing the preceding token. That's because we make a reasonable assumption that the markdown parser has generated three tokens for each of our headers as covered above.
+Note that we are referring to `tokens[idx+1]` and `tokens[idx-1]` at various points in the code. In the case of `idx+1` in `heading_open`, it refers to the next token after `heading_open`, which is a `text` inline token. Same for `heading_close`, where we get the same `text` token by grabbing the preceding token. That's because we make a reasonable assumption that the markdown parser has generated three tokens for each of our headers as covered above.
+
+### Using the Extension
+
+We now need to tell Remarkable to use our extension. We can wrap our rules in a function called `anchors`:
+
+```
+function anchors(md) {
+  md.renderer.rules.heading_open = function(tokens, idx /*, options, env */) {
+    return '<h' + tokens[idx].hLevel + '>' + '<a class="anchor" name="' + toSlug(tokens[idx+1].content) + '"></a>';
+  };
+
+  md.renderer.rules.heading_close = function(tokens, idx /*, options, env */) {
+    return ' <a class="hash-link" href="#' + toSlug(tokens[idx-1].content) + '">#</a>' + '</h' + tokens[idx].hLevel + '>\n';
+  };
+}
+```
+
+We can now tell Remarkable to load this function as a plugin (`md` is our instance of Remarkable):
+
+```
+this.md.use(anchors);
+```
 
 ### Future Work
 
