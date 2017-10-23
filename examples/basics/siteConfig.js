@@ -36,7 +36,7 @@ const siteConfig = {
   colors: {
     primaryColor: "#2E8555",
     secondaryColor: "#205C3B",
-    prismColor:
+    codeColor:
       "rgba(46, 133, 85, 0.03)" /* primaryColor in rgba form, with 0.03 alpha */
   },
   // This copyright info is used in /core/Footer.js and blog rss/atom feeds.
@@ -44,12 +44,14 @@ const siteConfig = {
     "Copyright © " +
     new Date().getFullYear() +
     " Your Name or Your Company Name",
-  /**
-   * Optional. Specifies Highlight.js theme to be used.
-   * See https://github.com/isagalaev/highlight.js/tree/master/src/styles for a
-   * full list.
-   */    
-  highlight: "default"
+  highlight: {
+    /**
+     * Optional. Specifies Highlight.js theme to be used.
+     * See https://github.com/isagalaev/highlight.js/tree/master/src/styles for a
+     * full list.
+     */
+    theme: "default"
+  }
 };
 
 module.exports = siteConfig;

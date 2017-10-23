@@ -134,10 +134,27 @@ ReactDOM.render(
 );
 ```
 
-Highlighting is provided by Highlight.js using the theme specified in your `siteConfig.js` file:
+Highlighting is provided by [Highlight.js](https://highlightjs.org) using the theme specified in your `siteConfig.js` file as part of the `highlight` key:
 
 ```
-  highlight: "default",
+highlight: {
+  theme: 'default'
+}
 ```
 
-You can find the full list of supported themes in the Highlight.js [`styles`](https://github.com/isagalaev/highlight.js/tree/master/src/styles) directory. Docusaurus's own site uses the styles provided by `solarized-light.css` by specifying "solarized-light" as the value for the `highlight` configuration key.
+You can find the full list of supported themes in the Highlight.js [`styles`](https://github.com/isagalaev/highlight.js/tree/master/src/styles) directory.
+
+### Registering additional languages
+
+While Highlight.js provides support for [many popular languages out of the box](https://highlightjs.org/static/demo/), you may find the need to register additional language support. For these cases, we provide an escape valve by exposing the `hljs` constant as part of the `highlight` config key. This in turn allows you to call [`registerLanguage`](http://highlightjs.readthedocs.io/en/latest/api.html#registerlanguage-name-language):
+
+```
+highlight: {
+  theme: 'default',
+  hljs: function(hljs) {
+    hljs.registerLanguage('galacticbasic', function(hljs) {
+      // ...
+    });
+  }
+}
+```

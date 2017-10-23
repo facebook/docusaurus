@@ -127,7 +127,7 @@ Static assets should be placed into the `website/static` folder. They can be acc
 
 ## Styles
 
-You should configure your site's primary, secondary, and Prism colors using the `colors` field in `siteConfig` as specified [here](site-config.md). You can also configure other colors in the same way as described in the `siteConfig` doc.
+You should configure your site's primary, secondary, and code block colors using the `colors` field in `siteConfig` as specified [here](api-site-config.md). You can also configure other colors in the same way as described in the `siteConfig` doc.
 
 You can provide your own custom styles by adding them anywhere in the `website/static` folder. Any `.css` files you provide in the `static` folder will get concatenated to the end of Docusaurus's provided styles, allowing you to add to or override Docusaurus default styles as you wish.
 
