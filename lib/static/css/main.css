@@ -722,8 +722,8 @@ a code,
 .mainContainer .wrapper a:focus code {
   color: $primaryColor;
   font-family: "SFMono-Regular",source-code-pro,Menlo,Monaco,Consolas,"Roboto Mono","Droid Sans Mono","Liberation Mono",Consolas,"Courier New",Courier,monospace;
-  font-weight: 300;
 }
+
 a code {
   text-decoration: underline;
 }
@@ -731,17 +731,13 @@ a:hover code {
   text-decoration: none;
 }
 
-pre {
-  white-space: pre-wrap;
+.hljs {
   font-family: "SFMono-Regular",source-code-pro,Menlo,Monaco,Consolas,"Roboto Mono","Droid Sans Mono","Liberation Mono",Consolas,"Courier New",Courier,monospace;
-  font-size: 13px;
-  line-height: 20px;
+  color: $primaryColor !important;
+  background-color: $codeColor !important;
   border-left: 4px solid $primaryColor;
-  overflow-x: scroll;
-  -webkit-overflow-scrolling: touch;
-  padding: 15px 10px;
+  font-size: 13px;
   margin: 20px 0;
-  background-color: $codeColor;
 }
 
 /** GitHub **/
