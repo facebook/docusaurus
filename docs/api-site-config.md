@@ -89,6 +89,10 @@ headerLinks: [
  - `version` specifies a particular version of Highlight.js to be used.
  - `hljs` provides an escape valve by passing an instance of Highlight.js to the function specified here, allowing additional languages to be registered for syntax highlighting.
 
+`markdownPlugins` - An array of plugins to be loaded by Remarkable, the markdown parser and renderer used by Docusaurus. The plugin will receive a reference to the Remarkable instance, allowing custom parsing and rendering rules to be defined.
+
+`scripts` - Array of JavaScript sources to load. The script tag will be inserted in the HTML head.
+
 Users can also add their own custom fields if they wish to provide some data across different files.
 
 ## Example siteConfig.js with all fields
@@ -143,7 +147,16 @@ const siteConfig = {
   sourceCodeButton: "github",
   highlight: {
     theme: 'default'
-  }
+  },
+  markdownPlugins: [
+    function foo(md) {
+      md.renderer.rules.fence_custom.foo = function(tokens, idx, options, env, instance) {
+        return '<div class="foo">bar</div>';
+      }
+    }
+  ],
+  scripts: [ "https://snack.expo.io/embed.js" ]
+
 };
 
 module.exports = siteConfig;
