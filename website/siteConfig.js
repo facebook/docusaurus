@@ -20,6 +20,12 @@ const users = [
     pinned: true
   },
   {
+    caption: "Jest",
+    image: "/img/jest.png",
+    infoLink: "https://facebook.github.io/jest/",
+    pinned: true
+  },
+  {
     caption: "Docusaurus",
     image: "/img/docusaurus.svg",
     infoLink: "https://www.docusaurus.io",
@@ -65,6 +71,5 @@ const siteConfig = {
     theme: "solarized-dark"
   }
 };
-
 
 module.exports = siteConfig;
