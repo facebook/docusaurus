@@ -18,10 +18,9 @@
             <link>https://docusaurus.io/blog/2017/09/26/adding-rss.html</link>
             <guid>https://docusaurus.io/blog/2017/09/26/adding-rss.html</guid>
             <pubDate>Tue, 26 Sep 2017 06:00:00 GMT</pubDate>
-            <description><![CDATA[
-This is a test post.
+            <description><![CDATA[This is a test post.
 
-]]></description>
+A whole bunch of other information.]]></description>
         </item>
         <item>
             <title><![CDATA[Adding RSS Support]]></title>
