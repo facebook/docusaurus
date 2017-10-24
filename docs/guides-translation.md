@@ -111,7 +111,7 @@ For other pages, Docusaurus will automatically transform all `<translate>` tags 
 
 Crowdin is a company that provides translation services. For Open Source projects, Crowdin provides free string translations
 
-Create your translation project on [Crowdin](https://www.crowdin.com/). You can use [Crowdin's guides](https://support.crowdin.com/translation-process-overview/) to learn more about the translations work flow.
+Create your translation project on [Crowdin](https://www.crowdin.com/). You can use [Crowdin's guides](https://support.crowdin.com/translation-process-overview/) to learn more about the translations work flow. _We suggest that you deselect and do not include "English" as a translateable language to prevent the creation of `en-US` localization files as this can lead to confusion._
 
 Your project will need a `crowdin.yaml` file generated.
 
