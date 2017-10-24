@@ -39,7 +39,11 @@ Before you go ahead and do that, you need to determine the values for a few para
 Once you have this information, you can go ahead and run the `publish-gh-pages` script like so (making sure to insert your own values inside the `<placeholders>`):
 
 ```
-GIT_USER=<GIT_USER> CIRCLE_PROJECT_USERNAME=<CIRCLE_PROJECT_REPONAME> CIRCLE_PROJECT_REPONAME=<CIRCLE_PROJECT_USERNAME> CIRCLE_BRANCH=master yarn run publish-gh-pages
+GIT_USER=<GIT_USER> \
+  CIRCLE_PROJECT_USERNAME=<CIRCLE_PROJECT_REPONAME> \
+  CIRCLE_PROJECT_REPONAME=<CIRCLE_PROJECT_USERNAME> \
+  CIRCLE_BRANCH=master \
+  yarn run publish-gh-pages
 ```
 
 You should now be able to load your website by visiting its GitHub Pages URL, which should be something along the lines of https://CIRCLE_PROJECT_USERNAME.github.io/CIRCLE_PROJECT_REPONAME. For example, Docusaurus's own GitHub Pages URL is https://facebookexperimental.github.io/docusaurus, because it is served from the `gh-pages` branch of the https://github.com/facebookexperimental/docusaurus GitHub repo. We highly encourage reading through the [GitHub Pages documentation](https://pages.github.com) to learn more about how this hosting solution works. 

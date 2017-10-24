@@ -26,6 +26,8 @@
     "API": "API"
   },
   "pages-strings": {
-    "Help Translate|recruit community translators for your project": "Help Translate"
+    "Help Translate|recruit community translators for your project": "Help Translate",
+    "Edit this Doc|recruitment message asking to edit the doc source": "Edit",
+    "Translate this Doc|recruitment message asking to translate the docs": "Translate"
   }
 }
