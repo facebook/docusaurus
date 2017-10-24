@@ -22,16 +22,16 @@ If you wish to use your own components inside the website folder, use `process.c
 
 Docusaurus provides the following components in `CompLibrary`:
 
-### `CompLibrary.Marked` 
+### `CompLibrary.MarkdownBlock` 
 
-A React component that parses Markdown to html.
+A React component that parses markdown and renders to HTML.
 
 Example:
 
 ```jsx
-const Marked = CompLibrary.Marked;
+const MarkdownBlock = CompLibrary.MarkdownBlock;
 
-<Marked>[Markdown syntax for a link](http://www.example.com)</Marked>
+<MarkdownBlock>[Markdown syntax for a link](http://www.example.com)</MarkdownBlock>
 ```
 
 ### `CompLibrary.Container`
