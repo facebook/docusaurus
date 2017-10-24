@@ -733,8 +733,6 @@ a:hover code {
 
 .hljs {
   font-family: "SFMono-Regular",source-code-pro,Menlo,Monaco,Consolas,"Roboto Mono","Droid Sans Mono","Liberation Mono",Consolas,"Courier New",Courier,monospace;
-  color: $primaryColor !important;
-  background-color: $codeColor !important;
   border-left: 4px solid $primaryColor;
   font-size: 13px;
   margin: 20px 0;

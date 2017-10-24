@@ -56,7 +56,6 @@ headerLinks: [
 
   - `primaryColor` is the color used the header navigation bar and sidebars.
   - `secondaryColor` is the color seen in the second row of the header navigation bar when the site window is narrow (including on mobile).
-  - `codeColor` is the color used in the background of syntax highlighting for code in documentation. It is recommended to be the same color as `primaryColor` in `rgba` form with an alpha value of `0.03`.
   - Custom color configurations can also be added. For example, if user styles are added with colors specified as `$myColor`, then adding a `myColor` field to `colors` will allow you to easily configure this color.
 
 `copyright` - The copyright string at footer of site and within feed
@@ -127,8 +126,7 @@ const siteConfig = {
   favicon: "img/favicon.png",
   colors: {
     primaryColor: "#2E8555",
-    secondaryColor: "#205C3B",
-    codeColor: "rgba(46, 133, 85, 0.03)"
+    secondaryColor: "#205C3B"
   },
   editUrl: "https://github.com/deltice/test-site/edit/master/docs/",
   users,
@@ -155,10 +153,9 @@ const siteConfig = {
       }
     }
   ],
-  scripts: [ "https://snack.expo.io/embed.js" ]
+  scripts: [ "https://docusaurus.io/slash.js" ]
 
 };
 
 module.exports = siteConfig;
-
 ```

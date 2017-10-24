@@ -57,13 +57,12 @@ const siteConfig = {
   },
   colors: {
     primaryColor: "#2E8555",
-    secondaryColor: "#205C3B",
-    codeColor: "rgba(46, 133, 85, 0.03)"
+    secondaryColor: "#205C3B"
   },
   translationRecruitingLink: "https://crowdin.com/project/docusaurus",
   copyright: "Copyright © " + new Date().getFullYear() + " Facebook Inc.",
   highlight: {
-    theme: "solarized-light"
+    theme: "solarized-dark"
   }
 };
 
