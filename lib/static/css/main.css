@@ -90,9 +90,11 @@ h2:hover a.hash-link,
 h3:hover a.hash-link,
 h4:hover a.hash-link {
   opacity: 0.5;
+  transition: none;
 }
 a.hash-link:hover {
   opacity: 1!important;
+  transition: none;
 }
 
 blockquote {
