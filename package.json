@@ -22,7 +22,8 @@
     "remarkable": "^1.7.1",
     "request": "^2.81.0",
     "shelljs": "^0.7.8",
-    "sitemap": "^1.13.0"
+    "sitemap": "^1.13.0",
+    "tcp-port-used": "^0.1.2"
   },
   "name": "docusaurus",
   "version": "1.0.0-beta.5",
