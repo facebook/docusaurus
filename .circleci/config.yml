@@ -1,18 +1,19 @@
 aliases:
-  - &restore-node-cache
+  - &restore-yarn-cache
     keys:
-      - v1-dependencies-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
+      - v1-dependencies-{{ .Branch }}-{{ checksum "yarn.lock" }}
       # Fallback in case checksum fails
-      - v1-dependencies-{{ arch }}-{{ .Branch }}-
+      - v1-dependencies-{{ .Branch }}-
 
-  - &save-node-cache
+  - &save-yarn-cache
     paths:
       - node_modules
-    key: v1-dependencies-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
+      - ~/.cache/yarn
+    key: v1-dependencies-{{ .Branch }}-{{ checksum "yarn.lock" }}
 
-  - &install-node-dependencies
+  - &yarn
     |
-      npm install --no-spin --no-progress
+      yarn install --non-interactive --cache-folder ~/.cache/yarn
 
   - &filter-only-master
     branches:
@@ -25,42 +26,38 @@ aliases:
 
 defaults: &defaults
   working_directory: ~/docusaurus
+  docker:
+    - image: circleci/node:6.11.4
 
 version: 2
 jobs:
   test-js-node:
     <<: *defaults
-    docker:
-      - image: circleci/node:6.11.4
     steps:
       - checkout
-      - restore-cache: *restore-node-cache
-      - run: *install-node-dependencies
-      - save-cache: *save-node-cache
+      - restore-cache: *restore-yarn-cache
+      - run: *yarn
+      - save-cache: *save-yarn-cache
       - run: true
 
   test-website:
     <<: *defaults
-    docker:
-      - image: circleci/node:6.11.4
     steps:
       - checkout
-      - restore-cache: *restore-node-cache
-      - run: *install-node-dependencies
-      - save-cache: *save-node-cache
+      - restore-cache: *restore-yarn-cache
+      - run: *yarn
+      - save-cache: *save-yarn-cache
       - run:
           name: Test Build Static Website
-          command: cd website && node ./server/generate.js
+          command: cd website && yarn run build
 
   deploy-website:
     <<: *defaults
-    docker:
-      - image: circleci/node:6.11.4
     steps:
       - checkout
-      - restore-cache: *restore-node-cache
-      - run: *install-node-dependencies
-      - save-cache: *save-node-cache
+      - restore-cache: *restore-yarn-cache
+      - run: *yarn
+      - save-cache: *save-yarn-cache
       - run:
           name: Configure GitHub Bot
           command: |
@@ -74,18 +71,18 @@ jobs:
           command: |
             if [[ $CIRCLE_PROJECT_USERNAME == "facebookexperimental" && -z $CI_PULL_REQUEST && -z $CIRCLE_PR_USERNAME ]]; then
               echo "Deploying website..."
-              cd website && GIT_USER=docusaurus USE_SSH=true npm run publish-gh-pages
+              cd website && GIT_USER=docusaurus USE_SSH=true yarn run publish-gh-pages
             else
               echo "Skipping deploy."
             fi
 
   publish-npm:
     <<: *defaults
-    docker:
-      - image: circleci/node:6.11.4
     steps:
       - checkout
-      - run: *install-node-dependencies      
+      - restore-cache: *restore-yarn-cache
+      - run: *yarn
+      - save-cache: *save-yarn-cache
       - run:
         name: Publish Docusaurus Package
         command: |
