@@ -19,7 +19,6 @@
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "react-dom-factories": "^1.0.1",
-    "react-remarkable": "^1.1.3",
     "remarkable": "^1.7.1",
     "request": "^2.81.0",
     "shelljs": "^0.7.8",
