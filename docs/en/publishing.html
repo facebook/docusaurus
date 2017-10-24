@@ -25,7 +25,11 @@
 <li><code>CIRCLE_BRANCH</code>: The branch that contains the latest docs changes that will be deployed. Usually, &quot;master&quot;.</li>
 </ul>
 <p>Once you have this information, you can go ahead and run the <code>publish-gh-pages</code> script like so (making sure to insert your own values inside the <code>&lt;placeholders&gt;</code>):</p>
-<pre><code><span class="hljs-attribute">GIT_USER</span>=&lt;GIT_USER&gt; <span class="hljs-attribute">CIRCLE_PROJECT_USERNAME</span>=&lt;CIRCLE_PROJECT_REPONAME&gt; <span class="hljs-attribute">CIRCLE_PROJECT_REPONAME</span>=&lt;CIRCLE_PROJECT_USERNAME&gt; <span class="hljs-attribute">CIRCLE_BRANCH</span>=master yarn <span class="hljs-builtin-name">run</span> publish-gh-pages
+<pre><code><span class="hljs-attribute">GIT_USER</span>=&lt;GIT_USER&gt; \
+  <span class="hljs-attribute">CIRCLE_PROJECT_USERNAME</span>=&lt;CIRCLE_PROJECT_REPONAME&gt; \
+  <span class="hljs-attribute">CIRCLE_PROJECT_REPONAME</span>=&lt;CIRCLE_PROJECT_USERNAME&gt; \
+  <span class="hljs-attribute">CIRCLE_BRANCH</span>=master \
+  yarn <span class="hljs-builtin-name">run</span> publish-gh-pages
 </code></pre>
 <p>You should now be able to load your website by visiting its GitHub Pages URL, which should be something along the lines of https://CIRCLE_PROJECT_USERNAME.github.io/CIRCLE_PROJECT_REPONAME. For example, Docusaurus's own GitHub Pages URL is https://facebookexperimental.github.io/docusaurus, because it is served from the <code>gh-pages</code> branch of the https://github.com/facebookexperimental/docusaurus GitHub repo. We highly encourage reading through the <a href="https://pages.github.com">GitHub Pages documentation</a> to learn more about how this hosting solution works.</p>
 <p>You can run the command above any time you update the docs and wish to deploy the changes to your site. That's usually fine for sites where the documentation rarely changes, where it's not too much of an inconvenience to remember to manually deploy changes. Now, if you're wondering if this process can be automated in any way, keep reading...</p>
