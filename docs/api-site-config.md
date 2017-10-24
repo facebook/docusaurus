@@ -56,7 +56,6 @@ headerLinks: [
 
   - `primaryColor` is the color used the header navigation bar and sidebars.
   - `secondaryColor` is the color seen in the second row of the header navigation bar when the site window is narrow (including on mobile).
-  - `prismColor` is the color used in the background of syntax highlighting for code in documentation. It is recommended to be the same color as `primaryColor` in `rgba` form with an alpha value of `0.03`. Other fields can be added
   - Custom color configurations can also be added. For example, if user styles are added with colors specified as `$myColor`, then adding a `myColor` field to `colors` will allow you to easily configure this color.
 
 `copyright` - The copyright string at footer of site and within feed
@@ -81,8 +80,17 @@ headerLinks: [
 
 `gaTrackingId` - Google Analytics tracking ID to track page views.
 
-
 `sourceCodeButton` - the type of button to use for pointing to your source code. If this field is non-null, the site will pull in the appropriate button code in the header, for you to be able to render as you see fit. Currently accepted values: `"github"`, `"none"`. Defaults to `"github"`.
+
+`highlight` - [Syntax highlighting](api-doc-markdown.md) options:
+
+ - `theme` is the name of the theme used by Highlight.js when highlighting code.
+ - `version` specifies a particular version of Highlight.js to be used.
+ - `hljs` provides an escape valve by passing an instance of Highlight.js to the function specified here, allowing additional languages to be registered for syntax highlighting.
+
+`markdownPlugins` - An array of plugins to be loaded by Remarkable, the markdown parser and renderer used by Docusaurus. The plugin will receive a reference to the Remarkable instance, allowing custom parsing and rendering rules to be defined.
+
+`scripts` - Array of JavaScript sources to load. The script tag will be inserted in the HTML head.
 
 Users can also add their own custom fields if they wish to provide some data across different files.
 
@@ -118,12 +126,8 @@ const siteConfig = {
   favicon: "img/favicon.png",
   colors: {
     primaryColor: "#2E8555",
-    secondaryColor: "#205C3B",
-    prismColor:
-      "rgba(46, 133, 85, 0.03)"
+    secondaryColor: "#205C3B"
   },
-
-
   editUrl: "https://github.com/deltice/test-site/edit/master/docs/",
   users,
   disableHeaderTitle: true,
@@ -138,9 +142,20 @@ const siteConfig = {
     indexName: "github"
   },
   gaTrackingId: "U-A2352",
-  sourceCodeButton: "github"
+  sourceCodeButton: "github",
+  highlight: {
+    theme: 'default'
+  },
+  markdownPlugins: [
+    function foo(md) {
+      md.renderer.rules.fence_custom.foo = function(tokens, idx, options, env, instance) {
+        return '<div class="foo">bar</div>';
+      }
+    }
+  ],
+  scripts: [ "https://docusaurus.io/slash.js" ]
+
 };
 
 module.exports = siteConfig;
-
 ```
