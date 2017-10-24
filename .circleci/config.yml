@@ -1,19 +1,15 @@
 aliases:
   - &restore-yarn-cache
     keys:
-      - v1-dependencies-{{ .Branch }}-{{ checksum "yarn.lock" }}
+      - v1-yarn-{{ .Branch }}-{{ checksum "yarn.lock" }}
       # Fallback in case checksum fails
-      - v1-dependencies-{{ .Branch }}-
+      - v1-yarn-{{ .Branch }}-
 
   - &save-yarn-cache
     paths:
       - node_modules
       - ~/.cache/yarn
-    key: v1-dependencies-{{ .Branch }}-{{ checksum "yarn.lock" }}
-
-  - &yarn
-    |
-      yarn install --non-interactive --cache-folder ~/.cache/yarn
+    key: v1-yarn-{{ .Branch }}-{{ checksum "yarn.lock" }}
 
   - &filter-only-master
     branches:
@@ -24,15 +20,19 @@ aliases:
     branches:
       ignore: gh-pages
 
+  - &yarn
+    |
+      yarn install --non-interactive --cache-folder ~/.cache/yarn
+
 defaults: &defaults
   working_directory: ~/docusaurus
-  docker:
-    - image: circleci/node:6.11.4
 
 version: 2
 jobs:
   test-js-node:
     <<: *defaults
+    docker:
+      - image: circleci/node:6.11.4
     steps:
       - checkout
       - restore-cache: *restore-yarn-cache
@@ -42,6 +42,8 @@ jobs:
 
   test-website:
     <<: *defaults
+    docker:
+      - image: circleci/node:6.11.4
     steps:
       - checkout
       - restore-cache: *restore-yarn-cache
@@ -53,6 +55,8 @@ jobs:
 
   deploy-website:
     <<: *defaults
+    docker:
+      - image: circleci/node:6.11.4
     steps:
       - checkout
       - restore-cache: *restore-yarn-cache
@@ -78,6 +82,8 @@ jobs:
 
   publish-npm:
     <<: *defaults
+    docker:
+      - image: circleci/node:6.11.4
     steps:
       - checkout
       - restore-cache: *restore-yarn-cache
