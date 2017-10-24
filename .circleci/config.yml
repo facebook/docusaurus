@@ -38,7 +38,7 @@ jobs:
       - restore-cache: *restore-yarn-cache
       - run: *yarn
       - save-cache: *save-yarn-cache
-      - run: true
+      - run: yarn run test
 
   test-website:
     <<: *defaults

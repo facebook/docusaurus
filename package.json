@@ -1,4 +1,7 @@
 {
+  "scripts": {
+		"test": "true"
+	},
   "dependencies": {
     "babel-preset-env": "^1.6.0",
     "babel-preset-react": "^6.24.1",
