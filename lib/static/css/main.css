@@ -82,17 +82,24 @@ a.anchor {
 }
 
 a.hash-link {
+  float: left;
+  padding-right: 4px;
+  margin-top: 4px;
+  margin-left: -20px;
+  line-height: 1.2;
   opacity: 0;
   transition: opacity 0.3s;
 }
-h1:hover a.hash-link,
-h2:hover a.hash-link,
-h3:hover a.hash-link,
-h4:hover a.hash-link {
+
+h1:hover .hash-link,
+h2:hover .hash-link,
+h3:hover .hash-link,
+h4:hover .hash-link {
   opacity: 0.5;
 }
-a.hash-link:hover {
-  opacity: 1!important;
+
+.hash-link:hover {
+  opacity: 1 !important;
 }
 
 blockquote {
@@ -157,6 +164,10 @@ header h2 {
   margin: 0px auto;
   max-width: 1024px;
   padding: 0 10px;
+}
+
+article div>*:first-child {
+  margin-top: 0 !important;
 }
 
 .projectLogo {
@@ -229,10 +240,10 @@ header h2 {
 .container .wrapper h2 {
   color: $primaryColor;
   font-size: 22px;
-  line-height: 1em;
-  margin-top: 20px;
   text-align: left;
   padding: 10px 0;
+  margin-top: 20px;
+  line-height: 1;
 }
 .container .wrapper h2.blockHeader {
   color: white;
