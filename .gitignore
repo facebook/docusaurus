@@ -11,4 +11,3 @@ website/node_modules
 lib/pages/
 
 website/i18n/*
-!website/i18n/en.json
