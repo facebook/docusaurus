@@ -68,14 +68,14 @@ jobs:
             if [[ $CIRCLE_PROJECT_USERNAME == "facebookexperimental" && -z $CI_PULL_REQUEST && -z $CIRCLE_PR_USERNAME ]]; then
               git config --global user.email "docusaurus@users.noreply.github.com"
               git config --global user.name "Website Deployment Script"
-              echo "machine github.com login docusaurus password $GITHUB_TOKEN" > ~/.netrc
+              echo "machine github.com login facebook-github-bot" > ~/.netrc
             fi
       - run:
           name: Deploy Website
           command: |
             if [[ $CIRCLE_PROJECT_USERNAME == "facebookexperimental" && -z $CI_PULL_REQUEST && -z $CIRCLE_PR_USERNAME ]]; then
               echo "Deploying website..."
-              cd website && GIT_USER=docusaurus USE_SSH=true yarn run publish-gh-pages
+              cd website && GIT_USER=facebook-github-bot USE_SSH=true yarn run publish-gh-pages
             else
               echo "Skipping deploy."
             fi
