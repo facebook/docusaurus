@@ -39,9 +39,6 @@ jobs:
       - run: *yarn
       - save-cache: *save-yarn-cache
       - run: yarn run test
-      - add_ssh_keys:
-          fingerprints:
-            - "1e:fe:54:96:06:6e:aa:42:07:bf:8e:1f:24:3b:24:30"
   test-website:
     <<: *defaults
     docker:
@@ -60,6 +57,9 @@ jobs:
     docker:
       - image: circleci/node:6.11.4
     steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "1e:fe:54:96:06:6e:aa:42:07:bf:8e:1f:24:3b:24:30"
       - checkout
       - restore-cache: *restore-yarn-cache
       - run: *yarn
