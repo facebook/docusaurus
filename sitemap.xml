@@ -3,6 +3,7 @@
 <url> <loc>https://docusaurus.io/help.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>https://docusaurus.io/index.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>https://docusaurus.io/users.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
+<url> <loc>https://docusaurus.io/blog/2017/10/24/new-version-1.0.0.html</loc> <changefreq>weekly</changefreq> <priority>0.3</priority> </url>
 <url> <loc>https://docusaurus.io/blog/2017/09/26/adding-rss.html</loc> <changefreq>weekly</changefreq> <priority>0.3</priority> </url>
 <url> <loc>https://docusaurus.io/blog/2017/09/25/testing-rss.html</loc> <changefreq>weekly</changefreq> <priority>0.3</priority> </url>
 <url> <loc>https://docusaurus.io/docs/en/commands.html</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> </url>

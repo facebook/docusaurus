@@ -4,7 +4,7 @@
         <title>Docusaurus Blog</title>
         <link>https://docusaurus.io/blog</link>
         <description>The best place to stay up-to-date with the latest Docusaurus news and events.</description>
-        <lastBuildDate>Tue, 26 Sep 2017 06:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 24 Oct 2017 06:00:00 GMT</lastBuildDate>
         <docs>http://blogs.law.harvard.edu/tech/rss</docs>
         <generator>Feed for Node.js</generator>
         <image>
@@ -13,6 +13,13 @@
             <link>https://docusaurus.io/blog</link>
         </image>
         <copyright>Copyright © 2017 Facebook Inc.</copyright>
+        <item>
+            <title><![CDATA[New Version 1.0.0]]></title>
+            <link>https://docusaurus.io/blog/2017/10/24/new-version-1.0.0.html</link>
+            <guid>https://docusaurus.io/blog/2017/10/24/new-version-1.0.0.html</guid>
+            <pubDate>Tue, 24 Oct 2017 06:00:00 GMT</pubDate>
+            <description><![CDATA[This blog post will test file name parsing issues when periods are present.]]></description>
+        </item>
         <item>
             <title><![CDATA[Adding RSS Support]]></title>
             <link>https://docusaurus.io/blog/2017/09/26/adding-rss.html</link>
