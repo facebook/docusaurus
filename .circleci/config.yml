@@ -1,0 +1,127 @@
+aliases:
+  - &restore-yarn-cache
+    keys:
+      - v1-yarn-{{ .Branch }}-{{ checksum "yarn.lock" }}
+      # Fallback in case checksum fails
+      - v1-yarn-{{ .Branch }}-
+
+  - &save-yarn-cache
+    paths:
+      - node_modules
+      - ~/.cache/yarn
+    key: v1-yarn-{{ .Branch }}-{{ checksum "yarn.lock" }}
+
+  - &filter-only-master
+    branches:
+      only:
+        - master
+
+  - &filter-ignore-gh-pages
+    branches:
+      ignore: gh-pages
+
+  - &yarn
+    |
+      yarn install --non-interactive --cache-folder ~/.cache/yarn
+
+defaults: &defaults
+  working_directory: ~/docusaurus
+
+version: 2
+jobs:
+  test-js-node:
+    <<: *defaults
+    docker:
+      - image: circleci/node:6.11.4
+    steps:
+      - checkout
+      - restore-cache: *restore-yarn-cache
+      - run: *yarn
+      - save-cache: *save-yarn-cache
+      - run: yarn run test
+
+  test-website:
+    <<: *defaults
+    docker:
+      - image: circleci/node:6.11.4
+    steps:
+      - checkout
+      - restore-cache: *restore-yarn-cache
+      - run: *yarn
+      - save-cache: *save-yarn-cache
+      - run:
+          name: Test Build Static Website
+          command: cd website && yarn run build
+
+  deploy-website:
+    <<: *defaults
+    docker:
+      - image: circleci/node:6.11.4
+    steps:
+      - checkout
+      - restore-cache: *restore-yarn-cache
+      - run: *yarn
+      - save-cache: *save-yarn-cache
+      - run:
+          name: Configure GitHub Bot
+          command: |
+            if [[ $CIRCLE_PROJECT_USERNAME == "facebookexperimental" && -z $CI_PULL_REQUEST && -z $CIRCLE_PR_USERNAME ]]; then
+              git config --global user.email "docusaurus@users.noreply.github.com"
+              git config --global user.name "Website Deployment Script"
+              echo "machine github.com login docusaurus password $GITHUB_TOKEN" > ~/.netrc
+            fi
+      - run:
+          name: Deploy Website
+          command: |
+            if [[ $CIRCLE_PROJECT_USERNAME == "facebookexperimental" && -z $CI_PULL_REQUEST && -z $CIRCLE_PR_USERNAME ]]; then
+              echo "Deploying website..."
+              cd website && GIT_USER=docusaurus USE_SSH=true yarn run publish-gh-pages
+            else
+              echo "Skipping deploy."
+            fi
+
+  publish-npm:
+    <<: *defaults
+    docker:
+      - image: circleci/node:6.11.4
+    steps:
+      - checkout
+      - restore-cache: *restore-yarn-cache
+      - run: *yarn
+      - save-cache: *save-yarn-cache
+      - run:
+        name: Publish Docusaurus Package
+        command: |
+          if [ -z "$CIRCLE_PULL_REQUEST" ]; then
+            echo "//registry.npmjs.org/:_authToken=${CIRCLE_NPM_TOKEN}" > ~/.npmrc
+            node ./scripts/publish-npm.js
+          else
+            echo "Skipping publication."            
+          fi
+
+# Workflows enables us to run multiple jobs in parallel
+workflows:
+  version: 2
+  
+  test_node:
+    jobs:
+      - test-js-node:
+          filters: *filter-ignore-gh-pages
+
+  website:
+    jobs:
+      - test-website:
+          filters: *filter-ignore-gh-pages
+      - deploy-website:
+          requires:
+            - test-website
+          filters: *filter-only-master
+
+  deploy:
+    jobs:
+      - hold:
+          type: approval
+      - publish-npm:
+          requires: 
+            - hold
+          filters: *filter-only-master
