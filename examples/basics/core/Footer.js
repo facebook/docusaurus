@@ -10,10 +10,10 @@ const React = require("react");
 const githubButton = (
   <a
     className="github-button"
-    href="https://github.com/deltice/test-site"
+    href={this.props.config.repoUrl}
     data-icon="octicon-star"
     data-count-href="/deltice/test-site/stargazers"
-    data-count-api="/repos/deltice/test-site#stargazers_count"
+    data-show-count={true}
     data-count-aria-label="# stargazers on GitHub"
     aria-label="Star this project on GitHub"
   >
