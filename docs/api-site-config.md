@@ -80,8 +80,6 @@ headerLinks: [
 
 `gaTrackingId` - Google Analytics tracking ID to track page views.
 
-`sourceCodeButton` - the type of button to use for pointing to your source code. If this field is non-null, the site will pull in the appropriate button code in the header, for you to be able to render as you see fit. Currently accepted values: `"github"`, `"none"`. Defaults to `"github"`.
-
 `highlight` - [Syntax highlighting](api-doc-markdown.md) options:
 
  - `theme` is the name of the theme used by Highlight.js when highlighting code.
@@ -142,7 +140,6 @@ const siteConfig = {
     indexName: "github"
   },
   gaTrackingId: "U-A2352",
-  sourceCodeButton: "github",
   highlight: {
     theme: 'default'
   },
