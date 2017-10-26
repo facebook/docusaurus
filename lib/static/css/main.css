@@ -737,7 +737,6 @@ pre code {
   display:block;
   margin: 20px 0;
   padding:0.5em;
-  background-color: $codeColor;
   border-left: 4px solid $primaryColor;
   font-family: "SFMono-Regular",source-code-pro,Menlo,Monaco,Consolas,"Roboto Mono","Droid Sans Mono","Liberation Mono",Consolas,"Courier New",Courier,monospace;
   font-size: 13px;
