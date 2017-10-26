@@ -10,7 +10,7 @@
 <pre><code class="hljs">npm <span class="hljs-keyword">run</span><span class="bash"> build
 </span></code></pre>
 <p>or</p>
-<pre><code>yarn <span class="hljs-keyword">run</span><span class="bash"> build
+<pre><code class="hljs">yarn <span class="hljs-keyword">run</span><span class="bash"> build
 </span></code></pre>
 <p>This will generate <code>.html</code> files from all of your docs and other pages included in <code>pages</code>. The build folder is inside Docusaurus's directory inside <code>node_modules</code>.</p>
 <h2><a class="anchor" name="hosting-static-html-pages"></a>Hosting Static HTML Pages <a class="hash-link" href="#hosting-static-html-pages">#</a></h2>
@@ -25,7 +25,7 @@
 <li><code>CIRCLE_BRANCH</code>: The branch that contains the latest docs changes that will be deployed. Usually, &quot;master&quot;.</li>
 </ul>
 <p>Once you have this information, you can go ahead and run the <code>publish-gh-pages</code> script like so (making sure to insert your own values inside the <code>&lt;placeholders&gt;</code>):</p>
-<pre><code><span class="hljs-attribute">GIT_USER</span>=&lt;GIT_USER&gt; \
+<pre><code class="hljs"><span class="hljs-attribute">GIT_USER</span>=&lt;GIT_USER&gt; \
   <span class="hljs-attribute">CIRCLE_PROJECT_USERNAME</span>=&lt;CIRCLE_PROJECT_REPONAME&gt; \
   <span class="hljs-attribute">CIRCLE_PROJECT_REPONAME</span>=&lt;CIRCLE_PROJECT_USERNAME&gt; \
   <span class="hljs-attribute">CIRCLE_BRANCH</span>=master \
@@ -43,7 +43,7 @@
 <li>Create a new environment variable named &quot;GITHUB_TOKEN&quot;, using your newly generated access token as the value.</li>
 <li>Open your <code>circle.yml</code> file and add the following under the <code>machine:</code> section to tell Circle to use relatively recent versions of node and npm, replacing npm with yarn if applicable:</li>
 </ol>
-<pre><code>machine:
+<pre><code class="hljs">machine:
   <span class="hljs-keyword">node</span><span class="hljs-title">:
     version</span>: <span class="hljs-number">6.11</span>.<span class="hljs-number">2</span>
   npm:
@@ -52,7 +52,7 @@
 <ol start="5">
 <li>Then, add the following lines to the <code>deployment:</code> section. If you don't have a <code>deployment:</code> section, you can add it at the end of the file.</li>
 </ol>
-<pre><code>deployment:
+<pre><code class="hljs">deployment:
   website:
     branch: master
     commands:
