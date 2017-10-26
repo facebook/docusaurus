@@ -4,7 +4,7 @@
           toggler.onclick = function() {
             nav.classList.toggle('docsSliderActive');
           };
-        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/facebookexperimental/docusaurus/edit/master/docs/guides-navigation.md" target="_blank">Edit</a><h1>Navigation and Sidebars</h1></header><article><div><span><h2><a class="anchor" name="new-hidden-docs"></a>New Hidden Docs <a class="hash-link" href="#new-hidden-docs">#</a></h2>
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/facebookexperimental/docusaurus/edit/master/docs/guides-navigation.md" target="_blank">Edit</a><h1>Navigation and Sidebars</h1></header><article><div><span><h2><a class="anchor" aria-hidden="true" name="new-hidden-docs"></a><a href="#new-hidden-docs" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>New Hidden Docs</h2>
 <p>New markdown files within <code>docs</code> will show up as pages on the website. Creating a file such as &quot;docs/getting-started.md&quot; will enable the new page <code>/docs/getting-started.html</code>.</p>
 <p>To change the id (link name) of the file, set the <code>id</code> field in the markdown header. At the top of <code>getting-started.md</code>:</p>
 <pre><code class="hljs"><span class="hljs-meta">---</span>
@@ -15,7 +15,7 @@
 <span class="hljs-string">My</span> <span class="hljs-meta">*new</span> <span class="hljs-string">content*</span> <span class="hljs-string">here..</span>
 </code></pre>
 <p>Now, the doc can be accessed from <code>/docs/intro.html</code>.</p>
-<h2><a class="anchor" name="adding-docs-to-a-sidebar"></a>Adding Docs to a Sidebar <a class="hash-link" href="#adding-docs-to-a-sidebar">#</a></h2>
+<h2><a class="anchor" aria-hidden="true" name="adding-docs-to-a-sidebar"></a><a href="#adding-docs-to-a-sidebar" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Adding Docs to a Sidebar</h2>
 <p>Now we want our new page to show up on the sidebar. We configure the order of the sidebar in <code>website/sidebars.json</code>.</p>
 <p>Within <code>sidebars.json</code>, add the doc ID within an existing sidebar/category:</p>
 <pre><code class="hljs">{
@@ -32,7 +32,7 @@
     ],
     ...
 </code></pre>
-<h2><a class="anchor" name="new-hidden-sections"></a>New Hidden Sections <a class="hash-link" href="#new-hidden-sections">#</a></h2>
+<h2><a class="anchor" aria-hidden="true" name="new-hidden-sections"></a><a href="#new-hidden-sections" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>New Hidden Sections</h2>
 <p>You can also put the doc in a new sidebar. In this case we are creating a <code>intro</code> section within <code>sidebars.json</code>.</p>
 <pre><code class="hljs">{
   <span class="hljs-string">"intro"</span>: {
@@ -43,7 +43,7 @@
   ...
 </code></pre>
 <p>Keep in mind, until you add the section to the nav bar (below), this new &quot;intro&quot; section of the site will be hidden with no links going to it.</p>
-<h2><a class="anchor" name="adding-doc-to-site-nav-bar"></a>Adding doc to site nav bar <a class="hash-link" href="#adding-doc-to-site-nav-bar">#</a></h2>
+<h2><a class="anchor" aria-hidden="true" name="adding-doc-to-site-nav-bar"></a><a href="#adding-doc-to-site-nav-bar" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Adding doc to site nav bar</h2>
 <p>After creating a new section of the site by adding to <code>sidebars.json</code>, you can link to the new doc from the top navigation bar by editing the <code>headerLinks</code> field of <code>siteConfig.js</code>.</p>
 <pre><code class="hljs">headerLinks: [
   ...
@@ -51,7 +51,7 @@
 </span>  ...
 ],
 </code></pre>
-<h2><a class="anchor" name="custom-page-links-in-nav-bar"></a>Custom page links in nav bar <a class="hash-link" href="#custom-page-links-in-nav-bar">#</a></h2>
+<h2><a class="anchor" aria-hidden="true" name="custom-page-links-in-nav-bar"></a><a href="#custom-page-links-in-nav-bar" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Custom page links in nav bar</h2>
 <p>To add custom pages to the navigation bar, entries can be added to the <code>headerLinks</code> of <code>siteConfig.js</code>. For example, if we have a page within <code>website/pages/help.js</code>, we can link to it by adding the following:</p>
 <pre><code class="hljs">headerLinks: [
   ...
@@ -59,7 +59,7 @@
 </span>  ...
 ],
 </code></pre>
-<h2><a class="anchor" name="external-links-in-nav-bar"></a>External links in nav bar <a class="hash-link" href="#external-links-in-nav-bar">#</a></h2>
+<h2><a class="anchor" aria-hidden="true" name="external-links-in-nav-bar"></a><a href="#external-links-in-nav-bar" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>External links in nav bar</h2>
 <p>Custom links can be added to the nav bar with the following entry in <code>siteConfig.js</code>:</p>
 <pre><code class="hljs">headerLinks: [
   ...
@@ -68,7 +68,7 @@
 ],
 </code></pre>
 <p>To open external links in a new tab, provide an <code>external: true</code> flag within the header link config.</p>
-<h2><a class="anchor" name="search-bar-position-in-nav-bar"></a>Search bar position in nav bar <a class="hash-link" href="#search-bar-position-in-nav-bar">#</a></h2>
+<h2><a class="anchor" aria-hidden="true" name="search-bar-position-in-nav-bar"></a><a href="#search-bar-position-in-nav-bar" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Search bar position in nav bar</h2>
 <p>If search is enabled on your site, your search bar will appear to the right of your links. If you want to put the search bar between links in the header, add a search entry in the <code>headerLinks</code> config array:</p>
 <pre><code class="hljs"><span class="hljs-string">headerLinks:</span> [
   { <span class="hljs-string">doc:</span> <span class="hljs-string">'foo'</span>, <span class="hljs-string">label:</span> <span class="hljs-string">'Foo'</span> },
@@ -76,7 +76,7 @@
   { <span class="hljs-string">doc:</span> <span class="hljs-string">'bar'</span>, <span class="hljs-string">label:</span> <span class="hljs-string">'Bar'</span> },
 ],
 </code></pre>
-<h2><a class="anchor" name="languages-dropdown-position-in-nav-bar"></a>Languages dropdown position in nav bar <a class="hash-link" href="#languages-dropdown-position-in-nav-bar">#</a></h2>
+<h2><a class="anchor" aria-hidden="true" name="languages-dropdown-position-in-nav-bar"></a><a href="#languages-dropdown-position-in-nav-bar" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Languages dropdown position in nav bar</h2>
 <p>If translations is enabled on your site, the language dropdown will appear to the right of your links (and to the left of the search bar, if search is enabled). If you want to put the language selection drop down between links in the header, add a languages entry in the <code>headerLinks</code> config array:</p>
 <pre><code class="hljs"><span class="hljs-string">headerLinks:</span> [
   { <span class="hljs-string">doc:</span> <span class="hljs-string">'foo'</span>, <span class="hljs-string">label:</span> <span class="hljs-string">'Foo'</span> },
