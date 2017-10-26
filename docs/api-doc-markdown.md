@@ -17,7 +17,7 @@ Documents use the following markdown header fields that are enclosed by a line `
 
 For example:
 
-```
+```markdown
 ---
 id: doc1
 title: My Document
@@ -29,7 +29,7 @@ Versioned documents have their ids altered to include the version number when th
 
 For example:
 
-```
+```markdown
 ---
 id: version-1.0.0-doc1
 title: My Document
@@ -52,7 +52,7 @@ Blog Posts use the following markdown header fields that are enclosed by a line 
 
 For example:
 
-```
+```markdown
 ---
 title: My First Blog Post
 author: Frank Li
@@ -70,6 +70,7 @@ Docusaurus supports some extra features when writing documentation in markdown.
 You can use relative urls to other documentation files which will automatically get converted to the corresponding html links when they get rendered.
 
 Example:
+
 ```markdown
 [This links to another document](other-document.md)
 ```
@@ -82,6 +83,7 @@ This can help when you want to navigate through docs on GitHub since the links t
 Static assets can be linked to in the same way that documents are, using relative urls. Static assets used in documents and blogs should go into `docs/assets` and `website/blog/assets`, respectively. The markdown will get converted into correct link paths so that these paths will work for documents of all languages and versions.
 
 Example:
+
 ```markdown
 ![alt-text](assets/doc-image.png)
 ```
@@ -137,7 +139,7 @@ ReactDOM.render(
 
 Highlighting is provided by [Highlight.js](https://highlightjs.org) using the theme specified in your `siteConfig.js` file as part of the `highlight` key:
 
-```
+```javascript
 highlight: {
   theme: 'default'
 }
@@ -149,7 +151,7 @@ You can find the full list of supported themes in the Highlight.js [`styles`](ht
 
 While Highlight.js provides support for [many popular languages out of the box](https://highlightjs.org/static/demo/), you may find the need to register additional language support. For these cases, we provide an escape valve by exposing the `hljs` constant as part of the `highlight` config key. This in turn allows you to call [`registerLanguage`](http://highlightjs.readthedocs.io/en/latest/api.html#registerlanguage-name-language):
 
-```
+```javascript
 highlight: {
   theme: 'default',
   hljs: function(hljs) {
