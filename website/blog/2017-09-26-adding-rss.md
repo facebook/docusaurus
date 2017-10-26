@@ -7,6 +7,4 @@ authorFBID: 661277173
 
 This is a test post.
 
-<!--truncate-->
-
 A whole bunch of other information.
