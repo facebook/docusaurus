@@ -167,10 +167,6 @@ header h2 {
   padding: 0 20px;
 }
 
-article div>*:first-child {
-  margin-top: 0 !important;
-}
-
 .projectLogo {
   display: none;
   pointer-events: none;
@@ -241,10 +237,10 @@ article div>*:first-child {
 .container .wrapper h2 {
   color: $primaryColor;
   font-size: 22px;
+  line-height: 1em;
+  margin-top: 20px;
   text-align: left;
   padding: 10px 0;
-  margin-top: 20px;
-  line-height: 1;
 }
 .container .wrapper h2.blockHeader {
   color: white;

@@ -140,10 +140,6 @@ const siteConfig = {
     indexName: "github"
   },
   gaTrackingId: "U-A2352",
-<<<<<<< HEAD
-  sourceCodeButton: "github",
-=======
->>>>>>> ba666cc6aedd12651cc61fc9364e15a7f8eb8388
   highlight: {
     theme: 'default'
   },
