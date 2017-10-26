@@ -163,7 +163,7 @@ header h2 {
 .wrapper {
   margin: 0px auto;
   max-width: 1024px;
-  padding: 0 10px;
+  padding: 0 20px;
 }
 
 article div>*:first-child {
@@ -1267,6 +1267,10 @@ nav.toc:last-child {
   }
   nav.toc:last-child {
     padding-bottom: 0;
+  }
+
+  a.anchor {
+    top: -144px;
   }
 }
 .docsNavContainer nav.toc .navWrapper {
