@@ -7,7 +7,7 @@
         </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/facebookexperimental/docusaurus/edit/master/docs/guides-search.md" target="_blank">Edit</a><h1>Enabling Search</h1></header><article><div><span><p>Docusaurus supports search using <a href="https://community.algolia.com/docsearch/">Algolia DocSearch</a>. Once you have set up your site, <a href="https://community.algolia.com/docsearch/">enter your site information</a> to have Algolia crawl your website's documentation pages. Algolia will then send you an API key and index name for your site.</p>
 <h3><a class="anchor" name="enabling-the-search-bar"></a>Enabling the Search Bar <a class="hash-link" href="#enabling-the-search-bar">#</a></h3>
 <p>Enter your search-only API key and index name into <code>siteConfig.js</code> in the <code>algolia</code> section to enable search for your site.</p>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> siteConfig = {
+<pre><code class="hljs css js"><span class="hljs-keyword">const</span> siteConfig = {
   ...
   algolia: {
     <span class="hljs-attr">apiKey</span>: <span class="hljs-string">"my-search-only-api-key-1234"</span>,
@@ -18,7 +18,7 @@
 </code></pre>
 <h3><a class="anchor" name="extra-search-options"></a>Extra Search Options <a class="hash-link" href="#extra-search-options">#</a></h3>
 <p>You can also specify extra <a href="https://community.algolia.com/docsearch/documentation/">search options used by Algolia</a> by using an <code>algoliaOptions</code> field in <code>algolia</code>. This may be useful if you want to provide different search results for the different versions or languages of your docs. Any occurrences of &quot;VERSION&quot; or &quot;LANGUAGE&quot; will be replaced by the version or language of the current page, respectively. More details about search options can be <a href="https://www.algolia.com/doc/api-reference/api-parameters/#overview">found here</a>.</p>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> siteConfig = {
+<pre><code class="hljs css js"><span class="hljs-keyword">const</span> siteConfig = {
   ...
   algolia: {
     ...
@@ -32,7 +32,7 @@
 <h3><a class="anchor" name="controlling-the-location-of-the-search-bar"></a>Controlling the Location of the Search Bar <a class="hash-link" href="#controlling-the-location-of-the-search-bar">#</a></h3>
 <p>By default, the search bar will be the rightmost element in the top navigation bar.</p>
 <p>If you want to change the default location, add the <code>searchBar</code> flag in the <code>headerLinks</code> field of <code>siteConfig.js</code> in your desired location. For example, you may want the search bar in between your internal and external links.</p>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> siteConfig = {
+<pre><code class="hljs css js"><span class="hljs-keyword">const</span> siteConfig = {
   ...
   headerLinks: [
     {...}
@@ -54,4 +54,4 @@
                 indexName: 'docusaurus',
                 inputSelector: '#search_input_react'
               });
-            </script><script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script><script>hljs.initHighlightingOnLoad();</script></body></html>
+            </script></body></html>

@@ -7,14 +7,14 @@
         </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/facebookexperimental/docusaurus/edit/master/docs/guides-versioning.md" target="_blank">Edit</a><h1>Versioning</h1></header><article><div><span><p>Users can use the <code>version</code> script to cut a new documentation version based on the latest content in the <code>docs</code> folder. That specific set of documentation will then be preserved and accessible even as the documentation in the <code>docs</code> folder changes moving forward.</p>
 <h2><a class="anchor" name="how-to-create-new-versions"></a>How to Create New Versions <a class="hash-link" href="#how-to-create-new-versions">#</a></h2>
 <p>Add the following script to your <code>package.json</code> file:</p>
-<pre><code class="language-json">...
+<pre><code class="hljs css json">...
 "scripts": {
   "version": "docusaurus-version"
 },
 ...
 </code></pre>
 <p>Run the script with a command line argument of the version you wish to create. e.g.,</p>
-<pre><code class="language-bash">npm run version 1.0.0
+<pre><code class="hljs css bash">npm run version 1.0.0
 </code></pre>
 <p>This will preserve all documents currently in the <code>docs</code> folder and make them available as documentation for version <code>1.0.0</code>.</p>
 <p>If, for example, you ran the version script with 1.0.0 as the version number, version 1.0.0 is considered the latest release version for your project, and the site will display the version number next to the title in the header.</p>
@@ -33,14 +33,14 @@
 <p>For example, a document with the original id <code>doc1</code> exists for the latest version, <code>1.0.0</code>, and has the same content as the document with the id <code>doc1</code> in the <code>docs</code> folder. When a new version <code>2.0.0</code> is created, the file for <code>doc1</code> will not be copied into <code>versioned_docs/version-2.0.0/</code>. There will still be a page for <code>docs/2.0.0/doc1.html</code>, but it will use the file from version <code>1.0.0</code>.</p>
 <h2><a class="anchor" name="renaming-existing-versions"></a>Renaming Existing Versions <a class="hash-link" href="#renaming-existing-versions">#</a></h2>
 <p>To rename an existing version number to something else, first make sure the following script is in your <code>package.json</code> file:</p>
-<pre><code class="language-json">...
+<pre><code class="hljs css json">...
 "scripts": {
   "rename-version": "docusaurus-rename-version"
 },
 ...
 </code></pre>
 <p>Run the script with command line arguments of first, the current version name, then second, the new version name. e.g.,</p>
-<pre><code class="language-bash">npm run rename-version 1.0.0 1.0.1
+<pre><code class="hljs css bash">npm run rename-version 1.0.0 1.0.1
 </code></pre>
 <h2><a class="anchor" name="versioning-and-translations"></a>Versioning and Translations <a class="hash-link" href="#versioning-and-translations">#</a></h2>
 <p>If you wish to use versioning and translations features, the <code>crowdin.yaml</code> file should be set up to upload and download versioned documents to and from Crowdin for translation. Translated, versioned files will go into the folder <code>translated_docs/${language}/version-${version}/</code>. For more information, check out the <a href="translation.md">translations guide</a>.</p>
@@ -51,4 +51,4 @@
                 indexName: 'docusaurus',
                 inputSelector: '#search_input_react'
               });
-            </script><script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script><script>hljs.initHighlightingOnLoad();</script></body></html>
+            </script></body></html>

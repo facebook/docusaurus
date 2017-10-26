@@ -16,7 +16,7 @@
 <h3><a class="anchor" name="complibrarymarked"></a><code>CompLibrary.Marked</code> <a class="hash-link" href="#complibrarymarked">#</a></h3>
 <p>A React component that parses Markdown to html.</p>
 <p>Example:</p>
-<pre><code class="language-jsx"><span class="hljs-keyword">const</span> Marked = CompLibrary.Marked;
+<pre><code class="hljs css jsx"><span class="hljs-keyword">const</span> Marked = CompLibrary.Marked;
 
 <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Marked</span>&gt;</span>[Markdown syntax for a link](http://www.example.com)<span class="hljs-tag">&lt;/<span class="hljs-name">Marked</span>&gt;</span></span>
 </code></pre>
@@ -25,7 +25,7 @@
 <p>Padding choices: <code>all</code>, <code>bottom</code>, <code>left</code>, <code>right</code>, <code>top</code>.<br>
 Background choices: <code>dark</code>, <code>highlight</code>, <code>light</code>.</p>
 <p>Example:</p>
-<pre><code class="language-jsx">&lt;Container padding={["bottom", "top"]} background="light"&gt;
+<pre><code class="hljs css jsx">&lt;Container padding={["bottom", "top"]} background="light"&gt;
   ...         
 &lt;/Container&gt;
 </code></pre>
@@ -42,7 +42,7 @@ Background choices: <code>dark</code>, <code>highlight</code>, <code>light</code
 <li><code>imageLink</code> for a link destination from clicking the image</li>
 </ul>
 <p>Example:</p>
-<pre><code>&lt;GridBlock
+<pre><code class="hljs">&lt;GridBlock
   align=<span class="hljs-string">"center"</span>
   contents={[
     {
@@ -69,15 +69,15 @@ Background choices: <code>dark</code>, <code>highlight</code>, <code>light</code
 <h2><a class="anchor" name="translating-strings"></a>Translating Strings <a class="hash-link" href="#translating-strings">#</a></h2>
 <p>When translations are enabled, any pages inside <code>website/pages/en</code> will be translated for all enabled languages. Urls for non-English pages will use their language tags as specified in the <code>languages.js</code> file. E.g. The url for a French page of <code>website/pages/en/help.js</code> would be found at <code>${baseUrl}fr/help.html</code>.</p>
 <p>When writing pages that you wish to translate, wrap any strings to be translated inside a <code>&lt;translate&gt;</code> tag. e.g.,</p>
-<pre><code class="language-jsx">&lt;p&gt;<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">translate</span>&gt;</span>I like translations<span class="hljs-tag">&lt;/<span class="hljs-name">translate</span>&gt;</span></span><span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></span>
+<pre><code class="hljs css jsx">&lt;p&gt;<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">translate</span>&gt;</span>I like translations<span class="hljs-tag">&lt;/<span class="hljs-name">translate</span>&gt;</span></span><span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></span>
 </code></pre>
 <p>You can also provide an optional description attribute to provide context for translators. e.g,</p>
-<pre><code class="language-jsx">&lt;a href="/community"&gt;
+<pre><code class="hljs css jsx">&lt;a href="/community"&gt;
   &lt;translate desc="footer link to page referring to community github and slack"&gt;Community&lt;/translate&gt;
 &lt;/a&gt;
 </code></pre>
 <p>Add the following require statement as well:</p>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> translate = <span class="hljs-built_in">require</span>(<span class="hljs-string">"../../server/translate.js"</span>).translate;
+<pre><code class="hljs css js"><span class="hljs-keyword">const</span> translate = <span class="hljs-built_in">require</span>(<span class="hljs-string">"../../server/translate.js"</span>).translate;
 </code></pre>
 <p>Note that this path is valid for files inside <code>pages/en</code> and should be adjusted accordingly if files are in different locations, as discussed <a href="#page-require-paths">above</a>.</p>
 <h2><a class="anchor" name="using-static-assets"></a>Using Static Assets <a class="hash-link" href="#using-static-assets">#</a></h2>
@@ -96,4 +96,4 @@ Background choices: <code>dark</code>, <code>highlight</code>, <code>light</code
                 indexName: 'docusaurus',
                 inputSelector: '#search_input_react'
               });
-            </script><script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script><script>hljs.initHighlightingOnLoad();</script></body></html>
+            </script></body></html>
