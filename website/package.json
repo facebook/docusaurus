@@ -7,13 +7,11 @@
 		"write-translations": "../lib/write-translations.js",
 		"version": "../lib/version.js",
 		"rename-version": "../lib/rename-version.js",
-		"crowdin-upload":
-			"crowdin-cli --config ../crowdin.yaml upload sources --auto-update -b master",
-		"crowdin-download":
-			"crowdin-cli --config ../crowdin.yaml download -b master"
+		"crowdin-upload": "crowdin-cli --config ../crowdin.yaml upload sources --auto-update -b master",
+		"crowdin-download": "crowdin-cli --config ../crowdin.yaml download -b master"
 	},
 	"dependencies": {
 		"async": "^2.5.0",
-		"docusaurus": "^1.0.0-alpha.42"
+		"docusaurus": "../../Docusaurus/"
 	}
 }
