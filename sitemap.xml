@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
-<url> <loc>https://docusaurus.io/help.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
-<url> <loc>https://docusaurus.io/index.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
-<url> <loc>https://docusaurus.io/users.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
+<url> <loc>https://docusaurus.io/help.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> <xhtml:link rel="alternate" hreflang="en" href="https://docusaurus.io/en/help.html" /> </url>
+<url> <loc>https://docusaurus.io/index.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> <xhtml:link rel="alternate" hreflang="en" href="https://docusaurus.io/en/index.html" /> </url>
+<url> <loc>https://docusaurus.io/users.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> <xhtml:link rel="alternate" hreflang="en" href="https://docusaurus.io/en/users.html" /> </url>
 <url> <loc>https://docusaurus.io/blog/2017/10/24/new-version-1.0.0.html</loc> <changefreq>weekly</changefreq> <priority>0.3</priority> </url>
 <url> <loc>https://docusaurus.io/blog/2017/09/26/adding-rss.html</loc> <changefreq>weekly</changefreq> <priority>0.3</priority> </url>
 <url> <loc>https://docusaurus.io/blog/2017/09/25/testing-rss.html</loc> <changefreq>weekly</changefreq> <priority>0.3</priority> </url>
-<url> <loc>https://docusaurus.io/docs/en/commands.html</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> </url>
-<url> <loc>https://docusaurus.io/docs/en/doc-markdown.html</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> </url>
-<url> <loc>https://docusaurus.io/docs/en/api-pages.html</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> </url>
-<url> <loc>https://docusaurus.io/docs/en/site-config.html</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> </url>
-<url> <loc>https://docusaurus.io/docs/en/installation.html</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> </url>
-<url> <loc>https://docusaurus.io/docs/en/site-preparation.html</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> </url>
-<url> <loc>https://docusaurus.io/docs/en/publishing.html</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> </url>
-<url> <loc>https://docusaurus.io/docs/en/site-creation.html</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> </url>
-<url> <loc>https://docusaurus.io/docs/en/blog.html</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> </url>
-<url> <loc>https://docusaurus.io/docs/en/custom-pages.html</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> </url>
-<url> <loc>https://docusaurus.io/docs/en/navigation.html</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> </url>
-<url> <loc>https://docusaurus.io/docs/en/search.html</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> </url>
-<url> <loc>https://docusaurus.io/docs/en/translation.html</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> </url>
-<url> <loc>https://docusaurus.io/docs/en/versioning.html</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> </url>
+<url> <loc>https://docusaurus.io/docs/en/commands.html</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://docusaurus.io/docs/en/commands.html" /> </url>
+<url> <loc>https://docusaurus.io/docs/en/doc-markdown.html</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://docusaurus.io/docs/en/doc-markdown.html" /> </url>
+<url> <loc>https://docusaurus.io/docs/en/api-pages.html</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://docusaurus.io/docs/en/api-pages.html" /> </url>
+<url> <loc>https://docusaurus.io/docs/en/site-config.html</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://docusaurus.io/docs/en/site-config.html" /> </url>
+<url> <loc>https://docusaurus.io/docs/en/installation.html</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://docusaurus.io/docs/en/installation.html" /> </url>
+<url> <loc>https://docusaurus.io/docs/en/site-preparation.html</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://docusaurus.io/docs/en/site-preparation.html" /> </url>
+<url> <loc>https://docusaurus.io/docs/en/publishing.html</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://docusaurus.io/docs/en/publishing.html" /> </url>
+<url> <loc>https://docusaurus.io/docs/en/site-creation.html</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://docusaurus.io/docs/en/site-creation.html" /> </url>
+<url> <loc>https://docusaurus.io/docs/en/blog.html</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://docusaurus.io/docs/en/blog.html" /> </url>
+<url> <loc>https://docusaurus.io/docs/en/custom-pages.html</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://docusaurus.io/docs/en/custom-pages.html" /> </url>
+<url> <loc>https://docusaurus.io/docs/en/navigation.html</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://docusaurus.io/docs/en/navigation.html" /> </url>
+<url> <loc>https://docusaurus.io/docs/en/search.html</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://docusaurus.io/docs/en/search.html" /> </url>
+<url> <loc>https://docusaurus.io/docs/en/translation.html</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://docusaurus.io/docs/en/translation.html" /> </url>
+<url> <loc>https://docusaurus.io/docs/en/versioning.html</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://docusaurus.io/docs/en/versioning.html" /> </url>
 </urlset>
