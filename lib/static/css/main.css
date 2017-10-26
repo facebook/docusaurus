@@ -82,13 +82,19 @@ a.anchor {
 }
 
 a.hash-link {
+  float: left;
+  padding-right: 4px;
+  margin-top: 4px;
+  margin-left: -20px;
+  line-height: 1.2;
   opacity: 0;
   transition: opacity 0.3s;
 }
-h1:hover a.hash-link,
-h2:hover a.hash-link,
-h3:hover a.hash-link,
-h4:hover a.hash-link {
+
+h1:hover .hash-link,
+h2:hover .hash-link,
+h3:hover .hash-link,
+h4:hover .hash-link {
   opacity: 0.5;
   transition: none;
 }
@@ -158,7 +164,7 @@ header h2 {
 .wrapper {
   margin: 0px auto;
   max-width: 1024px;
-  padding: 0 10px;
+  padding: 0 20px;
 }
 
 .projectLogo {
@@ -1261,6 +1267,10 @@ nav.toc:last-child {
   }
   nav.toc:last-child {
     padding-bottom: 0;
+  }
+
+  a.anchor {
+    top: -144px;
   }
 }
 .docsNavContainer nav.toc .navWrapper {
