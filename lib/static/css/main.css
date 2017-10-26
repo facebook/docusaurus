@@ -1606,64 +1606,7 @@ h6:hover .header-link {
   margin: 0 auto;
   text-align: center;
 }
-.poweredByContainer {
-  background: $primaryColor;
-  color: #fff;
-  margin-bottom: 20px;
-}
-.poweredByContainer a {
-  color: #fff;
-}
-.poweredByContainer .wrapper h2 {
-  border-color: #f2c4b2;
-  color: #f2c4b2;
-}
-.poweredByContainer .poweredByMessage {
-  color: #f2c4b2;
-  font-size: 14px;
-  padding-top: 20px;
-}
 
-.poweredByItems {
-  display: flex;
-  flex-flow: row wrap;
-  margin: 0 -10px;
-}
-
-.poweredByItem {
-  box-sizing: border-box;
-  flex: 1 0 50%;
-  line-height: 1.1em;
-  padding: 5px 10px;
-}
-.poweredByItem.itemLarge {
-  flex-basis: 100%;
-  padding: 10px;
-  text-align: center;
-}
-.poweredByItem.itemLarge:nth-child(4) {
-  padding-bottom: 20px;
-}
-.poweredByItem.itemLarge img {
-  max-height: 30px;
-}
-
-@media only screen and (min-width: 480px) {
-  .itemLarge {
-    flex-basis: 50%;
-    max-width: 50%;
-  }
-}
-@media only screen and (min-width: 1024px) {
-  .poweredByItem {
-    flex-basis: 25%;
-    max-width: 25%;
-  }
-  .poweredByItem.itemLarge {
-    padding-bottom: 20px;
-    text-align: left;
-  }
-}
 .productShowcaseSection {
   padding: 0 20px 0;
   text-align: center;
@@ -1709,59 +1652,6 @@ h6:hover .header-link {
     max-height: 64px;
     width: 64px;
     padding: 20px;
-  }
-}
-
-div.jest-repl {
-  margin: 0 5%;
-  position: relative;
-  width: 600px;
-}
-div.jest-repl iframe {
-  display: block;
-  margin: 0 auto 10px;
-  min-height: 420px;
-  width: 100%;
-}
-@media only screen and (min-device-width: 360px) and (max-device-width: 736px) {
-  div.jest-repl {
-    display: none;
-  }
-}
-@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
-  div.jest-repl {
-    display: none;
-  }
-}
-@media only screen and (max-width: 1023px) {
-  div.jest-repl {
-    display: none;
-  }
-}
-
-div.video {
-  margin: 0 5%;
-  position: relative;
-  width: 100%;
-  min-width: 300px;
-  max-width: 600px;
-}
-
-div.video iframe {
-  display: block;
-  margin: 0 auto 10px;
-  min-height: 340px;
-  width: 100%;
-}
-
-@media only screen and (min-device-width: 360px) and (max-device-width: 736px) {
-  div.video {
-    display: none;
-  }
-}
-@media only screen and (max-width: 1023px) {
-  div.video {
-    display: none;
   }
 }
 
