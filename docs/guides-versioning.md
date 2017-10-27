@@ -42,7 +42,7 @@ Versioned documents are placed into `website/versioned_docs/version-${version}`,
 
 The markdown header for each versioned doc is altered by renaming the id frontmatter field to `original_id`, then using `"version-${version}-${original_id}"` as the value for the actual `id` field.
 
-Versioned sidebars are copied into `website/versioned_sidebars` and are named as `version-${version}-sidebar.json`. 
+Versioned sidebars are copied into `website/versioned_sidebars` and are named as `version-${version}-sidebars.json`. 
 
 A `website/versions.json` file is created the first time you cut a version and is used by Docusaurus to detect what versions exist. Each time a new version is added, it gets added to the `versions.json` file. 
 
