@@ -8,7 +8,7 @@
 const React = require("react");
 
 const CompLibrary = require("../../core/CompLibrary.js");
-const Marked = CompLibrary.Marked; /* Used to read markdown */
+const MarkdownBlock = CompLibrary.MarkdownBlock; /* Used to read markdown */
 const Container = CompLibrary.Container;
 const GridBlock = CompLibrary.GridBlock;
 
@@ -126,7 +126,7 @@ class Index extends React.Component {
             style={{ textAlign: "center" }}
           >
             <h2>Feature Callout</h2>
-            <Marked>These are features of this project</Marked>
+            <MarkdownBlock>These are features of this project</MarkdownBlock>
           </div>
 
           <Container padding={["bottom", "top"]} background="light">
