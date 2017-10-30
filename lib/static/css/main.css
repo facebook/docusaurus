@@ -1443,6 +1443,7 @@ nav.toc .toggleNav .navBreadcrumb h2 {
 
   .sideNavVisible .navPusher .mainContainer {
     padding-top: 0;
+    max-width: 70%;
   }
 
   .docsNavContainer {
