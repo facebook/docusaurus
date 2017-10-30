@@ -1,11 +1,13 @@
-node_modules
 .DS_Store
+node_modules
+
 lib/core/metadata.js
 lib/core/MetadataBlog.js
-website/translated_docs
-website/build/
-website/yarn.lock
-website/node_modules
 lib/pages/
 
+website/build/
 website/i18n/*
+website/node_modules
+website/package-lock.json
+website/translated_docs
+website/yarn.lock
