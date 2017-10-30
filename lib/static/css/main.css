@@ -163,7 +163,7 @@ header h2 {
 
 .wrapper {
   margin: 0px auto;
-  max-width: 1024px;
+  max-width: 736px;
   padding: 0 20px;
 }
 
@@ -290,7 +290,7 @@ header h2 {
   line-height: 1.7;
   max-width: 50rem;
 }
-@media (max-width: 1024px) {
+@media (max-width: 735px) {
   .mainContainer .wrapper p,
   .blockElement p,
   .mainContainer .wrapper ul li,
@@ -464,7 +464,7 @@ header h2 {
     padding-right: 40px;
   }
 }
-@media only screen and (min-width: 1024px) {
+@media only screen and (min-width: 736px) {
   .mainContainer .wrapper .post {
     box-sizing: border-box;
     display: block;
@@ -707,7 +707,7 @@ input#search_input_react:focus, input#search_input_react:active {
   color: #fff;
   width: 220px;
 }
-@media only screen and (min-device-width: 360px) and (max-device-width: 736px) {
+@media only screen and (min-device-width: 360px) and (max-device-width: 735px) {
   .navSearchWrapper {
     width: 50%;
   }
@@ -756,7 +756,7 @@ pre code {
   font-weight: normal;
   text-decoration: none;
 }
-@media only screen and (min-device-width: 360px) and (max-device-width: 736px) {
+@media only screen and (min-device-width: 360px) and (max-device-width: 735px) {
   a.edit-page-link.button{
     display: none;
   }
@@ -797,7 +797,7 @@ pre code {
   flex: 0 1 500px;
   margin-right: 40px;
 }
-@media only screen and (min-device-width: 360px) and (max-device-width: 736px) {
+@media only screen and (min-device-width: 360px) and (max-device-width: 735px) {
   .imageAlignSide .blockImage {
     display: none;
   }
@@ -877,7 +877,7 @@ pre code {
 .container.paddingTop {
   padding-top: 80px;
 }
-@media only screen and (min-device-width: 360px) and (max-device-width: 736px) {
+@media only screen and (min-device-width: 360px) and (max-device-width: 735px) {
   .container.paddingBottom {
     padding-bottom: 40px;
   }
@@ -897,7 +897,7 @@ pre code {
     position: absolute;
   }
 }
-@media only screen and (min-width: 1024px) {
+@media only screen and (min-width: 736px) {
   .gridBlock {
     display: flex;
     flex-direction: row;
@@ -1069,7 +1069,7 @@ ul#languages li {
   transition: opacity 0.5s, width 0.1s 0.5s, height 0.1s 0.5s;
 }
 
-@media only screen and (min-width: 1024px) {
+@media only screen and (min-width: 736px) {
   .navPusher {
     padding-top: 50px;
   }
@@ -1082,7 +1082,7 @@ ul#languages li {
   transition: opacity 0.5s;
   z-index: 100;
 }
-@media only screen and (max-width: 1023px) {
+@media only screen and (max-width: 735px) {
   .reactNavSearchWrapper::before {
     left: 6px;
   }
@@ -1140,7 +1140,7 @@ ul#languages li {
     flex-direction: row;
   }
 }
-@media only screen and (min-width: 1024px) {
+@media only screen and (min-width: 736px) {
   .navSearchWrapper {
     position: relative;
     top: auto;
@@ -1204,7 +1204,7 @@ ul#languages li {
 .docs-prev {
   float: left;
 }
-@media only screen and (min-device-width: 360px) and (max-device-width: 736px) {
+@media only screen and (min-device-width: 360px) and (max-device-width: 735px) {
   .docs-prevnext {
     height: 40px;
   }
@@ -1261,7 +1261,7 @@ nav.toc section {
 nav.toc:last-child {
   padding-bottom: 100px;
 }
-@media only screen and (min-device-width: 360px) and (max-device-width: 736px) {
+@media only screen and (min-device-width: 360px) and (max-device-width: 735px) {
   nav.toc {
     width: 100%;
   }
@@ -1432,7 +1432,7 @@ nav.toc .toggleNav .navBreadcrumb h2 {
     padding: 40px 0 0;
   }
 }
-@media only screen and (min-width: 1024px) {
+@media only screen and (min-width: 736px) {
   .navToggle {
     display: none;
   }
@@ -1577,7 +1577,7 @@ table tr th {
 .blog-recent > a {
   float: left;
 }
-@media only screen and (min-device-width: 360px) and (max-device-width: 736px) {
+@media only screen and (min-device-width: 360px) and (max-device-width: 735px) {
   .blog-recent {
     height: 40px;
   }
@@ -1653,7 +1653,7 @@ h6:hover .header-link {
   width: 110px;
   padding: 20px;
 }
-@media only screen and (min-device-width: 360px) and (max-device-width: 736px) {
+@media only screen and (min-device-width: 360px) and (max-device-width: 735px) {
   .gridBlock .fourByGridBlock {
     box-sizing: border-box;
     flex: 1 0 26%;
@@ -1695,7 +1695,7 @@ h6:hover .header-link {
   padding: 20px;
 }
 
-@media only screen and (min-device-width: 360px) and (max-device-width: 736px) {
+@media only screen and (min-device-width: 360px) and (max-device-width: 735px) {
   .showcaseSection .logos img {
     max-height: 64px;
     width: 64px;
@@ -1741,7 +1741,7 @@ footer .sitemap .nav-home:hover,
 footer .sitemap .nav-home:focus {
   opacity: 1.0;
 }
-@media screen and (max-width: 740px) {
+@media screen and (max-width: 735px) {
   footer .sitemap {
     display: none;
   }
@@ -1800,7 +1800,7 @@ footer .copyright {
   display: block;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 735px) {
   .entry-share {
     display: none;
   }
