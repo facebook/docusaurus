@@ -454,7 +454,7 @@ header h2 {
     display: inline;
   }
 }
-@media only screen and (min-width: 900px) {
+@media only screen and (min-width: 736px) {
   .homeContainer .homeWrapper {
     position: relative;
   }
@@ -463,8 +463,6 @@ header h2 {
     max-width: 600px;
     padding-right: 40px;
   }
-}
-@media only screen and (min-width: 736px) {
   .mainContainer .wrapper .post {
     box-sizing: border-box;
     display: block;
@@ -1427,12 +1425,10 @@ nav.toc .toggleNav .navBreadcrumb h2 {
   display: block;
 }
 
-@media only screen and (min-width: 900px) {
+@media only screen and (min-width: 736px) {
   nav.toc section .navGroups {
     padding: 40px 0 0;
   }
-}
-@media only screen and (min-width: 736px) {
   .navToggle {
     display: none;
   }
