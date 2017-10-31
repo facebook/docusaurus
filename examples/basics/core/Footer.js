@@ -7,20 +7,6 @@
 
 const React = require("react");
 
-const githubButton = (
-  <a
-    className="github-button"
-    href={this.props.config.repoUrl}
-    data-icon="octicon-star"
-    data-count-href="/deltice/test-site/stargazers"
-    data-show-count={true}
-    data-count-aria-label="# stargazers on GitHub"
-    aria-label="Star this project on GitHub"
-  >
-    Star
-  </a>
-);
-
 class Footer extends React.Component {
   render() {
     const currentYear = new Date().getFullYear();
@@ -92,7 +78,16 @@ class Footer extends React.Component {
             <h5>More</h5>
             <a href={this.props.config.baseUrl + "blog"}>Blog</a>
             <a href="https://github.com/">GitHub</a>
-            {githubButton}
+            <a className="github-button"
+              href={this.props.config.repoUrl}
+              data-icon="octicon-star"
+              data-count-href="/deltice/test-site/stargazers"
+              data-show-count={true}
+              data-count-aria-label="# stargazers on GitHub"
+              aria-label="Star this project on GitHub"
+            >
+              Star
+            </a>    
           </div>
         </section>
 
