@@ -163,7 +163,7 @@ header h2 {
 
 .wrapper {
   margin: 0px auto;
-  max-width: 736px;
+  max-width: 1100px;
   padding: 0 20px;
 }
 
@@ -479,9 +479,6 @@ header h2 {
     max-width: 750px;
   }
 
-  .wrapper {
-    max-width: 1100px;
-  }
   .homeContainer .homeWrapper .projectLogo {
     align-items: center;
     bottom: 0;
