@@ -22,7 +22,7 @@ If you wish to use your own components inside the website folder, use `process.c
 
 Docusaurus provides the following components in `CompLibrary`:
 
-### `CompLibrary.MarkdownBlock` 
+### `CompLibrary.MarkdownBlock`
 
 A React component that parses markdown and renders to HTML.
 
@@ -51,16 +51,16 @@ Example:
 
 ### `CompLibrary.GridBlock`
 
-A React component to organize text and images. 
+A React component to organize text and images.
 
 The `align` attribute determines text alignment. Text alignment defaults to `left` and can be set to `center` or `right`.
 
 The `layout` attribute determines number of column sections per GridBlock. `layout` defaults to `twoColumn` and can be set to `threeColumn` or `fourColumn` as well.
 
-The `contents` attribute is an array containing the contents of each section of the GridBlock. Each content object can have the following fields: 
+The `contents` attribute is an array containing the contents of each section of the GridBlock. Each content object can have the following fields:
 
 - `content` for the text of this section, which is parsed from markdown
-- `image` for the path to an image to display 
+- `image` for the path to an image to display
 - `imageAlign` field for image alignment relative to the text, which defaults to `top` and can be set to `bottom`, `left`, or `right`
 - `title` for the title to display for this section, which is parsed from markdown
 - `imageLink` for a link destination from clicking the image
@@ -132,9 +132,3 @@ You should configure your site's primary, secondary, and code block colors using
 You can provide your own custom styles by adding them anywhere in the `website/static` folder. Any `.css` files you provide in the `static` folder will get concatenated to the end of Docusaurus's provided styles, allowing you to add to or override Docusaurus default styles as you wish.
 
 An easy way to figure out what classes you wish to override or add to is to [start your server locally](api-commands.md) and use your browser's inspect element tool.
-
-## Adding Static Pages
-
-Static `.html` files can also be used, but they will not include Docusaurus's header, footer, or styles by default. These can be added to the `static` folder in the same way as other static assets. Alternatively, they can be placed in the `pages` folder and would be served as-is instead of being rendered from React.
-
-If you wish to use Docusaurus's stylesheet, you can access it at `${baseUrl}css/main.css`. If you wish to use separate css for these static pages, you can exclude them from being concatenated to Docusaurus's styles by adding them into the `siteConfig.separateCss` field.
