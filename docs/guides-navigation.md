@@ -3,11 +3,13 @@ id: navigation
 title: Navigation and Sidebars
 ---
 
-## New Hidden Docs
+## How Documents are Linked
 
-New markdown files within `docs` will show up as pages on the website. Creating a file such as "docs/getting-started.md" will enable the new page `/docs/getting-started.html`.
+New markdown files within `docs` will show up as pages on the website. Links to those documents are created first by using the `id` in the header of each document. If there is no `id` field, then the name of the file will serve as the link name.
 
-To change the id (link name) of the file, set the `id` field in the markdown header. At the top of `getting-started.md`:
+For example, creating an empty file such as "docs/getting-started.md" will enable the new page URL as `/docs/getting-started.html`.
+
+Suppose you add this to your document:
 
 ```
 ---
@@ -18,14 +20,21 @@ title: Getting Started
 My *new content* here..
 ```
 
-Now, the doc can be accessed from `/docs/intro.html`.
+If you set the `id` field in the markdown header of the file, the doc will then be accessed from a URL of the form `/docs/intro.html`.
 
+> You need an `id` field to be able to add the document to the sidebar.
 
-## Adding Docs to a Sidebar
+## Adding Documents to a Sidebar
 
-Now we want our new page to show up on the sidebar. We configure the order of the sidebar in `website/sidebars.json`.
+Many times, you will want to add a document to a sidebar that will be associated with one of the headers in the top navigation bar of the website. The most common sidebar, and the one that comes installed when Docusaurus is initialized, is the `docs` sidebar.
 
-Within `sidebars.json`, add the doc ID within an existing sidebar/category:
+> "docs" is just a name. It has no inherit meaning. You can change it as you wish.
+
+You configure the contents of the sidebar, and the order of its documents, in the `website/sidebars.json` file.
+
+> Until you add your document to `website/sidebars.json`, they will only be accessible via a direct URL. The doc will not show up in any sidebar.
+
+Within `sidebars.json`, add the `id` you used in the document header to existing sidebar/category. In the below case, `docs` is the name of the sidebar and `Getting Started` is a category within the sidebar.
 
 ```
 {
@@ -46,39 +55,43 @@ Or you can create a new category within the sidebar:
     ...
 ```
 
-## New Hidden Sections
+### Adding New Sidebars
 
-You can also put the doc in a new sidebar. In this case we are creating a `intro` section within `sidebars.json`.
+You can also put a document in a new sidebar. In the following example, we are creating an `examples-sidebar` sidebar within `sidebars.json` that has a category called `My Example Category` containing a document with an `id` of `my-examples`.
 
 ```
 {
-  "intro": {
-    "My Sidebar Category": [
-      "getting-started"
+  "examples-sidebar": {
+    "My Example Category": [
+      "my-examples"
     ],
   },
   ...
 ```
 
-Keep in mind, until you add the section to the nav bar (below), this new "intro" section of the site will be hidden with no links going to it.
+It is important to note that until you [add a document from the the `"examples-sidebar"` sidebar to the nav bar](#additions-to-the-site-navigation-bar), it will be hidden.
 
+## Additions to the Site Navigation Bar
 
+To expose sidebars, you will add clickable labels to the site navigation bar at the top of the website. You can add documents, pages and external links.
 
-## Adding doc to site nav bar
+### Adding Documents
 
-After creating a new section of the site by adding to `sidebars.json`, you can link to the new doc from the top navigation bar by editing the `headerLinks` field of `siteConfig.js`.
+After creating a new sidebar for the site by [adding](#adding-new-sidebars) it to `sidebars.json`, you can expose the new sidebar from the top navigation bar by editing the `headerLinks` field of `siteConfig.js`.
 
 ```
 headerLinks: [
   ...
-  { doc: 'intro', label: 'Getting Started' },
+  { doc: 'my-examples', label: 'Examples' },
   ...
 ],
 ```
 
-## Custom page links in nav bar
+A label called `Examples` will be added to the site navigation bar and when you click on it at the top of your site, the `examples-sidebar` will be shown and the default document will be `my-examples`.
 
-To add custom pages to the navigation bar, entries can be added to the `headerLinks` of `siteConfig.js`. For example, if we have a page within `website/pages/help.js`, we can link to it by adding the following:
+### Adding Custom Pages
+
+To add custom pages to the site navigation bar, entries can be added to the `headerLinks` of `siteConfig.js`. For example, if we have a page within `website/pages/help.js`, we can link to it by adding the following:
 
 ```
 headerLinks: [
@@ -88,9 +101,11 @@ headerLinks: [
 ],
 ```
 
-## External links in nav bar
+A label called `Help` will be added to the site navigation bar and when you click on it at the top of your site, the content from the `help.js` page will be shown.
 
-Custom links can be added to the nav bar with the following entry in `siteConfig.js`:
+### Adding External Links
+
+Custom links can be added to the site navigation bar with the following entry in `siteConfig.js`:
 
 ```
 headerLinks: [
@@ -100,9 +115,15 @@ headerLinks: [
 ],
 ```
 
-To open external links in a new tab, provide an `external: true` flag within the header link config.
+A label called `GitHub` will be added to the site navigation bar and when you click on it at the top of your site, the content of the external link will be shown.
 
-## Search bar position in nav bar
+> To open external links in a new tab, provide an `external: true` flag within the header link config.
+
+## Site Navigation Bar Positioning
+
+You have limited control where the search and languages dropdown elements are shown in the site navigation bar at the top of your website.
+
+### Search
 
 If search is enabled on your site, your search bar will appear to the right of your links. If you want to put the search bar between links in the header, add a search entry in the `headerLinks` config array:
 
@@ -113,7 +134,8 @@ headerLinks: [
   { doc: 'bar', label: 'Bar' },
 ],
 ```
-## Languages dropdown position in nav bar
+
+### Languages Dropdown
 
 If translations is enabled on your site, the language dropdown will appear to the right of your links (and to the left of the search bar, if search is enabled). If you want to put the language selection drop down between links in the header, add a languages entry in the `headerLinks` config array:
 
