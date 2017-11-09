@@ -68,7 +68,7 @@ const siteConfig = {
   copyright: "Copyright © " + new Date().getFullYear() + " Facebook Inc.",
   highlight: {
     theme: "solarized-dark"
-  }
+  },
 };
 
 

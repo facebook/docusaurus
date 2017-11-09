@@ -13,6 +13,7 @@
     "commander": "^2.11.0",
     "crowdin-cli": "^0.3.0",
     "diff": "^3.3.0",
+    "escape-string-regexp": "^1.0.5",
     "express": "^4.15.3",
     "feed": "^1.1.0",
     "fs-extra": "^3.0.1",

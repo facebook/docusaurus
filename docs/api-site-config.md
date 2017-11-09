@@ -62,6 +62,16 @@ headerLinks: [
 
 ### Optional Fields
 
+`customDocsPath` - By default, Docusaurus expects your documentation to be in a directory called `docs`. This directory is at the same level as the `website` directory (i.e., not inside the `website` directory). You can specify a custom path to your documentation with this field. **Note that all of your documentation *.md files must still reside in a flat hierarchy. You cannot have your documents in nested directories**.
+
+```js
+customDocsPath: "docs/site"
+```
+
+```js
+customDocsPath: "website-docs"
+```
+
 `editUrl` - url for editing docs, usage example: `editUrl + 'en/doc1.md'`. If this field is omitted, there will be no "Edit this Doc" button for each document.
 
 `users` - The `users` array mentioned earlier.
