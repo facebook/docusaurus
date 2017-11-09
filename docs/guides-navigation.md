@@ -134,7 +134,8 @@ headerLinks: [
   { doc: 'bar', label: 'Bar' },
 ],
 ```
-## Languages Dropdown
+
+### Languages Dropdown
 
 If translations is enabled on your site, the language dropdown will appear to the right of your links (and to the left of the search bar, if search is enabled). If you want to put the language selection drop down between links in the header, add a languages entry in the `headerLinks` config array:
 
