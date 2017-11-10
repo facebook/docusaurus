@@ -90,6 +90,8 @@ headerLinks: [
 
 `scripts` - Array of JavaScript sources to load. The script tag will be inserted in the HTML head.
 
+`cname` - The CNAME for your website. It will go into a `CNAME` file when your site it built.
+
 Users can also add their own custom fields if they wish to provide some data across different files.
 
 ## Example siteConfig.js with all fields
