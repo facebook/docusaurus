@@ -26,6 +26,18 @@ const users = [
     pinned: true
   },
   {
+    caption: "Reason React",
+    image: "/img/reason-react.svg",
+    infoLink: "https://reasonml.github.io/reason-react/",
+    pinned: true
+  },
+  {
+    caption: "MakeItOpen",
+    image: "/img/makeitopen.png",
+    infoLink: "http://makeitopen.com/",
+    pinned: true
+  },
+  {
     caption: "Docusaurus",
     image: "/img/docusaurus.svg",
     infoLink: "https://www.docusaurus.io",
