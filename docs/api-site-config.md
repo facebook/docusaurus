@@ -100,6 +100,8 @@ customDocsPath: "website-docs"
 
 `scripts` - Array of JavaScript sources to load. The script tag will be inserted in the HTML head.
 
+`stylesheets` - Array of CSS sources to load. The link tag will be inserted in the HTML head.
+
 `cname` - The CNAME for your website. It will go into a `CNAME` file when your site it built.
 
 Users can also add their own custom fields if they wish to provide some data across different files.
@@ -162,7 +164,8 @@ const siteConfig = {
       }
     }
   ],
-  scripts: [ "https://docusaurus.io/slash.js" ]
+  scripts: [ "https://docusaurus.io/slash.js" ],
+  stylesheets: [ "https://docusaurus.io/style.css" ]
 
 };
 
