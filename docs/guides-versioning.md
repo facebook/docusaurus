@@ -3,11 +3,25 @@ id: versioning
 title: Versioning
 ---
 
-Users can use the `version` script to cut a new documentation version based on the latest content in the `docs` folder. That specific set of documentation will then be preserved and accessible even as the documentation in the `docs` folder changes moving forward.
+You can use the `version` script to cut a new documentation version based on the latest content in the `docs` folder. That specific set of documentation will then be preserved and accessible even as the documentation in the `docs` folder changes moving forward.
 
 ## How to Create New Versions
 
-Add the following script to your `package.json` file:
+Run the following script to generate a starter versions page listing all the site versions:
+
+```
+yarn examples translations
+```
+
+This creates the following file:
+
+```
+pages/en/versions.js
+```
+
+You can edit this file later on to customize how you display the versions. 
+
+Add the following script to your `package.json` file if it doesn't already exist:
 
 ```json
 ...
@@ -20,21 +34,20 @@ Add the following script to your `package.json` file:
 Run the script with a command line argument of the version you wish to create. e.g.,
 
 ```bash
-npm run version 1.0.0
+yarn run version 1.0.0
 ```
 
 This will preserve all documents currently in the `docs` folder and make them available as documentation for version `1.0.0`.
 
-If, for example, you ran the version script with 1.0.0 as the version number, version 1.0.0 is considered the latest release version for your project, and the site will display the version number next to the title in the header.
+If, for example, you ran the version script with 1.0.0 as the version number, version 1.0.0 is considered the latest release version for your project. The site will display the version number next to the title in the header. This version number links to a versions page that you created earlier.
 
 Documents in the `docs` folder will be considered part of version `next` and they are available, for example, at the url `docs/next/doc1.html`. Documents from the latest version use the url `docs/doc1.html`.
 
-Running the script again with `npm run version 2.0.0` will create a version `2.0.0`, making version 2.0.0 the most recent set of documentation. Documents from version `1.0.0` will use the url `docs/1.0.0/doc1.html` while `2.0.0` will use `docs/doc1.html`.
-
+Running the script again with `yarn run version 2.0.0` will create a version `2.0.0`, making version 2.0.0 the most recent set of documentation. Documents from version `1.0.0` will use the url `docs/1.0.0/doc1.html` while `2.0.0` will use `docs/doc1.html`.
 
 ## Versioning Patterns
 
-Users can create version numbers in whatever format they wish, and a new version can be created with any version number as long as it does not match an existing version. Version ordering is determined by the order in which versions are created, independently of how they are numbered.
+You can create version numbers in whatever format you wish, and a new version can be created with any version number as long as it does not match an existing version. Version ordering is determined by the order in which versions are created, independently of how they are numbered.
 
 ## Storing Files for Each Version
 
@@ -69,7 +82,7 @@ To rename an existing version number to something else, first make sure the foll
 Run the script with command line arguments of first, the current version name, then second, the new version name. e.g.,
 
 ```bash
-npm run rename-version 1.0.0 1.0.1
+yarn run rename-version 1.0.0 1.0.1
 ```
 
 ## Versioning and Translations
