@@ -1009,6 +1009,8 @@ pre code {
 #languages-dropdown {
   position: absolute;
   width:100%;
+  /* positioning can block the main menu on mobile */
+  pointer-events: none;
 }
 #languages-dropdown.visible {
   display: flex;
@@ -1021,6 +1023,7 @@ ul#languages-dropdown-items {
   background-color: $primaryColor;
   flex-direction: column;
   min-width: 120px;
+  pointer-events: all;
 }
 
 ul#languages li {
