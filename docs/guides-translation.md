@@ -3,7 +3,7 @@ id: translation
 title: Translations & Localization
 ---
 
-Docusaurus allows for easy translation functionality using Crowdin. Documentation files written in English are uploaded to Crowdin for translation by users within a community. Top-level pages written with English strings can be translated by wrapping any strings you want to translate in a `<translate>` tag. Other titles and labels will also be found and properly translated.
+Docusaurus allows for easy translation functionality using [Crowdin](https://crowdin.com/). Documentation files written in English are uploaded to Crowdin for translation by users within a community. Top-level pages written with English strings can be translated by wrapping any strings you want to translate in a `<translate>` tag. Other titles and labels will also be found and properly translated.
 
 ## Docusaurus Translation Configurations
 
@@ -111,7 +111,7 @@ For other pages, Docusaurus will automatically transform all `<translate>` tags 
 
 Crowdin is a company that provides translation services. For Open Source projects, Crowdin provides free string translations
 
-Create your translation project on [Crowdin](https://www.crowdin.com/). You can use [Crowdin's guides](https://support.crowdin.com/translation-process-overview/) to learn more about the translations work flow. _We suggest that you deselect and do not include "English" as a translateable language to prevent the creation of `en-US` localization files as this can lead to confusion._
+Create your translation project on [Crowdin](https://crowdin.com/). You can use [Crowdin's guides](https://support.crowdin.com/translation-process-overview/) to learn more about the translations work flow. _We suggest that you deselect and do not include "English" as a translateable language to prevent the creation of `en-US` localization files as this can lead to confusion._
 
 Your project will need a `crowdin.yaml` file generated.
 
@@ -213,10 +213,6 @@ If you wish to use Crowdin on your machine locally, you can install the [Crowdin
 
 ## Versioned Translations
 
-TODO - This section needs to be fleshed out.
-
-OLD -
-
 If you wish to have translation and versioning for your documentation, add the following section to the end of your `crowdin.yaml` file:
 
 ```yaml
@@ -228,3 +224,4 @@ If you wish to have translation and versioning for your documentation, add the f
 
 Translated, versioned documents will be copied into `website/translated_docs/${language}/${version}/`.
 
+> Ensure in your Crowdin settings, in the Translations section, that "Duplicate Strings" are set to ["Hide - all duplicates will share the same translation"](https://support.crowdin.com/api/create-project/). This setting will ensure that identical strings between versions share a single translation.
