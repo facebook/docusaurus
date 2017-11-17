@@ -26,8 +26,11 @@
 <li><code>CIRCLE_PROJECT_USERNAME</code>: The GitHub user or organization that owns the repository. In the case of Docusaurus, that would be the &quot;facebookexperimental&quot; GitHub organization.</li>
 <li><code>CIRCLE_PROJECT_REPONAME</code>: The name of the GitHub repository for your project. For example, Docusaurus is hosted at <a href="https://github.com/facebookexperimental/docusaurus">https://github.com/facebookexperimental/docusaurus</a>, so our repo name in this case would be &quot;docusaurus&quot;.</li>
 <li><code>GIT_USER</code>: The username for a GitHub account that has commit access to this repo. For your own repositories, this will usually be your own GitHub username.</li>
-<li><code>CIRCLE_BRANCH</code>: The branch that contains the latest docs changes that will be deployed. Usually, &quot;master&quot;.</li>
+<li><code>CIRCLE_BRANCH</code>: The branch that contains the latest docs changes that will be deployed. Usually, the branch will be <code>master</code>, but it could be any branch (default or otherwise) except for <code>gh-pages</code>.</li>
 </ul>
+<blockquote>
+<p>We currently require the published documentation to be served from the <code>gh-pages</code> branch in your GitHub repo.</p>
+</blockquote>
 <blockquote>
 <p>The reason we prefix some of these parameters with <code>CIRCLE</code> is because Docusaurus recommends publishing your documentation continuously when changes are committed via <a href="https://circleci.org">CircleCI</a>.</p>
 </blockquote>
