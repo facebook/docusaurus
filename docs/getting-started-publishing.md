@@ -34,7 +34,9 @@ Most of the work to publish to GitHub pages is done for you automatically throug
 - `CIRCLE_PROJECT_USERNAME`: The GitHub user or organization that owns the repository. In the case of Docusaurus, that would be the "facebookexperimental" GitHub organization.
 - `CIRCLE_PROJECT_REPONAME`: The name of the GitHub repository for your project. For example, Docusaurus is hosted at https://github.com/facebookexperimental/docusaurus, so our repo name in this case would be "docusaurus".
 - `GIT_USER`: The username for a GitHub account that has commit access to this repo. For your own repositories, this will usually be your own GitHub username.
-- `CIRCLE_BRANCH`: The branch that contains the latest docs changes that will be deployed. Usually, "master".
+- `CIRCLE_BRANCH`: The branch that contains the latest docs changes that will be deployed. Usually, the branch will be `master`, but it could be any branch (default or otherwise) except for `gh-pages`.
+
+> We currently require the published documentation to be served from the `gh-pages` branch in your GitHub repo.
 
 > The reason we prefix some of these parameters with `CIRCLE` is because Docusaurus recommends publishing your documentation continuously when changes are committed via [CircleCI](https://circleci.org).
 
