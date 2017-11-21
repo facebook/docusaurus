@@ -20,6 +20,9 @@ if (shell.which("yarn")) {
 
 if (fs.existsSync(CWD + "/website")) {
   console.error(chalk.yellow("Website folder already exists.\n"));
+  console.log(
+    "In order for Docusaurus to get set up as your static site generator, you will need to remove any existing 'website' folder from your root directory. If you are migrating from another static site generator, you may want to move your old website folder to a different location."
+  );
   process.exit(1);
 }
 
