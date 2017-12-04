@@ -50,6 +50,7 @@ const siteConfig = {
   tagline: "Easy to Maintain Open Source Documentation Websites",
   url: "https://docusaurus.io",
   baseUrl: "/",
+  organizationName: "facebookexperimental",
   projectName: "Docusaurus",
   cname: "docusaurus.io",
   noIndex: true,
@@ -82,6 +83,5 @@ const siteConfig = {
     theme: "solarized-dark"
   }
 };
-
 
 module.exports = siteConfig;
