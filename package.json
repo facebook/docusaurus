@@ -1,6 +1,5 @@
 {
   "scripts": {
-    "test": "true",
     "ci-check": "yarn prettier:diff",
     "format:source": "prettier --config .prettierrc --write \"lib/**/*.js\"",
     "format:examples": "prettier --config .prettierrc --write \"examples/**/*.js\"",
