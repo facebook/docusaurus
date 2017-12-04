@@ -39,14 +39,20 @@ jobs:
       - run: *yarn
       - save-cache: *save-yarn-cache
       - run:
+<<<<<<< HEAD
           name: Check Prettier
           command: yarn ci-check
       - run:
           name: Test Build Static Website
           command: cd website && yarn run build
       - run:
+=======
+>>>>>>> Use latest Node 6 LTS version in Circle
           name: Check Prettier
           command: yarn ci-check
+      - run:
+          name: Test Build Static Website
+          command: cd website && yarn run build
 
   deploy-website:
     <<: *defaults
