@@ -44,6 +44,9 @@ jobs:
       - run:
           name: Test Build Static Website
           command: cd website && yarn run build
+      - run:
+          name: Check Prettier
+          command: yarn ci-check
 
   deploy-website:
     <<: *defaults

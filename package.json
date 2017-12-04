@@ -6,7 +6,8 @@
     "nit:source": "prettier --config .prettierrc --list-different \"lib/**/*.js\"",
     "nit:examples": "prettier --config .prettierrc --list-different \"examples/**/*.js\"",    
     "prettier": "yarn format:source && yarn format:examples",
-    "prettier:diff": "yarn nit:source && yarn nit:examples"
+    "prettier:diff": "yarn nit:source && yarn nit:examples",
+    "test": "jest"
   },
   "dependencies": {
     "babel-preset-env": "^1.6.0",
