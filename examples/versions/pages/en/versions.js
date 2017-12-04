@@ -78,7 +78,7 @@ class Versions extends React.Component {
                           <a href={''}>Release Notes</a>
                         </td>
                       </tr>
-                    ),
+                    )
                 )}
               </tbody>
             </table>

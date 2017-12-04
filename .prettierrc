@@ -5,5 +5,5 @@
   "printWidth": 80,
   "proseWrap": false,
   "singleQuote": true,
-  "trailingComma": "all"
+  "trailingComma": "es5"
 }
