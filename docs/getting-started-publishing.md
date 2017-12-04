@@ -17,7 +17,7 @@ This will generate a `build` folder inside the `website` directory containing th
 
 ## Hosting Static HTML Pages
 
-At this point, you can grab all of the files inside the `website/build` folder and copy them over to your favorite web server's "html" directory. 
+At this point, you can grab all of the files inside the `website/build` folder and copy them over to your favorite web server's "html" directory.
 
 > For example, both Apache and nginx serve content from `/var/www/html` by default. That said, choosing a web server or provider is outside the scope of Docusaurus.
 
@@ -29,32 +29,38 @@ Deploying your Docusaurus site to GitHub Pages is straightforward if you are alr
 
 > Even if your repo is private, anything published to a `gh-pages` branch will be [public](https://help.github.com/articles/user-organization-and-project-pages/).
 
-Most of the work to publish to GitHub pages is done for you automatically through the [`publish-gh-pages`](./commands.md#docusaurus-publish) script. You just need to determine the values for a few parameters required by the script. The required parameters are:
+Most of the work to publish to GitHub pages is done for you automatically through the [`publish-gh-pages`](./commands.md#docusaurus-publish) script. You just need to determine the values for a few parameters required by the script.
 
-- `CIRCLE_PROJECT_USERNAME`: The GitHub user or organization that owns the repository. In the case of Docusaurus, that would be the "facebookexperimental" GitHub organization.
-- `CIRCLE_PROJECT_REPONAME`: The name of the GitHub repository for your project. For example, Docusaurus is hosted at https://github.com/facebookexperimental/docusaurus, so our repo name in this case would be "docusaurus".
+Two of the required parameters are set in the [`siteConfig.js`](api-site-config.md):
+
+- `organizationName`: The GitHub user or organization that owns the repository. In the case of Docusaurus, that would be the "facebookexperimental" GitHub organization.
+- `projectName`: The name of the GitHub repository for your project. For example, Docusaurus is hosted at https://github.com/facebookexperimental/docusaurus, so our project name in this case would be "docusaurus".
+
+> While we recommend setting the above in `siteConfig.js`, you can also use environment variables `ORGANIZATION_NAME` and `PROJECT_NAME`.
+
+One of the required parameters are set as environment variables:
+
 - `GIT_USER`: The username for a GitHub account that has commit access to this repo. For your own repositories, this will usually be your own GitHub username.
-- `CIRCLE_BRANCH`: The branch that contains the latest docs changes that will be deployed. Usually, the branch will be `master`, but it could be any branch (default or otherwise) except for `gh-pages`.
+
+There is also an optional parameter that is set as an environment variable. If nothing is set for this variable, then the current branch will be used.
+
+- `CURRENT_BRANCH`: The branch that contains the latest docs changes that will be deployed. Usually, the branch will be `master`, but it could be any branch (default or otherwise) except for `gh-pages`.
 
 > We currently require the published documentation to be served from the `gh-pages` branch in your GitHub repo.
 
-> The reason we prefix some of these parameters with `CIRCLE` is because Docusaurus recommends publishing your documentation continuously when changes are committed via [CircleCI](https://circleci.org).
-
-Once you have the paremeter value information, you can go ahead and run the publish script, ensuring you have inserted your own values inside the various parameter placeholders:
+Once you have the parameter value information, you can go ahead and run the publish script, ensuring you have inserted your own values inside the various parameter placeholders:
 
 To run the script directly from the command-line, you can use the following, filling in the parameter values as appropriate.
 
 ```
 GIT_USER=<GIT_USER> \
-  CIRCLE_PROJECT_USERNAME=<CIRCLE_PROJECT_USERNAME> \
-  CIRCLE_PROJECT_REPONAME=<CIRCLE_PROJECT_REPONAME> \
-  CIRCLE_BRANCH=master \
+  CURRENT_BRANCH=master \
   yarn run publish-gh-pages # or `npm run publish-gh-pages`
 ```
 
-> The specified `GIT_USER` must have push access to the repository specified in the combination of `CIRCLE_PROJECT_USERNAME` and `CIRCLE_PROJECT_REPONAME`. 
+> The specified `GIT_USER` must have push access to the repository specified in the combination of `organizationName` and `projectName`.
 
-You should now be able to load your website by visiting its GitHub Pages URL, which could be something along the lines of https://CIRCLE_PROJECT_USERNAME.github.io/CIRCLE_PROJECT_REPONAME, or a custom domain if you have set that up. For example, Docusaurus' own GitHub Pages URL is https://docusaurus.io (it can also be accessed via https://facebookexperimental.github.io/docusaurus), because it is served from the `gh-pages` branch of the https://github.com/facebookexperimental/docusaurus GitHub repo. We highly encourage reading through the [GitHub Pages documentation](https://pages.github.com) to learn more about how this hosting solution works.
+You should now be able to load your website by visiting its GitHub Pages URL, which could be something along the lines of https://organizationName.github.io/projectName, or a custom domain if you have set that up. For example, Docusaurus' own GitHub Pages URL is https://docusaurus.io (it can also be accessed via https://facebookexperimental.github.io/docusaurus), because it is served from the `gh-pages` branch of the https://github.com/facebookexperimental/docusaurus GitHub repo. We highly encourage reading through the [GitHub Pages documentation](https://pages.github.com) to learn more about how this hosting solution works.
 
 You can run the command above any time you update the docs and wish to deploy the changes to your site. Running the script manually may be fine for sites where the documentation rarely changes and it is not too much of an inconvenience to remember to manually deploy changes.
 
@@ -100,7 +106,7 @@ Make sure to replace `<GIT_USER>` with the actual username of the GitHub account
 
 **DO NOT** place the actual value of `$GITHUB_TOKEN` in `circle.yml`. We already configured that as an environment variable back in Step 3.
 
-> Unlike when you run the `publish-gh-pages` script manually, when the script runs within the Circle environment, the values of `CIRCLE_PROJECT_USERNAME`, `CIRCLE_PROJECT_REPONAME`, and `CIRCLE_BRANCH` are already defined as environment variables within CircleCI and will be picked up by the script automatically.
+> Unlike when you run the `publish-gh-pages` script manually, when the script runs within the Circle environment, the values of `ORGANIZATION_NAME`, `PROJECT_NAME`, and `CURRENT_BRANCH` are already defined as environment variables within CircleCI and will be picked up by the script automatically.
 
 Now, whenever a new commit lands in `master`, CircleCI will run your suite of tests and, if everything passes, your website will be deployed via the `publish-gh-pages` script.
 
