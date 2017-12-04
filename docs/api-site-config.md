@@ -72,6 +72,8 @@ customDocsPath: "docs/site"
 customDocsPath: "website-docs"
 ```
 
+`organizationName` - GitHub username of the organization or user hosting this project. This is used by the publishing script to determine where your GitHub pages website will be hosted.
+
 `editUrl` - url for editing docs, usage example: `editUrl + 'en/doc1.md'`. If this field is omitted, there will be no "Edit this Doc" button for each document.
 
 `users` - The `users` array mentioned earlier.
@@ -125,6 +127,7 @@ const siteConfig = {
 // url: "https://www.example.com",
   baseUrl: "/test-site/",
 // baseUrl: "/",
+  organizationName: "facebookexperimental",
   projectName: "docusaurus",
   noIndex: false,
   headerLinks: [
