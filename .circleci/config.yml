@@ -31,7 +31,7 @@ defaults: &defaults
 
 version: 2
 jobs:
-  test-website:
+  tests:
     <<: *defaults
     steps:
       - checkout
@@ -39,19 +39,13 @@ jobs:
       - run: *yarn
       - save-cache: *save-yarn-cache
       - run:
-<<<<<<< HEAD
           name: Check Prettier
           command: yarn ci-check
       - run:
-          name: Test Build Static Website
-          command: cd website && yarn run build
+          name: Run Test Suites
+          command: yarn test
       - run:
-=======
->>>>>>> Use latest Node 6 LTS version in Circle
-          name: Check Prettier
-          command: yarn ci-check
-      - run:
-          name: Test Build Static Website
+          name: Test Static Website Builds
           command: cd website && yarn run build
 
   deploy-website:
@@ -105,11 +99,11 @@ workflows:
 
   website:
     jobs:
-      - test-website:
+      - tests:
           filters: *filter-ignore-gh-pages
       - deploy-website:
           requires:
-            - test-website
+            - tests
           filters: *filter-only-master
 
   deploy:
