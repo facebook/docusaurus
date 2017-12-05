@@ -5,15 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const React = require("react");
+const React = require('react');
 
-const CompLibrary = require("../../core/CompLibrary.js");
+const CompLibrary = require('../../core/CompLibrary.js');
 const Container = CompLibrary.Container;
 const GridBlock = CompLibrary.GridBlock;
 
-const translate = require("../../server/translate.js").translate;
+const translate = require('../../server/translate.js').translate;
 
-const siteConfig = require(process.cwd() + "/siteConfig.js");
+const siteConfig = require(process.cwd() + '/siteConfig.js');
 
 class Help extends React.Component {
   render() {
@@ -21,10 +21,11 @@ class Help extends React.Component {
       {
         content: (
           <translate>
-            Learn more using the [documentation on this site.](/test-site/docs/en/doc1.html)
+            Learn more using the [documentation on this
+            site.](/test-site/docs/en/doc1.html)
           </translate>
         ),
-        title: <translate>Browse Docs</translate>
+        title: <translate>Browse Docs</translate>,
       },
       {
         content: (
@@ -32,12 +33,12 @@ class Help extends React.Component {
             Ask questions about the documentation and project
           </translate>
         ),
-        title: <translate>Join the community</translate>
+        title: <translate>Join the community</translate>,
       },
       {
         content: <translate>Find out what's new with this project</translate>,
-        title: <translate>Stay up to date</translate>
-      }
+        title: <translate>Stay up to date</translate>,
+      },
     ];
 
     return (
@@ -63,7 +64,7 @@ class Help extends React.Component {
 }
 
 Help.defaultProps = {
-  language: "en"
+  language: 'en',
 };
 
 module.exports = Help;

@@ -26,36 +26,27 @@ aliases:
 
 defaults: &defaults
   working_directory: ~/docusaurus
+  docker:
+    - image: circleci/node:6
 
 version: 2
 jobs:
-  test-js-node:
-    <<: *defaults
-    docker:
-      - image: circleci/node:6.11.4
-    steps:
-      - checkout
-      - restore-cache: *restore-yarn-cache
-      - run: *yarn
-      - save-cache: *save-yarn-cache
-      - run: yarn run test
   test-website:
     <<: *defaults
-    docker:
-      - image: circleci/node:6.11.4
     steps:
       - checkout
       - restore-cache: *restore-yarn-cache
       - run: *yarn
       - save-cache: *save-yarn-cache
       - run:
+          name: Check Prettier
+          command: yarn ci-check
+      - run:
           name: Test Build Static Website
           command: cd website && yarn run build
 
   deploy-website:
     <<: *defaults
-    docker:
-      - image: circleci/node:6.11.4
     steps:
       - add_ssh_keys:
           fingerprints:
@@ -84,8 +75,6 @@ jobs:
 
   publish-npm:
     <<: *defaults
-    docker:
-      - image: circleci/node:6.11.4
     steps:
       - checkout
       - restore-cache: *restore-yarn-cache
@@ -104,11 +93,6 @@ jobs:
 # Workflows enables us to run multiple jobs in parallel
 workflows:
   version: 2
-
-  test_node:
-    jobs:
-      - test-js-node:
-          filters: *filter-ignore-gh-pages
 
   website:
     jobs:

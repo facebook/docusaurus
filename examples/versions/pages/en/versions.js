@@ -5,16 +5,16 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const React = require("react");
+const React = require('react');
 
-const CompLibrary = require("../../core/CompLibrary");
+const CompLibrary = require('../../core/CompLibrary');
 const Container = CompLibrary.Container;
 const GridBlock = CompLibrary.GridBlock;
 
 const CWD = process.cwd();
 
-const siteConfig = require(CWD + "/siteConfig.js");
-const versions = require(CWD + "/versions.json");
+const siteConfig = require(CWD + '/siteConfig.js');
+const versions = require(CWD + '/versions.json');
 
 class Versions extends React.Component {
   render() {
@@ -24,7 +24,7 @@ class Versions extends React.Component {
         <Container className="mainContainer versionsContainer">
           <div className="post">
             <header className="postHeader">
-              <h2>{siteConfig.title + " Versions"}</h2>
+              <h2>{siteConfig.title + ' Versions'}</h2>
             </header>
             <p>New versions of this project are released every so often.</p>
             <a name="latest" />
@@ -32,14 +32,12 @@ class Versions extends React.Component {
             <table className="versions">
               <tbody>
                 <tr>
-                  <th>
-                    {latestVersion}
-                  </th>
+                  <th>{latestVersion}</th>
                   <td>
-                    <a href={""}>Documentation</a>
+                    <a href={''}>Documentation</a>
                   </td>
                   <td>
-                    <a href={""}>Release Notes</a>
+                    <a href={''}>Release Notes</a>
                   </td>
                 </tr>
               </tbody>
@@ -55,10 +53,10 @@ class Versions extends React.Component {
                 <tr>
                   <th>master</th>
                   <td>
-                    <a href={""}>Documentation</a>
+                    <a href={''}>Documentation</a>
                   </td>
                   <td>
-                    <a href={""}>Release Notes</a>
+                    <a href={''}>Release Notes</a>
                   </td>
                 </tr>
               </tbody>
@@ -70,23 +68,22 @@ class Versions extends React.Component {
               <tbody>
                 {versions.map(
                   version =>
-                    version !== latestVersion &&
-                    <tr>
-                      <th>
-                        {version}
-                      </th>
-                      <td>
-                        <a href={""}>Documentation</a>
-                      </td>
-                      <td>
-                        <a href={""}>Release Notes</a>
-                      </td>
-                    </tr>
+                    version !== latestVersion && (
+                      <tr>
+                        <th>{version}</th>
+                        <td>
+                          <a href={''}>Documentation</a>
+                        </td>
+                        <td>
+                          <a href={''}>Release Notes</a>
+                        </td>
+                      </tr>
+                    )
                 )}
               </tbody>
             </table>
             <p>
-              You can find past versions of this project{" "}
+              You can find past versions of this project{' '}
               <a href="https://github.com/"> on GitHub </a>.
             </p>
           </div>

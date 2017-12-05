@@ -1,0 +1,9 @@
+{
+  "bracketSpacing": false,
+  "jsxBracketSameLine": true,
+  "parser": "flow",
+  "printWidth": 80,
+  "proseWrap": false,
+  "singleQuote": true,
+  "trailingComma": "es5"
+}
