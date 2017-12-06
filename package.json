@@ -4,7 +4,7 @@
     "format:source": "prettier --config .prettierrc --write \"lib/**/*.js\"",
     "format:examples": "prettier --config .prettierrc --write \"examples/**/*.js\"",
     "nit:source": "prettier --config .prettierrc --list-different \"lib/**/*.js\"",
-    "nit:examples": "prettier --config .prettierrc --list-different \"examples/**/*.js\"",    
+    "nit:examples": "prettier --config .prettierrc --list-different \"examples/**/*.js\"",
     "prettier": "yarn format:source && yarn format:examples",
     "prettier:diff": "yarn nit:source && yarn nit:examples"
   },
