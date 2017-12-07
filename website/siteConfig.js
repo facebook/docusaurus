@@ -50,19 +50,19 @@ const siteConfig = {
   tagline: "Easy to Maintain Open Source Documentation Websites",
   url: "https://docusaurus.io",
   baseUrl: "/",
-  organizationName: "facebookexperimental",
+  organizationName: "facebook",
   projectName: "Docusaurus",
   cname: "docusaurus.io",
   noIndex: true,
   users,
   editUrl:
-    "https://github.com/facebookexperimental/docusaurus/edit/master/docs/",
+    "https://github.com/facebook/docusaurus/edit/master/docs/",
   headerLinks: [
     { doc: "installation", label: "Docs" },
     { page: "help", label: "Help" },
     { blog: true, label: "Blog" },
     {
-      href: "https://github.com/facebookexperimental/docusaurus",
+      href: "https://github.com/facebook/docusaurus",
       label: "GitHub"
     }
   ],

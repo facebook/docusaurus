@@ -127,7 +127,7 @@ const siteConfig = {
 // url: "https://www.example.com",
   baseUrl: "/test-site/",
 // baseUrl: "/",
-  organizationName: "facebookexperimental",
+  organizationName: "facebook",
   projectName: "docusaurus",
   noIndex: false,
   headerLinks: [

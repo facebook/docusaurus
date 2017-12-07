@@ -9,7 +9,7 @@ Docusaurus provides a set of scripts to help you generate, serve, and deploy you
 * [`yarn run examples`](api-commands.md#docusaurus-examples): create example configuration files
 
 
-## Running from the command line 
+## Running from the command line
 
 The scripts can be run using either Yarn or npm. If you've already gone through our Getting Started guide, you may already be familiar with the `start` command. It's the command that tells Docusaurus to run the `docusaurus-start` script which generates the site and starts up a server, and it's usually invoked like so:
 
@@ -56,7 +56,7 @@ Docusaurus provides some default mappings to allow you to run commands following
 ### `docusaurus-build`
 Alias: `build`.
 
-Generates the static website, applying translations if necessary. Useful for building the website prior to deployment. 
+Generates the static website, applying translations if necessary. Useful for building the website prior to deployment.
 
 See also [`docusaurus-start`](api-commands.md#docusaurus-start-port-number).
 
@@ -76,7 +76,7 @@ Alias: `publish-gh-pages`
 
  - `GIT_USER`: The git user to be associated with the deploy commit.
  - `CIRCLE_BRANCH`: The git branch associated with the commit that triggered the CI run.
- - `CIRCLE_PROJECT_USERNAME`: The GitHub username or organization name that hosts the git repo, e.g. "FacebookExperimental".
+ - `CIRCLE_PROJECT_USERNAME`: The GitHub username or organization name that hosts the git repo, e.g. "facebook".
  - `CIRCLE_PROJECT_REPONAME`: The name of the git repo, e.g. "Docusaurus".
  - `CI_PULL_REQUEST`: Expected to be truthy if the current CI run was triggered by a commit in a pull request.
 
@@ -94,7 +94,7 @@ See the [Versioning guide](guides-versioning.md#renaming-existing-versions) to l
 ---
 
 ### `docusaurus-start [--port <number>]`
-Alias: `start`. 
+Alias: `start`.
 
 This script will build the static website, apply translations if necessary, and then start a local server. The website will be served from port 3000 by default.
 
