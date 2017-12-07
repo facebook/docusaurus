@@ -33,8 +33,8 @@ Most of the work to publish to GitHub pages is done for you automatically throug
 
 Two of the required parameters are set in the [`siteConfig.js`](api-site-config.md):
 
-- `organizationName`: The GitHub user or organization that owns the repository. In the case of Docusaurus, that would be the "facebookexperimental" GitHub organization.
-- `projectName`: The name of the GitHub repository for your project. For example, Docusaurus is hosted at https://github.com/facebookexperimental/docusaurus, so our project name in this case would be "docusaurus".
+- `organizationName`: The GitHub user or organization that owns the repository. In the case of Docusaurus, that would be the "facebook" GitHub organization.
+- `projectName`: The name of the GitHub repository for your project. For example, Docusaurus is hosted at https://github.com/facebook/docusaurus, so our project name in this case would be "docusaurus".
 
 > While we recommend setting the above in `siteConfig.js`, you can also use environment variables `ORGANIZATION_NAME` and `PROJECT_NAME`.
 
@@ -60,7 +60,7 @@ GIT_USER=<GIT_USER> \
 
 > The specified `GIT_USER` must have push access to the repository specified in the combination of `organizationName` and `projectName`.
 
-You should now be able to load your website by visiting its GitHub Pages URL, which could be something along the lines of https://organizationName.github.io/projectName, or a custom domain if you have set that up. For example, Docusaurus' own GitHub Pages URL is https://docusaurus.io (it can also be accessed via https://facebookexperimental.github.io/docusaurus), because it is served from the `gh-pages` branch of the https://github.com/facebookexperimental/docusaurus GitHub repo. We highly encourage reading through the [GitHub Pages documentation](https://pages.github.com) to learn more about how this hosting solution works.
+You should now be able to load your website by visiting its GitHub Pages URL, which could be something along the lines of https://organizationName.github.io/projectName, or a custom domain if you have set that up. For example, Docusaurus' own GitHub Pages URL is https://docusaurus.io (it can also be accessed via https://facebook.github.io/docusaurus), because it is served from the `gh-pages` branch of the https://github.com/facebook/docusaurus GitHub repo. We highly encourage reading through the [GitHub Pages documentation](https://pages.github.com) to learn more about how this hosting solution works.
 
 You can run the command above any time you update the docs and wish to deploy the changes to your site. Running the script manually may be fine for sites where the documentation rarely changes and it is not too much of an inconvenience to remember to manually deploy changes.
 
