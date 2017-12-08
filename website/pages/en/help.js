@@ -23,7 +23,7 @@ class Help extends React.Component {
       },
       {
         content:
-          "Submit issues and pull requests for any new features you may want to see or bugs you've found on [GitHub](https://github.com/facebookexperimental/docusaurus).",
+          "Submit issues and pull requests for any new features you may want to see or bugs you've found on [GitHub](https://github.com/facebook/docusaurus).",
         title: "Join the community"
       },
       {

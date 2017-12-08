@@ -58,7 +58,7 @@ jobs:
       - run:
           name: Configure GitHub Bot
           command: |
-            if [[ $CIRCLE_PROJECT_USERNAME == "facebookexperimental" && -z $CI_PULL_REQUEST && -z $CIRCLE_PR_USERNAME ]]; then
+            if [[ $CIRCLE_PROJECT_USERNAME == "facebook" && -z $CI_PULL_REQUEST && -z $CIRCLE_PR_USERNAME ]]; then
               git config --global user.email "docusaurus@users.noreply.github.com"
               git config --global user.name "Website Deployment Script"
               echo "machine github.com login facebook-github-bot" > ~/.netrc
@@ -66,7 +66,7 @@ jobs:
       - run:
           name: Deploy Website
           command: |
-            if [[ $CIRCLE_PROJECT_USERNAME == "facebookexperimental" && -z $CI_PULL_REQUEST && -z $CIRCLE_PR_USERNAME ]]; then
+            if [[ $CIRCLE_PROJECT_USERNAME == "facebook" && -z $CI_PULL_REQUEST && -z $CIRCLE_PR_USERNAME ]]; then
               echo "Deploying website..."
               cd website && GIT_USER=facebook-github-bot USE_SSH=true yarn run publish-gh-pages
             else
