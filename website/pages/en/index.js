@@ -51,7 +51,7 @@ class HomeSplash extends React.Component {
                   <div className="pluginRowBlock">
                     <Button
                       href={`
-                        ${siteConfig.baseUrl}docs/installation.html
+                        ${siteConfig.baseUrl}docs/${this.props.language}/installation.html
                         `}>
                       Get Started
                     </Button>
@@ -91,7 +91,7 @@ class Index extends React.Component {
               contents={[
                 {
                   content:
-                    "Save time and focus on your project's documentation. Simply write docs and blog posts with Markdown and Docusaurus will publish a set of static html files ready to serve.",
+                    `Save time and focus on your project's documentation. Simply write docs and blog posts with [Markdown](${siteConfig.baseUrl}docs/${this.props.language}/doc-markdown.html) and Docusaurus will publish a set of static html files ready to serve.`,
                   image: `${siteConfig.baseUrl}img/markdown.png`,
                   imageAlign: "top",
                   title: "Powered by Markdown"
