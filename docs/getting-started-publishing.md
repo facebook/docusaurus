@@ -38,7 +38,7 @@ Two of the required parameters are set in the [`siteConfig.js`](api-site-config.
 
 > While we recommend setting the above in `siteConfig.js`, you can also use environment variables `ORGANIZATION_NAME` and `PROJECT_NAME`.
 
-One of the required parameters are set as environment variables:
+One of the required parameters is set as a environment variable:
 
 - `GIT_USER`: The username for a GitHub account that has commit access to this repo. For your own repositories, this will usually be your own GitHub username.
 
@@ -46,7 +46,7 @@ There is also an optional parameter that is set as an environment variable. If n
 
 - `CURRENT_BRANCH`: The branch that contains the latest docs changes that will be deployed. Usually, the branch will be `master`, but it could be any branch (default or otherwise) except for `gh-pages`.
 
-> We currently require the published documentation to be served from the `gh-pages` branch in your GitHub repo.
+> Docusaurus also supports deploying user or organization sites. Just set your project name to "_username_.github.io" (where _username_ is your username or organization name on GitHub) and the publish script will automatically deploy your site to the root of the `master` branch instead.
 
 Once you have the parameter value information, you can go ahead and run the publish script, ensuring you have inserted your own values inside the various parameter placeholders:
 
@@ -60,7 +60,7 @@ GIT_USER=<GIT_USER> \
 
 > The specified `GIT_USER` must have push access to the repository specified in the combination of `organizationName` and `projectName`.
 
-You should now be able to load your website by visiting its GitHub Pages URL, which could be something along the lines of https://organizationName.github.io/projectName, or a custom domain if you have set that up. For example, Docusaurus' own GitHub Pages URL is https://docusaurus.io (it can also be accessed via https://facebook.github.io/docusaurus), because it is served from the `gh-pages` branch of the https://github.com/facebook/docusaurus GitHub repo. We highly encourage reading through the [GitHub Pages documentation](https://pages.github.com) to learn more about how this hosting solution works.
+You should now be able to load your website by visiting its GitHub Pages URL, which could be something along the lines of https://_username_.github.io/_projectName_, or a custom domain if you have set that up. For example, Docusaurus' own GitHub Pages URL is https://docusaurus.io (it can also be accessed via https://facebook.github.io/docusaurus), because it is served from the `gh-pages` branch of the https://github.com/facebook/docusaurus GitHub repo. We highly encourage reading through the [GitHub Pages documentation](https://pages.github.com) to learn more about how this hosting solution works.
 
 You can run the command above any time you update the docs and wish to deploy the changes to your site. Running the script manually may be fine for sites where the documentation rarely changes and it is not too much of an inconvenience to remember to manually deploy changes.
 
@@ -111,3 +111,22 @@ Make sure to replace `<GIT_USER>` with the actual username of the GitHub account
 Now, whenever a new commit lands in `master`, CircleCI will run your suite of tests and, if everything passes, your website will be deployed via the `publish-gh-pages` script.
 
 > If you would rather use a deploy key instead of a personal access token, you can by starting with the Circle CI [instructions](https://circleci.com/docs/1.0/adding-read-write-deployment-key/) for adding a read/write deploy key.
+
+#### Tips & Tricks
+
+When initially deploying to a `gh-pages` branch using Circle CI, you may notice that some jobs triggered by commits to the `gh-pages` branch fail to run successfully due to a lack of tests. You can easily work around this by creating a new file, `.circleci/config.yml`, in your `gh-pages` branch with the following contents:
+
+```yml
+# Circle CI 2.0 Config File
+# This config file will prevent tests from being run on the gh-pages branch.
+version: 2
+jobs:
+  build:
+    machine: true
+    branches:
+      ignore: gh-pages
+    steps:
+      -run: echo "Skipping tests on gh-pages branch"
+```
+
+Once you commit and push this file to your remote `gh-pages` branch on GitHub, Circle will skip running tests on the `gh-pages` branch.
