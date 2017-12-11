@@ -91,21 +91,28 @@ class Index extends React.Component {
               contents={[
                 {
                   content:
-                    `Save time and focus on your project's documentation. Simply write docs and blog posts with [Markdown](${siteConfig.baseUrl}docs/${this.props.language}/doc-markdown.html) and Docusaurus will publish a set of static html files ready to serve.`,
+                    `Save time and focus on your project's documentation. Simply
+                    write docs and blog posts with [Markdown](${siteConfig.baseUrl}docs/${this.props.language}/doc-markdown.html)
+                    and Docusaurus will publish a set of static html files ready
+                    to serve.`,
                   image: `${siteConfig.baseUrl}img/markdown.png`,
                   imageAlign: "top",
                   title: "Powered by Markdown"
                 },
                 {
                   content:
-                    "Extend or customize your project's layout by reusing React. Docusaurus can be extended while reusing the same header and footer.",
+                    `[Extend or customize](${siteConfig.baseUrl}docs/${this.props.language}/api-pages.html)
+                    your project's layout by reusing React. Docusaurus can be
+                    extended while reusing the same header and footer.`,
                   image: `${siteConfig.baseUrl}img/react.svg`,
                   imageAlign: "top",
                   title: "Built Using React"
                 },
                 {
                   content:
-                    "Localization comes pre-configured. Use Crowdin to translate your docs into over 70 languages.",
+                    `[Localization](${siteConfig.baseUrl}docs/${this.props.language}/translation.html)
+                    comes pre-configured. Use Crowdin to translate your docs
+                    into over 70 languages.`,
                   image: `${siteConfig.baseUrl}img/translation.svg`,
                   imageAlign: "top",
                   title: "Ready for Translations"
@@ -120,14 +127,17 @@ class Index extends React.Component {
               contents={[
                 {
                   content:
-                    "Support users on all versions of your project. Document Versioning helps you keep documentation in sync with project releases.",
+                    `Support users on all versions of your project. Document
+                    [versioning](${siteConfig.baseUrl}docs/${this.props.language}/versioning.html)
+                    helps you keep documentation in sync with project releases.`,
                   image: `${siteConfig.baseUrl}img/versioning.svg`,
                   imageAlign: "top",
                   title: "Document Versioning"
                 },
                 {
                   content:
-                    "Make it easy for your community to find what they need in your documentation. Currently supports Algolia DocSearch.",
+                    `Make it easy for your community to find what they need in your documentation.
+                    We proudly support [Algolia documentation search](${siteConfig.baseUrl}docs/${this.props.language}/search.html).`,
                   image: `${siteConfig.baseUrl}img/search.svg`,
                   imageAlign: "top",
                   title: "Document Search"
@@ -141,7 +151,8 @@ class Index extends React.Component {
               contents={[
                 {
                   content:
-                    "Get up and running quickly without having having to worry about site design.",
+                    `Get [up and running](${siteConfig.baseUrl}docs/${this.props.language}/site-creation.html)
+                    quickly without having having to worry about site design.`,
                   imageAlign: "right",
                   image: `${siteConfig.baseUrl}img/docusaurus_speed.svg`,
                   title: "Quick Setup"
@@ -155,7 +166,12 @@ class Index extends React.Component {
               contents={[
                 {
                   content:
-                    "Make design and documentation changes by using the included live server. Publish your site to GitHub pages or other static file hosts manually, using a script, or with continuous integration like CircleCI.",
+                    `Make design and documentation changes by using the included
+                    [live server](${siteConfig.baseUrl}docs/${this.props.language}/site-preparation#verifying-installation).
+                    [Publish](${siteConfig.baseUrl}docs/${this.props.language}/publishing.html)
+                    your site to GitHub pages or other static file hosts
+                    manually, using a script, or with continuous integration
+                    like CircleCI.`,
                   imageAlign: "left",
                   image: `${siteConfig.baseUrl}img/docusaurus_live.gif`,
                   title: "Develop and Deploy"
@@ -169,7 +185,13 @@ class Index extends React.Component {
               contents={[
                 {
                   content:
-                    "Docusaurus currently provides support to help your website use [translations](/docs/translation.html), [search](/docs/search.html), and [versioning](/docs/versioning.html), along with some other special [documentation markdown features](/docs/doc-markdown.html). If you have ideas for useful features, feel free to contribute on [GitHub](https://github.com/facebook/docusaurus)!",
+                    `Docusaurus currently provides support to help your website
+                    use [translations](${siteConfig.baseUrl}docs/${this.props.language}/translation.html),
+                    [search](${siteConfig.baseUrl}docs/${this.props.language}/search.html),
+                    and [versioning](${siteConfig.baseUrl}docs/${this.props.language}/versioning.html),
+                    along with some other special [documentation markdown features](${siteConfig.baseUrl}docs/${this.props.language}/doc-markdown.html).
+                    If you have ideas for useful features, feel free to
+                    contribute on [GitHub](https://github.com/facebook/docusaurus)!`,
                   imageAlign: "right",
                   image: `${siteConfig.baseUrl}img/docusaurus_monochrome.svg`,
                   title: "Website Features"
