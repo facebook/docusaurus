@@ -200,10 +200,9 @@ class Index extends React.Component {
               layout="twoColumn"
             />
           </Container>
-
           <div className="productShowcaseSection paddingBottom">
-            <h2>{"Who's Using This?"}</h2>
-            <p>Docusaurus is building websites for these projects</p>
+            <h2>{"Who's Using Docusaurus?"}</h2>
+            <p>Docusaurus is building websites for these projects...</p>
             <div className="logos">{showcase}</div>
             <div className="more-users">
               <a
@@ -213,6 +212,37 @@ class Index extends React.Component {
               </a>
             </div>
           </div>
+          <div className="testimonials">
+            <Container padding={["bottom", "top"]}>
+              <GridBlock
+                align="center"
+                contents={[
+                  {
+                    content:
+                      "TESTIMONIAL 1",
+                    image: `${siteConfig.baseUrl}img/christopher-chedeau.jpg`,
+                    imageAlign: "top",
+                    title: 'Christopher "vjeux" Chedeau <br/><font size="2">Lead Prettier Developer</font>'
+                  },
+                  {
+                    content:
+                      "TESTIMONIAL 2",
+                    image: `${siteConfig.baseUrl}img/hector-ramos.png`,
+                    imageAlign: "top",
+                    title: 'Hector Ramos <br/><font size="2">Lead React Native Advocate</font>'
+                  },
+                  {
+                    content:
+                      "TESTIMONIAL 3",
+                    image: `${siteConfig.baseUrl}img/ricky-vetter.jpg`,
+                    imageAlign: "top",
+                    title: 'Ricky Vetter <br/><font size="2">Lead Reason-React Developer</font>'
+                  }
+                ]}
+                layout="threeColumn"
+              />
+            </Container>
+        </div>
         </div>
       </div>
     );
