@@ -16,6 +16,7 @@
     "babylon": "^6.17.4",
     "chalk": "^2.1.0",
     "classnames": "^2.2.5",
+    "color": "^2.0.1",
     "commander": "^2.11.0",
     "crowdin-cli": "^0.3.0",
     "escape-string-regexp": "^1.0.5",
