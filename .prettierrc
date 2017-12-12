@@ -3,7 +3,7 @@
   "jsxBracketSameLine": true,
   "parser": "flow",
   "printWidth": 80,
-  "proseWrap": false,
+  "proseWrap": "never",
   "singleQuote": true,
   "trailingComma": "es5"
 }
