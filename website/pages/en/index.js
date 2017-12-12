@@ -111,7 +111,7 @@ class Index extends React.Component {
                 {
                   content:
                     `[Localization](${siteConfig.baseUrl}docs/${this.props.language}/translation.html)
-                    comes pre-configured. Use Crowdin to translate your docs
+                    comes pre-configured. Use [Crowdin](https://crowdin.com/) to translate your docs
                     into over 70 languages.`,
                   image: `${siteConfig.baseUrl}img/translation.svg`,
                   imageAlign: "top",
@@ -136,8 +136,8 @@ class Index extends React.Component {
                 },
                 {
                   content:
-                    `Make it easy for your community to find what they need in your documentation.
-                    We proudly support [Algolia documentation search](${siteConfig.baseUrl}docs/${this.props.language}/search.html).`,
+                    `Make it easy for your community to [find](${siteConfig.baseUrl}docs/${this.props.language}/search.html) what they need in your documentation.
+                    We proudly support [Algolia documentation search](https://www.algolia.com/).`,
                   image: `${siteConfig.baseUrl}img/search.svg`,
                   imageAlign: "top",
                   title: "Document Search"
