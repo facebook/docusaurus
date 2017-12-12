@@ -114,7 +114,7 @@ Now, whenever a new commit lands in `master`, CircleCI will run your suite of te
 
 #### Tips & Tricks
 
-When initially deploying to a `gh-pages` branch using Circle CI, you may notice that some jobs triggered by commits to the `gh-pages` branch fail to run successfully due to a lack of tests. You can easily work around this by creating a new file, `.circleci/config.yml`, in your `gh-pages` branch with the following contents:
+When initially deploying to a `gh-pages` branch using Circle CI, you may notice that some jobs triggered by commits to the `gh-pages` branch fail to run successfully due to a lack of tests. You can easily work around this by creating a basic Circle CI config with the following contents: 
 
 ```yml
 # Circle CI 2.0 Config File
@@ -129,4 +129,4 @@ jobs:
       -run: echo "Skipping tests on gh-pages branch"
 ```
 
-Once you commit and push this file to your remote `gh-pages` branch on GitHub, Circle will skip running tests on the `gh-pages` branch.
+Save this file as `config.yml` and place it in a `.circleci` folder inside your `website/assets` folder.
