@@ -64,6 +64,9 @@ jobs:
               echo "machine github.com login facebook-github-bot" > ~/.netrc
             fi
       - run:
+          name: Install Dependencies
+          command: sudo apt install rsync
+      - run:
           name: Deploy Website
           command: |
             if [[ $CIRCLE_PROJECT_USERNAME == "facebook" && -z $CI_PULL_REQUEST && -z $CIRCLE_PR_USERNAME ]]; then
