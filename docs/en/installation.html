@@ -1,0 +1,47 @@
+<html><head><meta charset="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1"/><title>Installation · Docusaurus</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta property="og:title" content="Installation · Docusaurus"/><meta property="og:type" content="website"/><meta property="og:url" content="https://docusaurus.io/index.html"/><meta property="og:description" content="Docusaurus was designed from the ground up to be easily installed and used to get your website up an running quickly. To install Docusaurus, we have created an easy script that will get all of the infrastructure setup for you:"/><meta name="robots" content="noindex"/><link rel="shortcut icon" href="/img/docusaurus.ico"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/solarized-dark.min.css"/><link rel="alternate" type="application/atom+xml" href="https://docusaurus.io/blog/atom.xml" title="Docusaurus Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://docusaurus.io/blog/feed.xml" title="Docusaurus Blog RSS Feed"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><link rel="stylesheet" href="/css/main.css"/></head><body class="sideNavVisible"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><img class="logo" src="/img/docusaurus.svg"/><h2 class="headerTitle">Docusaurus</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li><a href="/docs/en/installation.html" target="_self">Docs</a></li><li><a href="/en/help.html" target="_self">Help</a></li><li><a href="/blog" target="_self">Blog</a></li><li><a href="https://github.com/facebook/docusaurus" target="_self">GitHub</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search"/></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><i></i></div><h2><i>›</i><span>Getting Started</span></h2></div><div class="navGroups"><div class="navGroup navGroupActive"><h3>Getting Started</h3><ul><li class="navListItem navListItemActive"><a class="navItem navItemActive" href="/docs/en/installation.html">Installation</a></li><li class="navListItem"><a class="navItem" href="/docs/en/site-preparation.html">Site Preparation</a></li><li class="navListItem"><a class="navItem" href="/docs/en/site-creation.html">Creating your site</a></li><li class="navListItem"><a class="navItem" href="/docs/en/publishing.html">Publishing your site</a></li></ul></div><div class="navGroup navGroupActive"><h3>Guides</h3><ul><li class="navListItem"><a class="navItem" href="/docs/en/custom-pages.html">Custom Pages</a></li><li class="navListItem"><a class="navItem" href="/docs/en/navigation.html">Navigation and Sidebars</a></li><li class="navListItem"><a class="navItem" href="/docs/en/blog.html">Adding a Blog</a></li><li class="navListItem"><a class="navItem" href="/docs/en/translation.html">Translations &amp; Localization</a></li><li class="navListItem"><a class="navItem" href="/docs/en/search.html">Enabling Search</a></li><li class="navListItem"><a class="navItem" href="/docs/en/versioning.html">Versioning</a></li></ul></div><div class="navGroup navGroupActive"><h3>API</h3><ul><li class="navListItem"><a class="navItem" href="/docs/en/commands.html">CLI Commands</a></li><li class="navListItem"><a class="navItem" href="/docs/en/api-pages.html">Pages and Styles</a></li><li class="navListItem"><a class="navItem" href="/docs/en/site-config.html">siteConfig.js</a></li><li class="navListItem"><a class="navItem" href="/docs/en/doc-markdown.html">Markdown Features</a></li></ul></div></div></section></div><script>
+          var toggler = document.getElementById('navToggler');
+          var nav = document.getElementById('docsNav');
+          toggler.onclick = function() {
+            nav.classList.toggle('docsSliderActive');
+          };
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/facebook/docusaurus/edit/master/docs/getting-started-installation.md" target="_blank">Edit</a><h1>Installation</h1></header><article><div><span><p>Docusaurus was designed from the ground up to be easily installed and used to get your website up an running quickly. To install Docusaurus, we have created an easy script that will get all of the infrastructure setup for you:</p>
+<ol>
+<li>Go into the root of your GitHub repo directory where you will be creating the docs.</li>
+<li><code>yarn global add docusaurus-init</code> or <code>npm install --global docusaurus-init</code></li>
+<li><code>docusaurus-init</code></li>
+</ol>
+<p>Along with previously existing files and directories, your root directory will now contain a structure similar to:</p>
+<pre><code class="hljs css bash">root-of-repo
+├── docs-examples-from-docusaurus
+│   └── doc1.md
+│   └── doc2.md
+│   └── doc3.md
+│   └── exampledoc4.md
+│   └── exampledoc5.md
+└── website
+│   └── blog-examples-from-docusaurus
+│       └── 2016-03-11-blog-post.md
+│       └── 2017-04-10-blog-post-two.md
+│   └── core
+│       └── Footer.js
+│   └── node_modules
+│   └── package.json
+│   └── pages
+│   └── sidebars.json
+│   └── siteConfig.js
+│   └── static
+</code></pre>
+<blockquote>
+<p>If you do not want to install the init script globally, you can install it locally and then run it from the <code>node_modules</code> directory that is created via <code>./node_modules/.bin/docusaurus-init</code>. You may want to remove the created <code>package.json</code> file and <code>node_modules</code> directory after you run the script.</p>
+</blockquote>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-next button" href="site-preparation.html">Site Preparation →</a></div></div></div></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/docusaurus_monochrome.svg" alt="Docusaurus" width="66" height="58"/></a><div><h5>Docs</h5><a href="
+                /docs/en/installation.html">Getting Started</a><a href="
+                /docs/en/versioning.html">Versioning</a><a href="
+                /docs/en/translation.html">Localization</a><a href="
+                /docs/en/search.html">Adding Search</a></div><div><h5>Community</h5><a href="/en/users.html">User Showcase</a><a href="https://twitter.com/docusaurus">Twitter</a></div><div><h5>More</h5><a href="https://github.com/facebook/docusaurus">GitHub</a><a class="github-button" href="https://github.com/facebook/Docusaurus" data-icon="octicon-star" data-count-href="/facebook/Docusaurus/stargazers" data-count-api="/repos/facebook/Docusaurus#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><a href="https://code.facebook.com/projects/" target="_blank" class="fbOpenSource"><img src="/img/oss_logo.png" alt="Facebook Open Source" width="170" height="45"/></a><section class="copyright"><span>Copyright © 2017 Facebook Inc.</span></section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+              var search = docsearch({
+                apiKey: '3eb9507824b8be89e7a199ecaa1a9d2c',
+                indexName: 'docusaurus',
+                inputSelector: '#search_input_react'
+              });
+            </script></body></html>
