@@ -7,6 +7,24 @@
 
 const React = require("react");
 
+const GithubButton = props => (
+  <a
+    className="github-button" // part of the https://buttons.github.io/buttons.js script in siteConfig.js
+    href={`https://github.com/${props.config.organizationName}/${props.config.projectName}`}
+    data-icon="octicon-star"
+    data-count-href={`/${props.config.organizationName}/${props.config.projectName}/stargazers`}
+    data-count-api={`/repos/${props.config.organizationName}/${props.config.projectName}#stargazers_count`}
+    data-count-aria-label="# stargazers on GitHub"
+    aria-label="Star this project on GitHub"
+  >
+    Star
+  </a>
+);
+
+GithubButton.propTypes = {
+  config: React.PropTypes.object
+};
+
 class Footer extends React.Component {
   render() {
     return (
@@ -25,9 +43,27 @@ class Footer extends React.Component {
             <h5>Docs</h5>
             <a
               href={`
-                ${this.props.config.baseUrl}docs/installation.html`}
+                ${this.props.config.baseUrl}docs/${this.props.language}/installation.html`}
             >
               Getting Started
+            </a>
+            <a
+              href={`
+                ${this.props.config.baseUrl}docs/${this.props.language}/versioning.html`}
+            >
+              Versioning
+            </a>
+            <a
+              href={`
+                ${this.props.config.baseUrl}docs/${this.props.language}/translation.html`}
+            >
+              Localization
+            </a>
+            <a
+              href={`
+                ${this.props.config.baseUrl}docs/${this.props.language}/search.html`}
+            >
+              Adding Search
             </a>
           </div>
           <div>
@@ -38,21 +74,16 @@ class Footer extends React.Component {
             >
               User Showcase
             </a>
+            <a href="https://twitter.com/docusaurus">
+              Twitter
+            </a>
           </div>
           <div>
             <h5>More</h5>
             <a href="https://github.com/facebook/docusaurus">
               GitHub
             </a>
-            <a
-              className="github-button"
-              href="https://github.com/facebook/docusaurus"
-              data-icon="octicon-star"
-              data-show-count="true"
-              aria-label="Star this project on GitHub"
-            >
-              Star
-            </a>
+            <GithubButton config={this.props.config} />
           </div>
         </section>
 

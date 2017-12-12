@@ -81,7 +81,8 @@ const siteConfig = {
   copyright: "Copyright © " + new Date().getFullYear() + " Facebook Inc.",
   highlight: {
     theme: "solarized-dark"
-  }
+  },
+  scripts: ["https://buttons.github.io/buttons.js"]
 };
 
 module.exports = siteConfig;
