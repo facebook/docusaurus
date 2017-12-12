@@ -1,19 +1,16 @@
 # [Docusaurus](https://docusaurus.io) &middot;  [![CircleCI](https://circleci.com/gh/facebook/Docusaurus.svg?style=svg)](https://circleci.com/gh/facebook/Docusaurus) [![npm version](https://badge.fury.io/js/docusaurus.svg)](https://badge.fury.io/js/docusaurus) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md#pull-requests)
 
-Docusaurus is a project for easily building, deploying, and maintaining open source project websites. __CI badges go here__
+Docusaurus is a project for easily building, deploying, and maintaining open source project websites.
 
-* **Simple to Start** Docusaurus is built to be easy to get up and running in as little time possible. We've built Docusaurus to handle the website build process so you can focus on your project.  
-* **Localizable** Docusaurus ships with localization support via CrowdIn. Empower and grow your international community by translating your documentation.
-* **Customizable** Docusaurus ships with the key pages and sections you need to get started. A home page, a docs section, a blog, and additional support pages.
+* **Simple to Start** Docusaurus is built to be easy to [get up and running](https://docusaurus.io/docs/en/installation.html) in as little time possible. We've built Docusaurus to handle the website build process so you can focus on your project.
+* **Localizable** Docusaurus ships with [localization support](https://docusaurus.io/docs/en/translation.html) via CrowdIn. Empower and grow your international community by translating your documentation.
+* **Customizable** While Docusaurus ships with the key pages and sections you need to get started, including a home page, a docs section, a [blog](https://docusaurus.io/docs/en/blog.html), and additional support pages, it is also [customizable](https://docusaurus.io/docs/en/custom-pages.html) as well to ensure you have a site that is [uniquely yours](https://docusaurus.io/docs/en/api-pages.html).
 
 ## Installation
 
-Docusaurus is available as `docusaurus` package on [npm](https://www.npmjs.com)
+Docusaurus is available as the [`docusaurus` package](https://www.npmjs.com/package/docusaurus-init) on [npm](https://www.npmjs.com).
 
-The recommended way to use Docusaurs depends on your project. Here you can find short guides for the most common scenarios:
-
-* [Starting from scratch](https://docusaurus.io/docs/getting-started-installation.html#starting-from-scratch)
-* [Adding Docusaurus to an existing OSS project](https://docusaurus.io/docs/getting-started-installation.html#adding-docusaurus-to-a-project)
+We have also released the [`docusaurus-init` package](https://www.npmjs.com/package/docusaurus-init) to make [getting started](https://docusaurus.io/docs/en/installation.html) with Docusaurus even easier.
 
 ## Contributing
 
@@ -29,7 +26,7 @@ Read our [contributing guide](https://docusaurus.io/docs/how-to-contribute.html)
 
 ### Beginner Friendly Bugs
 
-To help you get your feet wet and get you familiar with our contribution process, we have a list of [beginner friendly bugs](https://github.com/facebook/Docusaurus/labels/Difficulty%3A%20beginner) that contain bugs which are fairly easy to fix. This is a great place to get started.
+To help you get your feet wet and get you familiar with our contribution process, we have a list of [beginner friendly bugs](https://github.com/facebook/Docusaurus/labels/good%20first%20issue) that contain bugs which are fairly easy to fix. This is a great place to get started.
 
 ### License
 
