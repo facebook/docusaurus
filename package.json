@@ -25,7 +25,6 @@
     "fs-extra": "^3.0.1",
     "glob": "^7.1.2",
     "highlight.js": "^9.12.0",
-    "prettier": "1.8.2",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "react-dom-factories": "^1.0.1",
@@ -50,5 +49,8 @@
     "docusaurus-version": "./lib/version.js",
     "docusaurus-rename-version": "./lib/rename-version.js",
     "docusaurus-feed": "./lib/generate-feed.js"
+  },
+  "devDependencies": {
+    "prettier": "^1.9.1"
   }
 }
