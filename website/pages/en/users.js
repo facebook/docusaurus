@@ -27,11 +27,13 @@ class Users extends React.Component {
         <Container padding={["bottom", "top"]}>
           <div className="showcaseSection">
             <div className="prose">
-              <h1>Who's Using This?</h1>
-              <p>This project is used by many folks</p>
+              <h1>Who Is Using Docusaurus?</h1>
+              <p>This project is used by many open source projects including...</p>
             </div>
             <div className="logos">{showcase}</div>
-            <p>Are you using this project?</p>
+            <div className="prose">
+              <p>Are you using this project?</p>
+            </div>
             <a
               href="https://github.com/facebook/docusaurus/edit/master/website/siteConfig.js"
               className="button">

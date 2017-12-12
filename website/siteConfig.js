@@ -44,6 +44,18 @@ const users = [
     pinned: true
   },
   {
+    caption: "Relay",
+    image: "/img/relay.svg",
+    infoLink: "https://facebook.github.io/relay/",
+    pinned: true
+  },
+  {
+    caption: "Bucklescript",
+    image: "/img/bucklescript.svg",
+    infoLink: "https://bucklescript.github.io/",
+    pinned: true
+  },
+  {
     caption: "Docusaurus",
     image: "/img/docusaurus.svg",
     infoLink: "https://www.docusaurus.io",
