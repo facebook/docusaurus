@@ -1,4 +1,4 @@
-# Docusaurus
+# [Docusaurus](https://docusaurus.io) &middot;  [![Circle CI Status](https://circleci.com/gh/facebook/Docusaurus.svg?style=shield)](https://circleci.com/gh/facebook/Docusaurus)
 
 Docusaurus is a project for easily building, deploying, and maintaining open source project websites. __CI badges go here__
 
