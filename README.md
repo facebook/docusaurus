@@ -1,4 +1,4 @@
-# [Docusaurus](https://docusaurus.io) &middot;  [![Circle CI Status](https://circleci.com/gh/facebook/docusaurus.svg?style=shield)](https://circleci.com/gh/facebook/docusaurus) [![npm version](https://badge.fury.io/js/docusaurus.svg)](https://badge.fury.io/js/docusaurus) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md#pull-requests)
+# [Docusaurus](https://docusaurus.io) &middot;  [![CircleCI](https://circleci.com/gh/facebook/Docusaurus.svg?style=svg)](https://circleci.com/gh/facebook/Docusaurus) [![npm version](https://badge.fury.io/js/docusaurus.svg)](https://badge.fury.io/js/docusaurus) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md#pull-requests)
 
 Docusaurus is a project for easily building, deploying, and maintaining open source project websites. __CI badges go here__
 
