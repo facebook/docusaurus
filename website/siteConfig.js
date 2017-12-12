@@ -38,6 +38,12 @@ const users = [
     pinned: true
   },
   {
+    caption: "React Native",
+    image: "/img/react-native.svg",
+    infoLink: "https://facebook.github.io/react-native",
+    pinned: true
+  },
+  {
     caption: "Docusaurus",
     image: "/img/docusaurus.svg",
     infoLink: "https://www.docusaurus.io",
