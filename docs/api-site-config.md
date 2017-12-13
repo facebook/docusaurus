@@ -123,10 +123,11 @@ const users = [
 const siteConfig = {
   title: "Docusaurus",
   tagline: "Generate websites!",
-  url: "https://deltice.github.io",
-// url: "https://www.example.com",
-  baseUrl: "/test-site/",
-// baseUrl: "/",
+  url: "https://docusaurus.io",
+  baseUrl: "/",
+// For github.io type URLS, you would combine the url and baseUrl like:
+// url: "https://reasonml.github.io",
+// url: "/reason-react/",
   organizationName: "facebook",
   projectName: "docusaurus",
   noIndex: false,
@@ -136,14 +137,14 @@ const siteConfig = {
     { search: true },
     { blog: true }
   ],
-// headerLinks: [],
+// For no header links in the top nav bar -> headerLinks: [],
   headerIcon: "img/docusaurus.svg",
   favicon: "img/favicon.png",
   colors: {
     primaryColor: "#2E8555",
     secondaryColor: "#205C3B"
   },
-  editUrl: "https://github.com/deltice/test-site/edit/master/docs/",
+  editUrl: "https://github.com/facebook/docusaurus/edit/master/docs/",
   users,
   disableHeaderTitle: true,
   disableTitleTagline: true,
