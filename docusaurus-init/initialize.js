@@ -39,7 +39,10 @@ console.log(
 );
 
 const packageContent = { scripts: { examples: "docusaurus-examples" } };
-fs.writeFileSync(CWD + "/website/package.json", JSON.stringify(packageContent));
+fs.writeFileSync(
+  CWD + "/website/package.json",
+  JSON.stringify(packageContent, null, 2) + "\n"
+);
 
 if (useYarn) {
   shell.exec("yarn add docusaurus --dev");
