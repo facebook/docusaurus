@@ -727,7 +727,7 @@ code {
   box-shadow: 2px 0 $codeColor, -2px 0 $codeColor;
   color: inherit;
   border-radius: .3em;
-  font-family: "SFMono-Regular",source-code-pro,Menlo,Monaco,Consolas,"Roboto Mono","Droid Sans Mono","Liberation Mono",Consolas,"Courier New",Courier,monospace;  
+  font-family: "SFMono-Regular",source-code-pro,Menlo,Monaco,Consolas,"Roboto Mono","Droid Sans Mono","Liberation Mono",Consolas,"Courier New",Courier,monospace;
   /* avoids scale issues on mobile */
   word-break: break-word;
 }
@@ -922,7 +922,7 @@ pre code {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    margin: -10px -20px;
+    margin: -10px;
   }
   .gridBlock .twoByGridBlock {
     box-sizing: border-box;

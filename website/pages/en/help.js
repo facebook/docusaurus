@@ -17,19 +17,19 @@ class Help extends React.Component {
   render() {
     const supportLinks = [
       {
+        title: "Browse the docs",
         content:
-          "Learn more using the [documentation on this site](/docs/installation.html).",
-        title: "Browse Docs"
+          "Learn more about Docusaurus using the [official documentation](/docs/).",
       },
       {
+        title: "Twitter",
         content:
-          "Submit issues and pull requests for any new features you may want to see or bugs you've found on [GitHub](https://github.com/facebook/docusaurus).",
-        title: "Join the community"
+          "You can follow and contact us on [Twitter](https://twitter.com/docusaurus)."
       },
       {
+        title: "GitHub",
         content:
-          "Find out what's new with this project by checking back on the site.",
-        title: "Stay up to date"
+          "At our [GitHub repo](https://github.com/facebook/docusaurus) Browse and submit [issues](https://github.com/facebook/Docusaurus/issues) or [pull requests](https://github.com/facebook/Docusaurus/pulls) for bugs you find or any new features you may want implemented. Be sure to also check out our [contributing information](https://github.com/facebook/Docusaurus/blob/master/CONTRIBUTING.md)."
       }
     ];
 
@@ -40,7 +40,9 @@ class Help extends React.Component {
             <header className="postHeader">
               <h2>Need help?</h2>
             </header>
-            <p>This project is maintained by a dedicated group of people.</p>
+            <p>
+              If you need help with Docusaurus, you can try one of the mechanisms below. We are looking at other options to provide help for Docusaurus users well.
+            </p>
             <GridBlock contents={supportLinks} layout="threeColumn" />
           </div>
         </Container>
