@@ -200,10 +200,9 @@ class Index extends React.Component {
               layout="twoColumn"
             />
           </Container>
-
           <div className="productShowcaseSection paddingBottom">
-            <h2>{"Who's Using This?"}</h2>
-            <p>Docusaurus is building websites for these projects</p>
+            <h2>{"Who's Using Docusaurus?"}</h2>
+            <p>Docusaurus is building websites for these projects...</p>
             <div className="logos">{showcase}</div>
             <div className="more-users">
               <a
@@ -213,6 +212,37 @@ class Index extends React.Component {
               </a>
             </div>
           </div>
+          <div className="testimonials">
+            <Container padding={["bottom", "top"]}>
+              <GridBlock
+                align="center"
+                contents={[
+                  {
+                    content:
+                      "<i>I’ve helped open source many projects at Facebook and every one needed a website. They all had very similar constraints: the documentation should be written in markdown and be deployed via GitHub pages. None of the existing solutions were great, so I hacked my own and then forked it whenever we needed a new website. I’m so glad that Docusaurus now exists so that I don’t have to spend a week each time spinning up a new one.</i>",
+                    image: `${siteConfig.baseUrl}img/christopher-chedeau.jpg`,
+                    imageAlign: "top",
+                    title: 'Christopher "vjeux" Chedeau <br/><font size="2">Lead Prettier Developer</font>'
+                  },
+                  {
+                    content:
+                      "<i>Open source contributions to the React Native docs have skyrocketed after our move to Docusaurus. The docs are now hosted on a small repo in plain markdown, with none of the clutter that a typical static site generator would require. Thanks Slash!</i>",
+                    image: `${siteConfig.baseUrl}img/hector-ramos.png`,
+                    imageAlign: "top",
+                    title: 'Hector Ramos <br/><font size="2">Lead React Native Advocate</font>'
+                  },
+                  {
+                    content:
+                      "<i>Docusaurus has been a great choice for the ReasonML family of projects. It makes our documentation consistent, i18n-friendly, easy to maintain, and friendly for new contributors.</i>",
+                    image: `${siteConfig.baseUrl}img/ricky-vetter.jpg`,
+                    imageAlign: "top",
+                    title: 'Ricky Vetter <br/><font size="2">Lead Reason-React Developer</font>'
+                  }
+                ]}
+                layout="threeColumn"
+              />
+            </Container>
+        </div>
         </div>
       </div>
     );
