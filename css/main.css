@@ -1800,3 +1800,6 @@ footer .copyright {
   }
 }
 
+.testimonials img {
+  border-radius: 50%;
+}
