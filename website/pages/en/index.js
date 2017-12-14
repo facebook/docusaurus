@@ -155,7 +155,7 @@ class Index extends React.Component {
                 {
                   content:
                     `Get [up and running](${siteConfig.baseUrl}docs/${this.props.language}/site-creation.html)
-                    quickly without having having to worry about site design.`,
+                    quickly without having to worry about site design.`,
                   imageAlign: "right",
                   image: `${siteConfig.baseUrl}img/docusaurus_speed.svg`,
                   title: "Quick Setup"
