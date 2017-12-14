@@ -7,13 +7,18 @@
       "publishing"
     ],
     "Guides": [
-      "custom-pages",
-      "navigation",
       "blog",
-      "translation",
+      "custom-pages",
       "search",
+      "navigation",
+      "translation",
       "versioning"
     ],
-    "API": ["commands", "api-pages", "site-config", "doc-markdown"]
+    "API": [
+      "commands",
+      "doc-markdown",
+      "api-pages",
+      "site-config"
+    ]
   }
 }
