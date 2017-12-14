@@ -105,7 +105,7 @@ const siteConfig = {
   gaTrackingId: "UA-44373548-31",
   facebookAppId: "1615782811974223",
   twitter: "true",
-  ogImage: "img/docusaurus.svg",
+  ogImage: "img/docusaurus.png",
 };
 
 module.exports = siteConfig;
