@@ -10,4 +10,4 @@ Docusaurus was designed from the ground up to be easily installed and used to ge
 1. `yarn global add docusaurus-init` or `npm install --global docusaurus-init`
 1. `docusaurus-init`
 
-Find out more in the [official docs](http://localhost:3000/docs/en/installation.html).
+Find out more in the [official docs](https://docusaurus.io/docs/en/installation.html).
