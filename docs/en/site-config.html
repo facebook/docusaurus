@@ -59,6 +59,8 @@
 <p><code>translationRecruitingLink</code> - url for the <code>Help Translate</code> tab of language selection when languages besides English are enabled. This can be included you are using translations but does not have to be.</p>
 <p><code>algolia</code> - Information for Algolia search integration. If this field is excluded, the search bar will not appear in the header.</p>
 <p><code>gaTrackingId</code> - Google Analytics tracking ID to track page views.</p>
+<p><code>facebookAppId</code> - If you want Facebook Like/Share buttons at the bottom of your blog posts, provide a <a href="https://www.facebook.com/help/audiencenetwork/804209223039296">Facebook application id</a>, and the buttons will show up on all blog posts.</p>
+<p><code>twitter</code> - set this to <code>true</code> if you want a Twitter social button to appear at the bottom of your blog posts.</p>
 <p><code>highlight</code> - <a href="/docs/en/doc-markdown.html">Syntax highlighting</a> options:</p>
 <ul>
 <li><code>theme</code> is the name of the theme used by Highlight.js when highlighting code.</li>
@@ -129,8 +131,9 @@
     <span class="hljs-string">}</span>
   <span class="hljs-string">],</span>
 <span class="hljs-attr">  scripts:</span> <span class="hljs-string">[</span> <span class="hljs-string">"https://docusaurus.io/slash.js"</span> <span class="hljs-string">],</span>
-<span class="hljs-attr">  stylesheets:</span> <span class="hljs-string">[</span> <span class="hljs-string">"https://docusaurus.io/style.css"</span> <span class="hljs-string">]</span>
-
+<span class="hljs-attr">  stylesheets:</span> <span class="hljs-string">[</span> <span class="hljs-string">"https://docusaurus.io/style.css"</span> <span class="hljs-string">],</span>
+<span class="hljs-attr">  facebookAppId:</span> <span class="hljs-string">"1615782811974223"</span><span class="hljs-string">,</span>
+<span class="hljs-attr">  twitter:</span> <span class="hljs-string">"true"</span>
 <span class="hljs-string">};</span>
 
 <span class="hljs-string">module.exports</span> <span class="hljs-string">=</span> <span class="hljs-string">siteConfig;</span>
@@ -147,7 +150,8 @@
 
               ga('create', 'UA-44373548-31', 'auto');
               ga('send', 'pageview');
-            </script><script>
+            </script><script>window.fbAsyncInit = function() {FB.init({appId:'1615782811974223',xfbml:true,version:'v2.7'});};(function(d, s, id){var js, fjs = d.getElementsByTagName(s)[0];if (d.getElementById(id)) {return;}js = d.createElement(s); js.id = id;js.src = '//connect.facebook.net/en_US/sdk.js';fjs.parentNode.insertBefore(js, fjs);}(document, 'script','facebook-jssdk'));
+                </script><script>window.twttr=(function(d,s, id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return t;js=d.createElement(s);js.id=id;js.src='https://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js, fjs);t._e = [];t.ready = function(f) {t._e.push(f);};return t;}(document, 'script', 'twitter-wjs'));</script><script>
               var search = docsearch({
                 apiKey: '3eb9507824b8be89e7a199ecaa1a9d2c',
                 indexName: 'docusaurus',
