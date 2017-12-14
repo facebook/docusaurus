@@ -65,27 +65,23 @@
 <li>Create a new environment variable named &quot;GITHUB_TOKEN&quot;, using your newly generated access token as the value.</li>
 <li>Open your <code>circle.yml</code> file and add the following under the <code>machine:</code> section to tell Circle to use relatively recent versions of node and npm, replacing npm with yarn if applicable:</li>
 </ol>
-<pre><code class="hljs">```
-machine:
-  node:
-    version: 6.11.2
+<pre><code class="hljs">machine:
+  <span class="hljs-keyword">node</span><span class="hljs-title">:
+    version</span>: <span class="hljs-number">6.11</span>.<span class="hljs-number">2</span>
   npm:
-    version: 3.10.10
-```
+    <span class="hljs-keyword">version</span>: <span class="hljs-number">3.10</span>.<span class="hljs-number">10</span>
 </code></pre>
 <ol>
 <li>Then, add the following lines to the <code>deployment:</code> section. If you don't have a <code>deployment:</code> section, you can add it at the end of the file.</li>
 </ol>
-<pre><code class="hljs">```
-deployment:
+<pre><code class="hljs">deployment:
   website:
     branch: master
     commands:
-      - git config --global user.email &quot;&lt;GITHUB_USERNAME&gt;@users.noreply.github.com&quot;
-      - git config --global user.name &quot;&lt;YOUR_NAME&gt;&quot;
-      - echo &quot;machine github.com login &lt;GITHUB_USERNAME&gt; password $GITHUB_TOKEN&quot; &gt; ~/.netrc
-      - cd website &amp;&amp; npm install &amp;&amp; GIT_USER=&lt;GIT_USER&gt; npm run publish-gh-pages
-```
+      - git<span class="hljs-built_in"> config </span>--global user.email <span class="hljs-string">"&lt;GITHUB_USERNAME&gt;@users.noreply.github.com"</span>
+      - git<span class="hljs-built_in"> config </span>--global user.name <span class="hljs-string">"&lt;YOUR_NAME&gt;"</span>
+      - echo <span class="hljs-string">"machine github.com login &lt;GITHUB_USERNAME&gt; password <span class="hljs-variable">$GITHUB_TOKEN</span>"</span> &gt; ~/.netrc
+      - cd website &amp;&amp; npm install &amp;&amp; <span class="hljs-attribute">GIT_USER</span>=&lt;GIT_USER&gt; npm <span class="hljs-builtin-name">run</span> publish-gh-pages
 </code></pre>
 <p>Make sure to replace <code>&lt;GIT_USER&gt;</code> with the actual username of the GitHub account that will be used to publish the documentation.</p>
 <p><strong>DO NOT</strong> place the actual value of <code>$GITHUB_TOKEN</code> in <code>circle.yml</code>. We already configured that as an environment variable back in Step 3.</p>
