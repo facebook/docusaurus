@@ -13,7 +13,7 @@ We created [Docusaurus](https://docusaurus.io) for the following reasons:
 
 1. To put the focus on writing good documentation instead of worrying about the infrastructure of a website.
 1. To provide features that many of our open source websites need like blog support, search and versioning.
-1. To make it easy to push updates, new features, and bug fuxes to everyone all at once.
+1. To make it easy to push updates, new features, and bug fixes to everyone all at once.
 1. And, finally, to provide a consistent look and feel across our all our open source projects.
 
 <!--truncate-->
