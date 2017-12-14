@@ -78,7 +78,7 @@ const siteConfig = {
   headerLinks: [
     { doc: "installation", label: "Docs" },
     { page: "help", label: "Help" },
-    { page: "about-slash", label: "About/"},
+    { page: "about-slash", label: "About /"},
     { blog: true, label: "Blog" },
     {
       href: "https://github.com/facebook/docusaurus",
