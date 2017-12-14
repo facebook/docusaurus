@@ -55,6 +55,9 @@ class HomeSplash extends React.Component {
                         `}>
                       Get Started
                     </Button>
+                    <Button href='https://github.com/facebook/Docusaurus'>
+                      GitHub
+                    </Button>
                   </div>
                 </div>
               </div>
