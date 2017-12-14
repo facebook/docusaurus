@@ -7,9 +7,9 @@ authorFBID: 611217057
 
 ![](/img/slash-introducing.png)
 
-We are very happy to introduce [Docusaurus](https://docusaurus.io) to help you manage one or many open source websites.
+We are very happy to introduce [Docusaurus](https://github.com/facebook/Docusaurus) to help you manage one or many open source websites.
 
-We created Docusaurus for the following reasons:
+We created [Docusaurus](https://docusaurus.io) for the following reasons:
 
 1. To put the focus on writing good documentation instead of worrying about the infrastructure of a website.
 1. To provide features that many of our open source websites need like blog support, search and versioning.
@@ -130,6 +130,10 @@ build
 │ └── users.html # custom page
 ```
 
+## Community
+
+We welcome your [contributions](https://github.com/facebook/Docusaurus/blob/master/CONTRIBUTING.md) to Docusaurus, whether you want to use it for your own site, you want to [contribute](https://github.com/facebook/Docusaurus/blob/master/CONTRIBUTING.md) to the Docusaurus core or just have questions. Follow us on [GitHub](https://github.com/facebook/Docusaurus) and [Twitter](https://twitter.com/docusaurus).
+
 ## Acknowledgements
 
 ![](/img/docusaurus.svg)
@@ -151,7 +155,7 @@ Without their dedication to creating or migrating their websites over to the pla
 
 ## Resources
 
-- [Documentation](https://docusaurus.io)
-- [Twitter](https://twitter.com/docusaurus)
-- [GitHub](https://github.com/facebook/Docusaurus)
+- [Read our documentation](https://docusaurus.io)
+- [Follow our Twitter feed](https://twitter.com/docusaurus)
+- [Follow us on GitHub](https://github.com/facebook/Docusaurus)
 - [About Slash, the Docusaurus mascot](https://docusaurus.io/about-slash.html)
