@@ -129,11 +129,11 @@ build
 
 ## Community
 
+![](/img/docusaurus.svg)
+
 We welcome your [contributions](https://github.com/facebook/Docusaurus/blob/master/CONTRIBUTING.md) to Docusaurus, whether you want to use it for your own site, you want to [contribute](https://github.com/facebook/Docusaurus/blob/master/CONTRIBUTING.md) to the Docusaurus core or just have questions. Follow us on [GitHub](https://github.com/facebook/Docusaurus) and [Twitter](https://twitter.com/docusaurus).
 
 ## Acknowledgements
-
-![](/img/docusaurus.svg)
 
 Docusaurus wouldn't exist without the work of the rest of the core Docusaurus team: [Eric Nakagawa](http://twitter.com/ericnakagawa), [Hector Ramos](https://twitter.com/hectorramos), [Eric Vicenti](https://twitter.com/EricVicenti) and [Frank Li](https://github.com/deltice) — a former intern at Facebook who implemented the core technology and features.
 
