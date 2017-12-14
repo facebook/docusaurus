@@ -102,7 +102,9 @@ const siteConfig = {
     theme: "solarized-dark"
   },
   scripts: ["https://buttons.github.io/buttons.js"],
-  gaTrackingId: "UA-44373548-31"
+  gaTrackingId: "UA-44373548-31",
+  facebookAppId: "1615782811974223",
+  twitter: "true",
 };
 
 module.exports = siteConfig;

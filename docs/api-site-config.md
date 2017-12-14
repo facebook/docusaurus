@@ -92,6 +92,10 @@ customDocsPath: "website-docs"
 
 `gaTrackingId` - Google Analytics tracking ID to track page views.
 
+`facebookAppId` - If you want Facebook Like/Share buttons at the bottom of your blog posts, provide a [Facebook application id](https://www.facebook.com/help/audiencenetwork/804209223039296), and the buttons will show up on all blog posts.
+
+`twitter` - set this to `true` if you want a Twitter social button to appear at the bottom of your blog posts.
+
 `highlight` - [Syntax highlighting](api-doc-markdown.md) options:
 
  - `theme` is the name of the theme used by Highlight.js when highlighting code.
@@ -169,8 +173,9 @@ const siteConfig = {
     }
   ],
   scripts: [ "https://docusaurus.io/slash.js" ],
-  stylesheets: [ "https://docusaurus.io/style.css" ]
-
+  stylesheets: [ "https://docusaurus.io/style.css" ],
+  facebookAppId: "1615782811974223",
+  twitter: "true"
 };
 
 module.exports = siteConfig;
