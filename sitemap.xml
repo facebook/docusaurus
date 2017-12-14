@@ -4,9 +4,7 @@
 <url> <loc>https://docusaurus.io/help.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> <xhtml:link rel="alternate" hreflang="en" href="https://docusaurus.io/en/help.html" /> </url>
 <url> <loc>https://docusaurus.io/index.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> <xhtml:link rel="alternate" hreflang="en" href="https://docusaurus.io/en/index.html" /> </url>
 <url> <loc>https://docusaurus.io/users.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> <xhtml:link rel="alternate" hreflang="en" href="https://docusaurus.io/en/users.html" /> </url>
-<url> <loc>https://docusaurus.io/blog/2017/10/24/new-version-1.0.0.html</loc> <changefreq>weekly</changefreq> <priority>0.3</priority> </url>
-<url> <loc>https://docusaurus.io/blog/2017/09/26/adding-rss.html</loc> <changefreq>weekly</changefreq> <priority>0.3</priority> </url>
-<url> <loc>https://docusaurus.io/blog/2017/09/25/testing-rss.html</loc> <changefreq>weekly</changefreq> <priority>0.3</priority> </url>
+<url> <loc>https://docusaurus.io/blog/2017/12/14/introducing-docusaurus.html</loc> <changefreq>weekly</changefreq> <priority>0.3</priority> </url>
 <url> <loc>https://docusaurus.io/docs/en/commands.html</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://docusaurus.io/docs/en/commands.html" /> </url>
 <url> <loc>https://docusaurus.io/docs/en/doc-markdown.html</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://docusaurus.io/docs/en/doc-markdown.html" /> </url>
 <url> <loc>https://docusaurus.io/docs/en/api-pages.html</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://docusaurus.io/docs/en/api-pages.html" /> </url>
