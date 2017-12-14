@@ -1,4 +1,18 @@
 {
+  "name": "docusaurus",
+  "description": "Easy to Maintain Open Source Documentation Websites",
+  "version": "1.0.1",
+  "license": "MIT",
+  "keywords": [
+    "documentation",
+    "websites",
+    "open source",
+    "docusaurus"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/Docusaurus.git"
+  },
   "scripts": {
     "ci-check": "yarn prettier:diff",
     "format:source": "prettier --config .prettierrc --write \"lib/**/*.js\"",
@@ -33,12 +47,6 @@
     "shelljs": "^0.7.8",
     "sitemap": "^1.13.0",
     "tcp-port-used": "^0.1.2"
-  },
-  "name": "docusaurus",
-  "version": "1.0.0-beta.16",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/facebook/Docusaurus.git"
   },
   "bin": {
     "docusaurus-start": "./lib/start-server.js",
