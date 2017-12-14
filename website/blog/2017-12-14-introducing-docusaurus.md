@@ -148,3 +148,10 @@ Special thanks also goes out to our earliest [adopters](https://docusaurus.io/en
 - [Relay](https://facebook.github.io/relay/)
 
 Without their dedication to creating or migrating their websites over to the platform, we would have not have been in the position where we are today.
+
+## Resources
+
+- [Documentation](https://docusaurus.io)
+- [Twitter](https://twitter.com/docusaurus)
+- [GitHub](https://github.com/facebook/Docusaurus)
+- [About Slash, the Docusaurus mascot](https://docusaurus.io/about-slash.html)
