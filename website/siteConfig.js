@@ -101,7 +101,8 @@ const siteConfig = {
   highlight: {
     theme: "solarized-dark"
   },
-  scripts: ["https://buttons.github.io/buttons.js"]
+  scripts: ["https://buttons.github.io/buttons.js"],
+  gaTrackingId: "UA-44373548-31"
 };
 
 module.exports = siteConfig;
