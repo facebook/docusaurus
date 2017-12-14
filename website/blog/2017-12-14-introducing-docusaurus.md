@@ -117,9 +117,6 @@ build
 ├── website
 │ └── CNAME
 │ └── blog
-│     └── generate.js
-│     └── server.js
-│     └── ...and more files
 │ └── css
 │ └── docs
 │ └── en
