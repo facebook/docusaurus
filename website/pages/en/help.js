@@ -6,12 +6,10 @@
  */
 
 const React = require("react");
-
 const CompLibrary = require("../../core/CompLibrary.js");
 const Container = CompLibrary.Container;
 const GridBlock = CompLibrary.GridBlock;
-
-// const siteConfig = require(process.cwd() + "/siteConfig.js");
+const siteConfig = require(process.cwd() + "/siteConfig.js");
 
 class Help extends React.Component {
   render() {
@@ -19,7 +17,7 @@ class Help extends React.Component {
       {
         title: "Browse the docs",
         content:
-          "Learn more about Docusaurus using the [official documentation](/docs/).",
+          `Learn more about Docusaurus using the [official documentation](${siteConfig.baseUrl}docs/${this.props.language}/installation.html).`,
       },
       {
         title: "Twitter",
