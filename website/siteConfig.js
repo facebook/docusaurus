@@ -60,6 +60,12 @@ const users = [
     image: "/img/docusaurus.svg",
     infoLink: "https://www.docusaurus.io",
     pinned: true
+  },
+  {
+    caption: "Almin",
+    image: "/img/almin.png",
+    infoLink: "https://almin.js.org/",
+    pinned: true
   }
 ];
 
