@@ -13,7 +13,21 @@ cd website
 npm run start
 ```
 
-If you look in the `website/package.json` file, you will notice that running `start` with `npm run` actually loads the local `start-server.js` file. This is how you know you are running with local code.
+## Necessary Files
+
+By default Docusaurus expects it's own documentation to be present with an English translation. This can be downloaded by running the following in your `website` folder.
+
+```
+npm run crowdin-download
+```
+
+ If you have not unable to downloaded the translated *.md files then simply remove the following line from your `siteConfig.js`
+
+```
+{ doc: "installation", label: "Docs" },
+```
+
+If you look in the `website/package.json` file, you will notice that running `start` with `npm run` actually executes the local `start-server.js` file. This is how you know you are running with local code.
 
 ### Observing changes
 

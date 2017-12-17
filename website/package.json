@@ -1,12 +1,12 @@
 {
 	"scripts": {
-		"start": "../lib/start-server.js",
-		"build": "../lib/build-files.js",
-		"publish-gh-pages": "../lib/publish-gh-pages.js",
-		"examples": "../lib/copy-examples.js",
-		"write-translations": "../lib/write-translations.js",
-		"version": "../lib/version.js",
-		"rename-version": "../lib/rename-version.js",
+		"start": "node ../lib/start-server.js",
+		"build": "node ../lib/build-files.js",
+		"publish-gh-pages": "node ../lib/publish-gh-pages.js",
+		"examples": "node ../lib/copy-examples.js",
+		"write-translations": "node ../lib/write-translations.js",
+		"version": "node ../lib/version.js",
+		"rename-version": "node ../lib/rename-version.js",
 		"crowdin-upload": "crowdin-cli --config ../crowdin.yaml upload sources --auto-update -b master",
 		"crowdin-download": "crowdin-cli --config ../crowdin.yaml download -b master"
 	},
