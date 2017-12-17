@@ -10,7 +10,7 @@ You can use the `version` script to cut a new documentation version based on the
 Run the following script to generate a starter versions page listing all the site versions:
 
 ```
-yarn examples translations
+yarn examples versions
 ```
 
 This creates the following file:
@@ -19,7 +19,7 @@ This creates the following file:
 pages/en/versions.js
 ```
 
-You can edit this file later on to customize how you display the versions. 
+You can edit this file later on to customize how you display the versions.
 
 Add the following script to your `package.json` file if it doesn't already exist:
 
@@ -51,15 +51,15 @@ You can create version numbers in whatever format you wish, and a new version ca
 
 ## Storing Files for Each Version
 
-Versioned documents are placed into `website/versioned_docs/version-${version}`, where `${version}` is the version number you supplied the `version` script. 
+Versioned documents are placed into `website/versioned_docs/version-${version}`, where `${version}` is the version number you supplied the `version` script.
 
 The markdown header for each versioned doc is altered by renaming the id frontmatter field to `original_id`, then using `"version-${version}-${original_id}"` as the value for the actual `id` field.
 
-Versioned sidebars are copied into `website/versioned_sidebars` and are named as `version-${version}-sidebars.json`. 
+Versioned sidebars are copied into `website/versioned_sidebars` and are named as `version-${version}-sidebars.json`.
 
-A `website/versions.json` file is created the first time you cut a version and is used by Docusaurus to detect what versions exist. Each time a new version is added, it gets added to the `versions.json` file. 
+A `website/versions.json` file is created the first time you cut a version and is used by Docusaurus to detect what versions exist. Each time a new version is added, it gets added to the `versions.json` file.
 
-If you wish to change the documentation for a past version, you can access the files for that respective version. 
+If you wish to change the documentation for a past version, you can access the files for that respective version.
 
 ## Fallback Functionality
 
