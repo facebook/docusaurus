@@ -1737,7 +1737,9 @@ footer .sitemap .nav-home:focus {
 }
 @media screen and (max-width: 735px) {
   footer .sitemap {
-    display: none;
+    display: flex;
+    flex-direction: column;
+    margin: 0 2em 3em;
   }
 }
 
