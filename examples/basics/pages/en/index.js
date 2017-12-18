@@ -167,6 +167,9 @@ const Description = props => (
 );
 
 const Showcase = props => {
+  if ((siteConfig.users||[]).length === 0) {
+    return null;
+  }
   const showcase = siteConfig.users
     .filter(user => {
       return user.pinned;
