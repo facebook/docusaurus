@@ -70,6 +70,13 @@ const users = [
     fbOpenSource: true,
     pinned: true,
   },
+  {
+    caption: "Almin",
+    image: "/img/almin.png",
+    infoLink: "https://almin.js.org/",
+    fbOpenSource: false,
+    pinned: false,
+  },
 ];
 
 const siteConfig = {
