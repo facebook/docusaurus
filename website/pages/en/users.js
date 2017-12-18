@@ -5,40 +5,69 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const React = require("react");
+const React = require('react');
 
-const CompLibrary = require("../../core/CompLibrary.js");
+const CompLibrary = require('../../core/CompLibrary.js');
 const Container = CompLibrary.Container;
 
-const siteConfig = require(process.cwd() + "/siteConfig.js");
+const siteConfig = require(process.cwd() + '/siteConfig.js');
 
 class Users extends React.Component {
   render() {
-    const showcase = siteConfig.users.map((user, i) => {
-      return (
-        <a href={user.infoLink} key={i}>
-          <img src={user.image} title={user.caption} />
-        </a>
-      );
-    });
+    const fbShowcase = siteConfig.users
+      .filter(user => {
+        return user.fbOpenSource === true;
+      })
+      .map((user, i) => {
+        return (
+          <a href={user.infoLink} key={i}>
+            <img src={user.image} title={user.caption} />
+          </a>
+        );
+      });
+
+    const showcase = siteConfig.users
+      .filter(user => {
+        return !user.fbOpenSource;
+      })
+      .map((user, i) => {
+        return (
+          <a href={user.infoLink} key={i}>
+            <img src={user.image} title={user.caption} />
+          </a>
+        );
+      });
 
     return (
       <div className="mainContainer">
-        <Container padding={["bottom", "top"]}>
+        <Container padding={['bottom', 'top']}>
           <div className="showcaseSection">
             <div className="prose">
-              <h1>Who Is Using Docusaurus?</h1>
-              <p>This project is used by many open source projects including...</p>
+              <h1>Who is using Docusaurus?</h1>
+              <p>
+                Docusaurus powers some of Facebook's popular{' '}
+                <a href="https://code.facebook.com/projects/">
+                  open source projects
+                </a>.
+              </p>
+            </div>
+            <div className="logos">{fbShowcase}</div>
+            <div className="prose">
+              <p>
+                Docusaurus is also used by open source projects of all sizes.
+              </p>
             </div>
             <div className="logos">{showcase}</div>
             <div className="prose">
-              <p>Are you using this project?</p>
+              <p>Is your project using Docusaurus?</p>
+              <p>
+                Edit this page with a{' '}
+                <a href="https://github.com/facebook/docusaurus/edit/master/website/siteConfig.js">
+                  Pull Request
+                </a>{' '}
+                to add your logo.
+              </p>
             </div>
-            <a
-              href="https://github.com/facebook/docusaurus/edit/master/website/siteConfig.js"
-              className="button">
-              Add your project
-            </a>
           </div>
         </Container>
       </div>

@@ -3,13 +3,13 @@ id: custom-pages
 title: Custom Pages
 ---
 
-You can add pages to your site that are not part of the standard docs or blog markdown files. You can do this by adding `.js` files to the `website/pages` directory. These files are [React](https://facebook.github.io/react) components and the `render()` is called to create them, backed by CSS classes, etc.
+You can add pages to your site that are not part of the standard docs or blog markdown files. You can do this by adding `.js` files to the `website/pages` directory. These files are [React](https://reactjs.org/) components and the `render()` is called to create them, backed by CSS classes, etc.
 
 ## Customizing Your Home Page
 
 The easiest way to get started customizing your home page is to use the example site that was [created](getting-started-site-creation.md) when you ran the [Docusaurus initialization script](getting-started-installation.md).
 
-You can [start](site-preparation.md#verifying-installation) your local server and go to `http://localhost:3000` to see what the example home page looks like. From there, edit the `website/pages/en/index.js` file and its various components to use the images and text you want for your project.
+You can [start](getting-started-preparation.md#verifying-installation) your local server and go to `http://localhost:3000` to see what the example home page looks like. From there, edit the `website/pages/en/index.js` file and its various components to use the images and text you want for your project.
 
 ## Adding Other Custom Pages
 
