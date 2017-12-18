@@ -23,7 +23,7 @@ The version number should generally increase by some factor than the current one
 "version": "1.0.0-alpha.41",
 "repository": {
   "type": "git",
-  "url": "https://github.com/facebookexperimental/Docusaurus.git"
+  "url": "https://github.com/facebook/Docusaurus.git"
 },
 ```
 

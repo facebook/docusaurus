@@ -307,6 +307,13 @@ header h2 {
 .mainContainer .wrapper .post.basicPost {
   margin-top: 30px;
 }
+
+.mainContainer .wrapper .post h1 {
+  margin-top: 20px;
+  margin-bottom: 0;
+  font-size: 250%;
+  padding: 10px 0;
+}
 .mainContainer .wrapper .post h2 {
   font-size: 130%;
 }
@@ -653,7 +660,7 @@ input[type="search"] {
   z-index: 1;
 }
 .navSearchWrapper .aa-dropdown-menu {
-  background: '#f9f9f9';
+  background: #f9f9f9;
   border: 3px solid rgba(57, 57, 57, 0.25);
   color: #393939;
   font-size: 14px;
@@ -719,19 +726,17 @@ input::placeholder {
   color: #e5e5e5;
 }
 
-code,
-a code,
-.mainContainer .wrapper a code,
-.mainContainer .wrapper a:focus code {
-  color: $primaryColor;
+code {
+  padding: 2px 0;
+  background-color: $codeColor;
+  /* box-shadow acts as padding around inline code snippets
+   * while not adding any extra spacing between words. */
+  box-shadow: 2px 0 $codeColor, -2px 0 $codeColor;
+  color: inherit;
+  border-radius: .3em;
   font-family: "SFMono-Regular",source-code-pro,Menlo,Monaco,Consolas,"Roboto Mono","Droid Sans Mono","Liberation Mono",Consolas,"Courier New",Courier,monospace;
-}
-
-a code {
-  text-decoration: underline;
-}
-a:hover code {
-  text-decoration: none;
+  /* avoids scale issues on mobile */
+  word-break: break-word;
 }
 
 pre code {
@@ -924,7 +929,7 @@ pre code {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    margin: -10px -20px;
+    margin: -10px;
   }
   .gridBlock .twoByGridBlock {
     box-sizing: border-box;
@@ -1739,7 +1744,9 @@ footer .sitemap .nav-home:focus {
 }
 @media screen and (max-width: 735px) {
   footer .sitemap {
-    display: none;
+    display: flex;
+    flex-direction: column;
+    margin: 0 2em 3em;
   }
 }
 

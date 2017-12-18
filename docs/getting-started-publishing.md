@@ -29,16 +29,16 @@ Deploying your Docusaurus site to GitHub Pages is straightforward if you are alr
 
 > Even if your repo is private, anything published to a `gh-pages` branch will be [public](https://help.github.com/articles/user-organization-and-project-pages/).
 
-Most of the work to publish to GitHub pages is done for you automatically through the [`publish-gh-pages`](./commands.md#docusaurus-publish) script. You just need to determine the values for a few parameters required by the script.
+Most of the work to publish to GitHub pages is done for you automatically through the [`publish-gh-pages`](./api-commands.md#docusaurus-publish) script. You just need to determine the values for a few parameters required by the script.
 
 Two of the required parameters are set in the [`siteConfig.js`](api-site-config.md):
 
-- `organizationName`: The GitHub user or organization that owns the repository. In the case of Docusaurus, that would be the "facebookexperimental" GitHub organization.
-- `projectName`: The name of the GitHub repository for your project. For example, Docusaurus is hosted at https://github.com/facebookexperimental/docusaurus, so our project name in this case would be "docusaurus".
+- `organizationName`: The GitHub user or organization that owns the repository. In the case of Docusaurus, that would be the "facebook" GitHub organization.
+- `projectName`: The name of the GitHub repository for your project. For example, Docusaurus is hosted at https://github.com/facebook/docusaurus, so our project name in this case would be "docusaurus".
 
 > While we recommend setting the above in `siteConfig.js`, you can also use environment variables `ORGANIZATION_NAME` and `PROJECT_NAME`.
 
-One of the required parameters are set as environment variables:
+One of the required parameters is set as a environment variable:
 
 - `GIT_USER`: The username for a GitHub account that has commit access to this repo. For your own repositories, this will usually be your own GitHub username.
 
@@ -46,7 +46,7 @@ There is also an optional parameter that is set as an environment variable. If n
 
 - `CURRENT_BRANCH`: The branch that contains the latest docs changes that will be deployed. Usually, the branch will be `master`, but it could be any branch (default or otherwise) except for `gh-pages`.
 
-> We currently require the published documentation to be served from the `gh-pages` branch in your GitHub repo.
+> Docusaurus also supports deploying user or organization sites. Just set your project name to "_username_.github.io" (where _username_ is your username or organization name on GitHub) and the publish script will automatically deploy your site to the root of the `master` branch instead.
 
 Once you have the parameter value information, you can go ahead and run the publish script, ensuring you have inserted your own values inside the various parameter placeholders:
 
@@ -60,7 +60,7 @@ GIT_USER=<GIT_USER> \
 
 > The specified `GIT_USER` must have push access to the repository specified in the combination of `organizationName` and `projectName`.
 
-You should now be able to load your website by visiting its GitHub Pages URL, which could be something along the lines of https://organizationName.github.io/projectName, or a custom domain if you have set that up. For example, Docusaurus' own GitHub Pages URL is https://docusaurus.io (it can also be accessed via https://facebookexperimental.github.io/docusaurus), because it is served from the `gh-pages` branch of the https://github.com/facebookexperimental/docusaurus GitHub repo. We highly encourage reading through the [GitHub Pages documentation](https://pages.github.com) to learn more about how this hosting solution works.
+You should now be able to load your website by visiting its GitHub Pages URL, which could be something along the lines of https://_username_.github.io/_projectName_, or a custom domain if you have set that up. For example, Docusaurus' own GitHub Pages URL is https://docusaurus.io (it can also be accessed via https://docusaurus.io/), because it is served from the `gh-pages` branch of the https://github.com/facebook/docusaurus GitHub repo. We highly encourage reading through the [GitHub Pages documentation](https://pages.github.com) to learn more about how this hosting solution works.
 
 You can run the command above any time you update the docs and wish to deploy the changes to your site. Running the script manually may be fine for sites where the documentation rarely changes and it is not too much of an inconvenience to remember to manually deploy changes.
 
@@ -74,33 +74,33 @@ Continuous integration (CI) services are typically used to perform routine tasks
 
 If you're already using Circle CI for your project, all you need to do to enable automatic deployments is to configure Circle to run the `publish-gh-pages` script as part of the deployment step.
 
-  1. Ensure the GitHub account that will be set as the `GIT_USER` has `write` access to the repo that contains the documentation.
-  1. Log into GitHub as the `GIT_USER`.
-  1. Go to https://github.com/settings/tokens for the `GIT_USER` and generate a new [personal access token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/), granting it full control of private repositories through the `repo` access scope. Store this token in a safe place, making sure to not share it with anyone. This token can be used to authenticate GitHub actions on your behalf in place of your GitHub password.
-  1. Open your Circle CI dashboard, and navigate to the Settings page for your repository, then select "Environment variables". The URL looks like https://circleci.com/gh/ORG/REPO/edit#env-vars, where "ORG/REPO" should be replaced with your own GitHub org/repo.
-  1. Create a new environment variable named "GITHUB_TOKEN", using your newly generated access token as the value.
-  1. Open your `circle.yml` file and add the following under the `machine:` section to tell Circle to use relatively recent versions of node and npm, replacing npm with yarn if applicable:
+1. Ensure the GitHub account that will be set as the `GIT_USER` has `write` access to the repo that contains the documentation.
+1. Log into GitHub as the `GIT_USER`.
+1. Go to https://github.com/settings/tokens for the `GIT_USER` and generate a new [personal access token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/), granting it full control of private repositories through the `repo` access scope. Store this token in a safe place, making sure to not share it with anyone. This token can be used to authenticate GitHub actions on your behalf in place of your GitHub password.
+1. Open your Circle CI dashboard, and navigate to the Settings page for your repository, then select "Environment variables". The URL looks like https://circleci.com/gh/ORG/REPO/edit#env-vars, where "ORG/REPO" should be replaced with your own GitHub org/repo.
+1. Create a new environment variable named "GITHUB_TOKEN", using your newly generated access token as the value.
+1. Open your `circle.yml` file and add the following under the `machine:` section to tell Circle to use relatively recent versions of node and npm, replacing npm with yarn if applicable:
 
-    ```
-    machine:
-      node:
-        version: 6.11.2
-      npm:
-        version: 3.10.10
-    ```
+```
+machine:
+  node:
+    version: 6.11.2
+  npm:
+    version: 3.10.10
+```
 
-  1. Then, add the following lines to the `deployment:` section. If you don't have a `deployment:` section, you can add it at the end of the file.
+1. Then, add the following lines to the `deployment:` section. If you don't have a `deployment:` section, you can add it at the end of the file.
 
-    ```
-    deployment:
-      website:
-        branch: master
-        commands:
-          - git config --global user.email "<GITHUB_USERNAME>@users.noreply.github.com"
-          - git config --global user.name "<YOUR_NAME>"
-          - echo "machine github.com login <GITHUB_USERNAME> password $GITHUB_TOKEN" > ~/.netrc
-          - cd website && npm install && GIT_USER=<GIT_USER> npm run publish-gh-pages
-    ```
+```
+deployment:
+  website:
+    branch: master
+    commands:
+      - git config --global user.email "<GITHUB_USERNAME>@users.noreply.github.com"
+      - git config --global user.name "<YOUR_NAME>"
+      - echo "machine github.com login <GITHUB_USERNAME> password $GITHUB_TOKEN" > ~/.netrc
+      - cd website && npm install && GIT_USER=<GIT_USER> npm run publish-gh-pages
+```
 
 Make sure to replace `<GIT_USER>` with the actual username of the GitHub account that will be used to publish the documentation.
 
@@ -111,3 +111,22 @@ Make sure to replace `<GIT_USER>` with the actual username of the GitHub account
 Now, whenever a new commit lands in `master`, CircleCI will run your suite of tests and, if everything passes, your website will be deployed via the `publish-gh-pages` script.
 
 > If you would rather use a deploy key instead of a personal access token, you can by starting with the Circle CI [instructions](https://circleci.com/docs/1.0/adding-read-write-deployment-key/) for adding a read/write deploy key.
+
+#### Tips & Tricks
+
+When initially deploying to a `gh-pages` branch using Circle CI, you may notice that some jobs triggered by commits to the `gh-pages` branch fail to run successfully due to a lack of tests. You can easily work around this by creating a basic Circle CI config with the following contents:
+
+```yml
+# Circle CI 2.0 Config File
+# This config file will prevent tests from being run on the gh-pages branch.
+version: 2
+jobs:
+  build:
+    machine: true
+    branches:
+      ignore: gh-pages
+    steps:
+      -run: echo "Skipping tests on gh-pages branch"
+```
+
+Save this file as `config.yml` and place it in a `.circleci` folder inside your `website/assets` folder.

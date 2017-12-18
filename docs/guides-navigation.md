@@ -110,7 +110,7 @@ Custom links can be added to the site navigation bar with the following entry in
 ```
 headerLinks: [
   ...
-  { href: 'https://github.com/facebookexperimental/Docusaurus', label: 'GitHub' },
+  { href: 'https://github.com/facebook/Docusaurus', label: 'GitHub' },
   ...
 ],
 ```

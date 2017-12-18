@@ -92,6 +92,10 @@ customDocsPath: "website-docs"
 
 `gaTrackingId` - Google Analytics tracking ID to track page views.
 
+`facebookAppId` - If you want Facebook Like/Share buttons at the bottom of your blog posts, provide a [Facebook application id](https://www.facebook.com/help/audiencenetwork/804209223039296), and the buttons will show up on all blog posts.
+
+`twitter` - set this to `true` if you want a Twitter social button to appear at the bottom of your blog posts.
+
 `highlight` - [Syntax highlighting](api-doc-markdown.md) options:
 
  - `theme` is the name of the theme used by Highlight.js when highlighting code.
@@ -123,11 +127,12 @@ const users = [
 const siteConfig = {
   title: "Docusaurus",
   tagline: "Generate websites!",
-  url: "https://deltice.github.io",
-// url: "https://www.example.com",
-  baseUrl: "/test-site/",
-// baseUrl: "/",
-  organizationName: "facebookexperimental",
+  url: "https://docusaurus.io",
+  baseUrl: "/",
+// For github.io type URLS, you would combine the url and baseUrl like:
+// url: "https://reasonml.github.io",
+// url: "/reason-react/",
+  organizationName: "facebook",
   projectName: "docusaurus",
   noIndex: false,
   headerLinks: [
@@ -136,14 +141,14 @@ const siteConfig = {
     { search: true },
     { blog: true }
   ],
-// headerLinks: [],
+// For no header links in the top nav bar -> headerLinks: [],
   headerIcon: "img/docusaurus.svg",
   favicon: "img/favicon.png",
   colors: {
     primaryColor: "#2E8555",
     secondaryColor: "#205C3B"
   },
-  editUrl: "https://github.com/deltice/test-site/edit/master/docs/",
+  editUrl: "https://github.com/facebook/docusaurus/edit/master/docs/",
   users,
   disableHeaderTitle: true,
   disableTitleTagline: true,
@@ -168,8 +173,9 @@ const siteConfig = {
     }
   ],
   scripts: [ "https://docusaurus.io/slash.js" ],
-  stylesheets: [ "https://docusaurus.io/style.css" ]
-
+  stylesheets: [ "https://docusaurus.io/style.css" ],
+  facebookAppId: "1615782811974223",
+  twitter: "true"
 };
 
 module.exports = siteConfig;

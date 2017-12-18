@@ -14,12 +14,14 @@ class Footer extends React.Component {
       <footer className="nav-footer" id="footer">
         <section className="sitemap">
           <a href={this.props.config.baseUrl} className="nav-home">
-            <img
-              src={this.props.config.baseUrl + this.props.config.footerIcon}
-              alt={this.props.config.title}
-              width="66"
-              height="58"
-            />
+            {this.props.config.footerIcon && (
+              <img
+                src={this.props.config.baseUrl + this.props.config.footerIcon}
+                alt={this.props.config.title}
+                width="66"
+                height="58"
+              />
+            )}
           </a>
           <div>
             <h5>Docs</h5>
@@ -77,7 +79,7 @@ class Footer extends React.Component {
               className="github-button"
               href={this.props.config.repoUrl}
               data-icon="octicon-star"
-              data-count-href="/deltice/test-site/stargazers"
+              data-count-href="/facebook/docusaurus/stargazers"
               data-show-count={true}
               data-count-aria-label="# stargazers on GitHub"
               aria-label="Star this project on GitHub">

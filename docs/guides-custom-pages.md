@@ -3,13 +3,13 @@ id: custom-pages
 title: Custom Pages
 ---
 
-You can add pages to your site that are not part of the standard docs or blog markdown files. You can do this by adding `.js` files to the `website/pages` directory. These files are React components and the `render()` is called to create them, backed by CSS classes, etc.
+You can add pages to your site that are not part of the standard docs or blog markdown files. You can do this by adding `.js` files to the `website/pages` directory. These files are [React](https://reactjs.org/) components and the `render()` is called to create them, backed by CSS classes, etc.
 
 ## Customizing Your Home Page
 
 The easiest way to get started customizing your home page is to use the example site that was [created](getting-started-site-creation.md) when you ran the [Docusaurus initialization script](getting-started-installation.md).
 
-You can [start](site-preparation.md#verifying-installation) your local server and go to `http://localhost:3000` to see what the example home page looks like. From there, edit the `website/pages/en/index.js` file and its various components to use the images and text you want for your project.
+You can [start](getting-started-preparation.md#verifying-installation) your local server and go to `http://localhost:3000` to see what the example home page looks like. From there, edit the `website/pages/en/index.js` file and its various components to use the images and text you want for your project.
 
 ## Adding Other Custom Pages
 
@@ -34,6 +34,8 @@ root-of-repo
 ```
 
 Of course, you are also free to write your own pages. It is strongly suggested that you at least have an index page, but none of the pages provided are mandatory to include in your site. More information on how to use the provided components or include your own can be found [here](api-pages.md). Information on how to link to your different pages in the header navigation bar can be found [here](guides-navigation.md).
+
+> If you want your page to show up in your navigation header, you will need to update `siteConfig.js` to add to the `headerLinks` element. e.g., `{ page: "about-slash", label: "About/"}`, 
 
 ## Adding Static Pages
 

@@ -1,7 +1,15 @@
 {
   "name": "docusaurus-init",
-  "version": "1.0.0-alpha.1",
+  "description": "Initialization script for Docusaurus",
+  "version": "1.0.1",
+  "license": "MIT",
   "preferGlobal": true,
+  "keywords": [
+    "documentation",
+    "websites",
+    "open source",
+    "docusaurus"
+  ],
   "bin": {
     "docusaurus-init": "initialize.js"
   },

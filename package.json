@@ -1,10 +1,24 @@
 {
+  "name": "docusaurus",
+  "description": "Easy to Maintain Open Source Documentation Websites",
+  "version": "1.0.3",
+  "license": "MIT",
+  "keywords": [
+    "documentation",
+    "websites",
+    "open source",
+    "docusaurus"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/Docusaurus.git"
+  },
   "scripts": {
     "ci-check": "yarn prettier:diff",
     "format:source": "prettier --config .prettierrc --write \"lib/**/*.js\"",
     "format:examples": "prettier --config .prettierrc --write \"examples/**/*.js\"",
     "nit:source": "prettier --config .prettierrc --list-different \"lib/**/*.js\"",
-    "nit:examples": "prettier --config .prettierrc --list-different \"examples/**/*.js\"",    
+    "nit:examples": "prettier --config .prettierrc --list-different \"examples/**/*.js\"",
     "prettier": "yarn format:source && yarn format:examples",
     "prettier:diff": "yarn nit:source && yarn nit:examples",
     "test": "jest"
@@ -17,6 +31,7 @@
     "babylon": "^6.17.4",
     "chalk": "^2.1.0",
     "classnames": "^2.2.5",
+    "color": "^2.0.1",
     "commander": "^2.11.0",
     "crowdin-cli": "^0.3.0",
     "escape-string-regexp": "^1.0.5",
@@ -25,7 +40,6 @@
     "fs-extra": "^3.0.1",
     "glob": "^7.1.2",
     "highlight.js": "^9.12.0",
-    "prettier": "1.8.2",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "react-dom-factories": "^1.0.1",
@@ -34,19 +48,6 @@
     "shelljs": "^0.7.8",
     "sitemap": "^1.13.0",
     "tcp-port-used": "^0.1.2"
-  },
-  "devDependencies": {
-    "filepath": "^1.1.0",
-    "front-matter": "^2.3.0",
-    "glob-promise": "^3.3.0",
-    "jest": "^21.2.1",
-    "rimraf": "^2.6.2"
-  },
-  "name": "docusaurus",
-  "version": "1.0.0-beta.13",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/facebookexperimental/Docusaurus.git"
   },
   "bin": {
     "docusaurus-start": "./lib/start-server.js",
@@ -57,5 +58,13 @@
     "docusaurus-version": "./lib/version.js",
     "docusaurus-rename-version": "./lib/rename-version.js",
     "docusaurus-feed": "./lib/generate-feed.js"
+  },
+  "devDependencies": {
+    "prettier": "^1.9.1",
+    "filepath": "^1.1.0",
+    "front-matter": "^2.3.0",
+    "glob-promise": "^3.3.0",
+    "jest": "^21.2.1",
+    "rimraf": "^2.6.2"
   }
 }
