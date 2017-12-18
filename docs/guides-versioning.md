@@ -87,4 +87,4 @@ yarn run rename-version 1.0.0 1.0.1
 
 ## Versioning and Translations
 
-If you wish to use versioning and translations features, the `crowdin.yaml` file should be set up to upload and download versioned documents to and from Crowdin for translation. Translated, versioned files will go into the folder `translated_docs/${language}/version-${version}/`. For more information, check out the [translations guide](translation.md).
+If you wish to use versioning and translations features, the `crowdin.yaml` file should be set up to upload and download versioned documents to and from Crowdin for translation. Translated, versioned files will go into the folder `translated_docs/${language}/version-${version}/`. For more information, check out the [translations guide](guides-translation.md).

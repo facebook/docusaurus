@@ -80,7 +80,7 @@ Alias: `publish-gh-pages`
  - `CIRCLE_PROJECT_REPONAME`: The name of the git repo, e.g. "Docusaurus".
  - `CI_PULL_REQUEST`: Expected to be truthy if the current CI run was triggered by a commit in a pull request.
 
-You can learn more about configuring automatic deployments with CircleCI in the [Publishing guide](publishing.md).
+You can learn more about configuring automatic deployments with CircleCI in the [Publishing guide](getting-started-publishing.md).
 
 ---
 

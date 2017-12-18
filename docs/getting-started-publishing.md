@@ -29,7 +29,7 @@ Deploying your Docusaurus site to GitHub Pages is straightforward if you are alr
 
 > Even if your repo is private, anything published to a `gh-pages` branch will be [public](https://help.github.com/articles/user-organization-and-project-pages/).
 
-Most of the work to publish to GitHub pages is done for you automatically through the [`publish-gh-pages`](./commands.md#docusaurus-publish) script. You just need to determine the values for a few parameters required by the script.
+Most of the work to publish to GitHub pages is done for you automatically through the [`publish-gh-pages`](./api-commands.md#docusaurus-publish) script. You just need to determine the values for a few parameters required by the script.
 
 Two of the required parameters are set in the [`siteConfig.js`](api-site-config.md):
 
@@ -60,7 +60,7 @@ GIT_USER=<GIT_USER> \
 
 > The specified `GIT_USER` must have push access to the repository specified in the combination of `organizationName` and `projectName`.
 
-You should now be able to load your website by visiting its GitHub Pages URL, which could be something along the lines of https://_username_.github.io/_projectName_, or a custom domain if you have set that up. For example, Docusaurus' own GitHub Pages URL is https://docusaurus.io (it can also be accessed via https://facebook.github.io/docusaurus), because it is served from the `gh-pages` branch of the https://github.com/facebook/docusaurus GitHub repo. We highly encourage reading through the [GitHub Pages documentation](https://pages.github.com) to learn more about how this hosting solution works.
+You should now be able to load your website by visiting its GitHub Pages URL, which could be something along the lines of https://_username_.github.io/_projectName_, or a custom domain if you have set that up. For example, Docusaurus' own GitHub Pages URL is https://docusaurus.io (it can also be accessed via https://docusaurus.io/), because it is served from the `gh-pages` branch of the https://github.com/facebook/docusaurus GitHub repo. We highly encourage reading through the [GitHub Pages documentation](https://pages.github.com) to learn more about how this hosting solution works.
 
 You can run the command above any time you update the docs and wish to deploy the changes to your site. Running the script manually may be fine for sites where the documentation rarely changes and it is not too much of an inconvenience to remember to manually deploy changes.
 
