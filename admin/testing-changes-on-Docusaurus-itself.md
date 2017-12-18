@@ -13,7 +13,7 @@ cd website
 npm run start
 ```
 
-If you look in the `website/package.json` file, you will notice that running `start` with `npm run` actually loads the local `start-server.js` file. This is how you know you are running with local code.
+> If you look in the `website/package.json` file, you will notice that running `start` with `npm run` actually executes the local `start-server.js` file. This is how you know you are running with local code.
 
 ### Observing changes
 
