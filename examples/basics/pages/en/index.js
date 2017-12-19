@@ -19,11 +19,11 @@ function imgUrl(img) {
 }
 
 function docUrl(doc, language) {
-  return siteConfig.baseUrl + 'docs/' + (language? language + '/' : '') + doc;
+  return siteConfig.baseUrl + 'docs/' + (language ? language + '/' : '') + doc;
 }
 
 function pageUrl(page, language) {
-  return siteConfig.baseUrl + (language? language + '/' : '') + page;
+  return siteConfig.baseUrl + (language ? language + '/' : '') + page;
 }
 
 class Button extends React.Component {
