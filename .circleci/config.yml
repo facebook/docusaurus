@@ -31,7 +31,7 @@ defaults: &defaults
 
 version: 2
 jobs:
-  test-website:
+  tests:
     <<: *defaults
     steps:
       - checkout
@@ -42,7 +42,10 @@ jobs:
           name: Check Prettier
           command: yarn ci-check
       - run:
-          name: Test Build Static Website
+          name: Run Test Suites
+          command: yarn test
+      - run:
+          name: Test Static Website Builds
           command: cd website && yarn run build
 
   deploy-website:
@@ -99,11 +102,11 @@ workflows:
 
   website:
     jobs:
-      - test-website:
+      - tests:
           filters: *filter-ignore-gh-pages
       - deploy-website:
           requires:
-            - test-website
+            - tests
           filters: *filter-only-master
 
   deploy:
