@@ -7,14 +7,14 @@
 
 const React = require("react");
 
-const CompLibrary = require("../../core/CompLibrary.js");
+const CompLibrary = require("../core/CompLibrary.js");
 const Container = CompLibrary.Container;
 const GridBlock = CompLibrary.GridBlock;
 const MarkdownBlock = CompLibrary.MarkdownBlock; /* Used to read markdown */
 
 const siteConfig = require(process.cwd() + "/siteConfig.js");
 
-const translate = require("../../server/translate.js").translate;
+const translate = require("../server/translate.js").translate;
 
 class Button extends React.Component {
   render() {
