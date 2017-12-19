@@ -45,6 +45,7 @@
     "react-dom-factories": "^1.0.1",
     "remarkable": "^1.7.1",
     "request": "^2.81.0",
+    "rsync": "^0.6.1",
     "shelljs": "^0.7.8",
     "sitemap": "^1.13.0",
     "tcp-port-used": "^0.1.2"
@@ -60,11 +61,11 @@
     "docusaurus-feed": "./lib/generate-feed.js"
   },
   "devDependencies": {
-    "prettier": "^1.9.1",
     "filepath": "^1.1.0",
     "front-matter": "^2.3.0",
     "glob-promise": "^3.3.0",
     "jest": "^21.2.1",
+    "prettier": "^1.9.1",
     "rimraf": "^2.6.2"
   }
 }
