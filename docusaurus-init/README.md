@@ -1,6 +1,6 @@
 ## `docusaurus-init`
 
-An initialization script for [Docusaurus](https://docusuarus.io).
+An initialization script for [Docusaurus](https://docusaurus.io).
 
 ### What does it do?
 

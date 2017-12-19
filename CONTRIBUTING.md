@@ -13,7 +13,7 @@ There are many ways to contribute to Docusaurus, and many of them do not involve
 * Simply start using Docusaurus. Go through the [Getting Started](https://docusaurus.io/docs/en/installation.html) guide. Does everything work as expected? If not, we're always looking for improvements. Let us know by [opening an issue](#reporting-new-issues).
 * Look through the [open issues](https://github.com/facebook/docusaurus/issues). Provide workarounds, ask for clarification, or suggest labels. Help [triage issues](#triaging-issues-and-pull-requests).
 * If you find an issue you would like to fix, [open a pull request](#your-first-pull-request). Issues tagged as [_Good first issue_](https://github.com/facebook/docusaurus/labels/Good%20first%20issue) are a good place to get started.
-* Read through the [Docusaurus docs](https://docusaurus.io/docs). If you find anything that is confusing or can be improved, you can make edits by clicking "Edit" at the top of most docs.
+* Read through the [Docusaurus docs](https://docusaurus.io/docs/en/installation.html). If you find anything that is confusing or can be improved, you can make edits by clicking "Edit" at the top of most docs.
 * Take a look at the [features requested](https://github.com/facebook/docusaurus/labels/enhancement) by others in the community and consider opening a pull request if you see something you want to work on.
 
 Contributions are very welcome. If you think you need help planning your contribution, please ping us on Twitter at [@docusaurus](https://twitter.com/docusaurus) and let us know you are looking for a bit of help.
@@ -87,10 +87,11 @@ Small pull requests are much easier to review and more likely to get merged. Mak
 Please make sure the following is done when submitting a pull request:
 
 1. Fork [the repository](https://github.com/facebook/docusaurus) and create your branch from `master`.
-2. Add the copyright notice to the top of any code new files you've added.
-3. Describe your [**test plan**](#test-plan) in your pull request description. Make sure to [test your changes](https://github.com/facebook/Docusaurus/blob/master/admin/testing-changes-on-Docusaurus-itself.md)!
-4. Make sure your code lints (`npm run prettier`).
-5. If you haven't already, [sign the CLA](https://code.facebook.com/cla).
+1. Add the copyright notice to the top of any code new files you've added.
+1. Describe your [**test plan**](#test-plan) in your pull request description. Make sure to [test your changes](https://github.com/facebook/Docusaurus/blob/master/admin/testing-changes-on-Docusaurus-itself.md)!
+1. Make sure your code lints (`npm run prettier`).
+1. Make sure our Jest tests pass (`npm run test`).
+1. If you haven't already, [sign the CLA](https://code.facebook.com/cla).
 
 All pull requests should be opened against the `master` branch.
 
