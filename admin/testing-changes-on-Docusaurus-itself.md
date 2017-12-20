@@ -1,4 +1,4 @@
-If you are developing the Docusuarus core and you want a quick way to test your changes, you can use the Docusaurus website itself as your testing area.
+If you are developing the Docusaurus core and you want a quick way to test your changes, you can use the Docusaurus website itself as your testing area.
 
 > For tips on testing other projects, see the [local testing of third-party projects doc](./local-third-party-project-testing.md).
 

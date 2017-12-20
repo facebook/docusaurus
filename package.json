@@ -37,7 +37,7 @@
     "escape-string-regexp": "^1.0.5",
     "express": "^4.15.3",
     "feed": "^1.1.0",
-    "fs-extra": "^3.0.1",
+    "fs-extra": "^5.0.0",
     "glob": "^7.1.2",
     "highlight.js": "^9.12.0",
     "react": "^15.5.4",
@@ -60,11 +60,11 @@
     "docusaurus-feed": "./lib/generate-feed.js"
   },
   "devDependencies": {
-    "prettier": "^1.9.1",
     "filepath": "^1.1.0",
     "front-matter": "^2.3.0",
     "glob-promise": "^3.3.0",
     "jest": "^21.2.1",
+    "prettier": "^1.9.1",
     "rimraf": "^2.6.2"
   }
 }

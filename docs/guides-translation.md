@@ -7,7 +7,7 @@ Docusaurus allows for easy translation functionality using [Crowdin](https://cro
 
 ## Docusaurus Translation Configurations
 
-To generate example files for translations with Docusuaurus, run the `examples` script with the command line argument `translations`:
+To generate example files for translations with Docusaurus, run the `examples` script with the command line argument `translations`:
 
 ```
 npm run examples translations
@@ -163,7 +163,7 @@ You can add the following to your `package.json` to manually trigger crowdin.
 
 These commands require having an environment variable set with your crowdin project id and api key (`CROWDIN_PROJECT_ID`, `CROWDIN_API_KEY`). You can add them inline like above or add them permanently to your `.bashrc` or `.bash_profile`.
 
-If you run more than one localized Docusaurus project on your computer, you should change the name of the enviroment variables to something unique (`CROWDIN_PROJECTNAME_PROJECT_ID`, `CROWDIN_PROJECTNAME_API_KEY`).
+If you run more than one localized Docusaurus project on your computer, you should change the name of the environment variables to something unique (`CROWDIN_PROJECTNAME_PROJECT_ID`, `CROWDIN_PROJECTNAME_API_KEY`).
 
 ### Automated File Sync Using CircleCI
 
