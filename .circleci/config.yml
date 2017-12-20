@@ -31,7 +31,7 @@ defaults: &defaults
 
 version: 2
 jobs:
-  test-website:
+  tests:
     <<: *defaults
     steps:
       - checkout
@@ -42,7 +42,10 @@ jobs:
           name: Check Prettier
           command: yarn ci-check
       - run:
-          name: Test Build Static Website
+          name: Run Test Suites
+          command: yarn test
+      - run:
+          name: Test Static Website Builds
           command: cd website && yarn run build
 
   deploy-website:
@@ -63,9 +66,6 @@ jobs:
               git config --global user.name "Website Deployment Script"
               echo "machine github.com login facebook-github-bot" > ~/.netrc
             fi
-      - run:
-          name: Install Dependencies
-          command: sudo apt install rsync
       - run:
           name: Deploy Website
           command: |
@@ -99,11 +99,11 @@ workflows:
 
   website:
     jobs:
-      - test-website:
+      - tests:
           filters: *filter-ignore-gh-pages
       - deploy-website:
           requires:
-            - test-website
+            - tests
           filters: *filter-only-master
 
   deploy:
