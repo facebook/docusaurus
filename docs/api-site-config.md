@@ -71,6 +71,7 @@ customDocsPath: "docs/site"
 ```js
 customDocsPath: "website-docs"
 ```
+`useEnglishUrl` - If you do not have [translations](guides-translation.md) enabled (e.g., by having a `languages.js` file), but still want a link of the form `/docs/en/doc.html` (with the `en`), set this to `true`.
 
 `organizationName` - GitHub username of the organization or user hosting this project. This is used by the publishing script to determine where your GitHub pages website will be hosted.
 
