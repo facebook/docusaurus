@@ -69,7 +69,7 @@ You can also put a document in a new sidebar. In the following example, we are c
   ...
 ```
 
-It is important to note that until you [add a document from the the `"examples-sidebar"` sidebar to the nav bar](#additions-to-the-site-navigation-bar), it will be hidden.
+It is important to note that until you [add a document from the `"examples-sidebar"` sidebar to the nav bar](#additions-to-the-site-navigation-bar), it will be hidden.
 
 ## Additions to the Site Navigation Bar
 

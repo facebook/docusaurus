@@ -122,7 +122,7 @@ Note that this path is valid for files inside `pages/en` and should be adjusted 
 
 ## Using Static Assets
 
-Static assets should be placed into the `website/static` folder. They can be accesssed by their paths, excluding "static". For example, if the site's `baseUrl` is "/docusaurus/", an image in `website/static/img/logo.png` is available at `/docusaurus/img/logo.png`.
+Static assets should be placed into the `website/static` folder. They can be accessed by their paths, excluding "static". For example, if the site's `baseUrl` is "/docusaurus/", an image in `website/static/img/logo.png` is available at `/docusaurus/img/logo.png`.
 
 
 ## Styles
