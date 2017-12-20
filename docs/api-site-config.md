@@ -7,7 +7,7 @@ A large part of site configuration is done by editing the `siteConfig.js` file.
 
 ## User Showcase
 
-The `users` array is used to store objects for each project/user that you want to show on your site. Currently this field is used by example the `pages/en/index.js` and `pages/en/users.js` files provided. Each user object should have `caption`, `image`, `infoLink`, and `pinned` fields. The `caption` is the text showed when someone hovers over the `image` of that user, and the `infoLink` is where clicking the image will bring someon. The `pinned` field determines whether or not it shows up on the `index` page.
+The `users` array is used to store objects for each project/user that you want to show on your site. Currently this field is used by example the `pages/en/index.js` and `pages/en/users.js` files provided. Each user object should have `caption`, `image`, `infoLink`, and `pinned` fields. The `caption` is the text showed when someone hovers over the `image` of that user, and the `infoLink` is where clicking the image will bring someone. The `pinned` field determines whether or not it shows up on the `index` page.
 
 Currently this `users` array is used only by the `index.js` and `users.js` example files. If you do not wish to have a users page or show users on the `index` page, you may remove this section.
 
