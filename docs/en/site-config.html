@@ -69,6 +69,7 @@
 <li><code>hljs</code> provides an escape valve by passing an instance of Highlight.js to the function specified here, allowing additional languages to be registered for syntax highlighting.</li>
 </ul>
 <p><code>markdownPlugins</code> - An array of plugins to be loaded by Remarkable, the markdown parser and renderer used by Docusaurus. The plugin will receive a reference to the Remarkable instance, allowing custom parsing and rendering rules to be defined.</p>
+<p><code>wrapPagesHTML</code> - boolean flag to indicate whether <code>html</code> files in <code>/pages</code> should be wrapped with Docusaurus styles with the site header and footer. This feature is experimental and relies on the files being <code>html</code> fragments instead of complete pages. It inserts the contents of your <code>html</code> file with no extra processing. Defaults to <code>false</code>.</p>
 <p><code>scripts</code> - Array of JavaScript sources to load. The script tag will be inserted in the HTML head.</p>
 <p><code>stylesheets</code> - Array of CSS sources to load. The link tag will be inserted in the HTML head.</p>
 <p><code>cname</code> - The CNAME for your website. It will go into a <code>CNAME</code> file when your site it built.</p>
