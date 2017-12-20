@@ -33,4 +33,4 @@ root-of-repo
 │   └── static
 ```
 
-> If you do not want to install the init script globally, you can install it locally and then run it from the `node_modules` directory that is created via `./node_modules/.bin/docusaurus-init`. You may want to remove the created `package.json` file and `node_modules` directory after you run the script.
+> If you do not want to install the init script globally, you can install it locally and then run it via `npx docusaurus-init` or from the `node_modules` directory that is created via `./node_modules/.bin/docusaurus-init`. You may want to remove the created `package.json` file and `node_modules` directory after you run the script.
