@@ -1,6 +1,7 @@
 {
 	"scripts": {
 		"start": "node ../lib/start-server.js",
+		"start-debug": "node  --inspect ../lib/start-server.js",
 		"build": "node ../lib/build-files.js",
 		"publish-gh-pages": "node ../lib/publish-gh-pages.js",
 		"examples": "node ../lib/copy-examples.js",
