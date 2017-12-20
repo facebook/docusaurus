@@ -19,11 +19,11 @@ function imgUrl(img) {
 }
 
 function docUrl(doc, language) {
-  return siteConfig.baseUrl + 'docs/' + language + '/' + doc;
+  return siteConfig.baseUrl + 'docs/' + (language ? language + '/' : '') + doc;
 }
 
 function pageUrl(page, language) {
-  return siteConfig.baseUrl + language + '/' + page;
+  return siteConfig.baseUrl + (language ? language + '/' : '') + page;
 }
 
 class Button extends React.Component {
@@ -73,7 +73,7 @@ const PromoSection = props => (
 
 class HomeSplash extends React.Component {
   render() {
-    let language = this.props.language || 'en';
+    let language = this.props.language || '';
     return (
       <SplashContainer>
         <Logo img_src={imgUrl('docusaurus.svg')} />
@@ -198,7 +198,7 @@ const Showcase = props => {
 
 class Index extends React.Component {
   render() {
-    let language = this.props.language || 'en';
+    let language = this.props.language || '';
 
     return (
       <div>
