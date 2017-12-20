@@ -13,7 +13,7 @@ Documents use the following markdown header fields that are enclosed by a line `
 
 `title`: The title of your document. If this field is not present, the document's `title` will default to it's `id`.
 
-`sidebar_label`: The text shown in the document sidebar for this document. If this field is not present, the document's `sidebar_label` will default to it's `title`.
+`sidebar_label`: The text shown in the document sidebar for this document. If this field is not present, the document's `sidebar_label` will default to its `title`.
 
 For example:
 
