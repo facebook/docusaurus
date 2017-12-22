@@ -1193,11 +1193,10 @@ ul#languages li {
   .navigationSlider .slidingNav ul li a:hover {
     color: #fff;
   }
-  .navigationSlider .slidingNav ul li.navItemActive a {
+  .navigationSlider .slidingNav ul li.navItemActive a,.navigationSlider .slidingNav ul li.navAnchorActive a {
     color: #fff;
   }
 }
-
 .docs-prevnext {
   margin: 20px 0;
 }
@@ -1392,6 +1391,9 @@ nav.toc .toggleNav ul {
   padding-left: 0;
   padding-right: 24px;
 }
+nav.toc .toggleNav ul.navAnchors {
+  padding-left: 10px;
+}
 nav.toc .toggleNav ul li {
   list-style-type: none;
   padding-bottom: 0;
@@ -1410,7 +1412,7 @@ nav.toc .toggleNav ul li a {
 nav.toc .toggleNav ul li a:hover, nav.toc .toggleNav ul li a:focus {
   color: $primaryColor;
 }
-nav.toc .toggleNav ul li a.navItemActive {
+nav.toc .toggleNav ul li a.navItemActive, nav.toc .toggleNav ul li a.navAnchorActive{
   color: $primaryColor;
 }
 .docsSliderActive nav.toc .navBreadcrumb {
