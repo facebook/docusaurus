@@ -79,7 +79,8 @@ root-of-Docusaurus
 ├── lib
 │ └── core
 │ └── server
-│     └── generate.js
+      └── build
+      └── render
 │     └── server.js
 │     └── ...and more files
 │ └── static
