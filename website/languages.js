@@ -32,7 +32,7 @@ const languages = [
     tag: "ca"
   },
   {
-    enabled: true,
+    enabled: false,
     name: "Čeština",
     tag: "cs"
   },
