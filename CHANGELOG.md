@@ -30,6 +30,8 @@ This is generally a bug fix release, with some code refactoring. Total commits i
 
 ### Removed
 
+N/A
+
 ## [1.0.3] - 2017-12-13
 ### Added
 - Docusaurus [released](http://docusaurus.io/blog/2017/12/14/introducing-docusaurus.html) to the public.
@@ -41,4 +43,4 @@ This is generally a bug fix release, with some code refactoring. Total commits i
   - Documentation
 
 [Unreleased]: https://github.com/facebook/Docusaurus/compare/v1.0.4...HEAD
-[1.0.4]: https://github.com/olivierlacan/keep-a-changelog/compare/v1.0.3...v1.0.4
+[1.0.4]: https://github.com/facebook/Docusaurus/compare/v1.0.3...v1.0.4
