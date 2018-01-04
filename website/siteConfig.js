@@ -29,7 +29,7 @@ const users = [
     pinned: true,
   },
   {
-    caption: 'Reason React',
+    caption: 'ReasonReact',
     image: '/img/reason-react.svg',
     infoLink: 'https://reasonml.github.io/reason-react/',
     fbOpenSource: true,
@@ -57,10 +57,10 @@ const users = [
     pinned: true,
   },
   {
-    caption: 'Bucklescript',
+    caption: 'BuckleScript',
     image: '/img/bucklescript.svg',
     infoLink: 'https://bucklescript.github.io/',
-    fbOpenSource: true,
+    fbOpenSource: false,
     pinned: true,
   },
   {
