@@ -72,7 +72,7 @@ jobs:
           command: |
             if [[ $CIRCLE_PROJECT_USERNAME == "facebook" && -z $CI_PULL_REQUEST && -z $CIRCLE_PR_USERNAME ]]; then
               echo "Deploying website..."
-              cd website && GIT_USER=docusaurus-bot USE_SSH=true yarn run publish-gh-pages
+              cd website && GIT_USER=docusaurus-bot USE_SSH=false yarn run publish-gh-pages
             else
               echo "Skipping deploy."
             fi
