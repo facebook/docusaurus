@@ -42,9 +42,11 @@ One of the required parameters is set as a environment variable:
 
 - `GIT_USER`: The username for a GitHub account that has commit access to this repo. For your own repositories, this will usually be your own GitHub username.
 
-There is also an optional parameter that is set as an environment variable. If nothing is set for this variable, then the current branch will be used.
+There are also two optional parameters that are set as environment variables:
 
-- `CURRENT_BRANCH`: The branch that contains the latest docs changes that will be deployed. Usually, the branch will be `master`, but it could be any branch (default or otherwise) except for `gh-pages`.
+- `USE_SSH`: If this is set to `true`, then SSH is used instead of HTTPS for the connection to the GitHub repo. HTTPS is the default if this variable is not set.
+
+- `CURRENT_BRANCH`: The branch that contains the latest docs changes that will be deployed. Usually, the branch will be `master`, but it could be any branch (default or otherwise) except for `gh-pages`. If nothing is set for this variable, then the current branch will be used.
 
 > Docusaurus also supports deploying user or organization sites. Just set your project name to "_username_.github.io" (where _username_ is your username or organization name on GitHub) and the publish script will automatically deploy your site to the root of the `master` branch instead.
 
@@ -52,9 +54,10 @@ Once you have the parameter value information, you can go ahead and run the publ
 
 To run the script directly from the command-line, you can use the following, filling in the parameter values as appropriate.
 
-```
+```bash
 GIT_USER=<GIT_USER> \
   CURRENT_BRANCH=master \
+  USE_SSH=true \
   yarn run publish-gh-pages # or `npm run publish-gh-pages`
 ```
 
@@ -106,7 +109,9 @@ Make sure to replace `<GIT_USER>` with the actual username of the GitHub account
 
 **DO NOT** place the actual value of `$GITHUB_TOKEN` in `circle.yml`. We already configured that as an environment variable back in Step 3.
 
-> Unlike when you run the `publish-gh-pages` script manually, when the script runs within the Circle environment, the values of `ORGANIZATION_NAME`, `PROJECT_NAME`, and `CURRENT_BRANCH` are already defined as environment variables within CircleCI and will be picked up by the script automatically.
+> If you want to use SSH for your GitHub repo connection, you can set `USE_SSH=true`. So the above command would look something like: `cd website && npm install && GIT_USER=<GIT_USER> USE_SSH=true npm run publish-gh-pages`.
+
+> Unlike when you run the `publish-gh-pages` script manually, when the script runs within the Circle environment, the value of `CURRENT_BRANCH` is already defined as an [environment variable within CircleCI](https://circleci.com/docs/1.0/environment-variables/) and will be picked up by the script automatically.
 
 Now, whenever a new commit lands in `master`, CircleCI will run your suite of tests and, if everything passes, your website will be deployed via the `publish-gh-pages` script.
 
