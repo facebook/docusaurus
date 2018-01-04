@@ -8,9 +8,23 @@
 /* List of projects/orgs using your project for the users page */
 const users = [
   {
-    caption: 'Prettier',
-    image: '/img/prettier.png',
-    infoLink: 'https://www.prettier.io',
+    caption: "Almin",
+    image: "/img/almin.png",
+    infoLink: "https://almin.js.org/",
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
+    caption: 'Docusaurus',
+    image: '/img/docusaurus.svg',
+    infoLink: 'https://www.docusaurus.io',
+    fbOpenSource: true,
+    pinned: true,
+  },
+  {
+    caption: 'BuckleScript',
+    image: '/img/bucklescript.svg',
+    infoLink: 'https://bucklescript.github.io/',
     fbOpenSource: false,
     pinned: true,
   },
@@ -29,17 +43,17 @@ const users = [
     pinned: true,
   },
   {
-    caption: 'ReasonReact',
-    image: '/img/reason-react.svg',
-    infoLink: 'https://reasonml.github.io/reason-react/',
-    fbOpenSource: true,
-    pinned: true,
-  },
-  {
     caption: 'MakeItOpen',
     image: '/img/makeitopen.png',
     infoLink: 'http://makeitopen.com/',
     fbOpenSource: true,
+    pinned: true,
+  },
+  {
+    caption: 'Prettier',
+    image: '/img/prettier.png',
+    infoLink: 'https://www.prettier.io',
+    fbOpenSource: false,
     pinned: true,
   },
   {
@@ -50,32 +64,25 @@ const users = [
     pinned: true,
   },
   {
+    caption: 'Reason',
+    image: '/img/reason.svg',
+    infoLink: 'https://reasonml.github.io/',
+    fbOpenSource: true,
+    pinned: true,
+  },
+  {
+    caption: 'ReasonReact',
+    image: '/img/reason-react.svg',
+    infoLink: 'https://reasonml.github.io/reason-react/',
+    fbOpenSource: true,
+    pinned: true,
+  },
+  {
     caption: 'Relay',
     image: '/img/relay.svg',
     infoLink: 'https://facebook.github.io/relay/',
     fbOpenSource: true,
     pinned: true,
-  },
-  {
-    caption: 'BuckleScript',
-    image: '/img/bucklescript.svg',
-    infoLink: 'https://bucklescript.github.io/',
-    fbOpenSource: false,
-    pinned: true,
-  },
-  {
-    caption: 'Docusaurus',
-    image: '/img/docusaurus.svg',
-    infoLink: 'https://www.docusaurus.io',
-    fbOpenSource: true,
-    pinned: true,
-  },
-  {
-    caption: "Almin",
-    image: "/img/almin.png",
-    infoLink: "https://almin.js.org/",
-    fbOpenSource: false,
-    pinned: false,
   },
 ];
 
