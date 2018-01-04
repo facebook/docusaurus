@@ -239,7 +239,7 @@ class Index extends React.Component {
                       "<i>Docusaurus has been a great choice for the ReasonML family of projects. It makes our documentation consistent, i18n-friendly, easy to maintain, and friendly for new contributors.</i>",
                     image: `${siteConfig.baseUrl}img/ricky-vetter.jpg`,
                     imageAlign: "top",
-                    title: 'Ricky Vetter <br/><font size="2">Lead Reason-React Developer</font>'
+                    title: 'Ricky Vetter <br/><font size="2">ReasonReact Developer</font>'
                   }
                 ]}
                 layout="threeColumn"
