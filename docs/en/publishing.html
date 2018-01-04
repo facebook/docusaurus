@@ -34,18 +34,20 @@
 <ul>
 <li><code>GIT_USER</code>: The username for a GitHub account that has commit access to this repo. For your own repositories, this will usually be your own GitHub username.</li>
 </ul>
-<p>There is also an optional parameter that is set as an environment variable. If nothing is set for this variable, then the current branch will be used.</p>
+<p>There are also two optional parameters that are set as environment variables:</p>
 <ul>
-<li><code>CURRENT_BRANCH</code>: The branch that contains the latest docs changes that will be deployed. Usually, the branch will be <code>master</code>, but it could be any branch (default or otherwise) except for <code>gh-pages</code>.</li>
+<li><p><code>USE_SSH</code>: If this is set to <code>true</code>, then SSH is used instead of HTTPS for the connection to the GitHub repo. HTTPS is the default if this variable is not set.</p></li>
+<li><p><code>CURRENT_BRANCH</code>: The branch that contains the latest docs changes that will be deployed. Usually, the branch will be <code>master</code>, but it could be any branch (default or otherwise) except for <code>gh-pages</code>. If nothing is set for this variable, then the current branch will be used.</p></li>
 </ul>
 <blockquote>
 <p>Docusaurus also supports deploying user or organization sites. Just set your project name to &quot;<em>username</em>.github.io&quot; (where <em>username</em> is your username or organization name on GitHub) and the publish script will automatically deploy your site to the root of the <code>master</code> branch instead.</p>
 </blockquote>
 <p>Once you have the parameter value information, you can go ahead and run the publish script, ensuring you have inserted your own values inside the various parameter placeholders:</p>
 <p>To run the script directly from the command-line, you can use the following, filling in the parameter values as appropriate.</p>
-<pre><code class="hljs"><span class="hljs-attribute">GIT_USER</span>=&lt;GIT_USER&gt; \
-  <span class="hljs-attribute">CURRENT_BRANCH</span>=master \
-  yarn <span class="hljs-builtin-name">run</span> publish-gh-pages # <span class="hljs-keyword">or</span> `npm <span class="hljs-builtin-name">run</span> publish-gh-pages`
+<pre><code class="hljs css bash">GIT_USER=&lt;GIT_USER&gt; \
+  CURRENT_BRANCH=master \
+  USE_SSH=<span class="hljs-literal">true</span> \
+  yarn run publish-gh-pages <span class="hljs-comment"># or `npm run publish-gh-pages`</span>
 </code></pre>
 <blockquote>
 <p>The specified <code>GIT_USER</code> must have push access to the repository specified in the combination of <code>organizationName</code> and <code>projectName</code>.</p>
@@ -86,7 +88,10 @@
 <p>Make sure to replace <code>&lt;GIT_USER&gt;</code> with the actual username of the GitHub account that will be used to publish the documentation.</p>
 <p><strong>DO NOT</strong> place the actual value of <code>$GITHUB_TOKEN</code> in <code>circle.yml</code>. We already configured that as an environment variable back in Step 3.</p>
 <blockquote>
-<p>Unlike when you run the <code>publish-gh-pages</code> script manually, when the script runs within the Circle environment, the values of <code>ORGANIZATION_NAME</code>, <code>PROJECT_NAME</code>, and <code>CURRENT_BRANCH</code> are already defined as environment variables within CircleCI and will be picked up by the script automatically.</p>
+<p>If you want to use SSH for your GitHub repo connection, you can set <code>USE_SSH=true</code>. So the above command would look something like: <code>cd website &amp;&amp; npm install &amp;&amp; GIT_USER=&lt;GIT_USER&gt; USE_SSH=true npm run publish-gh-pages</code>.</p>
+</blockquote>
+<blockquote>
+<p>Unlike when you run the <code>publish-gh-pages</code> script manually, when the script runs within the Circle environment, the value of <code>CURRENT_BRANCH</code> is already defined as an <a href="https://circleci.com/docs/1.0/environment-variables/">environment variable within CircleCI</a> and will be picked up by the script automatically.</p>
 </blockquote>
 <p>Now, whenever a new commit lands in <code>master</code>, CircleCI will run your suite of tests and, if everything passes, your website will be deployed via the <code>publish-gh-pages</code> script.</p>
 <blockquote>
