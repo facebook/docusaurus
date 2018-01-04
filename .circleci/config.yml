@@ -48,30 +48,31 @@ jobs:
           name: Test Static Website Builds
           command: cd website && yarn run build
 
+  # The CIRCLE_ variables are defined during the CircleCI build process
+  # https://circleci.com/docs/1.0/environment-variables/
   deploy-website:
     <<: *defaults
     steps:
-      - add_ssh_keys:
-          fingerprints:
-            - "1e:fe:54:96:06:6e:aa:42:07:bf:8e:1f:24:3b:24:30"
       - checkout
       - restore-cache: *restore-yarn-cache
       - run: *yarn
       - save-cache: *save-yarn-cache
       - run:
           name: Configure GitHub Bot
+          # Do not do this if we don't have the right org (facebook), or if this is just a pull request
           command: |
             if [[ $CIRCLE_PROJECT_USERNAME == "facebook" && -z $CI_PULL_REQUEST && -z $CIRCLE_PR_USERNAME ]]; then
               git config --global user.email "docusaurus@users.noreply.github.com"
               git config --global user.name "Website Deployment Script"
-              echo "machine github.com login facebook-github-bot" > ~/.netrc
+              echo "machine github.com login docusaurus-bot" > ~/.netrc
             fi
       - run:
           name: Deploy Website
+          # Skip the deploy if we don't have the right org (facebook), or if this is just a pull request
           command: |
             if [[ $CIRCLE_PROJECT_USERNAME == "facebook" && -z $CI_PULL_REQUEST && -z $CIRCLE_PR_USERNAME ]]; then
               echo "Deploying website..."
-              cd website && GIT_USER=facebook-github-bot USE_SSH=true yarn run publish-gh-pages
+              cd website && GIT_USER=docusaurus-bot USE_SSH=true yarn run publish-gh-pages
             else
               echo "Skipping deploy."
             fi
