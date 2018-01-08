@@ -19,7 +19,7 @@ The `siteConfig` object contains the bulk of the configuration settings for your
 
 `title` - Title for your website.
 
-`tagline` - Tagline for your website.  
+`tagline` - Tagline for your website.
 
 `url` - url for your site.
 
@@ -99,9 +99,10 @@ customDocsPath: "website-docs"
 
 `highlight` - [Syntax highlighting](api-doc-markdown.md) options:
 
- - `theme` is the name of the theme used by Highlight.js when highlighting code.
+ - `theme` is the name of the theme used by Highlight.js when highlighting code. You can find the [list of supported themes here](https://github.com/isagalaev/highlight.js/tree/master/src/styles).
  - `version` specifies a particular version of Highlight.js to be used.
  - `hljs` provides an escape valve by passing an instance of Highlight.js to the function specified here, allowing additional languages to be registered for syntax highlighting.
+ - `defaultLang` defines a default language. It will be used if one is not specified at the top of the code block. You can find the [list of supported languages here](https://github.com/isagalaev/highlight.js/tree/master/src/languages).
 
 `markdownPlugins` - An array of plugins to be loaded by Remarkable, the markdown parser and renderer used by Docusaurus. The plugin will receive a reference to the Remarkable instance, allowing custom parsing and rendering rules to be defined.
 
