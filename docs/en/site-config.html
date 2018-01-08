@@ -64,9 +64,10 @@
 <p><code>twitter</code> - set this to <code>true</code> if you want a Twitter social button to appear at the bottom of your blog posts.</p>
 <p><code>highlight</code> - <a href="/docs/en/doc-markdown.html">Syntax highlighting</a> options:</p>
 <ul>
-<li><code>theme</code> is the name of the theme used by Highlight.js when highlighting code.</li>
+<li><code>theme</code> is the name of the theme used by Highlight.js when highlighting code. You can find the <a href="https://github.com/isagalaev/highlight.js/tree/master/src/styles">list of supported themes here</a>.</li>
 <li><code>version</code> specifies a particular version of Highlight.js to be used.</li>
 <li><code>hljs</code> provides an escape valve by passing an instance of Highlight.js to the function specified here, allowing additional languages to be registered for syntax highlighting.</li>
+<li><code>defaultLang</code> defines a default language. It will be used if one is not specified at the top of the code block. You can find the <a href="https://github.com/isagalaev/highlight.js/tree/master/src/languages">list of supported languages here</a>.</li>
 </ul>
 <p><code>markdownPlugins</code> - An array of plugins to be loaded by Remarkable, the markdown parser and renderer used by Docusaurus. The plugin will receive a reference to the Remarkable instance, allowing custom parsing and rendering rules to be defined.</p>
 <p><code>wrapPagesHTML</code> - boolean flag to indicate whether <code>html</code> files in <code>/pages</code> should be wrapped with Docusaurus styles with the site header and footer. This feature is experimental and relies on the files being <code>html</code> fragments instead of complete pages. It inserts the contents of your <code>html</code> file with no extra processing. Defaults to <code>false</code>.</p>
