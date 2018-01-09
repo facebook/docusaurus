@@ -64,6 +64,6 @@ N/A
   - Blog
   - Documentation
 
-[Unreleased]: https://github.com/facebook/Docusaurus/compare/v1.0.4...HEAD
+[Unreleased]: https://github.com/facebook/Docusaurus/compare/v1.0.5...HEAD
 [1.0.5]: https://github.com/facebook/Docusaurus/compare/v1.0.4...v1.0.5
 [1.0.4]: https://github.com/facebook/Docusaurus/compare/v1.0.3...v1.0.4
