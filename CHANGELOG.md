@@ -6,6 +6,28 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.5] - 2018-01-09
+
+This is a targeted bug fix release, with some documentation updates and Docusaurus repo housekeeping in between. Total commits in this release is 13, including the release itself.
+
+### Breaking Changes
+
+N/A
+
+### Added
+
+N/A
+
+### Fixed/Changed
+
+- Docusaurus builds on Windows ([PR #381](https://github.com/facebook/Docusaurus/pull/381), thanks @qcz).
+- Fixed publishing for user/org GitHub sites (as opposed to project sites) ([PR #384](https://github.com/facebook/Docusaurus/pull/384)).
+- Clarification and updates on the publishing and API documentation ([PR #372](https://github.com/facebook/Docusaurus/pull/372)).
+
+### Removed
+
+N/A
+
 ## [1.0.4] - 2017-12-27
 
 This is generally a bug fix release, with some code refactoring. Total commits in this release is 58.
@@ -43,4 +65,5 @@ N/A
   - Documentation
 
 [Unreleased]: https://github.com/facebook/Docusaurus/compare/v1.0.4...HEAD
+[1.0.5]: https://github.com/facebook/Docusaurus/compare/v1.0.4...v1.0.5
 [1.0.4]: https://github.com/facebook/Docusaurus/compare/v1.0.3...v1.0.4
