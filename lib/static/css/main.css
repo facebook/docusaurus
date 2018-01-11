@@ -1410,13 +1410,17 @@ nav.toc .toggleNav ul li a {
   line-height: 1.1em;
   margin: 2px 10px 5px;
   padding: 5px 0 2px;
-  transition: color 0.3s;
+  transition: color 0.3s, transform 0.4s;
 }
 nav.toc .toggleNav ul li a:hover, nav.toc .toggleNav ul li a:focus {
   color: $primaryColor;
+  transform: translateX(-4px);
 }
+
 nav.toc .toggleNav ul li a.navItemActive {
   color: $primaryColor;
+  transform: translateX(0);
+  opacity: 0.5;
 }
 .docsSliderActive nav.toc .navBreadcrumb {
   background: #c6c6c6;
