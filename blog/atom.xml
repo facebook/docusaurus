@@ -6,7 +6,7 @@
     <generator>Feed for Node.js</generator>
     <link rel="alternate" href="https://docusaurus.io/blog"/>
     <subtitle>The best place to stay up-to-date with the latest Docusaurus news and events.</subtitle>
-    <logo>https://docusaurus.ioimg/docusaurus.svg</logo>
+    <logo>https://docusaurus.io/img/docusaurus.svg</logo>
     <rights>Copyright © 2018 Facebook Inc.</rights>
     <entry>
         <title type="html"><![CDATA[Introducing Docusaurus]]></title>

@@ -9,7 +9,7 @@
         <generator>Feed for Node.js</generator>
         <image>
             <title>Docusaurus Blog</title>
-            <url>https://docusaurus.ioimg/docusaurus.svg</url>
+            <url>https://docusaurus.io/img/docusaurus.svg</url>
             <link>https://docusaurus.io/blog</link>
         </image>
         <copyright>Copyright © 2018 Facebook Inc.</copyright>
