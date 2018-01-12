@@ -529,7 +529,7 @@ header h2 {
   color: #fff;
   display: flex;
   flex-flow: row nowrap;
-  height: 34px;
+  height: 38px;
   z-index: 10000;
 }
 .fixedHeaderContainer header {
