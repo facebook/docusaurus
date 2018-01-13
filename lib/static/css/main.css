@@ -821,6 +821,10 @@ pre code {
   margin-left: auto;
   margin-right: auto;
 }
+.imageAlignRight .blockImage {
+  margin-right: 0;
+  margin-left: 40px;
+}
 .container .gridBlock .blockContent p {
   padding: 0;
 }
