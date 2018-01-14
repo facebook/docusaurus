@@ -795,7 +795,6 @@ pre code {
 .imageAlignSide .blockImage {
   max-width: 500px;
   flex: 0 1 500px;
-  margin-right: 40px;
 }
 @media only screen and (min-device-width: 360px) and (max-device-width: 735px) {
   .imageAlignSide .blockImage {
@@ -822,8 +821,10 @@ pre code {
   margin-right: auto;
 }
 .imageAlignRight .blockImage {
-  margin-right: 0;
   margin-left: 40px;
+}
+.imageAlignLeft .blockImage {
+  margin-right: 40px;
 }
 .container .gridBlock .blockContent p {
   padding: 0;
