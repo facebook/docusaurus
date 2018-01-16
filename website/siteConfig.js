@@ -64,6 +64,13 @@ const users = [
     pinned: true,
   },
   {
+    caption: 'react-native-ios-kit',
+    image: '/img/react-native-ios-kit.svg',
+    infoLink: 'https://callstack.github.io/react-native-ios-kit',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Reason',
     image: '/img/reason.svg',
     infoLink: 'https://reasonml.github.io/',
