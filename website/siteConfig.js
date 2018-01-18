@@ -89,7 +89,7 @@ const users = [
     image: 'https://vuls.io/img/docs/vuls_logo.png',
     infoLink: 'https://vuls.io/',
     fbOpenSource: false,
-    pinned: true,
+    pinned: false,
   },
 ];
 
