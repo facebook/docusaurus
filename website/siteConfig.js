@@ -84,6 +84,13 @@ const users = [
     fbOpenSource: true,
     pinned: true,
   },
+  {
+    caption: 'Vuls',
+    image: 'https://vuls.io/img/docs/vuls_logo.png',
+    infoLink: 'https://vuls.io/',
+    fbOpenSource: false,
+    pinned: false,
+  },
 ];
 
 const siteConfig = {
