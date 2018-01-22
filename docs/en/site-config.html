@@ -44,11 +44,28 @@
 </ul>
 <p><code>copyright</code> - The copyright string at footer of site and within feed</p>
 <h3><a class="anchor" aria-hidden="true" name="optional-fields"></a><a href="#optional-fields" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Optional Fields</h3>
-<p><code>fonts</code> - Font-family css configuration for the site. If a font family specified as <code>$myFont</code>, then adding a <code>myFont</code> key to an array in <code>fonts</code> will allow you to configure the font. Items appearing earlier in the array will take priority of later elements, so these should be more specific.
-<code>customDocsPath</code> - By default, Docusaurus expects your documentation to be in a directory called <code>docs</code>. This directory is at the same level as the <code>website</code> directory (i.e., not inside the <code>website</code> directory). You can specify a custom path to your documentation with this field. *<em>Note that all of your documentation <em>.md files must still reside in a flat hierarchy. You cannot have your documents in nested directories</em></em>.</p>
+<p><code>customDocsPath</code> - By default, Docusaurus expects your documentation to be in a directory called <code>docs</code>. This directory is at the same level as the <code>website</code> directory (i.e., not inside the <code>website</code> directory). You can specify a custom path to your documentation with this field. *<em>Note that all of your documentation <em>.md files must still reside in a flat hierarchy. You cannot have your documents in nested directories</em></em>.</p>
 <pre><code class="hljs css js">customDocsPath: <span class="hljs-string">"docs/site"</span>
 </code></pre>
 <pre><code class="hljs css js">customDocsPath: <span class="hljs-string">"website-docs"</span>
+</code></pre>
+<p><code>fonts</code> - Font-family css configuration for the site. If a font family is specified in <code>siteConfig.js</code> as <code>$myFont</code>, then adding a <code>myFont</code> key to an array in <code>fonts</code> will allow you to configure the font. Items appearing earlier in the array will take priority of later elements, so ordering of the fonts matter.</p>
+<p>In the below example, we have two sets of font configurations, <code>myFont</code> and <code>myOtherFont</code>. <code>Times New Roman</code> is the preferred font in <code>myFont</code>. <code>-apple-system</code> is the preferred in <code>myOtherFont</code>.</p>
+<pre><code class="hljs"><span class="hljs-selector-tag">fonts</span>: {
+  <span class="hljs-attribute">myFont</span>: [
+    <span class="hljs-string">"Times New Roman"</span>,
+    <span class="hljs-string">"Serif"</span>
+  ],
+  myOtherFont: [
+    <span class="hljs-string">"-apple-system"</span>,
+    <span class="hljs-string">"system-ui"</span>
+  ]
+},
+</code></pre>
+<p>The above fonts would be represented in your CSS file(s) as variables <code>$myFont</code> and <code>$myOtherFont</code>.</p>
+<pre><code class="hljs"><span class="hljs-selector-tag">h1</span> {
+  <span class="hljs-attribute">font-family</span>: $myFont;
+}
 </code></pre>
 <p><code>useEnglishUrl</code> - If you do not have <a href="/docs/en/translation.html">translations</a> enabled (e.g., by having a <code>languages.js</code> file), but still want a link of the form <code>/docs/en/doc.html</code> (with the <code>en</code>), set this to <code>true</code>.</p>
 <p><code>organizationName</code> - GitHub username of the organization or user hosting this project. This is used by the publishing script to determine where your GitHub pages website will be hosted.</p>
