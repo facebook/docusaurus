@@ -92,6 +92,13 @@ const users = [
     pinned: true,
   },
   {
+    caption: 'Verdaccio',
+    image: 'http://www.verdaccio.org/img/verdaccio-tiny@2x.png',
+    infoLink: 'http://www.verdaccio.org/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Vuls',
     image: 'https://vuls.io/img/docs/vuls_logo.png',
     infoLink: 'https://vuls.io/',
