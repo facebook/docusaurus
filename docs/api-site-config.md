@@ -62,6 +62,7 @@ headerLinks: [
 
 ### Optional Fields
 
+`fonts` - Font-family css configuration for the site. If a font family specified as `$myFont`, then adding a `myFont` key to an array in `fonts` will allow you to configure the font. Items appearing earlier in the array will take priority of later elements, so these should be more specific. 
 `customDocsPath` - By default, Docusaurus expects your documentation to be in a directory called `docs`. This directory is at the same level as the `website` directory (i.e., not inside the `website` directory). You can specify a custom path to your documentation with this field. **Note that all of your documentation *.md files must still reside in a flat hierarchy. You cannot have your documents in nested directories**.
 
 ```js
