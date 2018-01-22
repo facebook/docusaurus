@@ -3,6 +3,18 @@ id: navigation
 title: Navigation and Sidebars
 ---
 
+## Referencing Site Documents
+
+If you want to reference another document in your `docs` folder (or the location you set via the [optional `customDocsPath`](https://docusaurus.io/docs/en/site-config.html#optional-fields) path site configuration option), then you just use the name of the document you want to reference.
+
+For example, if you are in `doc2.md` and you want to reference `doc1.md`:
+
+```
+I am referencing a [document](doc1.md).
+```
+
+> Docusaurus currently does not support documents in nested folders; only in a flatfile structure. We are looking into adding support for nested folders.
+
 ## How Documents are Linked
 
 New markdown files within `docs` will show up as pages on the website. Links to those documents are created first by using the `id` in the header of each document. If there is no `id` field, then the name of the file will serve as the link name.
@@ -69,7 +81,7 @@ You can also put a document in a new sidebar. In the following example, we are c
   ...
 ```
 
-It is important to note that until you [add a document from the the `"examples-sidebar"` sidebar to the nav bar](#additions-to-the-site-navigation-bar), it will be hidden.
+It is important to note that until you [add a document from the `"examples-sidebar"` sidebar to the nav bar](#additions-to-the-site-navigation-bar), it will be hidden.
 
 ## Additions to the Site Navigation Bar
 

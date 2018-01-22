@@ -32,7 +32,7 @@ A block token is a bit more complex. It may wrap one or more tokens, and can spa
 
 The plain markdown text above would be parsed into three tokens:
 
-- `heading_open`: Marks the begining of the heading. May have additional props, such as `hLevel: 3` (heading level) in this case.
+- `heading_open`: Marks the beginning of the heading. May have additional props, such as `hLevel: 3` (heading level) in this case.
 - `text`: Plain text token, with a value of "Hi there".
 - `heading_close`: Marks the end of the heading. In this case, it would also have a `hLevel: 3` prop.
 

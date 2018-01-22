@@ -41,8 +41,8 @@ files:
         'tr': 'tr'
         'uk': 'uk'
         'vi': 'vi'
-        'zh-CN': 'zh-Hans'
-        'zh-TW': 'zh-Hant'
+        'zh-CN': 'zh-CN'
+        'zh-TW': 'zh-TW'
   -
     source: '/website/i18n/en.json'
     translation: '/website/i18n/%locale%.json'

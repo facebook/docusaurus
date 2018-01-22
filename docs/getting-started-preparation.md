@@ -51,7 +51,7 @@ Running the Docusaurus initialization script, `docusaurus-init`, produces a runn
 1. In your root, rename `docs-examples-from-docusaurus` to `docs`.
 1. `cd website`
 1. Rename `blog-examples-from-docusaurus` to `blog`.
-1. Run the local webserver via `yarn run start` or `npm run start`.
+1. Run the local webserver via `yarn start` or `npm start`.
 1. Load the example site at http://localhost:3000. You should see the example site loaded in your web browser.
 
 ![](/img/getting-started-preparation-verify.png)

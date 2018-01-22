@@ -7,7 +7,7 @@ A large part of site configuration is done by editing the `siteConfig.js` file.
 
 ## User Showcase
 
-The `users` array is used to store objects for each project/user that you want to show on your site. Currently this field is used by example the `pages/en/index.js` and `pages/en/users.js` files provided. Each user object should have `caption`, `image`, `infoLink`, and `pinned` fields. The `caption` is the text showed when someone hovers over the `image` of that user, and the `infoLink` is where clicking the image will bring someon. The `pinned` field determines whether or not it shows up on the `index` page.
+The `users` array is used to store objects for each project/user that you want to show on your site. Currently this field is used by example the `pages/en/index.js` and `pages/en/users.js` files provided. Each user object should have `caption`, `image`, `infoLink`, and `pinned` fields. The `caption` is the text showed when someone hovers over the `image` of that user, and the `infoLink` is where clicking the image will bring someone. The `pinned` field determines whether or not it shows up on the `index` page.
 
 Currently this `users` array is used only by the `index.js` and `users.js` example files. If you do not wish to have a users page or show users on the `index` page, you may remove this section.
 
@@ -19,7 +19,7 @@ The `siteConfig` object contains the bulk of the configuration settings for your
 
 `title` - Title for your website.
 
-`tagline` - Tagline for your website.  
+`tagline` - Tagline for your website.
 
 `url` - url for your site.
 
@@ -72,6 +72,7 @@ customDocsPath: "docs/site"
 ```js
 customDocsPath: "website-docs"
 ```
+`useEnglishUrl` - If you do not have [translations](guides-translation.md) enabled (e.g., by having a `languages.js` file), but still want a link of the form `/docs/en/doc.html` (with the `en`), set this to `true`.
 
 `organizationName` - GitHub username of the organization or user hosting this project. This is used by the publishing script to determine where your GitHub pages website will be hosted.
 
@@ -99,11 +100,14 @@ customDocsPath: "website-docs"
 
 `highlight` - [Syntax highlighting](api-doc-markdown.md) options:
 
- - `theme` is the name of the theme used by Highlight.js when highlighting code.
+ - `theme` is the name of the theme used by Highlight.js when highlighting code. You can find the [list of supported themes here](https://github.com/isagalaev/highlight.js/tree/master/src/styles).
  - `version` specifies a particular version of Highlight.js to be used.
  - `hljs` provides an escape valve by passing an instance of Highlight.js to the function specified here, allowing additional languages to be registered for syntax highlighting.
+ - `defaultLang` defines a default language. It will be used if one is not specified at the top of the code block. You can find the [list of supported languages here](https://github.com/isagalaev/highlight.js/tree/master/src/languages).
 
 `markdownPlugins` - An array of plugins to be loaded by Remarkable, the markdown parser and renderer used by Docusaurus. The plugin will receive a reference to the Remarkable instance, allowing custom parsing and rendering rules to be defined.
+
+`wrapPagesHTML` - boolean flag to indicate whether `html` files in `/pages` should be wrapped with Docusaurus styles with the site header and footer. This feature is experimental and relies on the files being `html` fragments instead of complete pages. It inserts the contents of your `html` file with no extra processing. Defaults to `false`.
 
 `scripts` - Array of JavaScript sources to load. The script tag will be inserted in the HTML head.
 

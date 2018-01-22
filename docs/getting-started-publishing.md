@@ -29,7 +29,7 @@ Deploying your Docusaurus site to GitHub Pages is straightforward if you are alr
 
 > Even if your repo is private, anything published to a `gh-pages` branch will be [public](https://help.github.com/articles/user-organization-and-project-pages/).
 
-Most of the work to publish to GitHub pages is done for you automatically through the [`publish-gh-pages`](./commands.md#docusaurus-publish) script. You just need to determine the values for a few parameters required by the script.
+Most of the work to publish to GitHub pages is done for you automatically through the [`publish-gh-pages`](./api-commands.md#docusaurus-publish) script. You just need to determine the values for a few parameters required by the script.
 
 Two of the required parameters are set in the [`siteConfig.js`](api-site-config.md):
 
@@ -42,9 +42,11 @@ One of the required parameters is set as a environment variable:
 
 - `GIT_USER`: The username for a GitHub account that has commit access to this repo. For your own repositories, this will usually be your own GitHub username.
 
-There is also an optional parameter that is set as an environment variable. If nothing is set for this variable, then the current branch will be used.
+There are also two optional parameters that are set as environment variables:
 
-- `CURRENT_BRANCH`: The branch that contains the latest docs changes that will be deployed. Usually, the branch will be `master`, but it could be any branch (default or otherwise) except for `gh-pages`.
+- `USE_SSH`: If this is set to `true`, then SSH is used instead of HTTPS for the connection to the GitHub repo. HTTPS is the default if this variable is not set.
+
+- `CURRENT_BRANCH`: The branch that contains the latest docs changes that will be deployed. Usually, the branch will be `master`, but it could be any branch (default or otherwise) except for `gh-pages`. If nothing is set for this variable, then the current branch will be used.
 
 > Docusaurus also supports deploying user or organization sites. Just set your project name to "_username_.github.io" (where _username_ is your username or organization name on GitHub) and the publish script will automatically deploy your site to the root of the `master` branch instead.
 
@@ -52,15 +54,16 @@ Once you have the parameter value information, you can go ahead and run the publ
 
 To run the script directly from the command-line, you can use the following, filling in the parameter values as appropriate.
 
-```
+```bash
 GIT_USER=<GIT_USER> \
   CURRENT_BRANCH=master \
+  USE_SSH=true \
   yarn run publish-gh-pages # or `npm run publish-gh-pages`
 ```
 
 > The specified `GIT_USER` must have push access to the repository specified in the combination of `organizationName` and `projectName`.
 
-You should now be able to load your website by visiting its GitHub Pages URL, which could be something along the lines of https://_username_.github.io/_projectName_, or a custom domain if you have set that up. For example, Docusaurus' own GitHub Pages URL is https://docusaurus.io (it can also be accessed via https://facebook.github.io/docusaurus), because it is served from the `gh-pages` branch of the https://github.com/facebook/docusaurus GitHub repo. We highly encourage reading through the [GitHub Pages documentation](https://pages.github.com) to learn more about how this hosting solution works.
+You should now be able to load your website by visiting its GitHub Pages URL, which could be something along the lines of https://_username_.github.io/_projectName_, or a custom domain if you have set that up. For example, Docusaurus' own GitHub Pages URL is https://docusaurus.io (it can also be accessed via https://docusaurus.io/), because it is served from the `gh-pages` branch of the https://github.com/facebook/docusaurus GitHub repo. We highly encourage reading through the [GitHub Pages documentation](https://pages.github.com) to learn more about how this hosting solution works.
 
 You can run the command above any time you update the docs and wish to deploy the changes to your site. Running the script manually may be fine for sites where the documentation rarely changes and it is not too much of an inconvenience to remember to manually deploy changes.
 
@@ -74,7 +77,7 @@ Continuous integration (CI) services are typically used to perform routine tasks
 
 If you're already using Circle CI for your project, all you need to do to enable automatic deployments is to configure Circle to run the `publish-gh-pages` script as part of the deployment step.
 
-1. Ensure the GitHub account that will be set as the `GIT_USER` has `write` access to the repo that contains the documentation.
+1. Ensure the GitHub account that will be set as the `GIT_USER` has `write` access to the repo that contains the documentation, by checking `Settings | Collaborators & teams` in the repo.
 1. Log into GitHub as the `GIT_USER`.
 1. Go to https://github.com/settings/tokens for the `GIT_USER` and generate a new [personal access token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/), granting it full control of private repositories through the `repo` access scope. Store this token in a safe place, making sure to not share it with anyone. This token can be used to authenticate GitHub actions on your behalf in place of your GitHub password.
 1. Open your Circle CI dashboard, and navigate to the Settings page for your repository, then select "Environment variables". The URL looks like https://circleci.com/gh/ORG/REPO/edit#env-vars, where "ORG/REPO" should be replaced with your own GitHub org/repo.
@@ -106,7 +109,9 @@ Make sure to replace `<GIT_USER>` with the actual username of the GitHub account
 
 **DO NOT** place the actual value of `$GITHUB_TOKEN` in `circle.yml`. We already configured that as an environment variable back in Step 3.
 
-> Unlike when you run the `publish-gh-pages` script manually, when the script runs within the Circle environment, the values of `ORGANIZATION_NAME`, `PROJECT_NAME`, and `CURRENT_BRANCH` are already defined as environment variables within CircleCI and will be picked up by the script automatically.
+> If you want to use SSH for your GitHub repo connection, you can set `USE_SSH=true`. So the above command would look something like: `cd website && npm install && GIT_USER=<GIT_USER> USE_SSH=true npm run publish-gh-pages`.
+
+> Unlike when you run the `publish-gh-pages` script manually, when the script runs within the Circle environment, the value of `CURRENT_BRANCH` is already defined as an [environment variable within CircleCI](https://circleci.com/docs/1.0/environment-variables/) and will be picked up by the script automatically.
 
 Now, whenever a new commit lands in `master`, CircleCI will run your suite of tests and, if everything passes, your website will be deployed via the `publish-gh-pages` script.
 

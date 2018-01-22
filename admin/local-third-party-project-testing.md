@@ -1,6 +1,6 @@
 Sometimes you want to test the latest version of Docusaurus on a third-party project via `npm` or `yarn` without having to publish it to npm itself. For example, you may want to use the latest code in `master`.
 
-> If you want to use Docusaurus to test Docusuarus, see the [testing changins on Docusaurus itself doc](./testing-changes-on-Docusaurus-itself.md)
+> If you want to use Docusaurus to test Docusaurus, see the [testing changes on Docusaurus itself doc](./testing-changes-on-Docusaurus-itself.md)
 
 There are two reasonable ways to use a local version of the Docusaurus npm package to test changes you make to the Docusaurus core on a third-party project.
 
