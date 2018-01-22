@@ -37,6 +37,17 @@ const siteConfig = {
     primaryColor: '#2E8555',
     secondaryColor: '#205C3B',
   },
+  /* custom fonts for website */
+  /*fonts: {
+    myFont: [
+      "Times New Roman",
+      "Serif"
+    ],
+    myOtherFont: [
+      "-apple-system",
+      "system-ui"
+    ]
+  },*/
   // This copyright info is used in /core/Footer.js and blog rss/atom feeds.
   copyright:
     'Copyright © ' +
