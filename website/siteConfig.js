@@ -98,6 +98,13 @@ const users = [
     fbOpenSource: false,
     pinned: false,
   },
+  {
+    caption: 'Verdaccio',
+    image: 'http://www.verdaccio.org/img/verdaccio-tiny@2x.png',
+    infoLink: 'http://www.verdaccio.org/',
+    fbOpenSource: false,
+    pinned: false,
+  },
 ];
 
 const siteConfig = {
