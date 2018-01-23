@@ -20,6 +20,11 @@ class Help extends React.Component {
           `Learn more about Docusaurus using the [official documentation](${siteConfig.baseUrl}docs/${this.props.language}/installation.html).`,
       },
       {
+        title: "Discord",
+        content:
+          "You can join the conversation on one of our Discord Channels: [#docusaurus-users](https://discord.gg/tq7QK3M) for user help and [#docusaurus-dev](https://discord.gg/ZQrGEVj) for contributing help."
+      },
+      {
         title: "Twitter",
         content:
           "You can follow and contact us on [Twitter](https://twitter.com/docusaurus)."
@@ -39,9 +44,9 @@ class Help extends React.Component {
               <h2>Need help?</h2>
             </header>
             <p>
-              If you need help with Docusaurus, you can try one of the mechanisms below. We are looking at other options to provide help for Docusaurus users well.
+              If you need help with Docusaurus, you can try one of the mechanisms below.
             </p>
-            <GridBlock contents={supportLinks} layout="threeColumn" />
+            <GridBlock contents={supportLinks} layout="fourColumn" />
           </div>
         </Container>
       </div>

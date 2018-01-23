@@ -28,7 +28,16 @@ Read our [contributing guide](https://github.com/facebook/Docusaurus/blob/master
 
 To help you get your feet wet and get you familiar with our contribution process, we have a list of [beginner friendly bugs](https://github.com/facebook/Docusaurus/labels/good%20first%20issue) that contain bugs which are fairly easy to fix. This is a great place to get started.
 
-### License
+## Contact
+
+We have a few channels for contact:
+
+- Our [#docusaurus-users](https://discord.gg/tq7QK3M) Discord channel for those using Docusaurus.
+- Our [#docusaurus-dev](https://discord.gg/ZQrGEVj) Discord channel for those wanting to contribute to the Docusaurus core.
+- [@docusaurus](https://twitter.com/docusaurus) on Twitter
+- [GitHub Issues](https://github.com/facebook/docusaurus/issues)
+
+## License
 
 Docusaurus is [MIT licensed](./LICENSE).
 
