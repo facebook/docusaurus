@@ -18,6 +18,10 @@ There are many ways to contribute to Docusaurus, and many of them do not involve
 
 Contributions are very welcome. If you think you need help planning your contribution, please ping us on Twitter at [@docusaurus](https://twitter.com/docusaurus) and let us know you are looking for a bit of help.
 
+### Join our Discord Channel
+
+We have [#docusaurus-dev](https://discord.gg/ZQrGEVj) to discuss all things Docusaurus development.
+
 ### Triaging issues and pull requests
 
 One great way you can contribute to the project without writing any code is to help triage issues and pull requests as they come in.
