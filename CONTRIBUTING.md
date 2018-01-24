@@ -20,7 +20,7 @@ Contributions are very welcome. If you think you need help planning your contrib
 
 ### Join our Discord Channel
 
-We have [#docusaurus-dev](https://discord.gg/ZQrGEVj) to discuss all things Docusaurus development.
+We have `#docusaurus-dev` on [Discord](https://discord.gg/docusaurus) to discuss all things Docusaurus development.
 
 ### Triaging issues and pull requests
 

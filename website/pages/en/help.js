@@ -22,7 +22,7 @@ class Help extends React.Component {
       {
         title: "Discord",
         content:
-          "You can join the conversation on one of our Discord Channels: [#docusaurus-users](https://discord.gg/tq7QK3M) for user help and [#docusaurus-dev](https://discord.gg/ZQrGEVj) for contributing help."
+          "You can join the conversation on [Discord](https://discord.gg/docusaurus) on one of our two text channels: #docusaurus-users for user help and #docusaurus-dev for contributing help."
       },
       {
         title: "Twitter",
