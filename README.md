@@ -32,8 +32,9 @@ To help you get your feet wet and get you familiar with our contribution process
 
 We have a few channels for contact:
 
-- Our [#docusaurus-users](https://discord.gg/tq7QK3M) Discord channel for those using Docusaurus.
-- Our [#docusaurus-dev](https://discord.gg/ZQrGEVj) Discord channel for those wanting to contribute to the Docusaurus core.
+- [Discord](https://discord.gg/docusaurus) with two text channels:
+  - `#docusaurus-users` for those using Docusaurus.
+  - `#docusaurus-dev` for those wanting to contribute to the Docusaurus core.
 - [@docusaurus](https://twitter.com/docusaurus) on Twitter
 - [GitHub Issues](https://github.com/facebook/docusaurus/issues)
 
