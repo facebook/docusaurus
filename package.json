@@ -24,6 +24,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "autoprefixer": "^7.2.5",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.0",
@@ -38,10 +39,13 @@
     "crowdin-cli": "^0.3.0",
     "escape-string-regexp": "^1.0.5",
     "express": "^4.15.3",
+    "express-async-handler": "^1.0.3",
     "feed": "^1.1.0",
     "fs-extra": "^5.0.0",
     "glob": "^7.1.2",
     "highlight.js": "^9.12.0",
+    "postcss": "^6.0.16",
+    "precss": "^3.1.0",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "react-dom-factories": "^1.0.1",
