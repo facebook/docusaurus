@@ -68,6 +68,19 @@ Not this.
 Or this.
 ```
 
+## Changing How Many Blog Posts Show on Sidebar
+
+By default, 5 recent blog posts are shown on the sidebar.
+
+You can configure a specifc amount of blog posts to show by adding a `blogSidebarCount` setting to your `siteConfig.js`.
+
+The available options are an integer repreenting the number of posts you wish to show or a string with the value 'ALL'.
+
+Example:
+```
+blogSidebarCount: 'ALL'
+```
+
 ## RSS Feed
 
 Docusaurus provides a simple RSS feed for your blog posts. Both RSS and Atom feed formats are supported. This data is automatically to your website page's HTML <HEAD> tag.
