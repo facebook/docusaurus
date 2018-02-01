@@ -132,7 +132,7 @@ h1 {
 
 `markdownPlugins` - An array of plugins to be loaded by Remarkable, the markdown parser and renderer used by Docusaurus. The plugin will receive a reference to the Remarkable instance, allowing custom parsing and rendering rules to be defined.
 
-`wrapPagesHTML` - boolean flag to indicate whether `html` files in `/pages` should be wrapped with Docusaurus styles with the site header and footer. This feature is experimental and relies on the files being `html` fragments instead of complete pages. It inserts the contents of your `html` file with no extra processing. Defaults to `false`.
+`wrapPagesHTML` - boolean flag to indicate whether `html` files in `/pages` should be wrapped with Docusaurus site styles, header and footer. This feature is experimental and relies on the files being `html` fragments instead of complete pages. It inserts the contents of your `html` file with no extra processing. Defaults to `false`.
 
 `scripts` - Array of JavaScript sources to load. The script tag will be inserted in the HTML head.
 
