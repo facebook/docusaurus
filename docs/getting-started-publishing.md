@@ -36,7 +36,9 @@ Two of the required parameters are set in the [`siteConfig.js`](api-site-config.
 - `organizationName`: The GitHub user or organization that owns the repository. In the case of Docusaurus, that would be the "facebook" GitHub organization.
 - `projectName`: The name of the GitHub repository for your project. For example, Docusaurus is hosted at https://github.com/facebook/docusaurus, so our project name in this case would be "docusaurus".
 
-> While we recommend setting the above in `siteConfig.js`, you can also use environment variables `ORGANIZATION_NAME` and `PROJECT_NAME`.
+> Docusaurus also supports deploying [user or organization sites](https://help.github.com/articles/user-organization-and-project-pages/#user--organization-pages). These sites will be served from the `master` branch of the repo. So, you will want to have the Docusaurus infra, your docs, etc. in another branch (e.g., maybe call it `source`). To do this, just set `projectName` to "_username_.github.io" (where _username_ is your username or organization name on GitHub) and `organizationName` to "_username_". The publish script will automatically deploy your site to the root of the `master` branch to be served.
+
+> While we recommend setting the `projectName` and `organizationName` in `siteConfig.js`, you can also use environment variables `ORGANIZATION_NAME` and `PROJECT_NAME`.
 
 One of the required parameters is set as a environment variable:
 
@@ -47,8 +49,6 @@ There are also two optional parameters that are set as environment variables:
 - `USE_SSH`: If this is set to `true`, then SSH is used instead of HTTPS for the connection to the GitHub repo. HTTPS is the default if this variable is not set.
 
 - `CURRENT_BRANCH`: The branch that contains the latest docs changes that will be deployed. Usually, the branch will be `master`, but it could be any branch (default or otherwise) except for `gh-pages`. If nothing is set for this variable, then the current branch will be used.
-
-> Docusaurus also supports deploying user or organization sites. Just set your project name to "_username_.github.io" (where _username_ is your username or organization name on GitHub) and the publish script will automatically deploy your site to the root of the `master` branch instead.
 
 Once you have the parameter value information, you can go ahead and run the publish script, ensuring you have inserted your own values inside the various parameter placeholders:
 
