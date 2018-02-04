@@ -28,7 +28,10 @@
 <li><code>projectName</code>: The name of the GitHub repository for your project. For example, Docusaurus is hosted at <a href="https://github.com/facebook/docusaurus">https://github.com/facebook/docusaurus</a>, so our project name in this case would be &quot;docusaurus&quot;.</li>
 </ul>
 <blockquote>
-<p>While we recommend setting the above in <code>siteConfig.js</code>, you can also use environment variables <code>ORGANIZATION_NAME</code> and <code>PROJECT_NAME</code>.</p>
+<p>Docusaurus also supports deploying <a href="https://help.github.com/articles/user-organization-and-project-pages/#user--organization-pages">user or organization sites</a>. These sites will be served from the <code>master</code> branch of the repo. So, you will want to have the Docusaurus infra, your docs, etc. in another branch (e.g., maybe call it <code>source</code>). To do this, just set <code>projectName</code> to &quot;<em>username</em>.github.io&quot; (where <em>username</em> is your username or organization name on GitHub) and <code>organizationName</code> to &quot;<em>username</em>&quot;. The publish script will automatically deploy your site to the root of the <code>master</code> branch to be served.</p>
+</blockquote>
+<blockquote>
+<p>While we recommend setting the <code>projectName</code> and <code>organizationName</code> in <code>siteConfig.js</code>, you can also use environment variables <code>ORGANIZATION_NAME</code> and <code>PROJECT_NAME</code>.</p>
 </blockquote>
 <p>One of the required parameters is set as a environment variable:</p>
 <ul>
@@ -39,9 +42,6 @@
 <li><p><code>USE_SSH</code>: If this is set to <code>true</code>, then SSH is used instead of HTTPS for the connection to the GitHub repo. HTTPS is the default if this variable is not set.</p></li>
 <li><p><code>CURRENT_BRANCH</code>: The branch that contains the latest docs changes that will be deployed. Usually, the branch will be <code>master</code>, but it could be any branch (default or otherwise) except for <code>gh-pages</code>. If nothing is set for this variable, then the current branch will be used.</p></li>
 </ul>
-<blockquote>
-<p>Docusaurus also supports deploying user or organization sites. Just set your project name to &quot;<em>username</em>.github.io&quot; (where <em>username</em> is your username or organization name on GitHub) and the publish script will automatically deploy your site to the root of the <code>master</code> branch instead.</p>
-</blockquote>
 <p>Once you have the parameter value information, you can go ahead and run the publish script, ensuring you have inserted your own values inside the various parameter placeholders:</p>
 <p>To run the script directly from the command-line, you can use the following, filling in the parameter values as appropriate.</p>
 <pre><code class="hljs css bash">GIT_USER=&lt;GIT_USER&gt; \
