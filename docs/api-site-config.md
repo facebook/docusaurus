@@ -17,17 +17,19 @@ The `siteConfig` object contains the bulk of the configuration settings for your
 
 ### Mandatory Fields
 
-`title` - Title for your website.
-
-`tagline` - Tagline for your website.
-
-`url` - url for your site.
-
 `baseUrl` - baseUrl for your site.
 
-`projectName` - Project name. This must match your GitHub repo project name (case sensitive).
+`colors` - Color configurations for the site.
 
-`noIndex` - Boolean. If true, Docusaurus will politely ask crawlers and search engines to avoid indexing your site. This is done with a header tag and so only applies to docs and pages. Will not attempt to hide static resources. This is a best effort request. Malicious crawlers can and will still index your site.
+  - `primaryColor` is the color used the header navigation bar and sidebars.
+  - `secondaryColor` is the color seen in the second row of the header navigation bar when the site window is narrow (including on mobile).
+  - Custom color configurations can also be added. For example, if user styles are added with colors specified as `$myColor`, then adding a `myColor` field to `colors` will allow you to easily configure this color.
+
+`copyright` - The copyright string at footer of site and within feed
+
+`favicon` - url for site favicon.
+
+`headerIcon` - url for icon used in header navigation bar.
 
 `headerLinks` - Links that will be used in the header navigation bar. The `label` field of each object will be the link text and will also be translated for each language.
 
@@ -48,19 +50,22 @@ headerLinks: [
   { languages: true }
 ],
 ```
-`headerIcon` - url for icon used in header navigation bar.
 
-`favicon` - url for site favicon.
+`noIndex` - Boolean. If true, Docusaurus will politely ask crawlers and search engines to avoid indexing your site. This is done with a header tag and so only applies to docs and pages. Will not attempt to hide static resources. This is a best effort request. Malicious crawlers can and will still index your site.
 
-`colors` - Color configurations for the site.
+`projectName` - Project name. This must match your GitHub repo project name (case sensitive).
 
-  - `primaryColor` is the color used the header navigation bar and sidebars.
-  - `secondaryColor` is the color seen in the second row of the header navigation bar when the site window is narrow (including on mobile).
-  - Custom color configurations can also be added. For example, if user styles are added with colors specified as `$myColor`, then adding a `myColor` field to `colors` will allow you to easily configure this color.
+`tagline` - Tagline for your website.
 
-`copyright` - The copyright string at footer of site and within feed
+`title` - Title for your website.
+
+`url` - url for your site.
 
 ### Optional Fields
+
+`algolia` - Information for Algolia search integration. If this field is excluded, the search bar will not appear in the header.
+
+`cname` - The CNAME for your website. It will go into a `CNAME` file when your site it built.
 
 `customDocsPath` - By default, Docusaurus expects your documentation to be in a directory called `docs`. This directory is at the same level as the `website` directory (i.e., not inside the `website` directory). You can specify a custom path to your documentation with this field. **Note that all of your documentation *.md files must still reside in a flat hierarchy. You cannot have your documents in nested directories**.
 
@@ -71,6 +76,13 @@ customDocsPath: "docs/site"
 ```js
 customDocsPath: "website-docs"
 ```
+`disableHeaderTitle` - An option to disable showing the title in the header next to the header icon. Exclude this field to keep the header as normal, otherwise set to `true`.
+
+`disableTitleTagline` - An option to disable showing the tagline in the title of main pages. Exclude this field to keep page titles as `Title • Tagline`. Set to `true` to make page titles just `Title`.
+
+`editUrl` - url for editing docs, usage example: `editUrl + 'en/doc1.md'`. If this field is omitted, there will be no "Edit this Doc" button for each document.
+
+`facebookAppId` - If you want Facebook Like/Share buttons at the bottom of your blog posts, provide a [Facebook application id](https://www.facebook.com/help/audiencenetwork/804209223039296), and the buttons will show up on all blog posts.
 
 `fonts` - Font-family css configuration for the site. If a font family is specified in `siteConfig.js` as `$myFont`, then adding a `myFont` key to an array in `fonts` will allow you to configure the font. Items appearing earlier in the array will take priority of later elements, so ordering of the fonts matter.
 
@@ -97,31 +109,9 @@ h1 {
 }
 ```
 
-`useEnglishUrl` - If you do not have [translations](guides-translation.md) enabled (e.g., by having a `languages.js` file), but still want a link of the form `/docs/en/doc.html` (with the `en`), set this to `true`.
-
-`organizationName` - GitHub username of the organization or user hosting this project. This is used by the publishing script to determine where your GitHub pages website will be hosted.
-
-`editUrl` - url for editing docs, usage example: `editUrl + 'en/doc1.md'`. If this field is omitted, there will be no "Edit this Doc" button for each document.
-
-`users` - The `users` array mentioned earlier.
-
-`disableHeaderTitle` - An option to disable showing the title in the header next to the header icon. Exclude this field to keep the header as normal, otherwise set to `true`.
-
-`disableTitleTagline` - An option to disable showing the tagline in the title of main pages. Exclude this field to keep page titles as `Title • Tagline`. Set to `true` to make page titles just `Title`.
-
-`separateCss` - Folders inside which any `css` files will not be processed and concatenated to Docusaurus's styles. This is to support static `html` pages that may be separate from Docusaurus with completely separate styles.
-
 `footerIcon` - url for a footer icon. Currently used in the `core/Footer.js` file provided as an example, but it can be removed from that file.
 
-`translationRecruitingLink` - url for the `Help Translate` tab of language selection when languages besides English are enabled. This can be included you are using translations but does not have to be.
-
-`algolia` - Information for Algolia search integration. If this field is excluded, the search bar will not appear in the header.
-
 `gaTrackingId` - Google Analytics tracking ID to track page views.
-
-`facebookAppId` - If you want Facebook Like/Share buttons at the bottom of your blog posts, provide a [Facebook application id](https://www.facebook.com/help/audiencenetwork/804209223039296), and the buttons will show up on all blog posts.
-
-`twitter` - set this to `true` if you want a Twitter social button to appear at the bottom of your blog posts.
 
 `highlight` - [Syntax highlighting](api-doc-markdown.md) options:
 
@@ -132,13 +122,23 @@ h1 {
 
 `markdownPlugins` - An array of plugins to be loaded by Remarkable, the markdown parser and renderer used by Docusaurus. The plugin will receive a reference to the Remarkable instance, allowing custom parsing and rendering rules to be defined.
 
-`wrapPagesHTML` - boolean flag to indicate whether `html` files in `/pages` should be wrapped with Docusaurus site styles, header and footer. This feature is experimental and relies on the files being `html` fragments instead of complete pages. It inserts the contents of your `html` file with no extra processing. Defaults to `false`.
+`organizationName` - GitHub username of the organization or user hosting this project. This is used by the publishing script to determine where your GitHub pages website will be hosted.
 
 `scripts` - Array of JavaScript sources to load. The script tag will be inserted in the HTML head.
 
+`separateCss` - Folders inside which any `css` files will not be processed and concatenated to Docusaurus's styles. This is to support static `html` pages that may be separate from Docusaurus with completely separate styles.
+
 `stylesheets` - Array of CSS sources to load. The link tag will be inserted in the HTML head.
 
-`cname` - The CNAME for your website. It will go into a `CNAME` file when your site it built.
+`translationRecruitingLink` - url for the `Help Translate` tab of language selection when languages besides English are enabled. This can be included you are using translations but does not have to be.
+
+`twitter` - set this to `true` if you want a Twitter social button to appear at the bottom of your blog posts.
+
+`useEnglishUrl` - If you do not have [translations](guides-translation.md) enabled (e.g., by having a `languages.js` file), but still want a link of the form `/docs/en/doc.html` (with the `en`), set this to `true`.
+
+`users` - The `users` array mentioned earlier.
+
+`wrapPagesHTML` - boolean flag to indicate whether `html` files in `/pages` should be wrapped with Docusaurus site styles, header and footer. This feature is experimental and relies on the files being `html` fragments instead of complete pages. It inserts the contents of your `html` file with no extra processing. Defaults to `false`.
 
 Users can also add their own custom fields if they wish to provide some data across different files.
 
