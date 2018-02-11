@@ -38,7 +38,7 @@ original_id: doc1
 ---
 ```
 
-`edit_url`: The url for editing this document. If this field is not present, the document's `edit_url` will fallback to `editUrl` from optional fields of `siteConfig.js`. See [siteConfig.js](site-config.md) docs for more information.
+`custom_edit_url`: The url for editing this document. If this field is not present, the document's edit url will fallback to `editUrl` from optional fields of `siteConfig.js`. See [siteConfig.js](site-config.md) docs for more information.
 
 For example:
 
@@ -46,7 +46,7 @@ For example:
 ---
 id: doc-markdown
 title: Markdown Features
-edit_url: https://github.com/facebook/Docusaurus/edit/master/docs/api-doc-markdown.md
+custom_edit_url: https://github.com/facebook/Docusaurus/edit/master/docs/api-doc-markdown.md
 ---
 ```
 
