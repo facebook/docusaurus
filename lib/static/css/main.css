@@ -978,6 +978,7 @@ pre code {
   box-sizing: border-box;
   display: flex;
   flex-wrap: nowrap;
+  overflow-x: auto;
   list-style: none;
   margin-top: 50px;
   width: 100%;
