@@ -14,18 +14,15 @@
         <link href="https://docusaurus.io/blog/2017/12/14/introducing-docusaurus.html">
         </link>
         <updated>2017-12-14T06:00:00Z</updated>
-        <summary type="html"><![CDATA[
-![](/img/slash-introducing.png)
-
-We are very happy to introduce [Docusaurus](https://github.com/facebook/Docusaurus) to help you manage one or many open source websites.
-
-We created [Docusaurus](https://docusaurus.io) for the following reasons:
-
-1. To put the focus on writing good documentation instead of worrying about the infrastructure of a website.
-1. To provide features that many of our open source websites need like blog support, search and versioning.
-1. To make it easy to push updates, new features, and bug fixes to everyone all at once.
-1. And, finally, to provide a consistent look and feel across our all our open source projects.
-
+        <summary type="html"><![CDATA[<p><img src="/img/slash-introducing.png" alt=""></p>
+<p>We are very happy to introduce <a href="https://github.com/facebook/Docusaurus">Docusaurus</a> to help you manage one or many open source websites.</p>
+<p>We created <a href="https://docusaurus.io">Docusaurus</a> for the following reasons:</p>
+<ol>
+<li>To put the focus on writing good documentation instead of worrying about the infrastructure of a website.</li>
+<li>To provide features that many of our open source websites need like blog support, search and versioning.</li>
+<li>To make it easy to push updates, new features, and bug fixes to everyone all at once.</li>
+<li>And, finally, to provide a consistent look and feel across our all our open source projects.</li>
+</ol>
 ]]></summary>
         <author>
             <name>Joel Marcey</name>
