@@ -38,6 +38,18 @@ original_id: doc1
 ---
 ```
 
+`custom_edit_url`: The url for editing this document. If this field is not present, the document's edit url will fallback to `editUrl` from optional fields of `siteConfig.js`. See [siteConfig.js](site-config.md) docs for more information.
+
+For example:
+
+```markdown
+---
+id: doc-markdown
+title: Markdown Features
+custom_edit_url: https://github.com/facebook/Docusaurus/edit/master/docs/api-doc-markdown.md
+---
+```
+
 ### Blog Posts
 
 Blog Posts use the following markdown header fields that are enclosed by a line `---` on either side:
