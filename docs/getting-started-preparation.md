@@ -43,15 +43,3 @@ You will need to keep the `website/siteConfig.js` and `website/core/Footer.js` f
 You should keep the `website/pages` and `website/static` folders, but may change the content inside them as you wish. At the bare minimum you should have an `en/index.js` or `en/index.html` file inside `website/pages` and an image to use as your header icon inside `website/static`.
 
 The `website/blog-examples-from-docusaurus` and `docs-examples-from-docusaurus` folders contain example blog and document markdown files. As shown below when you verify that the example site runs correctly, if you wish to run Docusaurus with these files, you need to rename the folders to `website/blog` and `docs`, respectively.
-
-## Verifying Installation
-
-Running the Docusaurus initialization script, `docusaurus-init`, produces a runnable, example website to base your site upon.
-
-1. In your root, rename `docs-examples-from-docusaurus` to `docs`.
-1. `cd website`
-1. Rename `blog-examples-from-docusaurus` to `blog`.
-1. Run the local webserver via `yarn start` or `npm start`.
-1. Load the example site at http://localhost:3000. You should see the example site loaded in your web browser.
-
-![](/img/getting-started-preparation-verify.png)
