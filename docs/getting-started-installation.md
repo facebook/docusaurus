@@ -8,7 +8,7 @@ Docusaurus was designed from the ground up to be easily installed and used to ge
 1. Go into the root of your GitHub repo directory where you will be creating the docs.
 1. `yarn global add docusaurus-init` or `npm install --global docusaurus-init`
 1. `docusaurus-init`
-1. Verify the installation
+
 Along with previously existing files and directories, your root directory will now contain a structure similar to:
 
 ```bash
