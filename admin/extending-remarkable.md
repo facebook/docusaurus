@@ -65,14 +65,14 @@ md.renderer.rules.heading_close = function(tokens, idx /*, options, env */) {
 That's pretty straightforward: whenever these tokens are found, we render a `<hN>` or `</hN>` HTML tag, where N is the `hLevel` for this heading. That would result in `<h3>Hi there</h3>` being output. But what we want is something closer to this:
 
 ```
-<h3><a class="anchor" name="hi-there"></a>Hi there <a class="hash-link" href="#hi-there">#</a></h3>
+<h3><a class="anchor" id="hi-there"></a>Hi there <a class="hash-link" href="#hi-there">#</a></h3>
 ```
 
 In that case, we need to override our heading rules like so:
 
 ```
 md.renderer.rules.heading_open = function(tokens, idx /*, options, env */) {
-  return '<h' + tokens[idx].hLevel + '>' + '<a class="anchor" name="' + toSlug(tokens[idx+1].content) + '"></a>';
+  return '<h' + tokens[idx].hLevel + '>' + '<a class="anchor" id="' + toSlug(tokens[idx+1].content) + '"></a>';
 };
 
 md.renderer.rules.heading_close = function(tokens, idx /*, options, env */) {
@@ -89,7 +89,7 @@ We now need to tell Remarkable to use our extension. We can wrap our rules in a 
 ```
 function anchors(md) {
   md.renderer.rules.heading_open = function(tokens, idx /*, options, env */) {
-    return '<h' + tokens[idx].hLevel + '>' + '<a class="anchor" name="' + toSlug(tokens[idx+1].content) + '"></a>';
+    return '<h' + tokens[idx].hLevel + '>' + '<a class="anchor" id="' + toSlug(tokens[idx+1].content) + '"></a>';
   };
 
   md.renderer.rules.heading_close = function(tokens, idx /*, options, env */) {
