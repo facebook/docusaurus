@@ -6,6 +6,42 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.6] - 2018-02-12
+
+This is a bigger release than normal as it has been a month since releases. It contains bug fixes, duplicate code removal, a few new feaatures, and documentation updates. Total commits in this release is 38, including the release itself.
+
+### Breaking Changes
+
+N/A
+
+### Added
+
+- Option to control number of blog posts in sidebar ([#432](https://github.com/facebook/Docusaurus/commit/dfb70e18296fe0feb53ac05e807cba290b5da3d7), thanks @ericnakagawa)
+- `font-family` is now a configurable parameter ([#294](https://github.com/facebook/Docusaurus/commit/a241a466697a2bb9fa022df29fba35dd49e29715), thanks @cowlingj)
+- Configurable edit URL link, per doc ([#443](https://github.com/facebook/Docusaurus/commit/41750667cd74b66c2bdde00619d290fc293a01d3), thanks @Glavin001)
+- New Docusaurus [users](https://docusaurus.io/en/users.html): [Vuls](https://vuls.io/), [react-native-ios-kit](https://callstack.github.io/react-native-ios-kit) and [Verdaccio](http://www.verdaccio.org/) 
+- Docs section about referencing site documents ([#394](https://github.com/facebook/Docusaurus/commit/1d967a941cfc7256588ce8b88291d7f3c86c1983)
+)
+- Clarified docs on [publishing to a user/org page](https://docusaurus.io/docs/en/publishing.html#using-github-pages)
+- [Alphabetized site config options](https://docusaurus.io/docs/en/site-config.html) in docs (thanks @haraldur12)
+- Moved [verifying installation](https://docusaurus.io/docs/en/installation.html#verifying-installation) section to the install docs (@thanks @gedeagas)
+- Discord added as a [help and communication](https://docusaurus.io/en/help.html) option
+
+### Fixed/Changed
+
+- Blog feeds now show HTML, not markdown ([#407](https://github.com/facebook/Docusaurus/commit/2d7274f6fe052615d0e0fe4d1b75f9cfc5f88cbb), thanks @tom-auger)
+- Chinese translation infra ([#377](https://github.com/facebook/Docusaurus/commit/00270c26a729a9b23e1e4055868ae7146c2d81d8), thanks @chenglou)
+- Margin for right-aligned images ([#398](https://github.com/facebook/Docusaurus/commit/4c2558e8bd538ea6f49867e18c1bbd9489e7ba2c), thanks @rickhanlonii)
+- Correct HTTP status code sent on redirects ([#408](https://github.com/facebook/Docusaurus/commit/c81609d393e9e1fe2b63b69028b0624091a3e440))
+- Non-English versioned docs metadata parsed correctly ([#412](https://github.com/facebook/Docusaurus/commit/43e80fcea735788a78d8c48e35df4ea1b6cd8b00), thanks @sunnylqm)
+- Provide Algolia information about the latest and current version ([#418](https://github.com/facebook/Docusaurus/commit/61c5d2d8e01ace967157120727e3b3fcab541b17))
+- Remove key errors when running local server ([#425](https://github.com/facebook/Docusaurus/commit/c6a9848a17b7ac27f43a58c6cecacf905fab0cbc), thanks @hshoff)
+- Links fixed in blog Atom feed ([#421](https://github.com/facebook/Docusaurus/commit/c99cdefd3a314e53cc23ff65eeaa6837cb49d034), thanks @hramos)
+
+### Removed
+
+N/A
+
 ## [1.0.5] - 2018-01-09
 
 This is a targeted bug fix release, with some documentation updates and Docusaurus repo housekeeping in between. Total commits in this release is 13, including the release itself.
@@ -64,6 +100,7 @@ N/A
   - Blog
   - Documentation
 
-[Unreleased]: https://github.com/facebook/Docusaurus/compare/v1.0.5...HEAD
+[Unreleased]: https://github.com/facebook/Docusaurus/compare/v1.0.6...HEAD
+[1.0.6]: https://github.com/facebook/Docusaurus/compare/v1.0.5...v1.0.6
 [1.0.5]: https://github.com/facebook/Docusaurus/compare/v1.0.4...v1.0.5
 [1.0.4]: https://github.com/facebook/Docusaurus/compare/v1.0.3...v1.0.4
