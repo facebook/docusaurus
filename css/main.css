@@ -1203,6 +1203,12 @@ ul#languages li {
   }
 }
 
+@media only screen and (max-device-width: 735px) {
+  .navigationSlider .slidingNav ul {
+    overflow-x: auto;
+  }
+}
+
 .docs-prevnext {
   margin: 20px 0;
 }
