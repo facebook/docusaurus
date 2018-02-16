@@ -48,9 +48,11 @@ So, you should install these packages locally. **Base the versions on the versio
 
 ```
 # Still in the website directory of the testing project
-npm install babel-preset-react@^6.24.0
-npm install babel-preset-env@^1.6.0
+npm install babel-plugin-transform-class-properties@^6.24.1
+npm install babel-plugin-transform-object-rest-spread@^6.26.0
 npm install react@^15.5.4
+npm install babel-preset-env@^1.6.0
+npm install babel-preset-react@^6.24.0
 ```
 
 ### Test
