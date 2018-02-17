@@ -6,6 +6,30 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.7] - 2018-02-17
+
+**This is a hotfix release**
+
+A couple of bugs were found in our versioning system that would make versioning unusable in some scenarios. Thank you to @iRoachie for finding these. This release also contains a better header link scroll on mobile. Total commits in this release is 6, including the release itself.
+
+### Breaking Changes
+
+N/A
+
+### Added
+
+- [A scrollbar to the header links on mobile](https://github.com/facebook/Docusaurus/commit/0dad6d562f78e9d1c9d8c70946755accd73a6a63), thanks @maaz93.
+
+### Fixed/Changed
+
+- [Allow new docs to be added for new versions](https://github.com/facebook/Docusaurus/commit/1388e1379512ddfd4d5bfbecaac2a598dd85151c)
+- [Relax restriction on versioned doc ids with dashes](https://github.com/facebook/Docusaurus/commit/ec6ff9284c03e3287089f65e596a2293097c23ab)
+- [Broken link in the site config docs](https://github.com/facebook/Docusaurus/commit/f79cfaa3a11270665ab528b26a37f2598a878bff), thanks @justinmusgrove.
+
+## Removed
+
+N/A
+
 ## [1.0.6] - 2018-02-12
 
 This is a bigger release than normal as it has been a month since releases. It contains bug fixes, duplicate code removal, a few new feaatures, and documentation updates. Total commits in this release is 38, including the release itself.
@@ -100,7 +124,8 @@ N/A
   - Blog
   - Documentation
 
-[Unreleased]: https://github.com/facebook/Docusaurus/compare/v1.0.6...HEAD
+[Unreleased]: https://github.com/facebook/Docusaurus/compare/v1.0.7...HEAD
+[1.0.7]: https://github.com/facebook/Docusaurus/compare/v1.0.6..v1.0.7
 [1.0.6]: https://github.com/facebook/Docusaurus/compare/v1.0.5...v1.0.6
 [1.0.5]: https://github.com/facebook/Docusaurus/compare/v1.0.4...v1.0.5
 [1.0.4]: https://github.com/facebook/Docusaurus/compare/v1.0.3...v1.0.4
