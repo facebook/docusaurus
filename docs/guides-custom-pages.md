@@ -43,7 +43,7 @@ Static `.html` files can also be used, but they will not include Docusaurus's he
 
 If you wish to use Docusaurus's stylesheet, you can access it at `${baseUrl}css/main.css`. If you wish to use separate css for these static pages, you can exclude them from being concatenated to Docusaurus's styles by adding them into the `siteConfig.separateCss` field in `siteConfig.js`.
 
-> You can set the [`$wrapPagesHTML` site config option](site-config.md#optional-fields) in order to wrap raw HTML fragments with the Docusaurus site styling, header and footer.
+> You can set the [`$wrapPagesHTML` site config option](api-site-config.md#optional-fields) in order to wrap raw HTML fragments with the Docusaurus site styling, header and footer.
 
 ## Customizing Your Site Footer
 
