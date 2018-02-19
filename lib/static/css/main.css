@@ -1009,7 +1009,9 @@ pre code {
   font-size: 0.9em;
 }
 .navigationSlider .slidingNav ul li a:focus,
-.navigationSlider .slidingNav ul li a:hover {
+.navigationSlider .slidingNav ul li a:hover,
+.navigationSlider .slidingNav ul li.siteNavItemActive a,
+  .navigationSlider .slidingNav ul li.siteNavGroupActive a {
   background: $primaryColor;
 }
 
@@ -1195,10 +1197,9 @@ ul#languages li {
     height: 32px;
     font-size: 1em;
   }
-  .navigationSlider .slidingNav ul li a:hover {
-    color: #fff;
-  }
-  .navigationSlider .slidingNav ul li.navItemActive a {
+  .navigationSlider .slidingNav ul li a:hover,
+  .navigationSlider .slidingNav ul li.siteNavItemActive a,
+  .navigationSlider .slidingNav ul li.siteNavGroupActive a {
     color: #fff;
   }
 }
