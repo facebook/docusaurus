@@ -36,6 +36,13 @@ const users = [
     pinned: true,
   },
   {
+    caption: 'Facebook Instant Articles Rules Editor',
+    image: '/img/facebook-instant-articles-rules-editor.png',
+    infoLink: 'https://facebook.github.io/facebook-instant-articles-rules-editor/',
+    fbOpenSource: true,
+    pinned: true,
+  },
+  {
     caption: 'Jest',
     image: '/img/jest.png',
     infoLink: 'https://facebook.github.io/jest/',
