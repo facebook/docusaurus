@@ -112,6 +112,13 @@ const users = [
     fbOpenSource: false,
     pinned: false,
   },
+  {
+    caption: 'Goby',
+    image: 'https://goby-lang.org/img/goby-logo.svg',
+    infoLink: 'https://goby-lang.org',
+    fbOpenSource: false,
+    pinned: false,
+  },
 ];
 
 const siteConfig = {
