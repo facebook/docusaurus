@@ -43,6 +43,13 @@ const users = [
     pinned: true,
   },
   {
+    caption: 'Goby',
+    image: 'https://goby-lang.org/img/goby-logo.svg',
+    infoLink: 'https://goby-lang.org',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Jest',
     image: '/img/jest.png',
     infoLink: 'https://facebook.github.io/jest/',
@@ -109,13 +116,6 @@ const users = [
     caption: 'Vuls',
     image: 'https://vuls.io/img/docs/vuls_logo.png',
     infoLink: 'https://vuls.io/',
-    fbOpenSource: false,
-    pinned: false,
-  },
-  {
-    caption: 'Goby',
-    image: 'https://goby-lang.org/img/goby-logo.svg',
-    infoLink: 'https://goby-lang.org',
     fbOpenSource: false,
     pinned: false,
   },
