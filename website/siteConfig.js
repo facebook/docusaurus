@@ -37,7 +37,7 @@ const users = [
   },
   {
     caption: 'Facebook Instant Articles Rules Editor',
-    image: '/img/facebook-instant-articles-rules-editor.png',
+    image: '/img/facebook-instant-articles-rules-editor.svg',
     infoLink: 'https://facebook.github.io/facebook-instant-articles-rules-editor/',
     fbOpenSource: true,
     pinned: true,
