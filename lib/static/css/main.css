@@ -1495,71 +1495,67 @@ nav.toc .toggleNav .navBreadcrumb h2 {
   }
 }
 
+.onPageNav {
+  display: none;
+}
+.onPageNav::-webkit-scrollbar {
+  display: none;
+}
+
 @supports(position: sticky) {
   @media only screen and (min-width: 1024px) {
     .separateOnPageNav.doc .wrapper,
     .separateOnPageNav .headerWrapper.wrapper {
-      max-width: 1400;
+      max-width: 1400px;
     }
-  
+
     .doc.separateOnPageNav .docsNavContainer {
       flex: 0 0 240px;
       margin: 40px 0 0;
     }
-  
+
     .doc.separateOnPageNav nav.toc:last-child {
       padding-bottom: 0;
       width: auto;
     }
-  
+
     .doc.separateOnPageNav.sideNavVisible .navPusher .mainContainer {
       max-width: 100%;
       flex: 1 auto;
       padding: 0 40px 50px;
       min-width: 0;
     }
-  }
 
-  .separateOnPageNav .onPageNav {
-    display: none;
-  }
-  
-  .separateOnPageNav .onPageNav::-webkit-scrollbar {
-    display: none;
-  }
-  
-  @media only screen and (min-width: 1024px) {
-    .separateOnPageNav .onPageNav {
+    .onPageNav {
       display: block;
       position: -webkit-sticky;
       position: sticky;
       top: 110px;
       flex: 0 0 240px;
-      align-self: flex-start;
       overflow-y: auto;
       max-height: calc(100vh - 110px);
     }
-  
-    .separateOnPageNav .onPageNav > ul {
+
+    .onPageNav > ul {
       border-left: 1px solid #e0e0e0;
       padding: 10px 0 2px 15px;
     }
-  
-    .separateOnPageNav .onPageNav a {
+
+    .onPageNav a {
       color: #717171;
     }
-  
-    .separateOnPageNav .onPageNav ul li {
+
+    .onPageNav ul li {
       font-size: 12px;
       line-height: 14px;
       padding-bottom: 12px;
     }
-  
-    .separateOnPageNav .onPageNav ul ul {
+
+    .onPageNav ul ul {
       padding: 8px 0 0 20px;
     }
-  
-    .separateOnPageNav .onPageNav ul ul li {
+
+    .onPageNav ul ul li {
       padding-bottom: 8px;
     }
   }
