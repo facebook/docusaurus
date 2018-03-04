@@ -13,6 +13,10 @@ Happy contributing!
 
 (Write your motivation here.)
 
+### Have you read the [Contributing Guidelines on pull requests](https://github.com/facebook/Docusaurus/blob/master/CONTRIBUTING.md#pull-requests)?
+
+(Write your answer here.)
+
 ## Test Plan
 
 (Write your test plan here. If you changed any code, please provide us with clear instructions on how you verified your changes work. Bonus points for screenshots and videos!)
