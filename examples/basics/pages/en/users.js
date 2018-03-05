@@ -14,6 +14,9 @@ const siteConfig = require(process.cwd() + '/siteConfig.js');
 
 class Users extends React.Component {
   render() {
+    if ((siteConfig.users || []).length === 0) {
+      return null;
+    }
     const showcase = siteConfig.users.map((user, i) => {
       return (
         <a href={user.infoLink} key={i}>
