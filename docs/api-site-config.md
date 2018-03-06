@@ -124,6 +124,8 @@ h1 {
 
 `markdownPlugins` - An array of plugins to be loaded by Remarkable, the markdown parser and renderer used by Docusaurus. The plugin will receive a reference to the Remarkable instance, allowing custom parsing and rendering rules to be defined.
 
+`ogImage` - url for an Open Graph image. This image will show up when your site is shared on Facebook, Twitter and any other websites/apps where the Open Graph protocol is supported.
+
 `organizationName` - GitHub username of the organization or user hosting this project. This is used by the publishing script to determine where your GitHub pages website will be hosted.
 
 `scripts` - Array of JavaScript sources to load. The script tag will be inserted in the HTML head.
