@@ -15,7 +15,7 @@
 
   If you answered "No":
 
-    We use GitHub Issues exclusively for tracking bugs in Docusaurus. If you're looking for help,
+    We use GitHub Issues exclusively for tracking bugs and feature requests in Docusaurus. If you're looking for help,
     the Docusaurus Twitter account, @docusaurus, can be used for help.
 
   Now scroll below!
