@@ -83,7 +83,7 @@ If you haven't done so already, you can [setup CircleCI](https://circleci.com/si
 1. Open your Circle CI dashboard, and navigate to the Settings page for your repository, then select "Environment variables". The URL looks like https://circleci.com/gh/ORG/REPO/edit#env-vars, where "ORG/REPO" should be replaced with your own GitHub org/repo.
 1. Create a new environment variable named `GITHUB_TOKEN`, using your newly generated access token as the value.
 1. Create a `.circleci` folder and create a `config.yml` under that folder. 
-1. Copy the text below into `.circleci/config.yml`
+1. Copy the text below into `.circleci/config.yml`.
 
 ```yml
 version: 2
