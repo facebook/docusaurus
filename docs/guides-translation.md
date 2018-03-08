@@ -160,27 +160,25 @@ You can add the following to your `package.json` to manually trigger crowdin.
 
 ```json
 "scripts": {
-  "crowdin-upload": "export CROWDIN_DOCUSAURUS_PROJECT_ID=YOUR_CROWDIN_PROJECT_ID;
-  export CROWDIN_DOCUSAURUS_API_KEY=YOUR_CROWDIN_API_KEY; crowdin --config ../crowdin.yaml upload sources --auto-update -b master",
-  "crowdin-download": "export CROWDIN_DOCUSAURUS_PROJECT_ID=YOUR_CROWDIN_PROJECT_ID;
-  export CROWDIN_DOCUSAURUS_API_KEY=YOUR_CROWDIN_API_KEY; crowdin --config ../crowdin.yaml download -b master"
+  "crowdin-upload": "crowdin --config ../crowdin.yaml upload sources --auto-update -b master",
+  "crowdin-download": "crowdin --config ../crowdin.yaml download -b master"
 },
 ```
-
-These commands require having an environment variable set with your crowdin project id and api key (`CROWDIN_PROJECT_ID`, `CROWDIN_API_KEY`). You can add them inline like above or add them permanently to your `.bashrc` or `.bash_profile`.
-
-> `YOUR_CROWDIN_PROJECT_ID` is the name of your Crowdin project. e.g., for https://crowdin.com/project/docusaurus/, that variable would be set to `docusaurus`. `YOUR_CROWDIN_API_KEY` is a unique key that is like a password. You can find it in the `API` tab of your Crowdin project's `Settings`.
-
-> If you run more than one localized Docusaurus project on your computer, you should change the name of the environment variables to something unique (`CROWDIN_PROJECTNAME_PROJECT_ID`, `CROWDIN_PROJECTNAME_API_KEY`).
 
 ### Manual File Sync
 
 You will always want to upload your markdown files and translatable strings first and the download the translations section. So run the commands in this order:
 
 ```
-yarn run crowdin-upload
-yarn run crowdin-download
+CROWDIN_DOCUSAURUS_PROJECT_ID=YOUR_CROWDIN_PROJECT_ID CROWDIN_DOCUSAURUS_API_KEY=YOUR_CROWDIN_API_KEY yarn run crowdin-upload
+CROWDIN_DOCUSAURUS_PROJECT_ID=YOUR_CROWDIN_PROJECT_ID CROWDIN_DOCUSAURUS_API_KEY=YOUR_CROWDIN_API_KEY yarn run crowdin-download
 ```
+
+> `YOUR_CROWDIN_PROJECT_ID` is the name of your Crowdin project. e.g., for https://crowdin.com/project/docusaurus/, that variable would be set to `docusaurus`. `YOUR_CROWDIN_API_KEY` is a unique key that is like a password. You can find it in the `API` tab of your Crowdin project's `Settings`.
+
+> These commands require having an environment variable set with your crowdin project id and api key (`CROWDIN_PROJECT_ID`, `CROWDIN_API_KEY`). You can preface them inline as done above or add them permanently to your `.bashrc` or `.bash_profile`.
+
+> If you run more than one localized Docusaurus project on your computer, you should change the name of the environment variables to something unique (`CROWDIN_PROJECTNAME_PROJECT_ID`, `CROWDIN_PROJECTNAME_API_KEY`).
 
 > Since the files are generated, you do not need to have any files in your `website/i18n` or `website/translated_docs` directory as part of your repo. So you can can add `website/i18n/*` and `website/translated_docs` to your `.gitignore` file.
 
