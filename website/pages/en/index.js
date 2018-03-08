@@ -6,14 +6,11 @@
  */
 
 const React = require("react");
-
 const CompLibrary = require("../../core/CompLibrary.js");
 const Container = CompLibrary.Container;
 const GridBlock = CompLibrary.GridBlock;
 const MarkdownBlock = CompLibrary.MarkdownBlock; /* Used to read markdown */
-
 const siteConfig = require(process.cwd() + "/siteConfig.js");
-
 const translate = require("../../server/translate.js").translate;
 
 class Button extends React.Component {
@@ -53,10 +50,10 @@ class HomeSplash extends React.Component {
                       href={`
                         ${siteConfig.baseUrl}docs/${this.props.language}/installation.html
                         `}>
-                      Get Started
+                      <translate>Get Started</translate>
                     </Button>
                     <Button href='https://github.com/facebook/Docusaurus'>
-                      GitHub
+                      <translate>GitHub</translate>
                     </Button>
                   </div>
                 </div>
@@ -93,35 +90,38 @@ class Index extends React.Component {
               align="center"
               contents={[
                 {
-                  content:
+                  content: (
                     `Save time and focus on your project's documentation. Simply
                     write docs and blog posts with [Markdown](${siteConfig.baseUrl}docs/${this.props.language}/doc-markdown.html)
                     and Docusaurus will publish a set of static html files ready
-                    to serve.`,
+                    to serve.`
+                  ),
                   image: `${siteConfig.baseUrl}img/markdown.png`,
                   imageAlign: "top",
                   imageAlt: "Markdown",
-                  title: "Powered by Markdown"
+                  title: <translate>Powered by Markdown</translate>
                 },
                 {
-                  content:
+                  content: (
                     `[Extend or customize](${siteConfig.baseUrl}docs/${this.props.language}/api-pages.html)
                     your project's layout by reusing React. Docusaurus can be
-                    extended while reusing the same header and footer.`,
+                    extended while reusing the same header and footer.`
+                  ),
                   image: `${siteConfig.baseUrl}img/react.svg`,
                   imageAlign: "top",
                   imageAlt: "React",
-                  title: "Built Using React"
+                  title: <translate>Built Using React</translate>
                 },
                 {
-                  content:
+                  content: (
                     `[Localization](${siteConfig.baseUrl}docs/${this.props.language}/translation.html)
                     comes pre-configured. Use [Crowdin](https://crowdin.com/) to translate your docs
-                    into over 70 languages.`,
+                    into over 70 languages.`
+                  ),
                   image: `${siteConfig.baseUrl}img/translation.svg`,
                   imageAlign: "top",
                   imageAlt: "Translation",
-                  title: "Ready for Translations"
+                  title: <translate>Ready for Translations</translate>
                 }
               ]}
               layout="threeColumn"
@@ -132,23 +132,25 @@ class Index extends React.Component {
               align="center"
               contents={[
                 {
-                  content:
+                  content: (
                     `Support users on all versions of your project. Document
                     [versioning](${siteConfig.baseUrl}docs/${this.props.language}/versioning.html)
-                    helps you keep documentation in sync with project releases.`,
+                    helps you keep documentation in sync with project releases.`
+                  ),
                   image: `${siteConfig.baseUrl}img/versioning.svg`,
                   imageAlign: "top",
                   imageAlt: "Document Versioning",
-                  title: "Document Versioning"
+                  title: <translate>Document Versioning</translate>
                 },
                 {
-                  content:
+                  content: (
                     `Make it easy for your community to [find](${siteConfig.baseUrl}docs/${this.props.language}/search.html) what they need in your documentation.
-                    We proudly support [Algolia documentation search](https://www.algolia.com/).`,
+                    We proudly support [Algolia documentation search](https://www.algolia.com/).`
+                  ),
                   image: `${siteConfig.baseUrl}img/search.svg`,
                   imageAlign: "top",
                   imageAlt: "Document Search",
-                  title: "Document Search"
+                  title: <translate>Document Search</translate>
                 }
               ]}
               layout="twoColumn"
@@ -158,13 +160,14 @@ class Index extends React.Component {
             <GridBlock
               contents={[
                 {
-                  content:
+                  content: (
                     `Get [up and running](${siteConfig.baseUrl}docs/${this.props.language}/site-creation.html)
-                    quickly without having to worry about site design.`,
+                    quickly without having to worry about site design.`
+                  ),
                   imageAlign: "right",
                   image: `${siteConfig.baseUrl}img/docusaurus_speed.svg`,
                   imageAlt: "Docusaurus on a Scooter",
-                  title: "Quick Setup"
+                  title: <translate>Quick Setup</translate>
                 }
               ]}
               layout="twoColumn"
@@ -174,17 +177,18 @@ class Index extends React.Component {
             <GridBlock
               contents={[
                 {
-                  content:
+                  content: (
                     `Make design and documentation changes by using the included
                     [live server](${siteConfig.baseUrl}docs/${this.props.language}/site-preparation#verifying-installation).
                     [Publish](${siteConfig.baseUrl}docs/${this.props.language}/publishing.html)
                     your site to GitHub pages or other static file hosts
                     manually, using a script, or with continuous integration
-                    like CircleCI.`,
+                    like CircleCI.`
+                  ),
                   imageAlign: "left",
                   image: `${siteConfig.baseUrl}img/docusaurus_live.gif`,
                   imageAlt: "Docusaurus Demo",
-                  title: "Develop and Deploy"
+                  title: <translate>Develop and Deploy</translate>
                 }
               ]}
               layout="twoColumn"
@@ -194,32 +198,33 @@ class Index extends React.Component {
             <GridBlock
               contents={[
                 {
-                  content:
+                  content: (
                     `Docusaurus currently provides support to help your website
                     use [translations](${siteConfig.baseUrl}docs/${this.props.language}/translation.html),
                     [search](${siteConfig.baseUrl}docs/${this.props.language}/search.html),
                     and [versioning](${siteConfig.baseUrl}docs/${this.props.language}/versioning.html),
                     along with some other special [documentation markdown features](${siteConfig.baseUrl}docs/${this.props.language}/doc-markdown.html).
                     If you have ideas for useful features, feel free to
-                    contribute on [GitHub](https://github.com/facebook/docusaurus)!`,
+                    contribute on [GitHub](https://github.com/facebook/docusaurus)!`
+                  ),
                   imageAlign: "right",
                   image: `${siteConfig.baseUrl}img/docusaurus_monochrome.svg`,
                   imageAlt: "Monochromatic Docusaurus",
-                  title: "Website Features"
+                  title: <translate>Website Features</translate>
                 }
               ]}
               layout="twoColumn"
             />
           </Container>
           <div className="productShowcaseSection paddingBottom">
-            <h2>{"Who's Using Docusaurus?"}</h2>
-            <p>Docusaurus is building websites for these projects...</p>
+            <h2><translate>Who's Using Docusaurus?</translate></h2>
+            <p><translate>Docusaurus is building websites for these projects...</translate></p>
             <div className="logos">{showcase}</div>
             <div className="more-users">
               <a
                 className="button"
                 href={`${siteConfig.baseUrl}${this.props.language}/users.html`}>
-                All Docusaurus Users
+                <translate>All Docusaurus Users</translate>
               </a>
             </div>
           </div>
