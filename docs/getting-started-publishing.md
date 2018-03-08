@@ -73,39 +73,44 @@ However, you can automate the publishing process with continuous integration (CI
 
 Continuous integration (CI) services are typically used to perform routine tasks whenever new commits are checked in to source control. These tasks can be any combination of running unit tests and integration tests, automating builds, publishing packages to NPM, and yes, deploying changes to your website. All you need to do to automate deployment of your website is to invoke the `publish-gh-pages` script whenever your docs get updated. In the following section we'll be covering how to do just that using [Circle CI](https://circleci.com/), a popular continuous integration service provider.
 
-### Using Circle CI
+### Using Circle CI 2.0
 
-If you're already using Circle CI for your project, all you need to do to enable automatic deployments is to configure Circle to run the `publish-gh-pages` script as part of the deployment step.
+If you haven't done so already, you can [setup CircleCI](https://circleci.com/signup/) for your open source project. Afterwards, in order to enable automatic deployment of your site and documentation via CircleCI, just configure Circle to run the `publish-gh-pages` script as part of the deployment step. You can follow the steps below to get that setup.
 
 1. Ensure the GitHub account that will be set as the `GIT_USER` has `write` access to the repo that contains the documentation, by checking `Settings | Collaborators & teams` in the repo.
 1. Log into GitHub as the `GIT_USER`.
 1. Go to https://github.com/settings/tokens for the `GIT_USER` and generate a new [personal access token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/), granting it full control of private repositories through the `repo` access scope. Store this token in a safe place, making sure to not share it with anyone. This token can be used to authenticate GitHub actions on your behalf in place of your GitHub password.
 1. Open your Circle CI dashboard, and navigate to the Settings page for your repository, then select "Environment variables". The URL looks like https://circleci.com/gh/ORG/REPO/edit#env-vars, where "ORG/REPO" should be replaced with your own GitHub org/repo.
-1. Create a new environment variable named "GITHUB_TOKEN", using your newly generated access token as the value.
-1. Open your `circle.yml` file and add the following under the `machine:` section to tell Circle to use relatively recent versions of node and npm, replacing npm with yarn if applicable:
+1. Create a new environment variable named `GITHUB_TOKEN`, using your newly generated access token as the value.
+1. Create a `.circleci` folder and create a `config.yml` under that folder. 
+1. Copy the text below into `.circleci/config.yml`.
 
-```
-machine:
-  node:
-    version: 6.11.2
-  npm:
-    version: 3.10.10
+```yml
+version: 2
+jobs:
+  deploy-website:
+    docker:
+      # specify the version you desire here
+      - image: circleci/node:7.10
+
+    steps:
+      - checkout
+      - run: 
+          name: Deploying to GitHub Pages
+          command: |
+            git config --global user.email "<GITHUB_USERNAME>@users.noreply.github.com"
+            git config --global user.name "<YOUR_NAME>"
+            echo "machine github.com login <GITHUB_USERNAME> password $GITHUB_TOKEN" > ~/.netrc
+            cd website && yarn install && GIT_USER=<GIT_USER> yarn run publish-gh-pages
+
+workflows:
+  version: 2
+  build_and_deploy:
+    jobs:
+      - deploy-website
 ```
 
-1. Then, add the following lines to the `deployment:` section. If you don't have a `deployment:` section, you can add it at the end of the file.
-
-```
-deployment:
-  website:
-    branch: master
-    commands:
-      - git config --global user.email "<GITHUB_USERNAME>@users.noreply.github.com"
-      - git config --global user.name "<YOUR_NAME>"
-      - echo "machine github.com login <GITHUB_USERNAME> password $GITHUB_TOKEN" > ~/.netrc
-      - cd website && npm install && GIT_USER=<GIT_USER> npm run publish-gh-pages
-```
-
-Make sure to replace `<GIT_USER>` with the actual username of the GitHub account that will be used to publish the documentation.
+Make sure to replace all `<....>` in the `command:` sequence with appropriate values. For `<GIT_USER>`, it should be a GitHub account that has access to push documentation to your GitHub repo. Many times `<GIT_USER>` and `<GITHUB_USERNAME>` will be the same.
 
 **DO NOT** place the actual value of `$GITHUB_TOKEN` in `circle.yml`. We already configured that as an environment variable back in Step 3.
 
