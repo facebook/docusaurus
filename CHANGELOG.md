@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [1.0.11] - 2018-04-12
 
-This is a general release with additions and documentation updates (which are already live on docusaurus.io). We would also like to welcome [BlueWhale](https://facebookresearch.github.io/BlueWhale) as a new user of Docusaurus. 
+This is a general release with additions and documentation updates (which are already live on docusaurus.io). We would also like to welcome [BlueWhale](https://facebookresearch.github.io/BlueWhale) as a new user of Docusaurus.
 
 Thank you to the following contributors who helped with this release:
 
