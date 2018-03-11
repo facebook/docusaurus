@@ -1,0 +1,187 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`with custom heading levels 1`] = `
+Array [
+  Object {
+    "children": Array [
+      Object {
+        "children": Array [],
+        "content": "foo",
+        "hashLink": "foo-1",
+        "rawContent": "foo",
+      },
+      Object {
+        "children": Array [],
+        "content": "foo 1",
+        "hashLink": "foo-1-1",
+        "rawContent": "foo 1",
+      },
+    ],
+    "content": "foo",
+    "hashLink": "foo",
+    "rawContent": "foo",
+  },
+  Object {
+    "children": Array [],
+    "content": "foo 1",
+    "hashLink": "foo-1-2",
+    "rawContent": "foo 1",
+  },
+  Object {
+    "children": Array [
+      Object {
+        "children": Array [],
+        "content": "foo",
+        "hashLink": "foo-3",
+        "rawContent": "foo",
+      },
+      Object {
+        "children": Array [],
+        "content": "4th level headings",
+        "hashLink": "4th-level-headings",
+        "rawContent": "4th level headings",
+      },
+    ],
+    "content": "foo 2",
+    "hashLink": "foo-2",
+    "rawContent": "foo 2",
+  },
+  Object {
+    "children": Array [
+      Object {
+        "children": Array [],
+        "content": "bar",
+        "hashLink": "bar-1",
+        "rawContent": "bar",
+      },
+      Object {
+        "children": Array [],
+        "content": "bar",
+        "hashLink": "bar-2",
+        "rawContent": "bar",
+      },
+      Object {
+        "children": Array [],
+        "content": "<code>bar</code>",
+        "hashLink": "bar-3",
+        "rawContent": "\`bar\`",
+      },
+      Object {
+        "children": Array [],
+        "content": "<code>bar</code>",
+        "hashLink": "bar-4",
+        "rawContent": "\`bar\`",
+      },
+    ],
+    "content": "bar",
+    "hashLink": "bar",
+    "rawContent": "bar",
+  },
+  Object {
+    "children": Array [
+      Object {
+        "children": Array [],
+        "content": "bar",
+        "hashLink": "bar-6",
+        "rawContent": "bar",
+      },
+      Object {
+        "children": Array [],
+        "content": "bar",
+        "hashLink": "bar-7",
+        "rawContent": "bar",
+      },
+    ],
+    "content": "bar",
+    "hashLink": "bar-5",
+    "rawContent": "bar",
+  },
+  Object {
+    "children": Array [],
+    "content": "bar",
+    "hashLink": "bar-8",
+    "rawContent": "bar",
+  },
+]
+`;
+
+exports[`with defaults 1`] = `
+Array [
+  Object {
+    "children": Array [
+      Object {
+        "children": Array [],
+        "content": "foo",
+        "hashLink": "foo-1",
+        "rawContent": "foo",
+      },
+      Object {
+        "children": Array [],
+        "content": "foo 1",
+        "hashLink": "foo-1-1",
+        "rawContent": "foo 1",
+      },
+    ],
+    "content": "foo",
+    "hashLink": "foo",
+    "rawContent": "foo",
+  },
+  Object {
+    "children": Array [],
+    "content": "foo 1",
+    "hashLink": "foo-1-2",
+    "rawContent": "foo 1",
+  },
+  Object {
+    "children": Array [
+      Object {
+        "children": Array [],
+        "content": "foo",
+        "hashLink": "foo-3",
+        "rawContent": "foo",
+      },
+    ],
+    "content": "foo 2",
+    "hashLink": "foo-2",
+    "rawContent": "foo 2",
+  },
+  Object {
+    "children": Array [
+      Object {
+        "children": Array [],
+        "content": "bar",
+        "hashLink": "bar-1",
+        "rawContent": "bar",
+      },
+      Object {
+        "children": Array [],
+        "content": "<code>bar</code>",
+        "hashLink": "bar-3",
+        "rawContent": "\`bar\`",
+      },
+    ],
+    "content": "bar",
+    "hashLink": "bar",
+    "rawContent": "bar",
+  },
+  Object {
+    "children": Array [
+      Object {
+        "children": Array [],
+        "content": "bar",
+        "hashLink": "bar-6",
+        "rawContent": "bar",
+      },
+    ],
+    "content": "bar",
+    "hashLink": "bar-5",
+    "rawContent": "bar",
+  },
+  Object {
+    "children": Array [],
+    "content": "bar",
+    "hashLink": "bar-8",
+    "rawContent": "bar",
+  },
+]
+`;
