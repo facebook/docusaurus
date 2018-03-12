@@ -5,7 +5,7 @@ title: Enabling Search
 
 Docusaurus supports search using [Algolia DocSearch](https://community.algolia.com/docsearch/). Once you have set up your site, [enter your site information](https://community.algolia.com/docsearch/) to have Algolia crawl your website's documentation pages. Algolia will then send you an API key and index name for your site.
 
-### Enabling the Search Bar
+## Enabling the Search Bar
 
 Enter your search-only API key and index name into `siteConfig.js` in the `algolia` section to enable search for your site.
 
@@ -20,7 +20,7 @@ const siteConfig = {
 }
 ```
 
-### Extra Search Options
+## Extra Search Options
 
 You can also specify extra [search options used by Algolia](https://community.algolia.com/docsearch/documentation/) by using an `algoliaOptions` field in `algolia`. This may be useful if you want to provide different search results for the different versions or languages of your docs. Any occurrences of "VERSION" or "LANGUAGE" will be replaced by the version or language of the current page, respectively. More details about search options can be [found here](https://www.algolia.com/doc/api-reference/api-parameters/#overview).
 
@@ -37,7 +37,7 @@ const siteConfig = {
 }
 ```
 
-### Controlling the Location of the Search Bar
+## Controlling the Location of the Search Bar
 
 By default, the search bar will be the rightmost element in the top navigation bar.
 
@@ -57,7 +57,7 @@ const siteConfig = {
 }
 ```
 
-### Disabling the Search Bar
+## Disabling the Search Bar
 
 To disable the search bar, comment out (recommended) or delete the `algolia` section in the `siteConfig.js` file.
 
