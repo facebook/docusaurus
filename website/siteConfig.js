@@ -163,6 +163,7 @@ const siteConfig = {
   facebookAppId: '1615782811974223',
   twitter: 'true',
   ogImage: 'img/docusaurus.png',
+  onPageNav: 'separate',
 };
 
 module.exports = siteConfig;

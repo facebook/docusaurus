@@ -62,6 +62,8 @@ const siteConfig = {
   scripts: ['https://buttons.github.io/buttons.js'],
   // You may provide arbitrary config keys to be used as needed by your template.
   repoUrl: 'https://github.com/facebook/test-site',
+  /* On page navigation for the current documentation page */
+  // onPageNav: 'separate',
 };
 
 module.exports = siteConfig;

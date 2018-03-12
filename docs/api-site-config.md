@@ -126,6 +126,10 @@ h1 {
 
 `ogImage` - url for an Open Graph image. This image will show up when your site is shared on Facebook, Twitter and any other websites/apps where the Open Graph protocol is supported.
 
+`onPageNav` - If you want a visible navigation option for representing topics on the current page. Currently, there is one accepted value for this option:
+
+- `separate` - The secondary navigation is a separate pane defaulting on the right side of a document. See http://docusaurus.io/docs/en/translation.html for an example.
+
 `organizationName` - GitHub username of the organization or user hosting this project. This is used by the publishing script to determine where your GitHub pages website will be hosted.
 
 `scripts` - Array of JavaScript sources to load. The script tag will be inserted in the HTML head.
