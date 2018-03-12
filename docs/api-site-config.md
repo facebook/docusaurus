@@ -63,7 +63,11 @@ headerLinks: [
 
 ### Optional Fields
 
-`algolia` - Information for Algolia search integration. If this field is excluded, the search bar will not appear in the header.
+`algolia` - Information for Algolia search integration. If this field is excluded, the search bar will not appear in the header. You must specify two values for this field, and one (`appId`) is optional.
+
+- `apiKey` - the Algolia provided API key for your search.
+- `indexName` - the Algolia provided index name for your search (usually this is the project name)
+- `appId` - Algolia provides a default scraper for your docs. If you provide your own, you will probably get this id from them.
 
 `blogSidebarCount` - Control the number of blog posts that show up in the sidebar. See the [adding a blog docs](guides-blog.md#changing-how-many-blog-posts-show-on-sidebar) for more information.
 
