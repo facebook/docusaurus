@@ -6,6 +6,28 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.9] - 2018-03-13
+
+**This is a hotfix release**
+
+A [bug](https://github.com/facebook/Docusaurus/pull/501) was found in the [using `path` functions commit](https://github.com/facebook/Docusaurus/commit/cbdab2ba1112e8949683d23ce20034aa17d9013d) by @sunnylqm. Total commits in this release is 4, including the release itself.
+
+### Breaking Changes
+
+N/A
+
+### Added
+
+- [Docs for the secondary, on-page navigation option](https://docusaurus.io/docs/en/navigation.html#secondary-on-page-navigation).
+
+### Fixed/Changed
+
+- [Fix wrong versioned_docs file path](https://github.com/facebook/Docusaurus/pull/501/commits/324facde46e13749423d72f14e300a8dbf0a76cb), thanks @sunnylqm.
+
+### Removed
+
+N/A
+
 ## [1.0.8] - 2018-03-12
 
 This is a targeted feature and bug fix release. A couple of things of interest are that this release fixes some [issues](https://github.com/facebook/Docusaurus/issues/468) with Windows that were occurring, particularly when building the docs, both locally and publishing, as well as addressing an [issue](https://github.com/facebook/Docusaurus/issues/344) for support for a secondary, on-page sidebar for local page navigation, which is now enabled for docusaurus.io. Total commits in this release is 27, including the release itself.
@@ -153,7 +175,8 @@ N/A
   - Blog
   - Documentation
 
-[Unreleased]: https://github.com/facebook/Docusaurus/compare/v1.0.8...HEAD
+[Unreleased]: https://github.com/facebook/Docusaurus/compare/v1.0.9...HEAD
+[1.0.8]: https://github.com/facebook/Docusaurus/compare/v1.0.8...v1.0.9
 [1.0.8]: https://github.com/facebook/Docusaurus/compare/v1.0.7...v1.0.8
 [1.0.7]: https://github.com/facebook/Docusaurus/compare/v1.0.6...v1.0.7
 [1.0.6]: https://github.com/facebook/Docusaurus/compare/v1.0.5...v1.0.6
