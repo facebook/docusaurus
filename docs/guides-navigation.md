@@ -170,3 +170,13 @@ The links in the top navigation bar get `siteNavItemActive` and `siteNavGroupAct
 * The blog link when a blog post, or the blog listing page is being displayed
 
 These are two separate class names so you can have the active styles applied to either exact matches only or a bit more broadly for docs that belong together. If you don't want to make this distinction you can add both classes to the same css rule.
+
+## Secondary On-Page Navigation
+
+We support secondary on-page navigation so you can more easily see the topics associated with a given document. To enable this feature, you need to add the `onPageNav` site configuration [option](api-site-config.md#optional-fields) to your `siteConfig.js`.
+
+```
+onPageNav: 'separate',
+```
+
+Currently, `separate` is the only option available for this field. This provides a separate navigation on the right side of the page.
