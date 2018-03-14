@@ -90,6 +90,8 @@ customDocsPath: "website-docs"
 
 `facebookAppId` - If you want Facebook Like/Share buttons at the bottom of your blog posts, provide a [Facebook application id](https://www.facebook.com/help/audiencenetwork/804209223039296), and the buttons will show up on all blog posts.
 
+`facebookPixelId` - Facebook Pixel ID to track page views.
+
 `fonts` - Font-family css configuration for the site. If a font family is specified in `siteConfig.js` as `$myFont`, then adding a `myFont` key to an array in `fonts` will allow you to configure the font. Items appearing earlier in the array will take priority of later elements, so ordering of the fonts matter.
 
 In the below example, we have two sets of font configurations, `myFont` and `myOtherFont`. `Times New Roman` is the preferred font in `myFont`. `-apple-system` is the preferred in `myOtherFont`.
@@ -217,6 +219,7 @@ const siteConfig = {
   scripts: [ "https://docusaurus.io/slash.js" ],
   stylesheets: [ "https://docusaurus.io/style.css" ],
   facebookAppId: "1615782811974223",
+  facebookPixelId: "352490515235776",
   twitter: "true"
 };
 
