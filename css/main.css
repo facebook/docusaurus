@@ -1535,6 +1535,7 @@ nav.toc .toggleNav .navBreadcrumb h2 {
       flex: 0 0 240px;
       overflow-y: auto;
       max-height: calc(100vh - 110px);
+      align-self: flex-start;
     }
 
     .onPageNav > ul {
