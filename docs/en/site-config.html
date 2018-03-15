@@ -61,6 +61,7 @@
 <p><code>disableTitleTagline</code> - An option to disable showing the tagline in the title of main pages. Exclude this field to keep page titles as <code>Title • Tagline</code>. Set to <code>true</code> to make page titles just <code>Title</code>.</p>
 <p><code>editUrl</code> - url for editing docs, usage example: <code>editUrl + 'en/doc1.md'</code>. If this field is omitted, there will be no &quot;Edit this Doc&quot; button for each document.</p>
 <p><code>facebookAppId</code> - If you want Facebook Like/Share buttons at the bottom of your blog posts, provide a <a href="https://www.facebook.com/help/audiencenetwork/804209223039296">Facebook application id</a>, and the buttons will show up on all blog posts.</p>
+<p><code>facebookPixelId</code> - Facebook Pixel ID to track page views.</p>
 <p><code>fonts</code> - Font-family css configuration for the site. If a font family is specified in <code>siteConfig.js</code> as <code>$myFont</code>, then adding a <code>myFont</code> key to an array in <code>fonts</code> will allow you to configure the font. Items appearing earlier in the array will take priority of later elements, so ordering of the fonts matter.</p>
 <p>In the below example, we have two sets of font configurations, <code>myFont</code> and <code>myOtherFont</code>. <code>Times New Roman</code> is the preferred font in <code>myFont</code>. <code>-apple-system</code> is the preferred in <code>myOtherFont</code>.</p>
 <pre><code class="hljs"><span class="hljs-selector-tag">fonts</span>: {
@@ -165,6 +166,7 @@
 <span class="hljs-attr">  scripts:</span> <span class="hljs-string">[</span> <span class="hljs-string">"https://docusaurus.io/slash.js"</span> <span class="hljs-string">],</span>
 <span class="hljs-attr">  stylesheets:</span> <span class="hljs-string">[</span> <span class="hljs-string">"https://docusaurus.io/style.css"</span> <span class="hljs-string">],</span>
 <span class="hljs-attr">  facebookAppId:</span> <span class="hljs-string">"1615782811974223"</span><span class="hljs-string">,</span>
+<span class="hljs-attr">  facebookPixelId:</span> <span class="hljs-string">"352490515235776"</span><span class="hljs-string">,</span>
 <span class="hljs-attr">  twitter:</span> <span class="hljs-string">"true"</span>
 <span class="hljs-string">};</span>
 
