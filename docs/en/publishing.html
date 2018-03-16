@@ -68,7 +68,16 @@
 <li>Create a <code>.circleci</code> folder and create a <code>config.yml</code> under that folder.</li>
 <li>Copy the text below into <code>.circleci/config.yml</code>.</li>
 </ol>
-<pre><code class="hljs css yml"><span class="hljs-attr">version:</span> <span class="hljs-number">2</span>
+<pre><code class="hljs css yml"><span class="hljs-comment"># If you only one circle to run on direct commits to master, you can uncomment this out</span>
+<span class="hljs-comment"># and uncomment the filters: *filter-only-master down below too</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># aliases:</span>
+<span class="hljs-comment">#  - &amp;filter-only-master</span>
+<span class="hljs-comment">#    branches:</span>
+<span class="hljs-comment">#      only:</span>
+<span class="hljs-comment">#        - master</span>
+
+<span class="hljs-attr">version:</span> <span class="hljs-number">2</span>
 <span class="hljs-attr">jobs:</span>
 <span class="hljs-attr">  deploy-website:</span>
 <span class="hljs-attr">    docker:</span>
@@ -90,6 +99,7 @@
 <span class="hljs-attr">  build_and_deploy:</span>
 <span class="hljs-attr">    jobs:</span>
 <span class="hljs-bullet">      -</span> <span class="hljs-string">deploy-website</span>
+<span class="hljs-comment">#   filters: *filter-only-master   </span>
 </code></pre>
 <p>Make sure to replace all <code>&lt;....&gt;</code> in the <code>command:</code> sequence with appropriate values. For <code>&lt;GIT_USER&gt;</code>, it should be a GitHub account that has access to push documentation to your GitHub repo. Many times <code>&lt;GIT_USER&gt;</code> and <code>&lt;GITHUB_USERNAME&gt;</code> will be the same.</p>
 <p><strong>DO NOT</strong> place the actual value of <code>$GITHUB_TOKEN</code> in <code>circle.yml</code>. We already configured that as an environment variable back in Step 3.</p>
