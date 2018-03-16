@@ -88,9 +88,7 @@ class Footer extends React.Component {
             height="45"
           />
         </a>
-        <section className="copyright">
-          Copyright &copy; {currentYear} Facebook Inc.
-        </section>
+        <section className="copyright">{this.props.config.copyright}</section>
       </footer>
     );
   }
