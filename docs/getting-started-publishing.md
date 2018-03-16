@@ -86,6 +86,15 @@ If you haven't done so already, you can [setup CircleCI](https://circleci.com/si
 1. Copy the text below into `.circleci/config.yml`.
 
 ```yml
+# If you only one circle to run on direct commits to master, you can uncomment this out
+# and uncomment the filters: *filter-only-master down below too
+#
+# aliases:
+#  - &filter-only-master
+#    branches:
+#      only:
+#        - master
+
 version: 2
 jobs:
   deploy-website:
@@ -108,6 +117,7 @@ workflows:
   build_and_deploy:
     jobs:
       - deploy-website
+#   filters: *filter-only-master   
 ```
 
 Make sure to replace all `<....>` in the `command:` sequence with appropriate values. For `<GIT_USER>`, it should be a GitHub account that has access to push documentation to your GitHub repo. Many times `<GIT_USER>` and `<GITHUB_USERNAME>` will be the same.
