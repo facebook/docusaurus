@@ -117,7 +117,7 @@ workflows:
   build_and_deploy:
     jobs:
       - deploy-website
-#   filters: *filter-only-master   
+#       filters: *filter-only-master   
 ```
 
 Make sure to replace all `<....>` in the `command:` sequence with appropriate values. For `<GIT_USER>`, it should be a GitHub account that has access to push documentation to your GitHub repo. Many times `<GIT_USER>` and `<GITHUB_USERNAME>` will be the same.
