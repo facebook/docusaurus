@@ -13,7 +13,7 @@ Docusaurus was designed from the ground up to be easily installed and used to ge
 1. `yarn global add docusaurus-init` or `npm install --global docusaurus-init`
 1. `docusaurus-init`
 
-> After docusaurus is installed, moving forward, you can check your current version of Docusaurus by going into the `website` directory and typing `npm list docusaurus`. You can update to the [latest version](https://www.npmjs.com/package/docusaurus) of Docusaurus by typeing `npm update`.
+> After docusaurus is installed, moving forward, you can check your current version of Docusaurus by going into the `website` directory and typing `npm list docusaurus`. You can update to the [latest version](https://www.npmjs.com/package/docusaurus) of Docusaurus by typing `npm update`.
 
 Along with previously existing files and directories, your root directory will now contain a structure similar to:
 
