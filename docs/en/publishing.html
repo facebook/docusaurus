@@ -99,7 +99,7 @@
 <span class="hljs-attr">  build_and_deploy:</span>
 <span class="hljs-attr">    jobs:</span>
 <span class="hljs-bullet">      -</span> <span class="hljs-string">deploy-website</span>
-<span class="hljs-comment">#   filters: *filter-only-master   </span>
+<span class="hljs-comment">#       filters: *filter-only-master   </span>
 </code></pre>
 <p>Make sure to replace all <code>&lt;....&gt;</code> in the <code>command:</code> sequence with appropriate values. For <code>&lt;GIT_USER&gt;</code>, it should be a GitHub account that has access to push documentation to your GitHub repo. Many times <code>&lt;GIT_USER&gt;</code> and <code>&lt;GITHUB_USERNAME&gt;</code> will be the same.</p>
 <p><strong>DO NOT</strong> place the actual value of <code>$GITHUB_TOKEN</code> in <code>circle.yml</code>. We already configured that as an environment variable back in Step 3.</p>
