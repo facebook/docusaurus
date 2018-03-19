@@ -1803,7 +1803,7 @@ footer.nav-footer {
 footer .sitemap {
   display: flex;
   justify-content: space-between;
-  width: 100%;
+  max-width: 1080px;
   margin: 0 auto 3em;
 }
 footer .sitemap div {
@@ -1827,6 +1827,7 @@ footer .sitemap .nav-home:focus {
     display: flex;
     flex-direction: column;
     margin: 0 2em 3em;
+    width: 100%;
   }
 }
 
