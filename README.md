@@ -12,6 +12,8 @@ Docusaurus is available as the [`docusaurus` package](https://www.npmjs.com/pack
 
 We have also released the [`docusaurus-init` package](https://www.npmjs.com/package/docusaurus-init) to make [getting started](https://docusaurus.io/docs/en/installation.html) with Docusaurus even easier.
 
+HTML pages may now be accessed without using the .html extension.
+
 ## Contributing
 
 We've released Docusaurus because it helps us better scale and support the many OSS projects at Facebook. We hope that other organizations can benefit from the project. We are thankful for any contributions from the community.
