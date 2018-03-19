@@ -1827,7 +1827,7 @@ footer .sitemap .nav-home:focus {
     display: flex;
     flex-direction: column;
     margin: 0 2em 3em;
-    width: 100%;
+    width: calc(100% - 4em);
   }
 }
 
