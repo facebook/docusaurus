@@ -64,9 +64,9 @@
   "devDependencies": {
     "filepath": "^1.1.0",
     "front-matter": "^2.3.0",
-    "glob-promise": "^3.3.0",
+    "glob-promise": "^3.4.0",
     "jest": "^21.2.1",
-    "prettier": "^1.9.1",
+    "prettier": "^1.11.1",
     "rimraf": "^2.6.2"
   }
 }
