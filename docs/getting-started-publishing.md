@@ -33,20 +33,8 @@ Most of the work to publish to GitHub pages is done for you automatically throug
 
 Two of the required parameters are set in the [`siteConfig.js`](api-site-config.md):
 
-<table style="width: 100%">
-    <tr>
-        <th>Name</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-    <td style="width:140px"><code>organizationName</code></td>
-        <td>The GitHub user or organization that owns the repository. In the case of Docusaurus, that would be the "facebook" GitHub organization.</td>
-    </tr>
-    <tr>
-    <td style="width:140px"><code>projectName</code></td>
-    <td>The name of the GitHub repository for your project. For example, Docusaurus is hosted at https://github.com/facebook/docusaurus, so our project name in this case would be "docusaurus".</td>
-    </tr>
-</table>
+- `organizationName`: The GitHub user or organization that owns the repository. In the case of Docusaurus, that would be the "facebook" GitHub organization.
+- `projectName`: The name of the GitHub repository for your project. For example, Docusaurus is hosted at https://github.com/facebook/docusaurus, so our project name in this case would be "docusaurus".
 
 > Docusaurus also supports deploying [user or organization sites](https://help.github.com/articles/user-organization-and-project-pages/#user--organization-pages). These sites will be served from the `master` branch of the repo. So, you will want to have the Docusaurus infra, your docs, etc. in another branch (e.g., maybe call it `source`). To do this, just set `projectName` to "_username_.github.io" (where _username_ is your username or organization name on GitHub) and `organizationName` to "_username_". The publish script will automatically deploy your site to the root of the `master` branch to be served.
 
@@ -54,33 +42,13 @@ Two of the required parameters are set in the [`siteConfig.js`](api-site-config.
 
 One of the required parameters is set as a environment variable:
 
-<table style="width: 100%">
-<tr>
-<th>Name</th>
-<th>Description</th>
-</tr>
-<tr>
-<td style="width:140px"><code>GIT_USER</code></td>
-<td>The username for a GitHub account that has commit access to this repo. For your own repositories, this will usually be your own GitHub username.</td>
-</tr>
-</table>
+- `GIT_USER`: The username for a GitHub account that has commit access to this repo. For your own repositories, this will usually be your own GitHub username.
 
 There are also two optional parameters that are set as environment variables:
 
-<table style="width: 100%">
-<tr>
-<th>Name</th>
-<th>Description</th>
-</tr>
-<tr>
-<td style="width:140px"><code>USE_SSH</code></td>
-<td>If this is set to <code>true</code>, then SSH is used instead of HTTPS for the connection to the GitHub repo. HTTPS is the default if this variable is not set.</td>
-</tr>
-<tr>
-<td style="width:140px"><code>CURRENT_BRANCH</code></td>
-<td> The branch that contains the latest docs changes that will be deployed. Usually, the branch will be <code>master</code>, but it could be any branch (default or otherwise) except for <code>gh-pages</code>. If nothing is set for this variable, then the current branch will be used.</td>
-</tr>
-</table>
+- `USE_SSH`: If this is set to `true`, then SSH is used instead of HTTPS for the connection to the GitHub repo. HTTPS is the default if this variable is not set.
+
+- `CURRENT_BRANCH`: The branch that contains the latest docs changes that will be deployed. Usually, the branch will be `master`, but it could be any branch (default or otherwise) except for `gh-pages`. If nothing is set for this variable, then the current branch will be used.
 
 Once you have the parameter value information, you can go ahead and run the publish script, ensuring you have inserted your own values inside the various parameter placeholders:
 
