@@ -3,7 +3,7 @@ id: publishing
 title: Publishing your site
 ---
 
-You should now have a [site up and running locally](getting-started-site-creation.md). Once you have [customized](api-site-config.md) it to your liking, it's time to publish it. Docusaurus generates a static HTML website that is ready to be served by your favorite web server or online hosting solution.
+You should now have a [site up and running locally](getting-started/site-creation.md). Once you have [customized](api/site-config.md) it to your liking, it's time to publish it. Docusaurus generates a static HTML website that is ready to be served by your favorite web server or online hosting solution.
 
 ## Building Static HTML Pages
 
@@ -29,9 +29,9 @@ Deploying your Docusaurus site to GitHub Pages is straightforward if you are alr
 
 > Even if your repo is private, anything published to a `gh-pages` branch will be [public](https://help.github.com/articles/user-organization-and-project-pages/).
 
-Most of the work to publish to GitHub pages is done for you automatically through the [`publish-gh-pages`](./api-commands.md#docusaurus-publish) script. You just need to determine the values for a few parameters required by the script.
+Most of the work to publish to GitHub pages is done for you automatically through the [`publish-gh-pages`](api/commands.md#docusaurus-publish) script. You just need to determine the values for a few parameters required by the script.
 
-Two of the required parameters are set in the [`siteConfig.js`](api-site-config.md):
+Two of the required parameters are set in the [`siteConfig.js`](api/site-config.md):
 
 - `organizationName`: The GitHub user or organization that owns the repository. In the case of Docusaurus, that would be the "facebook" GitHub organization.
 - `projectName`: The name of the GitHub repository for your project. For example, Docusaurus is hosted at https://github.com/facebook/docusaurus, so our project name in this case would be "docusaurus".

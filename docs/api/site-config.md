@@ -69,7 +69,7 @@ headerLinks: [
 - `indexName` - the Algolia provided index name for your search (usually this is the project name)
 - `appId` - Algolia provides a default scraper for your docs. If you provide your own, you will probably get this id from them.
 
-`blogSidebarCount` - Control the number of blog posts that show up in the sidebar. See the [adding a blog docs](guides-blog.md#changing-how-many-blog-posts-show-on-sidebar) for more information.
+`blogSidebarCount` - Control the number of blog posts that show up in the sidebar. See the [adding a blog docs](guides/guides.md#changing-how-many-blog-posts-show-on-sidebar) for more information.
 
 `cname` - The CNAME for your website. It will go into a `CNAME` file when your site it built.
 
@@ -121,7 +121,7 @@ h1 {
 
 `gaTrackingId` - Google Analytics tracking ID to track page views.
 
-`highlight` - [Syntax highlighting](api-doc-markdown.md) options:
+`highlight` - [Syntax highlighting](guides/doc-markdown.md) options:
 
  - `theme` is the name of the theme used by Highlight.js when highlighting code. You can find the [list of supported themes here](https://github.com/isagalaev/highlight.js/tree/master/src/styles).
  - `version` specifies a particular version of Highlight.js to be used.
@@ -148,7 +148,7 @@ h1 {
 
 `twitter` - set this to `true` if you want a Twitter social button to appear at the bottom of your blog posts.
 
-`useEnglishUrl` - If you do not have [translations](guides-translation.md) enabled (e.g., by having a `languages.js` file), but still want a link of the form `/docs/en/doc.html` (with the `en`), set this to `true`.
+`useEnglishUrl` - If you do not have [translations](guides/translation.md) enabled (e.g., by having a `languages.js` file), but still want a link of the form `/docs/en/doc.html` (with the `en`), set this to `true`.
 
 `users` - The `users` array mentioned earlier.
 

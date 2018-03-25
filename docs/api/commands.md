@@ -5,8 +5,8 @@ title: CLI Commands
 
 Docusaurus provides a set of scripts to help you generate, serve, and deploy your website. These scripts can be invoked with the `run` command when using Yarn or npm. Some common commands are:
 
-* [`yarn run start`](api-commands.md#docusaurus-start-port-number): build and serve the website from a local server
-* [`yarn run examples`](api-commands.md#docusaurus-examples): create example configuration files
+* [`yarn run start`](#docusaurus-start-port-number): build and serve the website from a local server
+* [`yarn run examples`](#docusaurus-examples): create example configuration files
 
 
 ## Running from the command line
@@ -41,7 +41,7 @@ npm run start -- --port 8080
 
 ## Configuration
 
-These scripts are set up under the `"scripts"` key in your `website/package.json` file as part of the installation process. If you need help setting them up again, please refer to the [Installation guide](getting-started-installation.md).
+These scripts are set up under the `"scripts"` key in your `website/package.json` file as part of the installation process. If you need help setting them up again, please refer to the [Installation guide](getting-started/installation.md).
 
 Docusaurus provides some default mappings to allow you to run commands following Node conventions. Instead of typing `docusaurus-start` every time, you can type `yarn run start` or `npm start` to achieve the same.
 
@@ -58,7 +58,7 @@ Alias: `build`.
 
 Generates the static website, applying translations if necessary. Useful for building the website prior to deployment.
 
-See also [`docusaurus-start`](api-commands.md#docusaurus-start-port-number).
+See also [`docusaurus-start`](#docusaurus-start-port-number).
 
 ---
 
@@ -72,7 +72,7 @@ When no feature is specified, sets up a minimally configured example website in 
 ### `docusaurus-publish`
 Alias: `publish-gh-pages`
 
-[Builds](api-commands.md#docusaurus-build), then deploys the static website to GitHub Pages. This command is meant to be run during the deployment step in Circle CI, and therefore expects a few environment variables to be defined:
+[Builds](#docusaurus-build), then deploys the static website to GitHub Pages. This command is meant to be run during the deployment step in Circle CI, and therefore expects a few environment variables to be defined:
 
 The following is generally set manually by the user in the CircleCI `config.yml` file.
 
@@ -95,7 +95,7 @@ The following should be set by you in `siteConfig.js` as `organizationName` and 
  - `CIRCLE_PROJECT_USERNAME`: The GitHub username or organization name that hosts the git repo, e.g. "facebook".
  - `CIRCLE_PROJECT_REPONAME`: The name of the git repo, e.g. "Docusaurus".
 
-You can learn more about configuring automatic deployments with CircleCI in the [Publishing guide](getting-started-publishing.md).
+You can learn more about configuring automatic deployments with CircleCI in the [Publishing guide](getting-started/publishing.md).
 
 ---
 
@@ -104,7 +104,7 @@ Alias: `rename-version`
 
 Renames an existing version of the docs to a new version name.
 
-See the [Versioning guide](guides-versioning.md#renaming-existing-versions) to learn more.
+See the [Versioning guide](guides/versioning.md#renaming-existing-versions) to learn more.
 
 ---
 
@@ -120,11 +120,11 @@ Alias: `version`
 
 Generates a new version of the docs. This will result in a new copy of your site being generated and stored in its own versioned folder. Useful for capturing snapshots of API docs that map to specific versions of your software. Accepts any string as a version number.
 
-See the [Versioning guide](guides-versioning.md) to learn more.
+See the [Versioning guide](guides/versioning.md) to learn more.
 
 ---
 
 ### `docusaurus-write-translations`
 Alias: `write-translations`
 
-Writes the English for any strings that need to be translated into an `website/i18n/en.json` file. The script will go through every file in `website/pages/en` and through the `siteConfig.js` file and other config files to fetch English strings that will then be translated on Crowdin. See the [Translation guide](guides-translation.md) to learn more.
+Writes the English for any strings that need to be translated into an `website/i18n/en.json` file. The script will go through every file in `website/pages/en` and through the `siteConfig.js` file and other config files to fetch English strings that will then be translated on Crowdin. See the [Translation guide](guides/translation.md) to learn more.
