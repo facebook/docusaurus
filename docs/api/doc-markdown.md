@@ -38,7 +38,7 @@ original_id: doc1
 ---
 ```
 
-`custom_edit_url`: The url for editing this document. If this field is not present, the document's edit url will fallback to `editUrl` from optional fields of `siteConfig.js`. See [siteConfig.js](site-config.md) docs for more information.
+`custom_edit_url`: The url for editing this document. If this field is not present, the document's edit url will fallback to `editUrl` from optional fields of `siteConfig.js`. See [siteConfig.js](api/site-config.md) docs for more information.
 
 For example:
 
@@ -84,9 +84,9 @@ You can use relative urls to other documentation files which will automatically 
 Example:
 
 ```markdown
-[This links to another document](other-document.md)
+[This links to another document](folder/other-document.md)
 ```
-This markdown will automatically get converted into a link to `/docs/other-document.html` (or the appropriately translated/versioned link) once it gets rendered.
+This markdown will automatically get converted into a link to `/docs/folder/other-document.html` (or the appropriately translated/versioned link) once it gets rendered.
 
 This can help when you want to navigate through docs on GitHub since the links there will be functional links to other documents (still on GitHub), but the documents will have the correct html links when they get rendered.
 

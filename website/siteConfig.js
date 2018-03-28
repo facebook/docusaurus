@@ -133,7 +133,7 @@ const siteConfig = {
   users,
   editUrl: 'https://github.com/facebook/docusaurus/edit/master/docs/',
   headerLinks: [
-    {doc: 'installation', label: 'Docs'},
+    {doc: 'getting-started/installation', label: 'Docs'},
     {page: 'help', label: 'Help'},
     {page: 'about-slash', label: 'About /'},
     {blog: true, label: 'Blog'},

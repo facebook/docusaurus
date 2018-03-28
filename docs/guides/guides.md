@@ -89,4 +89,4 @@ A summary of the post's text is provided in the RSS feed up to the `<!--truncate
 
 ## Social Buttons
 
-If you want Facebook and/or Twitter social buttons at the bottom of your blog posts, set the `facebookAppId` and/or `twitter` [site configuration](api-site-config.md) options in `siteConfig.js`.
+If you want Facebook and/or Twitter social buttons at the bottom of your blog posts, set the `facebookAppId` and/or `twitter` [site configuration](api/site-config.md) options in `siteConfig.js`.

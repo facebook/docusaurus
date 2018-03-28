@@ -7,21 +7,19 @@ title: Navigation and Sidebars
 
 If you want to reference another document in your `docs` folder (or the location you set via the [optional `customDocsPath`](https://docusaurus.io/docs/en/site-config.html#optional-fields) path site configuration option), then you just use the name of the document you want to reference.
 
-For example, if you are in `doc2.md` and you want to reference `doc1.md`:
+For example, if you are in `docs/installation/doc2.md` and you want to reference `docs/usage/doc1.md`:
 
 ```
-I am referencing a [document](doc1.md).
+I am referencing a [document](usage/doc1.md).
 ```
-
-> Docusaurus currently does not support documents in nested folders; only in a flatfile structure. We are looking into adding support for nested folders.
 
 ## How Documents are Linked
 
-New markdown files within `docs` will show up as pages on the website. Links to those documents are created first by using the `id` in the header of each document. If there is no `id` field, then the name of the file will serve as the link name.
+New markdown files within `docs` will show up as pages on the website. Links to those documents are created first by concatenating the document's relative path within `docs` and the `id` in the header of each document. If there is no `id` field, then the name of the file will be used instead.
 
-For example, creating an empty file such as "docs/getting-started.md" will enable the new page URL as `/docs/getting-started.html`.
+For example, creating an empty file such as "docs/getting-started/installation.md" will enable the new page URL as `/docs/getting-started/installation.html`.
 
-Suppose you add this to your document:
+Suppose you add this to your document `docs/my-intro.md`:
 
 ```
 ---
@@ -32,7 +30,7 @@ title: Getting Started
 My *new content* here..
 ```
 
-If you set the `id` field in the markdown header of the file, the doc will then be accessed from a URL of the form `/docs/intro.html`.
+If you set the `id` field in the markdown header of the file, the doc will then be accessed from a URL of the form `/docs/intro.html`. Without the `id` field the URL would be `/docs/myintro.html`
 
 > You need an `id` field to be able to add the document to the sidebar.
 
@@ -46,13 +44,13 @@ You configure the contents of the sidebar, and the order of its documents, in th
 
 > Until you add your document to `website/sidebars.json`, they will only be accessible via a direct URL. The doc will not show up in any sidebar.
 
-Within `sidebars.json`, add the `id` you used in the document header to existing sidebar/category. In the below case, `docs` is the name of the sidebar and `Getting Started` is a category within the sidebar.
+Within `sidebars.json`, add the document's relative path within `docs` concatenated with it's `id` you used in the document header to an existing sidebar/category. In the below case, `docs` is the name of the sidebar and `Getting Started` is a category within the sidebar.
 
 ```
 {
   "docs": {
     "Getting Started": [
-      "getting-started"
+      "getting-started/installation"
 ```
 
 Or you can create a new category within the sidebar:
@@ -62,7 +60,7 @@ Or you can create a new category within the sidebar:
   "docs": {
     ...
     "My New Sidebar Category": [
-      "getting-started"
+      "getting-started/preparation"
     ],
     ...
 ```
@@ -173,7 +171,7 @@ These are two separate class names so you can have the active styles applied to 
 
 ## Secondary On-Page Navigation
 
-We support secondary on-page navigation so you can more easily see the topics associated with a given document. To enable this feature, you need to add the `onPageNav` site configuration [option](api-site-config.md#optional-fields) to your `siteConfig.js`.
+We support secondary on-page navigation so you can more easily see the topics associated with a given document. To enable this feature, you need to add the `onPageNav` site configuration [option](api/site-config.md#optional-fields) to your `siteConfig.js`.
 
 ```
 onPageNav: 'separate',
