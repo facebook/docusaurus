@@ -1549,8 +1549,8 @@ nav.toc .toggleNav .navBreadcrumb h2 {
 
     .onPageNav ul li {
       font-size: 12px;
-      line-height: 14px;
-      padding-bottom: 12px;
+      line-height: 17px;
+      padding-bottom: 9px;
     }
 
     .onPageNav ul ul {
@@ -1558,7 +1558,7 @@ nav.toc .toggleNav .navBreadcrumb h2 {
     }
 
     .onPageNav ul ul li {
-      padding-bottom: 8px;
+      padding-bottom: 5px;
     }
   }
 }
