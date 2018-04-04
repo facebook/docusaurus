@@ -73,7 +73,7 @@ headerLinks: [
 
 `cname` - The CNAME for your website. It will go into a `CNAME` file when your site it built.
 
-`customDocsPath` - By default, Docusaurus expects your documentation to be in a directory called `docs`. This directory is at the same level as the `website` directory (i.e., not inside the `website` directory). You can specify a custom path to your documentation with this field. **Note that all of your documentation *.md files must still reside in a flat hierarchy. You cannot have your documents in nested directories**.
+`customDocsPath` - By default, Docusaurus expects your documentation to be in a directory called `docs`. This directory is at the same level as the `website` directory (i.e., not inside the `website` directory). You can specify a custom path to your documentation with this field. **Note that all of your documentation `*.md` files must still reside in a flat hierarchy. You cannot have your documents in nested directories**.
 
 ```js
 customDocsPath: "docs/site"
@@ -140,7 +140,7 @@ h1 {
 
 `scripts` - Array of JavaScript sources to load. The script tag will be inserted in the HTML head.
 
-`separateCss` - Folders inside which any `css` files will not be processed and concatenated to Docusaurus's styles. This is to support static `html` pages that may be separate from Docusaurus with completely separate styles.
+`separateCss` - Folders inside which any `css` files will not be processed and concatenated to Docusaurus' styles. This is to support static `html` pages that may be separate from Docusaurus with completely separate styles.
 
 `stylesheets` - Array of CSS sources to load. The link tag will be inserted in the HTML head.
 

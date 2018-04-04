@@ -35,11 +35,11 @@ root-of-repo
 
 Of course, you are also free to write your own pages. It is strongly suggested that you at least have an index page, but none of the pages provided are mandatory to include in your site. More information on how to use the provided components or include your own can be found [here](api-pages.md). Information on how to link to your different pages in the header navigation bar can be found [here](guides-navigation.md).
 
-> If you want your page to show up in your navigation header, you will need to update `siteConfig.js` to add to the `headerLinks` element. e.g., `{ page: "about-slash", label: "About/"}`, 
+> If you want your page to show up in your navigation header, you will need to update `siteConfig.js` to add to the `headerLinks` element. e.g., `{ page: "about-slash", label: "About/"}`,
 
 ## Adding Static Pages
 
-Static `.html` files can also be used, but they will not include Docusaurus's header, footer, or styles by default. These can be added to the `static` folder in the same way as other [static assets](api-pages.md#using-static-assets). Alternatively, they can be placed in the `pages` folder and would be served as-is instead of being rendered from React.
+Static `.html` files can also be used, but they will not include Docusaurus' header, footer, or styles by default. These can be added to the `static` folder in the same way as other [static assets](api-pages.md#using-static-assets). Alternatively, they can be placed in the `pages` folder and would be served as-is instead of being rendered from React.
 
 If you wish to use Docusaurus's stylesheet, you can access it at `${baseUrl}css/main.css`. If you wish to use separate css for these static pages, you can exclude them from being concatenated to Docusaurus's styles by adding them into the `siteConfig.separateCss` field in `siteConfig.js`.
 

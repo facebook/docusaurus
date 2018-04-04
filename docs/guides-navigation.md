@@ -19,7 +19,7 @@ I am referencing a [document](doc1.md).
 
 New markdown files within `docs` will show up as pages on the website. Links to those documents are created first by using the `id` in the header of each document. If there is no `id` field, then the name of the file will serve as the link name.
 
-For example, creating an empty file such as "docs/getting-started.md" will enable the new page URL as `/docs/getting-started.html`.
+For example, creating an empty file such as `docs/getting-started.md` will enable the new page URL as `/docs/getting-started.html`.
 
 Suppose you add this to your document:
 
@@ -166,6 +166,7 @@ The links in the top navigation bar get `siteNavItemActive` and `siteNavGroupAct
 > This does not include links of type `href` which are meant for external links only. If you manually set an `href` in your headerLinks to an internal page, document, or blog post, it will not get the `siteNavItemActive` class even if that page is being displayed.
 
 `siteNavGroupActive` will be added to these links:
+
 * `doc` links that belong to the same sidebar as the currently displayed document
 * The blog link when a blog post, or the blog listing page is being displayed
 

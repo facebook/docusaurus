@@ -92,7 +92,7 @@ Example:
 />
 ```
 
-More examples of how these components are used can be found in the [generated example files](getting-started-preparation.md) as well as in Docusaurus's own repo for its website set-up.
+More examples of how these components are used can be found in the [generated example files](getting-started-preparation.md) as well as in Docusaurus' own repo for its website set-up.
 
 ## Translating Strings
 
@@ -108,7 +108,7 @@ You can also provide an optional description attribute to provide context for tr
 
 ```jsx
 <a href="/community">
-  <translate desc="footer link to page referring to community github and slack">Community</translate>
+  <translate desc="Footer link to page referring to community GitHub and Slack">Community</translate>
 </a>
 ```
 
@@ -129,6 +129,6 @@ Static assets should be placed into the `website/static` folder. They can be acc
 
 You should configure your site's primary, secondary, and code block colors using the `colors` field in `siteConfig` as specified [here](api-site-config.md). You can also configure other colors in the same way as described in the `siteConfig` doc.
 
-You can provide your own custom styles by adding them anywhere in the `website/static` folder. Any `.css` files you provide in the `static` folder will get concatenated to the end of Docusaurus's provided styles, allowing you to add to or override Docusaurus default styles as you wish.
+You can provide your own custom styles by adding them anywhere in the `website/static` folder. Any `.css` files you provide in the `static` folder will get concatenated to the end of Docusaurus' provided styles, allowing you to add to or override Docusaurus default styles as you wish.
 
 An easy way to figure out what classes you wish to override or add to is to [start your server locally](api-commands.md) and use your browser's inspect element tool.
