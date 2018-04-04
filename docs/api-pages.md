@@ -92,7 +92,7 @@ Example:
 />
 ```
 
-More examples of how these components are used can be found in the [generated example files](getting-started-preparation.md) as well as in Docusaurus own repo for its website set-up.
+More examples of how these components are used can be found in the [generated example files](getting-started-preparation.md) as well as in Docusaurus' own repo for its website set-up.
 
 ## Translating Strings
 
