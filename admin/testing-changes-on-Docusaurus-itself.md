@@ -19,7 +19,7 @@ npm run start
 
 ### VS Code
 
-Use the following code in VSCode to enable breakpoints. Please ensure you have a later verison of node for non-legacy debugging.
+Use the following code in VSCode to enable breakpoints. Please ensure you have a later version of node for non-legacy debugging.
 
 ```
 {
