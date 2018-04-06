@@ -39,7 +39,7 @@ class HomeSplash extends React.Component {
         <div className="homeSplashFade">
           <div className="wrapper homeWrapper">
             <div className="projectLogo">
-              <img src={`${siteConfig.baseUrl}img/docusaurus_keytar.svg`} />
+              <img src={`${siteConfig.baseUrl}img/docusaurus_keytar.svg`} alt="Docusaurus with Keytar"/>
             </div>
             <div className="inner">
               <h2 className="projectTitle">
@@ -79,7 +79,7 @@ class Index extends React.Component {
       .map((user, i) => {
         return (
           <a href={user.infoLink} key={i}>
-            <img src={user.image} title={user.caption} />
+            <img src={user.image} alt={user.caption} title={user.caption} />
           </a>
         );
       });
@@ -100,6 +100,7 @@ class Index extends React.Component {
                     to serve.`,
                   image: `${siteConfig.baseUrl}img/markdown.png`,
                   imageAlign: "top",
+                  imageAlt: "Markdown",
                   title: "Powered by Markdown"
                 },
                 {
@@ -109,6 +110,7 @@ class Index extends React.Component {
                     extended while reusing the same header and footer.`,
                   image: `${siteConfig.baseUrl}img/react.svg`,
                   imageAlign: "top",
+                  imageAlt: "React",
                   title: "Built Using React"
                 },
                 {
@@ -118,6 +120,7 @@ class Index extends React.Component {
                     into over 70 languages.`,
                   image: `${siteConfig.baseUrl}img/translation.svg`,
                   imageAlign: "top",
+                  imageAlt: "Translation",
                   title: "Ready for Translations"
                 }
               ]}
@@ -135,6 +138,7 @@ class Index extends React.Component {
                     helps you keep documentation in sync with project releases.`,
                   image: `${siteConfig.baseUrl}img/versioning.svg`,
                   imageAlign: "top",
+                  imageAlt: "Document Versioning",
                   title: "Document Versioning"
                 },
                 {
@@ -143,6 +147,7 @@ class Index extends React.Component {
                     We proudly support [Algolia documentation search](https://www.algolia.com/).`,
                   image: `${siteConfig.baseUrl}img/search.svg`,
                   imageAlign: "top",
+                  imageAlt: "Document Search",
                   title: "Document Search"
                 }
               ]}
@@ -158,6 +163,7 @@ class Index extends React.Component {
                     quickly without having to worry about site design.`,
                   imageAlign: "right",
                   image: `${siteConfig.baseUrl}img/docusaurus_speed.svg`,
+                  imageAlt: "Docusaurus on a Scooter",
                   title: "Quick Setup"
                 }
               ]}
@@ -177,6 +183,7 @@ class Index extends React.Component {
                     like CircleCI.`,
                   imageAlign: "left",
                   image: `${siteConfig.baseUrl}img/docusaurus_live.gif`,
+                  imageAlt: "Docusaurus Demo",
                   title: "Develop and Deploy"
                 }
               ]}
@@ -197,6 +204,7 @@ class Index extends React.Component {
                     contribute on [GitHub](https://github.com/facebook/docusaurus)!`,
                   imageAlign: "right",
                   image: `${siteConfig.baseUrl}img/docusaurus_monochrome.svg`,
+                  imageAlt: "Monochromatic Docusaurus",
                   title: "Website Features"
                 }
               ]}
@@ -225,6 +233,7 @@ class Index extends React.Component {
                       "<i>I’ve helped open source many projects at Facebook and every one needed a website. They all had very similar constraints: the documentation should be written in markdown and be deployed via GitHub pages. None of the existing solutions were great, so I hacked my own and then forked it whenever we needed a new website. I’m so glad that Docusaurus now exists so that I don’t have to spend a week each time spinning up a new one.</i>",
                     image: `${siteConfig.baseUrl}img/christopher-chedeau.jpg`,
                     imageAlign: "top",
+                    imageAlt: 'Christopher "vjeux" Chedeau',
                     title: 'Christopher "vjeux" Chedeau <br/><font size="2">Lead Prettier Developer</font>'
                   },
                   {
@@ -232,6 +241,7 @@ class Index extends React.Component {
                       "<i>Open source contributions to the React Native docs have skyrocketed after our move to Docusaurus. The docs are now hosted on a small repo in plain markdown, with none of the clutter that a typical static site generator would require. Thanks Slash!</i>",
                     image: `${siteConfig.baseUrl}img/hector-ramos.png`,
                     imageAlign: "top",
+                    imageAlt: "Hector Ramos",
                     title: 'Hector Ramos <br/><font size="2">Lead React Native Advocate</font>'
                   },
                   {
@@ -239,6 +249,7 @@ class Index extends React.Component {
                       "<i>Docusaurus has been a great choice for the ReasonML family of projects. It makes our documentation consistent, i18n-friendly, easy to maintain, and friendly for new contributors.</i>",
                     image: `${siteConfig.baseUrl}img/ricky-vetter.jpg`,
                     imageAlign: "top",
+                    imageAlt: "Ricky Vetter",
                     title: 'Ricky Vetter <br/><font size="2">ReasonReact Developer</font>'
                   }
                 ]}

@@ -64,6 +64,7 @@ The `contents` attribute is an array containing the contents of each section of 
 - `imageAlign` field for image alignment relative to the text, which defaults to `top` and can be set to `bottom`, `left`, or `right`
 - `title` for the title to display for this section, which is parsed from markdown
 - `imageLink` for a link destination from clicking the image
+- `imageAlt` for the description of what text will be shown in case the image is not available
 
 Example:
 
@@ -75,7 +76,8 @@ Example:
       content: "Learn how to use this project",
       image: siteConfig.baseUrl + "img/learn.png",
       title: `[Learn](${siteConfig.baseUrl}docs/tutorial.html)`,
-      imageLink: siteConfig.baseUrl + "docs/tutorial.html"
+      imageLink: siteConfig.baseUrl + "docs/tutorial.html",
+      imageAlt: "Learn how to use this project"
     },
     {
       content: "Questions gathered from the community",

@@ -177,7 +177,7 @@ const Showcase = props => {
     .map((user, i) => {
       return (
         <a href={user.infoLink} key={i}>
-          <img src={user.image} title={user.caption} />
+          <img src={user.image} alt={user.caption} title={user.caption} />
         </a>
       );
     });
