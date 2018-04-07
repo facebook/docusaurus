@@ -52,11 +52,15 @@ class Footer extends React.Component {
             </a>
             <a
               href="http://stackoverflow.com/questions/tagged/"
-              target="_blank">
+              target="_blank"
+              rel="noreferrer noopener">
               Stack Overflow
             </a>
             <a href="https://discordapp.com/">Project Chat</a>
-            <a href="https://twitter.com/" target="_blank">
+            <a
+              href="https://twitter.com/"
+              target="_blank"
+              rel="noreferrer noopener">
               Twitter
             </a>
           </div>
@@ -80,6 +84,7 @@ class Footer extends React.Component {
         <a
           href="https://code.facebook.com/projects/"
           target="_blank"
+          rel="noreferrer noopener"
           className="fbOpenSource">
           <img
             src={this.props.config.baseUrl + 'img/oss_logo.png'}
