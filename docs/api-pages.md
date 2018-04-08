@@ -44,7 +44,7 @@ A React container component using Docusaurus styles. Has optional padding and ba
 | --- | --- | --- | --- |
 | padding | Array of `'all'`, `'bottom'`, `'left'`, `'right'`, `'top'` | `[]` | Positions of the padding. |
 | background | One of `'dark'`, `'highlight'`, `'light'` | `null` | Background styling of the element. |
-| className | String | `null` | Custom class to add to the element. |
+| className | String | - | Custom class to add to the element. |
 
 **Example**
 
@@ -67,7 +67,7 @@ A React component to organize text and images.
 | --- | --- | --- | --- |
 | align | One of `'left'`, `'center'`, `'right'` | `'left'` | Text alignment of content. |
 | layout | One of `'twoColumn'`, `'threeColumn'`, `'fourColumn'` | `'twoColumn'` | Number of column sections in the `GridBlock`. |
-| className | String | `null` | Custom class to add to the element. |
+| className | String | - | Custom class to add to the element. |
 | contents | Array of content objects | `[]` | Contents of each section of the GridBlock. Refer to the next table for the fields available on a content object. |
 
 **Content Object**
