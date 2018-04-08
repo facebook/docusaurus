@@ -53,7 +53,7 @@ You can create version numbers in whatever format you wish, and a new version ca
 
 Versioned documents are placed into `website/versioned_docs/version-${version}`, where `${version}` is the version number you supplied the `version` script.
 
-The markdown header for each versioned doc is altered by renaming the id frontmatter field to `original_id`, then using `"version-${version}-${original_id}"` as the value for the actual `id` field.
+The markdown header for each versioned doc is altered by renaming the id front matter field to `original_id`, then using `"version-${version}-${original_id}"` as the value for the actual `id` field.
 
 Versioned sidebars are copied into `website/versioned_sidebars` and are named as `version-${version}-sidebars.json`.
 

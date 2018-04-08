@@ -29,9 +29,9 @@ const siteConfig = {
   ...
   algolia: {
     ...
-    algoliaOptions: { 
-      facetFilters: [ "tags:VERSION" ], 
-      hitsPerPage: 5 
+    algoliaOptions: {
+      facetFilters: [ "tags:VERSION" ],
+      hitsPerPage: 5
     }
   },
 }

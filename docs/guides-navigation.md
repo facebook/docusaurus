@@ -163,14 +163,14 @@ headerLinks: [
 
 The links in the top navigation bar get `siteNavItemActive` and `siteNavGroupActive` class names to allow you to style the currently active link different from the others. `siteNavItemActive` is applied when there's an exact match between the navigation link and the currently displayed web page.
 
-> This does not include links of type `href` which are meant for external links only. If you manually set an `href` in your headerLinks to an internal page, document, or blog post, it will not get the `siteNavItemActive` class even if that page is being displayed.
+> This does not include links of type `href` which are meant for external links only. If you manually set an `href` in your `headerLinks` to an internal page, document, or blog post, it will not get the `siteNavItemActive` class even if that page is being displayed.
 
-`siteNavGroupActive` will be added to these links:
+The `siteNavGroupActive` class will be added to these links:
 
 * `doc` links that belong to the same sidebar as the currently displayed document
 * The blog link when a blog post, or the blog listing page is being displayed
 
-These are two separate class names so you can have the active styles applied to either exact matches only or a bit more broadly for docs that belong together. If you don't want to make this distinction you can add both classes to the same css rule.
+These are two separate class names so you can have the active styles applied to either exact matches only or a bit more broadly for docs that belong together. If you don't want to make this distinction you can add both classes to the same CSS rule.
 
 ## Secondary On-Page Navigation
 
