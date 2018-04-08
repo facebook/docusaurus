@@ -38,8 +38,8 @@ const MarkdownBlock = CompLibrary.MarkdownBlock;
 
 A React container component using Docusaurus styles. Has optional padding and background color props that you can configure.
 
-Padding choices: `all`, `bottom`, `left`, `right`, `top`.  
-Background choices: `dark`, `highlight`, `light`.
+Padding choices: `'all'`, `'bottom'`, `'left'`, `'right'`, `'top'`.  
+Background choices: `'dark'`, `'highlight'`, `'light'`.
 
 Example:
 
