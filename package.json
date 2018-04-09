@@ -1,7 +1,7 @@
 {
   "name": "docusaurus",
   "description": "Easy to Maintain Open Source Documentation Websites",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "license": "MIT",
   "keywords": [
     "documentation",

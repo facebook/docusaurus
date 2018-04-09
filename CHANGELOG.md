@@ -6,6 +6,31 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.10] - 2018-04-09
+
+This is a general release with mostly bug fixes and documentation updates (which are already live on docusuarus.io).
+
+### Breaking Changes
+
+N/A
+
+### Added
+
+- [Added Facebook Pixel ID as a configuration option](https://github.com/facebook/Docusaurus/commit/508090377eb14f27db5ccb87c5fbe70ab79dc62d), thanks @pestevez.
+- Better documentation on installation requirements, CircleCI, updating Docusaurus and API. Thanks espcially to @yangshun for a lot of documentation cleanup and additions.
+
+### Fixed/Changed
+
+- [Fixed .gitignore placement when running the examples script or `docusaurus-init`](https://github.com/facebook/Docusaurus/commit/fc051acde53e7dd981d5aeb0cea498209b1da11c)
+- On page navigation fixes, including its [scroll height](https://github.com/facebook/Docusaurus/commit/56bae1d70ca6e0467b4f43fcc2b3adf72a5296db), [better table of contents](https://github.com/facebook/Docusaurus/commit/c437f7be37827f4f8c199577f4367ad0e56562c7), and other [fixes](https://github.com/facebook/Docusaurus/commit/1a674885aeff1a3c9523d16a72a34e4ba0ce8019), thanks @microbouji.
+- [Cleaned up example pages](https://github.com/facebook/Docusaurus/commit/37c699e8bdcad6889fadf52253c0901dc029b507), thanks @Happy-Ferret.
+- [Better alignment of the sitemap in the footer](https://github.com/facebook/Docusaurus/commit/a7acc7d794240b28da52f90cac487f6b803dc7a3), thanks @ryzokuken.
+- Accessibility fixes around [images](https://github.com/facebook/Docusaurus/commit/c2cd169b64d1bd9513831976bd5db436d6cda498) and [links](https://github.com/facebook/Docusaurus/commit/e19b9ac56e227c40209cec774b5b74a539819153), thanks @amyrlam and @yangshun.
+
+### Removed
+
+N/A
+
 ## [1.0.9] - 2018-03-13
 
 **This is a hotfix release**
@@ -175,8 +200,9 @@ N/A
   - Blog
   - Documentation
 
-[Unreleased]: https://github.com/facebook/Docusaurus/compare/v1.0.9...HEAD
-[1.0.8]: https://github.com/facebook/Docusaurus/compare/v1.0.8...v1.0.9
+[Unreleased]: https://github.com/facebook/Docusaurus/compare/v1.0.10...HEAD
+[1.0.10]: https://github.com/facebook/Docusaurus/compare/v1.0.9...v1.0.10
+[1.0.9]: https://github.com/facebook/Docusaurus/compare/v1.0.8...v1.0.9
 [1.0.8]: https://github.com/facebook/Docusaurus/compare/v1.0.7...v1.0.8
 [1.0.7]: https://github.com/facebook/Docusaurus/compare/v1.0.6...v1.0.7
 [1.0.6]: https://github.com/facebook/Docusaurus/compare/v1.0.5...v1.0.6
