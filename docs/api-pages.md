@@ -36,15 +36,20 @@ const MarkdownBlock = CompLibrary.MarkdownBlock;
 
 ### `CompLibrary.Container`
 
-A React container component using Docusaurus styles. Has optional padding and background color attributes that you can configure.
+A React container component using Docusaurus styles. Has optional padding and background color props that you can configure.
 
-Padding choices: `all`, `bottom`, `left`, `right`, `top`.  
-Background choices: `dark`, `highlight`, `light`.
+Padding choices: `'all'`, `'bottom'`, `'left'`, `'right'`, `'top'`.  
+Background choices: `'dark'`, `'highlight'`, `'light'`.
+
+The `className` prop is an optional prop that allows you to your own class names to the `Container` instance. It works like the `className` attribute in JSX. You can use this class name to customize the styling of contents within this `Container`.
 
 Example:
 
 ```jsx
-<Container padding={["bottom", "top"]} background="light">
+<Container
+  padding={["bottom", "top"]}
+  background="light"
+  className="myCustomClass">
   ...         
 </Container>
 ```
@@ -53,15 +58,17 @@ Example:
 
 A React component to organize text and images.
 
-The `align` attribute determines text alignment. Text alignment defaults to `left` and can be set to `center` or `right`.
+The `align` prop determines text alignment. Text alignment defaults to `'left'` and can be set to `'center'` or `'right'`.
 
-The `layout` attribute determines number of column sections per GridBlock. `layout` defaults to `twoColumn` and can be set to `threeColumn` or `fourColumn` as well.
+The `layout` prop determines number of column sections per GridBlock. `layout` defaults to `'twoColumn'` and can be set to `'threeColumn'` or `'fourColumn'` as well.
 
-The `contents` attribute is an array containing the contents of each section of the GridBlock. Each content object can have the following fields:
+The `className` prop is an optional prop that allows you to your own class names to the `GridBlock` instance. It works like the `className` attribute in JSX. You can use this class name to customize the styling of contents within this `GridBlock`.
+
+The `contents` prop is an array containing the contents of each section of the GridBlock. Each content object can have the following fields:
 
 - `content` for the text of this section, which is parsed from markdown
 - `image` for the path to an image to display
-- `imageAlign` field for image alignment relative to the text, which defaults to `top` and can be set to `bottom`, `left`, or `right`
+- `imageAlign` field for image alignment relative to the text, which defaults to `'top'` and can be set to `'bottom'`, `'left'`, or `'right'`
 - `title` for the title to display for this section, which is parsed from markdown
 - `imageLink` for a link destination from clicking the image
 - `imageAlt` for the description of what text will be shown in case the image is not available
@@ -71,6 +78,8 @@ Example:
 ```
 <GridBlock
   align="center"
+  layout="threeColumn"
+  className="myCustomClass"  
   contents={[
     {
       content: "Learn how to use this project",
@@ -90,7 +99,6 @@ Example:
       title: "More"
     }
   ]}
-  layout="threeColumn"
 />
 ```
 
