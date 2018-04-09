@@ -21,23 +21,28 @@
 <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">MarkdownBlock</span>&gt;</span>[Markdown syntax for a link](http://www.example.com)<span class="hljs-tag">&lt;/<span class="hljs-name">MarkdownBlock</span>&gt;</span></span>
 </code></pre>
 <h3><a class="anchor" aria-hidden="true" id="complibrarycontainer"></a><a href="#complibrarycontainer" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>CompLibrary.Container</code></h3>
-<p>A React container component using Docusaurus styles. Has optional padding and background color attributes that you can configure.</p>
-<p>Padding choices: <code>all</code>, <code>bottom</code>, <code>left</code>, <code>right</code>, <code>top</code>.<br>
-Background choices: <code>dark</code>, <code>highlight</code>, <code>light</code>.</p>
+<p>A React container component using Docusaurus styles. Has optional padding and background color props that you can configure.</p>
+<p>Padding choices: <code>'all'</code>, <code>'bottom'</code>, <code>'left'</code>, <code>'right'</code>, <code>'top'</code>.<br>
+Background choices: <code>'dark'</code>, <code>'highlight'</code>, <code>'light'</code>.</p>
+<p>The <code>className</code> prop is an optional prop that allows you to your own class names to the <code>Container</code> instance. It works like the <code>className</code> attribute in JSX. You can use this class name to customize the styling of contents within this <code>Container</code>.</p>
 <p>Example:</p>
-<pre><code class="hljs css jsx">&lt;Container padding={["bottom", "top"]} background="light"&gt;
+<pre><code class="hljs css jsx">&lt;Container
+  padding={["bottom", "top"]}
+  background="light"
+  className="myCustomClass"&gt;
   ...         
 &lt;/Container&gt;
 </code></pre>
 <h3><a class="anchor" aria-hidden="true" id="complibrarygridblock"></a><a href="#complibrarygridblock" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>CompLibrary.GridBlock</code></h3>
 <p>A React component to organize text and images.</p>
-<p>The <code>align</code> attribute determines text alignment. Text alignment defaults to <code>left</code> and can be set to <code>center</code> or <code>right</code>.</p>
-<p>The <code>layout</code> attribute determines number of column sections per GridBlock. <code>layout</code> defaults to <code>twoColumn</code> and can be set to <code>threeColumn</code> or <code>fourColumn</code> as well.</p>
-<p>The <code>contents</code> attribute is an array containing the contents of each section of the GridBlock. Each content object can have the following fields:</p>
+<p>The <code>align</code> prop determines text alignment. Text alignment defaults to <code>'left'</code> and can be set to <code>'center'</code> or <code>'right'</code>.</p>
+<p>The <code>layout</code> prop determines number of column sections per GridBlock. <code>layout</code> defaults to <code>'twoColumn'</code> and can be set to <code>'threeColumn'</code> or <code>'fourColumn'</code> as well.</p>
+<p>The <code>className</code> prop is an optional prop that allows you to your own class names to the <code>GridBlock</code> instance. It works like the <code>className</code> attribute in JSX. You can use this class name to customize the styling of contents within this <code>GridBlock</code>.</p>
+<p>The <code>contents</code> prop is an array containing the contents of each section of the GridBlock. Each content object can have the following fields:</p>
 <ul>
 <li><code>content</code> for the text of this section, which is parsed from markdown</li>
 <li><code>image</code> for the path to an image to display</li>
-<li><code>imageAlign</code> field for image alignment relative to the text, which defaults to <code>top</code> and can be set to <code>bottom</code>, <code>left</code>, or <code>right</code></li>
+<li><code>imageAlign</code> field for image alignment relative to the text, which defaults to <code>'top'</code> and can be set to <code>'bottom'</code>, <code>'left'</code>, or <code>'right'</code></li>
 <li><code>title</code> for the title to display for this section, which is parsed from markdown</li>
 <li><code>imageLink</code> for a link destination from clicking the image</li>
 <li><code>imageAlt</code> for the description of what text will be shown in case the image is not available</li>
@@ -45,6 +50,8 @@ Background choices: <code>dark</code>, <code>highlight</code>, <code>light</code
 <p>Example:</p>
 <pre><code class="hljs">&lt;GridBlock
   align=<span class="hljs-string">"center"</span>
+  layout=<span class="hljs-string">"threeColumn"</span>
+  className=<span class="hljs-string">"myCustomClass"</span>  
   contents={[
     {
       <span class="hljs-attribute">content</span>: <span class="hljs-string">"Learn how to use this project"</span>,
@@ -64,7 +71,6 @@ Background choices: <code>dark</code>, <code>highlight</code>, <code>light</code
       title: <span class="hljs-string">"More"</span>
     }
   ]}
-  layout=<span class="hljs-string">"threeColumn"</span>
 /&gt;
 </code></pre>
 <p>More examples of how these components are used can be found in the <a href="/docs/en/site-preparation.html">generated example files</a> as well as in Docusaurus' own repo for its website set-up.</p>
