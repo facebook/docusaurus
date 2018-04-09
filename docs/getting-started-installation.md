@@ -11,6 +11,7 @@ Docusaurus was designed from the ground up to be easily installed and used to ge
     
 1. Go into the root of your GitHub repo directory where you will be creating the docs.
 1. `yarn global add docusaurus-init` or `npm install --global docusaurus-init`
+    > if you have npm 5.2+ or higher then you can run `npx docusaurus-init` if you don't want to install to your global
 1. `docusaurus-init`
 
 > After docusaurus is installed, moving forward, you can check your current version of Docusaurus by going into the `website` directory and typing `npm list docusaurus`. You can update to the [latest version](https://www.npmjs.com/package/docusaurus) of Docusaurus by typing `npm update`.
