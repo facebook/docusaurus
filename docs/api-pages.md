@@ -40,6 +40,11 @@ A React container component using Docusaurus styles. Has optional padding and ba
 
 **Props**
 
+Padding choices: `'all'`, `'bottom'`, `'left'`, `'right'`, `'top'`.  
+Background choices: `'dark'`, `'highlight'`, `'light'`.
+
+The `className` prop is an optional prop that allows you to your own class names to the `Container` instance. It works like the `className` attribute in JSX. You can use this class name to customize the styling of contents within this `Container`.
+
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | padding | Array of `'all'`, `'bottom'`, `'left'`, `'right'`, `'top'` | `[]` | Positions of the padding. |
@@ -50,7 +55,7 @@ A React container component using Docusaurus styles. Has optional padding and ba
 
 ```jsx
 <Container
-  padding={['bottom', 'top']}
+  padding={["bottom", "top"]}
   background="light"
   className="myCustomClass">
   ...         
