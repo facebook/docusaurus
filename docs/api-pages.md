@@ -38,16 +38,19 @@ const MarkdownBlock = CompLibrary.MarkdownBlock;
 
 A React container component using Docusaurus styles. Has optional padding and background color props that you can configure.
 
-Padding choices: `'all'`, `'bottom'`, `'left'`, `'right'`, `'top'`.  
-Background choices: `'dark'`, `'highlight'`, `'light'`.
+**Props**
 
-The `className` prop is an optional prop that allows you to your own class names to the `Container` instance. It works like the `className` attribute in JSX. You can use this class name to customize the styling of contents within this `Container`.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| padding | Array of `'all'`, `'bottom'`, `'left'`, `'right'`, `'top'` | `[]` | Positions of the padding. |
+| background | One of `'dark'`, `'highlight'`, `'light'` | `null` | Background styling of the element. |
+| className | String | - | Custom class to add to the element. |
 
-Example:
+**Example**
 
 ```jsx
 <Container
-  padding={["bottom", "top"]}
+  padding={['bottom', 'top']}
   background="light"
   className="myCustomClass">
   ...         
@@ -58,22 +61,27 @@ Example:
 
 A React component to organize text and images.
 
-The `align` prop determines text alignment. Text alignment defaults to `'left'` and can be set to `'center'` or `'right'`.
+**Props**
 
-The `layout` prop determines number of column sections per GridBlock. `layout` defaults to `'twoColumn'` and can be set to `'threeColumn'` or `'fourColumn'` as well.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| align | One of `'left'`, `'center'`, `'right'` | `'left'` | Text alignment of content. |
+| layout | One of `'twoColumn'`, `'threeColumn'`, `'fourColumn'` | `'twoColumn'` | Number of column sections in the `GridBlock`. |
+| className | String | - | Custom class to add to the element. |
+| contents | Array of content objects | `[]` | Contents of each section of the GridBlock. Refer to the next table for the fields available on a content object. |
 
-The `className` prop is an optional prop that allows you to your own class names to the `GridBlock` instance. It works like the `className` attribute in JSX. You can use this class name to customize the styling of contents within this `GridBlock`.
+**Content Object**
 
-The `contents` prop is an array containing the contents of each section of the GridBlock. Each content object can have the following fields:
+| Key | Type | Default | Description |
+| --- | --- | --- | --- |
+| title | String | - | The display title of this section, which is parsed using Markdown |
+| content | String | - | The text of this section, which is parsed using Markdown |
+| image | String | - | The path of the display image |
+| imageAlt | String | - | The text that will be shown in case the image is not available |
+| imageAlign | One of `'top'`, `'left'`, `'bottom'`, `'right'` | `'left'` | Image alignment relative to the text |
+| imageLink | String | - | Link destination from clicking the image |
 
-- `content` for the text of this section, which is parsed from markdown
-- `image` for the path to an image to display
-- `imageAlign` field for image alignment relative to the text, which defaults to `'top'` and can be set to `'bottom'`, `'left'`, or `'right'`
-- `title` for the title to display for this section, which is parsed from markdown
-- `imageLink` for a link destination from clicking the image
-- `imageAlt` for the description of what text will be shown in case the image is not available
-
-Example:
+**Example**
 
 ```
 <GridBlock
@@ -82,22 +90,22 @@ Example:
   className="myCustomClass"  
   contents={[
     {
-      content: "Learn how to use this project",
-      image: siteConfig.baseUrl + "img/learn.png",
       title: `[Learn](${siteConfig.baseUrl}docs/tutorial.html)`,
-      imageLink: siteConfig.baseUrl + "docs/tutorial.html",
-      imageAlt: "Learn how to use this project"
+      content: 'Learn how to use this project',
+      image: siteConfig.baseUrl + 'img/learn.png',
+      imageAlt: 'Learn how to use this project',
+      imageLink: siteConfig.baseUrl + 'docs/tutorial.html',
     },
     {
-      content: "Questions gathered from the community",
-      image: siteConfig.baseUrl + "img/faq.png",
-      imageAlign: "top",
-      title: "Frequently Asked Questions"
+      title: 'Frequently Asked Questions',
+      content: 'Questions gathered from the community',
+      image: siteConfig.baseUrl + 'img/faq.png',
+      imageAlign: 'top',
     },
     {
-      content: "Lots of documentation is on this site",
-      title: "More"
-    }
+      title: 'More',
+      content: 'Lots of documentation is on this site',
+    },
   ]}
 />
 ```
