@@ -53,6 +53,8 @@ headerLinks: [
 
 `noIndex` - Boolean. If true, Docusaurus will politely ask crawlers and search engines to avoid indexing your site. This is done with a header tag and so only applies to docs and pages. Will not attempt to hide static resources. This is a best effort request. Malicious crawlers can and will still index your site.
 
+`organizationName` - GitHub username of the organization or user hosting this project. This is used by the publishing script to determine where your GitHub pages website will be hosted.
+
 `projectName` - Project name. This must match your GitHub repo project name (case sensitive).
 
 `tagline` - Tagline for your website.
@@ -136,8 +138,6 @@ h1 {
 
 - `separate` - The secondary navigation is a separate pane defaulting on the right side of a document. See http://docusaurus.io/docs/en/translation.html for an example.
 
-`organizationName` - GitHub username of the organization or user hosting this project. This is used by the publishing script to determine where your GitHub pages website will be hosted.
-
 `scripts` - Array of JavaScript sources to load. The script tag will be inserted in the HTML head.
 
 `separateCss` - Folders inside which any `css` files will not be processed and concatenated to Docusaurus' styles. This is to support static `html` pages that may be separate from Docusaurus with completely separate styles.
@@ -175,17 +175,17 @@ const siteConfig = {
   baseUrl: "/",
 // For github.io type URLS, you would combine the url and baseUrl like:
 // url: "https://reasonml.github.io",
-// url: "/reason-react/",
+// baseUrl: "/reason-react/",
   organizationName: "facebook",
   projectName: "docusaurus",
   noIndex: false,
+// For no header links in the top nav bar -> headerLinks: [],
   headerLinks: [
     { doc: "doc1", label: "Docs" },
     { page: "help", label: "Help" },
     { search: true },
     { blog: true }
   ],
-// For no header links in the top nav bar -> headerLinks: [],
   headerIcon: "img/docusaurus.svg",
   favicon: "img/favicon.png",
   colors: {
@@ -193,6 +193,7 @@ const siteConfig = {
     secondaryColor: "#205C3B"
   },
   editUrl: "https://github.com/facebook/docusaurus/edit/master/docs/",
+// users variable set above
   users,
   disableHeaderTitle: true,
   disableTitleTagline: true,
