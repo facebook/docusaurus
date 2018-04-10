@@ -39,6 +39,7 @@
 ],
 </code></pre>
 <p><code>noIndex</code> - Boolean. If true, Docusaurus will politely ask crawlers and search engines to avoid indexing your site. This is done with a header tag and so only applies to docs and pages. Will not attempt to hide static resources. This is a best effort request. Malicious crawlers can and will still index your site.</p>
+<p><code>organizationName</code> - GitHub username of the organization or user hosting this project. This is used by the publishing script to determine where your GitHub pages website will be hosted.</p>
 <p><code>projectName</code> - Project name. This must match your GitHub repo project name (case sensitive).</p>
 <p><code>tagline</code> - Tagline for your website.</p>
 <p><code>title</code> - Title for your website.</p>
@@ -95,7 +96,6 @@
 <ul>
 <li><code>separate</code> - The secondary navigation is a separate pane defaulting on the right side of a document. See <a href="http://docusaurus.io/docs/en/translation.html">http://docusaurus.io/docs/en/translation.html</a> for an example.</li>
 </ul>
-<p><code>organizationName</code> - GitHub username of the organization or user hosting this project. This is used by the publishing script to determine where your GitHub pages website will be hosted.</p>
 <p><code>scripts</code> - Array of JavaScript sources to load. The script tag will be inserted in the HTML head.</p>
 <p><code>separateCss</code> - Folders inside which any <code>css</code> files will not be processed and concatenated to Docusaurus' styles. This is to support static <code>html</code> pages that may be separate from Docusaurus with completely separate styles.</p>
 <p><code>stylesheets</code> - Array of CSS sources to load. The link tag will be inserted in the HTML head.</p>
@@ -122,17 +122,17 @@
 <span class="hljs-attr">  baseUrl:</span> <span class="hljs-string">"/"</span><span class="hljs-string">,</span>
 <span class="hljs-string">//</span> <span class="hljs-string">For</span> <span class="hljs-string">github.io</span> <span class="hljs-string">type</span> <span class="hljs-string">URLS,</span> <span class="hljs-string">you</span> <span class="hljs-string">would</span> <span class="hljs-string">combine</span> <span class="hljs-string">the</span> <span class="hljs-string">url</span> <span class="hljs-string">and</span> <span class="hljs-string">baseUrl</span> <span class="hljs-attr">like:</span>
 <span class="hljs-string">//</span> <span class="hljs-attr">url:</span> <span class="hljs-string">"https://reasonml.github.io"</span><span class="hljs-string">,</span>
-<span class="hljs-string">//</span> <span class="hljs-attr">url:</span> <span class="hljs-string">"/reason-react/"</span><span class="hljs-string">,</span>
+<span class="hljs-string">//</span> <span class="hljs-attr">baseUrl:</span> <span class="hljs-string">"/reason-react/"</span><span class="hljs-string">,</span>
 <span class="hljs-attr">  organizationName:</span> <span class="hljs-string">"facebook"</span><span class="hljs-string">,</span>
 <span class="hljs-attr">  projectName:</span> <span class="hljs-string">"docusaurus"</span><span class="hljs-string">,</span>
 <span class="hljs-attr">  noIndex:</span> <span class="hljs-literal">false</span><span class="hljs-string">,</span>
+<span class="hljs-string">//</span> <span class="hljs-string">For</span> <span class="hljs-literal">no</span> <span class="hljs-string">header</span> <span class="hljs-string">links</span> <span class="hljs-string">in</span> <span class="hljs-string">the</span> <span class="hljs-string">top</span> <span class="hljs-string">nav</span> <span class="hljs-string">bar</span> <span class="hljs-bullet">-&gt;</span> <span class="hljs-attr">headerLinks:</span> <span class="hljs-string">[],</span>
 <span class="hljs-attr">  headerLinks:</span> <span class="hljs-string">[</span>
     <span class="hljs-string">{</span> <span class="hljs-attr">doc:</span> <span class="hljs-string">"doc1"</span><span class="hljs-string">,</span> <span class="hljs-attr">label:</span> <span class="hljs-string">"Docs"</span> <span class="hljs-string">},</span>
     <span class="hljs-string">{</span> <span class="hljs-attr">page:</span> <span class="hljs-string">"help"</span><span class="hljs-string">,</span> <span class="hljs-attr">label:</span> <span class="hljs-string">"Help"</span> <span class="hljs-string">},</span>
     <span class="hljs-string">{</span> <span class="hljs-attr">search:</span> <span class="hljs-literal">true</span> <span class="hljs-string">},</span>
     <span class="hljs-string">{</span> <span class="hljs-attr">blog:</span> <span class="hljs-literal">true</span> <span class="hljs-string">}</span>
   <span class="hljs-string">],</span>
-<span class="hljs-string">//</span> <span class="hljs-string">For</span> <span class="hljs-literal">no</span> <span class="hljs-string">header</span> <span class="hljs-string">links</span> <span class="hljs-string">in</span> <span class="hljs-string">the</span> <span class="hljs-string">top</span> <span class="hljs-string">nav</span> <span class="hljs-string">bar</span> <span class="hljs-bullet">-&gt;</span> <span class="hljs-attr">headerLinks:</span> <span class="hljs-string">[],</span>
 <span class="hljs-attr">  headerIcon:</span> <span class="hljs-string">"img/docusaurus.svg"</span><span class="hljs-string">,</span>
 <span class="hljs-attr">  favicon:</span> <span class="hljs-string">"img/favicon.png"</span><span class="hljs-string">,</span>
 <span class="hljs-attr">  colors:</span> <span class="hljs-string">{</span>
@@ -140,6 +140,7 @@
 <span class="hljs-attr">    secondaryColor:</span> <span class="hljs-string">"#205C3B"</span>
   <span class="hljs-string">},</span>
 <span class="hljs-attr">  editUrl:</span> <span class="hljs-string">"https://github.com/facebook/docusaurus/edit/master/docs/"</span><span class="hljs-string">,</span>
+<span class="hljs-string">//</span> <span class="hljs-string">users</span> <span class="hljs-string">variable</span> <span class="hljs-string">set</span> <span class="hljs-string">above</span>
   <span class="hljs-string">users,</span>
 <span class="hljs-attr">  disableHeaderTitle:</span> <span class="hljs-literal">true</span><span class="hljs-string">,</span>
 <span class="hljs-attr">  disableTitleTagline:</span> <span class="hljs-literal">true</span><span class="hljs-string">,</span>
