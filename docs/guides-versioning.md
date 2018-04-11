@@ -9,15 +9,11 @@ You can use the `version` script to cut a new documentation version based on the
 
 Run the following script to generate a starter versions page listing all the site versions:
 
-```
+```bash
 yarn examples versions
 ```
 
-This creates the following file:
-
-```
-pages/en/versions.js
-```
+This creates the `pages/en/versions.js` file.
 
 You can edit this file later on to customize how you display the versions.
 
@@ -39,11 +35,11 @@ yarn run version 1.0.0
 
 This will preserve all documents currently in the `docs` folder and make them available as documentation for version `1.0.0`.
 
-If, for example, you ran the version script with 1.0.0 as the version number, version 1.0.0 is considered the latest release version for your project. The site will display the version number next to the title in the header. This version number links to a versions page that you created earlier.
+If, for example, you ran the version script with `1.0.0` as the version number, version `1.0.0` is considered the latest release version for your project. The site will display the version number next to the title in the header. This version number links to a versions page that you created earlier.
 
 Documents in the `docs` folder will be considered part of version `next` and they are available, for example, at the url `docs/next/doc1.html`. Documents from the latest version use the url `docs/doc1.html`.
 
-Running the script again with `yarn run version 2.0.0` will create a version `2.0.0`, making version 2.0.0 the most recent set of documentation. Documents from version `1.0.0` will use the url `docs/1.0.0/doc1.html` while `2.0.0` will use `docs/doc1.html`.
+Running the script again with `yarn run version 2.0.0` will create a version `2.0.0`, making version `2.0.0` the most recent set of documentation. Documents from version `1.0.0` will use the url `docs/1.0.0/doc1.html` while `2.0.0` will use `docs/doc1.html`.
 
 ## Versioning Patterns
 
