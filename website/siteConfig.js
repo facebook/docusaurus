@@ -172,6 +172,7 @@ const siteConfig = {
   twitter: 'true',
   ogImage: 'img/docusaurus.png',
   onPageNav: 'separate',
+  defaultVersionShown: '1.0.11',
 };
 
 module.exports = siteConfig;
