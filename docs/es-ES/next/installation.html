@@ -1,0 +1,84 @@
+<html lang="es-ES"><head><meta charset="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Instalación · Docusaurus</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta property="og:title" content="Instalación · Docusaurus"/><meta property="og:type" content="website"/><meta property="og:url" content="https://docusaurus.io/index.html"/><meta property="og:description" content="Docusaurus was designed from the ground up to be easily installed and used to get your website up and running quickly. To install Docusaurus, we have created an easy script that will get all of the infrastructure setup for you:"/><meta property="og:image" content="https://docusaurus.io/img/docusaurus.png"/><link rel="shortcut icon" href="/img/docusaurus.ico"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/solarized-dark.min.css"/><link rel="alternate" type="application/atom+xml" href="https://docusaurus.io/blog/atom.xml" title="Docusaurus Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://docusaurus.io/blog/feed.xml" title="Docusaurus Blog RSS Feed"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><link rel="stylesheet" href="/css/main.css"/></head><body class="sideNavVisible doc separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/es-ES"><img class="logo" src="/img/docusaurus.svg" alt="Docusaurus"/><h2 class="headerTitle">Docusaurus</h2></a><a href="/es-ES/versions.html"><h3>next</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive siteNavItemActive"><a href="/docs/es-ES/next/installation.html" target="_self">Documentos</a></li><li class=""><a href="/es-ES/help.html" target="_self">Ayuda</a></li><li class=""><a href="/es-ES/users.html" target="_self">Users</a></li><li class=""><a href="/es-ES/about-slash.html" target="_self">About /</a></li><li class=""><a href="/blog" target="_self">Blog</a></li><li class=""><a href="https://github.com/facebook/docusaurus" target="_self">GitHub</a></li><span><li><a id="languages-menu" href="#"><img class="languages-icon" src="/img/language.svg"/>Español</a><div id="languages-dropdown" class="hide"><ul id="languages-dropdown-items"><li><a href="/en">English</a></li><li><a href="https://crowdin.com/project/docusaurus" target="_blank" rel="noreferrer noopener">Help Translate</a></li></ul></div></li><script>
+        const languagesMenuItem = document.getElementById("languages-menu");
+        const languagesDropDown = document.getElementById("languages-dropdown");
+        languagesMenuItem.addEventListener("click", function(){
+          if(languagesDropDown.className == "hide") {
+            languagesDropDown.className = "visible";
+          } else {
+            languagesDropDown.className = "hide";
+          }
+        });
+      </script></span><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><i></i></div><h2><i>›</i><span>Empezando</span></h2></div><div class="navGroups"><div class="navGroup navGroupActive"><h3>Empezando</h3><ul><li class="navListItem navListItemActive"><a class="navItem navItemActive" href="/docs/es-ES/next/installation.html">Instalación</a></li><li class="navListItem"><a class="navItem" href="/docs/es-ES/next/site-preparation.html">Preparación del sitio</a></li><li class="navListItem"><a class="navItem" href="/docs/es-ES/next/site-creation.html">Creando su sitio</a></li><li class="navListItem"><a class="navItem" href="/docs/es-ES/next/publishing.html">Publishing your site</a></li></ul></div><div class="navGroup navGroupActive"><h3>Guías</h3><ul><li class="navListItem"><a class="navItem" href="/docs/es-ES/next/blog.html">Añadiendo un blog</a></li><li class="navListItem"><a class="navItem" href="/docs/es-ES/next/custom-pages.html">Páginas Personalizadas</a></li><li class="navListItem"><a class="navItem" href="/docs/es-ES/next/search.html">Habilitando la búsqueda</a></li><li class="navListItem"><a class="navItem" href="/docs/es-ES/next/navigation.html">Navegación y barras laterales</a></li><li class="navListItem"><a class="navItem" href="/docs/es-ES/next/translation.html">Traducciones y localización</a></li><li class="navListItem"><a class="navItem" href="/docs/es-ES/next/versioning.html">Versiones</a></li></ul></div><div class="navGroup navGroupActive"><h3>Interfaz de programación de aplicaciones</h3><ul><li class="navListItem"><a class="navItem" href="/docs/es-ES/next/commands.html">Comandos de la CLI</a></li><li class="navListItem"><a class="navItem" href="/docs/es-ES/next/doc-markdown.html">Caracteristicas de Markdown</a></li><li class="navListItem"><a class="navItem" href="/docs/es-ES/next/api-pages.html">Páginas y estilos</a></li><li class="navListItem"><a class="navItem" href="/docs/es-ES/next/site-config.html">Configuración del sitio</a></li></ul></div></div></section></div><script>
+          var toggler = document.getElementById('navToggler');
+          var nav = document.getElementById('docsNav');
+          toggler.onclick = function() {
+            nav.classList.toggle('docsSliderActive');
+          };
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://crowdin.com/project/docusaurus/es-ES" target="_blank" rel="noreferrer noopener">Translate</a><h1>Instalación</h1></header><article><div><span><p>Docusaurus was designed from the ground up to be easily installed and used to get your website up and running quickly. To install Docusaurus, we have created an easy script that will get all of the infrastructure setup for you:</p>
+<ol>
+<li><p>Ensure you have the latest version of <a href="https://nodejs.org/en/download/">Node</a> installed. We also recommend you install <a href="https://yarnpkg.com/en/docs/install">Yarn</a> as well.</p>
+<blockquote>
+<p>While we recommend Node 8.x or greater, your Node version must at least 6.x.</p>
+</blockquote></li>
+<li><p>Go into the root of your GitHub repo directory where you will be creating the docs.</p></li>
+<li><p><code>yarn global add docusaurus-init</code> or <code>npm install --global docusaurus-init</code></p></li>
+<li><p><code>docusaurus-init</code></p></li>
+</ol>
+<blockquote>
+<p>After docusaurus is installed, moving forward, you can check your current version of Docusaurus by going into the <code>website</code> directory and typing <code>npm list docusaurus</code>. You can update to the <a href="https://www.npmjs.com/package/docusaurus">latest version</a> of Docusaurus by typing <code>npm update</code>.</p>
+</blockquote>
+<p>Along with previously existing files and directories, your root directory will now contain a structure similar to:</p>
+<pre><code class="hljs css bash">root-of-repo
+├── docs-examples-from-docusaurus
+│   └── doc1.md
+│   └── doc2.md
+│   └── doc3.md
+│   └── exampledoc4.md
+│   └── exampledoc5.md
+└── website
+│   └── blog-examples-from-docusaurus
+│       └── 2016-03-11-blog-post.md
+│       └── 2017-04-10-blog-post-two.md
+│   └── core
+│       └── Footer.js
+│   └── node_modules
+│   └── package.json
+│   └── pages
+│   └── sidebars.json
+│   └── siteConfig.js
+│   └── static
+</code></pre>
+<blockquote>
+<p>If you do not want to install the init script globally, you can install it locally and then run it via <code>npx docusaurus-init</code> or from the <code>node_modules</code> directory that is created via <code>./node_modules/.bin/docusaurus-init</code>. You may want to remove the created <code>package.json</code> file and <code>node_modules</code> directory after you run the script.</p>
+</blockquote>
+<h2><a class="anchor" aria-hidden="true" id="verificar-la-instalacion"></a><a href="#verificar-la-instalacion" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Verificar la instalación</h2>
+<p>Running the Docusaurus initialization script, <code>docusaurus-init</code>, produces a runnable, example website to base your site upon.</p>
+<ol>
+<li>In your root, rename <code>docs-examples-from-docusaurus</code> to <code>docs</code>.</li>
+<li><code>cd website</code></li>
+<li>Rename <code>blog-examples-from-docusaurus</code> to <code>blog</code>.</li>
+<li>Run the local webserver via <code>yarn start</code> or <code>npm start</code>.</li>
+<li>Cargue el sitio de ejemplo en <a href="http://localhost:3000">http://localhost:3000</a>. Debería ver el sitio de ejemplo cargado en su navegador web.</li>
+</ol>
+<p><img src="/img/getting-started-preparation-verify.png" alt=""></p>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-next button" href="site-preparation.html">Preparación del sitio →</a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#verificar-la-instalacion">Verificar la instalación</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/docusaurus_monochrome.svg" alt="Docusaurus" width="66" height="58"/></a><div><h5>Docs</h5><a href="
+                /docs/es-ES/installation.html">Getting Started</a><a href="
+                /docs/es-ES/versioning.html">Versioning</a><a href="
+                /docs/es-ES/translation.html">Localization</a><a href="
+                /docs/es-ES/search.html">Adding Search</a></div><div><h5>Community</h5><a href="/es-ES/users.html">User Showcase</a><a href="https://twitter.com/docusaurus">Twitter</a></div><div><h5>More</h5><a href="https://github.com/facebook/docusaurus">GitHub</a><a class="github-button" href="https://github.com/facebook/Docusaurus" data-icon="octicon-star" data-count-href="/facebook/Docusaurus/stargazers" data-count-api="/repos/facebook/Docusaurus#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><a href="https://code.facebook.com/projects/" target="_blank" rel="noreferrer noopener" class="fbOpenSource"><img src="/img/oss_logo.png" alt="Facebook Open Source" width="170" height="45"/></a><section class="copyright"><span>Copyright © 2018 Facebook Inc.</span></section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+              (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+              (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+              m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+              })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+              ga('create', 'UA-44373548-31', 'auto');
+              ga('send', 'pageview');
+            </script><script>window.fbAsyncInit = function() {FB.init({appId:'1615782811974223',xfbml:true,version:'v2.7'});};(function(d, s, id){var js, fjs = d.getElementsByTagName(s)[0];if (d.getElementById(id)) {return;}js = d.createElement(s); js.id = id;js.src = '//connect.facebook.net/en_US/sdk.js';fjs.parentNode.insertBefore(js, fjs);}(document, 'script','facebook-jssdk'));
+                </script><script>window.twttr=(function(d,s, id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return t;js=d.createElement(s);js.id=id;js.src='https://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js, fjs);t._e = [];t.ready = function(f) {t._e.push(f);};return t;}(document, 'script', 'twitter-wjs'));</script><script>
+              var search = docsearch({
+                
+                apiKey: '3eb9507824b8be89e7a199ecaa1a9d2c',
+                indexName: 'docusaurus',
+                inputSelector: '#search_input_react'
+              });
+            </script></body></html>
