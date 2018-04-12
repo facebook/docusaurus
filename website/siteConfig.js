@@ -15,6 +15,13 @@ const users = [
     pinned: false,
   },
   {
+    caption: "BlueWhale",
+    image: "/img/BlueWhale.png",
+    infoLink: "https://facebookresearch.github.io/BlueWhale/",
+    fbOpenSource: true,
+    pinned: true,
+  },
+  {
     caption: 'Docusaurus',
     image: '/img/docusaurus.svg',
     infoLink: 'https://www.docusaurus.io',
@@ -40,7 +47,7 @@ const users = [
     image: '/img/facebook-instant-articles-rules-editor.svg',
     infoLink: 'https://facebook.github.io/facebook-instant-articles-rules-editor/',
     fbOpenSource: true,
-    pinned: true,
+    pinned: false,
   },
   {
     caption: 'Goby',
