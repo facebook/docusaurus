@@ -6,6 +6,38 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.11] - 2018-04-12
+
+This is a general release with additions and documentation updates (which are already live on docusaurus.io). We would also like to welcome [BlueWhale](https://facebookresearch.github.io/BlueWhale) as a new user of Docusaurus. 
+
+Thank you to the following contributors who helped with this release:
+
+- @amyrlam
+- @yangshun
+- @aadsm
+- @InternetExplorer7
+- @MisterTea
+- @SBrown2
+
+### Breaking changes
+
+N/A
+
+### Added
+
+- [Dynamic port switching](https://github.com/facebook/Docusaurus/commit/bbbe311004aa0b2e61f1678099c02cb9a136d418) (e.g., if the default is busy) when running the local server.
+- [Warnings](https://github.com/facebook/Docusaurus/commit/ad5b8b92b4a89bd197404d56d9a049db3aca5490) if you add documentation header metadata that is not supported.
+- The ability to [hide the documentation title](https://github.com/facebook/Docusaurus/commit/6dd6ead19f8f58c8494798da8d95070b9cf40808) for any of your docs with a new metadata option called `hide_title`.
+
+### Fixed/Changed
+
+- If you have translations enabled, the language drop down in the header navigation bar is now [fixed](https://github.com/facebook/Docusaurus/commit/0e3f3e30134d603e85a8024fdaa1a728a33b1452) to show the current language.
+- More [accessibility fixes](https://github.com/facebook/Docusaurus/commit/80ece69a1069d92ceac4a07d990ae3fb8b2c8b51) to support a11y.
+
+### Removed
+
+N/A
+
 ## [1.0.10] - 2018-04-09
 
 This is a general release with mostly bug fixes and documentation updates (which are already live on docusuarus.io).
@@ -200,7 +232,8 @@ N/A
   - Blog
   - Documentation
 
-[Unreleased]: https://github.com/facebook/Docusaurus/compare/v1.0.10...HEAD
+[Unreleased]: https://github.com/facebook/Docusaurus/compare/v1.0.11...HEAD
+[1.0.11]: https://github.com/facebook/Docusaurus/compare/v1.0.10...v1.0.11
 [1.0.10]: https://github.com/facebook/Docusaurus/compare/v1.0.9...v1.0.10
 [1.0.9]: https://github.com/facebook/Docusaurus/compare/v1.0.8...v1.0.9
 [1.0.8]: https://github.com/facebook/Docusaurus/compare/v1.0.7...v1.0.8
