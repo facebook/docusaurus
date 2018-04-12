@@ -1,0 +1,24 @@
+{
+  "version-1.0.11-docs": {
+    "Getting Started": [
+      "version-1.0.11-installation",
+      "version-1.0.11-site-preparation",
+      "version-1.0.11-site-creation",
+      "version-1.0.11-publishing"
+    ],
+    "Guides": [
+      "version-1.0.11-blog",
+      "version-1.0.11-custom-pages",
+      "version-1.0.11-search",
+      "version-1.0.11-navigation",
+      "version-1.0.11-translation",
+      "version-1.0.11-versioning"
+    ],
+    "API": [
+      "version-1.0.11-commands",
+      "version-1.0.11-doc-markdown",
+      "version-1.0.11-api-pages",
+      "version-1.0.11-site-config"
+    ]
+  }
+}
