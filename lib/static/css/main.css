@@ -49,7 +49,7 @@ body {
   background: #f9f9f9;
   color: #393939;
   font: normal 16px/1.4em -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Arial,sans-serif;
-  height: 100vh;
+  min-height: 100vh;
   text-align: left;
   text-rendering: optimizeLegibility;
 }
@@ -1064,7 +1064,7 @@ ul#languages li {
   position: relative;
   left: 0;
   z-index: 99;
-  height: 100%;
+  min-height: 100%;
 }
 .navPusher::after {
   position: absolute;
