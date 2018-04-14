@@ -85,6 +85,13 @@ const users = [
     pinned: true,
   },
   {
+    caption: 'React Native Elements',
+    image: '/img/react-native-elements.png',
+    infoLink: 'https://react-native-training.github.io/react-native-elements/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'react-native-ios-kit',
     image: '/img/react-native-ios-kit.svg',
     infoLink: 'https://callstack.github.io/react-native-ios-kit',
