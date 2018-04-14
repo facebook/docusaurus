@@ -9,7 +9,6 @@ Docusaurus provides support for writing pages as React components inside the `we
 
 Any `.js` files in `website/pages` will be rendered to static html using the path of the file after "pages". Files in `website/pages/en` will also get copied out into `pages` and will OVERRIDE any files of the same name in `pages`. For example, the page for the `website/pages/en/help.js` file will be found at the url `${baseUrl}en/help.js` as well as the url `${baseUrl}help.js`, where `${baseUrl}` is the `baseUrl` field set in your [siteConfig.js file](api-site-config.md).
 
-
 ## Page Require Paths
 
 Docusaurus provides a few useful React components for users to write their own pages, found in the `CompLibrary` module. This module is provided as part of Docusaurus in `node_modules/docusaurus`, so to access it, pages in the `pages` folder are temporarily copied into `node_modules/docusaurus` when rendering to static html. As seen in the example files, this means that a user page at `pages/en/index.js` uses a require path to `"../../core/CompLibrary.js"` to import the provided components.
@@ -31,7 +30,9 @@ Example:
 ```jsx
 const MarkdownBlock = CompLibrary.MarkdownBlock;
 
-<MarkdownBlock>[Markdown syntax for a link](http://www.example.com)</MarkdownBlock>
+<MarkdownBlock>
+  [Markdown syntax for a link](http://www.example.com)
+</MarkdownBlock>;
 ```
 
 ### `CompLibrary.Container`
@@ -42,9 +43,9 @@ A React container component using Docusaurus styles. Has optional padding and ba
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| padding | Array of `'all'`, `'bottom'`, `'left'`, `'right'`, `'top'` | `[]` | Positions of the padding. |
-| background | One of `'dark'`, `'highlight'`, `'light'` | `null` | Background styling of the element. |
-| className | String | - | Custom class to add to the element. |
+| `padding` | Array of `'all'`, `'bottom'`, `'left'`, `'right'`, `'top'` | `[]` | Positions of the padding. |
+| `background` | One of `'dark'`, `'highlight'`, `'light'` | `null` | Background styling of the element. |
+| `className` | String | - | Custom class to add to the element. |
 
 **Example**
 
@@ -53,7 +54,7 @@ A React container component using Docusaurus styles. Has optional padding and ba
   padding={['bottom', 'top']}
   background="light"
   className="myCustomClass">
-  ...         
+  ...
 </Container>
 ```
 
@@ -65,21 +66,21 @@ A React component to organize text and images.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| align | One of `'left'`, `'center'`, `'right'` | `'left'` | Text alignment of content. |
-| layout | One of `'twoColumn'`, `'threeColumn'`, `'fourColumn'` | `'twoColumn'` | Number of column sections in the `GridBlock`. |
-| className | String | - | Custom class to add to the element. |
-| contents | Array of content objects | `[]` | Contents of each section of the GridBlock. Refer to the next table for the fields available on a content object. |
+| `align` | One of `'left'`, `'center'`, `'right'` | `'left'` | Text alignment of content. |
+| `layout` | One of `'twoColumn'`, `'threeColumn'`, `'fourColumn'` | `'twoColumn'` | Number of column sections in the `GridBlock`. |
+| `className` | String | - | Custom class to add to the element. |
+| `contents` | Array of content objects | `[]` | Contents of each section of the GridBlock. Refer to the next table for the fields available on a content object. |
 
 **Content Object**
 
 | Key | Type | Default | Description |
 | --- | --- | --- | --- |
-| title | String | - | The display title of this section, which is parsed using Markdown |
-| content | String | - | The text of this section, which is parsed using Markdown |
-| image | String | - | The path of the display image |
-| imageAlt | String | - | The text that will be shown in case the image is not available |
-| imageAlign | One of `'top'`, `'left'`, `'bottom'`, `'right'` | `'left'` | Image alignment relative to the text |
-| imageLink | String | - | Link destination from clicking the image |
+| `title` | String | - | The display title of this section, which is parsed using Markdown |
+| `content` | String | - | The text of this section, which is parsed using Markdown |
+| `image` | String | - | The path of the display image |
+| `imageAlt` | String | - | The text that will be shown in case the image is not available |
+| `imageAlign` | One of `'top'`, `'left'`, `'bottom'`, `'right'` | `'left'` | Image alignment relative to the text |
+| `imageLink` | String | - | Link destination from clicking the image |
 
 **Example**
 
@@ -87,7 +88,7 @@ A React component to organize text and images.
 <GridBlock
   align="center"
   layout="threeColumn"
-  className="myCustomClass"  
+  className="myCustomClass"
   contents={[
     {
       title: `[Learn](${siteConfig.baseUrl}docs/tutorial.html)`,
@@ -119,21 +120,25 @@ When translations are enabled, any pages inside `website/pages/en` will be trans
 When writing pages that you wish to translate, wrap any strings to be translated inside a `<translate>` tag. e.g.,
 
 ```jsx
-<p><translate>I like translations</translate></p>
+<p>
+  <translate>I like translations</translate>
+</p>
 ```
 
 You can also provide an optional description attribute to provide context for translators. e.g,
 
 ```jsx
 <a href="/community">
-  <translate desc="Footer link to page referring to community GitHub and Slack">Community</translate>
+  <translate desc="Footer link to page referring to community GitHub and Slack">
+    Community
+  </translate>
 </a>
 ```
 
 Add the following require statement as well:
 
 ```js
-const translate = require("../../server/translate.js").translate;
+const translate = require('../../server/translate.js').translate;
 ```
 
 Note that this path is valid for files inside `pages/en` and should be adjusted accordingly if files are in different locations, as discussed [above](#page-require-paths).
@@ -141,7 +146,6 @@ Note that this path is valid for files inside `pages/en` and should be adjusted 
 ## Using Static Assets
 
 Static assets should be placed into the `website/static` folder. They can be accessed by their paths, excluding "static". For example, if the site's `baseUrl` is "/docusaurus/", an image in `website/static/img/logo.png` is available at `/docusaurus/img/logo.png`.
-
 
 ## Styles
 
