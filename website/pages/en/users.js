@@ -6,11 +6,10 @@
  */
 
 const React = require('react');
-
 const CompLibrary = require('../../core/CompLibrary.js');
 const Container = CompLibrary.Container;
-
 const siteConfig = require(process.cwd() + '/siteConfig.js');
+const translate = require("../../server/translate.js").translate;
 
 class Users extends React.Component {
   render() {
@@ -21,7 +20,7 @@ class Users extends React.Component {
       .map((user, i) => {
         return (
           <a href={user.infoLink} key={i}>
-            <img src={user.image} title={user.caption} />
+            <img src={user.image} alt={user.caption} title={user.caption} />
           </a>
         );
       });
@@ -33,7 +32,7 @@ class Users extends React.Component {
       .map((user, i) => {
         return (
           <a href={user.infoLink} key={i}>
-            <img src={user.image} title={user.caption} />
+            <img src={user.image} alt={user.caption} title={user.caption} />
           </a>
         );
       });
@@ -43,23 +42,25 @@ class Users extends React.Component {
         <Container padding={['bottom', 'top']}>
           <div className="showcaseSection">
             <div className="prose">
-              <h1>Who is using Docusaurus?</h1>
+              <h1><translate>Who is using Docusaurus?</translate></h1>
               <p>
+                <translate>
                 Docusaurus powers some of Facebook's popular{' '}
                 <a href="https://code.facebook.com/projects/">
                   open source projects
                 </a>.
+                </translate>
               </p>
             </div>
             <div className="logos">{fbShowcase}</div>
             <div className="prose">
               <p>
-                Docusaurus is also used by open source projects of all sizes.
+                <translate>Docusaurus is also used by open source projects of all sizes.</translate>
               </p>
             </div>
             <div className="logos">{showcase}</div>
             <div className="prose">
-              <p>Is your project using Docusaurus?</p>
+              <p><translate>Is your project using Docusaurus?</translate></p>
               <p>
                 Edit this page with a{' '}
                 <a href="https://github.com/facebook/docusaurus/edit/master/website/siteConfig.js">

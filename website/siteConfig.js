@@ -15,6 +15,13 @@ const users = [
     pinned: false,
   },
   {
+    caption: "BlueWhale",
+    image: "/img/BlueWhale.png",
+    infoLink: "https://facebookresearch.github.io/BlueWhale/",
+    fbOpenSource: true,
+    pinned: true,
+  },
+  {
     caption: 'Docusaurus',
     image: '/img/docusaurus.svg',
     infoLink: 'https://www.docusaurus.io',
@@ -37,10 +44,17 @@ const users = [
   },
   {
     caption: 'Facebook Instant Articles Rules Editor',
-    image: '/img/facebook-instant-articles-rules-editor.png',
+    image: '/img/facebook-instant-articles-rules-editor.svg',
     infoLink: 'https://facebook.github.io/facebook-instant-articles-rules-editor/',
     fbOpenSource: true,
-    pinned: true,
+    pinned: false,
+  },
+  {
+    caption: 'Goby',
+    image: 'https://goby-lang.org/img/goby-logo.svg',
+    infoLink: 'https://goby-lang.org',
+    fbOpenSource: false,
+    pinned: false,
   },
   {
     caption: 'Jest',
@@ -69,6 +83,13 @@ const users = [
     infoLink: 'https://facebook.github.io/react-native',
     fbOpenSource: true,
     pinned: true,
+  },
+  {
+    caption: 'React Native Elements',
+    image: '/img/react-native-elements.png',
+    infoLink: 'https://react-native-training.github.io/react-native-elements/',
+    fbOpenSource: false,
+    pinned: false,
   },
   {
     caption: 'react-native-ios-kit',
@@ -128,6 +149,7 @@ const siteConfig = {
   headerLinks: [
     {doc: 'installation', label: 'Docs'},
     {page: 'help', label: 'Help'},
+    {page: 'users', label: 'Users'},
     {page: 'about-slash', label: 'About /'},
     {blog: true, label: 'Blog'},
     {
@@ -156,6 +178,7 @@ const siteConfig = {
   facebookAppId: '1615782811974223',
   twitter: 'true',
   ogImage: 'img/docusaurus.png',
+  onPageNav: 'separate',
 };
 
 module.exports = siteConfig;

@@ -14,3 +14,5 @@ website/node_modules
 website/package-lock.json
 website/translated_docs
 website/yarn.lock
+
+yarn-error.log

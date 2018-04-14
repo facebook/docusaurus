@@ -15,13 +15,13 @@
 
   If you answered "No":
 
-    We use GitHub Issues exclusively for tracking bugs in Docusaurus. If you're looking for help,
+    We use GitHub Issues exclusively for tracking bugs and feature requests in Docusaurus. If you're looking for help,
     the Docusaurus Twitter account, @docusaurus, can be used for help.
 
   Now scroll below!
 -->
 
-### Have you read the [Contributing Guidelines](https://github.com/facebook/Docusaurus/blob/master/CONTRIBUTING.md)?
+### Have you read the [Contributing Guidelines on issues](https://github.com/facebook/Docusaurus/blob/master/CONTRIBUTING.md#reporting-new-issues)?
 
 (Write your answer here.)
 
@@ -66,7 +66,7 @@
 
 ### Reproducible Demo
 
-(Paste the link to an example project and exact instructions to reproduce the issue.)
+(Paste the link to an example repo, including a `siteConfig.js`, and exact instructions to reproduce the issue.)
 
 <!--
   What happens if you skip this step?

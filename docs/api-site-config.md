@@ -53,6 +53,8 @@ headerLinks: [
 
 `noIndex` - Boolean. If true, Docusaurus will politely ask crawlers and search engines to avoid indexing your site. This is done with a header tag and so only applies to docs and pages. Will not attempt to hide static resources. This is a best effort request. Malicious crawlers can and will still index your site.
 
+`organizationName` - GitHub username of the organization or user hosting this project. This is used by the publishing script to determine where your GitHub pages website will be hosted.
+
 `projectName` - Project name. This must match your GitHub repo project name (case sensitive).
 
 `tagline` - Tagline for your website.
@@ -63,11 +65,17 @@ headerLinks: [
 
 ### Optional Fields
 
-`algolia` - Information for Algolia search integration. If this field is excluded, the search bar will not appear in the header.
+`algolia` - Information for Algolia search integration. If this field is excluded, the search bar will not appear in the header. You must specify two values for this field, and one (`appId`) is optional.
+
+- `apiKey` - the Algolia provided API key for your search.
+- `indexName` - the Algolia provided index name for your search (usually this is the project name)
+- `appId` - Algolia provides a default scraper for your docs. If you provide your own, you will probably get this id from them.
+
+`blogSidebarCount` - Control the number of blog posts that show up in the sidebar. See the [adding a blog docs](guides-blog.md#changing-how-many-blog-posts-show-on-sidebar) for more information.
 
 `cname` - The CNAME for your website. It will go into a `CNAME` file when your site it built.
 
-`customDocsPath` - By default, Docusaurus expects your documentation to be in a directory called `docs`. This directory is at the same level as the `website` directory (i.e., not inside the `website` directory). You can specify a custom path to your documentation with this field. **Note that all of your documentation *.md files must still reside in a flat hierarchy. You cannot have your documents in nested directories**.
+`customDocsPath` - By default, Docusaurus expects your documentation to be in a directory called `docs`. This directory is at the same level as the `website` directory (i.e., not inside the `website` directory). You can specify a custom path to your documentation with this field. **Note that all of your documentation `*.md` files must still reside in a flat hierarchy. You cannot have your documents in nested directories**.
 
 ```js
 customDocsPath: "docs/site"
@@ -83,6 +91,8 @@ customDocsPath: "website-docs"
 `editUrl` - url for editing docs, usage example: `editUrl + 'en/doc1.md'`. If this field is omitted, there will be no "Edit this Doc" button for each document.
 
 `facebookAppId` - If you want Facebook Like/Share buttons at the bottom of your blog posts, provide a [Facebook application id](https://www.facebook.com/help/audiencenetwork/804209223039296), and the buttons will show up on all blog posts.
+
+`facebookPixelId` - [Facebook Pixel](https://www.facebook.com/business/a/facebook-pixel) ID to track page views.
 
 `fonts` - Font-family css configuration for the site. If a font family is specified in `siteConfig.js` as `$myFont`, then adding a `myFont` key to an array in `fonts` will allow you to configure the font. Items appearing earlier in the array will take priority of later elements, so ordering of the fonts matter.
 
@@ -122,11 +132,15 @@ h1 {
 
 `markdownPlugins` - An array of plugins to be loaded by Remarkable, the markdown parser and renderer used by Docusaurus. The plugin will receive a reference to the Remarkable instance, allowing custom parsing and rendering rules to be defined.
 
-`organizationName` - GitHub username of the organization or user hosting this project. This is used by the publishing script to determine where your GitHub pages website will be hosted.
+`ogImage` - url for an Open Graph image. This image will show up when your site is shared on Facebook, Twitter and any other websites/apps where the Open Graph protocol is supported.
+
+`onPageNav` - If you want a visible navigation option for representing topics on the current page. Currently, there is one accepted value for this option:
+
+- `separate` - The secondary navigation is a separate pane defaulting on the right side of a document. See http://docusaurus.io/docs/en/translation.html for an example.
 
 `scripts` - Array of JavaScript sources to load. The script tag will be inserted in the HTML head.
 
-`separateCss` - Folders inside which any `css` files will not be processed and concatenated to Docusaurus's styles. This is to support static `html` pages that may be separate from Docusaurus with completely separate styles.
+`separateCss` - Folders inside which any `css` files will not be processed and concatenated to Docusaurus' styles. This is to support static `html` pages that may be separate from Docusaurus with completely separate styles.
 
 `stylesheets` - Array of CSS sources to load. The link tag will be inserted in the HTML head.
 
@@ -161,17 +175,17 @@ const siteConfig = {
   baseUrl: "/",
 // For github.io type URLS, you would combine the url and baseUrl like:
 // url: "https://reasonml.github.io",
-// url: "/reason-react/",
+// baseUrl: "/reason-react/",
   organizationName: "facebook",
   projectName: "docusaurus",
   noIndex: false,
+// For no header links in the top nav bar -> headerLinks: [],
   headerLinks: [
     { doc: "doc1", label: "Docs" },
     { page: "help", label: "Help" },
     { search: true },
     { blog: true }
   ],
-// For no header links in the top nav bar -> headerLinks: [],
   headerIcon: "img/docusaurus.svg",
   favicon: "img/favicon.png",
   colors: {
@@ -179,6 +193,7 @@ const siteConfig = {
     secondaryColor: "#205C3B"
   },
   editUrl: "https://github.com/facebook/docusaurus/edit/master/docs/",
+// users variable set above
   users,
   disableHeaderTitle: true,
   disableTitleTagline: true,
@@ -205,6 +220,7 @@ const siteConfig = {
   scripts: [ "https://docusaurus.io/slash.js" ],
   stylesheets: [ "https://docusaurus.io/style.css" ],
   facebookAppId: "1615782811974223",
+  facebookPixelId: "352490515235776",
   twitter: "true"
 };
 

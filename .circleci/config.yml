@@ -72,7 +72,19 @@ jobs:
           command: |
             if [[ $CIRCLE_PROJECT_USERNAME == "facebook" && -z $CI_PULL_REQUEST && -z $CIRCLE_PR_USERNAME ]]; then
               echo "Deploying website..."
-              cd website && GIT_USER=docusaurus-bot USE_SSH=false yarn run publish-gh-pages
+              # install Docusaurus and generate file of English strings
+              yarn && cd website && yarn run write-translations
+              # install Crowdin
+              sudo apt-get update
+              sudo apt-get install default-jre rsync
+              wget https://artifacts.crowdin.com/repo/deb/crowdin.deb -O crowdin.deb
+              sudo dpkg -i crowdin.deb
+              sleep 5
+              # upload translation strings and download translations
+              yarn run crowdin-upload
+              yarn run crowdin-download
+              # publish
+              GIT_USER=docusaurus-bot USE_SSH=false yarn run publish-gh-pages
             else
               echo "Skipping deploy."
             fi

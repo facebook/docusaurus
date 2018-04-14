@@ -49,7 +49,7 @@ body {
   background: #f9f9f9;
   color: #393939;
   font: normal 16px/1.4em -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Arial,sans-serif;
-  height: 100vh;
+  min-height: 100vh;
   text-align: left;
   text-rendering: optimizeLegibility;
 }
@@ -1009,7 +1009,9 @@ pre code {
   font-size: 0.9em;
 }
 .navigationSlider .slidingNav ul li a:focus,
-.navigationSlider .slidingNav ul li a:hover {
+.navigationSlider .slidingNav ul li a:hover,
+.navigationSlider .slidingNav ul li.siteNavItemActive a,
+  .navigationSlider .slidingNav ul li.siteNavGroupActive a {
   background: $primaryColor;
 }
 
@@ -1062,7 +1064,7 @@ ul#languages li {
   position: relative;
   left: 0;
   z-index: 99;
-  height: 100%;
+  min-height: 100%;
 }
 .navPusher::after {
   position: absolute;
@@ -1195,10 +1197,9 @@ ul#languages li {
     height: 32px;
     font-size: 1em;
   }
-  .navigationSlider .slidingNav ul li a:hover {
-    color: #fff;
-  }
-  .navigationSlider .slidingNav ul li.navItemActive a {
+  .navigationSlider .slidingNav ul li a:hover,
+  .navigationSlider .slidingNav ul li.siteNavItemActive a,
+  .navigationSlider .slidingNav ul li.siteNavGroupActive a {
     color: #fff;
   }
 }
@@ -1494,6 +1495,74 @@ nav.toc .toggleNav .navBreadcrumb h2 {
     padding: 0 10px;
   }
 }
+
+.onPageNav {
+  display: none;
+}
+.onPageNav::-webkit-scrollbar {
+  display: none;
+}
+
+@supports(position: sticky) {
+  @media only screen and (min-width: 1024px) {
+    .separateOnPageNav.doc .wrapper,
+    .separateOnPageNav .headerWrapper.wrapper {
+      max-width: 1400px;
+    }
+
+    .doc.separateOnPageNav .docsNavContainer {
+      flex: 0 0 240px;
+      margin: 40px 0 0;
+    }
+
+    .doc.separateOnPageNav nav.toc:last-child {
+      padding-bottom: 0;
+      width: auto;
+    }
+
+    .doc.separateOnPageNav.sideNavVisible .navPusher .mainContainer {
+      max-width: 100%;
+      flex: 1 auto;
+      padding: 0 40px 50px;
+      min-width: 0;
+    }
+
+    .onPageNav {
+      display: block;
+      position: -webkit-sticky;
+      position: sticky;
+      top: 110px;
+      flex: 0 0 240px;
+      overflow-y: auto;
+      max-height: calc(100vh - 110px);
+      align-self: flex-start;
+    }
+
+    .onPageNav > ul {
+      border-left: 1px solid #e0e0e0;
+      padding: 10px 0 2px 15px;
+    }
+
+    .onPageNav a {
+      color: #717171;
+    }
+
+    .onPageNav ul li {
+      font-size: 12px;
+      line-height: 17px;
+      padding-bottom: 9px;
+    }
+
+    .onPageNav ul ul {
+      padding: 8px 0 0 20px;
+    }
+
+    .onPageNav ul ul li {
+      padding-bottom: 5px;
+    }
+  }
+}
+
 table {
   background: #F8F8F8;
   border: 1px solid #B0B0B0;
@@ -1758,6 +1827,7 @@ footer .sitemap .nav-home:focus {
     display: flex;
     flex-direction: column;
     margin: 0 2em 3em;
+    width: calc(100% - 4em);
   }
 }
 

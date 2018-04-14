@@ -14,10 +14,14 @@ const siteConfig = require(process.cwd() + '/siteConfig.js');
 
 class Users extends React.Component {
   render() {
+    if ((siteConfig.users || []).length === 0) {
+      return null;
+    }
+    const editUrl = siteConfig.repoUrl + '/edit/master/website/siteConfig.js';
     const showcase = siteConfig.users.map((user, i) => {
       return (
         <a href={user.infoLink} key={i}>
-          <img src={user.image} title={user.caption} />
+          <img src={user.image} alt={user.caption} title={user.caption} />
         </a>
       );
     });
@@ -32,9 +36,7 @@ class Users extends React.Component {
             </div>
             <div className="logos">{showcase}</div>
             <p>Are you using this project?</p>
-            <a
-              href="https://github.com/facebook/docusaurus/edit/master/website/siteConfig.js"
-              className="button">
+            <a href={editUrl} className="button">
               Add your company
             </a>
           </div>

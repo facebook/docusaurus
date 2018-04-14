@@ -52,7 +52,7 @@ Use the `<!--truncate-->` marker in your blog post to represent what will be sho
 
 ```
 ---
-title: Truncation Exmaple
+title: Truncation Example
 ---
 
 All this will be part of the blog post summary.
@@ -72,9 +72,9 @@ Or this.
 
 By default, 5 recent blog posts are shown on the sidebar.
 
-You can configure a specifc amount of blog posts to show by adding a `blogSidebarCount` setting to your `siteConfig.js`.
+You can configure a specific amount of blog posts to show by adding a `blogSidebarCount` setting to your `siteConfig.js`.
 
-The available options are an integer repreenting the number of posts you wish to show or a string with the value 'ALL'.
+The available options are an integer representing the number of posts you wish to show or a string with the value 'ALL'.
 
 Example:
 ```

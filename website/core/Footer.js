@@ -92,8 +92,8 @@ class Footer extends React.Component {
         <a
           href="https://code.facebook.com/projects/"
           target="_blank"
-          className="fbOpenSource"
-        >
+          rel="noreferrer noopener"
+          className="fbOpenSource">
           <img
             src={`${this.props.config.baseUrl}img/oss_logo.png`}
             alt="Facebook Open Source"

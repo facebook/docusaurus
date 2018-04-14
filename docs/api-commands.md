@@ -74,7 +74,7 @@ Alias: `publish-gh-pages`
 
 [Builds](api-commands.md#docusaurus-build), then deploys the static website to GitHub Pages. This command is meant to be run during the deployment step in Circle CI, and therefore expects a few environment variables to be defined:
 
-The following is generally set manually by the user in the CircleCI `config.yml` file.
+The following environment variables are generally set manually by the user in the CircleCI `config.yml` file.
 
  - `GIT_USER`: The git user to be associated with the deploy commit.
  - `USE_SSH`: Whether to use SSH instead of HTTPS for your connection to the GitHub repo.
@@ -85,15 +85,15 @@ The following is generally set manually by the user in the CircleCI `config.yml`
  GIT_USER=docusaurus-bot USE_SSH=true yarn run publish-gh-pages
  ```
 
-The following are set by the [CircleCI environment](https://circleci.com/docs/1.0/environment-variables/) during the build process.
+The following environment variables are [set by CircleCI](https://circleci.com/docs/1.0/environment-variables/) during the build process.
 
  - `CIRCLE_BRANCH`: The git branch associated with the commit that triggered the CI run.
  - `CI_PULL_REQUEST`: Expected to be truthy if the current CI run was triggered by a commit in a pull request.
 
 The following should be set by you in `siteConfig.js` as `organizationName` and `projectName`, respectively. If they are not set in your site configuration, they fall back to the [CircleCI environment](https://circleci.com/docs/1.0/environment-variables/).
 
- - `CIRCLE_PROJECT_USERNAME`: The GitHub username or organization name that hosts the git repo, e.g. "facebook".
- - `CIRCLE_PROJECT_REPONAME`: The name of the git repo, e.g. "Docusaurus".
+ - `CIRCLE_PROJECT_USERNAME`: The GitHub username or organization name that hosts the Git repo, e.g. "facebook".
+ - `CIRCLE_PROJECT_REPONAME`: The name of the Git repo, e.g. "Docusaurus".
 
 You can learn more about configuring automatic deployments with CircleCI in the [Publishing guide](getting-started-publishing.md).
 

@@ -36,15 +36,23 @@ const MarkdownBlock = CompLibrary.MarkdownBlock;
 
 ### `CompLibrary.Container`
 
-A React container component using Docusaurus styles. Has optional padding and background color attributes that you can configure.
+A React container component using Docusaurus styles. Has optional padding and background color props that you can configure.
 
-Padding choices: `all`, `bottom`, `left`, `right`, `top`.  
-Background choices: `dark`, `highlight`, `light`.
+**Props**
 
-Example:
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| padding | Array of `'all'`, `'bottom'`, `'left'`, `'right'`, `'top'` | `[]` | Positions of the padding. |
+| background | One of `'dark'`, `'highlight'`, `'light'` | `null` | Background styling of the element. |
+| className | String | - | Custom class to add to the element. |
+
+**Example**
 
 ```jsx
-<Container padding={["bottom", "top"]} background="light">
+<Container
+  padding={['bottom', 'top']}
+  background="light"
+  className="myCustomClass">
   ...         
 </Container>
 ```
@@ -53,46 +61,56 @@ Example:
 
 A React component to organize text and images.
 
-The `align` attribute determines text alignment. Text alignment defaults to `left` and can be set to `center` or `right`.
+**Props**
 
-The `layout` attribute determines number of column sections per GridBlock. `layout` defaults to `twoColumn` and can be set to `threeColumn` or `fourColumn` as well.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| align | One of `'left'`, `'center'`, `'right'` | `'left'` | Text alignment of content. |
+| layout | One of `'twoColumn'`, `'threeColumn'`, `'fourColumn'` | `'twoColumn'` | Number of column sections in the `GridBlock`. |
+| className | String | - | Custom class to add to the element. |
+| contents | Array of content objects | `[]` | Contents of each section of the GridBlock. Refer to the next table for the fields available on a content object. |
 
-The `contents` attribute is an array containing the contents of each section of the GridBlock. Each content object can have the following fields:
+**Content Object**
 
-- `content` for the text of this section, which is parsed from markdown
-- `image` for the path to an image to display
-- `imageAlign` field for image alignment relative to the text, which defaults to `top` and can be set to `bottom`, `left`, or `right`
-- `title` for the title to display for this section, which is parsed from markdown
-- `imageLink` for a link destination from clicking the image
+| Key | Type | Default | Description |
+| --- | --- | --- | --- |
+| title | String | - | The display title of this section, which is parsed using Markdown |
+| content | String | - | The text of this section, which is parsed using Markdown |
+| image | String | - | The path of the display image |
+| imageAlt | String | - | The text that will be shown in case the image is not available |
+| imageAlign | One of `'top'`, `'left'`, `'bottom'`, `'right'` | `'left'` | Image alignment relative to the text |
+| imageLink | String | - | Link destination from clicking the image |
 
-Example:
+**Example**
 
 ```
 <GridBlock
   align="center"
+  layout="threeColumn"
+  className="myCustomClass"  
   contents={[
     {
-      content: "Learn how to use this project",
-      image: siteConfig.baseUrl + "img/learn.png",
       title: `[Learn](${siteConfig.baseUrl}docs/tutorial.html)`,
-      imageLink: siteConfig.baseUrl + "docs/tutorial.html"
+      content: 'Learn how to use this project',
+      image: siteConfig.baseUrl + 'img/learn.png',
+      imageAlt: 'Learn how to use this project',
+      imageLink: siteConfig.baseUrl + 'docs/tutorial.html',
     },
     {
-      content: "Questions gathered from the community",
-      image: siteConfig.baseUrl + "img/faq.png",
-      imageAlign: "top",
-      title: "Frequently Asked Questions"
+      title: 'Frequently Asked Questions',
+      content: 'Questions gathered from the community',
+      image: siteConfig.baseUrl + 'img/faq.png',
+      imageAlign: 'top',
     },
     {
-      content: "Lots of documentation is on this site",
-      title: "More"
-    }
+      title: 'More',
+      content: 'Lots of documentation is on this site',
+    },
   ]}
-  layout="threeColumn"
 />
 ```
 
-More examples of how these components are used can be found in the [generated example files](getting-started-preparation.md) as well as in Docusaurus's own repo for its website set-up.
+More examples of how these components are used can be found in the [generated example files](getting-started-preparation.md) as well as in Docusaurus' own repo for its website set-up.
 
 ## Translating Strings
 
@@ -108,7 +126,7 @@ You can also provide an optional description attribute to provide context for tr
 
 ```jsx
 <a href="/community">
-  <translate desc="footer link to page referring to community github and slack">Community</translate>
+  <translate desc="Footer link to page referring to community GitHub and Slack">Community</translate>
 </a>
 ```
 
@@ -129,6 +147,6 @@ Static assets should be placed into the `website/static` folder. They can be acc
 
 You should configure your site's primary, secondary, and code block colors using the `colors` field in `siteConfig` as specified [here](api-site-config.md). You can also configure other colors in the same way as described in the `siteConfig` doc.
 
-You can provide your own custom styles by adding them anywhere in the `website/static` folder. Any `.css` files you provide in the `static` folder will get concatenated to the end of Docusaurus's provided styles, allowing you to add to or override Docusaurus default styles as you wish.
+You can provide your own custom styles by adding them anywhere in the `website/static` folder. Any `.css` files you provide in the `static` folder will get concatenated to the end of Docusaurus' provided styles, allowing you to add to or override Docusaurus default styles as you wish.
 
 An easy way to figure out what classes you wish to override or add to is to [start your server locally](api-commands.md) and use your browser's inspect element tool.

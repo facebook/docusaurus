@@ -19,7 +19,7 @@ I am referencing a [document](doc1.md).
 
 New markdown files within `docs` will show up as pages on the website. Links to those documents are created first by using the `id` in the header of each document. If there is no `id` field, then the name of the file will serve as the link name.
 
-For example, creating an empty file such as "docs/getting-started.md" will enable the new page URL as `/docs/getting-started.html`.
+For example, creating an empty file such as `docs/getting-started.md` will enable the new page URL as `/docs/getting-started.html`.
 
 Suppose you add this to your document:
 
@@ -158,3 +158,26 @@ headerLinks: [
   { doc: 'bar', label: 'Bar' },
 ],
 ```
+
+## Active Links In Site Navigation Bar
+
+The links in the top navigation bar get `siteNavItemActive` and `siteNavGroupActive` class names to allow you to style the currently active link different from the others. `siteNavItemActive` is applied when there's an exact match between the navigation link and the currently displayed web page.
+
+> This does not include links of type `href` which are meant for external links only. If you manually set an `href` in your `headerLinks` to an internal page, document, or blog post, it will not get the `siteNavItemActive` class even if that page is being displayed.
+
+The `siteNavGroupActive` class will be added to these links:
+
+* `doc` links that belong to the same sidebar as the currently displayed document
+* The blog link when a blog post, or the blog listing page is being displayed
+
+These are two separate class names so you can have the active styles applied to either exact matches only or a bit more broadly for docs that belong together. If you don't want to make this distinction you can add both classes to the same CSS rule.
+
+## Secondary On-Page Navigation
+
+We support secondary on-page navigation so you can more easily see the topics associated with a given document. To enable this feature, you need to add the `onPageNav` site configuration [option](api-site-config.md#optional-fields) to your `siteConfig.js`.
+
+```
+onPageNav: 'separate',
+```
+
+Currently, `separate` is the only option available for this field. This provides a separate navigation on the right side of the page.

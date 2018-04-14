@@ -30,7 +30,7 @@ root-of-repo
 
 All of your documentation files should be placed inside the `docs` folder as markdown `.md` files. Any blog posts should be inside the `blog` folder.
 
-> The blog posts must be formatted as yyyy-mm-dd-your-file-name.md
+> The blog posts must be formatted as `YYYY-MM-DD-your-file-name.md`
 
 ## Create Your Basic Site
 
@@ -51,7 +51,7 @@ To create a fully functional site, you only need to do a few steps:
 
   > If you do not add your documentation to the `sidebars.json` file, the docs will be rendered, but they can only be linked to from other documentation and visited with the known URL.
 
-1. Modify the `website/siteConfig.js` file to [configure your site](api-site-config.md), following the comments included in the [docs](api-site-config.md) and the `website/siteConfig.js` to guide you.
+3. Modify the `website/siteConfig.js` file to [configure your site](api-site-config.md), following the comments included in the [docs](api-site-config.md) and the `website/siteConfig.js` to guide you.
 1. Create any [custom pages](guides-custom-pages.md#customizing-your-site-footer) and/or [customize](guides-custom-pages.md#customizing-your-site-footer) the `website/core/Footer.js` file that provides the footer for your site.
 1. Place assets, such as images, in the `website/static/` folder.
 1. Run the site to see the results of your changes.  
