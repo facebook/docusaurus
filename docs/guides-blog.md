@@ -32,7 +32,7 @@ authorFBID: 503283835
 title: Introducing Docusaurus
 ---
 
-Lorem Ipusm...
+Lorem Ipsum...
 ```
 
 
