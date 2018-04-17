@@ -41,6 +41,15 @@ Documents in the `docs` folder will be considered part of version `next` and the
 
 Running the script again with `yarn run version 2.0.0` will create a version `2.0.0`, making version `2.0.0` the most recent set of documentation. Documents from version `1.0.0` will use the url `docs/1.0.0/doc1.html` while `2.0.0` will use `docs/doc1.html`.
 
+This table below summarizes Docusaurus versioning at a glance:
+
+| Version | Tag | URL
+| --- | --- | -- |
+| 1.0.0 | 1.0.0 | docs/1.0.0/doc1.html |
+| 1.0.1 | 1.0.1 | docs/1.0.1/doc1.html |
+| 2.0.0 | current | docs/doc1.html |
+| master branch | next | docs/next/doc1.html |
+
 ## Versioning Patterns
 
 You can create version numbers in whatever format you wish, and a new version can be created with any version number as long as it does not match an existing version. Version ordering is determined by the order in which versions are created, independently of how they are numbered.
