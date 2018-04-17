@@ -132,7 +132,7 @@ h1 {
 
 `markdownPlugins` - An array of plugins to be loaded by Remarkable, the markdown parser and renderer used by Docusaurus. The plugin will receive a reference to the Remarkable instance, allowing custom parsing and rendering rules to be defined.
 
-`ogImage` - url for an Open Graph image. This image will show up when your site is shared on Facebook, Twitter and any other websites/apps where the Open Graph protocol is supported.
+`ogImage` - local location for an Open Graph image (e.g., `img/myImage.png`). This image will show up when your site is shared on Facebook and other websites/apps where the Open Graph protocol is supported.
 
 `onPageNav` - If you want a visible navigation option for representing topics on the current page. Currently, there is one accepted value for this option:
 
@@ -147,6 +147,8 @@ h1 {
 `translationRecruitingLink` - url for the `Help Translate` tab of language selection when languages besides English are enabled. This can be included you are using translations but does not have to be.
 
 `twitter` - set this to `true` if you want a Twitter social button to appear at the bottom of your blog posts.
+
+`twitterImage` - local location of your Twitter card image  (e.g., `img/myImage.png`).  This image will show up on the Twitter card when your site is shared on Twitter. 
 
 `useEnglishUrl` - If you do not have [translations](guides-translation.md) enabled (e.g., by having a `languages.js` file), but still want a link of the form `/docs/en/doc.html` (with the `en`), set this to `true`.
 
