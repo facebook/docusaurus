@@ -709,9 +709,9 @@ input#search_input_react:focus, input#search_input_react:active {
   color: #fff;
   width: 220px;
 }
-@media only screen and (min-device-width: 360px) and (max-device-width: 735px) {
+@media only screen and (max-width: 735px) {
   .navSearchWrapper {
-    width: 50%;
+    width: 40%;
   }
 }
 input::-webkit-input-placeholder {
