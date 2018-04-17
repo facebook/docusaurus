@@ -756,7 +756,7 @@ pre code {
   font-weight: normal;
   text-decoration: none;
 }
-@media only screen and (min-device-width: 360px) and (max-device-width: 735px) {
+@media only screen and (max-width: 735px) {
   a.edit-page-link.button{
     display: none;
   }
@@ -796,7 +796,7 @@ pre code {
   max-width: 500px;
   flex: 0 1 500px;
 }
-@media only screen and (min-device-width: 360px) and (max-device-width: 735px) {
+@media only screen and (max-width: 735px) {
   .imageAlignSide .blockImage {
     display: none;
   }
@@ -882,7 +882,7 @@ pre code {
 .container.paddingTop {
   padding-top: 80px;
 }
-@media only screen and (min-device-width: 360px) and (max-device-width: 735px) {
+@media only screen and (max-width: 735px) {
   .container.paddingBottom {
     padding-bottom: 40px;
   }
@@ -1204,7 +1204,7 @@ ul#languages li {
   }
 }
 
-@media only screen and (max-device-width: 735px) {
+@media only screen and (max-width: 735px) {
   .navigationSlider .slidingNav ul {
     overflow-x: auto;
   }
@@ -1219,7 +1219,7 @@ ul#languages li {
 .docs-prev {
   float: left;
 }
-@media only screen and (min-device-width: 360px) and (max-device-width: 735px) {
+@media only screen and (max-width: 735px) {
   .docs-prevnext {
     height: 40px;
   }
@@ -1276,7 +1276,7 @@ nav.toc section {
 nav.toc:last-child {
   padding-bottom: 100px;
 }
-@media only screen and (min-device-width: 360px) and (max-device-width: 735px) {
+@media only screen and (max-width: 735px) {
   nav.toc {
     width: 100%;
   }
@@ -1658,7 +1658,7 @@ table tr th {
 .blog-recent > a {
   float: left;
 }
-@media only screen and (min-device-width: 360px) and (max-device-width: 735px) {
+@media only screen and (max-width: 735px) {
   .blog-recent {
     height: 40px;
   }
@@ -1734,7 +1734,7 @@ h6:hover .header-link {
   width: 110px;
   padding: 20px;
 }
-@media only screen and (min-device-width: 360px) and (max-device-width: 735px) {
+@media only screen and (max-width: 735px) {
   .gridBlock .fourByGridBlock {
     box-sizing: border-box;
     flex: 1 0 26%;
@@ -1776,7 +1776,7 @@ h6:hover .header-link {
   padding: 20px;
 }
 
-@media only screen and (min-device-width: 360px) and (max-device-width: 735px) {
+@media only screen and (max-width: 735px) {
   .showcaseSection .logos img {
     max-height: 64px;
     width: 64px;
