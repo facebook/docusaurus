@@ -178,6 +178,7 @@ const siteConfig = {
   facebookAppId: '1615782811974223',
   twitter: 'true',
   ogImage: 'img/docusaurus.png',
+  twitterImage: 'img/docusaurus.png',
   onPageNav: 'separate',
 };
 

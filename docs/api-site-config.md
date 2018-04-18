@@ -119,7 +119,7 @@ h1 {
 }
 ```
 
-`footerIcon` - url for a footer icon. Currently used in the `core/Footer.js` file provided as an example, but it can be removed from that file.
+`footerIcon` - URL for a footer icon. Currently used in the `core/Footer.js` file provided as an example, but it can be removed from that file.
 
 `gaTrackingId` - Google Analytics tracking ID to track page views.
 
@@ -132,7 +132,7 @@ h1 {
 
 `markdownPlugins` - An array of plugins to be loaded by Remarkable, the markdown parser and renderer used by Docusaurus. The plugin will receive a reference to the Remarkable instance, allowing custom parsing and rendering rules to be defined.
 
-`ogImage` - url for an Open Graph image. This image will show up when your site is shared on Facebook, Twitter and any other websites/apps where the Open Graph protocol is supported.
+`ogImage` - Local path to an Open Graph image (e.g., `img/myImage.png`). This image will show up when your site is shared on Facebook and other websites/apps where the Open Graph protocol is supported.
 
 `onPageNav` - If you want a visible navigation option for representing topics on the current page. Currently, there is one accepted value for this option:
 
@@ -144,15 +144,17 @@ h1 {
 
 `stylesheets` - Array of CSS sources to load. The link tag will be inserted in the HTML head.
 
-`translationRecruitingLink` - url for the `Help Translate` tab of language selection when languages besides English are enabled. This can be included you are using translations but does not have to be.
+`translationRecruitingLink` - URL for the `Help Translate` tab of language selection when languages besides English are enabled. This can be included you are using translations but does not have to be.
 
-`twitter` - set this to `true` if you want a Twitter social button to appear at the bottom of your blog posts.
+`twitter` - Set this to `true` if you want a Twitter social button to appear at the bottom of your blog posts.
+
+`twitterImage` - Local path to your Twitter card image (e.g., `img/myImage.png`). This image will show up on the Twitter card when your site is shared on Twitter. 
 
 `useEnglishUrl` - If you do not have [translations](guides-translation.md) enabled (e.g., by having a `languages.js` file), but still want a link of the form `/docs/en/doc.html` (with the `en`), set this to `true`.
 
 `users` - The `users` array mentioned earlier.
 
-`wrapPagesHTML` - boolean flag to indicate whether `html` files in `/pages` should be wrapped with Docusaurus site styles, header and footer. This feature is experimental and relies on the files being `html` fragments instead of complete pages. It inserts the contents of your `html` file with no extra processing. Defaults to `false`.
+`wrapPagesHTML` - Boolean flag to indicate whether `html` files in `/pages` should be wrapped with Docusaurus site styles, header and footer. This feature is experimental and relies on the files being `html` fragments instead of complete pages. It inserts the contents of your `html` file with no extra processing. Defaults to `false`.
 
 Users can also add their own custom fields if they wish to provide some data across different files.
 
@@ -173,13 +175,13 @@ const siteConfig = {
   tagline: "Generate websites!",
   url: "https://docusaurus.io",
   baseUrl: "/",
-// For github.io type URLS, you would combine the url and baseUrl like:
-// url: "https://reasonml.github.io",
-// baseUrl: "/reason-react/",
+  // For github.io type URLS, you would combine the url and baseUrl like:
+  // url: "https://reasonml.github.io",
+  // baseUrl: "/reason-react/",
   organizationName: "facebook",
   projectName: "docusaurus",
   noIndex: false,
-// For no header links in the top nav bar -> headerLinks: [],
+  // For no header links in the top nav bar -> headerLinks: [],
   headerLinks: [
     { doc: "doc1", label: "Docs" },
     { page: "help", label: "Help" },
@@ -193,7 +195,7 @@ const siteConfig = {
     secondaryColor: "#205C3B"
   },
   editUrl: "https://github.com/facebook/docusaurus/edit/master/docs/",
-// users variable set above
+  // Users variable set above
   users,
   disableHeaderTitle: true,
   disableTitleTagline: true,
