@@ -158,7 +158,7 @@ h1 {
 
 Users can also add their own custom fields if they wish to provide some data across different files.
 
-## Example siteConfig.js with all fields
+## Example siteConfig.js with many available fields
 
 ```
 const users = [
@@ -223,7 +223,9 @@ const siteConfig = {
   stylesheets: [ "https://docusaurus.io/style.css" ],
   facebookAppId: "1615782811974223",
   facebookPixelId: "352490515235776",
-  twitter: "true"
+  twitter: "true",
+  twitterImage: "img/docusaurus.png",
+  ogImage: "img/docusaurus.png",
 };
 
 module.exports = siteConfig;
