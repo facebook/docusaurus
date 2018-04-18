@@ -41,9 +41,9 @@ Lorem Ipsum...
 The only required field is `title`; however, we provide options to add author information to your blog post as well.
 
 - `author` - The text label of the author byline.
-- `authorURL` - The url associated with the author. This could be a Twitter, GitHub, Facebook account, etc.
-- `authorFBID` - The Facebook ID that is used to extract the profile picture. (Note: If you use `authorFBID` and `authorImageURL`, `authorFBID` will take precedence.)
-- `authorImageURL` - The url associated with the author's image. (Note: If you use `authorFBID` and `authorImageURL`, `authorFBID` will take precedence. Don't include `authorFBID` if you want `authorImageURL` to appear.)
+- `authorURL` - The URL associated with the author. This could be a Twitter, GitHub, Facebook account, etc.
+- `authorFBID` - The Facebook profile ID that is used to fetch the profile picture.
+- `authorImageURL` - A URL to the author's image. (Note: If you use both `authorFBID` and `authorImageURL`, `authorFBID` will take precedence. Don't include `authorFBID` if you want `authorImageURL` to appear.)
 - `title` - The blog post title.
 
 
