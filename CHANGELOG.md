@@ -6,6 +6,43 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.12] - 2018-04-18
+
+This is a general release with additions and documentation updates. We would also like to welcome [React Native Elements](https://react-native-training.github.io/react-native-elements/) as a user of Docusaurus.
+
+https://docusaurus.io has turned on versioning. There are other documentation updates as well.
+
+> We turned on translations, but found a bug. So we turned it off until we fix it.
+
+Thank you to the following contributors who helped with this release:
+
+- @yangshun
+- @amyrlam
+- @SleepWalker
+- @InternetExplorer7
+- @zkochan
+- @iRoachie
+- @limonte
+
+### Breaking changes
+
+- While not officially breaking, `authorImage` will be [deprecated](https://github.com/facebook/Docusaurus/pull/577) for [`authorImageURL`](https://github.com/facebook/Docusaurus/commit/57cddb4d0897e7d9a62305c6b2b8a04e824e0941) in blog posts.
+
+### Added
+
+- [`twitterImage`](https://github.com/facebook/Docusaurus/commit/e738bbd99e80596f7280c2a131600600c083fc68) has been added to site configuration options for use in Twitter cards.
+- Support for [non-latin characters](https://github.com/facebook/Docusaurus/commit/1642c078a723487d922b80f6d112c989b98e8bd3) have been added in heading anchors.
+- [`<doctype HTML>`](https://github.com/facebook/Docusaurus/commit/946e2cef907a37290bfdf831dedc072de596f927) has been added to all HTML pages.
+- `cssnano` is used to [minify](https://github.com/facebook/Docusaurus/commit/159b80df942ba4d7c422ecb6d4b57aa34fd7b5e3) the main CSS file.
+
+### Fixed/Changed
+
+- [Search bar width in mobile navigation](https://github.com/facebook/Docusaurus/commit/ba024a25c7cf37cdaecafb8d805a49505f461785).
+
+### Removed
+
+N/A
+
 ## [1.0.11] - 2018-04-12
 
 This is a general release with additions and documentation updates (which are already live on docusaurus.io). We would also like to welcome [BlueWhale](https://facebookresearch.github.io/BlueWhale) as a new user of Docusaurus.
@@ -232,7 +269,8 @@ N/A
   - Blog
   - Documentation
 
-[Unreleased]: https://github.com/facebook/Docusaurus/compare/v1.0.11...HEAD
+[Unreleased]: https://github.com/facebook/Docusaurus/compare/v1.0.12...HEAD
+[1.0.12]: https://github.com/facebook/Docusaurus/compare/v1.0.11...v1.0.12
 [1.0.11]: https://github.com/facebook/Docusaurus/compare/v1.0.10...v1.0.11
 [1.0.10]: https://github.com/facebook/Docusaurus/compare/v1.0.9...v1.0.10
 [1.0.9]: https://github.com/facebook/Docusaurus/compare/v1.0.8...v1.0.9
