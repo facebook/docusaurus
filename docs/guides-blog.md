@@ -32,7 +32,7 @@ authorFBID: 503283835
 title: Introducing Docusaurus
 ---
 
-Lorem Ipusm..
+Lorem Ipsum...
 ```
 
 
@@ -41,8 +41,9 @@ Lorem Ipusm..
 The only required field is `title`; however, we provide options to add author information to your blog post as well.
 
 - `author` - The text label of the author byline.
-- `authorURL` - The url associated with the author. This could be a Twitter, GitHub, Facebook account, etc.
-- `authorFBID` - The Facebook ID that is used to extract the profile picture.
+- `authorURL` - The URL associated with the author. This could be a Twitter, GitHub, Facebook account, etc.
+- `authorFBID` - The Facebook profile ID that is used to fetch the profile picture.
+- `authorImageURL` - The URL to the author's image. (Note: If you use both `authorFBID` and `authorImageURL`, `authorFBID` will take precedence. Don't include `authorFBID` if you want `authorImageURL` to appear.)
 - `title` - The blog post title.
 
 
