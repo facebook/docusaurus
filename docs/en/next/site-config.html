@@ -89,6 +89,7 @@
 <li><code>version</code> specifies a particular version of Highlight.js to be used.</li>
 <li><code>hljs</code> provides an escape valve by passing an instance of Highlight.js to the function specified here, allowing additional languages to be registered for syntax highlighting.</li>
 <li><code>defaultLang</code> defines a default language. It will be used if one is not specified at the top of the code block. You can find the <a href="https://github.com/isagalaev/highlight.js/tree/master/src/languages">list of supported languages here</a>.</li>
+<li><code>themeUrl</code> is the custom URL of CSS theme file that you want to use with Highlight.js. If this is provided, the <code>theme</code> and <code>version</code> fields will be ignored.</li>
 </ul>
 <p><code>markdownPlugins</code> - An array of plugins to be loaded by Remarkable, the markdown parser and renderer used by Docusaurus. The plugin will receive a reference to the Remarkable instance, allowing custom parsing and rendering rules to be defined.</p>
 <p><code>ogImage</code> - Local path to an Open Graph image (e.g., <code>img/myImage.png</code>). This image will show up when your site is shared on Facebook and other websites/apps where the Open Graph protocol is supported.</p>
