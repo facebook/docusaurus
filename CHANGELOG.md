@@ -6,6 +6,32 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.13] - 2018-04-20
+
+This is primarily a bug fix release.
+
+Thank you to the following contributors who helped with this release:
+
+- @vjeux
+- @huang-x-h
+
+### Breaking changes
+
+N/A
+
+### Added
+
+- Support for [custom highlight theme URL](https://github.com/facebook/Docusaurus/commit/aa32ff4a558269a2ac02f265489804ab83cc0145) via the `themeURL` site config option.
+
+### Fixed/Changed
+
+- [Do not warn](https://github.com/facebook/Docusaurus/commit/c400636fb6a790ac39cb731ed3fe2f0cd22313eb) when using `layout` in the docs metadata header.
+- [Restore](https://github.com/facebook/Docusaurus/commit/1d4e334a86cabb9581a3ba5305a2019a7bbb540d) the ability to use the --port command line argument
+
+### Removed
+
+N/A
+
 ## [1.0.12] - 2018-04-18
 
 This is a general release with additions and documentation updates. We would also like to welcome [React Native Elements](https://react-native-training.github.io/react-native-elements/) as a user of Docusaurus.
@@ -269,7 +295,8 @@ N/A
   - Blog
   - Documentation
 
-[Unreleased]: https://github.com/facebook/Docusaurus/compare/v1.0.12...HEAD
+[Unreleased]: https://github.com/facebook/Docusaurus/compare/v1.0.13...HEAD
+[1.0.13]: https://github.com/facebook/Docusaurus/compare/v1.0.12...v1.0.13
 [1.0.12]: https://github.com/facebook/Docusaurus/compare/v1.0.11...v1.0.12
 [1.0.11]: https://github.com/facebook/Docusaurus/compare/v1.0.10...v1.0.11
 [1.0.10]: https://github.com/facebook/Docusaurus/compare/v1.0.9...v1.0.10
