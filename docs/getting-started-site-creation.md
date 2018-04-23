@@ -61,3 +61,35 @@ To create a fully functional site, you only need to do a few steps:
   yarn run start # or `npm run start`
   # navigate to http://localhost:3000
   ```
+
+## Special Customization
+
+### Docs Landing Page
+
+If you prefer to have your landing page be straight to your documentation, you can do this through a redirect.
+
+1. Remove the `index.js` file from the `website/pages` directory, if it exists.
+1. Add a [custom static `index.html` page](guides-custom-pages.md#adding-static-pages) in the `website/static` folder with the following contents:
+
+```html
+<!DOCTYPE HTML>
+<html lang="en-US">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="refresh" content="0; url=docs/id-of-doc-to-land-on.html">
+        <script type="text/javascript">
+            window.location.href = "docs/id-of-doc-to-land-on.html"
+        </script>
+        <title>Your Site Title Here</title>
+    </head>
+    <body>
+        If you are not redirected automatically, follow this <a href='docs/id-of-doc-to-land-on.html'>link</a>.
+    </body>
+</html>
+```
+
+> You will get the `id` of the document to land on the `.md` metadata of that doc page.
+
+### Blog Only
+
+You can also use Docusaurus to host your [blog only](guides-blog.md#i-want-to-run-in-blog-only-mode).
