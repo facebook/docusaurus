@@ -21,6 +21,11 @@ At this point, you can grab all of the files inside the `website/build` folder a
 
 > For example, both Apache and nginx serve content from `/var/www/html` by default. That said, choosing a web server or provider is outside the scope of Docusaurus.
 
+### Hosting on a Service:
+
+* [Github Pages](#using-github-pages)
+* [Netlify](#hosting-on-netlify)
+
 ### Using GitHub Pages
 
 While choosing a web server or host is outside Docusaurus' scope, Docusaurus was designed to work really well with one of the most popular hosting solutions for open source projects: [GitHub Pages](https://pages.github.com/).
@@ -82,13 +87,13 @@ Continuous integration (CI) services are typically used to perform routine tasks
 
 If you haven't done so already, you can [setup CircleCI](https://circleci.com/signup/) for your open source project. Afterwards, in order to enable automatic deployment of your site and documentation via CircleCI, just configure Circle to run the `publish-gh-pages` script as part of the deployment step. You can follow the steps below to get that setup.
 
-1.  Ensure the GitHub account that will be set as the `GIT_USER` has `write` access to the repo that contains the documentation, by checking `Settings | Collaborators & teams` in the repo.
-1.  Log into GitHub as the `GIT_USER`.
-1.  Go to https://github.com/settings/tokens for the `GIT_USER` and generate a new [personal access token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/), granting it full control of private repositories through the `repo` access scope. Store this token in a safe place, making sure to not share it with anyone. This token can be used to authenticate GitHub actions on your behalf in place of your GitHub password.
-1.  Open your Circle CI dashboard, and navigate to the Settings page for your repository, then select "Environment variables". The URL looks like https://circleci.com/gh/ORG/REPO/edit#env-vars, where "ORG/REPO" should be replaced with your own GitHub org/repo.
-1.  Create a new environment variable named `GITHUB_TOKEN`, using your newly generated access token as the value.
-1.  Create a `.circleci` folder and create a `config.yml` under that folder.
-1.  Copy the text below into `.circleci/config.yml`.
+1. Ensure the GitHub account that will be set as the `GIT_USER` has `write` access to the repo that contains the documentation, by checking `Settings | Collaborators & teams` in the repo.
+1. Log into GitHub as the `GIT_USER`.
+1. Go to https://github.com/settings/tokens for the `GIT_USER` and generate a new [personal access token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/), granting it full control of private repositories through the `repo` access scope. Store this token in a safe place, making sure to not share it with anyone. This token can be used to authenticate GitHub actions on your behalf in place of your GitHub password.
+1. Open your Circle CI dashboard, and navigate to the Settings page for your repository, then select "Environment variables". The URL looks like https://circleci.com/gh/ORG/REPO/edit#env-vars, where "ORG/REPO" should be replaced with your own GitHub org/repo.
+1. Create a new environment variable named `GITHUB_TOKEN`, using your newly generated access token as the value.
+1. Create a `.circleci` folder and create a `config.yml` under that folder.
+1. Copy the text below into `.circleci/config.yml`.
 
 ```yml
 # If you only one circle to run on direct commits to master, you can uncomment this out
@@ -155,3 +160,19 @@ jobs:
 ```
 
 Save this file as `config.yml` and place it in a `.circleci` folder inside your `website/assets` folder.
+
+### Hosting on Netlify
+
+Steps to configure your Docusaurus-powered site on Netlify.
+
+1. Select **New site from Git**
+2. Connect to your preferred Git provider.
+3. Select the branch to deploy. Default is `master`
+4. Configure your build steps:
+
+* For your build command enter: `cd website; npm install; npm run build;`
+* For publish directory: `build/<projectName>` (use the projectName from your siteConfig)
+
+5. Click **Deploy site**
+
+You can also configure Netlify to rebuild on every commit to your repo, or only `master` branch commits.
