@@ -8,7 +8,7 @@ Docusaurus is a project for easily building, deploying, and maintaining open sou
 
 ## Installation
 
-Docusaurus is available as the [`docusaurus` package](https://www.npmjs.com/package/docusaurus-init) on [npm](https://www.npmjs.com).
+Docusaurus is available as the [`docusaurus` package](https://www.npmjs.com/package/docusaurus) on [npm](https://www.npmjs.com).
 
 We have also released the [`docusaurus-init` package](https://www.npmjs.com/package/docusaurus-init) to make [getting started](https://docusaurus.io/docs/en/installation.html) with Docusaurus even easier.
 
