@@ -6,6 +6,33 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.14] - 2018-04-23
+
+Small release mostly for documentation.
+
+Thank you to the following contributors who have helped with this releae:
+
+- @yangshun
+- @ericnakagawa
+- @shikaan
+- @longility
+
+### Breaking changes
+
+N/A
+
+### Added
+
+N/A
+
+### Fixed/Changed
+
+- Blog metadata now [refreshed](https://github.com/facebook/Docusaurus/commit/d3fd347d21d3480e656cf4590917633f91254c5f) on changes to blog posts.
+
+### Removed
+
+N/A
+
 ## [1.0.13] - 2018-04-20
 
 This is primarily a bug fix release.
@@ -295,7 +322,8 @@ N/A
   - Blog
   - Documentation
 
-[Unreleased]: https://github.com/facebook/Docusaurus/compare/v1.0.13...HEAD
+[Unreleased]: https://github.com/facebook/Docusaurus/compare/v1.0.14...HEAD
+[1.0.14]: https://github.com/facebook/Docusaurus/compare/v1.0.13...v1.0.14
 [1.0.13]: https://github.com/facebook/Docusaurus/compare/v1.0.12...v1.0.13
 [1.0.12]: https://github.com/facebook/Docusaurus/compare/v1.0.11...v1.0.12
 [1.0.11]: https://github.com/facebook/Docusaurus/compare/v1.0.10...v1.0.11
