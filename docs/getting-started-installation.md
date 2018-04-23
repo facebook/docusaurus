@@ -10,10 +10,12 @@ Docusaurus was designed from the ground up to be easily installed and used to ge
     > While we recommend Node 8.x or greater, your Node version must at least 6.x.
     
 1. Go into the root of your GitHub repo directory where you will be creating the docs.
-1. `yarn global add docusaurus-init` or `npm install --global docusaurus-init`
-1. `docusaurus-init`
+1. `npx docusaurus-init`
+    > If you don't have Node 8.2+ or if you prefer to install Docusaurus globally, run `yarn global add docusaurus-init` or `npm install --global docusaurus-init`. After that, run `docusaurus-init`.
 
-> After docusaurus is installed, moving forward, you can check your current version of Docusaurus by going into the `website` directory and typing `npm list docusaurus`. You can update to the [latest version](https://www.npmjs.com/package/docusaurus) of Docusaurus by typing `npm update`.
+> After Docusaurus is installed, moving forward, you can check your current version of Docusaurus by going into the `website` directory and typing `yarn outdated docusaurus` or `npm outdated docusaurus`. You can update to the [latest version](https://www.npmjs.com/package/docusaurus) of Docusaurus by typing `yarn upgrade docusaurus --latest` or `npm update docusaurus`.
+
+## Verifying Installation
 
 Along with previously existing files and directories, your root directory will now contain a structure similar to:
 
@@ -38,10 +40,6 @@ root-of-repo
 │   └── siteConfig.js
 │   └── static
 ```
-
-> If you do not want to install the init script globally, you can install it locally and then run it via `npx docusaurus-init` or from the `node_modules` directory that is created via `./node_modules/.bin/docusaurus-init`. You may want to remove the created `package.json` file and `node_modules` directory after you run the script.
-
-## Verifying Installation
 
 Running the Docusaurus initialization script, `docusaurus-init`, produces a runnable, example website to base your site upon.
 
