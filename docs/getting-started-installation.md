@@ -13,7 +13,7 @@ Docusaurus was designed from the ground up to be easily installed and used to ge
 1. `npx docusaurus-init`
     > If you don't have Node 8.2+ or if you prefer to install Docusaurus globally, run `yarn global add docusaurus-init` or `npm install --global docusaurus-init`. After that, run `docusaurus-init`.
 
-> After Docusaurus is installed, moving forward, you can check your current version of Docusaurus by going into the `website` directory and typing `yarn outdated` or `npm outdated`. You can update to the [latest version](https://www.npmjs.com/package/docusaurus) of Docusaurus by typing `yarn upgrade --latest` or `npm update`.
+> After Docusaurus is installed, moving forward, you can check your current version of Docusaurus by going into the `website` directory and typing `yarn outdated docusaurus` or `npm outdated docusaurus`. You can update to the [latest version](https://www.npmjs.com/package/docusaurus) of Docusaurus by typing `yarn upgrade docusaurus --latest` or `npm update docusaurus`.
 
 ## Verifying Installation
 
