@@ -24,7 +24,7 @@ class Versions extends React.Component {
         <Container className="mainContainer versionsContainer">
           <div className="post">
             <header className="postHeader">
-              <h2>{siteConfig.title + ' Versions'}</h2>
+              <h2>{siteConfig.title} Versions</h2>
             </header>
             <h3 id="latest">Current version (Stable)</h3>
             <p>Latest version of Docusaurus.</p>
@@ -57,7 +57,7 @@ class Versions extends React.Component {
                     </a>
                   </td>
                   <td>
-                    <a href={'https://github.com/facebook/docusaurus'}>Source Code</a>
+                    <a href="https://github.com/facebook/Docusaurus">Source Code</a>
                   </td>
                 </tr>
               </tbody>
@@ -69,7 +69,7 @@ class Versions extends React.Component {
                 {versions.map(
                   version =>
                     version !== latestVersion && (
-                      <tr>
+                      <tr key={version}>
                         <th>{version}</th>
                         <td>
                           <a
@@ -82,7 +82,7 @@ class Versions extends React.Component {
                         </td>
                         <td>
                           <a
-                            href={`https://github.com/facebook/relay/releases/tag/v${version}`}>
+                            href={`https://github.com/facebook/Docusaurus/releases/tag/v${version}`}>
                             Release Notes
                           </a>
                         </td>
@@ -92,8 +92,8 @@ class Versions extends React.Component {
               </tbody>
             </table>
             <p>
-              You can find past versions of this project{' '}
-              <a href="https://github.com/"> on GitHub </a>.
+              You can find past versions of this project on{' '}
+              <a href="https://github.com/facebook/Docusaurus/releases">GitHub</a>.
             </p>
           </div>
         </Container>
