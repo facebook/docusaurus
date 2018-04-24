@@ -82,7 +82,7 @@ class Versions extends React.Component {
                         </td>
                         <td>
                           <a
-                            href={`https://github.com/facebook/relay/releases/tag/v${version}`}>
+                            href={`https://github.com/facebook/Docusaurus/releases/tag/v${version}`}>
                             Release Notes
                           </a>
                         </td>
@@ -93,7 +93,7 @@ class Versions extends React.Component {
             </table>
             <p>
               You can find past versions of this project{' '}
-              <a href="https://github.com/"> on GitHub </a>.
+              <a href="https://github.com/facebook/Docusaurus/releases">on GitHub</a>.
             </p>
           </div>
         </Container>
