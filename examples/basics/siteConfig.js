@@ -13,7 +13,7 @@ const users = [
   {
     caption: 'User1',
     image: '/img/docusaurus.svg',
-    // You will need to add your prepend the image path with your baseUrl
+    // You will need to prepend the image path with your baseUrl
     // if it is not '/', like: '/test-site/img/docusaurus.svg'.
     infoLink: 'https://www.facebook.com',
     pinned: true,
