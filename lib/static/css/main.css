@@ -1563,48 +1563,60 @@ nav.toc .toggleNav .navBreadcrumb h2 {
   }
 }
 
+/* Tables */
+
 table {
-  background: #F8F8F8;
-  border: 1px solid #B0B0B0;
   border-collapse: collapse;
+  border-spacing: 0;
   display: table;
+  font-size: 14px;
   margin: 20px 0;
 }
+
 table thead {
-  border-bottom: 1px solid #B0B0B0;
+  border-color: inherit;
   display: table-header-group;
+  vertical-align: middle;
 }
+
 table tbody {
   display: table-row-group;
+  vertical-align: middle;
 }
+
+table th,
+table td {
+  border: 1px solid #dbdbdb;
+  padding: .5em .75em;
+  vertical-align: top;
+}
+
 table tr {
+  border-color: inherit;
   display: table-row;
+  vertical-align: inherit;
 }
-table tr:nth-of-type(odd) {
-  background: #E8E8E8;
+
+table tr:nth-child(2n) {
+  background: #f5f5f5;
 }
-table tr th, table tr td {
-  border-right: 1px dotted #B0B0B0;
-  display: table-cell;
-  font-size: 14px;
-  line-height: 1.3em;
-  padding: 10px;
-  text-align: left;
+
+table tr th {
+  font-weight: bold;
 }
-table tr th:last-of-type, table tr td:last-of-type {
-  border-right: 0;
+
+.table tbody tr:last-child th,
+.table tbody tr:last-child td {
+  border-bottom-width: 0;
 }
-table tr th code, table tr td code {
+
+table th code,
+table td code {
   color: #2db04b;
   display: inline-block;
   font-size: 12px;
 }
-table tr th {
-  color: #000000;
-  font-weight: bold;
-  font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Arial,sans-serif;
-  text-transform: uppercase;
-}
+
 .mainContainer:not(.blogContainer) .wrapper .post,
 .blogContainer .posts,
 .blogContainer .lonePost {
