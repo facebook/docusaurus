@@ -7,7 +7,7 @@
 
 const React = require("react");
 
-const GithubButton = props => (
+const GitHubButton = props => (
   <a
     className="github-button" // part of the https://buttons.github.io/buttons.js script in siteConfig.js
     href={`https://github.com/${props.config.organizationName}/${props.config.projectName}`}
@@ -21,7 +21,7 @@ const GithubButton = props => (
   </a>
 );
 
-GithubButton.propTypes = {
+GitHubButton.propTypes = {
   config: React.PropTypes.object
 };
 
@@ -85,7 +85,7 @@ class Footer extends React.Component {
             <a href="https://github.com/facebook/docusaurus">
               GitHub
             </a>
-            <GithubButton config={this.props.config} />
+            <GitHubButton config={this.props.config} />
           </div>
         </section>
 
