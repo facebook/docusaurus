@@ -23,7 +23,7 @@ At this point, you can grab all of the files inside the `website/build` folder a
 
 ### Hosting on a Service:
 
-* [Github Pages](#using-github-pages)
+* [GitHub Pages](#using-github-pages)
 * [Netlify](#hosting-on-netlify)
 
 ### Using GitHub Pages
