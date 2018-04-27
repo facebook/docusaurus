@@ -22,17 +22,17 @@ const users = [
     pinned: true,
   },
   {
-    caption: 'Docusaurus',
-    image: '/img/docusaurus.svg',
-    infoLink: 'https://www.docusaurus.io',
-    fbOpenSource: true,
-    pinned: true,
-  },
-  {
     caption: 'BuckleScript',
     image: '/img/bucklescript.svg',
     infoLink: 'https://bucklescript.github.io/',
     fbOpenSource: false,
+    pinned: true,
+  },
+  {
+    caption: 'Docusaurus',
+    image: '/img/docusaurus.svg',
+    infoLink: 'https://www.docusaurus.io',
+    fbOpenSource: true,
     pinned: true,
   },
   {
@@ -111,6 +111,13 @@ const users = [
     infoLink: 'https://reasonml.github.io/reason-react/',
     fbOpenSource: true,
     pinned: true,
+  },
+  {
+    caption: 'Rejoiner',
+    image: '/img/rejoiner.svg',
+    infoLink: 'http://rejoiner.io/',
+    fbOpenSource: false,
+    pinned: false,
   },
   {
     caption: 'Relay',
