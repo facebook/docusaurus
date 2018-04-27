@@ -29,7 +29,6 @@ const users = [
     pinned: true,
   },
   {
-  {
     caption: 'Docusaurus',
     image: '/img/docusaurus.svg',
     infoLink: 'https://www.docusaurus.io',
