@@ -171,7 +171,7 @@ const siteConfig = {
   translationRecruitingLink: 'https://crowdin.com/project/docusaurus',
   copyright: 'Copyright © ' + new Date().getFullYear() + ' Facebook Inc.',
   highlight: {
-    theme: 'solarized-dark',
+    theme: 'atom-one-dark',
   },
   scripts: ['https://buttons.github.io/buttons.js'],
   gaTrackingId: 'UA-44373548-31',
