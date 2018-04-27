@@ -21,6 +21,8 @@ At this point, you can grab all of the files inside the `website/build` folder a
 
 > For example, both Apache and nginx serve content from `/var/www/html` by default. That said, choosing a web server or provider is outside the scope of Docusaurus.
 
+> When serving the site from your own web server, ensure the web server is serving the asset files with the proper HTTP headers. CSS files should be served with the `content-type` header - `text/css`. In the case of nginx, this would mean setting `include /etc/nginx/mime.types;` in your `nginx.conf` file. See https://github.com/facebook/Docusaurus/issues/602 for more info.
+
 ### Hosting on a Service:
 
 * [GitHub Pages](#using-github-pages)
