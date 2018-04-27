@@ -29,6 +29,13 @@ const users = [
     pinned: true,
   },
   {
+    caption: 'Dep',
+    image: '/img/golang-dep.svg',
+    infoLink: 'https://golang.github.io/dep/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Docusaurus',
     image: '/img/docusaurus.svg',
     infoLink: 'https://www.docusaurus.io',
