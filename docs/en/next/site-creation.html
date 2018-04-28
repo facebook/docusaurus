@@ -32,12 +32,12 @@
 <p>To create a fully functional site, you only need to do a few steps:</p>
 <ol>
 <li><p>Add your documentation to the <code>/docs</code> folder as <code>.md</code> files, ensuring you have the proper <a href="/docs/en/next/doc-markdown.html#documents">header</a> in each file. The simplest header would be the following, where <code>id</code> is the link name (e.g., <code>docs/intro.html</code>) and the <code>title</code>, is, of course, the title of the browser page.</p>
-<pre><code class="hljs"><span class="hljs-meta">---</span>
+<pre><code class="hljs css yaml"><span class="hljs-meta">---</span>
 <span class="hljs-attr">id:</span> <span class="hljs-string">intro</span>
 <span class="hljs-attr">title:</span> <span class="hljs-string">Getting</span> <span class="hljs-string">Started</span>
 <span class="hljs-meta">---</span>
 
-<span class="hljs-string">My</span> <span class="hljs-meta">*new</span> <span class="hljs-string">content*</span> <span class="hljs-string">here..</span>
+<span class="hljs-string">My</span> <span class="hljs-string">new</span> <span class="hljs-string">content</span> <span class="hljs-string">here..</span>
 </code></pre></li>
 <li><p>Add zero or more docs to the <a href="/docs/en/next/navigation.html#adding-docs-to-a-sidebar"><code>sidebars.json</code></a> file so that your documentation is rendered in a sidebar, if you choose them to be.</p></li>
 </ol>
@@ -50,9 +50,9 @@
 <li>Place assets, such as images, in the <code>website/static/</code> folder.</li>
 <li>Run the site to see the results of your changes.</li>
 </ol>
-<pre><code class="hljs">cd website
-yarn <span class="hljs-builtin-name">run</span> start # <span class="hljs-keyword">or</span> `npm <span class="hljs-builtin-name">run</span> start`
-<span class="hljs-comment"># navigate to http://localhost:3000</span>
+<pre><code class="hljs css bash"><span class="hljs-built_in">cd</span> website
+yarn run start <span class="hljs-comment"># or `npm run start`</span>
+<span class="hljs-comment"># Navigate to http://localhost:3000</span>
 </code></pre>
 <h2><a class="anchor" aria-hidden="true" id="special-customization"></a><a href="#special-customization" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Special Customization</h2>
 <h3><a class="anchor" aria-hidden="true" id="docs-landing-page"></a><a href="#docs-landing-page" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Docs Landing Page</h3>
@@ -63,17 +63,17 @@ yarn <span class="hljs-builtin-name">run</span> start # <span class="hljs-keywor
 </ol>
 <pre><code class="hljs css html"><span class="hljs-meta">&lt;!DOCTYPE HTML&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en-US"</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">"UTF-8"</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">http-equiv</span>=<span class="hljs-string">"refresh"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"0; url=docs/id-of-doc-to-land-on.html"</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/javascript"</span>&gt;</span><span class="javascript">
-            <span class="hljs-built_in">window</span>.location.href = <span class="hljs-string">"docs/id-of-doc-to-land-on.html"</span>
-        </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>Your Site Title Here<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
-        If you are not redirected automatically, follow this <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">'docs/id-of-doc-to-land-on.html'</span>&gt;</span>link<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>.
-    <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">"UTF-8"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">http-equiv</span>=<span class="hljs-string">"refresh"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"0; url=docs/id-of-doc-to-land-on.html"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/javascript"</span>&gt;</span><span class="javascript">
+      <span class="hljs-built_in">window</span>.location.href = <span class="hljs-string">'docs/id-of-doc-to-land-on.html'</span>;
+    </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>Your Site Title Here<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+    If you are not redirected automatically, follow this <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"docs/id-of-doc-to-land-on.html"</span>&gt;</span>link<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>.
+  <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span>
 </code></pre>
 <blockquote>
