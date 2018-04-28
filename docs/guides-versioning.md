@@ -19,7 +19,7 @@ You can edit this file later on to customize how you display the versions.
 
 Add the following script to your `package.json` file if it doesn't already exist:
 
-```json
+```js
 ...
 "scripts": {
   "version": "docusaurus-version"
@@ -44,11 +44,11 @@ Running the script again with `yarn run version 2.0.0` will create a version `2.
 This table below summarizes Docusaurus versioning at a glance:
 
 | Version | Tag | URL
-| --- | --- | -- |
+| --- | --- | --- |
 | 1.0.0 | 1.0.0 | docs/1.0.0/doc1.html |
 | 1.0.1 | 1.0.1 | docs/1.0.1/doc1.html |
 | 2.0.0 | current | docs/doc1.html |
-| master branch | next | docs/next/doc1.html |
+| `master` branch | next | docs/next/doc1.html |
 
 ## Versioning Patterns
 
@@ -76,7 +76,7 @@ For example, a document with the original id `doc1` exists for the latest versio
 
 To rename an existing version number to something else, first make sure the following script is in your `package.json` file:
 
-```json
+```js
 ...
 "scripts": {
   "rename-version": "docusaurus-rename-version"

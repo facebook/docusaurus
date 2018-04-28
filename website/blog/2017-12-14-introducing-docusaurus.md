@@ -30,7 +30,7 @@ When Facebook first started their open source program, many teams implemented a 
 
 The open source team tried to help mitigate this problem by coming up with a standard template, based on Jekyll, that could be used as a starting point for a project website. We asked our new projects to manually copy our template source to  their repo, write their docs, and publish. This template approach was adopted by most of open source projects launched; some existing projects even converted their custom website implementations to the new template as well.
 
-The problem with the “copy the template to your repo” approach is that, even though the platform is consistent, pushing updates becomes unmaintainable across an entire suite of projects already using the template. This is because we lost control of the template after a project copied it to their repo. Projects were free to modify the template as desired and apply their own project-specific features to it. So while projects share the same site generation platform, they have now diverted enough where they cannot take advantage of the new features we have added to the template over time. There was no easy way we could ask all current projects to “copy” a new version of the template since it might break their existing site or remove features that they have added on their own. Instead, we would have to apply the updates manually to each project one-by-one. This became very problematic when projects started asking for our team for internationalization support within the template, requiring low-level changes to how the template was structured and generated.
+The problem with the "copy the template to your repo" approach is that, even though the platform is consistent, pushing updates becomes unmaintainable across an entire suite of projects already using the template. This is because we lost control of the template after a project copied it to their repo. Projects were free to modify the template as desired and apply their own project-specific features to it. So while projects share the same site generation platform, they have now diverted enough where they cannot take advantage of the new features we have added to the template over time. There was no easy way we could ask all current projects to "copy" a new version of the template since it might break their existing site or remove features that they have added on their own. Instead, we would have to apply the updates manually to each project one-by-one. This became very problematic when projects started asking for our team for internationalization support within the template, requiring low-level changes to how the template was structured and generated.
 
 So we started thinking about what we could do to help mitigate the challenge of keeping sites updated and consistent across our entire portfolio. We also wanted multiple projects to share the same site generation software. We wanted them to start out with the same template, and yet have the flexibility to customize and adapt their site theme to suit their needs. They should be able to extend and customize their site, but when we update the underlying infrastructure with fixes and features, the project should be able update simply and without any breaking changes.
 
@@ -44,9 +44,9 @@ At Facebook, Docusaurus allows us to quickly get different projects up and runni
 
 At its core, we wanted sites running Docusaurus to be simple to use. With one [installation](https://docusaurus.io/docs/en/installation.html) command and some simple [configuration](https://docusaurus.io/docs/en/site-preparation.html), you can actually have a default running website.
 
-When you run docusaurus-init, you will see a structure similar to:
+When you run `docusaurus-init`, you will see a structure similar to:
 
-```
+```bash
 root-of-repo
 ├── docs-examples-from-docusaurus
 │   ├── doc1.md
@@ -68,13 +68,13 @@ root-of-repo
 │   └── static
 ```
 
-With the exception of node_modules and package.json, all the directories and files you see are where you customize and add content to your Docusaurus-based website. The docs folder is where you add your markdown that represents your documentation; the blog folder is where you add your markdown for your [blog posts](https://docusaurus.io/docs/en/blog.html); siteConfig.js is where you make most of the [customizations](https://docusaurus.io/docs/en/site-config.html) for your site; sidebars.json is where you maintain the layout and content of the [sidebar](https://docusaurus.io/docs/en/navigation.html) for your documentation; the pages folder is where you add [custom](https://docusaurus.io/docs/en/custom-pages.html) pages for your site; the static folder is where all of your static assets go (e.g., css stylesheets and images); and the core folder is where you can customize core components of the site, in this case the footer.
+With the exception of node_modules and package.json, all the directories and files you see are where you customize and add content to your Docusaurus-based website. The docs folder is where you add your markdown that represents your documentation; the blog folder is where you add your markdown for your [blog posts](https://docusaurus.io/docs/en/blog.html); `siteConfig.js` is where you make most of the [customizations](https://docusaurus.io/docs/en/site-config.html) for your site; `sidebars.json` is where you maintain the layout and content of the [sidebar](https://docusaurus.io/docs/en/navigation.html) for your documentation; the `pages` folder is where you add [custom](https://docusaurus.io/docs/en/custom-pages.html) pages for your site; the `static` folder is where all of your static assets go (e.g., CSS stylesheets and images); and the `core` folder is where you can customize core components of the site, in this case the footer.
 
 ## How does Docusaurus work?
 
-Docusaurus is written primarily in JavaScript and [React](https://facebook.github.io/react), replacing the Jekyll we had in the old template. We use [Remarkable](https://github.com/jonschlinkert/remarkable) for our markdown rendering and [highlight.js](https://highlightjs.org/) for our code block syntax highlighting. The core of Docusaurus' functionality is in the [lib directory](https://github.com/facebookexperimental/Docusaurus/tree/master/lib) of the [Docusaurus repo](https://github.com/facebookexperimental/Docusaurus/). The general structure looks like:
+Docusaurus is written primarily in JavaScript and [React](https://facebook.github.io/react), replacing Jekyll which we used in the old template. We use [Remarkable](https://github.com/jonschlinkert/remarkable) for our markdown rendering and [highlight.js](https://highlightjs.org/) for our code block syntax highlighting. The core of Docusaurus' functionality is in the [lib directory](https://github.com/facebookexperimental/Docusaurus/tree/master/lib) of the [Docusaurus repo](https://github.com/facebook/Docusaurus/). The general structure looks like:
 
-```
+```bash
 root-of-Docusaurus
 ├── lib
 │   ├── core
@@ -95,7 +95,6 @@ root-of-Docusaurus
 
 The key files here are build-files.js and start-server.js. There are many similarities between these two files: `build-files.js` is used to build the physical artifacts for serving by an external web server. `start-server.js` is used  to run the Docusaurus server and locally test your site. Both go through the following general process to take all of the markdown and configuration to create a runnable website:
 
-
 1. Process your website settings in `siteConfig.js`
 1. Read the document metadata that exists in all the markdown files in your docs directory.
 1. Create a table of contents for your documents based upon the ids extracted from the metadata.
@@ -112,7 +111,7 @@ Note that this process does not take into full account how translations or versi
 
 The final structure of your compiled site will look similar to:
 
-```
+```bash
 build
 ├── website
 │   ├── CNAME

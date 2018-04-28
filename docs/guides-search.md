@@ -13,11 +13,11 @@ Enter your search-only API key and index name into `siteConfig.js` in the `algol
 const siteConfig = {
   ...
   algolia: {
-    apiKey: "my-search-only-api-key-1234",
-    indexName: "my-index-name"
+    apiKey: 'my-search-only-api-key-1234',
+    indexName: 'my-index-name'
   },
   ...
-}
+};
 ```
 
 ## Extra Search Options
@@ -30,11 +30,11 @@ const siteConfig = {
   algolia: {
     ...
     algoliaOptions: {
-      facetFilters: [ "tags:VERSION" ],
+      facetFilters: [ 'tags:VERSION' ],
       hitsPerPage: 5
     }
   },
-}
+};
 ```
 
 ## Controlling the Location of the Search Bar
@@ -54,7 +54,7 @@ const siteConfig = {
     {...}
   ],
   ...
-}
+};
 ```
 
 ## Disabling the Search Bar
