@@ -10,7 +10,7 @@ There are two reasonable ways to use a local version of the Docusaurus npm packa
 
 ### Install the package from the Docusaurus repo
 
-```
+```bash
 cd /path/to/testing_project
 mkdir website # if this does not exist already
 cd website
@@ -18,7 +18,7 @@ cd website
 
 If you do not have a `package.json` file in the `website` directory, create one with the following content:
 
-```
+```json
 {
   "scripts": {
     "start": "docusaurus-start",
@@ -31,7 +31,7 @@ If you do not have a `package.json` file in the `website` directory, create one 
 
 Then:
 
-```
+```sh
 # Path to your Docusaurus clone
 npm install ../../path/to/docusaurus/
 ```
@@ -46,7 +46,7 @@ Error: Couldn't find preset "react" relative to directory
 
 So, you should install these packages locally. **Base the versions on the versions defined in the Docusaurus `package.json`**. e.g.,
 
-```
+```bash
 # Still in the website directory of the testing project
 npm install babel-plugin-transform-class-properties@^6.24.1
 npm install babel-plugin-transform-object-rest-spread@^6.26.0
@@ -57,7 +57,7 @@ npm install babel-preset-react@^6.24.0
 
 ### Test
 
-```
+```bash
 ./node_modules/.bin/docusaurus-examples # or whatever you want to test, if anything
 ./node_modules/.bin/docusaurus-start
 ```
@@ -68,7 +68,7 @@ Verdaccio is a good local npm server that you can use to test your packages.
 
 ### Install verdaccio
 
-```
+```bash
 npm install --global verdaccio
 ```
 
@@ -78,13 +78,13 @@ When you are ready to test the code that could make up the next version of your 
 
 Run verdaccio in a **separate terminal window**:
 
-```
+```bash
 verdaccio
 ```
 
 In another terminal window, get ready to publish your local npm package:
 
-```
+```bash
 # Your clone of Docusaurus
 cd /path/to/docusaurus/
 
@@ -101,7 +101,7 @@ You can navigate to localhost:4873 and you can see that your package was publish
 
 Now install the package in the repo you want to test Docusaurus on.
 
-```
+```bash
 cd /path/to/testing_project/
 mkdir website # if this does not exist already
 cd website
@@ -109,7 +109,7 @@ cd website
 
 If you do not have a `package.json` file in the `website` directory, create one with the following content:
 
-```
+```json
 {
   "scripts": {
     "start": "docusaurus-start",
@@ -122,7 +122,7 @@ If you do not have a `package.json` file in the `website` directory, create one 
 
 Then:
 
-```
+```bash
 npm install docusaurus --registry http://localhost:4873 # this may be slower than the normal npm registry
 npm run examples # or whatever you want to test, if anything
 npm run start

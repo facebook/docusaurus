@@ -5,17 +5,17 @@ title: Pages and Styles
 
 Docusaurus provides support for writing pages as React components inside the `website/pages` folder which will share the same header, footer, and styles as the rest of the site.
 
-## Urls for Pages
+## URLs for Pages
 
 Any `.js` files in `website/pages` will be rendered to static html using the path of the file after "pages". Files in `website/pages/en` will also get copied out into `pages` and will OVERRIDE any files of the same name in `pages`. For example, the page for the `website/pages/en/help.js` file will be found at the url `${baseUrl}en/help.js` as well as the url `${baseUrl}help.js`, where `${baseUrl}` is the `baseUrl` field set in your [siteConfig.js file](api-site-config.md).
 
 ## Page Require Paths
 
-Docusaurus provides a few useful React components for users to write their own pages, found in the `CompLibrary` module. This module is provided as part of Docusaurus in `node_modules/docusaurus`, so to access it, pages in the `pages` folder are temporarily copied into `node_modules/docusaurus` when rendering to static html. As seen in the example files, this means that a user page at `pages/en/index.js` uses a require path to `"../../core/CompLibrary.js"` to import the provided components.
+Docusaurus provides a few useful React components for users to write their own pages, found in the `CompLibrary` module. This module is provided as part of Docusaurus in `node_modules/docusaurus`, so to access it, pages in the `pages` folder are temporarily copied into `node_modules/docusaurus` when rendering to static html. As seen in the example files, this means that a user page at `pages/en/index.js` uses a require path to `'../../core/CompLibrary.js'` to import the provided components.
 
-What this means to the user is that if you wish to use the `CompLibrary` module, make sure the require path is set correctly. For example, a page at `page/mypage.js` would use a path `"../core/CompLibrary.js"`.
+What this means to the user is that if you wish to use the `CompLibrary` module, make sure the require path is set correctly. For example, a page at `page/mypage.js` would use a path `'../core/CompLibrary.js'`.
 
-If you wish to use your own components inside the website folder, use `process.cwd()` which will refer to the `website` folder to construct require paths. For example, if you add a component to `website/core/mycomponent.js`, you can use the require path, `"process.cwd() + /core/mycomponent.js"`.
+If you wish to use your own components inside the website folder, use `process.cwd()` which will refer to the `website` folder to construct require paths. For example, if you add a component to `website/core/mycomponent.js`, you can use the require path, `'process.cwd() + /core/mycomponent.js'`.
 
 ## Provided Components
 
@@ -84,7 +84,7 @@ A React component to organize text and images.
 
 **Example**
 
-```
+```jsx
 <GridBlock
   align="center"
   layout="threeColumn"
@@ -145,7 +145,7 @@ Note that this path is valid for files inside `pages/en` and should be adjusted 
 
 ## Using Static Assets
 
-Static assets should be placed into the `website/static` folder. They can be accessed by their paths, excluding "static". For example, if the site's `baseUrl` is "/docusaurus/", an image in `website/static/img/logo.png` is available at `/docusaurus/img/logo.png`.
+Static assets should be placed into the `website/static` folder. They can be accessed by their paths, excluding `static`. For example, if the site's `baseUrl` is `/docusaurus/`, an image in `website/static/img/logo.png` is available at `/docusaurus/img/logo.png`.
 
 ## Styles
 
