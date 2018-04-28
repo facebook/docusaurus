@@ -49,23 +49,23 @@ When you run docusaurus-init, you will see a structure similar to:
 ```
 root-of-repo
 ├── docs-examples-from-docusaurus
-│ └── doc1.md
-│ └── doc2.md
-│ └── doc3.md
-│ └── exampledoc4.md
-│ └── exampledoc5.md
-└── website
-│ └── blog-examples-from-docusaurus
-│     └── 2016-03-11-blog-post.md
-│     └── 2017-04-10-blog-post-two.md
-│ └── core
-│     └── Footer.js
-│ └── node_modules
-│ └── package.json
-│ └── pages
-│ └── sidebars.json
-│ └── siteConfig.js
-│ └── static
+│   ├── doc1.md
+│   ├── doc2.md
+│   ├── doc3.md
+│   ├── exampledoc4.md
+│   └── exampledoc5.md
+├── website
+│   ├── blog-examples-from-docusaurus
+│   │   ├── 2016-03-11-blog-post.md
+│   │   └── 2017-04-10-blog-post-two.md
+│   ├── core
+│   │   └── Footer.js
+│   ├── node_modules
+│   ├── package.json
+│   ├── pages
+│   ├── sidebars.json
+│   ├── siteConfig.js
+│   └── static
 ```
 
 With the exception of node_modules and package.json, all the directories and files you see are where you customize and add content to your Docusaurus-based website. The docs folder is where you add your markdown that represents your documentation; the blog folder is where you add your markdown for your [blog posts](https://docusaurus.io/docs/en/blog.html); siteConfig.js is where you make most of the [customizations](https://docusaurus.io/docs/en/site-config.html) for your site; sidebars.json is where you maintain the layout and content of the [sidebar](https://docusaurus.io/docs/en/navigation.html) for your documentation; the pages folder is where you add [custom](https://docusaurus.io/docs/en/custom-pages.html) pages for your site; the static folder is where all of your static assets go (e.g., css stylesheets and images); and the core folder is where you can customize core components of the site, in this case the footer.
@@ -77,20 +77,20 @@ Docusaurus is written primarily in JavaScript and [React](https://facebook.githu
 ```
 root-of-Docusaurus
 ├── lib
-│ └── core
-│ └── server
-│     └── generate.js
-│     └── server.js
-│     └── ...and more files
-│ └── static
-│ └── build-files.js
-│ └── copy-examples.js
-│ └── generate-feed.js
-│ └── publish-gh-pages.js
-│ └── rename-version.js
-│ └── start-server.js
-│ └── versions.js
-│ └── write-translations.js
+│   ├── core
+│   ├── server
+│   │   ├── generate.js
+│   │   ├── server.js
+│   │   └── ...and more files
+│   ├── static
+│   ├── build-files.js
+│   ├── copy-examples.js
+│   ├── generate-feed.js
+│   ├── publish-gh-pages.js
+│   ├── rename-version.js
+│   ├── start-server.js
+│   ├── versions.js
+│   └── write-translations.js
 ```
 
 The key files here are build-files.js and start-server.js. There are many similarities between these two files: `build-files.js` is used to build the physical artifacts for serving by an external web server. `start-server.js` is used  to run the Docusaurus server and locally test your site. Both go through the following general process to take all of the markdown and configuration to create a runnable website:
@@ -115,16 +115,16 @@ The final structure of your compiled site will look similar to:
 ```
 build
 ├── website
-│ └── CNAME
-│ └── blog
-│ └── css
-│ └── docs
-│ └── en
-│ └── help.html # custom page
-│ └── img
-│ └── index.html # landing page
-│ └── sitemap.xml
-│ └── users.html # custom page
+│   ├── CNAME
+│   ├── blog
+│   ├── css
+│   ├── docs
+│   ├── en
+│   ├── help.html # custom page
+│   ├── img
+│   ├── index.html # landing page
+│   ├── sitemap.xml
+│   └── users.html # custom page
 ```
 
 ## Community

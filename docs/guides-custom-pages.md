@@ -18,18 +18,18 @@ Docusaurus provides some simple example pages in the `website/pages/en` director
 ```bash
 root-of-repo
 ├── docs
-└── website
-│   └── blog
-│   └── core
-│       └── Footer.js
-│   └── node_modules
-│   └── package.json
-│   └── pages
-│       └── index.js
-│       └── users.js
-│       └── help.js
-│   └── sidebars.json
-│   └── siteConfig.js
+├── website
+│   ├── blog
+│   ├── core
+│   │   └── Footer.js
+│   ├── node_modules
+│   ├── package.json
+│   ├── pages
+│   │   ├── index.js
+│   │   ├── users.js
+│   │   └── help.js
+│   ├── sidebars.json
+│   ├── siteConfig.js
 │   └── static
 ```
 
