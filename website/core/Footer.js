@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const React = require("react");
+const React = require('react');
 
 const GitHubButton = props => (
   <a
@@ -13,7 +13,7 @@ const GitHubButton = props => (
     href={`https://github.com/${props.config.organizationName}/${props.config.projectName}`}
     data-icon="octicon-star"
     data-count-href={`/${props.config.organizationName}/${props.config.projectName}/stargazers`}
-    data-count-api={`/repos/${props.config.organizationName}/${props.config.projectName}#stargazers_count`}
+    data-show-count="true"
     data-count-aria-label="# stargazers on GitHub"
     aria-label="Star this project on GitHub"
   >
