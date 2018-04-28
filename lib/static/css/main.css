@@ -251,8 +251,7 @@ header h2 {
 .container .wrapper h3 {
   color: $primaryColor;
   font-size: 18px;
-  margin-top: 10px;
-  padding: 10px 0;
+  margin: 12px 0;
 }
 .container .wrapper h4 {
   color: $primaryColor;
@@ -1231,7 +1230,7 @@ ul#languages li {
 }
 
 .docsNavContainer {
-  background: #c6c6c6;
+  background: #fff;
   height: 35px;
   left: 0;
   position: fixed;
@@ -1261,7 +1260,8 @@ ul#languages li {
   overflow: hidden;
   padding: 5px 10px;
 }
-.navBreadcrumb a, .navBreadcrumb span {
+.navBreadcrumb a,
+.navBreadcrumb span {
   border: 0;
   color: #393939;
 }
@@ -1295,13 +1295,11 @@ nav.toc:last-child {
 }
 nav.toc section .navGroups {
   display: none;
-  padding: 40px 10px 60px;
+  padding: 40px 20px 60px;
 }
 nav.toc .toggleNav {
-  background: #c6c6c6;
   color: #393939;
   position: relative;
-  transition: background-color 0.3s, color 0.3s;
 }
 nav.toc .toggleNav .navToggle {
   cursor: pointer;
@@ -1311,8 +1309,9 @@ nav.toc .toggleNav .navToggle {
   text-align: left;
   width: 18px;
 }
-nav.toc .toggleNav .navToggle::before, nav.toc .toggleNav .navToggle::after {
-  content: "";
+nav.toc .toggleNav .navToggle::before,
+nav.toc .toggleNav .navToggle::after {
+  content: '';
   position: absolute;
   top: 50%;
   left: 0;
@@ -1328,8 +1327,9 @@ nav.toc .toggleNav .navToggle::before, nav.toc .toggleNav .navToggle::after {
 nav.toc .toggleNav .navToggle::after {
   transform: rotate(-45deg);
 }
-nav.toc .toggleNav .navToggle i::before, nav.toc .toggleNav .navToggle i::after {
-  content: "";
+nav.toc .toggleNav .navToggle i::before,
+nav.toc .toggleNav .navToggle i::after {
+  content: '';
   position: absolute;
   top: 50%;
   left: 2px;
@@ -1350,28 +1350,21 @@ nav.toc .toggleNav .navToggle i::after {
 .docsSliderActive nav.toc .toggleNav .navToggle::before,
 .docsSliderActive nav.toc .toggleNav .navToggle::after {
   border-width: 6px 0;
-  height: 0px;
+  height: 0;
   margin-top: -6px;
 }
 .docsSliderActive nav.toc .toggleNav .navToggle i {
   opacity: 0;
 }
 nav.toc .toggleNav .navGroup {
-  background: #adadad;
-  margin: 1px 0;
-}
-nav.toc .toggleNav .navGroup ul {
-  display: none;
+  margin-bottom: 20px;
 }
 nav.toc .toggleNav .navGroup h3 {
-  background: #adadad;
   color: #393939;
   font-size: 18px;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.2em;
-  margin: 0;
-  padding: 10px;
-  transition: color 0.2s;
+  margin-bottom: 8px;
 }
 nav.toc .toggleNav .navGroup h3 i:not(:empty) {
   width: 16px;
@@ -1383,33 +1376,12 @@ nav.toc .toggleNav .navGroup h3 i:not(:empty) {
   margin-right: 10px;
   transition: color 0.2s;
 }
-nav.toc .toggleNav .navGroup h3:hover {
-  color: $primaryColor;
-}
-nav.toc .toggleNav .navGroup h3:hover i:not(:empty) {
-  color: $primaryColor;
-}
-nav.toc .toggleNav .navGroup.navGroupActive {
-  background: #e0e0e0;
-  color: #393939;
-}
-nav.toc .toggleNav .navGroup.navGroupActive ul {
-  display: block;
-  padding-bottom: 10px;
-  padding-top: 10px;
-}
-nav.toc .toggleNav .navGroup.navGroupActive h3 {
-  background: $primaryColor;
-  color: #fff;
-}
 nav.toc .toggleNav ul {
-  padding-left: 0;
-  padding-right: 24px;
+  padding-left: 8px;
 }
 nav.toc .toggleNav ul li {
   list-style-type: none;
-  padding-bottom: 0;
-  padding-left: 0;
+  padding: 0;
 }
 nav.toc .toggleNav ul li a {
   border: none;
@@ -1421,14 +1393,15 @@ nav.toc .toggleNav ul li a {
   padding: 5px 0 2px;
   transition: color 0.3s;
 }
-nav.toc .toggleNav ul li a:hover, nav.toc .toggleNav ul li a:focus {
+nav.toc .toggleNav ul li a:hover,
+nav.toc .toggleNav ul li a:focus {
   color: $primaryColor;
 }
 nav.toc .toggleNav ul li a.navItemActive {
   color: $primaryColor;
 }
 .docsSliderActive nav.toc .navBreadcrumb {
-  background: #c6c6c6;
+  border-bottom: 1px solid #ccc;
   margin-bottom: 20px;
   position: fixed;
   width: 100%;
