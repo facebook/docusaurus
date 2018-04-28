@@ -30,43 +30,43 @@
 <p>When you run docusaurus-init, you will see a structure similar to:</p>
 <pre><code class="hljs">root-of-repo
 ├── docs-examples-from-docusaurus
-│ └── doc1<span class="hljs-selector-class">.md</span>
-│ └── doc2<span class="hljs-selector-class">.md</span>
-│ └── doc3<span class="hljs-selector-class">.md</span>
-│ └── exampledoc4<span class="hljs-selector-class">.md</span>
-│ └── exampledoc5<span class="hljs-selector-class">.md</span>
-└── website
-│ └── blog-examples-from-docusaurus
-│     └── <span class="hljs-number">2016</span>-<span class="hljs-number">03</span>-<span class="hljs-number">11</span>-blog-post<span class="hljs-selector-class">.md</span>
-│     └── <span class="hljs-number">2017</span>-<span class="hljs-number">04</span>-<span class="hljs-number">10</span>-blog-post-two<span class="hljs-selector-class">.md</span>
-│ └── core
-│     └── Footer<span class="hljs-selector-class">.js</span>
-│ └── node_modules
-│ └── package<span class="hljs-selector-class">.json</span>
-│ └── pages
-│ └── sidebars<span class="hljs-selector-class">.json</span>
-│ └── siteConfig<span class="hljs-selector-class">.js</span>
-│ └── static
+│   ├── doc1<span class="hljs-selector-class">.md</span>
+│   ├── doc2<span class="hljs-selector-class">.md</span>
+│   ├── doc3<span class="hljs-selector-class">.md</span>
+│   ├── exampledoc4<span class="hljs-selector-class">.md</span>
+│   └── exampledoc5<span class="hljs-selector-class">.md</span>
+├── website
+│   ├── blog-examples-from-docusaurus
+│   │   ├── <span class="hljs-number">2016</span>-<span class="hljs-number">03</span>-<span class="hljs-number">11</span>-blog-post<span class="hljs-selector-class">.md</span>
+│   │   └── <span class="hljs-number">2017</span>-<span class="hljs-number">04</span>-<span class="hljs-number">10</span>-blog-post-two<span class="hljs-selector-class">.md</span>
+│   ├── core
+│   │   └── Footer<span class="hljs-selector-class">.js</span>
+│   ├── node_modules
+│   ├── package<span class="hljs-selector-class">.json</span>
+│   ├── pages
+│   ├── sidebars<span class="hljs-selector-class">.json</span>
+│   ├── siteConfig<span class="hljs-selector-class">.js</span>
+│   └── static
 </code></pre>
 <p>With the exception of node_modules and package.json, all the directories and files you see are where you customize and add content to your Docusaurus-based website. The docs folder is where you add your markdown that represents your documentation; the blog folder is where you add your markdown for your <a href="https://docusaurus.io/docs/en/blog.html">blog posts</a>; siteConfig.js is where you make most of the <a href="https://docusaurus.io/docs/en/site-config.html">customizations</a> for your site; sidebars.json is where you maintain the layout and content of the <a href="https://docusaurus.io/docs/en/navigation.html">sidebar</a> for your documentation; the pages folder is where you add <a href="https://docusaurus.io/docs/en/custom-pages.html">custom</a> pages for your site; the static folder is where all of your static assets go (e.g., css stylesheets and images); and the core folder is where you can customize core components of the site, in this case the footer.</p>
 <h2><a class="anchor" aria-hidden="true" id="how-does-docusaurus-work"></a><a href="#how-does-docusaurus-work" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>How does Docusaurus work?</h2>
 <p>Docusaurus is written primarily in JavaScript and <a href="https://facebook.github.io/react">React</a>, replacing the Jekyll we had in the old template. We use <a href="https://github.com/jonschlinkert/remarkable">Remarkable</a> for our markdown rendering and <a href="https://highlightjs.org/">highlight.js</a> for our code block syntax highlighting. The core of Docusaurus' functionality is in the <a href="https://github.com/facebookexperimental/Docusaurus/tree/master/lib">lib directory</a> of the <a href="https://github.com/facebookexperimental/Docusaurus/">Docusaurus repo</a>. The general structure looks like:</p>
 <pre><code class="hljs">root-of-Docusaurus
 ├── lib
-│ └── core
-│ └── server
-│     └── generate<span class="hljs-selector-class">.js</span>
-│     └── server<span class="hljs-selector-class">.js</span>
-│     └── ..<span class="hljs-selector-class">.and</span> more files
-│ └── static
-│ └── build-files<span class="hljs-selector-class">.js</span>
-│ └── copy-examples<span class="hljs-selector-class">.js</span>
-│ └── generate-feed<span class="hljs-selector-class">.js</span>
-│ └── publish-gh-pages<span class="hljs-selector-class">.js</span>
-│ └── rename-version<span class="hljs-selector-class">.js</span>
-│ └── start-server<span class="hljs-selector-class">.js</span>
-│ └── versions<span class="hljs-selector-class">.js</span>
-│ └── write-translations<span class="hljs-selector-class">.js</span>
+│   ├── core
+│   ├── server
+│   │   ├── generate<span class="hljs-selector-class">.js</span>
+│   │   ├── server<span class="hljs-selector-class">.js</span>
+│   │   └── ..<span class="hljs-selector-class">.and</span> more files
+│   ├── static
+│   ├── build-files<span class="hljs-selector-class">.js</span>
+│   ├── copy-examples<span class="hljs-selector-class">.js</span>
+│   ├── generate-feed<span class="hljs-selector-class">.js</span>
+│   ├── publish-gh-pages<span class="hljs-selector-class">.js</span>
+│   ├── rename-version<span class="hljs-selector-class">.js</span>
+│   ├── start-server<span class="hljs-selector-class">.js</span>
+│   ├── versions<span class="hljs-selector-class">.js</span>
+│   └── write-translations<span class="hljs-selector-class">.js</span>
 </code></pre>
 <p>The key files here are build-files.js and start-server.js. There are many similarities between these two files: <code>build-files.js</code> is used to build the physical artifacts for serving by an external web server. <code>start-server.js</code> is used  to run the Docusaurus server and locally test your site. Both go through the following general process to take all of the markdown and configuration to create a runnable website:</p>
 <ol>
@@ -86,16 +86,16 @@
 <p>The final structure of your compiled site will look similar to:</p>
 <pre><code class="hljs">build
 ├── website
-│ └── CNAME
-│ └── blog
-│ └── css
-│ └── docs
-│ └── en
-│ └── help.html # custom<span class="hljs-built_in"> page
-</span>│ └── img
-│ └── index.html # landing<span class="hljs-built_in"> page
-</span>│ └── sitemap.xml
-│ └── users.html # custom<span class="hljs-built_in"> page
+│   ├── CNAME
+│   ├── blog
+│   ├── css
+│   ├── docs
+│   ├── en
+│   ├── help.html # custom<span class="hljs-built_in"> page
+</span>│   ├── img
+│   ├── index.html # landing<span class="hljs-built_in"> page
+</span>│   ├── sitemap.xml
+│   └── users.html # custom<span class="hljs-built_in"> page
 </span></code></pre>
 <h2><a class="anchor" aria-hidden="true" id="community"></a><a href="#community" aria-hidden="true" class="hash-link" ><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Community</h2>
 <p><img src="/img/docusaurus.svg" alt="Docusaurus"></p>
