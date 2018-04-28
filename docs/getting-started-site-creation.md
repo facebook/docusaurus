@@ -14,15 +14,15 @@ Your site structure looks like the following:
 ```bash
 root-of-repo
 ├── docs
-└── website
-│   └── blog
-│   └── core
-│       └── Footer.js
-│   └── node_modules
-│   └── package.json
-│   └── pages
-│   └── sidebars.json
-│   └── siteConfig.js
+├── website
+│   ├── blog
+│   ├── core
+│   │   └── Footer.js
+│   ├── node_modules
+│   ├── package.json
+│   ├── pages
+│   ├── sidebars.json
+│   ├── siteConfig.js
 │   └── static
 ```
 
