@@ -38,13 +38,13 @@ To create a fully functional site, you only need to do a few steps:
 
 1. Add your documentation to the `/docs` folder as `.md` files, ensuring you have the proper [header](api-doc-markdown.md#documents) in each file. The simplest header would be the following, where `id` is the link name (e.g., `docs/intro.html`) and the `title`, is, of course, the title of the browser page.
 
-    ```
+    ```yaml
     ---
     id: intro
     title: Getting Started
     ---
 
-    My *new content* here..
+    My new content here..
     ```
 
 1. Add zero or more docs to the [`sidebars.json`](guides-navigation.md#adding-docs-to-a-sidebar) file so that your documentation is rendered in a sidebar, if you choose them to be.
@@ -56,10 +56,10 @@ To create a fully functional site, you only need to do a few steps:
 1. Place assets, such as images, in the `website/static/` folder.
 1. Run the site to see the results of your changes.  
 
-  ```
+  ```bash
   cd website
   yarn run start # or `npm run start`
-  # navigate to http://localhost:3000
+  # Navigate to http://localhost:3000
   ```
 
 ## Special Customization
@@ -74,17 +74,17 @@ If you prefer to have your landing page be straight to your documentation, you c
 ```html
 <!DOCTYPE HTML>
 <html lang="en-US">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="refresh" content="0; url=docs/id-of-doc-to-land-on.html">
-        <script type="text/javascript">
-            window.location.href = "docs/id-of-doc-to-land-on.html"
-        </script>
-        <title>Your Site Title Here</title>
-    </head>
-    <body>
-        If you are not redirected automatically, follow this <a href='docs/id-of-doc-to-land-on.html'>link</a>.
-    </body>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="0; url=docs/id-of-doc-to-land-on.html">
+    <script type="text/javascript">
+      window.location.href = 'docs/id-of-doc-to-land-on.html';
+    </script>
+    <title>Your Site Title Here</title>
+  </head>
+  <body>
+    If you are not redirected automatically, follow this <a href="docs/id-of-doc-to-land-on.html">link</a>.
+  </body>
 </html>
 ```
 

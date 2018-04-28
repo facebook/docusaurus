@@ -13,13 +13,13 @@ Docusaurus provides a set of scripts to help you generate, serve, and deploy you
 
 The scripts can be run using either Yarn or npm. If you've already gone through our Getting Started guide, you may already be familiar with the `start` command. It's the command that tells Docusaurus to run the `docusaurus-start` script which generates the site and starts up a server, and it's usually invoked like so:
 
-```
+```bash
 yarn run start
 ```
 
 The same script can be invoked using npm:
 
-```
+```bash
 npm run start
 ```
 
@@ -29,13 +29,13 @@ To run a particular script, just replace the `start` command in the examples abo
 
 Some commands support optional arguments. For example, to start a server on port 8080, you can specify the `--port` argument when running `start`:
 
-```
+```bash
 yarn run start --port 8080
 ```
 
 If you run Docusaurus using npm, you can still use the command line arguments by inserting a `--` between `npm run <command>` and the command arguments:
 
-```
+```bash
 npm run start -- --port 8080
 ```
 
@@ -54,6 +54,7 @@ Docusaurus provides some default mappings to allow you to run commands following
 ## Reference
 
 ### `docusaurus-build`
+
 Alias: `build`.
 
 Generates the static website, applying translations if necessary. Useful for building the website prior to deployment.
@@ -63,6 +64,7 @@ See also [`docusaurus-start`](api-commands.md#docusaurus-start-port-number).
 ---
 
 ### `docusaurus-examples [feature]`
+
 Alias: `examples`
 
 When no feature is specified, sets up a minimally configured example website in your project. This command is covered in depth in the [Site Preparation guide](getting-started-preparation.md). Specify a feature `translations` or `versions` to generate the extra example files for that feature.
@@ -70,6 +72,7 @@ When no feature is specified, sets up a minimally configured example website in 
 ---
 
 ### `docusaurus-publish`
+
 Alias: `publish-gh-pages`
 
 [Builds](api-commands.md#docusaurus-build), then deploys the static website to GitHub Pages. This command is meant to be run during the deployment step in Circle CI, and therefore expects a few environment variables to be defined:
@@ -100,6 +103,7 @@ You can learn more about configuring automatic deployments with CircleCI in the 
 ---
 
 ### `docusaurus-rename-version <currentVersion> <newVersion>`
+
 Alias: `rename-version`
 
 Renames an existing version of the docs to a new version name.
@@ -109,6 +113,7 @@ See the [Versioning guide](guides-versioning.md#renaming-existing-versions) to l
 ---
 
 ### `docusaurus-start [--port <number>]`
+
 Alias: `start`.
 
 This script will build the static website, apply translations if necessary, and then start a local server. The website will be served from port 3000 by default.
@@ -116,6 +121,7 @@ This script will build the static website, apply translations if necessary, and 
 ---
 
 ### `docusaurus-version <version>`
+
 Alias: `version`
 
 Generates a new version of the docs. This will result in a new copy of your site being generated and stored in its own versioned folder. Useful for capturing snapshots of API docs that map to specific versions of your software. Accepts any string as a version number.
@@ -125,6 +131,7 @@ See the [Versioning guide](guides-versioning.md) to learn more.
 ---
 
 ### `docusaurus-write-translations`
+
 Alias: `write-translations`
 
 Writes the English for any strings that need to be translated into an `website/i18n/en.json` file. The script will go through every file in `website/pages/en` and through the `siteConfig.js` file and other config files to fetch English strings that will then be translated on Crowdin. See the [Translation guide](guides-translation.md) to learn more.

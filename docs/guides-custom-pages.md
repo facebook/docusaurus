@@ -58,7 +58,7 @@ Your footer will automatically get applied to all pages on your site, including 
 If you do not want a footer for your site, change the `render` function of `core/Footer.js` to return `null`. e.g.,
 
 ```jsx
-const React = require("react");
+const React = require('react');
 
 class Footer extends React.Component {
   render() {
