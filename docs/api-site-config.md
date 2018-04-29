@@ -123,7 +123,7 @@ h1 {
 
 `gaTrackingId` - Google Analytics tracking ID to track page views.
 
-`gaGtag` - Set this to `true` if you want to use the [gtag.js library](https://developers.google.com/gtagjs/) for Google analytics.
+`gaGtag` - Set this to `true` if you want to use [global site tags (gtag.js)](https://developers.google.com/gtagjs/) for Google analytics instead of `analytics.js`.
 
 `highlight` - [Syntax highlighting](api-doc-markdown.md) options:
 
