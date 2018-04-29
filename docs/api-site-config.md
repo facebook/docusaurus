@@ -123,6 +123,8 @@ h1 {
 
 `gaTrackingId` - Google Analytics tracking ID to track page views.
 
+`gaGtag` - Set this to `true` if you want to use [global site tags (gtag.js)](https://developers.google.com/gtagjs/) for Google analytics instead of `analytics.js`.
+
 `highlight` - [Syntax highlighting](api-doc-markdown.md) options:
 
  - `theme` is the name of the theme used by Highlight.js when highlighting code. You can find the [list of supported themes here](https://github.com/isagalaev/highlight.js/tree/master/src/styles).
