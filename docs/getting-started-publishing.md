@@ -172,7 +172,7 @@ Steps to configure your Docusaurus-powered site on Netlify.
 1. Select the branch to deploy. Default is `master`
 1. Configure your build steps:
     * For your build command enter: `cd website; npm install; npm run build;`
-    * For publish directory: `build/<projectName>` (use the `projectName` from your `siteConfig`)
+    * For publish directory: `website/build/<projectName>` (use the `projectName` from your `siteConfig`)
 
 1. Click **Deploy site**
 
