@@ -140,6 +140,13 @@ const users = [
     fbOpenSource: false,
     pinned: false,
   },
+  {
+    caption: 'Home Assistant',
+    image: 'https://developers.home-assistant.io/img/logo-responsive.svg',
+    infoLink: 'https://developers.home-assistant.io/',
+    fbOpenSource: false,
+    pinned: false,
+  },
 ];
 
 const siteConfig = {
