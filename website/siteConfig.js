@@ -57,6 +57,13 @@ const users = [
     pinned: false,
   },
   {
+    caption: 'Home Assistant',
+    image: 'https://developers.home-assistant.io/img/logo-responsive.svg',
+    infoLink: 'https://developers.home-assistant.io/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Jest',
     image: '/img/jest.png',
     infoLink: 'https://facebook.github.io/jest/',
