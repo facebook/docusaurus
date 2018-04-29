@@ -689,6 +689,7 @@ input::placeholder {
   color: #e5e5e5;
 }
 
+/* Code */
 code {
   padding: 2px 0;
   background-color: $codeColor;
@@ -1158,6 +1159,7 @@ ul#languages li {
   }
 }
 
+/* Docs Navigation */
 .docs-prevnext {
   margin: 20px 0;
 }
