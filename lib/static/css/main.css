@@ -19,6 +19,7 @@ time, mark, audio, video {
   font: inherit;
   vertical-align: baseline;
 }
+
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
@@ -371,7 +372,6 @@ header h2 {
   font-weight: 400;
 }
 
-
 #integrations_title {
   font-size: 250%;
   margin: 80px 0;
@@ -721,7 +721,7 @@ pre code {
   text-decoration: none;
 }
 @media only screen and (max-width: 735px) {
-  a.edit-page-link.button{
+  .edit-page-link {
     display: none;
   }
 }
@@ -1007,23 +1007,6 @@ ul#languages li {
   display: block;
 }
 
-.menuExpand {
-  display: flex;
-  flex-flow: column nowrap;
-  height: 20px;
-  justify-content: space-between;
-}
-.menuExpand span {
-  background: #fff;
-  border-radius: 3px;
-  display: block;
-  flex: 0 0 4px;
-  height: 4px;
-  position: relative;
-  top: 0;
-  transition: background-color 0.3s, top 0.3s, opacity 0.3s, transform 0.3s;
-  width: 20px;
-}
 .navPusher {
   padding-top: 100px;
   position: relative;
@@ -1193,6 +1176,7 @@ ul#languages li {
   }
 }
 
+/* Docs Sidebar */
 .docsNavContainer {
   background: #fff;
   height: 35px;
@@ -1502,8 +1486,7 @@ nav.toc .toggleNav .navBreadcrumb h2 {
   }
 }
 
-/* Tables */
-
+/* Table */
 table {
   border-collapse: collapse;
   border-spacing: 0;
@@ -1556,6 +1539,7 @@ table td code {
   font-size: 12px;
 }
 
+/* Blog */
 .mainContainer:not(.blogContainer) .wrapper .post,
 .blogContainer .posts,
 .blogContainer .lonePost {
@@ -1838,14 +1822,4 @@ footer .copyright {
   .entry-share {
     display: none;
   }
-}
-
-/* Facebook OSS */
-#fb_oss a {
-  border: 0;
-}
-.fbossFontLight {
-  font-family: -apple-system,system-ui,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,'Fira Sans','Droid Sans','Helvetica Neue',Arial,sans-serif;
-  font-weight: 300;
-  font-style: normal;
 }
