@@ -5,15 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const React = require("react");
+const React = require('react');
 
-const GithubButton = props => (
+const GitHubButton = props => (
   <a
     className="github-button" // part of the https://buttons.github.io/buttons.js script in siteConfig.js
     href={`https://github.com/${props.config.organizationName}/${props.config.projectName}`}
     data-icon="octicon-star"
     data-count-href={`/${props.config.organizationName}/${props.config.projectName}/stargazers`}
-    data-count-api={`/repos/${props.config.organizationName}/${props.config.projectName}#stargazers_count`}
+    data-show-count="true"
     data-count-aria-label="# stargazers on GitHub"
     aria-label="Star this project on GitHub"
   >
@@ -21,7 +21,7 @@ const GithubButton = props => (
   </a>
 );
 
-GithubButton.propTypes = {
+GitHubButton.propTypes = {
   config: React.PropTypes.object
 };
 
@@ -85,15 +85,15 @@ class Footer extends React.Component {
             <a href="https://github.com/facebook/docusaurus">
               GitHub
             </a>
-            <GithubButton config={this.props.config} />
+            <GitHubButton config={this.props.config} />
           </div>
         </section>
 
         <a
           href="https://code.facebook.com/projects/"
           target="_blank"
-          className="fbOpenSource"
-        >
+          rel="noreferrer noopener"
+          className="fbOpenSource">
           <img
             src={`${this.props.config.baseUrl}img/oss_logo.png`}
             alt="Facebook Open Source"

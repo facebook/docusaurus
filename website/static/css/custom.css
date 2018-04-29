@@ -1,3 +1,7 @@
 .testimonials img {
   border-radius: 50%;
 }
+
+table td:first-child > code {
+  white-space: nowrap;
+}

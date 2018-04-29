@@ -49,7 +49,7 @@ body {
   background: #f9f9f9;
   color: #393939;
   font: normal 16px/1.4em -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Arial,sans-serif;
-  height: 100vh;
+  min-height: 100vh;
   text-align: left;
   text-rendering: optimizeLegibility;
 }
@@ -709,9 +709,9 @@ input#search_input_react:focus, input#search_input_react:active {
   color: #fff;
   width: 220px;
 }
-@media only screen and (min-device-width: 360px) and (max-device-width: 735px) {
+@media only screen and (max-width: 735px) {
   .navSearchWrapper {
-    width: 50%;
+    width: 40%;
   }
 }
 input::-webkit-input-placeholder {
@@ -740,13 +740,15 @@ code {
 }
 
 pre code {
-  display:block;
+  display: block;
   margin: 20px 0;
-  padding:0.5em;
-  border-left: 4px solid $primaryColor;
   font-family: "SFMono-Regular",source-code-pro,Menlo,Monaco,Consolas,"Roboto Mono","Droid Sans Mono","Liberation Mono",Consolas,"Courier New",Courier,monospace;
   font-size: 13px;
-  overflow-x:auto;
+  overflow-x: auto;
+}
+
+.hljs {
+  padding: 1.25rem 1.5rem;
 }
 
 /** GitHub **/
@@ -756,7 +758,7 @@ pre code {
   font-weight: normal;
   text-decoration: none;
 }
-@media only screen and (min-device-width: 360px) and (max-device-width: 735px) {
+@media only screen and (max-width: 735px) {
   a.edit-page-link.button{
     display: none;
   }
@@ -796,7 +798,7 @@ pre code {
   max-width: 500px;
   flex: 0 1 500px;
 }
-@media only screen and (min-device-width: 360px) and (max-device-width: 735px) {
+@media only screen and (max-width: 735px) {
   .imageAlignSide .blockImage {
     display: none;
   }
@@ -882,7 +884,7 @@ pre code {
 .container.paddingTop {
   padding-top: 80px;
 }
-@media only screen and (min-device-width: 360px) and (max-device-width: 735px) {
+@media only screen and (max-width: 735px) {
   .container.paddingBottom {
     padding-bottom: 40px;
   }
@@ -1064,7 +1066,7 @@ ul#languages li {
   position: relative;
   left: 0;
   z-index: 99;
-  height: 100%;
+  min-height: 100%;
 }
 .navPusher::after {
   position: absolute;
@@ -1204,7 +1206,7 @@ ul#languages li {
   }
 }
 
-@media only screen and (max-device-width: 735px) {
+@media only screen and (max-width: 735px) {
   .navigationSlider .slidingNav ul {
     overflow-x: auto;
   }
@@ -1219,7 +1221,7 @@ ul#languages li {
 .docs-prev {
   float: left;
 }
-@media only screen and (min-device-width: 360px) and (max-device-width: 735px) {
+@media only screen and (max-width: 735px) {
   .docs-prevnext {
     height: 40px;
   }
@@ -1276,7 +1278,7 @@ nav.toc section {
 nav.toc:last-child {
   padding-bottom: 100px;
 }
-@media only screen and (min-device-width: 360px) and (max-device-width: 735px) {
+@media only screen and (max-width: 735px) {
   nav.toc {
     width: 100%;
   }
@@ -1535,6 +1537,7 @@ nav.toc .toggleNav .navBreadcrumb h2 {
       flex: 0 0 240px;
       overflow-y: auto;
       max-height: calc(100vh - 110px);
+      align-self: flex-start;
     }
 
     .onPageNav > ul {
@@ -1548,8 +1551,8 @@ nav.toc .toggleNav .navBreadcrumb h2 {
 
     .onPageNav ul li {
       font-size: 12px;
-      line-height: 14px;
-      padding-bottom: 12px;
+      line-height: 17px;
+      padding-bottom: 9px;
     }
 
     .onPageNav ul ul {
@@ -1557,53 +1560,65 @@ nav.toc .toggleNav .navBreadcrumb h2 {
     }
 
     .onPageNav ul ul li {
-      padding-bottom: 8px;
+      padding-bottom: 5px;
     }
   }
 }
 
+/* Tables */
+
 table {
-  background: #F8F8F8;
-  border: 1px solid #B0B0B0;
   border-collapse: collapse;
+  border-spacing: 0;
   display: table;
+  font-size: 14px;
   margin: 20px 0;
 }
+
 table thead {
-  border-bottom: 1px solid #B0B0B0;
+  border-color: inherit;
   display: table-header-group;
+  vertical-align: middle;
 }
+
 table tbody {
   display: table-row-group;
+  vertical-align: middle;
 }
+
+table th,
+table td {
+  border: 1px solid #dbdbdb;
+  padding: .5em .75em;
+  vertical-align: top;
+}
+
 table tr {
+  border-color: inherit;
   display: table-row;
+  vertical-align: inherit;
 }
-table tr:nth-of-type(odd) {
-  background: #E8E8E8;
+
+table tr:nth-child(2n) {
+  background: #f5f5f5;
 }
-table tr th, table tr td {
-  border-right: 1px dotted #B0B0B0;
-  display: table-cell;
-  font-size: 14px;
-  line-height: 1.3em;
-  padding: 10px;
-  text-align: left;
+
+table tr th {
+  font-weight: bold;
 }
-table tr th:last-of-type, table tr td:last-of-type {
-  border-right: 0;
+
+.table tbody tr:last-child th,
+.table tbody tr:last-child td {
+  border-bottom-width: 0;
 }
-table tr th code, table tr td code {
+
+table th code,
+table td code {
   color: #2db04b;
   display: inline-block;
   font-size: 12px;
 }
-table tr th {
-  color: #000000;
-  font-weight: bold;
-  font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Arial,sans-serif;
-  text-transform: uppercase;
-}
+
 .mainContainer:not(.blogContainer) .wrapper .post,
 .blogContainer .posts,
 .blogContainer .lonePost {
@@ -1657,7 +1672,7 @@ table tr th {
 .blog-recent > a {
   float: left;
 }
-@media only screen and (min-device-width: 360px) and (max-device-width: 735px) {
+@media only screen and (max-width: 735px) {
   .blog-recent {
     height: 40px;
   }
@@ -1733,7 +1748,7 @@ h6:hover .header-link {
   width: 110px;
   padding: 20px;
 }
-@media only screen and (min-device-width: 360px) and (max-device-width: 735px) {
+@media only screen and (max-width: 735px) {
   .gridBlock .fourByGridBlock {
     box-sizing: border-box;
     flex: 1 0 26%;
@@ -1775,7 +1790,7 @@ h6:hover .header-link {
   padding: 20px;
 }
 
-@media only screen and (min-device-width: 360px) and (max-device-width: 735px) {
+@media only screen and (max-width: 735px) {
   .showcaseSection .logos img {
     max-height: 64px;
     width: 64px;
@@ -1826,6 +1841,7 @@ footer .sitemap .nav-home:focus {
     display: flex;
     flex-direction: column;
     margin: 0 2em 3em;
+    width: calc(100% - 4em);
   }
 }
 

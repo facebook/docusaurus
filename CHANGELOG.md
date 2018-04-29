@@ -6,6 +6,204 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.14] - 2018-04-23
+
+Small release mostly for documentation.
+
+Thank you to the following contributors who have helped with this releae:
+
+- @yangshun
+- @ericnakagawa
+- @shikaan
+- @longility
+
+### Breaking changes
+
+N/A
+
+### Added
+
+N/A
+
+### Fixed/Changed
+
+- Blog metadata now [refreshed](https://github.com/facebook/Docusaurus/commit/d3fd347d21d3480e656cf4590917633f91254c5f) on changes to blog posts.
+
+### Removed
+
+N/A
+
+## [1.0.13] - 2018-04-20
+
+This is primarily a bug fix release.
+
+Thank you to the following contributors who helped with this release:
+
+- @vjeux
+- @huang-x-h
+
+### Breaking changes
+
+N/A
+
+### Added
+
+- Support for [custom highlight theme URL](https://github.com/facebook/Docusaurus/commit/aa32ff4a558269a2ac02f265489804ab83cc0145) via the `themeURL` site config option.
+
+### Fixed/Changed
+
+- [Do not warn](https://github.com/facebook/Docusaurus/commit/c400636fb6a790ac39cb731ed3fe2f0cd22313eb) when using `layout` in the docs metadata header.
+- [Restore](https://github.com/facebook/Docusaurus/commit/1d4e334a86cabb9581a3ba5305a2019a7bbb540d) the ability to use the --port command line argument
+
+### Removed
+
+N/A
+
+## [1.0.12] - 2018-04-18
+
+This is a general release with additions and documentation updates. We would also like to welcome [React Native Elements](https://react-native-training.github.io/react-native-elements/) as a user of Docusaurus.
+
+https://docusaurus.io has turned on versioning. There are other documentation updates as well.
+
+> We turned on translations, but found a bug. So we turned it off until we fix it.
+
+Thank you to the following contributors who helped with this release:
+
+- @yangshun
+- @amyrlam
+- @SleepWalker
+- @InternetExplorer7
+- @zkochan
+- @iRoachie
+- @limonte
+
+### Breaking changes
+
+- While not officially breaking, `authorImage` will be [deprecated](https://github.com/facebook/Docusaurus/pull/577) for [`authorImageURL`](https://github.com/facebook/Docusaurus/commit/57cddb4d0897e7d9a62305c6b2b8a04e824e0941) in blog posts.
+
+### Added
+
+- [`twitterImage`](https://github.com/facebook/Docusaurus/commit/e738bbd99e80596f7280c2a131600600c083fc68) has been added to site configuration options for use in Twitter cards.
+- Support for [non-latin characters](https://github.com/facebook/Docusaurus/commit/1642c078a723487d922b80f6d112c989b98e8bd3) have been added in heading anchors.
+- [`<doctype HTML>`](https://github.com/facebook/Docusaurus/commit/946e2cef907a37290bfdf831dedc072de596f927) has been added to all HTML pages.
+- `cssnano` is used to [minify](https://github.com/facebook/Docusaurus/commit/159b80df942ba4d7c422ecb6d4b57aa34fd7b5e3) the main CSS file.
+
+### Fixed/Changed
+
+- [Search bar width in mobile navigation](https://github.com/facebook/Docusaurus/commit/ba024a25c7cf37cdaecafb8d805a49505f461785).
+
+### Removed
+
+N/A
+
+## [1.0.11] - 2018-04-12
+
+This is a general release with additions and documentation updates (which are already live on docusaurus.io). We would also like to welcome [BlueWhale](https://facebookresearch.github.io/BlueWhale) as a new user of Docusaurus.
+
+Thank you to the following contributors who helped with this release:
+
+- @amyrlam
+- @yangshun
+- @aadsm
+- @InternetExplorer7
+- @MisterTea
+- @SBrown2
+
+### Breaking changes
+
+N/A
+
+### Added
+
+- [Dynamic port switching](https://github.com/facebook/Docusaurus/commit/bbbe311004aa0b2e61f1678099c02cb9a136d418) (e.g., if the default is busy) when running the local server.
+- [Warnings](https://github.com/facebook/Docusaurus/commit/ad5b8b92b4a89bd197404d56d9a049db3aca5490) if you add documentation header metadata that is not supported.
+- The ability to [hide the documentation title](https://github.com/facebook/Docusaurus/commit/6dd6ead19f8f58c8494798da8d95070b9cf40808) for any of your docs with a new metadata option called `hide_title`.
+
+### Fixed/Changed
+
+- If you have translations enabled, the language drop down in the header navigation bar is now [fixed](https://github.com/facebook/Docusaurus/commit/0e3f3e30134d603e85a8024fdaa1a728a33b1452) to show the current language.
+- More [accessibility fixes](https://github.com/facebook/Docusaurus/commit/80ece69a1069d92ceac4a07d990ae3fb8b2c8b51) to support a11y.
+
+### Removed
+
+N/A
+
+## [1.0.10] - 2018-04-09
+
+This is a general release with mostly bug fixes and documentation updates (which are already live on docusuarus.io).
+
+### Breaking Changes
+
+N/A
+
+### Added
+
+- [Added Facebook Pixel ID as a configuration option](https://github.com/facebook/Docusaurus/commit/508090377eb14f27db5ccb87c5fbe70ab79dc62d), thanks @pestevez.
+- Better documentation on installation requirements, CircleCI, updating Docusaurus and API. Thanks espcially to @yangshun for a lot of documentation cleanup and additions.
+
+### Fixed/Changed
+
+- [Fixed .gitignore placement when running the examples script or `docusaurus-init`](https://github.com/facebook/Docusaurus/commit/fc051acde53e7dd981d5aeb0cea498209b1da11c)
+- On page navigation fixes, including its [scroll height](https://github.com/facebook/Docusaurus/commit/56bae1d70ca6e0467b4f43fcc2b3adf72a5296db), [better table of contents](https://github.com/facebook/Docusaurus/commit/c437f7be37827f4f8c199577f4367ad0e56562c7), and other [fixes](https://github.com/facebook/Docusaurus/commit/1a674885aeff1a3c9523d16a72a34e4ba0ce8019), thanks @microbouji.
+- [Cleaned up example pages](https://github.com/facebook/Docusaurus/commit/37c699e8bdcad6889fadf52253c0901dc029b507), thanks @Happy-Ferret.
+- [Better alignment of the sitemap in the footer](https://github.com/facebook/Docusaurus/commit/a7acc7d794240b28da52f90cac487f6b803dc7a3), thanks @ryzokuken.
+- Accessibility fixes around [images](https://github.com/facebook/Docusaurus/commit/c2cd169b64d1bd9513831976bd5db436d6cda498) and [links](https://github.com/facebook/Docusaurus/commit/e19b9ac56e227c40209cec774b5b74a539819153), thanks @amyrlam and @yangshun.
+
+### Removed
+
+N/A
+
+## [1.0.9] - 2018-03-13
+
+**This is a hotfix release**
+
+A [bug](https://github.com/facebook/Docusaurus/pull/501) was found in the [using `path` functions commit](https://github.com/facebook/Docusaurus/commit/cbdab2ba1112e8949683d23ce20034aa17d9013d) by @sunnylqm. Total commits in this release is 4, including the release itself.
+
+### Breaking Changes
+
+N/A
+
+### Added
+
+- [Docs for the secondary, on-page navigation option](https://docusaurus.io/docs/en/navigation.html#secondary-on-page-navigation).
+
+### Fixed/Changed
+
+- [Fix wrong versioned_docs file path](https://github.com/facebook/Docusaurus/pull/501/commits/324facde46e13749423d72f14e300a8dbf0a76cb), thanks @sunnylqm.
+
+### Removed
+
+N/A
+
+## [1.0.8] - 2018-03-12
+
+This is a targeted feature and bug fix release. A couple of things of interest are that this release fixes some [issues](https://github.com/facebook/Docusaurus/issues/468) with Windows that were occurring, particularly when building the docs, both locally and publishing, as well as addressing an [issue](https://github.com/facebook/Docusaurus/issues/344) for support for a secondary, on-page sidebar for local page navigation, which is now enabled for docusaurus.io. Total commits in this release is 27, including the release itself.
+
+### Breaking Changes
+
+N/A
+
+### Added
+
+- [Add separate, on-page navigation sidebar option so that you can see links to local page topics](https://github.com/facebook/Docusaurus/commit/4ff2fe280ebd41c4b491936fdd4ae75b7805ed61), thanks @microbouji.
+- [You can now use a custom `appId` for your Algolia search](https://github.com/facebook/Docusaurus/commit/4ea8158c0cf2105b0fec767289fd722ebc6e3a92), thanks @atroncy.
+- [The header navigation now shows the active link clearly](https://github.com/facebook/Docusaurus/commit/48ee457ec98b728343196362d5d42c0dc3d1cff9), thanks @microbouji.
+- [Replace Circle CI 1.0 publishing documentation with Circle CI 2.0](https://docusaurus.io/docs/en/publishing.html#using-circle-ci-20), thanks @ashleytqy.
+
+### Fixed/Changed
+
+- [Use `path` functions in order to fix building on Windows](https://github.com/facebook/Docusaurus/commit/cbdab2ba1112e8949683d23ce20034aa17d9013d)
+- [`latestVersion` was fixed when running the local server](https://github.com/facebook/Docusaurus/commit/4a10be8002af4bf59a3830d75c5860b83df3d2a6), thanks @sunnylqm.
+- [Environment variables take precedent over config options when publishing](https://github.com/facebook/Docusaurus/commit/d2bff6929e410f03bc4758538020167c828b156e), thanks @juanpicado.
+- [i18n support fixed for the home page link in the header](https://github.com/facebook/Docusaurus/commit/f8486e02ae2b28e7c04cf72617a31716b64a445c) and [the sidebar navigation](https://github.com/facebook/Docusaurus/commit/4553afda2bdb68db2f5f014a117cf93e81014037), thank @cheercroaker.
+- [Document an existing feature that has already existed, `ogImage`](https://github.com/facebook/Docusaurus/commit/a8d7299ef2c055e7cd48cf6a78ed2204a964bdaa), thanks @miralemd.
+- [`siteConfig.users` is now optional](https://github.com/facebook/Docusaurus/commit/8c2145585c415f0e1b093c33cc2aba46c407b575), thanks @aimeerpierce.
+- [`id` used instead of `name` in anchors, bringing us more HTML 5 compliant](https://github.com/facebook/Docusaurus/commit/c800870fefe0f3f1987ea0731d0ad1391ea35471), thanks @ronami.
+
+### Removed
+
+N/A
+
 ## [1.0.7] - 2018-02-17
 
 **This is a hotfix release**
@@ -26,13 +224,13 @@ N/A
 - [Relax restriction on versioned doc ids with dashes](https://github.com/facebook/Docusaurus/commit/ec6ff9284c03e3287089f65e596a2293097c23ab)
 - [Broken link in the site config docs](https://github.com/facebook/Docusaurus/commit/f79cfaa3a11270665ab528b26a37f2598a878bff), thanks @justinmusgrove.
 
-## Removed
+### Removed
 
 N/A
 
 ## [1.0.6] - 2018-02-12
 
-This is a bigger release than normal as it has been a month since releases. It contains bug fixes, duplicate code removal, a few new feaatures, and documentation updates. Total commits in this release is 38, including the release itself.
+This is a bigger release than normal as it has been a month since releases. It contains bug fixes, duplicate code removal, a few new features, and documentation updates. Total commits in this release is 38, including the release itself.
 
 ### Breaking Changes
 
@@ -43,7 +241,7 @@ N/A
 - Option to control number of blog posts in sidebar ([#432](https://github.com/facebook/Docusaurus/commit/dfb70e18296fe0feb53ac05e807cba290b5da3d7), thanks @ericnakagawa)
 - `font-family` is now a configurable parameter ([#294](https://github.com/facebook/Docusaurus/commit/a241a466697a2bb9fa022df29fba35dd49e29715), thanks @cowlingj)
 - Configurable edit URL link, per doc ([#443](https://github.com/facebook/Docusaurus/commit/41750667cd74b66c2bdde00619d290fc293a01d3), thanks @Glavin001)
-- New Docusaurus [users](https://docusaurus.io/en/users.html): [Vuls](https://vuls.io/), [react-native-ios-kit](https://callstack.github.io/react-native-ios-kit) and [Verdaccio](http://www.verdaccio.org/) 
+- New Docusaurus [users](https://docusaurus.io/en/users.html): [Vuls](https://vuls.io/), [react-native-ios-kit](https://callstack.github.io/react-native-ios-kit) and [Verdaccio](http://www.verdaccio.org/)
 - Docs section about referencing site documents ([#394](https://github.com/facebook/Docusaurus/commit/1d967a941cfc7256588ce8b88291d7f3c86c1983)
 )
 - Clarified docs on [publishing to a user/org page](https://docusaurus.io/docs/en/publishing.html#using-github-pages)
@@ -124,7 +322,14 @@ N/A
   - Blog
   - Documentation
 
-[Unreleased]: https://github.com/facebook/Docusaurus/compare/v1.0.7...HEAD
+[Unreleased]: https://github.com/facebook/Docusaurus/compare/v1.0.14...HEAD
+[1.0.14]: https://github.com/facebook/Docusaurus/compare/v1.0.13...v1.0.14
+[1.0.13]: https://github.com/facebook/Docusaurus/compare/v1.0.12...v1.0.13
+[1.0.12]: https://github.com/facebook/Docusaurus/compare/v1.0.11...v1.0.12
+[1.0.11]: https://github.com/facebook/Docusaurus/compare/v1.0.10...v1.0.11
+[1.0.10]: https://github.com/facebook/Docusaurus/compare/v1.0.9...v1.0.10
+[1.0.9]: https://github.com/facebook/Docusaurus/compare/v1.0.8...v1.0.9
+[1.0.8]: https://github.com/facebook/Docusaurus/compare/v1.0.7...v1.0.8
 [1.0.7]: https://github.com/facebook/Docusaurus/compare/v1.0.6...v1.0.7
 [1.0.6]: https://github.com/facebook/Docusaurus/compare/v1.0.5...v1.0.6
 [1.0.5]: https://github.com/facebook/Docusaurus/compare/v1.0.4...v1.0.5
