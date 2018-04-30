@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-/* List of projects/orgs using your project for the users page */
+// List of projects/orgs using your project for the users page.
 const users = [
   {
     caption: "Almin",
