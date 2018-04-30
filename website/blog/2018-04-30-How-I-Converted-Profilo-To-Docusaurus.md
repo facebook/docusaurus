@@ -66,7 +66,7 @@ Here's an overview of the steps taken to convert to a website. I'll discuss some
 1. Sent a [pull request](https://github.com/facebookincubator/profilo/pull/6) to the project.
 1. Updated the colors after the designer rightly gasped at the ones I had chosen (IANAD).
 1. Updated the colors and updated the PR.
-1. The PR was then accepted and [merged](https://github.com/facebookincubator/profilo/commit/6ad033aaf5a7d54e6d842f45a5bccd051a8e45ad). Yay!!
+1. The PR was then accepted and [merged](https://github.com/facebookincubator/profilo/commit/6ad033aaf5a7d54e6d842f45a5bccd051a8e45ad). Yay!
 
 **Website publishing:**
 
