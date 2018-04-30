@@ -19,12 +19,12 @@ Profilo, an Android library for collecting performance traces from production, [
 In general, when creating a website with Docusaurus you do the following:
 
 1. Generate a template website using Docusaurus scripts.
-2. Customize the generated template files for your desired site colors and your project configuration (ex: website and GitHub links).
-3. Create the website content:
+1. Customize the generated template files for your desired site colors and your project configuration (ex: website and GitHub links).
+1. Create the website content:
     1. Add your docs and any supporting assets.
-    2. Customize the default landing page provided by Docusaurus to suite your needs.
-    3. Configure the default site navigation file.
-4. Publish the website and set up how it will be published for future changes.
+    1. Customize the default landing page provided by Docusaurus to suit your needs.
+    1. Configure the default site navigation file.
+1. Publish the website and set up how it will be published for future changes.
 
 Given I had pre-existing Markdown files, I didn't have to generate the core content but simply make sure that Docusaurus could process the files by adding the expected metadata to them. Most of the work would therefore consist of customizing the defaults provided by Docusaurus.
 
@@ -35,13 +35,13 @@ Here's an overview of the steps taken to convert to a website. I'll discuss some
 **Design and colors:**
 
 1. Got all the desired logo formats from designer. I had to create the *.favicon* one.
-2. Worked out some passable primary and secondary website colors using the http://paletton.com/ tools - very handy! 
+1. Worked out some passable primary and secondary website colors using the http://paletton.com/ tools - very handy! 
 
 **Initial website setup:**
 
 1. Forked the [Profilo project](https://github.com/facebookincubator/profilo/) on GitHub and created a local clone of the fork to set up the website.
-2. Created the initial Docusaurus website using the [installation instructions](https://docusaurus.io/docs/en/installation.html).
-3. Deleted the `docs-examples-from-docusaurus` and `website/blog-examples-from-docusaurus` folders as these would not be needed. Profilo had existing docs we could use and there was no need for blogs at this time.
+1. Created the initial Docusaurus website using the [installation instructions](https://docusaurus.io/docs/en/installation.html).
+1. Deleted the `docs-examples-from-docusaurus` and `website/blog-examples-from-docusaurus` folders as these would not be needed. Profilo had existing docs we could use and there was no need for blogs at this time.
 
 **Content creation:**
 
@@ -54,19 +54,19 @@ Here's an overview of the steps taken to convert to a website. I'll discuss some
         +---
 
 1. Added the logo assets to the `website/static/img` folder.
-2. Modified `website/pages/en/index.js`, the landing page, to highlight Profilo features.
-3. Modified `website/core/Footer.js`, the footer, to simplify it for Profilo.
-4. Edited `website/siteConfig.js` (website configuration file) to specify the previously chosen primary and secondary colors.
-5. Modified `website/sidebars.json` that specifies the sidebar navigation. Listed all the docs and customized it based on the metadata added to the Markdown files.
-6. Edited the website configuration file to specify the GitHub properties, logo images, header links, and the website link.
-7. Tested the website locally throughout this phase. (I ran `yarn start` from the `website` folder to start the server.)
+1. Modified `website/pages/en/index.js`, the landing page, to highlight Profilo features.
+1. Modified `website/core/Footer.js`, the footer, to simplify it for Profilo.
+1. Edited `website/siteConfig.js` (website configuration file) to specify the previously chosen primary and secondary colors.
+1. Modified `website/sidebars.json` that specifies the sidebar navigation. Listed all the docs and customized it based on the metadata added to the Markdown files.
+1. Edited the website configuration file to specify the GitHub properties, logo images, header links, and the website link.
+1. Tested the website locally throughout this phase. (I ran `yarn start` from the `website` folder to start the server.)
 
 **Feedback and review changes:**
 
 1. Sent a [pull request](https://github.com/facebookincubator/profilo/pull/6) to the project.
-2. Updated the colors after the designer rightly gasped at the ones I had chosen (IANAD).
-3. Updated the colors and updated the PR.
-4. The PR was then accepted and [merged](https://github.com/facebookincubator/profilo/commit/6ad033aaf5a7d54e6d842f45a5bccd051a8e45ad). Yay!!
+1. Updated the colors after the designer rightly gasped at the ones I had chosen (IANAD).
+1. Updated the colors and updated the PR.
+1. The PR was then accepted and [merged](https://github.com/facebookincubator/profilo/commit/6ad033aaf5a7d54e6d842f45a5bccd051a8e45ad). Yay!!
 
 **Website publishing:**
 
@@ -91,7 +91,7 @@ Most of the time spent in the content creation was spent picking colors that wor
 
 ![Picking Color Photoshop](/img/profilo_blog_post_photoshop_color_picker.png)
 
-I then took the RGB representation of the color and set it as the baseline color on [Paletton](http://paletton.com/). The website then gave me various color options to try on the website by editing the the Docusaurus website configuration file.
+I then took the RGB representation of the color and set it as the baseline color on [Paletton](http://paletton.com/). The website then gave me various color options to try on the website by editing the Docusaurus website configuration file.
 
 ![Picking Color Paletton](/img/profilo_blog_post_palette_website_color_picker.png)
 
