@@ -87,7 +87,7 @@ Here's what the initial website looked like when the first pull request was sent
 
 ![Website Initial Design](/img/profilo_blog_post_website_initial.png)
 
-Most of the time spent in the content creation was spent picking colors that worked reasonably well with the given logo. These colors were a good jumping off point for designer feedback. I used Photoshop came to sample various portions of the logo.
+Most of the time in the content creation was spent picking colors that worked reasonably well with the given logo. These colors were a good jumping off point for designer feedback. I used Photoshop to sample various portions of the logo.
 
 ![Picking Color Photoshop](/img/profilo_blog_post_photoshop_color_picker.png)
 
