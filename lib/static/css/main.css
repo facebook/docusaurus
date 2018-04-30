@@ -19,6 +19,7 @@ time, mark, audio, video {
   font: inherit;
   vertical-align: baseline;
 }
+
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
@@ -48,7 +49,7 @@ table {
 body {
   background: #f9f9f9;
   color: #393939;
-  font: normal 16px/1.4em -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Arial,sans-serif;
+  font: normal 16px/1.4em -apple-system,system-ui,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,'Fira Sans','Droid Sans','Helvetica Neue',Arial,sans-serif;
   min-height: 100vh;
   text-align: left;
   text-rendering: optimizeLegibility;
@@ -110,12 +111,7 @@ blockquote {
   border-left: 5px solid rgba(191, 87, 73, 0.2);
 }
 
-#fb_oss a {
-  border: 0;
-}
-
 h1, h2, h3, h4 {
-  font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Arial,sans-serif;
   font-weight: 300;
   color: $primaryColor;
 }
@@ -148,14 +144,12 @@ header h2 {
   margin-bottom: 0px;
 }
 .homeContainer .homeWrapper h1#project_title {
-  font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Arial,sans-serif;
   font-size: 300%;
   letter-spacing: -0.08em;
   line-height: 1em;
   margin-bottom: 80px;
 }
 .homeContainer .homeWrapper h2#project_tagline {
-  font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Arial,sans-serif;
   font-size: 200%;
   letter-spacing: -0.04em;
   line-height: 1em;
@@ -178,12 +172,6 @@ header h2 {
 
 .projectIntro {
   margin: 40px 0;
-}
-
-.fbossFontLight {
-  font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Arial,sans-serif;
-  font-weight: 300;
-  font-style: normal;
 }
 
 .fb-like {
@@ -375,7 +363,7 @@ header h2 {
 .mainContainer .wrapper .post h1,
 .mainContainer .wrapper .post h2,
 .mainContainer .wrapper .post h3 {
-    font-weight: 300;
+  font-weight: 300;
 }
 
 .mainContainer .wrapper .post h4,
@@ -384,29 +372,9 @@ header h2 {
   font-weight: 400;
 }
 
-
 #integrations_title {
   font-size: 250%;
   margin: 80px 0;
-}
-
-.ytVideo {
-  height: 0;
-  overflow: hidden;
-  padding-bottom: 53.4%;
-  /* 16:9 */
-  padding-top: 25px;
-  position: relative;
-}
-
-.ytVideo iframe,
-.ytVideo object,
-.ytVideo embed {
-  height: 100%;
-  left: 0;
-  position: absolute;
-  top: 0;
-  width: 100%;
 }
 
 .projectTitle {
@@ -543,7 +511,6 @@ header h2 {
 }
 .fixedHeaderContainer header h2 {
   display: block;
-  font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Arial,sans-serif;
   font-weight: 400;
   line-height: 18px;
   position: relative;
@@ -551,7 +518,6 @@ header h2 {
 }
 .fixedHeaderContainer header h3 {
   text-decoration: underline;
-  font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Arial,sans-serif;
   color: white;
   margin-left: 10px;
   font-size: 16px;
@@ -619,7 +585,7 @@ header h2 {
   display: block;
 }
 
-/** Search **/
+/* Search */
 input[type="search"] {
   -moz-appearance: none;
   -webkit-appearance: none;
@@ -637,7 +603,7 @@ input[type="search"] {
 .navSearchWrapper::before {
   border: 3px solid #e5e5e5;
   border-radius: 50%;
-  content: " ";
+  content: ' ';
   display: block;
   height: 6px;
   left: 15px;
@@ -649,7 +615,7 @@ input[type="search"] {
 }
 .navSearchWrapper::after {
   background: #e5e5e5;
-  content: " ";
+  content: ' ';
   height: 7px;
   left: 24px;
   position: absolute;
@@ -670,7 +636,6 @@ input[type="search"] {
 .navSearchWrapper .aa-dropdown-menu .algolia-docsearch-suggestion--category-header {
   background: $primaryColor;
   color: white;
-  font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Arial,sans-serif;
   font-weight: 400;
   font-size: 14px;
 }
@@ -689,7 +654,6 @@ input[type="search"] {
 input#search_input_react {
   padding-left: 25px;
   font-size: 14px;
-  font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Arial,sans-serif;
   font-weight: 300;
   line-height: 20px;
   border-radius: 20px;
@@ -725,6 +689,7 @@ input::placeholder {
   color: #e5e5e5;
 }
 
+/* Code */
 code {
   padding: 2px 0;
   background-color: $codeColor;
@@ -733,7 +698,7 @@ code {
   box-shadow: 2px 0 $codeColor, -2px 0 $codeColor;
   color: inherit;
   border-radius: .3em;
-  font-family: "SFMono-Regular",source-code-pro,Menlo,Monaco,Consolas,"Roboto Mono","Droid Sans Mono","Liberation Mono",Consolas,"Courier New",Courier,monospace;
+  font-family: 'SFMono-Regular',source-code-pro,Menlo,Monaco,Consolas,'Roboto Mono','Droid Sans Mono','Liberation Mono',Consolas,'Courier New',Courier,monospace;
   /* avoids scale issues on mobile */
   word-break: break-word;
 }
@@ -741,7 +706,6 @@ code {
 pre code {
   display: block;
   margin: 20px 0;
-  font-family: "SFMono-Regular",source-code-pro,Menlo,Monaco,Consolas,"Roboto Mono","Droid Sans Mono","Liberation Mono",Consolas,"Courier New",Courier,monospace;
   font-size: 13px;
   overflow-x: auto;
 }
@@ -750,7 +714,7 @@ pre code {
   padding: 1.25rem 1.5rem;
 }
 
-/** GitHub **/
+/* GitHub */
 .edit-page-link {
   float: right;
   font-size: 10px;
@@ -758,11 +722,12 @@ pre code {
   text-decoration: none;
 }
 @media only screen and (max-width: 735px) {
-  a.edit-page-link.button{
+  .edit-page-link {
     display: none;
   }
 }
-/** GridBlock **/
+
+/* GridBlock */
 .gridBlock {
   margin: -5px 0;
   padding: 0;
@@ -899,7 +864,7 @@ pre code {
     padding-left: 20px;
   }
   .responsiveList .blockContent::before {
-    content: "\2022";
+    content: '\2022';
     position: absolute;
   }
 }
@@ -1043,23 +1008,6 @@ ul#languages li {
   display: block;
 }
 
-.menuExpand {
-  display: flex;
-  flex-flow: column nowrap;
-  height: 20px;
-  justify-content: space-between;
-}
-.menuExpand span {
-  background: #fff;
-  border-radius: 3px;
-  display: block;
-  flex: 0 0 4px;
-  height: 4px;
-  position: relative;
-  top: 0;
-  transition: background-color 0.3s, top 0.3s, opacity 0.3s, transform 0.3s;
-  width: 20px;
-}
 .navPusher {
   padding-top: 100px;
   position: relative;
@@ -1211,6 +1159,7 @@ ul#languages li {
   }
 }
 
+/* Docs Navigation */
 .docs-prevnext {
   margin: 20px 0;
 }
@@ -1229,6 +1178,7 @@ ul#languages li {
   }
 }
 
+/* Docs Sidebar */
 .docsNavContainer {
   background: #fff;
   height: 35px;
@@ -1267,13 +1217,13 @@ ul#languages li {
   color: #393939;
 }
 .navBreadcrumb i {
-  padding: 0 3px;
+  padding: 0 4px;
 }
 nav.toc {
   width: 240px;
 }
 nav.toc section {
-  padding: 0px;
+  padding: 0;
   position: relative;
 }
 nav.toc:last-child {
@@ -1538,8 +1488,7 @@ nav.toc .toggleNav .navBreadcrumb h2 {
   }
 }
 
-/* Tables */
-
+/* Table */
 table {
   border-collapse: collapse;
   border-spacing: 0;
@@ -1592,6 +1541,7 @@ table td code {
   font-size: 12px;
 }
 
+/* Blog */
 .mainContainer:not(.blogContainer) .wrapper .post,
 .blogContainer .posts,
 .blogContainer .lonePost {
@@ -1668,7 +1618,7 @@ h6:hover .header-link {
   opacity: 1;
 }
 
-/** Homepage **/
+/* Homepage */
 .container .wrapper .alignCenter h2 {
   text-align: center;
 }
@@ -1734,7 +1684,7 @@ h6:hover .header-link {
   }
 }
 
-/** Showcase **/
+/* Showcase */
 .showcaseSection {
   max-width: 900px;
   text-align: center;
@@ -1742,7 +1692,6 @@ h6:hover .header-link {
 }
 .showcaseSection .prose h1 {
   color: $primaryColor;
-  font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Arial,sans-serif;
   text-align: center;
   padding: 1.4em 0 0.4em;
 }
@@ -1771,7 +1720,7 @@ h6:hover .header-link {
   }
 }
 
-/** Footer **/
+/* Footer */
 footer.nav-footer {
   position: relative;
   box-sizing: border-box;
