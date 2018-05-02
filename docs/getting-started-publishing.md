@@ -64,7 +64,7 @@ There are also two optional parameters that are set as environment variables:
 
 Once you have the parameter value information, you can go ahead and run the publish script, ensuring you have inserted your own values inside the various parameter placeholders:
 
-To run the script directly from the command-line, you can use the following, filling in the parameter values as appropriate.
+To run the script directly from the command-line, you can use the following, filling in the parameter values as appropriate. If you run into issues related to SSH keys, visit [Github's authentication documentation](https://help.github.com/articles/connecting-to-github-with-ssh/).
 
 ```bash
 GIT_USER=<GIT_USER> \
