@@ -3,7 +3,7 @@ id: search
 title: Enabling Search
 ---
 
-Docusaurus supports search using [Algolia DocSearch][1]. Once your website is online, you can [submit it to DocSearch][2]. Algolia will then send you credentials you can add to your `siteConfig.js`.
+Docusaurus supports search using [Algolia DocSearch](https://community.algolia.com/docsearch/). Once your website is online, you can [submit it to DocSearch](https://community.algolia.com/docsearch/). Algolia will then send you credentials you can add to your `siteConfig.js`.
 
 DocSearch works by crawling the content of your website every 24 hours and putting all the content in an Algolia index. This content is then queried directly from your front-end using the Algolia API. Note that your website need to be publicly available for this to work (ie. not behind a firewall). This service is free.
 
@@ -23,8 +23,7 @@ const siteConfig = {
 };
 ```
 
-Algolia might provide you with [extra search options][3]. If so, you should add
-them to the `algoliaOptions` object.
+Algolia might provide you with [extra search options](https://community.algolia.com/docsearch/documentation/). If so, you should add them to the `algoliaOptions` object.
 
 ## Controlling the Location of the Search Bar
 
@@ -51,8 +50,3 @@ const siteConfig = {
 To disable the search bar, comment out (recommended) or delete the `algolia` section in the `siteConfig.js` file.
 
 Also, if you have customized the location of the search bar in `headerLinks`, set `search: false`.
-
-
-[1]: https://community.algolia.com/docsearch/
-[2]: https://community.algolia.com/docsearch/
-[3]: https://community.algolia.com/docsearch/documentation/
