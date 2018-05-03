@@ -18,13 +18,16 @@ If you are not currently logged into npm locally:
 
 The version number should generally increase by some factor than the current one. You can check current version by looking in `package.json`.
 
-```
-"name": "docusaurus",
-"version": "1.0.0-alpha.41",
-"repository": {
-  "type": "git",
-  "url": "https://github.com/facebook/Docusaurus.git"
-},
+```json
+{
+  "name": "docusaurus",
+  "version": "1.0.0-alpha.41",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/Docusaurus.git"
+  }
+  ...
+}
 ```
 
 For the above example, you may want to bump the version to `1.0.0-alpha.42` or `1.0.0-beta.1` or `1.0.1`.

@@ -1,7 +1,7 @@
 {
   "name": "docusaurus",
   "description": "Easy to Maintain Open Source Documentation Websites",
-  "version": "1.0.9",
+  "version": "1.0.14",
   "license": "MIT",
   "keywords": [
     "documentation",
@@ -26,6 +26,7 @@
   "dependencies": {
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.0",
     "babel-preset-react": "^6.24.1",
     "babel-register": "^6.24.1",
@@ -36,12 +37,15 @@
     "color": "^2.0.1",
     "commander": "^2.11.0",
     "crowdin-cli": "^0.3.0",
+    "cssnano": "^3.10.0",
     "escape-string-regexp": "^1.0.5",
     "express": "^4.15.3",
     "feed": "^1.1.0",
     "fs-extra": "^5.0.0",
     "glob": "^7.1.2",
     "highlight.js": "^9.12.0",
+    "markdown-toc": "^1.2.0",
+    "mkdirp": "^0.5.1",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "react-dom-factories": "^1.0.1",

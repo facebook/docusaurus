@@ -9,7 +9,7 @@ You should now have a [site up and running locally](getting-started-site-creatio
 
 To create a static build of your website, run the following script from the `website` directory:
 
-```
+```bash
 yarn run build # or `npm run build`
 ```
 
@@ -17,9 +17,16 @@ This will generate a `build` folder inside the `website` directory containing th
 
 ## Hosting Static HTML Pages
 
-At this point, you can grab all of the files inside the `website/build` folder and copy them over to your favorite web server's "html" directory.
+At this point, you can grab all of the files inside the `website/build` folder and copy them over to your favorite web server's `html` directory.
 
 > For example, both Apache and nginx serve content from `/var/www/html` by default. That said, choosing a web server or provider is outside the scope of Docusaurus.
+
+> When serving the site from your own web server, ensure the web server is serving the asset files with the proper HTTP headers. CSS files should be served with the `content-type` header of `text/css`. In the case of nginx, this would mean setting `include /etc/nginx/mime.types;` in your `nginx.conf` file. See [this issue](https://github.com/facebook/Docusaurus/issues/602) for more info.
+
+### Hosting on a Service:
+
+* [GitHub Pages](#using-github-pages)
+* [Netlify](#hosting-on-netlify)
 
 ### Using GitHub Pages
 
@@ -33,8 +40,10 @@ Most of the work to publish to GitHub pages is done for you automatically throug
 
 Two of the required parameters are set in the [`siteConfig.js`](api-site-config.md):
 
-- `organizationName`: The GitHub user or organization that owns the repository. In the case of Docusaurus, that would be the "facebook" GitHub organization.
-- `projectName`: The name of the GitHub repository for your project. For example, Docusaurus is hosted at https://github.com/facebook/docusaurus, so our project name in this case would be "docusaurus".
+| Name               | Description                                                                                                                                                                              |
+| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `organizationName` | The GitHub user or organization that owns the repository. In the case of Docusaurus, that would be the "facebook" GitHub organization.                                                   |
+| `projectName`      | The name of the GitHub repository for your project. For example, Docusaurus is hosted at https://github.com/facebook/docusaurus, so our project name in this case would be "docusaurus". |
 
 > Docusaurus also supports deploying [user or organization sites](https://help.github.com/articles/user-organization-and-project-pages/#user--organization-pages). These sites will be served from the `master` branch of the repo. So, you will want to have the Docusaurus infra, your docs, etc. in another branch (e.g., maybe call it `source`). To do this, just set `projectName` to "_username_.github.io" (where _username_ is your username or organization name on GitHub) and `organizationName` to "_username_". The publish script will automatically deploy your site to the root of the `master` branch to be served.
 
@@ -42,17 +51,20 @@ Two of the required parameters are set in the [`siteConfig.js`](api-site-config.
 
 One of the required parameters is set as a environment variable:
 
-- `GIT_USER`: The username for a GitHub account that has commit access to this repo. For your own repositories, this will usually be your own GitHub username.
+| Name       | Description                                                                                                                                      |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `GIT_USER` | The username for a GitHub account that has commit access to this repo. For your own repositories, this will usually be your own GitHub username. |
 
 There are also two optional parameters that are set as environment variables:
 
-- `USE_SSH`: If this is set to `true`, then SSH is used instead of HTTPS for the connection to the GitHub repo. HTTPS is the default if this variable is not set.
-
-- `CURRENT_BRANCH`: The branch that contains the latest docs changes that will be deployed. Usually, the branch will be `master`, but it could be any branch (default or otherwise) except for `gh-pages`. If nothing is set for this variable, then the current branch will be used.
+| Name             | Description                                                                                                                                                                                                                                                       |
+| ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `USE_SSH`        | If this is set to `true`, then SSH is used instead of HTTPS for the connection to the GitHub repo. HTTPS is the default if this variable is not set.                                                                                                              |
+| `CURRENT_BRANCH` | The branch that contains the latest docs changes that will be deployed. Usually, the branch will be `master`, but it could be any branch (default or otherwise) except for `gh-pages`. If nothing is set for this variable, then the current branch will be used. |
 
 Once you have the parameter value information, you can go ahead and run the publish script, ensuring you have inserted your own values inside the various parameter placeholders:
 
-To run the script directly from the command-line, you can use the following, filling in the parameter values as appropriate.
+To run the script directly from the command-line, you can use the following, filling in the parameter values as appropriate. If you run into issues related to SSH keys, visit [Github's authentication documentation](https://help.github.com/articles/connecting-to-github-with-ssh/).
 
 ```bash
 GIT_USER=<GIT_USER> \
@@ -82,10 +94,10 @@ If you haven't done so already, you can [setup CircleCI](https://circleci.com/si
 1. Go to https://github.com/settings/tokens for the `GIT_USER` and generate a new [personal access token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/), granting it full control of private repositories through the `repo` access scope. Store this token in a safe place, making sure to not share it with anyone. This token can be used to authenticate GitHub actions on your behalf in place of your GitHub password.
 1. Open your Circle CI dashboard, and navigate to the Settings page for your repository, then select "Environment variables". The URL looks like https://circleci.com/gh/ORG/REPO/edit#env-vars, where "ORG/REPO" should be replaced with your own GitHub org/repo.
 1. Create a new environment variable named `GITHUB_TOKEN`, using your newly generated access token as the value.
-1. Create a `.circleci` folder and create a `config.yml` under that folder. 
+1. Create a `.circleci` folder and create a `config.yml` under that folder.
 1. Copy the text below into `.circleci/config.yml`.
 
-```yml
+```yaml
 # If you only one circle to run on direct commits to master, you can uncomment this out
 # and uncomment the filters: *filter-only-master down below too
 #
@@ -104,7 +116,7 @@ jobs:
 
     steps:
       - checkout
-      - run: 
+      - run:
           name: Deploying to GitHub Pages
           command: |
             git config --global user.email "<GITHUB_USERNAME>@users.noreply.github.com"
@@ -117,7 +129,7 @@ workflows:
   build_and_deploy:
     jobs:
       - deploy-website:
-#         filters: *filter-only-master   
+#         filters: *filter-only-master
 ```
 
 Make sure to replace all `<....>` in the `command:` sequence with appropriate values. For `<GIT_USER>`, it should be a GitHub account that has access to push documentation to your GitHub repo. Many times `<GIT_USER>` and `<GITHUB_USERNAME>` will be the same.
@@ -132,11 +144,11 @@ Now, whenever a new commit lands in `master`, CircleCI will run your suite of te
 
 > If you would rather use a deploy key instead of a personal access token, you can by starting with the Circle CI [instructions](https://circleci.com/docs/1.0/adding-read-write-deployment-key/) for adding a read/write deploy key.
 
-#### Tips & Tricks
+### Tips & Tricks
 
 When initially deploying to a `gh-pages` branch using Circle CI, you may notice that some jobs triggered by commits to the `gh-pages` branch fail to run successfully due to a lack of tests. You can easily work around this by creating a basic Circle CI config with the following contents:
 
-```yml
+```yaml
 # Circle CI 2.0 Config File
 # This config file will prevent tests from being run on the gh-pages branch.
 version: 2
@@ -150,3 +162,18 @@ jobs:
 ```
 
 Save this file as `config.yml` and place it in a `.circleci` folder inside your `website/assets` folder.
+
+### Hosting on Netlify
+
+Steps to configure your Docusaurus-powered site on Netlify.
+
+1. Select **New site from Git**
+1. Connect to your preferred Git provider.
+1. Select the branch to deploy. Default is `master`
+1. Configure your build steps:
+    * For your build command enter: `cd website; npm install; npm run build;`
+    * For publish directory: `website/build/<projectName>` (use the `projectName` from your `siteConfig`)
+
+1. Click **Deploy site**
+
+You can also configure Netlify to rebuild on every commit to your repo, or only `master` branch commits.

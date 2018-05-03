@@ -27,7 +27,7 @@
 
 ### Environment
 
-(OS, Node, npm, yarn)
+(Docusaurus version via `npm outdated docusaurus` or `yarn outdated docusaurus`, OS, Node, npm, yarn)
 
 ### Steps to Reproduce
 
