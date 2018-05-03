@@ -161,7 +161,7 @@ jobs:
       -run: echo "Skipping tests on gh-pages branch"
 ```
 
-Save this file as `config.yml` and place it in a `.circleci` folder inside your `website/assets` folder.
+Save this file as `config.yml` and place it in a `.circleci` folder inside your `website/static` folder.
 
 ### Hosting on Netlify
 

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-/* List of projects/orgs using your project for the users page */
+// List of projects/orgs using your project for the users page.
 const users = [
   {
     caption: "Almin",
@@ -27,6 +27,13 @@ const users = [
     infoLink: 'https://bucklescript.github.io/',
     fbOpenSource: false,
     pinned: true,
+  },
+  {
+    caption: 'Dep',
+    image: '/img/golang-dep.svg',
+    infoLink: 'https://golang.github.io/dep/',
+    fbOpenSource: false,
+    pinned: false,
   },
   {
     caption: 'Docusaurus',
