@@ -522,7 +522,7 @@ header h2 {
   margin-left: 10px;
   font-size: 16px;
 }
-@media (max-width: 375px) {
+@media (max-width: 480px) {
   .headerTitle {
     font-size: 17px;
   }
