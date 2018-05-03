@@ -526,7 +526,7 @@ header h2 {
   .headerTitle {
     font-size: 17px;
   }
-  .headerTitleHidden {
+  .headerTitleWithLogo {
     display: none !important;
   }
 }
