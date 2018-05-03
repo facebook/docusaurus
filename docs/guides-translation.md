@@ -9,19 +9,19 @@ Docusaurus allows for easy translation functionality using [Crowdin](https://cro
 
 To generate example files for translations with Docusaurus, run the `examples` script with the command line argument `translations`:
 
-```
+```bash
 npm run examples translations
 ```
 
 or
 
-```
+```bash
 yarn examples translations
 ```
 
 This will create the following files:
 
-```
+```bash
 pages/en/help-with-translations.js
 languages.js
 ../crowdin.yaml
@@ -50,7 +50,7 @@ Wrap strings you want translated in a `<translate>` tag, and add the following `
 
 ```jsx
 ...
-const translate = require("../../server/translate.js").translate;
+const translate = require('../../server/translate.js').translate;
 ...
 <h2>
   <translate>This header will be translated</translate>
@@ -74,12 +74,14 @@ The strings within localized Pages must be extracted and provided to Crowdin.
 
 Add the following script to your `website/package.json` file, if it does not exist already:
 
-```json
-...
-"scripts": {
-  "write-translations": "docusaurus-write-translations"
-},
-...
+```js
+{
+  ...
+  "scripts": {
+    "write-translations": "docusaurus-write-translations"
+  },
+  ...
+}
 ```
 
 Running the script will generate a `website/i18n/en.json` file containing all the strings that will be translated from English into other languages.
@@ -161,7 +163,7 @@ You will want to manually sync your files to and from Crowdin. The sync process 
 
 You can add the following to your `package.json` to manually trigger Crowdin.
 
-```json
+```js
 "scripts": {
   "crowdin-upload": "crowdin --config ../crowdin.yaml upload sources --auto-update -b master",
   "crowdin-download": "crowdin --config ../crowdin.yaml download -b master"
@@ -172,7 +174,7 @@ You can add the following to your `package.json` to manually trigger Crowdin.
 
 You will always want to upload your markdown files and translatable strings first and the download the translations section. So run the commands in this order:
 
-```
+```bash
 CROWDIN_DOCUSAURUS_PROJECT_ID=YOUR_CROWDIN_PROJECT_ID CROWDIN_DOCUSAURUS_API_KEY=YOUR_CROWDIN_API_KEY yarn run crowdin-upload
 CROWDIN_DOCUSAURUS_PROJECT_ID=YOUR_CROWDIN_PROJECT_ID CROWDIN_DOCUSAURUS_API_KEY=YOUR_CROWDIN_API_KEY yarn run crowdin-download
 ```

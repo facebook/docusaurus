@@ -6,7 +6,7 @@ If you are developing the Docusaurus core and you want a quick way to test your 
 
 It is straightforward to test your Docusaurus changes with Docusaurus.
 
-```
+```bash
 cd /path/to/docusaurus-repo
 npm install
 cd website
@@ -21,7 +21,7 @@ npm run start
 
 Use the following code in VSCode to enable breakpoints. Please ensure you have a later version of node for non-legacy debugging.
 
-```
+```json
 {
   "version": "0.2.0",
   "configurations": [
