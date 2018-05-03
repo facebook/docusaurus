@@ -44,12 +44,10 @@ class Users extends React.Component {
             <div className="prose">
               <h1><translate>Who is using Docusaurus?</translate></h1>
               <p>
-                <translate>
                 Docusaurus powers some of Facebook's popular{' '}
                 <a href="https://code.facebook.com/projects/">
                   open source projects
                 </a>.
-                </translate>
               </p>
             </div>
             <div className="logos">{fbShowcase}</div>

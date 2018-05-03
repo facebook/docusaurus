@@ -22,17 +22,17 @@ const users = [
     pinned: true,
   },
   {
-    caption: 'Docusaurus',
-    image: '/img/docusaurus.svg',
-    infoLink: 'https://www.docusaurus.io',
-    fbOpenSource: true,
-    pinned: true,
-  },
-  {
     caption: 'BuckleScript',
     image: '/img/bucklescript.svg',
     infoLink: 'https://bucklescript.github.io/',
     fbOpenSource: false,
+    pinned: true,
+  },
+  {
+    caption: 'Docusaurus',
+    image: '/img/docusaurus.svg',
+    infoLink: 'https://www.docusaurus.io',
+    fbOpenSource: true,
     pinned: true,
   },
   {
@@ -53,6 +53,13 @@ const users = [
     caption: 'Goby',
     image: 'https://goby-lang.org/img/goby-logo.svg',
     infoLink: 'https://goby-lang.org',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
+    caption: 'Home Assistant',
+    image: 'https://developers.home-assistant.io/img/logo-responsive.svg',
+    infoLink: 'https://developers.home-assistant.io/',
     fbOpenSource: false,
     pinned: false,
   },
@@ -113,6 +120,13 @@ const users = [
     pinned: true,
   },
   {
+    caption: 'Rejoiner',
+    image: '/img/rejoiner.svg',
+    infoLink: 'http://rejoiner.io/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Relay',
     image: '/img/relay.svg',
     infoLink: 'https://facebook.github.io/relay/',
@@ -171,7 +185,7 @@ const siteConfig = {
   translationRecruitingLink: 'https://crowdin.com/project/docusaurus',
   copyright: 'Copyright © ' + new Date().getFullYear() + ' Facebook Inc.',
   highlight: {
-    theme: 'solarized-dark',
+    theme: 'atom-one-dark',
   },
   scripts: ['https://buttons.github.io/buttons.js'],
   gaTrackingId: 'UA-44373548-31',

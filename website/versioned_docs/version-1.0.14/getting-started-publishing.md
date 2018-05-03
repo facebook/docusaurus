@@ -1,6 +1,7 @@
 ---
-id: publishing
+id: version-1.0.14-publishing
 title: Publishing your site
+original_id: publishing
 ---
 
 You should now have a [site up and running locally](getting-started-site-creation.md). Once you have [customized](api-site-config.md) it to your liking, it's time to publish it. Docusaurus generates a static HTML website that is ready to be served by your favorite web server or online hosting solution.
@@ -9,7 +10,7 @@ You should now have a [site up and running locally](getting-started-site-creatio
 
 To create a static build of your website, run the following script from the `website` directory:
 
-```bash
+```
 yarn run build # or `npm run build`
 ```
 
@@ -20,8 +21,6 @@ This will generate a `build` folder inside the `website` directory containing th
 At this point, you can grab all of the files inside the `website/build` folder and copy them over to your favorite web server's `html` directory.
 
 > For example, both Apache and nginx serve content from `/var/www/html` by default. That said, choosing a web server or provider is outside the scope of Docusaurus.
-
-> When serving the site from your own web server, ensure the web server is serving the asset files with the proper HTTP headers. CSS files should be served with the `content-type` header of `text/css`. In the case of nginx, this would mean setting `include /etc/nginx/mime.types;` in your `nginx.conf` file. See [this issue](https://github.com/facebook/Docusaurus/issues/602) for more info.
 
 ### Hosting on a Service:
 
@@ -64,7 +63,7 @@ There are also two optional parameters that are set as environment variables:
 
 Once you have the parameter value information, you can go ahead and run the publish script, ensuring you have inserted your own values inside the various parameter placeholders:
 
-To run the script directly from the command-line, you can use the following, filling in the parameter values as appropriate. If you run into issues related to SSH keys, visit [Github's authentication documentation](https://help.github.com/articles/connecting-to-github-with-ssh/).
+To run the script directly from the command-line, you can use the following, filling in the parameter values as appropriate.
 
 ```bash
 GIT_USER=<GIT_USER> \
@@ -97,7 +96,7 @@ If you haven't done so already, you can [setup CircleCI](https://circleci.com/si
 1. Create a `.circleci` folder and create a `config.yml` under that folder.
 1. Copy the text below into `.circleci/config.yml`.
 
-```yaml
+```yml
 # If you only one circle to run on direct commits to master, you can uncomment this out
 # and uncomment the filters: *filter-only-master down below too
 #
@@ -148,7 +147,7 @@ Now, whenever a new commit lands in `master`, CircleCI will run your suite of te
 
 When initially deploying to a `gh-pages` branch using Circle CI, you may notice that some jobs triggered by commits to the `gh-pages` branch fail to run successfully due to a lack of tests. You can easily work around this by creating a basic Circle CI config with the following contents:
 
-```yaml
+```yml
 # Circle CI 2.0 Config File
 # This config file will prevent tests from being run on the gh-pages branch.
 version: 2
@@ -168,12 +167,13 @@ Save this file as `config.yml` and place it in a `.circleci` folder inside your 
 Steps to configure your Docusaurus-powered site on Netlify.
 
 1. Select **New site from Git**
-1. Connect to your preferred Git provider.
-1. Select the branch to deploy. Default is `master`
-1. Configure your build steps:
-    * For your build command enter: `cd website; npm install; npm run build;`
-    * For publish directory: `website/build/<projectName>` (use the `projectName` from your `siteConfig`)
+2. Connect to your preferred Git provider.
+3. Select the branch to deploy. Default is `master`
+4. Configure your build steps:
 
-1. Click **Deploy site**
+* For your build command enter: `cd website; npm install; npm run build;`
+* For publish directory: `build/<projectName>` (use the projectName from your siteConfig)
+
+5. Click **Deploy site**
 
 You can also configure Netlify to rebuild on every commit to your repo, or only `master` branch commits.
