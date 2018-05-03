@@ -523,12 +523,11 @@ header h2 {
   font-size: 16px;
 }
 @media (max-width: 375px) {
-  .logo {
-    display: none;
-  }
-
   .headerTitle {
     font-size: 17px;
+  }
+  .headerTitleHidden {
+    display: none !important;
   }
 }
 
