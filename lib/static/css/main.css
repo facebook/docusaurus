@@ -83,13 +83,20 @@ a.anchor {
 }
 
 a.hash-link {
-  float: left;
+  line-height: 1;
   padding-right: 4px;
-  margin-top: 4px;
   margin-left: -20px;
-  line-height: 1.2;
   opacity: 0;
   transition: opacity 0.3s;
+}
+
+a.hash-link:hover {
+  opacity: 1 !important;
+  transition: none;
+}
+
+a.hash-link .hash-link-icon {
+  vertical-align: middle;
 }
 
 h1:hover .hash-link,
@@ -97,10 +104,6 @@ h2:hover .hash-link,
 h3:hover .hash-link,
 h4:hover .hash-link {
   opacity: 0.5;
-  transition: none;
-}
-a.hash-link:hover {
-  opacity: 1!important;
   transition: none;
 }
 
