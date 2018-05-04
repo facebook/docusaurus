@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-/* List of projects/orgs using your project for the users page */
+// List of projects/orgs using your project for the users page.
 const users = [
   {
     caption: "Almin",
@@ -22,17 +22,24 @@ const users = [
     pinned: true,
   },
   {
-    caption: 'Docusaurus',
-    image: '/img/docusaurus.svg',
-    infoLink: 'https://www.docusaurus.io',
-    fbOpenSource: true,
-    pinned: true,
-  },
-  {
     caption: 'BuckleScript',
     image: '/img/bucklescript.svg',
     infoLink: 'https://bucklescript.github.io/',
     fbOpenSource: false,
+    pinned: true,
+  },
+  {
+    caption: 'Dep',
+    image: '/img/golang-dep.svg',
+    infoLink: 'https://golang.github.io/dep/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
+    caption: 'Docusaurus',
+    image: '/img/docusaurus.svg',
+    infoLink: 'https://www.docusaurus.io',
+    fbOpenSource: true,
     pinned: true,
   },
   {
@@ -53,6 +60,13 @@ const users = [
     caption: 'Goby',
     image: 'https://goby-lang.org/img/goby-logo.svg',
     infoLink: 'https://goby-lang.org',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
+    caption: 'Home Assistant',
+    image: 'https://developers.home-assistant.io/img/logo-responsive.svg',
+    infoLink: 'https://developers.home-assistant.io/',
     fbOpenSource: false,
     pinned: false,
   },
@@ -85,6 +99,13 @@ const users = [
     pinned: true,
   },
   {
+    caption: 'React Native Elements',
+    image: '/img/react-native-elements.png',
+    infoLink: 'https://react-native-training.github.io/react-native-elements/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'react-native-ios-kit',
     image: '/img/react-native-ios-kit.svg',
     infoLink: 'https://callstack.github.io/react-native-ios-kit',
@@ -104,6 +125,13 @@ const users = [
     infoLink: 'https://reasonml.github.io/reason-react/',
     fbOpenSource: true,
     pinned: true,
+  },
+  {
+    caption: 'Rejoiner',
+    image: '/img/rejoiner.svg',
+    infoLink: 'http://rejoiner.io/',
+    fbOpenSource: false,
+    pinned: false,
   },
   {
     caption: 'Relay',
@@ -164,13 +192,14 @@ const siteConfig = {
   translationRecruitingLink: 'https://crowdin.com/project/docusaurus',
   copyright: 'Copyright © ' + new Date().getFullYear() + ' Facebook Inc.',
   highlight: {
-    theme: 'solarized-dark',
+    theme: 'atom-one-dark',
   },
   scripts: ['https://buttons.github.io/buttons.js'],
   gaTrackingId: 'UA-44373548-31',
   facebookAppId: '1615782811974223',
   twitter: 'true',
   ogImage: 'img/docusaurus.png',
+  twitterImage: 'img/docusaurus.png',
   onPageNav: 'separate',
 };
 

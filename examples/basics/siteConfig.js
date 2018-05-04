@@ -12,7 +12,9 @@
 const users = [
   {
     caption: 'User1',
-    image: '/test-site/img/docusaurus.svg',
+    // You will need to prepend the image path with your baseUrl
+    // if it is not '/', like: '/test-site/img/docusaurus.svg'.
+    image: '/img/docusaurus.svg',
     infoLink: 'https://www.facebook.com',
     pinned: true,
   },
@@ -79,14 +81,19 @@ const siteConfig = {
     theme: 'default',
   },
 
+  // Add custom scripts here that would be placed in <script> tags
   scripts: ['https://buttons.github.io/buttons.js'],
+
+  /* On page navigation for the current documentation page */
+  onPageNav: 'separate',
+
+  /* Open Graph and Twitter card images */
+  ogImage: 'img/docusaurus.png',
+  twitterImage: 'img/docusaurus.png',
 
   // You may provide arbitrary config keys to be used as needed by your
   // template. For example, if you need your repo's URL...
   //   repoUrl: 'https://github.com/facebook/test-site',
-
-  /* On page navigation for the current documentation page */
-  // onPageNav: 'separate',
 };
 
 module.exports = siteConfig;

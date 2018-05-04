@@ -4,8 +4,8 @@ Docusaurus uses [Remarkable](https://github.com/jonschlinkert/remarkable) to con
 
 Users of GitHub Pages have come to expect certain features provided by GitHub Flavored Markdown. One such example would be heading anchors, where every sub-header has an associated anchor that matches the heading text. This makes it possible to link to a specific section in a document by passing a fragment that matches the heading. For example, to link to this very section, you may create a link like so:
 
-```
-    [Link to this section](#why-extend-remarkable)
+```md
+[Link to this section](#why-extend-remarkable)
 ```
 
 ## A Brief Overview of How A Markdown Parser/Renderer Works
@@ -26,7 +26,7 @@ Inline tokens are simple tokens that have text as a child. They are leaf nodes, 
 
 A block token is a bit more complex. It may wrap one or more tokens, and can span more than one line of text. An example of this is the heading token:
 
-```
+```md
 ### Hi there
 ```
 
@@ -52,7 +52,7 @@ Now that you have a better idea of how parsing/rendering works, we can proceed t
 
 The default heading renderers may look like this (you can refer to the Remarkable source code here):
 
-```
+```js
 md.renderer.rules.heading_open = function(tokens, idx /*, options, env */) {
   return '<h' + tokens[idx].hLevel + '>';
 };
@@ -64,13 +64,13 @@ md.renderer.rules.heading_close = function(tokens, idx /*, options, env */) {
 
 That's pretty straightforward: whenever these tokens are found, we render a `<hN>` or `</hN>` HTML tag, where N is the `hLevel` for this heading. That would result in `<h3>Hi there</h3>` being output. But what we want is something closer to this:
 
-```
+```html
 <h3><a class="anchor" id="hi-there"></a>Hi there <a class="hash-link" href="#hi-there">#</a></h3>
 ```
 
 In that case, we need to override our heading rules like so:
 
-```
+```js
 md.renderer.rules.heading_open = function(tokens, idx /*, options, env */) {
   return '<h' + tokens[idx].hLevel + '>' + '<a class="anchor" id="' + toSlug(tokens[idx+1].content) + '"></a>';
 };
@@ -86,7 +86,7 @@ Note that we are referring to `tokens[idx+1]` and `tokens[idx-1]` at various poi
 
 We now need to tell Remarkable to use our extension. We can wrap our rules in a function called `anchors`:
 
-```
+```js
 function anchors(md) {
   md.renderer.rules.heading_open = function(tokens, idx /*, options, env */) {
     return '<h' + tokens[idx].hLevel + '>' + '<a class="anchor" id="' + toSlug(tokens[idx+1].content) + '"></a>';
@@ -100,7 +100,7 @@ function anchors(md) {
 
 We can now tell Remarkable to load this function as a plugin (`md` is our instance of Remarkable):
 
-```
+```js
 this.md.use(anchors);
 ```
 

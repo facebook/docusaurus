@@ -78,11 +78,11 @@ headerLinks: [
 `customDocsPath` - By default, Docusaurus expects your documentation to be in a directory called `docs`. This directory is at the same level as the `website` directory (i.e., not inside the `website` directory). You can specify a custom path to your documentation with this field. **Note that all of your documentation `*.md` files must still reside in a flat hierarchy. You cannot have your documents in nested directories**.
 
 ```js
-customDocsPath: "docs/site"
+customDocsPath: 'docs/site'
 ```
 
 ```js
-customDocsPath: "website-docs"
+customDocsPath: 'website-docs'
 ```
 `disableHeaderTitle` - An option to disable showing the title in the header next to the header icon. Exclude this field to keep the header as normal, otherwise set to `true`.
 
@@ -98,30 +98,32 @@ customDocsPath: "website-docs"
 
 In the below example, we have two sets of font configurations, `myFont` and `myOtherFont`. `Times New Roman` is the preferred font in `myFont`. `-apple-system` is the preferred in `myOtherFont`.
 
-```
+```js
 fonts: {
   myFont: [
-    "Times New Roman",
-    "Serif"
+    'Times New Roman',
+    'Serif'
   ],
   myOtherFont: [
-    "-apple-system",
-    "system-ui"
+    '-apple-system',
+    'system-ui'
   ]
 },
 ```
 
 The above fonts would be represented in your CSS file(s) as variables `$myFont` and `$myOtherFont`.
 
-```
+```css
 h1 {
   font-family: $myFont;
 }
 ```
 
-`footerIcon` - url for a footer icon. Currently used in the `core/Footer.js` file provided as an example, but it can be removed from that file.
+`footerIcon` - URL for a footer icon. Currently used in the `core/Footer.js` file provided as an example, but it can be removed from that file.
 
 `gaTrackingId` - Google Analytics tracking ID to track page views.
+
+`gaGtag` - Set this to `true` if you want to use [global site tags (gtag.js)](https://developers.google.com/gtagjs/) for Google analytics instead of `analytics.js`.
 
 `highlight` - [Syntax highlighting](api-doc-markdown.md) options:
 
@@ -129,10 +131,11 @@ h1 {
  - `version` specifies a particular version of Highlight.js to be used.
  - `hljs` provides an escape valve by passing an instance of Highlight.js to the function specified here, allowing additional languages to be registered for syntax highlighting.
  - `defaultLang` defines a default language. It will be used if one is not specified at the top of the code block. You can find the [list of supported languages here](https://github.com/isagalaev/highlight.js/tree/master/src/languages).
+ - `themeUrl` is the custom URL of CSS theme file that you want to use with Highlight.js. If this is provided, the `theme` and `version` fields will be ignored.
 
 `markdownPlugins` - An array of plugins to be loaded by Remarkable, the markdown parser and renderer used by Docusaurus. The plugin will receive a reference to the Remarkable instance, allowing custom parsing and rendering rules to be defined.
 
-`ogImage` - url for an Open Graph image. This image will show up when your site is shared on Facebook, Twitter and any other websites/apps where the Open Graph protocol is supported.
+`ogImage` - Local path to an Open Graph image (e.g., `img/myImage.png`). This image will show up when your site is shared on Facebook and other websites/apps where the Open Graph protocol is supported.
 
 `onPageNav` - If you want a visible navigation option for representing topics on the current page. Currently, there is one accepted value for this option:
 
@@ -144,69 +147,71 @@ h1 {
 
 `stylesheets` - Array of CSS sources to load. The link tag will be inserted in the HTML head.
 
-`translationRecruitingLink` - url for the `Help Translate` tab of language selection when languages besides English are enabled. This can be included you are using translations but does not have to be.
+`translationRecruitingLink` - URL for the `Help Translate` tab of language selection when languages besides English are enabled. This can be included you are using translations but does not have to be.
 
-`twitter` - set this to `true` if you want a Twitter social button to appear at the bottom of your blog posts.
+`twitter` - Set this to `true` if you want a Twitter social button to appear at the bottom of your blog posts.
+
+`twitterImage` - Local path to your Twitter card image (e.g., `img/myImage.png`). This image will show up on the Twitter card when your site is shared on Twitter.
 
 `useEnglishUrl` - If you do not have [translations](guides-translation.md) enabled (e.g., by having a `languages.js` file), but still want a link of the form `/docs/en/doc.html` (with the `en`), set this to `true`.
 
 `users` - The `users` array mentioned earlier.
 
-`wrapPagesHTML` - boolean flag to indicate whether `html` files in `/pages` should be wrapped with Docusaurus site styles, header and footer. This feature is experimental and relies on the files being `html` fragments instead of complete pages. It inserts the contents of your `html` file with no extra processing. Defaults to `false`.
+`wrapPagesHTML` - Boolean flag to indicate whether `html` files in `/pages` should be wrapped with Docusaurus site styles, header and footer. This feature is experimental and relies on the files being `html` fragments instead of complete pages. It inserts the contents of your `html` file with no extra processing. Defaults to `false`.
 
 Users can also add their own custom fields if they wish to provide some data across different files.
 
-## Example siteConfig.js with all fields
+## Example siteConfig.js with many available fields
 
-```
+```js
 const users = [
   {
-    caption: "User1",
-    image: "/test-site/img/docusaurus.svg",
-    infoLink: "https://www.example.com",
+    caption: 'User1',
+    image: '/test-site/img/docusaurus.svg',
+    infoLink: 'https://www.example.com',
     pinned: true
   }
 ];
 
 const siteConfig = {
-  title: "Docusaurus",
-  tagline: "Generate websites!",
-  url: "https://docusaurus.io",
-  baseUrl: "/",
-// For github.io type URLS, you would combine the url and baseUrl like:
-// url: "https://reasonml.github.io",
-// baseUrl: "/reason-react/",
-  organizationName: "facebook",
-  projectName: "docusaurus",
+  title: 'Docusaurus',
+  tagline: 'Generate websites!',
+  url: 'https://docusaurus.io',
+  baseUrl: '/',
+  // For github.io type URLS, you would combine the url and baseUrl like:
+  // url: 'https://reasonml.github.io',
+  // baseUrl: '/reason-react/',
+  organizationName: 'facebook',
+  projectName: 'docusaurus',
   noIndex: false,
-// For no header links in the top nav bar -> headerLinks: [],
+  // For no header links in the top nav bar -> headerLinks: [],
   headerLinks: [
-    { doc: "doc1", label: "Docs" },
-    { page: "help", label: "Help" },
+    { doc: 'doc1', label: 'Docs' },
+    { page: 'help', label: 'Help' },
     { search: true },
     { blog: true }
   ],
-  headerIcon: "img/docusaurus.svg",
-  favicon: "img/favicon.png",
+  headerIcon: 'img/docusaurus.svg',
+  favicon: 'img/favicon.png',
   colors: {
-    primaryColor: "#2E8555",
-    secondaryColor: "#205C3B"
+    primaryColor: '#2E8555',
+    secondaryColor: '#205C3B'
   },
-  editUrl: "https://github.com/facebook/docusaurus/edit/master/docs/",
-// users variable set above
+  editUrl: 'https://github.com/facebook/docusaurus/edit/master/docs/',
+  // Users variable set above
   users,
   disableHeaderTitle: true,
   disableTitleTagline: true,
-  separateCss: ["static/css/non-docusaurus", "static/assets/separate-css"],
-  footerIcon: "img/docusaurus.svg",
+  separateCss: ['static/css/non-docusaurus', 'static/assets/separate-css'],
+  footerIcon: 'img/docusaurus.svg',
   translationRecruitingLink:
-    "https://crowdin.com/project/docusaurus",
+    'https://crowdin.com/project/docusaurus',
   algolia: {
     apiKey:
-      "0f9f28b9ab9efae89810921a351753b5",
-    indexName: "github"
+      '0f9f28b9ab9efae89810921a351753b5',
+    indexName: 'github'
   },
-  gaTrackingId: "U-A2352",
+  gaTrackingId: 'UA-12345678-9',
   highlight: {
     theme: 'default'
   },
@@ -217,11 +222,13 @@ const siteConfig = {
       }
     }
   ],
-  scripts: [ "https://docusaurus.io/slash.js" ],
-  stylesheets: [ "https://docusaurus.io/style.css" ],
-  facebookAppId: "1615782811974223",
-  facebookPixelId: "352490515235776",
-  twitter: "true"
+  scripts: [ 'https://docusaurus.io/slash.js' ],
+  stylesheets: [ 'https://docusaurus.io/style.css' ],
+  facebookAppId: '1615782811974223',
+  facebookPixelId: '352490515235776',
+  twitter: 'true',
+  twitterImage: 'img/docusaurus.png',
+  ogImage: 'img/docusaurus.png',
 };
 
 module.exports = siteConfig;

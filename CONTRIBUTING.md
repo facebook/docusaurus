@@ -109,7 +109,7 @@ A good test plan has the exact commands you ran and their output, provides scree
 
 When adding a new breaking change, follow this template in your pull request:
 
-```
+```md
 ### New breaking change here
 
 * **Who does this affect**:
@@ -122,7 +122,7 @@ When adding a new breaking change, follow this template in your pull request:
 
 Copy and paste this to the top of your new file(s):
 
-```JS
+```js
 /**
  * Copyright (c) 2017-present, Facebook, Inc.
  *

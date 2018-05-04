@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2017-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
 /* Reset */
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -19,6 +26,7 @@ time, mark, audio, video {
   font: inherit;
   vertical-align: baseline;
 }
+
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
@@ -48,8 +56,8 @@ table {
 body {
   background: #f9f9f9;
   color: #393939;
-  font: normal 16px/1.4em -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Arial,sans-serif;
-  height: 100vh;
+  font: normal 16px/1.4em -apple-system,system-ui,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,'Fira Sans','Droid Sans','Helvetica Neue',Arial,sans-serif;
+  min-height: 100vh;
   text-align: left;
   text-rendering: optimizeLegibility;
 }
@@ -82,13 +90,20 @@ a.anchor {
 }
 
 a.hash-link {
-  float: left;
+  line-height: 1;
   padding-right: 4px;
-  margin-top: 4px;
   margin-left: -20px;
-  line-height: 1.2;
   opacity: 0;
   transition: opacity 0.3s;
+}
+
+a.hash-link:hover {
+  opacity: 1 !important;
+  transition: none;
+}
+
+a.hash-link .hash-link-icon {
+  vertical-align: middle;
 }
 
 h1:hover .hash-link,
@@ -96,10 +111,6 @@ h2:hover .hash-link,
 h3:hover .hash-link,
 h4:hover .hash-link {
   opacity: 0.5;
-  transition: none;
-}
-a.hash-link:hover {
-  opacity: 1!important;
   transition: none;
 }
 
@@ -110,12 +121,7 @@ blockquote {
   border-left: 5px solid rgba(191, 87, 73, 0.2);
 }
 
-#fb_oss a {
-  border: 0;
-}
-
 h1, h2, h3, h4 {
-  font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Arial,sans-serif;
   font-weight: 300;
   color: $primaryColor;
 }
@@ -148,14 +154,12 @@ header h2 {
   margin-bottom: 0px;
 }
 .homeContainer .homeWrapper h1#project_title {
-  font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Arial,sans-serif;
   font-size: 300%;
   letter-spacing: -0.08em;
   line-height: 1em;
   margin-bottom: 80px;
 }
 .homeContainer .homeWrapper h2#project_tagline {
-  font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Arial,sans-serif;
   font-size: 200%;
   letter-spacing: -0.04em;
   line-height: 1em;
@@ -178,12 +182,6 @@ header h2 {
 
 .projectIntro {
   margin: 40px 0;
-}
-
-.fbossFontLight {
-  font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Arial,sans-serif;
-  font-weight: 300;
-  font-style: normal;
 }
 
 .fb-like {
@@ -251,8 +249,7 @@ header h2 {
 .container .wrapper h3 {
   color: $primaryColor;
   font-size: 18px;
-  margin-top: 10px;
-  padding: 10px 0;
+  margin: 12px 0;
 }
 .container .wrapper h4 {
   color: $primaryColor;
@@ -376,7 +373,7 @@ header h2 {
 .mainContainer .wrapper .post h1,
 .mainContainer .wrapper .post h2,
 .mainContainer .wrapper .post h3 {
-    font-weight: 300;
+  font-weight: 300;
 }
 
 .mainContainer .wrapper .post h4,
@@ -385,29 +382,9 @@ header h2 {
   font-weight: 400;
 }
 
-
 #integrations_title {
   font-size: 250%;
   margin: 80px 0;
-}
-
-.ytVideo {
-  height: 0;
-  overflow: hidden;
-  padding-bottom: 53.4%;
-  /* 16:9 */
-  padding-top: 25px;
-  position: relative;
-}
-
-.ytVideo iframe,
-.ytVideo object,
-.ytVideo embed {
-  height: 100%;
-  left: 0;
-  position: absolute;
-  top: 0;
-  width: 100%;
 }
 
 .projectTitle {
@@ -544,7 +521,6 @@ header h2 {
 }
 .fixedHeaderContainer header h2 {
   display: block;
-  font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Arial,sans-serif;
   font-weight: 400;
   line-height: 18px;
   position: relative;
@@ -552,18 +528,16 @@ header h2 {
 }
 .fixedHeaderContainer header h3 {
   text-decoration: underline;
-  font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Arial,sans-serif;
   color: white;
   margin-left: 10px;
   font-size: 16px;
 }
-@media (max-width: 375px) {
-  .logo {
-    display: none;
-  }
-
+@media (max-width: 480px) {
   .headerTitle {
     font-size: 17px;
+  }
+  .headerTitleWithLogo {
+    display: none !important;
   }
 }
 
@@ -620,7 +594,7 @@ header h2 {
   display: block;
 }
 
-/** Search **/
+/* Search */
 input[type="search"] {
   -moz-appearance: none;
   -webkit-appearance: none;
@@ -638,7 +612,7 @@ input[type="search"] {
 .navSearchWrapper::before {
   border: 3px solid #e5e5e5;
   border-radius: 50%;
-  content: " ";
+  content: ' ';
   display: block;
   height: 6px;
   left: 15px;
@@ -650,7 +624,7 @@ input[type="search"] {
 }
 .navSearchWrapper::after {
   background: #e5e5e5;
-  content: " ";
+  content: ' ';
   height: 7px;
   left: 24px;
   position: absolute;
@@ -671,7 +645,6 @@ input[type="search"] {
 .navSearchWrapper .aa-dropdown-menu .algolia-docsearch-suggestion--category-header {
   background: $primaryColor;
   color: white;
-  font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Arial,sans-serif;
   font-weight: 400;
   font-size: 14px;
 }
@@ -690,7 +663,6 @@ input[type="search"] {
 input#search_input_react {
   padding-left: 25px;
   font-size: 14px;
-  font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Arial,sans-serif;
   font-weight: 300;
   line-height: 20px;
   border-radius: 20px;
@@ -709,9 +681,9 @@ input#search_input_react:focus, input#search_input_react:active {
   color: #fff;
   width: 220px;
 }
-@media only screen and (min-device-width: 360px) and (max-device-width: 735px) {
+@media only screen and (max-width: 735px) {
   .navSearchWrapper {
-    width: 50%;
+    width: 40%;
   }
 }
 input::-webkit-input-placeholder {
@@ -726,6 +698,7 @@ input::placeholder {
   color: #e5e5e5;
 }
 
+/* Code */
 code {
   padding: 2px 0;
   background-color: $codeColor;
@@ -734,34 +707,36 @@ code {
   box-shadow: 2px 0 $codeColor, -2px 0 $codeColor;
   color: inherit;
   border-radius: .3em;
-  font-family: "SFMono-Regular",source-code-pro,Menlo,Monaco,Consolas,"Roboto Mono","Droid Sans Mono","Liberation Mono",Consolas,"Courier New",Courier,monospace;
+  font-family: 'SFMono-Regular',source-code-pro,Menlo,Monaco,Consolas,'Roboto Mono','Droid Sans Mono','Liberation Mono',Consolas,'Courier New',Courier,monospace;
   /* avoids scale issues on mobile */
   word-break: break-word;
 }
 
 pre code {
-  display:block;
+  display: block;
   margin: 20px 0;
-  padding:0.5em;
-  border-left: 4px solid $primaryColor;
-  font-family: "SFMono-Regular",source-code-pro,Menlo,Monaco,Consolas,"Roboto Mono","Droid Sans Mono","Liberation Mono",Consolas,"Courier New",Courier,monospace;
   font-size: 13px;
-  overflow-x:auto;
+  overflow-x: auto;
 }
 
-/** GitHub **/
+.hljs {
+  padding: 1.25rem 1.5rem;
+}
+
+/* GitHub */
 .edit-page-link {
   float: right;
   font-size: 10px;
   font-weight: normal;
   text-decoration: none;
 }
-@media only screen and (min-device-width: 360px) and (max-device-width: 735px) {
-  a.edit-page-link.button{
+@media only screen and (max-width: 735px) {
+  .edit-page-link {
     display: none;
   }
 }
-/** GridBlock **/
+
+/* GridBlock */
 .gridBlock {
   margin: -5px 0;
   padding: 0;
@@ -796,7 +771,7 @@ pre code {
   max-width: 500px;
   flex: 0 1 500px;
 }
-@media only screen and (min-device-width: 360px) and (max-device-width: 735px) {
+@media only screen and (max-width: 735px) {
   .imageAlignSide .blockImage {
     display: none;
   }
@@ -882,7 +857,7 @@ pre code {
 .container.paddingTop {
   padding-top: 80px;
 }
-@media only screen and (min-device-width: 360px) and (max-device-width: 735px) {
+@media only screen and (max-width: 735px) {
   .container.paddingBottom {
     padding-bottom: 40px;
   }
@@ -898,7 +873,7 @@ pre code {
     padding-left: 20px;
   }
   .responsiveList .blockContent::before {
-    content: "\2022";
+    content: '\2022';
     position: absolute;
   }
 }
@@ -1042,29 +1017,12 @@ ul#languages li {
   display: block;
 }
 
-.menuExpand {
-  display: flex;
-  flex-flow: column nowrap;
-  height: 20px;
-  justify-content: space-between;
-}
-.menuExpand span {
-  background: #fff;
-  border-radius: 3px;
-  display: block;
-  flex: 0 0 4px;
-  height: 4px;
-  position: relative;
-  top: 0;
-  transition: background-color 0.3s, top 0.3s, opacity 0.3s, transform 0.3s;
-  width: 20px;
-}
 .navPusher {
   padding-top: 100px;
   position: relative;
   left: 0;
   z-index: 99;
-  height: 100%;
+  min-height: 100%;
 }
 .navPusher::after {
   position: absolute;
@@ -1204,12 +1162,13 @@ ul#languages li {
   }
 }
 
-@media only screen and (max-device-width: 735px) {
+@media only screen and (max-width: 735px) {
   .navigationSlider .slidingNav ul {
     overflow-x: auto;
   }
 }
 
+/* Docs Navigation */
 .docs-prevnext {
   margin: 20px 0;
 }
@@ -1219,7 +1178,7 @@ ul#languages li {
 .docs-prev {
   float: left;
 }
-@media only screen and (min-device-width: 360px) and (max-device-width: 735px) {
+@media only screen and (max-width: 735px) {
   .docs-prevnext {
     height: 40px;
   }
@@ -1228,8 +1187,9 @@ ul#languages li {
   }
 }
 
+/* Docs Sidebar */
 .docsNavContainer {
-  background: #c6c6c6;
+  background: #fff;
   height: 35px;
   left: 0;
   position: fixed;
@@ -1251,32 +1211,34 @@ ul#languages li {
 }
 
 .docsNavContainer nav.toc .navBreadcrumb {
+  background-color: #fff;
   box-sizing: border-box;
   display: flex;
   flex-flow: row nowrap;
   font-size: 12px;
-  height: 35px;
+  height: 48px;
   overflow: hidden;
-  padding: 5px 10px;
+  padding: 8px 20px;
 }
-.navBreadcrumb a, .navBreadcrumb span {
+.navBreadcrumb a,
+.navBreadcrumb span {
   border: 0;
   color: #393939;
 }
 .navBreadcrumb i {
-  padding: 0 3px;
+  padding: 0 4px;
 }
 nav.toc {
   width: 240px;
 }
 nav.toc section {
-  padding: 0px;
+  padding: 0;
   position: relative;
 }
 nav.toc:last-child {
   padding-bottom: 100px;
 }
-@media only screen and (min-device-width: 360px) and (max-device-width: 735px) {
+@media only screen and (max-width: 735px) {
   nav.toc {
     width: 100%;
   }
@@ -1293,24 +1255,23 @@ nav.toc:last-child {
 }
 nav.toc section .navGroups {
   display: none;
-  padding: 40px 10px 60px;
+  padding: 48px 20px 60px;
 }
 nav.toc .toggleNav {
-  background: #c6c6c6;
   color: #393939;
   position: relative;
-  transition: background-color 0.3s, color 0.3s;
 }
 nav.toc .toggleNav .navToggle {
   cursor: pointer;
-  height: 24px;
+  height: 32px;
   margin-right: 10px;
   position: relative;
   text-align: left;
   width: 18px;
 }
-nav.toc .toggleNav .navToggle::before, nav.toc .toggleNav .navToggle::after {
-  content: "";
+nav.toc .toggleNav .navToggle::before,
+nav.toc .toggleNav .navToggle::after {
+  content: '';
   position: absolute;
   top: 50%;
   left: 0;
@@ -1326,8 +1287,9 @@ nav.toc .toggleNav .navToggle::before, nav.toc .toggleNav .navToggle::after {
 nav.toc .toggleNav .navToggle::after {
   transform: rotate(-45deg);
 }
-nav.toc .toggleNav .navToggle i::before, nav.toc .toggleNav .navToggle i::after {
-  content: "";
+nav.toc .toggleNav .navToggle i::before,
+nav.toc .toggleNav .navToggle i::after {
+  content: '';
   position: absolute;
   top: 50%;
   left: 2px;
@@ -1347,29 +1309,22 @@ nav.toc .toggleNav .navToggle i::after {
 }
 .docsSliderActive nav.toc .toggleNav .navToggle::before,
 .docsSliderActive nav.toc .toggleNav .navToggle::after {
-  border-width: 6px 0;
-  height: 0px;
-  margin-top: -6px;
+  border-width: 8px 0;
+  height: 0;
+  margin-top: -8px;
 }
 .docsSliderActive nav.toc .toggleNav .navToggle i {
   opacity: 0;
 }
 nav.toc .toggleNav .navGroup {
-  background: #adadad;
-  margin: 1px 0;
-}
-nav.toc .toggleNav .navGroup ul {
-  display: none;
+  margin-bottom: 20px;
 }
 nav.toc .toggleNav .navGroup h3 {
-  background: #adadad;
   color: #393939;
   font-size: 18px;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.2em;
-  margin: 0;
-  padding: 10px;
-  transition: color 0.2s;
+  margin-bottom: 8px;
 }
 nav.toc .toggleNav .navGroup h3 i:not(:empty) {
   width: 16px;
@@ -1381,62 +1336,41 @@ nav.toc .toggleNav .navGroup h3 i:not(:empty) {
   margin-right: 10px;
   transition: color 0.2s;
 }
-nav.toc .toggleNav .navGroup h3:hover {
-  color: $primaryColor;
-}
-nav.toc .toggleNav .navGroup h3:hover i:not(:empty) {
-  color: $primaryColor;
-}
-nav.toc .toggleNav .navGroup.navGroupActive {
-  background: #e0e0e0;
-  color: #393939;
-}
-nav.toc .toggleNav .navGroup.navGroupActive ul {
-  display: block;
-  padding-bottom: 10px;
-  padding-top: 10px;
-}
-nav.toc .toggleNav .navGroup.navGroupActive h3 {
-  background: $primaryColor;
-  color: #fff;
-}
 nav.toc .toggleNav ul {
-  padding-left: 0;
-  padding-right: 24px;
+  padding-left: 8px;
 }
 nav.toc .toggleNav ul li {
   list-style-type: none;
-  padding-bottom: 0;
-  padding-left: 0;
+  padding: 0;
 }
 nav.toc .toggleNav ul li a {
   border: none;
-  color: #393939;
-  display: inline-block;
+  color: #717171;
+  display: block;
   font-size: 14px;
-  line-height: 1.1em;
-  margin: 2px 10px 5px;
-  padding: 5px 0 2px;
+  padding: 4px 0;
   transition: color 0.3s;
 }
-nav.toc .toggleNav ul li a:hover, nav.toc .toggleNav ul li a:focus {
+nav.toc .toggleNav ul li a:hover,
+nav.toc .toggleNav ul li a:focus {
   color: $primaryColor;
 }
 nav.toc .toggleNav ul li a.navItemActive {
   color: $primaryColor;
 }
 .docsSliderActive nav.toc .navBreadcrumb {
-  background: #c6c6c6;
+  border-bottom: 1px solid #ccc;
   margin-bottom: 20px;
   position: fixed;
   width: 100%;
 }
 nav.toc .toggleNav .navBreadcrumb h2 {
   border: 0;
-  font-size: inherit;
-  line-height: inherit;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 32px;
   margin: 0;
-  padding: 1px 0 0;
+  padding: 0;
 }
 .docsSliderActive nav.toc section .navGroups {
   display: block;
@@ -1563,48 +1497,60 @@ nav.toc .toggleNav .navBreadcrumb h2 {
   }
 }
 
+/* Table */
 table {
-  background: #F8F8F8;
-  border: 1px solid #B0B0B0;
   border-collapse: collapse;
+  border-spacing: 0;
   display: table;
+  font-size: 14px;
   margin: 20px 0;
 }
+
 table thead {
-  border-bottom: 1px solid #B0B0B0;
+  border-color: inherit;
   display: table-header-group;
+  vertical-align: middle;
 }
+
 table tbody {
   display: table-row-group;
+  vertical-align: middle;
 }
+
+table th,
+table td {
+  border: 1px solid #dbdbdb;
+  padding: .5em .75em;
+  vertical-align: top;
+}
+
 table tr {
+  border-color: inherit;
   display: table-row;
+  vertical-align: inherit;
 }
-table tr:nth-of-type(odd) {
-  background: #E8E8E8;
+
+table tr:nth-child(2n) {
+  background: #f5f5f5;
 }
-table tr th, table tr td {
-  border-right: 1px dotted #B0B0B0;
-  display: table-cell;
-  font-size: 14px;
-  line-height: 1.3em;
-  padding: 10px;
-  text-align: left;
+
+table tr th {
+  font-weight: bold;
 }
-table tr th:last-of-type, table tr td:last-of-type {
-  border-right: 0;
+
+.table tbody tr:last-child th,
+.table tbody tr:last-child td {
+  border-bottom-width: 0;
 }
-table tr th code, table tr td code {
+
+table th code,
+table td code {
   color: #2db04b;
   display: inline-block;
   font-size: 12px;
 }
-table tr th {
-  color: #000000;
-  font-weight: bold;
-  font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Arial,sans-serif;
-  text-transform: uppercase;
-}
+
+/* Blog */
 .mainContainer:not(.blogContainer) .wrapper .post,
 .blogContainer .posts,
 .blogContainer .lonePost {
@@ -1658,7 +1604,7 @@ table tr th {
 .blog-recent > a {
   float: left;
 }
-@media only screen and (min-device-width: 360px) and (max-device-width: 735px) {
+@media only screen and (max-width: 735px) {
   .blog-recent {
     height: 40px;
   }
@@ -1681,7 +1627,7 @@ h6:hover .header-link {
   opacity: 1;
 }
 
-/** Homepage **/
+/* Homepage */
 .container .wrapper .alignCenter h2 {
   text-align: center;
 }
@@ -1734,7 +1680,7 @@ h6:hover .header-link {
   width: 110px;
   padding: 20px;
 }
-@media only screen and (min-device-width: 360px) and (max-device-width: 735px) {
+@media only screen and (max-width: 735px) {
   .gridBlock .fourByGridBlock {
     box-sizing: border-box;
     flex: 1 0 26%;
@@ -1747,7 +1693,7 @@ h6:hover .header-link {
   }
 }
 
-/** Showcase **/
+/* Showcase */
 .showcaseSection {
   max-width: 900px;
   text-align: center;
@@ -1755,7 +1701,6 @@ h6:hover .header-link {
 }
 .showcaseSection .prose h1 {
   color: $primaryColor;
-  font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Arial,sans-serif;
   text-align: center;
   padding: 1.4em 0 0.4em;
 }
@@ -1776,7 +1721,7 @@ h6:hover .header-link {
   padding: 20px;
 }
 
-@media only screen and (min-device-width: 360px) and (max-device-width: 735px) {
+@media only screen and (max-width: 735px) {
   .showcaseSection .logos img {
     max-height: 64px;
     width: 64px;
@@ -1784,7 +1729,7 @@ h6:hover .header-link {
   }
 }
 
-/** Footer **/
+/* Footer */
 footer.nav-footer {
   position: relative;
   box-sizing: border-box;
