@@ -13,7 +13,6 @@
 	},
 	"dependencies": {
 		"async": "^2.5.0",
-		"clipboard": "^2.0.0",
 		"docusaurus": "../../Docusaurus/"
 	}
 }
