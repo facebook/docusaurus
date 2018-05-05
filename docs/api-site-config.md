@@ -85,7 +85,7 @@ customDocsPath: 'docs/site'
 customDocsPath: 'website-docs'
 ```
 
-`defaultVersionShown` - The default version for the site. If this is not set, the latest version will be shown.
+`defaultVersionShown` - The default version for the site to be shown. If this is not set, the latest version will be shown.
 
 `disableHeaderTitle` - An option to disable showing the title in the header next to the header icon. Exclude this field to keep the header as normal, otherwise set to `true`.
 
