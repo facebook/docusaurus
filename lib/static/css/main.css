@@ -1834,3 +1834,27 @@ footer .copyright {
     display: none;
   }
 }
+
+@media screen and (min-width: 736px) {
+  body {
+    display: flex;
+    flex-direction: column;
+  }
+  .fixedHeaderContainer {
+    flex-shrink: 0;
+  }
+  .navPusher {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    padding-top: 50px;
+  }
+  .docMainWrapper {
+    flex-grow: 1;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  footer.nav-footer {
+    flex-shrink: 0;
+  }
+}
