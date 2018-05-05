@@ -201,6 +201,7 @@ const siteConfig = {
   ogImage: 'img/docusaurus.png',
   twitterImage: 'img/docusaurus.png',
   onPageNav: 'separate',
+  defaultVersionShown: '1.0.12',
 };
 
 module.exports = siteConfig;
