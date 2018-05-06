@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2017-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
 /* Reset */
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -83,13 +90,20 @@ a.anchor {
 }
 
 a.hash-link {
-  float: left;
+  line-height: 1;
   padding-right: 4px;
-  margin-top: 4px;
   margin-left: -20px;
-  line-height: 1.2;
   opacity: 0;
   transition: opacity 0.3s;
+}
+
+a.hash-link:hover {
+  opacity: 1 !important;
+  transition: none;
+}
+
+a.hash-link .hash-link-icon {
+  vertical-align: middle;
 }
 
 h1:hover .hash-link,
@@ -97,10 +111,6 @@ h2:hover .hash-link,
 h3:hover .hash-link,
 h4:hover .hash-link {
   opacity: 0.5;
-  transition: none;
-}
-a.hash-link:hover {
-  opacity: 1!important;
   transition: none;
 }
 
@@ -522,13 +532,12 @@ header h2 {
   margin-left: 10px;
   font-size: 16px;
 }
-@media (max-width: 375px) {
-  .logo {
-    display: none;
-  }
-
+@media (max-width: 480px) {
   .headerTitle {
     font-size: 17px;
+  }
+  .headerTitleWithLogo {
+    display: none !important;
   }
 }
 
@@ -1823,5 +1832,29 @@ footer .copyright {
 @media screen and (max-width: 735px) {
   .entry-share {
     display: none;
+  }
+}
+
+@media screen and (min-width: 736px) {
+  body {
+    display: flex;
+    flex-direction: column;
+  }
+  .fixedHeaderContainer {
+    flex-shrink: 0;
+  }
+  .navPusher {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    padding-top: 50px;
+  }
+  .docMainWrapper {
+    flex-grow: 1;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  footer.nav-footer {
+    flex-shrink: 0;
   }
 }
