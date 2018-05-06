@@ -21,7 +21,7 @@ Thank you to the following contributors who have helped with this releae:
 - @ramiel
 - @AmitHarlev
 - @pixelastic
-- @SoonaMeta
+- @SoonaMata
 - @olistic
 - @SleepWalker
 - @Airse
