@@ -70,6 +70,7 @@
     "front-matter": "^2.3.0",
     "glob-promise": "^3.3.0",
     "jest": "^21.2.1",
+    "opn": "^5.3.0",
     "prettier": "^1.9.1",
     "rimraf": "^2.6.2"
   }
