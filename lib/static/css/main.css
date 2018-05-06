@@ -198,7 +198,7 @@ header h2 {
 
 .mainContainer {
   background: #f9f9f9;
-  flex: 1;
+  flex: 1 0 auto;
   font-size: 18px;
 }
 .mainContainer .wrapper {
