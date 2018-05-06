@@ -6,6 +6,49 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.15] - 2018-05-06
+
+This release has a lot of commits, including bug fixes, documentation updates, as well as a bit of new functionality. A new [blog post](https://docusaurus.io/blog/2018/04/30/How-I-Converted-Profilo-To-Docusaurus.html) from @caabernathy about how easy it is to create a Docusaurus site, a lot of Windows fixes, the ability to specify the default version shown, and more.
+
+Thank you to the following contributors who have helped with this releae:
+
+- @yangshun
+- @amyrlam
+- @caabernathy
+- @szeck87
+- @dgracehmh
+- @balloob
+- @ramiel
+- @AmitHarlev
+- @pixelastic
+- @SoonaMeta
+- @olistic
+- @SleepWalker
+- @Airse
+- @ahmadalfy
+- @zenflow
+
+### Breaking changes
+
+N/A
+
+### Added
+
+- Our Google Analytics support now [allows](https://github.com/facebook/Docusaurus/commit/976ae770b530636d1e4805ef285af52aa30a51c1) the use of `gtag` via the new [`gaGtag` site configuration option](https://docusaurus.io/docs/en/site-config.html#optional-fields).
+- Anchor links are now [unique](https://github.com/facebook/Docusaurus/commit/9c98142fea416492efebf5a462fc0724551732f6) per document.
+- You can now configure what version is shown by [default](https://github.com/facebook/Docusaurus/commit/dbc597bfd76879fed60869122397ce6c5a86bf81) via the [`defaultVersionShown` site configuraton option](https://docusaurus.io/docs/en/site-config.html#optional-fields).
+
+### Fixed/Changed
+
+- We do not [ignore](https://github.com/facebook/Docusaurus/commit/df6f6df333c9e3df42aa13c5db44b749eeb0abb9) the `custom_edit_url` metadata option in a doc any longer.
+- UX/UI improvements: [table](https://github.com/facebook/Docusaurus/commit/3a246068874916914b9af3107d6061817b55176b), [code block](https://github.com/facebook/Docusaurus/commit/327d04436240c9f1cd31c50f999384556df5ac16), [sidebar](https://github.com/facebook/Docusaurus/commit/812f2be6e32d5328cb80cccfa1f05e3176b31235), [header anchors](https://github.com/facebook/Docusaurus/commit/be54c8f03536f7ad58adf8f7111c617446debbfa).
+- Sitemap is now [generated](https://github.com/facebook/Docusaurus/commit/6c9c7e5de57fbf4c5f9dedd35817296b3e262596) if a blog post exists.
+- IE fixes: [navigation](https://github.com/facebook/Docusaurus/commit/6d77403dc1b5fb2027ee3d1adc6374708a4cb3ee), [font rendering](https://github.com/facebook/Docusaurus/commit/17dd6d9c8e7093b60c81291623dad37d0700850d), etc.
+
+### Removed
+
+N/A
+
 ## [1.0.14] - 2018-04-23
 
 Small release mostly for documentation.
@@ -322,7 +365,8 @@ N/A
   - Blog
   - Documentation
 
-[Unreleased]: https://github.com/facebook/Docusaurus/compare/v1.0.14...HEAD
+[Unreleased]: https://github.com/facebook/Docusaurus/compare/v1.0.15...HEAD
+[1.0.14]: https://github.com/facebook/Docusaurus/compare/v1.0.14...v1.0.15
 [1.0.14]: https://github.com/facebook/Docusaurus/compare/v1.0.13...v1.0.14
 [1.0.13]: https://github.com/facebook/Docusaurus/compare/v1.0.12...v1.0.13
 [1.0.12]: https://github.com/facebook/Docusaurus/compare/v1.0.11...v1.0.12
