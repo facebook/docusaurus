@@ -66,6 +66,7 @@
 </code></pre>
 <pre><code class="hljs css js">customDocsPath: <span class="hljs-string">'website-docs'</span>
 </code></pre>
+<p><code>defaultVersionShown</code> - The default version for the site to be shown. If this is not set, the latest version will be shown.</p>
 <p><code>disableHeaderTitle</code> - An option to disable showing the title in the header next to the header icon. Exclude this field to keep the header as normal, otherwise set to <code>true</code>.</p>
 <p><code>disableTitleTagline</code> - An option to disable showing the tagline in the title of main pages. Exclude this field to keep page titles as <code>Title • Tagline</code>. Set to <code>true</code> to make page titles just <code>Title</code>.</p>
 <p><code>editUrl</code> - url for editing docs, usage example: <code>editUrl + 'en/doc1.md'</code>. If this field is omitted, there will be no &quot;Edit this Doc&quot; button for each document.</p>
@@ -134,7 +135,8 @@
   <span class="hljs-comment">// For github.io type URLS, you would combine the url and baseUrl like:</span>
   <span class="hljs-comment">// url: 'https://reasonml.github.io',</span>
   <span class="hljs-comment">// baseUrl: '/reason-react/',</span>
-  organizationName: <span class="hljs-string">'facebook'</span>,
+  defaultVersionShown: <span class="hljs-string">'1.0.0'</span>,
+  <span class="hljs-attr">organizationName</span>: <span class="hljs-string">'facebook'</span>,
   <span class="hljs-attr">projectName</span>: <span class="hljs-string">'docusaurus'</span>,
   <span class="hljs-attr">noIndex</span>: <span class="hljs-literal">false</span>,
   <span class="hljs-comment">// For no header links in the top nav bar -&gt; headerLinks: [],</span>
