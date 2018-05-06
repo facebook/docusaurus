@@ -964,7 +964,7 @@ pre code {
   display: block;
 }
 .navigationSlider .slidingNav ul li {
-  flex: 1;
+  flex: 1 1 auto;
   text-align: center;
   white-space: nowrap;
   margin: 0;
