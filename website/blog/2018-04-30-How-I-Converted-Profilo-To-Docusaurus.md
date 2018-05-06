@@ -3,6 +3,7 @@ title: How I Converted Profilo to Docusaurus in Under 2 Hours
 author: Christine Abernathy
 authorURL: http://twitter.com/abernathyca
 authorFBID: 1424840234
+authorTwitter: abernathyca
 ---
 
 > *“Joel and I were discussing having a website and how it would have been great to launch with it. So I challenged myself to add Docusaurus support. It took just over an hour and a half. I'm going to send you a PR with the addition so you can take a look and see if you like it. Your workflow for adding docs wouldn't be much different from editing those markdown files.”*
@@ -10,7 +11,7 @@ authorFBID: 1424840234
 > *— Note sent to the Profilo team*
 
 
-This is the story of the rather short journey it took to create the [Profilo](https://facebookincubator.github.io/profilo/) website using Docusaurus. 
+This is the story of the rather short journey it took to create the [Profilo](https://facebookincubator.github.io/profilo/) website using Docusaurus.
 
 Profilo, an Android library for collecting performance traces from production, [was announced](https://code.facebook.com/posts/356115241551826/profilo-understanding-app-performance-in-the-wild/) earlier this year. The project was [published on GitHub](https://github.com/facebookincubator/profilo/tree/802042f90f990998a272387e371b893af52465b8) with a less than [a handful or Markdown files](https://github.com/facebookincubator/profilo/tree/802042f90f990998a272387e371b893af52465b8/docs) to describe its functionality and no website to showcase any branding and highlight the logo. The task at hand was to turn these existing docs and logo into a website.
 
@@ -35,7 +36,7 @@ Here's an overview of the steps taken to convert to a website. I'll discuss some
 **Design and colors:**
 
 1. Got all the desired logo formats from designer. I had to create the *.favicon* one.
-1. Worked out some passable primary and secondary website colors using the http://paletton.com/ tools - very handy! 
+1. Worked out some passable primary and secondary website colors using the http://paletton.com/ tools - very handy!
 
 **Initial website setup:**
 
