@@ -56,7 +56,9 @@ table {
 body {
   background: #f9f9f9;
   color: #393939;
-  font: normal 16px/1.4em -apple-system,system-ui,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,'Fira Sans','Droid Sans','Helvetica Neue',Arial,sans-serif;
+  font-family: -apple-system,system-ui,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,'Fira Sans','Droid Sans','Helvetica Neue',Arial,sans-serif;
+  font-size: 16px;
+  line-height: 1.4em;
   min-height: 100vh;
   text-align: left;
   text-rendering: optimizeLegibility;
