@@ -84,6 +84,9 @@ customDocsPath: 'docs/site'
 ```js
 customDocsPath: 'website-docs'
 ```
+
+`defaultVersionShown` - The default version for the site to be shown. If this is not set, the latest version will be shown.
+
 `disableHeaderTitle` - An option to disable showing the title in the header next to the header icon. Exclude this field to keep the header as normal, otherwise set to `true`.
 
 `disableTitleTagline` - An option to disable showing the tagline in the title of main pages. Exclude this field to keep page titles as `Title • Tagline`. Set to `true` to make page titles just `Title`.
@@ -181,6 +184,7 @@ const siteConfig = {
   // For github.io type URLS, you would combine the url and baseUrl like:
   // url: 'https://reasonml.github.io',
   // baseUrl: '/reason-react/',
+  defaultVersionShown: '1.0.0',
   organizationName: 'facebook',
   projectName: 'docusaurus',
   noIndex: false,
