@@ -888,7 +888,7 @@ pre code {
   }
   .gridBlock .twoByGridBlock {
     box-sizing: border-box;
-    flex: 1 0 50%;
+    flex: 1 0 40%;
     padding: 10px;
   }
   .gridBlock .threeByGridBlock {
@@ -898,7 +898,7 @@ pre code {
   }
   .gridBlock .fourByGridBlock {
     box-sizing: border-box;
-    flex: 1 0 25%;
+    flex: 1 0 20%;
     padding: 10px;
   }
 
@@ -915,7 +915,7 @@ pre code {
   }
   .gridBlock .twoByGridBlock {
     box-sizing: border-box;
-    flex: 1 0 50%;
+    flex: 1 0 40%;
     padding: 10px 20px;
   }
   .gridBlock .threeByGridBlock {
@@ -925,7 +925,7 @@ pre code {
   }
   .gridBlock .fourByGridBlock {
     box-sizing: border-box;
-    flex: 1 0 25%;
+    flex: 1 0 20%;
     padding: 10px 20px;
   }
 }
