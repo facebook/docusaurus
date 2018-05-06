@@ -41,9 +41,9 @@ N/A
 ### Fixed/Changed
 
 - We do not [ignore](https://github.com/facebook/Docusaurus/commit/df6f6df333c9e3df42aa13c5db44b749eeb0abb9) the `custom_edit_url` metadata option in a doc any longer.
-- UX/UI improvements: [table](https://github.com/facebook/Docusaurus/commit/3a246068874916914b9af3107d6061817b55176b), [code block](https://github.com/facebook/Docusaurus/commit/327d04436240c9f1cd31c50f999384556df5ac16),[sidebar](https://github.com/facebook/Docusaurus/commit/812f2be6e32d5328cb80cccfa1f05e3176b31235), [header anchors](https://github.com/facebook/Docusaurus/commit/be54c8f03536f7ad58adf8f7111c617446debbfa).
+- UX/UI improvements: [table](https://github.com/facebook/Docusaurus/commit/3a246068874916914b9af3107d6061817b55176b), [code block](https://github.com/facebook/Docusaurus/commit/327d04436240c9f1cd31c50f999384556df5ac16), [sidebar](https://github.com/facebook/Docusaurus/commit/812f2be6e32d5328cb80cccfa1f05e3176b31235), [header anchors](https://github.com/facebook/Docusaurus/commit/be54c8f03536f7ad58adf8f7111c617446debbfa).
 - Sitemap is now [generated](https://github.com/facebook/Docusaurus/commit/6c9c7e5de57fbf4c5f9dedd35817296b3e262596) if a blog post exists.
-- Windows fixes: [navigation](https://github.com/facebook/Docusaurus/commit/6d77403dc1b5fb2027ee3d1adc6374708a4cb3ee), [font rendering](https://github.com/facebook/Docusaurus/commit/17dd6d9c8e7093b60c81291623dad37d0700850d), etc.
+- IE fixes: [navigation](https://github.com/facebook/Docusaurus/commit/6d77403dc1b5fb2027ee3d1adc6374708a4cb3ee), [font rendering](https://github.com/facebook/Docusaurus/commit/17dd6d9c8e7093b60c81291623dad37d0700850d), etc.
 
 ### Removed
 
