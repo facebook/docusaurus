@@ -53,11 +53,11 @@ Docusaurus provides some default mappings to allow you to run commands following
 
 ## Reference
 
-### `docusaurus-build`
+### `docusaurus-build [--skip-image-compression]`
 
 Alias: `build`.
 
-Generates the static website, applying translations if necessary. Useful for building the website prior to deployment.
+Generates the static website, applying translations if necessary. Useful for building the website prior to deployment. By default Docusaurus will attempt to compress your images unless you provided the `--skip-image-compression` flag.
 
 See also [`docusaurus-start`](api-commands.md#docusaurus-start-port-number).
 
