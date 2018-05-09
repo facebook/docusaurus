@@ -145,5 +145,12 @@
     "infoLink": "https://vuls.io/",
     "fbOpenSource": false,
     "pinned": false
+  },
+  {
+    "caption": "WarriorJS",
+    "image": "/img/warriorjs.svg",
+    "infoLink": "https://warrior.js.org/",
+    "fbOpenSource": false,
+    "pinned": false
   }
 ]
