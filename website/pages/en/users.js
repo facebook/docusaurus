@@ -9,7 +9,7 @@ const React = require('react');
 const CompLibrary = require('../../core/CompLibrary.js');
 const Container = CompLibrary.Container;
 const siteConfig = require(process.cwd() + '/siteConfig.js');
-const translate = require("../../server/translate.js").translate;
+const translate = require('../../server/translate.js').translate;
 
 class Users extends React.Component {
   render() {
@@ -42,7 +42,9 @@ class Users extends React.Component {
         <Container padding={['bottom', 'top']}>
           <div className="showcaseSection">
             <div className="prose">
-              <h1><translate>Who is using Docusaurus?</translate></h1>
+              <h1>
+                <translate>Who is using Docusaurus?</translate>
+              </h1>
               <p>
                 Docusaurus powers some of Facebook's popular{' '}
                 <a href="https://code.facebook.com/projects/">
@@ -53,15 +55,19 @@ class Users extends React.Component {
             <div className="logos">{fbShowcase}</div>
             <div className="prose">
               <p>
-                <translate>Docusaurus is also used by open source projects of all sizes.</translate>
+                <translate>
+                  Docusaurus is also used by open source projects of all sizes.
+                </translate>
               </p>
             </div>
             <div className="logos">{showcase}</div>
             <div className="prose">
-              <p><translate>Is your project using Docusaurus?</translate></p>
+              <p>
+                <translate>Is your project using Docusaurus?</translate>
+              </p>
               <p>
                 Edit this page with a{' '}
-                <a href="https://github.com/facebook/docusaurus/edit/master/website/siteConfig.js">
+                <a href="https://github.com/facebook/docusaurus/edit/master/website/data/users.json">
                   Pull Request
                 </a>{' '}
                 to add your logo.
