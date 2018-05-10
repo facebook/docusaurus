@@ -1,3 +1,4 @@
+const PropTypes = require('prop-types');
 /**
  * Copyright (c) 2017-present, Facebook, Inc.
  *
@@ -22,7 +23,7 @@ const GitHubButton = props => (
 );
 
 GitHubButton.propTypes = {
-  config: React.PropTypes.object
+  config: PropTypes.object
 };
 
 class Footer extends React.Component {
