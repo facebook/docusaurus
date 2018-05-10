@@ -7,6 +7,13 @@
     "pinned": false
   },
   {
+    "caption": "Bemuse",
+    "image": "/img/bemuse.png",
+    "infoLink": "https://bemuse.ninja/project/",
+    "fbOpenSource": false,
+    "pinned": false
+  },
+  {
     "caption": "BlueWhale",
     "image": "/img/BlueWhale.png",
     "infoLink": "https://facebookresearch.github.io/BlueWhale/",
