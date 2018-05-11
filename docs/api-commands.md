@@ -53,21 +53,35 @@ Docusaurus provides some default mappings to allow you to run commands following
 
 ## Reference
 
-### `docusaurus-build [--skip-image-compression]`
+### `docusaurus-build`
 
 Alias: `build`.
 
-Generates the static website, applying translations if necessary. Useful for building the website prior to deployment. By default Docusaurus will attempt to compress your images unless you provided the `--skip-image-compression` flag.
+|Options|Default|Description|
+|---|---|---|
+|`--skip-image-compression`|`false`|Skip compression of image assets. You usually won't want to skip this unless your images have already been optimized.|
 
-See also [`docusaurus-start`](api-commands.md#docusaurus-start-port-number).
+Generates the static website, applying translations if necessary. Useful for building the website prior to deployment.
+
+See also [`docusaurus-start`](api-commands.md#docusaurus-start).
 
 ---
 
-### `docusaurus-examples [feature]`
+### `docusaurus-examples`
 
 Alias: `examples`
 
-When no feature is specified, sets up a minimally configured example website in your project. This command is covered in depth in the [Site Preparation guide](getting-started-preparation.md). Specify a feature `translations` or `versions` to generate the extra example files for that feature.
+|Arguments|Default|Description|
+|---|---|---|
+|`<feature>`|-|Specify a feature `translations` or `versions` to generate the extra example files for that feature.|
+
+**Example**
+
+```bash
+docusaurus-examples <feature>
+```
+
+When no feature is specified, sets up a minimally configured example website in your project. This command is covered in depth in the [Site Preparation guide](getting-started-preparation.md).
 
 ---
 
@@ -82,7 +96,7 @@ The following environment variables are generally set manually by the user in th
  - `GIT_USER`: The git user to be associated with the deploy commit.
  - `USE_SSH`: Whether to use SSH instead of HTTPS for your connection to the GitHub repo.
 
- e.g.,
+ **Example**
 
  ```bash
  GIT_USER=docusaurus-bot USE_SSH=true yarn run publish-gh-pages
@@ -102,21 +116,36 @@ You can learn more about configuring automatic deployments with CircleCI in the 
 
 ---
 
-### `docusaurus-rename-version <currentVersion> <newVersion>`
+### `docusaurus-rename-version`
 
 Alias: `rename-version`
 
 Renames an existing version of the docs to a new version name.
 
+|Arguments|Default|Description|
+|---|---|---|
+|`<currentVersion>`|-|Version to be renamed.|
+|`<newVersion>`|-|Version to be renamed to.|
+
+**Example**
+
+```bash
+docusaurus-rename-version <currentVersion> <newVersion>
+```
+
 See the [Versioning guide](guides-versioning.md#renaming-existing-versions) to learn more.
 
 ---
 
-### `docusaurus-start [--port <number>]`
+### `docusaurus-start`
 
 Alias: `start`.
 
-This script will build the static website, apply translations if necessary, and then start a local server. The website will be served from port 3000 by default.
+This script will build the static website, apply translations if necessary, and then start a local server.
+
+|Options|Default|Description|
+|---|---|---|
+|`--port <number>`|`3000`|The website will be served from port 3000 by default, but if the port is taken up, Docusaurus will attempt to find an available one.|
 
 ---
 
