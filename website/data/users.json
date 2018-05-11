@@ -91,6 +91,13 @@
     "pinned": true
   },
   {
+    "caption": "Pyre",
+    "image": "/img/pyre.svg",
+    "infoLink": "https://pyre-check.org",
+    "fbOpenSource": true,
+    "pinned": true
+  },
+  {
     "caption": "React Native",
     "image": "/img/react-native.svg",
     "infoLink": "https://facebook.github.io/react-native",
