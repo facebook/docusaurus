@@ -99,7 +99,7 @@
 <li>Create a <code>.circleci</code> folder and create a <code>config.yml</code> under that folder.</li>
 <li>Copy the text below into <code>.circleci/config.yml</code>.</li>
 </ol>
-<pre><code class="hljs css yaml"><span class="hljs-comment"># If you only one circle to run on direct commits to master, you can uncomment this out</span>
+<pre><code class="hljs css yaml"><span class="hljs-comment"># If you only want circle to run on direct commits to master, you can uncomment this out</span>
 <span class="hljs-comment"># and uncomment the filters: *filter-only-master down below too</span>
 <span class="hljs-comment">#</span>
 <span class="hljs-comment"># aliases:</span>
@@ -113,7 +113,7 @@
 <span class="hljs-attr">  deploy-website:</span>
 <span class="hljs-attr">    docker:</span>
       <span class="hljs-comment"># specify the version you desire here</span>
-<span class="hljs-attr">      - image:</span> <span class="hljs-string">circleci/node:7.10</span>
+<span class="hljs-attr">      - image:</span> <span class="hljs-string">circleci/node:8.11.1</span>
 
 <span class="hljs-attr">    steps:</span>
 <span class="hljs-bullet">      -</span> <span class="hljs-string">checkout</span>
