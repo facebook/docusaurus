@@ -98,7 +98,7 @@ If you haven't done so already, you can [setup CircleCI](https://circleci.com/si
 1. Copy the text below into `.circleci/config.yml`.
 
 ```yaml
-# If you only one circle to run on direct commits to master, you can uncomment this out
+# If you only want circle to run on direct commits to master, you can uncomment this out
 # and uncomment the filters: *filter-only-master down below too
 #
 # aliases:
@@ -112,7 +112,7 @@ jobs:
   deploy-website:
     docker:
       # specify the version you desire here
-      - image: circleci/node:7.10
+      - image: circleci/node:8.11.1
 
     steps:
       - checkout
