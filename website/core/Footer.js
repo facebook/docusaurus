@@ -11,7 +11,7 @@ const React = require('react');
 const SocialFooter = props => (
   <div>
     <div>
-      <h5>Github</h5>
+      <h5>GitHub</h5>
       <a
         className="github-button" // part of the https://buttons.github.io/buttons.js script in siteConfig.js
         href={`https://github.com/${props.config.organizationName}/${
