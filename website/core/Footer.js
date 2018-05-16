@@ -26,17 +26,17 @@ const SocialFooter = props => (
         {props.config.projectName}
       </a>
     </div>
-    {props.config.twitterId ? (
+    {props.config.twitterUsername && (
       <div>
         <h5>Twitter</h5>
         <a
-          href={`https://twitter.com/${props.config.twitterId}`}
+          href={`https://twitter.com/${props.config.twitterUsername}`}
           className="twitter-follow-button">
-          Follow @{props.config.twitterId}
+          Follow @{props.config.twitterUsername}
         </a>
       </div>
-    ) : null}
-    {props.config.facebookAppId ? (
+    )}
+    {props.config.facebookAppId && (
       <div>
         <h5>Facebook</h5>
         <div
@@ -48,7 +48,7 @@ const SocialFooter = props => (
           data-show-faces="false"
         />
       </div>
-    ) : null}
+    )}
   </div>
 );
 

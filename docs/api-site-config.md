@@ -154,7 +154,7 @@ h1 {
 
 `twitter` - Set this to `true` if you want a Twitter social button to appear at the bottom of your blog posts.
 
-`twitterId` - If you want a Twitter follow button in the footer, provide a twitter id to follow. For example: `docusaurus`.
+`twitterUsername` - If you want a Twitter follow button at the bottom of your page, provide a twitter username to follow. For example: `docusaurus`
 
 `twitterImage` - Local path to your Twitter card image (e.g., `img/myImage.png`). This image will show up on the Twitter card when your site is shared on Twitter.
 
@@ -233,7 +233,7 @@ const siteConfig = {
   facebookAppId: '1615782811974223',
   facebookPixelId: '352490515235776',
   twitter: 'true',
-  twitterId: 'docusaurus',
+  twitterUsername: 'docusaurus',
   twitterImage: 'img/docusaurus.png',
   ogImage: 'img/docusaurus.png',
 };
