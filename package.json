@@ -57,7 +57,8 @@
     "request": "^2.81.0",
     "shelljs": "^0.7.8",
     "sitemap": "^1.13.0",
-    "tcp-port-used": "^0.1.2"
+    "tcp-port-used": "^0.1.2",
+    "tree-node-cli": "^1.1.1"
   },
   "bin": {
     "docusaurus-start": "./lib/start-server.js",
