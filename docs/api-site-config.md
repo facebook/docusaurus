@@ -154,6 +154,8 @@ h1 {
 
 `twitter` - Set this to `true` if you want a Twitter social button to appear at the bottom of your blog posts.
 
+`twitterId` - If you want a Twitter follow button at the bottom of your page, provide a twitter id to follow. For example: `docusaurus`
+
 `twitterImage` - Local path to your Twitter card image (e.g., `img/myImage.png`). This image will show up on the Twitter card when your site is shared on Twitter.
 
 `useEnglishUrl` - If you do not have [translations](guides-translation.md) enabled (e.g., by having a `languages.js` file), but still want a link of the form `/docs/en/doc.html` (with the `en`), set this to `true`.
@@ -231,6 +233,7 @@ const siteConfig = {
   facebookAppId: '1615782811974223',
   facebookPixelId: '352490515235776',
   twitter: 'true',
+  twitterId: 'docusaurus',
   twitterImage: 'img/docusaurus.png',
   ogImage: 'img/docusaurus.png',
 };
