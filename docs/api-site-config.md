@@ -93,7 +93,7 @@ customDocsPath: 'website-docs'
 
 `editUrl` - url for editing docs, usage example: `editUrl + 'en/doc1.md'`. If this field is omitted, there will be no "Edit this Doc" button for each document.
 
-`facebookAppId` - If you want Facebook Like/Share buttons at the bottom of your blog posts, provide a [Facebook application id](https://www.facebook.com/help/audiencenetwork/804209223039296), and the buttons will show up on all blog posts.
+`facebookAppId` - If you want Facebook Like/Share buttons in the footer and at the bottom of your blog posts, provide a [Facebook application id](https://www.facebook.com/help/audiencenetwork/804209223039296).
 
 `facebookPixelId` - [Facebook Pixel](https://www.facebook.com/business/a/facebook-pixel) ID to track page views.
 
