@@ -42,6 +42,13 @@
     "pinned": true
   },
   {
+    "caption": "Draft.js",
+    "image": "/img/draftjs.png",
+    "infoLink": "https://draftjs.org/",
+    "fbOpenSource": true,
+    "pinned": true
+  },
+  {
     "caption": "FastText",
     "image": "/img/fasttext.png",
     "infoLink": "https://fasttext.cc",
