@@ -10,8 +10,8 @@ const React = require('react');
 
 const SocialFooter = props => (
   <div>
-    <div>
-      <h5>GitHub</h5>
+    <h5>More</h5>
+    <div className="social">
       <a
         className="github-button" // part of the https://buttons.github.io/buttons.js script in siteConfig.js
         href={`https://github.com/${props.config.organizationName}/${
@@ -27,8 +27,7 @@ const SocialFooter = props => (
       </a>
     </div>
     {props.config.twitterUsername && (
-      <div>
-        <h5>Twitter</h5>
+      <div className="social">
         <a
           href={`https://twitter.com/${props.config.twitterUsername}`}
           className="twitter-follow-button">
@@ -37,8 +36,7 @@ const SocialFooter = props => (
       </div>
     )}
     {props.config.facebookAppId && (
-      <div>
-        <h5>Facebook</h5>
+      <div className="social">
         <div
           className="fb-like"
           data-href={props.config.url}
