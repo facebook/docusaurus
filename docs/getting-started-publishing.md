@@ -131,6 +131,24 @@ workflows:
       - deploy-website:
 #         filters: *filter-only-master
 ```
+Maybe you should use the text below if some error occurs while running the text above with Circle CI.
+
+```yaml
+version: 2
+jobs:
+  build:
+    docker:
+      # specify the version you desire here
+      - image: circleci/node:8.11.1
+
+    steps:
+      - checkout
+      - run: |
+          git config --global user.email "<GITHUB_USERNAME>@users.noreply.github.com"
+          git config --global user.name "<YOUR_NAME>"
+          echo "machine github.com login <GITHUB_USERNAME> password $GITHUB_TOKEN" > ~/.netrc
+          cd website && yarn install && GIT_USER=<GIT_USER> yarn run publish-gh-pages
+```
 
 Make sure to replace all `<....>` in the `command:` sequence with appropriate values. For `<GIT_USER>`, it should be a GitHub account that has access to push documentation to your GitHub repo. Many times `<GIT_USER>` and `<GITHUB_USERNAME>` will be the same.
 
