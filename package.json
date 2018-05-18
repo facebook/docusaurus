@@ -42,6 +42,7 @@
     "express": "^4.15.3",
     "feed": "^1.1.0",
     "fs-extra": "^5.0.0",
+    "gaze": "^1.1.2",
     "glob": "^7.1.2",
     "highlight.js": "^9.12.0",
     "imagemin": "^5.3.1",
@@ -58,7 +59,8 @@
     "shelljs": "^0.7.8",
     "sitemap": "^1.13.0",
     "tcp-port-used": "^0.1.2",
-    "tree-node-cli": "^1.1.1"
+    "tree-node-cli": "^1.1.1",
+    "tiny-lr": "^1.1.1"
   },
   "bin": {
     "docusaurus-start": "./lib/start-server.js",

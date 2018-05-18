@@ -56,9 +56,9 @@
     "pinned": true
   },
   {
-    "caption": "Facebook Instant Articles Rules Editor",
+    "caption": "Instant Articles Builder",
     "image": "/img/facebook-instant-articles-rules-editor.svg",
-    "infoLink": "https://facebook.github.io/facebook-instant-articles-rules-editor/",
+    "infoLink": "https://facebook.github.io/instant-articles-builder/",
     "fbOpenSource": true,
     "pinned": false
   },
