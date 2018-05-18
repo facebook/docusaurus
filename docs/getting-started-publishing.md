@@ -98,43 +98,6 @@ If you haven't done so already, you can [setup CircleCI](https://circleci.com/si
 1. Copy the text below into `.circleci/config.yml`.
 
 ```yaml
-# If you only want circle to run on direct commits to master, you can uncomment this out
-# and uncomment the filters: *filter-only-master down below too
-#
-# aliases:
-#  - &filter-only-master
-#    branches:
-#      only:
-#        - master
-
-version: 2
-jobs:
-  deploy-website:
-    docker:
-      # specify the version you desire here
-      - image: circleci/node:8.11.1
-
-    steps:
-      - checkout
-      - run:
-          name: Deploying to GitHub Pages
-          command: |
-            git config --global user.email "<GITHUB_USERNAME>@users.noreply.github.com"
-            git config --global user.name "<YOUR_NAME>"
-            echo "machine github.com login <GITHUB_USERNAME> password $GITHUB_TOKEN" > ~/.netrc
-            cd website && yarn install && GIT_USER=<GIT_USER> yarn run publish-gh-pages
-
-workflows:
-  version: 2
-  build_and_deploy:
-    jobs:
-      - deploy-website:
-#         filters: *filter-only-master
-```
-
-Maybe you should use the text below if some error occurs while running the text above with Circle CI.
-```yaml
-
 version: 2
 jobs:
   build:
@@ -144,10 +107,13 @@ jobs:
 
     steps:
       - checkout
-      - run: git config --global user.email "<GITHUB_USERNAME>@users.noreply.github.com"
-      - run: git config --global user.name "<YOUR_NAME>"
-      - run: echo "machine github.com login <GITHUB_USERNAME> password $GITHUB_TOKEN" > ~/.netrc
-      - run: cd website && yarn install && GIT_USER=<GIT_USER> yarn run publish-gh-pages
+      - run: 
+          name: Deploying to GitHub Pages
+          command: |
+            git config --global user.email "<GITHUB_USERNAME>@users.noreply.github.com"
+            git config --global user.name "<YOUR_NAME>"
+            echo "machine github.com login <GITHUB_USERNAME> password $GITHUB_TOKEN" > ~/.netrc
+            cd website && yarn install && GIT_USER=<GIT_USER> yarn run publish-gh-pages
 
 ```
 
