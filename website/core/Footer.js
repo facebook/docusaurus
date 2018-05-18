@@ -8,21 +8,49 @@ const PropTypes = require('prop-types');
 
 const React = require('react');
 
-const GitHubButton = props => (
-  <a
-    className="github-button" // part of the https://buttons.github.io/buttons.js script in siteConfig.js
-    href={`https://github.com/${props.config.organizationName}/${props.config.projectName}`}
-    data-icon="octicon-star"
-    data-count-href={`/${props.config.organizationName}/${props.config.projectName}/stargazers`}
-    data-show-count="true"
-    data-count-aria-label="# stargazers on GitHub"
-    aria-label="Star this project on GitHub"
-  >
-    Star
-  </a>
+const SocialFooter = props => (
+  <div>
+    <h5>More</h5>
+    <div className="social">
+      <a
+        className="github-button" // part of the https://buttons.github.io/buttons.js script in siteConfig.js
+        href={`https://github.com/${props.config.organizationName}/${
+          props.config.projectName
+        }`}
+        data-count-href={`/${props.config.organizationName}/${
+          props.config.projectName
+        }/stargazers`}
+        data-show-count="true"
+        data-count-aria-label="# stargazers on GitHub"
+        aria-label="Star this project on GitHub">
+        {props.config.projectName}
+      </a>
+    </div>
+    {props.config.twitterUsername && (
+      <div className="social">
+        <a
+          href={`https://twitter.com/${props.config.twitterUsername}`}
+          className="twitter-follow-button">
+          Follow @{props.config.twitterUsername}
+        </a>
+      </div>
+    )}
+    {props.config.facebookAppId && (
+      <div className="social">
+        <div
+          className="fb-like"
+          data-href={props.config.url}
+          data-layout="standard"
+          data-share="true"
+          data-width="225"
+          data-show-faces="false"
+        />
+      </div>
+    )}
+  </div>
 );
 
-GitHubButton.propTypes = {
+SocialFooter.propTypes = {
   config: PropTypes.object
 };
 
@@ -77,17 +105,8 @@ class Footer extends React.Component {
             >
               User Showcase
             </a>
-            <a href="https://twitter.com/docusaurus">
-              Twitter
-            </a>
           </div>
-          <div>
-            <h5>More</h5>
-            <a href="https://github.com/facebook/docusaurus">
-              GitHub
-            </a>
-            <GitHubButton config={this.props.config} />
-          </div>
+          <SocialFooter config={this.props.config} />
         </section>
 
         <a

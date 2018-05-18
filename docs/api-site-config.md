@@ -93,7 +93,7 @@ customDocsPath: 'website-docs'
 
 `editUrl` - url for editing docs, usage example: `editUrl + 'en/doc1.md'`. If this field is omitted, there will be no "Edit this Doc" button for each document.
 
-`facebookAppId` - If you want Facebook Like/Share buttons at the bottom of your blog posts, provide a [Facebook application id](https://www.facebook.com/help/audiencenetwork/804209223039296), and the buttons will show up on all blog posts.
+`facebookAppId` - If you want Facebook Like/Share buttons in the footer and at the bottom of your blog posts, provide a [Facebook application id](https://www.facebook.com/help/audiencenetwork/804209223039296).
 
 `facebookPixelId` - [Facebook Pixel](https://www.facebook.com/business/a/facebook-pixel) ID to track page views.
 
@@ -153,6 +153,8 @@ h1 {
 `translationRecruitingLink` - URL for the `Help Translate` tab of language selection when languages besides English are enabled. This can be included you are using translations but does not have to be.
 
 `twitter` - Set this to `true` if you want a Twitter social button to appear at the bottom of your blog posts.
+
+`twitterUsername` - If you want a Twitter follow button at the bottom of your page, provide a Twitter username to follow. For example: `docusaurus`.
 
 `twitterImage` - Local path to your Twitter card image (e.g., `img/myImage.png`). This image will show up on the Twitter card when your site is shared on Twitter.
 
@@ -231,6 +233,7 @@ const siteConfig = {
   facebookAppId: '1615782811974223',
   facebookPixelId: '352490515235776',
   twitter: 'true',
+  twitterUsername: 'docusaurus',
   twitterImage: 'img/docusaurus.png',
   ogImage: 'img/docusaurus.png',
 };

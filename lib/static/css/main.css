@@ -1826,6 +1826,10 @@ footer .copyright {
   text-align: center;
 }
 
+footer .social {
+  padding: 5px 0;
+}
+
 .entry-share {
   padding: 36px 0;
   display: block;
