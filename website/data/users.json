@@ -28,6 +28,13 @@
     "pinned": true
   },
   {
+    "caption": "CaptainDuckDuck",
+    "image": "/img/captainduckduck.png",
+    "infoLink": "https://captainduckduck.com/",
+    "fbOpenSource": false,
+    "pinned": false
+  },
+  {
     "caption": "Dep",
     "image": "/img/golang-dep.svg",
     "infoLink": "https://golang.github.io/dep/",
