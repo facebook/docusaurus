@@ -1835,14 +1835,8 @@ footer .social {
   display: block;
 }
 
-.blog-social div {
+.blog-social .paddingBottom {
   padding-bottom: 5px;
-}
-
-@media screen and (max-width: 350px) {
-  .blog-social {
-    display: none;
-  }
 }
 
 @media screen and (min-width: 736px) {
