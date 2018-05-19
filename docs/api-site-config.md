@@ -21,9 +21,9 @@ The `siteConfig` object contains the bulk of the configuration settings for your
 
 `colors` - Color configurations for the site.
 
-  - `primaryColor` is the color used the header navigation bar and sidebars.
-  - `secondaryColor` is the color seen in the second row of the header navigation bar when the site window is narrow (including on mobile).
-  - Custom color configurations can also be added. For example, if user styles are added with colors specified as `$myColor`, then adding a `myColor` field to `colors` will allow you to easily configure this color.
+* `primaryColor` is the color used the header navigation bar and sidebars.
+* `secondaryColor` is the color seen in the second row of the header navigation bar when the site window is narrow (including on mobile).
+* Custom color configurations can also be added. For example, if user styles are added with colors specified as `$myColor`, then adding a `myColor` field to `colors` will allow you to easily configure this color.
 
 `copyright` - The copyright string at footer of site and within feed
 
@@ -34,6 +34,7 @@ The `siteConfig` object contains the bulk of the configuration settings for your
 `headerLinks` - Links that will be used in the header navigation bar. The `label` field of each object will be the link text and will also be translated for each language.
 
 Example Usage:
+
 ```js
 headerLinks: [
   // Links to document with id doc1 for current language/version
@@ -67,9 +68,9 @@ headerLinks: [
 
 `algolia` - Information for Algolia search integration. If this field is excluded, the search bar will not appear in the header. You must specify two values for this field, and one (`appId`) is optional.
 
-- `apiKey` - the Algolia provided API key for your search.
-- `indexName` - the Algolia provided index name for your search (usually this is the project name)
-- `appId` - Algolia provides a default scraper for your docs. If you provide your own, you will probably get this id from them.
+* `apiKey` - the Algolia provided API key for your search.
+* `indexName` - the Algolia provided index name for your search (usually this is the project name)
+* `appId` - Algolia provides a default scraper for your docs. If you provide your own, you will probably get this id from them.
 
 `blogSidebarCount` - Control the number of blog posts that show up in the sidebar. See the [adding a blog docs](guides-blog.md#changing-how-many-blog-posts-show-on-sidebar) for more information.
 
@@ -78,11 +79,11 @@ headerLinks: [
 `customDocsPath` - By default, Docusaurus expects your documentation to be in a directory called `docs`. This directory is at the same level as the `website` directory (i.e., not inside the `website` directory). You can specify a custom path to your documentation with this field. **Note that all of your documentation `*.md` files must still reside in a flat hierarchy. You cannot have your documents in nested directories**.
 
 ```js
-customDocsPath: 'docs/site'
+customDocsPath: 'docs/site';
 ```
 
 ```js
-customDocsPath: 'website-docs'
+customDocsPath: 'website-docs';
 ```
 
 `defaultVersionShown` - The default version for the site to be shown. If this is not set, the latest version will be shown.
@@ -94,6 +95,8 @@ customDocsPath: 'website-docs'
 `editUrl` - url for editing docs, usage example: `editUrl + 'en/doc1.md'`. If this field is omitted, there will be no "Edit this Doc" button for each document.
 
 `facebookAppId` - If you want Facebook Like/Share buttons in the footer and at the bottom of your blog posts, provide a [Facebook application id](https://www.facebook.com/help/audiencenetwork/804209223039296).
+
+`facebookComments` - Set this to `true` if you want to enable Facebook comments at the bottom of your blog post. `facebookAppId` has to be also set.
 
 `facebookPixelId` - [Facebook Pixel](https://www.facebook.com/business/a/facebook-pixel) ID to track page views.
 
@@ -130,11 +133,11 @@ h1 {
 
 `highlight` - [Syntax highlighting](api-doc-markdown.md) options:
 
- - `theme` is the name of the theme used by Highlight.js when highlighting code. You can find the [list of supported themes here](https://github.com/isagalaev/highlight.js/tree/master/src/styles).
- - `version` specifies a particular version of Highlight.js to be used.
- - `hljs` provides an escape valve by passing an instance of Highlight.js to the function specified here, allowing additional languages to be registered for syntax highlighting.
- - `defaultLang` defines a default language. It will be used if one is not specified at the top of the code block. You can find the [list of supported languages here](https://github.com/isagalaev/highlight.js/tree/master/src/languages).
- - `themeUrl` is the custom URL of CSS theme file that you want to use with Highlight.js. If this is provided, the `theme` and `version` fields will be ignored.
+* `theme` is the name of the theme used by Highlight.js when highlighting code. You can find the [list of supported themes here](https://github.com/isagalaev/highlight.js/tree/master/src/styles).
+* `version` specifies a particular version of Highlight.js to be used.
+* `hljs` provides an escape valve by passing an instance of Highlight.js to the function specified here, allowing additional languages to be registered for syntax highlighting.
+* `defaultLang` defines a default language. It will be used if one is not specified at the top of the code block. You can find the [list of supported languages here](https://github.com/isagalaev/highlight.js/tree/master/src/languages).
+* `themeUrl` is the custom URL of CSS theme file that you want to use with Highlight.js. If this is provided, the `theme` and `version` fields will be ignored.
 
 `markdownPlugins` - An array of plugins to be loaded by Remarkable, the markdown parser and renderer used by Docusaurus. The plugin will receive a reference to the Remarkable instance, allowing custom parsing and rendering rules to be defined.
 
@@ -142,7 +145,7 @@ h1 {
 
 `onPageNav` - If you want a visible navigation option for representing topics on the current page. Currently, there is one accepted value for this option:
 
-- `separate` - The secondary navigation is a separate pane defaulting on the right side of a document. See http://docusaurus.io/docs/en/translation.html for an example.
+* `separate` - The secondary navigation is a separate pane defaulting on the right side of a document. See http://docusaurus.io/docs/en/translation.html for an example.
 
 `scripts` - Array of JavaScript sources to load. The script tag will be inserted in the HTML head.
 
@@ -174,8 +177,8 @@ const users = [
     caption: 'User1',
     image: '/test-site/img/docusaurus.svg',
     infoLink: 'https://www.example.com',
-    pinned: true
-  }
+    pinned: true,
+  },
 ];
 
 const siteConfig = {
@@ -192,16 +195,16 @@ const siteConfig = {
   noIndex: false,
   // For no header links in the top nav bar -> headerLinks: [],
   headerLinks: [
-    { doc: 'doc1', label: 'Docs' },
-    { page: 'help', label: 'Help' },
-    { search: true },
-    { blog: true }
+    {doc: 'doc1', label: 'Docs'},
+    {page: 'help', label: 'Help'},
+    {search: true},
+    {blog: true},
   ],
   headerIcon: 'img/docusaurus.svg',
   favicon: 'img/favicon.png',
   colors: {
     primaryColor: '#2E8555',
-    secondaryColor: '#205C3B'
+    secondaryColor: '#205C3B',
   },
   editUrl: 'https://github.com/facebook/docusaurus/edit/master/docs/',
   // Users variable set above
@@ -210,27 +213,32 @@ const siteConfig = {
   disableTitleTagline: true,
   separateCss: ['static/css/non-docusaurus', 'static/assets/separate-css'],
   footerIcon: 'img/docusaurus.svg',
-  translationRecruitingLink:
-    'https://crowdin.com/project/docusaurus',
+  translationRecruitingLink: 'https://crowdin.com/project/docusaurus',
   algolia: {
-    apiKey:
-      '0f9f28b9ab9efae89810921a351753b5',
-    indexName: 'github'
+    apiKey: '0f9f28b9ab9efae89810921a351753b5',
+    indexName: 'github',
   },
   gaTrackingId: 'UA-12345678-9',
   highlight: {
-    theme: 'default'
+    theme: 'default',
   },
   markdownPlugins: [
     function foo(md) {
-      md.renderer.rules.fence_custom.foo = function(tokens, idx, options, env, instance) {
+      md.renderer.rules.fence_custom.foo = function(
+        tokens,
+        idx,
+        options,
+        env,
+        instance
+      ) {
         return '<div class="foo">bar</div>';
-      }
-    }
+      };
+    },
   ],
-  scripts: [ 'https://docusaurus.io/slash.js' ],
-  stylesheets: [ 'https://docusaurus.io/style.css' ],
+  scripts: ['https://docusaurus.io/slash.js'],
+  stylesheets: ['https://docusaurus.io/style.css'],
   facebookAppId: '1615782811974223',
+  facebookComments: true,
   facebookPixelId: '352490515235776',
   twitter: 'true',
   twitterUsername: 'docusaurus',
