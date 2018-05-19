@@ -1853,8 +1853,8 @@ footer .social {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     padding-top: 50px;
+    min-height: calc(100vh - 50px);
   }
   .docMainWrapper {
     width: 100%;
