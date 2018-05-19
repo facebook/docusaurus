@@ -62,15 +62,16 @@
 <p><code>blogSidebarCount</code> - Control the number of blog posts that show up in the sidebar. See the <a href="/docs/en/next/blog.html#changing-how-many-blog-posts-show-on-sidebar">adding a blog docs</a> for more information.</p>
 <p><code>cname</code> - The CNAME for your website. It will go into a <code>CNAME</code> file when your site it built.</p>
 <p><code>customDocsPath</code> - By default, Docusaurus expects your documentation to be in a directory called <code>docs</code>. This directory is at the same level as the <code>website</code> directory (i.e., not inside the <code>website</code> directory). You can specify a custom path to your documentation with this field. <strong>Note that all of your documentation <code>*.md</code> files must still reside in a flat hierarchy. You cannot have your documents in nested directories</strong>.</p>
-<pre><code class="hljs css js">customDocsPath: <span class="hljs-string">'docs/site'</span>
+<pre><code class="hljs css js">customDocsPath: <span class="hljs-string">'docs/site'</span>;
 </code></pre>
-<pre><code class="hljs css js">customDocsPath: <span class="hljs-string">'website-docs'</span>
+<pre><code class="hljs css js">customDocsPath: <span class="hljs-string">'website-docs'</span>;
 </code></pre>
 <p><code>defaultVersionShown</code> - The default version for the site to be shown. If this is not set, the latest version will be shown.</p>
 <p><code>disableHeaderTitle</code> - An option to disable showing the title in the header next to the header icon. Exclude this field to keep the header as normal, otherwise set to <code>true</code>.</p>
 <p><code>disableTitleTagline</code> - An option to disable showing the tagline in the title of main pages. Exclude this field to keep page titles as <code>Title • Tagline</code>. Set to <code>true</code> to make page titles just <code>Title</code>.</p>
 <p><code>editUrl</code> - url for editing docs, usage example: <code>editUrl + 'en/doc1.md'</code>. If this field is omitted, there will be no &quot;Edit this Doc&quot; button for each document.</p>
 <p><code>facebookAppId</code> - If you want Facebook Like/Share buttons in the footer and at the bottom of your blog posts, provide a <a href="https://www.facebook.com/help/audiencenetwork/804209223039296">Facebook application id</a>.</p>
+<p><code>facebookComments</code> - Set this to <code>true</code> if you want to enable Facebook comments at the bottom of your blog post. <code>facebookAppId</code> has to be also set.</p>
 <p><code>facebookPixelId</code> - <a href="https://www.facebook.com/business/a/facebook-pixel">Facebook Pixel</a> ID to track page views.</p>
 <p><code>fonts</code> - Font-family css configuration for the site. If a font family is specified in <code>siteConfig.js</code> as <code>$myFont</code>, then adding a <code>myFont</code> key to an array in <code>fonts</code> will allow you to configure the font. Items appearing earlier in the array will take priority of later elements, so ordering of the fonts matter.</p>
 <p>In the below example, we have two sets of font configurations, <code>myFont</code> and <code>myOtherFont</code>. <code>Times New Roman</code> is the preferred font in <code>myFont</code>. <code>-apple-system</code> is the preferred in <code>myOtherFont</code>.</p>
@@ -124,8 +125,8 @@
     <span class="hljs-attr">caption</span>: <span class="hljs-string">'User1'</span>,
     <span class="hljs-attr">image</span>: <span class="hljs-string">'/test-site/img/docusaurus.svg'</span>,
     <span class="hljs-attr">infoLink</span>: <span class="hljs-string">'https://www.example.com'</span>,
-    <span class="hljs-attr">pinned</span>: <span class="hljs-literal">true</span>
-  }
+    <span class="hljs-attr">pinned</span>: <span class="hljs-literal">true</span>,
+  },
 ];
 
 <span class="hljs-keyword">const</span> siteConfig = {
@@ -142,16 +143,16 @@
   <span class="hljs-attr">noIndex</span>: <span class="hljs-literal">false</span>,
   <span class="hljs-comment">// For no header links in the top nav bar -&gt; headerLinks: [],</span>
   headerLinks: [
-    { <span class="hljs-attr">doc</span>: <span class="hljs-string">'doc1'</span>, <span class="hljs-attr">label</span>: <span class="hljs-string">'Docs'</span> },
-    { <span class="hljs-attr">page</span>: <span class="hljs-string">'help'</span>, <span class="hljs-attr">label</span>: <span class="hljs-string">'Help'</span> },
-    { <span class="hljs-attr">search</span>: <span class="hljs-literal">true</span> },
-    { <span class="hljs-attr">blog</span>: <span class="hljs-literal">true</span> }
+    {<span class="hljs-attr">doc</span>: <span class="hljs-string">'doc1'</span>, <span class="hljs-attr">label</span>: <span class="hljs-string">'Docs'</span>},
+    {<span class="hljs-attr">page</span>: <span class="hljs-string">'help'</span>, <span class="hljs-attr">label</span>: <span class="hljs-string">'Help'</span>},
+    {<span class="hljs-attr">search</span>: <span class="hljs-literal">true</span>},
+    {<span class="hljs-attr">blog</span>: <span class="hljs-literal">true</span>},
   ],
   <span class="hljs-attr">headerIcon</span>: <span class="hljs-string">'img/docusaurus.svg'</span>,
   <span class="hljs-attr">favicon</span>: <span class="hljs-string">'img/favicon.png'</span>,
   <span class="hljs-attr">colors</span>: {
     <span class="hljs-attr">primaryColor</span>: <span class="hljs-string">'#2E8555'</span>,
-    <span class="hljs-attr">secondaryColor</span>: <span class="hljs-string">'#205C3B'</span>
+    <span class="hljs-attr">secondaryColor</span>: <span class="hljs-string">'#205C3B'</span>,
   },
   <span class="hljs-attr">editUrl</span>: <span class="hljs-string">'https://github.com/facebook/docusaurus/edit/master/docs/'</span>,
   <span class="hljs-comment">// Users variable set above</span>
@@ -160,27 +161,32 @@
   <span class="hljs-attr">disableTitleTagline</span>: <span class="hljs-literal">true</span>,
   <span class="hljs-attr">separateCss</span>: [<span class="hljs-string">'static/css/non-docusaurus'</span>, <span class="hljs-string">'static/assets/separate-css'</span>],
   <span class="hljs-attr">footerIcon</span>: <span class="hljs-string">'img/docusaurus.svg'</span>,
-  <span class="hljs-attr">translationRecruitingLink</span>:
-    <span class="hljs-string">'https://crowdin.com/project/docusaurus'</span>,
+  <span class="hljs-attr">translationRecruitingLink</span>: <span class="hljs-string">'https://crowdin.com/project/docusaurus'</span>,
   <span class="hljs-attr">algolia</span>: {
-    <span class="hljs-attr">apiKey</span>:
-      <span class="hljs-string">'0f9f28b9ab9efae89810921a351753b5'</span>,
-    <span class="hljs-attr">indexName</span>: <span class="hljs-string">'github'</span>
+    <span class="hljs-attr">apiKey</span>: <span class="hljs-string">'0f9f28b9ab9efae89810921a351753b5'</span>,
+    <span class="hljs-attr">indexName</span>: <span class="hljs-string">'github'</span>,
   },
   <span class="hljs-attr">gaTrackingId</span>: <span class="hljs-string">'UA-12345678-9'</span>,
   <span class="hljs-attr">highlight</span>: {
-    <span class="hljs-attr">theme</span>: <span class="hljs-string">'default'</span>
+    <span class="hljs-attr">theme</span>: <span class="hljs-string">'default'</span>,
   },
   <span class="hljs-attr">markdownPlugins</span>: [
     <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params">md</span>) </span>{
-      md.renderer.rules.fence_custom.foo = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">tokens, idx, options, env, instance</span>) </span>{
+      md.renderer.rules.fence_custom.foo = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">
+        tokens,
+        idx,
+        options,
+        env,
+        instance
+      </span>) </span>{
         <span class="hljs-keyword">return</span> <span class="hljs-string">'&lt;div class="foo"&gt;bar&lt;/div&gt;'</span>;
-      }
-    }
+      };
+    },
   ],
-  <span class="hljs-attr">scripts</span>: [ <span class="hljs-string">'https://docusaurus.io/slash.js'</span> ],
-  <span class="hljs-attr">stylesheets</span>: [ <span class="hljs-string">'https://docusaurus.io/style.css'</span> ],
+  <span class="hljs-attr">scripts</span>: [<span class="hljs-string">'https://docusaurus.io/slash.js'</span>],
+  <span class="hljs-attr">stylesheets</span>: [<span class="hljs-string">'https://docusaurus.io/style.css'</span>],
   <span class="hljs-attr">facebookAppId</span>: <span class="hljs-string">'1615782811974223'</span>,
+  <span class="hljs-attr">facebookComments</span>: <span class="hljs-literal">true</span>,
   <span class="hljs-attr">facebookPixelId</span>: <span class="hljs-string">'352490515235776'</span>,
   <span class="hljs-attr">twitter</span>: <span class="hljs-string">'true'</span>,
   <span class="hljs-attr">twitterUsername</span>: <span class="hljs-string">'docusaurus'</span>,
