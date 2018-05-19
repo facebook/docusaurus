@@ -56,7 +56,7 @@ const siteConfig = {
   ],
   gaTrackingId: 'UA-44373548-31',
   facebookAppId: '1615782811974223',
-  facebookComment: true,
+  facebookComments: true,
   twitter: 'true',
   twitterUsername: 'docusaurus',
   ogImage: 'img/docusaurus.png',

@@ -1830,12 +1830,12 @@ footer .social {
   padding: 5px 0;
 }
 
-.blog-social {
+.blogSocialSection {
   padding: 36px 0;
   display: block;
 }
 
-.blog-social .paddingBottom {
+.blogSocialSection .blogSocialSectionItem {
   padding-bottom: 5px;
 }
 
