@@ -1857,7 +1857,11 @@ footer .social {
     padding-top: 50px;
   }
   .docMainWrapper {
+    flex-grow: 1;
     width: 100%;
     box-sizing: border-box;
+  }
+  footer.nav-footer {
+    flex-shrink: 0;
   }
 }
