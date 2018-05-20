@@ -167,7 +167,7 @@ h1 {
 
 `wrapPagesHTML` - Boolean flag to indicate whether `html` files in `/pages` should be wrapped with Docusaurus site styles, header and footer. This feature is experimental and relies on the files being `html` fragments instead of complete pages. It inserts the contents of your `html` file with no extra processing. Defaults to `false`.
 
-`cleanUrl` - If `true`, request to URL https://docusaurus.io/docs/installation will returns the same result as https://docusaurus.io/docs/installation.html.
+`cleanUrl` - If `true`, allow URLs with no `html` extension. Example: request to URL https://docusaurus.io/docs/installation will returns the same result as https://docusaurus.io/docs/installation.html.
 
 Users can also add their own custom fields if they wish to provide some data across different files.
 
@@ -246,6 +246,7 @@ const siteConfig = {
   twitterUsername: 'docusaurus',
   twitterImage: 'img/docusaurus.png',
   ogImage: 'img/docusaurus.png',
+  cleanUrl: true
 };
 
 module.exports = siteConfig;
