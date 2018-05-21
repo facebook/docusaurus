@@ -48,6 +48,7 @@ Thank you to the following contributors who helped with this release:
 
 ### Removed
 
+- [`authorImage`](https://github.com/facebook/Docusaurus/commit/873a2427f91314fe9f8590cc782c01570f264c6d)
 
 ## [1.0.15] - 2018-05-06
 
