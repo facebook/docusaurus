@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.1.1] - 2018-05-21
+
+HOTFIX release. Dependency bug found.
+
+### Fixed/Changed
+
+- `opn` needs to be [installed](https://github.com/facebook/Docusaurus/commit/923356e312687cae107db2ec36aaf52f7f03028a), not just in dev dependencies.
+
 ## [1.1.0] - 2018-05-20
 
 This is our first major point release. There are three primary reasons for this:
@@ -412,7 +420,8 @@ N/A
   - Blog
   - Documentation
 
-[Unreleased]: https://github.com/facebook/Docusaurus/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/facebook/Docusaurus/compare/v1.1.1...HEAD
+[1.1.1]: https://github.com/facebook/Docusaurus/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/facebook/Docusaurus/compare/v1.0.15...v1.1.0
 [1.0.14]: https://github.com/facebook/Docusaurus/compare/v1.0.14...v1.0.15
 [1.0.14]: https://github.com/facebook/Docusaurus/compare/v1.0.13...v1.0.14
