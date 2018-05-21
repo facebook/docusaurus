@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [1.1.0] - 2018-05-20
 
-This is our first major point release. There are two primary reasons for this:
+This is our first major point release. There are three primary reasons for this:
 
 - One of our most requested issues has been implemented - [Live Reload](https://github.com/facebook/Docusaurus/commit/f9a09072e35e274cf4c13b67d228ece3b7722d47).
 - We [migrated](https://github.com/facebook/Docusaurus/commit/25cf8bb786abf835e4275e2a9975b33bd5fb2b18) to React 16 support (which wasn't as difficult as initially thought :) )
@@ -412,7 +412,8 @@ N/A
   - Blog
   - Documentation
 
-[Unreleased]: https://github.com/facebook/Docusaurus/compare/v1.0.15...HEAD
+[Unreleased]: https://github.com/facebook/Docusaurus/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/facebook/Docusaurus/compare/v1.0.15...v1.1.0
 [1.0.14]: https://github.com/facebook/Docusaurus/compare/v1.0.14...v1.0.15
 [1.0.14]: https://github.com/facebook/Docusaurus/compare/v1.0.13...v1.0.14
 [1.0.13]: https://github.com/facebook/Docusaurus/compare/v1.0.12...v1.0.13
