@@ -28,6 +28,8 @@ Thank you to the following contributors who helped with this release:
 - @ahmadalfy
 - @endiliey
 - @zpao
+- @NoamELB
+- @sujono91
 
 ### Breaking Changes
 
@@ -40,6 +42,7 @@ Thank you to the following contributors who helped with this release:
 - There is now a build option, `--skip-image-compression`, to [compress your images](https://github.com/facebook/Docusaurus/commit/ab6bab9f8d02c3cb402947ea5fd1c9d619478b54).
 - You can now add Twitter and Facebook social buttons to the [footer](https://github.com/facebook/Docusaurus/commit/f8521c2fe1469c549d5f363517d21117358f8862).
 - The blog now allows for [Facebook-based comments](https://github.com/facebook/Docusaurus/commit/aae106c018667a3787726f7744ce14ccb2b68ef1).
+- A [warning](https://github.com/facebook/Docusaurus/commit/436a3d04d213360b71fc6edc45983b192def0f0b) is now shown if you use versioning without a `version.js` file.
 
 ### Fixed/Changed
 
