@@ -1830,15 +1830,13 @@ footer .social {
   padding: 5px 0;
 }
 
-.entry-share {
+.blogSocialSection {
   padding: 36px 0;
   display: block;
 }
 
-@media screen and (max-width: 735px) {
-  .entry-share {
-    display: none;
-  }
+.blogSocialSection .blogSocialSectionItem {
+  padding-bottom: 5px;
 }
 
 @media screen and (min-width: 736px) {
