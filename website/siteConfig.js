@@ -55,7 +55,7 @@ const siteConfig = {
     '/css/code-blocks-buttons.css',
   ],
   gaTrackingId: 'UA-44373548-31',
-  facebookAppId: '1615782811974223',
+  facebookAppId: '199138890728411',
   facebookComments: true,
   twitter: 'true',
   twitterUsername: 'docusaurus',
