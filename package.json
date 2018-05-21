@@ -1,7 +1,7 @@
 {
   "name": "docusaurus",
   "description": "Easy to Maintain Open Source Documentation Websites",
-  "version": "1.0.15",
+  "version": "1.1.0",
   "license": "MIT",
   "keywords": [
     "documentation",
@@ -27,7 +27,7 @@
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-polyfill": "^6.26.0",
-    "babel-preset-env": "^1.6.0",
+    "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "babel-register": "^6.24.1",
     "babel-traverse": "^6.25.0",
@@ -55,12 +55,12 @@
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
     "remarkable": "^1.7.1",
-    "request": "^2.81.0",
+    "request": "^2.87.0",
     "shelljs": "^0.7.8",
     "sitemap": "^1.13.0",
     "tcp-port-used": "^0.1.2",
-    "tree-node-cli": "^1.1.1",
-    "tiny-lr": "^1.1.1"
+    "tiny-lr": "^1.1.1",
+    "tree-node-cli": "^1.1.1"
   },
   "bin": {
     "docusaurus-start": "./lib/start-server.js",
