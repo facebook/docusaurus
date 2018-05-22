@@ -425,7 +425,7 @@ N/A
   - Documentation
 
 [Unreleased]: https://github.com/facebook/Docusaurus/compare/v1.1.2...HEAD
-[1.1.2]: https://github.com/facebook/Docusaurus/compare/v1.1.0...v1.1.2
+[1.1.2]: https://github.com/facebook/Docusaurus/compare/v1.1.1...v1.1.2
 [1.1.1]: https://github.com/facebook/Docusaurus/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/facebook/Docusaurus/compare/v1.0.15...v1.1.0
 [1.0.14]: https://github.com/facebook/Docusaurus/compare/v1.0.14...v1.0.15
