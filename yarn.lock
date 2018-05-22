@@ -3917,8 +3917,8 @@ minimist@~0.0.1:
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-0.0.10.tgz#de3f98543dbf96082be48ad1a0c7cda836301dcf"
 
 minipass@^2.2.1, minipass@^2.2.4:
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/minipass/-/minipass-2.3.1.tgz#4e872b959131a672837ab3cb554962bc84b1537d"
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/minipass/-/minipass-2.3.2.tgz#2bb00e836f1f8d44573f96b08c4f440b330072e4"
   dependencies:
     safe-buffer "^5.1.1"
     yallist "^3.0.0"
@@ -5636,9 +5636,9 @@ tr46@~0.0.3:
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/tr46/-/tr46-0.0.3.tgz#8184fd347dac9cdc185992f3a6622e14b9d9ab6a"
 
-tree-node-cli@^1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/tree-node-cli/-/tree-node-cli-1.1.1.tgz#ea11f7e6ceec670355c64d0cc9b7090dddaefc33"
+tree-node-cli@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/tree-node-cli/-/tree-node-cli-1.2.0.tgz#22d67980b6acc4f5b98432253e9322dfd514b88d"
   dependencies:
     commander "^2.15.1"
 
