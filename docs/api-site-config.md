@@ -64,6 +64,8 @@ headerLinks: [
 
 `url` - url for your site.
 
+`githubHost` -  (optional) if you're using GitHub Enterprise, hostname of your server.
+
 ### Optional Fields
 
 `algolia` - Information for Algolia search integration. If this field is excluded, the search bar will not appear in the header. You must specify two values for this field, and one (`appId`) is optional.

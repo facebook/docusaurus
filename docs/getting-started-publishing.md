@@ -204,3 +204,17 @@ Steps to configure your Docusaurus-powered site on Netlify.
 1. Click **Deploy site**
 
 You can also configure Netlify to rebuild on every commit to your repo, or only `master` branch commits.
+
+### Publishing to Github Enterprise
+
+GitHub enterprise installations should work in the same manner as Github.com;
+you need only identify the organization's Github Enterprise host.
+
+| Name          | Description                                     |
+| ------------- | ----------------------------------------------- |
+| `GITHUB_HOST` | The hostname for the github enterprise server.  |
+
+Steps to publish to Github Enterprise:
+
+1. Alter your siteConfig.js to add a property `'githubHost'` which represents the Github Enterprise hostname.
+1. Alternatively, set an environment variable GITHUB_HOST when executing the publication step.
