@@ -51,3 +51,12 @@ Running the Docusaurus initialization script, `docusaurus-init`, produces a runn
 1. Load the example site at http://localhost:3000. You should see the example site loaded in your web browser.
 
 ![](/img/getting-started-preparation-verify.png)
+
+## Launching the server behind a Proxy
+
+If you are behind a corporate proxy you need to disable it for the development server requests. It is easily done using the `NO_PROXY` environment variable.
+
+```sh
+SET NO_PROXY=localhost
+yarn start (or npm run start)
+```
