@@ -1439,7 +1439,7 @@ nav.toc .toggleNav .navBreadcrumb h2 {
   display: none;
 }
 
-@supports(position: sticky) {
+@supports ((position: -webkit-sticky) or (position: sticky))  {
   @media only screen and (min-width: 1024px) {
     .separateOnPageNav.doc .wrapper,
     .separateOnPageNav .headerWrapper.wrapper {
