@@ -28,18 +28,18 @@ root-of-repo
 │   ├── doc3.md
 │   ├── exampledoc4.md
 │   └── exampledoc5.md
-├── website
-│   ├── blog-examples-from-docusaurus
-│   │   ├── 2016-03-11-blog-post.md
-│   │   └── 2017-04-10-blog-post-two.md
-│   ├── core
-│   │   └── Footer.js
-│   ├── node_modules
-│   ├── package.json
-│   ├── pages
-│   ├── sidebars.json
-│   ├── siteConfig.js
-│   └── static
+└── website
+    ├── blog-examples-from-docusaurus
+    │   ├── 2016-03-11-blog-post.md
+    │   └── 2017-04-10-blog-post-two.md
+    ├── core
+    │   └── Footer.js
+    ├── node_modules
+    ├── package.json
+    ├── pages
+    ├── sidebars.json
+    ├── siteConfig.js
+    └── static
 ```
 
 Running the Docusaurus initialization script, `docusaurus-init`, produces a runnable, example website to base your site upon.
@@ -52,9 +52,9 @@ Running the Docusaurus initialization script, `docusaurus-init`, produces a runn
 
 ![](/img/getting-started-preparation-verify.png)
 
-## Launching the server behind a Proxy
+## Launching the server behind a proxy
 
-If you are behind a corporate proxy you need to disable it for the development server requests. It is easily done using the `NO_PROXY` environment variable.
+If you are behind a corporate proxy, you need to disable it for the development server requests. It can be done using the `NO_PROXY` environment variable.
 
 ```sh
 SET NO_PROXY=localhost
