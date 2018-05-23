@@ -52,7 +52,7 @@ Running the Docusaurus initialization script, `docusaurus-init`, produces a runn
 
 ![](/img/getting-started-preparation-verify.png)
 
-## Launching the server behind a proxy
+### Launching the server behind a proxy
 
 If you are behind a corporate proxy, you need to disable it for the development server requests. It can be done using the `NO_PROXY` environment variable.
 
