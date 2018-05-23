@@ -1,7 +1,7 @@
 {
   "name": "docusaurus",
   "description": "Easy to Maintain Open Source Documentation Websites",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "license": "MIT",
   "keywords": [
     "documentation",
@@ -61,7 +61,7 @@
     "sitemap": "^1.13.0",
     "tcp-port-used": "^0.1.2",
     "tiny-lr": "^1.1.1",
-    "tree-node-cli": "^1.2.0"
+    "tree-node-cli": "^1.2.1"
   },
   "bin": {
     "docusaurus-start": "./lib/start-server.js",
