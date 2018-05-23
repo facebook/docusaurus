@@ -161,6 +161,13 @@
     "pinned": true
   },
   {
+    "caption": "textlint",
+    "image": "https://textlint.github.io/img/textlint-icon.png",
+    "infoLink": "https://textlint.github.io/",
+    "fbOpenSource": false,
+    "pinned": false
+  },
+  {
     "caption": "Verdaccio",
     "image": "http://www.verdaccio.org/img/verdaccio-tiny@2x.png",
     "infoLink": "http://www.verdaccio.org/",
