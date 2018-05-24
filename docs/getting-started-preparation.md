@@ -10,25 +10,27 @@ After [installing Docusaurus](getting-started-installation.md), you now have a s
 As shown after you [installed Docusaurus](getting-started-installation.md), the initialization script created a directory structure similar to:
 
 ```bash
-root-of-repo
+root-directory
 ├── docs-examples-from-docusaurus
 │   ├── doc1.md
 │   ├── doc2.md
 │   ├── doc3.md
 │   ├── exampledoc4.md
 │   └── exampledoc5.md
-├── website
-│   ├── blog-examples-from-docusaurus
-│   │   ├── 2016-03-11-blog-post.md
-│   │   └── 2017-04-10-blog-post-two.md
-│   ├── core
-│   │   └── Footer.js
-│   ├── node_modules
-│   ├── package.json
-│   ├── pages
-│   ├── sidebars.json
-│   ├── siteConfig.js
-│   └── static
+└── website
+    ├── blog-examples-from-docusaurus
+    │   ├── 2016-03-11-blog-post.md
+    │   ├── 2017-04-10-blog-post-two.md
+    │   ├── 2017-09-25-testing-rss.md
+    │   ├── 2017-09-26-adding-rss.md
+    │   └── 2017-10-24-new-version-1.0.0.md
+    ├── core
+    │   └── Footer.js
+    ├── package.json
+    ├── pages
+    ├── sidebars.json
+    ├── siteConfig.js
+    └── static
 ```
 
 > You may have already renamed the example blog (`website/blog-examples-from-docusaurus`) and document (`docs-examples-from-docusaurus`) directories when you [verified the installation](getting-started-installation.md##verifying-installation).
