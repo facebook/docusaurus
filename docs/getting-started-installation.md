@@ -21,7 +21,7 @@ After Docusaurus is installed, moving forward, you can check your current versio
 Along with previously existing files and directories, your root directory will now contain a structure similar to:
 
 ```bash
-root-of-repo
+root-directory
 ├── docs-examples-from-docusaurus
 │   ├── doc1.md
 │   ├── doc2.md
@@ -31,10 +31,12 @@ root-of-repo
 └── website
     ├── blog-examples-from-docusaurus
     │   ├── 2016-03-11-blog-post.md
-    │   └── 2017-04-10-blog-post-two.md
+    │   ├── 2017-04-10-blog-post-two.md
+    │   ├── 2017-09-25-testing-rss.md
+    │   ├── 2017-09-26-adding-rss.md
+    │   └── 2017-10-24-new-version-1.0.0.md
     ├── core
     │   └── Footer.js
-    ├── node_modules
     ├── package.json
     ├── pages
     ├── sidebars.json
