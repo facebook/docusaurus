@@ -52,7 +52,6 @@
     "imagemin-svgo": "^6.0.0",
     "markdown-toc": "^1.2.0",
     "mkdirp": "^0.5.1",
-    "opn": "^5.3.0",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
     "remarkable": "^1.7.1",
@@ -79,6 +78,7 @@
     "glob-promise": "^3.3.0",
     "jest": "^21.2.1",
     "prettier": "^1.9.1",
+    "react-dev-utils": "^5.0.1",
     "rimraf": "^2.6.2"
   }
 }
