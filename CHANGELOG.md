@@ -6,6 +6,23 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [Unreleased]
 
+## [1.1.3] - 2018-05-23
+
+`npm` had an issue where some packages were not being published. This should hopefully be resolved now; publishing a new version just in case.
+
+Also, welcome [TextLint](https://textlint.github.io/) and [Open Power Quality](https://openpowerquality.org/) as new [users](https://docusaurus.io/en/users.html).
+
+Thank you to the following contributors who helped with this release:
+
+- @azu
+- @philipmjohnson
+- @violabg
+- @sebelga
+
+### Fixed/Changed
+
+- `onPageNav` now [shows](https://github.com/facebook/Docusaurus/commit/2c74d937607fcd84677be5d6990ca2a3b4ba8d7a) in Safari.
+
 ## [1.1.2] - 2018-05-21
 
 Another HOTFIX release. One of our third-party dependencies, `tree-node-cli` didn't support Node 10+. The package has been fixed and we have updated to use the new version of that package.
@@ -424,7 +441,8 @@ N/A
   - Blog
   - Documentation
 
-[Unreleased]: https://github.com/facebook/Docusaurus/compare/v1.1.2...HEAD
+[Unreleased]: https://github.com/facebook/Docusaurus/compare/v1.1.3...HEAD
+[1.1.3]: https://github.com/facebook/Docusaurus/compare/v1.1.2...v1.1.3
 [1.1.2]: https://github.com/facebook/Docusaurus/compare/v1.1.1...v1.1.2
 [1.1.1]: https://github.com/facebook/Docusaurus/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/facebook/Docusaurus/compare/v1.0.15...v1.1.0
