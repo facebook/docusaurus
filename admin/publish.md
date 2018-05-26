@@ -12,7 +12,7 @@ If you are not currently logged into npm locally:
 ## Publish
 
 1. Bump version number in [`package.json`](https://github.com/facebook/Docusaurus/blob/master/package.json).
-1. Update the [change log](https://github.com/facebook/Docusaurus/blob/master/CHANGELOG.md).
+1. Update the [changelog](https://github.com/facebook/Docusaurus/blob/master/CHANGELOG.md).
 1. Run `npm install` and `yarn install` to update `package-lock.json` and/or `yarn.lock`.
 1. From the `website` directory, run `npm run version x.x.x`, where x.x.x is the same version number you updated to in `package.json`.
 1. Run `npm publish`
