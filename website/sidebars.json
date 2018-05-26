@@ -19,6 +19,9 @@
       "doc-markdown",
       "api-pages",
       "site-config"
+    ],
+    "Test": [
+      "test/feature"
     ]
   }
 }
