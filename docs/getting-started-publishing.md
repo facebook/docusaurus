@@ -98,25 +98,16 @@ If you haven't done so already, you can [setup CircleCI](https://circleci.com/si
 1. Copy the text below into `.circleci/config.yml`.
 
 ```yaml
-# If you only want circle to run on direct commits to master, you can uncomment this out
-# and uncomment the filters: *filter-only-master down below too
-#
-# aliases:
-#  - &filter-only-master
-#    branches:
-#      only:
-#        - master
-
 version: 2
 jobs:
-  deploy-website:
+  build:
     docker:
       # specify the version you desire here
       - image: circleci/node:8.11.1
 
     steps:
       - checkout
-      - run:
+      - run: 
           name: Deploying to GitHub Pages
           command: |
             git config --global user.email "<GITHUB_USERNAME>@users.noreply.github.com"
@@ -124,12 +115,6 @@ jobs:
             echo "machine github.com login <GITHUB_USERNAME> password $GITHUB_TOKEN" > ~/.netrc
             cd website && yarn install && GIT_USER=<GIT_USER> yarn run publish-gh-pages
 
-workflows:
-  version: 2
-  build_and_deploy:
-    jobs:
-      - deploy-website:
-#         filters: *filter-only-master
 ```
 
 Make sure to replace all `<....>` in the `command:` sequence with appropriate values. For `<GIT_USER>`, it should be a GitHub account that has access to push documentation to your GitHub repo. Many times `<GIT_USER>` and `<GITHUB_USERNAME>` will be the same.
