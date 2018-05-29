@@ -158,7 +158,7 @@ jobs:
     branches:
       ignore: gh-pages
     steps:
-      -run: echo "Skipping tests on gh-pages branch"
+      - run: echo "Skipping tests on gh-pages branch"
 ```
 
 Save this file as `config.yml` and place it in a `.circleci` folder inside your `website/static` folder.
