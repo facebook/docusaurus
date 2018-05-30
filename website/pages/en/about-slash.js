@@ -39,5 +39,5 @@ class AboutSlash extends React.Component {
 AboutSlash.defaultProps = {
   language: "en"
 };
-
+AboutSlash.title = 'About Slash';
 module.exports = AboutSlash;
