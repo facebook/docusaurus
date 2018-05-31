@@ -11,11 +11,11 @@ Any `.js` files in `website/pages` will be rendered to static html using the pat
 
 ## Titles for Pages
 
-By default, the title of your page is `Title • Tagline` where `title` and `tagline` field are set in [`siteConfig.js`](api-site-config.md). You can exclude the tagline by setting `disableTitleTagline` to `true`. If you want to set a specific title for your page, add a `title` class property on your exported React component.
+By default, the title of your page is `<title> • <tagline>` where `title` and `tagline` fields are set in [`siteConfig.js`](api-site-config.md). You can exclude the tagline in the title by setting `disableTitleTagline` to `true`. If you want to set a specific title for your custom pages, add a `title` class property on your exported React component.
 
 Example:
 
-```jsx
+```js
 const React = require('react');
 
 class MyPage extends React.Component {
