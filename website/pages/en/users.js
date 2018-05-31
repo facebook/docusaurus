@@ -80,5 +80,6 @@ class Users extends React.Component {
   }
 }
 
-Users.title = `Who's Using This?`;
+Users.title = 'Users';
+
 module.exports = Users;
