@@ -123,6 +123,10 @@ blockquote {
   border-left: 5px solid rgba(191, 87, 73, 0.2);
 }
 
+.wrapper blockquote > p:first-child {
+  padding-top: 0;
+}
+
 h1, h2, h3, h4 {
   font-weight: 300;
   color: $primaryColor;
