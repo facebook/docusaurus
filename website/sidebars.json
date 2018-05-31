@@ -20,8 +20,13 @@
       "api-pages",
       "site-config"
     ],
-    "Test": [
-      "test/feature"
+    "Project A": [
+      "projectA/readme",
+      "projectA/docs/architecture",
+      "projectA/docs/contributors"
+    ],
+    "Project B": [
+      "projectB/guides/install"
     ]
   }
 }
