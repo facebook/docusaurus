@@ -9,6 +9,24 @@ Docusaurus provides support for writing pages as React components inside the `we
 
 Any `.js` files in `website/pages` will be rendered to static html using the path of the file after "pages". Files in `website/pages/en` will also get copied out into `pages` and will OVERRIDE any files of the same name in `pages`. For example, the page for the `website/pages/en/help.js` file will be found at the url `${baseUrl}en/help.js` as well as the url `${baseUrl}help.js`, where `${baseUrl}` is the `baseUrl` field set in your [siteConfig.js file](api-site-config.md).
 
+## Title for Pages
+
+By default, the title of your page is `Title • Tagline` where `title` and `tagline` field are set in your [siteConfig.js file](api-site-config.md). You can exclude the tagline by setting `disableTitleTagline` to `true`. If you want to set a specific title for your page, add a `title` field on your React component.
+
+Example:
+
+```jsx
+const React = require('react');
+
+class MyPage extends React.Component {
+  render() {
+    // ... your rendering code
+  }
+}
+MyPage.title = 'My Custom Title';
+module.exports = MyPage;
+```
+
 ## Page Require Paths
 
 Docusaurus provides a few useful React components for users to write their own pages, found in the `CompLibrary` module. This module is provided as part of Docusaurus in `node_modules/docusaurus`, so to access it, pages in the `pages` folder are temporarily copied into `node_modules/docusaurus` when rendering to static html. As seen in the example files, this means that a user page at `pages/en/index.js` uses a require path to `'../../core/CompLibrary.js'` to import the provided components.
