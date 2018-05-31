@@ -61,5 +61,6 @@ class Help extends React.Component {
   }
 }
 
-Help.title = 'Need help';
+Help.title = 'Help';
+
 module.exports = Help;
