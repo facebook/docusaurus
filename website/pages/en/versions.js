@@ -101,5 +101,7 @@ class Versions extends React.Component {
     );
   }
 }
+
 Versions.title = 'Versions';
+
 module.exports = Versions;
