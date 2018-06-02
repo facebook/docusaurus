@@ -207,13 +207,10 @@ You can also configure Netlify to rebuild on every commit to your repo, or only 
 
 ### Publishing to GitHub Enterprise
 
-GitHub enterprise installations should work in the same manner as github.com; you need only identify the organization's GitHub Enterprise host.
+GitHub enterprise installations should work in the same manner as github.com; you only need to identify the organization's GitHub Enterprise host.
 
 | Name          | Description                                     |
 | ------------- | ----------------------------------------------- |
 | `GITHUB_HOST` | The hostname for the GitHub enterprise server.  |
 
-Steps to publish to GitHub Enterprise:
-
-1. Alter your `siteConfig.js` to add a property `'githubHost'` which represents the GitHub Enterprise hostname.
-1. Alternatively, set an environment variable `GITHUB_HOST` when executing the publication step.
+Alter your `siteConfig.js` to add a property `'githubHost'` which represents the GitHub Enterprise hostname. Alternatively, set an environment variable `GITHUB_HOST` when executing the publish command.
