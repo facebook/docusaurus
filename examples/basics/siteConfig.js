@@ -36,10 +36,6 @@ const siteConfig = {
   // e.g., for the https://JoelMarcey.github.io site, it would be set like...
   //   organizationName: 'JoelMarcey'
 
-  // Optional
-  // If you're using GitHub Enterprise hosting, specify your GHE host here.
-  // githubHost: 'github.mycompany.com'
-
   // For no header links in the top nav bar -> headerLinks: [],
   headerLinks: [
     {doc: 'doc1', label: 'Docs'},
