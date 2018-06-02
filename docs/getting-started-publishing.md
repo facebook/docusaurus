@@ -165,18 +165,14 @@ Save this file as `config.yml` and place it in a `.circleci` folder inside your 
 
 ### Using Travis CI
 
-If you haven't done so already, you can [setup Travis CI](https://travis-ci.com/signin) for your open source project. Afterwards, in order to enable automatic deployment of your site and documentation via Travis CI, just configure Travis to run the `publish-gh-pages` script as part of the deployment step. You can follow the steps below to get that setup.
-
-1. Ensure the GitHub account that will be set as the `GIT_USER` has `write` access to the repo that contains the documentation, by checking `Settings | Collaborators & teams` in the repo.
-1. Log into GitHub as the `GIT_USER`.
-1. Go to https://github.com/settings/tokens for the `GIT_USER` and generate a new [personal access token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/), granting it full control of private repositories through the `repo` access scope. Store this token in a safe place, making sure to not share it with anyone. This token can be used to authenticate GitHub actions on your behalf in place of your GitHub password.
-1. Using your GitHub account, sign in to GitHub and [add the Travis CI app](https://github.com/marketplace/travis-ci) to the repository you want to activate.
+1. Go to https://github.com/settings/tokens and generate a new [personal access token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/)
+1. Using your GitHub account, [add the Travis CI app](https://github.com/marketplace/travis-ci) to the repository you want to activate.
 1. Open your Travis CI dashboard. The URL looks like https://travis-ci.com/USERNAME/REPO, and navigate to the `More options` > `Setting` > `Environment Variables` section of your repository.
-1. Create three environment variables. `GH_TOKEN` is your newly generated access token as the value, `GH_EMAIL` is your email address and `GH_NAME` is your GitHub username.
-1. Create a `.travis.yml` on the root of your repository
-1. Copy the text below into `.travis.yml`.
+1. Create a new environment variable named `GH_TOKEN` with your newly generated token as its value, then `GH_EMAIL` (your email address) and `GH_NAME` (your GitHub username).
+1. Create a `.travis.yml` on the root of your repository with below text.
 
 ```yaml
+# .travis.yml
 language: node_js
 node_js:
   - '8'
