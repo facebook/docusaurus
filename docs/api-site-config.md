@@ -151,6 +151,10 @@ h1 {
 
 `separateCss` - Folders inside which any `css` files will not be processed and concatenated to Docusaurus' styles. This is to support static `html` pages that may be separate from Docusaurus with completely separate styles.
 
+`scrollToTop` - Set this to `true` if you want to enable the scroll to top button at the bottom of your site.
+
+`scrollToTop` - Options object configuration for the scroll to top button. You can find more option [here](https://github.com/vfeskov/vanilla-back-to-top/blob/v7.1.14/OPTIONS.md). By default, we set the zIndex option to 100. 
+
 `stylesheets` - Array of CSS sources to load. The link tag will be inserted in the HTML head.
 
 `translationRecruitingLink` - URL for the `Help Translate` tab of language selection when languages besides English are enabled. This can be included you are using translations but does not have to be.
@@ -244,6 +248,10 @@ const siteConfig = {
   twitterUsername: 'docusaurus',
   twitterImage: 'img/docusaurus.png',
   ogImage: 'img/docusaurus.png',
+  scrollToTop: true,
+  scrollToTopOptions: {
+    zIndex: 100
+  }
 };
 
 module.exports = siteConfig;
