@@ -105,6 +105,13 @@
     "pinned": false
   },
   {
+    "caption": "pnpm",
+    "image": "https://pnpm.js.org/img/pnpm.svg",
+    "infoLink": "https://pnpm.js.org/",
+    "fbOpenSource": false,
+    "pinned": false
+  },
+  {
     "caption": "Prettier",
     "image": "/img/prettier.png",
     "infoLink": "https://www.prettier.io",
@@ -192,13 +199,6 @@
     "caption": "WarriorJS",
     "image": "/img/warriorjs.svg",
     "infoLink": "https://warrior.js.org/",
-    "fbOpenSource": false,
-    "pinned": false
-  },
-  {
-    "caption": "pnpm",
-    "image": "https://pnpm.js.org/img/pnpm.svg",
-    "infoLink": "https://pnpm.js.org/",
     "fbOpenSource": false,
     "pinned": false
   }
