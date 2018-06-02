@@ -62,7 +62,7 @@ headerLinks: [
 
 `title` - Title for your website.
 
-`url` - url for your site.
+`url` - URL for your website.
 
 ### Optional Fields
 
@@ -130,6 +130,8 @@ h1 {
 `gaTrackingId` - Google Analytics tracking ID to track page views.
 
 `gaGtag` - Set this to `true` if you want to use [global site tags (gtag.js)](https://developers.google.com/gtagjs/) for Google analytics instead of `analytics.js`.
+
+`githubHost` - Hostname of your server. Useful if you are using GitHub Enterprise.
 
 `highlight` - [Syntax highlighting](api-doc-markdown.md) options:
 
