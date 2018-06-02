@@ -163,6 +163,33 @@ jobs:
 
 Save this file as `config.yml` and place it in a `.circleci` folder inside your `website/static` folder.
 
+### Using Travis CI
+
+1. Go to https://github.com/settings/tokens and generate a new [personal access token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/)
+1. Using your GitHub account, [add the Travis CI app](https://github.com/marketplace/travis-ci) to the repository you want to activate.
+1. Open your Travis CI dashboard. The URL looks like https://travis-ci.com/USERNAME/REPO, and navigate to the `More options` > `Setting` > `Environment Variables` section of your repository.
+1. Create a new environment variable named `GH_TOKEN` with your newly generated token as its value, then `GH_EMAIL` (your email address) and `GH_NAME` (your GitHub username).
+1. Create a `.travis.yml` on the root of your repository with below text.
+
+```yaml
+# .travis.yml
+language: node_js
+node_js:
+  - '8'
+branches:
+  only:
+    - master
+cache:
+  yarn: true
+script:
+  - git config --global user.name "${GH_NAME}"
+  - git config --global user.email "${GH_EMAIL}"
+  - echo "machine github.com login ${GH_NAME} password ${GH_TOKEN}" > ~/.netrc
+  - cd website && yarn install && GIT_USER="${GH_NAME}" yarn run publish-gh-pages
+```
+
+Now, whenever a new commit lands in `master`, Travis CI will run your suite of tests and, if everything passes, your website will be deployed via the `publish-gh-pages` script.
+
 ### Hosting on Netlify
 
 Steps to configure your Docusaurus-powered site on Netlify.
