@@ -3,8 +3,6 @@ id: installation
 title: Installation
 ---
 
-![docusaurus](/docs/assets/docusaurus.png)
-
 Docusaurus was designed from the ground up to be easily installed and used to get your website up and running quickly. To install Docusaurus, we have created an easy script that will get all of the infrastructure set up for you:
 
 1. Ensure you have the latest version of [Node](https://nodejs.org/en/download/) installed. We also recommend you install [Yarn](https://yarnpkg.com/en/docs/install) as well.
