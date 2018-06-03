@@ -151,7 +151,7 @@ h1 {
 
 `separateCss` - Folders inside which any `css` files will not be processed and concatenated to Docusaurus' styles. This is to support static `html` pages that may be separate from Docusaurus with completely separate styles.
 
-`scrollToTop` - Set this to `true` if you want to enable the scroll to top button at the bottom of your site.
+`scrollToTopOptions` - Set this to `true` if you want to enable the scroll to top button at the bottom of your site.
 
 `scrollToTop` - Options object configuration for the scroll to top button. You can find more option [here](https://github.com/vfeskov/vanilla-back-to-top/blob/v7.1.14/OPTIONS.md). By default, we set the zIndex option to 100. 
 
