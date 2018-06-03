@@ -19,14 +19,6 @@
       "doc-markdown",
       "api-pages",
       "site-config"
-    ],
-    "Project A": [
-      "projectA/readme",
-      "projectA/docs/architecture",
-      "projectA/docs/contributors"
-    ],
-    "Project B": [
-      "projectB/guides/install"
     ]
   }
 }
