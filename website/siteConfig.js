@@ -63,6 +63,10 @@ const siteConfig = {
   twitterImage: 'img/docusaurus.png',
   onPageNav: 'separate',
   cleanUrl: true
+  scrollToTop: true,
+  scrollToTopOptions: {
+    zIndex: 100
+  }
 };
 
 module.exports = siteConfig;
