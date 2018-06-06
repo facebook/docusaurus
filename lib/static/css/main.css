@@ -217,7 +217,8 @@ header h2 {
 }
 .mainContainer .wrapper a,
 .inner .projectIntro a {
-  text-decoration: none;
+  text-decoration: underline;
+  background-color: lightblue;
 }
 .mainContainer .wrapper a:hover,
 .mainContainer .wrapper a:focus,
