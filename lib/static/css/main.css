@@ -1232,24 +1232,11 @@ ul#languages li {
   border: 0;
   color: #393939;
 }
-nav.toc {
-  width: 240px;
-}
 nav.toc section {
   padding: 0;
   position: relative;
 }
-nav.toc:last-child {
-  padding-bottom: 100px;
-}
 @media only screen and (max-width: 735px) {
-  nav.toc {
-    width: 100%;
-  }
-  nav.toc:last-child {
-    padding-bottom: 0;
-  }
-
   a.anchor {
     top: -144px;
   }
@@ -1427,40 +1414,11 @@ nav.toc .toggleNav .navBreadcrumb h2 {
 .tocActive .icon-list {
   transform: rotate(45deg);
 }
-.tocActive .navToggle, .tocActive .navBreadcrumb h2 {
-  visibility: hidden;
-}
 
 @media only screen and (min-width: 736px) {
-  nav.toc section .navGroups {
-    padding: 40px 0 0;
-  }
-  .navToggle {
-    display: none;
-  }
-
-  .docsSliderActive .mainContainer {
-    display: block;
-  }
-
   .sideNavVisible .navPusher .mainContainer {
     padding-top: 0;
     max-width: 70%;
-  }
-
-  .docsNavContainer {
-    background: none;
-    box-sizing: border-box;
-    height: auto;
-    margin: 40px 40px 0 0;
-    overflow-y: auto;
-    position: relative;
-    width: 300px;
-  }
-
-  nav.toc section .navGroups {
-    display: block;
-    padding-top: 0px;
   }
 
   .docMainWrapper {
@@ -1475,13 +1433,6 @@ nav.toc .toggleNav .navBreadcrumb h2 {
   }
   .docMainWrapper .wrapper {
     padding-top: 0;
-  }
-
-  .docsNavContainer nav.toc .navBreadcrumb {
-    display: none;
-  }
-  .navBreadcrumb h2 {
-    padding: 0 10px;
   }
 }
 
@@ -1510,6 +1461,31 @@ nav.toc .toggleNav .navBreadcrumb h2 {
   padding-bottom: 5px;
 }
 
+@media only screen and (min-width: 1024px) {
+  nav.toc {
+    width: 240px;
+  }
+  nav.toc section .navGroups {
+    display: block;
+    padding: 0px;
+  }
+  .docsNavContainer {
+    background: none;
+    box-sizing: border-box;
+    height: auto;
+    margin: 40px 40px 0 0;
+    overflow-y: auto;
+    position: relative;
+    width: 300px;
+  }
+  .docsNavContainer nav.toc .navBreadcrumb {
+    display: none;
+  }
+  .navBreadcrumb h2 {
+    padding: 0 10px;
+  }
+}
+
 @supports ((position: -webkit-sticky) or (position: sticky))  {
   @media only screen and (max-width: 735px) {
     .tocActive .onPageNav {
@@ -1526,24 +1502,23 @@ nav.toc .toggleNav .navBreadcrumb h2 {
       overscroll-behavior: contain;
     }
 
+    .tocActive .navToggle,
+    .tocActive .navBreadcrumb h2 {
+      visibility: hidden;
+    }
+
     .tocActive .onPageNav > .toc-headings {
       padding: 12px 0;
     }
   }
 
-  @media only screen and (min-width: 1024px) {
+  @media only screen and (min-width: 736px) {
     .separateOnPageNav.doc .wrapper,
     .separateOnPageNav .headerWrapper.wrapper {
       max-width: 1400px;
     }
 
-    .doc.separateOnPageNav .docsNavContainer {
-      flex: 0 0 240px;
-      margin: 55px 0 0;
-    }
-
-    .doc.separateOnPageNav nav.toc:last-child {
-      padding-bottom: 0;
+    .doc.separateOnPageNav nav.toc {
       width: auto;
     }
 
@@ -1568,6 +1543,17 @@ nav.toc .toggleNav .navBreadcrumb h2 {
     .onPageNav > .toc-headings {
       border-left: 1px solid #e0e0e0;
       padding: 10px 0 2px 15px;
+    }
+
+    .tocToggler {
+      display: none;
+    }
+  }
+
+  @media only screen and (min-width: 1024px) {
+    .doc.separateOnPageNav .docsNavContainer {
+      flex: 0 0 240px;
+      margin: 55px 0 0;
     }
   }
 }
