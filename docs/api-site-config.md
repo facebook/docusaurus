@@ -74,6 +74,8 @@ headerLinks: [
 
 `blogSidebarCount` - Control the number of blog posts that show up in the sidebar. See the [adding a blog docs](guides-blog.md#changing-how-many-blog-posts-show-on-sidebar) for more information.
 
+`cleanUrl` - If `true`, allow URLs with no `html` extension. Example: request to URL https://docusaurus.io/docs/installation will returns the same result as https://docusaurus.io/docs/installation.html.
+
 `cname` - The CNAME for your website. It will go into a `CNAME` file when your site it built.
 
 `customDocsPath` - By default, Docusaurus expects your documentation to be in a directory called `docs`. This directory is at the same level as the `website` directory (i.e., not inside the `website` directory). You can specify a custom path to your documentation with this field. **Note that all of your documentation `*.md` files must still reside in a flat hierarchy. You cannot have your documents in nested directories**.
@@ -250,6 +252,7 @@ const siteConfig = {
   twitterUsername: 'docusaurus',
   twitterImage: 'img/docusaurus.png',
   ogImage: 'img/docusaurus.png',
+  cleanUrl: true,
   scrollToTop: true,
   scrollToTopOptions: {
     zIndex: 100

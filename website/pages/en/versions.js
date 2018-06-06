@@ -33,7 +33,7 @@ class Versions extends React.Component {
                 <tr>
                   <th>{latestVersion}</th>
                   <td>
-                    <a href={`${siteConfig.baseUrl}docs/en/installation.html`}>Documentation</a>
+                    <a href={`${siteConfig.baseUrl}docs/en/installation`}>Documentation</a>
                   </td>
                   <td>
                     <a href={`https://github.com/facebook/Docusaurus/releases/tag/v${latestVersion}`}>Release Notes</a>
@@ -51,7 +51,7 @@ class Versions extends React.Component {
                     <a
                       href={`${
                         siteConfig.baseUrl
-                      }docs/en/next/installation.html`}
+                      }docs/en/next/installation`}
                     >
                       Documentation
                     </a>
@@ -75,7 +75,7 @@ class Versions extends React.Component {
                           <a
                             href={`${
                               siteConfig.baseUrl
-                            }docs/en/${version}/installation.html`}
+                            }docs/en/${version}/installation`}
                           >
                             Documentation
                           </a>
