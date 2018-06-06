@@ -252,7 +252,7 @@ const siteConfig = {
   twitterUsername: 'docusaurus',
   twitterImage: 'img/docusaurus.png',
   ogImage: 'img/docusaurus.png',
-  cleanUrl: true
+  cleanUrl: true,
   scrollToTop: true,
   scrollToTopOptions: {
     zIndex: 100
