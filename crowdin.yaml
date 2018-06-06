@@ -44,6 +44,10 @@ files:
         'zh-CN': 'zh-CN'
         'zh-TW': 'zh-TW'
   -
+    source: '/website/versioned_docs/**/*.md'
+    translation: '/website/translated_docs/%locale%/**/%original_file_name%'
+    languages_mapping: *anchor
+  -
     source: '/website/i18n/en.json'
     translation: '/website/i18n/%locale%.json'
     languages_mapping: *anchor
