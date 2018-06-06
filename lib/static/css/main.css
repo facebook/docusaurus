@@ -203,6 +203,7 @@ header h2 {
 .mainContainer {
   background: #f9f9f9;
   flex: 1 1 auto;
+  max-width: 100%;
   font-size: 18px;
 }
 .mainContainer .wrapper {
@@ -1416,7 +1417,7 @@ nav.toc .toggleNav .navBreadcrumb h2 {
 }
 
 @media only screen and (min-width: 736px) {
-  .sideNavVisible .navPusher .mainContainer {
+  .doc.separateOnPageNav .navPusher .mainContainer {
     padding-top: 0;
     max-width: 70%;
   }
