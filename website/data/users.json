@@ -98,6 +98,20 @@
     "pinned": true
   },
   {
+    "caption": "Open Power Quality",
+    "image": "https://openpowerquality.org/img/opqlogo.png",
+    "infoLink": "https://openpowerquality.org/",
+    "fbOpenSource": false,
+    "pinned": false
+  },
+  {
+    "caption": "pnpm",
+    "image": "https://pnpm.js.org/img/pnpm.svg",
+    "infoLink": "https://pnpm.js.org/",
+    "fbOpenSource": false,
+    "pinned": false
+  },
+  {
     "caption": "Prettier",
     "image": "/img/prettier.png",
     "infoLink": "https://www.prettier.io",
@@ -159,6 +173,13 @@
     "infoLink": "https://facebook.github.io/relay/",
     "fbOpenSource": true,
     "pinned": true
+  },
+  {
+    "caption": "textlint",
+    "image": "https://textlint.github.io/img/textlint-icon.png",
+    "infoLink": "https://textlint.github.io/",
+    "fbOpenSource": false,
+    "pinned": false
   },
   {
     "caption": "Verdaccio",

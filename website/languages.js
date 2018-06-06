@@ -52,7 +52,7 @@ const languages = [
     tag: "el"
   },
   {
-    enabled: false,
+    enabled: true,
     name: "Español",
     tag: "es-ES"
   },
@@ -132,7 +132,7 @@ const languages = [
     tag: "pt-BR"
   },
   {
-    enabled: false,
+    enabled: true,
     name: "Română",
     tag: "ro"
   },
@@ -157,7 +157,7 @@ const languages = [
     tag: "sv-SE"
   },
   {
-    enabled: false,
+    enabled: true,
     name: "Türkçe",
     tag: "tr"
   },
@@ -172,7 +172,7 @@ const languages = [
     tag: "vi"
   },
   {
-    enabled: false,
+    enabled: true,
     name: "简体中文",
     tag: "zh-CN"
   },

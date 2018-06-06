@@ -1,6 +1,7 @@
 ---
-id: site-preparation
+id: version-1.1.4-site-preparation
 title: Site Preparation
+original_id: site-preparation
 ---
 
 After [installing Docusaurus](getting-started-installation.md), you now have a skeleton to work from for your specific website. The following discusses the rest of the Docusaurus structure in order for you to prepare your site.

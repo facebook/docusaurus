@@ -1,6 +1,7 @@
 ---
-id: installation
+id: version-1.1.3-installation
 title: Installation
+original_id: installation
 ---
 
 Docusaurus was designed from the ground up to be easily installed and used to get your website up and running quickly. To install Docusaurus, we have created an easy script that will get all of the infrastructure set up for you:
@@ -21,7 +22,7 @@ After Docusaurus is installed, moving forward, you can check your current versio
 Along with previously existing files and directories, your root directory will now contain a structure similar to:
 
 ```bash
-root-directory
+root-of-repo
 ├── docs-examples-from-docusaurus
 │   ├── doc1.md
 │   ├── doc2.md
@@ -31,12 +32,10 @@ root-directory
 └── website
     ├── blog-examples-from-docusaurus
     │   ├── 2016-03-11-blog-post.md
-    │   ├── 2017-04-10-blog-post-two.md
-    │   ├── 2017-09-25-testing-rss.md
-    │   ├── 2017-09-26-adding-rss.md
-    │   └── 2017-10-24-new-version-1.0.0.md
+    │   └── 2017-04-10-blog-post-two.md
     ├── core
     │   └── Footer.js
+    ├── node_modules
     ├── package.json
     ├── pages
     ├── sidebars.json

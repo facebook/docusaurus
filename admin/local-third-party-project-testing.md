@@ -41,7 +41,8 @@ npm install ../../path/to/docusaurus/
 Now, we have a bit of clowntown here in the way symlinks are handled. The above `npm install`, creates a `node_modules` directory with a symlink in it. And errors will result if you try to access the local site after starting the server (as you do below). You will get something like this error:
 
 ```
-Error: Couldn't find preset "react" relative to directory
+ReferenceError: Unknown plugin "transform-class-properties" specified in "base" at 1, attempted to resolve relative to "/Users/joelm/dev/testing-local-Docusaurus-changes-site/website/core"
+
 ```
 
 So, you should install these packages locally. **Base the versions on the versions defined in the Docusaurus `package.json`**. e.g.,
@@ -50,8 +51,8 @@ So, you should install these packages locally. **Base the versions on the versio
 # Still in the website directory of the testing project
 npm install babel-plugin-transform-class-properties@^6.24.1
 npm install babel-plugin-transform-object-rest-spread@^6.26.0
-npm install react@^15.5.4
-npm install babel-preset-env@^1.6.0
+npm install react@^16.3.2
+npm install babel-preset-env@^1.7.0
 npm install babel-preset-react@^6.24.0
 ```
 

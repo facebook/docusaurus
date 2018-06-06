@@ -62,7 +62,7 @@ headerLinks: [
 
 `title` - Title for your website.
 
-`url` - url for your site.
+`url` - URL for your website.
 
 ### Optional Fields
 
@@ -73,6 +73,8 @@ headerLinks: [
 * `appId` - Algolia provides a default scraper for your docs. If you provide your own, you will probably get this id from them.
 
 `blogSidebarCount` - Control the number of blog posts that show up in the sidebar. See the [adding a blog docs](guides-blog.md#changing-how-many-blog-posts-show-on-sidebar) for more information.
+
+`cleanUrl` - If `true`, allow URLs with no `html` extension. Example: request to URL https://docusaurus.io/docs/installation will returns the same result as https://docusaurus.io/docs/installation.html.
 
 `cname` - The CNAME for your website. It will go into a `CNAME` file when your site it built.
 
@@ -131,6 +133,8 @@ h1 {
 
 `gaGtag` - Set this to `true` if you want to use [global site tags (gtag.js)](https://developers.google.com/gtagjs/) for Google analytics instead of `analytics.js`.
 
+`githubHost` - Hostname of your server. Useful if you are using GitHub Enterprise.
+
 `highlight` - [Syntax highlighting](api-doc-markdown.md) options:
 
 * `theme` is the name of the theme used by Highlight.js when highlighting code. You can find the [list of supported themes here](https://github.com/isagalaev/highlight.js/tree/master/src/styles).
@@ -150,6 +154,10 @@ h1 {
 `scripts` - Array of JavaScript sources to load. The script tag will be inserted in the HTML head.
 
 `separateCss` - Folders inside which any `css` files will not be processed and concatenated to Docusaurus' styles. This is to support static `html` pages that may be separate from Docusaurus with completely separate styles.
+
+`scrollToTop` - Set this to `true` if you want to enable the scroll to top button at the bottom of your site.
+
+`scrollToTopOptions` - Optional options configuration for the scroll to top button. You do not need to use this, even if you set `scrollToTop` to `true`; it just provides you more configuration control of the button. You can find more options [here](https://github.com/vfeskov/vanilla-back-to-top/blob/v7.1.14/OPTIONS.md). By default, we set the zIndex option to 100. 
 
 `stylesheets` - Array of CSS sources to load. The link tag will be inserted in the HTML head.
 
@@ -244,6 +252,11 @@ const siteConfig = {
   twitterUsername: 'docusaurus',
   twitterImage: 'img/docusaurus.png',
   ogImage: 'img/docusaurus.png',
+  cleanUrl: true,
+  scrollToTop: true,
+  scrollToTopOptions: {
+    zIndex: 100
+  }
 };
 
 module.exports = siteConfig;
