@@ -1377,11 +1377,12 @@ nav.toc .toggleNav .navBreadcrumb h2 {
 }
 .tocToggler {
   height: 32px;
+  padding: 0 10px;
+  margin-right: -10px;
   line-height: 32px;
-  padding-left: 20px;
   cursor: pointer;
 }
-.icon-list {
+.icon-toc {
   box-sizing: border-box;
   position: relative;
   display: inline-block;
@@ -1389,9 +1390,9 @@ nav.toc .toggleNav .navBreadcrumb h2 {
   line-height: normal;
   top: -1px;
 }
-.icon-list,
-.icon-list::before,
-.icon-list::after {
+.icon-toc,
+.icon-toc::before,
+.icon-toc::after {
   width: 4px;
   height: 4px;
   border: 1px solid currentColor;
@@ -1399,21 +1400,35 @@ nav.toc .toggleNav .navBreadcrumb h2 {
   border-radius: 50%;
   box-sizing: border-box;
 }
-.icon-list::before,
-.icon-list::after {
+.icon-toc::before,
+.icon-toc::after {
   content: "";
   position: absolute;
 }
-.icon-list::before {
+.icon-toc::before {
   top: -7px;
   left: -1px;
 }
-.icon-list::after {
+.icon-toc::after {
   top: 5px;
   left: -1px;
 }
-.tocActive .icon-list {
+.tocActive .icon-toc {
   transform: rotate(45deg);
+  width: 3px;
+  height: 16px;
+  border-radius: 0;
+}
+.tocActive .icon-toc::before {
+  top: 50%;
+  left: 50%;
+  height: 3px;
+  width: 16px;
+  border-radius: 0;
+  transform: translate(-50%, -50%);
+}
+.tocActive .icon-toc::after {
+  content: '';
 }
 
 @media only screen and (min-width: 736px) {
