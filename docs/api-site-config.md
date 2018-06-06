@@ -153,7 +153,7 @@ h1 {
 
 `scrollToTop` - Set this to `true` if you want to enable the scroll to top button at the bottom of your site.
 
-`scrollToTopOptions` - Options object configuration for the scroll to top button. You can find more option [here](https://github.com/vfeskov/vanilla-back-to-top/blob/v7.1.14/OPTIONS.md). By default, we set the zIndex option to 100. 
+`scrollToTopOptions` - Optional options configuration for the scroll to top button. You do not need to use this, even if you set `scrollToTop` to `true`; it just provides you more configuration control of the button. You can find more options [here](https://github.com/vfeskov/vanilla-back-to-top/blob/v7.1.14/OPTIONS.md). By default, we set the zIndex option to 100. 
 
 `stylesheets` - Array of CSS sources to load. The link tag will be inserted in the HTML head.
 
