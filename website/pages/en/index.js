@@ -48,7 +48,7 @@ class HomeSplash extends React.Component {
                   <div className="pluginRowBlock">
                     <Button
                       href={`
-                        ${siteConfig.baseUrl}docs/${this.props.language}/installation.html
+                        ${siteConfig.baseUrl}docs/${this.props.language}/installation
                         `}>
                       <translate>Get Started</translate>
                     </Button>
@@ -92,7 +92,7 @@ class Index extends React.Component {
                 {
                   content: (
                     `Save time and focus on your project's documentation. Simply
-                    write docs and blog posts with [Markdown](${siteConfig.baseUrl}docs/${this.props.language}/doc-markdown.html)
+                    write docs and blog posts with [Markdown](${siteConfig.baseUrl}docs/${this.props.language}/doc-markdown)
                     and Docusaurus will publish a set of static html files ready
                     to serve.`
                   ),
@@ -103,7 +103,7 @@ class Index extends React.Component {
                 },
                 {
                   content: (
-                    `[Extend or customize](${siteConfig.baseUrl}docs/${this.props.language}/api-pages.html)
+                    `[Extend or customize](${siteConfig.baseUrl}docs/${this.props.language}/api-pages)
                     your project's layout by reusing React. Docusaurus can be
                     extended while reusing the same header and footer.`
                   ),
@@ -114,7 +114,7 @@ class Index extends React.Component {
                 },
                 {
                   content: (
-                    `[Localization](${siteConfig.baseUrl}docs/${this.props.language}/translation.html)
+                    `[Localization](${siteConfig.baseUrl}docs/${this.props.language}/translation)
                     comes pre-configured. Use [Crowdin](https://crowdin.com/) to translate your docs
                     into over 70 languages.`
                   ),
@@ -134,7 +134,7 @@ class Index extends React.Component {
                 {
                   content: (
                     `Support users on all versions of your project. Document
-                    [versioning](${siteConfig.baseUrl}docs/${this.props.language}/versioning.html)
+                    [versioning](${siteConfig.baseUrl}docs/${this.props.language}/versioning)
                     helps you keep documentation in sync with project releases.`
                   ),
                   image: `${siteConfig.baseUrl}img/versioning.svg`,
@@ -144,7 +144,7 @@ class Index extends React.Component {
                 },
                 {
                   content: (
-                    `Make it easy for your community to [find](${siteConfig.baseUrl}docs/${this.props.language}/search.html) what they need in your documentation.
+                    `Make it easy for your community to [find](${siteConfig.baseUrl}docs/${this.props.language}/search) what they need in your documentation.
                     We proudly support [Algolia documentation search](https://www.algolia.com/).`
                   ),
                   image: `${siteConfig.baseUrl}img/search.svg`,
@@ -161,7 +161,7 @@ class Index extends React.Component {
               contents={[
                 {
                   content: (
-                    `Get [up and running](${siteConfig.baseUrl}docs/${this.props.language}/site-creation.html)
+                    `Get [up and running](${siteConfig.baseUrl}docs/${this.props.language}/site-creation)
                     quickly without having to worry about site design.`
                   ),
                   imageAlign: "right",
@@ -180,7 +180,7 @@ class Index extends React.Component {
                   content: (
                     `Make design and documentation changes by using the included
                     [live server](${siteConfig.baseUrl}docs/${this.props.language}/site-preparation#verifying-installation).
-                    [Publish](${siteConfig.baseUrl}docs/${this.props.language}/publishing.html)
+                    [Publish](${siteConfig.baseUrl}docs/${this.props.language}/publishing)
                     your site to GitHub pages or other static file hosts
                     manually, using a script, or with continuous integration
                     like CircleCI.`
@@ -200,10 +200,10 @@ class Index extends React.Component {
                 {
                   content: (
                     `Docusaurus currently provides support to help your website
-                    use [translations](${siteConfig.baseUrl}docs/${this.props.language}/translation.html),
-                    [search](${siteConfig.baseUrl}docs/${this.props.language}/search.html),
-                    and [versioning](${siteConfig.baseUrl}docs/${this.props.language}/versioning.html),
-                    along with some other special [documentation markdown features](${siteConfig.baseUrl}docs/${this.props.language}/doc-markdown.html).
+                    use [translations](${siteConfig.baseUrl}docs/${this.props.language}/translation),
+                    [search](${siteConfig.baseUrl}docs/${this.props.language}/search),
+                    and [versioning](${siteConfig.baseUrl}docs/${this.props.language}/versioning),
+                    along with some other special [documentation markdown features](${siteConfig.baseUrl}docs/${this.props.language}/doc-markdown).
                     If you have ideas for useful features, feel free to
                     contribute on [GitHub](https://github.com/facebook/docusaurus)!`
                   ),
@@ -223,7 +223,7 @@ class Index extends React.Component {
             <div className="more-users">
               <a
                 className="button"
-                href={`${siteConfig.baseUrl}${this.props.language}/users.html`}>
+                href={`${siteConfig.baseUrl}${this.props.language}/users`}>
                 <translate>All Docusaurus Users</translate>
               </a>
             </div>
