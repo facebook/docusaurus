@@ -140,8 +140,8 @@ preserve_hierarchy: true
 
 files:
   -
-    source: '/docs/*.md'
-    translation: '/website/translated_docs/%locale%/%original_file_name%'
+    source: '/docs/**/*.md'
+    translation: '/website/translated_docs/%locale%/**/%original_file_name%'
     languages_mapping: &anchor
       locale:
         'de': 'de'
