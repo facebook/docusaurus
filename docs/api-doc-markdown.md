@@ -180,3 +180,31 @@ While Highlight.js provides support for [many popular languages out of the box](
   }
 }
 ```
+
+### Using Prism.js as additional syntax highlighter
+
+While highlight.js support a lot of languages, you can opt to use prism.js to syntax highlight certain languages available on [Prism](https://github.com/PrismJS/prism/tree/master/components). Include those languages in `usePrism` field in your [siteConfig.js](site-config.md)
+
+Example:
+```
+// siteConfig.js
+usePrism: ['jsx']
+```
+
+Notice that below code blocks use JSX syntax highlighting from PrismJS
+
+```jsx
+class Example extends React.Component {
+  render() {
+    return (
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <Text>Docusaurus</Text>
+        <Button
+          title="Click me"
+          onPress={() => this.props.navigation.push('Docusaurus')}
+        />
+      </View>
+    );
+  }
+}
+```

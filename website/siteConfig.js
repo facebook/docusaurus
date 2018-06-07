@@ -43,6 +43,7 @@ const siteConfig = {
   },
   translationRecruitingLink: 'https://crowdin.com/project/docusaurus',
   copyright: 'Copyright © ' + new Date().getFullYear() + ' Facebook Inc.',
+  usePrism: ['jsx'],
   highlight: {
     theme: 'atom-one-dark',
   },
