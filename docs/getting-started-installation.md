@@ -7,7 +7,7 @@ Docusaurus was designed from the ground up to be easily installed and used to ge
 
 1. Ensure you have the latest version of [Node](https://nodejs.org/en/download/) installed. We also recommend you install [Yarn](https://yarnpkg.com/en/docs/install) as well.
 
-    > While we recommend Node 8.x or greater, your Node version must at least 6.x.
+    > While we recommend Node 8.x or greater, your Node version must at least 6.x. Your Yarn version must also be at at least 1.5 as well.
 
 1. Go into the root of your GitHub repo directory where you will be creating the docs.
 1. `npx docusaurus-init`
