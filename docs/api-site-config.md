@@ -173,6 +173,8 @@ h1 {
 
 `users` - The `users` array mentioned earlier.
 
+`usePrism` - Array of languages to use Prism syntax highlighter. Refer to [Using Prism as additional syntax highlighter](api-doc-markdown.md#using-prism-as-additional-syntax-highlighter). Set it to `true` to use Prism on all languages.
+
 `wrapPagesHTML` - Boolean flag to indicate whether `html` files in `/pages` should be wrapped with Docusaurus site styles, header and footer. This feature is experimental and relies on the files being `html` fragments instead of complete pages. It inserts the contents of your `html` file with no extra processing. Defaults to `false`.
 
 Users can also add their own custom fields if they wish to provide some data across different files.
