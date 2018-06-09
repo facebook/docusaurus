@@ -12,7 +12,7 @@
             {"zIndex":100}
           )
         });
-        </script><link rel="stylesheet" href="/css/main.css"/></head><body class="sideNavVisible doc separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/ro"><img class="logo" src="/img/docusaurus.svg" alt="Docusaurus"/><h2 class="headerTitleWithLogo">Docusaurus</h2></a><a href="/ro/versions.html"><h3>1.1.1</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/docs/ro/1.1.1/installation" target="_self">Documente</a></li><li class=""><a href="/ro/help" target="_self">Ajutor</a></li><li class=""><a href="/ro/users" target="_self">Users</a></li><li class=""><a href="/ro/about-slash" target="_self">About /</a></li><li class=""><a href="/blog" target="_self">Blog</a></li><li class=""><a href="https://github.com/facebook/docusaurus" target="_self">GitHub</a></li><span><li><a id="languages-menu" href="#"><img class="languages-icon" src="/img/language.svg"/>Română</a><div id="languages-dropdown" class="hide"><ul id="languages-dropdown-items"><li><a href="/docs/en/1.1.1/translation">English</a></li><li><a href="/docs/es-ES/1.1.1/translation">Español</a></li><li><a href="/docs/tr/1.1.1/translation">Türkçe</a></li><li><a href="/docs/zh-CN/1.1.1/translation">简体中文</a></li><li><a href="https://crowdin.com/project/docusaurus" target="_blank" rel="noreferrer noopener">Help Translate</a></li></ul></div></li><script>
+        </script><link rel="stylesheet" href="/css/prism.css"/><link rel="stylesheet" href="/css/main.css"/></head><body class="sideNavVisible doc separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/ro"><img class="logo" src="/img/docusaurus.svg" alt="Docusaurus"/><h2 class="headerTitleWithLogo">Docusaurus</h2></a><a href="/ro/versions.html"><h3>1.1.1</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/docs/ro/1.1.1/installation" target="_self">Documente</a></li><li class=""><a href="/ro/help" target="_self">Ajutor</a></li><li class=""><a href="/ro/users" target="_self">Users</a></li><li class=""><a href="/ro/about-slash" target="_self">About /</a></li><li class=""><a href="/blog" target="_self">Blog</a></li><li class=""><a href="https://github.com/facebook/docusaurus" target="_self">GitHub</a></li><span><li><a id="languages-menu" href="#"><img class="languages-icon" src="/img/language.svg"/>Română</a><div id="languages-dropdown" class="hide"><ul id="languages-dropdown-items"><li><a href="/docs/en/1.1.1/translation">English</a></li><li><a href="/docs/es-ES/1.1.1/translation">Español</a></li><li><a href="/docs/tr/1.1.1/translation">Türkçe</a></li><li><a href="/docs/zh-CN/1.1.1/translation">简体中文</a></li><li><a href="https://crowdin.com/project/docusaurus" target="_blank" rel="noreferrer noopener">Help Translate</a></li></ul></div></li><script>
         const languagesMenuItem = document.getElementById("languages-menu");
         const languagesDropDown = document.getElementById("languages-dropdown");
         languagesMenuItem.addEventListener("click", function(){
@@ -31,13 +31,13 @@
         </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://crowdin.com/project/docusaurus/ro" target="_blank" rel="noreferrer noopener">Translate</a><h1>Translations &amp; Localization</h1></header><article><div><span><p>Docusaurus allows for easy translation functionality using <a href="https://crowdin.com/">Crowdin</a>. Fișierele de documentație scrise în engleză sunt încărcate pe Crowdin pentru o traducere a utilizatorilor din comunitate. Paginile de nivel înalt scrise cu șiruri în limba engleză pot fi traduse prin încercuirea tuturor șirurilor pe care vrei să le traduci într-un tag <code>&lt;traduce&gt;</code>. Alte titluri și etichete pot fi deasemenea găsite și traduse corespunzător.</p>
 <h2><a class="anchor" aria-hidden="true" id="configurații-traduceri-docusaurus"></a><a href="#configurații-traduceri-docusaurus" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Configurații traduceri Docusaurus</h2>
 <p>To generate example files for translations with Docusaurus, run the <code>examples</code> script with the command line argument <code>translations</code>:</p>
-<pre><code class="hljs css bash">npm run exemple traduceri
+<pre><code class="hljs css languages- bash">npm run exemple traduceri
 </code></pre>
 <p>sau</p>
-<pre><code class="hljs css bash">yarn exemple traduceri
+<pre><code class="hljs css languages- bash">yarn exemple traduceri
 </code></pre>
 <p>Aceasta va crea următoarele fișiere:</p>
-<pre><code class="hljs css bash">pages/en/<span class="hljs-built_in">help</span>-with-translations.js
+<pre><code class="hljs css languages- bash">pages/en/<span class="hljs-built_in">help</span>-with-translations.js
 languages.js
 ../crowdin.yaml
 </code></pre>
@@ -57,18 +57,18 @@ languages.js
 <p>Pagini îți permite să personalizezi layout-ul și conținutul specific al paginilor ca o pagină personalizată de index sau o pagină de ajutor.</p>
 <p>Paginile cu text pe care îl dorești tradus ar trebuii plasate în dosarul <code>siteweb/pagini/en</code>.</p>
 <p>Încercuiește șirurile pe care vrei să le traduci într-un tag <code>&lt;traduce&gt;</code>, apoi adaugă următoarele declarații de tip <code>require</code> în capul fișierului:</p>
-<pre><code class="hljs css jsx">...
-const translate = require('../../server/translate.js').translate;
-...
-&lt;h2&gt;
-  &lt;translate&gt;This header will be translated&lt;/translate&gt;
-&lt;/h2&gt;
-...
+<pre><code class="hljs css languages- jsx"><span class="token operator">...</span>
+<span class="token keyword">const</span> translate <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'../../server/translate.js'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>translate<span class="token punctuation">;</span>
+<span class="token operator">...</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h2</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>translate</span><span class="token punctuation">></span></span>This header will be translated<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>translate</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h2</span><span class="token punctuation">></span></span>
+<span class="token operator">...</span>
 </code></pre>
 <p>Poţi deasemenea să incluzi un atribut de descriere opțională pentru a da mai mult context pentru un traducător despre cum să traducă acel șir:</p>
-<pre><code class="hljs css jsx">&lt;p&gt;
-  <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">traduce</span> <span class="hljs-attr">desc</span>=<span class="hljs-string">"floare, nu verb"</span>&gt;</span>Rose<span class="hljs-tag">&lt;/<span class="hljs-name">traduce</span>&gt;</span></span>
-&lt;p&gt;
+<pre><code class="hljs css languages- jsx"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>traduce</span> <span class="token attr-name">desc</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>floare, nu verb<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Rose<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>traduce</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">></span></span>
 </code></pre>
 <blockquote>
 <p>The <code>&lt;translate&gt;</code> tag generally works well on pure strings. If you have a string like &quot;Docusaurus currently provides support to help your website use <a href="${siteConfig.baseUrl}docs/${this.props.language}/translation.html">translations</a>&quot;, wrapping the <code>&lt;translation&gt;</code> tag around that entire string will cause issues because of the markdown linking, etc. Your options are to not translate those strings, or spread a bunch of <code>&lt;translate&gt;</code> tags amongst the pure substrings of that string.</p>
@@ -76,7 +76,7 @@ const translate = require('../../server/translate.js').translate;
 <h2><a class="anchor" aria-hidden="true" id="adunand-șirurile-pentru-a-traduce"></a><a href="#adunand-șirurile-pentru-a-traduce" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Adunând șirurile pentru a Traduce</h2>
 <p>Șirurile din paginile de localizare trebuiesc extrase și furnizate lui Crowdin.</p>
 <p>Add the following script to your <code>website/package.json</code> file, if it does not exist already:</p>
-<pre><code class="hljs css js">{
+<pre><code class="hljs css languages- js">{
   ...
   <span class="hljs-string">"scripts"</span>: {
     <span class="hljs-string">"write-translations"</span>: <span class="hljs-string">"docusaurus-write-translations"</span>
@@ -116,7 +116,7 @@ const translate = require('../../server/translate.js').translate;
 </blockquote>
 <p>The example below can be automatically generated by the Docusaurus cli with the <code>examples</code> script. It should be placed in the top level of your project directory to configure how and what files are uploaded/downloaded.</p>
 <p>Below is an example Crowdin configuration for the respective languages: German, Spanish, French, Japanese, Korean, Bahasa Indonesia, Portuguese Brazilian, Chinese Simplified, and Chinese Traditional.</p>
-<pre><code class="hljs css yaml"><span class="hljs-attr">project_identifier_env:</span> <span class="hljs-string">CROWDIN_DOCUSAURUS_PROJECT_ID</span>
+<pre><code class="hljs css languages- yaml"><span class="hljs-attr">project_identifier_env:</span> <span class="hljs-string">CROWDIN_DOCUSAURUS_PROJECT_ID</span>
 <span class="hljs-attr">api_key_env:</span> <span class="hljs-string">CROWDIN_DOCUSAURUS_API_KEY</span>
 <span class="hljs-attr">base_path:</span> <span class="hljs-string">"./"</span>
 <span class="hljs-attr">preserve_hierarchy:</span> <span class="hljs-literal">true</span>
@@ -141,14 +141,14 @@ const translate = require('../../server/translate.js').translate;
 <h3><a class="anchor" aria-hidden="true" id="setup-the-crowdin-scripts"></a><a href="#setup-the-crowdin-scripts" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Setup the Crowdin Scripts</h3>
 <p>You will want to manually sync your files to and from Crowdin. The sync process will upload any markdown files in <code>/docs</code> as well as translatable strings in <code>website/i18n/en.json</code>. (These strings can be generated by running <code>yarn write-translations</code>.)</p>
 <p>You can add the following to your <code>package.json</code> to manually trigger Crowdin.</p>
-<pre><code class="hljs css js"><span class="hljs-string">"scripts"</span>: {
+<pre><code class="hljs css languages- js"><span class="hljs-string">"scripts"</span>: {
   <span class="hljs-string">"crowdin-upload"</span>: <span class="hljs-string">"crowdin --config ../crowdin.yaml upload sources --auto-update -b master"</span>,
   <span class="hljs-string">"crowdin-download"</span>: <span class="hljs-string">"crowdin --config ../crowdin.yaml download -b master"</span>
 },
 </code></pre>
 <h3><a class="anchor" aria-hidden="true" id="sincronizare-fișier-manuală"></a><a href="#sincronizare-fișier-manuală" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sincronizare fișier manuală</h3>
 <p>You will always want to upload your markdown files and translatable strings first and the download the translations section. So run the commands in this order:</p>
-<pre><code class="hljs css bash">CROWDIN_DOCUSAURUS_PROJECT_ID=YOUR_CROWDIN_PROJECT_ID CROWDIN_DOCUSAURUS_API_KEY=YOUR_CROWDIN_API_KEY yarn run crowdin-upload
+<pre><code class="hljs css languages- bash">CROWDIN_DOCUSAURUS_PROJECT_ID=YOUR_CROWDIN_PROJECT_ID CROWDIN_DOCUSAURUS_API_KEY=YOUR_CROWDIN_API_KEY yarn run crowdin-upload
 CROWDIN_DOCUSAURUS_PROJECT_ID=YOUR_CROWDIN_PROJECT_ID CROWDIN_DOCUSAURUS_API_KEY=YOUR_CROWDIN_API_KEY yarn run crowdin-download
 </code></pre>
 <blockquote>
@@ -160,7 +160,7 @@ CROWDIN_DOCUSAURUS_PROJECT_ID=YOUR_CROWDIN_PROJECT_ID CROWDIN_DOCUSAURUS_API_KEY
 <h3><a class="anchor" aria-hidden="true" id="automated-file-sync-using-circleci"></a><a href="#automated-file-sync-using-circleci" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Automated File Sync Using CircleCI</h3>
 <p>You can automate pulling down and uploading translations for your files using the <a href="https://circleci.com">CircleCI</a> web continuous integration service.</p>
 <p>First, update the <code>circle.yml</code> file in your project directory to include steps to upload English files to be translated and download translated files using the Crowdin CLI. Uite aici un exemplu de fișier <code>circle.yml</code>:</p>
-<pre><code class="hljs css yaml"><span class="hljs-attr">machine:</span>
+<pre><code class="hljs css languages- yaml"><span class="hljs-attr">machine:</span>
 <span class="hljs-attr">  node:</span>
 <span class="hljs-attr">    version:</span> <span class="hljs-number">6.10</span><span class="hljs-number">.3</span>
 <span class="hljs-attr">  npm:</span>
@@ -198,7 +198,7 @@ CROWDIN_DOCUSAURUS_PROJECT_ID=YOUR_CROWDIN_PROJECT_ID CROWDIN_DOCUSAURUS_API_KEY
 <p>Dacă dorești să utilizezi Crowdin pe server-ul tău local, poți să instalezi <a href="https://support.crowdin.com/cli-tool/">unealta Crodin CLI</a> și să rulezi aceleași comenzi găsite în fișierul <code>circle.yaml</code>. Singura diferență este ca trebuie să setezi valorile <code>project_identifier</code> și <code>api_key</code> în fișierul <code>crowdin.yaml</code>, din moment ce nu vei avea variabilele de environment Circle de setat.</p>
 <h2><a class="anchor" aria-hidden="true" id="traduceri-versionate"></a><a href="#traduceri-versionate" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Traduceri versionate</h2>
 <p>Dacă dorești să ai traducere și versionare pentru documentația ta, adaugă următoarea secțiune la finalul fișierului tău <code>crowdin.yaml</code>:</p>
-<pre><code class="hljs css yaml"><span class="hljs-bullet">  -</span>
+<pre><code class="hljs css languages- yaml"><span class="hljs-bullet">  -</span>
     <span class="hljs-string">sursă:</span> <span class="hljs-string">'/siteweb/documente_versionate/**/*.md'</span>
 <span class="hljs-attr">    traducere:</span> <span class="hljs-string">'/siteweb/documente_traduses/%locale%/**/%original_file_name%'</span>
 <span class="hljs-attr">    mapping_limbi:</span> <span class="hljs-meta">*anchor</span>

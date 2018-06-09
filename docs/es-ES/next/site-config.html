@@ -12,7 +12,7 @@
             {"zIndex":100}
           )
         });
-        </script><link rel="stylesheet" href="/css/main.css"/></head><body class="sideNavVisible doc separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/es-ES"><img class="logo" src="/img/docusaurus.svg" alt="Docusaurus"/><h2 class="headerTitleWithLogo">Docusaurus</h2></a><a href="/es-ES/versions.html"><h3>next</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/docs/es-ES/next/installation" target="_self">Documentos</a></li><li class=""><a href="/es-ES/help" target="_self">Ayuda</a></li><li class=""><a href="/es-ES/users" target="_self">Users</a></li><li class=""><a href="/es-ES/about-slash" target="_self">About /</a></li><li class=""><a href="/blog" target="_self">Blog</a></li><li class=""><a href="https://github.com/facebook/docusaurus" target="_self">GitHub</a></li><span><li><a id="languages-menu" href="#"><img class="languages-icon" src="/img/language.svg"/>Español</a><div id="languages-dropdown" class="hide"><ul id="languages-dropdown-items"><li><a href="/docs/en/next/site-config">English</a></li><li><a href="/docs/ro/next/site-config">Română</a></li><li><a href="/docs/tr/next/site-config">Türkçe</a></li><li><a href="/docs/zh-CN/next/site-config">简体中文</a></li><li><a href="https://crowdin.com/project/docusaurus" target="_blank" rel="noreferrer noopener">Help Translate</a></li></ul></div></li><script>
+        </script><link rel="stylesheet" href="/css/prism.css"/><link rel="stylesheet" href="/css/main.css"/></head><body class="sideNavVisible doc separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/es-ES"><img class="logo" src="/img/docusaurus.svg" alt="Docusaurus"/><h2 class="headerTitleWithLogo">Docusaurus</h2></a><a href="/es-ES/versions.html"><h3>next</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/docs/es-ES/next/installation" target="_self">Documentos</a></li><li class=""><a href="/es-ES/help" target="_self">Ayuda</a></li><li class=""><a href="/es-ES/users" target="_self">Users</a></li><li class=""><a href="/es-ES/about-slash" target="_self">About /</a></li><li class=""><a href="/blog" target="_self">Blog</a></li><li class=""><a href="https://github.com/facebook/docusaurus" target="_self">GitHub</a></li><span><li><a id="languages-menu" href="#"><img class="languages-icon" src="/img/language.svg"/>Español</a><div id="languages-dropdown" class="hide"><ul id="languages-dropdown-items"><li><a href="/docs/en/next/site-config">English</a></li><li><a href="/docs/ro/next/site-config">Română</a></li><li><a href="/docs/tr/next/site-config">Türkçe</a></li><li><a href="/docs/zh-CN/next/site-config">简体中文</a></li><li><a href="https://crowdin.com/project/docusaurus" target="_blank" rel="noreferrer noopener">Help Translate</a></li></ul></div></li><script>
         const languagesMenuItem = document.getElementById("languages-menu");
         const languagesDropDown = document.getElementById("languages-dropdown");
         languagesMenuItem.addEventListener("click", function(){
@@ -47,7 +47,7 @@
 <p><code>headerIcon</code> - url para el icono utilizado en la barra de navegación del encabezado.</p>
 <p><code>headerLinks</code> - Links that will be used in the header navigation bar. The <code>label</code> field of each object will be the link text and will also be translated for each language.</p>
 <p>Ejemplo de uso:</p>
-<pre><code class="hljs css js">headerLinks: [
+<pre><code class="hljs css languages- js">headerLinks: [
   <span class="hljs-comment">// Links to document with id doc1 for current language/version</span>
   { <span class="hljs-attr">doc</span>: <span class="hljs-string">"doc1"</span>, <span class="hljs-attr">label</span>: <span class="hljs-string">"Getting Started"</span> },
   <span class="hljs-comment">// Link to page found at pages/en/help.js or if that does not exist, pages/help.js, for current language</span>
@@ -79,9 +79,9 @@
 <p><code>cleanUrl</code> - If <code>true</code>, allow URLs with no <code>html</code> extension. Example: request to URL <a href="https://docusaurus.io/docs/installation">https://docusaurus.io/docs/installation</a> will returns the same result as <a href="https://docusaurus.io/docs/installation.html">https://docusaurus.io/docs/installation.html</a>.</p>
 <p><code>cname</code> - The CNAME for your website. It will go into a <code>CNAME</code> file when your site it built.</p>
 <p><code>customDocsPath</code> - By default, Docusaurus expects your documentation to be in a directory called <code>docs</code>. This directory is at the same level as the <code>website</code> directory (i.e., not inside the <code>website</code> directory). You can specify a custom path to your documentation with this field. <strong>Note that all of your documentation <code>*.md</code> files must still reside in a flat hierarchy. You cannot have your documents in nested directories</strong>.</p>
-<pre><code class="hljs css js">customDocsPath: <span class="hljs-string">'docs/site'</span>;
+<pre><code class="hljs css languages- js">customDocsPath: <span class="hljs-string">'docs/site'</span>;
 </code></pre>
-<pre><code class="hljs css js">customDocsPath: <span class="hljs-string">'website-docs'</span>;
+<pre><code class="hljs css languages- js">customDocsPath: <span class="hljs-string">'website-docs'</span>;
 </code></pre>
 <p><code>defaultVersionShown</code> - The default version for the site to be shown. If this is not set, the latest version will be shown.</p>
 <p><code>disableHeaderTitle</code> - An option to disable showing the title in the header next to the header icon. Exclude this field to keep the header as normal, otherwise set to <code>true</code>.</p>
@@ -92,7 +92,7 @@
 <p><code>facebookPixelId</code> - <a href="https://www.facebook.com/business/a/facebook-pixel">Facebook Pixel</a> ID to track page views.</p>
 <p><code>fonts</code> - Font-family css configuration for the site. If a font family is specified in <code>siteConfig.js</code> as <code>$myFont</code>, then adding a <code>myFont</code> key to an array in <code>fonts</code> will allow you to configure the font. Items appearing earlier in the array will take priority of later elements, so ordering of the fonts matter.</p>
 <p>In the below example, we have two sets of font configurations, <code>myFont</code> and <code>myOtherFont</code>. <code>Times New Roman</code> is the preferred font in <code>myFont</code>. <code>-apple-system</code> is the preferred in <code>myOtherFont</code>.</p>
-<pre><code class="hljs css js">fonts: {
+<pre><code class="hljs css languages- js">fonts: {
   <span class="hljs-attr">myFont</span>: [
     <span class="hljs-string">'Times New Roman'</span>,
     <span class="hljs-string">'Serif'</span>
@@ -104,7 +104,7 @@
 },
 </code></pre>
 <p>The above fonts would be represented in your CSS file(s) as variables <code>$myFont</code> and <code>$myOtherFont</code>.</p>
-<pre><code class="hljs css css"><span class="hljs-selector-tag">h1</span> {
+<pre><code class="hljs css languages- css"><span class="hljs-selector-tag">h1</span> {
   <span class="hljs-attribute">font-family</span>: $myFont;
 }
 </code></pre>
@@ -137,10 +137,11 @@
 <p><code>twitterImage</code> - Local path to your Twitter card image (e.g., <code>img/myImage.png</code>). This image will show up on the Twitter card when your site is shared on Twitter.</p>
 <p><code>useEnglishUrl</code> - If you do not have <a href="/docs/es-ES/next/translation">translations</a> enabled (e.g., by having a <code>languages.js</code> file), but still want a link of the form <code>/docs/en/doc.html</code> (with the <code>en</code>), set this to <code>true</code>.</p>
 <p><code>users</code> - The <code>users</code> array mentioned earlier.</p>
+<p><code>usePrism</code> - Array of languages to use Prism syntax highlighter. Refer to <a href="/docs/es-ES/next/doc-markdown#using-prism-as-additional-syntax-highlighter">Using Prism as additional syntax highlighter</a>. Set it to <code>true</code> to use Prism on all languages.</p>
 <p><code>wrapPagesHTML</code> - Boolean flag to indicate whether <code>html</code> files in <code>/pages</code> should be wrapped with Docusaurus site styles, header and footer. This feature is experimental and relies on the files being <code>html</code> fragments instead of complete pages. It inserts the contents of your <code>html</code> file with no extra processing. Defaults to <code>false</code>.</p>
 <p>Users can also add their own custom fields if they wish to provide some data across different files.</p>
 <h2><a class="anchor" aria-hidden="true" id="example-siteconfigjs-with-many-available-fields"></a><a href="#example-siteconfigjs-with-many-available-fields" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example siteConfig.js with many available fields</h2>
-<pre><code class="hljs css js"><span class="hljs-keyword">const</span> users = [
+<pre><code class="hljs css languages- js"><span class="hljs-keyword">const</span> users = [
   {
     <span class="hljs-attr">caption</span>: <span class="hljs-string">'User1'</span>,
     <span class="hljs-attr">image</span>: <span class="hljs-string">'/test-site/img/docusaurus.svg'</span>,

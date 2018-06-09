@@ -12,7 +12,7 @@
             {"zIndex":100}
           )
         });
-        </script><link rel="stylesheet" href="/css/main.css"/></head><body class="sideNavVisible doc separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/ro"><img class="logo" src="/img/docusaurus.svg" alt="Docusaurus"/><h2 class="headerTitleWithLogo">Docusaurus</h2></a><a href="/ro/versions.html"><h3>1.1.2</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/docs/ro/1.1.2/installation" target="_self">Documente</a></li><li class=""><a href="/ro/help" target="_self">Ajutor</a></li><li class=""><a href="/ro/users" target="_self">Users</a></li><li class=""><a href="/ro/about-slash" target="_self">About /</a></li><li class=""><a href="/blog" target="_self">Blog</a></li><li class=""><a href="https://github.com/facebook/docusaurus" target="_self">GitHub</a></li><span><li><a id="languages-menu" href="#"><img class="languages-icon" src="/img/language.svg"/>Română</a><div id="languages-dropdown" class="hide"><ul id="languages-dropdown-items"><li><a href="/docs/en/1.1.2/doc-markdown">English</a></li><li><a href="/docs/es-ES/1.1.2/doc-markdown">Español</a></li><li><a href="/docs/tr/1.1.2/doc-markdown">Türkçe</a></li><li><a href="/docs/zh-CN/1.1.2/doc-markdown">简体中文</a></li><li><a href="https://crowdin.com/project/docusaurus" target="_blank" rel="noreferrer noopener">Help Translate</a></li></ul></div></li><script>
+        </script><link rel="stylesheet" href="/css/prism.css"/><link rel="stylesheet" href="/css/main.css"/></head><body class="sideNavVisible doc separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/ro"><img class="logo" src="/img/docusaurus.svg" alt="Docusaurus"/><h2 class="headerTitleWithLogo">Docusaurus</h2></a><a href="/ro/versions.html"><h3>1.1.2</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/docs/ro/1.1.2/installation" target="_self">Documente</a></li><li class=""><a href="/ro/help" target="_self">Ajutor</a></li><li class=""><a href="/ro/users" target="_self">Users</a></li><li class=""><a href="/ro/about-slash" target="_self">About /</a></li><li class=""><a href="/blog" target="_self">Blog</a></li><li class=""><a href="https://github.com/facebook/docusaurus" target="_self">GitHub</a></li><span><li><a id="languages-menu" href="#"><img class="languages-icon" src="/img/language.svg"/>Română</a><div id="languages-dropdown" class="hide"><ul id="languages-dropdown-items"><li><a href="/docs/en/1.1.2/doc-markdown">English</a></li><li><a href="/docs/es-ES/1.1.2/doc-markdown">Español</a></li><li><a href="/docs/tr/1.1.2/doc-markdown">Türkçe</a></li><li><a href="/docs/zh-CN/1.1.2/doc-markdown">简体中文</a></li><li><a href="https://crowdin.com/project/docusaurus" target="_blank" rel="noreferrer noopener">Help Translate</a></li></ul></div></li><script>
         const languagesMenuItem = document.getElementById("languages-menu");
         const languagesDropDown = document.getElementById("languages-dropdown");
         languagesMenuItem.addEventListener("click", function(){
@@ -36,7 +36,7 @@
 <p><code>hide_title</code>: Whether to hide the title at the top of the doc.</p>
 <p><code>sidebar_label</code>: The text shown in the document sidebar for this document. If this field is not present, the document's <code>sidebar_label</code> will default to its <code>title</code>.</p>
 <p>De exemplu:</p>
-<pre><code class="hljs css yaml"><span class="hljs-meta">---</span>
+<pre><code class="hljs css languages- yaml"><span class="hljs-meta">---</span>
 <span class="hljs-attr">id:</span> <span class="hljs-string">doc1</span>
 <span class="hljs-attr">titlu:</span> <span class="hljs-string">Documentul</span> <span class="hljs-string">meu</span>
 <span class="hljs-attr">sidebar_label:</span> <span class="hljs-string">Document</span>
@@ -44,7 +44,7 @@
 </code></pre>
 <p>Documentele cu versiuni au id-urile alterate pentru a include numărul versiunii când este copiat. Noul <code>id</code> este <code>versiune-${version}-${id}</code> unde <code>${version}</code> este numărul versiunii acelui document și <code>${id}</code> este <code>id</code>-ul original. Adițional, documentele cu versiuni au un câmp <code>original_id</code> adăugat cu id-ul original al documentului.</p>
 <p>De exemplu:</p>
-<pre><code class="hljs css yaml"><span class="hljs-meta">---</span>
+<pre><code class="hljs css languages- yaml"><span class="hljs-meta">---</span>
 <span class="hljs-attr">id:</span> <span class="hljs-string">versiune-1.0.0-doc1</span>
 <span class="hljs-attr">titlu:</span> <span class="hljs-string">Documentul</span> <span class="hljs-string">meu</span>
 <span class="hljs-attr">sidebar_label:</span> <span class="hljs-string">Document</span>
@@ -53,7 +53,7 @@
 </code></pre>
 <p><code>custom_edit_url</code>: The url for editing this document. If this field is not present, the document's edit url will fallback to <code>editUrl</code> from optional fields of <code>siteConfig.js</code>. See <a href="site-config.md">siteConfig.js</a> docs for more information.</p>
 <p>De exemplu:</p>
-<pre><code class="hljs css yaml"><span class="hljs-meta">---</span>
+<pre><code class="hljs css languages- yaml"><span class="hljs-meta">---</span>
 <span class="hljs-attr">id:</span> <span class="hljs-string">doc-markdown</span>
 <span class="hljs-attr">title:</span> <span class="hljs-string">Markdown</span> <span class="hljs-string">Features</span>
 <span class="hljs-attr">custom_edit_url:</span> <span class="hljs-attr">https://github.com/facebook/Docusaurus/edit/master/docs/api-doc-markdown.md</span>
@@ -66,7 +66,7 @@
 <p><code>authorURL</code>: A page to link to when a site user clicks the author's name. If this field is omitted, the author's name will not link to anything.</p>
 <p><code>autorFBID</code>: Id-ul de Facebook al autorului, folosit doar pentru a lua poza de profil a autorului pentru a fi afișată odată cu post-area de pe blog. Dacă acest câmp este omis, autorul nu va avea nici o imagine afișată pentru post-area de pe blog.</p>
 <p>De exemplu:</p>
-<pre><code class="hljs css yaml"><span class="hljs-meta">---</span>
+<pre><code class="hljs css languages- yaml"><span class="hljs-meta">---</span>
 <span class="hljs-attr">titlu:</span> <span class="hljs-string">Prima</span> <span class="hljs-string">mea</span> <span class="hljs-string">post-are</span> <span class="hljs-string">pe</span> <span class="hljs-string">blog</span>
 <span class="hljs-attr">autor:</span> <span class="hljs-string">Frank</span> <span class="hljs-string">Li</span>
 <span class="hljs-attr">URLautor:</span> <span class="hljs-attr">http://twitter.com/franchementli</span>
@@ -78,20 +78,20 @@
 <h3><a class="anchor" aria-hidden="true" id="link-uirea-cu-alte-documente"></a><a href="#link-uirea-cu-alte-documente" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Link-uirea cu alte Documente</h3>
 <p>Poți folosi url-uri relative la alte fișiere de documentație ce vor fi convertite automat la link-urile html corespunzătoare când vor fi redate.</p>
 <p>Exemplu:</p>
-<pre><code class="hljs css md">[<span class="hljs-string">Acesta link-uiește către alt document</span>](<span class="hljs-link">celălalt-document.md</span>)
+<pre><code class="hljs css languages- md">[<span class="hljs-string">Acesta link-uiește către alt document</span>](<span class="hljs-link">celălalt-document.md</span>)
 </code></pre>
 <p>Acest markdown va fi convertit automat într-un link pentru <code>/documente/celălalt-document.html</code> (sau la link-ul cu traducerea/versiunea corespunzătoare) odată ce va fi redată.</p>
 <p>Aceasta poate ajuta când vrei să navighezi prin documente pe GitHub, din moment ce link-urile de acolo vor fi link-uri funcționale către alte documente (tot pe GitHub), dar documentele vor avea link-urile html corecte atunci când vor fi redate.</p>
 <h3><a class="anchor" aria-hidden="true" id="link-uirea-către-imagini-sau-alte-asset-uri"></a><a href="#link-uirea-către-imagini-sau-alte-asset-uri" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Link-uirea către Imagini sau Alte Asset-uri</h3>
 <p>Asset-urile statice pot fi link-uite în aceeași manieră ca și documentele, folosind url-uri relative. Asset-urile statice utilizate în documente și bloguri ar trebuii să se ducă în <code>documente/asset-uri</code> și <code>siteweb/blog/asset-uri</code>, respectiv. Markdown-ul va fi convertit în căile correcte ale link-urilor astfel încât aceste căi vor funcționa pentru documente în toate limbile și versiunile.</p>
 <p>Exemplu:</p>
-<pre><code class="hljs css md">![<span class="hljs-string">alt-text</span>](<span class="hljs-link">asset-uri/imaginea-documentului.png</span>)
+<pre><code class="hljs css languages- md">![<span class="hljs-string">alt-text</span>](<span class="hljs-link">asset-uri/imaginea-documentului.png</span>)
 </code></pre>
 <h3><a class="anchor" aria-hidden="true" id="generand-cuprinsul"></a><a href="#generand-cuprinsul" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Generând Cuprinsul</h3>
 <p>Poți să faci o listă auto-generată a link-urilor, ce poate fi folositoare ca un cuprins pentru documentele API.</p>
 <p>In your markdown file, insert a line with the text &lt;<code>AUTOGENERATED_TABLE_OF_CONTENTS</code>&gt;. Scrie-ți documentația folosind header-e <code>h3</code> pentru fiecare funcție în interiorul unui bloc de cod. These will be found by Docusaurus and a list of links to these sections will inserted at the text &lt;<code>AUTOGENERATED_TABLE_OF_CONTENTS</code>&gt;.</p>
 <p>Exemplu:</p>
-<pre><code class="hljs css md"><span class="hljs-section">### `docusaurus.function(a, b)`</span>
+<pre><code class="hljs css languages- md"><span class="hljs-section">### `docusaurus.function(a, b)`</span>
 
 Text describing my function
 
@@ -100,7 +100,7 @@ Text describing my function
 Text describing my function
 </code></pre>
 <p>va duce la un cuprins al funcțiilor:</p>
-<pre><code class="hljs css md"><span class="hljs-bullet">- </span><span class="hljs-code">`docusaurus.function(a, b)`</span>
+<pre><code class="hljs css languages- md"><span class="hljs-bullet">- </span><span class="hljs-code">`docusaurus.function(a, b)`</span>
 <span class="hljs-bullet">- </span><span class="hljs-code">`docdoc(file)`</span>
 </code></pre>
 <p>și fiecare funcție va link-ui către secțiunile corespunzătoare din pagină.</p>
@@ -114,13 +114,13 @@ ReactDOM.render(
 ```
 </code></pre>
 <p>...would be rendered with syntax highlighting like so:</p>
-<pre><code class="hljs css js">ReactDOM.render(
+<pre><code class="hljs css languages- js">ReactDOM.render(
   <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>Hello, world!<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span></span>,
   <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'root'</span>)
 );
 </code></pre>
 <p>Highlighting is provided by <a href="https://highlightjs.org">Highlight.js</a> using the theme specified in your <code>siteConfig.js</code> file as part of the <code>highlight</code> key:</p>
-<pre><code class="hljs css js">{
+<pre><code class="hljs css languages- js">{
   ...
   highlight: {
     <span class="hljs-attr">theme</span>: <span class="hljs-string">'default'</span>
@@ -131,7 +131,7 @@ ReactDOM.render(
 <p>You can find the full list of supported themes in the Highlight.js <a href="https://github.com/isagalaev/highlight.js/tree/master/src/styles"><code>styles</code></a> directory.</p>
 <h3><a class="anchor" aria-hidden="true" id="registering-additional-languages"></a><a href="#registering-additional-languages" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Registering additional languages</h3>
 <p>While Highlight.js provides support for <a href="https://highlightjs.org/static/demo/">many popular languages out of the box</a>, you may find the need to register additional language support. For these cases, we provide an escape valve by exposing the <code>hljs</code> constant as part of the <code>highlight</code> config key. This in turn allows you to call <a href="http://highlightjs.readthedocs.io/en/latest/api.html#registerlanguage-name-language"><code>registerLanguage</code></a>:</p>
-<pre><code class="hljs css js">{
+<pre><code class="hljs css languages- js">{
   ...
   highlight: {
     <span class="hljs-attr">theme</span>: <span class="hljs-string">'default'</span>,
