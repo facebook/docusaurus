@@ -36,7 +36,9 @@ const siteConfig = {
   algolia: {
     apiKey: '3eb9507824b8be89e7a199ecaa1a9d2c',
     indexName: 'docusaurus',
-    facetFilters: [ "lang:LANGUAGE", "version:VERSION" ],
+    algoliaOptions: {
+      facetFilters: [ "lang:LANGUAGE", "version:VERSION" ] 
+    }
   },
   colors: {
     primaryColor: '#2E8555',
