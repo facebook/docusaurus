@@ -201,5 +201,12 @@
     "infoLink": "https://warrior.js.org/",
     "fbOpenSource": false,
     "pinned": false
+  },
+  {
+    "caption": "Anssr Data Platform",
+    "image": "/img/anssr.svg",
+    "infoLink": "https://anssr.io/",
+    "fbOpenSource": false,
+    "pinned": false
   }
 ]
