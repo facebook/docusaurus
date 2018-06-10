@@ -6,7 +6,7 @@
  */
 
 /* List of projects/orgs using your project for the users page */
-const users = require('./data/users.json');
+const users = require('./data/users');
 
 const siteConfig = {
   title: 'Docusaurus',
@@ -52,9 +52,7 @@ const siteConfig = {
     'https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js',
     '/js/code-blocks-buttons.js',
   ],
-  stylesheets: [
-    '/css/code-blocks-buttons.css',
-  ],
+  stylesheets: ['/css/code-blocks-buttons.css'],
   gaTrackingId: 'UA-44373548-31',
   facebookAppId: '199138890728411',
   facebookComments: true,
@@ -66,8 +64,8 @@ const siteConfig = {
   cleanUrl: true,
   scrollToTop: true,
   scrollToTopOptions: {
-    zIndex: 100
-  }
+    zIndex: 100,
+  },
 };
 
 module.exports = siteConfig;
