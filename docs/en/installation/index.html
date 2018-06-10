@@ -12,7 +12,7 @@
             {"zIndex":100}
           )
         });
-        </script><link rel="stylesheet" href="/css/prism.css"/><link rel="stylesheet" href="/css/main.css"/></head><body class="sideNavVisible doc separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/en"><img class="logo" src="/img/docusaurus.svg" alt="Docusaurus"/><h2 class="headerTitleWithLogo">Docusaurus</h2></a><a href="/en/versions"><h3>1.1.5</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive siteNavItemActive"><a href="/docs/en/installation" target="_self">Docs</a></li><li class=""><a href="/en/help" target="_self">Help</a></li><li class=""><a href="/en/users" target="_self">Users</a></li><li class=""><a href="/en/about-slash" target="_self">About /</a></li><li class=""><a href="/blog" target="_self">Blog</a></li><li class=""><a href="https://github.com/facebook/docusaurus" target="_self">GitHub</a></li><span><li><a id="languages-menu" href="#"><img class="languages-icon" src="/img/language.svg"/>English</a><div id="languages-dropdown" class="hide"><ul id="languages-dropdown-items"><li><a href="/docs/es-ES/installation">Español</a></li><li><a href="/docs/ro/installation">Română</a></li><li><a href="/docs/tr/installation">Türkçe</a></li><li><a href="/docs/zh-CN/installation">简体中文</a></li><li><a href="https://crowdin.com/project/docusaurus" target="_blank" rel="noreferrer noopener">Help Translate</a></li></ul></div></li><script>
+        </script><link rel="stylesheet" href="/css/prism.css"/><link rel="stylesheet" href="/css/main.css"/></head><body class="sideNavVisible doc separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/en"><img class="logo" src="/img/docusaurus.svg" alt="Docusaurus"/><h2 class="headerTitleWithLogo">Docusaurus</h2></a><a href="/en/versions"><h3>1.2.0</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive siteNavItemActive"><a href="/docs/en/installation" target="_self">Docs</a></li><li class=""><a href="/en/help" target="_self">Help</a></li><li class=""><a href="/en/users" target="_self">Users</a></li><li class=""><a href="/en/about-slash" target="_self">About /</a></li><li class=""><a href="/blog" target="_self">Blog</a></li><li class=""><a href="https://github.com/facebook/docusaurus" target="_self">GitHub</a></li><span><li><a id="languages-menu" href="#"><img class="languages-icon" src="/img/language.svg"/>English</a><div id="languages-dropdown" class="hide"><ul id="languages-dropdown-items"><li><a href="/docs/es-ES/installation">Español</a></li><li><a href="/docs/ro/installation">Română</a></li><li><a href="/docs/tr/installation">Türkçe</a></li><li><a href="/docs/zh-CN/installation">简体中文</a></li><li><a href="https://crowdin.com/project/docusaurus" target="_blank" rel="noreferrer noopener">Help Translate</a></li></ul></div></li><script>
         const languagesMenuItem = document.getElementById("languages-menu");
         const languagesDropDown = document.getElementById("languages-dropdown");
         languagesMenuItem.addEventListener("click", function(){
@@ -49,7 +49,7 @@
 <ol>
 <li><p>Ensure you have the latest version of <a href="https://nodejs.org/en/download/">Node</a> installed. We also recommend you install <a href="https://yarnpkg.com/en/docs/install">Yarn</a> as well.</p>
 <blockquote>
-<p>While we recommend Node 8.x or greater, your Node version must at least 6.x.</p>
+<p>You have to be on Node &gt;= 8.x and Yarn &gt;= 1.5.</p>
 </blockquote></li>
 <li><p>Go into the root of your GitHub repo directory where you will be creating the docs.</p></li>
 <li><p><code>npx docusaurus-init</code></p>
@@ -88,7 +88,7 @@
 <li><code>cd website</code></li>
 <li>Rename <code>blog-examples-from-docusaurus</code> to <code>blog</code>.</li>
 <li>Run the local webserver via <code>yarn start</code> or <code>npm start</code>.</li>
-<li>Load the example site at <a href="http://localhost:3000">http://localhost:3000</a>. You should see the example site loaded in your web browser.</li>
+<li>Load the example site at <a href="http://localhost:3000">http://localhost:3000</a>. You should see the example site loaded in your web browser. There's also a LiveReload server running and any changes made to the docs and files in the <code>website</code> directory will cause the page to refresh.</li>
 </ol>
 <p><img src="/img/getting-started-preparation-verify.png" alt=""></p>
 <h3><a class="anchor" aria-hidden="true" id="launching-the-server-behind-a-proxy"></a><a href="#launching-the-server-behind-a-proxy" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Launching the server behind a proxy</h3>
