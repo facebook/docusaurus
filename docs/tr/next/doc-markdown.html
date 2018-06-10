@@ -68,7 +68,7 @@
 <span class="hljs-attr">original_id:</span> <span class="hljs-string">doc1</span>
 <span class="hljs-meta">---</span>
 </code></pre>
-<p><code>custom_edit_url</code>: The url for editing this document. If this field is not present, the document's edit url will fallback to <code>editUrl</code> from optional fields of <code>siteConfig.js</code>. See <a href="site-config.md">siteConfig.js</a> docs for more information.</p>
+<p><code>custom_edit_url</code>: The URL for editing this document. If this field is not present, the document's edit URL will fall back to <code>editUrl</code> from optional fields of <code>siteConfig.js</code>. See <a href="site-config.md">siteConfig.js</a> docs for more information.</p>
 <p>Örnek olarak:</p>
 <pre><code class="hljs css languages- yaml"><span class="hljs-meta">---</span>
 <span class="hljs-attr">id:</span> <span class="hljs-string">doc-markdown</span>
@@ -77,7 +77,7 @@
 <span class="hljs-meta">---</span>
 </code></pre>
 <h3><a class="anchor" aria-hidden="true" id="blog-postları"></a><a href="#blog-postları" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Blog Postları</h3>
-<p>Blog Postları her iki tarafta bir çizgi <code>---</code> ile kuşatılmış aşağıdaki markdown başlık alanlarını kullanır:</p>
+<p>Blog posts use the following markdown header fields that are enclosed by a line <code>---</code> on either side:</p>
 <p><code>title</code>: Bu blog postunun başlığı.</p>
 <p><code>author</code>: The author of this blog post. If this field is omitted, no author name will be shown.</p>
 <p><code>authorURL</code>: A page to link to when a site user clicks the author's name. If this field is omitted, the author's name will not link to anything.</p>
@@ -93,19 +93,19 @@
 <h2><a class="anchor" aria-hidden="true" id="ekstra-ozellikler"></a><a href="#ekstra-ozellikler" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Ekstra Özellikler</h2>
 <p>Docusaurus markdown ile doküman yazarken bir kaç ek özellik destekler.</p>
 <h3><a class="anchor" aria-hidden="true" id="diğer-dokumanlara-bağlantılamak"></a><a href="#diğer-dokumanlara-bağlantılamak" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Diğer Dokümanlara Bağlantılamak</h3>
-<p>Diğer dokümantasyon dosyaları için bunlar, işlenerek otomatik olarak karşılık gelen html bağlantılarına dönüştürülen diğer dokümantasyon dosyaları ile ilişkili bağlantılar kullanabilirsiniz.</p>
+<p>You can use relative URLs to other documentation files which will automatically get converted to the corresponding HTML links when they get rendered.</p>
 <p>Örnek:</p>
 <pre><code class="hljs css languages- md">[<span class="hljs-string">Bu diğer dokümanın bağlantısı</span>](<span class="hljs-link">diger-dokuman.md</span>)
 </code></pre>
 <p>Bu markdown işlendikten sonra otomatik olarak <code>/docs/other-document.html</code>(yada uygun olarak çevrilmiş/sürümlenmiş bağlantıya) bağlantısına dönüşür.</p>
-<p>Bu bağlantılar diğer dokümanlar (hala GitHub içerisinde) için çalışan bağlantılar olacağından GitHub dosyaları arasında dolaşmak istediğinizde işe yarayacaktır ama ama dokümanlar işlendiklerinde doğru html bağlantılarına sahip olacaklar.</p>
+<p>This can help when you want to navigate through docs on GitHub since the links there will be functional links to other documents (still on GitHub), but the documents will have the correct HTML links when they get rendered.</p>
 <h3><a class="anchor" aria-hidden="true" id="resimlere-ve-diğer-varlıklara-bağlantılama"></a><a href="#resimlere-ve-diğer-varlıklara-bağlantılama" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Resimlere ve Diğer Varlıklara Bağlantılama</h3>
-<p>Statik varlıklar dokümanlarla gibi ilişkili url'leri kullanarak bağlantılanabilirler. Dokümanlar ve bloglar da kullanılan statik varlıklar sırasıyla <code>docs/assets</code> ve <code>website/blog/assets</code> içerisine gitmelidirler. Markdown doğru bağlantı yoluna çevrilecektir böylece bu yollar dokümanların tüm dilleri ve sürümleri için çalışacaktır.</p>
+<p>Static assets can be linked to in the same way that documents are, using relative URLs. Dokümanlar ve bloglar da kullanılan statik varlıklar sırasıyla <code>docs/assets</code> ve <code>website/blog/assets</code> içerisine gitmelidirler. Markdown doğru bağlantı yoluna çevrilecektir böylece bu yollar dokümanların tüm dilleri ve sürümleri için çalışacaktır.</p>
 <p>Örnek:</p>
 <pre><code class="hljs css languages- md">![<span class="hljs-string">alt-text</span>](<span class="hljs-link">/docs/assets/doc-image.png</span>)
 </code></pre>
 <h3><a class="anchor" aria-hidden="true" id="i-cerik-panosu-uretme"></a><a href="#i-cerik-panosu-uretme" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>İçerik Panosu Üretme</h3>
-<p>API belgeleri için içeriklerin bir tablosu olarak kullanışlı olabilen otomatik oluşturulan linklerin bir listesini yapabilirsiniz.</p>
+<p>You can make an auto-generated list of links, which can be useful as a table of contents for API docs.</p>
 <p>In your markdown file, insert a line with the text &lt;<code>AUTOGENERATED_TABLE_OF_CONTENTS</code>&gt;. Dokümanınızı kod bloğu içerisindeki her fonksiyon için <code>h3</code> başlığını kullanarak yazın. These will be found by Docusaurus and a list of links to these sections will inserted at the text &lt;<code>AUTOGENERATED_TABLE_OF_CONTENTS</code>&gt;.</p>
 <p>Örnek:</p>
 <pre><code class="hljs css languages- md"><span class="hljs-section">### `docusaurus.function(a, b)`</span>
@@ -117,24 +117,18 @@ Text describing my function
 Text describing my function
 </code></pre>
 <p>bu fonksiyonun içerik panosuna yönlendirir:</p>
-<pre><code class="hljs css languages- md"><span class="hljs-bullet">- </span><span class="hljs-code">`docusaurus.function(a, b)`</span>
-<span class="hljs-bullet">- </span><span class="hljs-code">`docdoc(file)`</span>
+<pre><code class="hljs css languages- md"><span class="hljs-bullet">* </span><span class="hljs-code">`docusaurus.function(a, b)`</span>
+<span class="hljs-bullet">* </span><span class="hljs-code">`docdoc(file)`</span>
 </code></pre>
 <p>ve her fonksiyon kendilerinin karşılık gelen sayfasına bağlanır.</p>
 <h2><a class="anchor" aria-hidden="true" id="syntax-highlighting"></a><a href="#syntax-highlighting" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Syntax Highlighting</h2>
 <p>Syntax highlighting is enabled by default on fenced code blocks. The language should be detected automatically, but you can sometimes get better results by specifying the language. You can do so using an <a href="https://github.github.com/gfm/#example-111">info string</a>, following the three opening backticks. The following JavaScript example...</p>
 <pre><code class="hljs">```js
-ReactDOM.render(
-  &lt;h1&gt;Hello, world!&lt;/h1&gt;,
-  document.getElementById('root')
-);
+ReactDOM.render(&lt;h1&gt;Hello, world!&lt;/h1&gt;, document.getElementById('root'));
 ```
 </code></pre>
 <p>...would be rendered with syntax highlighting like so:</p>
-<pre><code class="hljs css languages- js">ReactDOM.render(
-  <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>Hello, world!<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span></span>,
-  <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'root'</span>)
-);
+<pre><code class="hljs css languages- js">ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>Hello, world!<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span></span>, <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'root'</span>));
 </code></pre>
 <p>Highlighting is provided by <a href="https://highlightjs.org">Highlight.js</a> using the theme specified in your <code>siteConfig.js</code> file as part of the <code>highlight</code> key:</p>
 <pre><code class="hljs css languages- js">{
@@ -161,7 +155,7 @@ ReactDOM.render(
 }
 </code></pre>
 <h3><a class="anchor" aria-hidden="true" id="using-prism-as-additional-syntax-highlighter"></a><a href="#using-prism-as-additional-syntax-highlighter" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Using Prism as additional syntax highlighter</h3>
-<p>While highlight.js supports a lot of languages, you can opt to use Prism to syntax highlight certain languages available in the list <a href="https://github.com/PrismJS/prism/tree/master/components">here</a>. Include those languages in <code>usePrism</code> field in your <a href="/docs/tr/next/site-config">siteConfig.js</a></p>
+<p>You can also opt to use Prism to syntax highlight certain languages available in the list <a href="https://github.com/PrismJS/prism/tree/master/components">here</a>. Include those languages in <code>usePrism</code> field in your <a href="/docs/tr/next/site-config">siteConfig.js</a></p>
 <p>Örnek:</p>
 <pre><code class="hljs">// siteConfig.js
 usePrism: ['jsx']
@@ -170,7 +164,7 @@ usePrism: ['jsx']
 <pre><code class="hljs css languages- jsx"><span class="token keyword">class</span> <span class="token class-name">Example</span> <span class="token keyword">extends</span> <span class="token class-name">React<span class="token punctuation">.</span>Component</span> <span class="token punctuation">{</span>
   <span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token keyword">return</span> <span class="token punctuation">(</span>
-      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>View</span> <span class="token attr-name">style</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span><span class="token punctuation">{</span> flex<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span> alignItems<span class="token punctuation">:</span> <span class="token string">'center'</span><span class="token punctuation">,</span> justifyContent<span class="token punctuation">:</span> <span class="token string">'center'</span> <span class="token punctuation">}</span><span class="token punctuation">}</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>View</span> <span class="token attr-name">style</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span><span class="token punctuation">{</span>flex<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span> alignItems<span class="token punctuation">:</span> <span class="token string">'center'</span><span class="token punctuation">,</span> justifyContent<span class="token punctuation">:</span> <span class="token string">'center'</span><span class="token punctuation">}</span><span class="token punctuation">}</span></span><span class="token punctuation">></span></span>
         <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Text</span><span class="token punctuation">></span></span>Docusaurus<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Text</span><span class="token punctuation">></span></span>
         <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Button</span>
           <span class="token attr-name">title</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>Click me<span class="token punctuation">"</span></span>

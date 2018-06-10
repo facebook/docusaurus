@@ -60,8 +60,8 @@
 <li>Las configuraciones de color personalizadas también se pueden agregar. Por ejemplo, si se agregan estilos de usuario con colores especificados como<code>$myColor</code>, agregar un campo <code>myColor</code> a <code>colors</code> le permitirá configurar fácilmente este color.</li>
 </ul>
 <p><code>copyright</code> - The copyright string at footer of site and within feed</p>
-<p><code>favicon</code> - url para el favicon del sitio.</p>
-<p><code>headerIcon</code> - url para el icono utilizado en la barra de navegación del encabezado.</p>
+<p><code>favicon</code> - URL for site favicon.</p>
+<p><code>headerIcon</code> - URL for icon used in header navigation bar.</p>
 <p><code>headerLinks</code> - Links that will be used in the header navigation bar. The <code>label</code> field of each object will be the link text and will also be translated for each language.</p>
 <p>Ejemplo de uso:</p>
 <pre><code class="hljs css languages- js">headerLinks: [
@@ -81,7 +81,7 @@
 </code></pre>
 <p><code>noIndex</code> - Boolean. If true, Docusaurus will politely ask crawlers and search engines to avoid indexing your site. This is done with a header tag and so only applies to docs and pages. Will not attempt to hide static resources. This is a best effort request. Malicious crawlers can and will still index your site.</p>
 <p><code>organizationName</code> - GitHub username of the organization or user hosting this project. This is used by the publishing script to determine where your GitHub pages website will be hosted.</p>
-<p><code>projectName</code> - Project name. This must match your GitHub repo project name (case sensitive).</p>
+<p><code>projectName</code> - Project name. This must match your GitHub repository project name (case-sensitive).</p>
 <p><code>tagline</code> - Lema para su sitio web.</p>
 <p><code>title</code> - Título para su sitio web.</p>
 <p><code>url</code> - URL for your website.</p>
@@ -93,8 +93,8 @@
 <li><code>appId</code> - Algolia provides a default scraper for your docs. If you provide your own, you will probably get this id from them.</li>
 </ul>
 <p><code>blogSidebarCount</code> - Control the number of blog posts that show up in the sidebar. See the <a href="/docs/es-ES/next/blog#changing-how-many-blog-posts-show-on-sidebar">adding a blog docs</a> for more information.</p>
-<p><code>cleanUrl</code> - If <code>true</code>, allow URLs with no <code>html</code> extension. Example: request to URL <a href="https://docusaurus.io/docs/installation">https://docusaurus.io/docs/installation</a> will returns the same result as <a href="https://docusaurus.io/docs/installation.html">https://docusaurus.io/docs/installation.html</a>.</p>
-<p><code>cname</code> - The CNAME for your website. It will go into a <code>CNAME</code> file when your site it built.</p>
+<p><code>cleanUrl</code> - If <code>true</code>, allow URLs with no <code>html</code> extension. For example, a request to URL <a href="https://docusaurus.io/docs/installation">https://docusaurus.io/docs/installation</a> will returns the same result as <a href="https://docusaurus.io/docs/installation.html">https://docusaurus.io/docs/installation.html</a>.</p>
+<p><code>cname</code> - The CNAME for your website. It will go into a <code>CNAME</code> file when your site is built.</p>
 <p><code>customDocsPath</code> - By default, Docusaurus expects your documentation to be in a directory called <code>docs</code>. This directory is at the same level as the <code>website</code> directory (i.e., not inside the <code>website</code> directory). You can specify a custom path to your documentation with this field.</p>
 <pre><code class="hljs css languages- js">customDocsPath: <span class="hljs-string">'docs/site'</span>;
 </code></pre>
@@ -103,11 +103,11 @@
 <p><code>defaultVersionShown</code> - The default version for the site to be shown. If this is not set, the latest version will be shown.</p>
 <p><code>disableHeaderTitle</code> - An option to disable showing the title in the header next to the header icon. Exclude this field to keep the header as normal, otherwise set to <code>true</code>.</p>
 <p><code>disableTitleTagline</code> - An option to disable showing the tagline in the title of main pages. Exclude this field to keep page titles as <code>Title • Tagline</code>. Set to <code>true</code> to make page titles just <code>Title</code>.</p>
-<p><code>editUrl</code> - url for editing docs, usage example: <code>editUrl + 'en/doc1.md'</code>. If this field is omitted, there will be no &quot;Edit this Doc&quot; button for each document.</p>
+<p><code>editUrl</code> - URL for editing docs, usage example: <code>editUrl + 'en/doc1.md'</code>. If this field is omitted, there will be no &quot;Edit this Doc&quot; button for each document.</p>
 <p><code>facebookAppId</code> - If you want Facebook Like/Share buttons in the footer and at the bottom of your blog posts, provide a <a href="https://www.facebook.com/help/audiencenetwork/804209223039296">Facebook application id</a>.</p>
 <p><code>facebookComments</code> - Set this to <code>true</code> if you want to enable Facebook comments at the bottom of your blog post. <code>facebookAppId</code> has to be also set.</p>
 <p><code>facebookPixelId</code> - <a href="https://www.facebook.com/business/a/facebook-pixel">Facebook Pixel</a> ID to track page views.</p>
-<p><code>fonts</code> - Font-family css configuration for the site. If a font family is specified in <code>siteConfig.js</code> as <code>$myFont</code>, then adding a <code>myFont</code> key to an array in <code>fonts</code> will allow you to configure the font. Items appearing earlier in the array will take priority of later elements, so ordering of the fonts matter.</p>
+<p><code>fonts</code> - Font-family CSS configuration for the site. If a font family is specified in <code>siteConfig.js</code> as <code>$myFont</code>, then adding a <code>myFont</code> key to an array in <code>fonts</code> will allow you to configure the font. Items appearing earlier in the array will take priority of later elements, so ordering of the fonts matter.</p>
 <p>In the below example, we have two sets of font configurations, <code>myFont</code> and <code>myOtherFont</code>. <code>Times New Roman</code> is the preferred font in <code>myFont</code>. <code>-apple-system</code> is the preferred in <code>myOtherFont</code>.</p>
 <pre><code class="hljs css languages- js">fonts: {
   <span class="hljs-attr">myFont</span>: [
@@ -144,7 +144,7 @@
 <li><code>separate</code> - The secondary navigation is a separate pane defaulting on the right side of a document. See <a href="http://docusaurus.io/docs/en/translation.html">http://docusaurus.io/docs/en/translation.html</a> for an example.</li>
 </ul>
 <p><code>scripts</code> - Array of JavaScript sources to load. The script tag will be inserted in the HTML head.</p>
-<p><code>separateCss</code> - Folders inside which any <code>css</code> files will not be processed and concatenated to Docusaurus' styles. This is to support static <code>html</code> pages that may be separate from Docusaurus with completely separate styles.</p>
+<p><code>separateCss</code> - Directories inside which any <code>css</code> files will not be processed and concatenated to Docusaurus' styles. This is to support static <code>html</code> pages that may be separate from Docusaurus with completely separate styles.</p>
 <p><code>scrollToTop</code> - Set this to <code>true</code> if you want to enable the scroll to top button at the bottom of your site.</p>
 <p><code>scrollToTopOptions</code> - Optional options configuration for the scroll to top button. You do not need to use this, even if you set <code>scrollToTop</code> to <code>true</code>; it just provides you more configuration control of the button. You can find more options <a href="https://github.com/vfeskov/vanilla-back-to-top/blob/v7.1.14/OPTIONS.md">here</a>. By default, we set the zIndex option to 100.</p>
 <p><code>stylesheets</code> - Array of CSS sources to load. The link tag will be inserted in the HTML head.</p>
@@ -172,7 +172,7 @@
   <span class="hljs-attr">tagline</span>: <span class="hljs-string">'Generate websites!'</span>,
   <span class="hljs-attr">url</span>: <span class="hljs-string">'https://docusaurus.io'</span>,
   <span class="hljs-attr">baseUrl</span>: <span class="hljs-string">'/'</span>,
-  <span class="hljs-comment">// For github.io type URLS, you would combine the url and baseUrl like:</span>
+  <span class="hljs-comment">// For github.io type URLS, you would combine the URL and baseUrl like:</span>
   <span class="hljs-comment">// url: 'https://reasonml.github.io',</span>
   <span class="hljs-comment">// baseUrl: '/reason-react/',</span>
   defaultVersionShown: <span class="hljs-string">'1.0.0'</span>,
@@ -233,8 +233,8 @@
   <span class="hljs-attr">cleanUrl</span>: <span class="hljs-literal">true</span>,
   <span class="hljs-attr">scrollToTop</span>: <span class="hljs-literal">true</span>,
   <span class="hljs-attr">scrollToTopOptions</span>: {
-    <span class="hljs-attr">zIndex</span>: <span class="hljs-number">100</span>
-  }
+    <span class="hljs-attr">zIndex</span>: <span class="hljs-number">100</span>,
+  },
 };
 
 <span class="hljs-built_in">module</span>.exports = siteConfig;

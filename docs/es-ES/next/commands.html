@@ -105,12 +105,12 @@
 <p><a href="/docs/es-ES/next/commands#docusaurus-build">Builds</a>, then deploys the static website to GitHub Pages. This command is meant to be run during the deployment step in Circle CI, and therefore expects a few environment variables to be defined:</p>
 <p>The following environment variables are generally set manually by the user in the CircleCI <code>config.yml</code> file.</p>
 <ul>
-<li><p><code>GIT_USER</code>: El usuario de git que se asociará con la implementación del commit.</p></li>
-<li><p><code>USE_SSH</code>: Whether to use SSH instead of HTTPS for your connection to the GitHub repo.</p>
+<li><code>GIT_USER</code>: El usuario de git que se asociará con la implementación del commit.</li>
+<li><code>USE_SSH</code>: Whether to use SSH instead of HTTPS for your connection to the GitHub repo.</li>
+</ul>
 <p><strong>Example</strong></p>
 <pre><code class="hljs css languages- bash">GIT_USER=docusaurus-bot USE_SSH=<span class="hljs-literal">true</span> yarn run publish-gh-pages
-</code></pre></li>
-</ul>
+</code></pre>
 <p>The following environment variables are <a href="https://circleci.com/docs/1.0/environment-variables/">set by CircleCI</a> during the build process.</p>
 <ul>
 <li><code>CIRCLE_BRANCH</code>: El branch del git asociada con el commit que desencadenó la ejecución del CI.</li>
@@ -154,7 +154,7 @@
 <hr>
 <h3><a class="anchor" aria-hidden="true" id="docusaurus-version-version"></a><a href="#docusaurus-version-version" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>docusaurus-version &lt;version&gt;</code></h3>
 <p>Alias: <code>version</code></p>
-<p>Generates a new version of the docs. This will result in a new copy of your site being generated and stored in its own versioned folder. Useful for capturing snapshots of API docs that map to specific versions of your software. Accepts any string as a version number.</p>
+<p>Generates a new version of the docs. This will result in a new copy of your site being generated and stored in its own versioned directory. Useful for capturing snapshots of API docs that map to specific versions of your software. Accepts any string as a version number.</p>
 <p>See the <a href="/docs/es-ES/next/versioning">Versioning guide</a> to learn more.</p>
 <hr>
 <h3><a class="anchor" aria-hidden="true" id="docusaurus-write-translations"></a><a href="#docusaurus-write-translations" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>docusaurus-write-translations</code></h3>
