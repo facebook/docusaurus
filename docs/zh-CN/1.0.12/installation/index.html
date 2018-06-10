@@ -22,12 +22,29 @@
             languagesDropDown.className = "hide";
           }
         });
-      </script></span><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><i></i></div><h2><i>›</i><span>快速起步</span></h2></div><div class="navGroups"><div class="navGroup navGroupActive"><h3>快速起步</h3><ul><li class="navListItem navListItemActive"><a class="navItem navItemActive" href="/docs/zh-CN/1.0.12/installation">Installation</a></li><li class="navListItem"><a class="navItem" href="/docs/zh-CN/1.0.12/site-preparation">Site Preparation</a></li><li class="navListItem"><a class="navItem" href="/docs/zh-CN/1.0.12/site-creation">Creating your site</a></li><li class="navListItem"><a class="navItem" href="/docs/zh-CN/1.0.12/publishing">Publishing your site</a></li></ul></div><div class="navGroup navGroupActive"><h3>教程</h3><ul><li class="navListItem"><a class="navItem" href="/docs/zh-CN/1.0.12/blog">Adding a Blog</a></li><li class="navListItem"><a class="navItem" href="/docs/zh-CN/1.0.12/custom-pages">Custom Pages</a></li><li class="navListItem"><a class="navItem" href="/docs/zh-CN/1.0.12/search">Enabling Search</a></li><li class="navListItem"><a class="navItem" href="/docs/zh-CN/1.0.12/navigation">Navigation and Sidebars</a></li><li class="navListItem"><a class="navItem" href="/docs/zh-CN/1.0.12/translation">翻译和本地化</a></li><li class="navListItem"><a class="navItem" href="/docs/zh-CN/1.0.12/versioning">Versioning</a></li></ul></div><div class="navGroup navGroupActive"><h3>API</h3><ul><li class="navListItem"><a class="navItem" href="/docs/zh-CN/1.0.12/commands">CLI Commands</a></li><li class="navListItem"><a class="navItem" href="/docs/zh-CN/1.0.12/doc-markdown">Markdown Features</a></li><li class="navListItem"><a class="navItem" href="/docs/zh-CN/1.0.12/api-pages">Pages and Styles</a></li><li class="navListItem"><a class="navItem" href="/docs/zh-CN/1.0.12/site-config">siteConfig.js</a></li></ul></div></div></section></div><script>
-          var toggler = document.getElementById('navToggler');
-          var nav = document.getElementById('docsNav');
-          toggler.onclick = function() {
-            nav.classList.toggle('docsSliderActive');
-          };
+      </script></span><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><i></i></div><h2><i>›</i><span>快速起步</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup navGroupActive"><h3>快速起步</h3><ul><li class="navListItem navListItemActive"><a class="navItem navItemActive" href="/docs/zh-CN/1.0.12/installation">Installation</a></li><li class="navListItem"><a class="navItem" href="/docs/zh-CN/1.0.12/site-preparation">Site Preparation</a></li><li class="navListItem"><a class="navItem" href="/docs/zh-CN/1.0.12/site-creation">Creating your site</a></li><li class="navListItem"><a class="navItem" href="/docs/zh-CN/1.0.12/publishing">Publishing your site</a></li></ul></div><div class="navGroup navGroupActive"><h3>教程</h3><ul><li class="navListItem"><a class="navItem" href="/docs/zh-CN/1.0.12/blog">Adding a Blog</a></li><li class="navListItem"><a class="navItem" href="/docs/zh-CN/1.0.12/custom-pages">Custom Pages</a></li><li class="navListItem"><a class="navItem" href="/docs/zh-CN/1.0.12/search">Enabling Search</a></li><li class="navListItem"><a class="navItem" href="/docs/zh-CN/1.0.12/navigation">Navigation and Sidebars</a></li><li class="navListItem"><a class="navItem" href="/docs/zh-CN/1.0.12/translation">翻译和本地化</a></li><li class="navListItem"><a class="navItem" href="/docs/zh-CN/1.0.12/versioning">Versioning</a></li></ul></div><div class="navGroup navGroupActive"><h3>API</h3><ul><li class="navListItem"><a class="navItem" href="/docs/zh-CN/1.0.12/commands">CLI Commands</a></li><li class="navListItem"><a class="navItem" href="/docs/zh-CN/1.0.12/doc-markdown">Markdown Features</a></li><li class="navListItem"><a class="navItem" href="/docs/zh-CN/1.0.12/api-pages">Pages and Styles</a></li><li class="navListItem"><a class="navItem" href="/docs/zh-CN/1.0.12/site-config">siteConfig.js</a></li></ul></div></div></section></div><script>
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              const headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                if (event.target.tagName === 'A') {
+                  document.body.classList.remove('tocActive');
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
         </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://crowdin.com/project/docusaurus/zh-CN" target="_blank" rel="noreferrer noopener">Translate</a><h1>Installation</h1></header><article><div><span><p>Docusaurus的初始设计就是要易于安装并让你的网站可以迅速运行。 To install Docusaurus, we have created an easy script that will get all of the infrastructure setup for you:</p>
 <ol>
 <li><p>Ensure you have the latest version of <a href="https://nodejs.org/en/download/">Node</a> installed. We also recommend you install <a href="https://yarnpkg.com/en/docs/install">Yarn</a> as well.</p>

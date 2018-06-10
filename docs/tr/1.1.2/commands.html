@@ -22,12 +22,29 @@
             languagesDropDown.className = "hide";
           }
         });
-      </script></span><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><i></i></div><h2><i>›</i><span>API</span></h2></div><div class="navGroups"><div class="navGroup navGroupActive"><h3>Başlarken</h3><ul><li class="navListItem"><a class="navItem" href="/docs/tr/1.1.2/installation">Installation</a></li><li class="navListItem"><a class="navItem" href="/docs/tr/1.1.2/site-preparation">Site Preparation</a></li><li class="navListItem"><a class="navItem" href="/docs/tr/1.1.2/site-creation">Creating your site</a></li><li class="navListItem"><a class="navItem" href="/docs/tr/1.1.2/publishing">Publishing your site</a></li></ul></div><div class="navGroup navGroupActive"><h3>Rehberler</h3><ul><li class="navListItem"><a class="navItem" href="/docs/tr/1.1.2/blog">Adding a Blog</a></li><li class="navListItem"><a class="navItem" href="/docs/tr/1.1.2/custom-pages">Custom Pages</a></li><li class="navListItem"><a class="navItem" href="/docs/tr/1.1.2/search">Enabling Search</a></li><li class="navListItem"><a class="navItem" href="/docs/tr/1.1.2/navigation">Navigation and Sidebars</a></li><li class="navListItem"><a class="navItem" href="/docs/tr/1.1.2/translation">Tercüme &amp; Yerelleştirme</a></li><li class="navListItem"><a class="navItem" href="/docs/tr/1.1.2/versioning">Versioning</a></li></ul></div><div class="navGroup navGroupActive"><h3>API</h3><ul><li class="navListItem navListItemActive"><a class="navItem navItemActive" href="/docs/tr/1.1.2/commands">CLI Commands</a></li><li class="navListItem"><a class="navItem" href="/docs/tr/1.1.2/doc-markdown">Markdown Features</a></li><li class="navListItem"><a class="navItem" href="/docs/tr/1.1.2/api-pages">Pages and Styles</a></li><li class="navListItem"><a class="navItem" href="/docs/tr/1.1.2/site-config">siteConfig.js</a></li></ul></div></div></section></div><script>
-          var toggler = document.getElementById('navToggler');
-          var nav = document.getElementById('docsNav');
-          toggler.onclick = function() {
-            nav.classList.toggle('docsSliderActive');
-          };
+      </script></span><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><i></i></div><h2><i>›</i><span>API</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup navGroupActive"><h3>Başlarken</h3><ul><li class="navListItem"><a class="navItem" href="/docs/tr/1.1.2/installation">Installation</a></li><li class="navListItem"><a class="navItem" href="/docs/tr/1.1.2/site-preparation">Site Preparation</a></li><li class="navListItem"><a class="navItem" href="/docs/tr/1.1.2/site-creation">Creating your site</a></li><li class="navListItem"><a class="navItem" href="/docs/tr/1.1.2/publishing">Publishing your site</a></li></ul></div><div class="navGroup navGroupActive"><h3>Rehberler</h3><ul><li class="navListItem"><a class="navItem" href="/docs/tr/1.1.2/blog">Adding a Blog</a></li><li class="navListItem"><a class="navItem" href="/docs/tr/1.1.2/custom-pages">Custom Pages</a></li><li class="navListItem"><a class="navItem" href="/docs/tr/1.1.2/search">Enabling Search</a></li><li class="navListItem"><a class="navItem" href="/docs/tr/1.1.2/navigation">Navigation and Sidebars</a></li><li class="navListItem"><a class="navItem" href="/docs/tr/1.1.2/translation">Tercüme &amp; Yerelleştirme</a></li><li class="navListItem"><a class="navItem" href="/docs/tr/1.1.2/versioning">Versioning</a></li></ul></div><div class="navGroup navGroupActive"><h3>API</h3><ul><li class="navListItem navListItemActive"><a class="navItem navItemActive" href="/docs/tr/1.1.2/commands">CLI Commands</a></li><li class="navListItem"><a class="navItem" href="/docs/tr/1.1.2/doc-markdown">Markdown Features</a></li><li class="navListItem"><a class="navItem" href="/docs/tr/1.1.2/api-pages">Pages and Styles</a></li><li class="navListItem"><a class="navItem" href="/docs/tr/1.1.2/site-config">siteConfig.js</a></li></ul></div></div></section></div><script>
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              const headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                if (event.target.tagName === 'A') {
+                  document.body.classList.remove('tocActive');
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
         </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://crowdin.com/project/docusaurus/tr" target="_blank" rel="noreferrer noopener">Translate</a><h1>CLI Commands</h1></header><article><div><span><p>Docusaurus, üretmek, hizmet ve Web sitenizin dağıtmanıza yardımcı olacak komutlar kümesi sağlar. Bu komut dosyalarını <code>run</code> komutuyla Yarn veya npm kullanırken çağırabilir. Sık kullanılan bazı komutlar şunlardır:</p>
 <ul>
 <li><a href="/docs/tr/1.1.2/commands#docusaurus-start-port-number"> <code>yarn run start</code></a>: oluşturmak için veya yerel sunucudan Web sitesi hizmeti için</li>
