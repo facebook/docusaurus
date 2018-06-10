@@ -1,6 +1,7 @@
 ---
-id: doc-markdown
+id: version-1.2.0-doc-markdown
 title: Markdown Features
+original_id: doc-markdown
 ---
 
 ## Markdown Headers

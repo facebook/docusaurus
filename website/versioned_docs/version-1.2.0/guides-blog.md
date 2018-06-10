@@ -1,6 +1,7 @@
 ---
-id: blog
+id: version-1.2.0-blog
 title: Adding a Blog
+original_id: blog
 ---
 
 ## Initial Setup

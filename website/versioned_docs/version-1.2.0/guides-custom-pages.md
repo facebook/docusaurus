@@ -1,6 +1,7 @@
 ---
-id: custom-pages
+id: version-1.2.0-custom-pages
 title: Custom Pages
+original_id: custom-pages
 ---
 
 You can add pages to your site that are not part of the standard docs or blog markdown files. You can do this by adding `.js` files to the `website/pages` directory. These files are [React](https://reactjs.org/) components and the `render()` is called to create them, backed by CSS classes, etc.

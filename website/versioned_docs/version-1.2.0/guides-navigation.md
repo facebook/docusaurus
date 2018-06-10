@@ -1,6 +1,7 @@
 ---
-id: navigation
+id: version-1.2.0-navigation
 title: Navigation and Sidebars
+original_id: navigation
 ---
 
 ## Referencing Site Documents

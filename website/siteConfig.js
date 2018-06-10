@@ -43,6 +43,7 @@ const siteConfig = {
   },
   translationRecruitingLink: 'https://crowdin.com/project/docusaurus',
   copyright: 'Copyright © ' + new Date().getFullYear() + ' Facebook Inc.',
+  usePrism: ['jsx'],
   highlight: {
     theme: 'atom-one-dark',
   },
@@ -62,6 +63,11 @@ const siteConfig = {
   ogImage: 'img/docusaurus.png',
   twitterImage: 'img/docusaurus.png',
   onPageNav: 'separate',
+  cleanUrl: true,
+  scrollToTop: true,
+  scrollToTopOptions: {
+    zIndex: 100
+  }
 };
 
 module.exports = siteConfig;

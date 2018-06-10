@@ -1,6 +1,7 @@
 ---
-id: site-creation
+id: version-1.2.0-site-creation
 title: Creating your site
+original_id: site-creation
 ---
 
 Docusaurus was created to hopefully make it super simple for you to create a site and documentation for your open source project.

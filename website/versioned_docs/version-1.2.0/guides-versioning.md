@@ -1,6 +1,7 @@
 ---
-id: versioning
+id: version-1.2.0-versioning
 title: Versioning
+original_id: versioning
 ---
 
 You can use the `version` script to cut a new documentation version based on the latest content in the `docs` directory. That specific set of documentation will then be preserved and accessible even as the documentation in the `docs` directory changes moving forward.

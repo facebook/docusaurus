@@ -1,6 +1,7 @@
 ---
-id: commands
+id: version-1.2.0-commands
 title: CLI Commands
+original_id: commands
 ---
 
 Docusaurus provides a set of scripts to help you generate, serve, and deploy your website. These scripts can be invoked with the `run` command when using Yarn or npm. Some common commands are:
