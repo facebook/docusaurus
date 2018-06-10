@@ -203,6 +203,7 @@ header h2 {
 .mainContainer {
   background: #f9f9f9;
   flex: 1 1 auto;
+  max-width: 100%;
   font-size: 18px;
 }
 .mainContainer .wrapper {
@@ -1214,6 +1215,7 @@ ul#languages li {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   padding-bottom: 50px;
+  overscroll-behavior: contain;
 }
 
 .docsNavContainer nav.toc .navBreadcrumb {
@@ -1231,27 +1233,11 @@ ul#languages li {
   border: 0;
   color: #393939;
 }
-.navBreadcrumb i {
-  padding: 0 4px;
-}
-nav.toc {
-  width: 240px;
-}
 nav.toc section {
   padding: 0;
   position: relative;
 }
-nav.toc:last-child {
-  padding-bottom: 100px;
-}
 @media only screen and (max-width: 735px) {
-  nav.toc {
-    width: 100%;
-  }
-  nav.toc:last-child {
-    padding-bottom: 0;
-  }
-
   a.anchor {
     top: -144px;
   }
@@ -1309,6 +1295,9 @@ nav.toc .toggleNav .navToggle i::after {
   width: 5px;
   z-index: 10;
 }
+.toggleNav h2 i {
+  padding: 0 4px;
+}
 nav.toc .toggleNav .navToggle i::after {
   border-width: 5px 5px 0;
   margin-top: 2px;
@@ -1321,6 +1310,9 @@ nav.toc .toggleNav .navToggle i::after {
 }
 .docsSliderActive nav.toc .toggleNav .navToggle i {
   opacity: 0;
+}
+.docsSliderActive .tocToggler {
+  visibility: hidden;
 }
 nav.toc .toggleNav .navGroup {
   margin-bottom: 20px;
@@ -1364,7 +1356,8 @@ nav.toc .toggleNav ul li a:focus {
 nav.toc .toggleNav ul li a.navItemActive {
   color: $primaryColor;
 }
-.docsSliderActive nav.toc .navBreadcrumb {
+.docsSliderActive nav.toc .navBreadcrumb,
+.tocActive .navBreadcrumb {
   border-bottom: 1px solid #ccc;
   margin-bottom: 20px;
   position: fixed;
@@ -1377,41 +1370,71 @@ nav.toc .toggleNav .navBreadcrumb h2 {
   line-height: 32px;
   margin: 0;
   padding: 0;
+  flex-grow: 1;
 }
 .docsSliderActive nav.toc section .navGroups {
   display: block;
 }
+.tocToggler {
+  height: 32px;
+  padding: 0 10px;
+  margin-right: -10px;
+  line-height: 32px;
+  cursor: pointer;
+}
+.icon-toc {
+  box-sizing: border-box;
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  line-height: normal;
+  top: -1px;
+}
+.icon-toc,
+.icon-toc::before,
+.icon-toc::after {
+  width: 4px;
+  height: 4px;
+  border: 1px solid currentColor;
+  background-color: currentColor;
+  border-radius: 50%;
+  box-sizing: border-box;
+}
+.icon-toc::before,
+.icon-toc::after {
+  content: "";
+  position: absolute;
+}
+.icon-toc::before {
+  top: -7px;
+  left: -1px;
+}
+.icon-toc::after {
+  top: 5px;
+  left: -1px;
+}
+.tocActive .icon-toc {
+  transform: rotate(45deg);
+  width: 3px;
+  height: 16px;
+  border-radius: 0;
+}
+.tocActive .icon-toc::before {
+  top: 50%;
+  left: 50%;
+  height: 3px;
+  width: 16px;
+  border-radius: 0;
+  transform: translate(-50%, -50%);
+}
+.tocActive .icon-toc::after {
+  content: '';
+}
 
 @media only screen and (min-width: 736px) {
-  nav.toc section .navGroups {
-    padding: 40px 0 0;
-  }
-  .navToggle {
-    display: none;
-  }
-
-  .docsSliderActive .mainContainer {
-    display: block;
-  }
-
-  .sideNavVisible .navPusher .mainContainer {
+  .doc.separateOnPageNav .navPusher .mainContainer {
     padding-top: 0;
     max-width: 70%;
-  }
-
-  .docsNavContainer {
-    background: none;
-    box-sizing: border-box;
-    height: auto;
-    margin: 40px 40px 0 0;
-    overflow-y: auto;
-    position: relative;
-    width: 300px;
-  }
-
-  nav.toc section .navGroups {
-    display: block;
-    padding-top: 0px;
   }
 
   .docMainWrapper {
@@ -1427,13 +1450,6 @@ nav.toc .toggleNav .navBreadcrumb h2 {
   .docMainWrapper .wrapper {
     padding-top: 0;
   }
-
-  .docsNavContainer nav.toc .navBreadcrumb {
-    display: none;
-  }
-  .navBreadcrumb h2 {
-    padding: 0 10px;
-  }
 }
 
 .onPageNav {
@@ -1443,20 +1459,82 @@ nav.toc .toggleNav .navBreadcrumb h2 {
   display: none;
 }
 
+.onPageNav a {
+  color: #717171;
+}
+
+.onPageNav ul li {
+  font-size: 12px;
+  line-height: 17px;
+  padding-bottom: 9px;
+}
+
+.onPageNav ul ul {
+  padding: 8px 0 0 20px;
+}
+
+.onPageNav ul ul li {
+  padding-bottom: 5px;
+}
+
+@media only screen and (min-width: 1024px) {
+  nav.toc {
+    width: 240px;
+  }
+  nav.toc section .navGroups {
+    display: block;
+    padding: 0px;
+  }
+  .docsNavContainer {
+    background: none;
+    box-sizing: border-box;
+    height: auto;
+    margin: 40px 40px 0 0;
+    overflow-y: auto;
+    position: relative;
+    width: 300px;
+  }
+  .docsNavContainer nav.toc .navBreadcrumb {
+    display: none;
+  }
+  .navBreadcrumb h2 {
+    padding: 0 10px;
+  }
+}
+
 @supports ((position: -webkit-sticky) or (position: sticky))  {
-  @media only screen and (min-width: 1024px) {
+  @media only screen and (max-width: 735px) {
+    .tocActive .onPageNav {
+      display: block;
+      position: fixed;
+      top: 148px;
+      background: #fff;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 10;
+      padding: 0 20px;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+    }
+
+    .tocActive .navToggle,
+    .tocActive .navBreadcrumb h2 {
+      visibility: hidden;
+    }
+
+    .tocActive .onPageNav > .toc-headings {
+      padding: 12px 0;
+    }
+  }
+
+  @media only screen and (min-width: 736px) {
     .separateOnPageNav.doc .wrapper,
     .separateOnPageNav .headerWrapper.wrapper {
       max-width: 1400px;
     }
 
-    .doc.separateOnPageNav .docsNavContainer {
-      flex: 0 0 240px;
-      margin: 55px 0 0;
-    }
-
-    .doc.separateOnPageNav nav.toc:last-child {
-      padding-bottom: 0;
+    .doc.separateOnPageNav nav.toc {
       width: auto;
     }
 
@@ -1478,27 +1556,20 @@ nav.toc .toggleNav .navBreadcrumb h2 {
       align-self: flex-start;
     }
 
-    .onPageNav > ul {
+    .onPageNav > .toc-headings {
       border-left: 1px solid #e0e0e0;
       padding: 10px 0 2px 15px;
     }
 
-    .onPageNav a {
-      color: #717171;
+    .tocToggler {
+      display: none;
     }
+  }
 
-    .onPageNav ul li {
-      font-size: 12px;
-      line-height: 17px;
-      padding-bottom: 9px;
-    }
-
-    .onPageNav ul ul {
-      padding: 8px 0 0 20px;
-    }
-
-    .onPageNav ul ul li {
-      padding-bottom: 5px;
+  @media only screen and (min-width: 1024px) {
+    .doc.separateOnPageNav .docsNavContainer {
+      flex: 0 0 240px;
+      margin: 55px 0 0;
     }
   }
 }
@@ -1862,7 +1933,7 @@ footer .social {
     width: 100%;
     box-sizing: border-box;
   }
-  
+
   /* those make the footer sticky and work even in IE 11 */
   .navPusher > :first-child {
     flex-grow: 1;
