@@ -13,11 +13,11 @@ To create a static build of your website, run the following script from the `web
 yarn run build # or `npm run build`
 ```
 
-This will generate a `build` folder inside the `website` directory containing the `.html` files from all of your docs and other pages included in `pages`.
+This will generate a `build` directory inside the `website` directory containing the `.html` files from all of your docs and other pages included in `pages`.
 
 ## Hosting Static HTML Pages
 
-At this point, you can grab all of the files inside the `website/build` folder and copy them over to your favorite web server's `html` directory.
+At this point, you can grab all of the files inside the `website/build` directory and copy them over to your favorite web server's `html` directory.
 
 > For example, both Apache and nginx serve content from `/var/www/html` by default. That said, choosing a web server or provider is outside the scope of Docusaurus.
 
@@ -34,7 +34,7 @@ While choosing a web server or host is outside Docusaurus' scope, Docusaurus was
 
 Deploying your Docusaurus site to GitHub Pages is straightforward if you are already using GitHub to host your project. Your code repository does not even need to be public.
 
-> Even if your repo is private, anything published to a `gh-pages` branch will be [public](https://help.github.com/articles/user-organization-and-project-pages/).
+> Even if your repository is private, anything published to a `gh-pages` branch will be [public](https://help.github.com/articles/user-organization-and-project-pages/).
 
 Most of the work to publish to GitHub pages is done for you automatically through the [`publish-gh-pages`](./api-commands.md#docusaurus-publish) script. You just need to determine the values for a few parameters required by the script.
 
@@ -64,7 +64,7 @@ There are also two optional parameters that are set as environment variables:
 
 Once you have the parameter value information, you can go ahead and run the publish script, ensuring you have inserted your own values inside the various parameter placeholders:
 
-To run the script directly from the command-line, you can use the following, filling in the parameter values as appropriate. If you run into issues related to SSH keys, visit [Github's authentication documentation](https://help.github.com/articles/connecting-to-github-with-ssh/).
+To run the script directly from the command-line, you can use the following, filling in the parameter values as appropriate. If you run into issues related to SSH keys, visit [GitHub's authentication documentation](https://help.github.com/articles/connecting-to-github-with-ssh/).
 
 ```bash
 GIT_USER=<GIT_USER> \
@@ -75,7 +75,7 @@ GIT_USER=<GIT_USER> \
 
 > The specified `GIT_USER` must have push access to the repository specified in the combination of `organizationName` and `projectName`.
 
-You should now be able to load your website by visiting its GitHub Pages URL, which could be something along the lines of https://_username_.github.io/_projectName_, or a custom domain if you have set that up. For example, Docusaurus' own GitHub Pages URL is https://facebook.github.io/Docusaurus (it can also be accessed via https://docusaurus.io/), because it is served from the `gh-pages` branch of the https://github.com/facebook/docusaurus GitHub repo. We highly encourage reading through the [GitHub Pages documentation](https://pages.github.com) to learn more about how this hosting solution works.
+You should now be able to load your website by visiting its GitHub Pages URL, which could be something along the lines of https://_username_.github.io/_projectName_, or a custom domain if you have set that up. For example, Docusaurus' own GitHub Pages URL is https://facebook.github.io/Docusaurus (it can also be accessed via https://docusaurus.io/), because it is served from the `gh-pages` branch of the https://github.com/facebook/docusaurus GitHub repository. We highly encourage reading through the [GitHub Pages documentation](https://pages.github.com) to learn more about how this hosting solution works.
 
 You can run the command above any time you update the docs and wish to deploy the changes to your site. Running the script manually may be fine for sites where the documentation rarely changes and it is not too much of an inconvenience to remember to manually deploy changes.
 
@@ -89,13 +89,13 @@ Continuous integration (CI) services are typically used to perform routine tasks
 
 If you haven't done so already, you can [setup CircleCI](https://circleci.com/signup/) for your open source project. Afterwards, in order to enable automatic deployment of your site and documentation via CircleCI, just configure Circle to run the `publish-gh-pages` script as part of the deployment step. You can follow the steps below to get that setup.
 
-1. Ensure the GitHub account that will be set as the `GIT_USER` has `write` access to the repo that contains the documentation, by checking `Settings | Collaborators & teams` in the repo.
-1. Log into GitHub as the `GIT_USER`.
-1. Go to https://github.com/settings/tokens for the `GIT_USER` and generate a new [personal access token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/), granting it full control of private repositories through the `repo` access scope. Store this token in a safe place, making sure to not share it with anyone. This token can be used to authenticate GitHub actions on your behalf in place of your GitHub password.
-1. Open your Circle CI dashboard, and navigate to the Settings page for your repository, then select "Environment variables". The URL looks like https://circleci.com/gh/ORG/REPO/edit#env-vars, where "ORG/REPO" should be replaced with your own GitHub org/repo.
-1. Create a new environment variable named `GITHUB_TOKEN`, using your newly generated access token as the value.
-1. Create a `.circleci` folder and create a `config.yml` under that folder.
-1. Copy the text below into `.circleci/config.yml`.
+1.  Ensure the GitHub account that will be set as the `GIT_USER` has `write` access to the repository that contains the documentation, by checking `Settings | Collaborators & teams` in the repository.
+1.  Log into GitHub as the `GIT_USER`.
+1.  Go to https://github.com/settings/tokens for the `GIT_USER` and generate a new [personal access token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/), granting it full control of private repositories through the `repository` access scope. Store this token in a safe place, making sure to not share it with anyone. This token can be used to authenticate GitHub actions on your behalf in place of your GitHub password.
+1.  Open your Circle CI dashboard, and navigate to the Settings page for your repository, then select "Environment variables". The URL looks like https://circleci.com/gh/ORG/REPO/edit#env-vars, where "ORG/REPO" should be replaced with your own GitHub organization/repository.
+1.  Create a new environment variable named `GITHUB_TOKEN`, using your newly generated access token as the value.
+1.  Create a `.circleci` directory and create a `config.yml` under that directory.
+1.  Copy the text below into `.circleci/config.yml`.
 
 ```yaml
 # If you only want circle to run on direct commits to master, you can uncomment this out
@@ -132,11 +132,11 @@ workflows:
 #         filters: *filter-only-master
 ```
 
-Make sure to replace all `<....>` in the `command:` sequence with appropriate values. For `<GIT_USER>`, it should be a GitHub account that has access to push documentation to your GitHub repo. Many times `<GIT_USER>` and `<GITHUB_USERNAME>` will be the same.
+Make sure to replace all `<....>` in the `command:` sequence with appropriate values. For `<GIT_USER>`, it should be a GitHub account that has access to push documentation to your GitHub repository. Many times `<GIT_USER>` and `<GITHUB_USERNAME>` will be the same.
 
 **DO NOT** place the actual value of `$GITHUB_TOKEN` in `circle.yml`. We already configured that as an environment variable back in Step 3.
 
-> If you want to use SSH for your GitHub repo connection, you can set `USE_SSH=true`. So the above command would look something like: `cd website && npm install && GIT_USER=<GIT_USER> USE_SSH=true npm run publish-gh-pages`.
+> If you want to use SSH for your GitHub repository connection, you can set `USE_SSH=true`. So the above command would look something like: `cd website && npm install && GIT_USER=<GIT_USER> USE_SSH=true npm run publish-gh-pages`.
 
 > Unlike when you run the `publish-gh-pages` script manually, when the script runs within the Circle environment, the value of `CURRENT_BRANCH` is already defined as an [environment variable within CircleCI](https://circleci.com/docs/1.0/environment-variables/) and will be picked up by the script automatically.
 
@@ -161,15 +161,15 @@ jobs:
       - run: echo "Skipping tests on gh-pages branch"
 ```
 
-Save this file as `config.yml` and place it in a `.circleci` folder inside your `website/static` folder.
+Save this file as `config.yml` and place it in a `.circleci` directory inside your `website/static` directory.
 
 ### Using Travis CI
 
-1. Go to https://github.com/settings/tokens and generate a new [personal access token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/)
-1. Using your GitHub account, [add the Travis CI app](https://github.com/marketplace/travis-ci) to the repository you want to activate.
-1. Open your Travis CI dashboard. The URL looks like https://travis-ci.com/USERNAME/REPO, and navigate to the `More options` > `Setting` > `Environment Variables` section of your repository.
-1. Create a new environment variable named `GH_TOKEN` with your newly generated token as its value, then `GH_EMAIL` (your email address) and `GH_NAME` (your GitHub username).
-1. Create a `.travis.yml` on the root of your repository with below text.
+1.  Go to https://github.com/settings/tokens and generate a new [personal access token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/)
+1.  Using your GitHub account, [add the Travis CI app](https://github.com/marketplace/travis-ci) to the repository you want to activate.
+1.  Open your Travis CI dashboard. The URL looks like https://travis-ci.com/USERNAME/REPO, and navigate to the `More options` > `Setting` > `Environment Variables` section of your repository.
+1.  Create a new environment variable named `GH_TOKEN` with your newly generated token as its value, then `GH_EMAIL` (your email address) and `GH_NAME` (your GitHub username).
+1.  Create a `.travis.yml` on the root of your repository with below text.
 
 ```yaml
 # .travis.yml
@@ -194,23 +194,24 @@ Now, whenever a new commit lands in `master`, Travis CI will run your suite of t
 
 Steps to configure your Docusaurus-powered site on Netlify.
 
-1. Select **New site from Git**
-1. Connect to your preferred Git provider.
-1. Select the branch to deploy. Default is `master`
-1. Configure your build steps:
+1.  Select **New site from Git**
+1.  Connect to your preferred Git provider.
+1.  Select the branch to deploy. Default is `master`
+1.  Configure your build steps:
+
     * For your build command enter: `cd website; npm install; npm run build;`
     * For publish directory: `website/build/<projectName>` (use the `projectName` from your `siteConfig`)
 
-1. Click **Deploy site**
+1.  Click **Deploy site**
 
-You can also configure Netlify to rebuild on every commit to your repo, or only `master` branch commits.
+You can also configure Netlify to rebuild on every commit to your repository, or only `master` branch commits.
 
 ### Publishing to GitHub Enterprise
 
 GitHub enterprise installations should work in the same manner as github.com; you only need to identify the organization's GitHub Enterprise host.
 
-| Name          | Description                                     |
-| ------------- | ----------------------------------------------- |
-| `GITHUB_HOST` | The hostname for the GitHub enterprise server.  |
+| Name          | Description                                    |
+| ------------- | ---------------------------------------------- |
+| `GITHUB_HOST` | The hostname for the GitHub enterprise server. |
 
 Alter your `siteConfig.js` to add a property `'githubHost'` which represents the GitHub Enterprise hostname. Alternatively, set an environment variable `GITHUB_HOST` when executing the publish command.

@@ -5,12 +5,12 @@ title: Installation
 
 Docusaurus was designed from the ground up to be easily installed and used to get your website up and running quickly. To install Docusaurus, we have created an easy script that will get all of the infrastructure set up for you:
 
-1. Ensure you have the latest version of [Node](https://nodejs.org/en/download/) installed. We also recommend you install [Yarn](https://yarnpkg.com/en/docs/install) as well.
+1.  Ensure you have the latest version of [Node](https://nodejs.org/en/download/) installed. We also recommend you install [Yarn](https://yarnpkg.com/en/docs/install) as well.
 
-    > While we recommend Node 8.x or greater, your Node version must at least 6.x. Your Yarn version must also be at at least 1.5 as well.
+    > You have to be on Node >= 8.x and Yarn >= 1.5.
 
-1. Go into the root of your GitHub repo directory where you will be creating the docs.
-1. `npx docusaurus-init`
+1.  Go into the root of your GitHub repo directory where you will be creating the docs.
+1.  `npx docusaurus-init`
 
     > If you don't have Node 8.2+ or if you prefer to install Docusaurus globally, run `yarn global add docusaurus-init` or `npm install --global docusaurus-init`. After that, run `docusaurus-init`.
 
@@ -46,11 +46,11 @@ root-directory
 
 Running the Docusaurus initialization script, `docusaurus-init`, produces a runnable, example website to base your site upon.
 
-1. In your root, rename `docs-examples-from-docusaurus` to `docs`.
-1. `cd website`
-1. Rename `blog-examples-from-docusaurus` to `blog`.
-1. Run the local webserver via `yarn start` or `npm start`.
-1. Load the example site at http://localhost:3000. You should see the example site loaded in your web browser.
+1.  In your root, rename `docs-examples-from-docusaurus` to `docs`.
+1.  `cd website`
+1.  Rename `blog-examples-from-docusaurus` to `blog`.
+1.  Run the local webserver via `yarn start` or `npm start`.
+1.  Load the example site at http://localhost:3000. You should see the example site loaded in your web browser. There's also a LiveReload server running and any changes made to the docs and files in the `website` directory will cause the page to refresh.
 
 ![](/img/getting-started-preparation-verify.png)
 

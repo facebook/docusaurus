@@ -5,7 +5,7 @@ title: Adding a Blog
 
 ## Initial Setup
 
-To setup your site's blog, start by creating a `blog` folder within your repo's `website` directory.
+To setup your site's blog, start by creating a `blog` directory within your repo's `website` directory.
 
 Then, add a header link to your blog within `siteConfig.js`:
 
@@ -19,7 +19,7 @@ headerLinks: [
 
 ## Adding Posts
 
-To publish in the blog, create a file within the blog folder with a formatted name of `YYYY-MM-DD-My-Blog-Post-Title.md`. The post date is extracted from the file name.
+To publish in the blog, create a file within the blog directory with a formatted name of `YYYY-MM-DD-My-Blog-Post-Title.md`. The post date is extracted from the file name.
 
 For example, at `website/blog/2017-08-18-Introducing-Docusaurus.md`:
 
@@ -46,7 +46,7 @@ The only required field is `title`; however, we provide options to add author in
 
 ## Summary Truncation
 
-Use the `<!--truncate-->` marker in your blog post to represent what will be shown as the summary when viewing all blog published blog posts. Anything above `<!--truncate-->` will be part of the summary. For example:
+Use the `<!--truncate-->` marker in your blog post to represent what will be shown as the summary when viewing all published blog posts. Anything above `<!--truncate-->` will be part of the summary. For example:
 
 ```yaml
 ---
@@ -72,12 +72,12 @@ By default, 5 recent blog posts are shown on the sidebar.
 
 You can configure a specific amount of blog posts to show by adding a `blogSidebarCount` setting to your `siteConfig.js`.
 
-The available options are an integer representing the number of posts you wish to show or a string with the value 'ALL'.
+The available options are an integer representing the number of posts you wish to show or a string with the value `'ALL'`.
 
 Example:
 
 ```js
-blogSidebarCount: 'ALL'
+blogSidebarCount: 'ALL';
 ```
 
 ## RSS Feed
@@ -98,12 +98,12 @@ You can run your Docusaurus site without a landing page and instead have your bl
 
 To do this:
 
-1. Create a file `index.html` in `website/static/`.
-1. Place the contents of the template below into `website/static/index.html`
-1. Customize the `<title>` of `website/static/index.html`
-1. Delete the dynamic landing page `website/pages/en/index.js`
+1.  Create a file `index.html` in `website/static/`.
+1.  Place the contents of the template below into `website/static/index.html`
+1.  Customize the `<title>` of `website/static/index.html`
+1.  Delete the dynamic landing page `website/pages/en/index.js`
 
-> Now, when Docusaurus generates or builds your site, it will copy the file from `static/index.html` and place it in the site's main folder. The static file is served when a visitor arrives on your page. When the page loads it will redirect the visitor to `/blog`.
+> Now, when Docusaurus generates or builds your site, it will copy the file from `static/index.html` and place it in the site's main directory. The static file is served when a visitor arrives on your page. When the page loads it will redirect the visitor to `/blog`.
 
 You can use this template:
 

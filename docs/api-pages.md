@@ -3,11 +3,11 @@ id: api-pages
 title: Pages and Styles
 ---
 
-Docusaurus provides support for writing pages as React components inside the `website/pages` folder which will share the same header, footer, and styles as the rest of the site.
+Docusaurus provides support for writing pages as React components inside the `website/pages` directory which will share the same header, footer, and styles as the rest of the site.
 
 ## URLs for Pages
 
-Any `.js` files in `website/pages` will be rendered to static html using the path of the file after "pages". Files in `website/pages/en` will also get copied out into `pages` and will OVERRIDE any files of the same name in `pages`. For example, the page for the `website/pages/en/help.js` file will be found at the url `${baseUrl}en/help.js` as well as the url `${baseUrl}help.js`, where `${baseUrl}` is the `baseUrl` field set in your [siteConfig.js file](api-site-config.md).
+Any `.js` files in `website/pages` will be rendered to static HTML using the path of the file after `pages`. Files in `website/pages/en` will also get copied out into `pages` and will OVERRIDE any files of the same name in `pages`. For example, the page for the `website/pages/en/help.js` file will be found at the URL `${baseUrl}en/help.js` as well as the URL `${baseUrl}help.js`, where `${baseUrl}` is the `baseUrl` field set in your [siteConfig.js file](api-site-config.md).
 
 ## Titles for Pages
 
@@ -31,11 +31,11 @@ module.exports = MyPage;
 
 ## Page Require Paths
 
-Docusaurus provides a few useful React components for users to write their own pages, found in the `CompLibrary` module. This module is provided as part of Docusaurus in `node_modules/docusaurus`, so to access it, pages in the `pages` folder are temporarily copied into `node_modules/docusaurus` when rendering to static html. As seen in the example files, this means that a user page at `pages/en/index.js` uses a require path to `'../../core/CompLibrary.js'` to import the provided components.
+Docusaurus provides a few useful React components for users to write their own pages, found in the `CompLibrary` module. This module is provided as part of Docusaurus in `node_modules/docusaurus`, so to access it, pages in the `pages` directory are temporarily copied into `node_modules/docusaurus` when rendering to static HTML. As seen in the example files, this means that a user page at `pages/en/index.js` uses a require path to `'../../core/CompLibrary.js'` to import the provided components.
 
 What this means to the user is that if you wish to use the `CompLibrary` module, make sure the require path is set correctly. For example, a page at `page/mypage.js` would use a path `'../core/CompLibrary.js'`.
 
-If you wish to use your own components inside the website folder, use `process.cwd()` which will refer to the `website` folder to construct require paths. For example, if you add a component to `website/core/mycomponent.js`, you can use the require path, `'process.cwd() + /core/mycomponent.js'`.
+If you wish to use your own components inside the website directory, use `process.cwd()` which will refer to the `website` directory to construct require paths. For example, if you add a component to `website/core/mycomponent.js`, you can use the require path, `'process.cwd() + /core/mycomponent.js'`.
 
 ## Provided Components
 
@@ -61,11 +61,11 @@ A React container component using Docusaurus styles. Has optional padding and ba
 
 **Props**
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `padding` | Array of `'all'`, `'bottom'`, `'left'`, `'right'`, `'top'` | `[]` | Positions of the padding. |
-| `background` | One of `'dark'`, `'highlight'`, `'light'` | `null` | Background styling of the element. |
-| `className` | String | - | Custom class to add to the element. |
+| Prop         | Type                                                       | Default | Description                         |
+| ------------ | ---------------------------------------------------------- | ------- | ----------------------------------- |
+| `padding`    | Array of `'all'`, `'bottom'`, `'left'`, `'right'`, `'top'` | `[]`    | Positions of the padding.           |
+| `background` | One of `'dark'`, `'highlight'`, `'light'`                  | `null`  | Background styling of the element.  |
+| `className`  | String                                                     | -       | Custom class to add to the element. |
 
 **Example**
 
@@ -84,23 +84,23 @@ A React component to organize text and images.
 
 **Props**
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `align` | One of `'left'`, `'center'`, `'right'` | `'left'` | Text alignment of content. |
-| `layout` | One of `'twoColumn'`, `'threeColumn'`, `'fourColumn'` | `'twoColumn'` | Number of column sections in the `GridBlock`. |
-| `className` | String | - | Custom class to add to the element. |
-| `contents` | Array of content objects | `[]` | Contents of each section of the GridBlock. Refer to the next table for the fields available on a content object. |
+| Prop        | Type                                                  | Default       | Description                                                                                                      |
+| ----------- | ----------------------------------------------------- | ------------- | ---------------------------------------------------------------------------------------------------------------- |
+| `align`     | One of `'left'`, `'center'`, `'right'`                | `'left'`      | Text alignment of content.                                                                                       |
+| `layout`    | One of `'twoColumn'`, `'threeColumn'`, `'fourColumn'` | `'twoColumn'` | Number of column sections in the `GridBlock`.                                                                    |
+| `className` | String                                                | -             | Custom class to add to the element.                                                                              |
+| `contents`  | Array of content objects                              | `[]`          | Contents of each section of the GridBlock. Refer to the next table for the fields available on a content object. |
 
 **Content Object**
 
-| Key | Type | Default | Description |
-| --- | --- | --- | --- |
-| `title` | String | - | The display title of this section, which is parsed using Markdown |
-| `content` | String | - | The text of this section, which is parsed using Markdown |
-| `image` | String | - | The path of the display image |
-| `imageAlt` | String | - | The text that will be shown in case the image is not available |
-| `imageAlign` | One of `'top'`, `'left'`, `'bottom'`, `'right'` | `'left'` | Image alignment relative to the text |
-| `imageLink` | String | - | Link destination from clicking the image |
+| Key          | Type                                            | Default  | Description                                                       |
+| ------------ | ----------------------------------------------- | -------- | ----------------------------------------------------------------- |
+| `title`      | String                                          | -        | The display title of this section, which is parsed using Markdown |
+| `content`    | String                                          | -        | The text of this section, which is parsed using Markdown          |
+| `image`      | String                                          | -        | The path of the display image                                     |
+| `imageAlt`   | String                                          | -        | The text that will be shown in case the image is not available    |
+| `imageAlign` | One of `'top'`, `'left'`, `'bottom'`, `'right'` | `'left'` | Image alignment relative to the text                              |
+| `imageLink`  | String                                          | -        | Link destination from clicking the image                          |
 
 **Example**
 
@@ -131,11 +131,11 @@ A React component to organize text and images.
 />
 ```
 
-More examples of how these components are used can be found in the [generated example files](getting-started-preparation.md) as well as in Docusaurus' own repo for its website set-up.
+More examples of how these components are used can be found in the [generated example files](getting-started-preparation.md) as well as in Docusaurus' own repository for its website set-up.
 
 ## Translating Strings
 
-When translations are enabled, any pages inside `website/pages/en` will be translated for all enabled languages. Urls for non-English pages will use their language tags as specified in the `languages.js` file. E.g. The url for a French page of `website/pages/en/help.js` would be found at `${baseUrl}fr/help.html`.
+When translations are enabled, any pages inside `website/pages/en` will be translated for all enabled languages. URLs for non-English pages will use their language tags as specified in the `languages.js` file. E.g. The URL for a French page of `website/pages/en/help.js` would be found at `${baseUrl}fr/help.html`.
 
 When writing pages that you wish to translate, wrap any strings to be translated inside a `<translate>` tag. e.g.,
 
@@ -165,12 +165,12 @@ Note that this path is valid for files inside `pages/en` and should be adjusted 
 
 ## Using Static Assets
 
-Static assets should be placed into the `website/static` folder. They can be accessed by their paths, excluding `static`. For example, if the site's `baseUrl` is `/docusaurus/`, an image in `website/static/img/logo.png` is available at `/docusaurus/img/logo.png`.
+Static assets should be placed into the `website/static` directory. They can be accessed by their paths, excluding `static`. For example, if the site's `baseUrl` is `/docusaurus/`, an image in `website/static/img/logo.png` is available at `/docusaurus/img/logo.png`.
 
 ## Styles
 
 You should configure your site's primary, secondary, and code block colors using the `colors` field in `siteConfig` as specified [here](api-site-config.md). You can also configure other colors in the same way as described in the `siteConfig` doc.
 
-You can provide your own custom styles by adding them anywhere in the `website/static` folder. Any `.css` files you provide in the `static` folder will get concatenated to the end of Docusaurus' provided styles, allowing you to add to or override Docusaurus default styles as you wish.
+You can provide your own custom styles by adding them anywhere in the `website/static` directory. Any `.css` files you provide in the `static` directory will get concatenated to the end of Docusaurus' provided styles, allowing you to add to or override Docusaurus default styles as you wish.
 
 An easy way to figure out what classes you wish to override or add to is to [start your server locally](api-commands.md) and use your browser's inspect element tool.
