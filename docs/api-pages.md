@@ -29,6 +29,33 @@ MyPage.title = 'My Custom Title';
 module.exports = MyPage;
 ```
 
+## Description for Pages
+
+By default, the description your page is `tagline` set in [`siteConfig.js`](api-site-config.md). If you want to set a specific description for your custom pages, add a `description` class property on your exported React component. 
+
+Example:
+
+```js
+const React = require('react');
+
+class MyPage extends React.Component {
+  render() {
+    // ... your rendering code
+  }
+}
+
+MyPage.description = 'My Custom Description';
+
+module.exports = MyPage;
+```
+
+This will be translated to a description metadata tag on the generated HTML.
+
+```html
+<meta property="og:description" content="My Custom Description"/>
+<meta name="description" content="My Custom Description"/>
+```
+
 ## Page Require Paths
 
 Docusaurus provides a few useful React components for users to write their own pages, found in the `CompLibrary` module. This module is provided as part of Docusaurus in `node_modules/docusaurus`, so to access it, pages in the `pages` directory are temporarily copied into `node_modules/docusaurus` when rendering to static HTML. As seen in the example files, this means that a user page at `pages/en/index.js` uses a require path to `'../../core/CompLibrary.js'` to import the provided components.
