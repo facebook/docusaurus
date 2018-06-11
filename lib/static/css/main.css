@@ -1585,7 +1585,7 @@ ul#languages li {
     padding: 0 10px;
   }
 
-  .doc.separateOnPageNav .docsNavContainer {
+  .separateOnPageNav .docsNavContainer {
     flex: 0 0 240px;
   }
 }
@@ -1834,7 +1834,7 @@ ul#languages li {
 }
 
 @media only screen and (min-width: 736px) {
-  .doc.separateOnPageNav .navPusher .mainContainer {
+  .separateOnPageNav .navPusher .mainContainer {
     max-width: 70%;
     padding-top: 0;
   }
