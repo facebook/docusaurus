@@ -190,6 +190,13 @@ module.exports = [
     pinned: true,
   },
   {
+    caption: 'Sonar',
+    image: '/img/users/sonar.png',
+    infoLink: 'https://fbsonar.com',
+    fbOpenSource: true,
+    pinned: true,
+  },
+  {
     caption: 'textlint',
     image: 'https://textlint.github.io/img/textlint-icon.png',
     infoLink: 'https://textlint.github.io/',
