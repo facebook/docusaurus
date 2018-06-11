@@ -22,6 +22,22 @@ const siteConfig = {
   ...
 };
 ```
+-## Extra Search Options
+-	
+-You can also specify extra [search options used by Algolia](https://community.algolia.com/docsearch/documentation/) by using an `algoliaOptions` field in `algolia`. This may be useful if you want to provide different search results for the different versions or languages of your docs. Any occurrences of "VERSION" or "LANGUAGE" will be replaced by the version or language of the current page, respectively. More details about search options can be [found here](https://www.algolia.com/doc/api-reference/api-parameters/#overview).	
+-	
+-```js	
+-const siteConfig = {	
+-  ...	
+-  algolia: {	
+-    ...	
+-    algoliaOptions: {	
+-      facetFilters: [ 'tags:VERSION' ],	
+-      hitsPerPage: 5	
+-    }	
+-  },	
+-};	
+-``
 
 Algolia might provide you with [extra search options](https://community.algolia.com/docsearch/documentation/). If so, you should add them to the `algoliaOptions` object.
 
