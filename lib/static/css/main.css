@@ -981,14 +981,7 @@ pre code {
 
 /* GridBlock */
 .gridBlock {
-  margin: -5px 0;
   padding: 0;
-}
-
-.gridBlock .twoByGridBlock,
-.gridBlock .threeByGridBlock,
-.gridBlock .fourByGridBlock {
-  padding: 5px 0;
 }
 
 .gridBlock .twoByGridBlock img,
@@ -999,6 +992,81 @@ pre code {
 
 .gridBlock .gridClear {
   clear: both;
+}
+
+@media only screen and (max-width: 735px) {
+  .gridBlock .fourByGridBlock {
+    box-sizing: border-box;
+    flex: 1 0 26%;
+  }
+}
+
+@media only screen and (min-width: 736px) {
+  .gridBlock {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .gridBlock > * {
+    margin: 0 12px;
+  }
+
+  .gridBlock > *:first-child {
+    margin-left: 0;
+  }
+
+  .gridBlock > *:last-child {
+    margin-right: 0;
+  }
+
+  .gridBlock .twoByGridBlock,
+  .gridBlock .threeByGridBlock,
+  .gridBlock .fourByGridBlock {
+    box-sizing: border-box;
+  }
+
+  .gridBlock .twoByGridBlock {
+    flex: 1 0 40%;
+  }
+
+  .gridBlock .threeByGridBlock {
+    flex: 1 0 26%;
+  }
+
+  .gridBlock .fourByGridBlock {
+    flex: 1 0 20%;
+  }
+
+  h2 + .gridBlock {
+    padding-top: 20px;
+  }
+}
+
+@media only screen and (min-width: 1400px) {
+  .gridBlock {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .gridBlock .twoByGridBlock,
+  .gridBlock .threeByGridBlock,
+  .gridBlock .fourByGridBlock {
+    box-sizing: border-box;
+  }
+
+  .gridBlock .twoByGridBlock {
+    flex: 1 0 40%;
+  }
+
+  .gridBlock .threeByGridBlock {
+    flex: 1 0 26%;
+  }
+
+  .gridBlock .fourByGridBlock {
+    flex: 1 0 20%;
+  }
 }
 
 .alignCenter {
@@ -1153,64 +1221,6 @@ pre code {
   .responsiveList .blockContent::before {
     content: '\2022';
     position: absolute;
-  }
-}
-
-@media only screen and (min-width: 736px) {
-  .gridBlock {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    margin: -10px;
-  }
-
-  .gridBlock .twoByGridBlock {
-    box-sizing: border-box;
-    flex: 1 0 40%;
-    padding: 10px;
-  }
-
-  .gridBlock .threeByGridBlock {
-    box-sizing: border-box;
-    flex: 1 0 26%;
-    padding: 10px;
-  }
-
-  .gridBlock .fourByGridBlock {
-    box-sizing: border-box;
-    flex: 1 0 20%;
-    padding: 10px;
-  }
-
-  h2 + .gridBlock {
-    padding-top: 20px;
-  }
-}
-
-@media only screen and (min-width: 1400px) {
-  .gridBlock {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    margin: -10px;
-  }
-
-  .gridBlock .twoByGridBlock {
-    box-sizing: border-box;
-    flex: 1 0 40%;
-    padding: 10px 20px;
-  }
-
-  .gridBlock .threeByGridBlock {
-    box-sizing: border-box;
-    flex: 1 0 26%;
-    padding: 10px;
-  }
-
-  .gridBlock .fourByGridBlock {
-    box-sizing: border-box;
-    flex: 1 0 20%;
-    padding: 10px 20px;
   }
 }
 
@@ -1917,16 +1927,16 @@ ul#languages li {
   }
 
   @media only screen and (min-width: 736px) {
-    .separateOnPageNav.doc .wrapper,
+    .separateOnPageNav .wrapper,
     .separateOnPageNav .headerWrapper.wrapper {
       max-width: 1400px;
     }
 
-    .doc.separateOnPageNav .toc {
+    .separateOnPageNav .toc {
       width: auto;
     }
 
-    .doc.separateOnPageNav.sideNavVisible .navPusher .mainContainer {
+    .separateOnPageNav.sideNavVisible .navPusher .mainContainer {
       flex: 1 auto;
       max-width: 100%;
       min-width: 0;
@@ -1956,6 +1966,10 @@ ul#languages li {
 }
 
 /* Blog */
+.blog .wrapper {
+  max-width: 1100px;
+}
+
 .blogContainer .posts .post {
   border-bottom: 1px solid #e0e0e0;
   border-radius: 3px;
@@ -1969,10 +1983,6 @@ ul#languages li {
 
 .blogContainer .postHeaderTitle {
   margin-top: 0;
-}
-
-.blogContainer .postHeader a {
-  text-decoration: none;
 }
 
 .blogContainer .postHeader p.post-meta {
@@ -2003,7 +2013,7 @@ ul#languages li {
   width: 30px;
 }
 
-.blogContainer .postHeader .authorPhoto.authorPhoto-big {
+.blogContainer .postHeader .authorPhoto.authorPhotoBig {
   height: 50px;
   width: 50px;
 }
@@ -2029,23 +2039,6 @@ ul#languages li {
 
 .blogSocialSection .blogSocialSectionItem {
   padding-bottom: 5px;
-}
-
-.header-link {
-  margin-left: 0.2em;
-  opacity: 0;
-  position: absolute;
-  -webkit-transition: opacity 0.2s ease-in-out 0.1s;
-  -moz-transition: opacity 0.2s ease-in-out 0.1s;
-  -ms-transition: opacity 0.2s ease-in-out 0.1s;
-}
-
-h2:hover .header-link,
-h3:hover .header-link,
-h4:hover .header-link,
-h5:hover .header-link,
-h6:hover .header-link {
-  opacity: 1;
 }
 
 /* Homepage */
@@ -2112,11 +2105,6 @@ h6:hover .header-link {
 }
 
 @media only screen and (max-width: 735px) {
-  .gridBlock .fourByGridBlock {
-    box-sizing: border-box;
-    flex: 1 0 26%;
-    padding: 10px;
-  }
   .productShowcaseSection .logos img {
     max-height: 64px;
     padding: 20px;
