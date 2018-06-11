@@ -14,8 +14,6 @@ Docusaurus was designed from the ground up to be easily installed and used to ge
 
     > If you don't have Node 8.2+ or if you prefer to install Docusaurus globally, run `yarn global add docusaurus-init` or `npm install --global docusaurus-init`. After that, run `docusaurus-init`.
 
-After Docusaurus is installed, moving forward, you can check your current version of Docusaurus by going into the `website` directory and typing `yarn outdated docusaurus` or `npm outdated docusaurus`. You can update to the [latest version](https://www.npmjs.com/package/docusaurus) of Docusaurus by typing `yarn upgrade docusaurus --latest` or `npm update docusaurus`.
-
 ## Verifying Installation
 
 Along with previously existing files and directories, your root directory will now contain a structure similar to:
@@ -62,3 +60,28 @@ If you are behind a corporate proxy, you need to disable it for the development 
 SET NO_PROXY=localhost
 yarn start (or npm run start)
 ```
+
+## Updating Your Docusaurus Version
+
+After Docusaurus is installed, moving forward, you can check your current version of Docusaurus by going into the `website` directory and typing `yarn outdated docusaurus` or `npm outdated docusaurus`. 
+
+You will see something like this:
+
+```
+$ yarn outdated
+Using globally installed version of Yarn
+yarn outdated v1.5.1
+warning package.json: No license field
+warning No license field
+info Color legend : 
+ "<red>"    : Major Update backward-incompatible updates 
+ "<yellow>" : Minor Update backward-compatible features 
+ "<green>"  : Patch Update backward-compatible bug fixes
+Package    Current Wanted Latest Package Type    URL                                          
+docusaurus 1.0.9   1.2.0  1.2.0  devDependencies https://github.com/facebook/Docusaurus#readme
+✨  Done in 0.41s.
+```
+
+> If there is no noticeable version output from the `outdated` commands, then you are up-to-date.
+
+You can update to the [latest version](https://www.npmjs.com/package/docusaurus) of Docusaurus by typing `yarn upgrade docusaurus --latest` or `npm update docusaurus`.
