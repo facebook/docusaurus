@@ -38,7 +38,7 @@ None that we know of. Please let us know if you find any as this is a big releas
 
 - Sub-directories are now [supported](https://github.com/facebook/Docusaurus/commit/d04b3ca87bb371dd47e6b69a863306ee5f2b1840) for documentation. This was one of most [requested features](https://github.com/facebook/Docusaurus/pull/705).
 - You can now use [Prism for syntax highlighting](https://github.com/facebook/Docusaurus/commit/c8bc00a3a78f6db8f9a9e22aaaf63f56a00cc2ac), in addition to Highlight.js. [Documentation](https://docusaurus.io/docs/en/doc-markdown#using-prism-as-additional-syntax-highlighter)
-- URLs can now be ["clean"](https://github.com/facebook/Docusaurus/commit/31f0c27f81ac9d22f8fdd29f5265e60b5b038773z) - no `.html` extension.
+- URLs can now be ["clean"](https://github.com/facebook/Docusaurus/commit/31f0c27f81ac9d22f8fdd29f5265e60b5b038773) - no `.html` extension.
 - Scroll to top button [option](https://github.com/facebook/Docusaurus/commit/aee255219bedc97b55048cdb4703742cbb7c247e) for your documentation pages.
 - Can now [set title](https://github.com/facebook/Docusaurus/commit/72f4f369394a9ccdcd721c4f2fa0ee2913ad98dd) for custom pages. [Documentation](https://docusaurus.io/docs/en/api-pages#titles-for-pages)
 - On page [navigation](https://github.com/facebook/Docusaurus/commit/49c27b733bf62506acff3c55f92143dc0ef3ed86) for blog posts.
