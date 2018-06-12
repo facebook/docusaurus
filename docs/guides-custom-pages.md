@@ -13,7 +13,7 @@ You can [start](getting-started-preparation.md#verifying-installation) your loca
 
 ## Customizing Your Doc Pages
 
-There are 2 optional fields called `defaultDocsLayout` and `layouts` in [siteConfig](api-site-config.md#optional-fields) that can help you to customize your doc pages. See [siteConfig](api-site-config.md#optional-fields) for more details.
+There is an optional fields called `layouts` in [siteConfig](api-site-config.md#optional-fields) that can help you to customize your doc pages. See [siteConfig](api-site-config.md#optional-fields) for more details.
 
 ## Adding Other Custom Pages
 
