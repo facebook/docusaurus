@@ -143,6 +143,33 @@ h1 {
 * `defaultLang` defines a default language. It will be used if one is not specified at the top of the code block. You can find the [list of supported languages here](https://github.com/isagalaev/highlight.js/tree/master/src/languages).
 * `themeUrl` is the custom URL of CSS theme file that you want to use with Highlight.js. If this is provided, the `theme` and `version` fields will be ignored.
 
+`layouts` - You can specify some custom components here to override the [offcial layout template](https://github.com/facebook/Docusaurus/blob/master/lib/core/Doc.js) to render some or all of the doc pages. 
+
+```js
+layouts: {
+  // default will be applied to all doc pages
+  default: function({ React, MarkdownBlock }) {
+    return class extends React.Component {
+      render() {
+        // See https://github.com/facebook/Docusaurus/blob/master/lib/core/Doc.js 
+        // for an example
+      }
+    }
+  },
+  // name other than default will only be applied when specified in doc header
+  layoutForSomeOtherDoc: function({ React, MarkdownBlock }) {
+    // ...
+  }
+}
+```
+
+If you want to apply `layoutForSomeOtherDoc` to a certain doc, just add a `layout` field in the header of your markdown file:
+```
+---
+layout: layoutForSomeOtherDoc
+---
+```
+
 `markdownPlugins` - An array of plugins to be loaded by Remarkable, the markdown parser and renderer used by Docusaurus. The plugin will receive a reference to the Remarkable instance, allowing custom parsing and rendering rules to be defined.
 
 `ogImage` - Local path to an Open Graph image (e.g., `img/myImage.png`). This image will show up when your site is shared on Facebook and other websites/apps where the Open Graph protocol is supported.
