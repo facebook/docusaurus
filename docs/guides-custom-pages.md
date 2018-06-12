@@ -11,6 +11,10 @@ The easiest way to get started customizing your home page is to use the example 
 
 You can [start](getting-started-preparation.md#verifying-installation) your local server and go to `http://localhost:3000` to see what the example home page looks like. From there, edit the `website/pages/en/index.js` file and its various components to use the images and text you want for your project.
 
+## Customizing Your Doc Pages
+
+There are 2 optional fields called `defaultDocsLayout` and `layouts` in [siteConfig](api-site-config.md#optional-fields) that can help you to customize your doc pages. See [siteConfig](api-site-config.md#optional-fields) for more details.
+
 ## Adding Other Custom Pages
 
 Docusaurus provides some simple example pages in the `website/pages/en` directory, including `index.js`, `users.js`, and `help.js`. These are good examples to showcase how to create a custom page for Docusaurus.
