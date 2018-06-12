@@ -84,4 +84,14 @@ docusaurus 1.0.9   1.2.0  1.2.0  devDependencies https://github.com/facebook/Doc
 
 > If there is no noticeable version output from the `outdated` commands, then you are up-to-date.
 
-You can update to the [latest version](https://www.npmjs.com/package/docusaurus) of Docusaurus by typing `yarn upgrade docusaurus --latest` or `npm update docusaurus`.
+You can update to the [latest version](https://www.npmjs.com/package/docusaurus) of Docusaurus by:
+
+```
+yarn upgrade docusaurus --latest
+```
+
+or
+
+```
+npm update docusaurus
+```
