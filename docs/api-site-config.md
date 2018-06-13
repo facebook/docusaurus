@@ -143,7 +143,7 @@ h1 {
 * `defaultLang` defines a default language. It will be used if one is not specified at the top of the code block. You can find the [list of supported languages here](https://github.com/isagalaev/highlight.js/tree/master/src/languages).
 * `themeUrl` is the custom URL of CSS theme file that you want to use with Highlight.js. If this is provided, the `theme` and `version` fields will be ignored.
 
-`layouts` - You can specify some custom components here to override the [offcial layout template](https://github.com/facebook/Docusaurus/blob/master/lib/core/Doc.js) to render some or all of the doc pages. 
+`layouts` - You can specify some custom components here to override the [official layout template](https://github.com/facebook/Docusaurus/blob/master/lib/core/Doc.js) to render some or all of the doc pages. 
 
 ```js
 layouts: {
