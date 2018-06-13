@@ -1311,9 +1311,6 @@ nav.toc .toggleNav .navToggle i::after {
 .docsSliderActive nav.toc .toggleNav .navToggle i {
   opacity: 0;
 }
-.docsSliderActive .tocToggler {
-  visibility: hidden;
-}
 nav.toc .toggleNav .navGroup {
   margin-bottom: 20px;
 }
@@ -1374,13 +1371,6 @@ nav.toc .toggleNav .navBreadcrumb h2 {
 }
 .docsSliderActive nav.toc section .navGroups {
   display: block;
-}
-.tocToggler {
-  height: 32px;
-  padding: 0 10px;
-  margin-right: -10px;
-  line-height: 32px;
-  cursor: pointer;
 }
 .icon-toc {
   box-sizing: border-box;
@@ -1559,10 +1549,6 @@ nav.toc .toggleNav .navBreadcrumb h2 {
     .onPageNav > .toc-headings {
       border-left: 1px solid #e0e0e0;
       padding: 10px 0 2px 15px;
-    }
-
-    .tocToggler {
-      display: none;
     }
   }
 
