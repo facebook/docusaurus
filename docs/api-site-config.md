@@ -74,6 +74,8 @@ headerLinks: [
 
 `blogSidebarCount` - Control the number of blog posts that show up in the sidebar. See the [adding a blog docs](guides-blog.md#changing-how-many-blog-posts-show-on-sidebar) for more information.
 
+`blogSidebarTitle` - Control the title of the blog sidebar. See the [adding a blog docs](guides-blog.md#changing-the-sidebar-title) for more information.
+
 `cleanUrl` - If `true`, allow URLs with no `html` extension. For example, a request to URL https://docusaurus.io/docs/installation will returns the same result as https://docusaurus.io/docs/installation.html.
 
 `cname` - The CNAME for your website. It will go into a `CNAME` file when your site is built.
