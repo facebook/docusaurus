@@ -46,7 +46,7 @@ Two of the required parameters are set in the [`siteConfig.js`](api-site-config.
 | `projectName`      | The name of the GitHub repository for your project. For example, Docusaurus is hosted at https://github.com/facebook/docusaurus, so our project name in this case would be "docusaurus". |
 
 > Docusaurus also supports deploying [user or organization sites](https://help.github.com/articles/user-organization-and-project-pages/#user--organization-pages). To do this, just set `projectName` to "_username_.github.io" (where _username_ is your username or organization name on GitHub) and `organizationName` to "_username_".  
-> The publish script will deploy these sites to the root of the `master` branch of this _username_.github.io repo. In this case, note that you will want to have the Docusaurus infra, your docs, etc. either in another branch of this repo (e.g., maybe call it `source`), or in another, separated repo (e.g. in the same as the documented source code).
+> For user or org sites, the publish script will deploy these sites to the root of the `master` branch of the _username_.github.io repo. In this case, note that you will want to have the Docusaurus infra, your docs, etc. either in another branch of the _username_.github.io repo (e.g., maybe call it `source`), or in another, separated repo (e.g. in the same as the documented source code).
 
 > While we recommend setting the `projectName` and `organizationName` in `siteConfig.js`, you can also use environment variables `ORGANIZATION_NAME` and `PROJECT_NAME`.
 
