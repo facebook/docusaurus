@@ -82,7 +82,8 @@
 </tbody>
 </table>
 <blockquote>
-<p>Docusaurus also supports deploying <a href="https://help.github.com/articles/user-organization-and-project-pages/#user--organization-pages">user or organization sites</a>. These sites will be served from the <code>master</code> branch of the repo. So, you will want to have the Docusaurus infra, your docs, etc. in another branch (e.g., maybe call it <code>source</code>). To do this, just set <code>projectName</code> to &quot;<em>username</em>.github.io&quot; (where <em>username</em> is your username or organization name on GitHub) and <code>organizationName</code> to &quot;<em>username</em>&quot;. The publish script will automatically deploy your site to the root of the <code>master</code> branch to be served.</p>
+<p>Docusaurus also supports deploying <a href="https://help.github.com/articles/user-organization-and-project-pages/#user--organization-pages">user or organization sites</a>. To do this, just set <code>projectName</code> to &quot;<em>username</em>.github.io&quot; (where <em>username</em> is your username or organization name on GitHub) and <code>organizationName</code> to &quot;<em>username</em>&quot;.<br>
+For user or org sites, the publish script will deploy these sites to the root of the <code>master</code> branch of the <em>username</em>.github.io repo. In this case, note that you will want to have the Docusaurus infra, your docs, etc. either in another branch of the <em>username</em>.github.io repo (e.g., maybe call it <code>source</code>), or in another, separated repo (e.g. in the same as the documented source code).</p>
 </blockquote>
 <blockquote>
 <p>While we recommend setting the <code>projectName</code> and <code>organizationName</code> in <code>siteConfig.js</code>, you can also use environment variables <code>ORGANIZATION_NAME</code> and <code>PROJECT_NAME</code>.</p>
