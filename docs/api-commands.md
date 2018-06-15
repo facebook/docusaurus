@@ -145,6 +145,7 @@ This script will build the static website, apply translations if necessary, and 
 | Options           | Default | Description                                                                                                                          |
 | ----------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------ |
 | `--port <number>` | `3000`  | The website will be served from port 3000 by default, but if the port is taken up, Docusaurus will attempt to find an available one. |
+| `--watch` | -  | Whether to watch the files and live reload the page when files are changed. Defaults to true. Disable this by using `--no-watch`. |
 
 ---
 
