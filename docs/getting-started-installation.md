@@ -95,3 +95,5 @@ or
 ```
 npm update docusaurus
 ```
+
+> If you are finding that you are getting errors after your upgrade, try to either clear your Babel cache (usually it's in a [temporary directory](https://babeljs.io/docs/en/babel-register/#environment-variables) or run the Docusaurus server (e.g., `yarn start`) with the `BABEL_DISABLE_CACHE=1` environment configuration.
