@@ -95,3 +95,5 @@ or
 ```
 npm update docusaurus
 ```
+
+If that doesn't work, try clear your babel cache (usually it's in [temporary directory](https://babeljs.io/docs/en/babel-register/#environment-variables) or run docusaurus with `BABEL_DISABLE_CACHE=1` env configuration.
