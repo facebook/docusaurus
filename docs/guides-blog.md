@@ -80,6 +80,18 @@ Example:
 blogSidebarCount: 'ALL';
 ```
 
+## Changing The Sidebar Title
+
+You can configure a specific sidebar title by adding a `blogSidebarTitle` setting to your `siteConfig.js`.
+
+The option is an object which can have the keys `default` and `all`. Specifying a value for `default` allows you to change the default sidebar title. Specifying a value for `all` allows you to change the sidebar title when the `blogSidebarCount` option is set to `'ALL'`.
+
+Example:
+
+```js
+blogSidebarTitle: { default: 'Recent posts', all: 'All blog posts' },
+```
+
 ## RSS Feed
 
 Docusaurus provides a simple RSS feed for your blog posts. Both RSS and Atom feed formats are supported. This data is automatically to your website page's HTML <HEAD> tag.
