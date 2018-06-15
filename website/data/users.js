@@ -15,6 +15,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Babel',
+    image: '/img/users/babel.svg',
+    infoLink: 'https://babeljs.io/',
+    fbOpenSource: false,
+    pinned: true,
+  },
+  {
     caption: 'Bemuse',
     image: '/img/users/bemuse.png',
     infoLink: 'https://bemuse.ninja/project/',
