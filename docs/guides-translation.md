@@ -93,6 +93,41 @@ The script will include text from the following places:
 * header link `label` strings in `siteConfig.js`
 * strings wrapped in the `<translate>` tag in any `.js` files inside `pages`
 
+### Custom Translation Strings
+
+If you want to add additional custom translation strings, or override any of the strings that get produced by the script that creates the `website/i18n/en.json` file, you can add a `website/data/custom-translation-strings.json` file. The file should have form of:
+
+```json
+{
+  "localized-strings": {
+    "id": "string",
+    "id2": "string2"
+  },
+  "pages-strings" : {
+    "id3": "string3",
+    "id4": "string4"
+  }
+}
+```
+
+where `localized-strings` represent strings in your documentation content and `pages-strings` represents metadata in your documentation (e.g., title, links, etc).
+
+Here is an example:
+
+```json
+{
+  "_comment": "This file is used to provide custom strings for translations, including overriding defaults",
+  "localized-strings": {
+    "translation": "Translations and Localization"
+  },
+  "pages-strings" : {
+        "Help Translate|recruit community translators for your project": "Help Us Translate"
+  }
+}
+```
+
+See the generated `website/i18n/en.json` for an example.
+
 ## How Strings Get Translated
 
 Docusaurus itself does not do any translation from one language to another. Instead, it integrates [Crowdin](https://crowdin.com/) to upload translations and then downloads the appropriately translated files from Crowdin.
