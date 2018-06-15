@@ -84,16 +84,12 @@ blogSidebarCount: 'ALL';
 
 You can configure a specific sidebar title by adding a `blogSidebarTitle` setting to your `siteConfig.js`.
 
-The option can have the keys `default` and `all`.
-
-Specifying a value for `default` allows you to change the default sidebar title.
-
-Specifying a value for `all` allows you to change the sidebar title when the `blogSidebarCount` option is set to `ALL`.
+The option is an object which can have the keys `default` and `all`. Specifying a value for `default` allows you to change the default sidebar title. Specifying a value for `all` allows you to change the sidebar title when the `blogSidebarCount` option is set to `'ALL'`.
 
 Example:
 
 ```js
-blogSidebarTitle: { default: "Recent posts", all: "All blog posts" };
+blogSidebarTitle: { default: 'Recent posts', all: 'All blog posts' },
 ```
 
 ## RSS Feed
