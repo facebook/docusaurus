@@ -197,6 +197,13 @@ module.exports = [
     pinned: true,
   },
   {
+    caption: 'rest-hapi',
+    image: 'https://jkheadley.github.io/rest-hapi/img/rest-hapi-logo-alt.png',
+    infoLink: 'https://jkheadley.github.io/rest-hapi/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Sonar',
     image: '/img/users/sonar.png',
     infoLink: 'https://fbsonar.com',
