@@ -398,13 +398,13 @@ article iframe {
 }
 
 /* Links */
-a.anchor {
+.anchor {
   display: block;
   position: relative;
-  top: -62px;
+  top: -80px;
 }
 
-a.hash-link {
+.hash-link {
   line-height: 1;
   margin-left: -20px;
   opacity: 0;
@@ -412,12 +412,12 @@ a.hash-link {
   transition: opacity 0.3s;
 }
 
-a.hash-link:hover {
+.hash-link:hover {
   opacity: 1 !important;
   transition: none;
 }
 
-a.hash-link .hash-link-icon {
+.hash-link .hash-link-icon {
   vertical-align: middle;
 }
 
@@ -553,12 +553,6 @@ blockquote {
 
 .mainContainer .wrapper .post .postHeader {
   margin-bottom: 16px;
-}
-
-@media only screen and (max-width: 1023px) {
-  .mainContainer .wrapper .post .postHeader {
-    margin-top: 48px; /* Height of mobile sidebar */
-  }
 }
 
 .mainContainer .wrapper .post .postHeaderTitle {
@@ -1346,13 +1340,13 @@ ul#languages li {
   width: 0;
 }
 
-@media only screen and (min-width: 736px) {
+@media only screen and (min-width: 1024px) {
   .navPusher {
     padding-top: 50px;
   }
 }
 
-.sliderActive .navPusher::after {
+.sliderActive .navPusher:after {
   height: 100%;
   opacity: 1;
   -webkit-transition: opacity 0.5s;
@@ -1428,7 +1422,7 @@ ul#languages li {
   }
 }
 
-@media only screen and (min-width: 736px) {
+@media only screen and (min-width: 1024px) {
   .navSearchWrapper {
     padding-left: 10px;
     position: relative;
@@ -1463,7 +1457,7 @@ ul#languages li {
     background: none;
     display: flex;
     flex-flow: row nowrap;
-    margin: 0 -10px;
+    margin: 0;
     padding: 0;
     width: auto;
   }
@@ -1499,16 +1493,24 @@ ul#languages li {
 }
 
 /* Docs */
-@media only screen and (min-width: 1024px) {
-  .docMainWrapper {
-    padding-top: 40px;
-  }
-}
-
 .docMainWrapper .wrapper {
   padding-left: 0;
   padding-right: 0;
   padding-top: 10px;
+}
+
+@media only screen and (min-width: 1024px) {
+  .docMainWrapper > * {
+    margin: 0 24px;
+  }
+
+  .docMainWrapper > *:first-child {
+    margin-left: 0;
+  }
+
+  .docMainWrapper > *:last-child {
+    margin-right: 0;
+  }
 }
 
 /* Docs Navigation */
@@ -1536,11 +1538,20 @@ ul#languages li {
 /* Docs Sidebar */
 .docsNavContainer {
   background: #fff;
-  height: 35px;
   left: 0;
   position: fixed;
   width: 100%;
   z-index: 100;
+}
+
+@media only screen and (min-width: 1024px) {
+  .docsNavContainer {
+    height: calc(100vh - 50px);
+    position: sticky;
+    overflow-y: scroll;
+    top: 50px; /* Height of navbar */
+    width: 300px;
+  }
 }
 
 .docsSliderActive.docsNavContainer {
@@ -1568,15 +1579,6 @@ ul#languages li {
 }
 
 @media only screen and (min-width: 1024px) {
-  .docsNavContainer {
-    background: none;
-    box-sizing: border-box;
-    height: auto;
-    overflow-y: auto;
-    position: relative;
-    width: 300px;
-  }
-
   .docsNavContainer .toc .navBreadcrumb {
     display: none;
   }
@@ -1596,15 +1598,21 @@ ul#languages li {
   color: #393939;
 }
 
-.toc section {
-  padding: 0;
-  position: relative;
-}
-
 @media only screen and (max-width: 735px) {
   a.anchor {
     top: -144px;
   }
+}
+
+@media only screen and (min-width: 1024px) {
+  .toc {
+    padding: 40px 0;
+  }
+}
+
+.toc section {
+  padding: 0;
+  position: relative;
 }
 
 .toc section .navGroups {
@@ -1716,7 +1724,7 @@ ul#languages li {
 }
 
 .toc .toggleNav ul {
-  padding-left: 8px;
+  padding: 0 8px;
 }
 
 .docsSliderActive .toc .toggleNav ul {
@@ -1833,23 +1841,20 @@ ul#languages li {
   content: '';
 }
 
-@media only screen and (min-width: 736px) {
-  .separateOnPageNav .navPusher .mainContainer {
-    max-width: 70%;
-    padding-top: 0;
-  }
+.mainContainer {
+  padding: 48px 0;
+}
 
+@media only screen and (min-width: 1024px) {
   .docMainWrapper {
     display: flex;
     flex-flow: row nowrap;
-    margin-bottom: 50px;
   }
-  .docMainWrapper .wrapper {
-    padding-left: 0;
-    padding-right: 0;
-  }
+
   .docMainWrapper .wrapper {
     padding-top: 0;
+    padding-left: 0;
+    padding-right: 0;
   }
 }
 
@@ -1885,10 +1890,6 @@ ul#languages li {
 }
 
 @media only screen and (min-width: 1024px) {
-  .toc {
-    width: 240px;
-  }
-
   .toc section .navGroups {
     display: block;
     padding: 0px;
@@ -1901,7 +1902,7 @@ ul#languages li {
 }
 
 @supports ((position: -webkit-sticky) or (position: sticky)) {
-  @media only screen and (max-width: 735px) {
+  @media only screen and (max-width: 1023px) {
     .tocActive .onPageNav {
       background: #fff;
       bottom: 0;
@@ -1926,7 +1927,7 @@ ul#languages li {
     }
   }
 
-  @media only screen and (min-width: 736px) {
+  @media only screen and (min-width: 1024px) {
     .separateOnPageNav .wrapper,
     .separateOnPageNav .headerWrapper.wrapper {
       max-width: 1400px;
@@ -1940,7 +1941,6 @@ ul#languages li {
       flex: 1 auto;
       max-width: 100%;
       min-width: 0;
-      padding: 0 40px 50px;
     }
 
     .onPageNav {
@@ -2264,7 +2264,7 @@ ul#languages li {
   margin-bottom: 18px;
 }
 
-@media screen and (min-width: 736px) {
+@media screen and (min-width: 1024px) {
   .fixedHeaderContainer {
     flex-shrink: 0;
   }
