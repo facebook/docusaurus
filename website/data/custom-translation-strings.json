@@ -1,0 +1,9 @@
+{
+  "_comment": "This file is used to provide custom strings for translations, including overriding defaults",
+  "localized-strings": {
+    "translation": "Translations and Localization"
+  },
+  "pages-strings" : {
+        "Help Translate|recruit community translators for your project": "Help Us Translate"
+  }
+}

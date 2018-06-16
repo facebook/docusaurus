@@ -5,15 +5,13 @@ title: Navigation and Sidebars
 
 ## Referencing Site Documents
 
-If you want to reference another document in your `docs` folder (or the location you set via the [optional `customDocsPath`](https://docusaurus.io/docs/en/site-config.html#optional-fields) path site configuration option), then you just use the name of the document you want to reference.
+If you want to reference another document in your `docs` directory (or the location you set via the [optional `customDocsPath`](https://docusaurus.io/docs/en/site-config.html#optional-fields) path site configuration option), then you just use the name of the document you want to reference.
 
 For example, if you are in `doc2.md` and you want to reference `doc1.md`:
 
 ```md
 I am referencing a [document](doc1.md).
 ```
-
-> Docusaurus currently does not support documents in nested folders; only in a flat folder structure. We are looking into adding support for nested folders.
 
 ## How Documents are Linked
 
@@ -94,7 +92,7 @@ It is important to note that until you [add a document from the `"examples-sideb
 
 ## Additions to the Site Navigation Bar
 
-To expose sidebars, you will add clickable labels to the site navigation bar at the top of the website. You can add documents, pages and external links.
+To expose sidebars, you will add click-able labels to the site navigation bar at the top of the website. You can add documents, pages and external links.
 
 ### Adding Documents
 

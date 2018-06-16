@@ -12,30 +12,22 @@ const siteConfig = require(process.cwd() + '/siteConfig.js');
 const translate = require('../../server/translate.js').translate;
 
 class Users extends React.Component {
+  renderUser(user, i) {
+    return (
+      <a href={user.infoLink} key={i}>
+        <img src={user.image} alt={user.caption} title={user.caption} />
+      </a>
+    );
+  }
+
   render() {
     const fbShowcase = siteConfig.users
-      .filter(user => {
-        return user.fbOpenSource === true;
-      })
-      .map((user, i) => {
-        return (
-          <a href={user.infoLink} key={i}>
-            <img src={user.image} alt={user.caption} title={user.caption} />
-          </a>
-        );
-      });
+      .filter(user => user.fbOpenSource)
+      .map((user, i) => this.renderUser(user, i));
 
     const showcase = siteConfig.users
-      .filter(user => {
-        return !user.fbOpenSource;
-      })
-      .map((user, i) => {
-        return (
-          <a href={user.infoLink} key={i}>
-            <img src={user.image} alt={user.caption} title={user.caption} />
-          </a>
-        );
-      });
+      .filter(user => !user.fbOpenSource)
+      .map((user, i) => this.renderUser(user, i));
 
     return (
       <div className="mainContainer">
@@ -67,7 +59,7 @@ class Users extends React.Component {
               </p>
               <p>
                 Edit this page with a{' '}
-                <a href="https://github.com/facebook/docusaurus/edit/master/website/data/users.json">
+                <a href="https://github.com/facebook/docusaurus/edit/master/website/data/users.js">
                   Pull Request
                 </a>{' '}
                 to add your logo.

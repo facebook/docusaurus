@@ -16,21 +16,20 @@ You can [start](getting-started-preparation.md#verifying-installation) your loca
 Docusaurus provides some simple example pages in the `website/pages/en` directory, including `index.js`, `users.js`, and `help.js`. These are good examples to showcase how to create a custom page for Docusaurus.
 
 ```bash
-root-of-repo
+root-directory
 ├── docs
-├── website
-│   ├── blog
-│   ├── core
-│   │   └── Footer.js
-│   ├── node_modules
-│   ├── package.json
-│   ├── pages
-│   │   ├── index.js
-│   │   ├── users.js
-│   │   └── help.js
-│   ├── sidebars.json
-│   ├── siteConfig.js
-│   └── static
+└── website
+    ├── blog
+    ├── core
+    │   └── Footer.js
+    ├── package.json
+    ├── pages
+    │   ├── index.js
+    │   ├── users.js
+    │   └── help.js
+    ├── sidebars.json
+    ├── siteConfig.js
+    └── static
 ```
 
 Of course, you are also free to write your own pages. It is strongly suggested that you at least have an index page, but none of the pages provided are mandatory to include in your site. More information on how to use the provided components or include your own can be found [here](api-pages.md). Information on how to link to your different pages in the header navigation bar can be found [here](guides-navigation.md).
@@ -39,7 +38,7 @@ Of course, you are also free to write your own pages. It is strongly suggested t
 
 ## Adding Static Pages
 
-Static `.html` files can also be used, but they will not include Docusaurus' header, footer, or styles by default. These can be added to the `static` folder in the same way as other [static assets](api-pages.md#using-static-assets). Alternatively, they can be placed in the `pages` folder and would be served as-is instead of being rendered from React.
+Static `.html` files can also be used, but they will not include Docusaurus' header, footer, or styles by default. These can be added to the `static` directory in the same way as other [static assets](api-pages.md#using-static-assets). Alternatively, they can be placed in the `pages` directory and would be served as-is instead of being rendered from React.
 
 If you wish to use Docusaurus' stylesheet, you can access it at `${baseUrl}css/main.css`. If you wish to use separate css for these static pages, you can exclude them from being concatenated to Docusaurus' styles by adding them into the `siteConfig.separateCss` field in `siteConfig.js`.
 
@@ -53,7 +52,7 @@ The example provided has three columns with a footer image on the left and Faceb
 
 Some suggestions for links you may want to provide: documentation, API, Twitter, Discord, Facebook groups, Stack Overflow, GitHub, etc.
 
-Your footer will automatically get applied to all pages on your site, including docs and blog posts. The sole exception to this is any static html pages you include.
+Your footer will automatically get applied to all pages on your site, including docs and blog posts. The sole exception to this is any static HTML pages you include.
 
 If you do not want a footer for your site, change the `render` function of `core/Footer.js` to return `null`. e.g.,
 
