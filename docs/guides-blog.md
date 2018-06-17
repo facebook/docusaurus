@@ -1,5 +1,5 @@
 ---
-id: blog
+id: adding-blog
 title: Adding a Blog
 ---
 
