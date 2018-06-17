@@ -1527,7 +1527,12 @@ input::placeholder {
 /* Start of Docs Navigation */
 .docs-prevnext {
   margin: 20px 0;
-  overflow: auto; /* clearfix */
+}
+
+.docs-prevnext:after {
+  clear: both;
+  content: ' ';
+  display: table; /* clearfix */
 }
 
 .docs-next {
@@ -2206,6 +2211,10 @@ input::placeholder {
     margin: 0 2em 3em;
     width: calc(100% - 4em);
   }
+
+  .nav-footer .sitemap > div {
+    margin-bottom: 18px;
+  }
 }
 
 .nav-footer .sitemap a {
@@ -2266,9 +2275,5 @@ input::placeholder {
 
 .nav-footer .social {
   padding: 5px 0;
-}
-
-.nav-footer > div {
-  margin-bottom: 18px;
 }
 /* End of Footer */
