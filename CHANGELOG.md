@@ -30,19 +30,19 @@ Thank you to the following contributors who helped with this release:
 
 ### Breaking changes
 
-- This may not affect many users, but if you modified the `en.json` to add your own custom translation strings, we [changed](https://github.com/facebook/Docusaurus/commit/608e2c85a21cd17d9f45496a479ec82f5620a48a) how this is handled, and you will need to [follow the instructions here](https://docusaurus.io/docs/en/1.2.1/translation#custom-translation-strings) to modify your setup.
+- This may not affect many users, but if you modified the `en.json` to add your own custom translation strings, we [changed](https://github.com/facebook/Docusaurus/commit/608e2c85a21cd17d9f45496a479ec82f5620a48a) how this is handled, and you will need to [follow the instructions here](https://docusaurus.io/docs/en/translation#custom-translation-strings) to modify your setup.
 
 ### Added
 
 - Option to [disable](https://github.com/facebook/Docusaurus/commit/62a2c7c1a599ccaf04a86e9ca2ec0fbca5220f5c) live reload during development.
 - Configuration options for [changing](https://github.com/facebook/Docusaurus/commit/58fba70dead064e8c6910e07d3523a548258022f) the title of the blog sidebar info.
-- Better support and [documentation](https://docusaurus.io/docs/en/1.2.1/publishing#using-github-pages) for [cross-repo publishing](https://github.com/facebook/Docusaurus/commit/fd9a3ffb6deca84b41dc5a3b43b0db1ca4f3143e).
+- Better support and [documentation](https://docusaurus.io/docs/en/publishing#using-github-pages) for [cross-repo publishing](https://github.com/facebook/Docusaurus/commit/fd9a3ffb6deca84b41dc5a3b43b0db1ca4f3143e).
 
 ### Fixed/Changed
 
 - 1.2.0 introduced a bug where you could not update documentation metadata without deleting `en.json`. This has been [fixed](https://github.com/facebook/Docusaurus/commit/608e2c85a21cd17d9f45496a479ec82f5620a48a) as part of the custom translation string breaking change.
 - Absolute URLs are now [used](https://github.com/facebook/Docusaurus/commit/0f01eace8be1be273a63089a14d1e3ea2d2cae57) instead of relative URLs for documentation linking to avoid trailing slash issues.
-- If you have had trouble updating Docusaurus, it may have been your [Babel cache](https://docusaurus.io/docs/en/1.2.1/installation#updating-your-docusaurus-version).
+- If you have had trouble updating Docusaurus, it may have been your [Babel cache](https://docusaurus.io/docs/en/installation#updating-your-docusaurus-version).
 - No more errors if heading anchors are [empty](https://github.com/facebook/Docusaurus/commit/371fdda4a8c82b5f29dd5c2dd9f04c8ef28dd025).
 - Fixed bug when [renaming version](https://github.com/facebook/Docusaurus/commit/a2b076bdcaf7099e595f2f106b38dd0cabeee1ef) where `sidebars.json` were not getting updated.
 - Table of contents are now [hidden](https://github.com/facebook/Docusaurus/commit/7bef1b96dc8de8c42795b0983195f66a7ae78c27) when `onPageNav` is not separate.
