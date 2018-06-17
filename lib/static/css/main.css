@@ -1506,7 +1506,7 @@ input::placeholder {
   }
 
   .docMainWrapper .mainContainer {
-    width: 0; /* Hack needed for flex-basis to work properly. */
+    min-width: 0; /* Hack needed for flex-basis to work properly. */
   }
 }
 
@@ -2268,7 +2268,7 @@ input::placeholder {
   padding: 5px 0;
 }
 
-.nav-footer .footerSection {
+.nav-footer > div {
   margin-bottom: 18px;
 }
 /* End of Footer */

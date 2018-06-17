@@ -113,7 +113,6 @@ class Footer extends React.Component {
           </div>
           <SocialFooter config={this.props.config} />
         </section>
-
         <a
           href="https://code.facebook.com/projects/"
           target="_blank"
