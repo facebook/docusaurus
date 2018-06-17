@@ -1,7 +1,7 @@
 {
   "name": "docusaurus",
   "description": "Easy to Maintain Open Source Documentation Websites",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "license": "MIT",
   "keywords": [
     "documentation",
@@ -52,10 +52,10 @@
     "imagemin-svgo": "^6.0.0",
     "markdown-toc": "^1.2.0",
     "mkdirp": "^0.5.1",
-    "prismjs": "^1.14.0",
-    "react": "^16.4.0",
+    "prismjs": "^1.15.0",
+    "react": "^16.4.1",
     "react-dev-utils": "^5.0.1",
-    "react-dom": "^16.4.0",
+    "react-dom": "^16.4.1",
     "remarkable": "^1.7.1",
     "request": "^2.87.0",
     "shelljs": "^0.7.8",
