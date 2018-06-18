@@ -3,7 +3,7 @@ id: versioning
 title: Versioning
 ---
 
-You can use the `version` script to cut a new documentation version based on the latest content in the `docs` folder. That specific set of documentation will then be preserved and accessible even as the documentation in the `docs` folder changes moving forward.
+You can use the `version` script to cut a new documentation version based on the latest content in the `docs` directory. That specific set of documentation will then be preserved and accessible even as the documentation in the `docs` directory changes moving forward.
 
 ## How to Create New Versions
 
@@ -33,22 +33,22 @@ Run the script with a command line argument of the version you wish to create. e
 yarn run version 1.0.0
 ```
 
-This will preserve all documents currently in the `docs` folder and make them available as documentation for version `1.0.0`.
+This will preserve all documents currently in the `docs` directory and make them available as documentation for version `1.0.0`.
 
 If, for example, you ran the version script with `1.0.0` as the version number, version `1.0.0` is considered the latest release version for your project. The site will display the version number next to the title in the header. This version number links to a versions page that you created earlier.
 
-Documents in the `docs` folder will be considered part of version `next` and they are available, for example, at the url `docs/next/doc1.html`. Documents from the latest version use the url `docs/doc1.html`.
+Documents in the `docs` directory will be considered part of version `next` and they are available, for example, at the URL `docs/next/doc1.html`. Documents from the latest version use the URL `docs/doc1.html`.
 
-Running the script again with `yarn run version 2.0.0` will create a version `2.0.0`, making version `2.0.0` the most recent set of documentation. Documents from version `1.0.0` will use the url `docs/1.0.0/doc1.html` while `2.0.0` will use `docs/doc1.html`.
+Running the script again with `yarn run version 2.0.0` will create a version `2.0.0`, making version `2.0.0` the most recent set of documentation. Documents from version `1.0.0` will use the URL `docs/1.0.0/doc1.html` while `2.0.0` will use `docs/doc1.html`.
 
 This table below summarizes Docusaurus versioning at a glance:
 
-| Version | Tag | URL
-| --- | --- | --- |
-| 1.0.0 | 1.0.0 | docs/1.0.0/doc1.html |
-| 1.0.1 | 1.0.1 | docs/1.0.1/doc1.html |
-| 2.0.0 | current | docs/doc1.html |
-| `master` branch | next | docs/next/doc1.html |
+| Version         | Tag     | URL                  |
+| --------------- | ------- | -------------------- |
+| 1.0.0           | 1.0.0   | docs/1.0.0/doc1.html |
+| 1.0.1           | 1.0.1   | docs/1.0.1/doc1.html |
+| 2.0.0           | current | docs/doc1.html       |
+| `master` branch | next    | docs/next/doc1.html  |
 
 ## Versioning Patterns
 
@@ -68,9 +68,9 @@ If you wish to change the documentation for a past version, you can access the f
 
 ## Fallback Functionality
 
-Only files in the `docs` folder and sidebar files that differ from those of the latest version will get copied each time a new version is specified. If there is no change across versions, Docusaurus will use the file from the latest version with that file.
+Only files in the `docs` directory and sidebar files that differ from those of the latest version will get copied each time a new version is specified. If there is no change across versions, Docusaurus will use the file from the latest version with that file.
 
-For example, a document with the original id `doc1` exists for the latest version, `1.0.0`, and has the same content as the document with the id `doc1` in the `docs` folder. When a new version `2.0.0` is created, the file for `doc1` will not be copied into `versioned_docs/version-2.0.0/`. There will still be a page for `docs/2.0.0/doc1.html`, but it will use the file from version `1.0.0`.
+For example, a document with the original id `doc1` exists for the latest version, `1.0.0`, and has the same content as the document with the id `doc1` in the `docs` directory. When a new version `2.0.0` is created, the file for `doc1` will not be copied into `versioned_docs/version-2.0.0/`. There will still be a page for `docs/2.0.0/doc1.html`, but it will use the file from version `1.0.0`.
 
 ## Renaming Existing Versions
 
@@ -92,4 +92,4 @@ yarn run rename-version 1.0.0 1.0.1
 
 ## Versioning and Translations
 
-If you wish to use versioning and translations features, the `crowdin.yaml` file should be set up to upload and download versioned documents to and from Crowdin for translation. Translated, versioned files will go into the folder `translated_docs/${language}/version-${version}/`. For more information, check out the [translations guide](guides-translation.md).
+If you wish to use versioning and translations features, the `crowdin.yaml` file should be set up to upload and download versioned documents to and from Crowdin for translation. Translated, versioned files will go into the directory `translated_docs/${language}/version-${version}/`. For more information, check out the [translations guide](guides-translation.md).

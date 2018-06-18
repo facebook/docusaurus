@@ -6,7 +6,7 @@
  */
 
 /* List of projects/orgs using your project for the users page */
-const users = require('./data/users.json');
+const users = require('./data/users');
 
 const siteConfig = {
   title: 'Docusaurus',
@@ -36,6 +36,9 @@ const siteConfig = {
   algolia: {
     apiKey: '3eb9507824b8be89e7a199ecaa1a9d2c',
     indexName: 'docusaurus',
+    algoliaOptions: {
+      facetFilters: [ "lang:LANGUAGE" ] 
+    }
   },
   colors: {
     primaryColor: '#2E8555',
@@ -43,6 +46,7 @@ const siteConfig = {
   },
   translationRecruitingLink: 'https://crowdin.com/project/docusaurus',
   copyright: 'Copyright © ' + new Date().getFullYear() + ' Facebook Inc.',
+  usePrism: ['jsx'],
   highlight: {
     theme: 'atom-one-dark',
   },
@@ -60,6 +64,11 @@ const siteConfig = {
   ogImage: 'img/docusaurus.png',
   twitterImage: 'img/docusaurus.png',
   onPageNav: 'separate',
+  cleanUrl: true,
+  scrollToTop: true,
+  scrollToTopOptions: {
+    zIndex: 100,
+  },
 };
 
 module.exports = siteConfig;

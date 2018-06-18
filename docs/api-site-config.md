@@ -27,9 +27,9 @@ The `siteConfig` object contains the bulk of the configuration settings for your
 
 `copyright` - The copyright string at footer of site and within feed
 
-`favicon` - url for site favicon.
+`favicon` - URL for site favicon.
 
-`headerIcon` - url for icon used in header navigation bar.
+`headerIcon` - URL for icon used in header navigation bar.
 
 `headerLinks` - Links that will be used in the header navigation bar. The `label` field of each object will be the link text and will also be translated for each language.
 
@@ -56,13 +56,13 @@ headerLinks: [
 
 `organizationName` - GitHub username of the organization or user hosting this project. This is used by the publishing script to determine where your GitHub pages website will be hosted.
 
-`projectName` - Project name. This must match your GitHub repo project name (case sensitive).
+`projectName` - Project name. This must match your GitHub repository project name (case-sensitive).
 
 `tagline` - Tagline for your website.
 
 `title` - Title for your website.
 
-`url` - url for your site.
+`url` - URL for your website.
 
 ### Optional Fields
 
@@ -74,9 +74,13 @@ headerLinks: [
 
 `blogSidebarCount` - Control the number of blog posts that show up in the sidebar. See the [adding a blog docs](guides-blog.md#changing-how-many-blog-posts-show-on-sidebar) for more information.
 
-`cname` - The CNAME for your website. It will go into a `CNAME` file when your site it built.
+`blogSidebarTitle` - Control the title of the blog sidebar. See the [adding a blog docs](guides-blog.md#changing-the-sidebar-title) for more information.
 
-`customDocsPath` - By default, Docusaurus expects your documentation to be in a directory called `docs`. This directory is at the same level as the `website` directory (i.e., not inside the `website` directory). You can specify a custom path to your documentation with this field. **Note that all of your documentation `*.md` files must still reside in a flat hierarchy. You cannot have your documents in nested directories**.
+`cleanUrl` - If `true`, allow URLs with no `html` extension. For example, a request to URL https://docusaurus.io/docs/installation will returns the same result as https://docusaurus.io/docs/installation.html.
+
+`cname` - The CNAME for your website. It will go into a `CNAME` file when your site is built.
+
+`customDocsPath` - By default, Docusaurus expects your documentation to be in a directory called `docs`. This directory is at the same level as the `website` directory (i.e., not inside the `website` directory). You can specify a custom path to your documentation with this field.
 
 ```js
 customDocsPath: 'docs/site';
@@ -92,7 +96,7 @@ customDocsPath: 'website-docs';
 
 `disableTitleTagline` - An option to disable showing the tagline in the title of main pages. Exclude this field to keep page titles as `Title • Tagline`. Set to `true` to make page titles just `Title`.
 
-`editUrl` - url for editing docs, usage example: `editUrl + 'en/doc1.md'`. If this field is omitted, there will be no "Edit this Doc" button for each document.
+`editUrl` - URL for editing docs, usage example: `editUrl + 'en/doc1.md'`. If this field is omitted, there will be no "Edit this Doc" button for each document.
 
 `facebookAppId` - If you want Facebook Like/Share buttons in the footer and at the bottom of your blog posts, provide a [Facebook application id](https://www.facebook.com/help/audiencenetwork/804209223039296).
 
@@ -100,7 +104,7 @@ customDocsPath: 'website-docs';
 
 `facebookPixelId` - [Facebook Pixel](https://www.facebook.com/business/a/facebook-pixel) ID to track page views.
 
-`fonts` - Font-family css configuration for the site. If a font family is specified in `siteConfig.js` as `$myFont`, then adding a `myFont` key to an array in `fonts` will allow you to configure the font. Items appearing earlier in the array will take priority of later elements, so ordering of the fonts matter.
+`fonts` - Font-family CSS configuration for the site. If a font family is specified in `siteConfig.js` as `$myFont`, then adding a `myFont` key to an array in `fonts` will allow you to configure the font. Items appearing earlier in the array will take priority of later elements, so ordering of the fonts matter.
 
 In the below example, we have two sets of font configurations, `myFont` and `myOtherFont`. `Times New Roman` is the preferred font in `myFont`. `-apple-system` is the preferred in `myOtherFont`.
 
@@ -131,6 +135,8 @@ h1 {
 
 `gaGtag` - Set this to `true` if you want to use [global site tags (gtag.js)](https://developers.google.com/gtagjs/) for Google analytics instead of `analytics.js`.
 
+`githubHost` - Hostname of your server. Useful if you are using GitHub Enterprise.
+
 `highlight` - [Syntax highlighting](api-doc-markdown.md) options:
 
 * `theme` is the name of the theme used by Highlight.js when highlighting code. You can find the [list of supported themes here](https://github.com/isagalaev/highlight.js/tree/master/src/styles).
@@ -149,7 +155,11 @@ h1 {
 
 `scripts` - Array of JavaScript sources to load. The script tag will be inserted in the HTML head.
 
-`separateCss` - Folders inside which any `css` files will not be processed and concatenated to Docusaurus' styles. This is to support static `html` pages that may be separate from Docusaurus with completely separate styles.
+`separateCss` - Directories inside which any `css` files will not be processed and concatenated to Docusaurus' styles. This is to support static `html` pages that may be separate from Docusaurus with completely separate styles.
+
+`scrollToTop` - Set this to `true` if you want to enable the scroll to top button at the bottom of your site.
+
+`scrollToTopOptions` - Optional options configuration for the scroll to top button. You do not need to use this, even if you set `scrollToTop` to `true`; it just provides you more configuration control of the button. You can find more options [here](https://github.com/vfeskov/vanilla-back-to-top/blob/v7.1.14/OPTIONS.md). By default, we set the zIndex option to 100.
 
 `stylesheets` - Array of CSS sources to load. The link tag will be inserted in the HTML head.
 
@@ -164,6 +174,8 @@ h1 {
 `useEnglishUrl` - If you do not have [translations](guides-translation.md) enabled (e.g., by having a `languages.js` file), but still want a link of the form `/docs/en/doc.html` (with the `en`), set this to `true`.
 
 `users` - The `users` array mentioned earlier.
+
+`usePrism` - Array of languages to use Prism syntax highlighter. Refer to [Using Prism as additional syntax highlighter](api-doc-markdown.md#using-prism-as-additional-syntax-highlighter). Set it to `true` to use Prism on all languages.
 
 `wrapPagesHTML` - Boolean flag to indicate whether `html` files in `/pages` should be wrapped with Docusaurus site styles, header and footer. This feature is experimental and relies on the files being `html` fragments instead of complete pages. It inserts the contents of your `html` file with no extra processing. Defaults to `false`.
 
@@ -186,7 +198,7 @@ const siteConfig = {
   tagline: 'Generate websites!',
   url: 'https://docusaurus.io',
   baseUrl: '/',
-  // For github.io type URLS, you would combine the url and baseUrl like:
+  // For github.io type URLS, you would combine the URL and baseUrl like:
   // url: 'https://reasonml.github.io',
   // baseUrl: '/reason-react/',
   defaultVersionShown: '1.0.0',
@@ -244,6 +256,11 @@ const siteConfig = {
   twitterUsername: 'docusaurus',
   twitterImage: 'img/docusaurus.png',
   ogImage: 'img/docusaurus.png',
+  cleanUrl: true,
+  scrollToTop: true,
+  scrollToTopOptions: {
+    zIndex: 100,
+  },
 };
 
 module.exports = siteConfig;
