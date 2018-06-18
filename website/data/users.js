@@ -15,6 +15,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Babel',
+    image: '/img/users/babel.svg',
+    infoLink: 'https://babeljs.io/',
+    fbOpenSource: false,
+    pinned: true,
+  },
+  {
     caption: 'Bemuse',
     image: '/img/users/bemuse.png',
     infoLink: 'https://bemuse.ninja/project/',
@@ -113,6 +120,13 @@ module.exports = [
     pinned: true,
   },
   {
+    caption: 'ml5.js',
+    image: '/img/users/ml5.png',
+    infoLink: 'https://ml5js.org/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Open Power Quality',
     image: 'https://openpowerquality.org/img/opqlogo.png',
     infoLink: 'https://openpowerquality.org/',
@@ -190,11 +204,25 @@ module.exports = [
     pinned: true,
   },
   {
+    caption: 'rest-hapi',
+    image: 'https://jkheadley.github.io/rest-hapi/img/rest-hapi-logo-alt.png',
+    infoLink: 'https://jkheadley.github.io/rest-hapi/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Sonar',
     image: '/img/users/sonar.png',
     infoLink: 'https://fbsonar.com',
     fbOpenSource: true,
     pinned: true,
+  },
+  {
+    caption: 'StreamPipes',
+    image: 'https://streampipes.org/images/streampipes-logo-center.png',
+    infoLink: 'https://docs.streampipes.org',
+    fbOpenSource: false,
+    pinned: false,
   },
   {
     caption: 'textlint',

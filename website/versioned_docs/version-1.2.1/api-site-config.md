@@ -1,6 +1,7 @@
 ---
-id: site-config
+id: version-1.2.1-site-config
 title: siteConfig.js
+original_id: site-config
 ---
 
 A large part of site configuration is done by editing the `siteConfig.js` file.
@@ -144,33 +145,6 @@ h1 {
 * `hljs` provides an escape valve by passing an instance of Highlight.js to the function specified here, allowing additional languages to be registered for syntax highlighting.
 * `defaultLang` defines a default language. It will be used if one is not specified at the top of the code block. You can find the [list of supported languages here](https://github.com/isagalaev/highlight.js/tree/master/src/languages).
 * `themeUrl` is the custom URL of CSS theme file that you want to use with Highlight.js. If this is provided, the `theme` and `version` fields will be ignored.
-
-`layouts` - You can specify some custom components here to override the [official layout template](https://github.com/facebook/Docusaurus/blob/master/lib/core/Doc.js) to render some or all of the doc pages. 
-
-```js
-layouts: {
-  // default will be applied to all doc pages
-  default: function({ React, MarkdownBlock }) {
-    return class extends React.Component {
-      render() {
-        // See https://github.com/facebook/Docusaurus/blob/master/lib/core/Doc.js 
-        // for an example
-      }
-    }
-  },
-  // name other than default will only be applied when specified in doc header
-  layoutForSomeOtherDoc: function({ React, MarkdownBlock }) {
-    // ...
-  }
-}
-```
-
-If you want to apply `layoutForSomeOtherDoc` to a certain doc, just add a `layout` field in the header of your markdown file:
-```
----
-layout: layoutForSomeOtherDoc
----
-```
 
 `markdownPlugins` - An array of plugins to be loaded by Remarkable, the markdown parser and renderer used by Docusaurus. The plugin will receive a reference to the Remarkable instance, allowing custom parsing and rendering rules to be defined.
 
