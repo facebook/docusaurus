@@ -120,6 +120,13 @@ module.exports = [
     pinned: true,
   },
   {
+    caption: 'ml5.js',
+    image: '/img/users/ml5.png',
+    infoLink: 'https://ml5js.org/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Open Power Quality',
     image: 'https://openpowerquality.org/img/opqlogo.png',
     infoLink: 'https://openpowerquality.org/',
