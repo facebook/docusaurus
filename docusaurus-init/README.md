@@ -10,4 +10,6 @@ Docusaurus was designed from the ground up to be easily installed and used to ge
 1. Go into the root of your GitHub repo directory where you will be creating the docs.
 1. `npx docusaurus-init`
 
+> If you don't have Node 8.2+ or if you prefer to install Docusaurus globally, run yarn global add docusaurus-init or npm install --global docusaurus-init. After that, run docusaurus-init.
+
 Find out more in the [official docs](https://docusaurus.io/docs/en/installation).
