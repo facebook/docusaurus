@@ -9,8 +9,8 @@ const PropTypes = require('prop-types');
 const React = require('react');
 
 const SocialFooter = props => (
-  <div>
-    <h5>More</h5>
+  <div className="footerSection">
+    <h5>Social</h5>
     <div className="social">
       <a
         className="github-button" // part of the https://buttons.github.io/buttons.js script in siteConfig.js
@@ -51,7 +51,7 @@ const SocialFooter = props => (
 );
 
 SocialFooter.propTypes = {
-  config: PropTypes.object
+  config: PropTypes.object,
 };
 
 class Footer extends React.Component {
@@ -62,53 +62,57 @@ class Footer extends React.Component {
           {this.props.config.footerIcon && (
             <a href={this.props.config.baseUrl} className="nav-home">
               <img
-                src={`${this.props.config.baseUrl}${this.props.config
-                  .footerIcon}`}
+                src={`${this.props.config.baseUrl}${
+                  this.props.config.footerIcon
+                }`}
                 alt={this.props.config.title}
                 width="66"
                 height="58"
               />
             </a>
           )}
-          <div>
+          <div className="footerSection">
             <h5>Docs</h5>
             <a
               href={`
-                ${this.props.config.baseUrl}docs/${this.props.language}/installation.html`}
-            >
+                ${this.props.config.baseUrl}docs/${
+                this.props.language
+              }/installation.html`}>
               Getting Started
             </a>
             <a
               href={`
-                ${this.props.config.baseUrl}docs/${this.props.language}/versioning.html`}
-            >
+                ${this.props.config.baseUrl}docs/${
+                this.props.language
+              }/versioning.html`}>
               Versioning
             </a>
             <a
               href={`
-                ${this.props.config.baseUrl}docs/${this.props.language}/translation.html`}
-            >
+                ${this.props.config.baseUrl}docs/${
+                this.props.language
+              }/translation.html`}>
               Localization
             </a>
             <a
               href={`
-                ${this.props.config.baseUrl}docs/${this.props.language}/search.html`}
-            >
+                ${this.props.config.baseUrl}docs/${
+                this.props.language
+              }/search.html`}>
               Adding Search
             </a>
           </div>
-          <div>
+          <div className="footerSection">
             <h5>Community</h5>
             <a
-              href={`${this.props.config.baseUrl}${this.props
-                .language}/users.html`}
-            >
+              href={`${this.props.config.baseUrl}${
+                this.props.language
+              }/users.html`}>
               User Showcase
             </a>
           </div>
           <SocialFooter config={this.props.config} />
         </section>
-
         <a
           href="https://code.facebook.com/projects/"
           target="_blank"

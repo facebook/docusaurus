@@ -3,6 +3,8 @@ id: doc-markdown
 title: Markdown Features
 ---
 
+Find out more about Docusaurus-specific fields when writing Markdown.
+
 ## Markdown Headers
 
 ### Documents
@@ -124,8 +126,8 @@ Text describing my function
 will lead to a table of contents of the functions:
 
 ```md
-* `docusaurus.function(a, b)`
-* `docdoc(file)`
+- `docusaurus.function(a, b)`
+- `docdoc(file)`
 ```
 
 and each function will link to their corresponding sections in the page.
