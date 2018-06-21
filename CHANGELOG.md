@@ -6,6 +6,41 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [Unreleased]
 
+## [1.3.0] - 2018-06-20
+
+1.3.0 introduces a brief clean up of our CSS, overall site typography and some improvements to Algolia search.
+
+Welcome to our newest user, [ml5](https://ml5js.org/), a really cool machine library in JavaScript.
+
+Thank you to the following contributors who helped with this release:
+
+- @endiliey
+- @JoelMarcey
+- @yangshun
+
+### Breaking changes
+
+- Since we made some CSS changes, there's a good chance it might not be compatible with your custom CSS if you have any. We recommend that you audit each page of the site for any UI issues caused by this change. We'll try to minimize such backward-incompatible CSS changes in future.
+- Other UI changes include:
+  - Left sidebar is sticky by default on supported browsers. We saw many of our users write custom CSS for that behavior and decided to incorporate it in the core.
+  - Footer is now a darker shade of black for better contrast.
+  - Background color of site changed to `#fff`.
+  - Headers are now black (from `$primaryColor`) and have bolder font weight.
+  - Blockquotes are changed to yellow (from pink).
+
+### Fixed/Changed
+
+- The search input will now search the docs in the [correct language](https://github.com/facebook/Docusaurus/commit/df429262429e449e78745423ff2c9ab6c6fd1d5c).
+- Algolia will be able to scrape multi-language sites better with the introduction of [special meta tags](https://github.com/facebook/Docusaurus/commit/0eb6612b58a6ee93d5de715f87201eb9fabc82c2).
+
+### Added
+
+N/A
+
+### Removed
+
+N/A
+
 ## [1.2.1] - 2018-06-17
 
 Fixes from existing issues and those found in the 1.2.0 release. Fixes include being able to modify the metadata of a doc without resorting to deleting `en.json`, using absolute URLs instead of relative for docs links, and more. We also added a few new things as well.
@@ -563,7 +598,8 @@ N/A
   - Blog
   - Documentation
 
-[Unreleased]: https://github.com/facebook/Docusaurus/compare/v1.2.1...HEAD
+[Unreleased]: https://github.com/facebook/Docusaurus/compare/v1.3.0...HEAD
+[1.3.0]: https://github.com/facebook/Docusaurus/compare/v1.2.1...v1.3.0
 [1.2.1]: https://github.com/facebook/Docusaurus/compare/v1.2.0...v1.2.1
 [1.2.0]: https://github.com/facebook/Docusaurus/compare/v1.1.5...v1.2.0
 [1.1.5]: https://github.com/facebook/Docusaurus/compare/v1.1.4...v1.1.5
