@@ -31,7 +31,7 @@ Thank you to the following contributors who helped with this release:
 ### Fixed/Changed
 
 - The search input will now search the docs in the [correct language](https://github.com/facebook/Docusaurus/commit/df429262429e449e78745423ff2c9ab6c6fd1d5c).
-- Algolia will be able to scrape multi-language sites better with the introduction of [special meta tags](https://github.com/facebook/Docusaurus/commit/0eb6612b58a6ee93d5de715f87201eb9fabc82c2).
+- Algolia will be able to scrap emulti-language and/or versioned sites better with the introduction of [special meta tags](https://github.com/facebook/Docusaurus/commit/0eb6612b58a6ee93d5de715f87201eb9fabc82c2).
 
 ### Added
 
