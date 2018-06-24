@@ -5948,9 +5948,9 @@ tr46@~0.0.3:
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/tr46/-/tr46-0.0.3.tgz#8184fd347dac9cdc185992f3a6622e14b9d9ab6a"
 
-tree-node-cli@^1.2.4:
-  version "1.2.4"
-  resolved "https://registry.yarnpkg.com/tree-node-cli/-/tree-node-cli-1.2.4.tgz#53beb5f01ab0d88315beae2b23744f5f6f2bcd34"
+tree-node-cli@^1.2.5:
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/tree-node-cli/-/tree-node-cli-1.2.5.tgz#afd75437976bbf2cc0c52b9949798e7530e8fd8c"
   dependencies:
     commander "^2.15.1"
 
