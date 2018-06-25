@@ -1567,7 +1567,7 @@ input::placeholder {
     height: calc(100vh - 50px);
     position: -webkit-sticky;
     position: sticky;
-    overflow-y: scroll;
+    overflow-y: auto;
     top: 50px; /* Height of navbar */
   }
 }
