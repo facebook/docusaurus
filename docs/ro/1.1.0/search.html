@@ -15,8 +15,10 @@
         </script><link rel="stylesheet" href="/css/prism.css"/><link rel="stylesheet" href="/css/main.css"/></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/ro"><img class="logo" src="/img/docusaurus.svg" alt="Docusaurus"/><h2 class="headerTitleWithLogo">Docusaurus</h2></a><a href="/ro/versions"><h3>1.1.0</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/docs/ro/1.1.0/installation" target="_self">Documente</a></li><li class=""><a href="/ro/help" target="_self">Ajutor</a></li><li class=""><a href="/ro/users" target="_self">Users</a></li><li class=""><a href="/ro/about-slash" target="_self">About /</a></li><li class=""><a href="/blog" target="_self">Blog</a></li><li class=""><a href="https://github.com/facebook/docusaurus" target="_self">GitHub</a></li><span><li><a id="languages-menu" href="#"><img class="languages-icon" src="/img/language.svg"/>Română</a><div id="languages-dropdown" class="hide"><ul id="languages-dropdown-items"><li><a href="/docs/en/1.1.0/search">English</a></li><li><a href="/docs/es-ES/1.1.0/search">Español</a></li><li><a href="/docs/tr/1.1.0/search">Türkçe</a></li><li><a href="/docs/zh-CN/1.1.0/search">简体中文</a></li><li><a href="https://crowdin.com/project/docusaurus" target="_blank" rel="noreferrer noopener">Help Us Translate</a></li></ul></div></li><script>
         const languagesMenuItem = document.getElementById("languages-menu");
         const languagesDropDown = document.getElementById("languages-dropdown");
-        languagesMenuItem.addEventListener("click", function(){
-          if(languagesDropDown.className == "hide") {
+        languagesMenuItem.addEventListener("click", function(event) {
+          event.preventDefault();
+
+          if (languagesDropDown.className == "hide") {
             languagesDropDown.className = "visible";
           } else {
             languagesDropDown.className = "hide";
