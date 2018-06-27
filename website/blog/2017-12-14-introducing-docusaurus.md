@@ -141,7 +141,7 @@ Special thanks also goes out to our earliest [adopters](https://docusaurus.io/en
 
 - [BuckleScript](https://bucklescript.github.io/)
 - [FastText](https://fasttext.cc)
-- [Jest](https://facebook.github.io/jest/)
+- [Jest](https://jestjs.io)
 - [Make It Open](http://makeitopen.com)
 - [Prettier](https://prettier.io/)
 - [Reason-react](https://reasonml.github.io/reason-react/)
