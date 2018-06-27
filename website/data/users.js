@@ -101,7 +101,7 @@ module.exports = [
   {
     caption: 'Jest',
     image: '/img/users/jest.png',
-    infoLink: 'https://facebook.github.io/jest/',
+    infoLink: 'https://jestjs.io',
     fbOpenSource: true,
     pinned: true,
   },
