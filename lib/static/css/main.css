@@ -753,13 +753,13 @@ blockquote {
 }
 
 .fixedHeaderContainer header .headerTitle {
-  font-size: 1.1em;
+  font-size: 1.25em;
   margin: 0;
 }
 
 .fixedHeaderContainer header .headerTitleWithLogo {
   display: block;
-  font-size: 1.1em;
+  font-size: 1.25em;
   line-height: 18px;
   margin: 0;
   position: relative;
