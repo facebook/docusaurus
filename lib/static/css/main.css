@@ -698,13 +698,9 @@ blockquote {
   }
 }
 
-@media only screen and (min-width: 736px) {
+@media only screen and (min-width: 1024px) {
   .mainContainer .wrapper .post {
     display: block;
-  }
-
-  .mainContainer .wrapper .post .postHeader h1 {
-    font-size: 250%;
   }
 
   .mainContainer .wrapper .posts .post {
@@ -836,6 +832,7 @@ input[type='search'] {
   align-self: center;
   display: flex;
   justify-content: center;
+  padding-left: 10px;
   position: absolute;
   right: 10px;
   top: 15px;
@@ -1348,15 +1345,7 @@ input::placeholder {
   z-index: 100;
 }
 
-@media only screen and (max-width: 735px) {
-  .reactNavSearchWrapper:before {
-    left: 6px;
-  }
-
-  .reactNavSearchWrapper:after {
-    left: 15px;
-  }
-
+@media only screen and (max-width: 1024px) {
   .reactNavSearchWrapper input#search_input_react {
     background-color: rgba(242, 196, 178, 0.25);
     border: none;
@@ -1518,10 +1507,11 @@ input::placeholder {
   float: right;
   font-size: 10px;
   font-weight: normal;
+  margin-top: 2px;
   text-decoration: none;
 }
 
-@media only screen and (max-width: 735px) {
+@media only screen and (max-width: 1023px) {
   .edit-page-link {
     display: none;
   }
