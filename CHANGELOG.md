@@ -6,6 +6,28 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [Unreleased]
 
+## [1.3.1] - 2018-06-30
+
+This version mainly includes bug fixes found in 1.3.0 that improves stability.
+
+Thank you to the following contributors who helped with this release:
+
+- @endiliey
+- @yangshun
+- @RhysBower
+- @ngyikp
+
+### Fixed/Changed
+
+- Algolia will search using the [correct version](https://github.com/facebook/Docusaurus/commit/9ff5328c88706d2025fd14c274c14d17712fa048) instead of always using the current.
+- Directory tree printing during initialization will now [exclude `vendor`](https://github.com/facebook/Docusaurus/commit/5a8e9a9ff11a74e4913c5d1f272aa8fc4c67e9c3), a common third-party directory for PHP projects.
+- Fix a bug in the [routing](https://github.com/facebook/Docusaurus/commit/66b2033546a6ad20146d5f81b115d6f080b98e89) for docs and blogs.
+- Sidebar scrollbar will [only appear](https://github.com/facebook/Docusaurus/commit/e4b9b9861b0374790b19f3f84f51ee34f8710f68) when it is longer than the height of the page.
+- Prevent the page from [scrolling to top](https://github.com/facebook/Docusaurus/commit/76870c6a3780323d364da9b9c52502ab4c979378) when clicking the languages button.
+- Fix [incorrect sitemap URLs](https://github.com/facebook/Docusaurus/commit/418c840ad4524cb286ec04842ffa5d474feed1d2).
+- Fix a bug where [promise errors get swallowed](https://github.com/facebook/Docusaurus/commit/f598e2583f73cc5e77b994f9ace027012852cd49), causing CIs to think that the command was successful when it isn't.
+- Fix some [newly discovered issues](https://github.com/facebook/Docusaurus/commit/0b10b193a83dc8ea792e84ffae2a082b895689cb) with the CSS revamp introduced in 1.3.0.
+
 ## [1.3.0] - 2018-06-20
 
 1.3.0 introduces a brief clean up of our CSS, overall site typography and some improvements to Algolia search.
@@ -598,7 +620,8 @@ N/A
   - Blog
   - Documentation
 
-[Unreleased]: https://github.com/facebook/Docusaurus/compare/v1.3.0...HEAD
+[Unreleased]: https://github.com/facebook/Docusaurus/compare/v1.3.1...HEAD
+[1.3.1]: https://github.com/facebook/Docusaurus/compare/v1.3.0...1.3.1
 [1.3.0]: https://github.com/facebook/Docusaurus/compare/v1.2.1...v1.3.0
 [1.2.1]: https://github.com/facebook/Docusaurus/compare/v1.2.0...v1.2.1
 [1.2.0]: https://github.com/facebook/Docusaurus/compare/v1.1.5...v1.2.0
