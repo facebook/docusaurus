@@ -40,7 +40,7 @@ jobs:
       - run: *yarn
       - save-cache: *save-yarn-cache
       - run:
-          name: Check Prettier
+          name: Check Prettier & ESLint
           command: yarn ci-check
       - run:
           name: Run Test Suites
