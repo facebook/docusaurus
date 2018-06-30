@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [1.3.1] - 2018-06-30
 
+This version mainly includes bug fixes found in 1.3.0 that improves stability.
+
 Thank you to the following contributors who helped with this release:
 
 - @endiliey
