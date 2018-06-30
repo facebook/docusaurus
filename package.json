@@ -14,7 +14,7 @@
     "url": "https://github.com/facebook/Docusaurus.git"
   },
   "scripts": {
-    "ci-check": "lint && prettier:diff",
+    "ci-check": "yarn lint && yarn prettier:diff",
     "format:source": "prettier --config .prettierrc --write \"lib/**/*.js\"",
     "format:examples": "prettier --config .prettierrc --write \"examples/**/*.js\"",
     "lint": "eslint --cache \"lib/**/*.js\" \"examples/**/*.js\"",
