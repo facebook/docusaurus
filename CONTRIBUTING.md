@@ -93,7 +93,7 @@ Please make sure the following is done when submitting a pull request:
 1. Fork [the repository](https://github.com/facebook/docusaurus) and create your branch from `master`.
 1. Add the copyright notice to the top of any code new files you've added.
 1. Describe your [**test plan**](#test-plan) in your pull request description. Make sure to [test your changes](https://github.com/facebook/Docusaurus/blob/master/admin/testing-changes-on-Docusaurus-itself.md)!
-1. Make sure your code lints (`npm run prettier`).
+1. Make sure your code lints (`npm run prettier && npm run lint`).
 1. Make sure our Jest tests pass (`npm run test`).
 1. If you haven't already, [sign the CLA](https://code.facebook.com/cla).
 
