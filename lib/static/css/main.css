@@ -2050,6 +2050,7 @@ input::placeholder {
   padding-bottom: 5px;
 }
 
+// don't change (Facebook SDK require this class name)
 .fb-like {
   display: block;
   margin-bottom: 20px;
