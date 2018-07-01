@@ -4,6 +4,7 @@
 
 node_modules
 
+.eslintcache
 lib/core/metadata.js
 lib/core/MetadataBlog.js
 lib/pages/

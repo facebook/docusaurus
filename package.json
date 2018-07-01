@@ -14,14 +14,25 @@
     "url": "https://github.com/facebook/Docusaurus.git"
   },
   "scripts": {
-    "ci-check": "yarn prettier:diff",
+    "ci-check": "yarn lint && yarn prettier:diff",
     "format:source": "prettier --config .prettierrc --write \"lib/**/*.js\"",
     "format:examples": "prettier --config .prettierrc --write \"examples/**/*.js\"",
+    "lint": "eslint --cache \"lib/**/*.js\" \"examples/**/*.js\"",
     "nit:source": "prettier --config .prettierrc --list-different \"lib/**/*.js\"",
     "nit:examples": "prettier --config .prettierrc --list-different \"examples/**/*.js\"",
+    "precommit": "lint-staged",
     "prettier": "yarn format:source && yarn format:examples",
     "prettier:diff": "yarn nit:source && yarn nit:examples",
     "test": "jest"
+  },
+  "lint-staged": {
+    "linters": {
+      "{lib,examples}/**/*.js": [
+        "yarn lint --fix",
+        "yarn prettier",
+        "git add"
+      ]
+    }
   },
   "dependencies": {
     "babel-plugin-transform-class-properties": "^6.24.1",
@@ -35,7 +46,7 @@
     "chalk": "^2.1.0",
     "classnames": "^2.2.6",
     "color": "^2.0.1",
-    "commander": "^2.11.0",
+    "commander": "^2.16.0",
     "crowdin-cli": "^0.3.0",
     "cssnano": "^3.10.0",
     "escape-string-regexp": "^1.0.5",
@@ -75,11 +86,22 @@
     "docusaurus-feed": "./lib/generate-feed.js"
   },
   "devDependencies": {
+    "babel-eslint": "^8.2.5",
+    "eslint": "^5.0.1",
+    "eslint-config-fbjs": "^2.0.1",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-plugin-babel": "^5.1.0",
+    "eslint-plugin-flowtype": "^2.49.3",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.10.0",
+    "eslint-plugin-relay": "^0.0.23",
     "filepath": "^1.1.0",
     "front-matter": "^2.3.0",
     "glob-promise": "^3.3.0",
+    "husky": "^0.14.3",
     "jest": "^21.2.1",
-    "prettier": "^1.13.5",
+    "lint-staged": "^7.2.0",
+    "prettier": "^1.13.7",
     "rimraf": "^2.6.2"
   }
 }
