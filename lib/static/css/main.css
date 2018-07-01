@@ -1507,7 +1507,8 @@ input::placeholder {
   float: right;
   font-size: 10px;
   font-weight: normal;
-  margin-top: 2px;
+  /* height 34px, parent postHeaderTitle height 40. Center this */
+  margin-top: 3px;
   text-decoration: none;
 }
 
