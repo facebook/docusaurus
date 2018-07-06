@@ -5,7 +5,7 @@ about: Submit a proposal/request for a new feature
 
 ## 🚀 Feature
 
-(A clear and concise description of what the feature is)
+(A clear and concise description of what the feature is.)
 
 ## Have you read the [Contributing Guidelines on issues](https://github.com/facebook/Docusaurus/blob/master/CONTRIBUTING.md#reporting-new-issues)?
 
@@ -13,11 +13,11 @@ about: Submit a proposal/request for a new feature
 
 ## Motivation
 
-(Please outline the motivation for the proposal)
+(Please outline the motivation for the proposal.)
 
 ## Pitch
 
-(Please explain why this feature should be implemented and how it would be used)
+(Please explain why this feature should be implemented and how it would be used.)
 
 <!--
   What happens if you skip this step?

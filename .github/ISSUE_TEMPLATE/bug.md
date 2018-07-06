@@ -16,8 +16,8 @@ about: Submit a bug report to help us improve
 (Write your steps here:)
 
 1.
-2.
-3.
+1.
+1.
 
 ## Expected behavior
 

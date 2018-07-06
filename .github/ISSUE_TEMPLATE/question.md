@@ -1,9 +1,9 @@
 ---
-name: 💬 Questions/Help
-about: If you have questions, please check StackOverflow or Discord or Twitter
+name: ❓ Questions/Help
+about: If you have questions, please check Stack Overflow or Discord or Twitter
 ---
 
-## 💬 Questions and Help
+## ❓ Questions and Help
 
 ### Please note that this issue tracker is not a help form and this issue will be closed.
 
