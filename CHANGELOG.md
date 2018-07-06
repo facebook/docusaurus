@@ -6,6 +6,25 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [Unreleased]
 
+## [1.3.2] - 2018-07-06
+
+This version mainly includes bug fixes found in 1.3.1 that improves stability and UX improvements.
+
+Welcome to our newest user, [single-spa](https://single-spa.js.org/), a framework that allows you to use multiple front end frameworks in one SPA.
+
+Thank you to the following contributors who helped with this release:
+
+- @endiliey
+- @chenglou
+
+### Fixed/Changed
+
+- Fix wrong sitemap for alternate URLs (#828)
+- Publish-gh-pages should display the correct commit that triggers it (#829)
+- Fix missing Facebook like buttons in blog posts (#821)
+- Open browser with the correct baseUrl during development (#819)
+- Fix Edit button alignment in Docs (#819)
+
 ## [1.3.1] - 2018-06-30
 
 This version mainly includes bug fixes found in 1.3.0 that improves stability.
@@ -620,7 +639,8 @@ N/A
   - Blog
   - Documentation
 
-[Unreleased]: https://github.com/facebook/Docusaurus/compare/v1.3.1...HEAD
+[Unreleased]: https://github.com/facebook/Docusaurus/compare/v1.3.2...HEAD
+[1.3.2]: https://github.com/facebook/Docusaurus/compare/v1.3.1...1.3.2
 [1.3.1]: https://github.com/facebook/Docusaurus/compare/v1.3.0...1.3.1
 [1.3.0]: https://github.com/facebook/Docusaurus/compare/v1.2.1...v1.3.0
 [1.2.1]: https://github.com/facebook/Docusaurus/compare/v1.2.0...v1.2.1
