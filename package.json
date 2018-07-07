@@ -13,7 +13,8 @@
     "format:source": "prettier --config .prettierrc --write \"lib/**/*.js\"",
     "format:examples":
       "prettier --config .prettierrc --write \"examples/**/*.js\"",
-    "lint": "eslint --cache \"lib/**/*.js\" \"examples/**/*.js\"",
+    "lint":
+      "eslint --cache \"lib/**/*.js\" \"examples/**/*.js\" \"website/**/*.js\"",
     "nit:source":
       "prettier --config .prettierrc --list-different \"lib/**/*.js\"",
     "nit:examples":
@@ -29,7 +30,6 @@
     }
   },
   "dependencies": {
-    "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.7.0",
