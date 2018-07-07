@@ -27,7 +27,7 @@
   },
   "lint-staged": {
     "linters": {
-      "{lib,examples}/**/*.js": [
+      "{lib,examples,website}/**/*.js": [
         "yarn lint --fix",
         "yarn prettier",
         "git add"
