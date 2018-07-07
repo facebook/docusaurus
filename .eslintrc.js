@@ -52,7 +52,6 @@ module.exports = {
     'array-callback-return': OFF, // 6
     'import/no-extraneous-dependencies': OFF, // 7
     'no-else-return': OFF, // 9
-    'no-useless-escape': OFF, // 9
     'jsx-a11y/anchor-is-valid': OFF, // 9
     'import/order': OFF, // 10
     'arrow-body-style': OFF, // 10
