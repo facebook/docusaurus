@@ -1,4 +1,3 @@
-const PropTypes = require('prop-types');
 /**
  * Copyright (c) 2017-present, Facebook, Inc.
  *
@@ -6,49 +5,51 @@ const PropTypes = require('prop-types');
  * LICENSE file in the root directory of this source tree.
  */
 
+const PropTypes = require('prop-types');
 const React = require('react');
 
-const SocialFooter = props => (
-  <div className="footerSection">
-    <h5>Social</h5>
-    <div className="social">
-      <a
-        className="github-button" // part of the https://buttons.github.io/buttons.js script in siteConfig.js
-        href={`https://github.com/${props.config.organizationName}/${
-          props.config.projectName
-        }`}
-        data-count-href={`/${props.config.organizationName}/${
-          props.config.projectName
-        }/stargazers`}
-        data-show-count="true"
-        data-count-aria-label="# stargazers on GitHub"
-        aria-label="Star this project on GitHub">
-        {props.config.projectName}
-      </a>
-    </div>
-    {props.config.twitterUsername && (
+function SocialFooter(props) {
+  const repoUrl = `https://github.com/${props.config.organizationName}/${
+    props.config.projectName
+  }`;
+  return (
+    <div className="footerSection">
+      <h5>Social</h5>
       <div className="social">
         <a
-          href={`https://twitter.com/${props.config.twitterUsername}`}
-          className="twitter-follow-button">
-          Follow @{props.config.twitterUsername}
+          className="github-button" // part of the https://buttons.github.io/buttons.js script in siteConfig.js
+          href={repoUrl}
+          data-count-href={`${repoUrl}/stargazers`}
+          data-show-count="true"
+          data-count-aria-label="# stargazers on GitHub"
+          aria-label="Star this project on GitHub">
+          {props.config.projectName}
         </a>
       </div>
-    )}
-    {props.config.facebookAppId && (
-      <div className="social">
-        <div
-          className="fb-like"
-          data-href={props.config.url}
-          data-layout="standard"
-          data-share="true"
-          data-width="225"
-          data-show-faces="false"
-        />
-      </div>
-    )}
-  </div>
-);
+      {props.config.twitterUsername && (
+        <div className="social">
+          <a
+            href={`https://twitter.com/${props.config.twitterUsername}`}
+            className="twitter-follow-button">
+            Follow @{props.config.twitterUsername}
+          </a>
+        </div>
+      )}
+      {props.config.facebookAppId && (
+        <div className="social">
+          <div
+            className="fb-like"
+            data-href={props.config.url}
+            data-layout="standard"
+            data-share="true"
+            data-width="225"
+            data-show-faces="false"
+          />
+        </div>
+      )}
+    </div>
+  );
+}
 
 SocialFooter.propTypes = {
   config: PropTypes.object,
@@ -77,37 +78,35 @@ class Footer extends React.Component {
               href={`
                 ${this.props.config.baseUrl}docs/${
                 this.props.language
-              }/installation.html`}>
+              }/installation`}>
               Getting Started
             </a>
             <a
               href={`
                 ${this.props.config.baseUrl}docs/${
                 this.props.language
-              }/versioning.html`}>
+              }/versioning`}>
               Versioning
             </a>
             <a
               href={`
                 ${this.props.config.baseUrl}docs/${
                 this.props.language
-              }/translation.html`}>
+              }/translation`}>
               Localization
             </a>
             <a
               href={`
                 ${this.props.config.baseUrl}docs/${
                 this.props.language
-              }/search.html`}>
+              }/search`}>
               Adding Search
             </a>
           </div>
           <div className="footerSection">
             <h5>Community</h5>
             <a
-              href={`${this.props.config.baseUrl}${
-                this.props.language
-              }/users.html`}>
+              href={`${this.props.config.baseUrl}${this.props.language}/users`}>
               User Showcase
             </a>
           </div>
