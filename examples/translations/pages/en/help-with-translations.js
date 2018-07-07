@@ -13,8 +13,6 @@ const GridBlock = CompLibrary.GridBlock;
 
 const translate = require('../../server/translate.js').translate;
 
-const siteConfig = require(process.cwd() + '/siteConfig.js');
-
 class Help extends React.Component {
   render() {
     const supportLinks = [

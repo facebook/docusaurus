@@ -3,12 +3,7 @@
   "description": "Easy to Maintain Open Source Documentation Websites",
   "version": "1.3.2",
   "license": "MIT",
-  "keywords": [
-    "documentation",
-    "websites",
-    "open source",
-    "docusaurus"
-  ],
+  "keywords": ["documentation", "websites", "open source", "docusaurus"],
   "repository": {
     "type": "git",
     "url": "https://github.com/facebook/Docusaurus.git"
@@ -16,10 +11,14 @@
   "scripts": {
     "ci-check": "yarn lint && yarn prettier:diff",
     "format:source": "prettier --config .prettierrc --write \"lib/**/*.js\"",
-    "format:examples": "prettier --config .prettierrc --write \"examples/**/*.js\"",
-    "lint": "eslint --cache \"lib/**/*.js\" \"examples/**/*.js\"",
-    "nit:source": "prettier --config .prettierrc --list-different \"lib/**/*.js\"",
-    "nit:examples": "prettier --config .prettierrc --list-different \"examples/**/*.js\"",
+    "format:examples":
+      "prettier --config .prettierrc --write \"examples/**/*.js\"",
+    "lint":
+      "eslint --cache \"lib/**/*.js\" \"examples/**/*.js\" \"website/**/*.js\"",
+    "nit:source":
+      "prettier --config .prettierrc --list-different \"lib/**/*.js\"",
+    "nit:examples":
+      "prettier --config .prettierrc --list-different \"examples/**/*.js\"",
     "precommit": "lint-staged",
     "prettier": "yarn format:source && yarn format:examples",
     "prettier:diff": "yarn nit:source && yarn nit:examples",
@@ -27,12 +26,22 @@
   },
   "lint-staged": {
     "linters": {
-      "{lib,examples}/**/*.js": [
+      "{lib,examples,website}/**/*.js": [
         "yarn lint --fix",
         "yarn prettier",
         "git add"
       ]
     }
+  },
+  "bin": {
+    "docusaurus-start": "./lib/start-server.js",
+    "docusaurus-build": "./lib/build-files.js",
+    "docusaurus-publish": "./lib/publish-gh-pages.js",
+    "docusaurus-examples": "./lib/copy-examples.js",
+    "docusaurus-write-translations": "./lib/write-translations.js",
+    "docusaurus-version": "./lib/version.js",
+    "docusaurus-rename-version": "./lib/rename-version.js",
+    "docusaurus-feed": "./lib/generate-feed.js"
   },
   "dependencies": {
     "babel-plugin-transform-class-properties": "^6.24.1",
@@ -75,26 +84,14 @@
     "tiny-lr": "^1.1.1",
     "tree-node-cli": "^1.2.5"
   },
-  "bin": {
-    "docusaurus-start": "./lib/start-server.js",
-    "docusaurus-build": "./lib/build-files.js",
-    "docusaurus-publish": "./lib/publish-gh-pages.js",
-    "docusaurus-examples": "./lib/copy-examples.js",
-    "docusaurus-write-translations": "./lib/write-translations.js",
-    "docusaurus-version": "./lib/version.js",
-    "docusaurus-rename-version": "./lib/rename-version.js",
-    "docusaurus-feed": "./lib/generate-feed.js"
-  },
   "devDependencies": {
     "babel-eslint": "^8.2.5",
-    "eslint": "^5.0.1",
-    "eslint-config-fbjs": "^2.0.1",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb": "17.0.0",
     "eslint-config-prettier": "^2.9.0",
-    "eslint-plugin-babel": "^5.1.0",
-    "eslint-plugin-flowtype": "^2.49.3",
+    "eslint-plugin-import": "^2.12.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
-    "eslint-plugin-react": "^7.10.0",
-    "eslint-plugin-relay": "^0.0.23",
+    "eslint-plugin-react": "^7.9.1",
     "filepath": "^1.1.0",
     "front-matter": "^2.3.0",
     "glob-promise": "^3.3.0",
