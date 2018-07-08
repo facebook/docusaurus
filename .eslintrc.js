@@ -20,6 +20,7 @@ module.exports = {
     'react/no-multi-comp': OFF,
     'import/no-extraneous-dependencies': OFF,
     'react/no-danger': OFF,
+    'no-empty': [ERROR, {allowEmptyCatch: true}],
 
     // Existing ESLint errors sorted by frequency, silencing first.
     'react/button-has-type': OFF, // 1
