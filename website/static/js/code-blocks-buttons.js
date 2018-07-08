@@ -4,6 +4,7 @@ window.addEventListener('load', function() {
   function button(label, ariaLabel, icon, className) {
     const btn = document.createElement('button');
     btn.classList.add('btnIcon', className);
+    btn.setAttribute('type', 'button');
     btn.setAttribute('aria-label', ariaLabel);
     btn.innerHTML =
       '<div class="btnIcon__body">' +
@@ -11,8 +12,7 @@ window.addEventListener('load', function() {
       '<strong class="btnIcon__label">' +
       label +
       '</strong>' +
-      '</div>' +
-      '</button>';
+      '</div>';
     return btn;
   }
 

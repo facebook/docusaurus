@@ -52,11 +52,11 @@ const SplashContainer = props => (
 
 const Logo = props => (
   <div className="projectLogo">
-    <img src={props.img_src} />
+    <img src={props.img_src} alt="Project Logo" />
   </div>
 );
 
-const ProjectTitle = props => (
+const ProjectTitle = () => (
   <h2 className="projectTitle">
     {siteConfig.title}
     <small>{siteConfig.tagline}</small>
@@ -99,7 +99,7 @@ const Block = props => (
   </Container>
 );
 
-const Features = props => (
+const Features = () => (
   <Block layout="fourColumn">
     {[
       {
@@ -118,7 +118,7 @@ const Features = props => (
   </Block>
 );
 
-const FeatureCallout = props => (
+const FeatureCallout = () => (
   <div
     className="productShowcaseSection paddingBottom"
     style={{textAlign: 'center'}}>
@@ -127,7 +127,7 @@ const FeatureCallout = props => (
   </div>
 );
 
-const LearnHow = props => (
+const LearnHow = () => (
   <Block background="light">
     {[
       {
@@ -140,7 +140,7 @@ const LearnHow = props => (
   </Block>
 );
 
-const TryOut = props => (
+const TryOut = () => (
   <Block id="try">
     {[
       {
@@ -153,7 +153,7 @@ const TryOut = props => (
   </Block>
 );
 
-const Description = props => (
+const Description = () => (
   <Block background="dark">
     {[
       {
@@ -170,21 +170,16 @@ const Showcase = props => {
   if ((siteConfig.users || []).length === 0) {
     return null;
   }
-  const showcase = siteConfig.users
-    .filter(user => {
-      return user.pinned;
-    })
-    .map((user, i) => {
-      return (
-        <a href={user.infoLink} key={i}>
-          <img src={user.image} alt={user.caption} title={user.caption} />
-        </a>
-      );
-    });
+
+  const showcase = siteConfig.users.filter(user => user.pinned).map(user => (
+    <a href={user.infoLink} key={user.infoLink}>
+      <img src={user.image} alt={user.caption} title={user.caption} />
+    </a>
+  ));
 
   return (
     <div className="productShowcaseSection paddingBottom">
-      <h2>{"Who's Using This?"}</h2>
+      <h2>Who's Using This?</h2>
       <p>This project is used by all these people</p>
       <div className="logos">{showcase}</div>
       <div className="more-users">

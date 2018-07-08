@@ -12,9 +12,9 @@ const siteConfig = require(process.cwd() + '/siteConfig.js');
 const translate = require('../../server/translate.js').translate;
 
 class Users extends React.Component {
-  renderUser(user, i) {
+  renderUser(user) {
     return (
-      <a href={user.infoLink} key={i}>
+      <a href={user.infoLink} key={user.infoLink}>
         <img src={user.image} alt={user.caption} title={user.caption} />
       </a>
     );
