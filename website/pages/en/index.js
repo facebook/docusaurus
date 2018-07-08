@@ -9,7 +9,6 @@ const React = require('react');
 const CompLibrary = require('../../core/CompLibrary.js');
 const Container = CompLibrary.Container;
 const GridBlock = CompLibrary.GridBlock;
-const MarkdownBlock = CompLibrary.MarkdownBlock; /* Used to read markdown */
 const siteConfig = require(process.cwd() + '/siteConfig.js');
 const translate = require('../../server/translate.js').translate;
 
@@ -74,17 +73,11 @@ class HomeSplash extends React.Component {
 class Index extends React.Component {
   render() {
     let language = this.props.language || 'en';
-    const showcase = siteConfig.users
-      .filter(user => {
-        return user.pinned;
-      })
-      .map((user, i) => {
-        return (
-          <a href={user.infoLink} key={i}>
-            <img src={user.image} alt={user.caption} title={user.caption} />
-          </a>
-        );
-      });
+    const showcase = siteConfig.users.filter(user => user.pinned).map(user => (
+      <a href={user.infoLink} key={user.infoLink}>
+        <img src={user.image} alt={user.caption} title={user.caption} />
+      </a>
+    ));
 
     return (
       <div>
