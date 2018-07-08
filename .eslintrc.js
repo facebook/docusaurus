@@ -12,19 +12,17 @@ module.exports = {
   parser: 'babel-eslint',
   extends: ['airbnb', 'prettier'],
   rules: {
-    // allow console
-    'no-console': OFF,
-    // require radix argument in parseInt
+    'no-console': OFF, // We have console.error, console.warn, etc.
     radix: ERROR,
     'class-methods-use-this': OFF,
     'no-empty': [ERROR, {allowEmptyCatch: true}],
     'no-param-reassign': OFF,
     'no-plusplus': OFF,
     'import/no-extraneous-dependencies': OFF,
-    'react/jsx-closing-bracket-location': OFF, // Formatting left to Prettier.
-    'react/jsx-filename-extension': OFF,
-    'react/no-danger': OFF,
-    'react/no-multi-comp': OFF,
+    'react/jsx-closing-bracket-location': OFF, // Formatting is left to Prettier.
+    'react/jsx-filename-extension': OFF, // Enable in future when migrating.
+    'react/no-danger': OFF, // Need this to inject scripts.
+    'react/no-multi-comp': OFF, // One component per file creates too many files.
     'react/no-unescaped-entities': [ERROR, {forbid: ['>', '}']}],
 
     // Existing ESLint errors sorted by frequency, silencing first.
