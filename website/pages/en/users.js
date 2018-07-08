@@ -7,6 +7,7 @@
 
 const React = require('react');
 const CompLibrary = require('../../core/CompLibrary.js');
+
 const Container = CompLibrary.Container;
 const siteConfig = require(process.cwd() + '/siteConfig.js');
 const translate = require('../../server/translate.js').translate;
@@ -38,7 +39,7 @@ class Users extends React.Component {
                 <translate>Who is using Docusaurus?</translate>
               </h1>
               <p>
-                Docusaurus powers some of Facebook's popular{' '}
+                Docusaurus powers some of Facebook&apos;s popular{' '}
                 <a href="https://code.facebook.com/projects/">
                   open source projects
                 </a>.

@@ -8,6 +8,7 @@
 const React = require('react');
 
 const CompLibrary = require('../../core/CompLibrary.js');
+
 const Container = CompLibrary.Container;
 const GridBlock = CompLibrary.GridBlock;
 
@@ -19,7 +20,7 @@ function docUrl(doc, language) {
 
 class Help extends React.Component {
   render() {
-    let language = this.props.language || '';
+    const language = this.props.language || '';
     const supportLinks = [
       {
         content: `Learn more using the [documentation on this site.](${docUrl(

@@ -31,6 +31,7 @@ window.addEventListener('load', function() {
   );
 
   const clipboard = new ClipboardJS('.btnClipboard', {
+    /* eslint-disable object-shorthand */
     target: function(trigger) {
       return trigger.parentNode.querySelector('code');
     },

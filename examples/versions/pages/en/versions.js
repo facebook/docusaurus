@@ -8,6 +8,7 @@
 const React = require('react');
 
 const CompLibrary = require('../../core/CompLibrary');
+
 const Container = CompLibrary.Container;
 
 const CWD = process.cwd();
@@ -34,10 +35,10 @@ function Versions() {
               <tr>
                 <th>{latestVersion}</th>
                 <td>
-                  <a href={''}>Documentation</a>
+                  <a href="">Documentation</a>
                 </td>
                 <td>
-                  <a href={''}>Release Notes</a>
+                  <a href="">Release Notes</a>
                 </td>
               </tr>
             </tbody>
@@ -52,10 +53,10 @@ function Versions() {
               <tr>
                 <th>master</th>
                 <td>
-                  <a href={''}>Documentation</a>
+                  <a href="">Documentation</a>
                 </td>
                 <td>
-                  <a href={''}>Release Notes</a>
+                  <a href="">Release Notes</a>
                 </td>
               </tr>
             </tbody>
@@ -70,10 +71,10 @@ function Versions() {
                     <tr>
                       <th>{version}</th>
                       <td>
-                        <a href={''}>Documentation</a>
+                        <a href="">Documentation</a>
                       </td>
                       <td>
-                        <a href={''}>Release Notes</a>
+                        <a href="">Release Notes</a>
                       </td>
                     </tr>
                   )
