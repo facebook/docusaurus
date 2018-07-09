@@ -1,4 +1,4 @@
-# [Docusaurus](https://docusaurus.io) &middot; [![npm version](https://img.shields.io/npm/v/docusaurus.svg?style=flat)](https://www.npmjs.com/package/docusaurus) [![CircleCI Status](https://circleci.com/gh/facebook/Docusaurus.svg?style=shield)](https://circleci.com/gh/facebook/docusaurus) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md#pull-requests)
+# [Docusaurus](https://docusaurus.io) &middot; [![npm version](https://img.shields.io/npm/v/docusaurus.svg?style=flat)](https://www.npmjs.com/package/docusaurus) [![CircleCI Status](https://circleci.com/gh/facebook/Docusaurus.svg?style=shield)](https://circleci.com/gh/facebook/Docusaurus) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md#pull-requests)
 
 Docusaurus is a project for easily building, deploying, and maintaining open source project websites.
 
