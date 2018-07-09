@@ -50,19 +50,19 @@
         </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://crowdin.com/project/docusaurus/es-ES" target="_blank" rel="noreferrer noopener">Translate</a><h1 class="postHeaderTitle">Versioning</h1></header><article><div><span><p>You can use the <code>version</code> script to cut a new documentation version based on the latest content in the <code>docs</code> directory. That specific set of documentation will then be preserved and accessible even as the documentation in the <code>docs</code> directory changes moving forward.</p>
 <h2><a class="anchor" aria-hidden="true" id="como-crear-nuevas-versiones"></a><a href="#como-crear-nuevas-versiones" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Cómo crear nuevas versiones</h2>
 <p>Run the following script to generate a starter versions page listing all the site versions:</p>
-<pre><code class="hljs css languages- bash">yarn examples versions
+<pre><code class="hljs css languages-bash">yarn examples versions
 </code></pre>
 <p>This creates the <code>pages/en/versions.js</code> file.</p>
 <p>You can edit this file later on to customize how you display the versions.</p>
 <p>Add the following script to your <code>package.json</code> file if it doesn't already exist:</p>
-<pre><code class="hljs css languages- js">...
+<pre><code class="hljs css languages-js">...
 <span class="hljs-string">"scripts"</span>: {
   <span class="hljs-string">"version"</span>: <span class="hljs-string">"docusaurus-version"</span>
 },
 ...
 </code></pre>
 <p>Run the script with a command line argument of the version you wish to create. e.g.,</p>
-<pre><code class="hljs css languages- bash">yarn run version 1.0.0
+<pre><code class="hljs css languages-bash">yarn run version 1.0.0
 </code></pre>
 <p>This will preserve all documents currently in the <code>docs</code> directory and make them available as documentation for version <code>1.0.0</code>.</p>
 <p>If, for example, you ran the version script with <code>1.0.0</code> as the version number, version <code>1.0.0</code> is considered the latest release version for your project. The site will display the version number next to the title in the header. This version number links to a versions page that you created earlier.</p>
@@ -93,14 +93,14 @@
 <p>For example, a document with the original id <code>doc1</code> exists for the latest version, <code>1.0.0</code>, and has the same content as the document with the id <code>doc1</code> in the <code>docs</code> directory. When a new version <code>2.0.0</code> is created, the file for <code>doc1</code> will not be copied into <code>versioned_docs/version-2.0.0/</code>. There will still be a page for <code>docs/2.0.0/doc1.html</code>, but it will use the file from version <code>1.0.0</code>.</p>
 <h2><a class="anchor" aria-hidden="true" id="cambiar-el-nombre-de-las-versiones-existentes"></a><a href="#cambiar-el-nombre-de-las-versiones-existentes" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Cambiar el nombre de las versiones existentes</h2>
 <p>To rename an existing version number to something else, first make sure the following script is in your <code>package.json</code> file:</p>
-<pre><code class="hljs css languages- js">...
+<pre><code class="hljs css languages-js">...
 <span class="hljs-string">"scripts"</span>: {
   <span class="hljs-string">"rename-version"</span>: <span class="hljs-string">"docusaurus-rename-version"</span>
 },
 ...
 </code></pre>
 <p>Run the script with command line arguments of first, the current version name, then second, the new version name. e.g.,</p>
-<pre><code class="hljs css languages- bash">yarn run rename-version 1.0.0 1.0.1
+<pre><code class="hljs css languages-bash">yarn run rename-version 1.0.0 1.0.1
 </code></pre>
 <h2><a class="anchor" aria-hidden="true" id="versiones-y-traducciones"></a><a href="#versiones-y-traducciones" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Versiones y Traducciones</h2>
 <p>If you wish to use versioning and translations features, the <code>crowdin.yaml</code> file should be set up to upload and download versioned documents to and from Crowdin for translation. Translated, versioned files will go into the directory <code>translated_docs/${language}/version-${version}/</code>. For more information, check out the <a href="/docs/es-ES/next/translation">translations guide</a>.</p>

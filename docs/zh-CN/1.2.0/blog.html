@@ -50,7 +50,7 @@
         </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://crowdin.com/project/docusaurus/zh-CN" target="_blank" rel="noreferrer noopener">Translate</a><h1 class="postHeaderTitle">Adding a Blog</h1></header><article><div><span><h2><a class="anchor" aria-hidden="true" id="初始设置"></a><a href="#初始设置" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>初始设置</h2>
 <p>To setup your site's blog, start by creating a <code>blog</code> directory within your repo's <code>website</code> directory.</p>
 <p>然后, 在 <code>siteConfig.js</code> 中添加一个指向您博客的 <code>headerLinks</code>:</p>
-<pre><code class="hljs css languages- js">headerLinks: [
+<pre><code class="hljs css languages-js">headerLinks: [
     ...
     { <span class="hljs-attr">blog</span>: <span class="hljs-literal">true</span>, <span class="hljs-attr">label</span>: <span class="hljs-string">'Blog'</span> },
     ...
@@ -59,7 +59,7 @@
 <h2><a class="anchor" aria-hidden="true" id="添加文章"></a><a href="#添加文章" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>添加文章</h2>
 <p>To publish in the blog, create a file within the blog directory with a formatted name of <code>YYYY-MM-DD-My-Blog-Post-Title.md</code>. The post date is extracted from the file name.</p>
 <p>例如, 文件 <code>website/blog/2017-08-18-Introducing-Docusaurus.md</code>:</p>
-<pre><code class="hljs css languages- yml"><span class="hljs-meta">---</span>
+<pre><code class="hljs css languages-yml"><span class="hljs-meta">---</span>
 <span class="hljs-attr">author:</span> <span class="hljs-string">Frank</span> <span class="hljs-string">Li</span>
 <span class="hljs-attr">authorURL:</span> <span class="hljs-attr">https://twitter.com/foobarbaz</span>
 <span class="hljs-attr">authorFBID:</span> <span class="hljs-number">503283835</span>
@@ -79,7 +79,7 @@
 </ul>
 <h2><a class="anchor" aria-hidden="true" id="摘要截取"></a><a href="#摘要截取" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>摘要截取</h2>
 <p>Use the <code>&lt;!--truncate--&gt;</code> marker in your blog post to represent what will be shown as the summary when viewing all published blog posts. <code>&lt;!--truncate--&gt;</code> 标记以上的内容都会成为摘要。 例如：</p>
-<pre><code class="hljs css languages- yaml"><span class="hljs-meta">---</span>
+<pre><code class="hljs css languages-yaml"><span class="hljs-meta">---</span>
 <span class="hljs-attr">title:</span> <span class="hljs-string">Truncation</span> <span class="hljs-string">Example</span>
 <span class="hljs-meta">---</span>
 
@@ -100,7 +100,7 @@
 <p>你可以在 <code>siteConfig.js</code>中添加 <code>blogSidebarCount</code>属性，来配置你的想要展示的文章数。</p>
 <p>The available options are an integer representing the number of posts you wish to show or a string with the value <code>'ALL'</code>.</p>
 <p>例如：</p>
-<pre><code class="hljs css languages- js">blogSidebarCount: <span class="hljs-string">'ALL'</span>;
+<pre><code class="hljs css languages-js">blogSidebarCount: <span class="hljs-string">'ALL'</span>;
 </code></pre>
 <h2><a class="anchor" aria-hidden="true" id="rss订阅"></a><a href="#rss订阅" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>RSS订阅</h2>
 <p>Docusaurus provides a simple RSS feed for your blog posts. Both RSS and Atom feed formats are supported. This data is automatically to your website page's HTML</p>

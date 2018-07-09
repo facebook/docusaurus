@@ -50,7 +50,7 @@
         </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://crowdin.com/project/docusaurus/es-ES" target="_blank" rel="noreferrer noopener">Translate</a><h1 class="postHeaderTitle">Navigation and Sidebars</h1></header><article><div><span><h2><a class="anchor" aria-hidden="true" id="referencing-site-documents"></a><a href="#referencing-site-documents" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Referencing Site Documents</h2>
 <p>If you want to reference another document in your <code>docs</code> folder (or the location you set via the <a href="https://docusaurus.io/docs/en/site-config.html#optional-fields">optional <code>customDocsPath</code></a> path site configuration option), then you just use the name of the document you want to reference.</p>
 <p>For example, if you are in <code>doc2.md</code> and you want to reference <code>doc1.md</code>:</p>
-<pre><code class="hljs css languages- md">I am referencing a [<span class="hljs-string">document</span>](<span class="hljs-link">doc1.md</span>).
+<pre><code class="hljs css languages-md">I am referencing a [<span class="hljs-string">document</span>](<span class="hljs-link">doc1.md</span>).
 </code></pre>
 <blockquote>
 <p>Docusaurus currently does not support documents in nested folders; only in a flat folder structure. We are looking into adding support for nested folders.</p>
@@ -59,7 +59,7 @@
 <p>New markdown files within <code>docs</code> will show up as pages on the website. Links to those documents are created first by using the <code>id</code> in the header of each document. If there is no <code>id</code> field, then the name of the file will serve as the link name.</p>
 <p>For example, creating an empty file such as <code>docs/getting-started.md</code> will enable the new page URL as <code>/docs/getting-started.html</code>.</p>
 <p>Suppose you add this to your document:</p>
-<pre><code class="hljs css languages- yaml"><span class="hljs-meta">---</span>
+<pre><code class="hljs css languages-yaml"><span class="hljs-meta">---</span>
 <span class="hljs-attr">id:</span> <span class="hljs-string">intro</span>
 <span class="hljs-attr">title:</span> <span class="hljs-string">Getting</span> <span class="hljs-string">Started</span>
 <span class="hljs-meta">---</span>
@@ -80,7 +80,7 @@
 <p>Until you add your document to <code>website/sidebars.json</code>, they will only be accessible via a direct URL. The doc will not show up in any sidebar.</p>
 </blockquote>
 <p>Within <code>sidebars.json</code>, add the <code>id</code> you used in the document header to existing sidebar/category. In the below case, <code>docs</code> is the name of the sidebar and <code>Getting Started</code> is a category within the sidebar.</p>
-<pre><code class="hljs css languages- js">{
+<pre><code class="hljs css languages-js">{
   <span class="hljs-string">"docs"</span>: {
     <span class="hljs-string">"Getting Started"</span>: [
       <span class="hljs-string">"getting-started"</span>
@@ -91,7 +91,7 @@
 }
 </code></pre>
 <p>O puede crear una nueva categoría en la barra lateral:</p>
-<pre><code class="hljs css languages- js">{
+<pre><code class="hljs css languages-js">{
   <span class="hljs-string">"docs"</span>: {
     <span class="hljs-string">"My New Sidebar Category"</span>: [
       <span class="hljs-string">"getting-started"</span>
@@ -103,7 +103,7 @@
 </code></pre>
 <h3><a class="anchor" aria-hidden="true" id="adding-new-sidebars"></a><a href="#adding-new-sidebars" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Adding New Sidebars</h3>
 <p>You can also put a document in a new sidebar. In the following example, we are creating an <code>examples-sidebar</code> sidebar within <code>sidebars.json</code> that has a category called <code>My Example Category</code> containing a document with an <code>id</code> of <code>my-examples</code>.</p>
-<pre><code class="hljs css languages- js">{
+<pre><code class="hljs css languages-js">{
   <span class="hljs-string">"examples-sidebar"</span>: {
     <span class="hljs-string">"My Example Category"</span>: [
       <span class="hljs-string">"my-examples"</span>
@@ -118,7 +118,7 @@
 <p>To expose sidebars, you will add clickable labels to the site navigation bar at the top of the website. You can add documents, pages and external links.</p>
 <h3><a class="anchor" aria-hidden="true" id="adding-documents"></a><a href="#adding-documents" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Adding Documents</h3>
 <p>After creating a new sidebar for the site by <a href="#adding-new-sidebars">adding</a> it to <code>sidebars.json</code>, you can expose the new sidebar from the top navigation bar by editing the <code>headerLinks</code> field of <code>siteConfig.js</code>.</p>
-<pre><code class="hljs css languages- js">{
+<pre><code class="hljs css languages-js">{
   <span class="hljs-attr">headerLinks</span>: [
     ...
     { <span class="hljs-attr">doc</span>: <span class="hljs-string">'my-examples'</span>, <span class="hljs-attr">label</span>: <span class="hljs-string">'Examples'</span> },
@@ -130,7 +130,7 @@
 <p>A label called <code>Examples</code> will be added to the site navigation bar and when you click on it at the top of your site, the <code>examples-sidebar</code> will be shown and the default document will be <code>my-examples</code>.</p>
 <h3><a class="anchor" aria-hidden="true" id="adding-custom-pages"></a><a href="#adding-custom-pages" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Adding Custom Pages</h3>
 <p>To add custom pages to the site navigation bar, entries can be added to the <code>headerLinks</code> of <code>siteConfig.js</code>. Por ejemplo, si tenemos una página dentro de <code>website/pages/help.js</code>, podemos hacer un enlace agregando lo siguiente:</p>
-<pre><code class="hljs css languages- js">{
+<pre><code class="hljs css languages-js">{
   <span class="hljs-attr">headerLinks</span>: [
     ...
     { <span class="hljs-attr">page</span>: <span class="hljs-string">'help'</span>, <span class="hljs-attr">label</span>: <span class="hljs-string">'Help'</span> },
@@ -142,7 +142,7 @@
 <p>A label called <code>Help</code> will be added to the site navigation bar and when you click on it at the top of your site, the content from the <code>help.js</code> page will be shown.</p>
 <h3><a class="anchor" aria-hidden="true" id="adding-external-links"></a><a href="#adding-external-links" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Adding External Links</h3>
 <p>Custom links can be added to the site navigation bar with the following entry in <code>siteConfig.js</code>:</p>
-<pre><code class="hljs css languages- js">{
+<pre><code class="hljs css languages-js">{
   <span class="hljs-attr">headerLinks</span>: [
     ...
     { <span class="hljs-attr">href</span>: <span class="hljs-string">'https://github.com/facebook/Docusaurus'</span>, <span class="hljs-attr">label</span>: <span class="hljs-string">'GitHub'</span> },
@@ -159,7 +159,7 @@
 <p>You have limited control where the search and languages dropdown elements are shown in the site navigation bar at the top of your website.</p>
 <h3><a class="anchor" aria-hidden="true" id="search"></a><a href="#search" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Search</h3>
 <p>Si la búsqueda está habilitada en su sitio, su barra de búsqueda aparecerá a la derecha de sus enlaces. Si desea colocar la barra de búsqueda entre los enlaces en el encabezado, agregue una entrada de búsqueda en la matriz de configuración<code>headerLinks</code>:</p>
-<pre><code class="hljs css languages- js">{
+<pre><code class="hljs css languages-js">{
   <span class="hljs-attr">headerLinks</span>: [
     { <span class="hljs-attr">doc</span>: <span class="hljs-string">'foo'</span>, <span class="hljs-attr">label</span>: <span class="hljs-string">'Foo'</span> },
     { <span class="hljs-attr">search</span>: <span class="hljs-literal">true</span> },
@@ -170,7 +170,7 @@
 </code></pre>
 <h3><a class="anchor" aria-hidden="true" id="languages-dropdown"></a><a href="#languages-dropdown" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Languages Dropdown</h3>
 <p>Si las traducciones están habilitadas en su sitio, el menú desplegable del idioma aparecerá a la derecha de sus enlaces (y a la izquierda de la barra de búsqueda, si la búsqueda está habilitada). Si desea colocar la selección de idioma desplegable entre los enlaces en el encabezado, agregue una entrada de idiomas en la matriz de configuración <code>headerLinks</code>:</p>
-<pre><code class="hljs css languages- js">{
+<pre><code class="hljs css languages-js">{
   <span class="hljs-attr">headerLinks</span>: [
     { <span class="hljs-attr">doc</span>: <span class="hljs-string">'foo'</span>, <span class="hljs-attr">label</span>: <span class="hljs-string">'Foo'</span> },
     { <span class="hljs-attr">languages</span>: <span class="hljs-literal">true</span> },
@@ -192,7 +192,7 @@
 <p>These are two separate class names so you can have the active styles applied to either exact matches only or a bit more broadly for docs that belong together. If you don't want to make this distinction you can add both classes to the same CSS rule.</p>
 <h2><a class="anchor" aria-hidden="true" id="secondary-on-page-navigation"></a><a href="#secondary-on-page-navigation" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Secondary On-Page Navigation</h2>
 <p>We support secondary on-page navigation so you can more easily see the topics associated with a given document. To enable this feature, you need to add the <code>onPageNav</code> site configuration <a href="/docs/es-ES/1.1.3/site-config#optional-fields">option</a> to your <code>siteConfig.js</code>.</p>
-<pre><code class="hljs css languages- js">{
+<pre><code class="hljs css languages-js">{
   <span class="hljs-attr">onPageNav</span>: <span class="hljs-string">'separate'</span>,
   ...
 }

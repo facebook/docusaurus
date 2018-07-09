@@ -27,7 +27,7 @@
       </script></span><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://crowdin.com/project/docusaurus/es-ES" target="_blank" rel="noreferrer noopener">Translate</a><h1 class="postHeaderTitle">Adding a Blog</h1></header><article><div><span><h2><a class="anchor" aria-hidden="true" id="configuracion-inicial"></a><a href="#configuracion-inicial" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Configuración inicial</h2>
 <p>To setup your site's blog, start by creating a <code>blog</code> directory within your repo's <code>website</code> directory.</p>
 <p>Luego, agrega un enlace de encabezado a tu blog dentro de <code>siteConfig.js</code>:</p>
-<pre><code class="hljs css languages- js">headerLinks: [
+<pre><code class="hljs css languages-js">headerLinks: [
     ...
     { <span class="hljs-attr">blog</span>: <span class="hljs-literal">true</span>, <span class="hljs-attr">label</span>: <span class="hljs-string">'Blog'</span> },
     ...
@@ -36,7 +36,7 @@
 <h2><a class="anchor" aria-hidden="true" id="anadiendo-un-blog"></a><a href="#anadiendo-un-blog" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Añadiendo un blog</h2>
 <p>To publish in the blog, create a file within the blog directory with a formatted name of <code>YYYY-MM-DD-My-Blog-Post-Title.md</code>. The post date is extracted from the file name.</p>
 <p>Por ejemplo, en <code>website/blog/2017-08-18-Introducing-Docusaurus.md</code>:</p>
-<pre><code class="hljs css languages- yml"><span class="hljs-meta">---</span>
+<pre><code class="hljs css languages-yml"><span class="hljs-meta">---</span>
 <span class="hljs-attr">author:</span> <span class="hljs-string">Frank</span> <span class="hljs-string">Li</span>
 <span class="hljs-attr">authorURL:</span> <span class="hljs-attr">https://twitter.com/foobarbaz</span>
 <span class="hljs-attr">authorFBID:</span> <span class="hljs-number">503283835</span>
@@ -56,7 +56,7 @@
 </ul>
 <h2><a class="anchor" aria-hidden="true" id="plan-de-resumen"></a><a href="#plan-de-resumen" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Plan de resumen</h2>
 <p>Use the <code>&lt;!--truncate--&gt;</code> marker in your blog post to represent what will be shown as the summary when viewing all published blog posts. Cualquier cosa sobre <code>&lt;!--truncate--&gt;</code> será parte del resumen. Por ejemplo:</p>
-<pre><code class="hljs css languages- yaml"><span class="hljs-meta">---</span>
+<pre><code class="hljs css languages-yaml"><span class="hljs-meta">---</span>
 <span class="hljs-attr">title:</span> <span class="hljs-string">Truncation</span> <span class="hljs-string">Example</span>
 <span class="hljs-meta">---</span>
 
@@ -77,13 +77,13 @@
 <p>You can configure a specific amount of blog posts to show by adding a <code>blogSidebarCount</code> setting to your <code>siteConfig.js</code>.</p>
 <p>The available options are an integer representing the number of posts you wish to show or a string with the value <code>'ALL'</code>.</p>
 <p>Ejemplo:</p>
-<pre><code class="hljs css languages- js">blogSidebarCount: <span class="hljs-string">'ALL'</span>;
+<pre><code class="hljs css languages-js">blogSidebarCount: <span class="hljs-string">'ALL'</span>;
 </code></pre>
 <h2><a class="anchor" aria-hidden="true" id="changing-the-sidebar-title"></a><a href="#changing-the-sidebar-title" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Changing The Sidebar Title</h2>
 <p>You can configure a specific sidebar title by adding a <code>blogSidebarTitle</code> setting to your <code>siteConfig.js</code>.</p>
 <p>The option is an object which can have the keys <code>default</code> and <code>all</code>. Specifying a value for <code>default</code> allows you to change the default sidebar title. Specifying a value for <code>all</code> allows you to change the sidebar title when the <code>blogSidebarCount</code> option is set to <code>'ALL'</code>.</p>
 <p>Ejemplo:</p>
-<pre><code class="hljs css languages- js">blogSidebarTitle: { <span class="hljs-attr">default</span>: <span class="hljs-string">'Recent posts'</span>, <span class="hljs-attr">all</span>: <span class="hljs-string">'All blog posts'</span> },
+<pre><code class="hljs css languages-js">blogSidebarTitle: { <span class="hljs-attr">default</span>: <span class="hljs-string">'Recent posts'</span>, <span class="hljs-attr">all</span>: <span class="hljs-string">'All blog posts'</span> },
 </code></pre>
 <h2><a class="anchor" aria-hidden="true" id="rss-feed"></a><a href="#rss-feed" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>RSS Feed</h2>
 <p>Docusaurus provides a simple RSS feed for your blog posts. Both RSS and Atom feed formats are supported. This data is automatically to your website page's HTML</p>

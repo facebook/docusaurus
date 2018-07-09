@@ -54,18 +54,18 @@
 </ul>
 <h2><a class="anchor" aria-hidden="true" id="komut-satırından-calıştırma"></a><a href="#komut-satırından-calıştırma" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Komut satırından çalıştırma</h2>
 <p>Yarn or npm kullanarak komut dosyalarını çalıştırabilirsiniz. Başlarken kılavuzunu zaten geçtiyseniz; zaten <code>start &lt;/ code&gt; komutunu biliyor olabilirsiniz. &lt;code&gt;docusaurus-start</code> komutu Docusaurus'u çalıştırmasını başlatan komuttur. siteyi oluşturan ve bir sunucu başlatan komut dosyası ve genellikle böyle çağrılır:</p>
-<pre><code class="hljs css languages- bash">yarn run start
+<pre><code class="hljs css languages-bash">yarn run start
 </code></pre>
 <p>Aynı komut npm dosyası kullanılarak çağrılabilir:</p>
-<pre><code class="hljs css languages- bash">npm run start
+<pre><code class="hljs css languages-bash">npm run start
 </code></pre>
 <p>Belirli bir komut dosyası çalıştırmak için, sadece komutunu, <code>start</code> yukarıdaki örneklerde komut dosyanızla ilişkili komutla birlikte kaydedin.</p>
 <h2><a class="anchor" aria-hidden="true" id="argumentleri-kullanmak"></a><a href="#argumentleri-kullanmak" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Argumentleri kullanmak</h2>
 <p>Some commands support optional arguments. For example, to start a server on port 8080, you can specify the <code>--port</code> argument when running <code>start</code>:</p>
-<pre><code class="hljs css languages- bash">yarn run start --port 8080
+<pre><code class="hljs css languages-bash">yarn run start --port 8080
 </code></pre>
 <p>Şayet npm kullanrak Docusaurus çalıştıyorsanız,komut satırına bağımsız değişkenler ekleyerek komut satırı değişkenlerini kullanmaya devam edebilirsiniz.`` arasında<code>npm run &lt;command&gt;</code> ve komut argumenleri:</p>
-<pre><code class="hljs css languages- bash">npm run start -- --port 8080
+<pre><code class="hljs css languages-bash">npm run start -- --port 8080
 </code></pre>
 <h2><a class="anchor" aria-hidden="true" id="ayarlar"></a><a href="#ayarlar" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Ayarlar</h2>
 <p>Bu komut dosyaları, <code>&quot;scripts&quot;</code> sizin şifreniz <code>website/package.json</code> dosyasını yükleme işleminin bir parçası olarak kullanın. Onları tekrar ayarlama konusunda yardıma ihtiyacınız varsa, Lütfen şunu seçiniz<a href="/docs/tr/1.1.0/installation"> yükleme rehberi</a>.</p>
@@ -98,7 +98,7 @@
 </tbody>
 </table>
 <p><strong>Example</strong></p>
-<pre><code class="hljs css languages- bash">docusaurus-examples &lt;feature&gt;
+<pre><code class="hljs css languages-bash">docusaurus-examples &lt;feature&gt;
 </code></pre>
 <p>When no feature is specified, sets up a minimally configured example website in your project. This command is covered in depth in the <a href="/docs/tr/1.1.0/site-preparation">Site Preparation guide</a>.</p>
 <hr>
@@ -110,7 +110,7 @@
 <li><p><code>GIT_USER</code>: Açılım işlemesi ile ilişkilendirilmiş git kullanıcısı.</p></li>
 <li><p><code>USE_SSH</code>: Whether to use SSH instead of HTTPS for your connection to the GitHub repo.</p>
 <p><strong>Example</strong></p>
-<pre><code class="hljs css languages- bash">GIT_USER=docusaurus-bot USE_SSH=<span class="hljs-literal">true</span> yarn run publish-gh-pages
+<pre><code class="hljs css languages-bash">GIT_USER=docusaurus-bot USE_SSH=<span class="hljs-literal">true</span> yarn run publish-gh-pages
 </code></pre></li>
 </ul>
 <p>The following environment variables are <a href="https://circleci.com/docs/1.0/environment-variables/">set by CircleCI</a> during the build process.</p>
@@ -138,7 +138,7 @@
 </tbody>
 </table>
 <p><strong>Example</strong></p>
-<pre><code class="hljs css languages- bash">docusaurus-rename-version &lt;currentVersion&gt; &lt;newVersion&gt;
+<pre><code class="hljs css languages-bash">docusaurus-rename-version &lt;currentVersion&gt; &lt;newVersion&gt;
 </code></pre>
 <p>See the <a href="/docs/tr/1.1.0/versioning#renaming-existing-versions">Versioning guide</a> to learn more.</p>
 <hr>

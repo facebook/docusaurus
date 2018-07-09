@@ -55,7 +55,7 @@
 <p><code>hide_title</code>: Whether to hide the title at the top of the doc.</p>
 <p><code>sidebar_label</code>: The text shown in the document sidebar for this document. If this field is not present, the document's <code>sidebar_label</code> will default to its <code>title</code>.</p>
 <p>例如：</p>
-<pre><code class="hljs css languages- markdown">---
+<pre><code class="hljs css languages-markdown">---
 id: doc1
 title: My Document
 <span class="hljs-section">sidebar_label: Document
@@ -63,7 +63,7 @@ title: My Document
 </code></pre>
 <p>经过版本控制的文档在被复制时会更改其 id 这样才能包含版本号。 新的 <code>id</code> 为 <code>version-${version}-${id}</code>, 其中 <code>${version}</code> 是该文档的版本号, <code>$ {id}</code> 是原始的 <code>id</code>。 此外，版本文档可得到<code>original_id</code> 文件，使用原版的文件id。</p>
 <p>例如：</p>
-<pre><code class="hljs css languages- markdown">---
+<pre><code class="hljs css languages-markdown">---
 id: version-1.0.0-doc1
 title: My Document
 sidebar_label: Document
@@ -72,7 +72,7 @@ sidebar_label: Document
 </code></pre>
 <p><code>custom_edit_url</code>: The url for editing this document. If this field is not present, the document's edit url will fallback to <code>editUrl</code> from optional fields of <code>siteConfig.js</code>. See <a href="site-config.md">siteConfig.js</a> docs for more information.</p>
 <p>例如：</p>
-<pre><code class="hljs css languages- markdown">---
+<pre><code class="hljs css languages-markdown">---
 id: doc-markdown
 title: Markdown Features
 <span class="hljs-section">custom_edit_url: https://github.com/facebook/Docusaurus/edit/master/docs/api-doc-markdown.md
@@ -85,7 +85,7 @@ title: Markdown Features
 <p><code>authorURL</code>: A page to link to when a site user clicks the author's name. If this field is omitted, the author's name will not link to anything.</p>
 <p><code>authorFBID</code>: 作者的 Facebook（脸书） id, 仅用于让作者的个人资料图片显示在博客文章中。 如果省略此字段, 则不会显示该作者的图片在这篇文章中。</p>
 <p>例如：</p>
-<pre><code class="hljs css languages- markdown">---
+<pre><code class="hljs css languages-markdown">---
 tittle: My First Blog Post
 author: Frank Li
 authorURL: http://twitter.com/franchementli
@@ -97,20 +97,20 @@ authorURL: http://twitter.com/franchementli
 <h3><a class="anchor" aria-hidden="true" id="链接到其他文档"></a><a href="#链接到其他文档" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>链接到其他文档</h3>
 <p>您可以使用相关urls 链接到其他文档文件, 这样它们将自动转换为相应的 html 链接。</p>
 <p>例如：</p>
-<pre><code class="hljs css languages- markdown">[<span class="hljs-string">This links to another document</span>](<span class="hljs-link">other-document.md</span>)
+<pre><code class="hljs css languages-markdown">[<span class="hljs-string">This links to another document</span>](<span class="hljs-link">other-document.md</span>)
 </code></pre>
 <p>这样, markdown将把它自动转换成指向 <code>/docs/other-document.html</code> 的链接(或适当翻译/版本控制链接) 。</p>
 <p>这可以帮助您在 GitHub 上浏览文档, 因为这样的链接将会功能链接到其他文档 (但仍在 GitHub), 但文档在得到渲染时将具有正确的 html 链接。</p>
 <h3><a class="anchor" aria-hidden="true" id="链接到图像和其它资源"></a><a href="#链接到图像和其它资源" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>链接到图像和其它资源</h3>
 <p>使用相关 url 可以以与文档相同的方式链接静态资源。 在文档和博客中使用的静态资产应分别进入 <code>docs/assets</code> 和 <code>website/blog/assets</code>。 Markdown 被转换成正确的链接路径, 这样这些路径就能为所有语言和版本的文档所用。</p>
 <p>例如：</p>
-<pre><code class="hljs css languages- markdown">![<span class="hljs-string">alt-text</span>](<span class="hljs-link">/docs/assets/doc-image.png</span>)
+<pre><code class="hljs css languages-markdown">![<span class="hljs-string">alt-text</span>](<span class="hljs-link">/docs/assets/doc-image.png</span>)
 </code></pre>
 <h3><a class="anchor" aria-hidden="true" id="生成目录"></a><a href="#生成目录" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>生成目录</h3>
 <p>您可以制作一个自动生成的链接列表, 它可以作为 API 文档的目录使用。</p>
 <p>In your markdown file, insert a line with the text &lt;<code>AUTOGENERATED_TABLE_OF_CONTENTS</code>&gt;. 使用 <code>h3</code> 为标题在代码块里为每个函数编写文档。 These will be found by Docusaurus and a list of links to these sections will inserted at the text &lt;<code>AUTOGENERATED_TABLE_OF_CONTENTS</code>&gt;.</p>
 <p>例如：</p>
-<pre><code class="hljs css languages- markdown"><span class="hljs-section">### `docusaurus.function(a, b)`</span>
+<pre><code class="hljs css languages-markdown"><span class="hljs-section">### `docusaurus.function(a, b)`</span>
 
 Text describing my function
 
@@ -120,7 +120,7 @@ Text describing my function
 Text describing my function
 </code></pre>
 <p>这将会把页面带去这些功能的目录：</p>
-<pre><code class="hljs css languages- markdown"><span class="hljs-bullet">- </span><span class="hljs-code">`docusaurus.function(a, b)`</span>
+<pre><code class="hljs css languages-markdown"><span class="hljs-bullet">- </span><span class="hljs-code">`docusaurus.function(a, b)`</span>
 <span class="hljs-bullet">- </span><span class="hljs-code">`docdoc(file)`</span>
 </code></pre>
 <p>每个函数将会把链接带到页面相对应的部分。</p>
@@ -134,20 +134,20 @@ ReactDOM.render(
 ```
 </code></pre>
 <p>...would be rendered with syntax highlighting like so:</p>
-<pre><code class="hljs css languages- javascript">ReactDOM.render(
+<pre><code class="hljs css languages-javascript">ReactDOM.render(
   <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>Hello, world!<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span></span>,
   <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'root'</span>)
 );
 </code></pre>
 <p>Highlighting is provided by <a href="https://highlightjs.org">Highlight.js</a> using the theme specified in your <code>siteConfig.js</code> file as part of the <code>highlight</code> key:</p>
-<pre><code class="hljs css languages- javascript">highlight: {
+<pre><code class="hljs css languages-javascript">highlight: {
   <span class="hljs-attr">theme</span>: <span class="hljs-string">'default'</span>
 }
 </code></pre>
 <p>You can find the full list of supported themes in the Highlight.js <a href="https://github.com/isagalaev/highlight.js/tree/master/src/styles"><code>styles</code></a> directory.</p>
 <h3><a class="anchor" aria-hidden="true" id="registering-additional-languages"></a><a href="#registering-additional-languages" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Registering additional languages</h3>
 <p>While Highlight.js provides support for <a href="https://highlightjs.org/static/demo/">many popular languages out of the box</a>, you may find the need to register additional language support. For these cases, we provide an escape valve by exposing the <code>hljs</code> constant as part of the <code>highlight</code> config key. This in turn allows you to call <a href="http://highlightjs.readthedocs.io/en/latest/api.html#registerlanguage-name-language"><code>registerLanguage</code></a>:</p>
-<pre><code class="hljs css languages- javascript">highlight: {
+<pre><code class="hljs css languages-javascript">highlight: {
   <span class="hljs-attr">theme</span>: <span class="hljs-string">'default'</span>,
   <span class="hljs-attr">hljs</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">hljs</span>) </span>{
     hljs.registerLanguage(<span class="hljs-string">'galacticbasic'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">hljs</span>) </span>{
