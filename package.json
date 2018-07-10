@@ -73,7 +73,6 @@
     "imagemin-svgo": "^6.0.0",
     "markdown-toc": "^1.2.0",
     "mkdirp": "^0.5.1",
-    "pretty-format": "^23.2.0",
     "prismjs": "^1.15.0",
     "react": "^16.4.1",
     "react-dev-utils": "^5.0.1",
