@@ -8,178 +8,178 @@
 const languages = [
   {
     enabled: true,
-    name: "English",
-    tag: "en"
+    name: 'English',
+    tag: 'en',
   },
   {
     enabled: false,
-    name: "日本語",
-    tag: "ja"
+    name: '日本語',
+    tag: 'ja',
   },
   {
     enabled: false,
-    name: "العربية",
-    tag: "ar"
+    name: 'العربية',
+    tag: 'ar',
   },
   {
     enabled: false,
-    name: "Bosanski",
-    tag: "bs-BA"
+    name: 'Bosanski',
+    tag: 'bs-BA',
   },
   {
     enabled: false,
-    name: "Català",
-    tag: "ca"
+    name: 'Català',
+    tag: 'ca',
   },
   {
     enabled: false,
-    name: "Čeština",
-    tag: "cs"
+    name: 'Čeština',
+    tag: 'cs',
   },
   {
     enabled: false,
-    name: "Dansk",
-    tag: "da"
+    name: 'Dansk',
+    tag: 'da',
   },
   {
     enabled: false,
-    name: "Deutsch",
-    tag: "de"
+    name: 'Deutsch',
+    tag: 'de',
   },
   {
     enabled: false,
-    name: "Ελληνικά",
-    tag: "el"
+    name: 'Ελληνικά',
+    tag: 'el',
   },
   {
     enabled: true,
-    name: "Español",
-    tag: "es-ES"
+    name: 'Español',
+    tag: 'es-ES',
   },
   {
     enabled: false,
-    name: "فارسی",
-    tag: "fa-IR"
+    name: 'فارسی',
+    tag: 'fa-IR',
   },
   {
     enabled: false,
-    name: "Suomi",
-    tag: "fi"
+    name: 'Suomi',
+    tag: 'fi',
   },
   {
     enabled: false,
-    name: "Français",
-    tag: "fr"
+    name: 'Français',
+    tag: 'fr',
   },
   {
     enabled: false,
-    name: "עִברִית",
-    tag: "he"
+    name: 'עִברִית',
+    tag: 'he',
   },
   {
     enabled: false,
-    name: "Magyar",
-    tag: "hu"
+    name: 'Magyar',
+    tag: 'hu',
   },
   {
     enabled: false,
-    name: "Bahasa Indonesia",
-    tag: "id-ID"
+    name: 'Bahasa Indonesia',
+    tag: 'id-ID',
   },
   {
     enabled: false,
-    name: "Italiano",
-    tag: "it"
+    name: 'Italiano',
+    tag: 'it',
   },
   {
     enabled: false,
-    name: "Afrikaans",
-    tag: "af"
+    name: 'Afrikaans',
+    tag: 'af',
   },
   {
     enabled: false,
-    name: "한국어",
-    tag: "ko"
+    name: '한국어',
+    tag: 'ko',
   },
   {
     enabled: false,
-    name: "मराठी",
-    tag: "mr-IN"
+    name: 'मराठी',
+    tag: 'mr-IN',
   },
   {
     enabled: false,
-    name: "Nederlands",
-    tag: "nl"
+    name: 'Nederlands',
+    tag: 'nl',
   },
   {
     enabled: false,
-    name: "Norsk",
-    tag: "no-NO"
+    name: 'Norsk',
+    tag: 'no-NO',
   },
   {
     enabled: false,
-    name: "Polskie",
-    tag: "pl"
+    name: 'Polskie',
+    tag: 'pl',
   },
   {
     enabled: false,
-    name: "Português",
-    tag: "pt-PT"
+    name: 'Português',
+    tag: 'pt-PT',
   },
   {
     enabled: false,
-    name: "Português (Brasil)",
-    tag: "pt-BR"
+    name: 'Português (Brasil)',
+    tag: 'pt-BR',
   },
   {
     enabled: true,
-    name: "Română",
-    tag: "ro"
+    name: 'Română',
+    tag: 'ro',
   },
   {
     enabled: false,
-    name: "Русский",
-    tag: "ru"
+    name: 'Русский',
+    tag: 'ru',
   },
   {
     enabled: false,
-    name: "Slovenský",
-    tag: "sk-SK"
+    name: 'Slovenský',
+    tag: 'sk-SK',
   },
   {
     enabled: false,
-    name: "Српски језик (Ћирилица)",
-    tag: "sr"
+    name: 'Српски језик (Ћирилица)',
+    tag: 'sr',
   },
   {
     enabled: false,
-    name: "Svenska",
-    tag: "sv-SE"
+    name: 'Svenska',
+    tag: 'sv-SE',
   },
   {
     enabled: true,
-    name: "Türkçe",
-    tag: "tr"
+    name: 'Türkçe',
+    tag: 'tr',
   },
   {
     enabled: false,
-    name: "Українська",
-    tag: "uk"
+    name: 'Українська',
+    tag: 'uk',
   },
   {
     enabled: false,
-    name: "Tiếng Việt",
-    tag: "vi"
+    name: 'Tiếng Việt',
+    tag: 'vi',
   },
   {
     enabled: true,
-    name: "简体中文",
-    tag: "zh-CN"
+    name: '简体中文',
+    tag: 'zh-CN',
   },
   {
     enabled: false,
-    name: "繁體中文",
-    tag: "zh-TW"
-  }
+    name: '繁體中文',
+    tag: 'zh-TW',
+  },
 ];
 module.exports = languages;
