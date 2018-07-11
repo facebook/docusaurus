@@ -5,10 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-// See https://docusaurus.io/docs/site-config.html for all the possible
+// See https://docusaurus.io/docs/site-config for all the possible
 // site configuration options.
 
-/* List of projects/orgs using your project for the users page */
+// List of projects/orgs using your project for the users page.
 const users = [
   {
     caption: 'User1',
@@ -21,10 +21,10 @@ const users = [
 ];
 
 const siteConfig = {
-  title: 'Test Site' /* title for your website */,
+  title: 'Test Site', // Title for your website.
   tagline: 'A website for testing',
-  url: 'https://your-docusaurus-test-site.com' /* your website url */,
-  baseUrl: '/' /* base url for your project */,
+  url: 'https://your-docusaurus-test-site.com', // Your website URL
+  baseUrl: '/', // Base URL for your project */
   // For github.io type URLs, you would set the url and baseUrl like:
   //   url: 'https://facebook.github.io',
   //   baseUrl: '/test-site/',
@@ -52,14 +52,15 @@ const siteConfig = {
   footerIcon: 'img/docusaurus.svg',
   favicon: 'img/favicon.png',
 
-  /* colors for website */
+  /* Colors for website */
   colors: {
     primaryColor: '#2E8555',
     secondaryColor: '#205C3B',
   },
 
-  /* custom fonts for website */
-  /*fonts: {
+  /* Custom fonts for website */
+  /*
+  fonts: {
     myFont: [
       "Times New Roman",
       "Serif"
@@ -68,26 +69,29 @@ const siteConfig = {
       "-apple-system",
       "system-ui"
     ]
-  },*/
+  },
+  */
 
-  // This copyright info is used in /core/Footer.js and blog rss/atom feeds.
+  // This copyright info is used in /core/Footer.js and blog RSS/Atom feeds.
   copyright:
     'Copyright © ' +
     new Date().getFullYear() +
     ' Your Name or Your Company Name',
 
   highlight: {
-    // Highlight.js theme to use for syntax highlighting in code blocks
+    // Highlight.js theme to use for syntax highlighting in code blocks.
     theme: 'default',
   },
 
-  // Add custom scripts here that would be placed in <script> tags
+  // Add custom scripts here that would be placed in <script> tags.
   scripts: ['https://buttons.github.io/buttons.js'],
 
-  /* On page navigation for the current documentation page */
+  // On page navigation for the current documentation page.
   onPageNav: 'separate',
+  // No .html extensions for paths.
+  cleanUrl: true,
 
-  /* Open Graph and Twitter card images */
+  // Open Graph and Twitter card images.
   ogImage: 'img/docusaurus.png',
   twitterImage: 'img/docusaurus.png',
 

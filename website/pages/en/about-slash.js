@@ -9,6 +9,7 @@
 
 const React = require('react');
 const CompLibrary = require('../../core/CompLibrary.js');
+
 const Container = CompLibrary.Container;
 const siteConfig = require(process.cwd() + '/siteConfig.js');
 const translate = require('../../server/translate.js').translate;

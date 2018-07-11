@@ -7,6 +7,7 @@
 
 const React = require('react');
 const CompLibrary = require('../../core/CompLibrary.js');
+
 const Container = CompLibrary.Container;
 const GridBlock = CompLibrary.GridBlock;
 const siteConfig = require(process.cwd() + '/siteConfig.js');
@@ -72,7 +73,7 @@ class HomeSplash extends React.Component {
 
 class Index extends React.Component {
   render() {
-    let language = this.props.language || 'en';
+    const language = this.props.language || 'en';
     const showcase = siteConfig.users.filter(user => user.pinned).map(user => (
       <a href={user.infoLink} key={user.infoLink}>
         <img src={user.image} alt={user.caption} title={user.caption} />
@@ -226,7 +227,7 @@ class Index extends React.Component {
           </Container>
           <div className="productShowcaseSection paddingBottom">
             <h2>
-              <translate>Who's Using Docusaurus?</translate>
+              <translate>Who is Using Docusaurus?</translate>
             </h2>
             <p>
               <translate>

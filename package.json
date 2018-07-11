@@ -23,7 +23,8 @@
     "precommit": "lint-staged",
     "prettier": "yarn format:source && yarn format:examples",
     "prettier:diff": "yarn nit:source && yarn nit:examples",
-    "test": "jest"
+    "test": "jest",
+    "start": "cd website && yarn start"
   },
   "lint-staged": {
     "linters": {

@@ -8,6 +8,7 @@
 const React = require('react');
 
 const CompLibrary = require('../../core/CompLibrary.js');
+
 const MarkdownBlock = CompLibrary.MarkdownBlock; /* Used to read markdown */
 const Container = CompLibrary.Container;
 const GridBlock = CompLibrary.GridBlock;
@@ -73,7 +74,7 @@ const PromoSection = props => (
 
 class HomeSplash extends React.Component {
   render() {
-    let language = this.props.language || '';
+    const language = this.props.language || '';
     return (
       <SplashContainer>
         <Logo img_src={imgUrl('docusaurus.svg')} />
@@ -179,7 +180,7 @@ const Showcase = props => {
 
   return (
     <div className="productShowcaseSection paddingBottom">
-      <h2>Who's Using This?</h2>
+      <h2>Who is Using This?</h2>
       <p>This project is used by all these people</p>
       <div className="logos">{showcase}</div>
       <div className="more-users">
@@ -193,7 +194,7 @@ const Showcase = props => {
 
 class Index extends React.Component {
   render() {
-    let language = this.props.language || '';
+    const language = this.props.language || '';
 
     return (
       <div>
