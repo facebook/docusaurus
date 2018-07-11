@@ -45,7 +45,7 @@ const siteConfig = {
     secondaryColor: '#205C3B',
   },
   translationRecruitingLink: 'https://crowdin.com/project/docusaurus',
-  copyright: 'Copyright © ' + new Date().getFullYear() + ' Facebook Inc.',
+  copyright: `Copyright © ${new Date().getFullYear()} Facebook Inc.`,
   usePrism: ['jsx'],
   highlight: {
     theme: 'atom-one-dark',

@@ -1,23 +1,19 @@
 /* global ClipboardJS */
 
-window.addEventListener('load', function() {
+window.addEventListener('load', () => {
   function button(label, ariaLabel, icon, className) {
     const btn = document.createElement('button');
     btn.classList.add('btnIcon', className);
     btn.setAttribute('type', 'button');
     btn.setAttribute('aria-label', ariaLabel);
     btn.innerHTML =
-      '<div class="btnIcon__body">' +
-      icon +
-      '<strong class="btnIcon__label">' +
-      label +
-      '</strong>' +
-      '</div>';
+      `<div class="btnIcon__body">${icon}<strong class="btnIcon__label">${label}</strong>` +
+      `</div>`;
     return btn;
   }
 
   function addButtons(codeBlockSelector, btn) {
-    document.querySelectorAll(codeBlockSelector).forEach(function(code) {
+    document.querySelectorAll(codeBlockSelector).forEach(code => {
       code.parentNode.appendChild(btn.cloneNode(true));
     });
   }
@@ -38,11 +34,11 @@ window.addEventListener('load', function() {
     },
   });
 
-  clipboard.on('success', function(event) {
+  clipboard.on('success', event => {
     event.clearSelection();
     const textEl = event.trigger.querySelector('.btnIcon__label');
     textEl.textContent = 'Copied';
-    setTimeout(function() {
+    setTimeout(() => {
       textEl.textContent = 'Copy';
     }, 2000);
   });

@@ -15,12 +15,15 @@ module.exports = {
     'no-console': OFF, // We have console.error, console.warn, etc.
     radix: ERROR,
     'class-methods-use-this': OFF,
+    'func-names': OFF,
     'no-empty': [ERROR, {allowEmptyCatch: true}],
     'no-param-reassign': OFF,
     'no-plusplus': OFF,
+    'prefer-template': OFF,
     'import/no-extraneous-dependencies': OFF,
     'react/jsx-closing-bracket-location': OFF, // Formatting is left to Prettier.
     'react/jsx-filename-extension': OFF, // Enable in future when migrating.
+    'react/jsx-one-expression-per-line': OFF, // Formatting is left to Prettier.
     'react/no-danger': OFF, // Need this to inject scripts.
     'react/no-multi-comp': OFF, // One component per file creates too many files.
     'react/no-unescaped-entities': [ERROR, {forbid: ['>', '}']}],
@@ -32,14 +35,10 @@ module.exports = {
     'jsx-a11y/anchor-is-valid': OFF, // 9
     'import/no-unresolved': OFF, // 15
     'react/prefer-stateless-function': OFF, // 22
-    'prefer-arrow-callback': OFF, // 30
-    'func-names': OFF, // 37
     'import/no-dynamic-require': OFF, // 46
     'prefer-destructuring': OFF, // 69
     'global-require': OFF, // 85
-    'react/jsx-one-expression-per-line': OFF, // 129
     'react/prop-types': OFF, // 197
-    'prefer-template': OFF, // 292
     'react/destructuring-assignment': OFF, // 342
   },
 };
