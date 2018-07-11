@@ -31,6 +31,8 @@ window.addEventListener('load', function() {
   );
 
   const clipboard = new ClipboardJS('.btnClipboard', {
+    // Not gonna use the shorthand as this file is sent down to browsers without transpiling.
+    /* eslint-disable object-shorthand */
     target: function(trigger) {
       return trigger.parentNode.querySelector('code');
     },
