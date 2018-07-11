@@ -13,8 +13,8 @@ const Container = CompLibrary.Container;
 
 const CWD = process.cwd();
 
-const siteConfig = require(CWD + '/siteConfig.js');
-const versions = require(CWD + '/versions.json');
+const siteConfig = require(`${CWD}/siteConfig.js`);
+const versions = require(`${CWD}/versions.json`);
 
 function Versions(props) {
   const latestVersion = versions[0];

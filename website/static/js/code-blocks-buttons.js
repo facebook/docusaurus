@@ -1,5 +1,5 @@
-/* global ClipboardJS */
-
+// Turn off ESLint for this file because it's sent down to users as-is.
+/* eslint-disable */
 window.addEventListener('load', function() {
   function button(label, ariaLabel, icon, className) {
     const btn = document.createElement('button');
@@ -31,8 +31,6 @@ window.addEventListener('load', function() {
   );
 
   const clipboard = new ClipboardJS('.btnClipboard', {
-    // Not gonna use the shorthand as this file is sent down to browsers without transpiling.
-    /* eslint-disable object-shorthand */
     target: function(trigger) {
       return trigger.parentNode.querySelector('code');
     },

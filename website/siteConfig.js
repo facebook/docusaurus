@@ -37,15 +37,15 @@ const siteConfig = {
     apiKey: '3eb9507824b8be89e7a199ecaa1a9d2c',
     indexName: 'docusaurus',
     algoliaOptions: {
-      facetFilters: [ "lang:LANGUAGE" ]
-    }
+      facetFilters: ['lang:LANGUAGE'],
+    },
   },
   colors: {
     primaryColor: '#2E8555',
     secondaryColor: '#205C3B',
   },
   translationRecruitingLink: 'https://crowdin.com/project/docusaurus',
-  copyright: 'Copyright © ' + new Date().getFullYear() + ' Facebook Inc.',
+  copyright: `Copyright © ${new Date().getFullYear()} Facebook Inc.`,
   usePrism: ['jsx'],
   highlight: {
     theme: 'atom-one-dark',
