@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`core utils extractBlogPostBeforeTruncate 1`] = `
+exports[`utils extractBlogPostBeforeTruncate 1`] = `
 "---
 title: Truncation Example
 ---
@@ -12,7 +12,7 @@ Even this.
 "
 `;
 
-exports[`core utils extractBlogPostBeforeTruncate 2`] = `
+exports[`utils extractBlogPostBeforeTruncate 2`] = `
 "---
 title: Non-truncation Example
 ---
@@ -29,7 +29,7 @@ And this too.
 "
 `;
 
-exports[`core utils extractBlogPostSummary 1`] = `
+exports[`utils extractBlogPostSummary 1`] = `
 "---
 title: Truncation Example
 ---
@@ -48,7 +48,7 @@ Or this.
 "
 `;
 
-exports[`core utils extractBlogPostSummary 2`] = `
+exports[`utils extractBlogPostSummary 2`] = `
 "---
 title: Non-truncation Example
 ---
