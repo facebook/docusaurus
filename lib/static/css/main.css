@@ -629,6 +629,10 @@ blockquote {
   padding: 0;
 }
 
+.mainContainer .wrapper em, .mainContainer .wrapper i {
+  font-style: italic;
+}
+
 .mainContainer .wrapper .post {
   position: relative;
 }
