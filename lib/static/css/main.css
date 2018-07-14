@@ -115,7 +115,7 @@ strong {
   font-weight: 600;
 }
 
-em {
+em, i {
   font-style: italic;
 }
 
