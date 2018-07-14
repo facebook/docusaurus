@@ -115,6 +115,10 @@ strong {
   font-weight: 600;
 }
 
+em {
+  font-style: italic;
+}
+
 [type='checkbox'] {
   box-sizing: border-box;
   padding: 0;
@@ -627,10 +631,6 @@ blockquote {
 .mainContainer .wrapper .allShareBlock .pluginBlock {
   margin: 12px 0;
   padding: 0;
-}
-
-.mainContainer .wrapper em, .mainContainer .wrapper i {
-  font-style: italic;
 }
 
 .mainContainer .wrapper .post {
