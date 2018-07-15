@@ -111,11 +111,13 @@ body {
   box-sizing: border-box;
 }
 
-strong {
+strong,
+b {
   font-weight: 600;
 }
 
-em, i {
+em,
+i {
   font-style: italic;
 }
 
