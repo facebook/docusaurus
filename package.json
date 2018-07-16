@@ -39,6 +39,9 @@
       ]
     }
   },
+  "jest": {
+    "testPathIgnorePatterns": ["/node_modules/", "__fixtures__"]
+  },
   "bin": {
     "docusaurus-start": "./lib/start-server.js",
     "docusaurus-build": "./lib/build-files.js",

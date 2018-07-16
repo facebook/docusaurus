@@ -2,7 +2,8 @@
   "env": {
     "test": {
       "presets": [
-        "env"
+        "env", 
+        "react"
       ],
       "plugins": [
         "transform-class-properties",

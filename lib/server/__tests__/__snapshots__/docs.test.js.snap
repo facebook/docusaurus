@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`mdToHtmlify transform nothing 1`] = `
+"
+Docusaurus is the best :)"
+`;
+
+exports[`mdToHtmlify transform to correct link 1`] = `
+"
+### Existing Docs
+
+- [doc1](/docs/en/next/doc1)
+- [doc2](/docs/en/next/doc2)
+
+### Non-existing Docs
+
+- [hahaha](hahaha.md)
+
+## Repeating Docs
+
+- [doc1](/docs/en/next/doc1)
+- [doc2](/docs/en/next/doc2)"
+`;
