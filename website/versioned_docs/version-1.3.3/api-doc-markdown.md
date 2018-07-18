@@ -1,6 +1,7 @@
 ---
-id: doc-markdown
+id: version-1.3.3-doc-markdown
 title: Markdown Features
+original_id: doc-markdown
 ---
 
 Find out more about Docusaurus-specific fields when writing Markdown.
