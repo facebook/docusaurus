@@ -77,38 +77,6 @@ authorFBID: 100002976521003
 ---
 ```
 
-### Nested docs
-
-Having a nested docs structure like the one below is more suitable
-to simply not provide the `id` in the header of markdown document
-
-```bash
-root-directory
-├── docs
-|   ├── dir1
-|   |   ├── doc1.md
-|   |   └── doc2.md
-|   └── dir2
-|       └── doc3.md
-|   ...
-└──
-```
-
-Then reference it like in the example below in `sidebars.json`.
-Also notice the missing file extension
-
-```json
-{
-  "Label 1": [
-    "dir1/doc1",
-    "dir1/doc2"
-  ],
-  "Label 2": [
-      "dir2/doc3"
-    ]
-}
-```
-
 ## Extra Features
 
 Docusaurus supports some extra features when writing documentation in markdown.
