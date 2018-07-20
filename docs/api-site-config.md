@@ -19,6 +19,8 @@ The `siteConfig` object contains the bulk of the configuration settings for your
 
 `baseUrl` - baseUrl for your site.
 
+> When publishing to GitHub Enterprise, set it to ```/pages/{organizationName}/{projectName}/```
+
 `colors` - Color configurations for the site.
 
 * `primaryColor` is the color used the header navigation bar and sidebars.
