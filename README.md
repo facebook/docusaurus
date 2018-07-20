@@ -1,4 +1,18 @@
-# [Docusaurus](https://docusaurus.io) &middot; [![npm version](https://img.shields.io/npm/v/docusaurus.svg?style=flat)](https://www.npmjs.com/package/docusaurus) [![CircleCI Status](https://circleci.com/gh/facebook/Docusaurus.svg?style=shield)](https://circleci.com/gh/facebook/Docusaurus) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md#pull-requests)
+<h1 align="center">
+  <p align="center">Docusaurus</p>
+  <a href="https://docusaurus.io"><img src="/website/static/img/slash-introducing.png" alt="Docusaurus"></a>
+</h1>
+
+<p align="center">
+  <a href="https://www.npmjs.com/package/docusaurus"><img src="https://img.shields.io/npm/v/docusaurus.svg?style=flat" alt="npm version"></a>
+  <a href="https://circleci.com/gh/facebook/Docusaurus"><img src="https://circleci.com/gh/facebook/Docusaurus.svg?style=shield" alt="CircleCI Status"></a>
+  <a href="CONTRIBUTING.md#pull-requests"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome"></a>
+  <a href="https://discord.gg/docusaurus"><img src="https://img.shields.io/badge/chat-on%20discord-7289da.svg" alt="Chat"></a>
+  <a href="https://github.com/prettier/prettier"><img alt="code style: prettier" src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square"></a>
+  <a href="https://github.com/facebook/jest"><img src="https://img.shields.io/badge/tested_with-jest-99424f.svg" alt="Tested with Jest"></a>
+</p>
+
+## Introduction
 
 Docusaurus is a project for easily building, deploying, and maintaining open source project websites.
 
