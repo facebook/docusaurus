@@ -105,6 +105,8 @@ Example:
 ![alt-text](assets/doc-image.png)
 ```
 
+![alt-text](assets/docusaurus.png)
+
 ### Generating Table of Contents
 
 You can make an auto-generated list of links, which can be useful as a table of contents for API docs.
