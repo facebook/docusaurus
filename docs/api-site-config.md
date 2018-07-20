@@ -17,7 +17,7 @@ The `siteConfig` object contains the bulk of the configuration settings for your
 
 ### Mandatory Fields
 
-`baseUrl` - baseUrl for your site.
+`baseUrl` - baseUrl for your site. For example, `/pages/org/project/` is the baseUrl of https://git.facebook.com/pages/org/project/
 
 `colors` - Color configurations for the site.
 
