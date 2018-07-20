@@ -12,7 +12,8 @@
   <a href="https://github.com/facebook/jest"><img src="https://img.shields.io/badge/tested_with-jest-99424f.svg" alt="Tested with Jest"></a>
 </p>
 
-## Intro
+## Introduction
+
 Docusaurus is a project for easily building, deploying, and maintaining open source project websites.
 
 * **Simple to Start** Docusaurus is built to be easy to [get up and running](https://docusaurus.io/docs/en/installation.html) in as little time possible. We've built Docusaurus to handle the website build process so you can focus on your project.
