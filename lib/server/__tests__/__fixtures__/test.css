@@ -19,3 +19,6 @@
 .hljs .comment {
   opacity: 0.7;
 }
+::placeholder {
+  color: gray;
+}
