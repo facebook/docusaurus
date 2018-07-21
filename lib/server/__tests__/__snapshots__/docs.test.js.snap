@@ -2,7 +2,22 @@
 
 exports[`mdToHtmlify transform nothing 1`] = `
 "
-Docusaurus is the best :)"
+Docusaurus is the best :)
+
+![image1](assets/image1.png)
+
+\`\`\`js
+console.log(\\"Docusaurus\\");
+\`\`\`
+
+![image2](assets/image2.jpg)
+![image3](assets/image3.gif)
+
+Don't replace the one below
+\`\`\`md
+
+![image4](assets/image4.bmp)
+\`\`\`"
 `;
 
 exports[`mdToHtmlify transform to correct link 1`] = `
@@ -19,5 +34,64 @@ exports[`mdToHtmlify transform to correct link 1`] = `
 ## Repeating Docs
 
 - [doc1](/docs/en/next/doc1)
-- [doc2](/docs/en/next/doc2)"
+- [doc2](/docs/en/next/doc2)
+
+## Do not replace this
+\`\`\`md
+![image1](assets/image1.png)
+\`\`\`
+
+\`\`\`js
+const doc1 = foo();
+console.log(\\"[image2](assets/image2.jpg)\\");
+const testStr = \`![image3](assets/image3.gif)\`;
+\`\`\`"
+`;
+
+exports[`replaceAssetsLink does not transform document without valid assets link 1`] = `
+"
+### Existing Docs
+
+- [doc1](doc1.md)
+- [doc2](./doc2.md)
+
+### Non-existing Docs
+
+- [hahaha](hahaha.md)
+
+## Repeating Docs
+
+- [doc1](doc1.md)
+- [doc2](./doc2.md)
+
+## Do not replace this
+\`\`\`md
+![image1](assets/image1.png)
+\`\`\`
+
+\`\`\`js
+const doc1 = foo();
+console.log(\\"[image2](assets/image2.jpg)\\");
+const testStr = \`![image3](assets/image3.gif)\`;
+\`\`\`"
+`;
+
+exports[`replaceAssetsLink transform document with valid assets link 1`] = `
+"
+Docusaurus is the best :)
+
+![image1](/docs/assets/image1.png)
+
+\`\`\`js
+console.log(\\"Docusaurus\\");
+\`\`\`
+
+![image2](/docs/assets/image2.jpg)
+![image3](/docs/assets/image3.gif)
+
+Don't replace the one below
+\`\`\`md
+
+![image4](assets/image4.bmp)
+\`\`\`"
 `;

@@ -73,6 +73,28 @@ Or you can create a new category within the sidebar:
 }
 ```
 
+However, for a document located in a docs subdirectory like below:
+
+```bash
+docs
+└── dir1
+    └── getting-started.md
+```
+
+You should provide `directory/id` instead of `id` in `sidebars.json`.
+
+```js
+{
+  "docs": {
+    "My New Sidebar Category": [
+      "dir1/getting-started"
+    ],
+    ...
+  },
+  ...
+}
+```
+
 ### Adding New Sidebars
 
 You can also put a document in a new sidebar. In the following example, we are creating an `examples-sidebar` sidebar within `sidebars.json` that has a category called `My Example Category` containing a document with an `id` of `my-examples`.

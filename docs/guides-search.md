@@ -33,7 +33,7 @@ const siteConfig = {
   algolia: {	
     ...	
     algoliaOptions: {	
-      facetFilters: [ "lang:LANGUAGE", "version:VERSION" ] 
+      facetFilters: [ "language:LANGUAGE", "version:VERSION" ] 
     }	
   },	
 };	
