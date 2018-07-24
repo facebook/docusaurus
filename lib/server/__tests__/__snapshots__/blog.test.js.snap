@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`getMetadata blog file 1`] = `
+Object {
+  "author": "Endilie",
+  "authorFBID": 100000251103620,
+  "authorTwitter": "endiliey",
+  "authorURL": "https://github.com/endiliey",
+  "content": "
+![Docusaurus](/img/slash-introducing.png)
+
+We are very happy to introduce [Docusaurus](https://github.com/facebook/Docusaurus) to help you manage one or many open source websites.",
+  "id": "Docusaurus",
+  "path": "2018/08/17/docusaurus.html",
+  "title": "Docusaurus",
+}
+`;
