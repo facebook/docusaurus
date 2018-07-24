@@ -176,6 +176,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'reaction-commerce',
+    image: '/img/users/reaction-commerce.svg',
+    infoLink: 'https://docs.reactioncommerce.com/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Reason',
     image: '/img/users/reason.svg',
     infoLink: 'https://reasonml.github.io/',
