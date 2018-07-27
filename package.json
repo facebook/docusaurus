@@ -1,0 +1,24 @@
+{
+  "name": "blogi",
+  "version": "1.0.0",
+  "description": "Blog instantly",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/endiliey/blogi.git"
+  },
+  "keywords": [
+    "blog",
+    "websites",
+    "open source"
+  ],
+  "author": "endiliey",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/endiliey/blogi/issues"
+  },
+  "homepage": "https://github.com/endiliey/blogi#readme"
+}
