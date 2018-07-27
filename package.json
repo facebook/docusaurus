@@ -2,8 +2,15 @@
   "name": "blogi",
   "version": "1.0.0",
   "description": "Blog instantly",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "bin": {
+    "blogi": "bin/blogi.js"
+  },
   "scripts": {
+    "dev": "node bin/blogi dev blog",
+    "build": "node bin/blogi build blog",
+    "prettier": "prettier --config .prettierrc --write \"lib/**/*.js\" \"bin/**/*.js\"",
+    "lint": "eslint --cache \"lib/**/*.js\" \"bin/**/*.js\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -12,13 +19,30 @@
   },
   "keywords": [
     "blog",
-    "websites",
-    "open source"
+    "generator",
+    "react"
   ],
   "author": "endiliey",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/endiliey/blogi/issues"
   },
-  "homepage": "https://github.com/endiliey/blogi#readme"
+  "homepage": "https://github.com/endiliey/blogi#readme",
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb": "17.0.0",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-plugin-import": "^2.12.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.9.1",
+    "prettier": "^1.13.7"
+  },
+  "dependencies": {
+    "chalk": "^2.4.1",
+    "commander": "^2.16.0",
+    "semver": "^5.5.0"
+  },
+  "engines": {
+    "node": ">=8"
+  }
 }
