@@ -13,6 +13,7 @@ module.exports = {
   rules: {
     'no-console': OFF,
     'func-names': OFF,
-    'react/jsx-filename-extension': OFF, // Enable in future when migrating.
+    'react/jsx-filename-extension': OFF,
+    'react/jsx-one-expression-per-line': OFF,
   },
 };
