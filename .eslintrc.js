@@ -15,5 +15,7 @@ module.exports = {
     'func-names': OFF,
     'react/jsx-filename-extension': OFF,
     'react/jsx-one-expression-per-line': OFF,
+    'import/no-unresolved': WARNING, // because it couldn't resolve webpack alias
+    'react/prefer-stateless-function': WARNING,
   },
 };
