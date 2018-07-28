@@ -7,22 +7,10 @@ describe('loadConfig', () => {
   const customDir = path.join(__dirname, '__fixtures__', 'custom');
 
   test('simple', () => {
-    expect(loadConfig(simpleDir)).toMatchInlineSnapshot(`
-Object {
-  "description": "Hello World",
-  "title": "Hello World",
-}
-`);
+    expect(loadConfig(simpleDir)).toMatchSnapshot();
   });
 
   test('custom', () => {
-    expect(loadConfig(customDir)).toMatchInlineSnapshot(`
-Object {
-  "base": "blogi",
-  "description": "Hello World",
-  "dest": "blogi",
-  "title": "Hello World",
-}
-`);
+    expect(loadConfig(customDir)).toMatchSnapshot();
   });
 });

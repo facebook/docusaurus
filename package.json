@@ -29,6 +29,7 @@
   },
   "homepage": "https://github.com/endiliey/blogi#readme",
   "devDependencies": {
+    "babel-preset-env": "^1.7.0",
     "eslint": "^4.19.1",
     "eslint-config-airbnb": "17.0.0",
     "eslint-config-prettier": "^2.9.0",
@@ -43,7 +44,9 @@
     "chokidar": "^2.0.4",
     "commander": "^2.16.0",
     "connect-history-api-fallback": "^1.5.0",
+    "front-matter": "^2.3.0",
     "fs-extra": "^7.0.0",
+    "globby": "^8.0.1",
     "koa-connect": "^2.0.1",
     "koa-convert": "^1.2.0",
     "koa-mount": "^3.0.0",
@@ -59,7 +62,10 @@
     "node": ">=8"
   },
   "jest": {
-    "testPathIgnorePatterns": ["/node_modules/", "__fixtures__"],
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "__fixtures__"
+    ],
     "testEnvironment": "node"
   }
 }
