@@ -1,5 +1,4 @@
 const path = require('path');
-const fs = require('fs');
 const loadConfig = require('../../lib/loader/config');
 
 describe('loadConfig', () => {

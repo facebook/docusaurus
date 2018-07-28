@@ -1,5 +1,4 @@
 const path = require('path');
-const fs = require('fs');
 const loadBlog = require('../../lib/loader/blog');
 
 describe('loadBlog', () => {
