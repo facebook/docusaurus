@@ -59,6 +59,7 @@
     "ora": "^3.0.0",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
+    "react-router-dom": "^4.3.1",
     "semver": "^5.5.0",
     "webpack": "^4.16.3",
     "webpack-chain": "^4.8.0",
