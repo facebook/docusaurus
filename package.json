@@ -9,9 +9,9 @@
   "scripts": {
     "dev": "node bin/blogi dev blog",
     "build": "node bin/blogi build blog",
-    "prettier": "prettier --config .prettierrc --write \"lib/**/*.js\" \"bin/**/*.js\"",
-    "lint": "eslint --cache \"lib/**/*.js\" \"bin/**/*.js\"",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prettier": "prettier --config .prettierrc --write \"lib/**/*.js\" \"bin/**/*.js\" \"test/**/*.js\"",
+    "lint": "eslint --cache \"lib/**/*.js\" \"bin/**/*.js\" \"test/**/*.js\"",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -35,14 +35,31 @@
     "eslint-plugin-import": "^2.12.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.9.1",
+    "jest": "^23.4.2",
     "prettier": "^1.13.7"
   },
   "dependencies": {
     "chalk": "^2.4.1",
+    "chokidar": "^2.0.4",
     "commander": "^2.16.0",
-    "semver": "^5.5.0"
+    "connect-history-api-fallback": "^1.5.0",
+    "fs-extra": "^7.0.0",
+    "koa-connect": "^2.0.1",
+    "koa-convert": "^1.2.0",
+    "koa-mount": "^3.0.0",
+    "koa-range": "^0.3.0",
+    "koa-static": "^5.0.0",
+    "ora": "^3.0.0",
+    "semver": "^5.5.0",
+    "webpack": "^4.16.3",
+    "webpack-chain": "^4.8.0",
+    "webpack-serve": "^2.0.2"
   },
   "engines": {
     "node": ">=8"
+  },
+  "jest": {
+    "testPathIgnorePatterns": ["/node_modules/", "__fixtures__"],
+    "testEnvironment": "node"
   }
 }
