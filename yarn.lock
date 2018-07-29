@@ -1582,10 +1582,6 @@ configstore@^3.0.0:
     write-file-atomic "^2.0.0"
     xdg-basedir "^3.0.0"
 
-connect-history-api-fallback@^1.5.0:
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/connect-history-api-fallback/-/connect-history-api-fallback-1.5.0.tgz#b06873934bc5e344fef611a196a6faae0aee015a"
-
 console-browserify@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/console-browserify/-/console-browserify-1.1.0.tgz#f0241c45730a9fc6323b206dbf38edc741d0bb10"
@@ -1781,7 +1777,7 @@ date-now@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/date-now/-/date-now-0.1.4.tgz#eaf439fd4d4848ad74e5cc7dbef200672b9e345b"
 
-debug@^2.1.2, debug@^2.2.0, debug@^2.3.3, debug@^2.6.1, debug@^2.6.3, debug@^2.6.8, debug@^2.6.9:
+debug@^2.1.2, debug@^2.2.0, debug@^2.3.3, debug@^2.6.3, debug@^2.6.8, debug@^2.6.9:
   version "2.6.9"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.9.tgz#5d128515df134ff327e90a4c93f4e077a536341f"
   dependencies:
@@ -3888,7 +3884,7 @@ kleur@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/kleur/-/kleur-2.0.1.tgz#7cc64b0d188d0dcbc98bdcdfdda2cc10619ddce8"
 
-koa-compose@^3.0.0, koa-compose@^3.2.1:
+koa-compose@^3.0.0:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/koa-compose/-/koa-compose-3.2.1.tgz#a85ccb40b7d986d8e5a345b3a1ace8eabcf54de7"
   dependencies:
@@ -3897,10 +3893,6 @@ koa-compose@^3.0.0, koa-compose@^3.2.1:
 koa-compose@^4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/koa-compose/-/koa-compose-4.1.0.tgz#507306b9371901db41121c812e923d0d67d3e877"
-
-koa-connect@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/koa-connect/-/koa-connect-2.0.1.tgz#2acad159c33862de1d73aa4562a48de13f137c0f"
 
 koa-convert@^1.2.0:
   version "1.2.0"
@@ -3912,35 +3904,6 @@ koa-convert@^1.2.0:
 koa-is-json@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/koa-is-json/-/koa-is-json-1.0.0.tgz#273c07edcdcb8df6a2c1ab7d59ee76491451ec14"
-
-koa-mount@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/koa-mount/-/koa-mount-3.0.0.tgz#08cab3b83d31442ed8b7e75c54b1abeb922ec197"
-  dependencies:
-    debug "^2.6.1"
-    koa-compose "^3.2.1"
-
-koa-range@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/koa-range/-/koa-range-0.3.0.tgz#3588e3496473a839a1bd264d2a42b1d85bd7feac"
-  dependencies:
-    stream-slice "^0.1.2"
-
-koa-send@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/koa-send/-/koa-send-5.0.0.tgz#5e8441e07ef55737734d7ced25b842e50646e7eb"
-  dependencies:
-    debug "^3.1.0"
-    http-errors "^1.6.3"
-    mz "^2.7.0"
-    resolve-path "^1.4.0"
-
-koa-static@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/koa-static/-/koa-static-5.0.0.tgz#5e92fc96b537ad5219f425319c95b64772776943"
-  dependencies:
-    debug "^3.1.0"
-    koa-send "^5.0.0"
 
 koa-webpack@^5.1.0:
   version "5.1.0"
@@ -4396,7 +4359,7 @@ mute-stream@0.0.7:
   version "0.0.7"
   resolved "https://registry.yarnpkg.com/mute-stream/-/mute-stream-0.0.7.tgz#3075ce93bc21b8fab43e1bc4da7e8115ed1e7bab"
 
-mz@^2.6.0, mz@^2.7.0:
+mz@^2.6.0:
   version "2.7.0"
   resolved "https://registry.yarnpkg.com/mz/-/mz-2.7.0.tgz#95008057a56cafadc2bc63dde7f9ff6955948e32"
   dependencies:
@@ -5447,7 +5410,7 @@ resolve-from@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/resolve-from/-/resolve-from-3.0.0.tgz#b22c7af7d9d6881bc8b6e653335eebcb0a188748"
 
-resolve-path@^1.3.3, resolve-path@^1.4.0:
+resolve-path@^1.3.3:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/resolve-path/-/resolve-path-1.4.0.tgz#c4bda9f5efb2fce65247873ab36bb4d834fe16f7"
   dependencies:
@@ -5826,10 +5789,6 @@ stream-http@^2.7.2:
 stream-shift@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/stream-shift/-/stream-shift-1.0.0.tgz#d5c752825e5367e786f78e18e445ea223a155952"
-
-stream-slice@^0.1.2:
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/stream-slice/-/stream-slice-0.1.2.tgz#2dc4f4e1b936fb13f3eb39a2def1932798d07a4b"
 
 string-length@^2.0.0:
   version "2.0.0"
