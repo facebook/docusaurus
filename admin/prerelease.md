@@ -12,4 +12,4 @@ origin	https://github.com/endiliey/Docusaurus.git (fetch)
 origin	https://github.com/endiliey/Docusaurus.git (push)
 ```
 
-1. Run `bash scripts/prerelease.sh` to create a pull request for new version release
+2. Run `bash scripts/prerelease.sh` to create a pull request for release of new version.
