@@ -3,7 +3,7 @@
 echo "Select an option for release："
 echo
 
-select VERSION in Patch Minor Major "Specific Version"
+select VERSION in patch minor major "Specific Version"
   do
     echo
     if [[ $REPLY =~ ^[1-4]$ ]]; then
