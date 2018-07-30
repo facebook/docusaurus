@@ -1,9 +1,9 @@
 #!/bin/bash
 
-echo "Select a option to release (input a serial number)："
+echo "Select an option for release："
 echo
 
-select VERSION in patch minor major "Specific Version"
+select VERSION in Patch Minor Major "Specific Version"
   do
     echo
     if [[ $REPLY =~ ^[1-4]$ ]]; then
@@ -41,7 +41,7 @@ select VERSION in patch minor major "Specific Version"
       break
     else
       echo Invalid \"${REPLY}\"
-      echo "To continue, please input a serial number(1-4) of an option."
+      echo "To continue, please enter one of the options (1-4):"
       echo
     fi
   done
