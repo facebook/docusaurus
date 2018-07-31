@@ -15,6 +15,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Atalaya',
+    image: '/img/users/atalaya.png',
+    infoLink: 'http://atalaya.io/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Babel',
     image: '/img/users/babel.svg',
     infoLink: 'https://babeljs.io/',
