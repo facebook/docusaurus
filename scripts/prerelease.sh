@@ -17,7 +17,7 @@ select VERSION in patch minor major "Specific Version"
         fi
       fi
 
-      read -p "Submit a PR for a bump in $VERSION version - Are you sure ... (y/n) " -n 1 -r
+      read -p "Create $VERSION commit - Are you sure ... (y/n) " -n 1 -r
       echo
 
       if [[ $REPLY =~ ^[Yy]$ || -z $REPLY ]]; then
@@ -31,8 +31,8 @@ select VERSION in patch minor major "Specific Version"
         # cut docusaurus docs version
         cd website && yarn $DOCS_VERSION_COMMAND $NEW_VERSION
         
-        # Create PR
-        echo "Creating Pull Request for Release ${NEW_VERSION}"
+        # Create commit
+        echo "Creating commit for v${NEW_VERSION}"
         git add .
         git commit -m "v$NEW_VERSION"
         git push origin $NEW_VERSION
