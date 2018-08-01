@@ -1,5 +1,7 @@
 #!/bin/bash
 
+DOCS_VERSION_COMMAND="run version"
+
 echo "Select an option for release："
 echo
 
@@ -27,7 +29,7 @@ select VERSION in patch minor major "Specific Version"
         git checkout -b $NEW_VERSION master
 
         # cut docusaurus docs version
-        cd website && yarn run version $NEW_VERSION
+        cd website && yarn $DOCS_VERSION_COMMAND $NEW_VERSION
         
         # Create PR
         echo "Creating Pull Request for Release ${NEW_VERSION}"
