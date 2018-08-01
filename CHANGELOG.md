@@ -23,10 +23,10 @@ Thank you to the following contributors who helped with this release:
 
 **Added**
 - Add autoprefixing to CSS pipeline [\#867](https://github.com/facebook/Docusaurus/pull/867)
-- Add documentation regarding usage of nested docs/ subdirectory [\#860](https://github.com/facebook/Docusaurus/pull/860) 
+- Add documentation regarding usage of nested docs/ subdirectory [\#860](https://github.com/facebook/Docusaurus/pull/860)
+- Support `text` language for code block style without any highlighting [\#875](https://github.com/facebook/Docusaurus/pull/875)
 
 **Fixed/Changed**
-- Support `text` language for code block style without any highlighting [\#875](https://github.com/facebook/Docusaurus/pull/875)
 - Fix wrong CSS language prefix for fenced blocks [\#842](https://github.com/facebook/Docusaurus/pull/842) [\#870](https://github.com/facebook/Docusaurus/pull/870) 
 - Fix table of contents documentation typo [\#873](https://github.com/facebook/Docusaurus/pull/873)
 - Don't replace static assets linking in fenced code blocks [\#864](https://github.com/facebook/Docusaurus/pull/864)
