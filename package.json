@@ -7,8 +7,8 @@
     "blogi": "bin/blogi.js"
   },
   "scripts": {
-    "dev": "node bin/blogi dev blog",
-    "build": "node bin/blogi build blog",
+    "dev": "node bin/blogi dev examples",
+    "build": "node bin/blogi build examples",
     "prettier": "prettier --config .prettierrc --write \"lib/**/*.js\" \"bin/**/*.js\" \"test/**/*.js\"",
     "lint": "eslint --cache \"lib/**/*.js\" \"bin/**/*.js\" \"test/**/*.js\"",
     "test": "jest"
