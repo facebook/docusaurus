@@ -4,7 +4,7 @@
 
 # Steps
 
-1. Ensure that `origin` remote is your Docusaurus fork and `upstream` is Docusaurus original repository. Example
+1. Ensure that `origin` remote is your Docusaurus fork and `upstream` is Docusaurus original repository. 
 
 ```bash
 $ git remote -v
@@ -14,14 +14,14 @@ upstream    https://github.com/facebook/Docusaurus.git (fetch)
 upstream    https://github.com/facebook/Docusaurus.git (push)
 ```
 
-2. Pull latest change from Docusaurus repository
+2. Pull latest changes from Docusaurus repository.
 
 ```bash
 $ git fetch upstream && git checkout master && git merge upstream/master
 ```
 
-2. Modify `CHANGELOG.md` and other necessary files. Do not commit yet.
-3. Run `bash scripts/prerelease.sh` to create a commit for the new version pre-release.
+2. Modify `CHANGELOG.md` and other necessary files. Do not commit the changes.
+3. Run `bash scripts/prerelease.sh`.
 4. Create your pull request on GitHub.
 
 <img width="629" alt="pull request" src="https://user-images.githubusercontent.com/17883920/43393765-ccb050ac-942a-11e8-94e8-d585034fa064.PNG">

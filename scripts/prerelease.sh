@@ -32,11 +32,10 @@ select VERSION in patch minor major "Specific Version"
         cd website && yarn $DOCS_VERSION_COMMAND $NEW_VERSION
         
         # Create commit
-        echo "Creating commit for v${NEW_VERSION}"
         git add .
         git commit -m "v$NEW_VERSION"
         git push origin $NEW_VERSION
-        echo "✅ Release PR created"
+        echo "Finished"
       else
         echo Cancelled
       fi
