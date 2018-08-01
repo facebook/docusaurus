@@ -9,4 +9,4 @@ Hi, Endilie here.
 
 <!--truncate-->
 
-Random thoughts, experiences, write-up of Endilie Yacop Sucipto will be shared here.
+Random tsasshoughts, experiences, write-up of Endilie Yacop Sucipto will be shared here.

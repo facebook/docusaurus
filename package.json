@@ -53,6 +53,7 @@
     "html-webpack-plugin": "^3.2.0",
     "koa-connect": "^2.0.1",
     "koa-range": "^0.3.0",
+    "koa-static": "^5.0.0",
     "portfinder": "^1.0.13",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
