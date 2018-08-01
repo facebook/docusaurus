@@ -15,7 +15,7 @@ select VERSION in patch minor major "Specific Version"
         fi
       fi
 
-      read -p "Release $VERSION - are you sure? (y/n) " -n 1 -r
+      read -p "Submit a PR for a bump in $VERSION version - Are you sure ... (y/n) " -n 1 -r
       echo
 
       if [[ $REPLY =~ ^[Yy]$ || -z $REPLY ]]; then
