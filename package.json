@@ -49,8 +49,7 @@
     "docusaurus-examples": "./lib/copy-examples.js",
     "docusaurus-write-translations": "./lib/write-translations.js",
     "docusaurus-version": "./lib/version.js",
-    "docusaurus-rename-version": "./lib/rename-version.js",
-    "docusaurus-feed": "./lib/generate-feed.js"
+    "docusaurus-rename-version": "./lib/rename-version.js"
   },
   "dependencies": {
     "autoprefixer": "^9.0.0",

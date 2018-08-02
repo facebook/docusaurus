@@ -6,6 +6,42 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [Unreleased]
 
+Welcome to our newest user, [atalaya](https://atalaya.io/) and [Reaction Commerce](https://docs.reactioncommerce.com/)
+
+Thank you to the following contributors who helped with this release:
+
+- @endiliey
+- @joelmarcey
+- @yangshun
+- @dballance
+- @helloworld
+- @jreese
+- @machikoyasuda
+- @parano
+- @steevehook
+- @theletterf
+
+**Added**
+- Add autoprefixing to CSS pipeline [\#867](https://github.com/facebook/Docusaurus/pull/867)
+- Add documentation regarding usage of nested docs/ subdirectory [\#860](https://github.com/facebook/Docusaurus/pull/860)
+- Support `text` language for code block style without any highlighting [\#875](https://github.com/facebook/Docusaurus/pull/875)
+
+**Fixed/Changed**
+- Fix wrong CSS language prefix for fenced blocks [\#842](https://github.com/facebook/Docusaurus/pull/842) [\#870](https://github.com/facebook/Docusaurus/pull/870) 
+- Fix table of contents documentation typo [\#873](https://github.com/facebook/Docusaurus/pull/873)
+- Don't replace static assets linking in fenced code blocks [\#864](https://github.com/facebook/Docusaurus/pull/864)
+- Improve baseUrl documentation with an example [\#863](https://github.com/facebook/Docusaurus/pull/863)
+- Docusaurus own search will now search the docs in the correct language & version [\#859](https://github.com/facebook/Docusaurus/pull/859)
+- Fix phrase emphasis not italicized [\#850](https://github.com/facebook/Docusaurus/pull/850)
+
+**Chores**
+- Remove unused files [\#881](https://github.com/facebook/Docusaurus/pull/881)
+- Add prerelease script for Docusaurus [\#876](https://github.com/facebook/Docusaurus/pull/876)
+- Improve readme [\#866](https://github.com/facebook/Docusaurus/pull/866) 
+- Refactor & add more tests for Docusaurus [\#839](https://github.com/facebook/Docusaurus/pull/839) [\#847](https://github.com/facebook/Docusaurus/pull/847) [\#854](https://github.com/facebook/Docusaurus/pull/854) [\#856](https://github.com/facebook/Docusaurus/pull/856) 
+- Add ESLint [\#836](https://github.com/facebook/Docusaurus/pull/836) [\#837](https://github.com/facebook/Docusaurus/pull/837) [\#841](https://github.com/facebook/Docusaurus/pull/841) [\#846](https://github.com/facebook/Docusaurus/pull/846)
+- Update [code of conduct.md](https://github.com/facebook/Docusaurus/commit/3c1363da1bd445029d7034b0575f69a7077321c3)
+
 ## [1.3.2] - 2018-07-06
 
 This version mainly includes bug fixes found in 1.3.1 that improves stability and UX improvements.
