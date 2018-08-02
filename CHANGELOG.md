@@ -33,6 +33,7 @@ Thank you to the following contributors who helped with this release:
 - Improve baseUrl documentation with an example [\#863](https://github.com/facebook/Docusaurus/pull/863)
 - Docusaurus own search will now search the docs in the correct language & version [\#859](https://github.com/facebook/Docusaurus/pull/859)
 - Fix phrase emphasis not italicized [\#850](https://github.com/facebook/Docusaurus/pull/850)
+- Blogpost summary for blog feed is now properly truncated [\#880](https://github.com/facebook/Docusaurus/pull/880)
 
 **Chores**
 - Remove unused files [\#881](https://github.com/facebook/Docusaurus/pull/881)
