@@ -40,7 +40,8 @@
     }
   },
   "jest": {
-    "testPathIgnorePatterns": ["/node_modules/", "__fixtures__"]
+    "testPathIgnorePatterns": ["/node_modules/", "__fixtures__"],
+    "testURL": "http://localhost/"
   },
   "bin": {
     "docusaurus-start": "./lib/start-server.js",
@@ -107,7 +108,7 @@
     "front-matter": "^2.3.0",
     "glob-promise": "^3.3.0",
     "husky": "^0.14.3",
-    "jest": "^21.2.1",
+    "jest": "^23.4.2",
     "lint-staged": "^7.2.0",
     "prettier": "^1.13.7",
     "rimraf": "^2.6.2"
