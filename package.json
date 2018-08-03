@@ -27,7 +27,7 @@
     "prettier:diff": "yarn nit:source && yarn nit:examples && yarn nit:website",
     "test": "jest",
     "start": "cd website && yarn start",
-    "postinstall": "opencollective-postinstall"
+    "postinstall": "opencollective postinstall"
   },
   "lint-staged": {
     "linters": {
