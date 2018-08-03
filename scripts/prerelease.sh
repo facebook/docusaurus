@@ -26,15 +26,14 @@ select VERSION in patch minor major "Specific Version"
         NEW_VERSION=$(node -p "require('./package.json').version")
 
         # create new branch
-        git checkout -b $NEW_VERSION master
-
+        git checkout -B $NEW_VERSION master
         # cut docusaurus docs version
         cd website && yarn $DOCS_VERSION_COMMAND $NEW_VERSION
         
         # Create commit
-        git add .
+        git add ../
         git commit -m "v$NEW_VERSION"
-        git push origin $NEW_VERSION
+        git push -f origin $NEW_VERSION
         echo "Finished"
       else
         echo Cancelled

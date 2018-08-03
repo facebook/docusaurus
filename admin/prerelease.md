@@ -1,6 +1,6 @@
 # Prereleasing New Version of Docusaurus
 
-[![asciicast](https://asciinema.org/a/hZ7NNJPcgtdvzm5tMLLfHflMD.png)](https://asciinema.org/a/hZ7NNJPcgtdvzm5tMLLfHflMD)
+![demo](http://res.cloudinary.com/rengorum/image/upload/v1533297353/demo.gif)
 
 # Steps
 
