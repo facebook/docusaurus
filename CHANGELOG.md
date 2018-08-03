@@ -35,13 +35,14 @@ Thank you to the following contributors who helped with this release:
 - Fix phrase emphasis not italicized [\#850](https://github.com/facebook/Docusaurus/pull/850)
 - Blogpost summary for blog feed is now properly truncated [\#880](https://github.com/facebook/Docusaurus/pull/880)
 
-**Chores**
+**Chore and Maintenance**
 - Remove unused files [\#881](https://github.com/facebook/Docusaurus/pull/881)
 - Add prerelease script for Docusaurus [\#876](https://github.com/facebook/Docusaurus/pull/876)
 - Improve readme [\#866](https://github.com/facebook/Docusaurus/pull/866) 
 - Refactor & add more tests for Docusaurus [\#839](https://github.com/facebook/Docusaurus/pull/839) [\#847](https://github.com/facebook/Docusaurus/pull/847) [\#854](https://github.com/facebook/Docusaurus/pull/854) [\#856](https://github.com/facebook/Docusaurus/pull/856) 
 - Add ESLint [\#836](https://github.com/facebook/Docusaurus/pull/836) [\#837](https://github.com/facebook/Docusaurus/pull/837) [\#841](https://github.com/facebook/Docusaurus/pull/841) [\#846](https://github.com/facebook/Docusaurus/pull/846)
-- Update [code of conduct.md](https://github.com/facebook/Docusaurus/commit/3c1363da1bd445029d7034b0575f69a7077321c3)
+- Update [code of conduct](https://github.com/facebook/Docusaurus/commit/3c1363da1bd445029d7034b0575f69a7077321c3)
+- Update jest to v23 [\#885](https://github.com/facebook/Docusaurus/pull/885)
 
 ## [1.3.2] - 2018-07-06
 
