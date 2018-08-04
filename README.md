@@ -4,7 +4,7 @@
 </h1>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/docusaurus"><img src="https://img.shields.io/npm/v/docusaurus.svg?style=flat" alt="npm version"></a>
+  <a href="https://www.npmjs.com/package/docusaurus"><a href="#backers" alt="sponsors on Open Collective"><img src="https://opencollective.com/Docusaurus/backers/badge.svg" /></a> <a href="#sponsors" alt="Sponsors on Open Collective"><img src="https://opencollective.com/Docusaurus/sponsors/badge.svg" /></a> <img src="https://img.shields.io/npm/v/docusaurus.svg?style=flat" alt="npm version"></a>
   <a href="https://circleci.com/gh/facebook/Docusaurus"><img src="https://circleci.com/gh/facebook/Docusaurus.svg?style=shield" alt="CircleCI Status"></a>
   <a href="CONTRIBUTING.md#pull-requests"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome"></a>
   <a href="https://discord.gg/docusaurus"><img src="https://img.shields.io/badge/chat-on%20discord-7289da.svg" alt="Chat"></a>
@@ -51,6 +51,36 @@ We have a few channels for contact:
   - `#docusaurus-dev` for those wanting to contribute to the Docusaurus core.
 - [@docusaurus](https://twitter.com/docusaurus) on Twitter
 - [GitHub Issues](https://github.com/facebook/docusaurus/issues)
+
+## Contributors
+
+This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
+<a href="https://github.com/facebook/Docusaurus/graphs/contributors"><img src="https://opencollective.com/Docusaurus/contributors.svg?width=890&button=false" /></a>
+
+
+## Backers
+
+Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/Docusaurus#backer)]
+
+<a href="https://opencollective.com/Docusaurus#backers" target="_blank"><img src="https://opencollective.com/Docusaurus/backers.svg?width=890"></a>
+
+
+## Sponsors
+
+Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/Docusaurus#sponsor)]
+
+<a href="https://opencollective.com/Docusaurus/sponsor/0/website" target="_blank"><img src="https://opencollective.com/Docusaurus/sponsor/0/avatar.svg"></a>
+<a href="https://opencollective.com/Docusaurus/sponsor/1/website" target="_blank"><img src="https://opencollective.com/Docusaurus/sponsor/1/avatar.svg"></a>
+<a href="https://opencollective.com/Docusaurus/sponsor/2/website" target="_blank"><img src="https://opencollective.com/Docusaurus/sponsor/2/avatar.svg"></a>
+<a href="https://opencollective.com/Docusaurus/sponsor/3/website" target="_blank"><img src="https://opencollective.com/Docusaurus/sponsor/3/avatar.svg"></a>
+<a href="https://opencollective.com/Docusaurus/sponsor/4/website" target="_blank"><img src="https://opencollective.com/Docusaurus/sponsor/4/avatar.svg"></a>
+<a href="https://opencollective.com/Docusaurus/sponsor/5/website" target="_blank"><img src="https://opencollective.com/Docusaurus/sponsor/5/avatar.svg"></a>
+<a href="https://opencollective.com/Docusaurus/sponsor/6/website" target="_blank"><img src="https://opencollective.com/Docusaurus/sponsor/6/avatar.svg"></a>
+<a href="https://opencollective.com/Docusaurus/sponsor/7/website" target="_blank"><img src="https://opencollective.com/Docusaurus/sponsor/7/avatar.svg"></a>
+<a href="https://opencollective.com/Docusaurus/sponsor/8/website" target="_blank"><img src="https://opencollective.com/Docusaurus/sponsor/8/avatar.svg"></a>
+<a href="https://opencollective.com/Docusaurus/sponsor/9/website" target="_blank"><img src="https://opencollective.com/Docusaurus/sponsor/9/avatar.svg"></a>
+
+
 
 ## License
 
