@@ -1,21 +1,22 @@
 {
-  "name": "blogi",
-  "version": "1.0.0",
-  "description": "Blog instantly",
+  "name": "munseo",
+  "version": "0.0.1",
+  "description": "📝⚡️ Transform your document (문서) to a website",
   "main": "lib/index.js",
   "bin": {
-    "blogi": "bin/blogi.js"
+    "munseo": "bin/munseo.js"
   },
   "scripts": {
-    "dev": "node bin/blogi dev examples",
-    "build": "node bin/blogi build examples",
+    "munseo": "node bin/munseo",
+    "start": "yarn munseo start website",
+    "build": "yarn munseo build website",
     "prettier": "prettier --config .prettierrc --write \"lib/**/*.js\" \"bin/**/*.js\" \"test/**/*.js\"",
     "lint": "eslint --cache \"lib/**/*.js\" \"bin/**/*.js\" \"test/**/*.js\"",
     "test": "jest"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/endiliey/blogi.git"
+    "url": "git+https://github.com/endiliey/munseo.git"
   },
   "keywords": [
     "blog",
@@ -25,9 +26,9 @@
   "author": "endiliey",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/endiliey/blogi/issues"
+    "url": "https://github.com/endiliey/munseo/issues"
   },
-  "homepage": "https://github.com/endiliey/blogi#readme",
+  "homepage": "https://github.com/endiliey/munseo#readme",
   "devDependencies": {
     "eslint": "^4.19.1",
     "eslint-config-airbnb": "17.0.0",
