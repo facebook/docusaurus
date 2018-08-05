@@ -55,7 +55,7 @@ root-directory
 
 After running the Docusaurus initialization script, `docusaurus-init` as
 described in the [Installation](#installing-docusaurus) section, you will have a
-runnable, example website to use as your site's base.
+runnable, example website to use as your site's base. To run:
 
 1.  In your root, rename `docs-examples-from-docusaurus` to `docs`.
 1.  `cd website`
