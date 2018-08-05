@@ -3,14 +3,23 @@ id: installation
 title: Installation
 ---
 
-Docusaurus was designed from the ground up to be easily installed and used to get your website up and running quickly. To install Docusaurus, we have created an easy script that will get all of the infrastructure set up for you:
+Docusaurus was designed from the ground up to be easily installed and used to get your website up and running quickly. 
+
+## Installing Docusaurus
+
+We have created an easy script that will get all of the infrastructure set up for you:
 
 1.  Ensure you have the latest version of [Node](https://nodejs.org/en/download/) installed. We also recommend you install [Yarn](https://yarnpkg.com/en/docs/install) as well.
 
     > You have to be on Node >= 8.x and Yarn >= 1.5.
 
-1.  Go into the root of your GitHub repo directory where you will be creating the docs.
-1.  `npx docusaurus-init`
+1.  Change directory to the root of your project's GitHub repo.
+
+    You will be creating the docs in this directory. The root directory may
+    contain other files. The Docusaurus installation script will create two new
+    directories: `docs-examples-from-docusaurus` and `website`.
+
+1.  Run the Docusaurus installation script: `npx docusaurus-init`.
 
     > If you don't have Node 8.2+ or if you prefer to install Docusaurus globally, run `yarn global add docusaurus-init` or `npm install --global docusaurus-init`. After that, run `docusaurus-init`.
 
@@ -42,13 +51,21 @@ root-directory
     └── static
 ```
 
-Running the Docusaurus initialization script, `docusaurus-init`, produces a runnable, example website to base your site upon.
+## Running the example website
+
+After running the Docusaurus initialization script, `docusaurus-init` as
+described in the [Installation](#installing-docusaurus) section, you will have a
+runnable, example website to use as your site's base. To run:
 
 1.  In your root, rename `docs-examples-from-docusaurus` to `docs`.
 1.  `cd website`
 1.  Rename `blog-examples-from-docusaurus` to `blog`.
-1.  Run the local webserver via `yarn start` or `npm start`.
-1.  Load the example site at http://localhost:3000. You should see the example site loaded in your web browser. There's also a LiveReload server running and any changes made to the docs and files in the `website` directory will cause the page to refresh.
+1.  From within the `website` directory, run the local webserver using 
+    `yarn start` or `npm start`.
+1.  Load the example site at http://localhost:3000 if it did not already open
+    automatically.
+    
+    You should see the example site loaded in your web browser. There's also a LiveReload server running and any changes made to the docs and files in the `website` directory will cause the page to refresh.
 
 ![](/img/getting-started-preparation-verify.png)
 
@@ -63,7 +80,7 @@ yarn start (or npm run start)
 
 ## Updating Your Docusaurus Version
 
-After Docusaurus is installed, moving forward, you can check your current version of Docusaurus by going into the `website` directory and typing `yarn outdated docusaurus` or `npm outdated docusaurus`. 
+At any time after Docusaurus is installed, you can check your current version of Docusaurus by going into the `website` directory and typing `yarn outdated docusaurus` or `npm outdated docusaurus`. 
 
 You will see something like this:
 
