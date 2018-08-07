@@ -7,3 +7,4 @@ dist
 yarn-error.log
 generated
 website/node_modules
+build
