@@ -135,10 +135,11 @@ module.exports = [
   },
   {
     caption: 'nteract',
-    image: 'https://media.githubusercontent.com/media/nteract/logos/master/nteract_logo_cube_book/exports/images/png/nteract_logo_mark_purple.png',
+    image:
+      'https://media.githubusercontent.com/media/nteract/logos/master/nteract_logo_cube_book/exports/images/png/nteract_logo_mark_purple.png',
     infoLink: 'https://docs.nteract.io/',
     fbOpenSource: false,
-    pinned: false, 
+    pinned: false,
   },
   {
     caption: 'Open Power Quality',
