@@ -134,6 +134,14 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'nteract',
+    image:
+      'https://media.githubusercontent.com/media/nteract/logos/master/nteract_logo_cube_book/exports/images/png/nteract_logo_mark_purple.png',
+    infoLink: 'https://docs.nteract.io/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Open Power Quality',
     image: 'https://openpowerquality.org/img/opqlogo.png',
     infoLink: 'https://openpowerquality.org/',
