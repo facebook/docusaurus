@@ -1718,22 +1718,13 @@ input::placeholder {
   margin-bottom: 16px;
 }
 
-.toc .toggleNav .subNavGroup {
-  margin-top : 16px;
-}
-
-.toc .toggleNav .navGroup .navGroupCategoryTitle,
-.toc .toggleNav .navGroup .navGroupSubCategoryTitle {
+.toc .toggleNav .navGroup .navGroupCategoryTitle {
   color: #393939;
   font-size: 18px;
   font-weight: 500;
   line-height: 1.2em;
   margin-bottom: 8px;
   margin-top: 0;
-}
-
-.toc .toggleNav .navGroup .navGroupSubCategoryTitle {
-  font-size: 16px;
 }
 
 .toc .toggleNav .navGroup .navListItem {
