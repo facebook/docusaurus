@@ -8,8 +8,8 @@
   },
   "scripts": {
     "munseo": "node bin/munseo",
-    "start": "yarn munseo start website",
-    "build": "yarn munseo build website",
+    "start": "node bin/munseo start website",
+    "build": "node bin/munseo build website",
     "prettier": "prettier --config .prettierrc --write \"lib/**/*.js\" \"bin/**/*.js\" \"test/**/*.js\"",
     "lint": "eslint --cache \"lib/**/*.js\" \"bin/**/*.js\" \"test/**/*.js\"",
     "test": "jest"
@@ -69,7 +69,7 @@
     "static-site-generator-webpack-plugin": "^3.4.1",
     "webpack": "^4.16.3",
     "webpack-chain": "^4.8.0",
-    "webpack-nicelog": "^2.0.0",
+    "webpack-nicelog": "^2.1.0",
     "webpack-serve": "^2.0.2"
   },
   "engines": {

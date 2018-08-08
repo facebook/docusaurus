@@ -6799,9 +6799,9 @@ webpack-log@^1.0.1, webpack-log@^1.1.1, webpack-log@^1.1.2, webpack-log@^1.2.0:
     loglevelnext "^1.0.1"
     uuid "^3.1.0"
 
-webpack-nicelog@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/webpack-nicelog/-/webpack-nicelog-2.0.0.tgz#7e4d68c54e7bd82adf19fde1eb3d43e767eea887"
+webpack-nicelog@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/webpack-nicelog/-/webpack-nicelog-2.1.0.tgz#fb8d89ec1976d36122e8d407bf318eb38c094155"
   dependencies:
     chalk "^2.4.1"
     react-dev-utils "^5.0.1"
