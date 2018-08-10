@@ -1,6 +1,4 @@
 import webpack from 'webpack';
-import path from 'path';
-import createBaseConfig from '@lib/webpack/base';
 import createDevConfig from '@lib/webpack/dev';
 import createProdConfig from '@lib/webpack/prod';
 import loadSetup from '../loadSetup';

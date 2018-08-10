@@ -8,9 +8,9 @@ const loadSetup = async name => {
 
   switch (name) {
     case 'simple':
-      return await load(simpleWebsite);
+      return load(simpleWebsite);
     case 'custom':
-      return await load(customWebsite);
+      return load(customWebsite);
     default:
       return {};
   }
