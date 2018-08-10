@@ -12,7 +12,7 @@
     "build": "node bin/munseo build website",
     "prettier": "prettier --config .prettierrc --write \"lib/**/*.js\" \"bin/**/*.js\" \"test/**/*.js\"",
     "lint": "eslint --cache \"lib/**/*.js\" \"bin/**/*.js\" \"test/**/*.js\"",
-    "test": "jest"
+    "test": "jest --config test/jest.config.js"
   },
   "repository": {
     "type": "git",
@@ -75,12 +75,5 @@
   },
   "engines": {
     "node": ">=8"
-  },
-  "jest": {
-    "testPathIgnorePatterns": [
-      "/node_modules/",
-      "__fixtures__"
-    ],
-    "testEnvironment": "node"
   }
 }
