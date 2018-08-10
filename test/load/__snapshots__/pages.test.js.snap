@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`loadPages valid pages 1`] = `
+Array [
+  Object {
+    "path": "/foo",
+    "source": "foo.js",
+  },
+  Object {
+    "path": "/",
+    "source": "index.js",
+  },
+  Object {
+    "path": "/bar/baz",
+    "source": "bar/baz.js",
+  },
+  Object {
+    "path": "/foo/",
+    "source": "foo/index.js",
+  },
+]
+`;
