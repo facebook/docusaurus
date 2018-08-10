@@ -1,4 +1,4 @@
-import loadPages from '@lib/load/pages.js';
+import loadPages from '@lib/load/pages';
 import path from 'path';
 
 describe('loadPages', () => {

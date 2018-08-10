@@ -1,4 +1,4 @@
-import loadDocs from '@lib/load/docs.js';
+import loadDocs from '@lib/load/docs';
 import path from 'path';
 
 describe('loadDocs', () => {

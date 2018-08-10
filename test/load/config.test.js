@@ -1,5 +1,5 @@
 import path from 'path';
-import loadConfig from '@lib/load/config.js';
+import loadConfig from '@lib/load/config';
 
 describe('loadConfig', () => {
   test('website with valid siteConfig', () => {

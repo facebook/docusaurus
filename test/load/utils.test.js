@@ -1,5 +1,4 @@
-import path from 'path';
-import {fileToPath, fileToComponentName} from '@lib/load/utils.js';
+import {fileToPath, fileToComponentName} from '@lib/load/utils';
 
 describe('load utils', () => {
   test('fileToComponentName', () => {
