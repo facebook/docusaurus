@@ -13,7 +13,7 @@ We have created an easy script that will get all of the infrastructure set up fo
 
     > You have to be on Node >= 8.x and Yarn >= 1.5.
 
-1.  Change directory to the root of your project's GitHub repo.
+1.  Create a project if none exists and change the directory to this project's root.
 
     You will be creating the docs in this directory. The root directory may
     contain other files. The Docusaurus installation script will create two new
