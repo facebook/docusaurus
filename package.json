@@ -48,6 +48,7 @@
     "chokidar": "^2.0.4",
     "commander": "^2.16.0",
     "connect-history-api-fallback": "^1.5.0",
+    "ejs": "^2.6.1",
     "front-matter": "^2.3.0",
     "fs-extra": "^7.0.0",
     "globby": "^8.0.1",
