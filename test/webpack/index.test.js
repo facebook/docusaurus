@@ -16,31 +16,33 @@ function compile(config) {
 }
 
 describe('webpack', () => {
+  const timeOut = 10000; // 10 seconds
+
   test('dev simple', async () => {
     console.log = jest.fn();
     const props = await loadSetup('simple');
     const config = createDevConfig(props).toConfig();
     return expect(compile(config)).resolves.toBe('Compiled successfully');
-  });
+  }, timeOut);
 
   test('dev custom', async () => {
     console.log = jest.fn();
     const props = await loadSetup('custom');
     const config = createDevConfig(props).toConfig();
     return expect(compile(config)).resolves.toBe('Compiled successfully');
-  });
+  }, timeOut);
 
   test('prod simple', async () => {
     console.log = jest.fn();
     const props = await loadSetup('simple');
     const config = createProdConfig(props).toConfig();
     return expect(compile(config)).resolves.toBe('Compiled successfully');
-  });
+  }, timeOut);
 
   test('prod custom', async () => {
     console.log = jest.fn();
     const props = await loadSetup('custom');
     const config = createProdConfig(props).toConfig();
     return expect(compile(config)).resolves.toBe('Compiled successfully');
-  });
+  }, timeOut);
 });
