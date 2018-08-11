@@ -21,37 +21,8 @@ exports[`genRoutesConfig website with only docs 1`] = `
 import Docs from '@theme/Docs';
 import NotFound from '@theme/NotFound';
 
-import MDHello from '@docs/hello.md';
-import MDFooBaz from '@docs/foo/baz.md';
-import MDFooBar from '@docs/foo/bar.md';
-const routes = [
-  {
-    path: \\"/hello\\",
-    exact: true,
-    component: () => (
-      <Docs>
-        <MDHello />
-      </Docs>
-    )
-  },
-  {
-    path: \\"/foo/baz\\",
-    exact: true,
-    component: () => (
-      <Docs>
-        <MDFooBaz />
-      </Docs>
-    )
-  },
-  {
-    path: \\"/foo/bar\\",
-    exact: true,
-    component: () => (
-      <Docs>
-        <MDFooBar />
-      </Docs>
-    )
-  },,
+
+const routes = [,,
   {
     path: '*',
     component: NotFound
@@ -65,21 +36,21 @@ exports[`genRoutesConfig website with only pages 1`] = `
 "import React from 'react';
 import Docs from '@theme/Docs';
 import NotFound from '@theme/NotFound';
-import JSIndex from '@pages/index.js';
 import JSFoo from '@pages/foo.js';
+import JSIndex from '@pages/index.js';
 import JSBarBaz from '@pages/bar/baz.js';
 import JSFooIndex from '@pages/foo/index.js';
 
 const routes = [,
   {
-    path: \\"/\\",
-    exact: true,
-    component: JSIndex
-  },
-  {
     path: \\"/foo\\",
     exact: true,
     component: JSFoo
+  },
+  {
+    path: \\"/\\",
+    exact: true,
+    component: JSIndex
   },
   {
     path: \\"/bar/baz\\",
@@ -106,39 +77,10 @@ import Docs from '@theme/Docs';
 import NotFound from '@theme/NotFound';
 import JSFoo from '@pages/foo.js';
 import JSIndex from '@pages/index.js';
-import JSBarBaz from '@pages/bar/baz.js';
 import JSFooIndex from '@pages/foo/index.js';
-import MDHello from '@docs/hello.md';
-import MDFooBar from '@docs/foo/bar.md';
-import MDFooBaz from '@docs/foo/baz.md';
-const routes = [
-  {
-    path: \\"/hello\\",
-    exact: true,
-    component: () => (
-      <Docs>
-        <MDHello />
-      </Docs>
-    )
-  },
-  {
-    path: \\"/foo/bar\\",
-    exact: true,
-    component: () => (
-      <Docs>
-        <MDFooBar />
-      </Docs>
-    )
-  },
-  {
-    path: \\"/foo/baz\\",
-    exact: true,
-    component: () => (
-      <Docs>
-        <MDFooBaz />
-      </Docs>
-    )
-  },
+import JSBarBaz from '@pages/bar/baz.js';
+
+const routes = [,
   {
     path: \\"/foo\\",
     exact: true,
@@ -150,14 +92,14 @@ const routes = [
     component: JSIndex
   },
   {
-    path: \\"/bar/baz\\",
-    exact: true,
-    component: JSBarBaz
-  },
-  {
     path: \\"/foo/\\",
     exact: true,
     component: JSFooIndex
+  },
+  {
+    path: \\"/bar/baz\\",
+    exact: true,
+    component: JSBarBaz
   },
   {
     path: '*',
