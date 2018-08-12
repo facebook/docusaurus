@@ -21,8 +21,37 @@ exports[`genRoutesConfig website with only docs 1`] = `
 import Docs from '@theme/Docs';
 import NotFound from '@theme/NotFound';
 
-
-const routes = [,,
+import MDHello from '@docs/hello.md';
+import MDFooBar from '@docs/foo/bar.md';
+import MDFooBaz from '@docs/foo/baz.md';
+const routes = [
+  {
+    path: \\"/hello\\",
+    exact: true,
+    component: (props) => (
+      <Docs {...props}>
+        <MDHello />
+      </Docs>
+    )
+  },
+  {
+    path: \\"/foo/bar\\",
+    exact: true,
+    component: (props) => (
+      <Docs {...props}>
+        <MDFooBar />
+      </Docs>
+    )
+  },
+  {
+    path: \\"/foo/baz\\",
+    exact: true,
+    component: (props) => (
+      <Docs {...props}>
+        <MDFooBaz />
+      </Docs>
+    )
+  },,
   {
     path: '*',
     component: NotFound
@@ -77,10 +106,39 @@ import Docs from '@theme/Docs';
 import NotFound from '@theme/NotFound';
 import JSFoo from '@pages/foo.js';
 import JSIndex from '@pages/index.js';
-import JSFooIndex from '@pages/foo/index.js';
 import JSBarBaz from '@pages/bar/baz.js';
-
-const routes = [,
+import JSFooIndex from '@pages/foo/index.js';
+import MDHello from '@docs/hello.md';
+import MDFooBaz from '@docs/foo/baz.md';
+import MDFooBar from '@docs/foo/bar.md';
+const routes = [
+  {
+    path: \\"/hello\\",
+    exact: true,
+    component: (props) => (
+      <Docs {...props}>
+        <MDHello />
+      </Docs>
+    )
+  },
+  {
+    path: \\"/foo/baz\\",
+    exact: true,
+    component: (props) => (
+      <Docs {...props}>
+        <MDFooBaz />
+      </Docs>
+    )
+  },
+  {
+    path: \\"/foo/bar\\",
+    exact: true,
+    component: (props) => (
+      <Docs {...props}>
+        <MDFooBar />
+      </Docs>
+    )
+  },
   {
     path: \\"/foo\\",
     exact: true,
@@ -92,14 +150,14 @@ const routes = [,
     component: JSIndex
   },
   {
-    path: \\"/foo/\\",
-    exact: true,
-    component: JSFooIndex
-  },
-  {
     path: \\"/bar/baz\\",
     exact: true,
     component: JSBarBaz
+  },
+  {
+    path: \\"/foo/\\",
+    exact: true,
+    component: JSFooIndex
   },
   {
     path: '*',
