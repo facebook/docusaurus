@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [Unreleased]
 
-Welcome to our newest user, [atalaya](https://atalaya.io/) and [Reaction Commerce](https://docs.reactioncommerce.com/)
+Welcome to our newest user, [atalaya](https://atalaya.io/), [Reaction Commerce](https://docs.reactioncommerce.com/) and [nteract](https://docs.nteract.io/).
 
 Thank you to the following contributors who helped with this release:
 
@@ -17,33 +17,44 @@ Thank you to the following contributors who helped with this release:
 - @helloworld
 - @jreese
 - @machikoyasuda
+- @monkeywithacupcake
 - @parano
+- @shaform
 - @steevehook
 - @theletterf
+- @tom-auger
+- @willingc
 
 **Added**
 - Add autoprefixing to CSS pipeline [\#867](https://github.com/facebook/Docusaurus/pull/867)
-- Add documentation regarding usage of nested docs/ subdirectory [\#860](https://github.com/facebook/Docusaurus/pull/860)
 - Support `text` language for code block style without any highlighting [\#875](https://github.com/facebook/Docusaurus/pull/875)
 
 **Fixed/Changed**
 - Fix wrong CSS language prefix for fenced blocks [\#842](https://github.com/facebook/Docusaurus/pull/842) [\#870](https://github.com/facebook/Docusaurus/pull/870) 
-- Fix table of contents documentation typo [\#873](https://github.com/facebook/Docusaurus/pull/873)
-- Don't replace static assets linking in fenced code blocks [\#864](https://github.com/facebook/Docusaurus/pull/864)
-- Improve baseUrl documentation with an example [\#863](https://github.com/facebook/Docusaurus/pull/863)
-- Docusaurus own search will now search the docs in the correct language & version [\#859](https://github.com/facebook/Docusaurus/pull/859)
 - Fix phrase emphasis not italicized [\#850](https://github.com/facebook/Docusaurus/pull/850)
+- Don't replace static assets linking in fenced code blocks [\#864](https://github.com/facebook/Docusaurus/pull/864)
 - Blogpost summary for blog feed is now properly truncated [\#880](https://github.com/facebook/Docusaurus/pull/880)
 - Fix failure to copy static image if image compression fail [\#887](https://github.com/facebook/Docusaurus/pull/887)
+- Fix: correct docs linking for custom `defaultVersionShown` [\#894](https://github.com/facebook/Docusaurus/pull/894)
+- Fix incorrect sitemap url for non default baseUrl [\#902](https://github.com/facebook/Docusaurus/pull/902)
+
+**Docs**
+- Add documentation regarding usage of nested docs/ subdirectory [\#860](https://github.com/facebook/Docusaurus/pull/860)
+- Improve baseUrl documentation with an example [\#863](https://github.com/facebook/Docusaurus/pull/863)
+- Fix Table of contents documentation typo [\#873](https://github.com/facebook/Docusaurus/pull/873)
+- Update installation doc [\#888](https://github.com/facebook/Docusaurus/pull/888)
 
 **Chore and Maintenance**
-- Remove unused files [\#881](https://github.com/facebook/Docusaurus/pull/881)
-- Add prerelease script for Docusaurus [\#876](https://github.com/facebook/Docusaurus/pull/876)
-- Improve readme [\#866](https://github.com/facebook/Docusaurus/pull/866) 
-- Refactor & add more tests for Docusaurus [\#839](https://github.com/facebook/Docusaurus/pull/839) [\#847](https://github.com/facebook/Docusaurus/pull/847) [\#854](https://github.com/facebook/Docusaurus/pull/854) [\#856](https://github.com/facebook/Docusaurus/pull/856) 
 - Add ESLint [\#836](https://github.com/facebook/Docusaurus/pull/836) [\#837](https://github.com/facebook/Docusaurus/pull/837) [\#841](https://github.com/facebook/Docusaurus/pull/841) [\#846](https://github.com/facebook/Docusaurus/pull/846)
+- Refactor & add more tests for Docusaurus [\#839](https://github.com/facebook/Docusaurus/pull/839) [\#847](https://github.com/facebook/Docusaurus/pull/847) [\#854](https://github.com/facebook/Docusaurus/pull/854) [\#856](https://github.com/facebook/Docusaurus/pull/856)
+- Docusaurus own search will now search the docs in the correct language & version [\#859](https://github.com/facebook/Docusaurus/pull/859)
+- Improve readme [\#866](https://github.com/facebook/Docusaurus/pull/866) 
+- Add prerelease script for Docusaurus [\#876](https://github.com/facebook/Docusaurus/pull/876)
+- Remove unused files [\#881](https://github.com/facebook/Docusaurus/pull/881)
 - Update [code of conduct](https://github.com/facebook/Docusaurus/commit/3c1363da1bd445029d7034b0575f69a7077321c3)
 - Update jest to v23 [\#885](https://github.com/facebook/Docusaurus/pull/885)
+- Activating Open Collective [\#883](https://github.com/facebook/Docusaurus/pull/883)
+- Fix Jest tests that fail on Windows [\#896](https://github.com/facebook/Docusaurus/pull/896)
 
 ## [1.3.2] - 2018-07-06
 
