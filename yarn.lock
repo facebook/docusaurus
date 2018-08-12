@@ -6247,9 +6247,9 @@ static-extend@^0.1.1:
     define-property "^0.2.5"
     object-copy "^0.1.0"
 
-static-site-generator-webpack-plugin@^3.4.1:
+static-site-generator-webpack-plugin@endiliey/static-site-generator-webpack-plugin#master:
   version "3.4.1"
-  resolved "https://registry.yarnpkg.com/static-site-generator-webpack-plugin/-/static-site-generator-webpack-plugin-3.4.1.tgz#6ee22468830bc546798a37e0fca6fd699cc93b81"
+  resolved "https://codeload.github.com/endiliey/static-site-generator-webpack-plugin/tar.gz/d29365613d5489dabe8bae912d7541334e6acf1b"
   dependencies:
     bluebird "^3.0.5"
     cheerio "^0.22.0"
