@@ -1,34 +1,9 @@
 import React from 'react';
-
-const square = {
-  background: '#fff',
-  border: '1px solid #999',
-  float: 'left',
-  fontSize: '24px',
-  fontWeight: 'bold',
-  lineHeight: '34px',
-  height: '34px',
-  marginright: '-1px',
-  marginTop: '-1px',
-  padding: '0',
-  textAlign: 'center',
-  width: '34px'
-};
-
-const boardRow = {
-  clear: 'both',
-  content: '',
-  display: 'table'
-};
-
-const game = {
-  display: 'flex',
-  flexDirection: 'row'
-};
+import style from './tictactoe.css';
 
 function Square(props) {
   return (
-    <button style={square} onClick={props.onClick}>
+    <button className={style.square} onClick={props.onClick}>
       {props.value}
     </button>
   );
@@ -67,17 +42,17 @@ class Board extends React.Component {
   render() {
     return (
       <div>
-        <div style={boardRow}>
+        <div className={style.boardRow}>
           {this.renderSquare(0)}
           {this.renderSquare(1)}
           {this.renderSquare(2)}
         </div>
-        <div style={boardRow}>
+        <div className={style.boardRow}>
           {this.renderSquare(3)}
           {this.renderSquare(4)}
           {this.renderSquare(5)}
         </div>
-        <div style={boardRow}>
+        <div className={style.boardRow}>
           {this.renderSquare(6)}
           {this.renderSquare(7)}
           {this.renderSquare(8)}
@@ -149,11 +124,11 @@ class Game extends React.Component {
     }
 
     return (
-      <div style={game}>
-        <div>
+      <div className={style.game}>
+        <div className={style.gameBoard}>
           <Board squares={current.squares} onClick={i => this.handleClick(i)} />
         </div>
-        <div style={{marginLeft: '10px'}}>
+        <div className={style.gameInfo}>
           <div>{status}</div>
           <ol>{moves}</ol>
         </div>
