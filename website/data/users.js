@@ -170,12 +170,12 @@ module.exports = [
     pinned: true,
   },
   {
-    caption: 'Plus(ThinkSNS+)',
+    caption: 'Plus (ThinkSNS+)',
     image: '/img/users/plus.png',
     infoLink: 'https://slimkit.github.io',
     fbOpenSource: false,
-    pinned: false
-  }
+    pinned: false,
+  },
   {
     caption: 'React Native',
     image: '/img/users/react-native.svg',
