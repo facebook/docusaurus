@@ -85,6 +85,13 @@ module.exports = [
     pinned: true,
   },
   {
+    caption: 'Flipper',
+    image: '/img/users/flipper.png',
+    infoLink: 'https://fbflipper.com',
+    fbOpenSource: true,
+    pinned: true,
+  },
+  {
     caption: 'Instant Articles Builder',
     image: '/img/users/facebook-instant-articles-rules-editor.svg',
     infoLink: 'https://facebook.github.io/instant-articles-builder/',
@@ -245,13 +252,6 @@ module.exports = [
     infoLink: 'https://single-spa.js.org/',
     fbOpenSource: false,
     pinned: false,
-  },
-  {
-    caption: 'Sonar',
-    image: '/img/users/sonar.png',
-    infoLink: 'https://fbsonar.com',
-    fbOpenSource: true,
-    pinned: true,
   },
   {
     caption: 'StreamPipes',
