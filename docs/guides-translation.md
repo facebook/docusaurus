@@ -225,38 +225,51 @@ CROWDIN_DOCUSAURUS_PROJECT_ID=YOUR_CROWDIN_PROJECT_ID CROWDIN_DOCUSAURUS_API_KEY
 
 You can automate pulling down and uploading translations for your files using the [CircleCI](https://circleci.com) web continuous integration service.
 
-First, update the `circle.yml` file in your project directory to include steps to upload English files to be translated and download translated files using the Crowdin CLI. Here is an example `circle.yml` file:
+First, update the `.circleci/config.yml` file in your project directory to include steps to upload English files to be translated and download translated files using the Crowdin CLI. Here is an example `.circleci/config.yml` file:
 
 ```yaml
-machine:
-  node:
-    version: 6.10.3
-  npm:
-    version: 3.10.10
+# If you only want circle to run on direct commits to master, you can uncomment this out
+# and uncomment the filters: *filter-only-master down below too
+#
+# aliases:
+#  - &filter-only-master
+#    branches:
+#      only:
+#        - master
 
-test:
-  override:
-    - "true"
+version: 2
+jobs:
+  deploy-website:
+    docker:
+      # specify the version you desire here
+      - image: circleci/node:8.11.1
 
-deployment:
-  website:
-    branch: master
-    commands:
-      # configure git user
-      - git config --global user.email "test-site-bot@users.noreply.github.com"
-      - git config --global user.name "Website Deployment Script"
-      - echo "machine github.com login test-site-bot password $GITHUB_TOKEN" > ~/.netrc
-      # install Docusaurus and generate file of English strings
-      - cd website && npm install && npm run write-translations && cd ..
-      # crowdin install
-      - sudo apt-get install default-jre
-      - wget https://artifacts.crowdin.com/repo/deb/crowdin.deb -O crowdin.deb
-      - sudo dpkg -i crowdin.deb
-      # translations upload/download
-      - crowdin --config crowdin.yaml upload sources --auto-update -b master
-      - crowdin --config crowdin.yaml download -b master
-      # build and publish website
-      - cd website && GIT_USER=test-site-bot npm run publish-gh-pages
+    steps:
+      - checkout
+      - run:
+          name: Deploying to GitHub Pages
+          command: |
+            git config --global user.email "<GITHUB_USERNAME>@users.noreply.github.com"
+            git config --global user.name "<YOUR_NAME>"
+            echo "machine github.com login <GITHUB_USERNAME> password $GITHUB_TOKEN" > ~/.netrc
+            # install Docusaurus and generate file of English strings
+            - cd website && yarn install && yarn run write-translations && cd ..
+            # crowdin install
+            - sudo apt-get install default-jre
+            - wget https://artifacts.crowdin.com/repo/deb/crowdin.deb -O crowdin.deb
+            - sudo dpkg -i crowdin.deb
+            # translations upload/download
+            - crowdin --config crowdin.yaml upload sources --auto-update -b master
+            - crowdin --config crowdin.yaml download -b master
+            # build and publish website
+            cd website && GIT_USER=<GIT_USER> yarn run publish-gh-pages
+
+workflows:
+  version: 2
+  build_and_deploy:
+    jobs:
+      - deploy-website:
+#         filters: *filter-only-master
 ```
 
 The `crowdin` command uses the `crowdin.yaml` file generated with the `examples` script. It should be placed in your project directory to configure how and what files are uploaded/downloaded.
