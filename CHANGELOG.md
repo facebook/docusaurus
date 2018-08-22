@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [1.3.3] - 2018-08-22
 
-Welcome to our newest users, [atalaya](https://atalaya.io/), [Reaction Commerce](https://docs.reactioncommerce.com/), Plus [(ThinkSNS+)](https://slimkit.github.io) and [nteract](https://docs.nteract.io/).
+Welcome to our newest users, [atalaya](https://atalaya.io/), [Reaction Commerce](https://docs.reactioncommerce.com/), [Plus (ThinkSNS+)](https://slimkit.github.io) and [nteract](https://docs.nteract.io/).
 
 Thank you to the following contributors who helped with this release:
 
