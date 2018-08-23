@@ -6,19 +6,26 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [Unreleased]
 
-Welcome to our newest user, [atalaya](https://atalaya.io/), [Reaction Commerce](https://docs.reactioncommerce.com/) and [nteract](https://docs.nteract.io/).
+## [1.3.3] - 2018-08-22
+
+Welcome to our newest users, [atalaya](https://atalaya.io/), [Reaction Commerce](https://docs.reactioncommerce.com/), [Plus (ThinkSNS+)](https://slimkit.github.io) and [nteract](https://docs.nteract.io/).
 
 Thank you to the following contributors who helped with this release:
 
 - @endiliey
 - @joelmarcey
 - @yangshun
+- @apuravchauhan
 - @dballance
 - @helloworld
 - @jreese
 - @machikoyasuda
+- @medz
+- @mikalai-silivonik
+- @miralemd
 - @monkeywithacupcake
 - @parano
+- @patapizza
 - @shaform
 - @steevehook
 - @theletterf
@@ -37,12 +44,16 @@ Thank you to the following contributors who helped with this release:
 - Fix failure to copy static image if image compression fail [\#887](https://github.com/facebook/Docusaurus/pull/887)
 - Fix: correct docs linking for custom `defaultVersionShown` [\#894](https://github.com/facebook/Docusaurus/pull/894)
 - Fix incorrect sitemap url for non default baseUrl [\#902](https://github.com/facebook/Docusaurus/pull/902)
+- Stricter `css/main.css` routing on development server [\#904](https://github.com/facebook/Docusaurus/pull/904)
+- Fix console error when onPageNav !== 'separate' [\#909](https://github.com/facebook/Docusaurus/pull/909)
 
 **Docs**
 - Add documentation regarding usage of nested docs/ subdirectory [\#860](https://github.com/facebook/Docusaurus/pull/860)
 - Improve baseUrl documentation with an example [\#863](https://github.com/facebook/Docusaurus/pull/863)
 - Fix Table of contents documentation typo [\#873](https://github.com/facebook/Docusaurus/pull/873)
-- Update installation doc [\#888](https://github.com/facebook/Docusaurus/pull/888)
+- Update installation doc [\#888](https://github.com/facebook/Docusaurus/pull/888) [\#900](https://github.com/facebook/Docusaurus/pull/900)
+- Update guides-translations.md for CircleCI 2.0 [92f95d](https://github.com/facebook/Docusaurus/commit/92f95df934ab4034c49d66cd82ad5dbbcdee508d)
+
 
 **Chore and Maintenance**
 - Add ESLint [\#836](https://github.com/facebook/Docusaurus/pull/836) [\#837](https://github.com/facebook/Docusaurus/pull/837) [\#841](https://github.com/facebook/Docusaurus/pull/841) [\#846](https://github.com/facebook/Docusaurus/pull/846)
@@ -51,10 +62,12 @@ Thank you to the following contributors who helped with this release:
 - Improve readme [\#866](https://github.com/facebook/Docusaurus/pull/866) 
 - Add prerelease script for Docusaurus [\#876](https://github.com/facebook/Docusaurus/pull/876)
 - Remove unused files [\#881](https://github.com/facebook/Docusaurus/pull/881)
-- Update [code of conduct](https://github.com/facebook/Docusaurus/commit/3c1363da1bd445029d7034b0575f69a7077321c3)
+- Update code of conduct [3c1363d](https://github.com/facebook/Docusaurus/commit/3c1363da1bd445029d7034b0575f69a7077321c3)
 - Update jest to v23 [\#885](https://github.com/facebook/Docusaurus/pull/885)
 - Activating Open Collective [\#883](https://github.com/facebook/Docusaurus/pull/883)
 - Fix Jest tests that fail on Windows [\#896](https://github.com/facebook/Docusaurus/pull/896)
+- Rename Sonar to Flipper [\#905](https://github.com/facebook/Docusaurus/pull/905)
+
 
 ## [1.3.2] - 2018-07-06
 
