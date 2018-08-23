@@ -48,6 +48,7 @@
     "babel-preset-react": "^6.24.1",
     "chalk": "^2.4.1",
     "chokidar": "^2.0.4",
+    "clean-webpack-plugin": "^0.1.19",
     "commander": "^2.16.0",
     "connect-history-api-fallback": "^1.5.0",
     "css-loader": "^1.0.0",
