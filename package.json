@@ -42,6 +42,8 @@
   "dependencies": {
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.5",
+    "babel-plugin-dynamic-import-node": "^2.0.0",
+    "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "chalk": "^2.4.1",
@@ -49,7 +51,6 @@
     "commander": "^2.16.0",
     "connect-history-api-fallback": "^1.5.0",
     "css-loader": "^1.0.0",
-    "ejs": "^2.6.1",
     "front-matter": "^2.3.0",
     "fs-extra": "^7.0.0",
     "globby": "^8.0.1",
@@ -65,6 +66,8 @@
     "prismjs": "^1.15.0",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
+    "react-helmet": "^5.2.0",
+    "react-loadable": "^5.5.0",
     "react-router-config": "^1.0.0-beta.4",
     "react-router-dom": "^4.3.1",
     "remarkable": "^1.7.1",
@@ -74,7 +77,8 @@
     "webpack": "^4.16.3",
     "webpack-chain": "^4.8.0",
     "webpack-nicelog": "^2.2.1",
-    "webpack-serve": "^2.0.2"
+    "webpack-serve": "^2.0.2",
+    "webpack-stats-plugin": "^0.2.1"
   },
   "engines": {
     "node": ">=8"

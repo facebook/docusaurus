@@ -1,5 +1,5 @@
 import React from 'react';
-import TicTacToe from './tictactoe';
+import Helmet from 'react-helmet';
 import {Link} from 'react-router-dom';
 
 export default class Home extends React.Component {
@@ -12,10 +12,9 @@ export default class Home extends React.Component {
     ));
     return (
       <div>
+        <Helmet title="Homepage" />
         <h2> Available Urls </h2>
         <ul>{routeLinks}</ul>
-        <h2> Play some TicTacToe </h2>
-        <TicTacToe />
       </div>
     );
   }

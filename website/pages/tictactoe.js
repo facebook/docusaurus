@@ -1,4 +1,5 @@
 import React from 'react';
+import Helmet from 'react-helmet';
 import style from './tictactoe.css';
 
 function Square(props) {
@@ -125,6 +126,7 @@ class Game extends React.Component {
 
     return (
       <div className={style.game}>
+        <Helmet title="Tic Tac Toe" />
         <div className={style.gameBoard}>
           <Board squares={current.squares} onClick={i => this.handleClick(i)} />
         </div>
