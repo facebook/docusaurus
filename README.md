@@ -1,10 +1,4 @@
 # Munseo
-📝⚡️ Transform your document (문서) to a website
-
-# Disclaimer:
-This is still a *WORK IN PROGRESS*. Expect lot of bugs :)
-
-# Quick Start
 
 ## Development Server
 
