@@ -1,5 +1,5 @@
 async function genRoutesConfig({docsMetadatas = {}, pagesMetadatas = []}) {
-  function genDocsRoute(metadata) {
+  function gendocsUrl(metadata) {
     const {permalink, source} = metadata;
     return `
   {
@@ -47,8 +47,8 @@ async function genRoutesConfig({docsMetadatas = {}, pagesMetadatas = []}) {
     component: NotFound
   }`;
 
-  const docsRoutes = Object.values(docsMetadatas)
-    .map(genDocsRoute)
+  const docsUrls = Object.values(docsMetadatas)
+    .map(gendocsUrl)
     .join(',');
 
   return (
@@ -58,7 +58,7 @@ async function genRoutesConfig({docsMetadatas = {}, pagesMetadatas = []}) {
     `import Docs from '@theme/Docs';\n` +
     `import Pages from '@theme/Pages';\n` +
     `import NotFound from '@theme/NotFound';\n` +
-    `const routes = [${docsRoutes},${pagesMetadatas
+    `const routes = [${docsUrls},${pagesMetadatas
       .map(genPagesRoute)
       .join(',')}${notFoundRoute}\n];\n` +
     `export default routes;\n`

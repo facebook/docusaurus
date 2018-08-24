@@ -178,11 +178,11 @@ function processVersionMetadata(file, version, useVersion, language) {
   const latestVersion = versions[0];
 
   if (!ENABLE_TRANSLATION && !siteConfig.useEnglishUrl) {
-    metadata.permalink = `docs/${
+    metadata.permalink = `${siteConfig.docsUrl}/${
       version !== latestVersion ? `${version}/` : ''
     }${metadata.original_id}.html`;
   } else {
-    metadata.permalink = `docs/${language}/${
+    metadata.permalink = `${siteConfig.docsUrl}/${language}/${
       version !== latestVersion ? `${version}/` : ''
     }${metadata.original_id}.html`;
   }

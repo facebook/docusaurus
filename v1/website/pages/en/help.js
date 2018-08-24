@@ -20,7 +20,7 @@ class Help extends React.Component {
         title: <translate>Browse the docs</translate>,
         content: `Learn more about Docusaurus using the [official documentation](${
           siteConfig.baseUrl
-        }docs/${this.props.language}/installation).`,
+        }${siteConfig.docsUrl}/${this.props.language}/installation).`,
       },
       {
         title: <translate>Discord</translate>,

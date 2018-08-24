@@ -71,7 +71,10 @@ module.exports = function(callback) {
       const doc = Metadata[key];
       const docUrl = utils.getPath(doc.permalink, siteConfig.cleanUrl);
       const links = enabledLanguages.map(lang => {
-        const langUrl = docUrl.replace('docs/en/', `docs/${lang.tag}/`);
+        const langUrl = docUrl.replace(
+          `${siteConfig.docsUrl}/en/`,
+          `${siteConfig.docsUrl}/${lang.tag}/`
+        );
         return {lang: lang.tag, url: langUrl};
       });
       urls.push({

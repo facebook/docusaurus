@@ -54,7 +54,7 @@ const rawContent1 = metadataUtils.extractMetadata(doc1).rawContent;
 const rawContent2 = metadataUtils.extractMetadata(doc2).rawContent;
 
 describe('mdToHtmlify', () => {
-  const mdToHtml = metadataUtils.mdToHtml(Metadata, '/');
+  const mdToHtml = metadataUtils.mdToHtml(Metadata, '/', 'docs');
 
   test('transform nothing', () => {
     const content1 = docs.mdToHtmlify(

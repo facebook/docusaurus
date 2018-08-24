@@ -51,7 +51,7 @@ class HomeSplash extends React.Component {
                   <div className="pluginRowBlock">
                     <Button
                       href={`
-                        ${siteConfig.baseUrl}docs/${
+                        ${siteConfig.baseUrl}${siteConfig.docsUrl}/${
                         this.props.language
                       }/installation
                         `}>
@@ -92,7 +92,9 @@ class Index extends React.Component {
                   content: `Save time and focus on your project's documentation. Simply
                     write docs and blog posts with [Markdown](${
                       siteConfig.baseUrl
-                    }docs/${this.props.language}/doc-markdown)
+                    }${siteConfig.docsUrl}/${
+                    this.props.language
+                  }/doc-markdown)
                     and Docusaurus will publish a set of static html files ready
                     to serve.`,
                   image: `${siteConfig.baseUrl}img/markdown.png`,
@@ -101,9 +103,9 @@ class Index extends React.Component {
                   title: <translate>Powered by Markdown</translate>,
                 },
                 {
-                  content: `[Extend or customize](${siteConfig.baseUrl}docs/${
-                    this.props.language
-                  }/api-pages)
+                  content: `[Extend or customize](${siteConfig.baseUrl}${
+                    siteConfig.docsUrl
+                  }${this.props.language}/api-pages)
                     your project's layout by reusing React. Docusaurus can be
                     extended while reusing the same header and footer.`,
                   image: `${siteConfig.baseUrl}img/react.svg`,
@@ -112,9 +114,9 @@ class Index extends React.Component {
                   title: <translate>Built Using React</translate>,
                 },
                 {
-                  content: `[Localization](${siteConfig.baseUrl}docs/${
-                    this.props.language
-                  }/translation)
+                  content: `[Localization](${siteConfig.baseUrl}${
+                    siteConfig.docsUrl
+                  }${this.props.language}/translation)
                     comes pre-configured. Use [Crowdin](https://crowdin.com/) to translate your docs
                     into over 70 languages.`,
                   image: `${siteConfig.baseUrl}img/translation.svg`,
@@ -132,7 +134,7 @@ class Index extends React.Component {
               contents={[
                 {
                   content: `Support users on all versions of your project. Document
-                    [versioning](${siteConfig.baseUrl}docs/${
+                    [versioning](${siteConfig.baseUrl}${siteConfig.docsUrl}/${
                     this.props.language
                   }/versioning)
                     helps you keep documentation in sync with project releases.`,
@@ -144,7 +146,7 @@ class Index extends React.Component {
                 {
                   content: `Make it easy for your community to [find](${
                     siteConfig.baseUrl
-                  }docs/${
+                  }${siteConfig.docsUrl}/${
                     this.props.language
                   }/search) what they need in your documentation.
                     We proudly support [Algolia documentation search](https://www.algolia.com/).`,
@@ -161,9 +163,9 @@ class Index extends React.Component {
             <GridBlock
               contents={[
                 {
-                  content: `Get [up and running](${siteConfig.baseUrl}docs/${
-                    this.props.language
-                  }/site-creation)
+                  content: `Get [up and running](${siteConfig.baseUrl}${
+                    siteConfig.docsUrl
+                  }${this.props.language}/site-creation)
                     quickly without having to worry about site design.`,
                   imageAlign: 'right',
                   image: `${siteConfig.baseUrl}img/docusaurus_speed.svg`,
@@ -179,10 +181,12 @@ class Index extends React.Component {
               contents={[
                 {
                   content: `Make design and documentation changes by using the included
-                    [live server](${siteConfig.baseUrl}docs/${
+                    [live server](${siteConfig.baseUrl}${
+                    siteConfig.docsUrl
+                  }/${
                     this.props.language
                   }/site-preparation#verifying-installation).
-                    [Publish](${siteConfig.baseUrl}docs/${
+                    [Publish](${siteConfig.baseUrl}${siteConfig.docsUrl}/${
                     this.props.language
                   }/publishing)
                     your site to GitHub pages or other static file hosts
@@ -202,18 +206,20 @@ class Index extends React.Component {
               contents={[
                 {
                   content: `Docusaurus currently provides support to help your website
-                    use [translations](${siteConfig.baseUrl}docs/${
-                    this.props.language
-                  }/translation),
-                    [search](${siteConfig.baseUrl}docs/${
+                    use [translations](${siteConfig.baseUrl}${
+                    siteConfig.docsUrl
+                  }${this.props.language}/translation),
+                    [search](${siteConfig.baseUrl}${siteConfig.docsUrl}/${
                     this.props.language
                   }/search),
-                    and [versioning](${siteConfig.baseUrl}docs/${
-                    this.props.language
-                  }/versioning),
+                    and [versioning](${siteConfig.baseUrl}${
+                    siteConfig.docsUrl
+                  }${this.props.language}/versioning),
                     along with some other special [documentation markdown features](${
                       siteConfig.baseUrl
-                    }docs/${this.props.language}/doc-markdown).
+                    }${siteConfig.docsUrl}/${
+                    this.props.language
+                  }/doc-markdown).
                     If you have ideas for useful features, feel free to
                     contribute on [GitHub](https://github.com/facebook/docusaurus)!`,
                   imageAlign: 'right',

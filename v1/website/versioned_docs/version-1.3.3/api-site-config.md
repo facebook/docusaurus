@@ -20,6 +20,8 @@ The `siteConfig` object contains the bulk of the configuration settings for your
 
 `baseUrl` - baseUrl for your site. For example, `/pages/org/project/` is the baseUrl of https://git.facebook.com/pages/org/project/
 
+`docsUrl` - docsUrl for your site. For example, `docs` is the docsUrl of https://docusaurus.io/docs/en/installation/
+
 `colors` - Color configurations for the site.
 
 * `primaryColor` is the color used the header navigation bar and sidebars.

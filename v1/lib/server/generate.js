@@ -68,7 +68,11 @@ async function execute() {
   fs.removeSync(join(CWD, 'build'));
 
   // create html files for all docs by going through all doc ids
-  const mdToHtml = metadataUtils.mdToHtml(Metadata, siteConfig.baseUrl);
+  const mdToHtml = metadataUtils.mdToHtml(
+    Metadata,
+    siteConfig.baseUrl,
+    siteConfig.docsUrl
+  );
   Object.keys(Metadata).forEach(id => {
     const metadata = Metadata[id];
     const file = docs.getFile(metadata);
@@ -87,7 +91,10 @@ async function execute() {
     }
     const redirectFile = join(
       buildDir,
-      metadata.permalink.replace('docs/en', 'docs'),
+      metadata.permalink.replace(
+        `${siteConfig.docsUrl}/en`,
+        siteConfig.docsUrl
+      )
     );
     writeFileAndCreateFolder(redirectFile, redirectMarkup);
   });

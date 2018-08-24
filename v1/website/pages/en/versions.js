@@ -36,7 +36,7 @@ function Versions(props) {
                 <th>{latestVersion}</th>
                 <td>
                   <a
-                    href={`${siteConfig.baseUrl}docs/${
+                    href={`${siteConfig.baseUrl}${siteConfig.docsUrl}/${
                       props.language
                     }/installation`}>
                     Documentation
@@ -58,7 +58,7 @@ function Versions(props) {
                 <th>master</th>
                 <td>
                   <a
-                    href={`${siteConfig.baseUrl}docs/${
+                    href={`${siteConfig.baseUrl}${siteConfig.docsUrl}/${
                       props.language
                     }/next/installation`}>
                     Documentation
@@ -83,7 +83,7 @@ function Versions(props) {
                       <th>{version}</th>
                       <td>
                         <a
-                          href={`${siteConfig.baseUrl}docs/${
+                          href={`${siteConfig.baseUrl}${siteConfig.docsUrl}/${
                             props.language
                           }/${version}/installation`}>
                           Documentation

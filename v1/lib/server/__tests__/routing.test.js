@@ -34,8 +34,8 @@ describe('Blog routing', () => {
 });
 
 describe('Docs routing', () => {
-  const docsRegex = routing.docs('/');
-  const docsRegex2 = routing.docs('/reason/');
+  const docsRegex = routing.docs('/', 'docs');
+  const docsRegex2 = routing.docs('/reason/', 'docs');
 
   test('valid docs', () => {
     expect('/docs/en/test.html').toMatch(docsRegex);
@@ -137,8 +137,8 @@ describe('Extension-less url routing', () => {
 });
 
 describe('Page routing', () => {
-  const pageRegex = routing.page('/');
-  const pageRegex2 = routing.page('/reason/');
+  const pageRegex = routing.page('/', 'docs');
+  const pageRegex2 = routing.page('/reason/', 'docs');
 
   test('valid page url', () => {
     expect('/index.html').toMatch(pageRegex);

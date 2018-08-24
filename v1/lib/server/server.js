@@ -109,22 +109,29 @@ function execute(port) {
 
   const app = express();
 
-  app.get(routing.docs(siteConfig.baseUrl), (req, res, next) => {
-    const url = req.path.toString().replace(siteConfig.baseUrl, '');
-    const metadata =
-      Metadata[
-        Object.keys(Metadata).find(id => Metadata[id].permalink === url)
-      ];
-    const file = docs.getFile(metadata);
-    if (!file) {
-      next();
-      return;
+  app.get(
+    routing.docs(siteConfig.baseUrl, siteConfig.docsUrl),
+    (req, res, next) => {
+      const url = req.path.toString().replace(siteConfig.baseUrl, '');
+      const metadata =
+        Metadata[
+          Object.keys(Metadata).find(id => Metadata[id].permalink === url)
+        ];
+      const file = docs.getFile(metadata);
+      if (!file) {
+        next();
+        return;
+      }
+      const rawContent = metadataUtils.extractMetadata(file).rawContent;
+      removeModuleAndChildrenFromCache('../core/DocsLayout.js');
+      const mdToHtml = metadataUtils.mdToHtml(
+        Metadata,
+        siteConfig.baseUrl,
+        siteConfig.docsUrl
+      );
+      res.send(docs.getMarkup(rawContent, mdToHtml, metadata));
     }
-    const rawContent = metadataUtils.extractMetadata(file).rawContent;
-    removeModuleAndChildrenFromCache('../core/DocsLayout.js');
-    const mdToHtml = metadataUtils.mdToHtml(Metadata, siteConfig.baseUrl);
-    res.send(docs.getMarkup(rawContent, mdToHtml, metadata));
-  });
+  );
 
   app.get(routing.sitemap(siteConfig.baseUrl), (req, res) => {
     sitemap((err, xml) => {
@@ -151,7 +158,7 @@ function execute(port) {
     next();
   });
 
-  app.get(routing.blog(siteConfig.baseUrl), (req, res, next) => {
+  app.get(routing.blog(siteConfig.baseUrl, siteConfig.docsUrl), (req, res, next) => {
     // Regenerate the blog metadata in case it has changed. Consider improving
     // this to regenerate on file save rather than on page request.
     reloadMetadataBlog();
@@ -177,7 +184,7 @@ function execute(port) {
     }
   });
 
-  app.get(routing.page(siteConfig.baseUrl), (req, res, next) => {
+  app.get(routing.page(siteConfig.baseUrl, siteConfig.docsUrl), (req, res, next) => {
     // Look for user-provided HTML file first.
     let htmlFile = req.path.toString().replace(siteConfig.baseUrl, '');
     htmlFile = join(CWD, 'pages', htmlFile);
@@ -193,9 +200,10 @@ function execute(port) {
       if (siteConfig.wrapPagesHTML) {
         removeModuleAndChildrenFromCache(join('..', 'core', 'Site.js'));
         const Site = require(join('..', 'core', 'Site.js'));
+        translate.setLanguage(language);
         const str = renderToStaticMarkupWithDoctype(
           <Site
-            language="en"
+            language={language}
             config={siteConfig}
             metadata={{id: path.basename(htmlFile, '.html')}}>
             <div
@@ -206,30 +214,11 @@ function execute(port) {
           </Site>,
         );
 
+        fs.removeSync(tempFile);
+
         res.send(str);
       } else {
-        res.send(fs.readFileSync(htmlFile, {encoding: 'utf8'}));
-      }
-      next();
-      return;
-    }
-
-    // look for user provided react file either in specified path or in path for english files
-    let file = req.path.toString().replace(/\.html$/, '.js');
-    file = file.replace(siteConfig.baseUrl, '');
-    let userFile = join(CWD, 'pages', file);
-
-    let language = env.translation.enabled ? 'en' : '';
-    const regexLang = /(.*)\/.*\.html$/;
-    const match = regexLang.exec(req.path);
-    const parts = match[1].split('/');
-    const enabledLangTags = env.translation
-      .enabledLanguages()
-      .map(lang => lang.tag);
-
-    for (let i = 0; i < parts.length; i++) {
-      if (enabledLangTags.indexOf(parts[i]) !== -1) {
-        language = parts[i];
+        next();
       }
     }
     let englishFile = join(CWD, 'pages', file);
@@ -339,8 +328,8 @@ function execute(port) {
 
   // serve static assets from these locations
   app.use(
-    `${siteConfig.baseUrl}docs/assets`,
-    express.static(join(CWD, '..', readMetadata.getDocsPath(), 'assets')),
+    `${siteConfig.baseUrl}${siteConfig.docsUrl}/assets`,
+    express.static(join(CWD, '..', readMetadata.getDocsPath(), 'assets'))
   );
   app.use(
     `${siteConfig.baseUrl}blog/assets`,

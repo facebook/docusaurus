@@ -28,6 +28,9 @@ const siteConfig = {
   // For github.io type URLs, you would set the url and baseUrl like:
   //   url: 'https://facebook.github.io',
   //   baseUrl: '/test-site/',
+  docsUrl: 'docs', // route for your project documentation pages */
+  // You coult set something like:
+  //   docsUrl: 'alpha-docs'
 
   // Used for publishing and more
   projectName: 'test-site',
