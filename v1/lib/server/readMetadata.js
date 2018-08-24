@@ -33,6 +33,10 @@ const SupportedHeaderFields = new Set([
   'custom_edit_url',
 ]);
 
+const {DOCS_ROUTE} = require('../core/defaults');
+
+siteConfig.docsRoute = siteConfig.docsRoute || DOCS_ROUTE;
+
 // Can have a custom docs path. Top level folder still needs to be in directory
 // at the same level as `website`, not inside `website`.
 //   e.g., docs/whereDocsReallyExist

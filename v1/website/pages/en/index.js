@@ -12,6 +12,9 @@ const Container = CompLibrary.Container;
 const GridBlock = CompLibrary.GridBlock;
 const siteConfig = require(`${process.cwd()}/siteConfig.js`);
 const translate = require('../../server/translate.js').translate;
+const {DOCS_ROUTE} = require('../../core/defaults');
+
+siteConfig.docsRoute = siteConfig.docsRoute || DOCS_ROUTE;
 
 class Button extends React.Component {
   render() {

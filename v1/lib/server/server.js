@@ -30,6 +30,7 @@ function execute(port) {
   const CWD = process.cwd();
   const join = path.join;
   const sep = path.sep;
+  const {DOCS_ROUTE} = require('../core/defaults');
 
   function removeModulePathFromCache(moduleName) {
     /* eslint-disable no-underscore-dangle */
@@ -78,6 +79,7 @@ function execute(port) {
   function reloadSiteConfig() {
     removeModuleAndChildrenFromCache(join(CWD, 'siteConfig.js'));
     siteConfig = require(join(CWD, 'siteConfig.js'));
+    siteConfig.docsRoute = siteConfig.docsRoute || DOCS_ROUTE;
 
     if (siteConfig.highlight && siteConfig.highlight.hljs) {
       siteConfig.highlight.hljs(require('highlight.js'));

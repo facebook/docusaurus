@@ -10,6 +10,8 @@ const fs = require('fs-extra');
 const path = require('path');
 const chalk = require('chalk');
 
+const {DOCS_ROUTE} = require('../core/defaults');
+
 const siteConfig = require(`${CWD}/siteConfig.js`);
 
 const join = path.join;
@@ -17,6 +19,8 @@ const join = path.join;
 const languagesFile = join(CWD, 'languages.js');
 const versionsJSONFile = join(CWD, 'versions.json');
 const versionsFile = join(CWD, 'pages/en/versions.js');
+
+siteConfig.docsRoute = siteConfig.docsRoute || DOCS_ROUTE;
 
 class Translation {
   constructor() {

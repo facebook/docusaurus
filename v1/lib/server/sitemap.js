@@ -16,6 +16,10 @@ const utils = require('../core/utils');
 
 const siteConfig = require(`${CWD}/siteConfig.js`);
 
+const {DOCS_ROUTE} = require('../core/defaults');
+
+siteConfig.docsRoute = siteConfig.docsRoute || DOCS_ROUTE;
+
 const readMetadata = require('./readMetadata.js');
 
 readMetadata.generateMetadataDocs();

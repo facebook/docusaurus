@@ -8,11 +8,13 @@
 const React = require('react');
 
 const CompLibrary = require('../../core/CompLibrary.js');
+const {DOCS_ROUTE} = require('../../core/defaults');
 
 const Container = CompLibrary.Container;
 const GridBlock = CompLibrary.GridBlock;
 
 const siteConfig = require(`${process.cwd()}/siteConfig.js`);
+siteConfig.docsRoute = siteConfig.docsRoute || DOCS_ROUTE;
 
 function docUrl(doc, language) {
   return `${siteConfig.baseUrl}${siteConfig.docsUrl}/${

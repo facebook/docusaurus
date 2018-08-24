@@ -17,6 +17,10 @@ const utils = require('./utils.js');
 
 const siteConfig = require(`${CWD}/siteConfig.js`);
 
+const {DOCS_ROUTE} = require('../core/defaults');
+
+siteConfig.docsRoute = siteConfig.docsRoute || DOCS_ROUTE;
+
 const ENABLE_TRANSLATION = fs.existsSync(`${CWD}/languages.js`);
 
 let versions;

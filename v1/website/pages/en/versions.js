@@ -16,6 +16,10 @@ const CWD = process.cwd();
 const siteConfig = require(`${CWD}/siteConfig.js`);
 const versions = require(`${CWD}/versions.json`);
 
+const {DOCS_ROUTE} = require('../../core/defaults');
+
+siteConfig.docsRoute = siteConfig.docsRoute || DOCS_ROUTE;
+
 function Versions(props) {
   const latestVersion = versions[0];
   const repoUrl = `https://github.com/${siteConfig.organizationName}/${

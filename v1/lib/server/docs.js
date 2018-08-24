@@ -14,6 +14,9 @@ const {renderToStaticMarkupWithDoctype} = require('./renderUtils');
 const readMetadata = require('./readMetadata.js');
 const {insertTOC} = require('../core/toc.js');
 const {getPath} = require('../core/utils.js');
+const {DOCS_ROUTE} = require('../core/defaults');
+
+siteConfig.docsRoute = siteConfig.docsRoute || DOCS_ROUTE;
 
 function getFilePath(metadata) {
   if (!metadata) {

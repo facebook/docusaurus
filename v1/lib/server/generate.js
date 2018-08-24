@@ -35,6 +35,9 @@ async function execute() {
   const imageminOptipng = require('imagemin-optipng');
   const imageminSvgo = require('imagemin-svgo');
   const imageminGifsicle = require('imagemin-gifsicle');
+  const {DOCS_ROUTE} = require('../core/defaults');
+
+  siteConfig.docsRoute = siteConfig.docsRoute || DOCS_ROUTE;
 
   commander.option('--skip-image-compression').parse(process.argv);
 
