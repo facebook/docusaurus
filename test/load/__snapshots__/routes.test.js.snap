@@ -2,10 +2,10 @@
 
 exports[`genRoutesConfig website with no docs/pages 1`] = `
 "import React from 'react';
+import Loadable from 'react-loadable';
+import Loading from '@theme/Loading';
 import Docs from '@theme/Docs';
 import NotFound from '@theme/NotFound';
-
-
 const routes = [,,
   {
     path: '*',
@@ -18,39 +18,46 @@ export default routes;
 
 exports[`genRoutesConfig website with only docs 1`] = `
 "import React from 'react';
+import Loadable from 'react-loadable';
+import Loading from '@theme/Loading';
 import Docs from '@theme/Docs';
 import NotFound from '@theme/NotFound';
-
-import MDHello from '@docs/hello.md';
-import MDFooBar from '@docs/foo/bar.md';
-import MDFooBaz from '@docs/foo/baz.md';
 const routes = [
   {
     path: \\"/hello\\",
     exact: true,
-    component: (props) => (
-      <Docs {...props}>
-        <MDHello />
-      </Docs>
-    )
+    component: Loadable({
+      loader: () => import('@docs/hello.md'),
+      loading: Loading,
+      render(loaded, props) {
+        let Content = loaded.default;
+        return <Docs {...props}><Content /></Docs>;
+      }
+    })
   },
   {
     path: \\"/foo/bar\\",
     exact: true,
-    component: (props) => (
-      <Docs {...props}>
-        <MDFooBar />
-      </Docs>
-    )
+    component: Loadable({
+      loader: () => import('@docs/foo/bar.md'),
+      loading: Loading,
+      render(loaded, props) {
+        let Content = loaded.default;
+        return <Docs {...props}><Content /></Docs>;
+      }
+    })
   },
   {
     path: \\"/foo/baz\\",
     exact: true,
-    component: (props) => (
-      <Docs {...props}>
-        <MDFooBaz />
-      </Docs>
-    )
+    component: Loadable({
+      loader: () => import('@docs/foo/baz.md'),
+      loading: Loading,
+      render(loaded, props) {
+        let Content = loaded.default;
+        return <Docs {...props}><Content /></Docs>;
+      }
+    })
   },,
   {
     path: '*',
@@ -63,33 +70,42 @@ export default routes;
 
 exports[`genRoutesConfig website with only pages 1`] = `
 "import React from 'react';
+import Loadable from 'react-loadable';
+import Loading from '@theme/Loading';
 import Docs from '@theme/Docs';
 import NotFound from '@theme/NotFound';
-import JSFoo from '@pages/foo.js';
-import JSIndex from '@pages/index.js';
-import JSBarBaz from '@pages/bar/baz.js';
-import JSFooIndex from '@pages/foo/index.js';
-
 const routes = [,
   {
     path: \\"/foo\\",
     exact: true,
-    component: JSFoo
+    component: Loadable({
+      loader: () => import('@pages/foo.js'),
+      loading: Loading
+    })
   },
   {
     path: \\"/\\",
     exact: true,
-    component: JSIndex
+    component: Loadable({
+      loader: () => import('@pages/index.js'),
+      loading: Loading
+    })
   },
   {
     path: \\"/bar/baz\\",
     exact: true,
-    component: JSBarBaz
+    component: Loadable({
+      loader: () => import('@pages/bar/baz.js'),
+      loading: Loading
+    })
   },
   {
     path: \\"/foo/\\",
     exact: true,
-    component: JSFooIndex
+    component: Loadable({
+      loader: () => import('@pages/foo/index.js'),
+      loading: Loading
+    })
   },
   {
     path: '*',
@@ -102,62 +118,78 @@ export default routes;
 
 exports[`genRoutesConfig website with pages and docs 1`] = `
 "import React from 'react';
+import Loadable from 'react-loadable';
+import Loading from '@theme/Loading';
 import Docs from '@theme/Docs';
 import NotFound from '@theme/NotFound';
-import JSFoo from '@pages/foo.js';
-import JSIndex from '@pages/index.js';
-import JSBarBaz from '@pages/bar/baz.js';
-import JSFooIndex from '@pages/foo/index.js';
-import MDHello from '@docs/hello.md';
-import MDFooBaz from '@docs/foo/baz.md';
-import MDFooBar from '@docs/foo/bar.md';
 const routes = [
   {
     path: \\"/hello\\",
     exact: true,
-    component: (props) => (
-      <Docs {...props}>
-        <MDHello />
-      </Docs>
-    )
-  },
-  {
-    path: \\"/foo/baz\\",
-    exact: true,
-    component: (props) => (
-      <Docs {...props}>
-        <MDFooBaz />
-      </Docs>
-    )
+    component: Loadable({
+      loader: () => import('@docs/hello.md'),
+      loading: Loading,
+      render(loaded, props) {
+        let Content = loaded.default;
+        return <Docs {...props}><Content /></Docs>;
+      }
+    })
   },
   {
     path: \\"/foo/bar\\",
     exact: true,
-    component: (props) => (
-      <Docs {...props}>
-        <MDFooBar />
-      </Docs>
-    )
+    component: Loadable({
+      loader: () => import('@docs/foo/bar.md'),
+      loading: Loading,
+      render(loaded, props) {
+        let Content = loaded.default;
+        return <Docs {...props}><Content /></Docs>;
+      }
+    })
+  },
+  {
+    path: \\"/foo/baz\\",
+    exact: true,
+    component: Loadable({
+      loader: () => import('@docs/foo/baz.md'),
+      loading: Loading,
+      render(loaded, props) {
+        let Content = loaded.default;
+        return <Docs {...props}><Content /></Docs>;
+      }
+    })
   },
   {
     path: \\"/foo\\",
     exact: true,
-    component: JSFoo
+    component: Loadable({
+      loader: () => import('@pages/foo.js'),
+      loading: Loading
+    })
   },
   {
     path: \\"/\\",
     exact: true,
-    component: JSIndex
+    component: Loadable({
+      loader: () => import('@pages/index.js'),
+      loading: Loading
+    })
   },
   {
     path: \\"/bar/baz\\",
     exact: true,
-    component: JSBarBaz
+    component: Loadable({
+      loader: () => import('@pages/bar/baz.js'),
+      loading: Loading
+    })
   },
   {
     path: \\"/foo/\\",
     exact: true,
-    component: JSFooIndex
+    component: Loadable({
+      loader: () => import('@pages/foo/index.js'),
+      loading: Loading
+    })
   },
   {
     path: '*',
