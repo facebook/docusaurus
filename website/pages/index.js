@@ -1,21 +1,17 @@
 import React from 'react';
 import Helmet from 'react-helmet';
-import {Link} from 'react-router-dom';
+import Layout from '@theme/Layout';
+import Todo from '@site/components/Todo';
 
 export default class Home extends React.Component {
   render() {
-    const {pagesData, docsData} = this.props;
-    const routeLinks = [...pagesData, ...docsData].map(data => (
-      <li key={data.path}>
-        <Link to={data.path}>{data.path}</Link>
-      </li>
-    ));
     return (
-      <div>
-        <Helmet title="Homepage" />
-        <h2> Available Urls </h2>
-        <ul>{routeLinks}</ul>
-      </div>
+      <Layout {...this.props}>
+        <Helmet>
+          <title>Homepage</title>
+        </Helmet>
+        <Todo />
+      </Layout>
     );
   }
 }
