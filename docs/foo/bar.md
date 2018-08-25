@@ -1,6 +1,6 @@
 ---
 id: bar
-title: Bar
+title: My Title
 ---
 
 # Remarkable
@@ -21,28 +21,13 @@ Click the `clear` link to start with a clean slate, or get the `permalink` to sh
 
 ## Horizontal Rules
 
+This is horizontal rule
+
 ___
 
 ***
 
 ***
-
-
-## Typographic replacements
-
-Enable typographer option to see result.
-
-(c) (C) (r) (R) (tm) (TM) (p) (P) +-
-
-test.. test... test..... test?..... test!....
-
-!!!!!! ???? ,,
-
-Remarkable -- awesome
-
-"Smartypants, double quotes"
-
-'Smartypants, single quotes'
 
 
 ## Emphasis

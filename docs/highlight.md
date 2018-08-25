@@ -14,18 +14,31 @@ int main() {
 
 ```
 
-```js
-class Example extends React.Component {
-  render() {
-    return (
-      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-        <Text>Docusaurus</Text>
-        <Button
-          title="Click me"
-          onPress={() => this.props.navigation.push('Docusaurus')}
-        />
-      </View>
-    );
+```cpp
+#include <iostream>
+using namespace std;
+
+int main()
+{
+  int n, i;
+  bool isPrime = true;
+
+  cout << "Enter a positive integer: ";
+  cin >> n;
+
+  for(i = 2; i <= n / 2; ++i)
+  {
+      if(n % i == 0)
+      {
+          isPrime = false;
+          break;
+      }
   }
+  if (isPrime)
+      cout << "This is a prime number";
+  else
+      cout << "This is not a prime number";
+
+  return 0;
 }
 ```
