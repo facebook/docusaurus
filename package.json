@@ -53,6 +53,7 @@
     "commander": "^2.16.0",
     "connect-history-api-fallback": "^1.5.0",
     "css-loader": "^1.0.0",
+    "escape-html": "^1.0.3",
     "front-matter": "^2.3.0",
     "fs-extra": "^7.0.0",
     "globby": "^8.0.1",
