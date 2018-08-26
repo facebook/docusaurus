@@ -8,7 +8,8 @@ export default class Home extends React.Component {
     return (
       <Layout {...this.props}>
         <Helmet>
-          <title>Homepage</title>
+          <title>Todo App</title>
+          <link rel="stylesheet" type="text/css" href="/css/basic.css" />
         </Helmet>
         <Todo />
       </Layout>

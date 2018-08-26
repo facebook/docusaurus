@@ -181,10 +181,6 @@ class TodoApp extends React.Component {
 
     return (
       <div className="todoapp">
-        <Helmet>
-          <title>Todo App</title>
-          <link rel="stylesheet" type="text/css" href="/css/todo.css" />
-        </Helmet>
         <header className="header">
           <h1>todos</h1>
           <input

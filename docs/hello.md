@@ -3,17 +3,6 @@ id: hello
 title: Hello, World !
 ---
 
-Hi, Endilie here :)
-
-```py
-import hello
-def hi(name):
-    hello(name)
-    
-print('Welcome to my repos!')
-```
-
-
 ## Blockquotes
 
 > Blockquotes can also be nested...
