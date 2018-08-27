@@ -1545,8 +1545,13 @@ input::placeholder {
 }
 
 @media only screen and (max-width: 735px) {
-  .docs-prevnext {
-    height: 40px;
+  .docs-next {
+    clear: both;
+    float: left;
+    margin: 10px 0;
+  }
+  .docs-prev {
+    margin: 10px 0;
   }
 }
 /* End of Docs Navigation */
