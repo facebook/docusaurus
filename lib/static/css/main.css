@@ -1550,17 +1550,21 @@ input::placeholder {
     float: left;
     margin: 10px 0;
   }
+
   .docs-prev {
     margin: 10px 0;
   }
+
   .arrow-next {
     float: right;
     margin-left: 10px;
   }
+
   .arrow-prev {
     float: left;
     margin-right: 10px;
   }
+
   .function-name-prevnext {
     width: 200px;
     display: inline-block;
