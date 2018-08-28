@@ -70,6 +70,7 @@
     "commander": "^2.16.0",
     "crowdin-cli": "^0.3.0",
     "cssnano": "^3.10.0",
+    "deepmerge": "^2.1.1",
     "escape-string-regexp": "^1.0.5",
     "express": "^4.15.3",
     "feed": "^1.1.0",
