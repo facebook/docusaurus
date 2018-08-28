@@ -6,6 +6,7 @@
  */
 
 /* Reset */
+
 html,
 body,
 div,
@@ -96,10 +97,10 @@ video {
 }
 
 /* Base scaffolding taken from Markswatch theme */
+
 body {
   color: #24292e;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial,
-    sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
   font-size: 16px;
   line-height: 1.5;
   -ms-text-size-adjust: 100%;
@@ -219,11 +220,11 @@ li {
   word-wrap: break-all;
 }
 
-li > p {
+li>p {
   margin-top: 1em;
 }
 
-li + li {
+li+li {
   margin-top: 0.25em;
 }
 
@@ -284,11 +285,11 @@ blockquote {
   padding: 0 1em;
 }
 
-blockquote > :first-child {
+blockquote> :first-child {
   margin-top: 0;
 }
 
-blockquote > :last-child {
+blockquote> :last-child {
   margin-bottom: 0;
 }
 
@@ -296,8 +297,7 @@ code {
   background-color: rgba(27, 31, 35, 0.05);
   border-radius: 3px;
   color: inherit;
-  font-family: SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
-    'Courier New', monospace;
+  font-family: SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
   font-size: 85%;
   margin: 0;
   padding: 3.2px 6.4px;
@@ -330,8 +330,7 @@ kbd {
   box-shadow: inset 0 -1px 0 #c6cbd1;
   color: #444d56;
   display: inline-block;
-  font-family: SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
-    'Courier New', monospace;
+  font-family: SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
   font-size: 68.75%;
   line-height: 10px;
   padding: 3px 5px;
@@ -364,6 +363,7 @@ hr:after {
  */
 
 /* Base */
+
 body {
   min-height: 100vh;
   text-rendering: optimizeLegibility;
@@ -387,11 +387,11 @@ article:after {
   display: table;
 }
 
-article > :first-child {
+article> :first-child {
   margin-top: 0;
 }
 
-article > :last-child {
+article> :last-child {
   margin-bottom: 0;
 }
 
@@ -404,6 +404,7 @@ article iframe {
 }
 
 /* Links */
+
 .anchor {
   display: block;
   position: relative;
@@ -428,6 +429,7 @@ article iframe {
 }
 
 /* Buttons */
+
 .button {
   border: 1px solid $primaryColor;
   border-radius: 3px;
@@ -448,6 +450,7 @@ article iframe {
 }
 
 /* Headers */
+
 h1:hover .hash-link,
 h2:hover .hash-link,
 h3:hover .hash-link,
@@ -457,6 +460,7 @@ h4:hover .hash-link {
 }
 
 /* Blockquotes */
+
 blockquote {
   background-color: rgba(255, 229, 100, 0.3);
   border-left: 8px solid #ffe564;
@@ -464,13 +468,14 @@ blockquote {
 }
 
 /* Utils */
+
 .wrapper {
   margin: 0px auto;
   max-width: 1100px;
   padding: 0 20px;
 }
 
-.wrapper blockquote > p:first-child {
+.wrapper blockquote>p:first-child {
   padding-top: 0;
 }
 
@@ -478,9 +483,11 @@ blockquote {
   display: block;
   text-align: center;
 }
+
 /* End of Utils */
 
 /* Home Container */
+
 .homeContainer {
   text-align: center;
 }
@@ -517,7 +524,6 @@ blockquote {
   .homeContainer .homeWrapper {
     position: relative;
   }
-
   .homeContainer .homeWrapper #inner {
     max-width: 600px;
     padding-right: 40px;
@@ -544,7 +550,7 @@ blockquote {
   line-height: 1em;
 }
 
-.projectTitle > small {
+.projectTitle>small {
   display: block;
   font-weight: normal;
   font-size: 50%;
@@ -557,12 +563,10 @@ blockquote {
     font-size: 300%;
     margin: 0.3em 0;
   }
-
   .projectLogo img {
     height: 200px;
     margin-bottom: 10px;
   }
-
   .homeContainer .homeWrapper {
     padding-left: 10px;
     padding-right: 10px;
@@ -573,7 +577,6 @@ blockquote {
   .homeContainer .homeWrapper {
     position: relative;
   }
-
   .homeContainer .homeWrapper #inner {
     max-width: 600px;
     padding-right: 40px;
@@ -584,7 +587,6 @@ blockquote {
   .homeContainer .homeWrapper #inner {
     max-width: 750px;
   }
-
   .homeContainer .homeWrapper .projectLogo {
     align-items: center;
     bottom: 0;
@@ -608,14 +610,15 @@ blockquote {
     padding-bottom: 40px;
     padding-top: 40px;
   }
-
   .wrapper {
     max-width: 1400px;
   }
 }
+
 /* End of Home Container */
 
 /* Main Container */
+
 .mainContainer {
   flex: 1 1 auto;
   max-width: 100%;
@@ -698,7 +701,6 @@ blockquote {
   .mainContainer .wrapper .post .docPagination a .pagerLabel {
     display: none;
   }
-
   .mainContainer .wrapper .post .docPagination a .pagerTitle {
     display: inline;
   }
@@ -708,14 +710,15 @@ blockquote {
   .mainContainer .wrapper .post {
     display: block;
   }
-
   .mainContainer .wrapper .posts .post {
     width: 100%;
   }
 }
+
 /* End of Main Container */
 
 /* Navbar */
+
 .fixedHeaderContainer {
   background: $primaryColor;
   color: #fff;
@@ -780,14 +783,15 @@ blockquote {
   .headerTitle {
     font-size: 17px;
   }
-
   .headerTitleWithLogo {
     display: none !important;
   }
 }
+
 /* End of Navbar */
 
 /* Promo section */
+
 .promoSection {
   display: flex;
   flex-flow: column wrap;
@@ -825,9 +829,11 @@ blockquote {
   margin-left: 2px;
   margin-top: 5px;
 }
+
 /* End of Promo Section */
 
 /* Search */
+
 input[type='search'] {
   -moz-appearance: none;
   -webkit-appearance: none;
@@ -880,38 +886,25 @@ input[type='search'] {
   right: 0 !important;
 }
 
-.navSearchWrapper
-  .aa-dropdown-menu
-  .algolia-docsearch-suggestion--category-header {
+.navSearchWrapper .aa-dropdown-menu .algolia-docsearch-suggestion--category-header {
   background: $primaryColor;
   color: white;
   font-size: 14px;
   font-weight: 400;
 }
 
-.navSearchWrapper
-  .aa-dropdown-menu
-  .algolia-docsearch-suggestion--category-header
-  .algolia-docsearch-suggestion--highlight {
+.navSearchWrapper .aa-dropdown-menu .algolia-docsearch-suggestion--category-header .algolia-docsearch-suggestion--highlight {
   background-color: $primaryColor;
   color: #fff;
 }
 
-.navSearchWrapper
-  .aa-dropdown-menu
-  .algolia-docsearch-suggestion--title
-  .algolia-docsearch-suggestion--highlight,
-.navSearchWrapper
-  .aa-dropdown-menu
-  .algolia-docsearch-suggestion--subcategory-column
-  .algolia-docsearch-suggestion--highlight {
+.navSearchWrapper .aa-dropdown-menu .algolia-docsearch-suggestion--title .algolia-docsearch-suggestion--highlight,
+.navSearchWrapper .aa-dropdown-menu .algolia-docsearch-suggestion--subcategory-column .algolia-docsearch-suggestion--highlight {
   color: $primaryColor;
 }
 
 .navSearchWrapper .aa-dropdown-menu .algolia-docsearch-suggestion__secondary,
-.navSearchWrapper
-  .aa-dropdown-menu
-  .algolia-docsearch-suggestion--subcategory-column {
+.navSearchWrapper .aa-dropdown-menu .algolia-docsearch-suggestion--subcategory-column {
   border-color: rgba(57, 57, 57, 0.3);
 }
 
@@ -960,14 +953,16 @@ input::placeholder {
 .hljs {
   padding: 1.25rem 1.5rem;
 }
+
 /* End of Search */
 
 /* GridBlock */
+
 .gridBlock {
   padding: 0;
 }
 
-.gridBlock > * {
+.gridBlock>* {
   box-sizing: border-box;
 }
 
@@ -993,32 +988,25 @@ input::placeholder {
     flex-direction: row;
     flex-wrap: wrap;
   }
-
-  .gridBlock > * {
+  .gridBlock>* {
     margin: 0 12px;
   }
-
-  .gridBlock > *:first-child {
+  .gridBlock>*:first-child {
     margin-left: 0;
   }
-
-  .gridBlock > *:last-child {
+  .gridBlock>*:last-child {
     margin-right: 0;
   }
-
   .gridBlock .twoByGridBlock {
     flex: 1 0 40%;
   }
-
   .gridBlock .threeByGridBlock {
     flex: 1 0 26%;
   }
-
   .gridBlock .fourByGridBlock {
     flex: 1 0 20%;
   }
-
-  h2 + .gridBlock {
+  h2+.gridBlock {
     padding-top: 20px;
   }
 }
@@ -1090,9 +1078,11 @@ input::placeholder {
 .imageAlignLeft .blockImage {
   margin-right: 40px;
 }
+
 /* End of GridBlock */
 
 /* Start of Container */
+
 .container .gridBlock .blockContent p {
   padding: 0;
 }
@@ -1181,7 +1171,6 @@ input::placeholder {
   .container.paddingBottom {
     padding-bottom: 40px;
   }
-
   .container.paddingTop {
     padding-top: 20px;
   }
@@ -1191,19 +1180,19 @@ input::placeholder {
   .responsiveList .blockContent {
     position: relative;
   }
-
-  .responsiveList .blockContent > div {
+  .responsiveList .blockContent>div {
     padding-left: 20px;
   }
-
   .responsiveList .blockContent:before {
     content: '\2022';
     position: absolute;
   }
 }
+
 /* End of Container */
 
 /* Navigation Slider */
+
 .navigationSlider .navSlideout {
   cursor: pointer;
   padding-top: 4px;
@@ -1273,9 +1262,11 @@ input::placeholder {
 .navigationSlider .slidingNav ul li.siteNavGroupActive a {
   background: $primaryColor;
 }
+
 /* End of Navigation Slider */
 
 /* Languages Dropdown */
+
 .languages-icon {
   width: 20px;
 }
@@ -1290,6 +1281,7 @@ input::placeholder {
 #languages-dropdown.visible {
   display: flex;
 }
+
 #languages-dropdown.hide {
   display: none;
 }
@@ -1335,9 +1327,8 @@ input::placeholder {
     min-height: calc(100vh - 50px);
     padding-top: 50px;
   }
-
   /* those make the footer sticky and work even in IE 11 */
-  .navPusher > :first-child {
+  .navPusher> :first-child {
     flex-grow: 1;
   }
 }
@@ -1363,25 +1354,20 @@ input::placeholder {
     outline: none;
     padding-left: 25px;
     position: relative;
-    transition: background-color 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55),
-      width 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55), color 0.2s ease;
+    transition: background-color 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55), width 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55), color 0.2s ease;
     width: 100%;
   }
-
   .reactNavSearchWrapper input#search_input_react:focus,
   .reactNavSearchWrapper input#search_input_react:active {
     background-color: $primaryColor;
     color: #fff;
   }
-
   .reactNavSearchWrapper .algolia-docsearch-suggestion--subcategory-inline {
     display: none;
   }
-
-  .reactNavSearchWrapper > span {
+  .reactNavSearchWrapper>span {
     width: 100%;
   }
-
   .reactNavSearchWrapper .aa-dropdown-menu {
     background: #f9f9f9;
     border: 0px solid #f9f9f9;
@@ -1397,12 +1383,10 @@ input::placeholder {
     position: relative !important;
     width: 100%;
   }
-
   #languages-dropdown {
     left: 0px;
     top: 50px;
   }
-
   #languages-dropdown-items {
     background-color: $primaryColor;
     display: flex;
@@ -1417,21 +1401,17 @@ input::placeholder {
     right: auto;
     top: auto;
   }
-
   .navSearchWrapper .algolia-autocomplete {
     display: block;
   }
-
   .navigationSlider {
     height: 34px;
     margin-left: auto;
     position: relative;
   }
-
   .navigationSlider .navSlideout {
     display: none;
   }
-
   .navigationSlider nav.slidingNav {
     background: none;
     height: auto;
@@ -1440,7 +1420,6 @@ input::placeholder {
     top: auto;
     width: auto;
   }
-
   .navigationSlider .slidingNav ul {
     background: none;
     display: flex;
@@ -1449,7 +1428,6 @@ input::placeholder {
     padding: 0;
     width: auto;
   }
-
   .navigationSlider .slidingNav ul li a {
     border: 0;
     color: rgba(255, 255, 255, 0.8);
@@ -1463,7 +1441,6 @@ input::placeholder {
     padding: 0;
     padding: 6px 10px;
   }
-
   .navigationSlider .slidingNav ul li a:hover,
   .navigationSlider .slidingNav ul li.siteNavItemActive a,
   .navigationSlider .slidingNav ul li.siteNavGroupActive a {
@@ -1481,6 +1458,7 @@ input::placeholder {
 }
 
 /* Start of Docs Main */
+
 .docMainWrapper .wrapper {
   padding-left: 0;
   padding-right: 0;
@@ -1491,21 +1469,18 @@ input::placeholder {
   .docMainWrapper {
     width: 100%;
   }
-
-  .docMainWrapper > * {
+  .docMainWrapper>* {
     margin: 0 24px;
   }
-
-  .docMainWrapper > *:first-child {
+  .docMainWrapper>*:first-child {
     margin-left: 0;
   }
-
-  .docMainWrapper > *:last-child {
+  .docMainWrapper>*:last-child {
     margin-right: 0;
   }
-
   .docMainWrapper .mainContainer {
-    min-width: 0; /* Hack needed for flex-basis to work properly. */
+    min-width: 0;
+    /* Hack needed for flex-basis to work properly. */
   }
 }
 
@@ -1523,9 +1498,11 @@ input::placeholder {
     display: none;
   }
 }
+
 /* End of Docs Main */
 
 /* Start of Docs Navigation */
+
 .docs-prevnext {
   margin: 20px 0;
 }
@@ -1533,7 +1510,8 @@ input::placeholder {
 .docs-prevnext:after {
   clear: both;
   content: ' ';
-  display: table; /* clearfix */
+  display: table;
+  /* clearfix */
 }
 
 .docs-next {
@@ -1549,9 +1527,11 @@ input::placeholder {
     height: 40px;
   }
 }
+
 /* End of Docs Navigation */
 
 /* Start of Docs Sidebar */
+
 @media only screen and (max-width: 1023px) {
   .docsNavContainer {
     background: #fff;
@@ -1569,7 +1549,8 @@ input::placeholder {
     position: -webkit-sticky;
     position: sticky;
     overflow-y: auto;
-    top: 50px; /* Height of navbar */
+    top: 50px;
+    /* Height of navbar */
   }
 }
 
@@ -1601,11 +1582,9 @@ input::placeholder {
   .docsNavContainer .toc .navBreadcrumb {
     display: none;
   }
-
   .navBreadcrumb h2 {
     padding: 0 10px;
   }
-
   .separateOnPageNav .docsNavContainer {
     flex: 0 0 240px;
   }
@@ -1747,7 +1726,8 @@ input::placeholder {
 }
 
 .docsSliderActive .toc .toggleNav ul {
-  padding-left: 0; /* Remove indentation on mobile */
+  padding-left: 0;
+  /* Remove indentation on mobile */
 }
 
 .toc .toggleNav ul li {
@@ -1865,7 +1845,6 @@ input::placeholder {
     display: flex;
     flex-flow: row nowrap;
   }
-
   .docMainWrapper .wrapper {
     padding-top: 0;
     padding-left: 0;
@@ -1874,6 +1853,7 @@ input::placeholder {
 }
 
 /* Inner page navigation */
+
 .onPageNav {
   display: none;
 }
@@ -1910,7 +1890,6 @@ input::placeholder {
     padding: 0px;
     padding-top: 8px;
   }
-
   .navBreadcrumb h2 {
     padding: 0 10px;
   }
@@ -1931,49 +1910,42 @@ input::placeholder {
       top: 148px;
       z-index: 10;
     }
-
     .tocActive .navToggle,
     .tocActive .navBreadcrumb h2 {
       visibility: hidden;
     }
-
-    .tocActive .onPageNav > .toc-headings {
+    .tocActive .onPageNav>.toc-headings {
       padding: 12px 0;
     }
   }
-
   @media only screen and (min-width: 1024px) {
     .separateOnPageNav .wrapper,
     .separateOnPageNav .headerWrapper.wrapper {
       max-width: 1400px;
     }
-
     .separateOnPageNav .toc {
       width: auto;
     }
-
     .separateOnPageNav.sideNavVisible .navPusher .mainContainer {
       flex: 1 auto;
       max-width: 100%;
       min-width: 0;
     }
-
     .onPageNav {
       align-self: flex-start;
       display: block;
       flex: 0 0 240px;
-      max-height: calc(100vh - 90px); /* Sync with top */
+      max-height: calc(100vh - 90px);
+      /* Sync with top */
       overflow-y: auto;
       position: -webkit-sticky;
       position: sticky;
       top: 90px;
     }
-
-    .onPageNav > .toc-headings {
+    .onPageNav>.toc-headings {
       border-left: 1px solid #e0e0e0;
       padding: 10px 0 2px 15px;
     }
-
     .tocToggler {
       display: none;
     }
@@ -1981,6 +1953,7 @@ input::placeholder {
 }
 
 /* Blog */
+
 .blog .wrapper {
   max-width: 1100px;
 }
@@ -2037,7 +2010,7 @@ input::placeholder {
   margin: 20px 0;
 }
 
-.blog-recent > a {
+.blog-recent>a {
   float: left;
 }
 
@@ -2062,7 +2035,15 @@ input::placeholder {
   width: 100%;
 }
 
+/* Facebook sign up text */
+
+#u_0_0>tbody>tr>td>table>tbody>tr>td._51m-._2pir._51mw>div {
+  width: 200px;
+  color: #eee;
+}
+
 /* Homepage */
+
 .more-users {
   margin: 0 auto;
   max-width: 560px;
@@ -2120,6 +2101,7 @@ input::placeholder {
 }
 
 /* Start of Showcase */
+
 .showcaseSection {
   margin: 0 auto;
   max-width: 900px;
@@ -2156,9 +2138,11 @@ input::placeholder {
     width: 64px;
   }
 }
+
 /* End of Showcase */
 
 /* Start of Footer */
+
 .nav-footer {
   background: #20232a;
   border: none;
@@ -2212,8 +2196,7 @@ input::placeholder {
     margin: 0 2em 3em;
     width: calc(100% - 4em);
   }
-
-  .nav-footer .sitemap > div {
+  .nav-footer .sitemap>div {
     margin-bottom: 18px;
   }
 }
@@ -2231,8 +2214,8 @@ input::placeholder {
   text-decoration: none;
 }
 
-.nav-footer .sitemap h5 > a:hover,
-.nav-footer .sitemap h5 > a:focus {
+.nav-footer .sitemap h5>a:hover,
+.nav-footer .sitemap h5>a:focus {
   color: white;
   text-decoration: none;
 }
@@ -2247,13 +2230,13 @@ input::placeholder {
 }
 
 .nav-footer .sitemap h6,
-.nav-footer .sitemap h5 > a,
-.nav-footer .sitemap h6 > a {
+.nav-footer .sitemap h5>a,
+.nav-footer .sitemap h6>a {
   color: white;
 }
 
-.nav-footer .sitemap h5 > a,
-.nav-footer .sitemap h6 > a {
+.nav-footer .sitemap h5>a,
+.nav-footer .sitemap h6>a {
   margin: 0 -10px;
 }
 
@@ -2277,4 +2260,5 @@ input::placeholder {
 .nav-footer .social {
   padding: 5px 0;
 }
+
 /* End of Footer */
