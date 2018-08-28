@@ -36,7 +36,7 @@ const todos = [
   },
   {
     id: '63a871b2-0b6f-4422-9c35-304bc680a4b7',
-    title: 'Earn money through open source work.',
+    title: 'Contribute to open source.',
     completed: false
   },
   {

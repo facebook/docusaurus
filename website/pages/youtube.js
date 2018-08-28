@@ -19,7 +19,8 @@ export default class Player extends React.Component {
           <title>My Youtube</title>
         </Helmet>
         <p align="center">
-          <YouTube videoId="d9IxdwEFk1c" opts={opts} onReady={this._onReady} />
+        {/* this is a React-youtube component */  }
+        <YouTube videoId="d9IxdwEFk1c" opts={opts} onReady={this._onReady} />
         </p>
       </Layout>
     );
