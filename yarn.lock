@@ -6975,6 +6975,12 @@ webpack-log@^1.0.1, webpack-log@^1.1.1, webpack-log@^1.1.2, webpack-log@^1.2.0:
     loglevelnext "^1.0.1"
     uuid "^3.1.0"
 
+webpack-merge@^4.1.4:
+  version "4.1.4"
+  resolved "https://registry.yarnpkg.com/webpack-merge/-/webpack-merge-4.1.4.tgz#0fde38eabf2d5fd85251c24a5a8c48f8a3f4eb7b"
+  dependencies:
+    lodash "^4.17.5"
+
 webpack-nicelog@^2.2.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/webpack-nicelog/-/webpack-nicelog-2.2.1.tgz#e3458003ce0d98966e930657176fb4eb6f536b85"
