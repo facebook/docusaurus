@@ -53,6 +53,7 @@ program
   .command('start [siteDir]')
   .description('Start development server')
   .option('-p, --port <port>', 'use specified port (default: 3000)')
+  .option('-h, --host <host>', 'use specified host (default: localhost')
   .option('-nw, --no-watch <noWatch>', 'disable live reload (default: false)')
   .action((siteDir = '.', {port, noWatch}) => {
     wrapCommand(start)(path.resolve(siteDir), {port, noWatch});
