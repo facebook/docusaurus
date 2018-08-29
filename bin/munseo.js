@@ -4,7 +4,7 @@ const chalk = require('chalk');
 const semver = require('semver');
 const path = require('path');
 const program = require('commander');
-const {build, init, start} = require('../lib');
+const {build, eject, init, start} = require('../lib');
 const requiredVersion = require('../package.json').engines.node;
 
 if (!semver.satisfies(process.version, requiredVersion)) {
@@ -40,6 +40,13 @@ program
   )
   .action((siteDir = '.', {skipImageCompression}) => {
     wrapCommand(build)(path.resolve(siteDir), {skipImageCompression});
+  });
+
+program
+  .command('eject [siteDir]')
+  .description('copy the default theme into website folder for customization.')
+  .action((siteDir = '.') => {
+    wrapCommand(eject)(path.resolve(siteDir));
   });
 
 program

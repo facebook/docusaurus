@@ -10,6 +10,7 @@
     "munseo": "node bin/munseo",
     "start": "node bin/munseo start website",
     "build": "node bin/munseo build website",
+    "eject": "node bin/munseo eject website",
     "prettier": "prettier --config .prettierrc --write \"lib/**/*.js\" \"bin/**/*.js\" \"test/**/*.js\"",
     "lint": "eslint --cache \"lib/**/*.js\" \"bin/**/*.js\" \"test/**/*.js\"",
     "test": "jest --config test/jest.config.js"
