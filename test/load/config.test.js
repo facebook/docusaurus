@@ -20,7 +20,16 @@ describe('loadConfig', () => {
     expect(() => {
       loadConfig(siteDir);
     }).toThrowErrorMatchingInlineSnapshot(
-      `"tagline, organizationName, projectName are missing in siteConfig.js"`
+      `"tagline, organizationName, projectName fields are missing in siteConfig.js"`
+    );
+  });
+
+  test('website with useless field (wrong field) in siteConfig', () => {
+    const siteDir = path.join(__dirname, '__fixtures__', 'wrong-site');
+    expect(() => {
+      loadConfig(siteDir);
+    }).toThrowErrorMatchingInlineSnapshot(
+      `"useLessField, superman, admin fields are useless in siteConfig.js"`
     );
   });
 
@@ -29,7 +38,7 @@ describe('loadConfig', () => {
     expect(() => {
       loadConfig(siteDir);
     }).toThrowErrorMatchingInlineSnapshot(
-      `"title, tagline, organizationName, projectName, baseUrl are missing in siteConfig.js"`
+      `"title, tagline, organizationName, projectName, baseUrl fields are missing in siteConfig.js"`
     );
   });
 });
