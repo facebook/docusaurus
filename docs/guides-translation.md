@@ -100,8 +100,16 @@ If you want to add additional custom translation strings, or override any of the
 ```json
 {
   "localized-strings": {
-    "id": "string",
-    "id2": "string2"
+    "docs": {
+      "id": {
+        "title": "string1",
+        "sidebar_label": "string2"
+      },
+      "version-0.0.1-id": {
+        "title": "string3",
+        "sidebar_label": "string4"
+      }
+    }
   },
   "pages-strings" : {
     "id3": "string3",

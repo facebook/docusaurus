@@ -92,6 +92,13 @@ module.exports = [
     pinned: true,
   },
   {
+    caption: 'FuseBox',
+    image: '/img/users/fuse-box.svg',
+    infoLink: 'https://fuse-box.org',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Instant Articles Builder',
     image: '/img/users/facebook-instant-articles-rules-editor.svg',
     infoLink: 'https://facebook.github.io/instant-articles-builder/',

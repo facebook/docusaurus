@@ -1,6 +1,6 @@
 <h1 align="center">
   <p align="center">Docusaurus</p>
-  <a href="https://docusaurus.io"><img src="/website/static/img/slash-introducing.png" alt="Docusaurus"></a>
+  <a href="https://docusaurus.io"><img src="/website/static/img/slash-introducing.svg" alt="Docusaurus"></a>
 </h1>
 
 <p align="center">
