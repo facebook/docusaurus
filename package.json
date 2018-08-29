@@ -68,6 +68,7 @@
     "classnames": "^2.2.6",
     "color": "^2.0.1",
     "commander": "^2.16.0",
+    "cross-spawn": "^6.0.5",
     "crowdin-cli": "^0.3.0",
     "cssnano": "^3.10.0",
     "deepmerge": "^2.1.1",

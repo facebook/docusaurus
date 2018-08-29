@@ -98,6 +98,8 @@ customDocsPath: 'website-docs';
 
 `editUrl` - URL for editing docs, usage example: `editUrl + 'en/doc1.md'`. If this field is omitted, there will be no "Edit this Doc" button for each document.
 
+`enableUpdateTime` - An option to enable the docs showing last update time. Set to `true` to show a line at the bottom right corner of each doc page as `Last Updated: dd/mm/yyyy hh:MM:ss Z`.
+
 `facebookAppId` - If you want Facebook Like/Share buttons in the footer and at the bottom of your blog posts, provide a [Facebook application id](https://www.facebook.com/help/audiencenetwork/804209223039296).
 
 `facebookComments` - Set this to `true` if you want to enable Facebook comments at the bottom of your blog post. `facebookAppId` has to be also set.
