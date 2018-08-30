@@ -43,6 +43,13 @@ module.exports = [
     pinned: true,
   },
   {
+    caption: 'Bowler',
+    image: '/img/users/bowler.svg',
+    infoLink: 'https://pybowler.io/',
+    fbOpenSource: true,
+    pinned: true,
+  },
+  {
     caption: 'BuckleScript',
     image: '/img/users/bucklescript.svg',
     infoLink: 'https://bucklescript.github.io/',
