@@ -147,7 +147,7 @@ h1 {
 * `defaultLang` defines a default language. It will be used if one is not specified at the top of the code block. You can find the [list of supported languages here](https://github.com/isagalaev/highlight.js/tree/master/src/languages).
 * `themeUrl` is the custom URL of CSS theme file that you want to use with Highlight.js. If this is provided, the `theme` and `version` fields will be ignored.
 
-`manifest` - Local path to your Web App Manifest (e.g., `/manifest.json`). This will add manifest.json to head link with rel as "manifest".
+`manifest` - Path to your web app manifest (e.g., `/manifest.json`). This will add a `<link>` tag to `<head>` with  `rel` as `"manifest"` with `content` as the provided path.
 
 `markdownPlugins` - An array of plugins to be loaded by Remarkable, the markdown parser and renderer used by Docusaurus. The plugin will receive a reference to the Remarkable instance, allowing custom parsing and rendering rules to be defined.
 
