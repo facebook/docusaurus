@@ -1545,8 +1545,32 @@ input::placeholder {
 }
 
 @media only screen and (max-width: 735px) {
-  .docs-prevnext {
-    height: 40px;
+  .docs-next {
+    clear: both;
+    float: left;
+    margin: 10px 0;
+  }
+
+  .docs-prev {
+    margin: 10px 0;
+  }
+
+  .arrow-next {
+    float: right;
+    margin-left: 10px;
+  }
+
+  .arrow-prev {
+    float: left;
+    margin-right: 10px;
+  }
+
+  .function-name-prevnext {
+    width: 200px;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 /* End of Docs Navigation */
