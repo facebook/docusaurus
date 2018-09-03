@@ -152,11 +152,11 @@
 <ul>
 <li><code>separate</code> - The secondary navigation is a separate pane defaulting on the right side of a document. See <a href="http://docusaurus.io/docs/en/translation.html">http://docusaurus.io/docs/en/translation.html</a> for an example.</li>
 </ul>
-<p><code>scripts</code> - Array of JavaScript sources to load. The script tag will be inserted in the HTML head.</p>
+<p><code>scripts</code> - Array of JavaScript sources to load. The values can be either strings or plain objects of attribute-value maps. Refer to the example below. The script tag will be inserted in the HTML head.</p>
 <p><code>separateCss</code> - Directories inside which any <code>css</code> files will not be processed and concatenated to Docusaurus' styles. This is to support static <code>html</code> pages that may be separate from Docusaurus with completely separate styles.</p>
 <p><code>scrollToTop</code> - Set this to <code>true</code> if you want to enable the scroll to top button at the bottom of your site.</p>
 <p><code>scrollToTopOptions</code> - Optional options configuration for the scroll to top button. You do not need to use this, even if you set <code>scrollToTop</code> to <code>true</code>; it just provides you more configuration control of the button. You can find more options <a href="https://github.com/vfeskov/vanilla-back-to-top/blob/v7.1.14/OPTIONS.md">here</a>. By default, we set the zIndex option to 100.</p>
-<p><code>stylesheets</code> - Array of CSS sources to load. The link tag will be inserted in the HTML head.</p>
+<p><code>stylesheets</code> - Array of CSS sources to load. The values can be either strings or plain objects of attribute-value maps. The link tag will be inserted in the HTML head.</p>
 <p><code>translationRecruitingLink</code> - URL for the <code>Help Translate</code> tab of language selection when languages besides English are enabled. This can be included you are using translations but does not have to be.</p>
 <p><code>twitter</code> - Set this to <code>true</code> if you want a Twitter social button to appear at the bottom of your blog posts.</p>
 <p><code>twitterUsername</code> - If you want a Twitter follow button at the bottom of your page, provide a Twitter username to follow. For example: <code>docusaurus</code>.</p>
@@ -230,8 +230,20 @@
       };
     },
   ],
-  <span class="hljs-attr">scripts</span>: [<span class="hljs-string">'https://docusaurus.io/slash.js'</span>],
-  <span class="hljs-attr">stylesheets</span>: [<span class="hljs-string">'https://docusaurus.io/style.css'</span>],
+  <span class="hljs-attr">scripts</span>: [
+    <span class="hljs-string">'https://docusaurus.io/slash.js'</span>,
+    {
+      <span class="hljs-attr">src</span>: <span class="hljs-string">'https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js'</span>,
+      <span class="hljs-attr">async</span>: <span class="hljs-literal">true</span>
+    }
+  ],
+  <span class="hljs-attr">stylesheets</span>: [
+    <span class="hljs-string">'https://docusaurus.io/style.css'</span>,
+    {
+      <span class="hljs-attr">href</span>: <span class="hljs-string">'http://css.link'</span>,
+      <span class="hljs-attr">type</span>: <span class="hljs-string">"text/css"</span>
+    }
+  ],
   <span class="hljs-attr">facebookAppId</span>: <span class="hljs-string">'1615782811974223'</span>,
   <span class="hljs-attr">facebookComments</span>: <span class="hljs-literal">true</span>,
   <span class="hljs-attr">facebookPixelId</span>: <span class="hljs-string">'352490515235776'</span>,
@@ -248,7 +260,7 @@
 
 <span class="hljs-built_in">module</span>.exports = siteConfig;
 </code></pre>
-</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/en/next/api-pages"><span class="arrow-prev">← </span><span>Previous</span></a></div><p style="font-size:12px;text-align:right"><strong>Last updated: </strong>2018-9-2 17:25:15</p></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#user-showcase">User Showcase</a></li><li><a href="#siteconfig-fields">siteConfig Fields</a><ul class="toc-headings"><li><a href="#mandatory-fields">Mandatory Fields</a></li><li><a href="#optional-fields">Optional Fields</a></li></ul></li><li><a href="#example-siteconfigjs-with-many-available-fields">Example siteConfig.js with many available fields</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/docusaurus_monochrome.svg" alt="Docusaurus" width="66" height="58"/></a><div class="footerSection"><h5>Docs</h5><a href="
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/en/next/api-pages"><span class="arrow-prev">← </span><span>Previous</span></a></div><p style="font-size:12px;text-align:right"><strong>Last updated: </strong>2018-9-3 22:46:55</p></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#user-showcase">User Showcase</a></li><li><a href="#siteconfig-fields">siteConfig Fields</a><ul class="toc-headings"><li><a href="#mandatory-fields">Mandatory Fields</a></li><li><a href="#optional-fields">Optional Fields</a></li></ul></li><li><a href="#example-siteconfigjs-with-many-available-fields">Example siteConfig.js with many available fields</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/docusaurus_monochrome.svg" alt="Docusaurus" width="66" height="58"/></a><div class="footerSection"><h5>Docs</h5><a href="
                 /docs/en/installation">Getting Started</a><a href="
                 /docs/en/versioning">Versioning</a><a href="
                 /docs/en/translation">Localization</a><a href="
