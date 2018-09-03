@@ -2062,6 +2062,12 @@ input::placeholder {
   width: 100%;
 }
 
+/* Facebook sign up text */
+#u_0_0>tbody>tr>td>table>tbody>tr>td._51m-._2pir._51mw>div {
+  width: 200px;
+  color: #eee;
+}
+
 /* Homepage */
 .more-users {
   margin: 0 auto;
