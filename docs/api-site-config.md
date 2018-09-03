@@ -157,7 +157,7 @@ h1 {
 
 * `separate` - The secondary navigation is a separate pane defaulting on the right side of a document. See http://docusaurus.io/docs/en/translation.html for an example.
 
-`scripts` - Array of JavaScript sources to load. The script tag will be inserted in the HTML head.
+`scripts` - Array of JavaScript sources to load. The values can be either strings or plain objects of attribute-value maps. Refer to the example below. The script tag will be inserted in the HTML head.
 
 `separateCss` - Directories inside which any `css` files will not be processed and concatenated to Docusaurus' styles. This is to support static `html` pages that may be separate from Docusaurus with completely separate styles.
 
@@ -165,7 +165,7 @@ h1 {
 
 `scrollToTopOptions` - Optional options configuration for the scroll to top button. You do not need to use this, even if you set `scrollToTop` to `true`; it just provides you more configuration control of the button. You can find more options [here](https://github.com/vfeskov/vanilla-back-to-top/blob/v7.1.14/OPTIONS.md). By default, we set the zIndex option to 100.
 
-`stylesheets` - Array of CSS sources to load. The link tag will be inserted in the HTML head.
+`stylesheets` - Array of CSS sources to load. The values can be either strings or plain objects of attribute-value maps. The link tag will be inserted in the HTML head.
 
 `translationRecruitingLink` - URL for the `Help Translate` tab of language selection when languages besides English are enabled. This can be included you are using translations but does not have to be.
 
@@ -251,8 +251,20 @@ const siteConfig = {
       };
     },
   ],
-  scripts: ['https://docusaurus.io/slash.js'],
-  stylesheets: ['https://docusaurus.io/style.css'],
+  scripts: [
+    'https://docusaurus.io/slash.js',
+    {
+      src: 'https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js',
+      async: true
+    }
+  ],
+  stylesheets: [
+    'https://docusaurus.io/style.css',
+    {
+      href: 'http://css.link',
+      type: "text/css"
+    }
+  ],
   facebookAppId: '1615782811974223',
   facebookComments: true,
   facebookPixelId: '352490515235776',
