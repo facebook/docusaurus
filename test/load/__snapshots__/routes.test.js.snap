@@ -36,10 +36,10 @@ const routes = [
     })
   },
   {
-    path: \\"/foo/bar\\",
+    path: \\"/foo/baz\\",
     exact: true,
     component: Loadable({
-      loader: () => import('@docs/foo/bar.md'),
+      loader: () => import('@docs/foo/baz.md'),
       loading: Loading,
       render(loaded, props) {
         let Content = loaded.default;
@@ -48,10 +48,10 @@ const routes = [
     })
   },
   {
-    path: \\"/foo/baz\\",
+    path: \\"/foo/bar\\",
     exact: true,
     component: Loadable({
-      loader: () => import('@docs/foo/baz.md'),
+      loader: () => import('@docs/foo/bar.md'),
       loading: Loading,
       render(loaded, props) {
         let Content = loaded.default;
@@ -160,14 +160,6 @@ const routes = [
     })
   },
   {
-    path: \\"/foo\\",
-    exact: true,
-    component: Loadable({
-      loader: () => import('@pages/foo.js'),
-      loading: Loading
-    })
-  },
-  {
     path: \\"/\\",
     exact: true,
     component: Loadable({
@@ -176,10 +168,10 @@ const routes = [
     })
   },
   {
-    path: \\"/bar/baz\\",
+    path: \\"/foo\\",
     exact: true,
     component: Loadable({
-      loader: () => import('@pages/bar/baz.js'),
+      loader: () => import('@pages/foo.js'),
       loading: Loading
     })
   },
@@ -188,6 +180,14 @@ const routes = [
     exact: true,
     component: Loadable({
       loader: () => import('@pages/foo/index.js'),
+      loading: Loading
+    })
+  },
+  {
+    path: \\"/bar/baz\\",
+    exact: true,
+    component: Loadable({
+      loader: () => import('@pages/bar/baz.js'),
       loading: Loading
     })
   },
