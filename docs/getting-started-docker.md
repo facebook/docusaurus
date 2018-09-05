@@ -3,11 +3,11 @@ id: docker
 title: Docker
 ---
 
-[Docker](https://www.docker.com/) is a tool that enables you to create, deploy, and manage lightweight, stand-alone packages that contain everything needed to run an application. It can help us to avoid conflicting dependencies when we edit the doc and publish gh-pages.
+[Docker](https://www.docker.com/) is a tool that enables you to create, deploy, and manage lightweight, stand-alone packages that contain everything needed to run an application. It can help us to avoid conflicting dependencies & unwanted behavior when running Docusaurus.
 
 ## Run the local webserver in docker
 
-You need to ensure you have install [docker](https://www.docker.com/get-started) and install docusaurus correctly.
+You need to ensure you have installed [docker](https://www.docker.com/get-started).
 
 To run the local webserver you only need to do a few step:
 
