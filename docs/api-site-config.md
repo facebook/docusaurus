@@ -5,11 +5,22 @@ title: siteConfig.js
 
 A large part of site configuration is done by editing the `siteConfig.js` file.
 
+<div class="tab">
+  <button class="tablinks" id="userShowcaseLink" onclick="openConfig(event, 'userShowcase')">User Showcase</button>
+  <button class="tablinks" id="fieldsLink" onclick="openConfig(event, 'fields')">siteConfig Fields</button>
+  <button class="tablinks" id="examplesLink" onclick="openConfig(event, 'examples')">Examples</button>
+</div>
+
+<div id="userShowcase" class="tabcontent">
 ## User Showcase
 
 The `users` array is used to store objects for each project/user that you want to show on your site. Currently this field is used by example the `pages/en/index.js` and `pages/en/users.js` files provided. Each user object should have `caption`, `image`, `infoLink`, and `pinned` fields. The `caption` is the text showed when someone hovers over the `image` of that user, and the `infoLink` is where clicking the image will bring someone. The `pinned` field determines whether or not it shows up on the `index` page.
 
 Currently this `users` array is used only by the `index.js` and `users.js` example files. If you do not wish to have a users page or show users on the `index` page, you may remove this section.
+
+</div>
+
+<div id="fields" class="tabcontent">
 
 ## siteConfig Fields
 
@@ -147,6 +158,8 @@ h1 {
 * `defaultLang` defines a default language. It will be used if one is not specified at the top of the code block. You can find the [list of supported languages here](https://github.com/isagalaev/highlight.js/tree/master/src/languages).
 * `themeUrl` is the custom URL of CSS theme file that you want to use with Highlight.js. If this is provided, the `theme` and `version` fields will be ignored.
 
+`manifest` - Path to your web app manifest (e.g., `/manifest.json`). This will add a `<link>` tag to `<head>` with `rel` as `"manifest"` and `content` as the provided path.
+
 `markdownPlugins` - An array of plugins to be loaded by Remarkable, the markdown parser and renderer used by Docusaurus. The plugin will receive a reference to the Remarkable instance, allowing custom parsing and rendering rules to be defined.
 
 `ogImage` - Local path to an Open Graph image (e.g., `img/myImage.png`). This image will show up when your site is shared on Facebook and other websites/apps where the Open Graph protocol is supported.
@@ -155,7 +168,7 @@ h1 {
 
 * `separate` - The secondary navigation is a separate pane defaulting on the right side of a document. See http://docusaurus.io/docs/en/translation.html for an example.
 
-`scripts` - Array of JavaScript sources to load. The script tag will be inserted in the HTML head.
+`scripts` - Array of JavaScript sources to load. The values can be either strings or plain objects of attribute-value maps. Refer to the example below. The script tag will be inserted in the HTML head.
 
 `separateCss` - Directories inside which any `css` files will not be processed and concatenated to Docusaurus' styles. This is to support static `html` pages that may be separate from Docusaurus with completely separate styles.
 
@@ -163,7 +176,7 @@ h1 {
 
 `scrollToTopOptions` - Optional options configuration for the scroll to top button. You do not need to use this, even if you set `scrollToTop` to `true`; it just provides you more configuration control of the button. You can find more options [here](https://github.com/vfeskov/vanilla-back-to-top/blob/v7.1.14/OPTIONS.md). By default, we set the zIndex option to 100.
 
-`stylesheets` - Array of CSS sources to load. The link tag will be inserted in the HTML head.
+`stylesheets` - Array of CSS sources to load. The values can be either strings or plain objects of attribute-value maps. The link tag will be inserted in the HTML head.
 
 `translationRecruitingLink` - URL for the `Help Translate` tab of language selection when languages besides English are enabled. This can be included you are using translations but does not have to be.
 
@@ -182,6 +195,10 @@ h1 {
 `wrapPagesHTML` - Boolean flag to indicate whether `html` files in `/pages` should be wrapped with Docusaurus site styles, header and footer. This feature is experimental and relies on the files being `html` fragments instead of complete pages. It inserts the contents of your `html` file with no extra processing. Defaults to `false`.
 
 Users can also add their own custom fields if they wish to provide some data across different files.
+
+</div>
+
+<div id="examples" class="tabcontent">
 
 ## Example siteConfig.js with many available fields
 
@@ -249,8 +266,20 @@ const siteConfig = {
       };
     },
   ],
-  scripts: ['https://docusaurus.io/slash.js'],
-  stylesheets: ['https://docusaurus.io/style.css'],
+  scripts: [
+    'https://docusaurus.io/slash.js',
+    {
+      src: 'https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js',
+      async: true
+    }
+  ],
+  stylesheets: [
+    'https://docusaurus.io/style.css',
+    {
+      href: 'http://css.link',
+      type: "text/css"
+    }
+  ],
   facebookAppId: '1615782811974223',
   facebookComments: true,
   facebookPixelId: '352490515235776',
@@ -267,3 +296,23 @@ const siteConfig = {
 
 module.exports = siteConfig;
 ```
+
+</div>
+
+<script>
+function openConfig(evt, configOption) {
+    var i, tabContent, tabLinks;
+    tabContent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabContent.length; i++) {
+        tabContent[i].style.display = "none";
+    }
+    tabLinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tabLinks.length; i++) {
+        tabLinks[i].className = tabLinks[i].className.replace(" active", "");
+    }
+    document.getElementById(configOption).style.display = "block";
+    evt.currentTarget.className += " active";
+}
+document.getElementById('userShowcase').style.display = "block";
+document.getElementById("userShowcaseLink").className += " active";
+</script>
