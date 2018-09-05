@@ -38,7 +38,7 @@ If you set the `id` field in the markdown header of the file, the doc will then 
 
 Many times, you will want to add a document to a sidebar that will be associated with one of the headers in the top navigation bar of the website. The most common sidebar, and the one that comes installed when Docusaurus is initialized, is the `docs` sidebar.
 
-> "docs" is just a name. It has no inherit meaning. You can change it as you wish.
+> "docs" is just a name. It has no inherent meaning. You can change it as you wish.
 
 You configure the contents of the sidebar, and the order of its documents, in the `website/sidebars.json` file.
 
