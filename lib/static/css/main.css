@@ -2278,3 +2278,39 @@ input::placeholder {
   padding: 5px 0;
 }
 /* End of Footer */
+
+/* Start of Tab Bar */
+.tab {
+  overflow: hidden;
+  border-bottom-color: #398555;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+}
+.tabcontent {
+  display: none;
+  border-top: none;
+}
+.tab button {
+  background-color: inherit;
+  float: left;
+  border-style: solid;
+  color: $primaryColor;
+  border-color: $primaryColor;
+  border-bottom-color: transparent;
+  border-width: 1px;
+  margin-right: 5px;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 17px;
+  border-radius: 3px 3px 0px 0px;
+}
+.tab button:hover {
+  background-color: $primaryColor;
+  color: #fff;
+}
+.tab button.active {
+  background-color: $primaryColor;
+  color: #fff;
+}
+/* End of Tab Bar */
