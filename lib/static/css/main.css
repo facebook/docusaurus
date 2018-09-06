@@ -712,11 +712,6 @@ blockquote {
   .mainContainer .wrapper .posts .post {
     width: 100%;
   }
-
-  .docMainContainer {
-    flex-basis: 920px !important;
-    flex-grow: 0 !important;
-  }
 }
 /* End of Main Container */
 
@@ -1989,6 +1984,14 @@ input::placeholder {
     .tocToggler {
       display: none;
     }
+  }
+}
+
+
+@media only screen and (min-width: 1024px) {
+  .separateOnPageNav.sideNavVisible .navPusher .docMainContainer {
+    flex-basis: 920px;
+    flex-grow: 0;
   }
 }
 
