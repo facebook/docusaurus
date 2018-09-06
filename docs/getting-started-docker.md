@@ -7,35 +7,35 @@ title: Docker
 
 ## Run the local webserver in docker
 
-You need to ensure you have installed [docker](https://www.docker.com/get-started).
+Ensure you have previously installed [docker](https://www.docker.com/get-started).
 
-To run the local webserver you only need to do a few step:
+To run the local webserver:
 
-1. Enter the folder where you have install docusaurus, and then run `docker build -t docusaurus-doc .`
-    
-    After the build phase finished, you can run `docker images` to check the docker image list.
-    
-    > We have already added a `Dockerfile` in your project when you install docusaurus, So you can build it directly.
+1. **Build the docker image** -- Enter the folder where you have Docusaurus installed. Run `docker build -t docusaurus-doc .`
 
-2. Run docker start command: `docker run --rm -p 3000:3000 docusaurus-doc`
+    Once the build phase finishes, you can verify the image exists by running `docker images`.
 
-    It will run a container with the image `docusaurus-doc`.And you can run `docker ps` to see the container info.
+    > We now include a `Dockerfile` when you install Docusaurus.
 
-## Use docker-compose 
+2. **Run the Docusaurus container** -- To start docker run `docker run --rm -p 3000:3000 docusaurus-doc`
 
-We can use docker-compose to configure our application, run it with a single command.
+    This will start a docker container with the image `docusaurus-doc`. To see more detailed container info run `docker ps` .
 
-> Compose is a tool for defining and running multi-container Docker applications. With Compose, you use a YAML file to configure your application’s services. Then, with a single command, you create and start all the services from your configuration. 
+## Use docker-compose
 
-Using Compose is basically a three-step process:
+We can also use `docker-compose` to configure our application. This feature of docker allows you to run the webserver and any additional services with a single command.
+
+> Compose is a tool for defining and running multi-container Docker applications. With Compose, you use a YAML file to configure your application’s services. Then, with a single command, you create and start all the services from your configuration.
+
+Using Compose is a three-step process:
 
 1. Define your app’s environment with a Dockerfile so it can be reproduced anywhere.
 
-2. Define the services that make up your app in docker-compose.yml so they can be run together in an isolated environment.
+2. Define the services that make up your app in `docker-compose.yml` so they can be run together in an isolated environment.
 
-3. Run docker-compose up and Compose starts and runs your entire app.
+3. Run `docker-compose up` and Compose starts and runs your entire app.
 
-We have already added a basic `docker-compose.yml` in your project:
+We include a basic `docker-compose.yml` in your project:
 ``` yml
 version: "3"
 
@@ -58,6 +58,6 @@ services:
 
 ```
 
-To run a local webserver with `docker-compose` you only need to run `docker-compose up`.
+To run a local webserver with `docker-compose` run `docker-compose up`.
 
-If you want to build static HTML pages and publish, you can run `docker-compose run docusaurus bash -c 'yarn publish-gh-pages'` 
+To build static HTML pages for publishing run `docker-compose run docusaurus bash -c 'yarn publish-gh-pages'`
