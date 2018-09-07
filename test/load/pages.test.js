@@ -4,11 +4,16 @@ import path from 'path';
 describe('loadPages', () => {
   test('valid pages', async () => {
     const pagesDir = path.join(__dirname, '__fixtures__', 'simple-pages');
-    const pagesData = await loadPages(pagesDir);
+    let pagesData = await loadPages(pagesDir);
+    pagesData.sort((a, b) => a.path > b.path); // because it was unordered
     expect(pagesData).toEqual([
       {
         path: '/',
         source: 'index.js'
+      },
+      {
+        path: '/bar/baz',
+        source: 'bar/baz.js'
       },
       {
         path: '/foo',
@@ -17,10 +22,6 @@ describe('loadPages', () => {
       {
         path: '/foo/',
         source: 'foo/index.js'
-      },
-      {
-        path: '/bar/baz',
-        source: 'bar/baz.js'
       }
     ]);
     expect(pagesData).not.toBeNull();
