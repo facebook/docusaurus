@@ -1,24 +1,23 @@
-import genRoutesConfig from '@lib/load/routes';
-import loadSetup from '../loadSetup';
+import loadSetup from '../../loadSetup';
 
-describe('genRoutesConfig', () => {
+describe('loadDocs', () => {
   test('simple website', async () => {
     const props = await loadSetup('simple');
-    await genRoutesConfig(props);
+    expect(props).toMatchSnapshot();
   });
 
   test('versioned website', async () => {
     const props = await loadSetup('versioned');
-    await genRoutesConfig(props);
+    expect(props).toMatchSnapshot();
   });
 
   test('versioned & translated website', async () => {
     const props = await loadSetup('transversioned');
-    await genRoutesConfig(props);
+    expect(props).toMatchSnapshot();
   });
 
   test('translated website', async () => {
     const props = await loadSetup('translated');
-    await genRoutesConfig(props);
+    expect(props).toMatchSnapshot();
   });
 });
