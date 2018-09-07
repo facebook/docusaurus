@@ -3,20 +3,20 @@
 exports[`loadPages valid pages 1`] = `
 Array [
   Object {
-    "path": "/",
-    "source": "index.js",
-  },
-  Object {
     "path": "/foo",
     "source": "foo.js",
   },
   Object {
-    "path": "/bar/baz",
-    "source": "bar/baz.js",
+    "path": "/",
+    "source": "index.js",
   },
   Object {
     "path": "/foo/",
     "source": "foo/index.js",
+  },
+  Object {
+    "path": "/bar/baz",
+    "source": "bar/baz.js",
   },
 ]
 `;
