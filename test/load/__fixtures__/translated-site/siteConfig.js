@@ -3,5 +3,6 @@ module.exports = {
   tagline: 'Hello World',
   organizationName: 'endiliey',
   projectName: 'hello',
-  baseUrl: '/'
+  baseUrl: '/',
+  defaultLanguage: 'en'
 };
