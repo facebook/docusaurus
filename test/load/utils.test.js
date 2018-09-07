@@ -65,6 +65,7 @@ describe('load utils', () => {
         versions: []
       }
     };
+    const test = {arr: [1, 2, 3]};
     const variable = 'enabledLanguages';
     expect(idx(a, [('b', 'c')])).toBeUndefined();
     expect(idx(b, ['hello'])).toEqual('world');
@@ -79,6 +80,7 @@ describe('load utils', () => {
       'en',
       'ja'
     ]);
+    expect(idx(test, ['arr', 0])).toEqual(1);
     expect(idx(undefined)).toBeUndefined();
     expect(idx(null)).toBeNull();
   });

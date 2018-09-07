@@ -1,0 +1,11 @@
+{
+  "version-1.0.1-docs": {
+    "Test": [
+      "version-1.0.1-foo/bar",
+      "version-1.0.1-foo/baz"
+    ],
+    "Guides": [
+      "version-1.0.1-hello"
+    ]
+  }
+}

@@ -1,6 +1,6 @@
 ---
-id: baz
-title: baz
+id: version-1.0.0-baz
+title: Baz
 ---
 
 ## Images
