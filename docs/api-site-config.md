@@ -12,6 +12,7 @@ A large part of site configuration is done by editing the `siteConfig.js` file.
 </div>
 
 <div id="userShowcase" class="tabcontent">
+
 ## User Showcase
 
 The `users` array is used to store objects for each project/user that you want to show on your site. Currently this field is used by example the `pages/en/index.js` and `pages/en/users.js` files provided. Each user object should have `caption`, `image`, `infoLink`, and `pinned` fields. The `caption` is the text showed when someone hovers over the `image` of that user, and the `infoLink` is where clicking the image will bring someone. The `pinned` field determines whether or not it shows up on the `index` page.
@@ -300,19 +301,6 @@ module.exports = siteConfig;
 </div>
 
 <script>
-function openConfig(evt, configOption) {
-    var i, tabContent, tabLinks;
-    tabContent = document.getElementsByClassName("tabcontent");
-    for (i = 0; i < tabContent.length; i++) {
-        tabContent[i].style.display = "none";
-    }
-    tabLinks = document.getElementsByClassName("tablinks");
-    for (i = 0; i < tabLinks.length; i++) {
-        tabLinks[i].className = tabLinks[i].className.replace(" active", "");
-    }
-    document.getElementById(configOption).style.display = "block";
-    evt.currentTarget.className += " active";
-}
-document.getElementById('userShowcase').style.display = "block";
-document.getElementById("userShowcaseLink").className += " active";
+  document.getElementById('userShowcase').style.display = "block";
+  document.getElementById("userShowcaseLink").className += " active";
 </script>
