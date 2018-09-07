@@ -1,4 +1,10 @@
-import {fileToPath, fileToComponentName} from '@lib/load/utils';
+import path from 'path';
+import {
+  fileToPath,
+  fileToComponentName,
+  idx,
+  getSubFolder
+} from '@lib/load/utils';
 
 describe('load utils', () => {
   test('fileToComponentName', () => {
@@ -33,5 +39,60 @@ describe('load utils', () => {
     Object.keys(asserts).forEach(file => {
       expect(fileToPath(file)).toBe(asserts[file]);
     });
+  });
+
+  test('idx', () => {
+    const a = {};
+    const b = {hello: 'world'};
+    const env = {
+      translation: {
+        enabled: true,
+        enabledLanguages: [
+          {
+            enabled: true,
+            name: 'English',
+            tag: 'en'
+          },
+          {
+            enabled: true,
+            name: '日本語',
+            tag: 'ja'
+          }
+        ]
+      },
+      versioning: {
+        enabled: false,
+        versions: []
+      }
+    };
+    const variable = 'enabledLanguages';
+    expect(idx(a, [('b', 'c')])).toBeUndefined();
+    expect(idx(b, ['hello'])).toEqual('world');
+    expect(idx(b, 'hello')).toEqual('world');
+    expect(idx(env, 'typo')).toBeUndefined();
+    expect(idx(env, 'versioning')).toEqual({
+      enabled: false,
+      versions: []
+    });
+    expect(idx(env, ['translation', 'enabled'])).toEqual(true);
+    expect(idx(env, ['translation', variable]).map(lang => lang.tag)).toEqual([
+      'en',
+      'ja'
+    ]);
+    expect(idx(undefined)).toBeUndefined();
+    expect(idx(null)).toBeNull();
+  });
+
+  test('getSubFolder', () => {
+    const testA = path.join('folder', 'en', 'test.md');
+    const testB = path.join('folder', 'ja', 'test.md');
+    const testC = path.join('folder', 'ja', 'en', 'test.md');
+    const testD = path.join('docs', 'ro', 'test.md');
+    const testE = path.join('docs', 'test.md');
+    expect(getSubFolder(testA, 'folder')).toBe('en');
+    expect(getSubFolder(testB, 'folder')).toBe('ja');
+    expect(getSubFolder(testC, 'folder')).toBe('ja');
+    expect(getSubFolder(testD, 'docs')).toBe('ro');
+    expect(getSubFolder(testE, 'docs')).toBeNull();
   });
 });

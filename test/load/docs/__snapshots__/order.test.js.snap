@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`createOrder should populate docs index from multiple sidebars 1`] = `
+Object {
+  "doc1": Object {
+    "category": "Category1",
+    "next": "doc2",
+    "previous": undefined,
+    "sidebar": "docs",
+  },
+  "doc2": Object {
+    "category": "Category1",
+    "next": "doc3",
+    "previous": "doc1",
+    "sidebar": "docs",
+  },
+  "doc3": Object {
+    "category": "Category2",
+    "next": "doc4",
+    "previous": "doc2",
+    "sidebar": "docs",
+  },
+  "doc4": Object {
+    "category": "Category2",
+    "next": undefined,
+    "previous": "doc3",
+    "sidebar": "docs",
+  },
+  "doc5": Object {
+    "category": "Category1",
+    "next": undefined,
+    "previous": undefined,
+    "sidebar": "otherDocs",
+  },
+}
+`;
+
+exports[`createOrder should resolve docs from older versions 1`] = `
+Object {
+  "doc1": Object {
+    "category": "Category1",
+    "next": undefined,
+    "previous": undefined,
+    "sidebar": "docs",
+  },
+  "version-1.2.3-doc1": Object {
+    "category": "Category2",
+    "next": undefined,
+    "previous": "version-1.2.3-doc2",
+    "sidebar": "version-1.2.3-docs",
+  },
+  "version-1.2.3-doc2": Object {
+    "category": "Category1",
+    "next": "version-1.2.3-doc1",
+    "previous": undefined,
+    "sidebar": "version-1.2.3-docs",
+  },
+}
+`;
