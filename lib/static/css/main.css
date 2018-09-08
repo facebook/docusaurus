@@ -1955,6 +1955,11 @@ input::placeholder {
       width: auto;
     }
 
+    .docsNavContainer > :first-child {
+      width: 240px;
+      max-width: 240px;
+    }
+
     .separateOnPageNav.sideNavVisible .navPusher .mainContainer {
       flex: 1 auto;
       max-width: 100%;
@@ -1990,7 +1995,7 @@ input::placeholder {
 
 @media only screen and (min-width: 1024px) {
   .separateOnPageNav.sideNavVisible .navPusher .docMainContainer {
-    flex-basis: 920px;
+    flex-basis: 784px;
     flex-grow: 0;
   }
 }
