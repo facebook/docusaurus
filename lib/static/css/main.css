@@ -1489,7 +1489,8 @@ input::placeholder {
 
 @media only screen and (min-width: 1024px) {
   .docMainWrapper {
-    width: 100%;
+    max-width:100% !important ;
+    margin: 0;
   }
 
   .docMainWrapper > * {
@@ -1588,7 +1589,9 @@ input::placeholder {
 
 @media only screen and (min-width: 1024px) {
   .docsNavContainer {
-    flex: 0 0 240px;
+    flex: 1 0 240px;
+    display: flex;
+    justify-content: flex-end;
     height: calc(100vh - 50px);
     position: -webkit-sticky;
     position: sticky;
@@ -1631,7 +1634,7 @@ input::placeholder {
   }
 
   .separateOnPageNav .docsNavContainer {
-    flex: 0 0 240px;
+    flex: 1 0 240px;
   }
 }
 
@@ -1976,6 +1979,11 @@ input::placeholder {
       width: auto;
     }
 
+    .docsNavContainer > :first-child {
+      width: 240px;
+      max-width: 240px;
+    }
+
     .separateOnPageNav.sideNavVisible .navPusher .mainContainer {
       flex: 1 auto;
       max-width: 100%;
@@ -1993,6 +2001,10 @@ input::placeholder {
       top: 90px;
     }
 
+    .docOnPageNav {
+      flex: 1 0 240px;
+    }
+
     .onPageNav > .toc-headings {
       border-left: 1px solid #e0e0e0;
       padding: 10px 0 2px 15px;
@@ -2001,6 +2013,14 @@ input::placeholder {
     .tocToggler {
       display: none;
     }
+  }
+}
+
+
+@media only screen and (min-width: 1024px) {
+  .separateOnPageNav.sideNavVisible .navPusher .docMainContainer {
+    flex-basis: 784px;
+    flex-grow: 0;
   }
 }
 
