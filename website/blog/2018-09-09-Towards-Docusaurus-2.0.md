@@ -83,7 +83,7 @@ In addition, after working on the MVP of Docusaurus 2.0. I realized that it is v
 ### Layout
 The current state of Docusaurus is that it maintains the entire layout and styling, unintentionally taking away a lot of the customizability part from the user. 
 
-For Docusaurus 2.0, **layout and styling should be controlled by the user**. Docusaurus will provide the data (content, translation, versioning), props, and a default theme. We will allow the user to eject from the default theme for further layout customization. This means that it is very possible for the user to even change the HTML meta by using [React Helmet](https://github.com/nfl/react-helmet). A community-based theme is also very possible.
+For Docusaurus 2.0, **layout and styling should be controlled by the user**. Docusaurus will handle the content generation, routing, translation, and versioning. While we will still provide a default theme, the user can eject from the default theme for further layout & styling customization. This means that it is very possible for the user to even change the HTML meta by using [React Helmet](https://github.com/nfl/react-helmet). A community-based theme is also very possible.
 
 ### Markdown
 Our markdown parser is currently powered by [Remarkable](https://github.com/jonschlinkert/remarkable). What if the user want to use [markdown-it](https://github.com/markdown-it/markdown-it) or even [MDX](https://github.com/mdx-js/mdx) ? Other than that, it comes to the problem of which syntax highlighter to use, (e.g: Prism vs Highlight.js). We should leave the choice open to the user.
