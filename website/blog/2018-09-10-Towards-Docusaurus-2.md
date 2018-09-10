@@ -100,12 +100,30 @@ Software is never going to be perfect but we'll want Docusaurus to not break as 
 
 For Docusaurus 2, **we are adding tests as we develop** since we're going for a fresh rewrite. Hence, I believe that it should be more stable than ever and it should be harder to break things compared to Docusaurus 1.
 
-## Conclusion
+## Frequently Asked Questions
+
+### Will there be any breaking changes?
+If you've read the post up until to this point, you should be able to notice that there will be breaking changes. While we will try to **minimize the number of breaking changes** and make it backward compatible as much as possible, we believe that few breaking changes need to be done. This is mostly due to **fresh rewrite/ re-architecture** that we're doing on Docusaurus.
+
+The exact list of breaking changes won't be posted in this post as things are not really 100% finalized yet, but one thing that I'll highlight is that we'll deprecate a lot of things in `siteConfig.js` and we'll want to keep it as lean as possible. For example, the `cleanUrl` siteConfig will be deprecated as all the URL for Docusaurus 2 site will be without `.html` suffix.
+
+Not to worry much, most website should be able to upgrade without a lot of efforts. We will also include a migration guide when we release Docusaurus 2. When the times come, feel free to ping us on [Discord](https://discord.gg/docusaurus) or [Twitter](https://twitter.com/docusaurus) for questions and help. 
+
+
+### When is the release of Docusaurus 2?
+
+As of now, we don't really have an exact date planned for the release. I personally estimate that we might be able to release an alpha version in the next one to three months, but this is of course just a tentative date.
+
+While Docusaurus is part of [Facebook Open Source](https://opensource.fb.com/) & most of the team are Facebook employees, the maintenance/ development work is actually done after work/ during the weekends. In fact, I am currently a final year undergraduate student at [NTU Singapore](https://twitter.com/NTUsg) but I'm also maintaining Docusaurus and is part of the Docusaurus v2 team. Hit me up if you are based in Singapore 🙌!
+
+## Final Thoughts
 
 Docusaurus has had a large impact on the open source community as seen from the [many popular projects](https://docusaurus.io/en/users) which use Docusaurus for documentation. In order to move faster in the future, we are taking the opportunity to fix some core problems with Docusaurus 1 and striving to make Docusaurus better for everyone. In fact, it is safe to say that Docusaurus 2 is not just a plan anymore, the work on it has started and hopefully, we'll be able to see it materialize in the near future.
 
 We also want to let people know that due to work on Docusaurus 2, we will be less likely to accept new features/big changes on Docusaurus 1.
 
 If you are using Docusaurus, you're part of our community; keep letting us know how we can make Docusaurus better for you. Lastly, if you appreciate the work we're doing, you can support [Docusaurus on Open Collective](https://opencollective.com/Docusaurus).
+
+> If you are sponsoring our work on [Open Collective](https://opencollective.com/Docusaurus), we'll personally offer you a helping hand for maintenance & upgrading of Docusaurus website.
 
 <script async src="//cdn.embedly.com/widgets/platform.js" charset="UTF-8"></script>
