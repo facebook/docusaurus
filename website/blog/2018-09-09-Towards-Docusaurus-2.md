@@ -76,7 +76,7 @@ In addition, after working on the MVP of Docusaurus 2. I realized that it is ver
 
 ### Layout
 
-The current state of Docusaurus is that it is charge of the entire layout and styling, unintentionally making it very hard for users to customize their site's appearance to their wishes.
+The current state of Docusaurus is that it is in-charge of the entire layout and styling, unintentionally making it very hard for users to customize their site's appearance to their wishes.
 
 For Docusaurus 2, **layout and styling should be controlled by the user**. Docusaurus will handle the content generation, routing, translation, and versioning. Inspired by create-react-app and VuePress, Docusaurus will still provide a default theme, which the user can eject from, for further layout and styling customization. This means that it is very possible for the user to even change the HTML meta by using [React Helmet](https://github.com/nfl/react-helmet). Community-based themes are also very possible. This approach of allowing users to be in-charge of layout and styling is taken by most static site generators.
 
