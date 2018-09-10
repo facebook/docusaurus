@@ -33,9 +33,7 @@ const SupportedHeaderFields = new Set([
   'custom_edit_url',
 ]);
 
-const {DOCS_ROUTE} = require('../core/defaults');
-
-siteConfig.docsRoute = siteConfig.docsRoute || DOCS_ROUTE;
+const {getDocsUrl} = require('./routing.js');
 
 // Can have a custom docs path. Top level folder still needs to be in directory
 // at the same level as `website`, not inside `website`.
@@ -136,9 +134,9 @@ function processMetadata(file, refDir) {
     versionPart = 'next/';
   }
 
-  metadata.permalink = `${siteConfig.docsUrl}/${langPart}${versionPart}${
-    metadata.id
-  }.html`;
+  metadata.permalink = `${getDocsUrl(
+    siteConfig.docsUrl
+  )}/${langPart}${versionPart}${metadata.id}.html`;
 
   // change ids previous, next
   metadata.localized_id = metadata.id;
@@ -212,8 +210,8 @@ function generateMetadataDocs() {
             baseMetadata.permalink = baseMetadata.permalink
               .toString()
               .replace(
-                new RegExp(`^${siteConfig.docsUrl}/en/`),
-                `${siteConfig.docsUrl}/${currentLanguage}/`
+                new RegExp(`^${getDocsUrl(siteConfig.docsUrl)}/en/`),
+                `${getDocsUrl(siteConfig.docsUrl)}/${currentLanguage}/`
               );
           if (baseMetadata.next)
             baseMetadata.next = baseMetadata.next

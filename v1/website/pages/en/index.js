@@ -12,9 +12,7 @@ const Container = CompLibrary.Container;
 const GridBlock = CompLibrary.GridBlock;
 const siteConfig = require(`${process.cwd()}/siteConfig.js`);
 const translate = require('../../server/translate.js').translate;
-const {DOCS_ROUTE} = require('../../core/defaults');
-
-siteConfig.docsRoute = siteConfig.docsRoute || DOCS_ROUTE;
+const {getDocsUrl} = require('../../server/routing.js');
 
 class Button extends React.Component {
   render() {
@@ -54,9 +52,9 @@ class HomeSplash extends React.Component {
                   <div className="pluginRowBlock">
                     <Button
                       href={`
-                        ${siteConfig.baseUrl}${siteConfig.docsUrl}/${
-                        this.props.language
-                      }/installation
+                        ${siteConfig.baseUrl}${getDocsUrl(
+                        siteConfig.docsUrl
+                      )}/${this.props.language}/installation
                         `}>
                       <translate>Get Started</translate>
                     </Button>
@@ -95,7 +93,7 @@ class Index extends React.Component {
                   content: `Save time and focus on your project's documentation. Simply
                     write docs and blog posts with [Markdown](${
                       siteConfig.baseUrl
-                    }${siteConfig.docsUrl}/${
+                    }${getDocsUrl(siteConfig.docsUrl)}/${
                     this.props.language
                   }/doc-markdown)
                     and Docusaurus will publish a set of static html files ready
@@ -106,9 +104,11 @@ class Index extends React.Component {
                   title: <translate>Powered by Markdown</translate>,
                 },
                 {
-                  content: `[Extend or customize](${siteConfig.baseUrl}${
-                    siteConfig.docsUrl
-                  }${this.props.language}/api-pages)
+                  content: `[Extend or customize](${
+                    siteConfig.baseUrl
+                  }${getDocsUrl(siteConfig.docsUrl)}${
+                    this.props.language
+                  }/api-pages)
                     your project's layout by reusing React. Docusaurus can be
                     extended while reusing the same header and footer.`,
                   image: `${siteConfig.baseUrl}img/react.svg`,
@@ -117,9 +117,9 @@ class Index extends React.Component {
                   title: <translate>Built Using React</translate>,
                 },
                 {
-                  content: `[Localization](${siteConfig.baseUrl}${
+                  content: `[Localization](${siteConfig.baseUrl}${getDocsUrl(
                     siteConfig.docsUrl
-                  }${this.props.language}/translation)
+                  )}${this.props.language}/translation)
                     comes pre-configured. Use [Crowdin](https://crowdin.com/) to translate your docs
                     into over 70 languages.`,
                   image: `${siteConfig.baseUrl}img/translation.svg`,
@@ -137,9 +137,9 @@ class Index extends React.Component {
               contents={[
                 {
                   content: `Support users on all versions of your project. Document
-                    [versioning](${siteConfig.baseUrl}${siteConfig.docsUrl}/${
-                    this.props.language
-                  }/versioning)
+                    [versioning](${siteConfig.baseUrl}${getDocsUrl(
+                    siteConfig.docsUrl
+                  )}/${this.props.language}/versioning)
                     helps you keep documentation in sync with project releases.`,
                   image: `${siteConfig.baseUrl}img/versioning.svg`,
                   imageAlign: 'top',
@@ -149,7 +149,7 @@ class Index extends React.Component {
                 {
                   content: `Make it easy for your community to [find](${
                     siteConfig.baseUrl
-                  }${siteConfig.docsUrl}/${
+                  }${getDocsUrl(siteConfig.docsUrl)}/${
                     this.props.language
                   }/search) what they need in your documentation.
                     We proudly support [Algolia documentation search](https://www.algolia.com/).`,
@@ -166,9 +166,11 @@ class Index extends React.Component {
             <GridBlock
               contents={[
                 {
-                  content: `Get [up and running](${siteConfig.baseUrl}${
-                    siteConfig.docsUrl
-                  }${this.props.language}/site-creation)
+                  content: `Get [up and running](${
+                    siteConfig.baseUrl
+                  }${getDocsUrl(siteConfig.docsUrl)}${
+                    this.props.language
+                  }/site-creation)
                     quickly without having to worry about site design.`,
                   imageAlign: 'right',
                   image: `${siteConfig.baseUrl}img/docusaurus_speed.svg`,
@@ -184,14 +186,14 @@ class Index extends React.Component {
               contents={[
                 {
                   content: `Make design and documentation changes by using the included
-                    [live server](${siteConfig.baseUrl}${
+                    [live server](${siteConfig.baseUrl}${getDocsUrl(
                     siteConfig.docsUrl
-                  }/${
+                  )}/${
                     this.props.language
                   }/site-preparation#verifying-installation).
-                    [Publish](${siteConfig.baseUrl}${siteConfig.docsUrl}/${
-                    this.props.language
-                  }/publishing)
+                    [Publish](${siteConfig.baseUrl}${getDocsUrl(
+                    siteConfig.docsUrl
+                  )}/${this.props.language}/publishing)
                     your site to GitHub pages or other static file hosts
                     manually, using a script, or with continuous integration
                     like CircleCI.`,
@@ -209,18 +211,18 @@ class Index extends React.Component {
               contents={[
                 {
                   content: `Docusaurus currently provides support to help your website
-                    use [translations](${siteConfig.baseUrl}${
+                    use [translations](${siteConfig.baseUrl}${getDocsUrl(
                     siteConfig.docsUrl
-                  }${this.props.language}/translation),
-                    [search](${siteConfig.baseUrl}${siteConfig.docsUrl}/${
-                    this.props.language
-                  }/search),
-                    and [versioning](${siteConfig.baseUrl}${
+                  )}${this.props.language}/translation),
+                    [search](${siteConfig.baseUrl}${getDocsUrl(
                     siteConfig.docsUrl
-                  }${this.props.language}/versioning),
+                  )}/${this.props.language}/search),
+                    and [versioning](${siteConfig.baseUrl}${getDocsUrl(
+                    siteConfig.docsUrl
+                  )}${this.props.language}/versioning),
                     along with some other special [documentation markdown features](${
                       siteConfig.baseUrl
-                    }${siteConfig.docsUrl}/${
+                    }${getDocsUrl(siteConfig.docsUrl)}/${
                     this.props.language
                   }/doc-markdown).
                     If you have ideas for useful features, feel free to

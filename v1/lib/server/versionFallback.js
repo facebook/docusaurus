@@ -17,9 +17,7 @@ const utils = require('./utils.js');
 
 const siteConfig = require(`${CWD}/siteConfig.js`);
 
-const {DOCS_ROUTE} = require('../core/defaults');
-
-siteConfig.docsRoute = siteConfig.docsRoute || DOCS_ROUTE;
+const {getDocsUrl} = require('./routing.js');
 
 const ENABLE_TRANSLATION = fs.existsSync(`${CWD}/languages.js`);
 
@@ -182,11 +180,11 @@ function processVersionMetadata(file, version, useVersion, language) {
   const latestVersion = versions[0];
 
   if (!ENABLE_TRANSLATION && !siteConfig.useEnglishUrl) {
-    metadata.permalink = `${siteConfig.docsUrl}/${
+    metadata.permalink = `${getDocsUrl(siteConfig.docsUrl)}/${
       version !== latestVersion ? `${version}/` : ''
     }${metadata.original_id}.html`;
   } else {
-    metadata.permalink = `${siteConfig.docsUrl}/${language}/${
+    metadata.permalink = `${getDocsUrl(siteConfig.docsUrl)}/${language}/${
       version !== latestVersion ? `${version}/` : ''
     }${metadata.original_id}.html`;
   }

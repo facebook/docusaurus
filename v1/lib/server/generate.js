@@ -35,9 +35,7 @@ async function execute() {
   const imageminOptipng = require('imagemin-optipng');
   const imageminSvgo = require('imagemin-svgo');
   const imageminGifsicle = require('imagemin-gifsicle');
-  const {DOCS_ROUTE} = require('../core/defaults');
-
-  siteConfig.docsRoute = siteConfig.docsRoute || DOCS_ROUTE;
+  const {getDocsUrl} = require('./routing.js');
 
   commander.option('--skip-image-compression').parse(process.argv);
 
@@ -74,7 +72,7 @@ async function execute() {
   const mdToHtml = metadataUtils.mdToHtml(
     Metadata,
     siteConfig.baseUrl,
-    siteConfig.docsUrl
+    getDocsUrl(siteConfig.docsUrl)
   );
   Object.keys(Metadata).forEach(id => {
     const metadata = Metadata[id];
@@ -95,8 +93,8 @@ async function execute() {
     const redirectFile = join(
       buildDir,
       metadata.permalink.replace(
-        `${siteConfig.docsUrl}/en`,
-        siteConfig.docsUrl
+        `${getDocsUrl(siteConfig.docsUrl)}/en`,
+        getDocsUrl(siteConfig.docsUrl)
       )
     );
     writeFileAndCreateFolder(redirectFile, redirectMarkup);

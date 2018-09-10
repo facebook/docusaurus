@@ -4,6 +4,8 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+const {DOCS_URL} = require('../core/constants');
+
 function blog(baseUrl) {
   return new RegExp(`^${baseUrl}blog/.*html$`);
 }
@@ -37,6 +39,10 @@ function sitemap(baseUrl) {
   return new RegExp(`^${baseUrl}sitemap.xml$`);
 }
 
+function getDocsUrl(docsUrl) {
+  return docsUrl || DOCS_URL;
+}
+
 module.exports = {
   blog,
   docs,
@@ -45,4 +51,5 @@ module.exports = {
   page,
   noExtension,
   sitemap,
+  getDocsUrl,
 };

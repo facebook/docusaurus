@@ -101,7 +101,7 @@ customDocsPath: 'website-docs';
 
 `disableTitleTagline` - An option to disable showing the tagline in the title of main pages. Exclude this field to keep page titles as `Title • Tagline`. Set to `true` to make page titles just `Title`.
 
-`docsRoute` - docsRoute for your site. For example, `docs` is the docsRoute of https://docusaurus.io/docs/en/installation/
+`docsUrl` - Route of the documentation. By default, /docs is the default route.
 
 `editUrl` - URL for editing docs, usage example: `editUrl + 'en/doc1.md'`. If this field is omitted, there will be no "Edit this Doc" button for each document.
 

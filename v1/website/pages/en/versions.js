@@ -15,10 +15,7 @@ const CWD = process.cwd();
 
 const siteConfig = require(`${CWD}/siteConfig.js`);
 const versions = require(`${CWD}/versions.json`);
-
-const {DOCS_ROUTE} = require('../../core/defaults');
-
-siteConfig.docsRoute = siteConfig.docsRoute || DOCS_ROUTE;
+const {getDocsUrl} = require('../../../lib/server/routing.js');
 
 function Versions(props) {
   const latestVersion = versions[0];
@@ -40,9 +37,9 @@ function Versions(props) {
                 <th>{latestVersion}</th>
                 <td>
                   <a
-                    href={`${siteConfig.baseUrl}${siteConfig.docsUrl}/${
-                      props.language
-                    }/installation`}>
+                    href={`${siteConfig.baseUrl}${getDocsUrl(
+                      siteConfig.docsUrl
+                    )}/${props.language}/installation`}>
                     Documentation
                   </a>
                 </td>
@@ -62,9 +59,9 @@ function Versions(props) {
                 <th>master</th>
                 <td>
                   <a
-                    href={`${siteConfig.baseUrl}${siteConfig.docsUrl}/${
-                      props.language
-                    }/next/installation`}>
+                    href={`${siteConfig.baseUrl}${getDocsUrl(
+                      siteConfig.docsUrl
+                    )}/${props.language}/next/installation`}>
                     Documentation
                   </a>
                 </td>
@@ -87,9 +84,9 @@ function Versions(props) {
                       <th>{version}</th>
                       <td>
                         <a
-                          href={`${siteConfig.baseUrl}${siteConfig.docsUrl}/${
-                            props.language
-                          }/${version}/installation`}>
+                          href={`${siteConfig.baseUrl}${getDocsUrl(
+                            siteConfig.docsUrl
+                          )}/${props.language}/${version}/installation`}>
                           Documentation
                         </a>
                       </td>

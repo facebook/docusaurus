@@ -20,11 +20,7 @@ function imgUrl(img) {
 }
 
 function docUrl(doc, language) {
-<<<<<<< HEAD:v1/examples/basics/pages/en/index.js
   return `${siteConfig.baseUrl}${siteConfig.docsUrl}/${
-=======
-  return `${siteConfig.baseUrl}${siteConfig.docsUrl}${
->>>>>>> Make "docsRoute" field optional:examples/basics/pages/en/index.js
     language ? `${language}/` : ''
   }${doc}`;
 }

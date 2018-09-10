@@ -14,9 +14,8 @@ const {renderToStaticMarkupWithDoctype} = require('./renderUtils');
 const readMetadata = require('./readMetadata.js');
 const {insertTOC} = require('../core/toc.js');
 const {getPath} = require('../core/utils.js');
-const {DOCS_ROUTE} = require('../core/defaults');
 
-siteConfig.docsRoute = siteConfig.docsRoute || DOCS_ROUTE;
+const {getDocsUrl} = require('./routing.js');
 
 function getFilePath(metadata) {
   if (!metadata) {
@@ -91,7 +90,7 @@ function replaceAssetsLink(oldContent) {
       ? line
       : line.replace(
           /\]\(assets\//g,
-          `](${siteConfig.baseUrl}${siteConfig.docsUrl}/assets/`
+          `](${siteConfig.baseUrl}${getDocsUrl(siteConfig.docsUrl)}/assets/`
         );
   });
   return lines.join('\n');
@@ -121,7 +120,7 @@ function getMarkup(rawContent, mdToHtml, metadata) {
 function getRedirectMarkup(metadata) {
   if (
     !env.translation.enabled ||
-    !metadata.permalink.includes(`${siteConfig.docsUrl}/en`)
+    !metadata.permalink.includes(`${getDocsUrl(siteConfig.docsUrl)}/en`)
   ) {
     return null;
   }

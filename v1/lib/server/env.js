@@ -10,8 +10,6 @@ const fs = require('fs-extra');
 const path = require('path');
 const chalk = require('chalk');
 
-const {DOCS_ROUTE} = require('../core/defaults');
-
 const siteConfig = require(`${CWD}/siteConfig.js`);
 
 const join = path.join;
@@ -20,7 +18,7 @@ const languagesFile = join(CWD, 'languages.js');
 const versionsJSONFile = join(CWD, 'versions.json');
 const versionsFile = join(CWD, 'pages/en/versions.js');
 
-siteConfig.docsRoute = siteConfig.docsRoute || DOCS_ROUTE;
+const {getDocsUrl} = require('./routing.js');
 
 class Translation {
   constructor() {
@@ -61,9 +59,9 @@ class Versioning {
     console.error(
       `${chalk.yellow('No versions.js file found!')}` +
         `\nYou should create your versions.js file in pages/en directory.` +
-        `\nPlease refer to https://docusaurus.io/${
+        `\nPlease refer to https://docusaurus.io/${getDocsUrl(
           siteConfig.docsUrl
-        }en/versioning.html.`
+        )}en/versioning.html.`
     );
   }
 

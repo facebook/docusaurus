@@ -26,11 +26,10 @@ function execute(port) {
   const {renderToStaticMarkupWithDoctype} = require('./renderUtils');
   const feed = require('./feed');
   const sitemap = require('./sitemap');
-  const routing = require('./routing');
+  const routing = require('./routing.js');
   const CWD = process.cwd();
   const join = path.join;
   const sep = path.sep;
-  const {DOCS_ROUTE} = require('../core/defaults');
 
   function removeModulePathFromCache(moduleName) {
     /* eslint-disable no-underscore-dangle */
@@ -79,7 +78,6 @@ function execute(port) {
   function reloadSiteConfig() {
     removeModuleAndChildrenFromCache(join(CWD, 'siteConfig.js'));
     siteConfig = require(join(CWD, 'siteConfig.js'));
-    siteConfig.docsRoute = siteConfig.docsRoute || DOCS_ROUTE;
 
     if (siteConfig.highlight && siteConfig.highlight.hljs) {
       siteConfig.highlight.hljs(require('highlight.js'));
@@ -112,7 +110,10 @@ function execute(port) {
   const app = express();
 
   app.get(
-    routing.docs(siteConfig.baseUrl, siteConfig.docsUrl),
+    routing.docs(
+      siteConfig.baseUrl,
+      routing.getDocsUrl(siteConfig.docsUrl)
+    ),
     (req, res, next) => {
       const url = req.path.toString().replace(siteConfig.baseUrl, '');
       const metadata =
@@ -129,7 +130,7 @@ function execute(port) {
       const mdToHtml = metadataUtils.mdToHtml(
         Metadata,
         siteConfig.baseUrl,
-        siteConfig.docsUrl
+        routing.getDocsUrl(siteConfig.docsUrl)
       );
       res.send(docs.getMarkup(rawContent, mdToHtml, metadata));
     }
@@ -186,20 +187,99 @@ function execute(port) {
     }
   });
 
-  app.get(routing.page(siteConfig.baseUrl, siteConfig.docsUrl), (req, res, next) => {
-    // Look for user-provided HTML file first.
-    let htmlFile = req.path.toString().replace(siteConfig.baseUrl, '');
-    htmlFile = join(CWD, 'pages', htmlFile);
-    if (
-      fs.existsSync(htmlFile) ||
-      fs.existsSync(
-        (htmlFile = htmlFile.replace(
-          path.basename(htmlFile),
-          join('en', path.basename(htmlFile)),
-        )),
-      )
-    ) {
-      if (siteConfig.wrapPagesHTML) {
+  app.get(
+    routing.page(
+      siteConfig.baseUrl,
+      routing.getDocsUrl(siteConfig.docsUrl)
+    ),
+    (req, res, next) => {
+      // Look for user-provided HTML file first.
+      let htmlFile = req.path.toString().replace(siteConfig.baseUrl, '');
+      htmlFile = join(CWD, 'pages', htmlFile);
+      if (
+        fs.existsSync(htmlFile) ||
+        fs.existsSync(
+          (htmlFile = htmlFile.replace(
+            path.basename(htmlFile),
+            join('en', path.basename(htmlFile))
+          ))
+        )
+      ) {
+        if (siteConfig.wrapPagesHTML) {
+          removeModuleAndChildrenFromCache(join('..', 'core', 'Site.js'));
+          const Site = require(join('..', 'core', 'Site.js'));
+          const str = renderToStaticMarkupWithDoctype(
+            <Site
+              language="en"
+              config={siteConfig}
+              metadata={{id: path.basename(htmlFile, '.html')}}>
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: fs.readFileSync(htmlFile, {encoding: 'utf8'}),
+                }}
+              />
+            </Site>
+          );
+
+          res.send(str);
+        } else {
+          res.send(fs.readFileSync(htmlFile, {encoding: 'utf8'}));
+        }
+        next();
+        return;
+      }
+
+      // look for user provided react file either in specified path or in path for english files
+      let file = req.path.toString().replace(/\.html$/, '.js');
+      file = file.replace(siteConfig.baseUrl, '');
+      let userFile = join(CWD, 'pages', file);
+
+      let language = env.translation.enabled ? 'en' : '';
+      const regexLang = /(.*)\/.*\.html$/;
+      const match = regexLang.exec(req.path);
+      const parts = match[1].split('/');
+      const enabledLangTags = env.translation
+        .enabledLanguages()
+        .map(lang => lang.tag);
+
+      for (let i = 0; i < parts.length; i++) {
+        if (enabledLangTags.indexOf(parts[i]) !== -1) {
+          language = parts[i];
+        }
+      }
+      let englishFile = join(CWD, 'pages', file);
+      if (language && language !== 'en') {
+        englishFile = englishFile.replace(
+          sep + language + sep,
+          `${sep}en${sep}`
+        );
+      }
+
+      // check for: a file for the page, an english file for page with unspecified language, or an
+      // english file for the page
+      if (
+        fs.existsSync(userFile) ||
+        fs.existsSync(
+          (userFile = userFile.replace(
+            path.basename(userFile),
+            `en${sep}${path.basename(userFile)}`
+          ))
+        ) ||
+        fs.existsSync((userFile = englishFile))
+      ) {
+        // copy into docusaurus so require paths work
+        const userFileParts = userFile.split(`pages${sep}`);
+        let tempFile = join(__dirname, '..', 'pages', userFileParts[1]);
+        tempFile = tempFile.replace(
+          path.basename(file),
+          `temp${path.basename(file)}`
+        );
+        mkdirp.sync(path.dirname(tempFile));
+        fs.copySync(userFile, tempFile);
+
+        // render into a string
+        removeModuleAndChildrenFromCache(tempFile);
+        const ReactComp = require(tempFile);
         removeModuleAndChildrenFromCache(join('..', 'core', 'Site.js'));
         const Site = require(join('..', 'core', 'Site.js'));
         translate.setLanguage(language);
@@ -330,7 +410,7 @@ function execute(port) {
 
   // serve static assets from these locations
   app.use(
-    `${siteConfig.baseUrl}${siteConfig.docsUrl}/assets`,
+    `${siteConfig.baseUrl}${routing.getDocsUrl(siteConfig.docsUrl)}/assets`,
     express.static(join(CWD, '..', readMetadata.getDocsPath(), 'assets'))
   );
   app.use(
