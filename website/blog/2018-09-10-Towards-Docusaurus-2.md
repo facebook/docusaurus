@@ -114,7 +114,9 @@ Not to worry much, most website should be able to upgrade without a lot of effor
 
 As of now, we don't really have an exact date planned for the release. I personally estimate that we might be able to release an alpha version in the next one to three months, but this is of course just a tentative date.
 
-While Docusaurus is part of [Facebook Open Source](https://opensource.fb.com/) & most of the team are Facebook employees, the maintenance/ development work is actually done after work/ during the weekends. In fact, I am currently a final year undergraduate student at [NTU Singapore](https://twitter.com/NTUsg) but I'm also maintaining Docusaurus and is part of the Docusaurus v2 team. Hit me up if you are based in Singapore 🙌!
+One thing that I'd like to share is that while Docusaurus is part of [Facebook Open Source](https://opensource.fb.com/) & most of the team are Facebook employees, the maintenance & development work is mostly done after work/ during the weekends. I myself am currently a final year undergraduate student at [NTU Singapore](https://twitter.com/NTUsg), so I had to juggle between doing my coursework and maintaining/ developing Docusaurus. However, that does not mean that we don't want to make Docusaurus better. In fact, we want to make it as awesome as possible.
+
+For now, the actual Docusaurus 2 work is still hosted on a private repository. In the near future, we'll start to move the current work to `v2` branch of Docusaurus repository. When that time arrives, I encourage everyone to look into it and hopefully, contribute in some way. Before that, please stay tuned 😉!
 
 ## Final Thoughts
 
