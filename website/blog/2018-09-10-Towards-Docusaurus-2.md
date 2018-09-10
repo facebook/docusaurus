@@ -60,7 +60,7 @@ However, when we try to cut v2.0.0, Docusaurus will not create any versioned doc
 
 This is very confusing for users, if they want to edit the v2.0.0 docs, they have to edit `versioned_docs/version-1.0.0/hello.md` or manually add `versioned_docs/version-2.0.0/hello.md`. Here is a [real scenario in Jest](https://github.com/facebook/jest/pull/6758#issuecomment-408274413). This could potentially lead to unwanted bugs.
 
-In addition, this adds complexity on the codebase (for doing all the version fallback). And during the build time, Docusaurus had to replace the linking to the correct version. This is also the cause of [#845](https://github.com/facebook/Docusaurus/issues/845).
+In addition, this adds complexity on the codebase (for doing all the version fallback). And during the build time, Docusaurus had to replace the linking to the correct version. This is also the cause of [renaming docs breaks links in old versions](https://github.com/facebook/Docusaurus/issues/845).
 
 For Docusaurus 2, **every time we cut a new version, we will instead take a snapshot of all the docs**. It doesn't care if the content of the document has changed or not. This is a time-space complexity trade-off for a better developer and user experience. We will use more space for better separation of concerns and guaranteed correctness.
 
