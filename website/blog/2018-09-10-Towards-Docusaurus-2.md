@@ -122,8 +122,10 @@ Docusaurus has had a large impact on the open source community as seen from the 
 
 We also want to let people know that due to work on Docusaurus 2, we will be less likely to accept new features/big changes on Docusaurus 1.
 
-If you are using Docusaurus, you're part of our community; keep letting us know how we can make Docusaurus better for you. Lastly, if you appreciate the work we're doing, you can support [Docusaurus on Open Collective](https://opencollective.com/Docusaurus).
+If you are using Docusaurus, you're part of our community; keep letting us know how we can make Docusaurus better for you. If you appreciate the work we're doing, you can support [Docusaurus on Open Collective](https://opencollective.com/Docusaurus).
 
 > If you are sponsoring our work on [Open Collective](https://opencollective.com/Docusaurus), we'll personally offer you a helping hand for maintenance & upgrading of Docusaurus website.
+
+Lastly, if you haven't done so already, click the **star** and **watch** button on [GitHub](https://github.com/facebook/Docusaurus), and follow us on [Twitter](https://twitter.com/docusaurus).
 
 <script async src="//cdn.embedly.com/widgets/platform.js" charset="UTF-8"></script>
