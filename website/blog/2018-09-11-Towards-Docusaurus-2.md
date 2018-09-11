@@ -7,7 +7,7 @@ authorImageURL: https://avatars1.githubusercontent.com/u/17883920?s=460&v=4
 authorTwitter: endiliey
 ---
 
-Docusaurus was [officially announced](https://docusaurus.io/blog/2017/12/14/introducing-docusaurus) over nine months ago as a way to easily build websites for open source projects. Since then, it has amassed ~8,600 GitHub Stars and is used by many popular open source projects such as [React Native](https://facebook.github.io/react-native/), [Babel](https://babeljs.io/), [Jest](https://jestjs.io/), [Reason](https://reasonml.github.io/) and [Prettier](https://prettier.io/).
+Docusaurus was [officially announced](https://docusaurus.io/blog/2017/12/14/introducing-docusaurus) over nine months ago as a way to easily build open source documentation website. Since then, it has amassed ~8,600 GitHub Stars and is used by many popular open source projects such as [React Native](https://facebook.github.io/react-native/), [Babel](https://babeljs.io/), [Jest](https://jestjs.io/), [Reason](https://reasonml.github.io/) and [Prettier](https://prettier.io/).
 
 There is a saying that the very best software is constantly evolving, and the very worst isn't. In case you are not aware, we've been planning and working on Docusaurus 2 🎉.
 
@@ -27,7 +27,7 @@ Since most of the problems are already mentioned in the issue, I will only go th
 
 A Docusaurus 1 website is, in fact, built into just a bunch of static HTML pages. Despite using React, we were not fully utilizing the features React offered, such as component state which allows for dynamic and interactive pages. React was only used as a templating engine for static content and interactivity has to be added through script tags and `dangerouslySetInnerHTML` 😱.
 
-In addition, there is not an easy way to change how Docusaurus loads content. For example, adding CSS preprocessors such as Sass and Less was not supported natively and involved many user hacks of adding custom scripts.
+In addition, there isn't any easy way to change how Docusaurus loads content. For example, adding CSS preprocessors such as Sass and Less was not supported natively and involved many user hacks of adding custom scripts.
 
 For Docusaurus 2, we will be using [webpack](https://webpack.js.org/) as a module bundler and we are changing the way we serve content. Adding CSS preprocessors will be as easy as adding a webpack loader. Instead of a pure static HTML, **during build time we will create a server-rendered version of the app** and render the corresponding HTML. A Docusaurus site will be essentially an isomorphic/universal application. This approach is heavily inspired by [Gatsby](https://github.com/gatsbyjs/gatsby).
 
@@ -70,7 +70,7 @@ Docusaurus allows for easy translation functionality by using [Crowdin](https://
 
 For Docusaurus 2, **we will not assume English is the default language**. When a user enables internationalization, they have to set a default language in `siteConfig.js`. We will then assume that all the files in `docs` are written in that language.
 
-In addition, after working on the MVP of Docusaurus 2, I realized that it is possible not to use Crowdin for translations,so we might need to add an additional workflow to enable that scenario. However, we will still strongly recommend people use Crowdin for easier integration.
+In addition, after working on the MVP of Docusaurus 2, I realized that it is possible not to use Crowdin for translations, so we might need to add an additional workflow to enable that scenario. However, we will still strongly recommend people use Crowdin for easier integration.
 
 ## Customizability
 
@@ -84,7 +84,7 @@ For Docusaurus 2, **layout and styling should be controlled by the user**. Docus
 
 Our markdown parsing is currently powered by [Remarkable](https://github.com/jonschlinkert/remarkable). What if the user wants to use [markdown-it](https://github.com/markdown-it/markdown-it) or even [MDX](https://github.com/mdx-js/mdx)? And then there is an issue of which syntax highlighter to use, (e.g: [Prism](https://prismjs.com/) vs [Highlight.js](https://highlightjs.org/)). We should leave these choices open to the user.
 
-For Docusaurus 2, **users can eject and choose their own markdown parser**. It does not matter if they want to use MDX, Remark, Markdown-it or their own Markdown parser. As a rule of thumb, the user has to provide a React component, in which we will inject children props containing the *RAW string of markdown*. By default, we will use Remarkable for the markdown parser and Highlight.js for the syntax highlighting. The default parser could still change in the future as we're still experimenting with different markdown parsers.
+For Docusaurus 2, **users can eject and choose their own markdown parser**. It does not matter if they want to use another markdown parser such as [Remark](https://github.com/remarkjs/remark), or even their own in-house Markdown parser. As a rule of thumb, the user has to provide a React component, in which we will inject children props containing the *RAW string of markdown*. By default, we will use Remarkable for the markdown parser and Highlight.js for the syntax highlighting. The default parser could still change in the future as we're still experimenting with different markdown parsers.
 
 ### Search
 
@@ -103,9 +103,9 @@ For Docusaurus 2, **we are adding tests as we develop** since we are going for a
 ## Frequently Asked Questions
 
 ### Will there be any breaking changes?
-If you've read the post up until to this point, you should be able to notice that there will be breaking changes. While we will try to **minimize the number of breaking changes** and make it backward compatible as much as possible, we believe that some breaking changes are required. This is mostly due to the **re-architecture** for Docusaurus 2.
+If you've read the post up until to this point, you should be able to notice that there will be breaking changes. While we will try to **minimize the number of breaking changes** and make it backward compatible as much as possible, we believe that some breaking changes are required. This is mostly due to **major rewrite and re-architecture** for Docusaurus 2.
 
-The exact list of breaking changes are not totally known yet as development is not 100% finalized. Howver, one thing that I'll highlight is that we will deprecate a lot of options in `siteConfig.js` and we plan to keep it as lean as possible. For example, the `cleanUrl` siteConfig will be deprecated as all the URL for Docusaurus 2 site will be without `.html` suffix.
+The exact list of breaking changes are not totally known yet as development is not 100% finalized. However, one thing that I'll highlight is that we will deprecate a lot of options in `siteConfig.js` and we plan to keep it as lean as possible. For example, the `cleanUrl` siteConfig will be deprecated as all the URL for Docusaurus 2 site will be without `.html` suffix.
 
 Our goal is that most sites should be able to upgrade to Docusaurus 2 without a lot of pain. We will also include a migration guide when we release Docusaurus 2. When the times come, feel free to ping us on [Discord](https://discord.gg/docusaurus) or [Twitter](https://twitter.com/docusaurus) for questions and help. 
 
@@ -114,7 +114,7 @@ Our goal is that most sites should be able to upgrade to Docusaurus 2 without a 
 
 As of now, we do not have an exact date planned for the release. I personally estimate that we might be able to release an alpha version in the next one to three months, but this is of course just an estimate.
 
-One thing that I would like to share is that while Docusaurus is part of [Facebook Open Source](https://opensource.fb.com/) & most of the team are Facebook employees, the maintenance & development work is mostly done outside of normal working hours. I myself am currently a final year undergraduate student at [NTU Singapore](https://twitter.com/NTUsg), so I had to juggle between doing my coursework and maintaining / developing Docusaurus. However, that does not mean that we do noot want to make Docusaurus better. In fact, we want to make it as awesome as possible.
+One thing that I would like to share is that while Docusaurus is part of [Facebook Open Source](https://opensource.fb.com/) & most of the team are Facebook employees, the maintenance & development work is mostly done outside of normal working hours. I myself am currently a final year undergraduate student at [NTU Singapore](https://twitter.com/NTUsg), so I had to juggle between doing my coursework and maintaining/developing Docusaurus. However, that does not mean that we do not want to make Docusaurus better. In fact, we want to make it as awesome as possible.
 
 For now, the actual Docusaurus 2 work is still hosted in a private repository. In the near future, we will start to move the current work to `v2` branch of Docusaurus repository. When that time arrives, I encourage everyone to look into it and hopefully, contribute in some way. Before that, please stay tuned 😉!
 
@@ -122,7 +122,7 @@ For now, the actual Docusaurus 2 work is still hosted in a private repository. I
 
 Docusaurus has had a large impact on the open source community as seen from the [many popular projects](https://docusaurus.io/en/users) which use Docusaurus for documentation. In order to move faster in the future, we are taking the opportunity to fix some core problems with Docusaurus 1 and striving to make Docusaurus better for everyone. In fact, it is safe to say that Docusaurus 2 is not just a plan anymore; the work on it has started and, hopefully, we will be able to see it materialize in the near future.
 
-We also want to let people know that due to work on Docusaurus 2, we will be less likely to accept new features / major changes on Docusaurus 1.
+We also want to let people know that due to work on Docusaurus 2, we will be less likely to accept new features/major changes on Docusaurus 1.
 
 If you are using Docusaurus, you are part of our community; keep letting us know how we can make Docusaurus better for you. If you appreciate the work we're doing, you can support [Docusaurus on Open Collective](https://opencollective.com/Docusaurus).
 
