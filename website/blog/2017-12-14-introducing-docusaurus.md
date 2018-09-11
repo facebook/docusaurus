@@ -6,7 +6,7 @@ authorFBID: 611217057
 authorTwitter: JoelMarcey
 ---
 
-![Introducing Slash](/img/slash-introducing.png)
+![Introducing Slash](/img/slash-introducing.svg)
 
 We are very happy to introduce [Docusaurus](https://github.com/facebook/Docusaurus) to help you manage one or many open source websites.
 

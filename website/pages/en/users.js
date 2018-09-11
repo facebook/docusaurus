@@ -42,7 +42,8 @@ class Users extends React.Component {
                 Docusaurus powers some of Facebook&apos;s popular{' '}
                 <a href="https://code.facebook.com/projects/">
                   open source projects
-                </a>.
+                </a>
+                .
               </p>
             </div>
             <div className="logos">{fbShowcase}</div>

@@ -1,6 +1,7 @@
 ---
-id: translation
+id: version-1.3.3-translation
 title: Translations & Localization
+original_id: translation
 ---
 
 Docusaurus allows for easy translation functionality using [Crowdin](https://crowdin.com/). Documentation files written in English are uploaded to Crowdin for translation by users within a community. Top-level pages written with English strings can be translated by wrapping any strings you want to translate in a `<translate>` tag. Other titles and labels will also be found and properly translated.
@@ -100,16 +101,8 @@ If you want to add additional custom translation strings, or override any of the
 ```json
 {
   "localized-strings": {
-    "docs": {
-      "id": {
-        "title": "string1",
-        "sidebar_label": "string2"
-      },
-      "version-0.0.1-id": {
-        "title": "string3",
-        "sidebar_label": "string4"
-      }
-    }
+    "id": "string",
+    "id2": "string2"
   },
   "pages-strings" : {
     "id3": "string3",

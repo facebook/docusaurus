@@ -4,7 +4,8 @@
       "installation",
       "site-preparation",
       "site-creation",
-      "publishing"
+      "publishing",
+      "docker"
     ],
     "Guides": [
       "adding-blog",

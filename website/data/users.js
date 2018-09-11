@@ -43,6 +43,13 @@ module.exports = [
     pinned: true,
   },
   {
+    caption: 'Bowler',
+    image: '/img/users/bowler.svg',
+    infoLink: 'https://pybowler.io/',
+    fbOpenSource: true,
+    pinned: true,
+  },
+  {
     caption: 'BuckleScript',
     image: '/img/users/bucklescript.svg',
     infoLink: 'https://bucklescript.github.io/',
@@ -83,6 +90,20 @@ module.exports = [
     infoLink: 'https://fasttext.cc',
     fbOpenSource: true,
     pinned: true,
+  },
+  {
+    caption: 'Flipper',
+    image: '/img/users/flipper.png',
+    infoLink: 'https://fbflipper.com',
+    fbOpenSource: true,
+    pinned: true,
+  },
+  {
+    caption: 'FuseBox',
+    image: '/img/users/fuse-box.svg',
+    infoLink: 'https://fuse-box.org',
+    fbOpenSource: false,
+    pinned: false,
   },
   {
     caption: 'Instant Articles Builder',
@@ -170,6 +191,13 @@ module.exports = [
     pinned: true,
   },
   {
+    caption: 'Plus (ThinkSNS+)',
+    image: '/img/users/plus.png',
+    infoLink: 'https://slimkit.github.io',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'React Native',
     image: '/img/users/react-native.svg',
     infoLink: 'https://facebook.github.io/react-native',
@@ -240,13 +268,6 @@ module.exports = [
     pinned: false,
   },
   {
-    caption: 'Sonar',
-    image: '/img/users/sonar.png',
-    infoLink: 'https://fbsonar.com',
-    fbOpenSource: true,
-    pinned: true,
-  },
-  {
     caption: 'StreamPipes',
     image: 'https://streampipes.org/images/streampipes-logo-center.png',
     infoLink: 'https://docs.streampipes.org',
@@ -262,7 +283,7 @@ module.exports = [
   },
   {
     caption: 'Verdaccio',
-    image: 'http://www.verdaccio.org/img/verdaccio-tiny@2x.png',
+    image: '/img/users/verdaccio-tiny@2x.png',
     infoLink: 'http://www.verdaccio.org/',
     fbOpenSource: false,
     pinned: false,

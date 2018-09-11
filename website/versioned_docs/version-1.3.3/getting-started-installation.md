@@ -1,6 +1,7 @@
 ---
-id: installation
+id: version-1.3.3-installation
 title: Installation
+original_id: installation
 ---
 
 Docusaurus was designed from the ground up to be easily installed and used to get your website up and running quickly. 
