@@ -6,6 +6,46 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [Unreleased]
 
+## [1.4.0] - 2018-09-11
+
+Welcome to our newest users, [FuseBox](https://fuse-box.org) and [Bowler](https://pybowler.io).
+
+Thank you to the following contributors who helped with this release:
+
+- @endiliey
+- @joelmarcey
+- @yangshun
+- @ericnakagawa
+- @notlmn
+- @nchanged
+- @sbansal3096
+- @notjaril
+- @tirthbodawala
+- @wszgxa
+- @EthanMarrs
+- @fiennyangeln
+- @ashwini0529
+
+### Fixed/Changed
+
+- [Transformation](https://github.com/facebook/Docusaurus/commit/d18b09954b0c7e33b26ce368f8cb2cede569dfcf) of url to cleanUrl
+- Conflicting strings in translations are now [handled](https://github.com/facebook/Docusaurus/commit/cfabaedc99397584461ae9d25508f03b863e4160) correctly.
+- Header navigation now [links](https://github.com/facebook/Docusaurus/commit/88904ab37b2e3ce62ca1ec7214d0c66471491a24) to `blog/`, not `blog`
+- Better [handling](https://github.com/facebook/Docusaurus/commit/e613725a25ce67204cb04ceba9b312b2166cefe6) of button wrapping on mobile.
+- Header navigation linking to a custom page [checks](https://github.com/facebook/Docusaurus/commit/f1daddb5f9a2965b45045ad9ef8f7a4494b71e30) if translation is enabled.
+- Fixed navigation so that it takes [full width](https://github.com/facebook/Docusaurus/commit/f2dceffc09c2b0ec9b6fca2450497c4332c20c2a) on a docs page.
+
+### Added
+
+- The time when a doc has been [last updated](https://github.com/facebook/Docusaurus/commit/1a572757f1118802fb7cd2dbc698b9ef2affb2f8) is now available.
+- Support for [Web App Manifest](https://github.com/facebook/Docusaurus/commit/2cbfeffd816eb4fe8717c9f307091c0764896f08).
+- Example [usage](https://github.com/facebook/Docusaurus/commit/6dcd24ec8d5323374c60ac565ff19692d6b585bc) and [documentation](https://github.com/facebook/Docusaurus/commit/a1a26d1c2e53b2b966c9dfb95ecdc87c220bccee) for Docker support.
+
+### Maintenance
+
+- [Updated](https://github.com/facebook/Docusaurus/commit/7987e66beddd837f876f1e60494addc447d9c466) Docusaurus `README.md`
+- [Documentation issue template](https://github.com/facebook/Docusaurus/commit/39b77935c41f400a0f1478c5163db6b8acb6f47c).
+
 ## [1.3.3] - 2018-08-22
 
 Welcome to our newest users, [atalaya](https://atalaya.io/), [Reaction Commerce](https://docs.reactioncommerce.com/), [Plus (ThinkSNS+)](https://slimkit.github.io) and [nteract](https://docs.nteract.io/).
@@ -702,7 +742,8 @@ N/A
   - Blog
   - Documentation
 
-[Unreleased]: https://github.com/facebook/Docusaurus/compare/v1.3.3...HEAD
+[Unreleased]: https://github.com/facebook/Docusaurus/compare/v1.4.0...HEAD
+[1.4.0]: https://github.com/facebook/Docusaurus/compare/v1.3.3...1.4.0
 [1.3.3]: https://github.com/facebook/Docusaurus/compare/v1.3.2...1.3.3
 [1.3.2]: https://github.com/facebook/Docusaurus/compare/v1.3.1...1.3.2
 [1.3.1]: https://github.com/facebook/Docusaurus/compare/v1.3.0...1.3.1
