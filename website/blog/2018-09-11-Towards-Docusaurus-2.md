@@ -114,9 +114,9 @@ Our goal is that most sites should be able to upgrade to Docusaurus 2 without a 
 
 As of now, we do not have an exact date planned for the release. I personally estimate that we might be able to release an alpha version in the next one to two months, but this is of course just an estimate.
 
-One thing that I would like to share is that while Docusaurus is part of [Facebook Open Source](https://opensource.fb.com/) & most of the team are Facebook employees, the maintenance & development work is mostly done outside of normal working hours. I myself am currently a final year undergraduate student at [NTU Singapore](https://twitter.com/NTUsg), so I had to juggle between doing my coursework, my final year project and maintaining/developing Docusaurus. However, that does not mean that we do not want to make Docusaurus better. In fact, **we want to make it as awesome as possible**.
+One thing that I would like to share is that while Docusaurus is part of [Facebook Open Source](https://opensource.fb.com/) and most of the team are Facebook employees, the maintenance and development work is mostly done outside of normal working hours. I am currently a final year undergraduate student at [NTU Singapore](https://twitter.com/NTUsg), so I had to juggle between doing my coursework, my final year project and maintaining/developing Docusaurus. However, that does not mean that we do not want to make Docusaurus better. In fact, **we want to make it as awesome as possible**.
 
-For now, the actual Docusaurus 2 work is still hosted in a private repository. In the near future, we will start to move the current work to `v2` branch of Docusaurus repository. When that time arrives, I encourage everyone to look into it and hopefully, contribute in some way. Before that, please stay tuned 😉!
+For now, the actual Docusaurus 2 work is still hosted in a private repository. In the near future, we will move them into the public repository. When that time arrives, I encourage everyone to look into it and hopefully, contribute in some way. Before that, please stay tuned 😉!
 
 ## Final Thoughts
 
@@ -126,7 +126,7 @@ We also want to let people know that **due to work on Docusaurus 2, we will be l
 
 If you are using Docusaurus, you are part of our community; keep letting us know how we can make Docusaurus better for you. If you appreciate the work we're doing, you can support [Docusaurus on Open Collective](https://opencollective.com/Docusaurus).
 
-> If you are sponsoring our work on [Open Collective](https://opencollective.com/Docusaurus), we'll personally offer you a helping hand for maintenance & upgrading of Docusaurus website.
+> If you are sponsoring our work on [Open Collective](https://opencollective.com/Docusaurus), we'll personally offer you a helping hand for maintenance and upgrading of Docusaurus website.
 
 Lastly, if you haven't done so already, click the **star** and **watch** button on [GitHub](https://github.com/facebook/Docusaurus), and follow us on [Twitter](https://twitter.com/docusaurus).
 
