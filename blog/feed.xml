@@ -4,7 +4,7 @@
         <title>Docusaurus Blog</title>
         <link>https://docusaurus.io/blog</link>
         <description>The best place to stay up-to-date with the latest Docusaurus news and events.</description>
-        <lastBuildDate>Mon, 30 Apr 2018 06:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 11 Sep 2018 06:00:00 GMT</lastBuildDate>
         <docs>http://blogs.law.harvard.edu/tech/rss</docs>
         <generator>Feed for Node.js</generator>
         <image>
@@ -13,6 +13,15 @@
             <link>https://docusaurus.io/blog</link>
         </image>
         <copyright>Copyright © 2018 Facebook Inc.</copyright>
+        <item>
+            <title><![CDATA[Towards Docusaurus 2]]></title>
+            <link>https://docusaurus.io/blog/2018/09/11/Towards-Docusaurus-2.html</link>
+            <guid>https://docusaurus.io/blog/2018/09/11/Towards-Docusaurus-2.html</guid>
+            <pubDate>Tue, 11 Sep 2018 06:00:00 GMT</pubDate>
+            <description><![CDATA[<p>Docusaurus was <a href="https://docusaurus.io/blog/2017/12/14/introducing-docusaurus">officially announced</a> over nine months ago as a way to easily build open source documentation website. Since then, it has amassed ~8,600 GitHub Stars and is used by many popular open source projects such as <a href="https://facebook.github.io/react-native/">React Native</a>, <a href="https://babeljs.io/">Babel</a>, <a href="https://jestjs.io/">Jest</a>, <a href="https://reasonml.github.io/">Reason</a> and <a href="https://prettier.io/">Prettier</a>.</p>
+<p>There is a saying that the very best software is constantly evolving, and the very worst isn't. In case you are not aware, we've been planning and working on Docusaurus 2 🎉.</p>
+]]></description>
+        </item>
         <item>
             <title><![CDATA[How I Converted Profilo to Docusaurus in Under 2 Hours]]></title>
             <link>https://docusaurus.io/blog/2018/04/30/How-I-Converted-Profilo-To-Docusaurus.html</link>
