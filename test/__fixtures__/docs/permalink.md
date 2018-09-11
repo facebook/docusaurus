@@ -1,7 +1,7 @@
 ---
 id: permalink
 title: Permalink
-permalink: :baseUrl:docsUrl/:langPart:versionPartendiliey/:id
+permalink: :baseUrl:docsUrl/:langPart/:versionPart/endiliey/:id
 ---
 
 This has a different permalink
