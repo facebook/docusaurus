@@ -6,5 +6,6 @@ module.exports = {
   baseUrl: '/',
   useLessField: 'what',
   superman: 'lol',
-  admin: 'endi'
+  admin: 'endi',
+  customFields: ['admin', 'superman']
 };

@@ -29,7 +29,7 @@ describe('loadConfig', () => {
     expect(() => {
       loadConfig(siteDir);
     }).toThrowErrorMatchingInlineSnapshot(
-      `"useLessField, superman, admin fields are useless in siteConfig.js"`
+      `"useLessField fields are useless in siteConfig.js"`
     );
   });
 

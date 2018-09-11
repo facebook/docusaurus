@@ -4,7 +4,7 @@ import path from 'path';
 describe('loadPages', () => {
   test('valid pages', async () => {
     const pagesDir = path.join(__dirname, '__fixtures__', 'simple-pages');
-    let pagesData = await loadPages(pagesDir);
+    const pagesData = await loadPages(pagesDir);
     pagesData.sort((a, b) => a.path > b.path); // because it was unordered
     expect(pagesData).toEqual([
       {
