@@ -25,7 +25,7 @@ Since most of the problems are already mentioned in the issue, I will only go th
 
 ### Content
 
-A Docusaurus 1 website is, in fact, built into just a bunch of static HTML pages. Despite using React, we were not fully utilizing the features React offered, such as component state which allows for dynamic and interactive pages. React was only used as a templating engine for static content and interactivity has to be added through script tags and `dangerouslySetInnerHTML` 😱.
+A Docusaurus 1 website is, in fact, built into a bunch of static HTML pages. Despite using React, we were not fully utilizing the features React offered, such as component state which allows for dynamic and interactive pages. React was only used as a templating engine for static content and interactivity has to be added through script tags and `dangerouslySetInnerHTML` 😱.
 
 In addition, there isn't any easy way to change how Docusaurus loads content. For example, adding CSS preprocessors such as Sass and Less was not supported natively and involved many user hacks of adding custom scripts.
 
