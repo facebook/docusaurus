@@ -84,7 +84,7 @@ For Docusaurus 2, **layout and styling should be controlled by the user**. Docus
 
 Our markdown parsing is currently powered by [Remarkable](https://github.com/jonschlinkert/remarkable). What if the user wants to use [markdown-it](https://github.com/markdown-it/markdown-it) or even [MDX](https://github.com/mdx-js/mdx)? And then there is an issue of which syntax highlighter to use, (e.g: [Prism](https://prismjs.com/) vs [Highlight.js](https://highlightjs.org/)). We should leave these choices open to the user.
 
-For Docusaurus 2, **users can eject and choose their own markdown parser**. It does not matter if they want to use another markdown parser such as [Remark](https://github.com/remarkjs/remark), or even their own in-house Markdown parser. As a rule of thumb, the user has to provide a React component, in which we will inject children props containing the *RAW string of markdown*. By default, we will use Remarkable for the markdown parser and Highlight.js for the syntax highlighting. The default parser could still change in the future as we're still experimenting with different markdown parsers.
+For Docusaurus 2, **users can eject and choose their own markdown parser**. It does not matter if they want to use another markdown parser such as [Remark](https://github.com/remarkjs/remark), or even their own in-house markdown parser. As a rule of thumb, the user has to provide a React component, in which we will provide a children props containing the *RAW string of markdown*. By default, we will use Remarkable for the markdown parser and Highlight.js for the syntax highlighting. The default parser could still change in the future as we're still experimenting with different markdown parsers.
 
 ### Search
 
@@ -112,9 +112,9 @@ Our goal is that most sites should be able to upgrade to Docusaurus 2 without a 
 
 ### When is the release of Docusaurus 2?
 
-As of now, we do not have an exact date planned for the release. I personally estimate that we might be able to release an alpha version in the next one to three months, but this is of course just an estimate.
+As of now, we do not have an exact date planned for the release. I personally estimate that we might be able to release an alpha version in the next one to two months, but this is of course just an estimate.
 
-One thing that I would like to share is that while Docusaurus is part of [Facebook Open Source](https://opensource.fb.com/) & most of the team are Facebook employees, the maintenance & development work is mostly done outside of normal working hours. I myself am currently a final year undergraduate student at [NTU Singapore](https://twitter.com/NTUsg), so I had to juggle between doing my coursework and maintaining/developing Docusaurus. However, that does not mean that we do not want to make Docusaurus better. In fact, we want to make it as awesome as possible.
+One thing that I would like to share is that while Docusaurus is part of [Facebook Open Source](https://opensource.fb.com/) & most of the team are Facebook employees, the maintenance & development work is mostly done outside of normal working hours. I myself am currently a final year undergraduate student at [NTU Singapore](https://twitter.com/NTUsg), so I had to juggle between doing my coursework, my final year project and maintaining/developing Docusaurus. However, that does not mean that we do not want to make Docusaurus better. In fact, **we want to make it as awesome as possible**.
 
 For now, the actual Docusaurus 2 work is still hosted in a private repository. In the near future, we will start to move the current work to `v2` branch of Docusaurus repository. When that time arrives, I encourage everyone to look into it and hopefully, contribute in some way. Before that, please stay tuned 😉!
 
@@ -122,7 +122,7 @@ For now, the actual Docusaurus 2 work is still hosted in a private repository. I
 
 Docusaurus has had a large impact on the open source community as seen from the [many popular projects](https://docusaurus.io/en/users) which use Docusaurus for documentation. In order to move faster in the future, we are taking the opportunity to fix some core problems with Docusaurus 1 and striving to make Docusaurus better for everyone. In fact, it is safe to say that Docusaurus 2 is not just a plan anymore; the work on it has started and, hopefully, we will be able to see it materialize in the near future.
 
-We also want to let people know that due to work on Docusaurus 2, we will be less likely to accept new features/major changes on Docusaurus 1.
+We also want to let people know that **due to work on Docusaurus 2, we will be less likely to accept new features/major changes on Docusaurus 1.**
 
 If you are using Docusaurus, you are part of our community; keep letting us know how we can make Docusaurus better for you. If you appreciate the work we're doing, you can support [Docusaurus on Open Collective](https://opencollective.com/Docusaurus).
 
