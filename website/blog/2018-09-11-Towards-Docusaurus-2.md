@@ -122,6 +122,8 @@ For now, the actual Docusaurus 2 work is still hosted in a private repository. I
 
 Docusaurus has had a large impact on the open source community as seen from the [many popular projects](https://docusaurus.io/en/users) which use Docusaurus for documentation. In order to move faster in the future, we are taking the opportunity to fix some core problems with Docusaurus 1 and striving to make Docusaurus better for everyone. In fact, it is safe to say that Docusaurus 2 is not just a plan anymore; the work on it has started and, hopefully, we will be able to see it materialize in the near future.
 
+Docusaurus' mission has always been to make it really easy for you to get a website with documentation up and running out of the box. That mission does not change with Docusaurus 2.
+
 We also want to let people know that **due to work on Docusaurus 2, we will be less likely to accept new features/major changes on Docusaurus 1.**
 
 If you are using Docusaurus, you are part of our community; keep letting us know how we can make Docusaurus better for you. If you appreciate the work we're doing, you can support [Docusaurus on Open Collective](https://opencollective.com/Docusaurus).
