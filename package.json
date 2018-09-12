@@ -87,6 +87,7 @@
     "markdown-toc": "^1.2.0",
     "mkdirp": "^0.5.1",
     "opencollective": "^1.0.3",
+    "portfinder": "^1.0.17",
     "postcss": "^7.0.1",
     "prismjs": "^1.15.0",
     "react": "^16.5.0",
