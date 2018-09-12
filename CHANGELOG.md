@@ -6,6 +6,51 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [Unreleased]
 
+## [1.4.0] - 2018-09-11
+
+Welcome to our newest users, [FuseBox](https://fuse-box.org) and [Bowler](https://pybowler.io).
+
+Thank you to the following contributors who helped with this release:
+
+- @endiliey
+- @joelmarcey
+- @yangshun
+- @ericnakagawa
+- @notlmn
+- @nchanged
+- @sbansal3096
+- @notjaril
+- @tirthbodawala
+- @wszgxa
+- @EthanMarrs
+- @fiennyangeln
+- @ashwini0529
+
+### Fixed/Changed
+
+- Fix nested `static` in `static` folder breaks build ([#953](https://github.com/facebook/Docusaurus/pull/953))
+- Fix `cleanUrl` transformation unintentionally removing extension ([#923](https://github.com/facebook/Docusaurus/pull/923))
+- Fix conflicting strings in translations ([#917](https://github.com/facebook/Docusaurus/pull/917))
+- Header navigation now links to `blog/`, not `blog` ([#936](https://github.com/facebook/Docusaurus/pull/936))
+- Fix button wrapping behavior on mobile ([#921](https://github.com/facebook/Docusaurus/pull/921))
+- Fix wrong header navigation linking to a doc without translation ([f1daddb](https://github.com/facebook/Docusaurus/commit/f1daddb5f9a2965b45045ad9ef8f7a4494b71e30))
+- Fixed navigation so that it takes full width on a docs ([#935](https://github.com/facebook/Docusaurus/pull/935))
+
+### Added
+
+- Allow user to add `last updated time` info on doc ([#913](https://github.com/facebook/Docusaurus/pull/913))
+- Support for user's own Web App Manifest in siteConfig ([#934](https://github.com/facebook/Docusaurus/pull/934))
+- Add docker file & documentation ([#936](https://github.com/facebook/Docusaurus/pull/936))
+- New docusaurus project has a better starting README ([#930](https://github.com/facebook/Docusaurus/pull/930))
+- Enable passing object to script and link ([#937](https://github.com/facebook/Docusaurus/pull/937))
+
+### Chore and Maintenance
+
+- New template for `Documentation` issue ([39b7793](https://github.com/facebook/Docusaurus/commit/39b77935c41f400a0f1478c5163db6b8acb6f47c))
+- Add new blog post about upcoming Docusaurus 2 ([#952](https://github.com/facebook/Docusaurus/pull/952]))
+- Fix broken sponsor images in README ([#951](https://github.com/facebook/Docusaurus/pull/951]))
+- Fix wrong user image URL ([89f49b0](https://github.com/facebook/Docusaurus/commit/89f49b02c8f1595b0e386ce778ed1271ec9f30c6]))
+
 ## [1.3.3] - 2018-08-22
 
 Welcome to our newest users, [atalaya](https://atalaya.io/), [Reaction Commerce](https://docs.reactioncommerce.com/), [Plus (ThinkSNS+)](https://slimkit.github.io) and [nteract](https://docs.nteract.io/).
@@ -702,7 +747,8 @@ N/A
   - Blog
   - Documentation
 
-[Unreleased]: https://github.com/facebook/Docusaurus/compare/v1.3.3...HEAD
+[Unreleased]: https://github.com/facebook/Docusaurus/compare/v1.4.0...HEAD
+[1.4.0]: https://github.com/facebook/Docusaurus/compare/v1.3.3...1.4.0
 [1.3.3]: https://github.com/facebook/Docusaurus/compare/v1.3.2...1.3.3
 [1.3.2]: https://github.com/facebook/Docusaurus/compare/v1.3.1...1.3.2
 [1.3.1]: https://github.com/facebook/Docusaurus/compare/v1.3.0...1.3.1
