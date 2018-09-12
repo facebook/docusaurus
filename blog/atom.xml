@@ -14,8 +14,8 @@
         <link href="https://docusaurus.io/blog/2018/09/11/Towards-Docusaurus-2.html">
         </link>
         <updated>2018-09-11T06:00:00Z</updated>
-        <summary type="html"><![CDATA[<p>Docusaurus was <a href="https://docusaurus.io/blog/2017/12/14/introducing-docusaurus">officially announced</a> over nine months ago as a way to easily build open source documentation website. Since then, it has amassed ~8,600 GitHub Stars and is used by many popular open source projects such as <a href="https://facebook.github.io/react-native/">React Native</a>, <a href="https://babeljs.io/">Babel</a>, <a href="https://jestjs.io/">Jest</a>, <a href="https://reasonml.github.io/">Reason</a> and <a href="https://prettier.io/">Prettier</a>.</p>
-<p>There is a saying that the very best software is constantly evolving, and the very worst isn't. In case you are not aware, we've been planning and working on Docusaurus 2 🎉.</p>
+        <summary type="html"><![CDATA[<p>Docusaurus was <a href="https://docusaurus.io/blog/2017/12/14/introducing-docusaurus">officially announced</a> over nine months ago as a way to easily build open source documentation websites. Since then, it has amassed over 8,600 GitHub Stars, and is used by many popular open source projects such as <a href="https://facebook.github.io/react-native/">React Native</a>, <a href="https://babeljs.io/">Babel</a>, <a href="https://jestjs.io/">Jest</a>, <a href="https://reasonml.github.io/">Reason</a> and <a href="https://prettier.io/">Prettier</a>.</p>
+<p>There is a saying that the very best software is constantly evolving, and the very worst is not. In case you are not aware, we have been planning and working on the next version of Docusaurus 🎉.</p>
 ]]></summary>
         <author>
             <name>Endilie Yacop Sucipto</name>
