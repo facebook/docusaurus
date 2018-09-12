@@ -62,7 +62,7 @@ This is very confusing for users, if they want to edit the v2.0.0 docs, they hav
 
 In addition, this adds complexity within the codebase as we require a mechanism for version fallbacks. And during build time, Docusaurus has to replace the linking to the correct version. This is also the cause of [renaming docs breaks links in old versions](https://github.com/facebook/Docusaurus/issues/845).
 
-For Docusaurus 2, **every time we cut a new version, we will instead take a snapshot of all the docs**. We will not require the content of a document to have changed. This is a time-space complexity trade-off for a better developer and user experience. We will use more space for better separation of concerns and guaranteed correctness.
+For Docusaurus 2, **every time we cut a new version, we will instead take a snapshot of all the docs**. We will not require the content of a document to have changed. This is a space complexity trade-off for a better developer and user experience. We will use more space for better separation of concerns and guaranteed correctness.
 
 ### Translation
 
