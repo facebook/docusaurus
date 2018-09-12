@@ -29,7 +29,7 @@ Thank you to the following contributors who helped with this release:
 ### Fixed/Changed
 
 - Fix nested `static` in `static` folder breaks build ([#953](https://github.com/facebook/Docusaurus/pull/953))
-- Fix cleanUrl transformation unintentionally removing extension ([#923](https://github.com/facebook/Docusaurus/pull/923))
+- Fix `cleanUrl` transformation unintentionally removing extension ([#923](https://github.com/facebook/Docusaurus/pull/923))
 - Fix conflicting strings in translations ([#917](https://github.com/facebook/Docusaurus/pull/917))
 - Header navigation now links to `blog/`, not `blog` ([#936](https://github.com/facebook/Docusaurus/pull/936))
 - Fix button wrapping behavior on mobile ([#921](https://github.com/facebook/Docusaurus/pull/921))
@@ -47,9 +47,9 @@ Thank you to the following contributors who helped with this release:
 ### Chore and Maintenance
 
 - New template for `Documentation` issue ([39b7793](https://github.com/facebook/Docusaurus/commit/39b77935c41f400a0f1478c5163db6b8acb6f47c))
-- Add new blog post about upcoming Docusaurus 2 ([#952](https://github.com/facebook/Docusaurus/pull/952])
-- Fix broken sponsor images in README ([#951](https://github.com/facebook/Docusaurus/pull/951])
-- Fix wrong user image URL ([89f49b0](https://github.com/facebook/Docusaurus/commit/89f49b02c8f1595b0e386ce778ed1271ec9f30c6])
+- Add new blog post about upcoming Docusaurus 2 ([#952](https://github.com/facebook/Docusaurus/pull/952]))
+- Fix broken sponsor images in README ([#951](https://github.com/facebook/Docusaurus/pull/951]))
+- Fix wrong user image URL ([89f49b0](https://github.com/facebook/Docusaurus/commit/89f49b02c8f1595b0e386ce778ed1271ec9f30c6]))
 
 ## [1.3.3] - 2018-08-22
 
