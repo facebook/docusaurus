@@ -39,10 +39,10 @@ Thank you to the following contributors who helped with this release:
 ### Added
 
 - Allow user to add `last updated time` info on doc ([#913](https://github.com/facebook/Docusaurus/pull/913))
-- Support for user's own Web App Manifest in siteConfig ([#930](https://github.com/facebook/Docusaurus/pull/930))
+- Support for user's own Web App Manifest in siteConfig ([#934](https://github.com/facebook/Docusaurus/pull/934))
 - Add docker file & documentation ([#936](https://github.com/facebook/Docusaurus/pull/936))
 - New docusaurus project has a better starting README ([#930](https://github.com/facebook/Docusaurus/pull/930))
-- Enable passing objects to script and link ([#937](https://github.com/facebook/Docusaurus/pull/937))
+- Enable passing object to script and link ([#937](https://github.com/facebook/Docusaurus/pull/937))
 
 ### Chore and Maintenance
 
