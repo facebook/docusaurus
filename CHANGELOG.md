@@ -42,10 +42,14 @@ Thank you to the following contributors who helped with this release:
 - Support for user's own Web App Manifest in siteConfig ([#930](https://github.com/facebook/Docusaurus/pull/930))
 - Add docker file & documentation ([#936](https://github.com/facebook/Docusaurus/pull/936))
 - New docusaurus project has a better starting README ([#930](https://github.com/facebook/Docusaurus/pull/930))
+- Enable passing objects to script and link ([#937](https://github.com/facebook/Docusaurus/pull/937))
 
 ### Chore and Maintenance
 
 - New template for `Documentation` issue ([39b7793](https://github.com/facebook/Docusaurus/commit/39b77935c41f400a0f1478c5163db6b8acb6f47c))
+- Add new blog post about upcoming Docusaurus 2 ([#952](https://github.com/facebook/Docusaurus/pull/952])
+- Fix broken sponsor images in README ([#951](https://github.com/facebook/Docusaurus/pull/951])
+- Fix wrong user image URL ([89f49b0](https://github.com/facebook/Docusaurus/commit/89f49b02c8f1595b0e386ce778ed1271ec9f30c6])
 
 ## [1.3.3] - 2018-08-22
 
