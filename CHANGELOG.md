@@ -30,7 +30,7 @@ Thank you to the following contributors who helped with this release:
 
 - Fix nested `static` in `static` folder breaks build ([#953](https://github.com/facebook/Docusaurus/pull/953))
 - Fix cleanUrl transformation unintentionally removing extension ([#923](https://github.com/facebook/Docusaurus/pull/923))
-- Fix conflicting strings in translations are now ([#917](https://github.com/facebook/Docusaurus/pull/917))
+- Fix conflicting strings in translations ([#917](https://github.com/facebook/Docusaurus/pull/917))
 - Header navigation now links to `blog/`, not `blog` ([#936](https://github.com/facebook/Docusaurus/pull/936))
 - Fix button wrapping behavior on mobile ([#921](https://github.com/facebook/Docusaurus/pull/921))
 - Fix wrong header navigation linking to a doc without translation ([f1daddb](https://github.com/facebook/Docusaurus/commit/f1daddb5f9a2965b45045ad9ef8f7a4494b71e30))
