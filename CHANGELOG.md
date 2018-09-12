@@ -28,23 +28,24 @@ Thank you to the following contributors who helped with this release:
 
 ### Fixed/Changed
 
-- [Transformation](https://github.com/facebook/Docusaurus/commit/d18b09954b0c7e33b26ce368f8cb2cede569dfcf) of url to cleanUrl
-- Conflicting strings in translations are now [handled](https://github.com/facebook/Docusaurus/commit/cfabaedc99397584461ae9d25508f03b863e4160) correctly.
-- Header navigation now [links](https://github.com/facebook/Docusaurus/commit/88904ab37b2e3ce62ca1ec7214d0c66471491a24) to `blog/`, not `blog`
-- Better [handling](https://github.com/facebook/Docusaurus/commit/e613725a25ce67204cb04ceba9b312b2166cefe6) of button wrapping on mobile.
-- Header navigation linking to a custom page [checks](https://github.com/facebook/Docusaurus/commit/f1daddb5f9a2965b45045ad9ef8f7a4494b71e30) if translation is enabled.
-- Fixed navigation so that it takes [full width](https://github.com/facebook/Docusaurus/commit/f2dceffc09c2b0ec9b6fca2450497c4332c20c2a) on a docs page.
+- Fix nested `static` in `static` folder breaks build ([#953](https://github.com/facebook/Docusaurus/pull/953))
+- Fix cleanUrl transformation unintentionally removing extension ([#923](https://github.com/facebook/Docusaurus/pull/923))
+- Fix conflicting strings in translations are now ([#917](https://github.com/facebook/Docusaurus/pull/917))
+- Header navigation now links to `blog/`, not `blog` ([#936](https://github.com/facebook/Docusaurus/pull/936))
+- Fix button wrapping behavior on mobile ([#921](https://github.com/facebook/Docusaurus/pull/921))
+- Fix wrong header navigation linking to a doc without translation ([f1daddb](https://github.com/facebook/Docusaurus/commit/f1daddb5f9a2965b45045ad9ef8f7a4494b71e30))
+- Fixed navigation so that it takes full width on a docs ([#935](https://github.com/facebook/Docusaurus/pull/935))
 
 ### Added
 
-- The time when a doc has been [last updated](https://github.com/facebook/Docusaurus/commit/1a572757f1118802fb7cd2dbc698b9ef2affb2f8) is now available.
-- Support for [Web App Manifest](https://github.com/facebook/Docusaurus/commit/2cbfeffd816eb4fe8717c9f307091c0764896f08).
-- Example [usage](https://github.com/facebook/Docusaurus/commit/6dcd24ec8d5323374c60ac565ff19692d6b585bc) and [documentation](https://github.com/facebook/Docusaurus/commit/a1a26d1c2e53b2b966c9dfb95ecdc87c220bccee) for Docker support.
+- Allow user to add `last updated time` info on doc ([#913](https://github.com/facebook/Docusaurus/pull/913))
+- Support for user's own Web App Manifest in siteConfig ([#930](https://github.com/facebook/Docusaurus/pull/930))
+- Add docker file & documentation ([#936](https://github.com/facebook/Docusaurus/pull/936))
+- New docusaurus project has a better starting README ([#930](https://github.com/facebook/Docusaurus/pull/930))
 
-### Maintenance
+### Chore and Maintenance
 
-- [Updated](https://github.com/facebook/Docusaurus/commit/7987e66beddd837f876f1e60494addc447d9c466) Docusaurus `README.md`
-- [Documentation issue template](https://github.com/facebook/Docusaurus/commit/39b77935c41f400a0f1478c5163db6b8acb6f47c).
+- New template for `Documentation` issue ([39b7793](https://github.com/facebook/Docusaurus/commit/39b77935c41f400a0f1478c5163db6b8acb6f47c))
 
 ## [1.3.3] - 2018-08-22
 
