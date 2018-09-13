@@ -47,9 +47,9 @@ Thank you to the following contributors who helped with this release:
 ### Chore and Maintenance
 
 - New template for `Documentation` issue ([39b7793](https://github.com/facebook/Docusaurus/commit/39b77935c41f400a0f1478c5163db6b8acb6f47c))
-- Add new blog post about upcoming Docusaurus 2 ([#952](https://github.com/facebook/Docusaurus/pull/952]))
-- Fix broken sponsor images in README ([#951](https://github.com/facebook/Docusaurus/pull/951]))
-- Fix wrong user image URL ([89f49b0](https://github.com/facebook/Docusaurus/commit/89f49b02c8f1595b0e386ce778ed1271ec9f30c6]))
+- Add new blog post about upcoming Docusaurus 2 ([#952](https://github.com/facebook/Docusaurus/pull/952))
+- Fix broken sponsor images in README ([#951](https://github.com/facebook/Docusaurus/pull/951))
+- Fix wrong user image URL ([89f49b0](https://github.com/facebook/Docusaurus/commit/89f49b02c8f1595b0e386ce778ed1271ec9f30c6))
 
 ## [1.3.3] - 2018-08-22
 
@@ -748,10 +748,10 @@ N/A
   - Documentation
 
 [Unreleased]: https://github.com/facebook/Docusaurus/compare/v1.4.0...HEAD
-[1.4.0]: https://github.com/facebook/Docusaurus/compare/v1.3.3...1.4.0
-[1.3.3]: https://github.com/facebook/Docusaurus/compare/v1.3.2...1.3.3
-[1.3.2]: https://github.com/facebook/Docusaurus/compare/v1.3.1...1.3.2
-[1.3.1]: https://github.com/facebook/Docusaurus/compare/v1.3.0...1.3.1
+[1.4.0]: https://github.com/facebook/Docusaurus/compare/v1.3.3...v1.4.0
+[1.3.3]: https://github.com/facebook/Docusaurus/compare/v1.3.2...v1.3.3
+[1.3.2]: https://github.com/facebook/Docusaurus/compare/v1.3.1...v1.3.2
+[1.3.1]: https://github.com/facebook/Docusaurus/compare/v1.3.0...v1.3.1
 [1.3.0]: https://github.com/facebook/Docusaurus/compare/v1.2.1...v1.3.0
 [1.2.1]: https://github.com/facebook/Docusaurus/compare/v1.2.0...v1.2.1
 [1.2.0]: https://github.com/facebook/Docusaurus/compare/v1.1.5...v1.2.0
