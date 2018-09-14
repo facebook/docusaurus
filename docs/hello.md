@@ -3,6 +3,20 @@ id: hello
 title: Hello, World !
 ---
 
+## Relative links
+
+Replace this
+[highlight](highlight.md) [docusaurus](docusaurus.md)
+
+Can't replace this
+[file](file.md)
+
+Do not replace below
+
+```
+[highlight](highlight.md) [docusaurus](docusaurus.md)
+```
+
 ## Blockquotes
 
 > Blockquotes can also be nested...
