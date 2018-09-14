@@ -1,5 +1,5 @@
 ---
-id: version-1.0.0-hello
+id: hello
 title: Hello, World !
 ---
 

@@ -5,6 +5,20 @@ title: Hello, World !
 
 Hi, Endilie here :)
 
+## Relative links
+
+Replace this
+[foo](foo/bar.md)
+
+Can't replace this
+[file](file.md)
+
+Do not replace below
+
+```
+[hello](hello.md)
+```
+
 ## Blockquotes
 
 > Blockquotes can also be nested...
