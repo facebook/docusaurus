@@ -89,7 +89,7 @@ describe('processMetadata', () => {
     expect(dataA).toEqual({
       id: 'ko-version-1.0.0-foo/bar',
       language: 'ko',
-      localized_id: 'ko-version-1.0.0-foo/bar',
+      localized_id: 'version-1.0.0-foo/bar',
       permalink: '/docs/ko/1.0.0/foo/bar',
       source: '@translated_docs/ko/version-1.0.0/foo/bar.md',
       title: 'Bar',
@@ -98,7 +98,7 @@ describe('processMetadata', () => {
     expect(dataB).toEqual({
       id: 'ko-version-1.0.0-hello',
       language: 'ko',
-      localized_id: 'ko-version-1.0.0-hello',
+      localized_id: 'version-1.0.0-hello',
       permalink: '/docs/ko/1.0.0/hello',
       source: '@translated_docs/ko/version-1.0.0/hello.md',
       title: 'Hello, World !',
@@ -107,7 +107,7 @@ describe('processMetadata', () => {
     expect(dataC).toEqual({
       id: 'ko-version-1.0.1-foo/bar',
       language: 'ko',
-      localized_id: 'ko-version-1.0.1-foo/bar',
+      localized_id: 'version-1.0.1-foo/bar',
       permalink: '/docs/ko/foo/bar',
       source: '@translated_docs/ko/version-1.0.1/foo/bar.md',
       title: 'Bar',
@@ -116,7 +116,7 @@ describe('processMetadata', () => {
     expect(dataD).toEqual({
       id: 'ko-version-1.0.1-hello',
       language: 'ko',
-      localized_id: 'ko-version-1.0.1-hello',
+      localized_id: 'version-1.0.1-hello',
       permalink: '/docs/ko/hello',
       source: '@translated_docs/ko/version-1.0.1/hello.md',
       title: 'Hello, World !',
@@ -135,7 +135,7 @@ describe('processMetadata', () => {
     expect(dataA).toEqual({
       id: 'ko-foo/bar',
       language: 'ko',
-      localized_id: 'ko-foo/bar',
+      localized_id: 'foo/bar',
       permalink: '/docs/ko/foo/bar',
       source: '@translated_docs/ko/foo/bar.md',
       title: 'Bar',
@@ -144,7 +144,7 @@ describe('processMetadata', () => {
     expect(dataB).toEqual({
       id: 'ko-hello',
       language: 'ko',
-      localized_id: 'ko-hello',
+      localized_id: 'hello',
       permalink: '/docs/ko/hello',
       source: '@translated_docs/ko/hello.md',
       title: 'Hello, World !',

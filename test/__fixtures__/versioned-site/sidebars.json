@@ -1,10 +1,11 @@
 {
   "docs": {
-    "Getting Started": [
-      "installation"
+    "Test": [
+      "foo/bar",
+      "foo/baz"
     ],
     "Guides": [
-      "blog"
+      "hello"
     ]
   }
 }
