@@ -4,9 +4,9 @@ import path from 'path';
 describe('loadPages', () => {
   test('valid pages', async () => {
     const pagesDir = path.join(__dirname, '__fixtures__', 'simple-pages');
-    const pagesData = await loadPages(pagesDir);
-    pagesData.sort((a, b) => a.path > b.path); // because it was unordered
-    expect(pagesData).toEqual([
+    const pagesMetadata = await loadPages(pagesDir);
+    pagesMetadata.sort((a, b) => a.path > b.path); // because it was unordered
+    expect(pagesMetadata).toEqual([
       {
         path: '/',
         source: 'index.js'
@@ -24,12 +24,12 @@ describe('loadPages', () => {
         source: 'foo/index.js'
       }
     ]);
-    expect(pagesData).not.toBeNull();
+    expect(pagesMetadata).not.toBeNull();
   });
 
   test('invalid pages', async () => {
     const nonExistingDir = path.join(__dirname, '__fixtures__', 'nonExisting');
-    const pagesData = await loadPages(nonExistingDir);
-    expect(pagesData).toEqual([]);
+    const pagesMetadata = await loadPages(nonExistingDir);
+    expect(pagesMetadata).toEqual([]);
   });
 });

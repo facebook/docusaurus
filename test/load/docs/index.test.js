@@ -5,28 +5,28 @@ describe('loadDocs', () => {
   test('simple website', async () => {
     const props = await loadSetup('simple');
     const {siteDir, docsDir, env, siteConfig} = props;
-    const docsData = await loadDocs({siteDir, docsDir, env, siteConfig});
-    expect(docsData).toMatchSnapshot();
+    const docsMetadata = await loadDocs({siteDir, docsDir, env, siteConfig});
+    expect(docsMetadata).toMatchSnapshot();
   });
 
   test('versioned website', async () => {
     const props = await loadSetup('versioned');
     const {siteDir, docsDir, env, siteConfig} = props;
-    const docsData = await loadDocs({siteDir, docsDir, env, siteConfig});
-    expect(docsData).toMatchSnapshot();
+    const docsMetadata = await loadDocs({siteDir, docsDir, env, siteConfig});
+    expect(docsMetadata).toMatchSnapshot();
   });
 
   test('versioned & translated website', async () => {
     const props = await loadSetup('transversioned');
     const {siteDir, docsDir, env, siteConfig} = props;
-    const docsData = await loadDocs({siteDir, docsDir, env, siteConfig});
-    expect(docsData).toMatchSnapshot();
+    const docsMetadata = await loadDocs({siteDir, docsDir, env, siteConfig});
+    expect(docsMetadata).toMatchSnapshot();
   });
 
   test('translated website', async () => {
     const props = await loadSetup('translated');
     const {siteDir, docsDir, env, siteConfig} = props;
-    const docsData = await loadDocs({siteDir, docsDir, env, siteConfig});
-    expect(docsData).toMatchSnapshot();
+    const docsMetadata = await loadDocs({siteDir, docsDir, env, siteConfig});
+    expect(docsMetadata).toMatchSnapshot();
   });
 });
