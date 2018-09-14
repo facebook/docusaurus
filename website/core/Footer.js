@@ -40,6 +40,7 @@ function SocialFooter(props) {
           <div
             className="fb-like"
             data-href={props.config.url}
+            data-colorscheme="dark"
             data-layout="standard"
             data-share="true"
             data-width="225"
