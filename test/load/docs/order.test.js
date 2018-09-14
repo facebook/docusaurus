@@ -11,7 +11,38 @@ describe('createOrder', () => {
         Category1: ['doc5']
       }
     });
-    expect(result).toMatchSnapshot();
+    expect(result).toEqual({
+      doc1: {
+        category: 'Category1',
+        next: 'doc2',
+        previous: undefined,
+        sidebar: 'docs'
+      },
+      doc2: {
+        category: 'Category1',
+        next: 'doc3',
+        previous: 'doc1',
+        sidebar: 'docs'
+      },
+      doc3: {
+        category: 'Category2',
+        next: 'doc4',
+        previous: 'doc2',
+        sidebar: 'docs'
+      },
+      doc4: {
+        category: 'Category2',
+        next: undefined,
+        previous: 'doc3',
+        sidebar: 'docs'
+      },
+      doc5: {
+        category: 'Category1',
+        next: undefined,
+        previous: undefined,
+        sidebar: 'otherDocs'
+      }
+    });
   });
 
   test('should resolve docs from older versions', () => {
@@ -24,7 +55,26 @@ describe('createOrder', () => {
         Category2: ['version-1.2.3-doc1']
       }
     });
-    expect(result).toMatchSnapshot();
+    expect(result).toEqual({
+      doc1: {
+        category: 'Category1',
+        next: undefined,
+        previous: undefined,
+        sidebar: 'docs'
+      },
+      'version-1.2.3-doc1': {
+        category: 'Category2',
+        next: undefined,
+        previous: 'version-1.2.3-doc2',
+        sidebar: 'version-1.2.3-docs'
+      },
+      'version-1.2.3-doc2': {
+        category: 'Category1',
+        next: 'version-1.2.3-doc1',
+        previous: undefined,
+        sidebar: 'version-1.2.3-docs'
+      }
+    });
   });
 
   test('edge cases', () => {
