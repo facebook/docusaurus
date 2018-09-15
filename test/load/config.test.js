@@ -8,6 +8,8 @@ describe('loadConfig', () => {
     expect(config).toEqual({
       baseUrl: '/',
       organizationName: 'endiliey',
+      customDocsPath: 'docs',
+      docsUrl: 'docs',
       projectName: 'hello',
       tagline: 'Hello World',
       title: 'Hello'
