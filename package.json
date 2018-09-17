@@ -41,8 +41,7 @@
   "jest": {
     "testPathIgnorePatterns": [
       "/node_modules/",
-      "__fixtures__",
-      "v2"
+      "__fixtures__"
     ],
     "testURL": "http://localhost/"
   },

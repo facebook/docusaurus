@@ -1,9 +1,0 @@
-{
-	"scripts": {
-		"start": "node ../bin/munseo start",
-		"build": "node ../bin/munseo build"
-	},
-	"dependencies": {
-		"munseo": "../../munseo/"
-	}
-}
