@@ -8,8 +8,7 @@
     "ci-check": "yarn prettier && cd v1 && yarn ci-check",
     "prettier": "prettier --config .prettierrc --write \"**/*.js\"",
     "prettier:diff": "prettier --config .prettierrc --list-different \"**/*.js\"",
-    "start": "cd v1/website && yarn start",
-    "postinstall": "opencollective postinstall"
+    "start": "cd v1/website && yarn start"
   },
   "devDependencies": {
     "husky": "^0.14.3",
@@ -20,9 +19,5 @@
     "linters": {
       "{v1,v2}/**/*.js": ["yarn lint --fix", "yarn prettier", "git add"]
     }
-  },
-  "collective": {
-    "type": "opencollective",
-    "url": "https://opencollective.com/Docusaurus"
   }
 }

@@ -59,7 +59,6 @@
     "imagemin-svgo": "^6.0.0",
     "markdown-toc": "^1.2.0",
     "mkdirp": "^0.5.1",
-    "opencollective": "^1.0.3",
     "portfinder": "^1.0.17",
     "postcss": "^7.0.1",
     "prismjs": "^1.15.0",
@@ -90,9 +89,5 @@
     "jest": "^23.6.0",
     "lint-staged": "^7.2.0",
     "rimraf": "^2.6.2"
-  },
-  "collective": {
-    "type": "opencollective",
-    "url": "https://opencollective.com/Docusaurus"
   }
 }
