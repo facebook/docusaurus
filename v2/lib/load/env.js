@@ -7,7 +7,7 @@ module.exports = function loadEnv({siteDir, siteConfig}) {
   const translation = {
     enabled: false,
     enabledLanguages: [],
-    defaultLanguage: {}
+    defaultLanguage: {},
   };
 
   const languagesFile = path.join(siteDir, 'languages.js');
@@ -24,11 +24,11 @@ module.exports = function loadEnv({siteDir, siteConfig}) {
     /* Default Language */
     const {defaultLanguage: defaultLanguageTag} = siteConfig;
     const defaultLanguage = enabledLanguages.find(
-      lang => lang.tag === defaultLanguageTag
+      lang => lang.tag === defaultLanguageTag,
     );
     if (!defaultLanguage) {
       throw new Error(
-        `Please set a default language in 'siteConfig.js' which is enabled in 'languages.js'`
+        `Please set a default language in 'siteConfig.js' which is enabled in 'languages.js'`,
       );
     }
     translation.defaultLanguage = defaultLanguage;
@@ -41,7 +41,7 @@ module.exports = function loadEnv({siteDir, siteConfig}) {
     enabled: false,
     latestVersion: null,
     defaultVersion: null,
-    versions: []
+    versions: [],
   };
 
   const versionsJSONFile = path.join(siteDir, 'versions.json');
@@ -55,6 +55,6 @@ module.exports = function loadEnv({siteDir, siteConfig}) {
 
   return {
     translation,
-    versioning
+    versioning,
   };
 };

@@ -10,8 +10,8 @@ describe('extending generated webpack config', () => {
     let config = {
       output: {
         path: __dirname,
-        filename: 'bundle.js'
-      }
+        filename: 'bundle.js',
+      },
     };
 
     /* eslint-disable */
@@ -20,7 +20,7 @@ describe('extending generated webpack config', () => {
         generatedConfig.entry = 'entry.js';
         generatedConfig.output = {
           path: path.join(__dirname, 'dist'),
-          filename: 'new.bundle.js'
+          filename: 'new.bundle.js',
         };
       }
     };
@@ -31,8 +31,8 @@ describe('extending generated webpack config', () => {
       entry: 'entry.js',
       output: {
         path: path.join(__dirname, 'dist'),
-        filename: 'new.bundle.js'
-      }
+        filename: 'new.bundle.js',
+      },
     });
     const errors = validate(config);
 
@@ -45,8 +45,8 @@ describe('extending generated webpack config', () => {
     let config = {
       output: {
         path: __dirname,
-        filename: 'bundle.js'
-      }
+        filename: 'bundle.js',
+      },
     };
 
     /* eslint-disable */
@@ -54,8 +54,8 @@ describe('extending generated webpack config', () => {
       entry: 'entry.js',
       output: {
         path: path.join(__dirname, 'dist'),
-        filename: 'new.bundle.js'
-      }
+        filename: 'new.bundle.js',
+      },
     };
     /* eslint-enable */
 
@@ -64,8 +64,8 @@ describe('extending generated webpack config', () => {
       entry: 'entry.js',
       output: {
         path: path.join(__dirname, 'dist'),
-        filename: 'new.bundle.js'
-      }
+        filename: 'new.bundle.js',
+      },
     });
     const errors = validate(config);
     expect(errors.length).toBe(0);
@@ -95,11 +95,11 @@ describe('extending generated webpack config', () => {
     expect(config).toEqual({
       output: {
         path: path.join(__dirname, 'dist'),
-        filename: 'new.bundle.js'
+        filename: 'new.bundle.js',
       },
       entry: {
-        main: ['./entry.js']
-      }
+        main: ['./entry.js'],
+      },
     });
     const errors = validate(config);
     expect(errors.length).toBe(0);

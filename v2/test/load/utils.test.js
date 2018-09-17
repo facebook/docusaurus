@@ -3,7 +3,7 @@ import {
   fileToPath,
   fileToComponentName,
   idx,
-  getSubFolder
+  getSubFolder,
 } from '@lib/load/utils';
 
 describe('load utils', () => {
@@ -18,7 +18,7 @@ describe('load utils', () => {
       'docusaurus/index.js': 'JSDocusaurusIndex',
       '234.md': 'MD234',
       '2018-07-08-test.md': 'MD20180708Test',
-      '%asd.md': 'MDAsd'
+      '%asd.md': 'MDAsd',
     };
     Object.keys(asserts).forEach(file => {
       expect(fileToComponentName(file)).toBe(asserts[file]);
@@ -34,7 +34,7 @@ describe('load utils', () => {
       'index.js': '/',
       'hello/index.js': '/hello/',
       'foo.js': '/foo',
-      'foo/bar.js': '/foo/bar'
+      'foo/bar.js': '/foo/bar',
     };
     Object.keys(asserts).forEach(file => {
       expect(fileToPath(file)).toBe(asserts[file]);
@@ -51,19 +51,19 @@ describe('load utils', () => {
           {
             enabled: true,
             name: 'English',
-            tag: 'en'
+            tag: 'en',
           },
           {
             enabled: true,
             name: '日本語',
-            tag: 'ja'
-          }
-        ]
+            tag: 'ja',
+          },
+        ],
       },
       versioning: {
         enabled: false,
-        versions: []
-      }
+        versions: [],
+      },
     };
     const test = {arr: [1, 2, 3]};
     const variable = 'enabledLanguages';
@@ -73,12 +73,12 @@ describe('load utils', () => {
     expect(idx(env, 'typo')).toBeUndefined();
     expect(idx(env, 'versioning')).toEqual({
       enabled: false,
-      versions: []
+      versions: [],
     });
     expect(idx(env, ['translation', 'enabled'])).toEqual(true);
     expect(idx(env, ['translation', variable]).map(lang => lang.tag)).toEqual([
       'en',
-      'ja'
+      'ja',
     ]);
     expect(idx(test, ['arr', 0])).toEqual(1);
     expect(idx(undefined)).toBeUndefined();

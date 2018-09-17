@@ -42,7 +42,7 @@ module.exports = async function build(siteDir, cliOptions = {}) {
 
   // apply user webpack config
   const {
-    siteConfig: {configureWebpack}
+    siteConfig: {configureWebpack},
   } = props;
   clientConfig = applyConfigureWebpack(configureWebpack, clientConfig, false);
   serverConfig = applyConfigureWebpack(configureWebpack, serverConfig, true);
@@ -58,20 +58,20 @@ module.exports = async function build(siteDir, cliOptions = {}) {
   const {outDir} = props;
   const staticDir = path.resolve(siteDir, 'static');
   const staticFiles = await globby(['**'], {
-    cwd: staticDir
+    cwd: staticDir,
   });
   await Promise.all(
     staticFiles.map(async source => {
       const fromPath = path.resolve(staticDir, source);
       const toPath = path.resolve(outDir, source);
       return fs.copy(fromPath, toPath);
-    })
+    }),
   );
 
   const relativeDir = path.relative(process.cwd(), outDir);
   console.log(
     `\n${chalk.green('Success!')} Generated static files in ${chalk.cyan(
-      relativeDir
-    )}.\n`
+      relativeDir,
+    )}.\n`,
   );
 };

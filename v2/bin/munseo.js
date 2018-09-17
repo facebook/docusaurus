@@ -13,8 +13,8 @@ if (!semver.satisfies(process.version, requiredVersion)) {
       chalk.yellow(
         `\nYou are using Node ${
           process.version
-        }, Requirement: Node ${requiredVersion}.\n`
-      )
+        }, Requirement: Node ${requiredVersion}.\n`,
+      ),
   );
   process.exit(1);
 }
@@ -36,7 +36,7 @@ program
   .description('Build website')
   .option(
     '-sic, --skip-image-compression <skipImageCompression>',
-    'Skip compression of image assets (default: false)'
+    'Skip compression of image assets (default: false)',
   )
   .action((siteDir = '.', {skipImageCompression}) => {
     wrapCommand(build)(path.resolve(siteDir), {skipImageCompression});

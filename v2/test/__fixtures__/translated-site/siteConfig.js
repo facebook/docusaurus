@@ -4,5 +4,5 @@ module.exports = {
   organizationName: 'endiliey',
   projectName: 'hello',
   baseUrl: '/',
-  defaultLanguage: 'en'
+  defaultLanguage: 'en',
 };

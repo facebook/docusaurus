@@ -77,7 +77,7 @@ function Versions() {
                         <a href="">Release Notes</a>
                       </td>
                     </tr>
-                  )
+                  ),
               )}
             </tbody>
           </table>

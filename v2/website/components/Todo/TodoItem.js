@@ -9,7 +9,7 @@ export default class TodoItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      editText: props.todo.title
+      editText: props.todo.title,
     };
     this.handleEdit = this.handleEdit.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -68,7 +68,7 @@ export default class TodoItem extends React.Component {
       <li
         className={classNames({
           completed: this.props.todo.completed,
-          editing: this.props.editing
+          editing: this.props.editing,
         })}>
         <div className="view">
           <input

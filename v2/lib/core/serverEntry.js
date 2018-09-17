@@ -15,7 +15,7 @@ export default function render(locals) {
     const appHtml = ReactDOMServer.renderToString(
       <StaticRouter location={locals.path} context={context}>
         <App />
-      </StaticRouter>
+      </StaticRouter>,
     );
 
     const helmet = Helmet.renderStatic();
@@ -24,7 +24,7 @@ export default function render(locals) {
     const metaStrings = [
       helmet.title.toString(),
       helmet.meta.toString(),
-      helmet.link.toString()
+      helmet.link.toString(),
     ];
     const metaHtml = metaStrings.filter(Boolean).join('\n    ');
 
@@ -42,14 +42,14 @@ export default function render(locals) {
       <meta name="viewport" content="width=device-width, initial-scale=1">
       ${cssFiles.map(
         cssFile =>
-          `<link rel="stylesheet" type="text/css" href="${baseUrl}${cssFile}" />`
+          `<link rel="stylesheet" type="text/css" href="${baseUrl}${cssFile}" />`,
       )}
     </head>
     <body${bodyAttributes ? ` ${bodyAttributes}` : ''}>
       <div id="app">${appHtml}</div>
       ${jsFiles.map(
         jsFile =>
-          `<script type="text/javascript" src="${baseUrl}${jsFile}"></script>`
+          `<script type="text/javascript" src="${baseUrl}${jsFile}"></script>`,
       )}
     </body>
   </html>

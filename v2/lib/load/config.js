@@ -16,7 +16,7 @@ module.exports = function loadConfig(siteDir, deleteCache = true) {
     'tagline',
     'organizationName',
     'projectName',
-    'baseUrl'
+    'baseUrl',
   ];
   const optionalFields = [
     'customDocsPath',
@@ -26,19 +26,19 @@ module.exports = function loadConfig(siteDir, deleteCache = true) {
     'configureWebpack',
     'chainWebpack',
     'docsUrl',
-    'customFields'
+    'customFields',
   ];
   const missingFields = requiredFields.filter(field => !config[field]);
   if (missingFields && missingFields.length > 0) {
     throw new Error(
-      `${missingFields.join(', ')} fields are missing in siteConfig.js`
+      `${missingFields.join(', ')} fields are missing in siteConfig.js`,
     );
   }
 
   /* Fill default value */
   const defaultConfig = {
     customDocsPath: 'docs',
-    docsUrl: 'docs'
+    docsUrl: 'docs',
   };
   Object.keys(defaultConfig).forEach(field => {
     if (!config[field]) {
@@ -55,11 +55,11 @@ module.exports = function loadConfig(siteDir, deleteCache = true) {
   /* We don't allow useless/ not meaningful field */
   const allowedFields = [...requiredFields, ...optionalFields, ...customFields];
   const uselessFields = Object.keys(config).filter(
-    field => !allowedFields.includes(field)
+    field => !allowedFields.includes(field),
   );
   if (uselessFields && uselessFields.length > 0) {
     throw new Error(
-      `${uselessFields.join(', ')} fields are useless in siteConfig.js`
+      `${uselessFields.join(', ')} fields are useless in siteConfig.js`,
     );
   }
 

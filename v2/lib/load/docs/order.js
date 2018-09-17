@@ -28,7 +28,7 @@ module.exports = function createOrder(allSidebars = {}) {
         previous,
         next,
         sidebar,
-        category: categoryOrder[i]
+        category: categoryOrder[i],
       };
     }
   });

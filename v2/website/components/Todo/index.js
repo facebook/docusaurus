@@ -17,33 +17,33 @@ const todos = [
   {
     id: 'ed0bcc48-bbbe-5f06-c7c9-2ccb0456ceba',
     title: 'Build this Todo App.',
-    completed: true
+    completed: true,
   },
   {
     id: '42582304-3c6e-311e-7f88-7e3791caf88c',
     title: '?????',
-    completed: true
+    completed: true,
   },
   {
     id: '1cf63885-5f75-8deb-19dc-9b6765deae6c',
     title: '1,000 stars on GitHub.',
-    completed: false
+    completed: false,
   },
   {
     id: '63a871b2-0b6f-4427-9c35-304bc680a4b7',
     title: 'Write a popular medium post.',
-    completed: false
+    completed: false,
   },
   {
     id: '63a871b2-0b6f-4422-9c35-304bc680a4b7',
     title: 'Contribute to open source.',
-    completed: false
+    completed: false,
   },
   {
     id: '036af7f9-1181-fb8f-258f-3f06034c020f',
     title: 'Write a blog post.',
-    completed: false
-  }
+    completed: false,
+  },
 ];
 
 class TodoApp extends React.Component {
@@ -53,7 +53,7 @@ class TodoApp extends React.Component {
     this.state = {
       editing: null,
       newTodo: '',
-      todos: todos
+      todos: todos,
     };
   }
 
@@ -75,9 +75,9 @@ class TodoApp extends React.Component {
         todos: this.state.todos.concat({
           id: uuid(),
           title: val,
-          completed: false
+          completed: false,
         }),
-        newTodo: ''
+        newTodo: '',
       });
     }
   }
@@ -86,8 +86,8 @@ class TodoApp extends React.Component {
     const {checked} = event.target;
     this.setState({
       todos: this.state.todos.map(todo =>
-        Object.assign({}, todo, {completed: checked})
-      )
+        Object.assign({}, todo, {completed: checked}),
+      ),
     });
   }
 
@@ -96,17 +96,17 @@ class TodoApp extends React.Component {
       todos: this.state.todos.map(todo => {
         if (todo === todoToToggle) {
           return Object.assign({}, todo, {
-            completed: !todo.completed
+            completed: !todo.completed,
           });
         }
         return todo;
-      })
+      }),
     });
   }
 
   destroy(passedTodo) {
     this.setState({
-      todos: this.state.todos.filter(todo => todo !== passedTodo)
+      todos: this.state.todos.filter(todo => todo !== passedTodo),
     });
   }
 
@@ -119,12 +119,12 @@ class TodoApp extends React.Component {
       todos: this.state.todos.map(todo => {
         if (todo === todoToSave) {
           return Object.assign({}, todo, {
-            title: text
+            title: text,
           });
         }
         return todo;
       }),
-      editing: null
+      editing: null,
     });
   }
 
@@ -134,7 +134,7 @@ class TodoApp extends React.Component {
 
   clearCompleted() {
     this.setState({
-      todos: this.state.todos.filter(todo => !todo.completed)
+      todos: this.state.todos.filter(todo => !todo.completed),
     });
   }
 
@@ -144,7 +144,7 @@ class TodoApp extends React.Component {
 
     const activeTodoCount = todos.reduce(
       (accum, todo) => (todo.completed ? accum : accum + 1),
-      0
+      0,
     );
 
     if (todos.length) {

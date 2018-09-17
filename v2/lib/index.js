@@ -7,5 +7,5 @@ module.exports = {
   build,
   eject,
   init,
-  start
+  start,
 };

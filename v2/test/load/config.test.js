@@ -12,7 +12,7 @@ describe('loadConfig', () => {
       docsUrl: 'docs',
       projectName: 'hello',
       tagline: 'Hello World',
-      title: 'Hello'
+      title: 'Hello',
     });
     expect(config).not.toEqual({});
   });
@@ -22,7 +22,7 @@ describe('loadConfig', () => {
     expect(() => {
       loadConfig(siteDir);
     }).toThrowErrorMatchingInlineSnapshot(
-      `"tagline, organizationName, projectName fields are missing in siteConfig.js"`
+      `"tagline, organizationName, projectName fields are missing in siteConfig.js"`,
     );
   });
 
@@ -31,7 +31,7 @@ describe('loadConfig', () => {
     expect(() => {
       loadConfig(siteDir);
     }).toThrowErrorMatchingInlineSnapshot(
-      `"useLessField fields are useless in siteConfig.js"`
+      `"useLessField fields are useless in siteConfig.js"`,
     );
   });
 
@@ -40,7 +40,7 @@ describe('loadConfig', () => {
     expect(() => {
       loadConfig(siteDir);
     }).toThrowErrorMatchingInlineSnapshot(
-      `"title, tagline, organizationName, projectName, baseUrl fields are missing in siteConfig.js"`
+      `"title, tagline, organizationName, projectName, baseUrl fields are missing in siteConfig.js"`,
     );
   });
 });

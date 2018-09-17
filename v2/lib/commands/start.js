@@ -44,8 +44,8 @@ module.exports = async function start(siteDir, cliOptions = {}) {
       [`../${docsRelativeDir}/**/*.md`, 'blog/**/*.md', 'siteConfig.js'],
       {
         cwd: siteDir,
-        ignoreInitial: true
-      }
+        ignoreInitial: true,
+      },
     );
     fsWatcher.on('add', reload);
     fsWatcher.on('change', reload);
@@ -69,14 +69,14 @@ module.exports = async function start(siteDir, cliOptions = {}) {
       hash: true,
       template: path.resolve(__dirname, '../core/devTemplate.ejs'),
       filename: 'index.html',
-      title: siteConfig.title
-    }
+      title: siteConfig.title,
+    },
   ]);
   config = config.toConfig();
 
   // apply user webpack config
   const {
-    siteConfig: {configureWebpack}
+    siteConfig: {configureWebpack},
   } = props;
   config = applyConfigureWebpack(configureWebpack, config, false);
 
@@ -90,11 +90,11 @@ module.exports = async function start(siteDir, cliOptions = {}) {
         compiler,
         open: true,
         devMiddleware: {
-          logLevel: 'silent'
+          logLevel: 'silent',
         },
         hotClient: {
           port: hotPort,
-          logLevel: 'error'
+          logLevel: 'error',
         },
         logLevel: 'error',
         port,
@@ -113,12 +113,12 @@ module.exports = async function start(siteDir, cliOptions = {}) {
           app.use(
             convert(
               history({
-                rewrites: [{from: /\.html$/, to: '/'}]
-              })
-            )
+                rewrites: [{from: /\.html$/, to: '/'}],
+              }),
+            ),
           );
-        }
-      }
+        },
+      },
     );
   }, 1000);
 };

@@ -16,7 +16,7 @@ module.exports = function createBaseConfig(props, isServer) {
     sourceToMetadata,
     versionedDir,
     translatedDir,
-    baseUrl
+    baseUrl,
   } = props;
 
   const config = new Config();
@@ -52,7 +52,7 @@ module.exports = function createBaseConfig(props, isServer) {
       .options({
         babelrc: false,
         presets: ['env', 'react'],
-        plugins: [isServer ? 'dynamic-import-node' : 'syntax-dynamic-import']
+        plugins: [isServer ? 'dynamic-import-node' : 'syntax-dynamic-import'],
       });
   }
 
@@ -83,7 +83,7 @@ module.exports = function createBaseConfig(props, isServer) {
       versionedDir,
       translatedDir,
       docsDir,
-      sourceToMetadata
+      sourceToMetadata,
     });
 
   const cssRule = config.module.rule('css').test(/\.css$/);
@@ -103,15 +103,15 @@ module.exports = function createBaseConfig(props, isServer) {
       importLoaders: 1,
       localIdentName: `[local]_[hash:base64:8]`,
       sourceMap: !isProd,
-      minimize: true
+      minimize: true,
     });
 
   // mini-css-extract plugin
   config.plugin('extract-css').use(CSSExtractPlugin, [
     {
       filename: isProd ? '[name].[chunkhash].css' : '[name].css',
-      chunkFilename: isProd ? '[id].[chunkhash].css' : '[id].css'
-    }
+      chunkFilename: isProd ? '[id].[chunkhash].css' : '[id].css',
+    },
   ]);
 
   if (isProd) {
@@ -122,10 +122,10 @@ module.exports = function createBaseConfig(props, isServer) {
           warnings: false,
           compress: false,
           ecma: 6,
-          mangle: true
+          mangle: true,
         },
-        sourceMap: true
-      })
+        sourceMap: true,
+      }),
     ]);
   }
 

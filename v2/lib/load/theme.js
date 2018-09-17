@@ -11,7 +11,7 @@ module.exports = function loadConfig(siteDir) {
   themeComponents.forEach(component => {
     if (!require.resolve(path.join(themePath, component))) {
       throw new Error(
-        `Failed to load ${themePath}/${component}. It does not exist.`
+        `Failed to load ${themePath}/${component}. It does not exist.`,
       );
     }
   });

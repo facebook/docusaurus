@@ -12,7 +12,7 @@ class MarkdownBlock extends React.Component {
       return (
         <span
           dangerouslySetInnerHTML={{
-            __html: this.renderMarkdown(this.props.source)
+            __html: this.renderMarkdown(this.props.source),
           }}
         />
       );
@@ -31,14 +31,14 @@ class MarkdownBlock extends React.Component {
 
   renderMarkdown(source) {
     const alias = {
-      js: 'jsx'
+      js: 'jsx',
     };
     const {siteConfig} = this.props;
     const md = new Markdown({
       langPrefix: 'hljs css language-',
       highlight: highlight,
       html: true,
-      linkify: true
+      linkify: true,
     });
 
     // Register anchors plugin
@@ -64,9 +64,9 @@ class MarkdownBlock extends React.Component {
       {},
       {
         version: '9.12.0',
-        theme: 'default'
+        theme: 'default',
       },
-      siteConfig.highlight
+      siteConfig.highlight,
     );
 
     // Use user-provided themeUrl if it exists, else construct one from version and theme.
@@ -88,7 +88,7 @@ class MarkdownBlock extends React.Component {
 }
 
 MarkdownBlock.defaultProps = {
-  siteConfig: {}
+  siteConfig: {},
 };
 
 export default MarkdownBlock;

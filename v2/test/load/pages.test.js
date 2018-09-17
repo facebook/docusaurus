@@ -9,20 +9,20 @@ describe('loadPages', () => {
     expect(pagesMetadatas).toEqual([
       {
         path: '/',
-        source: 'index.js'
+        source: 'index.js',
       },
       {
         path: '/bar/baz',
-        source: 'bar/baz.js'
+        source: 'bar/baz.js',
       },
       {
         path: '/foo',
-        source: 'foo.js'
+        source: 'foo.js',
       },
       {
         path: '/foo/',
-        source: 'foo/index.js'
-      }
+        source: 'foo/index.js',
+      },
     ]);
     expect(pagesMetadatas).not.toBeNull();
   });

@@ -14,8 +14,8 @@ export default (str, rawLang) => {
   } catch (e) {
     console.error(
       chalk.yellow(
-        `Highlight.js syntax highlighting for language "${lang}" is not supported.`
-      )
+        `Highlight.js syntax highlighting for language "${lang}" is not supported.`,
+      ),
     );
   }
   return hljs.highlightAuto(str).value;

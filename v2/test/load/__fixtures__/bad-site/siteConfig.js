@@ -1,4 +1,4 @@
 module.exports = {
   title: 'Munseo',
-  baseUrl: '/'
+  baseUrl: '/',
 };

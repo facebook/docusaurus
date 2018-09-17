@@ -6,7 +6,7 @@ module.exports = {
   testURL: 'http://localhost/',
   testEnvironment: 'node',
   moduleNameMapper: {
-    '^@lib/(.*)$': '<rootDir>/lib/$1'
+    '^@lib/(.*)$': '<rootDir>/lib/$1',
   },
-  testPathIgnorePatterns: ['/node_modules/', '__fixtures__']
+  testPathIgnorePatterns: ['/node_modules/', '__fixtures__'],
 };

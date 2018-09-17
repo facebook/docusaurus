@@ -24,7 +24,7 @@ export default class Docs extends React.Component {
                 const linkMetadata = docsMetadatas[linkID];
                 if (!linkMetadata) {
                   throw new Error(
-                    `Improper sidebars.json file, document with id '${linkID}' not found.`
+                    `Improper sidebars.json file, document with id '${linkID}' not found.`,
                   );
                 }
                 const linkClassName =
@@ -50,7 +50,7 @@ export default class Docs extends React.Component {
       siteConfig,
       docsMetadatas,
       docsSidebars,
-      metadata
+      metadata,
     } = this.props;
     return (
       <Layout {...this.props}>

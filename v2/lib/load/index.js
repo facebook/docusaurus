@@ -12,7 +12,7 @@ module.exports = async function load(siteDir) {
   const siteConfig = loadConfig(siteDir);
   await generate(
     'siteConfig.js',
-    `export default ${JSON.stringify(siteConfig, null, 2)};`
+    `export default ${JSON.stringify(siteConfig, null, 2)};`,
   );
 
   // @tested - env
@@ -24,15 +24,15 @@ module.exports = async function load(siteDir) {
     siteDir,
     docsDir,
     env,
-    siteConfig
+    siteConfig,
   });
   await generate(
     'docsMetadatas.js',
-    `export default ${JSON.stringify(docsMetadatas, null, 2)};`
+    `export default ${JSON.stringify(docsMetadatas, null, 2)};`,
   );
   await generate(
     'docsSidebars.js',
-    `export default ${JSON.stringify(docsSidebars, null, 2)};`
+    `export default ${JSON.stringify(docsSidebars, null, 2)};`,
   );
 
   /* Create source to metadata mapping */
@@ -42,9 +42,9 @@ module.exports = async function load(siteDir) {
       sourceToMetadata[source] = {
         version,
         permalink,
-        language
+        language,
       };
-    }
+    },
   );
 
   // pages
@@ -52,7 +52,7 @@ module.exports = async function load(siteDir) {
   const pagesMetadatas = await loadPages(pagesDir);
   await generate(
     'pagesMetadatas.js',
-    `export default ${JSON.stringify(pagesMetadatas, null, 2)};`
+    `export default ${JSON.stringify(pagesMetadatas, null, 2)};`,
   );
 
   // resolve outDir
@@ -79,7 +79,7 @@ module.exports = async function load(siteDir) {
     baseUrl,
     sourceToMetadata,
     versionedDir,
-    translatedDir
+    translatedDir,
   };
 
   // Generate React Router Config
