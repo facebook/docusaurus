@@ -5,6 +5,20 @@ title: Hello, World !
 
 안녕하세요, 여기 엔 틸리에 :)
 
+## 상대 링크
+
+이것 바꾸기
+[foo](foo/bar.md)
+
+이것을 대체 할 수 없습니다.
+[파일] (file.md)
+
+아래를 교체하지 마십시오.
+
+```
+[hello] (hello.md)
+```
+
 ## Blockquotes
 
 > Blockquotes는 또한 중첩 될 수 있습니다 ...

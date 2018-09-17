@@ -106,16 +106,10 @@ module.exports = async function processMetadata(
   }
 
   /* 
-    The docs file source
-    e.g: `@docs/hello.md` or `@versioned_docs/version-1.0.0/hello.md` 
+    The docs absolute file source
+    e.g: `/end/docs/hello.md` or `/end/website/versioned_docs/version-1.0.0/hello.md` 
   */
-  if (language && language !== defaultLangTag) {
-    metadata.source = `@translated_docs/${source}`;
-  } else if (version && version !== 'next') {
-    metadata.source = `@versioned_docs/${source}`;
-  } else {
-    metadata.source = `@docs/${source}`;
-  }
+  metadata.source = path.join(refDir, source);
 
   /* Build the permalink */
   const {baseUrl, docsUrl} = siteConfig;

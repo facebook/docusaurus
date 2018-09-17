@@ -1,4 +1,5 @@
 const {getOptions} = require('loader-utils');
+const path = require('path');
 const fm = require('front-matter');
 
 module.exports = function(fileString) {
@@ -14,25 +15,23 @@ module.exports = function(fileString) {
   /* Extract content of markdown (without frontmatter) */
   const {body} = fm(fileString);
 
-  /* Determine the source dir. e.g: @docs, @translated_docs/ko and @versioned_docs/version-1.0.0 */
+  /* Determine the source dir. e.g: /docs, /website/versioned_docs/version-1.0.0 */
   let sourceDir;
-  let thisSource = this.resourcePath;
+  const thisSource = this.resourcePath;
   if (thisSource.startsWith(translatedDir)) {
-    thisSource = thisSource.replace(translatedDir, '@translated_docs');
     const {language, version} = sourceToMetadata[thisSource] || {};
     if (language && version && version !== 'next') {
-      sourceDir = `@translated_docs/${language}/version-${version}`;
+      sourceDir = path.join(translatedDir, language, `version-${version}`);
     } else if (language && (!version || version === 'next')) {
-      sourceDir = `@translated_docs/${language}`;
+      sourceDir = path.join(translatedDir, language);
     }
   } else if (thisSource.startsWith(versionedDir)) {
-    thisSource = thisSource.replace(versionedDir, '@versioned_docs');
     const {version} = sourceToMetadata[thisSource] || {};
     if (version) {
-      sourceDir = `@versioned_docs/version-${version}`;
+      sourceDir = path.join(versionedDir, `version-${version}`);
     }
   } else if (thisSource.startsWith(docsDir)) {
-    sourceDir = `@docs`;
+    sourceDir = docsDir;
   }
 
   /* Replace internal markdown linking (except in fenced blocks) */
