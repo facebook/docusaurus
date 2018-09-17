@@ -81,15 +81,18 @@ describe('mdToHtmlify', () => {
 
 describe('getFile', () => {
   const fakeContent = {
-    'website/translated_docs/ko/doc1.md': '이건 가짜 야',
-    'website/versioned_docs/version-1.0.0/doc2.md': 'Document 2 is not good',
-    'website/translated_docs/ko/version-1.0.0/doc1.md':
+    'v1/website/translated_docs/ko/doc1.md': '이건 가짜 야',
+    'v1/website/versioned_docs/version-1.0.0/doc2.md': 'Document 2 is not good',
+    'v1/website/translated_docs/ko/version-1.0.0/doc1.md':
       '이것은 오래된 가짜입니다.',
     'docs/doc1.md': 'Just another document',
   };
   fs.existsSync = jest.fn().mockReturnValue(true);
   fs.readFileSync = jest.fn().mockImplementation(file => {
-    const fakePath = file.replace(process.cwd().replace(/website$/, ''), '');
+    const fakePath = file.replace(
+      process.cwd().replace(/v1\/website\/?$/, ''),
+      '',
+    );
     const normalizedPath = fakePath.replace(/\\/g, '/');
     return fakeContent[normalizedPath];
   });
@@ -108,21 +111,21 @@ describe('getFile', () => {
   test('translated docs', () => {
     const metadata = Metadata['ko-doc1'];
     expect(docs.getFile(metadata)).toEqual(
-      fakeContent['website/translated_docs/ko/doc1.md'],
+      fakeContent['v1/website/translated_docs/ko/doc1.md'],
     );
   });
 
   test('versioned docs', () => {
     const metadata = Metadata['en-version-1.0.0-doc2'];
     expect(docs.getFile(metadata)).toEqual(
-      fakeContent['website/versioned_docs/version-1.0.0/doc2.md'],
+      fakeContent['v1/website/versioned_docs/version-1.0.0/doc2.md'],
     );
   });
 
   test('translated & versioned docs', () => {
     const metadata = Metadata['ko-version-1.0.0-doc1'];
     expect(docs.getFile(metadata)).toEqual(
-      fakeContent['website/translated_docs/ko/version-1.0.0/doc1.md'],
+      fakeContent['v1/website/translated_docs/ko/version-1.0.0/doc1.md'],
     );
   });
 
