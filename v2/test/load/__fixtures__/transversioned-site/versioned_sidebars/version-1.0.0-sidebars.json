@@ -1,0 +1,10 @@
+{
+  "version-1.0.0-docs": {
+    "Getting Started": [
+      "version-1.0.0-installation"
+    ],
+    "Guides": [
+      "version-1.0.0-blog"
+    ]
+  }
+}
