@@ -24,7 +24,7 @@ export default function render(locals) {
     const metaStrings = [
       helmet.title.toString(),
       helmet.meta.toString(),
-      helmet.link.toString()
+      helmet.link.toString(),
     ];
     const metaHtml = metaStrings.filter(Boolean).join('\n    ');
 

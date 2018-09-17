@@ -24,7 +24,7 @@ module.exports = async function load(siteDir) {
     siteDir,
     docsDir,
     env,
-    siteConfig
+    siteConfig,
   });
   await generate(
     'docsMetadatas.js',
@@ -42,7 +42,7 @@ module.exports = async function load(siteDir) {
       sourceToMetadata[source] = {
         version,
         permalink,
-        language
+        language,
       };
     }
   );
@@ -79,7 +79,7 @@ module.exports = async function load(siteDir) {
     baseUrl,
     sourceToMetadata,
     versionedDir,
-    translatedDir
+    translatedDir,
   };
 
   // Generate React Router Config

@@ -7,7 +7,7 @@ module.exports = function loadEnv({siteDir, siteConfig}) {
   const translation = {
     enabled: false,
     enabledLanguages: [],
-    defaultLanguage: {}
+    defaultLanguage: {},
   };
 
   const languagesFile = path.join(siteDir, 'languages.js');
@@ -41,7 +41,7 @@ module.exports = function loadEnv({siteDir, siteConfig}) {
     enabled: false,
     latestVersion: null,
     defaultVersion: null,
-    versions: []
+    versions: [],
   };
 
   const versionsJSONFile = path.join(siteDir, 'versions.json');
@@ -55,6 +55,6 @@ module.exports = function loadEnv({siteDir, siteConfig}) {
 
   return {
     translation,
-    versioning
+    versioning,
   };
 };

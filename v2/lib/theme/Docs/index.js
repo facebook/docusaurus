@@ -50,7 +50,7 @@ export default class Docs extends React.Component {
       siteConfig,
       docsMetadatas,
       docsSidebars,
-      metadata
+      metadata,
     } = this.props;
     return (
       <Layout {...this.props}>

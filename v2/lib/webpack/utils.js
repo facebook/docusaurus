@@ -23,5 +23,5 @@ function applyChainWebpack(userChainWebpack, config, isServer) {
 
 module.exports = {
   applyConfigureWebpack,
-  applyChainWebpack
+  applyChainWebpack,
 };

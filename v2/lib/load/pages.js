@@ -3,13 +3,13 @@ const {encodePath, fileToPath} = require('./utils');
 
 async function loadPages(pagesDir) {
   const pagesFiles = await globby(['**/*.js'], {
-    cwd: pagesDir
+    cwd: pagesDir,
   });
 
   const pagesMetadatas = await Promise.all(
     pagesFiles.map(async source => ({
       path: encodePath(fileToPath(source)),
-      source
+      source,
     }))
   );
   return pagesMetadatas;

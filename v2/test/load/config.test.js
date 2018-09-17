@@ -12,7 +12,7 @@ describe('loadConfig', () => {
       docsUrl: 'docs',
       projectName: 'hello',
       tagline: 'Hello World',
-      title: 'Hello'
+      title: 'Hello',
     });
     expect(config).not.toEqual({});
   });

@@ -42,7 +42,7 @@ module.exports = async function build(siteDir, cliOptions = {}) {
 
   // apply user webpack config
   const {
-    siteConfig: {configureWebpack}
+    siteConfig: {configureWebpack},
   } = props;
   clientConfig = applyConfigureWebpack(configureWebpack, clientConfig, false);
   serverConfig = applyConfigureWebpack(configureWebpack, serverConfig, true);
@@ -58,7 +58,7 @@ module.exports = async function build(siteDir, cliOptions = {}) {
   const {outDir} = props;
   const staticDir = path.resolve(siteDir, 'static');
   const staticFiles = await globby(['**'], {
-    cwd: staticDir
+    cwd: staticDir,
   });
   await Promise.all(
     staticFiles.map(async source => {

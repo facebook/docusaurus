@@ -21,8 +21,8 @@ describe('loadSidebars', () => {
     const env = {
       versioning: {
         enabled: true,
-        versions: ['1.0.1', '1.0.0']
-      }
+        versions: ['1.0.1', '1.0.0'],
+      },
     };
     const siteDir = path.join(fixtures, 'versioned-site');
     const result = loadSidebars({siteDir, env});
@@ -33,8 +33,8 @@ describe('loadSidebars', () => {
     const env = {
       versioning: {
         enabled: true,
-        versions: ['2.0.0']
-      }
+        versions: ['2.0.0'],
+      },
     };
     const siteDir = path.join(fixtures, 'versioned-site');
     expect(() => {

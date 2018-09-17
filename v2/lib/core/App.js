@@ -11,5 +11,5 @@ export default () =>
     docsMetadatas,
     docsSidebars,
     pagesMetadatas,
-    siteConfig
+    siteConfig,
   });

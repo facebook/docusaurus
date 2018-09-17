@@ -3,28 +3,17 @@
   "description": "Easy to Maintain Open Source Documentation Websites",
   "version": "1.4.0",
   "license": "MIT",
-  "keywords": [
-    "documentation",
-    "websites",
-    "open source",
-    "docusaurus"
-  ],
+  "keywords": ["documentation", "websites", "open source", "docusaurus"],
   "repository": {
     "type": "git",
     "url": "https://github.com/facebook/Docusaurus.git"
   },
   "scripts": {
     "ci-check": "yarn lint && yarn prettier:diff",
-    "format:source": "prettier --config .prettierrc --write \"lib/**/*.js\"",
-    "format:examples": "prettier --config .prettierrc --write \"examples/**/*.js\"",
-    "format:website": "prettier --config .prettierrc --write \"website/**/*.js\"",
     "lint": "eslint --cache \"lib/**/*.js\" \"examples/**/*.js\" \"website/**/*.js\"",
-    "nit:source": "prettier --config .prettierrc --list-different \"lib/**/*.js\"",
-    "nit:examples": "prettier --config .prettierrc --list-different \"examples/**/*.js\"",
-    "nit:website": "prettier --config .prettierrc --list-different \"website/**/*.js\"",
     "precommit": "lint-staged",
-    "prettier": "yarn format:source && yarn format:examples && yarn format:website",
-    "prettier:diff": "yarn nit:source && yarn nit:examples && yarn nit:website",
+    "prettier": "prettier --config .prettierrc --write \"**/*.js\"",
+    "prettier:diff": "prettier --config .prettierrc --list-different \"**/*.js\"",
     "test": "jest",
     "start": "cd website && yarn start",
     "postinstall": "opencollective postinstall"
@@ -39,11 +28,7 @@
     }
   },
   "jest": {
-    "testPathIgnorePatterns": [
-      "/node_modules/",
-      "__fixtures__",
-      "v2"
-    ],
+    "testPathIgnorePatterns": ["/node_modules/", "__fixtures__", "v2"],
     "testURL": "http://localhost/"
   },
   "bin": {

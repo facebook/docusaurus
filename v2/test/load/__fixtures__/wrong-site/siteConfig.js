@@ -7,5 +7,5 @@ module.exports = {
   useLessField: 'what',
   superman: 'lol',
   admin: 'endi',
-  customFields: ['admin', 'superman']
+  customFields: ['admin', 'superman'],
 };

@@ -9,7 +9,7 @@ describe('loadEnv', () => {
       organizationName: 'endiliey',
       projectName: 'hello',
       tagline: 'Hello World',
-      title: 'Hello'
+      title: 'Hello',
     };
     const env = loadEnv({siteDir, siteConfig});
     expect(env.versioning.enabled).toBe(false);
@@ -24,7 +24,7 @@ describe('loadEnv', () => {
       organizationName: 'endiliey',
       projectName: 'hello',
       tagline: 'Hello World',
-      title: 'Hello'
+      title: 'Hello',
     };
     const env = loadEnv({siteDir, siteConfig});
     expect(env.versioning.enabled).toBe(true);
@@ -40,7 +40,7 @@ describe('loadEnv', () => {
       projectName: 'hello',
       tagline: 'Hello World',
       title: 'Hello',
-      defaultLanguage: 'en'
+      defaultLanguage: 'en',
     };
     const env = loadEnv({siteDir, siteConfig});
     expect(env.versioning.enabled).toBe(false);
@@ -56,7 +56,7 @@ describe('loadEnv', () => {
       projectName: 'hello',
       tagline: 'Hello World',
       title: 'Hello',
-      defaultLanguage: 'en'
+      defaultLanguage: 'en',
     };
     const env = loadEnv({siteDir, siteConfig});
     expect(env.versioning.enabled).toBe(true);
@@ -71,7 +71,7 @@ describe('loadEnv', () => {
       organizationName: 'endiliey',
       projectName: 'hello',
       tagline: 'Hello World',
-      title: 'Hello'
+      title: 'Hello',
     };
     expect(() => {
       loadEnv({siteDir, siteConfig});
@@ -87,7 +87,7 @@ describe('loadEnv', () => {
       organizationName: 'endiliey',
       projectName: 'hello',
       tagline: 'Hello World',
-      title: 'Hello'
+      title: 'Hello',
     };
     expect(() => {
       loadEnv({siteDir, siteConfig});

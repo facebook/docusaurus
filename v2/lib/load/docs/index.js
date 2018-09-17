@@ -28,7 +28,7 @@ async function loadDocs({siteDir, docsDir, env, siteConfig}) {
 
   /* metadata for default docs files */
   const docsFiles = await globby(['**/*.md'], {
-    cwd: docsDir
+    cwd: docsDir,
   });
   await Promise.all(
     docsFiles.map(async source => {
@@ -57,7 +57,7 @@ async function loadDocs({siteDir, docsDir, env, siteConfig}) {
   if (translationEnabled) {
     const translatedDir = path.join(siteDir, 'translated_docs');
     const translatedFiles = await globby(['**/*.md'], {
-      cwd: translatedDir
+      cwd: translatedDir,
     });
     await Promise.all(
       translatedFiles.map(async source => {
@@ -90,7 +90,7 @@ async function loadDocs({siteDir, docsDir, env, siteConfig}) {
   if (versioningEnabled) {
     const versionedDir = path.join(siteDir, 'versioned_docs');
     const versionedFiles = await globby(['**/*.md'], {
-      cwd: versionedDir
+      cwd: versionedDir,
     });
     await Promise.all(
       versionedFiles.map(async source => {
@@ -122,7 +122,7 @@ async function loadDocs({siteDir, docsDir, env, siteConfig}) {
 
   return {
     docsSidebars,
-    docsMetadatas
+    docsMetadatas,
   };
 }
 

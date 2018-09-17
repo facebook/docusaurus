@@ -7,7 +7,7 @@ export default class Layout extends React.Component {
   render() {
     const {children, pagesMetadatas, docsMetadatas = {}, location} = this.props;
     const docsLinks = Object.values(docsMetadatas).map(data => ({
-      path: `${data.permalink}`
+      path: `${data.permalink}`,
     }));
     const routeLinks = [...pagesMetadatas, ...docsLinks].map(
       data =>

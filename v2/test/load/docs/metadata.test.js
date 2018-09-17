@@ -17,7 +17,7 @@ describe('processMetadata', () => {
       permalink: '/docs/foo/bar',
       source: '@docs/foo/bar.md',
       title: 'Bar',
-      version: undefined
+      version: undefined,
     });
     expect(dataB).toEqual({
       id: 'hello',
@@ -26,7 +26,7 @@ describe('processMetadata', () => {
       permalink: '/docs/hello',
       source: '@docs/hello.md',
       title: 'Hello, World !',
-      version: undefined
+      version: undefined,
     });
   });
 
@@ -42,7 +42,7 @@ describe('processMetadata', () => {
       permalink: '/docs/endiliey/permalink',
       source: '@docs/permalink.md',
       title: 'Permalink',
-      version: undefined
+      version: undefined,
     });
   });
 
@@ -61,7 +61,7 @@ describe('processMetadata', () => {
       permalink: '/docs/1.0.0/foo/bar',
       source: '@versioned_docs/version-1.0.0/foo/bar.md',
       title: 'Bar',
-      version: '1.0.0'
+      version: '1.0.0',
     });
     expect(dataB).toEqual({
       id: 'version-1.0.0-hello',
@@ -70,7 +70,7 @@ describe('processMetadata', () => {
       permalink: '/docs/1.0.0/hello',
       source: '@versioned_docs/version-1.0.0/hello.md',
       title: 'Hello, World !',
-      version: '1.0.0'
+      version: '1.0.0',
     });
   });
 
@@ -93,7 +93,7 @@ describe('processMetadata', () => {
       permalink: '/docs/ko/1.0.0/foo/bar',
       source: '@translated_docs/ko/version-1.0.0/foo/bar.md',
       title: 'Bar',
-      version: '1.0.0'
+      version: '1.0.0',
     });
     expect(dataB).toEqual({
       id: 'ko-version-1.0.0-hello',
@@ -102,7 +102,7 @@ describe('processMetadata', () => {
       permalink: '/docs/ko/1.0.0/hello',
       source: '@translated_docs/ko/version-1.0.0/hello.md',
       title: 'Hello, World !',
-      version: '1.0.0'
+      version: '1.0.0',
     });
     expect(dataC).toEqual({
       id: 'ko-version-1.0.1-foo/bar',
@@ -111,7 +111,7 @@ describe('processMetadata', () => {
       permalink: '/docs/ko/foo/bar',
       source: '@translated_docs/ko/version-1.0.1/foo/bar.md',
       title: 'Bar',
-      version: '1.0.1'
+      version: '1.0.1',
     });
     expect(dataD).toEqual({
       id: 'ko-version-1.0.1-hello',
@@ -120,7 +120,7 @@ describe('processMetadata', () => {
       permalink: '/docs/ko/hello',
       source: '@translated_docs/ko/version-1.0.1/hello.md',
       title: 'Hello, World !',
-      version: '1.0.1'
+      version: '1.0.1',
     });
   });
 
@@ -139,7 +139,7 @@ describe('processMetadata', () => {
       permalink: '/docs/ko/foo/bar',
       source: '@translated_docs/ko/foo/bar.md',
       title: 'Bar',
-      version: undefined
+      version: undefined,
     });
     expect(dataB).toEqual({
       id: 'ko-hello',
@@ -148,7 +148,7 @@ describe('processMetadata', () => {
       permalink: '/docs/ko/hello',
       source: '@translated_docs/ko/hello.md',
       title: 'Hello, World !',
-      version: undefined
+      version: undefined,
     });
   });
 });

@@ -16,7 +16,7 @@ module.exports = function loadConfig(siteDir, deleteCache = true) {
     'tagline',
     'organizationName',
     'projectName',
-    'baseUrl'
+    'baseUrl',
   ];
   const optionalFields = [
     'customDocsPath',
@@ -26,7 +26,7 @@ module.exports = function loadConfig(siteDir, deleteCache = true) {
     'configureWebpack',
     'chainWebpack',
     'docsUrl',
-    'customFields'
+    'customFields',
   ];
   const missingFields = requiredFields.filter(field => !config[field]);
   if (missingFields && missingFields.length > 0) {
@@ -38,7 +38,7 @@ module.exports = function loadConfig(siteDir, deleteCache = true) {
   /* Fill default value */
   const defaultConfig = {
     customDocsPath: 'docs',
-    docsUrl: 'docs'
+    docsUrl: 'docs',
   };
   Object.keys(defaultConfig).forEach(field => {
     if (!config[field]) {

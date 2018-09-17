@@ -18,17 +18,17 @@ module.exports = function createServerConfig(props) {
 
   // static site generator webpack plugin
   const docsLinks = Object.values(docsMetadatas).map(data => ({
-    path: `${data.permalink}`
+    path: `${data.permalink}`,
   }));
   const paths = [...docsLinks, ...pagesMetadatas].map(data => data.path);
   config.plugin('siteGenerator').use(staticSiteGenerator, [
     {
       entry: 'main',
       locals: {
-        baseUrl: siteConfig.baseUrl
+        baseUrl: siteConfig.baseUrl,
       },
-      paths
-    }
+      paths,
+    },
   ]);
 
   // show compilation progress bar and build time

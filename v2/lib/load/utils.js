@@ -77,5 +77,5 @@ module.exports = {
   fileToComponentName,
   getSubFolder,
   idx,
-  parse
+  parse,
 };

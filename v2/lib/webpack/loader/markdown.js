@@ -8,7 +8,7 @@ module.exports = function(fileString) {
     versionedDir,
     docsDir,
     translatedDir,
-    sourceToMetadata
+    sourceToMetadata,
   } = options;
 
   /* Extract content of markdown (without frontmatter) */
