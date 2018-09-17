@@ -13,6 +13,6 @@
 	},
 	"dependencies": {
 		"async": "^2.5.0",
-		"docusaurus": "../../Docusaurus/"
+		"docusaurus": "../"
 	}
 }

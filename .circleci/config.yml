@@ -8,6 +8,7 @@ aliases:
   - &save-yarn-cache
     paths:
       - node_modules
+      - v1/node_modules
       - ~/.cache/yarn
     key: v1-yarn-{{ .Branch }}-{{ checksum "yarn.lock" }}
 
@@ -22,6 +23,8 @@ aliases:
 
   - &yarn
     |
+      yarn install --non-interactive --cache-folder ~/.cache/yarn
+      cd v1 &&
       yarn install --non-interactive --cache-folder ~/.cache/yarn
 
 defaults: &defaults
@@ -41,13 +44,13 @@ jobs:
       - save-cache: *save-yarn-cache
       - run:
           name: Check Prettier & ESLint
-          command: yarn ci-check
+          command: cd v1 && yarn ci-check
       - run:
           name: Run Test Suites
-          command: yarn test
+          command: cd v1 && yarn test
       - run:
           name: Test Static Website Builds
-          command: cd website && yarn run build
+          command: cd v1/website && yarn run build
 
   # The CIRCLE_ variables are defined during the CircleCI build process
   # https://circleci.com/docs/1.0/environment-variables/
@@ -74,7 +77,7 @@ jobs:
             if [[ $CIRCLE_PROJECT_USERNAME == "facebook" && -z $CI_PULL_REQUEST && -z $CIRCLE_PR_USERNAME ]]; then
               echo "Deploying website..."
               # install Docusaurus and generate file of English strings
-              yarn && cd website && yarn run write-translations
+              cd v1 && yarn && cd website && yarn run write-translations
               # install Crowdin
               sudo apt-get update
               sudo apt-get install default-jre rsync

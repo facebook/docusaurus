@@ -7,6 +7,7 @@
     "munseo": "bin/munseo.js"
   },
   "scripts": {
+    "ci-check": "yarn lint",
     "munseo": "node bin/munseo",
     "start": "node bin/munseo start website",
     "build": "node bin/munseo build website",

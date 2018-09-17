@@ -70,6 +70,7 @@ const siteConfig = {
     zIndex: 100,
   },
   enableUpdateTime: true,
+  customDocsPath: '../docs',
 };
 
 module.exports = siteConfig;

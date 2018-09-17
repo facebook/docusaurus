@@ -1,0 +1,10 @@
+lib/core/metadata.js
+lib/core/MetadataBlog.js
+lib/pages/
+
+website/build/
+website/i18n/*
+website/node_modules
+website/package-lock.json
+website/translated_docs
+website/yarn.lock
