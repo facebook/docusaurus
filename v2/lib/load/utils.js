@@ -55,7 +55,7 @@ function getSubFolder(file, refDir) {
   const separator = escapeStringRegexp(path.sep);
   const baseDir = escapeStringRegexp(path.basename(refDir));
   const regexSubFolder = new RegExp(
-    `${baseDir}${separator}(.*?)${separator}.*`
+    `${baseDir}${separator}(.*?)${separator}.*`,
   );
   const match = regexSubFolder.exec(file);
   return match && match[1];

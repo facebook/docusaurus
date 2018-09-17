@@ -76,7 +76,7 @@ describe('loadEnv', () => {
     expect(() => {
       loadEnv({siteDir, siteConfig});
     }).toThrowErrorMatchingInlineSnapshot(
-      `"Please at least enable one language in 'languages.js'"`
+      `"Please at least enable one language in 'languages.js'"`,
     );
   });
 
@@ -92,7 +92,7 @@ describe('loadEnv', () => {
     expect(() => {
       loadEnv({siteDir, siteConfig});
     }).toThrowErrorMatchingInlineSnapshot(
-      `"Please set a default language in 'siteConfig.js' which is enabled in 'languages.js'"`
+      `"Please set a default language in 'siteConfig.js' which is enabled in 'languages.js'"`,
     );
   });
 });

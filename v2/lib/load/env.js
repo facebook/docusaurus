@@ -24,11 +24,11 @@ module.exports = function loadEnv({siteDir, siteConfig}) {
     /* Default Language */
     const {defaultLanguage: defaultLanguageTag} = siteConfig;
     const defaultLanguage = enabledLanguages.find(
-      lang => lang.tag === defaultLanguageTag
+      lang => lang.tag === defaultLanguageTag,
     );
     if (!defaultLanguage) {
       throw new Error(
-        `Please set a default language in 'siteConfig.js' which is enabled in 'languages.js'`
+        `Please set a default language in 'siteConfig.js' which is enabled in 'languages.js'`,
       );
     }
     translation.defaultLanguage = defaultLanguage;

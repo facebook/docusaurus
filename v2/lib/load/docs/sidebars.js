@@ -19,7 +19,7 @@ module.exports = function loadSidebars({siteDir, env}) {
         const versionedSidebarsJSONFile = path.join(
           siteDir,
           'versioned_sidebars',
-          `version-${version}-sidebars.json`
+          `version-${version}-sidebars.json`,
         );
         if (fs.existsSync(versionedSidebarsJSONFile)) {
           const sidebar = require(versionedSidebarsJSONFile); // eslint-disable-line

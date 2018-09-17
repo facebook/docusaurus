@@ -10,7 +10,7 @@ async function loadPages(pagesDir) {
     pagesFiles.map(async source => ({
       path: encodePath(fileToPath(source)),
       source,
-    }))
+    })),
   );
   return pagesMetadatas;
 }

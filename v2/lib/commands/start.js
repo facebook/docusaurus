@@ -45,7 +45,7 @@ module.exports = async function start(siteDir, cliOptions = {}) {
       {
         cwd: siteDir,
         ignoreInitial: true,
-      }
+      },
     );
     fsWatcher.on('add', reload);
     fsWatcher.on('change', reload);
@@ -114,11 +114,11 @@ module.exports = async function start(siteDir, cliOptions = {}) {
             convert(
               history({
                 rewrites: [{from: /\.html$/, to: '/'}],
-              })
-            )
+              }),
+            ),
           );
         },
-      }
+      },
     );
   }, 1000);
 };

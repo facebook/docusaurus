@@ -86,7 +86,7 @@ class TodoApp extends React.Component {
     const {checked} = event.target;
     this.setState({
       todos: this.state.todos.map(todo =>
-        Object.assign({}, todo, {completed: checked})
+        Object.assign({}, todo, {completed: checked}),
       ),
     });
   }
@@ -144,7 +144,7 @@ class TodoApp extends React.Component {
 
     const activeTodoCount = todos.reduce(
       (accum, todo) => (todo.completed ? accum : accum + 1),
-      0
+      0,
     );
 
     if (todos.length) {

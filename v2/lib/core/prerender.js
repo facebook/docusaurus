@@ -13,6 +13,6 @@ export default function prerender(routeConfig, providedLocation) {
         return component.preload();
       }
       return undefined;
-    })
+    }),
   );
 }

@@ -10,7 +10,7 @@ module.exports = async function eject(siteDir) {
   const relativeDir = path.relative(process.cwd(), customTheme);
   console.log(
     `\n${chalk.green('Success!')} Copied default theme files to ${chalk.cyan(
-      relativeDir
-    )}.\n`
+      relativeDir,
+    )}.\n`,
   );
 };

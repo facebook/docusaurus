@@ -41,7 +41,7 @@ module.exports = async function processMetadata(
   refDir,
   env,
   order,
-  siteConfig
+  siteConfig,
 ) {
   const filepath = path.resolve(refDir, source);
   const fileString = await fs.readFile(filepath, 'utf-8');
@@ -131,7 +131,7 @@ module.exports = async function processMetadata(
         .replace(/:docsUrl/, docsUrl)
         .replace(/:langPart/, langPart)
         .replace(/:versionPart/, versionPart)
-        .replace(/:id/, metadata.id)
+        .replace(/:id/, metadata.id),
     );
   } else {
     metadata.permalink = `${baseUrl}${docsUrl}/${langPart}${versionPart}${

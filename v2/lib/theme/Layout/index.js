@@ -15,7 +15,7 @@ export default class Layout extends React.Component {
           <li key={data.path}>
             <Link to={data.path}>{data.path}</Link>
           </li>
-        )
+        ),
     );
     return (
       <div>

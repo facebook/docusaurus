@@ -40,7 +40,7 @@ describe('loadSidebars', () => {
     expect(() => {
       loadSidebars({siteDir, env});
     }).toThrowErrorMatchingInlineSnapshot(
-      `"Failed to load versioned_sidebars/version-2.0.0-sidebars.json. It does not exist."`
+      `"Failed to load versioned_sidebars/version-2.0.0-sidebars.json. It does not exist."`,
     );
   });
 });

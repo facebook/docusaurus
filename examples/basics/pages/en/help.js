@@ -25,7 +25,7 @@ class Help extends React.Component {
       {
         content: `Learn more using the [documentation on this site.](${docUrl(
           'doc1.html',
-          language
+          language,
         )})`,
         title: 'Browse Docs',
       },

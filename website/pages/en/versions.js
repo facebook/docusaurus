@@ -95,7 +95,7 @@ function Versions(props) {
                         </a>
                       </td>
                     </tr>
-                  )
+                  ),
               )}
             </tbody>
           </table>

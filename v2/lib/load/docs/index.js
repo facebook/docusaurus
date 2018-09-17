@@ -47,10 +47,10 @@ async function loadDocs({siteDir, docsDir, env, siteConfig}) {
         docsDir,
         env,
         order,
-        siteConfig
+        siteConfig,
       );
       docsMetadatas[metadata.id] = metadata;
-    })
+    }),
   );
 
   /* metadata for non-default-language docs */
@@ -79,10 +79,10 @@ async function loadDocs({siteDir, docsDir, env, siteConfig}) {
           translatedDir,
           env,
           order,
-          siteConfig
+          siteConfig,
         );
         docsMetadatas[metadata.id] = metadata;
-      })
+      }),
     );
   }
 
@@ -99,10 +99,10 @@ async function loadDocs({siteDir, docsDir, env, siteConfig}) {
           versionedDir,
           env,
           order,
-          siteConfig
+          siteConfig,
         );
         docsMetadatas[metadata.id] = metadata;
-      })
+      }),
     );
   }
 

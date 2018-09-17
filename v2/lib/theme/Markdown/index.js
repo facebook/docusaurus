@@ -66,7 +66,7 @@ class MarkdownBlock extends React.Component {
         version: '9.12.0',
         theme: 'default',
       },
-      siteConfig.highlight
+      siteConfig.highlight,
     );
 
     // Use user-provided themeUrl if it exists, else construct one from version and theme.

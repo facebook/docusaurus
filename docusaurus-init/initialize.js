@@ -21,7 +21,7 @@ if (shell.which('yarn')) {
 if (fs.existsSync(CWD + '/website')) {
   console.error(chalk.yellow('Website folder already exists.\n'));
   console.log(
-    "In order for Docusaurus to get set up as your static site generator, you will need to remove any existing 'website' folder from your root directory. If you are migrating from another static site generator, you may want to move your old website folder to a different location."
+    "In order for Docusaurus to get set up as your static site generator, you will need to remove any existing 'website' folder from your root directory. If you are migrating from another static site generator, you may want to move your old website folder to a different location.",
   );
   process.exit(1);
 }
@@ -35,13 +35,13 @@ console.log(chalk.green('Website folder created!\n'));
 shell.cd('website');
 
 console.log(
-  chalk.yellow('Installing latest version of Docusaurus in website.\n')
+  chalk.yellow('Installing latest version of Docusaurus in website.\n'),
 );
 
 const packageContent = {scripts: {examples: 'docusaurus-examples'}};
 fs.writeFileSync(
   CWD + '/website/package.json',
-  JSON.stringify(packageContent, null, 2) + '\n'
+  JSON.stringify(packageContent, null, 2) + '\n',
 );
 
 if (useYarn) {
