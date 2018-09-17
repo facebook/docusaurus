@@ -94,7 +94,7 @@ module.exports = function createBaseConfig(props, isServer) {
       cssRule.use('style-loader').loader('style-loader');
     }
   }
-  
+
   cssRule
     .use('css-loader')
     .loader(isServer ? 'css-loader/locals' : 'css-loader')
