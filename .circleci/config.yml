@@ -8,6 +8,7 @@ aliases:
   - &save-yarn-cache
     paths:
       - node_modules
+      - v1/node_modules
       - ~/.cache/yarn
     key: v1-yarn-{{ .Branch }}-{{ checksum "yarn.lock" }}
 
@@ -22,6 +23,8 @@ aliases:
 
   - &yarn
     |
+      yarn install --non-interactive --cache-folder ~/.cache/yarn
+      cd v1 &&
       yarn install --non-interactive --cache-folder ~/.cache/yarn
 
 defaults: &defaults
