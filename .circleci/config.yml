@@ -181,7 +181,7 @@ workflows:
           filters: *filter-ignore-gh-pages
       - v1-deploy-website:
           requires:
-            - tests
+            - v1-tests
           filters: *filter-only-master
 
   deploy:
