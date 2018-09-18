@@ -115,7 +115,7 @@ jobs:
 
   # The CIRCLE_ variables are defined during the CircleCI build process
   # https://circleci.com/docs/1.0/environment-variables/
-  deploy-website:
+  v1-deploy-website:
     <<: *defaults
     steps:
       - checkout
@@ -175,11 +175,11 @@ jobs:
 workflows:
   version: 2
 
-  website:
+  v1:
     jobs:
-      - tests:
+      - v1-tests:
           filters: *filter-ignore-gh-pages
-      - deploy-website:
+      - v1-deploy-website:
           requires:
             - tests
           filters: *filter-only-master
