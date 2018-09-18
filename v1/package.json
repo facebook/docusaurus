@@ -9,7 +9,6 @@
     "url": "https://github.com/facebook/Docusaurus.git"
   },
   "scripts": {
-    "ci-check": "yarn lint",
     "lint": "eslint --cache \"lib/**/*.js\" \"examples/**/*.js\" \"website/**/*.js\"",
     "test": "jest",
     "start": "cd website && yarn start"
