@@ -189,7 +189,7 @@ workflows:
             - v1-tests
           filters: *filter-only-master
 
-  v1:
+  v2:
     jobs:
       - v2-tests:
           filters: *filter-ignore-gh-pages
