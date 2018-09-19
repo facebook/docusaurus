@@ -175,6 +175,11 @@ jobs:
 workflows:
   version: 2
 
+  prettier:
+    jobs:
+      - prettier:
+          filters: *filter-ignore-gh-pages
+
   v1:
     jobs:
       - v1-tests:
