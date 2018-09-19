@@ -94,24 +94,7 @@ jobs:
           command: cd v1 && yarn test
       - run:
           name: Test Static Website Builds
-          command: cd v1/website && yarn run build
-
-  v2-tests:
-    <<: *defaults
-    steps:
-      - checkout
-      - restore-cache: *v2-restore-yarn-cache
-      - run: *v2-yarn
-      - save-cache: *v2-save-yarn-cache
-      - run:
-          name: Check ESLint
-          command: cd v2 && yarn lint
-      - run:
-          name: Run Test Suites
-          command: cd v2 && yarn test
-      - run:
-          name: Test Static Website Builds
-          command: cd v2/website && yarn run build
+          command: cd v1/website && yarn build
 
   # The CIRCLE_ variables are defined during the CircleCI build process
   # https://circleci.com/docs/1.0/environment-variables/
@@ -154,6 +137,23 @@ jobs:
               echo "Skipping deploy."
             fi
 
+  v2-tests:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore-cache: *v2-restore-yarn-cache
+      - run: *v2-yarn
+      - save-cache: *v2-save-yarn-cache
+      - run:
+          name: Check ESLint
+          command: cd v2 && yarn lint
+      - run:
+          name: Run Test Suites
+          command: cd v2 && yarn test
+      - run:
+          name: Test Static Website Builds
+          command: cd v2/website && yarn build
+
   publish-npm:
     <<: *defaults
     steps:
@@ -188,6 +188,11 @@ workflows:
           requires:
             - v1-tests
           filters: *filter-only-master
+
+  v2:
+    jobs:
+      - v2-tests:
+          filters: *filter-ignore-gh-pages
 
   deploy:
     jobs:
