@@ -17,61 +17,61 @@ const alias = {
   js: 'jsx',
 };
 
-let markdownConfig = {
-  // Highlight.js expects hljs css classes on the code element.
-  // This results in <pre><code class="hljs css languages-jsx">
-  langPrefix: 'hljs css language-',
-  highlight(str, lang) {
-    lang =
-      lang || (siteConfig.highlight && siteConfig.highlight.defaultLang);
-    if (lang === 'text') {
-      return str;
-    }
-    if (lang) {
-      try {
-        if (
-          siteConfig.usePrism === true ||
-          (siteConfig.usePrism &&
-            siteConfig.usePrism.length > 0 &&
-            siteConfig.usePrism.indexOf(lang) !== -1)
-        ) {
-          try {
-            const language = alias[lang] || lang;
-            // Currently people using prismjs on Node have to individually require()
-            // every single language (https://github.com/PrismJS/prism/issues/593)
-            require(`prismjs/components/prism-${language}.min`);
-            return prismjs.highlight(str, prismjs.languages[language]);
-          } catch (err) {
-            console.error(err);
-          }
-        }
-        if (hljs.getLanguage(lang)) {
-          return hljs.highlight(lang, str).value;
-        }
-      } catch (err) {
-        console.error(err);
-      }
-    }
-
-    try {
-      return hljs.highlightAuto(str).value;
-    } catch (err) {
-      console.error(err);
-    }
-
-    return '';
-  },
-  html: true,
-  linkify: true,
-};
-
 class MarkdownRenderer {
   constructor() {
     const siteConfig = require(`${CWD}/siteConfig.js`);
 
+    let markdownConfig = {
+      // Highlight.js expects hljs css classes on the code element.
+      // This results in <pre><code class="hljs css languages-jsx">
+      langPrefix: 'hljs css language-',
+      highlight(str, lang) {
+        lang =
+          lang || (siteConfig.highlight && siteConfig.highlight.defaultLang);
+        if (lang === 'text') {
+          return str;
+        }
+        if (lang) {
+          try {
+            if (
+              siteConfig.usePrism === true ||
+              (siteConfig.usePrism &&
+                siteConfig.usePrism.length > 0 &&
+                siteConfig.usePrism.indexOf(lang) !== -1)
+            ) {
+              try {
+                const language = alias[lang] || lang;
+                // Currently people using prismjs on Node have to individually require()
+                // every single language (https://github.com/PrismJS/prism/issues/593)
+                require(`prismjs/components/prism-${language}.min`);
+                return prismjs.highlight(str, prismjs.languages[language]);
+              } catch (err) {
+                console.error(err);
+              }
+            }
+            if (hljs.getLanguage(lang)) {
+              return hljs.highlight(lang, str).value;
+            }
+          } catch (err) {
+            console.error(err);
+          }
+        }
+
+        try {
+          return hljs.highlightAuto(str).value;
+        } catch (err) {
+          console.error(err);
+        }
+
+        return '';
+      },
+      html: true,
+      linkify: true,
+    };
+
     // Allow client to use there own config
     if (siteConfig.markdownConfig) {
-      markdownConfig = siteConfig.markdownConfig;
+      markdownConfig = _.merge({}, markdownConfig, siteConfig.markdownConfig);
     }
 
     const md = new Markdown(markdownConfig);
