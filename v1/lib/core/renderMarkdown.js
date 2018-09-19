@@ -8,6 +8,7 @@
 const hljs = require('highlight.js');
 const Markdown = require('remarkable');
 const prismjs = require('prismjs');
+const _ = require("lodash");
 
 const anchors = require('./anchors.js');
 
