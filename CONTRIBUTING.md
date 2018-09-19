@@ -10,11 +10,11 @@ Facebook has adopted a Code of Conduct that we expect project participants to ad
 
 There are many ways to contribute to Docusaurus, and many of them do not involve writing any code. Here's a few ideas to get started:
 
-* Simply start using Docusaurus. Go through the [Getting Started](https://docusaurus.io/docs/en/installation.html) guide. Does everything work as expected? If not, we're always looking for improvements. Let us know by [opening an issue](#reporting-new-issues).
-* Look through the [open issues](https://github.com/facebook/docusaurus/issues). Provide workarounds, ask for clarification, or suggest labels. Help [triage issues](#triaging-issues-and-pull-requests).
-* If you find an issue you would like to fix, [open a pull request](#your-first-pull-request). Issues tagged as [_Good first issue_](https://github.com/facebook/docusaurus/labels/Good%20first%20issue) are a good place to get started.
-* Read through the [Docusaurus docs](https://docusaurus.io/docs/en/installation.html). If you find anything that is confusing or can be improved, you can make edits by clicking "Edit" at the top of most docs.
-* Take a look at the [features requested](https://github.com/facebook/docusaurus/labels/enhancement) by others in the community and consider opening a pull request if you see something you want to work on.
+- Simply start using Docusaurus. Go through the [Getting Started](https://docusaurus.io/docs/en/installation.html) guide. Does everything work as expected? If not, we're always looking for improvements. Let us know by [opening an issue](#reporting-new-issues).
+- Look through the [open issues](https://github.com/facebook/docusaurus/issues). Provide workarounds, ask for clarification, or suggest labels. Help [triage issues](#triaging-issues-and-pull-requests).
+- If you find an issue you would like to fix, [open a pull request](#your-first-pull-request). Issues tagged as [_Good first issue_](https://github.com/facebook/docusaurus/labels/Good%20first%20issue) are a good place to get started.
+- Read through the [Docusaurus docs](https://docusaurus.io/docs/en/installation.html). If you find anything that is confusing or can be improved, you can make edits by clicking "Edit" at the top of most docs.
+- Take a look at the [features requested](https://github.com/facebook/docusaurus/labels/enhancement) by others in the community and consider opening a pull request if you see something you want to work on.
 
 Contributions are very welcome. If you think you need help planning your contribution, please ping us on Twitter at [@docusaurus](https://twitter.com/docusaurus) and let us know you are looking for a bit of help.
 
@@ -26,10 +26,10 @@ We have `#docusaurus-dev` on [Discord](https://discord.gg/docusaurus) to discuss
 
 One great way you can contribute to the project without writing any code is to help triage issues and pull requests as they come in.
 
-* Ask for more information if you believe the issue does not provide all the details required to solve it.
-* Suggest [labels](https://github.com/facebook/docusaurus/labels) that can help categorize issues.
-* Flag issues that are stale or that should be closed.
-* Ask for test plans and review code.
+- Ask for more information if you believe the issue does not provide all the details required to solve it.
+- Suggest [labels](https://github.com/facebook/docusaurus/labels) that can help categorize issues.
+- Flag issues that are stale or that should be closed.
+- Ask for test plans and review code.
 
 ## Our development process
 
@@ -57,12 +57,22 @@ You can also file issues as [feature requests or enhancements](https://github.co
 
 When [opening a new issue](https://github.com/facebook/docusaurus/issues/new/choose), always make sure to fill out the issue template. **This step is very important!** Not doing so may result in your issue not managed in a timely fashion. Don't take this personally if this happens, and feel free to open a new issue once you've gathered all the information required by the template.
 
-* **One issue, one bug:** Please report a single bug per issue.
-* **Provide reproduction steps:** List all the steps necessary to reproduce the issue. The person reading your bug report should be able to follow these steps to reproduce your issue with minimal effort.
+- **One issue, one bug:** Please report a single bug per issue.
+- **Provide reproduction steps:** List all the steps necessary to reproduce the issue. The person reading your bug report should be able to follow these steps to reproduce your issue with minimal effort.
 
 ### Security bugs
 
 Facebook has a [bounty program](https://www.facebook.com/whitehat/) for the safe disclosure of security bugs. With that in mind, please do not file public issues; go through the process outlined on that page.
+
+## Installation
+
+1. Ensure you have [Yarn](https://yarnpkg.com/) installed.
+1. After cloning the repository, run `yarn install` in the root of the repository.
+
+   - For Docusaurus 1 development, go into the `v1` directory and do `yarn install`.
+   - For Docusaurus 2 development, go into the `v2` directory and do `yarn install`.
+
+1. Run `yarn start` in the respective project directory to start a local development server serving the Docusaurus docs.
 
 ## Pull requests
 
@@ -93,8 +103,8 @@ Please make sure the following is done when submitting a pull request:
 1. Fork [the repository](https://github.com/facebook/docusaurus) and create your branch from `master`.
 1. Add the copyright notice to the top of any code new files you've added.
 1. Describe your [**test plan**](#test-plan) in your pull request description. Make sure to [test your changes](https://github.com/facebook/Docusaurus/blob/master/admin/testing-changes-on-Docusaurus-itself.md)!
-1. Make sure your code lints (`npm run prettier && npm run lint`).
-1. Make sure our Jest tests pass (`npm run test`).
+1. Make sure your code lints (`yarn prettier && yarn lint`).
+1. Make sure your Jest tests pass (`yarn test`).
 1. If you haven't already, [sign the CLA](https://code.facebook.com/cla).
 
 All pull requests should be opened against the `master` branch.
@@ -103,7 +113,7 @@ All pull requests should be opened against the `master` branch.
 
 A good test plan has the exact commands you ran and their output, provides screenshots or videos if the pull request changes UI.
 
-* If you've changed APIs, update the documentation.
+- If you've changed APIs, update the documentation.
 
 #### Breaking changes
 
@@ -112,10 +122,10 @@ When adding a new breaking change, follow this template in your pull request:
 ```md
 ### New breaking change here
 
-* **Who does this affect**:
-* **How to migrate**:
-* **Why make this breaking change**:
-* **Severity (number of people affected x effort)**:
+- **Who does this affect**:
+- **How to migrate**:
+- **Why make this breaking change**:
+- **Severity (number of people affected x effort)**:
 ```
 
 #### Copyright Notice for code files
@@ -149,30 +159,17 @@ However, there are still some styles that Prettier cannot pick up.
 
 #### General
 
-* **Most important: Look around.** Match the style you see used in the rest of the project. This includes formatting, naming things in code, naming things in documentation.
-* Add trailing commas,
-* 2 spaces for indentation (no tabs)
-* "Attractive"
+- **Most important: Look around.** Match the style you see used in the rest of the project. This includes formatting, naming files, naming things in code, naming things in documentation.
+- "Attractive"
 
 #### JavaScript
 
-* Use semicolons;
-* ES6 standards
-* Prefer `'` over `"`
-* Do not use the optional parameters of `setTimeout` and `setInterval`
-* 80 character line length
-
-#### JSX
-
-* Prefer `"` over `'` for string literal props
-* When wrapping opening tags over multiple lines, place one prop per line
-* `{}` of props should hug their values (no spaces)
-* Place the closing `>` of opening tags on the same line as the last prop
-* Place the closing `/>` of self-closing tags on their own line and left-align them with the opening `<`
+- ES6 standards. Prefer using modern language features where they make the code better.
+- Do not use the optional parameters of `setTimeout` and `setInterval`
 
 ### Documentation
 
-* Do not wrap lines at 80 characters - configure your editor to soft-wrap when editing documentation.
+- Do not wrap lines at 80 characters - configure your editor to soft-wrap when editing documentation.
 
 ## License
 

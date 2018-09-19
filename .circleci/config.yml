@@ -1,16 +1,53 @@
 aliases:
-  - &restore-yarn-cache
+  - &root-yarn
+    |
+      yarn install --non-interactive --cache-folder ~/.cache/yarn
+
+  - &root-restore-yarn-cache
+    keys:
+      - root-yarn-{{ .Branch }}-{{ checksum "yarn.lock" }}
+      # Fallback in case checksum fails
+      - root-yarn-{{ .Branch }}-
+
+  - &root-save-yarn-cache
+    paths:
+      - node_modules
+      - ~/.cache/yarn
+    key: root-yarn-{{ .Branch }}-{{ checksum "yarn.lock" }}
+
+  - &v1-yarn
+    |
+      cd v1
+      yarn install --non-interactive --cache-folder ~/.cache/yarn
+
+  - &v1-restore-yarn-cache
     keys:
       - v1-yarn-{{ .Branch }}-{{ checksum "yarn.lock" }}
       # Fallback in case checksum fails
       - v1-yarn-{{ .Branch }}-
 
-  - &save-yarn-cache
+  - &v1-save-yarn-cache
     paths:
-      - node_modules
       - v1/node_modules
       - ~/.cache/yarn
     key: v1-yarn-{{ .Branch }}-{{ checksum "yarn.lock" }}
+
+  - &v2-yarn
+    |
+      cd v2
+      yarn install --non-interactive --cache-folder ~/.cache/yarn
+
+  - &v2-restore-yarn-cache
+    keys:
+      - v2-yarn-{{ .Branch }}-{{ checksum "yarn.lock" }}
+      # Fallback in case checksum fails
+      - v2-yarn-{{ .Branch }}-
+
+  - &v2-save-yarn-cache
+    paths:
+      - v2/node_modules
+      - ~/.cache/yarn
+    key: v2-yarn-{{ .Branch }}-{{ checksum "yarn.lock" }}
 
   - &filter-only-master
     branches:
@@ -21,12 +58,6 @@ aliases:
     branches:
       ignore: gh-pages
 
-  - &yarn
-    |
-      yarn install --non-interactive --cache-folder ~/.cache/yarn
-      cd v1 &&
-      yarn install --non-interactive --cache-folder ~/.cache/yarn
-
 defaults: &defaults
   working_directory: ~/docusaurus
   docker:
@@ -35,16 +66,29 @@ defaults: &defaults
 
 version: 2
 jobs:
-  tests:
+  prettier:
     <<: *defaults
     steps:
       - checkout
-      - restore-cache: *restore-yarn-cache
-      - run: *yarn
-      - save-cache: *save-yarn-cache
+      - restore-cache: *root-restore-yarn-cache
+      - run: *root-yarn
+      - save-cache: *root-save-yarn-cache
       - run:
-          name: Check Prettier & ESLint
-          command: cd v1 && yarn ci-check
+          name: Check Prettier
+          command: |
+            yarn install
+            yarn prettier:diff
+
+  v1-tests:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore-cache: *v1-restore-yarn-cache
+      - run: *v1-yarn
+      - save-cache: *v1-save-yarn-cache
+      - run:
+          name: Check ESLint
+          command: cd v1 && yarn lint
       - run:
           name: Run Test Suites
           command: cd v1 && yarn test
@@ -52,15 +96,32 @@ jobs:
           name: Test Static Website Builds
           command: cd v1/website && yarn run build
 
-  # The CIRCLE_ variables are defined during the CircleCI build process
-  # https://circleci.com/docs/1.0/environment-variables/
-  deploy-website:
+  v2-tests:
     <<: *defaults
     steps:
       - checkout
-      - restore-cache: *restore-yarn-cache
-      - run: *yarn
-      - save-cache: *save-yarn-cache
+      - restore-cache: *v2-restore-yarn-cache
+      - run: *v2-yarn
+      - save-cache: *v2-save-yarn-cache
+      - run:
+          name: Check ESLint
+          command: cd v2 && yarn lint
+      - run:
+          name: Run Test Suites
+          command: cd v2 && yarn test
+      - run:
+          name: Test Static Website Builds
+          command: cd v2/website && yarn run build
+
+  # The CIRCLE_ variables are defined during the CircleCI build process
+  # https://circleci.com/docs/1.0/environment-variables/
+  v1-deploy-website:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore-cache: *v1-restore-yarn-cache
+      - run: *v1-yarn
+      - save-cache: *v1-save-yarn-cache
       - run:
           name: Configure GitHub Bot
           # Do not do this if we don't have the right org (facebook), or if this is just a pull request
@@ -97,9 +158,9 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      - restore-cache: *restore-yarn-cache
-      - run: *yarn
-      - save-cache: *save-yarn-cache
+      - restore-cache: *v1-restore-yarn-cache
+      - run: *v1-yarn
+      - save-cache: *v1-save-yarn-cache
       - run:
         name: Publish Docusaurus Package
         command: |
@@ -114,13 +175,18 @@ jobs:
 workflows:
   version: 2
 
-  website:
+  prettier:
     jobs:
-      - tests:
+      - prettier:
           filters: *filter-ignore-gh-pages
-      - deploy-website:
+
+  v1:
+    jobs:
+      - v1-tests:
+          filters: *filter-ignore-gh-pages
+      - v1-deploy-website:
           requires:
-            - tests
+            - v1-tests
           filters: *filter-only-master
 
   deploy:

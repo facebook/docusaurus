@@ -16,9 +16,9 @@
 
 Docusaurus is a project for easily building, deploying, and maintaining open source project websites.
 
-* **Simple to Start** Docusaurus is built to be easy to [get up and running](https://docusaurus.io/docs/en/installation.html) in as little time possible. We've built Docusaurus to handle the website build process so you can focus on your project.
-* **Localizable** Docusaurus ships with [localization support](https://docusaurus.io/docs/en/translation.html) via CrowdIn. Empower and grow your international community by translating your documentation.
-* **Customizable** While Docusaurus ships with the key pages and sections you need to get started, including a home page, a docs section, a [blog](https://docusaurus.io/docs/en/blog.html), and additional support pages, it is also [customizable](https://docusaurus.io/docs/en/custom-pages.html) as well to ensure you have a site that is [uniquely yours](https://docusaurus.io/docs/en/api-pages.html).
+- **Simple to Start** Docusaurus is built to be easy to [get up and running](https://docusaurus.io/docs/en/installation.html) in as little time possible. We've built Docusaurus to handle the website build process so you can focus on your project.
+- **Localizable** Docusaurus ships with [localization support](https://docusaurus.io/docs/en/translation.html) via CrowdIn. Empower and grow your international community by translating your documentation.
+- **Customizable** While Docusaurus ships with the key pages and sections you need to get started, including a home page, a docs section, a [blog](https://docusaurus.io/docs/en/blog.html), and additional support pages, it is also [customizable](https://docusaurus.io/docs/en/custom-pages.html) as well to ensure you have a site that is [uniquely yours](https://docusaurus.io/docs/en/api-pages.html).
 
 ## Installation
 
@@ -54,9 +54,7 @@ We have a few channels for contact:
 
 ## Contributors
 
-This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
-<a href="https://github.com/facebook/Docusaurus/graphs/contributors"><img src="https://opencollective.com/Docusaurus/contributors.svg?width=890&button=false" /></a>
-
+This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)]. <a href="https://github.com/facebook/Docusaurus/graphs/contributors"><img src="https://opencollective.com/Docusaurus/contributors.svg?width=890&button=false" /></a>
 
 ## Backers
 
@@ -64,15 +62,11 @@ Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com
 
 <a href="https://opencollective.com/Docusaurus#backers" target="_blank"><img src="https://opencollective.com/Docusaurus/backers.svg?width=890"></a>
 
-
 ## Sponsors
 
 Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/Docusaurus#sponsor)]
 
-<a href="https://opencollective.com/Docusaurus/sponsor/0/website" target="_blank"><img src="https://opencollective.com/Docusaurus/sponsor/0/avatar.svg"></a>
-<a href="https://opencollective.com/Docusaurus/sponsor/1/website" target="_blank"><img src="https://opencollective.com/Docusaurus/sponsor/1/avatar.svg"></a>
-
-
+<a href="https://opencollective.com/Docusaurus/sponsor/0/website" target="_blank"><img src="https://opencollective.com/Docusaurus/sponsor/0/avatar.svg"></a> <a href="https://opencollective.com/Docusaurus/sponsor/1/website" target="_blank"><img src="https://opencollective.com/Docusaurus/sponsor/1/avatar.svg"></a>
 
 ## License
 

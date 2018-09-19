@@ -5,7 +5,7 @@
     "url": "https://github.com/facebook/Docusaurus.git"
   },
   "scripts": {
-    "ci-check": "yarn prettier && cd v1 && yarn ci-check",
+    "precommit": "lint-staged",
     "prettier": "prettier --config .prettierrc --write \"**/*.js\"",
     "prettier:diff": "prettier --config .prettierrc --list-different \"**/*.js\"",
     "start": "cd v1/website && yarn start"
