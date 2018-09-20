@@ -22,7 +22,7 @@ class MarkdownRenderer {
   constructor() {
     const siteConfig = require(`${CWD}/siteConfig.js`);
 
-    let markdownConfig = {
+    let markdownOptions = {
       // Highlight.js expects hljs css classes on the code element.
       // This results in <pre><code class="hljs css languages-jsx">
       langPrefix: 'hljs css language-',
@@ -70,12 +70,12 @@ class MarkdownRenderer {
       linkify: true,
     };
 
-    // Allow client to use there own config
-    if (siteConfig.markdownConfig) {
-      markdownConfig = deepmerge({}, markdownConfig, siteConfig.markdownConfig);
+    // Allow overriding default options
+    if (siteConfig.markdownOptions) {
+      markdownOptions = deepmerge({}, markdownOptions, siteConfig.markdownOptions);
     }
 
-    const md = new Markdown(markdownConfig);
+    const md = new Markdown(markdownOptions);
 
     // Register anchors plugin
     md.use(anchors);
