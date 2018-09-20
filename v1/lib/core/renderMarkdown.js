@@ -8,7 +8,7 @@
 const hljs = require('highlight.js');
 const Markdown = require('remarkable');
 const prismjs = require('prismjs');
-const deepmerge = require("deepmerge");
+const deepmerge = require('deepmerge');
 
 const anchors = require('./anchors.js');
 
@@ -72,7 +72,11 @@ class MarkdownRenderer {
 
     // Allow overriding default options
     if (siteConfig.markdownOptions) {
-      markdownOptions = deepmerge({}, markdownOptions, siteConfig.markdownOptions);
+      markdownOptions = deepmerge(
+        {},
+        markdownOptions,
+        siteConfig.markdownOptions,
+      );
     }
 
     const md = new Markdown(markdownOptions);
