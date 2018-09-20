@@ -149,6 +149,8 @@ h1 {
 
 `manifest` - Path to your web app manifest (e.g., `/manifest.json`). This will add a `<link>` tag to `<head>` with `rel` as `"manifest"` and `content` as the provided path.
 
+`markdownOptions` - Override default [Remarkable options](https://github.com/jonschlinkert/remarkable#options) that will be used to render markdown.
+
 `markdownPlugins` - An array of plugins to be loaded by Remarkable, the markdown parser and renderer used by Docusaurus. The plugin will receive a reference to the Remarkable instance, allowing custom parsing and rendering rules to be defined.
 
 `ogImage` - Local path to an Open Graph image (e.g., `img/myImage.png`). This image will show up when your site is shared on Facebook and other websites/apps where the Open Graph protocol is supported.

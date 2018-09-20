@@ -8,6 +8,7 @@
 const hljs = require('highlight.js');
 const Markdown = require('remarkable');
 const prismjs = require('prismjs');
+const deepmerge = require('deepmerge');
 
 const anchors = require('./anchors.js');
 
@@ -21,7 +22,7 @@ class MarkdownRenderer {
   constructor() {
     const siteConfig = require(`${CWD}/siteConfig.js`);
 
-    const md = new Markdown({
+    let markdownOptions = {
       // Highlight.js expects hljs css classes on the code element.
       // This results in <pre><code class="hljs css languages-jsx">
       langPrefix: 'hljs css language-',
@@ -67,7 +68,18 @@ class MarkdownRenderer {
       },
       html: true,
       linkify: true,
-    });
+    };
+
+    // Allow overriding default options
+    if (siteConfig.markdownOptions) {
+      markdownOptions = deepmerge(
+        {},
+        markdownOptions,
+        siteConfig.markdownOptions,
+      );
+    }
+
+    const md = new Markdown(markdownOptions);
 
     // Register anchors plugin
     md.use(anchors);

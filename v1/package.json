@@ -3,7 +3,12 @@
   "description": "Easy to Maintain Open Source Documentation Websites",
   "version": "1.4.0",
   "license": "MIT",
-  "keywords": ["documentation", "websites", "open source", "docusaurus"],
+  "keywords": [
+    "documentation",
+    "websites",
+    "open source",
+    "docusaurus"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/facebook/Docusaurus.git"
@@ -14,7 +19,11 @@
     "start": "cd website && yarn start"
   },
   "jest": {
-    "testPathIgnorePatterns": ["/node_modules/", "__fixtures__", "v2"],
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "__fixtures__",
+      "v2"
+    ],
     "testURL": "http://localhost/"
   },
   "bin": {
