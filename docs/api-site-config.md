@@ -149,7 +149,7 @@ h1 {
 
 `manifest` - Path to your web app manifest (e.g., `/manifest.json`). This will add a `<link>` tag to `<head>` with `rel` as `"manifest"` and `content` as the provided path.
 
-`markdownConfig` - The config [remarkable](https://github.com/jonschlinkert/remarkable) will use to render markdown. Config option can be found here: https://github.com/jonschlinkert/remarkable#options.
+`markdownOptions` - Override default [Remarkable options](https://github.com/jonschlinkert/remarkable#options) that will be used to render markdown.
 
 `markdownPlugins` - An array of plugins to be loaded by Remarkable, the markdown parser and renderer used by Docusaurus. The plugin will receive a reference to the Remarkable instance, allowing custom parsing and rendering rules to be defined.
 
