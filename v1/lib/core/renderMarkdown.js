@@ -8,7 +8,7 @@
 const hljs = require('highlight.js');
 const Markdown = require('remarkable');
 const prismjs = require('prismjs');
-const _ = require("lodash");
+const deepmerge = require("deepmerge");
 
 const anchors = require('./anchors.js');
 
@@ -72,7 +72,7 @@ class MarkdownRenderer {
 
     // Allow client to use there own config
     if (siteConfig.markdownConfig) {
-      markdownConfig = _.merge({}, markdownConfig, siteConfig.markdownConfig);
+      markdownConfig = deepmerge({}, markdownConfig, siteConfig.markdownConfig);
     }
 
     const md = new Markdown(markdownConfig);
