@@ -96,7 +96,7 @@ If you're only fixing a bug, it's fine to submit a pull request right away but w
 
 ### Sending a pull request
 
-Small pull requests are much easier to review and more likely to get merged. Make sure the PR does only one thing, otherwise please split it. It is recommended to follow this [commit messages style](#semantic-commit-messages).
+Small pull requests are much easier to review and more likely to get merged. Make sure the PR does only one thing, otherwise please split it. It is recommended to follow this [commit message style](#semantic-commit-messages).
 
 Please make sure the following is done when submitting a pull request:
 
@@ -166,7 +166,7 @@ Format: `<type>(<scope>): <subject>`
 ## Example
 
 ```
-feat: allow overriding webpack config
+feat: allow overriding of webpack config
 ^--^  ^------------^
 |     |
 |     +-> Summary in present tense.
@@ -174,7 +174,7 @@ feat: allow overriding webpack config
 +-------> Type: chore, docs, feat, fix, refactor, style, or test.
 ```
 
-More Examples:
+The various types of commits:
 
 - `feat`: (new feature for the user, not a new feature for build script)
 - `fix`: (bug fix for the user, not a fix to a build script)
@@ -183,6 +183,8 @@ More Examples:
 - `refactor`: (refactoring production code, eg. renaming a variable)
 - `test`: (adding missing tests, refactoring tests; no production code change)
 - `chore`: (updating grunt tasks etc; no production code change)
+
+Use lower case not title case!
 
 ### Code Conventions
 
