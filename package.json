@@ -5,6 +5,8 @@
     "url": "https://github.com/facebook/Docusaurus.git"
   },
   "scripts": {
+    "lint:v1": "cd v1 && yarn lint",
+    "lint:v2": "cd v2 && yarn lint",
     "precommit": "lint-staged",
     "prettier": "prettier --config .prettierrc --write \"**/*.js\"",
     "prettier:diff": "prettier --config .prettierrc --list-different \"**/*.js\"",
@@ -17,7 +19,7 @@
   },
   "lint-staged": {
     "linters": {
-      "{v1,v2}/**/*.js": ["yarn lint --fix", "yarn prettier", "git add"]
+      "{v1,v2}/**/*.js": ["yarn lint:v1 --fix", "yarn lint:v2 --fix", "yarn prettier", "git add"]
     }
   }
 }
