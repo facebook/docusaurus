@@ -96,7 +96,7 @@ If you're only fixing a bug, it's fine to submit a pull request right away but w
 
 ### Sending a pull request
 
-Small pull requests are much easier to review and more likely to get merged. Make sure the PR does only one thing, otherwise please split it. IT is recommended to follow this [commit messages style](#semantic-commit-messages)
+Small pull requests are much easier to review and more likely to get merged. Make sure the PR does only one thing, otherwise please split it. It is recommended to follow this [commit messages style](#semantic-commit-messages).
 
 Please make sure the following is done when submitting a pull request:
 
