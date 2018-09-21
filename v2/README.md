@@ -1,4 +1,4 @@
-# Munseo
+# Docusaurus 2
 
 ## Development Server
 
