@@ -4,13 +4,13 @@ import ReactDOMServer from 'react-dom/server';
 import Helmet from 'react-helmet';
 
 import App from './App';
-import prerender from './prerender';
+import preload from './preload';
 import routes from '@generated/routes'; // eslint-disable-line
 import webpackClientStats from '@build/client.stats.json'; //eslint-disable-line
 
 // Renderer for static-site-generator-webpack-plugin (async rendering via promises)
 export default function render(locals) {
-  return prerender(routes, locals.path).then(() => {
+  return preload(routes, locals.path).then(() => {
     const context = {};
     const appHtml = ReactDOMServer.renderToString(
       <StaticRouter location={locals.path} context={context}>
