@@ -35,8 +35,6 @@ describe('extending generated webpack config', () => {
       },
     });
     const errors = validate(config);
-
-    console.log(errors);
     expect(errors.length).toBe(0);
   });
 

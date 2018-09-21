@@ -31,10 +31,13 @@ module.exports = function createServerConfig(props) {
     },
   ]);
 
-  // show compilation progress bar and build time
+  // show compilation progress bar
+  const isProd = process.env.NODE_ENV === 'production';
   config
     .plugin('niceLog')
-    .use(webpackNiceLog, [{name: 'Server', color: 'yellow'}]);
+    .use(webpackNiceLog, [
+      {name: 'Server', color: 'yellow', skipBuildTime: isProd},
+    ]);
 
   // user extended webpack-chain config
   applyChainWebpack(props.siteConfig.chainWebpack, config, true);

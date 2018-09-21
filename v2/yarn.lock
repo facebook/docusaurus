@@ -6994,9 +6994,9 @@ webpack-merge@^4.1.4:
   dependencies:
     lodash "^4.17.5"
 
-webpack-nicelog@^2.2.1:
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/webpack-nicelog/-/webpack-nicelog-2.2.1.tgz#e3458003ce0d98966e930657176fb4eb6f536b85"
+webpack-nicelog@^2.3.1:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/webpack-nicelog/-/webpack-nicelog-2.3.1.tgz#35141251ad959df0c39069021de39b47b55cf65b"
   dependencies:
     chalk "^2.4.1"
     react-dev-utils "^5.0.1"

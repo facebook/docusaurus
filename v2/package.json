@@ -1,30 +1,35 @@
 {
-  "name": "munseo",
-  "version": "0.0.1",
-  "description": "📝⚡️ Transform your document (문서) to a website",
-  "main": "lib/index.js",
+  "name": "docusaurus",
+  "description": "Easy to Maintain Open Source Documentation Websites",
+  "version": "2.0.0",
+  "license": "MIT",
+  "keywords": [
+    "react",
+    "static site generator",
+    "webpack",
+    "documentation",
+    "websites",
+    "open source",
+    "docusaurus"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/Docusaurus.git"
+  },
   "bin": {
-    "munseo": "bin/munseo.js"
+    "docusaurus": "bin/docusaurus.js"
   },
   "scripts": {
-    "munseo": "node bin/munseo",
-    "start": "node bin/munseo start website",
-    "build": "node bin/munseo build website",
-    "eject": "node bin/munseo eject website",
+    "docusaurus": "node bin/docusaurus",
+    "start": "node bin/docusaurus start website",
+    "build": "node bin/docusaurus build website",
+    "eject": "node bin/docusaurus eject website",
     "lint": "eslint --cache \"lib/**/*.js\" \"bin/**/*.js\" \"test/**/*.js\"",
     "test": "jest --config test/jest.config.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/endiliey/munseo.git"
-  },
-  "keywords": ["blog", "generator", "react"],
-  "author": "endiliey",
-  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/endiliey/munseo/issues"
+    "url": "https://github.com/facebook/Docusaurus/issues"
   },
-  "homepage": "https://github.com/endiliey/munseo#readme",
   "devDependencies": {
     "eslint": "^4.19.1",
     "eslint-config-airbnb": "17.0.0",
@@ -79,7 +84,7 @@
     "webpack": "^4.16.3",
     "webpack-chain": "^4.8.0",
     "webpack-merge": "^4.1.4",
-    "webpack-nicelog": "^2.2.1",
+    "webpack-nicelog": "^2.3.1",
     "webpack-serve": "^2.0.2",
     "webpack-stats-plugin": "^0.2.1"
   },

@@ -21,7 +21,10 @@ module.exports = function createClientConfig(props) {
     .use(StatsWriterPlugin, [{filename: 'client.stats.json'}]);
 
   // show compilation progress bar and build time
-  config.plugin('niceLog').use(webpackNiceLog, [{name: 'Client'}]);
+  const isProd = process.env.NODE_ENV === 'production';
+  config
+    .plugin('niceLog')
+    .use(webpackNiceLog, [{name: 'Client', skipBuildTime: isProd}]);
 
   // user extended webpack-chain config
   applyChainWebpack(props.siteConfig.chainWebpack, config, false);

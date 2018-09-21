@@ -1,4 +1,4 @@
 module.exports = {
-  title: 'Munseo',
+  title: 'docusaurus',
   baseUrl: '/',
 };

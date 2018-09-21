@@ -1,7 +1,7 @@
 module.exports = {
-  title: 'Munseo',
+  title: 'docusaurus',
   tagline: '📝⚡️ Transform your document (문서) to a website',
-  organizationName: 'endiliey',
-  projectName: 'munseo',
+  organizationName: 'facebook',
+  projectName: 'docusaurus',
   baseUrl: '/',
 };
