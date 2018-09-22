@@ -1,0 +1,4 @@
+static/**/*.js
+build
+node_modules
+v2
