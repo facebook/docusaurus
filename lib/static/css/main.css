@@ -2287,7 +2287,7 @@ input::placeholder {
   border-bottom-width: 2px;
 }
 .tabcontent {
-  display: none;
+  display: solid;
   border-top: none;
 }
 .tab button {

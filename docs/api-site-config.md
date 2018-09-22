@@ -6,9 +6,9 @@ title: siteConfig.js
 A large part of site configuration is done by editing the `siteConfig.js` file.
 
 <div class="tab">
-  <button class="tablinks" id="userShowcaseLink" onclick="openConfig(event, 'userShowcase')">User Showcase</button>
-  <button class="tablinks" id="fieldsLink" onclick="openConfig(event, 'fields')">siteConfig Fields</button>
-  <button class="tablinks" id="examplesLink" onclick="openConfig(event, 'examples')">Examples</button>
+  <button class="tablinks" id="userShowcaseLink" onclick="openConfig(0)">User Showcase</button>
+  <button class="tablinks" id="fieldsLink" onclick="openConfig(1)">siteConfig Fields</button>
+  <button class="tablinks" id="examplesLink" onclick="openConfig(2)">Examples</button>
 </div>
 
 <div id="userShowcase" class="tabcontent">
@@ -299,8 +299,3 @@ module.exports = siteConfig;
 ```
 
 </div>
-
-<script>
-  document.getElementById('userShowcase').style.display = "block";
-  document.getElementById("userShowcaseLink").className += " active";
-</script>
