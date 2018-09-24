@@ -80,7 +80,7 @@ class DocsLayout extends React.Component {
           <script
             dangerouslySetInnerHTML={{
               __html: `
-                function openConfig(num) {
+                function showTabContent(num) {
                   var i, tabContent, tabLinks;
                   tabContent = document.getElementsByClassName("tabcontent");
                   for (i = 0; i < tabContent.length; i++) {
@@ -88,17 +88,22 @@ class DocsLayout extends React.Component {
                   }
                   tabLinks = document.getElementsByClassName("tablinks");
                   for (i = 0; i < tabLinks.length; i++) {
-                      tabLinks[i].className = tabLinks[i].className.replace(" active", "");
+                      tabLinks[i].className = tabLinks[i].className.replace(/ active$/, "");
                   }
-                  tabContent[num].style.display = "block";
-                  tabLinks[num].className += " active";
+                  if(num<tabContent.length)
+                      tabContent[num].style.display = "block";
+                  if(num<tabLinks.length)
+                      tabLinks[num].className += " active";
 
                   rightSideToc=document.getElementsByClassName('toc-headings');
-                  headings=rightSideToc[0].children;
-                  for(i = 0; i < headings.length; i++){
-                    headings[i].style.display="none";  
+                  if(rightSideToc.length>0){
+                      headings=rightSideToc[0].children;
+                      for(i = 0; i < headings.length; i++){
+                        headings[i].style.display="none";  
+                      }
+                      if(num<headings.length)
+                      headings[num].style.display="block";
                   }
-                  headings[num].style.display="block";
               }
                 `,
             }}
