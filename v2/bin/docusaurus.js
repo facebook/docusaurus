@@ -4,7 +4,7 @@ const chalk = require('chalk');
 const semver = require('semver');
 const path = require('path');
 const program = require('commander');
-const {build, eject, init, start} = require('../lib');
+const {build, eject, init, deploy, start} = require('../lib');
 const requiredVersion = require('../package.json').engines.node;
 
 if (!semver.satisfies(process.version, requiredVersion)) {
@@ -54,6 +54,13 @@ program
   .description('Initialize website')
   .action((projectDir = '.') => {
     wrapCommand(init)(path.resolve(projectDir));
+  });
+
+program
+  .command('deploy [siteDir]')
+  .description('deploy website')
+  .action((siteDir = '.') => {
+    wrapCommand(deploy)(path.resolve(siteDir));
   });
 
 program

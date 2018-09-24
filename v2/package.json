@@ -24,6 +24,7 @@
     "start": "node bin/docusaurus start website",
     "build": "node bin/docusaurus build website",
     "eject": "node bin/docusaurus eject website",
+    "deploy": "node bin/docusaurus deploy website",
     "lint": "eslint --cache \"lib/**/*.js\" \"bin/**/*.js\" \"test/**/*.js\"",
     "test": "jest --config test/jest.config.js"
   },
@@ -78,6 +79,7 @@
     "react-youtube": "^7.6.0",
     "remarkable": "^1.7.1",
     "semver": "^5.5.0",
+    "shelljs": "^0.8.2",
     "static-site-generator-webpack-plugin": "endiliey/static-site-generator-webpack-plugin#master",
     "style-loader": "^0.22.1",
     "uglifyjs-webpack-plugin": "^1.3.0",
