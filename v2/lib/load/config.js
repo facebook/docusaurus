@@ -27,6 +27,7 @@ module.exports = function loadConfig(siteDir, deleteCache = true) {
     'chainWebpack',
     'docsUrl',
     'customFields',
+    'githubHost',
   ];
   const missingFields = requiredFields.filter(field => !config[field]);
   if (missingFields && missingFields.length > 0) {
