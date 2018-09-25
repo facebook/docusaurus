@@ -8,3 +8,7 @@
   margin-right: auto;
   justify-content: center;
 }
+.authorList {
+  min-width: 100%;
+  text-align: center;
+}

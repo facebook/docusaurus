@@ -73,7 +73,23 @@ export default class Docs extends React.Component {
               </Link>
             )}
         </div>
-        <div className={styles.mainContainer}>{this.props.children}</div>
+        <div className={styles.mainContainer}>
+          {this.props.children}
+          {metadata &&
+            metadata.authors &&
+            metadata.totalLineCount && (
+              <div className={styles.authorList}>
+                {metadata.authors
+                  .map(({name, lineCount}) => {
+                    const contribution =
+                      ((lineCount / metadata.totalLineCount) * 100).toFixed(2) +
+                      '%';
+                    return `${name} (${contribution})`;
+                  })
+                  .join(', ')}
+              </div>
+            )}
+        </div>
       </Layout>
     );
   }
