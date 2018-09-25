@@ -68,24 +68,27 @@ module.exports = async function processMetadata(
     | grep -I "^author " | sort | uniq -c | sort -nr; \
   `
   ).toString().split('\n');
-  let authorData;
-  const authors = [];
-  let totalLineCount = 0;
-  results.forEach(result => {
-    if ((authorData = authorRegex.exec(result)) !== null) {
-      const lineCount = parseInt(authorData[1]);
-      const name = authorData[2];
-      authors.push({
-        lineCount,
-        name,
-      });
-      totalLineCount += lineCount;
-    }
-    authorRegex.lastIndex = 0;
-  });
+  /* handle case where it's not github repo */
+  if (results.length && results[0].length) {
+    let authorData;
+    const authors = [];
+    let totalLineCount = 0;
+    results.forEach(result => {
+      if ((authorData = authorRegex.exec(result)) !== null) {
+        const lineCount = parseInt(authorData[1]);
+        const name = authorData[2];
+        authors.push({
+          lineCount,
+          name,
+        });
+        totalLineCount += lineCount;
+      }
+      authorRegex.lastIndex = 0;
+    });
 
-  metadata.authors = authors;
-  metadata.totalLineCount = totalLineCount;
+    metadata.authors = authors;
+    metadata.totalLineCount = totalLineCount;
+  }
 
   /* language */
   const language = getLanguage(filepath, refDir, env);
