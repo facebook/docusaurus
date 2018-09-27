@@ -938,7 +938,9 @@ input#search_input_react:active {
   color: #fff;
   width: 220px;
 }
-
+.navigationSlider .slidingNav .navSearchWrapper .algolia-docsearch-footer a {
+  height: auto;
+}
 @media only screen and (max-width: 735px) {
   .navSearchWrapper {
     width: 40%;
@@ -1385,13 +1387,18 @@ input::placeholder {
   .reactNavSearchWrapper .aa-dropdown-menu {
     font-size: 12px;
     line-height: 2em;
-    -webkit-overflow-scrolling: touch;
-    overflow-y: scroll;
     padding: 0;
     border-width: 1px;
+    min-width: 500px;
   }
   .reactNavSearchWrapper .algolia-docsearch-suggestion__secondary {
     border-top: none;
+  }
+  .aa-suggestions {
+    min-height: 140px;
+    max-height: 60vh;
+    -webkit-overflow-scrolling: touch;
+    overflow-y: scroll;
   }
 
   #languages-dropdown {
@@ -1473,6 +1480,14 @@ input::placeholder {
   }
   .navigationSlider .slidingNav ul::-webkit-scrollbar {
     display: none;
+  }
+  .reactNavSearchWrapper .aa-dropdown-menu {
+    min-width: 400px;
+  }
+}
+@media only screen and (max-width: 475px) {
+  .reactNavSearchWrapper .aa-dropdown-menu {
+    min-width: 300px;
   }
 }
 
