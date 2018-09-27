@@ -1383,19 +1383,15 @@ input::placeholder {
   }
 
   .reactNavSearchWrapper .aa-dropdown-menu {
-    background: #f9f9f9;
-    border: 0px solid #f9f9f9;
-    border-radius: 0;
-    color: #393939;
     font-size: 12px;
     line-height: 2em;
-    max-height: 140px;
-    min-width: auto;
     -webkit-overflow-scrolling: touch;
     overflow-y: scroll;
     padding: 0;
-    position: relative !important;
-    width: 100%;
+    border-width: 1px;
+  }
+  .reactNavSearchWrapper .algolia-docsearch-suggestion__secondary {
+    border-top: none;
   }
 
   #languages-dropdown {
