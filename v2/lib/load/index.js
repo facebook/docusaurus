@@ -49,7 +49,7 @@ module.exports = async function load(siteDir) {
 
   // pages
   const pagesDir = path.resolve(siteDir, 'pages');
-  const pagesMetadatas = await loadPages(pagesDir);
+  const pagesMetadatas = await loadPages({pagesDir, env, siteConfig});
   await generate(
     'pagesMetadatas.js',
     `export default ${JSON.stringify(pagesMetadatas, null, 2)};`,

@@ -5,15 +5,18 @@ import styles from './styles.css';
 /* eslint-disable react/prefer-stateless-function */
 export default class Layout extends React.Component {
   render() {
-    const {children, pagesMetadatas, docsMetadatas = {}, location} = this.props;
-    const docsLinks = Object.values(docsMetadatas).map(data => ({
-      path: `${data.permalink}`,
-    }));
-    const routeLinks = [...pagesMetadatas, ...docsLinks].map(
+    const {
+      children,
+      pagesMetadatas = [],
+      docsMetadatas = {},
+      location,
+    } = this.props;
+    const docsFlatMetadatas = Object.values(docsMetadatas);
+    const routeLinks = [...pagesMetadatas, ...docsFlatMetadatas].map(
       data =>
-        data.path !== location.pathname && (
-          <li key={data.path}>
-            <Link to={data.path}>{data.path}</Link>
+        data.permalink !== location.pathname && (
+          <li key={data.permalink}>
+            <Link to={data.permalink}>{data.permalink}</Link>
           </li>
         ),
     );

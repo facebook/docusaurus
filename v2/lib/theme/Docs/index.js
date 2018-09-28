@@ -52,10 +52,14 @@ export default class Docs extends React.Component {
       docsSidebars,
       metadata,
     } = this.props;
+    const {language, version} = metadata;
     return (
       <Layout {...this.props}>
         <Helmet>
           <title>{(metadata && metadata.title) || siteConfig.title}</title>
+          {language && <html lang={language} />}
+          {language && <meta name="docsearch:language" content={language} />}
+          {version && <meta name="docsearch:version" content={version} />}
         </Helmet>
         <div>{this.renderSidebar(metadata, docsSidebars, docsMetadatas)}</div>
         <div>
