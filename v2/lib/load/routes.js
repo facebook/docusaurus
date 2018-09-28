@@ -20,14 +20,23 @@ async function genRoutesConfig({docsMetadatas = {}, pagesMetadatas = []}) {
   }`;
   }
 
-  function genPagesRoute({path: pagesPath, source}) {
+  function genPagesRoute(metadata) {
+    const {permalink, source} = metadata;
     return `
   {
-    path: ${JSON.stringify(pagesPath)},
+    path: ${JSON.stringify(permalink)},
     exact: true,
     component: Loadable({
-      loader: () => import('@pages/${source}'),
-      loading: Loading
+      loader: () => import(${JSON.stringify(source)}),
+      loading: Loading,
+      render(loaded, props) {
+        let Content = loaded.default;
+        return (
+          <Pages {...props} metadata={${JSON.stringify(metadata)}}>
+            <Content {...props} metadata={${JSON.stringify(metadata)}} />
+          </Pages>
+        );
+      }
     })
   }`;
   }
@@ -47,6 +56,7 @@ async function genRoutesConfig({docsMetadatas = {}, pagesMetadatas = []}) {
     `import Loadable from 'react-loadable';\n` +
     `import Loading from '@theme/Loading';\n` +
     `import Docs from '@theme/Docs';\n` +
+    `import Pages from '@theme/Pages';\n` +
     `import NotFound from '@theme/NotFound';\n` +
     `const routes = [${docsRoutes},${pagesMetadatas
       .map(genPagesRoute)

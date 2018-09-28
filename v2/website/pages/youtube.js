@@ -1,7 +1,6 @@
 import React from 'react';
 import Helmet from 'react-helmet';
 import YouTube from 'react-youtube';
-import Layout from '@theme/Layout';
 
 export default class Player extends React.Component {
   render() {
@@ -14,15 +13,15 @@ export default class Player extends React.Component {
     };
 
     return (
-      <Layout {...this.props}>
+      <div>
         <Helmet>
           <title>My Youtube</title>
         </Helmet>
-        <p align="center">
+        <div align="center">
           {/* this is a React-youtube component */}
           <YouTube videoId="d9IxdwEFk1c" opts={opts} onReady={this._onReady} />
-        </p>
-      </Layout>
+        </div>
+      </div>
     );
   }
 

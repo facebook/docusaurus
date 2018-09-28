@@ -17,10 +17,10 @@ module.exports = function createServerConfig(props) {
   const {siteConfig, docsMetadatas, pagesMetadatas} = props;
 
   // static site generator webpack plugin
-  const docsLinks = Object.values(docsMetadatas).map(data => ({
-    path: `${data.permalink}`,
-  }));
-  const paths = [...docsLinks, ...pagesMetadatas].map(data => data.path);
+  const docsFlatMetadatas = Object.values(docsMetadatas);
+  const paths = [...docsFlatMetadatas, ...pagesMetadatas].map(
+    data => data.permalink,
+  );
   config.plugin('siteGenerator').use(staticSiteGenerator, [
     {
       entry: 'main',
