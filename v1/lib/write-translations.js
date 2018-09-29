@@ -9,15 +9,15 @@
 
 /* generate the i18n/en.json file */
 
-require('babel-register')({
+require('@babel/register')({
   babelrc: false,
   only: [__dirname, `${process.cwd()}/core`],
   plugins: [
     require('./server/translate-plugin.js'),
-    'transform-class-properties',
-    'transform-object-rest-spread',
+    '@babel/plugin-proposal-class-properties',
+    '@babel/plugin-proposal-object-rest-spread',
   ],
-  presets: ['react', 'env'],
+  presets: ['@babel/react', '@babel/env'],
 });
 
 const traverse = require('@babel/traverse').default;

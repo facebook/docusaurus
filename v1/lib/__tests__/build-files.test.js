@@ -28,7 +28,7 @@ let outputAssetsFiles = [];
 
 function generateSite() {
   shell.cd('website');
-  shell.exec('yarn build', {silent: true});
+  shell.exec('yarn build');
 }
 
 function clearBuildFolder() {
