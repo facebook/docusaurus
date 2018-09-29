@@ -13,14 +13,7 @@ const siteConfig = {
   tagline: 'Easy to Maintain Open Source Documentation Websites',
   url: 'https://docusaurus.io',
   baseUrl: '/',
-<<<<<<< HEAD:v1/website/siteConfig.js
-<<<<<<< HEAD:v1/website/siteConfig.js
   docsUrl: 'docs',
-=======
->>>>>>> Make "docsUrl" field optional:website/siteConfig.js
-=======
-  docsUrl: 'docs',
->>>>>>> Isolate docsUrl login in getDocsUrl function:website/siteConfig.js
   organizationName: 'facebook',
   projectName: 'Docusaurus',
   cname: 'docusaurus.io',

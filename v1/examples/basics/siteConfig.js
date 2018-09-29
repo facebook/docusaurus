@@ -28,17 +28,8 @@ const siteConfig = {
   // For github.io type URLs, you would set the url and baseUrl like:
   //   url: 'https://facebook.github.io',
   //   baseUrl: '/test-site/',
-<<<<<<< HEAD:v1/examples/basics/siteConfig.js
-<<<<<<< HEAD:v1/examples/basics/siteConfig.js
-  docsUrl: 'docs', // route for your project documentation pages */
-  // You coult set something like:
-  //   docsUrl: 'alpha-docs'
-=======
->>>>>>> Make "docsUrl" field optional:examples/basics/siteConfig.js
-
-=======
   docsUrl: 'docs',
->>>>>>> Isolate docsUrl login in getDocsUrl function:examples/basics/siteConfig.js
+
   // Used for publishing and more
   projectName: 'test-site',
   organizationName: 'facebook',

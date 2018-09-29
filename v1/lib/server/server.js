@@ -161,7 +161,7 @@ function execute(port) {
     next();
   });
 
-  app.get(routing.blog(siteConfig.baseUrl, siteConfig.docsUrl), (req, res, next) => {
+  app.get(routing.blog(siteConfig.baseUrl), (req, res, next) => {
     // Regenerate the blog metadata in case it has changed. Consider improving
     // this to regenerate on file save rather than on page request.
     reloadMetadataBlog();
@@ -247,6 +247,7 @@ function execute(port) {
           language = parts[i];
         }
       }
+
       let englishFile = join(CWD, 'pages', file);
       if (language && language !== 'en') {
         englishFile = englishFile.replace(
@@ -254,59 +255,6 @@ function execute(port) {
           `${sep}en${sep}`
         );
       }
-
-      // check for: a file for the page, an english file for page with unspecified language, or an
-      // english file for the page
-      if (
-        fs.existsSync(userFile) ||
-        fs.existsSync(
-          (userFile = userFile.replace(
-            path.basename(userFile),
-            `en${sep}${path.basename(userFile)}`
-          ))
-        ) ||
-        fs.existsSync((userFile = englishFile))
-      ) {
-        // copy into docusaurus so require paths work
-        const userFileParts = userFile.split(`pages${sep}`);
-        let tempFile = join(__dirname, '..', 'pages', userFileParts[1]);
-        tempFile = tempFile.replace(
-          path.basename(file),
-          `temp${path.basename(file)}`
-        );
-        mkdirp.sync(path.dirname(tempFile));
-        fs.copySync(userFile, tempFile);
-
-        // render into a string
-        removeModuleAndChildrenFromCache(tempFile);
-        const ReactComp = require(tempFile);
-        removeModuleAndChildrenFromCache(join('..', 'core', 'Site.js'));
-        const Site = require(join('..', 'core', 'Site.js'));
-        translate.setLanguage(language);
-        const str = renderToStaticMarkupWithDoctype(
-          <Site
-            language={language}
-            config={siteConfig}
-            metadata={{id: path.basename(htmlFile, '.html')}}>
-            <div
-              dangerouslySetInnerHTML={{
-                __html: fs.readFileSync(htmlFile, {encoding: 'utf8'}),
-              }}
-            />
-          </Site>,
-        );
-
-        fs.removeSync(tempFile);
-
-        res.send(str);
-      } else {
-        next();
-      }
-    }
-    let englishFile = join(CWD, 'pages', file);
-    if (language && language !== 'en') {
-      englishFile = englishFile.replace(sep + language + sep, `${sep}en${sep}`);
-    }
 
     // check for: a file for the page, an english file for page with unspecified language, or an
     // english file for the page
