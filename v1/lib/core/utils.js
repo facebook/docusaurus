@@ -6,6 +6,8 @@
  */
 const spawn = require('cross-spawn');
 
+const execSync = require('child_process').execSync;
+
 const TRUNCATE_MARKER = /<!--\s*truncate\s*-->/;
 
 function blogPostHasTruncateMarker(content) {
@@ -49,10 +51,42 @@ function getGitLastUpdated(filepath) {
   return null;
 }
 
+function getAuthorInformation(filepath) {
+  /* set metadata author */
+  const authorRegex = /(\d+) author (.+)$/g;
+  const results = execSync(
+    `git blame --line-porcelain ${filepath} \
+    | grep -I "^author " | sort | uniq -c | sort -nr; \
+  `
+  ).toString().split('\n');
+
+  const authors = [];
+  let totalLineCount = 0;
+
+  /* handle case where it's not github repo */
+  if (results.length && results[0].length) {
+    let authorData;
+    results.forEach(result => {
+      if ((authorData = authorRegex.exec(result)) !== null) {
+        const lineCount = parseInt(authorData[1]);
+        const name = authorData[2];
+        authors.push({
+          lineCount,
+          name,
+        });
+        totalLineCount += lineCount;
+      }
+      authorRegex.lastIndex = 0;
+    });
+  }
+  return { authors, totalLineCount };
+}
+
 module.exports = {
   blogPostHasTruncateMarker,
   extractBlogPostBeforeTruncate,
   getGitLastUpdated,
+  getAuthorInformation,
   getPath,
   removeExtension,
   idx,

@@ -17,7 +17,7 @@ const OnPageNav = require('./nav/OnPageNav.js');
 const Site = require('./Site.js');
 const translation = require('../server/translation.js');
 const docs = require('../server/docs.js');
-const {idx, getGitLastUpdated} = require('./utils.js');
+const {idx, getGitLastUpdated, getAuthorInformation } = require('./utils.js');
 
 // component used to generate whole webpage for docs, including sidebar/header/footer
 class DocsLayout extends React.Component {
@@ -45,11 +45,11 @@ class DocsLayout extends React.Component {
       DocComponent = this.props.Doc;
     }
     let updateTime;
+    const filepath = docs.getFilePath(metadata);
     if (this.props.config.enableUpdateTime) {
-      const filepath = docs.getFilePath(metadata);
       updateTime = getGitLastUpdated(filepath);
     }
-
+    const { authors, totalLineCount } = getAuthorInformation(filepath);
     const title =
       idx(i18n, ['localized-strings', 'docs', id, 'title']) || defaultTitle;
     const hasOnPageNav = this.props.config.onPageNav === 'separate';
@@ -131,6 +131,16 @@ class DocsLayout extends React.Component {
                   {updateTime}
                 </p>
               )}
+            {authors.length && !!totalLineCount &&
+            (<p style={{fontSize: '12px', textAlign: 'right'}}>
+              <strong>Written by: </strong>
+              {authors.map(({name, lineCount}) => {
+                const contribution =
+                  ((lineCount / totalLineCount) * 100).toFixed(2);
+                return `${name} (${contribution}%)`;
+              }).join(', ')}
+            </p>)
+            }
           </Container>
           {hasOnPageNav && (
             <nav className="onPageNav docOnPageNav">
