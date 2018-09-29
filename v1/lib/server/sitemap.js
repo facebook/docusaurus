@@ -75,7 +75,7 @@ module.exports = function(callback) {
       const links = enabledLanguages.map(lang => {
         const langUrl = docUrl.replace(
           `${getDocsUrl(siteConfig.docsUrl)}/en/`,
-          `${getDocsUrl(siteConfig.docsUrl)}/${lang.tag}/`
+          `${getDocsUrl(siteConfig.docsUrl)}/${lang.tag}/`,
         );
         return {lang: lang.tag, url: langUrl};
       });

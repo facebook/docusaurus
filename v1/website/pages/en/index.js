@@ -53,7 +53,7 @@ class HomeSplash extends React.Component {
                     <Button
                       href={`
                         ${siteConfig.baseUrl}${getDocsUrl(
-                        siteConfig.docsUrl
+                        siteConfig.docsUrl,
                       )}/${this.props.language}/installation
                         `}>
                       <translate>Get Started</translate>
@@ -118,7 +118,7 @@ class Index extends React.Component {
                 },
                 {
                   content: `[Localization](${siteConfig.baseUrl}${getDocsUrl(
-                    siteConfig.docsUrl
+                    siteConfig.docsUrl,
                   )}${this.props.language}/translation)
                     comes pre-configured. Use [Crowdin](https://crowdin.com/) to translate your docs
                     into over 70 languages.`,
@@ -138,7 +138,7 @@ class Index extends React.Component {
                 {
                   content: `Support users on all versions of your project. Document
                     [versioning](${siteConfig.baseUrl}${getDocsUrl(
-                    siteConfig.docsUrl
+                    siteConfig.docsUrl,
                   )}/${this.props.language}/versioning)
                     helps you keep documentation in sync with project releases.`,
                   image: `${siteConfig.baseUrl}img/versioning.svg`,
@@ -187,12 +187,12 @@ class Index extends React.Component {
                 {
                   content: `Make design and documentation changes by using the included
                     [live server](${siteConfig.baseUrl}${getDocsUrl(
-                    siteConfig.docsUrl
+                    siteConfig.docsUrl,
                   )}/${
                     this.props.language
                   }/site-preparation#verifying-installation).
                     [Publish](${siteConfig.baseUrl}${getDocsUrl(
-                    siteConfig.docsUrl
+                    siteConfig.docsUrl,
                   )}/${this.props.language}/publishing)
                     your site to GitHub pages or other static file hosts
                     manually, using a script, or with continuous integration
@@ -212,13 +212,13 @@ class Index extends React.Component {
                 {
                   content: `Docusaurus currently provides support to help your website
                     use [translations](${siteConfig.baseUrl}${getDocsUrl(
-                    siteConfig.docsUrl
+                    siteConfig.docsUrl,
                   )}${this.props.language}/translation),
                     [search](${siteConfig.baseUrl}${getDocsUrl(
-                    siteConfig.docsUrl
+                    siteConfig.docsUrl,
                   )}/${this.props.language}/search),
                     and [versioning](${siteConfig.baseUrl}${getDocsUrl(
-                    siteConfig.docsUrl
+                    siteConfig.docsUrl,
                   )}${this.props.language}/versioning),
                     along with some other special [documentation markdown features](${
                       siteConfig.baseUrl

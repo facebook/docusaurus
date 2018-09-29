@@ -27,9 +27,7 @@ function noExtension() {
 function page(baseUrl, docsUrl) {
   const gr = regex => regex.toString().replace(/(^\/|\/$)/gm, '');
   return new RegExp(
-    `(?!${gr(docs(baseUrl, docsUrl))}|${gr(
-      blog(baseUrl)
-    )})^${baseUrl}.*.html$`
+    `(?!${gr(docs(baseUrl, docsUrl))}|${gr(blog(baseUrl))})^${baseUrl}.*.html$`,
   );
 }
 

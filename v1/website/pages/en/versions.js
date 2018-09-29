@@ -38,7 +38,7 @@ function Versions(props) {
                 <td>
                   <a
                     href={`${siteConfig.baseUrl}${getDocsUrl(
-                      siteConfig.docsUrl
+                      siteConfig.docsUrl,
                     )}/${props.language}/installation`}>
                     Documentation
                   </a>
@@ -60,7 +60,7 @@ function Versions(props) {
                 <td>
                   <a
                     href={`${siteConfig.baseUrl}${getDocsUrl(
-                      siteConfig.docsUrl
+                      siteConfig.docsUrl,
                     )}/${props.language}/next/installation`}>
                     Documentation
                   </a>
@@ -85,7 +85,7 @@ function Versions(props) {
                       <td>
                         <a
                           href={`${siteConfig.baseUrl}${getDocsUrl(
-                            siteConfig.docsUrl
+                            siteConfig.docsUrl,
                           )}/${props.language}/${version}/installation`}>
                           Documentation
                         </a>

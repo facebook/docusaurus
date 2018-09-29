@@ -135,7 +135,7 @@ function processMetadata(file, refDir) {
   }
 
   metadata.permalink = `${getDocsUrl(
-    siteConfig.docsUrl
+    siteConfig.docsUrl,
   )}/${langPart}${versionPart}${metadata.id}.html`;
 
   // change ids previous, next
@@ -211,7 +211,7 @@ function generateMetadataDocs() {
               .toString()
               .replace(
                 new RegExp(`^${getDocsUrl(siteConfig.docsUrl)}/en/`),
-                `${getDocsUrl(siteConfig.docsUrl)}/${currentLanguage}/`
+                `${getDocsUrl(siteConfig.docsUrl)}/${currentLanguage}/`,
               );
           if (baseMetadata.next)
             baseMetadata.next = baseMetadata.next

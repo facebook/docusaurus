@@ -110,10 +110,7 @@ function execute(port) {
   const app = express();
 
   app.get(
-    routing.docs(
-      siteConfig.baseUrl,
-      routing.getDocsUrl(siteConfig.docsUrl)
-    ),
+    routing.docs(siteConfig.baseUrl, routing.getDocsUrl(siteConfig.docsUrl)),
     (req, res, next) => {
       const url = req.path.toString().replace(siteConfig.baseUrl, '');
       const metadata =
@@ -130,10 +127,10 @@ function execute(port) {
       const mdToHtml = metadataUtils.mdToHtml(
         Metadata,
         siteConfig.baseUrl,
-        routing.getDocsUrl(siteConfig.docsUrl)
+        routing.getDocsUrl(siteConfig.docsUrl),
       );
       res.send(docs.getMarkup(rawContent, mdToHtml, metadata));
-    }
+    },
   );
 
   app.get(routing.sitemap(siteConfig.baseUrl), (req, res) => {
@@ -188,10 +185,7 @@ function execute(port) {
   });
 
   app.get(
-    routing.page(
-      siteConfig.baseUrl,
-      routing.getDocsUrl(siteConfig.docsUrl)
-    ),
+    routing.page(siteConfig.baseUrl, routing.getDocsUrl(siteConfig.docsUrl)),
     (req, res, next) => {
       // Look for user-provided HTML file first.
       let htmlFile = req.path.toString().replace(siteConfig.baseUrl, '');
@@ -201,8 +195,8 @@ function execute(port) {
         fs.existsSync(
           (htmlFile = htmlFile.replace(
             path.basename(htmlFile),
-            join('en', path.basename(htmlFile))
-          ))
+            join('en', path.basename(htmlFile)),
+          )),
         )
       ) {
         if (siteConfig.wrapPagesHTML) {
@@ -218,7 +212,7 @@ function execute(port) {
                   __html: fs.readFileSync(htmlFile, {encoding: 'utf8'}),
                 }}
               />
-            </Site>
+            </Site>,
           );
 
           res.send(str);
@@ -252,56 +246,57 @@ function execute(port) {
       if (language && language !== 'en') {
         englishFile = englishFile.replace(
           sep + language + sep,
-          `${sep}en${sep}`
+          `${sep}en${sep}`,
         );
       }
 
-    // check for: a file for the page, an english file for page with unspecified language, or an
-    // english file for the page
-    if (
-      fs.existsSync(userFile) ||
-      fs.existsSync(
-        (userFile = userFile.replace(
-          path.basename(userFile),
-          `en${sep}${path.basename(userFile)}`,
-        )),
-      ) ||
-      fs.existsSync((userFile = englishFile))
-    ) {
-      // copy into docusaurus so require paths work
-      const userFileParts = userFile.split(`pages${sep}`);
-      let tempFile = join(__dirname, '..', 'pages', userFileParts[1]);
-      tempFile = tempFile.replace(
-        path.basename(file),
-        `temp${path.basename(file)}`,
-      );
-      mkdirp.sync(path.dirname(tempFile));
-      fs.copySync(userFile, tempFile);
+      // check for: a file for the page, an english file for page with unspecified language, or an
+      // english file for the page
+      if (
+        fs.existsSync(userFile) ||
+        fs.existsSync(
+          (userFile = userFile.replace(
+            path.basename(userFile),
+            `en${sep}${path.basename(userFile)}`,
+          )),
+        ) ||
+        fs.existsSync((userFile = englishFile))
+      ) {
+        // copy into docusaurus so require paths work
+        const userFileParts = userFile.split(`pages${sep}`);
+        let tempFile = join(__dirname, '..', 'pages', userFileParts[1]);
+        tempFile = tempFile.replace(
+          path.basename(file),
+          `temp${path.basename(file)}`,
+        );
+        mkdirp.sync(path.dirname(tempFile));
+        fs.copySync(userFile, tempFile);
 
-      // render into a string
-      removeModuleAndChildrenFromCache(tempFile);
-      const ReactComp = require(tempFile);
-      removeModuleAndChildrenFromCache(join('..', 'core', 'Site.js'));
-      const Site = require(join('..', 'core', 'Site.js'));
-      translate.setLanguage(language);
-      const str = renderToStaticMarkupWithDoctype(
-        <Site
-          language={language}
-          config={siteConfig}
-          title={ReactComp.title}
-          description={ReactComp.description}
-          metadata={{id: path.basename(userFile, '.js')}}>
-          <ReactComp language={language} />
-        </Site>,
-      );
+        // render into a string
+        removeModuleAndChildrenFromCache(tempFile);
+        const ReactComp = require(tempFile);
+        removeModuleAndChildrenFromCache(join('..', 'core', 'Site.js'));
+        const Site = require(join('..', 'core', 'Site.js'));
+        translate.setLanguage(language);
+        const str = renderToStaticMarkupWithDoctype(
+          <Site
+            language={language}
+            config={siteConfig}
+            title={ReactComp.title}
+            description={ReactComp.description}
+            metadata={{id: path.basename(userFile, '.js')}}>
+            <ReactComp language={language} />
+          </Site>,
+        );
 
-      fs.removeSync(tempFile);
+        fs.removeSync(tempFile);
 
-      res.send(str);
-    } else {
-      next();
-    }
-  });
+        res.send(str);
+      } else {
+        next();
+      }
+    },
+  );
 
   app.get(`${siteConfig.baseUrl}css/main.css`, (req, res) => {
     const mainCssPath = join(
@@ -359,7 +354,7 @@ function execute(port) {
   // serve static assets from these locations
   app.use(
     `${siteConfig.baseUrl}${routing.getDocsUrl(siteConfig.docsUrl)}/assets`,
-    express.static(join(CWD, '..', readMetadata.getDocsPath(), 'assets'))
+    express.static(join(CWD, '..', readMetadata.getDocsPath(), 'assets')),
   );
   app.use(
     `${siteConfig.baseUrl}blog/assets`,

@@ -90,7 +90,7 @@ function replaceAssetsLink(oldContent) {
       ? line
       : line.replace(
           /\]\(assets\//g,
-          `](${siteConfig.baseUrl}${getDocsUrl(siteConfig.docsUrl)}/assets/`
+          `](${siteConfig.baseUrl}${getDocsUrl(siteConfig.docsUrl)}/assets/`,
         );
   });
   return lines.join('\n');

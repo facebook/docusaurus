@@ -75,10 +75,7 @@ function mdToHtml(Metadata, baseUrl, docsUrl) {
     let htmlLink = baseUrl + metadata.permalink.replace('/next/', '/');
 
     if (htmlLink.includes(`/${docsUrl}/en/`)) {
-      htmlLink = htmlLink.replace(
-        `/${docsUrl}/en/`,
-        `/${docsUrl}/en/VERSION/`
-      );
+      htmlLink = htmlLink.replace(`/${docsUrl}/en/`, `/${docsUrl}/en/VERSION/`);
     } else {
       htmlLink = htmlLink.replace(`/${docsUrl}/`, `/${docsUrl}/VERSION/`);
     }

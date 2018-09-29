@@ -72,7 +72,7 @@ async function execute() {
   const mdToHtml = metadataUtils.mdToHtml(
     Metadata,
     siteConfig.baseUrl,
-    getDocsUrl(siteConfig.docsUrl)
+    getDocsUrl(siteConfig.docsUrl),
   );
   Object.keys(Metadata).forEach(id => {
     const metadata = Metadata[id];
@@ -94,8 +94,8 @@ async function execute() {
       buildDir,
       metadata.permalink.replace(
         `${getDocsUrl(siteConfig.docsUrl)}/en`,
-        getDocsUrl(siteConfig.docsUrl)
-      )
+        getDocsUrl(siteConfig.docsUrl),
+      ),
     );
     writeFileAndCreateFolder(redirectFile, redirectMarkup);
   });

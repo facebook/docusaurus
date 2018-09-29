@@ -60,8 +60,8 @@ class Versioning {
       `${chalk.yellow('No versions.js file found!')}` +
         `\nYou should create your versions.js file in pages/en directory.` +
         `\nPlease refer to https://docusaurus.io/${getDocsUrl(
-          siteConfig.docsUrl
-        )}en/versioning.html.`
+          siteConfig.docsUrl,
+        )}en/versioning.html.`,
     );
   }
 
