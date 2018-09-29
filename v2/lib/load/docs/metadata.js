@@ -1,7 +1,6 @@
 const fs = require('fs-extra');
 const path = require('path');
 const {getSubFolder, idx, parse} = require('../utils');
-const execSync = require("child_process").execSync;
 
 function getLanguage(filepath, refDir, env) {
   const translationEnabled = idx(env, ['translation', 'enabled']);
@@ -61,32 +60,6 @@ module.exports = async function processMetadata(
     metadata.title = metadata.id;
   }
 
-  /* set metadata author */
-  const authorRegex = /(\d+) author (.+)$/g;
-  const results = execSync(
-    `git blame --line-porcelain ${filepath} \
-    | grep -I "^author " | sort | uniq -c | sort -nr; \
-  `
-  ).toString().split('\n');
-  let authorData;
-  const authors = [];
-  let totalLineCount = 0;
-  results.forEach(result => {
-    if ((authorData = authorRegex.exec(result)) !== null) {
-      const lineCount = parseInt(authorData[1]);
-      const name = authorData[2];
-      authors.push({
-        lineCount,
-        name,
-      });
-      totalLineCount += lineCount;
-    }
-    authorRegex.lastIndex = 0;
-  });
-
-  metadata.authors = authors;
-  metadata.totalLineCount = totalLineCount;
-
   /* language */
   const language = getLanguage(filepath, refDir, env);
   metadata.language = language;
@@ -104,7 +77,7 @@ module.exports = async function processMetadata(
   const versionPart =
     (version && version !== latestVersion && `${version}/`) || '';
 
-  /*
+  /* 
     Convert temporarily metadata.id to the form of dirname/id without version/lang prefix
     ex: file `versioned_docs/version-1.0.0/en/foo/bar.md` with id `version-1.0.0-bar` => `foo/bar`
   */
@@ -132,16 +105,16 @@ module.exports = async function processMetadata(
     }
   }
 
-  /*
+  /* 
     The docs absolute file source
-    e.g: `/end/docs/hello.md` or `/end/website/versioned_docs/version-1.0.0/hello.md`
+    e.g: `/end/docs/hello.md` or `/end/website/versioned_docs/version-1.0.0/hello.md` 
   */
   metadata.source = path.join(refDir, source);
 
   /* Build the permalink */
   const {baseUrl, docsUrl} = siteConfig;
 
-  /*
+  /* 
     if user has own custom permalink defined in frontmatter
     e.g: :baseUrl:docsUrl/:langPart/:versionPart/endiliey/:id
   */
