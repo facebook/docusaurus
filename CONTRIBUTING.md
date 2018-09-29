@@ -18,14 +18,14 @@ There are many ways to contribute to Docusaurus, and many of them do not involve
 
 Contributions are very welcome. If you think you need help planning your contribution, please ping us on Twitter at [@docusaurus](https://twitter.com/docusaurus) and let us know you are looking for a bit of help.
 
-You might want to make yourself familiar with [docusaurus](https://docusaurus.io/docs/en/installation) to make significant changes to the website. If you only want to make content changes you just need to know about versioned docs.
+### Versioned Docs
 
-### Versioned docs
+If you only want to make content changes you just need to know about versioned docs.
 
-- `/docs` - the files in here are responsible for the "next" version at https://docusaurus.io/docs/en/next/installation.
-- `v1/website/versioned_docs/version-1.4.0` - these are the docs for the currently published version at https://docusaurus.io/docs/en/installation.
+- `/docs` - The files in here are responsible for the "next" version at https://docusaurus.io/docs/en/next/installation.
+- `v1/website/versioned_docs/version-X.Y.Z` - These are the docs for the X.Y.Z version at https://docusaurus.io/docs/en/X.Y.Z/installation.
 
-To make a fix to the published site you must edit the corresponding markdown file at both folders.
+To make a fix to the published versions you must edit the corresponding markdown file in both folders. If you only made changes in `docs`, be sure to be viewing the `next` version to see the updates (ensure there's `next` in the URL).
 
 ### Join our Discord Channel
 
