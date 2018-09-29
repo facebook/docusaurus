@@ -7,8 +7,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-require('babel-polyfill');
-require('babel-register')({
+require('@babel/polyfill');
+require('@babel/register')({
   babelrc: false,
   only: [__dirname, `${process.cwd()}/core`],
   plugins: [

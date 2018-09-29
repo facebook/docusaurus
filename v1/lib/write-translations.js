@@ -20,7 +20,7 @@ require('babel-register')({
   presets: ['react', 'env'],
 });
 
-const traverse = require('babel-traverse').default;
+const traverse = require('@babel/traverse').default;
 const babylon = require('babylon');
 const fs = require('fs-extra');
 const glob = require('glob');
