@@ -24,7 +24,10 @@
       "__fixtures__",
       "v2"
     ],
-    "testURL": "http://localhost/"
+    "testURL": "http://localhost/",
+    "transform": {
+      "^.+\\.js$": "<rootDir>/jest.transform.js"
+    }
   },
   "bin": {
     "docusaurus-start": "./lib/start-server.js",
@@ -36,14 +39,16 @@
     "docusaurus-rename-version": "./lib/rename-version.js"
   },
   "dependencies": {
+    "@babel/core": "^7.0.0",
+    "@babel/plugin-proposal-class-properties": "^7.0.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
+    "@babel/polyfill": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/register": "^7.0.0",
+    "@babel/traverse": "^7.0.0",
+    "@babel/types": "^7.1.2",
     "autoprefixer": "^9.1.5",
-    "babel-plugin-transform-class-properties": "^6.24.1",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-polyfill": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-react": "^6.24.1",
-    "babel-register": "^6.24.1",
-    "babel-traverse": "^6.25.0",
     "babylon": "^6.17.4",
     "chalk": "^2.1.0",
     "classnames": "^2.2.6",
@@ -83,7 +88,9 @@
     "truncate-html": "^1.0.1"
   },
   "devDependencies": {
+    "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^8.2.5",
+    "babel-jest": "^23.6.0",
     "eslint": "^4.19.1",
     "eslint-config-airbnb": "17.0.0",
     "eslint-config-prettier": "^2.9.0",
