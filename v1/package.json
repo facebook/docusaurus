@@ -47,6 +47,7 @@
     "@babel/preset-react": "^7.0.0",
     "@babel/register": "^7.0.0",
     "@babel/traverse": "^7.0.0",
+    "@babel/types": "^7.1.2",
     "autoprefixer": "^9.1.5",
     "babylon": "^6.17.4",
     "chalk": "^2.1.0",
