@@ -1,3 +1,4 @@
+import '@babel/polyfill';
 import {validate} from 'webpack';
 import path from 'path';
 import Config from 'webpack-chain';

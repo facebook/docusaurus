@@ -1,3 +1,4 @@
+import '@babel/polyfill';
 import path from 'path';
 import processMetadata from '@lib/load/docs/metadata';
 import loadSetup from '../../loadSetup';

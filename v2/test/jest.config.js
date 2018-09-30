@@ -8,5 +8,8 @@ module.exports = {
   moduleNameMapper: {
     '^@lib/(.*)$': '<rootDir>/lib/$1',
   },
-  testPathIgnorePatterns: ['/node_modules/', '__fixtures__'],
+  testPathIgnorePatterns: ['/node_modules/', '__fixtures__', 'v1'],
+  transform: {
+    '^.+\\.js$': '<rootDir>/jest.transform.js',
+  },
 };

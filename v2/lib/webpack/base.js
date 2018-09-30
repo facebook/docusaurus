@@ -51,7 +51,7 @@ module.exports = function createBaseConfig(props, isServer) {
       .loader('babel-loader')
       .options({
         babelrc: false,
-        presets: ['env', 'react'],
+        presets: ['@babel/env', '@babel/react'],
         plugins: [isServer ? 'dynamic-import-node' : 'syntax-dynamic-import'],
       });
   }
