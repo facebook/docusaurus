@@ -27,6 +27,7 @@ class MarkdownRenderer {
       // This results in <pre><code class="hljs css languages-jsx">
       langPrefix: 'hljs css language-',
       highlight(str, lang) {
+        siteConfig.highlight && siteConfig.highlight.hljs && siteConfig.highlight.hljs(hljs);
         lang =
           lang || (siteConfig.highlight && siteConfig.highlight.defaultLang);
         if (lang === 'text') {
