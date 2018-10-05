@@ -268,6 +268,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Skip',
+    image: 'http://www.skiplang.com/img/icon.png',
+    infoLink: 'http://skiplang.com',
+    fbOpenSource: true,
+    pinned: true,
+  },
+  {
     caption: 'StreamPipes',
     image: 'https://streampipes.org/images/streampipes-logo-center.png',
     infoLink: 'https://docs.streampipes.org',
