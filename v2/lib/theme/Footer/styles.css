@@ -1,39 +1,72 @@
 .footer {
-  color: #777;
-  margin-top: 30px;
-  padding: 10px 15px;
-  height: 20px;
-  text-align: center;
-  border-top: 1px solid #e6e6e6;
+  background: #20232a;
+  border: none;
+  color: #202020;
+  font-size: 15px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  line-height: 24px;
+  padding-bottom: 2em;
+  padding-top: 2em;
+  position: relative;
 }
 
-.routeLinks {
-  margin: 0;
-  padding: 0;
+@media only screen and (min-width: 1024px) {
+  .footer {
+    flex-shrink: 0;
+  }
+}
+
+.footerRow {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto 3em;
+  max-width: 1080px;
+}
+
+@media only screen and (max-width: 735px) {
+  .footerRow {
+    display: flex;
+    flex-direction: column;
+    margin: 0 2em 3em;
+    width: calc(100% - 4em);
+  }
+
+  .footerRow > div {
+    margin-bottom: 18px;
+  }
+}
+
+.footerColumn {
+  flex: 1;
+}
+
+.footerColumnTitle {
+  color: #fff;
+}
+
+.footerList {
   list-style: none;
-  position: absolute;
-  right: 0;
-  left: 0;
+  padding-left: 0;
 }
 
-.routeLinks li {
-  display: inline;
+.footerListItem {
+  margin: 0.5rem 0;
 }
 
-.routeLinks li a {
-  color: inherit;
-  margin: 3px;
-  padding: 3px 7px;
+.footerLink,
+.footerLink:visited {
+  color: rgba(255, 255, 255, 0.6);
   text-decoration: none;
-  border: 1px solid transparent;
-  border-radius: 3px;
 }
 
-.routeLinks li a.selected,
-.routeLinks li a:hover {
-  border-color: rgba(175, 47, 47, 0.1);
+.footerLink:hover,
+.footerLink:focus {
+  color: #fff;
 }
 
-.routeLinks li a.selected {
-  border-color: rgba(175, 47, 47, 0.2);
+.copyright {
+  color: rgba(255, 255, 255, 0.4);
+  text-align: center;
 }
