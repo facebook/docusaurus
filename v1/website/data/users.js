@@ -270,7 +270,7 @@ module.exports = [
   {
     caption: 'skip',
     image: 'http://www.skiplang.com/img/icon.png',
-    infoLink: 'https://skiplang.com',
+    infoLink: 'http://skiplang.com',
     fbOpenSource: true,
     pinned: true,
   },
