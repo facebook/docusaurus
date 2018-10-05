@@ -268,7 +268,7 @@ module.exports = [
     pinned: false,
   },
   {
-    caption: 'skip',
+    caption: 'Skip',
     image: 'http://www.skiplang.com/img/icon.png',
     infoLink: 'http://skiplang.com',
     fbOpenSource: true,
