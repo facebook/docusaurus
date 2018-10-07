@@ -1,6 +1,8 @@
 import React from 'react';
 import Footer from '@theme/Footer'; // eslint-disable-line
 
+import './styles.css';
+
 /* eslint-disable react/prefer-stateless-function */
 export default class Layout extends React.Component {
   render() {

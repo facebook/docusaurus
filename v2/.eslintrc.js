@@ -13,11 +13,12 @@ module.exports = {
   rules: {
     'no-console': OFF,
     'func-names': OFF,
+    'react/jsx-closing-bracket-location': OFF, // Conflicts with Prettier.
     'react/jsx-filename-extension': OFF,
     'react/jsx-one-expression-per-line': OFF,
     'react/prop-types': OFF,
-    'react/destructuring-assignment': OFF, // too many lines
-    'import/no-unresolved': WARNING, // because it couldn't resolve webpack alias
+    'react/destructuring-assignment': OFF, // Too many lines.
+    'import/no-unresolved': WARNING, // Because it couldn't resolve webpack alias.
     'react/prefer-stateless-function': WARNING,
   },
 };
