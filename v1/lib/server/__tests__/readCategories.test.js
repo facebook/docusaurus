@@ -82,7 +82,7 @@ describe('readCategories', () => {
     const categories = readCategories(
       'docs',
       generalMetadata,
-      languagesMultiple
+      languagesMultiple,
     );
 
     expect(categories.en).not.toBeDefined();

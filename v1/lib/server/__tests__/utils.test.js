@@ -105,7 +105,7 @@ describe('server utils', () => {
       expect(() => {
         utils.validateSidebar(metadata, pages);
       }).toThrow(
-        `Improper sidebars.json file, document with id 'doc2' not found. Make sure that documents with the ids specified in sidebars.json exist and that no ids are repeated.`
+        `Improper sidebars.json file, document with id 'doc2' not found. Make sure that documents with the ids specified in sidebars.json exist and that no ids are repeated.`,
       );
     });
 
@@ -125,7 +125,7 @@ describe('server utils', () => {
       expect(() => {
         utils.validateSidebar(metadata, pages);
       }).toThrow(
-        `Improper sidebars file for version foo, document with id 'doc2' not found. Make sure that all documents with ids specified in this version's sidebar file exist and that no ids are repeated.`
+        `Improper sidebars file for version foo, document with id 'doc2' not found. Make sure that all documents with ids specified in this version's sidebar file exist and that no ids are repeated.`,
       );
     });
 
