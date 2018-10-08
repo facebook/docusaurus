@@ -30,7 +30,7 @@ class DocsSidebar extends React.Component {
   render() {
     const sidebar = this.props.metadata.sidebar;
     const docsCategories = readCategories(sidebar, Metadata, languages);
-    const categoryName = docsCategories[this.props.metadata.language][0].name;
+    const categoryName = this.props.metadata.category;
     if (!categoryName) {
       return null;
     }

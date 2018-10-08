@@ -68,7 +68,7 @@ function readSidebar(sidebars = {}) {
 
         for (let i = 0; i < categories[category].length; i++) {
           categoryOrder.push(category);
-          subCategoryOrder.push('');
+          subCategoryOrder.push(undefined);
         }
       } else {
         Object.keys(categories[category]).forEach(subCategory => {
