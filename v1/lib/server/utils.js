@@ -67,9 +67,9 @@ function autoPrefixCss(cssContent) {
 }
 
 // Validate the docs in the sidebar are valid
-function validateSidebar(metadata, pages) {
+function validateSidebar(metadata, sidebarMetadatas) {
   if (metadata.next) {
-    if (!pages[metadata.next]) {
+    if (!sidebarMetadatas[metadata.next]) {
       throw new Error(
         metadata.version
           ? `Improper sidebars file for version ${

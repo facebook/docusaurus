@@ -20,14 +20,14 @@ function readCategories(sidebar, allMetadata, languages) {
     const language = enabledLanguages[k];
     const metadatas = [];
     const categories = [];
-    const pages = {};
+    const sidebarMetadatas = {};
 
-    // Get the metadata for the current sidebar
+    // Get all related metadata for the current sidebar
     Object.keys(allMetadata).forEach(id => {
       const metadata = allMetadata[id];
       if (metadata.sidebar === sidebar && metadata.language === language) {
         metadatas.push(metadata);
-        pages[metadata.id] = metadata;
+        sidebarMetadatas[metadata.id] = metadata;
       }
     });
 
@@ -59,8 +59,8 @@ function readCategories(sidebar, allMetadata, languages) {
       const category = metadata.category;
       const subCategory = metadata.sub_category;
 
-      // Validate pages in the sidebar
-      validateSidebar(metadata, pages);
+      // Validate sidebarMetadatas in the sidebar
+      validateSidebar(metadata, sidebarMetadatas);
 
       if (!indexedCategories[category]) {
         indexedCategories[category] = [];

@@ -90,7 +90,7 @@ describe('server utils', () => {
   });
 
   describe('validateSidebar', () => {
-    test('should throw an error for invalid pages', () => {
+    test('should throw an error for invalid sidebarMetadatas', () => {
       const metadata = {
         id: 'doc1',
         sidebar: 'docs',
@@ -98,18 +98,18 @@ describe('server utils', () => {
         next: 'doc2',
       };
 
-      const pages = {
+      const sidebarMetadatas = {
         doc1: {},
       };
 
       expect(() => {
-        utils.validateSidebar(metadata, pages);
+        utils.validateSidebar(metadata, sidebarMetadatas);
       }).toThrow(
         `Improper sidebars.json file, document with id 'doc2' not found. Make sure that documents with the ids specified in sidebars.json exist and that no ids are repeated.`,
       );
     });
 
-    test('should throw an error for invalid version pages', () => {
+    test('should throw an error for invalid version sidebarMetadatas', () => {
       const metadata = {
         id: 'doc1',
         version: 'foo',
@@ -118,12 +118,12 @@ describe('server utils', () => {
         next: 'doc2',
       };
 
-      const pages = {
+      const sidebarMetadatas = {
         doc1: {},
       };
 
       expect(() => {
-        utils.validateSidebar(metadata, pages);
+        utils.validateSidebar(metadata, sidebarMetadatas);
       }).toThrow(
         `Improper sidebars file for version foo, document with id 'doc2' not found. Make sure that all documents with ids specified in this version's sidebar file exist and that no ids are repeated.`,
       );
@@ -137,13 +137,13 @@ describe('server utils', () => {
         next: 'doc2',
       };
 
-      const pages = {
+      const sidebarMetadatas = {
         doc1: {},
         doc2: {},
       };
 
       expect(() => {
-        utils.validateSidebar(metadata, pages);
+        utils.validateSidebar(metadata, sidebarMetadatas);
       }).not.toThrow();
     });
   });
