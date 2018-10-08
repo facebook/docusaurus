@@ -88,4 +88,63 @@ describe('server utils', () => {
     expect(utils.getSubDir(docE, docsDir)).toBeNull();
     expect(utils.getSubDir(docE, translatedDir)).toEqual('lol/lah');
   });
+
+  describe('validateSidebar', () => {
+    test('should throw an error for invalid sidebarMetadatas', () => {
+      const metadata = {
+        id: 'doc1',
+        sidebar: 'docs',
+        next_id: 'doc2',
+        next: 'doc2',
+      };
+
+      const sidebarMetadatas = {
+        doc1: {},
+      };
+
+      expect(() => {
+        utils.validateSidebar(metadata, sidebarMetadatas);
+      }).toThrow(
+        `Improper sidebars.json file, document with id 'doc2' not found. Make sure that documents with the ids specified in sidebars.json exist and that no ids are repeated.`,
+      );
+    });
+
+    test('should throw an error for invalid version sidebarMetadatas', () => {
+      const metadata = {
+        id: 'doc1',
+        version: 'foo',
+        sidebar: 'docs',
+        next_id: 'doc2',
+        next: 'doc2',
+      };
+
+      const sidebarMetadatas = {
+        doc1: {},
+      };
+
+      expect(() => {
+        utils.validateSidebar(metadata, sidebarMetadatas);
+      }).toThrow(
+        `Improper sidebars file for version foo, document with id 'doc2' not found. Make sure that all documents with ids specified in this version's sidebar file exist and that no ids are repeated.`,
+      );
+    });
+
+    test('should pass validate', () => {
+      const metadata = {
+        id: 'doc1',
+        sidebar: 'docs',
+        next_id: 'doc2',
+        next: 'doc2',
+      };
+
+      const sidebarMetadatas = {
+        doc1: {},
+        doc2: {},
+      };
+
+      expect(() => {
+        utils.validateSidebar(metadata, sidebarMetadatas);
+      }).not.toThrow();
+    });
+  });
 });
