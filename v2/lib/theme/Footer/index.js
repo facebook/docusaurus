@@ -1,8 +1,9 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 
 import styles from './styles.css';
 
-function Footer() {
+function Footer(props) {
   return (
     <footer className={styles.footer}>
       <section className={styles.footerRow}>
@@ -66,6 +67,32 @@ function Footer() {
             </li>
           </ul>
         </div>
+        {/* This is for v2 development only to know which are the available routes */}
+        <div className={styles.footerColumn}>
+          <h3 className={styles.footerColumnTitle}>Pages</h3>
+          <ul className={styles.footerList}>
+            {props.pagesMetadatas.map(metadata => (
+              <li key={metadata.permalink} className={styles.footerListItem}>
+                <Link className={styles.footerLink} to={metadata.permalink}>
+                  {metadata.permalink}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className={styles.footerColumn}>
+          <h3 className={styles.footerColumnTitle}>Docs</h3>
+          <ul className={styles.footerList}>
+            {Object.values(props.docsMetadatas).map(metadata => (
+              <li key={metadata.permalink} className={styles.footerListItem}>
+                <Link className={styles.footerLink} to={metadata.permalink}>
+                  {metadata.permalink}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+        {/* Remove above when launching v2 */}
       </section>
       <section className={styles.copyright}>
         <span>Copyright © {new Date().getFullYear()} Facebook Inc.</span>

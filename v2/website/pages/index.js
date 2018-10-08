@@ -8,9 +8,11 @@ export default class Home extends React.Component {
       <div>
         <Helmet>
           <title>Todo App</title>
-          <link rel="stylesheet" type="text/css" href="/css/basic.css" />
+          <link rel="stylesheet" type="text/css" href="/css/todo.css" />
         </Helmet>
-        <Todo />
+        <div className="homeContainer">
+          <Todo />
+        </div>
       </div>
     );
   }
