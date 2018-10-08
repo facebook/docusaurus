@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 
 import styles from './styles.css';
 
@@ -72,9 +73,9 @@ function Footer(props) {
           <ul className={styles.footerList}>
             {props.pagesMetadatas.map(metadata => (
               <li key={metadata.permalink} className={styles.footerListItem}>
-                <a className={styles.footerLink} href={metadata.permalink}>
+                <Link className={styles.footerLink} to={metadata.permalink}>
                   {metadata.permalink}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
@@ -84,9 +85,9 @@ function Footer(props) {
           <ul className={styles.footerList}>
             {Object.values(props.docsMetadatas).map(metadata => (
               <li key={metadata.permalink} className={styles.footerListItem}>
-                <a className={styles.footerLink} href={metadata.permalink}>
+                <Link className={styles.footerLink} to={metadata.permalink}>
                   {metadata.permalink}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
