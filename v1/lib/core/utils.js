@@ -38,10 +38,35 @@ function idx(target, keyPaths) {
   );
 }
 
+function isNormalInteger(str) {
+  return /^\+?(0|[1-9]\d*)$/.test(str);
+}
+
 function getGitLastUpdated(filepath) {
-  const timeSpan = spawn
-    .sync('git', ['log', '-1', '--format=%ct', filepath])
-    .stdout.toString('utf-8');
+  // To differentiate between content change and file renaming / moving, use --summary
+  // To follow the file history until before it is moved (when we create new version), use
+  // --follow
+  const result = spawn.sync('git', [
+    'log',
+    '--follow',
+    '--summary',
+    '--format=%ct',
+    filepath,
+  ]);
+
+  // Format the log results to be ['1234567', 'rename ...', '1234566', 'move ...', '1234565', '1234564']
+  const records = result.stdout
+    .toString('utf-8')
+    .replace(/\n\s*\n/g, '\n')
+    .split('\n')
+    .filter(String);
+
+  const timeSpan = records.find((item, index, arr) =>
+    // The correct timeSpan will be a number which is not followed by summary meaning
+    // the next element is also a number OR it is the last 2 element (since the
+    // last element will always be the summary -- 'create mode ... ')
+    isNormalInteger(item) && (index + 2 === arr.length || isNormalInteger(arr[index + 1]))
+  );
   if (timeSpan) {
     const date = new Date(parseInt(timeSpan, 10) * 1000);
     return date.toLocaleString();
