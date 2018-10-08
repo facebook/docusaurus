@@ -1,6 +1,7 @@
+import '@babel/polyfill';
 import path from 'path';
-import loadSetup from '../../loadSetup';
 import loadDocs from '@lib/load/docs';
+import loadSetup from '../../loadSetup';
 
 describe('loadDocs', () => {
   test('simple website', async () => {

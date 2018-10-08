@@ -1,6 +1,7 @@
+import '@babel/polyfill';
 import path from 'path';
-import loadSetup from '../../loadSetup';
 import processMetadata from '@lib/load/docs/metadata';
+import loadSetup from '../../loadSetup';
 
 describe('processMetadata', () => {
   test('normal docs', async () => {
