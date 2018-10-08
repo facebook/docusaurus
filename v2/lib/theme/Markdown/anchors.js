@@ -1,6 +1,6 @@
 import toSlug from './toSlug';
 
-function anchors(md) {
+export default function anchors(md) {
   const originalRender = md.renderer.rules.heading_open;
 
   // eslint-disable-next-line
@@ -18,5 +18,3 @@ function anchors(md) {
     return originalRender(tokens, idx, options, env);
   };
 }
-
-module.exports = anchors;

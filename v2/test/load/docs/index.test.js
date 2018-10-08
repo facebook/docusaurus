@@ -1,3 +1,4 @@
+import '@babel/polyfill';
 import path from 'path';
 import loadDocs from '@lib/load/docs';
 import loadSetup from '../../loadSetup';

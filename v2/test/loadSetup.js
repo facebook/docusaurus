@@ -1,3 +1,4 @@
+import '@babel/polyfill';
 import path from 'path';
 import load from '@lib/load';
 
