@@ -61,11 +61,13 @@ function getGitLastUpdated(filepath) {
     .split('\n')
     .filter(String);
 
-  const timeSpan = records.find((item, index, arr) =>
-    // The correct timeSpan will be a number which is not followed by summary meaning
-    // the next element is also a number OR it is the last 2 element (since the
-    // last element will always be the summary -- 'create mode ... ')
-    isNormalInteger(item) && (index + 2 === arr.length || isNormalInteger(arr[index + 1]))
+  const timeSpan = records.find(
+    (item, index, arr) =>
+      // The correct timeSpan will be a number which is not followed by summary meaning
+      // the next element is also a number OR it is the last 2 element (since the
+      // last element will always be the summary -- 'create mode ... ')
+      isNormalInteger(item) &&
+      (index + 2 === arr.length || isNormalInteger(arr[index + 1])),
   );
   if (timeSpan) {
     const date = new Date(parseInt(timeSpan, 10) * 1000);
