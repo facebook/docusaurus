@@ -1,10 +1,13 @@
 .mainContainer {
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
-  margin-top: 40px;
   margin-bottom: 30px;
   margin-left: auto;
   margin-right: auto;
-  justify-content: center;
+  margin-top: 40px;
+  justify-content: space-between;
+}
+
+.docContent {
+  flex-grow: 1;
 }

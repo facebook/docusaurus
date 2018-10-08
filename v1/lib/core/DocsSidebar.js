@@ -6,15 +6,31 @@
  */
 
 const React = require('react');
+const fs = require('fs');
 const Container = require('./Container.js');
 const SideNav = require('./nav/SideNav.js');
+const Metadata = require('../core/metadata.js');
 const readCategories = require('../server/readCategories.js');
+
+let languages;
+
+if (fs.existsSync(`../server/languages.js`)) {
+  languages = require(`../server/languages.js`);
+} else {
+  languages = [
+    {
+      enabled: true,
+      name: 'English',
+      tag: 'en',
+    },
+  ];
+}
 
 class DocsSidebar extends React.Component {
   render() {
     const sidebar = this.props.metadata.sidebar;
-    const docsCategories = readCategories(sidebar);
-    const categoryName = docsCategories[this.props.metadata.language][0].name;
+    const docsCategories = readCategories(sidebar, Metadata, languages);
+    const categoryName = this.props.metadata.category;
     if (!categoryName) {
       return null;
     }

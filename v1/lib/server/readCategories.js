@@ -5,101 +5,112 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const fs = require('fs');
-
-const Metadata = require('../core/metadata.js');
-
-const CWD = process.cwd();
-let languages;
-if (fs.existsSync(`${CWD}/languages.js`)) {
-  languages = require(`${CWD}/languages.js`);
-} else {
-  languages = [
-    {
-      enabled: true,
-      name: 'English',
-      tag: 'en',
-    },
-  ];
-}
+const {validateSidebar} = require('./utils');
 
 // returns data broken up into categories for a sidebar
-function readCategories(sidebar) {
+function readCategories(sidebar, allMetadata, languages) {
   const enabledLanguages = languages
     .filter(lang => lang.enabled)
     .map(lang => lang.tag);
 
   const allCategories = {};
 
+  // Go through each language that might be defined
   for (let k = 0; k < enabledLanguages.length; ++k) {
     const language = enabledLanguages[k];
-
     const metadatas = [];
-    Object.keys(Metadata).forEach(id => {
-      const metadata = Metadata[id];
+    const categories = [];
+    const sidebarMetadatas = {};
+
+    // Get all related metadata for the current sidebar
+    Object.keys(allMetadata).forEach(id => {
+      const metadata = allMetadata[id];
       if (metadata.sidebar === sidebar && metadata.language === language) {
         metadatas.push(metadata);
+        sidebarMetadatas[metadata.id] = metadata;
       }
     });
 
-    // Build a hashmap of article_id -> metadata
-    const articles = {};
+    // Sort the metadata
+    metadatas.sort((a, b) => a.sort - b.sort);
+
+    // Store the correct sort of categories and sub categories for later
+    const sortedCategories = [];
+    const sortedSubCategories = [];
     for (let i = 0; i < metadatas.length; ++i) {
       const metadata = metadatas[i];
-      articles[metadata.id] = metadata;
+      const category = metadata.category;
+      const subCategory = metadata.sub_category;
+
+      if (!sortedCategories.includes(category)) {
+        sortedCategories.push(category);
+      }
+
+      if (subCategory && !sortedSubCategories.includes(subCategory)) {
+        sortedSubCategories.push(subCategory);
+      }
     }
 
-    // Build a hashmap of article_id -> previous_id
-    const previous = {};
-    for (let i = 0; i < metadatas.length; ++i) {
+    // Index categories and sub categories with all of their documents
+    const indexedCategories = {};
+    const indexedSubCategories = {};
+    for (let i = 0; i < metadatas.length; i++) {
       const metadata = metadatas[i];
-      if (metadata.next) {
-        if (!articles[metadata.next]) {
-          throw new Error(
-            metadata.version
-              ? `Improper sidebars file for version ${
-                  metadata.version
-                }, document with id '${
-                  metadata.next
-                }' not found. Make sure that all documents with ids specified in this version's sidebar file exist and that no ids are repeated.`
-              : `Improper sidebars.json file, document with id '${
-                  metadata.next
-                }' not found. Make sure that documents with the ids specified in sidebars.json exist and that no ids are repeated.`,
-          );
+      const category = metadata.category;
+      const subCategory = metadata.sub_category;
+
+      // Validate sidebarMetadatas in the sidebar
+      validateSidebar(metadata, sidebarMetadatas);
+
+      if (!indexedCategories[category]) {
+        indexedCategories[category] = [];
+      }
+
+      if (!subCategory) {
+        indexedCategories[category].push(metadata);
+      }
+
+      if (subCategory) {
+        if (!indexedSubCategories[category]) {
+          indexedSubCategories[category] = {};
         }
-        previous[articles[metadata.next].id] = metadata.id;
-      }
-    }
 
-    // Find the first element which doesn't have any previous
-    let first = null;
-    for (let i = 0; i < metadatas.length; ++i) {
-      const metadata = metadatas[i];
-      if (!previous[metadata.id]) {
-        first = metadata;
-        break;
-      }
-    }
-
-    const categories = [];
-    let currentCategory = null;
-
-    let metadata = first;
-    let i = 0;
-    while (metadata && i++ < 1000) {
-      if (!currentCategory || metadata.category !== currentCategory.name) {
-        if (currentCategory) {
-          categories.push(currentCategory);
+        if (!indexedSubCategories[category][subCategory]) {
+          indexedSubCategories[category][subCategory] = [];
         }
-        currentCategory = {
-          name: metadata.category,
-          links: [],
-        };
+
+        indexedSubCategories[category][subCategory].push(metadata);
       }
-      currentCategory.links.push(metadata);
-      metadata = articles[metadata.next];
     }
-    categories.push(currentCategory);
+
+    // Generate data for each category and sub categories
+    for (let i = 0; i < sortedCategories.length; i++) {
+      const category = sortedCategories[i];
+      const currentCategory = {
+        name: category,
+        links: indexedCategories[category],
+      };
+
+      for (let ii = 0; ii < sortedSubCategories.length; ii++) {
+        const subCategory = sortedSubCategories[ii];
+
+        if (
+          indexedSubCategories[category] &&
+          indexedSubCategories[category][subCategory]
+        ) {
+          if (!currentCategory.sub_categories) {
+            currentCategory.sub_categories = [];
+          }
+
+          currentCategory.sub_categories.push({
+            name: subCategory,
+            links: indexedSubCategories[category][subCategory],
+          });
+        }
+      }
+
+      categories.push(currentCategory);
+    }
 
     allCategories[language] = categories;
   }

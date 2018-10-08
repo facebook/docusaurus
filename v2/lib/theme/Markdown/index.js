@@ -3,7 +3,9 @@
 import React from 'react';
 import Markdown from 'remarkable';
 import Helmet from 'react-helmet';
-import highlight from './highlight';
+import hljs from 'highlight.js';
+import chalk from 'chalk';
+import escapeHtml from 'escape-html';
 import anchors from './anchors';
 
 class MarkdownBlock extends React.Component {
@@ -36,7 +38,36 @@ class MarkdownBlock extends React.Component {
     const {siteConfig} = this.props;
     const md = new Markdown({
       langPrefix: 'hljs css language-',
-      highlight: highlight,
+      highlight: function(str, rawLang) {
+        // Default language fallback
+        const defaultLang =
+          siteConfig.highlight && siteConfig.highlight.defaultLang;
+
+        // No syntax highlighting
+        if (rawLang === 'text' || (!rawLang && !defaultLang)) {
+          return escapeHtml(str);
+        }
+
+        // User's own hljs function to register additional languages
+        if (siteConfig.highlight && siteConfig.highlight.hljs) {
+          siteConfig.highlight.hljs(hljs);
+        }
+
+        // Syntax highlighting
+        const lang = rawLang.toLowerCase() || defaultLang;
+        try {
+          if (hljs.getLanguage(lang)) {
+            return hljs.highlight(lang, str).value;
+          }
+        } catch (e) {
+          console.error(
+            chalk.yellow(
+              `Highlight.js syntax highlighting for language "${lang}" is not supported.`,
+            ),
+          );
+        }
+        return hljs.highlightAuto(str).value;
+      },
       html: true,
       linkify: true,
     });

@@ -35,6 +35,13 @@ const SupportedHeaderFields = new Set([
 
 const {getDocsUrl} = require('./routing.js');
 
+let allSidebars;
+if (fs.existsSync(`${CWD}/sidebars.json`)) {
+  allSidebars = require(`${CWD}/sidebars.json`);
+} else {
+  allSidebars = {};
+}
+
 // Can have a custom docs path. Top level folder still needs to be in directory
 // at the same level as `website`, not inside `website`.
 //   e.g., docs/whereDocsReallyExist
@@ -44,27 +51,36 @@ const {getDocsUrl} = require('./routing.js');
 function getDocsPath() {
   return siteConfig.customDocsPath ? siteConfig.customDocsPath : 'docs';
 }
+
 // returns map from id to object containing sidebar ordering info
-function readSidebar() {
-  let allSidebars;
-  if (fs.existsSync(`${CWD}/sidebars.json`)) {
-    allSidebars = require(`${CWD}/sidebars.json`);
-  } else {
-    allSidebars = {};
-  }
-  Object.assign(allSidebars, versionFallback.sidebarData());
+function readSidebar(sidebars = {}) {
+  Object.assign(sidebars, versionFallback.sidebarData());
 
   const order = {};
 
-  Object.keys(allSidebars).forEach(sidebar => {
-    const categories = allSidebars[sidebar];
+  Object.keys(sidebars).forEach(sidebar => {
+    const categories = sidebars[sidebar];
 
     let ids = [];
     const categoryOrder = [];
+    const subCategoryOrder = [];
     Object.keys(categories).forEach(category => {
-      ids = ids.concat(categories[category]);
-      for (let i = 0; i < categories[category].length; i++) {
-        categoryOrder.push(category);
+      if (Array.isArray(categories[category])) {
+        ids = ids.concat(categories[category]);
+
+        for (let i = 0; i < categories[category].length; i++) {
+          categoryOrder.push(category);
+          subCategoryOrder.push(undefined);
+        }
+      } else {
+        Object.keys(categories[category]).forEach(subCategory => {
+          ids = ids.concat(categories[category][subCategory]);
+
+          for (let i = 0; i < categories[category][subCategory].length; i++) {
+            categoryOrder.push(category);
+            subCategoryOrder.push(subCategory);
+          }
+        });
       }
     });
 
@@ -72,16 +88,22 @@ function readSidebar() {
       const id = ids[i];
       let previous;
       let next;
+
       if (i > 0) previous = ids[i - 1];
+
       if (i < ids.length - 1) next = ids[i + 1];
+
       order[id] = {
         previous,
         next,
         sidebar,
         category: categoryOrder[i],
+        sub_category: subCategoryOrder[i],
+        sort: i + 1,
       };
     }
   });
+
   return order;
 }
 
@@ -143,12 +165,14 @@ function processMetadata(file, refDir) {
   metadata.id = (env.translation.enabled ? `${language}-` : '') + metadata.id;
   metadata.language = env.translation.enabled ? language : 'en';
 
-  const order = readSidebar();
+  const order = readSidebar(allSidebars);
   const id = metadata.localized_id;
 
   if (order[id]) {
     metadata.sidebar = order[id].sidebar;
     metadata.category = order[id].category;
+    metadata.sub_category = order[id].sub_category;
+    metadata.sort = order[id].sort;
 
     if (order[id].next) {
       metadata.next_id = order[id].next;
@@ -169,7 +193,7 @@ function processMetadata(file, refDir) {
 function generateMetadataDocs() {
   let order;
   try {
-    order = readSidebar();
+    order = readSidebar(allSidebars);
   } catch (e) {
     console.error(e);
     process.exit(1);
@@ -255,6 +279,9 @@ function generateMetadataDocs() {
     if (order[id]) {
       metadata.sidebar = order[id].sidebar;
       metadata.category = order[id].category;
+      metadata.sub_category = order[id].sub_category;
+      metadata.sort = order[id].sort;
+
       if (order[id].next) {
         metadata.next_id = order[id].next.replace(
           `version-${metadata.version}-`,
