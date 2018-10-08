@@ -9,11 +9,26 @@ module.exports = function createOrder(allSidebars = {}) {
 
     let ids = [];
     const categoryOrder = [];
+    const subCategoryOrder = [];
     Object.keys(categories).forEach(category => {
-      ids = ids.concat(categories[category]);
-      // eslint-disable-next-line
-      for (let i = 0; i < categories[category].length; i++) {
-        categoryOrder.push(category);
+      if (Array.isArray(categories[category])) {
+        ids = ids.concat(categories[category]);
+
+        // eslint-disable-next-line
+        for (let i = 0; i < categories[category].length; i++) {
+          categoryOrder.push(category);
+          subCategoryOrder.push(undefined);
+        }
+      } else {
+        Object.keys(categories[category]).forEach(subCategory => {
+          ids = ids.concat(categories[category][subCategory]);
+
+          // eslint-disable-next-line
+          for (let i = 0; i < categories[category][subCategory].length; i++) {
+            categoryOrder.push(category);
+            subCategoryOrder.push(subCategory);
+          }
+        });
       }
     });
 
@@ -29,6 +44,7 @@ module.exports = function createOrder(allSidebars = {}) {
         next,
         sidebar,
         category: categoryOrder[i],
+        subCategory: subCategoryOrder[i],
       };
     }
   });

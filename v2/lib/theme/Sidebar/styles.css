@@ -7,7 +7,18 @@
   margin-bottom: 20px;
 }
 
+.sidebarSubGroup {
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
+.sidebarSubGroupTitle {
+  font-size: 16px;
+  margin: 0;
+}
+
 .sidebarGroupTitle {
+  font-size: 18px;
   margin: 0;
 }
 

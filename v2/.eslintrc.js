@@ -9,7 +9,7 @@ module.exports = {
     jest: true,
     node: true,
   },
-  extends: ['airbnb', 'prettier'],
+  extends: ['airbnb', 'prettier', 'prettier/react'],
   rules: {
     'no-console': OFF,
     'func-names': OFF,
