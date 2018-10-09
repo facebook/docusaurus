@@ -59,46 +59,55 @@ function readSidebar(sidebars = {}) {
   Object.keys(sidebars).forEach(sidebar => {
     const categories = sidebars[sidebar];
 
-    let ids = [];
-    const categoryOrder = [];
-    const subCategoryOrder = [];
+    let sidebarItems = [];
     Object.keys(categories).forEach(category => {
-      if (Array.isArray(categories[category])) {
-        ids = ids.concat(categories[category]);
-
-        for (let i = 0; i < categories[category].length; i++) {
-          categoryOrder.push(category);
-          subCategoryOrder.push(undefined);
+      const categoryItems = categories[category];
+      categoryItems.forEach(categoryItem => {
+        if (typeof categoryItem === 'object') {
+          Object.keys(categoryItem).forEach(subcategory => {
+            const subcategoryItems = categoryItem[subcategory];
+            subcategoryItems.forEach(subcategoryItem => {
+              sidebarItems.push({
+                id: subcategoryItem,
+                category,
+                subcategory,
+                sort: sidebarItems.length + 1,
+              });
+            });
+          });
+          return;
         }
-      } else {
-        Object.keys(categories[category]).forEach(subCategory => {
-          ids = ids.concat(categories[category][subCategory]);
-
-          for (let i = 0; i < categories[category][subCategory].length; i++) {
-            categoryOrder.push(category);
-            subCategoryOrder.push(subCategory);
-          }
+        sidebarItems.push({
+          id: categoryItem,
+          category,
+          subcategory: null,
+          sort: sidebarItems.length + 1,
         });
-      }
+      });
     });
 
-    for (let i = 0; i < ids.length; i++) {
-      const id = ids[i];
-      let previous;
-      let next;
+    for (let i = 0; i < sidebarItems.length; i++) {
+      const item = sidebarItems[i];
+      let previous = null;
+      let next = null;
 
-      if (i > 0) previous = ids[i - 1];
+      if (i > 0) {
+        previous = sidebarItems[i - 1].id;
+      }
 
-      if (i < ids.length - 1) next = ids[i + 1];
+      if (i < sidebarItems.length - 1) {
+        next = sidebarItems[i + 1].id;
+      }
 
-      order[id] = {
-        previous,
-        next,
-        sidebar,
-        category: categoryOrder[i],
-        sub_category: subCategoryOrder[i],
-        sort: i + 1,
-      };
+      order[item.id] = Object.assign(
+        {},
+        {
+          previous,
+          next,
+          sidebar,
+        },
+        item,
+      );
     }
   });
 
@@ -167,7 +176,7 @@ function processMetadata(file, refDir) {
   if (order[id]) {
     metadata.sidebar = order[id].sidebar;
     metadata.category = order[id].category;
-    metadata.sub_category = order[id].sub_category;
+    metadata.subcategory = order[id].subcategory;
     metadata.sort = order[id].sort;
 
     if (order[id].next) {
@@ -272,7 +281,7 @@ function generateMetadataDocs() {
     if (order[id]) {
       metadata.sidebar = order[id].sidebar;
       metadata.category = order[id].category;
-      metadata.sub_category = order[id].sub_category;
+      metadata.subcategory = order[id].subcategory;
       metadata.sort = order[id].sort;
 
       if (order[id].next) {

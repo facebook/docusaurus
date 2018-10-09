@@ -16,7 +16,7 @@ function readCategories(sidebar, allMetadata, languages) {
   const allCategories = {};
 
   // Go through each language that might be defined
-  for (let k = 0; k < enabledLanguages.length; ++k) {
+  for (let k = 0; k < enabledLanguages.length; k++) {
     const language = enabledLanguages[k];
     const metadatas = [];
     const categories = [];
@@ -36,28 +36,29 @@ function readCategories(sidebar, allMetadata, languages) {
 
     // Store the correct sort of categories and sub categories for later
     const sortedCategories = [];
-    const sortedSubCategories = [];
+    const sortedSubcategories = [];
     for (let i = 0; i < metadatas.length; ++i) {
       const metadata = metadatas[i];
       const category = metadata.category;
-      const subCategory = metadata.sub_category;
+      const subcategory = metadata.subcategory;
 
       if (!sortedCategories.includes(category)) {
         sortedCategories.push(category);
       }
 
-      if (subCategory && !sortedSubCategories.includes(subCategory)) {
-        sortedSubCategories.push(subCategory);
+      if (subcategory && !sortedSubcategories.includes(subcategory)) {
+        sortedSubcategories.push(subcategory);
       }
     }
 
     // Index categories and sub categories with all of their documents
     const indexedCategories = {};
-    const indexedSubCategories = {};
+    const indexedSubcategories = {};
+
     for (let i = 0; i < metadatas.length; i++) {
       const metadata = metadatas[i];
       const category = metadata.category;
-      const subCategory = metadata.sub_category;
+      const subcategory = metadata.subcategory;
 
       // Validate sidebarMetadatas in the sidebar
       validateSidebar(metadata, sidebarMetadatas);
@@ -66,20 +67,20 @@ function readCategories(sidebar, allMetadata, languages) {
         indexedCategories[category] = [];
       }
 
-      if (!subCategory) {
+      if (!subcategory) {
         indexedCategories[category].push(metadata);
       }
 
-      if (subCategory) {
-        if (!indexedSubCategories[category]) {
-          indexedSubCategories[category] = {};
+      if (subcategory) {
+        if (!indexedSubcategories[category]) {
+          indexedSubcategories[category] = {};
         }
 
-        if (!indexedSubCategories[category][subCategory]) {
-          indexedSubCategories[category][subCategory] = [];
+        if (!indexedSubcategories[category][subcategory]) {
+          indexedSubcategories[category][subcategory] = [];
         }
 
-        indexedSubCategories[category][subCategory].push(metadata);
+        indexedSubcategories[category][subcategory].push(metadata);
       }
     }
 
@@ -91,20 +92,20 @@ function readCategories(sidebar, allMetadata, languages) {
         links: indexedCategories[category],
       };
 
-      for (let ii = 0; ii < sortedSubCategories.length; ii++) {
-        const subCategory = sortedSubCategories[ii];
+      for (let ii = 0; ii < sortedSubcategories.length; ii++) {
+        const subcategory = sortedSubcategories[ii];
 
         if (
-          indexedSubCategories[category] &&
-          indexedSubCategories[category][subCategory]
+          indexedSubcategories[category] &&
+          indexedSubcategories[category][subcategory]
         ) {
-          if (!currentCategory.sub_categories) {
-            currentCategory.sub_categories = [];
+          if (!currentCategory.subcategories) {
+            currentCategory.subcategories = [];
           }
 
-          currentCategory.sub_categories.push({
-            name: subCategory,
-            links: indexedSubCategories[category][subCategory],
+          currentCategory.subcategories.push({
+            name: subcategory,
+            links: indexedSubcategories[category][subcategory],
           });
         }
       }

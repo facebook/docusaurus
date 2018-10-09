@@ -69,20 +69,20 @@ class SideNav extends React.Component {
         </h3>
         <ul>
           {category.links.map(this.renderItemLink, this)}
-          {category.sub_categories &&
-            category.sub_categories.map(this.renderSubCategory, this)}
+          {category.subcategories &&
+            category.subcategories.map(this.renderSubcategory, this)}
         </ul>
       </div>
     );
   }
 
-  renderSubCategory(subCategory) {
+  renderSubcategory(subcategory) {
     return (
-      <div className="navGroup subNavGroup" key={subCategory.name}>
-        <h4 className="navGroupSubCategoryTitle">
-          {this.getLocalizedCategoryString(subCategory.name)}
+      <div className="navGroup subNavGroup" key={subcategory.name}>
+        <h4 className="navGroupSubcategoryTitle">
+          {this.getLocalizedCategoryString(subcategory.name)}
         </h4>
-        <ul>{subCategory.links.map(this.renderItemLink, this)}</ul>
+        <ul>{subcategory.links.map(this.renderItemLink, this)}</ul>
       </div>
     );
   }

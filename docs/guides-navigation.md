@@ -94,27 +94,46 @@ You should provide `directory/id` instead of `id` in `sidebars.json`.
 }
 ```
 
-### Adding Sub Categories 
+### Adding Subcategories
 
-It is possibile to add sub categories to a sidebar. Instead of passing an array to the category like the previous examples you can pass an object where 
-the keys will be the sub category name. You can then pass an array of document ids to the sub category.
+It is possible to add subcategories to a sidebar. Instead of using IDs as the contents of the category array like the previous examples, you can pass an object where the keys will be the subcategory name and the value an array of IDs for that subcategory.
 
 ```js
 {
-  "examples-sidebar" : {
-    "My Example Category" : {
-      "My Example Sub Category" : [
-        "my-examples",
-        ...
-      ],
-      "My Next Sub Category" : [
-        "some-other-examples"
-      ]
+  "docs": {
+    "My Example Category": [
+      "examples",
+      {
+        "My Example Subcategory": [
+          "my-examples",
+          ...
+        ]
+      },
+      {
+        "My Next Subcategory": [
+          "some-other-examples"
+        ]
+      },
+      "even-more-examples",
       ...
-    },
+    ],
     ...
   }
 }
+
+/*
+The above will generate:
+
+- My Example Category
+  - examples
+  - My Example Subcategory
+    - my-examples
+    ...
+  - My Next Subcategory
+    - some-other-examples
+  - even-more-examples
+  ...
+*/
 ```
 
 ### Adding New Sidebars

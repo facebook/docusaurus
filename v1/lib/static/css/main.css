@@ -1757,11 +1757,10 @@ input::placeholder {
 }
 
 .toc .toggleNav .subNavGroup {
-  margin-top : 16px;
+  margin-bottom: 0;
 }
 
-.toc .toggleNav .navGroup .navGroupCategoryTitle,
-.toc .toggleNav .navGroup .navGroupSubCategoryTitle {
+.toc .toggleNav .navGroup .navGroupCategoryTitle {
   color: #393939;
   font-size: 18px;
   font-weight: 500;
@@ -1770,8 +1769,14 @@ input::placeholder {
   margin-top: 0;
 }
 
-.toc .toggleNav .navGroup .navGroupSubCategoryTitle {
-  font-size: 16px;
+.toc .toggleNav .navGroup .navGroupSubcategoryTitle {
+  color: #393939;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+  margin-bottom: 0;
+  margin-top: 0;
+  padding: 4px 0;
 }
 
 .toc .toggleNav .navGroup .navListItem {

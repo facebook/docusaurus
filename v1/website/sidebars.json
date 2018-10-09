@@ -10,11 +10,15 @@
     "Guides": [
       "adding-blog",
       "custom-pages",
-      "search",
       "navigation",
       "translation",
       "versioning"
     ],
+    "Hello": {
+      "Bye": [
+        "search"
+      ]
+    },
     "API": [
       "commands",
       "doc-markdown",
