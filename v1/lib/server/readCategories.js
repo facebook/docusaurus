@@ -32,7 +32,7 @@ function readCategories(sidebar, allMetadata, languages) {
     });
 
     // Sort the metadata
-    metadatas.sort((a, b) => a.sort - b.sort);
+    metadatas.sort((a, b) => a.order - b.order);
 
     // Store the correct sort of categories and sub categories for later
     const sortedCategories = [];

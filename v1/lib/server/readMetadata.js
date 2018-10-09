@@ -71,17 +71,16 @@ function readSidebar(sidebars = {}) {
                 id: subcategoryItem,
                 category,
                 subcategory,
-                sort: sidebarItems.length + 1,
               });
             });
           });
           return;
         }
+
         sidebarItems.push({
           id: categoryItem,
           category,
           subcategory: null,
-          sort: sidebarItems.length + 1,
         });
       });
     });
@@ -99,15 +98,13 @@ function readSidebar(sidebars = {}) {
         next = sidebarItems[i + 1].id;
       }
 
-      order[item.id] = Object.assign(
-        {},
-        {
-          previous,
-          next,
-          sidebar,
-        },
-        item,
-      );
+      order[item.id] = {
+        previous,
+        next,
+        sidebar,
+        category: item.category,
+        subcategory: item.subcategory,
+      };
     }
   });
 
