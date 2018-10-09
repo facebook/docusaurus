@@ -61,22 +61,22 @@ class SideNav extends React.Component {
     return null;
   }
 
-  renderCategory(category) {
+  renderCategory = (category) => {
     return (
       <div className="navGroup" key={category.name}>
         <h3 className="navGroupCategoryTitle">
           {this.getLocalizedCategoryString(category.name)}
         </h3>
         <ul>
-          {category.links.map(this.renderItemLink, this)}
+          {category.links.map(this.renderItemLink)}
           {category.subcategories &&
-            category.subcategories.map(this.renderSubcategory, this)}
+            category.subcategories.map(this.renderSubcategory)}
         </ul>
       </div>
     );
   }
 
-  renderSubcategory(subcategory) {
+  renderSubcategory = (subcategory) => {
     return (
       <div className="navGroup subNavGroup" key={subcategory.name}>
         <h4 className="navGroupSubcategoryTitle">
@@ -87,7 +87,7 @@ class SideNav extends React.Component {
     );
   }
 
-  renderItemLink(link) {
+  renderItemLink = (link) => {
     const itemClasses = classNames('navListItem', {
       navListItemActive: link.id === this.props.current.id,
     });
@@ -122,7 +122,7 @@ class SideNav extends React.Component {
               )}
             </div>
             <div className="navGroups">
-              {this.props.contents.map(this.renderCategory, this)}
+              {this.props.contents.map(this.renderCategory)}
             </div>
           </section>
         </div>

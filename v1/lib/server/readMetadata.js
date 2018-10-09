@@ -54,7 +54,7 @@ function getDocsPath() {
 function readSidebar(sidebars = {}) {
   Object.assign(sidebars, versionFallback.sidebarData());
 
-  const order = {};
+  const items = {};
 
   Object.keys(sidebars).forEach(sidebar => {
     const categories = sidebars[sidebar];
@@ -71,6 +71,7 @@ function readSidebar(sidebars = {}) {
                 id: subcategoryItem,
                 category,
                 subcategory,
+                order: sidebarItems.length + 1,
               });
             });
           });
@@ -81,6 +82,7 @@ function readSidebar(sidebars = {}) {
           id: categoryItem,
           category,
           subcategory: null,
+          order: sidebarItems.length + 1,
         });
       });
     });
@@ -98,17 +100,18 @@ function readSidebar(sidebars = {}) {
         next = sidebarItems[i + 1].id;
       }
 
-      order[item.id] = {
+      items[item.id] = {
         previous,
         next,
         sidebar,
         category: item.category,
         subcategory: item.subcategory,
+        order: item.order,
       };
     }
   });
 
-  return order;
+  return items;
 }
 
 // process the metadata for a document found in either 'docs' or 'translated_docs'
@@ -167,24 +170,24 @@ function processMetadata(file, refDir) {
   metadata.id = (env.translation.enabled ? `${language}-` : '') + metadata.id;
   metadata.language = env.translation.enabled ? language : 'en';
 
-  const order = readSidebar(allSidebars);
+  const items = readSidebar(allSidebars);
   const id = metadata.localized_id;
+  const item = items[id];
+  if (item) {
+    metadata.sidebar = item.sidebar;
+    metadata.category = item.category;
+    metadata.subcategory = item.subcategory;
+    metadata.order = item.order;
 
-  if (order[id]) {
-    metadata.sidebar = order[id].sidebar;
-    metadata.category = order[id].category;
-    metadata.subcategory = order[id].subcategory;
-    metadata.sort = order[id].sort;
-
-    if (order[id].next) {
-      metadata.next_id = order[id].next;
+    if (item.next) {
+      metadata.next_id = item.next;
       metadata.next =
-        (env.translation.enabled ? `${language}-` : '') + order[id].next;
+        (env.translation.enabled ? `${language}-` : '') + item.next;
     }
-    if (order[id].previous) {
-      metadata.previous_id = order[id].previous;
+    if (item.previous) {
+      metadata.previous_id = item.previous;
       metadata.previous =
-        (env.translation.enabled ? `${language}-` : '') + order[id].previous;
+        (env.translation.enabled ? `${language}-` : '') + item.previous;
     }
   }
 
@@ -279,7 +282,7 @@ function generateMetadataDocs() {
       metadata.sidebar = order[id].sidebar;
       metadata.category = order[id].category;
       metadata.subcategory = order[id].subcategory;
-      metadata.sort = order[id].sort;
+      metadata.order = order[id].order;
 
       if (order[id].next) {
         metadata.next_id = order[id].next.replace(
