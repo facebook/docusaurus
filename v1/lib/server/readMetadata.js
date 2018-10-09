@@ -58,8 +58,8 @@ function readSidebar(sidebars = {}) {
 
   Object.keys(sidebars).forEach(sidebar => {
     const categories = sidebars[sidebar];
+    const sidebarItems = [];
 
-    let sidebarItems = [];
     Object.keys(categories).forEach(category => {
       const categoryItems = categories[category];
       categoryItems.forEach(categoryItem => {

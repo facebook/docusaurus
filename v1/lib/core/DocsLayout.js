@@ -53,7 +53,6 @@ class DocsLayout extends React.Component {
     const title =
       idx(i18n, ['localized-strings', 'docs', id, 'title']) || defaultTitle;
     const hasOnPageNav = this.props.config.onPageNav === 'separate';
-
     const previousTitle =
       idx(i18n, ['localized-strings', metadata.previous_id]) ||
       idx(i18n, ['localized-strings', 'previous']) ||

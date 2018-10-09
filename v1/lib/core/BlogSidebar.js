@@ -27,8 +27,12 @@ class BlogSidebar extends React.Component {
 
     const contents = [
       {
-        name: blogSidebarTitle,
-        links: MetadataBlog.slice(0, blogSidebarCount),
+        type: 'CATEGORY',
+        title: blogSidebarTitle,
+        children: MetadataBlog.slice(0, blogSidebarCount).map(item => ({
+          type: 'LINK',
+          item,
+        })),
       },
     ];
     const title = this.props.current && this.props.current.title;
