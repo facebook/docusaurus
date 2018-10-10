@@ -107,6 +107,21 @@ class Site extends React.Component {
               }}
             />
           )}
+          {this.props.config.algolia && (
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `
+                document.addEventListener('keyup', function(e) {
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    var search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              `,
+              }}
+            />
+          )}
           {this.props.config.algolia &&
             (this.props.config.algolia.algoliaOptions ? (
               <script
