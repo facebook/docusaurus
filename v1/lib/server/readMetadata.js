@@ -54,55 +54,67 @@ function getDocsPath() {
 function readSidebar(sidebars = {}) {
   Object.assign(sidebars, versionFallback.sidebarData());
 
-  const order = {};
+  const items = {};
 
   Object.keys(sidebars).forEach(sidebar => {
     const categories = sidebars[sidebar];
+    const sidebarItems = [];
 
-    let ids = [];
-    const categoryOrder = [];
-    const subCategoryOrder = [];
     Object.keys(categories).forEach(category => {
-      if (Array.isArray(categories[category])) {
-        ids = ids.concat(categories[category]);
-
-        for (let i = 0; i < categories[category].length; i++) {
-          categoryOrder.push(category);
-          subCategoryOrder.push(undefined);
-        }
-      } else {
-        Object.keys(categories[category]).forEach(subCategory => {
-          ids = ids.concat(categories[category][subCategory]);
-
-          for (let i = 0; i < categories[category][subCategory].length; i++) {
-            categoryOrder.push(category);
-            subCategoryOrder.push(subCategory);
+      const categoryItems = categories[category];
+      categoryItems.forEach(categoryItem => {
+        if (typeof categoryItem === 'object') {
+          switch (categoryItem.type) {
+            case 'subcategory':
+              categoryItem.ids.forEach(subcategoryItem => {
+                sidebarItems.push({
+                  id: subcategoryItem,
+                  category,
+                  subcategory: categoryItem.label,
+                  order: sidebarItems.length + 1,
+                });
+              });
+              return;
+            default:
+              return;
           }
+        }
+
+        // Is a regular id value.
+        sidebarItems.push({
+          id: categoryItem,
+          category,
+          subcategory: null,
+          order: sidebarItems.length + 1,
         });
-      }
+      });
     });
 
-    for (let i = 0; i < ids.length; i++) {
-      const id = ids[i];
-      let previous;
-      let next;
+    for (let i = 0; i < sidebarItems.length; i++) {
+      const item = sidebarItems[i];
+      let previous = null;
+      let next = null;
 
-      if (i > 0) previous = ids[i - 1];
+      if (i > 0) {
+        previous = sidebarItems[i - 1].id;
+      }
 
-      if (i < ids.length - 1) next = ids[i + 1];
+      if (i < sidebarItems.length - 1) {
+        next = sidebarItems[i + 1].id;
+      }
 
-      order[id] = {
+      items[item.id] = {
         previous,
         next,
         sidebar,
-        category: categoryOrder[i],
-        sub_category: subCategoryOrder[i],
-        sort: i + 1,
+        category: item.category,
+        subcategory: item.subcategory,
+        order: item.order,
       };
     }
   });
 
-  return order;
+  return items;
 }
 
 // process the metadata for a document found in either 'docs' or 'translated_docs'
@@ -161,24 +173,24 @@ function processMetadata(file, refDir) {
   metadata.id = (env.translation.enabled ? `${language}-` : '') + metadata.id;
   metadata.language = env.translation.enabled ? language : 'en';
 
-  const order = readSidebar(allSidebars);
+  const items = readSidebar(allSidebars);
   const id = metadata.localized_id;
+  const item = items[id];
+  if (item) {
+    metadata.sidebar = item.sidebar;
+    metadata.category = item.category;
+    metadata.subcategory = item.subcategory;
+    metadata.order = item.order;
 
-  if (order[id]) {
-    metadata.sidebar = order[id].sidebar;
-    metadata.category = order[id].category;
-    metadata.sub_category = order[id].sub_category;
-    metadata.sort = order[id].sort;
-
-    if (order[id].next) {
-      metadata.next_id = order[id].next;
+    if (item.next) {
+      metadata.next_id = item.next;
       metadata.next =
-        (env.translation.enabled ? `${language}-` : '') + order[id].next;
+        (env.translation.enabled ? `${language}-` : '') + item.next;
     }
-    if (order[id].previous) {
-      metadata.previous_id = order[id].previous;
+    if (item.previous) {
+      metadata.previous_id = item.previous;
       metadata.previous =
-        (env.translation.enabled ? `${language}-` : '') + order[id].previous;
+        (env.translation.enabled ? `${language}-` : '') + item.previous;
     }
   }
 
@@ -272,8 +284,8 @@ function generateMetadataDocs() {
     if (order[id]) {
       metadata.sidebar = order[id].sidebar;
       metadata.category = order[id].category;
-      metadata.sub_category = order[id].sub_category;
-      metadata.sort = order[id].sort;
+      metadata.subcategory = order[id].subcategory;
+      metadata.order = order[id].order;
 
       if (order[id].next) {
         metadata.next_id = order[id].next.replace(

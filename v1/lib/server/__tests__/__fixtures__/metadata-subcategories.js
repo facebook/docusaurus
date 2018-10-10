@@ -12,7 +12,7 @@ module.exports = {
     next_id: 'doc2',
     next: 'en-doc2',
     next_title: 'Document 2',
-    sub_category: 'Sub Cat 1',
+    subcategory: 'Sub Cat 1',
     sort: 1,
   },
   'en-doc2': {
@@ -28,7 +28,7 @@ module.exports = {
     previous_id: 'doc1',
     previous: 'en-doc1',
     previous_title: 'Document 1',
-    sub_category: 'Sub Cat 1',
+    subcategory: 'Sub Cat 1',
     sort: 2,
   },
   'en-doc3': {
@@ -44,7 +44,7 @@ module.exports = {
     previous_id: 'doc2',
     previous: 'en-doc2',
     previous_title: 'Document 2',
-    sub_category: 'Sub Cat 2',
+    subcategory: 'Sub Cat 2',
     sort: 3,
   },
   'en-doc4': {

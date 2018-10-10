@@ -5,115 +5,82 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const {validateSidebar} = require('./utils');
+const _ = require('lodash');
 
 // returns data broken up into categories for a sidebar
 function readCategories(sidebar, allMetadata, languages) {
-  const enabledLanguages = languages
-    .filter(lang => lang.enabled)
-    .map(lang => lang.tag);
-
   const allCategories = {};
 
-  // Go through each language that might be defined
-  for (let k = 0; k < enabledLanguages.length; ++k) {
-    const language = enabledLanguages[k];
-    const metadatas = [];
-    const categories = [];
-    const sidebarMetadatas = {};
+  // Go through each language that might be defined.
+  languages
+    .filter(lang => lang.enabled)
+    .map(lang => lang.tag)
+    .forEach(language => {
+      // Get all related metadata for the current sidebar and specific to the language.
+      const metadatas = Object.values(allMetadata)
+        .filter(
+          metadata =>
+            metadata.sidebar === sidebar && metadata.language === language,
+        )
+        .sort((a, b) => a.order - b.order);
 
-    // Get all related metadata for the current sidebar
-    Object.keys(allMetadata).forEach(id => {
-      const metadata = allMetadata[id];
-      if (metadata.sidebar === sidebar && metadata.language === language) {
-        metadatas.push(metadata);
-        sidebarMetadatas[metadata.id] = metadata;
-      }
-    });
+      // Define the correct order of categories.
+      const sortedCategories = _.uniq(
+        metadatas.map(metadata => metadata.category),
+      );
 
-    // Sort the metadata
-    metadatas.sort((a, b) => a.sort - b.sort);
+      const metadatasGroupedByCategory = _.chain(metadatas)
+        .groupBy(metadata => metadata.category)
+        .mapValues(categoryItems => {
+          // Process subcategories.
+          const metadatasGroupedBySubcategory = _.groupBy(
+            categoryItems,
+            item => item.subcategory,
+          );
+          const result = [];
+          const seenSubcategories = new Set();
+          // categoryItems can be links or subcategories. Handle separately.
+          categoryItems.forEach(item => {
+            // Has no subcategory.
+            if (item.subcategory == null) {
+              result.push({
+                type: 'LINK',
+                item,
+              });
+              return;
+            }
 
-    // Store the correct sort of categories and sub categories for later
-    const sortedCategories = [];
-    const sortedSubCategories = [];
-    for (let i = 0; i < metadatas.length; ++i) {
-      const metadata = metadatas[i];
-      const category = metadata.category;
-      const subCategory = metadata.sub_category;
+            const {subcategory} = item;
+            // Subcategory has been processed, we can skip it.
+            if (seenSubcategories.has(subcategory)) {
+              return;
+            }
 
-      if (!sortedCategories.includes(category)) {
-        sortedCategories.push(category);
-      }
-
-      if (subCategory && !sortedSubCategories.includes(subCategory)) {
-        sortedSubCategories.push(subCategory);
-      }
-    }
-
-    // Index categories and sub categories with all of their documents
-    const indexedCategories = {};
-    const indexedSubCategories = {};
-    for (let i = 0; i < metadatas.length; i++) {
-      const metadata = metadatas[i];
-      const category = metadata.category;
-      const subCategory = metadata.sub_category;
-
-      // Validate sidebarMetadatas in the sidebar
-      validateSidebar(metadata, sidebarMetadatas);
-
-      if (!indexedCategories[category]) {
-        indexedCategories[category] = [];
-      }
-
-      if (!subCategory) {
-        indexedCategories[category].push(metadata);
-      }
-
-      if (subCategory) {
-        if (!indexedSubCategories[category]) {
-          indexedSubCategories[category] = {};
-        }
-
-        if (!indexedSubCategories[category][subCategory]) {
-          indexedSubCategories[category][subCategory] = [];
-        }
-
-        indexedSubCategories[category][subCategory].push(metadata);
-      }
-    }
-
-    // Generate data for each category and sub categories
-    for (let i = 0; i < sortedCategories.length; i++) {
-      const category = sortedCategories[i];
-      const currentCategory = {
-        name: category,
-        links: indexedCategories[category],
-      };
-
-      for (let ii = 0; ii < sortedSubCategories.length; ii++) {
-        const subCategory = sortedSubCategories[ii];
-
-        if (
-          indexedSubCategories[category] &&
-          indexedSubCategories[category][subCategory]
-        ) {
-          if (!currentCategory.sub_categories) {
-            currentCategory.sub_categories = [];
-          }
-
-          currentCategory.sub_categories.push({
-            name: subCategory,
-            links: indexedSubCategories[category][subCategory],
+            seenSubcategories.add(subcategory);
+            const subcategoryLinks = metadatasGroupedBySubcategory[
+              subcategory
+            ].map(subcategoryItem => ({
+              type: 'LINK',
+              item: subcategoryItem,
+            }));
+            result.push({
+              type: 'SUBCATEGORY',
+              title: subcategory,
+              children: subcategoryLinks,
+            });
           });
-        }
-      }
 
-      categories.push(currentCategory);
-    }
+          return result;
+        })
+        .value();
 
-    allCategories[language] = categories;
-  }
+      const categories = sortedCategories.map(category => ({
+        type: 'CATEGORY',
+        title: category,
+        children: metadatasGroupedByCategory[category],
+      }));
+      allCategories[language] = categories;
+    });
 
   return allCategories;
 }

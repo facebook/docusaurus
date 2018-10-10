@@ -70,6 +70,7 @@
     "imagemin-jpegtran": "^5.0.2",
     "imagemin-optipng": "^5.2.1",
     "imagemin-svgo": "^6.0.0",
+    "lodash": "^4.17.11",
     "markdown-toc": "^1.2.0",
     "mkdirp": "^0.5.1",
     "portfinder": "^1.0.17",
