@@ -60,11 +60,9 @@
 <p>New markdown files within <code>docs</code> will show up as pages on the website. Links to those documents are created first by using the <code>id</code> in the header of each document. If there is no <code>id</code> field, then the name of the file will serve as the link name.</p>
 <p>For example, creating an empty file such as <code>docs/getting-started.md</code> will enable the new page URL as <code>/docs/getting-started.html</code>.</p>
 <p>Suppose you add this to your document:</p>
-<pre><code class="hljs css language-yaml"><span class="hljs-meta">---</span>
-<span class="hljs-attr">id:</span> <span class="hljs-string">intro</span>
+<pre><code class="hljs css language-yaml"><span class="hljs-attr">id:</span> <span class="hljs-string">intro</span>
 <span class="hljs-attr">title:</span> <span class="hljs-string">Getting</span> <span class="hljs-string">Started</span>
 <span class="hljs-meta">---</span>
-
 <span class="hljs-string">My</span> <span class="hljs-string">new</span> <span class="hljs-string">content</span> <span class="hljs-string">here..</span>
 </code></pre>
 <p>If you set the <code>id</code> field in the markdown header of the file, the doc will then be accessed from a URL of the form <code>/docs/intro.html</code>.</p>
@@ -118,24 +116,47 @@
   ...
 }
 </code></pre>
-<h3><a class="anchor" aria-hidden="true" id="adding-sub-categories"></a><a href="#adding-sub-categories" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Adding Sub Categories</h3>
-<p>It is possibile to add sub categories to a sidebar. Instead of passing an array to the category like the previous examples you can pass an object where
-the keys will be the sub category name. You can then pass an array of document ids to the sub category.</p>
+<h3><a class="anchor" aria-hidden="true" id="adding-subcategories"></a><a href="#adding-subcategories" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Adding Subcategories</h3>
+<p>It is possible to add subcategories to a sidebar. Instead of using IDs as the contents of the category array like the previous examples, you can pass an object where the keys will be the subcategory name and the value an array of IDs for that subcategory.</p>
 <pre><code class="hljs css language-js">{
-  <span class="hljs-string">"examples-sidebar"</span> : {
-    <span class="hljs-string">"My Example Category"</span> : {
-      <span class="hljs-string">"My Example Sub Category"</span> : [
-        <span class="hljs-string">"my-examples"</span>,
-        ...
-      ],
-      <span class="hljs-string">"My Next Sub Category"</span> : [
-        <span class="hljs-string">"some-other-examples"</span>
-      ]
+  <span class="hljs-string">"docs"</span>: {
+    <span class="hljs-string">"My Example Category"</span>: [
+      <span class="hljs-string">"examples"</span>,
+      {
+        <span class="hljs-string">"type"</span>: <span class="hljs-string">"subcategory"</span>,
+        <span class="hljs-string">"label"</span>: <span class="hljs-string">"My Example Subcategory"</span>,
+        <span class="hljs-string">"ids"</span>: [
+          <span class="hljs-string">"my-examples"</span>,
+          ...
+        ]
+      },
+      {
+        <span class="hljs-string">"type"</span>: <span class="hljs-string">"subcategory"</span>,
+        <span class="hljs-string">"label"</span>: <span class="hljs-string">"My Next Subcategory"</span>,
+        <span class="hljs-string">"ids"</span>: [
+          <span class="hljs-string">"some-other-examples"</span>
+        ]
+      },
+      <span class="hljs-string">"even-more-examples"</span>,
       ...
-    },
+    ],
     ...
   }
 }
+
+<span class="hljs-comment">/*
+The above will generate:
+
+- My Example Category
+  - examples
+  - My Example Subcategory
+    - my-examples
+    ...
+  - My Next Subcategory
+    - some-other-examples
+  - even-more-examples
+  ...
+*/</span>
 </code></pre>
 <h3><a class="anchor" aria-hidden="true" id="adding-new-sidebars"></a><a href="#adding-new-sidebars" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Adding New Sidebars</h3>
 <p>You can also put a document in a new sidebar. In the following example, we are creating an <code>examples-sidebar</code> sidebar within <code>sidebars.json</code> that has a category called <code>My Example Category</code> containing a document with an <code>id</code> of <code>my-examples</code>.</p>
@@ -234,7 +255,7 @@ the keys will be the sub category name. You can then pass an array of document i
 }
 </code></pre>
 <p>Currently, <code>'separate'</code> is the only option available for this field. This provides a separate navigation on the right side of the page.</p>
-</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/en/next/search"><span class="arrow-prev">← </span><span>Previous</span></a><a class="docs-next button" href="/docs/en/next/translation"><span>Translations and Localization</span><span class="arrow-next"> →</span></a></div><p style="font-size:12px;text-align:right"><strong>Last updated: </strong>2018-10-8 08:09:29</p></div></div><nav class="onPageNav docOnPageNav"><ul class="toc-headings"><li><a href="#referencing-site-documents">Referencing Site Documents</a></li><li><a href="#how-documents-are-linked">How Documents are Linked</a></li><li><a href="#adding-documents-to-a-sidebar">Adding Documents to a Sidebar</a><ul class="toc-headings"><li><a href="#adding-sub-categories">Adding Sub Categories</a></li><li><a href="#adding-new-sidebars">Adding New Sidebars</a></li></ul></li><li><a href="#additions-to-the-site-navigation-bar">Additions to the Site Navigation Bar</a><ul class="toc-headings"><li><a href="#adding-documents">Adding Documents</a></li><li><a href="#adding-custom-pages">Adding Custom Pages</a></li><li><a href="#adding-external-links">Adding External Links</a></li></ul></li><li><a href="#site-navigation-bar-positioning">Site Navigation Bar Positioning</a><ul class="toc-headings"><li><a href="#search">Search</a></li><li><a href="#languages-dropdown">Languages Dropdown</a></li></ul></li><li><a href="#active-links-in-site-navigation-bar">Active Links In Site Navigation Bar</a></li><li><a href="#secondary-on-page-navigation">Secondary On-Page Navigation</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/docusaurus_monochrome.svg" alt="Docusaurus" width="66" height="58"/></a><div class="footerSection"><h5>Docs</h5><a href="
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/en/next/search"><span class="arrow-prev">← </span><span>Previous</span></a><a class="docs-next button" href="/docs/en/next/translation"><span>Translations and Localization</span><span class="arrow-next"> →</span></a></div><p style="font-size:12px;text-align:right"><strong>Last updated: </strong>2018-10-10 15:33:20</p></div></div><nav class="onPageNav docOnPageNav"><ul class="toc-headings"><li><a href="#referencing-site-documents">Referencing Site Documents</a></li><li><a href="#how-documents-are-linked">How Documents are Linked</a></li><li><a href="#adding-documents-to-a-sidebar">Adding Documents to a Sidebar</a><ul class="toc-headings"><li><a href="#adding-subcategories">Adding Subcategories</a></li><li><a href="#adding-new-sidebars">Adding New Sidebars</a></li></ul></li><li><a href="#additions-to-the-site-navigation-bar">Additions to the Site Navigation Bar</a><ul class="toc-headings"><li><a href="#adding-documents">Adding Documents</a></li><li><a href="#adding-custom-pages">Adding Custom Pages</a></li><li><a href="#adding-external-links">Adding External Links</a></li></ul></li><li><a href="#site-navigation-bar-positioning">Site Navigation Bar Positioning</a><ul class="toc-headings"><li><a href="#search">Search</a></li><li><a href="#languages-dropdown">Languages Dropdown</a></li></ul></li><li><a href="#active-links-in-site-navigation-bar">Active Links In Site Navigation Bar</a></li><li><a href="#secondary-on-page-navigation">Secondary On-Page Navigation</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/docusaurus_monochrome.svg" alt="Docusaurus" width="66" height="58"/></a><div class="footerSection"><h5>Docs</h5><a href="
                 /docs/en/installation">Getting Started</a><a href="
                 /docs/en/versioning">Versioning</a><a href="
                 /docs/en/translation">Localization</a><a href="
