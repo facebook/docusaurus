@@ -4,16 +4,22 @@ module.exports = {
     'Second Category': [
       'doc3',
       {
-        'First Subcategory': ['doc4'],
+        type: 'subcategory',
+        label: 'First Subcategory',
+        ids: ['doc4'],
       },
       'doc5',
     ],
     'Third Category': [
       {
-        'Second Subcategory': ['doc6'],
+        type: 'subcategory',
+        label: 'Second Subcategory',
+        ids: ['doc6', 'doc7'],
       },
       {
-        'Third Subcategory': ['doc7'],
+        type: 'subcategory',
+        label: 'Third Subcategory',
+        ids: ['doc8'],
       },
     ],
   },

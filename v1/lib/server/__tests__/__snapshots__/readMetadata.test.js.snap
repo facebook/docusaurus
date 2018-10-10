@@ -52,9 +52,17 @@ Object {
   },
   "doc7": Object {
     "category": "Third Category",
-    "next": null,
+    "next": "doc8",
     "order": 7,
     "previous": "doc6",
+    "sidebar": "docs",
+    "subcategory": "Second Subcategory",
+  },
+  "doc8": Object {
+    "category": "Third Category",
+    "next": null,
+    "order": 8,
+    "previous": "doc7",
     "sidebar": "docs",
     "subcategory": "Third Subcategory",
   },

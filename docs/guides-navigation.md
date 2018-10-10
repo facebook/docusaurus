@@ -22,11 +22,9 @@ For example, creating an empty file such as `docs/getting-started.md` will enabl
 Suppose you add this to your document:
 
 ```yaml
----
 id: intro
 title: Getting Started
 ---
-
 My new content here..
 ```
 
@@ -104,13 +102,17 @@ It is possible to add subcategories to a sidebar. Instead of using IDs as the co
     "My Example Category": [
       "examples",
       {
-        "My Example Subcategory": [
+        "type": "subcategory",
+        "label": "My Example Subcategory",
+        "ids": [
           "my-examples",
           ...
         ]
       },
       {
-        "My Next Subcategory": [
+        "type": "subcategory",
+        "label": "My Next Subcategory",
+        "ids": [
           "some-other-examples"
         ]
       },
@@ -253,8 +255,8 @@ The links in the top navigation bar get `siteNavItemActive` and `siteNavGroupAct
 
 The `siteNavGroupActive` class will be added to these links:
 
-* `doc` links that belong to the same sidebar as the currently displayed document
-* The blog link when a blog post, or the blog listing page is being displayed
+- `doc` links that belong to the same sidebar as the currently displayed document
+- The blog link when a blog post, or the blog listing page is being displayed
 
 These are two separate class names so you can have the active styles applied to either exact matches only or a bit more broadly for docs that belong together. If you don't want to make this distinction you can add both classes to the same CSS rule.
 

@@ -64,20 +64,23 @@ function readSidebar(sidebars = {}) {
       const categoryItems = categories[category];
       categoryItems.forEach(categoryItem => {
         if (typeof categoryItem === 'object') {
-          Object.keys(categoryItem).forEach(subcategory => {
-            const subcategoryItems = categoryItem[subcategory];
-            subcategoryItems.forEach(subcategoryItem => {
-              sidebarItems.push({
-                id: subcategoryItem,
-                category,
-                subcategory,
-                order: sidebarItems.length + 1,
+          switch (categoryItem.type) {
+            case 'subcategory':
+              categoryItem.ids.forEach(subcategoryItem => {
+                sidebarItems.push({
+                  id: subcategoryItem,
+                  category,
+                  subcategory: categoryItem.label,
+                  order: sidebarItems.length + 1,
+                });
               });
-            });
-          });
-          return;
+              return;
+            default:
+              return;
+          }
         }
 
+        // Is a regular id value.
         sidebarItems.push({
           id: categoryItem,
           category,
