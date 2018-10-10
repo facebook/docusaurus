@@ -7,6 +7,7 @@
 
 const path = require('path');
 const fs = require('fs');
+const shell = require('shelljs');
 const utils = require('../utils');
 
 const blogPostWithTruncateContents = fs.readFileSync(
@@ -96,6 +97,34 @@ describe('utils', () => {
     fs.writeFileSync(tempFilePath, 'Lorem ipsum :)');
     expect(utils.getGitLastUpdated(tempFilePath)).toBeNull();
     fs.unlinkSync(tempFilePath);
+
+    // test renaming and moving file
+    const tempFilePath2 = path.join(__dirname, '__fixtures__', '.temp2');
+    fs.writeFileSync(tempFilePath2, 'Lorem ipsum :)');
+
+    shell.exec(`git add ${tempFilePath2}`);
+    shell.exec(`git commit -m "Create new file" --only ${tempFilePath2}`);
+
+    const createTime = utils.getGitLastUpdated(tempFilePath2);
+    expect(typeof createTime).toBe('string');
+
+    // rename / move the file
+    fs.mkdirSync(path.join(__dirname, '__fixtures__', 'test'));
+    const tempFilePath3 = path.join(
+      __dirname,
+      '__fixtures__',
+      'test',
+      '.temp3',
+    );
+    shell.exec(`git mv ${tempFilePath2} ${tempFilePath3}`);
+    shell.exec(`git commit -m "Rename the file"`);
+
+    const lastUpdateTime = utils.getGitLastUpdated(tempFilePath3);
+    expect(lastUpdateTime).toEqual(createTime);
+
+    fs.unlinkSync(tempFilePath3);
+    fs.rmdirSync(path.join(__dirname, '__fixtures__', 'test'));
+    shell.exec(`git reset HEAD^^`);
   });
 
   test('idx', () => {
