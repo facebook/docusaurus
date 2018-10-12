@@ -114,7 +114,7 @@ class Site extends React.Component {
                 document.addEventListener('keyup', function(e) {
                   // keyCode for '/' (slash)
                   if (e.keyCode === 191) {
-                    var search = document.getElementById('search_input_react');
+                    const search = document.getElementById('search_input_react');
                     search && search.focus();
                   }
                 });
