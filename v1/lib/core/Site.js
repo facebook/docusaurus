@@ -112,6 +112,9 @@ class Site extends React.Component {
               dangerouslySetInnerHTML={{
                 __html: `
                 document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
                   // keyCode for '/' (slash)
                   if (e.keyCode === 191) {
                     const search = document.getElementById('search_input_react');
