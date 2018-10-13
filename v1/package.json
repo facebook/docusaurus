@@ -3,27 +3,19 @@
   "description": "Easy to Maintain Open Source Documentation Websites",
   "version": "1.5.0",
   "license": "MIT",
-  "keywords": [
-    "documentation",
-    "websites",
-    "open source",
-    "docusaurus"
-  ],
+  "keywords": ["documentation", "websites", "open source", "docusaurus"],
   "repository": {
     "type": "git",
     "url": "https://github.com/facebook/Docusaurus.git"
   },
   "scripts": {
+    "prettier": "prettier --config ../.prettierrc --write \"**/*.js\"",
     "lint": "eslint --cache \"lib/**/*.js\" \"examples/**/*.js\" \"website/**/*.js\"",
     "test": "jest",
     "start": "cd website && yarn start"
   },
   "jest": {
-    "testPathIgnorePatterns": [
-      "/node_modules/",
-      "__fixtures__",
-      "v2"
-    ],
+    "testPathIgnorePatterns": ["/node_modules/", "__fixtures__", "v2"],
     "testURL": "http://localhost/",
     "transform": {
       "^.+\\.js$": "<rootDir>/jest.transform.js"
@@ -104,6 +96,7 @@
     "husky": "^0.14.3",
     "jest": "^23.6.0",
     "lint-staged": "^7.2.0",
+    "prettier": "^1.13.7",
     "rimraf": "^2.6.2"
   }
 }

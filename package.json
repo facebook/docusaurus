@@ -8,18 +8,19 @@
     "lint:v1": "cd v1 && yarn lint",
     "lint:v2": "cd v2 && yarn lint",
     "precommit": "lint-staged",
-    "prettier": "prettier --config .prettierrc --write \"**/*.js\"",
-    "prettier:diff": "prettier --config .prettierrc --list-different \"**/*.js\"",
+    "prettier:v1": "cd v1 && yarn prettier",
+    "prettier:v2": "cd v2 && yarn prettier",
+    "prettier": "yarn prettier:v1 && yarn prettier:v2",
     "start": "cd v1/website && yarn start"
   },
   "devDependencies": {
     "husky": "^0.14.3",
-    "lint-staged": "^7.2.0",
-    "prettier": "^1.13.7"
+    "lint-staged": "^7.2.0"
   },
   "lint-staged": {
     "linters": {
-      "{v1,v2}/**/*.js": ["yarn lint:v1 --fix", "yarn lint:v2 --fix", "yarn prettier", "git add"]
+      "v1/**/*.js": ["yarn lint:v1 --fix", "yarn prettier:v1", "git add"],
+      "v2/**/*.js": ["yarn lint:v2 --fix", "yarn prettier:v2", "git add"]
     }
   }
 }
