@@ -11,11 +11,13 @@
     "prettier:v1": "cd v1 && yarn prettier",
     "prettier:v2": "cd v2 && yarn prettier",
     "prettier": "yarn prettier:v1 && yarn prettier:v2",
+    "prettier:diff": "prettier --config .prettierrc --list-different \"**/*.js\"",
     "start": "cd v1/website && yarn start"
   },
   "devDependencies": {
     "husky": "^0.14.3",
-    "lint-staged": "^7.2.0"
+    "lint-staged": "^7.2.0",
+    "prettier": "^1.13.7"
   },
   "lint-staged": {
     "linters": {
