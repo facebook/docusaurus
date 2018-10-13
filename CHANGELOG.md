@@ -6,6 +6,46 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [Unreleased]
 
+## [1.5.0] - 2018-10-13
+
+This version introduces a big improvement to the sidebar, where you can now have subcategories.
+
+Welcome to our newest user, [Skip](http://skiplang.org).
+
+Thank you to the following contributors who helped with this release:
+
+- @endiliey
+- @yangshun
+- @JoelMarcey
+- @tom-auger
+- @muuvmuuv
+- @DABH
+- @Atul9
+- @fiennyangeln
+- @amyrlam
+- @ersul4ik
+- @WillBrock
+- @third774
+- @tanhauhau
+
+### Fixed/Changed
+
+- Use dark mode color scheme for footer like button ([#959](https://github.com/facebook/Docusaurus/pull/959))
+- Fix highlightjs custom highlighting function ([#1016](https://github.com/facebook/Docusaurus/pull/1016))
+
+### Added
+
+- Live reload port fallback if port is used ([#899](https://github.com/facebook/Docusaurus/pull/899))
+- Added option for client to include their own remarkable config ([#974](https://github.com/facebook/Docusaurus/pull/974))
+- Enabled subcategories in sidebar ([#892](https://github.com/facebook/Docusaurus/pull/892)) ([#1026](https://github.com/facebook/Docusaurus/pull/1026))
+- Add keyboard shortcut to focus on search box ([#1028](https://github.com/facebook/Docusaurus/pull/1028))
+
+### Chore and Maintenance
+
+- Upgrade to babel 7 for v1 ([#995](https://github.com/facebook/Docusaurus/pull/995))
+- Fix typo in Getting Started docs ([#1013](https://github.com/facebook/Docusaurus/pull/1013))
+- Reorganized siteConfig ([#1027](https://github.com/facebook/Docusaurus/pull/1027))
+
 ## [1.4.0] - 2018-09-11
 
 Welcome to our newest users, [FuseBox](https://fuse-box.org) and [Bowler](https://pybowler.io).
@@ -78,11 +118,13 @@ Thank you to the following contributors who helped with this release:
 - @willingc
 
 **Added**
+
 - Add autoprefixing to CSS pipeline [\#867](https://github.com/facebook/Docusaurus/pull/867)
 - Support `text` language for code block style without any highlighting [\#875](https://github.com/facebook/Docusaurus/pull/875)
 
 **Fixed/Changed**
-- Fix wrong CSS language prefix for fenced blocks [\#842](https://github.com/facebook/Docusaurus/pull/842) [\#870](https://github.com/facebook/Docusaurus/pull/870) 
+
+- Fix wrong CSS language prefix for fenced blocks [\#842](https://github.com/facebook/Docusaurus/pull/842) [\#870](https://github.com/facebook/Docusaurus/pull/870)
 - Fix phrase emphasis not italicized [\#850](https://github.com/facebook/Docusaurus/pull/850)
 - Don't replace static assets linking in fenced code blocks [\#864](https://github.com/facebook/Docusaurus/pull/864)
 - Blogpost summary for blog feed is now properly truncated [\#880](https://github.com/facebook/Docusaurus/pull/880)
@@ -93,18 +135,19 @@ Thank you to the following contributors who helped with this release:
 - Fix console error when onPageNav !== 'separate' [\#909](https://github.com/facebook/Docusaurus/pull/909)
 
 **Docs**
+
 - Add documentation regarding usage of nested docs/ subdirectory [\#860](https://github.com/facebook/Docusaurus/pull/860)
 - Improve baseUrl documentation with an example [\#863](https://github.com/facebook/Docusaurus/pull/863)
 - Fix Table of contents documentation typo [\#873](https://github.com/facebook/Docusaurus/pull/873)
 - Update installation doc [\#888](https://github.com/facebook/Docusaurus/pull/888) [\#900](https://github.com/facebook/Docusaurus/pull/900)
 - Update guides-translations.md for CircleCI 2.0 [92f95d](https://github.com/facebook/Docusaurus/commit/92f95df934ab4034c49d66cd82ad5dbbcdee508d)
 
-
 **Chore and Maintenance**
+
 - Add ESLint [\#836](https://github.com/facebook/Docusaurus/pull/836) [\#837](https://github.com/facebook/Docusaurus/pull/837) [\#841](https://github.com/facebook/Docusaurus/pull/841) [\#846](https://github.com/facebook/Docusaurus/pull/846)
 - Refactor & add more tests for Docusaurus [\#839](https://github.com/facebook/Docusaurus/pull/839) [\#847](https://github.com/facebook/Docusaurus/pull/847) [\#854](https://github.com/facebook/Docusaurus/pull/854) [\#856](https://github.com/facebook/Docusaurus/pull/856)
 - Docusaurus own search will now search the docs in the correct language & version [\#859](https://github.com/facebook/Docusaurus/pull/859)
-- Improve readme [\#866](https://github.com/facebook/Docusaurus/pull/866) 
+- Improve readme [\#866](https://github.com/facebook/Docusaurus/pull/866)
 - Add prerelease script for Docusaurus [\#876](https://github.com/facebook/Docusaurus/pull/876)
 - Remove unused files [\#881](https://github.com/facebook/Docusaurus/pull/881)
 - Update code of conduct [3c1363d](https://github.com/facebook/Docusaurus/commit/3c1363da1bd445029d7034b0575f69a7077321c3)
@@ -112,7 +155,6 @@ Thank you to the following contributors who helped with this release:
 - Activating Open Collective [\#883](https://github.com/facebook/Docusaurus/pull/883)
 - Fix Jest tests that fail on Windows [\#896](https://github.com/facebook/Docusaurus/pull/896)
 - Rename Sonar to Flipper [\#905](https://github.com/facebook/Docusaurus/pull/905)
-
 
 ## [1.3.2] - 2018-07-06
 
@@ -287,7 +329,7 @@ None that we know of. Please let us know if you find any as this is a big releas
 - OnPageNav now [works](https://github.com/facebook/Docusaurus/commit/3ff24c7926f06e10bf33eba7d1c86f18087e793a) on mobile devices.
 - [Remove](https://github.com/facebook/Docusaurus/commit/b3d59f8a0f7aee606dde0eb7fea9d9d613f34087) extra padding in code blocks.
 - Better [gitignore](https://github.com/facebook/Docusaurus/commit/767cd88d8655ddf81c1975b7850401dacf07908a) for `docusaurus-init`
-- Documentation fixes:  [1](https://github.com/facebook/Docusaurus/commit/52729446261f61fa091d2f4909e9435abb0af645)[2](https://github.com/facebook/Docusaurus/commit/6244bb1aa452c5b98c3f768c0a311cf7f52cb5a8)[3](https://github.com/facebook/Docusaurus/commit/e5ff417cd19a4d9c353c2a054a42cf75d5df9228).
+- Documentation fixes: [1](https://github.com/facebook/Docusaurus/commit/52729446261f61fa091d2f4909e9435abb0af645)[2](https://github.com/facebook/Docusaurus/commit/6244bb1aa452c5b98c3f768c0a311cf7f52cb5a8)[3](https://github.com/facebook/Docusaurus/commit/e5ff417cd19a4d9c353c2a054a42cf75d5df9228).
 
 ### Removed
 
@@ -667,8 +709,7 @@ N/A
 - `font-family` is now a configurable parameter ([#294](https://github.com/facebook/Docusaurus/commit/a241a466697a2bb9fa022df29fba35dd49e29715), thanks @cowlingj)
 - Configurable edit URL link, per doc ([#443](https://github.com/facebook/Docusaurus/commit/41750667cd74b66c2bdde00619d290fc293a01d3), thanks @Glavin001)
 - New Docusaurus [users](https://docusaurus.io/en/users.html): [Vuls](https://vuls.io/), [react-native-ios-kit](https://callstack.github.io/react-native-ios-kit) and [Verdaccio](http://www.verdaccio.org/)
-- Docs section about referencing site documents ([#394](https://github.com/facebook/Docusaurus/commit/1d967a941cfc7256588ce8b88291d7f3c86c1983)
-)
+- Docs section about referencing site documents ([#394](https://github.com/facebook/Docusaurus/commit/1d967a941cfc7256588ce8b88291d7f3c86c1983) )
 - Clarified docs on [publishing to a user/org page](https://docusaurus.io/docs/en/publishing.html#using-github-pages)
 - [Alphabetized site config options](https://docusaurus.io/docs/en/site-config.html) in docs (thanks @haraldur12)
 - Moved [verifying installation](https://docusaurus.io/docs/en/installation.html#verifying-installation) section to the install docs (@thanks @gedeagas)
@@ -717,7 +758,7 @@ This is generally a bug fix release, with some code refactoring. Total commits i
 
 ### Breaking Changes
 
-- ***Most users may not run into this problem, but we think it can technically be a breaking change***. PR #322 (original PR #316) and friends changes the way we check for the existence of translations and versioning. Part of that is that we allow for the possibility of an empty language prop, instead of defaulting everything to English. When running 1.0.4, check to make sure your `index.js` works as expected. See [this comment](https://github.com/facebook/Docusaurus/pull/322#issuecomment-352914064) and those below for discussion on this. There is still a bit more work to be done (refactoring and maybe adding a `defaultLang` config option) to make this as clean as possible.
+- **_Most users may not run into this problem, but we think it can technically be a breaking change_**. PR #322 (original PR #316) and friends changes the way we check for the existence of translations and versioning. Part of that is that we allow for the possibility of an empty language prop, instead of defaulting everything to English. When running 1.0.4, check to make sure your `index.js` works as expected. See [this comment](https://github.com/facebook/Docusaurus/pull/322#issuecomment-352914064) and those below for discussion on this. There is still a bit more work to be done (refactoring and maybe adding a `defaultLang` config option) to make this as clean as possible.
 
 ### Added
 
@@ -738,7 +779,9 @@ This is generally a bug fix release, with some code refactoring. Total commits i
 N/A
 
 ## [1.0.3] - 2017-12-13
+
 ### Added
+
 - Docusaurus [released](http://docusaurus.io/blog/2017/12/14/introducing-docusaurus.html) to the public.
   - Initialization script
   - Versioning
@@ -747,7 +790,8 @@ N/A
   - Blog
   - Documentation
 
-[Unreleased]: https://github.com/facebook/Docusaurus/compare/v1.4.0...HEAD
+[unreleased]: https://github.com/facebook/Docusaurus/compare/v1.5.0...HEAD
+[1.5.0]: https://github.com/facebook/Docusaurus/compare/v1.4.0...v1.5.0
 [1.4.0]: https://github.com/facebook/Docusaurus/compare/v1.3.3...v1.4.0
 [1.3.3]: https://github.com/facebook/Docusaurus/compare/v1.3.2...v1.3.3
 [1.3.2]: https://github.com/facebook/Docusaurus/compare/v1.3.1...v1.3.2
