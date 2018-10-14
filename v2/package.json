@@ -51,7 +51,7 @@
     "@babel/preset-react": "^7.0.0",
     "babel-jest": "^23.6.0",
     "babel-loader": "^8.0.0",
-    "babel-plugin-transform-dynamic-import": "^2.1.0",
+    "babel-plugin-dynamic-import-node": "^2.2.0",
     "chalk": "^2.4.1",
     "chokidar": "^2.0.4",
     "classnames": "^2.2.6",
