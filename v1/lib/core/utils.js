@@ -4,7 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-const spawn = require('cross-spawn');
+const shell = require('shelljs');
 
 const TRUNCATE_MARKER = /<!--\s*truncate\s*-->/;
 
@@ -38,10 +38,34 @@ function idx(target, keyPaths) {
   );
 }
 
+function isNormalInteger(str) {
+  return /^\d+$/.test(str);
+}
+
 function getGitLastUpdated(filepath) {
-  const timeSpan = spawn
-    .sync('git', ['log', '-1', '--format=%ct', filepath])
-    .stdout.toString('utf-8');
+  // To differentiate between content change and file renaming / moving, use --summary
+  // To follow the file history until before it is moved (when we create new version), use
+  // --follow
+  const silentState = shell.config.silent; // save old silent state
+  shell.config.silent = true;
+  const result = shell
+    .exec(`git log --follow --summary --format=%ct ${filepath}`)
+    .stdout.trim();
+  shell.config.silent = silentState;
+
+  // Format the log results to be ['1234567', 'rename ...', '1234566', 'move ...', '1234565', '1234564']
+  const records = result
+    .toString('utf-8')
+    .replace(/\n\s*\n/g, '\n')
+    .split('\n')
+    .filter(String);
+
+  const timeSpan = records.find((item, index, arr) => {
+    const isTimestamp = isNormalInteger(item);
+    const isLastTwoItem = index + 2 >= arr.length;
+    const nextItemIsTimestamp = isNormalInteger(arr[index + 1]);
+    return isTimestamp && (isLastTwoItem || nextItemIsTimestamp);
+  });
   if (timeSpan) {
     const date = new Date(parseInt(timeSpan, 10) * 1000);
     return date.toLocaleString();
