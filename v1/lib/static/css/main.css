@@ -1500,7 +1500,7 @@ input::placeholder {
 
 @media only screen and (min-width: 1024px) {
   .docMainWrapper {
-    max-width:100% !important ;
+    max-width: 100% !important ;
     margin: 0;
   }
 
@@ -1535,6 +1535,14 @@ input::placeholder {
     display: none;
   }
 }
+
+.docLastUpdateTimestamp {
+  font-size: 13px;
+  font-style: italic;
+  margin: 20px 0;
+  text-align: right;
+}
+
 /* End of Docs Main */
 
 /* Start of Docs Navigation */
@@ -2040,7 +2048,6 @@ input::placeholder {
     }
   }
 }
-
 
 @media only screen and (min-width: 1024px) {
   .separateOnPageNav.sideNavVisible .navPusher .docMainContainer {

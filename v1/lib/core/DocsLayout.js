@@ -41,9 +41,11 @@ class DocsLayout extends React.Component {
     const id = metadata.localized_id;
     const defaultTitle = metadata.title;
     let DocComponent = Doc;
+
     if (this.props.Doc) {
       DocComponent = this.props.Doc;
     }
+
     let updateTime;
     if (this.props.config.enableUpdateTime) {
       const filepath = docs.getFilePath(metadata);
@@ -88,6 +90,15 @@ class DocsLayout extends React.Component {
               version={metadata.version}
               language={metadata.language}
             />
+            {this.props.config.enableUpdateTime &&
+              updateTime && (
+                <div className="docLastUpdateTimestamp">
+                  <em>
+                    <strong>Last updated: </strong>
+                    {updateTime}
+                  </em>
+                </div>
+              )}
             <div className="docs-prevnext">
               {metadata.previous_id && (
                 <a
@@ -123,13 +134,6 @@ class DocsLayout extends React.Component {
                 </a>
               )}
             </div>
-            {this.props.config.enableUpdateTime &&
-              updateTime && (
-                <p style={{fontSize: '12px', textAlign: 'right'}}>
-                  <strong>Last updated: </strong>
-                  {updateTime}
-                </p>
-              )}
           </Container>
           {hasOnPageNav && (
             <nav className="onPageNav docOnPageNav">
