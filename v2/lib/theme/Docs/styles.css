@@ -1,13 +1,20 @@
 .mainContainer {
   display: flex;
   flex-direction: row;
-  margin-bottom: 30px;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 40px;
   justify-content: space-between;
 }
 
-.docContent {
+.docContainer {
   flex-grow: 1;
+  padding: 0 40px;
+}
+
+.docContent {
+  margin-bottom: 48px;
+}
+
+.paginatorContainer {
+  margin: 48px 0;
 }
