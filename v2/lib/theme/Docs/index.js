@@ -33,9 +33,14 @@ export default class Docs extends React.Component {
             docsSidebars={docsSidebars}
             metadata={metadata}
           />
-          <div className={styles.docContent}>
-            {this.props.children}
-            <DocsPaginator docsMetadatas={docsMetadatas} metadata={metadata} />
+          <div className={styles.docContainer}>
+            <div className={styles.docContent}>{this.props.children}</div>
+            <div className={styles.paginatorContainer}>
+              <DocsPaginator
+                docsMetadatas={docsMetadatas}
+                metadata={metadata}
+              />
+            </div>
           </div>
         </div>
       </Layout>

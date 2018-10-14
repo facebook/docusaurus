@@ -32,10 +32,10 @@
   display: block;
   padding: 8px 0;
   text-decoration: none;
-  transition: color .3s;
+  transition: color 0.3s;
 }
 
 .sidebarLink:hover,
 .sidebarLinkActive {
-  color: #2e8555;
+  color: #00a388;
 }
