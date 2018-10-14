@@ -26,22 +26,6 @@ Docusaurus is available as the [`docusaurus` package](https://www.npmjs.com/pack
 
 We have also released the [`docusaurus-init` package](https://www.npmjs.com/package/docusaurus-init) to make [getting started](https://docusaurus.io/docs/en/installation.html) with Docusaurus even easier.
 
-## Contributing
-
-We've released Docusaurus because it helps us better scale and support the many OSS projects at Facebook. We hope that other organizations can benefit from the project. We are thankful for any contributions from the community.
-
-### [Code of Conduct](https://code.facebook.com/codeofconduct)
-
-Facebook has adopted a Code of Conduct that we expect project participants to adhere to. Please read [the full text](https://code.facebook.com/codeofconduct) so that you can understand what actions will and will not be tolerated.
-
-### Contributing Guide
-
-Read our [contributing guide](https://github.com/facebook/Docusaurus/blob/master/CONTRIBUTING.md) to learn about our development process, how to propose bugfixes and improvements, and how to build and test your changes to Docusaurus.
-
-### Beginner Friendly Bugs
-
-To help you get your feet wet and get you familiar with our contribution process, we have a list of [beginner friendly bugs](https://github.com/facebook/Docusaurus/labels/good%20first%20issue) that contain bugs which are fairly easy to fix. This is a great place to get started.
-
 ## Contact
 
 We have a few channels for contact:
