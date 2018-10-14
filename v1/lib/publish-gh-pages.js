@@ -54,6 +54,13 @@ if (!PROJECT_NAME) {
   shell.exit(0);
 }
 
+if (USE_SSH !== 'true' && !GIT_USER) {
+  shell.echo(
+    "Missing git user. Did you forget to export the 'GIT_USER' environment variable?",
+  );
+  shell.exit(0);
+}
+
 let remoteBranch;
 if (USE_SSH === 'true') {
   remoteBranch = `git@${GITHUB_HOST}:${ORGANIZATION_NAME}/${PROJECT_NAME}.git`;
