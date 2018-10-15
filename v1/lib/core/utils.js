@@ -136,7 +136,7 @@ function getAuthorInformation(filepath) {
     let authorData;
     results.forEach(result => {
       if ((authorData = authorRegex.exec(result)) !== null) {
-        const lineCount = parseInt(authorData[1]);
+        const lineCount = parseInt(authorData[1], 10);
         const name = authorData[2];
         authors.push({
           lineCount,

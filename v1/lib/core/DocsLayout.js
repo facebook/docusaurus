@@ -45,15 +45,14 @@ class DocsLayout extends React.Component {
     if (this.props.Doc) {
       DocComponent = this.props.Doc;
     }
-
-    let updateTime, updateAuthor;
     const filepath = docs.getFilePath(metadata);
-    if (this.props.config.enableUpdateTime) {
-      updateTime = getGitLastUpdated(filepath);
-    }
-    if (this.props.config.enableUpdateBy) {
-      updateAuthor = getGitLastUpdatedBy(filepath);
-    }
+
+    const updateTime = this.props.config.enableUpdateTime
+      ? getGitLastUpdated(filepath)
+      : null;
+    const updateAuthor = this.props.config.enableUpdateBy
+      ? getGitLastUpdatedBy(filepath)
+      : null;
 
     const title =
       idx(i18n, ['localized-strings', 'docs', id, 'title']) || defaultTitle;
@@ -95,22 +94,22 @@ class DocsLayout extends React.Component {
               language={metadata.language}
             />
             {(updateTime || updateAuthor) && (
-                <div className="docLastUpdate">
-                  {updateTime && (
-                    <em>
-                      <strong>Last updated: </strong>
-                      {updateTime}
-                    </em>
-                  )}
-                  <br />
-                  {updateAuthor && (
-                    <em>
-                      <strong>Last updated by: </strong>
-                      {updateAuthor}
-                    </em>
-                  )}
-                </div>
-              )}
+              <div className="docLastUpdate">
+                {updateTime && (
+                  <em>
+                    <strong>Last updated: </strong>
+                    {updateTime}
+                  </em>
+                )}
+                <br />
+                {updateAuthor && (
+                  <em>
+                    <strong>Last updated by: </strong>
+                    {updateAuthor}
+                  </em>
+                )}
+              </div>
+            )}
 
             <div className="docs-prevnext">
               {metadata.previous_id && (
