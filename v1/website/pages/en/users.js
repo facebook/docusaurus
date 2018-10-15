@@ -15,10 +15,12 @@ const translate = require('../../server/translate.js').translate;
 class Users extends React.Component {
   renderUser(user) {
     return (
-      <a href={user.infoLink} key={user.infoLink}>
-        <img src={user.image} alt={user.caption} title={user.caption} />
-        {user.caption}
-      </a>
+      <div>
+        <h4>{user.caption}</h4>
+        <a href={user.infoLink} key={user.infoLink}>
+          <img src={user.image} alt={user.caption} title={user.caption} />
+        </a>
+      </div>
     );
   }
 
