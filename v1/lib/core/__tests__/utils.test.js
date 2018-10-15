@@ -74,10 +74,10 @@ describe('utils', () => {
     expect(utils.removeExtension('pages.js')).toBe('pages');
   });
 
-  test('getGitLastUpdated', () => {
+  test('getGitLastUpdatedTime', () => {
     // existing test file in repository with git timestamp
     const existingFilePath = path.join(__dirname, '__fixtures__', 'test.md');
-    const gitLastUpdated = utils.getGitLastUpdated(existingFilePath);
+    const gitLastUpdated = utils.getGitLastUpdatedTime(existingFilePath);
     expect(typeof gitLastUpdated).toBe('string');
     expect(Date.parse(gitLastUpdated)).not.toBeNaN();
     expect(gitLastUpdated).not.toBeNull();
@@ -88,14 +88,14 @@ describe('utils', () => {
       '__fixtures__',
       '.nonExisting',
     );
-    expect(utils.getGitLastUpdated(null)).toBeNull();
-    expect(utils.getGitLastUpdated(undefined)).toBeNull();
-    expect(utils.getGitLastUpdated(nonExistingFilePath)).toBeNull();
+    expect(utils.getGitLastUpdatedTime(null)).toBeNull();
+    expect(utils.getGitLastUpdatedTime(undefined)).toBeNull();
+    expect(utils.getGitLastUpdatedTime(nonExistingFilePath)).toBeNull();
 
     // temporary created file that has no git timestamp
     const tempFilePath = path.join(__dirname, '__fixtures__', '.temp');
     fs.writeFileSync(tempFilePath, 'Lorem ipsum :)');
-    expect(utils.getGitLastUpdated(tempFilePath)).toBeNull();
+    expect(utils.getGitLastUpdatedTime(tempFilePath)).toBeNull();
     fs.unlinkSync(tempFilePath);
 
     // test renaming and moving file
@@ -115,7 +115,7 @@ describe('utils', () => {
         '\n' +
         ' create mode 100644 v1/lib/core/__tests__/__fixtures__/.temp2\n',
     }));
-    const createTime = utils.getGitLastUpdated(tempFilePath2);
+    const createTime = utils.getGitLastUpdatedTime(tempFilePath2);
     expect(typeof createTime).toBe('string');
 
     // rename / move the file
@@ -128,7 +128,7 @@ describe('utils', () => {
         '\n' +
         ' create mode 100644 v1/lib/core/__tests__/__fixtures__/.temp2\n',
     }));
-    const lastUpdateTime = utils.getGitLastUpdated(tempFilePath3);
+    const lastUpdateTime = utils.getGitLastUpdatedTime(tempFilePath3);
     // should only consider file content change
     expect(lastUpdateTime).toEqual(createTime);
   });

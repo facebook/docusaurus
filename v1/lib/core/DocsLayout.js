@@ -17,7 +17,7 @@ const OnPageNav = require('./nav/OnPageNav.js');
 const Site = require('./Site.js');
 const translation = require('../server/translation.js');
 const docs = require('../server/docs.js');
-const {idx, getGitLastUpdated, getGitLastUpdatedBy} = require('./utils.js');
+const {idx, getGitLastUpdatedTime, getGitLastUpdatedBy} = require('./utils.js');
 
 // component used to generate whole webpage for docs, including sidebar/header/footer
 class DocsLayout extends React.Component {
@@ -48,7 +48,7 @@ class DocsLayout extends React.Component {
     const filepath = docs.getFilePath(metadata);
 
     const updateTime = this.props.config.enableUpdateTime
-      ? getGitLastUpdated(filepath)
+      ? getGitLastUpdatedTime(filepath)
       : null;
     const updateAuthor = this.props.config.enableUpdateBy
       ? getGitLastUpdatedBy(filepath)
