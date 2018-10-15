@@ -44,8 +44,8 @@ The following parameters need to be set in the [`siteConfig.js`](api-site-config
 | ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `organizationName` | The GitHub user or organization that owns the repository. In the case of Docusaurus, that would be the "facebook" GitHub organization.                                                   |
 | `projectName`      | The name of the GitHub repository for your project. For example, Docusaurus is hosted at https://github.com/facebook/docusaurus, so our project name in this case would be "docusaurus". |
-| `url`              | Your website url. For project sites, this will be "https://_username_.github.io" |
-| `baseUrl`          | Base URL for your project. For projects sites, it follows the format "/_projectName_/". For https://github.com/facebook/docusaurus, `baseUrl` is "/docusaurus/" |
+| `url`              | Your website's URL. For projects hosted on GitHub pages, this will be "https://_username_.github.io" |
+| `baseUrl`          | Base URL for your project. For projects hosted on GitHub pages, it follows the format "/_projectName_/". For https://github.com/facebook/docusaurus, `baseUrl` is `/docusaurus/`. |
 
 > Docusaurus also supports deploying [user or organization sites](https://help.github.com/articles/user-organization-and-project-pages/#user--organization-pages). To do this, just set `projectName` to "_username_.github.io" (where _username_ is your username or organization name on GitHub) and `organizationName` to "_username_".  
 > For user or org sites, the publish script will deploy these sites to the root of the `master` branch of the _username_.github.io repo. In this case, note that you will want to have the Docusaurus infra, your docs, etc. either in another branch of the _username_.github.io repo (e.g., maybe call it `source`), or in another, separated repo (e.g. in the same as the documented source code).
