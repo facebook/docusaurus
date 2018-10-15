@@ -83,6 +83,40 @@ function getGitLastUpdated(filepath) {
   return null;
 }
 
+function getGitLastUpdatedBy(filepath) {
+  function isAuthor(str) {
+    return str.startsWith('author=');
+  }
+  // Wrap in try/catch in case the shell commands fail (e.g. project doesn't use Git, etc).
+  try {
+    const silentState = shell.config.silent; // save old silent state
+    shell.config.silent = true;
+    const result = shell
+      .exec(`git log --follow --summary --format=author=%an ${filepath}`)
+      .stdout.trim();
+    shell.config.silent = silentState;
+    // Format the log results to be ['1234567', 'rename ...', '1234566', 'move ...', '1234565', '1234564']
+    const records = result
+      .toString('utf-8')
+      .replace(/\n\s*\n/g, '\n')
+      .split('\n')
+      .filter(String);
+    const lastContentModifierAuthor = records.find((item, index, arr) => {
+      const currentItemIsAuthor = isAuthor(item);
+      const isLastTwoItem = index + 2 >= arr.length;
+      const nextItemIsAuthor = isAuthor(arr[index + 1]);
+      return currentItemIsAuthor && (isLastTwoItem || nextItemIsAuthor);
+    });
+    if (lastContentModifierAuthor) {
+      return lastContentModifierAuthor.slice(7);
+    }
+  } catch (error) {
+    console.error(error);
+  }
+
+  return null;
+}
+
 function getAuthorInformation(filepath) {
   /* set metadata author */
   const authorRegex = /(\d+) author (.+)$/g;
@@ -119,6 +153,7 @@ module.exports = {
   extractBlogPostBeforeTruncate,
   getGitLastUpdated,
   getAuthorInformation,
+  getGitLastUpdatedBy,
   getPath,
   removeExtension,
   idx,
