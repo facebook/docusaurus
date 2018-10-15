@@ -2220,14 +2220,14 @@ input::placeholder {
 }
 
 .showcaseSection .logos img {
-  max-height: 128px;
+  height: 128px;
   padding: 20px;
   width: 128px;
 }
 
 @media only screen and (max-width: 735px) {
   .showcaseSection .logos img {
-    max-height: 64px;
+    height: 64px;
     padding: 20px;
     width: 64px;
   }
