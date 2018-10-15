@@ -10,7 +10,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 This version introduces a big improvement to the sidebar, where you can now have subcategories.
 
-Welcome to our newest user, [Skip](http://skiplang.org).
+Welcome to our newest user, [Skip](http://skiplang.com).
 
 Thank you to the following contributors who helped with this release:
 
