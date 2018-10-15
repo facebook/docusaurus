@@ -123,8 +123,10 @@ function getAuthorInformation(filepath) {
   const results = execSync(
     `git blame --line-porcelain ${filepath} \
     | grep -I "^author " | sort | uniq -c | sort -nr; \
-  `
-  ).toString().split('\n');
+  `,
+  )
+    .toString()
+    .split('\n');
 
   const authors = [];
   let totalLineCount = 0;
@@ -145,7 +147,7 @@ function getAuthorInformation(filepath) {
       authorRegex.lastIndex = 0;
     });
   }
-  return { authors, totalLineCount };
+  return {authors, totalLineCount};
 }
 
 module.exports = {

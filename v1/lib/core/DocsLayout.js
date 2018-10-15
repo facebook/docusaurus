@@ -17,7 +17,7 @@ const OnPageNav = require('./nav/OnPageNav.js');
 const Site = require('./Site.js');
 const translation = require('../server/translation.js');
 const docs = require('../server/docs.js');
-const {idx, getGitLastUpdated, getGitLastUpdatedBy } = require('./utils.js');
+const {idx, getGitLastUpdated, getGitLastUpdatedBy} = require('./utils.js');
 
 // component used to generate whole webpage for docs, including sidebar/header/footer
 class DocsLayout extends React.Component {
@@ -46,12 +46,14 @@ class DocsLayout extends React.Component {
       DocComponent = this.props.Doc;
     }
 
-    let updateTime;
+    let updateTime, updateAuthor;
     const filepath = docs.getFilePath(metadata);
     if (this.props.config.enableUpdateTime) {
       updateTime = getGitLastUpdated(filepath);
     }
-    const authorInfo = getGitLastUpdatedBy(filepath);
+    if (this.props.config.enableUpdateBy) {
+      updateAuthor = getGitLastUpdatedBy(filepath);
+    }
 
     const title =
       idx(i18n, ['localized-strings', 'docs', id, 'title']) || defaultTitle;
@@ -92,15 +94,24 @@ class DocsLayout extends React.Component {
               version={metadata.version}
               language={metadata.language}
             />
-            {this.props.config.enableUpdateTime &&
-            updateTime && (
-              <div className="docLastUpdateTimestamp">
-                <em>
-                  <strong>Last updated: </strong>
-                  {updateTime}
-                </em>
-              </div>
-            )}
+            {(updateTime || updateAuthor) && (
+                <div className="docLastUpdate">
+                  {updateTime && (
+                    <em>
+                      <strong>Last updated: </strong>
+                      {updateTime}
+                    </em>
+                  )}
+                  <br />
+                  {updateAuthor && (
+                    <em>
+                      <strong>Last updated by: </strong>
+                      {updateAuthor}
+                    </em>
+                  )}
+                </div>
+              )}
+
             <div className="docs-prevnext">
               {metadata.previous_id && (
                 <a
@@ -136,12 +147,6 @@ class DocsLayout extends React.Component {
                 </a>
               )}
             </div>
-            {authorInfo &&
-            (<p style={{fontSize: '12px', textAlign: 'right'}}>
-              <strong>Last updated by: </strong>
-              {authorInfo}
-            </p>)
-            }
           </Container>
           {hasOnPageNav && (
             <nav className="onPageNav docOnPageNav">

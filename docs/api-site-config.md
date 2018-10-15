@@ -135,6 +135,9 @@ Set this to `true` if you want to enable Facebook comments at the bottom of your
 #### `fonts` [object]
 Font-family CSS configuration for the site. If a font family is specified in `siteConfig.js` as `$myFont`, then adding a `myFont` key to an array in `fonts` will allow you to configure the font. Items appearing earlier in the array will take priority of later elements, so ordering of the fonts matter.
 
+#### `enableUpdateBy` [boolean]
+An option to enable the docs showing last update time. Set to `true` to show a line at the bottom right corner of each doc page as `Last Updated By: <Author Name>`.
+
 In the below example, we have two sets of font configurations, `myFont` and `myOtherFont`. `Times New Roman` is the preferred font in `myFont`. `-apple-system` is the preferred in `myOtherFont`.
 
 ```js
