@@ -5,104 +5,82 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const fs = require('fs');
-
-const Metadata = require('../core/metadata.js');
-
-const CWD = process.cwd();
-let languages;
-if (fs.existsSync(`${CWD}/languages.js`)) {
-  languages = require(`${CWD}/languages.js`);
-} else {
-  languages = [
-    {
-      enabled: true,
-      name: 'English',
-      tag: 'en',
-    },
-  ];
-}
+const _ = require('lodash');
 
 // returns data broken up into categories for a sidebar
-function readCategories(sidebar) {
-  const enabledLanguages = languages
-    .filter(lang => lang.enabled)
-    .map(lang => lang.tag);
-
+function readCategories(sidebar, allMetadata, languages) {
   const allCategories = {};
 
-  for (let k = 0; k < enabledLanguages.length; ++k) {
-    const language = enabledLanguages[k];
+  // Go through each language that might be defined.
+  languages
+    .filter(lang => lang.enabled)
+    .map(lang => lang.tag)
+    .forEach(language => {
+      // Get all related metadata for the current sidebar and specific to the language.
+      const metadatas = Object.values(allMetadata)
+        .filter(
+          metadata =>
+            metadata.sidebar === sidebar && metadata.language === language,
+        )
+        .sort((a, b) => a.order - b.order);
 
-    const metadatas = [];
-    Object.keys(Metadata).forEach(id => {
-      const metadata = Metadata[id];
-      if (metadata.sidebar === sidebar && metadata.language === language) {
-        metadatas.push(metadata);
-      }
-    });
+      // Define the correct order of categories.
+      const sortedCategories = _.uniq(
+        metadatas.map(metadata => metadata.category),
+      );
 
-    // Build a hashmap of article_id -> metadata
-    const articles = {};
-    for (let i = 0; i < metadatas.length; ++i) {
-      const metadata = metadatas[i];
-      articles[metadata.id] = metadata;
-    }
-
-    // Build a hashmap of article_id -> previous_id
-    const previous = {};
-    for (let i = 0; i < metadatas.length; ++i) {
-      const metadata = metadatas[i];
-      if (metadata.next) {
-        if (!articles[metadata.next]) {
-          throw new Error(
-            metadata.version
-              ? `Improper sidebars file for version ${
-                  metadata.version
-                }, document with id '${
-                  metadata.next
-                }' not found. Make sure that all documents with ids specified in this version's sidebar file exist and that no ids are repeated.`
-              : `Improper sidebars.json file, document with id '${
-                  metadata.next
-                }' not found. Make sure that documents with the ids specified in sidebars.json exist and that no ids are repeated.`,
+      const metadatasGroupedByCategory = _.chain(metadatas)
+        .groupBy(metadata => metadata.category)
+        .mapValues(categoryItems => {
+          // Process subcategories.
+          const metadatasGroupedBySubcategory = _.groupBy(
+            categoryItems,
+            item => item.subcategory,
           );
-        }
-        previous[articles[metadata.next].id] = metadata.id;
-      }
-    }
+          const result = [];
+          const seenSubcategories = new Set();
+          // categoryItems can be links or subcategories. Handle separately.
+          categoryItems.forEach(item => {
+            // Has no subcategory.
+            if (item.subcategory == null) {
+              result.push({
+                type: 'LINK',
+                item,
+              });
+              return;
+            }
 
-    // Find the first element which doesn't have any previous
-    let first = null;
-    for (let i = 0; i < metadatas.length; ++i) {
-      const metadata = metadatas[i];
-      if (!previous[metadata.id]) {
-        first = metadata;
-        break;
-      }
-    }
+            const {subcategory} = item;
+            // Subcategory has been processed, we can skip it.
+            if (seenSubcategories.has(subcategory)) {
+              return;
+            }
 
-    const categories = [];
-    let currentCategory = null;
+            seenSubcategories.add(subcategory);
+            const subcategoryLinks = metadatasGroupedBySubcategory[
+              subcategory
+            ].map(subcategoryItem => ({
+              type: 'LINK',
+              item: subcategoryItem,
+            }));
+            result.push({
+              type: 'SUBCATEGORY',
+              title: subcategory,
+              children: subcategoryLinks,
+            });
+          });
 
-    let metadata = first;
-    let i = 0;
-    while (metadata && i++ < 1000) {
-      if (!currentCategory || metadata.category !== currentCategory.name) {
-        if (currentCategory) {
-          categories.push(currentCategory);
-        }
-        currentCategory = {
-          name: metadata.category,
-          links: [],
-        };
-      }
-      currentCategory.links.push(metadata);
-      metadata = articles[metadata.next];
-    }
-    categories.push(currentCategory);
+          return result;
+        })
+        .value();
 
-    allCategories[language] = categories;
-  }
+      const categories = sortedCategories.map(category => ({
+        type: 'CATEGORY',
+        title: category,
+        children: metadatasGroupedByCategory[category],
+      }));
+      allCategories[language] = categories;
+    });
 
   return allCategories;
 }

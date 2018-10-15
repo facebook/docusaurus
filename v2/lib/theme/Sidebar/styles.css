@@ -1,0 +1,41 @@
+.sidebar {
+  width: 300px;
+  padding: 0 20px;
+}
+
+.sidebarGroup {
+  margin-bottom: 20px;
+}
+
+.sidebarSubGroup {
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
+.sidebarSubGroupTitle {
+  font-size: 16px;
+  margin: 0;
+}
+
+.sidebarGroupTitle {
+  font-size: 18px;
+  margin: 0;
+}
+
+.sidebarList {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.sidebarLink {
+  color: #717171;
+  display: block;
+  padding: 8px 0;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.sidebarLink:hover,
+.sidebarLinkActive {
+  color: #00a388;
+}

@@ -938,7 +938,9 @@ input#search_input_react:active {
   color: #fff;
   width: 220px;
 }
-
+.navigationSlider .slidingNav .navSearchWrapper .algolia-docsearch-footer a {
+  height: auto;
+}
 @media only screen and (max-width: 735px) {
   .navSearchWrapper {
     width: 40%;
@@ -1383,19 +1385,20 @@ input::placeholder {
   }
 
   .reactNavSearchWrapper .aa-dropdown-menu {
-    background: #f9f9f9;
-    border: 0px solid #f9f9f9;
-    border-radius: 0;
-    color: #393939;
     font-size: 12px;
     line-height: 2em;
-    max-height: 140px;
-    min-width: auto;
+    padding: 0;
+    border-width: 1px;
+    min-width: 500px;
+  }
+  .reactNavSearchWrapper .algolia-docsearch-suggestion__secondary {
+    border-top: none;
+  }
+  .aa-suggestions {
+    min-height: 140px;
+    max-height: 60vh;
     -webkit-overflow-scrolling: touch;
     overflow-y: scroll;
-    padding: 0;
-    position: relative !important;
-    width: 100%;
   }
 
   #languages-dropdown {
@@ -1478,6 +1481,14 @@ input::placeholder {
   .navigationSlider .slidingNav ul::-webkit-scrollbar {
     display: none;
   }
+  .reactNavSearchWrapper .aa-dropdown-menu {
+    min-width: 400px;
+  }
+}
+@media only screen and (max-width: 475px) {
+  .reactNavSearchWrapper .aa-dropdown-menu {
+    min-width: 300px;
+  }
 }
 
 /* Start of Docs Main */
@@ -1489,7 +1500,7 @@ input::placeholder {
 
 @media only screen and (min-width: 1024px) {
   .docMainWrapper {
-    max-width:100% !important ;
+    max-width: 100% !important ;
     margin: 0;
   }
 
@@ -1524,6 +1535,14 @@ input::placeholder {
     display: none;
   }
 }
+
+.docLastUpdateTimestamp {
+  font-size: 13px;
+  font-style: italic;
+  margin: 20px 0;
+  text-align: right;
+}
+
 /* End of Docs Main */
 
 /* Start of Docs Navigation */
@@ -1745,6 +1764,10 @@ input::placeholder {
   margin-bottom: 16px;
 }
 
+.toc .toggleNav .subNavGroup {
+  margin-bottom: 0;
+}
+
 .toc .toggleNav .navGroup .navGroupCategoryTitle {
   color: #393939;
   font-size: 18px;
@@ -1752,6 +1775,16 @@ input::placeholder {
   line-height: 1.2em;
   margin-bottom: 8px;
   margin-top: 0;
+}
+
+.toc .toggleNav .navGroup .navGroupSubcategoryTitle {
+  color: #393939;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+  margin-bottom: 0;
+  margin-top: 0;
+  padding: 4px 0;
 }
 
 .toc .toggleNav .navGroup .navListItem {
@@ -2015,7 +2048,6 @@ input::placeholder {
     }
   }
 }
-
 
 @media only screen and (min-width: 1024px) {
   .separateOnPageNav.sideNavVisible .navPusher .docMainContainer {

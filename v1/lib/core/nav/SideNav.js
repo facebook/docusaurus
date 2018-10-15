@@ -61,29 +61,48 @@ class SideNav extends React.Component {
     return null;
   }
 
-  renderCategory(category) {
-    return (
-      <div className="navGroup" key={category.name}>
-        <h3 className="navGroupCategoryTitle">
-          {this.getLocalizedCategoryString(category.name)}
-        </h3>
-        <ul>{category.links.map(this.renderItemLink, this)}</ul>
-      </div>
-    );
-  }
+  renderCategory = categoryItem => (
+    <div className="navGroup" key={categoryItem.title}>
+      <h3 className="navGroupCategoryTitle">
+        {this.getLocalizedCategoryString(categoryItem.title)}
+      </h3>
+      <ul>
+        {categoryItem.children.map(item => {
+          switch (item.type) {
+            case 'LINK':
+              return this.renderItemLink(item);
+            case 'SUBCATEGORY':
+              return this.renderSubcategory(item);
+            default:
+              return null;
+          }
+        })}
+      </ul>
+    </div>
+  );
 
-  renderItemLink(link) {
+  renderSubcategory = subcategoryItem => (
+    <div className="navGroup subNavGroup" key={subcategoryItem.title}>
+      <h4 className="navGroupSubcategoryTitle">
+        {this.getLocalizedCategoryString(subcategoryItem.title)}
+      </h4>
+      <ul>{subcategoryItem.children.map(this.renderItemLink)}</ul>
+    </div>
+  );
+
+  renderItemLink = linkItem => {
+    const linkMetadata = linkItem.item;
     const itemClasses = classNames('navListItem', {
-      navListItemActive: link.id === this.props.current.id,
+      navListItemActive: linkMetadata.id === this.props.current.id,
     });
     return (
-      <li className={itemClasses} key={link.id}>
-        <a className="navItem" href={this.getLink(link)}>
-          {this.getLocalizedString(link)}
+      <li className={itemClasses} key={linkMetadata.id}>
+        <a className="navItem" href={this.getLink(linkMetadata)}>
+          {this.getLocalizedString(linkMetadata)}
         </a>
       </li>
     );
-  }
+  };
 
   render() {
     return (
@@ -107,7 +126,7 @@ class SideNav extends React.Component {
               )}
             </div>
             <div className="navGroups">
-              {this.props.contents.map(this.renderCategory, this)}
+              {this.props.contents.map(this.renderCategory)}
             </div>
           </section>
         </div>

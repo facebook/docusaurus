@@ -7,6 +7,7 @@
 
 const path = require('path');
 const fs = require('fs');
+const shell = require('shelljs');
 const utils = require('../utils');
 
 const blogPostWithTruncateContents = fs.readFileSync(
@@ -96,6 +97,40 @@ describe('utils', () => {
     fs.writeFileSync(tempFilePath, 'Lorem ipsum :)');
     expect(utils.getGitLastUpdated(tempFilePath)).toBeNull();
     fs.unlinkSync(tempFilePath);
+
+    // test renaming and moving file
+
+    const tempFilePath2 = path.join(__dirname, '__fixtures__', '.temp2');
+    const tempFilePath3 = path.join(
+      __dirname,
+      '__fixtures__',
+      'test',
+      '.temp3',
+    );
+
+    // create new file
+    shell.exec = jest.fn(() => ({
+      stdout:
+        '1539502055\n' +
+        '\n' +
+        ' create mode 100644 v1/lib/core/__tests__/__fixtures__/.temp2\n',
+    }));
+    const createTime = utils.getGitLastUpdated(tempFilePath2);
+    expect(typeof createTime).toBe('string');
+
+    // rename / move the file
+    shell.exec = jest.fn(() => ({
+      stdout:
+        '1539502056\n' +
+        '\n' +
+        ' rename v1/lib/core/__tests__/__fixtures__/{.temp2 => test/.temp3} (100%)\n' +
+        '1539502055\n' +
+        '\n' +
+        ' create mode 100644 v1/lib/core/__tests__/__fixtures__/.temp2\n',
+    }));
+    const lastUpdateTime = utils.getGitLastUpdated(tempFilePath3);
+    // should only consider file content change
+    expect(lastUpdateTime).toEqual(createTime);
   });
 
   test('idx', () => {

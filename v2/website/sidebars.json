@@ -1,9 +1,9 @@
 {
   "docs": {
-    "Foo": [
-      "foo/bar",
-      "foo/baz"
-    ],
+    "Foo": {
+      "bar": ["foo/bar"],
+      "baz": ["foo/baz"]
+    },
     "Endi": [
       "docusaurus",
       "highlight",

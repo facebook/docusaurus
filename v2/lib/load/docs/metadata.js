@@ -151,6 +151,7 @@ module.exports = async function processMetadata(
   if (order[id]) {
     metadata.sidebar = order[id].sidebar;
     metadata.category = order[id].category;
+    metadata.subCategory = order[id].subCategory;
     if (order[id].next) {
       metadata.next_id = order[id].next;
       metadata.next = (language ? `${language}-` : '') + order[id].next;

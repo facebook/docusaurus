@@ -83,42 +83,40 @@ module.exports = async function start(siteDir, cliOptions = {}) {
   const compiler = webpack(config);
 
   // webpack-serve
-  setTimeout(async () => {
-    await serve(
-      {},
-      {
-        compiler,
-        open: true,
-        devMiddleware: {
-          logLevel: 'silent',
-        },
-        hotClient: {
-          port: hotPort,
-          logLevel: 'error',
-        },
-        logLevel: 'error',
-        port,
-        host,
-        add: app => {
-          // serve static files
-          const staticDir = path.resolve(siteDir, 'static');
-          if (fs.existsSync(staticDir)) {
-            app.use(mount(baseUrl, serveStatic(staticDir)));
-          }
-
-          // enable HTTP range requests
-          app.use(range);
-
-          // rewrite request to `/` since dev is only a SPA
-          app.use(
-            convert(
-              history({
-                rewrites: [{from: /\.html$/, to: '/'}],
-              }),
-            ),
-          );
-        },
+  await serve(
+    {},
+    {
+      compiler,
+      open: true,
+      devMiddleware: {
+        logLevel: 'silent',
       },
-    );
-  }, 1000);
+      hotClient: {
+        port: hotPort,
+        logLevel: 'error',
+      },
+      logLevel: 'error',
+      port,
+      host,
+      add: app => {
+        // serve static files
+        const staticDir = path.resolve(siteDir, 'static');
+        if (fs.existsSync(staticDir)) {
+          app.use(mount(baseUrl, serveStatic(staticDir)));
+        }
+
+        // enable HTTP range requests
+        app.use(range);
+
+        // rewrite request to `/` since dev is only a SPA
+        app.use(
+          convert(
+            history({
+              rewrites: [{from: /\.html$/, to: '/'}],
+            }),
+          ),
+        );
+      },
+    },
+  );
 };

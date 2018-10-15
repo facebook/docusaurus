@@ -1,0 +1,39 @@
+.paginatorContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.paginatorRightContainer {
+  text-align: right;
+}
+
+.paginatorLink {
+  background-color: #f2f3f5;
+  color: #000;
+  border-radius: 30px;
+  display: inline-block;
+  height: 1.5em;
+  text-decoration: none;
+  transition: 0.3s all ease-in-out;
+  padding: 12px 24px;
+}
+
+.paginatorLink:hover {
+  background-color: #00a388;
+  color: #fff;
+}
+
+.arrow {
+  fill: none;
+  height: 1.5em;
+  stroke: currentColor;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  stroke-width: 2;
+  width: 1.5em;
+}
+
+.label {
+  vertical-align: super;
+}
