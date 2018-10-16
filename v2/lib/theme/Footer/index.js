@@ -86,7 +86,7 @@ function Footer(props) {
             {Object.values(props.docsMetadatas).map(metadata => (
               <li key={metadata.permalink} className={styles.footerListItem}>
                 <Link className={styles.footerLink} to={metadata.permalink}>
-                  {metadata.permalink}
+                  {metadata.title}
                 </Link>
               </li>
             ))}

@@ -1,15 +1,13 @@
 ---
 id: hello
-title: Hello, World !
+title: Hello, World!
 ---
 
 ## Relative links
 
-Replace this
-[highlight](highlight.md) [docusaurus](docusaurus.md)
+Replace this [highlight](highlight.md) [docusaurus](docusaurus.md)
 
-Can't replace this
-[file](file.md)
+Can't replace this [file](file.md)
 
 Do not replace below
 
@@ -20,21 +18,22 @@ Do not replace below
 ## Blockquotes
 
 > Blockquotes can also be nested...
->> ...by using additional greater-than signs right next to each other...
+>
+> > ...by using additional greater-than signs right next to each other...
+> >
 > > > ...or with spaces between arrows.
-
 
 ## Lists
 
 Unordered
 
-+ Create a list by starting a line with `+`, `-`, or `*`
-+ Sub-lists are made by indenting 2 spaces:
+- Create a list by starting a line with `+`, `-`, or `*`
+- Sub-lists are made by indenting 2 spaces:
   - Marker character change forces new list start:
-    * Ac tristique libero volutpat at
-    + Facilisis in pretium nisl aliquet
+    - Ac tristique libero volutpat at
+    * Facilisis in pretium nisl aliquet
     - Nulla volutpat aliquam velit
-+ Very easy!
+- Very easy!
 
 Ordered
 
@@ -42,9 +41,8 @@ Ordered
 2. Consectetur adipiscing elit
 3. Integer molestie lorem at massa
 
-
-1. You can use sequential numbers...
-1. ...or keep all the numbers as `1.`
+1) You can use sequential numbers...
+1) ...or keep all the numbers as `1.`
 
 Start numbering with offset:
 

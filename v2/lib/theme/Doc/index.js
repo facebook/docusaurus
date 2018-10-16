@@ -5,6 +5,7 @@ import Helmet from 'react-helmet';
 
 import DocsPaginator from '@theme/DocsPaginator'; // eslint-disable-line
 import Footer from '@theme/Footer'; // eslint-disable-line
+import Navbar from '@theme/Navbar'; // eslint-disable-line
 import Sidebar from '@theme/Sidebar'; // eslint-disable-line
 
 import styles from './styles.css';
@@ -29,6 +30,7 @@ class Doc extends React.Component {
           {language && <meta name="docsearch:language" content={language} />}
           {version && <meta name="docsearch:version" content={version} />}
         </Helmet>
+        <Navbar docsMetadatas={docsMetadatas} />
         <Sidebar
           docsMetadatas={docsMetadatas}
           docsSidebars={docsSidebars}
