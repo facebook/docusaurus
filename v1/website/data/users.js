@@ -275,6 +275,13 @@ module.exports = [
     pinned: true,
   },
   {
+    caption: 'Stackery',
+    image: 'https://www.stackery.io/img/stackery-large-mark-teal-w.png',
+    infoLink: 'https://docs.stackery.io',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'StreamPipes',
     image: 'https://streampipes.org/images/streampipes-logo-center.png',
     infoLink: 'https://docs.streampipes.org',
