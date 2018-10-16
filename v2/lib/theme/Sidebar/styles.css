@@ -23,7 +23,7 @@
 .sidebarList {
   margin: 0;
   list-style-type: none;
-  padding-left: 8px;
+  padding-left: 0;
 }
 
 .sidebarItem {
@@ -49,4 +49,8 @@
 .sidebarLinkActive:hover {
   background-color: rgb(0, 163, 136, 0.1);
   color: #00a388;
+}
+
+.sidebarSubGroup {
+  padding-left: 8px;
 }
