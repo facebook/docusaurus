@@ -25,7 +25,7 @@ function Sidebar(props) {
     return (
       <li key={linkID}>
         <Link
-          className={classnames(styles.sidebarLink, {
+          className={classnames(styles.sidebarLink, styles.sidebarItem, {
             [styles.sidebarLinkActive]: activeItem,
           })}
           to={linkMetadata.permalink}>
@@ -39,13 +39,21 @@ function Sidebar(props) {
     const category = thisSidebar[categoryName];
     return (
       <div className={styles.sidebarGroup} key={categoryName}>
-        <h3 className={styles.sidebarGroupTitle}>{categoryName}</h3>
+        <h3
+          className={classnames(styles.sidebarGroupTitle, styles.sidebarItem)}>
+          {categoryName}
+        </h3>
         <ul className={styles.sidebarList}>
           {Array.isArray(category)
             ? category.map(renderItemLink)
             : Object.keys(category).map(subCategoryName => (
                 <div className={styles.sidebarSubGroup} key={subCategoryName}>
-                  <h4 className={styles.sidebarSubGroupTitle}>
+                  <h4
+                    className={classnames(
+                      styles.sidebarGroupTitle,
+                      styles.sidebarGroupSubtitle,
+                      styles.sidebarItem,
+                    )}>
                     {subCategoryName}
                   </h4>
                   <ul className={styles.sidebarList}>

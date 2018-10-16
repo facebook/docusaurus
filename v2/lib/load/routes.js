@@ -11,9 +11,9 @@ async function genRoutesConfig({docsMetadatas = {}, pagesMetadatas = []}) {
       render(loaded, props) {
         let Content = loaded.default;
         return (
-          <Docs {...props} metadata={${JSON.stringify(metadata)}}>
+          <Doc {...props} metadata={${JSON.stringify(metadata)}}>
             <Content />
-          </Docs>
+          </Doc>
         );
       }
     })
@@ -55,7 +55,7 @@ async function genRoutesConfig({docsMetadatas = {}, pagesMetadatas = []}) {
     `import React from 'react';\n` +
     `import Loadable from 'react-loadable';\n` +
     `import Loading from '@theme/Loading';\n` +
-    `import Docs from '@theme/Docs';\n` +
+    `import Doc from '@theme/Doc';\n` +
     `import Pages from '@theme/Pages';\n` +
     `import NotFound from '@theme/NotFound';\n` +
     `const routes = [${docsRoutes},${pagesMetadatas

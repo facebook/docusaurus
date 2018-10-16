@@ -7,7 +7,7 @@ module.exports = function loadConfig(siteDir) {
     ? customThemePath
     : path.resolve(__dirname, '../theme');
 
-  const themeComponents = ['Docs', 'Pages', 'Loading', 'NotFound', 'Markdown'];
+  const themeComponents = ['Doc', 'Pages', 'Loading', 'NotFound', 'Markdown'];
   themeComponents.forEach(component => {
     if (!require.resolve(path.join(themePath, component))) {
       throw new Error(
