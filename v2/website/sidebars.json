@@ -1,13 +1,9 @@
 {
   "docs": {
-    "Foo": {
-      "bar": ["foo/bar"],
-      "baz": ["foo/baz"]
+    "Category 1": {
+      "Subcategory 1": ["foo/bar", "foo/baz"],
+      "Subcategory 2": ["hello"]
     },
-    "Endi": [
-      "docusaurus",
-      "highlight",
-      "hello"
-    ]
+    "Category 2": ["intro", "code"]
   }
 }

@@ -7,23 +7,8 @@
   position: fixed;
   overflow-x: hidden;
   overflow-y: auto;
-  top: 0;
+  top: 60px;
   width: 300px;
-}
-
-.sidebarGroupTitle {
-  font-size: 1em;
-  font-weight: 500;
-}
-
-.sidebarGroupSubtitle {
-  color: rgb(96, 103, 112);
-}
-
-.sidebarList {
-  margin: 0;
-  list-style-type: none;
-  padding-left: 0;
 }
 
 .sidebarItem {
@@ -32,8 +17,28 @@
   padding: 8px 12px;
 }
 
+.sidebarGroupTitle {
+  font-size: 1em;
+  font-weight: 500;
+}
+
+.sidebarGroupCategoryTitle {
+  margin-top: 0.5em;
+}
+
+.sidebarGroupSubcategorytitle {
+  color: rgb(96, 103, 112);
+  font-size: 0.875em;
+}
+
+.sidebarList {
+  margin: 0;
+  list-style-type: none;
+  padding-left: 0;
+}
+
 .sidebarLink {
-  border-radius: 4px;
+  border-radius: 6px;
   color: #717171;
   display: block;
   font-size: 0.875em;
