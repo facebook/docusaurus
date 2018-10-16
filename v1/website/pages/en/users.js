@@ -61,7 +61,7 @@ class Users extends React.Component {
               </p>
               <p>
                 Edit this page with a{' '}
-                <a href="https://github.com/facebook/docusaurus/edit/master/website/data/users.js">
+                <a href="https://github.com/facebook/docusaurus/edit/master/v1/website/data/users.js">
                   Pull Request
                 </a>{' '}
                 to add your logo.
