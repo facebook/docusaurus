@@ -18,7 +18,7 @@ The `siteConfig` object contains the bulk of the configuration settings for your
 ### Mandatory Fields
 
 #### `baseUrl` [string]
-baseUrl for your site. For example, `/pages/org/project/` is the baseUrl of https://git.facebook.com/pages/org/project/
+baseUrl for your site. This can also be considered the path after the host. For example, `/metro/` is the baseUrl of https://facebook.github.io/metro/. For urls that have no path, the baseUrl should be set to `/`. This field is related to the [`url` field](#url-string).
 
 #### `colors` [object]
 Color configurations for the site.
@@ -74,7 +74,7 @@ Tagline for your website.
 Title for your website.
 
 #### `url` [string]
-URL for your website.
+URL for your website. This can also be considered the top-level hostname. For example, `https://facebook.github.io` is the url of https://facebook.github.io/metro/, and `https://docusaurus.io` is the url for https://docusaurus.io. This field is related to the [`baseUrl` field](#baseurl-string).
 
 ### Optional Fields
 
