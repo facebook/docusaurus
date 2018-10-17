@@ -67,7 +67,7 @@ class Head extends React.Component {
           <meta httpEquiv="refresh" content={`0; URL=${this.props.redirect}`} />
         )}
         {this.props.config.manifest && (
-          <link rel="manifest" content={siteUrl + this.props.config.manifest} />
+          <link rel="manifest" href={siteUrl + this.props.config.manifest} />
         )}
         <link
           rel="shortcut icon"

@@ -203,7 +203,7 @@ Hostname of your server. Useful if you are using GitHub Enterprise.
 ```
 
 #### `manifest` [string]
-Path to your web app manifest (e.g., `/manifest.json`). This will add a `<link>` tag to `<head>` with `rel` as `"manifest"` and `content` as the provided path.
+Path to your web app manifest (e.g., `manifest.json`). This will add a `<link>` tag to `<head>` with `rel` as `"manifest"` and `href` as the provided path.
 
 #### `markdownPlugins` [array]
 An array of plugins to be loaded by Remarkable, the markdown parser and renderer used by Docusaurus. The plugin will receive a reference to the Remarkable instance, allowing custom parsing and rendering rules to be defined.
