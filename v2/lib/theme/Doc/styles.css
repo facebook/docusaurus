@@ -1,0 +1,16 @@
+.mainContainer {
+  padding-left: 300px;
+}
+
+.docContainer {
+  flex-grow: 1;
+  padding: 0 40px;
+}
+
+.docContent {
+  margin-bottom: 48px;
+}
+
+.paginatorContainer {
+  margin: 48px 0;
+}

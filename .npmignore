@@ -1,8 +1,0 @@
-node_modules
-.DS_Store
-lib/core/metadata.js
-lib/core/MetadataBlog.js
-yarn.lock
-website
-docs
-docusaurus-init

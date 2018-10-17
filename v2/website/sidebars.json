@@ -1,0 +1,9 @@
+{
+  "docs": {
+    "Category 1": {
+      "Subcategory 1": ["foo/bar", "foo/baz"],
+      "Subcategory 2": ["hello"]
+    },
+    "Category 2": ["intro", "code"]
+  }
+}
