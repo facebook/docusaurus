@@ -95,19 +95,11 @@ class DocsLayout extends React.Component {
             />
             {(updateTime || updateAuthor) && (
               <div className="docLastUpdate">
-                {updateTime && (
-                  <em>
-                    <strong>Last updated: </strong>
-                    {updateTime}
-                  </em>
-                )}
-                <br />
-                {updateAuthor && (
-                  <em>
-                    <strong>Last updated by: </strong>
-                    {updateAuthor}
-                  </em>
-                )}
+                <em>
+                  Last updated
+                  {updateTime && ` on ${updateTime}`}
+                  {updateAuthor && ` by ${updateAuthor}`}
+                </em>
               </div>
             )}
 

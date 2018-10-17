@@ -38,83 +38,69 @@ function idx(target, keyPaths) {
   );
 }
 
-const GIT_LAST_UPDATED_TYPE = {
-  TIME: 'time',
-  AUTHOR: 'author',
-};
-
-function getGitLastUpdated(filepath, type) {
-  if (Object.values(GIT_LAST_UPDATED_TYPE).indexOf(type) === -1) {
-    return null;
+function getGitLastUpdated(filepath) {
+  function isTimestampAndAuthor(str) {
+    return /^(\d{10}), (.+)$/.test(str);
   }
-
+  function getTimestampAndAuthor(str) {
+    if (!str) {
+      return null;
+    }
+    const temp = str.match(/^(\d{10}), (.+)$/);
+    return !temp || temp.length < 3
+      ? null
+      : {timestamp: temp[1], author: temp[2]};
+  }
   // Wrap in try/catch in case the shell commands fail (e.g. project doesn't use Git, etc).
   try {
-    const format = GIT_LAST_UPDATED_TYPE.TIME === type ? '%ct' : 'author=%an';
     // To differentiate between content change and file renaming / moving, use --summary
     // To follow the file history until before it is moved (when we create new version), use
     // --follow.
     const silentState = shell.config.silent; // Save old silent state.
     shell.config.silent = true;
     const result = shell
-      .exec(`git log --follow --summary --format=${format} ${filepath}`)
+      .exec(`git log --follow --summary --format="%ct, %an" ${filepath}`)
       .stdout.trim();
     shell.config.silent = silentState;
 
-    // Format the log results to be either
-    // ['1234567', 'rename ...', '1234566', 'move ...', '1234565', '1234564']
-    // OR
-    // ['Yangshun Tay', 'rename ...', 'Endiliey', 'move ...', 'Joel', 'Fienny']
+    // Format the log results to be
+    // ['1234567890, Yangshun Tay', 'rename ...', '1234567880,
+    //  'Joel Marcey', 'move ...', '1234567870', '1234567860']
     const records = result
       .toString('utf-8')
       .replace(/\n\s*\n/g, '\n')
       .split('\n')
       .filter(String);
-    return records;
+    const lastContentModifierCommit = records.find((item, index, arr) => {
+      const currentItemIsTimestampAndAuthor = isTimestampAndAuthor(item);
+      const isLastTwoItem = index + 2 >= arr.length;
+      const nextItemIsTimestampAndAuthor = isTimestampAndAuthor(arr[index + 1]);
+      return (
+        currentItemIsTimestampAndAuthor &&
+        (isLastTwoItem || nextItemIsTimestampAndAuthor)
+      );
+    });
+    return lastContentModifierCommit
+      ? getTimestampAndAuthor(lastContentModifierCommit)
+      : null;
   } catch (error) {
     console.error(error);
   }
   return null;
 }
 function getGitLastUpdatedTime(filepath) {
-  function isTimestamp(str) {
-    return /^\d+$/.test(str);
-  }
+  const commit = getGitLastUpdated(filepath);
 
-  const records = getGitLastUpdated(filepath, GIT_LAST_UPDATED_TYPE.TIME);
-
-  const timeSpan = records.find((item, index, arr) => {
-    const currentItemIsTimestamp = isTimestamp(item);
-    const isLastTwoItem = index + 2 >= arr.length;
-    const nextItemIsTimestamp = isTimestamp(arr[index + 1]);
-    return currentItemIsTimestamp && (isLastTwoItem || nextItemIsTimestamp);
-  });
-
-  if (timeSpan) {
-    const date = new Date(parseInt(timeSpan, 10) * 1000);
+  if (commit && commit.timestamp) {
+    const date = new Date(parseInt(commit.timestamp, 10) * 1000);
     return date.toLocaleString();
   }
   return null;
 }
 
 function getGitLastUpdatedBy(filepath) {
-  function isAuthor(str) {
-    return str && str.startsWith('author=');
-  }
-
-  const records = getGitLastUpdated(filepath, GIT_LAST_UPDATED_TYPE.AUTHOR);
-
-  const lastContentModifierAuthor = records.find((item, index, arr) => {
-    const currentItemIsAuthor = isAuthor(item);
-    const isLastTwoItem = index + 2 >= arr.length;
-    const nextItemIsAuthor = isAuthor(arr[index + 1]);
-    return currentItemIsAuthor && (isLastTwoItem || nextItemIsAuthor);
-  });
-  if (lastContentModifierAuthor) {
-    return lastContentModifierAuthor.slice(7);
-  }
-
-  return null;
+  const commit = getGitLastUpdated(filepath);
+  return commit ? commit.author : null;
 }
 
 module.exports = {

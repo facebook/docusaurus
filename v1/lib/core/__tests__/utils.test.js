@@ -77,10 +77,10 @@ describe('utils', () => {
   test('getGitLastUpdatedTime', () => {
     // existing test file in repository with git timestamp
     const existingFilePath = path.join(__dirname, '__fixtures__', 'test.md');
-    const gitLastUpdated = utils.getGitLastUpdatedTime(existingFilePath);
-    expect(typeof gitLastUpdated).toBe('string');
-    expect(Date.parse(gitLastUpdated)).not.toBeNaN();
-    expect(gitLastUpdated).not.toBeNull();
+    const gitLastUpdatedTime = utils.getGitLastUpdatedTime(existingFilePath);
+    expect(typeof gitLastUpdatedTime).toBe('string');
+    expect(Date.parse(gitLastUpdatedTime)).not.toBeNaN();
+    expect(gitLastUpdatedTime).not.toBeNull();
 
     // non existing file
     const nonExistingFilePath = path.join(
@@ -111,7 +111,7 @@ describe('utils', () => {
     // create new file
     shell.exec = jest.fn(() => ({
       stdout:
-        '1539502055\n' +
+        '1539502055, Yangshun Tay\n' +
         '\n' +
         ' create mode 100644 v1/lib/core/__tests__/__fixtures__/.temp2\n',
     }));
@@ -121,10 +121,10 @@ describe('utils', () => {
     // rename / move the file
     shell.exec = jest.fn(() => ({
       stdout:
-        '1539502056\n' +
+        '1539502056, Joel Marcey\n' +
         '\n' +
         ' rename v1/lib/core/__tests__/__fixtures__/{.temp2 => test/.temp3} (100%)\n' +
-        '1539502055\n' +
+        '1539502055, Yangshun Tay\n' +
         '\n' +
         ' create mode 100644 v1/lib/core/__tests__/__fixtures__/.temp2\n',
     }));
