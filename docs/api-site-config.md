@@ -148,7 +148,7 @@ An option to enable the docs showing the author who last updated the doc. Set to
 
 #### `enableUpdateTime` [boolean]
 
-An option to enable the docs showing last update time. Set to `true` to show a line at the bottom right corner of each doc page as `Last updated on dd/mm/yyyy hh:MM:ss`.
+An option to enable the docs showing last update time. Set to `true` to show a line at the bottom right corner of each doc page as `Last updated on <date>`.
 
 #### `facebookAppId` [string]
 
