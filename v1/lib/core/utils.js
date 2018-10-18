@@ -39,18 +39,23 @@ function idx(target, keyPaths) {
 }
 
 function getGitLastUpdated(filepath) {
+  const timestampAndAuthorRegex = /^(\d+), (.+)$/;
+
   function isTimestampAndAuthor(str) {
-    return /^(\d{10}), (.+)$/.test(str);
+    return timestampAndAuthorRegex.test(str);
   }
+
   function getTimestampAndAuthor(str) {
     if (!str) {
       return null;
     }
-    const temp = str.match(/^(\d{10}), (.+)$/);
+
+    const temp = str.match(timestampAndAuthorRegex);
     return !temp || temp.length < 3
       ? null
       : {timestamp: temp[1], author: temp[2]};
   }
+
   // Wrap in try/catch in case the shell commands fail (e.g. project doesn't use Git, etc).
   try {
     // To differentiate between content change and file renaming / moving, use --summary
@@ -80,6 +85,7 @@ function getGitLastUpdated(filepath) {
         (isLastTwoItem || nextItemIsTimestampAndAuthor)
       );
     });
+
     return lastContentModifierCommit
       ? getTimestampAndAuthor(lastContentModifierCommit)
       : null;
@@ -88,13 +94,15 @@ function getGitLastUpdated(filepath) {
   }
   return null;
 }
+
 function getGitLastUpdatedTime(filepath) {
   const commit = getGitLastUpdated(filepath);
 
   if (commit && commit.timestamp) {
     const date = new Date(parseInt(commit.timestamp, 10) * 1000);
-    return date.toLocaleString();
+    return date.toLocaleDateString();
   }
+
   return null;
 }
 
