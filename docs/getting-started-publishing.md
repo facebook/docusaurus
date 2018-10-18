@@ -30,31 +30,52 @@ At this point, you can grab all of the files inside the `website/build` director
 
 ### Using GitHub Pages
 
-While choosing a web server or host is outside Docusaurus' scope, Docusaurus was designed to work really well with one of the most popular hosting solutions for open source projects: [GitHub Pages](https://pages.github.com/).
+Docusaurus was designed to work really well with one of the most popular hosting solutions for open source projects: [GitHub Pages](https://pages.github.com/).
 
-Deploying your Docusaurus site to GitHub Pages is straightforward if you are already using GitHub to host your project. Your code repository does not even need to be public.
+#### Deploying to GitHub Pages using deploy script
+
+1. Docusaurus supports deploying as [project pages or user/organization pages](https://help.github.com/articles/user-organization-and-project-pages).
 
 > Even if your repository is private, anything published to a `gh-pages` branch will be [public](https://help.github.com/articles/user-organization-and-project-pages/).
 
-Most of the work to publish to GitHub pages is done for you automatically through the [`publish-gh-pages`](./api-commands.md#docusaurus-publish) script. You just need to determine the values for a few parameters required by the script.
+> **Note:** When you deploy as user/organization page, the publish script will deploy these sites to the root of the __`master`__ branch of the _username_.github.io repo. In this case, note that you will want to have the Docusaurus infra, your docs, etc. either in __another branch of the _username_.github.io repo__ (e.g., maybe call it `source`), or in another, separated repo (e.g. in the same as the documented source code).
 
-Two of the required parameters are set in the [`siteConfig.js`](api-site-config.md):
+2. You will need to modify the file `website/siteConfig.js` and add two required parameters.
 
 | Name               | Description                                                                                                                                                                              |
 | ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `organizationName` | The GitHub user or organization that owns the repository. In the case of Docusaurus, that would be the "facebook" GitHub organization.                                                   |
-| `projectName`      | The name of the GitHub repository for your project. For example, Docusaurus is hosted at https://github.com/facebook/docusaurus, so our project name in this case would be "docusaurus". |
+| `organizationName` | The GitHub user or organization that owns the repository. If you are the owner, then it is your GitHub username. In the case of Docusaurus, that would be the "_facebook_" GitHub organization.                                                   |
+| `projectName`      | The name of the GitHub repository for your project.  You may specify any other project of your choice. For example, Docusaurus is hosted at https://github.com/facebook/docusaurus, so our project name in this case would be "docusaurus".|
 
-> Docusaurus also supports deploying [user or organization sites](https://help.github.com/articles/user-organization-and-project-pages/#user--organization-pages). To do this, just set `projectName` to "_username_.github.io" (where _username_ is your username or organization name on GitHub) and `organizationName` to "_username_".  
-> For user or org sites, the publish script will deploy these sites to the root of the `master` branch of the _username_.github.io repo. In this case, note that you will want to have the Docusaurus infra, your docs, etc. either in another branch of the _username_.github.io repo (e.g., maybe call it `source`), or in another, separated repo (e.g. in the same as the documented source code).
+```js
+  const siteConfig = {
+    //Other params
+    projectName: 'testProject',
+    organizationName: 'userName'
+    //Other params
+  }
+```
+
+> In case you want to deploy as a user or organization site, specify the project name as "_username_.github.io" or "_orgname_.github.io".  
+eg) If your GitHub username is User42 then _user42.github.io_, or in case if the organization name is Org123 then _org123.github.io_
 
 > While we recommend setting the `projectName` and `organizationName` in `siteConfig.js`, you can also use environment variables `ORGANIZATION_NAME` and `PROJECT_NAME`.
 
-One of the required parameters is set as a environment variable:
+3. Now you have to specify the git user as an environment variable, and run the script [`publish-gh-pages`](./api-commands.md#docusaurus-publish)
 
 | Name       | Description                                                                                                                                      |
 | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `GIT_USER` | The username for a GitHub account that has commit access to this repo. For your own repositories, this will usually be your own GitHub username. |
+
+> The specified `GIT_USER` must have push access to the repository specified in the combination of `organizationName` and `projectName`.
+
+To run the script directly from the command-line, you can use the following, filling in the parameter values as appropriate.
+
+```bash
+GIT_USER=<GIT_USER> \
+  CURRENT_BRANCH=master \
+  yarn run publish-gh-pages # or `npm run publish-gh-pages`
+```
 
 There are also two optional parameters that are set as environment variables:
 
@@ -63,24 +84,13 @@ There are also two optional parameters that are set as environment variables:
 | `USE_SSH`        | If this is set to `true`, then SSH is used instead of HTTPS for the connection to the GitHub repo. HTTPS is the default if this variable is not set.                                                                                                              |
 | `CURRENT_BRANCH` | The branch that contains the latest docs changes that will be deployed. Usually, the branch will be `master`, but it could be any branch (default or otherwise) except for `gh-pages`. If nothing is set for this variable, then the current branch will be used. |
 
-Once you have the parameter value information, you can go ahead and run the publish script, ensuring you have inserted your own values inside the various parameter placeholders:
+ If you run into issues related to SSH keys, visit [GitHub's authentication documentation](https://help.github.com/articles/connecting-to-github-with-ssh/).
 
-To run the script directly from the command-line, you can use the following, filling in the parameter values as appropriate. If you run into issues related to SSH keys, visit [GitHub's authentication documentation](https://help.github.com/articles/connecting-to-github-with-ssh/).
+ You should now be able to load your website by visiting its GitHub Pages URL, which could be something along the lines of https://_username_.github.io/_projectName_, or a custom domain if you have set that up. For example, Docusaurus' own GitHub Pages URL is https://facebook.github.io/Docusaurus (it can also be accessed via https://docusaurus.io/), because it is served from the `gh-pages` branch of the https://github.com/facebook/docusaurus GitHub repository. We highly encourage reading through the [GitHub Pages documentation](https://pages.github.com) to learn more about how this hosting solution works.
 
-```bash
-GIT_USER=<GIT_USER> \
-  CURRENT_BRANCH=master \
-  USE_SSH=true \
-  yarn run publish-gh-pages # or `npm run publish-gh-pages`
-```
+ You can run the command above any time you update the docs and wish to deploy the changes to your site. Running the script manually may be fine for sites where the documentation rarely changes and it is not too much of an inconvenience to remember to manually deploy changes.
 
-> The specified `GIT_USER` must have push access to the repository specified in the combination of `organizationName` and `projectName`.
-
-You should now be able to load your website by visiting its GitHub Pages URL, which could be something along the lines of https://_username_.github.io/_projectName_, or a custom domain if you have set that up. For example, Docusaurus' own GitHub Pages URL is https://facebook.github.io/Docusaurus (it can also be accessed via https://docusaurus.io/), because it is served from the `gh-pages` branch of the https://github.com/facebook/docusaurus GitHub repository. We highly encourage reading through the [GitHub Pages documentation](https://pages.github.com) to learn more about how this hosting solution works.
-
-You can run the command above any time you update the docs and wish to deploy the changes to your site. Running the script manually may be fine for sites where the documentation rarely changes and it is not too much of an inconvenience to remember to manually deploy changes.
-
-However, you can automate the publishing process with continuous integration (CI).
+ However, you can automate the publishing process with continuous integration (CI).
 
 ## Automating Deployments Using Continuous Integration
 
