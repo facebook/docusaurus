@@ -17,7 +17,7 @@ const OnPageNav = require('./nav/OnPageNav.js');
 const Site = require('./Site.js');
 const translation = require('../server/translation.js');
 const docs = require('../server/docs.js');
-const {idx, getGitLastUpdated} = require('./utils.js');
+const {idx, getGitLastUpdatedTime, getGitLastUpdatedBy} = require('./utils.js');
 
 // component used to generate whole webpage for docs, including sidebar/header/footer
 class DocsLayout extends React.Component {
@@ -45,16 +45,19 @@ class DocsLayout extends React.Component {
     if (this.props.Doc) {
       DocComponent = this.props.Doc;
     }
+    const filepath = docs.getFilePath(metadata);
 
-    let updateTime;
-    if (this.props.config.enableUpdateTime) {
-      const filepath = docs.getFilePath(metadata);
-      updateTime = getGitLastUpdated(filepath);
-    }
+    const updateTime = this.props.config.enableUpdateTime
+      ? getGitLastUpdatedTime(filepath)
+      : null;
+    const updateAuthor = this.props.config.enableUpdateBy
+      ? getGitLastUpdatedBy(filepath)
+      : null;
 
     const title =
       idx(i18n, ['localized-strings', 'docs', id, 'title']) || defaultTitle;
     const hasOnPageNav = this.props.config.onPageNav === 'separate';
+
     const previousTitle =
       idx(i18n, ['localized-strings', metadata.previous_id]) ||
       idx(i18n, ['localized-strings', 'previous']) ||
@@ -90,15 +93,16 @@ class DocsLayout extends React.Component {
               version={metadata.version}
               language={metadata.language}
             />
-            {this.props.config.enableUpdateTime &&
-              updateTime && (
-                <div className="docLastUpdateTimestamp">
-                  <em>
-                    <strong>Last updated: </strong>
-                    {updateTime}
-                  </em>
-                </div>
-              )}
+            {(updateTime || updateAuthor) && (
+              <div className="docLastUpdate">
+                <em>
+                  Last updated
+                  {updateTime && ` on ${updateTime}`}
+                  {updateAuthor && ` by ${updateAuthor}`}
+                </em>
+              </div>
+            )}
+
             <div className="docs-prevnext">
               {metadata.previous_id && (
                 <a
