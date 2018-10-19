@@ -32,24 +32,29 @@ At this point, you can grab all of the files inside the `website/build` director
 
 Docusaurus was designed to work really well with one of the most popular hosting solutions for open source projects: [GitHub Pages](https://pages.github.com/).
 
-#### Deploying to GitHub Pages using deploy script
+#### Deploying to GitHub Pages
 
-1. Docusaurus supports deploying as [project pages or user/organization pages](https://help.github.com/articles/user-organization-and-project-pages).
+1. Docusaurus supports deploying as [project pages or user/organization pages](https://help.github.com/articles/user-organization-and-project-pages), your code repository does not even need to be public.
 
 > Even if your repository is private, anything published to a `gh-pages` branch will be [public](https://help.github.com/articles/user-organization-and-project-pages/).
 
-> **Note:** When you deploy as user/organization page, the publish script will deploy these sites to the root of the __`master`__ branch of the _username_.github.io repo. In this case, note that you will want to have the Docusaurus infra, your docs, etc. either in __another branch of the _username_.github.io repo__ (e.g., maybe call it `source`), or in another, separated repo (e.g. in the same as the documented source code).
+> __Note:__ When you deploy as user/organization page, the publish script will deploy these sites to the root of the __`master`__ branch of the _username_.github.io repo. In this case, note that you will want to have the Docusaurus infra, your docs, etc. either in __another branch of the _username_.github.io repo__ (e.g., maybe call it `source`), or in another, separated repo (e.g. in the same as the documented source code).
 
-2. You will need to modify the file `website/siteConfig.js` and add two required parameters.
+2. You will need to modify the file `website/siteConfig.js` and add the required parameters.
 
 | Name               | Description                                                                                                                                                                              |
 | ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `organizationName` | The GitHub user or organization that owns the repository. If you are the owner, then it is your GitHub username. In the case of Docusaurus, that would be the "_facebook_" GitHub organization.                                                   |
 | `projectName`      | The name of the GitHub repository for your project.  You may specify any other project of your choice. For example, Docusaurus is hosted at https://github.com/facebook/docusaurus, so our project name in this case would be "docusaurus".|
+| `url`              | Your website's URL. For projects hosted on GitHub pages, this will be "https://_username_.github.io" |
+| `baseUrl`          | Base URL for your project. For projects hosted on GitHub pages, it follows the format "/_projectName_/". For https://github.com/facebook/docusaurus, `baseUrl` is `/docusaurus/`. |
+
 
 ```js
   const siteConfig = {
     //Other params
+    url: 'https://__userName__.github.io', // Your website URL
+    baseUrl: '/testProject',
     projectName: 'testProject',
     organizationName: 'userName'
     //Other params
@@ -58,6 +63,8 @@ Docusaurus was designed to work really well with one of the most popular hosting
 
 > In case you want to deploy as a user or organization site, specify the project name as "_username_.github.io" or "_orgname_.github.io".  
 eg) If your GitHub username is User42 then _user42.github.io_, or in case if the organization name is Org123 then _org123.github.io_
+
+> __Note:__ Not setting the url and baseUrl of your project might result in incorrect rendering of css and images.
 
 > While we recommend setting the `projectName` and `organizationName` in `siteConfig.js`, you can also use environment variables `ORGANIZATION_NAME` and `PROJECT_NAME`.
 
@@ -74,6 +81,7 @@ To run the script directly from the command-line, you can use the following, fil
 ```bash
 GIT_USER=<GIT_USER> \
   CURRENT_BRANCH=master \
+  USE_SSH=true \
   yarn run publish-gh-pages # or `npm run publish-gh-pages`
 ```
 
