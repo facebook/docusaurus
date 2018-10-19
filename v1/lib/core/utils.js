@@ -39,8 +39,21 @@ function idx(target, keyPaths) {
 }
 
 function getGitLastUpdated(filepath) {
-  function isTimestamp(str) {
-    return /^\d+$/.test(str);
+  const timestampAndAuthorRegex = /^(\d+), (.+)$/;
+
+  function isTimestampAndAuthor(str) {
+    return timestampAndAuthorRegex.test(str);
+  }
+
+  function getTimestampAndAuthor(str) {
+    if (!str) {
+      return null;
+    }
+
+    const temp = str.match(timestampAndAuthorRegex);
+    return !temp || temp.length < 3
+      ? null
+      : {timestamp: temp[1], author: temp[2]};
   }
 
   // Wrap in try/catch in case the shell commands fail (e.g. project doesn't use Git, etc).
@@ -51,40 +64,58 @@ function getGitLastUpdated(filepath) {
     const silentState = shell.config.silent; // Save old silent state.
     shell.config.silent = true;
     const result = shell
-      .exec(`git log --follow --summary --format=%ct ${filepath}`)
+      .exec(`git log --follow --summary --format="%ct, %an" ${filepath}`)
       .stdout.trim();
     shell.config.silent = silentState;
 
     // Format the log results to be
-    // ['1234567', 'rename ...', '1234566', 'move ...', '1234565', '1234564']
+    // ['1234567890, Yangshun Tay', 'rename ...', '1234567880,
+    //  'Joel Marcey', 'move ...', '1234567870', '1234567860']
     const records = result
       .toString('utf-8')
       .replace(/\n\s*\n/g, '\n')
       .split('\n')
       .filter(String);
-
-    const timeSpan = records.find((item, index, arr) => {
-      const currentItemIsTimestamp = isTimestamp(item);
+    const lastContentModifierCommit = records.find((item, index, arr) => {
+      const currentItemIsTimestampAndAuthor = isTimestampAndAuthor(item);
       const isLastTwoItem = index + 2 >= arr.length;
-      const nextItemIsTimestamp = isTimestamp(arr[index + 1]);
-      return currentItemIsTimestamp && (isLastTwoItem || nextItemIsTimestamp);
+      const nextItemIsTimestampAndAuthor = isTimestampAndAuthor(arr[index + 1]);
+      return (
+        currentItemIsTimestampAndAuthor &&
+        (isLastTwoItem || nextItemIsTimestampAndAuthor)
+      );
     });
 
-    if (timeSpan) {
-      const date = new Date(parseInt(timeSpan, 10) * 1000);
-      return date.toLocaleString();
-    }
+    return lastContentModifierCommit
+      ? getTimestampAndAuthor(lastContentModifierCommit)
+      : null;
   } catch (error) {
     console.error(error);
+  }
+  return null;
+}
+
+function getGitLastUpdatedTime(filepath) {
+  const commit = getGitLastUpdated(filepath);
+
+  if (commit && commit.timestamp) {
+    const date = new Date(parseInt(commit.timestamp, 10) * 1000);
+    return date.toLocaleDateString();
   }
 
   return null;
 }
 
+function getGitLastUpdatedBy(filepath) {
+  const commit = getGitLastUpdated(filepath);
+  return commit ? commit.author : null;
+}
+
 module.exports = {
   blogPostHasTruncateMarker,
   extractBlogPostBeforeTruncate,
-  getGitLastUpdated,
+  getGitLastUpdatedTime,
+  getGitLastUpdatedBy,
   getPath,
   removeExtension,
   idx,

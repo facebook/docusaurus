@@ -1,9 +1,5 @@
 .mainContainer {
-  display: flex;
-  flex-direction: row;
-  margin-left: auto;
-  margin-right: auto;
-  justify-content: space-between;
+  padding-left: 300px;
 }
 
 .docContainer {

@@ -1,6 +1,6 @@
 ---
-id: highlight
-title: Syntax highlighting demo
+id: code
+title: Code
 ---
 
 ```cpp
@@ -11,7 +11,6 @@ int main() {
     cout << "Hello world\n";
     return 0;
 }
-
 ```
 
 ```cpp

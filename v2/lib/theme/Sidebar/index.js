@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import {NavLink} from 'react-router-dom';
 
 import classnames from 'classnames';
 
@@ -7,7 +7,7 @@ import styles from './styles.css';
 
 function Sidebar(props) {
   const {metadata, docsSidebars, docsMetadatas} = props;
-  const {sidebar, language, id: thisID} = metadata;
+  const {sidebar, language} = metadata;
   if (!sidebar || !docsSidebars) {
     return null;
   }
@@ -21,16 +21,15 @@ function Sidebar(props) {
         `Improper sidebars.json file, document with id '${linkID}' not found.`,
       );
     }
-    const activeItem = linkID === thisID;
+
     return (
       <li key={linkID}>
-        <Link
-          className={classnames(styles.sidebarLink, {
-            [styles.sidebarLinkActive]: activeItem,
-          })}
+        <NavLink
+          activeClassName={styles.sidebarLinkActive}
+          className={classnames(styles.sidebarLink, styles.sidebarItem)}
           to={linkMetadata.permalink}>
           {linkMetadata.sidebar_label || linkMetadata.title}
-        </Link>
+        </NavLink>
       </li>
     );
   };
@@ -39,13 +38,25 @@ function Sidebar(props) {
     const category = thisSidebar[categoryName];
     return (
       <div className={styles.sidebarGroup} key={categoryName}>
-        <h3 className={styles.sidebarGroupTitle}>{categoryName}</h3>
+        <h3
+          className={classnames(
+            styles.sidebarItem,
+            styles.sidebarGroupTitle,
+            styles.sidebarGroupCategoryTitle,
+          )}>
+          {categoryName}
+        </h3>
         <ul className={styles.sidebarList}>
           {Array.isArray(category)
             ? category.map(renderItemLink)
             : Object.keys(category).map(subCategoryName => (
                 <div className={styles.sidebarSubGroup} key={subCategoryName}>
-                  <h4 className={styles.sidebarSubGroupTitle}>
+                  <h4
+                    className={classnames(
+                      styles.sidebarItem,
+                      styles.sidebarGroupTitle,
+                      styles.sidebarGroupSubcategorytitle,
+                    )}>
                     {subCategoryName}
                   </h4>
                   <ul className={styles.sidebarList}>

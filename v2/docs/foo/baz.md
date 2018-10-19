@@ -1,6 +1,6 @@
 ---
 id: baz
-title: Test Markdown
+title: Markdown
 ---
 
 ## Images
@@ -17,11 +17,9 @@ With a reference later in the document defining the URL location:
 
 [link text](http://dev.nodeca.com)
 
-[link with title](http://nodeca.github.io/pica/demo/ "title text!")
+[link with title](http://nodeca.github.io/pica/demo/ 'title text!')
 
 Autoconverted link https://github.com/nodeca/pica (enable linkify to see)
-
-
 
 ## Footnotes
 
@@ -35,21 +33,19 @@ Duplicated footnote reference[^second].
 
 [^first]: Footnote **can have markup**
 
-    and multiple paragraphs.
+  and multiple paragraphs.
 
 [^second]: Footnote text.
-
 
 ## Definition lists
 
 Term 1
 
-:   Definition 1
-with lazy continuation.
+: Definition 1 with lazy continuation.
 
-Term 2 with *inline markup*
+Term 2 with _inline markup_
 
-:   Definition 2
+: Definition 2
 
         { some code, part of Definition 2 }
 
@@ -57,13 +53,9 @@ Term 2 with *inline markup*
 
 _Compact style:_
 
-Term 1
-  ~ Definition 1
+Term 1 ~ Definition 1
 
-Term 2
-  ~ Definition 2a
-  ~ Definition 2b
-
+Term 2 ~ Definition 2a ~ Definition 2b
 
 ## Abbreviations
 
@@ -71,4 +63,4 @@ This is HTML abbreviation example.
 
 It converts "HTML", but keep intact partial entries like "xxxHTMLyyy" and so on.
 
-*[HTML]: Hyper Text Markup Language
+\*[HTML]: Hyper Text Markup Language
