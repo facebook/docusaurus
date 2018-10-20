@@ -3,16 +3,36 @@ import createOrder from '@lib/load/docs/order';
 describe('createOrder', () => {
   test('multiple sidebars with subcategory', () => {
     const result = createOrder({
-      docs: {
-        Category1: {
-          'Subcategory 1': ['doc1'],
-          'Subcategory 2': ['doc2'],
+      docs: [
+        {
+          type: 'category',
+          label: 'Category1',
+          items: [
+            {
+              type: 'category',
+              label: 'Subcategory 1',
+              items: [{type: 'doc', id: 'doc1'}],
+            },
+            {
+              type: 'category',
+              label: 'Subcategory 2',
+              items: [{type: 'doc', id: 'doc2'}],
+            },
+          ],
         },
-        Category2: ['doc3', 'doc4'],
-      },
-      otherDocs: {
-        Category1: ['doc5'],
-      },
+        {
+          type: 'category',
+          label: 'Category2',
+          items: [{type: 'doc', id: 'doc3'}, {type: 'doc', id: 'doc4'}],
+        },
+      ],
+      otherDocs: [
+        {
+          type: 'category',
+          label: 'Category1',
+          items: [{type: 'doc', id: 'doc5'}],
+        },
+      ],
     });
     expect(result).toEqual({
       doc1: {
@@ -54,13 +74,25 @@ describe('createOrder', () => {
   });
   test('multiple sidebars without subcategory', () => {
     const result = createOrder({
-      docs: {
-        Category1: ['doc1', 'doc2'],
-        Category2: ['doc3', 'doc4'],
-      },
-      otherDocs: {
-        Category1: ['doc5'],
-      },
+      docs: [
+        {
+          type: 'category',
+          label: 'Category1',
+          items: [{type: 'doc', id: 'doc1'}, {type: 'doc', id: 'doc2'}],
+        },
+        {
+          type: 'category',
+          label: 'Category2',
+          items: [{type: 'doc', id: 'doc3'}, {type: 'doc', id: 'doc4'}],
+        },
+      ],
+      otherDocs: [
+        {
+          type: 'category',
+          label: 'Category1',
+          items: [{type: 'doc', id: 'doc5'}],
+        },
+      ],
     });
     expect(result).toEqual({
       doc1: {
@@ -103,13 +135,25 @@ describe('createOrder', () => {
 
   test('versioned sidebars', () => {
     const result = createOrder({
-      docs: {
-        Category1: ['doc1'],
-      },
-      'version-1.2.3-docs': {
-        Category1: ['version-1.2.3-doc2'],
-        Category2: ['version-1.2.3-doc1'],
-      },
+      docs: [
+        {
+          type: 'category',
+          label: 'Category1',
+          items: [{type: 'doc', id: 'doc1'}],
+        },
+      ],
+      'version-1.2.3-docs': [
+        {
+          type: 'category',
+          label: 'Category1',
+          items: [{type: 'doc', id: 'version-1.2.3-doc2'}],
+        },
+        {
+          type: 'category',
+          label: 'Category2',
+          items: [{type: 'doc', id: 'version-1.2.3-doc1'}],
+        },
+      ],
     });
     expect(result).toEqual({
       doc1: {
@@ -136,9 +180,74 @@ describe('createOrder', () => {
     });
   });
 
+  test('multiple sidebars with subcategories, refs and external links', () => {
+    const result = createOrder({
+      docs: [
+        {
+          type: 'category',
+          label: 'Category1',
+          items: [
+            {
+              type: 'category',
+              label: 'Subcategory 1',
+              items: [{type: 'link', href: '//example.com', label: 'bar'}],
+            },
+            {
+              type: 'category',
+              label: 'Subcategory 2',
+              items: [{type: 'doc', id: 'doc2'}],
+            },
+            {
+              type: 'category',
+              label: 'Subcategory 1',
+              items: [{type: 'link', href: '//example2.com', label: 'baz'}],
+            },
+          ],
+        },
+        {
+          type: 'category',
+          label: 'Category2',
+          items: [{type: 'doc', id: 'doc3'}, {type: 'ref', id: 'doc4'}],
+        },
+      ],
+      otherDocs: [
+        {
+          type: 'category',
+          label: 'Category1',
+          items: [{type: 'doc', id: 'doc5'}],
+        },
+      ],
+    });
+    expect(result).toEqual({
+      doc2: {
+        category: 'Category1',
+        subCategory: 'Subcategory 2',
+        next: 'doc3',
+        previous: undefined,
+        sidebar: 'docs',
+      },
+      doc3: {
+        category: 'Category2',
+        subCategory: undefined,
+        next: undefined,
+        previous: 'doc2',
+        sidebar: 'docs',
+      },
+      doc5: {
+        category: 'Category1',
+        subCategory: undefined,
+        next: undefined,
+        previous: undefined,
+        sidebar: 'otherDocs',
+      },
+    });
+  });
+
   test('edge cases', () => {
     expect(createOrder({})).toEqual({});
-    expect(createOrder(null)).toEqual({});
     expect(createOrder(undefined)).toEqual({});
+    expect(() => createOrder(null)).toThrowErrorMatchingInlineSnapshot(
+      `"Cannot convert undefined or null to object"`,
+    );
   });
 });
