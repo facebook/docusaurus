@@ -38,33 +38,32 @@ Docusaurus was designed to work really well with one of the most popular hosting
 
 > Even if your repository is private, anything published to a `gh-pages` branch will be [public](https://help.github.com/articles/user-organization-and-project-pages/).
 
-> __Note:__ When you deploy as user/organization page, the publish script will deploy these sites to the root of the __`master`__ branch of the _username_.github.io repo. In this case, note that you will want to have the Docusaurus infra, your docs, etc. either in __another branch of the _username_.github.io repo__ (e.g., maybe call it `source`), or in another, separated repo (e.g. in the same as the documented source code).
+__Note:__ When you deploy as user/organization page, the publish script will deploy these sites to the root of the __`master`__ branch of the _username_.github.io repo. In this case, note that you will want to have the Docusaurus infra, your docs, etc. either in __another branch of the _username_.github.io repo__ (e.g., maybe call it `source`), or in another, separate repo (e.g. in the same as the documented source code).
 
 2. You will need to modify the file `website/siteConfig.js` and add the required parameters.
 
 | Name               | Description                                                                                                                                                                              |
 | ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `organizationName` | The GitHub user or organization that owns the repository. If you are the owner, then it is your GitHub username. In the case of Docusaurus, that would be the "_facebook_" GitHub organization.                                                   |
-| `projectName`      | The name of the GitHub repository for your project. For example, Docusaurus is hosted at https://github.com/facebook/docusaurus, so our project name in this case would be "docusaurus". |
+| `projectName`      | The name of the GitHub repository for your project. For example, the source code for Docusaurus is hosted at https://github.com/facebook/docusaurus, so our project name in this case would be "docusaurus". |
 | `url`              | Your website's URL. For projects hosted on GitHub pages, this will be "https://_username_.github.io" |
 | `baseUrl`          | Base URL for your project. For projects hosted on GitHub pages, it follows the format "/_projectName_/". For https://github.com/facebook/docusaurus, `baseUrl` is `/docusaurus/`. |
 
 
 ```js
-  const siteConfig = {
-    //Other params
-    url: 'https://__userName__.github.io', // Your website URL
-    baseUrl: '/testProject',
-    projectName: 'testProject',
-    organizationName: 'userName'
-    //Other params
-  }
+const siteConfig = {
+  ...
+  url: 'https://__userName__.github.io', // Your website URL
+  baseUrl: '/testProject',
+  projectName: 'testProject',
+  organizationName: 'userName'
+  ...
+}
 ```
 
-> In case you want to deploy as a user or organization site, specify the project name as "_username_.github.io" or "_orgname_.github.io".  
-eg) If your GitHub username is User42 then _user42.github.io_, or in case if the organization name is Org123 then _org123.github.io_
+In case you want to deploy as a user or organization site, specify the project name as "<username>.github.io" or "<orgname>.github.io". E.g. If your GitHub username is "user42" then _user42.github.io_, or in the case of an organization name of "org123", it will be _org123.github.io_.
 
-> __Note:__ Not setting the url and baseUrl of your project might result in incorrect rendering of css and images.
+__Note:__ Not setting the `url` and `baseUrl` of your project might result in incorrect file paths generated which can cause broken links to assets paths like stylesheets and images.
 
 > While we recommend setting the `projectName` and `organizationName` in `siteConfig.js`, you can also use environment variables `ORGANIZATION_NAME` and `PROJECT_NAME`.
 
@@ -72,9 +71,7 @@ eg) If your GitHub username is User42 then _user42.github.io_, or in case if the
 
 | Name       | Description                                                                                                                                      |
 | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `GIT_USER` | The username for a GitHub account that has commit access to this repo. For your own repositories, this will usually be your own GitHub username. |
-
-> The specified `GIT_USER` must have push access to the repository specified in the combination of `organizationName` and `projectName`.
+| `GIT_USER` | The username for a GitHub account that has commit access to this repo. For your own repositories, this will usually be your own GitHub username. The specified `GIT_USER` must have push access to the repository specified in the combination of `organizationName` and `projectName`. |
 
 To run the script directly from the command-line, you can use the following, filling in the parameter values as appropriate.
 
@@ -94,7 +91,7 @@ There are also two optional parameters that are set as environment variables:
 
 If you run into issues related to SSH keys, visit [GitHub's authentication documentation](https://help.github.com/articles/connecting-to-github-with-ssh/).
 
-You should now be able to load your website by visiting its GitHub Pages URL, which could be something along the lines of https://_username_.github.io/_projectName_, or a custom domain if you have set that up. For example, Docusaurus' own GitHub Pages URL is https://facebook.github.io/Docusaurus (it can also be accessed via https://docusaurus.io/), because it is served from the `gh-pages` branch of the https://github.com/facebook/docusaurus GitHub repository. We highly encourage reading through the [GitHub Pages documentation](https://pages.github.com) to learn more about how this hosting solution works.
+You should now be able to load your website by visiting its GitHub Pages URL, which could be something along the lines of https://_username_.github.io/_projectName_, or a custom domain if you have set that up. For example, Docusaurus' own GitHub Pages URL is https://facebook.github.io/Docusaurus (but it can also be accessed via https://docusaurus.io/ because of a CNAME), because it is served from the `gh-pages` branch of the https://github.com/facebook/docusaurus GitHub repository. We highly encourage reading through the [GitHub Pages documentation](https://pages.github.com) to learn more about how this hosting solution works.
 
 You can run the command above any time you update the docs and wish to deploy the changes to your site. Running the script manually may be fine for sites where the documentation rarely changes and it is not too much of an inconvenience to remember to manually deploy changes.
 
