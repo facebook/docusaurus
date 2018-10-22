@@ -1,0 +1,141 @@
+.section {
+  padding: 72px 0;
+}
+
+.sectionAlt {
+  background-color: #f5f6f7;
+}
+
+.sectionInner {
+  margin: 0 auto;
+  max-width: 960px;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.column {
+  flex-grow: 1;
+  flex-shrink: 0;
+  flex-basis: 20%;
+  padding: 0 1em;
+}
+
+.column:first-child {
+  padding-left: 0;
+}
+
+.column:last-child {
+  padding-right: 0;
+}
+
+.banner {
+  background-color: #25c2a0;
+  color: #fff;
+}
+
+.bannerInner {
+  max-width: 960px;
+}
+
+.header {
+  font-size: 48px;
+  margin-bottom: 16px;
+  margin-top: 0;
+}
+
+.subtitle {
+  font-weight: 500;
+  font-size: 24px;
+  margin: 32px 0;
+}
+
+.headerLinksContainer {
+  padding: 32px 0;
+}
+
+.headerLink {
+  border: 1px solid #fff;
+  border-radius: 2em;
+  color: #fff;
+  font-size: 1em;
+  margin-right: 24px;
+  padding: 1em 2.4em;
+  text-decoration: none;
+}
+
+.gitHubLink {
+  background-color: #fff;
+  color: #25c2a0;
+}
+
+.featureList {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.featureListItem {
+  margin: 1.25em 0;
+}
+
+.featureListLink {
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1.25em;
+  font-weight: bold;
+  padding: 0.5em 1.2em;
+  text-decoration: none;
+  transition: background-color 200ms cubic-bezier(0.08, 0.52, 0.52, 1);
+}
+
+.featureListLink:hover {
+  background-color: #f5f6f7;
+}
+
+.featureListLinkSelected,
+.featureListLinkSelected:hover {
+  background-color: #25c2a0;
+  color: #fff;
+}
+
+.featureIconContainer {
+  margin-bottom: 12px;
+  max-width: 96px;
+}
+
+.featureIcon {
+  max-width: 100%;
+}
+
+.featureTitle {
+  font-size: 1.25em;
+  margin-top: 0;
+}
+
+.quotes {
+  text-align: center;
+}
+
+.quoteThumbnail {
+  border-radius: 50%;
+  margin-bottom: 20px;
+  max-width: 96px;
+}
+
+.quoteName {
+  margin-bottom: 0.75em;
+  margin-top: 0;
+}
+
+.quoteTitle {
+  color: #717171;
+  font-size: 1em;
+  font-weight: normal;
+  margin-top: 0;
+}
+
+.quoteText {
+  font-style: italic;
+}

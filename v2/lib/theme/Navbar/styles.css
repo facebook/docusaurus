@@ -53,9 +53,9 @@
 }
 
 .navLinkActive {
-  border-bottom: 4px solid #00a388;
+  border-bottom: 4px solid #25c2a0;
   border-radius: 0;
-  color: #00a388;
+  color: #25c2a0;
   margin-bottom: -4px;
 }
 
