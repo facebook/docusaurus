@@ -64,6 +64,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Create React App',
+    image: '/img/users/react.svg',
+    infoLink: 'https://facebook.github.io/create-react-app/',
+    fbOpenSource: true,
+    pinned: true,
+  },
+  {
     caption: 'Dep',
     image: '/img/users/golang-dep.svg',
     infoLink: 'https://golang.github.io/dep/',

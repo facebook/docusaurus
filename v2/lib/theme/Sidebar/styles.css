@@ -52,8 +52,8 @@
 
 .sidebarLinkActive,
 .sidebarLinkActive:hover {
-  background-color: rgb(0, 163, 136, 0.1);
-  color: #00a388;
+  background-color: rgb(37, 194, 160, 0.1);
+  color: #25c2a0;
 }
 
 .sidebarSubGroup {
