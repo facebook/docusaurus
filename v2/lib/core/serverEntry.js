@@ -50,17 +50,21 @@ export default function render(locals) {
       ${metaHtml}
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
-      ${cssFiles.map(
-        cssFile =>
-          `<link rel="stylesheet" type="text/css" href="${baseUrl}${cssFile}" />`,
-      )}
+      ${cssFiles
+        .map(
+          cssFile =>
+            `<link rel="stylesheet" type="text/css" href="${baseUrl}${cssFile}" />`,
+        )
+        .join('\n')}
     </head>
     <body${bodyAttributes ? ` ${bodyAttributes}` : ''}>
       <div id="app">${appHtml}</div>
-      ${jsFiles.map(
-        jsFile =>
-          `<script type="text/javascript" src="${baseUrl}${jsFile}"></script>`,
-      )}
+      ${jsFiles
+        .map(
+          jsFile =>
+            `<script type="text/javascript" src="${baseUrl}${jsFile}"></script>`,
+        )
+        .join('\n')}
     </body>
   </html>
 `;
