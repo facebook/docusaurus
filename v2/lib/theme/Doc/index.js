@@ -38,7 +38,10 @@ class Doc extends React.Component {
         />
         <div className={styles.mainContainer}>
           <div className={styles.docContainer}>
-            <div className={styles.docContent}>{this.props.children}</div>
+            <div className={styles.docContent}>
+              <h1>{metadata.title}</h1>
+              {this.props.children}
+            </div>
             <div className={styles.paginatorContainer}>
               <DocsPaginator
                 docsMetadatas={docsMetadatas}

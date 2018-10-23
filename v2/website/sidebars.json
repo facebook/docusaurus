@@ -1,9 +1,20 @@
 {
   "docs": {
-    "Category 1": {
-      "Subcategory 1": ["foo/bar", "foo/baz"],
-      "Subcategory 2": ["hello"]
-    },
-    "Category 2": ["intro", "code"]
+    "Getting Started": [
+      "installation",
+      "site-preparation",
+      "site-creation",
+      "publishing",
+      "docker"
+    ],
+    "Guides": [
+      "adding-blog",
+      "custom-pages",
+      "search",
+      "navigation",
+      "translation",
+      "versioning"
+    ],
+    "API": ["commands", "doc-markdown", "api-pages", "site-config"]
   }
 }

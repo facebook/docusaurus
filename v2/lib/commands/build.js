@@ -30,10 +30,9 @@ function compile(config) {
   });
 }
 
-module.exports = async function build(siteDir, cliOptions = {}) {
+module.exports = async function build(siteDir) {
   process.env.NODE_ENV = 'production';
   console.log('Build command invoked ...');
-  console.log(cliOptions);
 
   const props = await load(siteDir);
 

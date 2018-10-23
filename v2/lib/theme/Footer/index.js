@@ -67,7 +67,7 @@ function Footer(props) {
             </li>
           </ul>
         </div>
-        {/* This is for v2 development only to know which are the available routes */}
+        {/* This is for v2 development only to know which are the available page */}
         <div className={styles.footerColumn}>
           <h3 className={styles.footerColumnTitle}>Pages</h3>
           <ul className={styles.footerList}>
@@ -80,19 +80,6 @@ function Footer(props) {
             ))}
           </ul>
         </div>
-        <div className={styles.footerColumn}>
-          <h3 className={styles.footerColumnTitle}>Docs</h3>
-          <ul className={styles.footerList}>
-            {Object.values(props.docsMetadatas).map(metadata => (
-              <li key={metadata.permalink} className={styles.footerListItem}>
-                <Link className={styles.footerLink} to={metadata.permalink}>
-                  {metadata.title}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-        {/* Remove above when launching v2 */}
       </section>
       <section className={styles.copyright}>
         <span>Copyright © {new Date().getFullYear()} Facebook Inc.</span>

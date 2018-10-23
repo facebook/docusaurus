@@ -43,6 +43,12 @@ module.exports = function createBaseConfig(props, isServer) {
     .set('@build', outDir)
     .set('@generated', path.resolve(__dirname, '../core/generated'))
     .set('@core', path.resolve(__dirname, '../core'))
+    // For loading docs from custom paths where React is not available.
+    // TODO(yangshun): Change loader to convert return HTML instead of React component.
+    .set(
+      'DOCUSAURUS_NODE_MODULES_PATH_DO_NOT_USE_OR_YOU_WILL_BE_FIRED',
+      path.resolve(__dirname, '../../node_modules/'),
+    )
     .end();
 
   function applyBabel(rule) {
