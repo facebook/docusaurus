@@ -66,7 +66,7 @@ module.exports = function(fileString) {
 
   /* Return a React component */
   return `
-import React from 'DOCUSAURUS_NODE_MODULES_PATH_DO_NOT_USE_OR_YOU_WILL_BE_FIRED/react';
+import React from 'react';
 import Markdown from '@theme/Markdown';
 export default () => (
   <Markdown siteConfig={${JSON.stringify(siteConfig)}}>
