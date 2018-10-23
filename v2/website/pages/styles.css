@@ -59,14 +59,26 @@
 .headerLink {
   border: 1px solid #fff;
   border-radius: 2em;
-  color: #fff;
+  background-color: #fff;
+  color: #25c2a0;
   font-size: 1em;
   margin-right: 24px;
   padding: 1em 2.4em;
   text-decoration: none;
+  transition: color 300ms cubic-bezier(0.08, 0.52, 0.52, 1);
+}
+
+.headerLink:hover {
+  background-color: transparent;
+  color: #fff;
 }
 
 .gitHubLink {
+  background-color: transparent;
+  color: #fff;
+}
+
+.gitHubLink:hover {
   background-color: #fff;
   color: #25c2a0;
 }
@@ -87,7 +99,7 @@
   font-weight: bold;
   padding: 0.5em 1.2em;
   text-decoration: none;
-  transition: background-color 200ms cubic-bezier(0.08, 0.52, 0.52, 1);
+  transition: background-color 300ms cubic-bezier(0.08, 0.52, 0.52, 1);
 }
 
 .featureListLink:hover {

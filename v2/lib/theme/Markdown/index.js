@@ -95,7 +95,7 @@ class MarkdownBlock extends React.Component {
       {},
       {
         version: '9.12.0',
-        theme: 'default',
+        theme: 'atom-one-dark',
       },
       siteConfig.highlight,
     );

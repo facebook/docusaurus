@@ -23,7 +23,7 @@ function Sidebar(props) {
     }
 
     return (
-      <li key={linkID}>
+      <li className={styles.sidebarListItem} key={linkID}>
         <NavLink
           activeClassName={styles.sidebarLinkActive}
           className={classnames(styles.sidebarLink, styles.sidebarItem)}
