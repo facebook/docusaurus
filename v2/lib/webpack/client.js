@@ -1,6 +1,7 @@
 const path = require('path');
 const webpackNiceLog = require('webpack-nicelog');
 const {StatsWriterPlugin} = require('webpack-stats-plugin');
+const {ReactLoadablePlugin} = require('react-loadable/webpack');
 const cleanWebpackPlugin = require('clean-webpack-plugin');
 const createBaseConfig = require('./base');
 const {applyChainWebpack} = require('./utils');
@@ -17,8 +18,13 @@ module.exports = function createClientConfig(props) {
 
   // write webpack stats object so we can pickup correct client bundle path in server.
   config
-    .plugin('stats')
+    .plugin('client-stats')
     .use(StatsWriterPlugin, [{filename: 'client.stats.json'}]);
+  config
+    .plugin('react-loadable-stats')
+    .use(ReactLoadablePlugin, [
+      {filename: path.join(outDir, 'react-loadable.json')},
+    ]);
 
   // show compilation progress bar and build time
   const isProd = process.env.NODE_ENV === 'production';
