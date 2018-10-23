@@ -2,11 +2,14 @@ const fs = require('fs-extra');
 const path = require('path');
 const {idx} = require('../utils');
 
-module.exports = function loadSidebars({siteDir, env}) {
+module.exports = function loadSidebars({siteDir, env}, deleteCache = true) {
   let allSidebars = {};
 
   // current sidebars
   const sidebarsJSONFile = path.join(siteDir, 'sidebars.json');
+  if (deleteCache) {
+    delete require.cache[sidebarsJSONFile];
+  }
   if (fs.existsSync(sidebarsJSONFile)) {
     allSidebars = require(sidebarsJSONFile); // eslint-disable-line
   }

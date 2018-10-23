@@ -40,7 +40,12 @@ module.exports = async function start(siteDir, cliOptions = {}) {
     };
     const docsRelativeDir = props.siteConfig.customDocsPath;
     const fsWatcher = chokidar.watch(
-      [`../${docsRelativeDir}/**/*.md`, 'blog/**/*.md', 'siteConfig.js'],
+      [
+        `../${docsRelativeDir}/**/*.md`,
+        'blog/**/*.md',
+        'siteConfig.js',
+        'sidebars.json',
+      ],
       {
         cwd: siteDir,
         ignoreInitial: true,
