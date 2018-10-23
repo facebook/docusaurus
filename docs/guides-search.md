@@ -15,6 +15,7 @@ Enter your API key and index name (sent by Algolia) into `siteConfig.js` in the 
 const siteConfig = {
   ...
   algolia: {
+    appId: 'my-app-id',
     apiKey: 'my-api-key',
     indexName: 'my-index-name',
     algoliaOptions: {} // Optional, if provided by Algolia
