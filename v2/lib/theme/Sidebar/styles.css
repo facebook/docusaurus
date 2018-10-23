@@ -37,6 +37,10 @@
   padding-left: 0;
 }
 
+.sidebarListItem {
+  margin-top: 0;
+}
+
 .sidebarLink {
   border-radius: 6px;
   color: #717171;
@@ -48,6 +52,7 @@
 
 .sidebarLink:hover {
   background-color: #f5f6f7;
+  color: #717171;
 }
 
 .sidebarLinkActive,

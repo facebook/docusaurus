@@ -10,13 +10,11 @@
 
 .paginatorLink {
   background-color: #f2f3f5;
-  color: #000;
   border-radius: 30px;
-  display: inline-block;
-  height: 1.5em;
+  color: #000;
+  padding: 1.5em 1.5em 0.75em;
   text-decoration: none;
   transition: 0.3s all ease-in-out;
-  padding: 12px 24px;
 }
 
 .paginatorLink:hover {

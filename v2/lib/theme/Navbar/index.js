@@ -22,7 +22,7 @@ function Navbar() {
             <NavLink
               activeClassName={styles.navLinkActive}
               className={styles.navLink}
-              to="/docs/site-config">
+              to="/docs/installation">
               Docs
             </NavLink>
           </li>

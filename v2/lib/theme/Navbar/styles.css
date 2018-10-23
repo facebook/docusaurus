@@ -30,26 +30,23 @@
 }
 
 .navList {
+  height: inherit;
   list-style-type: none;
+  margin: 0;
   padding: 0;
 }
 
 .navListItem {
   box-sizing: border-box;
   display: inline-block;
+  margin-top: 0;
 }
 
 .navLink {
-  border-radius: 6px;
   color: #1c1e21;
   display: block;
   padding: 1em 1.2em;
   text-decoration: none;
-  transition: background-color 200ms cubic-bezier(0.08, 0.52, 0.52, 1);
-}
-
-.navLink:hover {
-  background-color: #f5f6f7;
 }
 
 .navLinkActive {
@@ -57,8 +54,4 @@
   border-radius: 0;
   color: #25c2a0;
   margin-bottom: -4px;
-}
-
-.navLinkActive:hover {
-  background-color: inherit;
 }

@@ -29,6 +29,7 @@ class Doc extends React.Component {
           {language && <html lang={language} />}
           {language && <meta name="docsearch:language" content={language} />}
           {version && <meta name="docsearch:version" content={version} />}
+          <link rel="stylesheet" type="text/css" href="/css/main.css" />
         </Helmet>
         <Navbar docsMetadatas={docsMetadatas} />
         <Sidebar
