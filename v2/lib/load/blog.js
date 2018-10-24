@@ -12,7 +12,7 @@ function fileToUrl(fileName) {
 }
 
 async function loadBlog({blogDir, env, siteConfig}) {
-  const blogFiles = await globby(['**/*.md'], {
+  const blogFiles = await globby(['*.md'], {
     cwd: blogDir,
   });
 
