@@ -1,5 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`mdToHtmlify transform link even in subdirectory 1`] = `
+"
+Test subdirectory file
+
+### Replace this
+- [doc3](/docs/subdir/doc3)
+"
+`;
+
 exports[`mdToHtmlify transform nothing 1`] = `
 "
 Docusaurus is the best :)
