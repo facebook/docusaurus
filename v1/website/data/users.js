@@ -303,6 +303,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Vasern',
+    image: 'https://vasern.com/img/vasern.svg',
+    infoLink: 'https://vasern.com/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Verdaccio',
     image: '/img/users/verdaccio-tiny@2x.png',
     infoLink: 'http://www.verdaccio.org/',
