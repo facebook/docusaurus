@@ -1,0 +1,40 @@
+.postHeader {
+  margin-bottom: 10px;
+}
+
+.postHeaderTitle {
+  margin-top: 0;
+}
+
+.postMeta {
+  margin-bottom: 10px;
+  padding: 0;
+}
+
+.authorBlock {
+  display: flex;
+}
+
+.authorName {
+  color: rgba(57, 57, 57, 0.7);
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  font-weight: 400;
+  justify-content: center;
+  margin-right: 10px;
+  margin-top: 0;
+  padding: 0;
+}
+
+.authorPhoto {
+  border-radius: 50%;
+  height: 30px;
+  overflow: hidden;
+  width: 30px;
+}
+
+.authorPhotoBig {
+  height: 50px;
+  width: 50px;
+}

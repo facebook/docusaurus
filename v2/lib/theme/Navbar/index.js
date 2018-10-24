@@ -30,7 +30,7 @@ function Navbar() {
             <NavLink
               activeClassName={styles.navLinkActive}
               className={styles.navLink}
-              to="https://docusaurus.io/blog">
+              to="/blog">
               Blog
             </NavLink>
           </li>

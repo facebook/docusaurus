@@ -1,4 +1,5 @@
 const path = require('path');
+const loadBlog = require('./blog');
 const loadConfig = require('./config');
 const loadDocs = require('./docs');
 const loadEnv = require('./env');
@@ -55,6 +56,14 @@ module.exports = async function load(siteDir) {
     `export default ${JSON.stringify(pagesMetadatas, null, 2)};`,
   );
 
+  // blog
+  const blogDir = path.resolve(siteDir, 'blog');
+  const blogMetadatas = await loadBlog({blogDir, env, siteConfig});
+  await generate(
+    'blogMetadatas.js',
+    `export default ${JSON.stringify(blogMetadatas, null, 2)};`,
+  );
+
   // resolve outDir
   const outDir = path.resolve(siteDir, 'build');
 
@@ -68,6 +77,8 @@ module.exports = async function load(siteDir) {
   const props = {
     siteConfig,
     siteDir,
+    blogDir,
+    blogMetadatas,
     docsDir,
     docsMetadatas,
     docsSidebars,
