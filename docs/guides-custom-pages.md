@@ -67,6 +67,3 @@ class Footer extends React.Component {
 
 module.exports = Footer;
 ```
-## Custom Copy to Clipboard Button
-
-Docusaurus allows for adding buttons to copy code from fenced code blocks. Please follow the instructions [here](https://gist.github.com/aenuros/c0014f9b42d41af572f3a8c961de7319) to add "copy" buttons to your code blocks.
