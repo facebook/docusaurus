@@ -206,3 +206,7 @@ class Example extends React.Component {
   }
 }
 ```
+
+### Adding Copy Code Buttons
+
+Docusaurus allows for adding buttons to copy code within fenced code blocks. Please follow the instructions [here](https://gist.github.com/yangshun/55db997ed0f8f4e6527571fc3bee4675) to add "Copy" buttons to your code blocks.
