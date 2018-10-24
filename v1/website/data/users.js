@@ -307,7 +307,7 @@ module.exports = [
     image: 'https://vasern.com/img/vasern.svg',
     infoLink: 'https://vasern.com/',
     fbOpenSource: false,
-    pinned: true,
+    pinned: false,
   },
   {
     caption: 'Verdaccio',
