@@ -2371,7 +2371,7 @@ input::placeholder {
 }
 
 .nav-tabs::-webkit-scrollbar {
-  display: none;  // Safari and Chrome
+  display: none;
 }
 
 .tabs .tab-pane:focus {
