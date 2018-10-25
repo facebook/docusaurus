@@ -12,7 +12,7 @@ const path = require('path');
 const escapeStringRegexp = require('escape-string-regexp');
 
 function getSubDir(file, refDir) {
-  const subDir = path.dirname(path.relative(refDir, file)).replace('\\', '/');
+  const subDir = path.dirname(path.relative(refDir, file)).replace(/\\/g, '/');
   return subDir !== '.' && !subDir.includes('..') ? subDir : null;
 }
 
