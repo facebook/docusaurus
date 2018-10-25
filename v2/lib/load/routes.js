@@ -1,10 +1,7 @@
-const path = require('path');
-
 async function genRoutesConfig({
   docsMetadatas = {},
   pagesMetadatas = [],
   blogMetadatas = [],
-  siteConfig,
 }) {
   function genDocsRoute(metadata) {
     const {permalink, source} = metadata;
@@ -50,6 +47,33 @@ async function genRoutesConfig({
 
   function genBlogRoute(metadata) {
     const {permalink, source} = metadata;
+    if (metadata.isBlogPage) {
+      const {posts} = metadata;
+      return `
+  {
+    path: ${JSON.stringify(permalink)},
+    exact: true,
+    component: Loadable.Map({
+      loader: {
+        ${posts
+          .map((p, i) => `post${i}: () => import(${JSON.stringify(p.source)})`)
+          .join(',\n\t\t\t\t')}
+      },
+      loading: Loading,
+      render(loaded, props) {
+        ${posts
+          .map((p, i) => `const Post${i} = loaded.post${i}.default;`)
+          .join('\n\t\t\t\t')}
+        return (
+          <BlogPage {...props} metadata={${JSON.stringify(metadata)}} >
+           ${posts.map((p, i) => `<Post${i} />`).join(' ')}
+          </BlogPage>
+        )
+      }
+    })
+  }`;
+    }
+
     return `
   {
     path: ${JSON.stringify(permalink)},
@@ -68,14 +92,6 @@ async function genRoutesConfig({
     })
   }`;
   }
-
-  const {baseUrl} = siteConfig;
-  const blogPagePath = path.join(baseUrl, 'blog/');
-  const blogPageRoute = `,
-  {
-    path: '${blogPagePath}',
-    component: BlogPage
-  }`;
 
   const notFoundRoute = `,
   {
@@ -100,7 +116,7 @@ async function genRoutesConfig({
       .map(genPagesRoute)
       .join(',')},${blogMetadatas
       .map(genBlogRoute)
-      .join(',')}${blogPageRoute}${notFoundRoute}\n];\n` +
+      .join(',')}${notFoundRoute}\n];\n` +
     `export default routes;\n`
   );
 }

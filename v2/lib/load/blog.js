@@ -50,6 +50,23 @@ async function loadBlog({blogDir, env, siteConfig}) {
     }),
   );
   blogMetadatas.sort((a, b) => a.date - b.date);
+
+  // blogpage handling. Example: `/blog`, `/blog/page1`, `/blog/page2`
+  const perPage = 10;
+  const numOfBlog = blogMetadatas.length;
+  const numberOfPage = Math.ceil(numOfBlog / perPage);
+  const basePageUrl = path.join(baseUrl, 'blog');
+
+  /* eslint-disable */
+  for (let page = 0; page < numberOfPage; page++) {
+    blogMetadatas.push({
+      permalink: path.join(basePageUrl, `${page > 0 ? `page${page + 1}` : ''}`),
+      language: defaultLangTag,
+      isBlogPage: true,
+      posts: blogMetadatas.slice(page * perPage, (page + 1) * perPage),
+    });
+  }
+
   return blogMetadatas;
 }
 
