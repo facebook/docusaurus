@@ -17,6 +17,10 @@
   padding: 8px 12px;
 }
 
+.sidebarSubGroup {
+  margin-left: 0.25em;
+}
+
 .sidebarGroupTitle {
   font-size: 1em;
   font-weight: 500;
