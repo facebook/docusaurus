@@ -17,11 +17,8 @@
   padding: 8px 12px;
 }
 
-.sidebarGroup {
-}
-
 .sidebarSubGroup {
-  margin-left: 5px;
+  margin-left: 0.25em;
 }
 
 .sidebarGroupTitle {
