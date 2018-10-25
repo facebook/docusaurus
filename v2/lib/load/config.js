@@ -17,6 +17,7 @@ module.exports = function loadConfig(siteDir, deleteCache = true) {
     'organizationName',
     'projectName',
     'baseUrl',
+    'url',
   ];
   const optionalFields = [
     'customDocsPath',

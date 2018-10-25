@@ -84,6 +84,7 @@
     "remarkable": "^1.7.1",
     "semver": "^5.5.0",
     "shelljs": "^0.8.2",
+    "sitemap": "^2.1.0",
     "static-site-generator-webpack-plugin": "endiliey/static-site-generator-webpack-plugin#master",
     "style-loader": "^0.22.1",
     "uglifyjs-webpack-plugin": "^1.3.0",
