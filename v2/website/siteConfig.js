@@ -5,4 +5,5 @@ module.exports = {
   projectName: 'docusaurus',
   baseUrl: '/',
   customDocsPath: '../docs',
+  url: 'https://docusaurus.io',
 };

@@ -4,4 +4,5 @@ module.exports = {
   organizationName: 'endiliey',
   projectName: 'hello',
   baseUrl: '/',
+  url: 'https://docusaurus.io',
 };

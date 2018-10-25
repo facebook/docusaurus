@@ -4,6 +4,7 @@ const chalk = require('chalk');
 const fs = require('fs-extra');
 const globby = require('globby');
 const load = require('../load');
+const createSitemap = require('../core/sitemap');
 const createServerConfig = require('../webpack/server');
 const createClientConfig = require('../webpack/client');
 const {applyConfigureWebpack} = require('../webpack/utils');
@@ -66,6 +67,11 @@ module.exports = async function build(siteDir) {
       return fs.copy(fromPath, toPath);
     }),
   );
+
+  // generate sitemap
+  const sitemap = await createSitemap(props);
+  const sitemapPath = path.join(outDir, 'sitemap.xml');
+  await fs.writeFile(sitemapPath, sitemap);
 
   const relativeDir = path.relative(process.cwd(), outDir);
   console.log(

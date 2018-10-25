@@ -8,4 +8,5 @@ module.exports = {
   superman: 'lol',
   admin: 'endi',
   customFields: ['admin', 'superman'],
+  url: 'https://docusaurus.io',
 };

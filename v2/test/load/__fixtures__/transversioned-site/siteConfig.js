@@ -5,4 +5,5 @@ module.exports = {
   projectName: 'hello',
   baseUrl: '/',
   defaultLanguage: 'en',
+  url: 'https://docusaurus.io',
 };
