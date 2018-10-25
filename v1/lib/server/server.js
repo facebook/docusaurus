@@ -110,7 +110,7 @@ function execute(port) {
   const app = express();
 
   app.get(routing.docs(siteConfig.baseUrl), (req, res, next) => {
-    const url = req.path.toString().replace(siteConfig.baseUrl, '');
+    const url = decodeURI(req.path.toString().replace(siteConfig.baseUrl, ''));
     const metadata =
       Metadata[
         Object.keys(Metadata).find(id => Metadata[id].permalink === url)
