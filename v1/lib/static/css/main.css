@@ -2219,15 +2219,24 @@ input::placeholder {
   justify-content: center;
 }
 
-.showcaseSection .logos img {
+.showcaseSection .logos .wrapperDiv {
   height: 128px;
+  width: 128px;
+}
+
+.showcaseSection .logos img {
+  max-height: 128px;
   padding: 20px;
   width: 128px;
 }
 
 @media only screen and (max-width: 735px) {
-  .showcaseSection .logos img {
+  .showcaseSection .logos .wrapperDiv {
     height: 64px;
+    width: 64px;
+  }
+  .showcaseSection .logos img {
+    max-height: 64px;
     padding: 20px;
     width: 64px;
   }

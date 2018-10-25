@@ -16,10 +16,12 @@ class Users extends React.Component {
   renderUser(user) {
     return (
       <div>
-        <a href={user.infoLink} key={user.infoLink}>
-          <img src={user.image} alt={user.caption} title={user.caption} />
-        </a>
-        <h4>{user.caption}</h4>
+        <div className="wrapperDiv">
+          <a href={user.infoLink} key={user.infoLink}>
+            <img src={user.image} alt={user.caption} title={user.caption} />
+          </a>
+        </div>
+        <p>{user.caption}</p>
       </div>
     );
   }
