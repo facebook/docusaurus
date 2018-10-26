@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2017-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
 /* "Copy" code block button */
 pre {
   position: relative;
@@ -13,7 +20,7 @@ pre .btnIcon {
   color: #fff;
   background-color: transparent;
   height: 30px;
-  transition: all .25s ease-out;
+  transition: all 0.25s ease-out;
 }
 
 pre .btnIcon:hover {
@@ -27,7 +34,7 @@ pre .btnIcon:hover {
 
 .btnIcon svg {
   fill: currentColor;
-  margin-right: .4em;
+  margin-right: 0.4em;
 }
 
 .btnIcon__label {
