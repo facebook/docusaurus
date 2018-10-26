@@ -55,9 +55,15 @@ const doc3 = fs.readFileSync(
   'utf8',
 );
 
+const refLinks = fs.readFileSync(
+  path.join(__dirname, '__fixtures__', 'reflinks.md'),
+  'utf8',
+);
+
 const rawContent1 = metadataUtils.extractMetadata(doc1).rawContent;
 const rawContent2 = metadataUtils.extractMetadata(doc2).rawContent;
 const rawContent3 = metadataUtils.extractMetadata(doc3).rawContent;
+const rawContentRefLinks = metadataUtils.extractMetadata(refLinks).rawContent;
 
 describe('mdToHtmlify', () => {
   const mdToHtml = metadataUtils.mdToHtml(Metadata, '/');
@@ -104,6 +110,17 @@ describe('mdToHtmlify', () => {
     expect(content3).not.toContain('subdir/doc3.md');
     expect(content3).toMatchSnapshot();
     expect(content3).not.toEqual(rawContent3);
+  });
+
+  test('transforms reference links', () => {
+    const contentRefLinks = docs.mdToHtmlify(
+      rawContentRefLinks,
+      mdToHtml,
+      Metadata['en-reflinks'],
+    );
+    expect(contentRefLinks).toContain('/docs/en/next/');
+    expect(contentRefLinks).toMatchSnapshot();
+    expect(contentRefLinks).not.toEqual(rawContentRefLinks);
   });
 });
 
