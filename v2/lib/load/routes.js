@@ -16,14 +16,18 @@ async function genRoutesConfig({
   {
     path: ${JSON.stringify(permalink)},
     exact: true,
-    component: Loadable({
-      loader: () => import(${JSON.stringify(source)}),
+    component: Loadable.Map({
+      loader: {
+        MarkdownContent: () => import(${JSON.stringify(source)}),
+        Doc: () => import('@theme/Doc')
+      },
       loading: Loading,
       render(loaded, props) {
-        let Content = loaded.default;
+        const MarkdownContent = loaded.MarkdownContent.default;
+        const Doc = loaded.Doc.default;
         return (
           <Doc {...props} metadata={${JSON.stringify(metadata)}}>
-            <Content />
+            <MarkdownContent />
           </Doc>
         );
       }
@@ -37,14 +41,18 @@ async function genRoutesConfig({
   {
     path: ${JSON.stringify(permalink)},
     exact: true,
-    component: Loadable({
-      loader: () => import(${JSON.stringify(source)}),
+    component: Loadable.Map({
+      loader: {
+        PageContent: () => import(${JSON.stringify(source)}),
+        Pages: () => import('@theme/Pages')
+      },
       loading: Loading,
       render(loaded, props) {
-        let Content = loaded.default;
+        const Pages = loaded.Pages.default;
+        const PageContent = loaded.PageContent.default;
         return (
           <Pages {...props} metadata={${JSON.stringify(metadata)}}>
-            <Content {...props} metadata={${JSON.stringify(metadata)}} />
+            <PageContent {...props} metadata={${JSON.stringify(metadata)}} />
           </Pages>
         );
       }
@@ -62,12 +70,14 @@ async function genRoutesConfig({
     exact: true,
     component: Loadable.Map({
       loader: {
+        BlogPage: () => import('@theme/BlogPage'),
         ${posts
           .map((p, i) => `post${i}: () => import(${JSON.stringify(p.source)})`)
           .join(',\n\t\t\t\t')}
       },
       loading: Loading,
       render(loaded, props) {
+        const BlogPage = loaded.BlogPage.default;
         ${posts
           .map((p, i) => `const Post${i} = loaded.post${i}.default;`)
           .join('\n\t\t\t\t')}
@@ -85,11 +95,15 @@ async function genRoutesConfig({
   {
     path: ${JSON.stringify(permalink)},
     exact: true,
-    component: Loadable({
-      loader: () => import(${JSON.stringify(source)}),
+    component: Loadable.Map({
+      loader: {
+        MarkdownContent: () => import(${JSON.stringify(source)}),
+        BlogPost: () => import('@theme/BlogPost')
+      },
       loading: Loading,
       render(loaded, props) {
-        let MarkdownContent = loaded.default;
+        const BlogPost = loaded.BlogPost.default;
+        const MarkdownContent = loaded.MarkdownContent.default;
         return (
           <BlogPost {...props} metadata={${JSON.stringify(metadata)}}>
             <MarkdownContent />
@@ -114,10 +128,6 @@ async function genRoutesConfig({
     `import React from 'react';\n` +
     `import Loadable from 'react-loadable';\n` +
     `import Loading from '@theme/Loading';\n` +
-    `import Doc from '@theme/Doc';\n` +
-    `import BlogPost from '@theme/BlogPost';\n` +
-    `import BlogPage from '@theme/BlogPage';\n` +
-    `import Pages from '@theme/Pages';\n` +
     `import NotFound from '@theme/NotFound';\n` +
     `const routes = [${docsRoutes},${pagesMetadatas
       .map(genPagesRoute)
