@@ -8,7 +8,7 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom';
 
-import styles from './styles.css';
+import styles from './styles.module.css';
 
 function Navbar() {
   return (

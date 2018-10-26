@@ -9,7 +9,7 @@ import React from 'react';
 
 import SidebarLink from './SidebarLink';
 import SidebarCategory from './SidebarCategory';
-import styles from './styles.css';
+import styles from './styles.module.css';
 
 function Sidebar(props) {
   const {metadata, docsSidebars, docsMetadatas} = props;

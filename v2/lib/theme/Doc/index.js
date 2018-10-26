@@ -15,7 +15,7 @@ import Footer from '@theme/Footer'; // eslint-disable-line
 import Navbar from '@theme/Navbar'; // eslint-disable-line
 import Sidebar from '@theme/Sidebar'; // eslint-disable-line
 
-import styles from './styles.css';
+import styles from './styles.module.css';
 
 class Doc extends React.Component {
   render() {
@@ -36,7 +36,6 @@ class Doc extends React.Component {
           {language && <html lang={language} />}
           {language && <meta name="docsearch:language" content={language} />}
           {version && <meta name="docsearch:version" content={version} />}
-          <link rel="stylesheet" type="text/css" href="/css/main.css" />
         </Helmet>
         <Navbar docsMetadatas={docsMetadatas} />
         <Sidebar

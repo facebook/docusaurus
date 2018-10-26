@@ -7,7 +7,7 @@
 
 import React from 'react';
 import Square from './square';
-import styles from './styles.css';
+import styles from './styles.module.css';
 
 export default class Board extends React.Component {
   renderSquare(i) {

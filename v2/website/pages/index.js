@@ -10,7 +10,7 @@ import Helmet from 'react-helmet';
 
 import classnames from 'classnames';
 
-import styles from './styles.css';
+import styles from './styles.module.css';
 
 const FEATURES = [
   {

@@ -12,6 +12,27 @@ const path = require('path');
 
 const mdLoader = require.resolve('./loader/markdown');
 
+const CSS_REGEX = /\.css$/;
+const CSS_MODULE_REGEX = /\.module\.css$/;
+
+// Utility method to add styling-related rule to Webpack config.
+function applyStyle(styleRule, {cssOptions, isServer, isProd}) {
+  if (!isServer) {
+    if (isProd) {
+      styleRule.use('extract-css-loader').loader(CSSExtractPlugin.loader);
+    } else {
+      styleRule.use('style-loader').loader('style-loader');
+    }
+  }
+
+  styleRule
+    .use('css-loader')
+    .loader(isServer ? 'css-loader/locals' : 'css-loader')
+    .options(cssOptions);
+
+  return styleRule;
+}
+
 module.exports = function createBaseConfig(props, isServer) {
   const {
     siteConfig,
@@ -81,13 +102,10 @@ module.exports = function createBaseConfig(props, isServer) {
       return /node_modules/.test(filepath);
     })
     .end();
-
   applyBabel(jsRule);
 
   const mdRule = config.module.rule('markdown').test(/\.md$/);
-
   applyBabel(mdRule);
-
   mdRule
     .use('markdown-loader')
     .loader(mdLoader)
@@ -99,25 +117,32 @@ module.exports = function createBaseConfig(props, isServer) {
       sourceToMetadata,
     });
 
-  const cssRule = config.module.rule('css').test(/\.css$/);
-  if (!isServer) {
-    if (isProd) {
-      cssRule.use('extract-css-loader').loader(CSSExtractPlugin.loader);
-    } else {
-      cssRule.use('style-loader').loader('style-loader');
-    }
-  }
+  applyStyle(config.module.rule('css'), {
+    cssOptions: {
+      importLoaders: 1,
+      sourceMap: !isProd,
+      minimize: true,
+    },
+    isProd,
+    isServer,
+  })
+    .test(CSS_REGEX)
+    .exclude.add(CSS_MODULE_REGEX)
+    .end();
 
-  cssRule
-    .use('css-loader')
-    .loader(isServer ? 'css-loader/locals' : 'css-loader')
-    .options({
+  // Adds support for CSS Modules (https://github.com/css-modules/css-modules)
+  // using the extension .module.css
+  applyStyle(config.module.rule('css-module'), {
+    cssOptions: {
       modules: true,
       importLoaders: 1,
       localIdentName: `[local]_[hash:base64:8]`,
       sourceMap: !isProd,
       minimize: true,
-    });
+    },
+    isProd,
+    isServer,
+  }).test(CSS_MODULE_REGEX);
 
   // mini-css-extract plugin
   config.plugin('extract-css').use(CSSExtractPlugin, [
