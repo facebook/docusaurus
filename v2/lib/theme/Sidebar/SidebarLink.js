@@ -9,7 +9,7 @@ import React from 'react';
 import {NavLink} from 'react-router-dom';
 import classnames from 'classnames';
 
-import styles from './styles.css';
+import styles from './styles.module.css';
 
 export default function SidebarLink({href, label}) {
   const isExternal = /^(https?:|\/\/)/.test(href);

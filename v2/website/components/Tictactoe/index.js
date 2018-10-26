@@ -9,7 +9,7 @@ import React from 'react';
 import Helmet from 'react-helmet';
 import Layout from '@theme/Layout';
 import Board from './board';
-import styles from './styles.css';
+import styles from './styles.module.css';
 
 class Game extends React.Component {
   constructor(props) {

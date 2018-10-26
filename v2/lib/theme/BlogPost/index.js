@@ -12,7 +12,7 @@ import Helmet from 'react-helmet';
 import classnames from 'classnames';
 import Layout from '@theme/Layout'; // eslint-disable-line
 
-import styles from './styles.css';
+import styles from './styles.module.css';
 export default class BlogPost extends React.Component {
   renderPostHeader() {
     const {metadata, siteConfig} = this.props;

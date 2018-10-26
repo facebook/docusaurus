@@ -8,7 +8,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 
-import styles from './styles.css';
+import styles from './styles.module.css';
 
 export default class DocsPaginator extends React.Component {
   render() {
