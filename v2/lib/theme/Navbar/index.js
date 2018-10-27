@@ -1,7 +1,6 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom';
 
-import LanguageDropDown from './LanguageDropDown';
 import styles from './styles.module.css';
 
 function Navbar(props) {
@@ -29,11 +28,8 @@ function Navbar(props) {
       );
     }
     if (link.languages) {
-      return (
-        translationEnabled && (
-          <LanguageDropDown {...props} key="languagedropdown" />
-        )
-      );
+      // TODO in the future for <LanguageDropdown /> like in v1
+      return null;
     }
     if (link.doc) {
       // set link to document with current page's language/version
