@@ -209,8 +209,8 @@ export default class Home extends React.Component {
           )}>
           <div className={styles.sectionInner}>
             <div className={styles.row}>
-              {QUOTES.map(quote => (
-                <div key={quote.title} className={styles.column}>
+              {QUOTES.map((quote, index) => (
+                <div key={index} className={styles.column}>
                   <img
                     className={styles.quoteThumbnail}
                     src={quote.thumbnail}
