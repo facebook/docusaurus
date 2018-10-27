@@ -7,16 +7,18 @@
 
 import path from 'path';
 import loadConfig from '@lib/load/config';
+import loadSetup from '../loadSetup';
 
 describe('loadConfig', () => {
-  test('website with valid siteConfig', () => {
-    const siteDir = path.join(__dirname, '__fixtures__', 'simple-site');
+  test('website with valid siteConfig', async () => {
+    const {siteDir} = await loadSetup('simple');
     const config = loadConfig(siteDir);
     expect(config).toMatchInlineSnapshot(`
 Object {
   "baseUrl": "/",
   "customDocsPath": "docs",
   "docsUrl": "docs",
+  "headerIcon": "img/docusaurus.svg",
   "headerLinks": Array [
     Object {
       "doc": "foo/bar",
@@ -45,7 +47,7 @@ Object {
     expect(() => {
       loadConfig(siteDir);
     }).toThrowErrorMatchingInlineSnapshot(
-      `"tagline, organizationName, projectName, url, headerLinks fields are missing in siteConfig.js"`,
+      `"tagline, organizationName, projectName, url, headerLinks, headerIcon fields are missing in siteConfig.js"`,
     );
   });
 
@@ -54,7 +56,7 @@ Object {
     expect(() => {
       loadConfig(siteDir);
     }).toThrowErrorMatchingInlineSnapshot(
-      `"headerLinks fields are missing in siteConfig.js"`,
+      `"headerLinks, headerIcon fields are missing in siteConfig.js"`,
     );
   });
 
@@ -63,7 +65,7 @@ Object {
     expect(() => {
       loadConfig(siteDir);
     }).toThrowErrorMatchingInlineSnapshot(
-      `"title, tagline, organizationName, projectName, baseUrl, url, headerLinks fields are missing in siteConfig.js"`,
+      `"title, tagline, organizationName, projectName, baseUrl, url, headerLinks, headerIcon fields are missing in siteConfig.js"`,
     );
   });
 });

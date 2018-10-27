@@ -1,31 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`loadSidebars normal site with sidebars 1`] = `
-Object {
-  "docs": Array [
-    Object {
-      "items": Array [
-        Object {
-          "id": "installation",
-          "type": "doc",
-        },
-      ],
-      "label": "Getting Started",
-      "type": "category",
-    },
-    Object {
-      "items": Array [
-        Object {
-          "id": "blog",
-          "type": "doc",
-        },
-      ],
-      "label": "Guides",
-      "type": "category",
-    },
-  ],
-}
-`;
+exports[`loadSidebars normal site with sidebars 1`] = `Object {}`;
 
 exports[`loadSidebars site with sidebars & versioned sidebars 1`] = `
 Object {

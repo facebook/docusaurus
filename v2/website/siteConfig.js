@@ -22,4 +22,5 @@ module.exports = {
       label: 'GitHub',
     },
   ],
+  headerIcon: 'img/docusaurus.svg',
 };

@@ -16,4 +16,5 @@ module.exports = {
     {doc: 'foo/bar', label: 'Docs'},
     {page: 'hello/world', label: 'Hello'},
   ],
+  headerIcon: 'img/docusaurus.svg',
 };

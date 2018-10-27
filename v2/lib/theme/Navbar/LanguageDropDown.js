@@ -1,9 +1,15 @@
 import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
 
+import styles from './styles.module.css';
+
 // language dropdown nav item for when translations are enabled
 function LanguageDropDown(props) {
   const [showDropdown, setShowDropdown] = useState(false);
+
+  const toggleDropdown = () => {
+    setShowDropdown(!showDropdown);
+  };
   const {env, metadata, siteConfig} = props;
   const {language: thisLanguage, permalink} = metadata;
   const {translationRecruitingLink, baseUrl} = siteConfig;
@@ -14,7 +20,7 @@ function LanguageDropDown(props) {
     .map(lang => {
       const href = permalink.replace(`/${thisLanguage}/`, `/${lang.tag}/`);
       return (
-        <li key={lang.tag}>
+        <li key={lang.tag} className={styles.navListItem}>
           <Link to={href}>{lang.name}</Link>
         </li>
       );
@@ -47,16 +53,14 @@ function LanguageDropDown(props) {
     );
   }
 
+  console.log(showDropdown);
   return (
     <span>
-      <li key="languages">
+      <li key="languages" className={styles.navListItem}>
         {/* eslint-disable-next-line */}
-        <a
-          id="languages-menu"
-          href="#"
-          onClick={() => setShowDropdown(!showDropdown)}>
+        <a href="#" id="languages-menu" onClick={toggleDropdown}>
           <img
-            className="languages-icon"
+            className={styles.languageIcon}
             src={`${baseUrl}img/language.svg`}
             alt="Languages icon"
           />

@@ -6,7 +6,7 @@ import styles from './styles.module.css';
 
 function Navbar(props) {
   const {siteConfig = {}, env = {}, metadata = {}, docsMetadatas = {}} = props;
-  const {baseUrl, headerLinks} = siteConfig;
+  const {baseUrl, headerLinks, headerIcon} = siteConfig;
   const {language: thisLanguage, version: thisVersion} = metadata;
 
   const translationEnabled = env.translation.enabled;
@@ -110,7 +110,7 @@ function Navbar(props) {
               <img
                 alt="Docusaurus Logo"
                 className={styles.navLogo}
-                src="/img/docusaurus-logo.svg"
+                src={baseUrl + headerIcon}
               />
               <strong>Docusaurus</strong>
             </NavLink>
