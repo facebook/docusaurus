@@ -42,6 +42,7 @@ function Navbar(props) {
         versioningEnabled && thisVersion !== 'next'
           ? `version-${thisVersion || env.versioning.defaultVersion}-`
           : '';
+      console.log(env);
       const id = langPart + versionPart + link.doc;
       if (!docsMetadatas[id]) {
         const errorStr = `We could not find the doc wih id: ${id}. Please check your headerLinks correctly\n`;

@@ -13,4 +13,8 @@ module.exports = {
   baseUrl: '/',
   defaultLanguage: 'en',
   url: 'https://docusaurus.io',
+  headerLinks: [
+    {doc: 'foo/bar', label: 'Docs'},
+    {page: 'hello/world', label: 'Hello'},
+  ],
 };

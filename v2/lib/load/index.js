@@ -25,6 +25,7 @@ module.exports = async function load(siteDir) {
 
   // @tested - env
   const env = loadEnv({siteDir, siteConfig});
+  await generate('env.js', `export default ${JSON.stringify(env, null, 2)};`);
 
   // docs
   const docsDir = path.resolve(siteDir, '..', siteConfig.customDocsPath);

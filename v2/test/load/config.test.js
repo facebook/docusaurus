@@ -17,6 +17,19 @@ Object {
   "baseUrl": "/",
   "customDocsPath": "docs",
   "docsUrl": "docs",
+  "headerLinks": Array [
+    Object {
+      "doc": "foo/bar",
+      "label": "Docs",
+    },
+    Object {
+      "label": "Hello",
+      "page": "hello/world",
+    },
+    Object {
+      "languages": true,
+    },
+  ],
   "organizationName": "endiliey",
   "projectName": "hello",
   "tagline": "Hello World",
@@ -32,7 +45,7 @@ Object {
     expect(() => {
       loadConfig(siteDir);
     }).toThrowErrorMatchingInlineSnapshot(
-      `"tagline, organizationName, projectName, url fields are missing in siteConfig.js"`,
+      `"tagline, organizationName, projectName, url, headerLinks fields are missing in siteConfig.js"`,
     );
   });
 
@@ -41,7 +54,7 @@ Object {
     expect(() => {
       loadConfig(siteDir);
     }).toThrowErrorMatchingInlineSnapshot(
-      `"useLessField fields are useless in siteConfig.js"`,
+      `"headerLinks fields are missing in siteConfig.js"`,
     );
   });
 
@@ -50,7 +63,7 @@ Object {
     expect(() => {
       loadConfig(siteDir);
     }).toThrowErrorMatchingInlineSnapshot(
-      `"title, tagline, organizationName, projectName, baseUrl, url fields are missing in siteConfig.js"`,
+      `"title, tagline, organizationName, projectName, baseUrl, url, headerLinks fields are missing in siteConfig.js"`,
     );
   });
 });
