@@ -9,6 +9,7 @@ const React = require('react');
 const CompLibrary = require('../../core/CompLibrary.js');
 
 const Container = CompLibrary.Container;
+const Showcase = CompLibrary.Showcase;
 const siteConfig = require(`${process.cwd()}/siteConfig.js`);
 const translate = require('../../server/translate.js').translate;
 
@@ -21,14 +22,22 @@ class Users extends React.Component {
     );
   }
 
-  render() {
-    const fbShowcase = siteConfig.users
-      .filter(user => user.fbOpenSource)
-      .map((user, i) => this.renderUser(user, i));
+  getUsersToShowcase() {
+    const fbUsersToShowcase = [];
+    const restToShowcase = [];
+    siteConfig.users.forEach(user => {
+      if (user.fbOpenSource) fbUsersToShowcase.push(user);
+      else restToShowcase.push(user);
+    });
 
-    const showcase = siteConfig.users
-      .filter(user => !user.fbOpenSource)
-      .map((user, i) => this.renderUser(user, i));
+    return {
+      fbUsersToShowcase,
+      restToShowcase,
+    };
+  }
+
+  render() {
+    const {fbUsersToShowcase, restToShowcase} = this.getUsersToShowcase();
 
     return (
       <div className="mainContainer">
@@ -46,7 +55,7 @@ class Users extends React.Component {
                 .
               </p>
             </div>
-            <div className="logos">{fbShowcase}</div>
+            <Showcase users={fbUsersToShowcase} />
             <div className="prose">
               <p>
                 <translate>
@@ -54,7 +63,7 @@ class Users extends React.Component {
                 </translate>
               </p>
             </div>
-            <div className="logos">{showcase}</div>
+            <Showcase users={restToShowcase} />
             <div className="prose">
               <p>
                 <translate>Is your project using Docusaurus?</translate>
