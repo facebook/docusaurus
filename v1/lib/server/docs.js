@@ -50,14 +50,14 @@ function mdToHtmlify(oldContent, mdToHtml, metadata) {
   const mdLinks = [];
   const mdReferences = [];
 
-  // find any links to markdown files
+  // find any inline-style links to markdown files
   const linkRegex = /(?:\]\()(?:\.\/)?([^'")\]\s>]+\.md)/g;
   let linkMatch = linkRegex.exec(content);
   while (linkMatch !== null) {
     mdLinks.push(linkMatch[1]);
     linkMatch = linkRegex.exec(content);
   }
-  // find any reference links to markdown files
+  // find any reference-style links to markdown files
   const refRegex = /(?:\]:)(?:\s)?(?:\.\/|\.\.\/)?([^'")\]\s>]+\.md)/g;
   let refMatch = refRegex.exec(content);
   while (refMatch !== null) {
