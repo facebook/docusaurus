@@ -21,6 +21,8 @@ module.exports = {
   rules: {
     'no-console': OFF,
     'func-names': OFF,
+    'jsx-a11y/click-events-have-key-events': OFF, // Revisit in future™
+    'jsx-a11y/no-noninteractive-element-interactions': OFF, // Revisit in future™
     'react/jsx-closing-bracket-location': OFF, // Conflicts with Prettier.
     'react/jsx-filename-extension': OFF,
     'react/jsx-one-expression-per-line': OFF,

@@ -1,9 +1,14 @@
 {
-	"scripts": {
-		"start": "node ../bin/docusaurus start",
-		"build": "node ../bin/docusaurus build"
-	},
-	"dependencies": {
-		"docusaurus": "../../docusaurus/"
-	}
+  "scripts": {
+    "start": "node ../bin/docusaurus start",
+    "build": "node ../bin/docusaurus build"
+  },
+  "dependencies": {
+    "classnames": "^2.2.6",
+    "docusaurus": "../",
+    "react": "^16.7.0-alpha.0",
+    "react-dom": "^16.7.0-alpha.0",
+    "react-helmet": "^5.2.0",
+    "react-youtube": "^7.6.0"
+  }
 }
