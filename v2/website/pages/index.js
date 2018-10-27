@@ -116,11 +116,15 @@ export default class Home extends React.Component {
   }
 
   componentDidMount() {
-    window.setInterval(() => {
+    this.interval = setInterval(() => {
       this.setState(prevState => ({
         featureIndex: (prevState.featureIndex + 1) % FEATURES.length,
       }));
     }, 3000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
   }
 
   render() {
@@ -205,8 +209,8 @@ export default class Home extends React.Component {
           )}>
           <div className={styles.sectionInner}>
             <div className={styles.row}>
-              {QUOTES.map(quote => (
-                <div className={styles.column}>
+              {QUOTES.map((quote, index) => (
+                <div key={index} className={styles.column}>
                   <img
                     className={styles.quoteThumbnail}
                     src={quote.thumbnail}

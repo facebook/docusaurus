@@ -17,7 +17,9 @@ async function genRoutesConfig({
     path: ${JSON.stringify(permalink)},
     exact: true,
     component: Loadable({
-      loader: () => import(${JSON.stringify(source)}),
+      loader: () => import(/* webpackPrefetch: true */ ${JSON.stringify(
+        source,
+      )}),
       loading: Loading,
       render(loaded, props) {
         let Content = loaded.default;
@@ -38,7 +40,9 @@ async function genRoutesConfig({
     path: ${JSON.stringify(permalink)},
     exact: true,
     component: Loadable({
-      loader: () => import(${JSON.stringify(source)}),
+      loader: () => import(/* webpackPrefetch: true */ ${JSON.stringify(
+        source,
+      )}),
       loading: Loading,
       render(loaded, props) {
         let Content = loaded.default;
@@ -63,7 +67,12 @@ async function genRoutesConfig({
     component: Loadable.Map({
       loader: {
         ${posts
-          .map((p, i) => `post${i}: () => import(${JSON.stringify(p.source)})`)
+          .map(
+            (p, i) =>
+              `post${i}: () => import(/* webpackPrefetch: true */ ${JSON.stringify(
+                p.source,
+              )})`,
+          )
           .join(',\n\t\t\t\t')}
       },
       loading: Loading,
@@ -86,7 +95,9 @@ async function genRoutesConfig({
     path: ${JSON.stringify(permalink)},
     exact: true,
     component: Loadable({
-      loader: () => import(${JSON.stringify(source)}),
+      loader: () => import(/* webpackPrefetch: true */ ${JSON.stringify(
+        source,
+      )}),
       loading: Loading,
       render(loaded, props) {
         let MarkdownContent = loaded.default;
