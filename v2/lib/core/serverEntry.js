@@ -66,6 +66,7 @@ export default function render(locals) {
     </head>
     <body${bodyAttributes ? ` ${bodyAttributes}` : ''}>
       <div id="app">${appHtml}</div>
+      <script src='https://unpkg.com/docsearch.js@2.4.1/dist/cdn/docsearch.min.js'></script>
       ${jsFiles
         .map(
           jsFile =>

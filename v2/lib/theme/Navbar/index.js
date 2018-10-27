@@ -1,6 +1,7 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom';
 
+import Search from '../Search';
 import styles from './styles.module.css';
 
 function Navbar(props) {
@@ -16,14 +17,8 @@ function Navbar(props) {
     if (link.search) {
       // return algolia search bar
       return (
-        <li className={styles.navListItem} key="search">
-          {/* TODO replace this with <SearchBox /> */}
-          <input
-            id="search_input_react"
-            type="text"
-            placeholder="Search"
-            title="Search"
-          />
+        <li className={styles.navListItem} key="search-box">
+          <Search {...props} />
         </li>
       );
     }

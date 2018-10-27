@@ -21,6 +21,14 @@ module.exports = {
       href: 'https://github.com/facebook/docusaurus',
       label: 'GitHub',
     },
+    {
+      search: true,
+    },
   ],
   headerIcon: 'img/docusaurus.svg',
+  algolia: {
+    apiKey: '3eb9507824b8be89e7a199ecaa1a9d2c',
+    indexName: 'docusaurus',
+    algoliaOptions: {},
+  },
 };
