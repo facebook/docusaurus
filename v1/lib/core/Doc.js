@@ -98,8 +98,6 @@ class Doc extends React.Component {
       );
     }
 
-    // const a = this.props.content.split(/(DOCUSAURUS_CODE_TABS)(.*?)(END_DOCUSAURUS_CODE_TABS)/gms)
-    // console.log(a.length, a);
     return (
       <div className="post">
         <header className="postHeader">

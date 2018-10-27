@@ -12,7 +12,7 @@ class MarkdownBlock extends React.Component {
 
     const tabs = this.props.children.map(({title, content}) => ({
       id: _.uniqueId(),
-      groupId: groupId,
+      groupId,
       label: title,
       lang: title,
       panelContent: <Remarkable source={content} />,
