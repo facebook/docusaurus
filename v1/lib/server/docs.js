@@ -48,16 +48,24 @@ function getFile(metadata) {
 function mdToHtmlify(oldContent, mdToHtml, metadata) {
   let content = oldContent;
   const mdLinks = [];
+  const mdReferences = [];
 
-  // find any links to markdown files
-  const regex = /(?:\]\()(?:\.\/)?([^'")\]\s>]+\.md)/g;
-  let match = regex.exec(content);
-  while (match !== null) {
-    mdLinks.push(match[1]);
-    match = regex.exec(content);
+  // find any inline-style links to markdown files
+  const linkRegex = /(?:\]\()(?:\.\/)?([^'")\]\s>]+\.md)/g;
+  let linkMatch = linkRegex.exec(content);
+  while (linkMatch !== null) {
+    mdLinks.push(linkMatch[1]);
+    linkMatch = linkRegex.exec(content);
+  }
+  // find any reference-style links to markdown files
+  const refRegex = /(?:\]:)(?:\s)?(?:\.\/|\.\.\/)?([^'")\]\s>]+\.md)/g;
+  let refMatch = refRegex.exec(content);
+  while (refMatch !== null) {
+    mdReferences.push(refMatch[1]);
+    refMatch = refRegex.exec(content);
   }
 
-  // replace to their website html links
+  // replace markdown links to their website html links
   new Set(mdLinks).forEach(mdLink => {
     let htmlLink = mdToHtml[mdLink];
     if (htmlLink) {
@@ -72,6 +80,25 @@ function mdToHtmlify(oldContent, mdToHtml, metadata) {
       content = content.replace(
         new RegExp(`\\]\\((\\./)?${mdLink}`, 'g'),
         `](${htmlLink}`,
+      );
+    }
+  });
+
+  // replace markdown refernces to their website html links
+  new Set(mdReferences).forEach(refLink => {
+    let htmlLink = mdToHtml[refLink];
+    if (htmlLink) {
+      htmlLink = getPath(htmlLink, siteConfig.cleanUrl);
+      htmlLink = htmlLink.replace('/en/', `/${metadata.language}/`);
+      htmlLink = htmlLink.replace(
+        '/VERSION/',
+        metadata.version && metadata.version !== env.versioning.latestVersion
+          ? `/${metadata.version}/`
+          : '/',
+      );
+      content = content.replace(
+        new RegExp(`\\]:(?:\\s)?(\\./|\\.\\./)?${refLink}`, 'g'),
+        `]: ${htmlLink}`,
       );
     }
   });

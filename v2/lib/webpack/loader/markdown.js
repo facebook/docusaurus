@@ -52,14 +52,31 @@ module.exports = function(fileString) {
       if (fencedBlock) return line;
 
       let modifiedLine = line;
-      const mdLinks = [];
-      const mdRegex = /(?:\]\()(?:\.\/)?([^'")\]\s>]+\.md)/g;
-      let match = mdRegex.exec(content);
-      while (match !== null) {
-        mdLinks.push(match[1]);
-        match = mdRegex.exec(content);
+      const inlineLinks = [];
+      const refLinks = [];
+
+      /* Replace inline-style links e.g: 
+      This is [Document 1](doc1.md) -> we replace this doc1.md with correct link
+      */
+      const inlineRegex = /(?:\]\()(?:\.\/)?([^'")\]\s>]+\.md)/g;
+      let inlineMatch = inlineRegex.exec(content);
+      while (inlineMatch !== null) {
+        inlineLinks.push(inlineMatch[1]);
+        inlineMatch = inlineRegex.exec(content);
       }
-      mdLinks.forEach(mdLink => {
+
+      /* Replace reference-style links e.g:  
+        This is [Document 1][doc1].
+        [doc1]: doc1.md -> we replace this doc1.md with correct link
+      */
+      const refRegex = /(?:\]:)(?:\s)?(?:\.\/|\.\.\/)?([^'")\]\s>]+\.md)/g;
+      let refMatch = refRegex.exec(content);
+      while (refMatch !== null) {
+        refLinks.push(refMatch[1]);
+        refMatch = refRegex.exec(content);
+      }
+
+      [...refLinks, ...inlineLinks].forEach(mdLink => {
         const targetSource = `${sourceDir}/${mdLink}`;
         const {permalink} = sourceToMetadata[targetSource] || {};
         if (permalink) {
