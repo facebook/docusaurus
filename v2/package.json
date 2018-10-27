@@ -26,7 +26,7 @@
     "eject": "node bin/docusaurus eject website",
     "deploy": "node bin/docusaurus deploy website",
     "prettier": "prettier --config ../.prettierrc --write \"**/*.js\"",
-    "lint": "eslint --cache \"lib/**/*.js\" \"bin/**/*.js\" \"test/**/*.js\"",
+    "lint": "eslint --cache \"{lib,bin,test,website}/**/*.js\"",
     "test": "jest --config test/jest.config.js"
   },
   "bugs": {
@@ -40,6 +40,7 @@
     "eslint-plugin-import": "^2.12.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.11.1",
+    "eslint-plugin-react-hooks": "^0.0.0",
     "jest": "^23.4.2",
     "prettier": "^1.13.7"
   },
@@ -74,8 +75,8 @@
     "mini-css-extract-plugin": "^0.4.1",
     "portfinder": "^1.0.13",
     "prismjs": "^1.15.0",
-    "react": "^16.4.1",
-    "react-dom": "^16.4.1",
+    "react": "^16.7.0-alpha.0",
+    "react-dom": "^16.7.0-alpha.0",
     "react-helmet": "^5.2.0",
     "react-loadable": "^5.5.0",
     "react-router-config": "^1.0.0-beta.4",

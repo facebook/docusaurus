@@ -17,6 +17,7 @@ module.exports = {
     node: true,
   },
   extends: ['airbnb', 'prettier', 'prettier/react'],
+  plugins: ['react-hooks'],
   rules: {
     'no-console': OFF,
     'func-names': OFF,
@@ -27,5 +28,6 @@ module.exports = {
     'react/destructuring-assignment': OFF, // Too many lines.
     'import/no-unresolved': WARNING, // Because it couldn't resolve webpack alias.
     'react/prefer-stateless-function': WARNING,
+    'react-hooks/rules-of-hooks': ERROR,
   },
 };
