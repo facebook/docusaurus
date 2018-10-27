@@ -1,6 +1,35 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`loadSidebars normal site with sidebars 1`] = `Object {}`;
+exports[`loadSidebars normal site with sidebars 1`] = `
+Object {
+  "docs": Array [
+    Object {
+      "items": Array [
+        Object {
+          "id": "foo/bar",
+          "type": "doc",
+        },
+        Object {
+          "id": "foo/baz",
+          "type": "doc",
+        },
+      ],
+      "label": "Test",
+      "type": "category",
+    },
+    Object {
+      "items": Array [
+        Object {
+          "id": "hello",
+          "type": "doc",
+        },
+      ],
+      "label": "Guides",
+      "type": "category",
+    },
+  ],
+}
+`;
 
 exports[`loadSidebars site with sidebars & versioned sidebars 1`] = `
 Object {
@@ -8,17 +37,21 @@ Object {
     Object {
       "items": Array [
         Object {
-          "id": "installation",
+          "id": "foo/bar",
+          "type": "doc",
+        },
+        Object {
+          "id": "foo/baz",
           "type": "doc",
         },
       ],
-      "label": "Getting Started",
+      "label": "Test",
       "type": "category",
     },
     Object {
       "items": Array [
         Object {
-          "id": "blog",
+          "id": "hello",
           "type": "doc",
         },
       ],
@@ -30,17 +63,21 @@ Object {
     Object {
       "items": Array [
         Object {
-          "id": "version-1.0.0-installation",
+          "id": "version-1.0.0-foo/bar",
+          "type": "doc",
+        },
+        Object {
+          "id": "version-1.0.0-foo/baz",
           "type": "doc",
         },
       ],
-      "label": "Getting Started",
+      "label": "Test",
       "type": "category",
     },
     Object {
       "items": Array [
         Object {
-          "id": "version-1.0.0-blog",
+          "id": "version-1.0.0-hello",
           "type": "doc",
         },
       ],
@@ -52,17 +89,21 @@ Object {
     Object {
       "items": Array [
         Object {
-          "id": "version-1.0.1-installation",
+          "id": "version-1.0.1-foo/bar",
+          "type": "doc",
+        },
+        Object {
+          "id": "version-1.0.1-foo/baz",
           "type": "doc",
         },
       ],
-      "label": "Getting Started",
+      "label": "Test",
       "type": "category",
     },
     Object {
       "items": Array [
         Object {
-          "id": "version-1.0.1-blog",
+          "id": "version-1.0.1-hello",
           "type": "doc",
         },
       ],
