@@ -22,6 +22,7 @@ class Doc extends React.Component {
     const {
       docsMetadatas,
       docsSidebars,
+      env,
       location,
       metadata,
       pagesMetadatas,
@@ -37,7 +38,12 @@ class Doc extends React.Component {
           {language && <meta name="docsearch:language" content={language} />}
           {version && <meta name="docsearch:version" content={version} />}
         </Helmet>
-        <Navbar docsMetadatas={docsMetadatas} />
+        <Navbar
+          docsMetadatas={docsMetadatas}
+          env={env}
+          metadata={metadata}
+          siteConfig={siteConfig}
+        />
         <Sidebar
           docsMetadatas={docsMetadatas}
           docsSidebars={docsSidebars}

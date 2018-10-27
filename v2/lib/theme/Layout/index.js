@@ -19,11 +19,19 @@ export default class Layout extends React.Component {
       children,
       pagesMetadatas = [],
       docsMetadatas = {},
+      env,
+      siteConfig,
       location,
+      metadata,
     } = this.props;
     return (
       <div>
-        <Navbar docsMetadatas={docsMetadatas} />
+        <Navbar
+          docsMetadatas={docsMetadatas}
+          env={env}
+          metadata={metadata}
+          siteConfig={siteConfig}
+        />
         {children}
         <Footer
           docsMetadatas={docsMetadatas}

@@ -13,4 +13,15 @@ module.exports = {
   baseUrl: '/',
   customDocsPath: '../docs',
   url: 'https://docusaurus.io',
+  headerLinks: [
+    {doc: 'installation', label: 'Docs'},
+    {page: 'help', label: 'Help'},
+    {page: 'users', label: 'Users'},
+    {page: 'about-slash', label: 'About /'},
+    {blog: true, label: 'Blog'},
+    {
+      href: 'https://github.com/facebook/docusaurus',
+      label: 'GitHub',
+    },
+  ],
 };

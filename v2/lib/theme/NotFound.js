@@ -11,7 +11,7 @@ import Layout from '@theme/Layout';
 export default class NotFound extends React.Component {
   render() {
     return (
-      <Layout>
+      <Layout {...this.props}>
         <div>404 Page Not Found</div>
         <div>
           <img

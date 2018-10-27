@@ -183,7 +183,7 @@ function Home() {
                       <img className={styles.featureIcon} src={feature.icon} />
                     </div>
                     <h3 className={styles.featureTitle}>{feature.title}</h3>
-                    <p>{feature.description}</p>
+                    <div>{feature.description}</div>
                   </div>
                 );
               })()}
@@ -204,7 +204,7 @@ function Home() {
                 <img className={styles.quoteThumbnail} src={quote.thumbnail} />
                 <h3 className={styles.quoteName}>{quote.name}</h3>
                 <h4 className={styles.quoteTitle}>{quote.title}</h4>
-                <p className={styles.quoteText}>{quote.text}</p>
+                <div className={styles.quoteText}>{quote.text}</div>
               </div>
             ))}
           </div>
