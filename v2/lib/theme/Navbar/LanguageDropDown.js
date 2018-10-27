@@ -3,6 +3,8 @@ import {Link} from 'react-router-dom';
 
 import styles from './styles.module.css';
 
+// TODO CSS still incomplete
+
 // language dropdown nav item for when translations are enabled
 function LanguageDropDown(props) {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -53,7 +55,6 @@ function LanguageDropDown(props) {
     );
   }
 
-  console.log(showDropdown);
   return (
     <span>
       <li key="languages" className={styles.navListItem}>
