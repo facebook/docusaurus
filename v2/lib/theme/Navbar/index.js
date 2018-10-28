@@ -6,7 +6,7 @@ import styles from './styles.module.css';
 
 function Navbar(props) {
   const {siteConfig = {}, env = {}, metadata = {}, docsMetadatas = {}} = props;
-  const {baseUrl, headerLinks, headerIcon} = siteConfig;
+  const {baseUrl, headerLinks, headerIcon, algolia} = siteConfig;
   const {language: thisLanguage, version: thisVersion} = metadata;
 
   const translationEnabled = env.translation.enabled;
@@ -14,7 +14,7 @@ function Navbar(props) {
 
   // function to generate each header link
   const makeLinks = link => {
-    if (link.search) {
+    if (link.search && algolia) {
       // return algolia search bar
       return (
         <li className={styles.navListItem} key="search-box">

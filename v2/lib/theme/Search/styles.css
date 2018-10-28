@@ -1,7 +1,13 @@
-/* Styles forked from Algolia */
+/**
+ * Copyright (c) 2017-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
 
 input#search_input_react {
-  background-color: rgba(0, 0, 0, 0.2);
+  align-self: center;
+  background-color: #25c2a0;
   border: none;
   border-radius: 20px;
   color: #fff;
@@ -25,15 +31,53 @@ input#search_input_react:active {
 }
 
 input::-webkit-input-placeholder {
-  color: #e5e5e5;
+  color: #fff;
 }
 
 input::-moz-placeholder {
-  color: #e5e5e5;
+  color: #fff;
 }
 
 input::placeholder {
-  color: #e5e5e5;
+  color: #fff;
+}
+
+/* Bottom border of each suggestion */
+.algolia-docsearch-suggestion {
+  border-bottom-color: #3A3DD1;
+}
+/* Main category headers */
+.algolia-docsearch-suggestion--category-header {
+  background-color: #4B54DE;
+}
+/* Highlighted search terms */
+.algolia-docsearch-suggestion--highlight {
+  color: #3A33D1;
+}
+/* Highligted search terms in the main category headers */
+.algolia-docsearch-suggestion--category-header .algolia-docsearch-suggestion--highlight  {
+  background-color: #4D47D5;
+}
+/* Currently selected suggestion */
+.aa-cursor .algolia-docsearch-suggestion--content {
+  color: #272296;
+}
+.aa-cursor .algolia-docsearch-suggestion {
+  background: #EBEBFB;
+}
+ 
+/* For bigger screens, when displaying results in two columns */
+@media (min-width: 768px) {
+  /* Bottom border of each suggestion */
+  .algolia-docsearch-suggestion {
+    border-bottom-color: #7671df;
+  }
+  /* Left column, with secondary category header */
+  .algolia-docsearch-suggestion--subcategory-column {
+    border-right-color: #7671df;
+    background-color: #F2F2FF;
+    color: #4E4726;
+  }
 }
 
 .searchbox {

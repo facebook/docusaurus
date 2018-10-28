@@ -21,9 +21,6 @@ module.exports = {
       href: 'https://github.com/facebook/docusaurus',
       label: 'GitHub',
     },
-    {
-      search: true,
-    },
   ],
   headerIcon: 'img/docusaurus.svg',
   algolia: {

@@ -6,6 +6,7 @@
  */
 
 import React from 'react';
+import docsearch from 'docsearch.js';
 
 import './styles.css';
 
@@ -22,12 +23,12 @@ class Search extends React.Component {
     const {version: thisVersion, language: thisLanguage} = metadata;
     const {algolia} = siteConfig;
 
-    if (window.docsearch) {
-      window.docsearch({
+    if (docsearch) {
+      docsearch({
         appId: algolia.appId,
         apiKey: algolia.apiKey,
         indexName: algolia.indexName,
-        inputSelector: '#algolia-doc-search',
+        inputSelector: '#search_input_react',
         algoliaOptions: JSON.parse(
           JSON.stringify(algolia.algoliaOptions)
             .replace('VERSION', thisVersion)
@@ -45,7 +46,7 @@ class Search extends React.Component {
 
     return enabled ? (
       <input
-        id="algolia-doc-search"
+        id="search_input_react"
         type="search"
         placeholder="Search docs"
         aria-label="Search docs"
