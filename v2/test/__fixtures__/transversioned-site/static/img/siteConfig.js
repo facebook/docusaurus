@@ -11,5 +11,12 @@ module.exports = {
   organizationName: 'endiliey',
   projectName: 'hello',
   baseUrl: '/',
+  defaultLanguage: 'en',
   url: 'https://docusaurus.io',
+  headerLinks: [
+    {doc: 'foo/bar', label: 'Docs'},
+    {page: 'hello/world', label: 'Hello'},
+  ],
+  headerIcon: 'img/docusaurus.svg',
+  favicon: 'img/docusaurus.ico',
 };

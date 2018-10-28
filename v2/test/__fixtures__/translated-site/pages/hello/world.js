@@ -14,7 +14,6 @@ export default class World extends React.Component {
       <div>
         <Helmet>
           <title>World</title>
-          <link rel="stylesheet" type="text/css" href="/css/basic.css" />
         </Helmet>
         <div>Hello World </div>
       </div>

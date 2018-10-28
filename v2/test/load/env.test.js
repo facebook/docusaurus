@@ -7,10 +7,11 @@
 
 import path from 'path';
 import loadEnv from '@lib/load/env';
+import loadSetup from '../loadSetup';
 
 describe('loadEnv', () => {
-  test('website with both versioning & translation disabled', () => {
-    const siteDir = path.join(__dirname, '__fixtures__', 'simple-site');
+  test('website with both versioning & translation disabled', async () => {
+    const {siteDir} = await loadSetup('simple');
     const siteConfig = {
       baseUrl: '/',
       organizationName: 'endiliey',
@@ -24,8 +25,8 @@ describe('loadEnv', () => {
     expect(env).toMatchSnapshot();
   });
 
-  test('website with versioning enabled', () => {
-    const siteDir = path.join(__dirname, '__fixtures__', 'versioned-site');
+  test('website with versioning enabled', async () => {
+    const {siteDir} = await loadSetup('versioned');
     const siteConfig = {
       baseUrl: '/',
       organizationName: 'endiliey',
@@ -39,8 +40,8 @@ describe('loadEnv', () => {
     expect(env).toMatchSnapshot();
   });
 
-  test('website with translation enabled', () => {
-    const siteDir = path.join(__dirname, '__fixtures__', 'translated-site');
+  test('website with translation enabled', async () => {
+    const {siteDir} = await loadSetup('translated');
     const siteConfig = {
       baseUrl: '/',
       organizationName: 'endiliey',
@@ -55,8 +56,8 @@ describe('loadEnv', () => {
     expect(env).toMatchSnapshot();
   });
 
-  test('website with versioning & translation enabled', () => {
-    const siteDir = path.join(__dirname, '__fixtures__', 'transversioned-site');
+  test('website with versioning & translation enabled', async () => {
+    const {siteDir} = await loadSetup('transversioned');
     const siteConfig = {
       baseUrl: '/',
       organizationName: 'endiliey',
@@ -87,8 +88,8 @@ describe('loadEnv', () => {
     );
   });
 
-  test('website with languages.js but no default language set', () => {
-    const siteDir = path.join(__dirname, '__fixtures__', 'translated-site');
+  test('website with languages.js but no default language set', async () => {
+    const {siteDir} = await loadSetup('translated');
     const siteConfig = {
       baseUrl: '/',
       organizationName: 'endiliey',

@@ -80,11 +80,14 @@ export default class BlogPost extends React.Component {
   }
 
   render() {
-    const {metadata, children, siteConfig} = this.props;
-    const {language} = metadata;
+    const {metadata, children, siteConfig = {}} = this.props;
+    const {baseUrl, favicon} = siteConfig;
+    const {language, title} = metadata;
     return (
       <Layout {...this.props}>
         <Helmet defaultTitle={siteConfig.title}>
+          {title && <title>{title}</title>}
+          {favicon && <link rel="shortcut icon" href={baseUrl + favicon} />}
           {language && <html lang={language} />}
         </Helmet>
         {this.renderPostHeader()}

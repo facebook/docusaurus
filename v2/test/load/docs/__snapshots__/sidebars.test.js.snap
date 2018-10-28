@@ -6,17 +6,21 @@ Object {
     Object {
       "items": Array [
         Object {
-          "id": "installation",
+          "id": "foo/bar",
+          "type": "doc",
+        },
+        Object {
+          "id": "foo/baz",
           "type": "doc",
         },
       ],
-      "label": "Getting Started",
+      "label": "Test",
       "type": "category",
     },
     Object {
       "items": Array [
         Object {
-          "id": "blog",
+          "id": "hello",
           "type": "doc",
         },
       ],
@@ -33,17 +37,21 @@ Object {
     Object {
       "items": Array [
         Object {
-          "id": "installation",
+          "id": "foo/bar",
+          "type": "doc",
+        },
+        Object {
+          "id": "foo/baz",
           "type": "doc",
         },
       ],
-      "label": "Getting Started",
+      "label": "Test",
       "type": "category",
     },
     Object {
       "items": Array [
         Object {
-          "id": "blog",
+          "id": "hello",
           "type": "doc",
         },
       ],
@@ -55,17 +63,21 @@ Object {
     Object {
       "items": Array [
         Object {
-          "id": "version-1.0.0-installation",
+          "id": "version-1.0.0-foo/bar",
+          "type": "doc",
+        },
+        Object {
+          "id": "version-1.0.0-foo/baz",
           "type": "doc",
         },
       ],
-      "label": "Getting Started",
+      "label": "Test",
       "type": "category",
     },
     Object {
       "items": Array [
         Object {
-          "id": "version-1.0.0-blog",
+          "id": "version-1.0.0-hello",
           "type": "doc",
         },
       ],
@@ -77,17 +89,21 @@ Object {
     Object {
       "items": Array [
         Object {
-          "id": "version-1.0.1-installation",
+          "id": "version-1.0.1-foo/bar",
+          "type": "doc",
+        },
+        Object {
+          "id": "version-1.0.1-foo/baz",
           "type": "doc",
         },
       ],
-      "label": "Getting Started",
+      "label": "Test",
       "type": "category",
     },
     Object {
       "items": Array [
         Object {
-          "id": "version-1.0.1-blog",
+          "id": "version-1.0.1-hello",
           "type": "doc",
         },
       ],

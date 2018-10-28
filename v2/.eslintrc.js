@@ -16,6 +16,10 @@ module.exports = {
     jest: true,
     node: true,
   },
+  parser: 'babel-eslint',
+  parserOptions: {
+    allowImportExportEverywhere: true,
+  },
   extends: ['airbnb', 'prettier', 'prettier/react'],
   plugins: ['react-hooks'],
   rules: {

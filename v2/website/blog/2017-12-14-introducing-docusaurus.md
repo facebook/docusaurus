@@ -129,7 +129,7 @@ build
 
 ## Community
 
-![Docusaurus](/img/docusaurus-logo.svg)
+![Docusaurus](/img/docusaurus.svg)
 
 We welcome your [contributions](https://github.com/facebook/Docusaurus/blob/master/CONTRIBUTING.md) to Docusaurus, whether you want to use it for your own site, you want to [contribute](https://github.com/facebook/Docusaurus/blob/master/CONTRIBUTING.md) to the Docusaurus core or just have questions. Follow us on [GitHub](https://github.com/facebook/Docusaurus) and [Twitter](https://twitter.com/docusaurus).
 

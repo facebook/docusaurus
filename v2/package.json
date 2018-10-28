@@ -34,7 +34,8 @@
   },
   "devDependencies": {
     "babel-core": "^7.0.0-bridge.0",
-    "eslint": "^5.8.0",
+    "babel-eslint": "8",
+    "eslint": "4.x",
     "eslint-config-airbnb": "17.1.0",
     "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-import": "^2.14.0",
@@ -63,6 +64,7 @@
     "commander": "^2.16.0",
     "connect-history-api-fallback": "^1.5.0",
     "css-loader": "^1.0.0",
+    "docsearch.js": "^2.5.2",
     "escape-html": "^1.0.3",
     "escape-string-regexp": "^1.0.5",
     "front-matter": "^2.3.0",

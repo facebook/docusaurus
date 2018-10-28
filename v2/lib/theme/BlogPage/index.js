@@ -21,12 +21,16 @@ export default class BlogPage extends React.Component {
       blogMetadatas,
       language,
       children,
-      siteConfig,
+      siteConfig = {},
     } = this.props;
     const {posts} = metadata;
+
+    const {baseUrl, favicon} = siteConfig;
     return (
       <Layout {...this.props}>
-        <Helmet defaultTitle={siteConfig.title}>
+        <Helmet>
+          <title>{'Blog'}</title>
+          {favicon && <link rel="shortcut icon" href={baseUrl + favicon} />}
           {language && <html lang={language} />}
           {language && <meta name="docsearch:language" content={language} />}
         </Helmet>

@@ -13,4 +13,20 @@ module.exports = {
   baseUrl: '/',
   customDocsPath: '../docs',
   url: 'https://docusaurus.io',
+  headerLinks: [
+    {doc: 'installation', label: 'Docs'},
+    {page: 'youtube', label: 'Youtube'},
+    {blog: true, label: 'Blog'},
+    {
+      href: 'https://github.com/facebook/docusaurus',
+      label: 'GitHub',
+    },
+  ],
+  headerIcon: 'img/docusaurus.svg',
+  favicon: 'img/docusaurus.ico',
+  algolia: {
+    apiKey: '3eb9507824b8be89e7a199ecaa1a9d2c',
+    indexName: 'docusaurus',
+    algoliaOptions: {},
+  },
 };

@@ -12,4 +12,10 @@ module.exports = {
   projectName: 'sakura',
   baseUrl: '/sakura/',
   url: 'https://docusaurus.io',
+  headerLinks: [
+    {doc: 'foo/bar', label: 'Docs'},
+    {page: 'hello/world', label: 'Hello'},
+  ],
+  headerIcon: 'img/docusaurus.svg',
+  favicon: 'img/docusaurus.ico',
 };
