@@ -1,7 +1,7 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom';
 
-import Search from '../Search';
+import Search from '@theme/Search';
 import styles from './styles.module.css';
 
 function Navbar(props) {

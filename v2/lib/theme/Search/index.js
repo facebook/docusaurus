@@ -6,7 +6,6 @@
  */
 
 import React from 'react';
-import docsearch from 'docsearch.js';
 
 import './styles.css';
 
@@ -23,17 +22,21 @@ class Search extends React.Component {
     const {version: thisVersion, language: thisLanguage} = metadata;
     const {algolia} = siteConfig;
 
-    if (docsearch) {
-      docsearch({
-        appId: algolia.appId,
-        apiKey: algolia.apiKey,
-        indexName: algolia.indexName,
-        inputSelector: '#search_input_react',
-        algoliaOptions: JSON.parse(
-          JSON.stringify(algolia.algoliaOptions)
-            .replace('VERSION', thisVersion)
-            .replace('LANGUAGE', thisLanguage),
-        ),
+    // https://github.com/algolia/docsearch/issues/352
+    const isClient = typeof window !== 'undefined';
+    if (isClient) {
+      import('docsearch.js').then(({default: docsearch}) => {
+        docsearch({
+          appId: algolia.appId,
+          apiKey: algolia.apiKey,
+          indexName: algolia.indexName,
+          inputSelector: '#search_input_react',
+          algoliaOptions: JSON.parse(
+            JSON.stringify(algolia.algoliaOptions)
+              .replace('VERSION', thisVersion)
+              .replace('LANGUAGE', thisLanguage),
+          ),
+        });
       });
     } else {
       console.warn('Search has failed to load and now is being disabled');

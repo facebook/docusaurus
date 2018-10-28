@@ -1,7 +1,7 @@
 {
   "scripts": {
-    "start": "node ../bin/docusaurus start",
-    "build": "node ../bin/docusaurus build"
+    "start": "docusaurus start",
+    "build": "docusaurus build"
   },
   "dependencies": {
     "classnames": "^2.2.6",
