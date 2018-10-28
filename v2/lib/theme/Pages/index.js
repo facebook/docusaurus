@@ -13,11 +13,13 @@ import Layout from '@theme/Layout'; // eslint-disable-line
 
 export default class Pages extends React.Component {
   render() {
-    const {metadata, children, siteConfig} = this.props;
+    const {metadata, children, siteConfig = {}} = this.props;
+    const {baseUrl, favicon} = siteConfig;
     const {language} = metadata;
     return (
       <Layout {...this.props}>
         <Helmet defaultTitle={siteConfig.title}>
+          {favicon && <link rel="shortcut icon" href={baseUrl + favicon} />}
           {language && <html lang={language} />}
           {language && <meta name="docsearch:language" content={language} />}
         </Helmet>

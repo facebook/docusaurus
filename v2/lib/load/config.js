@@ -27,6 +27,7 @@ module.exports = function loadConfig(siteDir, deleteCache = true) {
     'url',
     'headerLinks',
     'headerIcon',
+    'favicon',
   ];
   const optionalFields = [
     'customDocsPath',

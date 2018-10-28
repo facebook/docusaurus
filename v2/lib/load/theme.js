@@ -22,6 +22,7 @@ module.exports = function loadConfig(siteDir) {
     'Loading',
     'NotFound',
     'Markdown',
+    'Search',
   ];
   themeComponents.forEach(component => {
     if (!require.resolve(path.join(themePath, component))) {

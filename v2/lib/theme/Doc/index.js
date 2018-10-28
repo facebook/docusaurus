@@ -26,14 +26,16 @@ class Doc extends React.Component {
       location,
       metadata,
       pagesMetadatas,
-      siteConfig,
+      siteConfig = {},
       route,
     } = this.props;
     const {language, version} = metadata;
+    const {baseUrl, favicon} = siteConfig;
     return (
       <div>
         <Helmet>
           <title>{(metadata && metadata.title) || siteConfig.title}</title>
+          {favicon && <link rel="shortcut icon" href={baseUrl + favicon} />}
           {language && <html lang={language} />}
           {language && <meta name="docsearch:language" content={language} />}
           {version && <meta name="docsearch:version" content={version} />}

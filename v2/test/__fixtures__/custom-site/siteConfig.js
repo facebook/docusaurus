@@ -17,4 +17,5 @@ module.exports = {
     {page: 'hello/world', label: 'Hello'},
   ],
   headerIcon: 'img/docusaurus.svg',
+  favicon: 'img/docusaurus.ico',
 };
