@@ -2173,52 +2173,29 @@ input::placeholder {
   padding: 0.8em 0;
 }
 
-/* Start of Showcase */
-.showcase {
+.productShowcaseSection .logos {
   align-items: center;
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
-  margin-bottom: 20px;
+  padding: 20px;
 }
 
-.showcase .link {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 170px;
-  margin: 5px;
-  padding: 5px;
-}
-
-.showcase .link:hover {
-  text-decoration: underline;
-}
-
-.showcase .link .caption {
-  line-height: 20px;
-  height: 20px;
-}
-
-.showcase .link img {
+.productShowcaseSection .logos img {
   max-height: 110px;
   padding: 20px;
   width: 110px;
-  align-self: center;
 }
 
 @media only screen and (max-width: 735px) {
-  .showcase .link {
-    height: 134px;
-  }
-
-  .showcase .link img {
+  .productShowcaseSection .logos img {
     max-height: 64px;
     padding: 20px;
     width: 64px;
   }
 }
 
+/* Start of Showcase */
 .showcaseSection {
   margin: 0 auto;
   max-width: 900px;
@@ -2233,6 +2210,27 @@ input::placeholder {
   margin: 0 auto;
   max-width: 560px;
   text-align: center;
+}
+
+.showcaseSection .logos {
+  align-items: center;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+}
+
+.showcaseSection .logos img {
+  max-height: 128px;
+  padding: 20px;
+  width: 128px;
+}
+
+@media only screen and (max-width: 735px) {
+  .showcaseSection .logos img {
+    max-height: 64px;
+    padding: 20px;
+    width: 64px;
+  }
 }
 /* End of Showcase */
 
