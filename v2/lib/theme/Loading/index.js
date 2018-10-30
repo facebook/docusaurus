@@ -7,12 +7,20 @@
 
 import React from 'react';
 
+import styles from './styles.module.css';
+
 export default props => {
   if (props.error) {
+    console.log(props.error);
     return <div align="center">Error</div>;
   }
   if (props.pastDelay) {
-    return <div align="center">Loading...</div>;
+    return (
+      <div className={styles.loader}>
+        <p>Please wait a moment</p>
+        <div className={styles.loaderSpinning} />
+      </div>
+    );
   }
   return null;
 };
