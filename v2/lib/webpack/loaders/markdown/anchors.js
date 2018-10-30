@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import toSlug from './toSlug';
+const toSlug = require('./toSlug');
 
-export default function anchors(md) {
+function anchors(md) {
   const originalRender = md.renderer.rules.heading_close;
 
   // eslint-disable-next-line
@@ -26,3 +26,5 @@ export default function anchors(md) {
     return originalRender(tokens, idx, options, env);
   };
 }
+
+module.exports = anchors;

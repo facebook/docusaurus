@@ -10,7 +10,7 @@ const CSSExtractPlugin = require('mini-css-extract-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const path = require('path');
 
-const mdLoader = require.resolve('./loader/markdown');
+const mdLoader = require.resolve('./loaders/markdown');
 
 const CSS_REGEX = /\.css$/;
 const CSS_MODULE_REGEX = /\.module\.css$/;
