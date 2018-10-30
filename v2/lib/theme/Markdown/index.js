@@ -40,7 +40,6 @@ function Markdown(props) {
 
 Markdown.defaultProps = {
   siteConfig: {},
-  source: null,
 };
 
 export default Markdown;
