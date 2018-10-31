@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2017-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
 .loader {
   width: 100%;
   height: 49px;
@@ -10,13 +17,17 @@
   width: 49px;
   height: 49px;
   margin: 0 auto;
-  border: 5px solid #cccccc;
+  border: 5px solid #ccc;
   border-radius: 50%;
   border-top: 5px solid #1d4d8b;
   animation: loader-spin infinite 1s linear;
 }
 
 @keyframes loader-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
