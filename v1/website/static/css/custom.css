@@ -25,7 +25,7 @@ table td:first-child > code {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 170px;
+  height: 180px;
   margin: 5px;
   padding: 5px;
 }

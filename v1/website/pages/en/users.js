@@ -9,27 +9,16 @@ const React = require('react');
 const CompLibrary = require('../../core/CompLibrary.js');
 
 const Container = CompLibrary.Container;
-const Showcase = CompLibrary.Showcase;
+const Showcase = require(`${process.cwd()}/core/Showcase.js`);
 const siteConfig = require(`${process.cwd()}/siteConfig.js`);
 const translate = require('../../server/translate.js').translate;
 
 class Users extends React.Component {
-  getUsersToShowcase() {
-    const fbUsersToShowcase = [];
-    const restToShowcase = [];
-    siteConfig.users.forEach(user => {
-      if (user.fbOpenSource) fbUsersToShowcase.push(user);
-      else restToShowcase.push(user);
-    });
-
-    return {
-      fbUsersToShowcase,
-      restToShowcase,
-    };
-  }
-
   render() {
-    const {fbUsersToShowcase, restToShowcase} = this.getUsersToShowcase();
+    const fbUsersToShowcase = siteConfig.users.filter(
+      user => user.fbOpenSource,
+    );
+    const restToShowcase = siteConfig.users.filter(user => !user.fbOpenSource);
 
     return (
       <div className="mainContainer">
