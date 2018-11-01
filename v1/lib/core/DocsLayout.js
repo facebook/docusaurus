@@ -83,7 +83,7 @@ class DocsLayout extends React.Component {
         metadata={metadata}>
         <div className="docMainWrapper wrapper">
           <DocsSidebar metadata={metadata} />
-          <Container className="mainContainer docMainContainer">
+          <Container className="mainContainer">
             <DocComponent
               metadata={metadata}
               content={content}
@@ -141,7 +141,7 @@ class DocsLayout extends React.Component {
             </div>
           </Container>
           {hasOnPageNav && (
-            <nav className="onPageNav docOnPageNav">
+            <nav className="onPageNav">
               <OnPageNav rawContent={content} />
             </nav>
           )}
