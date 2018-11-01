@@ -74,6 +74,7 @@ module.exports = function createBaseConfig(props, isServer) {
     .end()
     .modules // prioritize our own node modules
     .add(path.resolve(__dirname, '../../node_modules'))
+    .add(path.resolve(siteDir, 'node_modules'))
     .add('node_modules');
 
   function applyBabel(rule) {
@@ -104,10 +105,23 @@ module.exports = function createBaseConfig(props, isServer) {
     .end();
   applyBabel(jsRule);
 
+  /* 
+    Equivalent to:
+    // ...
+    {
+      test: /\.md$/,
+      use: [
+        'babel-loader',
+        '@mdx-js/loader',
+        'docusaurus/md-loader,
+      ]
+    }
+  */
   const mdRule = config.module.rule('markdown').test(/\.md$/);
   applyBabel(mdRule);
+  mdRule.use('mdx-js-loader').loader('@mdx-js/loader');
   mdRule
-    .use('markdown-loader')
+    .use('docusaurus/md-loader')
     .loader(mdLoader)
     .options({
       siteConfig,
