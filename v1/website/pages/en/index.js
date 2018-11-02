@@ -6,10 +6,12 @@
  */
 
 const React = require('react');
+
 const CompLibrary = require('../../core/CompLibrary.js');
 
 const Container = CompLibrary.Container;
 const GridBlock = CompLibrary.GridBlock;
+const Showcase = require(`${process.cwd()}/core/Showcase.js`);
 const siteConfig = require(`${process.cwd()}/siteConfig.js`);
 const translate = require('../../server/translate.js').translate;
 
@@ -74,11 +76,7 @@ class HomeSplash extends React.Component {
 class Index extends React.Component {
   render() {
     const language = this.props.language || 'en';
-    const showcase = siteConfig.users.filter(user => user.pinned).map(user => (
-      <a href={user.infoLink} key={user.infoLink}>
-        <img src={user.image} alt={user.caption} title={user.caption} />
-      </a>
-    ));
+    const pinnedUsersToShowcase = siteConfig.users.filter(user => user.pinned);
 
     return (
       <div>
@@ -234,7 +232,7 @@ class Index extends React.Component {
                 Docusaurus is building websites for these projects...
               </translate>
             </p>
-            <div className="logos">{showcase}</div>
+            <Showcase users={pinnedUsersToShowcase} />
             <div className="more-users">
               <a
                 className="button"
