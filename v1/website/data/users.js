@@ -113,6 +113,13 @@ module.exports = [
     pinned: true,
   },
   {
+    caption: 'Formik',
+    image: '/img/users/formik.png',
+    infoLink: 'https://jaredpalmer.com/formik',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'FuseBox',
     image: '/img/users/fuse-box.svg',
     infoLink: 'https://fuse-box.org',
