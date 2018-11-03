@@ -38,17 +38,17 @@ Thank you to the following contributors who helped with this release:
 
 ### Fixed/Changed
 
-- Throw error when forgot to pass in GIT_USER ([#1035](https://github.com/facebook/Docusaurus/1035))
-- Exclude file movements for last updated time ([#1023](https://github.com/facebook/Docusaurus/1023))
-- Update support for Web App Manifest ([#1046](https://github.com/facebook/Docusaurus/1046))
-- Render proper HTML instead of raw markdown in og:description ([#1054](https://github.com/facebook/Docusaurus/1054))
+- Throw error when forgot to pass in GIT_USER ([#1035](https://github.com/facebook/Docusaurus/pull/1035))
+- Exclude file movements for last updated time ([#1023](https://github.com/facebook/Docusaurus/pull/1023))
+- Update support for Web App Manifest ([#1046](https://github.com/facebook/Docusaurus/pull/1046))
+- Render proper HTML instead of raw markdown in og:description ([#1054](https://github.com/facebook/Docusaurus/pull/1054))
 
 ### Added
 
-- New feature of displaying the last contributor to each document ([#980](https://github.com/facebook/Docusaurus/980))
-- Document how to add "Copy" button to code blocks ([#1047](https://github.com/facebook/Docusaurus/1047))
-- Support reference-style linking in documents ([#1048](https://github.com/facebook/Docusaurus/1048))
-- Add caption to user page links ([#1075](https://github.com/facebook/Docusaurus/1075))
+- New feature of displaying the last contributor to each document ([#980](https://github.com/facebook/Docusaurus/pull/980))
+- Document how to add "Copy" button to code blocks ([#1047](https://github.com/facebook/Docusaurus/pull/1047))
+- Support reference-style linking in documents ([#1048](https://github.com/facebook/Docusaurus/pull/1048))
+- Add caption to user page links ([#1075](https://github.com/facebook/Docusaurus/pull/1075))
 
 ### Removed
 
