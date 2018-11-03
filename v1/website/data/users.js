@@ -212,6 +212,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'React 360',
+    image: '/img/users/react-360.svg',
+    infoLink: 'https://facebook.github.io/react-360',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'React Native',
     image: '/img/users/react-native.svg',
     infoLink: 'https://facebook.github.io/react-native',
