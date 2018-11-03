@@ -6,6 +6,52 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [Unreleased]
 
+## [1.5.1] - 2018-11-03
+
+A release where we had many external contributors! Very excited to see the community being involved in the project.
+
+Welcome to our newest users, Create React App, Stackery, Vasern, Noderize, React 360 and Formik.
+
+Thank you to the following contributors who helped with this release:
+
+- @yangshun
+- @endiliey
+- @JoelMarcey
+- @tanhauhau
+- @fiennyangeln
+- @vikr01
+- @alexdriedger
+- @hobofan
+- @bildungsroman
+- @tirthbodawala
+- @M4rk9696
+- @sinodko
+- @aenuros
+- @SleepWalker
+- @pdyx2828
+- @phated
+- @huguestennier
+- @gtoprak
+- @Rajekevin
+- @sunitasen
+- @shahednasser
+
+### Fixed/Changed
+
+- Throw error when forgot to pass in GIT_USER ([#1035](https://github.com/facebook/Docusaurus/pull/1035))
+- Exclude file movements for last updated time ([#1023](https://github.com/facebook/Docusaurus/pull/1023))
+- Update support for Web App Manifest ([#1046](https://github.com/facebook/Docusaurus/pull/1046))
+- Render proper HTML instead of raw markdown in og:description ([#1054](https://github.com/facebook/Docusaurus/pull/1054))
+
+### Added
+
+- New feature of displaying the last contributor to each document ([#980](https://github.com/facebook/Docusaurus/pull/980))
+- Document how to add "Copy" button to code blocks ([#1047](https://github.com/facebook/Docusaurus/pull/1047))
+- Support reference-style linking in documents ([#1048](https://github.com/facebook/Docusaurus/pull/1048))
+- Add caption to user page links ([#1075](https://github.com/facebook/Docusaurus/pull/1075))
+
+### Removed
+
 ## [1.5.0] - 2018-10-13
 
 This version introduces a big improvement to the sidebar, where you can now have subcategories.
