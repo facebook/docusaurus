@@ -169,6 +169,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Noderize',
+    image: '/img/users/noderize.svg',
+    infoLink: 'https://noderize.js.org/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'nteract',
     image:
       'https://media.githubusercontent.com/media/nteract/logos/master/nteract_logo_cube_book/exports/images/png/nteract_logo_mark_purple.png',
