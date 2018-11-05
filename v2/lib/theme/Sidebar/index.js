@@ -10,7 +10,7 @@ import React, {useContext} from 'react';
 import SidebarLink from './SidebarLink';
 import SidebarCategory from './SidebarCategory';
 
-import DocusaurusContext from "../../core/docusaurus-context";
+import DocusaurusContext from '../../core/docusaurus-context';
 
 import styles from './styles.module.css';
 

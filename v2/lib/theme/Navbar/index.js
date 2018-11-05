@@ -11,7 +11,7 @@ import {NavLink} from 'react-router-dom';
 import Search from '@theme/Search';
 import styles from './styles.module.css';
 
-import DocusaurusContext from "../../core/docusaurus-context";
+import DocusaurusContext from '../../core/docusaurus-context';
 
 function Navbar(props) {
   const context = useContext(DocusaurusContext);
