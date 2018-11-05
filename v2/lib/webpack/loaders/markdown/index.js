@@ -150,7 +150,7 @@ module.exports = function(fileString) {
 import React from 'react';
 import Markdown from '@theme/Markdown';
 export default () => (
-  <Markdown siteConfig={${JSON.stringify(siteConfig)}}>
+  <Markdown>
     <div dangerouslySetInnerHTML={{__html: ${JSON.stringify(html)}}} />
   </Markdown>
 );`;

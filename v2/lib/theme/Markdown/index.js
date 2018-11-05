@@ -5,13 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-/* eslint-disable */
-
-import React from 'react';
+import React, {useContext} from 'react';
 import Helmet from 'react-helmet';
 
+import DocusaurusContext from '../../core/docusaurus-context';
+
 function Markdown(props) {
-  const {siteConfig} = props;
+  const context = useContext(DocusaurusContext);
+  const {metadata, siteConfig} = context;
   const highlight = Object.assign(
     {},
     {
