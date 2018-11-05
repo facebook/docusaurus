@@ -13,7 +13,7 @@ import Footer from '@theme/Footer'; // eslint-disable-line
 import Navbar from '@theme/Navbar'; // eslint-disable-line
 import Sidebar from '@theme/Sidebar'; // eslint-disable-line
 
-import DocusaurusContext from '../../core/docusaurus-context';
+import DocusaurusContext from 'core/docusaurus-context';
 
 import styles from './styles.module.css';
 

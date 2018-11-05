@@ -11,7 +11,7 @@ import Helmet from 'react-helmet';
 import Layout from '@theme/Layout'; // eslint-disable-line
 import BlogPost from '@theme/BlogPost'; // eslint-disable-line
 
-import DocusaurusContext from '../../core/docusaurus-context';
+import DocusaurusContext from 'core/docusaurus-context';
 
 function BlogPage(props) {
   const context = useContext(DocusaurusContext);

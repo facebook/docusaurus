@@ -11,7 +11,7 @@ import Helmet from 'react-helmet';
 import classnames from 'classnames';
 import Layout from '@theme/Layout'; // eslint-disable-line
 
-import DocusaurusContext from '../../core/docusaurus-context';
+import DocusaurusContext from 'core/docusaurus-context';
 
 import styles from './styles.module.css';
 

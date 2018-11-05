@@ -8,7 +8,7 @@
 import React, {useContext} from 'react';
 import Helmet from 'react-helmet';
 
-import DocusaurusContext from '../../core/docusaurus-context';
+import DocusaurusContext from 'core/docusaurus-context';
 
 function Markdown(props) {
   const context = useContext(DocusaurusContext);

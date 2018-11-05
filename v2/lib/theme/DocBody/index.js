@@ -8,7 +8,7 @@
 import React, {useContext, useEffect} from 'react';
 
 import DocsPaginator from '@theme/DocsPaginator'; // eslint-disable-line
-import DocusaurusContext from '../../core/docusaurus-context';
+import DocusaurusContext from 'core/docusaurus-context';
 
 import styles from './styles.module.css';
 

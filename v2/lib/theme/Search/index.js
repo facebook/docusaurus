@@ -7,7 +7,7 @@
 
 import React from 'react';
 
-import DocusaurusContext from '../../core/docusaurus-context';
+import DocusaurusContext from 'core/docusaurus-context';
 
 import './styles.css';
 

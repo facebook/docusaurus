@@ -72,8 +72,8 @@ module.exports = function createBaseConfig(props, isServer) {
     .set('@generated', path.resolve(__dirname, '../core/generated'))
     .set('@core', path.resolve(__dirname, '../core'))
     .end()
-    .modules // prioritize our own node modules
-    .add(path.resolve(__dirname, '../../node_modules'))
+    .modules.add(path.resolve(__dirname, '../../node_modules')) // Prioritize our own node modules.
+    .add(path.resolve(__dirname, '../')) // Load from root of library.
     .add('node_modules');
 
   function applyBabel(rule) {

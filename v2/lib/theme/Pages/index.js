@@ -9,7 +9,7 @@ import React, {useContext} from 'react';
 import Helmet from 'react-helmet';
 import Layout from '@theme/Layout'; // eslint-disable-line
 
-import DocusaurusContext from '../../core/docusaurus-context';
+import DocusaurusContext from 'core/docusaurus-context';
 
 function Pages({children}) {
   const context = useContext(DocusaurusContext);
