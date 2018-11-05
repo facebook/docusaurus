@@ -12,7 +12,7 @@ import DocusaurusContext from '../../core/docusaurus-context';
 
 function Markdown(props) {
   const context = useContext(DocusaurusContext);
-  const {metadata, siteConfig} = context;
+  const {siteConfig} = context;
   const highlight = Object.assign(
     {},
     {
