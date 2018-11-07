@@ -71,10 +71,10 @@ module.exports = function createBaseConfig(props, isServer) {
     .set('@build', outDir)
     .set('@generated', path.resolve(__dirname, '../core/generated'))
     .set('@core', path.resolve(__dirname, '../core'))
+    .set('@docusaurus', path.resolve(__dirname, '../docusaurus'))
     .end()
-    .modules // prioritize our own node modules
-    .add(path.resolve(__dirname, '../../node_modules'))
-    .add('node_modules');
+    .modules.add(path.resolve(__dirname, '../../node_modules')) // Prioritize our own node modules.
+    .add(path.resolve(siteDir, 'node_modules')); // load user node_modules
 
   function applyBabel(rule) {
     rule

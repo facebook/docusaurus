@@ -14,6 +14,7 @@ export default props => {
     console.log(props.error);
     return <div align="center">Error</div>;
   }
+
   if (props.pastDelay) {
     return (
       <div className={styles.loader}>
@@ -22,5 +23,6 @@ export default props => {
       </div>
     );
   }
+
   return null;
 };

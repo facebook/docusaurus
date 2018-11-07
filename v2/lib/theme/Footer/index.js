@@ -5,12 +5,17 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {useContext} from 'react';
 import {Link} from 'react-router-dom';
+
+import DocusaurusContext from '@docusaurus/context';
 
 import styles from './styles.module.css';
 
-function Footer(props) {
+function Footer() {
+  const context = useContext(DocusaurusContext);
+  const {pagesMetadatas} = context;
+
   return (
     <footer className={styles.footer}>
       <section className={styles.footerRow}>
@@ -78,7 +83,7 @@ function Footer(props) {
         <div className={styles.footerColumn}>
           <h3 className={styles.footerColumnTitle}>Pages</h3>
           <ul className={styles.footerList}>
-            {props.pagesMetadatas.map(metadata => (
+            {pagesMetadatas.map(metadata => (
               <li key={metadata.permalink} className={styles.footerListItem}>
                 <Link className={styles.footerLink} to={metadata.permalink}>
                   {metadata.permalink}

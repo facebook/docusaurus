@@ -5,14 +5,21 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {useContext} from 'react';
 import {NavLink} from 'react-router-dom';
 
 import Search from '@theme/Search';
+import DocusaurusContext from '@docusaurus/context';
 import styles from './styles.module.css';
 
 function Navbar(props) {
-  const {siteConfig = {}, env = {}, metadata = {}, docsMetadatas = {}} = props;
+  const context = useContext(DocusaurusContext);
+  const {
+    siteConfig = {},
+    env = {},
+    metadata = {},
+    docsMetadatas = {},
+  } = context;
   const {baseUrl, headerLinks, headerIcon, algolia} = siteConfig;
   const {language: thisLanguage, version: thisVersion} = metadata;
 

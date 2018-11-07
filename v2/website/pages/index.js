@@ -6,7 +6,7 @@
  */
 
 import React, {useEffect, useState} from 'react';
-import Helmet from 'react-helmet';
+import Head from '@docusaurus/head';
 
 import classnames from 'classnames';
 
@@ -129,9 +129,9 @@ function Home() {
 
   return (
     <div>
-      <Helmet key={featureIndex}>
+      <Head key={featureIndex}>
         <title>Docusaurus</title>
-      </Helmet>
+      </Head>
       <div className={classnames(styles.section, styles.banner)}>
         <div className={classnames(styles.sectionInner, styles.bannerInner)}>
           <h1 className={styles.header}>Docusaurus</h1>

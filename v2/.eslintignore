@@ -2,3 +2,4 @@ generated
 __fixtures__
 dist
 node_modules
+build

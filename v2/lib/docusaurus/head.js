@@ -5,11 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-.mainContainer {
-  padding-left: 300px;
+import React from 'react';
+import Helmet from 'react-helmet';
+
+function Head(props) {
+  return <Helmet {...props} />;
 }
 
-.docContainer {
-  flex-grow: 1;
-  padding: 0 40px;
-}
+export default Head;

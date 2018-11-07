@@ -5,11 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-.mainContainer {
-  padding-left: 300px;
-}
+import React from 'react';
 
-.docContainer {
-  flex-grow: 1;
-  padding: 0 40px;
-}
+const DocusaurusContext = React.createContext({});
+
+export default DocusaurusContext;

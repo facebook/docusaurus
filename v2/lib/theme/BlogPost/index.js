@@ -5,18 +5,23 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-/* eslint-disable */
 import React from 'react';
 import {Link} from 'react-router-dom';
-import Helmet from 'react-helmet';
+import Head from '@docusaurus/head';
 import classnames from 'classnames';
 import Layout from '@theme/Layout'; // eslint-disable-line
 
+import DocusaurusContext from '@docusaurus/context';
+
 import styles from './styles.module.css';
-export default class BlogPost extends React.Component {
+
+class BlogPost extends React.Component {
   renderPostHeader() {
-    const {metadata, siteConfig} = this.props;
-    const {baseUrl} = siteConfig;
+    const {metadata} = this.context;
+    if (!metadata) {
+      return null;
+    }
+
     const {
       date,
       author,
@@ -80,19 +85,23 @@ export default class BlogPost extends React.Component {
   }
 
   render() {
-    const {metadata, children, siteConfig = {}} = this.props;
+    const {metadata = {}, siteConfig = {}} = this.context;
     const {baseUrl, favicon} = siteConfig;
     const {language, title} = metadata;
     return (
-      <Layout {...this.props}>
-        <Helmet defaultTitle={siteConfig.title}>
+      <Layout>
+        <Head defaultTitle={siteConfig.title}>
           {title && <title>{title}</title>}
           {favicon && <link rel="shortcut icon" href={baseUrl + favicon} />}
           {language && <html lang={language} />}
-        </Helmet>
+        </Head>
         {this.renderPostHeader()}
-        {children}
+        {this.props.children}
       </Layout>
     );
   }
 }
+
+BlogPost.contextType = DocusaurusContext;
+
+export default BlogPost;
