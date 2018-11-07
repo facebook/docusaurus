@@ -8,7 +8,7 @@
 import React, {useContext} from 'react';
 import {Link} from 'react-router-dom';
 
-import DocusaurusContext from 'core/docusaurus-context';
+import DocusaurusContext from '@docusaurus/context';
 
 import styles from './styles.module.css';
 

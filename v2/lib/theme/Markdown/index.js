@@ -6,9 +6,9 @@
  */
 
 import React, {useContext} from 'react';
-import Helmet from 'react-helmet';
+import Head from '@docusaurus/head';
 
-import DocusaurusContext from 'core/docusaurus-context';
+import DocusaurusContext from '@docusaurus/context';
 
 function Markdown(props) {
   const context = useContext(DocusaurusContext);
@@ -31,9 +31,9 @@ function Markdown(props) {
 
   return (
     <div>
-      <Helmet>
+      <Head>
         <link rel="stylesheet" type="text/css" href={highlightThemeURL} />
-      </Helmet>
+      </Head>
       <div>{props.children}</div>
     </div>
   );

@@ -6,10 +6,10 @@
  */
 
 import React, {useContext} from 'react';
-import Helmet from 'react-helmet';
+import Head from '@docusaurus/head';
 import Layout from '@theme/Layout'; // eslint-disable-line
 
-import DocusaurusContext from 'core/docusaurus-context';
+import DocusaurusContext from '@docusaurus/context';
 
 function Pages({children}) {
   const context = useContext(DocusaurusContext);
@@ -19,11 +19,11 @@ function Pages({children}) {
 
   return (
     <Layout>
-      <Helmet defaultTitle={siteConfig.title}>
+      <Head defaultTitle={siteConfig.title}>
         {favicon && <link rel="shortcut icon" href={baseUrl + favicon} />}
         {language && <html lang={language} />}
         {language && <meta name="docsearch:language" content={language} />}
-      </Helmet>
+      </Head>
       {children}
     </Layout>
   );

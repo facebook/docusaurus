@@ -6,14 +6,14 @@
  */
 
 import React, {useContext} from 'react';
-import {Route} from 'react-router-dom';
-import Helmet from 'react-helmet';
+import {renderRoutes} from 'react-router-config';
+import Head from '@docusaurus/head';
 
 import Footer from '@theme/Footer'; // eslint-disable-line
 import Navbar from '@theme/Navbar'; // eslint-disable-line
 import Sidebar from '@theme/Sidebar'; // eslint-disable-line
 
-import DocusaurusContext from 'core/docusaurus-context';
+import DocusaurusContext from '@docusaurus/context';
 
 import styles from './styles.module.css';
 
@@ -25,30 +25,17 @@ function Doc(props) {
 
   return (
     <div>
-      <Helmet>
+      <Head>
         <title>{(metadata && metadata.title) || siteConfig.title}</title>
         {favicon && <link rel="shortcut icon" href={baseUrl + favicon} />}
         {language && <html lang={language} />}
         {language && <meta name="docsearch:language" content={language} />}
         {version && <meta name="docsearch:version" content={version} />}
-      </Helmet>
+      </Head>
       <Navbar />
       <Sidebar />
       <div className={styles.mainContainer}>
-        <div className={styles.docContainer}>
-          {route.routes.map(routeObject => (
-            <Route
-              key={routeObject.path}
-              path={routeObject.path}
-              render={routeProps => (
-                <routeObject.component
-                  {...routeProps}
-                  routes={routeObject.routes}
-                />
-              )}
-            />
-          ))}
-        </div>
+        <div className={styles.docContainer}>{renderRoutes(route.routes)}</div>
         <Footer />
       </div>
     </div>

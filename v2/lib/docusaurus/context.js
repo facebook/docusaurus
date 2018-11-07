@@ -5,11 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-.docContent {
-  margin-bottom: 48px;
-  min-height: calc(100vh - 50px);
-}
+import React from 'react';
 
-.paginatorContainer {
-  margin: 48px 0;
-}
+const DocusaurusContext = React.createContext({});
+
+export default DocusaurusContext;

@@ -6,10 +6,12 @@
  */
 
 async function genRoutesConfig({
+  siteConfig = {},
   docsMetadatas = {},
   pagesMetadatas = [],
   blogMetadatas = [],
 }) {
+  const {docsUrl, baseUrl} = siteConfig;
   function genDocsRoute(metadata) {
     const {permalink, source} = metadata;
     return `
@@ -31,9 +33,10 @@ async function genRoutesConfig({
       }`;
   }
 
+  const rootDocsUrl = baseUrl + docsUrl;
   const docsRoutes = `
   {
-    path: '/docs',
+    path: '${rootDocsUrl}',
     component: Doc,
     routes: [${Object.values(docsMetadatas)
       .map(genDocsRoute)

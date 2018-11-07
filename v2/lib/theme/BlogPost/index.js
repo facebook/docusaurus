@@ -7,11 +7,11 @@
 
 import React from 'react';
 import {Link} from 'react-router-dom';
-import Helmet from 'react-helmet';
+import Head from '@docusaurus/head';
 import classnames from 'classnames';
 import Layout from '@theme/Layout'; // eslint-disable-line
 
-import DocusaurusContext from 'core/docusaurus-context';
+import DocusaurusContext from '@docusaurus/context';
 
 import styles from './styles.module.css';
 
@@ -90,11 +90,11 @@ class BlogPost extends React.Component {
     const {language, title} = metadata;
     return (
       <Layout>
-        <Helmet defaultTitle={siteConfig.title}>
+        <Head defaultTitle={siteConfig.title}>
           {title && <title>{title}</title>}
           {favicon && <link rel="shortcut icon" href={baseUrl + favicon} />}
           {language && <html lang={language} />}
-        </Helmet>
+        </Head>
         {this.renderPostHeader()}
         {this.props.children}
       </Layout>

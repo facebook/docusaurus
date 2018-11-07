@@ -7,7 +7,7 @@
 
 import React, {useContext} from 'react';
 
-import DocusaurusContext from 'core/docusaurus-context';
+import DocusaurusContext from '@docusaurus/context';
 import SidebarLink from './SidebarLink';
 import SidebarCategory from './SidebarCategory';
 

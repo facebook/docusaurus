@@ -7,11 +7,11 @@
 
 import React, {useContext} from 'react';
 import {Link} from 'react-router-dom';
-import Helmet from 'react-helmet';
+import Head from '@docusaurus/head';
 import Layout from '@theme/Layout'; // eslint-disable-line
 import BlogPost from '@theme/BlogPost'; // eslint-disable-line
 
-import DocusaurusContext from 'core/docusaurus-context';
+import DocusaurusContext from '@docusaurus/context';
 
 function BlogPage(props) {
   const context = useContext(DocusaurusContext);
@@ -20,12 +20,12 @@ function BlogPage(props) {
 
   return (
     <Layout>
-      <Helmet>
+      <Head>
         <title>Blog</title>
         {favicon && <link rel="shortcut icon" href={baseUrl + favicon} />}
         {language && <html lang={language} />}
         {language && <meta name="docsearch:language" content={language} />}
-      </Helmet>
+      </Head>
       <div>
         <ul>
           {blogMetadatas.map(metadata => (

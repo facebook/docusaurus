@@ -6,16 +6,16 @@
  */
 
 import React from 'react';
-import Helmet from 'react-helmet';
+import Head from '@docusaurus/head';
 
 export default class Home extends React.Component {
   render() {
     return (
       <div>
-        <Helmet>
+        <Head>
           <title>Home</title>
           <link rel="stylesheet" type="text/css" href="/css/basic.css" />
-        </Helmet>
+        </Head>
         <div>Home ... </div>
       </div>
     );

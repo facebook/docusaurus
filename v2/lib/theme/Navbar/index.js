@@ -9,7 +9,7 @@ import React, {useContext} from 'react';
 import {NavLink} from 'react-router-dom';
 
 import Search from '@theme/Search';
-import DocusaurusContext from 'core/docusaurus-context';
+import DocusaurusContext from '@docusaurus/context';
 import styles from './styles.module.css';
 
 function Navbar(props) {

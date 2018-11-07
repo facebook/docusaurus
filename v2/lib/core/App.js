@@ -16,7 +16,7 @@ import docsSidebars from '@generated/docsSidebars'; // eslint-disable-line
 import pagesMetadatas from '@generated/pagesMetadatas'; // eslint-disable-line
 import siteConfig from '@generated/siteConfig'; //eslint-disable-line
 
-import DocusaurusContext from './docusaurus-context';
+import DocusaurusContext from '@docusaurus/context';
 
 const data = {
   blogMetadatas,
