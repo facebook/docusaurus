@@ -3,6 +3,10 @@ id: api-pages
 title: Pages and Styles
 ---
 
+import YouTube from 'react-youtube';
+
+<YouTube videoId="dpw9EHDh2bM" />
+
 Docusaurus provides support for writing pages as React components inside the `website/pages` directory which will share the same header, footer, and styles as the rest of the site.
 
 ## URLs for Pages

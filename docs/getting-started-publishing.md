@@ -61,7 +61,7 @@ const siteConfig = {
 }
 ```
 
-In case you want to deploy as a user or organization site, specify the project name as "<username>.github.io" or "<orgname>.github.io". E.g. If your GitHub username is "user42" then _user42.github.io_, or in the case of an organization name of "org123", it will be _org123.github.io_.
+In case you want to deploy as a user or organization site, specify the project name as `<username>.github.io` or `<orgname>.github.io`. E.g. If your GitHub username is "user42" then _user42.github.io_, or in the case of an organization name of "org123", it will be _org123.github.io_.
 
 __Note:__ Not setting the `url` and `baseUrl` of your project might result in incorrect file paths generated which can cause broken links to assets paths like stylesheets and images.
 
