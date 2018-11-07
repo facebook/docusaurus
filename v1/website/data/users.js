@@ -275,6 +275,13 @@ module.exports = [
     pinned: true,
   },
   {
+    caption: 'react-slate',
+    image: '/img/users/react-slate.svg',
+    infoLink: 'http://react-slate.surge.sh/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Rejoiner',
     image: '/img/users/rejoiner.svg',
     infoLink: 'http://rejoiner.io/',
