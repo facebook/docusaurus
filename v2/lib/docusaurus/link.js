@@ -9,10 +9,15 @@ import React from 'react';
 import {NavLink} from 'react-router-dom';
 
 function Link(props) {
-  const {to} = props;
-  const isExternal = /^(https?:|\/\/)/.test(to);
-  // eslint-disable-next-line jsx-a11y/anchor-has-content
-  return isExternal ? <a {...props} href={to} /> : <NavLink {...props} />;
+  const {to, href} = props;
+  const targetLink = to || href;
+  const isExternal = /^(https?:|\/\/)/.test(targetLink);
+  return !targetLink || isExternal ? (
+    // eslint-disable-next-line jsx-a11y/anchor-has-content
+    <a {...props} href={targetLink} />
+  ) : (
+    <NavLink {...props} to={targetLink} />
+  );
 }
 
 export default Link;
