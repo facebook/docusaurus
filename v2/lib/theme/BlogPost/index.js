@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import {Link} from 'react-router-dom';
+import Link from '@docusaurus/link';
 import Head from '@docusaurus/head';
 import classnames from 'classnames';
 import Layout from '@theme/Layout'; // eslint-disable-line
