@@ -4,11 +4,14 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+
+const DOCS_URL = 'docs';
+
 function blog(baseUrl) {
   return new RegExp(`^${baseUrl}blog/.*html$`);
 }
 
-function docs(baseUrl, docsUrl) {
+function docs(baseUrl, docsUrl = DOCS_URL) {
   return new RegExp(`^${baseUrl}${docsUrl}/.*html$`);
 }
 
@@ -24,7 +27,7 @@ function noExtension() {
   return /\/[^.]*\/?$/;
 }
 
-function page(baseUrl, docsUrl) {
+function page(baseUrl, docsUrl = DOCS_URL) {
   const gr = regex => regex.toString().replace(/(^\/|\/$)/gm, '');
   return new RegExp(
     `(?!${gr(docs(baseUrl, docsUrl))}|${gr(blog(baseUrl))})^${baseUrl}.*.html$`,
@@ -36,7 +39,6 @@ function sitemap(baseUrl) {
 }
 
 function getDocsUrl(docsUrl) {
-  const DOCS_URL = 'docs';
   return docsUrl || DOCS_URL;
 }
 
@@ -49,4 +51,5 @@ module.exports = {
   noExtension,
   sitemap,
   getDocsUrl,
+  DOCS_URL,
 };
