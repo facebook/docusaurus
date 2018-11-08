@@ -7,7 +7,7 @@
 
 const Config = require('webpack-chain');
 const CSSExtractPlugin = require('mini-css-extract-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const path = require('path');
 
 const mdLoader = require.resolve('./loaders/markdown');
@@ -154,15 +154,17 @@ module.exports = function createBaseConfig(props, isServer) {
 
   if (isProd) {
     config.optimization.minimizer([
-      new UglifyJsPlugin({
+      new TerserPlugin({
         cache: true,
-        uglifyOptions: {
-          warnings: false,
-          compress: false,
+        parallel: true,
+        sourceMap: true,
+        terserOptions: {
           ecma: 6,
           mangle: true,
+          output: {
+            comments: false,
+          },
         },
-        sourceMap: true,
       }),
     ]);
   }
