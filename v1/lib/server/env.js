@@ -18,6 +18,8 @@ const languagesFile = join(CWD, 'languages.js');
 const versionsJSONFile = join(CWD, 'versions.json');
 const versionsFile = join(CWD, 'pages/en/versions.js');
 
+const {getDocsUrl} = require('./routing.js');
+
 class Translation {
   constructor() {
     this.enabled = false;
@@ -57,7 +59,9 @@ class Versioning {
     console.error(
       `${chalk.yellow('No versions.js file found!')}` +
         `\nYou should create your versions.js file in pages/en directory.` +
-        `\nPlease refer to https://docusaurus.io/docs/en/versioning.html.`,
+        `\nPlease refer to https://docusaurus.io/${getDocsUrl(
+          siteConfig.docsUrl,
+        )}en/versioning.html.`,
     );
   }
 

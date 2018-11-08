@@ -31,7 +31,7 @@ module.exports = MyPage;
 
 ## Description for Pages
 
-By default, the description your page is `tagline` set in [`siteConfig.js`](api-site-config.md). If you want to set a specific description for your custom pages, add a `description` class property on your exported React component. 
+By default, the description your page is `tagline` set in [`siteConfig.js`](api-site-config.md). If you want to set a specific description for your custom pages, add a `description` class property on your exported React component.
 
 Example:
 
@@ -138,7 +138,7 @@ A React component to organize text and images.
   className="myCustomClass"
   contents={[
     {
-      title: `[Learn](${siteConfig.baseUrl}docs/tutorial.html)`,
+      title: `[Learn](${siteConfig.baseUrl}${getDocsUrl(siteConfig.docsUrl)}/tutorial.html)`,
       content: 'Learn how to use this project',
       image: siteConfig.baseUrl + 'img/learn.png',
       imageAlt: 'Learn how to use this project',

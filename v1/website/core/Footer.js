@@ -77,28 +77,28 @@ class Footer extends React.Component {
             <h5>Docs</h5>
             <a
               href={`
-                ${this.props.config.baseUrl}docs/${
+                ${this.props.config.baseUrl}${this.props.config.docsUrl}${
                 this.props.language
               }/installation`}>
               Getting Started
             </a>
             <a
               href={`
-                ${this.props.config.baseUrl}docs/${
+                ${this.props.config.baseUrl}${this.props.config.docsUrl}${
                 this.props.language
               }/versioning`}>
               Versioning
             </a>
             <a
               href={`
-                ${this.props.config.baseUrl}docs/${
+                ${this.props.config.baseUrl}${this.props.config.docsUrl}${
                 this.props.language
               }/translation`}>
               Localization
             </a>
             <a
               href={`
-                ${this.props.config.baseUrl}docs/${
+                ${this.props.config.baseUrl}${this.props.config.docsUrl}${
                 this.props.language
               }/search`}>
               Adding Search

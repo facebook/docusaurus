@@ -14,8 +14,12 @@ const GridBlock = CompLibrary.GridBlock;
 
 const siteConfig = require(`${process.cwd()}/siteConfig.js`);
 
+const {getDocsUrl} = require('../../../lib/server/routing');
+
 function docUrl(doc, language) {
-  return `${siteConfig.baseUrl}docs/${language ? `${language}/` : ''}${doc}`;
+  return `${siteConfig.baseUrl}${getDocsUrl(siteConfig.docsUrl)}/${
+    language ? `${language}/` : ''
+  }${doc}`;
 }
 
 class Help extends React.Component {

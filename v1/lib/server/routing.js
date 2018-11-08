@@ -8,8 +8,8 @@ function blog(baseUrl) {
   return new RegExp(`^${baseUrl}blog/.*html$`);
 }
 
-function docs(baseUrl) {
-  return new RegExp(`^${baseUrl}docs/.*html$`);
+function docs(baseUrl, docsUrl) {
+  return new RegExp(`^${baseUrl}${docsUrl}/.*html$`);
 }
 
 function dotfiles() {
@@ -24,15 +24,20 @@ function noExtension() {
   return /\/[^.]*\/?$/;
 }
 
-function page(baseUrl) {
+function page(baseUrl, docsUrl) {
   const gr = regex => regex.toString().replace(/(^\/|\/$)/gm, '');
   return new RegExp(
-    `(?!${gr(docs(baseUrl))}|${gr(blog(baseUrl))})^${baseUrl}.*.html$`,
+    `(?!${gr(docs(baseUrl, docsUrl))}|${gr(blog(baseUrl))})^${baseUrl}.*.html$`,
   );
 }
 
 function sitemap(baseUrl) {
   return new RegExp(`^${baseUrl}sitemap.xml$`);
+}
+
+function getDocsUrl(docsUrl) {
+  const DOCS_URL = 'docs';
+  return docsUrl || DOCS_URL;
 }
 
 module.exports = {
@@ -43,4 +48,5 @@ module.exports = {
   page,
   noExtension,
   sitemap,
+  getDocsUrl,
 };

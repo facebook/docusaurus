@@ -66,7 +66,7 @@ const rawContent3 = metadataUtils.extractMetadata(doc3).rawContent;
 const rawContentRefLinks = metadataUtils.extractMetadata(refLinks).rawContent;
 
 describe('mdToHtmlify', () => {
-  const mdToHtml = metadataUtils.mdToHtml(Metadata, '/');
+  const mdToHtml = metadataUtils.mdToHtml(Metadata, '/', 'docs');
 
   test('transform nothing', () => {
     const content1 = docs.mdToHtmlify(

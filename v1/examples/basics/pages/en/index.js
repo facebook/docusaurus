@@ -20,7 +20,9 @@ function imgUrl(img) {
 }
 
 function docUrl(doc, language) {
-  return `${siteConfig.baseUrl}docs/${language ? `${language}/` : ''}${doc}`;
+  return `${siteConfig.baseUrl}${siteConfig.docsUrl}/${
+    language ? `${language}/` : ''
+  }${doc}`;
 }
 
 function pageUrl(page, language) {

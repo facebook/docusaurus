@@ -20,6 +20,8 @@ The `siteConfig` object contains the bulk of the configuration settings for your
 
 `baseUrl` - baseUrl for your site. For example, `/pages/org/project/` is the baseUrl of https://git.facebook.com/pages/org/project/
 
+`docsUrl` - docsUrl for your site. For example, `docs` is the docsUrl of https://docusaurus.io/docs/en/installation/
+
 `colors` - Color configurations for the site.
 
 * `primaryColor` is the color used the header navigation bar and sidebars.
@@ -81,7 +83,9 @@ headerLinks: [
 
 `cname` - The CNAME for your website. It will go into a `CNAME` file when your site is built.
 
-`customDocsPath` - By default, Docusaurus expects your documentation to be in a directory called `docs`. This directory is at the same level as the `website` directory (i.e., not inside the `website` directory). You can specify a custom path to your documentation with this field.
+`customDocsPath` - By default, Docusaurus expects your documentation to be in a directory called `docs`. This directory is at the same level as the
+
+`website` directory (i.e., not inside the `website` directory). You can specify a custom path to your documentation with this field.
 
 ```js
 customDocsPath: 'docs/site';
@@ -96,6 +100,8 @@ customDocsPath: 'website-docs';
 `disableHeaderTitle` - An option to disable showing the title in the header next to the header icon. Exclude this field to keep the header as normal, otherwise set to `true`.
 
 `disableTitleTagline` - An option to disable showing the tagline in the title of main pages. Exclude this field to keep page titles as `Title • Tagline`. Set to `true` to make page titles just `Title`.
+
+`docsUrl` - Route of the documentation. By default, /docs is the default route.
 
 `editUrl` - URL for editing docs, usage example: `editUrl + 'en/doc1.md'`. If this field is omitted, there will be no "Edit this Doc" button for each document.
 

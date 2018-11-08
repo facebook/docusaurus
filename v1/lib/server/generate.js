@@ -35,6 +35,7 @@ async function execute() {
   const imageminOptipng = require('imagemin-optipng');
   const imageminSvgo = require('imagemin-svgo');
   const imageminGifsicle = require('imagemin-gifsicle');
+  const {getDocsUrl} = require('./routing.js');
 
   commander.option('--skip-image-compression').parse(process.argv);
 
@@ -68,7 +69,11 @@ async function execute() {
   fs.removeSync(join(CWD, 'build'));
 
   // create html files for all docs by going through all doc ids
-  const mdToHtml = metadataUtils.mdToHtml(Metadata, siteConfig.baseUrl);
+  const mdToHtml = metadataUtils.mdToHtml(
+    Metadata,
+    siteConfig.baseUrl,
+    getDocsUrl(siteConfig.docsUrl),
+  );
   Object.keys(Metadata).forEach(id => {
     const metadata = Metadata[id];
     const file = docs.getFile(metadata);
@@ -87,7 +92,10 @@ async function execute() {
     }
     const redirectFile = join(
       buildDir,
-      metadata.permalink.replace('docs/en', 'docs'),
+      metadata.permalink.replace(
+        `${getDocsUrl(siteConfig.docsUrl)}/en`,
+        getDocsUrl(siteConfig.docsUrl),
+      ),
     );
     writeFileAndCreateFolder(redirectFile, redirectMarkup);
   });

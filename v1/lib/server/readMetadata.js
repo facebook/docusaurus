@@ -33,6 +33,8 @@ const SupportedHeaderFields = new Set([
   'custom_edit_url',
 ]);
 
+const {getDocsUrl} = require('./routing.js');
+
 let allSidebars;
 if (fs.existsSync(`${CWD}/sidebars.json`)) {
   allSidebars = require(`${CWD}/sidebars.json`);
@@ -166,7 +168,9 @@ function processMetadata(file, refDir) {
     versionPart = 'next/';
   }
 
-  metadata.permalink = `docs/${langPart}${versionPart}${metadata.id}.html`;
+  metadata.permalink = `${getDocsUrl(
+    siteConfig.docsUrl,
+  )}/${langPart}${versionPart}${metadata.id}.html`;
 
   // change ids previous, next
   metadata.localized_id = metadata.id;
@@ -241,7 +245,10 @@ function generateMetadataDocs() {
           if (baseMetadata.permalink)
             baseMetadata.permalink = baseMetadata.permalink
               .toString()
-              .replace(/^docs\/en\//, `docs/${currentLanguage}/`);
+              .replace(
+                new RegExp(`^${getDocsUrl(siteConfig.docsUrl)}/en/`),
+                `${getDocsUrl(siteConfig.docsUrl)}/${currentLanguage}/`,
+              );
           if (baseMetadata.next)
             baseMetadata.next = baseMetadata.next
               .toString()

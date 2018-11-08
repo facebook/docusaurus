@@ -4,7 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-const routing = require('../routing');
+const routing = require('../routing.js');
 
 describe('Blog routing', () => {
   const blogRegex = routing.blog('/');
@@ -34,8 +34,8 @@ describe('Blog routing', () => {
 });
 
 describe('Docs routing', () => {
-  const docsRegex = routing.docs('/');
-  const docsRegex2 = routing.docs('/reason/');
+  const docsRegex = routing.docs('/', 'docs');
+  const docsRegex2 = routing.docs('/reason/', 'docs');
 
   test('valid docs', () => {
     expect('/docs/en/test.html').toMatch(docsRegex);
@@ -137,8 +137,8 @@ describe('Extension-less url routing', () => {
 });
 
 describe('Page routing', () => {
-  const pageRegex = routing.page('/');
-  const pageRegex2 = routing.page('/reason/');
+  const pageRegex = routing.page('/', 'docs');
+  const pageRegex2 = routing.page('/reason/', 'docs');
 
   test('valid page url', () => {
     expect('/index.html').toMatch(pageRegex);

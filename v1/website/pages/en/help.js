@@ -12,6 +12,7 @@ const Container = CompLibrary.Container;
 const GridBlock = CompLibrary.GridBlock;
 const siteConfig = require(`${process.cwd()}/siteConfig.js`);
 const translate = require('../../server/translate.js').translate;
+const {getDocsUrl} = require('../../server/routing.js');
 
 class Help extends React.Component {
   render() {
@@ -20,7 +21,9 @@ class Help extends React.Component {
         title: <translate>Browse the docs</translate>,
         content: `Learn more about Docusaurus using the [official documentation](${
           siteConfig.baseUrl
-        }docs/${this.props.language}/installation).`,
+        }${getDocsUrl(siteConfig.docsUrl)}/${
+          this.props.language
+        }/installation).`,
       },
       {
         title: <translate>Discord</translate>,
