@@ -90,7 +90,7 @@
     "sitemap": "^2.1.0",
     "static-site-generator-webpack-plugin": "endiliey/static-site-generator-webpack-plugin#master",
     "style-loader": "^0.22.1",
-    "uglifyjs-webpack-plugin": "^1.3.0",
+    "terser-webpack-plugin": "^1.1.0",
     "webpack": "^4.16.3",
     "webpack-chain": "^4.8.0",
     "webpack-merge": "^4.1.4",
