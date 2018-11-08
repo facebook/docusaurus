@@ -141,6 +141,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Hemera',
+    image: '/img/users/hemera.png',
+    infoLink: 'https://hemerajs.github.io/hemera/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Home Assistant',
     image: 'https://developers.home-assistant.io/img/logo-responsive.svg',
     infoLink: 'https://developers.home-assistant.io/',
