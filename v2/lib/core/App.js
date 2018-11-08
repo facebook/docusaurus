@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {useState} from 'react';
 import {renderRoutes} from 'react-router-config';
 
 import routes from '@generated/routes'; // eslint-disable-line
@@ -27,23 +27,13 @@ const data = {
   siteConfig,
 };
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      setContext: context => {
-        this.setState(context);
-      },
-    };
-  }
-
-  render() {
-    return (
-      <DocusaurusContext.Provider value={{...data, ...this.state}}>
-        {renderRoutes(routes)}
-      </DocusaurusContext.Provider>
-    );
-  }
+function App() {
+  const [context, setContext] = useState({});
+  return (
+    <DocusaurusContext.Provider value={{...data, ...context, setContext}}>
+      {renderRoutes(routes)}
+    </DocusaurusContext.Provider>
+  );
 }
 
 export default App;

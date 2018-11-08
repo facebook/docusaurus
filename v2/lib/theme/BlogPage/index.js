@@ -6,8 +6,8 @@
  */
 
 import React, {useContext} from 'react';
-import {Link} from 'react-router-dom';
-import Head from '@docusaurus/head';
+import Link from '@docusaurus/Link';
+import Head from '@docusaurus/Head';
 import Layout from '@theme/Layout'; // eslint-disable-line
 import BlogPost from '@theme/BlogPost'; // eslint-disable-line
 

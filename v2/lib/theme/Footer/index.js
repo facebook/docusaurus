@@ -6,7 +6,7 @@
  */
 
 import React, {useContext} from 'react';
-import {Link} from 'react-router-dom';
+import Link from '@docusaurus/Link';
 
 import DocusaurusContext from '@docusaurus/context';
 

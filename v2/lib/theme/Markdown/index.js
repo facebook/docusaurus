@@ -6,7 +6,7 @@
  */
 
 import React, {useContext} from 'react';
-import Head from '@docusaurus/head';
+import Head from '@docusaurus/Head';
 
 import DocusaurusContext from '@docusaurus/context';
 

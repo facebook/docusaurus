@@ -6,8 +6,8 @@
  */
 
 import React, {useContext} from 'react';
-import {NavLink} from 'react-router-dom';
 
+import Link from '@docusaurus/Link';
 import Search from '@theme/Search';
 import DocusaurusContext from '@docusaurus/context';
 import styles from './styles.module.css';
@@ -54,12 +54,12 @@ function Navbar(props) {
       }
       return (
         <li key={link.doc} className={styles.navListItem}>
-          <NavLink
+          <Link
             activeClassName={styles.navLinkActive}
             className={styles.navLink}
             to={docsMetadatas[id].permalink}>
             {link.label}
-          </NavLink>
+          </Link>
         </li>
       );
     }
@@ -70,12 +70,12 @@ function Navbar(props) {
       }`;
       return (
         <li key={link.page} className={styles.navListItem}>
-          <NavLink
+          <Link
             activeClassName={styles.navLinkActive}
             className={styles.navLink}
             to={pageHref}>
             {link.label}
-          </NavLink>
+          </Link>
         </li>
       );
     }
@@ -83,9 +83,9 @@ function Navbar(props) {
       // set link to specified href
       return (
         <li key={link.label} className={styles.navListItem}>
-          <a href={link.href} className={styles.navLink}>
+          <Link to={link.href} className={styles.navLink}>
             {link.label}
-          </a>
+          </Link>
         </li>
       );
     }
@@ -94,12 +94,12 @@ function Navbar(props) {
       const blogUrl = `${baseUrl}blog`;
       return (
         <li key="Blog" className={styles.navListItem}>
-          <NavLink
+          <Link
             activeClassName={styles.navLinkActive}
             className={styles.navLink}
             to={blogUrl}>
             Blog
-          </NavLink>
+          </Link>
         </li>
       );
     }
@@ -111,14 +111,14 @@ function Navbar(props) {
       <div className={styles.navbarInner}>
         <ul className={styles.navList}>
           <li key="logo" className={styles.navListItem}>
-            <NavLink className={styles.navBrand} to="/">
+            <Link className={styles.navBrand} to="/">
               <img
                 alt="Docusaurus Logo"
                 className={styles.navLogo}
                 src={baseUrl + headerIcon}
               />
               <strong>Docusaurus</strong>
-            </NavLink>
+            </Link>
           </li>
           {headerLinks.map(makeLinks)}
         </ul>

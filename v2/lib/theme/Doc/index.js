@@ -7,7 +7,7 @@
 
 import React, {useContext} from 'react';
 import {renderRoutes} from 'react-router-config';
-import Head from '@docusaurus/head';
+import Head from '@docusaurus/Head';
 
 import Footer from '@theme/Footer'; // eslint-disable-line
 import Navbar from '@theme/Navbar'; // eslint-disable-line
