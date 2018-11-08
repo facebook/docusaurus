@@ -8,10 +8,12 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom';
 
+const externalRegex = /^(https?:|\/\/)/;
+
 function Link(props) {
   const {to, href} = props;
   const targetLink = to || href;
-  const isExternal = /^(https?:|\/\/)/.test(targetLink);
+  const isExternal = externalRegex.test(targetLink);
   return !targetLink || isExternal ? (
     // eslint-disable-next-line jsx-a11y/anchor-has-content
     <a {...props} href={targetLink} />

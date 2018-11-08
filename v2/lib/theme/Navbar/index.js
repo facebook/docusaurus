@@ -7,7 +7,7 @@
 
 import React, {useContext} from 'react';
 
-import Link from '@docusaurus/link';
+import Link from '@docusaurus/Link';
 import Search from '@theme/Search';
 import DocusaurusContext from '@docusaurus/context';
 import styles from './styles.module.css';

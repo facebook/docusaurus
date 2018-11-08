@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import Link from '@docusaurus/link';
+import Link from '@docusaurus/Link';
 import classnames from 'classnames';
 
 import styles from './styles.module.css';

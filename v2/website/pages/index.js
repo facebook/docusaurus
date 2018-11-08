@@ -6,7 +6,7 @@
  */
 
 import React, {useEffect, useState} from 'react';
-import Head from '@docusaurus/head';
+import Head from '@docusaurus/Head';
 
 import classnames from 'classnames';
 

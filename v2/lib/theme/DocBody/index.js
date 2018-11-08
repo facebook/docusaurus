@@ -16,7 +16,7 @@ function DocBody(props) {
   const {children, metadata} = props;
   const context = useContext(DocusaurusContext);
   useEffect(() => {
-    context.setMetadata(metadata);
+    context.setContext({metadata});
   }, []);
 
   return (

@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import Head from '@docusaurus/head';
+import Head from '@docusaurus/Head';
 
 export default class World extends React.Component {
   render() {

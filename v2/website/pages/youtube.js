@@ -6,7 +6,7 @@
  */
 /* eslint-disable */
 import React from 'react';
-import Head from '@docusaurus/head';
+import Head from '@docusaurus/Head';
 import YouTube from 'react-youtube';
 
 export default class Player extends React.Component {

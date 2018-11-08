@@ -28,9 +28,9 @@ const data = {
 };
 
 function App() {
-  const [metadata, setMetadata] = useState({});
+  const [context, setContext] = useState({});
   return (
-    <DocusaurusContext.Provider value={{...data, metadata, setMetadata}}>
+    <DocusaurusContext.Provider value={{...data, ...context, setContext}}>
       {renderRoutes(routes)}
     </DocusaurusContext.Provider>
   );
