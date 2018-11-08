@@ -56,8 +56,7 @@ root-directory
 
 You will need to keep the `website/siteConfig.js` and `website/core/Footer.js`
 files, but may edit them as you wish. The value of the `customDocsPath` key in 
-`website/siteConfig.js` can be edited to change the Docusaurus `../docs` folder 
-name.
+`website/siteConfig.js` can be modified if you wish to use a different directory name or path.
 
 You should keep the `website/pages` and `website/static` directories, but may 
 change the content inside them as you wish. At the bare minimum you should have
