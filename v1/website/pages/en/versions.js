@@ -16,6 +16,7 @@ const CWD = process.cwd();
 const siteConfig = require(`${CWD}/siteConfig.js`);
 const versions = require(`${CWD}/versions.json`);
 const {getDocsUrl} = require('../../../lib/server/routing.js');
+
 const docsUrl = getDocsUrl(siteConfig.docsUrl);
 
 function Versions(props) {

@@ -15,6 +15,7 @@ const Showcase = require(`${process.cwd()}/core/Showcase.js`);
 const siteConfig = require(`${process.cwd()}/siteConfig.js`);
 const translate = require('../../server/translate.js').translate;
 const {getDocsUrl} = require('../../server/routing.js');
+
 const docsUrl = getDocsUrl(siteConfig.docsUrl);
 
 class Button extends React.Component {

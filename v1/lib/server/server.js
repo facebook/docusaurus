@@ -109,22 +109,31 @@ function execute(port) {
 
   const app = express();
 
-  app.get(routing.docs(siteConfig.baseUrl, routing.getDocsUrl(siteConfig.docsUrl)), (req, res, next) => {
-    const url = decodeURI(req.path.toString().replace(siteConfig.baseUrl, ''));
-    const metadata =
-      Metadata[
-        Object.keys(Metadata).find(id => Metadata[id].permalink === url)
-      ];
-    const file = docs.getFile(metadata);
-    if (!file) {
-      next();
-      return;
-    }
-    const rawContent = metadataUtils.extractMetadata(file).rawContent;
-    removeModuleAndChildrenFromCache('../core/DocsLayout.js');
-    const mdToHtml = metadataUtils.mdToHtml(Metadata, siteConfig.baseUrl, routing.getDocsUrl(siteConfig.docsUrl),);
-    res.send(docs.getMarkup(rawContent, mdToHtml, metadata));
-  });
+  app.get(
+    routing.docs(siteConfig.baseUrl, routing.getDocsUrl(siteConfig.docsUrl)),
+    (req, res, next) => {
+      const url = decodeURI(
+        req.path.toString().replace(siteConfig.baseUrl, ''),
+      );
+      const metadata =
+        Metadata[
+          Object.keys(Metadata).find(id => Metadata[id].permalink === url)
+        ];
+      const file = docs.getFile(metadata);
+      if (!file) {
+        next();
+        return;
+      }
+      const rawContent = metadataUtils.extractMetadata(file).rawContent;
+      removeModuleAndChildrenFromCache('../core/DocsLayout.js');
+      const mdToHtml = metadataUtils.mdToHtml(
+        Metadata,
+        siteConfig.baseUrl,
+        routing.getDocsUrl(siteConfig.docsUrl),
+      );
+      res.send(docs.getMarkup(rawContent, mdToHtml, metadata));
+    },
+  );
 
   app.get(routing.sitemap(siteConfig.baseUrl), (req, res) => {
     sitemap((err, xml) => {
