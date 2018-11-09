@@ -41,15 +41,7 @@ describe('readCategories', () => {
 
     expect(categories.en).toBeDefined();
     expect(categories.en.length).toBe(2);
-
-    expect(categories.en[0].name).toBe('Test');
-    expect(categories.en[0].links.length).toBe(2);
-    expect(categories.en[0].links[0].id).toBe('en-doc1');
-    expect(categories.en[0].links[1].id).toBe('en-doc2');
-
-    expect(categories.en[1].name).toBe('Test 2');
-    expect(categories.en[1].links.length).toBe(1);
-    expect(categories.en[1].links[0].id).toBe('en-doc3');
+    expect(categories.en).toMatchSnapshot();
   });
 
   test('should return proper data with categories and sub categories', () => {
@@ -58,24 +50,7 @@ describe('readCategories', () => {
     expect(categories.en).toBeDefined();
     expect(categories.ko).toBeDefined();
     expect(categories.en.length).toBe(2);
-
-    expect(categories.en[0].name).toBe('Test');
-    expect(categories.en[0].links.length).toBe(0);
-    expect(categories.en[0].sub_categories.length).toBe(2);
-
-    expect(categories.en[0].sub_categories[0].name).toBe('Sub Cat 1');
-    expect(categories.en[0].sub_categories[0].links.length).toBe(2);
-    expect(categories.en[0].sub_categories[0].links[0].id).toBe('en-doc1');
-    expect(categories.en[0].sub_categories[0].links[1].id).toBe('en-doc2');
-
-    expect(categories.en[0].sub_categories[1].name).toBe('Sub Cat 2');
-    expect(categories.en[0].sub_categories[1].links.length).toBe(1);
-    expect(categories.en[0].sub_categories[1].links[0].id).toBe('en-doc3');
-
-    expect(categories.en[1].name).toBe('Test 2');
-    expect(categories.en[1].links.length).toBe(1);
-    expect(categories.en[1].links[0].id).toBe('en-doc4');
-    expect(categories.en[1].sub_categories).not.toBeDefined();
+    expect(categories.en).toMatchSnapshot();
   });
 
   test('should return proper languages when not enabled', () => {

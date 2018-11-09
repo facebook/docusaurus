@@ -1,9 +1,37 @@
+/**
+ * Copyright (c) 2017-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
 const Config = require('webpack-chain');
 const CSSExtractPlugin = require('mini-css-extract-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const path = require('path');
 
-const mdLoader = require.resolve('./loader/markdown');
+const mdLoader = require.resolve('./loaders/markdown');
+
+const CSS_REGEX = /\.css$/;
+const CSS_MODULE_REGEX = /\.module\.css$/;
+
+// Utility method to add styling-related rule to Webpack config.
+function applyStyle(styleRule, {cssOptions, isServer, isProd}) {
+  if (!isServer) {
+    if (isProd) {
+      styleRule.use('extract-css-loader').loader(CSSExtractPlugin.loader);
+    } else {
+      styleRule.use('style-loader').loader('style-loader');
+    }
+  }
+
+  styleRule
+    .use('css-loader')
+    .loader(isServer ? 'css-loader/locals' : 'css-loader')
+    .options(cssOptions);
+
+  return styleRule;
+}
 
 module.exports = function createBaseConfig(props, isServer) {
   const {
@@ -43,7 +71,10 @@ module.exports = function createBaseConfig(props, isServer) {
     .set('@build', outDir)
     .set('@generated', path.resolve(__dirname, '../core/generated'))
     .set('@core', path.resolve(__dirname, '../core'))
-    .end();
+    .set('@docusaurus', path.resolve(__dirname, '../docusaurus'))
+    .end()
+    .modules.add(path.resolve(__dirname, '../../node_modules')) // Prioritize our own node modules.
+    .add(path.resolve(siteDir, 'node_modules')); // load user node_modules
 
   function applyBabel(rule) {
     rule
@@ -53,9 +84,8 @@ module.exports = function createBaseConfig(props, isServer) {
         babelrc: false,
         presets: ['@babel/env', '@babel/react'],
         plugins: [
-          isServer
-            ? 'babel-plugin-transform-dynamic-import'
-            : '@babel/syntax-dynamic-import',
+          isServer ? 'dynamic-import-node' : '@babel/syntax-dynamic-import',
+          'react-loadable/babel',
         ],
       });
   }
@@ -72,13 +102,10 @@ module.exports = function createBaseConfig(props, isServer) {
       return /node_modules/.test(filepath);
     })
     .end();
-
   applyBabel(jsRule);
 
   const mdRule = config.module.rule('markdown').test(/\.md$/);
-
   applyBabel(mdRule);
-
   mdRule
     .use('markdown-loader')
     .loader(mdLoader)
@@ -90,25 +117,32 @@ module.exports = function createBaseConfig(props, isServer) {
       sourceToMetadata,
     });
 
-  const cssRule = config.module.rule('css').test(/\.css$/);
-  if (!isServer) {
-    if (isProd) {
-      cssRule.use('extract-css-loader').loader(CSSExtractPlugin.loader);
-    } else {
-      cssRule.use('style-loader').loader('style-loader');
-    }
-  }
+  applyStyle(config.module.rule('css'), {
+    cssOptions: {
+      importLoaders: 1,
+      sourceMap: !isProd,
+      minimize: true,
+    },
+    isProd,
+    isServer,
+  })
+    .test(CSS_REGEX)
+    .exclude.add(CSS_MODULE_REGEX)
+    .end();
 
-  cssRule
-    .use('css-loader')
-    .loader(isServer ? 'css-loader/locals' : 'css-loader')
-    .options({
+  // Adds support for CSS Modules (https://github.com/css-modules/css-modules)
+  // using the extension .module.css
+  applyStyle(config.module.rule('css-module'), {
+    cssOptions: {
       modules: true,
       importLoaders: 1,
       localIdentName: `[local]_[hash:base64:8]`,
       sourceMap: !isProd,
       minimize: true,
-    });
+    },
+    isProd,
+    isServer,
+  }).test(CSS_MODULE_REGEX);
 
   // mini-css-extract plugin
   config.plugin('extract-css').use(CSSExtractPlugin, [
@@ -120,15 +154,17 @@ module.exports = function createBaseConfig(props, isServer) {
 
   if (isProd) {
     config.optimization.minimizer([
-      new UglifyJsPlugin({
+      new TerserPlugin({
         cache: true,
-        uglifyOptions: {
-          warnings: false,
-          compress: false,
+        parallel: true,
+        sourceMap: true,
+        terserOptions: {
           ecma: 6,
           mangle: true,
+          output: {
+            comments: false,
+          },
         },
-        sourceMap: true,
       }),
     ]);
   }

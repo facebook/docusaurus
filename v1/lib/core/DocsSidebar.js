@@ -28,12 +28,13 @@ if (fs.existsSync(`../server/languages.js`)) {
 
 class DocsSidebar extends React.Component {
   render() {
-    const sidebar = this.props.metadata.sidebar;
+    const {category, sidebar} = this.props.metadata;
     const docsCategories = readCategories(sidebar, Metadata, languages);
-    const categoryName = this.props.metadata.category;
-    if (!categoryName) {
+
+    if (!category) {
       return null;
     }
+
     return (
       <Container className="docsNavContainer" id="docsNav" wrapper={false}>
         <SideNav

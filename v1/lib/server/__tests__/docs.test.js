@@ -50,8 +50,20 @@ const doc2 = fs.readFileSync(
   'utf8',
 );
 
+const doc3 = fs.readFileSync(
+  path.join(__dirname, '__fixtures__', 'subdir', 'doc3.md'),
+  'utf8',
+);
+
+const refLinks = fs.readFileSync(
+  path.join(__dirname, '__fixtures__', 'reflinks.md'),
+  'utf8',
+);
+
 const rawContent1 = metadataUtils.extractMetadata(doc1).rawContent;
 const rawContent2 = metadataUtils.extractMetadata(doc2).rawContent;
+const rawContent3 = metadataUtils.extractMetadata(doc3).rawContent;
+const rawContentRefLinks = metadataUtils.extractMetadata(refLinks).rawContent;
 
 describe('mdToHtmlify', () => {
   const mdToHtml = metadataUtils.mdToHtml(Metadata, '/', 'docs');
@@ -76,6 +88,39 @@ describe('mdToHtmlify', () => {
     expect(content2).toContain('/docs/en/next/');
     expect(content2).toMatchSnapshot();
     expect(content2).not.toEqual(rawContent2);
+  });
+
+  test('transform link even in subdirectory', () => {
+    const customMetadata = {
+      'subdir-doc3': {
+        id: 'subdir-doc3',
+        title: 'Document 3',
+        source: 'subdir/doc3.md',
+        permalink: 'docs/subdir/doc3.html',
+        language: 'en',
+      },
+    };
+    const customMdToHtml = metadataUtils.mdToHtml(customMetadata, '/');
+    const content3 = docs.mdToHtmlify(
+      rawContent3,
+      customMdToHtml,
+      customMetadata['subdir-doc3'],
+    );
+    expect(content3).toContain('/docs/subdir/doc3');
+    expect(content3).not.toContain('subdir/doc3.md');
+    expect(content3).toMatchSnapshot();
+    expect(content3).not.toEqual(rawContent3);
+  });
+
+  test('transforms reference links', () => {
+    const contentRefLinks = docs.mdToHtmlify(
+      rawContentRefLinks,
+      mdToHtml,
+      Metadata['en-reflinks'],
+    );
+    expect(contentRefLinks).toContain('/docs/en/next/');
+    expect(contentRefLinks).toMatchSnapshot();
+    expect(contentRefLinks).not.toEqual(rawContentRefLinks);
   });
 });
 

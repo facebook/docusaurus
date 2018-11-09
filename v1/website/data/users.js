@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2017-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
 module.exports = [
   // Please add your logo in alphabetical order of caption.
   {
@@ -64,6 +71,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Create React App',
+    image: '/img/users/react.svg',
+    infoLink: 'https://facebook.github.io/create-react-app/',
+    fbOpenSource: true,
+    pinned: true,
+  },
+  {
     caption: 'Dep',
     image: '/img/users/golang-dep.svg',
     infoLink: 'https://golang.github.io/dep/',
@@ -97,6 +111,13 @@ module.exports = [
     infoLink: 'https://fbflipper.com',
     fbOpenSource: true,
     pinned: true,
+  },
+  {
+    caption: 'Formik',
+    image: '/img/users/formik.png',
+    infoLink: 'https://jaredpalmer.com/formik',
+    fbOpenSource: false,
+    pinned: false,
   },
   {
     caption: 'FuseBox',
@@ -155,6 +176,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Noderize',
+    image: '/img/users/noderize.svg',
+    infoLink: 'https://noderize.js.org/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'nteract',
     image:
       'https://media.githubusercontent.com/media/nteract/logos/master/nteract_logo_cube_book/exports/images/png/nteract_logo_mark_purple.png',
@@ -196,6 +224,13 @@ module.exports = [
     infoLink: 'https://slimkit.github.io',
     fbOpenSource: false,
     pinned: false,
+  },
+  {
+    caption: 'React 360',
+    image: '/img/users/react-360.svg',
+    infoLink: 'https://facebook.github.io/react-360',
+    fbOpenSource: true,
+    pinned: true,
   },
   {
     caption: 'React Native',
@@ -240,6 +275,13 @@ module.exports = [
     pinned: true,
   },
   {
+    caption: 'react-slate',
+    image: '/img/users/react-slate.svg',
+    infoLink: 'http://react-slate.surge.sh/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Rejoiner',
     image: '/img/users/rejoiner.svg',
     infoLink: 'http://rejoiner.io/',
@@ -275,6 +317,13 @@ module.exports = [
     pinned: true,
   },
   {
+    caption: 'Stackery',
+    image: 'https://www.stackery.io/img/stackery-large-mark-teal-w.png',
+    infoLink: 'https://docs.stackery.io',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'StreamPipes',
     image: 'https://streampipes.org/images/streampipes-logo-center.png',
     infoLink: 'https://docs.streampipes.org',
@@ -285,6 +334,13 @@ module.exports = [
     caption: 'textlint',
     image: 'https://textlint.github.io/img/textlint-icon.png',
     infoLink: 'https://textlint.github.io/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
+    caption: 'Vasern',
+    image: 'https://vasern.com/img/vasern.svg',
+    infoLink: 'https://vasern.com/',
     fbOpenSource: false,
     pinned: false,
   },

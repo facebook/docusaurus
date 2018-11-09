@@ -12,7 +12,7 @@ const path = require('path');
 const escapeStringRegexp = require('escape-string-regexp');
 
 function getSubDir(file, refDir) {
-  const subDir = path.dirname(path.relative(refDir, file)).replace('\\', '/');
+  const subDir = path.dirname(path.relative(refDir, file)).replace(/\\/g, '/');
   return subDir !== '.' && !subDir.includes('..') ? subDir : null;
 }
 
@@ -66,30 +66,10 @@ function autoPrefixCss(cssContent) {
     .then(result => result.css);
 }
 
-// Validate the docs in the sidebar are valid
-function validateSidebar(metadata, sidebarMetadatas) {
-  if (metadata.next) {
-    if (!sidebarMetadatas[metadata.next]) {
-      throw new Error(
-        metadata.version
-          ? `Improper sidebars file for version ${
-              metadata.version
-            }, document with id '${
-              metadata.next
-            }' not found. Make sure that all documents with ids specified in this version's sidebar file exist and that no ids are repeated.`
-          : `Improper sidebars.json file, document with id '${
-              metadata.next
-            }' not found. Make sure that documents with the ids specified in sidebars.json exist and that no ids are repeated.`,
-      );
-    }
-  }
-}
-
 module.exports = {
   getSubDir,
   getLanguage,
   isSeparateCss,
   minifyCss,
   autoPrefixCss,
-  validateSidebar,
 };

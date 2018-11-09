@@ -1,13 +1,20 @@
 {
   "docs": {
-    "Foo": [
-      "foo/bar",
-      "foo/baz"
+    "Getting Started": [
+      "installation",
+      "site-preparation",
+      "site-creation",
+      "publishing",
+      "docker"
     ],
-    "Endi": [
-      "docusaurus",
-      "highlight",
-      "hello"
-    ]
+    "Guides": [
+      "adding-blog",
+      "custom-pages",
+      "search",
+      "navigation",
+      "translation",
+      "versioning"
+    ],
+    "API": ["commands", "doc-markdown", "api-pages", "site-config"]
   }
 }

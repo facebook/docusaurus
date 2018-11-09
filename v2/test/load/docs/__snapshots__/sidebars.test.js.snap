@@ -2,43 +2,115 @@
 
 exports[`loadSidebars normal site with sidebars 1`] = `
 Object {
-  "docs": Object {
-    "Getting Started": Array [
-      "installation",
-    ],
-    "Guides": Array [
-      "blog",
-    ],
-  },
+  "docs": Array [
+    Object {
+      "items": Array [
+        Object {
+          "id": "foo/bar",
+          "type": "doc",
+        },
+        Object {
+          "id": "foo/baz",
+          "type": "doc",
+        },
+      ],
+      "label": "Test",
+      "type": "category",
+    },
+    Object {
+      "items": Array [
+        Object {
+          "id": "hello",
+          "type": "doc",
+        },
+      ],
+      "label": "Guides",
+      "type": "category",
+    },
+  ],
 }
 `;
 
 exports[`loadSidebars site with sidebars & versioned sidebars 1`] = `
 Object {
-  "docs": Object {
-    "Getting Started": Array [
-      "installation",
-    ],
-    "Guides": Array [
-      "blog",
-    ],
-  },
-  "version-1.0.0-docs": Object {
-    "Getting Started": Array [
-      "version-1.0.0-installation",
-    ],
-    "Guides": Array [
-      "version-1.0.0-blog",
-    ],
-  },
-  "version-1.0.1-docs": Object {
-    "Getting Started": Array [
-      "version-1.0.1-installation",
-    ],
-    "Guides": Array [
-      "version-1.0.1-blog",
-    ],
-  },
+  "docs": Array [
+    Object {
+      "items": Array [
+        Object {
+          "id": "foo/bar",
+          "type": "doc",
+        },
+        Object {
+          "id": "foo/baz",
+          "type": "doc",
+        },
+      ],
+      "label": "Test",
+      "type": "category",
+    },
+    Object {
+      "items": Array [
+        Object {
+          "id": "hello",
+          "type": "doc",
+        },
+      ],
+      "label": "Guides",
+      "type": "category",
+    },
+  ],
+  "version-1.0.0-docs": Array [
+    Object {
+      "items": Array [
+        Object {
+          "id": "version-1.0.0-foo/bar",
+          "type": "doc",
+        },
+        Object {
+          "id": "version-1.0.0-foo/baz",
+          "type": "doc",
+        },
+      ],
+      "label": "Test",
+      "type": "category",
+    },
+    Object {
+      "items": Array [
+        Object {
+          "id": "version-1.0.0-hello",
+          "type": "doc",
+        },
+      ],
+      "label": "Guides",
+      "type": "category",
+    },
+  ],
+  "version-1.0.1-docs": Array [
+    Object {
+      "items": Array [
+        Object {
+          "id": "version-1.0.1-foo/bar",
+          "type": "doc",
+        },
+        Object {
+          "id": "version-1.0.1-foo/baz",
+          "type": "doc",
+        },
+      ],
+      "label": "Test",
+      "type": "category",
+    },
+    Object {
+      "items": Array [
+        Object {
+          "id": "version-1.0.1-hello",
+          "type": "doc",
+        },
+      ],
+      "label": "Guides",
+      "type": "category",
+    },
+  ],
 }
 `;
 

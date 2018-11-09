@@ -1,0 +1,194 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`readCategories should return proper categories and their pages 1`] = `
+Array [
+  Object {
+    "children": Array [
+      Object {
+        "item": Object {
+          "category": "Test",
+          "id": "en-doc1",
+          "language": "en",
+          "localized_id": "doc1",
+          "next": "en-doc2",
+          "next_id": "doc2",
+          "next_title": "Document 2",
+          "permalink": "docs/en/next/doc1.html",
+          "sidebar": "docs",
+          "sort": 1,
+          "source": "doc1.md",
+          "title": "Document 1",
+          "version": "next",
+        },
+        "type": "LINK",
+      },
+      Object {
+        "item": Object {
+          "category": "Test",
+          "id": "en-doc2",
+          "language": "en",
+          "localized_id": "doc2",
+          "permalink": "docs/en/next/doc2.html",
+          "previous": "en-doc1",
+          "previous_id": "doc1",
+          "previous_title": "Document 1",
+          "sidebar": "docs",
+          "sort": 2,
+          "source": "doc2.md",
+          "title": "Document 2",
+          "version": "next",
+        },
+        "type": "LINK",
+      },
+    ],
+    "title": "Test",
+    "type": "CATEGORY",
+  },
+  Object {
+    "children": Array [
+      Object {
+        "item": Object {
+          "category": "Test 2",
+          "id": "en-doc3",
+          "language": "en",
+          "localized_id": "doc3",
+          "permalink": "docs/en/next/doc3.html",
+          "previous": "en-doc2",
+          "previous_id": "doc2",
+          "previous_title": "Document 2",
+          "sidebar": "docs",
+          "sort": 3,
+          "source": "doc3.md",
+          "title": "Document 3",
+          "version": "next",
+        },
+        "type": "LINK",
+      },
+      Object {
+        "item": Object {
+          "category": "Test 2",
+          "id": "en-reflinks",
+          "language": "en",
+          "localized_id": "reflinks",
+          "permalink": "docs/en/next/reflinks.html",
+          "previous": "en-doc3",
+          "previous_id": "doc3",
+          "previous_title": "Document 3",
+          "sidebar": "docs",
+          "sort": 4,
+          "source": "reflinks.md",
+          "title": "Reference Links",
+          "version": "next",
+        },
+        "type": "LINK",
+      },
+    ],
+    "title": "Test 2",
+    "type": "CATEGORY",
+  },
+]
+`;
+
+exports[`readCategories should return proper data with categories and sub categories 1`] = `
+Array [
+  Object {
+    "children": Array [
+      Object {
+        "children": Array [
+          Object {
+            "item": Object {
+              "category": "Test",
+              "id": "en-doc1",
+              "language": "en",
+              "localized_id": "doc1",
+              "next": "en-doc2",
+              "next_id": "doc2",
+              "next_title": "Document 2",
+              "permalink": "docs/en/next/doc1.html",
+              "sidebar": "docs",
+              "sort": 1,
+              "source": "doc1.md",
+              "subcategory": "Sub Cat 1",
+              "title": "Document 1",
+              "version": "next",
+            },
+            "type": "LINK",
+          },
+          Object {
+            "item": Object {
+              "category": "Test",
+              "id": "en-doc2",
+              "language": "en",
+              "localized_id": "doc2",
+              "permalink": "docs/en/next/doc2.html",
+              "previous": "en-doc1",
+              "previous_id": "doc1",
+              "previous_title": "Document 1",
+              "sidebar": "docs",
+              "sort": 2,
+              "source": "doc2.md",
+              "subcategory": "Sub Cat 1",
+              "title": "Document 2",
+              "version": "next",
+            },
+            "type": "LINK",
+          },
+        ],
+        "title": "Sub Cat 1",
+        "type": "SUBCATEGORY",
+      },
+      Object {
+        "children": Array [
+          Object {
+            "item": Object {
+              "category": "Test",
+              "id": "en-doc3",
+              "language": "en",
+              "localized_id": "doc3",
+              "permalink": "docs/en/next/doc3.html",
+              "previous": "en-doc2",
+              "previous_id": "doc2",
+              "previous_title": "Document 2",
+              "sidebar": "docs",
+              "sort": 3,
+              "source": "doc3.md",
+              "subcategory": "Sub Cat 2",
+              "title": "Document 3",
+              "version": "next",
+            },
+            "type": "LINK",
+          },
+        ],
+        "title": "Sub Cat 2",
+        "type": "SUBCATEGORY",
+      },
+    ],
+    "title": "Test",
+    "type": "CATEGORY",
+  },
+  Object {
+    "children": Array [
+      Object {
+        "item": Object {
+          "category": "Test 2",
+          "id": "en-doc4",
+          "language": "en",
+          "localized_id": "doc4",
+          "permalink": "docs/en/next/doc4.html",
+          "previous": "en-doc3",
+          "previous_id": "doc3",
+          "previous_title": "Document 3",
+          "sidebar": "docs",
+          "sort": 4,
+          "source": "doc4.md",
+          "title": "Document 4",
+          "version": "next",
+        },
+        "type": "LINK",
+      },
+    ],
+    "title": "Test 2",
+    "type": "CATEGORY",
+  },
+]
+`;

@@ -22,11 +22,9 @@ For example, creating an empty file such as `docs/getting-started.md` will enabl
 Suppose you add this to your document:
 
 ```yaml
----
 id: intro
 title: Getting Started
 ---
-
 My new content here..
 ```
 
@@ -94,27 +92,50 @@ You should provide `directory/id` instead of `id` in `sidebars.json`.
 }
 ```
 
-### Adding Sub Categories 
+### Adding Subcategories
 
-It is possibile to add sub categories to a sidebar. Instead of passing an array to the category like the previous examples you can pass an object where 
-the keys will be the sub category name. You can then pass an array of document ids to the sub category.
+It is possible to add subcategories to a sidebar. Instead of using IDs as the contents of the category array like the previous examples, you can pass an object where the keys will be the subcategory name and the value an array of IDs for that subcategory.
 
 ```js
 {
-  "examples-sidebar" : {
-    "My Example Category" : {
-      "My Example Sub Category" : [
-        "my-examples",
-        ...
-      ],
-      "My Next Sub Category" : [
-        "some-other-examples"
-      ]
+  "docs": {
+    "My Example Category": [
+      "examples",
+      {
+        "type": "subcategory",
+        "label": "My Example Subcategory",
+        "ids": [
+          "my-examples",
+          ...
+        ]
+      },
+      {
+        "type": "subcategory",
+        "label": "My Next Subcategory",
+        "ids": [
+          "some-other-examples"
+        ]
+      },
+      "even-more-examples",
       ...
-    },
+    ],
     ...
   }
 }
+
+/*
+The above will generate:
+
+- My Example Category
+  - examples
+  - My Example Subcategory
+    - my-examples
+    ...
+  - My Next Subcategory
+    - some-other-examples
+  - even-more-examples
+  ...
+*/
 ```
 
 ### Adding New Sidebars
@@ -234,8 +255,8 @@ The links in the top navigation bar get `siteNavItemActive` and `siteNavGroupAct
 
 The `siteNavGroupActive` class will be added to these links:
 
-* `doc` links that belong to the same sidebar as the currently displayed document
-* The blog link when a blog post, or the blog listing page is being displayed
+- `doc` links that belong to the same sidebar as the currently displayed document
+- The blog link when a blog post, or the blog listing page is being displayed
 
 These are two separate class names so you can have the active styles applied to either exact matches only or a bit more broadly for docs that belong together. If you don't want to make this distinction you can add both classes to the same CSS rule.
 

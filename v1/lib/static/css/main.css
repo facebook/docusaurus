@@ -1500,8 +1500,7 @@ input::placeholder {
 
 @media only screen and (min-width: 1024px) {
   .docMainWrapper {
-    max-width:100% !important ;
-    margin: 0;
+    width: 100%;
   }
 
   .docMainWrapper > * {
@@ -1535,6 +1534,14 @@ input::placeholder {
     display: none;
   }
 }
+
+.docLastUpdate {
+  font-size: 13px;
+  font-style: italic;
+  margin: 20px 0;
+  text-align: right;
+}
+
 /* End of Docs Main */
 
 /* Start of Docs Navigation */
@@ -1600,9 +1607,7 @@ input::placeholder {
 
 @media only screen and (min-width: 1024px) {
   .docsNavContainer {
-    flex: 1 0 240px;
-    display: flex;
-    justify-content: flex-end;
+    flex: 0 0 240px;
     height: calc(100vh - 50px);
     position: -webkit-sticky;
     position: sticky;
@@ -1645,7 +1650,7 @@ input::placeholder {
   }
 
   .separateOnPageNav .docsNavContainer {
-    flex: 1 0 240px;
+    flex: 0 0 240px;
   }
 }
 
@@ -1757,11 +1762,10 @@ input::placeholder {
 }
 
 .toc .toggleNav .subNavGroup {
-  margin-top : 16px;
+  margin-bottom: 0;
 }
 
-.toc .toggleNav .navGroup .navGroupCategoryTitle,
-.toc .toggleNav .navGroup .navGroupSubCategoryTitle {
+.toc .toggleNav .navGroup .navGroupCategoryTitle {
   color: #393939;
   font-size: 18px;
   font-weight: 500;
@@ -1770,8 +1774,14 @@ input::placeholder {
   margin-top: 0;
 }
 
-.toc .toggleNav .navGroup .navGroupSubCategoryTitle {
-  font-size: 16px;
+.toc .toggleNav .navGroup .navGroupSubcategoryTitle {
+  color: #393939;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+  margin-bottom: 0;
+  margin-top: 0;
+  padding: 4px 0;
 }
 
 .toc .toggleNav .navGroup .navListItem {
@@ -1999,11 +2009,6 @@ input::placeholder {
       width: auto;
     }
 
-    .docsNavContainer > :first-child {
-      width: 240px;
-      max-width: 240px;
-    }
-
     .separateOnPageNav.sideNavVisible .navPusher .mainContainer {
       flex: 1 auto;
       max-width: 100%;
@@ -2021,10 +2026,6 @@ input::placeholder {
       top: 90px;
     }
 
-    .docOnPageNav {
-      flex: 1 0 240px;
-    }
-
     .onPageNav > .toc-headings {
       border-left: 1px solid #e0e0e0;
       padding: 10px 0 2px 15px;
@@ -2033,14 +2034,6 @@ input::placeholder {
     .tocToggler {
       display: none;
     }
-  }
-}
-
-
-@media only screen and (min-width: 1024px) {
-  .separateOnPageNav.sideNavVisible .navPusher .docMainContainer {
-    flex-basis: 784px;
-    flex-grow: 0;
   }
 }
 

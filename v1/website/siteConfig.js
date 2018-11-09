@@ -71,6 +71,7 @@ const siteConfig = {
     zIndex: 100,
   },
   enableUpdateTime: true,
+  enableUpdateBy: true,
   customDocsPath: '../docs',
 };
 

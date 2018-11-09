@@ -14,10 +14,11 @@ const Container = require('./Container.js');
 const Doc = require('./Doc.js');
 const DocsSidebar = require('./DocsSidebar.js');
 const OnPageNav = require('./nav/OnPageNav.js');
+const renderMarkdown = require('./renderMarkdown');
 const Site = require('./Site.js');
 const translation = require('../server/translation.js');
 const docs = require('../server/docs.js');
-const {idx, getGitLastUpdated} = require('./utils.js');
+const {idx, getGitLastUpdatedTime, getGitLastUpdatedBy} = require('./utils.js');
 
 // component used to generate whole webpage for docs, including sidebar/header/footer
 class DocsLayout extends React.Component {
@@ -41,26 +42,30 @@ class DocsLayout extends React.Component {
     const id = metadata.localized_id;
     const defaultTitle = metadata.title;
     let DocComponent = Doc;
+
     if (this.props.Doc) {
       DocComponent = this.props.Doc;
     }
-    let updateTime;
-    if (this.props.config.enableUpdateTime) {
-      const filepath = docs.getFilePath(metadata);
-      updateTime = getGitLastUpdated(filepath);
-    }
+    const filepath = docs.getFilePath(metadata);
+
+    const updateTime = this.props.config.enableUpdateTime
+      ? getGitLastUpdatedTime(filepath)
+      : null;
+    const updateAuthor = this.props.config.enableUpdateBy
+      ? getGitLastUpdatedBy(filepath)
+      : null;
 
     const title =
       idx(i18n, ['localized-strings', 'docs', id, 'title']) || defaultTitle;
     const hasOnPageNav = this.props.config.onPageNav === 'separate';
 
     const previousTitle =
-      idx(i18n, ['localized-strings', metadata.previous_id]) ||
+      idx(i18n, ['localized-strings', 'docs', metadata.previous_id, 'title']) ||
       idx(i18n, ['localized-strings', 'previous']) ||
       metadata.previous_title ||
       'Previous';
     const nextTitle =
-      idx(i18n, ['localized-strings', metadata.next_id]) ||
+      idx(i18n, ['localized-strings', 'docs', metadata.next_id, 'title']) ||
       idx(i18n, ['localized-strings', 'next']) ||
       metadata.next_title ||
       'Next';
@@ -72,13 +77,13 @@ class DocsLayout extends React.Component {
           separateOnPageNav: hasOnPageNav,
         })}
         title={title}
-        description={content.trim().split('\n')[0]}
+        description={renderMarkdown(content.trim().split('\n')[0])}
         language={metadata.language}
         version={metadata.version}
         metadata={metadata}>
         <div className="docMainWrapper wrapper">
           <DocsSidebar metadata={metadata} />
-          <Container className="mainContainer docMainContainer">
+          <Container className="mainContainer">
             <DocComponent
               metadata={metadata}
               content={content}
@@ -89,6 +94,16 @@ class DocsLayout extends React.Component {
               version={metadata.version}
               language={metadata.language}
             />
+            {(updateTime || updateAuthor) && (
+              <div className="docLastUpdate">
+                <em>
+                  Last updated
+                  {updateTime && ` on ${updateTime}`}
+                  {updateAuthor && ` by ${updateAuthor}`}
+                </em>
+              </div>
+            )}
+
             <div className="docs-prevnext">
               {metadata.previous_id && (
                 <a
@@ -124,16 +139,9 @@ class DocsLayout extends React.Component {
                 </a>
               )}
             </div>
-            {this.props.config.enableUpdateTime &&
-              updateTime && (
-                <p style={{fontSize: '12px', textAlign: 'right'}}>
-                  <strong>Last updated: </strong>
-                  {updateTime}
-                </p>
-              )}
           </Container>
           {hasOnPageNav && (
-            <nav className="onPageNav docOnPageNav">
+            <nav className="onPageNav">
               <OnPageNav rawContent={content} />
             </nav>
           )}

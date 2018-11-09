@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2017-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
 const fs = require('fs-extra');
 const path = require('path');
 const {getSubFolder, idx, parse} = require('../utils');
@@ -151,6 +158,7 @@ module.exports = async function processMetadata(
   if (order[id]) {
     metadata.sidebar = order[id].sidebar;
     metadata.category = order[id].category;
+    metadata.subCategory = order[id].subCategory;
     if (order[id].next) {
       metadata.next_id = order[id].next;
       metadata.next = (language ? `${language}-` : '') + order[id].next;

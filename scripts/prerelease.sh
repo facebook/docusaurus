@@ -1,5 +1,12 @@
 #!/bin/bash
 
+##
+# Copyright (c) 2017-present, Facebook, Inc.
+#
+# This source code is licensed under the MIT license found in the
+# LICENSE file in the root directory of this source tree.
+#
+
 DOCS_VERSION_COMMAND="run version"
 
 echo "Select an option for release："
@@ -21,15 +28,16 @@ select VERSION in patch minor major "Specific Version"
       echo
 
       if [[ $REPLY =~ ^[Yy]$ || -z $REPLY ]]; then
-        # bump version
+        # Bump version
+        cd v1
         yarn version --new-version $VERSION --no-git-tag-version
         NEW_VERSION=$(node -p "require('./package.json').version")
 
-        # create new branch
+        # Create new branch
         git checkout -B $NEW_VERSION master
-        # cut docusaurus docs version
+        # Cut docusaurus docs version
         cd website && yarn $DOCS_VERSION_COMMAND $NEW_VERSION
-        
+
         # Create commit
         git add ../
         git commit -m "v$NEW_VERSION"

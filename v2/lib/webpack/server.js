@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2017-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
 const path = require('path');
 const staticSiteGenerator = require('static-site-generator-webpack-plugin');
 const webpackNiceLog = require('webpack-nicelog');
@@ -14,11 +21,11 @@ module.exports = function createServerConfig(props) {
   // Workaround for Webpack 4 Bug (https://github.com/webpack/webpack/issues/6522)
   config.output.globalObject('this');
 
-  const {siteConfig, docsMetadatas, pagesMetadatas} = props;
+  const {siteConfig, blogMetadatas, docsMetadatas, pagesMetadatas} = props;
 
   // static site generator webpack plugin
   const docsFlatMetadatas = Object.values(docsMetadatas);
-  const paths = [...docsFlatMetadatas, ...pagesMetadatas].map(
+  const paths = [...blogMetadatas, ...docsFlatMetadatas, ...pagesMetadatas].map(
     data => data.permalink,
   );
   config.plugin('siteGenerator').use(staticSiteGenerator, [

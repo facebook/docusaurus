@@ -1,8 +1,21 @@
-import React from 'react';
+/**
+ * Copyright (c) 2017-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
 
-import styles from './styles.css';
+import React, {useContext} from 'react';
+import Link from '@docusaurus/Link';
+
+import DocusaurusContext from '@docusaurus/context';
+
+import styles from './styles.module.css';
 
 function Footer() {
+  const context = useContext(DocusaurusContext);
+  const {pagesMetadatas} = context;
+
   return (
     <footer className={styles.footer}>
       <section className={styles.footerRow}>
@@ -64,6 +77,19 @@ function Footer() {
                 Twitter
               </a>
             </li>
+          </ul>
+        </div>
+        {/* This is for v2 development only to know which are the available page */}
+        <div className={styles.footerColumn}>
+          <h3 className={styles.footerColumnTitle}>Pages</h3>
+          <ul className={styles.footerList}>
+            {pagesMetadatas.map(metadata => (
+              <li key={metadata.permalink} className={styles.footerListItem}>
+                <Link className={styles.footerLink} to={metadata.permalink}>
+                  {metadata.permalink}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
       </section>

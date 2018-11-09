@@ -1,11 +1,18 @@
+/**
+ * Copyright (c) 2017-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
 import path from 'path';
 import loadSidebars from '@lib/load/docs/sidebars';
+import loadSetup from '../../loadSetup';
 
-describe('loadSidebars', () => {
+describe('loadSidebars', async () => {
   const fixtures = path.join(__dirname, '..', '__fixtures__');
-  test('normal site with sidebars', () => {
-    const env = {};
-    const siteDir = path.join(fixtures, 'simple-site');
+  test('normal site with sidebars', async () => {
+    const {env, siteDir} = await loadSetup('simple');
     const result = loadSidebars({siteDir, env});
     expect(result).toMatchSnapshot();
   });
@@ -17,26 +24,20 @@ describe('loadSidebars', () => {
     expect(result).toMatchSnapshot();
   });
 
-  test('site with sidebars & versioned sidebars', () => {
-    const env = {
-      versioning: {
-        enabled: true,
-        versions: ['1.0.1', '1.0.0'],
-      },
-    };
-    const siteDir = path.join(fixtures, 'versioned-site');
+  test('site with sidebars & versioned sidebars', async () => {
+    const {env, siteDir} = await loadSetup('versioned');
     const result = loadSidebars({siteDir, env});
     expect(result).toMatchSnapshot();
   });
 
-  test('site with missing versioned sidebars', () => {
+  test('site with missing versioned sidebars', async () => {
     const env = {
       versioning: {
         enabled: true,
         versions: ['2.0.0'],
       },
     };
-    const siteDir = path.join(fixtures, 'versioned-site');
+    const {siteDir} = await loadSetup('versioned');
     expect(() => {
       loadSidebars({siteDir, env});
     }).toThrowErrorMatchingInlineSnapshot(

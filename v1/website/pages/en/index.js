@@ -6,13 +6,16 @@
  */
 
 const React = require('react');
+
 const CompLibrary = require('../../core/CompLibrary.js');
 
 const Container = CompLibrary.Container;
 const GridBlock = CompLibrary.GridBlock;
+const Showcase = require(`${process.cwd()}/core/Showcase.js`);
 const siteConfig = require(`${process.cwd()}/siteConfig.js`);
 const translate = require('../../server/translate.js').translate;
 const {getDocsUrl} = require('../../server/routing.js');
+const docsUrl = getDocsUrl(siteConfig.docsUrl);
 
 class Button extends React.Component {
   render() {
@@ -52,9 +55,9 @@ class HomeSplash extends React.Component {
                   <div className="pluginRowBlock">
                     <Button
                       href={`
-                        ${siteConfig.baseUrl}${getDocsUrl(
-                        siteConfig.docsUrl,
-                      )}/${this.props.language}/installation
+                        ${siteConfig.baseUrl}${docsUrl}/${
+                        this.props.language
+                      }/installation
                         `}>
                       <translate>Get Started</translate>
                     </Button>
@@ -75,11 +78,7 @@ class HomeSplash extends React.Component {
 class Index extends React.Component {
   render() {
     const language = this.props.language || 'en';
-    const showcase = siteConfig.users.filter(user => user.pinned).map(user => (
-      <a href={user.infoLink} key={user.infoLink}>
-        <img src={user.image} alt={user.caption} title={user.caption} />
-      </a>
-    ));
+    const pinnedUsersToShowcase = siteConfig.users.filter(user => user.pinned);
 
     return (
       <div>
@@ -93,9 +92,7 @@ class Index extends React.Component {
                   content: `Save time and focus on your project's documentation. Simply
                     write docs and blog posts with [Markdown](${
                       siteConfig.baseUrl
-                    }${getDocsUrl(siteConfig.docsUrl)}/${
-                    this.props.language
-                  }/doc-markdown)
+                    }${docsUrl}/${this.props.language}/doc-markdown)
                     and Docusaurus will publish a set of static html files ready
                     to serve.`,
                   image: `${siteConfig.baseUrl}img/markdown.png`,
@@ -106,9 +103,7 @@ class Index extends React.Component {
                 {
                   content: `[Extend or customize](${
                     siteConfig.baseUrl
-                  }${getDocsUrl(siteConfig.docsUrl)}${
-                    this.props.language
-                  }/api-pages)
+                  }${docsUrl}${this.props.language}/api-pages)
                     your project's layout by reusing React. Docusaurus can be
                     extended while reusing the same header and footer.`,
                   image: `${siteConfig.baseUrl}img/react.svg`,
@@ -117,9 +112,9 @@ class Index extends React.Component {
                   title: <translate>Built Using React</translate>,
                 },
                 {
-                  content: `[Localization](${siteConfig.baseUrl}${getDocsUrl(
-                    siteConfig.docsUrl,
-                  )}${this.props.language}/translation)
+                  content: `[Localization](${siteConfig.baseUrl}${docsUrl}${
+                    this.props.language
+                  }/translation)
                     comes pre-configured. Use [Crowdin](https://crowdin.com/) to translate your docs
                     into over 70 languages.`,
                   image: `${siteConfig.baseUrl}img/translation.svg`,
@@ -137,9 +132,9 @@ class Index extends React.Component {
               contents={[
                 {
                   content: `Support users on all versions of your project. Document
-                    [versioning](${siteConfig.baseUrl}${getDocsUrl(
-                    siteConfig.docsUrl,
-                  )}/${this.props.language}/versioning)
+                    [versioning](${siteConfig.baseUrl}${docsUrl}/${
+                    this.props.language
+                  }/versioning)
                     helps you keep documentation in sync with project releases.`,
                   image: `${siteConfig.baseUrl}img/versioning.svg`,
                   imageAlign: 'top',
@@ -149,7 +144,7 @@ class Index extends React.Component {
                 {
                   content: `Make it easy for your community to [find](${
                     siteConfig.baseUrl
-                  }${getDocsUrl(siteConfig.docsUrl)}/${
+                  }${docsUrl}/${
                     this.props.language
                   }/search) what they need in your documentation.
                     We proudly support [Algolia documentation search](https://www.algolia.com/).`,
@@ -168,9 +163,7 @@ class Index extends React.Component {
                 {
                   content: `Get [up and running](${
                     siteConfig.baseUrl
-                  }${getDocsUrl(siteConfig.docsUrl)}${
-                    this.props.language
-                  }/site-creation)
+                  }${docsUrl}${this.props.language}/site-creation)
                     quickly without having to worry about site design.`,
                   imageAlign: 'right',
                   image: `${siteConfig.baseUrl}img/docusaurus_speed.svg`,
@@ -186,14 +179,12 @@ class Index extends React.Component {
               contents={[
                 {
                   content: `Make design and documentation changes by using the included
-                    [live server](${siteConfig.baseUrl}${getDocsUrl(
-                    siteConfig.docsUrl,
-                  )}/${
+                    [live server](${siteConfig.baseUrl}${docsUrl}/${
                     this.props.language
                   }/site-preparation#verifying-installation).
-                    [Publish](${siteConfig.baseUrl}${getDocsUrl(
-                    siteConfig.docsUrl,
-                  )}/${this.props.language}/publishing)
+                    [Publish](${siteConfig.baseUrl}${docsUrl}/${
+                    this.props.language
+                  }/publishing)
                     your site to GitHub pages or other static file hosts
                     manually, using a script, or with continuous integration
                     like CircleCI.`,
@@ -211,20 +202,18 @@ class Index extends React.Component {
               contents={[
                 {
                   content: `Docusaurus currently provides support to help your website
-                    use [translations](${siteConfig.baseUrl}${getDocsUrl(
-                    siteConfig.docsUrl,
-                  )}${this.props.language}/translation),
-                    [search](${siteConfig.baseUrl}${getDocsUrl(
-                    siteConfig.docsUrl,
-                  )}/${this.props.language}/search),
-                    and [versioning](${siteConfig.baseUrl}${getDocsUrl(
-                    siteConfig.docsUrl,
-                  )}${this.props.language}/versioning),
+                    use [translations](${siteConfig.baseUrl}${docsUrl}${
+                    this.props.language
+                  }/translation),
+                    [search](${siteConfig.baseUrl}${docsUrl}/${
+                    this.props.language
+                  }/search),
+                    and [versioning](${siteConfig.baseUrl}${docsUrl}${
+                    this.props.language
+                  }/versioning),
                     along with some other special [documentation markdown features](${
                       siteConfig.baseUrl
-                    }${getDocsUrl(siteConfig.docsUrl)}/${
-                    this.props.language
-                  }/doc-markdown).
+                    }${docsUrl}/${this.props.language}/doc-markdown).
                     If you have ideas for useful features, feel free to
                     contribute on [GitHub](https://github.com/facebook/docusaurus)!`,
                   imageAlign: 'right',
@@ -245,7 +234,7 @@ class Index extends React.Component {
                 Docusaurus is building websites for these projects...
               </translate>
             </p>
-            <div className="logos">{showcase}</div>
+            <Showcase users={pinnedUsersToShowcase} />
             <div className="more-users">
               <a
                 className="button"

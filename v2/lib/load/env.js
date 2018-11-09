@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2017-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
 const fs = require('fs-extra');
 const path = require('path');
 const {idx} = require('./utils');
@@ -11,6 +18,7 @@ module.exports = function loadEnv({siteDir, siteConfig}) {
   };
 
   const languagesFile = path.join(siteDir, 'languages.js');
+  delete require.cache[languagesFile];
   if (fs.existsSync(languagesFile)) {
     const languages = require(languagesFile); // eslint-disable-line
 
@@ -45,6 +53,7 @@ module.exports = function loadEnv({siteDir, siteConfig}) {
   };
 
   const versionsJSONFile = path.join(siteDir, 'versions.json');
+  delete require.cache[versionsJSONFile];
   if (fs.existsSync(versionsJSONFile)) {
     versioning.enabled = true;
     versioning.versions = JSON.parse(fs.readFileSync(versionsJSONFile, 'utf8'));

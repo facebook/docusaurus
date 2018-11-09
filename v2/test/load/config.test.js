@@ -1,19 +1,45 @@
+/**
+ * Copyright (c) 2017-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
 import path from 'path';
 import loadConfig from '@lib/load/config';
+import loadSetup from '../loadSetup';
 
 describe('loadConfig', () => {
-  test('website with valid siteConfig', () => {
-    const siteDir = path.join(__dirname, '__fixtures__', 'simple-site');
+  test('website with valid siteConfig', async () => {
+    const {siteDir} = await loadSetup('simple');
     const config = loadConfig(siteDir);
-    expect(config).toEqual({
-      baseUrl: '/',
-      organizationName: 'endiliey',
-      customDocsPath: 'docs',
-      docsUrl: 'docs',
-      projectName: 'hello',
-      tagline: 'Hello World',
-      title: 'Hello',
-    });
+    expect(config).toMatchInlineSnapshot(`
+Object {
+  "baseUrl": "/",
+  "customDocsPath": "docs",
+  "docsUrl": "docs",
+  "favicon": "img/docusaurus.ico",
+  "headerIcon": "img/docusaurus.svg",
+  "headerLinks": Array [
+    Object {
+      "doc": "foo/bar",
+      "label": "Docs",
+    },
+    Object {
+      "label": "Hello",
+      "page": "hello/world",
+    },
+    Object {
+      "languages": true,
+    },
+  ],
+  "organizationName": "endiliey",
+  "projectName": "hello",
+  "tagline": "Hello World",
+  "title": "Hello",
+  "url": "https://docusaurus.io",
+}
+`);
     expect(config).not.toEqual({});
   });
 
@@ -22,7 +48,7 @@ describe('loadConfig', () => {
     expect(() => {
       loadConfig(siteDir);
     }).toThrowErrorMatchingInlineSnapshot(
-      `"tagline, organizationName, projectName fields are missing in siteConfig.js"`,
+      `"tagline, organizationName, projectName, url, headerLinks, headerIcon, favicon fields are missing in siteConfig.js"`,
     );
   });
 
@@ -31,7 +57,7 @@ describe('loadConfig', () => {
     expect(() => {
       loadConfig(siteDir);
     }).toThrowErrorMatchingInlineSnapshot(
-      `"useLessField fields are useless in siteConfig.js"`,
+      `"headerLinks, headerIcon, favicon fields are missing in siteConfig.js"`,
     );
   });
 
@@ -40,7 +66,7 @@ describe('loadConfig', () => {
     expect(() => {
       loadConfig(siteDir);
     }).toThrowErrorMatchingInlineSnapshot(
-      `"title, tagline, organizationName, projectName, baseUrl fields are missing in siteConfig.js"`,
+      `"title, tagline, organizationName, projectName, baseUrl, url, headerLinks, headerIcon, favicon fields are missing in siteConfig.js"`,
     );
   });
 });
