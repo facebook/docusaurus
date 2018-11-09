@@ -17,6 +17,8 @@ const {getPath} = require('../core/utils.js');
 
 const {getDocsUrl} = require('./routing.js');
 
+const docsUrl = getDocsUrl(siteConfig.docsUrl);
+
 function getFilePath(metadata) {
   if (!metadata) {
     return null;
@@ -117,7 +119,7 @@ function replaceAssetsLink(oldContent) {
       ? line
       : line.replace(
           /\]\(assets\//g,
-          `](${siteConfig.baseUrl}${getDocsUrl(siteConfig.docsUrl)}/assets/`,
+          `](${siteConfig.baseUrl}${docsUrl}/assets/`,
         );
   });
   return lines.join('\n');
@@ -147,7 +149,7 @@ function getMarkup(rawContent, mdToHtml, metadata) {
 function getRedirectMarkup(metadata) {
   if (
     !env.translation.enabled ||
-    !metadata.permalink.includes(`${getDocsUrl(siteConfig.docsUrl)}/en`)
+    !metadata.permalink.includes(`${docsUrl}/en`)
   ) {
     return null;
   }

@@ -35,6 +35,8 @@ const SupportedHeaderFields = new Set([
 
 const {getDocsUrl} = require('./routing.js');
 
+const docsUrl = getDocsUrl(siteConfig.docsUrl);
+
 let allSidebars;
 if (fs.existsSync(`${CWD}/sidebars.json`)) {
   allSidebars = require(`${CWD}/sidebars.json`);
@@ -242,21 +244,24 @@ function generateMetadataDocs() {
           baseMetadata.id = baseMetadata.id
             .toString()
             .replace(/^en-/, `${currentLanguage}-`);
-          if (baseMetadata.permalink)
+          if (baseMetadata.permalink) {
             baseMetadata.permalink = baseMetadata.permalink
               .toString()
               .replace(
-                new RegExp(`^${getDocsUrl(siteConfig.docsUrl)}/en/`),
-                `${getDocsUrl(siteConfig.docsUrl)}/${currentLanguage}/`,
+                new RegExp(`^${docsUrl}/en/`),
+                `${docsUrl}/${currentLanguage}/`,
               );
-          if (baseMetadata.next)
+          }
+          if (baseMetadata.next) {
             baseMetadata.next = baseMetadata.next
               .toString()
               .replace(/^en-/, `${currentLanguage}-`);
-          if (baseMetadata.previous)
+          }
+          if (baseMetadata.previous) {
             baseMetadata.previous = baseMetadata.previous
               .toString()
               .replace(/^en-/, `${currentLanguage}-`);
+          }
           baseMetadata.language = currentLanguage;
           defaultMetadatas[baseMetadata.id] = baseMetadata;
         });
