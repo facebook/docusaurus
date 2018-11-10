@@ -27,8 +27,10 @@ function start(port) {
   );
 }
 
-const getReloadScriptUrl =
-  () => `http://localhost:${process.env.PORT}/livereload.js`;
+const getReloadScriptUrl = () => {
+  const port = process.env.PORT;
+  return `http://localhost:${port}/livereload.js`;
+};
 
 module.exports = {
   start,
