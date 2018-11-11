@@ -54,14 +54,7 @@ root-directory
 
 ## Preparation Notes
 
-You will need to keep the `website/siteConfig.js` and `website/core/Footer.js`
-files, but may edit them as you wish. The value of the `customDocsPath` key in 
-`website/siteConfig.js` can be modified if you wish to use a different directory name or path.
-Also the folder `website` can be renamed as you want without the need to modify the configuration file,
-for example if `website` is a source of conflict with another folder of your project you are able to rename it
-into `docusaurus`.
+You will need to keep the `website/siteConfig.js` and `website/core/Footer.js` files, but may edit them as you wish. The value of the `customDocsPath` key in `website/siteConfig.js` can be modified if you wish to use a different directory name or path.
+The `website` directory can also be renamed to anything you want it to. 
 
-You should keep the `website/pages` and `website/static` directories, but may 
-change the content inside them as you wish. At the bare minimum you should have
-an `en/index.js` or `en/index.html` file inside `website/pages` and an image to
-use as your header icon inside `website/static`.
+However, you should keep the `website/pages` and `website/static` directories. You may change the content inside them as you wish. At the bare minimum you should have an `en/index.js` or `en/index.html` file inside `website/pages` and an image to use as your header icon inside `website/static`.
