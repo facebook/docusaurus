@@ -11,7 +11,7 @@ const readMetadata = require('./readMetadata.js');
 
 function start(port) {
   process.env.NODE_ENV = 'development';
-  process.env.PORT = port;
+  process.env.LIVERELOAD_PORT = port;
   const server = tinylr();
   server.listen(port, () => {
     console.log('LiveReload server started on port %d', port);
@@ -28,7 +28,7 @@ function start(port) {
 }
 
 const getReloadScriptUrl = () => {
-  const port = process.env.PORT;
+  const port = process.env.LIVERELOAD_PORT;
   return `http://localhost:${port}/livereload.js`;
 };
 
