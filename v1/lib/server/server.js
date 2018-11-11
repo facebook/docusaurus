@@ -112,11 +112,24 @@ function execute(port) {
   const docsUrl = getDocsUrl(siteConfig);
 
   app.get(routing.docs(siteConfig.baseUrl, docsUrl), (req, res, next) => {
-    const url = decodeURI(req.path.toString().replace(siteConfig.baseUrl, ''));
+    const url =
+      `${siteConfig.baseUrl}${docsUrl}` === '/' // precisely one of them is '/', the other is ''
+        ? req.path.toString()
+        : decodeURI(req.path.toString().replace(siteConfig.baseUrl, ''));
     const metadata =
       Metadata[
         Object.keys(Metadata).find(id => Metadata[id].permalink === url)
       ];
+    if (!metadata) {
+      /**
+       * when allowing `docsUrl` to be '', some requests routed here (e.g. `/en/help`) might not be docs
+       * so we pass to the next possible routes
+       * although this circumstance should be avoided
+       *   - i.e. if the site has customized pages other than docs, it should not set `docsUrl` to be ''
+       */
+      next('route');
+      return;
+    }
     const file = docs.getFile(metadata);
     if (!file) {
       next();

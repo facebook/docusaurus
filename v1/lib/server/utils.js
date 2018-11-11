@@ -19,6 +19,14 @@ function getDocsUrl(siteConfig) {
     : DOCS_URL;
 }
 
+function getCustomizedPathname(siteConfig) {
+  const baseUrl = siteConfig.baseUrl;
+  const docsUrl = Object.hasOwnProperty.call(siteConfig, 'docsUrl')
+    ? siteConfig.docsUrl
+    : DOCS_URL;
+  return `${baseUrl}${docsUrl}`.replace(/^\/+/, '/');
+}
+
 function getSubDir(file, refDir) {
   const subDir = path.dirname(path.relative(refDir, file)).replace(/\\/g, '/');
   return subDir !== '.' && !subDir.includes('..') ? subDir : null;
@@ -80,5 +88,6 @@ module.exports = {
   isSeparateCss,
   minifyCss,
   autoPrefixCss,
+  getCustomizedPathname,
   getDocsUrl,
 };

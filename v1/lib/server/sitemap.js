@@ -16,9 +16,9 @@ const utils = require('../core/utils');
 
 const siteConfig = require(`${CWD}/siteConfig.js`);
 
-const {getDocsUrl} = require('./utils.js');
+const {getCustomizedPathname} = require('./utils.js');
 
-const docsUrl = getDocsUrl(siteConfig);
+const customizedPathname = getCustomizedPathname(siteConfig);
 
 const readMetadata = require('./readMetadata.js');
 
@@ -76,8 +76,8 @@ module.exports = function(callback) {
       const docUrl = utils.getPath(doc.permalink, siteConfig.cleanUrl);
       const links = enabledLanguages.map(lang => {
         const langUrl = docUrl.replace(
-          `${docsUrl}/en/`,
-          `${docsUrl}/${lang.tag}/`,
+          `${customizedPathname}/en/`,
+          `${customizedPathname}/${lang.tag}/`,
         );
         return {lang: lang.tag, url: langUrl};
       });

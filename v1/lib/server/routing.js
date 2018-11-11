@@ -10,7 +10,12 @@ function blog(baseUrl) {
   return new RegExp(`^${baseUrl}blog/.*html$`);
 }
 
-function docs(baseUrl, docsUrl = DOCS_URL) {
+function docs(baseUrl, docsUrl) {
+  if (`${baseUrl}${docsUrl}` === '/') {
+    // precisely one of `baseUrl` and `docsUrl` is `/`, and the other is empty
+    // collides with the next slash
+    return new RegExp(`^/.*/(?!index).*html$`);
+  }
   return new RegExp(`^${baseUrl}${docsUrl}/.*html$`);
 }
 
@@ -26,11 +31,9 @@ function noExtension() {
   return /\/[^.]*\/?$/;
 }
 
-function page(baseUrl, docsUrl = DOCS_URL) {
+function page(baseUrl, docsUrl) {
   const gr = regex => regex.toString().replace(/(^\/|\/$)/gm, '');
-  return new RegExp(
-    `(?!${gr(docs(baseUrl, docsUrl))}|${gr(blog(baseUrl))})^${baseUrl}.*.html$`,
-  );
+  return new RegExp(`(?!${gr(blog(baseUrl))})^${baseUrl}.*.html$`);
 }
 
 function sitemap(baseUrl) {

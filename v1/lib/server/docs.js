@@ -15,9 +15,9 @@ const readMetadata = require('./readMetadata.js');
 const {insertTOC} = require('../core/toc.js');
 const {getPath} = require('../core/utils.js');
 
-const {getDocsUrl} = require('./utils.js');
+const {getCustomizedPathname} = require('./utils.js');
 
-const docsUrl = getDocsUrl(siteConfig);
+const customizedPathname = getCustomizedPathname(siteConfig);
 
 function getFilePath(metadata) {
   if (!metadata) {
@@ -117,10 +117,7 @@ function replaceAssetsLink(oldContent) {
     }
     return fencedBlock
       ? line
-      : line.replace(
-          /\]\(assets\//g,
-          `](${siteConfig.baseUrl}${docsUrl}/assets/`,
-        );
+      : line.replace(/\]\(assets\//g, `](${customizedPathname}/assets/`);
   });
   return lines.join('\n');
 }
@@ -149,7 +146,7 @@ function getMarkup(rawContent, mdToHtml, metadata) {
 function getRedirectMarkup(metadata) {
   if (
     !env.translation.enabled ||
-    !metadata.permalink.includes(`${docsUrl}/en`)
+    !metadata.permalink.includes(`${customizedPathname}/en`)
   ) {
     return null;
   }

@@ -138,7 +138,7 @@ A React component to organize text and images.
   className="myCustomClass"
   contents={[
     {
-      title: `[Learn](${siteConfig.baseUrl}${getDocsUrl(siteConfig)}/tutorial.html)`,
+      title: `[Learn](${getCustomizedPathname(siteConfig)}/tutorial.html)`,
       content: 'Learn how to use this project',
       image: siteConfig.baseUrl + 'img/learn.png',
       imageAlt: 'Learn how to use this project',

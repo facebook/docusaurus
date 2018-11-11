@@ -12,16 +12,16 @@ const Container = CompLibrary.Container;
 const GridBlock = CompLibrary.GridBlock;
 const siteConfig = require(`${process.cwd()}/siteConfig.js`);
 const translate = require('../../server/translate.js').translate;
-const {getDocsUrl} = require('../../server/utils.js');
+const {getCustomizedPathname} = require('../../server/utils.js');
 
 class Help extends React.Component {
   render() {
     const supportLinks = [
       {
         title: <translate>Browse the docs</translate>,
-        content: `Learn more about Docusaurus using the [official documentation](${
-          siteConfig.baseUrl
-        }${getDocsUrl(siteConfig)}/${this.props.language}/installation).`,
+        content: `Learn more about Docusaurus using the [official documentation](${getCustomizedPathname(
+          siteConfig,
+        )}/${this.props.language}/installation).`,
       },
       {
         title: <translate>Discord</translate>,

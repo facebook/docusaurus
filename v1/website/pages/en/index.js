@@ -14,15 +14,19 @@ const GridBlock = CompLibrary.GridBlock;
 const Showcase = require(`${process.cwd()}/core/Showcase.js`);
 const siteConfig = require(`${process.cwd()}/siteConfig.js`);
 const translate = require('../../server/translate.js').translate;
-const {getDocsUrl} = require('../../server/utils.js');
+const {getCustomizedPathname} = require('../../server/utils.js');
+const {removeDuplicateLeadingSlashes} = require('../../core/utils.js');
 
-const docsUrl = getDocsUrl(siteConfig);
+const customizedPathname = getCustomizedPathname(siteConfig);
 
 class Button extends React.Component {
   render() {
     return (
       <div className="pluginWrapper buttonWrapper">
-        <a className="button" href={this.props.href} target={this.props.target}>
+        <a
+          className="button"
+          href={removeDuplicateLeadingSlashes(this.props.href)}
+          target={this.props.target}>
           {this.props.children}
         </a>
       </div>
@@ -55,11 +59,11 @@ class HomeSplash extends React.Component {
                 <div className="promoRow">
                   <div className="pluginRowBlock">
                     <Button
-                      href={`
-                        ${siteConfig.baseUrl}${docsUrl}/${
-                        this.props.language
-                      }/installation
-                        `}>
+                      href={removeDuplicateLeadingSlashes(
+                        `${customizedPathname}/${
+                          this.props.language
+                        }/installation`.trim(),
+                      )}>
                       <translate>Get Started</translate>
                     </Button>
                     <Button href="https://github.com/facebook/Docusaurus">
@@ -91,9 +95,12 @@ class Index extends React.Component {
               contents={[
                 {
                   content: `Save time and focus on your project's documentation. Simply
-                    write docs and blog posts with [Markdown](${
-                      siteConfig.baseUrl
-                    }${docsUrl}/${this.props.language}/doc-markdown)
+                    write docs and blog posts with [Markdown](${removeDuplicateLeadingSlashes(
+                      customizedPathname +
+                        '/' +
+                        this.props.language +
+                        '/doc-markdown',
+                    )})
                     and Docusaurus will publish a set of static html files ready
                     to serve.`,
                   image: `${siteConfig.baseUrl}img/markdown.png`,
@@ -102,9 +109,12 @@ class Index extends React.Component {
                   title: <translate>Powered by Markdown</translate>,
                 },
                 {
-                  content: `[Extend or customize](${
-                    siteConfig.baseUrl
-                  }${docsUrl}${this.props.language}/api-pages)
+                  content: `[Extend or customize](${removeDuplicateLeadingSlashes(
+                    customizedPathname +
+                      '/' +
+                      this.props.language +
+                      '/api-pages',
+                  )})
                     your project's layout by reusing React. Docusaurus can be
                     extended while reusing the same header and footer.`,
                   image: `${siteConfig.baseUrl}img/react.svg`,
@@ -113,9 +123,12 @@ class Index extends React.Component {
                   title: <translate>Built Using React</translate>,
                 },
                 {
-                  content: `[Localization](${siteConfig.baseUrl}${docsUrl}${
-                    this.props.language
-                  }/translation)
+                  content: `[Localization](${removeDuplicateLeadingSlashes(
+                    customizedPathname +
+                      '/' +
+                      this.props.language +
+                      '/translation',
+                  )})
                     comes pre-configured. Use [Crowdin](https://crowdin.com/) to translate your docs
                     into over 70 languages.`,
                   image: `${siteConfig.baseUrl}img/translation.svg`,
@@ -133,9 +146,12 @@ class Index extends React.Component {
               contents={[
                 {
                   content: `Support users on all versions of your project. Document
-                    [versioning](${siteConfig.baseUrl}${docsUrl}/${
-                    this.props.language
-                  }/versioning)
+                    [versioning](${removeDuplicateLeadingSlashes(
+                      customizedPathname +
+                        '/' +
+                        this.props.language +
+                        '/versioning',
+                    )})
                     helps you keep documentation in sync with project releases.`,
                   image: `${siteConfig.baseUrl}img/versioning.svg`,
                   imageAlign: 'top',
@@ -143,11 +159,9 @@ class Index extends React.Component {
                   title: <translate>Document Versioning</translate>,
                 },
                 {
-                  content: `Make it easy for your community to [find](${
-                    siteConfig.baseUrl
-                  }${docsUrl}/${
-                    this.props.language
-                  }/search) what they need in your documentation.
+                  content: `Make it easy for your community to [find](${removeDuplicateLeadingSlashes(
+                    customizedPathname + '/' + this.props.language + '/search',
+                  )}) what they need in your documentation.
                     We proudly support [Algolia documentation search](https://www.algolia.com/).`,
                   image: `${siteConfig.baseUrl}img/search.svg`,
                   imageAlign: 'top',
@@ -162,9 +176,12 @@ class Index extends React.Component {
             <GridBlock
               contents={[
                 {
-                  content: `Get [up and running](${
-                    siteConfig.baseUrl
-                  }${docsUrl}${this.props.language}/site-creation)
+                  content: `Get [up and running](${removeDuplicateLeadingSlashes(
+                    customizedPathname +
+                      '/' +
+                      this.props.language +
+                      '/site-creation',
+                  )})
                     quickly without having to worry about site design.`,
                   imageAlign: 'right',
                   image: `${siteConfig.baseUrl}img/docusaurus_speed.svg`,
@@ -180,12 +197,18 @@ class Index extends React.Component {
               contents={[
                 {
                   content: `Make design and documentation changes by using the included
-                    [live server](${siteConfig.baseUrl}${docsUrl}/${
-                    this.props.language
-                  }/site-preparation#verifying-installation).
-                    [Publish](${siteConfig.baseUrl}${docsUrl}/${
-                    this.props.language
-                  }/publishing)
+                    [live server](${removeDuplicateLeadingSlashes(
+                      customizedPathname +
+                        '/' +
+                        this.props.language +
+                        'site-preparation#verifying-installation',
+                    )}).
+                    [Publish](${removeDuplicateLeadingSlashes(
+                      customizedPathname +
+                        '/' +
+                        this.props.language +
+                        '/publishing',
+                    )})
                     your site to GitHub pages or other static file hosts
                     manually, using a script, or with continuous integration
                     like CircleCI.`,
@@ -203,18 +226,27 @@ class Index extends React.Component {
               contents={[
                 {
                   content: `Docusaurus currently provides support to help your website
-                    use [translations](${siteConfig.baseUrl}${docsUrl}${
+                    use [translations](${customizedPathname}${
                     this.props.language
                   }/translation),
-                    [search](${siteConfig.baseUrl}${docsUrl}/${
-                    this.props.language
-                  }/search),
-                    and [versioning](${siteConfig.baseUrl}${docsUrl}${
-                    this.props.language
-                  }/versioning),
-                    along with some other special [documentation markdown features](${
-                      siteConfig.baseUrl
-                    }${docsUrl}/${this.props.language}/doc-markdown).
+                    [search](${removeDuplicateLeadingSlashes(
+                      customizedPathname +
+                        '/' +
+                        this.props.language +
+                        '/search',
+                    )}),
+                    and [versioning](${removeDuplicateLeadingSlashes(
+                      customizedPathname +
+                        '/' +
+                        this.props.language +
+                        '/versioning',
+                    )}),
+                    along with some other special [documentation markdown features](${removeDuplicateLeadingSlashes(
+                      customizedPathname +
+                        '/' +
+                        this.props.language +
+                        '/doc-markdown',
+                    )}).
                     If you have ideas for useful features, feel free to
                     contribute on [GitHub](https://github.com/facebook/docusaurus)!`,
                   imageAlign: 'right',
