@@ -170,9 +170,7 @@ function processMetadata(file, refDir) {
     versionPart = 'next/';
   }
 
-  metadata.permalink = `${getDocsUrl(
-    siteConfig.docsUrl,
-  )}/${langPart}${versionPart}${metadata.id}.html`;
+  metadata.permalink = `${docsUrl}/${langPart}${versionPart}${metadata.id}.html`;
 
   // change ids previous, next
   metadata.localized_id = metadata.id;
