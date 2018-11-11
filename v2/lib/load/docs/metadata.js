@@ -126,14 +126,14 @@ module.exports = async function processMetadata(
     e.g: :baseUrl:docsUrl/:langPart/:versionPart/endiliey/:id
   */
   if (metadata.permalink) {
-    metadata.permalink = normalizeUrl([
+    metadata.permalink = path.resolve(
       metadata.permalink
         .replace(/:baseUrl/, baseUrl)
         .replace(/:docsUrl/, docsUrl)
         .replace(/:langPart/, langPart)
         .replace(/:versionPart/, versionPart)
         .replace(/:id/, metadata.id),
-    ]);
+    );
   } else {
     metadata.permalink = normalizeUrl([
       baseUrl,
