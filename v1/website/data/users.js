@@ -261,6 +261,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'React Redux',
+    image: '/img/users/react-redux.svg',
+    infoLink: 'http://react-redux.js.org',
+    fbOpenSource: false,
+    pinned: true,
+  },
+  {
     caption: 'reaction-commerce',
     image: '/img/users/reaction-commerce.svg',
     infoLink: 'https://docs.reactioncommerce.com/',
