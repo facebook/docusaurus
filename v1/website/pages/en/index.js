@@ -14,9 +14,9 @@ const GridBlock = CompLibrary.GridBlock;
 const Showcase = require(`${process.cwd()}/core/Showcase.js`);
 const siteConfig = require(`${process.cwd()}/siteConfig.js`);
 const translate = require('../../server/translate.js').translate;
-const {getDocsUrl} = require('../../server/routing.js');
+const {getDocsUrl} = require('../../server/utils.js');
 
-const docsUrl = getDocsUrl(siteConfig.docsUrl);
+const docsUrl = getDocsUrl(siteConfig);
 
 class Button extends React.Component {
   render() {

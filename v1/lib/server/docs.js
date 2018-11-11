@@ -15,9 +15,9 @@ const readMetadata = require('./readMetadata.js');
 const {insertTOC} = require('../core/toc.js');
 const {getPath} = require('../core/utils.js');
 
-const {getDocsUrl} = require('./routing.js');
+const {getDocsUrl} = require('./utils.js');
 
-const docsUrl = getDocsUrl(siteConfig.docsUrl);
+const docsUrl = getDocsUrl(siteConfig);
 
 function getFilePath(metadata) {
   if (!metadata) {

@@ -27,6 +27,7 @@ function execute(port) {
   const feed = require('./feed');
   const sitemap = require('./sitemap');
   const routing = require('./routing.js');
+  const {getDocsUrl} = require('./utils');
   const CWD = process.cwd();
   const join = path.join;
   const sep = path.sep;
@@ -108,7 +109,7 @@ function execute(port) {
   reloadSiteConfig();
 
   const app = express();
-  const docsUrl = routing.getDocsUrl(siteConfig.docsUrl);
+  const docsUrl = getDocsUrl(siteConfig);
 
   app.get(routing.docs(siteConfig.baseUrl, docsUrl), (req, res, next) => {
     const url = decodeURI(req.path.toString().replace(siteConfig.baseUrl, ''));

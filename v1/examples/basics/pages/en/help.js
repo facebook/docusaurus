@@ -14,10 +14,10 @@ const GridBlock = CompLibrary.GridBlock;
 
 const siteConfig = require(`${process.cwd()}/siteConfig.js`);
 
-const {getDocsUrl} = require('../../../lib/server/routing');
+const {getDocsUrl} = require('../../../lib/server/utils');
 
 function docUrl(doc, language) {
-  return `${siteConfig.baseUrl}${getDocsUrl(siteConfig.docsUrl)}/${
+  return `${siteConfig.baseUrl}${getDocsUrl(siteConfig)}/${
     language ? `${language}/` : ''
   }${doc}`;
 }

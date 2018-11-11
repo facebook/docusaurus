@@ -33,9 +33,9 @@ const SupportedHeaderFields = new Set([
   'custom_edit_url',
 ]);
 
-const {getDocsUrl} = require('./routing.js');
+const {getDocsUrl} = require('./utils.js');
 
-const docsUrl = getDocsUrl(siteConfig.docsUrl);
+const docsUrl = getDocsUrl(siteConfig);
 
 let allSidebars;
 if (fs.existsSync(`${CWD}/sidebars.json`)) {
@@ -170,7 +170,9 @@ function processMetadata(file, refDir) {
     versionPart = 'next/';
   }
 
-  metadata.permalink = `${docsUrl}/${langPart}${versionPart}${metadata.id}.html`;
+  metadata.permalink = `${docsUrl}/${langPart}${versionPart}${
+    metadata.id
+  }.html`;
 
   // change ids previous, next
   metadata.localized_id = metadata.id;

@@ -11,6 +11,14 @@ const postcss = require('postcss');
 const path = require('path');
 const escapeStringRegexp = require('escape-string-regexp');
 
+const DOCS_URL = 'docs';
+
+function getDocsUrl(siteConfig) {
+  return Object.hasOwnProperty.call(siteConfig, 'docsUrl')
+    ? siteConfig.docsUrl
+    : DOCS_URL;
+}
+
 function getSubDir(file, refDir) {
   const subDir = path.dirname(path.relative(refDir, file)).replace(/\\/g, '/');
   return subDir !== '.' && !subDir.includes('..') ? subDir : null;
@@ -72,4 +80,5 @@ module.exports = {
   isSeparateCss,
   minifyCss,
   autoPrefixCss,
+  getDocsUrl,
 };

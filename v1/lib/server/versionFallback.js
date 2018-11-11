@@ -17,9 +17,9 @@ const utils = require('./utils.js');
 
 const siteConfig = require(`${CWD}/siteConfig.js`);
 
-const {getDocsUrl} = require('./routing.js');
+const {getDocsUrl} = require('./utils.js');
 
-const docsUrl = getDocsUrl(siteConfig.docsUrl);
+const docsUrl = getDocsUrl(siteConfig);
 
 const ENABLE_TRANSLATION = fs.existsSync(`${CWD}/languages.js`);
 

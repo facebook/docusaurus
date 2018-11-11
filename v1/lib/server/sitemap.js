@@ -16,9 +16,9 @@ const utils = require('../core/utils');
 
 const siteConfig = require(`${CWD}/siteConfig.js`);
 
-const {getDocsUrl} = require('./routing.js');
+const {getDocsUrl} = require('./utils.js');
 
-const docsUrl = getDocsUrl(siteConfig.docsUrl);
+const docsUrl = getDocsUrl(siteConfig);
 
 const readMetadata = require('./readMetadata.js');
 
