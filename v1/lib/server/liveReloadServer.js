@@ -9,10 +9,9 @@ const gaze = require('gaze');
 const tinylr = require('tiny-lr');
 const readMetadata = require('./readMetadata.js');
 
-let reloadScriptUrl;
-
 function start(port) {
   process.env.NODE_ENV = 'development';
+  process.env.LIVERELOAD_PORT = port;
   const server = tinylr();
   server.listen(port, () => {
     console.log('LiveReload server started on port %d', port);
@@ -26,11 +25,12 @@ function start(port) {
       });
     },
   );
-
-  reloadScriptUrl = `http://localhost:${port}/livereload.js`;
 }
 
-const getReloadScriptUrl = () => reloadScriptUrl;
+const getReloadScriptUrl = () => {
+  const port = process.env.LIVERELOAD_PORT;
+  return `http://localhost:${port}/livereload.js`;
+};
 
 module.exports = {
   start,
