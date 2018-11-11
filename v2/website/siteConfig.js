@@ -6,8 +6,8 @@
  */
 
 module.exports = {
-  title: 'docusaurus',
-  tagline: '📝⚡️ Transform your document (문서) to a website',
+  title: 'Docusaurus',
+  tagline: '⚡️ Painless static site generator',
   organizationName: 'facebook',
   projectName: 'docusaurus',
   baseUrl: '/',
