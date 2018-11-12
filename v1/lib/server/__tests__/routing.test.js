@@ -7,8 +7,8 @@
 const routing = require('../routing.js');
 
 describe('Blog routing', () => {
-  const blogRegex = routing.blog('/');
-  const blogRegex2 = routing.blog('/react/');
+  const blogRegex = routing.blog({baseUrl: '/'});
+  const blogRegex2 = routing.blog({baseUrl: '/react/'});
 
   test('valid blog', () => {
     expect('/blog/test.html').toMatch(blogRegex);
@@ -34,8 +34,8 @@ describe('Blog routing', () => {
 });
 
 describe('Docs routing', () => {
-  const docsRegex = routing.docs('/', 'docs');
-  const docsRegex2 = routing.docs('/reason/', 'docs');
+  const docsRegex = routing.docs({baseUrl: '/', docsUrl: 'docs'});
+  const docsRegex2 = routing.docs({baseUrl: '/reason/', docsUrl: 'docs'});
 
   test('valid docs', () => {
     expect('/docs/en/test.html').toMatch(docsRegex);
@@ -87,8 +87,8 @@ describe('Dot routing', () => {
 });
 
 describe('Feed routing', () => {
-  const feedRegex = routing.feed('/');
-  const feedRegex2 = routing.feed('/reason/');
+  const feedRegex = routing.feed({baseUrl: '/'});
+  const feedRegex2 = routing.feed({baseUrl: '/reason/'});
 
   test('valid feed url', () => {
     expect('/blog/atom.xml').toMatch(feedRegex);
@@ -137,8 +137,8 @@ describe('Extension-less url routing', () => {
 });
 
 describe('Page routing', () => {
-  const pageRegex = routing.page('/', 'docs');
-  const pageRegex2 = routing.page('/reason/', 'docs');
+  const pageRegex = routing.page({baseUrl: '/', docsUrl: 'docs'});
+  const pageRegex2 = routing.page({baseUrl: '/reason/', docsUrl: 'docs'});
 
   test('valid page url', () => {
     expect('/index.html').toMatch(pageRegex);
@@ -164,8 +164,8 @@ describe('Page routing', () => {
 });
 
 describe('Sitemap routing', () => {
-  const sitemapRegex = routing.sitemap('/');
-  const sitemapRegex2 = routing.sitemap('/reason/');
+  const sitemapRegex = routing.sitemap({baseUrl: '/'});
+  const sitemapRegex2 = routing.sitemap({baseUrl: '/reason/'});
 
   test('valid sitemap url', () => {
     expect('/sitemap.xml').toMatch(sitemapRegex);

@@ -170,9 +170,9 @@ function processMetadata(file, refDir) {
     versionPart = 'next/';
   }
 
-  metadata.permalink = `${docsUrl}/${langPart}${versionPart}${
-    metadata.id
-  }.html`;
+  metadata.permalink = utils.removeDuplicateLeadingSlashes(
+    `/${docsUrl}/${langPart}${versionPart}${metadata.id}.html`,
+  );
 
   // change ids previous, next
   metadata.localized_id = metadata.id;
@@ -248,7 +248,7 @@ function generateMetadataDocs() {
             baseMetadata.permalink = baseMetadata.permalink
               .toString()
               .replace(
-                new RegExp(`^${docsUrl}/en/`),
+                new RegExp(`${docsUrl}/en/`),
                 `${docsUrl}/${currentLanguage}/`,
               );
           }

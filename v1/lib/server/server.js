@@ -6,6 +6,7 @@
  */
 
 /* eslint-disable no-cond-assign */
+import {removeDuplicateLeadingSlashes} from './utils';
 
 function execute(port) {
   const extractTranslations = require('../write-translations');
@@ -111,11 +112,8 @@ function execute(port) {
   const app = express();
   const docsUrl = getDocsUrl(siteConfig);
 
-  app.get(routing.docs(siteConfig.baseUrl, docsUrl), (req, res, next) => {
-    const url =
-      `${siteConfig.baseUrl}${docsUrl}` === '/' // precisely one of them is '/', the other is ''
-        ? req.path.toString()
-        : decodeURI(req.path.toString().replace(siteConfig.baseUrl, ''));
+  app.get(routing.docs(siteConfig), (req, res, next) => {
+    const url = removeDuplicateLeadingSlashes(req.path);
     const metadata =
       Metadata[
         Object.keys(Metadata).find(id => Metadata[id].permalink === url)
@@ -145,7 +143,7 @@ function execute(port) {
     res.send(docs.getMarkup(rawContent, mdToHtml, metadata));
   });
 
-  app.get(routing.sitemap(siteConfig.baseUrl), (req, res) => {
+  app.get(routing.sitemap(siteConfig), (req, res) => {
     sitemap((err, xml) => {
       if (err) {
         res.status(500).send('Sitemap error');
@@ -156,7 +154,7 @@ function execute(port) {
     });
   });
 
-  app.get(routing.feed(siteConfig.baseUrl), (req, res, next) => {
+  app.get(routing.feed(siteConfig), (req, res, next) => {
     res.set('Content-Type', 'application/rss+xml');
     const file = req.path
       .toString()
@@ -170,7 +168,7 @@ function execute(port) {
     next();
   });
 
-  app.get(routing.blog(siteConfig.baseUrl), (req, res, next) => {
+  app.get(routing.blog(siteConfig), (req, res, next) => {
     // Regenerate the blog metadata in case it has changed. Consider improving
     // this to regenerate on file save rather than on page request.
     reloadMetadataBlog();
@@ -196,7 +194,7 @@ function execute(port) {
     }
   });
 
-  app.get(routing.page(siteConfig.baseUrl, docsUrl), (req, res, next) => {
+  app.get(routing.page(siteConfig), (req, res, next) => {
     // Look for user-provided HTML file first.
     let htmlFile = req.path.toString().replace(siteConfig.baseUrl, '');
     htmlFile = join(CWD, 'pages', htmlFile);

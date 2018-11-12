@@ -14,17 +14,19 @@ const escapeStringRegexp = require('escape-string-regexp');
 const DOCS_URL = 'docs';
 
 function getDocsUrl(siteConfig) {
-  return Object.hasOwnProperty.call(siteConfig, 'docsUrl')
-    ? siteConfig.docsUrl
-    : DOCS_URL;
+  return siteConfig.docsUrl || DOCS_URL;
 }
 
 function getCustomizedPathname(siteConfig) {
   const baseUrl = siteConfig.baseUrl;
-  const docsUrl = Object.hasOwnProperty.call(siteConfig, 'docsUrl')
-    ? siteConfig.docsUrl
-    : DOCS_URL;
-  return `${baseUrl}${docsUrl}`.replace(/^\/+/, '/');
+  const docsUrl = getDocsUrl(siteConfig);
+  return removeDuplicateLeadingSlashes(`${baseUrl}${docsUrl}`);
+}
+
+function removeDuplicateLeadingSlashes(urlWithLeadingSlash) {
+  // replace more than one leading slash to one
+  // used when either docsUrl / baseUrl / langPart has colliding leading slashes
+  return urlWithLeadingSlash.replace(/^\/+/, '/');
 }
 
 function getSubDir(file, refDir) {
@@ -90,4 +92,5 @@ module.exports = {
   autoPrefixCss,
   getCustomizedPathname,
   getDocsUrl,
+  removeDuplicateLeadingSlashes,
 };
