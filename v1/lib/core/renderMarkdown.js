@@ -56,7 +56,9 @@ class MarkdownRenderer {
               } catch (err) {
                 if (err.code === 'MODULE_NOT_FOUND') {
                   const unsupportedLanguageError = chalk.yellow(
-                    `Warning: language-${language} is not supported by prismjs.` +
+                    `Warning: ${chalk.red(
+                      language,
+                    )} is not supported by prismjs.` +
                       '\nPlease refer to https://prismjs.com/#languages-list for the list of supported languages.',
                   );
                   console.log(unsupportedLanguageError);
