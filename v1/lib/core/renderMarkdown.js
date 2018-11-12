@@ -9,19 +9,21 @@ const hljs = require('highlight.js');
 const Markdown = require('remarkable');
 const prismjs = require('prismjs');
 const deepmerge = require('deepmerge');
-
+const chalk = require('chalk');
 const anchors = require('./anchors.js');
 
 const CWD = process.cwd();
 
 const alias = {
   js: 'jsx',
+  html: 'markup',
+  sh: 'bash',
+  md: 'markdown',
 };
 
 class MarkdownRenderer {
   constructor() {
     const siteConfig = require(`${CWD}/siteConfig.js`);
-
     let markdownOptions = {
       // Highlight.js expects hljs css classes on the code element.
       // This results in <pre><code class="hljs css languages-jsx">
@@ -45,14 +47,22 @@ class MarkdownRenderer {
                 siteConfig.usePrism.length > 0 &&
                 siteConfig.usePrism.indexOf(lang) !== -1)
             ) {
+              const language = alias[lang] || lang;
               try {
-                const language = alias[lang] || lang;
                 // Currently people using prismjs on Node have to individually require()
                 // every single language (https://github.com/PrismJS/prism/issues/593)
                 require(`prismjs/components/prism-${language}.min`);
                 return prismjs.highlight(str, prismjs.languages[language]);
               } catch (err) {
-                console.error(err);
+                if (err.code === 'MODULE_NOT_FOUND') {
+                  const unsupportedLanguageError = chalk.yellow(
+                    `Warning: ${chalk.red(
+                      language,
+                    )} is not supported by prismjs.` +
+                      '\nPlease refer to https://prismjs.com/#languages-list for the list of supported languages.',
+                  );
+                  console.log(unsupportedLanguageError);
+                } else console.error(err);
               }
             }
             if (hljs.getLanguage(lang)) {
