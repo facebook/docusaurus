@@ -86,6 +86,25 @@ Array [
     "title": "Test 2",
     "type": "CATEGORY",
   },
+  Object {
+    "children": Array [
+      Object {
+        "item": Object {
+          "id": "en-doc4",
+          "language": "en",
+          "localized_id": "doc4",
+          "permalink": "docs/en/next/doc4.html",
+          "sidebar": "docs",
+          "source": "doc4.md",
+          "title": "Document 4",
+          "version": "next",
+        },
+        "type": "LINK",
+      },
+    ],
+    "title": undefined,
+    "type": "CATEGORY",
+  },
 ]
 `;
 

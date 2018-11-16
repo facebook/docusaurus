@@ -40,7 +40,7 @@ describe('readCategories', () => {
     const categories = readCategories('docs', generalMetadata, languages);
 
     expect(categories.en).toBeDefined();
-    expect(categories.en.length).toBe(2);
+    expect(categories.en.length).toBe(3);
     expect(categories.en).toMatchSnapshot();
   });
 

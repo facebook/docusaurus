@@ -70,7 +70,7 @@ function mdToHtmlify(oldContent, mdToHtml, metadata) {
   let etMatch = emptyTitleRegex.exec(content);
   while (etMatch !== null) {
     const htmlLink = mdToHtml[etMatch[1]];
-    if (htmlLink) {
+    if (htmlLink && metadata.titles) {
       const id = removeExtension(etMatch[1]);
       mdEmptyLinks[htmlLink] = metadata.titles[id] || id;
     }

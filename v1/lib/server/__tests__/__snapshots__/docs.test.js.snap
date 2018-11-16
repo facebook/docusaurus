@@ -1,5 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`mdToHtmlify if link's name is not provided replace it with the doc title or id, 1`] = `
+"
+### Existing Docs
+
+- [doc1Document 1](/docs/en/next/doc1)
+- [doc2](/docs/en/next/doc2)
+
+### Empty Title Docs
+- [Document 1](/docs/en/next/doc1)"
+`;
+
 exports[`mdToHtmlify transform link even in subdirectory 1`] = `
 "
 Test subdirectory file

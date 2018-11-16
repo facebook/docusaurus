@@ -55,6 +55,11 @@ const doc3 = fs.readFileSync(
   'utf8',
 );
 
+const doc4 = fs.readFileSync(
+  path.join(__dirname, '__fixtures__', 'doc4.md'),
+  'utf8',
+);
+
 const refLinks = fs.readFileSync(
   path.join(__dirname, '__fixtures__', 'reflinks.md'),
   'utf8',
@@ -63,6 +68,7 @@ const refLinks = fs.readFileSync(
 const rawContent1 = metadataUtils.extractMetadata(doc1).rawContent;
 const rawContent2 = metadataUtils.extractMetadata(doc2).rawContent;
 const rawContent3 = metadataUtils.extractMetadata(doc3).rawContent;
+const rawContent4 = metadataUtils.extractMetadata(doc4).rawContent;
 const rawContentRefLinks = metadataUtils.extractMetadata(refLinks).rawContent;
 
 describe('mdToHtmlify', () => {
@@ -88,6 +94,15 @@ describe('mdToHtmlify', () => {
     expect(content2).toContain('/docs/en/next/');
     expect(content2).toMatchSnapshot();
     expect(content2).not.toEqual(rawContent2);
+  });
+
+  test("if link's name is not provided replace it with the doc title or id,", () => {
+    const metadata = Metadata['en-doc4'];
+    metadata.titles = {doc1: 'Document 1'};
+    const content4 = docs.mdToHtmlify(rawContent4, mdToHtml, metadata);
+    expect(content4).toContain('/docs/en/next/');
+    expect(content4).toMatchSnapshot();
+    expect(content4).not.toEqual(rawContent4);
   });
 
   test('transform link even in subdirectory', () => {

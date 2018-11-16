@@ -51,6 +51,16 @@ module.exports = {
     previous_title: 'Document 2',
     sort: 3,
   },
+  'en-doc4': {
+    id: 'en-doc4',
+    title: 'Document 4',
+    source: 'doc4.md',
+    version: 'next',
+    permalink: 'docs/en/next/doc4.html',
+    localized_id: 'doc4',
+    language: 'en',
+    sidebar: 'docs',
+  },
   'en-reflinks': {
     id: 'en-reflinks',
     title: 'Reference Links',
