@@ -69,8 +69,13 @@ async function execute() {
 
   // create html files for all docs by going through all doc ids
   const mdToHtml = metadataUtils.mdToHtml(Metadata, siteConfig.baseUrl);
+  const titles = Object.keys(Metadata).reduce((obj, key) => {
+    obj[key] = Metadata[key].title;
+    return obj;
+  }, {});
   Object.keys(Metadata).forEach(id => {
     const metadata = Metadata[id];
+    metadata.titles = titles;
     const file = docs.getFile(metadata);
     if (!file) {
       return;

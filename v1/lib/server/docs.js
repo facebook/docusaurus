@@ -13,7 +13,7 @@ const env = require('./env.js');
 const {renderToStaticMarkupWithDoctype} = require('./renderUtils');
 const readMetadata = require('./readMetadata.js');
 const {insertTOC} = require('../core/toc.js');
-const {getPath} = require('../core/utils.js');
+const {getPath, removeExtension} = require('../core/utils.js');
 
 function getFilePath(metadata) {
   if (!metadata) {
@@ -49,6 +49,7 @@ function mdToHtmlify(oldContent, mdToHtml, metadata) {
   let content = oldContent;
   const mdLinks = [];
   const mdReferences = [];
+  const mdEmptyLinks = {};
 
   // find any inline-style links to markdown files
   const linkRegex = /(?:\]\()(?:\.\/)?([^'")\]\s>]+\.md)/g;
@@ -64,11 +65,23 @@ function mdToHtmlify(oldContent, mdToHtml, metadata) {
     mdReferences.push(refMatch[1]);
     refMatch = refRegex.exec(content);
   }
+  // find any link with empty title
+  const emptyTitleRegex = /(?:\[\]\()(?:\.\/)?([^'")\]\s>]+\.md)/g;
+  let etMatch = emptyTitleRegex.exec(content);
+  while (etMatch !== null) {
+    const htmlLink = mdToHtml[etMatch[1]];
+    if (htmlLink) {
+      const id = removeExtension(etMatch[1]);
+      mdEmptyLinks[htmlLink] = metadata.titles[id] || id;
+    }
+    etMatch = emptyTitleRegex.exec(content);
+  }
 
   // replace markdown links to their website html links
   new Set(mdLinks).forEach(mdLink => {
     let htmlLink = mdToHtml[mdLink];
     if (htmlLink) {
+      const title = mdEmptyLinks[htmlLink] || '';
       htmlLink = getPath(htmlLink, siteConfig.cleanUrl);
       htmlLink = htmlLink.replace('/en/', `/${metadata.language}/`);
       htmlLink = htmlLink.replace(
@@ -79,7 +92,7 @@ function mdToHtmlify(oldContent, mdToHtml, metadata) {
       );
       content = content.replace(
         new RegExp(`\\]\\((\\./)?${mdLink}`, 'g'),
-        `](${htmlLink}`,
+        `${title}](${htmlLink}`,
       );
     }
   });
