@@ -90,9 +90,15 @@ function mdToHtmlify(oldContent, mdToHtml, metadata) {
           ? `/${metadata.version}/`
           : '/',
       );
+      // replace all matched links
       content = content.replace(
         new RegExp(`\\]\\((\\./)?${mdLink}`, 'g'),
-        `${title}](${htmlLink}`,
+        `](${htmlLink}`,
+      );
+      // replace only links with empty title
+      content = content.replace(
+        new RegExp(`\\[\\]\\((\\./)?${htmlLink}`, 'g'),
+        `[${title}](${htmlLink}`,
       );
     }
   });

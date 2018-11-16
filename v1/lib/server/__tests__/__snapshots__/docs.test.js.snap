@@ -4,7 +4,7 @@ exports[`mdToHtmlify if link's name is not provided replace it with the doc titl
 "
 ### Existing Docs
 
-- [doc1Document 1](/docs/en/next/doc1)
+- [doc1](/docs/en/next/doc1)
 - [doc2](/docs/en/next/doc2)
 
 ### Empty Title Docs
