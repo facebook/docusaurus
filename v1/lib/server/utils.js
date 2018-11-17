@@ -14,7 +14,9 @@ const escapeStringRegexp = require('escape-string-regexp');
 const DOCS_URL = 'docs';
 
 function getDocsUrl(siteConfig) {
-  return siteConfig.docsUrl || DOCS_URL;
+  return Object.hasOwnProperty.call(siteConfig, 'docsUrl')
+    ? siteConfig.docsUrl
+    : DOCS_URL;
 }
 
 function getCustomizedPathname(siteConfig) {
