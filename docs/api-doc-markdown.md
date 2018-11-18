@@ -3,7 +3,7 @@ id: doc-markdown
 title: Markdown Features
 ---
 
-Find out more about Docusaurus-specific fields when writing Markdown.
+Docusaurus uses GitHub Flavored Markdown (GFM). Find out more about Docusaurus-specific fields when writing Markdown.
 
 ## Markdown Headers
 
