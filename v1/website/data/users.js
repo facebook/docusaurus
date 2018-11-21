@@ -331,6 +331,13 @@ module.exports = [
     pinned: true,
   },
   {
+    caption: 'Spectrum',
+    image: '/img/users/spectrum.svg',
+    infoLink: 'http://libspectrum.io',
+    fbOpenSource: true,
+    pinned: true,
+  },
+  {
     caption: 'Stackery',
     image: 'https://www.stackery.io/img/stackery-large-mark-teal-w.png',
     infoLink: 'https://docs.stackery.io',
