@@ -60,11 +60,23 @@ class DocsLayout extends React.Component {
     const hasOnPageNav = this.props.config.onPageNav === 'separate';
 
     const previousTitle =
+      idx(i18n, [
+        'localized-strings',
+        'docs',
+        metadata.previous_id,
+        'sidebar_label',
+      ]) ||
       idx(i18n, ['localized-strings', 'docs', metadata.previous_id, 'title']) ||
       idx(i18n, ['localized-strings', 'previous']) ||
       metadata.previous_title ||
       'Previous';
     const nextTitle =
+      idx(i18n, [
+        'localized-strings',
+        'docs',
+        metadata.next_id,
+        'sidebar_label',
+      ]) ||
       idx(i18n, ['localized-strings', 'docs', metadata.next_id, 'title']) ||
       idx(i18n, ['localized-strings', 'next']) ||
       metadata.next_title ||
