@@ -76,9 +76,6 @@ files.forEach(file => {
     );
   }
 
-  if (!(metadata.original_id in available)) {
-    available[metadata.original_id] = new Set();
-  }
   // The version will be between "version-" and "-<metadata.original_id>"
   // e.g. version-1.0.0-beta.2-doc1 => 1.0.0-beta.2
   // e.g. version-1.0.0-doc2 => 1.0.0
@@ -87,6 +84,19 @@ files.forEach(file => {
     metadata.id.indexOf('version-') + 8, // version- is 8 characters
     metadata.id.lastIndexOf(`-${metadata.original_id}`),
   );
+
+  // the final id should be namespaced according to subdir to allow similar id across subfolder
+  const subDir = utils.getSubDir(
+    file,
+    path.join(versionFolder, `version-${version}`),
+  );
+  if (subDir) {
+    metadata.original_id = `${subDir}/${metadata.original_id}`;
+  }
+
+  if (!(metadata.original_id in available)) {
+    available[metadata.original_id] = new Set();
+  }
   available[metadata.original_id].add(version);
 
   if (!(version in versionFiles)) {
@@ -118,6 +128,7 @@ function docVersion(id, reqVersion) {
 // returns whether a given file has content that differ from the
 // document with the given id
 function diffLatestDoc(file, id) {
+  console.log(`diffing file:${file} and id:${id}`);
   if (versions.length === 0) {
     return true;
   }
@@ -127,6 +138,7 @@ function diffLatestDoc(file, id) {
   let version;
   try {
     version = docVersion(id, latest);
+    console.log(version);
   } catch (e) {
     console.error(e);
     process.exit(1);
