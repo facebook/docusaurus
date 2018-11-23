@@ -137,7 +137,6 @@ function diffLatestDoc(file, id) {
   let version;
   try {
     version = docVersion(id, latest);
-    console.log(version);
   } catch (e) {
     console.error(e);
     process.exit(1);
