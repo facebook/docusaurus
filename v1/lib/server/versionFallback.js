@@ -76,9 +76,6 @@ files.forEach(file => {
     );
   }
 
-  if (!(metadata.original_id in available)) {
-    available[metadata.original_id] = new Set();
-  }
   // The version will be between "version-" and "-<metadata.original_id>"
   // e.g. version-1.0.0-beta.2-doc1 => 1.0.0-beta.2
   // e.g. version-1.0.0-doc2 => 1.0.0
@@ -87,6 +84,19 @@ files.forEach(file => {
     metadata.id.indexOf('version-') + 8, // version- is 8 characters
     metadata.id.lastIndexOf(`-${metadata.original_id}`),
   );
+
+  // the original_id should be namespaced according to subdir to allow duplicate id in different subfolder
+  const subDir = utils.getSubDir(
+    file,
+    path.join(versionFolder, `version-${version}`),
+  );
+  if (subDir) {
+    metadata.original_id = `${subDir}/${metadata.original_id}`;
+  }
+
+  if (!(metadata.original_id in available)) {
+    available[metadata.original_id] = new Set();
+  }
   available[metadata.original_id].add(version);
 
   if (!(version in versionFiles)) {
