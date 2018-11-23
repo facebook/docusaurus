@@ -150,9 +150,6 @@ An option to enable the docs showing the author who last updated the doc. Set to
 
 An option to enable the docs showing last update time. Set to `true` to show a line at the bottom right corner of each doc page as `Last updated on <date>`.
 
-#### `enableBrokenLinkWarning` [boolean]
-An option to enable a warning message in console when an in internal link is not resolved. Default to `false`.
-
 #### `facebookAppId` [string]
 
 If you want Facebook Like/Share buttons in the footer and at the bottom of your blog posts, provide a [Facebook application id](https://www.facebook.com/help/audiencenetwork/804209223039296).

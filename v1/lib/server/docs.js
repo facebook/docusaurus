@@ -108,7 +108,7 @@ function mdToHtmlify(oldContent, mdToHtml, metadata) {
     }
   });
 
-  if (siteConfig.enableBrokenLinkWarning && mdBrokenLinks.length) {
+  if (mdBrokenLinks.length) {
     console.log(
       `[WARN] unresolved links in file '${metadata.source}' >`,
       mdBrokenLinks,
