@@ -128,7 +128,6 @@ function docVersion(id, reqVersion) {
 // returns whether a given file has content that differ from the
 // document with the given id
 function diffLatestDoc(file, id) {
-  console.log(`diffing file:${file} and id:${id}`);
   if (versions.length === 0) {
     return true;
   }
