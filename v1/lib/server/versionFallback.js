@@ -85,7 +85,7 @@ files.forEach(file => {
     metadata.id.lastIndexOf(`-${metadata.original_id}`),
   );
 
-  // the final id should be namespaced according to subdir to allow similar id across subfolder
+  // the original_id should be namespaced according to subdir to allow duplicate id in different subfolder
   const subDir = utils.getSubDir(
     file,
     path.join(versionFolder, `version-${version}`),
