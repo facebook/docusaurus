@@ -149,9 +149,19 @@ if (versionFallback.diffLatestSidebar()) {
     Object.keys(categories).forEach(category => {
       versioned[versionSidebar][category] = [];
 
-      const ids = categories[category];
-      ids.forEach(id => {
-        versioned[versionSidebar][category].push(`version-${version}-${id}`);
+      const categoryItems = categories[category];
+      categoryItems.forEach(categoryItem => {
+        let versionedCategoryItem = categoryItem;
+        if (typeof categoryItem === 'object') {
+          if (categoryItem.ids && categoryItem.ids.length > 0) {
+            versionedCategoryItem.ids = categoryItem.ids.map(
+              id => `version-${version}-${id}`,
+            );
+          }
+        } else if (typeof categoryItem === 'string') {
+          versionedCategoryItem = `version-${version}-${categoryItem}`;
+        }
+        versioned[versionSidebar][category].push(versionedCategoryItem);
       });
     });
   });
