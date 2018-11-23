@@ -11,6 +11,26 @@ const postcss = require('postcss');
 const path = require('path');
 const escapeStringRegexp = require('escape-string-regexp');
 
+const DOCS_URL = 'docs';
+
+function getDocsUrl(siteConfig) {
+  return Object.hasOwnProperty.call(siteConfig, 'docsUrl')
+    ? siteConfig.docsUrl
+    : DOCS_URL;
+}
+
+function getCustomizedPathname(siteConfig) {
+  const baseUrl = siteConfig.baseUrl;
+  const docsUrl = getDocsUrl(siteConfig);
+  return removeDuplicateLeadingSlashes(`${baseUrl}${docsUrl}`);
+}
+
+function removeDuplicateLeadingSlashes(urlWithLeadingSlash) {
+  // replace more than one leading slash to one
+  // used when either docsUrl / baseUrl / langPart has colliding leading slashes
+  return urlWithLeadingSlash.replace(/^\/+/, '/');
+}
+
 function getSubDir(file, refDir) {
   const subDir = path.dirname(path.relative(refDir, file)).replace(/\\/g, '/');
   return subDir !== '.' && !subDir.includes('..') ? subDir : null;
@@ -72,4 +92,7 @@ module.exports = {
   isSeparateCss,
   minifyCss,
   autoPrefixCss,
+  getCustomizedPathname,
+  getDocsUrl,
+  removeDuplicateLeadingSlashes,
 };

@@ -35,8 +35,8 @@ async function execute() {
   const imageminOptipng = require('imagemin-optipng');
   const imageminSvgo = require('imagemin-svgo');
   const imageminGifsicle = require('imagemin-gifsicle');
-  const {getDocsUrl} = require('./routing.js');
-  const docsUrl = getDocsUrl(siteConfig.docsUrl);
+  const {getDocsUrl} = require('./utils.js');
+  const docsUrl = getDocsUrl(siteConfig);
 
   commander.option('--skip-image-compression').parse(process.argv);
 

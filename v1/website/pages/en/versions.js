@@ -15,9 +15,9 @@ const CWD = process.cwd();
 
 const siteConfig = require(`${CWD}/siteConfig.js`);
 const versions = require(`${CWD}/versions.json`);
-const {getDocsUrl} = require('../../../lib/server/routing.js');
+const {getCustomizedPathname} = require('../../../lib/server/utils.js');
 
-const docsUrl = getDocsUrl(siteConfig.docsUrl);
+const customizedPathname = getCustomizedPathname(siteConfig);
 
 function Versions(props) {
   const latestVersion = versions[0];
@@ -39,7 +39,7 @@ function Versions(props) {
                 <th>{latestVersion}</th>
                 <td>
                   <a
-                    href={`${siteConfig.baseUrl}${docsUrl}/${
+                    href={`${customizedPathname}/${
                       props.language
                     }/installation`}>
                     Documentation
@@ -61,7 +61,7 @@ function Versions(props) {
                 <th>master</th>
                 <td>
                   <a
-                    href={`${siteConfig.baseUrl}${docsUrl}/${
+                    href={`${customizedPathname}/${
                       props.language
                     }/next/installation`}>
                     Documentation
@@ -86,7 +86,7 @@ function Versions(props) {
                       <th>{version}</th>
                       <td>
                         <a
-                          href={`${siteConfig.baseUrl}${docsUrl}/${
+                          href={`${customizedPathname}/${
                             props.language
                           }/${version}/installation`}>
                           Documentation

@@ -4,42 +4,43 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+import {getCustomizedPathname} from './utils';
 
-const DOCS_URL = 'docs';
-
-function blog(baseUrl) {
-  return new RegExp(`^${baseUrl}blog/.*html$`);
+function blog(siteConfig) {
+  return new RegExp(`^${siteConfig.baseUrl}blog/.*html$`);
 }
 
-function docs(baseUrl, docsUrl = DOCS_URL) {
-  return new RegExp(`^${baseUrl}${docsUrl}/.*html$`);
+function docs(siteConfig) {
+  const customizedPathname = getCustomizedPathname(siteConfig);
+  if (customizedPathname === '/') {
+    // precisely one of `baseUrl` and `docsUrl` is `/`, and the other is empty
+    // collides with the next slash
+    return new RegExp(`^/.*/(?!index).*html$`);
+  }
+  return new RegExp(`^${getCustomizedPathname(siteConfig)}/.*html$`);
 }
 
 function dotfiles() {
   return /(?!.*html$)^\/.*\.[^\n/]+$/;
 }
 
-function feed(baseUrl) {
-  return new RegExp(`^${baseUrl}blog/(feed.xml|atom.xml)$`);
+function feed(siteConfig) {
+  return new RegExp(`^${siteConfig.baseUrl}blog/(feed.xml|atom.xml)$`);
 }
 
 function noExtension() {
   return /\/[^.]*\/?$/;
 }
 
-function page(baseUrl, docsUrl = DOCS_URL) {
+function page(siteConfig) {
   const gr = regex => regex.toString().replace(/(^\/|\/$)/gm, '');
   return new RegExp(
-    `(?!${gr(docs(baseUrl, docsUrl))}|${gr(blog(baseUrl))})^${baseUrl}.*.html$`,
+    `(?!${gr(blog(siteConfig.baseUrl))})^${siteConfig.baseUrl}.*.html$`,
   );
 }
 
-function sitemap(baseUrl) {
-  return new RegExp(`^${baseUrl}sitemap.xml$`);
-}
-
-function getDocsUrl(docsUrl) {
-  return docsUrl || DOCS_URL;
+function sitemap(siteConfig) {
+  return new RegExp(`^${siteConfig.baseUrl}sitemap.xml$`);
 }
 
 module.exports = {
@@ -50,6 +51,4 @@ module.exports = {
   page,
   noExtension,
   sitemap,
-  getDocsUrl,
-  DOCS_URL,
 };

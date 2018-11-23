@@ -18,7 +18,12 @@ const renderMarkdown = require('./renderMarkdown');
 const Site = require('./Site.js');
 const translation = require('../server/translation.js');
 const docs = require('../server/docs.js');
-const {idx, getGitLastUpdatedTime, getGitLastUpdatedBy} = require('./utils.js');
+const {
+  idx,
+  getGitLastUpdatedTime,
+  getGitLastUpdatedBy,
+  removeDuplicateLeadingSlashes,
+} = require('./utils.js');
 
 // component used to generate whole webpage for docs, including sidebar/header/footer
 class DocsLayout extends React.Component {
@@ -29,9 +34,11 @@ class DocsLayout extends React.Component {
         .relative(from, to)
         .replace('\\', '/')
         .replace(/^\.\.\//, '') + extension;
-    return url.resolve(
-      `${this.props.config.baseUrl}${this.props.metadata.permalink}`,
-      relativeHref,
+    return removeDuplicateLeadingSlashes(
+      url.resolve(
+        `${this.props.config.baseUrl}${this.props.metadata.permalink}`,
+        relativeHref,
+      ),
     );
   };
 

@@ -14,10 +14,13 @@ const GridBlock = CompLibrary.GridBlock;
 
 const siteConfig = require(`${process.cwd()}/siteConfig.js`);
 
-const {getDocsUrl} = require('../../../lib/server/routing');
+const {getCustomizedPathname} = require('../../../lib/server/utils');
 
 function docUrl(doc, language) {
-  return `${siteConfig.baseUrl}${getDocsUrl(siteConfig.docsUrl)}/${
+  // TODO: this is no longer the encouraged way of writing it
+  // with customized link the user should know what their baseUrl + docsUrl are
+  // and not make silly decisions about it
+  return `${getCustomizedPathname(siteConfig)}/${
     language ? `${language}/` : ''
   }${doc}`;
 }

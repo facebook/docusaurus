@@ -22,7 +22,7 @@ const readMetadata = require('../../server/readMetadata.js');
 
 readMetadata.generateMetadataDocs();
 const Metadata = require('../metadata.js');
-const {idx, getPath} = require('../utils.js');
+const {idx, getPath, removeDuplicateLeadingSlashes} = require('../utils.js');
 
 const extension = siteConfig.cleanUrl ? '' : '.html';
 
@@ -56,7 +56,12 @@ class LanguageDropDown extends React.Component {
         }
         return (
           <li key={lang.tag}>
-            <a href={getPath(href, this.props.cleanUrl)}>{lang.name}</a>
+            <a
+              href={removeDuplicateLeadingSlashes(
+                getPath(href, this.props.cleanUrl),
+              )}>
+              {lang.name}
+            </a>
           </li>
         );
       });
@@ -223,7 +228,9 @@ class HeaderNav extends React.Component {
     const i18n = translation[this.props.language];
     return (
       <li key={`${link.label}page`} className={itemClasses}>
-        <a href={href} target={link.external ? '_blank' : '_self'}>
+        <a
+          href={removeDuplicateLeadingSlashes(href)}
+          target={link.external ? '_blank' : '_self'}>
           {idx(i18n, ['localized-strings', 'links', link.label]) || link.label}
         </a>
       </li>
@@ -300,10 +307,10 @@ class HeaderNav extends React.Component {
         <div className="headerWrapper wrapper">
           <header>
             <a
-              href={
+              href={removeDuplicateLeadingSlashes(
                 this.props.baseUrl +
-                (env.translation.enabled ? this.props.language : '')
-              }>
+                  (env.translation.enabled ? this.props.language : ''),
+              )}>
               {siteConfig.headerIcon && (
                 <img
                   className="logo"
@@ -316,7 +323,7 @@ class HeaderNav extends React.Component {
               )}
             </a>
             {env.versioning.enabled && (
-              <a href={versionsLink}>
+              <a href={removeDuplicateLeadingSlashes(versionsLink)}>
                 <h3>{this.props.version || env.versioning.defaultVersion}</h3>
               </a>
             )}

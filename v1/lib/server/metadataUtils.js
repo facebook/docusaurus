@@ -4,7 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-
+import {removeDuplicateLeadingSlashes} from './utils';
 // split markdown header
 function splitHeader(content) {
   // New line characters need to handle all operating systems.
@@ -79,7 +79,7 @@ function mdToHtml(Metadata, baseUrl, docsUrl) {
     } else {
       htmlLink = htmlLink.replace(`/${docsUrl}/`, `/${docsUrl}/VERSION/`);
     }
-    result[metadata.source] = htmlLink;
+    result[metadata.source] = removeDuplicateLeadingSlashes(htmlLink);
   });
   return result;
 }
