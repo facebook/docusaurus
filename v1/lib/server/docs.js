@@ -49,6 +49,7 @@ function mdToHtmlify(oldContent, mdToHtml, metadata) {
   let content = oldContent;
   const mdLinks = [];
   const mdReferences = [];
+  const mdBrokenLinks = [];
 
   // find any inline-style links to markdown files
   const linkRegex = /(?:\]\()(?:\.\/)?([^'")\]\s>]+\.md)/g;
@@ -81,6 +82,8 @@ function mdToHtmlify(oldContent, mdToHtml, metadata) {
         new RegExp(`\\]\\((\\./)?${mdLink}`, 'g'),
         `](${htmlLink}`,
       );
+    } else {
+      mdBrokenLinks.push(mdLink);
     }
   });
 
@@ -100,8 +103,17 @@ function mdToHtmlify(oldContent, mdToHtml, metadata) {
         new RegExp(`\\]:(?:\\s)?(\\./|\\.\\./)?${refLink}`, 'g'),
         `]: ${htmlLink}`,
       );
+    } else {
+      mdBrokenLinks.push(refLink);
     }
   });
+
+  if (mdBrokenLinks.length) {
+    console.log(
+      `[WARN] unresolved links in file '${metadata.source}' >`,
+      mdBrokenLinks,
+    );
+  }
   return content;
 }
 
