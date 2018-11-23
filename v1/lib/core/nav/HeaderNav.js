@@ -131,7 +131,7 @@ class HeaderNav extends React.Component {
     let docGroupActive = false;
     if (link.search && this.props.config.algolia) {
       // return algolia search bar
-      const placeholder = this.props.config.algolia.placeholder || "Search";
+      const placeholder = this.props.config.algolia.placeholder || 'Search';
       return (
         <li className="navSearchWrapper reactNavSearchWrapper" key="search">
           <input
