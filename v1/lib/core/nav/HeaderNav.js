@@ -22,7 +22,7 @@ const readMetadata = require('../../server/readMetadata.js');
 
 readMetadata.generateMetadataDocs();
 const Metadata = require('../metadata.js');
-const {idx, getPath, removeDuplicateLeadingSlashes} = require('../utils.js');
+const {idx, getPath} = require('../utils.js');
 
 const extension = siteConfig.cleanUrl ? '' : '.html';
 
@@ -48,20 +48,15 @@ class LanguageDropDown extends React.Component {
           href =
             siteConfig.baseUrl +
             this.props.current.permalink.replace(
-              `/${this.props.language}/`,
-              `/${lang.tag}/`,
+              `${this.props.language}/`,
+              `${lang.tag}/`,
             );
         } else if (this.props.current.id && this.props.current.id !== 'index') {
           href = `${siteConfig.baseUrl + lang.tag}/${this.props.current.id}`;
         }
         return (
           <li key={lang.tag}>
-            <a
-              href={removeDuplicateLeadingSlashes(
-                getPath(href, this.props.cleanUrl),
-              )}>
-              {lang.name}
-            </a>
+            <a href={getPath(href, this.props.cleanUrl)}>{lang.name}</a>
           </li>
         );
       });
@@ -228,9 +223,7 @@ class HeaderNav extends React.Component {
     const i18n = translation[this.props.language];
     return (
       <li key={`${link.label}page`} className={itemClasses}>
-        <a
-          href={removeDuplicateLeadingSlashes(href)}
-          target={link.external ? '_blank' : '_self'}>
+        <a href={href} target={link.external ? '_blank' : '_self'}>
           {idx(i18n, ['localized-strings', 'links', link.label]) || link.label}
         </a>
       </li>
@@ -307,10 +300,10 @@ class HeaderNav extends React.Component {
         <div className="headerWrapper wrapper">
           <header>
             <a
-              href={removeDuplicateLeadingSlashes(
+              href={
                 this.props.baseUrl +
-                  (env.translation.enabled ? this.props.language : ''),
-              )}>
+                (env.translation.enabled ? this.props.language : '')
+              }>
               {siteConfig.headerIcon && (
                 <img
                   className="logo"
@@ -323,7 +316,7 @@ class HeaderNav extends React.Component {
               )}
             </a>
             {env.versioning.enabled && (
-              <a href={removeDuplicateLeadingSlashes(versionsLink)}>
+              <a href={versionsLink}>
                 <h3>{this.props.version || env.versioning.defaultVersion}</h3>
               </a>
             )}

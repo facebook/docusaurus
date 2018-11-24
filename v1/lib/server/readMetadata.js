@@ -16,7 +16,9 @@ const metadataUtils = require('./metadataUtils');
 const env = require('./env.js');
 const blog = require('./blog.js');
 
-const siteConfig = require(`${CWD}/siteConfig.js`);
+const loadConfig = require('./config');
+
+const siteConfig = loadConfig(`${CWD}/siteConfig.js`);
 const versionFallback = require('./versionFallback.js');
 const utils = require('./utils.js');
 
@@ -32,10 +34,6 @@ const SupportedHeaderFields = new Set([
   'layout',
   'custom_edit_url',
 ]);
-
-const {getDocsUrl} = require('./utils.js');
-
-const docsUrl = getDocsUrl(siteConfig);
 
 let allSidebars;
 if (fs.existsSync(`${CWD}/sidebars.json`)) {
@@ -170,9 +168,9 @@ function processMetadata(file, refDir) {
     versionPart = 'next/';
   }
 
-  metadata.permalink = utils.removeDuplicateLeadingSlashes(
-    `/${docsUrl}/${langPart}${versionPart}${metadata.id}.html`,
-  );
+  metadata.permalink = `${
+    siteConfig.docsUrl ? `${siteConfig.docsUrl}/` : ''
+  }${langPart}${versionPart}${metadata.id}.html`;
 
   // change ids previous, next
   metadata.localized_id = metadata.id;
@@ -248,8 +246,12 @@ function generateMetadataDocs() {
             baseMetadata.permalink = baseMetadata.permalink
               .toString()
               .replace(
-                new RegExp(`${docsUrl}/en/`),
-                `${docsUrl}/${currentLanguage}/`,
+                new RegExp(
+                  `^${siteConfig.docsUrl ? `${siteConfig.docsUrl}/` : ''}en/`,
+                ),
+                `${
+                  siteConfig.docsUrl ? `${siteConfig.docsUrl}/` : ''
+                }${currentLanguage}/`,
               );
           }
           if (baseMetadata.next) {

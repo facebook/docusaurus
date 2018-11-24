@@ -64,10 +64,6 @@ headerLinks: [
 ],
 ```
 
-#### `noIndex` [boolean]
-
-Boolean. If true, Docusaurus will politely ask crawlers and search engines to avoid indexing your site. This is done with a header tag and so only applies to docs and pages. Will not attempt to hide static resources. This is a best effort request. Malicious crawlers can and will still index your site.
-
 #### `organizationName` [string]
 
 GitHub username of the organization or user hosting this project. This is used by the publishing script to determine where your GitHub pages website will be hosted.
@@ -129,6 +125,11 @@ customDocsPath: 'website-docs';
 #### `defaultVersionShown` [string]
 
 The default version for the site to be shown. If this is not set, the latest version will be shown.
+
+#### `docsUrl` [string]
+
+The base url for all docs file. Set this field to `''` to remove the `docs` prefix of the documentation URL. 
+If unset, it is defaulted to `docs`.
 
 #### `disableHeaderTitle` [boolean]
 
@@ -245,6 +246,10 @@ Path to your web app manifest (e.g., `manifest.json`). This will add a `<link>` 
 #### `markdownPlugins` [array]
 
 An array of plugins to be loaded by Remarkable, the markdown parser and renderer used by Docusaurus. The plugin will receive a reference to the Remarkable instance, allowing custom parsing and rendering rules to be defined.
+
+#### `noIndex` [boolean]
+
+Boolean. If true, Docusaurus will politely ask crawlers and search engines to avoid indexing your site. This is done with a header tag and so only applies to docs and pages. Will not attempt to hide static resources. This is a best effort request. Malicious crawlers can and will still index your site.
 
 #### `ogImage` [string]
 

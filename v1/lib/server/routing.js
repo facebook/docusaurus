@@ -4,20 +4,16 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import {getCustomizedPathname} from './utils';
-
 function blog(siteConfig) {
   return new RegExp(`^${siteConfig.baseUrl}blog/.*html$`);
 }
 
 function docs(siteConfig) {
-  const customizedPathname = getCustomizedPathname(siteConfig);
-  if (customizedPathname === '/') {
-    // precisely one of `baseUrl` and `docsUrl` is `/`, and the other is empty
-    // collides with the next slash
-    return new RegExp(`^/.*/(?!index).*html$`);
-  }
-  return new RegExp(`^${getCustomizedPathname(siteConfig)}/.*html$`);
+  return new RegExp(
+    `^${siteConfig.baseUrl}${
+      siteConfig.docsUrl ? `${siteConfig.docsUrl}/` : ''
+    }.*html$`,
+  );
 }
 
 function dotfiles() {
@@ -34,8 +30,16 @@ function noExtension() {
 
 function page(siteConfig) {
   const gr = regex => regex.toString().replace(/(^\/|\/$)/gm, '');
+
+  if (siteConfig.docsUrl === '') {
+    return new RegExp(
+      `(?!${gr(blog(siteConfig))})^${siteConfig.baseUrl}.*.html$`,
+    );
+  }
   return new RegExp(
-    `(?!${gr(blog(siteConfig.baseUrl))})^${siteConfig.baseUrl}.*.html$`,
+    `(?!${gr(blog(siteConfig))}|${gr(docs(siteConfig))})^${
+      siteConfig.baseUrl
+    }.*.html$`,
   );
 }
 

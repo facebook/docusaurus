@@ -6,7 +6,6 @@
  */
 
 /* eslint-disable no-cond-assign */
-import {removeDuplicateLeadingSlashes} from './utils';
 
 function execute(port) {
   const extractTranslations = require('../write-translations');
@@ -27,8 +26,8 @@ function execute(port) {
   const {renderToStaticMarkupWithDoctype} = require('./renderUtils');
   const feed = require('./feed');
   const sitemap = require('./sitemap');
-  const routing = require('./routing.js');
-  const {getDocsUrl} = require('./utils');
+  const routing = require('./routing');
+  const loadConfig = require('./config');
   const CWD = process.cwd();
   const join = path.join;
   const sep = path.sep;
@@ -78,12 +77,9 @@ function execute(port) {
   }
 
   function reloadSiteConfig() {
-    removeModuleAndChildrenFromCache(join(CWD, 'siteConfig.js'));
-    siteConfig = require(join(CWD, 'siteConfig.js'));
-
-    if (siteConfig.highlight && siteConfig.highlight.hljs) {
-      siteConfig.highlight.hljs(require('highlight.js'));
-    }
+    const siteConfigPath = join(CWD, 'siteConfig.js');
+    removeModuleAndChildrenFromCache(siteConfigPath);
+    siteConfig = loadConfig(siteConfigPath);
   }
 
   function requestFile(url, res, notFoundCallback) {
@@ -110,24 +106,14 @@ function execute(port) {
   reloadSiteConfig();
 
   const app = express();
-  const docsUrl = getDocsUrl(siteConfig);
 
   app.get(routing.docs(siteConfig), (req, res, next) => {
-    const url = removeDuplicateLeadingSlashes(req.path);
+    const url = decodeURI(req.path.toString().replace(siteConfig.baseUrl, ''));
     const metadata =
       Metadata[
         Object.keys(Metadata).find(id => Metadata[id].permalink === url)
       ];
-    if (!metadata) {
-      /**
-       * when allowing `docsUrl` to be '', some requests routed here (e.g. `/en/help`) might not be docs
-       * so we pass to the next possible routes
-       * although this circumstance should be avoided
-       *   - i.e. if the site has customized pages other than docs, it should not set `docsUrl` to be ''
-       */
-      next('route');
-      return;
-    }
+
     const file = docs.getFile(metadata);
     if (!file) {
       next();
@@ -135,11 +121,7 @@ function execute(port) {
     }
     const rawContent = metadataUtils.extractMetadata(file).rawContent;
     removeModuleAndChildrenFromCache('../core/DocsLayout.js');
-    const mdToHtml = metadataUtils.mdToHtml(
-      Metadata,
-      siteConfig.baseUrl,
-      docsUrl,
-    );
+    const mdToHtml = metadataUtils.mdToHtml(Metadata, siteConfig);
     res.send(docs.getMarkup(rawContent, mdToHtml, metadata));
   });
 
@@ -290,7 +272,7 @@ function execute(port) {
           title={ReactComp.title}
           description={ReactComp.description}
           metadata={{id: path.basename(userFile, '.js')}}>
-          <ReactComp language={language} />
+          <ReactComp siteConfig={siteConfig} language={language} />
         </Site>,
       );
 
@@ -357,7 +339,9 @@ function execute(port) {
 
   // serve static assets from these locations
   app.use(
-    `${siteConfig.baseUrl}${docsUrl}/assets`,
+    `${siteConfig.baseUrl}${
+      siteConfig.docsUrl ? `${siteConfig.docsUrl}/` : ''
+    }assets`,
     express.static(join(CWD, '..', readMetadata.getDocsPath(), 'assets')),
   );
   app.use(

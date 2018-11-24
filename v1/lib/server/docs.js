@@ -5,19 +5,17 @@
  * LICENSE file in the root directory of this source tree.
  */
 const CWD = process.cwd();
-const siteConfig = require(`${CWD}/siteConfig.js`);
 const {join} = require('path');
 const fs = require('fs-extra');
 const React = require('react');
+const loadConfig = require('./config');
+
+const siteConfig = loadConfig(`${CWD}/siteConfig.js`);
 const env = require('./env.js');
 const {renderToStaticMarkupWithDoctype} = require('./renderUtils');
 const readMetadata = require('./readMetadata.js');
 const {insertTOC} = require('../core/toc.js');
 const {getPath} = require('../core/utils.js');
-
-const {getCustomizedPathname} = require('./utils.js');
-
-const customizedPathname = getCustomizedPathname(siteConfig);
 
 function getFilePath(metadata) {
   if (!metadata) {
@@ -117,7 +115,12 @@ function replaceAssetsLink(oldContent) {
     }
     return fencedBlock
       ? line
-      : line.replace(/\]\(assets\//g, `](${customizedPathname}/assets/`);
+      : line.replace(
+          /\]\(assets\//g,
+          `](${siteConfig.baseUrl}${
+            siteConfig.docsUrl ? `${siteConfig.docsUrl}/` : ''
+          }assets/`,
+        );
   });
   return lines.join('\n');
 }
@@ -146,7 +149,9 @@ function getMarkup(rawContent, mdToHtml, metadata) {
 function getRedirectMarkup(metadata) {
   if (
     !env.translation.enabled ||
-    !metadata.permalink.includes(`${customizedPathname}/en`)
+    !metadata.permalink.includes(
+      `${siteConfig.docsUrl ? `${siteConfig.docsUrl}/` : ''}en`,
+    )
   ) {
     return null;
   }

@@ -10,18 +10,19 @@ const CompLibrary = require('../../core/CompLibrary.js');
 
 const Container = CompLibrary.Container;
 const GridBlock = CompLibrary.GridBlock;
-const siteConfig = require(`${process.cwd()}/siteConfig.js`);
 const translate = require('../../server/translate.js').translate;
-const {getCustomizedPathname} = require('../../server/utils.js');
 
 class Help extends React.Component {
   render() {
+    const {siteConfig} = this.props;
     const supportLinks = [
       {
         title: <translate>Browse the docs</translate>,
-        content: `Learn more about Docusaurus using the [official documentation](${getCustomizedPathname(
-          siteConfig,
-        )}/${this.props.language}/installation).`,
+        content: `Learn more about Docusaurus using the [official documentation](${
+          siteConfig.baseUrl
+        }${siteConfig.docsUrl ? `${siteConfig.docsUrl}/` : ''}${
+          this.props.language
+        }/installation).`,
       },
       {
         title: <translate>Discord</translate>,

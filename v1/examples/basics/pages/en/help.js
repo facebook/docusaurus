@@ -12,54 +12,44 @@ const CompLibrary = require('../../core/CompLibrary.js');
 const Container = CompLibrary.Container;
 const GridBlock = CompLibrary.GridBlock;
 
-const siteConfig = require(`${process.cwd()}/siteConfig.js`);
+function Help(props) {
+  const {siteConfig, language = ''} = props;
+  const {baseUrl, docsUrl} = siteConfig;
+  const docUrl = doc =>
+    `${baseUrl}${docsUrl ? `${docsUrl}/` : ''}/${
+      language ? `${language}/` : ''
+    }${doc}`;
 
-const {getCustomizedPathname} = require('../../../lib/server/utils');
+  const supportLinks = [
+    {
+      content: `Learn more using the [documentation on this site.](${docUrl(
+        'doc1.html',
+      )})`,
+      title: 'Browse Docs',
+    },
+    {
+      content: 'Ask questions about the documentation and project',
+      title: 'Join the community',
+    },
+    {
+      content: "Find out what's new with this project",
+      title: 'Stay up to date',
+    },
+  ];
 
-function docUrl(doc, language) {
-  // TODO: this is no longer the encouraged way of writing it
-  // with customized link the user should know what their baseUrl + docsUrl are
-  // and not make silly decisions about it
-  return `${getCustomizedPathname(siteConfig)}/${
-    language ? `${language}/` : ''
-  }${doc}`;
-}
-
-class Help extends React.Component {
-  render() {
-    const language = this.props.language || '';
-    const supportLinks = [
-      {
-        content: `Learn more using the [documentation on this site.](${docUrl(
-          'doc1.html',
-          language,
-        )})`,
-        title: 'Browse Docs',
-      },
-      {
-        content: 'Ask questions about the documentation and project',
-        title: 'Join the community',
-      },
-      {
-        content: "Find out what's new with this project",
-        title: 'Stay up to date',
-      },
-    ];
-
-    return (
-      <div className="docMainWrapper wrapper">
-        <Container className="mainContainer documentContainer postContainer">
-          <div className="post">
-            <header className="postHeader">
-              <h1>Need help?</h1>
-            </header>
-            <p>This project is maintained by a dedicated group of people.</p>
-            <GridBlock contents={supportLinks} layout="threeColumn" />
-          </div>
-        </Container>
-      </div>
-    );
-  }
+  return (
+    <div className="docMainWrapper wrapper">
+      <Container className="mainContainer documentContainer postContainer">
+        <div className="post">
+          <header className="postHeader">
+            <h1>Need help?</h1>
+          </header>
+          <p>This project is maintained by a dedicated group of people.</p>
+          <GridBlock contents={supportLinks} layout="threeColumn" />
+        </div>
+      </Container>
+    </div>
+  );
 }
 
 module.exports = Help;

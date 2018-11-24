@@ -14,10 +14,9 @@ const metadataUtils = require('./metadataUtils');
 
 const env = require('./env.js');
 const utils = require('./utils.js');
+const loadConfig = require('./config');
 
-const siteConfig = require(`${CWD}/siteConfig.js`);
-
-const docsUrl = utils.getDocsUrl(siteConfig);
+const siteConfig = loadConfig();
 
 const ENABLE_TRANSLATION = fs.existsSync(`${CWD}/languages.js`);
 
@@ -78,9 +77,6 @@ files.forEach(file => {
     );
   }
 
-  if (!(metadata.original_id in available)) {
-    available[metadata.original_id] = new Set();
-  }
   // The version will be between "version-" and "-<metadata.original_id>"
   // e.g. version-1.0.0-beta.2-doc1 => 1.0.0-beta.2
   // e.g. version-1.0.0-doc2 => 1.0.0
@@ -89,6 +85,19 @@ files.forEach(file => {
     metadata.id.indexOf('version-') + 8, // version- is 8 characters
     metadata.id.lastIndexOf(`-${metadata.original_id}`),
   );
+
+  // the original_id should be namespaced according to subdir to allow duplicate id in different subfolder
+  const subDir = utils.getSubDir(
+    file,
+    path.join(versionFolder, `version-${version}`),
+  );
+  if (subDir) {
+    metadata.original_id = `${subDir}/${metadata.original_id}`;
+  }
+
+  if (!(metadata.original_id in available)) {
+    available[metadata.original_id] = new Set();
+  }
   available[metadata.original_id].add(version);
 
   if (!(version in versionFiles)) {
@@ -178,17 +187,20 @@ function processVersionMetadata(file, version, useVersion, language) {
     : `version-${useVersion}/${path.basename(file)}`;
 
   const latestVersion = versions[0];
-  let permalink;
+
   if (!ENABLE_TRANSLATION && !siteConfig.useEnglishUrl) {
-    permalink = `/${docsUrl}/${version !== latestVersion ? `${version}/` : ''}${
+    metadata.permalink = `${
+      siteConfig.docsUrl ? `${siteConfig.docsUrl}/` : ''
+    }${version !== latestVersion ? `${version}/` : ''}${
       metadata.original_id
     }.html`;
   } else {
-    permalink = `/${docsUrl}/${language}/${
-      version !== latestVersion ? `${version}/` : ''
-    }${metadata.original_id}.html`;
+    metadata.permalink = `${
+      siteConfig.docsUrl ? `${siteConfig.docsUrl}/` : ''
+    }${language}/${version !== latestVersion ? `${version}/` : ''}${
+      metadata.original_id
+    }.html`;
   }
-  metadata.permalink = utils.removeDuplicateLeadingSlashes(permalink);
   metadata.id = metadata.id.replace(
     `version-${useVersion}-`,
     `version-${version}-`,

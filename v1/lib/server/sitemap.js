@@ -14,11 +14,9 @@ const CWD = process.cwd();
 const sitemap = require('sitemap');
 const utils = require('../core/utils');
 
-const siteConfig = require(`${CWD}/siteConfig.js`);
+const loadConfig = require('./config');
 
-const {getCustomizedPathname} = require('./utils.js');
-
-const customizedPathname = getCustomizedPathname(siteConfig);
+const siteConfig = loadConfig();
 
 const readMetadata = require('./readMetadata.js');
 
@@ -76,8 +74,14 @@ module.exports = function(callback) {
       const docUrl = utils.getPath(doc.permalink, siteConfig.cleanUrl);
       const links = enabledLanguages.map(lang => {
         const langUrl = docUrl.replace(
-          `${customizedPathname}/en/`,
-          `${customizedPathname}/${lang.tag}/`,
+          new RegExp(
+            `^${siteConfig.docsUrl ? `${siteConfig.docsUrl}/` : ''}en/`,
+          ),
+          new RegExp(
+            `^${siteConfig.docsUrl ? `${siteConfig.docsUrl}/` : ''}${
+              lang.tag
+            }/`,
+          ),
         );
         return {lang: lang.tag, url: langUrl};
       });

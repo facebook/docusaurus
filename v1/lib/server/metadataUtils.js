@@ -4,7 +4,6 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import {removeDuplicateLeadingSlashes} from './utils';
 // split markdown header
 function splitHeader(content) {
   // New line characters need to handle all operating systems.
@@ -65,7 +64,8 @@ function extractMetadata(content) {
 
 // mdToHtml is a map from a markdown file name to its html link, used to
 // change relative markdown links that work on GitHub into actual site links
-function mdToHtml(Metadata, baseUrl, docsUrl) {
+function mdToHtml(Metadata, siteConfig) {
+  const {baseUrl, docsUrl} = siteConfig;
   const result = {};
   Object.keys(Metadata).forEach(id => {
     const metadata = Metadata[id];
@@ -74,12 +74,16 @@ function mdToHtml(Metadata, baseUrl, docsUrl) {
     }
     let htmlLink = baseUrl + metadata.permalink.replace('/next/', '/');
 
-    if (htmlLink.includes(`/${docsUrl}/en/`)) {
-      htmlLink = htmlLink.replace(`/${docsUrl}/en/`, `/${docsUrl}/en/VERSION/`);
+    const baseDocsUrl = `${baseUrl}${docsUrl ? `${docsUrl}/` : ''}`;
+
+    const i18nDocsRegex = new RegExp(`^${baseDocsUrl}en/`);
+    const docsRegex = new RegExp(`^${baseDocsUrl}`);
+    if (i18nDocsRegex.test(htmlLink)) {
+      htmlLink = htmlLink.replace(i18nDocsRegex, `${baseDocsUrl}en/VERSION/`);
     } else {
-      htmlLink = htmlLink.replace(`/${docsUrl}/`, `/${docsUrl}/VERSION/`);
+      htmlLink = htmlLink.replace(docsRegex, `${baseDocsUrl}VERSION/`);
     }
-    result[metadata.source] = removeDuplicateLeadingSlashes(htmlLink);
+    result[metadata.source] = htmlLink;
   });
   return result;
 }

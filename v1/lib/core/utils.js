@@ -111,12 +111,6 @@ function getGitLastUpdatedBy(filepath) {
   return commit ? commit.author : null;
 }
 
-function removeDuplicateLeadingSlashes(urlWithLeadingSlash) {
-  // replace more than one leading slash to one
-  // used when either docsUrl / baseUrl / langPart has colliding leading slashes
-  return urlWithLeadingSlash.replace(/^\/+/, '/');
-}
-
 module.exports = {
   blogPostHasTruncateMarker,
   extractBlogPostBeforeTruncate,
@@ -125,5 +119,4 @@ module.exports = {
   getPath,
   removeExtension,
   idx,
-  removeDuplicateLeadingSlashes,
 };

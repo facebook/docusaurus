@@ -10,7 +10,7 @@ const classNames = require('classnames');
 
 const siteConfig = require(`${process.cwd()}/siteConfig.js`);
 const translation = require('../../server/translation.js');
-const {getPath, idx, removeDuplicateLeadingSlashes} = require('../utils.js');
+const {getPath, idx} = require('../utils.js');
 
 class SideNav extends React.Component {
   // return appropriately translated category string
@@ -97,9 +97,7 @@ class SideNav extends React.Component {
     });
     return (
       <li className={itemClasses} key={linkMetadata.id}>
-        <a
-          className="navItem"
-          href={removeDuplicateLeadingSlashes(this.getLink(linkMetadata))}>
+        <a className="navItem" href={this.getLink(linkMetadata)}>
           {this.getLocalizedString(linkMetadata)}
         </a>
       </li>
