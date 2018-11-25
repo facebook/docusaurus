@@ -386,5 +386,12 @@ module.exports = [
     fbOpenSource: false,
     pinned: false,
   },
+  {
+    caption: 'ReactLeaflet',
+    image: '/img/users/react-leaflet.png',
+    infoLink: 'https://react-leaflet.js.org/',
+    fbOpenSource: false,
+    pinned: false,
+  },
   // Please add your logo in alphabetical order of caption.
 ];
