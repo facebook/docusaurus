@@ -359,6 +359,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'TorchCraftAI',
+    image: '/img/users/torchcraftai.png',
+    infoLink: 'https://torchcraft.github.io/TorchCraftAI/',
+    fbOpenSource: true,
+    pinned: true,
+  },
+  {
     caption: 'Vasern',
     image: 'https://vasern.com/img/vasern.svg',
     infoLink: 'https://vasern.com/',
