@@ -141,6 +141,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Haul',
+    image: '/img/users/haul.png',
+    infoLink: 'https://callstack.github.io/haul/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Hemera',
     image: '/img/users/hemera.png',
     infoLink: 'https://hemerajs.github.io/hemera/',
