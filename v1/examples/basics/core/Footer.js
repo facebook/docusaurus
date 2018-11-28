@@ -11,10 +11,9 @@ class Footer extends React.Component {
   docUrl(doc, language) {
     const baseUrl = this.props.config.baseUrl;
     const docsUrl = this.props.config.docsUrl;
-
-    return `${baseUrl}${docsUrl ? `${docsUrl}/` : ''}/${
-      language ? `${language}/` : ''
-    }${doc}`;
+    const docsPart = `${docsUrl ? `${docsUrl}/` : ''}`;
+    const langPart = `${language ? `${language}/` : ''}`;
+    return `${baseUrl}${docsPart}${langPart}${doc}`;
   }
 
   pageUrl(doc, language) {

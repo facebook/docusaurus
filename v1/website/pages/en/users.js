@@ -14,7 +14,7 @@ const translate = require('../../server/translate.js').translate;
 
 class Users extends React.Component {
   render() {
-    const {siteConfig} = this.props;
+    const {config: siteConfig} = this.props;
     const fbUsersToShowcase = siteConfig.users.filter(
       user => user.fbOpenSource,
     );

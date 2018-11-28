@@ -188,15 +188,16 @@ function processVersionMetadata(file, version, useVersion, language) {
 
   const latestVersion = versions[0];
 
-  const docsUrl = `${siteConfig.docsUrl ? `${siteConfig.docsUrl}/` : ''}`;
+  const docsPart = `${siteConfig.docsUrl ? `${siteConfig.docsUrl}/` : ''}`;
+  const versionPart = `${version !== latestVersion ? `${version}/` : ''}`;
   if (!ENABLE_TRANSLATION && !siteConfig.useEnglishUrl) {
-    metadata.permalink = `${docsUrl}${
-      version !== latestVersion ? `${version}/` : ''
-    }${metadata.original_id}.html`;
+    metadata.permalink = `${docsPart}${versionPart}${
+      metadata.original_id
+    }.html`;
   } else {
-    metadata.permalink = `${docsUrl}${language}/${
-      version !== latestVersion ? `${version}/` : ''
-    }${metadata.original_id}.html`;
+    metadata.permalink = `${docsPart}${language}/${versionPart}${
+      metadata.original_id
+    }.html`;
   }
   metadata.id = metadata.id.replace(
     `version-${useVersion}-`,

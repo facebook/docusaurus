@@ -86,11 +86,11 @@ async function execute() {
     if (!redirectMarkup) {
       return;
     }
-    const docsUrl = `${siteConfig.docsUrl ? `${siteConfig.docsUrl}/` : ''}`;
+    const docsPart = `${siteConfig.docsUrl ? `${siteConfig.docsUrl}/` : ''}`;
     const redirectFile = join(
       buildDir,
       metadata.permalink.replace(
-        new RegExp(`^${docsUrl}en`),
+        new RegExp(`^${docsPart}en`),
         siteConfig.docsUrl,
       ),
     );
@@ -337,7 +337,7 @@ async function execute() {
                 title={ReactComp.title}
                 description={ReactComp.description}
                 metadata={{id: pageID}}>
-                <ReactComp siteConfig={siteConfig} language={language} />
+                <ReactComp config={siteConfig} language={language} />
               </Site>,
             );
             writeFileAndCreateFolder(
@@ -358,7 +358,7 @@ async function execute() {
             config={siteConfig}
             description={ReactComp.description}
             metadata={{id: pageID}}>
-            <ReactComp siteConfig={siteConfig} language={language} />
+            <ReactComp config={siteConfig} language={language} />
           </Site>,
         );
         writeFileAndCreateFolder(
@@ -376,7 +376,7 @@ async function execute() {
             config={siteConfig}
             description={ReactComp.description}
             metadata={{id: pageID}}>
-            <ReactComp siteConfig={siteConfig} language={language} />
+            <ReactComp config={siteConfig} language={language} />
           </Site>,
         );
         writeFileAndCreateFolder(

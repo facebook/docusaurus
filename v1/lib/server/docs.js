@@ -11,12 +11,13 @@ const React = require('react');
 const loadConfig = require('./config');
 
 const siteConfig = loadConfig(`${CWD}/siteConfig.js`);
-const docsUrl = `${siteConfig.docsUrl ? `${siteConfig.docsUrl}/` : ''}`;
 const env = require('./env.js');
 const {renderToStaticMarkupWithDoctype} = require('./renderUtils');
 const readMetadata = require('./readMetadata.js');
 const {insertTOC} = require('../core/toc.js');
 const {getPath} = require('../core/utils.js');
+
+const docsPart = `${siteConfig.docsUrl ? `${siteConfig.docsUrl}/` : ''}`;
 
 function getFilePath(metadata) {
   if (!metadata) {
@@ -130,7 +131,7 @@ function replaceAssetsLink(oldContent) {
       ? line
       : line.replace(
           /\]\(assets\//g,
-          `](${siteConfig.baseUrl}${docsUrl}assets/`,
+          `](${siteConfig.baseUrl}${docsPart}assets/`,
         );
   });
   return lines.join('\n');
@@ -160,7 +161,7 @@ function getMarkup(rawContent, mdToHtml, metadata) {
 function getRedirectMarkup(metadata) {
   if (
     !env.translation.enabled ||
-    !metadata.permalink.includes(`${docsUrl}en`)
+    !metadata.permalink.includes(`${docsPart}en`)
   ) {
     return null;
   }

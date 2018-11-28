@@ -16,7 +16,7 @@ const CWD = process.cwd();
 const versions = require(`${CWD}/versions.json`);
 
 function Versions(props) {
-  const {siteConfig} = props;
+  const {config: siteConfig} = props;
   const latestVersion = versions[0];
   const repoUrl = `https://github.com/${siteConfig.organizationName}/${
     siteConfig.projectName

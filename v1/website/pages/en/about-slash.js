@@ -15,7 +15,7 @@ const translate = require('../../server/translate.js').translate;
 
 class AboutSlash extends React.Component {
   render() {
-    const {siteConfig} = this.props;
+    const {config: siteConfig} = this.props;
     return (
       <div className="pageContainer">
         <Container className="mainContainer documentContainer postContainer">

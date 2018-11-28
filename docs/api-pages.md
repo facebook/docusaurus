@@ -5,6 +5,25 @@ title: Pages and Styles
 
 Docusaurus provides support for writing pages as React components inside the `website/pages` directory which will share the same header, footer, and styles as the rest of the site.
 
+## Provided Props
+
+Docusaurus provides your [siteConfig.js](api-site-config.md) as a `config` props. Hence, you can access `baseUrl` or `title` through this props.
+
+Example
+
+```js
+const React = require('react');
+
+class MyPage extends React.Component {
+  render() {
+    const siteConfig = this.props.config;
+    return <div>{siteConfig.title}</div>;
+  }
+}
+
+module.exports = MyPage;
+```
+
 ## URLs for Pages
 
 Any `.js` files in `website/pages` will be rendered to static HTML using the path of the file after `pages`. Files in `website/pages/en` will also get copied out into `pages` and will OVERRIDE any files of the same name in `pages`. For example, the page for the `website/pages/en/help.js` file will be found at the URL `${baseUrl}en/help.js` as well as the URL `${baseUrl}help.js`, where `${baseUrl}` is the `baseUrl` field set in your [siteConfig.js file](api-site-config.md).

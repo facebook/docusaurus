@@ -13,7 +13,7 @@ const Container = CompLibrary.Container;
 
 class Users extends React.Component {
   render() {
-    const {siteConfig} = this.props;
+    const {config: siteConfig} = this.props;
     if ((siteConfig.users || []).length === 0) {
       return null;
     }

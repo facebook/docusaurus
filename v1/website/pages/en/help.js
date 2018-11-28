@@ -14,7 +14,7 @@ const translate = require('../../server/translate.js').translate;
 
 class Help extends React.Component {
   render() {
-    const {siteConfig} = this.props;
+    const {config: siteConfig} = this.props;
     const supportLinks = [
       {
         title: <translate>Browse the docs</translate>,

@@ -9,8 +9,8 @@ function blog(siteConfig) {
 }
 
 function docs(siteConfig) {
-  const docsUrl = `${siteConfig.docsUrl ? `${siteConfig.docsUrl}/` : ''}`;
-  return new RegExp(`^${siteConfig.baseUrl}${docsUrl}.*html$`);
+  const docsPart = `${siteConfig.docsUrl ? `${siteConfig.docsUrl}/` : ''}`;
+  return new RegExp(`^${siteConfig.baseUrl}${docsPart}.*html$`);
 }
 
 function dotfiles() {

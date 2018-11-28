@@ -71,17 +71,17 @@ module.exports = function(callback) {
     .filter(key => Metadata[key].language === 'en')
     .forEach(key => {
       const doc = Metadata[key];
-      const docPermalink = utils.getPath(doc.permalink, siteConfig.cleanUrl);
-      const docsUrl = `${siteConfig.docsUrl ? `${siteConfig.docsUrl}/` : ''}`;
+      const docUrl = utils.getPath(doc.permalink, siteConfig.cleanUrl);
+      const docsPart = `${siteConfig.docsUrl ? `${siteConfig.docsUrl}/` : ''}`;
       const links = enabledLanguages.map(lang => {
-        const langUrl = docPermalink.replace(
-          new RegExp(`^${docsUrl}en/`),
-          `${docsUrl}${lang.tag}/`,
+        const langUrl = docUrl.replace(
+          new RegExp(`^${docsPart}en/`),
+          `${docsPart}${lang.tag}/`,
         );
         return {lang: lang.tag, url: langUrl};
       });
       urls.push({
-        url: docPermalink,
+        url: docUrl,
         changefreq: 'hourly',
         priority: 1.0,
         links,

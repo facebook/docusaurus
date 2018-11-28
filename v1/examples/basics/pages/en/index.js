@@ -17,11 +17,9 @@ class HomeSplash extends React.Component {
   render() {
     const {siteConfig, language = ''} = this.props;
     const {baseUrl, docsUrl} = siteConfig;
-
-    const docUrl = doc =>
-      `${baseUrl}${docsUrl ? `${docsUrl}/` : ''}/${
-        language ? `${language}/` : ''
-      }${doc}`;
+    const docsPart = `${docsUrl ? `${docsUrl}/` : ''}`;
+    const langPart = `${language ? `${language}/` : ''}`;
+    const docUrl = doc => `${baseUrl}${docsPart}${langPart}${doc}`;
 
     const SplashContainer = props => (
       <div className="homeContainer">
@@ -78,7 +76,7 @@ class HomeSplash extends React.Component {
 
 class Index extends React.Component {
   render() {
-    const {siteConfig, language = ''} = this.props;
+    const {config: siteConfig, language = ''} = this.props;
     const {baseUrl} = siteConfig;
 
     const Block = props => (

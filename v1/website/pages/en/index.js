@@ -16,7 +16,7 @@ const translate = require('../../server/translate.js').translate;
 
 class HomeSplash extends React.Component {
   render() {
-    const {siteConfig, language} = this.props;
+    const {config: siteConfig, language} = this.props;
 
     const Button = props => (
       <div className="pluginWrapper buttonWrapper">

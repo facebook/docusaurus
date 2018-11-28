@@ -75,14 +75,14 @@ function mdToHtml(Metadata, siteConfig) {
     }
     let htmlLink = baseUrl + metadata.permalink.replace('/next/', '/');
 
-    const baseDocsUrl = `${baseUrl}${docsUrl ? `${docsUrl}/` : ''}`;
+    const baseDocsPart = `${baseUrl}${docsUrl ? `${docsUrl}/` : ''}`;
 
-    const i18nDocsRegex = new RegExp(`^${baseDocsUrl}en/`);
-    const docsRegex = new RegExp(`^${baseDocsUrl}`);
+    const i18nDocsRegex = new RegExp(`^${baseDocsPart}en/`);
+    const docsRegex = new RegExp(`^${baseDocsPart}`);
     if (i18nDocsRegex.test(htmlLink)) {
-      htmlLink = htmlLink.replace(i18nDocsRegex, `${baseDocsUrl}en/VERSION/`);
+      htmlLink = htmlLink.replace(i18nDocsRegex, `${baseDocsPart}en/VERSION/`);
     } else {
-      htmlLink = htmlLink.replace(docsRegex, `${baseDocsUrl}VERSION/`);
+      htmlLink = htmlLink.replace(docsRegex, `${baseDocsPart}VERSION/`);
     }
     result[metadata.source] = htmlLink;
   });

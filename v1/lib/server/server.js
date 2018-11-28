@@ -272,7 +272,7 @@ function execute(port) {
           title={ReactComp.title}
           description={ReactComp.description}
           metadata={{id: path.basename(userFile, '.js')}}>
-          <ReactComp siteConfig={siteConfig} language={language} />
+          <ReactComp config={siteConfig} language={language} />
         </Site>,
       );
 
