@@ -62,21 +62,21 @@ class SideNav extends React.Component {
   }
 
   renderCategory = categoryItem => {
-    let ulClassName = "";
-    let categoryClassName = "navGroupCategoryTitle"
+    let ulClassName = '';
+    let categoryClassName = 'navGroupCategoryTitle';
     let arrow;
 
-    if (siteConfig.docsSideNavCollapsible){
-      categoryClassName += " collapsible"
-      ulClassName = "hide"
-      arrow = (<span className="arrow">&#9660;</span>);
+    if (siteConfig.docsSideNavCollapsible) {
+      categoryClassName += ' collapsible';
+      ulClassName = 'hide';
+      arrow = <span className="arrow">&#9660;</span>;
     }
 
-    return(
+    return (
       <div className="navGroup" key={categoryItem.title}>
         <h3 className={categoryClassName}>
           {this.getLocalizedCategoryString(categoryItem.title)}
-          {arrow}        
+          {arrow}
         </h3>
         <ul className={ulClassName}>
           {categoryItem.children.map(item => {
