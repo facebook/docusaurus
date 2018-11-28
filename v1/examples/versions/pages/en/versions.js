@@ -13,10 +13,10 @@ const Container = CompLibrary.Container;
 
 const CWD = process.cwd();
 
-const siteConfig = require(`${CWD}/siteConfig.js`);
 const versions = require(`${CWD}/versions.json`);
 
-function Versions() {
+function Versions(props) {
+  const {config: siteConfig} = props;
   const latestVersion = versions[0];
   const repoUrl = `https://github.com/${siteConfig.organizationName}/${
     siteConfig.projectName

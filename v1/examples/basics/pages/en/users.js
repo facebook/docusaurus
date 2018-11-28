@@ -11,10 +11,9 @@ const CompLibrary = require('../../core/CompLibrary.js');
 
 const Container = CompLibrary.Container;
 
-const siteConfig = require(`${process.cwd()}/siteConfig.js`);
-
 class Users extends React.Component {
   render() {
+    const {config: siteConfig} = this.props;
     if ((siteConfig.users || []).length === 0) {
       return null;
     }

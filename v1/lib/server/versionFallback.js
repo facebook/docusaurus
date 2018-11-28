@@ -14,8 +14,9 @@ const metadataUtils = require('./metadataUtils');
 
 const env = require('./env.js');
 const utils = require('./utils.js');
+const loadConfig = require('./config');
 
-const siteConfig = require(`${CWD}/siteConfig.js`);
+const siteConfig = loadConfig(`${CWD}/siteConfig.js`);
 
 const ENABLE_TRANSLATION = fs.existsSync(`${CWD}/languages.js`);
 
@@ -187,14 +188,16 @@ function processVersionMetadata(file, version, useVersion, language) {
 
   const latestVersion = versions[0];
 
+  const docsPart = `${siteConfig.docsUrl ? `${siteConfig.docsUrl}/` : ''}`;
+  const versionPart = `${version !== latestVersion ? `${version}/` : ''}`;
   if (!ENABLE_TRANSLATION && !siteConfig.useEnglishUrl) {
-    metadata.permalink = `docs/${
-      version !== latestVersion ? `${version}/` : ''
-    }${metadata.original_id}.html`;
+    metadata.permalink = `${docsPart}${versionPart}${
+      metadata.original_id
+    }.html`;
   } else {
-    metadata.permalink = `docs/${language}/${
-      version !== latestVersion ? `${version}/` : ''
-    }${metadata.original_id}.html`;
+    metadata.permalink = `${docsPart}${language}/${versionPart}${
+      metadata.original_id
+    }.html`;
   }
   metadata.id = metadata.id.replace(
     `version-${useVersion}-`,

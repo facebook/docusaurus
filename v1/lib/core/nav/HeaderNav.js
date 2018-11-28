@@ -11,7 +11,9 @@ const React = require('react');
 const fs = require('fs');
 const classNames = require('classnames');
 
-const siteConfig = require(`${CWD}/siteConfig.js`);
+const loadConfig = require('../../server/config');
+
+const siteConfig = loadConfig(`${CWD}/siteConfig.js`);
 const translation = require('../../server/translation.js');
 const env = require('../../server/env.js');
 
@@ -33,6 +35,7 @@ class LanguageDropDown extends React.Component {
     const helpTranslateString = translate(
       'Help Translate|recruit community translators for your project',
     );
+    const docsPart = `${siteConfig.docsUrl ? `${siteConfig.docsUrl}/` : ''}`;
     // add all enabled languages to dropdown
     const enabledLanguages = env.translation
       .enabledLanguages()
@@ -48,8 +51,8 @@ class LanguageDropDown extends React.Component {
           href =
             siteConfig.baseUrl +
             this.props.current.permalink.replace(
-              `/${this.props.language}/`,
-              `/${lang.tag}/`,
+              new RegExp(`^${docsPart}${this.props.language}/`),
+              `${docsPart}${lang.tag}/`,
             );
         } else if (this.props.current.id && this.props.current.id !== 'index') {
           href = `${siteConfig.baseUrl + lang.tag}/${this.props.current.id}`;

@@ -17,7 +17,9 @@ const CWD = process.cwd();
 
 const utils = require('../server/utils');
 
-const siteConfig = require(`${CWD}/website/siteConfig.js`);
+const loadConfig = require('../server/config');
+
+const siteConfig = loadConfig(`${CWD}/website/siteConfig.js`);
 const buildDir = `${CWD}/website/build`;
 const docsDir = `${CWD}/docs`;
 const staticCSSDir = `${CWD}/website/static/css`;

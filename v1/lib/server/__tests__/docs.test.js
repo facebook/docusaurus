@@ -66,7 +66,11 @@ const rawContent3 = metadataUtils.extractMetadata(doc3).rawContent;
 const rawContentRefLinks = metadataUtils.extractMetadata(refLinks).rawContent;
 
 describe('mdToHtmlify', () => {
-  const mdToHtml = metadataUtils.mdToHtml(Metadata, '/');
+  const siteConfig = {
+    baseUrl: '/',
+    docsUrl: 'docs',
+  };
+  const mdToHtml = metadataUtils.mdToHtml(Metadata, siteConfig);
 
   test('transform nothing', () => {
     const content1 = docs.mdToHtmlify(
@@ -100,7 +104,7 @@ describe('mdToHtmlify', () => {
         language: 'en',
       },
     };
-    const customMdToHtml = metadataUtils.mdToHtml(customMetadata, '/');
+    const customMdToHtml = metadataUtils.mdToHtml(customMetadata, siteConfig);
     const content3 = docs.mdToHtmlify(
       rawContent3,
       customMdToHtml,
