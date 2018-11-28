@@ -141,6 +141,20 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Haul',
+    image: '/img/users/haul.png',
+    infoLink: 'https://callstack.github.io/haul/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
+    caption: 'Hemera',
+    image: '/img/users/hemera.png',
+    infoLink: 'https://hemerajs.github.io/hemera/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Home Assistant',
     image: 'https://developers.home-assistant.io/img/logo-responsive.svg',
     infoLink: 'https://developers.home-assistant.io/',
@@ -254,6 +268,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'React Redux',
+    image: '/img/users/react-redux.svg',
+    infoLink: 'http://react-redux.js.org',
+    fbOpenSource: false,
+    pinned: true,
+  },
+  {
     caption: 'reaction-commerce',
     image: '/img/users/reaction-commerce.svg',
     infoLink: 'https://docs.reactioncommerce.com/',
@@ -317,6 +338,13 @@ module.exports = [
     pinned: true,
   },
   {
+    caption: 'Spectrum',
+    image: '/img/users/spectrum.svg',
+    infoLink: 'http://libspectrum.io',
+    fbOpenSource: true,
+    pinned: true,
+  },
+  {
     caption: 'Stackery',
     image: 'https://www.stackery.io/img/stackery-large-mark-teal-w.png',
     infoLink: 'https://docs.stackery.io',
@@ -336,6 +364,13 @@ module.exports = [
     infoLink: 'https://textlint.github.io/',
     fbOpenSource: false,
     pinned: false,
+  },
+  {
+    caption: 'TorchCraftAI',
+    image: '/img/users/torchcraftai.png',
+    infoLink: 'https://torchcraft.github.io/TorchCraftAI/',
+    fbOpenSource: true,
+    pinned: true,
   },
   {
     caption: 'Vasern',

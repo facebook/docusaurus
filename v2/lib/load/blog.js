@@ -8,7 +8,7 @@
 const globby = require('globby');
 const path = require('path');
 const fs = require('fs-extra');
-const {parse, idx} = require('./utils');
+const {parse, idx, normalizeUrl} = require('./utils');
 
 function fileToUrl(fileName) {
   return fileName
@@ -47,7 +47,7 @@ async function loadBlog({blogDir, env, siteConfig}) {
       const fileString = await fs.readFile(source, 'utf-8');
       const {metadata: rawMetadata} = parse(fileString);
       const metadata = {
-        permalink: path.join(baseUrl, `blog`, fileToUrl(blogFileName)),
+        permalink: normalizeUrl([baseUrl, `blog`, fileToUrl(blogFileName)]),
         source,
         ...rawMetadata,
         date,
@@ -67,7 +67,10 @@ async function loadBlog({blogDir, env, siteConfig}) {
   /* eslint-disable */
   for (let page = 0; page < numberOfPage; page++) {
     blogMetadatas.push({
-      permalink: path.join(basePageUrl, `${page > 0 ? `page${page + 1}` : ''}`),
+      permalink: normalizeUrl([
+        basePageUrl,
+        `${page > 0 ? `page${page + 1}` : ''}`,
+      ]),
       language: defaultLangTag,
       isBlogPage: true,
       posts: blogMetadatas.slice(page * perPage, (page + 1) * perPage),

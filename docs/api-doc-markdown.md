@@ -3,7 +3,7 @@ id: doc-markdown
 title: Markdown Features
 ---
 
-Find out more about Docusaurus-specific fields when writing Markdown.
+Docusaurus uses [GitHub Flavored Markdown (GFM)](https://guides.github.com/features/mastering-markdown/). Find out more about Docusaurus-specific fields when writing Markdown.
 
 ## Markdown Headers
 
@@ -17,7 +17,7 @@ Documents use the following markdown header fields that are enclosed by a line `
 
 `hide_title`: Whether to hide the title at the top of the doc.
 
-`sidebar_label`: The text shown in the document sidebar for this document. If this field is not present, the document's `sidebar_label` will default to its `title`.
+`sidebar_label`: The text shown in the document sidebar and in the next/previous button for this document. If this field is not present, the document's `sidebar_label` will default to its `title`.
 
 For example:
 

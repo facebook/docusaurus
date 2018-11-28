@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+const {normalizeUrl} = require('./utils');
+
 async function genRoutesConfig({
   siteConfig = {},
   docsMetadatas = {},
@@ -33,7 +35,7 @@ async function genRoutesConfig({
       }`;
   }
 
-  const rootDocsUrl = baseUrl + docsUrl;
+  const rootDocsUrl = normalizeUrl([baseUrl, docsUrl]);
   const docsRoutes = `
   {
     path: '${rootDocsUrl}',
@@ -133,8 +135,9 @@ async function genRoutesConfig({
     `import BlogPage from '@theme/BlogPage';\n` +
     `import Pages from '@theme/Pages';\n` +
     `import NotFound from '@theme/NotFound';\n` +
-    `const routes = [${docsRoutes},
+    `const routes = [
       ${pagesMetadatas.map(genPagesRoute).join(',')},
+      ${docsRoutes},
       ${blogMetadatas.map(genBlogRoute).join(',')},
       ${notFoundRoute}\n];\n` +
     `export default routes;\n`

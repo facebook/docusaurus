@@ -7,7 +7,7 @@
 
 const fs = require('fs-extra');
 const path = require('path');
-const {getSubFolder, idx, parse} = require('../utils');
+const {getSubFolder, idx, parse, normalizeUrl} = require('../utils');
 
 function getLanguage(filepath, refDir, env) {
   const translationEnabled = idx(env, ['translation', 'enabled']);
@@ -135,9 +135,13 @@ module.exports = async function processMetadata(
         .replace(/:id/, metadata.id),
     );
   } else {
-    metadata.permalink = `${baseUrl}${docsUrl}/${langPart}${versionPart}${
-      metadata.id
-    }`;
+    metadata.permalink = normalizeUrl([
+      baseUrl,
+      docsUrl,
+      langPart,
+      versionPart,
+      metadata.id,
+    ]);
   }
 
   /* if version */
