@@ -149,7 +149,7 @@ class SideNav extends React.Component {
             var coll = document.getElementsByClassName("collapsible");
             var checkActiveCategory = true;
             for (var i = 0; i < coll.length; i++) {
-              var links = coll[i].nextElementSibling.children;
+              var links = coll[i].nextElementSibling.getElementsByTagName("*");
               if (checkActiveCategory){
                 for (var j=0;j<links.length;j++){
                   if (links[j].classList.contains("navListItemActive")){
