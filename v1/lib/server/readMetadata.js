@@ -19,6 +19,7 @@ const blog = require('./blog.js');
 const loadConfig = require('./config');
 
 const siteConfig = loadConfig(`${CWD}/siteConfig.js`);
+const docsUrl = `${siteConfig.docsUrl ? `${siteConfig.docsUrl}/` : ''}`;
 const versionFallback = require('./versionFallback.js');
 const utils = require('./utils.js');
 
@@ -168,9 +169,7 @@ function processMetadata(file, refDir) {
     versionPart = 'next/';
   }
 
-  metadata.permalink = `${
-    siteConfig.docsUrl ? `${siteConfig.docsUrl}/` : ''
-  }${langPart}${versionPart}${metadata.id}.html`;
+  metadata.permalink = `${docsUrl}${langPart}${versionPart}${metadata.id}.html`;
 
   // change ids previous, next
   metadata.localized_id = metadata.id;
@@ -246,12 +245,8 @@ function generateMetadataDocs() {
             baseMetadata.permalink = baseMetadata.permalink
               .toString()
               .replace(
-                new RegExp(
-                  `^${siteConfig.docsUrl ? `${siteConfig.docsUrl}/` : ''}en/`,
-                ),
-                `${
-                  siteConfig.docsUrl ? `${siteConfig.docsUrl}/` : ''
-                }${currentLanguage}/`,
+                new RegExp(`^${docsUrl}en/`),
+                `${docsUrl}${currentLanguage}/`,
               );
           }
           if (baseMetadata.next) {

@@ -22,6 +22,7 @@ async function execute() {
   const Site = require('../core/Site.js');
   const env = require('./env.js');
   const loadConfig = require('./config.js');
+  const siteConfig = loadConfig(`${CWD}/siteConfig.js`);
   const translate = require('./translate.js');
   const feed = require('./feed.js');
   const sitemap = require('./sitemap.js');
@@ -37,9 +38,6 @@ async function execute() {
   const imageminGifsicle = require('imagemin-gifsicle');
 
   commander.option('--skip-image-compression').parse(process.argv);
-
-  // load siteConfig
-  const siteConfig = loadConfig(`${CWD}/siteConfig.js`);
 
   // create the folder path for a file if it does not exist, then write the file
   function writeFileAndCreateFolder(file, content) {
@@ -88,10 +86,11 @@ async function execute() {
     if (!redirectMarkup) {
       return;
     }
+    const docsUrl = `${siteConfig.docsUrl ? `${siteConfig.docsUrl}/` : ''}`;
     const redirectFile = join(
       buildDir,
       metadata.permalink.replace(
-        new RegExp(`^${siteConfig.docsUrl ? `${siteConfig.docsUrl}/` : ''}/en`),
+        new RegExp(`^${docsUrl}en`),
         siteConfig.docsUrl,
       ),
     );

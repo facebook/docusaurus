@@ -16,7 +16,7 @@ const utils = require('../core/utils');
 
 const loadConfig = require('./config');
 
-const siteConfig = loadConfig();
+const siteConfig = loadConfig(`${CWD}/siteConfig.js`);
 
 const readMetadata = require('./readMetadata.js');
 
@@ -71,22 +71,17 @@ module.exports = function(callback) {
     .filter(key => Metadata[key].language === 'en')
     .forEach(key => {
       const doc = Metadata[key];
-      const docUrl = utils.getPath(doc.permalink, siteConfig.cleanUrl);
+      const docPermalink = utils.getPath(doc.permalink, siteConfig.cleanUrl);
+      const docsUrl = `${siteConfig.docsUrl ? `${siteConfig.docsUrl}/` : ''}`;
       const links = enabledLanguages.map(lang => {
-        const langUrl = docUrl.replace(
-          new RegExp(
-            `^${siteConfig.docsUrl ? `${siteConfig.docsUrl}/` : ''}en/`,
-          ),
-          new RegExp(
-            `^${siteConfig.docsUrl ? `${siteConfig.docsUrl}/` : ''}${
-              lang.tag
-            }/`,
-          ),
+        const langUrl = docPermalink.replace(
+          new RegExp(`^${docsUrl}en/`),
+          `${docsUrl}${lang.tag}/`,
         );
         return {lang: lang.tag, url: langUrl};
       });
       urls.push({
-        url: docUrl,
+        url: docPermalink,
         changefreq: 'hourly',
         priority: 1.0,
         links,

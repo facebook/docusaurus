@@ -16,12 +16,16 @@ module.exports = function loadConfig(configPath, deleteCache = true) {
     config = require(configPath); // eslint-disable-line
   }
 
-  /* docsUrl */
-  if (config.docsUrl && (config.docsUrl === '' || config.docsUrl === '/')) {
-    config.docsUrl = '';
-  } else if (!config.docsUrl) {
-    config.docsUrl = 'docs';
-  }
+  /* Fill default value */
+  const defaultConfig = {
+    customDocsPath: 'docs',
+    docsUrl: 'docs',
+  };
+  Object.keys(defaultConfig).forEach(field => {
+    if (!(field in config)) {
+      config[field] = defaultConfig[field];
+    }
+  });
 
   return config;
 };

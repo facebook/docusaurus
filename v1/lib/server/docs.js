@@ -11,6 +11,7 @@ const React = require('react');
 const loadConfig = require('./config');
 
 const siteConfig = loadConfig(`${CWD}/siteConfig.js`);
+const docsUrl = `${siteConfig.docsUrl ? `${siteConfig.docsUrl}/` : ''}`;
 const env = require('./env.js');
 const {renderToStaticMarkupWithDoctype} = require('./renderUtils');
 const readMetadata = require('./readMetadata.js');
@@ -117,9 +118,7 @@ function replaceAssetsLink(oldContent) {
       ? line
       : line.replace(
           /\]\(assets\//g,
-          `](${siteConfig.baseUrl}${
-            siteConfig.docsUrl ? `${siteConfig.docsUrl}/` : ''
-          }assets/`,
+          `](${siteConfig.baseUrl}${docsUrl}assets/`,
         );
   });
   return lines.join('\n');
@@ -149,9 +148,7 @@ function getMarkup(rawContent, mdToHtml, metadata) {
 function getRedirectMarkup(metadata) {
   if (
     !env.translation.enabled ||
-    !metadata.permalink.includes(
-      `${siteConfig.docsUrl ? `${siteConfig.docsUrl}/` : ''}en`,
-    )
+    !metadata.permalink.includes(`${docsUrl}en`)
   ) {
     return null;
   }
