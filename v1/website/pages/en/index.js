@@ -16,7 +16,7 @@ const translate = require('../../server/translate.js').translate;
 
 class HomeSplash extends React.Component {
   render() {
-    const {config: siteConfig, language} = this.props;
+    const {siteConfig, language} = this.props;
 
     const Button = props => (
       <div className="pluginWrapper buttonWrapper">
@@ -66,7 +66,7 @@ class HomeSplash extends React.Component {
 
 class Index extends React.Component {
   render() {
-    const {siteConfig, language = 'en'} = this.props;
+    const {config: siteConfig, language = 'en'} = this.props;
     const pinnedUsersToShowcase = siteConfig.users.filter(user => user.pinned);
 
     return (
