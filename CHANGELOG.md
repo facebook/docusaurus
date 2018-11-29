@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [Unreleased]
 
+## [1.6.0] - 2018-11-28
+
 This releases includes few bug fixes and featurs. One notable feature allows user to change/remove `docs` prefix from the generated docusaurus URL.
 
 Welcome to our newest users, [React-Slate](http://react-slate.surge.sh/), [Hemera](https://hemerajs.github.io/hemera/), [React-Redux](https://react-redux.js.org/), [Spectrum](https://libspectrum.io/), [TorchCraftAI](https://torchcraft.github.io/TorchCraftAI/), and [Haul]((https://callstack.github.io/haul/)).
@@ -877,7 +879,8 @@ N/A
   - Blog
   - Documentation
 
-[unreleased]: https://github.com/facebook/Docusaurus/compare/v1.5.1...HEAD
+[unreleased]: https://github.com/facebook/Docusaurus/compare/v1.6.0...HEAD
+[1.6.0]: https://github.com/facebook/Docusaurus/compare/v1.5.1...v1.6.0
 [1.5.1]: https://github.com/facebook/Docusaurus/compare/v1.4.0...v1.5.1
 [1.5.0]: https://github.com/facebook/Docusaurus/compare/v1.4.0...v1.5.0
 [1.4.0]: https://github.com/facebook/Docusaurus/compare/v1.3.3...v1.4.0
