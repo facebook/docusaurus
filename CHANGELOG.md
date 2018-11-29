@@ -10,7 +10,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 This releases includes few bug fixes and featurs. One notable feature allows user to change/remove `docs` prefix from the generated docusaurus URL.
 
-Welcome to our newest users, [React-Slate](http://react-slate.surge.sh/), [Hemera](https://hemerajs.github.io/hemera/), [React-Redux](https://react-redux.js.org/), [Spectrum](https://libspectrum.io/), [TorchCraftAI](https://torchcraft.github.io/TorchCraftAI/), and [Haul]((https://callstack.github.io/haul/)).
+Welcome to our newest users, [React-Slate](http://react-slate.surge.sh/), [Hemera](https://hemerajs.github.io/hemera/), [React-Redux](https://react-redux.js.org/), [Spectrum](https://libspectrum.io/), [TorchCraftAI](https://torchcraft.github.io/TorchCraftAI/), and [Haul](https://callstack.github.io/haul/).
 
 Thank you to the following contributors who helped with this release:
 
