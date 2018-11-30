@@ -6,6 +6,41 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [Unreleased]
 
+## [1.6.0] - 2018-11-30
+
+Welcome to our newest users, react-slate, hemera, react-redux, Spectrum, TorchCraftAI and Haul.
+
+Thank you to the following contributors who helped with this release:
+
+- @ellereeeee
+- @JoelMarcey
+- @maxaggedon
+- @endiliey
+- @tsmrachel
+- @gianlucadonato
+- @Shriram-Balaji
+- @noraj
+- @wgao19
+- @kahkhang
+- @alexperez
+- @andreShillito
+
+### Fixed/Changed
+
+- `docusaurus-version` should work with subcategories ([#1124](https://github.com/facebook/Docusaurus/pull/1124))
+- `docusaurus-version` should allow a duplicate id in a different subfolder ([#1125](https://github.com/facebook/Docusaurus/pull/1125))
+- Use `sidebar_label` instead of `title` in prev/next buttons ([#1122](https://github.com/facebook/Docusaurus/pull/1122))
+- Fixed translated pages missing left Table of Contents ([#1119](https://github.com/facebook/Docusaurus/pull/1119))
+- Fixed warning about unsupported languages from prismjs ([#1107](https://github.com/facebook/Docusaurus/pull/1107))
+
+### Added
+
+- Search bar placeholder text is now customizable ([#1126](https://github.com/facebook/Docusaurus/pull/1126))
+- A warning message is now shwon when markdown links are broken ([#1116](https://github.com/facebook/Docusaurus/pull/1116))
+- Added documentation on markdown flavour support ([#1118](https://github.com/facebook/Docusaurus/pull/1118))
+- Added documentation on website directory naming ([#1106](https://github.com/facebook/Docusaurus/pull/1106))
+- Added documentation about setting a custom `/docs` folder name ([#1098](https://github.com/facebook/Docusaurus/pull/1098))
+
 ## [1.5.1] - 2018-11-03
 
 A release where we had many external contributors! Very excited to see the community being involved in the project.
