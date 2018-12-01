@@ -135,23 +135,21 @@ and each function will link to their corresponding sections in the page.
 
 ### Code tabs
 
-Docusaurus provides code tabs by default. To use code tabs, first, mark the start and end of a code tabs group, by using `DOCUSAURUS_CODE_TABS` and `END_DOCUSAURUS_CODE_TABS` respectively.
-Secondly, wrap each tab with `TAB_TITLE=[TAB_TITLE]` and `END_TAB` tag.
+Docusaurus provides code tabs by default. To use code tabs, first, mark the start and end of a code tabs group, by using `<!--DOCUSAURUS_CODE_TABS-->` and `<!--END_DOCUSAURUS_CODE_TABS-->` respectively.
+Secondly, start each tab with `<!--[TAB_TITLE]-->`.
 
 Example:
 
-DOCUSAURUS_CODE_TABS
-TAB_TITLE=Javascript
+<!--DOCUSAURUS_CODE_TABS-->
+<!--Javascript-->
 ```js
 console.log("Hello, world!");
 ```
-END_TAB
-TAB_TITLE=Python
+<!--Python-->
 ```py
 print("Hello, world!")
 ```
-END_TAB
-TAB_TITLE=C
+<!--C-->
 ```C
 #include
 
@@ -160,16 +158,14 @@ int main(void)
     puts("Hello, world!");
 }
 ```
-END_TAB
-TAB_TITLE=Pascal
+<!--Pascal-->
 ```Pascal
 program HelloWorld;
 begin
   WriteLn('Hello, world!');
 end.
 ```
-END_TAB
-END_DOCUSAURUS_CODE_TABS
+<!--END_DOCUSAURUS_CODE_TABS-->
 
 
 ## Syntax Highlighting

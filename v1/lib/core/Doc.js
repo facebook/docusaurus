@@ -19,30 +19,32 @@ const translateThisDoc = translate(
 );
 
 const splitTabsToTitleAndContent = content => {
-  const tabs = content.match(/TAB_TITLE(.*?)END_TAB/gms);
-  const titleAndContentRegex = /^TAB_TITLE=([^\n]+)(.*?)END_TAB$/s;
-  if (tabs && tabs.length) {
-    return tabs.map(tab => {
-      const temp = tab.match(titleAndContentRegex);
-      return {title: temp[1], content: temp[2]};
-    });
-  }
-  return null;
+  const titles = content.match(/<!--(.*?)-->/gms);
+  const tabs = content.split(/<!--.*?-->/gms);
+  if (!titles || !tabs || !titles.length || !tabs.length) return [];
+  tabs.shift();
+  const result = titles.map((title, idx) => ({
+    title: title.substring(4, title.length - 3),
+    content: tabs[idx],
+  }));
+  return result;
 };
+
 // inner doc component for article itself
 class Doc extends React.Component {
   renderContent() {
     const {content} = this.props;
     let inCodeTabs = false;
     const contents = content.split(
-      /(DOCUSAURUS_CODE_TABS\n)(.*?)(\nEND_DOCUSAURUS_CODE_TABS)/gms,
+      /(<!--DOCUSAURUS_CODE_TABS-->\n)(.*?)(\n<!--END_DOCUSAURUS_CODE_TABS-->)/gms,
     );
+
     const renderResult = contents.map(c => {
-      if (c === 'DOCUSAURUS_CODE_TABS\n') {
+      if (c === '<!--DOCUSAURUS_CODE_TABS-->\n') {
         inCodeTabs = true;
         return null;
       }
-      if (c === '\nEND_DOCUSAURUS_CODE_TABS') {
+      if (c === '\n<!--END_DOCUSAURUS_CODE_TABS-->') {
         inCodeTabs = false;
         return null;
       }
