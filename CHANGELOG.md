@@ -6,9 +6,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [Unreleased]
 
-## [1.6.0] - 2018-11-28
+## [1.6.0] - 2018-12-1
 
-This releases includes few bug fixes and featurs. One notable feature allows user to change/remove `docs` prefix from the generated docusaurus URL.
+This releases includes few bug fixes and features. One notable feature allows user to change/remove `docs` prefix from the generated docusaurus URL.
 
 Welcome to our newest users, [React-Slate](http://react-slate.surge.sh/), [Hemera](https://hemerajs.github.io/hemera/), [React-Redux](https://react-redux.js.org/), [Spectrum](https://libspectrum.io/), [TorchCraftAI](https://torchcraft.github.io/TorchCraftAI/), and [Haul](https://callstack.github.io/haul/).
 
@@ -47,7 +47,6 @@ Thank you to the following contributors who helped with this release:
 - Use `sidebar_label` in addition to `title` for prev/next button ([#1122](https://github.com/facebook/Docusaurus/pull/1122))
 - Warn the users if any unresolved markdown links ([#1116](https://github.com/facebook/Docusaurus/pull/1116))
 - Customizable search placeholder ([#1126](https://github.com/facebook/Docusaurus/pull/1126))
-- New feature of displaying the last contributor to each document ([#980](https://github.com/facebook/Docusaurus/pull/980))
 
 ## [1.5.1] - 2018-11-03
 
