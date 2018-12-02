@@ -166,8 +166,8 @@ fs.copy(
 
     shell.cd(path.join('build', `${PROJECT_NAME}-${DEPLOYMENT_BRANCH}`));
     shell.exec('git add --all');
-    
-    const commitMessage = CUSTOM_COMMIT_MESSAGE || 'Deploy website' 
+
+    const commitMessage = CUSTOM_COMMIT_MESSAGE || 'Deploy website';
     const commitResults = shell.exec(
       `git commit -m "${commitMessage}" -m "Deploy website version based on ${currentCommit}"`,
     );
