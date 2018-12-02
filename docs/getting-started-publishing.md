@@ -162,7 +162,7 @@ Now, whenever a new commit lands in `master`, CircleCI will run your suite of te
 
 ### Tips & Tricks
 
-When initially deploying to a `gh-pages` branch using Circle CI, you may notice that some jobs triggered by commits to the `gh-pages` branch fail to run successfully due to a lack of tests.
+When initially deploying to a `gh-pages` branch using Circle CI, you may notice that some jobs triggered by commits to the `gh-pages` branch fail to run successfully due to a lack of tests (This can also result in chat/slack build failure notifications).
 
 You can work around this easily by:
 - Setting the environment variable `CUSTOM_COMMIT_MESSAGE` flag to the `publish-gh-pages` command with the contents of `[skip ci]`.
