@@ -6,6 +6,49 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [Unreleased]
 
+## [1.6.0] - 2018-11-28
+
+This releases includes few bug fixes and featurs. One notable feature allows user to change/remove `docs` prefix from the generated docusaurus URL.
+
+Welcome to our newest users, [React-Slate](http://react-slate.surge.sh/), [Hemera](https://hemerajs.github.io/hemera/), [React-Redux](https://react-redux.js.org/), [Spectrum](https://libspectrum.io/), [TorchCraftAI](https://torchcraft.github.io/TorchCraftAI/), and [Haul](https://callstack.github.io/haul/).
+
+Thank you to the following contributors who helped with this release:
+
+- @yangshun
+- @endiliey
+- @JoelMarcey
+- @andrewShillito
+- @kahkhang
+- @domcorvasce
+- @ellereeeee
+- @maxaggedon
+- @gianlucadonato
+- @tsmrachel 
+- @Shriram-Balaji
+- @noraj
+- @alexperez
+- @wgao19
+
+### Fixed/Changed
+
+- Live reload not working on second try ([#1103](https://github.com/facebook/Docusaurus/pull/1103))
+- Fix missing TOC on i18n pages ([#1119](https://github.com/facebook/Docusaurus/pull/1119))
+- Fix docusaurus-version not working for subcategory in sidebar ([#1124](https://github.com/facebook/Docusaurus/pull/1124))
+- Fix docusaurus-version to allow duplicate id in different subdirectory ([#1125](https://github.com/facebook/Docusaurus/pull/1125))
+
+##  Docs
+- Add guide on setting custom docs path ([#1098](https://github.com/facebook/Docusaurus/pull/1098))
+- Document that `website` folder can be renamed ([#1106](https://github.com/facebook/Docusaurus/pull/1106))
+- Specify markdown flavor ([#1118](https://github.com/facebook/Docusaurus/pull/1118))
+
+### Added
+
+- Allow modifying/removing `docs` route in generated url ([#914](https://github.com/facebook/Docusaurus/pull/914))
+- Use `sidebar_label` in addition to `title` for prev/next button ([#1122](https://github.com/facebook/Docusaurus/pull/1122))
+- Warn the users if any unresolved markdown links ([#1116](https://github.com/facebook/Docusaurus/pull/1116))
+- Customizable search placeholder ([#1126](https://github.com/facebook/Docusaurus/pull/1126))
+- New feature of displaying the last contributor to each document ([#980](https://github.com/facebook/Docusaurus/pull/980))
+
 ## [1.5.1] - 2018-11-03
 
 A release where we had many external contributors! Very excited to see the community being involved in the project.
@@ -836,7 +879,9 @@ N/A
   - Blog
   - Documentation
 
-[unreleased]: https://github.com/facebook/Docusaurus/compare/v1.5.0...HEAD
+[unreleased]: https://github.com/facebook/Docusaurus/compare/v1.6.0...HEAD
+[1.6.0]: https://github.com/facebook/Docusaurus/compare/v1.5.1...v1.6.0
+[1.5.1]: https://github.com/facebook/Docusaurus/compare/v1.4.0...v1.5.1
 [1.5.0]: https://github.com/facebook/Docusaurus/compare/v1.4.0...v1.5.0
 [1.4.0]: https://github.com/facebook/Docusaurus/compare/v1.3.3...v1.4.0
 [1.3.3]: https://github.com/facebook/Docusaurus/compare/v1.3.2...v1.3.3
