@@ -70,8 +70,8 @@ module.exports = function(fileString) {
         const mdLink = mdMatch[1];
         const targetSource = `${sourceDir}/${mdLink}`;
         const {permalink} =
-          sourceToMetadata[targetSource] ||
           sourceToMetadata[resolve(thisSource, mdLink)] ||
+          sourceToMetadata[targetSource] ||
           {};
         if (permalink) {
           modifiedLine = modifiedLine.replace(mdLink, permalink);

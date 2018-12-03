@@ -73,7 +73,7 @@ function mdToHtmlify(oldContent, mdToHtml, metadata) {
     while (mdMatch !== null) {
       /* Replace it to correct html link */
       let htmlLink =
-        mdToHtml[mdMatch[1]] || mdToHtml[resolve(metadata.source, mdMatch[1])];
+        mdToHtml[resolve(metadata.source, mdMatch[1])] || mdToHtml[mdMatch[1]];
       if (htmlLink) {
         htmlLink = getPath(htmlLink, siteConfig.cleanUrl);
         htmlLink = htmlLink.replace('/en/', `/${metadata.language}/`);
