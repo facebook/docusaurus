@@ -43,13 +43,6 @@ module.exports = [
     pinned: false,
   },
   {
-    caption: 'BlueWhale',
-    image: '/img/users/BlueWhale.png',
-    infoLink: 'https://facebookresearch.github.io/BlueWhale/',
-    fbOpenSource: true,
-    pinned: true,
-  },
-  {
     caption: 'Bowler',
     image: '/img/users/bowler.svg',
     infoLink: 'https://pybowler.io/',
@@ -223,6 +216,13 @@ module.exports = [
     image: '/img/users/prettier.png',
     infoLink: 'https://www.prettier.io',
     fbOpenSource: false,
+    pinned: true,
+  },
+  {
+    caption: 'Profilo',
+    image: '/img/users/profilo.png',
+    infoLink: 'https://facebookincubator.github.io/profilo/',
+    fbOpenSource: true,
     pinned: true,
   },
   {
