@@ -6,6 +6,7 @@
  */
 const CWD = process.cwd();
 const {join} = require('path');
+const {resolve} = require('url');
 const fs = require('fs-extra');
 const React = require('react');
 const loadConfig = require('./config');
@@ -50,67 +51,47 @@ function getFile(metadata) {
 }
 
 function mdToHtmlify(oldContent, mdToHtml, metadata) {
-  let content = oldContent;
-  const mdLinks = [];
-  const mdReferences = [];
+  /* Store broken links */
   const mdBrokenLinks = [];
 
-  // find any inline-style links to markdown files
-  const linkRegex = /(?:\]\()(?:\.\/)?([^'")\]\s>]+\.md)/g;
-  let linkMatch = linkRegex.exec(content);
-  while (linkMatch !== null) {
-    mdLinks.push(linkMatch[1]);
-    linkMatch = linkRegex.exec(content);
-  }
-  // find any reference-style links to markdown files
-  const refRegex = /(?:\]:)(?:\s)?(?:\.\/|\.\.\/)?([^'")\]\s>]+\.md)/g;
-  let refMatch = refRegex.exec(content);
-  while (refMatch !== null) {
-    mdReferences.push(refMatch[1]);
-    refMatch = refRegex.exec(content);
-  }
-
-  // replace markdown links to their website html links
-  new Set(mdLinks).forEach(mdLink => {
-    let htmlLink = mdToHtml[mdLink];
-    if (htmlLink) {
-      htmlLink = getPath(htmlLink, siteConfig.cleanUrl);
-      htmlLink = htmlLink.replace('/en/', `/${metadata.language}/`);
-      htmlLink = htmlLink.replace(
-        '/VERSION/',
-        metadata.version && metadata.version !== env.versioning.latestVersion
-          ? `/${metadata.version}/`
-          : '/',
-      );
-      content = content.replace(
-        new RegExp(`\\]\\((\\./)?${mdLink}`, 'g'),
-        `](${htmlLink}`,
-      );
-    } else {
-      mdBrokenLinks.push(mdLink);
+  let content = oldContent;
+  /* Replace internal markdown linking (except in fenced blocks) */
+  let fencedBlock = false;
+  const lines = content.split('\n').map(line => {
+    if (line.trim().startsWith('```')) {
+      fencedBlock = !fencedBlock;
     }
-  });
+    if (fencedBlock) return line;
 
-  // replace markdown refernces to their website html links
-  new Set(mdReferences).forEach(refLink => {
-    let htmlLink = mdToHtml[refLink];
-    if (htmlLink) {
-      htmlLink = getPath(htmlLink, siteConfig.cleanUrl);
-      htmlLink = htmlLink.replace('/en/', `/${metadata.language}/`);
-      htmlLink = htmlLink.replace(
-        '/VERSION/',
-        metadata.version && metadata.version !== env.versioning.latestVersion
-          ? `/${metadata.version}/`
-          : '/',
-      );
-      content = content.replace(
-        new RegExp(`\\]:(?:\\s)?(\\./|\\.\\./)?${refLink}`, 'g'),
-        `]: ${htmlLink}`,
-      );
-    } else {
-      mdBrokenLinks.push(refLink);
+    let modifiedLine = line;
+    /* Replace inline-style links or reference-style links e.g:
+    This is [Document 1](doc1.md) -> we replace this doc1.md with correct link
+    [doc1]: doc1.md -> we replace this doc1.md with correct link
+    */
+    const mdRegex = /(?:(?:\]\()|(?:\]:\s?))(?!https)([^'")\]\s>]+\.md)/g;
+    let mdMatch = mdRegex.exec(modifiedLine);
+    while (mdMatch !== null) {
+      /* Replace it to correct html link */
+      let htmlLink =
+        mdToHtml[resolve(metadata.source, mdMatch[1])] || mdToHtml[mdMatch[1]];
+      if (htmlLink) {
+        htmlLink = getPath(htmlLink, siteConfig.cleanUrl);
+        htmlLink = htmlLink.replace('/en/', `/${metadata.language}/`);
+        htmlLink = htmlLink.replace(
+          '/VERSION/',
+          metadata.version && metadata.version !== env.versioning.latestVersion
+            ? `/${metadata.version}/`
+            : '/',
+        );
+        modifiedLine = modifiedLine.replace(mdMatch[1], htmlLink);
+      } else {
+        mdBrokenLinks.push(mdMatch[1]);
+      }
+      mdMatch = mdRegex.exec(modifiedLine);
     }
+    return modifiedLine;
   });
+  content = lines.join('\n');
 
   if (mdBrokenLinks.length) {
     console.log(
