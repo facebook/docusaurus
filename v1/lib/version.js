@@ -117,13 +117,13 @@ files.forEach(file => {
 
   const docsDir = path.join(CWD, '../', readMetadata.getDocsPath());
   const subDir = utils.getSubDir(file, docsDir);
-  const originalId = subDir ? `${subDir}/${metadata.id}` : metadata.id;
-  if (!versionFallback.diffLatestDoc(file, originalId)) {
+  const docId = subDir ? `${subDir}/${metadata.id}` : metadata.id;
+  if (!versionFallback.diffLatestDoc(file, docId)) {
     return;
   }
 
-  metadata.original_id = originalId;
-  metadata.id = `version-${version}-${originalId}`;
+  metadata.original_id = metadata.id;
+  metadata.id = `version-${version}-${metadata.id}`;
   const targetFile = subDir
     ? `${versionFolder}/${subDir}/${path.basename(file)}`
     : `${versionFolder}/${path.basename(file)}`;
