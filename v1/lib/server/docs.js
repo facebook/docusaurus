@@ -10,6 +10,7 @@ const {resolve} = require('url');
 const fs = require('fs-extra');
 const React = require('react');
 const loadConfig = require('./config');
+
 const siteConfig = loadConfig(`${CWD}/siteConfig.js`);
 const env = require('./env.js');
 const {renderToStaticMarkupWithDoctype} = require('./renderUtils');
