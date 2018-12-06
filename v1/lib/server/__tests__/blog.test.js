@@ -7,6 +7,8 @@
 const path = require('path');
 const fs = require('fs-extra');
 const blog = require('../blog');
+const metadataUtils = require('../metadataUtils');
+const {replaceAssetsLink} = require('../utils.js');
 
 const testFile = path.join(
   __dirname,
@@ -64,5 +66,40 @@ describe('urlToSource', () => {
     expect(blog.urlToSource('2018/03/04/test-name-lol.html')).toEqual(
       '2018-03-04-test-name-lol.md',
     );
+  });
+});
+
+describe('replaceAssetsLink', () => {
+  test('transform document with valid assets link', () => {
+    const doc1 = fs.readFileSync(
+      path.join(__dirname, '__fixtures__', 'doc1.md'),
+      'utf8',
+    );
+    const rawContent1 = metadataUtils.extractMetadata(doc1).rawContent;
+    const content1 = replaceAssetsLink(rawContent1, 'blog');
+    expect(content1).toMatchSnapshot();
+    expect(content1).toContain('![image1](/blog/assets/image1.png)');
+    expect(content1).toContain('![image2](/blog/assets/image2.jpg)');
+    expect(content1).toContain('![image3](/blog/assets/image3.gif)');
+    expect(content1).toContain('![image4](assets/image4.bmp)');
+    expect(content1).not.toContain('![image1](assets/image1.png)');
+    expect(content1).not.toContain('![image2](assets/image2.jpg)');
+    expect(content1).not.toContain('![image3](assets/image3.gif)');
+    expect(content1).not.toContain('![image4](/blog/assets/image4.bmp)');
+    expect(content1).not.toEqual(rawContent1);
+  });
+
+  test('does not transform document without valid assets link', () => {
+    const doc2 = fs.readFileSync(
+      path.join(__dirname, '__fixtures__', 'doc2.md'),
+      'utf8',
+    );
+    const rawContent2 = metadataUtils.extractMetadata(doc2).rawContent;
+    const content2 = replaceAssetsLink(rawContent2, 'blog');
+    expect(content2).toMatchSnapshot();
+    expect(content2).not.toContain('![image1](/blog/assets/image1.png)');
+    expect(content2).not.toContain('![image2](/blog/assets/image2.jpg)');
+    expect(content2).not.toContain('![image3](/blog/assets/image3.gif)');
+    expect(content2).toEqual(rawContent2);
   });
 });

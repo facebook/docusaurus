@@ -7,8 +7,9 @@
 const React = require('react');
 const path = require('path');
 const fs = require('fs-extra');
-const {renderToStaticMarkupWithDoctype} = require('./renderUtils');
 const metadataUtils = require('./metadataUtils');
+const {replaceAssetsLink} = require('./utils.js');
+const {renderToStaticMarkupWithDoctype} = require('./renderUtils');
 
 function urlToSource(url) {
   if (!url || typeof url !== 'string') {
@@ -56,7 +57,10 @@ function getMetadata(file) {
     fs.readFileSync(file, {encoding: 'utf8'}),
   );
   const metadata = Object.assign(
-    {path: fileToUrl(file), content: result.rawContent},
+    {
+      path: fileToUrl(file),
+      content: replaceAssetsLink(result.rawContent, 'blog'),
+    },
     result.metadata,
   );
   metadata.id = metadata.title;
