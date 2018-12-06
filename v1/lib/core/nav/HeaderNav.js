@@ -306,7 +306,8 @@ class HeaderNav extends React.Component {
             <a
               href={
                 this.props.baseUrl +
-                (env.translation.enabled ? this.props.language : '')
+                (env.translation.enabled ? this.props.language : '') +
+                (siteConfig.cleanUrl ? '' : 'index.html')
               }>
               {siteConfig.headerIcon && (
                 <img
