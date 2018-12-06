@@ -134,11 +134,11 @@ module.exports = [
     pinned: false,
   },
   {
-    caption: 'GulpJS',
+    caption: 'Gulp',
     image: 'https://gulpjs.com/img/favicon.png',
     infoLink: 'https://gulpjs.com',
     fbOpenSource: false,
-    pinned: false,
+    pinned: true,
   },
   {
     caption: 'Haul',
