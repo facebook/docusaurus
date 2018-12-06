@@ -338,6 +338,13 @@ module.exports = [
     pinned: true,
   },
   {
+    caption: 'smash.gg',
+    image: 'https://imgur.com/eBFBDei.png',
+    infoLink: 'https://developer.smash.gg',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Spectrum',
     image: '/img/users/spectrum.svg',
     infoLink: 'http://libspectrum.io',
