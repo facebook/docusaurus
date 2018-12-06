@@ -1,6 +1,7 @@
 ---
-id: api-pages
+id: version-1.6.0-api-pages
 title: Pages and Styles
+original_id: api-pages
 ---
 
 Docusaurus provides support for writing pages as React components inside the `website/pages` directory which will share the same header, footer, and styles as the rest of the site.

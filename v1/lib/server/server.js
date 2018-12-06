@@ -27,6 +27,7 @@ function execute(port) {
   const feed = require('./feed');
   const sitemap = require('./sitemap');
   const routing = require('./routing');
+  const loadConfig = require('./config');
   const CWD = process.cwd();
   const join = path.join;
   const sep = path.sep;
@@ -76,12 +77,9 @@ function execute(port) {
   }
 
   function reloadSiteConfig() {
-    removeModuleAndChildrenFromCache(join(CWD, 'siteConfig.js'));
-    siteConfig = require(join(CWD, 'siteConfig.js'));
-
-    if (siteConfig.highlight && siteConfig.highlight.hljs) {
-      siteConfig.highlight.hljs(require('highlight.js'));
-    }
+    const siteConfigPath = join(CWD, 'siteConfig.js');
+    removeModuleAndChildrenFromCache(siteConfigPath);
+    siteConfig = loadConfig(siteConfigPath);
   }
 
   function requestFile(url, res, notFoundCallback) {
@@ -109,12 +107,13 @@ function execute(port) {
 
   const app = express();
 
-  app.get(routing.docs(siteConfig.baseUrl), (req, res, next) => {
+  app.get(routing.docs(siteConfig), (req, res, next) => {
     const url = decodeURI(req.path.toString().replace(siteConfig.baseUrl, ''));
     const metadata =
       Metadata[
         Object.keys(Metadata).find(id => Metadata[id].permalink === url)
       ];
+
     const file = docs.getFile(metadata);
     if (!file) {
       next();
@@ -122,11 +121,11 @@ function execute(port) {
     }
     const rawContent = metadataUtils.extractMetadata(file).rawContent;
     removeModuleAndChildrenFromCache('../core/DocsLayout.js');
-    const mdToHtml = metadataUtils.mdToHtml(Metadata, siteConfig.baseUrl);
+    const mdToHtml = metadataUtils.mdToHtml(Metadata, siteConfig);
     res.send(docs.getMarkup(rawContent, mdToHtml, metadata));
   });
 
-  app.get(routing.sitemap(siteConfig.baseUrl), (req, res) => {
+  app.get(routing.sitemap(siteConfig), (req, res) => {
     sitemap((err, xml) => {
       if (err) {
         res.status(500).send('Sitemap error');
@@ -137,7 +136,7 @@ function execute(port) {
     });
   });
 
-  app.get(routing.feed(siteConfig.baseUrl), (req, res, next) => {
+  app.get(routing.feed(siteConfig), (req, res, next) => {
     res.set('Content-Type', 'application/rss+xml');
     const file = req.path
       .toString()
@@ -151,7 +150,7 @@ function execute(port) {
     next();
   });
 
-  app.get(routing.blog(siteConfig.baseUrl), (req, res, next) => {
+  app.get(routing.blog(siteConfig), (req, res, next) => {
     // Regenerate the blog metadata in case it has changed. Consider improving
     // this to regenerate on file save rather than on page request.
     reloadMetadataBlog();
@@ -177,7 +176,7 @@ function execute(port) {
     }
   });
 
-  app.get(routing.page(siteConfig.baseUrl), (req, res, next) => {
+  app.get(routing.page(siteConfig), (req, res, next) => {
     // Look for user-provided HTML file first.
     let htmlFile = req.path.toString().replace(siteConfig.baseUrl, '');
     htmlFile = join(CWD, 'pages', htmlFile);
@@ -232,6 +231,7 @@ function execute(port) {
         language = parts[i];
       }
     }
+
     let englishFile = join(CWD, 'pages', file);
     if (language && language !== 'en') {
       englishFile = englishFile.replace(sep + language + sep, `${sep}en${sep}`);
@@ -272,7 +272,7 @@ function execute(port) {
           title={ReactComp.title}
           description={ReactComp.description}
           metadata={{id: path.basename(userFile, '.js')}}>
-          <ReactComp language={language} />
+          <ReactComp config={siteConfig} language={language} />
         </Site>,
       );
 
@@ -339,7 +339,9 @@ function execute(port) {
 
   // serve static assets from these locations
   app.use(
-    `${siteConfig.baseUrl}docs/assets`,
+    `${siteConfig.baseUrl}${
+      siteConfig.docsUrl ? `${siteConfig.docsUrl}/` : ''
+    }assets`,
     express.static(join(CWD, '..', readMetadata.getDocsPath(), 'assets')),
   );
   app.use(

@@ -12,27 +12,20 @@ const CompLibrary = require('../../core/CompLibrary.js');
 const Container = CompLibrary.Container;
 const GridBlock = CompLibrary.GridBlock;
 const Showcase = require(`${process.cwd()}/core/Showcase.js`);
-const siteConfig = require(`${process.cwd()}/siteConfig.js`);
 const translate = require('../../server/translate.js').translate;
-
-class Button extends React.Component {
-  render() {
-    return (
-      <div className="pluginWrapper buttonWrapper">
-        <a className="button" href={this.props.href} target={this.props.target}>
-          {this.props.children}
-        </a>
-      </div>
-    );
-  }
-}
-
-Button.defaultProps = {
-  target: '_self',
-};
 
 class HomeSplash extends React.Component {
   render() {
+    const {siteConfig, language} = this.props;
+
+    const Button = props => (
+      <div className="pluginWrapper buttonWrapper">
+        <a className="button" href={props.href} target={props.target}>
+          {props.children}
+        </a>
+      </div>
+    );
+
     return (
       <div className="homeContainer">
         <div className="homeSplashFade">
@@ -53,9 +46,7 @@ class HomeSplash extends React.Component {
                   <div className="pluginRowBlock">
                     <Button
                       href={`
-                        ${siteConfig.baseUrl}docs/${
-                        this.props.language
-                      }/installation
+                        ${siteConfig.baseUrl}docs/${language}/installation
                         `}>
                       <translate>Get Started</translate>
                     </Button>
@@ -75,12 +66,12 @@ class HomeSplash extends React.Component {
 
 class Index extends React.Component {
   render() {
-    const language = this.props.language || 'en';
+    const {config: siteConfig, language = 'en'} = this.props;
     const pinnedUsersToShowcase = siteConfig.users.filter(user => user.pinned);
 
     return (
       <div>
-        <HomeSplash language={language} />
+        <HomeSplash siteConfig={siteConfig} language={language} />
         <div className="mainContainer">
           <Container padding={['bottom', 'top']} background="light">
             <GridBlock

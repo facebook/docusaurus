@@ -14,8 +14,9 @@ const readCategories = require('../server/readCategories.js');
 
 let languages;
 
-if (fs.existsSync(`../server/languages.js`)) {
-  languages = require(`../server/languages.js`);
+const CWD = process.cwd();
+if (fs.existsSync(`${CWD}/languages.js`)) {
+  languages = require(`${CWD}/languages.js`);
 } else {
   languages = [
     {

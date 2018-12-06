@@ -65,7 +65,8 @@ function extractMetadata(content) {
 
 // mdToHtml is a map from a markdown file name to its html link, used to
 // change relative markdown links that work on GitHub into actual site links
-function mdToHtml(Metadata, baseUrl) {
+function mdToHtml(Metadata, siteConfig) {
+  const {baseUrl, docsUrl} = siteConfig;
   const result = {};
   Object.keys(Metadata).forEach(id => {
     const metadata = Metadata[id];
@@ -73,10 +74,15 @@ function mdToHtml(Metadata, baseUrl) {
       return;
     }
     let htmlLink = baseUrl + metadata.permalink.replace('/next/', '/');
-    if (htmlLink.includes('/docs/en/')) {
-      htmlLink = htmlLink.replace('/docs/en/', '/docs/en/VERSION/');
+
+    const baseDocsPart = `${baseUrl}${docsUrl ? `${docsUrl}/` : ''}`;
+
+    const i18nDocsRegex = new RegExp(`^${baseDocsPart}en/`);
+    const docsRegex = new RegExp(`^${baseDocsPart}`);
+    if (i18nDocsRegex.test(htmlLink)) {
+      htmlLink = htmlLink.replace(i18nDocsRegex, `${baseDocsPart}en/VERSION/`);
     } else {
-      htmlLink = htmlLink.replace('/docs/', '/docs/VERSION/');
+      htmlLink = htmlLink.replace(docsRegex, `${baseDocsPart}VERSION/`);
     }
     result[metadata.source] = htmlLink;
   });

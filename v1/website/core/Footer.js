@@ -58,6 +58,9 @@ SocialFooter.propTypes = {
 
 class Footer extends React.Component {
   render() {
+    const docsPart = `${
+      this.props.config.docsUrl ? `${this.props.config.docsUrl}/` : ''
+    }`;
     return (
       <footer className="nav-footer" id="footer">
         <section className="sitemap">
@@ -77,28 +80,28 @@ class Footer extends React.Component {
             <h5>Docs</h5>
             <a
               href={`
-                ${this.props.config.baseUrl}docs/${
+                ${this.props.config.baseUrl}${docsPart}${
                 this.props.language
               }/installation`}>
               Getting Started
             </a>
             <a
               href={`
-                ${this.props.config.baseUrl}docs/${
+                ${this.props.config.baseUrl}${docsPart}${
                 this.props.language
               }/versioning`}>
               Versioning
             </a>
             <a
               href={`
-                ${this.props.config.baseUrl}docs/${
+                ${this.props.config.baseUrl}${docsPart}${
                 this.props.language
               }/translation`}>
               Localization
             </a>
             <a
               href={`
-                ${this.props.config.baseUrl}docs/${
+                ${this.props.config.baseUrl}${docsPart}${
                 this.props.language
               }/search`}>
               Adding Search

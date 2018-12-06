@@ -21,7 +21,8 @@ async function execute() {
   const chalk = require('chalk');
   const Site = require('../core/Site.js');
   const env = require('./env.js');
-  const siteConfig = require(`${CWD}/siteConfig.js`);
+  const loadConfig = require('./config.js');
+  const siteConfig = loadConfig(`${CWD}/siteConfig.js`);
   const translate = require('./translate.js');
   const feed = require('./feed.js');
   const sitemap = require('./sitemap.js');
@@ -68,7 +69,7 @@ async function execute() {
   fs.removeSync(join(CWD, 'build'));
 
   // create html files for all docs by going through all doc ids
-  const mdToHtml = metadataUtils.mdToHtml(Metadata, siteConfig.baseUrl);
+  const mdToHtml = metadataUtils.mdToHtml(Metadata, siteConfig);
   Object.keys(Metadata).forEach(id => {
     const metadata = Metadata[id];
     const file = docs.getFile(metadata);
@@ -85,9 +86,13 @@ async function execute() {
     if (!redirectMarkup) {
       return;
     }
+    const docsPart = `${siteConfig.docsUrl ? `${siteConfig.docsUrl}/` : ''}`;
     const redirectFile = join(
       buildDir,
-      metadata.permalink.replace('docs/en', 'docs'),
+      metadata.permalink.replace(
+        new RegExp(`^${docsPart}en`),
+        siteConfig.docsUrl,
+      ),
     );
     writeFileAndCreateFolder(redirectFile, redirectMarkup);
   });
@@ -332,7 +337,7 @@ async function execute() {
                 title={ReactComp.title}
                 description={ReactComp.description}
                 metadata={{id: pageID}}>
-                <ReactComp language={language} />
+                <ReactComp config={siteConfig} language={language} />
               </Site>,
             );
             writeFileAndCreateFolder(
@@ -353,7 +358,7 @@ async function execute() {
             config={siteConfig}
             description={ReactComp.description}
             metadata={{id: pageID}}>
-            <ReactComp language={language} />
+            <ReactComp config={siteConfig} language={language} />
           </Site>,
         );
         writeFileAndCreateFolder(
@@ -371,7 +376,7 @@ async function execute() {
             config={siteConfig}
             description={ReactComp.description}
             metadata={{id: pageID}}>
-            <ReactComp language={language} />
+            <ReactComp config={siteConfig} language={language} />
           </Site>,
         );
         writeFileAndCreateFolder(

@@ -1,6 +1,7 @@
 ---
-id: search
+id: version-1.6.0-search
 title: Enabling Search
+original_id: search
 ---
 
 Docusaurus supports search using [Algolia DocSearch](https://community.algolia.com/docsearch/). Once your website is online, you can [submit it to DocSearch](https://community.algolia.com/docsearch/). Algolia will then send you credentials you can add to your `siteConfig.js`.

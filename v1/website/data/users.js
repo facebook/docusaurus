@@ -43,13 +43,6 @@ module.exports = [
     pinned: false,
   },
   {
-    caption: 'BlueWhale',
-    image: '/img/users/BlueWhale.png',
-    infoLink: 'https://facebookresearch.github.io/BlueWhale/',
-    fbOpenSource: true,
-    pinned: true,
-  },
-  {
     caption: 'Bowler',
     image: '/img/users/bowler.svg',
     infoLink: 'https://pybowler.io/',
@@ -141,6 +134,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Haul',
+    image: '/img/users/haul.png',
+    infoLink: 'https://callstack.github.io/haul/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Hemera',
     image: '/img/users/hemera.png',
     infoLink: 'https://hemerajs.github.io/hemera/',
@@ -216,6 +216,13 @@ module.exports = [
     image: '/img/users/prettier.png',
     infoLink: 'https://www.prettier.io',
     fbOpenSource: false,
+    pinned: true,
+  },
+  {
+    caption: 'Profilo',
+    image: '/img/users/profilo.png',
+    infoLink: 'https://facebookincubator.github.io/profilo/',
+    fbOpenSource: true,
     pinned: true,
   },
   {
@@ -331,6 +338,13 @@ module.exports = [
     pinned: true,
   },
   {
+    caption: 'Spectrum',
+    image: '/img/users/spectrum.svg',
+    infoLink: 'http://libspectrum.io',
+    fbOpenSource: true,
+    pinned: true,
+  },
+  {
     caption: 'Stackery',
     image: 'https://www.stackery.io/img/stackery-large-mark-teal-w.png',
     infoLink: 'https://docs.stackery.io',
@@ -350,6 +364,13 @@ module.exports = [
     infoLink: 'https://textlint.github.io/',
     fbOpenSource: false,
     pinned: false,
+  },
+  {
+    caption: 'TorchCraftAI',
+    image: '/img/users/torchcraftai.png',
+    infoLink: 'https://torchcraft.github.io/TorchCraftAI/',
+    fbOpenSource: true,
+    pinned: true,
   },
   {
     caption: 'Vasern',

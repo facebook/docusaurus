@@ -10,11 +10,11 @@ const CompLibrary = require('../../core/CompLibrary.js');
 
 const Container = CompLibrary.Container;
 const Showcase = require(`${process.cwd()}/core/Showcase.js`);
-const siteConfig = require(`${process.cwd()}/siteConfig.js`);
 const translate = require('../../server/translate.js').translate;
 
 class Users extends React.Component {
   render() {
+    const {config: siteConfig} = this.props;
     const fbUsersToShowcase = siteConfig.users.filter(
       user => user.fbOpenSource,
     );

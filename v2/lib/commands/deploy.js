@@ -158,8 +158,10 @@ module.exports = async function deploy(siteDir) {
           shell.cd(path.join('build', `${projectName}-${deploymentBranch}`));
           shell.exec('git add --all');
 
+          const commitMessage =
+            process.env.CUSTOM_COMMIT_MESSAGE || 'Deploy website';
           const commitResults = shell.exec(
-            `git commit -m "Deploy website" -m "Deploy website version based on ${currentCommit}"`,
+            `git commit -m "${commitMessage}" -m "Deploy website version based on ${currentCommit}"`,
           );
           if (shell.exec(`git push origin ${deploymentBranch}`).code !== 0) {
             throw new Error('Error: Git push failed');

@@ -8,6 +8,7 @@
 const fm = require('front-matter');
 const {getOptions} = require('loader-utils');
 const path = require('path');
+const {resolve} = require('url');
 const Remarkable = require('remarkable');
 const hljs = require('highlight.js');
 const chalk = require('chalk');
@@ -58,37 +59,25 @@ module.exports = function(fileString) {
       if (fencedBlock) return line;
 
       let modifiedLine = line;
-      const inlineLinks = [];
-      const refLinks = [];
-
-      /* Replace inline-style links e.g:
-      This is [Document 1](doc1.md) -> we replace this doc1.md with correct link
-      */
-      const inlineRegex = /(?:\]\()(?:\.\/)?([^'")\]\s>]+\.md)/g;
-      let inlineMatch = inlineRegex.exec(content);
-      while (inlineMatch !== null) {
-        inlineLinks.push(inlineMatch[1]);
-        inlineMatch = inlineRegex.exec(content);
-      }
-
-      /* Replace reference-style links e.g:
-        This is [Document 1][doc1].
+      /* Replace inline-style links or reference-style links e.g:
+        This is [Document 1](doc1.md) -> we replace this doc1.md with correct link
         [doc1]: doc1.md -> we replace this doc1.md with correct link
       */
-      const refRegex = /(?:\]:)(?:\s)?(?:\.\/|\.\.\/)?([^'")\]\s>]+\.md)/g;
-      let refMatch = refRegex.exec(content);
-      while (refMatch !== null) {
-        refLinks.push(refMatch[1]);
-        refMatch = refRegex.exec(content);
-      }
-
-      [...refLinks, ...inlineLinks].forEach(mdLink => {
+      const mdRegex = /(?:(?:\]\()|(?:\]:\s?))(?!https)([^'")\]\s>]+\.md)/g;
+      let mdMatch = mdRegex.exec(modifiedLine);
+      while (mdMatch !== null) {
+        /* Replace it to correct html link */
+        const mdLink = mdMatch[1];
         const targetSource = `${sourceDir}/${mdLink}`;
-        const {permalink} = sourceToMetadata[targetSource] || {};
+        const {permalink} =
+          sourceToMetadata[resolve(thisSource, mdLink)] ||
+          sourceToMetadata[targetSource] ||
+          {};
         if (permalink) {
           modifiedLine = modifiedLine.replace(mdLink, permalink);
         }
-      });
+        mdMatch = mdRegex.exec(modifiedLine);
+      }
       return modifiedLine;
     });
     content = lines.join('\n');
