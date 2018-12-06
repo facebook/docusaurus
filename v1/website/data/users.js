@@ -134,6 +134,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Gulp',
+    image: 'https://gulpjs.com/img/favicon.png',
+    infoLink: 'https://gulpjs.com',
+    fbOpenSource: false,
+    pinned: true,
+  },
+  {
     caption: 'Haul',
     image: '/img/users/haul.png',
     infoLink: 'https://callstack.github.io/haul/',
