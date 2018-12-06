@@ -338,7 +338,7 @@ module.exports = [
     pinned: true,
   },
   {
-    caption: "smash.gg",
+    caption: 'smash.gg',
     image: 'https://imgur.com/eBFBDei.png',
     infoLink: 'https://developer.smash.gg',
     fbOpenSource: false,
