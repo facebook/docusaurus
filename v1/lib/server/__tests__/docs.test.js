@@ -5,17 +5,17 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+// simulate cwd to website so all require (CWD+'/siteConfig.js') will work
+const originalCwd = process.cwd();
+if (!/website$/.test(originalCwd)) {
+  process.chdir(process.cwd() + '/website');
+}
+
 const path = require('path');
 const fs = require('fs-extra');
 const docs = require('../docs');
 const metadataUtils = require('../metadataUtils');
 const {replaceAssetsLink} = require('../utils.js');
-
-jest.mock(
-  `${process.cwd()}/siteConfig.js`,
-  () => ({baseUrl: '/', docsUrl: 'docs', cleanUrl: 'true'}),
-  {virtual: true},
-);
 
 jest.mock('../env', () => ({
   translation: {
@@ -209,4 +209,8 @@ describe('replaceAssetsLink', () => {
     expect(content2).not.toContain('![image3](/docs/assets/image3.gif)');
     expect(content2).toEqual(rawContent2);
   });
+});
+
+afterAll(() => {
+  process.chdir(originalCwd);
 });
