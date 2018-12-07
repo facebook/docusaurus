@@ -12,8 +12,9 @@ const autoprefixer = require('autoprefixer');
 const postcss = require('postcss');
 const path = require('path');
 const escapeStringRegexp = require('escape-string-regexp');
+const loadConfig = require('./config');
 
-const siteConfig = require(`${CWD}/siteConfig.js`);
+const siteConfig = loadConfig(`${CWD}/siteConfig.js`);
 
 function getSubDir(file, refDir) {
   const subDir = path.dirname(path.relative(refDir, file)).replace(/\\/g, '/');
