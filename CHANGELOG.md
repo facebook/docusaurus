@@ -6,6 +6,29 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [Unreleased]
 
+## [1.6.1] - 2018-12-7
+
+This version mainly includes bug fixes found in 1.6.0 that improves stability.
+
+Thank you to the following contributors who helped with this release:
+- @endiliey
+- @jakebolam
+- @JoelMarcey
+- @morleym
+- @thecodechef
+- @tsmrachel
+
+### Fixed/Changed
+
+- Fix docusaurus-version compilation error for subdirectory ([cb1395](https://github.com/facebook/Docusaurus/commit/cb1395ee29364866767e3e6e701d4e1575dad4cc))
+- Fix relative path markdown linking ([#1138](https://github.com/facebook/Docusaurus/pull/1138))
+- Fix static files in `blog/assets` not working ([#1143](https://github.com/facebook/Docusaurus/pull/1143))
+
+### Added
+
+- Allow custom commit message for publish-gh-pages ([#1136](https://github.com/facebook/Docusaurus/pull/1136))
+
+
 ## [1.6.0] - 2018-12-1
 
 This releases includes few bug fixes and features. One notable feature allows user to change/remove `docs` prefix from the generated docusaurus URL.
@@ -878,7 +901,8 @@ N/A
   - Blog
   - Documentation
 
-[unreleased]: https://github.com/facebook/Docusaurus/compare/v1.6.0...HEAD
+[unreleased]: https://github.com/facebook/Docusaurus/compare/v1.6.1...HEAD
+[1.6.1]: https://github.com/facebook/Docusaurus/compare/v1.6.0...v1.6.1
 [1.6.0]: https://github.com/facebook/Docusaurus/compare/v1.5.1...v1.6.0
 [1.5.1]: https://github.com/facebook/Docusaurus/compare/v1.4.0...v1.5.1
 [1.5.0]: https://github.com/facebook/Docusaurus/compare/v1.4.0...v1.5.0
