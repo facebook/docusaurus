@@ -16,11 +16,13 @@ Thank you to the following contributors who helped with this release:
 - @JoelMarcey
 - @morleym
 - @thecodechef
+- @tsmrachel
 
 ### Fixed/Changed
 
 - Fix docusaurus-version compilation error for subdirectory ([cb1395](https://github.com/facebook/Docusaurus/commit/cb1395ee29364866767e3e6e701d4e1575dad4cc))
 - Fix relative path markdown linking ([#1138](https://github.com/facebook/Docusaurus/pull/1138))
+- Fix static files in `blog/assets` not working ([#1143](https://github.com/facebook/Docusaurus/pull/1143))
 
 ### Added
 
