@@ -13,7 +13,7 @@ const {replaceAssetsLink} = require('../utils.js');
 
 jest.mock(
   `${process.cwd()}/siteConfig.js`,
-  () => ({baseUrl: '/', docsUrl: 'docs'}),
+  () => ({baseUrl: '/', docsUrl: 'docs', cleanUrl: 'true'}),
   {virtual: true},
 );
 
