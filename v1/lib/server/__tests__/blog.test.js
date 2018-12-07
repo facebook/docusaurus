@@ -10,6 +10,10 @@ const blog = require('../blog');
 const metadataUtils = require('../metadataUtils');
 const {replaceAssetsLink} = require('../utils.js');
 
+jest.mock(`${process.cwd()}/siteConfig.js`, () => ({baseUrl: '/'}), {
+  virtual: true,
+});
+
 const testFile = path.join(
   __dirname,
   '__fixtures__',
@@ -76,7 +80,7 @@ describe('replaceAssetsLink', () => {
       'utf8',
     );
     const rawContent1 = metadataUtils.extractMetadata(doc1).rawContent;
-    const content1 = replaceAssetsLink(rawContent1, 'blog');
+    const content1 = replaceAssetsLink(rawContent1, '/blog');
     expect(content1).toMatchSnapshot();
     expect(content1).toContain('![image1](/blog/assets/image1.png)');
     expect(content1).toContain('![image2](/blog/assets/image2.jpg)');
@@ -95,7 +99,7 @@ describe('replaceAssetsLink', () => {
       'utf8',
     );
     const rawContent2 = metadataUtils.extractMetadata(doc2).rawContent;
-    const content2 = replaceAssetsLink(rawContent2, 'blog');
+    const content2 = replaceAssetsLink(rawContent2, '/blog');
     expect(content2).toMatchSnapshot();
     expect(content2).not.toContain('![image1](/blog/assets/image1.png)');
     expect(content2).not.toContain('![image2](/blog/assets/image2.jpg)');

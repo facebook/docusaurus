@@ -5,16 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const CWD = process.cwd();
-
 const cssnano = require('cssnano');
 const autoprefixer = require('autoprefixer');
 const postcss = require('postcss');
 const path = require('path');
 const escapeStringRegexp = require('escape-string-regexp');
-const loadConfig = require('./config');
-
-const siteConfig = loadConfig(`${CWD}/siteConfig.js`);
 
 function getSubDir(file, refDir) {
   const subDir = path.dirname(path.relative(refDir, file)).replace(/\\/g, '/');
@@ -79,10 +74,7 @@ function replaceAssetsLink(oldContent, location) {
     }
     return fencedBlock
       ? line
-      : line.replace(
-          /\]\(assets\//g,
-          `](${siteConfig.baseUrl}${location}/assets/`,
-        );
+      : line.replace(/\]\(assets\//g, `](${location}/assets/`);
   });
   return lines.join('\n');
 }
