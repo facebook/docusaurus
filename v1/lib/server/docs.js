@@ -16,6 +16,7 @@ const env = require('./env.js');
 const {renderToStaticMarkupWithDoctype} = require('./renderUtils');
 const readMetadata = require('./readMetadata.js');
 const {insertTOC} = require('../core/toc.js');
+const {replaceAssetsLink} = require('./utils.js');
 const {getPath} = require('../core/utils.js');
 
 const docsPart = `${siteConfig.docsUrl ? `${siteConfig.docsUrl}/` : ''}`;
@@ -102,22 +103,6 @@ function mdToHtmlify(oldContent, mdToHtml, metadata) {
   return content;
 }
 
-function replaceAssetsLink(oldContent) {
-  let fencedBlock = false;
-  const lines = oldContent.split('\n').map(line => {
-    if (line.trim().startsWith('```')) {
-      fencedBlock = !fencedBlock;
-    }
-    return fencedBlock
-      ? line
-      : line.replace(
-          /\]\(assets\//g,
-          `](${siteConfig.baseUrl}${docsPart}assets/`,
-        );
-  });
-  return lines.join('\n');
-}
-
 function getMarkup(rawContent, mdToHtml, metadata) {
   // generate table of contents
   let content = insertTOC(rawContent);
@@ -126,7 +111,7 @@ function getMarkup(rawContent, mdToHtml, metadata) {
   content = mdToHtmlify(content, mdToHtml, metadata);
 
   // replace any relative links to static assets (not in fenced code blocks) to absolute links
-  content = replaceAssetsLink(content);
+  content = replaceAssetsLink(content, 'docs');
 
   const DocsLayout = require('../core/DocsLayout.js');
   return renderToStaticMarkupWithDoctype(
@@ -164,5 +149,4 @@ module.exports = {
   getFilePath,
   getRedirectMarkup,
   mdToHtmlify,
-  replaceAssetsLink,
 };

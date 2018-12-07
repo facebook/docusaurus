@@ -14,6 +14,7 @@ const path = require('path');
 const fs = require('fs-extra');
 const docs = require('../docs');
 const metadataUtils = require('../metadataUtils');
+const {replaceAssetsLink} = require('../utils.js');
 
 jest.mock('../env', () => ({
   translation: {
@@ -186,7 +187,7 @@ describe('getFile', () => {
 
 describe('replaceAssetsLink', () => {
   test('transform document with valid assets link', () => {
-    const content1 = docs.replaceAssetsLink(rawContent1);
+    const content1 = replaceAssetsLink(rawContent1, 'docs');
     expect(content1).toMatchSnapshot();
     expect(content1).toContain('![image1](/docs/assets/image1.png)');
     expect(content1).toContain('![image2](/docs/assets/image2.jpg)');
@@ -200,7 +201,7 @@ describe('replaceAssetsLink', () => {
   });
 
   test('does not transform document without valid assets link', () => {
-    const content2 = docs.replaceAssetsLink(rawContent2);
+    const content2 = replaceAssetsLink(rawContent2, 'docs');
     expect(content2).toMatchSnapshot();
     expect(content2).not.toContain('![image1](/docs/assets/image1.png)');
     expect(content2).not.toContain('![image2](/docs/assets/image2.jpg)');
