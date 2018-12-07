@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [Unreleased]
 
+## [1.6.2] - 2018-12-7
+
+Hotfix for 1.6.1. We overlooked a critical bug caused by hardcoded path on PR [#1143](https://github.com/facebook/Docusaurus/pull/1143). Please upgrade to 1.6.2, we are going to npm deprecate 1.6.1.
+
 ## [1.6.1] - 2018-12-7
 
 This version mainly includes bug fixes found in 1.6.0 that improves stability.
@@ -901,7 +905,8 @@ N/A
   - Blog
   - Documentation
 
-[unreleased]: https://github.com/facebook/Docusaurus/compare/v1.6.1...HEAD
+[unreleased]: https://github.com/facebook/Docusaurus/compare/v1.6.2...HEAD
+[1.6.2]: https://github.com/facebook/Docusaurus/compare/v1.6.1...v1.6.2
 [1.6.1]: https://github.com/facebook/Docusaurus/compare/v1.6.0...v1.6.1
 [1.6.0]: https://github.com/facebook/Docusaurus/compare/v1.5.1...v1.6.0
 [1.5.1]: https://github.com/facebook/Docusaurus/compare/v1.4.0...v1.5.1
