@@ -72,7 +72,7 @@ const siteConfig = {
   enableUpdateTime: true,
   enableUpdateBy: true,
   customDocsPath: '../docs',
-  docsSideNavCollapsible: false,
+  docsSideNavCollapsible: true,
 };
 
 module.exports = siteConfig;

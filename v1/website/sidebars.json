@@ -1,5 +1,22 @@
 {
   "docs": {
+    "My Example Category": [
+      "examples",
+      {
+        "type": "subcategory",
+        "label": "My Example Subcategory",
+        "ids": [
+          "subcategory1"
+        ]
+      },
+      {
+        "type": "subcategory",
+        "label": "My Next Subcategory",
+        "ids": [
+          "subcategory2"
+        ]
+      }
+    ],
     "Getting Started": [
       "installation",
       "site-preparation",
