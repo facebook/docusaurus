@@ -24,7 +24,7 @@ class Doc extends React.Component {
 
     if (this.props.version && this.props.version !== 'next') {
       // If versioning is enabled and the current version is not next, we need to trim out "version-*" from the source if we want a valid edit link.
-      docSource = docSource.match(new RegExp(/version-.*\/(.*\.md)/, 'i'))[1];
+      docSource = docSource.match(new RegExp(/version-.*?\/(.*\.md)/, 'i'))[1];
     }
 
     const editUrl =
