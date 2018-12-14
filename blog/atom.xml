@@ -2,12 +2,24 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://docusaurus.io/blog</id>
     <title>Docusaurus Blog</title>
-    <updated>2018-09-11T06:00:00Z</updated>
+    <updated>2018-12-14T06:00:00Z</updated>
     <generator>Feed for Node.js</generator>
     <link rel="alternate" href="https://docusaurus.io/blog"/>
     <subtitle>The best place to stay up-to-date with the latest Docusaurus news and events.</subtitle>
     <logo>https://docusaurus.io/img/docusaurus.svg</logo>
     <rights>Copyright © 2018 Facebook Inc.</rights>
+    <entry>
+        <title type="html"><![CDATA[Happy 1st Birthday Slash!]]></title>
+        <id>https://docusaurus.io/blog/2018/12/14/Happy-First-Birthday-Slash.html</id>
+        <link href="https://docusaurus.io/blog/2018/12/14/Happy-First-Birthday-Slash.html">
+        </link>
+        <updated>2018-12-14T06:00:00Z</updated>
+        <summary type="html"><![CDATA[<p><img src="/img/docusaurus-slash-first-birthday.svg" alt="First Birthday Slash"></p> <p>Docusaurus <a href="https://docusaurus.io/blog/2017/12/14/introducing-docusaurus">went live</a> on December 14, 2017. At the time, we had <a href="https://docusaurus.io/blog/2017/12/14/introducing-docusaurus#acknowledgements">8 early adopters</a>.</p> <p>We now have nearly <a href="https://docusaurus.io/en/users">60 known users of Docusaurus</a>, and probably more that we don't know about. We have <a href="https://github.com/facebook/docusaurus">9K GitHub stars</a> and an active community, particularly <a href="https://twitter.com/yangshunz">Yangshun Tay</a> ...</p>]]></summary>
+        <author>
+            <name>Joel Marcey</name>
+            <uri>https://github.com/JoelMarcey</uri>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Towards Docusaurus 2]]></title>
         <id>https://docusaurus.io/blog/2018/09/11/Towards-Docusaurus-2.html</id>
