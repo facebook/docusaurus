@@ -50,11 +50,14 @@ class Users extends React.Component {
                 <translate>Is your project using Docusaurus?</translate>
               </p>
               <p>
-                Edit this page with a{' '}
-                <a href="https://github.com/facebook/docusaurus/edit/master/v1/website/data/users.js">
-                  Pull Request
+                <a href="https://build.amsterdam/your-company/docusaurus">
+                  Add your project
                 </a>{' '}
-                to add your logo.
+                or submit a{' '}
+                <a href="https://github.com/facebook/docusaurus/edit/master/website/data/users.js">
+                  Pull Request
+                </a>
+                .
               </p>
             </div>
           </div>
