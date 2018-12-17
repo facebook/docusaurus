@@ -55,14 +55,14 @@
             });
         </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://crowdin.com/project/docusaurus/zh-CN" target="_blank" rel="noreferrer noopener">Translate</a><h1 class="postHeaderTitle">Installation</h1></header><article><div><span><p>Docusaurus的初始设计就是要易于安装并让你的网站可以迅速运行。 To install Docusaurus, we have created an easy script that will get all of the infrastructure set up for you:</p>
 <ol>
-<li><p>Ensure you have the latest version of <a href="https://nodejs.org/en/download/">Node</a> installed. We also recommend you install <a href="https://yarnpkg.com/en/docs/install">Yarn</a> as well.</p>
+<li><p>确保您安装了最新版本的 <a href="https://nodejs.org/en/download/">Node</a>。 我们同样建议您也安装 <a href="https://yarnpkg.com/en/docs/install">Yarn</a>。</p>
 <blockquote>
-<p>You have to be on Node &gt;= 8.x and Yarn &gt;= 1.5.</p>
+<p>您必须有 Node &gt; = 8. x 与 Yarn &gt; = 1.5。</p>
 </blockquote></li>
 <li><p>进入自己Github仓库的最上级目录，您将在这里创建文档。</p></li>
 <li><p><code>npx docusaurus-init</code></p>
 <blockquote>
-<p>If you don't have Node 8.2+ or if you prefer to install Docusaurus globally, run <code>yarn global add docusaurus-init</code> or <code>npm install --global docusaurus-init</code>. After that, run <code>docusaurus-init</code>.</p>
+<p>如果您没有安装 Node 8.2 + ，或是您希望在全局范围内安装 Docusaurus，请运行 <code>yarn global add docusaurus-init</code> 或 <code>npm install --global docusaurus-init</code>。 安装完成后，运行 <code>docusaurus-init</code>。</p>
 </blockquote></li>
 </ol>
 <h2><a class="anchor" aria-hidden="true" id="验证安装"></a><a href="#验证安装" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>验证安装</h2>
@@ -91,14 +91,14 @@
 </code></pre>
 <p>Running the Docusaurus initialization script, <code>docusaurus-init</code>, produces a runnable, example website to base your site upon.</p>
 <ol>
-<li>在根目录中, 重命名 <code>docs-examples-from-docusaurus</code> 为 <code>docs</code>。</li>
+<li>在根目录中, 将 <code>docs-examples-from-docusaurus</code> 重命名为 <code>docs</code>。</li>
 <li><code>cd website</code></li>
-<li>重命名 <code>blog-examples-from-docusaurus</code>为 <code>blog</code>。</li>
+<li>把 <code>blog-examples-from-docusaurus</code> 重命名为 <code>blog</code>。</li>
 <li>通过 <code>yarn start</code> 或 <code>npm start</code> 运行本地服务器。</li>
 <li>Load the example site at <a href="http://localhost:3000">http://localhost:3000</a>. You should see the example site loaded in your web browser. There's also a LiveReload server running and any changes made to the docs and files in the <code>website</code> directory will cause the page to refresh.</li>
 </ol>
 <p><img src="/img/getting-started-preparation-verify.png" alt=""></p>
-<h3><a class="anchor" aria-hidden="true" id="launching-the-server-behind-a-proxy"></a><a href="#launching-the-server-behind-a-proxy" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Launching the server behind a proxy</h3>
+<h3><a class="anchor" aria-hidden="true" id="使用代理启动服务"></a><a href="#使用代理启动服务" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>使用代理启动服务</h3>
 <p>If you are behind a corporate proxy, you need to disable it for the development server requests. It can be done using the <code>NO_PROXY</code> environment variable.</p>
 <pre><code class="hljs css language-sh">SET NO_PROXY=localhost
 yarn start (or npm run start)
@@ -131,7 +131,7 @@ docusaurus 1.0.9   1.2.0  1.2.0  devDependencies https://github.com/facebook/Doc
 <blockquote>
 <p>If you are finding that you are getting errors after your upgrade, try to either clear your Babel cache (usually it's in a <a href="https://babeljs.io/docs/en/babel-register/#environment-variables">temporary directory</a> or run the Docusaurus server (e.g., <code>yarn start</code>) with the <code>BABEL_DISABLE_CACHE=1</code> environment configuration.</p>
 </blockquote>
-</span></div></article></div><div class="docs-prevnext"><a class="docs-next button" href="/docs/zh-CN/1.3.1/site-preparation"><span>Site Preparation</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#验证安装">验证安装</a><ul class="toc-headings"><li><a href="#launching-the-server-behind-a-proxy">Launching the server behind a proxy</a></li></ul></li><li><a href="#updating-your-docusaurus-version">Updating Your Docusaurus Version</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/docusaurus_monochrome.svg" alt="Docusaurus" width="66" height="58"/></a><div class="footerSection"><h5>Docs</h5><a href="
+</span></div></article></div><div class="docs-prevnext"><a class="docs-next button" href="/docs/zh-CN/1.3.1/site-preparation"><span>Site Preparation</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#验证安装">验证安装</a><ul class="toc-headings"><li><a href="#使用代理启动服务">使用代理启动服务</a></li></ul></li><li><a href="#updating-your-docusaurus-version">Updating Your Docusaurus Version</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/docusaurus_monochrome.svg" alt="Docusaurus" width="66" height="58"/></a><div class="footerSection"><h5>Docs</h5><a href="
                 /docs/zh-CN/installation">Getting Started</a><a href="
                 /docs/zh-CN/versioning">Versioning</a><a href="
                 /docs/zh-CN/translation">Localization</a><a href="
