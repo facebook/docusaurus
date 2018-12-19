@@ -134,8 +134,8 @@ class SideNav extends React.Component {
           dangerouslySetInnerHTML={{
             __html: `
             document.addEventListener('DOMContentLoaded', function() {
-              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
-              createToggler('#tocToggler', 'body', 'tocActive');
+              createModalToggler('#navToggler', 'docsSliderActive');
+              createModalToggler('#tocToggler', 'tocActive');
 
               const headings = document.querySelector('.toc-headings');
               headings && headings.addEventListener('click', function(event) {
@@ -144,19 +144,51 @@ class SideNav extends React.Component {
                 }
               }, false);
 
-              function createToggler(togglerSelector, targetSelector, className) {
+              function createModalToggler(togglerSelector, className) {
                 var toggler = document.querySelector(togglerSelector);
-                var target = document.querySelector(targetSelector);
 
                 if (!toggler) {
                   return;
                 }
 
-                toggler.onclick = function(event) {
-                  event.preventDefault();
+                toggler.onclick = isIOS() ? getIOSToggleHandler(className) : getToggleHandler(className);
+              }
 
-                  target.classList.toggle(className);
-                };
+              function isIOS() {
+                var iOSDevices = ['iPad Simulator', 'iPhone Simulator', 'iPod Simulator', 'iPad', 'iPhone', 'iPod'];
+              
+                if (!!navigator.platform) {
+                  while (iOSDevices.length) {
+                    if (navigator.platform === iOSDevices.pop()) {
+                       return true; 
+                    }
+                  }
+                }
+              
+                return false;
+              }
+
+              function getToggleHandler(className) {
+                return function(event) {
+                  event.preventDefault();
+                  document.body.classList.toggle(className);
+                }
+              }
+
+              function getIOSToggleHandler(className) {
+                var savedScrollY;
+
+                return function(event) {
+                  event.preventDefault();
+                  var isToggledOnNow = document.body.classList.contains(className);
+                  if (isToggledOnNow) {
+                    document.body.classList.remove(className, 'ios')
+                    window.scrollTo(0, savedScrollY);
+                  } else {
+                    savedScrollY = window.scrollY;
+                    document.body.classList.add(className, 'ios')
+                  }
+                }
               }
             });
         `,

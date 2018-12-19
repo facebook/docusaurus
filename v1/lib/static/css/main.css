@@ -1616,7 +1616,21 @@ input::placeholder {
   }
 }
 
-.docsSliderActive.docsNavContainer {
+.tocActive, .docsSliderActive {
+  overflow: hidden;
+}
+
+.tocActive.ios, .docsSliderActive.ios {
+  position: fixed;
+}
+
+.tocActive.ios .mainContainer, 
+.docsSliderActive.ios .mainContainer {
+  transform: translate3d(0,0,0);
+  -webkit-transform: translate3d(0,0,0);
+}
+
+.docsSliderActive .docsNavContainer {
   box-sizing: border-box;
   height: 100%;
   -webkit-overflow-scrolling: touch;
