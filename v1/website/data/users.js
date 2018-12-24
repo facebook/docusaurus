@@ -198,8 +198,8 @@ module.exports = [
   },
   {
     caption: 'Node SerialPort',
-    image: '/path/to/image',
-    infoLink: 'www.serialport.io',
+    image: 'https://serialport.io/img/serialport-logo.svg',
+    infoLink: 'https://serialport.io',
     fbOpenSource: false,
     pinned: false,
   },
