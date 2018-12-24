@@ -322,9 +322,20 @@ function execute(port) {
     });
 
     if (siteConfig.fonts) {
+      const fontGenericValues = [
+        'serif',
+        'sans-serif',
+        'monospace',
+        'cursive',
+        'fantasy',
+        'system-ui',
+        'inherit',
+        'initial',
+        'unset',
+      ];
       Object.keys(siteConfig.fonts).forEach(key => {
         const fontString = siteConfig.fonts[key]
-          .map(font => `"${font}"`)
+          .map(font => (fontGenericValues.includes(font) ? font : `"${font}"`))
           .join(', ');
         cssContent = cssContent.replace(
           new RegExp(`\\$${key}`, 'g'),
