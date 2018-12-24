@@ -329,6 +329,7 @@ function execute(port) {
         'cursive',
         'fantasy',
         'system-ui',
+        '-apple-system',
         'inherit',
         'initial',
         'unset',
