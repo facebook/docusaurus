@@ -197,6 +197,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Node SerialPort',
+    image: 'https://serialport.io/img/serialport-logo.svg',
+    infoLink: 'https://serialport.io',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'nteract',
     image:
       'https://media.githubusercontent.com/media/nteract/logos/master/nteract_logo_cube_book/exports/images/png/nteract_logo_mark_purple.png',
