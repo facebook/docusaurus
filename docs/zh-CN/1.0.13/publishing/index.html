@@ -56,13 +56,13 @@
         </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://crowdin.com/project/docusaurus/zh-CN" target="_blank" rel="noreferrer noopener">Translate</a><h1 class="postHeaderTitle">Publishing your site</h1></header><article><div><span><p>现在, 您应该有一个 <a href="/docs/zh-CN/1.0.13/site-creation"> 站点, 并在本地运行 </a>。 一旦您有了 <a href="/docs/zh-CN/1.0.13/site-config"> 自定义 </a> 的喜好, 就该发布它了。 Docusaurus 生成一个静态 HTML 网站, 它可以由您喜爱的 web 服务器或在线托管解决方案提供服务。</p>
 <h2><a class="anchor" aria-hidden="true" id="构建静态-html-页"></a><a href="#构建静态-html-页" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>构建静态 HTML 页</h2>
 <p>要创建网站的静态生成, 请从 <code>网站</code> 目录中运行以下脚本:</p>
-<pre><code class="hljs">yarn 运行 `build` # 或者 `npm run build`
+<pre><code class="hljs">yarn run build # 或是 `npm run build`
 </code></pre>
 <p>This will generate a <code>build</code> folder inside the <code>website</code> directory containing the <code>.html</code> files from all of your docs and other pages included in <code>pages</code>.</p>
 <h2><a class="anchor" aria-hidden="true" id="构建静态-html-页-1"></a><a href="#构建静态-html-页-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>构建静态 HTML 页</h2>
 <p>At this point, you can grab all of the files inside the <code>website/build</code> folder and copy them over to your favorite web server's <code>html</code> directory.</p>
 <blockquote>
-<p>For example, both Apache and nginx serve content from <code>/var/www/html</code> by default. That said, choosing a web server or provider is outside the scope of Docusaurus.</p>
+<p>例如，Apache 和 Nginx 默认都从 <code>/var/www/html</code> 提供内容。 也就是说，选择 web 服务端或提供相应服务都超出了Docusaurus 的范围。</p>
 </blockquote>
 <h3><a class="anchor" aria-hidden="true" id="using-github-pages"></a><a href="#using-github-pages" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Using GitHub Pages</h3>
 <p>While choosing a web server or host is outside Docusaurus' scope, Docusaurus was designed to work really well with one of the most popular hosting solutions for open source projects: <a href="https://pages.github.com/">GitHub Pages</a>.</p>
@@ -74,7 +74,7 @@
 <p>Two of the required parameters are set in the <a href="/docs/zh-CN/1.0.13/site-config"><code>siteConfig.js</code></a>:</p>
 <table>
 <thead>
-<tr><th>Name</th><th>Description</th></tr>
+<tr><th>Name</th><th>说明</th></tr>
 </thead>
 <tbody>
 <tr><td><code>organizationName</code></td><td>The GitHub user or organization that owns the repository. In the case of Docusaurus, that would be the &quot;facebook&quot; GitHub organization.</td></tr>
@@ -88,7 +88,7 @@
 <p>One of the required parameters is set as a environment variable:</p>
 <table>
 <thead>
-<tr><th>Name</th><th>Description</th></tr>
+<tr><th>Name</th><th>说明</th></tr>
 </thead>
 <tbody>
 <tr><td><code>GIT_USER</code></td><td>The username for a GitHub account that has commit access to this repo. For your own repositories, this will usually be your own GitHub username.</td></tr>
@@ -97,7 +97,7 @@
 <p>There are also two optional parameters that are set as environment variables:</p>
 <table>
 <thead>
-<tr><th>Name</th><th>Description</th></tr>
+<tr><th>Name</th><th>说明</th></tr>
 </thead>
 <tbody>
 <tr><td><code>USE_SSH</code></td><td>If this is set to <code>true</code>, then SSH is used instead of HTTPS for the connection to the GitHub repo. HTTPS is the default if this variable is not set.</td></tr>

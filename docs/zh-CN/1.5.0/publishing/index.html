@@ -56,14 +56,14 @@
         </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://crowdin.com/project/docusaurus/zh-CN" target="_blank" rel="noreferrer noopener">Translate</a><h1 class="postHeaderTitle">Publishing your site</h1></header><article><div><span><p>现在, 您应该有一个 <a href="/docs/zh-CN/1.5.0/site-creation"> 站点, 并在本地运行 </a>。 一旦您有了 <a href="/docs/zh-CN/1.5.0/site-config"> 自定义 </a> 的喜好, 就该发布它了。 Docusaurus 生成一个静态 HTML 网站, 它可以由您喜爱的 web 服务器或在线托管解决方案提供服务。</p>
 <h2><a class="anchor" aria-hidden="true" id="构建静态-html-页"></a><a href="#构建静态-html-页" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>构建静态 HTML 页</h2>
 <p>要创建网站的静态生成, 请从 <code>网站</code> 目录中运行以下脚本:</p>
-<pre><code class="hljs css language-bash">yarn 运行 `build` <span class="hljs-comment"># 或者 `npm run build`</span>
+<pre><code class="hljs css language-bash">yarn run build <span class="hljs-comment"># 或是 `npm run build`</span>
 </code></pre>
-<p>这将在 <code>网站</code> 目录中生成一个 <code>&quot;生成&quot;</code> 目录, 其中包含 <code>页</code> 中包含的所有文档和其他页中所含的. html ` 文件。</p></p>
-<p><h2>构建静态 HTML 页</h2></p>
-<p>At this point, you can grab all of the files inside the <code>website/build` directory and copy them over to your favorite web server's `html` directory.
+<p>这将在 <code>website</code> 目录下生成一个 <code>build</code> 文件夹, 其中包含 <code>website</code> 目录下所有文档和其他页面中所含的 <code>.html</code> 文件。</p>
+<h2><a class="anchor" aria-hidden="true" id="构建静态-html-页-1"></a><a href="#构建静态-html-页-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>构建静态 HTML 页</h2>
+<p>此时，您会在 <code>website/build</code> 目录中得到所有的文件，并将它们复制到您青睐的 Web 服务器的 <code>html</code> 目录中。</p>
 <blockquote>
-<p>For example, both Apache and nginx serve content from <code>/var/www/html</code> by default. That said, choosing a web server or provider is outside the scope of Docusaurus.</p>
-<p>When serving the site from your own web server, ensure the web server is serving the asset files with the proper HTTP headers. CSS files should be served with the <code>content-type</code> header of <code>text/css</code>. In the case of nginx, this would mean setting <code>include /etc/nginx/mime.types;</code> in your <code>nginx.conf</code> file. See <a href="https://github.com/facebook/Docusaurus/issues/602">this issue</a> for more info.</p>
+<p>例如，Apache 和 Nginx 默认都从 <code>/var/www/html</code> 提供内容。 也就是说，选择 web 服务端或提供相应服务都超出了Docusaurus 的范围。</p>
+<p>当您使用自己的 web 服务端时，请确保 web 服务端使用了合适的 HTTP headers 为静态资源文件提供服务。 CSS 文件 header 中的 <code>content-type</code> 应该是 <code>text/css</code>。 以 nginx 为例，你需要在 <code>nginx.conf</code> 文件中设置 <code>include /etc/nginx/mime.types;</code>。 更多信息请参阅 <a href="https://github.com/facebook/Docusaurus/issues/602">this issue</a>。</p>
 </blockquote>
 <h3><a class="anchor" aria-hidden="true" id="hosting-on-a-service"></a><a href="#hosting-on-a-service" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Hosting on a Service:</h3>
 <ul>
@@ -80,7 +80,7 @@
 <p>Two of the required parameters are set in the <a href="/docs/zh-CN/1.5.0/site-config"><code>siteConfig.js</code></a>:</p>
 <table>
 <thead>
-<tr><th>Name</th><th>Description</th></tr>
+<tr><th>Name</th><th>说明</th></tr>
 </thead>
 <tbody>
 <tr><td><code>organizationName</code></td><td>The GitHub user or organization that owns the repository. In the case of Docusaurus, that would be the &quot;facebook&quot; GitHub organization.</td></tr>
@@ -95,7 +95,7 @@ For user or org sites, the publish script will deploy these sites to the root of
 <p>One of the required parameters is set as a environment variable:</p>
 <table>
 <thead>
-<tr><th>Name</th><th>Description</th></tr>
+<tr><th>Name</th><th>说明</th></tr>
 </thead>
 <tbody>
 <tr><td><code>GIT_USER</code></td><td>The username for a GitHub account that has commit access to this repo. For your own repositories, this will usually be your own GitHub username.</td></tr>
@@ -104,7 +104,7 @@ For user or org sites, the publish script will deploy these sites to the root of
 <p>There are also two optional parameters that are set as environment variables:</p>
 <table>
 <thead>
-<tr><th>Name</th><th>Description</th></tr>
+<tr><th>Name</th><th>说明</th></tr>
 </thead>
 <tbody>
 <tr><td><code>USE_SSH</code></td><td>If this is set to <code>true</code>, then SSH is used instead of HTTPS for the connection to the GitHub repo. HTTPS is the default if this variable is not set.</td></tr>
@@ -239,14 +239,14 @@ For user or org sites, the publish script will deploy these sites to the root of
 <p>GitHub enterprise installations should work in the same manner as github.com; you only need to identify the organization's GitHub Enterprise host.</p>
 <table>
 <thead>
-<tr><th>Name</th><th>Description</th></tr>
+<tr><th>Name</th><th>说明</th></tr>
 </thead>
 <tbody>
 <tr><td><code>GITHUB_HOST</code></td><td>The hostname for the GitHub enterprise server.</td></tr>
 </tbody>
 </table>
 <p>Alter your <code>siteConfig.js</code> to add a property <code>'githubHost'</code> which represents the GitHub Enterprise hostname. Alternatively, set an environment variable <code>GITHUB_HOST</code> when executing the publish command.</p>
-</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/zh-CN/1.5.0/site-creation"><span class="arrow-prev">← </span><span>Creating your site</span></a><a class="docs-next button" href="/docs/zh-CN/1.5.0/docker"><span>Docker</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#构建静态-html-页">构建静态 HTML 页</a><ul class="toc-headings"><li><a href="#hosting-on-a-service">Hosting on a Service:</a></li><li><a href="#using-github-pages">Using GitHub Pages</a></li></ul></li><li><a href="#automating-deployments-using-continuous-integration">Automating Deployments Using Continuous Integration</a><ul class="toc-headings"><li><a href="#using-circle-ci-20">Using Circle CI 2.0</a></li><li><a href="#tips-tricks">Tips &amp; Tricks</a></li><li><a href="#using-travis-ci">Using Travis CI</a></li><li><a href="#hosting-on-netlify">Hosting on Netlify</a></li><li><a href="#publishing-to-github-enterprise">Publishing to GitHub Enterprise</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/docusaurus_monochrome.svg" alt="Docusaurus" width="66" height="58"/></a><div class="footerSection"><h5>Docs</h5><a href="
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/zh-CN/1.5.0/site-creation"><span class="arrow-prev">← </span><span>Creating your site</span></a><a class="docs-next button" href="/docs/zh-CN/1.5.0/docker"><span>Docker</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#构建静态-html-页">构建静态 HTML 页</a></li><li><a href="#构建静态-html-页-1">构建静态 HTML 页</a><ul class="toc-headings"><li><a href="#hosting-on-a-service">Hosting on a Service:</a></li><li><a href="#using-github-pages">Using GitHub Pages</a></li></ul></li><li><a href="#automating-deployments-using-continuous-integration">Automating Deployments Using Continuous Integration</a><ul class="toc-headings"><li><a href="#using-circle-ci-20">Using Circle CI 2.0</a></li><li><a href="#tips-tricks">Tips &amp; Tricks</a></li><li><a href="#using-travis-ci">Using Travis CI</a></li><li><a href="#hosting-on-netlify">Hosting on Netlify</a></li><li><a href="#publishing-to-github-enterprise">Publishing to GitHub Enterprise</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/docusaurus_monochrome.svg" alt="Docusaurus" width="66" height="58"/></a><div class="footerSection"><h5>Docs</h5><a href="
                 /docs/zh-CN/installation">Getting Started</a><a href="
                 /docs/zh-CN/versioning">Versioning</a><a href="
                 /docs/zh-CN/translation">Localization</a><a href="
