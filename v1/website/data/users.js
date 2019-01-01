@@ -394,6 +394,13 @@ module.exports = [
     pinned: true,
   },
   {
+    caption: 'TypeGraphQL',
+    image: '/img/users/type-graphql.png',
+    infoLink: 'https://19majkel94.github.io/type-graphql/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Vasern',
     image: 'https://vasern.com/img/vasern.svg',
     infoLink: 'https://vasern.com/',
