@@ -283,7 +283,7 @@ module.exports = [
   },
   {
     caption: 'React Native Sensors',
-    image: '/image/users/react-native-sensors.svg',
+    image: '/img/users/react-native-sensors.svg',
     infoLink: 'https://react-native-sensors.github.io/',
     fbOpenSource: false,
     pinned: false,
