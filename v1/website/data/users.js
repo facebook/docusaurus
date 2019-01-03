@@ -282,6 +282,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'React Native Sensors',
+    image: '/img/users/react-native-sensors.svg',
+    infoLink: 'https://react-native-sensors.github.io/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'React Redux',
     image: '/img/users/react-redux.svg',
     infoLink: 'http://react-redux.js.org',
