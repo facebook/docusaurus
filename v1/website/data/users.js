@@ -99,6 +99,13 @@ module.exports = [
     pinned: true,
   },
   {
+    caption: 'FBT',
+    image: '/img/users/fbt_blue.png',
+    infoLink: 'https://facebookincubator.github.io/fbt/',
+    fbOpenSource: true,
+    pinned: true,
+  },
+  {
     caption: 'Flipper',
     image: '/img/users/flipper.png',
     infoLink: 'https://fbflipper.com',
