@@ -142,7 +142,7 @@ module.exports = [
   },
   {
     caption: 'Gulp',
-    image: 'https://gulpjs.com/img/favicon.png',
+    image: '/img/users/gulp.svg',
     infoLink: 'https://gulpjs.com',
     fbOpenSource: false,
     pinned: true,
