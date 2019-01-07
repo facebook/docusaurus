@@ -176,6 +176,13 @@ module.exports = [
     pinned: true,
   },
   {
+    caption: 'KaTeX',
+    image: '/img/users/katex.svg',
+    infoLink: 'https://katex.org/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'MakeItOpen',
     image: '/img/users/makeitopen.png',
     infoLink: 'http://makeitopen.com/',
