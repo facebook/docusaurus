@@ -89,7 +89,13 @@ if (CURRENT_BRANCH === DEPLOYMENT_BRANCH && !crossRepoPublish) {
   shell.exit(1);
 }
 
-if (shell.exec(`node ${path.join(__dirname, 'build-files.js')}`).code) {
+if (
+  shell.exec(
+    `node ${path.join(__dirname, 'build-files.js')} ${process.argv
+      .slice(2)
+      .join(' ')}`,
+  ).code
+) {
   shell.echo('Error: generating html failed');
   shell.exit(1);
 }
