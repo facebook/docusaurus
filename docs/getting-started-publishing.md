@@ -54,7 +54,7 @@ __Note:__ When you deploy as user/organization page, the publish script will dep
 const siteConfig = {
   ...
   url: 'https://__userName__.github.io', // Your website URL
-  baseUrl: '/testProject',
+  baseUrl: '/testProject/',
   projectName: 'testProject',
   organizationName: 'userName'
   ...
