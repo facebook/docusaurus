@@ -342,7 +342,7 @@ module.exports = [
     image: '/img/users/redux.svg',
     infoLink: 'https://redux.js.org/',
     fbOpenSource: false,
-    pinned: false,
+    pinned: true,
   },
   {
     caption: 'Rejoiner',
