@@ -338,6 +338,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Redux',
+    image: '/img/users/redux.svg',
+    infoLink: 'https://redux.js.org/',
+    fbOpenSource: false,
+    pinned: true,
+  },
+  {
     caption: 'Rejoiner',
     image: '/img/users/rejoiner.svg',
     infoLink: 'http://rejoiner.io/',
