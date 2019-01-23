@@ -24,7 +24,30 @@
             languagesDropDown.className = "hide";
           }
         });
-      </script></span><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><i></i></div><h2><i>›</i><span>Recent Posts</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">Recent Posts</h3><ul><li class="navListItem"><a class="navItem" href="/blog/2018/12/14/Happy-First-Birthday-Slash">Happy 1st Birthday Slash!</a></li><li class="navListItem"><a class="navItem" href="/blog/2018/09/11/Towards-Docusaurus-2">Towards Docusaurus 2</a></li><li class="navListItem"><a class="navItem" href="/blog/2018/04/30/How-I-Converted-Profilo-To-Docusaurus">How I Converted Profilo to Docusaurus in Under 2 Hours</a></li><li class="navListItem"><a class="navItem" href="/blog/2017/12/14/introducing-docusaurus">Introducing Docusaurus</a></li></ul></div></div></section></div><script>
+      </script></span><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><i></i></div><h2><i>›</i><span>Recent Posts</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">Recent Posts<span class="arrow">⌃</span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/blog/2018/12/14/Happy-First-Birthday-Slash">Happy 1st Birthday Slash!</a></li><li class="navListItem"><a class="navItem" href="/blog/2018/09/11/Towards-Docusaurus-2">Towards Docusaurus 2</a></li><li class="navListItem"><a class="navItem" href="/blog/2018/04/30/How-I-Converted-Profilo-To-Docusaurus">How I Converted Profilo to Docusaurus in Under 2 Hours</a></li><li class="navListItem"><a class="navItem" href="/blog/2017/12/14/introducing-docusaurus">Introducing Docusaurus</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
             document.addEventListener('DOMContentLoaded', function() {
               createToggler('#navToggler', '#docsNav', 'docsSliderActive');
               createToggler('#tocToggler', 'body', 'tocActive');

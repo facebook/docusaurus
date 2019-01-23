@@ -26,7 +26,30 @@
             languagesDropDown.className = "hide";
           }
         });
-      </script></span><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><i></i></div><h2><i>›</i><span>API</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">Getting Started</h3><ul><li class="navListItem"><a class="navItem" href="/docs/ro/1.1.3/installation">Installation</a></li><li class="navListItem"><a class="navItem" href="/docs/ro/1.1.3/site-preparation">Site Preparation</a></li><li class="navListItem"><a class="navItem" href="/docs/ro/1.1.3/site-creation">Creating your site</a></li><li class="navListItem"><a class="navItem" href="/docs/ro/1.1.3/publishing">Publishing your site</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Guides</h3><ul><li class="navListItem"><a class="navItem" href="/docs/ro/1.1.3/blog">Adding a Blog</a></li><li class="navListItem"><a class="navItem" href="/docs/ro/1.1.3/custom-pages">Custom Pages</a></li><li class="navListItem"><a class="navItem" href="/docs/ro/1.1.3/search">Enabling Search</a></li><li class="navListItem"><a class="navItem" href="/docs/ro/1.1.3/navigation">Navigation and Sidebars</a></li><li class="navListItem"><a class="navItem" href="/docs/ro/1.1.3/translation">Translations &amp; Localization</a></li><li class="navListItem"><a class="navItem" href="/docs/ro/1.1.3/versioning">Versioning</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">API</h3><ul><li class="navListItem"><a class="navItem" href="/docs/ro/1.1.3/commands">CLI Commands</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/docs/ro/1.1.3/doc-markdown">Markdown Features</a></li><li class="navListItem"><a class="navItem" href="/docs/ro/1.1.3/api-pages">Pages and Styles</a></li><li class="navListItem"><a class="navItem" href="/docs/ro/1.1.3/site-config">siteConfig.js</a></li></ul></div></div></section></div><script>
+      </script></span><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><i></i></div><h2><i>›</i><span>API</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">Getting Started<span class="arrow">⌃</span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/docs/ro/1.1.3/installation">Installation</a></li><li class="navListItem"><a class="navItem" href="/docs/ro/1.1.3/site-preparation">Site Preparation</a></li><li class="navListItem"><a class="navItem" href="/docs/ro/1.1.3/site-creation">Creating your site</a></li><li class="navListItem"><a class="navItem" href="/docs/ro/1.1.3/publishing">Publishing your site</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">Guides<span class="arrow">⌃</span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/docs/ro/1.1.3/blog">Adding a Blog</a></li><li class="navListItem"><a class="navItem" href="/docs/ro/1.1.3/custom-pages">Custom Pages</a></li><li class="navListItem"><a class="navItem" href="/docs/ro/1.1.3/search">Enabling Search</a></li><li class="navListItem"><a class="navItem" href="/docs/ro/1.1.3/navigation">Navigation and Sidebars</a></li><li class="navListItem"><a class="navItem" href="/docs/ro/1.1.3/translation">Translations &amp; Localization</a></li><li class="navListItem"><a class="navItem" href="/docs/ro/1.1.3/versioning">Versioning</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">API<span class="arrow">⌃</span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/docs/ro/1.1.3/commands">CLI Commands</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/docs/ro/1.1.3/doc-markdown">Markdown Features</a></li><li class="navListItem"><a class="navItem" href="/docs/ro/1.1.3/api-pages">Pages and Styles</a></li><li class="navListItem"><a class="navItem" href="/docs/ro/1.1.3/site-config">siteConfig.js</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
             document.addEventListener('DOMContentLoaded', function() {
               createToggler('#navToggler', '#docsNav', 'docsSliderActive');
               createToggler('#tocToggler', 'body', 'tocActive');
