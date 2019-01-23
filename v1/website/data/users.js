@@ -240,6 +240,13 @@ module.exports = [
     pinned: true,
   },
   {
+    caption: 'React-Leaflet',
+    image: '/img/users/react-leaflet.png',
+    infoLink: 'https://react-leaflet.js.org/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'React Native',
     image: '/img/users/react-native.svg',
     infoLink: 'https://facebook.github.io/react-native',
@@ -383,13 +390,6 @@ module.exports = [
     caption: 'WarriorJS',
     image: '/img/users/warriorjs.svg',
     infoLink: 'https://warrior.js.org/',
-    fbOpenSource: false,
-    pinned: false,
-  },
-  {
-    caption: 'ReactLeaflet',
-    image: '/img/users/react-leaflet.png',
-    infoLink: 'https://react-leaflet.js.org/',
     fbOpenSource: false,
     pinned: false,
   },
