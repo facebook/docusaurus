@@ -279,7 +279,7 @@ For sites with a sizable amount of content, we support the option to expand/coll
 
 ```js
 {
-  docsSideNavCollapsible: 'true',
+  docsSideNavCollapsible: true,
   ...
 }
 ```
