@@ -69,7 +69,7 @@ class SideNav extends React.Component {
     if (siteConfig.docsSideNavCollapsible) {
       categoryClassName += ' collapsible';
       ulClassName = 'hide';
-      arrow = <span className="arrow">&#9660;</span>;
+      arrow = <span className="arrow">&#8963;</span>;
     }
 
     return (
