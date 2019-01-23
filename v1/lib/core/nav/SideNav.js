@@ -146,25 +146,26 @@ class SideNav extends React.Component {
         <script
           dangerouslySetInnerHTML={{
             __html: `
-            var coll = document.getElementsByClassName("collapsible");
+            var coll = document.getElementsByClassName('collapsible');
             var checkActiveCategory = true;
             for (var i = 0; i < coll.length; i++) {
-              var links = coll[i].nextElementSibling.getElementsByTagName("*");
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
               if (checkActiveCategory){
-                for (var j=0;j<links.length;j++){
-                  if (links[j].classList.contains("navListItemActive")){
-                    coll[i].nextElementSibling.classList.toggle("hide");
-                    coll[i].childNodes[1].classList.toggle("rotate")
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
                     checkActiveCategory = false;
                     break;
                   }
                 }
               }
-              coll[i].addEventListener("click", function() {
+
+              coll[i].addEventListener('click', function() {
                 var arrow = this.childNodes[1];
-                arrow.classList.toggle("rotate")
+                arrow.classList.toggle('rotate');
                 var content = this.nextElementSibling;
-                content.classList.toggle("hide");
+                content.classList.toggle('hide');
               });
             }
 
