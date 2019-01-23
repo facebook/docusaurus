@@ -139,6 +139,10 @@ An option to disable showing the title in the header next to the header icon. Ex
 
 An option to disable showing the tagline in the title of main pages. Exclude this field to keep page titles as `Title • Tagline`. Set to `true` to make page titles just `Title`.
 
+#### `docsSideNavCollapsible` [boolean]
+
+Set this to `true` if you want to be able to expand/collapse the links and subcategories in the sidebar.
+
 #### `editUrl` [string]
 
 URL for editing docs, usage example: `editUrl + 'en/doc1.md'`. If this field is omitted, there will be no "Edit this Doc" button for each document.

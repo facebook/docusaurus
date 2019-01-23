@@ -1596,6 +1596,22 @@ input::placeholder {
 /* End of Docs Navigation */
 
 /* Start of Docs Sidebar */
+.hide {
+  display: none;
+}
+
+.collapsible .arrow {
+  cursor: pointer;
+  float: right;
+  margin-right: 5px;
+  transform: rotate(90deg);
+  transition: transform 200ms linear;
+}
+
+.collapsible .arrow.rotate {
+  transform: rotate(180deg);
+}
+
 @media only screen and (max-width: 1023px) {
   .docsNavContainer {
     background: #fff;

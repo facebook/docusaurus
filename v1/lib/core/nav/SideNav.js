@@ -61,25 +61,38 @@ class SideNav extends React.Component {
     return null;
   }
 
-  renderCategory = categoryItem => (
-    <div className="navGroup" key={categoryItem.title}>
-      <h3 className="navGroupCategoryTitle">
-        {this.getLocalizedCategoryString(categoryItem.title)}
-      </h3>
-      <ul>
-        {categoryItem.children.map(item => {
-          switch (item.type) {
-            case 'LINK':
-              return this.renderItemLink(item);
-            case 'SUBCATEGORY':
-              return this.renderSubcategory(item);
-            default:
-              return null;
-          }
-        })}
-      </ul>
-    </div>
-  );
+  renderCategory = categoryItem => {
+    let ulClassName = '';
+    let categoryClassName = 'navGroupCategoryTitle';
+    let arrow;
+
+    if (siteConfig.docsSideNavCollapsible) {
+      categoryClassName += ' collapsible';
+      ulClassName = 'hide';
+      arrow = <span className="arrow">&#8963;</span>;
+    }
+
+    return (
+      <div className="navGroup" key={categoryItem.title}>
+        <h3 className={categoryClassName}>
+          {this.getLocalizedCategoryString(categoryItem.title)}
+          {arrow}
+        </h3>
+        <ul className={ulClassName}>
+          {categoryItem.children.map(item => {
+            switch (item.type) {
+              case 'LINK':
+                return this.renderItemLink(item);
+              case 'SUBCATEGORY':
+                return this.renderSubcategory(item);
+              default:
+                return null;
+            }
+          })}
+        </ul>
+      </div>
+    );
+  };
 
   renderSubcategory = subcategoryItem => (
     <div className="navGroup subNavGroup" key={subcategoryItem.title}>
@@ -133,6 +146,29 @@ class SideNav extends React.Component {
         <script
           dangerouslySetInnerHTML={{
             __html: `
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
             document.addEventListener('DOMContentLoaded', function() {
               createToggler('#navToggler', '#docsNav', 'docsSliderActive');
               createToggler('#tocToggler', 'body', 'tocActive');

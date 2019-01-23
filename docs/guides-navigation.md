@@ -272,3 +272,14 @@ We support secondary on-page navigation so you can more easily see the topics as
 ```
 
 Currently, `'separate'` is the only option available for this field. This provides a separate navigation on the right side of the page.
+
+## Collapsible Categories
+
+For sites with a sizable amount of content, we support the option to expand/collapse the links and subcategories under categories. To enable this feature, set the `docsSideNavCollapsible` site configuration [option](api-site-config.md#optional-fields) in `siteConfig.js` to true.
+
+```js
+{
+  docsSideNavCollapsible: true,
+  ...
+}
+```
