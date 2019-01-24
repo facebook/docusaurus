@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [1.7.0] - 2019-1-23
 
-It's the first release of the year! We've shipped a few significant new features such as:
+It's the first release of the year! We've fixed a number of layout bugs and shipped a few significant new features such as:
 
 - Collapsible sidebar - Especially useful for pages with long list of items.
 - Language-specific Code Tabs - Great for documentations that target multiple languages.
