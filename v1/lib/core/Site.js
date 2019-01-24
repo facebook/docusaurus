@@ -7,12 +7,14 @@
 
 const React = require('react');
 const fs = require('fs');
+const classNames = require('classnames');
 
 const HeaderNav = require('./nav/HeaderNav.js');
 const Head = require('./Head.js');
 
 const Footer = require(`${process.cwd()}/core/Footer.js`);
 const translation = require('../server/translation.js');
+const env = require('../server/env.js');
 const liveReloadServer = require('../server/liveReloadServer.js');
 const {idx} = require('./utils.js');
 
@@ -20,6 +22,15 @@ const CWD = process.cwd();
 
 // Component used to provide same head, header, footer, other scripts to all pages
 class Site extends React.Component {
+  mobileNavHasOneRow(headerLinks) {
+    const hasLanguageDropdown =
+      env.translation.enabled && env.translation.enabledLanguages().length > 1;
+    const hasOrdinaryHeaderLinks = headerLinks.some(
+      link => !(link.languages || link.search),
+    );
+    return !(hasLanguageDropdown || hasOrdinaryHeaderLinks);
+  }
+
   render() {
     const tagline =
       idx(translation, [this.props.language, 'localized-strings', 'tagline']) ||
@@ -43,6 +54,12 @@ class Site extends React.Component {
       docsVersion = latestVersion;
     }
 
+    const navPusherClasses = classNames('navPusher', {
+      singleRowMobileNav: this.mobileNavHasOneRow(
+        this.props.config.headerLinks,
+      ),
+    });
+
     return (
       <html lang={this.props.language}>
         <Head
@@ -62,7 +79,7 @@ class Site extends React.Component {
             version={this.props.version}
             current={this.props.metadata}
           />
-          <div className="navPusher">
+          <div className={navPusherClasses}>
             {this.props.children}
             <Footer config={this.props.config} language={this.props.language} />
           </div>

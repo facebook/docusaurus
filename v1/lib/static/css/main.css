@@ -1317,6 +1317,10 @@ input::placeholder {
   z-index: 99;
 }
 
+.singleRowMobileNav.navPusher {
+  padding-top: 50px;
+}
+
 .navPusher:after {
   background: rgba(0, 0, 0, 0.4);
   content: '';
@@ -2004,6 +2008,10 @@ input::placeholder {
       right: 0;
       top: 148px;
       z-index: 10;
+    }
+
+    .tocActive .singleRowMobileNav .onPageNav {
+      top: 98px;
     }
 
     .tocActive .navToggle,
