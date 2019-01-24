@@ -6,6 +6,46 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [Unreleased]
 
+## [1.7.0] - 2019-1-23
+
+It's the first release of the year! We've fixed a number of layout bugs and shipped a few significant new features such as:
+
+- Collapsible sidebar - Especially useful for pages with long list of items.
+- Language-specific Code Tabs - Great for documentations that target multiple languages.
+
+We also welcome a ton of new users: Node Serialport, TypeGraphQL, React Native Sensors, FBT, KaTeX, Redux, and React Leaflet.
+
+Thank you to the following contributors who helped with this release:
+
+- @teimurjan
+- @ahmadalfy
+- @mikeattara
+- @19majkel94
+- @jrwats
+- @haoqiang
+- @zkochan
+- @marvinchin
+- @YifanM
+- @SimenB
+- @zakariaharti
+- @tsmrachel
+- @fiennyangeln
+
+### Fixed/Changed
+
+- fix: edit url should support versioned subdirectories ([#1154](https://github.com/facebook/Docusaurus/pull/1154))
+- fix: gap on mobile devices when scrolling ([#1157](https://github.com/facebook/Docusaurus/pull/1157))
+- chore: update imagemin and its dependencies ([#1162](https://github.com/facebook/Docusaurus/pull/1162))
+- fix: pass docusaurus-publish cli args to build command ([#1185](https://github.com/facebook/Docusaurus/pull/1185))
+- fix: missing default value for grid block content objects ([#1186](https://github.com/facebook/Docusaurus/pull/1186))
+- fix: add margin-bottom: 0 to blog post author ([#1193](https://github.com/facebook/Docusaurus/pull/1193))
+- fix: wrong padding for single row mobile nav ([#1191](https://github.com/facebook/Docusaurus/pull/1191))
+
+### Added
+
+- feat: collapsible categories ([#1128](https://github.com/facebook/Docusaurus/pull/1128))
+- feat: code block tab ([#1063](https://github.com/facebook/Docusaurus/pull/1063))
+
 ## [1.6.2] - 2018-12-7
 
 Hotfix for 1.6.1. We overlooked a critical bug caused by hardcoded path on PR [#1143](https://github.com/facebook/Docusaurus/pull/1143). Please upgrade to 1.6.2, we are going to npm deprecate 1.6.1.
@@ -50,7 +90,7 @@ Thank you to the following contributors who helped with this release:
 - @ellereeeee
 - @maxaggedon
 - @gianlucadonato
-- @tsmrachel 
+- @tsmrachel
 - @Shriram-Balaji
 - @noraj
 - @alexperez
@@ -905,7 +945,8 @@ N/A
   - Blog
   - Documentation
 
-[unreleased]: https://github.com/facebook/Docusaurus/compare/v1.6.2...HEAD
+[unreleased]: https://github.com/facebook/Docusaurus/compare/v1.7.0...HEAD
+[1.7.0]: https://github.com/facebook/Docusaurus/compare/v1.6.2...v1.7.0
 [1.6.2]: https://github.com/facebook/Docusaurus/compare/v1.6.1...v1.6.2
 [1.6.1]: https://github.com/facebook/Docusaurus/compare/v1.6.0...v1.6.1
 [1.6.0]: https://github.com/facebook/Docusaurus/compare/v1.5.1...v1.6.0
