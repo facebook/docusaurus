@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [Unreleased]
 
+## [1.7.1] - 2019-1-24
+
+**HOTFIX**
+
+`imagemin` got pushed down into developer dependencies, breaking the build. This fixes that.
+
+### Fixed/Changed
+
+- fix: revert image-min back to dependencies ([#1201](https://github.com/facebook/Docusaurus/pull/1201))
+
 ## [1.7.0] - 2019-1-23
 
 It's the first release of the year! We've fixed a number of layout bugs and shipped a few significant new features such as:
@@ -945,7 +955,8 @@ N/A
   - Blog
   - Documentation
 
-[unreleased]: https://github.com/facebook/Docusaurus/compare/v1.7.0...HEAD
+[unreleased]: https://github.com/facebook/Docusaurus/compare/v1.7.1...HEAD
+[1.7.1]: https://github.com/facebook/Docusaurus/compare/v1.7.0...v1.7.1
 [1.7.0]: https://github.com/facebook/Docusaurus/compare/v1.6.2...v1.7.0
 [1.6.2]: https://github.com/facebook/Docusaurus/compare/v1.6.1...v1.6.2
 [1.6.1]: https://github.com/facebook/Docusaurus/compare/v1.6.0...v1.6.1
