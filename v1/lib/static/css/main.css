@@ -2361,3 +2361,57 @@ input::placeholder {
   padding: 5px 0;
 }
 /* End of Footer */
+
+
+.tabs {
+  border-top: 1px solid #cfcfcf;
+}
+
+.nav-tabs {
+  display: flex;
+  border-bottom: 4px solid #e0e0e0;
+  width: 100%;
+  padding: 0;
+  overflow-x: auto;
+  white-space: nowrap;
+  max-height: 100%;
+}
+
+.nav-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.tabs .tab-pane:focus {
+  outline: none;
+}
+
+.tabs .nav-tabs > div {
+  font-size: 14px;
+  line-height: 1.14286;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  cursor: pointer;
+}
+
+.tabs .nav-tabs > div.active {
+  border-bottom: 4px solid $primaryColor;
+}
+
+.tab-pane {
+  display: none;
+}
+
+.tab-pane.active {
+  display: block;
+}
+
+.tab-pane > pre {
+  white-space: pre-wrap;
+}
+
+.tab-pane > pre > code {
+  margin-top: 0;
+  border-radius: 0;
+  box-shadow: none;
+}

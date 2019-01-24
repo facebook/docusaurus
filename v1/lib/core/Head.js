@@ -188,6 +188,7 @@ class Head extends React.Component {
           rel="stylesheet"
           href={`${this.props.config.baseUrl}css/main.css`}
         />
+        <script src={`${this.props.config.baseUrl}js/codetabs.js`} />
       </head>
     );
   }

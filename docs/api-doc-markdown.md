@@ -132,6 +132,42 @@ will lead to a table of contents of the functions:
 
 and each function will link to their corresponding sections in the page.
 
+
+### Code tabs
+
+Docusaurus provides code tabs by default. To use code tabs, first, mark the start and end of a code tabs group, by using `<!--DOCUSAURUS_CODE_TABS-->` and `<!--END_DOCUSAURUS_CODE_TABS-->` respectively.
+Secondly, start each tab with `<!--[TAB_TITLE]-->`.
+
+Example:
+
+<!--DOCUSAURUS_CODE_TABS-->
+<!--Javascript-->
+```js
+console.log("Hello, world!");
+```
+<!--Python-->
+```py
+print("Hello, world!")
+```
+<!--C-->
+```C
+#include
+
+int main(void)
+{
+    puts("Hello, world!");
+}
+```
+<!--Pascal-->
+```Pascal
+program HelloWorld;
+begin
+  WriteLn('Hello, world!');
+end.
+```
+<!--END_DOCUSAURUS_CODE_TABS-->
+
+
 ## Syntax Highlighting
 
 Syntax highlighting is enabled by default on fenced code blocks. The language should be detected automatically, but you can sometimes get better results by specifying the language. You can do so using an [info string](https://github.github.com/gfm/#example-111), following the three opening backticks. The following JavaScript example...

@@ -7,6 +7,7 @@
 
 const React = require('react');
 const MarkdownBlock = require('./MarkdownBlock.js');
+const CodeTabsMarkdownBlock = require('./CodeTabsMarkdownBlock.js');
 
 const translate = require('../server/translate.js').translate;
 
@@ -17,8 +18,48 @@ const translateThisDoc = translate(
   'Translate this Doc|recruitment message asking to translate the docs',
 );
 
+const splitTabsToTitleAndContent = content => {
+  const titles = content.match(/<!--(.*?)-->/gms);
+  const tabs = content.split(/<!--.*?-->/gms);
+  if (!titles || !tabs || !titles.length || !tabs.length) return [];
+  tabs.shift();
+  const result = titles.map((title, idx) => ({
+    title: title.substring(4, title.length - 3),
+    content: tabs[idx],
+  }));
+  return result;
+};
+
 // inner doc component for article itself
 class Doc extends React.Component {
+  renderContent() {
+    const {content} = this.props;
+    let inCodeTabs = false;
+    const contents = content.split(
+      /(<!--DOCUSAURUS_CODE_TABS-->\n)(.*?)(\n<!--END_DOCUSAURUS_CODE_TABS-->)/gms,
+    );
+
+    const renderResult = contents.map(c => {
+      if (c === '<!--DOCUSAURUS_CODE_TABS-->\n') {
+        inCodeTabs = true;
+        return null;
+      }
+      if (c === '\n<!--END_DOCUSAURUS_CODE_TABS-->') {
+        inCodeTabs = false;
+        return null;
+      }
+      if (inCodeTabs) {
+        return (
+          <CodeTabsMarkdownBlock>
+            {splitTabsToTitleAndContent(c)}
+          </CodeTabsMarkdownBlock>
+        );
+      }
+      return <MarkdownBlock>{c}</MarkdownBlock>;
+    });
+    return renderResult;
+  }
+
   render() {
     let docSource = this.props.source;
 
@@ -67,9 +108,7 @@ class Doc extends React.Component {
             <h1 className="postHeaderTitle">{this.props.title}</h1>
           )}
         </header>
-        <article>
-          <MarkdownBlock>{this.props.content}</MarkdownBlock>
-        </article>
+        <article>{this.renderContent()}</article>
       </div>
     );
   }
