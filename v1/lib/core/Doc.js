@@ -21,13 +21,14 @@ const translateThisDoc = translate(
 const splitTabsToTitleAndContent = content => {
   const titles = content.match(/<!--(.*?)-->/gms);
   const tabs = content.split(/<!--.*?-->/gms);
-  if (!titles || !tabs || !titles.length || !tabs.length) return [];
+  if (!titles || !tabs || !titles.length || !tabs.length) {
+    return [];
+  }
   tabs.shift();
-  const result = titles.map((title, idx) => ({
-    title: title.substring(4, title.length - 3),
+  return titles.map((title, idx) => ({
+    title: title.substring(4, title.length - 3).trim(),
     content: tabs[idx],
   }));
-  return result;
 };
 
 // inner doc component for article itself
@@ -39,7 +40,7 @@ class Doc extends React.Component {
       /(<!--DOCUSAURUS_CODE_TABS-->\n)(.*?)(\n<!--END_DOCUSAURUS_CODE_TABS-->)/gms,
     );
 
-    const renderResult = contents.map(c => {
+    const renderResult = contents.map((c, index) => {
       if (c === '<!--DOCUSAURUS_CODE_TABS-->\n') {
         inCodeTabs = true;
         return null;
@@ -55,8 +56,9 @@ class Doc extends React.Component {
           </CodeTabsMarkdownBlock>
         );
       }
-      return <MarkdownBlock>{c}</MarkdownBlock>;
+      return <MarkdownBlock key={index}>{c}</MarkdownBlock>;
     });
+
     return renderResult;
   }
 

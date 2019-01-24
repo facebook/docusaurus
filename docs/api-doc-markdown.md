@@ -42,7 +42,7 @@ original_id: doc1
 ---
 ```
 
-`custom_edit_url`: The URL for editing this document. If this field is not present, the document's edit URL will fall back to `editUrl` from optional fields of `siteConfig.js`. See [siteConfig.js](site-config.md) docs for more information.
+`custom_edit_url`: The URL for editing this document. If this field is not present, the document's edit URL will fall back to `editUrl` from optional fields of `siteConfig.js`. See [siteConfig.js](api-site-config.md) docs for more information.
 
 For example:
 
@@ -133,31 +133,36 @@ will lead to a table of contents of the functions:
 and each function will link to their corresponding sections in the page.
 
 
-### Code tabs
+### Language-specific Code Tabs
 
-Docusaurus provides code tabs by default. To use code tabs, first, mark the start and end of a code tabs group, by using `<!--DOCUSAURUS_CODE_TABS-->` and `<!--END_DOCUSAURUS_CODE_TABS-->` respectively.
-Secondly, start each tab with `<!--[TAB_TITLE]-->`.
+Display code in multiple programming languages using code tabs. First, mark the start and end of a code tabs group, by using `<!-- DOCUSAURUS_CODE_TABS -->` and `<!-- END_DOCUSAURUS_CODE_TABS -->` respectively in your markdown. Then start each tab with `<!--[TAB_TITLE]-->`.
 
-Example:
+Adding the following code to your Markdown file:
+
+<script src="https://gist.github.com/yangshun/d36d04f383c40beb3f31dd2a16666f6c.js"></script>
+
+produces this:
 
 <!--DOCUSAURUS_CODE_TABS-->
-<!--Javascript-->
+<!--JavaScript-->
 ```js
-console.log("Hello, world!");
+console.log('Hello, world!');
 ```
 <!--Python-->
 ```py
-print("Hello, world!")
+print('Hello, world!')
 ```
+
 <!--C-->
 ```C
-#include
+#include <stdio.h>
 
-int main(void)
-{
-    puts("Hello, world!");
+int main() {
+   printf("Hello World!");
+   return 0;
 }
 ```
+
 <!--Pascal-->
 ```Pascal
 program HelloWorld;
@@ -165,8 +170,8 @@ begin
   WriteLn('Hello, world!');
 end.
 ```
-<!--END_DOCUSAURUS_CODE_TABS-->
 
+<!--END_DOCUSAURUS_CODE_TABS-->
 
 ## Syntax Highlighting
 
