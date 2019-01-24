@@ -33,18 +33,18 @@ Thank you to the following contributors who helped with this release:
 
 ### Fixed/Changed
 
-- fix: edit url should support versioned subdirectories [(#1154)](https://github.com/facebook/Docusaurus/pull/1154)
-- fix: gap on mobile devices when scrolling [(#1157)](https://github.com/facebook/Docusaurus/pull/1157)
-- chore: update imagemin and its dependencies [(#1162)](https://github.com/facebook/Docusaurus/pull/1162)
-- fix: pass docusaurus-publish cli args to build command [(#1185)](https://github.com/facebook/Docusaurus/pull/1185)
-- fix: missing default value for grid block content objects [(#1186)](https://github.com/facebook/Docusaurus/pull/1186)
-- fix: add margin-bottom: 0 to blog post author [(#1193)](https://github.com/facebook/Docusaurus/pull/1193)
-- fix: wrong padding for single row mobile nav [(#1191)](https://github.com/facebook/Docusaurus/pull/1191)
+- fix: edit url should support versioned subdirectories ([#1154](https://github.com/facebook/Docusaurus/pull/1154))
+- fix: gap on mobile devices when scrolling ([#1157](https://github.com/facebook/Docusaurus/pull/1157))
+- chore: update imagemin and its dependencies ([#1162](https://github.com/facebook/Docusaurus/pull/1162))
+- fix: pass docusaurus-publish cli args to build command ([#1185](https://github.com/facebook/Docusaurus/pull/1185))
+- fix: missing default value for grid block content objects ([#1186](https://github.com/facebook/Docusaurus/pull/1186))
+- fix: add margin-bottom: 0 to blog post author ([#1193](https://github.com/facebook/Docusaurus/pull/1193))
+- fix: wrong padding for single row mobile nav ([#1191](https://github.com/facebook/Docusaurus/pull/1191))
 
 ### Added
 
-- feat: collapsible categories [(#1128)](https://github.com/facebook/Docusaurus/pull/1128)
-- feat: code block tab (#1063)
+- feat: collapsible categories ([#1128](https://github.com/facebook/Docusaurus/pull/1128))
+- feat: code block tab ([#1063](https://github.com/facebook/Docusaurus/pull/1063))
 
 ## [1.6.2] - 2018-12-7
 
