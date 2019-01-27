@@ -111,7 +111,10 @@ function getMarkup(rawContent, mdToHtml, metadata) {
   content = mdToHtmlify(content, mdToHtml, metadata);
 
   // replace any relative links to static assets (not in fenced code blocks) to absolute links
-  content = replaceAssetsLink(content, `${siteConfig.baseUrl}docs`);
+  const docsAssetsLocation = siteConfig.docsUrl
+    ? `${siteConfig.baseUrl}${siteConfig.docsUrl}`
+    : siteConfig.baseUrl.substring(0, siteConfig.baseUrl.length - 1);
+  content = replaceAssetsLink(content, docsAssetsLocation);
 
   const DocsLayout = require('../core/DocsLayout.js');
   return renderToStaticMarkupWithDoctype(

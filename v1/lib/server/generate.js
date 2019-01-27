@@ -101,7 +101,7 @@ async function execute() {
   if (fs.existsSync(join(CWD, '..', readMetadata.getDocsPath(), 'assets'))) {
     fs.copySync(
       join(CWD, '..', readMetadata.getDocsPath(), 'assets'),
-      join(buildDir, 'docs', 'assets'),
+      join(buildDir, siteConfig.docsUrl, 'assets'),
     );
   }
 
