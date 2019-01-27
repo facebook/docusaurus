@@ -1610,7 +1610,7 @@ input::placeholder {
 
 .collapsible .arrow {
   float: right;
-  margin-right: 5px;
+  margin-right: 8px;
   transform: rotate(90deg);
   transition: transform 200ms linear;
 }
