@@ -934,6 +934,14 @@ input#search_input_react {
   width: 170px;
 }
 
+.navSearchWrapper:before {
+  left: 24px;
+}
+
+.navSearchWrapper:after {
+  left: 35px;
+}
+
 input#search_input_react:focus,
 input#search_input_react:active {
   color: #fff;
@@ -1368,7 +1376,7 @@ input::placeholder {
     font-size: 14px;
     line-height: 20px;
     outline: none;
-    padding-left: 25px;
+    padding-left: 38px;
     position: relative;
     transition: background-color 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55),
       width 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55), color 0.2s ease;
@@ -1424,6 +1432,13 @@ input::placeholder {
     position: relative;
     right: auto;
     top: auto;
+  }
+
+  .reactNavSearchWrapper input#search_input_react {
+    height: 100%;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    padding-left: 38px;
   }
 
   .navSearchWrapper .algolia-autocomplete {
