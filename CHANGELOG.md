@@ -6,6 +6,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [Unreleased]
 
+## [1.7.2] - 2019-1-28
+
+Minor fixes and improvements to some of the features introduced in 1.7.0.
+
+### Fixed/Changed
+
+- fix: horizontal overflow in collapsible sidebar ([#1205](https://github.com/facebook/Docusaurus/pull/1205))
+- fix: docs asset links should follow specified docsUrl ([#1204](https://github.com/facebook/Docusaurus/pull/1204))
+- fix: make search bar taller on widescreen ([#1210](https://github.com/facebook/Docusaurus/pull/1210))
+- fix: change sidebar chevron icon to use svg ([#1211](https://github.com/facebook/Docusaurus/pull/1211))
+
 ## [1.7.1] - 2019-1-24
 
 **HOTFIX**
@@ -955,7 +966,8 @@ N/A
   - Blog
   - Documentation
 
-[unreleased]: https://github.com/facebook/Docusaurus/compare/v1.7.1...HEAD
+[unreleased]: https://github.com/facebook/Docusaurus/compare/v1.7.2...HEAD
+[1.7.2]: https://github.com/facebook/Docusaurus/compare/v1.7.1...v1.7.2
 [1.7.1]: https://github.com/facebook/Docusaurus/compare/v1.7.0...v1.7.1
 [1.7.0]: https://github.com/facebook/Docusaurus/compare/v1.6.2...v1.7.0
 [1.6.2]: https://github.com/facebook/Docusaurus/compare/v1.6.1...v1.6.2
