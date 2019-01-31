@@ -374,7 +374,7 @@ module.exports = [
   },
   {
     caption: 'stemAI',
-    image: 'https://avatars1.githubusercontent.com/u/29313981?s=200&v=4',
+    image: 'https://raw.githubusercontent.com/mithilproof/CodingBat/master/whitestemai.png',
     infoLink:'https://os.stemai.org',
     fbOpenSource: false,
     pinned: true,
