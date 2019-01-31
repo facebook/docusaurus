@@ -373,6 +373,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'stemAI',
+    image: 'https://avatars1.githubusercontent.com/u/29313981?s=200&v=4',
+    infoLink:'https://os.stemai.org',
+    fbOpenSource: false,
+    pinned: true,
+  },
+  {
     caption: 'single-spa',
     image: 'https://single-spa.js.org/img/logo-white-bgblue.svg',
     infoLink: 'https://single-spa.js.org/',
