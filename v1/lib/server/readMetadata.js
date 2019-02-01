@@ -24,7 +24,7 @@ const utils = require('./utils.js');
 
 const docsPart = `${siteConfig.docsUrl ? `${siteConfig.docsUrl}/` : ''}`;
 
-const SupportedHeaderFields = new Set([
+const defaultHeaderFields = [
   'id',
   'title',
   'author',
@@ -35,7 +35,13 @@ const SupportedHeaderFields = new Set([
   'hide_title',
   'layout',
   'custom_edit_url',
-]);
+];
+
+const customHeaderFields = siteConfig.customHeaderFields || [];
+
+const SupportedHeaderFields = new Set(
+  defaultHeaderFields.concat(customHeaderFields)
+);
 
 let allSidebars;
 if (fs.existsSync(`${CWD}/sidebars.json`)) {
