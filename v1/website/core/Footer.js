@@ -117,7 +117,7 @@ class Footer extends React.Component {
           <SocialFooter config={this.props.config} />
         </section>
         <a
-          href="https://code.facebook.com/projects/"
+          href="https://opensource.facebook.com/"
           target="_blank"
           rel="noreferrer noopener"
           className="fbOpenSource">

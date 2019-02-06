@@ -30,7 +30,7 @@ class Users extends React.Component {
               </h1>
               <p>
                 Docusaurus powers some of Facebook&apos;s popular{' '}
-                <a href="https://code.facebook.com/projects/">
+                <a href="https://opensource.facebook.com/">
                   open source projects
                 </a>
                 .
