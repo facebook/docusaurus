@@ -39,7 +39,7 @@
 <p><em>— Note sent to the Profilo team</em></p>
 </blockquote>
 <p>This is the story of the rather short journey it took to create the <a href="https://facebookincubator.github.io/profilo/">Profilo</a> website using Docusaurus.</p>
-<p>Profilo, an Android library for collecting performance traces from production, <a href="https://code.facebook.com/posts/356115241551826/profilo-understanding-app-performance-in-the-wild/">was announced</a> earlier this year. The project was <a href="https://github.com/facebookincubator/profilo/tree/802042f90f990998a272387e371b893af52465b8">published on GitHub</a> with a less than <a href="https://github.com/facebookincubator/profilo/tree/802042f90f990998a272387e371b893af52465b8/docs">a handful or Markdown files</a> to describe its functionality and no website to showcase any branding and highlight the logo. The task at hand was to turn these existing docs and logo into a website.</p>
+<p>Profilo, an Android library for collecting performance traces from production, <a href="https://code.fb.com/android/profilo-understanding-app-performance-in-the-wild/">was announced</a> earlier this year. The project was <a href="https://github.com/facebookincubator/profilo/tree/802042f90f990998a272387e371b893af52465b8">published on GitHub</a> with a less than <a href="https://github.com/facebookincubator/profilo/tree/802042f90f990998a272387e371b893af52465b8/docs">a handful or Markdown files</a> to describe its functionality and no website to showcase any branding and highlight the logo. The task at hand was to turn these existing docs and logo into a website.</p>
 ]]></description>
         </item>
         <item>
