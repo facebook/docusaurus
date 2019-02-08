@@ -619,7 +619,7 @@ blockquote {
 .mainContainer {
   flex: 1 1 auto;
   max-width: 100%;
-  padding: 48px 0;
+  padding: 40px 0;
 }
 
 .mainContainer .wrapper {
