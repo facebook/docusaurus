@@ -8,6 +8,13 @@
 module.exports = [
   // Please add your logo in alphabetical order of caption.
   {
+    caption: 'Accord Project',
+    image: '/img/users/accord-project.png',
+    infoLink: 'https://docs.accordproject.org/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Almin',
     image: '/img/users/almin.png',
     infoLink: 'https://almin.js.org/',
