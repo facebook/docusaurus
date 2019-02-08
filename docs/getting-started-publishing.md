@@ -91,7 +91,9 @@ There are also two optional parameters that are set as environment variables:
 
 If you run into issues related to SSH keys, visit [GitHub's authentication documentation](https://help.github.com/articles/connecting-to-github-with-ssh/).
 
-You should now be able to load your website by visiting its GitHub Pages URL, which could be something along the lines of https://_username_.github.io/_projectName_, or a custom domain if you have set that up. For example, Docusaurus' own GitHub Pages URL is https://facebook.github.io/Docusaurus (but it can also be accessed via https://docusaurus.io/ because of a CNAME), because it is served from the `gh-pages` branch of the https://github.com/facebook/docusaurus GitHub repository. We highly encourage reading through the [GitHub Pages documentation](https://pages.github.com) to learn more about how this hosting solution works.
+You should now be able to load your website by visiting its GitHub Pages URL, which could be something along the lines of https://_username_.github.io/_projectName_, or a custom domain if you have set that up. For example, Docusaurus' own GitHub Pages URL is https://facebook.github.io/Docusaurus because it is served from the `gh-pages` branch of the https://github.com/facebook/docusaurus GitHub repository. However, it can also be accessed via https://docusaurus.io/, via a generated `CNAME` file which can be configured via the `cname` [siteConfig option](api-site-config.md#cname-string).
+
+We highly encourage reading through the [GitHub Pages documentation](https://pages.github.com) to learn more about how this hosting solution works.
 
 You can run the command above any time you update the docs and wish to deploy the changes to your site. Running the script manually may be fine for sites where the documentation rarely changes and it is not too much of an inconvenience to remember to manually deploy changes.
 
