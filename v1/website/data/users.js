@@ -380,6 +380,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'ScanTrust',
+    image: '/img/users/st-white-on-black.svg',
+    infoLink: 'https://devportal.scantrust.com/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'single-spa',
     image: 'https://single-spa.js.org/img/logo-white-bgblue.svg',
     infoLink: 'https://single-spa.js.org/',
