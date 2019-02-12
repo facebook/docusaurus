@@ -13,7 +13,7 @@ authorTwitter: abernathyca
 
 This is the story of the rather short journey it took to create the [Profilo](https://facebookincubator.github.io/profilo/) website using Docusaurus.
 
-Profilo, an Android library for collecting performance traces from production, [was announced](https://code.facebook.com/posts/356115241551826/profilo-understanding-app-performance-in-the-wild/) earlier this year. The project was [published on GitHub](https://github.com/facebookincubator/profilo/tree/802042f90f990998a272387e371b893af52465b8) with a less than [a handful or Markdown files](https://github.com/facebookincubator/profilo/tree/802042f90f990998a272387e371b893af52465b8/docs) to describe its functionality and no website to showcase any branding and highlight the logo. The task at hand was to turn these existing docs and logo into a website.
+Profilo, an Android library for collecting performance traces from production, [was announced](https://code.fb.com/android/profilo-understanding-app-performance-in-the-wild/) earlier this year. The project was [published on GitHub](https://github.com/facebookincubator/profilo/tree/802042f90f990998a272387e371b893af52465b8) with a less than [a handful or Markdown files](https://github.com/facebookincubator/profilo/tree/802042f90f990998a272387e371b893af52465b8/docs) to describe its functionality and no website to showcase any branding and highlight the logo. The task at hand was to turn these existing docs and logo into a website.
 
 <!--truncate-->
 
