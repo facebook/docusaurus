@@ -30,9 +30,9 @@ We have also released the [`docusaurus-init` package](https://www.npmjs.com/pack
 
 We've released Docusaurus because it helps us better scale and support the many OSS projects at Facebook. We hope that other organizations can benefit from the project. We are thankful for any contributions from the community.
 
-### [Code of Conduct](https://code.facebook.com/codeofconduct)
+### [Code of Conduct](https://code.fb.com/codeofconduct)
 
-Facebook has adopted a Code of Conduct that we expect project participants to adhere to. Please read [the full text](https://code.facebook.com/codeofconduct) so that you can understand what actions will and will not be tolerated.
+Facebook has adopted a Code of Conduct that we expect project participants to adhere to. Please read [the full text](https://code.fb.com/codeofconduct) so that you can understand what actions will and will not be tolerated.
 
 ### Contributing Guide
 
