@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="349px" height="427px" viewBox="0 0 349 427" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52 (66869) - http://www.bohemiancoding.com/sketch -->
+    <title>allalgorithms</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#A24036" offset="0%"></stop>
+            <stop stop-color="#691E19" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="allalgorithms" transform="translate(1.000000, 1.000000)">
+            <polygon id="algorithms" stroke="url(#linearGradient-1)" fill="#691E19" points="173.5 0 347 333 0 333"></polygon>
+            <polygon id="algorithms" stroke="url(#linearGradient-1)" stroke-width="0.63" fill="#FFFFFF" points="169 87 278 297 60 297"></polygon>
+            <text id="lgorithms" font-family="Impact" font-size="63" font-style="condensed" font-weight="700" fill="#691E19">
+                <tspan x="71" y="418">lgorithms</tspan>
+            </text>
+            <polygon id="algorithms" stroke="url(#linearGradient-1)" stroke-width="0.5" fill="#691E19" points="48 370 69 418 27 418"></polygon>
+        </g>
+    </g>
+</svg>

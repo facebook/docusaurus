@@ -15,6 +15,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'All ▲lgorithms',
+    image: '/img/users/allalgorithms.svg',
+    infoLink: 'https://allalgorithms.com',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Almin',
     image: '/img/users/almin.png',
     infoLink: 'https://almin.js.org/',
