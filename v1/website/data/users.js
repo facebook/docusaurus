@@ -1,5 +1,19 @@
+/**
+ * Copyright (c) 2017-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
 module.exports = [
   // Please add your logo in alphabetical order of caption.
+  {
+    caption: 'Accord Project',
+    image: '/img/users/accord-project.png',
+    infoLink: 'https://docs.accordproject.org/',
+    fbOpenSource: false,
+    pinned: false,
+  },
   {
     caption: 'Almin',
     image: '/img/users/almin.png',
@@ -36,13 +50,6 @@ module.exports = [
     pinned: false,
   },
   {
-    caption: 'BlueWhale',
-    image: '/img/users/BlueWhale.png',
-    infoLink: 'https://facebookresearch.github.io/BlueWhale/',
-    fbOpenSource: true,
-    pinned: true,
-  },
-  {
     caption: 'Bowler',
     image: '/img/users/bowler.svg',
     infoLink: 'https://pybowler.io/',
@@ -62,6 +69,13 @@ module.exports = [
     infoLink: 'https://captainduckduck.com/',
     fbOpenSource: false,
     pinned: false,
+  },
+  {
+    caption: 'Create React App',
+    image: '/img/users/react.svg',
+    infoLink: 'https://facebook.github.io/create-react-app/',
+    fbOpenSource: true,
+    pinned: true,
   },
   {
     caption: 'Dep',
@@ -92,11 +106,25 @@ module.exports = [
     pinned: true,
   },
   {
+    caption: 'FBT',
+    image: '/img/users/fbt_blue.png',
+    infoLink: 'https://facebookincubator.github.io/fbt/',
+    fbOpenSource: true,
+    pinned: true,
+  },
+  {
     caption: 'Flipper',
     image: '/img/users/flipper.png',
     infoLink: 'https://fbflipper.com',
     fbOpenSource: true,
     pinned: true,
+  },
+  {
+    caption: 'Formik',
+    image: '/img/users/formik.png',
+    infoLink: 'https://jaredpalmer.com/formik',
+    fbOpenSource: false,
+    pinned: false,
   },
   {
     caption: 'FuseBox',
@@ -120,6 +148,27 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Gulp',
+    image: '/img/users/gulp.svg',
+    infoLink: 'https://gulpjs.com',
+    fbOpenSource: false,
+    pinned: true,
+  },
+  {
+    caption: 'Haul',
+    image: '/img/users/haul.png',
+    infoLink: 'https://callstack.github.io/haul/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
+    caption: 'Hemera',
+    image: '/img/users/hemera.png',
+    infoLink: 'https://hemerajs.github.io/hemera/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Home Assistant',
     image: 'https://developers.home-assistant.io/img/logo-responsive.svg',
     infoLink: 'https://developers.home-assistant.io/',
@@ -132,6 +181,13 @@ module.exports = [
     infoLink: 'https://jestjs.io',
     fbOpenSource: true,
     pinned: true,
+  },
+  {
+    caption: 'KaTeX',
+    image: '/img/users/katex.svg',
+    infoLink: 'https://katex.org/',
+    fbOpenSource: false,
+    pinned: false,
   },
   {
     caption: 'MakeItOpen',
@@ -151,6 +207,20 @@ module.exports = [
     caption: 'ml5.js',
     image: '/img/users/ml5.png',
     infoLink: 'https://ml5js.org/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
+    caption: 'Noderize',
+    image: '/img/users/noderize.svg',
+    infoLink: 'https://noderize.js.org/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
+    caption: 'Node SerialPort',
+    image: 'https://serialport.io/img/serialport-logo.svg',
+    infoLink: 'https://serialport.io',
     fbOpenSource: false,
     pinned: false,
   },
@@ -184,6 +254,13 @@ module.exports = [
     pinned: true,
   },
   {
+    caption: 'Profilo',
+    image: '/img/users/profilo.png',
+    infoLink: 'https://facebookincubator.github.io/profilo/',
+    fbOpenSource: true,
+    pinned: true,
+  },
+  {
     caption: 'Pyre',
     image: '/img/users/pyre.svg',
     infoLink: 'https://pyre-check.org',
@@ -194,6 +271,20 @@ module.exports = [
     caption: 'Plus (ThinkSNS+)',
     image: '/img/users/plus.png',
     infoLink: 'https://slimkit.github.io',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
+    caption: 'React 360',
+    image: '/img/users/react-360.svg',
+    infoLink: 'https://facebook.github.io/react-360',
+    fbOpenSource: true,
+    pinned: true,
+  },
+  {
+    caption: 'React-Leaflet',
+    image: '/img/users/react-leaflet.png',
+    infoLink: 'https://react-leaflet.js.org/',
     fbOpenSource: false,
     pinned: false,
   },
@@ -219,6 +310,20 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'React Native Sensors',
+    image: '/img/users/react-native-sensors.svg',
+    infoLink: 'https://react-native-sensors.github.io/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
+    caption: 'React Redux',
+    image: '/img/users/react-redux.svg',
+    infoLink: 'http://react-redux.js.org',
+    fbOpenSource: false,
+    pinned: true,
+  },
+  {
     caption: 'reaction-commerce',
     image: '/img/users/reaction-commerce.svg',
     infoLink: 'https://docs.reactioncommerce.com/',
@@ -237,6 +342,20 @@ module.exports = [
     image: '/img/users/reason-react.svg',
     infoLink: 'https://reasonml.github.io/reason-react/',
     fbOpenSource: true,
+    pinned: true,
+  },
+  {
+    caption: 'react-slate',
+    image: '/img/users/react-slate.svg',
+    infoLink: 'http://react-slate.surge.sh/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
+    caption: 'Redux',
+    image: '/img/users/redux.svg',
+    infoLink: 'https://redux.js.org/',
+    fbOpenSource: false,
     pinned: true,
   },
   {
@@ -261,6 +380,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'ScanTrust',
+    image: '/img/users/st-white-on-black.svg',
+    infoLink: 'https://devportal.scantrust.com/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'single-spa',
     image: 'https://single-spa.js.org/img/logo-white-bgblue.svg',
     infoLink: 'https://single-spa.js.org/',
@@ -271,6 +397,20 @@ module.exports = [
     caption: 'Skip',
     image: 'http://www.skiplang.com/img/icon.png',
     infoLink: 'http://skiplang.com',
+    fbOpenSource: true,
+    pinned: true,
+  },
+  {
+    caption: 'smash.gg',
+    image: 'https://imgur.com/eBFBDei.png',
+    infoLink: 'https://developer.smash.gg',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
+    caption: 'Spectrum',
+    image: '/img/users/spectrum.svg',
+    infoLink: 'http://libspectrum.io',
     fbOpenSource: true,
     pinned: true,
   },
@@ -292,6 +432,27 @@ module.exports = [
     caption: 'textlint',
     image: 'https://textlint.github.io/img/textlint-icon.png',
     infoLink: 'https://textlint.github.io/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
+    caption: 'TorchCraftAI',
+    image: '/img/users/torchcraftai.png',
+    infoLink: 'https://torchcraft.github.io/TorchCraftAI/',
+    fbOpenSource: true,
+    pinned: true,
+  },
+  {
+    caption: 'TypeGraphQL',
+    image: '/img/users/type-graphql.png',
+    infoLink: 'https://19majkel94.github.io/type-graphql/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
+    caption: 'Vasern',
+    image: 'https://vasern.com/img/vasern.svg',
+    infoLink: 'https://vasern.com/',
     fbOpenSource: false,
     pinned: false,
   },

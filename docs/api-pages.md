@@ -5,6 +5,25 @@ title: Pages and Styles
 
 Docusaurus provides support for writing pages as React components inside the `website/pages` directory which will share the same header, footer, and styles as the rest of the site.
 
+## Provided Props
+
+Docusaurus provides your [siteConfig.js](api-site-config.md) as a `config` props. Hence, you can access `baseUrl` or `title` through this props.
+
+Example
+
+```js
+const React = require('react');
+
+class MyPage extends React.Component {
+  render() {
+    const siteConfig = this.props.config;
+    return <div>{siteConfig.title}</div>;
+  }
+}
+
+module.exports = MyPage;
+```
+
 ## URLs for Pages
 
 Any `.js` files in `website/pages` will be rendered to static HTML using the path of the file after `pages`. Files in `website/pages/en` will also get copied out into `pages` and will OVERRIDE any files of the same name in `pages`. For example, the page for the `website/pages/en/help.js` file will be found at the URL `${baseUrl}en/help.js` as well as the URL `${baseUrl}help.js`, where `${baseUrl}` is the `baseUrl` field set in your [siteConfig.js file](api-site-config.md).
@@ -31,7 +50,7 @@ module.exports = MyPage;
 
 ## Description for Pages
 
-By default, the description your page is `tagline` set in [`siteConfig.js`](api-site-config.md). If you want to set a specific description for your custom pages, add a `description` class property on your exported React component. 
+By default, the description your page is `tagline` set in [`siteConfig.js`](api-site-config.md). If you want to set a specific description for your custom pages, add a `description` class property on your exported React component.
 
 Example:
 
@@ -138,7 +157,7 @@ A React component to organize text and images.
   className="myCustomClass"
   contents={[
     {
-      title: `[Learn](${siteConfig.baseUrl}docs/tutorial.html)`,
+      title: `[Learn](${siteConfig.baseUrl}${siteConfig.docsUrl}/tutorial.html)`,
       content: 'Learn how to use this project',
       image: siteConfig.baseUrl + 'img/learn.png',
       imageAlt: 'Learn how to use this project',

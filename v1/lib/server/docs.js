@@ -5,15 +5,21 @@
  * LICENSE file in the root directory of this source tree.
  */
 const CWD = process.cwd();
-const siteConfig = require(`${CWD}/siteConfig.js`);
 const {join} = require('path');
+const {resolve} = require('url');
 const fs = require('fs-extra');
 const React = require('react');
+const loadConfig = require('./config');
+
+const siteConfig = loadConfig(`${CWD}/siteConfig.js`);
 const env = require('./env.js');
 const {renderToStaticMarkupWithDoctype} = require('./renderUtils');
 const readMetadata = require('./readMetadata.js');
 const {insertTOC} = require('../core/toc.js');
+const {replaceAssetsLink} = require('./utils.js');
 const {getPath} = require('../core/utils.js');
+
+const docsPart = `${siteConfig.docsUrl ? `${siteConfig.docsUrl}/` : ''}`;
 
 function getFilePath(metadata) {
   if (!metadata) {
@@ -46,49 +52,55 @@ function getFile(metadata) {
 }
 
 function mdToHtmlify(oldContent, mdToHtml, metadata) {
+  /* Store broken links */
+  const mdBrokenLinks = [];
+
   let content = oldContent;
-  const mdLinks = [];
-
-  // find any links to markdown files
-  const regex = /(?:\]\()(?:\.\/)?([^'")\]\s>]+\.md)/g;
-  let match = regex.exec(content);
-  while (match !== null) {
-    mdLinks.push(match[1]);
-    match = regex.exec(content);
-  }
-
-  // replace to their website html links
-  new Set(mdLinks).forEach(mdLink => {
-    let htmlLink = mdToHtml[mdLink];
-    if (htmlLink) {
-      htmlLink = getPath(htmlLink, siteConfig.cleanUrl);
-      htmlLink = htmlLink.replace('/en/', `/${metadata.language}/`);
-      htmlLink = htmlLink.replace(
-        '/VERSION/',
-        metadata.version && metadata.version !== env.versioning.latestVersion
-          ? `/${metadata.version}/`
-          : '/',
-      );
-      content = content.replace(
-        new RegExp(`\\]\\((\\./)?${mdLink}`, 'g'),
-        `](${htmlLink}`,
-      );
-    }
-  });
-  return content;
-}
-
-function replaceAssetsLink(oldContent) {
+  /* Replace internal markdown linking (except in fenced blocks) */
   let fencedBlock = false;
-  const lines = oldContent.split('\n').map(line => {
+  const lines = content.split('\n').map(line => {
     if (line.trim().startsWith('```')) {
       fencedBlock = !fencedBlock;
     }
-    return fencedBlock
-      ? line
-      : line.replace(/\]\(assets\//g, `](${siteConfig.baseUrl}docs/assets/`);
+    if (fencedBlock) return line;
+
+    let modifiedLine = line;
+    /* Replace inline-style links or reference-style links e.g:
+    This is [Document 1](doc1.md) -> we replace this doc1.md with correct link
+    [doc1]: doc1.md -> we replace this doc1.md with correct link
+    */
+    const mdRegex = /(?:(?:\]\()|(?:\]:\s?))(?!https)([^'")\]\s>]+\.md)/g;
+    let mdMatch = mdRegex.exec(modifiedLine);
+    while (mdMatch !== null) {
+      /* Replace it to correct html link */
+      let htmlLink =
+        mdToHtml[resolve(metadata.source, mdMatch[1])] || mdToHtml[mdMatch[1]];
+      if (htmlLink) {
+        htmlLink = getPath(htmlLink, siteConfig.cleanUrl);
+        htmlLink = htmlLink.replace('/en/', `/${metadata.language}/`);
+        htmlLink = htmlLink.replace(
+          '/VERSION/',
+          metadata.version && metadata.version !== env.versioning.latestVersion
+            ? `/${metadata.version}/`
+            : '/',
+        );
+        modifiedLine = modifiedLine.replace(mdMatch[1], htmlLink);
+      } else {
+        mdBrokenLinks.push(mdMatch[1]);
+      }
+      mdMatch = mdRegex.exec(modifiedLine);
+    }
+    return modifiedLine;
   });
-  return lines.join('\n');
+  content = lines.join('\n');
+
+  if (mdBrokenLinks.length) {
+    console.log(
+      `[WARN] unresolved links in file '${metadata.source}' >`,
+      mdBrokenLinks,
+    );
+  }
+  return content;
 }
 
 function getMarkup(rawContent, mdToHtml, metadata) {
@@ -99,7 +111,10 @@ function getMarkup(rawContent, mdToHtml, metadata) {
   content = mdToHtmlify(content, mdToHtml, metadata);
 
   // replace any relative links to static assets (not in fenced code blocks) to absolute links
-  content = replaceAssetsLink(content);
+  const docsAssetsLocation = siteConfig.docsUrl
+    ? `${siteConfig.baseUrl}${siteConfig.docsUrl}`
+    : siteConfig.baseUrl.substring(0, siteConfig.baseUrl.length - 1);
+  content = replaceAssetsLink(content, docsAssetsLocation);
 
   const DocsLayout = require('../core/DocsLayout.js');
   return renderToStaticMarkupWithDoctype(
@@ -113,7 +128,10 @@ function getMarkup(rawContent, mdToHtml, metadata) {
 }
 
 function getRedirectMarkup(metadata) {
-  if (!env.translation.enabled || !metadata.permalink.includes('docs/en')) {
+  if (
+    !env.translation.enabled ||
+    !metadata.permalink.includes(`${docsPart}en`)
+  ) {
     return null;
   }
   const Redirect = require('../core/Redirect.js');
@@ -134,5 +152,4 @@ module.exports = {
   getFilePath,
   getRedirectMarkup,
   mdToHtmlify,
-  replaceAssetsLink,
 };

@@ -4,7 +4,6 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-
 const cssnano = require('cssnano');
 const autoprefixer = require('autoprefixer');
 const postcss = require('postcss');
@@ -12,7 +11,7 @@ const path = require('path');
 const escapeStringRegexp = require('escape-string-regexp');
 
 function getSubDir(file, refDir) {
-  const subDir = path.dirname(path.relative(refDir, file)).replace('\\', '/');
+  const subDir = path.dirname(path.relative(refDir, file)).replace(/\\/g, '/');
   return subDir !== '.' && !subDir.includes('..') ? subDir : null;
 }
 
@@ -66,10 +65,24 @@ function autoPrefixCss(cssContent) {
     .then(result => result.css);
 }
 
+function replaceAssetsLink(oldContent, location) {
+  let fencedBlock = false;
+  const lines = oldContent.split('\n').map(line => {
+    if (line.trim().startsWith('```')) {
+      fencedBlock = !fencedBlock;
+    }
+    return fencedBlock
+      ? line
+      : line.replace(/\]\(assets\//g, `](${location}/assets/`);
+  });
+  return lines.join('\n');
+}
+
 module.exports = {
   getSubDir,
   getLanguage,
   isSeparateCss,
   minifyCss,
   autoPrefixCss,
+  replaceAssetsLink,
 };

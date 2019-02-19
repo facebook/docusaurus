@@ -4,11 +4,16 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+const CWD = process.cwd();
 const React = require('react');
 const path = require('path');
 const fs = require('fs-extra');
-const {renderToStaticMarkupWithDoctype} = require('./renderUtils');
 const metadataUtils = require('./metadataUtils');
+const {replaceAssetsLink} = require('./utils.js');
+const {renderToStaticMarkupWithDoctype} = require('./renderUtils');
+const loadConfig = require('./config');
+
+const siteConfig = loadConfig(`${CWD}/siteConfig.js`);
 
 function urlToSource(url) {
   if (!url || typeof url !== 'string') {
@@ -56,7 +61,13 @@ function getMetadata(file) {
     fs.readFileSync(file, {encoding: 'utf8'}),
   );
   const metadata = Object.assign(
-    {path: fileToUrl(file), content: result.rawContent},
+    {
+      path: fileToUrl(file),
+      content: replaceAssetsLink(
+        result.rawContent,
+        `${siteConfig.baseUrl}blog`,
+      ),
+    },
     result.metadata,
   );
   metadata.id = metadata.title;

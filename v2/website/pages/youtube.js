@@ -1,5 +1,12 @@
+/**
+ * Copyright (c) 2017-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+/* eslint-disable */
 import React from 'react';
-import Helmet from 'react-helmet';
+import Head from '@docusaurus/Head';
 import YouTube from 'react-youtube';
 
 export default class Player extends React.Component {
@@ -14,9 +21,9 @@ export default class Player extends React.Component {
 
     return (
       <div>
-        <Helmet>
+        <Head>
           <title>My Youtube</title>
-        </Helmet>
+        </Head>
         <div align="center">
           {/* this is a React-youtube component */}
           <YouTube videoId="d9IxdwEFk1c" opts={opts} onReady={this._onReady} />

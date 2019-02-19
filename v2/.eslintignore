@@ -1,4 +1,5 @@
 generated
 __fixtures__
 dist
-website
+node_modules
+build

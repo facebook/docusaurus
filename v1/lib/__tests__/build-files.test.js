@@ -4,6 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+
 require('@babel/polyfill');
 const filepath = require('filepath');
 const fm = require('front-matter');
@@ -16,7 +17,9 @@ const CWD = process.cwd();
 
 const utils = require('../server/utils');
 
-const siteConfig = require(`${CWD}/website/siteConfig.js`);
+const loadConfig = require('../server/config');
+
+const siteConfig = loadConfig(`${CWD}/website/siteConfig.js`);
 const buildDir = `${CWD}/website/build`;
 const docsDir = `${CWD}/docs`;
 const staticCSSDir = `${CWD}/website/static/css`;

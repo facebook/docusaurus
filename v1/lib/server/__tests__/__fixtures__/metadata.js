@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2017-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
 module.exports = {
   'en-doc1': {
     id: 'en-doc1',
@@ -43,6 +50,21 @@ module.exports = {
     previous: 'en-doc2',
     previous_title: 'Document 2',
     sort: 3,
+  },
+  'en-reflinks': {
+    id: 'en-reflinks',
+    title: 'Reference Links',
+    source: 'reflinks.md',
+    version: 'next',
+    permalink: 'docs/en/next/reflinks.html',
+    localized_id: 'reflinks',
+    language: 'en',
+    sidebar: 'docs',
+    category: 'Test 2',
+    previous_id: 'doc3',
+    previous: 'en-doc3',
+    previous_title: 'Document 3',
+    sort: 4,
   },
   'ko-doc1': {
     id: 'ko-doc1',

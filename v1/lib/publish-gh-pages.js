@@ -39,6 +39,7 @@ const GITHUB_DOMAIN = 'github.com';
 // For GitHub enterprise, allow specifying a different host.
 const GITHUB_HOST =
   process.env.GITHUB_HOST || siteConfig.githubHost || GITHUB_DOMAIN;
+const CUSTOM_COMMIT_MESSAGE = process.env.CUSTOM_COMMIT_MESSAGE;
 
 if (!ORGANIZATION_NAME) {
   shell.echo(
@@ -88,7 +89,13 @@ if (CURRENT_BRANCH === DEPLOYMENT_BRANCH && !crossRepoPublish) {
   shell.exit(1);
 }
 
-if (shell.exec(`node ${path.join(__dirname, 'build-files.js')}`).code) {
+if (
+  shell.exec(
+    `node ${path.join(__dirname, 'build-files.js')} ${process.argv
+      .slice(2)
+      .join(' ')}`,
+  ).code
+) {
   shell.echo('Error: generating html failed');
   shell.exit(1);
 }
@@ -166,8 +173,9 @@ fs.copy(
     shell.cd(path.join('build', `${PROJECT_NAME}-${DEPLOYMENT_BRANCH}`));
     shell.exec('git add --all');
 
+    const commitMessage = CUSTOM_COMMIT_MESSAGE || 'Deploy website';
     const commitResults = shell.exec(
-      `git commit -m "Deploy website" -m "Deploy website version based on ${currentCommit}"`,
+      `git commit -m "${commitMessage}" -m "Deploy website version based on ${currentCommit}"`,
     );
     if (shell.exec(`git push origin ${DEPLOYMENT_BRANCH}`).code !== 0) {
       shell.echo('Error: Git push failed');

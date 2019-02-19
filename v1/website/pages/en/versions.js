@@ -13,10 +13,10 @@ const Container = CompLibrary.Container;
 
 const CWD = process.cwd();
 
-const siteConfig = require(`${CWD}/siteConfig.js`);
 const versions = require(`${CWD}/versions.json`);
 
 function Versions(props) {
+  const {config: siteConfig} = props;
   const latestVersion = versions[0];
   const repoUrl = `https://github.com/${siteConfig.organizationName}/${
     siteConfig.projectName
@@ -36,7 +36,7 @@ function Versions(props) {
                 <th>{latestVersion}</th>
                 <td>
                   <a
-                    href={`${siteConfig.baseUrl}docs/${
+                    href={`${siteConfig.baseUrl}${siteConfig.docsUrl}/${
                       props.language
                     }/installation`}>
                     Documentation
@@ -58,7 +58,7 @@ function Versions(props) {
                 <th>master</th>
                 <td>
                   <a
-                    href={`${siteConfig.baseUrl}docs/${
+                    href={`${siteConfig.baseUrl}${siteConfig.docsUrl}/${
                       props.language
                     }/next/installation`}>
                     Documentation
@@ -83,7 +83,7 @@ function Versions(props) {
                       <th>{version}</th>
                       <td>
                         <a
-                          href={`${siteConfig.baseUrl}docs/${
+                          href={`${siteConfig.baseUrl}${siteConfig.docsUrl}/${
                             props.language
                           }/${version}/installation`}>
                           Documentation

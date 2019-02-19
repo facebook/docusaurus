@@ -1,9 +1,17 @@
+/**
+ * Copyright (c) 2017-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
 import path from 'path';
 import {
   fileToPath,
   fileToComponentName,
   idx,
   getSubFolder,
+  normalizeUrl,
 } from '@lib/load/utils';
 
 describe('load utils', () => {
@@ -96,5 +104,49 @@ describe('load utils', () => {
     expect(getSubFolder(testC, 'folder')).toBe('ja');
     expect(getSubFolder(testD, 'docs')).toBe('ro');
     expect(getSubFolder(testE, 'docs')).toBeNull();
+  });
+
+  test('normalizeUrl', () => {
+    const asserts = [
+      {
+        input: ['/', '/'],
+        output: '/',
+      },
+      {
+        input: ['/', 'docs'],
+        output: '/docs',
+      },
+      {
+        input: ['/', 'docs', 'en', 'next', 'blog'],
+        output: '/docs/en/next/blog',
+      },
+      {
+        input: ['/test/', '/docs', 'ro', 'doc1'],
+        output: '/test/docs/ro/doc1',
+      },
+      {
+        input: ['', '/', 'ko', 'hello'],
+        output: '/ko/hello',
+      },
+      {
+        input: ['hello', 'world'],
+        output: 'hello/world',
+      },
+      {
+        input: ['http://www.google.com/', 'foo/bar', '?test=123'],
+        output: 'http://www.google.com/foo/bar?test=123',
+      },
+      {
+        input: ['http:', 'www.google.com///', 'foo/bar', '?test=123'],
+        output: 'http://www.google.com/foo/bar?test=123',
+      },
+      {
+        input: ['http://foobar.com', '', 'test'],
+        output: 'http://foobar.com/test',
+      },
+    ];
+    asserts.forEach(testCase => {
+      expect(normalizeUrl(testCase.input)).toBe(testCase.output);
+    });
   });
 });

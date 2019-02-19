@@ -619,7 +619,7 @@ blockquote {
 .mainContainer {
   flex: 1 1 auto;
   max-width: 100%;
-  padding: 48px 0;
+  padding: 40px 0;
 }
 
 .mainContainer .wrapper {
@@ -724,6 +724,7 @@ blockquote {
   position: fixed;
   width: 100%;
   z-index: 9999;
+  transform: translate3d(0,0,0);
 }
 
 @media only screen and (min-width: 1024px) {
@@ -931,6 +932,14 @@ input#search_input_react {
   -o-transition: 0.5s width ease;
   transition: 0.5s width ease;
   width: 170px;
+}
+
+.navSearchWrapper:before {
+  left: 24px;
+}
+
+.navSearchWrapper:after {
+  left: 35px;
 }
 
 input#search_input_react:focus,
@@ -1316,6 +1325,10 @@ input::placeholder {
   z-index: 99;
 }
 
+.singleRowMobileNav.navPusher {
+  padding-top: 50px;
+}
+
 .navPusher:after {
   background: rgba(0, 0, 0, 0.4);
   content: '';
@@ -1363,7 +1376,7 @@ input::placeholder {
     font-size: 14px;
     line-height: 20px;
     outline: none;
-    padding-left: 25px;
+    padding-left: 38px;
     position: relative;
     transition: background-color 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55),
       width 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55), color 0.2s ease;
@@ -1419,6 +1432,13 @@ input::placeholder {
     position: relative;
     right: auto;
     top: auto;
+  }
+
+  .reactNavSearchWrapper input#search_input_react {
+    height: 100%;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    padding-left: 38px;
   }
 
   .navSearchWrapper .algolia-autocomplete {
@@ -1500,8 +1520,7 @@ input::placeholder {
 
 @media only screen and (min-width: 1024px) {
   .docMainWrapper {
-    max-width: 100% !important ;
-    margin: 0;
+    width: 100%;
   }
 
   .docMainWrapper > * {
@@ -1536,7 +1555,7 @@ input::placeholder {
   }
 }
 
-.docLastUpdateTimestamp {
+.docLastUpdate {
   font-size: 13px;
   font-style: italic;
   margin: 20px 0;
@@ -1596,6 +1615,26 @@ input::placeholder {
 /* End of Docs Navigation */
 
 /* Start of Docs Sidebar */
+.hide {
+  display: none;
+}
+
+.collapsible {
+  cursor: pointer;
+}
+
+.collapsible .arrow {
+  float: right;
+  margin-right: 8px;
+  margin-top: -4px;
+  transform: rotate(90deg);
+  transition: transform 200ms linear;
+}
+
+.collapsible .arrow.rotate {
+  transform: rotate(180deg);
+}
+
 @media only screen and (max-width: 1023px) {
   .docsNavContainer {
     background: #fff;
@@ -1608,9 +1647,7 @@ input::placeholder {
 
 @media only screen and (min-width: 1024px) {
   .docsNavContainer {
-    flex: 1 0 240px;
-    display: flex;
-    justify-content: flex-end;
+    flex: 0 0 240px;
     height: calc(100vh - 50px);
     position: -webkit-sticky;
     position: sticky;
@@ -1653,7 +1690,7 @@ input::placeholder {
   }
 
   .separateOnPageNav .docsNavContainer {
-    flex: 1 0 240px;
+    flex: 0 0 240px;
   }
 }
 
@@ -1992,6 +2029,10 @@ input::placeholder {
       z-index: 10;
     }
 
+    .tocActive .singleRowMobileNav .onPageNav {
+      top: 98px;
+    }
+
     .tocActive .navToggle,
     .tocActive .navBreadcrumb h2 {
       visibility: hidden;
@@ -2012,11 +2053,6 @@ input::placeholder {
       width: auto;
     }
 
-    .docsNavContainer > :first-child {
-      width: 240px;
-      max-width: 240px;
-    }
-
     .separateOnPageNav.sideNavVisible .navPusher .mainContainer {
       flex: 1 auto;
       max-width: 100%;
@@ -2034,10 +2070,6 @@ input::placeholder {
       top: 90px;
     }
 
-    .docOnPageNav {
-      flex: 1 0 240px;
-    }
-
     .onPageNav > .toc-headings {
       border-left: 1px solid #e0e0e0;
       padding: 10px 0 2px 15px;
@@ -2046,13 +2078,6 @@ input::placeholder {
     .tocToggler {
       display: none;
     }
-  }
-}
-
-@media only screen and (min-width: 1024px) {
-  .separateOnPageNav.sideNavVisible .navPusher .docMainContainer {
-    flex-basis: 784px;
-    flex-grow: 0;
   }
 }
 
@@ -2094,6 +2119,7 @@ input::placeholder {
   justify-content: center;
   margin-right: 10px;
   margin-top: 0;
+  margin-bottom: 0;
   padding: 0;
 }
 
@@ -2354,3 +2380,57 @@ input::placeholder {
   padding: 5px 0;
 }
 /* End of Footer */
+
+
+.tabs {
+  border-top: 1px solid #cfcfcf;
+}
+
+.nav-tabs {
+  display: flex;
+  border-bottom: 4px solid #e0e0e0;
+  width: 100%;
+  padding: 0;
+  overflow-x: auto;
+  white-space: nowrap;
+  max-height: 100%;
+}
+
+.nav-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.tabs .tab-pane:focus {
+  outline: none;
+}
+
+.tabs .nav-tabs > div {
+  font-size: 14px;
+  line-height: 1.14286;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  cursor: pointer;
+}
+
+.tabs .nav-tabs > div.active {
+  border-bottom: 4px solid $primaryColor;
+}
+
+.tab-pane {
+  display: none;
+}
+
+.tab-pane.active {
+  display: block;
+}
+
+.tab-pane > pre {
+  white-space: pre-wrap;
+}
+
+.tab-pane > pre > code {
+  margin-top: 0;
+  border-radius: 0;
+  box-shadow: none;
+}

@@ -3,7 +3,7 @@ id: doc-markdown
 title: Markdown Features
 ---
 
-Find out more about Docusaurus-specific fields when writing Markdown.
+Docusaurus uses [GitHub Flavored Markdown (GFM)](https://guides.github.com/features/mastering-markdown/). Find out more about Docusaurus-specific fields when writing Markdown.
 
 ## Markdown Headers
 
@@ -17,7 +17,7 @@ Documents use the following markdown header fields that are enclosed by a line `
 
 `hide_title`: Whether to hide the title at the top of the doc.
 
-`sidebar_label`: The text shown in the document sidebar for this document. If this field is not present, the document's `sidebar_label` will default to its `title`.
+`sidebar_label`: The text shown in the document sidebar and in the next/previous button for this document. If this field is not present, the document's `sidebar_label` will default to its `title`.
 
 For example:
 
@@ -42,7 +42,7 @@ original_id: doc1
 ---
 ```
 
-`custom_edit_url`: The URL for editing this document. If this field is not present, the document's edit URL will fall back to `editUrl` from optional fields of `siteConfig.js`. See [siteConfig.js](site-config.md) docs for more information.
+`custom_edit_url`: The URL for editing this document. If this field is not present, the document's edit URL will fall back to `editUrl` from optional fields of `siteConfig.js`. See [siteConfig.js](api-site-config.md) docs for more information.
 
 For example:
 
@@ -132,6 +132,47 @@ will lead to a table of contents of the functions:
 
 and each function will link to their corresponding sections in the page.
 
+
+### Language-specific Code Tabs
+
+Display code in multiple programming languages using code tabs. First, mark the start and end of a code tabs group, by using `<!-- DOCUSAURUS_CODE_TABS -->` and `<!-- END_DOCUSAURUS_CODE_TABS -->` respectively in your markdown. Then start each tab with `<!--[TAB_TITLE]-->`.
+
+Adding the following code to your Markdown file:
+
+<script src="https://gist.github.com/yangshun/d36d04f383c40beb3f31dd2a16666f6c.js"></script>
+
+produces this:
+
+<!--DOCUSAURUS_CODE_TABS-->
+<!--JavaScript-->
+```js
+console.log('Hello, world!');
+```
+<!--Python-->
+```py
+print('Hello, world!')
+```
+
+<!--C-->
+```C
+#include <stdio.h>
+
+int main() {
+   printf("Hello World!");
+   return 0;
+}
+```
+
+<!--Pascal-->
+```Pascal
+program HelloWorld;
+begin
+  WriteLn('Hello, world!');
+end.
+```
+
+<!--END_DOCUSAURUS_CODE_TABS-->
+
 ## Syntax Highlighting
 
 Syntax highlighting is enabled by default on fenced code blocks. The language should be detected automatically, but you can sometimes get better results by specifying the language. You can do so using an [info string](https://github.github.com/gfm/#example-111), following the three opening backticks. The following JavaScript example...
@@ -206,3 +247,7 @@ class Example extends React.Component {
   }
 }
 ```
+
+### Adding Copy Code Buttons
+
+Docusaurus allows for adding buttons to copy code within fenced code blocks. Please follow the instructions [here](https://gist.github.com/yangshun/55db997ed0f8f4e6527571fc3bee4675) to add "Copy" buttons to your code blocks.

@@ -24,6 +24,7 @@ module.exports = {
     'react/jsx-closing-bracket-location': OFF, // Formatting is left to Prettier.
     'react/jsx-filename-extension': OFF, // Enable in future when migrating.
     'react/jsx-one-expression-per-line': OFF, // Formatting is left to Prettier.
+    'react/no-array-index-key': OFF, // It's ok if you use it for static content.
     'react/no-danger': OFF, // Need this to inject scripts.
     'react/no-multi-comp': OFF, // One component per file creates too many files.
     'react/no-unescaped-entities': [ERROR, {forbid: ['>', '}']}],

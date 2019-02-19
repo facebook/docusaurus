@@ -1,80 +1,73 @@
-import React from 'react';
-import {NavLink} from 'react-router-dom';
+/**
+ * Copyright (c) 2017-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
 
-import classnames from 'classnames';
+import React, {useContext} from 'react';
 
-import styles from './styles.css';
+import DocusaurusContext from '@docusaurus/context';
+import SidebarLink from './SidebarLink';
+import SidebarCategory from './SidebarCategory';
 
-function Sidebar(props) {
-  const {metadata, docsSidebars, docsMetadatas} = props;
+import styles from './styles.module.css';
+
+function Sidebar() {
+  const context = useContext(DocusaurusContext);
+  const {metadata = {}, docsSidebars, docsMetadatas} = context;
   const {sidebar, language} = metadata;
-  if (!sidebar || !docsSidebars) {
+
+  if (!sidebar) {
     return null;
   }
+
   const thisSidebar = docsSidebars[sidebar];
 
-  const renderItemLink = rawLinkID => {
-    const linkID = (language ? `${language}-` : '') + rawLinkID;
+  if (!thisSidebar) {
+    throw new Error(`Can not find ${sidebar} config`);
+  }
+
+  const convertDocLink = item => {
+    const linkID = (language ? `${language}-` : '') + item.id;
     const linkMetadata = docsMetadatas[linkID];
+
     if (!linkMetadata) {
       throw new Error(
         `Improper sidebars.json file, document with id '${linkID}' not found.`,
       );
     }
 
-    return (
-      <li key={linkID}>
-        <NavLink
-          activeClassName={styles.sidebarLinkActive}
-          className={classnames(styles.sidebarLink, styles.sidebarItem)}
-          to={linkMetadata.permalink}>
-          {linkMetadata.sidebar_label || linkMetadata.title}
-        </NavLink>
-      </li>
-    );
+    return {
+      type: 'link',
+      label: linkMetadata.sidebar_label || linkMetadata.title,
+      href: linkMetadata.permalink,
+    };
   };
 
-  const renderCategory = categoryName => {
-    const category = thisSidebar[categoryName];
-    return (
-      <div className={styles.sidebarGroup} key={categoryName}>
-        <h3
-          className={classnames(
-            styles.sidebarItem,
-            styles.sidebarGroupTitle,
-            styles.sidebarGroupCategoryTitle,
-          )}>
-          {categoryName}
-        </h3>
-        <ul className={styles.sidebarList}>
-          {Array.isArray(category)
-            ? category.map(renderItemLink)
-            : Object.keys(category).map(subCategoryName => (
-                <div className={styles.sidebarSubGroup} key={subCategoryName}>
-                  <h4
-                    className={classnames(
-                      styles.sidebarItem,
-                      styles.sidebarGroupTitle,
-                      styles.sidebarGroupSubcategorytitle,
-                    )}>
-                    {subCategoryName}
-                  </h4>
-                  <ul className={styles.sidebarList}>
-                    {category[subCategoryName].map(renderItemLink)}
-                  </ul>
-                </div>
-              ))}
-        </ul>
-      </div>
-    );
+  const renderItem = (item, {root} = {}) => {
+    switch (item.type) {
+      case 'category':
+        return (
+          <SidebarCategory
+            {...item}
+            key={item.label}
+            subCategory={!root}
+            renderItem={renderItem}
+          />
+        );
+      case 'link':
+        return <SidebarLink {...item} key={item.href} />;
+      case 'ref':
+      default:
+        return renderItem(convertDocLink(item));
+    }
   };
 
   return (
-    thisSidebar && (
-      <div className={styles.sidebar}>
-        {Object.keys(thisSidebar).map(renderCategory)}
-      </div>
-    )
+    <div className={styles.sidebar}>
+      {thisSidebar.map(item => renderItem(item, {root: true}))}
+    </div>
   );
 }
 

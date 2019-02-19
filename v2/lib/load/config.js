@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2017-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
 const fs = require('fs-extra');
 const path = require('path');
 
@@ -17,6 +24,10 @@ module.exports = function loadConfig(siteDir, deleteCache = true) {
     'organizationName',
     'projectName',
     'baseUrl',
+    'url',
+    'headerLinks',
+    'headerIcon',
+    'favicon',
   ];
   const optionalFields = [
     'customDocsPath',
@@ -28,6 +39,7 @@ module.exports = function loadConfig(siteDir, deleteCache = true) {
     'docsUrl',
     'customFields',
     'githubHost',
+    'algolia',
   ];
   const missingFields = requiredFields.filter(field => !config[field]);
   if (missingFields && missingFields.length > 0) {
@@ -46,6 +58,30 @@ module.exports = function loadConfig(siteDir, deleteCache = true) {
       config[field] = defaultConfig[field];
     }
   });
+
+  /* Build final headerLinks based on siteConfig */
+  const {headerLinks} = config;
+  // add language drop down to end if location not specified
+  let languages = false;
+  headerLinks.forEach(link => {
+    if (link.languages) {
+      languages = true;
+    }
+  });
+  if (!languages) {
+    headerLinks.push({languages: true});
+  }
+  let search = false;
+  headerLinks.forEach(link => {
+    // We will add search bar to end if location not specified
+    if (link.search) {
+      search = true;
+    }
+  });
+  if (!search && config.algolia) {
+    headerLinks.push({search: true});
+  }
+  config.headerLinks = headerLinks;
 
   /* 
     User's own array of custom fields, 

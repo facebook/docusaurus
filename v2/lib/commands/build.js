@@ -1,9 +1,17 @@
+/**
+ * Copyright (c) 2017-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
 const webpack = require('webpack');
 const path = require('path');
 const chalk = require('chalk');
 const fs = require('fs-extra');
 const globby = require('globby');
 const load = require('../load');
+const createSitemap = require('../core/sitemap');
 const createServerConfig = require('../webpack/server');
 const createClientConfig = require('../webpack/client');
 const {applyConfigureWebpack} = require('../webpack/utils');
@@ -30,10 +38,9 @@ function compile(config) {
   });
 }
 
-module.exports = async function build(siteDir, cliOptions = {}) {
+module.exports = async function build(siteDir) {
   process.env.NODE_ENV = 'production';
   console.log('Build command invoked ...');
-  console.log(cliOptions);
 
   const props = await load(siteDir);
 
@@ -67,6 +74,11 @@ module.exports = async function build(siteDir, cliOptions = {}) {
       return fs.copy(fromPath, toPath);
     }),
   );
+
+  // generate sitemap
+  const sitemap = await createSitemap(props);
+  const sitemapPath = path.join(outDir, 'sitemap.xml');
+  await fs.writeFile(sitemapPath, sitemap);
 
   const relativeDir = path.relative(process.cwd(), outDir);
   console.log(
