@@ -244,7 +244,6 @@ Hostname of your server. Useful if you are using GitHub Enterprise.
 ```
 
 #### `manifest` [string]
-<<<<<<< HEAD
 
 Path to your web app manifest (e.g., `manifest.json`). This will add a `<link>` tag to `<head>` with `rel` as `"manifest"` and `href` as the provided path.
 
