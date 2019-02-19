@@ -33,8 +33,4 @@ Showcase.propTypes = {
   users: PropTypes.array.isRequired,
 };
 
-Showcase.defaultProps = {
-  users: [],
-};
-
 module.exports = Showcase;

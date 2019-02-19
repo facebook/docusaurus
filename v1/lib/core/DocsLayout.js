@@ -88,6 +88,7 @@ class DocsLayout extends React.Component {
         className={classNames('sideNavVisible', {
           separateOnPageNav: hasOnPageNav,
         })}
+        url={this.props.metadata.permalink}
         title={title}
         description={renderMarkdown(content.trim().split('\n')[0])}
         language={metadata.language}
