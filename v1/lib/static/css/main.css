@@ -916,6 +916,10 @@ input[type='search'] {
   border-color: rgba(57, 57, 57, 0.3);
 }
 
+.navigationSlider .slidingNav ul li .algolia-docsearch-footer--logo:hover {
+  background-color: transparent;
+}
+
 input#search_input_react {
   background-color: rgba(0, 0, 0, 0.2);
   border: none;
@@ -1282,7 +1286,7 @@ input::placeholder {
 .navigationSlider .slidingNav ul li a:hover,
 .navigationSlider .slidingNav ul li.siteNavItemActive a,
 .navigationSlider .slidingNav ul li.siteNavGroupActive a {
-  background: $primaryColor;
+  background-color: $primaryColor;
 }
 /* End of Navigation Slider */
 
