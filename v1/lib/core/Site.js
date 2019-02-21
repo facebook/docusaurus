@@ -16,7 +16,7 @@ const Footer = require(`${process.cwd()}/core/Footer.js`);
 const translation = require('../server/translation.js');
 const env = require('../server/env.js');
 const liveReloadServer = require('../server/liveReloadServer.js');
-const {idx} = require('./utils.js');
+const {idx, getPath} = require('./utils.js');
 
 const CWD = process.cwd();
 
@@ -41,10 +41,11 @@ class Site extends React.Component {
           `${this.props.config.title} · ${tagline}`) ||
         this.props.config.title;
     const description = this.props.description || tagline;
-    const url =
-      this.props.config.url +
-      this.props.config.baseUrl +
-      (this.props.url || 'index.html');
+    const path = getPath(
+      this.props.config.baseUrl + (this.props.url || 'index.html'),
+      this.props.config.cleanUrl,
+    );
+    const url = this.props.config.url + path;
     let docsVersion = this.props.version;
 
     const liveReloadScriptUrl = liveReloadServer.getReloadScriptUrl();
