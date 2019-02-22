@@ -1278,11 +1278,11 @@ input::placeholder {
   transition: background-color 0.3s;
 }
 
-.navigationSlider .slidingNav ul li a:focus,
-.navigationSlider .slidingNav ul li a:hover,
-.navigationSlider .slidingNav ul li.siteNavItemActive a,
-.navigationSlider .slidingNav ul li.siteNavGroupActive a {
-  background: $primaryColor;
+.navigationSlider .slidingNav ul li > a:focus,
+.navigationSlider .slidingNav ul li > a:hover,
+.navigationSlider .slidingNav ul li.siteNavItemActive > a,
+.navigationSlider .slidingNav ul li.siteNavGroupActive > a {
+  background-color: $primaryColor;
 }
 /* End of Navigation Slider */
 
