@@ -64,9 +64,9 @@ module.exports = [
     pinned: true,
   },
   {
-    caption: 'CaptainDuckDuck',
-    image: '/img/users/captainduckduck.png',
-    infoLink: 'https://captainduckduck.com/',
+    caption: 'CapRover',
+    image: '/img/users/caprover.png',
+    infoLink: 'https://caprover.com/',
     fbOpenSource: false,
     pinned: false,
   },
