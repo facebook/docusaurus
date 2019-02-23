@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+const loadConfig = require('../load/config');
 const sitemap = require('sitemap');
 
 module.exports = async function createSitemap({
@@ -22,7 +23,9 @@ module.exports = async function createSitemap({
   const {url: siteUrl} = siteConfig;
 
   if (!siteUrl) {
-    throw new Error('Url in docusaurus.config.js cannot be empty/undefined');
+    throw new Error(
+      `Url in ${loadConfig.configFileName} cannot be empty/undefined`,
+    );
   }
 
   const urls = [];

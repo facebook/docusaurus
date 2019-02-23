@@ -6,62 +6,73 @@
  */
 
 const fs = require('fs-extra');
+const _ = require('lodash');
 const path = require('path');
 
-module.exports = function loadConfig(siteDir, deleteCache = true) {
-  const configPath = path.resolve(siteDir, 'docusaurus.config.js');
+const CONFIG_FILE_NAME = 'docusaurus.config.js';
+
+const REQUIRED_FIELDS = [
+  'baseUrl',
+  'favicon',
+  'headerLinks',
+  'headerIcon',
+  'organizationName',
+  'projectName',
+  'title',
+  'tagline',
+  'url',
+];
+
+const OPTIONAL_FIELDS = [
+  'algolia',
+  'chainWebpack',
+  'configureWebpack',
+  'customDocsPath',
+  'customFields',
+  'defaultLanguage',
+  'docsUrl',
+  'githubHost',
+  'highlight',
+  'markdownPlugins',
+];
+
+const DEFAULT_CONFIG = {
+  customDocsPath: 'docs',
+  docsUrl: 'docs',
+};
+
+function formatFields(fields) {
+  return fields.map(field => `'${field}'`).join(', ');
+}
+
+function loadConfig(siteDir, deleteCache = true) {
+  const configPath = path.resolve(siteDir, CONFIG_FILE_NAME);
   if (deleteCache) {
     delete require.cache[configPath];
   }
-  let config = {};
+  let loadedConfig = {};
   if (fs.existsSync(configPath)) {
-    config = require(configPath); // eslint-disable-line
+    loadedConfig = require(configPath); // eslint-disable-line
   }
 
-  const requiredFields = [
-    'title',
-    'tagline',
-    'organizationName',
-    'projectName',
-    'baseUrl',
-    'url',
-    'headerLinks',
-    'headerIcon',
-    'favicon',
-  ];
-  const optionalFields = [
-    'customDocsPath',
-    'defaultLanguage',
-    'highlight',
-    'markdownPlugins',
-    'configureWebpack',
-    'chainWebpack',
-    'docsUrl',
-    'customFields',
-    'githubHost',
-    'algolia',
-  ];
-  const missingFields = requiredFields.filter(field => !config[field]);
-  if (missingFields && missingFields.length > 0) {
+  const missingFields = REQUIRED_FIELDS.filter(
+    field => !_.has(loadedConfig, field),
+  );
+  if (missingFields.length > 0) {
     throw new Error(
-      `${missingFields.join(', ')} fields are missing in docusaurus.config.js`,
+      `The required field(s) ${formatFields(
+        missingFields,
+      )} are missing from ${CONFIG_FILE_NAME}`,
     );
   }
 
-  /* Fill default value */
-  const defaultConfig = {
-    customDocsPath: 'docs',
-    docsUrl: 'docs',
-  };
-  Object.keys(defaultConfig).forEach(field => {
-    if (!config[field]) {
-      config[field] = defaultConfig[field];
-    }
-  });
+  // Merge default config with loaded config.
+  const config = {...DEFAULT_CONFIG, ...loadedConfig};
 
-  /* Build final headerLinks based on siteConfig */
+  // Build final headerLinks based on siteConfig.
   const {headerLinks} = config;
-  // add language drop down to end if location not specified
+
+  // Add language dropdown to end if location not specified.
   let languages = false;
   headerLinks.forEach(link => {
     if (link.languages) {
@@ -73,7 +84,7 @@ module.exports = function loadConfig(siteDir, deleteCache = true) {
   }
   let search = false;
   headerLinks.forEach(link => {
-    // We will add search bar to end if location not specified
+    // Append search bar if location not specified.
     if (link.search) {
       search = true;
     }
@@ -83,24 +94,33 @@ module.exports = function loadConfig(siteDir, deleteCache = true) {
   }
   config.headerLinks = headerLinks;
 
-  /* 
-    User's own array of custom fields, 
+  /*
+    User's own array of custom fields,
     e.g: if they want to include some field so they can access it later from `props.siteConfig`
   */
   const {customFields = []} = config;
 
-  // We don't allow unused fields.
-  const allowedFields = [...requiredFields, ...optionalFields, ...customFields];
-  const uselessFields = Object.keys(config).filter(
+  // Don't allow unrecognized fields.
+  const allowedFields = [
+    ...REQUIRED_FIELDS,
+    ...OPTIONAL_FIELDS,
+    ...customFields,
+  ];
+  const unrecognizedFields = Object.keys(config).filter(
     field => !allowedFields.includes(field),
   );
-  if (uselessFields && uselessFields.length > 0) {
+  if (unrecognizedFields && unrecognizedFields.length > 0) {
     throw new Error(
-      `The fields ${uselessFields.join(
-        ', ',
-      )} are not recognized in docusaurus.config.js`,
+      `The field(s) ${formatFields(
+        unrecognizedFields,
+      )} are not recognized in ${CONFIG_FILE_NAME}`,
     );
   }
 
   return config;
+}
+
+module.exports = {
+  configFileName: CONFIG_FILE_NAME,
+  loadConfig,
 };

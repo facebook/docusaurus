@@ -77,6 +77,7 @@
     "koa-range": "^0.3.0",
     "koa-static": "^5.0.0",
     "loader-utils": "^1.1.0",
+    "lodash": "^4.17.11",
     "mini-css-extract-plugin": "^0.4.1",
     "portfinder": "^1.0.13",
     "prismjs": "^1.15.0",

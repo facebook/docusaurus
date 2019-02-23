@@ -17,9 +17,9 @@ const genRoutesConfig = require('./routes');
 
 module.exports = async function load(siteDir) {
   // @tested - siteConfig
-  const siteConfig = loadConfig(siteDir);
+  const siteConfig = loadConfig.loadConfig(siteDir);
   await generate(
-    'docusaurus.config.js',
+    loadConfig.configFileName,
     `export default ${JSON.stringify(siteConfig, null, 2)};`,
   );
 

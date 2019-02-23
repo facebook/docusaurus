@@ -8,6 +8,7 @@
 const fs = require('fs-extra');
 const path = require('path');
 const {idx} = require('./utils');
+const loadConfig = require('./config');
 
 module.exports = function loadEnv({siteDir, siteConfig}) {
   // Translation
@@ -36,7 +37,9 @@ module.exports = function loadEnv({siteDir, siteConfig}) {
     );
     if (!defaultLanguage) {
       throw new Error(
-        `Please set a default language in 'docusaurus.config.js' which is enabled in 'languages.js'`,
+        `Please set a default language in ${
+          loadConfig.configFileName
+        } which is enabled in 'languages.js'`,
       );
     }
     translation.defaultLanguage = defaultLanguage;

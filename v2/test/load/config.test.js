@@ -6,7 +6,7 @@
  */
 
 import path from 'path';
-import loadConfig from '@lib/load/config';
+import {loadConfig} from '@lib/load/config';
 import loadSetup from '../loadSetup';
 
 describe('loadConfig', () => {
@@ -48,7 +48,7 @@ Object {
     expect(() => {
       loadConfig(siteDir);
     }).toThrowErrorMatchingInlineSnapshot(
-      `"tagline, organizationName, projectName, url, headerLinks, headerIcon, favicon fields are missing in docusaurus.config.js"`,
+      `"The required field(s) 'favicon', 'headerLinks', 'headerIcon', 'organizationName', 'projectName', 'tagline', 'url' are missing from docusaurus.config.js"`,
     );
   });
 
@@ -57,7 +57,7 @@ Object {
     expect(() => {
       loadConfig(siteDir);
     }).toThrowErrorMatchingInlineSnapshot(
-      `"headerLinks, headerIcon, favicon fields are missing in docusaurus.config.js"`,
+      `"The required field(s) 'favicon', 'headerLinks', 'headerIcon' are missing from docusaurus.config.js"`,
     );
   });
 
@@ -66,7 +66,7 @@ Object {
     expect(() => {
       loadConfig(siteDir);
     }).toThrowErrorMatchingInlineSnapshot(
-      `"title, tagline, organizationName, projectName, baseUrl, url, headerLinks, headerIcon, favicon fields are missing in docusaurus.config.js"`,
+      `"The required field(s) 'baseUrl', 'favicon', 'headerLinks', 'headerIcon', 'organizationName', 'projectName', 'title', 'tagline', 'url' are missing from docusaurus.config.js"`,
     );
   });
 });

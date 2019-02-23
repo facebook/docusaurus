@@ -19,6 +19,7 @@ const portfinder = require('portfinder');
 const serve = require('webpack-serve');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const load = require('../load');
+const loadConfig = require('../load/config');
 const createClientConfig = require('../webpack/client');
 const {applyConfigureWebpack} = require('../webpack/utils');
 
@@ -50,7 +51,7 @@ module.exports = async function start(siteDir, cliOptions = {}) {
       [
         `../${docsRelativeDir}/**/*.md`,
         'blog/**/*.md',
-        'docusaurus.config.js',
+        loadConfig.configFileName,
         'sidebars.json',
       ],
       {
