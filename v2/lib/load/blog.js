@@ -25,10 +25,10 @@ async function loadBlog({blogDir, env, siteConfig}) {
 
   const {baseUrl} = siteConfig;
 
-  /* Prepare metadata container */
+  // Prepare metadata container.
   const blogMetadatas = [];
 
-  /* the language for each blog page */
+  // Language for each blog page.
   const defaultLangTag = idx(env, ['translation', 'defaultLanguage', 'tag']);
 
   await Promise.all(
@@ -58,13 +58,13 @@ async function loadBlog({blogDir, env, siteConfig}) {
   );
   blogMetadatas.sort((a, b) => a.date - b.date);
 
-  // blogpage handling. Example: `/blog`, `/blog/page1`, `/blog/page2`
+  // Blog page handling. Example: `/blog`, `/blog/page1`, `/blog/page2`
   const perPage = 10;
   const numOfBlog = blogMetadatas.length;
   const numberOfPage = Math.ceil(numOfBlog / perPage);
   const basePageUrl = path.join(baseUrl, 'blog');
 
-  /* eslint-disable */
+  // eslint-disable-next-line
   for (let page = 0; page < numberOfPage; page++) {
     blogMetadatas.push({
       permalink: normalizeUrl([

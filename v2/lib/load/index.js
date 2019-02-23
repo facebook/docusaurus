@@ -16,18 +16,18 @@ const {generate} = require('./utils');
 const genRoutesConfig = require('./routes');
 
 module.exports = async function load(siteDir) {
-  // @tested - siteConfig
+  // Site Config - @tested
   const siteConfig = loadConfig.loadConfig(siteDir);
   await generate(
     loadConfig.configFileName,
     `export default ${JSON.stringify(siteConfig, null, 2)};`,
   );
 
-  // @tested - env
+  // Env - @tested
   const env = loadEnv({siteDir, siteConfig});
   await generate('env.js', `export default ${JSON.stringify(env, null, 2)};`);
 
-  // docs
+  // Docs
   const docsDir = path.resolve(siteDir, '..', siteConfig.customDocsPath);
   const {docsMetadatas, docsSidebars} = await loadDocs({
     siteDir,
@@ -44,7 +44,7 @@ module.exports = async function load(siteDir) {
     `export default ${JSON.stringify(docsSidebars, null, 2)};`,
   );
 
-  /* Create source to metadata mapping */
+  // Create source to metadata mapping.
   const sourceToMetadata = {};
   Object.values(docsMetadatas).forEach(
     ({source, version, permalink, language}) => {
@@ -56,7 +56,7 @@ module.exports = async function load(siteDir) {
     },
   );
 
-  // pages
+  // Pages.
   const pagesDir = path.resolve(siteDir, 'pages');
   const pagesMetadatas = await loadPages({pagesDir, env, siteConfig});
   await generate(
@@ -64,7 +64,7 @@ module.exports = async function load(siteDir) {
     `export default ${JSON.stringify(pagesMetadatas, null, 2)};`,
   );
 
-  // blog
+  // Blog.
   const blogDir = path.resolve(siteDir, 'blog');
   const blogMetadatas = await loadBlog({blogDir, env, siteConfig});
   await generate(
@@ -72,10 +72,10 @@ module.exports = async function load(siteDir) {
     `export default ${JSON.stringify(blogMetadatas, null, 2)};`,
   );
 
-  // resolve outDir
+  // Resolve outDir.
   const outDir = path.resolve(siteDir, 'build');
 
-  // resolve the theme
+  // Resolve theme.
   const themePath = loadTheme(siteDir);
 
   const {baseUrl} = siteConfig;
@@ -101,7 +101,7 @@ module.exports = async function load(siteDir) {
     translatedDir,
   };
 
-  // Generate React Router Config
+  // Generate React Router Config.
   const routesConfig = await genRoutesConfig(props);
   await generate('routes.js', routesConfig);
 

@@ -19,7 +19,7 @@ async function loadDocs({siteDir, docsDir, env, siteConfig}) {
   // @tested - build the docs ordering such as next, previous, category and sidebar
   const order = createOrder(docsSidebars);
 
-  /* Settle versions & translations from environment */
+  // Settle versions & translations from environment.
   const translationEnabled = idx(env, ['translation', 'enabled']);
   const enabledLanguages =
     translationEnabled && idx(env, ['translation', 'enabledLanguages']);
@@ -30,19 +30,17 @@ async function loadDocs({siteDir, docsDir, env, siteConfig}) {
   const versions =
     (versioningEnabled && idx(env, ['versioning', 'versions'])) || [];
 
-  /* Prepare metadata container */
+  // Prepare metadata container.
   const docsMetadatas = {};
 
-  /* metadata for default docs files */
+  // Metadata for default docs files.
   const docsFiles = await globby(['**/*.md'], {
     cwd: docsDir,
   });
   await Promise.all(
     docsFiles.map(async source => {
-      /* 
-        Do not allow reserved version/ translated folder name in 'docs'
-        e.g: 'docs/version-1.0.0/' should not be allowed as it can cause unwanted bug
-      */
+      // Do not allow reserved version/ translated folder name in 'docs'
+      // e.g: 'docs/version-1.0.0/' should not be allowed as it can cause unwanted bug
       const subFolder = getSubFolder(path.resolve(docsDir, source), docsDir);
       const versionsFolders = versions.map(version => `version-${version}`);
       if ([...enabledLangTags, ...versionsFolders].includes(subFolder)) {
@@ -60,7 +58,7 @@ async function loadDocs({siteDir, docsDir, env, siteConfig}) {
     }),
   );
 
-  /* metadata for non-default-language docs */
+  // Metadata for non-default-language docs.
   if (translationEnabled) {
     const translatedDir = path.join(siteDir, 'translated_docs');
     const translatedFiles = await globby(['**/*.md'], {
@@ -68,7 +66,7 @@ async function loadDocs({siteDir, docsDir, env, siteConfig}) {
     });
     await Promise.all(
       translatedFiles.map(async source => {
-        /* 
+        /*
           Do not process disabled & default languages folder in `translated_docs`
           e.g: 'translated_docs/ja/**' should not be processed if lang 'ja' is disabled
         */
@@ -93,7 +91,7 @@ async function loadDocs({siteDir, docsDir, env, siteConfig}) {
     );
   }
 
-  /* metadata for versioned docs */
+  // Metadata for versioned docs.
   if (versioningEnabled) {
     const versionedDir = path.join(siteDir, 'versioned_docs');
     const versionedFiles = await globby(['**/*.md'], {
@@ -113,7 +111,7 @@ async function loadDocs({siteDir, docsDir, env, siteConfig}) {
     );
   }
 
-  /* Get the titles of the previous and next ids so that we can use them */
+  // Get the titles of the previous and next ids so that we can use them.
   Object.keys(docsMetadatas).forEach(currentID => {
     const previousID = idx(docsMetadatas, [currentID, 'previous']);
     if (previousID) {

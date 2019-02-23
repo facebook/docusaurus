@@ -26,10 +26,10 @@ module.exports = function(fileString) {
     sourceToMetadata,
   } = options;
 
-  /* Extract content of markdown (without frontmatter) */
+  // Extract content of markdown (without frontmatter).
   const {body} = fm(fileString);
 
-  /* Determine the source dir. e.g: /docs, /website/versioned_docs/version-1.0.0 */
+  // Determine the source dir. e.g: /docs, /website/versioned_docs/version-1.0.0
   let sourceDir;
   const thisSource = this.resourcePath;
   if (thisSource.startsWith(translatedDir)) {
@@ -48,7 +48,7 @@ module.exports = function(fileString) {
     sourceDir = docsDir;
   }
 
-  /* Replace internal markdown linking (except in fenced blocks) */
+  // Replace internal markdown linking (except in fenced blocks).
   let content = body;
   if (sourceDir) {
     let fencedBlock = false;
@@ -59,14 +59,13 @@ module.exports = function(fileString) {
       if (fencedBlock) return line;
 
       let modifiedLine = line;
-      /* Replace inline-style links or reference-style links e.g:
-        This is [Document 1](doc1.md) -> we replace this doc1.md with correct link
-        [doc1]: doc1.md -> we replace this doc1.md with correct link
-      */
+      // Replace inline-style links or reference-style links e.g:
+      // This is [Document 1](doc1.md) -> we replace this doc1.md with correct link
+      // [doc1]: doc1.md -> we replace this doc1.md with correct link
       const mdRegex = /(?:(?:\]\()|(?:\]:\s?))(?!https)([^'")\]\s>]+\.md)/g;
       let mdMatch = mdRegex.exec(modifiedLine);
       while (mdMatch !== null) {
-        /* Replace it to correct html link */
+        // Replace it to correct html link.
         const mdLink = mdMatch[1];
         const targetSource = `${sourceDir}/${mdLink}`;
         const {permalink} =
@@ -86,21 +85,21 @@ module.exports = function(fileString) {
   const md = new Remarkable({
     langPrefix: 'hljs css language-',
     highlight(str, rawLang) {
-      // Default language fallback
+      // Default language fallback.
       const defaultLang =
         siteConfig.highlight && siteConfig.highlight.defaultLang;
 
-      // No syntax highlighting
+      // No syntax highlighting.
       if (rawLang === 'text' || (!rawLang && !defaultLang)) {
         return escapeHtml(str);
       }
 
-      // User's own hljs function to register additional languages
+      // User's own hljs function to register additional languages.
       if (siteConfig.highlight && siteConfig.highlight.hljs) {
         siteConfig.highlight.hljs(hljs);
       }
 
-      // Syntax highlighting
+      // Syntax highlighting.
       const lang = rawLang.toLowerCase() || defaultLang;
       try {
         if (hljs.getLanguage(lang)) {
@@ -119,10 +118,10 @@ module.exports = function(fileString) {
     linkify: true,
   });
 
-  // Register anchors plugin
+  // Register anchors plugin.
   md.use(anchors);
 
-  // Allow client sites to register their own plugins
+  // Allow client sites to register their own plugins.
   if (siteConfig.markdownPlugins) {
     siteConfig.markdownPlugins.forEach(plugin => {
       md.use(plugin);
@@ -134,7 +133,8 @@ module.exports = function(fileString) {
   const html = md
     .render(content)
     .replace(/<pre><code>/g, '<pre><code class="hljs">');
-  /* Return a React component */
+
+  // Return a React component.
   return `
 import React from 'react';
 import Markdown from '@theme/Markdown';

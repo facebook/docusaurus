@@ -59,7 +59,7 @@ module.exports = (string, context = {}) => {
   }
 
   if (typeof context.slugStats[slug] === 'number') {
-    // search for an index, that will not clash with an existing headings
+    // Search for an index, that will not clash with an existing headings
     while (
       typeof context.slugStats[`${slug}-${++context.slugStats[slug]}`] ===
       'number'
@@ -67,7 +67,7 @@ module.exports = (string, context = {}) => {
     slug += `-${context.slugStats[slug]}`;
   }
 
-  // we are tracking both original anchors and suffixed to avoid future name
+  // We are tracking both original anchors and suffixed to avoid future name
   // clashing with headings with numbers e.g. `#Foo 1` may clash with the second `#Foo`
   context.slugStats[slug] = 0;
 

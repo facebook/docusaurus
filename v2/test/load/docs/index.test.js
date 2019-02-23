@@ -18,7 +18,7 @@ describe('loadDocs', () => {
     expect(docsMetadatas.hello).toEqual({
       category: 'Guides',
       id: 'hello',
-      language: undefined,
+      language: null,
       localized_id: 'hello',
       permalink: '/docs/hello',
       previous: 'foo/baz',
@@ -27,12 +27,12 @@ describe('loadDocs', () => {
       sidebar: 'docs',
       source: path.join(docsDir, 'hello.md'),
       title: 'Hello, World !',
-      version: undefined,
+      version: null,
     });
     expect(docsMetadatas['foo/bar']).toEqual({
       category: 'Test',
       id: 'foo/bar',
-      language: undefined,
+      language: null,
       localized_id: 'foo/bar',
       next: 'foo/baz',
       next_id: 'foo/baz',
@@ -41,7 +41,7 @@ describe('loadDocs', () => {
       sidebar: 'docs',
       source: path.join(docsDir, 'foo', 'bar.md'),
       title: 'Bar',
-      version: undefined,
+      version: null,
     });
   });
 
@@ -52,7 +52,7 @@ describe('loadDocs', () => {
     expect(docsMetadatas['version-1.0.0-foo/bar']).toEqual({
       category: 'Test',
       id: 'version-1.0.0-foo/bar',
-      language: undefined,
+      language: null,
       localized_id: 'version-1.0.0-foo/bar',
       next: 'version-1.0.0-foo/baz',
       next_id: 'version-1.0.0-foo/baz',
@@ -66,7 +66,7 @@ describe('loadDocs', () => {
     expect(docsMetadatas['foo/bar']).toEqual({
       category: 'Test',
       id: 'foo/bar',
-      language: undefined,
+      language: null,
       localized_id: 'foo/bar',
       next: 'foo/baz',
       next_id: 'foo/baz',
@@ -156,7 +156,7 @@ describe('loadDocs', () => {
       sidebar: 'docs',
       source: path.join(translatedDir, 'ko', 'foo', 'baz.md'),
       title: 'baz',
-      version: undefined,
+      version: null,
     });
     expect(docsMetadatas['en-foo/bar']).toEqual({
       category: 'Test',
@@ -170,7 +170,7 @@ describe('loadDocs', () => {
       sidebar: 'docs',
       source: path.join(docsDir, 'foo', 'bar.md'),
       title: 'Bar',
-      version: undefined,
+      version: null,
     });
   });
 });

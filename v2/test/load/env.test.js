@@ -100,7 +100,7 @@ describe('loadEnv', () => {
     expect(() => {
       loadEnv({siteDir, siteConfig});
     }).toThrowErrorMatchingInlineSnapshot(
-      `"Please set a default language in 'docusaurus.config.js' which is enabled in 'languages.js'"`,
+      `"Please set a default language in docusaurus.config.js which is enabled in languages.js"`,
     );
   });
 });

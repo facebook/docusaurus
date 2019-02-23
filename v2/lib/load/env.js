@@ -11,7 +11,7 @@ const {idx} = require('./utils');
 const loadConfig = require('./config');
 
 module.exports = function loadEnv({siteDir, siteConfig}) {
-  // Translation
+  // Translation.
   const translation = {
     enabled: false,
     enabledLanguages: [],
@@ -23,31 +23,32 @@ module.exports = function loadEnv({siteDir, siteConfig}) {
   if (fs.existsSync(languagesFile)) {
     const languages = require(languagesFile); // eslint-disable-line
 
-    /* Enabled languages */
+    // Enabled languages.
     const enabledLanguages = languages.filter(lang => lang.enabled);
     if (!enabledLanguages || enabledLanguages.length === 0) {
       throw new Error(`Please at least enable one language in 'languages.js'`);
     }
     translation.enabledLanguages = enabledLanguages;
 
-    /* Default Language */
+    // Default language.
     const {defaultLanguage: defaultLanguageTag} = siteConfig;
     const defaultLanguage = enabledLanguages.find(
       lang => lang.tag === defaultLanguageTag,
     );
+
     if (!defaultLanguage) {
       throw new Error(
         `Please set a default language in ${
           loadConfig.configFileName
-        } which is enabled in 'languages.js'`,
+        } which is enabled in languages.js`,
       );
     }
-    translation.defaultLanguage = defaultLanguage;
 
+    translation.defaultLanguage = defaultLanguage;
     translation.enabled = true;
   }
 
-  // Versioning
+  // Versioning.
   const versioning = {
     enabled: false,
     latestVersion: null,

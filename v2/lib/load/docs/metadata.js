@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2017-present, Facebook, Inc.
  *
  * This source code is licensed under the MIT license found in the
@@ -11,6 +11,7 @@ const {getSubFolder, idx, parse, normalizeUrl} = require('../utils');
 
 function getLanguage(filepath, refDir, env) {
   const translationEnabled = idx(env, ['translation', 'enabled']);
+
   if (translationEnabled) {
     const detectedLangTag = getSubFolder(filepath, refDir);
     const enabledLanguages = idx(env, ['translation', 'enabledLanguages']);
@@ -19,18 +20,22 @@ function getLanguage(filepath, refDir, env) {
     if (langTags.includes(detectedLangTag)) {
       return detectedLangTag;
     }
+
     const defaultLanguage = idx(env, ['translation', 'defaultLanguage']);
     if (defaultLanguage && defaultLanguage.tag) {
       return defaultLanguage.tag;
     }
   }
-  return undefined;
+
+  return null;
 }
 
 function getVersion(filepath, refDir, env) {
   const versioningEnabled = idx(env, ['versioning', 'enabled']);
+
   if (versioningEnabled) {
     const subFolder = getSubFolder(filepath, refDir);
+
     if (subFolder) {
       const detectedVersion = subFolder.replace(/^version-/, '');
       const versions = idx(env, ['versioning', 'versions']) || [];
@@ -38,9 +43,11 @@ function getVersion(filepath, refDir, env) {
         return detectedVersion;
       }
     }
+
     return 'next';
   }
-  return undefined;
+
+  return null;
 }
 
 module.exports = async function processMetadata(
@@ -54,7 +61,7 @@ module.exports = async function processMetadata(
   const fileString = await fs.readFile(filepath, 'utf-8');
   const {metadata} = parse(fileString);
 
-  /* default id is the file name */
+  // Default id is the file name.
   if (!metadata.id) {
     metadata.id = path.basename(source, path.extname(source));
   }
@@ -62,17 +69,17 @@ module.exports = async function processMetadata(
     throw new Error('Document id cannot include "/".');
   }
 
-  /* default title is the id */
+  // Default title is the id.
   if (!metadata.title) {
     metadata.title = metadata.id;
   }
 
-  /* language */
+  // Language.
   const language = getLanguage(filepath, refDir, env);
   metadata.language = language;
   const langPart = (language && `${language}/`) || '';
 
-  /* version */
+  // Version.
   const defaultLangTag = idx(env, ['translation', 'defaultLanguage', 'tag']);
   let versionRefDir = refDir;
   if (language && language !== defaultLangTag) {
@@ -84,10 +91,8 @@ module.exports = async function processMetadata(
   const versionPart =
     (version && version !== latestVersion && `${version}/`) || '';
 
-  /* 
-    Convert temporarily metadata.id to the form of dirname/id without version/lang prefix
-    ex: file `versioned_docs/version-1.0.0/en/foo/bar.md` with id `version-1.0.0-bar` => `foo/bar`
-  */
+  // Convert temporarily metadata.id to the form of dirname/id without version/lang prefix.
+  // e.g.: file `versioned_docs/version-1.0.0/en/foo/bar.md` with id `version-1.0.0-bar` => `foo/bar`
   if (language) {
     metadata.id = metadata.id.replace(new RegExp(`^${language}-`), '');
   }
@@ -112,19 +117,15 @@ module.exports = async function processMetadata(
     }
   }
 
-  /* 
-    The docs absolute file source
-    e.g: `/end/docs/hello.md` or `/end/website/versioned_docs/version-1.0.0/hello.md` 
-  */
+  // The docs absolute file source.
+  // e.g: `/end/docs/hello.md` or `/end/website/versioned_docs/version-1.0.0/hello.md`
   metadata.source = path.join(refDir, source);
 
-  /* Build the permalink */
+  // Build the permalink.
   const {baseUrl, docsUrl} = siteConfig;
 
-  /* 
-    if user has own custom permalink defined in frontmatter
-    e.g: :baseUrl:docsUrl/:langPart/:versionPart/endiliey/:id
-  */
+  // If user has own custom permalink defined in frontmatter
+  // e.g: :baseUrl:docsUrl/:langPart/:versionPart/endiliey/:id
   if (metadata.permalink) {
     metadata.permalink = path.resolve(
       metadata.permalink
@@ -144,20 +145,20 @@ module.exports = async function processMetadata(
     ]);
   }
 
-  /* if version */
+  // If version.
   if (version && version !== 'next') {
     metadata.id = `version-${version}-${metadata.id}`;
   }
 
-  /* save localized id before adding language on it */
+  // Save localized id before adding language on it.
   metadata.localized_id = metadata.id;
 
-  /* if language */
+  // If language.
   if (language) {
     metadata.id = `${language}-${metadata.id}`;
   }
 
-  /* Determine order */
+  // Determine order.
   const id = metadata.localized_id;
   if (order[id]) {
     metadata.sidebar = order[id].sidebar;
@@ -172,5 +173,6 @@ module.exports = async function processMetadata(
       metadata.previous = (language ? `${language}-` : '') + order[id].previous;
     }
   }
+
   return metadata;
 };

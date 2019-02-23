@@ -16,10 +16,10 @@ async function loadPages({pagesDir, env, siteConfig}) {
 
   const {baseUrl} = siteConfig;
 
-  /* Prepare metadata container */
+  // Prepare metadata container.
   const pagesMetadatas = [];
 
-  /* Translation */
+  // Translation.
   const translationEnabled = idx(env, ['translation', 'enabled']);
   const enabledLanguages =
     translationEnabled && idx(env, ['translation', 'enabledLanguages']);
@@ -33,7 +33,7 @@ async function loadPages({pagesDir, env, siteConfig}) {
       const pathName = encodePath(fileToPath(relativeSource));
       if (translationEnabled && enabledLangTags.length > 0) {
         enabledLangTags.forEach(langTag => {
-          /* default lang should also be available. E.g: /en/users and /users is the same */
+          // Default lang should also be available. E.g: /en/users and /users is the same.
           if (langTag === defaultLangTag) {
             pagesMetadatas.push({
               permalink: pathName.replace(/^\//, baseUrl),
@@ -49,9 +49,8 @@ async function loadPages({pagesDir, env, siteConfig}) {
           };
           pagesMetadatas.push(metadata);
         });
-
-        // for defaultLanguage
       } else {
+        // Default Language.
         const metadata = {
           permalink: pathName.replace(/^\//, baseUrl),
           source,

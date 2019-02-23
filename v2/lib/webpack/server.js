@@ -23,7 +23,7 @@ module.exports = function createServerConfig(props) {
 
   const {siteConfig, blogMetadatas, docsMetadatas, pagesMetadatas} = props;
 
-  // static site generator webpack plugin
+  // Static site generator webpack plugin.
   const docsFlatMetadatas = Object.values(docsMetadatas);
   const paths = [...blogMetadatas, ...docsFlatMetadatas, ...pagesMetadatas].map(
     data => data.permalink,
@@ -38,7 +38,7 @@ module.exports = function createServerConfig(props) {
     },
   ]);
 
-  // show compilation progress bar
+  // Show compilation progress bar.
   const isProd = process.env.NODE_ENV === 'production';
   config
     .plugin('niceLog')
@@ -46,7 +46,7 @@ module.exports = function createServerConfig(props) {
       {name: 'Server', color: 'yellow', skipBuildTime: isProd},
     ]);
 
-  // user extended webpack-chain config
+  // User-extended webpack-chain config.
   applyChainWebpack(props.siteConfig.chainWebpack, config, true);
 
   return config;
