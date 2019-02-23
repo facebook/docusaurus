@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const loadConfig = require('../load/config');
 const sitemap = require('sitemap');
+const loadConfig = require('../load/config');
 
 module.exports = async function createSitemap({
   siteConfig = {},
