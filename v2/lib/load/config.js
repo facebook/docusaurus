@@ -96,7 +96,9 @@ module.exports = function loadConfig(siteDir, deleteCache = true) {
   );
   if (uselessFields && uselessFields.length > 0) {
     throw new Error(
-      `The fields ${uselessFields.join(', ')} are not recognized in docusaurus.config.js`,
+      `The fields ${uselessFields.join(
+        ', ',
+      )} are not recognized in docusaurus.config.js`,
     );
   }
 
