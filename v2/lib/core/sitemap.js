@@ -22,7 +22,7 @@ module.exports = async function createSitemap({
   const {url: siteUrl} = siteConfig;
 
   if (!siteUrl) {
-    throw new Error('Url in siteConfig.js cannot be empty/undefined');
+    throw new Error('Url in docusaurus.config.js cannot be empty/undefined');
   }
 
   const urls = [];

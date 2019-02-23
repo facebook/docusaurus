@@ -45,7 +45,7 @@ describe('sitemap', () => {
   test('empty site', async () => {
     const props = await loadSetup('empty');
     expect(createSitemap(props)).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"Url in siteConfig.js cannot be empty/undefined"`,
+      `"Url in docusaurus.config.js cannot be empty/undefined"`,
     );
   });
 });

@@ -48,7 +48,7 @@ Object {
     expect(() => {
       loadConfig(siteDir);
     }).toThrowErrorMatchingInlineSnapshot(
-      `"tagline, organizationName, projectName, url, headerLinks, headerIcon, favicon fields are missing in siteConfig.js"`,
+      `"tagline, organizationName, projectName, url, headerLinks, headerIcon, favicon fields are missing in docusaurus.config.js"`,
     );
   });
 
@@ -57,7 +57,7 @@ Object {
     expect(() => {
       loadConfig(siteDir);
     }).toThrowErrorMatchingInlineSnapshot(
-      `"headerLinks, headerIcon, favicon fields are missing in siteConfig.js"`,
+      `"headerLinks, headerIcon, favicon fields are missing in docusaurus.config.js"`,
     );
   });
 
@@ -66,7 +66,7 @@ Object {
     expect(() => {
       loadConfig(siteDir);
     }).toThrowErrorMatchingInlineSnapshot(
-      `"title, tagline, organizationName, projectName, baseUrl, url, headerLinks, headerIcon, favicon fields are missing in siteConfig.js"`,
+      `"title, tagline, organizationName, projectName, baseUrl, url, headerLinks, headerIcon, favicon fields are missing in docusaurus.config.js"`,
     );
   });
 });
