@@ -34,7 +34,7 @@ module.exports = async function deploy(siteDir) {
     siteConfig.organizationName;
   if (!organizationName) {
     throw new Error(
-      "Missing project organization name. Did you forget to define 'organizationName' in siteConfig.js? You may also export it via the organizationName environment variable.",
+      "Missing project organization name. Did you forget to define 'organizationName' in docusaurus.config.js? You may also export it via the organizationName environment variable.",
     );
   }
   const projectName =
@@ -43,7 +43,7 @@ module.exports = async function deploy(siteDir) {
     siteConfig.projectName;
   if (!projectName) {
     throw new Error(
-      "Missing project name. Did you forget to define 'projectName' in siteConfig.js? You may also export it via the projectName environment variable.",
+      "Missing project name. Did you forget to define 'projectName' in docusaurus.config.js? You may also export it via the projectName environment variable.",
     );
   }
 

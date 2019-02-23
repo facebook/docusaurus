@@ -36,7 +36,7 @@ module.exports = function loadEnv({siteDir, siteConfig}) {
     );
     if (!defaultLanguage) {
       throw new Error(
-        `Please set a default language in 'siteConfig.js' which is enabled in 'languages.js'`,
+        `Please set a default language in 'docusaurus.config.js' which is enabled in 'languages.js'`,
       );
     }
     translation.defaultLanguage = defaultLanguage;

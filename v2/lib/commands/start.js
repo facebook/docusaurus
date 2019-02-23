@@ -50,7 +50,7 @@ module.exports = async function start(siteDir, cliOptions = {}) {
       [
         `../${docsRelativeDir}/**/*.md`,
         'blog/**/*.md',
-        'siteConfig.js',
+        'docusaurus.config.js',
         'sidebars.json',
       ],
       {

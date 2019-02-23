@@ -19,7 +19,7 @@ module.exports = async function load(siteDir) {
   // @tested - siteConfig
   const siteConfig = loadConfig(siteDir);
   await generate(
-    'siteConfig.js',
+    'docusaurus.config.js',
     `export default ${JSON.stringify(siteConfig, null, 2)};`,
   );
 

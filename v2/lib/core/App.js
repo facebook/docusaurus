@@ -14,7 +14,7 @@ import docsMetadatas from '@generated/docsMetadatas'; // eslint-disable-line
 import env from '@generated/env'; // eslint-disable-line
 import docsSidebars from '@generated/docsSidebars'; // eslint-disable-line
 import pagesMetadatas from '@generated/pagesMetadatas'; // eslint-disable-line
-import siteConfig from '@generated/siteConfig'; //eslint-disable-line
+import siteConfig from '@generated/docusaurus.config'; //eslint-disable-line
 
 import DocusaurusContext from '@docusaurus/context';
 

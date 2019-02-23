@@ -9,7 +9,7 @@ const fs = require('fs-extra');
 const path = require('path');
 
 module.exports = function loadConfig(siteDir, deleteCache = true) {
-  const configPath = path.resolve(siteDir, 'siteConfig.js');
+  const configPath = path.resolve(siteDir, 'docusaurus.config.js');
   if (deleteCache) {
     delete require.cache[configPath];
   }
@@ -44,7 +44,7 @@ module.exports = function loadConfig(siteDir, deleteCache = true) {
   const missingFields = requiredFields.filter(field => !config[field]);
   if (missingFields && missingFields.length > 0) {
     throw new Error(
-      `${missingFields.join(', ')} fields are missing in siteConfig.js`,
+      `${missingFields.join(', ')} fields are missing in docusaurus.config.js`,
     );
   }
 
@@ -89,14 +89,16 @@ module.exports = function loadConfig(siteDir, deleteCache = true) {
   */
   const {customFields = []} = config;
 
-  /* We don't allow useless/ not meaningful field */
+  // We don't allow unused fields.
   const allowedFields = [...requiredFields, ...optionalFields, ...customFields];
   const uselessFields = Object.keys(config).filter(
     field => !allowedFields.includes(field),
   );
   if (uselessFields && uselessFields.length > 0) {
     throw new Error(
-      `${uselessFields.join(', ')} fields are useless in siteConfig.js`,
+      `The fields ${uselessFields.join(
+        ', ',
+      )} are not recognized in docusaurus.config.js`,
     );
   }
 
