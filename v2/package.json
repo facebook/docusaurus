@@ -43,7 +43,6 @@
     "eslint-plugin-react": "^7.11.1",
     "eslint-plugin-react-hooks": "^0.0.0",
     "jest": "^23.4.2",
-    "prettier": "^1.13.7",
     "react": "^16.7.0-alpha.0",
     "react-dom": "^16.7.0-alpha.0",
     "react-helmet": "^5.2.0"

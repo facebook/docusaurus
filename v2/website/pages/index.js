@@ -113,16 +113,19 @@ const QUOTES = [
 
 function Home() {
   const [featureIndex, setFeatureIndex] = useState(0);
-  useEffect(() => {
-    const timer = window.setTimeout(() => {
-      setFeatureIndex(
-        prevFeatureIndex => (prevFeatureIndex + 1) % FEATURES.length,
-      );
-    }, FEATURE_INTERVAL);
-    return () => {
-      window.clearTimeout(timer);
-    };
-  }, [featureIndex]);
+  useEffect(
+    () => {
+      const timer = window.setTimeout(() => {
+        setFeatureIndex(
+          prevFeatureIndex => (prevFeatureIndex + 1) % FEATURES.length,
+        );
+      }, FEATURE_INTERVAL);
+      return () => {
+        window.clearTimeout(timer);
+      };
+    },
+    [featureIndex],
+  );
 
   return (
     <div>

@@ -5,6 +5,6 @@
 node_modules
 dist
 yarn-error.log
-generated
+__generated__
 website/node_modules
 build

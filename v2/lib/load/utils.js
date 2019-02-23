@@ -10,7 +10,7 @@ const fm = require('front-matter');
 const escapeStringRegexp = require('escape-string-regexp');
 const fs = require('fs-extra');
 
-const genPath = path.resolve(__dirname, '../core/generated');
+const genPath = path.resolve(__dirname, '../core/__generated__');
 fs.ensureDirSync(genPath);
 
 const genCache = new Map();
