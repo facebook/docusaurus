@@ -33,7 +33,7 @@ aliases:
   - &v2-yarn |
     cd v2
     yarn install --non-interactive --cache-folder ~/.cache/yarn
-    cd website
+    cd ../v2-website
     yarn install --non-interactive --cache-folder ~/.cache/yarn
 
   - &v2-restore-yarn-cache
