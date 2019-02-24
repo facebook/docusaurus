@@ -9,4 +9,4 @@ node_modules
 
 yarn-error.log
 build
-__generated__
+.docusaurus

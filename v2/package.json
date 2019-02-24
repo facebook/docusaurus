@@ -21,6 +21,7 @@
   },
   "scripts": {
     "docusaurus": "node bin/docusaurus",
+    "start": "yarn docusaurus start ../v2-website",
     "prettier": "prettier --config ../.prettierrc --write \"**/*.js\"",
     "lint": "eslint --cache \"{lib,bin,test}/**/*.js\"",
     "test": "jest --config test/jest.config.js"

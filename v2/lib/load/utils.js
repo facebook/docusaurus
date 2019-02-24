@@ -10,14 +10,11 @@ const fm = require('front-matter');
 const escapeStringRegexp = require('escape-string-regexp');
 const fs = require('fs-extra');
 
-const genPath = path.resolve(__dirname, '../core/__generated__');
-fs.ensureDirSync(genPath);
-
 const genCache = new Map();
-async function generate(file, content) {
+async function generate(generatedFilesDir, file, content) {
   const cached = genCache.get(file);
   if (cached !== content) {
-    await fs.writeFile(path.join(genPath, file), content);
+    await fs.writeFile(path.join(generatedFilesDir, file), content);
     genCache.set(file, content);
   }
 }

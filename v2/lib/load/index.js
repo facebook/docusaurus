@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+const fs = require('fs-extra');
 const path = require('path');
 const loadBlog = require('./blog');
 const loadConfig = require('./config');
@@ -14,18 +15,30 @@ const loadPages = require('./pages');
 const loadTheme = require('./theme');
 const {generate} = require('./utils');
 const genRoutesConfig = require('./routes');
+const constants = require('../constants');
 
 module.exports = async function load(siteDir) {
+  const generatedFilesDir = path.resolve(
+    siteDir,
+    constants.GENERATED_FILES_DIR_NAME,
+  );
+  fs.ensureDirSync(generatedFilesDir);
+
   // Site Config - @tested
   const siteConfig = loadConfig.loadConfig(siteDir);
   await generate(
+    generatedFilesDir,
     loadConfig.configFileName,
     `export default ${JSON.stringify(siteConfig, null, 2)};`,
   );
 
   // Env - @tested
   const env = loadEnv({siteDir, siteConfig});
-  await generate('env.js', `export default ${JSON.stringify(env, null, 2)};`);
+  await generate(
+    generatedFilesDir,
+    'env.js',
+    `export default ${JSON.stringify(env, null, 2)};`,
+  );
 
   // Docs
   const docsDir = path.resolve(siteDir, '..', siteConfig.customDocsPath);
@@ -36,10 +49,12 @@ module.exports = async function load(siteDir) {
     siteConfig,
   });
   await generate(
+    generatedFilesDir,
     'docsMetadatas.js',
     `export default ${JSON.stringify(docsMetadatas, null, 2)};`,
   );
   await generate(
+    generatedFilesDir,
     'docsSidebars.js',
     `export default ${JSON.stringify(docsSidebars, null, 2)};`,
   );
@@ -60,6 +75,7 @@ module.exports = async function load(siteDir) {
   const pagesDir = path.resolve(siteDir, 'pages');
   const pagesMetadatas = await loadPages({pagesDir, env, siteConfig});
   await generate(
+    generatedFilesDir,
     'pagesMetadatas.js',
     `export default ${JSON.stringify(pagesMetadatas, null, 2)};`,
   );
@@ -68,6 +84,7 @@ module.exports = async function load(siteDir) {
   const blogDir = path.resolve(siteDir, 'blog');
   const blogMetadatas = await loadBlog({blogDir, env, siteConfig});
   await generate(
+    generatedFilesDir,
     'blogMetadatas.js',
     `export default ${JSON.stringify(blogMetadatas, null, 2)};`,
   );
@@ -99,11 +116,12 @@ module.exports = async function load(siteDir) {
     sourceToMetadata,
     versionedDir,
     translatedDir,
+    generatedFilesDir,
   };
 
   // Generate React Router Config.
   const routesConfig = await genRoutesConfig(props);
-  await generate('routes.js', routesConfig);
+  await generate(generatedFilesDir, 'routes.js', routesConfig);
 
   return props;
 };

@@ -45,6 +45,7 @@ module.exports = function createBaseConfig(props, isServer) {
     versionedDir,
     translatedDir,
     baseUrl,
+    generatedFilesDir,
   } = props;
 
   const config = new Config();
@@ -69,7 +70,7 @@ module.exports = function createBaseConfig(props, isServer) {
     .set('@docs', docsDir)
     .set('@pages', pagesDir)
     .set('@build', outDir)
-    .set('@generated', path.resolve(__dirname, '../core/__generated__'))
+    .set('@generated', generatedFilesDir)
     .set('@core', path.resolve(__dirname, '../core'))
     .set('@docusaurus', path.resolve(__dirname, '../docusaurus'))
     .end()
