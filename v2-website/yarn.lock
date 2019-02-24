@@ -2354,7 +2354,7 @@ docsearch.js@^2.5.2:
     to-factory "^1.0.0"
     zepto "^1.2.0"
 
-docusaurus@../:
+docusaurus@../v2:
   version "2.0.0"
   dependencies:
     "@babel/core" "^7.0.0"
@@ -2385,6 +2385,7 @@ docusaurus@../:
     koa-range "^0.3.0"
     koa-static "^5.0.0"
     loader-utils "^1.1.0"
+    lodash "^4.17.11"
     mini-css-extract-plugin "^0.4.1"
     portfinder "^1.0.13"
     prismjs "^1.15.0"

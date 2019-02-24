@@ -21,12 +21,8 @@
   },
   "scripts": {
     "docusaurus": "node bin/docusaurus",
-    "start": "node bin/docusaurus start website",
-    "build": "node bin/docusaurus build website",
-    "eject": "node bin/docusaurus eject website",
-    "deploy": "node bin/docusaurus deploy website",
     "prettier": "prettier --config ../.prettierrc --write \"**/*.js\"",
-    "lint": "eslint --cache \"{lib,bin,test,website}/**/*.js\"",
+    "lint": "eslint --cache \"{lib,bin,test}/**/*.js\"",
     "test": "jest --config test/jest.config.js"
   },
   "bugs": {

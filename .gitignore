@@ -8,3 +8,5 @@ node_modules
 .eslintcache
 
 yarn-error.log
+build
+__generated__

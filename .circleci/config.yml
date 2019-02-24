@@ -151,7 +151,7 @@ jobs:
           command: cd v2 && yarn test
       - run:
           name: Test Static Website Builds
-          command: cd v2/website && yarn build
+          command: cd v2-website && yarn build
 
   publish-npm:
     <<: *defaults

@@ -36,10 +36,10 @@ async function getPort(reqPort) {
 module.exports = async function start(siteDir, cliOptions = {}) {
   console.log('Start command invoked ...');
 
-  // Process all related files as a prop
+  // Process all related files as a prop.
   const props = await load(siteDir);
 
-  // Reload files processing
+  // Reload files processing.
   if (!cliOptions.noWatch) {
     const reload = () => {
       load(siteDir).catch(err => {
@@ -71,7 +71,7 @@ module.exports = async function start(siteDir, cliOptions = {}) {
   const host = getHost(cliOptions.host);
   const {baseUrl} = props;
 
-  // create compiler from generated webpack config
+  // Create compiler from generated webpack config.
   let config = createClientConfig(props);
 
   const {siteConfig} = props;
@@ -86,7 +86,7 @@ module.exports = async function start(siteDir, cliOptions = {}) {
   ]);
   config = config.toConfig();
 
-  // apply user webpack config
+  // Apply user webpack config.
   const {
     siteConfig: {configureWebpack},
   } = props;
@@ -94,7 +94,7 @@ module.exports = async function start(siteDir, cliOptions = {}) {
 
   const compiler = webpack(config);
 
-  // webpack-serve
+  // Run webpack serve.
   await serve(
     {},
     {
@@ -111,16 +111,16 @@ module.exports = async function start(siteDir, cliOptions = {}) {
       port,
       host,
       add: app => {
-        // serve static files
+        // Serve static files.
         const staticDir = path.resolve(siteDir, 'static');
         if (fs.existsSync(staticDir)) {
           app.use(mount(baseUrl, serveStatic(staticDir)));
         }
 
-        // enable HTTP range requests
+        // Enable HTTP range requests.
         app.use(range);
 
-        // rewrite request to `/` since dev is only a SPA
+        // Rewrite request to `/` since dev is only a SPA.
         app.use(
           convert(
             history({
