@@ -27,7 +27,7 @@ module.exports = function createServerConfig(props) {
   // Static site generator webpack plugin.
   const docsFlatMetadatas = Object.values(docsMetadatas);
 
-  // TODO: Generalize this into blog plugin.
+  // TODO: Generalize for blog plugin.
   const blogPermalinks = _.get(contentsStore, ['blog', 'contents'], []);
   const paths = [
     ...blogPermalinks,

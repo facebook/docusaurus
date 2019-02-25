@@ -12,6 +12,7 @@ module.exports = async function createSitemap({
   siteConfig = {},
   docsMetadatas = {},
   pagesMetadatas = [],
+  // TODO: Generalize for blog plugin.
   blogMetadatas = [],
 }) {
   const allMetadatas = [

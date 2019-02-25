@@ -9,7 +9,8 @@ import React, {useState} from 'react';
 import {renderRoutes} from 'react-router-config';
 
 import routes from '@generated/routes'; // eslint-disable-line
-import blogMetadatas from '@generated/blogMetadatas'; // eslint-disable-line
+// TODO: Generalize for blog plugin.
+import blogMetadata from '@generated/blogMetadata'; // eslint-disable-line
 import docsMetadatas from '@generated/docsMetadatas'; // eslint-disable-line
 import env from '@generated/env'; // eslint-disable-line
 import docsSidebars from '@generated/docsSidebars'; // eslint-disable-line
@@ -19,7 +20,7 @@ import siteConfig from '@generated/docusaurus.config'; //eslint-disable-line
 import DocusaurusContext from '@docusaurus/context';
 
 const data = {
-  blogMetadatas,
+  blogMetadata,
   docsMetadatas,
   docsSidebars,
   env,
