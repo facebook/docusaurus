@@ -66,7 +66,7 @@ Object {
     expect(() => {
       loadConfig(siteDir);
     }).toThrowErrorMatchingInlineSnapshot(
-      `"The required field(s) 'baseUrl', 'favicon', 'headerLinks', 'headerIcon', 'organizationName', 'projectName', 'title', 'tagline', 'url' are missing from docusaurus.config.js"`,
+      `"The required field(s) 'baseUrl', 'favicon', 'headerLinks', 'headerIcon', 'organizationName', 'projectName', 'tagline', 'title', 'url' are missing from docusaurus.config.js"`,
     );
   });
 });

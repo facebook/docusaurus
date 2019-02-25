@@ -7,7 +7,6 @@
 
 const fs = require('fs-extra');
 const path = require('path');
-const loadBlog = require('./blog');
 const loadConfig = require('./config');
 const loadDocs = require('./docs');
 const loadEnv = require('./env');
@@ -80,14 +79,27 @@ module.exports = async function load(siteDir) {
     `export default ${JSON.stringify(pagesMetadatas, null, 2)};`,
   );
 
-  // Blog.
-  const blogDir = path.resolve(siteDir, 'blog');
-  const blogMetadatas = await loadBlog({blogDir, env, siteConfig});
-  await generate(
-    generatedFilesDir,
-    'blogMetadatas.js',
-    `export default ${JSON.stringify(blogMetadatas, null, 2)};`,
-  );
+  const contentsStore = {};
+
+  // Process plugins.
+  if (siteConfig.plugins) {
+    const context = {env, siteDir, siteConfig};
+    await Promise.all(
+      siteConfig.plugins.map(async ({name, options: opts}) => {
+        // TODO: Resolve using node_modules as well.
+        // eslint-disable-next-line
+        const plugin = require(path.resolve(__dirname, '../../plugins', name));
+        const pluginContent = await plugin.onLoadContent(opts, context);
+        const {options, contents} = pluginContent;
+        contentsStore[options.contentKey] = pluginContent;
+        await generate(
+          generatedFilesDir,
+          options.cachePath,
+          `export default ${JSON.stringify(contents, null, 2)};`,
+        );
+      }),
+    );
+  }
 
   // Resolve outDir.
   const outDir = path.resolve(siteDir, 'build');
@@ -102,8 +114,6 @@ module.exports = async function load(siteDir) {
   const props = {
     siteConfig,
     siteDir,
-    blogDir,
-    blogMetadatas,
     docsDir,
     docsMetadatas,
     docsSidebars,
@@ -117,6 +127,7 @@ module.exports = async function load(siteDir) {
     versionedDir,
     translatedDir,
     generatedFilesDir,
+    contentsStore,
   };
 
   // Generate React Router Config.

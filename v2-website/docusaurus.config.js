@@ -29,4 +29,12 @@ module.exports = {
     indexName: 'docusaurus',
     algoliaOptions: {},
   },
+  plugins: [
+    {
+      name: 'docusaurus-content-blog',
+      options: {
+        include: ['*.md', '*.mdx'],
+      },
+    },
+  ],
 };

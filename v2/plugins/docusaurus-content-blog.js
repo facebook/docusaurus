@@ -8,7 +8,8 @@
 const globby = require('globby');
 const path = require('path');
 const fs = require('fs-extra');
-const {parse, idx, normalizeUrl} = require('./utils');
+// TODO: Do not make it relative because plugins can be from node_modules.
+const {parse, idx, normalizeUrl} = require('../lib/load/utils');
 
 function fileToUrl(fileName) {
   return fileName
@@ -18,15 +19,29 @@ function fileToUrl(fileName) {
     .replace(/\.md$/, '');
 }
 
-async function loadBlog({blogDir, env, siteConfig}) {
-  const blogFiles = await globby(['*.md'], {
+const DEFAULT_OPTIONS = {
+  contentKey: 'blog',
+  path: 'blog', // Path to data on filesystem.
+  routeBasePath: 'blog', // URL Route.
+  include: ['*.md'], // Extensions to include.
+  pageCount: 10, // How many entries per page.
+  cachePath: 'blogMetadata.js',
+};
+
+async function onLoadContent(opts, context) {
+  const options = {...DEFAULT_OPTIONS, ...opts};
+
+  const {env, siteConfig, siteDir} = context;
+  const {pageCount, path: filePath, routeBasePath} = options;
+  const blogDir = path.resolve(siteDir, filePath);
+  const {baseUrl} = siteConfig;
+
+  const blogFiles = await globby(options.include, {
     cwd: blogDir,
   });
 
-  const {baseUrl} = siteConfig;
-
   // Prepare metadata container.
-  const blogMetadatas = [];
+  const blogMetadata = [];
 
   // Language for each blog page.
   const defaultLangTag = idx(env, ['translation', 'defaultLanguage', 'tag']);
@@ -36,7 +51,7 @@ async function loadBlog({blogDir, env, siteConfig}) {
       const source = path.join(blogDir, relativeSource);
 
       const blogFileName = path.basename(relativeSource);
-      // Extract, YYYY, MM, DD from the file name
+      // Extract, YYYY, MM, DD from the file name.
       const filePathDateArr = blogFileName.split('-');
       const date = new Date(
         `${filePathDateArr[0]}-${filePathDateArr[1]}-${
@@ -47,37 +62,45 @@ async function loadBlog({blogDir, env, siteConfig}) {
       const fileString = await fs.readFile(source, 'utf-8');
       const {metadata: rawMetadata} = parse(fileString);
       const metadata = {
-        permalink: normalizeUrl([baseUrl, `blog`, fileToUrl(blogFileName)]),
+        permalink: normalizeUrl([
+          baseUrl,
+          routeBasePath,
+          fileToUrl(blogFileName),
+        ]),
         source,
         ...rawMetadata,
         date,
         language: defaultLangTag,
       };
-      blogMetadatas.push(metadata);
+      blogMetadata.push(metadata);
     }),
   );
-  blogMetadatas.sort((a, b) => a.date - b.date);
+  blogMetadata.sort((a, b) => a.date - b.date);
 
   // Blog page handling. Example: `/blog`, `/blog/page1`, `/blog/page2`
-  const perPage = 10;
-  const numOfBlog = blogMetadatas.length;
-  const numberOfPage = Math.ceil(numOfBlog / perPage);
-  const basePageUrl = path.join(baseUrl, 'blog');
+  const numOfBlog = blogMetadata.length;
+  const numberOfPage = Math.ceil(numOfBlog / pageCount);
+  const basePageUrl = path.join(baseUrl, routeBasePath);
 
   // eslint-disable-next-line
   for (let page = 0; page < numberOfPage; page++) {
-    blogMetadatas.push({
+    blogMetadata.push({
       permalink: normalizeUrl([
         basePageUrl,
         `${page > 0 ? `page${page + 1}` : ''}`,
       ]),
       language: defaultLangTag,
       isBlogPage: true,
-      posts: blogMetadatas.slice(page * perPage, (page + 1) * perPage),
+      posts: blogMetadata.slice(page * pageCount, (page + 1) * pageCount),
     });
   }
 
-  return blogMetadatas;
+  return {
+    contents: blogMetadata,
+    options,
+  };
 }
 
-module.exports = loadBlog;
+module.exports = {
+  onLoadContent,
+};

@@ -18,8 +18,8 @@ const REQUIRED_FIELDS = [
   'headerIcon',
   'organizationName',
   'projectName',
-  'title',
   'tagline',
+  'title',
   'url',
 ];
 
@@ -34,6 +34,7 @@ const OPTIONAL_FIELDS = [
   'githubHost',
   'highlight',
   'markdownPlugins',
+  'plugins',
 ];
 
 const DEFAULT_CONFIG = {
@@ -94,11 +95,11 @@ function loadConfig(siteDir, deleteCache = true) {
   }
   config.headerLinks = headerLinks;
 
-  /*
-    User's own array of custom fields,
-    e.g: if they want to include some field so they can access it later from `props.siteConfig`
-  */
+  // User's own array of custom fields/
+  // e.g: if they want to include some.field so they can access it later from `props.siteConfig`.
   const {customFields = []} = config;
+
+  // TODO: Check that plugins mentioned exist.
 
   // Don't allow unrecognized fields.
   const allowedFields = [

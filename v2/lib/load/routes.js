@@ -11,7 +11,7 @@ async function genRoutesConfig({
   siteConfig = {},
   docsMetadatas = {},
   pagesMetadatas = [],
-  blogMetadatas = [],
+  contentsStore = {},
 }) {
   const {docsUrl, baseUrl} = siteConfig;
   function genDocsRoute(metadata) {
@@ -138,7 +138,11 @@ async function genRoutesConfig({
     `const routes = [
       ${pagesMetadatas.map(genPagesRoute).join(',')},
       ${docsRoutes},
-      ${blogMetadatas.map(genBlogRoute).join(',')},
+      ${
+        contentsStore.blog
+          ? contentsStore.blog.contents.map(genBlogRoute).join(',')
+          : ''
+      },
       ${notFoundRoute}\n];\n` +
     `export default routes;\n`
   );
