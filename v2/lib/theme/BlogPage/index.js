@@ -15,7 +15,6 @@ import DocusaurusContext from '@docusaurus/context';
 
 function BlogPage(props) {
   const context = useContext(DocusaurusContext);
-  console.log(context);
   const {blogMetadatas, language, siteConfig = {}} = context;
   const {baseUrl, favicon} = siteConfig;
 
