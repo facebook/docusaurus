@@ -6,7 +6,7 @@
  */
 
 const React = require('react');
-const { renderToStaticMarkup } = require('react-dom/server');
+const {renderToStaticMarkup} = require('react-dom/server');
 const MarkdownBlock = require('./MarkdownBlock.js');
 const CodeTabsMarkdownBlock = require('./CodeTabsMarkdownBlock.js');
 
@@ -33,23 +33,21 @@ const splitTabsToTitleAndContent = content => {
 };
 
 const cleanTheCodeTag = content => {
-  const contents = content.split(
-    /(<pre>)(.*?)(<\/pre>)/gms,
-  );
+  const contents = content.split(/(<pre>)(.*?)(<\/pre>)/gms);
   let inCodeBlock = false;
-  const cleanContents = contents.map((c) => {
+  const cleanContents = contents.map(c => {
     if (c === '<pre>') {
       inCodeBlock = true;
       return c;
-    } if (c === '</pre>') {
+    }
+    if (c === '</pre>') {
       inCodeBlock = false;
       return c;
-    } if (inCodeBlock) {
-      return c.replace(/\n/g, "<br />");
     }
-      return c;
-
-
+    if (inCodeBlock) {
+      return c.replace(/\n/g, '<br />');
+    }
+    return c;
   });
   return cleanContents.join('');
 };
@@ -63,7 +61,7 @@ class Doc extends React.Component {
       /(<!--DOCUSAURUS_CODE_TABS-->\n)(.*?)(\n<!--END_DOCUSAURUS_CODE_TABS-->)/gms,
     );
 
-    const renderResult = contents.map((c) => {
+    const renderResult = contents.map(c => {
       if (c === '<!--DOCUSAURUS_CODE_TABS-->\n') {
         inCodeTabs = true;
         return '';
@@ -76,7 +74,7 @@ class Doc extends React.Component {
         const codeTabsMarkdownBlock = renderToStaticMarkup(
           <CodeTabsMarkdownBlock>
             {splitTabsToTitleAndContent(c)}
-          </CodeTabsMarkdownBlock>
+          </CodeTabsMarkdownBlock>,
         );
         return cleanTheCodeTag(codeTabsMarkdownBlock);
       }
