@@ -6,6 +6,7 @@
  */
 
 const React = require('react');
+const {renderToStaticMarkup} = require('react-dom/server');
 const MarkdownBlock = require('./MarkdownBlock.js');
 const CodeTabsMarkdownBlock = require('./CodeTabsMarkdownBlock.js');
 
@@ -31,6 +32,26 @@ const splitTabsToTitleAndContent = content => {
   }));
 };
 
+const cleanTheCodeTag = content => {
+  const contents = content.split(/(<pre>)(.*?)(<\/pre>)/gms);
+  let inCodeBlock = false;
+  const cleanContents = contents.map(c => {
+    if (c === '<pre>') {
+      inCodeBlock = true;
+      return c;
+    }
+    if (c === '</pre>') {
+      inCodeBlock = false;
+      return c;
+    }
+    if (inCodeBlock) {
+      return c.replace(/\n/g, '<br />');
+    }
+    return c;
+  });
+  return cleanContents.join('');
+};
+
 // inner doc component for article itself
 class Doc extends React.Component {
   renderContent() {
@@ -40,26 +61,27 @@ class Doc extends React.Component {
       /(<!--DOCUSAURUS_CODE_TABS-->\n)(.*?)(\n<!--END_DOCUSAURUS_CODE_TABS-->)/gms,
     );
 
-    const renderResult = contents.map((c, index) => {
+    const renderResult = contents.map(c => {
       if (c === '<!--DOCUSAURUS_CODE_TABS-->\n') {
         inCodeTabs = true;
-        return null;
+        return '';
       }
       if (c === '\n<!--END_DOCUSAURUS_CODE_TABS-->') {
         inCodeTabs = false;
-        return null;
+        return '';
       }
       if (inCodeTabs) {
-        return (
+        const codeTabsMarkdownBlock = renderToStaticMarkup(
           <CodeTabsMarkdownBlock>
             {splitTabsToTitleAndContent(c)}
-          </CodeTabsMarkdownBlock>
+          </CodeTabsMarkdownBlock>,
         );
+        return cleanTheCodeTag(codeTabsMarkdownBlock);
       }
-      return <MarkdownBlock key={index}>{c}</MarkdownBlock>;
+      return c;
     });
 
-    return renderResult;
+    return renderResult.join('');
   }
 
   render() {
@@ -110,7 +132,9 @@ class Doc extends React.Component {
             <h1 className="postHeaderTitle">{this.props.title}</h1>
           )}
         </header>
-        <article>{this.renderContent()}</article>
+        <article>
+          <MarkdownBlock>{this.renderContent()}</MarkdownBlock>
+        </article>
       </div>
     );
   }
