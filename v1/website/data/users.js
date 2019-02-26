@@ -382,7 +382,7 @@ module.exports = [
   {
   caption: 'Scalafmt',
   image: '/img/users/scalameta.png',
-  infoLink: 'https://scalameta.org/scalafmt/', // Website. Can be GitHub repo URL if website doesn't exist
+  infoLink: 'https://scalameta.org/scalafmt/',
   fbOpenSource: false,
   pinned: false,
   },
