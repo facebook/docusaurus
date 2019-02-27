@@ -380,6 +380,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Scalafmt',
+    image: '/img/users/scalameta.png',
+    infoLink: 'https://scalameta.org/scalafmt/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'ScanTrust',
     image: '/img/users/st-white-on-black.svg',
     infoLink: 'https://devportal.scantrust.com/',
