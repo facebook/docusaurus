@@ -84,14 +84,21 @@ module.exports = async function load(siteDir) {
   // Process plugins.
   if (siteConfig.plugins) {
     const context = {env, siteDir, siteConfig};
+    // Currently runs all plugins in parallel and not order-dependent. We could change
+    // this in future if there's a need.
     await Promise.all(
       siteConfig.plugins.map(async ({name, options: opts}) => {
         // TODO: Resolve using node_modules as well.
         // eslint-disable-next-line
-        const plugin = require(path.resolve(__dirname, '../../plugins', name));
-        const pluginContent = await plugin.onLoadContent(opts, context);
-        const {options, contents} = pluginContent;
-        contentsStore[options.contentKey] = pluginContent;
+        const Plugin = require(path.resolve(__dirname, '../../plugins', name));
+        const plugin = new Plugin(opts, context);
+        const {options} = plugin;
+        const contents = await plugin.load();
+        const pluginContents = {
+          options,
+          contents,
+        };
+        contentsStore[options.contentKey] = pluginContents;
         await generate(
           generatedFilesDir,
           options.cachePath,
