@@ -6,7 +6,8 @@
  */
 
 import React, {useContext} from 'react';
-import Head from '@docusaurus/Head';
+import Head from '@docusaurus/Head'; // eslint-disable-line
+import Footer from '@theme/Footer'; // eslint-disable-line
 import Layout from '@theme/Layout'; // eslint-disable-line
 
 import DocusaurusContext from '@docusaurus/context';
@@ -25,6 +26,7 @@ function Pages({children}) {
         {language && <meta name="docsearch:language" content={language} />}
       </Head>
       {children}
+      <Footer />
     </Layout>
   );
 }

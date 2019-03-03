@@ -7,7 +7,6 @@
 
 import React from 'react';
 
-import Footer from '@theme/Footer'; // eslint-disable-line
 import Navbar from '@theme/Navbar'; // eslint-disable-line
 
 import './styles.css';
@@ -17,7 +16,6 @@ function Layout({children}) {
     <div>
       <Navbar />
       {children}
-      <Footer />
     </div>
   );
 }

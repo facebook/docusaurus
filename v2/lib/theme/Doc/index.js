@@ -36,7 +36,6 @@ function Doc(props) {
       <Sidebar />
       <div className={styles.mainContainer}>
         <div className={styles.docContainer}>{renderRoutes(route.routes)}</div>
-        <Footer />
       </div>
     </div>
   );
