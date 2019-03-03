@@ -13,6 +13,7 @@ async function genRoutesConfig({
   pagesMetadatas = [],
   contentsStore = {},
 }) {
+  // Docs.
   const {docsUrl, baseUrl} = siteConfig;
   function genDocsRoute(metadata) {
     const {permalink, source} = metadata;
@@ -45,6 +46,7 @@ async function genRoutesConfig({
       .join(',')}],
   }`;
 
+  // Pages.
   function genPagesRoute(metadata) {
     const {permalink, source} = metadata;
     return `
@@ -66,6 +68,7 @@ async function genRoutesConfig({
   }`;
   }
 
+  // Blog.
   function genBlogRoute(metadata) {
     const {permalink, source} = metadata;
     if (metadata.isBlogPage) {

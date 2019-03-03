@@ -34,6 +34,7 @@ module.exports = {
       name: 'docusaurus-content-blog',
       options: {
         include: ['*.md', '*.mdx'],
+        path: '../v1/website/blog',
       },
     },
   ],
