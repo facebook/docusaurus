@@ -25,7 +25,7 @@ const DEFAULT_OPTIONS = {
   routeBasePath: 'blog', // URL Route.
   include: ['*.md'], // Extensions to include.
   pageCount: 10, // How many entries per page.
-  cachePath: 'blogMetadata.js',
+  cacheFileName: 'blogMetadata.json',
 };
 
 class DocusaurusContentBlogPlugin {

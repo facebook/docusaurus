@@ -99,10 +99,12 @@ module.exports = async function load(siteDir) {
           contents,
         };
         contentsStore[options.contentKey] = pluginContents;
+        const pluginCacheDir = path.join(generatedFilesDir, name);
+        fs.ensureDirSync(pluginCacheDir);
         await generate(
-          generatedFilesDir,
-          options.cachePath,
-          `export default ${JSON.stringify(contents, null, 2)};`,
+          pluginCacheDir,
+          options.cacheFileName,
+          JSON.stringify(contents, null, 2),
         );
       }),
     );
@@ -139,6 +141,8 @@ module.exports = async function load(siteDir) {
 
   // Generate React Router Config.
   const routesConfig = await genRoutesConfig(props);
+  await generate(generatedFilesDir, 'routes.js', routesConfig);
+
   await generate(generatedFilesDir, 'routes.js', routesConfig);
 
   return props;
