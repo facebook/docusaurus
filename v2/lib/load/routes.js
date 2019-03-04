@@ -11,16 +11,14 @@ async function genRoutesConfig({
   siteConfig = {},
   docsMetadatas = {},
   pagesMetadatas = [],
-  contentsStore = {},
   pluginRouteConfigs = [],
 }) {
-  const modules = [
+  const imports = [
     `import React from 'react';`,
     `import Loadable from 'react-loadable';`,
     `import Loading from '@theme/Loading';`,
     `import Doc from '@theme/Doc';`,
     `import DocBody from '@theme/DocBody';`,
-    `import BlogPage from '@theme/BlogPage';`,
     `import Pages from '@theme/Pages';`,
     `import NotFound from '@theme/NotFound';`,
   ];
@@ -34,7 +32,7 @@ async function genRoutesConfig({
   path: '${permalink}',
   exact: true,
   component: Loadable({
-    loader: () => import(/* webpackPrefetch: true */ '${source}'),
+    loader: () => import('${source}'),
     loading: Loading,
     render(loaded, props) {
       let Content = loaded.default;
@@ -66,7 +64,7 @@ async function genRoutesConfig({
   path: '${permalink}',
   exact: true,
   component: Loadable({
-    loader: () => import(/* webpackPrefetch: true */ '${source}'),
+    loader: () => import('${source}'),
     loading: Loading,
     render(loaded, props) {
       let Content = loaded.default;
@@ -80,40 +78,6 @@ async function genRoutesConfig({
 }`;
   }
 
-  // Blog.
-  function genBlogPageRoute(metadata) {
-    const {permalink} = metadata;
-    const {posts} = metadata;
-    return `
-{
-  path: '${permalink}',
-  exact: true,
-  component: Loadable.Map({
-    loader: {
-      ${posts
-        .map(
-          (post, index) =>
-            `post${index}: () => import(/* webpackPrefetch: true */ '${
-              post.source
-            }')`,
-        )
-        .join(',\n\t\t\t\t')}
-    },
-    loading: Loading,
-    render(loaded, props) {
-      ${posts
-        .map((p, i) => `const Post${i} = loaded.post${i}.default;`)
-        .join('\n\t\t\t\t')}
-      return (
-        <BlogPage {...props} metadata={${JSON.stringify(metadata)}} >
-          ${posts.map((p, i) => `<Post${i} />`).join(' ')}
-        </BlogPage>
-      )
-    }
-  })
-}`;
-  }
-
   const notFoundRoute = `
 {
   path: '*',
@@ -121,46 +85,45 @@ async function genRoutesConfig({
 }`;
 
   const routes = pluginRouteConfigs.map(pluginRouteConfig => {
-    const {path, component, metadata, content} = pluginRouteConfig;
+    const {path, component, metadata, modules} = pluginRouteConfig;
     return `
 {
   path: '${path}',
   exact: true,
   component: Loadable.Map({
     loader: {
-      Content: () => import('${content}'),
+${modules
+      .map(
+        (module, index) => `      Module${index}: () => import('${module}'),`,
+      )
+      .join('\n')}
       Component: () => import('${component}'),
     },
     loading: Loading,
     render(loaded, props) {
-      const Content = loaded.Content.default;
       const Component = loaded.Component.default;
+      const modules = [
+${modules
+      .map((module, index) => `        loaded.Module${index}.default,`)
+      .join('\n')}
+      ];
       return (
-        <Component {...props} metadata={${JSON.stringify(metadata)}}>
-          <Content />
-        </Component>
-      )
+        <Component {...props} metadata={${JSON.stringify(
+          metadata,
+        )}} modules={modules}/>
+      );
     }
   })
 }`;
   });
 
   return `
-${modules.join('\n')}
+${imports.join('\n')}
 
 const routes = [
 // Docs.${pagesMetadatas.map(genPagesRoute).join(',')},
 
 // Pages.${docsRoutes},
-
-// Blog.${
-    contentsStore.blog
-      ? contentsStore.blog.contents
-          .filter(metadata => metadata.isBlogPage)
-          .map(genBlogPageRoute)
-          .join(',')
-      : ''
-  },
 
 // Plugins.${routes.join(',')},
 

@@ -105,12 +105,17 @@ class DocusaurusContentBlogPlugin {
   }
 
   async generateRoutes({contents, actions}) {
-    const {blogPostComponent} = this.options;
+    const {blogPageComponent, blogPostComponent} = this.options;
     const {addRoute} = actions;
     contents.forEach(metadata => {
-      const {permalink, source} = metadata;
-      if (metadata.isBlogPage) {
-        // TODO: Handle blog page.
+      const {isBlogPage, permalink} = metadata;
+      if (isBlogPage) {
+        addRoute({
+          path: permalink,
+          component: blogPageComponent,
+          metadata,
+          modules: metadata.posts.map(post => post.source),
+        });
         return;
       }
 
@@ -118,7 +123,7 @@ class DocusaurusContentBlogPlugin {
         path: permalink,
         component: blogPostComponent,
         metadata,
-        content: source,
+        modules: [metadata.source],
       });
     });
   }

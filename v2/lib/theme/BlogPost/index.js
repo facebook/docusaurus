@@ -88,6 +88,9 @@ class BlogPost extends React.Component {
     const {metadata = {}, siteConfig = {}} = this.context;
     const {baseUrl, favicon} = siteConfig;
     const {language, title} = metadata;
+    const {modules} = this.props;
+    const BlogPostContents = modules[0];
+
     return (
       <Layout>
         <Head defaultTitle={siteConfig.title}>
@@ -96,7 +99,7 @@ class BlogPost extends React.Component {
           {language && <html lang={language} />}
         </Head>
         {this.renderPostHeader()}
-        {this.props.children}
+        <BlogPostContents />
       </Layout>
     );
   }

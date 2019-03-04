@@ -9,7 +9,6 @@ import React, {useContext} from 'react';
 import Link from '@docusaurus/Link';
 import Head from '@docusaurus/Head';
 import Layout from '@theme/Layout'; // eslint-disable-line
-import BlogPost from '@theme/BlogPost'; // eslint-disable-line
 
 import DocusaurusContext from '@docusaurus/context';
 
@@ -17,6 +16,7 @@ function BlogPage(props) {
   const context = useContext(DocusaurusContext);
   const {blogMetadata, language, siteConfig = {}} = context;
   const {baseUrl, favicon} = siteConfig;
+  const {modules: BlogPosts} = props;
 
   return (
     <Layout>
@@ -34,7 +34,9 @@ function BlogPage(props) {
             </li>
           ))}
         </ul>
-        {props.children}
+        {BlogPosts.map(BlogPost => (
+          <BlogPost />
+        ))}
       </div>
     </Layout>
   );
