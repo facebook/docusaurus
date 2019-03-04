@@ -26,6 +26,8 @@ const DEFAULT_OPTIONS = {
   include: ['*.md'], // Extensions to include.
   pageCount: 10, // How many entries per page.
   cacheFileName: 'blogMetadata.json',
+  blogPageComponent: '@theme/BlogPage',
+  blogPostComponent: '@theme/BlogPost',
 };
 
 class DocusaurusContentBlogPlugin {
@@ -34,7 +36,7 @@ class DocusaurusContentBlogPlugin {
     this.context = context;
   }
 
-  async load() {
+  async loadContents() {
     const {pageCount, path: filePath, include, routeBasePath} = this.options;
     const {env, siteConfig, siteDir} = this.context;
     const blogDir = path.resolve(siteDir, filePath);
@@ -100,6 +102,25 @@ class DocusaurusContentBlogPlugin {
     }
 
     return blogMetadata;
+  }
+
+  async generateRoutes({contents, actions}) {
+    const {blogPostComponent} = this.options;
+    const {addRoute} = actions;
+    contents.forEach(metadata => {
+      const {permalink, source} = metadata;
+      if (metadata.isBlogPage) {
+        // TODO: Handle blog page.
+        return;
+      }
+
+      addRoute({
+        path: permalink,
+        component: blogPostComponent,
+        metadata,
+        content: source,
+      });
+    });
   }
 }
 

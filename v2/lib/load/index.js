@@ -79,36 +79,69 @@ module.exports = async function load(siteDir) {
     `export default ${JSON.stringify(pagesMetadatas, null, 2)};`,
   );
 
-  const contentsStore = {};
-
   // Process plugins.
-  if (siteConfig.plugins) {
-    const context = {env, siteDir, siteConfig};
-    // Currently runs all plugins in parallel and not order-dependent. We could change
-    // this in future if there's a need.
-    await Promise.all(
-      siteConfig.plugins.map(async ({name, options: opts}) => {
-        // TODO: Resolve using node_modules as well.
-        // eslint-disable-next-line
-        const Plugin = require(path.resolve(__dirname, '../../plugins', name));
-        const plugin = new Plugin(opts, context);
-        const {options} = plugin;
-        const contents = await plugin.load();
-        const pluginContents = {
-          options,
-          contents,
-        };
-        contentsStore[options.contentKey] = pluginContents;
-        const pluginCacheDir = path.join(generatedFilesDir, name);
-        fs.ensureDirSync(pluginCacheDir);
-        await generate(
-          pluginCacheDir,
-          options.cacheFileName,
-          JSON.stringify(contents, null, 2),
-        );
-      }),
-    );
-  }
+  const pluginConfigs = siteConfig.plugins || [];
+  const context = {env, siteDir, siteConfig};
+
+  // Initialize plugins.
+  const plugins = pluginConfigs.map(({name, options: opts}) => {
+    // TODO: Resolve using node_modules as well.
+    // eslint-disable-next-line
+    const Plugin = require(path.resolve(__dirname, '../../plugins', name));
+    const plugin = new Plugin(opts, context);
+    return {
+      name,
+      plugin,
+    };
+  });
+
+  // Plugin lifecycle - loadContents().
+  const contentsStore = {};
+  // Currently plugins run lifecycle in parallel and are not order-dependent. We could change
+  // this in future if there are plugins which need to run in certain order or depend on
+  // others for data.
+  const pluginsLoadedContents = await Promise.all(
+    plugins.map(async ({plugin, name}) => {
+      if (!plugin.loadContents) {
+        return null;
+      }
+
+      const {options} = plugin;
+      const contents = await plugin.loadContents();
+      const pluginContents = {
+        options,
+        contents,
+      };
+      contentsStore[options.contentKey] = pluginContents;
+      const pluginCacheDir = path.join(generatedFilesDir, name);
+      fs.ensureDirSync(pluginCacheDir);
+      await generate(
+        pluginCacheDir,
+        options.cacheFileName,
+        JSON.stringify(contents, null, 2),
+      );
+
+      return contents;
+    }),
+  );
+
+  // Plugin lifecycle - generateRoutes().
+  const pluginRouteConfigs = [];
+  const actions = {
+    addRoute: config => pluginRouteConfigs.push(config),
+  };
+  await Promise.all(
+    plugins.map(async ({plugin}, index) => {
+      if (!plugin.generateRoutes) {
+        return;
+      }
+      const contents = pluginsLoadedContents[index];
+      await plugin.generateRoutes({
+        contents,
+        actions,
+      });
+    }),
+  );
 
   // Resolve outDir.
   const outDir = path.resolve(siteDir, 'build');
@@ -140,9 +173,10 @@ module.exports = async function load(siteDir) {
   };
 
   // Generate React Router Config.
-  const routesConfig = await genRoutesConfig(props);
-  await generate(generatedFilesDir, 'routes.js', routesConfig);
-
+  const routesConfig = await genRoutesConfig({
+    ...props,
+    pluginRouteConfigs,
+  });
   await generate(generatedFilesDir, 'routes.js', routesConfig);
 
   return props;
