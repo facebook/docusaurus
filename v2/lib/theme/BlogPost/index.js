@@ -17,7 +17,7 @@ import styles from './styles.module.css';
 
 class BlogPost extends React.Component {
   renderPostHeader() {
-    const {metadata} = this.context;
+    const {metadata} = this.props;
     if (!metadata) {
       return null;
     }
