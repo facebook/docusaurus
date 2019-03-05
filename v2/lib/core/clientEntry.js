@@ -13,7 +13,7 @@ import App from './App';
 import preload from './preload';
 import routes from '@generated/routes'; // eslint-disable-line
 
-// Client side render (e.g: running in browser) to become single-page application (SPA)
+// Client-side render (e.g: running in browser) to become single-page application (SPA).
 if (typeof window !== 'undefined' && typeof document !== 'undefined') {
   preload(routes, window.location.pathname).then(() => {
     ReactDOM.render(

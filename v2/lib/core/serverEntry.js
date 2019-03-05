@@ -50,8 +50,7 @@ export default function render(locals) {
     const cssFiles = assets.filter(value => value.match(/\.css$/));
     const {baseUrl} = locals;
 
-    const html = `
-  <!DOCTYPE html>
+    return `<!DOCTYPE html>
   <html${htmlAttributes ? ` ${htmlAttributes}` : ''}>
     <head>
       ${metaHtml}
@@ -75,6 +74,5 @@ export default function render(locals) {
     </body>
   </html>
 `;
-    return html;
   });
 }

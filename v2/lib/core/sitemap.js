@@ -29,21 +29,17 @@ module.exports = async function createSitemap({
     );
   }
 
-  const urls = [];
+  const urls = allMetadatas.map(metadata => ({
+    url: metadata.permalink,
+    changefreq: 'weekly',
+    priority: 0.5,
+  }));
 
-  allMetadatas.forEach(metadata => {
-    urls.push({
-      url: metadata.permalink,
-      changefreq: 'weekly',
-      priority: 0.5,
-    });
-  });
-
-  const sm = sitemap.createSitemap({
+  const generatedSitemap = sitemap.createSitemap({
     hostname: siteUrl,
     cacheTime: 600 * 1000, // 600 sec - cache purge period
     urls,
   });
 
-  return sm.toString();
+  return generatedSitemap.toString();
 };

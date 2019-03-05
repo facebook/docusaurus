@@ -5,11 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+const cleanWebpackPlugin = require('clean-webpack-plugin');
 const path = require('path');
 const webpackNiceLog = require('webpack-nicelog');
 const {StatsWriterPlugin} = require('webpack-stats-plugin');
 const {ReactLoadablePlugin} = require('react-loadable/webpack');
-const cleanWebpackPlugin = require('clean-webpack-plugin');
+
 const createBaseConfig = require('./base');
 const {applyChainWebpack} = require('./utils');
 
@@ -17,18 +18,17 @@ module.exports = function createClientConfig(props) {
   const config = createBaseConfig(props);
   config.entry('main').add(path.resolve(__dirname, '../core/clientEntry.js'));
 
-  // Remove/clean build folders before building bundles.
   const {outDir} = props;
+  // Remove/clean build folders before building bundles.
   config
     .plugin('clean')
     .use(cleanWebpackPlugin, [outDir, {verbose: false, allowExternal: true}]);
-
-  // write webpack stats object so we can pickup correct client bundle path in server.
+  // Write webpack stats object so we can pickup correct client bundle path in server.
   config
-    .plugin('client-stats')
+    .plugin('clientStats')
     .use(StatsWriterPlugin, [{filename: 'client.stats.json'}]);
   config
-    .plugin('react-loadable-stats')
+    .plugin('reactLoadableStats')
     .use(ReactLoadablePlugin, [
       {filename: path.join(outDir, 'react-loadable.json')},
     ]);
@@ -39,7 +39,7 @@ module.exports = function createClientConfig(props) {
     .plugin('niceLog')
     .use(webpackNiceLog, [{name: 'Client', skipBuildTime: isProd}]);
 
-  // user extended webpack-chain config
+  // User-extended webpack-chain config.
   applyChainWebpack(props.siteConfig.chainWebpack, config, false);
 
   return config;

@@ -49,8 +49,8 @@ module.exports = async function start(siteDir, cliOptions = {}) {
     const docsRelativeDir = props.siteConfig.customDocsPath;
     const fsWatcher = chokidar.watch(
       [
+        // TODO: Watch plugin paths (e.g. blog)
         `../${docsRelativeDir}/**/*.md`,
-        'blog/**/*.md',
         loadConfig.configFileName,
         'sidebars.json',
       ],
@@ -59,11 +59,9 @@ module.exports = async function start(siteDir, cliOptions = {}) {
         ignoreInitial: true,
       },
     );
-    fsWatcher.on('add', reload);
-    fsWatcher.on('change', reload);
-    fsWatcher.on('unlink', reload);
-    fsWatcher.on('addDir', reload);
-    fsWatcher.on('unlinkDir', reload);
+    ['add', 'change', 'unlink', 'addDir', 'unlinkDir'].forEach(event =>
+      fsWatcher.on(event, reload),
+    );
   }
 
   const port = await getPort(cliOptions.port);

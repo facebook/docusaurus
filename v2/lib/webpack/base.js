@@ -146,7 +146,7 @@ module.exports = function createBaseConfig(props, isServer) {
   }).test(CSS_MODULE_REGEX);
 
   // mini-css-extract plugin
-  config.plugin('extract-css').use(CSSExtractPlugin, [
+  config.plugin('extractCSS').use(CSSExtractPlugin, [
     {
       filename: isProd ? '[name].[chunkhash].css' : '[name].css',
       chunkFilename: isProd ? '[id].[chunkhash].css' : '[id].css',

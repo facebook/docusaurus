@@ -47,7 +47,7 @@ module.exports = async function build(siteDir) {
   let serverConfig = createServerConfig(props).toConfig();
   let clientConfig = createClientConfig(props).toConfig();
 
-  // apply user webpack config
+  // Apply user webpack config.
   const {
     siteConfig: {configureWebpack},
   } = props;
@@ -61,7 +61,7 @@ module.exports = async function build(siteDir) {
   // Build the server bundles (render the static HTML and pick client bundle)
   await compile(serverConfig);
 
-  // copy static files
+  // Copy static files.
   const {outDir} = props;
   const staticDir = path.resolve(siteDir, 'static');
   const staticFiles = await globby(['**'], {
@@ -75,7 +75,7 @@ module.exports = async function build(siteDir) {
     }),
   );
 
-  // generate sitemap
+  // Generate sitemap.
   const sitemap = await createSitemap(props);
   const sitemapPath = path.join(outDir, 'sitemap.xml');
   await fs.writeFile(sitemapPath, sitemap);

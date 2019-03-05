@@ -34,8 +34,8 @@ function BlogPage(props) {
             </li>
           ))}
         </ul>
-        {BlogPosts.map(BlogPost => (
-          <BlogPost />
+        {BlogPosts.map((BlogPost, index) => (
+          <BlogPost key={index} />
         ))}
       </div>
     </Layout>
