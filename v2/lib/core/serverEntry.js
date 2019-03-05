@@ -12,7 +12,7 @@ import Helmet from 'react-helmet';
 import {getBundles} from 'react-loadable/webpack';
 import Loadable from 'react-loadable';
 
-import reactLoadableStats from '@build/react-loadable.json'; //eslint-disable-line
+import reactLoadableStats from '@generated/react-loadable.json'; //eslint-disable-line
 import webpackClientStats from '@build/client.stats.json'; //eslint-disable-line
 import routes from '@generated/routes'; // eslint-disable-line
 import preload from './preload';

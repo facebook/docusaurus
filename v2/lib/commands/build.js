@@ -6,6 +6,7 @@
  */
 
 const webpack = require('webpack');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const path = require('path');
 const chalk = require('chalk');
 const fs = require('fs-extra');
@@ -26,7 +27,7 @@ function compile(config) {
         stats.toJson().errors.forEach(e => {
           console.error(e);
         });
-        reject(new Error(`Failed to compile with errors.`));
+        reject(new Error('Failed to compile with errors.'));
       }
       if (stats.hasWarnings()) {
         stats.toJson().warnings.forEach(warning => {
@@ -44,25 +45,38 @@ module.exports = async function build(siteDir) {
 
   const props = await load(siteDir);
 
-  let serverConfig = createServerConfig(props).toConfig();
-  let clientConfig = createClientConfig(props).toConfig();
-
   // Apply user webpack config.
   const {
+    outDir,
     siteConfig: {configureWebpack},
   } = props;
-  clientConfig = applyConfigureWebpack(configureWebpack, clientConfig, false);
-  serverConfig = applyConfigureWebpack(configureWebpack, serverConfig, true);
+
+  const clientConfigObj = createClientConfig(props);
+  // Remove/clean build folders before building bundles.
+  clientConfigObj
+    .plugin('clean')
+    .use(CleanWebpackPlugin, [outDir, {verbose: false, allowExternal: true}]);
+  const serverConfigObj = createServerConfig(props);
+  const clientConfig = applyConfigureWebpack(
+    configureWebpack,
+    clientConfigObj.toConfig(),
+    false,
+  );
+  const serverConfig = applyConfigureWebpack(
+    configureWebpack,
+    serverConfigObj.toConfig(),
+    true,
+  );
 
   // Build the client bundles first.
-  // We cannot run them in parallel because the server need to pickup the correct client bundle name
+  // We cannot run them in parallel because the server needs to know
+  // the correct client bundle name.
   await compile(clientConfig);
 
-  // Build the server bundles (render the static HTML and pick client bundle)
+  // Build the server bundles (render the static HTML and pick client bundle),
   await compile(serverConfig);
 
   // Copy static files.
-  const {outDir} = props;
   const staticDir = path.resolve(siteDir, 'static');
   const staticFiles = await globby(['**'], {
     cwd: staticDir,

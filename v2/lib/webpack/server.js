@@ -7,7 +7,7 @@
 
 const _ = require('lodash');
 const path = require('path');
-const staticSiteGenerator = require('static-site-generator-webpack-plugin');
+const StaticSiteGeneratorPlugin = require('static-site-generator-webpack-plugin');
 const webpackNiceLog = require('webpack-nicelog');
 const createBaseConfig = require('./base');
 const {applyChainWebpack} = require('./utils');
@@ -34,7 +34,7 @@ module.exports = function createServerConfig(props) {
     ...docsFlatMetadatas,
     ...pagesMetadatas,
   ].map(data => data.permalink);
-  config.plugin('siteGenerator').use(staticSiteGenerator, [
+  config.plugin('siteGenerator').use(StaticSiteGeneratorPlugin, [
     {
       entry: 'main',
       locals: {

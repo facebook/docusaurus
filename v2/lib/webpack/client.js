@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const cleanWebpackPlugin = require('clean-webpack-plugin');
 const path = require('path');
 const webpackNiceLog = require('webpack-nicelog');
 const {StatsWriterPlugin} = require('webpack-stats-plugin');
@@ -15,14 +14,12 @@ const createBaseConfig = require('./base');
 const {applyChainWebpack} = require('./utils');
 
 module.exports = function createClientConfig(props) {
+  const isProd = process.env.NODE_ENV === 'production';
+
   const config = createBaseConfig(props);
   config.entry('main').add(path.resolve(__dirname, '../core/clientEntry.js'));
 
-  const {outDir} = props;
-  // Remove/clean build folders before building bundles.
-  config
-    .plugin('clean')
-    .use(cleanWebpackPlugin, [outDir, {verbose: false, allowExternal: true}]);
+  const {generatedFilesDir} = props;
   // Write webpack stats object so we can pickup correct client bundle path in server.
   config
     .plugin('clientStats')
@@ -30,11 +27,10 @@ module.exports = function createClientConfig(props) {
   config
     .plugin('reactLoadableStats')
     .use(ReactLoadablePlugin, [
-      {filename: path.join(outDir, 'react-loadable.json')},
+      {filename: path.join(generatedFilesDir, 'react-loadable.json')},
     ]);
 
   // Show compilation progress bar and build time.
-  const isProd = process.env.NODE_ENV === 'production';
   config
     .plugin('niceLog')
     .use(webpackNiceLog, [{name: 'Client', skipBuildTime: isProd}]);
