@@ -58,7 +58,7 @@ function extractMetadata(content) {
     } catch (err) {
       // Ignore the error as it means it's not a JSON value.
     }
-    metadata[key] = value;
+    metadata[key] = isNaN(value) ? value : value+'';
   }
   return {metadata, rawContent: both.content};
 }
