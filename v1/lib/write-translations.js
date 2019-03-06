@@ -72,16 +72,13 @@ function execute() {
   // look through markdown headers of docs for titles and categories to translate
   const docsDir = nodePath.join(CWD, '../', readMetadata.getDocsPath());
   const versionedDocsDir = nodePath.join(CWD, 'versioned_docs');
-  let files = [
-    ...glob.sync(`${docsDir}/**`),
-    ...glob.sync(`${versionedDocsDir}/**`),
-  ];
-  files.forEach(file => {
+
+  const translateDoc = (file, refDir) => {
     const extension = nodePath.extname(file);
     if (extension === '.md' || extension === '.markdown') {
       let res;
       try {
-        res = readMetadata.processMetadata(file, docsDir);
+        res = readMetadata.processMetadata(file, refDir);
       } catch (e) {
         console.error(e);
         process.exit(1);
@@ -100,7 +97,12 @@ function execute() {
           metadata.sidebar_label;
       }
     }
-  });
+  };
+  glob.sync(`${docsDir}/**`).forEach(file => translateDoc(file, docsDir));
+  glob
+    .sync(`${versionedDocsDir}/**`)
+    .forEach(file => translateDoc(file, versionedDocsDir));
+
   // look through header links for text to translate
   siteConfig.headerLinks.forEach(link => {
     if (link.label) {
@@ -116,8 +118,7 @@ function execute() {
     });
   });
 
-  files = glob.sync(`${CWD}/versioned_sidebars/*`);
-  files.forEach(file => {
+  glob.sync(`${CWD}/versioned_sidebars/*`).forEach(file => {
     if (!file.endsWith('-sidebars.json')) {
       if (file.endsWith('-sidebar.json')) {
         console.warn(
@@ -143,8 +144,7 @@ function execute() {
   });
 
   // go through pages to look for text inside translate tags
-  files = glob.sync(`${CWD}/pages/en/**`);
-  files.forEach(file => {
+  glob.sync(`${CWD}/pages/en/**`).forEach(file => {
     const extension = nodePath.extname(file);
     if (extension === '.js') {
       const ast = babylon.parse(fs.readFileSync(file, 'utf8'), {
