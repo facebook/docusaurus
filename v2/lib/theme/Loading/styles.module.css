@@ -6,11 +6,8 @@
  */
 
 .loader {
-  width: 100%;
-  height: 49px;
-  position: fixed;
+  padding: 20px;
   text-align: center;
-  top: 35%;
 }
 
 .loaderSpinning {
