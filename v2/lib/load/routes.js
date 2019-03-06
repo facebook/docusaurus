@@ -5,138 +5,132 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+const {normalizeUrl} = require('./utils');
+
 async function genRoutesConfig({
+  siteConfig = {},
   docsMetadatas = {},
   pagesMetadatas = [],
-  blogMetadatas = [],
+  pluginRouteConfigs = [],
 }) {
+  const imports = [
+    `import React from 'react';`,
+    `import Loadable from 'react-loadable';`,
+    `import Loading from '@theme/Loading';`,
+    `import Doc from '@theme/Doc';`,
+    `import DocBody from '@theme/DocBody';`,
+    `import Pages from '@theme/Pages';`,
+    `import NotFound from '@theme/NotFound';`,
+  ];
+
+  // Docs.
+  const {docsUrl, baseUrl} = siteConfig;
   function genDocsRoute(metadata) {
     const {permalink, source} = metadata;
     return `
-  {
-    path: ${JSON.stringify(permalink)},
-    exact: true,
-    component: Loadable({
-      loader: () => import(/* webpackPrefetch: true */ ${JSON.stringify(
-        source,
-      )}),
-      loading: Loading,
-      render(loaded, props) {
-        let Content = loaded.default;
-        return (
-          <Doc {...props} metadata={${JSON.stringify(metadata)}}>
-            <Content />
-          </Doc>
-        );
-      }
-    })
-  }`;
+{
+  path: '${permalink}',
+  exact: true,
+  component: Loadable({
+    loader: () => import('${source}'),
+    loading: Loading,
+    render(loaded, props) {
+      let Content = loaded.default;
+      return (
+        <DocBody {...props} metadata={${JSON.stringify(metadata)}}>
+          <Content />
+        </DocBody>
+      );
+    }
+  })
+}`;
   }
 
+  const rootDocsUrl = normalizeUrl([baseUrl, docsUrl]);
+  const docsRoutes = `
+{
+  path: '${rootDocsUrl}',
+  component: Doc,
+  routes: [${Object.values(docsMetadatas)
+    .map(genDocsRoute)
+    .join(',')}],
+}`;
+
+  // Pages.
   function genPagesRoute(metadata) {
     const {permalink, source} = metadata;
     return `
-  {
-    path: ${JSON.stringify(permalink)},
-    exact: true,
-    component: Loadable({
-      loader: () => import(/* webpackPrefetch: true */ ${JSON.stringify(
-        source,
-      )}),
-      loading: Loading,
-      render(loaded, props) {
-        let Content = loaded.default;
-        return (
-          <Pages {...props} metadata={${JSON.stringify(metadata)}}>
-            <Content {...props} metadata={${JSON.stringify(metadata)}} />
-          </Pages>
-        );
-      }
-    })
-  }`;
-  }
-
-  function genBlogRoute(metadata) {
-    const {permalink, source} = metadata;
-    if (metadata.isBlogPage) {
-      const {posts} = metadata;
-      return `
-  {
-    path: ${JSON.stringify(permalink)},
-    exact: true,
-    component: Loadable.Map({
-      loader: {
-        ${posts
-          .map(
-            (p, i) =>
-              `post${i}: () => import(/* webpackPrefetch: true */ ${JSON.stringify(
-                p.source,
-              )})`,
-          )
-          .join(',\n\t\t\t\t')}
-      },
-      loading: Loading,
-      render(loaded, props) {
-        ${posts
-          .map((p, i) => `const Post${i} = loaded.post${i}.default;`)
-          .join('\n\t\t\t\t')}
-        return (
-          <BlogPage {...props} metadata={${JSON.stringify(metadata)}} >
-           ${posts.map((p, i) => `<Post${i} />`).join(' ')}
-          </BlogPage>
-        )
-      }
-    })
-  }`;
+{
+  path: '${permalink}',
+  exact: true,
+  component: Loadable({
+    loader: () => import('${source}'),
+    loading: Loading,
+    render(loaded, props) {
+      let Content = loaded.default;
+      return (
+        <Pages {...props} metadata={${JSON.stringify(metadata)}}>
+          <Content {...props} metadata={${JSON.stringify(metadata)}} />
+        </Pages>
+      );
     }
-
-    return `
-  {
-    path: ${JSON.stringify(permalink)},
-    exact: true,
-    component: Loadable({
-      loader: () => import(/* webpackPrefetch: true */ ${JSON.stringify(
-        source,
-      )}),
-      loading: Loading,
-      render(loaded, props) {
-        let MarkdownContent = loaded.default;
-        return (
-          <BlogPost {...props} metadata={${JSON.stringify(metadata)}}>
-            <MarkdownContent />
-          </BlogPost>
-        );
-      }
-    })
-  }`;
+  })
+}`;
   }
 
-  const notFoundRoute = `,
-  {
-    path: '*',
-    component: NotFound
-  }`;
+  const notFoundRoute = `
+{
+  path: '*',
+  component: NotFound,
+}`;
 
-  const docsRoutes = Object.values(docsMetadatas)
-    .map(genDocsRoute)
-    .join(',');
+  const routes = pluginRouteConfigs.map(pluginRouteConfig => {
+    const {path, component, metadata, modules} = pluginRouteConfig;
+    return `
+{
+  path: '${path}',
+  exact: true,
+  component: Loadable.Map({
+    loader: {
+${modules
+      .map(
+        (module, index) => `      Module${index}: () => import('${module}'),`,
+      )
+      .join('\n')}
+      Component: () => import('${component}'),
+    },
+    loading: Loading,
+    render(loaded, props) {
+      const Component = loaded.Component.default;
+      const modules = [
+${modules
+      .map((module, index) => `        loaded.Module${index}.default,`)
+      .join('\n')}
+      ];
+      return (
+        <Component {...props} metadata={${JSON.stringify(
+          metadata,
+        )}} modules={modules}/>
+      );
+    }
+  })
+}`;
+  });
 
-  return (
-    `import React from 'react';\n` +
-    `import Loadable from 'react-loadable';\n` +
-    `import Loading from '@theme/Loading';\n` +
-    `import Doc from '@theme/Doc';\n` +
-    `import BlogPost from '@theme/BlogPost';\n` +
-    `import BlogPage from '@theme/BlogPage';\n` +
-    `import Pages from '@theme/Pages';\n` +
-    `import NotFound from '@theme/NotFound';\n` +
-    `const routes = [${docsRoutes},${pagesMetadatas
-      .map(genPagesRoute)
-      .join(',')},${blogMetadatas
-      .map(genBlogRoute)
-      .join(',')}${notFoundRoute}\n];\n` +
-    `export default routes;\n`
-  );
+  return `
+${imports.join('\n')}
+
+const routes = [
+// Docs.${pagesMetadatas.map(genPagesRoute).join(',')},
+
+// Pages.${docsRoutes},
+
+// Plugins.${routes.join(',')},
+
+// Not Found.${notFoundRoute},
+];
+
+export default routes;\n`;
 }
 
 module.exports = genRoutesConfig;

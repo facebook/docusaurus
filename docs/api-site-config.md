@@ -64,10 +64,6 @@ headerLinks: [
 ],
 ```
 
-#### `noIndex` [boolean]
-
-Boolean. If true, Docusaurus will politely ask crawlers and search engines to avoid indexing your site. This is done with a header tag and so only applies to docs and pages. Will not attempt to hide static resources. This is a best effort request. Malicious crawlers can and will still index your site.
-
 #### `organizationName` [string]
 
 GitHub username of the organization or user hosting this project. This is used by the publishing script to determine where your GitHub pages website will be hosted.
@@ -130,6 +126,11 @@ customDocsPath: 'website-docs';
 
 The default version for the site to be shown. If this is not set, the latest version will be shown.
 
+#### `docsUrl` [string]
+
+The base url for all docs file. Set this field to `''` to remove the `docs` prefix of the documentation URL. 
+If unset, it is defaulted to `docs`.
+
 #### `disableHeaderTitle` [boolean]
 
 An option to disable showing the title in the header next to the header icon. Exclude this field to keep the header as normal, otherwise set to `true`.
@@ -137,6 +138,10 @@ An option to disable showing the title in the header next to the header icon. Ex
 #### `disableTitleTagline` [boolean]
 
 An option to disable showing the tagline in the title of main pages. Exclude this field to keep page titles as `Title • Tagline`. Set to `true` to make page titles just `Title`.
+
+#### `docsSideNavCollapsible` [boolean]
+
+Set this to `true` if you want to be able to expand/collapse the links and subcategories in the sidebar.
 
 #### `editUrl` [string]
 
@@ -245,6 +250,10 @@ Path to your web app manifest (e.g., `manifest.json`). This will add a `<link>` 
 #### `markdownPlugins` [array]
 
 An array of plugins to be loaded by Remarkable, the markdown parser and renderer used by Docusaurus. The plugin will receive a reference to the Remarkable instance, allowing custom parsing and rendering rules to be defined.
+
+#### `noIndex` [boolean]
+
+Boolean. If true, Docusaurus will politely ask crawlers and search engines to avoid indexing your site. This is done with a header tag and so only applies to docs and pages. Will not attempt to hide static resources. This is a best effort request. Malicious crawlers can and will still index your site.
 
 #### `ogImage` [string]
 

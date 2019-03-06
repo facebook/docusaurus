@@ -3,7 +3,7 @@ id: installation
 title: Installation
 ---
 
-Docusaurus was designed from the ground up to be easily installed and used to get your website up and running quickly. 
+Docusaurus was designed from the ground up to be easily installed and used to get your website up and running quickly.
 
 ## Installing Docusaurus
 
@@ -62,11 +62,11 @@ runnable, example website to use as your site's base. To run:
 1.  In your root, rename `docs-examples-from-docusaurus` to `docs`.
 1.  `cd website`
 1.  Rename `blog-examples-from-docusaurus` to `blog`.
-1.  From within the `website` directory, run the local webserver using 
+1.  From within the `website` directory, run the local webserver using
     `yarn start` or `npm start`.
 1.  Load the example site at http://localhost:3000 if it did not already open
     automatically.
-    
+
     You should see the example site loaded in your web browser. There's also a LiveReload server running and any changes made to the docs and files in the `website` directory will cause the page to refresh.
 
 ![](/img/getting-started-preparation-verify.png)
@@ -82,7 +82,7 @@ yarn start (or npm run start)
 
 ## Updating Your Docusaurus Version
 
-At any time after Docusaurus is installed, you can check your current version of Docusaurus by going into the `website` directory and typing `yarn outdated docusaurus` or `npm outdated docusaurus`. 
+At any time after Docusaurus is installed, you can check your current version of Docusaurus by going into the `website` directory and typing `yarn outdated docusaurus` or `npm outdated docusaurus`.
 
 You will see something like this:
 
@@ -92,11 +92,11 @@ Using globally installed version of Yarn
 yarn outdated v1.5.1
 warning package.json: No license field
 warning No license field
-info Color legend : 
- "<red>"    : Major Update backward-incompatible updates 
- "<yellow>" : Minor Update backward-compatible features 
+info Color legend :
+ "<red>"    : Major Update backward-incompatible updates
+ "<yellow>" : Minor Update backward-compatible features
  "<green>"  : Patch Update backward-compatible bug fixes
-Package    Current Wanted Latest Package Type    URL                                          
+Package    Current Wanted Latest Package Type    URL
 docusaurus 1.0.9   1.2.0  1.2.0  devDependencies https://github.com/facebook/Docusaurus#readme
 ✨  Done in 0.41s.
 ```

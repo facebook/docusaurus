@@ -30,6 +30,7 @@ module.exports = {
     'react/jsx-closing-bracket-location': OFF, // Conflicts with Prettier.
     'react/jsx-filename-extension': OFF,
     'react/jsx-one-expression-per-line': OFF,
+    'react/no-array-index-key': OFF, // Sometimes its ok, e.g. non-changing data.
     'react/prop-types': OFF,
     'react/destructuring-assignment': OFF, // Too many lines.
     'import/no-unresolved': WARNING, // Because it couldn't resolve webpack alias.

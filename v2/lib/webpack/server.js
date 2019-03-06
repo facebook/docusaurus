@@ -5,8 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+const _ = require('lodash');
 const path = require('path');
-const staticSiteGenerator = require('static-site-generator-webpack-plugin');
+const StaticSiteGeneratorPlugin = require('static-site-generator-webpack-plugin');
 const webpackNiceLog = require('webpack-nicelog');
 const createBaseConfig = require('./base');
 const {applyChainWebpack} = require('./utils');
@@ -21,14 +22,19 @@ module.exports = function createServerConfig(props) {
   // Workaround for Webpack 4 Bug (https://github.com/webpack/webpack/issues/6522)
   config.output.globalObject('this');
 
-  const {siteConfig, blogMetadatas, docsMetadatas, pagesMetadatas} = props;
+  const {siteConfig, docsMetadatas, pagesMetadatas, contentsStore} = props;
 
-  // static site generator webpack plugin
+  // Static site generator webpack plugin.
   const docsFlatMetadatas = Object.values(docsMetadatas);
-  const paths = [...blogMetadatas, ...docsFlatMetadatas, ...pagesMetadatas].map(
-    data => data.permalink,
-  );
-  config.plugin('siteGenerator').use(staticSiteGenerator, [
+
+  // TODO: Generalize for blog plugin.
+  const blogPermalinks = _.get(contentsStore, ['blog', 'contents'], []);
+  const paths = [
+    ...blogPermalinks,
+    ...docsFlatMetadatas,
+    ...pagesMetadatas,
+  ].map(data => data.permalink);
+  config.plugin('siteGenerator').use(StaticSiteGeneratorPlugin, [
     {
       entry: 'main',
       locals: {
@@ -38,7 +44,7 @@ module.exports = function createServerConfig(props) {
     },
   ]);
 
-  // show compilation progress bar
+  // Show compilation progress bar.
   const isProd = process.env.NODE_ENV === 'production';
   config
     .plugin('niceLog')
@@ -46,7 +52,7 @@ module.exports = function createServerConfig(props) {
       {name: 'Server', color: 'yellow', skipBuildTime: isProd},
     ]);
 
-  // user extended webpack-chain config
+  // User-extended webpack-chain config.
   applyChainWebpack(props.siteConfig.chainWebpack, config, true);
 
   return config;

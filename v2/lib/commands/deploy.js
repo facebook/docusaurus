@@ -27,14 +27,16 @@ module.exports = async function deploy(siteDir) {
     process.env.CURRENT_BRANCH ||
     shell.exec('git rev-parse --abbrev-ref HEAD').stdout.trim();
 
-  const siteConfig = loadConfig(siteDir);
+  const siteConfig = loadConfig.loadConfig(siteDir);
   const organizationName =
     process.env.ORGANIZATION_NAME ||
     process.env.CIRCLE_PROJECT_USERNAME ||
     siteConfig.organizationName;
   if (!organizationName) {
     throw new Error(
-      "Missing project organization name. Did you forget to define 'organizationName' in siteConfig.js? You may also export it via the organizationName environment variable.",
+      `Missing project organization name. Did you forget to define 'organizationName' in ${
+        loadConfig.configFileName
+      }? You may also export it via the organizationName environment variable.`,
     );
   }
   const projectName =
@@ -43,7 +45,9 @@ module.exports = async function deploy(siteDir) {
     siteConfig.projectName;
   if (!projectName) {
     throw new Error(
-      "Missing project name. Did you forget to define 'projectName' in siteConfig.js? You may also export it via the projectName environment variable.",
+      `Missing project name. Did you forget to define 'projectName' in ${
+        loadConfig.configFileName
+      }? You may also export it via the projectName environment variable.`,
     );
   }
 
@@ -158,8 +162,10 @@ module.exports = async function deploy(siteDir) {
           shell.cd(path.join('build', `${projectName}-${deploymentBranch}`));
           shell.exec('git add --all');
 
+          const commitMessage =
+            process.env.CUSTOM_COMMIT_MESSAGE || 'Deploy website';
           const commitResults = shell.exec(
-            `git commit -m "Deploy website" -m "Deploy website version based on ${currentCommit}"`,
+            `git commit -m "${commitMessage}" -m "Deploy website version based on ${currentCommit}"`,
           );
           if (shell.exec(`git push origin ${deploymentBranch}`).code !== 0) {
             throw new Error('Error: Git push failed');

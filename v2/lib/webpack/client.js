@@ -9,37 +9,33 @@ const path = require('path');
 const webpackNiceLog = require('webpack-nicelog');
 const {StatsWriterPlugin} = require('webpack-stats-plugin');
 const {ReactLoadablePlugin} = require('react-loadable/webpack');
-const cleanWebpackPlugin = require('clean-webpack-plugin');
+
 const createBaseConfig = require('./base');
 const {applyChainWebpack} = require('./utils');
 
 module.exports = function createClientConfig(props) {
+  const isProd = process.env.NODE_ENV === 'production';
+
   const config = createBaseConfig(props);
   config.entry('main').add(path.resolve(__dirname, '../core/clientEntry.js'));
 
-  // remove/clean build folders before building bundles
-  const {outDir} = props;
+  const {generatedFilesDir} = props;
+  // Write webpack stats object so we can pickup correct client bundle path in server.
   config
-    .plugin('clean')
-    .use(cleanWebpackPlugin, [outDir, {verbose: false, allowExternal: true}]);
-
-  // write webpack stats object so we can pickup correct client bundle path in server.
-  config
-    .plugin('client-stats')
+    .plugin('clientStats')
     .use(StatsWriterPlugin, [{filename: 'client.stats.json'}]);
   config
-    .plugin('react-loadable-stats')
+    .plugin('reactLoadableStats')
     .use(ReactLoadablePlugin, [
-      {filename: path.join(outDir, 'react-loadable.json')},
+      {filename: path.join(generatedFilesDir, 'react-loadable.json')},
     ]);
 
-  // show compilation progress bar and build time
-  const isProd = process.env.NODE_ENV === 'production';
+  // Show compilation progress bar and build time.
   config
     .plugin('niceLog')
     .use(webpackNiceLog, [{name: 'Client', skipBuildTime: isProd}]);
 
-  // user extended webpack-chain config
+  // User-extended webpack-chain config.
   applyChainWebpack(props.siteConfig.chainWebpack, config, false);
 
   return config;

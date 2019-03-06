@@ -7,19 +7,30 @@
 
 const React = require('react');
 const fs = require('fs');
+const classNames = require('classnames');
 
 const HeaderNav = require('./nav/HeaderNav.js');
 const Head = require('./Head.js');
 
 const Footer = require(`${process.cwd()}/core/Footer.js`);
 const translation = require('../server/translation.js');
+const env = require('../server/env.js');
 const liveReloadServer = require('../server/liveReloadServer.js');
-const {idx} = require('./utils.js');
+const {idx, getPath} = require('./utils.js');
 
 const CWD = process.cwd();
 
 // Component used to provide same head, header, footer, other scripts to all pages
 class Site extends React.Component {
+  mobileNavHasOneRow(headerLinks) {
+    const hasLanguageDropdown =
+      env.translation.enabled && env.translation.enabledLanguages().length > 1;
+    const hasOrdinaryHeaderLinks = headerLinks.some(
+      link => !(link.languages || link.search),
+    );
+    return !(hasLanguageDropdown || hasOrdinaryHeaderLinks);
+  }
+
   render() {
     const tagline =
       idx(translation, [this.props.language, 'localized-strings', 'tagline']) ||
@@ -30,10 +41,11 @@ class Site extends React.Component {
           `${this.props.config.title} · ${tagline}`) ||
         this.props.config.title;
     const description = this.props.description || tagline;
-    const url =
-      this.props.config.url +
-      this.props.config.baseUrl +
-      (this.props.url || 'index.html');
+    const path = getPath(
+      this.props.config.baseUrl + (this.props.url || 'index.html'),
+      this.props.config.cleanUrl,
+    );
+    const url = this.props.config.url + path;
     let docsVersion = this.props.version;
 
     const liveReloadScriptUrl = liveReloadServer.getReloadScriptUrl();
@@ -42,6 +54,12 @@ class Site extends React.Component {
       const latestVersion = require(`${CWD}/versions.json`)[0];
       docsVersion = latestVersion;
     }
+
+    const navPusherClasses = classNames('navPusher', {
+      singleRowMobileNav: this.mobileNavHasOneRow(
+        this.props.config.headerLinks,
+      ),
+    });
 
     return (
       <html lang={this.props.language}>
@@ -62,7 +80,7 @@ class Site extends React.Component {
             version={this.props.version}
             current={this.props.metadata}
           />
-          <div className="navPusher">
+          <div className={navPusherClasses}>
             {this.props.children}
             <Footer config={this.props.config} language={this.props.language} />
           </div>

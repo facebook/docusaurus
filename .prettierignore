@@ -1,0 +1,5 @@
+__fixtures__
+dist
+node_modules
+build
+.docusaurus

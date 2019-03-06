@@ -33,7 +33,7 @@ aliases:
   - &v2-yarn |
     cd v2
     yarn install --non-interactive --cache-folder ~/.cache/yarn
-    cd website
+    cd ../v2-website
     yarn install --non-interactive --cache-folder ~/.cache/yarn
 
   - &v2-restore-yarn-cache
@@ -151,7 +151,7 @@ jobs:
           command: cd v2 && yarn test
       - run:
           name: Test Static Website Builds
-          command: cd v2/website && yarn build
+          command: cd v2-website && yarn build
 
   publish-npm:
     <<: *defaults

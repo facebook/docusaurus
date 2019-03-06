@@ -7,7 +7,7 @@
 
 const merge = require('webpack-merge');
 
-// Modify the generated webpack config with normal webpack config
+// Modify the generated webpack config with normal webpack config.
 function applyConfigureWebpack(userConfig, config, isServer) {
   if (typeof userConfig === 'object') {
     return merge(config, userConfig);
@@ -21,7 +21,7 @@ function applyConfigureWebpack(userConfig, config, isServer) {
   return config;
 }
 
-// Modify the generated webpack config with webpack-chain API
+// Modify the generated webpack config with webpack-chain API.
 function applyChainWebpack(userChainWebpack, config, isServer) {
   if (userChainWebpack) {
     userChainWebpack(config, isServer);

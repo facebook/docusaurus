@@ -20,21 +20,21 @@ describe('processMetadata', () => {
     const dataB = await processMetadata(sourceB, docsDir, env, {}, siteConfig);
     expect(dataA).toEqual({
       id: 'foo/bar',
-      language: undefined,
+      language: null,
       localized_id: 'foo/bar',
       permalink: '/docs/foo/bar',
       source: path.join(docsDir, sourceA),
       title: 'Bar',
-      version: undefined,
+      version: null,
     });
     expect(dataB).toEqual({
       id: 'hello',
-      language: undefined,
+      language: null,
       localized_id: 'hello',
       permalink: '/docs/hello',
       source: path.join(docsDir, sourceB),
       title: 'Hello, World !',
-      version: undefined,
+      version: null,
     });
   });
 
@@ -45,12 +45,12 @@ describe('processMetadata', () => {
     const data = await processMetadata(source, docsDir, env, {}, siteConfig);
     expect(data).toEqual({
       id: 'permalink',
-      language: undefined,
+      language: null,
       localized_id: 'permalink',
       permalink: '/docs/endiliey/permalink',
       source: path.join(docsDir, source),
       title: 'Permalink',
-      version: undefined,
+      version: null,
     });
   });
 
@@ -80,7 +80,7 @@ describe('processMetadata', () => {
     const dataD = await processMetadata(sourceD, docsDir, env, {}, siteConfig);
     expect(dataA).toEqual({
       id: 'version-1.0.0-foo/bar',
-      language: undefined,
+      language: null,
       localized_id: 'version-1.0.0-foo/bar',
       permalink: '/docs/1.0.0/foo/bar',
       source: path.join(versionedDir, sourceA),
@@ -89,7 +89,7 @@ describe('processMetadata', () => {
     });
     expect(dataB).toEqual({
       id: 'version-1.0.0-hello',
-      language: undefined,
+      language: null,
       localized_id: 'version-1.0.0-hello',
       permalink: '/docs/1.0.0/hello',
       source: path.join(versionedDir, sourceB),
@@ -98,7 +98,7 @@ describe('processMetadata', () => {
     });
     expect(dataC).toEqual({
       id: 'foo/bar',
-      language: undefined,
+      language: null,
       localized_id: 'foo/bar',
       permalink: '/docs/next/foo/bar',
       source: path.join(docsDir, sourceC),
@@ -107,7 +107,7 @@ describe('processMetadata', () => {
     });
     expect(dataD).toEqual({
       id: 'hello',
-      language: undefined,
+      language: null,
       localized_id: 'hello',
       permalink: '/docs/next/hello',
       source: path.join(docsDir, sourceD),
@@ -275,7 +275,7 @@ describe('processMetadata', () => {
       permalink: '/docs/ko/foo/bar',
       source: path.join(translatedDir, sourceA),
       title: 'Bar',
-      version: undefined,
+      version: null,
     });
     expect(dataB).toEqual({
       id: 'ko-hello',
@@ -284,7 +284,7 @@ describe('processMetadata', () => {
       permalink: '/docs/ko/hello',
       source: path.join(translatedDir, sourceB),
       title: 'Hello, World !',
-      version: undefined,
+      version: null,
     });
     expect(dataC).toEqual({
       id: 'en-foo/bar',
@@ -293,7 +293,7 @@ describe('processMetadata', () => {
       permalink: '/docs/en/foo/bar',
       source: path.join(docsDir, sourceC),
       title: 'Bar',
-      version: undefined,
+      version: null,
     });
     expect(dataD).toEqual({
       id: 'en-hello',
@@ -302,7 +302,7 @@ describe('processMetadata', () => {
       permalink: '/docs/en/hello',
       source: path.join(docsDir, sourceD),
       title: 'Hello, World !',
-      version: undefined,
+      version: null,
     });
   });
 });

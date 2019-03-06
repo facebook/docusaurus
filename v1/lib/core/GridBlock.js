@@ -11,7 +11,16 @@ const classNames = require('classnames');
 const MarkdownBlock = require('./MarkdownBlock.js');
 
 class GridBlock extends React.Component {
-  renderBlock(block) {
+  renderBlock(origBlock) {
+    const blockDefaults = {
+      imageAlign: 'left',
+    };
+
+    const block = {
+      ...blockDefaults,
+      ...origBlock,
+    };
+
     const blockClasses = classNames('blockElement', this.props.className, {
       alignCenter: this.props.align === 'center',
       alignRight: this.props.align === 'right',

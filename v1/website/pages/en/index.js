@@ -6,31 +6,26 @@
  */
 
 const React = require('react');
+
 const CompLibrary = require('../../core/CompLibrary.js');
 
 const Container = CompLibrary.Container;
 const GridBlock = CompLibrary.GridBlock;
-const siteConfig = require(`${process.cwd()}/siteConfig.js`);
+const Showcase = require(`${process.cwd()}/core/Showcase.js`);
 const translate = require('../../server/translate.js').translate;
-
-class Button extends React.Component {
-  render() {
-    return (
-      <div className="pluginWrapper buttonWrapper">
-        <a className="button" href={this.props.href} target={this.props.target}>
-          {this.props.children}
-        </a>
-      </div>
-    );
-  }
-}
-
-Button.defaultProps = {
-  target: '_self',
-};
 
 class HomeSplash extends React.Component {
   render() {
+    const {siteConfig, language} = this.props;
+
+    const Button = props => (
+      <div className="pluginWrapper buttonWrapper">
+        <a className="button" href={props.href} target={props.target}>
+          {props.children}
+        </a>
+      </div>
+    );
+
     return (
       <div className="homeContainer">
         <div className="homeSplashFade">
@@ -51,9 +46,7 @@ class HomeSplash extends React.Component {
                   <div className="pluginRowBlock">
                     <Button
                       href={`
-                        ${siteConfig.baseUrl}docs/${
-                        this.props.language
-                      }/installation
+                        ${siteConfig.baseUrl}docs/${language}/installation
                         `}>
                       <translate>Get Started</translate>
                     </Button>
@@ -73,16 +66,12 @@ class HomeSplash extends React.Component {
 
 class Index extends React.Component {
   render() {
-    const language = this.props.language || 'en';
-    const showcase = siteConfig.users.filter(user => user.pinned).map(user => (
-      <a href={user.infoLink} key={user.infoLink}>
-        <img src={user.image} alt={user.caption} title={user.caption} />
-      </a>
-    ));
+    const {config: siteConfig, language = 'en'} = this.props;
+    const pinnedUsersToShowcase = siteConfig.users.filter(user => user.pinned);
 
     return (
       <div>
-        <HomeSplash language={language} />
+        <HomeSplash siteConfig={siteConfig} language={language} />
         <div className="mainContainer">
           <Container padding={['bottom', 'top']} background="light">
             <GridBlock
@@ -234,7 +223,7 @@ class Index extends React.Component {
                 Docusaurus is building websites for these projects...
               </translate>
             </p>
-            <div className="logos">{showcase}</div>
+            <Showcase users={pinnedUsersToShowcase} />
             <div className="more-users">
               <a
                 className="button"

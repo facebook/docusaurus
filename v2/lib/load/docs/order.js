@@ -5,8 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-// build the docs meta such as next, previous, category and sidebar
-
+// Build the docs meta such as next, previous, category and sidebar.
 module.exports = function createOrder(allSidebars = {}) {
   const order = {};
 
@@ -28,7 +27,7 @@ module.exports = function createOrder(allSidebars = {}) {
             break;
           case 'ref':
           case 'link':
-            // refs and links should not be shown in navigation
+            // Refs and links should not be shown in navigation.
             break;
           case 'doc':
             ids.push(item.id);

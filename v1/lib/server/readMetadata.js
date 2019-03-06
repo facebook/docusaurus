@@ -16,9 +16,13 @@ const metadataUtils = require('./metadataUtils');
 const env = require('./env.js');
 const blog = require('./blog.js');
 
-const siteConfig = require(`${CWD}/siteConfig.js`);
+const loadConfig = require('./config');
+
+const siteConfig = loadConfig(`${CWD}/siteConfig.js`);
 const versionFallback = require('./versionFallback.js');
 const utils = require('./utils.js');
+
+const docsPart = `${siteConfig.docsUrl ? `${siteConfig.docsUrl}/` : ''}`;
 
 const SupportedHeaderFields = new Set([
   'id',
@@ -166,7 +170,9 @@ function processMetadata(file, refDir) {
     versionPart = 'next/';
   }
 
-  metadata.permalink = `docs/${langPart}${versionPart}${metadata.id}.html`;
+  metadata.permalink = `${docsPart}${langPart}${versionPart}${
+    metadata.id
+  }.html`;
 
   // change ids previous, next
   metadata.localized_id = metadata.id;
@@ -238,18 +244,24 @@ function generateMetadataDocs() {
           baseMetadata.id = baseMetadata.id
             .toString()
             .replace(/^en-/, `${currentLanguage}-`);
-          if (baseMetadata.permalink)
+          if (baseMetadata.permalink) {
             baseMetadata.permalink = baseMetadata.permalink
               .toString()
-              .replace(/^docs\/en\//, `docs/${currentLanguage}/`);
-          if (baseMetadata.next)
+              .replace(
+                new RegExp(`^${docsPart}en/`),
+                `${docsPart}${currentLanguage}/`,
+              );
+          }
+          if (baseMetadata.next) {
             baseMetadata.next = baseMetadata.next
               .toString()
               .replace(/^en-/, `${currentLanguage}-`);
-          if (baseMetadata.previous)
+          }
+          if (baseMetadata.previous) {
             baseMetadata.previous = baseMetadata.previous
               .toString()
               .replace(/^en-/, `${currentLanguage}-`);
+          }
           baseMetadata.language = currentLanguage;
           defaultMetadatas[baseMetadata.id] = baseMetadata;
         });

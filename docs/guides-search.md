@@ -61,6 +61,20 @@ const siteConfig = {
 };
 ```
 
+## Customizing the placeholder
+
+If you want to change the placeholder (which defaults to *Search*), add the `placeholder` field in your config. For example, you may want the search bar to display *Ask me something*:
+
+```js
+const siteConfig = {	
+  ...	
+  algolia: {	
+    ...	
+    placeholder: 'Ask me something'
+  },	
+};	
+```
+
 ## Disabling the Search Bar
 
 To disable the search bar, comment out (recommended) or delete the `algolia` section in the `siteConfig.js` file.

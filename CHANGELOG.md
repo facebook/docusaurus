@@ -6,6 +6,182 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [Unreleased]
 
+## [1.7.2] - 2019-1-28
+
+Minor fixes and improvements to some of the features introduced in 1.7.0.
+
+### Fixed/Changed
+
+- fix: horizontal overflow in collapsible sidebar ([#1205](https://github.com/facebook/Docusaurus/pull/1205))
+- fix: docs asset links should follow specified docsUrl ([#1204](https://github.com/facebook/Docusaurus/pull/1204))
+- fix: make search bar taller on widescreen ([#1210](https://github.com/facebook/Docusaurus/pull/1210))
+- fix: change sidebar chevron icon to use svg ([#1211](https://github.com/facebook/Docusaurus/pull/1211))
+
+## [1.7.1] - 2019-1-24
+
+**HOTFIX**
+
+`imagemin` got pushed down into developer dependencies, breaking the build. This fixes that.
+
+### Fixed/Changed
+
+- fix: revert image-min back to dependencies ([#1201](https://github.com/facebook/Docusaurus/pull/1201))
+
+## [1.7.0] - 2019-1-23
+
+It's the first release of the year! We've fixed a number of layout bugs and shipped a few significant new features such as:
+
+- Collapsible sidebar - Especially useful for pages with long list of items.
+- Language-specific Code Tabs - Great for documentations that target multiple languages.
+
+We also welcome a ton of new users: Node Serialport, TypeGraphQL, React Native Sensors, FBT, KaTeX, Redux, and React Leaflet.
+
+Thank you to the following contributors who helped with this release:
+
+- @teimurjan
+- @ahmadalfy
+- @mikeattara
+- @19majkel94
+- @jrwats
+- @haoqiang
+- @zkochan
+- @marvinchin
+- @YifanM
+- @SimenB
+- @zakariaharti
+- @tsmrachel
+- @fiennyangeln
+
+### Fixed/Changed
+
+- fix: edit url should support versioned subdirectories ([#1154](https://github.com/facebook/Docusaurus/pull/1154))
+- fix: gap on mobile devices when scrolling ([#1157](https://github.com/facebook/Docusaurus/pull/1157))
+- chore: update imagemin and its dependencies ([#1162](https://github.com/facebook/Docusaurus/pull/1162))
+- fix: pass docusaurus-publish cli args to build command ([#1185](https://github.com/facebook/Docusaurus/pull/1185))
+- fix: missing default value for grid block content objects ([#1186](https://github.com/facebook/Docusaurus/pull/1186))
+- fix: add margin-bottom: 0 to blog post author ([#1193](https://github.com/facebook/Docusaurus/pull/1193))
+- fix: wrong padding for single row mobile nav ([#1191](https://github.com/facebook/Docusaurus/pull/1191))
+
+### Added
+
+- feat: collapsible categories ([#1128](https://github.com/facebook/Docusaurus/pull/1128))
+- feat: code block tab ([#1063](https://github.com/facebook/Docusaurus/pull/1063))
+
+## [1.6.2] - 2018-12-7
+
+Hotfix for 1.6.1. We overlooked a critical bug caused by hardcoded path on PR [#1143](https://github.com/facebook/Docusaurus/pull/1143). Please upgrade to 1.6.2, we are going to npm deprecate 1.6.1.
+
+## [1.6.1] - 2018-12-7
+
+This version mainly includes bug fixes found in 1.6.0 that improves stability.
+
+Thank you to the following contributors who helped with this release:
+- @endiliey
+- @jakebolam
+- @JoelMarcey
+- @morleym
+- @thecodechef
+- @tsmrachel
+
+### Fixed/Changed
+
+- Fix docusaurus-version compilation error for subdirectory ([cb1395](https://github.com/facebook/Docusaurus/commit/cb1395ee29364866767e3e6e701d4e1575dad4cc))
+- Fix relative path markdown linking ([#1138](https://github.com/facebook/Docusaurus/pull/1138))
+- Fix static files in `blog/assets` not working ([#1143](https://github.com/facebook/Docusaurus/pull/1143))
+
+### Added
+
+- Allow custom commit message for publish-gh-pages ([#1136](https://github.com/facebook/Docusaurus/pull/1136))
+
+
+## [1.6.0] - 2018-12-1
+
+This releases includes few bug fixes and features. One notable feature allows user to change/remove `docs` prefix from the generated docusaurus URL.
+
+Welcome to our newest users, [React-Slate](http://react-slate.surge.sh/), [Hemera](https://hemerajs.github.io/hemera/), [React-Redux](https://react-redux.js.org/), [Spectrum](https://libspectrum.io/), [TorchCraftAI](https://torchcraft.github.io/TorchCraftAI/), and [Haul](https://callstack.github.io/haul/).
+
+Thank you to the following contributors who helped with this release:
+
+- @yangshun
+- @endiliey
+- @JoelMarcey
+- @andrewShillito
+- @kahkhang
+- @domcorvasce
+- @ellereeeee
+- @maxaggedon
+- @gianlucadonato
+- @tsmrachel
+- @Shriram-Balaji
+- @noraj
+- @alexperez
+- @wgao19
+
+### Fixed/Changed
+
+- Live reload not working on second try ([#1103](https://github.com/facebook/Docusaurus/pull/1103))
+- Fix missing TOC on i18n pages ([#1119](https://github.com/facebook/Docusaurus/pull/1119))
+- Fix docusaurus-version not working for subcategory in sidebar ([#1124](https://github.com/facebook/Docusaurus/pull/1124))
+- Fix docusaurus-version to allow duplicate id in different subdirectory ([#1125](https://github.com/facebook/Docusaurus/pull/1125))
+
+##  Docs
+- Add guide on setting custom docs path ([#1098](https://github.com/facebook/Docusaurus/pull/1098))
+- Document that `website` folder can be renamed ([#1106](https://github.com/facebook/Docusaurus/pull/1106))
+- Specify markdown flavor ([#1118](https://github.com/facebook/Docusaurus/pull/1118))
+
+### Added
+
+- Allow modifying/removing `docs` route in generated url ([#914](https://github.com/facebook/Docusaurus/pull/914))
+- Use `sidebar_label` in addition to `title` for prev/next button ([#1122](https://github.com/facebook/Docusaurus/pull/1122))
+- Warn the users if any unresolved markdown links ([#1116](https://github.com/facebook/Docusaurus/pull/1116))
+- Customizable search placeholder ([#1126](https://github.com/facebook/Docusaurus/pull/1126))
+
+## [1.5.1] - 2018-11-03
+
+A release where we had many external contributors! Very excited to see the community being involved in the project.
+
+Welcome to our newest users, Create React App, Stackery, Vasern, Noderize, React 360 and Formik.
+
+Thank you to the following contributors who helped with this release:
+
+- @yangshun
+- @endiliey
+- @JoelMarcey
+- @tanhauhau
+- @fiennyangeln
+- @vikr01
+- @alexdriedger
+- @hobofan
+- @bildungsroman
+- @tirthbodawala
+- @M4rk9696
+- @sinodko
+- @aenuros
+- @SleepWalker
+- @pdyx2828
+- @phated
+- @huguestennier
+- @gtoprak
+- @Rajekevin
+- @sunitasen
+- @shahednasser
+
+### Fixed/Changed
+
+- Throw error when forgot to pass in GIT_USER ([#1035](https://github.com/facebook/Docusaurus/pull/1035))
+- Exclude file movements for last updated time ([#1023](https://github.com/facebook/Docusaurus/pull/1023))
+- Update support for Web App Manifest ([#1046](https://github.com/facebook/Docusaurus/pull/1046))
+- Render proper HTML instead of raw markdown in og:description ([#1054](https://github.com/facebook/Docusaurus/pull/1054))
+
+### Added
+
+- New feature of displaying the last contributor to each document ([#980](https://github.com/facebook/Docusaurus/pull/980))
+- Document how to add "Copy" button to code blocks ([#1047](https://github.com/facebook/Docusaurus/pull/1047))
+- Support reference-style linking in documents ([#1048](https://github.com/facebook/Docusaurus/pull/1048))
+- Add caption to user page links ([#1075](https://github.com/facebook/Docusaurus/pull/1075))
+
+### Removed
+
 ## [1.5.0] - 2018-10-13
 
 This version introduces a big improvement to the sidebar, where you can now have subcategories.
@@ -790,7 +966,14 @@ N/A
   - Blog
   - Documentation
 
-[unreleased]: https://github.com/facebook/Docusaurus/compare/v1.5.0...HEAD
+[unreleased]: https://github.com/facebook/Docusaurus/compare/v1.7.2...HEAD
+[1.7.2]: https://github.com/facebook/Docusaurus/compare/v1.7.1...v1.7.2
+[1.7.1]: https://github.com/facebook/Docusaurus/compare/v1.7.0...v1.7.1
+[1.7.0]: https://github.com/facebook/Docusaurus/compare/v1.6.2...v1.7.0
+[1.6.2]: https://github.com/facebook/Docusaurus/compare/v1.6.1...v1.6.2
+[1.6.1]: https://github.com/facebook/Docusaurus/compare/v1.6.0...v1.6.1
+[1.6.0]: https://github.com/facebook/Docusaurus/compare/v1.5.1...v1.6.0
+[1.5.1]: https://github.com/facebook/Docusaurus/compare/v1.4.0...v1.5.1
 [1.5.0]: https://github.com/facebook/Docusaurus/compare/v1.4.0...v1.5.0
 [1.4.0]: https://github.com/facebook/Docusaurus/compare/v1.3.3...v1.4.0
 [1.3.3]: https://github.com/facebook/Docusaurus/compare/v1.3.2...v1.3.3

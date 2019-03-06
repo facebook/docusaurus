@@ -5,46 +5,41 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-/* eslint-disable */
-import React from 'react';
-import {Link} from 'react-router-dom';
-import Helmet from 'react-helmet';
-import Loadable from 'react-loadable';
+import React, {useContext} from 'react';
+import Link from '@docusaurus/Link';
+import Head from '@docusaurus/Head';
 import Layout from '@theme/Layout'; // eslint-disable-line
-import BlogPost from '@theme/BlogPost'; // eslint-disable-line
-import Loading from '@theme/Loading';
 
-export default class BlogPage extends React.Component {
-  render() {
-    const {
-      metadata,
-      blogMetadatas,
-      language,
-      children,
-      siteConfig = {},
-    } = this.props;
-    const {posts} = metadata;
+import DocusaurusContext from '@docusaurus/context';
 
-    const {baseUrl, favicon} = siteConfig;
-    return (
-      <Layout {...this.props}>
-        <Helmet>
-          <title>{'Blog'}</title>
-          {favicon && <link rel="shortcut icon" href={baseUrl + favicon} />}
-          {language && <html lang={language} />}
-          {language && <meta name="docsearch:language" content={language} />}
-        </Helmet>
-        <div>
-          <ul>
-            {blogMetadatas.map(metadata => (
-              <li key={metadata.permalink}>
-                <Link to={metadata.permalink}>{metadata.permalink}</Link>
-              </li>
-            ))}
-          </ul>
-          {children}
-        </div>
-      </Layout>
-    );
-  }
+function BlogPage(props) {
+  const context = useContext(DocusaurusContext);
+  const {blogMetadata, language, siteConfig = {}} = context;
+  const {baseUrl, favicon} = siteConfig;
+  const {modules: BlogPosts} = props;
+
+  return (
+    <Layout>
+      <Head>
+        <title>Blog</title>
+        {favicon && <link rel="shortcut icon" href={baseUrl + favicon} />}
+        {language && <html lang={language} />}
+        {language && <meta name="docsearch:language" content={language} />}
+      </Head>
+      <div>
+        <ul>
+          {blogMetadata.map(metadata => (
+            <li key={metadata.permalink}>
+              <Link to={metadata.permalink}>{metadata.permalink}</Link>
+            </li>
+          ))}
+        </ul>
+        {BlogPosts.map((BlogPost, index) => (
+          <BlogPost key={index} />
+        ))}
+      </div>
+    </Layout>
+  );
 }
+
+export default BlogPage;

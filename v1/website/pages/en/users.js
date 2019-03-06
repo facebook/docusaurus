@@ -9,26 +9,16 @@ const React = require('react');
 const CompLibrary = require('../../core/CompLibrary.js');
 
 const Container = CompLibrary.Container;
-const siteConfig = require(`${process.cwd()}/siteConfig.js`);
+const Showcase = require(`${process.cwd()}/core/Showcase.js`);
 const translate = require('../../server/translate.js').translate;
 
 class Users extends React.Component {
-  renderUser(user) {
-    return (
-      <a href={user.infoLink} key={user.infoLink}>
-        <img src={user.image} alt={user.caption} title={user.caption} />
-      </a>
-    );
-  }
-
   render() {
-    const fbShowcase = siteConfig.users
-      .filter(user => user.fbOpenSource)
-      .map((user, i) => this.renderUser(user, i));
-
-    const showcase = siteConfig.users
-      .filter(user => !user.fbOpenSource)
-      .map((user, i) => this.renderUser(user, i));
+    const {config: siteConfig} = this.props;
+    const fbUsersToShowcase = siteConfig.users.filter(
+      user => user.fbOpenSource,
+    );
+    const restToShowcase = siteConfig.users.filter(user => !user.fbOpenSource);
 
     return (
       <div className="mainContainer">
@@ -40,13 +30,13 @@ class Users extends React.Component {
               </h1>
               <p>
                 Docusaurus powers some of Facebook&apos;s popular{' '}
-                <a href="https://code.facebook.com/projects/">
+                <a href="https://opensource.facebook.com/">
                   open source projects
                 </a>
                 .
               </p>
             </div>
-            <div className="logos">{fbShowcase}</div>
+            <Showcase users={fbUsersToShowcase} />
             <div className="prose">
               <p>
                 <translate>
@@ -54,7 +44,7 @@ class Users extends React.Component {
                 </translate>
               </p>
             </div>
-            <div className="logos">{showcase}</div>
+            <Showcase users={restToShowcase} />
             <div className="prose">
               <p>
                 <translate>Is your project using Docusaurus?</translate>

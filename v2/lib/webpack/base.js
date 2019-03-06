@@ -7,7 +7,7 @@
 
 const Config = require('webpack-chain');
 const CSSExtractPlugin = require('mini-css-extract-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const path = require('path');
 
 const mdLoader = require.resolve('./loaders/markdown');
@@ -45,6 +45,7 @@ module.exports = function createBaseConfig(props, isServer) {
     versionedDir,
     translatedDir,
     baseUrl,
+    generatedFilesDir,
   } = props;
 
   const config = new Config();
@@ -69,12 +70,13 @@ module.exports = function createBaseConfig(props, isServer) {
     .set('@docs', docsDir)
     .set('@pages', pagesDir)
     .set('@build', outDir)
-    .set('@generated', path.resolve(__dirname, '../core/generated'))
+    .set('@generated', generatedFilesDir)
     .set('@core', path.resolve(__dirname, '../core'))
+    .set('@docusaurus', path.resolve(__dirname, '../docusaurus'))
     .end()
     .modules // prioritize our own node modules
-    .add(path.resolve(__dirname, '../../node_modules'))
-    .add(path.resolve(siteDir, 'node_modules'))
+    .add(path.resolve(__dirname, '../../node_modules')) // Prioritize our own node modules.
+    .add(path.resolve(siteDir, 'node_modules')) // load user node_modules
     .add('node_modules');
 
   function applyBabel(rule) {
@@ -159,7 +161,7 @@ module.exports = function createBaseConfig(props, isServer) {
   }).test(CSS_MODULE_REGEX);
 
   // mini-css-extract plugin
-  config.plugin('extract-css').use(CSSExtractPlugin, [
+  config.plugin('extractCSS').use(CSSExtractPlugin, [
     {
       filename: isProd ? '[name].[chunkhash].css' : '[name].css',
       chunkFilename: isProd ? '[id].[chunkhash].css' : '[id].css',
@@ -168,15 +170,17 @@ module.exports = function createBaseConfig(props, isServer) {
 
   if (isProd) {
     config.optimization.minimizer([
-      new UglifyJsPlugin({
+      new TerserPlugin({
         cache: true,
-        uglifyOptions: {
-          warnings: false,
-          compress: false,
+        parallel: true,
+        sourceMap: true,
+        terserOptions: {
           ecma: 6,
           mangle: true,
+          output: {
+            comments: false,
+          },
         },
-        sourceMap: true,
       }),
     ]);
   }

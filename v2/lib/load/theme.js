@@ -24,6 +24,7 @@ module.exports = function loadConfig(siteDir) {
     'Markdown',
     'Search',
   ];
+
   themeComponents.forEach(component => {
     if (!require.resolve(path.join(themePath, component))) {
       throw new Error(

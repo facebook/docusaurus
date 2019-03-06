@@ -6,11 +6,13 @@
  */
 
 const sitemap = require('sitemap');
+const loadConfig = require('../load/config');
 
 module.exports = async function createSitemap({
   siteConfig = {},
   docsMetadatas = {},
   pagesMetadatas = [],
+  // TODO: Generalize for blog plugin.
   blogMetadatas = [],
 }) {
   const allMetadatas = [
@@ -22,24 +24,22 @@ module.exports = async function createSitemap({
   const {url: siteUrl} = siteConfig;
 
   if (!siteUrl) {
-    throw new Error('Url in siteConfig.js cannot be empty/undefined');
+    throw new Error(
+      `Url in ${loadConfig.configFileName} cannot be empty/undefined`,
+    );
   }
 
-  const urls = [];
+  const urls = allMetadatas.map(metadata => ({
+    url: metadata.permalink,
+    changefreq: 'weekly',
+    priority: 0.5,
+  }));
 
-  allMetadatas.forEach(metadata => {
-    urls.push({
-      url: metadata.permalink,
-      changefreq: 'weekly',
-      priority: 0.5,
-    });
-  });
-
-  const sm = sitemap.createSitemap({
+  const generatedSitemap = sitemap.createSitemap({
     hostname: siteUrl,
     cacheTime: 600 * 1000, // 600 sec - cache purge period
     urls,
   });
 
-  return sm.toString();
+  return generatedSitemap.toString();
 };

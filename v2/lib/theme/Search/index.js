@@ -7,18 +7,20 @@
 
 import React from 'react';
 
+import DocusaurusContext from '@docusaurus/context';
+
 import './styles.css';
 
 class Search extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       enabled: true,
     };
   }
 
   componentDidMount() {
-    const {siteConfig = {}, metadata = {}} = this.props;
+    const {siteConfig = {}, metadata = {}} = this.context;
     const {version: thisVersion, language: thisLanguage} = metadata;
     const {algolia} = siteConfig;
 
@@ -57,5 +59,7 @@ class Search extends React.Component {
     ) : null;
   }
 }
+
+Search.contextType = DocusaurusContext;
 
 export default Search;

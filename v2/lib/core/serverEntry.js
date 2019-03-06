@@ -12,7 +12,7 @@ import Helmet from 'react-helmet';
 import {getBundles} from 'react-loadable/webpack';
 import Loadable from 'react-loadable';
 
-import reactLoadableStats from '@build/react-loadable.json'; //eslint-disable-line
+import reactLoadableStats from '@generated/react-loadable.json'; //eslint-disable-line
 import webpackClientStats from '@build/client.stats.json'; //eslint-disable-line
 import routes from '@generated/routes'; // eslint-disable-line
 import preload from './preload';
@@ -50,8 +50,7 @@ export default function render(locals) {
     const cssFiles = assets.filter(value => value.match(/\.css$/));
     const {baseUrl} = locals;
 
-    const html = `
-  <!DOCTYPE html>
+    return `<!DOCTYPE html>
   <html${htmlAttributes ? ` ${htmlAttributes}` : ''}>
     <head>
       ${metaHtml}
@@ -75,6 +74,5 @@ export default function render(locals) {
     </body>
   </html>
 `;
-    return html;
   });
 }
