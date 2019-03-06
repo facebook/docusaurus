@@ -183,7 +183,5 @@ module.exports = async function load(siteDir) {
     routesPaths,
   };
 
-  console.log(routesPaths);
-
   return props;
 };

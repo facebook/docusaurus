@@ -24,7 +24,7 @@ async function loadRoutes({
   ];
 
   const routesPaths = [];
-  const addRoutePath = permalink => {
+  const addRoutesPath = permalink => {
     if (permalink && !/:|\*/.test(permalink)) {
       routesPaths.push(permalink);
     }
@@ -34,7 +34,7 @@ async function loadRoutes({
   const {docsUrl, baseUrl} = siteConfig;
   function genDocsRoute(metadata) {
     const {permalink, source} = metadata;
-    addRoutePath(permalink);
+    addRoutesPath(permalink);
     return `
 {
   path: '${permalink}',
@@ -67,7 +67,7 @@ async function loadRoutes({
   // Pages.
   function genPagesRoute(metadata) {
     const {permalink, source} = metadata;
-    addRoutePath(permalink);
+    addRoutesPath(permalink);
     return `
 {
   path: '${permalink}',
@@ -95,7 +95,7 @@ async function loadRoutes({
 
   const routes = pluginRouteConfigs.map(pluginRouteConfig => {
     const {path, component, metadata, modules} = pluginRouteConfig;
-    addRoutePath(path);
+    addRoutesPath(path);
     return `
 {
   path: '${path}',
