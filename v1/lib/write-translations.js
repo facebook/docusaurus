@@ -144,8 +144,7 @@ function execute() {
   });
 
   // go through pages to look for text inside translate tags
-  const files = glob.sync(`${CWD}/pages/en/**`);
-  files.forEach(file => {
+  glob.sync(`${CWD}/pages/en/**`).forEach(file => {
     const extension = nodePath.extname(file);
     if (extension === '.js') {
       const ast = babylon.parse(fs.readFileSync(file, 'utf8'), {
