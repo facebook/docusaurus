@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const _ = require('lodash');
 const path = require('path');
 const StaticSiteGeneratorPlugin = require('static-site-generator-webpack-plugin');
 const webpackNiceLog = require('webpack-nicelog');
@@ -22,25 +21,16 @@ module.exports = function createServerConfig(props) {
   // Workaround for Webpack 4 Bug (https://github.com/webpack/webpack/issues/6522)
   config.output.globalObject('this');
 
-  const {siteConfig, docsMetadatas, pagesMetadatas, contentsStore} = props;
+  const {siteConfig, routesPaths} = props;
 
   // Static site generator webpack plugin.
-  const docsFlatMetadatas = Object.values(docsMetadatas);
-
-  // TODO: Generalize for blog plugin.
-  const blogPermalinks = _.get(contentsStore, ['blog', 'contents'], []);
-  const paths = [
-    ...blogPermalinks,
-    ...docsFlatMetadatas,
-    ...pagesMetadatas,
-  ].map(data => data.permalink);
   config.plugin('siteGenerator').use(StaticSiteGeneratorPlugin, [
     {
       entry: 'main',
       locals: {
         baseUrl: siteConfig.baseUrl,
       },
-      paths,
+      paths: routesPaths,
     },
   ]);
 

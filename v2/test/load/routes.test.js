@@ -5,27 +5,31 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import genRoutesConfig from '@lib/load/routes';
+import loadRoutes from '@lib/load/routes';
 import loadSetup from '../loadSetup';
 
-describe('genRoutesConfig', () => {
+describe('loadRoutes', () => {
   test('simple website', async () => {
     const props = await loadSetup('simple');
-    await genRoutesConfig(props);
+    const {routesPaths} = await loadRoutes(props);
+    expect(routesPaths.length).toBeGreaterThan(0);
   });
 
   test('versioned website', async () => {
     const props = await loadSetup('versioned');
-    await genRoutesConfig(props);
+    const {routesPaths} = await loadRoutes(props);
+    expect(routesPaths.length).toBeGreaterThan(0);
   });
 
   test('versioned & translated website', async () => {
     const props = await loadSetup('transversioned');
-    await genRoutesConfig(props);
+    const {routesPaths} = await loadRoutes(props);
+    expect(routesPaths.length).toBeGreaterThan(0);
   });
 
   test('translated website', async () => {
     const props = await loadSetup('translated');
-    await genRoutesConfig(props);
+    const {routesPaths} = await loadRoutes(props);
+    expect(routesPaths.length).toBeGreaterThan(0);
   });
 });
