@@ -7,7 +7,7 @@
 
 const {normalizeUrl} = require('./utils');
 
-async function genRoutesConfig({
+async function loadRoutes({
   siteConfig = {},
   docsMetadatas = {},
   pagesMetadatas = [],
@@ -23,10 +23,18 @@ async function genRoutesConfig({
     `import NotFound from '@theme/NotFound';`,
   ];
 
+  const routesPaths = [];
+  const addRoutesPath = permalink => {
+    if (permalink && !/:|\*/.test(permalink)) {
+      routesPaths.push(permalink);
+    }
+  };
+
   // Docs.
   const {docsUrl, baseUrl} = siteConfig;
   function genDocsRoute(metadata) {
     const {permalink, source} = metadata;
+    addRoutesPath(permalink);
     return `
 {
   path: '${permalink}',
@@ -59,6 +67,7 @@ async function genRoutesConfig({
   // Pages.
   function genPagesRoute(metadata) {
     const {permalink, source} = metadata;
+    addRoutesPath(permalink);
     return `
 {
   path: '${permalink}',
@@ -86,6 +95,7 @@ async function genRoutesConfig({
 
   const routes = pluginRouteConfigs.map(pluginRouteConfig => {
     const {path, component, metadata, modules} = pluginRouteConfig;
+    addRoutesPath(path);
     return `
 {
   path: '${path}',
@@ -117,7 +127,7 @@ ${modules
 }`;
   });
 
-  return `
+  const routesConfig = `
 ${imports.join('\n')}
 
 const routes = [
@@ -131,6 +141,8 @@ const routes = [
 ];
 
 export default routes;\n`;
+
+  return {routesConfig, routesPaths};
 }
 
-module.exports = genRoutesConfig;
+module.exports = loadRoutes;
