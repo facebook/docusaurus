@@ -39,7 +39,7 @@
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.11.1",
     "eslint-plugin-react-hooks": "^0.0.0",
-    "jest": "^23.4.2",
+    "jest": "^24.1.0",
     "react": "^16.7.0-alpha.0",
     "react-dom": "^16.7.0-alpha.0",
     "react-helmet": "^5.2.0"
@@ -50,7 +50,7 @@
     "@babel/polyfill": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
-    "babel-jest": "^23.6.0",
+    "babel-jest": "^24.1.0",
     "babel-loader": "^8.0.0",
     "babel-plugin-dynamic-import-node": "^2.2.0",
     "chalk": "^2.4.1",
