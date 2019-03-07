@@ -109,7 +109,7 @@ module.exports = function createBaseConfig(props, isServer) {
     Equivalent to:
     // ...
     {
-      test: /\.md$/,
+      test: /\.mdx?$/,
       use: [
         'babel-loader',
         '@mdx-js/loader',
@@ -117,7 +117,7 @@ module.exports = function createBaseConfig(props, isServer) {
       ]
     }
   */
-  const mdRule = config.module.rule('markdown').test(/\.md$/);
+  const mdRule = config.module.rule('markdown').test(/\.mdx?$/);
   applyBabel(mdRule);
   mdRule.use('mdx-js-loader').loader('@mdx-js/loader');
   mdRule
