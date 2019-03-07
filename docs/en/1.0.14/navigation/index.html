@@ -138,28 +138,28 @@
 <p>To expose sidebars, you will add clickable labels to the site navigation bar at the top of the website. You can add documents, pages and external links.</p>
 <h3><a class="anchor" aria-hidden="true" id="adding-documents"></a><a href="#adding-documents" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Adding Documents</h3>
 <p>After creating a new sidebar for the site by <a href="#adding-new-sidebars">adding</a> it to <code>sidebars.json</code>, you can expose the new sidebar from the top navigation bar by editing the <code>headerLinks</code> field of <code>siteConfig.js</code>.</p>
-<pre><code class="hljs">headerLinks: [
+<pre><code class="hljs"><span class="hljs-string">headerLinks:</span> [
   ...
-  { doc: <span class="hljs-string">'my-examples'</span>, <span class="hljs-keyword">label</span><span class="bash">: <span class="hljs-string">'Examples'</span> },
-</span>  ...
+  { <span class="hljs-string">doc:</span> <span class="hljs-string">'my-examples'</span>, <span class="hljs-string">label:</span> <span class="hljs-string">'Examples'</span> },
+  ...
 ],
 </code></pre>
 <p>A label called <code>Examples</code> will be added to the site navigation bar and when you click on it at the top of your site, the <code>examples-sidebar</code> will be shown and the default document will be <code>my-examples</code>.</p>
 <h3><a class="anchor" aria-hidden="true" id="adding-custom-pages"></a><a href="#adding-custom-pages" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Adding Custom Pages</h3>
 <p>To add custom pages to the site navigation bar, entries can be added to the <code>headerLinks</code> of <code>siteConfig.js</code>. For example, if we have a page within <code>website/pages/help.js</code>, we can link to it by adding the following:</p>
-<pre><code class="hljs">headerLinks: [
+<pre><code class="hljs"><span class="hljs-string">headerLinks:</span> [
   ...
-  { page: <span class="hljs-string">'help'</span>, <span class="hljs-keyword">label</span><span class="bash">: <span class="hljs-string">'Help'</span> },
-</span>  ...
+  { <span class="hljs-string">page:</span> <span class="hljs-string">'help'</span>, <span class="hljs-string">label:</span> <span class="hljs-string">'Help'</span> },
+  ...
 ],
 </code></pre>
 <p>A label called <code>Help</code> will be added to the site navigation bar and when you click on it at the top of your site, the content from the <code>help.js</code> page will be shown.</p>
 <h3><a class="anchor" aria-hidden="true" id="adding-external-links"></a><a href="#adding-external-links" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Adding External Links</h3>
 <p>Custom links can be added to the site navigation bar with the following entry in <code>siteConfig.js</code>:</p>
-<pre><code class="hljs">headerLinks: [
+<pre><code class="hljs"><span class="hljs-string">headerLinks:</span> [
   ...
-  { href: <span class="hljs-string">'https://github.com/facebook/Docusaurus'</span>, <span class="hljs-keyword">label</span><span class="bash">: <span class="hljs-string">'GitHub'</span> },
-</span>  ...
+  { <span class="hljs-string">href:</span> <span class="hljs-string">'https://github.com/facebook/Docusaurus'</span>, <span class="hljs-string">label:</span> <span class="hljs-string">'GitHub'</span> },
+  ...
 ],
 </code></pre>
 <p>A label called <code>GitHub</code> will be added to the site navigation bar and when you click on it at the top of your site, the content of the external link will be shown.</p>
