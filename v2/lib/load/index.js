@@ -13,7 +13,7 @@ const loadEnv = require('./env');
 const loadPages = require('./pages');
 const loadTheme = require('./theme');
 const {generate} = require('./utils');
-const genRoutesConfig = require('./routes');
+const loadRoutes = require('./routes');
 const constants = require('../constants');
 
 module.exports = async function load(siteDir) {
@@ -96,6 +96,7 @@ module.exports = async function load(siteDir) {
   });
 
   // Plugin lifecycle - loadContents().
+  // TODO: consider whether we still need contentsStore since it is not being used elsewhere now
   const contentsStore = {};
   // Currently plugins run lifecycle in parallel and are not order-dependent. We could change
   // this in future if there are plugins which need to run in certain order or depend on
@@ -153,6 +154,15 @@ module.exports = async function load(siteDir) {
   const versionedDir = path.join(siteDir, 'versioned_docs');
   const translatedDir = path.join(siteDir, 'translated_docs');
 
+  // Generate React Router Config.
+  const {routesConfig, routesPaths} = await loadRoutes({
+    siteConfig,
+    docsMetadatas,
+    pagesMetadatas,
+    pluginRouteConfigs,
+  });
+  await generate(generatedFilesDir, 'routes.js', routesConfig);
+
   const props = {
     siteConfig,
     siteDir,
@@ -170,14 +180,8 @@ module.exports = async function load(siteDir) {
     translatedDir,
     generatedFilesDir,
     contentsStore,
+    routesPaths,
   };
-
-  // Generate React Router Config.
-  const routesConfig = await genRoutesConfig({
-    ...props,
-    pluginRouteConfigs,
-  });
-  await generate(generatedFilesDir, 'routes.js', routesConfig);
 
   return props;
 };

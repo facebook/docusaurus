@@ -5,27 +5,103 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import genRoutesConfig from '@lib/load/routes';
+import loadRoutes from '@lib/load/routes';
 import loadSetup from '../loadSetup';
 
-describe('genRoutesConfig', () => {
+describe('loadRoutes', () => {
   test('simple website', async () => {
     const props = await loadSetup('simple');
-    await genRoutesConfig(props);
+    const {routesPaths} = await loadRoutes(props);
+    expect(routesPaths.length).toBeGreaterThan(0);
+    expect(routesPaths.sort()).toMatchInlineSnapshot(`
+Array [
+  "/",
+  "/docs/endiliey/permalink",
+  "/docs/foo/bar",
+  "/docs/foo/baz",
+  "/docs/hello",
+  "/hello/world",
+]
+`);
   });
 
   test('versioned website', async () => {
     const props = await loadSetup('versioned');
-    await genRoutesConfig(props);
+    const {routesPaths} = await loadRoutes(props);
+    expect(routesPaths.length).toBeGreaterThan(0);
+    expect(routesPaths.sort()).toMatchInlineSnapshot(`
+Array [
+  "/",
+  "/docs/1.0.0/foo/bar",
+  "/docs/1.0.0/foo/baz",
+  "/docs/1.0.0/hello",
+  "/docs/foo/bar",
+  "/docs/foo/baz",
+  "/docs/hello",
+  "/docs/next/endiliey/permalink",
+  "/docs/next/foo/bar",
+  "/docs/next/foo/baz",
+  "/docs/next/hello",
+  "/hello/world",
+]
+`);
   });
 
   test('versioned & translated website', async () => {
     const props = await loadSetup('transversioned');
-    await genRoutesConfig(props);
+    const {routesPaths} = await loadRoutes(props);
+    expect(routesPaths.length).toBeGreaterThan(0);
+    expect(routesPaths.sort()).toMatchInlineSnapshot(`
+Array [
+  "/",
+  "/docs/en/1.0.0/foo/bar",
+  "/docs/en/1.0.0/foo/baz",
+  "/docs/en/1.0.0/hello",
+  "/docs/en/foo/bar",
+  "/docs/en/foo/baz",
+  "/docs/en/hello",
+  "/docs/en/next/endiliey/permalink",
+  "/docs/en/next/foo/bar",
+  "/docs/en/next/foo/baz",
+  "/docs/en/next/hello",
+  "/docs/ko/1.0.0/foo/bar",
+  "/docs/ko/1.0.0/foo/baz",
+  "/docs/ko/1.0.0/hello",
+  "/docs/ko/foo/bar",
+  "/docs/ko/foo/baz",
+  "/docs/ko/hello",
+  "/docs/ko/next/foo/bar",
+  "/docs/ko/next/foo/baz",
+  "/docs/ko/next/hello",
+  "/en/",
+  "/en/hello/world",
+  "/hello/world",
+  "/ko/",
+  "/ko/hello/world",
+]
+`);
   });
 
   test('translated website', async () => {
     const props = await loadSetup('translated');
-    await genRoutesConfig(props);
+    const {routesPaths} = await loadRoutes(props);
+    expect(routesPaths.length).toBeGreaterThan(0);
+    expect(routesPaths.sort()).toMatchInlineSnapshot(`
+Array [
+  "/",
+  "/docs/en/endiliey/permalink",
+  "/docs/en/foo/bar",
+  "/docs/en/foo/baz",
+  "/docs/en/hello",
+  "/docs/ko/foo/bar",
+  "/docs/ko/foo/baz",
+  "/docs/ko/hello",
+  "/en/",
+  "/en/hello/world",
+  "/hello/world",
+  "/ko/",
+  "/ko/hello/world",
+]
+`);
   });
 });

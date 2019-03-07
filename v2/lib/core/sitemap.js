@@ -10,17 +10,8 @@ const loadConfig = require('../load/config');
 
 module.exports = async function createSitemap({
   siteConfig = {},
-  docsMetadatas = {},
-  pagesMetadatas = [],
-  // TODO: Generalize for blog plugin.
-  blogMetadatas = [],
+  routesPaths = [],
 }) {
-  const allMetadatas = [
-    ...blogMetadatas,
-    ...Object.values(docsMetadatas),
-    ...pagesMetadatas,
-  ];
-
   const {url: siteUrl} = siteConfig;
 
   if (!siteUrl) {
@@ -29,8 +20,8 @@ module.exports = async function createSitemap({
     );
   }
 
-  const urls = allMetadatas.map(metadata => ({
-    url: metadata.permalink,
+  const urls = routesPaths.map(routesPath => ({
+    url: routesPath,
     changefreq: 'weekly',
     priority: 0.5,
   }));
