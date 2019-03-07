@@ -50,6 +50,7 @@
     "@babel/polyfill": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
+    "@mapbox/rehype-prism": "^0.3.1",
     "@mdx-js/loader": "^0.20.1",
     "@mdx-js/mdx": "^0.20.1",
     "babel-jest": "^23.6.0",
