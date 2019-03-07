@@ -3,7 +3,7 @@
 exports[`getMetadata blog file 1`] = `
 Object {
   "author": "Endilie",
-  "authorFBID": 100000251103620,
+  "authorFBID": "100000251103620",
   "authorTwitter": "endiliey",
   "authorURL": "https://github.com/endiliey",
   "content": "
