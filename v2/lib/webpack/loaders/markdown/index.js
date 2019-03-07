@@ -9,22 +9,10 @@ const fm = require('front-matter');
 const {getOptions} = require('loader-utils');
 const path = require('path');
 const {resolve} = require('url');
-const Remarkable = require('remarkable');
-const hljs = require('highlight.js');
-const chalk = require('chalk');
-const escapeHtml = require('escape-html');
-
-const anchors = require('./anchors');
 
 module.exports = function(fileString) {
   const options = getOptions(this);
-  const {
-    siteConfig,
-    versionedDir,
-    docsDir,
-    translatedDir,
-    sourceToMetadata,
-  } = options;
+  const {versionedDir, docsDir, translatedDir, sourceToMetadata} = options;
 
   // Extract content of markdown (without frontmatter).
   const {body} = fm(fileString);
@@ -81,66 +69,5 @@ module.exports = function(fileString) {
     });
     content = lines.join('\n');
   }
-
-  const md = new Remarkable({
-    langPrefix: 'hljs css language-',
-    highlight(str, rawLang) {
-      // Default language fallback.
-      const defaultLang =
-        siteConfig.highlight && siteConfig.highlight.defaultLang;
-
-      // No syntax highlighting.
-      if (rawLang === 'text' || (!rawLang && !defaultLang)) {
-        return escapeHtml(str);
-      }
-
-      // User's own hljs function to register additional languages.
-      if (siteConfig.highlight && siteConfig.highlight.hljs) {
-        siteConfig.highlight.hljs(hljs);
-      }
-
-      // Syntax highlighting.
-      const lang = rawLang.toLowerCase() || defaultLang;
-      try {
-        if (hljs.getLanguage(lang)) {
-          return hljs.highlight(lang, str).value;
-        }
-      } catch (e) {
-        console.error(
-          chalk.yellow(
-            `Highlight.js syntax highlighting for language "${lang}" is not supported.`,
-          ),
-        );
-      }
-      return hljs.highlightAuto(str).value;
-    },
-    html: true,
-    linkify: true,
-  });
-
-  // Register anchors plugin.
-  md.use(anchors);
-
-  // Allow client sites to register their own plugins.
-  if (siteConfig.markdownPlugins) {
-    siteConfig.markdownPlugins.forEach(plugin => {
-      md.use(plugin);
-    });
-  }
-
-  // Ensure fenced code blocks use Highlight.js hljs class
-  // https://github.com/jonschlinkert/remarkable/issues/224
-  const html = md
-    .render(content)
-    .replace(/<pre><code>/g, '<pre><code class="hljs">');
-
-  // Return a React component.
-  return `
-import React from 'react';
-import Markdown from '@theme/Markdown';
-export default () => (
-  <Markdown>
-    <div dangerouslySetInnerHTML={{__html: ${JSON.stringify(html)}}} />
-  </Markdown>
-);`;
+  return content;
 };

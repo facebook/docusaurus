@@ -7,6 +7,7 @@
 
 const Config = require('webpack-chain');
 const CSSExtractPlugin = require('mini-css-extract-plugin');
+const rehypePrism = require('@mapbox/rehype-prism');
 const TerserPlugin = require('terser-webpack-plugin');
 const path = require('path');
 
@@ -105,10 +106,31 @@ module.exports = function createBaseConfig(props, isServer) {
     .end();
   applyBabel(jsRule);
 
-  const mdRule = config.module.rule('markdown').test(/\.md$/);
+  /* 
+    Equivalent to:
+    // ...
+    {
+      test: /(\.mdx?)$/,
+      use: [
+        'babel-loader',
+        {
+          loader: '@mdx-js/loader',
+          options: { hastPlugins: [[rehypePrism, { ignoreMissing: true }]] }
+        },
+        'docusaurus/md-loader,
+      ]
+    }
+  */
+  const mdRule = config.module.rule('markdown').test(/(\.mdx?)$/);
   applyBabel(mdRule);
   mdRule
-    .use('markdown-loader')
+    .use('mdx-js-loader')
+    .loader('@mdx-js/loader')
+    .options({
+      hastPlugins: [[rehypePrism, {ignoreMissing: true}]],
+    });
+  mdRule
+    .use('docusaurus/md-loader')
     .loader(mdLoader)
     .options({
       siteConfig,

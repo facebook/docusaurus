@@ -19,6 +19,9 @@ import siteConfig from '@generated/docusaurus.config'; //eslint-disable-line
 
 import DocusaurusContext from '@docusaurus/context';
 
+// TODO: allow choosing prismjs theme
+import 'prismjs/themes/prism.css';
+
 const data = {
   blogMetadata,
   docsMetadatas,
