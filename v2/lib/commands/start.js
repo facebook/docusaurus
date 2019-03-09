@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+const _ = require('lodash');
 const path = require('path');
 const fs = require('fs-extra');
 const chalk = require('chalk');
@@ -46,10 +47,14 @@ module.exports = async function start(siteDir, cliOptions = {}) {
         console.error(chalk.red(err.stack));
       });
     };
+    const {plugins} = props;
     const docsRelativeDir = props.siteConfig.customDocsPath;
+    const pluginPaths = _.flatten(
+      plugins.map(plugin => plugin.getPathsToWatch()),
+    );
     const fsWatcher = chokidar.watch(
       [
-        // TODO: Watch plugin paths (e.g. blog)
+        ...pluginPaths,
         `../${docsRelativeDir}/**/*.md`,
         loadConfig.configFileName,
         'sidebars.json',

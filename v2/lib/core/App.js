@@ -10,7 +10,7 @@ import {renderRoutes} from 'react-router-config';
 
 import routes from '@generated/routes'; // eslint-disable-line
 // TODO: Generalize for blog plugin.
-import blogMetadata from '@generated/docusaurus-content-blog/blogMetadata.json'; // eslint-disable-line
+import blogMetadata from '@generated/docusaurus-plugin-content-blog/blogMetadata.json'; // eslint-disable-line
 import docsMetadatas from '@generated/docsMetadatas'; // eslint-disable-line
 import env from '@generated/env'; // eslint-disable-line
 import docsSidebars from '@generated/docsSidebars'; // eslint-disable-line

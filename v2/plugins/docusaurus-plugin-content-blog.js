@@ -34,14 +34,19 @@ class DocusaurusContentBlogPlugin {
   constructor(opts, context) {
     this.options = {...DEFAULT_OPTIONS, ...opts};
     this.context = context;
+    this.contentPath = path.resolve(this.context.siteDir, this.options.path);
+  }
+
+  getName() {
+    return 'docusaurus-plugin-content-blog';
   }
 
   async loadContents() {
-    const {pageCount, path: filePath, include, routeBasePath} = this.options;
-    const {env, siteConfig, siteDir} = this.context;
-    const blogDir = path.resolve(siteDir, filePath);
-    const {baseUrl} = siteConfig;
+    const {pageCount, include, routeBasePath} = this.options;
+    const {env, siteConfig} = this.context;
+    const blogDir = this.contentPath;
 
+    const {baseUrl} = siteConfig;
     const blogFiles = await globby(include, {
       cwd: blogDir,
     });
@@ -126,6 +131,10 @@ class DocusaurusContentBlogPlugin {
         modules: [metadata.source],
       });
     });
+  }
+
+  getPathsToWatch() {
+    return [this.contentPath];
   }
 }
 
