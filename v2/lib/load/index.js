@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+const ejs = require('ejs');
 const fs = require('fs-extra');
 const path = require('path');
 const loadConfig = require('./config');
@@ -92,12 +93,10 @@ module.exports = async function load(siteDir) {
   });
 
   // Plugin lifecycle - loadContents().
-  // TODO: consider whether we still need contentsStore since it is not being used elsewhere now
-  const contentsStore = {};
   // Currently plugins run lifecycle in parallel and are not order-dependent. We could change
   // this in future if there are plugins which need to run in certain order or depend on
   // others for data.
-  const pluginsLoadedContents = await Promise.all(
+  const pluginsLoadedMetadata = await Promise.all(
     plugins.map(async plugin => {
       if (!plugin.loadContents) {
         return null;
@@ -105,21 +104,23 @@ module.exports = async function load(siteDir) {
 
       const name = plugin.getName();
       const {options} = plugin;
-      const contents = await plugin.loadContents();
-      const pluginContents = {
-        options,
-        contents,
-      };
-      contentsStore[options.contentKey] = pluginContents;
-      const pluginCacheDir = path.join(generatedFilesDir, name);
-      fs.ensureDirSync(pluginCacheDir);
+      const {metadataKey, metadataFileName} = options;
+      const metadata = await plugin.loadContents();
+      const pluginContentPath = path.join(name, metadataFileName);
+      const pluginContentDir = path.join(generatedFilesDir, name);
+      fs.ensureDirSync(pluginContentDir);
       await generate(
-        pluginCacheDir,
-        options.cacheFileName,
-        JSON.stringify(contents, null, 2),
+        pluginContentDir,
+        metadataFileName,
+        JSON.stringify(metadata, null, 2),
       );
+      const contentPath = path.join('@generated', pluginContentPath);
 
-      return contents;
+      return {
+        metadataKey,
+        contentPath,
+        metadata,
+      };
     }),
   );
 
@@ -133,9 +134,9 @@ module.exports = async function load(siteDir) {
       if (!plugin.generateRoutes) {
         return;
       }
-      const contents = pluginsLoadedContents[index];
+      const loadedMetadata = pluginsLoadedMetadata[index];
       await plugin.generateRoutes({
-        contents,
+        metadata: loadedMetadata.metadata,
         actions,
       });
     }),
@@ -160,6 +161,42 @@ module.exports = async function load(siteDir) {
   });
   await generate(generatedFilesDir, 'routes.js', routesConfig);
 
+  // Generate contents metadata.
+  const metadataTemplateFile = path.resolve(
+    __dirname,
+    '../core/metadata.template.ejs',
+  );
+  const metadataTemplate = fs.readFileSync(metadataTemplateFile).toString();
+  const pluginMetadataImports = pluginsLoadedMetadata.map(
+    ({metadataKey, contentPath}) => ({
+      name: metadataKey,
+      path: contentPath,
+    }),
+  );
+
+  const metadataFile = ejs.render(metadataTemplate, {
+    imports: [
+      ...pluginMetadataImports,
+      {
+        name: 'docsMetadatas',
+        path: '@generated/docsMetadatas',
+      },
+      {
+        name: 'env',
+        path: '@generated/env',
+      },
+      {
+        name: 'docsSidebars',
+        path: '@generated/docsSidebars',
+      },
+      {
+        name: 'pagesMetadatas',
+        path: '@generated/pagesMetadatas',
+      },
+    ],
+  });
+  await generate(generatedFilesDir, 'metadata.js', metadataFile);
+
   const props = {
     siteConfig,
     siteDir,
@@ -176,7 +213,6 @@ module.exports = async function load(siteDir) {
     versionedDir,
     translatedDir,
     generatedFilesDir,
-    contentsStore,
     routesPaths,
     plugins,
   };

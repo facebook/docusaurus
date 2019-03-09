@@ -20,17 +20,17 @@ function fileToUrl(fileName) {
 }
 
 const DEFAULT_OPTIONS = {
-  contentKey: 'blog',
+  metadataKey: 'blogMetadata',
+  metadataFileName: 'blogMetadata.json',
   path: 'blog', // Path to data on filesystem.
   routeBasePath: 'blog', // URL Route.
-  include: ['*.md'], // Extensions to include.
+  include: ['*.md, *.mdx'], // Extensions to include.
   pageCount: 10, // How many entries per page.
-  cacheFileName: 'blogMetadata.json',
   blogPageComponent: '@theme/BlogPage',
   blogPostComponent: '@theme/BlogPost',
 };
 
-class DocusaurusContentBlogPlugin {
+class DocusaurusPluginContentBlog {
   constructor(opts, context) {
     this.options = {...DEFAULT_OPTIONS, ...opts};
     this.context = context;
@@ -41,6 +41,7 @@ class DocusaurusContentBlogPlugin {
     return 'docusaurus-plugin-content-blog';
   }
 
+  // Fetches blog contents and returns metadata for the contents.
   async loadContents() {
     const {pageCount, include, routeBasePath} = this.options;
     const {env, siteConfig} = this.context;
@@ -109,17 +110,17 @@ class DocusaurusContentBlogPlugin {
     return blogMetadata;
   }
 
-  async generateRoutes({contents, actions}) {
+  async generateRoutes({metadata, actions}) {
     const {blogPageComponent, blogPostComponent} = this.options;
     const {addRoute} = actions;
-    contents.forEach(metadata => {
-      const {isBlogPage, permalink} = metadata;
+    metadata.forEach(metadataItem => {
+      const {isBlogPage, permalink} = metadataItem;
       if (isBlogPage) {
         addRoute({
           path: permalink,
           component: blogPageComponent,
-          metadata,
-          modules: metadata.posts.map(post => post.source),
+          metadata: metadataItem,
+          modules: metadataItem.posts.map(post => post.source),
         });
         return;
       }
@@ -127,8 +128,8 @@ class DocusaurusContentBlogPlugin {
       addRoute({
         path: permalink,
         component: blogPostComponent,
-        metadata,
-        modules: [metadata.source],
+        metadata: metadataItem,
+        modules: [metadataItem.source],
       });
     });
   }
@@ -138,4 +139,4 @@ class DocusaurusContentBlogPlugin {
   }
 }
 
-module.exports = DocusaurusContentBlogPlugin;
+module.exports = DocusaurusPluginContentBlog;

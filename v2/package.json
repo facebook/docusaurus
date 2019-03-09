@@ -64,6 +64,7 @@
     "connect-history-api-fallback": "^1.5.0",
     "css-loader": "^1.0.0",
     "docsearch.js": "^2.5.2",
+    "ejs": "^2.6.1",
     "escape-string-regexp": "^1.0.5",
     "front-matter": "^2.3.0",
     "fs-extra": "^7.0.0",
