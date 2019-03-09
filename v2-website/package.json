@@ -8,8 +8,8 @@
   "dependencies": {
     "classnames": "^2.2.6",
     "docusaurus": "../v2",
-    "react": "^16.7.0-alpha.0",
-    "react-dom": "^16.7.0-alpha.0",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4",
     "react-youtube": "^7.6.0"
   }
 }
