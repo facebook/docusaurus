@@ -88,11 +88,7 @@ module.exports = async function load(siteDir) {
     // TODO: Resolve using node_modules as well.
     // eslint-disable-next-line
     const Plugin = require(path.resolve(__dirname, '../../plugins', name));
-    const plugin = new Plugin(opts, context);
-    return {
-      name,
-      plugin,
-    };
+    return new Plugin(opts, context);
   });
 
   // Plugin lifecycle - loadContents().
@@ -102,11 +98,12 @@ module.exports = async function load(siteDir) {
   // this in future if there are plugins which need to run in certain order or depend on
   // others for data.
   const pluginsLoadedContents = await Promise.all(
-    plugins.map(async ({plugin, name}) => {
+    plugins.map(async plugin => {
       if (!plugin.loadContents) {
         return null;
       }
 
+      const name = plugin.getName();
       const {options} = plugin;
       const contents = await plugin.loadContents();
       const pluginContents = {
@@ -132,7 +129,7 @@ module.exports = async function load(siteDir) {
     addRoute: config => pluginRouteConfigs.push(config),
   };
   await Promise.all(
-    plugins.map(async ({plugin}, index) => {
+    plugins.map(async (plugin, index) => {
       if (!plugin.generateRoutes) {
         return;
       }
@@ -181,6 +178,7 @@ module.exports = async function load(siteDir) {
     generatedFilesDir,
     contentsStore,
     routesPaths,
+    plugins,
   };
 
   return props;

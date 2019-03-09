@@ -23,6 +23,7 @@ module.exports = {
   extends: ['airbnb', 'prettier', 'prettier/react'],
   plugins: ['react-hooks'],
   rules: {
+    'class-methods-use-this': OFF, // It's a way of allowing private variables.
     'no-console': OFF,
     'func-names': OFF,
     'jsx-a11y/click-events-have-key-events': OFF, // Revisit in future™
