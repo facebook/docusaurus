@@ -204,6 +204,13 @@ module.exports = [
     pinned: true,
   },
   {
+    caption: 'Microkubes',
+    image: '/img/users/microkubes.png',
+    infoLink: 'https://www.microkubes.com/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'ml5.js',
     image: '/img/users/ml5.png',
     infoLink: 'https://ml5js.org/',
