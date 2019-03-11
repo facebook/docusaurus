@@ -466,7 +466,7 @@ module.exports = [
   {
     caption: 'Twirp',
     image: '/img/users/twirp.png',
-    infoLink: 'https://twitchtv.github.io/twirp/docs/intro.html',
+    infoLink: 'https://twitchtv.github.io/twirp/',
     fbOpenSource: false,
     pinned: false,
   },
