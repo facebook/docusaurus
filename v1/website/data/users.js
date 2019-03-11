@@ -464,6 +464,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Twirp',
+    image: '/img/users/twirp.png',
+    infoLink: 'https://twitchtv.github.io/twirp/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Vasern',
     image: 'https://vasern.com/img/vasern.svg',
     infoLink: 'https://vasern.com/',
