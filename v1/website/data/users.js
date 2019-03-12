@@ -247,6 +247,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Polymath Network',
+    image: 'https://polymath.network/dist/assets/images/logo/logo-top-bar.svg',
+    infoLink: 'http://developers.polymath.network',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'pnpm',
     image: 'https://pnpm.js.org/img/pnpm.svg',
     infoLink: 'https://pnpm.js.org/',
