@@ -19,4 +19,9 @@ module.exports = {
   ],
   headerIcon: 'img/docusaurus.svg',
   favicon: 'img/docusaurus.ico',
+  plugins: [
+    {
+      name: 'docusaurus-plugin-content-pages',
+    },
+  ],
 };

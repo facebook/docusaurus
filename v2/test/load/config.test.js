@@ -34,6 +34,11 @@ Object {
     },
   ],
   "organizationName": "endiliey",
+  "plugins": Array [
+    Object {
+      "name": "docusaurus-plugin-content-pages",
+    },
+  ],
   "projectName": "hello",
   "tagline": "Hello World",
   "title": "Hello",

@@ -14,6 +14,7 @@ module.exports = {
   testEnvironment: 'node',
   moduleNameMapper: {
     '^@lib/(.*)$': '<rootDir>/lib/$1',
+    '^@test/(.*)$': '<rootDir>/test/$1',
   },
   testPathIgnorePatterns: ['/node_modules/', '__fixtures__', 'v1'],
   transform: {

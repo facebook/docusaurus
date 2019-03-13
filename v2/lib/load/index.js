@@ -75,11 +75,11 @@ module.exports = async function load(siteDir) {
   const context = {env, siteDir, siteConfig};
 
   // Initialize plugins.
-  const plugins = pluginConfigs.map(({name, options: opts}) => {
+  const plugins = pluginConfigs.map(({name, options}) => {
     // TODO: Resolve using node_modules as well.
     // eslint-disable-next-line
     const Plugin = require(path.resolve(__dirname, '../../plugins', name));
-    return new Plugin(opts, context);
+    return new Plugin(options, context);
   });
 
   // Plugin lifecycle - loadContents().

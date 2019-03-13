@@ -5,13 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import loadRoutes from '@lib/load/routes';
 import loadSetup from '../loadSetup';
 
 describe('loadRoutes', () => {
   test('simple website', async () => {
-    const props = await loadSetup('simple');
-    const {routesPaths} = await loadRoutes(props);
+    const {routesPaths} = await loadSetup('simple');
     expect(routesPaths.length).toBeGreaterThan(0);
     expect(routesPaths.sort()).toMatchInlineSnapshot(`
 Array [
@@ -26,8 +24,7 @@ Array [
   });
 
   test('versioned website', async () => {
-    const props = await loadSetup('versioned');
-    const {routesPaths} = await loadRoutes(props);
+    const {routesPaths} = await loadSetup('versioned');
     expect(routesPaths.length).toBeGreaterThan(0);
     expect(routesPaths.sort()).toMatchInlineSnapshot(`
 Array [
@@ -48,8 +45,7 @@ Array [
   });
 
   test('versioned & translated website', async () => {
-    const props = await loadSetup('transversioned');
-    const {routesPaths} = await loadRoutes(props);
+    const {routesPaths} = await loadSetup('transversioned');
     expect(routesPaths.length).toBeGreaterThan(0);
     expect(routesPaths.sort()).toMatchInlineSnapshot(`
 Array [
@@ -83,8 +79,7 @@ Array [
   });
 
   test('translated website', async () => {
-    const props = await loadSetup('translated');
-    const {routesPaths} = await loadRoutes(props);
+    const {routesPaths} = await loadSetup('translated');
     expect(routesPaths.length).toBeGreaterThan(0);
     expect(routesPaths.sort()).toMatchInlineSnapshot(`
 Array [
