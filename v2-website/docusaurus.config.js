@@ -37,5 +37,8 @@ module.exports = {
         path: '../v1/website/blog',
       },
     },
+    {
+      name: 'docusaurus-plugin-content-pages',
+    },
   ],
 };

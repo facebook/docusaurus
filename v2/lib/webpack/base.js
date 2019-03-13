@@ -40,7 +40,6 @@ module.exports = function createBaseConfig(props, isServer) {
     outDir,
     themePath,
     docsDir,
-    pagesDir,
     siteDir,
     sourceToMetadata,
     versionedDir,
@@ -69,7 +68,6 @@ module.exports = function createBaseConfig(props, isServer) {
     .set('@versioned_docs', versionedDir)
     .set('@translated_docs', translatedDir)
     .set('@docs', docsDir)
-    .set('@pages', pagesDir)
     .set('@build', outDir)
     .set('@generated', generatedFilesDir)
     .set('@core', path.resolve(__dirname, '../core'))
@@ -106,7 +104,7 @@ module.exports = function createBaseConfig(props, isServer) {
     .end();
   applyBabel(jsRule);
 
-  /* 
+  /*
     Equivalent to:
     // ...
     {

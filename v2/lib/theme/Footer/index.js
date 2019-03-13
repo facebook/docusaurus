@@ -14,8 +14,6 @@ import styles from './styles.module.css';
 
 function Footer() {
   const context = useContext(DocusaurusContext);
-  const {pagesMetadatas} = context;
-
   return (
     <footer className={styles.footer}>
       <section className={styles.footerRow}>
@@ -79,11 +77,11 @@ function Footer() {
             </li>
           </ul>
         </div>
-        {/* This is for v2 development only to know which are the available page */}
+        {/* This is for v2 development only to know the available pages. */}
         <div className={styles.footerColumn}>
           <h3 className={styles.footerColumnTitle}>Pages</h3>
           <ul className={styles.footerList}>
-            {pagesMetadatas.map(metadata => (
+            {context.pagesMetadata.map(metadata => (
               <li key={metadata.permalink} className={styles.footerListItem}>
                 <Link className={styles.footerLink} to={metadata.permalink}>
                   {metadata.permalink}
