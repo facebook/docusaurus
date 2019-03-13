@@ -10,7 +10,6 @@ const {normalizeUrl} = require('./utils');
 async function loadRoutes({
   siteConfig = {},
   docsMetadatas = {},
-  pagesMetadatas = [],
   pluginRouteConfigs = [],
 }) {
   const imports = [
@@ -19,7 +18,6 @@ async function loadRoutes({
     `import Loading from '@theme/Loading';`,
     `import Doc from '@theme/Doc';`,
     `import DocBody from '@theme/DocBody';`,
-    `import Pages from '@theme/Pages';`,
     `import NotFound from '@theme/NotFound';`,
   ];
 
@@ -63,29 +61,6 @@ async function loadRoutes({
     .map(genDocsRoute)
     .join(',')}],
 }`;
-
-  // Pages.
-  function genPagesRoute(metadata) {
-    const {permalink, source} = metadata;
-    addRoutesPath(permalink);
-    return `
-{
-  path: '${permalink}',
-  exact: true,
-  component: Loadable({
-    loader: () => import('${source}'),
-    loading: Loading,
-    render(loaded, props) {
-      let Content = loaded.default;
-      return (
-        <Pages {...props} metadata={${JSON.stringify(metadata)}}>
-          <Content {...props} metadata={${JSON.stringify(metadata)}} />
-        </Pages>
-      );
-    }
-  })
-}`;
-  }
 
   const notFoundRoute = `
 {
@@ -131,9 +106,7 @@ ${modules
 ${imports.join('\n')}
 
 const routes = [
-// Docs.${pagesMetadatas.map(genPagesRoute).join(',')},
-
-// Pages.${docsRoutes},
+// Docs.${docsRoutes},
 
 // Plugins.${routes.join(',')},
 

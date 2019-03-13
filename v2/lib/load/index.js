@@ -11,7 +11,6 @@ const path = require('path');
 const loadConfig = require('./config');
 const loadDocs = require('./docs');
 const loadEnv = require('./env');
-const loadPages = require('./pages');
 const loadTheme = require('./theme');
 const {generate} = require('./utils');
 const loadRoutes = require('./routes');
@@ -69,15 +68,6 @@ module.exports = async function load(siteDir) {
         language,
       };
     },
-  );
-
-  // Pages.
-  const pagesDir = path.resolve(siteDir, 'pages');
-  const pagesMetadatas = await loadPages({pagesDir, env, siteConfig});
-  await generate(
-    generatedFilesDir,
-    'pagesMetadatas.js',
-    `export default ${JSON.stringify(pagesMetadatas, null, 2)};`,
   );
 
   // Process plugins.
@@ -156,7 +146,6 @@ module.exports = async function load(siteDir) {
   const {routesConfig, routesPaths} = await loadRoutes({
     siteConfig,
     docsMetadatas,
-    pagesMetadatas,
     pluginRouteConfigs,
   });
   await generate(generatedFilesDir, 'routes.js', routesConfig);
@@ -189,10 +178,6 @@ module.exports = async function load(siteDir) {
         name: 'docsSidebars',
         path: '@generated/docsSidebars',
       },
-      {
-        name: 'pagesMetadatas',
-        path: '@generated/pagesMetadatas',
-      },
     ],
   });
   await generate(generatedFilesDir, 'metadata.js', metadataFile);
@@ -204,8 +189,6 @@ module.exports = async function load(siteDir) {
     docsMetadatas,
     docsSidebars,
     env,
-    pagesDir,
-    pagesMetadatas,
     outDir,
     themePath,
     baseUrl,

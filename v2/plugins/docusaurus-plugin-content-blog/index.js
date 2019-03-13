@@ -9,7 +9,7 @@ const globby = require('globby');
 const path = require('path');
 const fs = require('fs-extra');
 // TODO: Do not make it relative because plugins can be from node_modules.
-const {parse, idx, normalizeUrl} = require('../lib/load/utils');
+const {parse, idx, normalizeUrl} = require('../../lib/load/utils');
 
 function fileToUrl(fileName) {
   return fileName

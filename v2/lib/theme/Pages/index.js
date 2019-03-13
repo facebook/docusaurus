@@ -12,11 +12,12 @@ import Layout from '@theme/Layout'; // eslint-disable-line
 
 import DocusaurusContext from '@docusaurus/context';
 
-function Pages({children}) {
+function Pages({modules}) {
   const context = useContext(DocusaurusContext);
   const {metadata = {}, siteConfig = {}} = context;
   const {baseUrl, favicon} = siteConfig;
   const {language} = metadata;
+  const PageContents = modules[0];
 
   return (
     <Layout>
@@ -25,7 +26,7 @@ function Pages({children}) {
         {language && <html lang={language} />}
         {language && <meta name="docsearch:language" content={language} />}
       </Head>
-      {children}
+      <PageContents />
       <Footer />
     </Layout>
   );
