@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+// Provided by Canny.
+
 function canny() {
   !(function(w, d, i, s) {
     function l() {
