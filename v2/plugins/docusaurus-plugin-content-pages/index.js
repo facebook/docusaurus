@@ -104,8 +104,7 @@ class DocusaurusPluginContentPages {
   }
 
   getPathsToWatch() {
-    // Not needed, all pages are loaded as modules and watched by webpack.
-    return [];
+    return [this.contentPath];
   }
 }
 
