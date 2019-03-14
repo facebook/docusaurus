@@ -73,8 +73,11 @@ function mdToHtmlify(oldContent, mdToHtml, metadata) {
     let mdMatch = mdRegex.exec(modifiedLine);
     while (mdMatch !== null) {
       /* Replace it to correct html link */
+      const docsSource = metadata.version
+        ? metadata.source.replace(/version-.*?\//, '')
+        : metadata.source;
       let htmlLink =
-        mdToHtml[resolve(metadata.source, mdMatch[1])] || mdToHtml[mdMatch[1]];
+        mdToHtml[resolve(docsSource, mdMatch[1])] || mdToHtml[mdMatch[1]];
       if (htmlLink) {
         htmlLink = getPath(htmlLink, siteConfig.cleanUrl);
         htmlLink = htmlLink.replace('/en/', `/${metadata.language}/`);

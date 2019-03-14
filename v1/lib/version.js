@@ -53,6 +53,15 @@ if (env.versioning.missingVersionsPage) {
   process.exit(1);
 }
 
+if (version.includes('/')) {
+  console.error(
+    `${chalk.red(
+      'Invalid version number specified! Do not include slash (/). Try something like: 1.0.0',
+    )}`,
+  );
+  process.exit(1);
+}
+
 if (typeof version === 'undefined') {
   console.error(
     `${chalk.yellow(
