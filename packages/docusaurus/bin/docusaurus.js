@@ -45,8 +45,12 @@ program
     '-sic, --skip-image-compression <skipImageCompression>',
     'Skip compression of image assets (default: false)',
   )
-  .action((siteDir = '.', {skipImageCompression}) => {
-    wrapCommand(build)(path.resolve(siteDir), {skipImageCompression});
+  .option('--skip-next-release', 'Skip documents from next release')
+  .action((siteDir = '.', {skipImageCompression, skipNextRelease}) => {
+    wrapCommand(build)(path.resolve(siteDir), {
+      skipImageCompression,
+      skipNextRelease,
+    });
   });
 
 program

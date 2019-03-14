@@ -12,7 +12,10 @@ const createOrder = require('./order');
 const loadSidebars = require('./sidebars');
 const processMetadata = require('./metadata');
 
-async function loadDocs({siteDir, docsDir, env, siteConfig}) {
+async function loadDocs(
+  {siteDir, docsDir, env, siteConfig},
+  skipNextRelease = false,
+) {
   // @tested - load all sidebars including versioned sidebars
   const docsSidebars = loadSidebars({siteDir, env});
 
@@ -33,30 +36,34 @@ async function loadDocs({siteDir, docsDir, env, siteConfig}) {
   // Prepare metadata container.
   const docsMetadatas = {};
 
-  // Metadata for default docs files.
-  const docsFiles = await globby(['**/*.md'], {
-    cwd: docsDir,
-  });
-  await Promise.all(
-    docsFiles.map(async source => {
-      // Do not allow reserved version/ translated folder name in 'docs'
-      // e.g: 'docs/version-1.0.0/' should not be allowed as it can cause unwanted bug
-      const subFolder = getSubFolder(path.resolve(docsDir, source), docsDir);
-      const versionsFolders = versions.map(version => `version-${version}`);
-      if ([...enabledLangTags, ...versionsFolders].includes(subFolder)) {
-        throw new Error(`You cannot have a folder named 'docs/${subFolder}/'`);
-      }
+  if (!(versioningEnabled && skipNextRelease)) {
+    // Metadata for default docs files.
+    const docsFiles = await globby(['**/*.md'], {
+      cwd: docsDir,
+    });
+    await Promise.all(
+      docsFiles.map(async source => {
+        // Do not allow reserved version/ translated folder name in 'docs'
+        // e.g: 'docs/version-1.0.0/' should not be allowed as it can cause unwanted bug
+        const subFolder = getSubFolder(path.resolve(docsDir, source), docsDir);
+        const versionsFolders = versions.map(version => `version-${version}`);
+        if ([...enabledLangTags, ...versionsFolders].includes(subFolder)) {
+          throw new Error(
+            `You cannot have a folder named 'docs/${subFolder}/'`,
+          );
+        }
 
-      const metadata = await processMetadata(
-        source,
-        docsDir,
-        env,
-        order,
-        siteConfig,
-      );
-      docsMetadatas[metadata.id] = metadata;
-    }),
-  );
+        const metadata = await processMetadata(
+          source,
+          docsDir,
+          env,
+          order,
+          siteConfig,
+        );
+        docsMetadatas[metadata.id] = metadata;
+      }),
+    );
+  }
 
   // Metadata for non-default-language docs.
   if (translationEnabled) {

@@ -10,6 +10,7 @@ const CWD = process.cwd();
 const path = require('path');
 const fs = require('fs');
 const glob = require('glob');
+const program = require('commander');
 
 const metadataUtils = require('./metadataUtils');
 
@@ -37,6 +38,8 @@ const SupportedHeaderFields = new Set([
   'custom_edit_url',
 ]);
 
+program.option('--skip-next-release').parse(process.argv);
+
 let allSidebars;
 if (fs.existsSync(`${CWD}/sidebars.json`)) {
   allSidebars = require(`${CWD}/sidebars.json`);
@@ -52,6 +55,14 @@ if (fs.existsSync(`${CWD}/sidebars.json`)) {
 //   e.g., docs/whereDocsReallyExist/*.md (all .md files in this dir)
 function getDocsPath() {
   return siteConfig.customDocsPath ? siteConfig.customDocsPath : 'docs';
+}
+
+function shouldGenerateNextReleaseDocs() {
+  return !(
+    env.versioning.enabled &&
+    program.name() === 'docusaurus-build' &&
+    program.skipNextRelease
+  );
 }
 
 // returns map from id to object containing sidebar ordering info
@@ -220,74 +231,76 @@ function generateMetadataDocs() {
   const metadatas = {};
   const defaultMetadatas = {};
 
-  // metadata for english files
-  const docsDir = path.join(CWD, '../', getDocsPath());
-  let files = glob.sync(`${docsDir}/**`);
-  files.forEach(file => {
-    const extension = path.extname(file);
+  if (shouldGenerateNextReleaseDocs()) {
+    // metadata for english files
+    const docsDir = path.join(CWD, '../', getDocsPath());
+    let files = glob.sync(`${docsDir}/**`);
+    files.forEach(file => {
+      const extension = path.extname(file);
 
-    if (extension === '.md' || extension === '.markdown') {
-      const res = processMetadata(file, docsDir);
+      if (extension === '.md' || extension === '.markdown') {
+        const res = processMetadata(file, docsDir);
 
-      if (!res) {
-        return;
-      }
-      const metadata = res.metadata;
-      metadatas[metadata.id] = metadata;
+        if (!res) {
+          return;
+        }
+        const metadata = res.metadata;
+        metadatas[metadata.id] = metadata;
 
-      // create a default list of documents for each enabled language based on docs in English
-      // these will get replaced if/when the localized file is downloaded from crowdin
-      enabledLanguages
-        .filter(currentLanguage => currentLanguage !== 'en')
-        .forEach(currentLanguage => {
-          const baseMetadata = Object.assign({}, metadata);
-          baseMetadata.id = baseMetadata.id
-            .toString()
-            .replace(/^en-/, `${currentLanguage}-`);
-          if (baseMetadata.permalink) {
-            baseMetadata.permalink = baseMetadata.permalink
-              .toString()
-              .replace(
-                new RegExp(`^${docsPart}en/`),
-                `${docsPart}${currentLanguage}/`,
-              );
-          }
-          if (baseMetadata.next) {
-            baseMetadata.next = baseMetadata.next
+        // create a default list of documents for each enabled language based on docs in English
+        // these will get replaced if/when the localized file is downloaded from crowdin
+        enabledLanguages
+          .filter(currentLanguage => currentLanguage !== 'en')
+          .forEach(currentLanguage => {
+            const baseMetadata = Object.assign({}, metadata);
+            baseMetadata.id = baseMetadata.id
               .toString()
               .replace(/^en-/, `${currentLanguage}-`);
-          }
-          if (baseMetadata.previous) {
-            baseMetadata.previous = baseMetadata.previous
-              .toString()
-              .replace(/^en-/, `${currentLanguage}-`);
-          }
-          baseMetadata.language = currentLanguage;
-          defaultMetadatas[baseMetadata.id] = baseMetadata;
-        });
-      Object.assign(metadatas, defaultMetadatas);
-    }
-  });
+            if (baseMetadata.permalink) {
+              baseMetadata.permalink = baseMetadata.permalink
+                .toString()
+                .replace(
+                  new RegExp(`^${docsPart}en/`),
+                  `${docsPart}${currentLanguage}/`,
+                );
+            }
+            if (baseMetadata.next) {
+              baseMetadata.next = baseMetadata.next
+                .toString()
+                .replace(/^en-/, `${currentLanguage}-`);
+            }
+            if (baseMetadata.previous) {
+              baseMetadata.previous = baseMetadata.previous
+                .toString()
+                .replace(/^en-/, `${currentLanguage}-`);
+            }
+            baseMetadata.language = currentLanguage;
+            defaultMetadatas[baseMetadata.id] = baseMetadata;
+          });
+        Object.assign(metadatas, defaultMetadatas);
+      }
+    });
 
-  // metadata for non-english docs
-  const translatedDir = path.join(CWD, 'translated_docs');
-  files = glob.sync(`${CWD}/translated_docs/**`);
-  files.forEach(file => {
-    if (!utils.getLanguage(file, translatedDir)) {
-      return;
-    }
-
-    const extension = path.extname(file);
-
-    if (extension === '.md' || extension === '.markdown') {
-      const res = processMetadata(file, translatedDir);
-      if (!res) {
+    // metadata for non-english docs
+    const translatedDir = path.join(CWD, 'translated_docs');
+    files = glob.sync(`${CWD}/translated_docs/**`);
+    files.forEach(file => {
+      if (!utils.getLanguage(file, translatedDir)) {
         return;
       }
-      const metadata = res.metadata;
-      metadatas[metadata.id] = metadata;
-    }
-  });
+
+      const extension = path.extname(file);
+
+      if (extension === '.md' || extension === '.markdown') {
+        const res = processMetadata(file, translatedDir);
+        if (!res) {
+          return;
+        }
+        const metadata = res.metadata;
+        metadatas[metadata.id] = metadata;
+      }
+    });
+  }
 
   // metadata for versioned docs
   const versionData = versionFallback.docData();

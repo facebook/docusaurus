@@ -173,4 +173,28 @@ describe('loadDocs', () => {
       version: null,
     });
   });
+
+  test('versioned website with skip next release', async () => {
+    const props = await loadSetup('versioned');
+    const {siteDir, docsDir, versionedDir, env, siteConfig} = props;
+    const {docsMetadatas} = await loadDocs(
+      {siteDir, docsDir, env, siteConfig},
+      true,
+    );
+    expect(docsMetadatas['version-1.0.0-foo/bar']).toEqual({
+      category: 'Test',
+      id: 'version-1.0.0-foo/bar',
+      language: null,
+      localized_id: 'version-1.0.0-foo/bar',
+      next: 'version-1.0.0-foo/baz',
+      next_id: 'version-1.0.0-foo/baz',
+      next_title: 'Baz',
+      permalink: '/docs/1.0.0/foo/bar',
+      sidebar: 'version-1.0.0-docs',
+      source: path.join(versionedDir, 'version-1.0.0/foo/bar.md'),
+      title: 'Bar',
+      version: '1.0.0',
+    });
+    expect(docsMetadatas['foo/bar']).toBeUndefined();
+  });
 });

@@ -18,7 +18,7 @@ const siteConfig = require(`${process.cwd()}/siteConfig.js`);
 // siteConfig virtually.
 jest.mock(`${process.cwd()}/siteConfig.js`, () => jest.fn(), {virtual: true});
 
-jest.mock('commander');
+jest.genMockFromModule('commander');
 jest.mock('react-dev-utils/openBrowser');
 jest.mock('portfinder');
 jest.mock('../liveReloadServer.js');
