@@ -92,7 +92,7 @@ module.exports = function createBaseConfig(props, isServer) {
 
   const jsRule = config.module
     .rule('js')
-    .test(/\.js$/)
+    .test(/\.jsx?$/)
     .exclude.add(filepath => {
       // Always transpile lib directory
       if (filepath.startsWith(path.join(__dirname, '..'))) {
