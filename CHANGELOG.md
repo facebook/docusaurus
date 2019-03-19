@@ -6,6 +6,53 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [Unreleased]
 
+## [1.7.3] - 2019-3-19
+
+This version mainly includes bug fixes found in 1.7.0 that improves stability.
+
+Thank you to the following contributors who helped with this release:
+
+- @zpao
+- @jeromesimeon
+- @yangshun 
+- @bartanthonissen 
+- @YoshinoriN 
+- @marvinchin 
+- @sinchange
+- @githubsaturn
+- @fiennyangeln 
+- @ahtee
+- @endiliey
+- @ael-mas 
+- @natemago
+- @co16353sidak
+- @CPSTL
+- @alexkrolick
+
+### Fixed/Changed
+
+- Update code.facebook.com links to appropriate new destination ([#1224](https://github.com/facebook/Docusaurus/pull/1224))
+- docs: showcase user accord-project ([#1225](https://github.com/facebook/Docusaurus/pull/1225))
+- fix: change mainContainer padding to align with sidebars
+- docs: mention about CNAME option in publishing docs ([#1227](https://github.com/facebook/Docusaurus/pull/1227)) 
+- docs: add ScanTrust to users ([#1228](https://github.com/facebook/Docusaurus/pull/1228))
+- chore: upgrade husky to 1.3.1 ([#1229](https://github.com/facebook/Docusaurus/pull/1229))
+- Remove more references to code.facebook.com ([#1231](https://github.com/facebook/Docusaurus/pull/1231))
+- fix: use clean url for og:url when cleanUrl is true ([#1242](https://github.com/facebook/Docusaurus/pull/1242))
+- fix: hovering algolia logo break its background color ([#1240](https://github.com/facebook/Docusaurus/pull/1240))
+- docs: update CaptainDuckDuck to CapRover ([#1244](https://github.com/facebook/Docusaurus/pull/1244))
+- chore: rename siteConfig.js to docusaurus.config.js ([#1245](https://github.com/facebook/Docusaurus/pull/1245))
+- fix: make referenced links work with code block tabs ([#1249](https://github.com/facebook/Docusaurus/pull/1249)) 
+- docs: showcase user Scalafmt ([#1250](https://github.com/facebook/Docusaurus/pull/1250))
+- fix: wrong sidebar_label and title on versioned_docs ([#1265](https://github.com/facebook/Docusaurus/pull/1265))
+- docs: update api-pages.md to document about overriding default styles ([#1266](https://github.com/facebook/Docusaurus/pull/1266))
+- fix: upgrade jest to remove security vulnerability ([#1276](https://github.com/facebook/Docusaurus/pull/1276))
+- docs: showcase user Microkubes ([#1274](https://github.com/facebook/Docusaurus/pull/1274))
+- docs: showcase user Twirp ([#1275](https://github.com/facebook/Docusaurus/pull/1275))
+- docs: add Polymath to users ([#1276](https://github.com/facebook/Docusaurus/pull/1276))
+- fix: relative path markdown linking on versioned docs ([#1281](https://github.com/facebook/Docusaurus/pull/1281))
+- fix(codetabs): fix key warning ([#1284](https://github.com/facebook/Docusaurus/pull/1284))
+
 ## [1.7.2] - 2019-1-28
 
 Minor fixes and improvements to some of the features introduced in 1.7.0.
@@ -966,7 +1013,8 @@ N/A
   - Blog
   - Documentation
 
-[unreleased]: https://github.com/facebook/Docusaurus/compare/v1.7.2...HEAD
+[unreleased]: https://github.com/facebook/Docusaurus/compare/v1.7.3...HEAD
+[1.7.3]: https://github.com/facebook/Docusaurus/compare/v1.7.2...v1.7.3
 [1.7.2]: https://github.com/facebook/Docusaurus/compare/v1.7.1...v1.7.2
 [1.7.1]: https://github.com/facebook/Docusaurus/compare/v1.7.0...v1.7.1
 [1.7.0]: https://github.com/facebook/Docusaurus/compare/v1.6.2...v1.7.0
