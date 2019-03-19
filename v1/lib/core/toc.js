@@ -62,8 +62,10 @@ function insertTOC(rawContent) {
     return rawContent;
   }
   const LOWERCASE_TOC_TOKEN = TABLE_OF_CONTENTS_TOKEN.toLowerCase();
-  if(rawContent.indexOf(TABLE_OF_CONTENTS_TOKEN) === -1 &&
-    rawContent.indexOf(LOWERCASE_TOC_TOKEN) === -1){
+  if (
+    rawContent.indexOf(TABLE_OF_CONTENTS_TOKEN) === -1 &&
+    rawContent.indexOf(LOWERCASE_TOC_TOKEN) === -1
+  ) {
     return rawContent;
   }
   const filterRe = /^`[^`]*`/;
