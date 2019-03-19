@@ -58,7 +58,12 @@ function getTOC(content, headingTags = 'h2', subHeadingTags = 'h3') {
 // takes the content of a doc article and returns the content with a table of
 // contents inserted
 function insertTOC(rawContent) {
-  if (!rawContent || rawContent.indexOf(TABLE_OF_CONTENTS_TOKEN) === -1) {
+  if (!rawContent) {
+    return rawContent;
+  }
+  const LOWERCASE_TOC_TOKEN = TABLE_OF_CONTENTS_TOKEN.toLowerCase();
+  if(rawContent.indexOf(TABLE_OF_CONTENTS_TOKEN) === -1 &&
+    rawContent.indexOf(LOWERCASE_TOC_TOKEN) === -1){
     return rawContent;
   }
   const filterRe = /^`[^`]*`/;
@@ -67,7 +72,9 @@ function insertTOC(rawContent) {
     .filter(header => filterRe.test(header.rawContent))
     .map(header => `  - [${header.rawContent}](#${header.hashLink})`)
     .join('\n');
-  return rawContent.replace(TABLE_OF_CONTENTS_TOKEN, tableOfContents);
+  return rawContent
+    .replace(TABLE_OF_CONTENTS_TOKEN, tableOfContents)
+    .replace(LOWERCASE_TOC_TOKEN, tableOfContents);
 }
 
 module.exports = {
