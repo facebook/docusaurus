@@ -26,7 +26,7 @@ module.exports = [
     image: '/img/users/allcontributors.png',
     infoLink: 'https://allcontributors.org/',
     fbOpenSource: false,
-    pinned: false,
+    pinned: true,
   },
   {
     caption: 'Anssr Data Platform',
