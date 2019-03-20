@@ -73,6 +73,17 @@ class Index extends React.Component {
       <div>
         <HomeSplash siteConfig={siteConfig} language={language} />
         <div className="mainContainer">
+          <div className="announcement">
+            <div className="announcement-inner">
+              We're working on{' '}
+              <a href="https://github.com/facebook/Docusaurus/issues/789">
+                Docusaurus 2
+              </a>
+              , contribute to its roadmap by suggesting features or giving
+              feedback{' '}
+              <a href="https://munseo-preview.netlify.com/feedback/">here</a>!
+            </div>
+          </div>
           <Container padding={['bottom', 'top']} background="light">
             <GridBlock
               align="center"
