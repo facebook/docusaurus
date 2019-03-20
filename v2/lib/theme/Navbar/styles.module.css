@@ -29,6 +29,13 @@
   text-decoration: none;
 }
 
+.navVersion {
+  color: black;
+  text-decoration: underline;
+  display: block;
+  padding: 1em 1.2em;
+}
+
 .navLogo {
   height: 40px;
   margin-right: 12px;

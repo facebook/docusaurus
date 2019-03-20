@@ -20,11 +20,19 @@ function Navbar(props) {
     metadata = {},
     docsMetadatas = {},
   } = context;
-  const {baseUrl, headerLinks, headerIcon, algolia} = siteConfig;
+  const {
+    baseUrl,
+    headerLinks,
+    headerIcon,
+    algolia,
+    title,
+    disableHeaderTitle,
+  } = siteConfig;
   const {language: thisLanguage, version: thisVersion} = metadata;
 
   const translationEnabled = env.translation.enabled;
   const versioningEnabled = env.versioning.enabled;
+  const defaultVersion = versioningEnabled && env.versioning.defaultVersion;
 
   // function to generate each header link
   const makeLinks = link => {
@@ -111,15 +119,31 @@ function Navbar(props) {
       <div className={styles.navbarInner}>
         <ul className={styles.navList}>
           <li key="logo" className={styles.navListItem}>
-            <Link className={styles.navBrand} to="/">
-              <img
-                alt="Docusaurus Logo"
-                className={styles.navLogo}
-                src={baseUrl + headerIcon}
-              />
-              <strong>Docusaurus</strong>
+            <Link
+              className={styles.navBrand}
+              to={baseUrl + (translationEnabled ? thisLanguage : '')}>
+              {headerIcon && (
+                <img
+                  className={styles.navLogo}
+                  src={baseUrl + headerIcon}
+                  alt={title}
+                />
+              )}
+              {!disableHeaderTitle && <strong>{title}</strong>}
             </Link>
           </li>
+          {versioningEnabled && (
+            <li key="versions" className={styles.navListItem}>
+              <Link
+                className={styles.navVersion}
+                to={
+                  baseUrl +
+                  (translationEnabled ? `${thisLanguage}/versions` : `versions`)
+                }>
+                {thisVersion || defaultVersion}
+              </Link>
+            </li>
+          )}
           {headerLinks.map(makeLinks)}
         </ul>
       </div>

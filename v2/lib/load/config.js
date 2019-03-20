@@ -30,6 +30,7 @@ const OPTIONAL_FIELDS = [
   'customDocsPath',
   'customFields',
   'defaultLanguage',
+  'disableHeaderTitle',
   'docsUrl',
   'githubHost',
   'highlight',
