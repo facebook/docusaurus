@@ -14,54 +14,42 @@ const GridBlock = CompLibrary.GridBlock;
 const Showcase = require(`${process.cwd()}/core/Showcase.js`);
 const translate = require('../../server/translate.js').translate;
 
-class HomeSplash extends React.Component {
-  render() {
-    const {siteConfig, language} = this.props;
+function HomeSplash(props) {
+  const {siteConfig, language} = props;
 
-    const Button = props => (
-      <div className="pluginWrapper buttonWrapper">
-        <a className="button" href={props.href} target={props.target}>
-          {props.children}
-        </a>
-      </div>
-    );
-
-    return (
-      <div className="homeContainer">
-        <div className="homeSplashFade">
-          <div className="wrapper homeWrapper">
-            <div className="projectLogo">
-              <img
-                src={`${siteConfig.baseUrl}img/docusaurus_keytar.svg`}
-                alt="Docusaurus with Keytar"
-              />
-            </div>
-            <div className="inner">
-              <h1 className="projectTitle">
-                {siteConfig.title}
-                <small>{siteConfig.tagline}</small>
-              </h1>
-              <div className="section promoSection">
-                <div className="promoRow">
-                  <div className="pluginRowBlock">
-                    <Button
-                      href={`
-                        ${siteConfig.baseUrl}docs/${language}/installation
-                        `}>
-                      <translate>Get Started</translate>
-                    </Button>
-                    <Button href="https://github.com/facebook/Docusaurus">
-                      <translate>GitHub</translate>
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+  return (
+    <div className="index-hero">
+      <div className="index-hero-inner">
+        <h1 className="index-hero-project-tagline">
+          <img
+            alt="Docusaurus with Keytar"
+            className="index-hero-logo"
+            src={`${siteConfig.baseUrl}img/docusaurus_keytar.svg`}
+          />
+          {siteConfig.title} makes it easy to maintain{' '}
+          <span className="index-hero-project-keywords">Open Source</span>{' '}
+          documentation websites.
+        </h1>
+        <div className="index-ctas">
+          <a
+            className="button index-ctas-get-started-button"
+            href={`${siteConfig.baseUrl}docs/${language}/installation`}>
+            <translate>Get Started</translate>
+          </a>
+          <span className="index-ctas-github-button">
+            <iframe
+              src="https://ghbtns.com/github-btn.html?user=facebook&amp;repo=docusaurus&amp;type=star&amp;count=true&amp;size=large"
+              frameBorder={0}
+              scrolling={0}
+              width={160}
+              height={30}
+              title="GitHub Stars"
+            />
+          </span>
         </div>
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 class Index extends React.Component {
@@ -72,18 +60,18 @@ class Index extends React.Component {
     return (
       <div>
         <HomeSplash siteConfig={siteConfig} language={language} />
-        <div className="mainContainer">
-          <div className="announcement">
-            <div className="announcement-inner">
-              We're working on{' '}
-              <a href="https://github.com/facebook/Docusaurus/issues/789">
-                Docusaurus 2
-              </a>
-              , contribute to its roadmap by suggesting features or giving
-              feedback{' '}
-              <a href="https://munseo-preview.netlify.com/feedback/">here</a>!
-            </div>
+        <div className="announcement">
+          <div className="announcement-inner">
+            We're working on{' '}
+            <a href="https://github.com/facebook/Docusaurus/issues/789">
+              Docusaurus 2
+            </a>
+            , contribute to its roadmap by suggesting features or giving
+            feedback{' '}
+            <a href="https://munseo-preview.netlify.com/feedback/">here</a>!
           </div>
+        </div>
+        <div className="mainContainer">
           <Container padding={['bottom', 'top']} background="light">
             <GridBlock
               align="center"
