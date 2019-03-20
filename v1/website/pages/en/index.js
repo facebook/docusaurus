@@ -68,7 +68,7 @@ class Index extends React.Component {
             </a>
             , contribute to its roadmap by suggesting features or giving
             feedback{' '}
-            <a href="https://munseo-preview.netlify.com/feedback/">here</a>!
+            <a href="https://docusaurus-2.netlify.com/feedback/">here</a>!
           </div>
         </div>
         <div className="mainContainer">
