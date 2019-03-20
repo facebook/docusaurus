@@ -63,8 +63,8 @@ table td:first-child > code {
   color: #fff;
   font-weight: bold;
   font-size: 24px;
-  margin-top: -40px;
   padding: 48px;
+  margin: 0 auto;
   text-align: center;
 }
 
