@@ -25,8 +25,6 @@ const REQUIRED_FIELDS = [
 
 const OPTIONAL_FIELDS = [
   'algolia',
-  'chainWebpack',
-  'configureWebpack',
   'customDocsPath',
   'customFields',
   'defaultLanguage',
