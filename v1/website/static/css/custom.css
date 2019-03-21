@@ -64,7 +64,7 @@ table td:first-child > code {
   font-weight: bold;
   font-size: 24px;
   padding: 48px;
-  margin: 0 auto;
+  margin: 0 auto -40px;
   text-align: center;
 }
 
@@ -121,6 +121,7 @@ table td:first-child > code {
   float: right;
   margin-top: 20px;
   padding: 20px;
+  padding-right: 0;
 }
 
 .index-ctas {
@@ -142,9 +143,13 @@ table td:first-child > code {
 }
 
 @media only screen and (max-width: 768px) {
+  .announcement {
+    font-size: 18px;
+    padding: 20px;
+  }
+
   .index-hero {
-    padding-left: 20px;
-    padding-right: 20px;
+    padding: 20px;
   }
 
   .index-hero-inner {
