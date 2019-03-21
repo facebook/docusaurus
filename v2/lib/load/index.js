@@ -75,12 +75,26 @@ module.exports = async function load(siteDir) {
   const context = {env, siteDir, siteConfig};
 
   // Initialize plugins.
-  const plugins = pluginConfigs.map(({name, options}) => {
-    // TODO: Resolve using node_modules as well.
-    // eslint-disable-next-line
-    const Plugin = require(path.resolve(__dirname, '../../plugins', name));
-    return new Plugin(options, context);
-  });
+  const pluginDir = path.resolve(__dirname, '../../plugins');
+  const plugins = pluginConfigs.map(
+    ({name, path: pluginPath = path.join(pluginDir, name), options}) => {
+      let Plugin;
+      // If it exist in provided path or official plugin directory
+      if (pluginPath && fs.existsSync(pluginPath)) {
+        // eslint-disable-next-line
+        Plugin = require(pluginPath);
+      } else {
+        // Resolve using node_modules as well.
+        try {
+          // eslint-disable-next-line
+          Plugin = require(name);
+        } catch (e) {
+          throw new Error(`'${name}' plugin cannot be found.`);
+        }
+      }
+      return new Plugin(options, context);
+    },
+  );
 
   // Plugin lifecycle - loadContents().
   // Currently plugins run lifecycle in parallel and are not order-dependent. We could change
