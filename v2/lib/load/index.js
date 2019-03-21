@@ -79,7 +79,7 @@ module.exports = async function load(siteDir) {
   const plugins = pluginConfigs.map(
     ({name, path: pluginPath = path.join(pluginDir, name), options}) => {
       let Plugin;
-      // If it exist in provided path or Docusaurus official plugin path
+      // If it exist in provided path or official plugin directory
       if (pluginPath && fs.existsSync(pluginPath)) {
         // eslint-disable-next-line
         Plugin = require(pluginPath);
