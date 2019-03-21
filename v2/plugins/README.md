@@ -1,19 +1,17 @@
-# Docusaurus Plugin
+# Docusaurus Plugins
 
-Plugin is one of the best way to add functionality to our Docusaurus. Plugin allows third-party developers to extend or modify just what Docusaurus does.
+Plugins are one of the best ways to add functionality to our Docusaurus. Plugins allow third-party developers to extend or modify the default functionality that Docusaurus provides.
 
 ## Installing a Plugin
 
-A plugin is usually a dependency, so you install them like other packages in node using NPM. However, you don't need to install official plugin provided by Docusaurus team because it came by default.
+A plugin is usually a dependency, so you install them like other packages in node using NPM. However, you don't need to install official plugin provided by Docusaurus team because it comes by default.
 
-Example:
 ```bash
-npm install --save docusaurus-plugin-name
+yarn add docusaurus-plugin-name
 ```
 
-Then you add it in your site's `docusaurus.config.js` plugin arrays
+Then you add it in your site's `docusaurus.config.js` plugin arrays:
 
-Example:
 ```js
 module.exports = {
   plugins: [
@@ -38,7 +36,7 @@ Docusaurus can also load plugins from your local folder, you can do something li
 module.exports = {
   plugins: [
     {
-      path: `/path/to/docusaurus-local-plugin`,
+      path: '/path/to/docusaurus-local-plugin',
     },
   ],
 }
