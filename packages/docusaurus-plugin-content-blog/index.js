@@ -41,7 +41,7 @@ class DocusaurusPluginContentBlog {
   }
 
   // Fetches blog contents and returns metadata for the contents.
-  async loadContents() {
+  async loadContent() {
     const {pageCount, include, routeBasePath} = this.options;
     const {env, siteConfig} = this.context;
     const blogDir = this.contentPath;
@@ -109,10 +109,10 @@ class DocusaurusPluginContentBlog {
     return blogMetadata;
   }
 
-  async generateRoutes({metadata, actions}) {
+  async contentLoaded({content, actions}) {
     const {blogPageComponent, blogPostComponent} = this.options;
     const {addRoute} = actions;
-    metadata.forEach(metadataItem => {
+    content.forEach(metadataItem => {
       const {isBlogPage, permalink} = metadataItem;
       if (isBlogPage) {
         addRoute({

@@ -4,7 +4,7 @@ Plugins are one of the best ways to add functionality to our Docusaurus. Plugins
 
 ## Installing a Plugin
 
-A plugin is usually a dependency, so you install them like other packages in node using NPM. However, you don't need to install official plugin provided by Docusaurus team because it comes by default.
+A plugin is usually a dependency, so you install them like other packages in node using NPM.
 
 ```bash
 yarn add docusaurus-plugin-name
@@ -16,14 +16,14 @@ Then you add it in your site's `docusaurus.config.js` plugin arrays:
 module.exports = {
   plugins: [
     {
-      name: 'docusaurus-plugin-content-pages',
+      name: '@docusaurus/plugin-content-pages',
     },
     {
       // Plugin with options
-      name: 'docusaurus-plugin-content-blog',
+      name: '@docusaurus/plugin-content-blog',
       options: {
         include: ['*.md', '*.mdx'],
-        path: '../v1/website/blog',
+        path: 'blog',
       },
     },
   ],
@@ -50,6 +50,7 @@ For examples, please refer to several official plugins created.
 // A JavaScript class
 class DocusaurusPlugin {
   constructor(options, context) {
+    // Initialization hook
       
     // options are the plugin options set on config file
     this.options = {...options};
@@ -62,13 +63,19 @@ class DocusaurusPlugin {
     // plugin name identifier
   }
 
-  async loadContents() {
-    // Content loading hook that runs the first time plugin is loaded
-    // expect a content data structure to be returned
+
+  async loadContent()) {
+    // The loadContent hook is executed after siteConfig and env has been loaded
+    // You can return a JavaScript object that will be passed to contentLoaded hook
   }
 
-  async generateRoutes({metadata, actions}) {
-    // This is routes generation hook
+  async contentLoaded({content, actions}) {
+    // loaded hook is done after load hook is done
+    // actions are set of functional API provided by Docusaurus. e.g: addRoute
+  }
+
+  configureWebpack(config, isServer) {
+    // Modify internal webpack config. If returned value is an Object, it will be merged into the final config using webpack-merge; If returned value is a function, it will receive the config as the 1st argument and an isServer flag as the 2nd argument.
   }
 
   getPathsToWatch() {

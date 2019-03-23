@@ -14,6 +14,7 @@ const loadDocs = require('./docs');
 const loadEnv = require('./env');
 const loadTheme = require('./theme');
 const loadRoutes = require('./routes');
+const loadPlugins = require('./plugins');
 const constants = require('../constants');
 
 module.exports = async function load(siteDir) {
@@ -23,7 +24,7 @@ module.exports = async function load(siteDir) {
   );
   fs.ensureDirSync(generatedFilesDir);
 
-  // Site Config - @tested
+  // Site Config
   const siteConfig = loadConfig.loadConfig(siteDir);
   await generate(
     generatedFilesDir,
@@ -31,7 +32,7 @@ module.exports = async function load(siteDir) {
     `export default ${JSON.stringify(siteConfig, null, 2)};`,
   );
 
-  // Env - @tested
+  // Env
   const env = loadEnv({siteDir, siteConfig});
   await generate(
     generatedFilesDir,
@@ -73,75 +74,10 @@ module.exports = async function load(siteDir) {
   // Process plugins.
   const pluginConfigs = siteConfig.plugins || [];
   const context = {env, siteDir, siteConfig};
-
-  // Initialize plugins.
-  const plugins = pluginConfigs.map(({name, path: pluginPath, options}) => {
-    let Plugin;
-    // If path itself is provided
-    if (pluginPath && fs.existsSync(pluginPath)) {
-      // eslint-disable-next-line
-      Plugin = require(pluginPath);
-    } else {
-      // Resolve using node_modules as well.
-      try {
-        // eslint-disable-next-line
-        Plugin = require(name);
-      } catch (e) {
-        throw new Error(`'${name}' plugin cannot be found.`);
-      }
-    }
-    return new Plugin(options, context);
+  const {plugins, pluginRouteConfigs} = await loadPlugins({
+    pluginConfigs,
+    context,
   });
-
-  // Plugin lifecycle - loadContents().
-  // Currently plugins run lifecycle in parallel and are not order-dependent. We could change
-  // this in future if there are plugins which need to run in certain order or depend on
-  // others for data.
-  const pluginsLoadedMetadata = await Promise.all(
-    plugins.map(async plugin => {
-      if (!plugin.loadContents) {
-        return null;
-      }
-
-      const name = plugin.getName();
-      const {options} = plugin;
-      const {metadataKey, metadataFileName} = options;
-      const metadata = await plugin.loadContents();
-      const pluginContentPath = path.join(name, metadataFileName);
-      const pluginContentDir = path.join(generatedFilesDir, name);
-      fs.ensureDirSync(pluginContentDir);
-      await generate(
-        pluginContentDir,
-        metadataFileName,
-        JSON.stringify(metadata, null, 2),
-      );
-      const contentPath = path.join('@generated', pluginContentPath);
-
-      return {
-        metadataKey,
-        contentPath,
-        metadata,
-      };
-    }),
-  );
-
-  // Plugin lifecycle - generateRoutes().
-  const pluginRouteConfigs = [];
-  const actions = {
-    addRoute: config => pluginRouteConfigs.push(config),
-  };
-  await Promise.all(
-    plugins.map(async (plugin, index) => {
-      if (!plugin.generateRoutes) {
-        return;
-      }
-      const loadedMetadata = pluginsLoadedMetadata[index];
-      await plugin.generateRoutes({
-        metadata: loadedMetadata.metadata,
-        actions,
-      });
-    }),
-  );
 
   // Resolve outDir.
   const outDir = path.resolve(siteDir, 'build');
@@ -167,16 +103,9 @@ module.exports = async function load(siteDir) {
     '../core/metadata.template.ejs',
   );
   const metadataTemplate = fs.readFileSync(metadataTemplateFile).toString();
-  const pluginMetadataImports = pluginsLoadedMetadata.map(
-    ({metadataKey, contentPath}) => ({
-      name: metadataKey,
-      path: contentPath,
-    }),
-  );
 
   const metadataFile = ejs.render(metadataTemplate, {
     imports: [
-      ...pluginMetadataImports,
       {
         name: 'docsMetadatas',
         path: '@generated/docsMetadatas',

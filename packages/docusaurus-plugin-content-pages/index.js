@@ -31,7 +31,7 @@ class DocusaurusPluginContentPages {
     return 'docusaurus-plugin-content-pages';
   }
 
-  async loadContents() {
+  async loadContent() {
     const {include} = this.options;
     const {env, siteConfig} = this.context;
     const pagesDir = this.contentPath;
@@ -88,11 +88,11 @@ class DocusaurusPluginContentPages {
     return pagesMetadatas;
   }
 
-  async generateRoutes({metadata, actions}) {
+  async contentLoaded({content, actions}) {
     const {component} = this.options;
     const {addRoute} = actions;
 
-    metadata.forEach(metadataItem => {
+    content.forEach(metadataItem => {
       const {permalink, source} = metadataItem;
       addRoute({
         path: permalink,

@@ -77,7 +77,7 @@ module.exports = async function start(siteDir, cliOptions = {}) {
   // Create compiler from generated webpack config.
   let config = createClientConfig(props);
 
-  const {siteConfig} = props;
+  const {siteConfig, plugins = []} = props;
   config.plugin('html-webpack-plugin').use(HtmlWebpackPlugin, [
     {
       inject: false,
@@ -89,11 +89,13 @@ module.exports = async function start(siteDir, cliOptions = {}) {
   ]);
   config = config.toConfig();
 
-  // Apply user webpack config.
-  const {
-    siteConfig: {configureWebpack},
-  } = props;
-  config = applyConfigureWebpack(configureWebpack, config, false);
+  // Plugin lifecycle - configureWebpack
+  plugins.forEach(({configureWebpack}) => {
+    if (!configureWebpack) {
+      return;
+    }
+    config = applyConfigureWebpack(configureWebpack, config, false);
+  });
 
   const compiler = webpack(config);
 
