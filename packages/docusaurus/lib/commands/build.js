@@ -46,27 +46,24 @@ module.exports = async function build(siteDir) {
   const props = await load(siteDir);
 
   // Apply user webpack config.
-  const {
-    outDir,
-    siteConfig: {configureWebpack},
-  } = props;
+  const {outDir, plugins} = props;
 
   const clientConfigObj = createClientConfig(props);
   // Remove/clean build folders before building bundles.
   clientConfigObj
     .plugin('clean')
     .use(CleanWebpackPlugin, [outDir, {verbose: false, allowExternal: true}]);
-  const serverConfigObj = createServerConfig(props);
-  const clientConfig = applyConfigureWebpack(
-    configureWebpack,
-    clientConfigObj.toConfig(),
-    false,
-  );
-  const serverConfig = applyConfigureWebpack(
-    configureWebpack,
-    serverConfigObj.toConfig(),
-    true,
-  );
+  let serverConfig = createServerConfig(props).toConfig();
+  let clientConfig = clientConfigObj.toConfig();
+
+  // Plugin lifecycle - configureWebpack
+  plugins.forEach(({configureWebpack}) => {
+    if (!configureWebpack) {
+      return;
+    }
+    clientConfig = applyConfigureWebpack(configureWebpack, clientConfig, false);
+    serverConfig = applyConfigureWebpack(configureWebpack, serverConfig, true);
+  });
 
   // Build the client bundles first.
   // We cannot run them in parallel because the server needs to know

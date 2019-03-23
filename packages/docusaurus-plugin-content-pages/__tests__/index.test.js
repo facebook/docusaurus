@@ -11,7 +11,7 @@ import loadSetup from '../../docusaurus/test/loadSetup';
 import DocusaurusPluginContentPages from '../index';
 
 describe('docusaurus-plugin-content-pages', () => {
-  describe('loadContents', () => {
+  describe('loadContent', () => {
     test.each([
       [
         'simple',
@@ -116,7 +116,7 @@ describe('docusaurus-plugin-content-pages', () => {
         siteDir,
         siteConfig,
       });
-      const pagesMetadatas = await plugin.loadContents();
+      const pagesMetadatas = await plugin.loadContent();
       const pagesDir = plugin.contentPath;
 
       expect(pagesMetadatas).toEqual(expected(pagesDir));

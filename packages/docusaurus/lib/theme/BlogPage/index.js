@@ -14,9 +14,12 @@ import DocusaurusContext from '@docusaurus/context';
 
 function BlogPage(props) {
   const context = useContext(DocusaurusContext);
-  const {blogMetadata, language, siteConfig = {}} = context;
+  const {language, siteConfig = {}} = context;
   const {baseUrl, favicon} = siteConfig;
-  const {modules: BlogPosts} = props;
+  const {
+    metadata: {posts = []},
+    modules: BlogPosts,
+  } = props;
 
   return (
     <Layout>
@@ -28,7 +31,7 @@ function BlogPage(props) {
       </Head>
       <div>
         <ul>
-          {blogMetadata.map(metadata => (
+          {posts.map(metadata => (
             <li key={metadata.permalink}>
               <Link to={metadata.permalink}>{metadata.permalink}</Link>
             </li>
