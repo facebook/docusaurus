@@ -28,7 +28,11 @@
     "eslint-plugin-react-hooks": "^0.0.0",
     "jest": "^24.1.0",
     "react": "^16.8.4",
-    "react-dom": "^16.8.4"
+    "react-dom": "^16.8.4",
+    "filepath": "^1.1.0",
+    "front-matter": "^2.3.0",
+    "rimraf": "^2.6.2",
+    "glob-promise": "^3.3.0"
   },
   "lint-staged": {
     "linters": {

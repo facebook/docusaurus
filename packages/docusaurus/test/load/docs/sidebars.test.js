@@ -9,7 +9,7 @@ import path from 'path';
 import loadSidebars from '@lib/load/docs/sidebars';
 import loadSetup from '../../loadSetup';
 
-describe('loadSidebars', async () => {
+describe('loadSidebars', () => {
   const fixtures = path.join(__dirname, '..', '__fixtures__');
   test('normal site with sidebars', async () => {
     const {env, siteDir} = await loadSetup('simple');
