@@ -8,7 +8,7 @@
   "scripts": {
     "prettier": "prettier --config .prettierrc --write \"**/*.js\"",
     "prettier:diff": "prettier --config .prettierrc --list-different \"**/*.js\"",
-    "lint": "eslint --cache \"v1/**/*.js\" \"packages/**/*.js\"",
+    "lint": "eslint --cache \"**/*.js\"",
     "lerna": "lerna",
     "test": "jest"
   },
