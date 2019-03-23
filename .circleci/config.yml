@@ -68,6 +68,9 @@ jobs:
     <<: *defaults
     steps:
       - checkout
+      - restore-cache: *root-restore-yarn-cache
+      - run: *root-yarn
+      - save-cache: *root-save-yarn-cache
       - run:
           name: Configure GitHub Bot
           # Do not do this if we don't have the right org (facebook), or if this is just a pull request
