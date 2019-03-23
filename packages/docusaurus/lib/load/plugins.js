@@ -25,6 +25,16 @@ module.exports = async function loadPlugins({pluginConfigs = [], context}) {
     return new Plugin(options, context);
   });
 
+  // Do not allow plugin with duplicate name
+  const pluginNames = new Set();
+  plugins.forEach(plugin => {
+    const name = plugin.getName();
+    if (pluginNames.has(name)) {
+      throw new Error(`Duplicate plugin with name '${name}' found`);
+    }
+    pluginNames.add(name);
+  });
+
   /* 2. Plugin lifecycle - LoadContent */
   const pluginsLoadedContent = {};
   await Promise.all(
