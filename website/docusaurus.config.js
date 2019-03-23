@@ -31,14 +31,14 @@ module.exports = {
   },
   plugins: [
     {
-      name: 'docusaurus-plugin-content-blog',
+      name: '@docusaurus/plugin-content-blog',
       options: {
         include: ['*.md', '*.mdx'],
-        path: '../v1/website/blog',
+        path: '../website-1.x/blog',
       },
     },
     {
-      name: 'docusaurus-plugin-content-pages',
+      name: '@docusaurus/plugin-content-pages',
     },
   ],
 };

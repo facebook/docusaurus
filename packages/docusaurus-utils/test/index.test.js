@@ -12,7 +12,7 @@ import {
   idx,
   getSubFolder,
   normalizeUrl,
-} from '@lib/load/utils';
+} from '../index';
 
 describe('load utils', () => {
   test('fileToComponentName', () => {

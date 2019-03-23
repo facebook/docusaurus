@@ -7,7 +7,7 @@
 
 const fs = require('fs-extra');
 const path = require('path');
-const {idx} = require('../utils');
+const {idx} = require('@docusaurus/utils');
 
 /**
  * Check that item contains only allowed keys
