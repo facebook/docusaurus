@@ -1,0 +1,12 @@
+{
+  "name": "@docusaurus/utils",
+  "version": "1.0.0",
+  "description": "A set of utility functions for Docusaurus packages",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "escape-string-regexp": "^1.0.5",
+    "front-matter": "^2.3.0",
+    "fs-extra": "^7.0.0"
+  }
+}

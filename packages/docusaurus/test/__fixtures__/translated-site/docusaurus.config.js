@@ -21,7 +21,7 @@ module.exports = {
   favicon: 'img/docusaurus.ico',
   plugins: [
     {
-      name: 'docusaurus-plugin-content-pages',
+      name: '@docusaurus/plugin-content-pages',
     },
   ],
 };

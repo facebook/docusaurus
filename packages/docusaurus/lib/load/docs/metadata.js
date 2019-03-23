@@ -7,7 +7,7 @@
 
 const fs = require('fs-extra');
 const path = require('path');
-const {getSubFolder, idx, parse, normalizeUrl} = require('../utils');
+const {getSubFolder, idx, parse, normalizeUrl} = require('@docusaurus/utils');
 
 function getLanguage(filepath, refDir, env) {
   const translationEnabled = idx(env, ['translation', 'enabled']);

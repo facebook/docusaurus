@@ -8,11 +8,11 @@
 const ejs = require('ejs');
 const fs = require('fs-extra');
 const path = require('path');
+const {generate} = require('@docusaurus/utils');
 const loadConfig = require('./config');
 const loadDocs = require('./docs');
 const loadEnv = require('./env');
 const loadTheme = require('./theme');
-const {generate} = require('./utils');
 const loadRoutes = require('./routes');
 const constants = require('../constants');
 
@@ -75,26 +75,23 @@ module.exports = async function load(siteDir) {
   const context = {env, siteDir, siteConfig};
 
   // Initialize plugins.
-  const pluginDir = path.resolve(__dirname, '../../plugins');
-  const plugins = pluginConfigs.map(
-    ({name, path: pluginPath = path.join(pluginDir, name), options}) => {
-      let Plugin;
-      // If it exist in provided path or official plugin directory
-      if (pluginPath && fs.existsSync(pluginPath)) {
+  const plugins = pluginConfigs.map(({name, path: pluginPath, options}) => {
+    let Plugin;
+    // If path itself is provided
+    if (pluginPath && fs.existsSync(pluginPath)) {
+      // eslint-disable-next-line
+      Plugin = require(pluginPath);
+    } else {
+      // Resolve using node_modules as well.
+      try {
         // eslint-disable-next-line
-        Plugin = require(pluginPath);
-      } else {
-        // Resolve using node_modules as well.
-        try {
-          // eslint-disable-next-line
-          Plugin = require(name);
-        } catch (e) {
-          throw new Error(`'${name}' plugin cannot be found.`);
-        }
+        Plugin = require(name);
+      } catch (e) {
+        throw new Error(`'${name}' plugin cannot be found.`);
       }
-      return new Plugin(options, context);
-    },
-  );
+    }
+    return new Plugin(options, context);
+  });
 
   // Plugin lifecycle - loadContents().
   // Currently plugins run lifecycle in parallel and are not order-dependent. We could change

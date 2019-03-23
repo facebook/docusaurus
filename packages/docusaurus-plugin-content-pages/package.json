@@ -1,0 +1,11 @@
+{
+  "name": "@docusaurus/plugin-content-pages",
+  "version": "1.0.0",
+  "description": "Pages content plugin for Docusaurus",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@docusaurus/utils": "^1.0.0",
+    "globby": "^9.1.0"
+  }
+}

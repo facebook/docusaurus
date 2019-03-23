@@ -9,7 +9,7 @@ const globby = require('globby');
 const path = require('path');
 
 // TODO: Do not make it relative because plugins can be from node_modules.
-const {encodePath, fileToPath, idx} = require('../../lib/load/utils');
+const {encodePath, fileToPath, idx} = require('@docusaurus/utils');
 
 const DEFAULT_OPTIONS = {
   metadataKey: 'pagesMetadata',

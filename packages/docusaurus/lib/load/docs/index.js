@@ -7,10 +7,10 @@
 
 const path = require('path');
 const globby = require('globby');
+const {getSubFolder, idx} = require('@docusaurus/utils');
 const createOrder = require('./order');
 const loadSidebars = require('./sidebars');
 const processMetadata = require('./metadata');
-const {getSubFolder, idx} = require('../utils');
 
 async function loadDocs({siteDir, docsDir, env, siteConfig}) {
   // @tested - load all sidebars including versioned sidebars

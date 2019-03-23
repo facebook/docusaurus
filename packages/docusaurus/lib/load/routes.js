@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const {normalizeUrl} = require('./utils');
+const {normalizeUrl} = require('@docusaurus/utils');
 
 async function loadRoutes({
   siteConfig = {},
