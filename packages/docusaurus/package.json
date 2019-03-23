@@ -1,0 +1,87 @@
+{
+  "name": "docusaurus-2",
+  "description": "Easy to Maintain Open Source Documentation Websites",
+  "version": "2.0.0",
+  "license": "MIT",
+  "keywords": [
+    "react",
+    "static site generator",
+    "webpack",
+    "documentation",
+    "websites",
+    "open source",
+    "docusaurus"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/Docusaurus.git"
+  },
+  "bin": {
+    "docusaurus": "bin/docusaurus.js"
+  },
+  "scripts": {
+    "docusaurus": "node bin/docusaurus"
+  },
+  "bugs": {
+    "url": "https://github.com/facebook/Docusaurus/issues"
+  },
+  "dependencies": {
+    "@babel/core": "^7.0.0",
+    "@babel/plugin-syntax-dynamic-import": "^7.0.0",
+    "@babel/polyfill": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/preset-react": "^7.0.0",
+    "@mapbox/rehype-prism": "^0.3.1",
+    "@mdx-js/loader": "^0.20.1",
+    "@mdx-js/mdx": "^0.20.1",
+    "babel-jest": "^24.1.0",
+    "babel-loader": "^8.0.0",
+    "babel-plugin-dynamic-import-node": "^2.2.0",
+    "chalk": "^2.4.1",
+    "chokidar": "^2.0.4",
+    "classnames": "^2.2.6",
+    "clean-webpack-plugin": "^0.1.19",
+    "commander": "^2.16.0",
+    "connect-history-api-fallback": "^1.5.0",
+    "css-loader": "^1.0.0",
+    "docsearch.js": "^2.5.2",
+    "ejs": "^2.6.1",
+    "escape-string-regexp": "^1.0.5",
+    "front-matter": "^2.3.0",
+    "fs-extra": "^7.0.0",
+    "globby": "^8.0.1",
+    "html-webpack-plugin": "^3.2.0",
+    "koa-connect": "^2.0.1",
+    "koa-mount": "^3.0.0",
+    "koa-range": "^0.3.0",
+    "koa-static": "^5.0.0",
+    "loader-utils": "^1.1.0",
+    "lodash": "^4.17.11",
+    "mini-css-extract-plugin": "^0.4.1",
+    "portfinder": "^1.0.13",
+    "prismjs": "^1.15.0",
+    "react-helmet": "^5.2.0",
+    "react-loadable": "^5.5.0",
+    "react-router-config": "^1.0.0-beta.4",
+    "react-router-dom": "^4.3.1",
+    "semver": "^5.5.0",
+    "shelljs": "^0.8.2",
+    "sitemap": "^2.1.0",
+    "static-site-generator-webpack-plugin": "^3.4.2",
+    "style-loader": "^0.22.1",
+    "terser-webpack-plugin": "^1.1.0",
+    "webpack": "^4.26.0",
+    "webpack-chain": "^4.8.0",
+    "webpack-merge": "^4.1.4",
+    "webpack-nicelog": "^2.3.1",
+    "webpack-serve": "^2.0.2",
+    "webpack-stats-plugin": "^0.2.1"
+  },
+  "peerDependencies": {
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4"
+  },
+  "engines": {
+    "node": ">=8"
+  }
+}
