@@ -17,8 +17,8 @@ const CWD = process.cwd();
 
 const loadConfig = require('../server/config');
 
-const siteConfig = loadConfig(`${CWD}/website/siteConfig.js`);
-const buildDir = `${CWD}/website/build`;
+const siteConfig = loadConfig(`${CWD}/website-1.x/siteConfig.js`);
+const buildDir = `${CWD}/website-1.x/build`;
 const docsDir = `${CWD}/docs`;
 
 let inputMarkdownFiles = [];
@@ -27,7 +27,7 @@ let outputHTMLFiles = [];
 let outputAssetsFiles = [];
 
 function generateSite() {
-  shell.cd('website');
+  shell.cd('website-1.x');
   shell.exec('yarn build', {silent: true});
 }
 
