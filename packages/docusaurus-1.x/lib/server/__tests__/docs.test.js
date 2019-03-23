@@ -7,8 +7,8 @@
 
 // simulate cwd to website so all require (CWD+'/siteConfig.js') will work
 const originalCwd = process.cwd();
-if (!/website$/.test(originalCwd)) {
-  process.chdir(process.cwd() + '/website');
+if (!/website-1.x$/.test(originalCwd)) {
+  process.chdir(process.cwd() + '/website-1.x');
 }
 
 const path = require('path');
@@ -132,16 +132,17 @@ describe('mdToHtmlify', () => {
 
 describe('getFile', () => {
   const fakeContent = {
-    'v1/website/translated_docs/ko/doc1.md': '이건 가짜 야',
-    'v1/website/versioned_docs/version-1.0.0/doc2.md': 'Document 2 is not good',
-    'v1/website/translated_docs/ko/version-1.0.0/doc1.md':
+    'website-1.x/translated_docs/ko/doc1.md': '이건 가짜 야',
+    'website-1.x/versioned_docs/version-1.0.0/doc2.md':
+      'Document 2 is not good',
+    'website-1.x/translated_docs/ko/version-1.0.0/doc1.md':
       '이것은 오래된 가짜입니다.',
     'docs/doc1.md': 'Just another document',
   };
   fs.existsSync = jest.fn().mockReturnValue(true);
   fs.readFileSync = jest.fn().mockImplementation(file => {
     const fakePath = file.replace(
-      process.cwd().replace(/v1\/website\/?$/, ''),
+      process.cwd().replace(/website-1.x\/?$/, ''),
       '',
     );
     const normalizedPath = fakePath.replace(/\\/g, '/');
@@ -162,21 +163,21 @@ describe('getFile', () => {
   test('translated docs', () => {
     const metadata = Metadata['ko-doc1'];
     expect(docs.getFile(metadata)).toEqual(
-      fakeContent['v1/website/translated_docs/ko/doc1.md'],
+      fakeContent['website-1.x/translated_docs/ko/doc1.md'],
     );
   });
 
   test('versioned docs', () => {
     const metadata = Metadata['en-version-1.0.0-doc2'];
     expect(docs.getFile(metadata)).toEqual(
-      fakeContent['v1/website/versioned_docs/version-1.0.0/doc2.md'],
+      fakeContent['website-1.x/versioned_docs/version-1.0.0/doc2.md'],
     );
   });
 
   test('translated & versioned docs', () => {
     const metadata = Metadata['ko-version-1.0.0-doc1'];
     expect(docs.getFile(metadata)).toEqual(
-      fakeContent['v1/website/translated_docs/ko/version-1.0.0/doc1.md'],
+      fakeContent['website-1.x/translated_docs/ko/version-1.0.0/doc1.md'],
     );
   });
 
