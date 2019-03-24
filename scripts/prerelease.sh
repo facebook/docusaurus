@@ -29,14 +29,14 @@ select VERSION in patch minor major "Specific Version"
 
       if [[ $REPLY =~ ^[Yy]$ || -z $REPLY ]]; then
         # Bump version
-        cd v1
+        cd packages/docusaurus-1.x
         yarn version --new-version $VERSION --no-git-tag-version
         NEW_VERSION=$(node -p "require('./package.json').version")
 
         # Create new branch
         git checkout -B $NEW_VERSION master
         # Cut docusaurus docs version
-        cd website && yarn $DOCS_VERSION_COMMAND $NEW_VERSION
+        cd ../website-1.x && yarn $DOCS_VERSION_COMMAND $NEW_VERSION
 
         # Create commit
         git add ../
