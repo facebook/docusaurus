@@ -13,7 +13,7 @@ There are many ways to contribute to Docusaurus, and many of them do not involve
 - Simply start using Docusaurus. Go through the [Getting Started](https://docusaurus.io/docs/en/installation.html) guide. Does everything work as expected? If not, we're always looking for improvements. Let us know by [opening an issue](#reporting-new-issues).
 - Look through the [open issues](https://github.com/facebook/docusaurus/issues). Provide workarounds, ask for clarification, or suggest labels. Help [triage issues](#triaging-issues-and-pull-requests).
 - If you find an issue you would like to fix, [open a pull request](#your-first-pull-request). Issues tagged as [_Good first issue_](https://github.com/facebook/docusaurus/labels/Good%20first%20issue) are a good place to get started.
-- Read through the [Docusaurus docs](https://docusaurus.io/docs/en/installation.html). If you find anything that is confusing or can be improved, you can make edits by clicking "Edit" at the top of most docs.
+- Read through the [Docusaurus docs](https://docusaurus.io/docs/en/installation). If you find anything that is confusing or can be improved, you can make edits by clicking "Edit" at the top of most docs.
 - Take a look at the [features requested](https://github.com/facebook/docusaurus/labels/enhancement) by others in the community and consider opening a pull request if you see something you want to work on.
 
 Contributions are very welcome. If you think you need help planning your contribution, please ping us on Twitter at [@docusaurus](https://twitter.com/docusaurus) and let us know you are looking for a bit of help.
@@ -23,7 +23,7 @@ Contributions are very welcome. If you think you need help planning your contrib
 If you only want to make content changes you just need to know about versioned docs.
 
 - `/docs` - The files in here are responsible for the "next" version at https://docusaurus.io/docs/en/next/installation.
-- `v1/website/versioned_docs/version-X.Y.Z` - These are the docs for the X.Y.Z version at https://docusaurus.io/docs/en/X.Y.Z/installation.
+- `website-1.x/versioned_docs/version-X.Y.Z` - These are the docs for the X.Y.Z version at https://docusaurus.io/docs/en/X.Y.Z/installation.
 
 To make a fix to the published versions you must edit the corresponding markdown file in both folders. If you only made changes in `docs`, be sure to be viewing the `next` version to see the updates (ensure there's `next` in the URL).
 
@@ -44,7 +44,7 @@ One great way you can contribute to the project without writing any code is to h
 
 Docusaurus uses [GitHub](https://github.com/facebook/docusaurus) as its source of truth. The core team will be working directly there. All changes will be public from the beginning.
 
-When a change made on GitHub is approved, it will be checked by our continuous integration system, CircleCI.
+When a change made on GitHub is approved, it will be checked by our continuous integration system, Circle CI.
 
 ### Branch organization
 
@@ -78,8 +78,8 @@ Facebook has a [bounty program](https://www.facebook.com/whitehat/) for the safe
 1. Ensure you have [Yarn](https://yarnpkg.com/) installed.
 1. After cloning the repository, run `yarn install` in the root of the repository.
 
-   - For Docusaurus 1 development, go into the `v1` directory and do `yarn install`.
-   - For Docusaurus 2 development, go into the `v2` directory and do `yarn install`.
+   - For Docusaurus 1 development, look into the `packages/docusaurus-1.x` and `website-1.x` directory.
+   - For Docusaurus 2 development, go into the `packages/docusaurus` and `website` directory.
 
 1. Run `yarn start` in the respective project directory to start a local development server serving the Docusaurus docs.
 
@@ -137,7 +137,7 @@ When adding a new breaking change, follow this template in your pull request:
 - **Severity (number of people affected x effort)**:
 ```
 
-#### Copyright Notice for code files
+#### Copyright Header for Source Code
 
 Copy and paste this to the top of your new file(s):
 
