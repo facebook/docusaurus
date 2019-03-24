@@ -70,8 +70,12 @@ class DocusaurusPlugin {
   }
 
   async contentLoaded({content, actions}) {
-    // loaded hook is done after load hook is done
+    // contentLoaded hook is done after loadContent hook is done
     // actions are set of functional API provided by Docusaurus. e.g: addRoute
+  }
+
+  async build(props) {
+    // (production) build hook
   }
 
   configureWebpack(config, isServer) {
