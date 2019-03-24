@@ -55,7 +55,7 @@ module.exports = function createBaseConfig(props, isServer) {
     .mode(isProd ? 'production' : 'development')
     .output.path(outDir)
     .filename(isProd ? '[name].[chunkhash].js' : '[name].js')
-    .publicPath(isProd ? baseUrl : '/');
+    .publicPath(baseUrl);
 
   if (!isProd) {
     config.devtool('cheap-module-eval-source-map');
