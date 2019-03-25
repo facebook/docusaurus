@@ -11,13 +11,12 @@ import classnames from 'classnames'; // eslint-disable-line
 
 import styles from './styles.module.css';
 
-class Post extends React.Component {
-  renderPostHeader() {
-    const {metadata} = this.props;
+function Post(props) {
+  const {metadata, children, truncated} = props;
+  const renderPostHeader = () => {
     if (!metadata) {
       return null;
     }
-
     const {
       date,
       author,
@@ -78,25 +77,21 @@ class Post extends React.Component {
         </div>
       </header>
     );
-  }
+  };
 
-  render() {
-    return (
-      <div className={styles.postContainer}>
-        {this.renderPostHeader()}
-        {this.props.children}
-        {this.props.truncated && (
-          <div className={styles.readMoreContainer}>
-            <Link
-              className={styles.readMoreLink}
-              to={this.props.metadata.permalink}>
-              Read More
-            </Link>
-          </div>
-        )}
-      </div>
-    );
-  }
+  return (
+    <div className={styles.postContainer}>
+      {renderPostHeader()}
+      {children}
+      {truncated && (
+        <div className={styles.readMoreContainer}>
+          <Link className={styles.readMoreLink} to={metadata.permalink}>
+            Read More
+          </Link>
+        </div>
+      )}
+    </div>
+  );
 }
 
 export default Post;
