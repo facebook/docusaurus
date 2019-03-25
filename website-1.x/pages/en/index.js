@@ -83,7 +83,7 @@ class Index extends React.Component {
                     }docs/${this.props.language}/doc-markdown)
                     and Docusaurus will publish a set of static html files ready
                     to serve.`,
-                  image: `${siteConfig.baseUrl}img/markdown.png`,
+                  image: `${siteConfig.baseUrl}img/undraw_typewriter.svg`,
                   imageAlign: 'top',
                   imageAlt: 'Markdown',
                   title: <translate>Powered by Markdown</translate>,
@@ -94,7 +94,7 @@ class Index extends React.Component {
                   }/api-pages)
                     your project's layout by reusing React. Docusaurus can be
                     extended while reusing the same header and footer.`,
-                  image: `${siteConfig.baseUrl}img/react.svg`,
+                  image: `${siteConfig.baseUrl}img/undraw_react.svg`,
                   imageAlign: 'top',
                   imageAlt: 'React',
                   title: <translate>Built Using React</translate>,
@@ -105,7 +105,7 @@ class Index extends React.Component {
                   }/translation)
                     comes pre-configured. Use [Crowdin](https://crowdin.com/) to translate your docs
                     into over 70 languages.`,
-                  image: `${siteConfig.baseUrl}img/translation.svg`,
+                  image: `${siteConfig.baseUrl}img/undraw_around_the_world.svg`,
                   imageAlign: 'top',
                   imageAlt: 'Translation',
                   title: <translate>Ready for Translations</translate>,
@@ -124,7 +124,7 @@ class Index extends React.Component {
                     this.props.language
                   }/versioning)
                     helps you keep documentation in sync with project releases.`,
-                  image: `${siteConfig.baseUrl}img/versioning.svg`,
+                  image: `${siteConfig.baseUrl}img/undraw_version_control.svg`,
                   imageAlign: 'top',
                   imageAlt: 'Document Versioning',
                   title: <translate>Document Versioning</translate>,
@@ -136,7 +136,7 @@ class Index extends React.Component {
                     this.props.language
                   }/search) what they need in your documentation.
                     We proudly support [Algolia documentation search](https://www.algolia.com/).`,
-                  image: `${siteConfig.baseUrl}img/search.svg`,
+                  image: `${siteConfig.baseUrl}img/undraw_algolia.svg`,
                   imageAlign: 'top',
                   imageAlt: 'Document Search',
                   title: <translate>Document Search</translate>,
@@ -154,7 +154,7 @@ class Index extends React.Component {
                   }/site-creation)
                     quickly without having to worry about site design.`,
                   imageAlign: 'right',
-                  image: `${siteConfig.baseUrl}img/docusaurus_speed.svg`,
+                  image: `${siteConfig.baseUrl}img/undraw_setup_wizard.svg`,
                   imageAlt: 'Docusaurus on a Scooter',
                   title: <translate>Quick Setup</translate>,
                 },
@@ -205,7 +205,9 @@ class Index extends React.Component {
                     If you have ideas for useful features, feel free to
                     contribute on [GitHub](https://github.com/facebook/docusaurus)!`,
                   imageAlign: 'right',
-                  image: `${siteConfig.baseUrl}img/docusaurus_monochrome.svg`,
+                  image: `${
+                    siteConfig.baseUrl
+                  }img/undraw_features_overview.svg`,
                   imageAlt: 'Monochromatic Docusaurus',
                   title: <translate>Website Features</translate>,
                 },
