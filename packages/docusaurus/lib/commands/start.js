@@ -47,8 +47,12 @@ module.exports = async function start(siteDir, cliOptions = {}) {
     };
     const {plugins} = props;
     const docsRelativeDir = props.siteConfig.customDocsPath;
-    const pluginPaths = _.flatten(
-      plugins.map(plugin => plugin.getPathsToWatch()),
+    const pluginPaths = _.compact(
+      _.flatten(
+        plugins.map(
+          plugin => plugin.getPathsToWatch && plugin.getPathsToWatch(),
+        ),
+      ),
     );
     const fsWatcher = chokidar.watch(
       [
