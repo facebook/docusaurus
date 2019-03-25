@@ -55,12 +55,6 @@ jobs:
       - run:
           name: Run Test Suites
           command: yarn test
-      - run:
-          name: Test v1 static website Builds
-          command: cd website-1.x && yarn build
-      - run:
-          name: Test v2 static website Builds
-          command: cd website && yarn build
 
   # The CIRCLE_ variables are defined during the CircleCI build process
   # https://circleci.com/docs/1.0/environment-variables/
@@ -81,10 +75,12 @@ jobs:
               echo "machine github.com login docusaurus-bot password $DOCUSAURUS_PUBLISH_TOKEN" > ~/.netrc
             fi
       - run:
-          name: Deploy Website
+          name: Deploy v1 Website
           # Skip the deploy if we don't have the right org (facebook), or if this is just a pull request
           command: |
-            if [[ $CIRCLE_PROJECT_USERNAME == "facebook" && -z $CI_PULL_REQUEST && -z $CIRCLE_PR_USERNAME ]]; then
+            if ! git diff-tree --no-commit-id --name-only -r HEAD | grep -E "(^docs\/.*)|(docusaurus-1\.x\/.*)|(website-1\.x\/.*)"; then
+              echo "Skipping deploy. No relevant v1 website files have changed"
+            elif [[ $CIRCLE_PROJECT_USERNAME == "facebook" && -z $CI_PULL_REQUEST && -z $CIRCLE_PR_USERNAME ]]; then
               echo "Deploying website..."
               # install Docusaurus and generate file of English strings
               cd website-1.x && yarn run write-translations
