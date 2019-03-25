@@ -7,18 +7,16 @@
 
 const _ = require('lodash');
 const path = require('path');
-const fs = require('fs-extra');
 const chalk = require('chalk');
 const webpack = require('webpack');
 const chokidar = require('chokidar');
-const convert = require('koa-connect');
-const range = require('koa-range');
-const mount = require('koa-mount');
-const serveStatic = require('koa-static');
-const history = require('connect-history-api-fallback');
 const portfinder = require('portfinder');
-const serve = require('webpack-serve');
+const openBrowser = require('react-dev-utils/openBrowser');
+const {prepareUrls} = require('react-dev-utils/WebpackDevServerUtils');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HotModuleReplacementPlugin = require('webpack/lib/HotModuleReplacementPlugin');
+const WebpackDevServer = require('webpack-dev-server');
+const {normalizeUrl} = require('@docusaurus/utils');
 const load = require('../load');
 const loadConfig = require('../load/config');
 const createClientConfig = require('../webpack/client');
@@ -35,7 +33,7 @@ async function getPort(reqPort) {
 }
 
 module.exports = async function start(siteDir, cliOptions = {}) {
-  console.log('Start command invoked ...');
+  console.log(chalk.blue('Starting the development server...\n'));
 
   // Process all related files as a prop.
   const props = await load(siteDir);
@@ -69,15 +67,19 @@ module.exports = async function start(siteDir, cliOptions = {}) {
     );
   }
 
+  const protocol = process.env.HTTPS === 'true' ? 'https' : 'http';
   const port = await getPort(cliOptions.port);
-  const hotPort = await getPort(port + 1);
   const host = getHost(cliOptions.host);
   const {baseUrl} = props;
+  const urls = prepareUrls(protocol, host, port);
+  const openUrl = normalizeUrl([urls.localUrlForBrowser, baseUrl]);
 
   // Create compiler from generated webpack config.
   let config = createClientConfig(props);
 
   const {siteConfig, plugins = []} = props;
+  // Needed for hot reload.
+  config.plugin('hmr').use(HotModuleReplacementPlugin);
   config.plugin('html-webpack-plugin').use(HtmlWebpackPlugin, [
     {
       inject: false,
@@ -97,43 +99,40 @@ module.exports = async function start(siteDir, cliOptions = {}) {
     config = applyConfigureWebpack(configureWebpack, config, false);
   });
 
-  const compiler = webpack(config);
-
-  // Run webpack serve.
-  await serve(
-    {},
-    {
-      compiler,
-      open: true,
-      devMiddleware: {
-        logLevel: 'silent',
-      },
-      hotClient: {
-        port: hotPort,
-        logLevel: 'error',
-      },
-      logLevel: 'error',
-      port,
-      host,
-      add: app => {
-        // Serve static files.
-        const staticDir = path.resolve(siteDir, 'static');
-        if (fs.existsSync(staticDir)) {
-          app.use(mount(baseUrl, serveStatic(staticDir)));
-        }
-
-        // Enable HTTP range requests.
-        app.use(range);
-
-        // Rewrite request to `/` since dev is only a SPA.
-        app.use(
-          convert(
-            history({
-              rewrites: [{from: /\.html$/, to: '/'}],
-            }),
-          ),
-        );
-      },
+  // https://webpack.js.org/configuration/dev-server
+  const devServerConfig = {
+    compress: true,
+    clientLogLevel: 'error',
+    hot: true,
+    quiet: true,
+    headers: {
+      'access-control-allow-origin': '*', // Needed for CORS.
     },
-  );
+    publicPath: baseUrl,
+    watchOptions: {
+      ignored: /node_modules/,
+    },
+    historyApiFallback: {
+      rewrites: [{from: /\.html$/, to: '/'}],
+    },
+    disableHostCheck: true,
+    overlay: false,
+    host,
+    contentBase: path.resolve(siteDir, 'static'),
+  };
+  WebpackDevServer.addDevServerEntrypoints(config, devServerConfig);
+  const compiler = webpack(config);
+  const devServer = new WebpackDevServer(compiler, devServerConfig);
+  devServer.listen(port, host, err => {
+    if (err) {
+      console.log(err);
+    }
+    openBrowser(openUrl);
+  });
+  ['SIGINT', 'SIGTERM'].forEach(sig => {
+    process.on(sig, () => {
+      devServer.close();
+      process.exit();
+    });
+  });
 };
