@@ -85,13 +85,13 @@ module.exports = async function build(siteDir) {
     }),
   );
 
-  /* Plugin lifecycle - build */
+  /* Plugin lifecycle - postBuild */
   await Promise.all(
     plugins.map(async plugin => {
-      if (!plugin.build) {
+      if (!plugin.postBuild) {
         return;
       }
-      await plugin.build(props);
+      await plugin.postBuild(props);
     }),
   );
 

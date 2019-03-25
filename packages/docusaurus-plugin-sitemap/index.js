@@ -46,7 +46,7 @@ class DocusaurusPluginSitemap {
       .toString();
   }
 
-  async build({siteConfig = {}, routesPaths = [], outDir}) {
+  async postBuild({siteConfig = {}, routesPaths = [], outDir}) {
     // Generate sitemap
     const generatedSitemap = await this.createSitemap({
       siteConfig,
