@@ -70,12 +70,37 @@ class DocusaurusPlugin {
   }
 
   async contentLoaded({content, actions}) {
-    // loaded hook is done after load hook is done
+    // contentLoaded hook is done after loadContent hook is done
     // actions are set of functional API provided by Docusaurus. e.g: addRoute
+  }
+
+  async postBuild(props) {
+    // after docusaurus <build> finish
+  }
+
+  // TODO
+  async postStart(props) {
+    // docusaurus <start> finish
+  }
+
+  // TODO
+  afterDevServer(app, server) {
+    // https://webpack.js.org/configuration/dev-server/#devserverbefore
+  }
+
+  // TODO
+  beforeDevServer(app, server) {
+    // https://webpack.js.org/configuration/dev-server/#devserverafter
+
   }
 
   configureWebpack(config, isServer) {
     // Modify internal webpack config. If returned value is an Object, it will be merged into the final config using webpack-merge; If returned value is a function, it will receive the config as the 1st argument and an isServer flag as the 2nd argument.
+  }
+
+  // TODO
+  chainWebpack(config, isServer) {
+    // Modify internal webpack config with webpack-chain API
   }
 
   getPathsToWatch() {
