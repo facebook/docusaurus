@@ -3,10 +3,15 @@
   "version": "1.0.0",
   "description": "Blog content plugin for Docusaurus",
   "main": "index.js",
+  "files": [
+    "components"
+  ],
   "license": "MIT",
   "dependencies": {
     "@docusaurus/utils": "^1.0.0",
+    "classnames": "^2.2.6",
     "fs-extra": "^7.0.1",
-    "globby": "^9.1.0"
+    "globby": "^9.1.0",
+    "react": "^16.8.5"
   }
 }

@@ -73,7 +73,7 @@ module.exports = async function load(siteDir) {
 
   // Process plugins.
   const pluginConfigs = siteConfig.plugins || [];
-  const context = {env, siteDir, siteConfig};
+  const context = {env, siteDir, generatedFilesDir, siteConfig};
   const {plugins, pluginRouteConfigs} = await loadPlugins({
     pluginConfigs,
     context,

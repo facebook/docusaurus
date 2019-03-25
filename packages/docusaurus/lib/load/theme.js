@@ -16,8 +16,6 @@ module.exports = function loadConfig(siteDir) {
 
   const themeComponents = [
     'Doc',
-    'BlogPost',
-    'BlogPage',
     'Pages',
     'Loading',
     'NotFound',
@@ -26,7 +24,9 @@ module.exports = function loadConfig(siteDir) {
   ];
 
   themeComponents.forEach(component => {
-    if (!require.resolve(path.join(themePath, component))) {
+    try {
+      require.resolve(path.join(themePath, component));
+    } catch (e) {
       throw new Error(
         `Failed to load ${themePath}/${component}. It does not exist.`,
       );

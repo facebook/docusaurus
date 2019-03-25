@@ -8,7 +8,7 @@
 const globby = require('globby');
 const path = require('path');
 const fs = require('fs-extra');
-const {parse, idx, normalizeUrl} = require('@docusaurus/utils');
+const {parse, idx, normalizeUrl, generate} = require('@docusaurus/utils');
 
 function fileToUrl(fileName) {
   return fileName
@@ -25,9 +25,11 @@ const DEFAULT_OPTIONS = {
   routeBasePath: 'blog', // URL Route.
   include: ['*.md, *.mdx'], // Extensions to include.
   pageCount: 10, // How many entries per page.
-  blogPageComponent: '@theme/BlogPage',
-  blogPostComponent: '@theme/BlogPost',
+  blogPageComponent: path.resolve(__dirname, './components/BlogPage'),
+  blogPostComponent: path.resolve(__dirname, './components/BlogPost'),
 };
+
+const TRUNCATE_MARKER = /<!--\s*truncate\s*-->/;
 
 class DocusaurusPluginContentBlog {
   constructor(opts, context) {
@@ -43,7 +45,7 @@ class DocusaurusPluginContentBlog {
   // Fetches blog contents and returns metadata for the contents.
   async loadContent() {
     const {pageCount, include, routeBasePath} = this.options;
-    const {env, siteConfig} = this.context;
+    const {env, generatedFilesDir, siteConfig} = this.context;
     const blogDir = this.contentPath;
 
     const {baseUrl} = siteConfig;
@@ -71,7 +73,20 @@ class DocusaurusPluginContentBlog {
         );
 
         const fileString = await fs.readFile(source, 'utf-8');
-        const {metadata: rawMetadata} = parse(fileString);
+        const {metadata: rawMetadata, content} = parse(fileString);
+
+        let truncatedSource;
+        const isTruncated = TRUNCATE_MARKER.test(content);
+        if (isTruncated) {
+          const pluginContentDir = path.join(generatedFilesDir, this.getName());
+          await generate(
+            pluginContentDir,
+            blogFileName,
+            content.split(TRUNCATE_MARKER)[0],
+          );
+          truncatedSource = path.join(pluginContentDir, blogFileName);
+        }
+
         const metadata = {
           permalink: normalizeUrl([
             baseUrl,
@@ -79,6 +94,7 @@ class DocusaurusPluginContentBlog {
             fileToUrl(blogFileName),
           ]),
           source,
+          truncatedSource,
           ...rawMetadata,
           date,
           language: defaultLangTag,
@@ -119,7 +135,9 @@ class DocusaurusPluginContentBlog {
           path: permalink,
           component: blogPageComponent,
           metadata: metadataItem,
-          modules: metadataItem.posts.map(post => post.source),
+          modules: metadataItem.posts.map(
+            post => post.truncatedSource || post.source,
+          ),
         });
         return;
       }

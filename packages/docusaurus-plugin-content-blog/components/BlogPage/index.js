@@ -6,11 +6,10 @@
  */
 
 import React, {useContext} from 'react';
-import Link from '@docusaurus/Link';
 import Head from '@docusaurus/Head';
 import Layout from '@theme/Layout'; // eslint-disable-line
-
 import DocusaurusContext from '@docusaurus/context';
+import Post from '../Post';
 
 function BlogPage(props) {
   const context = useContext(DocusaurusContext);
@@ -30,15 +29,13 @@ function BlogPage(props) {
         {language && <meta name="docsearch:language" content={language} />}
       </Head>
       <div>
-        <ul>
-          {posts.map(metadata => (
-            <li key={metadata.permalink}>
-              <Link to={metadata.permalink}>{metadata.permalink}</Link>
-            </li>
-          ))}
-        </ul>
-        {BlogPosts.map((BlogPost, index) => (
-          <BlogPost key={index} />
+        {BlogPosts.map((PostContent, index) => (
+          <Post
+            key={index}
+            truncated={posts[index].truncatedSource}
+            metadata={posts[index]}>
+            <PostContent />
+          </Post>
         ))}
       </div>
     </Layout>

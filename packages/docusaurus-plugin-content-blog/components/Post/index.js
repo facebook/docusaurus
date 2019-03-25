@@ -7,15 +7,11 @@
 
 import React from 'react';
 import Link from '@docusaurus/Link';
-import Head from '@docusaurus/Head';
-import classnames from 'classnames';
-import Layout from '@theme/Layout'; // eslint-disable-line
-
-import DocusaurusContext from '@docusaurus/context';
+import classnames from 'classnames'; // eslint-disable-line
 
 import styles from './styles.module.css';
 
-class BlogPost extends React.Component {
+class Post extends React.Component {
   renderPostHeader() {
     const {metadata} = this.props;
     if (!metadata) {
@@ -85,26 +81,22 @@ class BlogPost extends React.Component {
   }
 
   render() {
-    const {metadata = {}, siteConfig = {}} = this.context;
-    const {baseUrl, favicon} = siteConfig;
-    const {language, title} = metadata;
-    const {modules} = this.props;
-    const BlogPostContents = modules[0];
-
     return (
-      <Layout>
-        <Head defaultTitle={siteConfig.title}>
-          {title && <title>{title}</title>}
-          {favicon && <link rel="shortcut icon" href={baseUrl + favicon} />}
-          {language && <html lang={language} />}
-        </Head>
+      <div className={styles.postContainer}>
         {this.renderPostHeader()}
-        <BlogPostContents />
-      </Layout>
+        {this.props.children}
+        {this.props.truncated && (
+          <div className={styles.readMoreContainer}>
+            <Link
+              className={styles.readMoreLink}
+              to={this.props.metadata.permalink}>
+              Read More
+            </Link>
+          </div>
+        )}
+      </div>
     );
   }
 }
 
-BlogPost.contextType = DocusaurusContext;
-
-export default BlogPost;
+export default Post;

@@ -14,6 +14,7 @@ const genCache = new Map();
 async function generate(generatedFilesDir, file, content) {
   const cached = genCache.get(file);
   if (cached !== content) {
+    await fs.ensureDir(generatedFilesDir);
     await fs.writeFile(path.join(generatedFilesDir, file), content);
     genCache.set(file, content);
   }
