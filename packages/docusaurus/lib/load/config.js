@@ -98,8 +98,6 @@ function loadConfig(siteDir, deleteCache = true) {
   // e.g: if they want to include some.field so they can access it later from `props.siteConfig`.
   const {customFields = []} = config;
 
-  // TODO: Check that plugins mentioned exist.
-
   // Don't allow unrecognized fields.
   const allowedFields = [
     ...REQUIRED_FIELDS,

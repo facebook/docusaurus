@@ -109,31 +109,10 @@ module.exports = function createBaseConfig(props, isServer) {
     .end();
   applyBabel(jsRule);
 
-  /*
-    Equivalent to:
-    // ...
-    {
-      test: /(\.mdx?)$/,
-      use: [
-        'babel-loader',
-        {
-          loader: '@mdx-js/loader',
-          options: { hastPlugins: [[rehypePrism, { ignoreMissing: true }]] }
-        },
-        'docusaurus/md-loader,
-      ]
-    }
-  */
   const mdRule = config.module.rule('markdown').test(/(\.mdx?)$/);
   applyBabel(mdRule);
   mdRule
-    .use('mdx-js-loader')
-    .loader('@mdx-js/loader')
-    .options({
-      hastPlugins: [[rehypePrism, {ignoreMissing: true}]],
-    });
-  mdRule
-    .use('docusaurus/md-loader')
+    .use('@docusaurus/mdx-loader')
     .loader(mdLoader)
     .options({
       siteConfig,
@@ -141,6 +120,7 @@ module.exports = function createBaseConfig(props, isServer) {
       translatedDir,
       docsDir,
       sourceToMetadata,
+      hastPlugins: [[rehypePrism, {ignoreMissing: true}]],
     });
 
   applyStyle(config.module.rule('css'), {
