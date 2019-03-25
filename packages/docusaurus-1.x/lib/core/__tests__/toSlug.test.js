@@ -14,6 +14,8 @@ const toSlug = require('../toSlug');
   ['Привет мир! ', 'привет-мир'],
   ['Über Café.', 'uber-cafe'],
   ['Someting long ...', 'someting-long-'],
+  ['foo_bar', 'foo_bar'],
+  ['some _ heading', 'some-_-heading'],
 ].forEach(([input, output]) => {
   test(`toSlug('${input}') -> '${output}'`, () => {
     expect(toSlug(input)).toBe(output);
@@ -28,6 +30,8 @@ test('unique slugs if `context` argument passed', () => {
     ['foo 1', 'foo-1-2'],
     ['foo 2', 'foo-2'],
     ['foo', 'foo-3'],
+    ['foo_bar', 'foo_bar'],
+    ['some _ heading', 'some-_-heading'],
   ].reduce((context, [input, output]) => {
     expect(toSlug(input, context)).toBe(output);
 

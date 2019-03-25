@@ -27,6 +27,12 @@ test('Anchors rendering', () => {
   expect(
     render([{hLevel: 2}, {content: 'Hello small world'}], 0, {}, {}),
   ).toMatchSnapshot();
+  expect(
+    render([{hLevel: 2}, {content: 'Some _ Heading'}], 0, {}, {}),
+  ).toContain('id="some-_-heading"');
+  expect(render([{hLevel: 2}, {content: 'foo-_ bar'}], 0, {}, {})).toContain(
+    'id="foo-_-bar"',
+  );
 });
 
 test('Each anchor is unique across rendered document', () => {
