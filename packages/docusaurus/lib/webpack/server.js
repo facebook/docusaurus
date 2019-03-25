@@ -18,6 +18,9 @@ module.exports = function createServerConfig(props) {
   config.target('node');
   config.output.filename('server.bundle.js').libraryTarget('commonjs2');
 
+  // no need to minimize server bundle since we only run server compilation to generate static html files
+  config.optimization.minimize(false);
+
   // Workaround for Webpack 4 Bug (https://github.com/webpack/webpack/issues/6522)
   config.output.globalObject('this');
 
