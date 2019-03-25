@@ -40,5 +40,8 @@ module.exports = {
     {
       name: '@docusaurus/plugin-content-pages',
     },
+    {
+      name: '@docusaurus/plugin-sitemap',
+    },
   ],
 };
