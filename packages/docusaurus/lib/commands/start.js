@@ -78,6 +78,7 @@ module.exports = async function start(siteDir, cliOptions = {}) {
   let config = createClientConfig(props);
 
   const {siteConfig, plugins = []} = props;
+  // Needed for hot reload.
   config.plugin('hmr').use(HotModuleReplacementPlugin);
   config.plugin('html-webpack-plugin').use(HtmlWebpackPlugin, [
     {
@@ -105,7 +106,7 @@ module.exports = async function start(siteDir, cliOptions = {}) {
     hot: true,
     quiet: true,
     headers: {
-      'access-control-allow-origin': '*',
+      'access-control-allow-origin': '*', // Needed for CORS.
     },
     publicPath: baseUrl,
     watchOptions: {
