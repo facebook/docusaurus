@@ -83,7 +83,10 @@ module.exports = function createBaseConfig(props, isServer) {
       .use('babel')
       .loader('babel-loader')
       .options({
+        // ignore local project babel config (.babelrc)
         babelrc: false,
+        // ignore local project babel config (babel.config.js)
+        configFile: false,
         presets: ['@babel/env', '@babel/react'],
         plugins: [
           isServer ? 'dynamic-import-node' : '@babel/syntax-dynamic-import',
