@@ -57,7 +57,12 @@ jobs:
           command: yarn test
       - run:
           name: Test v1 static website Builds
-          command: cd website-1.x && yarn build
+          command: |
+            if ! git diff-tree --no-commit-id --name-only -r HEAD | grep -E "(^docs\/.*)|(docusaurus-1.x\/.*)|(website-1.x\/.*)"; then
+              echo "Skipping deploy & test. No relevant v1 website files have changed"
+            else
+              cd website-1.x && yarn build
+            fi
       - run:
           name: Test v2 static website Builds
           command: cd website && yarn build
