@@ -131,7 +131,8 @@ class Footer extends React.Component {
         <section className="copyright">
           {this.props.config.copyright && (
             <span>{this.props.config.copyright}</span>
-          )}
+          )}{' '}
+          Landing images by <a href="https://undraw.co/">unDraw</a>.
         </section>
       </footer>
     );

@@ -175,3 +175,13 @@ table td:first-child > code {
     display: none;
   }
 }
+
+.imageAlignTop .blockImage {
+  max-width: 60%;
+}
+
+@media only screen and (max-width: 768px) {
+  .gridBlock .blockElement.imageAlignTop {
+    margin-bottom: 80px;
+  }
+}
