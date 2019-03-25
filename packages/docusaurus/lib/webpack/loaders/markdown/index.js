@@ -6,12 +6,16 @@
  */
 
 const fm = require('front-matter');
+const mdx = require('@mdx-js/mdx');
 const {getOptions} = require('loader-utils');
 const path = require('path');
 const {resolve} = require('url');
 
-module.exports = function(fileString) {
-  const options = getOptions(this);
+module.exports = async function(fileString) {
+  const callback = this.async();
+  const options = Object.assign({}, getOptions(this), {
+    filepath: this.resourcePath,
+  });
   const {versionedDir, docsDir, translatedDir, sourceToMetadata} = options;
 
   // Extract content of markdown (without frontmatter).
@@ -69,5 +73,26 @@ module.exports = function(fileString) {
     });
     content = lines.join('\n');
   }
-  return content;
+
+  let result;
+
+  try {
+    result = await mdx(content, options);
+  } catch (err) {
+    return callback(err);
+  }
+
+  // TODO: Allow choosing prismjs theme
+  // prismjs/themes/XXXXXX.css https://github.com/PrismJS/prism/tree/master/themes
+  // prism-themes/themes/XXXXXX.css https://github.com/PrismJS/prism-themes/tree/master/themes
+  const prismThemeImport = 'prism-themes/themes/prism-atom-dark.css';
+
+  const code = `
+  import React from 'react';
+  import { MDXTag } from '@mdx-js/tag';
+  import '${prismThemeImport}';
+  ${result}
+  `;
+
+  return callback(null, code);
 };
