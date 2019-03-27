@@ -217,7 +217,7 @@ Static assets should be placed into the `website/static` directory. They can be 
 
 You should configure your site's primary, secondary, and code block colors using the `colors` field in `siteConfig` as specified [here](api-site-config.md). You can also configure other colors in the same way as described in the `siteConfig` doc.
 
-There are several ways to access the default styles provided for your site. If you have started developing your website and executed the `docusaurus-init` or `yarn install` command, your default styles can be found at `website/node_modules/docusaurus/lib/static/css/main.css`. Alternatively, the `main.css` file may be inspected directly at the [Docusarus GitHub repository](https://github.com/facebook/Docusaurus/blob/master/v1/lib/static/css/main.css). 
+There are several ways to access the default styles provided for your site. If you have started developing your website and executed the `docusaurus-init` or `yarn install` command, your default styles can be found at `website/node_modules/docusaurus/lib/static/css/main.css`. Alternatively, the `main.css` file may be inspected directly at the [Docusarus GitHub repository](https://github.com/facebook/docusaurus/blob/master/packages/docusaurus-1.x/lib/static/css/main.css).
 
 You can provide your own custom styles by adding them anywhere in the `website/static` directory. Any `.css` files you provide in the `static` directory will get concatenated to the end of Docusaurus' provided styles, allowing you to add to or override Docusaurus default styles as you wish.
 
