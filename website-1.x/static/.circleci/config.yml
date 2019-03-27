@@ -1,4 +1,4 @@
-# Circle CI 2.0 Config File
+# CircleCI 2.0 Config File
 # This config file will prevent tests from being run on the gh-pages branch.
 version: 2
 jobs:

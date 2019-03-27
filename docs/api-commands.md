@@ -88,7 +88,7 @@ When no feature is specified, sets up a minimally configured example website in 
 
 Alias: `publish-gh-pages`
 
-[Builds](api-commands.md#docusaurus-build), then deploys the static website to GitHub Pages. This command is meant to be run during the deployment step in Circle CI, and therefore expects a few environment variables to be defined:
+[Builds](api-commands.md#docusaurus-build), then deploys the static website to GitHub Pages. This command is meant to be run during the deployment step in CircleCI, and therefore expects a few environment variables to be defined:
 
 The following environment variables are generally set manually by the user in the CircleCI `config.yml` file.
 

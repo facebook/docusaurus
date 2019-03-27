@@ -78,7 +78,7 @@ Here's an overview of the steps taken to convert to a website. I'll discuss some
           CURRENT_BRANCH=master \
           yarn run publish-gh-pages
 
-1. Configured Circle CI using the [provided Docusaurus instructions](https://docusaurus.io/docs/en/publishing.html#automating-deployments-using-continuous-integration). There were 2 PRs for this, [the first](https://github.com/facebookincubator/profilo/pull/8)for the initial config and [the second](https://github.com/facebookincubator/profilo/pull/12) to make sure Circle CI only triggered for changes in the master branch (thanks Joel Marcey!).
+1. Configured CircleCI using the [provided Docusaurus instructions](https://docusaurus.io/docs/en/publishing.html#automating-deployments-using-continuous-integration). There were 2 PRs for this, [the first](https://github.com/facebookincubator/profilo/pull/8)for the initial config and [the second](https://github.com/facebookincubator/profilo/pull/12) to make sure CircleCI only triggered for changes in the master branch (thanks Joel Marcey!).
 
 The final website was published on https://facebookincubator.github.io/profilo/. It had taken 1.5 hours to get to the initial PR stage and another half an hour or so to respond to review feedback and publish the website.
 

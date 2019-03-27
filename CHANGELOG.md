@@ -14,16 +14,16 @@ Thank you to the following contributors who helped with this release:
 
 - @zpao
 - @jeromesimeon
-- @yangshun 
-- @bartanthonissen 
-- @YoshinoriN 
-- @marvinchin 
+- @yangshun
+- @bartanthonissen
+- @YoshinoriN
+- @marvinchin
 - @sinchange
 - @githubsaturn
-- @fiennyangeln 
+- @fiennyangeln
 - @ahtee
 - @endiliey
-- @ael-mas 
+- @ael-mas
 - @natemago
 - @co16353sidak
 - @CPSTL
@@ -34,7 +34,7 @@ Thank you to the following contributors who helped with this release:
 - Update code.facebook.com links to appropriate new destination ([#1224](https://github.com/facebook/Docusaurus/pull/1224))
 - docs: showcase user accord-project ([#1225](https://github.com/facebook/Docusaurus/pull/1225))
 - fix: change mainContainer padding to align with sidebars
-- docs: mention about CNAME option in publishing docs ([#1227](https://github.com/facebook/Docusaurus/pull/1227)) 
+- docs: mention about CNAME option in publishing docs ([#1227](https://github.com/facebook/Docusaurus/pull/1227))
 - docs: add ScanTrust to users ([#1228](https://github.com/facebook/Docusaurus/pull/1228))
 - chore: upgrade husky to 1.3.1 ([#1229](https://github.com/facebook/Docusaurus/pull/1229))
 - Remove more references to code.facebook.com ([#1231](https://github.com/facebook/Docusaurus/pull/1231))
@@ -42,7 +42,7 @@ Thank you to the following contributors who helped with this release:
 - fix: hovering algolia logo break its background color ([#1240](https://github.com/facebook/Docusaurus/pull/1240))
 - docs: update CaptainDuckDuck to CapRover ([#1244](https://github.com/facebook/Docusaurus/pull/1244))
 - chore: rename siteConfig.js to docusaurus.config.js ([#1245](https://github.com/facebook/Docusaurus/pull/1245))
-- fix: make referenced links work with code block tabs ([#1249](https://github.com/facebook/Docusaurus/pull/1249)) 
+- fix: make referenced links work with code block tabs ([#1249](https://github.com/facebook/Docusaurus/pull/1249))
 - docs: showcase user Scalafmt ([#1250](https://github.com/facebook/Docusaurus/pull/1250))
 - fix: wrong sidebar_label and title on versioned_docs ([#1265](https://github.com/facebook/Docusaurus/pull/1265))
 - docs: update api-pages.md to document about overriding default styles ([#1266](https://github.com/facebook/Docusaurus/pull/1266))
@@ -878,7 +878,7 @@ N/A
 - [Add separate, on-page navigation sidebar option so that you can see links to local page topics](https://github.com/facebook/Docusaurus/commit/4ff2fe280ebd41c4b491936fdd4ae75b7805ed61), thanks @microbouji.
 - [You can now use a custom `appId` for your Algolia search](https://github.com/facebook/Docusaurus/commit/4ea8158c0cf2105b0fec767289fd722ebc6e3a92), thanks @atroncy.
 - [The header navigation now shows the active link clearly](https://github.com/facebook/Docusaurus/commit/48ee457ec98b728343196362d5d42c0dc3d1cff9), thanks @microbouji.
-- [Replace Circle CI 1.0 publishing documentation with Circle CI 2.0](https://docusaurus.io/docs/en/publishing.html#using-circle-ci-20), thanks @ashleytqy.
+- [Replace CircleCI 1.0 publishing documentation with CircleCI 2.0](https://docusaurus.io/docs/en/publishing.html#using-circle-ci-20), thanks @ashleytqy.
 
 ### Fixed/Changed
 
