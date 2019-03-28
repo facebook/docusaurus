@@ -71,10 +71,14 @@ function Versions(props) {
                     <tr>
                       <th>{version}</th>
                       <td>
+                        {/* You are supposed to fill this href by yourself 
+                        Example: href={`docs/${version}/doc.html`} */}
                         <a href="">Documentation</a>
                       </td>
                       <td>
-                        <a href="">Release Notes</a>
+                        <a href={`${repoUrl}/releases/tag/v${version}`}>
+                          Release Notes
+                        </a>
                       </td>
                     </tr>
                   ),
