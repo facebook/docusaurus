@@ -1,0 +1,24 @@
+{
+  "version-1.3.x-docs": {
+    "Getting Started": [
+      "version-1.3.x-installation",
+      "version-1.3.x-site-preparation",
+      "version-1.3.x-site-creation",
+      "version-1.3.x-publishing"
+    ],
+    "Guides": [
+      "version-1.3.x-adding-blog",
+      "version-1.3.x-custom-pages",
+      "version-1.3.x-search",
+      "version-1.3.x-navigation",
+      "version-1.3.x-translation",
+      "version-1.3.x-versioning"
+    ],
+    "API": [
+      "version-1.3.x-commands",
+      "version-1.3.x-doc-markdown",
+      "version-1.3.x-api-pages",
+      "version-1.3.x-site-config"
+    ]
+  }
+}

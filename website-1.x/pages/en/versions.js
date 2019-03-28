@@ -89,11 +89,6 @@ function Versions(props) {
                           Documentation
                         </a>
                       </td>
-                      <td>
-                        <a href={`${repoUrl}/releases/tag/v${version}`}>
-                          Release Notes
-                        </a>
-                      </td>
                     </tr>
                   ),
               )}
