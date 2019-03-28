@@ -13,7 +13,7 @@
     "test": "jest"
   },
   "devDependencies": {
-    "babel-core": "^7.0.0-bridge.0",
+    "babel-core": "^7.0.0-0",
     "babel-eslint": "8",
     "eslint": "4.x",
     "eslint-config-airbnb": "17.1.0",
