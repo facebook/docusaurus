@@ -38,58 +38,6 @@
   padding-right: 0;
 }
 
-.banner {
-  background-color: #25c2a0;
-  color: #fff;
-}
-
-.bannerInner {
-  max-width: 960px;
-}
-
-.header {
-  font-size: 48px;
-  margin-bottom: 16px;
-  margin-top: 0;
-}
-
-.subtitle {
-  font-weight: 500;
-  font-size: 24px;
-  margin: 32px 0;
-}
-
-.headerLinksContainer {
-  padding: 32px 0;
-}
-
-.headerLink {
-  border: 1px solid #fff;
-  border-radius: 2em;
-  background-color: #fff;
-  color: #25c2a0;
-  font-size: 1em;
-  margin-right: 24px;
-  padding: 1em 2.4em;
-  text-decoration: none;
-  transition: color 300ms cubic-bezier(0.08, 0.52, 0.52, 1);
-}
-
-.headerLink:hover {
-  background-color: transparent;
-  color: #fff;
-}
-
-.gitHubLink {
-  background-color: transparent;
-  color: #fff;
-}
-
-.gitHubLink:hover {
-  background-color: #fff;
-  color: #25c2a0;
-}
-
 .featureList {
   list-style-type: none;
   padding-left: 0;
@@ -157,4 +105,124 @@
 
 .quoteText {
   font-style: italic;
+}
+
+.announcement {
+  background-color: #20232a;
+  color: #fff;
+  font-weight: bold;
+  font-size: 24px;
+  padding: 48px;
+  margin: 0 auto -40px;
+  text-align: center;
+}
+
+.announcement-inner {
+  margin: 0 auto;
+  max-width: 768px;
+}
+
+.index-hero {
+  background-color: #2b3137;
+  padding: 48px;
+}
+
+.index-hero-inner {
+  margin: 0 auto;
+  max-width: 1100px;
+  padding: 0 20px;
+}
+
+.index-hero-project-tagline {
+  color: #fff;
+  font-size: 64px;
+  margin: 0;
+}
+
+.index-hero-project-keywords {
+  color: #25c2a0;
+}
+
+@keyframes jackInTheBox {
+  from {
+    opacity: 0;
+    transform: scale(0.1) rotate(30deg);
+    transform-origin: center bottom;
+  }
+
+   50% {
+    transform: rotate(-10deg);
+  }
+
+   70% {
+    transform: rotate(3deg);
+  }
+
+   to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.index-hero-logo {
+  animation-duration: 2s;
+  animation-name: jackInTheBox;
+  float: right;
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #2b3137;
+}
+
+.index-ctas {
+  margin-top: 24px;
+}
+
+.index-ctas-get-started-button {
+  border: 1px solid #25c2a0;
+  display: inline-block;
+  line-height: 1.2em;
+  text-decoration: none!important;
+  text-transform: uppercase;
+  transition: background .3s,color .3s;
+  border-radius: 8px;
+  border-width: 2px;
+  color: #fff;
+  font-size: 24px;
+  font-weight: bold;
+  margin-right: 24px;
+  padding: 18px 36px;
+}
+
+.index-ctas-github-button {
+  vertical-align: sub;
+}
+
+@media only screen and (max-width: 768px) {
+  .index-hero {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .index-hero-inner {
+    padding: 0;
+  }
+
+  .index-hero-project-tagline {
+    font-size: 36px;
+    text-align: center;
+  }
+
+  .index-hero-logo {
+    display: block;
+    float: none;
+    margin: 0 auto;
+  }
+
+  .index-ctas {
+    text-align: center;
+  }
+
+  .index-ctas-github-button {
+    display: none;
+  }
 }

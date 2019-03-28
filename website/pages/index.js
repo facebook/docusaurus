@@ -5,8 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import Head from '@docusaurus/Head';
+import DocusaurusContext from '@docusaurus/context';
 
 import classnames from 'classnames';
 
@@ -112,6 +113,8 @@ const QUOTES = [
 ];
 
 function Home() {
+  const context = useContext(DocusaurusContext);
+  const {siteConfig = {}} = context;
   const [featureIndex, setFeatureIndex] = useState(0);
   useEffect(() => {
     const timer = window.setTimeout(() => {
@@ -129,27 +132,47 @@ function Home() {
       <Head key={featureIndex}>
         <title>Docusaurus</title>
       </Head>
-      <div className={classnames(styles.section, styles.banner)}>
-        <div className={classnames(styles.sectionInner, styles.bannerInner)}>
-          <h1 className={styles.header}>Docusaurus</h1>
-          <h2 className={styles.subtitle}>
-            Easy to maintain Open Source
-            <br />
-            Documentation websites
-          </h2>
-          <div className={styles.headerLinksContainer}>
-            <a className={styles.headerLink} href="/docs/installation">
+      <div className={styles['index-hero']}>
+        <div className={styles['index-hero-inner']}>
+          <h1 className={styles['index-hero-project-tagline']}>
+            <img
+              alt="Docusaurus with Keytar"
+              className={styles['index-hero-logo']}
+              src={`${siteConfig.baseUrl}img/docusaurus_keytar.svg`}
+            />
+            {siteConfig.title} makes it easy to maintain{' '}
+            <span className={styles['index-hero-project-keywords']}>
+              Open Source
+            </span>{' '}
+            documentation websites.
+          </h1>
+          <div className={styles['index-ctas']}>
+            <a
+              className={styles['index-ctas-get-started-button']}
+              href={`${siteConfig.baseUrl}docs/installation`}>
               Get Started
             </a>
-            <a
-              className={classnames(styles.headerLink, styles.gitHubLink)}
-              href="https://github.com/facebook/docusaurus"
-              rel="noopener noreferrer"
-              target="_blank">
-              GitHub
-            </a>
-            <div />
+            <span className={styles['index-ctas-github-button']}>
+              <iframe
+                src="https://ghbtns.com/github-btn.html?user=facebook&amp;repo=docusaurus&amp;type=star&amp;count=true&amp;size=large"
+                frameBorder={0}
+                scrolling={0}
+                width={160}
+                height={30}
+                title="GitHub Stars"
+              />
+            </span>
           </div>
+        </div>
+      </div>
+      <div className={styles['announcement']}>
+        <div className={styles['announcement-inner']}>
+          We're working on{' '}
+          <a href="https://github.com/facebook/Docusaurus/issues/789">
+            Docusaurus 2
+          </a>
+          , contribute to its roadmap by suggesting features or giving feedback{' '}
+          <a href={`${siteConfig.baseUrl}feedback`}>here</a>!
         </div>
       </div>
       <div className={styles.section}>
