@@ -49,9 +49,7 @@ module.exports = async function build(siteDir) {
 
   const clientConfigObj = createClientConfig(props);
   // Remove/clean build folders before building bundles.
-  clientConfigObj
-    .plugin('clean')
-    .use(CleanWebpackPlugin, [outDir, {verbose: false, allowExternal: true}]);
+  clientConfigObj.plugin('clean').use(CleanWebpackPlugin, [{verbose: false}]);
   let serverConfig = createServerConfig(props).toConfig();
   let clientConfig = clientConfigObj.toConfig();
 

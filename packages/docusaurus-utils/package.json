@@ -6,7 +6,7 @@
   "license": "MIT",
   "dependencies": {
     "escape-string-regexp": "^1.0.5",
-    "front-matter": "^2.3.0",
+    "front-matter": "^3.0.1",
     "fs-extra": "^7.0.0"
   }
 }
