@@ -10781,12 +10781,24 @@ react-is@^16.8.1, react-is@^16.8.4:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.8.5.tgz#c54ac229dd66b5afe0de5acbe47647c3da692ff8"
   integrity sha512-sudt2uq5P/2TznPV4Wtdi+Lnq3yaYW8LfvPKLM9BKD8jJNBkxMVyB0C9/GmVhLw7Jbdmndk/73n7XQGeN9A3QQ==
 
+react-listener-provider@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/react-listener-provider/-/react-listener-provider-0.2.0.tgz#fb6ce123f9e20ad948f75906ddf647db1df31f18"
+  integrity sha1-+2zhI/niCtlI91kG3fZH2x3zHxg=
+
 react-loadable@^5.5.0:
   version "5.5.0"
   resolved "https://registry.yarnpkg.com/react-loadable/-/react-loadable-5.5.0.tgz#582251679d3da86c32aae2c8e689c59f1196d8c4"
   integrity sha512-C8Aui0ZpMd4KokxRdVAm2bQtI03k2RMRNzOB+IipV3yxFTSVICv7WoUr5L9ALB5BmKO1iHgZtWM8EvYG83otdg==
   dependencies:
     prop-types "^15.5.0"
+
+react-perimeter@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/react-perimeter/-/react-perimeter-0.4.0.tgz#be86b5560bb96650272aaf7bd37639460b82645b"
+  integrity sha512-hSjth5oh4L/ZVR6PfR9eu7B1lil0AteGXLn7ki7YNJI7bkKlZf28pwFyFKNIXkoRJT3FiD01kGYkAmIz1k8b9A==
+  optionalDependencies:
+    react-listener-provider "^0.2.0"
 
 react-router-config@^5.0.0:
   version "5.0.0"

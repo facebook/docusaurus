@@ -7,6 +7,7 @@
 
 import React, {useState} from 'react';
 import {renderRoutes} from 'react-router-config';
+import ReactListenerProvider from 'react-listener-provider';
 
 import routes from '@generated/routes'; // eslint-disable-line
 import metadata from '@generated/metadata'; // eslint-disable-line
@@ -17,8 +18,8 @@ function App() {
   const [context, setContext] = useState({});
   return (
     <DocusaurusContext.Provider
-      value={{siteConfig, ...metadata, ...context, setContext}}>
-      {renderRoutes(routes)}
+      value={{siteConfig, ...metadata, ...context, setContext, routes}}>
+      <ReactListenerProvider>{renderRoutes(routes)}</ReactListenerProvider>
     </DocusaurusContext.Provider>
   );
 }
