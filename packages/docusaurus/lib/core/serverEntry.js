@@ -64,7 +64,7 @@ export default function render(locals) {
         .join('\n')}
     </head>
     <body${bodyAttributes ? ` ${bodyAttributes}` : ''}>
-      <div id="app">${appHtml}</div>
+      <div id="__docusaurus">${appHtml}</div>
       ${jsFiles
         .map(
           jsFile =>
