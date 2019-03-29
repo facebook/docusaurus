@@ -1,5 +1,5 @@
 {
-  "name": "docusaurus-2",
+  "name": "@docusaurus/core",
   "description": "Easy to Maintain Open Source Documentation Websites",
   "version": "2.0.0",
   "license": "MIT",

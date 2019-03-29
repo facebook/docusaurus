@@ -25,8 +25,8 @@ const DEFAULT_OPTIONS = {
   routeBasePath: 'blog', // URL Route.
   include: ['*.md, *.mdx'], // Extensions to include.
   pageCount: 10, // How many entries per page.
-  blogPageComponent: path.resolve(__dirname, './components/BlogPage'),
-  blogPostComponent: path.resolve(__dirname, './components/BlogPost'),
+  blogPageComponent: '@theme/BlogPage',
+  blogPostComponent: '@theme/BlogPost',
 };
 
 const TRUNCATE_MARKER = /<!--\s*truncate\s*-->/;
