@@ -42,13 +42,11 @@ program
   .command('build [siteDir]')
   .description('Build website')
   .option(
-    '-sic, --skip-image-compression <skipImageCompression>',
-    'Skip compression of image assets (default: false)',
+    '--skip-next-release',
+    'Skip documents from next release (default = false)',
   )
-  .option('--skip-next-release', 'Skip documents from next release')
-  .action((siteDir = '.', {skipImageCompression, skipNextRelease}) => {
+  .action((siteDir = '.', {skipNextRelease}) => {
     wrapCommand(build)(path.resolve(siteDir), {
-      skipImageCompression,
       skipNextRelease,
     });
   });

@@ -17,7 +17,7 @@ const loadRoutes = require('./routes');
 const loadPlugins = require('./plugins');
 const constants = require('../constants');
 
-module.exports = async function load(siteDir, skipNextRelease = false) {
+module.exports = async function load(siteDir, cliOptions = {}) {
   const generatedFilesDir = path.resolve(
     siteDir,
     constants.GENERATED_FILES_DIR_NAME,
@@ -42,15 +42,14 @@ module.exports = async function load(siteDir, skipNextRelease = false) {
 
   // Docs
   const docsDir = path.resolve(siteDir, '..', siteConfig.customDocsPath);
-  const {docsMetadatas, docsSidebars} = await loadDocs(
-    {
-      siteDir,
-      docsDir,
-      env,
-      siteConfig,
-    },
+  const {skipNextRelease} = cliOptions;
+  const {docsMetadatas, docsSidebars} = await loadDocs({
+    siteDir,
+    docsDir,
+    env,
+    siteConfig,
     skipNextRelease,
-  );
+  });
   await generate(
     generatedFilesDir,
     'docsMetadatas.js',

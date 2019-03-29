@@ -12,10 +12,13 @@ const createOrder = require('./order');
 const loadSidebars = require('./sidebars');
 const processMetadata = require('./metadata');
 
-async function loadDocs(
-  {siteDir, docsDir, env, siteConfig},
+async function loadDocs({
+  siteDir,
+  docsDir,
+  env,
+  siteConfig,
   skipNextRelease = false,
-) {
+}) {
   // @tested - load all sidebars including versioned sidebars
   const docsSidebars = loadSidebars({siteDir, env});
 
