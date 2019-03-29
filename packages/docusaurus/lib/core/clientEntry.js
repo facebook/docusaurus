@@ -20,7 +20,7 @@ if (typeof window !== 'undefined' && typeof document !== 'undefined') {
       <BrowserRouter>
         <App />
       </BrowserRouter>,
-      document.getElementById('app'),
+      document.getElementById('__docusaurus'),
     );
   });
 }
