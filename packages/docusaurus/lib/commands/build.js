@@ -38,11 +38,11 @@ function compile(config) {
   });
 }
 
-module.exports = async function build(siteDir, options) {
+module.exports = async function build(siteDir, cliOptions = {}) {
   process.env.NODE_ENV = 'production';
   console.log('Build command invoked ...');
 
-  const props = await load(siteDir, options.skipNextRelease);
+  const props = await load(siteDir, cliOptions);
 
   // Apply user webpack config.
   const {outDir, plugins} = props;

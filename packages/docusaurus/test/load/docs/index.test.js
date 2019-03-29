@@ -177,10 +177,13 @@ describe('loadDocs', () => {
   test('versioned website with skip next release', async () => {
     const props = await loadSetup('versioned');
     const {siteDir, docsDir, versionedDir, env, siteConfig} = props;
-    const {docsMetadatas} = await loadDocs(
-      {siteDir, docsDir, env, siteConfig},
-      true,
-    );
+    const {docsMetadatas} = await loadDocs({
+      siteDir,
+      docsDir,
+      env,
+      siteConfig,
+      skipNextRelease: true,
+    });
     expect(docsMetadatas['version-1.0.0-foo/bar']).toEqual({
       category: 'Test',
       id: 'version-1.0.0-foo/bar',
