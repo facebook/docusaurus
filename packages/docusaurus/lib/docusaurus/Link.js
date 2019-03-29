@@ -24,7 +24,7 @@ function Link(props) {
     // eslint-disable-next-line jsx-a11y/anchor-has-content
     <a {...props} href={targetLink} />
   ) : (
-    <Perimeter padding={100} onBreach={() => preload(routes, targetLink)} once>
+    <Perimeter padding={20} onBreach={() => preload(routes, targetLink)} once>
       <NavLink {...props} to={targetLink} />
     </Perimeter>
   );
