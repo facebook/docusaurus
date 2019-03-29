@@ -44,7 +44,7 @@ One great way you can contribute to the project without writing any code is to h
 
 Docusaurus uses [GitHub](https://github.com/facebook/docusaurus) as its source of truth. The core team will be working directly there. All changes will be public from the beginning.
 
-When a change made on GitHub is approved, it will be checked by our continuous integration system, Circle CI.
+When a change made on GitHub is approved, it will be checked by our continuous integration system, CircleCI.
 
 ### Branch organization
 
