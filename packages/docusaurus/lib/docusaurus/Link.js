@@ -17,14 +17,17 @@ const externalRegex = /^(https?:|\/\/)/;
 
 function Link(props) {
   const {routes} = useContext(DocusaurusContext);
-  const {to, href} = props;
+  const {to, href, preloadProximity = 20} = props;
   const targetLink = to || href;
   const isExternal = externalRegex.test(targetLink);
   return !targetLink || isExternal ? (
     // eslint-disable-next-line jsx-a11y/anchor-has-content
     <a {...props} href={targetLink} />
   ) : (
-    <Perimeter padding={20} onBreach={() => preload(routes, targetLink)} once>
+    <Perimeter
+      padding={preloadProximity}
+      onBreach={() => preload(routes, targetLink)}
+      once>
       <NavLink {...props} to={targetLink} />
     </Perimeter>
   );
