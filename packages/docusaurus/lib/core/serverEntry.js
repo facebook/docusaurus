@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import ejs from 'ejs';
 import React from 'react';
 import {StaticRouter} from 'react-router-dom';
 import ReactDOMServer from 'react-dom/server';
@@ -17,6 +18,7 @@ import webpackClientStats from '@build/client.stats.json'; //eslint-disable-line
 import routes from '@generated/routes'; // eslint-disable-line
 import preload from './preload';
 import App from './App';
+import ssrTemplate from './templates/ssr.html.template';
 
 // Renderer for static-site-generator-webpack-plugin (async rendering via promises)
 export default function render(locals) {
@@ -39,40 +41,31 @@ export default function render(locals) {
       helmet.meta.toString(),
       helmet.link.toString(),
     ];
-    const metaHtml = metaStrings.filter(Boolean).join('\n    ');
+    const metaAttributes = metaStrings.filter(Boolean);
 
     const bundles = getBundles(reactLoadableStats, modules);
     const assets = [
       ...webpackClientStats.assetsByChunkName.main,
-      ...bundles.map(b => b.file),
+      ...bundles.map(bundle => bundle.file),
     ];
-    const jsFiles = assets.filter(value => value.match(/\.js$/));
-    const cssFiles = assets.filter(value => value.match(/\.css$/));
+    const scripts = assets.filter(value => value.match(/\.js$/));
+    const stylesheets = assets.filter(value => value.match(/\.css$/));
     const {baseUrl} = locals;
 
-    return `<!DOCTYPE html>
-  <html${htmlAttributes ? ` ${htmlAttributes}` : ''}>
-    <head>
-      ${metaHtml}
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      ${cssFiles
-        .map(
-          cssFile =>
-            `<link rel="stylesheet" type="text/css" href="${baseUrl}${cssFile}" />`,
-        )
-        .join('\n')}
-    </head>
-    <body${bodyAttributes ? ` ${bodyAttributes}` : ''}>
-      <div id="__docusaurus">${appHtml}</div>
-      ${jsFiles
-        .map(
-          jsFile =>
-            `<script type="text/javascript" src="${baseUrl}${jsFile}"></script>`,
-        )
-        .join('\n')}
-    </body>
-  </html>
-`;
+    return ejs.render(
+      ssrTemplate.trim(),
+      {
+        appHtml,
+        baseUrl,
+        htmlAttributes: htmlAttributes || '',
+        bodyAttributes: bodyAttributes || '',
+        metaAttributes,
+        scripts,
+        stylesheets,
+      },
+      {
+        rmWhitespace: true,
+      },
+    );
   });
 }

@@ -102,7 +102,7 @@ module.exports = async function load(siteDir, cliOptions = {}) {
   // Generate contents metadata.
   const metadataTemplateFile = path.resolve(
     __dirname,
-    '../core/metadata.template.ejs',
+    '../core/templates/metadata.template.ejs',
   );
   const metadataTemplate = fs.readFileSync(metadataTemplateFile).toString();
 
