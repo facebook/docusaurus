@@ -94,3 +94,20 @@ describe('Build files', () => {
     });
   });
 });
+
+describe('Build files but skip next release', () => {
+  beforeAll(() => {
+    shell.cd('website-1.x');
+    shell.exec('yarn build --skip-next-release', {silent: true});
+  });
+
+  afterAll(() => {
+    clearBuildFolder();
+  });
+
+  test('Did not generate HTML files from markdown files for next release', () => {
+    expect(
+      glob.sync(`${buildDir}/${siteConfig.projectName}/docs/**/next`).length,
+    ).toBe(0);
+  });
+});

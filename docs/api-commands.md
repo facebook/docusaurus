@@ -59,6 +59,7 @@ Alias: `build`.
 | Options                    | Default | Description                                                                                                           |
 | -------------------------- | ------- | --------------------------------------------------------------------------------------------------------------------- |
 | `--skip-image-compression` | `false` | Skip compression of image assets. You usually won't want to skip this unless your images have already been optimized. |
+| `--skip-next-release` | `false` | Skip the next release documents when versioning is enabled. This will not build HTML files for documents in `/docs` directory.|
 
 Generates the static website, applying translations if necessary. Useful for building the website prior to deployment.
 
