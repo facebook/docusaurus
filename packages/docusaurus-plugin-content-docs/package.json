@@ -1,0 +1,15 @@
+{
+  "name": "@docusaurus/plugin-content-docs",
+  "version": "1.0.0",
+  "description": "Documentation plugin for Docusaurus",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@docusaurus/utils": "^1.0.0",
+    "classnames": "^2.2.6",
+    "globby": "^9.1.0"
+  },
+  "peerDependencies": {
+    "@docusaurus/core": "^2.0.0"
+  }
+}

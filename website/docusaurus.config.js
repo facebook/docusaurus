@@ -31,6 +31,12 @@ module.exports = {
   },
   plugins: [
     {
+      name: '@docusaurus/plugin-content-docs',
+      options: {
+        path: '../docs',
+      },
+    },
+    {
       name: '@docusaurus/plugin-content-blog',
       options: {
         path: '../website-1.x/blog',

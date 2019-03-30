@@ -14,7 +14,7 @@ const {encodePath, fileToPath, idx} = require('@docusaurus/utils');
 const DEFAULT_OPTIONS = {
   metadataKey: 'pagesMetadata',
   metadataFileName: 'pagesMetadata.json',
-  path: 'pages', // Path to data on filesystem.
+  path: 'pages', // Path to data on filesystem, relative to site dir.
   routeBasePath: '', // URL Route.
   include: ['**/*.{js,jsx}'], // Extensions to include.
   component: '@theme/Pages',
@@ -29,6 +29,10 @@ class DocusaurusPluginContentPages {
 
   getName() {
     return 'docusaurus-plugin-content-pages';
+  }
+
+  getPathsToWatch() {
+    return [this.contentPath];
   }
 
   async loadContent() {
@@ -101,10 +105,6 @@ class DocusaurusPluginContentPages {
         modules: [source],
       });
     });
-  }
-
-  getPathsToWatch() {
-    return [this.contentPath];
   }
 }
 

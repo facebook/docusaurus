@@ -15,7 +15,7 @@ import styles from './styles.module.css';
 
 function Sidebar() {
   const context = useContext(DocusaurusContext);
-  const {metadata = {}, docsSidebars, docsMetadatas} = context;
+  const {metadata = {}, docsSidebars, docsMetadata} = context;
   const {sidebar, language} = metadata;
 
   if (!sidebar) {
@@ -30,7 +30,7 @@ function Sidebar() {
 
   const convertDocLink = item => {
     const linkID = (language ? `${language}-` : '') + item.id;
-    const linkMetadata = docsMetadatas[linkID];
+    const linkMetadata = docsMetadata[linkID];
 
     if (!linkMetadata) {
       throw new Error(

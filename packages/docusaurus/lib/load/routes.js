@@ -9,7 +9,7 @@ const {normalizeUrl, generateChunkName} = require('@docusaurus/utils');
 
 async function loadRoutes({
   siteConfig = {},
-  docsMetadatas = {},
+  docsMetadata = {},
   pluginRouteConfigs = [],
 }) {
   const imports = [
@@ -59,7 +59,7 @@ async function loadRoutes({
 {
   path: '${rootDocsUrl}',
   component: Doc,
-  routes: [${Object.values(docsMetadatas)
+  routes: [${Object.values(docsMetadata)
     .map(genDocsRoute)
     .join(',')}],
 }`;

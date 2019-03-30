@@ -12,13 +12,9 @@ const createOrder = require('./order');
 const loadSidebars = require('./sidebars');
 const processMetadata = require('./metadata');
 
-async function loadDocs({
-  siteDir,
-  docsDir,
-  env,
-  siteConfig,
-  skipNextRelease = false,
-}) {
+async function loadDocs({siteDir, docsDir, env, siteConfig, cliOptions}) {
+  const {skipNextRelease} = cliOptions;
+
   // @tested - load all sidebars including versioned sidebars
   const docsSidebars = loadSidebars({siteDir, env});
 
@@ -37,7 +33,7 @@ async function loadDocs({
     (versioningEnabled && idx(env, ['versioning', 'versions'])) || [];
 
   // Prepare metadata container.
-  const docsMetadatas = {};
+  const docsMetadata = {};
 
   if (!(versioningEnabled && skipNextRelease)) {
     // Metadata for default docs files.
@@ -63,7 +59,7 @@ async function loadDocs({
           order,
           siteConfig,
         );
-        docsMetadatas[metadata.id] = metadata;
+        docsMetadata[metadata.id] = metadata;
       }),
     );
   }
@@ -96,7 +92,7 @@ async function loadDocs({
           order,
           siteConfig,
         );
-        docsMetadatas[metadata.id] = metadata;
+        docsMetadata[metadata.id] = metadata;
       }),
     );
   }
@@ -116,28 +112,28 @@ async function loadDocs({
           order,
           siteConfig,
         );
-        docsMetadatas[metadata.id] = metadata;
+        docsMetadata[metadata.id] = metadata;
       }),
     );
   }
 
   // Get the titles of the previous and next ids so that we can use them.
-  Object.keys(docsMetadatas).forEach(currentID => {
-    const previousID = idx(docsMetadatas, [currentID, 'previous']);
+  Object.keys(docsMetadata).forEach(currentID => {
+    const previousID = idx(docsMetadata, [currentID, 'previous']);
     if (previousID) {
-      const previousTitle = idx(docsMetadatas, [previousID, 'title']);
-      docsMetadatas[currentID].previous_title = previousTitle || 'Previous';
+      const previousTitle = idx(docsMetadata, [previousID, 'title']);
+      docsMetadata[currentID].previous_title = previousTitle || 'Previous';
     }
-    const nextID = idx(docsMetadatas, [currentID, 'next']);
+    const nextID = idx(docsMetadata, [currentID, 'next']);
     if (nextID) {
-      const nextTitle = idx(docsMetadatas, [nextID, 'title']);
-      docsMetadatas[currentID].next_title = nextTitle || 'Next';
+      const nextTitle = idx(docsMetadata, [nextID, 'title']);
+      docsMetadata[currentID].next_title = nextTitle || 'Next';
     }
   });
 
   return {
     docsSidebars,
-    docsMetadatas,
+    docsMetadata,
   };
 }
 

@@ -42,6 +42,10 @@ class DocusaurusPluginContentBlog {
     return 'docusaurus-plugin-content-blog';
   }
 
+  getPathsToWatch() {
+    return [this.contentPath];
+  }
+
   // Fetches blog contents and returns metadata for the contents.
   async loadContent() {
     const {pageCount, include, routeBasePath} = this.options;
@@ -149,10 +153,6 @@ class DocusaurusPluginContentBlog {
         modules: [metadataItem.source],
       });
     });
-  }
-
-  getPathsToWatch() {
-    return [this.contentPath];
   }
 }
 

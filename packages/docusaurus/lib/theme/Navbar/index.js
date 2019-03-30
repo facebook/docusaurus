@@ -14,12 +14,7 @@ import styles from './styles.module.css';
 
 function Navbar(props) {
   const context = useContext(DocusaurusContext);
-  const {
-    siteConfig = {},
-    env = {},
-    metadata = {},
-    docsMetadatas = {},
-  } = context;
+  const {siteConfig = {}, env = {}, metadata = {}, docsMetadata = {}} = context;
   const {
     baseUrl,
     headerLinks,
@@ -56,7 +51,7 @@ function Navbar(props) {
           ? `version-${thisVersion || env.versioning.defaultVersion}-`
           : '';
       const id = langPart + versionPart + link.doc;
-      if (!docsMetadatas[id]) {
+      if (!docsMetadata[id]) {
         const errorStr = `We could not find the doc wih id: ${id}. Please check your headerLinks correctly\n`;
         throw new Error(errorStr);
       }
@@ -65,7 +60,7 @@ function Navbar(props) {
           <Link
             activeClassName={styles.navLinkActive}
             className={styles.navLink}
-            to={docsMetadatas[id].permalink}>
+            to={docsMetadata[id].permalink}>
             {link.label}
           </Link>
         </li>

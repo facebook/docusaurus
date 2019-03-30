@@ -8,7 +8,7 @@
 const fs = require('fs-extra');
 
 module.exports = async function loadPlugins({pluginConfigs = [], context}) {
-  /* 1. Plugin Lifecycle - Initializiation/Constructor */
+  /* 1. Plugin Lifecycle - Initialization/Constructor */
   const plugins = pluginConfigs.map(({name, path: pluginPath, options}) => {
     let Plugin;
     if (pluginPath && fs.existsSync(pluginPath)) {
@@ -58,11 +58,13 @@ module.exports = async function loadPlugins({pluginConfigs = [], context}) {
       if (!plugin.contentLoaded) {
         return;
       }
+
       const name = plugin.getName();
       const content = pluginsLoadedContent[name];
       await plugin.contentLoaded({content, actions});
     }),
   );
+
   return {
     plugins,
     pluginRouteConfigs,
