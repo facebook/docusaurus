@@ -89,7 +89,7 @@ ${modules
   )
   .join('\n')}
       Component: () => import(/* webpackChunkName: "${generateChunkName(
-        path,
+        component,
         'component',
       )}" */'${component}'),
     },
