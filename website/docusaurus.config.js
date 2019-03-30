@@ -33,7 +33,6 @@ module.exports = {
     {
       name: '@docusaurus/plugin-content-blog',
       options: {
-        include: ['*.md', '*.mdx'],
         path: '../website-1.x/blog',
       },
     },
