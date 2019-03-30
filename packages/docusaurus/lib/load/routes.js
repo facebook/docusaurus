@@ -38,9 +38,9 @@ async function loadRoutes({
   path: '${permalink}',
   exact: true,
   component: Loadable({
-    loader: () => import(/* webpackChunkName: "${generateChunkName(
+    loader: () => import(/* webpackChunkName: '${generateChunkName(
       permalink,
-    )}" */ '${source}'),
+    )}' */ '${source}'),
     loading: Loading,
     render(loaded, props) {
       let Content = loaded.default;
@@ -82,16 +82,16 @@ async function loadRoutes({
 ${modules
   .map(
     (module, index) =>
-      `      Module${index}: () => import(/* webpackChunkName: "${generateChunkName(
+      `      Module${index}: () => import(/* webpackChunkName: '${generateChunkName(
         path,
         `module${index}`,
-      )}" */'${module}'),`,
+      )}' */'${module}'),`,
   )
   .join('\n')}
-      Component: () => import(/* webpackChunkName: "${generateChunkName(
+      Component: () => import(/* webpackChunkName: '${generateChunkName(
         component,
         'component',
-      )}" */'${component}'),
+      )}' */'${component}'),
     },
     loading: Loading,
     render(loaded, props) {
