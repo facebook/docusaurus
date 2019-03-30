@@ -8,7 +8,7 @@
 const path = require('path');
 const fm = require('front-matter');
 
-const kebabHash = require(`kebab-hash`);
+const kebabHash = require('kebab-hash');
 const escapeStringRegexp = require('escape-string-regexp');
 const fs = require('fs-extra');
 
@@ -50,7 +50,7 @@ function fileToComponentName(file) {
 }
 
 function generateChunkName(str, prefix) {
-  const name = str === `/` ? `index` : kebabHash(str);
+  const name = str === '/' ? 'index' : kebabHash(str);
   return prefix ? `${prefix}---${name}` : name;
 }
 
