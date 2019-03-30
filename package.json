@@ -1,7 +1,7 @@
 {
   "private": true,
   "workspaces": [
-    "packages/docusaurus-1.x",
+    "packages/*",
     "website",
     "website-1.x"
   ],
