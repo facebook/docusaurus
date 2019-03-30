@@ -16,6 +16,7 @@ module.exports = function createServerConfig(props) {
 
   config.entry('main').add(path.resolve(__dirname, '../core/serverEntry.js'));
   config.target('node');
+  config.resolve.alias.set('ejs', 'ejs/ejs.min.js').end();
   config.output.filename('server.bundle.js').libraryTarget('commonjs2');
 
   // no need to minimize server bundle since we only run server compilation to generate static html files
