@@ -88,7 +88,10 @@ module.exports = async function start(siteDir, cliOptions = {}) {
     {
       inject: false,
       hash: true,
-      template: path.resolve(__dirname, '../core/index.html.template.ejs'),
+      template: path.resolve(
+        __dirname,
+        '../core/templates/index.html.template.ejs',
+      ),
       filename: 'index.html',
       title: siteConfig.title,
     },
