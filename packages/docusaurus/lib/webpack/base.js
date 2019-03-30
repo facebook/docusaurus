@@ -155,7 +155,7 @@ module.exports = function createBaseConfig(props, isServer) {
   config.plugin('extractCSS').use(CSSExtractPlugin, [
     {
       filename: isProd ? '[name].[chunkhash].css' : '[name].css',
-      chunkFilename: isProd ? '[id].[chunkhash].css' : '[id].css',
+      chunkFilename: isProd ? '[name].[chunkhash].css' : '[name].css',
     },
   ]);
 
