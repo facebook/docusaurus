@@ -7,6 +7,8 @@
 
 const path = require('path');
 const fm = require('front-matter');
+
+const kebabHash = require('kebab-hash');
 const escapeStringRegexp = require('escape-string-regexp');
 const fs = require('fs-extra');
 
@@ -45,6 +47,11 @@ function fileToComponentName(file) {
   str = str.charAt(0).toUpperCase() + str.slice(1);
   str = str.replace(/[\W_]+(\w|$)/g, (_, ch) => ch.toUpperCase());
   return ext ? ext.toUpperCase() + str : str;
+}
+
+function generateChunkName(str, prefix) {
+  const name = str === '/' ? 'index' : kebabHash(str);
+  return prefix ? `${prefix}---${name}` : name;
 }
 
 function idx(target, keyPaths) {
@@ -141,6 +148,7 @@ module.exports = {
   generate,
   fileToPath,
   fileToComponentName,
+  generateChunkName,
   getSubFolder,
   idx,
   normalizeUrl,

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const {normalizeUrl} = require('@docusaurus/utils');
+const {normalizeUrl, generateChunkName} = require('@docusaurus/utils');
 
 async function loadRoutes({
   siteConfig = {},
@@ -38,7 +38,9 @@ async function loadRoutes({
   path: '${permalink}',
   exact: true,
   component: Loadable({
-    loader: () => import('${source}'),
+    loader: () => import(/* webpackChunkName: '${generateChunkName(
+      permalink,
+    )}' */ '${source}'),
     loading: Loading,
     render(loaded, props) {
       let Content = loaded.default;
@@ -78,9 +80,18 @@ async function loadRoutes({
   component: Loadable.Map({
     loader: {
 ${modules
-  .map((module, index) => `      Module${index}: () => import('${module}'),`)
+  .map(
+    (module, index) =>
+      `      Module${index}: () => import(/* webpackChunkName: '${generateChunkName(
+        path,
+        `module${index}`,
+      )}' */'${module}'),`,
+  )
   .join('\n')}
-      Component: () => import('${component}'),
+      Component: () => import(/* webpackChunkName: '${generateChunkName(
+        component,
+        'component',
+      )}' */'${component}'),
     },
     loading: Loading,
     render(loaded, props) {

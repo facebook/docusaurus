@@ -55,6 +55,7 @@ module.exports = function createBaseConfig(props, isServer) {
     .mode(isProd ? 'production' : 'development')
     .output.path(outDir)
     .filename(isProd ? '[name].[chunkhash].js' : '[name].js')
+    .chunkFilename(isProd ? '[name].[chunkhash].js' : '[name].js')
     .publicPath(baseUrl);
 
   if (!isProd) {
@@ -154,9 +155,35 @@ module.exports = function createBaseConfig(props, isServer) {
   config.plugin('extractCSS').use(CSSExtractPlugin, [
     {
       filename: isProd ? '[name].[chunkhash].css' : '[name].css',
-      chunkFilename: isProd ? '[id].[chunkhash].css' : '[id].css',
+      chunkFilename: isProd ? '[name].[chunkhash].css' : '[name].css',
     },
   ]);
+
+  // https://webpack.js.org/plugins/split-chunks-plugin/
+  config.optimization.splitChunks({
+    // We set max requests to Infinity because of HTTP/2
+    maxInitialRequests: Infinity,
+    maxAsyncRequests: Infinity,
+    cacheGroups: {
+      // disable the built-in cacheGroups
+      default: false,
+      vendors: {
+        test: /[\\/]node_modules[\\/]/,
+        name: 'vendors',
+        priority: 20,
+        // create chunk regardless of the size of the chunk
+        enforce: true,
+      },
+      common: {
+        name: 'common',
+        chunks: 'all',
+        minChunks: 2,
+        priority: 10,
+        reuseExistingChunk: true,
+        enforce: true,
+      },
+    },
+  });
 
   if (isProd) {
     config.optimization.minimizer([
