@@ -36,7 +36,7 @@ select VERSION in patch minor major "Specific Version"
         # Create new branch
         git checkout -B $NEW_VERSION master
         # Cut docusaurus docs version
-        cd ../website-1.x && yarn $DOCS_VERSION_COMMAND $NEW_VERSION
+        cd ../../website-1.x && yarn $DOCS_VERSION_COMMAND $NEW_VERSION
 
         # Create commit
         git add ../
