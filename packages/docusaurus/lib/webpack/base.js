@@ -10,8 +10,8 @@ const CSSExtractPlugin = require('mini-css-extract-plugin');
 const rehypePrism = require('@mapbox/rehype-prism');
 const TerserPlugin = require('terser-webpack-plugin');
 const path = require('path');
-
 const isWsl = require('is-wsl');
+
 const mdLoader = require.resolve('./loaders/markdown');
 
 const CSS_REGEX = /\.css$/;
