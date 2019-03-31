@@ -1,10 +1,11 @@
 {
-  "name": "@docusaurus/plugin-content-blog",
+  "name": "@docusaurus/plugin-content-docs",
   "version": "1.0.0",
-  "description": "Blog plugin for Docusaurus",
+  "description": "Documentation plugin for Docusaurus",
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
+    "@babel/polyfill": "^7.4.0",
     "@docusaurus/utils": "^1.0.0",
     "fs-extra": "^7.0.1",
     "globby": "^9.1.0"

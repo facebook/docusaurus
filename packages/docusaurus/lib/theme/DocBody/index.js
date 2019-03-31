@@ -13,17 +13,19 @@ import DocusaurusContext from '@docusaurus/context';
 import styles from './styles.module.css';
 
 function DocBody(props) {
-  const {children, metadata} = props;
+  const {metadata, modules} = props;
   const context = useContext(DocusaurusContext);
   useEffect(() => {
     context.setContext({metadata});
   }, []);
 
+  const DocContents = modules[0];
+
   return (
     <div>
       <div className={styles.docContent}>
         <h1>{metadata.title}</h1>
-        {children}
+        <DocContents />
       </div>
       <div className={styles.paginatorContainer}>
         <DocsPaginator />

@@ -7,8 +7,8 @@
 
 import '@babel/polyfill';
 import path from 'path';
-import processMetadata from '@lib/load/docs/metadata';
-import loadSetup from '../../loadSetup';
+import processMetadata from '../src/metadata';
+import loadSetup from '../../docusaurus/test/loadSetup';
 
 describe('processMetadata', () => {
   test('normal docs', async () => {
@@ -16,8 +16,22 @@ describe('processMetadata', () => {
     const {docsDir, env, siteConfig} = props;
     const sourceA = path.join('foo', 'bar.md');
     const sourceB = path.join('hello.md');
-    const dataA = await processMetadata(sourceA, docsDir, env, {}, siteConfig);
-    const dataB = await processMetadata(sourceB, docsDir, env, {}, siteConfig);
+    const dataA = await processMetadata(
+      sourceA,
+      docsDir,
+      env,
+      {},
+      siteConfig,
+      'docs',
+    );
+    const dataB = await processMetadata(
+      sourceB,
+      docsDir,
+      env,
+      {},
+      siteConfig,
+      'docs',
+    );
     expect(dataA).toEqual({
       id: 'foo/bar',
       language: null,
@@ -42,7 +56,14 @@ describe('processMetadata', () => {
     const props = await loadSetup('simple');
     const {docsDir, env, siteConfig} = props;
     const source = path.join('permalink.md');
-    const data = await processMetadata(source, docsDir, env, {}, siteConfig);
+    const data = await processMetadata(
+      source,
+      docsDir,
+      env,
+      {},
+      siteConfig,
+      'docs',
+    );
     expect(data).toEqual({
       id: 'permalink',
       language: null,
@@ -68,6 +89,7 @@ describe('processMetadata', () => {
       env,
       {},
       siteConfig,
+      'docs',
     );
     const dataB = await processMetadata(
       sourceB,
@@ -75,9 +97,24 @@ describe('processMetadata', () => {
       env,
       {},
       siteConfig,
+      'docs',
     );
-    const dataC = await processMetadata(sourceC, docsDir, env, {}, siteConfig);
-    const dataD = await processMetadata(sourceD, docsDir, env, {}, siteConfig);
+    const dataC = await processMetadata(
+      sourceC,
+      docsDir,
+      env,
+      {},
+      siteConfig,
+      'docs',
+    );
+    const dataD = await processMetadata(
+      sourceD,
+      docsDir,
+      env,
+      {},
+      siteConfig,
+      'docs',
+    );
     expect(dataA).toEqual({
       id: 'version-1.0.0-foo/bar',
       language: null,
@@ -133,6 +170,7 @@ describe('processMetadata', () => {
       env,
       {},
       siteConfig,
+      'docs',
     );
     const dataB = await processMetadata(
       sourceB,
@@ -140,6 +178,7 @@ describe('processMetadata', () => {
       env,
       {},
       siteConfig,
+      'docs',
     );
     const dataC = await processMetadata(
       sourceC,
@@ -147,6 +186,7 @@ describe('processMetadata', () => {
       env,
       {},
       siteConfig,
+      'docs',
     );
     const dataD = await processMetadata(
       sourceD,
@@ -154,15 +194,31 @@ describe('processMetadata', () => {
       env,
       {},
       siteConfig,
+      'docs',
     );
-    const dataE = await processMetadata(sourceE, docsDir, env, {}, siteConfig);
-    const dataF = await processMetadata(sourceF, docsDir, env, {}, siteConfig);
+    const dataE = await processMetadata(
+      sourceE,
+      docsDir,
+      env,
+      {},
+      siteConfig,
+      'docs',
+    );
+    const dataF = await processMetadata(
+      sourceF,
+      docsDir,
+      env,
+      {},
+      siteConfig,
+      'docs',
+    );
     const dataG = await processMetadata(
       sourceG,
       versionedDir,
       env,
       {},
       siteConfig,
+      'docs',
     );
     const dataH = await processMetadata(
       sourceH,
@@ -170,6 +226,7 @@ describe('processMetadata', () => {
       env,
       {},
       siteConfig,
+      'docs',
     );
     expect(dataA).toEqual({
       id: 'ko-version-1.0.0-foo/bar',
@@ -258,6 +315,7 @@ describe('processMetadata', () => {
       env,
       {},
       siteConfig,
+      'docs',
     );
     const dataB = await processMetadata(
       sourceB,
@@ -265,9 +323,24 @@ describe('processMetadata', () => {
       env,
       {},
       siteConfig,
+      'docs',
     );
-    const dataC = await processMetadata(sourceC, docsDir, env, {}, siteConfig);
-    const dataD = await processMetadata(sourceD, docsDir, env, {}, siteConfig);
+    const dataC = await processMetadata(
+      sourceC,
+      docsDir,
+      env,
+      {},
+      siteConfig,
+      'docs',
+    );
+    const dataD = await processMetadata(
+      sourceD,
+      docsDir,
+      env,
+      {},
+      siteConfig,
+      'docs',
+    );
     expect(dataA).toEqual({
       id: 'ko-foo/bar',
       language: 'ko',

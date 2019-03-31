@@ -5,19 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const {normalizeUrl, generateChunkName} = require('@docusaurus/utils');
+const {generateChunkName} = require('@docusaurus/utils');
 
-async function loadRoutes({
-  siteConfig = {},
-  docsMetadatas = {},
-  pluginRouteConfigs = [],
-}) {
+async function loadRoutes(pluginsRouteConfigs) {
   const imports = [
     `import React from 'react';`,
     `import Loadable from 'react-loadable';`,
     `import Loading from '@theme/Loading';`,
-    `import Doc from '@theme/Doc';`,
-    `import DocBody from '@theme/DocBody';`,
     `import NotFound from '@theme/NotFound';`,
   ];
 
@@ -28,50 +22,29 @@ async function loadRoutes({
     }
   };
 
-  // Docs.
-  const {docsUrl, baseUrl} = siteConfig;
-  function genDocsRoute(metadata) {
-    const {permalink, source} = metadata;
-    addRoutesPath(permalink);
-    return `
-{
-  path: '${permalink}',
-  exact: true,
-  component: Loadable({
-    loader: () => import(/* webpackChunkName: '${generateChunkName(
-      permalink,
-    )}' */ '${source}'),
-    loading: Loading,
-    render(loaded, props) {
-      let Content = loaded.default;
-      return (
-        <DocBody {...props} metadata={${JSON.stringify(metadata)}}>
-          <Content />
-        </DocBody>
-      );
-    }
-  })
-}`;
-  }
-
-  const rootDocsUrl = normalizeUrl([baseUrl, docsUrl]);
-  const docsRoutes = `
-{
-  path: '${rootDocsUrl}',
-  component: Doc,
-  routes: [${Object.values(docsMetadatas)
-    .map(genDocsRoute)
-    .join(',')}],
-}`;
-
   const notFoundRoute = `
 {
   path: '*',
   component: NotFound,
 }`;
 
-  const routes = pluginRouteConfigs.map(pluginRouteConfig => {
-    const {path, component, metadata, modules} = pluginRouteConfig;
+  function generateRouteCode(pluginRouteConfig) {
+    const {path, component, metadata, modules, routes} = pluginRouteConfig;
+    if (routes) {
+      return `
+{
+  path: '${path}',
+  component: Loadable({
+    loader: () => import(/* webpackChunkName: '${generateChunkName(
+      component,
+      'component',
+    )}' */'${component}'),
+    loading: Loading,
+  }),
+  routes: [${routes.map(generateRouteCode).join(',')}],
+}`;
+    }
+
     addRoutesPath(path);
     return `
 {
@@ -109,14 +82,14 @@ ${modules
     }
   })
 }`;
-  });
+  }
+
+  const routes = pluginsRouteConfigs.map(generateRouteCode);
 
   const routesConfig = `
 ${imports.join('\n')}
 
 const routes = [
-// Docs.${docsRoutes},
-
 // Plugins.${routes.join(',')},
 
 // Not Found.${notFoundRoute},

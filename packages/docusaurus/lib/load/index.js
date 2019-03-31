@@ -7,10 +7,11 @@
 
 const ejs = require('ejs');
 const fs = require('fs-extra');
+const _ = require('lodash');
 const path = require('path');
+
 const {generate} = require('@docusaurus/utils');
 const loadConfig = require('./config');
-const loadDocs = require('./docs');
 const loadEnv = require('./env');
 const loadTheme = require('./theme');
 const loadRoutes = require('./routes');
@@ -40,43 +41,14 @@ module.exports = async function load(siteDir, cliOptions = {}) {
     `export default ${JSON.stringify(env, null, 2)};`,
   );
 
-  // Docs
-  const docsDir = path.resolve(siteDir, '..', siteConfig.customDocsPath);
-  const {skipNextRelease} = cliOptions;
-  const {docsMetadatas, docsSidebars} = await loadDocs({
-    siteDir,
-    docsDir,
-    env,
-    siteConfig,
-    skipNextRelease,
-  });
-  await generate(
-    generatedFilesDir,
-    'docsMetadatas.js',
-    `export default ${JSON.stringify(docsMetadatas, null, 2)};`,
-  );
-  await generate(
-    generatedFilesDir,
-    'docsSidebars.js',
-    `export default ${JSON.stringify(docsSidebars, null, 2)};`,
-  );
-
-  // Create source to metadata mapping.
-  const sourceToMetadata = {};
-  Object.values(docsMetadatas).forEach(
-    ({source, version, permalink, language}) => {
-      sourceToMetadata[source] = {
-        version,
-        permalink,
-        language,
-      };
-    },
-  );
-
   // Process plugins.
   const pluginConfigs = siteConfig.plugins || [];
-  const context = {env, siteDir, generatedFilesDir, siteConfig};
-  const {plugins, pluginRouteConfigs} = await loadPlugins({
+  const context = {env, siteDir, generatedFilesDir, siteConfig, cliOptions};
+  const {
+    plugins,
+    pluginsRouteConfigs,
+    pluginsLoadedContent,
+  } = await loadPlugins({
     pluginConfigs,
     context,
   });
@@ -91,12 +63,16 @@ module.exports = async function load(siteDir, cliOptions = {}) {
   const versionedDir = path.join(siteDir, 'versioned_docs');
   const translatedDir = path.join(siteDir, 'translated_docs');
 
+  // TODO: Make doc dependents use the plugin's content instead
+  // of passing in via props.
+  const {
+    docsDir,
+    docs: docsMetadata,
+    sourceToMetadata,
+  } = pluginsLoadedContent[0].content;
+
   // Generate React Router Config.
-  const {routesConfig, routesPaths} = await loadRoutes({
-    siteConfig,
-    docsMetadatas,
-    pluginRouteConfigs,
-  });
+  const {routesConfig, routesPaths} = await loadRoutes(pluginsRouteConfigs);
   await generate(generatedFilesDir, 'routes.js', routesConfig);
 
   // Generate contents metadata.
@@ -105,20 +81,19 @@ module.exports = async function load(siteDir, cliOptions = {}) {
     '../core/templates/metadata.template.ejs',
   );
   const metadataTemplate = fs.readFileSync(metadataTemplateFile).toString();
+  const pluginMetadataImports = _.compact(pluginsLoadedContent).map(
+    ({metadataKey, contentPath}) => ({
+      name: metadataKey,
+      path: contentPath,
+    }),
+  );
 
   const metadataFile = ejs.render(metadataTemplate, {
     imports: [
-      {
-        name: 'docsMetadatas',
-        path: '@generated/docsMetadatas',
-      },
+      ...pluginMetadataImports,
       {
         name: 'env',
         path: '@generated/env',
-      },
-      {
-        name: 'docsSidebars',
-        path: '@generated/docsSidebars',
       },
     ],
   });
@@ -128,8 +103,7 @@ module.exports = async function load(siteDir, cliOptions = {}) {
     siteConfig,
     siteDir,
     docsDir,
-    docsMetadatas,
-    docsSidebars,
+    docsMetadata,
     env,
     outDir,
     themePath,

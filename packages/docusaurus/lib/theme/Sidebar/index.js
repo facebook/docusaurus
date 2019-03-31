@@ -15,14 +15,14 @@ import styles from './styles.module.css';
 
 function Sidebar() {
   const context = useContext(DocusaurusContext);
-  const {metadata = {}, docsSidebars, docsMetadatas} = context;
+  const {metadata = {}, docsMetadata} = context;
   const {sidebar, language} = metadata;
 
   if (!sidebar) {
     return null;
   }
 
-  const thisSidebar = docsSidebars[sidebar];
+  const thisSidebar = docsMetadata.docsSidebars[sidebar];
 
   if (!thisSidebar) {
     throw new Error(`Can not find ${sidebar} config`);
@@ -30,7 +30,7 @@ function Sidebar() {
 
   const convertDocLink = item => {
     const linkID = (language ? `${language}-` : '') + item.id;
-    const linkMetadata = docsMetadatas[linkID];
+    const linkMetadata = docsMetadata.docs[linkID];
 
     if (!linkMetadata) {
       throw new Error(

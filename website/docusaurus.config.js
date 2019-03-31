@@ -11,7 +11,6 @@ module.exports = {
   organizationName: 'facebook',
   projectName: 'docusaurus',
   baseUrl: '/',
-  customDocsPath: './docs',
   url: 'https://docusaurus.io',
   headerLinks: [
     {doc: 'installation', label: 'Docs'},
@@ -30,6 +29,12 @@ module.exports = {
     algoliaOptions: {},
   },
   plugins: [
+    {
+      name: '@docusaurus/plugin-content-docs',
+      options: {
+        path: '../docs',
+      },
+    },
     {
       name: '@docusaurus/plugin-content-blog',
       options: {

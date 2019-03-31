@@ -14,18 +14,19 @@ import styles from './styles.module.css';
 
 function DocsPaginator() {
   const context = useContext(DocusaurusContext);
-  const {docsMetadatas, metadata} = context;
-  if (!metadata) {
+  const {docsMetadata, metadata} = context;
+  if (!metadata || !docsMetadata) {
     return null;
   }
+  const {docs} = docsMetadata;
 
   return (
     <div className={styles.paginatorContainer}>
       <div>
-        {metadata.previous && docsMetadatas[metadata.previous] && (
+        {metadata.previous && docs[metadata.previous] && (
           <Link
             className={styles.paginatorLink}
-            to={docsMetadatas[metadata.previous].permalink}>
+            to={docs[metadata.previous].permalink}>
             <svg className={styles.arrow} viewBox="0 0 24 24">
               <g>
                 <line x1="19" y1="12" x2="5" y2="12" />
@@ -37,10 +38,10 @@ function DocsPaginator() {
         )}
       </div>
       <div className={styles.paginatorRightContainer}>
-        {metadata.next && docsMetadatas[metadata.next] && (
+        {metadata.next && docs[metadata.next] && (
           <Link
             className={styles.paginatorLink}
-            to={docsMetadatas[metadata.next].permalink}>
+            to={docs[metadata.next].permalink}>
             <span className={styles.label}>{metadata.next_title}</span>{' '}
             <svg className={styles.arrow} viewBox="0 0 24 24">
               <g>

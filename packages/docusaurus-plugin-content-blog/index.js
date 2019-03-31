@@ -10,12 +10,13 @@ const path = require('path');
 const fs = require('fs-extra');
 const {parse, idx, normalizeUrl, generate} = require('@docusaurus/utils');
 
+// TODO: Use a better slugify function that doesn't rely on a specific file extension.
 function fileToUrl(fileName) {
   return fileName
     .replace('-', '/')
     .replace('-', '/')
     .replace('-', '/')
-    .replace(/\.md$/, '');
+    .replace(/\.mdx?$/, '');
 }
 
 const DEFAULT_OPTIONS = {
@@ -40,6 +41,10 @@ class DocusaurusPluginContentBlog {
 
   getName() {
     return 'docusaurus-plugin-content-blog';
+  }
+
+  getPathsToWatch() {
+    return [this.contentPath];
   }
 
   // Fetches blog contents and returns metadata for the contents.
@@ -149,10 +154,6 @@ class DocusaurusPluginContentBlog {
         modules: [metadataItem.source],
       });
     });
-  }
-
-  getPathsToWatch() {
-    return [this.contentPath];
   }
 }
 

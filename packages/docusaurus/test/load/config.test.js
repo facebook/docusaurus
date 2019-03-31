@@ -16,8 +16,6 @@ describe('loadConfig', () => {
     expect(config).toMatchInlineSnapshot(`
 Object {
   "baseUrl": "/",
-  "customDocsPath": "docs",
-  "docsUrl": "docs",
   "favicon": "img/docusaurus.ico",
   "headerIcon": "img/docusaurus.svg",
   "headerLinks": Array [
@@ -35,6 +33,12 @@ Object {
   ],
   "organizationName": "endiliey",
   "plugins": Array [
+    Object {
+      "name": "@docusaurus/plugin-content-docs",
+      "options": Object {
+        "path": "../docs",
+      },
+    },
     Object {
       "name": "@docusaurus/plugin-content-pages",
     },

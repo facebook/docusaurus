@@ -6,9 +6,11 @@
  */
 
 const fs = require('fs-extra');
+const path = require('path');
+const {generate} = require('@docusaurus/utils');
 
 module.exports = async function loadPlugins({pluginConfigs = [], context}) {
-  /* 1. Plugin Lifecycle - Initializiation/Constructor */
+  // 1. Plugin Lifecycle - Initialization/Constructor
   const plugins = pluginConfigs.map(({name, path: pluginPath, options}) => {
     let Plugin;
     if (pluginPath && fs.existsSync(pluginPath)) {
@@ -25,46 +27,59 @@ module.exports = async function loadPlugins({pluginConfigs = [], context}) {
     return new Plugin(options, context);
   });
 
-  // Do not allow plugin with duplicate name
-  const pluginNames = new Set();
-  plugins.forEach(plugin => {
-    const name = plugin.getName();
-    if (pluginNames.has(name)) {
-      throw new Error(`Duplicate plugin with name '${name}' found`);
-    }
-    pluginNames.add(name);
-  });
-
-  /* 2. Plugin lifecycle - LoadContent */
-  const pluginsLoadedContent = {};
-  await Promise.all(
+  // 2. Plugin lifecycle - loadContent
+  // Currently plugins run lifecycle in parallel and are not order-dependent. We could change
+  // this in future if there are plugins which need to run in certain order or depend on
+  // others for data.
+  const pluginsLoadedContent = await Promise.all(
     plugins.map(async plugin => {
       if (!plugin.loadContent) {
-        return;
+        return null;
       }
       const name = plugin.getName();
-      pluginsLoadedContent[name] = await plugin.loadContent();
+      const {options} = plugin;
+      const {metadataKey, metadataFileName} = options;
+      const content = await plugin.loadContent();
+      const pluginContentPath = path.join(name, metadataFileName);
+      const pluginContentDir = path.join(context.generatedFilesDir, name);
+      fs.ensureDirSync(pluginContentDir);
+      await generate(
+        pluginContentDir,
+        metadataFileName,
+        JSON.stringify(content, null, 2),
+      );
+      const contentPath = path.join('@generated', pluginContentPath);
+
+      return {
+        metadataKey,
+        contentPath,
+        content,
+      };
     }),
   );
 
-  /* 3. Plugin lifecycle - contentLoaded */
-  const pluginRouteConfigs = [];
+  // 3. Plugin lifecycle - contentLoaded
+  const pluginsRouteConfigs = [];
   const actions = {
-    addRoute: config => pluginRouteConfigs.push(config),
+    addRoute: config => pluginsRouteConfigs.push(config),
   };
 
   await Promise.all(
-    plugins.map(async plugin => {
+    plugins.map(async (plugin, index) => {
       if (!plugin.contentLoaded) {
         return;
       }
-      const name = plugin.getName();
-      const content = pluginsLoadedContent[name];
-      await plugin.contentLoaded({content, actions});
+      const loadedContent = pluginsLoadedContent[index];
+      await plugin.contentLoaded({
+        content: loadedContent.content,
+        actions,
+      });
     }),
   );
+
   return {
     plugins,
-    pluginRouteConfigs,
+    pluginsRouteConfigs,
+    pluginsLoadedContent,
   };
 };

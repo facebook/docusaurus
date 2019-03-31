@@ -7,15 +7,26 @@
 
 import '@babel/polyfill';
 import path from 'path';
-import loadDocs from '@lib/load/docs';
-import loadSetup from '../../loadSetup';
+import loadSetup from '../../docusaurus/test/loadSetup';
+import DocusaurusPluginContentDocs from '../index';
 
 describe('loadDocs', () => {
-  test('simple website', async () => {
-    const props = await loadSetup('simple');
-    const {siteDir, docsDir, env, siteConfig} = props;
-    const {docsMetadatas} = await loadDocs({siteDir, docsDir, env, siteConfig});
-    expect(docsMetadatas.hello).toEqual({
+  test.only('simple website', async () => {
+    const {env, siteDir, siteConfig} = await loadSetup('simple');
+    const plugin = new DocusaurusPluginContentDocs(
+      {
+        path: '../docs',
+      },
+      {
+        env,
+        siteDir,
+        siteConfig,
+      },
+    );
+    const {docs: docsMetadata} = await plugin.loadContent();
+    const docsDir = plugin.contentPath;
+
+    expect(docsMetadata.hello).toEqual({
       category: 'Guides',
       id: 'hello',
       language: null,
@@ -29,7 +40,7 @@ describe('loadDocs', () => {
       title: 'Hello, World !',
       version: null,
     });
-    expect(docsMetadatas['foo/bar']).toEqual({
+    expect(docsMetadata['foo/bar']).toEqual({
       category: 'Test',
       id: 'foo/bar',
       language: null,
@@ -46,10 +57,23 @@ describe('loadDocs', () => {
   });
 
   test('versioned website', async () => {
-    const props = await loadSetup('versioned');
-    const {siteDir, docsDir, versionedDir, env, siteConfig} = props;
-    const {docsMetadatas} = await loadDocs({siteDir, docsDir, env, siteConfig});
-    expect(docsMetadatas['version-1.0.0-foo/bar']).toEqual({
+    const {env, siteDir, siteConfig, versionedDir} = await loadSetup(
+      'versioned',
+    );
+    const plugin = new DocusaurusPluginContentDocs(
+      {
+        path: '../docs',
+      },
+      {
+        env,
+        siteDir,
+        siteConfig,
+      },
+    );
+    const {docs: docsMetadata} = await plugin.loadContent();
+    const docsDir = plugin.contentPath;
+
+    expect(docsMetadata['version-1.0.0-foo/bar']).toEqual({
       category: 'Test',
       id: 'version-1.0.0-foo/bar',
       language: null,
@@ -63,7 +87,7 @@ describe('loadDocs', () => {
       title: 'Bar',
       version: '1.0.0',
     });
-    expect(docsMetadatas['foo/bar']).toEqual({
+    expect(docsMetadata['foo/bar']).toEqual({
       category: 'Test',
       id: 'foo/bar',
       language: null,
@@ -80,17 +104,27 @@ describe('loadDocs', () => {
   });
 
   test('versioned & translated website', async () => {
-    const props = await loadSetup('transversioned');
     const {
-      siteDir,
-      docsDir,
       env,
+      siteDir,
+      siteConfig,
       translatedDir,
       versionedDir,
-      siteConfig,
-    } = props;
-    const {docsMetadatas} = await loadDocs({siteDir, docsDir, env, siteConfig});
-    expect(docsMetadatas['ko-version-1.0.0-foo/bar']).toEqual({
+    } = await loadSetup('transversioned');
+    const plugin = new DocusaurusPluginContentDocs(
+      {
+        path: '../docs',
+      },
+      {
+        env,
+        siteDir,
+        siteConfig,
+      },
+    );
+    const {docs: docsMetadata} = await plugin.loadContent();
+    const docsDir = plugin.contentPath;
+
+    expect(docsMetadata['ko-version-1.0.0-foo/bar']).toEqual({
       category: 'Test',
       id: 'ko-version-1.0.0-foo/bar',
       language: 'ko',
@@ -104,7 +138,7 @@ describe('loadDocs', () => {
       title: 'Bar',
       version: '1.0.0',
     });
-    expect(docsMetadatas['en-version-1.0.0-foo/baz']).toEqual({
+    expect(docsMetadata['en-version-1.0.0-foo/baz']).toEqual({
       category: 'Test',
       id: 'en-version-1.0.0-foo/baz',
       language: 'en',
@@ -121,7 +155,7 @@ describe('loadDocs', () => {
       title: 'Baz',
       version: '1.0.0',
     });
-    expect(docsMetadatas['en-hello']).toEqual({
+    expect(docsMetadata['en-hello']).toEqual({
       category: 'Guides',
       id: 'en-hello',
       language: 'en',
@@ -138,10 +172,23 @@ describe('loadDocs', () => {
   });
 
   test('translated website', async () => {
-    const props = await loadSetup('translated');
-    const {siteDir, translatedDir, docsDir, env, siteConfig} = props;
-    const {docsMetadatas} = await loadDocs({siteDir, docsDir, env, siteConfig});
-    expect(docsMetadatas['ko-foo/baz']).toEqual({
+    const {env, siteDir, siteConfig, translatedDir} = await loadSetup(
+      'translated',
+    );
+    const plugin = new DocusaurusPluginContentDocs(
+      {
+        path: '../docs',
+      },
+      {
+        env,
+        siteDir,
+        siteConfig,
+      },
+    );
+    const {docs: docsMetadata} = await plugin.loadContent();
+    const docsDir = plugin.contentPath;
+
+    expect(docsMetadata['ko-foo/baz']).toEqual({
       category: 'Test',
       id: 'ko-foo/baz',
       language: 'ko',
@@ -158,7 +205,7 @@ describe('loadDocs', () => {
       title: 'baz',
       version: null,
     });
-    expect(docsMetadatas['en-foo/bar']).toEqual({
+    expect(docsMetadata['en-foo/bar']).toEqual({
       category: 'Test',
       id: 'en-foo/bar',
       language: 'en',
@@ -175,16 +222,23 @@ describe('loadDocs', () => {
   });
 
   test('versioned website with skip next release', async () => {
-    const props = await loadSetup('versioned');
-    const {siteDir, docsDir, versionedDir, env, siteConfig} = props;
-    const {docsMetadatas} = await loadDocs({
-      siteDir,
-      docsDir,
-      env,
-      siteConfig,
-      skipNextRelease: true,
-    });
-    expect(docsMetadatas['version-1.0.0-foo/bar']).toEqual({
+    const {env, siteDir, siteConfig, versionedDir} = await loadSetup(
+      'versioned',
+    );
+    const plugin = new DocusaurusPluginContentDocs(
+      {
+        path: '../docs',
+      },
+      {
+        env,
+        siteDir,
+        siteConfig,
+        cliOptions: {skipNextRelease: true},
+      },
+    );
+    const {docs: docsMetadata} = await plugin.loadContent();
+
+    expect(docsMetadata['version-1.0.0-foo/bar']).toEqual({
       category: 'Test',
       id: 'version-1.0.0-foo/bar',
       language: null,
@@ -198,6 +252,6 @@ describe('loadDocs', () => {
       title: 'Bar',
       version: '1.0.0',
     });
-    expect(docsMetadatas['foo/bar']).toBeUndefined();
+    expect(docsMetadata['foo/bar']).toBeUndefined();
   });
 });
