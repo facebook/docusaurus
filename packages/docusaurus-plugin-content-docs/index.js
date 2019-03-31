@@ -17,9 +17,10 @@ const DEFAULT_OPTIONS = {
   metadataFileName: 'docsMetadata.json',
   path: 'docs', // Path to data on filesystem, relative to site dir.
   routeBasePath: 'docs', // URL Route.
-  include: ['*.md', '*.mdx'], // Extensions to include.
+  include: ['**/*.md', '**/*.mdx'], // Extensions to include.
   // TODO: Read from props rather than hardcoded sidebar.json.
   sidebar: [], // Sidebar configuration for showing a list of documentation pages.
+  // TODO: Settle themeing.
   docLayoutComponent: '@theme/Doc',
   docItemComponent: '@theme/DocBody',
 };
@@ -129,6 +130,7 @@ class DocusaurusPluginContentDocs {
             env,
             order,
             siteConfig,
+            routeBasePath,
           );
           docs[metadata.id] = metadata;
         }),
@@ -149,6 +151,7 @@ class DocusaurusPluginContentDocs {
             env,
             order,
             siteConfig,
+            routeBasePath,
           );
           docs[metadata.id] = metadata;
         }),
