@@ -18,8 +18,8 @@ const DEFAULT_OPTIONS = {
   path: 'docs', // Path to data on filesystem, relative to site dir.
   routeBasePath: 'docs', // URL Route.
   include: ['**/*.md', '**/*.mdx'], // Extensions to include.
-  // TODO: Read from props rather than hardcoded sidebar.json.
-  sidebar: [], // Sidebar configuration for showing a list of documentation pages.
+  // TODO: Change format to array.
+  sidebar: {}, // Sidebar configuration for showing a list of documentation pages.
   // TODO: Settle themeing.
   docLayoutComponent: '@theme/Doc',
   docItemComponent: '@theme/DocBody',
@@ -42,13 +42,13 @@ class DocusaurusPluginContentDocs {
 
   // Fetches blog contents and returns metadata for the contents.
   async loadContent() {
-    const {include, routeBasePath} = this.options;
+    const {include, routeBasePath, sidebar} = this.options;
     const {siteDir, env, siteConfig, cliOptions = {}} = this.context;
     const {skipNextRelease} = cliOptions;
     const docsDir = this.contentPath;
 
     // @tested - load all sidebars including versioned sidebars
-    const docsSidebars = loadSidebars({siteDir, env});
+    const docsSidebars = loadSidebars({siteDir, env, sidebar});
 
     // @tested - build the docs ordering such as next, previous, category and sidebar
     const order = createOrder(docsSidebars);

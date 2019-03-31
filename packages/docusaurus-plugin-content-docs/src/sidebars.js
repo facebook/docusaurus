@@ -113,19 +113,10 @@ function normalizeSidebar(sidebars) {
   }, {});
 }
 
-module.exports = function loadSidebars({siteDir, env}, deleteCache = true) {
-  let allSidebars = {};
+module.exports = function loadSidebars({siteDir, env, sidebar}) {
+  const allSidebars = sidebar;
 
-  // current sidebars
-  const sidebarsJSONFile = path.join(siteDir, 'sidebars.json');
-  if (deleteCache) {
-    delete require.cache[sidebarsJSONFile];
-  }
-  if (fs.existsSync(sidebarsJSONFile)) {
-    allSidebars = require(sidebarsJSONFile); // eslint-disable-line
-  }
-
-  // versioned sidebars
+  // Versioned sidebars.
   if (idx(env, ['versioning', 'enabled'])) {
     const versions = idx(env, ['versioning', 'versions']);
     if (Array.isArray(versions)) {
