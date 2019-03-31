@@ -11,6 +11,8 @@ const rehypePrism = require('@mapbox/rehype-prism');
 const TerserPlugin = require('terser-webpack-plugin');
 const path = require('path');
 
+const isWsl = require(`is-wsl`);
+
 const mdLoader = require.resolve('./loaders/markdown');
 
 const CSS_REGEX = /\.css$/;
@@ -189,7 +191,9 @@ module.exports = function createBaseConfig(props, isServer) {
     config.optimization.minimizer([
       new TerserPlugin({
         cache: true,
-        parallel: true,
+        // We can't run in parallel for WSL due to upstream bug
+        // https://github.com/webpack-contrib/terser-webpack-plugin/issues/21
+        parallel: !isWsl,
         sourceMap: true,
         terserOptions: {
           ecma: 6,
