@@ -37,6 +37,17 @@ Object {
       "name": "@docusaurus/plugin-content-docs",
       "options": Object {
         "path": "../docs",
+        "sidebar": Object {
+          "docs": Object {
+            "Guides": Array [
+              "hello",
+            ],
+            "Test": Array [
+              "foo/bar",
+              "foo/baz",
+            ],
+          },
+        },
       },
     },
     Object {
