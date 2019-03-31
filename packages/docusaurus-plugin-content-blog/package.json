@@ -6,7 +6,6 @@
   "license": "MIT",
   "dependencies": {
     "@docusaurus/utils": "^1.0.0",
-    "classnames": "^2.2.6",
     "fs-extra": "^7.0.1",
     "globby": "^9.1.0"
   },

@@ -46,7 +46,6 @@ module.exports = async function start(siteDir, cliOptions = {}) {
       });
     };
     const {plugins} = props;
-    const docsRelativeDir = props.siteConfig.customDocsPath;
     const pluginPaths = _.compact(
       _.flatten(
         plugins.map(
@@ -55,12 +54,7 @@ module.exports = async function start(siteDir, cliOptions = {}) {
       ),
     );
     const fsWatcher = chokidar.watch(
-      [
-        ...pluginPaths,
-        `../${docsRelativeDir}/**/*.md`,
-        loadConfig.configFileName,
-        'sidebars.json',
-      ],
+      [...pluginPaths, loadConfig.configFileName, 'sidebars.json'],
       {
         cwd: siteDir,
         ignoreInitial: true,

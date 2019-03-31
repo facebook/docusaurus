@@ -6,8 +6,8 @@
  */
 
 import path from 'path';
-import loadSidebars from '@lib/load/docs/sidebars';
-import loadSetup from '../../loadSetup';
+import loadSidebars from '../src/sidebars';
+import loadSetup from '../../docusaurus/test/loadSetup';
 
 describe('loadSidebars', () => {
   const fixtures = path.join(__dirname, '..', '__fixtures__');

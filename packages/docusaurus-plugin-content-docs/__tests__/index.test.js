@@ -7,14 +7,25 @@
 
 import '@babel/polyfill';
 import path from 'path';
-import loadDocs from '@lib/load/docs';
-import loadSetup from '../../loadSetup';
+import loadSetup from '../../docusaurus/test/loadSetup';
+import DocusaurusPluginContentDocs from '../index';
 
 describe('loadDocs', () => {
-  test('simple website', async () => {
-    const props = await loadSetup('simple');
-    const {siteDir, docsDir, env, siteConfig} = props;
-    const {docsMetadata} = await loadDocs({siteDir, docsDir, env, siteConfig});
+  test.only('simple website', async () => {
+    const {env, siteDir, siteConfig} = await loadSetup('simple');
+    const plugin = new DocusaurusPluginContentDocs(
+      {
+        path: '../docs',
+      },
+      {
+        env,
+        siteDir,
+        siteConfig,
+      },
+    );
+    const {docs: docsMetadata} = await plugin.loadContent();
+    const docsDir = plugin.contentPath;
+
     expect(docsMetadata.hello).toEqual({
       category: 'Guides',
       id: 'hello',
@@ -46,9 +57,22 @@ describe('loadDocs', () => {
   });
 
   test('versioned website', async () => {
-    const props = await loadSetup('versioned');
-    const {siteDir, docsDir, versionedDir, env, siteConfig} = props;
-    const {docsMetadata} = await loadDocs({siteDir, docsDir, env, siteConfig});
+    const {env, siteDir, siteConfig, versionedDir} = await loadSetup(
+      'versioned',
+    );
+    const plugin = new DocusaurusPluginContentDocs(
+      {
+        path: '../docs',
+      },
+      {
+        env,
+        siteDir,
+        siteConfig,
+      },
+    );
+    const {docs: docsMetadata} = await plugin.loadContent();
+    const docsDir = plugin.contentPath;
+
     expect(docsMetadata['version-1.0.0-foo/bar']).toEqual({
       category: 'Test',
       id: 'version-1.0.0-foo/bar',
@@ -80,16 +104,26 @@ describe('loadDocs', () => {
   });
 
   test('versioned & translated website', async () => {
-    const props = await loadSetup('transversioned');
     const {
-      siteDir,
-      docsDir,
       env,
+      siteDir,
+      siteConfig,
       translatedDir,
       versionedDir,
-      siteConfig,
-    } = props;
-    const {docsMetadata} = await loadDocs({siteDir, docsDir, env, siteConfig});
+    } = await loadSetup('transversioned');
+    const plugin = new DocusaurusPluginContentDocs(
+      {
+        path: '../docs',
+      },
+      {
+        env,
+        siteDir,
+        siteConfig,
+      },
+    );
+    const {docs: docsMetadata} = await plugin.loadContent();
+    const docsDir = plugin.contentPath;
+
     expect(docsMetadata['ko-version-1.0.0-foo/bar']).toEqual({
       category: 'Test',
       id: 'ko-version-1.0.0-foo/bar',
@@ -138,9 +172,22 @@ describe('loadDocs', () => {
   });
 
   test('translated website', async () => {
-    const props = await loadSetup('translated');
-    const {siteDir, translatedDir, docsDir, env, siteConfig} = props;
-    const {docsMetadata} = await loadDocs({siteDir, docsDir, env, siteConfig});
+    const {env, siteDir, siteConfig, translatedDir} = await loadSetup(
+      'translated',
+    );
+    const plugin = new DocusaurusPluginContentDocs(
+      {
+        path: '../docs',
+      },
+      {
+        env,
+        siteDir,
+        siteConfig,
+      },
+    );
+    const {docs: docsMetadata} = await plugin.loadContent();
+    const docsDir = plugin.contentPath;
+
     expect(docsMetadata['ko-foo/baz']).toEqual({
       category: 'Test',
       id: 'ko-foo/baz',
@@ -175,15 +222,22 @@ describe('loadDocs', () => {
   });
 
   test('versioned website with skip next release', async () => {
-    const props = await loadSetup('versioned');
-    const {siteDir, docsDir, versionedDir, env, siteConfig} = props;
-    const {docsMetadata} = await loadDocs({
-      siteDir,
-      docsDir,
-      env,
-      siteConfig,
-      skipNextRelease: true,
-    });
+    const {env, siteDir, siteConfig, versionedDir} = await loadSetup(
+      'versioned',
+    );
+    const plugin = new DocusaurusPluginContentDocs(
+      {
+        path: '../docs',
+      },
+      {
+        env,
+        siteDir,
+        siteConfig,
+        cliOptions: {skipNextRelease: true},
+      },
+    );
+    const {docs: docsMetadata} = await plugin.loadContent();
+
     expect(docsMetadata['version-1.0.0-foo/bar']).toEqual({
       category: 'Test',
       id: 'version-1.0.0-foo/bar',

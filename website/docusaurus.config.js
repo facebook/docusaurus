@@ -11,7 +11,6 @@ module.exports = {
   organizationName: 'facebook',
   projectName: 'docusaurus',
   baseUrl: '/',
-  customDocsPath: './docs',
   url: 'https://docusaurus.io',
   headerLinks: [
     {doc: 'installation', label: 'Docs'},

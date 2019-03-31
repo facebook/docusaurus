@@ -25,11 +25,9 @@ const REQUIRED_FIELDS = [
 
 const OPTIONAL_FIELDS = [
   'algolia',
-  'customDocsPath',
   'customFields',
   'defaultLanguage',
   'disableHeaderTitle',
-  'docsUrl',
   'githubHost',
   'highlight',
   'markdownPlugins',
@@ -37,8 +35,7 @@ const OPTIONAL_FIELDS = [
 ];
 
 const DEFAULT_CONFIG = {
-  customDocsPath: 'docs',
-  docsUrl: 'docs',
+  plugins: [],
 };
 
 function formatFields(fields) {

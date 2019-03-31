@@ -56,6 +56,7 @@ module.exports = async function processMetadata(
   env,
   order,
   siteConfig,
+  docsBasePath,
 ) {
   const filepath = path.resolve(refDir, source);
   const fileString = await fs.readFile(filepath, 'utf-8');
@@ -122,7 +123,7 @@ module.exports = async function processMetadata(
   metadata.source = path.join(refDir, source);
 
   // Build the permalink.
-  const {baseUrl, docsUrl} = siteConfig;
+  const {baseUrl} = siteConfig;
 
   // If user has own custom permalink defined in frontmatter
   // e.g: :baseUrl:docsUrl/:langPart/:versionPart/endiliey/:id
@@ -130,7 +131,7 @@ module.exports = async function processMetadata(
     metadata.permalink = path.resolve(
       metadata.permalink
         .replace(/:baseUrl/, baseUrl)
-        .replace(/:docsUrl/, docsUrl)
+        .replace(/:docsUrl/, docsBasePath)
         .replace(/:langPart/, langPart)
         .replace(/:versionPart/, versionPart)
         .replace(/:id/, metadata.id),
@@ -138,7 +139,7 @@ module.exports = async function processMetadata(
   } else {
     metadata.permalink = normalizeUrl([
       baseUrl,
-      docsUrl,
+      docsBasePath,
       langPart,
       versionPart,
       metadata.id,

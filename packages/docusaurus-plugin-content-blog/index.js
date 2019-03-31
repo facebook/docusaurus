@@ -10,12 +10,13 @@ const path = require('path');
 const fs = require('fs-extra');
 const {parse, idx, normalizeUrl, generate} = require('@docusaurus/utils');
 
+// TODO: Use a better slugify function that doesn't rely on a specific file extension.
 function fileToUrl(fileName) {
   return fileName
     .replace('-', '/')
     .replace('-', '/')
     .replace('-', '/')
-    .replace(/\.md$/, '');
+    .replace(/\.mdx?$/, '');
 }
 
 const DEFAULT_OPTIONS = {

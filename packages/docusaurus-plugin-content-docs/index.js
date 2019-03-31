@@ -7,7 +7,7 @@
 
 const path = require('path');
 const globby = require('globby');
-const {getSubFolder, idx} = require('@docusaurus/utils');
+const {getSubFolder, idx, normalizeUrl} = require('@docusaurus/utils');
 const createOrder = require('./src/order');
 const loadSidebars = require('./src/sidebars');
 const processMetadata = require('./src/metadata');
@@ -17,7 +17,8 @@ const DEFAULT_OPTIONS = {
   metadataFileName: 'docsMetadata.json',
   path: 'docs', // Path to data on filesystem, relative to site dir.
   routeBasePath: 'docs', // URL Route.
-  include: ['*.md, *.mdx'], // Extensions to include.
+  include: ['*.md', '*.mdx'], // Extensions to include.
+  // TODO: Read from props rather than hardcoded sidebar.json.
   sidebar: [], // Sidebar configuration for showing a list of documentation pages.
   docLayoutComponent: '@theme/Doc',
   docItemComponent: '@theme/DocBody',
@@ -41,7 +42,7 @@ class DocusaurusPluginContentDocs {
   // Fetches blog contents and returns metadata for the contents.
   async loadContent() {
     const {include, routeBasePath} = this.options;
-    const {siteDir, env, siteConfig, cliOptions} = this.context;
+    const {siteDir, env, siteConfig, cliOptions = {}} = this.context;
     const {skipNextRelease} = cliOptions;
     const docsDir = this.contentPath;
 
@@ -63,7 +64,7 @@ class DocusaurusPluginContentDocs {
       (versioningEnabled && idx(env, ['versioning', 'versions'])) || [];
 
     // Prepare metadata container.
-    const docsMetadata = {};
+    const docs = {};
 
     if (!(versioningEnabled && skipNextRelease)) {
       // Metadata for default docs files.
@@ -91,8 +92,9 @@ class DocusaurusPluginContentDocs {
             env,
             order,
             siteConfig,
+            routeBasePath,
           );
-          docsMetadata[metadata.id] = metadata;
+          docs[metadata.id] = metadata;
         }),
       );
     }
@@ -100,7 +102,7 @@ class DocusaurusPluginContentDocs {
     // Metadata for non-default-language docs.
     if (translationEnabled) {
       const translatedDir = path.join(siteDir, 'translated_docs');
-      const translatedFiles = await globby(['**/*.md'], {
+      const translatedFiles = await globby(include, {
         cwd: translatedDir,
       });
       await Promise.all(
@@ -128,7 +130,7 @@ class DocusaurusPluginContentDocs {
             order,
             siteConfig,
           );
-          docsMetadata[metadata.id] = metadata;
+          docs[metadata.id] = metadata;
         }),
       );
     }
@@ -136,7 +138,7 @@ class DocusaurusPluginContentDocs {
     // Metadata for versioned docs.
     if (versioningEnabled) {
       const versionedDir = path.join(siteDir, 'versioned_docs');
-      const versionedFiles = await globby(['**/*.md'], {
+      const versionedFiles = await globby(include, {
         cwd: versionedDir,
       });
       await Promise.all(
@@ -148,36 +150,57 @@ class DocusaurusPluginContentDocs {
             order,
             siteConfig,
           );
-          docsMetadata[metadata.id] = metadata;
+          docs[metadata.id] = metadata;
         }),
       );
     }
 
     // Get the titles of the previous and next ids so that we can use them.
-    Object.keys(docsMetadata).forEach(currentID => {
-      const previousID = idx(docsMetadata, [currentID, 'previous']);
+    Object.keys(docs).forEach(currentID => {
+      const previousID = idx(docs, [currentID, 'previous']);
       if (previousID) {
-        const previousTitle = idx(docsMetadata, [previousID, 'title']);
-        docsMetadata[currentID].previous_title = previousTitle || 'Previous';
+        const previousTitle = idx(docs, [previousID, 'title']);
+        docs[currentID].previous_title = previousTitle || 'Previous';
       }
-      const nextID = idx(docsMetadata, [currentID, 'next']);
+      const nextID = idx(docs, [currentID, 'next']);
       if (nextID) {
-        const nextTitle = idx(docsMetadata, [nextID, 'title']);
-        docsMetadata[currentID].next_title = nextTitle || 'Next';
+        const nextTitle = idx(docs, [nextID, 'title']);
+        docs[currentID].next_title = nextTitle || 'Next';
       }
     });
 
+    // Create source to metadata mapping.
+    const sourceToMetadata = {};
+    Object.values(docs).forEach(({source, version, permalink, language}) => {
+      sourceToMetadata[source] = {
+        version,
+        permalink,
+        language,
+      };
+    });
+
     return {
+      docs,
+      docsDir,
       docsSidebars,
-      docsMetadata,
+      sourceToMetadata,
     };
   }
 
   async contentLoaded({content, actions}) {
-    console.log(content);
-    const {docLayoutComponent, docItemComponent} = this.options;
+    const {docLayoutComponent, docItemComponent, routeBasePath} = this.options;
     const {addRoute} = actions;
-    // content.forEach(metadataItem => {});
+
+    addRoute({
+      path: normalizeUrl([this.context.siteConfig.baseUrl, routeBasePath]),
+      component: docLayoutComponent,
+      routes: Object.values(content.docs).map(metadataItem => ({
+        path: metadataItem.permalink,
+        component: docItemComponent,
+        metadata: metadataItem,
+        modules: [metadataItem.source],
+      })),
+    });
   }
 }
 
