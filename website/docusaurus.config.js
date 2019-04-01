@@ -33,7 +33,7 @@ module.exports = {
       name: '@docusaurus/plugin-content-docs',
       options: {
         path: '../docs',
-        sidebar: require('./sidebars.json'),
+        sidebarPath: require.resolve('./sidebars.json'),
       },
     },
     {

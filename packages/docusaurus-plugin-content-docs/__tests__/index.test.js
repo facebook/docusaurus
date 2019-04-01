@@ -10,16 +10,14 @@ import path from 'path';
 import loadSetup from '../../docusaurus/test/loadSetup';
 import DocusaurusPluginContentDocs from '../index';
 
-/* eslint-disable global-require, import/no-dynamic-require */
-
 describe('loadDocs', () => {
   test('simple website', async () => {
     const {env, siteDir, siteConfig} = await loadSetup('simple');
-    const sidebar = require(path.join(siteDir, 'sidebars.json'));
+    const sidebarPath = path.join(siteDir, 'sidebars.json');
     const plugin = new DocusaurusPluginContentDocs(
       {
         path: '../docs',
-        sidebar,
+        sidebarPath,
       },
       {
         env,
@@ -64,11 +62,11 @@ describe('loadDocs', () => {
     const {env, siteDir, siteConfig, versionedDir} = await loadSetup(
       'versioned',
     );
-    const sidebar = require(path.join(siteDir, 'sidebars.json'));
+    const sidebarPath = path.join(siteDir, 'sidebars.json');
     const plugin = new DocusaurusPluginContentDocs(
       {
         path: '../docs',
-        sidebar,
+        sidebarPath,
       },
       {
         env,
@@ -117,11 +115,11 @@ describe('loadDocs', () => {
       translatedDir,
       versionedDir,
     } = await loadSetup('transversioned');
-    const sidebar = require(path.join(siteDir, 'sidebars.json'));
+    const sidebarPath = path.join(siteDir, 'sidebars.json');
     const plugin = new DocusaurusPluginContentDocs(
       {
         path: '../docs',
-        sidebar,
+        sidebarPath,
       },
       {
         env,
@@ -183,11 +181,11 @@ describe('loadDocs', () => {
     const {env, siteDir, siteConfig, translatedDir} = await loadSetup(
       'translated',
     );
-    const sidebar = require(path.join(siteDir, 'sidebars.json'));
+    const sidebarPath = path.join(siteDir, 'sidebars.json');
     const plugin = new DocusaurusPluginContentDocs(
       {
         path: '../docs',
-        sidebar,
+        sidebarPath,
       },
       {
         env,
@@ -235,11 +233,11 @@ describe('loadDocs', () => {
     const {env, siteDir, siteConfig, versionedDir} = await loadSetup(
       'versioned',
     );
-    const sidebar = require(path.join(siteDir, 'sidebars.json'));
+    const sidebarPath = path.join(siteDir, 'sidebars.json');
     const plugin = new DocusaurusPluginContentDocs(
       {
         path: '../docs',
-        sidebar,
+        sidebarPath,
       },
       {
         cliOptions: {
