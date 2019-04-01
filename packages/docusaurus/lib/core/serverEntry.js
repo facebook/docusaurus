@@ -46,6 +46,8 @@ export default function render(locals) {
     const bundles = getBundles(reactLoadableStats, modules);
     const assets = [
       ...webpackClientStats.assetsByChunkName.main,
+      ...webpackClientStats.assetsByChunkName.common,
+      ...webpackClientStats.assetsByChunkName.vendors,
       ...bundles.map(bundle => bundle.file),
     ];
     const scripts = assets.filter(value => value.match(/\.js$/));
