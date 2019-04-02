@@ -11,11 +11,13 @@ import loadSetup from '../../docusaurus/test/loadSetup';
 import DocusaurusPluginContentDocs from '../index';
 
 describe('loadDocs', () => {
-  test.only('simple website', async () => {
+  test('simple website', async () => {
     const {env, siteDir, siteConfig} = await loadSetup('simple');
+    const sidebarPath = path.join(siteDir, 'sidebars.json');
     const plugin = new DocusaurusPluginContentDocs(
       {
         path: '../docs',
+        sidebarPath,
       },
       {
         env,
@@ -60,9 +62,11 @@ describe('loadDocs', () => {
     const {env, siteDir, siteConfig, versionedDir} = await loadSetup(
       'versioned',
     );
+    const sidebarPath = path.join(siteDir, 'sidebars.json');
     const plugin = new DocusaurusPluginContentDocs(
       {
         path: '../docs',
+        sidebarPath,
       },
       {
         env,
@@ -111,9 +115,11 @@ describe('loadDocs', () => {
       translatedDir,
       versionedDir,
     } = await loadSetup('transversioned');
+    const sidebarPath = path.join(siteDir, 'sidebars.json');
     const plugin = new DocusaurusPluginContentDocs(
       {
         path: '../docs',
+        sidebarPath,
       },
       {
         env,
@@ -175,9 +181,11 @@ describe('loadDocs', () => {
     const {env, siteDir, siteConfig, translatedDir} = await loadSetup(
       'translated',
     );
+    const sidebarPath = path.join(siteDir, 'sidebars.json');
     const plugin = new DocusaurusPluginContentDocs(
       {
         path: '../docs',
+        sidebarPath,
       },
       {
         env,
@@ -225,15 +233,19 @@ describe('loadDocs', () => {
     const {env, siteDir, siteConfig, versionedDir} = await loadSetup(
       'versioned',
     );
+    const sidebarPath = path.join(siteDir, 'sidebars.json');
     const plugin = new DocusaurusPluginContentDocs(
       {
         path: '../docs',
+        sidebarPath,
       },
       {
+        cliOptions: {
+          skipNextRelease: true,
+        },
         env,
         siteDir,
         siteConfig,
-        cliOptions: {skipNextRelease: true},
       },
     );
     const {docs: docsMetadata} = await plugin.loadContent();

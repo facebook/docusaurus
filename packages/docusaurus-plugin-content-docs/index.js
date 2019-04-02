@@ -5,9 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const path = require('path');
 const globby = require('globby');
+const importFresh = require('import-fresh');
+const path = require('path');
 const {getSubFolder, idx, normalizeUrl} = require('@docusaurus/utils');
+
 const createOrder = require('./src/order');
 const loadSidebars = require('./src/sidebars');
 const processMetadata = require('./src/metadata');
@@ -18,8 +20,8 @@ const DEFAULT_OPTIONS = {
   path: 'docs', // Path to data on filesystem, relative to site dir.
   routeBasePath: 'docs', // URL Route.
   include: ['**/*.md', '**/*.mdx'], // Extensions to include.
-  // TODO: Read from props rather than hardcoded sidebar.json.
-  sidebar: [], // Sidebar configuration for showing a list of documentation pages.
+  // TODO: Change format to array.
+  sidebarPath: '', // Path to sidebar configuration for showing a list of markdown pages.
   // TODO: Settle themeing.
   docLayoutComponent: '@theme/Doc',
   docItemComponent: '@theme/DocBody',
@@ -37,18 +39,19 @@ class DocusaurusPluginContentDocs {
   }
 
   getPathsToWatch() {
-    return [this.contentPath];
+    return [this.contentPath, this.options.sidebarPath];
   }
 
   // Fetches blog contents and returns metadata for the contents.
   async loadContent() {
-    const {include, routeBasePath} = this.options;
+    const {include, routeBasePath, sidebarPath} = this.options;
     const {siteDir, env, siteConfig, cliOptions = {}} = this.context;
     const {skipNextRelease} = cliOptions;
     const docsDir = this.contentPath;
 
-    // @tested - load all sidebars including versioned sidebars
-    const docsSidebars = loadSidebars({siteDir, env});
+    // We don't want sidebars to be cached because of hotreloading.
+    const sidebar = importFresh(sidebarPath);
+    const docsSidebars = loadSidebars({siteDir, env, sidebar});
 
     // @tested - build the docs ordering such as next, previous, category and sidebar
     const order = createOrder(docsSidebars);

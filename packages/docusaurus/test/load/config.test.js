@@ -13,7 +13,11 @@ describe('loadConfig', () => {
   test('website with valid siteConfig', async () => {
     const {siteDir} = await loadSetup('simple');
     const config = loadConfig(siteDir);
-    expect(config).toMatchInlineSnapshot(`
+    expect(config).toMatchInlineSnapshot(
+      {
+        plugins: expect.any(Array),
+      },
+      `
 Object {
   "baseUrl": "/",
   "favicon": "img/docusaurus.ico",
@@ -32,23 +36,14 @@ Object {
     },
   ],
   "organizationName": "endiliey",
-  "plugins": Array [
-    Object {
-      "name": "@docusaurus/plugin-content-docs",
-      "options": Object {
-        "path": "../docs",
-      },
-    },
-    Object {
-      "name": "@docusaurus/plugin-content-pages",
-    },
-  ],
+  "plugins": Any<Array>,
   "projectName": "hello",
   "tagline": "Hello World",
   "title": "Hello",
   "url": "https://docusaurus.io",
 }
-`);
+`,
+    );
     expect(config).not.toEqual({});
   });
 

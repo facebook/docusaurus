@@ -8,7 +8,8 @@
     "@babel/polyfill": "^7.4.0",
     "@docusaurus/utils": "^1.0.0",
     "fs-extra": "^7.0.1",
-    "globby": "^9.1.0"
+    "globby": "^9.1.0",
+    "import-fresh": "^3.0.0"
   },
   "peerDependencies": {
     "@docusaurus/core": "^2.0.0"

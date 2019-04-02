@@ -54,7 +54,7 @@ module.exports = async function start(siteDir, cliOptions = {}) {
       ),
     );
     const fsWatcher = chokidar.watch(
-      [...pluginPaths, loadConfig.configFileName, 'sidebars.json'],
+      [...pluginPaths, loadConfig.configFileName],
       {
         cwd: siteDir,
         ignoreInitial: true,
