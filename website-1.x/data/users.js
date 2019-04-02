@@ -155,6 +155,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'graphql-compose',
+    image: 'https://graphql-compose.github.io/svg/graphql-compose-logo.svg',
+    infoLink: 'https://graphql-compose.github.io',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Gulp',
     image: '/img/users/gulp.svg',
     infoLink: 'https://gulpjs.com',
