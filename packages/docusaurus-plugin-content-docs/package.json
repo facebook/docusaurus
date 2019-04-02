@@ -2,7 +2,7 @@
   "name": "@docusaurus/plugin-content-docs",
   "version": "1.0.0",
   "description": "Documentation plugin for Docusaurus",
-  "main": "index.js",
+  "main": "src/index.js",
   "license": "MIT",
   "dependencies": {
     "@babel/polyfill": "^7.4.0",

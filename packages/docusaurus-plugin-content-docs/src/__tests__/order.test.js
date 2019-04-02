@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import createOrder from '../src/order';
+import createOrder from '../order';
 
 describe('createOrder', () => {
   test('multiple sidebars with subcategory', () => {

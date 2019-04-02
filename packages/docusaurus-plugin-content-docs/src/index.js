@@ -10,9 +10,9 @@ const importFresh = require('import-fresh');
 const path = require('path');
 const {getSubFolder, idx, normalizeUrl} = require('@docusaurus/utils');
 
-const createOrder = require('./src/order');
-const loadSidebars = require('./src/sidebars');
-const processMetadata = require('./src/metadata');
+const createOrder = require('./order');
+const loadSidebars = require('./sidebars');
+const processMetadata = require('./metadata');
 
 const DEFAULT_OPTIONS = {
   metadataKey: 'docsMetadata',

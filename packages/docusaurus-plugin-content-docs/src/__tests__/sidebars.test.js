@@ -6,8 +6,8 @@
  */
 
 import path from 'path';
-import loadSidebars from '../src/sidebars';
-import loadSetup from '../../docusaurus/test/loadSetup';
+import loadSidebars from '../sidebars';
+import loadSetup from '../../../docusaurus/test/loadSetup';
 
 /* eslint-disable global-require, import/no-dynamic-require */
 

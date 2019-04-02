@@ -2,7 +2,7 @@
   "name": "@docusaurus/plugin-sitemap",
   "version": "1.0.0",
   "description": "Simple sitemap generation plugin for Docusaurus",
-  "main": "index.js",
+  "main": "src/index.js",
   "license": "MIT",
   "dependencies": {
     "sitemap": "^2.1.0"

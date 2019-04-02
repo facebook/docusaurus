@@ -7,7 +7,7 @@
 
 import '@babel/polyfill';
 import path from 'path';
-import loadSetup from '../../docusaurus/test/loadSetup';
+import loadSetup from '../../../docusaurus/test/loadSetup';
 import DocusaurusPluginContentDocs from '../index';
 
 describe('loadDocs', () => {
