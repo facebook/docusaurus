@@ -8,11 +8,15 @@
 import {matchRoutes} from 'react-router-config';
 
 /**
- * This helps us to make sure all the async component for that particular route
- * is loaded before rendering. This is to avoid loading screens on first page load
+ * Helper function to make sure all async component for that particular route
+ * is preloaded before rendering. This is especially useful to avoid loading screens
+ *
+ * @param {Array<RouteConfig>} routes react-router-config
+ * @param {string} pathname the route pathname, example: /docs/installation
+ * @returns {Promise} Promise object represents whether pathname
  */
-export default function preload(routeConfig, providedLocation) {
-  const matches = matchRoutes(routeConfig, providedLocation);
+export default function preload(routes, pathname) {
+  const matches = matchRoutes(routes, pathname);
   return Promise.all(
     matches.map(match => {
       const {component} = match.route;

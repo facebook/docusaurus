@@ -6,8 +6,8 @@
  */
 
 import React from 'react';
+import {hydrate, render} from 'react-dom';
 import {BrowserRouter} from 'react-router-dom';
-import ReactDOM from 'react-dom';
 
 import App from './App';
 import preload from './preload';
@@ -15,8 +15,12 @@ import routes from '@generated/routes'; // eslint-disable-line
 
 // Client-side render (e.g: running in browser) to become single-page application (SPA).
 if (typeof window !== 'undefined' && typeof document !== 'undefined') {
+  // For production, attempt to hydrate existing markup for performant first-load experience.
+  // For development, there is no existing markup so we had to render it.
+  // Note that we also preload async component to avoid first-load loading screen.
+  const renderMethod = process.env.NODE_ENV === 'production' ? hydrate : render;
   preload(routes, window.location.pathname).then(() => {
-    ReactDOM.render(
+    renderMethod(
       <BrowserRouter>
         <App />
       </BrowserRouter>,
