@@ -42,12 +42,12 @@ program
   .command('build [siteDir]')
   .description('Build website')
   .option(
-    '--skip-next-release',
-    'Skip documents from next release (default = false)',
+    '--bundle-analyzer',
+    'Visualize size of webpack output files with an interactive zoomable treemap (default = false)',
   )
-  .action((siteDir = '.', {skipNextRelease}) => {
+  .action((siteDir = '.', {bundleAnalyzer}) => {
     wrapCommand(build)(path.resolve(siteDir), {
-      skipNextRelease,
+      bundleAnalyzer,
     });
   });
 

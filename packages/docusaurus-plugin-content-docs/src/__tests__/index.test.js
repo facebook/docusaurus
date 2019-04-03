@@ -238,11 +238,9 @@ describe('loadDocs', () => {
       {
         path: '../docs',
         sidebarPath,
+        skipNextRelease: true,
       },
       {
-        cliOptions: {
-          skipNextRelease: true,
-        },
         env,
         siteDir,
         siteConfig,
