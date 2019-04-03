@@ -45,9 +45,11 @@ program
     '--bundle-analyzer',
     'Visualize size of webpack output files with an interactive zoomable treemap (default = false)',
   )
-  .action((siteDir = '.', {bundleAnalyzer}) => {
+  .option('--no-cache-loader', 'Do not use cache-loader')
+  .action((siteDir = '.', {bundleAnalyzer, cacheLoader}) => {
     wrapCommand(build)(path.resolve(siteDir), {
       bundleAnalyzer,
+      cacheLoader,
     });
   });
 
@@ -78,8 +80,9 @@ program
   .option('-p, --port <port>', 'use specified port (default: 3000)')
   .option('-h, --host <host>', 'use specified host (default: localhost')
   .option('-nw, --no-watch <noWatch>', 'disable live reload (default: false)')
-  .action((siteDir = '.', {port, noWatch}) => {
-    wrapCommand(start)(path.resolve(siteDir), {port, noWatch});
+  .option('--no-cache-loader', 'Do not use cache-loader')
+  .action((siteDir = '.', {port, noWatch, cacheLoader}) => {
+    wrapCommand(start)(path.resolve(siteDir), {port, noWatch, cacheLoader});
   });
 
 program.parse(process.argv);
