@@ -23,7 +23,6 @@ module.exports = async function load(siteDir, cliOptions = {}) {
     siteDir,
     constants.GENERATED_FILES_DIR_NAME,
   );
-  fs.ensureDirSync(generatedFilesDir);
 
   // Site Config
   const siteConfig = loadConfig.loadConfig(siteDir);

@@ -25,6 +25,7 @@ const DEFAULT_OPTIONS = {
   // TODO: Settle themeing.
   docLayoutComponent: '@theme/Doc',
   docItemComponent: '@theme/DocBody',
+  skipNextRelease: false, // Skip documents from next release (default = false)
 };
 
 class DocusaurusPluginContentDocs {
@@ -44,9 +45,8 @@ class DocusaurusPluginContentDocs {
 
   // Fetches blog contents and returns metadata for the contents.
   async loadContent() {
-    const {include, routeBasePath, sidebarPath} = this.options;
-    const {siteDir, env, siteConfig, cliOptions = {}} = this.context;
-    const {skipNextRelease} = cliOptions;
+    const {include, routeBasePath, sidebarPath, skipNextRelease} = this.options;
+    const {siteDir, env, siteConfig} = this.context;
     const docsDir = this.contentPath;
 
     // We don't want sidebars to be cached because of hotreloading.

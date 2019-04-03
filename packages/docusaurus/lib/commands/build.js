@@ -7,6 +7,7 @@
 
 const webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer');
 const path = require('path');
 const chalk = require('chalk');
 const fs = require('fs-extra');
@@ -40,7 +41,7 @@ function compile(config) {
 
 module.exports = async function build(siteDir, cliOptions = {}) {
   process.env.NODE_ENV = 'production';
-  console.log('Build command invoked ...');
+  console.log(chalk.blue('Creating an optimized production build...'));
 
   const props = await load(siteDir, cliOptions);
 
@@ -50,8 +51,13 @@ module.exports = async function build(siteDir, cliOptions = {}) {
   const clientConfigObj = createClientConfig(props);
   // Remove/clean build folders before building bundles.
   clientConfigObj.plugin('clean').use(CleanWebpackPlugin, [{verbose: false}]);
-  let serverConfig = createServerConfig(props).toConfig();
+  // Visualize size of webpack output files with an interactive zoomable treemap.
+  if (cliOptions.bundleAnalyzer) {
+    clientConfigObj.plugin('bundleAnalyzer').use(BundleAnalyzerPlugin);
+  }
+
   let clientConfig = clientConfigObj.toConfig();
+  let serverConfig = createServerConfig(props).toConfig();
 
   // Plugin lifecycle - configureWebpack
   plugins.forEach(({configureWebpack}) => {
