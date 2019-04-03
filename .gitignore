@@ -10,3 +10,4 @@ node_modules
 yarn-error.log
 build
 .docusaurus
+.cache-loader

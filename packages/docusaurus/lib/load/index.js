@@ -113,6 +113,7 @@ module.exports = async function load(siteDir, cliOptions = {}) {
     generatedFilesDir,
     routesPaths,
     plugins,
+    cliOptions,
   };
 
   return props;

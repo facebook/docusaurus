@@ -7,6 +7,7 @@
 
 const Config = require('webpack-chain');
 const CSSExtractPlugin = require('mini-css-extract-plugin');
+const cacheLoaderVersion = require('cache-loader/package.json').version;
 const rehypePrism = require('@mapbox/rehype-prism');
 const TerserPlugin = require('terser-webpack-plugin');
 const path = require('path');
@@ -47,6 +48,7 @@ module.exports = function createBaseConfig(props, isServer) {
     translatedDir,
     baseUrl,
     generatedFilesDir,
+    cliOptions: {cacheLoader},
   } = props;
 
   const config = new Config();
@@ -80,6 +82,18 @@ module.exports = function createBaseConfig(props, isServer) {
     .add(path.resolve(process.cwd(), 'node_modules'))
     .add('node_modules');
 
+  function applyCacheLoader(rule) {
+    if (cacheLoader) {
+      rule
+        .use('cache-loader')
+        .loader('cache-loader')
+        .options({
+          cacheDirectory: path.resolve(siteDir, '.cache-loader'),
+          cacheIdentifier: `cache-loader:${cacheLoaderVersion}${isServer}`,
+        });
+    }
+  }
+
   function applyBabel(rule) {
     rule
       .use('babel')
@@ -109,9 +123,11 @@ module.exports = function createBaseConfig(props, isServer) {
       return /node_modules/.test(filepath);
     })
     .end();
+  applyCacheLoader(jsRule);
   applyBabel(jsRule);
 
   const mdRule = config.module.rule('markdown').test(/(\.mdx?)$/);
+  applyCacheLoader(mdRule);
   applyBabel(mdRule);
   mdRule
     .use('@docusaurus/mdx-loader')
