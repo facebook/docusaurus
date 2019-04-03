@@ -41,7 +41,7 @@ function compile(config) {
 
 module.exports = async function build(siteDir, cliOptions = {}) {
   process.env.NODE_ENV = 'production';
-  console.log(chalk.blue('Creating an optimized production build...\n'));
+  console.log(chalk.blue('Creating an optimized production build...'));
 
   const props = await load(siteDir, cliOptions);
 

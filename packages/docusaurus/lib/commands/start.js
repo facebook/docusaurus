@@ -33,7 +33,7 @@ async function getPort(reqPort) {
 }
 
 module.exports = async function start(siteDir, cliOptions = {}) {
-  console.log(chalk.blue('Starting the development server...\n'));
+  console.log(chalk.blue('Starting the development server...'));
 
   // Process all related files as a prop.
   const props = await load(siteDir);
