@@ -13,7 +13,7 @@ import {matchRoutes} from 'react-router-config';
  *
  * @param {Array<RouteConfig>} routes react-router-config
  * @param {string} pathname the route pathname, example: /docs/installation
- * @returns {Promise} Promise object represents whether pathname
+ * @returns {Promise} Promise object represents whether pathname has been preloaded
  */
 export default function preload(routes, pathname) {
   const matches = matchRoutes(routes, pathname);
