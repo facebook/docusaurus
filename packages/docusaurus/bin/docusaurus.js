@@ -80,9 +80,18 @@ program
   .option('-p, --port <port>', 'use specified port (default: 3000)')
   .option('-h, --host <host>', 'use specified host (default: localhost')
   .option('-nw, --no-watch <noWatch>', 'disable live reload (default: false)')
+  .option(
+    '--hot-only',
+    'Do not fallback to page refresh if hot reload fails (default: false)',
+  )
   .option('--no-cache-loader', 'Do not use cache-loader')
-  .action((siteDir = '.', {port, noWatch, cacheLoader}) => {
-    wrapCommand(start)(path.resolve(siteDir), {port, noWatch, cacheLoader});
+  .action((siteDir = '.', {port, noWatch, hotOnly, cacheLoader}) => {
+    wrapCommand(start)(path.resolve(siteDir), {
+      port,
+      noWatch,
+      hotOnly,
+      cacheLoader,
+    });
   });
 
 program.parse(process.argv);

@@ -19,6 +19,12 @@ module.exports = function createClientConfig(props) {
   const config = createBaseConfig(props);
   config.entry('main').add(path.resolve(__dirname, '../core/clientEntry.js'));
 
+  // https://github.com/gaearon/react-hot-loader#react--dom
+  // To enable react-hot-loader in development
+  if (!isProd) {
+    config.resolve.alias.set('react-dom', '@hot-loader/react-dom').end();
+  }
+
   const {generatedFilesDir} = props;
   // Write webpack stats object so we can pickup correct client bundle path in server.
   config
