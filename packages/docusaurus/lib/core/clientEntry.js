@@ -33,7 +33,8 @@ if (typeof window !== 'undefined' && typeof document !== 'undefined') {
 
   // Webpack Hot Module Replacement API
   if (module.hot) {
-    // Self-accepting method (https://github.com/webpack/webpack-dev-server/issues/100#issuecomment-290911036)
+    // Self-accepting method/ trick
+    // (https://github.com/webpack/webpack-dev-server/issues/100#issuecomment-290911036)
     module.hot.accept();
   }
 }

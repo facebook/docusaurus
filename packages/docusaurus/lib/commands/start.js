@@ -127,7 +127,6 @@ module.exports = async function start(siteDir, cliOptions = {}) {
     // eslint-disable-next-line
     before(app, server) {
       app.use(baseUrl, express.static(path.resolve(siteDir, 'static')));
-
       // TODO: add plugins beforeDevServer hook
     },
     // https://webpack.js.org/configuration/dev-server/#devserverbefore
