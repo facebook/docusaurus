@@ -105,6 +105,7 @@ module.exports = function createBaseConfig(props, isServer) {
         configFile: false,
         presets: ['@babel/env', '@babel/react'],
         plugins: [
+          'react-hot-loader/babel', // To enable react-hot-loader
           isServer ? 'dynamic-import-node' : '@babel/syntax-dynamic-import',
           'react-loadable/babel',
         ],

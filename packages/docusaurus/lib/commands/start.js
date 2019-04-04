@@ -7,6 +7,7 @@
 
 const _ = require('lodash');
 const path = require('path');
+const express = require('express');
 const chalk = require('chalk');
 const webpack = require('webpack');
 const chokidar = require('chokidar');
@@ -76,8 +77,6 @@ module.exports = async function start(siteDir, cliOptions = {}) {
   let config = createClientConfig(props);
 
   const {siteConfig, plugins = []} = props;
-  // Needed for hot reload.
-  config.plugin('hmr').use(HotModuleReplacementPlugin);
   config.plugin('html-webpack-plugin').use(HtmlWebpackPlugin, [
     {
       inject: false,
@@ -90,6 +89,8 @@ module.exports = async function start(siteDir, cliOptions = {}) {
       title: siteConfig.title,
     },
   ]);
+  // Needed for hot reload.
+  config.plugin('hmr').use(HotModuleReplacementPlugin);
   config = config.toConfig();
 
   // Plugin lifecycle - configureWebpack
@@ -105,6 +106,9 @@ module.exports = async function start(siteDir, cliOptions = {}) {
     compress: true,
     clientLogLevel: 'error',
     hot: true,
+    // Do not fallback to page refresh if hot reload fails
+    // https://webpack.js.org/configuration/dev-server/#devserverhotonly
+    hotOnly: cliOptions.hotOnly,
     quiet: true,
     headers: {
       'access-control-allow-origin': '*', // Needed for CORS.
@@ -119,7 +123,17 @@ module.exports = async function start(siteDir, cliOptions = {}) {
     disableHostCheck: true,
     overlay: false,
     host,
-    contentBase: path.resolve(siteDir, 'static'),
+    // https://webpack.js.org/configuration/dev-server/#devserverbefore
+    // eslint-disable-next-line
+    before(app, server) {
+      app.use(baseUrl, express.static(path.resolve(siteDir, 'static')));
+      // TODO: add plugins beforeDevServer hook
+    },
+    // https://webpack.js.org/configuration/dev-server/#devserverbefore
+    // eslint-disable-next-line
+    after(app, server) {
+      // TODO: add plugins afterDevServer hook
+    },
   };
   WebpackDevServer.addDevServerEntrypoints(config, devServerConfig);
   const compiler = webpack(config);
