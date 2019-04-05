@@ -5,47 +5,22 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const Config = require('webpack-chain');
 const CSSExtractPlugin = require('mini-css-extract-plugin');
+const Config = require('webpack-chain');
 const cacheLoaderVersion = require('cache-loader/package.json').version;
-const rehypePrism = require('@mapbox/rehype-prism');
 const TerserPlugin = require('terser-webpack-plugin');
 const path = require('path');
 const isWsl = require('is-wsl');
-
-const mdLoader = require.resolve('./loaders/markdown');
+const {applyBabel, applyCacheLoader, applyStyle} = require('./utils');
 
 const CSS_REGEX = /\.css$/;
 const CSS_MODULE_REGEX = /\.module\.css$/;
 
-// Utility method to add styling-related rule to Webpack config.
-function applyStyle(styleRule, {cssOptions, isServer, isProd}) {
-  if (!isServer) {
-    if (isProd) {
-      styleRule.use('extract-css-loader').loader(CSSExtractPlugin.loader);
-    } else {
-      styleRule.use('style-loader').loader('style-loader');
-    }
-  }
-
-  styleRule
-    .use('css-loader')
-    .loader(isServer ? 'css-loader/locals' : 'css-loader')
-    .options(cssOptions);
-
-  return styleRule;
-}
-
 module.exports = function createBaseConfig(props, isServer) {
   const {
-    siteConfig,
     outDir,
     themePath,
-    docsDir,
     siteDir,
-    sourceToMetadata,
-    versionedDir,
-    translatedDir,
     baseUrl,
     generatedFilesDir,
     cliOptions: {cacheLoader},
@@ -69,9 +44,6 @@ module.exports = function createBaseConfig(props, isServer) {
     .set('symlinks', true)
     .alias.set('@theme', themePath)
     .set('@site', siteDir)
-    .set('@versioned_docs', versionedDir)
-    .set('@translated_docs', translatedDir)
-    .set('@docs', docsDir)
     .set('@build', outDir)
     .set('@generated', generatedFilesDir)
     .set('@core', path.resolve(__dirname, '../core'))
@@ -81,36 +53,6 @@ module.exports = function createBaseConfig(props, isServer) {
     .add(path.resolve(siteDir, 'node_modules')) // load user node_modules
     .add(path.resolve(process.cwd(), 'node_modules'))
     .add('node_modules');
-
-  function applyCacheLoader(rule) {
-    if (cacheLoader) {
-      rule
-        .use('cache-loader')
-        .loader('cache-loader')
-        .options({
-          cacheDirectory: path.resolve(siteDir, '.cache-loader'),
-          cacheIdentifier: `cache-loader:${cacheLoaderVersion}${isServer}`,
-        });
-    }
-  }
-
-  function applyBabel(rule) {
-    rule
-      .use('babel')
-      .loader('babel-loader')
-      .options({
-        // ignore local project babel config (.babelrc)
-        babelrc: false,
-        // ignore local project babel config (babel.config.js)
-        configFile: false,
-        presets: ['@babel/env', '@babel/react'],
-        plugins: [
-          'react-hot-loader/babel', // To enable react-hot-loader
-          isServer ? 'dynamic-import-node' : '@babel/syntax-dynamic-import',
-          'react-loadable/babel',
-        ],
-      });
-  }
 
   const jsRule = config.module
     .rule('js')
@@ -124,23 +66,13 @@ module.exports = function createBaseConfig(props, isServer) {
       return /node_modules/.test(filepath);
     })
     .end();
-  applyCacheLoader(jsRule);
-  applyBabel(jsRule);
-
-  const mdRule = config.module.rule('markdown').test(/(\.mdx?)$/);
-  applyCacheLoader(mdRule);
-  applyBabel(mdRule);
-  mdRule
-    .use('@docusaurus/mdx-loader')
-    .loader(mdLoader)
-    .options({
-      siteConfig,
-      versionedDir,
-      translatedDir,
-      docsDir,
-      sourceToMetadata,
-      hastPlugins: [[rehypePrism, {ignoreMissing: true}]],
-    });
+  applyCacheLoader(jsRule, {
+    cacheLoader,
+    siteDir,
+    cacheLoaderVersion,
+    isServer,
+  });
+  applyBabel(jsRule, {isServer});
 
   applyStyle(config.module.rule('css'), {
     cssOptions: {

@@ -92,14 +92,22 @@ module.exports = async function start(siteDir, cliOptions = {}) {
   // Needed for hot reload.
   config.plugin('hmr').use(HotModuleReplacementPlugin);
   config = config.toConfig();
-
+  console.log(JSON.stringify(config, null, 2));
   // Plugin lifecycle - configureWebpack
-  plugins.forEach(({configureWebpack}) => {
+  plugins.forEach(plugin => {
+    const {configureWebpack} = plugin;
     if (!configureWebpack) {
       return;
     }
-    config = applyConfigureWebpack(configureWebpack, config, false);
+
+    config = applyConfigureWebpack(
+      configureWebpack.bind(plugin), // The plugin lifecycle may refer to `this`.
+      config,
+      false,
+    );
   });
+
+  console.log(JSON.stringify(config, null, 2));
 
   // https://webpack.js.org/configuration/dev-server
   const devServerConfig = {

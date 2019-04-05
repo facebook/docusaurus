@@ -155,6 +155,9 @@ class DocusaurusPluginContentBlog {
       });
     });
   }
+
+  // TODO: Add configureWebpack plugin to read Markdown. Currently it's using
+  // the docs plugin's markdown loader.
 }
 
 module.exports = DocusaurusPluginContentBlog;

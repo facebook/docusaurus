@@ -20,8 +20,8 @@ module.exports = async function loadPlugins({pluginConfigs = [], context}) {
       try {
         // eslint-disable-next-line
         Plugin = require(name);
-      } catch (e) {
-        throw new Error(`'${name}' plugin cannot be found.`);
+      } catch (ex) {
+        throw new Error(`Error loading '${name}' plugin.`);
       }
     }
     return new Plugin(options, context);

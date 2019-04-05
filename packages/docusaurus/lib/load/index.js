@@ -59,16 +59,6 @@ module.exports = async function load(siteDir, cliOptions = {}) {
   const themePath = loadTheme(siteDir);
 
   const {baseUrl} = siteConfig;
-  const versionedDir = path.join(siteDir, 'versioned_docs');
-  const translatedDir = path.join(siteDir, 'translated_docs');
-
-  // TODO: Make doc dependents use the plugin's content instead
-  // of passing in via props.
-  const {
-    docsDir,
-    docs: docsMetadata,
-    sourceToMetadata,
-  } = pluginsLoadedContent[0].content;
 
   // Generate React Router Config.
   const {routesConfig, routesPaths} = await loadRoutes(pluginsRouteConfigs);
@@ -101,15 +91,10 @@ module.exports = async function load(siteDir, cliOptions = {}) {
   const props = {
     siteConfig,
     siteDir,
-    docsDir,
-    docsMetadata,
     env,
     outDir,
     themePath,
     baseUrl,
-    sourceToMetadata,
-    versionedDir,
-    translatedDir,
     generatedFilesDir,
     routesPaths,
     plugins,
