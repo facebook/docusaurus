@@ -60,12 +60,21 @@ module.exports = async function build(siteDir, cliOptions = {}) {
   let serverConfig = createServerConfig(props).toConfig();
 
   // Plugin lifecycle - configureWebpack
-  plugins.forEach(({configureWebpack}) => {
+  plugins.forEach(plugin => {
+    const {configureWebpack} = plugin;
     if (!configureWebpack) {
       return;
     }
-    clientConfig = applyConfigureWebpack(configureWebpack, clientConfig, false);
-    serverConfig = applyConfigureWebpack(configureWebpack, serverConfig, true);
+    clientConfig = applyConfigureWebpack(
+      configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`.
+      clientConfig,
+      false,
+    );
+    serverConfig = applyConfigureWebpack(
+      configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`.
+      serverConfig,
+      true,
+    );
   });
 
   // Build the client bundles first.
