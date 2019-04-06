@@ -30,7 +30,11 @@ class DocusaurusPluginContentPages {
   }
 
   getPathsToWatch() {
-    return [this.contentPath];
+    const {include = []} = this.options;
+    const globPattern = include.map(
+      pattern => `${this.contentPath}/${pattern}`,
+    );
+    return [...globPattern];
   }
 
   async loadContent() {
