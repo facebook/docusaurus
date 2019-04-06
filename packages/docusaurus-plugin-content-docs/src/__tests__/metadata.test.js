@@ -13,7 +13,8 @@ import loadSetup from '../../../docusaurus/test/loadSetup';
 describe('processMetadata', () => {
   test('normal docs', async () => {
     const props = await loadSetup('simple');
-    const {docsDir, env, siteConfig} = props;
+    const {siteDir, env, siteConfig} = props;
+    const docsDir = path.resolve(siteDir, '..', 'docs');
     const sourceA = path.join('foo', 'bar.md');
     const sourceB = path.join('hello.md');
     const dataA = await processMetadata(
@@ -54,7 +55,8 @@ describe('processMetadata', () => {
 
   test('docs with custom permalink', async () => {
     const props = await loadSetup('simple');
-    const {docsDir, env, siteConfig} = props;
+    const {siteDir, env, siteConfig} = props;
+    const docsDir = path.resolve(siteDir, '..', 'docs');
     const source = path.join('permalink.md');
     const data = await processMetadata(
       source,
@@ -77,7 +79,8 @@ describe('processMetadata', () => {
 
   test('versioned docs (without translation)', async () => {
     const props = await loadSetup('versioned');
-    const {siteDir, docsDir, env, siteConfig} = props;
+    const {siteDir, env, siteConfig} = props;
+    const docsDir = path.resolve(siteDir, '..', 'docs');
     const versionedDir = path.join(siteDir, 'versioned_docs');
     const sourceA = path.join('version-1.0.0', 'foo', 'bar.md');
     const sourceB = path.join('version-1.0.0', 'hello.md');
@@ -155,7 +158,10 @@ describe('processMetadata', () => {
 
   test('translated versioned docs', async () => {
     const props = await loadSetup('transversioned');
-    const {docsDir, translatedDir, versionedDir, env, siteConfig} = props;
+    const {siteDir, env, siteConfig} = props;
+    const docsDir = path.resolve(siteDir, '..', 'docs');
+    const versionedDir = path.join(siteDir, 'versioned_docs');
+    const translatedDir = path.join(siteDir, 'translated_docs');
     const sourceA = path.join('ko', 'version-1.0.0', 'foo', 'bar.md');
     const sourceB = path.join('ko', 'version-1.0.0', 'hello.md');
     const sourceC = path.join('ko', 'version-1.0.1', 'foo', 'bar.md');
@@ -304,7 +310,9 @@ describe('processMetadata', () => {
 
   test('translated docs only', async () => {
     const props = await loadSetup('translated');
-    const {docsDir, translatedDir, env, siteConfig} = props;
+    const {siteDir, env, siteConfig} = props;
+    const docsDir = path.resolve(siteDir, '..', 'docs');
+    const translatedDir = path.join(siteDir, 'translated_docs');
     const sourceA = path.join('ko', 'foo', 'bar.md');
     const sourceB = path.join('ko', 'hello.md');
     const sourceC = path.join('foo', 'bar.md');
