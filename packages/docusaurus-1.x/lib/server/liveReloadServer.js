@@ -7,7 +7,6 @@
 
 const gaze = require('gaze');
 const tinylr = require('tiny-lr');
-const path = require('path');
 const readMetadata = require('./readMetadata.js');
 
 function start(port) {
@@ -19,11 +18,7 @@ function start(port) {
   });
 
   gaze(
-    [
-      `${path.resolve('../', readMetadata.getDocsPath())}/**/*`,
-      '**/*',
-      '!node_modules/**/*',
-    ],
+    [`../${readMetadata.getDocsPath()}/**/*`, '**/*', '!node_modules/**/*'],
     function() {
       this.on('all', () => {
         server.notifyClients(['/']);
