@@ -59,9 +59,7 @@ describe('loadDocs', () => {
   });
 
   test('versioned website', async () => {
-    const {env, siteDir, siteConfig, versionedDir} = await loadSetup(
-      'versioned',
-    );
+    const {env, siteDir, siteConfig} = await loadSetup('versioned');
     const sidebarPath = path.join(siteDir, 'sidebars.json');
     const plugin = new DocusaurusPluginContentDocs(
       {
@@ -74,7 +72,7 @@ describe('loadDocs', () => {
         siteConfig,
       },
     );
-    const {docs: docsMetadata} = await plugin.loadContent();
+    const {docs: docsMetadata, versionedDir} = await plugin.loadContent();
     const docsDir = plugin.contentPath;
 
     expect(docsMetadata['version-1.0.0-foo/bar']).toEqual({
@@ -108,13 +106,7 @@ describe('loadDocs', () => {
   });
 
   test('versioned & translated website', async () => {
-    const {
-      env,
-      siteDir,
-      siteConfig,
-      translatedDir,
-      versionedDir,
-    } = await loadSetup('transversioned');
+    const {env, siteDir, siteConfig} = await loadSetup('transversioned');
     const sidebarPath = path.join(siteDir, 'sidebars.json');
     const plugin = new DocusaurusPluginContentDocs(
       {
@@ -127,7 +119,11 @@ describe('loadDocs', () => {
         siteConfig,
       },
     );
-    const {docs: docsMetadata} = await plugin.loadContent();
+    const {
+      docs: docsMetadata,
+      translatedDir,
+      versionedDir,
+    } = await plugin.loadContent();
     const docsDir = plugin.contentPath;
 
     expect(docsMetadata['ko-version-1.0.0-foo/bar']).toEqual({
@@ -178,9 +174,7 @@ describe('loadDocs', () => {
   });
 
   test('translated website', async () => {
-    const {env, siteDir, siteConfig, translatedDir} = await loadSetup(
-      'translated',
-    );
+    const {env, siteDir, siteConfig} = await loadSetup('translated');
     const sidebarPath = path.join(siteDir, 'sidebars.json');
     const plugin = new DocusaurusPluginContentDocs(
       {
@@ -193,7 +187,7 @@ describe('loadDocs', () => {
         siteConfig,
       },
     );
-    const {docs: docsMetadata} = await plugin.loadContent();
+    const {docs: docsMetadata, translatedDir} = await plugin.loadContent();
     const docsDir = plugin.contentPath;
 
     expect(docsMetadata['ko-foo/baz']).toEqual({
@@ -230,9 +224,7 @@ describe('loadDocs', () => {
   });
 
   test('versioned website with skip next release', async () => {
-    const {env, siteDir, siteConfig, versionedDir} = await loadSetup(
-      'versioned',
-    );
+    const {env, siteDir, siteConfig} = await loadSetup('versioned');
     const sidebarPath = path.join(siteDir, 'sidebars.json');
     const plugin = new DocusaurusPluginContentDocs(
       {
@@ -246,7 +238,7 @@ describe('loadDocs', () => {
         siteConfig,
       },
     );
-    const {docs: docsMetadata} = await plugin.loadContent();
+    const {docs: docsMetadata, versionedDir} = await plugin.loadContent();
 
     expect(docsMetadata['version-1.0.0-foo/bar']).toEqual({
       category: 'Test',

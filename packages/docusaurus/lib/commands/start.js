@@ -94,11 +94,17 @@ module.exports = async function start(siteDir, cliOptions = {}) {
   config = config.toConfig();
 
   // Plugin lifecycle - configureWebpack
-  plugins.forEach(({configureWebpack}) => {
+  plugins.forEach(plugin => {
+    const {configureWebpack} = plugin;
     if (!configureWebpack) {
       return;
     }
-    config = applyConfigureWebpack(configureWebpack, config, false);
+
+    config = applyConfigureWebpack(
+      configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`.
+      config,
+      false,
+    );
   });
 
   // https://webpack.js.org/configuration/dev-server

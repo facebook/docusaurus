@@ -9,6 +9,7 @@ const globby = require('globby');
 const importFresh = require('import-fresh');
 const path = require('path');
 const {getSubFolder, idx, normalizeUrl} = require('@docusaurus/utils');
+const rehypePrism = require('@mapbox/rehype-prism');
 
 const createOrder = require('./order');
 const loadSidebars = require('./sidebars');
@@ -33,6 +34,7 @@ class DocusaurusPluginContentDocs {
     this.options = {...DEFAULT_OPTIONS, ...opts};
     this.context = context;
     this.contentPath = path.resolve(this.context.siteDir, this.options.path);
+    this.content = {};
   }
 
   getName() {
@@ -104,8 +106,9 @@ class DocusaurusPluginContentDocs {
     }
 
     // Metadata for non-default-language docs.
+    let translatedDir = null;
     if (translationEnabled) {
-      const translatedDir = path.join(siteDir, 'translated_docs');
+      translatedDir = path.join(siteDir, 'translated_docs');
       const translatedFiles = await globby(include, {
         cwd: translatedDir,
       });
@@ -141,8 +144,9 @@ class DocusaurusPluginContentDocs {
     }
 
     // Metadata for versioned docs.
+    let versionedDir = null;
     if (versioningEnabled) {
-      const versionedDir = path.join(siteDir, 'versioned_docs');
+      versionedDir = path.join(siteDir, 'versioned_docs');
       const versionedFiles = await globby(include, {
         cwd: versionedDir,
       });
@@ -185,12 +189,16 @@ class DocusaurusPluginContentDocs {
       };
     });
 
-    return {
+    this.content = {
       docs,
       docsDir,
       docsSidebars,
       sourceToMetadata,
+      translatedDir,
+      versionedDir,
     };
+
+    return this.content;
   }
 
   async contentLoaded({content, actions}) {
@@ -207,6 +215,53 @@ class DocusaurusPluginContentDocs {
         modules: [metadataItem.source],
       })),
     });
+  }
+
+  configureWebpack(config, isServer) {
+    const versionedDir = path.join(this.context.siteDir, 'versioned_docs');
+    const translatedDir = path.join(this.context.siteDir, 'translated_docs');
+
+    return {
+      module: {
+        rules: [
+          {
+            test: /(\.mdx?)$/, // TODO: Read only this plugin's markdown files.
+            use: [
+              // TODO: Add back cache loader and read babel loader from existing config
+              // instead of duplicating it.
+              {
+                loader: 'babel-loader',
+                options: {
+                  // ignore local project babel config (.babelrc)
+                  babelrc: false,
+                  // ignore local project babel config (babel.config.js)
+                  configFile: false,
+                  presets: ['@babel/env', '@babel/react'],
+                  plugins: [
+                    'react-hot-loader/babel', // To enable react-hot-loader
+                    isServer
+                      ? 'dynamic-import-node'
+                      : '@babel/syntax-dynamic-import',
+                    'react-loadable/babel',
+                  ],
+                },
+              },
+              {
+                loader: path.resolve(__dirname, './markdown/index.js'),
+                options: {
+                  siteConfig: this.context.siteConfig,
+                  versionedDir,
+                  translatedDir,
+                  docsDir: this.content.docsDir,
+                  sourceToMetadata: this.content.sourceToMetadata,
+                  hastPlugins: [[rehypePrism, {ignoreMissing: true}]],
+                },
+              },
+            ],
+          },
+        ],
+      },
+    };
   }
 }
 
