@@ -7,8 +7,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.4.0",
     "@docusaurus/utils": "^1.0.0",
-    "@mapbox/rehype-prism": "^0.3.1",
-    "@mdx-js/mdx": "^0.20.3",
+    "@docusaurus/mdx-loader": "^1.0.0",
     "front-matter": "^3.0.1",
     "fs-extra": "^7.0.1",
     "globby": "^9.1.0",
@@ -16,7 +15,6 @@
     "loader-utils": "^1.2.3"
   },
   "peerDependencies": {
-    "@docusaurus/core": "^2.0.0",
-    "@mdx-js/tag": "^0.20.3"
+    "@docusaurus/core": "^2.0.0"
   }
 }

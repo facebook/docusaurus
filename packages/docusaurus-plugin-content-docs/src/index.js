@@ -9,7 +9,6 @@ const globby = require('globby');
 const importFresh = require('import-fresh');
 const path = require('path');
 const {getSubFolder, idx, normalizeUrl} = require('@docusaurus/utils');
-const rehypePrism = require('@mapbox/rehype-prism');
 
 const createOrder = require('./order');
 const loadSidebars = require('./sidebars');
@@ -247,6 +246,9 @@ class DocusaurusPluginContentDocs {
                 },
               },
               {
+                loader: '@docusaurus/mdx-loader',
+              },
+              {
                 loader: path.resolve(__dirname, './markdown/index.js'),
                 options: {
                   siteConfig: this.context.siteConfig,
@@ -254,7 +256,6 @@ class DocusaurusPluginContentDocs {
                   translatedDir,
                   docsDir: this.content.docsDir,
                   sourceToMetadata: this.content.sourceToMetadata,
-                  hastPlugins: [[rehypePrism, {ignoreMissing: true}]],
                 },
               },
             ],

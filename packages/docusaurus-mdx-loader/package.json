@@ -1,0 +1,15 @@
+{
+  "name": "@docusaurus/mdx-loader",
+  "version": "1.0.0",
+  "description": "Docusaurus Loader for MDX",
+  "main": "src/index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@mapbox/rehype-prism": "^0.3.1",
+    "@mdx-js/mdx": "^1.0.0-rc.0",
+    "@mdx-js/react": "^1.0.0-rc.0",
+    "loader-utils": "^1.2.3",
+    "prism-themes": "^1.1.0",
+    "prismjs": "^1.16.0"
+  }
+}
