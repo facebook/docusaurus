@@ -100,7 +100,9 @@ const versionFolder = `${CWD}/versioned_docs/version-${version}`;
 mkdirp.sync(versionFolder);
 
 // copy necessary files to new version, changing some of its metadata to reflect the versioning
-const files = glob.sync(`${CWD}/../${readMetadata.getDocsPath()}/**`);
+const files = glob.sync(
+  `${path.resolve('../', readMetadata.getDocsPath())}/**`,
+);
 files.forEach(file => {
   const ext = path.extname(file);
   if (ext !== '.md' && ext !== '.markdown') {
@@ -124,7 +126,7 @@ files.forEach(file => {
     metadata.title = metadata.id;
   }
 
-  const docsDir = path.join(CWD, '../', readMetadata.getDocsPath());
+  const docsDir = path.resolve('../', readMetadata.getDocsPath());
   const subDir = utils.getSubDir(file, docsDir);
   const docId = subDir ? `${subDir}/${metadata.id}` : metadata.id;
   if (!versionFallback.diffLatestDoc(file, docId)) {

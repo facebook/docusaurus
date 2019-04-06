@@ -342,7 +342,7 @@ function execute(port) {
     `${siteConfig.baseUrl}${
       siteConfig.docsUrl ? `${siteConfig.docsUrl}/` : ''
     }assets`,
-    express.static(join(CWD, '..', readMetadata.getDocsPath(), 'assets')),
+    express.static(path.resolve('../', readMetadata.getDocsPath(), 'assets')),
   );
   app.use(
     `${siteConfig.baseUrl}blog/assets`,

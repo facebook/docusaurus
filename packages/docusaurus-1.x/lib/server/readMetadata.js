@@ -233,7 +233,7 @@ function generateMetadataDocs() {
 
   if (shouldGenerateNextReleaseDocs()) {
     // metadata for english files
-    const docsDir = path.join(CWD, '../', getDocsPath());
+    const docsDir = path.resolve('../', getDocsPath());
     let files = glob.sync(`${docsDir}/**`);
     files.forEach(file => {
       const extension = path.extname(file);

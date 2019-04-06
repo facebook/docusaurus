@@ -70,7 +70,7 @@ function execute() {
   };
 
   // look through markdown headers of docs for titles and categories to translate
-  const docsDir = nodePath.join(CWD, '../', readMetadata.getDocsPath());
+  const docsDir = nodePath.resolve('../', readMetadata.getDocsPath());
   const versionedDocsDir = nodePath.join(CWD, 'versioned_docs');
 
   const translateDoc = (file, refDir) => {

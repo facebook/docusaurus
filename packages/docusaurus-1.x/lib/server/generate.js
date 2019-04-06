@@ -98,9 +98,11 @@ async function execute() {
   });
 
   // copy docs assets if they exist
-  if (fs.existsSync(join(CWD, '..', readMetadata.getDocsPath(), 'assets'))) {
+  if (
+    fs.existsSync(path.resolve('../', readMetadata.getDocsPath(), 'assets'))
+  ) {
     fs.copySync(
-      join(CWD, '..', readMetadata.getDocsPath(), 'assets'),
+      path.resolve('../', readMetadata.getDocsPath(), 'assets'),
       join(buildDir, siteConfig.docsUrl, 'assets'),
     );
   }

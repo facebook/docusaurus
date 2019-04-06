@@ -10,6 +10,7 @@ const CWD = process.cwd();
 const React = require('react');
 const fs = require('fs');
 const classNames = require('classnames');
+const path = require('path');
 
 const loadConfig = require('../../server/config');
 
@@ -250,7 +251,7 @@ class HeaderNav extends React.Component {
     headerLinks.forEach(link => {
       if (
         link.doc &&
-        !fs.existsSync(`${CWD}/../${readMetadata.getDocsPath()}/`)
+        !fs.existsSync(path.resolve('../', readMetadata.getDocsPath()))
       ) {
         throw new Error(
           `You have 'doc' in your headerLinks, but no '${readMetadata.getDocsPath()}' folder exists one level up from ` +
