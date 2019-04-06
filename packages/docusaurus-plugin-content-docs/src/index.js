@@ -41,7 +41,11 @@ class DocusaurusPluginContentDocs {
   }
 
   getPathsToWatch() {
-    return [this.contentPath, this.options.sidebarPath];
+    const {include = []} = this.options;
+    const globPattern = include.map(
+      pattern => `${this.contentPath}/${pattern}`,
+    );
+    return [...globPattern, this.options.sidebarPath];
   }
 
   // Fetches blog contents and returns metadata for the contents.

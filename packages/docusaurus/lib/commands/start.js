@@ -41,19 +41,28 @@ module.exports = async function start(siteDir, cliOptions = {}) {
 
   // Reload files processing.
   if (!cliOptions.noWatch) {
-    const reload = () => {
+    const reload = filepath => {
+      console.log(`${filepath} has changed`);
       load(siteDir).catch(err => {
         console.error(chalk.red(err.stack));
       });
     };
     const {plugins} = props;
+
+    const normalizeToSiteDir = filepath => {
+      if (filepath && path.isAbsolute(filepath)) {
+        return path.relative(siteDir, filepath);
+      }
+      return filepath;
+    };
+
     const pluginPaths = _.compact(
       _.flatten(
         plugins.map(
           plugin => plugin.getPathsToWatch && plugin.getPathsToWatch(),
         ),
       ),
-    );
+    ).map(normalizeToSiteDir);
     const fsWatcher = chokidar.watch(
       [...pluginPaths, loadConfig.configFileName],
       {
