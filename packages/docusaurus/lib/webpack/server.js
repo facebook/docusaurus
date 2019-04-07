@@ -7,47 +7,48 @@
 
 const path = require('path');
 const StaticSiteGeneratorPlugin = require('static-site-generator-webpack-plugin');
-const webpackNiceLog = require('webpack-nicelog');
+const WebpackNiceLog = require('webpack-nicelog');
+const merge = require('webpack-merge');
 const createBaseConfig = require('./base');
-const {applyChainWebpack} = require('./utils');
 
 module.exports = function createServerConfig(props) {
+  const {baseUrl, routesPaths} = props;
   const config = createBaseConfig(props, true);
-
-  config.entry('main').add(path.resolve(__dirname, '../core/serverEntry.js'));
-  config.target('node');
-  config.resolve.alias.set('ejs', 'ejs/ejs.min.js').end();
-  config.output.filename('server.bundle.js').libraryTarget('commonjs2');
-
-  // no need to minimize server bundle since we only run server compilation to generate static html files
-  config.optimization.minimize(false);
-
-  // Workaround for Webpack 4 Bug (https://github.com/webpack/webpack/issues/6522)
-  config.output.globalObject('this');
-
-  const {siteConfig, routesPaths} = props;
-
-  // Static site generator webpack plugin.
-  config.plugin('siteGenerator').use(StaticSiteGeneratorPlugin, [
-    {
-      entry: 'main',
-      locals: {
-        baseUrl: siteConfig.baseUrl,
-      },
-      paths: routesPaths,
-    },
-  ]);
-
-  // Show compilation progress bar.
   const isProd = process.env.NODE_ENV === 'production';
-  config
-    .plugin('niceLog')
-    .use(webpackNiceLog, [
-      {name: 'Server', color: 'yellow', skipBuildTime: isProd},
-    ]);
 
-  // User-extended webpack-chain config.
-  applyChainWebpack(props.siteConfig.chainWebpack, config, true);
+  const serverConfig = merge(config, {
+    entry: {
+      main: path.resolve(__dirname, '../core/serverEntry.js'),
+    },
+    output: {
+      filename: 'server.bundle.js',
+      libraryTarget: 'commonjs2',
+      // Workaround for Webpack 4 Bug (https://github.com/webpack/webpack/issues/6522)
+      globalObject: 'this',
+    },
+    target: 'node',
+    resolve: {
+      alias: {
+        ejs: 'ejs/ejs.min.js',
+      },
+    },
+    plugins: [
+      // Static site generator webpack plugin.
+      new StaticSiteGeneratorPlugin({
+        entry: 'main',
+        locals: {
+          baseUrl,
+        },
+        paths: routesPaths,
+      }),
 
-  return config;
+      // Show compilation progress bar.
+      new WebpackNiceLog({
+        name: 'Server',
+        color: 'yellow',
+        skipBuildTime: isProd,
+      }),
+    ],
+  });
+  return serverConfig;
 };

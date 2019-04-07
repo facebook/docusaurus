@@ -70,7 +70,6 @@
     "terser-webpack-plugin": "^1.2.3",
     "webpack": "^4.26.0",
     "webpack-bundle-analyzer": "^3.1.0",
-    "webpack-chain": "^4.9.0",
     "webpack-dev-server": "^3.2.1",
     "webpack-merge": "^4.1.4",
     "webpack-nicelog": "^2.3.1",

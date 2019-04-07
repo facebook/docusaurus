@@ -17,6 +17,7 @@ const {prepareUrls} = require('react-dev-utils/WebpackDevServerUtils');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HotModuleReplacementPlugin = require('webpack/lib/HotModuleReplacementPlugin');
 const WebpackDevServer = require('webpack-dev-server');
+const merge = require('webpack-merge');
 const {normalizeUrl} = require('@docusaurus/utils');
 const load = require('../load');
 const loadConfig = require('../load/config');
@@ -83,24 +84,24 @@ module.exports = async function start(siteDir, cliOptions = {}) {
   const openUrl = normalizeUrl([urls.localUrlForBrowser, baseUrl]);
 
   // Create compiler from generated webpack config.
-  let config = createClientConfig(props);
-
   const {siteConfig, plugins = []} = props;
-  config.plugin('html-webpack-plugin').use(HtmlWebpackPlugin, [
-    {
-      inject: false,
-      hash: true,
-      template: path.resolve(
-        __dirname,
-        '../core/templates/index.html.template.ejs',
-      ),
-      filename: 'index.html',
-      title: siteConfig.title,
-    },
-  ]);
-  // Needed for hot reload.
-  config.plugin('hmr').use(HotModuleReplacementPlugin);
-  config = config.toConfig();
+  let config = merge(createClientConfig(props), {
+    plugins: [
+      // Generates an `index.html` file with the <script> injected.
+      new HtmlWebpackPlugin({
+        inject: false,
+        hash: true,
+        template: path.resolve(
+          __dirname,
+          '../core/templates/index.html.template.ejs',
+        ),
+        filename: 'index.html',
+        title: siteConfig.title,
+      }),
+      // This is necessary to emit hot updates for webpack-dev-server
+      new HotModuleReplacementPlugin(),
+    ],
+  });
 
   // Plugin lifecycle - configureWebpack
   plugins.forEach(plugin => {
