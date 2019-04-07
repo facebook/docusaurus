@@ -230,8 +230,6 @@ class DocusaurusPluginContentDocs {
           {
             test: /(\.mdx?)$/, // TODO: Read only this plugin's markdown files.
             use: [
-              // TODO: (ENDI) this is the goal to achieve reusability like this
-              // loaders.babel(isServer),
               // TODO: Add back cache loader and read babel loader from existing config
               // instead of duplicating it.
               {

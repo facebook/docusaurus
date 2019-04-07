@@ -23,7 +23,7 @@ module.exports = function createClientConfig(props) {
       main: path.resolve(__dirname, '../core/clientEntry.js'),
     },
     resolve: {
-      alias: isProd && {
+      alias: {
         // https://github.com/gaearon/react-hot-loader#react--dom
         'react-dom': '@hot-loader/react-dom',
       },
