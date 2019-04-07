@@ -6,6 +6,7 @@
  */
 
 const webpack = require('webpack');
+const merge = require('webpack-merge');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer');
 const path = require('path');
@@ -48,16 +49,16 @@ module.exports = async function build(siteDir, cliOptions = {}) {
   // Apply user webpack config.
   const {outDir, plugins} = props;
 
-  const clientConfigObj = createClientConfig(props);
-  // Remove/clean build folders before building bundles.
-  clientConfigObj.plugin('clean').use(CleanWebpackPlugin, [{verbose: false}]);
-  // Visualize size of webpack output files with an interactive zoomable treemap.
-  if (cliOptions.bundleAnalyzer) {
-    clientConfigObj.plugin('bundleAnalyzer').use(BundleAnalyzerPlugin);
-  }
+  let clientConfig = merge(createClientConfig(props), {
+    plugins: [
+      // Remove/clean build folders before building bundles.
+      new CleanWebpackPlugin({verbose: false}),
+      // Visualize size of webpack output files with an interactive zoomable treemap.
+      cliOptions.bundleAnalyzer && new BundleAnalyzerPlugin(),
+    ].filter(Boolean),
+  });
 
-  let clientConfig = clientConfigObj.toConfig();
-  let serverConfig = createServerConfig(props).toConfig();
+  let serverConfig = createServerConfig(props);
 
   // Plugin lifecycle - configureWebpack
   plugins.forEach(plugin => {
