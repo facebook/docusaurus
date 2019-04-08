@@ -30,10 +30,7 @@ function BlogPage(props) {
       </Head>
       <div>
         {BlogPosts.map((PostContent, index) => (
-          <Post
-            key={index}
-            truncated={posts[index].truncatedSource}
-            metadata={posts[index]}>
+          <Post key={index} truncated metadata={posts[index]}>
             <PostContent />
           </Post>
         ))}

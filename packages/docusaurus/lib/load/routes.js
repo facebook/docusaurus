@@ -6,6 +6,7 @@
  */
 
 const {generateChunkName} = require('@docusaurus/utils');
+const {stringify} = require('querystring');
 
 async function loadRoutes(pluginsRouteConfigs) {
   const imports = [
@@ -28,6 +29,14 @@ async function loadRoutes(pluginsRouteConfigs) {
   component: NotFound,
 }`;
 
+  function genImportStr(target, prefix, name) {
+    const isObj = typeof target === 'object';
+    const importStr = isObj ? target.path : target;
+    const queryStr = target.query ? `?${stringify(target.query)}` : '';
+    const chunkName = generateChunkName(name || importStr, prefix);
+    return `() => import(/* webpackChunkName: '${chunkName}' */ '${importStr}${queryStr}')`;
+  }
+
   function generateRouteCode(pluginRouteConfig) {
     const {path, component, metadata, modules, routes} = pluginRouteConfig;
     if (routes) {
@@ -35,10 +44,7 @@ async function loadRoutes(pluginsRouteConfigs) {
 {
   path: '${path}',
   component: Loadable({
-    loader: () => import(/* webpackChunkName: '${generateChunkName(
-      component,
-      'component',
-    )}' */'${component}'),
+    loader: ${genImportStr(component, 'component')},
     loading: Loading,
   }),
   routes: [${routes.map(generateRouteCode).join(',')}],
@@ -46,34 +52,26 @@ async function loadRoutes(pluginsRouteConfigs) {
     }
 
     addRoutesPath(path);
+    const genModulesImportStr = `${modules
+      .map((mod, i) => `Mod${i}: ${genImportStr(mod, i, path)},`)
+      .join('\n')}`;
+    const genModulesLoadedStr = `[${modules
+      .map((mod, i) => `loaded.Mod${i}.default,`)
+      .join('\n')}]`;
+
     return `
 {
   path: '${path}',
   exact: true,
   component: Loadable.Map({
     loader: {
-${modules
-  .map(
-    (module, index) =>
-      `      Module${index}: () => import(/* webpackChunkName: '${generateChunkName(
-        path,
-        `module${index}`,
-      )}' */'${module}'),`,
-  )
-  .join('\n')}
-      Component: () => import(/* webpackChunkName: '${generateChunkName(
-        component,
-        'component',
-      )}' */'${component}'),
+      ${genModulesImportStr}
+      Component: ${genImportStr(component, 'component')},
     },
     loading: Loading,
     render(loaded, props) {
       const Component = loaded.Component.default;
-      const modules = [
-${modules
-  .map((module, index) => `        loaded.Module${index}.default,`)
-  .join('\n')}
-      ];
+      const modules = ${genModulesLoadedStr};
       return (
         <Component {...props} metadata={${JSON.stringify(
           metadata,

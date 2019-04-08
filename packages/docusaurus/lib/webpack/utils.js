@@ -9,20 +9,6 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const cacheLoaderVersion = require('cache-loader/package.json').version;
 const merge = require('webpack-merge');
 
-// Modify the generated webpack config with normal webpack config.
-function applyConfigureWebpack(userConfig, config, isServer) {
-  if (typeof userConfig === 'object') {
-    return merge(config, userConfig);
-  }
-  if (typeof userConfig === 'function') {
-    const res = userConfig(config, isServer);
-    if (res && typeof res === 'object') {
-      return merge(config, res);
-    }
-  }
-  return config;
-}
-
 // Utility method to get style loaders
 function getStyleLoaders(isServer, cssOptions) {
   const isProd = process.env.NODE_ENV === 'production';
@@ -71,6 +57,33 @@ function getBabelLoader(isServer, babelOptions) {
       babelOptions,
     ),
   };
+}
+
+/**
+ * Helper function to modify webpack config
+ * @param {Object | Function} configureWebpack a webpack config or a function to modify config
+ * @param {Object} config initial webpack config
+ * @param {Boolean} isServer indicates if this is a server webpack configuration
+ * @returns {Object} final/ modified webpack config
+ */
+function applyConfigureWebpack(configureWebpack, config, isServer) {
+  if (typeof configureWebpack === 'object') {
+    return merge(config, configureWebpack);
+  }
+
+  // Export some utility functions
+  const utils = {
+    getStyleLoaders,
+    getCacheLoader,
+    getBabelLoader,
+  };
+  if (typeof configureWebpack === 'function') {
+    const res = configureWebpack(config, isServer, utils);
+    if (res && typeof res === 'object') {
+      return merge(config, res);
+    }
+  }
+  return config;
 }
 
 module.exports = {
