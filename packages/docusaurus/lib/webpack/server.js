@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+const nodeExternals = require('webpack-node-externals');
 const path = require('path');
 const StaticSiteGeneratorPlugin = require('static-site-generator-webpack-plugin');
 const WebpackNiceLog = require('webpack-nicelog');
@@ -27,11 +28,8 @@ module.exports = function createServerConfig(props) {
       globalObject: 'this',
     },
     target: 'node',
-    resolve: {
-      alias: {
-        ejs: 'ejs/ejs.min.js',
-      },
-    },
+    // No need to bundle its node_modules dependencies since we're bundling for static html generation (backend)
+    externals: [nodeExternals()],
     plugins: [
       // Static site generator webpack plugin.
       new StaticSiteGeneratorPlugin({

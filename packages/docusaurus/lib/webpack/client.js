@@ -7,8 +7,7 @@
 
 const path = require('path');
 const WebpackNiceLog = require('webpack-nicelog');
-const {StatsWriterPlugin} = require('webpack-stats-plugin');
-const {ReactLoadablePlugin} = require('react-loadable/webpack');
+const ReactLoadableSSRAddon = require('react-loadable-ssr-addon');
 const merge = require('webpack-merge');
 
 const createBaseConfig = require('./base');
@@ -16,26 +15,15 @@ const createBaseConfig = require('./base');
 module.exports = function createClientConfig(props) {
   const isProd = process.env.NODE_ENV === 'production';
   const config = createBaseConfig(props);
-  const {generatedFilesDir} = props;
 
   const clientConfig = merge(config, {
     entry: {
       main: path.resolve(__dirname, '../core/clientEntry.js'),
     },
-    resolve: {
-      alias: {
-        // https://github.com/gaearon/react-hot-loader#react--dom
-        'react-dom': '@hot-loader/react-dom',
-      },
-    },
     plugins: [
-      // Write webpack stats object so we can pickup correct client bundle path in server.
-      new StatsWriterPlugin({
-        filename: 'client.stats.json',
-      }),
-      // React-loadable manifests
-      new ReactLoadablePlugin({
-        filename: path.join(generatedFilesDir, 'react-loadable.json'),
+      // Generate manifests file
+      new ReactLoadableSSRAddon({
+        filename: 'assets-manifest.json',
       }),
       // Show compilation progress bar and build time.
       new WebpackNiceLog({
