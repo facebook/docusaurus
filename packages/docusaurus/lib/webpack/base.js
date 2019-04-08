@@ -37,6 +37,8 @@ module.exports = function createBaseConfig(props, isServer) {
     resolve: {
       symlinks: true,
       alias: {
+        // https://github.com/gaearon/react-hot-loader#react--dom
+        'react-dom': isProd ? 'react-dom' : '@hot-loader/react-dom',
         '@theme': themePath,
         '@site': siteDir,
         '@build': outDir,

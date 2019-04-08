@@ -60,6 +60,7 @@
     "react-hot-loader": "^4.8.2",
     "react-listener-provider": "^0.2.0",
     "react-loadable": "^5.5.0",
+    "react-loadable-ssr-addon": "^0.1.6",
     "react-perimeter": "^0.4.0",
     "react-router-config": "^5.0.0",
     "react-router-dom": "^5.0.0",
@@ -68,12 +69,12 @@
     "static-site-generator-webpack-plugin": "^3.4.2",
     "style-loader": "^0.22.1",
     "terser-webpack-plugin": "^1.2.3",
-    "webpack": "^4.26.0",
+    "webpack": "^4.29.6",
     "webpack-bundle-analyzer": "^3.1.0",
     "webpack-dev-server": "^3.2.1",
     "webpack-merge": "^4.1.4",
     "webpack-nicelog": "^2.3.1",
-    "webpack-stats-plugin": "^0.2.1"
+    "webpack-node-externals": "^1.7.2"
   },
   "peerDependencies": {
     "react": "^16.8.4",
