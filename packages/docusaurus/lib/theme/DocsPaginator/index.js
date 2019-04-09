@@ -10,8 +10,6 @@ import Link from '@docusaurus/Link';
 
 import DocusaurusContext from '@docusaurus/context';
 
-import styles from './styles.module.css';
-
 function DocsPaginator() {
   const context = useContext(DocusaurusContext);
   const {docsMetadata, metadata} = context;
@@ -21,34 +19,25 @@ function DocsPaginator() {
   const {docs} = docsMetadata;
 
   return (
-    <div className={styles.paginatorContainer}>
-      <div>
+    <div className="row">
+      <div className="col col-6">
         {metadata.previous && docs[metadata.previous] && (
           <Link
-            className={styles.paginatorLink}
+            className="btn btn-outline btn-lg btn-primary"
             to={docs[metadata.previous].permalink}>
-            <svg className={styles.arrow} viewBox="0 0 24 24">
-              <g>
-                <line x1="19" y1="12" x2="5" y2="12" />
-                <polyline points="12 19 5 12 12 5" />
-              </g>
-            </svg>{' '}
-            <span className={styles.label}>{metadata.previous_title}</span>
+            <i className="fas fa-arrow-left" />
+            &nbsp;&nbsp;
+            {metadata.previous_title}
           </Link>
         )}
       </div>
-      <div className={styles.paginatorRightContainer}>
+      <div className="col col-6 text-right">
         {metadata.next && docs[metadata.next] && (
           <Link
-            className={styles.paginatorLink}
+            className="btn btn-outline btn-lg btn-primary"
             to={docs[metadata.next].permalink}>
-            <span className={styles.label}>{metadata.next_title}</span>{' '}
-            <svg className={styles.arrow} viewBox="0 0 24 24">
-              <g>
-                <line x1="5" y1="12" x2="19" y2="12" />
-                <polyline points="12 5 19 12 12 19" />
-              </g>
-            </svg>
+            {metadata.next_title}&nbsp;&nbsp;
+            <i className="fas fa-arrow-right" />
           </Link>
         )}
       </div>

@@ -5,43 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-input#search_input_react {
-  align-self: center;
-  background-color: #f2f3f5;
-  border: none;
-  border-radius: 20px;
-  color: #000;
-  font-size: 14px;
-  font-weight: 300;
-  line-height: 20px;
-  outline: none;
-  padding-left: 25px;
-  position: relative;
-  -webkit-transition: 0.5s width ease;
-  -moz-transition: 0.5s width ease;
-  -o-transition: 0.5s width ease;
-  transition: 0.5s width ease;
-  width: 170px;
-}
-
-input#search_input_react:focus,
-input#search_input_react:active {
-  color: #fff;
-  width: 220px;
-}
-
-input::-webkit-input-placeholder {
-  color: #fff;
-}
-
-input::-moz-placeholder {
-  color: #fff;
-}
-
-input::placeholder {
-  color: #fff;
-}
-
 /* Bottom border of each suggestion */
 .algolia-docsearch-suggestion {
   border-bottom-color: #3a3dd1;

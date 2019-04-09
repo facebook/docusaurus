@@ -8,8 +8,7 @@
 import React, {useContext} from 'react';
 
 import DocusaurusContext from '@docusaurus/context';
-import SidebarLink from './SidebarLink';
-import SidebarCategory from './SidebarCategory';
+import Link from '@docusaurus/Link';
 
 import styles from './styles.module.css';
 
@@ -45,19 +44,30 @@ function Sidebar() {
     };
   };
 
-  const renderItem = (item, {root} = {}) => {
+  const renderItem = item => {
     switch (item.type) {
       case 'category':
         return (
-          <SidebarCategory
-            {...item}
-            key={item.label}
-            subCategory={!root}
-            renderItem={renderItem}
-          />
+          <li className="menu-list-item" key={item.label}>
+            <a className="menu-link" href="#!">
+              {item.label}
+            </a>
+            <ul className="menu-list">{item.items.map(renderItem)}</ul>
+          </li>
         );
+
       case 'link':
-        return <SidebarLink {...item} key={item.href} />;
+        return (
+          <li className="menu-list-item" key={item.label}>
+            <Link
+              activeClassName="menu-link-active"
+              className="menu-link"
+              to={item.href}>
+              {item.label}
+            </Link>
+          </li>
+        );
+
       case 'ref':
       default:
         return renderItem(convertDocLink(item));
@@ -66,7 +76,11 @@ function Sidebar() {
 
   return (
     <div className={styles.sidebar}>
-      {thisSidebar.map(item => renderItem(item, {root: true}))}
+      <div className="menu">
+        <ul className="menu-list">
+          {thisSidebar.map(item => renderItem(item, {root: true}))}
+        </ul>
+      </div>
     </div>
   );
 }

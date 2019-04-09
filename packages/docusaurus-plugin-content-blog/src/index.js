@@ -8,7 +8,7 @@
 const globby = require('globby');
 const path = require('path');
 const fs = require('fs-extra');
-const {parse, idx, normalizeUrl, generate} = require('@docusaurus/utils');
+const {parse, idx, normalizeUrl} = require('@docusaurus/utils');
 
 // TODO: Use a better slugify function that doesn't rely on a specific file extension.
 function fileToUrl(fileName) {
@@ -29,8 +29,6 @@ const DEFAULT_OPTIONS = {
   blogPageComponent: '@theme/BlogPage',
   blogPostComponent: '@theme/BlogPost',
 };
-
-const TRUNCATE_MARKER = /<!--\s*truncate\s*-->/;
 
 class DocusaurusPluginContentBlog {
   constructor(opts, context) {
@@ -54,7 +52,7 @@ class DocusaurusPluginContentBlog {
   // Fetches blog contents and returns metadata for the contents.
   async loadContent() {
     const {pageCount, include, routeBasePath} = this.options;
-    const {env, generatedFilesDir, siteConfig} = this.context;
+    const {env, siteConfig} = this.context;
     const blogDir = this.contentPath;
 
     const {baseUrl} = siteConfig;
@@ -82,19 +80,7 @@ class DocusaurusPluginContentBlog {
         );
 
         const fileString = await fs.readFile(source, 'utf-8');
-        const {metadata: rawMetadata, content} = parse(fileString);
-
-        let truncatedSource;
-        const isTruncated = TRUNCATE_MARKER.test(content);
-        if (isTruncated) {
-          const pluginContentDir = path.join(generatedFilesDir, this.getName());
-          await generate(
-            pluginContentDir,
-            blogFileName,
-            content.split(TRUNCATE_MARKER)[0],
-          );
-          truncatedSource = path.join(pluginContentDir, blogFileName);
-        }
+        const {metadata: rawMetadata} = parse(fileString);
 
         const metadata = {
           permalink: normalizeUrl([
@@ -103,7 +89,6 @@ class DocusaurusPluginContentBlog {
             fileToUrl(blogFileName),
           ]),
           source,
-          truncatedSource,
           ...rawMetadata,
           date,
           language: defaultLangTag,
@@ -144,9 +129,12 @@ class DocusaurusPluginContentBlog {
           path: permalink,
           component: blogPageComponent,
           metadata: metadataItem,
-          modules: metadataItem.posts.map(
-            post => post.truncatedSource || post.source,
-          ),
+          modules: metadataItem.posts.map(post => ({
+            path: post.source,
+            query: {
+              truncated: true,
+            },
+          })),
         });
         return;
       }
@@ -160,8 +148,26 @@ class DocusaurusPluginContentBlog {
     });
   }
 
-  // TODO: Add configureWebpack plugin to read Markdown. Currently it's using
-  // the docs plugin's markdown loader.
+  configureWebpack(config, isServer, {getBabelLoader, getCacheLoader}) {
+    return {
+      module: {
+        rules: [
+          {
+            test: /(\.mdx?)$/,
+            include: [this.contentPath],
+            use: [
+              getCacheLoader(isServer),
+              getBabelLoader(isServer),
+              '@docusaurus/mdx-loader',
+              {
+                loader: path.resolve(__dirname, './markdownLoader.js'),
+              },
+            ],
+          },
+        ],
+      },
+    };
+  }
 }
 
 module.exports = DocusaurusPluginContentBlog;

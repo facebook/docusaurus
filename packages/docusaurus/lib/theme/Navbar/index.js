@@ -32,14 +32,6 @@ function Navbar(props) {
 
   // function to generate each header link
   const makeLinks = link => {
-    if (link.search && algolia) {
-      // return algolia search bar
-      return (
-        <li className={styles.navListItem} key="search-box">
-          <Search {...props} />
-        </li>
-      );
-    }
     if (link.languages) {
       // TODO in the future for <LanguageDropdown /> like in v1
       return null;
@@ -57,15 +49,16 @@ function Navbar(props) {
         const errorStr = `We could not find the doc with id: ${id}. Please check your headerLinks correctly\n`;
         throw new Error(errorStr);
       }
+
       return (
-        <li key={link.doc} className={styles.navListItem}>
+        <div key={link.doc} className="navbar-item">
           <Link
-            activeClassName={styles.navLinkActive}
-            className={styles.navLink}
+            activeClassName="navbar-link-active"
+            className="navbar-link"
             to={docs[id].permalink}>
             {link.label}
           </Link>
-        </li>
+        </div>
       );
     }
     if (link.page) {
@@ -74,50 +67,50 @@ function Navbar(props) {
         link.page
       }`;
       return (
-        <li key={link.page} className={styles.navListItem}>
+        <div key={link.page} className="navbar-item">
           <Link
-            activeClassName={styles.navLinkActive}
-            className={styles.navLink}
+            activeClassName="navbar-link-active"
+            className="navbar-link"
             to={pageHref}>
             {link.label}
           </Link>
-        </li>
+        </div>
       );
     }
     if (link.href) {
       // set link to specified href
       return (
-        <li key={link.label} className={styles.navListItem}>
-          <Link to={link.href} className={styles.navLink}>
+        <div key={link.label} className="navbar-item">
+          <Link to={link.href} className="navbar-link">
             {link.label}
           </Link>
-        </li>
+        </div>
       );
     }
     if (link.blog) {
       // set link to blog url
       const blogUrl = `${baseUrl}blog`;
       return (
-        <li key="Blog" className={styles.navListItem}>
+        <div key="Blog" className="navbar-item">
           <Link
-            activeClassName={styles.navLinkActive}
-            className={styles.navLink}
+            activeClassName="navbar-link-active"
+            className="navbar-link"
             to={blogUrl}>
             Blog
           </Link>
-        </li>
+        </div>
       );
     }
     return null;
   };
 
   return (
-    <nav className={styles.navbar}>
-      <div className={styles.navbarInner}>
-        <ul className={styles.navList}>
-          <li key="logo" className={styles.navListItem}>
+    <nav className="navbar navbar-fixed-top">
+      <div className="navbar-inner">
+        <div className="navbar-items">
+          <div key="logo" className="navbar-item">
             <Link
-              className={styles.navBrand}
+              className="navbar-link"
               to={baseUrl + (translationEnabled ? thisLanguage : '')}>
               {headerIcon && (
                 <img
@@ -128,21 +121,37 @@ function Navbar(props) {
               )}
               {!disableHeaderTitle && <strong>{title}</strong>}
             </Link>
-          </li>
+          </div>
           {versioningEnabled && (
-            <li key="versions" className={styles.navListItem}>
+            <div key="versions" className="navbar-item">
               <Link
-                className={styles.navVersion}
+                className="navbar-link"
                 to={
                   baseUrl +
                   (translationEnabled ? `${thisLanguage}/versions` : `versions`)
                 }>
                 {thisVersion || defaultVersion}
               </Link>
-            </li>
+            </div>
           )}
           {headerLinks.map(makeLinks)}
-        </ul>
+        </div>
+        <div className="navbar-items navbar-right">
+          {algolia && (
+            <div className="navbar-search" key="search-box">
+              <Search {...props} />
+            </div>
+          )}
+          <div className="navbar-item">
+            <a
+              className="navbar-link"
+              href="https://github.com/facebook/docusaurus"
+              rel="noopener noreferrer"
+              target="_blank">
+              <i className="fab fa-github fa-lg" />
+            </a>
+          </div>
+        </div>
       </div>
     </nav>
   );

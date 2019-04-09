@@ -13,7 +13,7 @@ describe('webpack base config', () => {
   test('simple', async () => {
     console.log = jest.fn();
     const props = await loadSetup('simple');
-    const config = createBaseConfig(props).toConfig();
+    const config = createBaseConfig(props);
     const errors = validate(config);
     expect(errors.length).toBe(0);
   });
@@ -21,7 +21,7 @@ describe('webpack base config', () => {
   test('custom', async () => {
     console.log = jest.fn();
     const props = await loadSetup('custom');
-    const config = createBaseConfig(props).toConfig();
+    const config = createBaseConfig(props);
     const errors = validate(config);
     expect(errors.length).toBe(0);
   });

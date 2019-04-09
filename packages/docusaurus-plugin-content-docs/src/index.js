@@ -220,7 +220,7 @@ class DocusaurusPluginContentDocs {
     });
   }
 
-  configureWebpack(config, isServer) {
+  configureWebpack(config, isServer, {getBabelLoader, getCacheLoader}) {
     const versionedDir = path.join(this.context.siteDir, 'versioned_docs');
     const translatedDir = path.join(this.context.siteDir, 'translated_docs');
 
@@ -228,30 +228,12 @@ class DocusaurusPluginContentDocs {
       module: {
         rules: [
           {
-            test: /(\.mdx?)$/, // TODO: Read only this plugin's markdown files.
+            test: /(\.mdx?)$/,
+            include: [this.contentPath],
             use: [
-              // TODO: Add back cache loader and read babel loader from existing config
-              // instead of duplicating it.
-              {
-                loader: 'babel-loader',
-                options: {
-                  // ignore local project babel config (.babelrc)
-                  babelrc: false,
-                  // ignore local project babel config (babel.config.js)
-                  configFile: false,
-                  presets: ['@babel/env', '@babel/react'],
-                  plugins: [
-                    'react-hot-loader/babel', // To enable react-hot-loader
-                    isServer
-                      ? 'dynamic-import-node'
-                      : '@babel/syntax-dynamic-import',
-                    'react-loadable/babel',
-                  ],
-                },
-              },
-              {
-                loader: '@docusaurus/mdx-loader',
-              },
+              getCacheLoader(isServer),
+              getBabelLoader(isServer),
+              '@docusaurus/mdx-loader',
               {
                 loader: path.resolve(__dirname, './markdown/index.js'),
                 options: {

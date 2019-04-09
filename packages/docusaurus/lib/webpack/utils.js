@@ -5,17 +5,80 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const CSSExtractPlugin = require('mini-css-extract-plugin');
-const path = require('path');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const cacheLoaderVersion = require('cache-loader/package.json').version;
 const merge = require('webpack-merge');
 
-// Modify the generated webpack config with normal webpack config.
-function applyConfigureWebpack(userConfig, config, isServer) {
-  if (typeof userConfig === 'object') {
-    return merge(config, userConfig);
+// Utility method to get style loaders
+function getStyleLoaders(isServer, cssOptions) {
+  const isProd = process.env.NODE_ENV === 'production';
+  const loaders = [
+    !isServer &&
+      isProd && {
+        loader: MiniCssExtractPlugin.loader,
+      },
+    !isServer && !isProd && require.resolve('style-loader'),
+    {
+      loader: isServer
+        ? require.resolve('css-loader/locals')
+        : require.resolve('css-loader'),
+      options: cssOptions,
+    },
+  ].filter(Boolean);
+  return loaders;
+}
+
+function getCacheLoader(isServer, cacheOptions) {
+  return {
+    loader: require.resolve('cache-loader'),
+    options: Object.assign(
+      {
+        cacheIdentifier: `cache-loader:${cacheLoaderVersion}${isServer}`,
+      },
+      cacheOptions,
+    ),
+  };
+}
+
+function getBabelLoader(isServer, babelOptions) {
+  return {
+    loader: require.resolve('babel-loader'),
+    options: Object.assign(
+      {
+        babelrc: false,
+        configFile: false,
+        presets: ['@babel/env', '@babel/react'],
+        plugins: [
+          'react-hot-loader/babel',
+          isServer ? 'dynamic-import-node' : '@babel/syntax-dynamic-import',
+          'react-loadable/babel',
+        ],
+      },
+      babelOptions,
+    ),
+  };
+}
+
+/**
+ * Helper function to modify webpack config
+ * @param {Object | Function} configureWebpack a webpack config or a function to modify config
+ * @param {Object} config initial webpack config
+ * @param {Boolean} isServer indicates if this is a server webpack configuration
+ * @returns {Object} final/ modified webpack config
+ */
+function applyConfigureWebpack(configureWebpack, config, isServer) {
+  if (typeof configureWebpack === 'object') {
+    return merge(config, configureWebpack);
   }
-  if (typeof userConfig === 'function') {
-    const res = userConfig(config, isServer);
+
+  // Export some utility functions
+  const utils = {
+    getStyleLoaders,
+    getCacheLoader,
+    getBabelLoader,
+  };
+  if (typeof configureWebpack === 'function') {
+    const res = configureWebpack(config, isServer, utils);
     if (res && typeof res === 'object') {
       return merge(config, res);
     }
@@ -23,68 +86,9 @@ function applyConfigureWebpack(userConfig, config, isServer) {
   return config;
 }
 
-// Modify the generated webpack config with webpack-chain API.
-function applyChainWebpack(userChainWebpack, config, isServer) {
-  if (userChainWebpack) {
-    userChainWebpack(config, isServer);
-  }
-}
-
-// Utility method to add styling-related rule to Webpack config.
-function applyStyle(styleRule, {cssOptions, isServer, isProd}) {
-  if (!isServer) {
-    if (isProd) {
-      styleRule.use('extract-css-loader').loader(CSSExtractPlugin.loader);
-    } else {
-      styleRule.use('style-loader').loader('style-loader');
-    }
-  }
-
-  styleRule
-    .use('css-loader')
-    .loader(isServer ? 'css-loader/locals' : 'css-loader')
-    .options(cssOptions);
-
-  return styleRule;
-}
-
-function applyCacheLoader(
-  rule,
-  {cacheLoader, siteDir, cacheLoaderVersion, isServer},
-) {
-  if (cacheLoader) {
-    rule
-      .use('cache-loader')
-      .loader('cache-loader')
-      .options({
-        cacheDirectory: path.resolve(siteDir, '.cache-loader'),
-        cacheIdentifier: `cache-loader:${cacheLoaderVersion}${isServer}`,
-      });
-  }
-}
-
-function applyBabel(rule, {isServer}) {
-  rule
-    .use('babel')
-    .loader('babel-loader')
-    .options({
-      // ignore local project babel config (.babelrc)
-      babelrc: false,
-      // ignore local project babel config (babel.config.js)
-      configFile: false,
-      presets: ['@babel/env', '@babel/react'],
-      plugins: [
-        'react-hot-loader/babel', // To enable react-hot-loader
-        isServer ? 'dynamic-import-node' : '@babel/syntax-dynamic-import',
-        'react-loadable/babel',
-      ],
-    });
-}
-
 module.exports = {
-  applyBabel,
-  applyCacheLoader,
+  getBabelLoader,
+  getCacheLoader,
+  getStyleLoaders,
   applyConfigureWebpack,
-  applyChainWebpack,
-  applyStyle,
 };

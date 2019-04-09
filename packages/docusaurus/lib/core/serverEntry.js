@@ -10,11 +10,10 @@ import React from 'react';
 import {StaticRouter} from 'react-router-dom';
 import ReactDOMServer from 'react-dom/server';
 import Helmet from 'react-helmet';
-import {getBundles} from 'react-loadable/webpack';
+import {getBundles} from 'react-loadable-ssr-addon';
 import Loadable from 'react-loadable';
 
-import reactLoadableStats from '@generated/react-loadable.json'; //eslint-disable-line
-import webpackClientStats from '@build/client.stats.json'; //eslint-disable-line
+import manifest from '@build/assets-manifest.json'; //eslint-disable-line
 import routes from '@generated/routes'; // eslint-disable-line
 import preload from './preload';
 import App from './App';
@@ -43,15 +42,11 @@ export default function render(locals) {
     ];
     const metaAttributes = metaStrings.filter(Boolean);
 
-    const bundles = getBundles(reactLoadableStats, modules);
-    const assets = [
-      ...webpackClientStats.assetsByChunkName.main,
-      ...webpackClientStats.assetsByChunkName.common,
-      ...webpackClientStats.assetsByChunkName.vendors,
-      ...bundles.map(bundle => bundle.file),
-    ];
-    const scripts = assets.filter(value => value.match(/\.js$/));
-    const stylesheets = assets.filter(value => value.match(/\.css$/));
+    // Get all required assets for this particular page based on client manifest information
+    const modulesToBeLoaded = [...manifest.entrypoints, ...Array.from(modules)];
+    const bundles = getBundles(manifest, modulesToBeLoaded);
+    const stylesheets = (bundles.css || []).map(b => b.file);
+    const scripts = (bundles.js || []).map(b => b.file);
     const {baseUrl} = locals;
 
     return ejs.render(

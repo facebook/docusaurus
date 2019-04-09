@@ -2,10 +2,12 @@
   "name": "@docusaurus/plugin-content-blog",
   "version": "1.0.0",
   "description": "Blog plugin for Docusaurus",
-  "main": "index.js",
+  "main": "src/index.js",
   "license": "MIT",
   "dependencies": {
     "@docusaurus/utils": "^1.0.0",
+    "front-matter": "^3.0.1",
+    "loader-utils": "^1.2.3",
     "fs-extra": "^7.0.1",
     "globby": "^9.1.0"
   },
