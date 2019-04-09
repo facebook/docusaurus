@@ -430,8 +430,8 @@ module.exports = [
   },
   {
     caption: 'Skip',
-    image: 'https://www.skiplang.com/img/icon.png',
-    infoLink: 'https://skiplang.com',
+    image: '/img/users/skiplang.png',
+    infoLink: 'http://skiplang.com',
     fbOpenSource: true,
     pinned: true,
   },
