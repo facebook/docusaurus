@@ -1970,9 +1970,27 @@ input::placeholder {
   }
 }
 
-/* Inner page navigation */
 .onPageNav {
   display: none;
+  margin-bottom: 40px;
+}
+
+.onPageNav::-webkit-scrollbar {
+  width: 7px;
+}
+
+.onPageNav::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+  border-radius: 10px;
+}
+
+.onPageNav::-webkit-scrollbar-thumb {
+  background: #888; 
+  border-radius: 10px;
+}
+
+.onPageNav::-webkit-scrollbar-thumb:hover {
+  background: #555; 
 }
 
 .onPageNav a {
