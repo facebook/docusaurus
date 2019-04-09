@@ -58,7 +58,7 @@ function Sidebar() {
 
       case 'link':
         return (
-          <li className="menu-list-item">
+          <li className="menu-list-item" key={item.label}>
             <Link
               activeClassName="menu-link-active"
               className="menu-link"

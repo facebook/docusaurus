@@ -33,9 +33,11 @@ function BlogPage(props) {
         <div className="row">
           <div className="col col-6 col-offset-3">
             {BlogPosts.map((PostContent, index) => (
-              <Post key={index} truncated metadata={posts[index]}>
-                <PostContent />
-              </Post>
+              <div className="margin-bottom-xl" key={index}>
+                <Post truncated metadata={posts[index]}>
+                  <PostContent />
+                </Post>
+              </div>
             ))}
           </div>
         </div>

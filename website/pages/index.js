@@ -15,7 +15,7 @@ import styles from './styles.module.css';
 
 const QUOTES = [
   {
-    thumbnail: '/img/christopher-chedeau.jpg',
+    thumbnail: 'img/christopher-chedeau.jpg',
     name: 'Christopher "vjeux" Chedeau',
     title: 'Lead Prettier Developer',
     text: (
@@ -31,7 +31,7 @@ const QUOTES = [
     ),
   },
   {
-    thumbnail: '/img/hector-ramos.png',
+    thumbnail: 'img/hector-ramos.png',
     name: 'Hector Ramos',
     title: 'Lead React Native Advocate',
     text: (
@@ -44,7 +44,7 @@ const QUOTES = [
     ),
   },
   {
-    thumbnail: '/img/ricky-vetter.jpg',
+    thumbnail: 'img/ricky-vetter.jpg',
     name: 'Ricky Vetter',
     title: 'ReasonReact Developer',
     text: (
@@ -115,7 +115,7 @@ function Home() {
             <div className="col col-4">
               <img
                 className={styles.featureImage}
-                src="static/img/undraw_typewriter.svg"
+                src={`${siteConfig.baseUrl}img/undraw_typewriter.svg`}
               />
               <h3>Powered by Markdown</h3>
               <p className="padding-horiz-md">
@@ -127,7 +127,7 @@ function Home() {
             <div className="col col-4">
               <img
                 className={styles.featureImage}
-                src="static/img/undraw_react.svg"
+                src={`${siteConfig.baseUrl}img/undraw_react.svg`}
               />
               <h3>Built Using React</h3>
               <p className="padding-horiz-md">
@@ -139,7 +139,7 @@ function Home() {
             <div className="col col-4">
               <img
                 className={styles.featureImage}
-                src="static/img/undraw_around_the_world.svg"
+                src={`${siteConfig.baseUrl}img/undraw_around_the_world.svg`}
               />
               <h3>Ready for Translations</h3>
               <p className="padding-horiz-md">
@@ -151,10 +151,10 @@ function Home() {
         </div>
         <div className="container text-center">
           <div className="row">
-            <div className="col col-4 col-offset-1">
+            <div className="col col-4 col-offset-2">
               <img
                 className={styles.featureImage}
-                src="static/img/undraw_version_control.svg"
+                src={`${siteConfig.baseUrl}img/undraw_version_control.svg`}
               />
               <h3>Document Versioning</h3>
               <p className="padding-horiz-md">
@@ -163,10 +163,10 @@ function Home() {
                 releases.
               </p>
             </div>
-            <div className="col col-4 col-offset-1">
+            <div className="col col-4">
               <img
                 className={styles.featureImage}
-                src="static/img/undraw_algolia.svg"
+                src={`${siteConfig.baseUrl}img/undraw_algolia.svg`}
               />
               <h3>Document Search</h3>
               <p className="padding-horiz-md">
@@ -191,7 +191,7 @@ function Home() {
                   <img
                     alt={quote.name}
                     className="avatar-profile"
-                    src={quote.thumbnail}
+                    src={`${siteConfig.baseUrl}${quote.thumbnail}`}
                   />
                   <div className="avatar-intro">
                     <h4 className="avatar-name">{quote.name}</h4>

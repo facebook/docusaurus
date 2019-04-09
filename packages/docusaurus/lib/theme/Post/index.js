@@ -7,7 +7,6 @@
 
 import React from 'react';
 import Link from '@docusaurus/Link';
-import classnames from 'classnames'; // eslint-disable-line
 
 function Post(props) {
   const {metadata, children, truncated} = props;
@@ -49,11 +48,11 @@ function Post(props) {
         <h1>
           <Link to={permalink}>{title}</Link>
         </h1>
-        <p>
+        <div className="margin-bottom-sm">
           {month[blogPostDate.getMonth()]} {blogPostDate.getDay()},{' '}
           {blogPostDate.getFullYear()}
-        </p>
-        <div className="avatar">
+        </div>
+        <div className="avatar margin-bottom-md">
           {authorImageURL && (
             <a href={authorURL} target="_blank" rel="noreferrer noopener">
               <img

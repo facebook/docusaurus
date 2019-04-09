@@ -113,7 +113,7 @@ function Navbar(props) {
   };
 
   return (
-    <nav className="navbar navbar-dark navbar-fixed-top">
+    <nav className="navbar navbar-fixed-top">
       <div className="navbar-inner">
         <div className="navbar-items">
           <div key="logo" className="navbar-item">
