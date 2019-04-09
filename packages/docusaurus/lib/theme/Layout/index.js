@@ -24,7 +24,7 @@ function Layout({children}) {
           rel="stylesheet"
         />
         <link
-          href="http://yangshun.im/infima/css/default/default.css"
+          href="https://infima-dev.netlify.com/css/default/default.min.css"
           preload
           rel="stylesheet"
           type="text/css"
