@@ -7,9 +7,6 @@
 
 import React from 'react';
 import Link from '@docusaurus/Link';
-import classnames from 'classnames'; // eslint-disable-line
-
-import styles from './styles.module.css';
 
 function Post(props) {
   const {metadata, children, truncated} = props;
@@ -47,45 +44,48 @@ function Post(props) {
       : metadata.authorImageURL;
 
     return (
-      <header className={styles.postHeader}>
-        <h1 className={styles.postHeaderTitle}>
+      <header>
+        <h1>
           <Link to={permalink}>{title}</Link>
         </h1>
-        <p className={styles.postMeta}>
+        <div className="margin-bottom-sm">
           {month[blogPostDate.getMonth()]} {blogPostDate.getDay()},{' '}
           {blogPostDate.getFullYear()}
-        </p>
-        <div className={styles.authorBlock}>
-          {author ? (
-            <p className={styles.authorName}>
-              <a href={authorURL} target="_blank" rel="noreferrer noopener">
-                {author}
-              </a>
-              {authorTitle}
-            </p>
-          ) : null}
+        </div>
+        <div className="avatar margin-bottom-md">
           {authorImageURL && (
-            <div
-              className={classnames(styles.authorPhoto, {
-                [styles.authorPhotoBig]: author && authorTitle,
-              })}>
-              <a href={authorURL} target="_blank" rel="noreferrer noopener">
-                <img src={authorImageURL} alt={author} />
-              </a>
-            </div>
-          )}{' '}
+            <a href={authorURL} target="_blank" rel="noreferrer noopener">
+              <img
+                className="avatar-profile"
+                src={authorImageURL}
+                alt={author}
+              />
+            </a>
+          )}
+          <div className="avatar-intro">
+            {author && (
+              <>
+                <h4 className="avatar-name">
+                  <a href={authorURL} target="_blank" rel="noreferrer noopener">
+                    {author}
+                  </a>
+                </h4>
+                <small className="avatar-subtitle">{authorTitle}</small>
+              </>
+            )}
+          </div>
         </div>
       </header>
     );
   };
 
   return (
-    <div className={styles.postContainer}>
+    <div>
       {renderPostHeader()}
       {children}
       {truncated && (
-        <div className={styles.readMoreContainer}>
-          <Link className={styles.readMoreLink} to={metadata.permalink}>
+        <div className="text-right">
+          <Link className="btn btn-outline btn-info" to={metadata.permalink}>
             Read More
           </Link>
         </div>

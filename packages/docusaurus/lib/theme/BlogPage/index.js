@@ -7,6 +7,7 @@
 
 import React, {useContext} from 'react';
 import Head from '@docusaurus/Head';
+import Footer from '@theme/Footer'; // eslint-disable-line
 import Layout from '@theme/Layout'; // eslint-disable-line
 import DocusaurusContext from '@docusaurus/context';
 import Post from '../Post';
@@ -28,13 +29,20 @@ function BlogPage(props) {
         {language && <html lang={language} />}
         {language && <meta name="docsearch:language" content={language} />}
       </Head>
-      <div>
-        {BlogPosts.map((PostContent, index) => (
-          <Post key={index} truncated metadata={posts[index]}>
-            <PostContent />
-          </Post>
-        ))}
+      <div className="container margin-vert-xl">
+        <div className="row">
+          <div className="col col-6 col-offset-3">
+            {BlogPosts.map((PostContent, index) => (
+              <div className="margin-bottom-xl" key={index}>
+                <Post truncated metadata={posts[index]}>
+                  <PostContent />
+                </Post>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
+      <Footer />
     </Layout>
   );
 }

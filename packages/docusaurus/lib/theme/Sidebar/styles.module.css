@@ -9,69 +9,11 @@
   border-right: 1px solid #dadde1;
   bottom: 0;
   box-sizing: border-box;
-  padding: 0 8px;
+  padding: 0.25rem;
   left: 0;
   position: fixed;
   overflow-x: hidden;
   overflow-y: auto;
-  top: 60px;
-  width: 300px;
-}
-
-.sidebarItem {
-  line-height: 20px;
-  margin: 0;
-  padding: 8px 12px;
-}
-
-.sidebarSubGroup {
-  margin-left: 0.25em;
-}
-
-.sidebarGroupTitle {
-  font-size: 1em;
-  font-weight: 500;
-}
-
-.sidebarGroupCategoryTitle {
-  margin-top: 0.5em;
-}
-
-.sidebarGroupSubcategorytitle {
-  color: rgb(96, 103, 112);
-  font-size: 0.875em;
-}
-
-.sidebarList {
-  margin: 0;
-  list-style-type: none;
-  padding-left: 0;
-}
-
-.sidebarListItem {
-  margin-top: 0;
-}
-
-.sidebarLink {
-  border-radius: 6px;
-  color: #717171;
-  display: block;
-  font-size: 0.875em;
-  text-decoration: none;
-  transition: background-color 200ms cubic-bezier(0.08, 0.52, 0.52, 1);
-}
-
-.sidebarLink:hover {
-  background-color: #f5f6f7;
-  color: #717171;
-}
-
-.sidebarLinkActive,
-.sidebarLinkActive:hover {
-  background-color: rgb(37, 194, 160, 0.1);
-  color: #25c2a0;
-}
-
-.sidebarSubGroup {
-  padding-left: 8px;
+  top: var(--navbar-height);
+  width: 20rem;
 }
