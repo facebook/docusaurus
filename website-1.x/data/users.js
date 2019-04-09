@@ -38,7 +38,7 @@ module.exports = [
   {
     caption: 'Atalaya',
     image: '/img/users/atalaya.png',
-    infoLink: 'http://atalaya.io/',
+    infoLink: 'https://atalaya.io/',
     fbOpenSource: false,
     pinned: false,
   },
@@ -206,7 +206,7 @@ module.exports = [
   {
     caption: 'MakeItOpen',
     image: '/img/users/makeitopen.png',
-    infoLink: 'http://makeitopen.com/',
+    infoLink: 'https://makeitopen.com/',
     fbOpenSource: true,
     pinned: true,
   },
@@ -263,7 +263,7 @@ module.exports = [
   {
     caption: 'Polymath Network',
     image: 'https://polymath.network/dist/assets/images/logo/logo-top-bar.svg',
-    infoLink: 'http://developers.polymath.network',
+    infoLink: 'https://developers.polymath.network',
     fbOpenSource: false,
     pinned: false,
   },
@@ -347,7 +347,7 @@ module.exports = [
   {
     caption: 'React Redux',
     image: '/img/users/react-redux.svg',
-    infoLink: 'http://react-redux.js.org',
+    infoLink: 'https://react-redux.js.org',
     fbOpenSource: false,
     pinned: true,
   },
@@ -375,7 +375,7 @@ module.exports = [
   {
     caption: 'react-slate',
     image: '/img/users/react-slate.svg',
-    infoLink: 'http://react-slate.surge.sh/',
+    infoLink: 'https://react-slate.surge.sh/',
     fbOpenSource: false,
     pinned: false,
   },
@@ -389,7 +389,7 @@ module.exports = [
   {
     caption: 'Rejoiner',
     image: '/img/users/rejoiner.svg',
-    infoLink: 'http://rejoiner.io/',
+    infoLink: 'https://rejoiner.io/',
     fbOpenSource: false,
     pinned: false,
   },
@@ -430,7 +430,7 @@ module.exports = [
   },
   {
     caption: 'Skip',
-    image: 'http://www.skiplang.com/img/icon.png',
+    image: '/img/users/skiplang.png',
     infoLink: 'http://skiplang.com',
     fbOpenSource: true,
     pinned: true,
@@ -445,7 +445,7 @@ module.exports = [
   {
     caption: 'Spectrum',
     image: '/img/users/spectrum.svg',
-    infoLink: 'http://libspectrum.io',
+    infoLink: 'https://libspectrum.io',
     fbOpenSource: true,
     pinned: true,
   },
@@ -501,7 +501,7 @@ module.exports = [
   {
     caption: 'Verdaccio',
     image: '/img/users/verdaccio-tiny@2x.png',
-    infoLink: 'http://www.verdaccio.org/',
+    infoLink: 'https://www.verdaccio.org/',
     fbOpenSource: false,
     pinned: false,
   },
