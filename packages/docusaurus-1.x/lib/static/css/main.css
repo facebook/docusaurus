@@ -1975,10 +1975,6 @@ input::placeholder {
   display: none;
 }
 
-.onPageNav::-webkit-scrollbar {
-  display: none;
-}
-
 .onPageNav a {
   color: #717171;
 }
