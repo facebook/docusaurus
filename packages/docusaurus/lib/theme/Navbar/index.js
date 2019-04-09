@@ -32,14 +32,6 @@ function Navbar(props) {
 
   // function to generate each header link
   const makeLinks = link => {
-    if (link.search && algolia) {
-      // return algolia search bar
-      return (
-        <div className="navbar-search" key="search-box">
-          <Search {...props} />
-        </div>
-      );
-    }
     if (link.languages) {
       // TODO in the future for <LanguageDropdown /> like in v1
       return null;
@@ -143,6 +135,22 @@ function Navbar(props) {
             </div>
           )}
           {headerLinks.map(makeLinks)}
+        </div>
+        <div className="navbar-items navbar-right">
+          {algolia && (
+            <div className="navbar-search" key="search-box">
+              <Search {...props} />
+            </div>
+          )}
+          <div className="navbar-item">
+            <a
+              className="navbar-link"
+              href="https://github.com/facebook/docusaurus"
+              rel="noopener noreferrer"
+              target="_blank">
+              <i className="fab fa-github fa-lg" />
+            </a>
+          </div>
         </div>
       </div>
     </nav>
