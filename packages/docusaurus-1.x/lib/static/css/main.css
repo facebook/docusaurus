@@ -1970,6 +1970,7 @@ input::placeholder {
   }
 }
 
+/* Inner page navigation */
 .onPageNav {
   display: none;
   margin-bottom: 40px;
