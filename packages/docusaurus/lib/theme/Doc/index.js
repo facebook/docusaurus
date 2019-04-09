@@ -9,6 +9,7 @@ import React, {useContext} from 'react';
 import {renderRoutes} from 'react-router-config';
 import Head from '@docusaurus/Head';
 
+import Layout from '@theme/Layout'; // eslint-disable-line
 import Footer from '@theme/Footer'; // eslint-disable-line
 import Navbar from '@theme/Navbar'; // eslint-disable-line
 import Sidebar from '@theme/Sidebar'; // eslint-disable-line
@@ -24,7 +25,7 @@ function Doc(props) {
   const {baseUrl, favicon} = siteConfig;
 
   return (
-    <div>
+    <Layout>
       <Head>
         <title>{(metadata && metadata.title) || siteConfig.title}</title>
         {favicon && <link rel="shortcut icon" href={baseUrl + favicon} />}
@@ -32,12 +33,11 @@ function Doc(props) {
         {language && <meta name="docsearch:language" content={language} />}
         {version && <meta name="docsearch:version" content={version} />}
       </Head>
-      <Navbar />
       <Sidebar />
       <div className={styles.mainContainer}>
         <div className={styles.docContainer}>{renderRoutes(route.routes)}</div>
       </div>
-    </div>
+    </Layout>
   );
 }
 

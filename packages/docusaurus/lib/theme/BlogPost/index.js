@@ -9,9 +9,9 @@ import React, {useContext} from 'react';
 
 import Head from '@docusaurus/Head';
 import Layout from '@theme/Layout'; // eslint-disable-line
+import Footer from '@theme/Footer'; // eslint-disable-line
 import DocusaurusContext from '@docusaurus/context';
 import Post from '../Post';
-import styles from './styles.module.css';
 
 function BlogPost(props) {
   const {metadata: contextMetadata = {}, siteConfig = {}} = useContext(
@@ -30,12 +30,17 @@ function BlogPost(props) {
         {language && <html lang={language} />}
       </Head>
       {BlogPostContents && (
-        <div className={styles.blogPostContainer}>
-          <Post metadata={metadata}>
-            <BlogPostContents />
-          </Post>
+        <div className="container margin-vert-xl">
+          <div className="row">
+            <div className="col col-6 col-offset-3">
+              <Post metadata={metadata}>
+                <BlogPostContents />
+              </Post>
+            </div>
+          </div>
         </div>
       )}
+      <Footer />
     </Layout>
   );
 }

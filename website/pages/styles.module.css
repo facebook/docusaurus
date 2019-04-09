@@ -15,96 +15,11 @@
 
 .sectionInner {
   margin: 0 auto;
-  max-width: 960px;
 }
 
-.row {
-  display: flex;
-  justify-content: space-between;
-}
-
-.column {
-  flex-grow: 1;
-  flex-shrink: 0;
-  flex-basis: 20%;
-  padding: 0 1em;
-}
-
-.column:first-child {
-  padding-left: 0;
-}
-
-.column:last-child {
-  padding-right: 0;
-}
-
-.featureList {
-  list-style-type: none;
-  padding-left: 0;
-}
-
-.featureListItem {
-  margin: 0.5em 0;
-}
-
-.featureListButton {
-  border-color: transparent;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 1.25em;
-  padding: 0.5em 1.2em;
-  text-decoration: none;
-  transition: background-color 300ms cubic-bezier(0.08, 0.52, 0.52, 1);
-}
-
-.featureListButton:hover {
-  background-color: #f5f6f7;
-}
-
-.featureListButtonSelected,
-.featureListButtonSelected:hover {
-  background-color: #25c2a0;
-  color: #fff;
-}
-
-.featureIconContainer {
-  margin-bottom: 12px;
-  max-width: 96px;
-}
-
-.featureIcon {
-  max-width: 100%;
-}
-
-.featureTitle {
-  font-size: 1.25em;
-  margin-top: 0;
-}
-
-.quotes {
-  text-align: center;
-}
-
-.quoteThumbnail {
-  border-radius: 50%;
-  margin-bottom: 20px;
-  max-width: 96px;
-}
-
-.quoteName {
-  margin-bottom: 0.75em;
-  margin-top: 0;
-}
-
-.quoteTitle {
-  color: #717171;
-  font-size: 1em;
-  font-weight: normal;
-  margin-top: 0;
-}
-
-.quoteText {
-  font-style: italic;
+.featureImage {
+  max-width: 60%;
+  margin: 0 auto;
 }
 
 .announcement {
@@ -113,7 +28,7 @@
   font-weight: bold;
   font-size: 24px;
   padding: 48px;
-  margin: 0 auto -40px;
+  margin: 0 auto;
   text-align: center;
 }
 
