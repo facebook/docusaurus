@@ -254,8 +254,12 @@ class HeaderNav extends React.Component {
         !fs.existsSync(path.resolve('../', readMetadata.getDocsPath()))
       ) {
         throw new Error(
-          `You have 'doc' in your headerLinks, but no '${readMetadata.getDocsPath()}' folder exists one level up from ` +
-            `'website' folder. Did you run \`docusaurus-init\` or \`npm run examples\`? If so, ` +
+          `You have 'doc' in your headerLinks, but no ` +
+            `'${path.resolve(
+              '../',
+              readMetadata.getDocsPath(),
+            )}' folder exists. ` +
+            `Did you run \`docusaurus-init\` or \`npm run examples\`? If so, ` +
             `make sure you rename 'docs-examples-from-docusaurus' to 'docs'.`,
         );
       }

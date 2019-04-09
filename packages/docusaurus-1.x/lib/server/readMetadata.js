@@ -47,10 +47,12 @@ if (fs.existsSync(`${CWD}/sidebars.json`)) {
   allSidebars = {};
 }
 
-// Can have a custom docs path. Top level folder still needs to be in directory
-// at the same level as `website`, not inside `website`.
+// Can have a custom docs path. Path can be a relative path where the top level folder needs to be
+// in directory at the same level as `website`, not inside `website`.
 //   e.g., docs/whereDocsReallyExist
 //         website-docs/
+// Alternatively, path can be an absolute path.
+//   e.g, /home/user/docs
 // All .md docs still (currently) must be in one flat directory hierarchy.
 //   e.g., docs/whereDocsReallyExist/*.md (all .md files in this dir)
 function getDocsPath() {
