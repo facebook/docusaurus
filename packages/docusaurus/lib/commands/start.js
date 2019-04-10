@@ -90,7 +90,7 @@ module.exports = async function start(siteDir, cliOptions = {}) {
         hash: true,
         template: path.resolve(
           __dirname,
-          '../core/templates/index.html.template.ejs',
+          '../client/templates/index.html.template.ejs',
         ),
         filename: 'index.html',
         title: siteConfig.title,

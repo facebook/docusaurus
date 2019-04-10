@@ -25,7 +25,7 @@ module.exports = async function load(siteDir, cliOptions = {}) {
   );
 
   // Site Config
-  const siteConfig = loadConfig.loadConfig(siteDir);
+  const siteConfig = loadConfig(siteDir);
   await generate(
     generatedFilesDir,
     constants.CONFIG_FILE_NAME,
@@ -67,7 +67,7 @@ module.exports = async function load(siteDir, cliOptions = {}) {
   // Generate contents metadata.
   const metadataTemplateFile = path.resolve(
     __dirname,
-    '../core/templates/metadata.template.ejs',
+    '../../client/templates/metadata.template.ejs',
   );
   const metadataTemplate = fs.readFileSync(metadataTemplateFile).toString();
   const pluginMetadataImports = _.compact(pluginsLoadedContent).map(
