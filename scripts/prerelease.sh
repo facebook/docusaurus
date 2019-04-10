@@ -7,7 +7,7 @@
 # LICENSE file in the root directory of this source tree.
 #
 
-DOCS_VERSION_COMMAND="run version"
+DOCS_VERSION_COMMAND="run docusaurus-version"
 
 echo "Select an option for release："
 echo
