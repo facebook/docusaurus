@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/utils",
-  "version": "2.0.0-alpha.3",
+  "version": "2.0.0-alpha.4",
   "description": "A set of utility functions for Docusaurus packages",
   "main": "src/index.js",
   "publishConfig": {
