@@ -11,7 +11,7 @@ import {NavLink} from 'react-router-dom';
 
 import DocusaurusContext from '@docusaurus/context';
 
-import preload from '../core/preload';
+import preload from '../preload';
 
 const externalRegex = /^(https?:|\/\/)/;
 

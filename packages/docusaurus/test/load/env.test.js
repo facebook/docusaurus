@@ -6,7 +6,7 @@
  */
 
 import path from 'path';
-import loadEnv from '@lib/load/env';
+import loadEnv from '@lib/server/load/env';
 import loadSetup from '../loadSetup';
 
 describe('loadEnv', () => {

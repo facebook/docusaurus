@@ -8,8 +8,7 @@
 const fs = require('fs-extra');
 const _ = require('lodash');
 const path = require('path');
-
-const CONFIG_FILE_NAME = 'docusaurus.config.js';
+const {CONFIG_FILE_NAME} = require('../../constants');
 
 const REQUIRED_FIELDS = [
   'baseUrl',
@@ -115,7 +114,4 @@ function loadConfig(siteDir, deleteCache = true) {
   return config;
 }
 
-module.exports = {
-  configFileName: CONFIG_FILE_NAME,
-  loadConfig,
-};
+module.exports = loadConfig;

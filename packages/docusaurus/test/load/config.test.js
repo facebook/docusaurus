@@ -6,7 +6,7 @@
  */
 
 import path from 'path';
-import {loadConfig} from '@lib/load/config';
+import loadConfig from '@lib/server/load/config';
 import loadSetup from '../loadSetup';
 
 describe('loadConfig', () => {

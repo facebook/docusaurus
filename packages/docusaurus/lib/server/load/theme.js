@@ -12,7 +12,7 @@ module.exports = function loadConfig(siteDir) {
   const customThemePath = path.resolve(siteDir, 'theme');
   const themePath = fs.existsSync(customThemePath)
     ? customThemePath
-    : path.resolve(__dirname, '../theme');
+    : path.resolve(__dirname, '../../default-theme');
 
   const themeComponents = [
     'Doc',

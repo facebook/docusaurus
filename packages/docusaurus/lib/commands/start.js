@@ -19,8 +19,8 @@ const HotModuleReplacementPlugin = require('webpack/lib/HotModuleReplacementPlug
 const WebpackDevServer = require('webpack-dev-server');
 const merge = require('webpack-merge');
 const {normalizeUrl} = require('@docusaurus/utils');
-const load = require('../load');
-const loadConfig = require('../load/config');
+const load = require('../server/load');
+const {CONFIG_FILE_NAME} = require('../constants');
 const createClientConfig = require('../webpack/client');
 const {applyConfigureWebpack} = require('../webpack/utils');
 
@@ -64,13 +64,10 @@ module.exports = async function start(siteDir, cliOptions = {}) {
         ),
       ),
     ).map(normalizeToSiteDir);
-    const fsWatcher = chokidar.watch(
-      [...pluginPaths, loadConfig.configFileName],
-      {
-        cwd: siteDir,
-        ignoreInitial: true,
-      },
-    );
+    const fsWatcher = chokidar.watch([...pluginPaths, CONFIG_FILE_NAME], {
+      cwd: siteDir,
+      ignoreInitial: true,
+    });
     ['add', 'change', 'unlink', 'addDir', 'unlinkDir'].forEach(event =>
       fsWatcher.on(event, reload),
     );
@@ -93,7 +90,7 @@ module.exports = async function start(siteDir, cliOptions = {}) {
         hash: true,
         template: path.resolve(
           __dirname,
-          '../core/templates/index.html.template.ejs',
+          '../client/templates/index.html.template.ejs',
         ),
         filename: 'index.html',
         title: siteConfig.title,

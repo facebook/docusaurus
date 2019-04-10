@@ -19,7 +19,7 @@ module.exports = function createServerConfig(props) {
 
   const serverConfig = merge(config, {
     entry: {
-      main: path.resolve(__dirname, '../core/serverEntry.js'),
+      main: path.resolve(__dirname, '../client/serverEntry.js'),
     },
     output: {
       filename: 'server.bundle.js',
