@@ -55,7 +55,7 @@
     "mini-css-extract-plugin": "^0.4.1",
     "portfinder": "^1.0.13",
     "react-dev-utils": "^8.0.0",
-    "react-helmet": "^5.2.0",
+    "react-helmet": "^6.0.0-beta",
     "react-hot-loader": "^4.8.2",
     "react-listener-provider": "^0.2.0",
     "react-loadable": "^5.5.0",
