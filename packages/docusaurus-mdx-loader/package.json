@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Docusaurus Loader for MDX",
   "main": "src/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
   "license": "MIT",
   "dependencies": {
     "@mapbox/rehype-prism": "^0.3.1",

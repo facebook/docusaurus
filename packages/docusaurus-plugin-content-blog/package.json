@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Blog plugin for Docusaurus",
   "main": "src/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
   "license": "MIT",
   "dependencies": {
     "@docusaurus/utils": "^1.0.0",

@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "A set of utility functions for Docusaurus packages",
   "main": "src/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
   "license": "MIT",
   "dependencies": {
     "escape-string-regexp": "^1.0.5",

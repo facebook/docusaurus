@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Documentation plugin for Docusaurus",
   "main": "src/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
   "license": "MIT",
   "dependencies": {
     "@babel/polyfill": "^7.4.0",

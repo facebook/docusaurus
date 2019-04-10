@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Simple sitemap generation plugin for Docusaurus",
   "main": "src/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
   "license": "MIT",
   "dependencies": {
     "sitemap": "^2.1.0"
