@@ -86,8 +86,6 @@ module.exports = async function start(siteDir, cliOptions = {}) {
     plugins: [
       // Generates an `index.html` file with the <script> injected.
       new HtmlWebpackPlugin({
-        inject: false,
-        hash: true,
         template: path.resolve(
           __dirname,
           '../client/templates/index.html.template.ejs',
