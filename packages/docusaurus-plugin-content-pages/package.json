@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/plugin-content-pages",
-  "version": "2.0.0-alpha.4",
+  "version": "2.0.0-alpha.5",
   "description": "Pages content plugin for Docusaurus",
   "main": "src/index.js",
   "publishConfig": {
@@ -8,7 +8,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/utils": "^2.0.0-alpha.4",
+    "@docusaurus/utils": "^2.0.0-alpha.5",
     "globby": "^9.1.0"
   },
   "peerDependencies": {
