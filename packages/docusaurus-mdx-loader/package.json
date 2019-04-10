@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/mdx-loader",
-  "version": "2.0.0-alpha.1",
+  "version": "2.0.0-alpha.2",
   "description": "Docusaurus Loader for MDX",
   "main": "src/index.js",
   "publishConfig": {
