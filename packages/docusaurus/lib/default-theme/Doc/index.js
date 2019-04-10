@@ -19,19 +19,14 @@ import DocusaurusContext from '@docusaurus/context';
 import styles from './styles.module.css';
 
 function Doc(props) {
-  const {metadata = {}, siteConfig = {}} = useContext(DocusaurusContext);
+  const {siteConfig = {}} = useContext(DocusaurusContext);
   const {route} = props;
-  const {language, version} = metadata;
   const {baseUrl, favicon} = siteConfig;
-
   return (
     <Layout>
       <Head>
-        <title>{(metadata && metadata.title) || siteConfig.title}</title>
+        <title>{siteConfig.title}</title>
         {favicon && <link rel="shortcut icon" href={baseUrl + favicon} />}
-        {language && <html lang={language} />}
-        {language && <meta name="docsearch:language" content={language} />}
-        {version && <meta name="docsearch:version" content={version} />}
       </Head>
       <Sidebar />
       <div className={styles.mainContainer}>
