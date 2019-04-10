@@ -7,7 +7,7 @@
 
 const fs = require('fs-extra');
 const path = require('path');
-const {generate} = require('@docusaurus/utils');
+const {generate, posixPath} = require('@docusaurus/utils');
 
 module.exports = async function loadPlugins({pluginConfigs = [], context}) {
   // 1. Plugin Lifecycle - Initialization/Constructor
@@ -48,7 +48,10 @@ module.exports = async function loadPlugins({pluginConfigs = [], context}) {
         metadataFileName,
         JSON.stringify(content, null, 2),
       );
-      const contentPath = path.join('@generated', pluginContentPath);
+      // Note that we need to convert it into POSIX format because
+      // import XXXXX from '@generated\this-is\my\path' is incorrect
+      // import XXXXX from '@generated/this-is/my/path' is correct
+      const contentPath = posixPath(path.join('@generated', pluginContentPath));
 
       return {
         metadataKey,
