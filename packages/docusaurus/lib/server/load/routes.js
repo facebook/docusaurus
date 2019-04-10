@@ -34,7 +34,8 @@ async function loadRoutes(pluginsRouteConfigs) {
     const importStr = isObj ? target.path : target;
     const queryStr = target.query ? `?${stringify(target.query)}` : '';
     const chunkName = generateChunkName(name || importStr, prefix);
-    return `() => import(/* webpackChunkName: '${chunkName}' */ '${importStr}${queryStr}')`;
+    const finalStr = JSON.stringify(importStr + queryStr);
+    return `() => import(/* webpackChunkName: '${chunkName}' */ ${finalStr})`;
   }
 
   function generateRouteCode(pluginRouteConfig) {

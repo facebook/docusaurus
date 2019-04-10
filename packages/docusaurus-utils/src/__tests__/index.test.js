@@ -13,9 +13,23 @@ import {
   idx,
   getSubFolder,
   normalizeUrl,
+  posixPath,
 } from '../index';
 
 describe('load utils', () => {
+  test('posixPath', () => {
+    const asserts = {
+      'c:/aaaa\\bbbb': 'c:/aaaa/bbbb',
+      'c:\\aaaa\\bbbb\\★': 'c:\\aaaa\\bbbb\\★',
+      '\\\\?\\c:\\aaaa\\bbbb': '\\\\?\\c:\\aaaa\\bbbb',
+      'c:\\aaaa\\bbbb': 'c:/aaaa/bbbb',
+      'foo\\bar': 'foo/bar',
+    };
+    Object.keys(asserts).forEach(file => {
+      expect(posixPath(file)).toBe(asserts[file]);
+    });
+  });
+
   test('fileToComponentName', () => {
     const asserts = {
       'index.md': 'MDIndex',

@@ -49,6 +49,21 @@ function fileToComponentName(file) {
   return ext ? ext.toUpperCase() + str : str;
 }
 
+/**
+ * Convert Windows backslash paths to posix style paths. E.g: endi\\lie -> endi/lie
+ * @param {string} str windows backslash paths
+ * @returns {string} posix-style path
+ */
+function posixPath(str) {
+  const isExtendedLengthPath = /^\\\\\?\\/.test(str);
+  const hasNonAscii = /[^\u0000-\u0080]+/.test(str); // eslint-disable-line
+
+  if (isExtendedLengthPath || hasNonAscii) {
+    return str;
+  }
+  return str.replace(/\\/g, '/');
+}
+
 function generateChunkName(str, prefix) {
   const name = str === '/' ? 'index' : kebabHash(str);
   return prefix ? `${prefix}---${name}` : name;
@@ -153,4 +168,5 @@ module.exports = {
   idx,
   normalizeUrl,
   parse,
+  posixPath,
 };
