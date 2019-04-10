@@ -99,7 +99,15 @@ module.exports = function createBaseConfig(props, isServer) {
       rules: [
         {
           test: /\.jsx?$/,
-          exclude: /node_modules/,
+          exclude(modulePath) {
+            // always transpile our own library
+            if (modulePath.startsWith(path.join(__dirname, '..'))) {
+              return false;
+            }
+
+            // Don't transpile node_modules
+            return /node_modules/.test(modulePath);
+          },
           use: [
             cacheLoader && getCacheLoader(isServer),
             getBabelLoader(isServer),
