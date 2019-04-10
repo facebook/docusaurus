@@ -86,14 +86,12 @@ module.exports = async function start(siteDir, cliOptions = {}) {
     plugins: [
       // Generates an `index.html` file with the <script> injected.
       new HtmlWebpackPlugin({
-        inject: false,
-        hash: true,
         template: path.resolve(
           __dirname,
           '../client/templates/index.html.template.ejs',
         ),
         filename: 'index.html',
-        title: siteConfig.title,
+        title: siteConfig.title || 'Docusaurus App',
       }),
       // This is necessary to emit hot updates for webpack-dev-server
       new HotModuleReplacementPlugin(),

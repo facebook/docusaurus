@@ -20,6 +20,11 @@ module.exports = function createClientConfig(props) {
     entry: {
       main: path.resolve(__dirname, '../client/clientEntry.js'),
     },
+    optimization: {
+      // Keep the runtime chunk separated to enable long term caching
+      // https://twitter.com/wSokra/status/969679223278505985
+      runtimeChunk: true,
+    },
     plugins: [
       // Generate manifests file
       new ReactLoadableSSRAddon({
