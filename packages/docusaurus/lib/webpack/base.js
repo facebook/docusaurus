@@ -43,8 +43,7 @@ module.exports = function createBaseConfig(props, isServer) {
         '@site': siteDir,
         '@build': outDir,
         '@generated': generatedFilesDir,
-        '@core': path.resolve(__dirname, '../core'),
-        '@docusaurus': path.resolve(__dirname, '../docusaurus'),
+        '@docusaurus': path.resolve(__dirname, '../client/exports'),
       },
       modules: [
         'node_modules',

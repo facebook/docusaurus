@@ -9,7 +9,8 @@ const path = require('path');
 const shell = require('shelljs');
 const fs = require('fs-extra');
 const build = require('./build');
-const loadConfig = require('../load/config');
+const loadConfig = require('../server/load/config');
+const {CONFIG_FILE_NAME} = require('../constants');
 
 module.exports = async function deploy(siteDir) {
   console.log('Deploy command invoked ...');
@@ -27,16 +28,14 @@ module.exports = async function deploy(siteDir) {
     process.env.CURRENT_BRANCH ||
     shell.exec('git rev-parse --abbrev-ref HEAD').stdout.trim();
 
-  const siteConfig = loadConfig.loadConfig(siteDir);
+  const siteConfig = loadConfig(siteDir);
   const organizationName =
     process.env.ORGANIZATION_NAME ||
     process.env.CIRCLE_PROJECT_USERNAME ||
     siteConfig.organizationName;
   if (!organizationName) {
     throw new Error(
-      `Missing project organization name. Did you forget to define 'organizationName' in ${
-        loadConfig.configFileName
-      }? You may also export it via the organizationName environment variable.`,
+      `Missing project organization name. Did you forget to define 'organizationName' in ${CONFIG_FILE_NAME}? You may also export it via the organizationName environment variable.`,
     );
   }
   const projectName =
@@ -45,9 +44,7 @@ module.exports = async function deploy(siteDir) {
     siteConfig.projectName;
   if (!projectName) {
     throw new Error(
-      `Missing project name. Did you forget to define 'projectName' in ${
-        loadConfig.configFileName
-      }? You may also export it via the projectName environment variable.`,
+      `Missing project name. Did you forget to define 'projectName' in ${CONFIG_FILE_NAME}? You may also export it via the projectName environment variable.`,
     );
   }
 

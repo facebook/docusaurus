@@ -7,4 +7,5 @@
 
 module.exports = {
   GENERATED_FILES_DIR_NAME: '.docusaurus',
+  CONFIG_FILE_NAME: 'docusaurus.config.js',
 };

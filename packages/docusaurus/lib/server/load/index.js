@@ -16,7 +16,7 @@ const loadEnv = require('./env');
 const loadTheme = require('./theme');
 const loadRoutes = require('./routes');
 const loadPlugins = require('./plugins');
-const constants = require('../constants');
+const constants = require('../../constants');
 
 module.exports = async function load(siteDir, cliOptions = {}) {
   const generatedFilesDir = path.resolve(
@@ -28,7 +28,7 @@ module.exports = async function load(siteDir, cliOptions = {}) {
   const siteConfig = loadConfig.loadConfig(siteDir);
   await generate(
     generatedFilesDir,
-    loadConfig.configFileName,
+    constants.CONFIG_FILE_NAME,
     `export default ${JSON.stringify(siteConfig, null, 2)};`,
   );
 

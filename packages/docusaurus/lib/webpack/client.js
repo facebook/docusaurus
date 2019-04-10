@@ -18,7 +18,7 @@ module.exports = function createClientConfig(props) {
 
   const clientConfig = merge(config, {
     entry: {
-      main: path.resolve(__dirname, '../core/clientEntry.js'),
+      main: path.resolve(__dirname, '../client/clientEntry.js'),
     },
     plugins: [
       // Generate manifests file
