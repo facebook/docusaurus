@@ -91,7 +91,7 @@ module.exports = async function start(siteDir, cliOptions = {}) {
           '../client/templates/index.html.template.ejs',
         ),
         filename: 'index.html',
-        title: siteConfig.title || 'Docusaurus App',
+        title: siteConfig.title,
       }),
       // This is necessary to emit hot updates for webpack-dev-server
       new HotModuleReplacementPlugin(),
