@@ -1,6 +1,6 @@
 {
   "name": "docusaurus-2-website",
-  "version": "0.0.0",
+  "version": "2.0.0-alpha.0",
   "private": true,
   "scripts": {
     "start": "docusaurus start",
@@ -9,9 +9,9 @@
     "deploy": "docusaurus deploy"
   },
   "dependencies": {
-    "@docusaurus/core": "^2.0.0",
-    "@docusaurus/plugin-content-blog": "^1.0.0",
-    "@docusaurus/plugin-content-pages": "^1.0.0",
+    "@docusaurus/core": "^2.0.0-alpha.0",
+    "@docusaurus/plugin-content-blog": "^2.0.0-alpha.0",
+    "@docusaurus/plugin-content-pages": "^2.0.0-alpha.0",
     "classnames": "^2.2.6",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
