@@ -251,12 +251,13 @@ class HeaderNav extends React.Component {
     headerLinks.forEach(link => {
       if (
         link.doc &&
-        !fs.existsSync(path.resolve('../', readMetadata.getDocsPath()))
+        !fs.existsSync(path.resolve(CWD, '..', readMetadata.getDocsPath()))
       ) {
         throw new Error(
           `You have 'doc' in your headerLinks, but no ` +
             `'${path.resolve(
-              '../',
+              CWD,
+              '..',
               readMetadata.getDocsPath(),
             )}' folder exists. ` +
             `Did you run \`docusaurus-init\` or \`npm run examples\`? If so, ` +

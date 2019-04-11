@@ -37,7 +37,7 @@ function getFilePath(metadata) {
   } else if (env.translation.enabled && metadata.language !== 'en') {
     file = join(CWD, 'translated_docs', metadata.language, metadata.source);
   } else {
-    file = path.resolve('../', readMetadata.getDocsPath(), metadata.source);
+    file = path.resolve(CWD, '..', readMetadata.getDocsPath(), metadata.source);
   }
   return file;
 }
