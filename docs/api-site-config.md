@@ -112,7 +112,7 @@ The CNAME for your website. It will go into a `CNAME` file when your site is bui
 
 #### `customDocsPath` [string]
 
-By default, Docusaurus expects your documentation to be in a directory called `docs`. This directory is at the same level as the `website` directory (i.e., not inside the `website` directory). You can specify a custom path to your documentation with this field.
+By default, Docusaurus expects your documentation to be in a directory called `docs`. This directory is at the same level as the `website` directory (i.e., not inside the `website` directory). You can specify a custom path to your documentation with this field. The custom path can be a relative path with the top level directory at the same level as the `website` directory, or it can be an absolute path. 
 
 ```js
 customDocsPath: 'docs/site';
@@ -120,6 +120,10 @@ customDocsPath: 'docs/site';
 
 ```js
 customDocsPath: 'website-docs';
+```
+
+```js
+customDocsPath: '/home/user/docs';
 ```
 
 #### `defaultVersionShown` [string]
