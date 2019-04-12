@@ -261,7 +261,7 @@ If you want a visible navigation option for representing topics on the current p
 
 Array of JavaScript sources to load. The values can be either strings or plain objects of attribute-value maps. Refer to the example below. The script tag will be inserted in the HTML head.
 
-#### `separateCss` [string]
+#### `separateCSS` [array]
 
 Directories inside which any `css` files will not be processed and concatenated to Docusaurus' styles. This is to support static `html` pages that may be separate from Docusaurus with completely separate styles.
 
