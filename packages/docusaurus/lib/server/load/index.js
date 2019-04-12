@@ -64,8 +64,6 @@ module.exports = async function load(siteDir, cliOptions = {}) {
     routesHashPathFileName,
     routesMetadata,
     routesMetadataFileName,
-    routesComponentStr,
-    routesComponentFileName,
     routesAsyncModules,
     routesAsyncModulesFileName,
   } = await loadRoutes(pluginsRouteConfigs);
@@ -90,9 +88,6 @@ module.exports = async function load(siteDir, cliOptions = {}) {
         JSON.stringify(metadata, null, 2),
       );
 
-      const componentStr = routesComponentStr[routesPath];
-      await generate(targetDir, routesComponentFileName, componentStr);
-
       const asyncModules = routesAsyncModules[routesPath] || [];
       await generate(
         targetDir,
@@ -105,6 +100,8 @@ module.exports = async function load(siteDir, cliOptions = {}) {
   await generate(generatedFilesDir, 'routes.js', routesConfig);
 
   // -------------------------- TBD (Experimental) ----------------------
+  // TODO: we always assume that plugin loaded content always wanted to be imported globally
+  // TODO: contentStore API
   // Generate contents metadata.
   const metadataTemplateFile = path.resolve(
     __dirname,

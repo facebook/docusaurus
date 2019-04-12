@@ -6,22 +6,16 @@
  */
 
 const path = require('path');
-const {genChunkName, genComponentName, docuHash} = require('@docusaurus/utils');
+const {genChunkName, docuHash} = require('@docusaurus/utils');
 const {stringify} = require('querystring');
 
 async function loadRoutes(pluginsRouteConfigs) {
-  const componentImports = [
+  const routesImports = [
     `import React from 'react';`,
     `import Loadable from 'react-loadable';`,
     `import Loading from '@theme/Loading';`,
-  ];
-  const routesImports = [
-    `import React from 'react';`,
     `import NotFound from '@theme/NotFound';`,
   ];
-  const addRoutesImport = importStr => {
-    routesImports.push(importStr);
-  };
   // Routes paths. Example: ['/', '/docs', '/blog/2017/09/03/test']
   const routesPaths = [];
   const addRoutesPath = routePath => {
@@ -50,12 +44,6 @@ async function loadRoutes(pluginsRouteConfigs) {
     routesAsyncModules[routePath].push(module);
   };
   const routesAsyncModulesFileName = 'asyncModules.json';
-  // Mapping of routePath -> generated component code. Example: '/blog' -> `export default () => .....`;
-  const routesComponentStr = {};
-  const addRoutesComponentStr = (routePath, componentStr) => {
-    routesComponentStr[routePath] = componentStr;
-  };
-  const routesComponentFileName = 'component.js';
 
   // This is the higher level overview of route code generation
   function generateRouteCode(routeConfig) {
@@ -72,6 +60,7 @@ async function loadRoutes(pluginsRouteConfigs) {
     const hashPath = routesHashPath[routePath];
     addRoutesMetadata(routePath, metadata);
 
+    // Given an input (object or string), get the import path str
     const getModulePath = target => {
       const isObj = typeof target === 'object';
       const importStr = isObj ? target.path : target;
@@ -91,24 +80,15 @@ async function loadRoutes(pluginsRouteConfigs) {
       return `() => import(/* webpackChunkName: '${chunkName}' */ ${finalStr})`;
     };
 
-    const componentName = genComponentName(routePath);
-    const importStr = `import ${componentName} from '${hashPath}/${routesComponentFileName}'`;
-    addRoutesImport(importStr);
-
     if (routes) {
-      const componentStr = `
-${componentImports.join('\n')}
-export default Loadable({
-  loader: ${genImportStr(componentPath, 'component')},
-  loading: Loading,
-});
-`;
-      addRoutesComponentStr(routePath, componentStr);
-
+      const componentStr = `Loadable({
+    loader: ${genImportStr(componentPath, 'component')},
+    loading: Loading
+  })`;
       return `
 {
   path: '${routePath}',
-  component: ${componentName},
+  component: ${componentStr},
   routes: [${routes.map(generateRouteCode).join(',')}],
 }`;
     }
@@ -135,9 +115,7 @@ export default Loadable({
       )},`;
     }
 
-    const componentStr = `
-${componentImports.join('\n')}
-export default Loadable.Map({
+    const componentStr = `Loadable.Map({
   loader: {
     ${modulesImportStr}
     ${metadataImportStr}
@@ -152,15 +130,14 @@ export default Loadable.Map({
       <Component {...props} metadata={metadata} modules={modules}/>
     );
   }
-});\n`;
-    addRoutesComponentStr(routePath, componentStr);
+})\n`;
 
     return `
-    {
-      path: '${routePath}',
-      exact: true,
-      component: ${componentName}
-    }`;
+{
+  path: '${routePath}',
+  exact: true,
+  component: ${componentStr}
+}`;
   }
 
   const routes = pluginsRouteConfigs.map(generateRouteCode);
@@ -185,8 +162,6 @@ export default [
     routesHashPathFileName,
     routesMetadata,
     routesMetadataFileName,
-    routesComponentStr,
-    routesComponentFileName,
     routesAsyncModules,
     routesAsyncModulesFileName,
   };
