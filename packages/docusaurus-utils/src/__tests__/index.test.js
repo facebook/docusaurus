@@ -8,7 +8,8 @@
 import path from 'path';
 import {
   fileToPath,
-  fileToComponentName,
+  docuHash,
+  genComponentName,
   genChunkName,
   idx,
   getSubFolder,
@@ -30,21 +31,34 @@ describe('load utils', () => {
     });
   });
 
-  test('fileToComponentName', () => {
+  test('genComponentName', () => {
     const asserts = {
-      'index.md': 'MDIndex',
-      'hello/index.md': 'MDHelloIndex',
-      'foo.md': 'MDFoo',
-      'foo-bar.md': 'MDFooBar',
-      'index.js': 'JSIndex',
-      'foobar.js': 'JSFoobar',
-      'docusaurus/index.js': 'JSDocusaurusIndex',
-      '234.md': 'MD234',
-      '2018-07-08-test.md': 'MD20180708Test',
-      '%asd.md': 'MDAsd',
+      '/': 'Index',
+      '/foo-bar': 'FooBar096',
+      '/foo/bar': 'FooBar1Df',
+      '/blog/2017/12/14/introducing-docusaurus':
+        'Blog20171214IntroducingDocusaurus8D2',
+      '/blog/2017/12/14-introducing-docusaurus':
+        'Blog20171214IntroducingDocusaurus0Bc',
+      '/blog/201712/14-introducing-docusaurus':
+        'Blog20171214IntroducingDocusaurusA93',
     };
     Object.keys(asserts).forEach(file => {
-      expect(fileToComponentName(file)).toBe(asserts[file]);
+      expect(genComponentName(file)).toBe(asserts[file]);
+    });
+  });
+
+  test('docuHash', () => {
+    const asserts = {
+      '/foo-bar': 'foo-bar-096',
+      '/foo/bar': 'foo-bar-1df',
+      '/endi/lie': 'endi-lie-9fa',
+      '/endi-lie': 'endi-lie-fd3',
+      '/yangshun/tay': 'yangshun-tay-48d',
+      '/yangshun-tay': 'yangshun-tay-f3b',
+    };
+    Object.keys(asserts).forEach(file => {
+      expect(docuHash(file)).toBe(asserts[file]);
     });
   });
 
