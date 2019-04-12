@@ -42,8 +42,7 @@ module.exports = async function start(siteDir, cliOptions = {}) {
 
   // Reload files processing.
   if (!cliOptions.noWatch) {
-    const reload = filepath => {
-      console.log(`${filepath} has changed`);
+    const reload = () => {
       load(siteDir).catch(err => {
         console.error(chalk.red(err.stack));
       });
@@ -80,7 +79,6 @@ module.exports = async function start(siteDir, cliOptions = {}) {
   const urls = prepareUrls(protocol, host, port);
   const openUrl = normalizeUrl([urls.localUrlForBrowser, baseUrl]);
 
-  // Create compiler from generated webpack config.
   const {siteConfig, plugins = []} = props;
   let config = merge(createClientConfig(props), {
     plugins: [
@@ -132,7 +130,8 @@ module.exports = async function start(siteDir, cliOptions = {}) {
       rewrites: [{from: /\.html$/, to: '/'}],
     },
     disableHostCheck: true,
-    overlay: false,
+    // Enable overlay on browser. E.g: display errors
+    overlay: true,
     host,
     // https://webpack.js.org/configuration/dev-server/#devserverbefore
     // eslint-disable-next-line
