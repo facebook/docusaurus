@@ -58,42 +58,37 @@ module.exports = async function load(siteDir, cliOptions = {}) {
 
   // Routing
   const {
-    routesConfig,
-    routesPaths,
-    routesHashPath,
-    routesHashPathFileName,
-    routesMetadata,
-    routesMetadataFileName,
     routesAsyncModules,
-    routesAsyncModulesFileName,
+    routesConfig,
+    routesMetadata,
+    routesMetadataPath,
+    routesPaths,
   } = await loadRoutes(pluginsRouteConfigs);
 
+  // Mapping of routePath -> metadataPath. Example: '/blog' -> '@generated/metadata/blog-c06.json'
+  // Very useful to know which json metadata file is related to certain route
   await generate(
     generatedFilesDir,
-    routesHashPathFileName,
-    JSON.stringify(routesHashPath, null, 2),
+    'routesMetadataPath.json',
+    JSON.stringify(routesMetadataPath, null, 2),
   );
+
+  // Mapping of routePath -> async imported modules. Example: '/blog' -> ['@theme/BlogPage']
+  // Very useful to know what modules are async imported in a route
+  await generate(
+    generatedFilesDir,
+    'routesAsyncModules.json',
+    JSON.stringify(routesAsyncModules, null, 2),
+  );
+
+  // Write out all the metadata JSON file
   await Promise.all(
     routesPaths.map(async routesPath => {
-      const hashPath = routesHashPath[routesPath];
-      const targetDir = path.join(
-        generatedFilesDir,
-        hashPath.replace(/^@generated\//, ''),
-      );
-
       const metadata = routesMetadata[routesPath] || {};
-      await generate(
-        targetDir,
-        routesMetadataFileName,
-        JSON.stringify(metadata, null, 2),
-      );
-
-      const asyncModules = routesAsyncModules[routesPath] || [];
-      await generate(
-        targetDir,
-        routesAsyncModulesFileName,
-        JSON.stringify(asyncModules, null, 2),
-      );
+      const metadataPath = routesMetadataPath[routesPath];
+      const metadataDir = path.join(generatedFilesDir, 'metadata');
+      const fileName = metadataPath.replace(/^@generated\/metadata\//, '');
+      await generate(metadataDir, fileName, JSON.stringify(metadata, null, 2));
     }),
   );
 

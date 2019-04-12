@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const path = require('path');
 const {genChunkName, docuHash} = require('@docusaurus/utils');
 const {stringify} = require('querystring');
 
@@ -21,12 +20,12 @@ async function loadRoutes(pluginsRouteConfigs) {
   const addRoutesPath = routePath => {
     routesPaths.push(routePath);
   };
-  // Mapping of routePath -> generatedPath. Example: '/blog' -> '@generated/blog-c06'
-  const routesHashPath = {};
-  const addRoutesHashPath = routePath => {
-    routesHashPath[routePath] = `@generated/${docuHash(routePath)}`;
+  // Mapping of routePath -> metadataPath. Example: '/blog' -> '@generated/metadata/blog-c06.json'
+  const routesMetadataPath = {};
+  const addRoutesMetadataPath = routePath => {
+    const fileName = `${docuHash(routePath)}.json`;
+    routesMetadataPath[routePath] = `@generated/metadata/${fileName}`;
   };
-  const routesHashPathFileName = 'hashPath.json';
   // Mapping of routePath -> metadata. Example: '/blog' -> { isBlogPage: true, permalink: '/blog' }
   const routesMetadata = {};
   const addRoutesMetadata = (routePath, metadata) => {
@@ -34,7 +33,6 @@ async function loadRoutes(pluginsRouteConfigs) {
       routesMetadata[routePath] = metadata;
     }
   };
-  const routesMetadataFileName = 'metadata.json';
   // Mapping of routePath -> async imported modules. Example: '/blog' -> ['@theme/BlogPage']
   const routesAsyncModules = {};
   const addRoutesAsyncModule = (routePath, module) => {
@@ -43,7 +41,6 @@ async function loadRoutes(pluginsRouteConfigs) {
     }
     routesAsyncModules[routePath].push(module);
   };
-  const routesAsyncModulesFileName = 'asyncModules.json';
 
   // This is the higher level overview of route code generation
   function generateRouteCode(routeConfig) {
@@ -56,9 +53,8 @@ async function loadRoutes(pluginsRouteConfigs) {
     } = routeConfig;
 
     addRoutesPath(routePath);
-    addRoutesHashPath(routePath);
-    const hashPath = routesHashPath[routePath];
     addRoutesMetadata(routePath, metadata);
+    addRoutesMetadataPath(routePath);
 
     // Given an input (object or string), get the import path str
     const getModulePath = target => {
@@ -106,7 +102,7 @@ async function loadRoutes(pluginsRouteConfigs) {
 
     let metadataImportStr = '';
     if (metadata) {
-      const metadataPath = path.join(hashPath, routesMetadataFileName);
+      const metadataPath = routesMetadataPath[routePath];
       addRoutesAsyncModule(routePath, metadataPath);
       metadataImportStr = `metadata: ${genImportStr(
         metadataPath,
@@ -156,14 +152,11 @@ export default [
 ];\n`;
 
   return {
-    routesConfig,
-    routesPaths,
-    routesHashPath,
-    routesHashPathFileName,
-    routesMetadata,
-    routesMetadataFileName,
     routesAsyncModules,
-    routesAsyncModulesFileName,
+    routesConfig,
+    routesMetadata,
+    routesMetadataPath,
+    routesPaths,
   };
 }
 
