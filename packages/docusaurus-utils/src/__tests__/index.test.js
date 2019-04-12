@@ -9,7 +9,7 @@ import path from 'path';
 import {
   fileToPath,
   fileToComponentName,
-  generateChunkName,
+  genChunkName,
   idx,
   getSubFolder,
   normalizeUrl,
@@ -64,7 +64,7 @@ describe('load utils', () => {
     });
   });
 
-  test('generateChunkName', () => {
+  test('genChunkName', () => {
     const asserts = {
       '/docs/adding-blog': 'docs-adding-blog-062',
       '/docs/versioning': 'docs-versioning-8a8',
@@ -76,7 +76,7 @@ describe('load utils', () => {
       '/blog': 'blog-c06',
     };
     Object.keys(asserts).forEach(str => {
-      expect(generateChunkName(str)).toBe(asserts[str]);
+      expect(genChunkName(str)).toBe(asserts[str]);
     });
   });
 

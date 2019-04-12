@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const {generateChunkName} = require('@docusaurus/utils');
+const {genChunkName} = require('@docusaurus/utils');
 const {stringify} = require('querystring');
 
 async function loadRoutes(pluginsRouteConfigs) {
@@ -33,7 +33,7 @@ async function loadRoutes(pluginsRouteConfigs) {
     const isObj = typeof target === 'object';
     const importStr = isObj ? target.path : target;
     const queryStr = target.query ? `?${stringify(target.query)}` : '';
-    const chunkName = generateChunkName(name || importStr, prefix);
+    const chunkName = genChunkName(name || importStr, prefix);
     const finalStr = JSON.stringify(importStr + queryStr);
     return `() => import(/* webpackChunkName: '${chunkName}' */ ${finalStr})`;
   }

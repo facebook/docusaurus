@@ -64,7 +64,7 @@ function posixPath(str) {
   return str.replace(/\\/g, '/');
 }
 
-function generateChunkName(str, prefix) {
+function genChunkName(str, prefix) {
   const name = str === '/' ? 'index' : kebabHash(str);
   return prefix ? `${prefix}---${name}` : name;
 }
@@ -163,7 +163,7 @@ module.exports = {
   generate,
   fileToPath,
   fileToComponentName,
-  generateChunkName,
+  genChunkName,
   getSubFolder,
   idx,
   normalizeUrl,
