@@ -24,7 +24,6 @@ module.exports = async function load(siteDir, cliOptions = {}) {
     constants.GENERATED_FILES_DIR_NAME,
   );
 
-  // Site Config
   const siteConfig = loadConfig(siteDir);
   await generate(
     generatedFilesDir,
@@ -32,7 +31,6 @@ module.exports = async function load(siteDir, cliOptions = {}) {
     `export default ${JSON.stringify(siteConfig, null, 2)};`,
   );
 
-  // Env
   const env = loadEnv({siteDir, siteConfig});
   await generate(
     generatedFilesDir,
@@ -52,18 +50,61 @@ module.exports = async function load(siteDir, cliOptions = {}) {
     context,
   });
 
-  // Resolve outDir.
   const outDir = path.resolve(siteDir, 'build');
-
-  // Resolve theme.
-  const themePath = loadTheme(siteDir);
-
   const {baseUrl} = siteConfig;
 
-  // Generate React Router Config.
-  const {routesConfig, routesPaths} = await loadRoutes(pluginsRouteConfigs);
+  // Resolve theme. TBD (Experimental)
+  const themePath = loadTheme(siteDir);
+
+  // Routing
+  const {
+    routesConfig,
+    routesPaths,
+    routesHashPath,
+    routesHashPathFileName,
+    routesMetadata,
+    routesMetadataFileName,
+    routesComponentStr,
+    routesComponentFileName,
+    routesAsyncModules,
+    routesAsyncModulesFileName,
+  } = await loadRoutes(pluginsRouteConfigs);
+
+  await generate(
+    generatedFilesDir,
+    routesHashPathFileName,
+    JSON.stringify(routesHashPath, null, 2),
+  );
+  await Promise.all(
+    routesPaths.map(async routesPath => {
+      const hashPath = routesHashPath[routesPath];
+      const targetDir = path.join(
+        generatedFilesDir,
+        hashPath.replace(/^@generated\//, ''),
+      );
+
+      const metadata = routesMetadata[routesPath] || {};
+      await generate(
+        targetDir,
+        routesMetadataFileName,
+        JSON.stringify(metadata, null, 2),
+      );
+
+      const componentStr = routesComponentStr[routesPath];
+      await generate(targetDir, routesComponentFileName, componentStr);
+
+      const asyncModules = routesAsyncModules[routesPath] || [];
+      await generate(
+        targetDir,
+        routesAsyncModulesFileName,
+        JSON.stringify(asyncModules, null, 2),
+      );
+    }),
+  );
+
   await generate(generatedFilesDir, 'routes.js', routesConfig);
 
+  // -------------------------- TBD (Experimental) ----------------------
   // Generate contents metadata.
   const metadataTemplateFile = path.resolve(
     __dirname,
@@ -87,6 +128,8 @@ module.exports = async function load(siteDir, cliOptions = {}) {
     ],
   });
   await generate(generatedFilesDir, 'metadata.js', metadataFile);
+
+  // ------------- END OF TBD -----------------------------------------
 
   const props = {
     siteConfig,

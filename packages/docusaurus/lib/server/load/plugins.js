@@ -42,7 +42,7 @@ module.exports = async function loadPlugins({pluginConfigs = [], context}) {
       const content = await plugin.loadContent();
       const pluginContentPath = path.join(name, metadataFileName);
       const pluginContentDir = path.join(context.generatedFilesDir, name);
-      fs.ensureDirSync(pluginContentDir);
+      await fs.ensureDir(pluginContentDir);
       await generate(
         pluginContentDir,
         metadataFileName,
