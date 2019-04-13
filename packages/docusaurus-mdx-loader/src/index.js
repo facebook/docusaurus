@@ -27,10 +27,16 @@ module.exports = async function(content) {
     return callback(err);
   }
 
+  let importStr = '';
+  // If webpack target is web, we can import the css
+  if (this.target === 'web') {
+    importStr = `import '${options.prismTheme}';`;
+  }
+
   const code = `
   import React from 'react';
   import { mdx } from '@mdx-js/react';
-  import '${options.prismTheme}';
+  ${importStr}
   ${result}
   `;
 

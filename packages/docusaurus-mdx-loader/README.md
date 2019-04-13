@@ -2,7 +2,7 @@
 
 Docusaurus webpack loader of [MDX](https://github.com/mdx-js/mdx)
 
-The extra idea here is to simplify things by adding prismjs syntax highlighting by default through https://github.com/mapbox/rehype-prism and add the prism css theme import directly.
+The extra idea here is to simplify things by adding prismjs syntax highlighting by default through https://github.com/mapbox/rehype-prism and add the prism css theme import directly (only add the CSS import if target is 'web').
 
 
 ## Installation
