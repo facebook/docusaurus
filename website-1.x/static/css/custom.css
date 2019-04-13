@@ -28,10 +28,17 @@ table td:first-child > code {
   height: 180px;
   margin: 5px;
   padding: 5px;
+  text-decoration: none;
+  background: white;
+  border-radius: 4px;
+  box-shadow: 1px 1px 5px rgba(0,0,0,.3);
+  transition: all 150ms;
+  cursor: pointer;
 }
 
 .showcase .link:hover {
-  text-decoration: underline;
+  text-decoration: none;
+  transform: translateY(-2px);
 }
 
 .showcase .link .caption {
