@@ -55,7 +55,11 @@ class DocusaurusPluginSitemap {
 
     // Write sitemap file
     const sitemapPath = path.join(outDir, 'sitemap.xml');
-    return fs.writeFile(sitemapPath, generatedSitemap);
+    fs.writeFile(sitemapPath, generatedSitemap, err => {
+      if (err) {
+        throw new Error(`Sitemap error: ${err}`);
+      }
+    });
   }
 }
 
