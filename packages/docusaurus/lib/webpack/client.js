@@ -15,7 +15,6 @@ module.exports = function createClientConfig(props) {
   const isProd = process.env.NODE_ENV === 'production';
   const config = createBaseConfig(props);
 
-  const {generatedFilesDir} = props;
   const clientConfig = merge(config, {
     entry: {
       main: path.resolve(__dirname, '../client/clientEntry.js'),
@@ -26,9 +25,9 @@ module.exports = function createClientConfig(props) {
       runtimeChunk: true,
     },
     plugins: [
-      // Generate manifests file
+      // Generate client manifests file
       new ReactLoadableSSRAddon({
-        filename: path.resolve(generatedFilesDir, 'assets-manifest.json'),
+        filename: 'client-manifest.json',
       }),
       // Show compilation progress bar and build time.
       new WebpackNiceLog({

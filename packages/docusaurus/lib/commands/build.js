@@ -81,10 +81,7 @@ module.exports = async function build(siteDir, cliOptions = {}) {
   // Build the client bundles first.
   // We cannot run them in parallel because the server needs to know
   // the correct client bundle name.
-  await compile(clientConfig);
-
-  // Build the server bundles (render the static HTML and pick client bundle),
-  await compile(serverConfig);
+  await compile([clientConfig, serverConfig]);
 
   // Copy static files.
   const staticDir = path.resolve(siteDir, 'static');
