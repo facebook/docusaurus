@@ -7,6 +7,7 @@
 
 const webpack = require('webpack');
 const merge = require('webpack-merge');
+const MemoryFS = require('memory-fs');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer');
 const path = require('path');
@@ -18,9 +19,14 @@ const createServerConfig = require('../webpack/server');
 const createClientConfig = require('../webpack/client');
 const {applyConfigureWebpack} = require('../webpack/utils');
 
-function compile(config) {
+function compile(config, isServer) {
   return new Promise((resolve, reject) => {
-    webpack(config, (err, stats) => {
+    const compiler = webpack(config);
+    if (isServer) {
+      // Don't output server bundle to disk. Write files to memory instead
+      compiler.outputFileSystem = new MemoryFS();
+    }
+    compiler.run((err, stats) => {
       if (err) {
         reject(err);
       }
@@ -84,7 +90,7 @@ module.exports = async function build(siteDir, cliOptions = {}) {
   await compile(clientConfig);
 
   // Build the server bundles (render the static HTML and pick client bundle),
-  await compile(serverConfig);
+  await compile(serverConfig, true);
 
   // Copy static files.
   const staticDir = path.resolve(siteDir, 'static');

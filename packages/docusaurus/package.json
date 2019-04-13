@@ -55,6 +55,7 @@
     "html-webpack-plugin": "^3.2.0",
     "is-wsl": "^1.1.0",
     "lodash": "^4.17.11",
+    "memory-fs": "^0.4.1",
     "mini-css-extract-plugin": "^0.4.1",
     "portfinder": "^1.0.13",
     "react-dev-utils": "^8.0.0",
