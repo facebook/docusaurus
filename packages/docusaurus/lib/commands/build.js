@@ -20,7 +20,8 @@ const {applyConfigureWebpack} = require('../webpack/utils');
 
 function compile(config) {
   return new Promise((resolve, reject) => {
-    webpack(config, (err, stats) => {
+    const compiler = webpack(config);
+    compiler.run((err, stats) => {
       if (err) {
         reject(err);
       }
@@ -78,10 +79,11 @@ module.exports = async function build(siteDir, cliOptions = {}) {
     );
   });
 
-  // Build the client bundles first.
-  // We cannot run them in parallel because the server needs to know
-  // the correct client bundle name.
+  // Run webpack to build js bundle (client) and static html files (server) !!
   await compile([clientConfig, serverConfig]);
+
+  // Remove server.bundle.js because it is useless
+  await fs.unlink(path.join(outDir, serverConfig.output.filename));
 
   // Copy static files.
   const staticDir = path.resolve(siteDir, 'static');
