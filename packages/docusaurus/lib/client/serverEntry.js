@@ -13,7 +13,8 @@ import {Helmet} from 'react-helmet';
 import {getBundles} from 'react-loadable-ssr-addon';
 import Loadable from 'react-loadable';
 
-import manifest from '@generated/assets-manifest.json'; //eslint-disable-line
+import path from 'path';
+import fs from 'fs';
 import routes from '@generated/routes'; // eslint-disable-line
 import preload from './preload';
 import App from './App';
@@ -41,6 +42,10 @@ export default function render(locals) {
       helmet.link.toString(),
     ];
     const metaAttributes = metaStrings.filter(Boolean);
+
+    const {outDir} = locals;
+    const manifestPath = path.join(outDir, 'client-manifest.json');
+    const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
 
     // Get all required assets for this particular page based on client manifest information
     const modulesToBeLoaded = [...manifest.entrypoints, ...Array.from(modules)];

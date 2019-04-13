@@ -11,9 +11,10 @@ const StaticSiteGeneratorPlugin = require('static-site-generator-webpack-plugin'
 const WebpackNiceLog = require('webpack-nicelog');
 const merge = require('webpack-merge');
 const createBaseConfig = require('./base');
+const WaitPlugin = require('./plugins/WaitPlugin');
 
 module.exports = function createServerConfig(props) {
-  const {baseUrl, routesPaths} = props;
+  const {baseUrl, routesPaths, outDir} = props;
   const config = createBaseConfig(props, true);
   const isProd = process.env.NODE_ENV === 'production';
 
@@ -31,11 +32,17 @@ module.exports = function createServerConfig(props) {
     // No need to bundle its node_modules dependencies since we're bundling for static html generation (backend)
     externals: [nodeExternals()],
     plugins: [
+      // Wait until client-manifest is generated
+      new WaitPlugin({
+        filepath: path.join(outDir, 'client-manifest.json'),
+      }),
+
       // Static site generator webpack plugin.
       new StaticSiteGeneratorPlugin({
         entry: 'main',
         locals: {
           baseUrl,
+          outDir,
         },
         paths: routesPaths,
       }),
