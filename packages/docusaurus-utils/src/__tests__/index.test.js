@@ -50,6 +50,8 @@ describe('load utils', () => {
 
   test('docuHash', () => {
     const asserts = {
+      '': '-d41',
+      '/': 'Index',
       '/foo-bar': 'foo-bar-096',
       '/foo/bar': 'foo-bar-1df',
       '/endi/lie': 'endi-lie-9fa',

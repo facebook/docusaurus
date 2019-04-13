@@ -46,6 +46,9 @@ function encodePath(userpath) {
  * @returns {string}
  */
 function docuHash(str) {
+  if (str === '/') {
+    return 'Index';
+  }
   const shortHash = createHash('md5')
     .update(str)
     .digest('hex')
