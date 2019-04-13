@@ -7,7 +7,6 @@
 
 import React from 'react';
 import {hydrate, render} from 'react-dom';
-import {AppContainer} from 'react-hot-loader';
 import {BrowserRouter} from 'react-router-dom';
 
 import App from './App';
@@ -22,11 +21,9 @@ if (typeof window !== 'undefined' && typeof document !== 'undefined') {
   const renderMethod = process.env.NODE_ENV === 'production' ? hydrate : render;
   preload(routes, window.location.pathname).then(() => {
     renderMethod(
-      <AppContainer>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </AppContainer>,
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>,
       document.getElementById('__docusaurus'),
     );
   });
