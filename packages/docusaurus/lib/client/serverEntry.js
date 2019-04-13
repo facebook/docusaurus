@@ -13,7 +13,7 @@ import {Helmet} from 'react-helmet';
 import {getBundles} from 'react-loadable-ssr-addon';
 import Loadable from 'react-loadable';
 
-import manifest from '@build/assets-manifest.json'; //eslint-disable-line
+import manifest from '@generated/assets-manifest.json'; //eslint-disable-line
 import routes from '@generated/routes'; // eslint-disable-line
 import preload from './preload';
 import App from './App';
@@ -22,10 +22,10 @@ import ssrTemplate from './templates/ssr.html.template';
 // Renderer for static-site-generator-webpack-plugin (async rendering via promises)
 export default function render(locals) {
   return preload(routes, locals.path).then(() => {
-    const modules = [];
+    const modules = new Set();
     const context = {};
     const appHtml = ReactDOMServer.renderToString(
-      <Loadable.Capture report={moduleName => modules.push(moduleName)}>
+      <Loadable.Capture report={moduleName => modules.add(moduleName)}>
         <StaticRouter location={locals.path} context={context}>
           <App />
         </StaticRouter>

@@ -7,8 +7,9 @@
 
 const path = require('path');
 const fm = require('front-matter');
+const {createHash} = require('crypto');
 
-const kebabHash = require('kebab-hash');
+const _ = require(`lodash`);
 const escapeStringRegexp = require('escape-string-regexp');
 const fs = require('fs-extra');
 
@@ -39,14 +40,37 @@ function encodePath(userpath) {
     .join('/');
 }
 
-function fileToComponentName(file) {
-  const ext = extRE.exec(file)[1];
-  let str = file.replace(extRE, '');
-  str = str.replace(/([A-Z])/g, ' $1');
-  str = str.replace(/^[\W_]+|[\W_]+$/g, '').toLowerCase();
-  str = str.charAt(0).toUpperCase() + str.slice(1);
-  str = str.replace(/[\W_]+(\w|$)/g, (_, ch) => ch.toUpperCase());
-  return ext ? ext.toUpperCase() + str : str;
+/**
+ * Given an input string, convert to kebab-case and append a hash. Avoid str collision
+ * @param {string} str input string
+ * @returns {string}
+ */
+function docuHash(str) {
+  if (str === '/') {
+    return 'Index';
+  }
+  const shortHash = createHash('md5')
+    .update(str)
+    .digest('hex')
+    .substr(0, 3);
+  return `${_.kebabCase(str)}-${shortHash}`;
+}
+
+/**
+ * Generate unique React Component Name. E.g: /foo-bar -> FooBar096
+ * @param {string} pagePath
+ * @returns {string} unique react component name
+ */
+function genComponentName(pagePath) {
+  if (pagePath === '/') {
+    return 'Index';
+  }
+  const pageHash = docuHash(pagePath);
+  const pascalCase = _.flow(
+    _.camelCase,
+    _.upperFirst,
+  );
+  return pascalCase(pageHash);
 }
 
 /**
@@ -64,8 +88,8 @@ function posixPath(str) {
   return str.replace(/\\/g, '/');
 }
 
-function generateChunkName(str, prefix) {
-  const name = str === '/' ? 'index' : kebabHash(str);
+function genChunkName(str, prefix) {
+  const name = str === '/' ? 'index' : docuHash(str);
   return prefix ? `${prefix}---${name}` : name;
 }
 
@@ -160,10 +184,11 @@ function normalizeUrl(rawUrls) {
 
 module.exports = {
   encodePath,
+  docuHash,
   generate,
   fileToPath,
-  fileToComponentName,
-  generateChunkName,
+  genComponentName,
+  genChunkName,
   getSubFolder,
   idx,
   normalizeUrl,

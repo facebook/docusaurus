@@ -4,7 +4,6 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-
 const path = require('path');
 const WebpackNiceLog = require('webpack-nicelog');
 const ReactLoadableSSRAddon = require('react-loadable-ssr-addon');
@@ -16,6 +15,7 @@ module.exports = function createClientConfig(props) {
   const isProd = process.env.NODE_ENV === 'production';
   const config = createBaseConfig(props);
 
+  const {generatedFilesDir} = props;
   const clientConfig = merge(config, {
     entry: {
       main: path.resolve(__dirname, '../client/clientEntry.js'),
@@ -28,7 +28,7 @@ module.exports = function createClientConfig(props) {
     plugins: [
       // Generate manifests file
       new ReactLoadableSSRAddon({
-        filename: 'assets-manifest.json',
+        filename: path.resolve(generatedFilesDir, 'assets-manifest.json'),
       }),
       // Show compilation progress bar and build time.
       new WebpackNiceLog({
