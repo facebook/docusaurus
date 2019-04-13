@@ -2625,11 +2625,6 @@ before-after-hook@^1.4.0:
   resolved "https://registry.yarnpkg.com/before-after-hook/-/before-after-hook-1.4.0.tgz#2b6bf23dca4f32e628fd2747c10a37c74a4b484d"
   integrity sha512-l5r9ir56nda3qu14nAXIlyq1MmUSs0meCIaFAh8HwkFwP1F8eToOuS3ah2VAHHcY04jaYD7FpJC5JTXHYRbkzg==
 
-before-build-webpack@^0.2.8:
-  version "0.2.8"
-  resolved "https://registry.yarnpkg.com/before-build-webpack/-/before-build-webpack-0.2.8.tgz#6db62350c909e0de6aec962ed89bbedc89645847"
-  integrity sha512-RgKHL4VGFqJSJuT6jZZXHQOGMq5ri5iECHVI9RlPutdyTTmNssOEKZ7WJ1yVSbZTN/4kjpzU5RHMgOtAvs7HQg==
-
 bfj@^6.1.1:
   version "6.1.1"
   resolved "https://registry.yarnpkg.com/bfj/-/bfj-6.1.1.tgz#05a3b7784fbd72cfa3c22e56002ef99336516c48"
