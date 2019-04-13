@@ -257,7 +257,7 @@ module.exports = [
     caption: 'Octopy Framework',
     image: 'https://framework.octopy.xyz/img/octopy.svg',
     infoLink: 'https://framework.octopy.xyz/',
-    fbOpenSource: true,
+    fbOpenSource: false,
     pinned: false,
   },
   {
