@@ -190,7 +190,7 @@ function Home() {
                 <div className="avatar avatar-vertical margin-bottom-sm">
                   <img
                     alt={quote.name}
-                    className="avatar-profile"
+                    className="avatar-photo avatar-photo-xl"
                     src={`${siteConfig.baseUrl}${quote.thumbnail}`}
                   />
                   <div className="avatar-intro">

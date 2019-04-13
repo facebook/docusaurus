@@ -54,12 +54,12 @@ function Post(props) {
         </div>
         <div className="avatar margin-bottom-md">
           {authorImageURL && (
-            <a href={authorURL} target="_blank" rel="noreferrer noopener">
-              <img
-                className="avatar-profile"
-                src={authorImageURL}
-                alt={author}
-              />
+            <a
+              className="avatar-photo-link"
+              href={authorURL}
+              target="_blank"
+              rel="noreferrer noopener">
+              <img className="avatar-photo" src={authorImageURL} alt={author} />
             </a>
           )}
           <div className="avatar-intro">
