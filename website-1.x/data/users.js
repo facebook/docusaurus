@@ -254,6 +254,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Octopy Framework',
+    image: 'https://framework.octopy.xyz/img/octopy.svg',
+    infoLink: 'https://framework.octopy.xyz/',
+    fbOpenSource: true,
+    pinned: false,
+  },
+  {
     caption: 'Open Power Quality',
     image: 'https://openpowerquality.org/img/opqlogo.png',
     infoLink: 'https://openpowerquality.org/',
