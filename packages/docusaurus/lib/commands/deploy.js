@@ -129,7 +129,7 @@ module.exports = async function deploy(siteDir) {
       shell.cd('../..');
 
       const fromPath = path.join('build');
-      const toPath = path.join('build', `${projectName}-${deploymentBranch}}`);
+      const toPath = path.join('temp', `${projectName}-${deploymentBranch}`);
       // In github.io case, project is deployed to root. Need to not recursively
       // copy the deployment-branch to be.
       const excludePath = `${projectName}-${deploymentBranch}`;
@@ -156,7 +156,7 @@ module.exports = async function deploy(siteDir) {
             );
           }
 
-          shell.cd(path.join('build', `${projectName}-${deploymentBranch}`));
+          shell.cd(toPath);
           shell.exec('git add --all');
 
           const commitMessage =
