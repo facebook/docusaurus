@@ -33,7 +33,9 @@ module.exports = function createServerConfig(props) {
     externals: [nodeExternals()],
     plugins: [
       // Wait until client-manifest is generated
-      new WaitPlugin(path.join(outDir, 'client-manifest.json')),
+      new WaitPlugin({
+        filepath: path.join(outDir, 'client-manifest.json'),
+      }),
 
       // Static site generator webpack plugin.
       new StaticSiteGeneratorPlugin({

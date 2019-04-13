@@ -4,31 +4,34 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-const WebpackBeforeBuildPlugin = require('before-build-webpack');
 const fs = require('fs');
 
-class WaitPlugin extends WebpackBeforeBuildPlugin {
-  constructor(file, interval = 300, timeout = 30000) {
-    super(
-      (stats, callback) => {
-        const start = Date.now();
-        fs.writeFileSync('start.js', new Date().toString());
+class WaitPlugin {
+  constructor(options) {
+    this.timeout = options.timeout || 60000;
+    this.interval = options.interval || 250;
+    this.filepath = options.filepath;
+  }
 
-        function poll() {
-          if (fs.existsSync(file)) {
-            fs.writeFileSync('stop.js', new Date().toString());
-            callback();
-          } else if (Date.now() - start > timeout) {
-            throw Error("Maybe it just wasn't meant to be.");
-          } else {
-            setTimeout(poll, interval);
-          }
+  apply(compiler) {
+    // Before finishing the compilation step
+    compiler.hooks.make.tapAsync('WaitPlugin', (compilation, callback) => {
+      const start = Date.now();
+      const {filepath, timeout, interval} = this;
+
+      // Poll until file exist
+      function poll() {
+        if (fs.existsSync(filepath)) {
+          callback();
+        } else if (Date.now() - start > timeout) {
+          throw Error("Maybe it just wasn't meant to be.");
+        } else {
+          setTimeout(poll, interval);
         }
+      }
 
-        poll();
-      },
-      ['make'],
-    );
+      poll();
+    });
   }
 }
 
