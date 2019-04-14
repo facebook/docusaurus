@@ -16,9 +16,27 @@ import prefetch from '../prefetch';
 
 const externalRegex = /^(https?:|\/\/)/;
 
+function prefetchChunks(targetLink) {
+  // We know targetLink, we know what are the modules that need to be prefetched
+  import('@generated/routesAsyncModules.json')
+    .then(({default: modules}) => {
+      console.log(targetLink);
+      const modulesNeeded = modules[targetLink];
+
+      console.log(modulesNeeded);
+
+      // We use chunk-map so that we know which chunk is related to the modules
+      // TODO
+
+      // We prefetch all chunks needed
+      // Example only:
+      const chunksNeeded = ['/component---theme-doc-body-f68.js'];
+      chunksNeeded.map(prefetch);
+    })
+    .catch(err => console.log(`Failed to prefetch ${targetLink}`, err));
+}
+
 function Link(props) {
-  // TODO
-  prefetch('/component---theme-doc-body-f68.js');
   const {routes} = useContext(DocusaurusContext);
   const {to, href, preloadProximity = 20} = props;
   const targetLink = to || href;
@@ -29,7 +47,7 @@ function Link(props) {
   ) : (
     <Perimeter
       padding={preloadProximity}
-      onBreach={() => preload(routes, targetLink)}
+      onBreach={() => preload(routes, targetLink) && prefetchChunks(targetLink)}
       once>
       <NavLink {...props} to={targetLink} />
     </Perimeter>
