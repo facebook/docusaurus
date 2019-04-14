@@ -12,10 +12,13 @@ import {NavLink} from 'react-router-dom';
 import DocusaurusContext from '@docusaurus/context';
 
 import preload from '../preload';
+import prefetch from '../prefetch';
 
 const externalRegex = /^(https?:|\/\/)/;
 
 function Link(props) {
+  // TODO
+  prefetch('/component---theme-doc-body-f68.js');
   const {routes} = useContext(DocusaurusContext);
   const {to, href, preloadProximity = 20} = props;
   const targetLink = to || href;
