@@ -58,7 +58,7 @@ module.exports = async function load(siteDir, cliOptions = {}) {
 
   // Routing
   const {
-    routesAsyncModules,
+    routesChunkNames,
     routesConfig,
     routesMetadata,
     routesMetadataPath,
@@ -73,12 +73,12 @@ module.exports = async function load(siteDir, cliOptions = {}) {
     JSON.stringify(routesMetadataPath, null, 2),
   );
 
-  // Mapping of routePath -> async imported modules. Example: '/blog' -> ['@theme/BlogPage']
-  // Very useful to know what modules are async imported in a route
+  // Mapping of routePath -> required webpack chunk names.
+  // Very useful to know what chunkNames are needed for a route
   await generate(
     generatedFilesDir,
-    'routesAsyncModules.json',
-    JSON.stringify(routesAsyncModules, null, 2),
+    'routesChunkNames.json',
+    JSON.stringify(routesChunkNames, null, 2),
   );
 
   // Write out all the metadata JSON file

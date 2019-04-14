@@ -17,21 +17,20 @@ import prefetch from '../prefetch';
 const externalRegex = /^(https?:|\/\/)/;
 
 function prefetchChunks(targetLink) {
-  // We know targetLink, we know what are the modules that need to be prefetched
-  import('@generated/routesAsyncModules.json')
-    .then(({default: modules}) => {
+  // We know targetLink, we know what are the webpack chunk names that is needed
+  import(/* webpackChunkName: 'routesChunkNames */ '@generated/routesChunkNames.json')
+    .then(({default: chunkNames}) => {
       console.log(targetLink);
-      const modulesNeeded = modules[targetLink];
+      const chunkNamesNeeded = chunkNames[targetLink];
 
-      console.log(modulesNeeded);
-
-      // We use chunk-map so that we know which chunk is related to the modules
+      console.log(chunkNamesNeeded);
+      // We use chunk-map.json so that we know which webpack chunk assets we need to prefetch
       // TODO
 
       // We prefetch all chunks needed
       // Example only:
-      const chunksNeeded = ['/component---theme-doc-body-f68.js'];
-      chunksNeeded.map(prefetch);
+      const chunkAssetsNeeded = ['/component---theme-doc-body-f68.js'];
+      chunkAssetsNeeded.map(prefetch);
     })
     .catch(err => console.log(`Failed to prefetch ${targetLink}`, err));
 }

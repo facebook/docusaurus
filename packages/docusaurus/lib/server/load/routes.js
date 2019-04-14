@@ -33,13 +33,14 @@ async function loadRoutes(pluginsRouteConfigs) {
       routesMetadata[routePath] = metadata;
     }
   };
-  // Mapping of routePath -> async imported modules. Example: '/blog' -> ['@theme/BlogPage']
-  const routesAsyncModules = {};
-  const addRoutesAsyncModule = (routePath, module) => {
-    if (!routesAsyncModules[routePath]) {
-      routesAsyncModules[routePath] = [];
+  // Mapping of routePath -> webpack chunk names.
+  // Example: '/blog' -> ['component---theme-blog-post-16f, metadata---blog-c06']
+  const routesChunkNames = {};
+  const addRoutesChunkNames = (routePath, chunkName) => {
+    if (!routesChunkNames[routePath]) {
+      routesChunkNames[routePath] = [];
     }
-    routesAsyncModules[routePath].push(module);
+    routesChunkNames[routePath].push(chunkName);
   };
 
   // This is the higher level overview of route code generation
@@ -68,17 +69,17 @@ async function loadRoutes(pluginsRouteConfigs) {
       throw new Error(`path: ${routePath} need a component`);
     }
     const componentPath = getModulePath(component);
-    addRoutesAsyncModule(routePath, componentPath);
+    const componentChunkName = genChunkName(componentPath, 'component');
+    addRoutesChunkNames(routePath, componentChunkName);
 
-    const genImportStr = (modulePath, prefix, name) => {
-      const chunkName = genChunkName(name || modulePath, prefix);
+    const genImportStr = (chunkName, modulePath) => {
       const finalStr = JSON.stringify(modulePath);
       return `() => import(/* webpackChunkName: '${chunkName}' */ ${finalStr})`;
     };
 
     if (routes) {
       const componentStr = `Loadable({
-    loader: ${genImportStr(componentPath, 'component')},
+    loader: ${genImportStr(componentChunkName, componentPath)},
     loading: Loading
   })`;
       return `
@@ -92,8 +93,9 @@ async function loadRoutes(pluginsRouteConfigs) {
     const modulesImportStr = modules
       .map((module, i) => {
         const modulePath = getModulePath(module);
-        addRoutesAsyncModule(routePath, modulePath);
-        return `Mod${i}: ${genImportStr(modulePath, i, routePath)},`;
+        const moduleChunkName = genChunkName(modulePath, i, routePath);
+        addRoutesChunkNames(routePath, moduleChunkName);
+        return `Mod${i}: ${genImportStr(moduleChunkName, modulePath)},`;
       })
       .join('\n');
     const modulesLoadedStr = modules
@@ -103,11 +105,15 @@ async function loadRoutes(pluginsRouteConfigs) {
     let metadataImportStr = '';
     if (metadata) {
       const metadataPath = routesMetadataPath[routePath];
-      addRoutesAsyncModule(routePath, metadataPath);
-      metadataImportStr = `metadata: ${genImportStr(
+      const metadataChunkName = genChunkName(
         metadataPath,
         'metadata',
         routePath,
+      );
+      addRoutesChunkNames(routePath, metadataChunkName);
+      metadataImportStr = `metadata: ${genImportStr(
+        metadataChunkName,
+        metadataPath,
       )},`;
     }
 
@@ -115,7 +121,7 @@ async function loadRoutes(pluginsRouteConfigs) {
   loader: {
     ${modulesImportStr}
     ${metadataImportStr}
-    Component: ${genImportStr(componentPath, 'component')},
+    Component: ${genImportStr(componentChunkName, componentPath)},
   },
   loading: Loading,
   render(loaded, props) {
@@ -152,8 +158,8 @@ export default [
 ];\n`;
 
   return {
-    routesAsyncModules,
     routesConfig,
+    routesChunkNames,
     routesMetadata,
     routesMetadataPath,
     routesPaths,

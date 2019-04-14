@@ -8,6 +8,7 @@ const path = require('path');
 const WebpackNiceLog = require('webpack-nicelog');
 const ReactLoadableSSRAddon = require('react-loadable-ssr-addon');
 const merge = require('webpack-merge');
+const ChunkMapExtractorPlugin = require('./plugins/ChunkMapExtractorPlugin');
 
 const createBaseConfig = require('./base');
 
@@ -25,6 +26,8 @@ module.exports = function createClientConfig(props) {
       runtimeChunk: true,
     },
     plugins: [
+      // Generate chunk-map.json (mapping of chunk names to their corresponding chunk assets)
+      new ChunkMapExtractorPlugin(),
       // Generate client manifests file
       new ReactLoadableSSRAddon({
         filename: 'client-manifest.json',
