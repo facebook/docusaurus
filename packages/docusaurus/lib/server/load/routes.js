@@ -20,12 +20,14 @@ async function loadRoutes(pluginsRouteConfigs) {
   const addRoutesPath = routePath => {
     routesPaths.push(routePath);
   };
+
   // Mapping of routePath -> metadataPath. Example: '/blog' -> '@generated/metadata/blog-c06.json'
   const routesMetadataPath = {};
   const addRoutesMetadataPath = routePath => {
     const fileName = `${docuHash(routePath)}.json`;
     routesMetadataPath[routePath] = `@generated/metadata/${fileName}`;
   };
+
   // Mapping of routePath -> metadata. Example: '/blog' -> { isBlogPage: true, permalink: '/blog' }
   const routesMetadata = {};
   const addRoutesMetadata = (routePath, metadata) => {
@@ -33,13 +35,17 @@ async function loadRoutes(pluginsRouteConfigs) {
       routesMetadata[routePath] = metadata;
     }
   };
+
+  const registry = {};
+
   // Mapping of routePath -> async imported modules. Example: '/blog' -> ['@theme/BlogPage']
   const routesAsyncModules = {};
-  const addRoutesAsyncModule = (routePath, module) => {
+  const addRoutesAsyncModule = (routePath, key, importChunk) => {
     if (!routesAsyncModules[routePath]) {
-      routesAsyncModules[routePath] = [];
+      routesAsyncModules[routePath] = {};
     }
-    routesAsyncModules[routePath].push(module);
+    routesAsyncModules[routePath][key] = importChunk.chunkName;
+    registry[importChunk.chunkName] = importChunk.importStatement;
   };
 
   // This is the higher level overview of route code generation
@@ -68,17 +74,22 @@ async function loadRoutes(pluginsRouteConfigs) {
       throw new Error(`path: ${routePath} need a component`);
     }
     const componentPath = getModulePath(component);
-    addRoutesAsyncModule(routePath, componentPath);
 
-    const genImportStr = (modulePath, prefix, name) => {
+    const genImportChunk = (modulePath, prefix, name) => {
       const chunkName = genChunkName(name || modulePath, prefix);
       const finalStr = JSON.stringify(modulePath);
-      return `() => import(/* webpackChunkName: '${chunkName}' */ ${finalStr})`;
+      return {
+        chunkName,
+        importStatement: `() => import(/* webpackChunkName: '${chunkName}' */ ${finalStr})`,
+      };
     };
+
+    const componentChunk = genImportChunk(componentPath, 'component');
+    addRoutesAsyncModule(routePath, 'component', componentChunk);
 
     if (routes) {
       const componentStr = `Loadable({
-    loader: ${genImportStr(componentPath, 'component')},
+    loader: ${componentChunk.importStatement},
     loading: Loading
   })`;
       return `
@@ -92,8 +103,9 @@ async function loadRoutes(pluginsRouteConfigs) {
     const modulesImportStr = modules
       .map((module, i) => {
         const modulePath = getModulePath(module);
-        addRoutesAsyncModule(routePath, modulePath);
-        return `Mod${i}: ${genImportStr(modulePath, i, routePath)},`;
+        const moduleChunk = genImportChunk(modulePath, i, routePath);
+        addRoutesAsyncModule(routePath, `mod${i}`, moduleChunk);
+        return `Mod${i}: ${moduleChunk.importStatement},`;
       })
       .join('\n');
     const modulesLoadedStr = modules
@@ -103,19 +115,16 @@ async function loadRoutes(pluginsRouteConfigs) {
     let metadataImportStr = '';
     if (metadata) {
       const metadataPath = routesMetadataPath[routePath];
-      addRoutesAsyncModule(routePath, metadataPath);
-      metadataImportStr = `metadata: ${genImportStr(
-        metadataPath,
-        'metadata',
-        routePath,
-      )},`;
+      const metadataChunk = genImportChunk(metadataPath, 'metadata', routePath);
+      addRoutesAsyncModule(routePath, 'metadata', metadataChunk);
+      metadataImportStr = `metadata: ${metadataChunk.importStatement},`;
     }
 
     const componentStr = `Loadable.Map({
   loader: {
     ${modulesImportStr}
     ${metadataImportStr}
-    Component: ${genImportStr(componentPath, 'component')},
+    Component: ${componentChunk.importStatement},
   },
   loading: Loading,
   render(loaded, props) {
@@ -152,6 +161,7 @@ export default [
 ];\n`;
 
   return {
+    registry,
     routesAsyncModules,
     routesConfig,
     routesMetadata,

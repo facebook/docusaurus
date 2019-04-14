@@ -121,7 +121,7 @@ class DocusaurusPluginContentBlog {
 
   async contentLoaded({content, actions}) {
     const {blogPageComponent, blogPostComponent} = this.options;
-    const {addRoute} = actions;
+    const {addContent, addRoute} = actions;
     content.forEach(metadataItem => {
       const {isBlogPage, permalink} = metadataItem;
       if (isBlogPage) {
@@ -136,6 +136,18 @@ class DocusaurusPluginContentBlog {
             },
           })),
         });
+
+        addContent(permalink, {
+          metadata: metadataItem,
+          posts: metadataItem.posts.map(item => ({
+            id: item.source,
+            query: {
+              truncated: true,
+            },
+            __async: true,
+          })),
+        });
+
         return;
       }
 
@@ -144,6 +156,14 @@ class DocusaurusPluginContentBlog {
         component: blogPostComponent,
         metadata: metadataItem,
         modules: [metadataItem.source],
+      });
+
+      addContent(permalink, {
+        metadata: metadataItem,
+        contents: {
+          id: metadataItem.source,
+          __async: true,
+        },
       });
     });
   }

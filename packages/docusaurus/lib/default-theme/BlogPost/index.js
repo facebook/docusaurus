@@ -8,6 +8,7 @@
 import React, {useContext} from 'react';
 
 import Head from '@docusaurus/Head';
+import ContentRenderer from '@docusaurus/ContentRenderer';
 import Layout from '@theme/Layout'; // eslint-disable-line
 import Footer from '@theme/Footer'; // eslint-disable-line
 import DocusaurusContext from '@docusaurus/context';
@@ -19,29 +20,37 @@ function BlogPost(props) {
   );
   const {baseUrl, favicon} = siteConfig;
   const {language, title} = contextMetadata;
-  const {modules, metadata} = props;
-  const BlogPostContents = modules[0];
 
   return (
-    <Layout>
-      <Head defaultTitle={siteConfig.title}>
-        {title && <title>{title}</title>}
-        {favicon && <link rel="shortcut icon" href={baseUrl + favicon} />}
-        {language && <html lang={language} />}
-      </Head>
-      {BlogPostContents && (
-        <div className="container margin-vert-xl">
-          <div className="row">
-            <div className="col col-6 col-offset-3">
-              <Post metadata={metadata}>
-                <BlogPostContents />
-              </Post>
-            </div>
-          </div>
-        </div>
-      )}
-      <Footer />
-    </Layout>
+    <ContentRenderer
+      query={{
+        id: props.match.url,
+      }}
+      render={loaded => {
+        const {mod0: BlogPostContents, metadata} = loaded;
+        return (
+          <Layout>
+            <Head defaultTitle={siteConfig.title}>
+              {title && <title>{title}</title>}
+              {favicon && <link rel="shortcut icon" href={baseUrl + favicon} />}
+              {language && <html lang={language} />}
+            </Head>
+            {BlogPostContents && (
+              <div className="container margin-vert-xl">
+                <div className="row">
+                  <div className="col col-6 col-offset-3">
+                    <Post metadata={metadata}>
+                      <BlogPostContents />
+                    </Post>
+                  </div>
+                </div>
+              </div>
+            )}
+            <Footer />
+          </Layout>
+        );
+      }}
+    />
   );
 }
 

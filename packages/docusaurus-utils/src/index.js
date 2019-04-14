@@ -47,7 +47,7 @@ function encodePath(userpath) {
  */
 function docuHash(str) {
   if (str === '/') {
-    return 'Index';
+    return 'index';
   }
   const shortHash = createHash('md5')
     .update(str)
@@ -63,7 +63,7 @@ function docuHash(str) {
  */
 function genComponentName(pagePath) {
   if (pagePath === '/') {
-    return 'Index';
+    return 'index';
   }
   const pageHash = docuHash(pagePath);
   const pascalCase = _.flow(
