@@ -78,7 +78,7 @@ async function loadRoutes(pluginsRouteConfigs) {
     const componentPath = getModulePath(component);
 
     const genImportChunk = (modulePath, prefix, name) => {
-      const chunkName = genChunkName(name + modulePath || '', prefix);
+      const chunkName = genChunkName(modulePath, prefix, name);
       const finalStr = JSON.stringify(modulePath);
       return {
         chunkName,

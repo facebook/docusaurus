@@ -88,9 +88,16 @@ function posixPath(str) {
   return str.replace(/\\/g, '/');
 }
 
-function genChunkName(str, prefix) {
-  const name = str === '/' ? 'index' : docuHash(str);
-  return prefix ? `${prefix}---${name}` : name;
+const chunkNameCache = new Map();
+function genChunkName(modulePath, prefix, preferredName) {
+  let chunkName = chunkNameCache.get(modulePath);
+  const str = preferredName || modulePath;
+  if (!chunkName) {
+    const name = str === '/' ? 'index' : docuHash(str);
+    chunkName = prefix ? `${prefix}---${name}` : name;
+    chunkNameCache.set(modulePath, chunkName);
+  }
+  return chunkName;
 }
 
 function idx(target, keyPaths) {
