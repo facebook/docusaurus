@@ -91,8 +91,15 @@ function posixPath(str) {
 const chunkNameCache = new Map();
 function genChunkName(modulePath, prefix, preferredName) {
   let chunkName = chunkNameCache.get(modulePath);
-  const str = preferredName || modulePath;
   if (!chunkName) {
+    let str = modulePath;
+    if (preferredName) {
+      const shortHash = createHash('md5')
+        .update(modulePath)
+        .digest('hex')
+        .substr(0, 3);
+      str = `${preferredName}${shortHash}`;
+    }
     const name = str === '/' ? 'index' : docuHash(str);
     chunkName = prefix ? `${prefix}---${name}` : name;
     chunkNameCache.set(modulePath, chunkName);
