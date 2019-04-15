@@ -41,7 +41,7 @@ async function loadRoutes(pluginsRouteConfigs) {
   // Mapping of routePath -> async imported modules. Example: '/blog' -> ['@theme/BlogPage']
   const routesAsyncModules = {};
   const addRoutesAsyncModule = (routePath, key, importChunk) => {
-    // TODO: Port other plugins to use routeModules and not rely on this.
+    // TODO: Port other plugins to use modules and not rely on this.
     if (!routesAsyncModules[routePath]) {
       routesAsyncModules[routePath] = {};
     }
@@ -55,7 +55,7 @@ async function loadRoutes(pluginsRouteConfigs) {
       path: routePath,
       component,
       metadata,
-      routeModules = {},
+      modules = {},
       routes,
     } = routeConfig;
 
@@ -119,7 +119,7 @@ async function loadRoutes(pluginsRouteConfigs) {
       return importChunk.chunkName;
     }
 
-    _.assign(routesAsyncModules[routePath], genRouteAsyncModule(routeModules));
+    _.assign(routesAsyncModules[routePath], genRouteAsyncModule(modules));
 
     if (metadata) {
       const metadataPath = routesMetadataPath[routePath];

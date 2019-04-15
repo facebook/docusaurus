@@ -20,7 +20,6 @@ function BlogPage(props) {
     metadata: {posts = []},
     entries: BlogPosts,
   } = props;
-  console.log(props);
 
   return (
     <Layout>
