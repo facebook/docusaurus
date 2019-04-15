@@ -18,7 +18,7 @@ const externalRegex = /^(https?:|\/\/)/;
 
 function prefetchChunks(targetLink) {
   // We know targetLink, we know what are the webpack chunk names that is needed
-  import(/* webpackChunkName: 'routesChunkNames */ '@generated/routesChunkNames.json')
+  import(/* webpackChunkName: 'routesChunkNames' */ '@generated/routesChunkNames.json')
     .then(({default: chunkNames}) => {
       console.log(targetLink);
       const chunkNamesNeeded = chunkNames[targetLink];
@@ -26,6 +26,9 @@ function prefetchChunks(targetLink) {
       console.log(chunkNamesNeeded);
       // We use chunk-map.json so that we know which webpack chunk assets we need to prefetch
       // TODO
+
+      // eslint-disable-next-line
+      console.log(window.__chunkMapping);
 
       // We prefetch all chunks needed
       // Example only:
