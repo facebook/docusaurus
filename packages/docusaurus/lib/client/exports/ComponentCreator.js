@@ -8,12 +8,12 @@
 import React from 'react';
 import Loadable from 'react-loadable';
 import Loading from '@theme/Loading';
-import cloneDeep from 'lodash/cloneDeep';
 import routesAsyncModules from '@generated/routesAsyncModules';
 import registry from '@generated/registry';
 
 function ComponentCreator(path) {
   const modules = routesAsyncModules[path];
+  const originalModules = modules;
   const mappedModules = {};
 
   // Transform an object of
@@ -55,7 +55,7 @@ function ComponentCreator(path) {
     loader: mappedModules,
     render: (loaded, props) => {
       // Transform back loaded modules back into the original structure.
-      const loadedModules = cloneDeep(modules);
+      const loadedModules = originalModules;
       Object.keys(loaded).forEach(key => {
         let val = loadedModules;
         const keyPath = key.split('.');
