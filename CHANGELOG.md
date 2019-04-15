@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [Unreleased]
 
+## [1.8.1] - 2019-4-15
+
+We accidentally published 2.0.0-alpha.5 as latest on npm. Please do not use that and instead use the 1.x version.
+
 ## [1.8.0] - 2019-3-30
 
 This version mainly include bug fixes and a new feature to skip the next release documents when versioning is enabled.
