@@ -12,9 +12,8 @@ const _ = require('lodash');
 async function loadRoutes(pluginsRouteConfigs) {
   const routesImports = [
     `import React from 'react';`,
-    `import Loadable from 'react-loadable';`,
-    `import Loading from '@theme/Loading';`,
     `import NotFound from '@theme/NotFound';`,
+    `import ComponentCreator from '@docusaurus/ComponentCreator';`,
   ];
   // Routes paths. Example: ['/', '/docs', '/blog/2017/09/03/test']
   const routesPaths = [];
@@ -38,16 +37,18 @@ async function loadRoutes(pluginsRouteConfigs) {
   };
 
   const registry = {};
+  const chunkPath = {};
 
   // Mapping of routePath -> async imported modules. Example: '/blog' -> ['@theme/BlogPage']
   const routesAsyncModules = {};
   const addRoutesAsyncModule = (routePath, key, importChunk) => {
-    // TODO: Port other plugins to use routeModules and not rely on this.
+    // TODO: Port other plugins to use modules and not rely on this.
     if (!routesAsyncModules[routePath]) {
       routesAsyncModules[routePath] = {};
     }
     routesAsyncModules[routePath][key] = importChunk.chunkName;
     registry[importChunk.chunkName] = importChunk.importStatement;
+    chunkPath[importChunk.chunkName] = importChunk.modulePath;
   };
 
   // This is the higher level overview of route code generation
@@ -56,8 +57,7 @@ async function loadRoutes(pluginsRouteConfigs) {
       path: routePath,
       component,
       metadata,
-      modules = [],
-      routeModules = {},
+      modules = {},
       routes,
     } = routeConfig;
 
@@ -69,6 +69,7 @@ async function loadRoutes(pluginsRouteConfigs) {
     const getModulePath = target => {
       const importStr = _.isObject(target) ? target.path : target;
       const queryStr = target.query ? `?${stringify(target.query)}` : '';
+
       return `${importStr}${queryStr}`;
     };
 
@@ -82,34 +83,22 @@ async function loadRoutes(pluginsRouteConfigs) {
       const finalStr = JSON.stringify(modulePath);
       return {
         chunkName,
+        modulePath,
         importStatement: `() => import(/* webpackChunkName: '${chunkName}' */ ${finalStr})`,
       };
     };
 
     const componentChunk = genImportChunk(componentPath, 'component');
-    // TODO: Enabling this line causes cyclic dependency, Idk why.
-    // addRoutesAsyncModule(routePath, 'component', componentChunk);
+    addRoutesAsyncModule(routePath, 'component', componentChunk);
 
     if (routes) {
-      const componentStr = `Loadable({
-    loader: ${componentChunk.importStatement},
-    loading: Loading
-  })`;
       return `
 {
   path: '${routePath}',
-  component: ${componentStr},
+  component: ComponentCreator('${routePath}'),
   routes: [${routes.map(generateRouteCode).join(',')}],
 }`;
     }
-
-    const modulesImportStr = modules
-      .map((module, i) => {
-        const modulePath = getModulePath(module);
-        const moduleChunk = genImportChunk(modulePath, i, routePath);
-        return `Mod${i}: ${moduleChunk.importStatement},`;
-      })
-      .join('\n');
 
     function genRouteAsyncModule(value) {
       if (Array.isArray(value)) {
@@ -129,46 +118,24 @@ async function loadRoutes(pluginsRouteConfigs) {
         'module',
         routePath,
       );
+      chunkPath[importChunk.chunkName] = importChunk.modulePath;
       registry[importChunk.chunkName] = importChunk.importStatement;
       return importChunk.chunkName;
     }
 
-    routesAsyncModules[routePath] = genRouteAsyncModule(routeModules);
+    _.assign(routesAsyncModules[routePath], genRouteAsyncModule(modules));
 
-    const modulesLoadedStr = modules
-      .map((module, i) => `loaded.Mod${i}.default,`)
-      .join('\n');
-
-    let metadataImportStr = '';
     if (metadata) {
       const metadataPath = routesMetadataPath[routePath];
       const metadataChunk = genImportChunk(metadataPath, 'metadata', routePath);
       addRoutesAsyncModule(routePath, 'metadata', metadataChunk);
-      metadataImportStr = `metadata: ${metadataChunk.importStatement},`;
     }
-
-    const componentStr = `Loadable.Map({
-  loader: {
-    ${modulesImportStr}
-    ${metadataImportStr}
-    Component: ${componentChunk.importStatement},
-  },
-  loading: Loading,
-  render(loaded, props) {
-    const Component = loaded.Component.default;
-    const metadata = loaded.metadata || {};
-    const modules = [${modulesLoadedStr}];
-    return (
-      <Component {...props} metadata={metadata} modules={modules}/>
-    );
-  }
-})\n`;
 
     return `
 {
   path: '${routePath}',
   exact: true,
-  component: ${componentStr}
+  component: ComponentCreator('${routePath}')
 }`;
   }
 
@@ -188,6 +155,7 @@ export default [
 ];\n`;
 
   return {
+    chunkPath,
     registry,
     routesAsyncModules,
     routesConfig,

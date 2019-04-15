@@ -8,7 +8,6 @@
 import React, {useContext} from 'react';
 
 import Head from '@docusaurus/Head';
-import ContentRenderer from '@docusaurus/ContentRenderer';
 import Layout from '@theme/Layout'; // eslint-disable-line
 import Footer from '@theme/Footer'; // eslint-disable-line
 import DocusaurusContext from '@docusaurus/context';
@@ -20,37 +19,29 @@ function BlogPost(props) {
   );
   const {baseUrl, favicon} = siteConfig;
   const {language, title} = contextMetadata;
+  const {content, metadata} = props;
+  const BlogPostContents = content;
 
   return (
-    <ContentRenderer
-      query={{
-        path: props.match.url,
-      }}
-      render={loaded => {
-        const {content: BlogPostContents, metadata} = loaded;
-        return (
-          <Layout>
-            <Head defaultTitle={siteConfig.title}>
-              {title && <title>{title}</title>}
-              {favicon && <link rel="shortcut icon" href={baseUrl + favicon} />}
-              {language && <html lang={language} />}
-            </Head>
-            {BlogPostContents && (
-              <div className="container margin-vert-xl">
-                <div className="row">
-                  <div className="col col-6 col-offset-3">
-                    <Post metadata={metadata}>
-                      <BlogPostContents />
-                    </Post>
-                  </div>
-                </div>
-              </div>
-            )}
-            <Footer />
-          </Layout>
-        );
-      }}
-    />
+    <Layout>
+      <Head defaultTitle={siteConfig.title}>
+        {title && <title>{title}</title>}
+        {favicon && <link rel="shortcut icon" href={baseUrl + favicon} />}
+        {language && <html lang={language} />}
+      </Head>
+      {BlogPostContents && (
+        <div className="container margin-vert-xl">
+          <div className="row">
+            <div className="col col-6 col-offset-3">
+              <Post metadata={metadata}>
+                <BlogPostContents />
+              </Post>
+            </div>
+          </div>
+        </div>
+      )}
+      <Footer />
+    </Layout>
   );
 }
 

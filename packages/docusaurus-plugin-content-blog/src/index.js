@@ -129,7 +129,7 @@ class DocusaurusPluginContentBlog {
           path: permalink,
           component: blogPageComponent,
           metadata: metadataItem,
-          routeModules: {
+          modules: {
             entries: metadataItem.posts.map(post => ({
               // To tell routes.js this is an import and not a nested object to recurse.
               __import: true,
@@ -148,7 +148,7 @@ class DocusaurusPluginContentBlog {
         path: permalink,
         component: blogPostComponent,
         metadata: metadataItem,
-        routeModules: {
+        modules: {
           content: metadataItem.source,
         },
       });
