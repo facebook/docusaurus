@@ -59,6 +59,7 @@ function ComponentCreator(path) {
     loading: Loading,
     loader: mappedModules,
     // We need to provide opts.modules and opts.webpack to React Loadable
+    // Our loader is now dynamical, the react-loadable/babel won't do the heavy lifting for us.
     // https://github.com/jamiebuilds/react-loadable#declaring-which-modules-are-being-loaded
     modules: optsModules,
     webpack: () => optsWebpack,
