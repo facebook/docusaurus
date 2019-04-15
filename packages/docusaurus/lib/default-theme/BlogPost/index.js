@@ -27,7 +27,7 @@ function BlogPost(props) {
         id: props.match.url,
       }}
       render={loaded => {
-        const {mod0: BlogPostContents, metadata} = loaded;
+        const {content: BlogPostContents, metadata} = loaded;
         return (
           <Layout>
             <Head defaultTitle={siteConfig.title}>

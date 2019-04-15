@@ -7,6 +7,7 @@
 
 import React, {useContext} from 'react';
 import Head from '@docusaurus/Head';
+import ContentRenderer from '@docusaurus/ContentRenderer';
 import Footer from '@theme/Footer'; // eslint-disable-line
 import Layout from '@theme/Layout'; // eslint-disable-line
 import DocusaurusContext from '@docusaurus/context';
@@ -18,32 +19,45 @@ function BlogPage(props) {
   const {baseUrl, favicon} = siteConfig;
   const {
     metadata: {posts = []},
-    modules: BlogPosts,
   } = props;
 
   return (
-    <Layout>
-      <Head>
-        <title>Blog</title>
-        {favicon && <link rel="shortcut icon" href={baseUrl + favicon} />}
-        {language && <html lang={language} />}
-        {language && <meta name="docsearch:language" content={language} />}
-      </Head>
-      <div className="container margin-vert-xl">
-        <div className="row">
-          <div className="col col-6 col-offset-3">
-            {BlogPosts.map((PostContent, index) => (
-              <div className="margin-bottom-xl" key={index}>
-                <Post truncated metadata={posts[index]}>
-                  <PostContent />
-                </Post>
+    <ContentRenderer
+      query={{
+        id: props.match.url,
+      }}
+      render={loaded => {
+        const {entries: BlogPosts} = loaded;
+        return (
+          <Layout>
+            <Head>
+              <title>Blog</title>
+              {favicon && <link rel="shortcut icon" href={baseUrl + favicon} />}
+              {language && <html lang={language} />}
+              {language && (
+                <meta name="docsearch:language" content={language} />
+              )}
+            </Head>
+            {BlogPosts && (
+              <div className="container margin-vert-xl">
+                <div className="row">
+                  <div className="col col-6 col-offset-3">
+                    {BlogPosts.map((PostContent, index) => (
+                      <div className="margin-bottom-xl" key={index}>
+                        <Post truncated metadata={posts[index]}>
+                          <PostContent />
+                        </Post>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
-            ))}
-          </div>
-        </div>
-      </div>
-      <Footer />
-    </Layout>
+            )}
+            <Footer />
+          </Layout>
+        );
+      }}
+    />
   );
 }
 

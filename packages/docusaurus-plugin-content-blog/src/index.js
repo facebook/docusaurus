@@ -121,7 +121,7 @@ class DocusaurusPluginContentBlog {
 
   async contentLoaded({content, actions}) {
     const {blogPageComponent, blogPostComponent} = this.options;
-    const {addContent, addRoute} = actions;
+    const {addRoute} = actions;
     content.forEach(metadataItem => {
       const {isBlogPage, permalink} = metadataItem;
       if (isBlogPage) {
@@ -129,23 +129,16 @@ class DocusaurusPluginContentBlog {
           path: permalink,
           component: blogPageComponent,
           metadata: metadataItem,
-          modules: metadataItem.posts.map(post => ({
-            path: post.source,
-            query: {
-              truncated: true,
-            },
-          })),
-        });
-
-        addContent(permalink, {
-          metadata: metadataItem,
-          posts: metadataItem.posts.map(item => ({
-            id: item.source,
-            query: {
-              truncated: true,
-            },
-            __async: true,
-          })),
+          routeModules: {
+            entries: metadataItem.posts.map(post => ({
+              // To tell routes.js this is an import and not a nested object to recurse.
+              __import: true,
+              path: post.source,
+              query: {
+                truncated: true,
+              },
+            })),
+          },
         });
 
         return;
@@ -155,14 +148,8 @@ class DocusaurusPluginContentBlog {
         path: permalink,
         component: blogPostComponent,
         metadata: metadataItem,
-        modules: [metadataItem.source],
-      });
-
-      addContent(permalink, {
-        metadata: metadataItem,
-        contents: {
-          id: metadataItem.source,
-          __async: true,
+        routeModules: {
+          content: metadataItem.source,
         },
       });
     });

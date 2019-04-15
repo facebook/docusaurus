@@ -7,6 +7,7 @@
 
 const {genChunkName, docuHash} = require('@docusaurus/utils');
 const {stringify} = require('querystring');
+const _ = require('lodash');
 
 async function loadRoutes(pluginsRouteConfigs) {
   const routesImports = [
@@ -41,6 +42,7 @@ async function loadRoutes(pluginsRouteConfigs) {
   // Mapping of routePath -> async imported modules. Example: '/blog' -> ['@theme/BlogPage']
   const routesAsyncModules = {};
   const addRoutesAsyncModule = (routePath, key, importChunk) => {
+    // TODO: Port other plugins to use routeModules and not rely on this.
     if (!routesAsyncModules[routePath]) {
       routesAsyncModules[routePath] = {};
     }
@@ -55,6 +57,7 @@ async function loadRoutes(pluginsRouteConfigs) {
       component,
       metadata,
       modules = [],
+      routeModules = {},
       routes,
     } = routeConfig;
 
@@ -64,8 +67,7 @@ async function loadRoutes(pluginsRouteConfigs) {
 
     // Given an input (object or string), get the import path str
     const getModulePath = target => {
-      const isObj = typeof target === 'object';
-      const importStr = isObj ? target.path : target;
+      const importStr = _.isObject(target) ? target.path : target;
       const queryStr = target.query ? `?${stringify(target.query)}` : '';
       return `${importStr}${queryStr}`;
     };
@@ -76,7 +78,7 @@ async function loadRoutes(pluginsRouteConfigs) {
     const componentPath = getModulePath(component);
 
     const genImportChunk = (modulePath, prefix, name) => {
-      const chunkName = genChunkName(name || modulePath, prefix);
+      const chunkName = genChunkName(name + modulePath || '', prefix);
       const finalStr = JSON.stringify(modulePath);
       return {
         chunkName,
@@ -85,7 +87,8 @@ async function loadRoutes(pluginsRouteConfigs) {
     };
 
     const componentChunk = genImportChunk(componentPath, 'component');
-    addRoutesAsyncModule(routePath, 'component', componentChunk);
+    // TODO: Enabling this line causes cyclic dependency, Idk why.
+    // addRoutesAsyncModule(routePath, 'component', componentChunk);
 
     if (routes) {
       const componentStr = `Loadable({
@@ -104,10 +107,34 @@ async function loadRoutes(pluginsRouteConfigs) {
       .map((module, i) => {
         const modulePath = getModulePath(module);
         const moduleChunk = genImportChunk(modulePath, i, routePath);
-        addRoutesAsyncModule(routePath, `mod${i}`, moduleChunk);
         return `Mod${i}: ${moduleChunk.importStatement},`;
       })
       .join('\n');
+
+    function genRouteAsyncModule(value) {
+      if (Array.isArray(value)) {
+        return value.map(genRouteAsyncModule);
+      }
+
+      if (_.isObject(value) && !value.__import) {
+        const newValue = {};
+        Object.keys(value).forEach(key => {
+          newValue[key] = genRouteAsyncModule(value[key]);
+        });
+        return newValue;
+      }
+
+      const importChunk = genImportChunk(
+        getModulePath(value),
+        'module',
+        routePath,
+      );
+      registry[importChunk.chunkName] = importChunk.importStatement;
+      return importChunk.chunkName;
+    }
+
+    routesAsyncModules[routePath] = genRouteAsyncModule(routeModules);
+
     const modulesLoadedStr = modules
       .map((module, i) => `loaded.Mod${i}.default,`)
       .join('\n');

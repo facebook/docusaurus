@@ -42,7 +42,6 @@ module.exports = async function load(siteDir, cliOptions = {}) {
   const pluginConfigs = siteConfig.plugins || [];
   const context = {env, siteDir, generatedFilesDir, siteConfig, cliOptions};
   const {
-    contentRegistry,
     plugins,
     pluginsRouteConfigs,
     pluginsLoadedContent,
@@ -66,12 +65,6 @@ module.exports = async function load(siteDir, cliOptions = {}) {
     routesMetadataPath,
     routesPaths,
   } = await loadRoutes(pluginsRouteConfigs);
-
-  await generate(
-    generatedFilesDir,
-    'contentRegistry.json',
-    JSON.stringify(contentRegistry, null, 2),
-  );
 
   await generate(
     generatedFilesDir,

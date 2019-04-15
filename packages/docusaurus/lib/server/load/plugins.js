@@ -63,12 +63,9 @@ module.exports = async function loadPlugins({pluginConfigs = [], context}) {
 
   // 3. Plugin lifecycle - contentLoaded
   const pluginsRouteConfigs = [];
-  const contentRegistry = {};
+
   const actions = {
     addRoute: config => pluginsRouteConfigs.push(config),
-    addContent: (id, node) => {
-      contentRegistry[id] = node;
-    },
   };
 
   await Promise.all(
@@ -84,10 +81,7 @@ module.exports = async function loadPlugins({pluginConfigs = [], context}) {
     }),
   );
 
-  console.log(contentRegistry);
-
   return {
-    contentRegistry,
     plugins,
     pluginsRouteConfigs,
     pluginsLoadedContent,

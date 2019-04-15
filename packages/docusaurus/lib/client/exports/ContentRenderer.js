@@ -6,9 +6,10 @@
  */
 
 import React from 'react';
-import routesAsyncModules from '@generated/routesAsyncModules';
 import Loadable from 'react-loadable';
 import Loading from '@theme/Loading';
+import cloneDeep from 'lodash/cloneDeep';
+import routesAsyncModules from '@generated/routesAsyncModules';
 import registry from '@generated/registry';
 
 function ContentRenderer(props) {
@@ -16,18 +17,50 @@ function ContentRenderer(props) {
   const {id} = query;
   const modules = routesAsyncModules[id];
   const mappedModules = {};
-  Object.keys(modules).map(key => {
-    mappedModules[key] = registry[modules[key]];
-  });
+  function traverseModules(module, path) {
+    if (Array.isArray(module)) {
+      module.forEach((value, index) => {
+        traverseModules(value, [...path, index]);
+      });
+      return;
+    }
+
+    if (typeof module === 'object') {
+      Object.keys(module).forEach(key => {
+        traverseModules(module[key], [...path, key]);
+      });
+      return;
+    }
+
+    mappedModules[path.join('.')] = registry[module];
+  }
+
+  // Transform an object of {a: 'foo', b: {c:'bar}, d: ['baz', 'qux']} into
+  // {
+  //   a: () => import('foo'),
+  //   b.c: () => import('foo'),
+  //   d.0: () => import('baz'),
+  //   d.1: () => import('qux'),
+  // }
+  // for React Loadable to process.
+  traverseModules(modules, []);
 
   const LoadableComponent = Loadable.Map({
     loading: Loading,
     loader: mappedModules,
     render: loaded => {
-      Object.keys(loaded).map(key => {
-        loaded[key] = loaded[key].default;
+      // Transform back loaded modules back into the nested format.
+      const loadedModules = cloneDeep(modules);
+      Object.keys(loaded).forEach(key => {
+        let val = loadedModules;
+        const keyPath = key.split('.');
+        for (let i = 0; i < keyPath.length - 1; i += 1) {
+          val = val[keyPath[i]];
+        }
+        val[keyPath[keyPath.length - 1]] = loaded[key].default;
       });
-      return render(loaded, props);
+
+      return render(loadedModules, props);
     },
   });
 
