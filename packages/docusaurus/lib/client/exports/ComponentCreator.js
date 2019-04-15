@@ -9,11 +9,14 @@ import React from 'react';
 import Loadable from 'react-loadable';
 import Loading from '@theme/Loading';
 import routesAsyncModules from '@generated/routesAsyncModules';
+import chunkPath from '@generated/chunkPath';
 import registry from '@generated/registry';
 
 function ComponentCreator(path) {
   const modules = routesAsyncModules[path];
   const originalModules = modules;
+  const optsModules = [];
+  const optsWebpack = [];
   const mappedModules = {};
 
   // Transform an object of
@@ -46,6 +49,8 @@ function ComponentCreator(path) {
     }
 
     mappedModules[keys.join('.')] = registry[module];
+    optsModules.push(chunkPath[module].module);
+    optsWebpack.push(chunkPath[module].webpack);
   }
 
   traverseModules(modules, []);
@@ -53,6 +58,10 @@ function ComponentCreator(path) {
   return Loadable.Map({
     loading: Loading,
     loader: mappedModules,
+    // We need to provide opts.modules and opts.webpack to React Loadable
+    // https://github.com/jamiebuilds/react-loadable#declaring-which-modules-are-being-loaded
+    modules: optsModules,
+    webpack: () => optsWebpack,
     render: (loaded, props) => {
       // Transform back loaded modules back into the original structure.
       const loadedModules = originalModules;
