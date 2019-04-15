@@ -215,7 +215,9 @@ class DocusaurusPluginContentDocs {
         path: metadataItem.permalink,
         component: docItemComponent,
         metadata: metadataItem,
-        modules: [metadataItem.source],
+        routeModules: {
+          content: metadataItem.source,
+        },
       })),
     });
   }

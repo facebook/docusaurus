@@ -104,7 +104,9 @@ class DocusaurusPluginContentPages {
         path: permalink,
         component,
         metadata: metadataItem,
-        modules: [source],
+        routeModules: {
+          content: source,
+        },
       });
     });
   }

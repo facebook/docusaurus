@@ -53,7 +53,7 @@ function ContentRenderer(path) {
   return Loadable.Map({
     loading: Loading,
     loader: mappedModules,
-    render: loaded => {
+    render: (loaded, props) => {
       // Transform back loaded modules back into the original structure.
       const loadedModules = cloneDeep(modules);
       Object.keys(loaded).forEach(key => {
@@ -67,7 +67,7 @@ function ContentRenderer(path) {
 
       const Component = loadedModules.component;
       delete loadedModules.component;
-      return <Component {...loadedModules} />;
+      return <Component {...loadedModules} {...props} />;
     },
   });
 }

@@ -57,7 +57,6 @@ async function loadRoutes(pluginsRouteConfigs) {
       path: routePath,
       component,
       metadata,
-      modules = [],
       routeModules = {},
       routes,
     } = routeConfig;
@@ -92,25 +91,13 @@ async function loadRoutes(pluginsRouteConfigs) {
     addRoutesAsyncModule(routePath, 'component', componentChunk);
 
     if (routes) {
-      const componentStr = `Loadable({
-    loader: ${componentChunk.importStatement},
-    loading: Loading
-  })`;
       return `
 {
   path: '${routePath}',
-  component: ${componentStr},
+  component: ContentRenderer('${routePath}'),
   routes: [${routes.map(generateRouteCode).join(',')}],
 }`;
     }
-
-    const modulesImportStr = modules
-      .map((module, i) => {
-        const modulePath = getModulePath(module);
-        const moduleChunk = genImportChunk(modulePath, i, routePath);
-        return `Mod${i}: ${moduleChunk.importStatement},`;
-      })
-      .join('\n');
 
     function genRouteAsyncModule(value) {
       if (Array.isArray(value)) {
@@ -136,49 +123,17 @@ async function loadRoutes(pluginsRouteConfigs) {
 
     _.assign(routesAsyncModules[routePath], genRouteAsyncModule(routeModules));
 
-    const modulesLoadedStr = modules
-      .map((module, i) => `loaded.Mod${i}.default,`)
-      .join('\n');
-
-    let metadataImportStr = '';
     if (metadata) {
       const metadataPath = routesMetadataPath[routePath];
       const metadataChunk = genImportChunk(metadataPath, 'metadata', routePath);
       addRoutesAsyncModule(routePath, 'metadata', metadataChunk);
-      metadataImportStr = `metadata: ${metadataChunk.importStatement},`;
-    }
-
-    const componentStr = `Loadable.Map({
-  loader: {
-    ${modulesImportStr}
-    ${metadataImportStr}
-    Component: ${componentChunk.importStatement},
-  },
-  loading: Loading,
-  render(loaded, props) {
-    const Component = loaded.Component.default;
-    const metadata = loaded.metadata || {};
-    const modules = [${modulesLoadedStr}];
-    return (
-      <Component {...props} metadata={metadata} modules={modules}/>
-    );
-  }
-})\n`;
-
-    if (/^\/blog/.test(routePath)) {
-      return `
-      {
-        path: '${routePath}',
-        exact: true,
-        component: ContentRenderer('${routePath}')
-      }`;
     }
 
     return `
 {
   path: '${routePath}',
   exact: true,
-  component: ${componentStr}
+  component: ContentRenderer('${routePath}')
 }`;
   }
 

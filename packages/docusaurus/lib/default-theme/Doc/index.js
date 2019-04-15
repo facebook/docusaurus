@@ -22,6 +22,7 @@ function Doc(props) {
   const {siteConfig = {}} = useContext(DocusaurusContext);
   const {route} = props;
   const {baseUrl, favicon} = siteConfig;
+  console.log(props);
   return (
     <Layout>
       <Head>
