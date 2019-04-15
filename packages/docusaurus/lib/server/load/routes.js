@@ -111,7 +111,7 @@ async function loadRoutes(pluginsRouteConfigs) {
       })
       .join('\n');
 
-    function genRouteAsyncModule(value, index) {
+    function genRouteAsyncModule(value) {
       if (Array.isArray(value)) {
         return value.map(genRouteAsyncModule);
       }
@@ -126,14 +126,9 @@ async function loadRoutes(pluginsRouteConfigs) {
 
       const importChunk = genImportChunk(
         getModulePath(value),
-        index,
+        'module',
         routePath,
       );
-      if (value.query) {
-        console.log(value);
-        console.log(getModulePath(value));
-        console.log(importChunk.chunkName);
-      }
       registry[importChunk.chunkName] = importChunk.importStatement;
       return importChunk.chunkName;
     }
