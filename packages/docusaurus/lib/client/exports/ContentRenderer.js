@@ -12,9 +12,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import routesAsyncModules from '@generated/routesAsyncModules';
 import registry from '@generated/registry';
 
-function ContentRenderer(props) {
-  const {query, render} = props;
-  const {path} = query;
+function ContentRenderer(path) {
   const modules = routesAsyncModules[path];
   const mappedModules = {};
 
@@ -52,7 +50,7 @@ function ContentRenderer(props) {
 
   traverseModules(modules, []);
 
-  const LoadableComponent = Loadable.Map({
+  return Loadable.Map({
     loading: Loading,
     loader: mappedModules,
     render: loaded => {
@@ -67,11 +65,11 @@ function ContentRenderer(props) {
         val[keyPath[keyPath.length - 1]] = loaded[key].default;
       });
 
-      return render(loadedModules, props);
+      const Component = loadedModules.component;
+      delete loadedModules.component;
+      return <Component {...loadedModules} />;
     },
   });
-
-  return <LoadableComponent />;
 }
 
 export default ContentRenderer;

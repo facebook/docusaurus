@@ -15,6 +15,7 @@ async function loadRoutes(pluginsRouteConfigs) {
     `import Loadable from 'react-loadable';`,
     `import Loading from '@theme/Loading';`,
     `import NotFound from '@theme/NotFound';`,
+    `import ContentRenderer from '@docusaurus/ContentRenderer';`,
   ];
   // Routes paths. Example: ['/', '/docs', '/blog/2017/09/03/test']
   const routesPaths = [];
@@ -163,6 +164,15 @@ async function loadRoutes(pluginsRouteConfigs) {
     );
   }
 })\n`;
+
+    if (/^\/blog/.test(routePath)) {
+      return `
+      {
+        path: '${routePath}',
+        exact: true,
+        component: ContentRenderer('${routePath}')
+      }`;
+    }
 
     return `
 {
