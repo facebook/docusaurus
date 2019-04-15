@@ -37,7 +37,6 @@ async function loadRoutes(pluginsRouteConfigs) {
   };
 
   const registry = {};
-  const chunkPath = {};
 
   // Mapping of routePath -> async imported modules. Example: '/blog' -> ['@theme/BlogPage']
   const routesAsyncModules = {};
@@ -47,8 +46,10 @@ async function loadRoutes(pluginsRouteConfigs) {
       routesAsyncModules[routePath] = {};
     }
     routesAsyncModules[routePath][key] = importChunk.chunkName;
-    registry[importChunk.chunkName] = importChunk.importStatement;
-    chunkPath[importChunk.chunkName] = importChunk.modulePath;
+    registry[importChunk.chunkName] = {
+      importStatement: importChunk.importStatement,
+      modulePath: importChunk.modulePath,
+    };
   };
 
   // This is the higher level overview of route code generation
@@ -118,8 +119,10 @@ async function loadRoutes(pluginsRouteConfigs) {
         'module',
         routePath,
       );
-      chunkPath[importChunk.chunkName] = importChunk.modulePath;
-      registry[importChunk.chunkName] = importChunk.importStatement;
+      registry[importChunk.chunkName] = {
+        importStatement: importChunk.importStatement,
+        modulePath: importChunk.modulePath,
+      };
       return importChunk.chunkName;
     }
 
@@ -155,7 +158,6 @@ export default [
 ];\n`;
 
   return {
-    chunkPath,
     registry,
     routesAsyncModules,
     routesConfig,

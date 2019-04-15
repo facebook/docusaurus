@@ -58,7 +58,6 @@ module.exports = async function load(siteDir, cliOptions = {}) {
 
   // Routing
   const {
-    chunkPath,
     registry,
     routesAsyncModules,
     routesConfig,
@@ -70,29 +69,16 @@ module.exports = async function load(siteDir, cliOptions = {}) {
   await generate(
     generatedFilesDir,
     'registry.js',
-    `module.exports = {
-${Object.keys(registry)
-  .map(key => `  '${key}': ${registry[key]},`)
-  .join('\n')}
-}
-    `,
-  );
-
-  // Needed for react loadable opts.webpack and opts.module
-  // https://github.com/jamiebuilds/react-loadable#optswebpack
-  await generate(
-    generatedFilesDir,
-    'chunkPath.js',
     `export default {
-${Object.keys(chunkPath)
+${Object.keys(registry)
   .map(
     key => `  '${key}': {
-    'module': '${chunkPath[key]}',
-    'webpack': require.resolveWeak('${chunkPath[key]}')
+    'importStatement': ${registry[key].importStatement},
+    'module': '${registry[key].modulePath}',
+    'webpack': require.resolveWeak('${registry[key].modulePath}'),
   },`,
   )
-  .join('\n')} 
-};\n`,
+  .join('\n')}};\n`,
   );
 
   // Mapping of routePath -> async imported modules. Example: '/blog' -> ['@theme/BlogPage']

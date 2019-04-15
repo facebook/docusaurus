@@ -9,7 +9,6 @@ import React from 'react';
 import Loadable from 'react-loadable';
 import Loading from '@theme/Loading';
 import routesAsyncModules from '@generated/routesAsyncModules';
-import chunkPath from '@generated/chunkPath';
 import registry from '@generated/registry';
 
 function ComponentCreator(path) {
@@ -48,9 +47,9 @@ function ComponentCreator(path) {
       return;
     }
 
-    mappedModules[keys.join('.')] = registry[module];
-    optsModules.push(chunkPath[module].module);
-    optsWebpack.push(chunkPath[module].webpack);
+    mappedModules[keys.join('.')] = registry[module].importStatement;
+    optsModules.push(registry[module].module);
+    optsWebpack.push(registry[module].webpack);
   }
 
   traverseModules(modules, []);
