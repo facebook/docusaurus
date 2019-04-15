@@ -15,6 +15,24 @@ const path = require('path');
 
 const CWD = process.cwd();
 
+const toHex = color => {
+  const hex = color.toString(16);
+  return hex.length === 1 ? `0${hex}` : hex;
+};
+
+const colorScheme = () => {
+  let primaryColor = '#';
+  let secondaryColor = '#';
+  for (let i = 0; i < 3; i++) {
+    // 175 is our ceiling to prevent the color from being too bright
+    const color = Math.floor(Math.random() * 176);
+    const darkColor = Math.floor(color * 0.7);
+    primaryColor += toHex(color);
+    secondaryColor += toHex(darkColor);
+  }
+  return {primaryColor, secondaryColor};
+};
+
 let feature;
 
 commander
@@ -197,20 +215,34 @@ if (feature === 'translations') {
       return;
     }
     const filePath = path.resolve(file).split(path.resolve(folder))[1];
-    try {
-      fs.copySync(file, CWD + filePath, {
-        overwrite: false,
-        errorOnExist: true,
-      });
-      exampleSiteCreated = true;
-    } catch (e) {
-      console.log(
-        `- ${chalk.green(
-          `${path.basename(filePath)}`,
-        )} already exists in ${chalk.blue(
-          `${outerFolder}/website${filePath.split(path.basename(filePath))[0]}`,
-        )}.`,
-      );
+    if (
+      path.basename(file) === 'siteConfig.js' &&
+      !fs.existsSync(CWD + filePath)
+    ) {
+      const {primaryColor, secondaryColor} = colorScheme();
+      const siteConfig = fs
+        .readFileSync(file, 'utf8')
+        .replace('{{primaryColor}}', primaryColor)
+        .replace('{{secondaryColor}}', secondaryColor);
+      fs.writeFileSync(CWD + filePath, siteConfig);
+    } else {
+      try {
+        fs.copySync(file, CWD + filePath, {
+          overwrite: false,
+          errorOnExist: true,
+        });
+        exampleSiteCreated = true;
+      } catch (e) {
+        console.log(
+          `- ${chalk.green(
+            `${path.basename(filePath)}`,
+          )} already exists in ${chalk.blue(
+            `${outerFolder}/website${
+              filePath.split(path.basename(filePath))[0]
+            }`,
+          )}.`,
+        );
+      }
     }
   });
 
