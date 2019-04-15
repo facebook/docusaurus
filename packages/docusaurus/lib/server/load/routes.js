@@ -69,6 +69,7 @@ async function loadRoutes(pluginsRouteConfigs) {
     const getModulePath = target => {
       const importStr = _.isObject(target) ? target.path : target;
       const queryStr = target.query ? `?${stringify(target.query)}` : '';
+
       return `${importStr}${queryStr}`;
     };
 
@@ -87,8 +88,7 @@ async function loadRoutes(pluginsRouteConfigs) {
     };
 
     const componentChunk = genImportChunk(componentPath, 'component');
-    // TODO: Enabling this line causes cyclic dependency, Idk why.
-    // addRoutesAsyncModule(routePath, 'component', componentChunk);
+    addRoutesAsyncModule(routePath, 'component', componentChunk);
 
     if (routes) {
       const componentStr = `Loadable({
@@ -111,7 +111,7 @@ async function loadRoutes(pluginsRouteConfigs) {
       })
       .join('\n');
 
-    function genRouteAsyncModule(value) {
+    function genRouteAsyncModule(value, index) {
       if (Array.isArray(value)) {
         return value.map(genRouteAsyncModule);
       }
@@ -126,14 +126,19 @@ async function loadRoutes(pluginsRouteConfigs) {
 
       const importChunk = genImportChunk(
         getModulePath(value),
-        'module',
+        index,
         routePath,
       );
+      if (value.query) {
+        console.log(value);
+        console.log(getModulePath(value));
+        console.log(importChunk.chunkName);
+      }
       registry[importChunk.chunkName] = importChunk.importStatement;
       return importChunk.chunkName;
     }
 
-    routesAsyncModules[routePath] = genRouteAsyncModule(routeModules);
+    _.assign(routesAsyncModules[routePath], genRouteAsyncModule(routeModules));
 
     const modulesLoadedStr = modules
       .map((module, i) => `loaded.Mod${i}.default,`)

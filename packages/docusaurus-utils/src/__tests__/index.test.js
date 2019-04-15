@@ -94,11 +94,6 @@ describe('load utils', () => {
     Object.keys(asserts).forEach(str => {
       expect(genChunkName(str)).toBe(asserts[str]);
     });
-
-    // Don't allow different chunk name for same path.
-    expect(genChunkName('path/is/similar', 'oldPrefix')).toEqual(
-      genChunkName('path/is/similar', 'newPrefix'),
-    );
   });
 
   test('idx', () => {
