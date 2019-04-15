@@ -14,42 +14,49 @@ import registry from '@generated/registry';
 
 function ContentRenderer(props) {
   const {query, render} = props;
-  const {id} = query;
-  const modules = routesAsyncModules[id];
+  const {path} = query;
+  const modules = routesAsyncModules[path];
   const mappedModules = {};
-  function traverseModules(module, path) {
+
+  // Transform an object of
+  // {
+  //   a: 'foo',
+  //   b: { c: 'bar' },
+  //   d: ['baz', 'qux']
+  // }
+  // into
+  // {
+  //   a: () => import('foo'),
+  //   b.c: () => import('bar'),
+  //   d.0: () => import('baz'),
+  //   d.1: () => import('qux'),
+  // }
+  // for React Loadable to process.
+  function traverseModules(module, keys) {
     if (Array.isArray(module)) {
       module.forEach((value, index) => {
-        traverseModules(value, [...path, index]);
+        traverseModules(value, [...keys, index]);
       });
       return;
     }
 
     if (typeof module === 'object') {
       Object.keys(module).forEach(key => {
-        traverseModules(module[key], [...path, key]);
+        traverseModules(module[key], [...keys, key]);
       });
       return;
     }
 
-    mappedModules[path.join('.')] = registry[module];
+    mappedModules[keys.join('.')] = registry[module];
   }
 
-  // Transform an object of {a: 'foo', b: {c:'bar}, d: ['baz', 'qux']} into
-  // {
-  //   a: () => import('foo'),
-  //   b.c: () => import('foo'),
-  //   d.0: () => import('baz'),
-  //   d.1: () => import('qux'),
-  // }
-  // for React Loadable to process.
   traverseModules(modules, []);
 
   const LoadableComponent = Loadable.Map({
     loading: Loading,
     loader: mappedModules,
     render: loaded => {
-      // Transform back loaded modules back into the nested format.
+      // Transform back loaded modules back into the original structure.
       const loadedModules = cloneDeep(modules);
       Object.keys(loaded).forEach(key => {
         let val = loadedModules;

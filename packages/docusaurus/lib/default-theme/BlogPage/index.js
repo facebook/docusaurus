@@ -24,7 +24,7 @@ function BlogPage(props) {
   return (
     <ContentRenderer
       query={{
-        id: props.match.url,
+        path: props.match.url,
       }}
       render={loaded => {
         const {entries: BlogPosts} = loaded;

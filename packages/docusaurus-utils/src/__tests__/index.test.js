@@ -33,7 +33,7 @@ describe('load utils', () => {
 
   test('genComponentName', () => {
     const asserts = {
-      '/': 'Index',
+      '/': 'index',
       '/foo-bar': 'FooBar096',
       '/foo/bar': 'FooBar1Df',
       '/blog/2017/12/14/introducing-docusaurus':
@@ -51,7 +51,7 @@ describe('load utils', () => {
   test('docuHash', () => {
     const asserts = {
       '': '-d41',
-      '/': 'Index',
+      '/': 'index',
       '/foo-bar': 'foo-bar-096',
       '/foo/bar': 'foo-bar-1df',
       '/endi/lie': 'endi-lie-9fa',

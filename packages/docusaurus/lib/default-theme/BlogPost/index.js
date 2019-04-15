@@ -24,7 +24,7 @@ function BlogPost(props) {
   return (
     <ContentRenderer
       query={{
-        id: props.match.url,
+        path: props.match.url,
       }}
       render={loaded => {
         const {content: BlogPostContents, metadata} = loaded;
