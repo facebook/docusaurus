@@ -12,10 +12,8 @@ const _ = require('lodash');
 async function loadRoutes(pluginsRouteConfigs) {
   const routesImports = [
     `import React from 'react';`,
-    `import Loadable from 'react-loadable';`,
-    `import Loading from '@theme/Loading';`,
     `import NotFound from '@theme/NotFound';`,
-    `import ContentRenderer from '@docusaurus/ContentRenderer';`,
+    `import ComponentCreator from '@docusaurus/ComponentCreator';`,
   ];
   // Routes paths. Example: ['/', '/docs', '/blog/2017/09/03/test']
   const routesPaths = [];
@@ -94,7 +92,7 @@ async function loadRoutes(pluginsRouteConfigs) {
       return `
 {
   path: '${routePath}',
-  component: ContentRenderer('${routePath}'),
+  component: ComponentCreator('${routePath}'),
   routes: [${routes.map(generateRouteCode).join(',')}],
 }`;
     }
@@ -133,7 +131,7 @@ async function loadRoutes(pluginsRouteConfigs) {
 {
   path: '${routePath}',
   exact: true,
-  component: ContentRenderer('${routePath}')
+  component: ComponentCreator('${routePath}')
 }`;
   }
 

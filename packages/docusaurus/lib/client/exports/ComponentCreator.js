@@ -12,7 +12,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import routesAsyncModules from '@generated/routesAsyncModules';
 import registry from '@generated/registry';
 
-function ContentRenderer(path) {
+function ComponentCreator(path) {
   const modules = routesAsyncModules[path];
   const mappedModules = {};
 
@@ -72,4 +72,4 @@ function ContentRenderer(path) {
   });
 }
 
-export default ContentRenderer;
+export default ComponentCreator;
