@@ -58,6 +58,7 @@ module.exports = async function load(siteDir, cliOptions = {}) {
 
   // Routing
   const {
+    registry,
     routesAsyncModules,
     routesConfig,
     routesMetadata,
@@ -65,12 +66,19 @@ module.exports = async function load(siteDir, cliOptions = {}) {
     routesPaths,
   } = await loadRoutes(pluginsRouteConfigs);
 
-  // Mapping of routePath -> metadataPath. Example: '/blog' -> '@generated/metadata/blog-c06.json'
-  // Very useful to know which json metadata file is related to certain route
   await generate(
     generatedFilesDir,
-    'routesMetadataPath.json',
-    JSON.stringify(routesMetadataPath, null, 2),
+    'registry.js',
+    `export default {
+${Object.keys(registry)
+  .map(
+    key => `  '${key}': {
+    'importStatement': ${registry[key].importStatement},
+    'module': '${registry[key].modulePath}',
+    'webpack': require.resolveWeak('${registry[key].modulePath}'),
+  },`,
+  )
+  .join('\n')}};\n`,
   );
 
   // Mapping of routePath -> async imported modules. Example: '/blog' -> ['@theme/BlogPage']

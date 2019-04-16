@@ -18,7 +18,7 @@ function BlogPage(props) {
   const {baseUrl, favicon} = siteConfig;
   const {
     metadata: {posts = []},
-    modules: BlogPosts,
+    entries: BlogPosts,
   } = props;
 
   return (

@@ -14,14 +14,14 @@ import Head from '@docusaurus/Head';
 import styles from './styles.module.css';
 
 function DocBody(props) {
-  const {metadata, modules} = props;
+  const {metadata, content} = props;
   const {language, version} = metadata;
   const context = useContext(DocusaurusContext);
   useEffect(() => {
     context.setContext({metadata});
   }, []);
 
-  const DocContents = modules[0];
+  const DocContents = content;
   return (
     <div className={styles.docBody}>
       <Head>

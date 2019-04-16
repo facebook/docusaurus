@@ -12,12 +12,12 @@ import Layout from '@theme/Layout'; // eslint-disable-line
 
 import DocusaurusContext from '@docusaurus/context';
 
-function Pages({modules}) {
+function Pages({content}) {
   const context = useContext(DocusaurusContext);
   const {metadata = {}, siteConfig = {}} = context;
   const {baseUrl, favicon} = siteConfig;
   const {language} = metadata;
-  const PageContents = modules[0];
+  const PageContents = content;
 
   return (
     <Layout>

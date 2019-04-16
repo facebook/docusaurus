@@ -19,8 +19,8 @@ function BlogPost(props) {
   );
   const {baseUrl, favicon} = siteConfig;
   const {language, title} = contextMetadata;
-  const {modules, metadata} = props;
-  const BlogPostContents = modules[0];
+  const {content, metadata} = props;
+  const BlogPostContents = content;
 
   return (
     <Layout>
