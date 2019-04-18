@@ -12,31 +12,8 @@ import {NavLink} from 'react-router-dom';
 import DocusaurusContext from '@docusaurus/context';
 
 import preload from '../preload';
-import prefetch from '../prefetch';
 
 const externalRegex = /^(https?:|\/\/)/;
-
-function prefetchChunks(targetLink) {
-  // We know targetLink, we know what are the webpack chunk names that is needed
-  import(/* webpackChunkName: 'routesChunkNames' */ '@generated/routesChunkNames.json')
-    .then(({default: chunkNames}) => {
-      console.log(targetLink);
-      const chunkNamesNeeded = chunkNames[targetLink];
-
-      console.log(chunkNamesNeeded);
-      // We use chunk-map.json so that we know which webpack chunk assets we need to prefetch
-      // TODO
-
-      // eslint-disable-next-line
-      console.log(window.__chunkMapping);
-
-      // We prefetch all chunks needed
-      // Example only:
-      const chunkAssetsNeeded = ['/component---theme-doc-body-f68.js'];
-      chunkAssetsNeeded.map(prefetch);
-    })
-    .catch(err => console.log(`Failed to prefetch ${targetLink}`, err));
-}
 
 function Link(props) {
   const {routes} = useContext(DocusaurusContext);
@@ -49,7 +26,7 @@ function Link(props) {
   ) : (
     <Perimeter
       padding={preloadProximity}
-      onBreach={() => preload(routes, targetLink) && prefetchChunks(targetLink)}
+      onBreach={() => preload(routes, targetLink)}
       once>
       <NavLink {...props} to={targetLink} />
     </Perimeter>

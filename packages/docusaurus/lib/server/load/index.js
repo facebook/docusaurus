@@ -81,8 +81,13 @@ ${Object.keys(registry)
   .join('\n')}};\n`,
   );
 
-  // Mapping of routePath -> required webpack chunk names.
-  // Very useful to know what chunkNames are needed for a route
+  /* Mapping of routePath -> moduleName -> required webpack chunk names.
+  Example: {
+    "/docs": {
+      "component": "component---theme-doc-03d"
+    }
+  },
+  */
   await generate(
     generatedFilesDir,
     'routesChunkNames.json',

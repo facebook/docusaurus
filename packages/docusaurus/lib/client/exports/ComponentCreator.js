@@ -59,7 +59,7 @@ function ComponentCreator(path) {
     optsWebpack.push(chunkRegistry.webpack);
   }
 
-  traverseChunk(routesChunkNames, []);
+  traverseChunk(chunkNames, []);
 
   return Loadable.Map({
     loading: Loading,
