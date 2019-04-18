@@ -129,13 +129,18 @@ class DocusaurusPluginContentBlog {
           path: permalink,
           component: blogPageComponent,
           metadata: metadataItem,
-          modules: metadataItem.posts.map(post => ({
-            path: post.source,
-            query: {
-              truncated: true,
-            },
-          })),
+          modules: {
+            entries: metadataItem.posts.map(post => ({
+              // To tell routes.js this is an import and not a nested object to recurse.
+              __import: true,
+              path: post.source,
+              query: {
+                truncated: true,
+              },
+            })),
+          },
         });
+
         return;
       }
 
@@ -143,7 +148,9 @@ class DocusaurusPluginContentBlog {
         path: permalink,
         component: blogPostComponent,
         metadata: metadataItem,
-        modules: [metadataItem.source],
+        modules: {
+          content: metadataItem.source,
+        },
       });
     });
   }

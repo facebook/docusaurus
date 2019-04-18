@@ -63,6 +63,7 @@ module.exports = async function loadPlugins({pluginConfigs = [], context}) {
 
   // 3. Plugin lifecycle - contentLoaded
   const pluginsRouteConfigs = [];
+
   const actions = {
     addRoute: config => pluginsRouteConfigs.push(config),
   };

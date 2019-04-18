@@ -7,25 +7,27 @@
 
 const {genChunkName, docuHash} = require('@docusaurus/utils');
 const {stringify} = require('querystring');
+const _ = require('lodash');
 
 async function loadRoutes(pluginsRouteConfigs) {
   const routesImports = [
     `import React from 'react';`,
-    `import Loadable from 'react-loadable';`,
-    `import Loading from '@theme/Loading';`,
     `import NotFound from '@theme/NotFound';`,
+    `import ComponentCreator from '@docusaurus/ComponentCreator';`,
   ];
   // Routes paths. Example: ['/', '/docs', '/blog/2017/09/03/test']
   const routesPaths = [];
   const addRoutesPath = routePath => {
     routesPaths.push(routePath);
   };
+
   // Mapping of routePath -> metadataPath. Example: '/blog' -> '@generated/metadata/blog-c06.json'
   const routesMetadataPath = {};
   const addRoutesMetadataPath = routePath => {
     const fileName = `${docuHash(routePath)}.json`;
     routesMetadataPath[routePath] = `@generated/metadata/${fileName}`;
   };
+
   // Mapping of routePath -> metadata. Example: '/blog' -> { isBlogPage: true, permalink: '/blog' }
   const routesMetadata = {};
   const addRoutesMetadata = (routePath, metadata) => {
@@ -33,14 +35,19 @@ async function loadRoutes(pluginsRouteConfigs) {
       routesMetadata[routePath] = metadata;
     }
   };
-  // Mapping of routePath -> webpack chunk names.
-  // Example: '/blog' -> ['component---theme-blog-post-16f, metadata---blog-c06']
+
+  const registry = {};
+
   const routesChunkNames = {};
-  const addRoutesChunkNames = (routePath, chunkName) => {
+  const addRoutesChunkNames = (routePath, key, importChunk) => {
     if (!routesChunkNames[routePath]) {
-      routesChunkNames[routePath] = [];
+      routesChunkNames[routePath] = {};
     }
-    routesChunkNames[routePath].push(chunkName);
+    routesChunkNames[routePath][key] = importChunk.chunkName;
+    registry[importChunk.chunkName] = {
+      importStatement: importChunk.importStatement,
+      modulePath: importChunk.modulePath,
+    };
   };
 
   // This is the higher level overview of route code generation
@@ -49,7 +56,7 @@ async function loadRoutes(pluginsRouteConfigs) {
       path: routePath,
       component,
       metadata,
-      modules = [],
+      modules = {},
       routes,
     } = routeConfig;
 
@@ -59,9 +66,9 @@ async function loadRoutes(pluginsRouteConfigs) {
 
     // Given an input (object or string), get the import path str
     const getModulePath = target => {
-      const isObj = typeof target === 'object';
-      const importStr = isObj ? target.path : target;
+      const importStr = _.isObject(target) ? target.path : target;
       const queryStr = target.query ? `?${stringify(target.query)}` : '';
+
       return `${importStr}${queryStr}`;
     };
 
@@ -69,76 +76,67 @@ async function loadRoutes(pluginsRouteConfigs) {
       throw new Error(`path: ${routePath} need a component`);
     }
     const componentPath = getModulePath(component);
-    const componentChunkName = genChunkName(componentPath, 'component');
-    addRoutesChunkNames(routePath, componentChunkName);
 
-    const genImportStr = (chunkName, modulePath) => {
+    const genImportChunk = (modulePath, prefix, name) => {
+      const chunkName = genChunkName(modulePath, prefix, name);
       const finalStr = JSON.stringify(modulePath);
-      return `() => import(/* webpackChunkName: '${chunkName}' */ ${finalStr})`;
+      return {
+        chunkName,
+        modulePath,
+        importStatement: `() => import(/* webpackChunkName: '${chunkName}' */ ${finalStr})`,
+      };
     };
 
+    const componentChunk = genImportChunk(componentPath, 'component');
+    addRoutesChunkNames(routePath, 'component', componentChunk);
+
     if (routes) {
-      const componentStr = `Loadable({
-    loader: ${genImportStr(componentChunkName, componentPath)},
-    loading: Loading
-  })`;
       return `
 {
   path: '${routePath}',
-  component: ${componentStr},
+  component: ComponentCreator('${routePath}'),
   routes: [${routes.map(generateRouteCode).join(',')}],
 }`;
     }
 
-    const modulesImportStr = modules
-      .map((module, i) => {
-        const modulePath = getModulePath(module);
-        const moduleChunkName = genChunkName(modulePath, i, routePath);
-        addRoutesChunkNames(routePath, moduleChunkName);
-        return `Mod${i}: ${genImportStr(moduleChunkName, modulePath)},`;
-      })
-      .join('\n');
-    const modulesLoadedStr = modules
-      .map((module, i) => `loaded.Mod${i}.default,`)
-      .join('\n');
+    function genRouteChunkNames(value) {
+      if (Array.isArray(value)) {
+        return value.map(genRouteChunkNames);
+      }
 
-    let metadataImportStr = '';
-    if (metadata) {
-      const metadataPath = routesMetadataPath[routePath];
-      const metadataChunkName = genChunkName(
-        metadataPath,
-        'metadata',
+      if (_.isObject(value) && !value.__import) {
+        const newValue = {};
+        Object.keys(value).forEach(key => {
+          newValue[key] = genRouteChunkNames(value[key]);
+        });
+        return newValue;
+      }
+
+      const importChunk = genImportChunk(
+        getModulePath(value),
+        'module',
         routePath,
       );
-      addRoutesChunkNames(routePath, metadataChunkName);
-      metadataImportStr = `metadata: ${genImportStr(
-        metadataChunkName,
-        metadataPath,
-      )},`;
+      registry[importChunk.chunkName] = {
+        importStatement: importChunk.importStatement,
+        modulePath: importChunk.modulePath,
+      };
+      return importChunk.chunkName;
     }
 
-    const componentStr = `Loadable.Map({
-  loader: {
-    ${modulesImportStr}
-    ${metadataImportStr}
-    Component: ${genImportStr(componentChunkName, componentPath)},
-  },
-  loading: Loading,
-  render(loaded, props) {
-    const Component = loaded.Component.default;
-    const metadata = loaded.metadata || {};
-    const modules = [${modulesLoadedStr}];
-    return (
-      <Component {...props} metadata={metadata} modules={modules}/>
-    );
-  }
-})\n`;
+    _.assign(routesChunkNames[routePath], genRouteChunkNames(modules));
+
+    if (metadata) {
+      const metadataPath = routesMetadataPath[routePath];
+      const metadataChunk = genImportChunk(metadataPath, 'metadata', routePath);
+      addRoutesChunkNames(routePath, 'metadata', metadataChunk);
+    }
 
     return `
 {
   path: '${routePath}',
   exact: true,
-  component: ${componentStr}
+  component: ComponentCreator('${routePath}')
 }`;
   }
 
@@ -158,6 +156,7 @@ export default [
 ];\n`;
 
   return {
+    registry,
     routesConfig,
     routesChunkNames,
     routesMetadata,
