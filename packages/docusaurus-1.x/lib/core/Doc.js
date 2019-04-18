@@ -20,16 +20,108 @@ const translateThisDoc = translate(
 );
 
 const splitTabsToTitleAndContent = content => {
-  const titles = content.match(/<!--(.*?)-->/gms);
-  const tabs = content.split(/<!--.*?-->/gms);
-  if (!titles || !tabs || !titles.length || !tabs.length) {
-    return [];
+  const lines = content.split(/\n/g);
+  let first = false;
+  let inBlock = false;
+  let whitespace = false;
+  const tc = [];
+  let current = {
+    content: [],
+  };
+  lines.forEach(line => {
+    let pos = 0;
+    const end = line.length;
+    const isToken = (cline, cpos, ...chars) => {
+      for (let i = 0; i < chars.length; i++) {
+        if (cline.charCodeAt(cpos) !== chars[i]) {
+          return false;
+        }
+        cpos++;
+      }
+      return true;
+    };
+    while (pos + 1 < end) {
+      // Skip all the whitespace when we first start the scan.
+      for (let max = end; pos < max; pos++) {
+        if (line.charCodeAt(pos) !== 0x20 && line.charCodeAt(pos) !== 0x0a) {
+          break;
+        }
+        whitespace = true;
+      }
+      // Check for the start of a comment: <!--
+      // If we're in a code block we skip it.
+      if (
+        isToken(
+          line,
+          pos,
+          0x3c /* < */,
+          0x21 /* ! */,
+          0x2d /* - */,
+          0x2d /* - */,
+        ) &&
+        !inBlock
+      ) {
+        if (current !== null && current.title !== undefined) {
+          tc.push({
+            title: current.title,
+            content: current.content.join('\n'),
+          });
+          current = {
+            content: [],
+          };
+        }
+        first = true;
+        pos += 4;
+        let b0;
+        let b1;
+        const buf = [];
+        // Add all characters to the title buffer until
+        // we reach the end marker: -->
+        for (let max = end; pos < max; pos++) {
+          const b = line.charCodeAt(pos);
+          if (b0 === 0x2d /* - */ && b1 === 0x2d /* - */) {
+            if (b !== 0x3e /* > */) {
+              throw new Error(`Invalid comment sequence "--"`);
+            }
+            break;
+          }
+          buf.push(b);
+          b0 = b1;
+          b1 = b;
+        }
+        // Clear the line out before we add it to content.
+        // This also means tabs can only be defined on a line by itself.
+        line = '\n';
+        // Trim the last 2 characters: --
+        current.title = String.fromCharCode(...buf)
+          .substring(0, buf.length - 2)
+          .trim();
+      }
+      // If the first thing in a code tab is not a title it's invalid.
+      if (!first) {
+        throw new Error(`Invalid code tab markdown`);
+      }
+      // Check for code block: ```
+      // If the line begins with whitespace we don't consider it a code block.
+      if (
+        isToken(line, pos, 0x60 /* ` */, 0x60 /* ` */, 0x60 /* ` */) &&
+        !whitespace
+      ) {
+        pos += 3;
+        inBlock = !inBlock;
+      }
+      pos++;
+      whitespace = false;
+    }
+    current.content.push(line);
+  });
+  if (current !== null && current.title !== undefined) {
+    tc.push({
+      title: current.title,
+      content: current.content.join('\n'),
+    });
   }
-  tabs.shift();
-  return titles.map((title, idx) => ({
-    title: title.substring(4, title.length - 3).trim(),
-    content: tabs[idx],
-  }));
+  return tc;
 };
 
 const cleanTheCodeTag = content => {
