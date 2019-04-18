@@ -13,7 +13,6 @@ import registry from '@generated/registry';
 
 function ComponentCreator(path) {
   const modules = routesAsyncModules[path];
-  const originalModules = modules;
   const optsModules = [];
   const optsWebpack = [];
   const mappedModules = {};
@@ -63,8 +62,8 @@ function ComponentCreator(path) {
     modules: optsModules,
     webpack: () => optsWebpack,
     render: (loaded, props) => {
-      // Transform back loaded modules back into the original structure.
-      const loadedModules = originalModules;
+      // clone the original object since we don't want to alter the original.
+      const loadedModules = JSON.parse(JSON.stringify(modules));
       Object.keys(loaded).forEach(key => {
         let val = loadedModules;
         const keyPath = key.split('.');
