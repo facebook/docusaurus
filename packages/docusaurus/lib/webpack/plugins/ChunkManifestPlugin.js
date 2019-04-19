@@ -7,7 +7,7 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const pluginName = 'ChunkManifestPlugin';
-const fs = require('fs');
+const fs = require('fs-extra');
 const path = require('path');
 
 class ChunkManifestPlugin {
@@ -48,10 +48,9 @@ class ChunkManifestPlugin {
       }
       chunkManifest = assetsMap;
       if (!this.options.inlineManifest) {
-        fs.writeFileSync(
-          path.join(outputPath, this.options.filename),
-          JSON.stringify(chunkManifest, null, 2),
-        );
+        const finalPath = path.resolve(outputPath, this.options.filename);
+        fs.ensureDirSync(path.dirname(finalPath));
+        fs.writeFileSync(finalPath, JSON.stringify(chunkManifest, null, 2));
       }
     });
 
