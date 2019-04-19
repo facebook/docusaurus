@@ -9,13 +9,13 @@ import React from 'react';
 import Perimeter from 'react-perimeter';
 import {NavLink} from 'react-router-dom';
 
-const externalRegex = /^(https?:|\/\/)/;
+const internalRegex = /^\/(?!\/)/;
 
 function Link(props) {
   const {to, href, preloadProximity = 20} = props;
   const targetLink = to || href;
-  const isExternal = externalRegex.test(targetLink);
-  return !targetLink || isExternal ? (
+  const isInternal = internalRegex.test(targetLink);
+  return !targetLink || !isInternal ? (
     // eslint-disable-next-line jsx-a11y/anchor-has-content
     <a {...props} href={targetLink} />
   ) : (
