@@ -19,9 +19,16 @@ class WaitPlugin {
       const start = Date.now();
       const {filepath, timeout, interval} = this;
 
+      const checkCondition = () => {
+        if (Array.isArray(filepath)) {
+          return filepath.every(file => fs.existsSync(file));
+        }
+        return fs.existsSync(filepath);
+      };
+
       // Poll until file exist
       function poll() {
-        if (fs.existsSync(filepath)) {
+        if (checkCondition()) {
           callback();
         } else if (Date.now() - start > timeout) {
           throw Error("Maybe it just wasn't meant to be.");
