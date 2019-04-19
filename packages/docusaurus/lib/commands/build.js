@@ -8,6 +8,7 @@
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const ReactLoadableSSRAddon = require('react-loadable-ssr-addon');
 const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer');
 const path = require('path');
 const chalk = require('chalk');
@@ -56,6 +57,10 @@ module.exports = async function build(siteDir, cliOptions = {}) {
       new CleanWebpackPlugin({verbose: false}),
       // Visualize size of webpack output files with an interactive zoomable treemap.
       cliOptions.bundleAnalyzer && new BundleAnalyzerPlugin(),
+      // Generate client manifests file that will be used for server bundle
+      new ReactLoadableSSRAddon({
+        filename: 'client-manifest.json',
+      }),
     ].filter(Boolean),
   });
 

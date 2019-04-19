@@ -82,9 +82,6 @@ module.exports = async function start(siteDir, cliOptions = {}) {
   const {siteConfig, plugins = []} = props;
   let config = merge(createClientConfig(props), {
     plugins: [
-      // Inject chunk-map manifest to window.__chunkMapping
-      // TODO
-
       // Generates an `index.html` file with the <script> injected.
       new HtmlWebpackPlugin({
         template: path.resolve(

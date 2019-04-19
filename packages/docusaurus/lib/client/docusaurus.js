@@ -21,6 +21,7 @@ const docusaurus = {
     }
 
     // Find all chunk names needed for that particular route
+    // TODO: make it more efficient and declarative
     const chunkNamesNeeded = [];
     function dfs(target) {
       if (!target) {
@@ -42,13 +43,14 @@ const docusaurus = {
       chunkNamesNeeded.push(target);
     }
     dfs(routesChunkNames[routePath]);
-    console.log(chunkNamesNeeded);
 
-    // Get all webpack chunk assets we need to prefetch
-    // const chunkAssetsNeeded = chunkNamesNeeded.map(name => window.__chunkMapping[name]);
-    const chunkAssetsNeeded = ['/component---theme-doc-body-f68.js']; // TODO: remove this
+    // Get all important webpack chunk assets we need to prefetch
+    const chunkAssetsNeeded = chunkNamesNeeded.reduce((arr, chunkName) => {
+      const chunkAssets = window.__chunkMapping[chunkName];
+      return arr.concat(chunkAssets);
+    }, []);
 
-    // We prefetch all chunks needed
+    // Prefetch all the chunks assets file needed
     chunkAssetsNeeded.map(prefetchHelper);
 
     return true;
