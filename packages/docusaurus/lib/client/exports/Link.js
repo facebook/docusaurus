@@ -51,7 +51,7 @@ function Link(props) {
   };
 
   useEffect(() => {
-    // If IO is not supported. We prefetch by default
+    // If IO is not supported. We prefetch by default (only once)
     if (!IOSupported && isInternal) {
       window.__docusaurus.prefetch(targetLink);
     }
