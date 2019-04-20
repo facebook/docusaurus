@@ -214,6 +214,7 @@ class DocusaurusPluginContentDocs {
       routes: Object.values(content.docs).map(metadataItem => ({
         path: metadataItem.permalink,
         component: docItemComponent,
+        exact: true,
         metadata: metadataItem,
         modules: {
           content: metadataItem.source,

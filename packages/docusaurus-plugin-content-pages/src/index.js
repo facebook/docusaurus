@@ -103,6 +103,7 @@ class DocusaurusPluginContentPages {
       addRoute({
         path: permalink,
         component,
+        exact: true,
         metadata: metadataItem,
         modules: {
           content: source,

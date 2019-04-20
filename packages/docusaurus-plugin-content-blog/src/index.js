@@ -128,6 +128,7 @@ class DocusaurusPluginContentBlog {
         addRoute({
           path: permalink,
           component: blogPageComponent,
+          exact: true,
           metadata: metadataItem,
           modules: {
             entries: metadataItem.posts.map(post => ({
@@ -147,6 +148,7 @@ class DocusaurusPluginContentBlog {
       addRoute({
         path: permalink,
         component: blogPostComponent,
+        exact: true,
         metadata: metadataItem,
         modules: {
           content: metadataItem.source,
