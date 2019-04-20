@@ -10,7 +10,6 @@ import React, {useContext} from 'react';
 import Link from '@docusaurus/Link';
 import Search from '@theme/Search';
 import DocusaurusContext from '@docusaurus/context';
-import styles from './styles.module.css';
 
 function Navbar(props) {
   const context = useContext(DocusaurusContext);
@@ -51,10 +50,10 @@ function Navbar(props) {
       }
 
       return (
-        <div key={link.doc} className="navbar-item">
+        <div key={link.doc} className="navbar__item">
           <Link
-            activeClassName="navbar-link-active"
-            className="navbar-link"
+            activeClassName="navbar__link--active"
+            className="navbar__link"
             to={docs[id].permalink}>
             {link.label}
           </Link>
@@ -67,10 +66,10 @@ function Navbar(props) {
         link.page
       }`;
       return (
-        <div key={link.page} className="navbar-item">
+        <div key={link.page} className="navbar__item">
           <Link
-            activeClassName="navbar-link-active"
-            className="navbar-link"
+            activeClassName="navbar__link--active"
+            className="navbar__link"
             to={pageHref}>
             {link.label}
           </Link>
@@ -80,8 +79,8 @@ function Navbar(props) {
     if (link.href) {
       // set link to specified href
       return (
-        <div key={link.label} className="navbar-item">
-          <Link to={link.href} className="navbar-link">
+        <div key={link.label} className="navbar__item">
+          <Link to={link.href} className="navbar__link">
             {link.label}
           </Link>
         </div>
@@ -91,10 +90,10 @@ function Navbar(props) {
       // set link to blog url
       const blogUrl = `${baseUrl}blog`;
       return (
-        <div key="Blog" className="navbar-item">
+        <div key="Blog" className="navbar__item">
           <Link
-            activeClassName="navbar-link-active"
-            className="navbar-link"
+            activeClassName="navbar__link--active"
+            className="navbar__link"
             to={blogUrl}>
             Blog
           </Link>
@@ -105,27 +104,25 @@ function Navbar(props) {
   };
 
   return (
-    <nav className="navbar navbar-light navbar-fixed-top">
-      <div className="navbar-inner">
-        <div className="navbar-items">
-          <div key="logo" className="navbar-item">
-            <Link
-              className="navbar-link"
-              to={baseUrl + (translationEnabled ? thisLanguage : '')}>
-              {headerIcon && (
-                <img
-                  className={styles.navLogo}
-                  src={baseUrl + headerIcon}
-                  alt={title}
-                />
-              )}
-              {!disableHeaderTitle && <strong>{title}</strong>}
-            </Link>
-          </div>
+    <nav className="navbar navbar--light navbar--fixed-top">
+      <div className="navbar__inner">
+        <div className="navbar__items">
+          <Link
+            className="navbar__brand"
+            to={baseUrl + (translationEnabled ? thisLanguage : '')}>
+            {headerIcon && (
+              <img
+                className="navbar__logo"
+                src={baseUrl + headerIcon}
+                alt={title}
+              />
+            )}
+            {!disableHeaderTitle && <strong>{title}</strong>}
+          </Link>
           {versioningEnabled && (
-            <div key="versions" className="navbar-item">
+            <div key="versions" className="navbar__item">
               <Link
-                className="navbar-link"
+                className="navbar__link"
                 to={
                   baseUrl +
                   (translationEnabled ? `${thisLanguage}/versions` : `versions`)
@@ -136,15 +133,15 @@ function Navbar(props) {
           )}
           {headerLinks.map(makeLinks)}
         </div>
-        <div className="navbar-items navbar-right">
+        <div className="navbar__items navbar__items--right">
           {algolia && (
-            <div className="navbar-search" key="search-box">
+            <div className="navbar__search" key="search-box">
               <Search {...props} />
             </div>
           )}
-          <div className="navbar-item">
+          <div className="navbar__item">
             <a
-              className="navbar-link"
+              className="navbar__link"
               href="https://github.com/facebook/docusaurus"
               rel="noopener noreferrer"
               target="_blank">

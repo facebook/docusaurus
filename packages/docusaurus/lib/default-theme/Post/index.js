@@ -48,29 +48,33 @@ function Post(props) {
         <h1>
           <Link to={permalink}>{title}</Link>
         </h1>
-        <div className="margin-bottom-sm">
+        <div className="margin-bottom--sm">
           {month[blogPostDate.getMonth()]} {blogPostDate.getDay()},{' '}
           {blogPostDate.getFullYear()}
         </div>
-        <div className="avatar margin-bottom-md">
+        <div className="avatar margin-bottom--md">
           {authorImageURL && (
             <a
-              className="avatar-photo-link"
+              className="avatar__photo-link"
               href={authorURL}
               target="_blank"
               rel="noreferrer noopener">
-              <img className="avatar-photo" src={authorImageURL} alt={author} />
+              <img
+                className="avatar__photo"
+                src={authorImageURL}
+                alt={author}
+              />
             </a>
           )}
-          <div className="avatar-intro">
+          <div className="avatar__intro">
             {author && (
               <>
-                <h4 className="avatar-name">
+                <h4 className="avatar__name">
                   <a href={authorURL} target="_blank" rel="noreferrer noopener">
                     {author}
                   </a>
                 </h4>
-                <small className="avatar-subtitle">{authorTitle}</small>
+                <small className="avatar__subtitle">{authorTitle}</small>
               </>
             )}
           </div>
@@ -84,8 +88,8 @@ function Post(props) {
       {renderPostHeader()}
       {children}
       {truncated && (
-        <div className="text-right">
-          <Link className="btn btn-outline btn-info" to={metadata.permalink}>
+        <div className="text--right">
+          <Link className="button button--secondary" to={metadata.permalink}>
             Read More
           </Link>
         </div>

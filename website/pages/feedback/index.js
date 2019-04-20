@@ -22,7 +22,7 @@ function Feedback() {
       });
   }, []);
 
-  return <div className="container margin-vert-xl" data-canny />;
+  return <div className="container margin-vert--xl" data-canny />;
 }
 
 export default Feedback;

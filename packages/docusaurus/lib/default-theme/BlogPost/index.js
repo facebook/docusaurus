@@ -30,9 +30,9 @@ function BlogPost(props) {
         {language && <html lang={language} />}
       </Head>
       {BlogPostContents && (
-        <div className="container margin-vert-xl">
+        <div className="container margin-vert--xl">
           <div className="row">
-            <div className="col col-6 col-offset-3">
+            <div className="col col--6 col--offset-3">
               <Post metadata={metadata}>
                 <BlogPostContents />
               </Post>
