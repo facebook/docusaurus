@@ -24,8 +24,7 @@ function Link(props) {
     io = new window.IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (el === entry.target) {
-          // Check if element is within viewport, remove listener, destroy observer, and run link callback.
-          // MSEdge doesn't currently support isIntersecting, so also test for an intersectionRatio > 0
+          // If element is in viewport, stop listening/observing & run callback.
           // https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
           if (entry.isIntersecting || entry.intersectionRatio > 0) {
             io.unobserve(el);
