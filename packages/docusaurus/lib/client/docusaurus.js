@@ -53,7 +53,6 @@ const docusaurus = {
     if (!canPrefetchOrLoad(routePath)) {
       return false;
     }
-    fetched[routePath] = true;
 
     // Find all webpack chunk names needed
     const matches = matchRoutes(routes, routePath);
@@ -70,7 +69,9 @@ const docusaurus = {
       return arr.concat(chunkAssets);
     }, []);
     const dedupedChunkAssets = Array.from(new Set(chunkAssetsNeeded));
-    dedupedChunkAssets.map(prefetchHelper);
+    Promise.all(dedupedChunkAssets.map(prefetchHelper)).then(() => {
+      fetched[routePath] = true;
+    });
     return true;
   },
   preload: routePath => {
