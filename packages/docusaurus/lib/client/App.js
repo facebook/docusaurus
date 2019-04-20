@@ -18,7 +18,7 @@ function App() {
   const [context, setContext] = useState({});
   return (
     <DocusaurusContext.Provider
-      value={{siteConfig, ...metadata, ...context, setContext, routes}}>
+      value={{siteConfig, ...metadata, ...context, setContext}}>
       <ReactListenerProvider>{renderRoutes(routes)}</ReactListenerProvider>
     </DocusaurusContext.Provider>
   );

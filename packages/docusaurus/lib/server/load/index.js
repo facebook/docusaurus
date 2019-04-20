@@ -59,7 +59,7 @@ module.exports = async function load(siteDir, cliOptions = {}) {
   // Routing
   const {
     registry,
-    routesAsyncModules,
+    routesChunkNames,
     routesConfig,
     routesMetadata,
     routesMetadataPath,
@@ -81,12 +81,17 @@ ${Object.keys(registry)
   .join('\n')}};\n`,
   );
 
-  // Mapping of routePath -> async imported modules. Example: '/blog' -> ['@theme/BlogPage']
-  // Very useful to know what modules are async imported in a route
+  /* Mapping of routePath -> moduleName -> required webpack chunk names.
+  Example: {
+    "/docs": {
+      "component": "component---theme-doc-03d"
+    }
+  },
+  */
   await generate(
     generatedFilesDir,
-    'routesAsyncModules.json',
-    JSON.stringify(routesAsyncModules, null, 2),
+    'routesChunkNames.json',
+    JSON.stringify(routesChunkNames, null, 2),
   );
 
   // Write out all the metadata JSON file

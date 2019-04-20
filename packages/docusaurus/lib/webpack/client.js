@@ -6,8 +6,8 @@
  */
 const path = require('path');
 const WebpackNiceLog = require('webpack-nicelog');
-const ReactLoadableSSRAddon = require('react-loadable-ssr-addon');
 const merge = require('webpack-merge');
+const ChunkManifestPlugin = require('./plugins/ChunkManifestPlugin');
 
 const createBaseConfig = require('./base');
 
@@ -25,9 +25,11 @@ module.exports = function createClientConfig(props) {
       runtimeChunk: true,
     },
     plugins: [
-      // Generate client manifests file
-      new ReactLoadableSSRAddon({
-        filename: 'client-manifest.json',
+      // Generate chunk-map.json (mapping of chunk names to their corresponding chunk assets)
+      new ChunkManifestPlugin({
+        filename: 'chunk-map.json',
+        manifestVariable: '__chunkMapping',
+        inlineManifest: !isProd,
       }),
       // Show compilation progress bar and build time.
       new WebpackNiceLog({

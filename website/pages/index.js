@@ -5,9 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import Head from '@docusaurus/Head';
 import DocusaurusContext from '@docusaurus/context';
+import Link from '@docusaurus/Link';
 
 import classnames from 'classnames';
 
@@ -61,6 +62,16 @@ function Home() {
   const context = useContext(DocusaurusContext);
   const {siteConfig = {}} = context;
 
+  // TODO: (wrapper function) API so that user won't need to concatenate url manually
+  const feedbackUrl = `${siteConfig.baseUrl}feedback/`;
+  const gettingStartedUrl = `${siteConfig.baseUrl}docs/installation`;
+
+  useEffect(() => {
+    // Prefetch feedback pages & getting started pages
+    __docusaurus.prefetch(feedbackUrl);
+    __docusaurus.prefetch(gettingStartedUrl);
+  }, []);
+
   return (
     <div>
       <Head>
@@ -81,11 +92,11 @@ function Home() {
             documentation websites.
           </h1>
           <div className={styles['index-ctas']}>
-            <a
+            <Link
               className={styles['index-ctas-get-started-button']}
-              href={`${siteConfig.baseUrl}docs/installation`}>
+              to={gettingStartedUrl}>
               Get Started
-            </a>
+            </Link>
             <span className={styles['index-ctas-github-button']}>
               <iframe
                 src="https://ghbtns.com/github-btn.html?user=facebook&amp;repo=docusaurus&amp;type=star&amp;count=true&amp;size=large"
@@ -106,7 +117,7 @@ function Home() {
             Docusaurus 2
           </a>
           , contribute to its roadmap by suggesting features or giving feedback{' '}
-          <a href={`${siteConfig.baseUrl}feedback`}>here</a>!
+          <Link to={feedbackUrl}>here</Link>!
         </div>
       </div>
       <div className={styles.section}>

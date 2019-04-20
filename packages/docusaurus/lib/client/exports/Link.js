@@ -5,28 +5,23 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useContext} from 'react';
+import React from 'react';
 import Perimeter from 'react-perimeter';
 import {NavLink} from 'react-router-dom';
 
-import DocusaurusContext from '@docusaurus/context';
-
-import preload from '../preload';
-
-const externalRegex = /^(https?:|\/\/)/;
+const internalRegex = /^\/(?!\/)/;
 
 function Link(props) {
-  const {routes} = useContext(DocusaurusContext);
   const {to, href, preloadProximity = 20} = props;
   const targetLink = to || href;
-  const isExternal = externalRegex.test(targetLink);
-  return !targetLink || isExternal ? (
+  const isInternal = internalRegex.test(targetLink);
+  return !targetLink || !isInternal ? (
     // eslint-disable-next-line jsx-a11y/anchor-has-content
     <a {...props} href={targetLink} />
   ) : (
     <Perimeter
       padding={preloadProximity}
-      onBreach={() => preload(routes, targetLink)}
+      onBreach={() => window.__docusaurus.preload(targetLink)}
       once>
       <NavLink {...props} to={targetLink} />
     </Perimeter>

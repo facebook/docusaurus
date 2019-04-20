@@ -38,14 +38,12 @@ async function loadRoutes(pluginsRouteConfigs) {
 
   const registry = {};
 
-  // Mapping of routePath -> async imported modules. Example: '/blog' -> ['@theme/BlogPage']
-  const routesAsyncModules = {};
-  const addRoutesAsyncModule = (routePath, key, importChunk) => {
-    // TODO: Port other plugins to use modules and not rely on this.
-    if (!routesAsyncModules[routePath]) {
-      routesAsyncModules[routePath] = {};
+  const routesChunkNames = {};
+  const addRoutesChunkNames = (routePath, key, importChunk) => {
+    if (!routesChunkNames[routePath]) {
+      routesChunkNames[routePath] = {};
     }
-    routesAsyncModules[routePath][key] = importChunk.chunkName;
+    routesChunkNames[routePath][key] = importChunk.chunkName;
     registry[importChunk.chunkName] = {
       importStatement: importChunk.importStatement,
       modulePath: importChunk.modulePath,
@@ -90,7 +88,7 @@ async function loadRoutes(pluginsRouteConfigs) {
     };
 
     const componentChunk = genImportChunk(componentPath, 'component');
-    addRoutesAsyncModule(routePath, 'component', componentChunk);
+    addRoutesChunkNames(routePath, 'component', componentChunk);
 
     if (routes) {
       return `
@@ -101,15 +99,15 @@ async function loadRoutes(pluginsRouteConfigs) {
 }`;
     }
 
-    function genRouteAsyncModule(value) {
+    function genRouteChunkNames(value) {
       if (Array.isArray(value)) {
-        return value.map(genRouteAsyncModule);
+        return value.map(genRouteChunkNames);
       }
 
       if (_.isObject(value) && !value.__import) {
         const newValue = {};
         Object.keys(value).forEach(key => {
-          newValue[key] = genRouteAsyncModule(value[key]);
+          newValue[key] = genRouteChunkNames(value[key]);
         });
         return newValue;
       }
@@ -126,12 +124,12 @@ async function loadRoutes(pluginsRouteConfigs) {
       return importChunk.chunkName;
     }
 
-    _.assign(routesAsyncModules[routePath], genRouteAsyncModule(modules));
+    _.assign(routesChunkNames[routePath], genRouteChunkNames(modules));
 
     if (metadata) {
       const metadataPath = routesMetadataPath[routePath];
       const metadataChunk = genImportChunk(metadataPath, 'metadata', routePath);
-      addRoutesAsyncModule(routePath, 'metadata', metadataChunk);
+      addRoutesChunkNames(routePath, 'metadata', metadataChunk);
     }
 
     return `
@@ -159,8 +157,8 @@ export default [
 
   return {
     registry,
-    routesAsyncModules,
     routesConfig,
+    routesChunkNames,
     routesMetadata,
     routesMetadataPath,
     routesPaths,

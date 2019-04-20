@@ -32,9 +32,12 @@ module.exports = function createServerConfig(props) {
     // No need to bundle its node_modules dependencies since we're bundling for static html generation (backend)
     externals: [nodeExternals()],
     plugins: [
-      // Wait until client-manifest is generated
+      // Wait until client-manifest and chunk-map is generated
       new WaitPlugin({
-        filepath: path.join(outDir, 'client-manifest.json'),
+        filepath: [
+          path.join(outDir, 'client-manifest.json'),
+          path.join(outDir, 'chunk-map.json'),
+        ],
       }),
 
       // Static site generator webpack plugin.
