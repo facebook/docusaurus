@@ -48,21 +48,18 @@ function Sidebar() {
     switch (item.type) {
       case 'category':
         return (
-          <li className="menu-list-item" key={item.label}>
-            <a className="menu-link" href="#!">
+          <li className="menu__list-item" key={item.label}>
+            <a className="menu__link" href="#!">
               {item.label}
             </a>
-            <ul className="menu-list">{item.items.map(renderItem)}</ul>
+            <ul className="menu__list">{item.items.map(renderItem)}</ul>
           </li>
         );
 
       case 'link':
         return (
-          <li className="menu-list-item" key={item.label}>
-            <Link
-              activeClassName="menu-link-active"
-              className="menu-link"
-              to={item.href}>
+          <li className="menu__list-item" key={item.label}>
+            <Link className="menu__link" to={item.href}>
               {item.label}
             </Link>
           </li>
@@ -77,7 +74,7 @@ function Sidebar() {
   return (
     <div className={styles.sidebar}>
       <div className="menu">
-        <ul className="menu-list">
+        <ul className="menu__list">
           {thisSidebar.map(item => renderItem(item, {root: true}))}
         </ul>
       </div>

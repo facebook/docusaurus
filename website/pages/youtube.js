@@ -24,7 +24,7 @@ export default class Player extends React.Component {
         <Head>
           <title>My Youtube</title>
         </Head>
-        <div className="container margin-vert-xl text-center">
+        <div className="container margin-vert--xl text--center">
           {/* this is a React-youtube component */}
           <YouTube videoId="d9IxdwEFk1c" opts={opts} onReady={this._onReady} />
         </div>

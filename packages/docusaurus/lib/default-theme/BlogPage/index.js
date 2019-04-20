@@ -29,11 +29,11 @@ function BlogPage(props) {
         {language && <html lang={language} />}
         {language && <meta name="docsearch:language" content={language} />}
       </Head>
-      <div className="container margin-vert-xl">
+      <div className="container margin-vert--xl">
         <div className="row">
-          <div className="col col-6 col-offset-3">
+          <div className="col col--6 col--offset-3">
             {BlogPosts.map((PostContent, index) => (
-              <div className="margin-bottom-xl" key={index}>
+              <div className="margin-bottom--xl" key={index}>
                 <Post truncated metadata={posts[index]}>
                   <PostContent />
                 </Post>

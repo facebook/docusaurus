@@ -20,10 +20,10 @@ function DocsPaginator() {
 
   return (
     <div className="row">
-      <div className="col col-6">
+      <div className="col col--6">
         {metadata.previous && docs[metadata.previous] && (
           <Link
-            className="btn btn-outline btn-lg btn-primary"
+            className="button button--secondary"
             to={docs[metadata.previous].permalink}>
             <i className="fas fa-arrow-left" />
             &nbsp;&nbsp;
@@ -31,10 +31,10 @@ function DocsPaginator() {
           </Link>
         )}
       </div>
-      <div className="col col-6 text-right">
+      <div className="col col--6 text--right">
         {metadata.next && docs[metadata.next] && (
           <Link
-            className="btn btn-outline btn-lg btn-primary"
+            className="button button--secondary"
             to={docs[metadata.next].permalink}>
             {metadata.next_title}&nbsp;&nbsp;
             <i className="fas fa-arrow-right" />

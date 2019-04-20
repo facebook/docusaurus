@@ -110,66 +110,66 @@ function Home() {
         </div>
       </div>
       <div className={styles.section}>
-        <div className="container text-center margin-bottom-xl">
+        <div className="container text--center margin-bottom--xl">
           <div className="row">
-            <div className="col col-4">
+            <div className="col">
               <img
                 className={styles.featureImage}
                 src={`${siteConfig.baseUrl}img/undraw_typewriter.svg`}
               />
               <h3>Powered by Markdown</h3>
-              <p className="padding-horiz-md">
+              <p className="padding-horiz--md">
                 Save time and focus on your project's documentation. Simply
                 write docs and blog posts with Markdown and Docusaurus will
                 publish a set of static html files ready to serve.
               </p>
             </div>
-            <div className="col col-4">
+            <div className="col">
               <img
                 className={styles.featureImage}
                 src={`${siteConfig.baseUrl}img/undraw_react.svg`}
               />
               <h3>Built Using React</h3>
-              <p className="padding-horiz-md">
+              <p className="padding-horiz--md">
                 Extend or customize your project's layout by reusing React.
                 Docusaurus can be extended while reusing the same header and
                 footer.
               </p>
             </div>
-            <div className="col col-4">
+            <div className="col">
               <img
                 className={styles.featureImage}
                 src={`${siteConfig.baseUrl}img/undraw_around_the_world.svg`}
               />
               <h3>Ready for Translations</h3>
-              <p className="padding-horiz-md">
+              <p className="padding-horiz--md">
                 Localization comes pre-configured. Use Crowdin to translate your
                 docs into over 70 languages.
               </p>
             </div>
           </div>
         </div>
-        <div className="container text-center">
+        <div className="container text--center">
           <div className="row">
-            <div className="col col-4 col-offset-2">
+            <div className="col col--4 col--offset-2">
               <img
                 className={styles.featureImage}
                 src={`${siteConfig.baseUrl}img/undraw_version_control.svg`}
               />
               <h3>Document Versioning</h3>
-              <p className="padding-horiz-md">
+              <p className="padding-horiz--md">
                 Support users on all versions of your project. Document
                 versioning helps you keep documentation in sync with project
                 releases.
               </p>
             </div>
-            <div className="col col-4">
+            <div className="col col--4">
               <img
                 className={styles.featureImage}
                 src={`${siteConfig.baseUrl}img/undraw_algolia.svg`}
               />
               <h3>Document Search</h3>
-              <p className="padding-horiz-md">
+              <p className="padding-horiz--md">
                 Make it easy for your community to find what they need in your
                 documentation. We proudly support Algolia documentation search.
               </p>
@@ -186,19 +186,19 @@ function Home() {
         <div className="container">
           <div className="row">
             {QUOTES.map(quote => (
-              <div className="col col-4" key={quote.name}>
-                <div className="avatar avatar-vertical margin-bottom-sm">
+              <div className="col" key={quote.name}>
+                <div className="avatar avatar--vertical margin-bottom--sm">
                   <img
                     alt={quote.name}
-                    className="avatar-photo avatar-photo-xl"
+                    className="avatar__photo avatar__photo--xl"
                     src={`${siteConfig.baseUrl}${quote.thumbnail}`}
                   />
-                  <div className="avatar-intro">
-                    <h4 className="avatar-name">{quote.name}</h4>
-                    <small className="avatar-subtitle">{quote.title}</small>
+                  <div className="avatar__intro">
+                    <h4 className="avatar__name">{quote.name}</h4>
+                    <small className="avatar__subtitle">{quote.title}</small>
                   </div>
                 </div>
-                <p className="text-center text-italic padding-horiz-md">
+                <p className="text--center text--italic padding-horiz--md">
                   {quote.text}
                 </p>
               </div>
