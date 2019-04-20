@@ -62,13 +62,14 @@ function Home() {
   const context = useContext(DocusaurusContext);
   const {siteConfig = {}} = context;
 
+  // TODO: (wrapper function) API so that user won't need to concatenate url manually
   const feedbackUrl = `${siteConfig.baseUrl}feedback/`;
   const gettingStartedUrl = `${siteConfig.baseUrl}docs/installation`;
 
   useEffect(() => {
     // Prefetch feedback pages & getting started pages
-    __docusaurus.prefetch(feedbackUrl) &&
-      __docusaurus.prefetch(gettingStartedUrl);
+    __docusaurus.prefetch(feedbackUrl);
+    __docusaurus.prefetch(gettingStartedUrl);
   }, []);
 
   return (

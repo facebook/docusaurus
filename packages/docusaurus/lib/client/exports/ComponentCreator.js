@@ -12,15 +12,6 @@ import routesChunkNames from '@generated/routesChunkNames';
 import registry from '@generated/registry';
 
 function ComponentCreator(path) {
-  /* chunkNames are mapping of the route module -> webpack chunk name
-  Example:
-    {
-      "component": "component---theme-pages-767",
-      "content": {
-        "1": "module---06-c-47f",
-      }
-    }
-  */
   const chunkNames = routesChunkNames[path];
   const optsModules = [];
   const optsWebpack = [];
@@ -28,16 +19,15 @@ function ComponentCreator(path) {
 
   /* Prepare opts data that react-loadable needs
   https://github.com/jamiebuilds/react-loadable#declaring-which-modules-are-being-loaded
-  Example: (with above example as input)
+  Example:
   - optsLoader: 
   {
     component: () => import('./Pages.js'),
-    content.1: () => import('./doc1.md'),
+    content.foo: () => import('./doc1.md'),
   }
   - optsModules: ['./Pages.js', './doc1.md']
   - optsWebpack: [require.resolveWeak('./Pages.js'), require.resolveWeak('./doc1.md')]
   */
-
   function traverseChunk(target, keys) {
     if (Array.isArray(target)) {
       target.forEach((value, index) => {

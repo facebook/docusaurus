@@ -12,6 +12,29 @@ import preloadHelper from './preload';
 
 const fetched = {};
 
+function flatten(target) {
+  const delimiter = '.';
+  const output = {};
+
+  function step(object, prev) {
+    Object.keys(object).forEach(key => {
+      const value = object[key];
+      const isArray = Array.isArray(value);
+      const type = typeof value;
+      const isObject = type === 'object' && !!value;
+      const newKey = prev ? prev + delimiter + key : key;
+
+      if (!isArray && isObject && Object.keys(value).length) {
+        step(value, newKey);
+        return;
+      }
+      output[newKey] = value;
+    });
+  }
+  step(target);
+  return output;
+}
+
 const canPrefetchOrLoad = routePath => {
   // if user is on slow or constrained connection
   if (`connection` in navigator) {
@@ -32,36 +55,22 @@ const docusaurus = {
     }
     fetched[routePath] = true;
 
-    // Find all chunk names needed for that particular route
-    const chunkNamesNeeded = [];
-    function dfs(target) {
-      if (!target) {
-        return;
-      }
-      if (Array.isArray(target)) {
-        target.forEach(value => {
-          dfs(value);
-        });
-        return;
-      }
-
-      if (typeof target === 'object') {
-        Object.keys(target).forEach(key => {
-          dfs(target[key]);
-        });
-        return;
-      }
-      chunkNamesNeeded.push(target);
-    }
+    // Find all webpack chunk names needed
     const matches = matchRoutes(routes, routePath);
-    matches.map(match => dfs(routesChunkNames[match.route.path]));
+    const chunkNamesNeeded = matches.reduce((arr, match) => {
+      const chunkNames = Object.values(
+        flatten(routesChunkNames[match.route.path]),
+      );
+      return arr.concat(chunkNames);
+    }, []);
 
-    // Prefetch all the chunks assets file needed
+    // Prefetch all webpack chunk assets file needed
     const chunkAssetsNeeded = chunkNamesNeeded.reduce((arr, chunkName) => {
-      const chunkAssets = window.__chunkMapping[chunkName];
+      const chunkAssets = window.__chunkMapping[chunkName] || [];
       return arr.concat(chunkAssets);
     }, []);
-    chunkAssetsNeeded.map(prefetchHelper);
+    const dedupedChunkAssets = Array.from(new Set(chunkAssetsNeeded));
+    dedupedChunkAssets.map(prefetchHelper);
     return true;
   },
   preload: routePath => {
