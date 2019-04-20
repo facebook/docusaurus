@@ -20,7 +20,6 @@ const handleIntersection = (el, cb) => {
         // MSEdge doesn't currently support isIntersecting, so also test for an intersectionRatio > 0
         // https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
         if (entry.isIntersecting || entry.intersectionRatio > 0) {
-          console.log(entry);
           io.unobserve(el);
           io.disconnect();
           cb();
