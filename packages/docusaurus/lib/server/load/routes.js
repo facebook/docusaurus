@@ -58,6 +58,7 @@ async function loadRoutes(pluginsRouteConfigs) {
       metadata,
       modules = {},
       routes,
+      exact,
     } = routeConfig;
 
     addRoutesPath(routePath);
@@ -89,15 +90,6 @@ async function loadRoutes(pluginsRouteConfigs) {
 
     const componentChunk = genImportChunk(componentPath, 'component');
     addRoutesChunkNames(routePath, 'component', componentChunk);
-
-    if (routes) {
-      return `
-{
-  path: '${routePath}',
-  component: ComponentCreator('${routePath}'),
-  routes: [${routes.map(generateRouteCode).join(',')}],
-}`;
-    }
 
     function genRouteChunkNames(value) {
       if (Array.isArray(value)) {
@@ -132,11 +124,17 @@ async function loadRoutes(pluginsRouteConfigs) {
       addRoutesChunkNames(routePath, 'metadata', metadataChunk);
     }
 
+    const routesStr = routes
+      ? `routes: [${routes.map(generateRouteCode).join(',')}],`
+      : '';
+    const exactStr = exact ? `exact: true,` : '';
+
     return `
 {
   path: '${routePath}',
-  exact: true,
-  component: ComponentCreator('${routePath}')
+  component: ComponentCreator('${routePath}'),
+  ${exactStr}
+  ${routesStr}
 }`;
   }
 
