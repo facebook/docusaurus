@@ -68,8 +68,8 @@ function Home() {
 
   useEffect(() => {
     // Prefetch feedback pages & getting started pages
-    __docusaurus.prefetch(feedbackUrl);
-    __docusaurus.prefetch(gettingStartedUrl);
+    window.docusaurus.prefetch(feedbackUrl);
+    window.docusaurus.prefetch(gettingStartedUrl);
   }, []);
 
   return (

@@ -42,7 +42,7 @@ function Link(props) {
     if (IOSupported && ref && isInternal) {
       // If IO supported and element reference found, setup Observer functionality
       handleIntersection(ref, () => {
-        window.__docusaurus.prefetch(targetLink);
+        window.docusaurus.prefetch(targetLink);
       });
     }
   };
@@ -50,7 +50,7 @@ function Link(props) {
   useEffect(() => {
     // If IO is not supported. We prefetch by default (only once)
     if (!IOSupported && isInternal) {
-      window.__docusaurus.prefetch(targetLink);
+      window.docusaurus.prefetch(targetLink);
     }
     // when unmount, stops intersection observer from watching
     return () => {
@@ -66,7 +66,7 @@ function Link(props) {
   ) : (
     <Perimeter
       padding={preloadProximity}
-      onBreach={() => window.__docusaurus.preload(targetLink)}
+      onBreach={() => window.docusaurus.preload(targetLink)}
       once>
       <NavLink {...props} innerRef={handleRef} to={targetLink} />
     </Perimeter>
