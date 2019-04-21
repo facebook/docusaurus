@@ -9,14 +9,14 @@
 
 body {
   margin: 0;
-  padding-top: var(--navbar-height);
+  padding-top: var(--ifm-navbar-height);
 }
 
 :root {
-  --color-primary: #25c2a0 !important;
-  --color-primary-dark: #21ad8e !important;
-  --color-primary-darker: #1d977d !important;
-  --color-primary-darkerer: #0c4236 !important;
-  --color-primary-light: #55dfc1 !important;
-  --color-primary-lighter: #55dfc1 !important;
+  --ifm-color-primary: #25c2a0 !important;
+  --ifm-color-primary-dark: #21ad8e !important;
+  --ifm-color-primary-darker: #1d977d !important;
+  --ifm-color-primary-darkerer: #0c4236 !important;
+  --ifm-color-primary-light: #55dfc1 !important;
+  --ifm-color-primary-lighter: #55dfc1 !important;
 }

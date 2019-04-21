@@ -10,7 +10,7 @@
 }
 
 .sectionAlt {
-  background-color: #f5f6f7;
+  background-color: var(--ifm-color-emphasis-inverse-alpha-30);
 }
 
 .sectionInner {

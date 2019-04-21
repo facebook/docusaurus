@@ -30,12 +30,12 @@ function DocBody(props) {
         {language && <meta name="docsearch:language" content={language} />}
         {version && <meta name="docsearch:version" content={version} />}
       </Head>
-      <div className="container margin-bottom--xl">
+      <div className="container margin-bottom--lg">
         <div className="row">
           <div className="col col--8 col--offset-2">
-            <h1 className="margin-vert--xl">{metadata.title}</h1>
+            <h1 className="margin-vert--lg">{metadata.title}</h1>
             <DocContents />
-            <div className="margin-vert--xl">
+            <div className="margin-vert--lg">
               <DocsPaginator />
             </div>
           </div>

@@ -9,7 +9,7 @@ import React from 'react';
 
 function Footer() {
   return (
-    <footer className="footer footer--dark">
+    <footer className="footer">
       <div className="container">
         <div className="row footer__links">
           <div className="col">
