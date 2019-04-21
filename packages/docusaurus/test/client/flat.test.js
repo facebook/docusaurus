@@ -32,7 +32,6 @@ describe('flat', () => {
       };
       Object.keys(primitives).forEach(key => {
         const value = primitives[key];
-
         expect(
           flat({
             foo: {
