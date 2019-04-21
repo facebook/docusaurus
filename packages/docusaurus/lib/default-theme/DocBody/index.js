@@ -30,14 +30,49 @@ function DocBody(props) {
         {language && <meta name="docsearch:language" content={language} />}
         {version && <meta name="docsearch:version" content={version} />}
       </Head>
-      <div className="container margin-bottom--lg">
+      <div className="container margin-vert--lg">
         <div className="row">
-          <div className="col col--8 col--offset-2">
-            <h1 className="margin-vert--lg">{metadata.title}</h1>
-            <DocContents />
+          <div className="col col--8">
+            <h1 className="margin-bottom--lg">{metadata.title}</h1>
+            <div className="markdown">
+              <DocContents />
+            </div>
             <div className="margin-vert--lg">
               <DocsPaginator />
             </div>
+          </div>
+          <div className="col col--2 col--offset-1">
+            <ul className="contents contents__left-border">
+              <li>
+                <a className="contents__link" href="#url">
+                  Dummy Text
+                </a>
+              </li>
+              <li>
+                <a className="contents__link" href="#url">
+                  Dummy Text
+                </a>
+                <ul>
+                  <li>
+                    <a
+                      className="contents__link contents__link--active"
+                      href="#url">
+                      Dummy Text
+                    </a>
+                  </li>
+                  <li>
+                    <a className="contents__link" href="#url">
+                      Dummy Text
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <a className="contents__link" href="#url">
+                  Dummy Text
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
