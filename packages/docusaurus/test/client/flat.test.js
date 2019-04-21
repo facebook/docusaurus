@@ -8,65 +8,41 @@
 import flat from '@lib/client/flat';
 
 describe('flat', () => {
-  test('primitives', () => {
-    const primitives = {
-      String: 'good morning',
-      Number: 1234.99,
-      Boolean: true,
-      Date: new Date(),
-      null: null,
-      undefined,
-    };
-    Object.keys(primitives).forEach(key => {
-      const value = primitives[key];
-
-      expect(
-        flat({
-          foo: {
-            bar: value,
+  test('nested', () => {
+    expect(
+      flat({
+        foo: {
+          bar: {
+            baz: 'lorem ipsum',
           },
-        }),
-      ).toEqual({
-        'foo.bar': value,
+        },
+      }),
+    ).toEqual({
+      'foo.bar.baz': 'lorem ipsum',
+    });
+
+    test('primitives', () => {
+      const primitives = {
+        String: 'good morning',
+        Number: 1234.99,
+        Boolean: true,
+        Date: new Date(),
+        null: null,
+        undefined,
+      };
+      Object.keys(primitives).forEach(key => {
+        const value = primitives[key];
+
+        expect(
+          flat({
+            foo: {
+              bar: value,
+            },
+          }),
+        ).toEqual({
+          'foo.bar': value,
+        });
       });
-    });
-  });
-
-  test('nested', () => {
-    expect(
-      flat({
-        foo: {
-          bar: {
-            baz: 'lorem ipsum',
-          },
-        },
-      }),
-    ).toEqual({
-      'foo.bar.baz': 'lorem ipsum',
-    });
-
-    expect(
-      flat({
-        foo: {
-          bar: 'baz',
-        },
-      }),
-    ).toEqual({
-      'foo.bar': 'baz',
-    });
-  });
-
-  test('nested', () => {
-    expect(
-      flat({
-        foo: {
-          bar: {
-            baz: 'lorem ipsum',
-          },
-        },
-      }),
-    ).toEqual({
-      'foo.bar.baz': 'lorem ipsum',
     });
 
     expect(
