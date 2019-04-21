@@ -21,29 +21,6 @@ describe('flat', () => {
       'foo.bar.baz': 'lorem ipsum',
     });
 
-    test('primitives', () => {
-      const primitives = {
-        String: 'good morning',
-        Number: 1234.99,
-        Boolean: true,
-        Date: new Date(),
-        null: null,
-        undefined,
-      };
-      Object.keys(primitives).forEach(key => {
-        const value = primitives[key];
-        expect(
-          flat({
-            foo: {
-              bar: value,
-            },
-          }),
-        ).toEqual({
-          'foo.bar': value,
-        });
-      });
-    });
-
     expect(
       flat({
         foo: {
@@ -52,6 +29,29 @@ describe('flat', () => {
       }),
     ).toEqual({
       'foo.bar': 'baz',
+    });
+  });
+
+  test('primitives', () => {
+    const primitives = {
+      String: 'good morning',
+      Number: 1234.99,
+      Boolean: true,
+      Date: new Date(),
+      null: null,
+      undefined,
+    };
+    Object.keys(primitives).forEach(key => {
+      const value = primitives[key];
+      expect(
+        flat({
+          foo: {
+            bar: value,
+          },
+        }),
+      ).toEqual({
+        'foo.bar': value,
+      });
     });
   });
 
