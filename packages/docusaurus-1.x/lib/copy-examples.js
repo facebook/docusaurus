@@ -188,6 +188,7 @@ if (feature === 'translations') {
 
   // copy other files
   const files = glob.sync(`${folder}/**/*`);
+  const {primaryColor, secondaryColor} = colorScheme();
   files.forEach(file => {
     if (fs.lstatSync(file).isDirectory()) {
       return;
@@ -208,7 +209,6 @@ if (feature === 'translations') {
       path.basename(file) === 'siteConfig.js' &&
       !fs.existsSync(CWD + filePath)
     ) {
-      const {primaryColor, secondaryColor} = colorScheme();
       const siteConfig = fs
         .readFileSync(file, 'utf8')
         .replace('{{primaryColor}}', primaryColor)
@@ -232,6 +232,15 @@ if (feature === 'translations') {
         );
       }
     }
+  });
+
+  const svgs = glob.sync(`${CWD}/static/img/**/*.svg`);
+  svgs.forEach(file => {
+    // Replace primary colors of SVGs.
+    const newImage = fs
+      .readFileSync(file, 'utf8')
+      .replace(/{{primaryColor}}/g, primaryColor);
+    fs.writeFileSync(file, newImage);
   });
 
   try {
