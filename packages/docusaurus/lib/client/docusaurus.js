@@ -9,31 +9,9 @@ import routesChunkNames from '@generated/routesChunkNames';
 import routes from '@generated/routes'; // eslint-disable-line
 import prefetchHelper from './prefetch';
 import preloadHelper from './preload';
+import flat from './flat';
 
 const fetched = {};
-
-function flatten(target) {
-  const delimiter = '.';
-  const output = {};
-
-  function step(object, prev) {
-    Object.keys(object).forEach(key => {
-      const value = object[key];
-      const isArray = Array.isArray(value);
-      const type = typeof value;
-      const isObject = type === 'object' && !!value;
-      const newKey = prev ? prev + delimiter + key : key;
-
-      if (!isArray && isObject && Object.keys(value).length) {
-        step(value, newKey);
-        return;
-      }
-      output[newKey] = value;
-    });
-  }
-  step(target);
-  return output;
-}
 
 const canPrefetchOrLoad = routePath => {
   // if user is on slow or constrained connection
@@ -58,7 +36,7 @@ const docusaurus = {
     const matches = matchRoutes(routes, routePath);
     const chunkNamesNeeded = matches.reduce((arr, match) => {
       const chunkNames = Object.values(
-        flatten(routesChunkNames[match.route.path]),
+        flat(routesChunkNames[match.route.path]),
       );
       return arr.concat(chunkNames);
     }, []);
