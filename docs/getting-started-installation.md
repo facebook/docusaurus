@@ -31,14 +31,17 @@ Along with previously existing files and directories, your root directory will n
 
 ```bash
 root-directory
-├── docs-examples-from-docusaurus
+├── Dockerfile
+├── README.md
+├── docker-compose.yml
+├── docs
 │   ├── doc1.md
 │   ├── doc2.md
 │   ├── doc3.md
 │   ├── exampledoc4.md
 │   └── exampledoc5.md
 └── website
-    ├── blog-examples-from-docusaurus
+    ├── blog
     │   ├── 2016-03-11-blog-post.md
     │   ├── 2017-04-10-blog-post-two.md
     │   ├── 2017-09-25-testing-rss.md
@@ -59,15 +62,13 @@ After running the Docusaurus initialization script, `docusaurus-init` as
 described in the [Installation](#installing-docusaurus) section, you will have a
 runnable, example website to use as your site's base. To run:
 
-1.  In your root, rename `docs-examples-from-docusaurus` to `docs`.
 1.  `cd website`
-1.  Rename `blog-examples-from-docusaurus` to `blog`.
 1.  From within the `website` directory, run the local webserver using
     `yarn start` or `npm start`.
 1.  Load the example site at http://localhost:3000 if it did not already open
-    automatically.
+    automatically. If port 3000 has already been taken, another port will be used. Look at the console messages to see which.
 
-    You should see the example site loaded in your web browser. There's also a LiveReload server running and any changes made to the docs and files in the `website` directory will cause the page to refresh.
+    You should see the example site loaded in your web browser. There's also a LiveReload server running and any changes made to the docs and files in the `website` directory will cause the page to refresh. A randomly generated primary and secondary theme color will be picked for you.
 
 ![](/img/getting-started-preparation-verify.png)
 

@@ -69,9 +69,7 @@ if (fs.existsSync(`${CWD}/package.json`)) {
 
 const outerFolder = path.basename(path.dirname(CWD));
 
-let docsCreated = false;
-let blogCreated = false;
-let exampleSiteCreated = false;
+let docsCreatedInIntendedDirectory = true;
 
 // handles cases where feature is "translations", "versions" or neither/not present
 if (feature === 'translations') {
@@ -85,7 +83,6 @@ if (feature === 'translations') {
     );
   } else {
     fs.copySync(`${folder}/crowdin.yaml`, `${CWD}/../crowdin.yaml`);
-    exampleSiteCreated = true;
   }
   const files = glob.sync(`${folder}/**/*`);
   files.forEach(file => {
@@ -101,7 +98,6 @@ if (feature === 'translations') {
         overwrite: false,
         errorOnExist: true,
       });
-      exampleSiteCreated = true;
     } catch (e) {
       console.log(
         `${chalk.yellow(
@@ -126,7 +122,6 @@ if (feature === 'translations') {
         overwrite: false,
         errorOnExist: true,
       });
-      exampleSiteCreated = true;
     } catch (e) {
       console.log(
         `${chalk.yellow(
@@ -140,34 +135,28 @@ if (feature === 'translations') {
 } else {
   const folder = path.join(__dirname, '..', 'examples', 'basics');
   // copy docs examples
-  if (fs.existsSync(`${CWD}/../docs-examples-from-docusaurus`)) {
+  let targetDocsDir = `${CWD}/../docs`;
+  if (fs.existsSync(targetDocsDir)) {
     console.log(
-      `- ${chalk.green(
-        'docs-examples-from-docusaurus',
-      )} already exists in ${chalk.blue(outerFolder)}.`,
+      `- ${chalk.green('docs')} already exists in ${chalk.blue(
+        outerFolder,
+      )}. Copying into ${CWD}/../docs-examples-from-docusaurus instead.`,
     );
-  } else {
-    fs.copySync(
-      `${folder}/docs-examples-from-docusaurus`,
-      `${CWD}/../docs-examples-from-docusaurus`,
-    );
-    exampleSiteCreated = true;
-    docsCreated = true;
+    targetDocsDir = `${CWD}/../docs-examples-from-docusaurus`;
+    docsCreatedInIntendedDirectory = false;
   }
+
+  fs.copySync(`${folder}/docs`, targetDocsDir);
+
   // copy blog examples
-  if (fs.existsSync(`${CWD}/blog-examples-from-docusaurus`)) {
+  if (fs.existsSync(`${CWD}/blog`)) {
     console.log(
-      `- ${chalk.green(
-        'blog-examples-from-docusaurus',
-      )} already exists in ${chalk.blue(`${outerFolder}/website`)}.`,
+      `- ${chalk.green('blog')} already exists in ${chalk.blue(
+        `${outerFolder}/website`,
+      )}.`,
     );
   } else {
-    fs.copySync(
-      path.join(folder, 'blog-examples-from-docusaurus'),
-      path.join(CWD, 'blog-examples-from-docusaurus'),
-    );
-    exampleSiteCreated = true;
-    blogCreated = true;
+    fs.copySync(path.join(folder, 'blog'), path.join(CWD, 'blog'));
   }
 
   const copyFileToProjectFolder = (fileNameFrom, fileNameTo) => {
@@ -199,6 +188,7 @@ if (feature === 'translations') {
 
   // copy other files
   const files = glob.sync(`${folder}/**/*`);
+  const {primaryColor, secondaryColor} = colorScheme();
   files.forEach(file => {
     if (fs.lstatSync(file).isDirectory()) {
       return;
@@ -209,8 +199,8 @@ if (feature === 'translations') {
       path.basename(file) === 'Dockerfile' ||
       path.basename(file) === 'docker-compose.yml' ||
       path.basename(file) === 'dockerignore' ||
-      containingFolder === 'blog-examples-from-docusaurus' ||
-      containingFolder === 'docs-examples-from-docusaurus'
+      containingFolder === 'blog' ||
+      containingFolder === 'docs'
     ) {
       return;
     }
@@ -219,7 +209,6 @@ if (feature === 'translations') {
       path.basename(file) === 'siteConfig.js' &&
       !fs.existsSync(CWD + filePath)
     ) {
-      const {primaryColor, secondaryColor} = colorScheme();
       const siteConfig = fs
         .readFileSync(file, 'utf8')
         .replace('{{primaryColor}}', primaryColor)
@@ -231,7 +220,6 @@ if (feature === 'translations') {
           overwrite: false,
           errorOnExist: true,
         });
-        exampleSiteCreated = true;
       } catch (e) {
         console.log(
           `- ${chalk.green(
@@ -246,38 +234,37 @@ if (feature === 'translations') {
     }
   });
 
-  if (exampleSiteCreated) {
-    try {
-      const tree = require('tree-node-cli');
-      const dirString = tree(path.join(CWD, '..'), {
-        exclude: [
-          /node_modules/, // npm
-          /vendor/, // composer
-        ],
-      });
-      console.log(dirString);
-    } catch (error) {
-      console.warn(`Error printing directory: ${error}`);
-    }
+  const svgs = glob.sync(`${CWD}/static/img/**/*.svg`);
+  svgs.forEach(file => {
+    // Replace primary colors of SVGs.
+    const newImage = fs
+      .readFileSync(file, 'utf8')
+      .replace(/{{primaryColor}}/g, primaryColor);
+    fs.writeFileSync(file, newImage);
+  });
+
+  try {
+    const tree = require('tree-node-cli');
+    const dirString = tree(path.join(CWD, '..'), {
+      exclude: [
+        /node_modules/, // npm
+        /vendor/, // composer
+      ],
+    });
+    console.log(dirString);
+  } catch (error) {
+    console.warn(`Error printing directory: ${error}`);
   }
 }
 
-if (docsCreated) {
+if (!docsCreatedInIntendedDirectory) {
   console.log(
-    `Rename ${chalk.yellow(
-      `${outerFolder}/docs-examples-from-docusaurus`,
-    )} to ${chalk.yellow(
+    `The ${chalk.yellow(
       `${outerFolder}/docs`,
-    )} to see the example docs on your site.\n`,
-  );
-}
-
-if (blogCreated) {
-  console.log(
-    `Rename ${chalk.yellow(
-      `${outerFolder}/website/blog-examples-from-docusaurus`,
-    )} to ${chalk.yellow(
-      `${outerFolder}/website/blog`,
-    )} to see the example blog posts on your site.\n`,
+    )} directory was not created because it already exists. ` +
+      `Please manually convert the contents into a Docusaurus-compatible format ` +
+      `by referring to the examples from ${chalk.yellow(
+        `${outerFolder}/docs-examples-from-docusaurus`,
+      )}.\n`,
   );
 }
