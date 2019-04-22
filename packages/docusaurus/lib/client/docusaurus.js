@@ -35,9 +35,12 @@ const docusaurus = {
     // Find all webpack chunk names needed
     const matches = matchRoutes(routes, routePath);
     const chunkNamesNeeded = matches.reduce((arr, match) => {
-      const chunkNames = Object.values(
-        flat(routesChunkNames[match.route.path]),
-      );
+      const chunk = routesChunkNames[match.route.path];
+      if (!chunk) {
+        return arr;
+      }
+
+      const chunkNames = Object.values(flat(chunk));
       return arr.concat(chunkNames);
     }, []);
 
