@@ -97,14 +97,17 @@
 <h2><a class="anchor" aria-hidden="true" id="kurulumu-doğrulama"></a><a href="#kurulumu-doğrulama" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Kurulumu doğrulama</h2>
 <p>Along with previously existing files and directories, your root directory will now contain a structure similar to:</p>
 <pre><code class="hljs css language-bash">root-directory
-├── docs-examples-from-docusaurus
+├── Dockerfile
+├── README.md
+├── docker-compose.yml
+├── docs
 │   ├── doc1.md
 │   ├── doc2.md
 │   ├── doc3.md
 │   ├── exampledoc4.md
 │   └── exampledoc5.md
 └── website
-    ├── blog-examples-from-docusaurus
+    ├── blog
     │   ├── 2016-03-11-blog-post.md
     │   ├── 2017-04-10-blog-post-two.md
     │   ├── 2017-09-25-testing-rss.md
@@ -121,12 +124,10 @@
 <h2><a class="anchor" aria-hidden="true" id="running-the-example-website"></a><a href="#running-the-example-website" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Running the example website</h2>
 <p>After running the Docusaurus initialization script, <code>docusaurus-init</code> as described in the <a href="#installing-docusaurus">Installation</a> section, you will have a runnable, example website to use as your site's base. To run:</p>
 <ol>
-<li><p>In your root, rename <code>docs-examples-from-docusaurus</code> to <code>docs</code>.</p></li>
 <li><p><code>cd website</code></p></li>
-<li><p>Rename <code>blog-examples-from-docusaurus</code> to <code>blog</code>.</p></li>
 <li><p>From within the <code>website</code> directory, run the local webserver using <code>yarn start</code> or <code>npm start</code>.</p></li>
-<li><p>Load the example site at <a href="http://localhost:3000">http://localhost:3000</a> if it did not already open automatically.</p>
-<p>You should see the example site loaded in your web browser. There's also a LiveReload server running and any changes made to the docs and files in the <code>website</code> directory will cause the page to refresh.</p></li>
+<li><p>Load the example site at <a href="http://localhost:3000">http://localhost:3000</a> if it did not already open automatically. If port 3000 has already been taken, another port will be used. Look at the console messages to see which.</p>
+<p>You should see the example site loaded in your web browser. There's also a LiveReload server running and any changes made to the docs and files in the <code>website</code> directory will cause the page to refresh. A randomly generated primary and secondary theme color will be picked for you.</p></li>
 </ol>
 <p><img src="/img/getting-started-preparation-verify.png" alt=""></p>
 <h3><a class="anchor" aria-hidden="true" id="launching-the-server-behind-a-proxy"></a><a href="#launching-the-server-behind-a-proxy" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Launching the server behind a proxy</h3>
