@@ -12,31 +12,12 @@ import 'nprogress/nprogress.css';
 import preload from './preload';
 
 nprogress.configure({showSpinner: false});
-let progressBarTimeout = null;
-
-const clearProgressBarTimeout = () => {
-  if (progressBarTimeout) {
-    clearTimeout(progressBarTimeout);
-    progressBarTimeout = null;
-  }
-};
-
-const startProgressBar = delay => {
-  clearProgressBarTimeout();
-  progressBarTimeout = setTimeout(() => {
-    nprogress.start();
-  }, delay);
-};
-
-const stopProgressBar = () => {
-  clearProgressBarTimeout();
-  nprogress.done();
-};
 
 class PendingNavigation extends React.Component {
   constructor(props) {
     super(props);
 
+    this.progressBarTimeout = null;
     this.state = {
       previousLocation: null,
     };
@@ -44,14 +25,12 @@ class PendingNavigation extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     const navigated = nextProps.location !== this.props.location;
-    const {routes} = this.props;
+    const {routes, delay = 1000} = this.props;
 
     if (navigated) {
       window.scrollTo(0, 0);
 
-      // Only show the loading bar if it has passed 1 second
-      // see https://www.nngroup.com/articles/response-times-3-important-limits/
-      startProgressBar(1000);
+      this.startProgressBar(delay);
       // save the location so we can render the old screen
       this.setState({
         previousLocation: this.props.location,
@@ -60,13 +39,34 @@ class PendingNavigation extends React.Component {
       // load data while the old screen remains
       preload(routes, nextProps.location.pathname)
         .then(() => {
-          this.setState({
-            previousLocation: null,
-          });
-          stopProgressBar();
+          this.setState(
+            {
+              previousLocation: null,
+            },
+            this.stopProgressBar,
+          );
         })
-        .catch(e => console.log(e));
+        .catch(e => console.warn(e));
     }
+  }
+
+  clearProgressBarTimeout() {
+    if (this.progressBarTimeout) {
+      clearTimeout(this.progressBarTimeout);
+      this.progressBarTimeout = null;
+    }
+  }
+
+  startProgressBar(delay) {
+    this.clearProgressBarTimeout();
+    this.progressBarTimeout = setTimeout(() => {
+      nprogress.start();
+    }, delay);
+  }
+
+  stopProgressBar() {
+    this.clearProgressBarTimeout();
+    nprogress.done();
   }
 
   render() {

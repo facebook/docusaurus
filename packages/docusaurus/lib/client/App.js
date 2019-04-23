@@ -13,7 +13,7 @@ import routes from '@generated/routes'; // eslint-disable-line
 import metadata from '@generated/metadata'; // eslint-disable-line
 import siteConfig from '@generated/docusaurus.config'; //eslint-disable-line
 import DocusaurusContext from '@docusaurus/context'; // eslint-disable-line
-import PendingNavigation from './pendingNavigation';
+import PendingNavigation from './PendingNavigation';
 
 function App() {
   const [context, setContext] = useState({});
