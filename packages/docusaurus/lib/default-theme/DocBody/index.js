@@ -13,6 +13,22 @@ import Head from '@docusaurus/Head';
 
 import styles from './styles.module.css';
 
+const Headings = ({headings, isChild}) => {
+  if (!headings.length) return null;
+  return (
+    <ul className={isChild ? 'contents' : 'contents contents__left-border'}>
+      {headings.map(heading => (
+        <li key={heading.id}>
+          <a href={`#${heading.id}`} className="contents__link">
+            {heading.value}
+          </a>
+          <Headings isChild headings={heading.children} />
+        </li>
+      ))}
+    </ul>
+  );
+};
+
 function DocBody(props) {
   const {metadata, content} = props;
   const {language, version} = metadata;
@@ -42,37 +58,7 @@ function DocBody(props) {
             </div>
           </div>
           <div className="col col--2 col--offset-1">
-            <ul className="contents contents__left-border">
-              <li>
-                <a className="contents__link" href="#url">
-                  Dummy Text
-                </a>
-              </li>
-              <li>
-                <a className="contents__link" href="#url">
-                  Dummy Text
-                </a>
-                <ul>
-                  <li>
-                    <a
-                      className="contents__link contents__link--active"
-                      href="#url">
-                      Dummy Text
-                    </a>
-                  </li>
-                  <li>
-                    <a className="contents__link" href="#url">
-                      Dummy Text
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <a className="contents__link" href="#url">
-                  Dummy Text
-                </a>
-              </li>
-            </ul>
+            {content.rightToc && <Headings headings={content.rightToc} />}
           </div>
         </div>
       </div>

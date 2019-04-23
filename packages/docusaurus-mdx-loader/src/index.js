@@ -7,9 +7,13 @@
 const {getOptions} = require('loader-utils');
 const mdx = require('@mdx-js/mdx');
 const rehypePrism = require('@mapbox/rehype-prism');
+const emoji = require('remark-emoji');
+const slug = require('rehype-slug');
+const rightToc = require('./rightToc');
 
 const DEFAULT_OPTIONS = {
-  rehypePlugins: [[rehypePrism, {ignoreMissing: true}]],
+  rehypePlugins: [slug, [(rehypePrism, {ignoreMissing: true})]],
+  remarkPlugins: [emoji, rightToc],
   prismTheme: 'prism-themes/themes/prism-atom-dark.css',
 };
 
