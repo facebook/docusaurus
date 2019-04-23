@@ -4,6 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+
 import React from 'react';
 import {Route, withRouter} from 'react-router-dom';
 import nprogress from 'nprogress';
@@ -61,7 +62,6 @@ class PendingNavigation extends React.Component {
           this.setState({
             previousLocation: null,
           });
-
           stopProgressBar();
         })
         .catch(e => console.log(e));
@@ -80,5 +80,4 @@ class PendingNavigation extends React.Component {
   }
 }
 
-// wrap in withRouter
 export default withRouter(PendingNavigation);
