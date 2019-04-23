@@ -11,7 +11,7 @@ module.exports = {
   organizationName: 'facebook',
   projectName: 'docusaurus',
   baseUrl: '/',
-  url: 'https://docusaurus.io',
+  url: 'https://docusaurus-2.netlify.com',
   headerLinks: [
     {doc: 'installation', label: 'Docs'},
     {page: 'youtube', label: 'Youtube'},
@@ -24,8 +24,8 @@ module.exports = {
   headerIcon: 'img/docusaurus.svg',
   favicon: 'img/docusaurus.ico',
   algolia: {
-    apiKey: '3eb9507824b8be89e7a199ecaa1a9d2c',
-    indexName: 'docusaurus',
+    apiKey: '47ecd3b21be71c5822571b9f59e52544',
+    indexName: 'docusaurus-2',
     algoliaOptions: {},
   },
   plugins: [
