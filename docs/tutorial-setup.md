@@ -5,7 +5,7 @@ title: Setting Up
 
 This tutorial is geared at first-time users who want detailed instructions on how to go from zero to a Docusaurus that is versioned. Let's start!
 
-<img alt="Docusaurus campfire" src="/img/undraw_docusaurus_mountain.svg" style="max-width: 600px; margin: 3rem auto"/>
+<img alt="Docusaurus campfire" src="/img/undraw_docusaurus_mountain.svg" class="docImage"/>
 
 ## Install Node.js
 

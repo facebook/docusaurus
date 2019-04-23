@@ -185,3 +185,8 @@ table td:first-child > code {
     margin-bottom: 80px;
   }
 }
+
+.docImage {
+  margin: 3rem auto;
+  max-width: 400px;
+}

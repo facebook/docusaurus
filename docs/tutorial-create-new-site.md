@@ -5,7 +5,7 @@ title: Create a New Site
 
 In this section we'll get our Docusaurus site up and running for local development. The process takes less than a few minutes.
 
-<img alt="Docusaurus browser" src="/img/undraw_docusaurus_browser.svg" style="max-width: 400px; margin: 3rem auto"/>
+<img alt="Docusaurus browser" src="/img/undraw_docusaurus_browser.svg" class="docImage"/>
 
 ## Scaffold the Site
 
