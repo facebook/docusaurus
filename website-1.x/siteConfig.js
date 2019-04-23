@@ -21,6 +21,7 @@ const siteConfig = {
   editUrl: 'https://github.com/facebook/docusaurus/edit/master/docs/',
   headerLinks: [
     {doc: 'installation', label: 'Docs'},
+    {href: '/docs/en/next/tutorial-setup', label: 'Tutorial'},
     {page: 'help', label: 'Help'},
     {page: 'users', label: 'Users'},
     {page: 'about-slash', label: 'About /'},

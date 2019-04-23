@@ -21,5 +21,13 @@
       "api-pages",
       "site-config"
     ]
+  },
+  "tutorial": {
+    "Tutorial": [
+      "tutorial-setup",
+      "tutorial-create-new-site",
+      "tutorial-create-pages",
+      "tutorial-publish-site"
+    ]
   }
 }
