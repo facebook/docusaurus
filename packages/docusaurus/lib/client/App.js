@@ -7,13 +7,13 @@
 
 import React, {useState} from 'react';
 import {renderRoutes} from 'react-router-config';
-import ReactListenerProvider from 'react-listener-provider';
 
 import Head from '@docusaurus/Head'; // eslint-disable-line
 import routes from '@generated/routes'; // eslint-disable-line
 import metadata from '@generated/metadata'; // eslint-disable-line
 import siteConfig from '@generated/docusaurus.config'; //eslint-disable-line
 import DocusaurusContext from '@docusaurus/context'; // eslint-disable-line
+import PendingNavigation from './PendingNavigation';
 
 function App() {
   const [context, setContext] = useState({});
@@ -36,7 +36,9 @@ function App() {
           type="text/css"
         />
       </Head>
-      <ReactListenerProvider>{renderRoutes(routes)}</ReactListenerProvider>
+      <PendingNavigation routes={routes}>
+        {renderRoutes(routes)}
+      </PendingNavigation>
     </DocusaurusContext.Provider>
   );
 }
