@@ -11,7 +11,7 @@ module.exports = {
   organizationName: 'facebook',
   projectName: 'docusaurus',
   baseUrl: '/',
-  url: 'https://docusaurus.io',
+  url: 'https://docusaurus-2.netlify.com',
   headerLinks: [
     {doc: 'installation', label: 'Docs'},
     {page: 'youtube', label: 'Youtube'},

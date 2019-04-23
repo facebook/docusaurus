@@ -86,7 +86,7 @@ function Post(props) {
   return (
     <div>
       {renderPostHeader()}
-      {children}
+      <article>{children}</article>
       {truncated && (
         <div className="text--right">
           <Link className="button button--secondary" to={metadata.permalink}>

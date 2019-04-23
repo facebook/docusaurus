@@ -49,10 +49,14 @@ function DocBody(props) {
       <div className="container margin-vert--lg">
         <div className="row">
           <div className="col col--8">
-            <h1 className="margin-bottom--lg">{metadata.title}</h1>
-            <div className="markdown">
-              <DocContents />
-            </div>
+            <header>
+              <h1 className="margin-bottom--lg">{metadata.title}</h1>
+            </header>
+            <article>
+              <div className="markdown">
+                <DocContents />
+              </div>
+            </article>
             <div className="margin-vert--lg">
               <DocsPaginator />
             </div>
