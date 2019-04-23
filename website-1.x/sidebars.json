@@ -24,10 +24,10 @@
   },
   "tutorial": {
     "Tutorial": [
-      "tutorial/setup",
-      "tutorial/create-new-site",
-      "tutorial/create-new-pages",
-      "tutorial/publish"
+      "tutorial-setup",
+      "tutorial-create-new-site",
+      "tutorial-create-pages",
+      "tutorial-publish-site"
     ]
   }
 }
