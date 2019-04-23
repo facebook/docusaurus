@@ -23,14 +23,80 @@ const processFixture = async (name, options) => {
 };
 
 test('no options', async () => {
-  const options = undefined;
-  const result = await processFixture('just-content', options);
-  expect(result).toMatchSnapshot();
+  const result = await processFixture('just-content');
+  expect(result).toMatchInlineSnapshot(`
+"export const rightToc = [
+	{
+		value: 'Endi',
+		id: 'endi',
+		children: []
+	},
+	{
+		value: 'Endi',
+		id: 'endi-1',
+		children: [
+			{
+				value: 'Yangshun',
+				id: 'yangshun',
+				children: []
+			}
+		]
+	},
+	{
+		value: 'I ♥ unicode.',
+		id: 'i--unicode',
+		children: []
+	}
+];
+
+### Endi
+
+\`\`\`md
+## This is ignored
+\`\`\`
+
+## Endi
+
+Lorem ipsum
+
+### Yangshun
+
+Some content here
+
+## I ♥ unicode.
+"
+`);
 });
 
 test('should export even with existing name', async () => {
   const result = await processFixture('name-exist');
-  expect(result).toMatchSnapshot();
+  expect(result).toMatchInlineSnapshot(`
+"export const rightToc = [
+	{
+		value: 'Thanos',
+		id: 'thanos',
+		children: []
+	},
+	{
+		value: 'Tony Stark',
+		id: 'tony-stark',
+		children: [
+			{
+				value: 'Avengers',
+				id: 'avengers',
+				children: []
+			}
+		]
+	}
+];
+
+## Thanos
+
+## Tony Stark
+
+### Avengers
+"
+`);
 });
 
 test('should export with custom name', async () => {
@@ -38,15 +104,97 @@ test('should export with custom name', async () => {
     name: 'customName',
   };
   const result = await processFixture('just-content', options);
-  expect(result).toMatchSnapshot();
+  expect(result).toMatchInlineSnapshot(`
+"export const customName = [
+	{
+		value: 'Endi',
+		id: 'endi',
+		children: []
+	},
+	{
+		value: 'Endi',
+		id: 'endi-1',
+		children: [
+			{
+				value: 'Yangshun',
+				id: 'yangshun',
+				children: []
+			}
+		]
+	},
+	{
+		value: 'I ♥ unicode.',
+		id: 'i--unicode',
+		children: []
+	}
+];
+
+### Endi
+
+\`\`\`md
+## This is ignored
+\`\`\`
+
+## Endi
+
+Lorem ipsum
+
+### Yangshun
+
+Some content here
+
+## I ♥ unicode.
+"
+`);
 });
 
 test('should insert below imports', async () => {
   const result = await processFixture('insert-below-imports');
-  expect(result).toMatchSnapshot();
+  expect(result).toMatchInlineSnapshot(`
+"import something from 'something';
+
+import somethingElse from 'something-else';
+
+export const rightToc = [
+	{
+		value: 'Title',
+		id: 'title',
+		children: []
+	},
+	{
+		value: 'Test',
+		id: 'test',
+		children: [
+			{
+				value: 'Again',
+				id: 'again',
+				children: []
+			}
+		]
+	}
+];
+
+## Title
+
+## Test
+
+### Again
+
+Content.
+"
+`);
 });
 
 test('empty headings', async () => {
   const result = await processFixture('empty-headings');
-  expect(result).toMatchSnapshot();
+  expect(result).toMatchInlineSnapshot(`
+"export const rightToc = [];
+
+# Ignore this
+
+## 
+
+## ![](an-image.svg)
+"
+`);
 });
