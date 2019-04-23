@@ -7,8 +7,6 @@
 
 import React from 'react';
 
-import styles from './styles.module.css';
-
 export default props => {
   if (props.error) {
     console.log(props.error);
@@ -16,12 +14,7 @@ export default props => {
   }
 
   if (props.pastDelay) {
-    return (
-      <div className={styles.loader}>
-        <p>Please wait a moment</p>
-        <div className={styles.loaderSpinning} />
-      </div>
-    );
+    return <div align="center">Loading ....</div>;
   }
 
   return null;

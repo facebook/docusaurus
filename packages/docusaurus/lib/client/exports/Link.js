@@ -6,15 +6,15 @@
  */
 
 import React, {useEffect} from 'react';
-import Perimeter from 'react-perimeter';
 import {NavLink} from 'react-router-dom';
 
 const internalRegex = /^\/(?!\/)/;
 
 function Link(props) {
-  const {to, href, preloadProximity = 20} = props;
+  const {to, href} = props;
   const targetLink = to || href;
   const isInternal = internalRegex.test(targetLink);
+  let preloaded = false;
 
   const IOSupported =
     typeof window !== 'undefined' && 'IntersectionObserver' in window;
@@ -47,6 +47,13 @@ function Link(props) {
     }
   };
 
+  const onMouseEnter = () => {
+    if (!preloaded) {
+      window.docusaurus.preload(targetLink);
+      preloaded = true;
+    }
+  };
+
   useEffect(() => {
     // If IO is not supported. We prefetch by default (only once)
     if (!IOSupported && isInternal) {
@@ -64,12 +71,12 @@ function Link(props) {
     // eslint-disable-next-line jsx-a11y/anchor-has-content
     <a {...props} href={targetLink} />
   ) : (
-    <Perimeter
-      padding={preloadProximity}
-      onBreach={() => window.docusaurus.preload(targetLink)}
-      once>
-      <NavLink {...props} innerRef={handleRef} to={targetLink} />
-    </Perimeter>
+    <NavLink
+      {...props}
+      onMouseEnter={onMouseEnter}
+      innerRef={handleRef}
+      to={targetLink}
+    />
   );
 }
 
