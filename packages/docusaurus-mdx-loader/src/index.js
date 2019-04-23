@@ -12,7 +12,7 @@ const slug = require('rehype-slug');
 const rightToc = require('./rightToc');
 
 const DEFAULT_OPTIONS = {
-  rehypePlugins: [slug, [(rehypePrism, {ignoreMissing: true})]],
+  rehypePlugins: [[rehypePrism, {ignoreMissing: true}], slug],
   remarkPlugins: [emoji, rightToc],
   prismTheme: 'prism-themes/themes/prism-atom-dark.css',
 };
