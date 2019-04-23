@@ -38,7 +38,6 @@ function DocBody(props) {
   }, []);
 
   const DocContents = content;
-  console.log(content.rightToc);
   return (
     <div className={styles.docBody}>
       <Head>
