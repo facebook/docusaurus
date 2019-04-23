@@ -13,6 +13,7 @@ const slugs = require('github-slugger')();
 const search = node => {
   const headings = [];
   let current = -1;
+  let currentDepth = 0;
 
   slugs.reset();
 
@@ -26,11 +27,12 @@ const search = node => {
       return;
     }
 
-    const entry = {depth: child.depth, value, id: slug, children: []};
+    const entry = {value, id: slug, children: []};
 
-    if (!headings.length || headings[current].depth >= child.depth) {
+    if (!headings.length || currentDepth >= child.depth) {
       headings.push(entry);
       current += 1;
+      currentDepth = child.depth;
     } else {
       headings[current].children.push(entry);
     }

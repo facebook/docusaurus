@@ -14,18 +14,15 @@ exports[`empty headings 1`] = `
 exports[`no options 1`] = `
 "export const rightToc = [
 	{
-		depth: 3,
 		value: 'Endi',
 		id: 'endi',
 		children: []
 	},
 	{
-		depth: 2,
 		value: 'Endi',
 		id: 'endi-1',
 		children: [
 			{
-				depth: 3,
 				value: 'Yangshun',
 				id: 'yangshun',
 				children: []
@@ -33,7 +30,6 @@ exports[`no options 1`] = `
 		]
 	},
 	{
-		depth: 2,
 		value: 'I ♥ unicode.',
 		id: 'i--unicode',
 		children: []
@@ -61,18 +57,15 @@ Some content here
 exports[`should export even with existing name 1`] = `
 "export const rightToc = [
 	{
-		depth: 2,
 		value: 'Thanos',
 		id: 'thanos',
 		children: []
 	},
 	{
-		depth: 2,
 		value: 'Tony Stark',
 		id: 'tony-stark',
 		children: [
 			{
-				depth: 3,
 				value: 'Avengers',
 				id: 'avengers',
 				children: []
@@ -92,18 +85,15 @@ exports[`should export even with existing name 1`] = `
 exports[`should export with custom name 1`] = `
 "export const customName = [
 	{
-		depth: 3,
 		value: 'Endi',
 		id: 'endi',
 		children: []
 	},
 	{
-		depth: 2,
 		value: 'Endi',
 		id: 'endi-1',
 		children: [
 			{
-				depth: 3,
 				value: 'Yangshun',
 				id: 'yangshun',
 				children: []
@@ -111,7 +101,6 @@ exports[`should export with custom name 1`] = `
 		]
 	},
 	{
-		depth: 2,
 		value: 'I ♥ unicode.',
 		id: 'i--unicode',
 		children: []
@@ -143,18 +132,15 @@ import somethingElse from 'something-else';
 
 export const rightToc = [
 	{
-		depth: 2,
 		value: 'Title',
 		id: 'title',
 		children: []
 	},
 	{
-		depth: 2,
 		value: 'Test',
 		id: 'test',
 		children: [
 			{
-				depth: 3,
 				value: 'Again',
 				id: 'again',
 				children: []
