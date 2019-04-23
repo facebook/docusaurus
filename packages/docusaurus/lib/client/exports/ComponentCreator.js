@@ -66,6 +66,15 @@ function ComponentCreator(path) {
           val = val[keyPath[i]];
         }
         val[keyPath[keyPath.length - 1]] = loaded[key].default;
+        const nonDefaultKeys = Object.keys(loaded[key]).filter(
+          k => k !== 'default',
+        );
+        if (nonDefaultKeys && nonDefaultKeys.length) {
+          nonDefaultKeys.forEach(nonDefaultKey => {
+            val[keyPath[keyPath.length - 1]][nonDefaultKey] =
+              loaded[key][nonDefaultKey];
+          });
+        }
       });
 
       const Component = loadedModules.component;
