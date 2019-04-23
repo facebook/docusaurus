@@ -11,6 +11,7 @@ import nprogress from 'nprogress';
 import 'nprogress/nprogress.css';
 import preload from './preload';
 
+nprogress.configure({showSpinner: false});
 let progressBarTimeout = null;
 
 const clearProgressBarTimeout = () => {
