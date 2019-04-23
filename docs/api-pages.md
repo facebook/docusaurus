@@ -5,7 +5,7 @@ title: Pages and Styles
 
 Docusaurus provides support for writing pages as React components inside the `website/pages` directory which will share the same header, footer, and styles as the rest of the site.
 
-## Provided Props
+### Provided Pros
 
 Docusaurus provides your [siteConfig.js](api-site-config.md) as a `config` props. Hence, you can access `baseUrl` or `title` through this props.
 

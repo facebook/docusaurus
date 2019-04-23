@@ -1,0 +1,174 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`empty headings 1`] = `
+"export const rightToc = [];
+
+# Ignore this
+
+## 
+
+## ![](an-image.svg)
+"
+`;
+
+exports[`no options 1`] = `
+"export const rightToc = [
+	{
+		depth: 3,
+		value: 'Endi',
+		id: 'endi',
+		children: []
+	},
+	{
+		depth: 2,
+		value: 'Endi',
+		id: 'endi-1',
+		children: [
+			{
+				depth: 3,
+				value: 'Yangshun',
+				id: 'yangshun',
+				children: []
+			}
+		]
+	},
+	{
+		depth: 2,
+		value: 'I ♥ unicode.',
+		id: 'i--unicode',
+		children: []
+	}
+];
+
+### Endi
+
+\`\`\`md
+## This is ignored
+\`\`\`
+
+## Endi
+
+Lorem ipsum
+
+### Yangshun
+
+Some content here
+
+## I ♥ unicode.
+"
+`;
+
+exports[`should export even with existing name 1`] = `
+"export const rightToc = [
+	{
+		depth: 2,
+		value: 'Thanos',
+		id: 'thanos',
+		children: []
+	},
+	{
+		depth: 2,
+		value: 'Tony Stark',
+		id: 'tony-stark',
+		children: [
+			{
+				depth: 3,
+				value: 'Avengers',
+				id: 'avengers',
+				children: []
+			}
+		]
+	}
+];
+
+## Thanos
+
+## Tony Stark
+
+### Avengers
+"
+`;
+
+exports[`should export with custom name 1`] = `
+"export const customName = [
+	{
+		depth: 3,
+		value: 'Endi',
+		id: 'endi',
+		children: []
+	},
+	{
+		depth: 2,
+		value: 'Endi',
+		id: 'endi-1',
+		children: [
+			{
+				depth: 3,
+				value: 'Yangshun',
+				id: 'yangshun',
+				children: []
+			}
+		]
+	},
+	{
+		depth: 2,
+		value: 'I ♥ unicode.',
+		id: 'i--unicode',
+		children: []
+	}
+];
+
+### Endi
+
+\`\`\`md
+## This is ignored
+\`\`\`
+
+## Endi
+
+Lorem ipsum
+
+### Yangshun
+
+Some content here
+
+## I ♥ unicode.
+"
+`;
+
+exports[`should insert below imports 1`] = `
+"import something from 'something';
+
+import somethingElse from 'something-else';
+
+export const rightToc = [
+	{
+		depth: 2,
+		value: 'Title',
+		id: 'title',
+		children: []
+	},
+	{
+		depth: 2,
+		value: 'Test',
+		id: 'test',
+		children: [
+			{
+				depth: 3,
+				value: 'Again',
+				id: 'again',
+				children: []
+			}
+		]
+	}
+];
+
+## Title
+
+## Test
+
+### Again
+
+Content.
+"
+`;
