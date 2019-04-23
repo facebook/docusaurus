@@ -13,16 +13,16 @@ import Head from '@docusaurus/Head';
 
 import styles from './styles.module.css';
 
-const Headings = ({headings}) => {
+const Headings = ({headings, isChild}) => {
   if (!headings.length) return null;
   return (
-    <ul className="contents contents__left-border">
+    <ul className={isChild ? 'contents' : 'contents contents__left-border'}>
       {headings.map(heading => (
         <li key={heading.id}>
           <a href={`#${heading.id}`} className="contents__link">
             {heading.value}
           </a>
-          <Headings headings={heading.children} />
+          <Headings isChild headings={heading.children} />
         </li>
       ))}
     </ul>
