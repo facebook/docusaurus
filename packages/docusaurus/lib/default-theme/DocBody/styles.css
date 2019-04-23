@@ -1,0 +1,23 @@
+/**
+ * Copyright (c) 2017-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+.anchor {
+  display: block;
+  position: relative;
+  top: -80px;
+}
+
+@media only screen and (max-width: 735px) {
+  .anchor {
+    top: -144px;
+  }
+}
+
+.hash-link {
+  position: absolute;
+  margin-left: -20px;
+}

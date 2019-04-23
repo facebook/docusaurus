@@ -11,6 +11,7 @@ import DocsPaginator from '@theme/DocsPaginator'; // eslint-disable-line
 import DocusaurusContext from '@docusaurus/context';
 import Head from '@docusaurus/Head';
 
+import './styles.css';
 import styles from './styles.module.css';
 
 const Headings = ({headings, isChild}) => {
