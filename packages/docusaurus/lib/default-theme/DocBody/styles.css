@@ -20,17 +20,15 @@
 .hash-link {
   position: absolute;
   margin-left: -1.25rem;
-  padding-right: 0.25rem;
-  opacity: 0;
-  transition: opacity 0.3s;
+  padding-right: 1.25rem;
 }
 
-.hash-link:hover {
-  opacity: 1 !important;
-  transition: none;
-}
-
-*:hover > .hash-link {
-  opacity: 0.5;
-  transition: none;
+@media only screen and (min-width: 736px) {
+  .hash-link {
+    display: none;
+  }
+  
+  *:hover > .hash-link {
+    display: inherit;
+  }
 }
