@@ -25,10 +25,10 @@
 
 @media only screen and (min-width: 736px) {
   .hash-link {
-    display: none;
+    opacity: 0;
   }
-  
+
   *:hover > .hash-link {
-    display: inherit;
+    opacity: 1;
   }
 }
