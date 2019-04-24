@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+const fs = require('fs');
 const chokidar = require('chokidar');
 
 class WaitPlugin {
@@ -19,12 +20,13 @@ class WaitPlugin {
       const watcher = chokidar.watch(filepath, {
         awaitWriteFinish: true,
         disableGlobbing: true,
-        persistent: false,
       });
 
       watcher.on('add', () => {
-        watcher.close();
-        callback();
+        if (fs.existsSync(filepath)) {
+          watcher.close();
+          callback();
+        }
       });
     });
   }
