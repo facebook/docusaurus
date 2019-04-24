@@ -61,7 +61,7 @@ function DocBody(props) {
               <DocsPaginator />
             </div>
           </div>
-          <div className="col col--2 col--offset-1">
+          <div className="col col--3 col--offset-1">
             {content.rightToc && <Headings headings={content.rightToc} />}
           </div>
         </div>
