@@ -22,11 +22,13 @@ class WaitPlugin {
         disableGlobbing: true,
       });
 
-      watcher.on('add', () => {
-        if (fs.existsSync(filepath)) {
-          watcher.close();
-          callback();
-        }
+      ['add', 'ready'].forEach(event => {
+        watcher.on(event, () => {
+          if (fs.existsSync(filepath)) {
+            watcher.close();
+            callback();
+          }
+        });
       });
     });
   }
