@@ -3277,7 +3277,7 @@ cheerio@0.22.0, cheerio@^0.22.0:
     lodash.reject "^4.4.0"
     lodash.some "^4.4.0"
 
-chokidar@^2.0.0:
+chokidar@^2.0.0, chokidar@^2.1.5:
   version "2.1.5"
   resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-2.1.5.tgz#0ae8434d962281a5f56c72869e79cb6d9d86ad4d"
   integrity sha512-i0TprVWp+Kj4WRPtInjexJ8Q+BqTE909VpH8xVhXrJkoc5QC8VO9TryGOqTr+2hljzc1sC62t22h5tZePodM/A==
@@ -4595,10 +4595,10 @@ doctrine@^2.1.0:
   dependencies:
     esutils "^2.0.2"
 
-docusaurus@^2.0.0-alpha.6:
-  version "2.0.0-alpha.6"
-  resolved "https://registry.yarnpkg.com/docusaurus/-/docusaurus-2.0.0-alpha.6.tgz#3ea061ec8a6425cdb11ba6d839bb05a3d0aacbba"
-  integrity sha512-NjFsNyKDjPTu884sSIpGn3sHcfo85gsBtB9+Pm3HPuaj/gFu2EaNikIb9jvk4/EXyoZ4xnrU6Rtup4vdAxxfHQ==
+docusaurus@^2.0.0-alpha.10:
+  version "2.0.0-alpha.10"
+  resolved "https://registry.yarnpkg.com/docusaurus/-/docusaurus-2.0.0-alpha.10.tgz#3759ccdf7403a58483b41fffb1cfe662e2b98fca"
+  integrity sha512-sucBSgmtCA+DOSYGdhXV3TmeBR6On2n/6BFQCJs3/if06W6DzLCLb2sC2Jo1PpXpopYvAjd9Sf91zwEvovLPIw==
   dependencies:
     "@babel/core" "^7.0.0"
     "@babel/plugin-proposal-class-properties" "^7.0.0"

@@ -40,7 +40,7 @@
     "babel-plugin-dynamic-import-node": "^2.2.0",
     "cache-loader": "^2.0.1",
     "chalk": "^2.4.1",
-    "chokidar": "^2.0.4",
+    "chokidar": "^2.1.5",
     "classnames": "^2.2.6",
     "clean-webpack-plugin": "^2.0.1",
     "commander": "^2.16.0",

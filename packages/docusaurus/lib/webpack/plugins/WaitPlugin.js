@@ -5,19 +5,23 @@
  * LICENSE file in the root directory of this source tree.
  */
 const fs = require('fs');
+const chokidar = require('chokidar');
 
 class WaitPlugin {
   constructor(options) {
-    this.timeout = options.timeout || 60000;
-    this.interval = options.interval || 250;
     this.filepath = options.filepath;
   }
 
   apply(compiler) {
     // Before finishing the compilation step
     compiler.hooks.make.tapAsync('WaitPlugin', (compilation, callback) => {
-      const start = Date.now();
-      const {filepath, timeout, interval} = this;
+      const {filepath} = this;
+
+      const watcher = chokidar.watch(filepath, {
+        awaitWriteFinish: true,
+        disableGlobbing: true,
+        persistent: false,
+      });
 
       const checkCondition = () => {
         if (Array.isArray(filepath)) {
@@ -26,18 +30,12 @@ class WaitPlugin {
         return fs.existsSync(filepath);
       };
 
-      // Poll until file exist
-      function poll() {
+      watcher.on('add', () => {
         if (checkCondition()) {
+          watcher.close();
           callback();
-        } else if (Date.now() - start > timeout) {
-          throw Error("Maybe it just wasn't meant to be.");
-        } else {
-          setTimeout(poll, interval);
         }
-      }
-
-      poll();
+      });
     });
   }
 }
