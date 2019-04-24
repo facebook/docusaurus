@@ -21,3 +21,13 @@
   position: absolute;
   margin-left: -20px;
 }
+
+@media only screen and (min-width: 736px) {
+  .hash-link {
+    display: none;
+  }
+  
+  *:hover > .hash-link {
+    display: inherit;
+  }
+}
