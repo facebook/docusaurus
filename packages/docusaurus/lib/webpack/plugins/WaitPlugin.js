@@ -20,11 +20,14 @@ class WaitPlugin {
       const watcher = chokidar.watch(filepath, {
         awaitWriteFinish: true,
         disableGlobbing: true,
+        usePolling: true,
+        interval: 500,
       });
 
-      ['all'].forEach(event => {
+      ['add', 'ready'].forEach(event => {
         watcher.on(event, () => {
           if (fs.existsSync(filepath)) {
+            console.log('Closing watcher');
             watcher.close();
             callback();
           }
