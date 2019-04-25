@@ -8,6 +8,7 @@
 const hljs = require('highlight.js');
 const Markdown = require('remarkable');
 const prismjs = require('prismjs');
+const loadLanguages = require('prismjs/components/index');
 const deepmerge = require('deepmerge');
 const chalk = require('chalk');
 const anchors = require('./anchors.js');
@@ -51,7 +52,7 @@ class MarkdownRenderer {
               try {
                 // Currently people using prismjs on Node have to individually require()
                 // every single language (https://github.com/PrismJS/prism/issues/593)
-                require(`prismjs/components/prism-${language}.min`);
+                loadLanguages([language]);
                 return prismjs.highlight(str, prismjs.languages[language]);
               } catch (err) {
                 if (err.code === 'MODULE_NOT_FOUND') {
