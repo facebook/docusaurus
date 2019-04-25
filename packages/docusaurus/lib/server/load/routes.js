@@ -12,7 +12,6 @@ const _ = require('lodash');
 async function loadRoutes(pluginsRouteConfigs) {
   const routesImports = [
     `import React from 'react';`,
-    `import NotFound from '@theme/NotFound';`,
     `import ComponentCreator from '@docusaurus/ComponentCreator';`,
   ];
   // Routes paths. Example: ['/', '/docs', '/blog/2017/09/03/test']
@@ -142,7 +141,7 @@ async function loadRoutes(pluginsRouteConfigs) {
   const notFoundRoute = `
   {
     path: '*',
-    component: NotFound
+    component: ComponentCreator('*')
   }`;
 
   const routesConfig = `

@@ -6,17 +6,26 @@
  */
 
 import React from 'react';
+import Head from '@docusaurus/Head';
 import Layout from '@theme/Layout';
 
 function NotFound() {
   return (
     <Layout>
-      <div>404 Page Not Found</div>
-      <div>
-        <img
-          alt="Not found"
-          src="https://d2gg9evh47fn9z.cloudfront.net/800px_COLOURBOX3889253.jpg"
-        />
+      <Head>
+        <title>Page Not Found</title>
+      </Head>
+      <div className="container margin-vert--xl">
+        <div className="row">
+          <div className="col col--6 col--offset-3">
+            <h1 className="hero__title">Page Not Found</h1>
+            <p>We could not find what you were looking for.</p>
+            <p>
+              Please contact the owner of the site that linked you to the
+              original URL and let them know their link is broken.
+            </p>
+          </div>
+        </div>
       </div>
     </Layout>
   );
