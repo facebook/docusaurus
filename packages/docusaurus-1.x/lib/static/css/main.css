@@ -1736,65 +1736,41 @@ input::placeholder {
   width: 18px;
 }
 
-.toc .toggleNav .navToggle:before,
-.toc .toggleNav .navToggle:after {
-  border: 5px solid #393939;
-  border-width: 5px 0;
-  content: '';
-  height: 6px;
-  left: 0;
-  left: 8px;
-  margin-top: -8px;
+.hamburger-menu {
+  position: absolute;
+  top: 6px;
+  width: 100%;
+}
+
+.line1, .line2, .line3 {
+  width: 100%;
+  height: 3px;
+  background-color: #393939;
+  margin: 3px 0;
+  transition: 0.4s;
+  border-radius: 10px;
+}
+
+.docsSliderActive .hamburger-menu {
+  top: 12px;
+}
+
+.docsSliderActive .line1 {
+  position: absolute;
+  top: 50%;
+  transform: rotate(-45deg);
+}
+.docsSliderActive .line2 {
+  display: none;
+}
+.docsSliderActive .line3 {
   position: absolute;
   top: 50%;
   transform: rotate(45deg);
-  width: 3px;
-  z-index: 1;
-}
-
-.toc .toggleNav .navToggle:after {
-  transform: rotate(-45deg);
-}
-
-.toc .toggleNav .navToggle i:before,
-.toc .toggleNav .navToggle i:after {
-  background: transparent;
-  border-color: transparent #393939;
-  border-style: solid;
-  border-width: 0 5px 5px;
-  content: '';
-  height: 0;
-  left: 2px;
-  margin-top: -7px;
-  opacity: 1;
-  position: absolute;
-  top: 50%;
-  width: 5px;
-  z-index: 10;
 }
 
 .toggleNav h2 i {
   padding: 0 4px;
-}
-
-.toc .toggleNav .navToggle i:after {
-  border-width: 5px 5px 0;
-  margin-top: 2px;
-}
-
-.docsSliderActive .toc .toggleNav .navToggle:before,
-.docsSliderActive .toc .toggleNav .navToggle:after {
-  border-width: 8px 0;
-  height: 0;
-  margin-top: -8px;
-}
-
-.docsSliderActive .toc .toggleNav .navToggle i {
-  opacity: 0;
-}
-
-.docsSliderActive .tocToggler {
-  visibility: hidden;
 }
 
 .toc .toggleNav .navGroup {
