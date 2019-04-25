@@ -94,7 +94,7 @@ function Home() {
           <div className={styles['index-ctas']}>
             <Link
               className={styles['index-ctas-get-started-button']}
-              to={'error'}>
+              to={gettingStartedUrl}>
               Get Started
             </Link>
             <span className={styles['index-ctas-github-button']}>
