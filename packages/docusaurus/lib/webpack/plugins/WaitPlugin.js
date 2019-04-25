@@ -22,7 +22,7 @@ class WaitPlugin {
         disableGlobbing: true,
       });
 
-      ['add', 'ready'].forEach(event => {
+      ['all'].forEach(event => {
         watcher.on(event, () => {
           if (fs.existsSync(filepath)) {
             watcher.close();
