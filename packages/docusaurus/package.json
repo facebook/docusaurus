@@ -68,6 +68,7 @@
     "static-site-generator-webpack-plugin": "^3.4.2",
     "style-loader": "^0.22.1",
     "terser-webpack-plugin": "^1.2.3",
+    "wait-on": "^3.2.0",
     "webpack": "^4.29.6",
     "webpack-bundle-analyzer": "^3.1.0",
     "webpack-dev-server": "^3.2.1",

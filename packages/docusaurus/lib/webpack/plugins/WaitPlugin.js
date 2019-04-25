@@ -5,8 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const fs = require('fs');
-const chokidar = require('chokidar');
+const path = require('path');
+const fs = require('fs-extra');
+const waitOn = require('wait-on');
 
 class WaitPlugin {
   constructor(options) {
@@ -16,23 +17,20 @@ class WaitPlugin {
   apply(compiler) {
     // Before finishing the compilation step
     compiler.hooks.make.tapAsync('WaitPlugin', (compilation, callback) => {
-      const {filepath} = this;
-      const watcher = chokidar.watch(filepath, {
-        awaitWriteFinish: true,
-        disableGlobbing: true,
-        usePolling: true,
-        interval: 500,
-      });
+      // To prevent 'waitOn' error on waiting non-existing directory
+      fs.ensureDirSync(path.dirname(this.filepath));
 
-      ['add', 'ready'].forEach(event => {
-        watcher.on(event, () => {
-          if (fs.existsSync(filepath)) {
-            console.log('Closing watcher');
-            watcher.close();
-            callback();
-          }
+      // Wait until file exist
+      waitOn({
+        resources: [this.filepath],
+        interval: 300,
+      })
+        .then(() => {
+          callback();
+        })
+        .catch(error => {
+          console.warn(`WaitPlugin error: ${error}`);
         });
-      });
     });
   }
 }
