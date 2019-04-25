@@ -12,6 +12,14 @@ import routesChunkNames from '@generated/routesChunkNames';
 import registry from '@generated/registry';
 
 function ComponentCreator(path) {
+  // 404 page
+  if (path === '*') {
+    return Loadable({
+      loading: Loading,
+      loader: () => import('@theme/NotFound'),
+    });
+  }
+
   const chunkNames = routesChunkNames[path];
   const optsModules = [];
   const optsWebpack = [];
