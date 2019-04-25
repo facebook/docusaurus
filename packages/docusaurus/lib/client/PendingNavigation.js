@@ -8,8 +8,8 @@
 import React from 'react';
 import {Route, withRouter} from 'react-router-dom';
 import nprogress from 'nprogress';
-import 'nprogress/nprogress.css';
 import preload from './preload';
+import './nprogress.css';
 
 nprogress.configure({showSpinner: false});
 

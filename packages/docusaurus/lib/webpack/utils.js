@@ -10,18 +10,27 @@ const cacheLoaderVersion = require('cache-loader/package.json').version;
 const merge = require('webpack-merge');
 
 // Utility method to get style loaders
-function getStyleLoaders(isServer, cssOptions) {
+function getStyleLoaders(isServer, cssOptions = {}) {
+  if (isServer) {
+    // https://github.com/webpack-contrib/mini-css-extract-plugin/issues/90#issuecomment-380796867
+    return [
+      cssOptions.modules
+        ? {
+            loader: require.resolve('css-loader/locals'),
+            options: cssOptions,
+          }
+        : require.resolve('null-loader'),
+    ];
+  }
+
   const isProd = process.env.NODE_ENV === 'production';
   const loaders = [
-    !isServer &&
-      isProd && {
-        loader: MiniCssExtractPlugin.loader,
-      },
-    !isServer && !isProd && require.resolve('style-loader'),
+    isProd && {
+      loader: MiniCssExtractPlugin.loader,
+    },
+    !isProd && require.resolve('style-loader'),
     {
-      loader: isServer
-        ? require.resolve('css-loader/locals')
-        : require.resolve('css-loader'),
+      loader: require.resolve('css-loader'),
       options: cssOptions,
     },
   ].filter(Boolean);
