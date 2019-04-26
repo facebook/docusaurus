@@ -10,8 +10,6 @@ const path = require('path');
 const {encodePath, fileToPath, idx, docuHash} = require('@docusaurus/utils');
 
 const DEFAULT_OPTIONS = {
-  metadataKey: 'pagesMetadata',
-  metadataFileName: 'pagesMetadata.json',
   path: 'pages', // Path to data on filesystem, relative to site dir.
   routeBasePath: '', // URL Route.
   include: ['**/*.{js,jsx}'], // Extensions to include.

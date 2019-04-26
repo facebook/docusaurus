@@ -20,8 +20,6 @@ const loadSidebars = require('./sidebars');
 const processMetadata = require('./metadata');
 
 const DEFAULT_OPTIONS = {
-  metadataKey: 'docsMetadata',
-  metadataFileName: 'docsMetadata.json',
   path: 'docs', // Path to data on filesystem, relative to site dir.
   routeBasePath: 'docs', // URL Route.
   include: ['**/*.md', '**/*.mdx'], // Extensions to include.

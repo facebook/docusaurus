@@ -20,8 +20,6 @@ function fileToUrl(fileName) {
 }
 
 const DEFAULT_OPTIONS = {
-  metadataKey: 'blogMetadata',
-  metadataFileName: 'blogMetadata.json',
   path: 'blog', // Path to data on filesystem, relative to site dir.
   routeBasePath: 'blog', // URL Route.
   include: ['*.md', '*.mdx'], // Extensions to include.
