@@ -13,13 +13,18 @@ const _ = require(`lodash`);
 const escapeStringRegexp = require('escape-string-regexp');
 const fs = require('fs-extra');
 
-const genCache = new Map();
+const fileHash = new Map();
 async function generate(generatedFilesDir, file, content) {
-  const cached = genCache.get(file);
-  if (cached !== content) {
-    await fs.ensureDir(generatedFilesDir);
-    await fs.writeFile(path.join(generatedFilesDir, file), content);
-    genCache.set(file, content);
+  const filepath = path.join(generatedFilesDir, file);
+  const lastHash = fileHash.get(filepath);
+  const currentHash = createHash('md5')
+    .update(content)
+    .digest('hex');
+
+  if (lastHash !== currentHash) {
+    await fs.ensureDir(path.dirname(filepath));
+    await fs.writeFile(filepath, content);
+    fileHash.set(filepath, currentHash);
   }
 }
 

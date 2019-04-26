@@ -134,7 +134,11 @@ class SideNav extends React.Component {
           <section className="navWrapper wrapper">
             <div className="navBreadcrumb wrapper">
               <div className="navToggle" id="navToggler">
-                <i />
+                <div className="hamburger-menu">
+                  <div className="line1" />
+                  <div className="line2" />
+                  <div className="line3" />
+                </div>
               </div>
               <h2>
                 <i>›</i>
