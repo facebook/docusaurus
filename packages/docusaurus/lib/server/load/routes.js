@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const {genChunkName, docuHash} = require('@docusaurus/utils');
+const {genChunkName} = require('@docusaurus/utils');
 const {stringify} = require('querystring');
 const _ = require('lodash');
 
@@ -14,25 +14,9 @@ async function loadRoutes(pluginsRouteConfigs) {
     `import React from 'react';`,
     `import ComponentCreator from '@docusaurus/ComponentCreator';`,
   ];
-  // Routes paths. Example: ['/', '/docs', '/blog/2017/09/03/test']
   const routesPaths = [];
   const addRoutesPath = routePath => {
     routesPaths.push(routePath);
-  };
-
-  // Mapping of routePath -> metadataPath. Example: '/blog' -> '@generated/metadata/blog-c06.json'
-  const routesMetadataPath = {};
-  const addRoutesMetadataPath = routePath => {
-    const fileName = `${docuHash(routePath)}.json`;
-    routesMetadataPath[routePath] = `@generated/metadata/${fileName}`;
-  };
-
-  // Mapping of routePath -> metadata. Example: '/blog' -> { isBlogPage: true, permalink: '/blog' }
-  const routesMetadata = {};
-  const addRoutesMetadata = (routePath, metadata) => {
-    if (metadata) {
-      routesMetadata[routePath] = metadata;
-    }
   };
 
   const registry = {};
@@ -54,21 +38,17 @@ async function loadRoutes(pluginsRouteConfigs) {
     const {
       path: routePath,
       component,
-      metadata,
       modules = {},
       routes,
       exact,
     } = routeConfig;
 
     addRoutesPath(routePath);
-    addRoutesMetadata(routePath, metadata);
-    addRoutesMetadataPath(routePath);
 
     // Given an input (object or string), get the import path str
     const getModulePath = target => {
       const importStr = _.isObject(target) ? target.path : target;
       const queryStr = target.query ? `?${stringify(target.query)}` : '';
-
       return `${importStr}${queryStr}`;
     };
 
@@ -117,12 +97,6 @@ async function loadRoutes(pluginsRouteConfigs) {
 
     _.assign(routesChunkNames[routePath], genRouteChunkNames(modules));
 
-    if (metadata) {
-      const metadataPath = routesMetadataPath[routePath];
-      const metadataChunk = genImportChunk(metadataPath, 'metadata', routePath);
-      addRoutesChunkNames(routePath, 'metadata', metadataChunk);
-    }
-
     const routesStr = routes
       ? `routes: [${routes.map(generateRouteCode).join(',')}],`
       : '';
@@ -156,8 +130,6 @@ export default [
     registry,
     routesConfig,
     routesChunkNames,
-    routesMetadata,
-    routesMetadataPath,
     routesPaths,
   };
 }

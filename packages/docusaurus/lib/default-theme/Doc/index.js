@@ -20,7 +20,7 @@ import styles from './styles.module.css';
 
 function Doc(props) {
   const {siteConfig = {}} = useContext(DocusaurusContext);
-  const {route} = props;
+  const {route, docsMetadata, location} = props;
   const {baseUrl, favicon} = siteConfig;
   return (
     <Layout>
@@ -28,9 +28,11 @@ function Doc(props) {
         <title>{siteConfig.title}</title>
         {favicon && <link rel="shortcut icon" href={baseUrl + favicon} />}
       </Head>
-      <Sidebar />
+      <Sidebar docsMetadata={docsMetadata} location={location} />
       <div className={styles.mainContainer}>
-        <div className={styles.docContainer}>{renderRoutes(route.routes)}</div>
+        <div className={styles.docContainer}>
+          {renderRoutes(route.routes, {docsMetadata})}
+        </div>
       </div>
     </Layout>
   );

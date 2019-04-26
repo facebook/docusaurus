@@ -5,10 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useContext, useEffect} from 'react';
+import React from 'react';
 
 import DocsPaginator from '@theme/DocsPaginator'; // eslint-disable-line
-import DocusaurusContext from '@docusaurus/context';
 import Head from '@docusaurus/Head';
 
 import './styles.css';
@@ -31,12 +30,8 @@ const Headings = ({headings, isChild}) => {
 };
 
 function DocBody(props) {
-  const {metadata, content} = props;
+  const {metadata, content, docsMetadata} = props;
   const {language, version} = metadata;
-  const context = useContext(DocusaurusContext);
-  useEffect(() => {
-    context.setContext({metadata});
-  }, []);
 
   const DocContents = content;
   return (
@@ -59,7 +54,7 @@ function DocBody(props) {
               </div>
             </article>
             <div className="margin-vert--lg">
-              <DocsPaginator />
+              <DocsPaginator docsMetadata={docsMetadata} metadata={metadata} />
             </div>
           </div>
           <div className="col col--3 col--offset-1">

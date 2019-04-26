@@ -7,7 +7,7 @@
 
 const globby = require('globby');
 const path = require('path');
-const {encodePath, fileToPath, idx} = require('@docusaurus/utils');
+const {encodePath, fileToPath, idx, docuHash} = require('@docusaurus/utils');
 
 const DEFAULT_OPTIONS = {
   metadataKey: 'pagesMetadata',
@@ -96,20 +96,26 @@ class DocusaurusPluginContentPages {
 
   async contentLoaded({content, actions}) {
     const {component} = this.options;
-    const {addRoute} = actions;
+    const {addRoute, createModule} = actions;
 
-    content.forEach(metadataItem => {
-      const {permalink, source} = metadataItem;
-      addRoute({
-        path: permalink,
-        component,
-        exact: true,
-        metadata: metadataItem,
-        modules: {
-          content: source,
-        },
-      });
-    });
+    await Promise.all(
+      content.map(async metadataItem => {
+        const {permalink, source} = metadataItem;
+        const metadataPath = await createModule(
+          `${docuHash(permalink)}.json`,
+          JSON.stringify(metadataItem, null, 2),
+        );
+        addRoute({
+          path: permalink,
+          component,
+          exact: true,
+          modules: {
+            content: source,
+            metadata: metadataPath,
+          },
+        });
+      }),
+    );
   }
 }
 

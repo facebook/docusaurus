@@ -10,7 +10,7 @@ import {renderRoutes} from 'react-router-config';
 
 import Head from '@docusaurus/Head'; // eslint-disable-line
 import routes from '@generated/routes'; // eslint-disable-line
-import metadata from '@generated/metadata'; // eslint-disable-line
+import env from '@generated/env'; // eslint-disable-line
 import siteConfig from '@generated/docusaurus.config'; //eslint-disable-line
 import DocusaurusContext from '@docusaurus/context'; // eslint-disable-line
 import PendingNavigation from './PendingNavigation';
@@ -19,7 +19,7 @@ function App() {
   const [context, setContext] = useState({});
   return (
     <DocusaurusContext.Provider
-      value={{siteConfig, ...metadata, ...context, setContext}}>
+      value={{siteConfig, env, ...context, setContext}}>
       {/* TODO: this link stylesheet to infima is temporary */}
       <Head>
         <link
