@@ -13,9 +13,10 @@ module.exports = {
   baseUrl: '/',
   url: 'https://docusaurus-2.netlify.com',
   headerLinks: [
-    {link: 'docs/installation', label: 'Docs'},
-    {link: 'youtube', label: 'Youtube'},
-    {link: 'blog', label: 'Blog'},
+    {url: 'docs/installation', label: 'Docs'},
+    {url: 'youtube', label: 'Youtube'},
+    {url: 'blog', label: 'Blog'},
+    {url: 'feedback/', label: 'Feedback'},
   ],
   headerIcon: 'img/docusaurus.svg',
   favicon: 'img/docusaurus.ico',

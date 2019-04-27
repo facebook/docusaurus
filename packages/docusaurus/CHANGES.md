@@ -11,9 +11,9 @@
 
   ```js
 headerLinks: [
-  // Link to internal page
-  { link: "help", label: "Help" },
-  // Links to href destination
+  // Link to internal page (without baseUrl)
+  { url: "help", label: "Help" },
+  // Links to href destination/ external page
   { href: "https://github.com/", label: "GitHub" },
   // Determines search bar position among links
   { search: true },

@@ -32,9 +32,9 @@ function Navbar(props) {
 
   // function to generate each header link
   const makeLinks = link => {
-    if (link.link) {
+    if (link.url) {
       // internal link
-      const targetLink = `${baseUrl}${link.link}`;
+      const targetLink = `${baseUrl}${link.url}`;
       return (
         <div key={targetLink} className="navbar__item">
           <Link
