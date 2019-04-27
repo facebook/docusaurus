@@ -16,7 +16,6 @@
     "@docusaurus/plugin-sitemap": "^2.0.0-alpha.11",
     "classnames": "^2.2.6",
     "react": "^16.8.4",
-    "react-dom": "^16.8.4",
-    "react-youtube": "^7.9.0"
+    "react-dom": "^16.8.4"
   }
 }
