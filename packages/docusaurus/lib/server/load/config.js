@@ -31,6 +31,7 @@ const OPTIONAL_FIELDS = [
   'highlight',
   'markdownPlugins',
   'plugins',
+  'presets',
 ];
 
 const DEFAULT_CONFIG = {

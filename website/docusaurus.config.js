@@ -24,25 +24,18 @@ module.exports = {
     indexName: 'docusaurus-2',
     algoliaOptions: {},
   },
-  plugins: [
-    {
-      name: '@docusaurus/plugin-content-docs',
-      options: {
-        path: '../docs',
-        sidebarPath: require.resolve('./sidebars.json'),
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        docs: {
+          path: '../docs',
+          sidebarPath: require.resolve('./sidebars.json'),
+        },
+        blog: {
+          path: '../website-1.x/blog',
+        },
       },
-    },
-    {
-      name: '@docusaurus/plugin-content-blog',
-      options: {
-        path: '../website-1.x/blog',
-      },
-    },
-    {
-      name: '@docusaurus/plugin-content-pages',
-    },
-    {
-      name: '@docusaurus/plugin-sitemap',
-    },
+    ],
   ],
 };

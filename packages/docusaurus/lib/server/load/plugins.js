@@ -6,6 +6,7 @@
  */
 
 const fs = require('fs-extra');
+const importFresh = require('import-fresh');
 const path = require('path');
 const {generate} = require('@docusaurus/utils');
 
@@ -14,17 +15,11 @@ module.exports = async function loadPlugins({pluginConfigs = [], context}) {
   const plugins = pluginConfigs.map(({name, path: pluginPath, options}) => {
     let Plugin;
     if (pluginPath && fs.existsSync(pluginPath)) {
-      // eslint-disable-next-line
-      Plugin = require(pluginPath);
+      Plugin = importFresh(pluginPath);
     } else {
-      try {
-        // eslint-disable-next-line
-        Plugin = require(name);
-      } catch (ex) {
-        throw new Error(`Error loading '${name}' plugin.`);
-      }
+      Plugin = importFresh(name);
     }
-    return new Plugin(options, context);
+    return new Plugin(context, options);
   });
 
   // 2. Plugin lifecycle - loadContent
@@ -72,6 +67,5 @@ module.exports = async function loadPlugins({pluginConfigs = [], context}) {
   return {
     plugins,
     pluginsRouteConfigs,
-    pluginsLoadedContent,
   };
 };

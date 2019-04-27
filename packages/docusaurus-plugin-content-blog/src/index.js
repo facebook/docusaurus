@@ -29,7 +29,7 @@ const DEFAULT_OPTIONS = {
 };
 
 class DocusaurusPluginContentBlog {
-  constructor(opts, context) {
+  constructor(context, opts) {
     this.options = {...DEFAULT_OPTIONS, ...opts};
     this.context = context;
     this.contentPath = path.resolve(this.context.siteDir, this.options.path);

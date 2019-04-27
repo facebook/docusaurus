@@ -16,7 +16,7 @@ const DEFAULT_OPTIONS = {
 };
 
 class DocusaurusPluginSitemap {
-  constructor(opts, context) {
+  constructor(context, opts) {
     this.options = {...DEFAULT_OPTIONS, ...opts};
     this.context = context;
   }

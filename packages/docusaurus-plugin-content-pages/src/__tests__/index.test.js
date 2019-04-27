@@ -111,7 +111,7 @@ describe('docusaurus-plugin-content-pages', () => {
       ],
     ])('%s website', async (type, expected) => {
       const {env, siteDir, siteConfig} = await loadSetup(type);
-      const plugin = new DocusaurusPluginContentPages(null, {
+      const plugin = new DocusaurusPluginContentPages({
         env,
         siteDir,
         siteConfig,
