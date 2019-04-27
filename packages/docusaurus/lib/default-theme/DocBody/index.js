@@ -46,9 +46,9 @@ function DocBody(props) {
         <div className="row">
           <div className="col col--8">
             {/* TODO: remove this in the future */}
-            <div className="alert alert--danger" role="alert">
+            <div className="alert alert--warning" role="alert">
               Docusaurus 2 is still <strong>work in progress</strong>. Do not
-              use it in production yet !
+              use it in production yet!
             </div>
             <br />
             <header>

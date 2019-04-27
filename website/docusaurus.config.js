@@ -13,8 +13,8 @@ module.exports = {
   baseUrl: '/',
   url: 'https://docusaurus-2.netlify.com',
   headerLinks: [
-    {url: 'docs-legacy/installation', label: 'Docs'},
-    {url: 'docs/installation', label: 'Docs'},
+    {url: 'docs-legacy/installation', label: 'Docs V1'},
+    {url: 'docs/introduction', label: 'Docs'},
     {url: 'blog', label: 'Blog'},
     {url: 'feedback/', label: 'Feedback'},
   ],
