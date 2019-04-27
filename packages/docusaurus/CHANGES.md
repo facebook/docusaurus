@@ -9,7 +9,7 @@
   - `sidebars.json` now has to be explicitly loaded by users and passed into the the plugin option on `docusaurus-plugin-content-docs`.
   - `headerLinks` doc, page, blog is deprecated. The syntax is now:
 
-  ```js
+```js
 headerLinks: [
   // Link to internal page (without baseUrl)
   { url: "help", label: "Help" },
@@ -20,4 +20,10 @@ headerLinks: [
   // Determines language drop down position among links
   { languages: true }
 ],
-```js
+```
+
+# Additions
+
+### Presets
+
+- Added presets for plugins that follow the [Babel preset convention](https://babeljs.io/docs/en/presets).

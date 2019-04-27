@@ -13,6 +13,7 @@ const loadEnv = require('./env');
 const loadTheme = require('./theme');
 const loadRoutes = require('./routes');
 const loadPlugins = require('./plugins');
+const loadPresets = require('./presets');
 const constants = require('../../constants');
 
 module.exports = async function load(siteDir, cliOptions = {}) {
@@ -35,9 +36,13 @@ module.exports = async function load(siteDir, cliOptions = {}) {
     `export default ${JSON.stringify(env, null, 2)};`,
   );
 
-  // Process plugins.
-  const pluginConfigs = siteConfig.plugins || [];
   const context = {env, siteDir, generatedFilesDir, siteConfig, cliOptions};
+
+  // Process presets.
+  const presetPlugins = loadPresets(context);
+
+  // Process plugins.
+  const pluginConfigs = [...presetPlugins, ...siteConfig.plugins];
   const {plugins, pluginsRouteConfigs} = await loadPlugins({
     pluginConfigs,
     context,

@@ -16,13 +16,13 @@ describe('loadDocs', () => {
     const sidebarPath = path.join(siteDir, 'sidebars.json');
     const plugin = new DocusaurusPluginContentDocs(
       {
-        path: '../docs',
-        sidebarPath,
-      },
-      {
         env,
         siteDir,
         siteConfig,
+      },
+      {
+        path: '../docs',
+        sidebarPath,
       },
     );
     const {docs: docsMetadata} = await plugin.loadContent();
@@ -63,13 +63,13 @@ describe('loadDocs', () => {
     const sidebarPath = path.join(siteDir, 'sidebars.json');
     const plugin = new DocusaurusPluginContentDocs(
       {
-        path: '../docs',
-        sidebarPath,
-      },
-      {
         env,
         siteDir,
         siteConfig,
+      },
+      {
+        path: '../docs',
+        sidebarPath,
       },
     );
     const {docs: docsMetadata, versionedDir} = await plugin.loadContent();
@@ -110,13 +110,13 @@ describe('loadDocs', () => {
     const sidebarPath = path.join(siteDir, 'sidebars.json');
     const plugin = new DocusaurusPluginContentDocs(
       {
-        path: '../docs',
-        sidebarPath,
-      },
-      {
         env,
         siteDir,
         siteConfig,
+      },
+      {
+        path: '../docs',
+        sidebarPath,
       },
     );
     const {
@@ -178,13 +178,13 @@ describe('loadDocs', () => {
     const sidebarPath = path.join(siteDir, 'sidebars.json');
     const plugin = new DocusaurusPluginContentDocs(
       {
-        path: '../docs',
-        sidebarPath,
-      },
-      {
         env,
         siteDir,
         siteConfig,
+      },
+      {
+        path: '../docs',
+        sidebarPath,
       },
     );
     const {docs: docsMetadata, translatedDir} = await plugin.loadContent();
@@ -228,14 +228,14 @@ describe('loadDocs', () => {
     const sidebarPath = path.join(siteDir, 'sidebars.json');
     const plugin = new DocusaurusPluginContentDocs(
       {
-        path: '../docs',
-        sidebarPath,
-        skipNextRelease: true,
-      },
-      {
         env,
         siteDir,
         siteConfig,
+      },
+      {
+        path: '../docs',
+        sidebarPath,
+        skipNextRelease: true,
       },
     );
     const {docs: docsMetadata, versionedDir} = await plugin.loadContent();

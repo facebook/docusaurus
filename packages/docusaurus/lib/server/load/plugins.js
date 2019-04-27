@@ -14,17 +14,13 @@ module.exports = async function loadPlugins({pluginConfigs = [], context}) {
   const plugins = pluginConfigs.map(({name, path: pluginPath, options}) => {
     let Plugin;
     if (pluginPath && fs.existsSync(pluginPath)) {
-      // eslint-disable-next-line
+      // eslint-disable-next-line global-require, import/no-dynamic-require
       Plugin = require(pluginPath);
     } else {
-      try {
-        // eslint-disable-next-line
-        Plugin = require(name);
-      } catch (ex) {
-        throw new Error(`Error loading '${name}' plugin.`);
-      }
+      // eslint-disable-next-line global-require, import/no-dynamic-require
+      Plugin = require(name);
     }
-    return new Plugin(options, context);
+    return new Plugin(context, options);
   });
 
   // 2. Plugin lifecycle - loadContent

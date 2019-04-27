@@ -4,6 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+
 const {getOptions} = require('loader-utils');
 const mdx = require('@mdx-js/mdx');
 const rehypePrism = require('@mapbox/rehype-prism');
