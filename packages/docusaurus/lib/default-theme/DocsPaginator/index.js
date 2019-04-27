@@ -10,9 +10,6 @@ import Link from '@docusaurus/Link';
 
 function DocsPaginator(props) {
   const {docsMetadata, metadata} = props;
-  if (!metadata || !docsMetadata) {
-    return null;
-  }
   const {docs} = docsMetadata;
 
   return (

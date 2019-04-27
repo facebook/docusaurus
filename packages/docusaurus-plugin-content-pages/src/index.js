@@ -94,12 +94,12 @@ class DocusaurusPluginContentPages {
 
   async contentLoaded({content, actions}) {
     const {component} = this.options;
-    const {addRoute, createModule} = actions;
+    const {addRoute, createData} = actions;
 
     await Promise.all(
       content.map(async metadataItem => {
         const {permalink, source} = metadataItem;
-        const metadataPath = await createModule(
+        const metadataPath = await createData(
           `${docuHash(permalink)}.json`,
           JSON.stringify(metadataItem, null, 2),
         );

@@ -53,7 +53,7 @@ module.exports = async function loadPlugins({pluginConfigs = [], context}) {
       const pluginContentDir = path.join(context.generatedFilesDir, pluginName);
       const actions = {
         addRoute: config => pluginsRouteConfigs.push(config),
-        createModule: async (name, content) => {
+        createData: async (name, content) => {
           const modulePath = path.join(pluginContentDir, name);
           await fs.ensureDir(path.dirname(modulePath));
           await generate(pluginContentDir, name, content);

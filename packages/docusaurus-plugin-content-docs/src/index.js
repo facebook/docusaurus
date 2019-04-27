@@ -214,11 +214,11 @@ class DocusaurusPluginContentDocs {
 
   async contentLoaded({content, actions}) {
     const {docLayoutComponent, docItemComponent, routeBasePath} = this.options;
-    const {addRoute, createModule} = actions;
+    const {addRoute, createData} = actions;
 
     const routes = await Promise.all(
       Object.values(content.docs).map(async metadataItem => {
-        const metadataPath = await createModule(
+        const metadataPath = await createData(
           `${docuHash(metadataItem.permalink)}.json`,
           JSON.stringify(metadataItem, null, 2),
         );
@@ -234,7 +234,7 @@ class DocusaurusPluginContentDocs {
       }),
     );
 
-    const docsMetadataPath = await createModule(
+    const docsMetadataPath = await createData(
       `docsMetadata.json`,
       JSON.stringify(content, null, 2),
     );
