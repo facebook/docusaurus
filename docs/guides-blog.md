@@ -77,7 +77,7 @@ The available options are an integer representing the number of posts you wish t
 Example:
 
 ```js
-blogSidebarCount: 'ALL';
+blogSidebarCount: 'ALL',
 ```
 
 ## Changing The Sidebar Title
