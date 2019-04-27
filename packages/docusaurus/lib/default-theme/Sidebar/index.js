@@ -9,7 +9,7 @@ import React from 'react';
 
 import Link from '@docusaurus/Link';
 
-import styles from './styles.module.css';
+import './styles.css';
 
 function Sidebar(props) {
   const {docsMetadata, location} = props;
@@ -73,8 +73,8 @@ function Sidebar(props) {
   };
 
   return (
-    <div className={styles.sidebar}>
-      <div className="menu">
+    <div className="container margin-vert--lg">
+      <div className="menu menu--responsive sidebar">
         <ul className="menu__list">
           {thisSidebar.map(item => renderItem(item, {root: true}))}
         </ul>
