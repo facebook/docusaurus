@@ -5,16 +5,17 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useContext} from 'react';
+import React from 'react';
 
-import DocusaurusContext from '@docusaurus/context';
 import Link from '@docusaurus/Link';
 
 import styles from './styles.module.css';
 
-function Sidebar() {
-  const context = useContext(DocusaurusContext);
-  const {metadata = {}, docsMetadata} = context;
+function Sidebar(props) {
+  const {docsMetadata, location} = props;
+
+  const id = docsMetadata.permalinkToId[location.pathname];
+  const metadata = docsMetadata.docs[id] || {};
   const {sidebar, language} = metadata;
 
   if (!sidebar) {

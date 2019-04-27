@@ -7,7 +7,7 @@
 
 const fs = require('fs-extra');
 const path = require('path');
-const {generate, posixPath} = require('@docusaurus/utils');
+const {generate} = require('@docusaurus/utils');
 
 module.exports = async function loadPlugins({pluginConfigs = [], context}) {
   // 1. Plugin Lifecycle - Initialization/Constructor
@@ -36,46 +36,34 @@ module.exports = async function loadPlugins({pluginConfigs = [], context}) {
       if (!plugin.loadContent) {
         return null;
       }
-      const name = plugin.getName();
-      const {options} = plugin;
-      const {metadataKey, metadataFileName} = options;
       const content = await plugin.loadContent();
-      const pluginContentPath = path.join(name, metadataFileName);
-      const pluginContentDir = path.join(context.generatedFilesDir, name);
-      await fs.ensureDir(pluginContentDir);
-      await generate(
-        pluginContentDir,
-        metadataFileName,
-        JSON.stringify(content, null, 2),
-      );
-      // Note that we need to convert it into POSIX format because
-      // import XXXXX from '@generated\this-is\my\path' is incorrect
-      // import XXXXX from '@generated/this-is/my/path' is correct
-      const contentPath = posixPath(path.join('@generated', pluginContentPath));
-
-      return {
-        metadataKey,
-        contentPath,
-        content,
-      };
+      return content;
     }),
   );
 
   // 3. Plugin lifecycle - contentLoaded
   const pluginsRouteConfigs = [];
 
-  const actions = {
-    addRoute: config => pluginsRouteConfigs.push(config),
-  };
-
   await Promise.all(
     plugins.map(async (plugin, index) => {
       if (!plugin.contentLoaded) {
         return;
       }
+      const pluginName = plugin.getName();
+      const pluginContentDir = path.join(context.generatedFilesDir, pluginName);
+      const actions = {
+        addRoute: config => pluginsRouteConfigs.push(config),
+        createData: async (name, content) => {
+          const modulePath = path.join(pluginContentDir, name);
+          await fs.ensureDir(path.dirname(modulePath));
+          await generate(pluginContentDir, name, content);
+          return modulePath;
+        },
+      };
+
       const loadedContent = pluginsLoadedContent[index];
       await plugin.contentLoaded({
-        content: loadedContent.content,
+        content: loadedContent,
         actions,
       });
     }),

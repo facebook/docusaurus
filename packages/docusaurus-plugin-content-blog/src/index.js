@@ -8,7 +8,7 @@
 const globby = require('globby');
 const path = require('path');
 const fs = require('fs-extra');
-const {parse, idx, normalizeUrl} = require('@docusaurus/utils');
+const {parse, idx, normalizeUrl, docuHash} = require('@docusaurus/utils');
 
 // TODO: Use a better slugify function that doesn't rely on a specific file extension.
 function fileToUrl(fileName) {
@@ -20,8 +20,6 @@ function fileToUrl(fileName) {
 }
 
 const DEFAULT_OPTIONS = {
-  metadataKey: 'blogMetadata',
-  metadataFileName: 'blogMetadata.json',
   path: 'blog', // Path to data on filesystem, relative to site dir.
   routeBasePath: 'blog', // URL Route.
   include: ['*.md', '*.mdx'], // Extensions to include.
@@ -121,40 +119,46 @@ class DocusaurusPluginContentBlog {
 
   async contentLoaded({content, actions}) {
     const {blogPageComponent, blogPostComponent} = this.options;
-    const {addRoute} = actions;
-    content.forEach(metadataItem => {
-      const {isBlogPage, permalink} = metadataItem;
-      if (isBlogPage) {
+    const {addRoute, createData} = actions;
+    await Promise.all(
+      content.map(async metadataItem => {
+        const {isBlogPage, permalink} = metadataItem;
+        const metadataPath = await createData(
+          `${docuHash(permalink)}.json`,
+          JSON.stringify(metadataItem, null, 2),
+        );
+        if (isBlogPage) {
+          addRoute({
+            path: permalink,
+            component: blogPageComponent,
+            exact: true,
+            modules: {
+              entries: metadataItem.posts.map(post => ({
+                // To tell routes.js this is an import and not a nested object to recurse.
+                __import: true,
+                path: post.source,
+                query: {
+                  truncated: true,
+                },
+              })),
+              metadata: metadataPath,
+            },
+          });
+
+          return;
+        }
+
         addRoute({
           path: permalink,
-          component: blogPageComponent,
+          component: blogPostComponent,
           exact: true,
-          metadata: metadataItem,
           modules: {
-            entries: metadataItem.posts.map(post => ({
-              // To tell routes.js this is an import and not a nested object to recurse.
-              __import: true,
-              path: post.source,
-              query: {
-                truncated: true,
-              },
-            })),
+            content: metadataItem.source,
+            metadata: metadataPath,
           },
         });
-
-        return;
-      }
-
-      addRoute({
-        path: permalink,
-        component: blogPostComponent,
-        exact: true,
-        metadata: metadataItem,
-        modules: {
-          content: metadataItem.source,
-        },
-      });
-    });
+      }),
+    );
   }
 
   configureWebpack(config, isServer, {getBabelLoader, getCacheLoader}) {

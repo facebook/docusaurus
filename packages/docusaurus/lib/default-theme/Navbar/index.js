@@ -13,7 +13,8 @@ import DocusaurusContext from '@docusaurus/context';
 
 function Navbar(props) {
   const context = useContext(DocusaurusContext);
-  const {siteConfig = {}, env = {}, metadata = {}, docsMetadata} = context;
+  const {siteConfig = {}, env = {}, metadata = {}} = context;
+  // TODO: navbar headerlinks should depends on theme, not siteConfig;
   const {
     baseUrl,
     headerLinks,
@@ -31,46 +32,15 @@ function Navbar(props) {
 
   // function to generate each header link
   const makeLinks = link => {
-    if (link.languages) {
-      // TODO in the future for <LanguageDropdown /> like in v1
-      return null;
-    }
-    if (link.doc) {
-      // set link to document with current page's language/version
-      const langPart = translationEnabled ? `${thisLanguage}-` : '';
-      const versionPart =
-        versioningEnabled && thisVersion !== 'next'
-          ? `version-${thisVersion || env.versioning.defaultVersion}-`
-          : '';
-      const id = langPart + versionPart + link.doc;
-      const {docs} = docsMetadata;
-      if (!docs[id]) {
-        const errorStr = `We could not find the doc with id: ${id}. Please check your headerLinks correctly\n`;
-        throw new Error(errorStr);
-      }
-
+    if (link.url) {
+      // internal link
+      const targetLink = `${baseUrl}${link.url}`;
       return (
-        <div key={link.doc} className="navbar__item">
+        <div key={targetLink} className="navbar__item">
           <Link
             activeClassName="navbar__link--active"
             className="navbar__link"
-            to={docs[id].permalink}>
-            {link.label}
-          </Link>
-        </div>
-      );
-    }
-    if (link.page) {
-      // set link to page with current page's language if appropriate
-      const pageHref = `${baseUrl}${thisLanguage ? `${thisLanguage}/` : ''}${
-        link.page
-      }`;
-      return (
-        <div key={link.page} className="navbar__item">
-          <Link
-            activeClassName="navbar__link--active"
-            className="navbar__link"
-            to={pageHref}>
+            to={targetLink}>
             {link.label}
           </Link>
         </div>
@@ -82,20 +52,6 @@ function Navbar(props) {
         <div key={link.label} className="navbar__item">
           <Link to={link.href} className="navbar__link">
             {link.label}
-          </Link>
-        </div>
-      );
-    }
-    if (link.blog) {
-      // set link to blog url
-      const blogUrl = `${baseUrl}blog`;
-      return (
-        <div key="Blog" className="navbar__item">
-          <Link
-            activeClassName="navbar__link--active"
-            className="navbar__link"
-            to={blogUrl}>
-            Blog
           </Link>
         </div>
       );

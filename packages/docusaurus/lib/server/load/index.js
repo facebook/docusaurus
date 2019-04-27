@@ -5,9 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const ejs = require('ejs');
-const fs = require('fs-extra');
-const _ = require('lodash');
 const path = require('path');
 
 const {generate} = require('@docusaurus/utils');
@@ -41,11 +38,7 @@ module.exports = async function load(siteDir, cliOptions = {}) {
   // Process plugins.
   const pluginConfigs = siteConfig.plugins || [];
   const context = {env, siteDir, generatedFilesDir, siteConfig, cliOptions};
-  const {
-    plugins,
-    pluginsRouteConfigs,
-    pluginsLoadedContent,
-  } = await loadPlugins({
+  const {plugins, pluginsRouteConfigs} = await loadPlugins({
     pluginConfigs,
     context,
   });
@@ -61,8 +54,6 @@ module.exports = async function load(siteDir, cliOptions = {}) {
     registry,
     routesChunkNames,
     routesConfig,
-    routesMetadata,
-    routesMetadataPath,
     routesPaths,
   } = await loadRoutes(pluginsRouteConfigs);
 
@@ -81,60 +72,13 @@ ${Object.keys(registry)
   .join('\n')}};\n`,
   );
 
-  /* Mapping of routePath -> moduleName -> required webpack chunk names.
-  Example: {
-    "/docs": {
-      "component": "component---theme-doc-03d"
-    }
-  },
-  */
   await generate(
     generatedFilesDir,
     'routesChunkNames.json',
     JSON.stringify(routesChunkNames, null, 2),
   );
 
-  // Write out all the metadata JSON file
-  await Promise.all(
-    routesPaths.map(async routesPath => {
-      const metadata = routesMetadata[routesPath] || {};
-      const metadataPath = routesMetadataPath[routesPath];
-      const metadataDir = path.join(generatedFilesDir, 'metadata');
-      const fileName = metadataPath.replace(/^@generated\/metadata\//, '');
-      await generate(metadataDir, fileName, JSON.stringify(metadata, null, 2));
-    }),
-  );
-
   await generate(generatedFilesDir, 'routes.js', routesConfig);
-
-  // -------------------------- TBD (Experimental) ----------------------
-  // TODO: we always assume that plugin loaded content always wanted to be imported globally
-  // TODO: contentStore API
-  // Generate contents metadata.
-  const metadataTemplateFile = path.resolve(
-    __dirname,
-    '../../client/templates/metadata.template.ejs',
-  );
-  const metadataTemplate = fs.readFileSync(metadataTemplateFile).toString();
-  const pluginMetadataImports = _.compact(pluginsLoadedContent).map(
-    ({metadataKey, contentPath}) => ({
-      name: metadataKey,
-      path: contentPath,
-    }),
-  );
-
-  const metadataFile = ejs.render(metadataTemplate, {
-    imports: [
-      ...pluginMetadataImports,
-      {
-        name: 'env',
-        path: '@generated/env',
-      },
-    ],
-  });
-  await generate(generatedFilesDir, 'metadata.js', metadataFile);
-
-  // ------------- END OF TBD -----------------------------------------
 
   const props = {
     siteConfig,

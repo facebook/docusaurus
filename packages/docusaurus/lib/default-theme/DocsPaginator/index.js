@@ -5,17 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useContext} from 'react';
+import React from 'react';
 import Link from '@docusaurus/Link';
 
-import DocusaurusContext from '@docusaurus/context';
-
-function DocsPaginator() {
-  const context = useContext(DocusaurusContext);
-  const {docsMetadata, metadata} = context;
-  if (!metadata || !docsMetadata) {
-    return null;
-  }
+function DocsPaginator(props) {
+  const {docsMetadata, metadata} = props;
   const {docs} = docsMetadata;
 
   return (

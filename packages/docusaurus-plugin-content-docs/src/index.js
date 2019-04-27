@@ -8,15 +8,18 @@
 const globby = require('globby');
 const importFresh = require('import-fresh');
 const path = require('path');
-const {getSubFolder, idx, normalizeUrl} = require('@docusaurus/utils');
+const {
+  getSubFolder,
+  idx,
+  normalizeUrl,
+  docuHash,
+} = require('@docusaurus/utils');
 
 const createOrder = require('./order');
 const loadSidebars = require('./sidebars');
 const processMetadata = require('./metadata');
 
 const DEFAULT_OPTIONS = {
-  metadataKey: 'docsMetadata',
-  metadataFileName: 'docsMetadata.json',
   path: 'docs', // Path to data on filesystem, relative to site dir.
   routeBasePath: 'docs', // URL Route.
   include: ['**/*.md', '**/*.mdx'], // Extensions to include.
@@ -182,21 +185,26 @@ class DocusaurusPluginContentDocs {
       }
     });
 
-    // Create source to metadata mapping.
     const sourceToMetadata = {};
-    Object.values(docs).forEach(({source, version, permalink, language}) => {
-      sourceToMetadata[source] = {
-        version,
-        permalink,
-        language,
-      };
-    });
+    const permalinkToId = {};
+    Object.values(docs).forEach(
+      ({id, source, version, permalink, language}) => {
+        sourceToMetadata[source] = {
+          version,
+          permalink,
+          language,
+        };
+
+        permalinkToId[permalink] = id;
+      },
+    );
 
     this.content = {
       docs,
       docsDir,
       docsSidebars,
       sourceToMetadata,
+      permalinkToId,
       translatedDir,
       versionedDir,
     };
@@ -206,20 +214,38 @@ class DocusaurusPluginContentDocs {
 
   async contentLoaded({content, actions}) {
     const {docLayoutComponent, docItemComponent, routeBasePath} = this.options;
-    const {addRoute} = actions;
+    const {addRoute, createData} = actions;
+
+    const routes = await Promise.all(
+      Object.values(content.docs).map(async metadataItem => {
+        const metadataPath = await createData(
+          `${docuHash(metadataItem.permalink)}.json`,
+          JSON.stringify(metadataItem, null, 2),
+        );
+        return {
+          path: metadataItem.permalink,
+          component: docItemComponent,
+          exact: true,
+          modules: {
+            content: metadataItem.source,
+            metadata: metadataPath,
+          },
+        };
+      }),
+    );
+
+    const docsMetadataPath = await createData(
+      `docsMetadata.json`,
+      JSON.stringify(content, null, 2),
+    );
 
     addRoute({
       path: normalizeUrl([this.context.siteConfig.baseUrl, routeBasePath]),
       component: docLayoutComponent,
-      routes: Object.values(content.docs).map(metadataItem => ({
-        path: metadataItem.permalink,
-        component: docItemComponent,
-        exact: true,
-        metadata: metadataItem,
-        modules: {
-          content: metadataItem.source,
-        },
-      })),
+      routes,
+      modules: {
+        docsMetadata: docsMetadataPath,
+      },
     });
   }
 
