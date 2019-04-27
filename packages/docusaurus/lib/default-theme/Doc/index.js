@@ -16,12 +16,9 @@ import Sidebar from '@theme/Sidebar'; // eslint-disable-line
 
 import DocusaurusContext from '@docusaurus/context';
 
-import styles from './styles.module.css';
-
 function Doc(props) {
   const {siteConfig = {}} = useContext(DocusaurusContext);
   const {route, docsMetadata, location} = props;
-  console.log(props);
   const {baseUrl, favicon} = siteConfig;
   return (
     <Layout>
@@ -29,9 +26,11 @@ function Doc(props) {
         <title>{siteConfig.title}</title>
         {favicon && <link rel="shortcut icon" href={baseUrl + favicon} />}
       </Head>
-      <Sidebar docsMetadata={docsMetadata} location={location} />
-      <div className={styles.mainContainer}>
-        <div className={styles.docContainer}>
+      <div className="row">
+        <div className="col col--3">
+          <Sidebar docsMetadata={docsMetadata} location={location} />
+        </div>
+        <div className="col col--9" style={{padding: '0 3rem'}}>
           {renderRoutes(route.routes, {docsMetadata})}
         </div>
       </div>

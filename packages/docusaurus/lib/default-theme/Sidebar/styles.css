@@ -1,0 +1,21 @@
+/**
+ * Copyright (c) 2017-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+@media (min-width: 996px) {
+  .sidebar {
+    border-right: 1px solid #dadde1;
+    bottom: 0;
+    box-sizing: border-box;
+    padding: 2rem 0.25rem 2rem 2rem;
+    left: 0;
+    position: fixed;
+    overflow-x: hidden;
+    overflow-y: auto;
+    top: var(--ifm-navbar-height);
+    width: 20rem;
+  }
+}
