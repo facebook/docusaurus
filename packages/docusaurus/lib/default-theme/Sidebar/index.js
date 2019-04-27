@@ -14,7 +14,9 @@ import styles from './styles.module.css';
 function Sidebar(props) {
   const {docsMetadata, location} = props;
 
-  const id = docsMetadata.permalinkToId[location.pathname];
+  const id =
+    docsMetadata.permalinkToId[location.pathname] ||
+    docsMetadata.permalinkToId[location.pathname.replace(/\/$/, '')];
   const metadata = docsMetadata.docs[id] || {};
   const {sidebar, language} = metadata;
 

@@ -21,6 +21,7 @@ import styles from './styles.module.css';
 function Doc(props) {
   const {siteConfig = {}} = useContext(DocusaurusContext);
   const {route, docsMetadata, location} = props;
+  console.log(props);
   const {baseUrl, favicon} = siteConfig;
   return (
     <Layout>
