@@ -26,12 +26,14 @@ function Doc(props) {
         <title>{siteConfig.title}</title>
         {favicon && <link rel="shortcut icon" href={baseUrl + favicon} />}
       </Head>
-      <div className="row">
-        <div className="col col--3">
-          <Sidebar docsMetadata={docsMetadata} location={location} />
-        </div>
-        <div className="col col--9" style={{padding: '0 3rem'}}>
-          {renderRoutes(route.routes, {docsMetadata})}
+      <div className="container container--fluid">
+        <div className="row">
+          <div className="col col--3">
+            <Sidebar docsMetadata={docsMetadata} location={location} />
+          </div>
+          <div className="col col--9">
+            {renderRoutes(route.routes, {docsMetadata})}
+          </div>
         </div>
       </div>
     </Layout>
