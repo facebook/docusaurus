@@ -8,13 +8,13 @@
 const path = require('path');
 
 const {generate} = require('@docusaurus/utils');
-const loadConfig = require('./config');
-const loadEnv = require('./env');
-const loadTheme = require('./theme');
-const loadRoutes = require('./routes');
-const loadPlugins = require('./plugins');
-const loadPresets = require('./presets');
-const constants = require('../../constants');
+const loadConfig = require('./load/config');
+const loadEnv = require('./load/env');
+const loadTheme = require('./load/theme');
+const loadRoutes = require('./load/routes');
+const loadPlugins = require('./load/plugins');
+const loadPresets = require('./load/presets');
+const constants = require('../constants');
 
 module.exports = async function load(siteDir, cliOptions = {}) {
   const generatedFilesDir = path.resolve(

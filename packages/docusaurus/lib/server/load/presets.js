@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+const importFresh = require('import-fresh');
 const _ = require('lodash');
 const fs = require('fs-extra');
 
@@ -22,11 +23,11 @@ module.exports = function loadPresets(context) {
 
       let preset;
       if (presetModule && fs.existsSync(presetModule)) {
-        // eslint-disable-next-line global-require, import/no-dynamic-require
-        preset = require(presetModule);
+        // Local preset.
+        preset = importFresh(presetModule);
       } else {
-        // eslint-disable-next-line global-require, import/no-dynamic-require
-        preset = require(presetModule);
+        // From npm.
+        preset = importFresh(presetModule);
       }
       return preset(context, presetOptions).plugins;
     }),

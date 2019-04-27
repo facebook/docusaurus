@@ -52,6 +52,7 @@
     "fs-extra": "^7.0.0",
     "globby": "^9.1.0",
     "html-webpack-plugin": "^4.0.0-beta.5",
+    "import-fresh": "^3.0.0",
     "is-wsl": "^1.1.0",
     "lodash": "^4.17.11",
     "mini-css-extract-plugin": "^0.4.1",

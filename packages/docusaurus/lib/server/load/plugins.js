@@ -6,6 +6,7 @@
  */
 
 const fs = require('fs-extra');
+const importFresh = require('import-fresh');
 const path = require('path');
 const {generate} = require('@docusaurus/utils');
 
@@ -14,11 +15,9 @@ module.exports = async function loadPlugins({pluginConfigs = [], context}) {
   const plugins = pluginConfigs.map(({name, path: pluginPath, options}) => {
     let Plugin;
     if (pluginPath && fs.existsSync(pluginPath)) {
-      // eslint-disable-next-line global-require, import/no-dynamic-require
-      Plugin = require(pluginPath);
+      Plugin = importFresh(pluginPath);
     } else {
-      // eslint-disable-next-line global-require, import/no-dynamic-require
-      Plugin = require(name);
+      Plugin = importFresh(name);
     }
     return new Plugin(context, options);
   });
@@ -68,6 +67,5 @@ module.exports = async function loadPlugins({pluginConfigs = [], context}) {
   return {
     plugins,
     pluginsRouteConfigs,
-    pluginsLoadedContent,
   };
 };

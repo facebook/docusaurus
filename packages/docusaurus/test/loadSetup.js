@@ -7,7 +7,7 @@
 
 import '@babel/polyfill';
 import path from 'path';
-import load from '@lib/server/load';
+import load from '@lib/server';
 
 // Helper methods to setup dummy/fake projects
 const loadSetup = async name => {
