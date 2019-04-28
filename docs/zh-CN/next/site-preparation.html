@@ -80,14 +80,14 @@
 <h2><a class="anchor" aria-hidden="true" id="目录结构"></a><a href="#目录结构" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>目录结构</h2>
 <p>正如<a href="/docs/zh-CN/next/installation">安装 Docusaurus</a>后所示, 初始化脚本创建了一个类似于以下内容的目录结构:</p>
 <pre><code class="hljs css language-bash">root-directory
-├── docs-examples-from-docusaurus
+├── docs
 │   ├── doc1.md
 │   ├── doc2.md
 │   ├── doc3.md
 │   ├── exampledoc4.md
 │   └── exampledoc5.md
 └── website
-    ├── blog-examples-from-docusaurus
+    ├── blog
     │   ├── 2016-03-11-blog-post.md
     │   ├── 2017-04-10-blog-post-two.md
     │   ├── 2017-09-25-testing-rss.md
@@ -101,13 +101,10 @@
     ├── siteConfig.js
     └── static
 </code></pre>
-<blockquote>
-<p>在 <a href="/docs/zh-CN/next/installation##verifying-installation">verified the installation</a> 步骤后，你可能已经重命名了博客（<code>website/blog-examples-from-docusaurus</code> 重名为 <code>website/blog</code>）与文档文件夹（<code>docs-examples-from-docusaurus</code> 重名为 <code>docs</code>）。</p>
-</blockquote>
 <h3><a class="anchor" aria-hidden="true" id="目录介绍"></a><a href="#目录介绍" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>目录介绍</h3>
 <ul>
-<li><strong>文档源文件</strong>：包含可编写的 Markdown 示例文件的文件夹 <code>docs-examples-from-docusaurus</code>。</li>
-<li><strong>博客</strong>：包含了可编写的 Markdown 示例文章的文件夹 <code>website/blog-examples-from-docusaurus</code>。</li>
+<li><strong>Documentation Source Files</strong>: The <code>docs</code> directory contains example documentation files written in Markdown.</li>
+<li><strong>Blog</strong>: The <code>website/blog</code> directory contains examples of blog posts written in markdown.</li>
 <li><strong>页面</strong>：包含示例网站顶级页面的文件夹 <code>website/pages</code>。</li>
 <li><strong>静态资源与图片</strong>：包含供网站使用的静态资源文件夹 <code>website/static</code>。</li>
 </ul>
