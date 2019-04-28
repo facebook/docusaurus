@@ -17,7 +17,7 @@ We have created an easy script that will get all of the infrastructure set up fo
 
     You will be creating the docs in this directory. The root directory may
     contain other files. The Docusaurus installation script will create two new
-    directories: `docs-examples-from-docusaurus` and `website`.
+    directories: `docs` and `website`.
 
     > Commonly, either an existing or newly created GitHub project will be the location for your Docusaurus site, but that is not mandatory to use Docusaurus.
 
