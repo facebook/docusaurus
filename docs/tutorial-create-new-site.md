@@ -16,7 +16,7 @@ The following contents will be created for you in the directory you are in (TODO
 ```sh
 ├── Dockerfile
 ├── docker-compose.yml
-├── docs-examples-from-docusaurus
+├── docs
 │   ├── doc1.md
 │   ├── doc2.md
 │   ├── doc3.md
@@ -24,7 +24,7 @@ The following contents will be created for you in the directory you are in (TODO
 │   └── exampledoc5.md
 └── website
     ├── README.md
-    ├── blog-examples-from-docusaurus
+    ├── blog
     │   ├── 2016-03-11-blog-post.md
     │   ├── 2017-04-10-blog-post-two.md
     │   ├── 2017-09-25-testing-rss.md
