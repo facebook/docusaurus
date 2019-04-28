@@ -290,7 +290,7 @@ module.exports = [
   },
   {
     caption: 'Pulsar',
-    image: '/img/users/pulsar.png',
+    image: '/img/users/pulsar.svg',
     infoLink: 'https://pulsar.apache.org/',
     fbOpenSource: false,
     pinned: true,
