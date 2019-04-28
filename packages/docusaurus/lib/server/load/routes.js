@@ -43,7 +43,9 @@ async function loadRoutes(pluginsRouteConfigs) {
       exact,
     } = routeConfig;
 
-    addRoutesPath(routePath);
+    if (!routes) {
+      addRoutesPath(routePath);
+    }
 
     // Given an input (object or string), get the import path str
     const getModulePath = target => {

@@ -14,7 +14,6 @@ describe('loadRoutes', () => {
     expect(routesPaths.sort()).toMatchInlineSnapshot(`
 Array [
   "/",
-  "/docs",
   "/docs/endiliey/permalink",
   "/docs/foo/bar",
   "/docs/foo/baz",
@@ -30,7 +29,6 @@ Array [
     expect(routesPaths.sort()).toMatchInlineSnapshot(`
 Array [
   "/",
-  "/docs",
   "/docs/1.0.0/foo/bar",
   "/docs/1.0.0/foo/baz",
   "/docs/1.0.0/hello",
@@ -52,7 +50,6 @@ Array [
     expect(routesPaths.sort()).toMatchInlineSnapshot(`
 Array [
   "/",
-  "/docs",
   "/docs/en/1.0.0/foo/bar",
   "/docs/en/1.0.0/foo/baz",
   "/docs/en/1.0.0/hello",
@@ -87,7 +84,6 @@ Array [
     expect(routesPaths.sort()).toMatchInlineSnapshot(`
 Array [
   "/",
-  "/docs",
   "/docs/en/endiliey/permalink",
   "/docs/en/foo/bar",
   "/docs/en/foo/baz",
