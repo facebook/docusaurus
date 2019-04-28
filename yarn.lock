@@ -2247,7 +2247,7 @@ argparse@~0.1.15:
   integrity sha1-z9AeD7uj1srtBJ+9dY1A9lGW9Xw=
   dependencies:
     underscore "~1.7.0"
-    underscore.string "~2.4.0"
+    underscore.string "~3.3.5"
 
 aria-query@^3.0.0:
   version "3.0.0"
@@ -13120,10 +13120,10 @@ unbzip2-stream@^1.0.9:
     buffer "^5.2.1"
     through "^2.3.8"
 
-underscore.string@~2.4.0:
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/underscore.string/-/underscore.string-2.4.0.tgz#8cdd8fbac4e2d2ea1e7e2e8097c42f442280f85b"
-  integrity sha1-jN2PusTi0uoefi6Al8QvRCKA+Fs=
+underscore.string@~3.3.5:
+  version "3.3.5"
+  resolved "https://registry.npmjs.org/underscore.string/-/underscore.string-3.3.5.tgz"
+  integrity sha512-g+dpmgn+XBneLmXXo+sGlW5xQEt4ErkS3mgeN2GFbremYeMBSJKr9Wf2KJplQVaiPY/f7FN6atosWYNm9ovrYg==
 
 underscore@^1.7.0:
   version "1.9.1"
