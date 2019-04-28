@@ -289,6 +289,13 @@ module.exports = [
     pinned: true,
   },
   {
+    caption: 'Pulsar',
+    image: '/img/users/pulsar.svg',
+    infoLink: 'https://pulsar.apache.org/',
+    fbOpenSource: false,
+    pinned: true,
+  },
+  {
     caption: 'Pyre',
     image: '/img/users/pyre.svg',
     infoLink: 'https://pyre-check.org',
