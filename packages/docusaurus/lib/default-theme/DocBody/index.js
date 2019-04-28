@@ -45,6 +45,12 @@ function DocBody(props) {
       <div className="container margin-vert--lg">
         <div className="row">
           <div className="col col--8">
+            {/* TODO: remove this in the future */}
+            <div className="alert alert--warning" role="alert">
+              Docusaurus 2 is still <strong>work in progress</strong>. Do not
+              use it in production yet!
+            </div>
+            <br />
             <header>
               <h1 className="margin-bottom--lg">{metadata.title}</h1>
             </header>
