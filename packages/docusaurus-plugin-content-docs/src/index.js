@@ -234,13 +234,17 @@ class DocusaurusPluginContentDocs {
       }),
     );
 
+    const docsBaseRoute = normalizeUrl([
+      this.context.siteConfig.baseUrl,
+      routeBasePath,
+    ]);
     const docsMetadataPath = await createData(
-      `docsMetadata.json`,
+      `${docuHash(docsBaseRoute)}.json`,
       JSON.stringify(content, null, 2),
     );
 
     addRoute({
-      path: normalizeUrl([this.context.siteConfig.baseUrl, routeBasePath]),
+      path: docsBaseRoute,
       component: docLayoutComponent,
       routes,
       modules: {
