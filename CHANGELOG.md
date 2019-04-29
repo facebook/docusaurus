@@ -28,13 +28,13 @@ Thank you to the following contributors:
 
 ### Fixed/Added
 
-- docs: consistent badge style (#1371)
-- fix: prism syntax highlight .tsx properly (#1391)
-- feat: add tutorial (#1381)
-- feat: change icon for navToggle (#1394)
-- fix: blog docs example as object property (#1403)
-- docs: docs-examples-from-docusaurus is now installed as doc (#1406)
-- fix: upgrade underscore.string to 3.3.5 (#1404)
+- docs: consistent badge style ([#1371](https://github.com/facebook/Docusaurus/pull/1371))
+- fix: prism syntax highlight .tsx properly ([#1391](https://github.com/facebook/Docusaurus/pull/1391))
+- feat: add tutorial ([#1381](https://github.com/facebook/Docusaurus/pull/1381))
+- feat: change icon for navToggle ([#1394](https://github.com/facebook/Docusaurus/pull/1394))
+- fix: blog docs example as object property ([#1403](https://github.com/facebook/Docusaurus/pull/1403))
+- docs: docs-examples-from-docusaurus is now installed as doc ([#1406](https://github.com/facebook/Docusaurus/pull/1406))
+- fix: upgrade underscore.string to 3.3.5 ([#1404](https://github.com/facebook/Docusaurus/pull/1404))
 
 ## [1.8.1] - 2019-4-15
 
