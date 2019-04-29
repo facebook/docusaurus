@@ -11,7 +11,7 @@ const BlogSidebar = require('./BlogSidebar.js');
 const Container = require('./Container.js');
 const MetadataBlog = require('./MetadataBlog.js');
 
-const MetadataPublicBlog = MetadataBlog.filter(item => item.unlisted !== true);
+const MetadataPublicBlog = MetadataBlog.filter(item => !item.draft);
 const Site = require('./Site.js');
 const utils = require('./utils.js');
 

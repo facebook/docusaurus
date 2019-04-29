@@ -28,9 +28,7 @@ module.exports = function(type) {
 
   readMetadata.generateMetadataBlog();
   const MetadataBlog = require('../core/MetadataBlog.js');
-  const MetadataPublicBlog = MetadataBlog.filter(
-    item => item.unlisted !== true,
-  );
+  const MetadataPublicBlog = MetadataBlog.filter(item => !item.draft);
 
   const feed = new Feed({
     title: `${siteConfig.title} Blog`,
