@@ -232,6 +232,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Mockit',
+    image: '/img/users/mockit.png',
+    infoLink: 'https://mockit.netlify.com/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Noderize',
     image: '/img/users/noderize.svg',
     infoLink: 'https://noderize.js.org/',
