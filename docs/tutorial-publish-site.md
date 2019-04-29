@@ -9,7 +9,9 @@ Next we'll learn how to publish the site to the WWW for everyone to browse! For 
 
 ## Put the Site Online
 
-In to `website/siteConfig.js`, fill in the following fields:
+Kill the webserver first by pressing Cmd + C or Ctrl + C depending on your operating system.
+
+In `website/siteConfig.js`, fill in the following fields:
 
 ```
 const siteConfig = {
@@ -32,3 +34,5 @@ $ GIT_USER=<GIT_USER> CURRENT_BRANCH=master USE_SSH=true npm run publish-gh-page
 The built code will be pushed to the `gh-pages` branch of your repository.
 
 4. Go to `https://USERNAME.github.io/docusaurus-tutorial/` and view your site in action!
+
+> Note that when you run `npm run start` again, the `baseUrl` will now be part of the path.
