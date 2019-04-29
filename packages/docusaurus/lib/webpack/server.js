@@ -19,8 +19,9 @@ module.exports = function createServerConfig(props) {
   const isProd = process.env.NODE_ENV === 'production';
 
   const routesRelativePaths = routesPaths.map(str =>
-    str.replace(new RegExp(`^${baseUrl}`), ''),
+    baseUrl === '/' ? str : str.replace(new RegExp(`^${baseUrl}`), '/'),
   );
+  console.log(routesRelativePaths);
   const serverConfig = merge(config, {
     entry: {
       main: path.resolve(__dirname, '../client/serverEntry.js'),
