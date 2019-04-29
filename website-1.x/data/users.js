@@ -464,6 +464,13 @@ module.exports = [
     pinned: true,
   },
   {
+    caption: 'Sqorn',
+    image: '/img/users/sqorn.png',
+    infoLink: 'https://sqorn.org/docs/about.html',
+    fbOpenSource: true,
+    pinned: true,
+  },
+  {
     caption: 'Stackery',
     image: 'https://www.stackery.io/img/stackery-large-mark-teal-w.png',
     infoLink: 'https://docs.stackery.io',
