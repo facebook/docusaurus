@@ -9,7 +9,6 @@ module.exports = {
   docs: {
     'Getting Started': [
       'introduction',
-      'motivation',
       'installation',
       'project-structure',
       'deployment',
@@ -33,6 +32,6 @@ module.exports = {
       'docusaurus.config.js',
       'plugins',
     ],
-    Contributing: ['how-to-contribute', 'design-principles'],
+    Contributing: ['how-to-contribute', 'motivation', 'design-principles'],
   },
 };
