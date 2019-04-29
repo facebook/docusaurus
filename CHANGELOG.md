@@ -6,6 +6,36 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [Unreleased]
 
+## [1.9.0] - 2019-4-29
+
+In preparation of F8 where @yangshun will be holding a classroom session on building a Docusaurus site, we've added a tutorial to teach people how to create a versioned Docusaurus site.
+
+We also revamped the `docusaurus-init` script such that the theme colors are random and you partnered with [unDraw](https://undraw.co/) to generate illustrations that match your theme color! Check it out!
+
+The sidebar icon on mobile screens have been changed to a more conventional hamburger style icon which is more intuitibe. If you customized that part, check if your site's layout broke because of it.
+
+Lastly, welcome Pulsar, Mockit and React Testing Library as users!
+
+Thank you to the following contributors:
+
+- @endiliey
+- @yangshun
+- @Alan-Cha
+- @ntucker
+- @wilsonmar
+- @NishealJ
+- @Hongarc
+
+### Fixed/Added
+
+- docs: consistent badge style ([#1371](https://github.com/facebook/Docusaurus/pull/1371))
+- fix: prism syntax highlight .tsx properly ([#1391](https://github.com/facebook/Docusaurus/pull/1391))
+- feat: add tutorial ([#1381](https://github.com/facebook/Docusaurus/pull/1381))
+- feat: change icon for navToggle ([#1394](https://github.com/facebook/Docusaurus/pull/1394))
+- fix: blog docs example as object property ([#1403](https://github.com/facebook/Docusaurus/pull/1403))
+- docs: docs-examples-from-docusaurus is now installed as doc ([#1406](https://github.com/facebook/Docusaurus/pull/1406))
+- fix: upgrade underscore.string to 3.3.5 ([#1404](https://github.com/facebook/Docusaurus/pull/1404))
+
 ## [1.8.1] - 2019-4-15
 
 We accidentally published 2.0.0-alpha.5 as latest on npm. Please do not use that and instead use the 1.x version.
