@@ -485,6 +485,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Testing Library',
+    image: '/img/users/testing-library.png',
+    infoLink: 'https://testing-library.com/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'TorchCraftAI',
     image: '/img/users/torchcraftai.png',
     infoLink: 'https://torchcraft.github.io/TorchCraftAI/',
