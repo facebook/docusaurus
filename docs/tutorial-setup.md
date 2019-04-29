@@ -3,7 +3,7 @@ id: tutorial-setup
 title: Setting Up
 ---
 
-This tutorial is geared at first-time users who want detailed instructions on how to go from zero to a Docusaurus that is versioned. Let's start!
+This tutorial is geared at first-time users who want detailed instructions on how to go from zero to a Docusaurus website that has versions. Let's start!
 
 <img alt="Docusaurus campfire" src="/img/undraw_docusaurus_mountain.svg" class="docImage"/>
 
@@ -14,13 +14,13 @@ Node.js is an environment that can run JavaScript code outside of a web browser 
 > Docusaurus' minimum supported Node.js version is Node 8, but more recent versions will work as well.
 
 1. Open your Terminal.
-1. Run the following command to install Node and `npm` the package manager that allows you to install npm modules from your terminal.
+1. If you have `brew` on your OS, run the following command to install Node (a JavaScript runtime that allows you to run JavaScript on the server) and `npm` the package manager (allows you to install npm modules from your terminal).
 
 ```sh
 brew install node
 ```
 
-Alternatively, you can download an installer from the [Node.js homepage][https://nodejs.org/en/].
+Alternatively, you can download an installer from the [Node.js homepage](https://nodejs.org/en/).
 
 ## Check your Node.js installation
 
@@ -49,7 +49,10 @@ We highly recommend you to install Yarn, an alternative package manager that has
 1. Click on **"New Repository"** or go to https://github.com/new.
 1. Name your repository without spaces. For e.g. `docusaurus-tutorial`.
 1. Proceed to create the repository without adding `.gitignore` or a license.
-1. Clone your repository to your local machine:
+
+<img alt="GitHub create repo" src="/img/tutorial-git-clone.png" class="docImage"/>
+
+5. Clone your repository to your local machine:
 
 ```sh
 git clone git@github.com:USERNAME/docusaurus-tutorial.git

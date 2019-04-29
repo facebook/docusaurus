@@ -27,7 +27,7 @@ Documents in the `docs` directory will be considered part of version next and th
 
 Let's test out that versioning actually works. We can go to `docs/doc1.md` and change the first line of the body:
 
-```
+```diff
 ---
 id: doc1
 title: Latin-ish

@@ -9,7 +9,11 @@ In this section we'll get our Docusaurus site up and running for local developme
 
 ## Scaffold the Site
 
-1. Execute the `docusaurus-init` command.
+1. Execute the `docusaurus-init` command in your terminal.
+
+```sh
+docusaurus-init
+```
 
 The following contents will be created for you in the directory you are in.
 
