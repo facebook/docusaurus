@@ -5,7 +5,7 @@ title: Create Pages
 
 In this section we will learn about creating two new types of pages in Docusaurus, a regular page and a documentation page.
 
-<img alt="Docusaurus process" src="/img/undraw_docusaurus_process.svg" class="docImage"/>
+<img alt="Docusaurus MacBook" src="/img/undraw_docusaurus_tree.svg" class="docImage"/>
 
 ## Creating a Regular Page
 
@@ -33,7 +33,7 @@ function HelloWorld(props) {
 module.exports = HelloWorld;
 ```
 
-2. Go to http://localhost:3000/hello-world (TODO) and you should be able to see the new page.
+2. Go to http://localhost:3000/hello-world and you should be able to see the new page.
 1. Change the text within the `<p>...</p>` to "I'm at F8!". The browser should refresh automatically to reflect the changes.
 
 React is being used as a templating engine for rendering static markup. You can leverage on the expressability of React to build rich web content. Learn more about creating pages [here](custom-pages).
@@ -63,8 +63,10 @@ In this session, we learned how Docusaurus makes it really simple to create a we
 ```diff
 {
   "docs": {
-+    "Docusaurus": ["doc1", "f8"],
--    "Docusaurus": ["doc1"],
+    "Docusaurus": [
+      "doc1",
++     "f8"
+    ],
     "First Category": ["doc2"],
     "Second Category": ["doc3"]
   },

@@ -11,7 +11,7 @@ In this section we'll get our Docusaurus site up and running for local developme
 
 1. Execute the `docusaurus-init` command.
 
-The following contents will be created for you in the directory you are in (TODO).
+The following contents will be created for you in the directory you are in.
 
 ```sh
 ├── Dockerfile
