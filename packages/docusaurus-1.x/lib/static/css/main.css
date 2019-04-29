@@ -365,6 +365,7 @@ hr:after {
 
 /* Base */
 body {
+  background-color: #fff;
   min-height: 100vh;
   text-rendering: optimizeLegibility;
 }
