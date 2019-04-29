@@ -127,7 +127,7 @@ module.exports = async function start(siteDir, cliOptions = {}) {
       ignored: /node_modules/,
     },
     historyApiFallback: {
-      rewrites: [{from: /\.html$/, to: '/'}],
+      rewrites: [{from: /\/*/, to: baseUrl}],
     },
     disableHostCheck: true,
     // Enable overlay on browser. E.g: display errors
