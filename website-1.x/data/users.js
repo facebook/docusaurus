@@ -324,6 +324,13 @@ module.exports = [
     pinned: true,
   },
   {
+    caption: 'react-fns',
+    image: '/img/users/react-fns.svg',
+    infoLink: 'https://react-fns.netlify.com/',
+    fbOpenSource: true,
+    pinned: false,
+  },
+  {
     caption: 'React-Leaflet',
     image: '/img/users/react-leaflet.png',
     infoLink: 'https://react-leaflet.js.org/',
