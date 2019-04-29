@@ -19,8 +19,7 @@ const translateThisDoc = translate(
   'Translate this Doc|recruitment message asking to translate the docs',
 );
 
-const splitTabsToTitleAndContent = content => {
-  const lines = content.split(/\n/g);
+const splitTabsToTitleAndContent = (lines, indents) => {
   let first = false;
   let inBlock = false;
   let whitespace = false;
@@ -29,6 +28,9 @@ const splitTabsToTitleAndContent = content => {
     content: [],
   };
   lines.forEach(line => {
+    if (indents) {
+      line = line.replace(new RegExp(`^((\\t|\\s{4}){${indents}})`, 'g'), '');
+    }
     let pos = 0;
     const end = line.length;
     const isToken = (cline, cpos, ...chars) => {
@@ -124,7 +126,13 @@ const splitTabsToTitleAndContent = content => {
   return tc;
 };
 
-const cleanTheCodeTag = content => {
+const cleanTheCodeTag = (content, indents) => {
+  const prepend = (line, indent) => {
+    if (indent) {
+      return '    '.repeat(indent) + line;
+    }
+    return line;
+  };
   const contents = content.split(/(<pre>)(.*?)(<\/pre>)/gms);
   let inCodeBlock = false;
   const cleanContents = contents.map(c => {
@@ -139,7 +147,7 @@ const cleanTheCodeTag = content => {
     if (inCodeBlock) {
       return c.replace(/\n/g, '<br />');
     }
-    return c;
+    return prepend(c, indents);
   });
   return cleanContents.join('');
 };
@@ -148,32 +156,43 @@ const cleanTheCodeTag = content => {
 class Doc extends React.Component {
   renderContent() {
     const {content} = this.props;
-    let inCodeTabs = false;
-    const contents = content.split(
-      /(<!--DOCUSAURUS_CODE_TABS-->\n)(.*?)(\n<!--END_DOCUSAURUS_CODE_TABS-->)/gms,
-    );
-
-    const renderResult = contents.map(c => {
-      if (c === '<!--DOCUSAURUS_CODE_TABS-->\n') {
-        inCodeTabs = true;
-        return '';
-      }
-      if (c === '\n<!--END_DOCUSAURUS_CODE_TABS-->') {
-        inCodeTabs = false;
-        return '';
-      }
-      if (inCodeTabs) {
+    let indents = 0;
+    return content.replace(
+      /(\t|\s{4})*?(<!--DOCUSAURUS_CODE_TABS-->\n)(.*?)((\n|\t|\s{4})<!--END_DOCUSAURUS_CODE_TABS-->)/gms,
+      m => {
+        const contents = m.split('\n').filter(c => {
+          if (!indents) {
+            indents = (
+              c.match(/((\t|\s{4})+)<!--DOCUSAURUS_CODE_TABS-->/) || []
+            ).length;
+          }
+          if (c.match(/(\t|\s{4})+<!--DOCUSAURUS_CODE_TABS-->/)) {
+            return false;
+          }
+          if (
+            c.match(
+              /<!--END_DOCUSAURUS_CODE_TABS-->|<!--DOCUSAURUS_CODE_TABS-->/,
+            ) ||
+            (indents > 0 &&
+              c.match(
+                /(\t|\s{4})+(<!--END_DOCUSAURUS_CODE_TABS-->|<!--DOCUSAURUS_CODE_TABS-->)/,
+              ))
+          ) {
+            return false;
+          }
+          return true;
+        });
+        if (indents) {
+          indents -= 1;
+        }
         const codeTabsMarkdownBlock = renderToStaticMarkup(
           <CodeTabsMarkdownBlock>
-            {splitTabsToTitleAndContent(c)}
+            {splitTabsToTitleAndContent(contents, indents)}
           </CodeTabsMarkdownBlock>,
         );
-        return cleanTheCodeTag(codeTabsMarkdownBlock);
-      }
-      return c;
-    });
-
-    return renderResult.join('');
+        return cleanTheCodeTag(codeTabsMarkdownBlock, indents);
+      },
+    );
   }
 
   render() {
