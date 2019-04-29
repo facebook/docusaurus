@@ -36,7 +36,7 @@ function Sidebar(props) {
 
     if (!linkMetadata) {
       throw new Error(
-        `Improper sidebars.json file, document with id '${linkID}' not found.`,
+        `Improper sidebars file, document with id '${linkID}' not found.`,
       );
     }
 

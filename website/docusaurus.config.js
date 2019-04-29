@@ -13,7 +13,6 @@ module.exports = {
   baseUrl: '/',
   url: 'https://docusaurus-2.netlify.com',
   headerLinks: [
-    {url: 'docs-legacy/installation', label: 'Docs V1'},
     {url: 'docs/introduction', label: 'Docs'},
     {url: 'blog', label: 'Blog'},
     {url: 'feedback/', label: 'Feedback'},
@@ -31,22 +30,12 @@ module.exports = {
       {
         docs: {
           path: 'docs',
-          sidebarPath: require.resolve('./sidebars.json'),
+          sidebarPath: require.resolve('./sidebars.js'),
         },
         blog: {
           path: '../website-1.x/blog',
         },
       },
     ],
-  ],
-  plugins: [
-    {
-      name: '@docusaurus/plugin-content-docs',
-      options: {
-        path: '../docs',
-        routeBasePath: 'docs-legacy',
-        sidebarPath: require.resolve('./sidebars-legacy.json'),
-      },
-    },
   ],
 };

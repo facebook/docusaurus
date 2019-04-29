@@ -95,15 +95,6 @@ function Navbar(props) {
               <Search {...props} />
             </div>
           )}
-          <div className="navbar__item">
-            <a
-              className="navbar__link"
-              href="https://github.com/facebook/docusaurus"
-              rel="noopener noreferrer"
-              target="_blank">
-              <i className="fab fa-github fa-lg" />
-            </a>
-          </div>
         </div>
       </div>
     </nav>
