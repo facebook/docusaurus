@@ -106,7 +106,7 @@ program
           System: ['OS', 'CPU'],
           Binaries: ['Node', 'Yarn', 'npm'],
           Browsers: ['Chrome', 'Edge', 'Firefox', 'Safari'],
-          npmPackages: ['/**/{@docusaurus/*/}'],
+          npmPackages: ['@docusaurus/*/'],
         },
         {
           showNotFound: true,
