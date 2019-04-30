@@ -99,15 +99,15 @@ class DocusaurusPluginContentBlog {
     // Blog page handling. Example: `/blog`, `/blog/page1`, `/blog/page2`
     const numOfBlog = blogMetadata.length;
     const numberOfPage = Math.ceil(numOfBlog / pageCount);
-    const basePageUrl = path.join(baseUrl, routeBasePath);
+    const basePageUrl = normalizeUrl([baseUrl, routeBasePath]);
 
     // eslint-disable-next-line
     for (let page = 0; page < numberOfPage; page++) {
       blogMetadata.push({
-        permalink: normalizeUrl([
-          basePageUrl,
-          `${page > 0 ? `page${page + 1}` : ''}`,
-        ]),
+        permalink:
+          page > 0
+            ? normalizeUrl([basePageUrl, `page/${page + 1}`])
+            : basePageUrl,
         language: defaultLangTag,
         isBlogPage: true,
         posts: blogMetadata.slice(page * pageCount, (page + 1) * pageCount),
