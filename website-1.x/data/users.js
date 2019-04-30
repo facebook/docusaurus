@@ -535,7 +535,7 @@ module.exports = [
   },
   {
     caption: 'Vuls',
-    image: 'https://vuls.io/img/docs/vuls_logo.png',
+    image: '/img/users/vuls.png',
     infoLink: 'https://vuls.io/',
     fbOpenSource: false,
     pinned: false,
