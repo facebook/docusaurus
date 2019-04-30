@@ -225,6 +225,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'minapp',
+    image: '/img/users/minapp.svg',
+    infoLink: 'https://qiu8310.github.io/minapp/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'ml5.js',
     image: '/img/users/ml5.png',
     infoLink: 'https://ml5js.org/',
