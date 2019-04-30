@@ -20,3 +20,26 @@ body {
   --ifm-color-primary-light: #55dfc1 !important;
   --ifm-color-primary-lighter: #55dfc1 !important;
 }
+
+.anchor {
+  display: block;
+  position: relative;
+  top: -5rem;
+}
+
+@media only screen and (max-width: 735px) {
+  .anchor {
+    top: -10rem;
+  }
+}
+
+.hash-link {
+  opacity: 0;
+  position: absolute;
+  margin-left: -1.25rem;
+  padding-right: 1.25rem;
+}
+
+*:hover > .hash-link {
+  opacity: 1;
+}

@@ -10,7 +10,6 @@ import React from 'react';
 import DocsPaginator from '@theme/DocsPaginator'; // eslint-disable-line
 import Head from '@docusaurus/Head';
 
-import './styles.css';
 import styles from './styles.module.css';
 
 const Headings = ({headings, isChild}) => {
