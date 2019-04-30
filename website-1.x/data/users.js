@@ -359,6 +359,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'React Native Testing Library',
+    image: '/img/users/react-native-testing-library.png',
+    infoLink: 'https://callstack.github.io/react-native-testing-library/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'React Redux',
     image: '/img/users/react-redux.svg',
     infoLink: 'https://react-redux.js.org',
