@@ -106,7 +106,7 @@ class DocusaurusPluginContentBlog {
       blogMetadata.push({
         permalink:
           page > 0
-            ? normalizeUrl([basePageUrl, `page${page + 1}`])
+            ? normalizeUrl([basePageUrl, `page/${page + 1}`])
             : basePageUrl,
         language: defaultLangTag,
         isBlogPage: true,
