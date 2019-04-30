@@ -94,7 +94,7 @@ class DocusaurusPluginContentBlog {
         blogMetadata.push(metadata);
       }),
     );
-    blogMetadata.sort((a, b) => a.date - b.date);
+    blogMetadata.sort((a, b) => b.date - a.date);
 
     // Blog page handling. Example: `/blog`, `/blog/page1`, `/blog/page2`
     const numOfBlog = blogMetadata.length;
