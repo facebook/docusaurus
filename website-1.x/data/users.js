@@ -225,6 +225,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'minapp',
+    image: '/img/users/minapp.svg',
+    infoLink: 'https://qiu8310.github.io/minapp/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'ml5.js',
     image: '/img/users/ml5.png',
     infoLink: 'https://ml5js.org/',
@@ -359,6 +366,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'React Native Testing Library',
+    image: '/img/users/react-native-testing-library.png',
+    infoLink: 'https://callstack.github.io/react-native-testing-library/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'React Redux',
     image: '/img/users/react-redux.svg',
     infoLink: 'https://react-redux.js.org',
@@ -485,6 +499,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Testing Library',
+    image: '/img/users/testing-library.png',
+    infoLink: 'https://testing-library.com/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'tipsi-stripe',
     image: '/img/users/tipsi-stripe.png',
     infoLink: 'https://tipsi.github.io/tipsi-stripe/',
@@ -528,7 +549,7 @@ module.exports = [
   },
   {
     caption: 'Vuls',
-    image: 'https://vuls.io/img/docs/vuls_logo.png',
+    image: '/img/users/vuls.png',
     infoLink: 'https://vuls.io/',
     fbOpenSource: false,
     pinned: false,

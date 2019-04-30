@@ -5,19 +5,19 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useContext} from 'react';
+import React from 'react';
 import {renderRoutes} from 'react-router-config';
+
 import Head from '@docusaurus/Head';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext'; // eslint-disable-line
 
 import Layout from '@theme/Layout'; // eslint-disable-line
 import Footer from '@theme/Footer'; // eslint-disable-line
 import Navbar from '@theme/Navbar'; // eslint-disable-line
 import Sidebar from '@theme/Sidebar'; // eslint-disable-line
 
-import DocusaurusContext from '@docusaurus/context';
-
 function Doc(props) {
-  const {siteConfig = {}} = useContext(DocusaurusContext);
+  const {siteConfig = {}} = useDocusaurusContext();
   const {route, docsMetadata, location} = props;
   const {baseUrl, favicon} = siteConfig;
   return (

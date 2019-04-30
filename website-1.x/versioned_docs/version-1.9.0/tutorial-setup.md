@@ -1,6 +1,7 @@
 ---
-id: tutorial-setup
+id: version-1.9.0-tutorial-setup
 title: Setting Up
+original_id: tutorial-setup
 ---
 
 This tutorial is geared at first-time users who want detailed instructions on how to go from zero to a Docusaurus website that has versions. Let's start!

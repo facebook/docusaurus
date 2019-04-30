@@ -1,6 +1,7 @@
 ---
-id: tutorial-create-pages
+id: version-1.9.0-tutorial-create-pages
 title: Create Pages
+original_id: tutorial-create-pages
 ---
 
 In this section we will learn about creating two new types of pages in Docusaurus, a regular page and a documentation page.

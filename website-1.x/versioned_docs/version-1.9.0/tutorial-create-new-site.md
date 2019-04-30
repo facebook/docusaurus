@@ -1,6 +1,7 @@
 ---
-id: tutorial-create-new-site
+id: version-1.9.0-tutorial-create-new-site
 title: Create a New Site
+original_id: tutorial-create-new-site
 ---
 
 In this section we'll get our Docusaurus site up and running for local development. The process takes less than a few minutes.

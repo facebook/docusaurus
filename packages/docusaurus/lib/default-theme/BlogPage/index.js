@@ -5,15 +5,17 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useContext} from 'react';
+import React from 'react';
+
 import Head from '@docusaurus/Head';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext'; // eslint-disable-line
+
 import Footer from '@theme/Footer'; // eslint-disable-line
 import Layout from '@theme/Layout'; // eslint-disable-line
-import DocusaurusContext from '@docusaurus/context';
 import Post from '../Post';
 
 function BlogPage(props) {
-  const context = useContext(DocusaurusContext);
+  const context = useDocusaurusContext();
   const {language, siteConfig = {}} = context;
   const {baseUrl, favicon} = siteConfig;
   const {

@@ -5,13 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useContext} from 'react';
-import Head from '@docusaurus/Head';
+import React from 'react';
 
-import DocusaurusContext from '@docusaurus/context';
+import Head from '@docusaurus/Head';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 function Markdown(props) {
-  const context = useContext(DocusaurusContext);
+  const context = useDocusaurusContext();
   const {siteConfig} = context;
   const highlight = Object.assign(
     {},

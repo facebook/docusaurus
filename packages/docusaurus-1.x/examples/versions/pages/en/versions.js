@@ -35,7 +35,14 @@ function Versions(props) {
               <tr>
                 <th>{latestVersion}</th>
                 <td>
-                  <a href="">Documentation</a>
+                  {/* You are supposed to change this href where appropriate
+                        Example: href="<baseUrl>/docs(/:language)/:id" */}
+                  <a
+                    href={`${siteConfig.baseUrl}${siteConfig.docsUrl}/${
+                      props.language ? props.language + '/' : ''
+                    }doc1`}>
+                    Documentation
+                  </a>
                 </td>
                 <td>
                   <a href="">Release Notes</a>
@@ -53,16 +60,24 @@ function Versions(props) {
               <tr>
                 <th>master</th>
                 <td>
-                  <a href="">Documentation</a>
+                  {/* You are supposed to change this href where appropriate
+                        Example: href="<baseUrl>/docs(/:language)/next/:id" */}
+                  <a
+                    href={`${siteConfig.baseUrl}${siteConfig.docsUrl}/${
+                      props.language ? props.language + '/' : ''
+                    }next/doc1`}>
+                    Documentation
+                  </a>
                 </td>
                 <td>
-                  <a href="">Release Notes</a>
+                  <a href={repoUrl}>Source Code</a>
                 </td>
               </tr>
             </tbody>
           </table>
           <p>Other text describing this section.</p>
           <h3 id="archive">Past Versions</h3>
+          <p>Here you can find previous versions of the documentation.</p>
           <table className="versions">
             <tbody>
               {versions.map(
@@ -71,9 +86,14 @@ function Versions(props) {
                     <tr>
                       <th>{version}</th>
                       <td>
-                        {/* You are supposed to fill this href by yourself 
-                        Example: href={`docs/${version}/doc.html`} */}
-                        <a href="">Documentation</a>
+                        {/* You are supposed to change this href where appropriate
+                        Example: href="<baseUrl>/docs(/:language)/:version/:id" */}
+                        <a
+                          href={`${siteConfig.baseUrl}${siteConfig.docsUrl}/${
+                            props.language ? props.language + '/' : ''
+                          }${version}/doc1`}>
+                          Documentation
+                        </a>
                       </td>
                       <td>
                         <a href={`${repoUrl}/releases/tag/v${version}`}>

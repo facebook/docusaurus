@@ -27,7 +27,8 @@
       "tutorial-setup",
       "tutorial-create-new-site",
       "tutorial-create-pages",
-      "tutorial-publish-site"
+      "tutorial-publish-site",
+      "tutorial-version"
     ]
   }
 }

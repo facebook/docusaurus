@@ -1,0 +1,34 @@
+{
+  "version-1.9.0-docs": {
+    "Getting Started": [
+      "version-1.9.0-installation",
+      "version-1.9.0-site-preparation",
+      "version-1.9.0-site-creation",
+      "version-1.9.0-publishing",
+      "version-1.9.0-docker"
+    ],
+    "Guides": [
+      "version-1.9.0-adding-blog",
+      "version-1.9.0-custom-pages",
+      "version-1.9.0-search",
+      "version-1.9.0-navigation",
+      "version-1.9.0-translation",
+      "version-1.9.0-versioning"
+    ],
+    "API": [
+      "version-1.9.0-commands",
+      "version-1.9.0-doc-markdown",
+      "version-1.9.0-api-pages",
+      "version-1.9.0-site-config"
+    ]
+  },
+  "version-1.9.0-tutorial": {
+    "Tutorial": [
+      "version-1.9.0-tutorial-setup",
+      "version-1.9.0-tutorial-create-new-site",
+      "version-1.9.0-tutorial-create-pages",
+      "version-1.9.0-tutorial-publish-site",
+      "version-1.9.0-tutorial-version"
+    ]
+  }
+}

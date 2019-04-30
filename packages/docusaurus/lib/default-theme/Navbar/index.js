@@ -5,14 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useContext} from 'react';
+import React from 'react';
 
 import Link from '@docusaurus/Link';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+
 import Search from '@theme/Search';
-import DocusaurusContext from '@docusaurus/context';
 
 function Navbar(props) {
-  const context = useContext(DocusaurusContext);
+  const context = useDocusaurusContext();
   const {siteConfig = {}, env = {}, metadata = {}} = context;
   // TODO: navbar headerlinks should depends on theme, not siteConfig;
   const {

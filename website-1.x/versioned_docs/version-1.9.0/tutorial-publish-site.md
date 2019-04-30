@@ -1,6 +1,7 @@
 ---
-id: tutorial-publish-site
+id: version-1.9.0-tutorial-publish-site
 title: Publish the Site
+original_id: tutorial-publish-site
 ---
 
 <img alt="Docusaurus Facebook" src="/img/undraw_docusaurus_fb.svg" class="docImage"/>
