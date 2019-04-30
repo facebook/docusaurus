@@ -164,7 +164,9 @@ module.exports = async function deploy(siteDir) {
           const commitResults = shell.exec(
             `git commit -m "${commitMessage}" -m "Deploy website version based on ${currentCommit}"`,
           );
-          if (shell.exec(`git push origin ${deploymentBranch}`).code !== 0) {
+          if (
+            shell.exec(`git push --force origin ${deploymentBranch}`).code !== 0
+          ) {
             throw new Error('Error: Git push failed');
           } else if (commitResults.code === 0) {
             // The commit might return a non-zero value when site is up to date.
