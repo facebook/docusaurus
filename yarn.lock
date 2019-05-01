@@ -4882,6 +4882,11 @@ envify@^4.0.0:
     esprima "^4.0.0"
     through "~2.3.4"
 
+envinfo@^7.2.0:
+  version "7.2.0"
+  resolved "https://registry.yarnpkg.com/envinfo/-/envinfo-7.2.0.tgz#7e6d7638740d2d43806431403be6dd4bddf15af9"
+  integrity sha512-hHDGx34o8V0IULC6MnMb+jIMEJ5LBuK/EIbFi8/aw81r6q+wXCvu9QCA9RPbpOaBxtlH/16cYB2HkBnRFTy4SQ==
+
 err-code@^1.0.0:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/err-code/-/err-code-1.1.2.tgz#06e0116d3028f6aef4806849eb0ea6a748ae6960"
