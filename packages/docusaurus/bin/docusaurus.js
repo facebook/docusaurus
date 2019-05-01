@@ -8,6 +8,7 @@
  */
 
 const chalk = require('chalk');
+const envinfo = require('envinfo');
 const semver = require('semver');
 const path = require('path');
 const program = require('commander');
@@ -92,6 +93,22 @@ program
       hotOnly,
       cacheLoader,
     });
+  });
+
+program
+  .command('info')
+  .description('Shows debugging information about the local environment')
+  .action(() => {
+    console.log(chalk.bold('\nEnvironment Info:'));
+    envinfo
+      .run({
+        System: ['OS', 'CPU'],
+        Binaries: ['Node', 'Yarn', 'npm'],
+        Browsers: ['Chrome', 'Edge', 'Firefox', 'Safari'],
+        npmPackages: '?(@)docusaurus{*,*/**}',
+        npmGlobalPackages: '?(@)docusaurus{*,*/**}',
+      })
+      .then(console.log);
   });
 
 program.arguments('<command>').action(cmd => {
