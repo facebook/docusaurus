@@ -18,9 +18,14 @@ module.exports = function createServerConfig(props) {
   const config = createBaseConfig(props, true);
   const isProd = process.env.NODE_ENV === 'production';
 
-  const routesRelativePaths = routesPaths.map(str =>
-    baseUrl === '/' ? str : str.replace(new RegExp(`^${baseUrl}`), '/'),
-  );
+  const routesLocation = {};
+  // Array of paths to be rendered. Relative to output directory
+  const ssgPaths = routesPaths.map(str => {
+    const ssgPath =
+      baseUrl === '/' ? str : str.replace(new RegExp(`^${baseUrl}`), '/');
+    routesLocation[ssgPath] = str;
+    return ssgPath;
+  });
   const serverConfig = merge(config, {
     entry: {
       main: path.resolve(__dirname, '../client/serverEntry.js'),
@@ -46,8 +51,9 @@ module.exports = function createServerConfig(props) {
         locals: {
           baseUrl,
           outDir,
+          routesLocation,
         },
-        paths: routesRelativePaths,
+        paths: ssgPaths,
       }),
 
       // Show compilation progress bar.

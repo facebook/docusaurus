@@ -22,12 +22,14 @@ import ssrTemplate from './templates/ssr.html.template';
 
 // Renderer for static-site-generator-webpack-plugin (async rendering via promises)
 export default function render(locals) {
-  return preload(routes, locals.path).then(() => {
+  const {routesLocation} = locals;
+  const location = routesLocation[locals.path];
+  return preload(routes, location).then(() => {
     const modules = new Set();
     const context = {};
     const appHtml = ReactDOMServer.renderToString(
       <Loadable.Capture report={moduleName => modules.add(moduleName)}>
-        <StaticRouter location={locals.path} context={context}>
+        <StaticRouter location={location} context={context}>
           <App />
         </StaticRouter>
       </Loadable.Capture>,
