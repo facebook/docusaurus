@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/preset-classic",
-  "version": "2.0.0-alpha.12",
+  "version": "2.0.0-alpha.13",
   "description": "Preset for classic Docusaurus",
   "main": "src/index.js",
   "publishConfig": {
@@ -8,10 +8,10 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/plugin-content-blog": "^2.0.0-alpha.12",
-    "@docusaurus/plugin-content-docs": "^2.0.0-alpha.12",
-    "@docusaurus/plugin-content-pages": "^2.0.0-alpha.12",
-    "@docusaurus/plugin-sitemap": "^2.0.0-alpha.12"
+    "@docusaurus/plugin-content-blog": "^2.0.0-alpha.13",
+    "@docusaurus/plugin-content-docs": "^2.0.0-alpha.13",
+    "@docusaurus/plugin-content-pages": "^2.0.0-alpha.13",
+    "@docusaurus/plugin-sitemap": "^2.0.0-alpha.13"
   },
   "peerDependencies": {
     "@docusaurus/core": "^2.0.0"

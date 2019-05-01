@@ -1,7 +1,7 @@
 {
   "name": "@docusaurus/core",
   "description": "Easy to Maintain Open Source Documentation Websites",
-  "version": "2.0.0-alpha.12",
+  "version": "2.0.0-alpha.13",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
@@ -34,7 +34,7 @@
     "@babel/polyfill": "^7.4.0",
     "@babel/preset-env": "^7.4.2",
     "@babel/preset-react": "^7.0.0",
-    "@docusaurus/utils": "^2.0.0-alpha.12",
+    "@docusaurus/utils": "^2.0.0-alpha.13",
     "babel-jest": "^24.1.0",
     "babel-loader": "^8.0.0",
     "babel-plugin-dynamic-import-node": "^2.2.0",
