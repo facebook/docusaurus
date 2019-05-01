@@ -106,13 +106,9 @@ program
           System: ['OS', 'CPU'],
           Binaries: ['Node', 'Yarn', 'npm'],
           Browsers: ['Chrome', 'Edge', 'Firefox', 'Safari'],
-          npmPackages: ['@docusaurus/**'],
-        },
-        {
-          showNotFound: true,
-          duplicates: true,
-          fullTree: true,
-        },
+          npmPackages: '?(@)docusaurus{*,/**,*/**}',
+          npmGlobalPackages: '?(@)docusaurus{*,/**,*/**}',
+        }
       )
       .then(console.log);
   });
