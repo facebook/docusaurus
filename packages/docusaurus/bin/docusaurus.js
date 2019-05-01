@@ -101,15 +101,13 @@ program
   .action(() => {
     console.log(chalk.bold('\nEnvironment Info:'));
     envinfo
-      .run(
-        {
-          System: ['OS', 'CPU'],
-          Binaries: ['Node', 'Yarn', 'npm'],
-          Browsers: ['Chrome', 'Edge', 'Firefox', 'Safari'],
-          npmPackages: '?(@)docusaurus{*,/**,*/**}',
-          npmGlobalPackages: '?(@)docusaurus{*,/**,*/**}',
-        }
-      )
+      .run({
+        System: ['OS', 'CPU'],
+        Binaries: ['Node', 'Yarn', 'npm'],
+        Browsers: ['Chrome', 'Edge', 'Firefox', 'Safari'],
+        npmPackages: '?(@)docusaurus{*,/**,*/**}',
+        npmGlobalPackages: '?(@)docusaurus{*,/**,*/**}',
+      })
       .then(console.log);
   });
 
