@@ -30,7 +30,7 @@ module.exports = {
       'cli',
       'docusaurus-core',
       'docusaurus.config.js',
-      'plugins',
+      'plugins-api',
     ],
     Contributing: ['how-to-contribute', 'motivation', 'design-principles'],
   },
