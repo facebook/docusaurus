@@ -8,24 +8,13 @@
 import React from 'react';
 import {renderRoutes} from 'react-router-config';
 
-import Head from '@docusaurus/Head';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext'; // eslint-disable-line
-
 import Layout from '@theme/Layout'; // eslint-disable-line
-import Footer from '@theme/Footer'; // eslint-disable-line
-import Navbar from '@theme/Navbar'; // eslint-disable-line
 import Sidebar from '@theme/Sidebar'; // eslint-disable-line
 
 function Doc(props) {
-  const {siteConfig = {}} = useDocusaurusContext();
   const {route, docsMetadata, location} = props;
-  const {baseUrl, favicon} = siteConfig;
   return (
-    <Layout>
-      <Head>
-        <title>{siteConfig.title}</title>
-        {favicon && <link rel="shortcut icon" href={baseUrl + favicon} />}
-      </Head>
+    <Layout noFooter>
       <div className="container container--fluid">
         <div className="row">
           <div className="col col--3">

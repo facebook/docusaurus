@@ -6,15 +6,11 @@
  */
 
 import React from 'react';
-import Head from '@docusaurus/Head';
 import Layout from '@theme/Layout';
 
 function NotFound() {
   return (
-    <Layout>
-      <Head>
-        <title>Page Not Found</title>
-      </Head>
+    <Layout title="Page Not Found">
       <div className="container margin-vert--xl">
         <div className="row">
           <div className="col col--6 col--offset-3">

@@ -74,9 +74,6 @@ function Home() {
 
   return (
     <div>
-      <Head>
-        <title>Docusaurus</title>
-      </Head>
       <div className={styles['index-hero']}>
         <div className={styles['index-hero-inner']}>
           <h1 className={styles['index-hero-project-tagline']}>

@@ -4937,6 +4937,11 @@ envify@^4.0.0:
     esprima "^4.0.0"
     through "~2.3.4"
 
+envinfo@^7.2.0:
+  version "7.2.0"
+  resolved "https://registry.yarnpkg.com/envinfo/-/envinfo-7.2.0.tgz#7e6d7638740d2d43806431403be6dd4bddf15af9"
+  integrity sha512-hHDGx34o8V0IULC6MnMb+jIMEJ5LBuK/EIbFi8/aw81r6q+wXCvu9QCA9RPbpOaBxtlH/16cYB2HkBnRFTy4SQ==
+
 enzyme-adapter-react-16@^1.12.1:
   version "1.12.1"
   resolved "https://registry.yarnpkg.com/enzyme-adapter-react-16/-/enzyme-adapter-react-16-1.12.1.tgz#6a2d74c80559d35ac0a91ca162fa45f4186290cf"

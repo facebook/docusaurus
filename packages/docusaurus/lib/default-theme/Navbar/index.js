@@ -14,7 +14,7 @@ import Search from '@theme/Search';
 
 function Navbar(props) {
   const context = useDocusaurusContext();
-  const {siteConfig = {}, env = {}, metadata = {}} = context;
+  const {siteConfig = {}} = context;
   // TODO: navbar headerlinks should depends on theme, not siteConfig;
   const {
     baseUrl,
@@ -24,12 +24,6 @@ function Navbar(props) {
     title,
     disableHeaderTitle,
   } = siteConfig;
-
-  const {language: thisLanguage, version: thisVersion} = metadata;
-
-  const translationEnabled = env.translation.enabled;
-  const versioningEnabled = env.versioning.enabled;
-  const defaultVersion = versioningEnabled && env.versioning.defaultVersion;
 
   // function to generate each header link
   const makeLinks = link => {
@@ -64,9 +58,7 @@ function Navbar(props) {
     <nav className="navbar navbar--light navbar--fixed-top">
       <div className="navbar__inner">
         <div className="navbar__items">
-          <Link
-            className="navbar__brand"
-            to={baseUrl + (translationEnabled ? thisLanguage : '')}>
+          <Link className="navbar__brand" to={baseUrl}>
             {headerIcon && (
               <img
                 className="navbar__logo"
@@ -76,18 +68,6 @@ function Navbar(props) {
             )}
             {!disableHeaderTitle && <strong>{title}</strong>}
           </Link>
-          {versioningEnabled && (
-            <div key="versions" className="navbar__item">
-              <Link
-                className="navbar__link"
-                to={
-                  baseUrl +
-                  (translationEnabled ? `${thisLanguage}/versions` : `versions`)
-                }>
-                {thisVersion || defaultVersion}
-              </Link>
-            </div>
-          )}
           {headerLinks.map(makeLinks)}
         </div>
         <div className="navbar__items navbar__items--right">
