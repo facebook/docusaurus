@@ -15,16 +15,15 @@ describe('loadSidebars', () => {
   const fixtures = path.join(__dirname, '..', '__fixtures__');
 
   test('normal site with sidebars', async () => {
-    const {env, siteDir} = await loadSetup('simple');
+    const {siteDir} = await loadSetup('simple');
     const sidebar = require(path.join(siteDir, 'sidebars.json'));
-    const result = loadSidebars({siteDir, env, sidebar});
+    const result = loadSidebars({siteDir, sidebar});
     expect(result).toMatchSnapshot();
   });
 
   test('site without sidebars', () => {
-    const env = {};
     const siteDir = path.join(fixtures, 'bad-site');
-    const result = loadSidebars({siteDir, env, sidebar: {}});
+    const result = loadSidebars({siteDir, sidebar: {}});
     expect(result).toMatchSnapshot();
   });
 });

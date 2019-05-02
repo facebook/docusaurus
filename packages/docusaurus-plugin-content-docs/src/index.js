@@ -8,12 +8,7 @@
 const globby = require('globby');
 const importFresh = require('import-fresh');
 const path = require('path');
-const {
-  getSubFolder,
-  idx,
-  normalizeUrl,
-  docuHash,
-} = require('@docusaurus/utils');
+const {idx, normalizeUrl, docuHash} = require('@docusaurus/utils');
 
 const createOrder = require('./order');
 const loadSidebars = require('./sidebars');
@@ -28,7 +23,6 @@ const DEFAULT_OPTIONS = {
   // TODO: Settle themeing.
   docLayoutComponent: '@theme/Doc',
   docItemComponent: '@theme/DocBody',
-  skipNextRelease: false, // Skip documents from next release (default = false)
 };
 
 class DocusaurusPluginContentDocs {
@@ -53,123 +47,36 @@ class DocusaurusPluginContentDocs {
 
   // Fetches blog contents and returns metadata for the contents.
   async loadContent() {
-    const {include, routeBasePath, sidebarPath, skipNextRelease} = this.options;
-    const {siteDir, env, siteConfig} = this.context;
+    const {include, routeBasePath, sidebarPath} = this.options;
+    const {siteDir, siteConfig} = this.context;
     const docsDir = this.contentPath;
 
     // We don't want sidebars to be cached because of hotreloading.
     const sidebar = importFresh(sidebarPath);
-    const docsSidebars = loadSidebars({siteDir, env, sidebar});
+    const docsSidebars = loadSidebars({siteDir, sidebar});
 
     // @tested - build the docs ordering such as next, previous, category and sidebar
     const order = createOrder(docsSidebars);
 
-    // Settle versions & translations from environment.
-    const translationEnabled = idx(env, ['translation', 'enabled']);
-    const enabledLanguages =
-      translationEnabled && idx(env, ['translation', 'enabledLanguages']);
-    const enabledLangTags =
-      (enabledLanguages && enabledLanguages.map(lang => lang.tag)) || [];
-    const defaultLangTag = idx(env, ['translation', 'defaultLanguage', 'tag']);
-    const versioningEnabled = idx(env, ['versioning', 'enabled']);
-    const versions =
-      (versioningEnabled && idx(env, ['versioning', 'versions'])) || [];
-
     // Prepare metadata container.
     const docs = {};
 
-    if (!(versioningEnabled && skipNextRelease)) {
-      // Metadata for default docs files.
-      const docsFiles = await globby(include, {
-        cwd: docsDir,
-      });
-      await Promise.all(
-        docsFiles.map(async source => {
-          // Do not allow reserved version/ translated folder name in 'docs'
-          // e.g: 'docs/version-1.0.0/' should not be allowed as it can cause unwanted bug
-          const subFolder = getSubFolder(
-            path.resolve(docsDir, source),
-            docsDir,
-          );
-          const versionsFolders = versions.map(version => `version-${version}`);
-          if ([...enabledLangTags, ...versionsFolders].includes(subFolder)) {
-            throw new Error(
-              `You cannot have a folder named 'docs/${subFolder}/'`,
-            );
-          }
-
-          const metadata = await processMetadata(
-            source,
-            docsDir,
-            env,
-            order,
-            siteConfig,
-            routeBasePath,
-          );
-          docs[metadata.id] = metadata;
-        }),
-      );
-    }
-
-    // Metadata for non-default-language docs.
-    let translatedDir = null;
-    if (translationEnabled) {
-      translatedDir = path.join(siteDir, 'translated_docs');
-      const translatedFiles = await globby(include, {
-        cwd: translatedDir,
-      });
-      await Promise.all(
-        translatedFiles.map(async source => {
-          /*
-            Do not process disabled & default languages folder in `translated_docs`
-            e.g: 'translated_docs/ja/**' should not be processed if lang 'ja' is disabled
-          */
-          const translatedFilePath = path.resolve(translatedDir, source);
-          const detectedLangTag = getSubFolder(
-            translatedFilePath,
-            translatedDir,
-          );
-          if (
-            detectedLangTag === defaultLangTag ||
-            !enabledLangTags.includes(detectedLangTag)
-          ) {
-            return;
-          }
-
-          const metadata = await processMetadata(
-            source,
-            translatedDir,
-            env,
-            order,
-            siteConfig,
-            routeBasePath,
-          );
-          docs[metadata.id] = metadata;
-        }),
-      );
-    }
-
-    // Metadata for versioned docs.
-    let versionedDir = null;
-    if (versioningEnabled) {
-      versionedDir = path.join(siteDir, 'versioned_docs');
-      const versionedFiles = await globby(include, {
-        cwd: versionedDir,
-      });
-      await Promise.all(
-        versionedFiles.map(async source => {
-          const metadata = await processMetadata(
-            source,
-            versionedDir,
-            env,
-            order,
-            siteConfig,
-            routeBasePath,
-          );
-          docs[metadata.id] = metadata;
-        }),
-      );
-    }
+    // Metadata for default docs files.
+    const docsFiles = await globby(include, {
+      cwd: docsDir,
+    });
+    await Promise.all(
+      docsFiles.map(async source => {
+        const metadata = await processMetadata(
+          source,
+          docsDir,
+          order,
+          siteConfig,
+          routeBasePath,
+        );
+        docs[metadata.id] = metadata;
+      }),
+    );
 
     // Get the titles of the previous and next ids so that we can use them.
     Object.keys(docs).forEach(currentID => {
@@ -185,28 +92,19 @@ class DocusaurusPluginContentDocs {
       }
     });
 
-    const sourceToMetadata = {};
+    const sourceToPermalink = {};
     const permalinkToId = {};
-    Object.values(docs).forEach(
-      ({id, source, version, permalink, language}) => {
-        sourceToMetadata[source] = {
-          version,
-          permalink,
-          language,
-        };
-
-        permalinkToId[permalink] = id;
-      },
-    );
+    Object.values(docs).forEach(({id, source, permalink}) => {
+      sourceToPermalink[source] = permalink;
+      permalinkToId[permalink] = id;
+    });
 
     this.content = {
       docs,
       docsDir,
       docsSidebars,
-      sourceToMetadata,
+      sourceToPermalink,
       permalinkToId,
-      translatedDir,
-      versionedDir,
     };
 
     return this.content;
@@ -254,9 +152,6 @@ class DocusaurusPluginContentDocs {
   }
 
   configureWebpack(config, isServer, {getBabelLoader, getCacheLoader}) {
-    const versionedDir = path.join(this.context.siteDir, 'versioned_docs');
-    const translatedDir = path.join(this.context.siteDir, 'translated_docs');
-
     return {
       module: {
         rules: [
@@ -271,10 +166,8 @@ class DocusaurusPluginContentDocs {
                 loader: path.resolve(__dirname, './markdown/index.js'),
                 options: {
                   siteConfig: this.context.siteConfig,
-                  versionedDir,
-                  translatedDir,
                   docsDir: this.content.docsDir,
-                  sourceToMetadata: this.content.sourceToMetadata,
+                  sourceToPermalink: this.content.sourceToPermalink,
                 },
               },
             ],

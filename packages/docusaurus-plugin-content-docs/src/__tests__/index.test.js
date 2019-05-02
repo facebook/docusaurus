@@ -12,11 +12,10 @@ import DocusaurusPluginContentDocs from '../index';
 
 describe('loadDocs', () => {
   test('simple website', async () => {
-    const {env, siteDir, siteConfig} = await loadSetup('simple');
+    const {siteDir, siteConfig} = await loadSetup('simple');
     const sidebarPath = path.join(siteDir, 'sidebars.json');
     const plugin = new DocusaurusPluginContentDocs(
       {
-        env,
         siteDir,
         siteConfig,
       },
@@ -31,30 +30,22 @@ describe('loadDocs', () => {
     expect(docsMetadata.hello).toEqual({
       category: 'Guides',
       id: 'hello',
-      language: null,
-      localized_id: 'hello',
       permalink: '/docs/hello',
       previous: 'foo/baz',
-      previous_id: 'foo/baz',
       previous_title: 'baz',
       sidebar: 'docs',
       source: path.join(docsDir, 'hello.md'),
       title: 'Hello, World !',
-      version: null,
     });
     expect(docsMetadata['foo/bar']).toEqual({
       category: 'Test',
       id: 'foo/bar',
-      language: null,
-      localized_id: 'foo/bar',
       next: 'foo/baz',
-      next_id: 'foo/baz',
       next_title: 'baz',
       permalink: '/docs/foo/bar',
       sidebar: 'docs',
       source: path.join(docsDir, 'foo', 'bar.md'),
       title: 'Bar',
-      version: null,
     });
   });
 });

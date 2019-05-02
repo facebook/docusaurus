@@ -14,7 +14,7 @@ import Sidebar from '@theme/Sidebar'; // eslint-disable-line
 function Doc(props) {
   const {route, docsMetadata, location} = props;
   return (
-    <Layout>
+    <Layout noFooter>
       <div className="container container--fluid">
         <div className="row">
           <div className="col col--3">

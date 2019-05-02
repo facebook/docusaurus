@@ -7,53 +7,11 @@
 
 const fs = require('fs-extra');
 const path = require('path');
-const {getSubFolder, idx, parse, normalizeUrl} = require('@docusaurus/utils');
-
-function getLanguage(filepath, refDir, env) {
-  const translationEnabled = idx(env, ['translation', 'enabled']);
-
-  if (translationEnabled) {
-    const detectedLangTag = getSubFolder(filepath, refDir);
-    const enabledLanguages = idx(env, ['translation', 'enabledLanguages']);
-    const langTags =
-      (enabledLanguages && enabledLanguages.map(lang => lang.tag)) || [];
-    if (langTags.includes(detectedLangTag)) {
-      return detectedLangTag;
-    }
-
-    const defaultLanguage = idx(env, ['translation', 'defaultLanguage']);
-    if (defaultLanguage && defaultLanguage.tag) {
-      return defaultLanguage.tag;
-    }
-  }
-
-  return null;
-}
-
-function getVersion(filepath, refDir, env) {
-  const versioningEnabled = idx(env, ['versioning', 'enabled']);
-
-  if (versioningEnabled) {
-    const subFolder = getSubFolder(filepath, refDir);
-
-    if (subFolder) {
-      const detectedVersion = subFolder.replace(/^version-/, '');
-      const versions = idx(env, ['versioning', 'versions']) || [];
-      if (versions.includes(detectedVersion)) {
-        return detectedVersion;
-      }
-    }
-
-    return 'next';
-  }
-
-  return null;
-}
+const {parse, normalizeUrl} = require('@docusaurus/utils');
 
 module.exports = async function processMetadata(
   source,
   refDir,
-  env,
   order,
   siteConfig,
   docsBasePath,
@@ -75,44 +33,9 @@ module.exports = async function processMetadata(
     metadata.title = metadata.id;
   }
 
-  // Language.
-  const language = getLanguage(filepath, refDir, env);
-  metadata.language = language;
-  const langPart = (language && `${language}/`) || '';
-
-  // Version.
-  const defaultLangTag = idx(env, ['translation', 'defaultLanguage', 'tag']);
-  let versionRefDir = refDir;
-  if (language && language !== defaultLangTag) {
-    versionRefDir = path.join(refDir, language);
-  }
-  const version = getVersion(filepath, versionRefDir, env);
-  metadata.version = version;
-  const latestVersion = idx(env, ['versioning', 'latestVersion']);
-  const versionPart =
-    (version && version !== latestVersion && `${version}/`) || '';
-
-  // Convert temporarily metadata.id to the form of dirname/id without version/lang prefix.
-  // e.g.: file `versioned_docs/version-1.0.0/en/foo/bar.md` with id `version-1.0.0-bar` => `foo/bar`
-  if (language) {
-    metadata.id = metadata.id.replace(new RegExp(`^${language}-`), '');
-  }
-
-  if (version) {
-    metadata.id = metadata.id.replace(new RegExp(`^version-${version}-`), '');
-  }
-
   const dirName = path.dirname(source);
   if (dirName !== '.') {
-    let prefix = dirName;
-    if (language) {
-      prefix = prefix.replace(new RegExp(`^${language}`), '');
-    }
-    prefix = prefix.replace(/^\//, '');
-    if (version) {
-      prefix = prefix.replace(new RegExp(`^version-${version}`), '');
-    }
-    prefix = prefix.replace(/^\//, '');
+    const prefix = dirName;
     if (prefix) {
       metadata.id = `${prefix}/${metadata.id}`;
     }
@@ -132,46 +55,23 @@ module.exports = async function processMetadata(
       metadata.permalink
         .replace(/:baseUrl/, baseUrl)
         .replace(/:docsUrl/, docsBasePath)
-        .replace(/:langPart/, langPart)
-        .replace(/:versionPart/, versionPart)
         .replace(/:id/, metadata.id),
     );
   } else {
-    metadata.permalink = normalizeUrl([
-      baseUrl,
-      docsBasePath,
-      langPart,
-      versionPart,
-      metadata.id,
-    ]);
-  }
-
-  // If version.
-  if (version && version !== 'next') {
-    metadata.id = `version-${version}-${metadata.id}`;
-  }
-
-  // Save localized id before adding language on it.
-  metadata.localized_id = metadata.id;
-
-  // If language.
-  if (language) {
-    metadata.id = `${language}-${metadata.id}`;
+    metadata.permalink = normalizeUrl([baseUrl, docsBasePath, metadata.id]);
   }
 
   // Determine order.
-  const id = metadata.localized_id;
+  const {id} = metadata;
   if (order[id]) {
     metadata.sidebar = order[id].sidebar;
     metadata.category = order[id].category;
     metadata.subCategory = order[id].subCategory;
     if (order[id].next) {
-      metadata.next_id = order[id].next;
-      metadata.next = (language ? `${language}-` : '') + order[id].next;
+      metadata.next = order[id].next;
     }
     if (order[id].previous) {
-      metadata.previous_id = order[id].previous;
-      metadata.previous = (language ? `${language}-` : '') + order[id].previous;
+      metadata.previous = order[id].previous;
     }
   }
 

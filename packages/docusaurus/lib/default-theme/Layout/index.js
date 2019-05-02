@@ -17,7 +17,7 @@ function Layout(props) {
   const context = useDocusaurusContext();
   const {siteConfig = {}} = context;
   const {baseUrl, favicon, tagline, title: defaultTitle} = siteConfig;
-  const {children, title} = props;
+  const {children, title, noFooter} = props;
   return (
     <React.Fragment>
       <Head defaultTitle={`${defaultTitle} · ${tagline}`}>
@@ -26,7 +26,7 @@ function Layout(props) {
       </Head>
       <Navbar />
       {children}
-      <Footer />
+      {!noFooter && <Footer />}
     </React.Fragment>
   );
 }
