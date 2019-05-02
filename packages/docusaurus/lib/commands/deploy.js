@@ -85,11 +85,14 @@ module.exports = async function deploy(siteDir) {
   // Save the commit hash that triggers publish-gh-pages before checking out to deployment branch
   const currentCommit = shell.exec('git rev-parse HEAD').stdout.trim();
 
+  // Clear docusaurus 2 cache dir for deploy consistency
+  const tempDir = path.join(siteDir, '.docusaurus');
+  fs.removeSync(tempDir);
+
   // build static html files, then push to deploymentBranch branch of specified repo
   build(siteDir)
     .then(() => {
-      shell.cd(siteDir);
-      shell.cd('build');
+      shell.cd(tempDir);
 
       if (
         shell.exec(
@@ -129,7 +132,10 @@ module.exports = async function deploy(siteDir) {
       shell.cd('../..');
 
       const fromPath = path.join('build');
-      const toPath = path.join('temp', `${projectName}-${deploymentBranch}`);
+      const toPath = path.join(
+        '.docusaurus',
+        `${projectName}-${deploymentBranch}`,
+      );
       // In github.io case, project is deployed to root. Need to not recursively
       // copy the deployment-branch to be.
       const excludePath = `${projectName}-${deploymentBranch}`;
@@ -160,10 +166,9 @@ module.exports = async function deploy(siteDir) {
           shell.exec('git add --all');
 
           const commitMessage =
-            process.env.CUSTOM_COMMIT_MESSAGE || 'Deploy website';
-          const commitResults = shell.exec(
-            `git commit -m "${commitMessage}" -m "Deploy website version based on ${currentCommit}"`,
-          );
+            process.env.CUSTOM_COMMIT_MESSAGE ||
+            `Deploy website version based on ${currentCommit}`;
+          const commitResults = shell.exec(`git commit -m "${commitMessage}"`);
           if (
             shell.exec(`git push --force origin ${deploymentBranch}`).code !== 0
           ) {

@@ -9,7 +9,6 @@ const path = require('path');
 
 const {generate} = require('@docusaurus/utils');
 const loadConfig = require('./load/config');
-const loadEnv = require('./load/env');
 const loadTheme = require('./load/theme');
 const loadRoutes = require('./load/routes');
 const loadPlugins = require('./load/plugins');
@@ -29,14 +28,7 @@ module.exports = async function load(siteDir, cliOptions = {}) {
     `export default ${JSON.stringify(siteConfig, null, 2)};`,
   );
 
-  const env = loadEnv({siteDir, siteConfig});
-  await generate(
-    generatedFilesDir,
-    'env.js',
-    `export default ${JSON.stringify(env, null, 2)};`,
-  );
-
-  const context = {env, siteDir, generatedFilesDir, siteConfig, cliOptions};
+  const context = {siteDir, generatedFilesDir, siteConfig, cliOptions};
 
   // Process presets.
   const presetPlugins = loadPresets(context);
@@ -88,7 +80,6 @@ ${Object.keys(registry)
   const props = {
     siteConfig,
     siteDir,
-    env,
     outDir,
     themePath,
     baseUrl,

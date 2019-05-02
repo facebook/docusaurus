@@ -8,7 +8,7 @@
 const globby = require('globby');
 const path = require('path');
 const fs = require('fs-extra');
-const {parse, idx, normalizeUrl, docuHash} = require('@docusaurus/utils');
+const {parse, normalizeUrl, docuHash} = require('@docusaurus/utils');
 
 // TODO: Use a better slugify function that doesn't rely on a specific file extension.
 function fileToUrl(fileName) {
@@ -50,7 +50,7 @@ class DocusaurusPluginContentBlog {
   // Fetches blog contents and returns metadata for the contents.
   async loadContent() {
     const {pageCount, include, routeBasePath} = this.options;
-    const {env, siteConfig} = this.context;
+    const {siteConfig} = this.context;
     const blogDir = this.contentPath;
 
     const {baseUrl} = siteConfig;
@@ -60,9 +60,6 @@ class DocusaurusPluginContentBlog {
 
     // Prepare metadata container.
     const blogMetadata = [];
-
-    // Language for each blog page.
-    const defaultLangTag = idx(env, ['translation', 'defaultLanguage', 'tag']);
 
     await Promise.all(
       blogFiles.map(async relativeSource => {
@@ -89,7 +86,6 @@ class DocusaurusPluginContentBlog {
           source,
           ...rawMetadata,
           date,
-          language: defaultLangTag,
         };
         blogMetadata.push(metadata);
       }),
@@ -108,7 +104,6 @@ class DocusaurusPluginContentBlog {
           page > 0
             ? normalizeUrl([basePageUrl, `page/${page + 1}`])
             : basePageUrl,
-        language: defaultLangTag,
         isBlogPage: true,
         posts: blogMetadata.slice(page * pageCount, (page + 1) * pageCount),
       });

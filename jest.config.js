@@ -15,7 +15,7 @@ module.exports = {
   moduleNameMapper: {
     '^@lib/(.*)$': '<rootDir>/packages/docusaurus/lib/$1',
   },
-  testPathIgnorePatterns: ['/node_modules/', '__fixtures__'],
+  testPathIgnorePatterns: ['loadSetup.js', '/node_modules/', '__fixtures__'],
   transform: {
     '^.+\\.js$': '<rootDir>/jest.transform.js',
   },

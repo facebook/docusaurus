@@ -7,7 +7,7 @@
 
 import path from 'path';
 
-import loadSetup from '../../../docusaurus/test/loadSetup';
+import loadSetup from '../../../docusaurus/lib/server/load/__tests__/loadSetup';
 import DocusaurusPluginContentPages from '../index';
 
 describe('docusaurus-plugin-content-pages', () => {
@@ -26,93 +26,9 @@ describe('docusaurus-plugin-content-pages', () => {
           },
         ],
       ],
-      [
-        'versioned',
-        pagesDir => [
-          {
-            permalink: '/',
-            source: path.join(pagesDir, 'index.js'),
-          },
-          {
-            permalink: '/hello/world',
-            source: path.join(pagesDir, 'hello', 'world.js'),
-          },
-        ],
-      ],
-      [
-        'translated',
-        pagesDir => [
-          {
-            language: 'en',
-            permalink: '/',
-            source: path.join(pagesDir, 'index.js'),
-          },
-          {
-            language: 'en',
-            permalink: '/en/',
-            source: path.join(pagesDir, 'index.js'),
-          },
-          {
-            language: 'ko',
-            permalink: '/ko/',
-            source: path.join(pagesDir, 'index.js'),
-          },
-          {
-            language: 'en',
-            permalink: '/hello/world',
-            source: path.join(pagesDir, 'hello', 'world.js'),
-          },
-          {
-            language: 'en',
-            permalink: '/en/hello/world',
-            source: path.join(pagesDir, 'hello', 'world.js'),
-          },
-          {
-            language: 'ko',
-            permalink: '/ko/hello/world',
-            source: path.join(pagesDir, 'hello', 'world.js'),
-          },
-        ],
-        [
-          'transversioned',
-          pagesDir => [
-            {
-              language: 'en',
-              permalink: '/',
-              source: path.join(pagesDir, 'index.js'),
-            },
-            {
-              language: 'en',
-              permalink: '/en/',
-              source: path.join(pagesDir, 'index.js'),
-            },
-            {
-              language: 'ko',
-              permalink: '/ko/',
-              source: path.join(pagesDir, 'index.js'),
-            },
-            {
-              language: 'en',
-              permalink: '/hello/world',
-              source: path.join(pagesDir, 'hello', 'world.js'),
-            },
-            {
-              language: 'en',
-              permalink: '/en/hello/world',
-              source: path.join(pagesDir, 'hello', 'world.js'),
-            },
-            {
-              language: 'ko',
-              permalink: '/ko/hello/world',
-              source: path.join(pagesDir, 'hello', 'world.js'),
-            },
-          ],
-        ],
-      ],
     ])('%s website', async (type, expected) => {
-      const {env, siteDir, siteConfig} = await loadSetup(type);
+      const {siteDir, siteConfig} = await loadSetup(type);
       const plugin = new DocusaurusPluginContentPages({
-        env,
         siteDir,
         siteConfig,
       });

@@ -6,29 +6,12 @@
  */
 
 import React from 'react';
-
-import Head from '@docusaurus/Head'; // eslint-disable-line
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext'; // eslint-disable-line
-
-import Footer from '@theme/Footer'; // eslint-disable-line
 import Layout from '@theme/Layout'; // eslint-disable-line
 
-function Pages({content}) {
-  const context = useDocusaurusContext();
-  const {metadata = {}, siteConfig = {}} = context;
-  const {baseUrl, favicon} = siteConfig;
-  const {language} = metadata;
-  const PageContents = content;
-
+function Pages({content: PageContent}) {
   return (
     <Layout>
-      <Head defaultTitle={siteConfig.title}>
-        {favicon && <link rel="shortcut icon" href={baseUrl + favicon} />}
-        {language && <html lang={language} />}
-        {language && <meta name="docsearch:language" content={language} />}
-      </Head>
-      <PageContents />
-      <Footer />
+      <PageContent />
     </Layout>
   );
 }

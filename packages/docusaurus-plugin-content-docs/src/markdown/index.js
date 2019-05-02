@@ -7,7 +7,6 @@
 
 const fm = require('front-matter');
 const {getOptions} = require('loader-utils');
-const path = require('path');
 const {resolve} = require('url');
 
 module.exports = async function(fileString) {
@@ -15,7 +14,7 @@ module.exports = async function(fileString) {
   const options = Object.assign({}, getOptions(this), {
     filepath: this.resourcePath,
   });
-  const {versionedDir, docsDir, translatedDir, sourceToMetadata} = options;
+  const {docsDir, sourceToPermalink} = options;
 
   // Extract content of markdown (without frontmatter).
   const {body} = fm(fileString);
@@ -23,19 +22,7 @@ module.exports = async function(fileString) {
   // Determine the source dir. e.g: /docs, /website/versioned_docs/version-1.0.0
   let sourceDir;
   const thisSource = this.resourcePath;
-  if (thisSource.startsWith(translatedDir)) {
-    const {language, version} = sourceToMetadata[thisSource] || {};
-    if (language && version && version !== 'next') {
-      sourceDir = path.join(translatedDir, language, `version-${version}`);
-    } else if (language && (!version || version === 'next')) {
-      sourceDir = path.join(translatedDir, language);
-    }
-  } else if (thisSource.startsWith(versionedDir)) {
-    const {version} = sourceToMetadata[thisSource] || {};
-    if (version) {
-      sourceDir = path.join(versionedDir, `version-${version}`);
-    }
-  } else if (thisSource.startsWith(docsDir)) {
+  if (thisSource.startsWith(docsDir)) {
     sourceDir = docsDir;
   }
 
@@ -59,10 +46,9 @@ module.exports = async function(fileString) {
         // Replace it to correct html link.
         const mdLink = mdMatch[1];
         const targetSource = `${sourceDir}/${mdLink}`;
-        const {permalink} =
-          sourceToMetadata[resolve(thisSource, mdLink)] ||
-          sourceToMetadata[targetSource] ||
-          {};
+        const permalink =
+          sourceToPermalink[resolve(thisSource, mdLink)] ||
+          sourceToPermalink[targetSource];
         if (permalink) {
           modifiedLine = modifiedLine.replace(mdLink, permalink);
         }

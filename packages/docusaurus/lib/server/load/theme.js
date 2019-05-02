@@ -14,16 +14,9 @@ module.exports = function loadConfig(siteDir) {
     ? customThemePath
     : path.resolve(__dirname, '../../default-theme');
 
-  const themeComponents = [
-    'Doc',
-    'Pages',
-    'Loading',
-    'NotFound',
-    'Markdown',
-    'Search',
-  ];
+  const requiredComponents = ['Loading', 'NotFound'];
 
-  themeComponents.forEach(component => {
+  requiredComponents.forEach(component => {
     try {
       require.resolve(path.join(themePath, component));
     } catch (e) {

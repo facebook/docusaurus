@@ -113,7 +113,7 @@ describe('load utils', () => {
   test('idx', () => {
     const a = {};
     const b = {hello: 'world'};
-    const env = {
+    const obj = {
       translation: {
         enabled: true,
         enabledLanguages: [
@@ -139,13 +139,13 @@ describe('load utils', () => {
     expect(idx(a, [('b', 'c')])).toBeUndefined();
     expect(idx(b, ['hello'])).toEqual('world');
     expect(idx(b, 'hello')).toEqual('world');
-    expect(idx(env, 'typo')).toBeUndefined();
-    expect(idx(env, 'versioning')).toEqual({
+    expect(idx(obj, 'typo')).toBeUndefined();
+    expect(idx(obj, 'versioning')).toEqual({
       enabled: false,
       versions: [],
     });
-    expect(idx(env, ['translation', 'enabled'])).toEqual(true);
-    expect(idx(env, ['translation', variable]).map(lang => lang.tag)).toEqual([
+    expect(idx(obj, ['translation', 'enabled'])).toEqual(true);
+    expect(idx(obj, ['translation', variable]).map(lang => lang.tag)).toEqual([
       'en',
       'ja',
     ]);
