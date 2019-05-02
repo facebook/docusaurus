@@ -21,7 +21,7 @@ function Layout(props) {
   return (
     <React.Fragment>
       <Head defaultTitle={`${defaultTitle} · ${tagline}`}>
-        {title && <title>{title}</title>}
+        {title && <title>{`${title} · ${tagline}`}</title>}
         {favicon && <link rel="shortcut icon" href={baseUrl + favicon} />}
       </Head>
       <Navbar />
