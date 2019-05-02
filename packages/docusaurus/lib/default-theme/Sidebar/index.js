@@ -7,7 +7,7 @@
 
 import React from 'react';
 
-import Link from '@docusaurus/Link';
+import Link from '@docusaurus/Link'; // eslint-disable-line
 
 import './styles.css';
 
@@ -18,7 +18,7 @@ function Sidebar(props) {
     docsMetadata.permalinkToId[location.pathname] ||
     docsMetadata.permalinkToId[location.pathname.replace(/\/$/, '')];
   const metadata = docsMetadata.docs[id] || {};
-  const {sidebar, language} = metadata;
+  const {sidebar} = metadata;
 
   if (!sidebar) {
     return null;
@@ -31,7 +31,7 @@ function Sidebar(props) {
   }
 
   const convertDocLink = item => {
-    const linkID = (language ? `${language}-` : '') + item.id;
+    const linkID = item.id;
     const linkMetadata = docsMetadata.docs[linkID];
 
     if (!linkMetadata) {

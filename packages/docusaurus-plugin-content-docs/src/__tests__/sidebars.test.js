@@ -7,7 +7,7 @@
 
 import path from 'path';
 import loadSidebars from '../sidebars';
-import loadSetup from '../../../docusaurus/test/loadSetup';
+import loadSetup from '../../../docusaurus/lib/server/load/__tests__/loadSetup';
 
 /* eslint-disable global-require, import/no-dynamic-require */
 
@@ -26,27 +26,5 @@ describe('loadSidebars', () => {
     const siteDir = path.join(fixtures, 'bad-site');
     const result = loadSidebars({siteDir, env, sidebar: {}});
     expect(result).toMatchSnapshot();
-  });
-
-  test('site with sidebars & versioned sidebars', async () => {
-    const {env, siteDir} = await loadSetup('versioned');
-    const sidebar = require(path.join(siteDir, 'sidebars.json'));
-    const result = loadSidebars({siteDir, env, sidebar});
-    expect(result).toMatchSnapshot();
-  });
-
-  test('site with missing versioned sidebars', async () => {
-    const env = {
-      versioning: {
-        enabled: true,
-        versions: ['2.0.0'],
-      },
-    };
-    const {siteDir} = await loadSetup('versioned');
-    expect(() => {
-      loadSidebars({siteDir, env, sidebar: {}});
-    }).toThrowErrorMatchingInlineSnapshot(
-      `"Failed to load versioned_sidebars/version-2.0.0-sidebars.json. It does not exist."`,
-    );
   });
 });

@@ -29,17 +29,11 @@ const Headings = ({headings, isChild}) => {
 };
 
 function DocBody(props) {
-  const {metadata, content, docsMetadata} = props;
-  const {language, version} = metadata;
-
-  const DocContents = content;
+  const {metadata, content: DocContent, docsMetadata} = props;
   return (
     <div className={styles.docBody}>
       <Head>
         {metadata && metadata.title && <title>{metadata.title}</title>}
-        {language && <html lang={language} />}
-        {language && <meta name="docsearch:language" content={language} />}
-        {version && <meta name="docsearch:version" content={version} />}
       </Head>
       <div className="container margin-vert--lg">
         <div className="row">
@@ -49,7 +43,7 @@ function DocBody(props) {
             </header>
             <article>
               <div className="markdown">
-                <DocContents />
+                <DocContent />
               </div>
             </article>
             <div className="margin-vert--lg">
@@ -57,7 +51,7 @@ function DocBody(props) {
             </div>
           </div>
           <div className="col col--3 col--offset-1">
-            {content.rightToc && <Headings headings={content.rightToc} />}
+            {DocContent.rightToc && <Headings headings={DocContent.rightToc} />}
           </div>
         </div>
       </div>
