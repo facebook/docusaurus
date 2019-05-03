@@ -104,37 +104,44 @@
 </code></pre>
 <ol start="2">
 <li>Go to <a href="http://localhost:3000/hello-world">http://localhost:3000/hello-world</a> and you should be able to see the new page.</li>
-<li>Change the text within the <code>&lt;p&gt;...&lt;/p&gt;</code> to &quot;I'm at F8!&quot;. The browser should refresh automatically to reflect the changes.</li>
+<li>Change the text within the <code>&lt;p&gt;...&lt;/p&gt;</code> to &quot;I can write JSX here!&quot;. The browser should refresh automatically to reflect the changes.</li>
 </ol>
 <pre><code class="hljs css language-diff"><span class="hljs-deletion">- &lt;p&gt;This is my first page!&lt;/p&gt;</span>
-<span class="hljs-addition">+ &lt;p&gt;I'm at F8!&lt;/p&gt;</span>
+<span class="hljs-addition">+ &lt;p&gt;I can write JSX here!&lt;/p&gt;</span>
 </code></pre>
 <p>React is being used as a templating engine for rendering static markup. You can leverage on the expressability of React to build rich web content. Learn more about creating pages <a href="custom-pages">here</a>.</p>
 <p><img alt="Docusaurus React" src="/img/undraw_docusaurus_react.svg" class="docImage"/></p>
 <h2><a class="anchor" aria-hidden="true" id="create-a-documentation-page"></a><a href="#create-a-documentation-page" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Create a Documentation Page</h2>
 <ol>
-<li>Create a new file in the <code>docs</code> folder called <code>f8.md</code>.</li>
+<li>Create a new file in the <code>docs</code> folder called <code>doc4.md</code>.</li>
 <li>Paste the following contents:</li>
 </ol>
-<pre><code class="hljs"><span class="hljs-meta">---</span>
-<span class="hljs-attr">id:</span> <span class="hljs-string">f8</span>
-<span class="hljs-attr">title:</span> <span class="hljs-string">Hello</span> <span class="hljs-string">F8</span>
-<span class="hljs-meta">---</span>
+<pre><code class="hljs">---
+id: doc4
+<span class="hljs-section">title: This is Doc 4
+---</span>
 
-<span class="hljs-string">Hello</span> <span class="hljs-string">F8!</span> <span class="hljs-string">I'm</span> <span class="hljs-string">at</span> <span class="hljs-string">the</span> <span class="hljs-string">Docusaurus</span> <span class="hljs-string">classroom</span> <span class="hljs-string">session!</span>
+I can write content using [<span class="hljs-string">GitHub-flavored Markdown syntax</span>](<span class="hljs-link">https://github.github.com/gfm/</span>).
 
-<span class="hljs-comment">## Using Docusaurus to Create Open Source Websites</span>
+<span class="hljs-section">## Markdown Syntax</span>
 
-<span class="hljs-string">In</span> <span class="hljs-string">this</span> <span class="hljs-string">session,</span> <span class="hljs-string">we</span> <span class="hljs-string">learned</span> <span class="hljs-string">how</span> <span class="hljs-string">Docusaurus</span> <span class="hljs-string">makes</span> <span class="hljs-string">it</span> <span class="hljs-string">really</span> <span class="hljs-string">simple</span> <span class="hljs-string">to</span> <span class="hljs-string">create</span> <span class="hljs-string">a</span> <span class="hljs-string">website</span> <span class="hljs-string">for</span> <span class="hljs-string">open</span> <span class="hljs-string">source</span> <span class="hljs-string">project</span> <span class="hljs-string">documentation</span> <span class="hljs-string">and</span> <span class="hljs-string">get</span> <span class="hljs-string">hands</span> <span class="hljs-string">on</span> <span class="hljs-string">by</span> <span class="hljs-string">creating</span> <span class="hljs-string">a</span> <span class="hljs-string">Docusaurus</span> <span class="hljs-string">website.</span>
+<span class="hljs-strong">**Bold**</span> <span class="hljs-emphasis">_italic_</span> <span class="hljs-code">`code`</span> [<span class="hljs-string">Links</span>](<span class="hljs-link">#url</span>)
+
+<span class="hljs-quote">&gt; Donec sit amet nisl. Aliquam semper ipsum sit amet velit. Suspendisse</span>
+<span class="hljs-quote">&gt; id sem consectetuer libero luctus adipiscing.</span>
+
+<span class="hljs-bullet">* </span>Hey
+<span class="hljs-bullet">* </span>Ho
+<span class="hljs-bullet">* </span>Let's Go
 </code></pre>
 <ol start="3">
-<li>Go to <code>sidebars.json</code> and add <code>&quot;f8&quot;</code> after <code>&quot;doc1&quot;</code>. This ID should be the same one as in the Markdown file above.</li>
+<li>Go to <code>sidebars.json</code> and add <code>&quot;doc4&quot;</code> after <code>&quot;doc1&quot;</code>. This ID should be the same one as in the Markdown file above.</li>
 </ol>
 <pre><code class="hljs css language-diff">{
   "docs": {
     "Docusaurus": [
       "doc1",
-<span class="hljs-addition">+     "f8"</span>
+<span class="hljs-addition">+     "doc4"</span>
     ],
     "First Category": ["doc2"],
     "Second Category": ["doc3"]
@@ -146,11 +153,11 @@
 </code></pre>
 <ol start="4">
 <li>Kill your webserver (<kbd>Cmd</kbd> + <kbd>C</kbd> or <kbd>Ctrl</kbd> + <kbd>C</kbd>) and restart it (with <code>npm run start</code>) because a server restart is needed for sidebar changes.</li>
-<li>Navigate to <a href="http://localhost:3000/docs/f8">http://localhost:3000/docs/f8</a>.</li>
+<li>Navigate to <a href="http://localhost:3000/docs/doc4">http://localhost:3000/docs/doc4</a>.</li>
 </ol>
 <p>You've created your first documentation page on Docusaurus! The <code>sidebars.json</code> is where you specify the order of your documentation pages and in the front matter of the Markdown file is where you provide metadata about that page.</p>
 <p>Learn more about creating docs pages <a href="navigation">here</a>.</p>
-</span></div></article></div><div class="docLastUpdate"><em>Last updated on 2019-4-29 by Yangshun Tay</em></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/en/next/tutorial-create-new-site"><span class="arrow-prev">← </span><span>Create a New Site</span></a><a class="docs-next button" href="/docs/en/next/tutorial-publish-site"><span>Publish the Site</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#creating-a-regular-page">Creating a Regular Page</a></li><li><a href="#create-a-documentation-page">Create a Documentation Page</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/docusaurus_monochrome.svg" alt="Docusaurus" width="66" height="58"/></a><div class="footerSection"><h5>Docs</h5><a href="
+</span></div></article></div><div class="docLastUpdate"><em>Last updated on 2019-5-3 by Yangshun Tay</em></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/en/next/tutorial-create-new-site"><span class="arrow-prev">← </span><span>Create a New Site</span></a><a class="docs-next button" href="/docs/en/next/tutorial-publish-site"><span>Publish the Site</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#creating-a-regular-page">Creating a Regular Page</a></li><li><a href="#create-a-documentation-page">Create a Documentation Page</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/docusaurus_monochrome.svg" alt="Docusaurus" width="66" height="58"/></a><div class="footerSection"><h5>Docs</h5><a href="
                 /docs/en/installation">Getting Started</a><a href="
                 /docs/en/versioning">Versioning</a><a href="
                 /docs/en/translation">Localization</a><a href="
