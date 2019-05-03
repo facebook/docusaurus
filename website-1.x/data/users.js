@@ -492,6 +492,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Taro',
+    image: '/img/users/taro.png',
+    infoLink: 'https://nervjs.github.io/taro/',
+    fbOpenSource: true,
+    pinned: true,
+  },
+  {
     caption: 'textlint',
     image: 'https://textlint.github.io/img/textlint-icon.png',
     infoLink: 'https://textlint.github.io/',
