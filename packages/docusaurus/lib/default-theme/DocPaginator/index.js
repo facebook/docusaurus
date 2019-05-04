@@ -8,9 +8,11 @@
 import React from 'react';
 import Link from '@docusaurus/Link';
 
-function DocsPaginator(props) {
-  const {docsMetadata, metadata} = props;
-  const {docs} = docsMetadata;
+function DocPaginator(props) {
+  const {
+    docsMetadata: {docs},
+    metadata,
+  } = props;
 
   return (
     <div className="row">
@@ -39,4 +41,4 @@ function DocsPaginator(props) {
   );
 }
 
-export default DocsPaginator;
+export default DocPaginator;

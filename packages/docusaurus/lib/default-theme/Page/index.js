@@ -8,7 +8,8 @@
 import React from 'react';
 import Layout from '@theme/Layout'; // eslint-disable-line
 
-function Pages({content: PageContent}) {
+function Page(props) {
+  const {content: PageContent} = props;
   return (
     <Layout>
       <PageContent />
@@ -16,4 +17,4 @@ function Pages({content: PageContent}) {
   );
 }
 
-export default Pages;
+export default Page;

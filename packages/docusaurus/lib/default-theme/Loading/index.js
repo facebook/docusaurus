@@ -11,7 +11,7 @@ import styles from './styles.module.css';
 
 export default props => {
   if (props.error) {
-    console.log(props.error);
+    console.warn(props.error);
     return <div align="center">Error</div>;
   }
 

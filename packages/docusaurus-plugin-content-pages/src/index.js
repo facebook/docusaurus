@@ -13,7 +13,7 @@ const DEFAULT_OPTIONS = {
   path: 'pages', // Path to data on filesystem, relative to site dir.
   routeBasePath: '', // URL Route.
   include: ['**/*.{js,jsx}'], // Extensions to include.
-  component: '@theme/Pages',
+  component: '@theme/Page',
 };
 
 class DocusaurusPluginContentPages {
