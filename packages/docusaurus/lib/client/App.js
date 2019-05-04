@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState} from 'react';
+import React from 'react';
 import {renderRoutes} from 'react-router-config';
 
 import Head from '@docusaurus/Head'; // eslint-disable-line
@@ -15,9 +15,8 @@ import DocusaurusContext from '@docusaurus/context'; // eslint-disable-line
 import PendingNavigation from './PendingNavigation';
 
 function App() {
-  const [context, setContext] = useState({});
   return (
-    <DocusaurusContext.Provider value={{siteConfig, ...context, setContext}}>
+    <DocusaurusContext.Provider value={{siteConfig}}>
       {/* TODO: this link stylesheet to infima is temporary */}
       <Head>
         <link

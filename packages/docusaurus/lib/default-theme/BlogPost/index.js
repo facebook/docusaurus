@@ -8,20 +8,20 @@
 import React from 'react';
 
 import Layout from '@theme/Layout'; // eslint-disable-line
-import Post from '../Post';
+import BlogPostItem from '../BlogPostItem';
 
-function BlogPost(props) {
-  const {content, metadata} = props;
-  const BlogPostContents = content;
+function BlogPostPage(props) {
+  const {content: BlogPostContents, metadata} = props;
+
   return (
     <Layout title={metadata.title}>
       {BlogPostContents && (
         <div className="container margin-vert--xl">
           <div className="row">
             <div className="col col--6 col--offset-3">
-              <Post metadata={metadata}>
+              <BlogPostItem metadata={metadata}>
                 <BlogPostContents />
-              </Post>
+              </BlogPostItem>
             </div>
           </div>
         </div>
@@ -30,4 +30,4 @@ function BlogPost(props) {
   );
 }
 
-export default BlogPost;
+export default BlogPostPage;

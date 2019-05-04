@@ -8,7 +8,7 @@
 import React from 'react';
 
 import Layout from '@theme/Layout'; // eslint-disable-line
-import Post from '../Post';
+import BlogPostItem from '../BlogPostItem';
 
 function BlogPage(props) {
   const {
@@ -23,9 +23,9 @@ function BlogPage(props) {
           <div className="col col--6 col--offset-3">
             {BlogPosts.map((PostContent, index) => (
               <div className="margin-bottom--xl" key={index}>
-                <Post truncated metadata={posts[index]}>
+                <BlogPostItem truncated metadata={posts[index]}>
                   <PostContent />
-                </Post>
+                </BlogPostItem>
               </div>
             ))}
           </div>

@@ -9,16 +9,18 @@ import React from 'react';
 import {renderRoutes} from 'react-router-config';
 
 import Layout from '@theme/Layout'; // eslint-disable-line
-import Sidebar from '@theme/Sidebar'; // eslint-disable-line
 
-function Doc(props) {
+import DocSidebar from '../DocSidebar';
+
+function DocPage(props) {
   const {route, docsMetadata, location} = props;
+
   return (
     <Layout noFooter>
       <div className="container container--fluid">
         <div className="row">
           <div className="col col--3">
-            <Sidebar docsMetadata={docsMetadata} location={location} />
+            <DocSidebar docsMetadata={docsMetadata} location={location} />
           </div>
           <div className="col col--9">
             {renderRoutes(route.routes, {docsMetadata})}
@@ -29,4 +31,4 @@ function Doc(props) {
   );
 }
 
-export default Doc;
+export default DocPage;

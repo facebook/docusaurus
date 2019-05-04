@@ -15,7 +15,6 @@ module.exports = function loadConfig(siteDir) {
     : path.resolve(__dirname, '../../default-theme');
 
   const requiredComponents = ['Loading', 'NotFound'];
-
   requiredComponents.forEach(component => {
     try {
       require.resolve(path.join(themePath, component));
