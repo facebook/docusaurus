@@ -11,7 +11,7 @@ import Link from '@docusaurus/Link'; // eslint-disable-line
 
 import './styles.css';
 
-function Sidebar(props) {
+function DocSidebar(props) {
   const {docsMetadata, location} = props;
 
   const id =
@@ -85,4 +85,4 @@ function Sidebar(props) {
   );
 }
 
-export default Sidebar;
+export default DocSidebar;

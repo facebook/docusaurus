@@ -8,7 +8,7 @@
 import React from 'react';
 import Link from '@docusaurus/Link';
 
-function Post(props) {
+function BlogPostItem(props) {
   const {metadata, children, truncated} = props;
   const renderPostHeader = () => {
     if (!metadata) {
@@ -86,7 +86,7 @@ function Post(props) {
   return (
     <div>
       {renderPostHeader()}
-      <article>{children}</article>
+      <article className="markdown">{children}</article>
       {truncated && (
         <div className="text--right">
           <Link className="button button--secondary" to={metadata.permalink}>
@@ -98,4 +98,4 @@ function Post(props) {
   );
 }
 
-export default Post;
+export default BlogPostItem;

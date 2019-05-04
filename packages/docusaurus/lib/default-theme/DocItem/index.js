@@ -7,12 +7,13 @@
 
 import React from 'react';
 
-import DocsPaginator from '@theme/DocsPaginator'; // eslint-disable-line
 import Head from '@docusaurus/Head';
+
+import DocPaginator from '../DocPaginator';
 
 import styles from './styles.module.css';
 
-const Headings = ({headings, isChild}) => {
+function Headings({headings, isChild}) {
   if (!headings.length) return null;
   return (
     <ul className={isChild ? 'contents' : 'contents contents__left-border'}>
@@ -26,10 +27,11 @@ const Headings = ({headings, isChild}) => {
       ))}
     </ul>
   );
-};
+}
 
-function DocBody(props) {
+function DocItem(props) {
   const {metadata, content: DocContent, docsMetadata} = props;
+
   return (
     <div className={styles.docBody}>
       <Head>
@@ -46,9 +48,9 @@ function DocBody(props) {
                 <DocContent />
               </div>
             </article>
-            <div className="margin-vert--lg">
-              <DocsPaginator docsMetadata={docsMetadata} metadata={metadata} />
-            </div>
+            <div className="margin-vert--lg" />
+
+            <DocPaginator docsMetadata={docsMetadata} metadata={metadata} />
           </div>
           <div className="col col--3 col--offset-1">
             {DocContent.rightToc && <Headings headings={DocContent.rightToc} />}
@@ -59,4 +61,4 @@ function DocBody(props) {
   );
 }
 
-export default DocBody;
+export default DocItem;
