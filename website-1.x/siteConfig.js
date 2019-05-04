@@ -22,9 +22,7 @@ const siteConfig = {
   headerLinks: [
     {doc: 'installation', label: 'Docs'},
     {href: '/docs/en/next/tutorial-setup', label: 'Tutorial'},
-    {page: 'help', label: 'Help'},
     {page: 'users', label: 'Users'},
-    {page: 'about-slash', label: 'About /'},
     {blog: true, label: 'Blog'},
     {
       href: 'https://github.com/facebook/docusaurus',
