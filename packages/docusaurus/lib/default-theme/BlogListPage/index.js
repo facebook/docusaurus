@@ -10,7 +10,7 @@ import React from 'react';
 import Layout from '@theme/Layout'; // eslint-disable-line
 import BlogPostItem from '../BlogPostItem';
 
-function BlogPage(props) {
+function BlogListPage(props) {
   const {
     metadata: {posts = []},
     entries: BlogPosts,
@@ -35,4 +35,4 @@ function BlogPage(props) {
   );
 }
 
-export default BlogPage;
+export default BlogListPage;
