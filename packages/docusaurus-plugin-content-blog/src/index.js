@@ -24,8 +24,8 @@ const DEFAULT_OPTIONS = {
   routeBasePath: 'blog', // URL Route.
   include: ['*.md', '*.mdx'], // Extensions to include.
   pageCount: 10, // How many entries per page.
-  blogListComponent: '@theme/BlogList',
-  blogItemComponent: '@theme/BlogPost',
+  blogListComponent: '@theme/BlogListPage',
+  blogPostComponent: '@theme/BlogPostPage',
 };
 
 class DocusaurusPluginContentBlog {
@@ -113,7 +113,7 @@ class DocusaurusPluginContentBlog {
   }
 
   async contentLoaded({content, actions}) {
-    const {blogListComponent, blogItemComponent} = this.options;
+    const {blogListComponent, blogPostComponent} = this.options;
     const {addRoute, createData} = actions;
     await Promise.all(
       content.map(async metadataItem => {
@@ -145,7 +145,7 @@ class DocusaurusPluginContentBlog {
 
         addRoute({
           path: permalink,
-          component: blogItemComponent,
+          component: blogPostComponent,
           exact: true,
           modules: {
             content: metadataItem.source,
