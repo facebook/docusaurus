@@ -13,7 +13,6 @@ const DEFAULT_OPTIONS = {
   path: 'pages', // Path to data on filesystem, relative to site dir.
   routeBasePath: '', // URL Route.
   include: ['**/*.{js,jsx}'], // Extensions to include.
-  component: '@theme/Page',
 };
 
 class DocusaurusPluginContentPages {
@@ -65,7 +64,6 @@ class DocusaurusPluginContentPages {
   }
 
   async contentLoaded({content, actions}) {
-    const {component} = this.options;
     const {addRoute, createData} = actions;
 
     await Promise.all(
@@ -77,10 +75,9 @@ class DocusaurusPluginContentPages {
         );
         addRoute({
           path: permalink,
-          component,
+          component: source,
           exact: true,
           modules: {
-            content: source,
             metadata: metadataPath,
           },
         });

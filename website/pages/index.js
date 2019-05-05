@@ -10,6 +10,8 @@ import Head from '@docusaurus/Head';
 import DocusaurusContext from '@docusaurus/context';
 import Link from '@docusaurus/Link';
 
+import Layout from '@theme/Layout';
+
 import classnames from 'classnames';
 
 import styles from './styles.module.css';
@@ -73,7 +75,7 @@ function Home() {
   }, []);
 
   return (
-    <div>
+    <Layout>
       <div className={styles['index-hero']}>
         <div className={styles['index-hero-inner']}>
           <h1 className={styles['index-hero-project-tagline']}>
@@ -214,7 +216,7 @@ function Home() {
           </div>
         </div>
       </div>
-    </div>
+    </Layout>
   );
 }
 
