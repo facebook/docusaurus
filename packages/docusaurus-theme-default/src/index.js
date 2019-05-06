@@ -25,7 +25,6 @@ class DocusaurusThemeDefault {
         alias: {
           '@theme/Footer': path.resolve(__dirname, './theme/Footer'),
           '@theme/Layout': path.resolve(__dirname, './theme/Layout'),
-          '@theme/Loading': path.resolve(__dirname, './theme/Loading'),
           '@theme/Navbar': path.resolve(__dirname, './theme/Navbar'),
           '@theme/NotFound': path.resolve(__dirname, './theme/NotFound'),
           '@theme/Search': path.resolve(__dirname, './theme/Search'),
