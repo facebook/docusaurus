@@ -59,7 +59,6 @@ function getBabelLoader(isServer, babelOptions) {
         presets: ['@babel/env', '@babel/react'],
         plugins: [
           isServer ? 'dynamic-import-node' : '@babel/syntax-dynamic-import',
-          'react-loadable/babel',
         ],
       },
       babelOptions,
