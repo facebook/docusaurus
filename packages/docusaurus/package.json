@@ -45,7 +45,6 @@
     "clean-webpack-plugin": "^2.0.1",
     "commander": "^2.16.0",
     "css-loader": "^1.0.0",
-    "docsearch.js": "^2.5.2",
     "ejs": "^2.6.1",
     "envinfo": "^7.2.0",
     "express": "^4.16.4",

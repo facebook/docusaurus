@@ -18,7 +18,6 @@ const CSS_MODULE_REGEX = /\.module\.css$/;
 module.exports = function createBaseConfig(props, isServer) {
   const {
     outDir,
-    themePath,
     siteDir,
     baseUrl,
     generatedFilesDir,
@@ -42,10 +41,7 @@ module.exports = function createBaseConfig(props, isServer) {
     resolve: {
       symlinks: true,
       alias: {
-        ejs: 'ejs/ejs.min.js',
-        '@theme': themePath,
         '@site': siteDir,
-        '@build': outDir,
         '@generated': generatedFilesDir,
         '@docusaurus': path.resolve(__dirname, '../client/exports'),
       },

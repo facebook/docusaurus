@@ -26,7 +26,7 @@ module.exports = {
   },
   presets: [
     [
-      '@docusaurus/preset-classic',
+      '@docusaurus/preset-default',
       {
         docs: {
           path: 'docs',

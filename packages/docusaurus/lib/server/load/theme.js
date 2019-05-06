@@ -8,22 +8,26 @@
 const fs = require('fs-extra');
 const path = require('path');
 
-module.exports = function loadConfig(siteDir) {
-  const customThemePath = path.resolve(siteDir, 'theme');
-  const themePath = fs.existsSync(customThemePath)
-    ? customThemePath
-    : path.resolve(__dirname, '../../default-theme');
+module.exports = async function loadConfig(siteDir) {
+  const themePath = path.resolve(siteDir, 'theme');
+  if (!fs.existsSync(themePath)) {
+    return null;
+  }
 
-  const requiredComponents = ['Loading', 'NotFound'];
-  requiredComponents.forEach(component => {
-    try {
-      require.resolve(path.join(themePath, component));
-    } catch (e) {
-      throw new Error(
-        `Failed to load ${themePath}/${component}. It does not exist.`,
-      );
-    }
-  });
+  // Read all the theme components in the theme directory of website.
+  const readdirSync = dir => (fs.existsSync(dir) && fs.readdirSync(dir)) || [];
+  const themeComponentFiles = readdirSync(themePath);
 
-  return themePath;
+  const alias = {};
+  await Promise.all(
+    themeComponentFiles.map(async component => {
+      const filePath = path.join(themePath, component);
+      const fileStats = await fs.stat(filePath);
+      const fileExt = fileStats.isFile() ? path.extname(filePath) : '';
+      const fileName = path.basename(filePath, fileExt);
+      alias[`@theme/${fileName}`] = filePath;
+    }),
+  );
+
+  return alias;
 };

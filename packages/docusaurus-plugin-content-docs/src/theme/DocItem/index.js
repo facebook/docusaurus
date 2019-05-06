@@ -9,7 +9,7 @@ import React from 'react';
 
 import Head from '@docusaurus/Head';
 
-import DocPaginator from '../DocPaginator';
+import DocPaginator from '@theme/DocPaginator';
 
 import styles from './styles.module.css';
 

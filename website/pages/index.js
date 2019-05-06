@@ -66,7 +66,7 @@ function Home() {
 
   // TODO: (wrapper function) API so that user won't need to concatenate url manually
   const feedbackUrl = `${siteConfig.baseUrl}feedback/`;
-  const gettingStartedUrl = `${siteConfig.baseUrl}docs/installation`;
+  const gettingStartedUrl = `${siteConfig.baseUrl}docs/introduction`;
 
   useEffect(() => {
     // Prefetch feedback pages & getting started pages
