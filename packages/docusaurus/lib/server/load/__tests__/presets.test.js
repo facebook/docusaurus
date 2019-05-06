@@ -255,7 +255,7 @@ Object {
   ],
   "themes": Array [
     Object {
-      "name": "@docusaurus/theme-default",
+      "name": "@docusaurus/theme-classic",
       "options": undefined,
     },
   ],

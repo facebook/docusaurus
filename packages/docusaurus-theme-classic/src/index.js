@@ -16,7 +16,7 @@ class DocusaurusThemeDefault {
   }
 
   getName() {
-    return 'docusaurus-theme-default';
+    return 'docusaurus-theme-classic';
   }
 
   configureWebpack() {
@@ -24,7 +24,6 @@ class DocusaurusThemeDefault {
       resolve: {
         alias: {
           '@theme/Footer': path.resolve(__dirname, './theme/Footer'),
-          '@theme/Layout': path.resolve(__dirname, './theme/Layout'),
           '@theme/Navbar': path.resolve(__dirname, './theme/Navbar'),
           '@theme/NotFound': path.resolve(__dirname, './theme/NotFound'),
           '@theme/Search': path.resolve(__dirname, './theme/Search'),

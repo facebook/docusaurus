@@ -1,7 +1,7 @@
 {
-  "name": "@docusaurus/preset-default",
+  "name": "@docusaurus/preset-classic",
   "version": "2.0.0-alpha.13",
-  "description": "Preset for default Docusaurus",
+  "description": "Preset for classic Docusaurus",
   "main": "src/index.js",
   "publishConfig": {
     "access": "public"

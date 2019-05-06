@@ -2,7 +2,7 @@ module.exports = function preset(context, opts = {}) {
   return {
     themes: [
       {
-        name: '@docusaurus/theme-default',
+        name: '@docusaurus/theme-classic',
         options: opts.test,
       },
     ],
