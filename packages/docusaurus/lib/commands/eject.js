@@ -8,16 +8,28 @@
 const fs = require('fs-extra');
 const chalk = require('chalk');
 const path = require('path');
+const importFresh = require('import-fresh');
 
-module.exports = async function eject(siteDir) {
-  const defaultTheme = path.resolve(__dirname, '..', 'default-theme');
-  const customTheme = path.resolve(siteDir, 'theme');
-  await fs.copy(defaultTheme, customTheme);
+module.exports = async function eject(siteDir, pluginName) {
+  let Plugin;
+  try {
+    Plugin = importFresh(pluginName);
+  } catch (ex) {
+    throw new Error(`Error loading '${pluginName}' plugin.`);
+  }
 
-  const relativeDir = path.relative(process.cwd(), customTheme);
-  console.log(
-    `\n${chalk.green('Success!')} Copied default theme files to ${chalk.cyan(
-      relativeDir,
-    )}.\n`,
-  );
+  const PluginInstance = new Plugin();
+  const fromPath = PluginInstance.getThemePath();
+
+  if (fromPath) {
+    const toPath = path.resolve(siteDir, 'theme');
+    await fs.copy(fromPath, toPath);
+
+    const relativeDir = path.relative(process.cwd(), toPath);
+    console.log(
+      `\n${chalk.green('Success!')} Copied ${chalk.blue(
+        pluginName,
+      )} theme files to ${chalk.cyan(relativeDir)}.\n`,
+    );
+  }
 };

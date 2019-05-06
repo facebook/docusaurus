@@ -51,10 +51,31 @@ module.exports = async function load(siteDir, cliOptions = {}) {
   const outDir = path.resolve(siteDir, 'build');
   const {baseUrl} = siteConfig;
 
-  // Resolve custom theme override aliases.
-  const themeAliases = await loadTheme(siteDir);
-  // Make a fake plugin to resolve user's theme overrides.
-  if (themeAliases != null) {
+  let themeAliases = {};
+  // create theme aliases from plugins
+  await Promise.all(
+    plugins.map(async plugin => {
+      if (!plugin.getThemePath) {
+        return;
+      }
+      const aliases = await loadTheme(plugin.getThemePath());
+      themeAliases = {
+        ...themeAliases,
+        ...aliases,
+      };
+    }),
+  );
+
+  // user's own theme override. Highest priority
+  const themePath = path.resolve(siteDir, 'theme');
+  const aliases = await loadTheme(themePath);
+  themeAliases = {
+    ...themeAliases,
+    ...aliases,
+  };
+
+  // Make a fake plugin to resolve alias theme.
+  if (themeAliases !== {}) {
     plugins.push({
       configureWebpack: () => ({
         resolve: {

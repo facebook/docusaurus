@@ -55,10 +55,12 @@ program
   });
 
 program
-  .command('eject [siteDir]')
-  .description('copy the default theme into website folder for customization.')
-  .action((siteDir = '.') => {
-    wrapCommand(eject)(path.resolve(siteDir));
+  .command('eject <pluginName> [siteDir] ')
+  .description(
+    'copy the plugin theme files into website folder for customization.',
+  )
+  .action((pluginName, siteDir = '.') => {
+    wrapCommand(eject)(path.resolve(siteDir), pluginName);
   });
 
 program
