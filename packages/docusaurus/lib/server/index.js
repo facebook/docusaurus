@@ -51,8 +51,13 @@ module.exports = async function load(siteDir, cliOptions = {}) {
   const outDir = path.resolve(siteDir, 'build');
   const {baseUrl} = siteConfig;
 
-  let themeAliases = {};
-  // create theme aliases from plugins
+  // Default theme components that are essential and must exist in a Docusaurus app
+  // These can be overriden in plugins/ through component shadowing.
+  // However, we alias it here first as a fallback.
+  const themeFallback = path.resolve(__dirname, '../client/theme-fallback');
+  let themeAliases = await loadTheme(themeFallback);
+
+  // create theme alias from plugins
   await Promise.all(
     plugins.map(async plugin => {
       if (!plugin.getThemePath) {
@@ -66,7 +71,7 @@ module.exports = async function load(siteDir, cliOptions = {}) {
     }),
   );
 
-  // user's own theme override. Highest priority
+  // user's own theme alias override. Highest priority
   const themePath = path.resolve(siteDir, 'theme');
   const aliases = await loadTheme(themePath);
   themeAliases = {
@@ -75,15 +80,13 @@ module.exports = async function load(siteDir, cliOptions = {}) {
   };
 
   // Make a fake plugin to resolve alias theme.
-  if (themeAliases !== {}) {
-    plugins.push({
-      configureWebpack: () => ({
-        resolve: {
-          alias: themeAliases,
-        },
-      }),
-    });
-  }
+  plugins.push({
+    configureWebpack: () => ({
+      resolve: {
+        alias: themeAliases,
+      },
+    }),
+  });
 
   // Routing
   const {
