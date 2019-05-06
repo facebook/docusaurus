@@ -7,29 +7,28 @@
 
 const importFresh = require('import-fresh');
 const _ = require('lodash');
-const fs = require('fs-extra');
 
 module.exports = function loadPresets(context) {
   const presets = context.siteConfig.presets || [];
-  return _.flatten(
-    presets.map(presetItem => {
-      let presetModule;
-      let presetOptions = {};
-      if (typeof presetItem === 'string') {
-        presetModule = presetItem;
-      } else if (Array.isArray(presetItem)) {
-        [presetModule, presetOptions] = presetItem;
-      }
+  const plugins = [];
+  const themes = [];
 
-      let preset;
-      if (presetModule && fs.existsSync(presetModule)) {
-        // Local preset.
-        preset = importFresh(presetModule);
-      } else {
-        // From npm.
-        preset = importFresh(presetModule);
-      }
-      return preset(context, presetOptions).plugins;
-    }),
-  );
+  presets.forEach(presetItem => {
+    let presetModule;
+    let presetOptions = {};
+    if (typeof presetItem === 'string') {
+      presetModule = presetItem;
+    } else if (Array.isArray(presetItem)) {
+      [presetModule, presetOptions] = presetItem;
+    }
+
+    const preset = importFresh(presetModule);
+    plugins.push(preset(context, presetOptions).plugins);
+    themes.push(preset(context, presetOptions).themes);
+  });
+
+  return {
+    plugins: _.compact(_.flatten(plugins)),
+    themes: _.compact(_.flatten(themes)),
+  };
 };

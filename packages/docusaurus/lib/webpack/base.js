@@ -18,7 +18,6 @@ const CSS_MODULE_REGEX = /\.module\.css$/;
 module.exports = function createBaseConfig(props, isServer) {
   const {
     outDir,
-    themePath,
     siteDir,
     baseUrl,
     generatedFilesDir,
@@ -26,6 +25,7 @@ module.exports = function createBaseConfig(props, isServer) {
   } = props;
 
   const isProd = process.env.NODE_ENV === 'production';
+  const themeFallback = path.resolve(__dirname, '../client/theme-fallback');
   return {
     mode: isProd ? 'production' : 'development',
     output: {
@@ -42,10 +42,14 @@ module.exports = function createBaseConfig(props, isServer) {
     resolve: {
       symlinks: true,
       alias: {
+        // https://stackoverflow.com/a/55433680/6072730
         ejs: 'ejs/ejs.min.js',
-        '@theme': themePath,
+        // These alias can be overriden in plugins. However, these components are essential
+        // (e.g: react-loadable requires Loading component) so we alias it here first as fallback.
+        '@theme/Layout': path.join(themeFallback, 'Layout'),
+        '@theme/Loading': path.join(themeFallback, 'Loading'),
+        '@theme/NotFound': path.join(themeFallback, 'NotFound'),
         '@site': siteDir,
-        '@build': outDir,
         '@generated': generatedFilesDir,
         '@docusaurus': path.resolve(__dirname, '../client/exports'),
       },

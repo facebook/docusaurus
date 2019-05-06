@@ -13,7 +13,12 @@ import loadPresets from '../presets';
 describe('loadPresets', () => {
   test('no presets', () => {
     const presets = loadPresets({siteConfig: {presets: []}});
-    expect(presets).toEqual([]);
+    expect(presets).toMatchInlineSnapshot(`
+Object {
+  "plugins": Array [],
+  "themes": Array [],
+}
+`);
   });
 
   test('string form', () => {
@@ -23,16 +28,19 @@ describe('loadPresets', () => {
       },
     });
     expect(presets).toMatchInlineSnapshot(`
-Array [
-  Object {
-    "name": "@docusaurus/plugin-content-docs",
-    "options": undefined,
-  },
-  Object {
-    "name": "@docusaurus/plugin-content-blog",
-    "options": undefined,
-  },
-]
+Object {
+  "plugins": Array [
+    Object {
+      "name": "@docusaurus/plugin-content-docs",
+      "options": undefined,
+    },
+    Object {
+      "name": "@docusaurus/plugin-content-blog",
+      "options": undefined,
+    },
+  ],
+  "themes": Array [],
+}
 `);
   });
 
@@ -46,24 +54,27 @@ Array [
       },
     });
     expect(presets).toMatchInlineSnapshot(`
-Array [
-  Object {
-    "name": "@docusaurus/plugin-content-docs",
-    "options": undefined,
-  },
-  Object {
-    "name": "@docusaurus/plugin-content-blog",
-    "options": undefined,
-  },
-  Object {
-    "name": "@docusaurus/plugin-content-pages",
-    "options": undefined,
-  },
-  Object {
-    "name": "@docusaurus/plugin-sitemap",
-    "options": undefined,
-  },
-]
+Object {
+  "plugins": Array [
+    Object {
+      "name": "@docusaurus/plugin-content-docs",
+      "options": undefined,
+    },
+    Object {
+      "name": "@docusaurus/plugin-content-blog",
+      "options": undefined,
+    },
+    Object {
+      "name": "@docusaurus/plugin-content-pages",
+      "options": undefined,
+    },
+    Object {
+      "name": "@docusaurus/plugin-sitemap",
+      "options": undefined,
+    },
+  ],
+  "themes": Array [],
+}
 `);
   });
 
@@ -74,16 +85,19 @@ Array [
       },
     });
     expect(presets).toMatchInlineSnapshot(`
-Array [
-  Object {
-    "name": "@docusaurus/plugin-content-docs",
-    "options": undefined,
-  },
-  Object {
-    "name": "@docusaurus/plugin-content-blog",
-    "options": undefined,
-  },
-]
+Object {
+  "plugins": Array [
+    Object {
+      "name": "@docusaurus/plugin-content-docs",
+      "options": undefined,
+    },
+    Object {
+      "name": "@docusaurus/plugin-content-blog",
+      "options": undefined,
+    },
+  ],
+  "themes": Array [],
+}
 `);
   });
 
@@ -99,18 +113,21 @@ Array [
       },
     });
     expect(presets).toMatchInlineSnapshot(`
-Array [
-  Object {
-    "name": "@docusaurus/plugin-content-docs",
-    "options": Object {
-      "path": "../",
+Object {
+  "plugins": Array [
+    Object {
+      "name": "@docusaurus/plugin-content-docs",
+      "options": Object {
+        "path": "../",
+      },
     },
-  },
-  Object {
-    "name": "@docusaurus/plugin-content-blog",
-    "options": undefined,
-  },
-]
+    Object {
+      "name": "@docusaurus/plugin-content-blog",
+      "options": undefined,
+    },
+  ],
+  "themes": Array [],
+}
 `);
   });
 
@@ -130,28 +147,31 @@ Array [
       },
     });
     expect(presets).toMatchInlineSnapshot(`
-Array [
-  Object {
-    "name": "@docusaurus/plugin-content-docs",
-    "options": Object {
-      "path": "../",
+Object {
+  "plugins": Array [
+    Object {
+      "name": "@docusaurus/plugin-content-docs",
+      "options": Object {
+        "path": "../",
+      },
     },
-  },
-  Object {
-    "name": "@docusaurus/plugin-content-blog",
-    "options": undefined,
-  },
-  Object {
-    "name": "@docusaurus/plugin-content-pages",
-    "options": Object {
-      "path": "../",
+    Object {
+      "name": "@docusaurus/plugin-content-blog",
+      "options": undefined,
     },
-  },
-  Object {
-    "name": "@docusaurus/plugin-sitemap",
-    "options": undefined,
-  },
-]
+    Object {
+      "name": "@docusaurus/plugin-content-pages",
+      "options": Object {
+        "path": "../",
+      },
+    },
+    Object {
+      "name": "@docusaurus/plugin-sitemap",
+      "options": undefined,
+    },
+  ],
+  "themes": Array [],
+}
 `);
   });
 
@@ -168,26 +188,78 @@ Array [
       },
     });
     expect(presets).toMatchInlineSnapshot(`
-Array [
-  Object {
-    "name": "@docusaurus/plugin-content-docs",
-    "options": Object {
-      "path": "../",
+Object {
+  "plugins": Array [
+    Object {
+      "name": "@docusaurus/plugin-content-docs",
+      "options": Object {
+        "path": "../",
+      },
     },
-  },
-  Object {
-    "name": "@docusaurus/plugin-content-blog",
-    "options": undefined,
-  },
-  Object {
-    "name": "@docusaurus/plugin-content-pages",
-    "options": undefined,
-  },
-  Object {
-    "name": "@docusaurus/plugin-sitemap",
-    "options": undefined,
-  },
-]
+    Object {
+      "name": "@docusaurus/plugin-content-blog",
+      "options": undefined,
+    },
+    Object {
+      "name": "@docusaurus/plugin-content-pages",
+      "options": undefined,
+    },
+    Object {
+      "name": "@docusaurus/plugin-sitemap",
+      "options": undefined,
+    },
+  ],
+  "themes": Array [],
+}
+`);
+  });
+
+  test('mixed form with themes', () => {
+    const presets = loadPresets({
+      siteConfig: {
+        presets: [
+          [
+            path.join(__dirname, '__fixtures__/preset-bar.js'),
+            {docs: {path: '../'}},
+          ],
+          path.join(__dirname, '__fixtures__/preset-foo.js'),
+          path.join(__dirname, '__fixtures__/preset-qux.js'),
+        ],
+      },
+    });
+    expect(presets).toMatchInlineSnapshot(`
+Object {
+  "plugins": Array [
+    Object {
+      "name": "@docusaurus/plugin-content-docs",
+      "options": Object {
+        "path": "../",
+      },
+    },
+    Object {
+      "name": "@docusaurus/plugin-content-blog",
+      "options": undefined,
+    },
+    Object {
+      "name": "@docusaurus/plugin-content-pages",
+      "options": undefined,
+    },
+    Object {
+      "name": "@docusaurus/plugin-sitemap",
+      "options": undefined,
+    },
+    Object {
+      "name": "@docusaurus/plugin-test",
+      "options": undefined,
+    },
+  ],
+  "themes": Array [
+    Object {
+      "name": "@docusaurus/theme-classic",
+      "options": undefined,
+    },
+  ],
+}
 `);
   });
 });

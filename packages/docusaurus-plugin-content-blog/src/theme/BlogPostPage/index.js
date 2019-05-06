@@ -8,7 +8,7 @@
 import React from 'react';
 
 import Layout from '@theme/Layout'; // eslint-disable-line
-import BlogPostItem from '../BlogPostItem';
+import BlogPostItem from '@theme/BlogPostItem';
 
 function BlogPostPage(props) {
   const {content: BlogPostContents, metadata} = props;

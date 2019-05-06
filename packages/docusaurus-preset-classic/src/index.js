@@ -7,6 +7,11 @@
 
 module.exports = function preset(context, opts = {}) {
   return {
+    themes: [
+      {
+        name: '@docusaurus/theme-classic',
+      },
+    ],
     plugins: [
       {
         name: '@docusaurus/plugin-content-docs',

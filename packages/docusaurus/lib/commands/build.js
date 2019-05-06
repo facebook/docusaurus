@@ -84,7 +84,7 @@ module.exports = async function build(siteDir, cliOptions = {}) {
     );
   });
 
-  // Run webpack to build js bundle (client) and static html files (server) !!
+  // Run webpack to build JS bundle (client) and static html files (server).
   await compile([clientConfig, serverConfig]);
 
   // Remove server.bundle.js because it is useless
