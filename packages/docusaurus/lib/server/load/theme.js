@@ -5,27 +5,30 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+const globby = require('globby');
 const fs = require('fs-extra');
 const path = require('path');
+const {fileToPath, posixPath, normalizeUrl} = require('@docusaurus/utils');
 
-module.exports = async function loadConfig(siteDir) {
+module.exports = async function loadTheme(siteDir) {
   const themePath = path.resolve(siteDir, 'theme');
   if (!fs.existsSync(themePath)) {
     return null;
   }
 
-  // Read all the theme components in the theme directory of website.
-  const readdirSync = dir => (fs.existsSync(dir) && fs.readdirSync(dir)) || [];
-  const themeComponentFiles = readdirSync(themePath);
+  const themeComponentFiles = await globby(['**/*.{js,jsx}'], {
+    cwd: themePath,
+  });
 
   const alias = {};
   await Promise.all(
-    themeComponentFiles.map(async component => {
-      const filePath = path.join(themePath, component);
-      const fileStats = await fs.stat(filePath);
-      const fileExt = fileStats.isFile() ? path.extname(filePath) : '';
-      const fileName = path.basename(filePath, fileExt);
-      alias[`@theme/${fileName}`] = filePath;
+    themeComponentFiles.map(async relativeSource => {
+      const filePath = path.join(themePath, relativeSource);
+      const fileName = fileToPath(relativeSource);
+      const aliasName = posixPath(
+        normalizeUrl(['@theme', fileName]).replace(/\/$/, ''),
+      );
+      alias[aliasName] = filePath;
     }),
   );
 
