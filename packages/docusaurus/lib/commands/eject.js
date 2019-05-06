@@ -18,7 +18,8 @@ module.exports = async function eject(siteDir, pluginName) {
     throw new Error(`Error loading '${pluginName}' plugin.`);
   }
 
-  const PluginInstance = new Plugin();
+  const context = {siteDir};
+  const PluginInstance = new Plugin(context);
   const fromPath = PluginInstance.getThemePath();
 
   if (fromPath) {
