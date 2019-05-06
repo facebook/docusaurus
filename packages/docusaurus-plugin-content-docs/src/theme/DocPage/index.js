@@ -10,7 +10,7 @@ import {renderRoutes} from 'react-router-config';
 
 import Layout from '@theme/Layout'; // eslint-disable-line
 
-import DocSidebar from '../DocSidebar';
+import DocSidebar from '@theme/DocSidebar';
 
 function DocPage(props) {
   const {route, docsMetadata, location} = props;

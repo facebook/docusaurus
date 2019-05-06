@@ -31,10 +31,18 @@ module.exports = async function load(siteDir, cliOptions = {}) {
   const context = {siteDir, generatedFilesDir, siteConfig, cliOptions};
 
   // Process presets.
-  const presetPlugins = loadPresets(context);
+  const {plugins: presetPlugins, themes: presetThemes} = loadPresets(context);
 
-  // Process plugins.
-  const pluginConfigs = [...presetPlugins, ...siteConfig.plugins];
+  // Process plugins and themes. Themes are also plugins, but they run after all
+  // the explicit plugins because they may override the resolve.alias(es)
+  // defined by the plugins.
+  const pluginConfigs = [
+    ...presetPlugins,
+    ...(siteConfig.plugins || []),
+    ...presetThemes,
+    ...(siteConfig.themes || []),
+  ];
+
   const {plugins, pluginsRouteConfigs} = await loadPlugins({
     pluginConfigs,
     context,
@@ -43,8 +51,18 @@ module.exports = async function load(siteDir, cliOptions = {}) {
   const outDir = path.resolve(siteDir, 'build');
   const {baseUrl} = siteConfig;
 
-  // Resolve theme. TBD (Experimental)
-  const themePath = loadTheme(siteDir);
+  // Resolve custom theme override aliases.
+  const themeAliases = await loadTheme(siteDir);
+  // Make a fake plugin to resolve user's theme overrides.
+  if (themeAliases != null) {
+    plugins.push({
+      configureWebpack: () => ({
+        resolve: {
+          alias: themeAliases,
+        },
+      }),
+    });
+  }
 
   // Routing
   const {
@@ -81,7 +99,6 @@ ${Object.keys(registry)
     siteConfig,
     siteDir,
     outDir,
-    themePath,
     baseUrl,
     generatedFilesDir,
     routesPaths,

@@ -18,6 +18,12 @@
     "loader-utils": "^1.2.3"
   },
   "peerDependencies": {
-    "@docusaurus/core": "^2.0.0"
+    "@docusaurus/core": "^2.0.0",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4",
+    "react-router-config": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=8"
   }
 }
