@@ -151,19 +151,12 @@ class DocusaurusPluginContentDocs {
     });
   }
 
+  getThemePath() {
+    return path.resolve(__dirname, './theme');
+  }
+
   configureWebpack(config, isServer, {getBabelLoader, getCacheLoader}) {
     return {
-      resolve: {
-        alias: {
-          '@theme/DocItem': path.resolve(__dirname, './theme/DocItem'),
-          '@theme/DocPage': path.resolve(__dirname, './theme/DocPage'),
-          '@theme/DocPaginator': path.resolve(
-            __dirname,
-            './theme/DocPaginator',
-          ),
-          '@theme/DocSidebar': path.resolve(__dirname, './theme/DocSidebar'),
-        },
-      },
       module: {
         rules: [
           {

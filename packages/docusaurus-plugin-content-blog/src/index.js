@@ -156,24 +156,12 @@ class DocusaurusPluginContentBlog {
     );
   }
 
+  getThemePath() {
+    return path.resolve(__dirname, './theme');
+  }
+
   configureWebpack(config, isServer, {getBabelLoader, getCacheLoader}) {
     return {
-      resolve: {
-        alias: {
-          '@theme/BlogListPage': path.resolve(
-            __dirname,
-            './theme/BlogListPage',
-          ),
-          '@theme/BlogPostItem': path.resolve(
-            __dirname,
-            './theme/BlogPostItem',
-          ),
-          '@theme/BlogPostPage': path.resolve(
-            __dirname,
-            './theme/BlogPostPage',
-          ),
-        },
-      },
       module: {
         rules: [
           {

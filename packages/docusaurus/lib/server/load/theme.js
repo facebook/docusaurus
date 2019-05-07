@@ -10,8 +10,7 @@ const fs = require('fs-extra');
 const path = require('path');
 const {fileToPath, posixPath, normalizeUrl} = require('@docusaurus/utils');
 
-module.exports = async function loadTheme(siteDir) {
-  const themePath = path.resolve(siteDir, 'theme');
+module.exports = async function loadTheme(themePath) {
   if (!fs.existsSync(themePath)) {
     return null;
   }
