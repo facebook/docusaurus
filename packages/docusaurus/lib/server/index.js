@@ -51,18 +51,42 @@ module.exports = async function load(siteDir, cliOptions = {}) {
   const outDir = path.resolve(siteDir, 'build');
   const {baseUrl} = siteConfig;
 
-  // Resolve custom theme override aliases.
-  const themeAliases = await loadTheme(siteDir);
-  // Make a fake plugin to resolve user's theme overrides.
-  if (themeAliases != null) {
-    plugins.push({
-      configureWebpack: () => ({
-        resolve: {
-          alias: themeAliases,
-        },
-      }),
-    });
-  }
+  // Default theme components that are essential and must exist in a Docusaurus app
+  // These can be overriden in plugins/ through component swizzling.
+  // However, we alias it here first as a fallback.
+  const themeFallback = path.resolve(__dirname, '../client/theme-fallback');
+  let themeAliases = await loadTheme(themeFallback);
+
+  // create theme alias from plugins
+  await Promise.all(
+    plugins.map(async plugin => {
+      if (!plugin.getThemePath) {
+        return;
+      }
+      const aliases = await loadTheme(plugin.getThemePath());
+      themeAliases = {
+        ...themeAliases,
+        ...aliases,
+      };
+    }),
+  );
+
+  // user's own theme alias override. Highest priority
+  const themePath = path.resolve(siteDir, 'theme');
+  const aliases = await loadTheme(themePath);
+  themeAliases = {
+    ...themeAliases,
+    ...aliases,
+  };
+
+  // Make a fake plugin to resolve alias theme.
+  plugins.push({
+    configureWebpack: () => ({
+      resolve: {
+        alias: themeAliases,
+      },
+    }),
+  });
 
   // Routing
   const {

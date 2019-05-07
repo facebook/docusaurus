@@ -12,7 +12,7 @@ const envinfo = require('envinfo');
 const semver = require('semver');
 const path = require('path');
 const program = require('commander');
-const {build, eject, init, deploy, start} = require('../lib');
+const {build, swizzle, init, deploy, start} = require('../lib');
 const requiredVersion = require('../package.json').engines.node;
 
 if (!semver.satisfies(process.version, requiredVersion)) {
@@ -55,10 +55,10 @@ program
   });
 
 program
-  .command('eject [siteDir]')
-  .description('copy the default theme into website folder for customization.')
-  .action((siteDir = '.') => {
-    wrapCommand(eject)(path.resolve(siteDir));
+  .command('swizzle <themeName> [componentName] [siteDir]')
+  .description('Copy the theme files into website folder for customization.')
+  .action((themeName, componentName, siteDir = '.') => {
+    wrapCommand(swizzle)(path.resolve(siteDir), themeName, componentName);
   });
 
 program

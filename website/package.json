@@ -5,7 +5,7 @@
   "scripts": {
     "start": "docusaurus start",
     "build": "docusaurus build",
-    "eject": "docusaurus eject",
+    "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy"
   },
   "dependencies": {
