@@ -52,7 +52,7 @@ module.exports = async function load(siteDir, cliOptions = {}) {
   const {baseUrl} = siteConfig;
 
   // Default theme components that are essential and must exist in a Docusaurus app
-  // These can be overriden in plugins/ through component shadowing.
+  // These can be overriden in plugins/ through component swizzling.
   // However, we alias it here first as a fallback.
   const themeFallback = path.resolve(__dirname, '../client/theme-fallback');
   let themeAliases = await loadTheme(themeFallback);
