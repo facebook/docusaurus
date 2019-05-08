@@ -1,13 +1,12 @@
 [ignore]
 
 [include]
-node_modules/@docusaurus
 
 [libs]
 
 [lints]
 
 [options]
-module.name_mapper='^@docusaurus\/\([a-zA-Z0-9_\-]+\)$' -> '<PROJECT_ROOT>/packages/docusaurus-\1/'
+module.name_mapper='^@docusaurus\/\([a-zA-Z0-9_\-]+\)$' -> '<PROJECT_ROOT>/packages/docusaurus-\1/src/index'
 
 [strict]
