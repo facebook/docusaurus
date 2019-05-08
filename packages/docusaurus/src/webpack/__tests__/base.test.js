@@ -7,7 +7,7 @@
 
 import {validate} from 'webpack';
 import createBaseConfig from '../base';
-import loadSetup from '../../server/load/__tests__/loadSetup';
+import loadSetup from '../../server/load/loadSetup';
 
 describe('webpack base config', () => {
   test('simple', async () => {

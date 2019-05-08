@@ -7,23 +7,23 @@
 
 import path from 'path';
 import loadSidebars from '../sidebars';
-import loadSetup from '../../../docusaurus/lib/server/load/__tests__/loadSetup';
 
 /* eslint-disable global-require, import/no-dynamic-require */
 
 describe('loadSidebars', () => {
-  const fixtures = path.join(__dirname, '..', '__fixtures__');
-
   test('normal site with sidebars', async () => {
-    const {siteDir} = await loadSetup('simple');
-    const sidebar = require(path.join(siteDir, 'sidebars.json'));
-    const result = loadSidebars({siteDir, sidebar});
+    const sidebar = require(path.join(
+      __dirname,
+      '__fixtures__',
+      'website',
+      'sidebars.json',
+    ));
+    const result = loadSidebars({sidebar});
     expect(result).toMatchSnapshot();
   });
 
   test('site without sidebars', () => {
-    const siteDir = path.join(fixtures, 'bad-site');
-    const result = loadSidebars({siteDir, sidebar: {}});
+    const result = loadSidebars({sidebar: {}});
     expect(result).toMatchSnapshot();
   });
 });

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import loadSetup from './loadSetup';
+import loadSetup from '../loadSetup';
 
 describe('loadRoutes', () => {
   test('simple website', async () => {

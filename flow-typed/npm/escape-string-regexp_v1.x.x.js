@@ -5,6 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const babelConfig = require('./babel.config');
-
-module.exports = require('babel-jest').createTransformer(babelConfig);
+declare module 'escape-string-regexp' {
+  declare module.exports: (input: string) => string;
+}

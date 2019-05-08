@@ -8,13 +8,17 @@
 import '@babel/polyfill';
 import path from 'path';
 import processMetadata from '../metadata';
-import loadSetup from '../../../docusaurus/lib/server/load/__tests__/loadSetup';
 
 describe('processMetadata', () => {
+  const siteDir = path.join(__dirname, '__fixtures__', 'website');
+  const siteConfig = {
+    title: 'Hello',
+    baseUrl: '/',
+    url: 'https://docusaurus.io',
+  };
+  const docsDir = path.resolve(siteDir, 'docs');
+
   test('normal docs', async () => {
-    const props = await loadSetup('simple');
-    const {siteDir, siteConfig} = props;
-    const docsDir = path.resolve(siteDir, '..', 'docs');
     const sourceA = path.join('foo', 'bar.md');
     const sourceB = path.join('hello.md');
     const dataA = await processMetadata(
@@ -46,9 +50,6 @@ describe('processMetadata', () => {
   });
 
   test('docs with custom permalink', async () => {
-    const props = await loadSetup('simple');
-    const {siteDir, siteConfig} = props;
-    const docsDir = path.resolve(siteDir, '..', 'docs');
     const source = path.join('permalink.md');
     const data = await processMetadata(source, docsDir, {}, siteConfig, 'docs');
     expect(data).toEqual({

@@ -5,14 +5,17 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import '@babel/polyfill';
 import path from 'path';
-import loadSetup from '../../../docusaurus/lib/server/load/__tests__/loadSetup';
 import DocusaurusPluginContentDocs from '../index';
 
 describe('loadDocs', () => {
   test('simple website', async () => {
-    const {siteDir, siteConfig} = await loadSetup('simple');
+    const siteDir = path.join(__dirname, '__fixtures__', 'website');
+    const siteConfig = {
+      title: 'Hello',
+      baseUrl: '/',
+      url: 'https://docusaurus.io',
+    };
     const sidebarPath = path.join(siteDir, 'sidebars.json');
     const plugin = new DocusaurusPluginContentDocs(
       {
@@ -20,7 +23,7 @@ describe('loadDocs', () => {
         siteConfig,
       },
       {
-        path: '../docs',
+        path: 'docs',
         sidebarPath,
       },
     );

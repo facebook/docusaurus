@@ -12,11 +12,8 @@ module.exports = {
   verbose: true,
   testURL: 'http://localhost/',
   testEnvironment: 'node',
-  moduleNameMapper: {
-    '^@lib/(.*)$': '<rootDir>/packages/docusaurus/lib/$1',
-  },
-  testPathIgnorePatterns: ['loadSetup.js', '/node_modules/', '__fixtures__'],
+  testPathIgnorePatterns: ['/node_modules/', '__fixtures__'],
   transform: {
-    '^.+\\.js$': '<rootDir>/jest.transform.js',
+    '^.+\\.js$': 'babel-jest',
   },
 };

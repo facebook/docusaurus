@@ -23,7 +23,12 @@
     "docusaurus": "bin/docusaurus.js"
   },
   "scripts": {
-    "docusaurus": "node bin/docusaurus"
+    "docusaurus": "node bin/docusaurus",
+    "prepublish": "yarn run build",
+    "build": "yarn run build:clean && yarn run build:lib",
+    "build:clean": "rimraf lib",
+    "build:lib": "flow-remove-types -q -x '.js,.css,.ejs' src --out-dir lib --ignore '/__tests__/'",
+    "build:watch": "watch \"yarn build\" src"
   },
   "bugs": {
     "url": "https://github.com/facebook/Docusaurus/issues"
@@ -35,7 +40,6 @@
     "@babel/preset-env": "^7.4.2",
     "@babel/preset-react": "^7.0.0",
     "@docusaurus/utils": "^2.0.0-alpha.13",
-    "babel-jest": "^24.1.0",
     "babel-loader": "^8.0.0",
     "babel-plugin-dynamic-import-node": "^2.2.0",
     "cache-loader": "^2.0.1",
