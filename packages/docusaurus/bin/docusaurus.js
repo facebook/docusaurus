@@ -86,9 +86,10 @@ program
     'Do not fallback to page refresh if hot reload fails (default: false)',
   )
   .option('--no-cache-loader', 'Do not use cache-loader')
-  .action((siteDir = '.', {port, noWatch, hotOnly, cacheLoader}) => {
+  .action((siteDir = '.', {port, host, noWatch, hotOnly, cacheLoader}) => {
     wrapCommand(start)(path.resolve(siteDir), {
       port,
+      host,
       noWatch,
       hotOnly,
       cacheLoader,
