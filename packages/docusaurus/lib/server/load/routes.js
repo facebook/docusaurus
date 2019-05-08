@@ -72,7 +72,7 @@ async function loadRoutes(pluginsRouteConfigs) {
     const componentChunk = genImportChunk(componentPath, 'component');
     addRoutesChunkNames(routePath, 'component', componentChunk);
 
-    function genRouteChunkNames(value) {
+    function genRouteChunkNames(value, prefix) {
       if (Array.isArray(value)) {
         return value.map(genRouteChunkNames);
       }
@@ -80,14 +80,14 @@ async function loadRoutes(pluginsRouteConfigs) {
       if (_.isObject(value) && !value.__import) {
         const newValue = {};
         Object.keys(value).forEach(key => {
-          newValue[key] = genRouteChunkNames(value[key]);
+          newValue[key] = genRouteChunkNames(value[key], key);
         });
         return newValue;
       }
 
       const importChunk = genImportChunk(
         getModulePath(value),
-        'module',
+        prefix,
         routePath,
       );
       registry[importChunk.chunkName] = {
