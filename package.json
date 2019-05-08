@@ -34,7 +34,6 @@
     "eslint-plugin-react-hooks": "^0.0.0",
     "filepath": "^1.1.0",
     "flow-bin": "^0.98.1",
-    "flow-copy-source": "^2.0.4",
     "flow-remove-types": "^1.2.3",
     "flow-typed": "^2.5.1",
     "front-matter": "^2.3.0",

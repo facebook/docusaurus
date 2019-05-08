@@ -1,4 +1,6 @@
 [ignore]
+<PROJECT_ROOT>/packages/.*/lib
+<PROJECT_ROOT>/packages/.*/__tests__
 
 [include]
 
