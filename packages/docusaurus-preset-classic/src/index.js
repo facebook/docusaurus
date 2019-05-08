@@ -11,6 +11,9 @@ module.exports = function preset(context, opts = {}) {
       {
         name: '@docusaurus/theme-classic',
       },
+      {
+        name: '@docusaurus/theme-search-algolia',
+      },
     ],
     plugins: [
       {
