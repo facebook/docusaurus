@@ -18,6 +18,8 @@ headerLinks: [
 ],
 ```
 
+- `headerLinks` is now moved to themeConfig
+
 # Additions
 
 ### Presets
