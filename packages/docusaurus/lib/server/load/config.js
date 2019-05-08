@@ -23,7 +23,6 @@ const REQUIRED_FIELDS = [
 ];
 
 const OPTIONAL_FIELDS = [
-  'algolia',
   'customFields',
   'defaultLanguage',
   'disableHeaderTitle',
@@ -32,6 +31,7 @@ const OPTIONAL_FIELDS = [
   'markdownPlugins',
   'plugins',
   'presets',
+  'themeConfig',
 ];
 
 const DEFAULT_CONFIG = {

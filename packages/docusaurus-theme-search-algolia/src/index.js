@@ -9,14 +9,14 @@ const path = require('path');
 
 const DEFAULT_OPTIONS = {};
 
-class DocusaurusThemeClassic {
+class DocusaurusThemeSearchAlgolia {
   constructor(context, opts) {
     this.options = {...DEFAULT_OPTIONS, ...opts};
     this.context = context;
   }
 
   getName() {
-    return 'docusaurus-theme-classic';
+    return 'docusaurus-theme-search-algolia';
   }
 
   getThemePath() {
@@ -24,4 +24,4 @@ class DocusaurusThemeClassic {
   }
 }
 
-module.exports = DocusaurusThemeClassic;
+module.exports = DocusaurusThemeSearchAlgolia;

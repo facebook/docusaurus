@@ -19,10 +19,12 @@ module.exports = {
   ],
   headerIcon: 'img/docusaurus.svg',
   favicon: 'img/docusaurus.ico',
-  algolia: {
-    apiKey: '47ecd3b21be71c5822571b9f59e52544',
-    indexName: 'docusaurus-2',
-    algoliaOptions: {},
+  themeConfig: {
+    algolia: {
+      apiKey: '47ecd3b21be71c5822571b9f59e52544',
+      indexName: 'docusaurus-2',
+      algoliaOptions: {},
+    },
   },
   presets: [
     [
