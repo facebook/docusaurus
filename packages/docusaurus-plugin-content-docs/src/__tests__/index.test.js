@@ -7,12 +7,21 @@
 
 import '@babel/polyfill';
 import path from 'path';
-import loadSetup from '../../../docusaurus/src/server/load/loadSetup';
 import DocusaurusPluginContentDocs from '../index';
 
 describe('loadDocs', () => {
   test('simple website', async () => {
-    const {siteDir, siteConfig} = await loadSetup('simple');
+    const siteDir = path.join(__dirname, '__fixtures__', 'website');
+    const siteConfig = {
+      title: 'Hello',
+      tagline: 'Hello World',
+      organizationName: 'endiliey',
+      projectName: 'hello',
+      baseUrl: '/',
+      url: 'https://docusaurus.io',
+      headerIcon: '',
+      favicon: '',
+    };
     const sidebarPath = path.join(siteDir, 'sidebars.json');
     const plugin = new DocusaurusPluginContentDocs(
       {
@@ -20,7 +29,7 @@ describe('loadDocs', () => {
         siteConfig,
       },
       {
-        path: '../docs',
+        path: 'docs',
         sidebarPath,
       },
     );
