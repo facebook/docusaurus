@@ -23,7 +23,13 @@
     "docusaurus": "bin/docusaurus.js"
   },
   "scripts": {
-    "docusaurus": "node bin/docusaurus"
+    "docusaurus": "node bin/docusaurus",
+    "prepublish": "yarn run build",
+    "build": "yarn run build:clean && yarn run build:lib && yarn run build:flow",
+    "build:clean": "rimraf lib",
+    "build:lib": "flow-remove-types --all -q -x '.js,.css,.ejs' src --out-dir lib --ignore '/__tests__/'",
+    "build:flow": "flow-copy-source -i '**/__tests__/**' src lib",
+    "build:watch": "watch \"yarn build\" src"
   },
   "bugs": {
     "url": "https://github.com/facebook/Docusaurus/issues"

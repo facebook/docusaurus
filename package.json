@@ -7,6 +7,7 @@
   ],
   "scripts": {
     "build": "lerna run --parallel build --no-private",
+    "build:clean": "lerna run --parallel build:clean --no-private",
     "build:watch": "lerna run --parallel build:watch --no-private",
     "flow": "flow",
     "flow-typed": "flow-typed",
@@ -18,7 +19,6 @@
     "test": "jest"
   },
   "devDependencies": {
-    "@babel/cli": "^7.4.4",
     "@babel/core": "^7.4.4",
     "@babel/preset-flow": "^7.0.0",
     "babel-eslint": "8",
@@ -35,6 +35,7 @@
     "filepath": "^1.1.0",
     "flow-bin": "^0.98.1",
     "flow-copy-source": "^2.0.4",
+    "flow-remove-types": "^1.2.3",
     "flow-typed": "^2.5.1",
     "front-matter": "^2.3.0",
     "glob-promise": "^3.3.0",
