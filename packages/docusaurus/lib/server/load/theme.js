@@ -20,16 +20,15 @@ module.exports = async function loadTheme(themePath) {
   });
 
   const alias = {};
-  await Promise.all(
-    themeComponentFiles.map(async relativeSource => {
-      const filePath = path.join(themePath, relativeSource);
-      const fileName = fileToPath(relativeSource);
-      const aliasName = posixPath(
-        normalizeUrl(['@theme', fileName]).replace(/\/$/, ''),
-      );
-      alias[aliasName] = filePath;
-    }),
-  );
+
+  themeComponentFiles.forEach(relativeSource => {
+    const filePath = path.join(themePath, relativeSource);
+    const fileName = fileToPath(relativeSource);
+    const aliasName = posixPath(
+      normalizeUrl(['@theme', fileName]).replace(/\/$/, ''),
+    );
+    alias[aliasName] = filePath;
+  });
 
   return alias;
 };

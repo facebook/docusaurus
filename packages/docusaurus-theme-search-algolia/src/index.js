@@ -9,29 +9,19 @@ const path = require('path');
 
 const DEFAULT_OPTIONS = {};
 
-class DocusaurusThemeClassic {
+class DocusaurusThemeSearchAlgolia {
   constructor(context, opts) {
     this.options = {...DEFAULT_OPTIONS, ...opts};
     this.context = context;
   }
 
   getName() {
-    return 'docusaurus-theme-classic';
+    return 'docusaurus-theme-search-algolia';
   }
 
   getThemePath() {
     return path.resolve(__dirname, './theme');
   }
-
-  configureWebpack() {
-    return {
-      resolve: {
-        alias: {
-          '@theme/SearchAlgolia': path.resolve(__dirname, './noopModule.js'),
-        },
-      },
-    };
-  }
 }
 
-module.exports = DocusaurusThemeClassic;
+module.exports = DocusaurusThemeSearchAlgolia;
