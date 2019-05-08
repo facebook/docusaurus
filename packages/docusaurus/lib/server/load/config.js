@@ -23,7 +23,6 @@ const REQUIRED_FIELDS = [
 
 const OPTIONAL_FIELDS = [
   'customFields',
-  'disableHeaderTitle',
   'githubHost',
   'plugins',
   'presets',
