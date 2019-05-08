@@ -102,8 +102,8 @@ function posixPath(str: string): string {
 const chunkNameCache = new Map();
 function genChunkName(
   modulePath: string,
-  prefix: ?string,
-  preferredName: ?string,
+  prefix?: string,
+  preferredName?: string,
 ): string {
   let chunkName = chunkNameCache.get(modulePath);
   if (!chunkName) {
