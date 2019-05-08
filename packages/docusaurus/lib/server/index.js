@@ -55,35 +55,39 @@ module.exports = async function load(siteDir, cliOptions = {}) {
   // These can be overriden in plugins/ through component swizzling.
   // However, we alias it here first as a fallback.
   const themeFallback = path.resolve(__dirname, '../client/theme-fallback');
-  let themeAliases = await loadTheme(themeFallback);
+  const fallbackAliases = await loadTheme(themeFallback);
 
-  // create theme alias from plugins
-  await Promise.all(
+  // Create theme alias from plugins.
+  const pluginThemeAliases = await Promise.all(
     plugins.map(async plugin => {
       if (!plugin.getThemePath) {
-        return;
+        return null;
       }
-      const aliases = await loadTheme(plugin.getThemePath());
-      themeAliases = {
-        ...themeAliases,
-        ...aliases,
-      };
+      return loadTheme(plugin.getThemePath());
     }),
   );
 
-  // user's own theme alias override. Highest priority
+  // User's own theme alias override. Highest priority.
   const themePath = path.resolve(siteDir, 'theme');
-  const aliases = await loadTheme(themePath);
-  themeAliases = {
-    ...themeAliases,
-    ...aliases,
-  };
+  const userAliases = await loadTheme(themePath);
 
-  // Make a fake plugin to resolve alias theme.
+  const combinedAliases = [
+    fallbackAliases,
+    ...pluginThemeAliases,
+    userAliases,
+  ].reduce(
+    (acc, curr) => ({
+      ...acc,
+      ...curr,
+    }),
+    {},
+  );
+
+  // Make a fake plugin to resolve aliased theme components.
   plugins.push({
     configureWebpack: () => ({
       resolve: {
-        alias: themeAliases,
+        alias: combinedAliases,
       },
     }),
   });

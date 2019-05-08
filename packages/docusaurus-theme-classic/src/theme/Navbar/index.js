@@ -10,9 +10,9 @@ import React from 'react';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
-import Search from '@theme/Search';
+import SearchBar from '@theme/SearchBar';
 
-function Navbar(props) {
+function Navbar() {
   const context = useDocusaurusContext();
   const {siteConfig = {}} = context;
   // TODO: navbar headerlinks should depends on theme, not siteConfig;
@@ -20,7 +20,7 @@ function Navbar(props) {
     baseUrl,
     headerLinks,
     headerIcon,
-    algolia,
+    themeConfig: {algolia},
     title,
     disableHeaderTitle,
   } = siteConfig;
@@ -41,8 +41,9 @@ function Navbar(props) {
         </div>
       );
     }
+
     if (link.href) {
-      // set link to specified href
+      // Set link to specified href.
       return (
         <div key={link.label} className="navbar__item">
           <Link to={link.href} className="navbar__link">
@@ -51,6 +52,7 @@ function Navbar(props) {
         </div>
       );
     }
+
     return null;
   };
 
@@ -73,7 +75,7 @@ function Navbar(props) {
         <div className="navbar__items navbar__items--right">
           {algolia && (
             <div className="navbar__search" key="search-box">
-              <Search {...props} />
+              <SearchBar />
             </div>
           )}
         </div>

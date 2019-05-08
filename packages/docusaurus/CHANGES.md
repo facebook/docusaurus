@@ -15,10 +15,6 @@ headerLinks: [
   { url: "help", label: "Help" },
   // Links to href destination/ external page
   { href: "https://github.com/", label: "GitHub" },
-  // Determines search bar position among links
-  { search: true },
-  // Determines language drop down position among links
-  { languages: true }
 ],
 ```
 
