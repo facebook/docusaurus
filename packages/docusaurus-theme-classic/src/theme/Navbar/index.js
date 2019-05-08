@@ -15,12 +15,10 @@ import SearchBar from '@theme/SearchBar';
 function Navbar() {
   const context = useDocusaurusContext();
   const {siteConfig = {}} = context;
-  // TODO: navbar headerlinks should depends on theme, not siteConfig;
   const {
     baseUrl,
-    headerLinks,
     headerIcon,
-    themeConfig: {algolia},
+    themeConfig: {algolia, headerLinks = []},
     title,
     disableHeaderTitle,
   } = siteConfig;
