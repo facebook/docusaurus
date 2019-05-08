@@ -22,16 +22,6 @@ class DocusaurusThemeClassic {
   getThemePath() {
     return path.resolve(__dirname, './theme');
   }
-
-  configureWebpack() {
-    return {
-      resolve: {
-        alias: {
-          '@theme/SearchAlgolia': path.resolve(__dirname, './noopModule.js'),
-        },
-      },
-    };
-  }
 }
 
 module.exports = DocusaurusThemeClassic;

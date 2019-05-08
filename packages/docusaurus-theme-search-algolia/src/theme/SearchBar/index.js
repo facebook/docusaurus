@@ -21,7 +21,6 @@ class Search extends React.Component {
 
   componentDidMount() {
     const {siteConfig = {}, metadata = {}} = this.context;
-    console.log(siteConfig);
     const {version: thisVersion, language: thisLanguage} = metadata;
     const {
       themeConfig: {algolia},

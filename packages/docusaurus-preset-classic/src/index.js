@@ -9,10 +9,10 @@ module.exports = function preset(context, opts = {}) {
   return {
     themes: [
       {
-        name: '@docusaurus/theme-search-algolia',
+        name: '@docusaurus/theme-classic',
       },
       {
-        name: '@docusaurus/theme-classic',
+        name: '@docusaurus/theme-search-algolia',
       },
     ],
     plugins: [

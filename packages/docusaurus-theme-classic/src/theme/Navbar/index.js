@@ -10,7 +10,7 @@ import React from 'react';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
-import SearchAlgolia from '@theme/SearchAlgolia';
+import SearchBar from '@theme/SearchBar';
 
 function Navbar() {
   const context = useDocusaurusContext();
@@ -75,7 +75,7 @@ function Navbar() {
         <div className="navbar__items navbar__items--right">
           {algolia && (
             <div className="navbar__search" key="search-box">
-              <SearchAlgolia />
+              <SearchBar />
             </div>
           )}
         </div>
