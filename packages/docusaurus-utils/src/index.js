@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+/* @flow */
+
 const path = require('path');
 const fm = require('front-matter');
 const {createHash} = require('crypto');
@@ -14,7 +16,11 @@ const escapeStringRegexp = require('escape-string-regexp');
 const fs = require('fs-extra');
 
 const fileHash = new Map();
-async function generate(generatedFilesDir, file, content) {
+async function generate(
+  generatedFilesDir: string,
+  file: string,
+  content: any,
+): Promise<void> {
   const filepath = path.join(generatedFilesDir, file);
   const lastHash = fileHash.get(filepath);
   const currentHash = createHash('md5')
@@ -31,14 +37,14 @@ async function generate(generatedFilesDir, file, content) {
 const indexRE = /(^|.*\/)index\.(md|js)$/i;
 const extRE = /\.(md|js)$/;
 
-function fileToPath(file) {
+function fileToPath(file: string): string {
   if (indexRE.test(file)) {
     return file.replace(indexRE, '/$1');
   }
   return `/${file.replace(extRE, '').replace(/\\/g, '/')}`;
 }
 
-function encodePath(userpath) {
+function encodePath(userpath: string): string {
   return userpath
     .split('/')
     .map(item => encodeURIComponent(item))
@@ -50,7 +56,7 @@ function encodePath(userpath) {
  * @param {string} str input string
  * @returns {string}
  */
-function docuHash(str) {
+function docuHash(str: string): string {
   if (str === '/') {
     return 'index';
   }
@@ -66,7 +72,7 @@ function docuHash(str) {
  * @param {string} pagePath
  * @returns {string} unique react component name
  */
-function genComponentName(pagePath) {
+function genComponentName(pagePath: string): string {
   if (pagePath === '/') {
     return 'index';
   }
@@ -83,7 +89,7 @@ function genComponentName(pagePath) {
  * @param {string} str windows backslash paths
  * @returns {string} posix-style path
  */
-function posixPath(str) {
+function posixPath(str: string): string {
   const isExtendedLengthPath = /^\\\\\?\\/.test(str);
   const hasNonAscii = /[^\u0000-\u0080]+/.test(str); // eslint-disable-line
 
@@ -94,7 +100,11 @@ function posixPath(str) {
 }
 
 const chunkNameCache = new Map();
-function genChunkName(modulePath, prefix, preferredName) {
+function genChunkName(
+  modulePath: string,
+  prefix?: string,
+  preferredName?: string,
+): string {
   let chunkName = chunkNameCache.get(modulePath);
   if (!chunkName) {
     let str = modulePath;
@@ -112,7 +122,7 @@ function genChunkName(modulePath, prefix, preferredName) {
   return chunkName;
 }
 
-function idx(target, keyPaths) {
+function idx(target?: {}, keyPaths: string | string[]): any {
   return (
     target &&
     (Array.isArray(keyPaths)
@@ -121,7 +131,7 @@ function idx(target, keyPaths) {
   );
 }
 
-function getSubFolder(file, refDir) {
+function getSubFolder(file: string, refDir: string): ?string {
   const separator = escapeStringRegexp(path.sep);
   const baseDir = escapeStringRegexp(path.basename(refDir));
   const regexSubFolder = new RegExp(
@@ -131,7 +141,7 @@ function getSubFolder(file, refDir) {
   return match && match[1];
 }
 
-function parse(fileString) {
+function parse(fileString: string): {} {
   if (!fm.test(fileString)) {
     return {metadata: null, content: fileString};
   }
@@ -140,7 +150,7 @@ function parse(fileString) {
   return {metadata, content};
 }
 
-function normalizeUrl(rawUrls) {
+function normalizeUrl(rawUrls: string[]): string {
   const urls = rawUrls;
   const resultArray = [];
 

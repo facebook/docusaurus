@@ -7,11 +7,11 @@
 
 import '@babel/polyfill';
 import path from 'path';
-import load from '../../index';
+import load from '../index';
 
 // Helper methods to setup dummy/fake projects
 const loadSetup = async name => {
-  const fixtures = path.join(__dirname, '__fixtures__');
+  const fixtures = path.join(__dirname, '__tests__', '__fixtures__');
   const simpleSite = path.join(fixtures, 'simple-site');
   const customSite = path.join(fixtures, 'custom-site');
 

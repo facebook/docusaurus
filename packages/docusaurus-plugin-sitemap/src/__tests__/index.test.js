@@ -5,13 +5,17 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import loadSetup from '../../../docusaurus/lib/server/load/__tests__/loadSetup';
 import DocusaurusPluginSitemap from '../index';
 
 describe('docusaurus-plugin-sitemap', () => {
   describe('createSitemap', () => {
-    test.each(['simple'])('%s website', async type => {
-      const context = await loadSetup(type);
+    test('simple site', async () => {
+      const context = {
+        siteConfig: {
+          url: 'https://example.com',
+        },
+        routesPaths: ['/', '/test'],
+      };
       const plugin = new DocusaurusPluginSitemap(context, null);
       const sitemap = await plugin.createSitemap(context);
       expect(sitemap).toContain(
@@ -20,7 +24,7 @@ describe('docusaurus-plugin-sitemap', () => {
     });
 
     test('empty site', async () => {
-      const context = await loadSetup('empty');
+      const context = {};
       const plugin = new DocusaurusPluginSitemap(context, null);
       expect(
         plugin.createSitemap(context),
