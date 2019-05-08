@@ -1,5 +1,0 @@
-{
-  "create-symlinks": {
-    "ignore": ["eslint", "jest"]
-  }
-}
