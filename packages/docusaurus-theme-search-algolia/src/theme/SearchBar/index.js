@@ -20,8 +20,7 @@ class Search extends React.Component {
   }
 
   componentDidMount() {
-    const {siteConfig = {}, metadata = {}} = this.context;
-    const {version: thisVersion, language: thisLanguage} = metadata;
+    const {siteConfig = {}} = this.context;
     const {
       themeConfig: {algolia},
     } = siteConfig;
@@ -35,11 +34,7 @@ class Search extends React.Component {
           apiKey: algolia.apiKey,
           indexName: algolia.indexName,
           inputSelector: '#search_input_react',
-          algoliaOptions: JSON.parse(
-            JSON.stringify(algolia.algoliaOptions)
-              .replace('VERSION', thisVersion)
-              .replace('LANGUAGE', thisLanguage),
-          ),
+          algoliaOptions: algolia.algoliaOptions,
         });
       });
     } else {
@@ -55,8 +50,8 @@ class Search extends React.Component {
       <input
         id="search_input_react"
         type="search"
-        placeholder="Search docs"
-        aria-label="Search docs"
+        placeholder="Search"
+        aria-label="Search"
       />
     ) : null;
   }

@@ -13,7 +13,6 @@ const {CONFIG_FILE_NAME} = require('../../constants');
 const REQUIRED_FIELDS = [
   'baseUrl',
   'favicon',
-  'headerLinks',
   'headerIcon',
   'organizationName',
   'projectName',
@@ -24,11 +23,7 @@ const REQUIRED_FIELDS = [
 
 const OPTIONAL_FIELDS = [
   'customFields',
-  'defaultLanguage',
-  'disableHeaderTitle',
   'githubHost',
-  'highlight',
-  'markdownPlugins',
   'plugins',
   'presets',
   'themeConfig',
@@ -65,31 +60,6 @@ function loadConfig(siteDir, deleteCache = true) {
 
   // Merge default config with loaded config.
   const config = {...DEFAULT_CONFIG, ...loadedConfig};
-
-  // Build final headerLinks based on siteConfig.
-  const {headerLinks} = config;
-
-  // Add language dropdown to end if location not specified.
-  let languages = false;
-  headerLinks.forEach(link => {
-    if (link.languages) {
-      languages = true;
-    }
-  });
-  if (!languages) {
-    headerLinks.push({languages: true});
-  }
-  let search = false;
-  headerLinks.forEach(link => {
-    // Append search bar if location not specified.
-    if (link.search) {
-      search = true;
-    }
-  });
-  if (!search && config.algolia) {
-    headerLinks.push({search: true});
-  }
-  config.headerLinks = headerLinks;
 
   // User's own array of custom fields/
   // e.g: if they want to include some.field so they can access it later from `props.siteConfig`.
