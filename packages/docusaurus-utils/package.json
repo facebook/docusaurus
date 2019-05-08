@@ -2,9 +2,20 @@
   "name": "@docusaurus/utils",
   "version": "2.0.0-alpha.13",
   "description": "Node utility functions for Docusaurus packages",
-  "main": "src/index.js",
+  "main": "lib/index.js",
+  "files": [
+    "lib"
+  ],
   "publishConfig": {
     "access": "public"
+  },
+  "scripts": {
+    "prepublish": "yarn run build",
+    "build": "yarn run build:clean && yarn run build:lib && yarn run build:flow",
+    "build:clean": "rimraf lib",
+    "build:lib": "babel -d lib src --ignore '**/__tests__/**'",
+    "build:flow": "flow-copy-source -v -i '**/__tests__/**' src lib",
+    "build:watch": "watch \"yarn build\" src"
   },
   "license": "MIT",
   "dependencies": {
