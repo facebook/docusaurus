@@ -7,7 +7,7 @@
 
 import path from 'path';
 
-import loadSetup from '../../../docusaurus/lib/server/load/__tests__/loadSetup';
+import loadSetup from '../../../docusaurus/src/server/load/loadSetup';
 import DocusaurusPluginContentPages from '../index';
 
 describe('docusaurus-plugin-content-pages', () => {

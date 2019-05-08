@@ -7,7 +7,7 @@
 
 import path from 'path';
 import loadConfig from '../config';
-import loadSetup from './loadSetup';
+import loadSetup from '../loadSetup';
 
 describe('loadConfig', () => {
   test('website with valid siteConfig', async () => {

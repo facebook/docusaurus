@@ -12,7 +12,7 @@ module.exports = {
   verbose: true,
   testURL: 'http://localhost/',
   testEnvironment: 'node',
-  testPathIgnorePatterns: ['loadSetup.js', '/node_modules/', '__fixtures__'],
+  testPathIgnorePatterns: ['/node_modules/', '__fixtures__'],
   transform: {
     '^.+\\.js$': 'babel-jest',
   },

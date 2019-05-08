@@ -7,7 +7,7 @@
 
 import path from 'path';
 import loadSidebars from '../sidebars';
-import loadSetup from '../../../docusaurus/lib/server/load/__tests__/loadSetup';
+import loadSetup from '../../../docusaurus/src/server/load/loadSetup';
 
 /* eslint-disable global-require, import/no-dynamic-require */
 

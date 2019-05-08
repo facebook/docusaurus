@@ -8,7 +8,7 @@
 import '@babel/polyfill';
 import path from 'path';
 import processMetadata from '../metadata';
-import loadSetup from '../../../docusaurus/lib/server/load/__tests__/loadSetup';
+import loadSetup from '../../../docusaurus/src/server/load/loadSetup';
 
 describe('processMetadata', () => {
   test('normal docs', async () => {

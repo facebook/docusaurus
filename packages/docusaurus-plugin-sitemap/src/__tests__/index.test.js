@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import loadSetup from '../../../docusaurus/lib/server/load/__tests__/loadSetup';
+import loadSetup from '../../../docusaurus/src/server/load/loadSetup';
 import DocusaurusPluginSitemap from '../index';
 
 describe('docusaurus-plugin-sitemap', () => {
