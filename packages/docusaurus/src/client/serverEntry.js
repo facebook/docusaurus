@@ -15,7 +15,7 @@ import Loadable from 'react-loadable';
 
 import path from 'path';
 import fs from 'fs';
-import routes from '@generated/routes'; // eslint-disable-line
+import routes from '@generated/routes';
 import preload from './preload';
 import App from './App';
 import ssrTemplate from './templates/ssr.html.template';

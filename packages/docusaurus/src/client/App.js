@@ -8,10 +8,10 @@
 import React from 'react';
 import {renderRoutes} from 'react-router-config';
 
-import Head from '@docusaurus/Head'; // eslint-disable-line
-import routes from '@generated/routes'; // eslint-disable-line
-import siteConfig from '@generated/docusaurus.config'; //eslint-disable-line
-import DocusaurusContext from '@docusaurus/context'; // eslint-disable-line
+import Head from '@docusaurus/Head';
+import routes from '@generated/routes';
+import siteConfig from '@generated/docusaurus.config';
+import DocusaurusContext from '@docusaurus/context';
 import PendingNavigation from './PendingNavigation';
 
 function App() {
