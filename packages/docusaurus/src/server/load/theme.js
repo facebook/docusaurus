@@ -5,14 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-/* @flow */
-
 const globby = require('globby');
 const fs = require('fs-extra');
 const path = require('path');
 const {fileToPath, posixPath, normalizeUrl} = require('@docusaurus/utils');
 
-module.exports = async function loadTheme(themePath: string) {
+module.exports = async function loadTheme(themePath) {
   if (!fs.pathExistsSync(themePath)) {
     return null;
   }

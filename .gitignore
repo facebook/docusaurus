@@ -11,6 +11,4 @@ yarn-error.log
 build
 .docusaurus
 .cache-loader
-packages/docusaurus-utils/lib
-packages/docusaurus/lib/
 
