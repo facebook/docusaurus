@@ -6,7 +6,7 @@
  */
 import {matchRoutes} from 'react-router-config';
 import routesChunkNames from '@generated/routesChunkNames';
-import routes from '@generated/routes'; // eslint-disable-line
+import routes from '@generated/routes';
 import prefetchHelper from './prefetch';
 import preloadHelper from './preload';
 import flat from './flat';

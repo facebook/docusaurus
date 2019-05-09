@@ -125,6 +125,7 @@ function Home() {
             <div className="col">
               <img
                 className={styles.featureImage}
+                alt={'Powered by Markdown'}
                 src={`${siteConfig.baseUrl}img/undraw_typewriter.svg`}
               />
               <h3>Powered by Markdown</h3>
@@ -136,6 +137,7 @@ function Home() {
             </div>
             <div className="col">
               <img
+                alt={'Built Using React'}
                 className={styles.featureImage}
                 src={`${siteConfig.baseUrl}img/undraw_react.svg`}
               />
@@ -148,6 +150,7 @@ function Home() {
             </div>
             <div className="col">
               <img
+                alt={'Ready for Translations'}
                 className={styles.featureImage}
                 src={`${siteConfig.baseUrl}img/undraw_around_the_world.svg`}
               />
@@ -163,6 +166,7 @@ function Home() {
           <div className="row">
             <div className="col col--4 col--offset-2">
               <img
+                alt={'Document Versioning'}
                 className={styles.featureImage}
                 src={`${siteConfig.baseUrl}img/undraw_version_control.svg`}
               />
@@ -175,6 +179,7 @@ function Home() {
             </div>
             <div className="col col--4">
               <img
+                alt={'Document Search'}
                 className={styles.featureImage}
                 src={`${siteConfig.baseUrl}img/undraw_algolia.svg`}
               />

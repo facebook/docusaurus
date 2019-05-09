@@ -6,8 +6,8 @@
  */
 
 import React from 'react';
-import Head from '@docusaurus/Head'; // eslint-disable-line
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext'; // eslint-disable-line
+import Head from '@docusaurus/Head';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 function Layout(props) {
   const context = useDocusaurusContext();
