@@ -9,10 +9,10 @@ import React from 'react';
 import {hydrate, render} from 'react-dom';
 import {BrowserRouter} from 'react-router-dom';
 
+import routes from '@generated/routes';
 import App from './App';
 import preload from './preload';
 import docusaurus from './docusaurus';
-import routes from '@generated/routes'; // eslint-disable-line
 
 // Client-side render (e.g: running in browser) to become single-page application (SPA).
 if (typeof window !== 'undefined' && typeof document !== 'undefined') {
