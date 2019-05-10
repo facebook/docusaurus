@@ -109,8 +109,8 @@ function Home() {
           <a href="https://github.com/facebook/Docusaurus/issues/789">
             Docusaurus 2
           </a>
-          , contribute to its roadmap by suggesting features or giving feedback{' '}
-          <Link to={feedbackUrl}>here</Link>!
+          , contribute to its roadmap by suggesting features or giving{' '}
+          <Link to={feedbackUrl}>feedback here</Link>!
         </div>
       </div>
       <div className={styles.section}>
