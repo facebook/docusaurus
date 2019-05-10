@@ -12,13 +12,7 @@ import Link from '@docusaurus/Link'; // eslint-disable-line
 import './styles.css';
 
 function DocSidebar(props) {
-  const {docsMetadata, location} = props;
-
-  const id =
-    docsMetadata.permalinkToId[location.pathname] ||
-    docsMetadata.permalinkToId[location.pathname.replace(/\/$/, '')];
-  const metadata = docsMetadata.docs[id] || {};
-  const {sidebar} = metadata;
+  const {docsMetadata, sidebar} = props;
 
   if (!sidebar) {
     return null;

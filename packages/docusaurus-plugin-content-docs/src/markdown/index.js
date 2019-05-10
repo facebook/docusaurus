@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const fm = require('front-matter');
+const matter = require('gray-matter');
 const {getOptions} = require('loader-utils');
 const {resolve} = require('url');
 
@@ -17,7 +17,7 @@ module.exports = async function(fileString) {
   const {docsDir, sourceToPermalink} = options;
 
   // Extract content of markdown (without frontmatter).
-  const {body} = fm(fileString);
+  let {content} = matter(fileString);
 
   // Determine the source dir. e.g: /docs, /website/versioned_docs/version-1.0.0
   let sourceDir;
@@ -27,10 +27,9 @@ module.exports = async function(fileString) {
   }
 
   // Replace internal markdown linking (except in fenced blocks).
-  let content = body;
   if (sourceDir) {
     let fencedBlock = false;
-    const lines = body.split('\n').map(line => {
+    const lines = content.split('\n').map(line => {
       if (line.trim().startsWith('```')) {
         fencedBlock = !fencedBlock;
       }

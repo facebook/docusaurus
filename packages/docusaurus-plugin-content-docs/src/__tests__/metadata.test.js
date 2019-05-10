@@ -40,12 +40,14 @@ describe('processMetadata', () => {
       permalink: '/docs/foo/bar',
       source: path.join(docsDir, sourceA),
       title: 'Bar',
+      description: 'This is custom description',
     });
     expect(dataB).toEqual({
       id: 'hello',
       permalink: '/docs/hello',
       source: path.join(docsDir, sourceB),
       title: 'Hello, World !',
+      description: `Hi, Endilie here :)`,
     });
   });
 
@@ -57,6 +59,7 @@ describe('processMetadata', () => {
       permalink: '/docs/endiliey/permalink',
       source: path.join(docsDir, source),
       title: 'Permalink',
+      description: 'This has a different permalink',
     });
   });
 });
