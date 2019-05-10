@@ -17,7 +17,7 @@ function BlogListPage(props) {
   } = props;
 
   return (
-    <Layout title="Blog">
+    <Layout title="Blog" description="Blog">
       <div className="container margin-vert--xl">
         <div className="row">
           <div className="col col--6 col--offset-3">

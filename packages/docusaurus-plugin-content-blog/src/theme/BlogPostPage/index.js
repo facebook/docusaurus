@@ -14,7 +14,7 @@ function BlogPostPage(props) {
   const {content: BlogPostContents, metadata} = props;
 
   return (
-    <Layout title={metadata.title}>
+    <Layout title={metadata.title} description={metadata.description}>
       {BlogPostContents && (
         <div className="container margin-vert--xl">
           <div className="row">

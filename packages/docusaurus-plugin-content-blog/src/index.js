@@ -75,7 +75,14 @@ class DocusaurusPluginContentBlog {
         );
 
         const fileString = await fs.readFile(source, 'utf-8');
-        const {metadata: rawMetadata} = parse(fileString);
+        const {metadata: rawMetadata, content} = parse(fileString);
+
+        if (!rawMetadata.description) {
+          rawMetadata.description = content
+            .trim()
+            .split('\n', 1)
+            .shift();
+        }
 
         const metadata = {
           permalink: normalizeUrl([
