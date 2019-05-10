@@ -18,7 +18,7 @@ module.exports = async function processMetadata(
 ) {
   const filepath = path.resolve(refDir, source);
   const fileString = await fs.readFile(filepath, 'utf-8');
-  const {metadata} = parse(fileString);
+  const {metadata = {}, excerpt} = parse(fileString);
 
   // Default id is the file name.
   if (!metadata.id) {
@@ -31,6 +31,10 @@ module.exports = async function processMetadata(
   // Default title is the id.
   if (!metadata.title) {
     metadata.title = metadata.id;
+  }
+
+  if (!metadata.description) {
+    metadata.description = excerpt;
   }
 
   const dirName = path.dirname(source);

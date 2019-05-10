@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useContext, useEffect} from 'react';
+import React, {useContext} from 'react';
 import Head from '@docusaurus/Head';
 import DocusaurusContext from '@docusaurus/context';
 import Link from '@docusaurus/Link';
@@ -68,14 +68,8 @@ function Home() {
   const feedbackUrl = `${siteConfig.baseUrl}feedback/`;
   const gettingStartedUrl = `${siteConfig.baseUrl}docs/introduction`;
 
-  useEffect(() => {
-    // Prefetch feedback pages & getting started pages
-    window.docusaurus.prefetch(feedbackUrl);
-    window.docusaurus.prefetch(gettingStartedUrl);
-  }, []);
-
   return (
-    <Layout>
+    <Layout description={'Docusaurus makes it easy to build websites'}>
       <div className={styles['index-hero']}>
         <div className={styles['index-hero-inner']}>
           <h1 className={styles['index-hero-project-tagline']}>
@@ -115,8 +109,8 @@ function Home() {
           <a href="https://github.com/facebook/Docusaurus/issues/789">
             Docusaurus 2
           </a>
-          , contribute to its roadmap by suggesting features or giving feedback{' '}
-          <Link to={feedbackUrl}>here</Link>!
+          , contribute to its roadmap by suggesting features or giving{' '}
+          <Link to={feedbackUrl}>feedback here</Link>!
         </div>
       </div>
       <div className={styles.section}>
