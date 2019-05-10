@@ -6,7 +6,7 @@
  */
 
 const path = require('path');
-const fm = require('front-matter');
+const matter = require('gray-matter');
 const {createHash} = require('crypto');
 
 const _ = require(`lodash`);
@@ -163,15 +163,19 @@ function getSubFolder(file, refDir) {
 
 /**
  * @param {string} fileString
- * @returns {*}
+ * @returns {Object}
  */
 function parse(fileString) {
-  if (!fm.test(fileString)) {
-    return {metadata: null, content: fileString};
-  }
-  const {attributes: metadata, body: content} = fm(fileString);
-
-  return {metadata, content};
+  const {data: metadata, content, excerpt} = matter(fileString, {
+    excerpt(file) {
+      // eslint-disable-next-line no-param-reassign
+      file.excerpt = file.content
+        .trim()
+        .split('\n', 1)
+        .shift();
+    },
+  });
+  return {metadata, content, excerpt};
 }
 
 /**

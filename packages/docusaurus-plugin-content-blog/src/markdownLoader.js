@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const fm = require('front-matter');
+const matter = require('gray-matter');
 const {parseQuery} = require('loader-utils');
 
 const TRUNCATE_MARKER = /<!--\s*truncate\s*-->/;
@@ -14,7 +14,7 @@ module.exports = async function(fileString) {
   const callback = this.async();
 
   // Extract content of markdown (without frontmatter).
-  let {body: content} = fm(fileString);
+  let {content} = matter(fileString);
 
   // Truncate content if requested (e.g: file.md?truncated=true)
   const {truncated} = this.resourceQuery && parseQuery(this.resourceQuery);
