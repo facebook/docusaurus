@@ -4405,11 +4405,6 @@ deepmerge@3.2.0:
   resolved "https://registry.yarnpkg.com/deepmerge/-/deepmerge-3.2.0.tgz#58ef463a57c08d376547f8869fdc5bcee957f44e"
   integrity sha512-6+LuZGU7QCNUnAJyX8cIrlzoEgggTM6B7mm+znKOX4t5ltluT9KLjN6g61ECMS0LTsLW7yDpNoxhix5FZcrIow==
 
-deepmerge@^2.1.1:
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/deepmerge/-/deepmerge-2.2.1.tgz#5d3ff22a01c00f645405a2fbc17d0778a1801170"
-  integrity sha512-R9hc1Xa/NOBi9WRVUWg19rl1UB7Tt4kuPd+thNJgFZoxXsTz7ncaPaeIm+40oSGuP33DfMb4sZt1QIGiJzC4EA==
-
 default-gateway@^4.2.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/default-gateway/-/default-gateway-4.2.0.tgz#167104c7500c2115f6dd69b0a536bb8ed720552b"
@@ -4639,60 +4634,6 @@ doctrine@^2.1.0:
   integrity sha512-35mSku4ZXK0vfCuHEDAwt55dg2jNajHZ1odvF+8SSr82EsZY4QmXfuWso8oEd8zRhVObSN18aM0CjSdoBX7zIw==
   dependencies:
     esutils "^2.0.2"
-
-docusaurus@^2.0.0-alpha.10:
-  version "2.0.0-alpha.11"
-  resolved "https://registry.yarnpkg.com/docusaurus/-/docusaurus-2.0.0-alpha.11.tgz#08d880c2f7c5899c34a92b4b13fe955a7dc6d8c2"
-  integrity sha512-5HKFIXu40rMzkUOViVm8QTQEFJMs33KPJvr7GpR1Gkbi/ZCkRJeLu2RjuEaL5uIodK2M+cbQkN2BAy+fRfC25g==
-  dependencies:
-    "@babel/core" "^7.0.0"
-    "@babel/plugin-proposal-class-properties" "^7.0.0"
-    "@babel/plugin-proposal-object-rest-spread" "^7.0.0"
-    "@babel/polyfill" "^7.0.0"
-    "@babel/preset-env" "^7.0.0"
-    "@babel/preset-react" "^7.0.0"
-    "@babel/register" "^7.0.0"
-    "@babel/traverse" "^7.0.0"
-    "@babel/types" "^7.1.2"
-    autoprefixer "^9.1.5"
-    babylon "^6.17.4"
-    chalk "^2.1.0"
-    classnames "^2.2.6"
-    color "^2.0.1"
-    commander "^2.18.0"
-    cross-spawn "^6.0.5"
-    crowdin-cli "^0.3.0"
-    cssnano "^3.10.0"
-    deepmerge "^2.1.1"
-    escape-string-regexp "^1.0.5"
-    express "^4.15.3"
-    feed "^1.1.0"
-    fs-extra "^5.0.0"
-    gaze "^1.1.2"
-    glob "^7.1.3"
-    highlight.js "^9.12.0"
-    imagemin "^6.0.0"
-    imagemin-gifsicle "^6.0.1"
-    imagemin-jpegtran "^6.0.0"
-    imagemin-optipng "^6.0.0"
-    imagemin-svgo "^7.0.0"
-    lodash "^4.17.11"
-    markdown-toc "^1.2.0"
-    mkdirp "^0.5.1"
-    portfinder "^1.0.17"
-    postcss "^7.0.1"
-    prismjs "^1.15.0"
-    react "^16.5.0"
-    react-dev-utils "^5.0.2"
-    react-dom "^16.5.0"
-    remarkable "^1.7.1"
-    request "^2.87.0"
-    shelljs "^0.7.8"
-    sitemap "^1.13.0"
-    tcp-port-used "^0.1.2"
-    tiny-lr "^1.1.1"
-    tree-node-cli "^1.2.5"
-    truncate-html "^1.0.1"
 
 dom-converter@^0.2:
   version "0.2.0"
