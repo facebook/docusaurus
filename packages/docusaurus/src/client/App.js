@@ -20,13 +20,6 @@ function App() {
       {/* TODO: this link stylesheet to infima is temporary */}
       <Head>
         <link
-          crossOrigin="anonymous"
-          href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
-          integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
-          preload
-          rel="stylesheet"
-        />
-        <link
           href="https://infima-dev.netlify.com/css/default/default.min.css"
           preload
           rel="stylesheet"
