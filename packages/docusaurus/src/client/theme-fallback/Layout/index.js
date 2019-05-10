@@ -13,12 +13,16 @@ function Layout(props) {
   const context = useDocusaurusContext();
   const {siteConfig = {}} = context;
   const {baseUrl, favicon, tagline, title: defaultTitle} = siteConfig;
-  const {children, title} = props;
+  const {children, title, description} = props;
   return (
     <React.Fragment>
       <Head defaultTitle={`${defaultTitle} · ${tagline}`}>
         {title && <title>{`${title} · ${tagline}`}</title>}
         {favicon && <link rel="shortcut icon" href={baseUrl + favicon} />}
+        {description && <meta name="description" content={description} />}
+        {description && (
+          <meta property="og:description" content={description} />
+        )}
       </Head>
       {children}
     </React.Fragment>

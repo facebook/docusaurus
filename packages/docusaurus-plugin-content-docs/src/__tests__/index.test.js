@@ -39,6 +39,7 @@ describe('loadDocs', () => {
       sidebar: 'docs',
       source: path.join(docsDir, 'hello.md'),
       title: 'Hello, World !',
+      description: `Hi, Endilie here :)`,
     });
     expect(docsMetadata['foo/bar']).toEqual({
       category: 'Test',
@@ -49,6 +50,7 @@ describe('loadDocs', () => {
       sidebar: 'docs',
       source: path.join(docsDir, 'foo', 'bar.md'),
       title: 'Bar',
+      description: 'This is custom description',
     });
   });
 });

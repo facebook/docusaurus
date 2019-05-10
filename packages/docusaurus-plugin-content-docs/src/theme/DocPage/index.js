@@ -14,13 +14,19 @@ import DocSidebar from '@theme/DocSidebar';
 
 function DocPage(props) {
   const {route, docsMetadata, location} = props;
+  const {permalinkToId} = docsMetadata;
+  const id =
+    permalinkToId[location.pathname] ||
+    permalinkToId[location.pathname.replace(/\/$/, '')];
+  const metadata = docsMetadata.docs[id] || {};
+  const {sidebar, description} = metadata;
 
   return (
-    <Layout noFooter>
+    <Layout noFooter description={description}>
       <div className="container container--fluid">
         <div className="row">
           <div className="col col--3">
-            <DocSidebar docsMetadata={docsMetadata} location={location} />
+            <DocSidebar docsMetadata={docsMetadata} sidebar={sidebar} />
           </div>
           <div className="col col--9">
             {renderRoutes(route.routes, {docsMetadata})}
