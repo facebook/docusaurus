@@ -1599,7 +1599,7 @@
     refractor "^2.3.0"
     unist-util-visit "^1.1.3"
 
-"@mdx-js/mdx@^1.0.14":
+"@mdx-js/mdx@^1.0.18":
   version "1.0.18"
   resolved "https://registry.yarnpkg.com/@mdx-js/mdx/-/mdx-1.0.18.tgz#42bb35e36b7566aed88c5c11a381705f974bc03b"
   integrity sha512-KO2odMrZC77Yf9bhL0Qu0GtvVivVV6dL5DWJeuMeSkc9wkL9fBT06re67TfgeJ37R+lyslkG+uPUahIj4/SOoQ==
@@ -1620,7 +1620,7 @@
     unist-builder "^1.0.1"
     unist-util-visit "^1.3.0"
 
-"@mdx-js/react@^1.0.6":
+"@mdx-js/react@^1.0.16":
   version "1.0.16"
   resolved "https://registry.yarnpkg.com/@mdx-js/react/-/react-1.0.16.tgz#414c3fce49493a4c60e5590cfc0a2a07efc19f38"
   integrity sha512-HJJO8LYogt9UT4TP3+TVeokMj0lgwCONKlcOfr7VMb38Z6DDE3Ydvi+M3iScUea2DfifS4kGztgJ7zH6HXynTw==
@@ -4607,7 +4607,7 @@ dns-txt@^2.0.2:
   dependencies:
     buffer-indexof "^1.0.0"
 
-docsearch.js@^2.5.2:
+docsearch.js@^2.5.2, docsearch.js@^2.6.x:
   version "2.6.2"
   resolved "https://registry.yarnpkg.com/docsearch.js/-/docsearch.js-2.6.2.tgz#cb36a97aeac8a8d31eed5915cdee808a2248b41c"
   integrity sha512-qyQ+raZlHSkfdpFg8wJNhjiz9WsjdQkRGe2LiiKS6vIIsouNNole2Kg/9UvGoUIK9PLLl31uL3I4YDwnrXt5yQ==
