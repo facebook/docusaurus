@@ -9,20 +9,11 @@ import React from 'react';
 import Link from '@docusaurus/Link';
 
 function BlogPostItem(props) {
-  const {metadata, children, truncated} = props;
+  const {children, frontMatter, metadata, truncated} = props;
+
   const renderPostHeader = () => {
-    if (!metadata) {
-      return null;
-    }
-    const {
-      date,
-      author,
-      authorURL,
-      authorTitle,
-      authorFBID,
-      permalink,
-      title,
-    } = metadata;
+    const {author, authorURL, authorTitle, authorFBID, title} = frontMatter;
+    const {date, permalink} = metadata;
 
     const blogPostDate = new Date(date);
     const month = [
@@ -39,9 +30,10 @@ function BlogPostItem(props) {
       'November',
       'December',
     ];
+
     const authorImageURL = authorFBID
       ? `https://graph.facebook.com/${authorFBID}/picture/?height=200&width=200`
-      : metadata.authorImageURL;
+      : frontMatter.authorImageURL;
 
     return (
       <header>
@@ -88,10 +80,8 @@ function BlogPostItem(props) {
       {renderPostHeader()}
       <article className="markdown">{children}</article>
       {truncated && (
-        <div className="text--right">
-          <Link className="button button--secondary" to={metadata.permalink}>
-            Read More
-          </Link>
+        <div className="text--right margin-vert--md">
+          <Link to={metadata.permalink}>Read More</Link>
         </div>
       )}
     </div>

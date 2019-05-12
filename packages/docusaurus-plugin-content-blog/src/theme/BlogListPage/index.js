@@ -9,25 +9,35 @@ import React from 'react';
 
 import Layout from '@theme/Layout'; // eslint-disable-line
 import BlogPostItem from '@theme/BlogPostItem';
+import BlogListPaginator from '@theme/BlogListPaginator';
 
 function BlogListPage(props) {
-  const {
-    metadata: {posts = []},
-    entries: BlogPosts,
-  } = props;
+  const {metadata, items} = props;
 
   return (
     <Layout title="Blog" description="Blog">
       <div className="container margin-vert--xl">
         <div className="row">
           <div className="col col--6 col--offset-3">
-            {BlogPosts.map((PostContent, index) => (
-              <div className="margin-bottom--xl" key={index}>
-                <BlogPostItem truncated metadata={posts[index]}>
-                  <PostContent />
-                </BlogPostItem>
-              </div>
-            ))}
+            {items.map(
+              ({
+                content: BlogPostContent,
+                frontMatter,
+                metadata: blogPostMetadata,
+              }) => (
+                <div
+                  className="margin-bottom--xl"
+                  key={blogPostMetadata.permalink}>
+                  <BlogPostItem
+                    frontMatter={frontMatter}
+                    metadata={blogPostMetadata}
+                    truncated>
+                    <BlogPostContent />
+                  </BlogPostItem>
+                </div>
+              ),
+            )}
+            <BlogListPaginator metadata={metadata} />
           </div>
         </div>
       </div>

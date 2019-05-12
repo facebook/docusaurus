@@ -47,7 +47,7 @@ class DocusaurusPluginContentBlog {
     return [...globPattern];
   }
 
-  // Fetches blog contents and returns metadata for the contents.
+  // Fetches blog contents and returns metadata for the necessary routes.
   async loadContent() {
     const {pageCount, include, routeBasePath} = this.options;
     const {siteConfig} = this.context;
@@ -58,8 +58,7 @@ class DocusaurusPluginContentBlog {
       cwd: blogDir,
     });
 
-    // Prepare metadata container.
-    const blogMetadata = [];
+    const blogPosts = [];
 
     await Promise.all(
       blogFiles.map(async relativeSource => {
@@ -75,82 +74,164 @@ class DocusaurusPluginContentBlog {
         );
 
         const fileString = await fs.readFile(source, 'utf-8');
-        const {metadata: rawMetadata, excerpt: description} = parse(fileString);
+        const {frontMatter, excerpt: description} = parse(fileString);
 
-        const metadata = {
-          permalink: normalizeUrl([
-            baseUrl,
-            routeBasePath,
-            fileToUrl(blogFileName),
-          ]),
-          source,
-          description,
-          ...rawMetadata,
-          date,
-        };
-        blogMetadata.push(metadata);
+        blogPosts.push({
+          id: blogFileName,
+          metadata: {
+            permalink: normalizeUrl([
+              baseUrl,
+              routeBasePath,
+              fileToUrl(blogFileName),
+            ]),
+            source,
+            description,
+            date,
+          },
+          frontMatter,
+        });
       }),
     );
-    blogMetadata.sort((a, b) => b.date - a.date);
+    blogPosts.sort((a, b) => b.metadata.date - a.metadata.date);
 
-    // Blog page handling. Example: `/blog`, `/blog/page1`, `/blog/page2`
-    const numOfBlog = blogMetadata.length;
-    const numberOfPage = Math.ceil(numOfBlog / pageCount);
+    // Blog pagination routes.
+    // Example: `/blog`, `/blog/page/1`, `/blog/page/2`
+    const numOfPosts = blogPosts.length;
+    const numberOfPages = Math.ceil(numOfPosts / pageCount);
     const basePageUrl = normalizeUrl([baseUrl, routeBasePath]);
 
-    // eslint-disable-next-line
-    for (let page = 0; page < numberOfPage; page++) {
-      blogMetadata.push({
-        permalink:
-          page > 0
-            ? normalizeUrl([basePageUrl, `page/${page + 1}`])
-            : basePageUrl,
-        isBlogPage: true,
-        posts: blogMetadata.slice(page * pageCount, (page + 1) * pageCount),
+    const blogListPaginated = [];
+
+    function blogPaginationPermalink(page) {
+      return page > 0
+        ? normalizeUrl([basePageUrl, `page/${page + 1}`])
+        : basePageUrl;
+    }
+
+    for (let page = 0; page < numberOfPages; page += 1) {
+      blogListPaginated.push({
+        metadata: {
+          permalink: blogPaginationPermalink(page),
+          page: page + 1,
+          pageCount,
+          totalCount: numberOfPages,
+          previousPage: page !== 0 ? blogPaginationPermalink(page - 1) : null,
+          nextPage:
+            page < numberOfPages - 1 ? blogPaginationPermalink(page + 1) : null,
+        },
+        items: blogPosts
+          .slice(page * pageCount, (page + 1) * pageCount)
+          .map(item => item.id),
       });
     }
 
-    return blogMetadata;
+    return {
+      blogPosts,
+      blogListPaginated,
+    };
   }
 
-  async contentLoaded({content, actions}) {
+  async contentLoaded({content: blogContents, actions}) {
     const {blogListComponent, blogPostComponent} = this.options;
     const {addRoute, createData} = actions;
-    await Promise.all(
-      content.map(async metadataItem => {
-        const {isBlogPage, permalink} = metadataItem;
-        const metadataPath = await createData(
-          `${docuHash(permalink)}.json`,
-          JSON.stringify(metadataItem, null, 2),
-        );
-        if (isBlogPage) {
-          addRoute({
-            path: permalink,
-            component: blogListComponent,
-            exact: true,
-            modules: {
-              entries: metadataItem.posts.map(post => ({
-                // To tell routes.js this is an import and not a nested object to recurse.
-                __import: true,
-                path: post.source,
-                query: {
-                  truncated: true,
-                },
-              })),
-              metadata: metadataPath,
-            },
-          });
+    const {blogPosts, blogListPaginated} = blogContents;
 
-          return;
-        }
+    const blogItemsToModules = {};
+    // Create routes for blog entries.
+    const blogItems = await Promise.all(
+      blogPosts.map(async blogPost => {
+        const {id, frontMatter, metadata} = blogPost;
+        const {permalink} = metadata;
+        const [frontMatterPath, metadataPath] = await Promise.all([
+          createData(
+            `${docuHash(`${permalink}-frontmatter`)}.json`,
+            JSON.stringify(frontMatter, null, 2),
+          ),
+          createData(
+            `${docuHash(`${permalink}-metadata`)}.json`,
+            JSON.stringify(metadata, null, 2),
+          ),
+        ]);
+        const temp = {
+          frontMatter,
+          frontMatterPath,
+          metadata,
+          metadataPath,
+        };
+
+        blogItemsToModules[id] = temp;
+        return temp;
+      }),
+    );
+
+    blogItems.forEach((blogItem, index) => {
+      const prevItem = index > 0 ? blogItems[index - 1] : null;
+      const nextItem =
+        index < blogItems.length - 1 ? blogItems[index + 1] : null;
+      const {frontMatterPath, metadata, metadataPath} = blogItem;
+      const {source, permalink} = metadata;
+
+      addRoute({
+        path: permalink,
+        component: blogPostComponent,
+        exact: true,
+        modules: {
+          content: source,
+          frontMatter: frontMatterPath,
+          metadata: metadataPath,
+          prevItem:
+            prevItem != null
+              ? {
+                  metadata: prevItem.metadataPath,
+                  frontMatter: prevItem.frontMatterPath,
+                }
+              : null,
+          nextItem:
+            nextItem != null
+              ? {
+                  metadata: nextItem.metadataPath,
+                  frontMatter: nextItem.frontMatterPath,
+                }
+              : null,
+        },
+      });
+    });
+
+    // Create routes for blog's paginated list entries.
+    await Promise.all(
+      blogListPaginated.map(async listPage => {
+        const {metadata, items} = listPage;
+        const {permalink} = metadata;
+        const pageMetadataPath = await createData(
+          `${docuHash(`${permalink}-metadata`)}.json`,
+          JSON.stringify(metadata, null, 2),
+        );
 
         addRoute({
           path: permalink,
-          component: blogPostComponent,
+          component: blogListComponent,
           exact: true,
           modules: {
-            content: metadataItem.source,
-            metadata: metadataPath,
+            items: items.map(postID => {
+              const {
+                frontMatterPath,
+                metadata: postMetadata,
+                metadataPath,
+              } = blogItemsToModules[postID];
+              // To tell routes.js this is an import and not a nested object to recurse.
+              return {
+                content: {
+                  __import: true,
+                  path: postMetadata.source,
+                  query: {
+                    truncated: true,
+                  },
+                },
+                metadata: metadataPath,
+                frontMatter: frontMatterPath,
+              };
+            }),
+            metadata: pageMetadataPath,
           },
         });
       }),

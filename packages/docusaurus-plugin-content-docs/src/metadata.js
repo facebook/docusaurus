@@ -18,66 +18,70 @@ module.exports = async function processMetadata(
 ) {
   const filepath = path.resolve(refDir, source);
   const fileString = await fs.readFile(filepath, 'utf-8');
-  const {metadata = {}, excerpt} = parse(fileString);
+  const {frontMatter = {}, excerpt} = parse(fileString);
 
   // Default id is the file name.
-  if (!metadata.id) {
-    metadata.id = path.basename(source, path.extname(source));
+  if (!frontMatter.id) {
+    frontMatter.id = path.basename(source, path.extname(source));
   }
-  if (metadata.id.includes('/')) {
+  if (frontMatter.id.includes('/')) {
     throw new Error('Document id cannot include "/".');
   }
 
   // Default title is the id.
-  if (!metadata.title) {
-    metadata.title = metadata.id;
+  if (!frontMatter.title) {
+    frontMatter.title = frontMatter.id;
   }
 
-  if (!metadata.description) {
-    metadata.description = excerpt;
+  if (!frontMatter.description) {
+    frontMatter.description = excerpt;
   }
 
   const dirName = path.dirname(source);
   if (dirName !== '.') {
     const prefix = dirName;
     if (prefix) {
-      metadata.id = `${prefix}/${metadata.id}`;
+      frontMatter.id = `${prefix}/${frontMatter.id}`;
     }
   }
 
   // The docs absolute file source.
   // e.g: `/end/docs/hello.md` or `/end/website/versioned_docs/version-1.0.0/hello.md`
-  metadata.source = path.join(refDir, source);
+  frontMatter.source = path.join(refDir, source);
 
   // Build the permalink.
   const {baseUrl} = siteConfig;
 
   // If user has own custom permalink defined in frontmatter
   // e.g: :baseUrl:docsUrl/:langPart/:versionPart/endiliey/:id
-  if (metadata.permalink) {
-    metadata.permalink = path.resolve(
-      metadata.permalink
+  if (frontMatter.permalink) {
+    frontMatter.permalink = path.resolve(
+      frontMatter.permalink
         .replace(/:baseUrl/, baseUrl)
         .replace(/:docsUrl/, docsBasePath)
-        .replace(/:id/, metadata.id),
+        .replace(/:id/, frontMatter.id),
     );
   } else {
-    metadata.permalink = normalizeUrl([baseUrl, docsBasePath, metadata.id]);
+    frontMatter.permalink = normalizeUrl([
+      baseUrl,
+      docsBasePath,
+      frontMatter.id,
+    ]);
   }
 
   // Determine order.
-  const {id} = metadata;
+  const {id} = frontMatter;
   if (order[id]) {
-    metadata.sidebar = order[id].sidebar;
-    metadata.category = order[id].category;
-    metadata.subCategory = order[id].subCategory;
+    frontMatter.sidebar = order[id].sidebar;
+    frontMatter.category = order[id].category;
+    frontMatter.subCategory = order[id].subCategory;
     if (order[id].next) {
-      metadata.next = order[id].next;
+      frontMatter.next = order[id].next;
     }
     if (order[id].previous) {
-      metadata.previous = order[id].previous;
+      frontMatter.previous = order[id].previous;
     }
   }
 
-  return metadata;
+  return frontMatter;
 };
