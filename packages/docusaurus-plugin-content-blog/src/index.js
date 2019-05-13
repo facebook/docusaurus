@@ -144,7 +144,7 @@ class DocusaurusPluginContentBlog {
         const {id, metadata} = blogPost;
         const {permalink} = metadata;
         const metadataPath = await createData(
-          `${docuHash(`${permalink}-metadata`)}.json`,
+          `${docuHash(permalink)}.json`,
           JSON.stringify(metadata, null, 2),
         );
         const temp = {
@@ -183,7 +183,7 @@ class DocusaurusPluginContentBlog {
         const {metadata, items} = listPage;
         const {permalink} = metadata;
         const pageMetadataPath = await createData(
-          `${docuHash(`${permalink}-metadata`)}.json`,
+          `${docuHash(permalink)}.json`,
           JSON.stringify(metadata, null, 2),
         );
 
