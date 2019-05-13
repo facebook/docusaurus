@@ -8,7 +8,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "docsearch.js": "^2.6.x"
+    "docsearch.js": "^2.6.3"
   },
   "peerDependencies": {
     "@docusaurus/core": "^2.0.0",

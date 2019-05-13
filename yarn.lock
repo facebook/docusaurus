@@ -2481,6 +2481,13 @@ autocomplete.js@0.33.0:
   dependencies:
     immediate "^3.2.3"
 
+autocomplete.js@0.36.0:
+  version "0.36.0"
+  resolved "https://registry.yarnpkg.com/autocomplete.js/-/autocomplete.js-0.36.0.tgz#94fe775fe64b6cd42e622d076dc7fd26bedd837b"
+  integrity sha512-jEwUXnVMeCHHutUt10i/8ZiRaCb0Wo+ZyKxeGsYwBDtw6EJHqEeDrq4UwZRD8YBSvp3g6klP678il2eeiVXN2Q==
+  dependencies:
+    immediate "^3.2.3"
+
 autolinker@~0.15.0:
   version "0.15.3"
   resolved "https://registry.yarnpkg.com/autolinker/-/autolinker-0.15.3.tgz#342417d8f2f3461b14cf09088d5edf8791dc9832"
@@ -4607,13 +4614,26 @@ dns-txt@^2.0.2:
   dependencies:
     buffer-indexof "^1.0.0"
 
-docsearch.js@^2.5.2, docsearch.js@^2.6.x:
+docsearch.js@^2.5.2:
   version "2.6.2"
   resolved "https://registry.yarnpkg.com/docsearch.js/-/docsearch.js-2.6.2.tgz#cb36a97aeac8a8d31eed5915cdee808a2248b41c"
   integrity sha512-qyQ+raZlHSkfdpFg8wJNhjiz9WsjdQkRGe2LiiKS6vIIsouNNole2Kg/9UvGoUIK9PLLl31uL3I4YDwnrXt5yQ==
   dependencies:
     algoliasearch "^3.24.5"
     autocomplete.js "0.33.0"
+    hogan.js "^3.0.2"
+    request "^2.87.0"
+    stack-utils "^1.0.1"
+    to-factory "^1.0.0"
+    zepto "^1.2.0"
+
+docsearch.js@^2.6.3:
+  version "2.6.3"
+  resolved "https://registry.yarnpkg.com/docsearch.js/-/docsearch.js-2.6.3.tgz#57cb4600d3b6553c677e7cbbe6a734593e38625d"
+  integrity sha512-GN+MBozuyz664ycpZY0ecdQE0ND/LSgJKhTLA0/v3arIS3S1Rpf2OJz6A35ReMsm91V5apcmzr5/kM84cvUg+A==
+  dependencies:
+    algoliasearch "^3.24.5"
+    autocomplete.js "0.36.0"
     hogan.js "^3.0.2"
     request "^2.87.0"
     stack-utils "^1.0.1"
