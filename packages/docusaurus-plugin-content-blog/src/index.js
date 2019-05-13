@@ -23,7 +23,7 @@ const DEFAULT_OPTIONS = {
   path: 'blog', // Path to data on filesystem, relative to site dir.
   routeBasePath: 'blog', // URL Route.
   include: ['*.md', '*.mdx'], // Extensions to include.
-  pageCount: 10, // How many entries per page.
+  postsPerPage: 10, // How many posts per page.
   blogListComponent: '@theme/BlogListPage',
   blogPostComponent: '@theme/BlogPostPage',
 };
@@ -49,7 +49,7 @@ class DocusaurusPluginContentBlog {
 
   // Fetches blog contents and returns metadata for the necessary routes.
   async loadContent() {
-    const {pageCount, include, routeBasePath} = this.options;
+    const {postsPerPage, include, routeBasePath} = this.options;
     const {siteConfig} = this.context;
     const blogDir = this.contentPath;
 
@@ -96,8 +96,8 @@ class DocusaurusPluginContentBlog {
 
     // Blog pagination routes.
     // Example: `/blog`, `/blog/page/1`, `/blog/page/2`
-    const numOfPosts = blogPosts.length;
-    const numberOfPages = Math.ceil(numOfPosts / pageCount);
+    const totalCount = blogPosts.length;
+    const numberOfPages = Math.ceil(totalCount / postsPerPage);
     const basePageUrl = normalizeUrl([baseUrl, routeBasePath]);
 
     const blogListPaginated = [];
@@ -113,14 +113,15 @@ class DocusaurusPluginContentBlog {
         metadata: {
           permalink: blogPaginationPermalink(page),
           page: page + 1,
-          pageCount,
-          totalCount: numberOfPages,
+          postsPerPage,
+          totalPages: numberOfPages,
+          totalCount,
           previousPage: page !== 0 ? blogPaginationPermalink(page - 1) : null,
           nextPage:
             page < numberOfPages - 1 ? blogPaginationPermalink(page + 1) : null,
         },
         items: blogPosts
-          .slice(page * pageCount, (page + 1) * pageCount)
+          .slice(page * postsPerPage, (page + 1) * postsPerPage)
           .map(item => item.id),
       });
     }

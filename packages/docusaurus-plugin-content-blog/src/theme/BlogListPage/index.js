@@ -18,7 +18,7 @@ function BlogListPage(props) {
     <Layout title="Blog" description="Blog">
       <div className="container margin-vert--xl">
         <div className="row">
-          <div className="col col--6 col--offset-3">
+          <div className="col col--8 col--offset-2">
             {items.map(
               ({
                 content: BlogPostContent,
