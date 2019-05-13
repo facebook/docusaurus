@@ -5,9 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const globby = require('globby');
-const path = require('path');
 const fs = require('fs-extra');
+const globby = require('globby');
+const _ = require('lodash');
+const path = require('path');
 const {parse, normalizeUrl, docuHash} = require('@docusaurus/utils');
 
 // TODO: Use a better slugify function that doesn't rely on a specific file extension.
@@ -137,11 +138,15 @@ class DocusaurusPluginContentBlog {
       }
 
       tags.forEach(tag => {
-        const normalizedTag = tag.toLowerCase();
+        const normalizedTag = _.kebabCase(tag);
         if (!blogTags[normalizedTag]) {
-          blogTags[normalizedTag] = [];
+          blogTags[normalizedTag] = {
+            name: tag.toLowerCase(), // Will only use the name of the first occurrence of the tag.
+            items: [],
+          };
         }
-        blogTags[normalizedTag].push(blogPost.id);
+
+        blogTags[normalizedTag].items.push(blogPost.id);
       });
     });
 
@@ -253,21 +258,18 @@ class DocusaurusPluginContentBlog {
     await Promise.all(
       Object.keys(blogTags).map(async tag => {
         const permalink = normalizeUrl([tagsPath, tag]);
-        const postIDs = blogTags[tag];
+        const {name, items} = blogTags[tag];
+
         tagsModule[tag] = {
-          count: postIDs.length,
+          slug: tag,
+          name,
+          count: items.length,
           permalink,
         };
 
         const tagsMetadataPath = await createData(
           `${docuHash(permalink)}.json`,
-          JSON.stringify(
-            {
-              tag,
-            },
-            null,
-            2,
-          ),
+          JSON.stringify(tagsModule[tag], null, 2),
         );
 
         addRoute({
@@ -275,7 +277,7 @@ class DocusaurusPluginContentBlog {
           component: blogTagsPostsComponent,
           exact: true,
           modules: {
-            items: postIDs.map(postID => {
+            items: items.map(postID => {
               const {metadata: postMetadata, metadataPath} = blogItemsToModules[
                 postID
               ];
@@ -296,19 +298,22 @@ class DocusaurusPluginContentBlog {
       }),
     );
 
-    const tagsListPath = await createData(
-      `${docuHash(`${tagsPath}-tags`)}.json`,
-      JSON.stringify(tagsModule, null, 2),
-    );
+    // Only create /tags page if there are tags.
+    if (Object.keys(blogTags).length > 0) {
+      const tagsListPath = await createData(
+        `${docuHash(`${tagsPath}-tags`)}.json`,
+        JSON.stringify(tagsModule, null, 2),
+      );
 
-    addRoute({
-      path: tagsPath,
-      component: blogTagsListComponent,
-      exact: true,
-      modules: {
-        tags: tagsListPath,
-      },
-    });
+      addRoute({
+        path: tagsPath,
+        component: blogTagsListComponent,
+        exact: true,
+        modules: {
+          tags: tagsListPath,
+        },
+      });
+    }
   }
 
   getThemePath() {

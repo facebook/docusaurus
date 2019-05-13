@@ -43,7 +43,7 @@ function BlogTagsListPage(props) {
               className="padding-right--md"
               href={tags[tag].permalink}
               key="tag">
-              {tag} ({tags[tag].count})
+              {tags[tag].name} ({tags[tag].count})
             </Link>
           ))}
           <hr />
