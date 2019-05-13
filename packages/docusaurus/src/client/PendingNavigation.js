@@ -28,8 +28,6 @@ class PendingNavigation extends React.Component {
     const {routes, delay = 1000} = this.props;
 
     if (navigated) {
-      window.scrollTo(0, 0);
-
       this.startProgressBar(delay);
       // save the location so we can render the old screen
       this.setState({
@@ -45,6 +43,7 @@ class PendingNavigation extends React.Component {
             },
             this.stopProgressBar,
           );
+          window.scrollTo(0, 0);
         })
         .catch(e => console.warn(e));
     }
