@@ -100,13 +100,10 @@ module.exports = function createBaseConfig(props, isServer) {
         {
           test: /\.jsx?$/,
           exclude(modulePath) {
-            // always transpile our own library
-            if (modulePath.startsWith(path.join(__dirname, '..'))) {
-              return false;
-            }
-
-            // Don't transpile node_modules
-            return /node_modules/.test(modulePath);
+            // Don't transpile node_modules except any docusaurus package
+            return (
+              /node_modules/.test(modulePath) && !/docusaurus/.test(modulePath)
+            );
           },
           use: [
             cacheLoader && getCacheLoader(isServer),
