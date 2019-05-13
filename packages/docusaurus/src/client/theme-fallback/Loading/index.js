@@ -7,13 +7,39 @@
 
 import React from 'react';
 
-export default props => {
-  if (props.error) {
-    console.warn(props.error);
-    return <div align="center">Error</div>;
+export default ({error, retry, pastDelay}) => {
+  if (error) {
+    return (
+      <div
+        style={{
+          align: 'center',
+          color: '#fff',
+          backgroundColor: '#fa383e',
+          borderColor: '#fa383e',
+          borderStyle: 'solid',
+          borderRadius: '0.25rem',
+          borderWidth: '1px',
+          boxSizing: 'border-box',
+          display: 'block',
+          padding: '1rem',
+          flex: '0 0 50%',
+          marginLeft: '25%',
+          marginRight: '25%',
+          marginTop: '5rem',
+          maxWidth: '50%',
+          width: '100%',
+        }}>
+        <p>{error.message}</p>
+        <div>
+          <button type="button" onClick={retry}>
+            Retry
+          </button>
+        </div>
+      </div>
+    );
   }
 
-  if (props.pastDelay) {
+  if (pastDelay) {
     return (
       <div
         style={{
