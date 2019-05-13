@@ -74,7 +74,7 @@ class DocusaurusPluginContentBlog {
         );
 
         const fileString = await fs.readFile(source, 'utf-8');
-        const {frontMatter, excerpt: description} = parse(fileString);
+        const {frontMatter, excerpt} = parse(fileString);
 
         blogPosts.push({
           id: blogFileName,
@@ -85,10 +85,10 @@ class DocusaurusPluginContentBlog {
               fileToUrl(blogFileName),
             ]),
             source,
-            description,
+            description: frontMatter.description || excerpt,
             date,
+            title: frontMatter.title || blogFileName,
           },
-          frontMatter,
         });
       }),
     );
@@ -141,21 +141,13 @@ class DocusaurusPluginContentBlog {
     // Create routes for blog entries.
     const blogItems = await Promise.all(
       blogPosts.map(async blogPost => {
-        const {id, frontMatter, metadata} = blogPost;
+        const {id, metadata} = blogPost;
         const {permalink} = metadata;
-        const [frontMatterPath, metadataPath] = await Promise.all([
-          createData(
-            `${docuHash(`${permalink}-frontmatter`)}.json`,
-            JSON.stringify(frontMatter, null, 2),
-          ),
-          createData(
-            `${docuHash(`${permalink}-metadata`)}.json`,
-            JSON.stringify(metadata, null, 2),
-          ),
-        ]);
+        const metadataPath = await createData(
+          `${docuHash(permalink)}.json`,
+          JSON.stringify(metadata, null, 2),
+        );
         const temp = {
-          frontMatter,
-          frontMatterPath,
           metadata,
           metadataPath,
         };
@@ -169,7 +161,7 @@ class DocusaurusPluginContentBlog {
       const prevItem = index > 0 ? blogItems[index - 1] : null;
       const nextItem =
         index < blogItems.length - 1 ? blogItems[index + 1] : null;
-      const {frontMatterPath, metadata, metadataPath} = blogItem;
+      const {metadata, metadataPath} = blogItem;
       const {source, permalink} = metadata;
 
       addRoute({
@@ -178,22 +170,9 @@ class DocusaurusPluginContentBlog {
         exact: true,
         modules: {
           content: source,
-          frontMatter: frontMatterPath,
           metadata: metadataPath,
-          prevItem:
-            prevItem != null
-              ? {
-                  metadata: prevItem.metadataPath,
-                  frontMatter: prevItem.frontMatterPath,
-                }
-              : null,
-          nextItem:
-            nextItem != null
-              ? {
-                  metadata: nextItem.metadataPath,
-                  frontMatter: nextItem.frontMatterPath,
-                }
-              : null,
+          prevItem: prevItem && prevItem.metadataPath,
+          nextItem: nextItem && nextItem.metadataPath,
         },
       });
     });
@@ -204,7 +183,7 @@ class DocusaurusPluginContentBlog {
         const {metadata, items} = listPage;
         const {permalink} = metadata;
         const pageMetadataPath = await createData(
-          `${docuHash(`${permalink}-metadata`)}.json`,
+          `${docuHash(permalink)}.json`,
           JSON.stringify(metadata, null, 2),
         );
 
@@ -214,11 +193,9 @@ class DocusaurusPluginContentBlog {
           exact: true,
           modules: {
             items: items.map(postID => {
-              const {
-                frontMatterPath,
-                metadata: postMetadata,
-                metadataPath,
-              } = blogItemsToModules[postID];
+              const {metadata: postMetadata, metadataPath} = blogItemsToModules[
+                postID
+              ];
               // To tell routes.js this is an import and not a nested object to recurse.
               return {
                 content: {
@@ -229,7 +206,6 @@ class DocusaurusPluginContentBlog {
                   },
                 },
                 metadata: metadataPath,
-                frontMatter: frontMatterPath,
               };
             }),
             metadata: pageMetadataPath,
