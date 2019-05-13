@@ -5,6 +5,7 @@ authorTitle: Maintainer of Docusaurus
 authorURL: https://github.com/endiliey
 authorImageURL: https://avatars1.githubusercontent.com/u/17883920?s=460&v=4
 authorTwitter: endiliey
+tags: [new, adoption]
 ---
 
 Docusaurus was [officially announced](https://docusaurus.io/blog/2017/12/14/introducing-docusaurus) over nine months ago as a way to easily build open source documentation websites. Since then, it has amassed over 8,600 GitHub Stars, and is used by many popular open source projects such as [React Native](https://facebook.github.io/react-native/), [Babel](https://babeljs.io/), [Jest](https://jestjs.io/), [Reason](https://reasonml.github.io/) and [Prettier](https://prettier.io/).
@@ -107,7 +108,7 @@ If you've read the post up until to this point, you should be able to notice tha
 
 The exact list of breaking changes is not totally known yet as development is not 100% finalized. However, one thing that I will highlight is that we will deprecate a lot of options in `siteConfig.js` and we plan to keep it as lean as possible. For example, the `cleanUrl` siteConfig will be deprecated as all the URL for Docusaurus 2 sites will be without the `.html` suffix.
 
-Our goal is that most sites should be able to upgrade to Docusaurus 2 without a lot of pain. We will also include a migration guide when we release Docusaurus 2. When the times come, feel free to ping us on [Discord](https://discord.gg/docusaurus) or [Twitter](https://twitter.com/docusaurus) for questions and help. 
+Our goal is that most sites should be able to upgrade to Docusaurus 2 without a lot of pain. We will also include a migration guide when we release Docusaurus 2. When the times come, feel free to ping us on [Discord](https://discord.gg/docusaurus) or [Twitter](https://twitter.com/docusaurus) for questions and help.
 
 
 ### When is the release of Docusaurus 2?

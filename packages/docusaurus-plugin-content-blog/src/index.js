@@ -26,6 +26,7 @@ const DEFAULT_OPTIONS = {
   postsPerPage: 10, // How many posts per page.
   blogListComponent: '@theme/BlogListPage',
   blogPostComponent: '@theme/BlogPostPage',
+  blogTagsComponent: '@theme/BlogTagsPage',
 };
 
 class DocusaurusPluginContentBlog {
@@ -126,16 +127,38 @@ class DocusaurusPluginContentBlog {
       });
     }
 
+    const blogTags = {};
+    blogPosts.forEach(blogPost => {
+      const {tags} = blogPost.frontMatter;
+      if (!tags || tags.length === 0) {
+        return;
+      }
+
+      tags.forEach(tag => {
+        const normalizedTag = tag.toLowerCase();
+        if (!blogTags[normalizedTag]) {
+          blogTags[normalizedTag] = [];
+        }
+        blogTags[normalizedTag].push(blogPost.id);
+      });
+    });
+
     return {
       blogPosts,
       blogListPaginated,
+      blogTags,
     };
   }
 
   async contentLoaded({content: blogContents, actions}) {
-    const {blogListComponent, blogPostComponent} = this.options;
+    const {
+      blogListComponent,
+      blogPostComponent,
+      blogTagsComponent,
+    } = this.options;
+
     const {addRoute, createData} = actions;
-    const {blogPosts, blogListPaginated} = blogContents;
+    const {blogPosts, blogListPaginated, blogTags} = blogContents;
 
     const blogItemsToModules = {};
     // Create routes for blog entries.
@@ -213,6 +236,36 @@ class DocusaurusPluginContentBlog {
         });
       }),
     );
+
+    // Tags.
+    const {routeBasePath} = this.options;
+    const {
+      siteConfig: {baseUrl},
+    } = this.context;
+
+    const basePageUrl = normalizeUrl([baseUrl, routeBasePath]);
+
+    const tagsPath = normalizeUrl([basePageUrl, 'tags']);
+    const tagsModule = {};
+    Object.keys(blogTags).forEach(tag => {
+      tagsModule[tag] = {
+        count: blogTags[tag].length,
+        permalink: normalizeUrl([tagsPath, tag]),
+      };
+    });
+    const tagsCountPath = await createData(
+      `${docuHash(`${tagsPath}-tags`)}.json`,
+      JSON.stringify(tagsModule, null, 2),
+    );
+
+    addRoute({
+      path: tagsPath,
+      component: blogTagsComponent,
+      exact: true,
+      modules: {
+        tags: tagsCountPath,
+      },
+    });
   }
 
   getThemePath() {
