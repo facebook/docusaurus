@@ -12,7 +12,6 @@
     "@docusaurus/utils": "^2.0.0-alpha.13",
     "fs-extra": "^7.0.1",
     "globby": "^9.1.0",
-    "gray-matter": "^4.0.2",
     "loader-utils": "^1.2.3"
   },
   "peerDependencies": {

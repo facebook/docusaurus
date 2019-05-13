@@ -49,6 +49,10 @@ async function loadRoutes(pluginsRouteConfigs) {
 
     // Given an input (object or string), get the import path str
     const getModulePath = target => {
+      if (!target) {
+        return null;
+      }
+
       const importStr = _.isObject(target) ? target.path : target;
       const queryStr = target.query ? `?${stringify(target.query)}` : '';
       return `${importStr}${queryStr}`;
@@ -57,9 +61,14 @@ async function loadRoutes(pluginsRouteConfigs) {
     if (!component) {
       throw new Error(`path: ${routePath} need a component`);
     }
+
     const componentPath = getModulePath(component);
 
     const genImportChunk = (modulePath, prefix, name) => {
+      if (!modulePath) {
+        return null;
+      }
+
       const chunkName = genChunkName(modulePath, prefix, name);
       const finalStr = JSON.stringify(modulePath);
       return {
@@ -90,6 +99,11 @@ async function loadRoutes(pluginsRouteConfigs) {
         prefix,
         routePath,
       );
+
+      if (!importChunk) {
+        return null;
+      }
+
       registry[importChunk.chunkName] = {
         importStatement: importChunk.importStatement,
         modulePath: importChunk.modulePath,

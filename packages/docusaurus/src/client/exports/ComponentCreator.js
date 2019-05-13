@@ -28,7 +28,7 @@ function ComponentCreator(path) {
   /* Prepare opts data that react-loadable needs
   https://github.com/jamiebuilds/react-loadable#declaring-which-modules-are-being-loaded
   Example:
-  - optsLoader: 
+  - optsLoader:
   {
     component: () => import('./Pages.js'),
     content.foo: () => import('./doc1.md'),
@@ -41,6 +41,10 @@ function ComponentCreator(path) {
       target.forEach((value, index) => {
         traverseChunk(value, [...keys, index]);
       });
+      return;
+    }
+
+    if (target == null) {
       return;
     }
 
