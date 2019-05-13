@@ -4,6 +4,7 @@ author: Christine Abernathy
 authorURL: http://twitter.com/abernathyca
 authorFBID: 1424840234
 authorTwitter: abernathyca
+tags: [profilo, adoption]
 ---
 
 > *“Joel and I were discussing having a website and how it would have been great to launch with it. So I challenged myself to add Docusaurus support. It took just over an hour and a half. I'm going to send you a PR with the addition so you can take a look and see if you like it. Your workflow for adding docs wouldn't be much different from editing those markdown files.”*

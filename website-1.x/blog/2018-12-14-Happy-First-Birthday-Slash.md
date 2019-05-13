@@ -5,6 +5,7 @@ authorTitle: Co-creator of Docusaurus
 authorURL: https://github.com/JoelMarcey
 authorFBID: 611217057
 authorTwitter: JoelMarcey
+tags: [birth]
 ---
 
 ![First Birthday Slash](/img/docusaurus-slash-first-birthday.svg)

@@ -26,6 +26,8 @@ const DEFAULT_OPTIONS = {
   postsPerPage: 10, // How many posts per page.
   blogListComponent: '@theme/BlogListPage',
   blogPostComponent: '@theme/BlogPostPage',
+  blogTagsListComponent: '@theme/BlogTagsListPage',
+  blogTagsPostsComponent: '@theme/BlogTagsPostsPage',
 };
 
 class DocusaurusPluginContentBlog {
@@ -87,6 +89,7 @@ class DocusaurusPluginContentBlog {
             source,
             description: frontMatter.description || excerpt,
             date,
+            tags: frontMatter.tags,
             title: frontMatter.title || blogFileName,
           },
         });
@@ -126,16 +129,39 @@ class DocusaurusPluginContentBlog {
       });
     }
 
+    const blogTags = {};
+    blogPosts.forEach(blogPost => {
+      const {tags} = blogPost.metadata;
+      if (!tags || tags.length === 0) {
+        return;
+      }
+
+      tags.forEach(tag => {
+        const normalizedTag = tag.toLowerCase();
+        if (!blogTags[normalizedTag]) {
+          blogTags[normalizedTag] = [];
+        }
+        blogTags[normalizedTag].push(blogPost.id);
+      });
+    });
+
     return {
       blogPosts,
       blogListPaginated,
+      blogTags,
     };
   }
 
   async contentLoaded({content: blogContents, actions}) {
-    const {blogListComponent, blogPostComponent} = this.options;
+    const {
+      blogListComponent,
+      blogPostComponent,
+      blogTagsListComponent,
+      blogTagsPostsComponent,
+    } = this.options;
+
     const {addRoute, createData} = actions;
-    const {blogPosts, blogListPaginated} = blogContents;
+    const {blogPosts, blogListPaginated, blogTags} = blogContents;
 
     const blogItemsToModules = {};
     // Create routes for blog entries.
@@ -213,6 +239,76 @@ class DocusaurusPluginContentBlog {
         });
       }),
     );
+
+    // Tags.
+    const {routeBasePath} = this.options;
+    const {
+      siteConfig: {baseUrl},
+    } = this.context;
+
+    const basePageUrl = normalizeUrl([baseUrl, routeBasePath]);
+    const tagsPath = normalizeUrl([basePageUrl, 'tags']);
+    const tagsModule = {};
+
+    await Promise.all(
+      Object.keys(blogTags).map(async tag => {
+        const permalink = normalizeUrl([tagsPath, tag]);
+        const postIDs = blogTags[tag];
+        tagsModule[tag] = {
+          count: postIDs.length,
+          permalink,
+        };
+
+        const tagsMetadataPath = await createData(
+          `${docuHash(permalink)}.json`,
+          JSON.stringify(
+            {
+              tag,
+            },
+            null,
+            2,
+          ),
+        );
+
+        addRoute({
+          path: permalink,
+          component: blogTagsPostsComponent,
+          exact: true,
+          modules: {
+            items: postIDs.map(postID => {
+              const {metadata: postMetadata, metadataPath} = blogItemsToModules[
+                postID
+              ];
+              return {
+                content: {
+                  __import: true,
+                  path: postMetadata.source,
+                  query: {
+                    truncated: true,
+                  },
+                },
+                metadata: metadataPath,
+              };
+            }),
+            metadata: tagsMetadataPath,
+          },
+        });
+      }),
+    );
+
+    const tagsListPath = await createData(
+      `${docuHash(`${tagsPath}-tags`)}.json`,
+      JSON.stringify(tagsModule, null, 2),
+    );
+
+    addRoute({
+      path: tagsPath,
+      component: blogTagsListComponent,
+      exact: true,
+      modules: {
+        tags: tagsListPath,
+      },
+    });
   }
 
   getThemePath() {
