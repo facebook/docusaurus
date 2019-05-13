@@ -26,7 +26,8 @@ const DEFAULT_OPTIONS = {
   postsPerPage: 10, // How many posts per page.
   blogListComponent: '@theme/BlogListPage',
   blogPostComponent: '@theme/BlogPostPage',
-  blogTagsComponent: '@theme/BlogTagsPage',
+  blogTagsListComponent: '@theme/BlogTagsListPage',
+  blogTagsPostsComponent: '@theme/BlogTagsPostsPage',
 };
 
 class DocusaurusPluginContentBlog {
@@ -88,6 +89,7 @@ class DocusaurusPluginContentBlog {
             source,
             description: frontMatter.description || excerpt,
             date,
+            tags: frontMatter.tags,
             title: frontMatter.title || blogFileName,
           },
         });
@@ -129,7 +131,7 @@ class DocusaurusPluginContentBlog {
 
     const blogTags = {};
     blogPosts.forEach(blogPost => {
-      const {tags} = blogPost.frontMatter;
+      const {tags} = blogPost.metadata;
       if (!tags || tags.length === 0) {
         return;
       }
@@ -154,7 +156,8 @@ class DocusaurusPluginContentBlog {
     const {
       blogListComponent,
       blogPostComponent,
-      blogTagsComponent,
+      blogTagsListComponent,
+      blogTagsPostsComponent,
     } = this.options;
 
     const {addRoute, createData} = actions;
@@ -244,26 +247,66 @@ class DocusaurusPluginContentBlog {
     } = this.context;
 
     const basePageUrl = normalizeUrl([baseUrl, routeBasePath]);
-
     const tagsPath = normalizeUrl([basePageUrl, 'tags']);
     const tagsModule = {};
-    Object.keys(blogTags).forEach(tag => {
-      tagsModule[tag] = {
-        count: blogTags[tag].length,
-        permalink: normalizeUrl([tagsPath, tag]),
-      };
-    });
-    const tagsCountPath = await createData(
+
+    await Promise.all(
+      Object.keys(blogTags).map(async tag => {
+        const permalink = normalizeUrl([tagsPath, tag]);
+        const postIDs = blogTags[tag];
+        tagsModule[tag] = {
+          count: postIDs.length,
+          permalink,
+        };
+
+        const tagsMetadataPath = await createData(
+          `${docuHash(permalink)}.json`,
+          JSON.stringify(
+            {
+              tag,
+            },
+            null,
+            2,
+          ),
+        );
+
+        addRoute({
+          path: permalink,
+          component: blogTagsPostsComponent,
+          exact: true,
+          modules: {
+            items: postIDs.map(postID => {
+              const {metadata: postMetadata, metadataPath} = blogItemsToModules[
+                postID
+              ];
+              return {
+                content: {
+                  __import: true,
+                  path: postMetadata.source,
+                  query: {
+                    truncated: true,
+                  },
+                },
+                metadata: metadataPath,
+              };
+            }),
+            metadata: tagsMetadataPath,
+          },
+        });
+      }),
+    );
+
+    const tagsListPath = await createData(
       `${docuHash(`${tagsPath}-tags`)}.json`,
       JSON.stringify(tagsModule, null, 2),
     );
 
     addRoute({
       path: tagsPath,
-      component: blogTagsComponent,
+      component: blogTagsListComponent,
       exact: true,
       modules: {
-        tags: tagsCountPath,
+        tags: tagsListPath,
       },
     });
   }

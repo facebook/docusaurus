@@ -13,12 +13,12 @@ import Link from '@docusaurus/Link';
 const CHARS_IN_ALPHABET = 26;
 const ASCII_LOWERCASE_A = 97;
 
-function BlogTagsPage(props) {
+function BlogTagsListPage(props) {
   const {tags} = props;
 
   const tagsList = Array(CHARS_IN_ALPHABET)
     .fill(null)
-    .map(_ => []);
+    .map(() => []);
   const allTags = Object.keys(tags).sort();
 
   allTags.forEach(tag => {
@@ -58,7 +58,7 @@ function BlogTagsPage(props) {
         <div className="row">
           <div className="col col--8 col--offset-2">
             <h1>Tags</h1>
-            {tagsSection}
+            <div className="margin-vert--lg">{tagsSection}</div>
           </div>
         </div>
       </div>
@@ -66,4 +66,4 @@ function BlogTagsPage(props) {
   );
 }
 
-export default BlogTagsPage;
+export default BlogTagsListPage;
