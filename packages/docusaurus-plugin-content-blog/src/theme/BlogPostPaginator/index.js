@@ -15,19 +15,15 @@ function BlogPostPaginator(props) {
     <div className="row">
       <div className="col col--6">
         {prevItem && (
-          <Link
-            className="button button--secondary"
-            to={prevItem.metadata.permalink}>
-            {prevItem.frontMatter.title}
+          <Link className="button button--secondary" to={prevItem.permalink}>
+            {prevItem.title}
           </Link>
         )}
       </div>
       <div className="col col--6 text--right">
         {nextItem && (
-          <Link
-            className="button button--secondary"
-            to={nextItem.metadata.permalink}>
-            {nextItem.frontMatter.title}
+          <Link className="button button--secondary" to={nextItem.permalink}>
+            {nextItem.title}
           </Link>
         )}
       </div>

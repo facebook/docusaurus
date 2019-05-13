@@ -12,16 +12,10 @@ import BlogPostItem from '@theme/BlogPostItem';
 import BlogPostPaginator from '../BlogPostPaginator';
 
 function BlogPostPage(props) {
-  const {
-    content: BlogPostContents,
-    frontMatter,
-    metadata,
-    nextItem,
-    prevItem,
-  } = props;
-  console.log(props);
+  const {content: BlogPostContents, metadata, nextItem, prevItem} = props;
+  const {frontMatter} = BlogPostContents;
   return (
-    <Layout title={frontMatter.title} description={frontMatter.description}>
+    <Layout title={metadata.title} description={metadata.description}>
       {BlogPostContents && (
         <div className="container margin-vert--xl">
           <div className="row">
