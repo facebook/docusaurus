@@ -19,7 +19,7 @@ function BlogPostPage(props) {
     nextItem,
     prevItem,
   } = props;
-  console.log(props);
+
   return (
     <Layout title={frontMatter.title} description={frontMatter.description}>
       {BlogPostContents && (
