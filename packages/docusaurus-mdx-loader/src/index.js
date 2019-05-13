@@ -24,7 +24,7 @@ const DEFAULT_OPTIONS = {
 module.exports = async function(fileString) {
   const callback = this.async();
 
-  const {data = {}, content} = matter(fileString);
+  const {data, content} = matter(fileString);
   const options = Object.assign(DEFAULT_OPTIONS, getOptions(this), {
     filepath: this.resourcePath,
   });
@@ -45,8 +45,8 @@ module.exports = async function(fileString) {
   const code = `
   import React from 'react';
   import { mdx } from '@mdx-js/react';
-  export const frontMatter = ${stringifyObject(data)}
   ${importStr}
+  export const frontMatter = ${stringifyObject(data)};
   ${result}
   `;
 
