@@ -36,6 +36,7 @@ module.exports = {
         },
         blog: {
           path: '../website-1.x/blog',
+          postsPerPage: 3,
         },
       },
     ],

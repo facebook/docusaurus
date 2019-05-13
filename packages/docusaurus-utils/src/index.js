@@ -166,7 +166,7 @@ function getSubFolder(file, refDir) {
  * @returns {Object}
  */
 function parse(fileString) {
-  const {data: metadata, content, excerpt} = matter(fileString, {
+  const {data: frontMatter, content, excerpt} = matter(fileString, {
     excerpt(file) {
       // eslint-disable-next-line no-param-reassign
       file.excerpt = file.content
@@ -175,7 +175,7 @@ function parse(fileString) {
         .shift();
     },
   });
-  return {metadata, content, excerpt};
+  return {frontMatter, content, excerpt};
 }
 
 /**

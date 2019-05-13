@@ -14,6 +14,7 @@
     "@mdx-js/mdx": "^1.0.18",
     "@mdx-js/react": "^1.0.16",
     "github-slugger": "^1.2.1",
+    "gray-matter": "^4.0.2",
     "loader-utils": "^1.2.3",
     "mdast-util-to-string": "^1.0.5",
     "prism-themes": "^1.1.0",
