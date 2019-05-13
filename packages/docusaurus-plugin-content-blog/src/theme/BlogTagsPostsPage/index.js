@@ -12,15 +12,17 @@ import BlogPostItem from '@theme/BlogPostItem';
 
 function BlogTagsPostPage(props) {
   const {metadata, items} = props;
-  const {tag} = metadata;
+  const {name: tagName, count} = metadata;
 
   return (
-    <Layout title={`Blog | Tagged ${tag}`} description={`Blog | Tagged ${tag}`}>
+    <Layout
+      title={`Blog | Tagged "${tagName}"`}
+      description={`Blog | Tagged "${tagName}"`}>
       <div className="container margin-vert--xl">
         <div className="row">
           <div className="col col--8 col--offset-2">
             <h1>
-              {items.length} post(s) tagged with &quot;{tag}&quot;
+              {count} post(s) tagged with &quot;{tagName}&quot;
             </h1>
             <div className="margin-vert--lg">
               {items.map(
