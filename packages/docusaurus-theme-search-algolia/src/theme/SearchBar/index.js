@@ -28,11 +28,6 @@ class Search extends React.Component {
     // https://github.com/algolia/docsearch/issues/352
     const isClient = typeof window !== 'undefined';
     if (isClient) {
-      // Temporary workaround for a11y issue
-      // https://github.com/algolia/docsearch/issues/418#
-      const docsearchInput = document.querySelector('#search_input_react');
-      const ariaLabel = docsearchInput.getAttribute('aria-label');
-
       import('docsearch.js').then(({default: docsearch}) => {
         docsearch({
           appId: algolia.appId,
@@ -41,7 +36,6 @@ class Search extends React.Component {
           inputSelector: '#search_input_react',
           algoliaOptions: algolia.algoliaOptions,
         });
-        docsearchInput.setAttribute('aria-label', ariaLabel);
       });
     } else {
       console.warn('Search has failed to load and now is being disabled');
