@@ -6130,7 +6130,7 @@ gitconfiglocal@^1.0.0:
   dependencies:
     ini "^1.3.2"
 
-github-slugger@^1.1.1, github-slugger@^1.2.1:
+github-slugger@^1.0.0, github-slugger@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/github-slugger/-/github-slugger-1.2.1.tgz#47e904e70bf2dccd0014748142d31126cfd49508"
   integrity sha512-SsZUjg/P03KPzQBt7OxJPasGw6NRO5uOgiZ5RGXVud5iSIZ0eNZeNp5rTwCxtavrRUa/A77j8mePVc5lEvk0KQ==
@@ -6530,16 +6530,6 @@ hast-util-from-parse5@^5.0.0:
     property-information "^5.0.0"
     web-namespaces "^1.1.2"
     xtend "^4.0.1"
-
-hast-util-has-property@^1.0.0:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/hast-util-has-property/-/hast-util-has-property-1.0.2.tgz#4c9c3c6122fcc84a5b7c40a573940aaa4b8a8278"
-  integrity sha512-EBzRiKIIe9wouLSjqun5ti0oYcEe5U1eEpuOPtcihmP3KvFRovOmmXypf1B/QalQr9S4YoVgLOSg6gW98ihRbA==
-
-hast-util-is-element@^1.0.0:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/hast-util-is-element/-/hast-util-is-element-1.0.2.tgz#c23c9428b6a5a4e323bf9e16f87417476314981b"
-  integrity sha512-4MEtyofNi3ZunPFrp9NpTQdNPN24xvLX3M+Lr/RGgPX6TLi+wR4/DqeoyQ7lwWcfUp4aevdt4RR0r7ZQPFbHxw==
 
 hast-util-parse-selector@^2.2.0:
   version "2.2.1"
@@ -8959,7 +8949,7 @@ mdast-util-to-hast@^4.0.0:
     unist-util-visit "^1.1.0"
     xtend "^4.0.1"
 
-mdast-util-to-string@^1.0.5:
+mdast-util-to-string@^1.0.0, mdast-util-to-string@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/mdast-util-to-string/-/mdast-util-to-string-1.0.5.tgz#3552b05428af22ceda34f156afe62ec8e6d731ca"
   integrity sha512-2qLt/DEOo5F6nc2VFScQiHPzQ0XXcabquRJxKMhKte8nt42o08HUxNDPk7tt0YPxnWjAT11I1SYi0X0iPnfI5A==
@@ -11584,17 +11574,6 @@ regjsparser@^0.6.0:
   dependencies:
     jsesc "~0.5.0"
 
-rehype-slug@^2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/rehype-slug/-/rehype-slug-2.0.2.tgz#a0d5a4118548ee6165b1f911a213a13e284d91ba"
-  integrity sha512-CDCRfqx4qgfOSDG6t9KoyvrLejrICqhDJu0kNY2r5RhZLr2QHp9gG533nLzp6HLTVT0fSbZbdx8YvqLGpCBjPA==
-  dependencies:
-    github-slugger "^1.1.1"
-    hast-util-has-property "^1.0.0"
-    hast-util-is-element "^1.0.0"
-    hast-util-to-string "^1.0.0"
-    unist-util-visit "^1.1.0"
-
 relateurl@0.2.x:
   version "0.2.7"
   resolved "https://registry.yarnpkg.com/relateurl/-/relateurl-0.2.7.tgz#54dbf377e51440aca90a4cd274600d3ff2d888a9"
@@ -11641,6 +11620,15 @@ remark-parse@^6.0.0:
     unist-util-remove-position "^1.0.0"
     vfile-location "^2.0.0"
     xtend "^4.0.1"
+
+remark-slug@^5.1.1:
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/remark-slug/-/remark-slug-5.1.1.tgz#eb5dba0cf779487ef7ddf65c735ba4d4ca017542"
+  integrity sha512-r591rdoDPJkSSAVvEaTVUkqbMp7c7AyZfif14V0Dp66GQkOHzaPAS6wyhawSbqpS0ZdTnfJS+TltFoxzi6bdIA==
+  dependencies:
+    github-slugger "^1.0.0"
+    mdast-util-to-string "^1.0.0"
+    unist-util-visit "^1.0.0"
 
 remark-squeeze-paragraphs@^3.0.1:
   version "3.0.3"
