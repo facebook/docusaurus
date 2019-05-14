@@ -22,9 +22,6 @@ The same script can be invoked using npm:
 npm run start
 ```
 
-
-### `/<context>/status`
-
 To run a particular script, just replace the `start` command in the examples above with the command associated with your script.
 
 ## Using arguments
