@@ -23,7 +23,7 @@ function BlogPostPage(props) {
               <BlogPostItem frontMatter={frontMatter} metadata={metadata}>
                 <BlogPostContents />
               </BlogPostItem>
-              <div className="margin-vert--lg">
+              <div className="margin-vert--xl">
                 <BlogPostPaginator nextItem={nextItem} prevItem={prevItem} />
               </div>
             </div>
