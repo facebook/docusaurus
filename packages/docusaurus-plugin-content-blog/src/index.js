@@ -56,6 +56,10 @@ class DocusaurusPluginContentBlog {
     const {siteConfig} = this.context;
     const blogDir = this.contentPath;
 
+    if (!fs.existsSync(blogDir)) {
+      return null;
+    }
+
     const {baseUrl} = siteConfig;
     const blogFiles = await globby(include, {
       cwd: blogDir,
@@ -173,6 +177,10 @@ class DocusaurusPluginContentBlog {
   }
 
   async contentLoaded({content: blogContents, actions}) {
+    if (!blogContents) {
+      return;
+    }
+
     const {
       blogListComponent,
       blogPostComponent,

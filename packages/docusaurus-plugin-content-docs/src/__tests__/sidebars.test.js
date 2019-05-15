@@ -12,18 +12,18 @@ import loadSidebars from '../sidebars';
 
 describe('loadSidebars', () => {
   test('normal site with sidebars', async () => {
-    const sidebar = require(path.join(
+    const sidebarPath = path.join(
       __dirname,
       '__fixtures__',
       'website',
       'sidebars.json',
-    ));
-    const result = loadSidebars({sidebar});
+    );
+    const result = loadSidebars(sidebarPath);
     expect(result).toMatchSnapshot();
   });
 
   test('site without sidebars', () => {
-    const result = loadSidebars({sidebar: {}});
+    const result = loadSidebars(null);
     expect(result).toMatchSnapshot();
   });
 });

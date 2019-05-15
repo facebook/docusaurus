@@ -38,7 +38,7 @@ function getTOC(content, headingTags = 'h2', subHeadingTags = 'h3') {
     if (!allowedHeadingLevels.includes(heading.lvl)) {
       return;
     }
-    const rawContent = mdToc.titleize(heading.content);
+    const rawContent = heading.content;
     const entry = {
       hashLink,
       rawContent,

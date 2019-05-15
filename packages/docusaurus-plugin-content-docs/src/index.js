@@ -6,7 +6,7 @@
  */
 
 const globby = require('globby');
-const importFresh = require('import-fresh');
+const fs = require('fs');
 const path = require('path');
 const {idx, normalizeUrl, docuHash} = require('@docusaurus/utils');
 
@@ -48,14 +48,16 @@ class DocusaurusPluginContentDocs {
   // Fetches blog contents and returns metadata for the contents.
   async loadContent() {
     const {include, routeBasePath, sidebarPath} = this.options;
-    const {siteDir, siteConfig} = this.context;
+    const {siteConfig} = this.context;
     const docsDir = this.contentPath;
 
-    // We don't want sidebars to be cached because of hotreloading.
-    const sidebar = importFresh(sidebarPath);
-    const docsSidebars = loadSidebars({siteDir, sidebar});
+    if (!fs.existsSync(docsDir)) {
+      return null;
+    }
 
-    // @tested - build the docs ordering such as next, previous, category and sidebar
+    const docsSidebars = loadSidebars(sidebarPath);
+
+    // Build the docs ordering such as next, previous, category and sidebar
     const order = createOrder(docsSidebars);
 
     // Prepare metadata container.
@@ -111,6 +113,9 @@ class DocusaurusPluginContentDocs {
   }
 
   async contentLoaded({content, actions}) {
+    if (!content) {
+      return;
+    }
     const {docLayoutComponent, docItemComponent, routeBasePath} = this.options;
     const {addRoute, createData} = actions;
 
