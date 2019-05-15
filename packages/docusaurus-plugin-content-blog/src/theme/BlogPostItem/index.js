@@ -81,13 +81,16 @@ function BlogPostItem(props) {
     <div>
       {renderPostHeader()}
       <article className="markdown">{children}</article>
-      <div className="row margin-vert--xl">
+      <div className="row margin-vert--lg">
         <div className="col col-6">
           {tags.length > 0 && (
             <>
               <strong>Tags:</strong>
               {tags.map(({label, permalink: tagPermalink}) => (
-                <Link className="margin-horiz--sm" to={tagPermalink}>
+                <Link
+                  key={tagPermalink}
+                  className="margin-horiz--sm"
+                  to={tagPermalink}>
                   {label}
                 </Link>
               ))}
