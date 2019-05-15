@@ -14,15 +14,7 @@ module.exports = {
       'deployment',
     ],
     Guides: [
-      {
-        type: 'link',
-        label: 'Github',
-        href: 'http://github.com',
-      },
-      {
-        type: 'ref',
-        id: 'configuration',
-      },
+      'configuration',
       'creating-pages',
       'writing-documentation',
       'assets',
