@@ -69,11 +69,11 @@ class DocusaurusPluginContentPages {
   }
 
   async contentLoaded({content, actions}) {
-    const {addRoute, createData} = actions;
-
     if (!content) {
       return;
     }
+
+    const {addRoute, createData} = actions;
 
     await Promise.all(
       content.map(async metadataItem => {
