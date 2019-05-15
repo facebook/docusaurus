@@ -7,6 +7,7 @@
 
 const globby = require('globby');
 const path = require('path');
+const fs = require('fs');
 const {encodePath, fileToPath, docuHash} = require('@docusaurus/utils');
 
 const DEFAULT_OPTIONS = {
@@ -39,6 +40,10 @@ class DocusaurusPluginContentPages {
     const {siteConfig} = this.context;
     const pagesDir = this.contentPath;
 
+    if (!fs.existsSync(pagesDir)) {
+      return null;
+    }
+
     const {baseUrl} = siteConfig;
     const pagesFiles = await globby(include, {
       cwd: pagesDir,
@@ -64,6 +69,10 @@ class DocusaurusPluginContentPages {
   }
 
   async contentLoaded({content, actions}) {
+    if (!content) {
+      return;
+    }
+
     const {addRoute, createData} = actions;
 
     await Promise.all(
