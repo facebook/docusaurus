@@ -9,7 +9,7 @@ import React from 'react';
 
 import Layout from '@theme/Layout'; // eslint-disable-line
 import BlogPostItem from '@theme/BlogPostItem';
-import BlogPostPaginator from '../BlogPostPaginator';
+import BlogPostPaginator from '@theme/BlogPostPaginator';
 
 function BlogPostPage(props) {
   const {content: BlogPostContents, metadata, nextItem, prevItem} = props;
