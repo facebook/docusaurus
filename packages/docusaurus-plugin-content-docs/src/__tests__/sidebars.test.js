@@ -11,7 +11,7 @@ import loadSidebars from '../sidebars';
 /* eslint-disable global-require, import/no-dynamic-require */
 
 describe('loadSidebars', () => {
-  test('normal site with sidebars', async () => {
+  test('sidebars with known sidebar item type', async () => {
     const sidebarPath = path.join(
       __dirname,
       '__fixtures__',
@@ -22,8 +22,20 @@ describe('loadSidebars', () => {
     expect(result).toMatchSnapshot();
   });
 
-  test('site without sidebars', () => {
+  test('sidebars with unknown sidebar item type', async () => {
+    const sidebarPath = path.join(
+      __dirname,
+      '__fixtures__',
+      'website',
+      'bad-sidebars.json',
+    );
+    expect(() => loadSidebars(sidebarPath)).toThrowErrorMatchingInlineSnapshot(
+      `"Unknown sidebar item type: superman"`,
+    );
+  });
+
+  test('no sidebars', () => {
     const result = loadSidebars(null);
-    expect(result).toMatchSnapshot();
+    expect(result).toEqual({});
   });
 });

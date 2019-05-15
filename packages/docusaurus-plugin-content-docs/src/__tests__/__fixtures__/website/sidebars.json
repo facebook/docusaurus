@@ -2,7 +2,16 @@
   "docs": {
     "Test": [
       "foo/bar",
-      "foo/baz"
+      "foo/baz",
+      {
+        "type": "link",
+        "label": "Github",
+        "href": "https://github.com"
+      },
+      {
+        "type": "ref",
+        "id": "hello"
+      }
     ],
     "Guides": [
       "hello"
