@@ -25,7 +25,6 @@
     "unist-util-visit": "^1.4.0"
   },
   "devDependencies": {
-    "@babel/polyfill": "^7.4.3",
     "remark": "^10.0.1",
     "remark-mdx": "^1.0.14",
     "to-vfile": "^5.0.2"
