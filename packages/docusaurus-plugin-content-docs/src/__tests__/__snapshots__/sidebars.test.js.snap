@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`loadSidebars normal site with sidebars 1`] = `
+exports[`loadSidebars sidebars with known sidebar item type 1`] = `
 Object {
   "docs": Array [
     Object {
@@ -12,6 +12,15 @@ Object {
         Object {
           "id": "foo/baz",
           "type": "doc",
+        },
+        Object {
+          "href": "https://github.com",
+          "label": "Github",
+          "type": "link",
+        },
+        Object {
+          "id": "hello",
+          "type": "ref",
         },
       ],
       "label": "Test",
@@ -30,5 +39,3 @@ Object {
   ],
 }
 `;
-
-exports[`loadSidebars site without sidebars 1`] = `Object {}`;
