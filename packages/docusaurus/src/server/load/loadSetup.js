@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import '@babel/polyfill';
 import path from 'path';
 import load from '../index';
 

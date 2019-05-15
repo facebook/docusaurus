@@ -11,7 +11,7 @@
     "docsearch.js": "^2.6.3"
   },
   "peerDependencies": {
-    "@docusaurus/core": "^2.0.0",
+    "@docusaurus/core": "^2.0.0-alpha.14",
     "react": "^16.8.4",
     "react-dom": "^16.8.4"
   },

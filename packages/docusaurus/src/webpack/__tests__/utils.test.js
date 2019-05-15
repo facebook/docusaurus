@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import '@babel/polyfill';
 import {validate} from 'webpack';
 import path from 'path';
 

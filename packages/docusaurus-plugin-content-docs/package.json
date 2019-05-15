@@ -8,7 +8,6 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@babel/polyfill": "^7.4.0",
     "@docusaurus/mdx-loader": "^2.0.0-alpha.14",
     "@docusaurus/utils": "^2.0.0-alpha.14",
     "fs-extra": "^7.0.1",
@@ -17,7 +16,7 @@
     "loader-utils": "^1.2.3"
   },
   "peerDependencies": {
-    "@docusaurus/core": "^2.0.0",
+    "@docusaurus/core": "^2.0.0-alpha.14",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
     "react-router-config": "^5.0.0"
