@@ -135,29 +135,44 @@ class DocusaurusPluginContentBlog {
     }
 
     const blogTags = {};
+    const tagsPath = normalizeUrl([basePageUrl, 'tags']);
     blogPosts.forEach(blogPost => {
       const {tags} = blogPost.metadata;
       if (!tags || tags.length === 0) {
+        // TODO: Extract tags out into a separate plugin.
+        // eslint-disable-next-line no-param-reassign
+        blogPost.metadata.tags = [];
         return;
       }
 
-      tags.forEach(tag => {
+      // eslint-disable-next-line no-param-reassign
+      blogPost.metadata.tags = tags.map(tag => {
         const normalizedTag = _.kebabCase(tag);
+        const permalink = normalizeUrl([tagsPath, normalizedTag]);
         if (!blogTags[normalizedTag]) {
           blogTags[normalizedTag] = {
             name: tag.toLowerCase(), // Will only use the name of the first occurrence of the tag.
             items: [],
+            permalink,
           };
         }
 
         blogTags[normalizedTag].items.push(blogPost.id);
+
+        return {
+          label: tag,
+          permalink,
+        };
       });
     });
+
+    const blogTagsListPath = Object.keys(blogTags).length > 0 ? tagsPath : null;
 
     return {
       blogPosts,
       blogListPaginated,
       blogTags,
+      blogTagsListPath,
     };
   }
 
@@ -174,7 +189,12 @@ class DocusaurusPluginContentBlog {
     } = this.options;
 
     const {addRoute, createData} = actions;
-    const {blogPosts, blogListPaginated, blogTags} = blogContents;
+    const {
+      blogPosts,
+      blogListPaginated,
+      blogTags,
+      blogTagsListPath,
+    } = blogContents;
 
     const blogItemsToModules = {};
     // Create routes for blog entries.
@@ -254,21 +274,14 @@ class DocusaurusPluginContentBlog {
     );
 
     // Tags.
-    const {routeBasePath} = this.options;
-    const {
-      siteConfig: {baseUrl},
-    } = this.context;
-
-    const basePageUrl = normalizeUrl([baseUrl, routeBasePath]);
-    const tagsPath = normalizeUrl([basePageUrl, 'tags']);
     const tagsModule = {};
 
     await Promise.all(
       Object.keys(blogTags).map(async tag => {
-        const permalink = normalizeUrl([tagsPath, tag]);
-        const {name, items} = blogTags[tag];
+        const {name, items, permalink} = blogTags[tag];
 
         tagsModule[tag] = {
+          allTagsPath: blogTagsListPath,
           slug: tag,
           name,
           count: items.length,
@@ -309,12 +322,12 @@ class DocusaurusPluginContentBlog {
     // Only create /tags page if there are tags.
     if (Object.keys(blogTags).length > 0) {
       const tagsListPath = await createData(
-        `${docuHash(`${tagsPath}-tags`)}.json`,
+        `${docuHash(`${blogTagsListPath}-tags`)}.json`,
         JSON.stringify(tagsModule, null, 2),
       );
 
       addRoute({
-        path: tagsPath,
+        path: blogTagsListPath,
         component: blogTagsListComponent,
         exact: true,
         modules: {

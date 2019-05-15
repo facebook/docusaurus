@@ -10,12 +10,12 @@ import Link from '@docusaurus/Link';
 
 function BlogPostItem(props) {
   const {children, frontMatter, metadata, truncated} = props;
+  const {date, permalink, tags} = metadata;
+  const {author, authorURL, authorTitle, authorFBID, title} = frontMatter;
 
   const renderPostHeader = () => {
-    const {author, authorURL, authorTitle, authorFBID, title} = frontMatter;
-    const {date, permalink} = metadata;
-
-    const blogPostDate = new Date(date);
+    const match = date.substring(0, 10).split('-');
+    const year = match[0];
     const month = [
       'January',
       'February',
@@ -29,7 +29,8 @@ function BlogPostItem(props) {
       'October',
       'November',
       'December',
-    ];
+    ][parseInt(match[1], 10) - 1];
+    const day = parseInt(match[2], 10);
 
     const authorImageURL = authorFBID
       ? `https://graph.facebook.com/${authorFBID}/picture/?height=200&width=200`
@@ -37,12 +38,13 @@ function BlogPostItem(props) {
 
     return (
       <header>
-        <h1>
+        <h1 className="margin-bottom--xs">
           <Link to={permalink}>{title}</Link>
         </h1>
         <div className="margin-bottom--sm">
-          {month[blogPostDate.getMonth()]} {blogPostDate.getDay()},{' '}
-          {blogPostDate.getFullYear()}
+          <small>
+            {month} {day}, {year}
+          </small>
         </div>
         <div className="avatar margin-bottom--md">
           {authorImageURL && (
@@ -79,11 +81,30 @@ function BlogPostItem(props) {
     <div>
       {renderPostHeader()}
       <article className="markdown">{children}</article>
-      {truncated && (
-        <div className="text--right margin-vert--md">
-          <Link to={metadata.permalink}>Read More</Link>
+      <div className="row margin-vert--lg">
+        <div className="col col-6">
+          {tags.length > 0 && (
+            <>
+              <strong>Tags:</strong>
+              {tags.map(({label, permalink: tagPermalink}) => (
+                <Link
+                  key={tagPermalink}
+                  className="margin-horiz--sm"
+                  to={tagPermalink}>
+                  {label}
+                </Link>
+              ))}
+            </>
+          )}
         </div>
-      )}
+        <div className="col col-6 text--right">
+          {truncated && (
+            <Link to={metadata.permalink}>
+              <strong>Read More</strong>
+            </Link>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

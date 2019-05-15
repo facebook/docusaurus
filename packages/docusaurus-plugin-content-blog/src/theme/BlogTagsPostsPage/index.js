@@ -9,10 +9,11 @@ import React from 'react';
 
 import Layout from '@theme/Layout'; // eslint-disable-line
 import BlogPostItem from '@theme/BlogPostItem';
+import Link from '@docusaurus/Link';
 
 function BlogTagsPostPage(props) {
   const {metadata, items} = props;
-  const {name: tagName, count} = metadata;
+  const {allTagsPath, name: tagName, count} = metadata;
 
   return (
     <Layout
@@ -24,7 +25,8 @@ function BlogTagsPostPage(props) {
             <h1>
               {count} post(s) tagged with &quot;{tagName}&quot;
             </h1>
-            <div className="margin-vert--lg">
+            <Link href={allTagsPath}>View All Tags</Link>
+            <div className="margin-vert--xl">
               {items.map(
                 ({content: BlogPostContent, metadata: blogPostMetadata}) => (
                   <div key={blogPostMetadata.permalink}>
