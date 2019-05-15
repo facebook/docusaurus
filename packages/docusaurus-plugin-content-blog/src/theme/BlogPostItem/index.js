@@ -14,7 +14,8 @@ function BlogPostItem(props) {
   const {author, authorURL, authorTitle, authorFBID, title} = frontMatter;
 
   const renderPostHeader = () => {
-    const blogPostDate = new Date(date);
+    const match = date.substring(0, 10).split('-');
+    const year = match[0];
     const month = [
       'January',
       'February',
@@ -28,7 +29,8 @@ function BlogPostItem(props) {
       'October',
       'November',
       'December',
-    ];
+    ][parseInt(match[1], 10) - 1];
+    const day = parseInt(match[2], 10);
 
     const authorImageURL = authorFBID
       ? `https://graph.facebook.com/${authorFBID}/picture/?height=200&width=200`
@@ -41,8 +43,7 @@ function BlogPostItem(props) {
         </h1>
         <div className="margin-bottom--sm">
           <small>
-            {month[blogPostDate.getMonth()]} {blogPostDate.getDay()},{' '}
-            {blogPostDate.getFullYear()}
+            {month} {day}, {year}
           </small>
         </div>
         <div className="avatar margin-bottom--md">
