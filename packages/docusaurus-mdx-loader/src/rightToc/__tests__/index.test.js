@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import '@babel/polyfill';
 import {join} from 'path';
 import remark from 'remark';
 import mdx from 'remark-mdx';
