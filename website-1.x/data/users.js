@@ -520,6 +520,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'tipsi-stripe',
+    image: '/img/users/tipsi-stripe.png',
+    infoLink: 'https://tipsi.github.io/tipsi-stripe/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'TorchCraftAI',
     image: '/img/users/torchcraftai.png',
     infoLink: 'https://torchcraft.github.io/TorchCraftAI/',
