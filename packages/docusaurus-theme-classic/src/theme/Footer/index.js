@@ -20,6 +20,10 @@ function Footer() {
     themeConfig: {footer},
   } = siteConfig;
 
+  if (!footer) {
+    return null;
+  }
+
   const {copyright, links = [], logo} = footer;
 
   return (
@@ -30,15 +34,17 @@ function Footer() {
       <div className="container">
         {links && links.length > 0 && (
           <div className="row footer__links">
-            {links.map(linkItem => (
-              <div className="col">
+            {links.map((linkItem, i) => (
+              <div key={`linkItem-${i}`} className="col">
                 {linkItem.title != null ? (
                   <h4 className="footer__title">{linkItem.title}</h4>
                 ) : null}
-                {linkItem.items != null && linkItem.items.length > 0 ? (
+                {linkItem.items != null &&
+                Array.isArray(linkItem.items) &&
+                linkItem.items.length > 0 ? (
                   <ul className="footer__items">
                     {linkItem.items.map(item => (
-                      <li className="footer__item">
+                      <li key={item.href || item.to} className="footer__item">
                         <Link
                           className="footer__link-item"
                           {...item}

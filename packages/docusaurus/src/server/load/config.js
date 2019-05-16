@@ -7,6 +7,7 @@
 
 const fs = require('fs-extra');
 const _ = require('lodash');
+const importFresh = require('import-fresh');
 const path = require('path');
 const {CONFIG_FILE_NAME} = require('../../constants');
 
@@ -37,14 +38,11 @@ function formatFields(fields) {
   return fields.map(field => `'${field}'`).join(', ');
 }
 
-function loadConfig(siteDir, deleteCache = true) {
+function loadConfig(siteDir) {
   const configPath = path.resolve(siteDir, CONFIG_FILE_NAME);
-  if (deleteCache) {
-    delete require.cache[configPath];
-  }
   let loadedConfig = {};
   if (fs.existsSync(configPath)) {
-    loadedConfig = require(configPath); // eslint-disable-line
+    loadedConfig = importFresh(configPath);
   }
 
   const missingFields = REQUIRED_FIELDS.filter(

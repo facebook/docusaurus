@@ -52,6 +52,10 @@ module.exports = {
               label: 'Feedback',
               to: 'feedback',
             },
+            {
+              label: 'Discord',
+              href: 'https://discordapp.com/invite/docusaurus',
+            },
           ],
         },
         {
