@@ -106,6 +106,13 @@ module.exports = [
     pinned: true,
   },
   {
+    caption: 'Express Validator',
+    image: '/img/users/express-validator.svg',
+    infoLink: 'https://express-validator.github.io/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'FastText',
     image: '/img/users/fasttext.png',
     infoLink: 'https://fasttext.cc',
