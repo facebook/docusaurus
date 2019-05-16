@@ -11,6 +11,6 @@
     "sitemap": "^2.1.0"
   },
   "peerDependencies": {
-    "@docusaurus/core": "^2.0.0-alpha.14"
+    "@docusaurus/core": "^2.0.0"
   }
 }
