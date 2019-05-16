@@ -189,8 +189,14 @@ class SideNav extends React.Component {
 
               const headings = document.querySelector('.toc-headings');
               headings && headings.addEventListener('click', function(event) {
-                if (event.target.tagName === 'A') {
-                  document.body.classList.remove('tocActive');
+                let el = event.target;
+                while(el !== event.currentTarget){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
                 }
               }, false);
 
