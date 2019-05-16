@@ -25,6 +25,63 @@ module.exports = {
       {url: 'blog', label: 'Blog'},
       {url: 'feedback/', label: 'Feedback'},
     ],
+    footer: {
+      style: 'dark',
+      links: [
+        {
+          title: 'Docs',
+          items: [
+            {
+              label: 'Introduction',
+              to: 'docs/introduction',
+            },
+            {
+              label: 'Themes',
+              to: 'docs/themes',
+            },
+          ],
+        },
+        {
+          title: 'Community',
+          items: [
+            {
+              label: 'Stack Overflow',
+              href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+            },
+            {
+              label: 'Feedback',
+              to: 'feedback',
+            },
+            {
+              label: 'Discord',
+              href: 'https://discordapp.com/invite/docusaurus',
+            },
+          ],
+        },
+        {
+          title: 'Social',
+          items: [
+            {
+              label: 'Blog',
+              to: 'blog',
+            },
+            {
+              label: 'GitHub',
+              href: 'https://github.com/facebook/docusaurus',
+            },
+            {
+              label: 'Twitter',
+              href: 'https://twitter.com/docusaurus',
+            },
+          ],
+        },
+      ],
+      logo: {
+        alt: 'Facebook Open Source Logo',
+        src: 'https://docusaurus.io/img/oss_logo.png',
+      },
+      copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`,
+    },
   },
   presets: [
     [
