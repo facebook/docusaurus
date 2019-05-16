@@ -9,7 +9,6 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const path = require('path');
 const fs = require('fs-extra');
-const isWsl = require('is-wsl');
 const {getBabelLoader, getCacheLoader, getStyleLoaders} = require('./utils');
 
 const CSS_REGEX = /\.css$/;
@@ -58,9 +57,7 @@ module.exports = function createBaseConfig(props, isServer) {
       minimizer: [
         new TerserPlugin({
           cache: true,
-          // Disabled on WSL (Windows Subsystem for Linux) due to an issue with Terser
-          // https://github.com/webpack-contrib/terser-webpack-plugin/issues/21
-          parallel: !isWsl,
+          parallel: true,
           sourceMap: true,
           terserOptions: {
             ecma: 6,
