@@ -72,8 +72,7 @@
     "webpack-bundle-analyzer": "^3.1.0",
     "webpack-dev-server": "^3.2.1",
     "webpack-merge": "^4.1.4",
-    "webpack-nicelog": "^2.3.1",
-    "webpack-node-externals": "^1.7.2"
+    "webpack-nicelog": "^2.3.1"
   },
   "peerDependencies": {
     "react": "^16.8.4",
