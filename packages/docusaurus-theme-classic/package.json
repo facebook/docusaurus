@@ -1,0 +1,22 @@
+{
+  "name": "@docusaurus/theme-classic",
+  "version": "2.0.0-alpha.16",
+  "description": "Classic theme for Docusaurus",
+  "main": "src/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "classnames": "^2.2.6",
+    "docsearch.js": "^2.5.2"
+  },
+  "peerDependencies": {
+    "@docusaurus/core": "^2.0.0",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4"
+  },
+  "engines": {
+    "node": ">=8"
+  }
+}

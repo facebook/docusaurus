@@ -5,9 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const fs = require('fs-extra');
-const path = require('path');
-const {idx} = require('@docusaurus/utils');
+const fs = require('fs');
+const importFresh = require('import-fresh');
 
 /**
  * Check that item contains only allowed keys
@@ -113,29 +112,11 @@ function normalizeSidebar(sidebars) {
   }, {});
 }
 
-module.exports = function loadSidebars({siteDir, env, sidebar}) {
-  const allSidebars = sidebar;
-
-  // Versioned sidebars.
-  if (idx(env, ['versioning', 'enabled'])) {
-    const versions = idx(env, ['versioning', 'versions']);
-    if (Array.isArray(versions)) {
-      versions.forEach(version => {
-        const versionedSidebarsJSONFile = path.join(
-          siteDir,
-          'versioned_sidebars',
-          `version-${version}-sidebars.json`,
-        );
-        if (fs.existsSync(versionedSidebarsJSONFile)) {
-          const sidebar = require(versionedSidebarsJSONFile); // eslint-disable-line
-          Object.assign(allSidebars, sidebar);
-        } else {
-          const missingFile = path.relative(siteDir, versionedSidebarsJSONFile);
-          throw new Error(`Failed to load ${missingFile}. It does not exist.`);
-        }
-      });
-    }
+module.exports = function loadSidebars(sidebarPath) {
+  // We don't want sidebars to be cached because of hotreloading.
+  let allSidebars = {};
+  if (sidebarPath && fs.existsSync(sidebarPath)) {
+    allSidebars = importFresh(sidebarPath);
   }
-
   return normalizeSidebar(allSidebars);
 };

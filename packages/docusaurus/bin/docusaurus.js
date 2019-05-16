@@ -8,10 +8,11 @@
  */
 
 const chalk = require('chalk');
+const envinfo = require('envinfo');
 const semver = require('semver');
 const path = require('path');
 const program = require('commander');
-const {build, eject, init, deploy, start} = require('../lib');
+const {build, swizzle, init, deploy, start} = require('../src');
 const requiredVersion = require('../package.json').engines.node;
 
 if (!semver.satisfies(process.version, requiredVersion)) {
@@ -54,10 +55,10 @@ program
   });
 
 program
-  .command('eject [siteDir]')
-  .description('copy the default theme into website folder for customization.')
-  .action((siteDir = '.') => {
-    wrapCommand(eject)(path.resolve(siteDir));
+  .command('swizzle <themeName> [componentName] [siteDir]')
+  .description('Copy the theme files into website folder for customization.')
+  .action((themeName, componentName, siteDir = '.') => {
+    wrapCommand(swizzle)(path.resolve(siteDir), themeName, componentName);
   });
 
 program
@@ -85,13 +86,30 @@ program
     'Do not fallback to page refresh if hot reload fails (default: false)',
   )
   .option('--no-cache-loader', 'Do not use cache-loader')
-  .action((siteDir = '.', {port, noWatch, hotOnly, cacheLoader}) => {
+  .action((siteDir = '.', {port, host, noWatch, hotOnly, cacheLoader}) => {
     wrapCommand(start)(path.resolve(siteDir), {
       port,
+      host,
       noWatch,
       hotOnly,
       cacheLoader,
     });
+  });
+
+program
+  .command('info')
+  .description('Shows debugging information about the local environment')
+  .action(() => {
+    console.log(chalk.bold('\nEnvironment Info:'));
+    envinfo
+      .run({
+        System: ['OS', 'CPU'],
+        Binaries: ['Node', 'Yarn', 'npm'],
+        Browsers: ['Chrome', 'Edge', 'Firefox', 'Safari'],
+        npmPackages: '?(@)docusaurus{*,*/**}',
+        npmGlobalPackages: '?(@)docusaurus{*,*/**}',
+      })
+      .then(console.log);
   });
 
 program.arguments('<command>').action(cmd => {

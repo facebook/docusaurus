@@ -5,11 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+const _ = require('lodash');
 const hljs = require('highlight.js');
 const Markdown = require('remarkable');
 const prismjs = require('prismjs');
 const loadLanguages = require('prismjs/components/index');
-const deepmerge = require('deepmerge');
 const chalk = require('chalk');
 const anchors = require('./anchors.js');
 
@@ -88,7 +88,7 @@ class MarkdownRenderer {
 
     // Allow overriding default options
     if (siteConfig.markdownOptions) {
-      markdownOptions = deepmerge(
+      markdownOptions = _.merge(
         {},
         markdownOptions,
         siteConfig.markdownOptions,

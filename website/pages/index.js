@@ -5,10 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useContext, useEffect} from 'react';
+import React, {useContext} from 'react';
 import Head from '@docusaurus/Head';
 import DocusaurusContext from '@docusaurus/context';
 import Link from '@docusaurus/Link';
+
+import Layout from '@theme/Layout';
 
 import classnames from 'classnames';
 
@@ -64,19 +66,10 @@ function Home() {
 
   // TODO: (wrapper function) API so that user won't need to concatenate url manually
   const feedbackUrl = `${siteConfig.baseUrl}feedback/`;
-  const gettingStartedUrl = `${siteConfig.baseUrl}docs/installation`;
-
-  useEffect(() => {
-    // Prefetch feedback pages & getting started pages
-    window.docusaurus.prefetch(feedbackUrl);
-    window.docusaurus.prefetch(gettingStartedUrl);
-  }, []);
+  const gettingStartedUrl = `${siteConfig.baseUrl}docs/introduction`;
 
   return (
-    <div>
-      <Head>
-        <title>Docusaurus</title>
-      </Head>
+    <Layout description={'Docusaurus makes it easy to build websites'}>
       <div className={styles['index-hero']}>
         <div className={styles['index-hero-inner']}>
           <h1 className={styles['index-hero-project-tagline']}>
@@ -116,8 +109,8 @@ function Home() {
           <a href="https://github.com/facebook/Docusaurus/issues/789">
             Docusaurus 2
           </a>
-          , contribute to its roadmap by suggesting features or giving feedback{' '}
-          <Link to={feedbackUrl}>here</Link>!
+          , contribute to its roadmap by suggesting features or giving{' '}
+          <Link to={feedbackUrl}>feedback here</Link>!
         </div>
       </div>
       <div className={styles.section}>
@@ -126,6 +119,7 @@ function Home() {
             <div className="col">
               <img
                 className={styles.featureImage}
+                alt={'Powered by Markdown'}
                 src={`${siteConfig.baseUrl}img/undraw_typewriter.svg`}
               />
               <h3>Powered by Markdown</h3>
@@ -137,6 +131,7 @@ function Home() {
             </div>
             <div className="col">
               <img
+                alt={'Built Using React'}
                 className={styles.featureImage}
                 src={`${siteConfig.baseUrl}img/undraw_react.svg`}
               />
@@ -149,6 +144,7 @@ function Home() {
             </div>
             <div className="col">
               <img
+                alt={'Ready for Translations'}
                 className={styles.featureImage}
                 src={`${siteConfig.baseUrl}img/undraw_around_the_world.svg`}
               />
@@ -164,6 +160,7 @@ function Home() {
           <div className="row">
             <div className="col col--4 col--offset-2">
               <img
+                alt={'Document Versioning'}
                 className={styles.featureImage}
                 src={`${siteConfig.baseUrl}img/undraw_version_control.svg`}
               />
@@ -176,6 +173,7 @@ function Home() {
             </div>
             <div className="col col--4">
               <img
+                alt={'Document Search'}
                 className={styles.featureImage}
                 src={`${siteConfig.baseUrl}img/undraw_algolia.svg`}
               />
@@ -217,7 +215,7 @@ function Home() {
           </div>
         </div>
       </div>
-    </div>
+    </Layout>
   );
 }
 

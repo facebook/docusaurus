@@ -128,7 +128,7 @@ The default version for the site to be shown. If this is not set, the latest ver
 
 #### `docsUrl` [string]
 
-The base url for all docs file. Set this field to `''` to remove the `docs` prefix of the documentation URL. 
+The base url for all docs file. Set this field to `''` to remove the `docs` prefix of the documentation URL.
 If unset, it is defaulted to `docs`.
 
 #### `disableHeaderTitle` [boolean]
@@ -246,6 +246,10 @@ Hostname of your server. Useful if you are using GitHub Enterprise.
 #### `manifest` [string]
 
 Path to your web app manifest (e.g., `manifest.json`). This will add a `<link>` tag to `<head>` with `rel` as `"manifest"` and `href` as the provided path.
+
+#### `markdownOptions` [object]
+
+Override default [Remarkable options](https://github.com/jonschlinkert/remarkable#options) that will be used to render markdown.
 
 #### `markdownPlugins` [array]
 

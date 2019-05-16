@@ -7,13 +7,13 @@
 
 const globby = require('globby');
 const path = require('path');
-const {encodePath, fileToPath, idx, docuHash} = require('@docusaurus/utils');
+const fs = require('fs');
+const {encodePath, fileToPath, docuHash} = require('@docusaurus/utils');
 
 const DEFAULT_OPTIONS = {
   path: 'pages', // Path to data on filesystem, relative to site dir.
   routeBasePath: '', // URL Route.
   include: ['**/*.{js,jsx}'], // Extensions to include.
-  component: '@theme/Pages',
 };
 
 class DocusaurusPluginContentPages {
@@ -37,8 +37,12 @@ class DocusaurusPluginContentPages {
 
   async loadContent() {
     const {include} = this.options;
-    const {env, siteConfig} = this.context;
+    const {siteConfig} = this.context;
     const pagesDir = this.contentPath;
+
+    if (!fs.existsSync(pagesDir)) {
+      return null;
+    }
 
     const {baseUrl} = siteConfig;
     const pagesFiles = await globby(include, {
@@ -48,44 +52,16 @@ class DocusaurusPluginContentPages {
     // Prepare metadata container.
     const pagesMetadatas = [];
 
-    // Translation.
-    const translationEnabled = idx(env, ['translation', 'enabled']);
-    const enabledLanguages =
-      translationEnabled && idx(env, ['translation', 'enabledLanguages']);
-    const enabledLangTags =
-      (enabledLanguages && enabledLanguages.map(lang => lang.tag)) || [];
-    const defaultLangTag = idx(env, ['translation', 'defaultLanguage', 'tag']);
-
     await Promise.all(
       pagesFiles.map(async relativeSource => {
         const source = path.join(pagesDir, relativeSource);
         const pathName = encodePath(fileToPath(relativeSource));
-        if (translationEnabled && enabledLangTags.length > 0) {
-          enabledLangTags.forEach(langTag => {
-            // Default lang should also be available. E.g: /en/users and /users is the same.
-            if (langTag === defaultLangTag) {
-              pagesMetadatas.push({
-                permalink: pathName.replace(/^\//, baseUrl),
-                language: langTag,
-                source,
-              });
-            }
-
-            const metadata = {
-              permalink: pathName.replace(/^\//, `${baseUrl}${langTag}/`),
-              language: langTag,
-              source,
-            };
-            pagesMetadatas.push(metadata);
-          });
-        } else {
-          // Default Language.
-          const metadata = {
-            permalink: pathName.replace(/^\//, baseUrl),
-            source,
-          };
-          pagesMetadatas.push(metadata);
-        }
+        // Default Language.
+        const metadata = {
+          permalink: pathName.replace(/^\//, baseUrl),
+          source,
+        };
+        pagesMetadatas.push(metadata);
       }),
     );
 
@@ -93,7 +69,10 @@ class DocusaurusPluginContentPages {
   }
 
   async contentLoaded({content, actions}) {
-    const {component} = this.options;
+    if (!content) {
+      return;
+    }
+
     const {addRoute, createData} = actions;
 
     await Promise.all(
@@ -105,10 +84,9 @@ class DocusaurusPluginContentPages {
         );
         addRoute({
           path: permalink,
-          component,
+          component: source,
           exact: true,
           modules: {
-            content: source,
             metadata: metadataPath,
           },
         });

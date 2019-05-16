@@ -25,7 +25,11 @@ module.exports = {
   rules: {
     'class-methods-use-this': OFF, // It's a way of allowing private variables.
     'func-names': OFF,
-    'import/no-unresolved': WARNING, // Because it couldn't resolve webpack alias.
+    // Ignore certain webpack alias because it can't be resolved
+    'import/no-unresolved': [
+      ERROR,
+      {ignore: ['^@theme', '^@docusaurus', '^@generated']},
+    ],
     'header/header': [
       ERROR,
       'block',
@@ -42,8 +46,8 @@ module.exports = {
         ' ',
       ],
     ],
-    'jsx-a11y/click-events-have-key-events': OFF, // Revisit in future™
-    'jsx-a11y/no-noninteractive-element-interactions': OFF, // Revisit in future™
+    'jsx-a11y/click-events-have-key-events': WARNING,
+    'jsx-a11y/no-noninteractive-element-interactions': WARNING,
     'no-console': OFF,
     'no-underscore-dangle': OFF,
     'react/jsx-closing-bracket-location': OFF, // Conflicts with Prettier.

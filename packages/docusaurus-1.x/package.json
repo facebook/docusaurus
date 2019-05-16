@@ -1,7 +1,7 @@
 {
   "name": "docusaurus",
   "description": "Easy to Maintain Open Source Documentation Websites",
-  "version": "1.9.0",
+  "version": "2.0.0-alpha.16",
   "license": "MIT",
   "keywords": [
     "documentation",
@@ -44,7 +44,6 @@
     "cross-spawn": "^6.0.5",
     "crowdin-cli": "^0.3.0",
     "cssnano": "^3.10.0",
-    "deepmerge": "^2.1.1",
     "escape-string-regexp": "^1.0.5",
     "express": "^4.15.3",
     "feed": "^1.1.0",

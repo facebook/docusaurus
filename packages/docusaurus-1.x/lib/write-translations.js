@@ -26,7 +26,7 @@ const fs = require('fs-extra');
 const glob = require('glob');
 const mkdirp = require('mkdirp');
 const nodePath = require('path');
-const deepmerge = require('deepmerge');
+const _ = require('lodash');
 
 const readMetadata = require('./server/readMetadata.js');
 
@@ -43,7 +43,8 @@ let customTranslations = {
   'pages-strings': {},
 };
 if (fs.existsSync(`${CWD}/data/custom-translation-strings.json`)) {
-  customTranslations = deepmerge(
+  customTranslations = _.merge(
+    {},
     JSON.parse(
       fs.readFileSync(`${CWD}/data/custom-translation-strings.json`, 'utf8'),
     ),
@@ -187,7 +188,8 @@ function execute() {
     translations['pages-strings'],
     customTranslations['pages-strings'],
   );
-  translations['localized-strings'] = deepmerge(
+  translations['localized-strings'] = _.merge(
+    {},
     translations['localized-strings'],
     customTranslations['localized-strings'],
   );

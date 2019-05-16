@@ -109,9 +109,18 @@ class Footer extends React.Component {
           </div>
           <div className="footerSection">
             <h5>Community</h5>
+            <a href={`${this.props.config.baseUrl}${this.props.language}/help`}>
+              Help
+            </a>
             <a
               href={`${this.props.config.baseUrl}${this.props.language}/users`}>
               User Showcase
+            </a>
+            <a
+              href={`${this.props.config.baseUrl}${
+                this.props.language
+              }/about-slash`}>
+              About
             </a>
           </div>
           <SocialFooter config={this.props.config} />

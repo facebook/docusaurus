@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/plugin-content-docs",
-  "version": "2.0.0-alpha.12",
+  "version": "2.0.0-alpha.16",
   "description": "Documentation plugin for Docusaurus",
   "main": "src/index.js",
   "publishConfig": {
@@ -8,16 +8,20 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@babel/polyfill": "^7.4.0",
-    "@docusaurus/mdx-loader": "^2.0.0-alpha.12",
-    "@docusaurus/utils": "^2.0.0-alpha.12",
-    "front-matter": "^3.0.1",
+    "@docusaurus/mdx-loader": "^2.0.0-alpha.16",
+    "@docusaurus/utils": "^2.0.0-alpha.16",
     "fs-extra": "^7.0.1",
     "globby": "^9.1.0",
     "import-fresh": "^3.0.0",
     "loader-utils": "^1.2.3"
   },
   "peerDependencies": {
-    "@docusaurus/core": "^2.0.0"
+    "@docusaurus/core": "^2.0.0",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4",
+    "react-router-config": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=8"
   }
 }

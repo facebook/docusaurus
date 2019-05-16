@@ -12,17 +12,76 @@ module.exports = {
   projectName: 'docusaurus',
   baseUrl: '/',
   url: 'https://docusaurus-2.netlify.com',
-  headerLinks: [
-    {url: 'docs/introduction', label: 'Docs'},
-    {url: 'blog', label: 'Blog'},
-    {url: 'feedback/', label: 'Feedback'},
-  ],
   headerIcon: 'img/docusaurus.svg',
   favicon: 'img/docusaurus.ico',
-  algolia: {
-    apiKey: '47ecd3b21be71c5822571b9f59e52544',
-    indexName: 'docusaurus-2',
-    algoliaOptions: {},
+  themeConfig: {
+    algolia: {
+      apiKey: '47ecd3b21be71c5822571b9f59e52544',
+      indexName: 'docusaurus-2',
+      algoliaOptions: {},
+    },
+    headerLinks: [
+      {url: 'docs/introduction', label: 'Docs'},
+      {url: 'blog', label: 'Blog'},
+      {url: 'feedback/', label: 'Feedback'},
+    ],
+    footer: {
+      style: 'dark',
+      links: [
+        {
+          title: 'Docs',
+          items: [
+            {
+              label: 'Introduction',
+              to: 'docs/introduction',
+            },
+            {
+              label: 'Themes',
+              to: 'docs/themes',
+            },
+          ],
+        },
+        {
+          title: 'Community',
+          items: [
+            {
+              label: 'Stack Overflow',
+              href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+            },
+            {
+              label: 'Feedback',
+              to: 'feedback',
+            },
+            {
+              label: 'Discord',
+              href: 'https://discordapp.com/invite/docusaurus',
+            },
+          ],
+        },
+        {
+          title: 'Social',
+          items: [
+            {
+              label: 'Blog',
+              to: 'blog',
+            },
+            {
+              label: 'GitHub',
+              href: 'https://github.com/facebook/docusaurus',
+            },
+            {
+              label: 'Twitter',
+              href: 'https://twitter.com/docusaurus',
+            },
+          ],
+        },
+      ],
+      logo: {
+        alt: 'Facebook Open Source Logo',
+        src: 'https://docusaurus.io/img/oss_logo.png',
+      },
+      copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`,
+    },
   },
   presets: [
     [
@@ -34,6 +93,7 @@ module.exports = {
         },
         blog: {
           path: '../website-1.x/blog',
+          postsPerPage: 3,
         },
       },
     ],

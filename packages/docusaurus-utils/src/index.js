@@ -6,7 +6,7 @@
  */
 
 const path = require('path');
-const fm = require('front-matter');
+const matter = require('gray-matter');
 const {createHash} = require('crypto');
 
 const _ = require(`lodash`);
@@ -14,6 +14,12 @@ const escapeStringRegexp = require('escape-string-regexp');
 const fs = require('fs-extra');
 
 const fileHash = new Map();
+/**
+ * @param {string} generatedFilesDir
+ * @param {string} file
+ * @param {*} content
+ * @returns {Promise<void>}
+ */
 async function generate(generatedFilesDir, file, content) {
   const filepath = path.join(generatedFilesDir, file);
   const lastHash = fileHash.get(filepath);
@@ -31,6 +37,10 @@ async function generate(generatedFilesDir, file, content) {
 const indexRE = /(^|.*\/)index\.(md|js)$/i;
 const extRE = /\.(md|js)$/;
 
+/**
+ * @param {string} file
+ * @returns {string}
+ */
 function fileToPath(file) {
   if (indexRE.test(file)) {
     return file.replace(indexRE, '/$1');
@@ -38,6 +48,10 @@ function fileToPath(file) {
   return `/${file.replace(extRE, '').replace(/\\/g, '/')}`;
 }
 
+/**
+ * @param {string} userpath
+ * @returns {string}
+ */
 function encodePath(userpath) {
   return userpath
     .split('/')
@@ -94,6 +108,13 @@ function posixPath(str) {
 }
 
 const chunkNameCache = new Map();
+/**
+ * Generate unique chunk name given a module path
+ * @param {string} modulePath
+ * @param {string=} prefix
+ * @param {string=} preferredName
+ * @returns {string}
+ */
 function genChunkName(modulePath, prefix, preferredName) {
   let chunkName = chunkNameCache.get(modulePath);
   if (!chunkName) {
@@ -111,7 +132,11 @@ function genChunkName(modulePath, prefix, preferredName) {
   }
   return chunkName;
 }
-
+/**
+ * @param {*} target
+ * @param {string|string[]} keyPaths
+ * @returns {*}
+ */
 function idx(target, keyPaths) {
   return (
     target &&
@@ -121,6 +146,11 @@ function idx(target, keyPaths) {
   );
 }
 
+/**
+ * @param {string} file
+ * @param {string} refDir
+ * @returns {string}
+ */
 function getSubFolder(file, refDir) {
   const separator = escapeStringRegexp(path.sep);
   const baseDir = escapeStringRegexp(path.basename(refDir));
@@ -131,15 +161,27 @@ function getSubFolder(file, refDir) {
   return match && match[1];
 }
 
+/**
+ * @param {string} fileString
+ * @returns {Object}
+ */
 function parse(fileString) {
-  if (!fm.test(fileString)) {
-    return {metadata: null, content: fileString};
-  }
-  const {attributes: metadata, body: content} = fm(fileString);
-
-  return {metadata, content};
+  const {data: frontMatter, content, excerpt} = matter(fileString, {
+    excerpt(file) {
+      // eslint-disable-next-line no-param-reassign
+      file.excerpt = file.content
+        .trim()
+        .split('\n', 1)
+        .shift();
+    },
+  });
+  return {frontMatter, content, excerpt};
 }
 
+/**
+ * @param {string[]} rawUrls
+ * @returns {string}
+ */
 function normalizeUrl(rawUrls) {
   const urls = rawUrls;
   const resultArray = [];
