@@ -16,6 +16,6 @@
     "@docusaurus/theme-search-algolia": "^2.0.0-alpha.15"
   },
   "peerDependencies": {
-    "@docusaurus/core": "^2.0.0-alpha.14"
+    "@docusaurus/core": "^2.0.0"
   }
 }

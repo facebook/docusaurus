@@ -16,7 +16,7 @@
     "lodash": "^4.17.11"
   },
   "peerDependencies": {
-    "@docusaurus/core": "^2.0.0-alpha.14",
+    "@docusaurus/core": "^2.0.0",
     "react": "^16.8.4",
     "react-dom": "^16.8.4"
   },
