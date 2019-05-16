@@ -6,98 +6,77 @@
  */
 
 import React from 'react';
+import classnames from 'classnames';
+
+import Link from '@docusaurus/Link';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 function Footer() {
+  const context = useDocusaurusContext();
+  const {siteConfig = {}} = context;
+
+  const {
+    baseUrl,
+    themeConfig: {footer},
+  } = siteConfig;
+
+  if (!footer) {
+    return null;
+  }
+
+  const {copyright, links = [], logo} = footer;
+
   return (
-    <footer className="footer">
+    <footer
+      className={classnames('footer', {
+        'footer--dark': footer.style === 'dark',
+      })}>
       <div className="container">
-        <div className="row footer__links">
-          <div className="col">
-            <h4 className="footer__title">Docs</h4>
-            <ul className="footer__items">
-              <li className="footer__item">
-                <a className="footer__link-item" href="/">
-                  Getting Started
-                </a>
-              </li>
-              <li className="footer__item">
-                <a className="footer__link-item" href="/">
-                  API
-                </a>
-              </li>
-              <li className="footer__item">
-                <a className="footer__link-item" href="/">
-                  FAQ
-                </a>
-              </li>
-            </ul>
+        {links && links.length > 0 && (
+          <div className="row footer__links">
+            {links.map((linkItem, i) => (
+              <div key={`linkItem-${i}`} className="col">
+                {linkItem.title != null ? (
+                  <h4 className="footer__title">{linkItem.title}</h4>
+                ) : null}
+                {linkItem.items != null &&
+                Array.isArray(linkItem.items) &&
+                linkItem.items.length > 0 ? (
+                  <ul className="footer__items">
+                    {linkItem.items.map(item => (
+                      <li key={item.href || item.to} className="footer__item">
+                        <Link
+                          className="footer__link-item"
+                          {...item}
+                          {...(item.href
+                            ? {
+                                target: '_blank',
+                                rel: 'noopener noreferrer',
+                                href: item.href,
+                              }
+                            : {
+                                to: `${baseUrl}${item.to}`,
+                              })}>
+                          {item.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
+              </div>
+            ))}
           </div>
-          <div className="col">
-            <h4 className="footer__title">Community</h4>
-            <ul className="footer__items">
-              <li className="footer__item">
-                <a className="footer__link-item" href="/">
-                  Users
-                </a>
-              </li>
-              <li className="footer__item">
-                <a className="footer__link-item" href="/">
-                  Contribute
-                </a>
-              </li>
-              <li className="footer__item">
-                <a className="footer__link-item" href="/">
-                  Stack Overflow
-                </a>
-              </li>
-            </ul>
+        )}
+        {(logo || copyright) && (
+          <div className="text--center">
+            {logo && logo.src && (
+              <div className="margin-bottom--sm">
+                <img className="footer__logo" alt={logo.alt} src={logo.src} />
+              </div>
+            )}
+            {copyright}
           </div>
-          <div className="col">
-            <h4 className="footer__title">Social</h4>
-            <ul className="footer__items">
-              <li className="footer__item">
-                <a className="footer__link-item" href="/">
-                  GitHub
-                </a>
-              </li>
-              <li className="footer__item">
-                <a className="footer__link-item" href="/">
-                  Facebook
-                </a>
-              </li>
-              <li className="footer__item">
-                <a className="footer__link-item" href="/">
-                  Twitter
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div className="col">
-            <h4 className="footer__title">More</h4>
-            <ul className="footer__items">
-              <li className="footer__item">
-                <a className="footer__link-item" href="/">
-                  Tutorial
-                </a>
-              </li>
-              <li className="footer__item">
-                <a className="footer__link-item" href="/">
-                  Blog
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div className="text--center">
-          <div className="margin-bottom--sm">
-            <img
-              className="footer__logo"
-              alt="Facebook Open Source Logo"
-              src="https://docusaurus.io/img/oss_logo.png"
-            />
-          </div>
-          Copyright © 2019 Facebook, Inc.
-        </div>
+        )}
       </div>
     </footer>
   );
