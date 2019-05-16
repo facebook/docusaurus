@@ -15,6 +15,8 @@ In this section we'll get our Docusaurus site up and running for local developme
 docusaurus-init
 ```
 
+> The `Linking dependencies...` step might take a while, but it will finish eventually.
+
 The following contents will be created for you in the directory you are in.
 
 ```sh
