@@ -47,7 +47,7 @@ React is being used as a templating engine for rendering static markup. You can 
 
 ## Create a Documentation Page
 
-1. Create a new file in the `docs` folder called `doc4.md`.
+1. Create a new file in the `docs` folder called `doc4.md`. (The `docs` folder is in the root of your docusaurus installation.)
 1. Paste the following contents:
 
 ```
