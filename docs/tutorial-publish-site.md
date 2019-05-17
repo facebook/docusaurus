@@ -9,7 +9,7 @@ Next we'll learn how to publish the site to the WWW for everyone to browse! For 
 
 ## Put the Site Online
 
-Kill the webserver first by pressing Cmd + C or Ctrl + C depending on your operating system.
+Kill the web server first by pressing Cmd + C or Ctrl + C depending on your operating system.
 
 In `website/siteConfig.js`, fill in the following fields:
 
