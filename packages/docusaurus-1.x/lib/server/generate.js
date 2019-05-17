@@ -37,7 +37,12 @@ async function execute() {
   const imageminSvgo = require('imagemin-svgo');
   const imageminGifsicle = require('imagemin-gifsicle');
 
-  commander.option('--skip-image-compression').parse(process.argv);
+  commander
+    .option('--skip-image-compression')
+    .option('--skip-next-release')
+    .parse(process.argv);
+
+  process.env.SKIP_NEXT_RELEASE = commander.skipNextRelease;
 
   // create the folder path for a file if it does not exist, then write the file
   function writeFileAndCreateFolder(file, content) {

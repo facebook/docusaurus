@@ -10,7 +10,6 @@ const CWD = process.cwd();
 const path = require('path');
 const fs = require('fs');
 const glob = require('glob');
-const program = require('commander');
 
 const metadataUtils = require('./metadataUtils');
 
@@ -38,8 +37,6 @@ const SupportedHeaderFields = new Set([
   'custom_edit_url',
 ]);
 
-program.option('--skip-next-release').parse(process.argv);
-
 let allSidebars;
 if (fs.existsSync(`${CWD}/sidebars.json`)) {
   allSidebars = require(`${CWD}/sidebars.json`);
@@ -58,11 +55,7 @@ function getDocsPath() {
 }
 
 function shouldGenerateNextReleaseDocs() {
-  return !(
-    env.versioning.enabled &&
-    program.name() === 'docusaurus-build' &&
-    program.skipNextRelease
-  );
+  return !(env.versioning.enabled && process.env.SKIP_NEXT_RELEASE);
 }
 
 // returns map from id to object containing sidebar ordering info
