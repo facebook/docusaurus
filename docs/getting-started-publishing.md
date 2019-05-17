@@ -19,9 +19,9 @@ This will generate a `build` directory inside the `website` directory containing
 
 At this point, you can grab all of the files inside the `website/build` directory and copy them over to your favorite web server's `html` directory.
 
-> For example, both Apache and nginx serve content from `/var/www/html` by default. That said, choosing a web server or provider is outside the scope of Docusaurus.
+> For example, both Apache and Nginx serve content from `/var/www/html` by default. That said, choosing a web server or provider is outside the scope of Docusaurus.
 
-> When serving the site from your own web server, ensure the web server is serving the asset files with the proper HTTP headers. CSS files should be served with the `content-type` header of `text/css`. In the case of nginx, this would mean setting `include /etc/nginx/mime.types;` in your `nginx.conf` file. See [this issue](https://github.com/facebook/Docusaurus/issues/602) for more info.
+> When serving the site from your own web server, ensure the web server is serving the asset files with the proper HTTP headers. CSS files should be served with the `content-type` header of `text/css`. In the case of Nginx, this would mean setting `include /etc/nginx/mime.types;` in your `nginx.conf` file. See [this issue](https://github.com/facebook/Docusaurus/issues/602) for more info.
 
 ### Hosting on a Service:
 
@@ -101,7 +101,7 @@ However, you can automate the publishing process with continuous integration (CI
 
 ## Automating Deployments Using Continuous Integration
 
-Continuous integration (CI) services are typically used to perform routine tasks whenever new commits are checked in to source control. These tasks can be any combination of running unit tests and integration tests, automating builds, publishing packages to NPM, and yes, deploying changes to your website. All you need to do to automate deployment of your website is to invoke the `publish-gh-pages` script whenever your docs get updated. In the following section we'll be covering how to do just that using [CircleCI](https://circleci.com/), a popular continuous integration service provider.
+Continuous integration (CI) services are typically used to perform routine tasks whenever new commits are checked in to source control. These tasks can be any combination of running unit tests and integration tests, automating builds, publishing packages to NPM, and yes, deploying changes to your website. All you need to do to automate deployment of your website is to invoke the `publish-gh-pages` script whenever your docs get updated. In the following section, we'll be covering how to do just that using [CircleCI](https://circleci.com/), a popular continuous integration service provider.
 
 ### Using CircleCI 2.0
 
@@ -156,7 +156,7 @@ Make sure to replace all `<....>` in the `command:` sequence with appropriate va
 
 > If you want to use SSH for your GitHub repository connection, you can set `USE_SSH=true`. So the above command would look something like: `cd website && npm install && GIT_USER=<GIT_USER> USE_SSH=true npm run publish-gh-pages`.
 
-> Unlike when you run the `publish-gh-pages` script manually, when the script runs within the Circle environment, the value of `CURRENT_BRANCH` is already defined as an [environment variable within CircleCI](https://circleci.com/docs/1.0/environment-variables/) and will be picked up by the script automatically.
+> Unlike when you run the `publish-gh-pages` script manually when the script runs within the Circle environment, the value of `CURRENT_BRANCH` is already defined as an [environment variable within CircleCI](https://circleci.com/docs/1.0/environment-variables/) and will be picked up by the script automatically.
 
 Now, whenever a new commit lands in `master`, CircleCI will run your suite of tests and, if everything passes, your website will be deployed via the `publish-gh-pages` script.
 
@@ -174,7 +174,7 @@ CUSTOM_COMMIT_MESSAGE="[skip ci]" \
   yarn run publish-gh-pages # or `npm run publish-gh-pages`
 ```
 
-- Alternatively you can work around this by creating a basic CircleCI config with the following contents:
+- Alternatively, you can work around this by creating a basic CircleCI config with the following contents:
 ```yaml
 # CircleCI 2.0 Config File
 # This config file will prevent tests from being run on the gh-pages branch.

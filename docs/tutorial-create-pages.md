@@ -3,7 +3,7 @@ id: tutorial-create-pages
 title: Create Pages
 ---
 
-In this section we will learn about creating two new types of pages in Docusaurus, a regular page and a documentation page.
+In this section, we will learn about creating two new types of pages in Docusaurus, a regular page and a documentation page.
 
 <img alt="Docusaurus MacBook" src="/img/undraw_docusaurus_tree.svg" class="docImage"/>
 
@@ -41,7 +41,7 @@ module.exports = HelloWorld;
 + <p>I can write JSX here!</p>
 ```
 
-React is being used as a templating engine for rendering static markup. You can leverage on the expressability of React to build rich web content. Learn more about creating pages [here](custom-pages).
+React is being used as a templating engine for rendering static markup. You can leverage on the expressibility of React to build rich web content. Learn more about creating pages [here](custom-pages).
 
 <img alt="Docusaurus React" src="/img/undraw_docusaurus_react.svg" class="docImage"/>
 
