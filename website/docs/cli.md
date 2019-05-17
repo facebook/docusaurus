@@ -24,6 +24,8 @@ Once your website is generated, your website package will contain the Docusaurus
 
 Below is a list of Docusaurus CLI commands and their usages:
 
+<!-- TODO: init docs after the init command is implemented
+
 ### `docusaurus init`
 
 The `docusaurus init` command is intended to be used with `docusaurus` installed globally:
@@ -33,8 +35,7 @@ $ yarn global add docusaurus
 # or
 $ npm install --global docusaurus
 ```
-
-<!-- TODO: init docs after the init command is implemented -->
+-->
 
 ### `docusaurus start`
 
@@ -46,7 +47,7 @@ Builds and serves the static site with [Webpack Dev Server](https://webpack.js.o
 |-|-|-|
 |`--port`|`3000`|Specifies the port of the dev server|
 |`--host`|`localhost`|Specifie a host to use. E.g., if you want your server to be accessible externally, you can use `--host 0.0.0.0`|
-|`--no-watch`|`false`|<!-- TODO verify how this works --> Disables watching files for hot reload|
+|`--no-watch`|`false`|<!-- TODO problematic atm --> Disables watching files for hot reload|
 |`--hot-only`|`false`|Enables Hot Module Replacement without page refresh as fallback in case of build failures. More information [here](https://webpack.js.org/configuration/dev-server/#devserverhotonly).|
 
 ### `docusaurus build`
@@ -65,20 +66,21 @@ Compiles your site for production.
 Swizzle any Docusaurus Theme components with your own component with `docusaurus swizzle`.
 
 ```shell
-$ docusaurus swizzle <swizzleComponent> <pathToNewComponent>
+$ docusaurus swizzle <themeName> [componentName] [siteDir]
 ```
 
 **params**
 
-- `$swizzleComponent`: name of the component to be shadowed
-- `$pathToNewComponent`: relative path to the desired location to the new component
+- `themeName`: name of the theme you are using
+- `swizzleComponent`: name of the component to be swizzled
+- `pathToNewComponent`: relative path to the desired location to the new component
 
 Running the above command will copy the swizzle component to the path you indicated. You may then make any changes to the copied component and Docusaurus will use that component from then on.
 
+To unswizzle a component, simply delete the files of the swizzled component.
+
 <!-- TODO a separate section for swizzle tutorial -->
 To learn more about swizzling, check [here](#).
-
-<!-- TODO is there a way to "unswizzle" a component? -->
 
 ### `docusaurus deploy`
 
