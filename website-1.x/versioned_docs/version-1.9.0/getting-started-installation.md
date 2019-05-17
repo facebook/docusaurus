@@ -64,7 +64,7 @@ described in the [Installation](#installing-docusaurus) section, you will have a
 runnable, example website to use as your site's base. To run:
 
 1.  `cd website`
-1.  From within the `website` directory, run the local webserver using
+1.  From within the `website` directory, run the local web server using
     `yarn start` or `npm start`.
 1.  Load the example site at http://localhost:3000 if it did not already open
     automatically. If port 3000 has already been taken, another port will be used. Look at the console messages to see which.
