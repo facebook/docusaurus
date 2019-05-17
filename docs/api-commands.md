@@ -170,4 +170,4 @@ See the [Versioning guide](guides-versioning.md) to learn more.
 
 Alias: `write-translations`
 
-Writes the English for any strings that need to be translated into an `website/i18n/en.json` file. The script will go through every file in `website/pages/en` and through the `siteConfig.js` file and other config files to fetch English strings that will then be translated on Crowdin. See the [Translation guide](guides-translation.md) to learn more.
+Writes the English for any strings that need to be translated into a `website/i18n/en.json` file. The script will go through every file in `website/pages/en` and through the `siteConfig.js` file and other config files to fetch English strings that will then be translated on Crowdin. See the [Translation guide](guides-translation.md) to learn more.
