@@ -12,46 +12,43 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 import SearchBar from '@theme/SearchBar';
 
+function NavLink(props) {
+  const {baseUrl, ...originalProps} = props;
+  return (
+    <Link
+      className="navbar__link"
+      {...originalProps}
+      {...(originalProps.href
+        ? {
+            target: '_blank',
+            rel: 'noopener noreferrer',
+            href: originalProps.href,
+          }
+        : {
+            activeClassName: 'navbar__link--active',
+            to: `${baseUrl}${originalProps.to}`,
+          })}>
+      {originalProps.label}
+    </Link>
+  );
+}
+
 function Navbar() {
   const context = useDocusaurusContext();
   const {siteConfig = {}} = context;
   const {
     baseUrl,
-    headerIcon,
-    themeConfig: {algolia, headerLinks = []},
-    title,
-    disableHeaderTitle,
+    themeConfig: {algolia, navbar = {}},
   } = siteConfig;
+  const {title, logo, links} = navbar;
 
-  // function to generate each header link
-  const makeLinks = link => {
-    if (link.url) {
-      // internal link
-      const targetLink = `${baseUrl}${link.url}`;
-      return (
-        <div key={targetLink} className="navbar__item">
-          <Link
-            activeClassName="navbar__link--active"
-            className="navbar__link"
-            to={targetLink}>
-            {link.label}
-          </Link>
-        </div>
-      );
+  const getUrl = url => {
+    const externalRegex = /^(https?:|\/\/)/;
+    const internalRegex = /^\/(?!\/)/;
+    if (externalRegex.test(url) || internalRegex.test(url)) {
+      return url;
     }
-
-    if (link.href) {
-      // Set link to specified href.
-      return (
-        <div key={link.label} className="navbar__item">
-          <Link to={link.href} className="navbar__link">
-            {link.label}
-          </Link>
-        </div>
-      );
-    }
-
-    return null;
+    return baseUrl + url;
   };
 
   return (
@@ -59,18 +56,31 @@ function Navbar() {
       <div className="navbar__inner">
         <div className="navbar__items">
           <Link className="navbar__brand" to={baseUrl}>
-            {headerIcon && (
+            {logo != null && (
               <img
                 className="navbar__logo"
-                src={baseUrl + headerIcon}
-                alt={title}
+                src={getUrl(logo.src)}
+                alt={logo.alt}
               />
             )}
-            {!disableHeaderTitle && <strong>{title}</strong>}
+            {title != null && <strong>{title}</strong>}
           </Link>
-          {headerLinks.map(makeLinks)}
+          {links
+            .filter(linkItem => linkItem.position !== 'right')
+            .map((linkItem, i) => (
+              <div className="navbar__item" key={i}>
+                <NavLink baseUrl={baseUrl} {...linkItem} />
+              </div>
+            ))}
         </div>
         <div className="navbar__items navbar__items--right">
+          {links
+            .filter(linkItem => linkItem.position === 'right')
+            .map((linkItem, i) => (
+              <div className="navbar__item" key={i}>
+                <NavLink baseUrl={baseUrl} {...linkItem} />
+              </div>
+            ))}
           {algolia && (
             <div className="navbar__search" key="search-box">
               <SearchBar />

@@ -18,18 +18,17 @@ describe('loadConfig', () => {
         plugins: expect.any(Array),
       },
       `
-Object {
-  "baseUrl": "/",
-  "favicon": "img/docusaurus.ico",
-  "headerIcon": "img/docusaurus.svg",
-  "organizationName": "endiliey",
-  "plugins": Any<Array>,
-  "projectName": "hello",
-  "tagline": "Hello World",
-  "title": "Hello",
-  "url": "https://docusaurus.io",
-}
-`,
+      Object {
+        "baseUrl": "/",
+        "favicon": "img/docusaurus.ico",
+        "organizationName": "endiliey",
+        "plugins": Any<Array>,
+        "projectName": "hello",
+        "tagline": "Hello World",
+        "title": "Hello",
+        "url": "https://docusaurus.io",
+      }
+    `,
     );
     expect(config).not.toEqual({});
   });
@@ -39,7 +38,7 @@ Object {
     expect(() => {
       loadConfig(siteDir);
     }).toThrowErrorMatchingInlineSnapshot(
-      `"The required field(s) 'favicon', 'headerIcon', 'organizationName', 'projectName', 'tagline', 'url' are missing from docusaurus.config.js"`,
+      `"The required field(s) 'favicon', 'organizationName', 'projectName', 'tagline', 'url' are missing from docusaurus.config.js"`,
     );
   });
 
@@ -48,7 +47,7 @@ Object {
     expect(() => {
       loadConfig(siteDir);
     }).toThrowErrorMatchingInlineSnapshot(
-      `"The required field(s) 'favicon', 'headerIcon' are missing from docusaurus.config.js"`,
+      `"The required field(s) 'favicon' are missing from docusaurus.config.js"`,
     );
   });
 
@@ -57,7 +56,7 @@ Object {
     expect(() => {
       loadConfig(siteDir);
     }).toThrowErrorMatchingInlineSnapshot(
-      `"The required field(s) 'baseUrl', 'favicon', 'headerIcon', 'organizationName', 'projectName', 'tagline', 'title', 'url' are missing from docusaurus.config.js"`,
+      `"The required field(s) 'baseUrl', 'favicon', 'organizationName', 'projectName', 'tagline', 'title', 'url' are missing from docusaurus.config.js"`,
     );
   });
 });

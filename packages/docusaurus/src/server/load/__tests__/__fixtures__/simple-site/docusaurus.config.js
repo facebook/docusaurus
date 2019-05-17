@@ -12,7 +12,6 @@ module.exports = {
   projectName: 'hello',
   baseUrl: '/',
   url: 'https://docusaurus.io',
-  headerIcon: 'img/docusaurus.svg',
   favicon: 'img/docusaurus.ico',
   plugins: [
     {
