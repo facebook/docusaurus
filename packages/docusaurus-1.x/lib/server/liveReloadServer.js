@@ -29,7 +29,7 @@ function start(port) {
 
 const getReloadScriptUrl = () => {
   const port = process.env.LIVERELOAD_PORT;
-  const server = process.platform === 'win32' ? 'localhost' : '0000';
+  const server = process.platform === 'win32' ? 'localhost' : '0.0.0.0';
 
   return `http://${server}:${port}/livereload.js`;
 };
