@@ -58,7 +58,7 @@ Compiles your site for production.
 
 |Options|Default|Description|
 |-|-|-|
-|`--bundle-analyzer`||Starts [bundle analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer)|
+|`--bundle-analyzer`||Analyze your bundle with [bundle analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer)|
 
 
 ### `docusaurus swizzle`
@@ -73,9 +73,8 @@ $ docusaurus swizzle <themeName> [componentName] [siteDir]
 
 - `themeName`: name of the theme you are using
 - `swizzleComponent`: name of the component to be swizzled
-- `pathToNewComponent`: relative path to the desired location to the new component
 
-Running the above command will copy the swizzle component to the path you indicated. You may then make any changes to the copied component and Docusaurus will use that component from then on.
+Running the above command will copy the relevant theme files to your site folder. You may then make any changes to it and Docusaurus will use it instead of the one provided from the theme.
 
 To unswizzle a component, simply delete the files of the swizzled component.
 
