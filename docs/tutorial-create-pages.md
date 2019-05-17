@@ -70,7 +70,7 @@ I can write content using [GitHub-flavored Markdown syntax](https://github.githu
 * Let's Go
 ```
 
-3. Go to `sidebars.json` and add `"doc4"` after `"doc1"`. This ID should be the same one as in the Markdown file above.
+3. Go to `website/sidebars.json` and add `"doc4"` after `"doc1"`. This ID should be the same one as in the Markdown file above.
 
 ```diff
 {
