@@ -43,6 +43,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Ax',
+    image: '/img/users/ax.svg',
+    infoLink: 'https://ax.dev/',
+    fbOpenSource: true,
+    pinned: true,
+  },
+  {
     caption: 'Babel',
     image: '/img/users/babel.svg',
     infoLink: 'https://babeljs.io/',
