@@ -17,7 +17,7 @@ This will generate a `build` directory inside the `website` directory containing
 
 ## Hosting Static HTML Pages
 
-At this point, you can grab all of the files inside the `website/build` directory and copy them over to your favorite web server's `HTML` directory.
+At this point, you can grab all of the files inside the `website/build` directory and copy them over to your favorite web server's `html` directory.
 
 > For example, both Apache and Nginx serve content from `/var/www/html` by default. That said, choosing a web server or provider is outside the scope of Docusaurus.
 
@@ -222,7 +222,7 @@ Now, whenever a new commit lands in `master`, Travis CI will run your suite of t
 Steps to configure your Docusaurus-powered site on Netlify.
 
 1.  Select **New site from Git**
-1.  Connect to your preferred Git Provider.
+1.  Connect to your preferred Git provider.
 1.  Select the branch to deploy. Default is `master`
 1.  Configure your build steps:
 

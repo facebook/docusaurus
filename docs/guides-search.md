@@ -3,7 +3,7 @@ id: search
 title: Enabling Search
 ---
 
-Docusaurus supports search using [Algolia DocSearch](https://community.algolia.com/docsearch/). Once your website is online, you can [submit it to DocSearch](https://community.algolia.com/docsearch/). Algolia will then send your credentials you can add to your `siteConfig.js`.
+Docusaurus supports search using [Algolia DocSearch](https://community.algolia.com/docsearch/). Once your website is online, you can [submit it to DocSearch](https://community.algolia.com/docsearch/). Algolia will then send you credentials you can add to your `siteConfig.js`.
 
 DocSearch works by crawling the content of your website every 24 hours and putting all the content in an Algolia index. This content is then queried directly from your front-end using the Algolia API. Note that your website needs to be publicly available for this to work (ie. not behind a firewall). This service is free.
 

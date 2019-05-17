@@ -219,7 +219,7 @@ You have limited control where the search and languages dropdown elements are sh
 
 ### Search
 
-If the search is enabled on your site, your search bar will appear to the right of your links. If you want to put the search bar between links in the header, add a search entry in the `headerLinks` config array:
+If search is enabled on your site, your search bar will appear to the right of your links. If you want to put the search bar between links in the header, add a search entry in the `headerLinks` config array:
 
 ```js
 {
@@ -234,7 +234,7 @@ If the search is enabled on your site, your search bar will appear to the right 
 
 ### Languages Dropdown
 
-If translations are enabled on your site, the language dropdown will appear to the right of your links (and to the left of the search bar, if the search is enabled). If you want to put the language selection drop down between links in the header, add a languages entry in the `headerLinks` config array:
+If translations are enabled on your site, the language dropdown will appear to the right of your links (and to the left of the search bar, if search is enabled). If you want to put the language selection drop down between links in the header, add a languages entry in the `headerLinks` config array:
 
 ```js
 {
@@ -271,7 +271,7 @@ We support secondary on-page navigation so you can more easily see the topics as
 }
 ```
 
-Currently, `'separate'` is the only option available for this field. This provides separate navigation on the right side of the page.
+Currently, `'separate'` is the only option available for this field. This provides a separate navigation on the right side of the page.
 
 ## Collapsible Categories
 

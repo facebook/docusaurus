@@ -46,7 +46,7 @@ If we go to the `localhost:3000/<baseUrl>/docs/doc1` URL in our browser, realize
 
 ## Next Version
 
-The latest versions of the docs have to be accessed by adding `next` to the URL: `localhost:3000/<baseUrl>/docs/next/doc1`. Note that the version besides the title also changes to `next` when we are on that URL.
+The latest versions of the docs have to be accessed by adding `next` to the URL: `localhost:3000/<baseUrl>/docs/next/doc1`. Note that the version beside the title also changes to `next` when we are on that URL.
 
 A versions page has been created for us at `localhost:3000/<baseUrl>/versions` which shows a list of the current versions of the documentation. See that both `1.0.0` and `master` are being listed here and they correctly link to the respective versions of the documentation.
 

@@ -58,7 +58,7 @@ The following contents will be created for you in the directory you are in.
     └── yarn.lock
 ```
 
-There would be some example of documentation and blog pages generated.
+There would be some example documentation and blog pages generated.
 
 2. Run `cd website` to go into the `website` directory.
 1. Run `npm start` or `yarn start`.
