@@ -493,7 +493,7 @@ module.exports = [
   },
   {
     caption: 'StreamPipes',
-    image: 'https://streampipes.org/images/streampipes-logo-center.png',
+    image: '/img/users/stream-pipes.png',
     infoLink: 'https://docs.streampipes.org',
     fbOpenSource: false,
     pinned: false,
