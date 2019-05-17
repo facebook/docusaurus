@@ -1993,6 +1993,19 @@ input::placeholder {
   padding-bottom: 5px;
 }
 
+.toc-headings a { 
+  position: relative;
+}
+
+.toc-headings a:after { 
+  position : absolute ;
+  content : "";
+  left : 0;
+  right : 0;
+  top : 0;
+  bottom: 0;
+}
+
 @media only screen and (min-width: 1024px) {
   .toc section .navGroups {
     display: block;
