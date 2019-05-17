@@ -10,6 +10,7 @@
 const shell = require('shelljs');
 const chalk = require('chalk');
 const fs = require('fs');
+const path = require('path');
 
 const CWD = process.cwd();
 
@@ -38,7 +39,10 @@ console.log(
   chalk.yellow('Installing latest version of Docusaurus in website.\n'),
 );
 
-const packageContent = {scripts: {examples: 'docusaurus-examples'}};
+const packageContent = {
+  name: `${CWD.split(path.sep).pop()}-website`,
+  scripts: {examples: 'docusaurus-examples'},
+};
 fs.writeFileSync(
   `${CWD}/website/package.json`,
   `${JSON.stringify(packageContent, null, 2)}\n`,
