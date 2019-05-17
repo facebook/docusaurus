@@ -62,11 +62,10 @@ Compiles your site for production.
 
 ### `docusaurus swizzle`
 
-
-You may shadow any Docusaurus Theme components with your own component with `docusaurus swizzle`.
+Swizzle any Docusaurus Theme components with your own component with `docusaurus swizzle`.
 
 ```shell
-$ docusaurus swizzle $swizzleComponent $pathToNewComponent
+$ docusaurus swizzle <swizzleComponent> <pathToNewComponent>
 ```
 
 **params**
