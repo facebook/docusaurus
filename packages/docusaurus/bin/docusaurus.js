@@ -80,17 +80,15 @@ program
   .description('Start development server')
   .option('-p, --port <port>', 'use specified port (default: 3000)')
   .option('-h, --host <host>', 'use specified host (default: localhost')
-  .option('-nw, --no-watch <noWatch>', 'disable live reload (default: false)')
   .option(
     '--hot-only',
     'Do not fallback to page refresh if hot reload fails (default: false)',
   )
   .option('--no-cache-loader', 'Do not use cache-loader')
-  .action((siteDir = '.', {port, host, noWatch, hotOnly, cacheLoader}) => {
+  .action((siteDir = '.', {port, host, hotOnly, cacheLoader}) => {
     wrapCommand(start)(path.resolve(siteDir), {
       port,
       host,
-      noWatch,
       hotOnly,
       cacheLoader,
     });
