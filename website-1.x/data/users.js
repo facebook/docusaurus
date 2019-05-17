@@ -197,6 +197,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Idb',
+    image: '/img/users/idb.svg',
+    infoLink: 'https://www.fbidb.io/',
+    fbOpenSource: true,
+    pinned: true,
+  },
+  {
     caption: 'Instant Articles Builder',
     image: '/img/users/facebook-instant-articles-rules-editor.svg',
     infoLink: 'https://facebook.github.io/instant-articles-builder/',
@@ -258,6 +265,13 @@ module.exports = [
     infoLink: 'https://mockit.netlify.com/',
     fbOpenSource: false,
     pinned: false,
+  },
+  {
+    caption: 'Netconsd',
+    image: '/img/users/netconsd.svg',
+    infoLink: 'https://facebookmicrosites.github.io/netconsd/',
+    fbOpenSource: true,
+    pinned: true,
   },
   {
     caption: 'Node SerialPort',
@@ -418,6 +432,13 @@ module.exports = [
     caption: 'ReasonReact',
     image: '/img/users/reason-react.svg',
     infoLink: 'https://reasonml.github.io/reason-react/',
+    fbOpenSource: true,
+    pinned: true,
+  },
+  {
+    caption: 'Redex',
+    image: '/img/users/redex.png',
+    infoLink: 'https://fbredex.com/',
     fbOpenSource: true,
     pinned: true,
   },
