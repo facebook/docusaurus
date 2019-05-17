@@ -509,8 +509,8 @@ module.exports = [
     caption: 'Taro',
     image: '/img/users/taro.png',
     infoLink: 'https://nervjs.github.io/taro/',
-    fbOpenSource: true,
-    pinned: true,
+    fbOpenSource: false,
+    pinned: false,
   },
   {
     caption: 'Testing Library',
