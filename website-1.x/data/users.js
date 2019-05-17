@@ -197,6 +197,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Idb',
+    image: '/img/users/idb.svg',
+    infoLink: 'https://www.fbidb.io/',
+    fbOpenSource: true,
+    pinned: true,
+  },
+  {
     caption: 'Instant Articles Builder',
     image: '/img/users/facebook-instant-articles-rules-editor.svg',
     infoLink: 'https://facebook.github.io/instant-articles-builder/',
