@@ -436,6 +436,13 @@ module.exports = [
     pinned: true,
   },
   {
+    caption: 'Redex',
+    image: '/img/users/redex.png',
+    infoLink: 'https://fbredex.com/',
+    fbOpenSource: true,
+    pinned: true,
+  },
+  {
     caption: 'Redux',
     image: '/img/users/redux.svg',
     infoLink: 'https://redux.js.org/',
