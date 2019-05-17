@@ -267,6 +267,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Netconsd',
+    image: '/img/users/netconsd.svg',
+    infoLink: 'https://facebookmicrosites.github.io/netconsd/',
+    fbOpenSource: true,
+    pinned: true,
+  },
+  {
     caption: 'Node SerialPort',
     image: 'https://serialport.io/img/serialport-logo.svg',
     infoLink: 'https://serialport.io',
