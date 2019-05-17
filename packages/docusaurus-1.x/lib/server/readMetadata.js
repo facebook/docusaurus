@@ -10,6 +10,7 @@ const CWD = process.cwd();
 const path = require('path');
 const fs = require('fs');
 const glob = require('glob');
+const program = require('commander');
 
 const metadataUtils = require('./metadataUtils');
 
@@ -55,7 +56,7 @@ function getDocsPath() {
 }
 
 function shouldGenerateNextReleaseDocs() {
-  return !(env.versioning.enabled && process.env.SKIP_NEXT_RELEASE);
+  return !(env.versioning.enabled && program.skipNextRelease);
 }
 
 // returns map from id to object containing sidebar ordering info
