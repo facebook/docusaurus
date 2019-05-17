@@ -42,6 +42,15 @@ function Navbar() {
   } = siteConfig;
   const {title, logo, links} = navbar;
 
+  const getUrl = url => {
+    const externalRegex = /^(https?:|\/\/)/;
+    const internalRegex = /^\/(?!\/)/;
+    if (externalRegex.test(url) || internalRegex.test(url)) {
+      return url;
+    }
+    return baseUrl + url;
+  };
+
   return (
     <nav className="navbar navbar--light navbar--fixed-top">
       <div className="navbar__inner">
@@ -50,7 +59,7 @@ function Navbar() {
             {logo != null && (
               <img
                 className="navbar__logo"
-                src={baseUrl + logo.src}
+                src={getUrl(logo.src)}
                 alt={logo.alt}
               />
             )}
