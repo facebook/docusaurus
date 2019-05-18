@@ -24,11 +24,11 @@ const {idx, getGitLastUpdatedTime, getGitLastUpdatedBy} = require('./utils.js');
 class DocsLayout extends React.Component {
   getRelativeURL = (from, to) => {
     const extension = this.props.config.cleanUrl ? '' : '.html';
-    const relativeHref =
-      path
-        .relative(from, to)
-        .replace('\\', '/')
-        .replace(/^\.\.\//, '') + extension;
+    const relativeHref = path
+      .relative(`${from}.html`, `${to}.html`)
+      .replace('\\', '/')
+      .replace(/^\.\.\//, '')
+      .replace(/\.html$/, extension);
     return url.resolve(
       `${this.props.config.baseUrl}${this.props.metadata.permalink}`,
       relativeHref,
