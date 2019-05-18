@@ -374,10 +374,7 @@ function generateMetadataBlog() {
       }
       const metadata = blog.getMetadata(file);
       // Extract, YYYY, MM, DD from the file name
-      const filePathDateArr = path
-        .basename(file)
-        .toString()
-        .split('-');
+      const filePathDateArr = path.basename(file).split('-');
       metadata.date = new Date(
         `${filePathDateArr[0]}-${filePathDateArr[1]}-${
           filePathDateArr[2]
