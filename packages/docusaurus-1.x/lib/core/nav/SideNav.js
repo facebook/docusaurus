@@ -187,9 +187,9 @@ class SideNav extends React.Component {
               createToggler('#navToggler', '#docsNav', 'docsSliderActive');
               createToggler('#tocToggler', 'body', 'tocActive');
 
-              const headings = document.querySelector('.toc-headings');
+              var headings = document.querySelector('.toc-headings');
               headings && headings.addEventListener('click', function(event) {
-                let el = event.target;
+                var el = event.target;
                 while(el !== headings){
                   if (el.tagName === 'A') {
                     document.body.classList.remove('tocActive');
