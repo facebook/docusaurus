@@ -6,14 +6,19 @@
     "website-1.x"
   ],
   "scripts": {
-    "start": "yarn tsc && yarn workspace docusaurus-2-website start",
-    "build": "yarn tsc && yarn workspace docusaurus-2-website build",
+    "start": "yarn tsc && yarn start:v2",
+    "start:v1": "yarn workspace docusaurus-1-website start",
+    "start:v2": "yarn workspace docusaurus-2-website start",
+    "build": "yarn tsc && yarn build:v2",
+    "build:v1": "yarn workspace docusaurus-1-website build",
+    "build:v2": "yarn workspace docusaurus-2-website build",
+    "postinstall": "yarn tsc",
     "prettier": "prettier --config .prettierrc --write \"**/*.js\"",
     "prettier:diff": "prettier --config .prettierrc --list-different \"**/*.js\"",
     "lint": "eslint --cache \"**/*.js\"",
     "lerna": "lerna",
     "test": "jest",
-    "tsc": "lerna run tsc"
+    "tsc": "lerna run --parallel tsc --no-private"
   },
   "devDependencies": {
     "@babel/core": "^7.4.4",
