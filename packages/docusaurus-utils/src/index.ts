@@ -119,9 +119,10 @@ export function genChunkName(
   return chunkName;
 }
 
-export function idx(target: any, keyPaths?: string | (string|number)[]): any {
+export function idx(target: any, keyPaths?: string | (string | number)[]): any {
   return (
-    target && keyPaths &&
+    target &&
+    keyPaths &&
     (Array.isArray(keyPaths)
       ? keyPaths.reduce((obj, key) => obj && obj[key], target)
       : target[keyPaths])
