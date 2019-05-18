@@ -143,7 +143,7 @@ function processMetadata(file, refDir) {
   const rawContent = result.rawContent;
 
   if (!metadata.id) {
-    metadata.id = path.basename(file, path.extname(file));
+    metadata.id = path.parse(file).name;
   }
   if (metadata.id.includes('/')) {
     throw new Error('Document id cannot include "/".');
