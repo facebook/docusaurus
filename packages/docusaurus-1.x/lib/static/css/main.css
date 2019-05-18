@@ -2019,6 +2019,7 @@ input::placeholder {
       right: 0;
       top: 148px;
       z-index: 10;
+      margin-bottom: 0;
     }
 
     .tocActive .singleRowMobileNav .onPageNav {
