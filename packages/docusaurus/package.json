@@ -70,7 +70,7 @@
     "wait-on": "endiliey/wait-on#master",
     "webpack": "^4.30.0",
     "webpack-bundle-analyzer": "^3.1.0",
-    "webpack-dev-server": "^3.2.1",
+    "webpack-dev-server": "^3.4.1",
     "webpack-merge": "^4.1.4",
     "webpack-nicelog": "^2.3.1"
   },

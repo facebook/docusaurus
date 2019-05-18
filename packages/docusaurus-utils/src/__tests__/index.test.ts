@@ -81,7 +81,7 @@ describe('load utils', () => {
   });
 
   test('genChunkName', () => {
-    let asserts = {
+    const firstAssert = {
       '/docs/adding-blog': 'docs-adding-blog-062',
       '/docs/versioning': 'docs-versioning-8a8',
       '/': 'index',
@@ -91,8 +91,8 @@ describe('load utils', () => {
       '/users/en/': 'users-en-f7a',
       '/blog': 'blog-c06',
     };
-    Object.keys(asserts).forEach(str => {
-      expect(genChunkName(str)).toBe(asserts[str]);
+    Object.keys(firstAssert).forEach(str => {
+      expect(genChunkName(str)).toBe(firstAssert[str]);
     });
 
     // Don't allow different chunk name for same path.
@@ -101,12 +101,12 @@ describe('load utils', () => {
     );
 
     // Even with same preferred name, still different chunk name for different path
-    asserts = {
+    const secondAssert = {
       '/blog/1': 'blog-85-f-089',
       '/blog/2': 'blog-353-489',
     };
-    Object.keys(asserts).forEach(str => {
-      expect(genChunkName(str, undefined, 'blog')).toBe(asserts[str]);
+    Object.keys(secondAssert).forEach(str => {
+      expect(genChunkName(str, undefined, 'blog')).toBe(secondAssert[str]);
     });
   });
 
@@ -136,7 +136,7 @@ describe('load utils', () => {
     };
     const test = {arr: [1, 2, 3]};
     const variable = 'enabledLanguages';
-    expect(idx(a, [('b', 'c')])).toBeUndefined();
+    expect(idx(a, ['b', 'c'])).toBeUndefined();
     expect(idx(b, ['hello'])).toEqual('world');
     expect(idx(b, 'hello')).toEqual('world');
     expect(idx(obj, 'typo')).toBeUndefined();

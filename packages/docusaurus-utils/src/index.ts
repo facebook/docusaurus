@@ -5,22 +5,19 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const path = require('path');
-const matter = require('gray-matter');
-const {createHash} = require('crypto');
-
-const _ = require(`lodash`);
-const escapeStringRegexp = require('escape-string-regexp');
-const fs = require('fs-extra');
+import path from 'path';
+import matter from 'gray-matter';
+import {createHash} from 'crypto';
+import _ from 'lodash';
+import escapeStringRegexp from 'escape-string-regexp';
+import fs from 'fs-extra';
 
 const fileHash = new Map();
-/**
- * @param {string} generatedFilesDir
- * @param {string} file
- * @param {*} content
- * @returns {Promise<void>}
- */
-async function generate(generatedFilesDir, file, content) {
+export async function generate(
+  generatedFilesDir: string,
+  file: string,
+  content: any,
+): Promise<void> {
   const filepath = path.join(generatedFilesDir, file);
   const lastHash = fileHash.get(filepath);
   const currentHash = createHash('md5')
@@ -38,21 +35,16 @@ const indexRE = /(^|.*\/)index\.(md|js)$/i;
 const extRE = /\.(md|js)$/;
 
 /**
- * @param {string} file
- * @returns {string}
+ * Convert filepath to url path. Example: 'index.md' -> '/', 'foo/bar.js' -> '/foo/bar',
  */
-function fileToPath(file) {
+export function fileToPath(file: string): string {
   if (indexRE.test(file)) {
     return file.replace(indexRE, '/$1');
   }
   return `/${file.replace(extRE, '').replace(/\\/g, '/')}`;
 }
 
-/**
- * @param {string} userpath
- * @returns {string}
- */
-function encodePath(userpath) {
+export function encodePath(userpath: string): string {
   return userpath
     .split('/')
     .map(item => encodeURIComponent(item))
@@ -61,10 +53,8 @@ function encodePath(userpath) {
 
 /**
  * Given an input string, convert to kebab-case and append a hash. Avoid str collision
- * @param {string} str input string
- * @returns {string}
  */
-function docuHash(str) {
+export function docuHash(str: string): string {
   if (str === '/') {
     return 'index';
   }
@@ -77,10 +67,8 @@ function docuHash(str) {
 
 /**
  * Generate unique React Component Name. E.g: /foo-bar -> FooBar096
- * @param {string} pagePath
- * @returns {string} unique react component name
  */
-function genComponentName(pagePath) {
+export function genComponentName(pagePath: string): string {
   if (pagePath === '/') {
     return 'index';
   }
@@ -94,10 +82,8 @@ function genComponentName(pagePath) {
 
 /**
  * Convert Windows backslash paths to posix style paths. E.g: endi\\lie -> endi/lie
- * @param {string} str windows backslash paths
- * @returns {string} posix-style path
  */
-function posixPath(str) {
+export function posixPath(str: string): string {
   const isExtendedLengthPath = /^\\\\\?\\/.test(str);
   const hasNonAscii = /[^\u0000-\u0080]+/.test(str); // eslint-disable-line
 
@@ -110,12 +96,12 @@ function posixPath(str) {
 const chunkNameCache = new Map();
 /**
  * Generate unique chunk name given a module path
- * @param {string} modulePath
- * @param {string=} prefix
- * @param {string=} preferredName
- * @returns {string}
  */
-function genChunkName(modulePath, prefix, preferredName) {
+export function genChunkName(
+  modulePath: string,
+  prefix?: string,
+  preferredName?: string,
+): string {
   let chunkName = chunkNameCache.get(modulePath);
   if (!chunkName) {
     let str = modulePath;
@@ -132,14 +118,11 @@ function genChunkName(modulePath, prefix, preferredName) {
   }
   return chunkName;
 }
-/**
- * @param {*} target
- * @param {string|string[]} keyPaths
- * @returns {*}
- */
-function idx(target, keyPaths) {
+
+export function idx(target: any, keyPaths?: string | (string | number)[]): any {
   return (
     target &&
+    keyPaths &&
     (Array.isArray(keyPaths)
       ? keyPaths.reduce((obj, key) => obj && obj[key], target)
       : target[keyPaths])
@@ -147,11 +130,9 @@ function idx(target, keyPaths) {
 }
 
 /**
- * @param {string} file
- * @param {string} refDir
- * @returns {string}
+ * Given a filepath and dirpath, get the first directory
  */
-function getSubFolder(file, refDir) {
+export function getSubFolder(file: string, refDir: string): string | null {
   const separator = escapeStringRegexp(path.sep);
   const baseDir = escapeStringRegexp(path.basename(refDir));
   const regexSubFolder = new RegExp(
@@ -161,28 +142,28 @@ function getSubFolder(file, refDir) {
   return match && match[1];
 }
 
-/**
- * @param {string} fileString
- * @returns {Object}
- */
-function parse(fileString) {
-  const {data: frontMatter, content, excerpt} = matter(fileString, {
-    excerpt(file) {
-      // eslint-disable-next-line no-param-reassign
+export function parse(
+  fileString: string,
+): {
+  frontMatter: {
+    [key: string]: any,
+  },
+  content: string,
+  excerpt: string | undefined,
+} {
+  const options: {} = {
+    excerpt: (file: matter.GrayMatterFile<string>): void => {
       file.excerpt = file.content
         .trim()
         .split('\n', 1)
         .shift();
     },
-  });
+  };
+  const {data: frontMatter, content, excerpt} = matter(fileString, options);
   return {frontMatter, content, excerpt};
 }
 
-/**
- * @param {string[]} rawUrls
- * @returns {string}
- */
-function normalizeUrl(rawUrls) {
+export function normalizeUrl(rawUrls: string[]): string {
   const urls = rawUrls;
   const resultArray = [];
 
@@ -242,17 +223,3 @@ function normalizeUrl(rawUrls) {
 
   return str;
 }
-
-module.exports = {
-  encodePath,
-  docuHash,
-  generate,
-  fileToPath,
-  genComponentName,
-  genChunkName,
-  getSubFolder,
-  idx,
-  normalizeUrl,
-  parse,
-  posixPath,
-};
