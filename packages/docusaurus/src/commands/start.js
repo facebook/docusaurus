@@ -108,7 +108,7 @@ module.exports = async function start(siteDir, cliOptions = {}) {
   // https://webpack.js.org/configuration/dev-server
   const devServerConfig = {
     compress: true,
-    clientLogLevel: 'error',
+    clientLogLevel: 'silent',
     hot: true,
     hotOnly: cliOptions.hotOnly,
     quiet: true,

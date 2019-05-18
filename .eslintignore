@@ -10,3 +10,4 @@ scripts
 packages/docusaurus-1.x/lib/core/metadata.js
 packages/docusaurus-1.x/lib/core/MetadataBlog.js
 packages/docusaurus-1.x/lib/core/__tests__/split-tab.test.js
+packages/docusaurus-utils/lib/

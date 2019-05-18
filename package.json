@@ -6,14 +6,23 @@
     "website-1.x"
   ],
   "scripts": {
+    "start": "yarn tsc && yarn workspace docusaurus-2-website start",
+    "build": "yarn tsc && yarn workspace docusaurus-2-website build",
     "prettier": "prettier --config .prettierrc --write \"**/*.js\"",
     "prettier:diff": "prettier --config .prettierrc --list-different \"**/*.js\"",
     "lint": "eslint --cache \"**/*.js\"",
     "lerna": "lerna",
-    "test": "jest"
+    "test": "jest",
+    "tsc": "lerna run tsc"
   },
   "devDependencies": {
     "@babel/core": "^7.4.4",
+    "@babel/preset-typescript": "^7.3.3",
+    "@types/escape-string-regexp": "^1.0.0",
+    "@types/fs-extra": "7.0.0",
+    "@types/jest": "^24.0.13",
+    "@types/lodash": "^4.14.129",
+    "@types/node": "^12.0.2",
     "babel-eslint": "8",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.12.1",
@@ -35,7 +44,8 @@
     "prettier": "^1.13.7",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
-    "rimraf": "^2.6.3"
+    "rimraf": "^2.6.3",
+    "typescript": "^3.4.5"
   },
   "lint-staged": {
     "linters": {

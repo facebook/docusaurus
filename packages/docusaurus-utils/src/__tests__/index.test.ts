@@ -101,11 +101,11 @@ describe('load utils', () => {
     );
 
     // Even with same preferred name, still different chunk name for different path
-    asserts = {
+    const assertsTwo = {
       '/blog/1': 'blog-85-f-089',
       '/blog/2': 'blog-353-489',
     };
-    Object.keys(asserts).forEach(str => {
+    Object.keys(assertsTwo).forEach(str => {
       expect(genChunkName(str, undefined, 'blog')).toBe(asserts[str]);
     });
   });
@@ -136,7 +136,7 @@ describe('load utils', () => {
     };
     const test = {arr: [1, 2, 3]};
     const variable = 'enabledLanguages';
-    expect(idx(a, [('b', 'c')])).toBeUndefined();
+    expect(idx(a, ['b', 'c'])).toBeUndefined();
     expect(idx(b, ['hello'])).toEqual('world');
     expect(idx(b, 'hello')).toEqual('world');
     expect(idx(obj, 'typo')).toBeUndefined();
