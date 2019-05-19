@@ -38,8 +38,6 @@ const SupportedHeaderFields = new Set([
   'custom_edit_url',
 ]);
 
-program.option('--skip-next-release').parse(process.argv);
-
 let allSidebars;
 if (fs.existsSync(`${CWD}/sidebars.json`)) {
   allSidebars = require(`${CWD}/sidebars.json`);
@@ -58,11 +56,7 @@ function getDocsPath() {
 }
 
 function shouldGenerateNextReleaseDocs() {
-  return !(
-    env.versioning.enabled &&
-    program.name() === 'docusaurus-build' &&
-    program.skipNextRelease
-  );
+  return !(env.versioning.enabled && program.skipNextRelease);
 }
 
 // returns map from id to object containing sidebar ordering info

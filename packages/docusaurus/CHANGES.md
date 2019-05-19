@@ -7,18 +7,29 @@
   - `docsUrl`. Use the plugin option on `docusaurus-plugin-content-docs` instead.
   - `customDocsPath`. Use the plugin option on `docusaurus-plugin-content-docs` instead.
   - `sidebars.json` now has to be explicitly loaded by users and passed into the the plugin option on `docusaurus-plugin-content-docs`.
-  - `headerLinks` doc, page, blog is deprecated. The syntax is now:
+  - `headerLinks` doc, page, blog is deprecated and has been to moved into `themeConfig` under the name `navbar`. The syntax is now:
 
 ```js
-headerLinks: [
-  // Link to internal page (without baseUrl)
-  { url: "help", label: "Help" },
-  // Links to href destination/ external page
-  { href: "https://github.com/", label: "GitHub" },
-],
+themeConfig: {
+  navbar: {
+    title: 'Docusaurus',
+    logo: {
+      alt: 'Docusaurus Logo',
+      src: 'img/docusaurus.svg',
+    },
+    links: [
+      {to: 'docs/introduction', label: 'Docs', position: 'left'},
+      {to: 'blog', label: 'Blog', position: 'left'},
+      {to: 'feedback', label: 'Feedback', position: 'left'},
+      {
+        href: 'https://github.com/facebook/docusaurus',
+        label: 'GitHub',
+        position: 'right',
+      },
+    ],
+  },
+}
 ```
-
-- `headerLinks` is now moved to themeConfig
 
 # Additions
 

@@ -55,7 +55,9 @@ We highly recommend you to install Yarn, an alternative package manager that has
 5. Clone your repository to your local machine:
 
 ```sh
-git clone git@github.com:USERNAME/docusaurus-tutorial.git
+git clone git@github.com:USERNAME/docusaurus-tutorial.git # SSH
+# or
+git clone https://github.com/USERNAME/docusaurus-tutorial.git # HTTPS
 ```
 
 6. `cd` into the repository which you just created.

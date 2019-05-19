@@ -6,11 +6,11 @@ original_id: docker
 
 [Docker](https://www.docker.com/) is a tool that enables you to create, deploy, and manage lightweight, stand-alone packages that contain everything needed to run an application. It can help us to avoid conflicting dependencies & unwanted behavior when running Docusaurus.
 
-## Run the local webserver in docker
+## Run the local web server in docker
 
 Ensure you have previously installed [docker](https://www.docker.com/get-started).
 
-To run the local webserver:
+To run the local web server:
 
 1. **Build the docker image** -- Enter the folder where you have Docusaurus installed. Run `docker build -t docusaurus-doc .`
 
@@ -24,7 +24,7 @@ To run the local webserver:
 
 ## Use docker-compose
 
-We can also use `docker-compose` to configure our application. This feature of docker allows you to run the webserver and any additional services with a single command.
+We can also use `docker-compose` to configure our application. This feature of docker allows you to run the web server and any additional services with a single command.
 
 > Compose is a tool for defining and running multi-container Docker applications. With Compose, you use a YAML file to configure your application’s services. Then, with a single command, you create and start all the services from your configuration.
 
@@ -59,6 +59,6 @@ services:
 
 ```
 
-To run a local webserver with `docker-compose` run `docker-compose up`.
+To run a local web server with `docker-compose` run `docker-compose up`.
 
 To build static HTML pages for publishing run `docker-compose run docusaurus bash -c 'yarn publish-gh-pages'`

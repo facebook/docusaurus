@@ -92,16 +92,18 @@ module.exports = async function build(siteDir, cliOptions = {}) {
 
   // Copy static files.
   const staticDir = path.resolve(siteDir, 'static');
-  const staticFiles = await globby(['**'], {
-    cwd: staticDir,
-  });
-  await Promise.all(
-    staticFiles.map(async source => {
-      const fromPath = path.resolve(staticDir, source);
-      const toPath = path.resolve(outDir, source);
-      return fs.copy(fromPath, toPath);
-    }),
-  );
+  if (fs.existsSync(staticDir)) {
+    const staticFiles = await globby(['**'], {
+      cwd: staticDir,
+    });
+    await Promise.all(
+      staticFiles.map(async source => {
+        const fromPath = path.resolve(staticDir, source);
+        const toPath = path.resolve(outDir, source);
+        return fs.copy(fromPath, toPath);
+      }),
+    );
+  }
 
   /* Plugin lifecycle - postBuild */
   await Promise.all(

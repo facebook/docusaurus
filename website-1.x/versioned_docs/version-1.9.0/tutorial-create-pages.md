@@ -82,7 +82,7 @@ In this session, we learned how Docusaurus makes it really simple to create a we
 }
 ```
 
-4. Kill your webserver (<kbd>Cmd</kbd> + <kbd>C</kbd> or <kbd>Ctrl</kbd> + <kbd>C</kbd>) and restart it (with `npm run start`) because a server restart is needed for sidebar changes.
+4. Kill your web server (<kbd>Cmd</kbd> + <kbd>C</kbd> or <kbd>Ctrl</kbd> + <kbd>C</kbd>) and restart it (with `npm run start`) because a server restart is needed for sidebar changes.
 5. Navigate to http://localhost:3000/docs/f8.
 
 You've created your first documentation page on Docusaurus! The `sidebars.json` is where you specify the order of your documentation pages and in the front matter of the Markdown file is where you provide metadata about that page.

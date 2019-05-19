@@ -6,6 +6,11 @@
  */
 
 async function execute() {
+  const commander = require('commander');
+  commander
+    .option('--skip-image-compression')
+    .option('--skip-next-release')
+    .parse(process.argv);
   require('../write-translations.js');
   const metadataUtils = require('./metadataUtils');
   const blog = require('./blog');
@@ -30,14 +35,11 @@ async function execute() {
   const sep = path.sep;
   const escapeStringRegexp = require('escape-string-regexp');
   const {renderToStaticMarkupWithDoctype} = require('./renderUtils');
-  const commander = require('commander');
   const imagemin = require('imagemin');
   const imageminJpegtran = require('imagemin-jpegtran');
   const imageminOptipng = require('imagemin-optipng');
   const imageminSvgo = require('imagemin-svgo');
   const imageminGifsicle = require('imagemin-gifsicle');
-
-  commander.option('--skip-image-compression').parse(process.argv);
 
   // create the folder path for a file if it does not exist, then write the file
   function writeFileAndCreateFolder(file, content) {

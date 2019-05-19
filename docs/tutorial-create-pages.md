@@ -3,7 +3,7 @@ id: tutorial-create-pages
 title: Create Pages
 ---
 
-In this section we will learn about creating two new types of pages in Docusaurus, a regular page and a documentation page.
+In this section, we will learn about creating two new types of pages in Docusaurus, a regular page and a documentation page.
 
 <img alt="Docusaurus MacBook" src="/img/undraw_docusaurus_tree.svg" class="docImage"/>
 
@@ -41,7 +41,7 @@ module.exports = HelloWorld;
 + <p>I can write JSX here!</p>
 ```
 
-React is being used as a templating engine for rendering static markup. You can leverage on the expressability of React to build rich web content. Learn more about creating pages [here](custom-pages).
+React is being used as a templating engine for rendering static markup. You can leverage on the expressibility of React to build rich web content. Learn more about creating pages [here](custom-pages).
 
 <img alt="Docusaurus React" src="/img/undraw_docusaurus_react.svg" class="docImage"/>
 
@@ -70,7 +70,7 @@ I can write content using [GitHub-flavored Markdown syntax](https://github.githu
 * Let's Go
 ```
 
-3. Go to `sidebars.json` and add `"doc4"` after `"doc1"`. This ID should be the same one as in the Markdown file above.
+3. Go to `website/sidebars.json` and add `"doc4"` after `"doc1"`. This ID should be the same one as in the Markdown file above.
 
 ```diff
 {
@@ -88,7 +88,7 @@ I can write content using [GitHub-flavored Markdown syntax](https://github.githu
 }
 ```
 
-4. Kill your webserver (<kbd>Cmd</kbd> + <kbd>C</kbd> or <kbd>Ctrl</kbd> + <kbd>C</kbd>) and restart it (with `npm run start`) because a server restart is needed for sidebar changes.
+4. Kill your web server (<kbd>Cmd</kbd> + <kbd>C</kbd> or <kbd>Ctrl</kbd> + <kbd>C</kbd>) and restart it (with `npm run start`) because a server restart is needed for sidebar changes.
 5. Navigate to http://localhost:3000/docs/doc4.
 
 You've created your first documentation page on Docusaurus! The `sidebars.json` is where you specify the order of your documentation pages and in the front matter of the Markdown file is where you provide metadata about that page.

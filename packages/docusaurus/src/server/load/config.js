@@ -14,7 +14,6 @@ const {CONFIG_FILE_NAME} = require('../../constants');
 const REQUIRED_FIELDS = [
   'baseUrl',
   'favicon',
-  'headerIcon',
   'organizationName',
   'projectName',
   'tagline',

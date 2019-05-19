@@ -12,7 +12,6 @@ module.exports = {
   projectName: 'docusaurus',
   baseUrl: '/',
   url: 'https://docusaurus-2.netlify.com',
-  headerIcon: 'img/docusaurus.svg',
   favicon: 'img/docusaurus.ico',
   themeConfig: {
     algolia: {
@@ -20,11 +19,23 @@ module.exports = {
       indexName: 'docusaurus-2',
       algoliaOptions: {},
     },
-    headerLinks: [
-      {url: 'docs/introduction', label: 'Docs'},
-      {url: 'blog', label: 'Blog'},
-      {url: 'feedback/', label: 'Feedback'},
-    ],
+    navbar: {
+      title: 'Docusaurus',
+      logo: {
+        alt: 'Docusaurus Logo',
+        src: 'img/docusaurus.svg',
+      },
+      links: [
+        {to: 'docs/introduction', label: 'Docs', position: 'left'},
+        {to: 'blog', label: 'Blog', position: 'left'},
+        {to: 'feedback', label: 'Feedback', position: 'left'},
+        {
+          href: 'https://github.com/facebook/docusaurus',
+          label: 'GitHub',
+          position: 'right',
+        },
+      ],
+    },
     footer: {
       style: 'dark',
       links: [

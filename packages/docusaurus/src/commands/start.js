@@ -41,36 +41,32 @@ module.exports = async function start(siteDir, cliOptions = {}) {
   const props = await load(siteDir, cliOptions);
 
   // Reload files processing.
-  if (!cliOptions.noWatch) {
-    const reload = () => {
-      load(siteDir).catch(err => {
-        console.error(chalk.red(err.stack));
-      });
-    };
-    const {plugins} = props;
-
-    const normalizeToSiteDir = filepath => {
-      if (filepath && path.isAbsolute(filepath)) {
-        return path.relative(siteDir, filepath);
-      }
-      return filepath;
-    };
-
-    const pluginPaths = _.compact(
-      _.flatten(
-        plugins.map(
-          plugin => plugin.getPathsToWatch && plugin.getPathsToWatch(),
-        ),
-      ),
-    ).map(normalizeToSiteDir);
-    const fsWatcher = chokidar.watch([...pluginPaths, CONFIG_FILE_NAME], {
-      cwd: siteDir,
-      ignoreInitial: true,
+  const reload = () => {
+    load(siteDir).catch(err => {
+      console.error(chalk.red(err.stack));
     });
-    ['add', 'change', 'unlink', 'addDir', 'unlinkDir'].forEach(event =>
-      fsWatcher.on(event, reload),
-    );
-  }
+  };
+  const {siteConfig, plugins = []} = props;
+
+  const normalizeToSiteDir = filepath => {
+    if (filepath && path.isAbsolute(filepath)) {
+      return path.relative(siteDir, filepath);
+    }
+    return filepath;
+  };
+
+  const pluginPaths = _.compact(
+    _.flatten(
+      plugins.map(plugin => plugin.getPathsToWatch && plugin.getPathsToWatch()),
+    ),
+  ).map(normalizeToSiteDir);
+  const fsWatcher = chokidar.watch([...pluginPaths, CONFIG_FILE_NAME], {
+    cwd: siteDir,
+    ignoreInitial: true,
+  });
+  ['add', 'change', 'unlink', 'addDir', 'unlinkDir'].forEach(event =>
+    fsWatcher.on(event, reload),
+  );
 
   const protocol = process.env.HTTPS === 'true' ? 'https' : 'http';
   const port = await getPort(cliOptions.port);
@@ -79,7 +75,6 @@ module.exports = async function start(siteDir, cliOptions = {}) {
   const urls = prepareUrls(protocol, host, port);
   const openUrl = normalizeUrl([urls.localUrlForBrowser, baseUrl]);
 
-  const {siteConfig, plugins = []} = props;
   let config = merge(createClientConfig(props), {
     plugins: [
       // Generates an `index.html` file with the <script> injected.
@@ -115,12 +110,10 @@ module.exports = async function start(siteDir, cliOptions = {}) {
     compress: true,
     clientLogLevel: 'error',
     hot: true,
-    // Do not fallback to page refresh if hot reload fails
-    // https://webpack.js.org/configuration/dev-server/#devserverhotonly
     hotOnly: cliOptions.hotOnly,
     quiet: true,
     headers: {
-      'access-control-allow-origin': '*', // Needed for CORS.
+      'access-control-allow-origin': '*',
     },
     publicPath: baseUrl,
     watchOptions: {

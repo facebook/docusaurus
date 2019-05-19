@@ -43,6 +43,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Ax',
+    image: '/img/users/ax.svg',
+    infoLink: 'https://ax.dev/',
+    fbOpenSource: true,
+    pinned: true,
+  },
+  {
     caption: 'Babel',
     image: '/img/users/babel.svg',
     infoLink: 'https://babeljs.io/',
@@ -190,6 +197,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Idb',
+    image: '/img/users/idb.svg',
+    infoLink: 'https://www.fbidb.io/',
+    fbOpenSource: true,
+    pinned: true,
+  },
+  {
     caption: 'Instant Articles Builder',
     image: '/img/users/facebook-instant-articles-rules-editor.svg',
     infoLink: 'https://facebook.github.io/instant-articles-builder/',
@@ -251,6 +265,13 @@ module.exports = [
     infoLink: 'https://mockit.netlify.com/',
     fbOpenSource: false,
     pinned: false,
+  },
+  {
+    caption: 'Netconsd',
+    image: '/img/users/netconsd.svg',
+    infoLink: 'https://facebookmicrosites.github.io/netconsd/',
+    fbOpenSource: true,
+    pinned: true,
   },
   {
     caption: 'Node SerialPort',
@@ -415,6 +436,13 @@ module.exports = [
     pinned: true,
   },
   {
+    caption: 'Redex',
+    image: '/img/users/redex.png',
+    infoLink: 'https://fbredex.com/',
+    fbOpenSource: true,
+    pinned: true,
+  },
+  {
     caption: 'Redux',
     image: '/img/users/redux.svg',
     infoLink: 'https://redux.js.org/',
@@ -493,7 +521,7 @@ module.exports = [
   },
   {
     caption: 'StreamPipes',
-    image: 'https://streampipes.org/images/streampipes-logo-center.png',
+    image: '/img/users/stream-pipes.png',
     infoLink: 'https://docs.streampipes.org',
     fbOpenSource: false,
     pinned: false,
@@ -502,8 +530,8 @@ module.exports = [
     caption: 'Taro',
     image: '/img/users/taro.png',
     infoLink: 'https://nervjs.github.io/taro/',
-    fbOpenSource: true,
-    pinned: true,
+    fbOpenSource: false,
+    pinned: false,
   },
   {
     caption: 'Testing Library',
