@@ -23,12 +23,13 @@ function startLiveReloadServer() {
 function startServer() {
   const initialServerPort =
     parseInt(program.port, 10) || process.env.PORT || 3000;
+  const initialHost = program.host || 'localhost';
   const promise = portFinder
     .getPortPromise({port: initialServerPort})
     .then(port => {
       server(port);
       const {baseUrl} = require(`${CWD}/siteConfig.js`);
-      const serverAddress = `http://localhost:${port}${baseUrl}`;
+      const serverAddress = `http://${initialHost}:${port}${baseUrl}`;
       console.log('Docusaurus server started on port %d', port);
       openBrowser(serverAddress);
     });

@@ -42,6 +42,7 @@ if (env.versioning.enabled && env.versioning.missingVersionsPage) {
 program
   .option('--port <number>', 'Specify port number')
   .option('--no-watch', 'Toggle live reload file watching')
+  .option('--host <host>', 'use specified host (default: localhost)')
   .parse(process.argv);
 
 startDocusaurus().catch(ex => {

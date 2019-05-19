@@ -7,6 +7,7 @@
 
 const gaze = require('gaze');
 const tinylr = require('tiny-lr');
+const program = require('commander');
 const readMetadata = require('./readMetadata.js');
 
 function start(port) {
@@ -26,12 +27,11 @@ function start(port) {
     },
   );
 }
-
 const getReloadScriptUrl = () => {
   const port = process.env.LIVERELOAD_PORT;
-  const server = process.platform === 'win32' ? 'localhost' : '0.0.0.0';
+  const host = program.host || 'localhost';
 
-  return `http://${server}:${port}/livereload.js`;
+  return `http://${host}:${port}/livereload.js`;
 };
 
 module.exports = {
