@@ -143,7 +143,10 @@ class SideNav extends React.Component {
               <h2>
                 <i>›</i>
                 <span>
-                  {this.getLocalizedCategoryString(this.props.current.category)}
+                  {this.getLocalizedCategoryString(
+                    this.props.current.subcategory ||
+                      this.props.current.category,
+                  )}
                 </span>
               </h2>
               {siteConfig.onPageNav === 'separate' && (
