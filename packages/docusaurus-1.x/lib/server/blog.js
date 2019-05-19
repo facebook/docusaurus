@@ -19,10 +19,7 @@ function urlToSource(url) {
   if (!url || typeof url !== 'string') {
     return null;
   }
-  return url
-    .replace(/\/index.html$/, '.md')
-    .replace(/\.html$/, '.md')
-    .replace(new RegExp('/', 'g'), '-');
+  return url.replace(/(\/index)?\.html$/, '.md').replace(/\//g, '-');
 }
 
 function fileToUrl(file) {
