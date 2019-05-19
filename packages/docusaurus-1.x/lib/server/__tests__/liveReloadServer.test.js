@@ -20,10 +20,7 @@ describe('get reload script', () => {
   test('when server started, returns url with correct port', () => {
     const port = 1234;
     liveReloadServer.start(port);
-    const expectedUrl =
-      process.platform === 'win32'
-        ? `http://localhost:${port}/livereload.js`
-        : `http://0.0.0.0:${port}/livereload.js`;
+    const expectedUrl = `http://localhost:${port}/livereload.js`;
     expect(liveReloadServer.getReloadScriptUrl()).toBe(expectedUrl);
   });
 });
