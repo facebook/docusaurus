@@ -13,6 +13,7 @@ function execute(port) {
   const blog = require('./blog');
   const docs = require('./docs');
   const env = require('./env.js');
+  const program = require('commander');
   const express = require('express');
   const React = require('react');
   const request = require('request');
@@ -31,6 +32,7 @@ function execute(port) {
   const CWD = process.cwd();
   const join = path.join;
   const sep = path.sep;
+  const host = program.host || 'localhost';
 
   function removeModulePathFromCache(moduleName) {
     /* eslint-disable no-underscore-dangle */
@@ -355,7 +357,7 @@ function execute(port) {
   // for example, request to "blog" returns "blog/index.html" or "blog.html"
   app.get(routing.noExtension(), (req, res, next) => {
     const slash = req.path.toString().endsWith('/') ? '' : '/';
-    const requestUrl = `http://localhost:${port}${req.path}`;
+    const requestUrl = `http://${host}:${port}${req.path}`;
     requestFile(`${requestUrl + slash}index.html`, res, () => {
       requestFile(
         slash === '/'
@@ -374,7 +376,7 @@ function execute(port) {
       next();
       return;
     }
-    requestFile(`http://localhost:${port}${req.path}.html`, res, next);
+    requestFile(`http://${host}:${port}${req.path}.html`, res, next);
   });
 
   app.listen(port);
