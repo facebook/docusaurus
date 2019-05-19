@@ -13,8 +13,8 @@
     "build:v1": "yarn workspace docusaurus-1-website build",
     "build:v2": "yarn workspace docusaurus-2-website build",
     "postinstall": "yarn tsc",
-    "prettier": "prettier --config .prettierrc --write \"**/*.js\"",
-    "prettier:diff": "prettier --config .prettierrc --list-different \"**/*.js\"",
+    "prettier": "prettier --config .prettierrc --write \"**/*.{js,ts}\"",
+    "prettier:diff": "prettier --config .prettierrc --list-different \"**/*.{js,ts}\"",
     "lint": "eslint --cache \"**/*.js\"",
     "lerna": "lerna",
     "test": "jest",
@@ -50,7 +50,7 @@
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
     "rimraf": "^2.6.3",
-    "typescript": "^3.4.5"
+    "typescript": "^3.5.0-rc"
   },
   "lint-staged": {
     "linters": {

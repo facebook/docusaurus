@@ -5,7 +5,5 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-module.exports = {
-  GENERATED_FILES_DIR_NAME: '.docusaurus',
-  CONFIG_FILE_NAME: 'docusaurus.config.js',
-};
+export const GENERATED_FILES_DIR_NAME = '.docusaurus';
+export const CONFIG_FILE_NAME = 'docusaurus.config.js';

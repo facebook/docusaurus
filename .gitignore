@@ -13,4 +13,6 @@ build
 .cache-loader
 types
 packages/docusaurus-utils/lib/
+packages/docusaurus/lib/
+
 

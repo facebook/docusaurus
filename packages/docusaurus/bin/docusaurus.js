@@ -12,7 +12,7 @@ const envinfo = require('envinfo');
 const semver = require('semver');
 const path = require('path');
 const program = require('commander');
-const {build, swizzle, init, deploy, start} = require('../src');
+const {build, swizzle, init, deploy, start} = require('../lib');
 const requiredVersion = require('../package.json').engines.node;
 
 if (!semver.satisfies(process.version, requiredVersion)) {

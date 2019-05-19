@@ -7,7 +7,6 @@
 
     /* Strict Type-Checking Options */
     "strict": true,
-    "noImplicitAny": true,
     "strictNullChecks": true,
     "strictFunctionTypes": true,
     "strictBindCallApply": true,

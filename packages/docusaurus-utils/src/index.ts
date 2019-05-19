@@ -146,10 +146,10 @@ export function parse(
   fileString: string,
 ): {
   frontMatter: {
-    [key: string]: any,
-  },
-  content: string,
-  excerpt: string | undefined,
+    [key: string]: any;
+  };
+  content: string;
+  excerpt: string | undefined;
 } {
   const options: {} = {
     excerpt: (file: matter.GrayMatterFile<string>): void => {
