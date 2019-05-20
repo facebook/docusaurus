@@ -102,7 +102,7 @@ export function genChunkName(
   prefix?: string,
   preferredName?: string,
 ): string {
-  let chunkName = chunkNameCache.get(modulePath);
+  let chunkName: string | undefined = chunkNameCache.get(modulePath);
   if (!chunkName) {
     let str = modulePath;
     if (preferredName) {
@@ -146,10 +146,10 @@ export function parse(
   fileString: string,
 ): {
   frontMatter: {
-    [key: string]: any,
-  },
-  content: string,
-  excerpt: string | undefined,
+    [key: string]: any;
+  };
+  content: string;
+  excerpt: string | undefined;
 } {
   const options: {} = {
     excerpt: (file: matter.GrayMatterFile<string>): void => {

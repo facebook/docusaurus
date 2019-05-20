@@ -4,10 +4,10 @@
     "module": "commonjs",
     "lib": ["es6"],
     "declaration": true,
+    "declarationMap": true,
 
     /* Strict Type-Checking Options */
     "strict": true,
-    "noImplicitAny": true,
     "strictNullChecks": true,
     "strictFunctionTypes": true,
     "strictBindCallApply": true,
@@ -25,13 +25,9 @@
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
- 
+
     /* Advanced Options */
     "resolveJsonModule": true
   },
-  "exclude": [
-    "node_modules",
-    "**/__tests__/**/*",
-    "**/lib/**/*",
-  ]
+  "exclude": ["node_modules", "**/__tests__/**/*", "**/lib/**/*"]
 }

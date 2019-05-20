@@ -23,7 +23,7 @@
     "docusaurus": "bin/docusaurus.js"
   },
   "scripts": {
-    "docusaurus": "node bin/docusaurus"
+    "tsc": "tsc && node copyUntypedFiles.js"
   },
   "bugs": {
     "url": "https://github.com/facebook/Docusaurus/issues"
