@@ -9,13 +9,17 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
 import path from 'path';
 import fs from 'fs-extra';
-import {getBabelLoader, getCacheLoader, getStyleLoaders} from './utils';
 import {Configuration} from 'webpack';
+import {getBabelLoader, getCacheLoader, getStyleLoaders} from './utils';
+import {Props} from '../server';
 
 const CSS_REGEX = /\.css$/;
 const CSS_MODULE_REGEX = /\.module\.css$/;
 
-export function createBaseConfig(props, isServer: Boolean): Configuration {
+export function createBaseConfig(
+  props: Props,
+  isServer: Boolean,
+): Configuration {
   const {
     outDir,
     siteDir,
@@ -25,7 +29,7 @@ export function createBaseConfig(props, isServer: Boolean): Configuration {
   } = props;
 
   const isProd = process.env.NODE_ENV === 'production';
-  return <Configuration>{
+  return {
     mode: isProd ? 'production' : 'development',
     output: {
       path: outDir,
@@ -137,5 +141,5 @@ export function createBaseConfig(props, isServer: Boolean): Configuration {
         chunkFilename: isProd ? '[name].[chunkhash].css' : '[name].css',
       }),
     ],
-  };
+  } as Configuration;
 }

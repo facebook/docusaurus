@@ -5,11 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import build from './commands/build';
-import init from './commands/init';
-import start from './commands/start';
-import swizzle from './commands/swizzle';
-import deploy from './commands/deploy';
+const build = require('./commands/build');
+const init = require('./commands/init');
+const start = require('./commands/start');
+const swizzle = require('./commands/swizzle');
+const deploy = require('./commands/deploy');
 
 module.exports = {
   build,

@@ -77,7 +77,7 @@ export async function loadRoutes(pluginsRouteConfigs: RouteConfig[]) {
     const componentPath = getModulePath(component);
 
     const genImportChunk = (
-      modulePath: string | null,
+      modulePath: string | null | undefined,
       prefix?: string,
       name?: string,
     ) => {

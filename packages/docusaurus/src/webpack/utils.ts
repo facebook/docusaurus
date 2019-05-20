@@ -7,6 +7,7 @@
 
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import merge from 'webpack-merge';
+import {Configuration, Loader} from 'webpack';
 
 import {version as cacheLoaderVersion} from 'cache-loader/package.json';
 
@@ -16,9 +17,8 @@ export function getStyleLoaders(
   cssOptions: {
     [key: string]: any;
   } = {},
-) {
+): Loader[] {
   if (isServer) {
-    // https://github.com/webpack-contrib/mini-css-extract-plugin/issues/90#issuecomment-380796867
     return [
       cssOptions.modules
         ? {
@@ -39,11 +39,11 @@ export function getStyleLoaders(
       loader: require.resolve('css-loader'),
       options: cssOptions,
     },
-  ].filter(Boolean);
+  ].filter(Boolean) as Loader[];
   return loaders;
 }
 
-export function getCacheLoader(isServer: Boolean, cacheOptions?: {}) {
+export function getCacheLoader(isServer: Boolean, cacheOptions?: {}): Loader {
   return {
     loader: require.resolve('cache-loader'),
     options: Object.assign(
@@ -55,7 +55,7 @@ export function getCacheLoader(isServer: Boolean, cacheOptions?: {}) {
   };
 }
 
-export function getBabelLoader(isServer: Boolean, babelOptions?: {}) {
+export function getBabelLoader(isServer: Boolean, babelOptions?: {}): Loader {
   return {
     loader: require.resolve('babel-loader'),
     options: Object.assign(
@@ -79,7 +79,11 @@ export function getBabelLoader(isServer: Boolean, babelOptions?: {}) {
  * @param {Boolean} isServer indicates if this is a server webpack configuration
  * @returns {Object} final/ modified webpack config
  */
-export function applyConfigureWebpack(configureWebpack, config, isServer) {
+export function applyConfigureWebpack(
+  configureWebpack: any,
+  config: Configuration,
+  isServer: Boolean,
+): Configuration {
   if (typeof configureWebpack === 'object') {
     return merge(config, configureWebpack);
   }

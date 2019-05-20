@@ -11,8 +11,9 @@ import merge from 'webpack-merge';
 import ChunkManifestPlugin from './plugins/ChunkManifestPlugin';
 
 import {createBaseConfig} from './base';
+import {Props} from '../server';
 
-export function createClientConfig(props): Configuration {
+export function createClientConfig(props: Props): Configuration {
   const isProd = process.env.NODE_ENV === 'production';
   const config = createBaseConfig(props, false);
 

@@ -57,8 +57,12 @@
   },
   "lint-staged": {
     "linters": {
-      "*.{js,ts}": [
+      "*.js": [
         "yarn lint --fix",
+        "yarn prettier",
+        "git add"
+      ],
+      "*.ts": [
         "yarn prettier",
         "git add"
       ]

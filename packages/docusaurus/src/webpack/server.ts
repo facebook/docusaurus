@@ -13,8 +13,9 @@ import {Configuration} from 'webpack';
 
 import {createBaseConfig} from './base';
 import WaitPlugin from './plugins/WaitPlugin';
+import {Props} from '../server';
 
-export function createServerConfig(props): Configuration {
+export function createServerConfig(props: Props): Configuration {
   const {baseUrl, routesPaths, outDir} = props;
   const config = createBaseConfig(props, true);
   const isProd = process.env.NODE_ENV === 'production';

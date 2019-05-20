@@ -99,7 +99,7 @@ const chunkNameCache = new Map();
  */
 export function genChunkName(
   modulePath: string,
-  prefix?: string | number,
+  prefix?: string,
   preferredName?: string,
 ): string {
   let chunkName: string | undefined = chunkNameCache.get(modulePath);

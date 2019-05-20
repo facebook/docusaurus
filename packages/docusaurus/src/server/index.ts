@@ -15,11 +15,15 @@ import {loadRoutes} from './routes';
 import {loadPresets} from './presets';
 import {GENERATED_FILES_DIR_NAME, CONFIG_FILE_NAME} from '../constants';
 
+export interface CLIOptions {
+  [option: string]: any;
+}
+
 export interface LoadContext {
   siteDir: string;
   generatedFilesDir: string;
   siteConfig: DocusaurusConfig;
-  cliOptions: {};
+  cliOptions: CLIOptions;
   outDir: string;
   baseUrl: string;
 }
@@ -30,7 +34,7 @@ export interface Props extends LoadContext {
 
 export async function load(
   siteDir: string,
-  cliOptions: {} = {},
+  cliOptions: CLIOptions = {},
 ): Promise<Props> {
   const generatedFilesDir: string = path.resolve(
     siteDir,
