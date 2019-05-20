@@ -18,7 +18,7 @@
     "lint": "eslint --cache \"**/*.js\"",
     "lerna": "lerna",
     "test": "jest",
-    "tsc": "lerna run --parallel tsc --no-private"
+    "tsc": "lerna run tsc --no-private"
   },
   "devDependencies": {
     "@babel/core": "^7.4.4",
