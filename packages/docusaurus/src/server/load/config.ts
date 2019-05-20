@@ -5,23 +5,35 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const fs = require('fs-extra');
-const _ = require('lodash');
-const importFresh = require('import-fresh');
-const path = require('path');
-const {CONFIG_FILE_NAME} = require('../../constants');
+import fs from 'fs-extra';
+import _ from 'lodash';
+import importFresh from 'import-fresh';
+import path from 'path';
+import {CONFIG_FILE_NAME} from '../../constants';
 
-const REQUIRED_FIELDS = [
-  'baseUrl',
-  'favicon',
-  'organizationName',
-  'projectName',
-  'tagline',
-  'title',
-  'url',
-];
+export interface DocusaurusConfig {
+  baseUrl: string;
+  favicon: string;
+  tagline: string;
+  title: string;
+  url: string;
+  organizationName?: string;
+  projectName?: string;
+  customFields?: string[];
+  githubHost?: string;
+  plugins?: any[];
+  presets?: any[];
+  themeConfig?: {
+    [key: string]: any;
+  };
+  [key: string]: any;
+}
+
+const REQUIRED_FIELDS = ['baseUrl', 'favicon', 'tagline', 'title', 'url'];
 
 const OPTIONAL_FIELDS = [
+  'organizationName',
+  'projectName',
   'customFields',
   'githubHost',
   'plugins',
@@ -29,21 +41,23 @@ const OPTIONAL_FIELDS = [
   'themeConfig',
 ];
 
-const DEFAULT_CONFIG = {
+const DEFAULT_CONFIG: {
+  [key: string]: any;
+} = {
   plugins: [],
 };
 
-function formatFields(fields) {
+function formatFields(fields: string[]): string {
   return fields.map(field => `'${field}'`).join(', ');
 }
 
-function loadConfig(siteDir) {
+export function loadConfig(siteDir: string): DocusaurusConfig {
   const configPath = path.resolve(siteDir, CONFIG_FILE_NAME);
-  let loadedConfig = {};
-  if (fs.existsSync(configPath)) {
-    loadedConfig = importFresh(configPath);
-  }
 
+  if (!fs.existsSync(configPath)) {
+    throw new Error(`${CONFIG_FILE_NAME} not found`);
+  }
+  const loadedConfig = importFresh(configPath);
   const missingFields = REQUIRED_FIELDS.filter(
     field => !_.has(loadedConfig, field),
   );
@@ -56,7 +70,7 @@ function loadConfig(siteDir) {
   }
 
   // Merge default config with loaded config.
-  const config = {...DEFAULT_CONFIG, ...loadedConfig};
+  const config: DocusaurusConfig = {...DEFAULT_CONFIG, ...loadedConfig};
 
   // User's own array of custom fields/
   // e.g: if they want to include some.field so they can access it later from `props.siteConfig`.
@@ -81,5 +95,3 @@ function loadConfig(siteDir) {
 
   return config;
 }
-
-module.exports = loadConfig;

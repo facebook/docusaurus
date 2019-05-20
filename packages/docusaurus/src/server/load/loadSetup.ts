@@ -6,7 +6,7 @@
  */
 
 import path from 'path';
-import load from '../index';
+import {load} from '../index';
 
 // Helper methods to setup dummy/fake projects
 const loadSetup = async name => {

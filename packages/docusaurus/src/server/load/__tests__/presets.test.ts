@@ -7,11 +7,13 @@
 
 import path from 'path';
 
-import loadPresets from '../presets';
+import {loadPresets} from '../presets';
+import {LoadContext} from '../..';
 
 describe('loadPresets', () => {
   test('no presets', () => {
-    const presets = loadPresets({siteConfig: {presets: []}});
+    const context = {} as LoadContext;
+    const presets = loadPresets(context);
     expect(presets).toMatchInlineSnapshot(`
 Object {
   "plugins": Array [],
@@ -21,11 +23,12 @@ Object {
   });
 
   test('string form', () => {
-    const presets = loadPresets({
+    const context = {
       siteConfig: {
         presets: [path.join(__dirname, '__fixtures__/preset-bar.js')],
       },
-    });
+    } as LoadContext;
+    const presets = loadPresets(context);
     expect(presets).toMatchInlineSnapshot(`
 Object {
   "plugins": Array [
@@ -44,14 +47,15 @@ Object {
   });
 
   test('string form composite', () => {
-    const presets = loadPresets({
+    const context = {
       siteConfig: {
         presets: [
           path.join(__dirname, '__fixtures__/preset-bar.js'),
           path.join(__dirname, '__fixtures__/preset-foo.js'),
         ],
       },
-    });
+    } as LoadContext;
+    const presets = loadPresets(context);
     expect(presets).toMatchInlineSnapshot(`
 Object {
   "plugins": Array [
@@ -78,11 +82,12 @@ Object {
   });
 
   test('array form', () => {
-    const presets = loadPresets({
+    const context = {
       siteConfig: {
         presets: [[path.join(__dirname, '__fixtures__/preset-bar.js')]],
       },
-    });
+    } as LoadContext;
+    const presets = loadPresets(context);
     expect(presets).toMatchInlineSnapshot(`
 Object {
   "plugins": Array [
@@ -101,7 +106,7 @@ Object {
   });
 
   test('array form with options', () => {
-    const presets = loadPresets({
+    const context = {
       siteConfig: {
         presets: [
           [
@@ -110,7 +115,8 @@ Object {
           ],
         ],
       },
-    });
+    } as LoadContext;
+    const presets = loadPresets(context);
     expect(presets).toMatchInlineSnapshot(`
 Object {
   "plugins": Array [
@@ -131,7 +137,7 @@ Object {
   });
 
   test('array form composite', () => {
-    const presets = loadPresets({
+    const context = {
       siteConfig: {
         presets: [
           [
@@ -144,7 +150,8 @@ Object {
           ],
         ],
       },
-    });
+    } as LoadContext;
+    const presets = loadPresets(context);
     expect(presets).toMatchInlineSnapshot(`
 Object {
   "plugins": Array [
@@ -175,7 +182,7 @@ Object {
   });
 
   test('mixed form', () => {
-    const presets = loadPresets({
+    const context = {
       siteConfig: {
         presets: [
           [
@@ -185,7 +192,8 @@ Object {
           path.join(__dirname, '__fixtures__/preset-foo.js'),
         ],
       },
-    });
+    } as LoadContext;
+    const presets = loadPresets(context);
     expect(presets).toMatchInlineSnapshot(`
 Object {
   "plugins": Array [
@@ -214,7 +222,7 @@ Object {
   });
 
   test('mixed form with themes', () => {
-    const presets = loadPresets({
+    const context = {
       siteConfig: {
         presets: [
           [
@@ -225,7 +233,8 @@ Object {
           path.join(__dirname, '__fixtures__/preset-qux.js'),
         ],
       },
-    });
+    } as LoadContext;
+    const presets = loadPresets(context);
     expect(presets).toMatchInlineSnapshot(`
 Object {
   "plugins": Array [

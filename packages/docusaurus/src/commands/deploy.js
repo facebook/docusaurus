@@ -9,7 +9,7 @@ const path = require('path');
 const shell = require('shelljs');
 const fs = require('fs-extra');
 const build = require('./build');
-const loadConfig = require('../server/load/config');
+const {loadConfig} = require('../server/load/config');
 const {CONFIG_FILE_NAME} = require('../constants');
 
 module.exports = async function deploy(siteDir) {

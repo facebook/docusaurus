@@ -5,13 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const importFresh = require('import-fresh');
-const _ = require('lodash');
+import importFresh from 'import-fresh';
+import _ from 'lodash';
+import {LoadContext} from '../index';
 
-module.exports = function loadPresets(context) {
-  const presets = context.siteConfig.presets || [];
-  const plugins = [];
-  const themes = [];
+export function loadPresets(context: LoadContext) {
+  const presets: any[] = context.siteConfig.presets || [];
+  const plugins: any[] = [];
+  const themes: any[] = [];
 
   presets.forEach(presetItem => {
     let presetModule;
@@ -31,4 +32,4 @@ module.exports = function loadPresets(context) {
     plugins: _.compact(_.flatten(plugins)),
     themes: _.compact(_.flatten(themes)),
   };
-};
+}

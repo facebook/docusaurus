@@ -5,30 +5,42 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const path = require('path');
+import path from 'path';
 
-const {generate} = require('@docusaurus/utils');
-const loadConfig = require('./load/config');
-const loadTheme = require('./load/theme');
-const loadRoutes = require('./load/routes');
-const loadPlugins = require('./load/plugins');
-const loadPresets = require('./load/presets');
-const constants = require('../constants');
+import {generate} from '@docusaurus/utils';
+import {loadConfig, DocusaurusConfig} from './load/config';
+import loadTheme from './load/theme';
+import loadPlugins from './load/plugins';
+import loadRoutes from './load/routes';
+import {loadPresets} from './load/presets';
+import {GENERATED_FILES_DIR_NAME, CONFIG_FILE_NAME} from '../constants';
 
-module.exports = async function load(siteDir, cliOptions = {}) {
-  const generatedFilesDir = path.resolve(
+export interface LoadContext {
+  siteDir: string;
+  generatedFilesDir: string;
+  siteConfig: DocusaurusConfig;
+  cliOptions: {};
+}
+
+export async function load(siteDir: string, cliOptions: {} = {}) {
+  const generatedFilesDir: string = path.resolve(
     siteDir,
-    constants.GENERATED_FILES_DIR_NAME,
+    GENERATED_FILES_DIR_NAME,
   );
 
-  const siteConfig = loadConfig(siteDir);
+  const siteConfig: DocusaurusConfig = loadConfig(siteDir);
   await generate(
     generatedFilesDir,
-    constants.CONFIG_FILE_NAME,
+    CONFIG_FILE_NAME,
     `export default ${JSON.stringify(siteConfig, null, 2)};`,
   );
 
-  const context = {siteDir, generatedFilesDir, siteConfig, cliOptions};
+  const context: LoadContext = {
+    siteDir,
+    generatedFilesDir,
+    siteConfig,
+    cliOptions,
+  };
 
   // Process presets.
   const {plugins: presetPlugins, themes: presetThemes} = loadPresets(context);
@@ -135,4 +147,4 @@ ${Object.keys(registry)
   };
 
   return props;
-};
+}

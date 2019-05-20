@@ -6,29 +6,29 @@
  */
 
 import path from 'path';
-import loadConfig from '../config';
-import loadSetup from '../loadSetup';
+import {loadConfig} from '../config';
 
 describe('loadConfig', () => {
   test('website with valid siteConfig', async () => {
-    const {siteDir} = await loadSetup('simple');
+    const fixtures = path.join(__dirname, '__fixtures__');
+    const siteDir = path.join(fixtures, 'simple-site');
     const config = loadConfig(siteDir);
     expect(config).toMatchInlineSnapshot(
       {
         plugins: expect.any(Array),
       },
       `
-      Object {
-        "baseUrl": "/",
-        "favicon": "img/docusaurus.ico",
-        "organizationName": "endiliey",
-        "plugins": Any<Array>,
-        "projectName": "hello",
-        "tagline": "Hello World",
-        "title": "Hello",
-        "url": "https://docusaurus.io",
-      }
-    `,
+                        Object {
+                          "baseUrl": "/",
+                          "favicon": "img/docusaurus.ico",
+                          "organizationName": "endiliey",
+                          "plugins": Any<Array>,
+                          "projectName": "hello",
+                          "tagline": "Hello World",
+                          "title": "Hello",
+                          "url": "https://docusaurus.io",
+                        }
+                `,
     );
     expect(config).not.toEqual({});
   });
@@ -38,7 +38,7 @@ describe('loadConfig', () => {
     expect(() => {
       loadConfig(siteDir);
     }).toThrowErrorMatchingInlineSnapshot(
-      `"The required field(s) 'favicon', 'organizationName', 'projectName', 'tagline', 'url' are missing from docusaurus.config.js"`,
+      `"The required field(s) 'favicon', 'tagline', 'url' are missing from docusaurus.config.js"`,
     );
   });
 
@@ -55,8 +55,6 @@ describe('loadConfig', () => {
     const siteDir = path.join(__dirname, '__fixtures__', 'nonExisting');
     expect(() => {
       loadConfig(siteDir);
-    }).toThrowErrorMatchingInlineSnapshot(
-      `"The required field(s) 'baseUrl', 'favicon', 'organizationName', 'projectName', 'tagline', 'title', 'url' are missing from docusaurus.config.js"`,
-    );
+    }).toThrowErrorMatchingInlineSnapshot(`"docusaurus.config.js not found"`);
   });
 });
