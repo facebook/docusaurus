@@ -15,8 +15,8 @@ const chalk = require('chalk');
 const fs = require('fs-extra');
 const globby = require('globby');
 const {load} = require('../server');
-const createServerConfig = require('../webpack/server');
-const createClientConfig = require('../webpack/client');
+const {createServerConfig} = require('../webpack/server');
+const {createClientConfig} = require('../webpack/client');
 const {applyConfigureWebpack} = require('../webpack/utils');
 
 function compile(config) {

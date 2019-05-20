@@ -5,22 +5,25 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const globby = require('globby');
-const fs = require('fs-extra');
-const path = require('path');
-const {fileToPath, posixPath, normalizeUrl} = require('@docusaurus/utils');
+import globby from 'globby';
+import fs from 'fs-extra';
+import path from 'path';
+import {fileToPath, posixPath, normalizeUrl} from '@docusaurus/utils';
 
-module.exports = async function loadTheme(themePath) {
+export interface Alias {
+  [alias: string]: string;
+}
+
+export function themeAlias(themePath: string): Alias {
   if (!fs.pathExistsSync(themePath)) {
-    return null;
+    return {};
   }
 
-  const themeComponentFiles = await globby(['**/*.{js,jsx}'], {
+  const themeComponentFiles = globby.sync(['**/*.{js,jsx}'], {
     cwd: themePath,
   });
 
   const alias = {};
-
   themeComponentFiles.forEach(relativeSource => {
     const filePath = path.join(themePath, relativeSource);
     const fileName = fileToPath(relativeSource);
@@ -31,4 +34,4 @@ module.exports = async function loadTheme(themePath) {
   });
 
   return alias;
-};
+}

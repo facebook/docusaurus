@@ -5,14 +5,16 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const path = require('path');
-const StaticSiteGeneratorPlugin = require('static-site-generator-webpack-plugin');
-const WebpackNiceLog = require('webpack-nicelog');
-const merge = require('webpack-merge');
-const createBaseConfig = require('./base');
-const WaitPlugin = require('./plugins/WaitPlugin');
+import path from 'path';
+import StaticSiteGeneratorPlugin from 'static-site-generator-webpack-plugin';
+import WebpackNiceLog from 'webpack-nicelog';
+import merge from 'webpack-merge';
+import {Configuration} from 'webpack';
 
-module.exports = function createServerConfig(props) {
+import {createBaseConfig} from './base';
+import WaitPlugin from './plugins/WaitPlugin';
+
+export function createServerConfig(props): Configuration {
   const {baseUrl, routesPaths, outDir} = props;
   const config = createBaseConfig(props, true);
   const isProd = process.env.NODE_ENV === 'production';
@@ -62,4 +64,4 @@ module.exports = function createServerConfig(props) {
     ],
   });
   return serverConfig;
-};
+}

@@ -6,14 +6,15 @@
  */
 
 import {validate} from 'webpack';
-import createBaseConfig from '../base';
-import loadSetup from '../../server/load/loadSetup';
 
-describe('webpack base config', () => {
+import {createServerConfig} from '../server';
+import {loadSetup} from '../../server/loadSetup';
+
+describe('webpack production config', () => {
   test('simple', async () => {
     console.log = jest.fn();
     const props = await loadSetup('simple');
-    const config = createBaseConfig(props);
+    const config = createServerConfig(props);
     const errors = validate(config);
     expect(errors.length).toBe(0);
   });
@@ -21,7 +22,7 @@ describe('webpack base config', () => {
   test('custom', async () => {
     console.log = jest.fn();
     const props = await loadSetup('custom');
-    const config = createBaseConfig(props);
+    const config = createServerConfig(props);
     const errors = validate(config);
     expect(errors.length).toBe(0);
   });

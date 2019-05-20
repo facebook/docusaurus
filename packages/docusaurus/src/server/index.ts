@@ -6,13 +6,13 @@
  */
 
 import path from 'path';
-
 import {generate} from '@docusaurus/utils';
-import {loadConfig, DocusaurusConfig} from './load/config';
-import loadTheme from './load/theme';
-import loadPlugins from './load/plugins';
-import loadRoutes from './load/routes';
-import {loadPresets} from './load/presets';
+
+import {loadConfig, DocusaurusConfig} from './config';
+import {loadThemeAlias} from './themes';
+import {loadPlugins} from './plugins';
+import {loadRoutes} from './routes';
+import {loadPresets} from './presets';
 import {GENERATED_FILES_DIR_NAME, CONFIG_FILE_NAME} from '../constants';
 
 export interface LoadContext {
@@ -20,9 +20,18 @@ export interface LoadContext {
   generatedFilesDir: string;
   siteConfig: DocusaurusConfig;
   cliOptions: {};
+  outDir: string;
+  baseUrl: string;
+}
+export interface Props extends LoadContext {
+  routesPaths: string[];
+  plugins: any[];
 }
 
-export async function load(siteDir: string, cliOptions: {} = {}) {
+export async function load(
+  siteDir: string,
+  cliOptions: {} = {},
+): Promise<Props> {
   const generatedFilesDir: string = path.resolve(
     siteDir,
     GENERATED_FILES_DIR_NAME,
@@ -35,71 +44,45 @@ export async function load(siteDir: string, cliOptions: {} = {}) {
     `export default ${JSON.stringify(siteConfig, null, 2)};`,
   );
 
+  const outDir = path.resolve(siteDir, 'build');
+  const {baseUrl} = siteConfig;
+
   const context: LoadContext = {
     siteDir,
     generatedFilesDir,
     siteConfig,
     cliOptions,
+    outDir,
+    baseUrl,
   };
 
-  // Process presets.
+  /* Preset */
   const {plugins: presetPlugins, themes: presetThemes} = loadPresets(context);
 
-  // Process plugins and themes. Themes are also plugins, but they run after all
-  // the explicit plugins because they may override the resolve.alias(es)
-  // defined by the plugins.
+  /* Plugin */
   const pluginConfigs = [
     ...presetPlugins,
     ...(siteConfig.plugins || []),
     ...presetThemes,
     ...(siteConfig.themes || []),
   ];
-
   const {plugins, pluginsRouteConfigs} = await loadPlugins({
     pluginConfigs,
     context,
   });
 
-  const outDir = path.resolve(siteDir, 'build');
-  const {baseUrl} = siteConfig;
-
-  // Default theme components that are essential and must exist in a Docusaurus app
-  // These can be overriden in plugins/ through component swizzling.
-  // However, we alias it here first as a fallback.
-  const themeFallback = path.resolve(__dirname, '../client/theme-fallback');
-  const fallbackAliases = await loadTheme(themeFallback);
-
-  // Create theme alias from plugins.
-  const pluginThemeAliases = await Promise.all(
-    plugins.map(async plugin => {
-      if (!plugin.getThemePath) {
-        return null;
-      }
-      return loadTheme(plugin.getThemePath());
-    }),
-  );
-
-  // User's own theme alias override. Highest priority.
-  const themePath = path.resolve(siteDir, 'theme');
-  const userAliases = await loadTheme(themePath);
-
-  const combinedAliases = [
-    fallbackAliases,
-    ...pluginThemeAliases,
-    userAliases,
-  ].reduce(
-    (acc, curr) => ({
-      ...acc,
-      ...curr,
-    }),
-    {},
-  );
-
+  /* Theme */
+  const fallbackTheme = path.resolve(__dirname, '../client/theme-fallback');
+  const pluginThemes = plugins
+    .map(plugin => plugin.getThemePath && plugin.getThemePath())
+    .filter(Boolean) as string[];
+  const userTheme = path.resolve(siteDir, 'theme');
+  const alias = loadThemeAlias([fallbackTheme, ...pluginThemes, userTheme]);
   // Make a fake plugin to resolve aliased theme components.
   plugins.push({
     configureWebpack: () => ({
       resolve: {
-        alias: combinedAliases,
+        alias,
       },
     }),
   });

@@ -9,7 +9,7 @@ import fs from 'fs-extra';
 import _ from 'lodash';
 import importFresh from 'import-fresh';
 import path from 'path';
-import {CONFIG_FILE_NAME} from '../../constants';
+import {CONFIG_FILE_NAME} from '../constants';
 
 export interface DocusaurusConfig {
   baseUrl: string;

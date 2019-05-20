@@ -13,23 +13,29 @@ describe('loadConfig', () => {
     const fixtures = path.join(__dirname, '__fixtures__');
     const siteDir = path.join(fixtures, 'simple-site');
     const config = loadConfig(siteDir);
-    expect(config).toMatchInlineSnapshot(
-      {
-        plugins: expect.any(Array),
-      },
-      `
-                        Object {
-                          "baseUrl": "/",
-                          "favicon": "img/docusaurus.ico",
-                          "organizationName": "endiliey",
-                          "plugins": Any<Array>,
-                          "projectName": "hello",
-                          "tagline": "Hello World",
-                          "title": "Hello",
-                          "url": "https://docusaurus.io",
-                        }
-                `,
-    );
+    expect(config).toMatchInlineSnapshot(`
+      Object {
+        "baseUrl": "/",
+        "favicon": "img/docusaurus.ico",
+        "organizationName": "endiliey",
+        "plugins": Array [
+          Object {
+            "name": "@docusaurus/plugin-content-docs",
+            "options": Object {
+              "path": "../docs",
+              "sidebarPath": "/mnt/c/Users/endij/Desktop/Linux/Docusaurus/packages/docusaurus/src/server/__tests__/__fixtures__/simple-site/sidebars.json",
+            },
+          },
+          Object {
+            "name": "@docusaurus/plugin-content-pages",
+          },
+        ],
+        "projectName": "hello",
+        "tagline": "Hello World",
+        "title": "Hello",
+        "url": "https://docusaurus.io",
+      }
+    `);
     expect(config).not.toEqual({});
   });
 

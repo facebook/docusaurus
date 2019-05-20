@@ -5,12 +5,18 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const cacheLoaderVersion = require('cache-loader/package.json').version;
-const merge = require('webpack-merge');
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import merge from 'webpack-merge';
+
+import {version as cacheLoaderVersion} from 'cache-loader/package.json';
 
 // Utility method to get style loaders
-function getStyleLoaders(isServer, cssOptions = {}) {
+export function getStyleLoaders(
+  isServer: Boolean,
+  cssOptions: {
+    [key: string]: any;
+  } = {},
+) {
   if (isServer) {
     // https://github.com/webpack-contrib/mini-css-extract-plugin/issues/90#issuecomment-380796867
     return [
@@ -37,7 +43,7 @@ function getStyleLoaders(isServer, cssOptions = {}) {
   return loaders;
 }
 
-function getCacheLoader(isServer, cacheOptions) {
+export function getCacheLoader(isServer: Boolean, cacheOptions?: {}) {
   return {
     loader: require.resolve('cache-loader'),
     options: Object.assign(
@@ -49,7 +55,7 @@ function getCacheLoader(isServer, cacheOptions) {
   };
 }
 
-function getBabelLoader(isServer, babelOptions) {
+export function getBabelLoader(isServer: Boolean, babelOptions?: {}) {
   return {
     loader: require.resolve('babel-loader'),
     options: Object.assign(
@@ -73,7 +79,7 @@ function getBabelLoader(isServer, babelOptions) {
  * @param {Boolean} isServer indicates if this is a server webpack configuration
  * @returns {Object} final/ modified webpack config
  */
-function applyConfigureWebpack(configureWebpack, config, isServer) {
+export function applyConfigureWebpack(configureWebpack, config, isServer) {
   if (typeof configureWebpack === 'object') {
     return merge(config, configureWebpack);
   }
@@ -92,10 +98,3 @@ function applyConfigureWebpack(configureWebpack, config, isServer) {
   }
   return config;
 }
-
-module.exports = {
-  getBabelLoader,
-  getCacheLoader,
-  getStyleLoaders,
-  applyConfigureWebpack,
-};

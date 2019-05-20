@@ -5,16 +5,17 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const TerserPlugin = require('terser-webpack-plugin');
-const path = require('path');
-const fs = require('fs-extra');
-const {getBabelLoader, getCacheLoader, getStyleLoaders} = require('./utils');
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import TerserPlugin from 'terser-webpack-plugin';
+import path from 'path';
+import fs from 'fs-extra';
+import {getBabelLoader, getCacheLoader, getStyleLoaders} from './utils';
+import {Configuration} from 'webpack';
 
 const CSS_REGEX = /\.css$/;
 const CSS_MODULE_REGEX = /\.module\.css$/;
 
-module.exports = function createBaseConfig(props, isServer) {
+export function createBaseConfig(props, isServer: Boolean): Configuration {
   const {
     outDir,
     siteDir,
@@ -24,7 +25,7 @@ module.exports = function createBaseConfig(props, isServer) {
   } = props;
 
   const isProd = process.env.NODE_ENV === 'production';
-  return {
+  return <Configuration>{
     mode: isProd ? 'production' : 'development',
     output: {
       path: outDir,
@@ -96,7 +97,7 @@ module.exports = function createBaseConfig(props, isServer) {
       rules: [
         {
           test: /\.jsx?$/,
-          exclude(modulePath) {
+          exclude: modulePath => {
             // Don't transpile node_modules except any docusaurus package
             return (
               /node_modules/.test(modulePath) && !/docusaurus/.test(modulePath)
@@ -137,4 +138,4 @@ module.exports = function createBaseConfig(props, isServer) {
       }),
     ],
   };
-};
+}

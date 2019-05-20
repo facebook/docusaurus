@@ -4,6 +4,7 @@
     "module": "commonjs",
     "lib": ["es6"],
     "declaration": true,
+    "declarationMap": true,
 
     /* Strict Type-Checking Options */
     "strict": true,

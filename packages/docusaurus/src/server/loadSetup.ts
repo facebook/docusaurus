@@ -6,22 +6,19 @@
  */
 
 import path from 'path';
-import {load} from '../index';
+import {load, Props} from './index';
 
 // Helper methods to setup dummy/fake projects
-const loadSetup = async name => {
+export const loadSetup = async (name: string): Promise<Props> => {
   const fixtures = path.join(__dirname, '__tests__', '__fixtures__');
   const simpleSite = path.join(fixtures, 'simple-site');
   const customSite = path.join(fixtures, 'custom-site');
 
   switch (name) {
-    case 'simple':
-      return load(simpleSite);
     case 'custom':
       return load(customSite);
+    case 'simple':
     default:
-      return {};
+      return load(simpleSite);
   }
 };
-
-export default loadSetup;

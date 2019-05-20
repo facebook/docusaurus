@@ -5,17 +5,29 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const {genChunkName} = require('@docusaurus/utils');
-const {stringify} = require('querystring');
-const _ = require('lodash');
+import {genChunkName} from '@docusaurus/utils';
+import {stringify} from 'querystring';
+import _ from 'lodash';
 
-async function loadRoutes(pluginsRouteConfigs) {
+export interface RouteConfig {
+  path: string;
+  component: string;
+  modules?: {
+    [key: string]: any;
+  };
+  routes?: {
+    [route: string]: RouteConfig;
+  };
+  exact?: boolean;
+}
+
+export async function loadRoutes(pluginsRouteConfigs: RouteConfig[]) {
   const routesImports = [
     `import React from 'react';`,
     `import ComponentCreator from '@docusaurus/ComponentCreator';`,
   ];
-  const routesPaths = [];
-  const addRoutesPath = routePath => {
+  const routesPaths: string[] = [];
+  const addRoutesPath = (routePath: string) => {
     routesPaths.push(routePath);
   };
 
@@ -53,7 +65,7 @@ async function loadRoutes(pluginsRouteConfigs) {
         return null;
       }
 
-      const importStr = _.isObject(target) ? target.path : target;
+      const importStr = _.isObject(target as any) ? target.path : target;
       const queryStr = target.query ? `?${stringify(target.query)}` : '';
       return `${importStr}${queryStr}`;
     };
@@ -64,7 +76,11 @@ async function loadRoutes(pluginsRouteConfigs) {
 
     const componentPath = getModulePath(component);
 
-    const genImportChunk = (modulePath, prefix, name) => {
+    const genImportChunk = (
+      modulePath: string | null,
+      prefix?: string,
+      name?: string,
+    ) => {
       if (!modulePath) {
         return null;
       }
@@ -81,12 +97,12 @@ async function loadRoutes(pluginsRouteConfigs) {
     const componentChunk = genImportChunk(componentPath, 'component');
     addRoutesChunkNames(routePath, 'component', componentChunk);
 
-    function genRouteChunkNames(value, prefix) {
+    function genRouteChunkNames(value, prefix?: string) {
       if (Array.isArray(value)) {
-        return value.map(genRouteChunkNames);
+        return value.map((val, i) => genRouteChunkNames(val, `${i}`));
       }
 
-      if (_.isObject(value) && !value.__import) {
+      if (_.isObject(value as any) && !value.__import) {
         const newValue = {};
         Object.keys(value).forEach(key => {
           newValue[key] = genRouteChunkNames(value[key], key);
@@ -149,5 +165,3 @@ export default [
     routesPaths,
   };
 }
-
-module.exports = loadRoutes;

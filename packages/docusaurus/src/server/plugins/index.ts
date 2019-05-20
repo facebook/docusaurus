@@ -5,12 +5,19 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const fs = require('fs-extra');
-const importFresh = require('import-fresh');
-const path = require('path');
-const {generate} = require('@docusaurus/utils');
+import fs from 'fs-extra';
+import importFresh from 'import-fresh';
+import path from 'path';
+import {generate} from '@docusaurus/utils';
+import {LoadContext} from '..';
 
-module.exports = async function loadPlugins({pluginConfigs = [], context}) {
+export async function loadPlugins({
+  pluginConfigs = [],
+  context,
+}: {
+  pluginConfigs: any[];
+  context: LoadContext;
+}) {
   // 1. Plugin Lifecycle - Initialization/Constructor
   const plugins = pluginConfigs.map(({name, path: pluginPath, options}) => {
     let Plugin;
@@ -37,7 +44,7 @@ module.exports = async function loadPlugins({pluginConfigs = [], context}) {
   );
 
   // 3. Plugin lifecycle - contentLoaded
-  const pluginsRouteConfigs = [];
+  const pluginsRouteConfigs: any[] = [];
 
   await Promise.all(
     plugins.map(async (plugin, index) => {
@@ -68,4 +75,4 @@ module.exports = async function loadPlugins({pluginConfigs = [], context}) {
     plugins,
     pluginsRouteConfigs,
   };
-};
+}

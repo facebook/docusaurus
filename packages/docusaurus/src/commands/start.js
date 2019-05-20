@@ -21,7 +21,7 @@ const merge = require('webpack-merge');
 const {normalizeUrl} = require('@docusaurus/utils');
 const {load} = require('../server');
 const {CONFIG_FILE_NAME} = require('../constants');
-const createClientConfig = require('../webpack/client');
+const {createClientConfig} = require('../webpack/client');
 const {applyConfigureWebpack} = require('../webpack/utils');
 
 function getHost(reqHost) {

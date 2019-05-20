@@ -7,12 +7,12 @@
 
 import path from 'path';
 
-import {loadPresets} from '../presets';
-import {LoadContext} from '../..';
+import {loadPresets} from '../index';
+import {LoadContext} from '../../index';
 
 describe('loadPresets', () => {
   test('no presets', () => {
-    const context = {} as LoadContext;
+    const context = {siteConfig: {}} as LoadContext;
     const presets = loadPresets(context);
     expect(presets).toMatchInlineSnapshot(`
 Object {

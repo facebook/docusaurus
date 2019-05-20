@@ -4,16 +4,17 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-const path = require('path');
-const WebpackNiceLog = require('webpack-nicelog');
-const merge = require('webpack-merge');
-const ChunkManifestPlugin = require('./plugins/ChunkManifestPlugin');
+import path from 'path';
+import {Configuration} from 'webpack';
+import WebpackNiceLog from 'webpack-nicelog';
+import merge from 'webpack-merge';
+import ChunkManifestPlugin from './plugins/ChunkManifestPlugin';
 
-const createBaseConfig = require('./base');
+import {createBaseConfig} from './base';
 
-module.exports = function createClientConfig(props) {
+export function createClientConfig(props): Configuration {
   const isProd = process.env.NODE_ENV === 'production';
-  const config = createBaseConfig(props);
+  const config = createBaseConfig(props, false);
 
   const clientConfig = merge(config, {
     entry: {
@@ -40,4 +41,4 @@ module.exports = function createClientConfig(props) {
   });
 
   return clientConfig;
-};
+}

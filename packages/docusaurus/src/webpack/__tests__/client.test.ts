@@ -7,8 +7,8 @@
 
 import {validate} from 'webpack';
 
-import createClientConfig from '../client';
-import loadSetup from '../../server/load/loadSetup';
+import {createClientConfig} from '../client';
+import {loadSetup} from '../../server/loadSetup';
 
 describe('webpack dev config', () => {
   test('simple', async () => {
