@@ -5,36 +5,39 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const _ = require('lodash');
-const path = require('path');
-const express = require('express');
-const chalk = require('chalk');
-const webpack = require('webpack');
-const chokidar = require('chokidar');
-const portfinder = require('portfinder');
-const openBrowser = require('react-dev-utils/openBrowser');
-const {prepareUrls} = require('react-dev-utils/WebpackDevServerUtils');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const HotModuleReplacementPlugin = require('webpack/lib/HotModuleReplacementPlugin');
-const WebpackDevServer = require('webpack-dev-server');
-const merge = require('webpack-merge');
-const {normalizeUrl} = require('@docusaurus/utils');
-const {load} = require('../server');
-const {CONFIG_FILE_NAME} = require('../constants');
-const {createClientConfig} = require('../webpack/client');
-const {applyConfigureWebpack} = require('../webpack/utils');
+import _ from 'lodash';
+import path from 'path';
+import webpack from 'webpack';
+import express from 'express';
+import chalk from 'chalk';
+import chokidar from 'chokidar';
+import portfinder from 'portfinder';
+import openBrowser from 'react-dev-utils/openBrowser';
+import {prepareUrls} from 'react-dev-utils/WebpackDevServerUtils';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import HotModuleReplacementPlugin from 'webpack/lib/HotModuleReplacementPlugin';
+import WebpackDevServer from 'webpack-dev-server';
+import merge from 'webpack-merge';
+import {normalizeUrl} from '@docusaurus/utils';
+import {load, CLIOptions} from '../server';
+import {CONFIG_FILE_NAME} from '../constants';
+import {createClientConfig} from '../webpack/client';
+import {applyConfigureWebpack} from '../webpack/utils';
 
-function getHost(reqHost) {
+function getHost(reqHost: string): string {
   return reqHost || 'localhost';
 }
 
-async function getPort(reqPort) {
+async function getPort(reqPort: string): Promise<number> {
   portfinder.basePort = parseInt(reqPort, 10) || 3000;
   const port = await portfinder.getPortPromise();
   return port;
 }
 
-module.exports = async function start(siteDir, cliOptions = {}) {
+export async function start(
+  siteDir: string,
+  cliOptions: CLIOptions = {},
+): Promise<void> {
   console.log(chalk.blue('Starting the development server...'));
 
   // Process all related files as a prop.
@@ -126,16 +129,9 @@ module.exports = async function start(siteDir, cliOptions = {}) {
     // Enable overlay on browser. E.g: display errors
     overlay: true,
     host,
-    // https://webpack.js.org/configuration/dev-server/#devserverbefore
-    // eslint-disable-next-line
-    before(app, server) {
+    before(app) {
       app.use(baseUrl, express.static(path.resolve(siteDir, 'static')));
-      // TODO: add plugins beforeDevServer hook
-    },
-    // https://webpack.js.org/configuration/dev-server/#devserverbefore
-    // eslint-disable-next-line
-    after(app, server) {
-      // TODO: add plugins afterDevServer hook
+      // TODO: add plugins beforeDevServer and afterDevServer hook
     },
   };
   WebpackDevServer.addDevServerEntrypoints(config, devServerConfig);
@@ -148,9 +144,9 @@ module.exports = async function start(siteDir, cliOptions = {}) {
     openBrowser(openUrl);
   });
   ['SIGINT', 'SIGTERM'].forEach(sig => {
-    process.on(sig, () => {
+    process.on(sig as NodeJS.Signals, () => {
       devServer.close();
       process.exit();
     });
   });
-};
+}

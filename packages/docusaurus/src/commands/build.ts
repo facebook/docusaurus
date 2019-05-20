@@ -5,21 +5,21 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const webpack = require('webpack');
-const merge = require('webpack-merge');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
-const ReactLoadableSSRAddon = require('react-loadable-ssr-addon');
-const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer');
-const path = require('path');
-const chalk = require('chalk');
-const fs = require('fs-extra');
-const globby = require('globby');
-const {load} = require('../server');
-const {createServerConfig} = require('../webpack/server');
-const {createClientConfig} = require('../webpack/client');
-const {applyConfigureWebpack} = require('../webpack/utils');
+import webpack, {Configuration, Plugin} from 'webpack';
+import merge from 'webpack-merge';
+import CleanWebpackPlugin from 'clean-webpack-plugin';
+import ReactLoadableSSRAddon from 'react-loadable-ssr-addon';
+import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
+import path from 'path';
+import chalk from 'chalk';
+import fs from 'fs-extra';
+import globby from 'globby';
+import {load, CLIOptions, Props} from '../server';
+import {createClientConfig} from '../webpack/client';
+import {createServerConfig} from '../webpack/server';
+import {applyConfigureWebpack} from '../webpack/utils';
 
-function compile(config) {
+function compile(config: Configuration[]) {
   return new Promise((resolve, reject) => {
     const compiler = webpack(config);
     compiler.run((err, stats) => {
@@ -42,16 +42,19 @@ function compile(config) {
   });
 }
 
-module.exports = async function build(siteDir, cliOptions = {}) {
+export async function build(
+  siteDir: string,
+  cliOptions: CLIOptions = {},
+): Promise<void> {
   process.env.NODE_ENV = 'production';
   console.log(chalk.blue('Creating an optimized production build...'));
 
-  const props = await load(siteDir, cliOptions);
+  const props: Props = await load(siteDir, cliOptions);
 
   // Apply user webpack config.
   const {outDir, plugins} = props;
 
-  let clientConfig = merge(createClientConfig(props), {
+  let clientConfig: Configuration = merge(createClientConfig(props), {
     plugins: [
       // Remove/clean build folders before building bundles.
       new CleanWebpackPlugin({verbose: false}),
@@ -61,10 +64,10 @@ module.exports = async function build(siteDir, cliOptions = {}) {
       new ReactLoadableSSRAddon({
         filename: 'client-manifest.json',
       }),
-    ].filter(Boolean),
+    ].filter(Boolean) as Plugin[],
   });
 
-  let serverConfig = createServerConfig(props);
+  let serverConfig: Configuration = createServerConfig(props);
 
   // Plugin lifecycle - configureWebpack
   plugins.forEach(plugin => {
@@ -88,7 +91,9 @@ module.exports = async function build(siteDir, cliOptions = {}) {
   await compile([clientConfig, serverConfig]);
 
   // Remove server.bundle.js because it is useless
-  await fs.unlink(path.join(outDir, serverConfig.output.filename));
+  if (serverConfig.output && serverConfig.output.filename) {
+    await fs.unlink(path.join(outDir, serverConfig.output.filename));
+  }
 
   // Copy static files.
   const staticDir = path.resolve(siteDir, 'static');
@@ -121,4 +126,4 @@ module.exports = async function build(siteDir, cliOptions = {}) {
       relativeDir,
     )}.\n`,
   );
-};
+}

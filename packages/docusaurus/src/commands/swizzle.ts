@@ -5,12 +5,16 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const fs = require('fs-extra');
-const chalk = require('chalk');
-const path = require('path');
-const importFresh = require('import-fresh');
+import fs from 'fs-extra';
+import chalk from 'chalk';
+import path from 'path';
+import importFresh from 'import-fresh';
 
-module.exports = async function swizzle(siteDir, themeName, componentName) {
+export async function swizzle(
+  siteDir: string,
+  themeName: string,
+  componentName?: string,
+): Promise<void> {
   const Plugin = importFresh(themeName);
   const context = {siteDir};
   const PluginInstance = new Plugin(context);
@@ -33,4 +37,4 @@ module.exports = async function swizzle(siteDir, themeName, componentName) {
       `\n${chalk.green('Success!')} Copied ${fromMsg} to ${toMsg}.\n`,
     );
   }
-};
+}

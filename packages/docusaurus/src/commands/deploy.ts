@@ -5,14 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const path = require('path');
-const shell = require('shelljs');
-const fs = require('fs-extra');
-const build = require('./build');
-const {loadConfig} = require('../server/config');
-const {CONFIG_FILE_NAME} = require('../constants');
+import path from 'path';
+import shell from 'shelljs';
+import fs from 'fs-extra';
+import {build} from './build';
+import {loadConfig} from '../server/config';
+import {CONFIG_FILE_NAME} from '../constants';
 
-module.exports = async function deploy(siteDir) {
+export async function deploy(siteDir: string): Promise<void> {
   console.log('Deploy command invoked ...');
   if (!shell.which('git')) {
     throw new Error('Sorry, this script requires git');
@@ -136,57 +136,38 @@ module.exports = async function deploy(siteDir) {
         '.docusaurus',
         `${projectName}-${deploymentBranch}`,
       );
-      // In github.io case, project is deployed to root. Need to not recursively
-      // copy the deployment-branch to be.
-      const excludePath = `${projectName}-${deploymentBranch}`;
 
-      // cannot use shell.cp because it doesn't support copying dotfiles and we
-      // need to copy directories like .circleci, for example
-      // https://github.com/shelljs/shelljs/issues/79
-      fs.copy(
-        fromPath,
-        toPath,
-        src => {
-          if (src.indexOf('.DS_Store') !== -1) {
-            return false;
-          }
-          if (src.indexOf(excludePath) !== -1) {
-            return false;
-          }
-          return true;
-        },
-        error => {
-          if (error) {
-            throw new Error(
-              `Error: Copying build assets failed with error '${error}'`,
-            );
-          }
+      fs.copy(fromPath, toPath, error => {
+        if (error) {
+          throw new Error(
+            `Error: Copying build assets failed with error '${error}'`,
+          );
+        }
 
-          shell.cd(toPath);
-          shell.exec('git add --all');
+        shell.cd(toPath);
+        shell.exec('git add --all');
 
-          const commitMessage =
-            process.env.CUSTOM_COMMIT_MESSAGE ||
-            `Deploy website version based on ${currentCommit}`;
-          const commitResults = shell.exec(`git commit -m "${commitMessage}"`);
-          if (
-            shell.exec(`git push --force origin ${deploymentBranch}`).code !== 0
-          ) {
-            throw new Error('Error: Git push failed');
-          } else if (commitResults.code === 0) {
-            // The commit might return a non-zero value when site is up to date.
-            const websiteURL =
-              githubHost === 'github.com'
-                ? `https://${organizationName}.github.io/${projectName}` // gh-pages hosted repo
-                : `https://${githubHost}/pages/${organizationName}/${projectName}`; // GitHub enterprise hosting.
-            shell.echo(`Website is live at: ${websiteURL}`);
-            shell.exit(0);
-          }
-        },
-      );
+        const commitMessage =
+          process.env.CUSTOM_COMMIT_MESSAGE ||
+          `Deploy website version based on ${currentCommit}`;
+        const commitResults = shell.exec(`git commit -m "${commitMessage}"`);
+        if (
+          shell.exec(`git push --force origin ${deploymentBranch}`).code !== 0
+        ) {
+          throw new Error('Error: Git push failed');
+        } else if (commitResults.code === 0) {
+          // The commit might return a non-zero value when site is up to date.
+          const websiteURL =
+            githubHost === 'github.com'
+              ? `https://${organizationName}.github.io/${projectName}` // gh-pages hosted repo
+              : `https://${githubHost}/pages/${organizationName}/${projectName}`; // GitHub enterprise hosting.
+          shell.echo(`Website is live at: ${websiteURL}`);
+          shell.exit(0);
+        }
+      });
     })
     .catch(buildError => {
       console.error(buildError);
       process.exit(1);
     });
-};
+}

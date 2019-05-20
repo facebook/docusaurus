@@ -5,10 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-module.exports = async function init(projectDir, cliOptions = {}) {
+import {CLIOptions} from '../server';
+
+export async function init(
+  projectDir: string,
+  cliOptions: CLIOptions = {},
+): Promise<void> {
   console.log('Init command invoked ...');
   console.log(projectDir);
   console.log(cliOptions);
 
   // TODO
-};
+}
