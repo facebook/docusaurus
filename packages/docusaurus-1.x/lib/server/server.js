@@ -7,13 +7,12 @@
 
 /* eslint-disable no-cond-assign */
 
-function execute(port) {
+function execute(port, host) {
   const extractTranslations = require('../write-translations');
   const metadataUtils = require('./metadataUtils');
   const blog = require('./blog');
   const docs = require('./docs');
   const env = require('./env.js');
-  const program = require('commander');
   const express = require('express');
   const React = require('react');
   const request = require('request');
@@ -32,7 +31,6 @@ function execute(port) {
   const CWD = process.cwd();
   const join = path.join;
   const sep = path.sep;
-  const host = program.host || 'localhost';
 
   function removeModulePathFromCache(moduleName) {
     /* eslint-disable no-underscore-dangle */

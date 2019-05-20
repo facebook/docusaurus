@@ -46,7 +46,7 @@ Builds and serves the static site with [Webpack Dev Server](https://webpack.js.o
 |Options|Default|Description|
 |-|-|-|
 |`--port`|`3000`|Specifies the port of the dev server|
-|`--host`|`localhost`|Specifie a host to use. E.g., if you want your server to be accessible externally, you can use `--host 0.0.0.0`|
+|`--host`|`localhost`|Specify a host to use. E.g., if you want your server to be accessible externally, you can use `--host 0.0.0.0`|
 |`--hot-only`|`false`|Enables Hot Module Replacement without page refresh as fallback in case of build failures. More information [here](https://webpack.js.org/configuration/dev-server/#devserverhotonly).|
 
 ### `docusaurus build`
