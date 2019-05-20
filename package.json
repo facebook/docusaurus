@@ -61,10 +61,6 @@
         "yarn lint --fix",
         "yarn prettier",
         "git add"
-      ],
-      "*.ts": [
-        "yarn prettier",
-        "git add"
       ]
     }
   },
