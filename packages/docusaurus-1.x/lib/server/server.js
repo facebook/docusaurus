@@ -7,7 +7,7 @@
 
 /* eslint-disable no-cond-assign */
 
-function execute(port) {
+function execute(port, host) {
   const extractTranslations = require('../write-translations');
   const metadataUtils = require('./metadataUtils');
   const blog = require('./blog');
@@ -355,7 +355,7 @@ function execute(port) {
   // for example, request to "blog" returns "blog/index.html" or "blog.html"
   app.get(routing.noExtension(), (req, res, next) => {
     const slash = req.path.toString().endsWith('/') ? '' : '/';
-    const requestUrl = `http://localhost:${port}${req.path}`;
+    const requestUrl = `http://${host}:${port}${req.path}`;
     requestFile(`${requestUrl + slash}index.html`, res, () => {
       requestFile(
         slash === '/'
@@ -374,7 +374,7 @@ function execute(port) {
       next();
       return;
     }
-    requestFile(`http://localhost:${port}${req.path}.html`, res, next);
+    requestFile(`http://${host}:${port}${req.path}.html`, res, next);
   });
 
   app.listen(port);
