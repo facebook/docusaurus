@@ -11,7 +11,7 @@ import start from './commands/start';
 import swizzle from './commands/swizzle';
 import deploy from './commands/deploy';
 
-export = {
+module.exports = {
   build,
   swizzle,
   init,
