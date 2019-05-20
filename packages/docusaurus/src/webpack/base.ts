@@ -141,5 +141,5 @@ export function createBaseConfig(
         chunkFilename: isProd ? '[name].[chunkhash].css' : '[name].css',
       }),
     ],
-  } as Configuration;
+  };
 }
