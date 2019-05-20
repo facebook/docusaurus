@@ -19,7 +19,7 @@ import {createClientConfig} from '../webpack/client';
 import {createServerConfig} from '../webpack/server';
 import {applyConfigureWebpack} from '../webpack/utils';
 
-function compile(config: Configuration[]) {
+function compile(config: Configuration[]): Promise<any> {
   return new Promise((resolve, reject) => {
     const compiler = webpack(config);
     compiler.run((err, stats) => {

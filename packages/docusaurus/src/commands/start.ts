@@ -24,12 +24,12 @@ import {CONFIG_FILE_NAME} from '../constants';
 import {createClientConfig} from '../webpack/client';
 import {applyConfigureWebpack} from '../webpack/utils';
 
-function getHost(reqHost: string): string {
+function getHost(reqHost: string | undefined): string {
   return reqHost || 'localhost';
 }
 
-async function getPort(reqPort: string): Promise<number> {
-  portfinder.basePort = parseInt(reqPort, 10) || 3000;
+async function getPort(reqPort: string | undefined): Promise<number> {
+  portfinder.basePort = reqPort ? parseInt(reqPort, 10) : 3000;
   const port = await portfinder.getPortPromise();
   return port;
 }

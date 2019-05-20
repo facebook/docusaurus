@@ -8,7 +8,7 @@ const path = require('path');
 const fs = require('fs-extra');
 
 /**
- * Copy all untyped files to lib. Remove this code after all has been typed with TS
+ * Copy all untyped and static assets files to lib.
  */
 const srcDir = path.resolve(__dirname, 'src');
 const libDir = path.resolve(__dirname, 'lib');
