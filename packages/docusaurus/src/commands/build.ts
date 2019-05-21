@@ -18,6 +18,7 @@ import {load, CLIOptions, Props} from '../server';
 import {createClientConfig} from '../webpack/client';
 import {createServerConfig} from '../webpack/server';
 import {applyConfigureWebpack} from '../webpack/utils';
+import { STATIC_DIR_NAME } from '../constants';
 
 function compile(config: Configuration[]): Promise<any> {
   return new Promise((resolve, reject) => {
@@ -67,13 +68,12 @@ export async function build(
     ].filter(Boolean) as Plugin[],
   });
 
-  const staticDir = path.resolve(siteDir, 'static');
   let serverConfig: Configuration = merge(createServerConfig(props), {
     plugins: [
       new CopyWebpackPlugin([
         {
-          from: staticDir,
-          to: 'static',
+          from: path.resolve(siteDir, STATIC_DIR_NAME),
+          to: STATIC_DIR_NAME,
         },
       ]),
     ],

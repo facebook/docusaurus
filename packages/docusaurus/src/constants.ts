@@ -6,4 +6,5 @@
  */
 
 export const GENERATED_FILES_DIR_NAME = '.docusaurus';
+export const STATIC_DIR_NAME = 'static';
 export const CONFIG_FILE_NAME = 'docusaurus.config.js';
