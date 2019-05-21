@@ -71,14 +71,14 @@ export async function start(
     fsWatcher.on(event, reload),
   );
 
-  const protocol = process.env.HTTPS === 'true' ? 'https' : 'http';
-  const port = await getPort(cliOptions.port);
-  const host = getHost(cliOptions.host);
+  const protocol: string = process.env.HTTPS === 'true' ? 'https' : 'http';
+  const port: number = await getPort(cliOptions.port);
+  const host: string = getHost(cliOptions.host);
   const {baseUrl} = props;
   const urls = prepareUrls(protocol, host, port);
   const openUrl = normalizeUrl([urls.localUrlForBrowser, baseUrl]);
 
-  let config = merge(createClientConfig(props), {
+  let config: webpack.Configuration = merge(createClientConfig(props), {
     plugins: [
       // Generates an `index.html` file with the <script> injected.
       new HtmlWebpackPlugin({
@@ -109,7 +109,7 @@ export async function start(
   });
 
   // https://webpack.js.org/configuration/dev-server
-  const devServerConfig = {
+  const devServerConfig: WebpackDevServer.Configuration = {
     compress: true,
     clientLogLevel: 'error',
     hot: true,
@@ -129,7 +129,7 @@ export async function start(
     // Enable overlay on browser. E.g: display errors
     overlay: true,
     host,
-    before(app) {
+    before: app => {
       app.use(baseUrl, express.static(path.resolve(siteDir, 'static')));
       // TODO: add plugins beforeDevServer and afterDevServer hook
     },

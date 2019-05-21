@@ -59,20 +59,22 @@ export function createBaseConfig(
     optimization: {
       // Only minimize client bundle in production because server bundle is only used for static site generation
       minimize: isProd && !isServer,
-      minimizer: [
-        new TerserPlugin({
-          cache: true,
-          parallel: true,
-          sourceMap: true,
-          terserOptions: {
-            ecma: 6,
-            mangle: true,
-            output: {
-              comments: false,
-            },
-          },
-        }),
-      ],
+      minimizer: isProd
+        ? [
+            new TerserPlugin({
+              cache: true,
+              parallel: true,
+              sourceMap: false,
+              terserOptions: {
+                ecma: 6,
+                mangle: true,
+                output: {
+                  comments: false,
+                },
+              },
+            }),
+          ]
+        : undefined,
       splitChunks: {
         maxInitialRequests: Infinity,
         maxAsyncRequests: Infinity,

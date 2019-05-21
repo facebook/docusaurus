@@ -37,7 +37,7 @@ function compile(config: Configuration[]): Promise<any> {
           console.warn(warning);
         });
       }
-      resolve(stats.toJson({modules: false}));
+      resolve();
     });
   });
 }
@@ -92,7 +92,8 @@ export async function build(
 
   // Remove server.bundle.js because it is useless
   if (serverConfig.output && serverConfig.output.filename) {
-    await fs.unlink(path.join(outDir, serverConfig.output.filename));
+    const serverBundle = path.join(outDir, serverConfig.output.filename);
+    fs.existsSync(serverBundle) && fs.unlinkSync(serverBundle);
   }
 
   // Copy static files.
