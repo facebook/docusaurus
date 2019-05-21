@@ -87,7 +87,7 @@ module.exports = [
   {
     caption: 'ConfigCat',
     image: '/img/users/configcat.svg',
-    infoLink: 'https://github.com/configcat',
+    infoLink: 'https://configcat.com',
     fbOpenSource: false,
     pinned: false,
   },
