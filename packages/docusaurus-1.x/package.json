@@ -67,7 +67,7 @@
     "react-dom": "^16.5.0",
     "remarkable": "^1.7.1",
     "request": "^2.87.0",
-    "shelljs": "^0.7.8",
+    "shelljs": "^0.8.3",
     "sitemap": "^1.13.0",
     "tcp-port-used": "^0.1.2",
     "tiny-lr": "^1.1.1",
