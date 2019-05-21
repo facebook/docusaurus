@@ -57,9 +57,7 @@ The primary problem with GitBook is that the team behind it is more focused on t
 Gatsby is capable of doing what Docusaurus does. But it is designed to build various kind of websites and apps. In comparison, Docusaurus is very focused on content-centric sites and provides features tailed for documentation of the box. 
 Gatsby tries to **do many things well**, while Docusaurus tries to **do one thing super well**.
 
-In addition, Gatsby's codebase is complex and it has hundreds of open issues. In comparison, Docusaurus codebase is very minimal and it has less open issues. It is much harder to fix a bug caused by Gatsby yourself unless you have a vast understanding of Gatsby's monorepository which has ~~9000~~ over 100 packages. You'll have to rely on the maintainers who have few other hundreds of issues to solve.
-
-In addition, in order to achieve what Docusaurus does in Gatsby, you'll have to invest a lot of effort and build everything yourself. This of course give you an advantage of flexibility because you will be doing mostly everything on your own. However, that just means you're building another version of Docusaurus. Why reinvent the wheel ? 
+In addition, in order to achieve what Docusaurus does in Gatsby, you'll have to invest a lot of effort and build everything yourself. This of course give you an advantage of flexibility because you will be doing mostly everything on your own. However, that just means you're building another version of Docusaurus. Even if there is a **Gatsby Theme** that achieve that, that just means someone is building "another version of Docusaurus" again. Why reinvent the wheel ? 
 
 ### Jekyll
 
