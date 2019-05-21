@@ -8,16 +8,17 @@
 import webpack, {Configuration, Plugin} from 'webpack';
 import merge from 'webpack-merge';
 import CleanWebpackPlugin from 'clean-webpack-plugin';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
 import ReactLoadableSSRAddon from 'react-loadable-ssr-addon';
 import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
 import path from 'path';
 import chalk from 'chalk';
 import fs from 'fs-extra';
-import globby from 'globby';
 import {load, CLIOptions, Props} from '../server';
 import {createClientConfig} from '../webpack/client';
 import {createServerConfig} from '../webpack/server';
 import {applyConfigureWebpack} from '../webpack/utils';
+import {STATIC_DIR_NAME} from '../constants';
 
 function compile(config: Configuration[]): Promise<any> {
   return new Promise((resolve, reject) => {
@@ -67,7 +68,16 @@ export async function build(
     ].filter(Boolean) as Plugin[],
   });
 
-  let serverConfig: Configuration = createServerConfig(props);
+  let serverConfig: Configuration = merge(createServerConfig(props), {
+    plugins: [
+      new CopyWebpackPlugin([
+        {
+          from: path.resolve(siteDir, STATIC_DIR_NAME),
+          to: STATIC_DIR_NAME,
+        },
+      ]),
+    ],
+  });
 
   // Plugin lifecycle - configureWebpack
   plugins.forEach(plugin => {
@@ -94,21 +104,6 @@ export async function build(
   if (serverConfig.output && serverConfig.output.filename) {
     const serverBundle = path.join(outDir, serverConfig.output.filename);
     fs.existsSync(serverBundle) && fs.unlinkSync(serverBundle);
-  }
-
-  // Copy static files.
-  const staticDir = path.resolve(siteDir, 'static');
-  if (fs.existsSync(staticDir)) {
-    const staticFiles = await globby(['**'], {
-      cwd: staticDir,
-    });
-    await Promise.all(
-      staticFiles.map(async source => {
-        const fromPath = path.resolve(staticDir, source);
-        const toPath = path.resolve(outDir, source);
-        return fs.copy(fromPath, toPath);
-      }),
-    );
   }
 
   /* Plugin lifecycle - postBuild */

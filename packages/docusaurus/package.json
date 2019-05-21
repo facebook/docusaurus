@@ -42,6 +42,7 @@
     "classnames": "^2.2.6",
     "clean-webpack-plugin": "^2.0.1",
     "commander": "^2.16.0",
+    "copy-webpack-plugin": "^5.0.3",
     "css-loader": "^1.0.0",
     "ejs": "^2.6.1",
     "envinfo": "^7.2.0",

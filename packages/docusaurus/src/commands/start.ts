@@ -20,7 +20,7 @@ import WebpackDevServer from 'webpack-dev-server';
 import merge from 'webpack-merge';
 import {normalizeUrl} from '@docusaurus/utils';
 import {load, CLIOptions} from '../server';
-import {CONFIG_FILE_NAME} from '../constants';
+import {CONFIG_FILE_NAME, STATIC_DIR_NAME} from '../constants';
 import {createClientConfig} from '../webpack/client';
 import {applyConfigureWebpack} from '../webpack/utils';
 
@@ -130,7 +130,7 @@ export async function start(
     overlay: true,
     host,
     before: app => {
-      app.use(baseUrl, express.static(path.resolve(siteDir, 'static')));
+      app.use(baseUrl, express.static(path.resolve(siteDir, STATIC_DIR_NAME)));
       // TODO: add plugins beforeDevServer and afterDevServer hook
     },
   };
