@@ -18,7 +18,7 @@ import {load, CLIOptions, Props} from '../server';
 import {createClientConfig} from '../webpack/client';
 import {createServerConfig} from '../webpack/server';
 import {applyConfigureWebpack} from '../webpack/utils';
-import { STATIC_DIR_NAME } from '../constants';
+import {STATIC_DIR_NAME} from '../constants';
 
 function compile(config: Configuration[]): Promise<any> {
   return new Promise((resolve, reject) => {
