@@ -15,6 +15,6 @@
   },
   "dependencies": {
     "chalk": "^2.1.0",
-    "shelljs": "^0.7.8"
+    "shelljs": "^0.8.3"
   }
 }
