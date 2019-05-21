@@ -85,6 +85,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'ConfigCat',
+    image: '/img/users/configcat.svg',
+    infoLink: 'https://docs.configcat.com',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Create React App',
     image: '/img/users/react.svg',
     infoLink: 'https://facebook.github.io/create-react-app/',
