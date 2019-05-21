@@ -6,13 +6,47 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [Unreleased]
 
+## [1.10.0] - 2019-05-21
+
+This version mainly include many bug fixes and a new feature to use different `host` other than `localhost` through CLI flag.
+
+Other than that, we also made some significant progress on **Docusaurus 2** development. In the near future, we'll be rolling out the alpha version publicly to maximize community participation and feedback. Please stay tuned :wink:
+
+Thank you to following contributors:
+
+- @endiliey
+- @yangshun
+- @zachbadgett
+- @yangshun
+- @endiliey
+- @shakcho
+- @Hongarc
+- @qiu8310
+- @jamesgeorge007
+- @Alireza
+- @TurekBot
+- @wgao19
+- @palmer-cl
+
+### Main Changes
+
+- feat: allow different host through CLI flag ([#1475](https://github.com/facebook/Docusaurus/pull/1475))
+- fix: docusaurus code tab logic by ([#1369](https://github.com/facebook/Docusaurus/pull/1369)). This fixes [code tabs does not allow HTML comments within codeblock](https://github.com/facebook/Docusaurus/issues/1260) and [Code tabs break numbered lists and cannot be indented](https://github.com/facebook/Docusaurus/pull/1371).
+- fix: add missing `markdownOptions` siteConfig feature to override remarkable options ([#1430](https://github.com/facebook/Docusaurus/pull/1430))
+- fix: right table of content does not render special characters ([#1458](https://github.com/facebook/Docusaurus/pull/1458))
+- fix(regression): missing CLI commands introduced in v1.8.0 ([#1478](https://github.com/facebook/Docusaurus/pull/1478))
+- fix: h3 topics with Markdown formatting causes a glitch on mobile ([#1467](https://github.com/facebook/Docusaurus/pull/1467))
+- fix: wrong url in next/prev button in some cases ([#1488](https://github.com/facebook/Docusaurus/pull/1488))
+- fix: content displayed on bottom of mobile viewport when TOC is active ([#1489](https://github.com/facebook/Docusaurus/pull/1489))
+- fix: mobile navigation should show deepest breadcrumb instead of outer ([#1493](https://github.com/facebook/Docusaurus/pull/1493))
+
 ## [1.9.0] - 2019-4-29
 
 In preparation of F8 where @yangshun will be holding a classroom session on building a Docusaurus site, we've added a tutorial to teach people how to create a versioned Docusaurus site.
 
 We also revamped the `docusaurus-init` script such that the theme colors are random and you partnered with [unDraw](https://undraw.co/) to generate illustrations that match your theme color! Check it out!
 
-The sidebar icon on mobile screens have been changed to a more conventional hamburger style icon which is more intuitibe. If you customized that part, check if your site's layout broke because of it.
+The sidebar icon on mobile screens have been changed to a more conventional hamburger style icon which is more intuitive. If you customized that part, check if your site's layout broke because of it.
 
 Lastly, welcome Pulsar, Mockit and React Testing Library as users!
 
@@ -1070,7 +1104,8 @@ N/A
   - Blog
   - Documentation
 
-[unreleased]: https://github.com/facebook/Docusaurus/compare/v1.9.0...HEAD
+[unreleased]: https://github.com/facebook/Docusaurus/compare/v1.10.0...HEAD
+[1.10.0]: https://github.com/facebook/Docusaurus/compare/v1.9.0...v1.10.0
 [1.9.0]: https://github.com/facebook/Docusaurus/compare/v1.8.1...v1.9.0
 [1.8.1]: https://github.com/facebook/Docusaurus/compare/v1.8.0...v1.8.1
 [1.8.0]: https://github.com/facebook/Docusaurus/compare/v1.7.3...v1.8.0
