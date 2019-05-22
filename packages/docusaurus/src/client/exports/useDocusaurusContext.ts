@@ -6,7 +6,7 @@
  */
 
 import {useContext} from 'react';
-import DocusaurusContext from '@docusaurus/context';
+import DocusaurusContext from './context';
 
 function useDocusaurusContext() {
   return useContext(DocusaurusContext);
