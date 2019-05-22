@@ -21,7 +21,7 @@
     "tsc": "lerna run tsc --no-private"
   },
   "devDependencies": {
-    "@babel/core": "^7.4.4",
+    "@babel/core": "^7.4.5",
     "@babel/preset-typescript": "^7.3.3",
     "@types/chalk": "^2.2.0",
     "@types/escape-string-regexp": "^1.0.0",

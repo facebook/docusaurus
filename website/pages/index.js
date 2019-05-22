@@ -8,7 +8,7 @@
 import React from 'react';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import useBaseUrl from '@docusaurus/useBaseUrl';
+import withBaseUrl from '@docusaurus/withBaseUrl';
 
 import Layout from '@theme/Layout';
 
@@ -72,7 +72,7 @@ function Home() {
             <img
               alt="Docusaurus with Keytar"
               className={styles['index-hero-logo']}
-              src={useBaseUrl('img/docusaurus_keytar.svg')}
+              src={withBaseUrl('img/docusaurus_keytar.svg')}
             />
             {siteConfig.title} makes it easy to maintain{' '}
             <span className={styles['index-hero-project-keywords']}>
@@ -83,7 +83,7 @@ function Home() {
           <div className={styles['index-ctas']}>
             <Link
               className={styles['index-ctas-get-started-button']}
-              to={useBaseUrl('docs/introduction')}>
+              to={withBaseUrl('docs/introduction')}>
               Get Started
             </Link>
             <span className={styles['index-ctas-github-button']}>
@@ -106,7 +106,7 @@ function Home() {
             Docusaurus 2
           </a>
           , contribute to its roadmap by suggesting features or giving{' '}
-          <Link to={useBaseUrl('/feedback')}>feedback here</Link>!
+          <Link to={withBaseUrl('/feedback')}>feedback here</Link>!
         </div>
       </div>
       <div className={styles.section}>
@@ -116,7 +116,7 @@ function Home() {
               <img
                 className={styles.featureImage}
                 alt={'Powered by Markdown'}
-                src={useBaseUrl('img/undraw_typewriter.svg')}
+                src={withBaseUrl('img/undraw_typewriter.svg')}
               />
               <h3>Powered by Markdown</h3>
               <p className="padding-horiz--md">
@@ -129,7 +129,7 @@ function Home() {
               <img
                 alt={'Built Using React'}
                 className={styles.featureImage}
-                src={useBaseUrl('img/undraw_react.svg')}
+                src={withBaseUrl('img/undraw_react.svg')}
               />
               <h3>Built Using React</h3>
               <p className="padding-horiz--md">
@@ -142,7 +142,7 @@ function Home() {
               <img
                 alt={'Ready for Translations'}
                 className={styles.featureImage}
-                src={useBaseUrl('img/undraw_around_the_world.svg')}
+                src={withBaseUrl('img/undraw_around_the_world.svg')}
               />
               <h3>Ready for Translations</h3>
               <p className="padding-horiz--md">
@@ -158,7 +158,7 @@ function Home() {
               <img
                 alt={'Document Versioning'}
                 className={styles.featureImage}
-                src={useBaseUrl('img/undraw_version_control.svg')}
+                src={withBaseUrl('img/undraw_version_control.svg')}
               />
               <h3>Document Versioning</h3>
               <p className="padding-horiz--md">
@@ -171,7 +171,7 @@ function Home() {
               <img
                 alt={'Document Search'}
                 className={styles.featureImage}
-                src={useBaseUrl('img/undraw_algolia.svg')}
+                src={withBaseUrl('img/undraw_algolia.svg')}
               />
               <h3>Document Search</h3>
               <p className="padding-horiz--md">
@@ -196,7 +196,7 @@ function Home() {
                   <img
                     alt={quote.name}
                     className="avatar__photo avatar__photo--xl"
-                    src={useBaseUrl(quote.thumbnail)}
+                    src={withBaseUrl(quote.thumbnail)}
                   />
                   <div className="avatar__intro">
                     <h4 className="avatar__name">{quote.name}</h4>
