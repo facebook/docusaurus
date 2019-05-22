@@ -135,10 +135,8 @@ function execute(port, host) {
       const key = metaAttributes[i];
       if (!metadata[key] || rawMetadata[key] !== metadata[key]) {
         reloadMetadata();
-        reloadMetadataBlog();
         extractTranslations();
         reloadTranslations();
-        reloadSiteConfig();
         metadata = Metadata[metakey];
         break;
       }
