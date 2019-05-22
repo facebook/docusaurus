@@ -9,6 +9,7 @@ import React, {useContext} from 'react';
 import Head from '@docusaurus/Head';
 import DocusaurusContext from '@docusaurus/context';
 import Link from '@docusaurus/Link';
+import withBaseURL from '@docusaurus/withBaseURL';
 
 import Layout from '@theme/Layout';
 
@@ -64,10 +65,6 @@ function Home() {
   const context = useContext(DocusaurusContext);
   const {siteConfig = {}} = context;
 
-  // TODO: (wrapper function) API so that user won't need to concatenate url manually
-  const feedbackUrl = `${siteConfig.baseUrl}feedback/`;
-  const gettingStartedUrl = `${siteConfig.baseUrl}docs/introduction`;
-
   return (
     <Layout description={'Docusaurus makes it easy to build websites'}>
       <div className={styles['index-hero']}>
@@ -76,7 +73,7 @@ function Home() {
             <img
               alt="Docusaurus with Keytar"
               className={styles['index-hero-logo']}
-              src={`${siteConfig.baseUrl}img/docusaurus_keytar.svg`}
+              src={withBaseURL('img/docusaurus_keytar.svg')}
             />
             {siteConfig.title} makes it easy to maintain{' '}
             <span className={styles['index-hero-project-keywords']}>
@@ -87,7 +84,7 @@ function Home() {
           <div className={styles['index-ctas']}>
             <Link
               className={styles['index-ctas-get-started-button']}
-              to={gettingStartedUrl}>
+              to={withBaseURL('docs/introduction')}>
               Get Started
             </Link>
             <span className={styles['index-ctas-github-button']}>
@@ -110,7 +107,7 @@ function Home() {
             Docusaurus 2
           </a>
           , contribute to its roadmap by suggesting features or giving{' '}
-          <Link to={feedbackUrl}>feedback here</Link>!
+          <Link to={withBaseURL('/feedback')}>feedback here</Link>!
         </div>
       </div>
       <div className={styles.section}>
@@ -120,7 +117,7 @@ function Home() {
               <img
                 className={styles.featureImage}
                 alt={'Powered by Markdown'}
-                src={`${siteConfig.baseUrl}img/undraw_typewriter.svg`}
+                src={withBaseURL('img/undraw_typewriter.svg')}
               />
               <h3>Powered by Markdown</h3>
               <p className="padding-horiz--md">
@@ -133,7 +130,7 @@ function Home() {
               <img
                 alt={'Built Using React'}
                 className={styles.featureImage}
-                src={`${siteConfig.baseUrl}img/undraw_react.svg`}
+                src={withBaseURL('img/undraw_react.svg')}
               />
               <h3>Built Using React</h3>
               <p className="padding-horiz--md">
@@ -146,7 +143,7 @@ function Home() {
               <img
                 alt={'Ready for Translations'}
                 className={styles.featureImage}
-                src={`${siteConfig.baseUrl}img/undraw_around_the_world.svg`}
+                src={withBaseURL('img/undraw_around_the_world.svg')}
               />
               <h3>Ready for Translations</h3>
               <p className="padding-horiz--md">
@@ -162,7 +159,7 @@ function Home() {
               <img
                 alt={'Document Versioning'}
                 className={styles.featureImage}
-                src={`${siteConfig.baseUrl}img/undraw_version_control.svg`}
+                src={withBaseURL('img/undraw_version_control.svg')}
               />
               <h3>Document Versioning</h3>
               <p className="padding-horiz--md">
@@ -175,7 +172,7 @@ function Home() {
               <img
                 alt={'Document Search'}
                 className={styles.featureImage}
-                src={`${siteConfig.baseUrl}img/undraw_algolia.svg`}
+                src={withBaseURL('img/undraw_algolia.svg')}
               />
               <h3>Document Search</h3>
               <p className="padding-horiz--md">
@@ -200,7 +197,7 @@ function Home() {
                   <img
                     alt={quote.name}
                     className="avatar__photo avatar__photo--xl"
-                    src={`${siteConfig.baseUrl}${quote.thumbnail}`}
+                    src={withBaseURL(quote.thumbnail)}
                   />
                   <div className="avatar__intro">
                     <h4 className="avatar__name">{quote.name}</h4>
