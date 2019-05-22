@@ -8,17 +8,18 @@
 import React from 'react';
 import Head from '@docusaurus/Head';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import withBaseUrl from '@docusaurus/withBaseUrl';
 
 function Layout(props) {
   const context = useDocusaurusContext();
   const {siteConfig = {}} = context;
-  const {baseUrl, favicon, tagline, title: defaultTitle} = siteConfig;
+  const {favicon, tagline, title: defaultTitle} = siteConfig;
   const {children, title, description} = props;
   return (
     <React.Fragment>
       <Head defaultTitle={`${defaultTitle} · ${tagline}`}>
         {title && <title>{`${title} · ${tagline}`}</title>}
-        {favicon && <link rel="shortcut icon" href={baseUrl + favicon} />}
+        {favicon && <link rel="shortcut icon" href={withBaseUrl(favicon)} />}
         {description && <meta name="description" content={description} />}
         {description && (
           <meta property="og:description" content={description} />
