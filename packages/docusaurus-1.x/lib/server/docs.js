@@ -9,17 +9,13 @@ const {join} = require('path');
 const {resolve} = require('url');
 const fs = require('fs-extra');
 const React = require('react');
-const loadConfig = require('./config');
 
-const siteConfig = loadConfig(`${CWD}/siteConfig.js`);
 const env = require('./env.js');
 const {renderToStaticMarkupWithDoctype} = require('./renderUtils');
 const readMetadata = require('./readMetadata.js');
 const {insertTOC} = require('../core/toc.js');
 const {replaceAssetsLink} = require('./utils.js');
 const {getPath} = require('../core/utils.js');
-
-const docsPart = `${siteConfig.docsUrl ? `${siteConfig.docsUrl}/` : ''}`;
 
 function getFilePath(metadata) {
   if (!metadata) {
@@ -51,7 +47,7 @@ function getFile(metadata) {
   return fs.readFileSync(file, 'utf8');
 }
 
-function mdToHtmlify(oldContent, mdToHtml, metadata) {
+function mdToHtmlify(oldContent, mdToHtml, metadata, siteConfig) {
   /* Store broken links */
   const mdBrokenLinks = [];
 
@@ -106,12 +102,12 @@ function mdToHtmlify(oldContent, mdToHtml, metadata) {
   return content;
 }
 
-function getMarkup(rawContent, mdToHtml, metadata) {
+function getMarkup(rawContent, mdToHtml, metadata, siteConfig) {
   // generate table of contents
   let content = insertTOC(rawContent);
 
   // replace any links to markdown files to their website html links
-  content = mdToHtmlify(content, mdToHtml, metadata);
+  content = mdToHtmlify(content, mdToHtml, metadata, siteConfig);
 
   // replace any relative links to static assets (not in fenced code blocks) to absolute links
   const docsAssetsLocation = siteConfig.docsUrl
@@ -130,7 +126,8 @@ function getMarkup(rawContent, mdToHtml, metadata) {
   );
 }
 
-function getRedirectMarkup(metadata) {
+function getRedirectMarkup(metadata, siteConfig) {
+  const docsPart = `${siteConfig.docsUrl ? `${siteConfig.docsUrl}/` : ''}`;
   if (
     !env.translation.enabled ||
     !metadata.permalink.includes(`${docsPart}en`)

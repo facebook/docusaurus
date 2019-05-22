@@ -15,7 +15,8 @@ module.exports = {
   testPathIgnorePatterns: [
     '/node_modules/',
     '__fixtures__',
-    '/packages/.*/lib',
+    '/packages/docusaurus/lib',
+    '/packages/docusaurus-utils/lib',
   ],
   transform: {
     '^.+\\.[jt]sx?$': 'babel-jest',

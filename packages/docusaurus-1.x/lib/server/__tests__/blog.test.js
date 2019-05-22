@@ -10,9 +10,9 @@ const blog = require('../blog');
 const metadataUtils = require('../metadataUtils');
 const {replaceAssetsLink} = require('../utils.js');
 
-jest.mock(`${process.cwd()}/siteConfig.js`, () => ({baseUrl: '/'}), {
-  virtual: true,
-});
+const siteConfig = {
+  baseUrl: '/',
+};
 
 const testFile = path.join(
   __dirname,
@@ -25,16 +25,18 @@ fs.existsSync = jest.fn().mockReturnValue(true);
 describe('getMetadata', () => {
   test('file does not exist', () => {
     fs.existsSync.mockReturnValueOnce(null);
-    expect(blog.getMetadata('/this/path/does-not-exist/')).toBeNull();
+    expect(
+      blog.getMetadata('/this/path/does-not-exist/', siteConfig),
+    ).toBeNull();
   });
 
   test('null/undefined', () => {
-    expect(blog.getMetadata(null)).toBeNull();
-    expect(blog.getMetadata(undefined)).toBeNull();
+    expect(blog.getMetadata(null, siteConfig)).toBeNull();
+    expect(blog.getMetadata(undefined, siteConfig)).toBeNull();
   });
 
   test('blog file', () => {
-    const metadata = blog.getMetadata(testFile);
+    const metadata = blog.getMetadata(testFile, siteConfig);
     expect(metadata).toMatchSnapshot();
     expect(metadata).not.toBeNull();
     expect(metadata).toHaveProperty('id');

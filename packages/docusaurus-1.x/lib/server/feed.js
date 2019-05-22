@@ -26,7 +26,7 @@ module.exports = function(type) {
 
   type = type || 'rss';
 
-  readMetadata.generateMetadataBlog();
+  readMetadata.generateMetadataBlog(siteConfig);
   const MetadataBlog = require('../core/MetadataBlog.js');
 
   const feed = new Feed({
