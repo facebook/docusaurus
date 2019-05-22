@@ -7,14 +7,7 @@
 
 import useDocusaurusContext from './useDocusaurusContext';
 
-export function withBaseUrl(baseUrl: string, url: string): string {
-  if (url.startsWith('/')) {
-    return baseUrl + url.slice(1);
-  }
-  return baseUrl + url;
-}
-
-function useBaseUrl(url: string): string {
+function withBaseUrl(url: string): string {
   const {siteConfig} = useDocusaurusContext();
   const {baseUrl = '/'} = siteConfig || {};
 
@@ -22,7 +15,10 @@ function useBaseUrl(url: string): string {
   if (externalRegex.test(url)) {
     return url;
   }
-  return withBaseUrl(baseUrl, url);
+  if (url.startsWith('/')) {
+    return baseUrl + url.slice(1);
+  }
+  return baseUrl + url;
 }
 
-export default useBaseUrl;
+export default withBaseUrl;

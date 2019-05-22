@@ -118,9 +118,8 @@ export function createBaseConfig(
           test: CSS_REGEX,
           exclude: CSS_MODULE_REGEX,
           use: getStyleLoaders(isServer, {
-            importLoaders: 1,
+            importLoaders: 0,
             sourceMap: !isProd,
-            minimize: true,
           }),
         },
         // Adds support for CSS Modules (https://github.com/css-modules/css-modules)
@@ -129,10 +128,10 @@ export function createBaseConfig(
           test: CSS_MODULE_REGEX,
           use: getStyleLoaders(isServer, {
             modules: true,
-            importLoaders: 1,
+            importLoaders: 0,
             localIdentName: `[local]_[hash:base64:8]`,
             sourceMap: !isProd,
-            minimize: true,
+            exportOnlyLocals: isServer,
           }),
         },
       ],

@@ -22,7 +22,7 @@ export function getStyleLoaders(
     return [
       cssOptions.modules
         ? {
-            loader: require.resolve('css-loader/locals'),
+            loader: require.resolve('css-loader'),
             options: cssOptions,
           }
         : require.resolve('null-loader'),

@@ -9,26 +9,26 @@ import React from 'react';
 
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import withBaseUrl from '@docusaurus/withBaseUrl';
 
 import SearchBar from '@theme/SearchBar';
 
 function NavLink(props) {
-  const {baseUrl, ...originalProps} = props;
   return (
     <Link
       className="navbar__link"
-      {...originalProps}
-      {...(originalProps.href
+      {...props}
+      {...(props.href
         ? {
             target: '_blank',
             rel: 'noopener noreferrer',
-            href: originalProps.href,
+            href: props.href,
           }
         : {
             activeClassName: 'navbar__link--active',
-            to: `${baseUrl}${originalProps.to}`,
+            to: withBaseUrl(props.to),
           })}>
-      {originalProps.label}
+      {props.label}
     </Link>
   );
 }
@@ -42,15 +42,6 @@ function Navbar() {
   } = siteConfig;
   const {title, logo, links} = navbar;
 
-  const getUrl = url => {
-    const externalRegex = /^(https?:|\/\/)/;
-    const internalRegex = /^\/(?!\/)/;
-    if (externalRegex.test(url) || internalRegex.test(url)) {
-      return url;
-    }
-    return baseUrl + url;
-  };
-
   return (
     <nav className="navbar navbar--light navbar--fixed-top">
       <div className="navbar__inner">
@@ -59,7 +50,7 @@ function Navbar() {
             {logo != null && (
               <img
                 className="navbar__logo"
-                src={getUrl(logo.src)}
+                src={withBaseUrl(logo.src)}
                 alt={logo.alt}
               />
             )}
@@ -69,7 +60,7 @@ function Navbar() {
             .filter(linkItem => linkItem.position !== 'right')
             .map((linkItem, i) => (
               <div className="navbar__item" key={i}>
-                <NavLink baseUrl={baseUrl} {...linkItem} />
+                <NavLink {...linkItem} />
               </div>
             ))}
         </div>
@@ -78,7 +69,7 @@ function Navbar() {
             .filter(linkItem => linkItem.position === 'right')
             .map((linkItem, i) => (
               <div className="navbar__item" key={i}>
-                <NavLink baseUrl={baseUrl} {...linkItem} />
+                <NavLink {...linkItem} />
               </div>
             ))}
           {algolia && (
