@@ -135,12 +135,17 @@ function execute(port, host) {
     const rawContent = extractedMetadata.rawContent;
     const rawMetadata = extractedMetadata.metadata;
 
-    // if title is changed, reload the metadata
-    if (metadata.title !== rawMetadata.title) {
-      reloadMetadata();
-      extractTranslations();
-      reloadTranslations();
-      metadata = Metadata[metakey];
+    // if any of the followings is changed, reload the metadata
+    const reloadTriggers = ['sidebar_label', 'hide_title', 'title'];
+    for (let i = 0; i < reloadTriggers.length; i++) {
+      const key = reloadTriggers[i];
+      if (metadata[key] !== rawMetadata[key]) {
+        reloadMetadata();
+        extractTranslations();
+        reloadTranslations();
+        metadata = Metadata[metakey];
+        break;
+      }
     }
 
     reloadSiteConfig();
