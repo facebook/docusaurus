@@ -76,6 +76,10 @@ function execute(port, host) {
     MetadataBlog = require(join('..', 'core', 'MetadataBlog.js'));
   }
 
+  function reloadTranslations() {
+    removeModuleAndChildrenFromCache('./translation.js');
+  }
+
   function reloadSiteConfig() {
     const siteConfigPath = join(CWD, 'siteConfig.js');
     removeModuleAndChildrenFromCache(siteConfigPath);
@@ -109,17 +113,37 @@ function execute(port, host) {
 
   app.get(routing.docs(siteConfig), (req, res, next) => {
     const url = decodeURI(req.path.toString().replace(siteConfig.baseUrl, ''));
-    const metadata =
-      Metadata[
-        Object.keys(Metadata).find(id => Metadata[id].permalink === url)
-      ];
+    const metakey = Object.keys(Metadata).find(
+      id => Metadata[id].permalink === url,
+    );
+
+    let metadata = Metadata[metakey];
 
     const file = docs.getFile(metadata);
     if (!file) {
       next();
       return;
     }
-    const rawContent = metadataUtils.extractMetadata(file).rawContent;
+    const extractedMetadata = metadataUtils.extractMetadata(file);
+    const rawContent = extractedMetadata.rawContent;
+    const rawMetadata = extractedMetadata.metadata;
+
+    // checking if any property on the doc metadata has changed
+    // from the cached metada, if yes break the loop and reload the Metadata
+    const metaAttributes = Object.keys(rawMetadata);
+    for (let i = 0; i < metaAttributes.length; i++) {
+      const key = metaAttributes[i];
+      if (!metadata[key] || rawMetadata[key] !== metadata[key]) {
+        reloadMetadata();
+        reloadMetadataBlog();
+        extractTranslations();
+        reloadTranslations();
+        reloadSiteConfig();
+        metadata = Metadata[metakey];
+        break;
+      }
+    }
+
     removeModuleAndChildrenFromCache('../core/DocsLayout.js');
     const mdToHtml = metadataUtils.mdToHtml(Metadata, siteConfig);
     res.send(docs.getMarkup(rawContent, mdToHtml, metadata));
