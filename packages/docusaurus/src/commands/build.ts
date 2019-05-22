@@ -73,7 +73,7 @@ export async function build(
       new CopyWebpackPlugin([
         {
           from: path.resolve(siteDir, STATIC_DIR_NAME),
-          to: STATIC_DIR_NAME,
+          to: outDir,
         },
       ]),
     ],
