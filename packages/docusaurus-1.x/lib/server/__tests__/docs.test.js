@@ -71,6 +71,7 @@ describe('mdToHtmlify', () => {
   const siteConfig = {
     baseUrl: '/',
     docsUrl: 'docs',
+    cleanUrl: true,
   };
   const mdToHtml = metadataUtils.mdToHtml(Metadata, siteConfig);
 
