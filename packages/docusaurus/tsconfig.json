@@ -6,5 +6,6 @@
     "rootDir": "src",
     "outDir": "lib",
     "noImplicitAny": false,
+    "jsx": "react",
   },
 }
