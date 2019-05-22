@@ -239,6 +239,13 @@ module.exports = [
     pinned: true,
   },
   {
+    caption: 'mailgo',
+    image: '/img/users/mailgo.png',
+    infoLink: 'https://mailgo.js.org/',
+    fbOpenSource: false,
+    pinned: true,
+  },
+  {
     caption: 'Metro',
     image: '/img/users/metro.svg',
     infoLink: 'https://facebook.github.io/metro/',
