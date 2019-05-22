@@ -360,7 +360,7 @@ function generateMetadataDocs() {
 }
 
 // process metadata for blog posts and save into core/MetadataBlog.js
-function generateMetadataBlog() {
+function generateMetadataBlog(config = siteConfig) {
   const metadatas = [];
 
   const files = glob.sync(`${CWD}/blog/**/*.*`);
@@ -372,7 +372,7 @@ function generateMetadataBlog() {
       if (extension !== '.md' && extension !== '.markdown') {
         return;
       }
-      const metadata = blog.getMetadata(file);
+      const metadata = blog.getMetadata(file, config);
       // Extract, YYYY, MM, DD from the file name
       const filePathDateArr = path.basename(file).split('-');
       metadata.date = new Date(

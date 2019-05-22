@@ -5,7 +5,7 @@ exports[`mdToHtmlify transform link even in subdirectory 1`] = `
 Test subdirectory file
 
 ### Replace this
-- [doc3](/docs/subdir/doc3)
+- [doc3](/docs/subdir/doc3.html)
 "
 `;
 
@@ -33,8 +33,8 @@ exports[`mdToHtmlify transform to correct link 1`] = `
 "
 ### Existing Docs
 
-- [doc1](/docs/en/next/doc1)
-- [doc2](/docs/en/next/doc2)
+- [doc1](/docs/en/next/doc1.html)
+- [doc2](/docs/en/next/doc2.html)
 
 ### Non-existing Docs
 
@@ -42,8 +42,8 @@ exports[`mdToHtmlify transform to correct link 1`] = `
 
 ## Repeating Docs
 
-- [doc1](/docs/en/next/doc1)
-- [doc2](/docs/en/next/doc2)
+- [doc1](/docs/en/next/doc1.html)
+- [doc2](/docs/en/next/doc2.html)
 
 ## Do not replace this
 \`\`\`md
@@ -84,8 +84,8 @@ console.log(\\"[image2][image2]\\");
 const testStr = \`![image3][image3]\`;
 \`\`\`
 
-[doc1]: /docs/en/next/doc1
-[doc2]: /docs/en/next/doc2
+[doc1]: /docs/en/next/doc1.html
+[doc2]: /docs/en/next/doc2.html
 [hahaha]: hahaha.md
 [image1]: assets/image1.png
 [image2]: assets/image2.jpg

@@ -4,16 +4,13 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-const CWD = process.cwd();
+
 const React = require('react');
 const path = require('path');
 const fs = require('fs-extra');
 const metadataUtils = require('./metadataUtils');
 const {replaceAssetsLink} = require('./utils.js');
 const {renderToStaticMarkupWithDoctype} = require('./renderUtils');
-const loadConfig = require('./config');
-
-const siteConfig = loadConfig(`${CWD}/siteConfig.js`);
 
 function urlToSource(url) {
   if (!url || typeof url !== 'string') {
@@ -34,14 +31,14 @@ function fileToUrl(file) {
     .replace(/\.md$/, '.html');
 }
 
-function getPagesMarkup(numOfBlog, config) {
+function getPagesMarkup(numOfBlog, siteConfig) {
   const BlogPageLayout = require('../core/BlogPageLayout.js');
   const blogPages = {};
   const perPage = 10;
   for (let page = 0; page < Math.ceil(numOfBlog / perPage); page++) {
     const metadata = {page, perPage};
     const blogPageComp = (
-      <BlogPageLayout metadata={metadata} language="en" config={config} />
+      <BlogPageLayout metadata={metadata} language="en" config={siteConfig} />
     );
     const str = renderToStaticMarkupWithDoctype(blogPageComp);
     const pagePath = `${page > 0 ? `page${page + 1}` : ''}/index.html`;
@@ -50,7 +47,7 @@ function getPagesMarkup(numOfBlog, config) {
   return blogPages;
 }
 
-function getMetadata(file) {
+function getMetadata(file, siteConfig) {
   if (!file || !fs.existsSync(file)) {
     return null;
   }
@@ -71,14 +68,14 @@ function getMetadata(file) {
   return metadata;
 }
 
-function getPostMarkup(file, config) {
-  const metadata = getMetadata(file);
+function getPostMarkup(file, siteConfig) {
+  const metadata = getMetadata(file, siteConfig);
   if (!metadata) {
     return null;
   }
   const BlogPostLayout = require('../core/BlogPostLayout.js');
   const blogPostComp = (
-    <BlogPostLayout metadata={metadata} language="en" config={config}>
+    <BlogPostLayout metadata={metadata} language="en" config={siteConfig}>
       {metadata.content}
     </BlogPostLayout>
   );

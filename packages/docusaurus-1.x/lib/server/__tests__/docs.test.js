@@ -79,6 +79,7 @@ describe('mdToHtmlify', () => {
       rawContent1,
       mdToHtml,
       Metadata['en-doc1'],
+      siteConfig,
     );
     expect(content1).not.toContain('/docs/en/next/');
     expect(content1).toMatchSnapshot();
@@ -90,6 +91,7 @@ describe('mdToHtmlify', () => {
       rawContent2,
       mdToHtml,
       Metadata['en-doc2'],
+      siteConfig,
     );
     expect(content2).toContain('/docs/en/next/');
     expect(content2).toMatchSnapshot();
@@ -111,6 +113,7 @@ describe('mdToHtmlify', () => {
       rawContent3,
       customMdToHtml,
       customMetadata['subdir-doc3'],
+      siteConfig,
     );
     expect(content3).toContain('/docs/subdir/doc3');
     expect(content3).not.toContain('subdir/doc3.md');
@@ -123,6 +126,7 @@ describe('mdToHtmlify', () => {
       rawContentRefLinks,
       mdToHtml,
       Metadata['en-reflinks'],
+      siteConfig,
     );
     expect(contentRefLinks).toContain('/docs/en/next/');
     expect(contentRefLinks).toMatchSnapshot();

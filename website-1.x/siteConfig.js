@@ -20,10 +20,10 @@ const siteConfig = {
   users,
   editUrl: 'https://github.com/facebook/docusaurus/edit/master/docs/',
   headerLinks: [
-    {doc: 'installation', label: 'Docs'},
+    {doc: 'installation', label: 'Docu'},
     {href: '/docs/en/next/tutorial-setup', label: 'Tutorial'},
-    {page: 'users', label: 'Users'},
-    {blog: true, label: 'Blog'},
+    {page: 'users', label: 'Use'},
+    {blog: true, label: 'Blox'},
     {
       href: 'https://github.com/facebook/docusaurus',
       label: 'GitHub',
