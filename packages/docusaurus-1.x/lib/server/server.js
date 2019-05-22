@@ -128,18 +128,12 @@ function execute(port, host) {
     const rawContent = extractedMetadata.rawContent;
     const rawMetadata = extractedMetadata.metadata;
 
-    // checking if any property on the doc metadata has changed
-    // from the cached metada, if yes break the loop and reload the Metadata
-    const metaAttributes = Object.keys(rawMetadata);
-    for (let i = 0; i < metaAttributes.length; i++) {
-      const key = metaAttributes[i];
-      if (!metadata[key] || rawMetadata[key] !== metadata[key]) {
-        reloadMetadata();
-        extractTranslations();
-        reloadTranslations();
-        metadata = Metadata[metakey];
-        break;
-      }
+    // if title is changed, reload the metadata
+    if (metadata.title !== rawMetadata.title) {
+      reloadMetadata();
+      extractTranslations();
+      reloadTranslations();
+      metadata = Metadata[metakey];
     }
 
     removeModuleAndChildrenFromCache('../core/DocsLayout.js');
