@@ -29,9 +29,9 @@
     "url": "https://github.com/facebook/Docusaurus/issues"
   },
   "dependencies": {
-    "@babel/core": "^7.4.0",
+    "@babel/core": "^7.4.5",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
-    "@babel/preset-env": "^7.4.2",
+    "@babel/preset-env": "^7.4.5",
     "@babel/preset-react": "^7.0.0",
     "@docusaurus/utils": "^2.0.0-alpha.16",
     "babel-loader": "^8.0.0",
@@ -43,7 +43,7 @@
     "clean-webpack-plugin": "^2.0.1",
     "commander": "^2.16.0",
     "copy-webpack-plugin": "^5.0.3",
-    "css-loader": "^1.0.0",
+    "css-loader": "^2.1.1",
     "ejs": "^2.6.1",
     "envinfo": "^7.2.0",
     "express": "^4.16.4",
