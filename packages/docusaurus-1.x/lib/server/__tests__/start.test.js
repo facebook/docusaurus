@@ -87,7 +87,7 @@ describe('start server', () => {
     const port = 1357;
     portFinder.getPortPromise.mockResolvedValue(port);
     return start.startServer().then(() => {
-      expect(server).toHaveBeenCalledWith(port);
+      expect(server).toHaveBeenCalledWith(port, 'localhost');
     });
   });
 

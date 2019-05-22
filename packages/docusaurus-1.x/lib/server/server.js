@@ -60,6 +60,18 @@ function execute(port, host) {
   let MetadataBlog;
   let siteConfig;
 
+  function reloadSiteConfig() {
+    const siteConfigPath = join(CWD, 'siteConfig.js');
+    removeModuleAndChildrenFromCache(siteConfigPath);
+    const oldBaseUrl = siteConfig && siteConfig.baseUrl;
+    siteConfig = loadConfig(siteConfigPath);
+
+    if (oldBaseUrl && oldBaseUrl !== siteConfig.baseUrl) {
+      console.log('Base url has changed. Please restart server ...');
+      process.exit();
+    }
+  }
+
   function reloadMetadata() {
     removeModuleAndChildrenFromCache('./readMetadata.js');
     readMetadata.generateMetadataDocs();
@@ -72,18 +84,13 @@ function execute(port, host) {
       removeModuleAndChildrenFromCache(join('..', 'core', 'MetadataBlog.js'));
       fs.removeSync(join(__dirname, '..', 'core', 'MetadataBlog.js'));
     }
-    readMetadata.generateMetadataBlog();
+    reloadSiteConfig();
+    readMetadata.generateMetadataBlog(siteConfig);
     MetadataBlog = require(join('..', 'core', 'MetadataBlog.js'));
   }
 
   function reloadTranslations() {
     removeModuleAndChildrenFromCache('./translation.js');
-  }
-
-  function reloadSiteConfig() {
-    const siteConfigPath = join(CWD, 'siteConfig.js');
-    removeModuleAndChildrenFromCache(siteConfigPath);
-    siteConfig = loadConfig(siteConfigPath);
   }
 
   function requestFile(url, res, notFoundCallback) {
@@ -136,9 +143,10 @@ function execute(port, host) {
       metadata = Metadata[metakey];
     }
 
+    reloadSiteConfig();
     removeModuleAndChildrenFromCache('../core/DocsLayout.js');
     const mdToHtml = metadataUtils.mdToHtml(Metadata, siteConfig);
-    res.send(docs.getMarkup(rawContent, mdToHtml, metadata));
+    res.send(docs.getMarkup(rawContent, mdToHtml, metadata, siteConfig));
   });
 
   app.get(routing.sitemap(siteConfig), (req, res) => {
@@ -193,6 +201,7 @@ function execute(port, host) {
   });
 
   app.get(routing.page(siteConfig), (req, res, next) => {
+    reloadSiteConfig();
     // Look for user-provided HTML file first.
     let htmlFile = req.path.toString().replace(siteConfig.baseUrl, '');
     htmlFile = join(CWD, 'pages', htmlFile);

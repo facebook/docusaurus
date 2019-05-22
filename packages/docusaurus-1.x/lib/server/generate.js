@@ -79,12 +79,12 @@ async function execute() {
       return;
     }
     const rawContent = metadataUtils.extractMetadata(file).rawContent;
-    const str = docs.getMarkup(rawContent, mdToHtml, metadata);
+    const str = docs.getMarkup(rawContent, mdToHtml, metadata, siteConfig);
     const targetFile = join(buildDir, metadata.permalink);
     writeFileAndCreateFolder(targetFile, str);
 
     // generate english page redirects when languages are enabled
-    const redirectMarkup = docs.getRedirectMarkup(metadata);
+    const redirectMarkup = docs.getRedirectMarkup(metadata, siteConfig);
     if (!redirectMarkup) {
       return;
     }
@@ -111,7 +111,7 @@ async function execute() {
   if (fs.existsSync(join(__dirname, '..', 'core', 'MetadataBlog.js'))) {
     fs.removeSync(join(__dirname, '..', 'core', 'MetadataBlog.js'));
   }
-  readMetadata.generateMetadataBlog();
+  readMetadata.generateMetadataBlog(siteConfig);
   const MetadataBlog = require('../core/MetadataBlog.js');
 
   let files = glob.sync(join(CWD, 'blog', '**', '*.*'));

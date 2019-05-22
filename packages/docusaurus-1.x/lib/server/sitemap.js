@@ -23,7 +23,7 @@ const readMetadata = require('./readMetadata.js');
 readMetadata.generateMetadataDocs();
 const Metadata = require('../core/metadata.js');
 
-readMetadata.generateMetadataBlog();
+readMetadata.generateMetadataBlog(siteConfig);
 const MetadataBlog = require('../core/MetadataBlog.js');
 
 module.exports = function(callback) {
