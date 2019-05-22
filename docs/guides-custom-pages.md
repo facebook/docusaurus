@@ -24,9 +24,10 @@ root-directory
     │   └── Footer.js
     ├── package.json
     ├── pages
-    │   ├── index.js
-    │   ├── users.js
-    │   └── help.js
+    │   └── en
+    │       ├── help.js
+    │       ├── index.js
+    │       └── users.js
     ├── sidebars.json
     ├── siteConfig.js
     └── static
