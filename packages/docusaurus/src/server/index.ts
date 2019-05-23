@@ -107,8 +107,8 @@ ${Object.keys(registry)
   .map(
     key => `  '${key}': {
     'importStatement': ${registry[key].importStatement},
-    'module': '${registry[key].modulePath}',
-    'webpack': require.resolveWeak('${registry[key].modulePath}'),
+    'module': '${registry[key].modulePath.replace(/\\/g, '/')}',
+    'webpack': require.resolveWeak('${registry[key].modulePath.replace(/\\/g, '/')}'),
   },`,
   )
   .join('\n')}};\n`,
