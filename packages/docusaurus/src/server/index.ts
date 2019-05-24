@@ -6,7 +6,7 @@
  */
 
 import path from 'path';
-import {generate, posixPath} from '@docusaurus/utils';
+import {generate} from '@docusaurus/utils';
 
 import {loadConfig, DocusaurusConfig} from './config';
 import {loadThemeAlias} from './themes';
@@ -107,8 +107,8 @@ ${Object.keys(registry)
   .map(
     key => `  '${key}': {
     'importStatement': ${registry[key].importStatement},
-    'module': '${posixPath(registry[key].modulePath)}',
-    'webpack': require.resolveWeak('${posixPath(registry[key].modulePath)}'),
+    'module': ${JSON.stringify(registry[key].modulePath)},
+    'webpack': require.resolveWeak(${JSON.stringify(registry[key].modulePath)}),
   },`,
   )
   .join('\n')}};\n`,
