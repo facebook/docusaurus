@@ -6,19 +6,40 @@
  */
 
 import {genChunkName} from '@docusaurus/utils';
-import {stringify} from 'querystring';
+import {stringify, ParsedUrlQueryInput} from 'querystring';
 import _ from 'lodash';
+
+interface ChunkRegistry {
+  importStatement: string;
+  modulePath: string;
+}
+
+type Module =
+  | {
+      path: string;
+      __import?: Boolean;
+      query?: ParsedUrlQueryInput;
+    }
+  | string;
+
+interface RouteModule {
+  [module: string]: Module | RouteModule | RouteModule[];
+}
 
 export interface RouteConfig {
   path: string;
   component: string;
-  modules?: {
-    [key: string]: any;
-  };
-  routes?: {
-    [route: string]: RouteConfig;
-  };
+  modules?: RouteModule;
+  routes?: RouteConfig[];
   exact?: boolean;
+}
+
+function getModulePath(target: Module): string {
+  if (typeof target === 'string') {
+    return target;
+  }
+  const queryStr = target.query ? `?${stringify(target.query)}` : '';
+  return `${target.path}${queryStr}`;
 }
 
 export async function loadRoutes(pluginsRouteConfigs: RouteConfig[]) {
@@ -26,27 +47,16 @@ export async function loadRoutes(pluginsRouteConfigs: RouteConfig[]) {
     `import React from 'react';`,
     `import ComponentCreator from '@docusaurus/ComponentCreator';`,
   ];
+  const registry: {
+    [chunkName: string]: ChunkRegistry;
+  } = {};
   const routesPaths: string[] = [];
-  const addRoutesPath = (routePath: string) => {
-    routesPaths.push(routePath);
-  };
-
-  const registry = {};
-
-  const routesChunkNames = {};
-  const addRoutesChunkNames = (routePath, key, importChunk) => {
-    if (!routesChunkNames[routePath]) {
-      routesChunkNames[routePath] = {};
-    }
-    routesChunkNames[routePath][key] = importChunk.chunkName;
-    registry[importChunk.chunkName] = {
-      importStatement: importChunk.importStatement,
-      modulePath: importChunk.modulePath,
-    };
-  };
+  const routesChunkNames: {
+    [routePath: string]: any;
+  } = {};
 
   // This is the higher level overview of route code generation
-  function generateRouteCode(routeConfig) {
+  function generateRouteCode(routeConfig: RouteConfig): string {
     const {
       path: routePath,
       component,
@@ -55,79 +65,59 @@ export async function loadRoutes(pluginsRouteConfigs: RouteConfig[]) {
       exact,
     } = routeConfig;
 
+    if (!routePath || !component) {
+      throw new Error(
+        `Invalid routeConfig (Path and component is required) \n${JSON.stringify(
+          routeConfig,
+        )}`,
+      );
+    }
+
     if (!routes) {
-      addRoutesPath(routePath);
+      routesPaths.push(routePath);
     }
 
-    // Given an input (object or string), get the import path str
-    const getModulePath = target => {
-      if (!target) {
-        return null;
-      }
-
-      const importStr = _.isObject(target as any) ? target.path : target;
-      const queryStr = target.query ? `?${stringify(target.query)}` : '';
-      return `${importStr}${queryStr}`;
-    };
-
-    if (!component) {
-      throw new Error(`path: ${routePath} need a component`);
-    }
-
-    const componentPath = getModulePath(component);
-
-    const genImportChunk = (
-      modulePath: string | null | undefined,
+    function genRouteChunkNames(
+      value: RouteModule | Module | null | undefined,
       prefix?: string,
       name?: string,
-    ) => {
-      if (!modulePath) {
+    ) {
+      if (!value) {
         return null;
       }
 
-      const chunkName = genChunkName(modulePath, prefix, name);
-      const finalStr = JSON.stringify(modulePath);
-      return {
-        chunkName,
-        modulePath,
-        importStatement: `() => import(/* webpackChunkName: '${chunkName}' */ ${finalStr})`,
-      };
-    };
-
-    const componentChunk = genImportChunk(componentPath, 'component');
-    addRoutesChunkNames(routePath, 'component', componentChunk);
-
-    function genRouteChunkNames(value, prefix?: string) {
-      if (Array.isArray(value)) {
-        return value.map((val, i) => genRouteChunkNames(val, `${i}`));
+      if (_.isArray(value)) {
+        return value.map((val, index) =>
+          genRouteChunkNames(val, `${index}`, name),
+        );
       }
 
-      if (_.isObject(value as any) && !value.__import) {
+      if (_.isPlainObject(value) && !_.isString(value) && !value.__import) {
         const newValue = {};
         Object.keys(value).forEach(key => {
-          newValue[key] = genRouteChunkNames(value[key], key);
+          newValue[key] = genRouteChunkNames(value[key], key, name);
         });
         return newValue;
       }
 
-      const importChunk = genImportChunk(
-        getModulePath(value),
-        prefix,
-        routePath,
-      );
+      const modulePath = getModulePath(value as Module);
+      const chunkName = genChunkName(modulePath, prefix, name);
+      const importStatement = `() => import(/* webpackChunkName: '${chunkName}' */ ${JSON.stringify(
+        modulePath,
+      )})`;
 
-      if (!importChunk) {
-        return null;
-      }
-
-      registry[importChunk.chunkName] = {
-        importStatement: importChunk.importStatement,
-        modulePath: importChunk.modulePath,
+      registry[chunkName] = {
+        importStatement,
+        modulePath,
       };
-      return importChunk.chunkName;
+      return chunkName;
     }
 
-    _.assign(routesChunkNames[routePath], genRouteChunkNames(modules));
+    routesChunkNames[routePath] = _.assign(
+      routesChunkNames[routePath],
+      genRouteChunkNames({component}, 'component', component),
+      genRouteChunkNames(modules, 'module', routePath),
+    );
 
     const routesStr = routes
       ? `routes: [${routes.map(generateRouteCode).join(',')}],`

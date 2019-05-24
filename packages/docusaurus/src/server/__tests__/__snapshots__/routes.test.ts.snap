@@ -1,0 +1,147 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`loadRoutes flat route config 1`] = `
+Object {
+  "registry": Object {
+    "component---theme-blog-list-pagea-6-a-7ba": Object {
+      "importStatement": "() => import(/* webpackChunkName: 'component---theme-blog-list-pagea-6-a-7ba' */ \\"@theme/BlogListPage\\")",
+      "modulePath": "@theme/BlogListPage",
+    },
+    "content---blog-0-b-4-09e": Object {
+      "importStatement": "() => import(/* webpackChunkName: 'content---blog-0-b-4-09e' */ \\"blog/2018-12-14-Happy-First-Birthday-Slash.md?truncated=true\\")",
+      "modulePath": "blog/2018-12-14-Happy-First-Birthday-Slash.md?truncated=true",
+    },
+    "content---blog-7-b-8-fd9": Object {
+      "importStatement": "() => import(/* webpackChunkName: 'content---blog-7-b-8-fd9' */ \\"blog/2018-12-14-Happy-First-Birthday-Slash.md\\")",
+      "modulePath": "blog/2018-12-14-Happy-First-Birthday-Slash.md",
+    },
+    "metadata---blog-0-b-6-74c": Object {
+      "importStatement": "() => import(/* webpackChunkName: 'metadata---blog-0-b-6-74c' */ \\"blog-2018-12-14-happy-first-birthday-slash-d2c.json\\")",
+      "modulePath": "blog-2018-12-14-happy-first-birthday-slash-d2c.json",
+    },
+  },
+  "routesChunkNames": Object {
+    "/blog": Object {
+      "component": "component---theme-blog-list-pagea-6-a-7ba",
+      "items": Array [
+        Object {
+          "content": "content---blog-0-b-4-09e",
+          "metadata": "metadata---blog-0-b-6-74c",
+        },
+        Object {
+          "content": "content---blog-7-b-8-fd9",
+          "metadata": null,
+        },
+      ],
+    },
+  },
+  "routesConfig": "
+import React from 'react';
+import ComponentCreator from '@docusaurus/ComponentCreator';
+
+export default [
+  
+{
+  path: '/blog',
+  component: ComponentCreator('/blog'),
+  exact: true,
+  
+},
+  
+  {
+    path: '*',
+    component: ComponentCreator('*')
+  }
+];
+",
+  "routesPaths": Array [
+    "/blog",
+  ],
+}
+`;
+
+exports[`loadRoutes nested route config 1`] = `
+Object {
+  "registry": Object {
+    "component---theme-doc-item-178-a40": Object {
+      "importStatement": "() => import(/* webpackChunkName: 'component---theme-doc-item-178-a40' */ \\"@theme/DocItem\\")",
+      "modulePath": "@theme/DocItem",
+    },
+    "component---theme-doc-page-1-be-9be": Object {
+      "importStatement": "() => import(/* webpackChunkName: 'component---theme-doc-page-1-be-9be' */ \\"@theme/DocPage\\")",
+      "modulePath": "@theme/DocPage",
+    },
+    "content---docs-foo-baz-8-ce-61e": Object {
+      "importStatement": "() => import(/* webpackChunkName: 'content---docs-foo-baz-8-ce-61e' */ \\"docs/foo/baz.md\\")",
+      "modulePath": "docs/foo/baz.md",
+    },
+    "content---docs-helloaff-811": Object {
+      "importStatement": "() => import(/* webpackChunkName: 'content---docs-helloaff-811' */ \\"docs/hello.md\\")",
+      "modulePath": "docs/hello.md",
+    },
+    "docsMetadata---docsf-34-2ab": Object {
+      "importStatement": "() => import(/* webpackChunkName: 'docsMetadata---docsf-34-2ab' */ \\"docs-b5f.json\\")",
+      "modulePath": "docs-b5f.json",
+    },
+    "metadata---docs-foo-baz-2-cf-fa7": Object {
+      "importStatement": "() => import(/* webpackChunkName: 'metadata---docs-foo-baz-2-cf-fa7' */ \\"docs-foo-baz-dd9.json\\")",
+      "modulePath": "docs-foo-baz-dd9.json",
+    },
+    "metadata---docs-hello-956-741": Object {
+      "importStatement": "() => import(/* webpackChunkName: 'metadata---docs-hello-956-741' */ \\"docs-hello-da2.json\\")",
+      "modulePath": "docs-hello-da2.json",
+    },
+  },
+  "routesChunkNames": Object {
+    "/docs": Object {
+      "component": "component---theme-doc-page-1-be-9be",
+      "docsMetadata": "docsMetadata---docsf-34-2ab",
+    },
+    "/docs/hello": Object {
+      "component": "component---theme-doc-item-178-a40",
+      "content": "content---docs-helloaff-811",
+      "metadata": "metadata---docs-hello-956-741",
+    },
+    "docs/foo/baz": Object {
+      "component": "component---theme-doc-item-178-a40",
+      "content": "content---docs-foo-baz-8-ce-61e",
+      "metadata": "metadata---docs-foo-baz-2-cf-fa7",
+    },
+  },
+  "routesConfig": "
+import React from 'react';
+import ComponentCreator from '@docusaurus/ComponentCreator';
+
+export default [
+  
+{
+  path: '/docs',
+  component: ComponentCreator('/docs'),
+  
+  routes: [
+{
+  path: '/docs/hello',
+  component: ComponentCreator('/docs/hello'),
+  exact: true,
+  
+},
+{
+  path: 'docs/foo/baz',
+  component: ComponentCreator('docs/foo/baz'),
+  
+  
+}],
+},
+  
+  {
+    path: '*',
+    component: ComponentCreator('*')
+  }
+];
+",
+  "routesPaths": Array [
+    "/docs/hello",
+    "docs/foo/baz",
+  ],
+}
+`;
