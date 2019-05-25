@@ -131,21 +131,17 @@ function execute(port, host) {
       next();
       return;
     }
-    const extractedMetadata = metadataUtils.extractMetadata(file);
-    const rawContent = extractedMetadata.rawContent;
-    const rawMetadata = extractedMetadata.metadata;
+    const {rawContent, metadata: rawMetadata} = metadataUtils.extractMetadata(
+      file,
+    );
 
     // if any of the followings is changed, reload the metadata
     const reloadTriggers = ['sidebar_label', 'hide_title', 'title'];
-    for (let i = 0; i < reloadTriggers.length; i++) {
-      const key = reloadTriggers[i];
-      if (metadata[key] !== rawMetadata[key]) {
-        reloadMetadata();
-        extractTranslations();
-        reloadTranslations();
-        metadata = Metadata[metakey];
-        break;
-      }
+    if (reloadTriggers.some(key => metadata[key] !== rawMetadata[key])) {
+      reloadMetadata();
+      extractTranslations();
+      reloadTranslations();
+      metadata = Metadata[metakey];
     }
 
     reloadSiteConfig();
