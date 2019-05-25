@@ -7,30 +7,24 @@
 
 import React from 'react';
 import Layout from '@theme/Layout';
-// import withBaseUrl from '@docusaurus/withBaseUrl';
-import config from '../docusaurus.config';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import './index.css';
 
 /* Note that this is only temporary. TODO: better welcome screen */
 function Home() {
+  const context = useDocusaurusContext();
+  const {siteConfig = {}} = context;
   return (
     <Layout title="Hello">
       <header className="header">
         <div className="container">
-          <h1>{config.title}</h1>
-          <section>
-            <em className="hero__subtitle">{config.tagline}</em>
-          </section>
+          <h1>{siteConfig.title}</h1>
+          <p className="hero__subtitle">{siteConfig.tagline}</p>
           <button
             type="button"
             className="button button--outline button--primary">
             Get Started
           </button>
-          {/* <img
-            src={withBaseUrl('img/logo.svg')}
-            className="App-logo"
-            alt="logo"
-          /> */}
         </div>
       </header>
       <main>

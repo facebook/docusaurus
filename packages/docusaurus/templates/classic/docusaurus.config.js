@@ -11,9 +11,6 @@ module.exports = {
   url: 'https://your-docusaurus-test-site.com',
   baseUrl: '/',
   favicon: 'img/favicon.ico',
-  headerIcon: 'img/logo.svg',
-  organizationName: 'My organization',
-  projectName: 'My project',
   themeConfig: {
     navbar: {
       title: 'My site',
