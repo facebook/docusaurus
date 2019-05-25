@@ -62,15 +62,15 @@ program
   });
 
 program
-  .command('init [projectDir]')
+  .command('init [siteName] [template] [rootDir]')
   .description('Initialize website')
-  .action((projectDir = '.') => {
-    wrapCommand(init)(path.resolve(projectDir));
+  .action((siteName, template, rootDir = '.') => {
+    wrapCommand(init)(path.resolve(rootDir), siteName, template);
   });
 
 program
   .command('deploy [siteDir]')
-  .description('deploy website')
+  .description('Deploy website to GitHub pages')
   .action((siteDir = '.') => {
     wrapCommand(deploy)(path.resolve(siteDir));
   });

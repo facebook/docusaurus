@@ -15,10 +15,8 @@ import withBaseUrl from '@docusaurus/withBaseUrl';
 function Footer() {
   const context = useDocusaurusContext();
   const {siteConfig = {}} = context;
-
-  const {
-    themeConfig: {footer},
-  } = siteConfig;
+  const {themeConfig = {}} = siteConfig;
+  const {footer} = themeConfig;
 
   if (!footer) {
     return null;
