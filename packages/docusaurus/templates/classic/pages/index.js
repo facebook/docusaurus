@@ -7,25 +7,82 @@
 
 import React from 'react';
 import Layout from '@theme/Layout';
-import withBaseUrl from '@docusaurus/withBaseUrl';
+// import withBaseUrl from '@docusaurus/withBaseUrl';
+import config from '../docusaurus.config';
 import './index.css';
 
 /* Note that this is only temporary. TODO: better welcome screen */
 function Home() {
   return (
     <Layout title="Hello">
-      <div className="App">
-        <header className="App-header">
-          <img
+      <header className="header">
+        <div className="container">
+          <h1>{config.title}</h1>
+          <section>
+            <em className="hero__subtitle">{config.tagline}</em>
+          </section>
+          <button
+            type="button"
+            className="button button--outline button--primary">
+            Get Started
+          </button>
+          {/* <img
             src={withBaseUrl('img/logo.svg')}
             className="App-logo"
             alt="logo"
-          />
-          <p>
-            Edit <code>pages/index.js</code> and save to reload.
-          </p>
-        </header>
-      </div>
+          /> */}
+        </div>
+      </header>
+      <main>
+        <section className="highlights">
+          <div className="container">
+            <div className="row">
+              <div className="col highlight">
+                <img
+                  src="http://docusaurus-2.netlify.com/img/undraw_typewriter.svg"
+                  alt="Focus on your docs"
+                />
+                <h3>Focus on your docs</h3>
+                <p>
+                  Docusaurus lets you focus on your docs, and we&apos;ll do the
+                  chores. Now go ahead and dump all your docs into the{' '}
+                  <code>docs/</code> directory.
+                </p>
+              </div>
+              <div className="col highlight">
+                <img
+                  src="http://docusaurus-2.netlify.com/img/undraw_version_control.svg"
+                  alt="Supports versioned docs"
+                />
+                <h3>Versioned docs</h3>
+                <p>TODO: come up with some nonsense on versioned docs</p>
+              </div>
+              <div className="col highlight">
+                <img
+                  src="http://docusaurus-2.netlify.com/img/undraw_around_the_world.svg"
+                  alt="Support i18n"
+                />
+                <h3>i18n</h3>
+                <p>
+                  Fun fact about React: Their docs site is powered by a ton of
+                  repos, one for each language, because their site doesn&apos;t
+                  support i18n. We do{' '}
+                  <span role="img" aria-label="languages">
+                    {' '}
+                    🇺🇸🇨🇳🇸🇬🇯🇵{' '}
+                  </span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section className="features container">
+          <h2>features</h2>
+        </section>
+        <section className="users container">
+          <h2>users</h2>
+        </section>
+      </main>
     </Layout>
   );
 }
