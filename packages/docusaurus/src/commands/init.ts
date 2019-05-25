@@ -100,7 +100,7 @@ export async function init(
   }
 
   console.log();
-  console.log(chalk.cyan('Creating new docusaurus project ...'));
+  console.log(chalk.cyan('Creating new Docusaurus project ...'));
   console.log();
 
   if (template && isValidGitRepoUrl(template)) {

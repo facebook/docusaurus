@@ -10,6 +10,7 @@ import Layout from '@theme/Layout';
 import withBaseUrl from '@docusaurus/withBaseUrl';
 import './index.css';
 
+/* Note that this is only temporary. TODO: better welcome screen */
 function Home() {
   return (
     <Layout title="Hello">
