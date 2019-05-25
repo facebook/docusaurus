@@ -6,9 +6,11 @@
  */
 
 import React from 'react';
+import cx from 'classnames';
 import Layout from '@theme/Layout';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import './index.css';
+import withBaseUrl from '@docusaurus/withBaseUrl';
+import s from './s.module.css';
 
 /* Note that this is only temporary. TODO: better welcome screen */
 function Home() {
@@ -16,10 +18,16 @@ function Home() {
   const {siteConfig = {}} = context;
   return (
     <Layout title="Hello">
-      <header className="header">
+      <header className={s.header}>
         <div className="container">
           <h1>{siteConfig.title}</h1>
-          <p className="hero__subtitle">{siteConfig.tagline}</p>
+          <img
+            src={withBaseUrl('img/logo.svg')}
+            className={s.logo}
+            alt="logo"
+          />
+          <p>{siteConfig.tagline}</p>
+
           <button
             type="button"
             className="button button--outline button--primary">
@@ -28,10 +36,10 @@ function Home() {
         </div>
       </header>
       <main>
-        <section className="highlights">
+        <section className={s.highlights}>
           <div className="container">
             <div className="row">
-              <div className="col highlight">
+              <div className={cx('col', s.highlight)}>
                 <img
                   src="http://docusaurus-2.netlify.com/img/undraw_typewriter.svg"
                   alt="Focus on your docs"
@@ -43,7 +51,7 @@ function Home() {
                   <code>docs/</code> directory.
                 </p>
               </div>
-              <div className="col highlight">
+              <div className={cx('col', s.highlight)}>
                 <img
                   src="http://docusaurus-2.netlify.com/img/undraw_version_control.svg"
                   alt="Supports versioned docs"
@@ -51,7 +59,7 @@ function Home() {
                 <h3>Versioned docs</h3>
                 <p>TODO: come up with some nonsense on versioned docs</p>
               </div>
-              <div className="col highlight">
+              <div className={cx('col', s.highlight)}>
                 <img
                   src="http://docusaurus-2.netlify.com/img/undraw_around_the_world.svg"
                   alt="Support i18n"
@@ -70,10 +78,13 @@ function Home() {
             </div>
           </div>
         </section>
-        <section className="features container">
+        <section className={cx('container', s.features)}>
+          {/**
+           * TODO: Include most of the use cases as references
+           * */}
           <h2>features</h2>
         </section>
-        <section className="users container">
+        <section className={cx('container', s.users)}>
           <h2>users</h2>
         </section>
       </main>

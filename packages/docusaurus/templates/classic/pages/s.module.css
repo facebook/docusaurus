@@ -13,6 +13,37 @@
 .header h1 {
   font-size: 3rem;
 }
+.logo {
+  animation-duration: 2s;
+  animation-name: jackInTheBox;
+  float: right;
+}
+@media screen and (min-width: 768px) { 
+  .header {
+    padding: 4rem 0;
+  }
+}
+
+@keyframes jackInTheBox {
+  from {
+    opacity: 0;
+    transform: scale(0.1) rotate(30deg);
+    transform-origin: center bottom;
+  }
+
+   50% {
+    transform: rotate(-10deg);
+  }
+
+   70% {
+    transform: rotate(3deg);
+  }
+
+   to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
 
 /** 
  * Highlights 
@@ -46,29 +77,9 @@
   }
 }
 
-/*
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
+/** 
+ * Features
+ */
+.features {
+  padding-top: 4rem;
 }
-
-.App-header {
-  min-height: 50vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: black;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-*/
