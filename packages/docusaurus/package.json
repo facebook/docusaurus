@@ -51,6 +51,7 @@
     "globby": "^9.1.0",
     "html-webpack-plugin": "^4.0.0-beta.5",
     "import-fresh": "^3.0.0",
+    "inquirer": "^6.3.1",
     "lodash": "^4.17.11",
     "mini-css-extract-plugin": "^0.4.1",
     "nprogress": "^0.2.0",

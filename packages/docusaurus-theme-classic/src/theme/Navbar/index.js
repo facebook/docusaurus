@@ -36,11 +36,9 @@ function NavLink(props) {
 function Navbar() {
   const context = useDocusaurusContext();
   const {siteConfig = {}} = context;
-  const {
-    baseUrl,
-    themeConfig: {algolia, navbar = {}},
-  } = siteConfig;
-  const {title, logo, links} = navbar;
+  const {baseUrl, themeConfig = {}} = siteConfig;
+  const {algolia, navbar = {}} = themeConfig;
+  const {title, logo, links = []} = navbar;
 
   return (
     <nav className="navbar navbar--light navbar--fixed-top">
