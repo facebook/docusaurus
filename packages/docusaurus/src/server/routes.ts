@@ -78,7 +78,7 @@ export async function loadRoutes(pluginsRouteConfigs: RouteConfig[]) {
     }
 
     function genRouteChunkNames(
-      value: RouteModule | Module | null | undefined,
+      value: RouteModule | RouteModule[] | Module | null | undefined,
       prefix?: string,
       name?: string,
     ) {

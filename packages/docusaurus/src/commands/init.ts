@@ -13,7 +13,7 @@ import path from 'path';
 import _ from 'lodash';
 import {execSync} from 'child_process';
 
-function hasYarn() {
+function hasYarn(): Boolean {
   try {
     execSync('yarnpkg --version', {stdio: 'ignore'});
     return true;
@@ -22,11 +22,11 @@ function hasYarn() {
   }
 }
 
-function isValidGitRepoUrl(gitRepoUrl) {
+function isValidGitRepoUrl(gitRepoUrl): Boolean {
   return gitRepoUrl.startsWith('https://') || gitRepoUrl.startsWith('git@');
 }
 
-async function updatePkg(pkgPath, obj) {
+async function updatePkg(pkgPath: string, obj): Promise<void> {
   const content = await fs.readFile(pkgPath, 'utf-8');
   const pkg = JSON.parse(content);
   const newPkg = Object.assign(pkg, obj);
@@ -87,7 +87,7 @@ export async function init(
     const {gitRepoUrl} = await inquirer.prompt({
       type: 'input',
       name: 'gitRepoUrl',
-      validate: url => {
+      validate: (url?: string) => {
         if (url && isValidGitRepoUrl(url)) {
           return true;
         }

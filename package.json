@@ -3,7 +3,8 @@
   "workspaces": [
     "packages/*",
     "website",
-    "website-1.x"
+    "website-1.x",
+    "packages/docusaurus/templates/*"
   ],
   "scripts": {
     "start": "yarn tsc && yarn start:v2",
