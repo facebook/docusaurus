@@ -21,25 +21,26 @@ function Home() {
       <header className={s.header}>
         <div className="container">
           <h1>{siteConfig.title}</h1>
-          <img
-            src={withBaseUrl('img/logo.svg')}
-            className={s.logo}
-            alt="logo"
-          />
           <p>{siteConfig.tagline}</p>
-
           <button
             type="button"
             className="button button--outline button--primary">
             Get Started
           </button>
+          <div>
+            <img
+              src={withBaseUrl('img/logo.svg')}
+              className={s.logo}
+              alt="logo"
+            />
+          </div>
         </div>
       </header>
       <main>
         <section className={s.highlights}>
           <div className="container">
             <div className="row">
-              <div className={cx('col', s.highlight)}>
+              <div className={cx(s.col4, s.highlight)}>
                 <img
                   src="http://docusaurus-2.netlify.com/img/undraw_typewriter.svg"
                   alt="Focus on your docs"
@@ -51,7 +52,7 @@ function Home() {
                   <code>docs/</code> directory.
                 </p>
               </div>
-              <div className={cx('col', s.highlight)}>
+              <div className={cx(s.col4, s.highlight)}>
                 <img
                   src="http://docusaurus-2.netlify.com/img/undraw_version_control.svg"
                   alt="Supports versioned docs"
@@ -59,7 +60,7 @@ function Home() {
                 <h3>Versioned docs</h3>
                 <p>TODO: come up with some nonsense on versioned docs</p>
               </div>
-              <div className={cx('col', s.highlight)}>
+              <div className={cx(s.col4, s.highlight)}>
                 <img
                   src="http://docusaurus-2.netlify.com/img/undraw_around_the_world.svg"
                   alt="Support i18n"

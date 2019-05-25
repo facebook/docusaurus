@@ -3,6 +3,7 @@
   --dark-grey: rgb(48, 56, 70);
   --first-screen-main-section-height: calc((100vh - 60px - 60px) * .6);
   --first-screen-secondary-section-height: calc((100vh - 60px - 60px) * .4);
+  --break-tiny: 400px;
 }
 
 .header {
@@ -18,9 +19,22 @@
   animation-name: jackInTheBox;
   float: right;
 }
-@media screen and (min-width: 768px) { 
+@media screen and (max-width: 400px) {
+  .header {
+    /* display mainly the header section */
+    height: calc(100vh - 120px);
+  }
+}
+@media screen and (max-width: 799px) {
+.header {
+    /* display just one feature */
+    height: calc(100vh - 310px);
+  }
+}
+@media screen and (min-width: 800px) { 
   .header {
     padding: 4rem 0;
+    height: var(--first-screen-main-section-height);
   }
 }
 
@@ -55,6 +69,7 @@
   background: #efefef;
   display: flex;
   align-items: center;
+  width: 100%;
 }
 
 .highlight {
@@ -68,11 +83,30 @@
   text-align: left;
 }
 
-@media screen and (min-width: 768px) {
-  .header {
-    height: var(--first-screen-main-section-height);
+/* TODO: move all of .col4 to infima .col--4 */
+.col4 {
+  padding-left: calc(var(--ifm-spacing-horizontal) / 2);
+  padding-right: calc(var(--ifm-spacing-horizontal) / 2);
+  min-width: calc(800px / 3 - var(--ifm-spacing-horizontal));
+}
+@media screen and (max-width: 519px /* smaller than 2 * min width */) {
+  .col4 {
+    width: 100%;
   }
-  .highlights {
+}
+@media screen and (min-width: 520px) and (max-width: 799px) {
+  .col4:first-child {
+    width: 100%;
+  }
+  .col4:not(:first-child) {
+    width: calc(50% - var(--ifm-spacing-horizontal) / 2);
+  }
+}
+@media screen and (min-width: 800px) {
+  .col4 {
+    width: calc(100% / 3 - var(--ifm-spacing-horizontal));
+  }
+.highlights {
     height: var(--first-screen-secondary-section-height);
   }
 }
@@ -82,4 +116,27 @@
  */
 .features {
   padding-top: 4rem;
+}
+
+
+/** TODO: Move to infima and don't */
+:global(.navbar) {
+  white-space: nowrap;
+}
+:global(.navbar__brand) {
+  flex-shrink: 0;
+}
+:global(.navbar__inner) {
+  flex-wrap: nowrap;
+}
+:global(.navbar__item) {
+  padding: var(--ifm-navbar-item-padding-vertical) var(--ifm-navbar-item-padding-horizontal);
+}
+@media screen and (max-width: 1000px) {
+  :global(.navbar__item) {
+    padding: var(--ifm-navbar-item-padding-vertical) 2vmin;
+  }
+}
+:global(.navbar__link) {
+  padding: 0 !important;
 }
