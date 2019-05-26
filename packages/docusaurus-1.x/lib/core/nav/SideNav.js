@@ -66,7 +66,7 @@ class SideNav extends React.Component {
     let categoryClassName = 'navGroupCategoryTitle';
     let arrow;
 
-    if (siteConfig.docsSideNavCollapsible) {
+    if (this.props.collapsible) {
       categoryClassName += ' collapsible';
       ulClassName = 'hide';
       arrow = (
@@ -227,6 +227,7 @@ class SideNav extends React.Component {
 }
 
 SideNav.defaultProps = {
+  collapsible: false,
   contents: [],
 };
 
