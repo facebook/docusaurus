@@ -10,6 +10,7 @@ import cx from 'classnames';
 import Layout from '@theme/Layout';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import withBaseUrl from '@docusaurus/withBaseUrl';
+import landingPage from './data';
 import s from './s.module.css';
 
 /* Note that this is only temporary. TODO: better welcome screen */
@@ -17,7 +18,10 @@ function Home() {
   const context = useDocusaurusContext();
   const {siteConfig = {}} = context;
   return (
-    <Layout title="Hello">
+    <Layout
+      /** this title will overwrite the one in config */
+      title={`Hello from ${siteConfig.title}`}
+      description="Description will go into a meta tag in <head />">
       <header className={s.header}>
         <div className="container">
           <h1>{siteConfig.title}</h1>
@@ -37,57 +41,42 @@ function Home() {
         </div>
       </header>
       <main>
-        <section className={s.highlights}>
-          <div className="container">
-            <div className="row">
-              <div className={cx(s.col4, s.highlight)}>
-                <img
-                  src="http://docusaurus-2.netlify.com/img/undraw_typewriter.svg"
-                  alt="Focus on your docs"
-                />
-                <h3>Focus on your docs</h3>
-                <p>
-                  Docusaurus lets you focus on your docs, and we&apos;ll do the
-                  chores. Now go ahead and dump all your docs into the{' '}
-                  <code>docs/</code> directory.
-                </p>
-              </div>
-              <div className={cx(s.col4, s.highlight)}>
-                <img
-                  src="http://docusaurus-2.netlify.com/img/undraw_version_control.svg"
-                  alt="Supports versioned docs"
-                />
-                <h3>Versioned docs</h3>
-                <p>TODO: come up with some nonsense on versioned docs</p>
-              </div>
-              <div className={cx(s.col4, s.highlight)}>
-                <img
-                  src="http://docusaurus-2.netlify.com/img/undraw_around_the_world.svg"
-                  alt="Support i18n"
-                />
-                <h3>i18n</h3>
-                <p>
-                  Fun fact about React: Their docs site is powered by a ton of
-                  repos, one for each language, because their site doesn&apos;t
-                  support i18n. We do{' '}
-                  <span role="img" aria-label="languages">
-                    {' '}
-                    🇺🇸🇨🇳🇸🇬🇯🇵{' '}
-                  </span>
-                </p>
+        {landingPage.highlights && landingPage.highlights.length && (
+          <section className={s.highlights}>
+            <div className="container">
+              <div className="row">
+                {landingPage.highlights.map(
+                  ({imageUrl, title, description}, idx) => (
+                    <div
+                      key={`landing-page-highlight-${idx}`}
+                      className={cx(s.col4, s.highlight)}>
+                      <img src={imageUrl} alt={title} />
+                      <h3>{title}</h3>
+                      <p>{description}</p>
+                    </div>
+                  ),
+                )}
               </div>
             </div>
-          </div>
-        </section>
-        <section className={cx('container', s.features)}>
-          {/**
-           * TODO: Include most of the use cases as references
-           * */}
-          <h2>features</h2>
-        </section>
-        <section className={cx('container', s.users)}>
-          <h2>users</h2>
-        </section>
+          </section>
+        )}
+
+        {landingPage.features && landingPage.features.length && (
+          <section className={cx('container', s.features)}>
+            {/**
+             * TODO: Include most of the use cases as references
+             * */}
+            {landingPage.features.map(({title, imageUrl, description}, idx) => (
+              <div
+                key={`landing-page-feature-${idx}`}
+                className={cx(s.feature)}>
+                <img src={imageUrl} alt={title} />
+                <h3>{title}</h3>
+                <div dangerouslySetInnerHTML={{__html: description}} />
+              </div>
+            ))}
+          </section>
+        )}
       </main>
     </Layout>
   );
