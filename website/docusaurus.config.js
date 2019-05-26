@@ -11,7 +11,7 @@ module.exports = {
   organizationName: 'facebook',
   projectName: 'docusaurus',
   baseUrl: '/',
-  url: 'https://docusaurus-2.netlify.com',
+  url: 'https://v2.docusaurus.io',
   favicon: 'img/docusaurus.ico',
   themeConfig: {
     algolia: {
