@@ -624,13 +624,6 @@ module.exports = [
     fbOpenSource: false,
     pinned: false,
   },
-  {
-    caption: 'Zio',
-    image: '/img/users/zio.png',
-    infoLink: 'https://scalaz.github.io/scalaz-zio/',
-    fbOpenSource: false,
-    pinned: false,
-  },
 
   // Please add your logo in alphabetical order of caption.
 ];
