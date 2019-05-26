@@ -13,7 +13,7 @@ import path from 'path';
 import _ from 'lodash';
 import {execSync} from 'child_process';
 
-function hasYarn(): Boolean {
+function hasYarn(): boolean {
   try {
     execSync('yarnpkg --version', {stdio: 'ignore'});
     return true;
@@ -22,7 +22,7 @@ function hasYarn(): Boolean {
   }
 }
 
-function isValidGitRepoUrl(gitRepoUrl): Boolean {
+function isValidGitRepoUrl(gitRepoUrl): boolean {
   return gitRepoUrl.startsWith('https://') || gitRepoUrl.startsWith('git@');
 }
 
