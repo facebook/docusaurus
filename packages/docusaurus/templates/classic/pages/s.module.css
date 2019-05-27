@@ -1,23 +1,27 @@
 /* TODO: remove this css because it's only temporary until we revamp index.js */
 :root {
-  --dark-grey: rgb(48, 56, 70);
   --first-screen-main-section-height: calc((100vh - 60px - 60px) * .6);
   --first-screen-secondary-section-height: calc((100vh - 60px - 60px) * .4);
-  --break-tiny: 400px;
 }
 
 .header {
-  background: var(--dark-grey);
   color: white;
   padding: 1rem 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
 }
-.header h1 {
-  font-size: 3rem;
+@media screen and (min-height: 900px) {
+  .getStarted {
+    margin-top: 2rem;
+  }
 }
 .logo {
+  position: absolute;
+  bottom: -80px;
+  left: 20px;
   animation-duration: 2s;
   animation-name: jackInTheBox;
-  float: right;
 }
 @media screen and (max-width: 400px) {
   .header {

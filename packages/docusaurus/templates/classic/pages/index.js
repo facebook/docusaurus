@@ -22,22 +22,23 @@ function Home() {
       /** this title will overwrite the one in config */
       title={`Hello from ${siteConfig.title}`}
       description="Description will go into a meta tag in <head />">
-      <header className={s.header}>
+      <header className={cx('hero hero--dark', s.header)}>
         <div className="container">
-          <h1>{siteConfig.title}</h1>
-          <p>{siteConfig.tagline}</p>
+          <h1 className="hero__title">{siteConfig.title}</h1>
+          <p className="hero__subtitle">{siteConfig.tagline}</p>
           <button
             type="button"
-            className="button button--outline button--primary">
+            className={cx(
+              'button button--outline button--primary button--lg',
+              s.getStarted,
+            )}>
             Get Started
           </button>
-          <div>
-            <img
-              src={withBaseUrl('img/logo.svg')}
-              className={s.logo}
-              alt="logo"
-            />
-          </div>
+          <img
+            src={withBaseUrl('img/logo.svg')}
+            className={s.logo}
+            alt="logo"
+          />
         </div>
       </header>
       <main>
