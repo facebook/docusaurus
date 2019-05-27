@@ -366,6 +366,13 @@ module.exports = [
     pinned: true,
   },
   {
+    caption: 'Quix',
+    image: '/img/users/quix.png',
+    infoLink: 'https://wix.github.io/quix/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'React 360',
     image: '/img/users/react-360.svg',
     infoLink: 'https://facebook.github.io/react-360',
@@ -617,5 +624,6 @@ module.exports = [
     fbOpenSource: false,
     pinned: false,
   },
+
   // Please add your logo in alphabetical order of caption.
 ];
