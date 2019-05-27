@@ -1,4 +1,3 @@
-/* TODO: remove this css because it's only temporary until we revamp index.js */
 :root {
   --first-screen-main-section-height: calc((100vh - 60px - 60px) * .6);
   --first-screen-secondary-section-height: calc((100vh - 60px - 60px) * .4);
@@ -11,10 +10,14 @@
   position: relative;
   overflow: hidden;
 }
-@media screen and (min-height: 900px) {
-  .getStarted {
-    margin-top: 2rem;
-  }
+
+.buttons  {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.buttons iframe {
+  margin-left: 1rem;
 }
 .logo {
   position: absolute;
@@ -22,6 +25,11 @@
   left: 20px;
   animation-duration: 2s;
   animation-name: jackInTheBox;
+}
+@media screen and (min-height: 900px) {
+  .buttons {
+    margin-top: 2rem;
+  }
 }
 @media screen and (max-width: 400px) {
   .header {
@@ -68,7 +76,6 @@
  * - secondary section on the first screen
  * - leaving a space equal to footer to indicate more content
  */
-
 .highlights {
   background: var(--ifm-color-black-alpha-10);
   display: flex;
@@ -137,34 +144,36 @@
   }
 }
 @media screen and (min-width: 520px) {
-.feature {
-  display: grid;
-  grid-template-rows: minmax(2rem, 1fr) 4fr;
-  grid-column-gap: 2rem;
-  grid-row-gap: 0;
-  padding-bottom: 4rem;
-}
-.feature:nth-child(2n) {
-  grid-template-columns: auto 200px;
-}
-.feature:nth-child(2n + 1) {
-  grid-template-columns: 200px auto;
-}
-.feature img {
-  grid-row: 1 / span 2;
-}
-.feature:nth-child(2n) img {
-  grid-column: 2;
-}
-.feature:nth-child(2n+1) img {
-  grid-column: 1;
-}
-.feature h3 {
-  margin-bottom: 0;
-}
+  .feature {
+    display: grid;
+    grid-template-rows: minmax(2rem, 1fr) 4fr;
+    grid-column-gap: 2rem;
+    grid-row-gap: 0;
+    padding-bottom: 4rem;
+  }
+  .feature:nth-child(2n) {
+    grid-template-columns: auto 200px;
+  }
+  .feature:nth-child(2n + 1) {
+    grid-template-columns: 200px auto;
+  }
+  .feature img {
+    grid-row: 1 / span 2;
+  }
+  .feature:nth-child(2n) img {
+    grid-column: 2;
+  }
+  .feature:nth-child(2n+1) img {
+    grid-column: 1;
+  }
+  .feature h3 {
+    margin-bottom: 0;
+  }
 }
 
-
+.feature p a:only-child {
+  margin-top: 2rem;
+}
 
 /** TODO: Move to infima and don't */
 :global(.navbar) {

@@ -25,15 +25,26 @@ function Home() {
       <header className={cx('hero hero--dark', s.header)}>
         <div className="container">
           <h1 className="hero__title">{siteConfig.title}</h1>
+
           <p className="hero__subtitle">{siteConfig.tagline}</p>
-          <button
-            type="button"
-            className={cx(
-              'button button--outline button--primary button--lg',
-              s.getStarted,
-            )}>
-            Get Started
-          </button>
+          <div className={s.buttons}>
+            <button
+              type="button"
+              className={cx(
+                'button button--outline button--primary button--lg',
+                s.getStarted,
+              )}>
+              Get Started
+            </button>
+            <iframe
+              src="https://ghbtns.com/github-btn.html?user=facebook&amp;repo=docusaurus&amp;type=star&amp;count=true&amp;size=large"
+              frameBorder={0}
+              scrolling={0}
+              width={160}
+              height={30}
+              title="GitHub Stars"
+            />
+          </div>
           <img
             src={withBaseUrl('img/logo.svg')}
             className={s.logo}
