@@ -89,6 +89,10 @@ function execute(port, host) {
     MetadataBlog = require(join('..', 'core', 'MetadataBlog.js'));
   }
 
+  function reloadTranslations() {
+    removeModuleAndChildrenFromCache('./translation.js');
+  }
+
   function requestFile(url, res, notFoundCallback) {
     request.get(url, (error, response, body) => {
       if (!error) {
@@ -116,18 +120,31 @@ function execute(port, host) {
 
   app.get(routing.docs(siteConfig), (req, res, next) => {
     const url = decodeURI(req.path.toString().replace(siteConfig.baseUrl, ''));
-    const metadata =
-      Metadata[
-        Object.keys(Metadata).find(id => Metadata[id].permalink === url)
-      ];
+    const metakey = Object.keys(Metadata).find(
+      id => Metadata[id].permalink === url,
+    );
+
+    let metadata = Metadata[metakey];
 
     const file = docs.getFile(metadata);
     if (!file) {
       next();
       return;
     }
+    const {rawContent, metadata: rawMetadata} = metadataUtils.extractMetadata(
+      file,
+    );
+
+    // if any of the followings is changed, reload the metadata
+    const reloadTriggers = ['sidebar_label', 'hide_title', 'title'];
+    if (reloadTriggers.some(key => metadata[key] !== rawMetadata[key])) {
+      reloadMetadata();
+      extractTranslations();
+      reloadTranslations();
+      metadata = Metadata[metakey];
+    }
+
     reloadSiteConfig();
-    const rawContent = metadataUtils.extractMetadata(file).rawContent;
     removeModuleAndChildrenFromCache('../core/DocsLayout.js');
     const mdToHtml = metadataUtils.mdToHtml(Metadata, siteConfig);
     res.send(docs.getMarkup(rawContent, mdToHtml, metadata, siteConfig));
