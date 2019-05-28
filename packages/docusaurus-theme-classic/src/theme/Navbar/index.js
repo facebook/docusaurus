@@ -12,8 +12,6 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import withBaseUrl from '@docusaurus/withBaseUrl';
 
 import SearchBar from '@theme/SearchBar';
-import useTheme from '../Theme/useTheme';
-import './styles.css';
 
 function NavLink(props) {
   return (
@@ -37,7 +35,6 @@ function NavLink(props) {
 
 function Navbar() {
   const context = useDocusaurusContext();
-  const {toggleDarkMode} = useTheme();
   const {siteConfig = {}} = context;
   const {baseUrl, themeConfig = {}} = siteConfig;
   const {algolia, navbar = {}} = themeConfig;
@@ -66,18 +63,6 @@ function Navbar() {
             ))}
         </div>
         <div className="navbar__items navbar__items--right">
-          <label
-            htmlFor="dark-mode"
-            className="dark-mode"
-            aria-label="Toggle light / dark mode.">
-            <input type="checkbox" id="dark-mode" onChange={toggleDarkMode} />
-            <span className="sun" role="img" aria-label="light-mode">
-              🌞
-            </span>
-            <span className="moon" role="img" aria-label="dark-mode">
-              🌛
-            </span>
-          </label>
           {links
             .filter(linkItem => linkItem.position === 'right')
             .map((linkItem, i) => (

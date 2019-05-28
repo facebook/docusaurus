@@ -11,17 +11,14 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import withBaseUrl from '@docusaurus/withBaseUrl';
 import Navbar from '@theme/Navbar';
 import Footer from '@theme/Footer';
-import useTheme from '../Theme/useTheme';
 
 import './styles.css';
 
 function Layout(props) {
-  useTheme();
   const context = useDocusaurusContext();
   const {siteConfig = {}} = context;
   const {favicon, tagline, title: defaultTitle} = siteConfig;
   const {children, title, noFooter, description} = props;
-
   return (
     <React.Fragment>
       <Head defaultTitle={`${defaultTitle} · ${tagline}`}>
