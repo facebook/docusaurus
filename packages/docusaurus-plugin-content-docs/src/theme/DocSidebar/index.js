@@ -56,7 +56,10 @@ function DocSidebar(props) {
       case 'link':
         return (
           <li className="menu__list-item" key={item.label}>
-            <Link className="menu__link" to={item.href}>
+            <Link
+              activeClassName="menu__link--active"
+              className="menu__link"
+              to={item.href}>
               {item.label}
             </Link>
           </li>
