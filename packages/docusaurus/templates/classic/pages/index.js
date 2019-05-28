@@ -10,8 +10,28 @@ import classnames from 'classnames';
 import Layout from '@theme/Layout';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import withBaseUrl from '@docusaurus/withBaseUrl';
-import landingPage from './data';
 import styles from './styles.module.css';
+
+const highlights = [
+  {
+    title: 'Focus on your docs',
+    imageUrl: 'http://docusaurus-2.netlify.com/img/undraw_typewriter.svg',
+    description:
+      "Docusaurus lets you focus on your docs, and we'll do the chores. Now go ahead and dump all your docs into the docs directory.",
+  },
+  {
+    title: 'Supports versioned docs',
+    imageUrl: 'http://docusaurus-2.netlify.com/img/undraw_version_control.svg',
+    description:
+      'Support users on all versions of your project. Document versioning helps you keep documentation in sync with project releases.',
+  },
+  {
+    title: 'Supports i18n',
+    imageUrl: 'http://docusaurus-2.netlify.com/img/undraw_around_the_world.svg',
+    description:
+      'Localization comes pre-configured. Use Crowdin to translate your docs into over 70 languages.',
+  },
+];
 
 /* Note that this is only temporary. TODO: better welcome screen */
 function Home() {
@@ -53,40 +73,21 @@ function Home() {
         </div>
       </header>
       <main>
-        {landingPage.highlights && landingPage.highlights.length && (
+        {highlights && highlights.length && (
           <section className={styles.highlights}>
             <div className="container">
               <div className="row">
-                {landingPage.highlights.map(
-                  ({imageUrl, title, description}, idx) => (
-                    <div
-                      key={`landing-page-highlight-${idx}`}
-                      className={classnames(styles.col4, styles.highlight)}>
-                      <img src={imageUrl} alt={title} />
-                      <h3>{title}</h3>
-                      <p>{description}</p>
-                    </div>
-                  ),
-                )}
+                {highlights.map(({imageUrl, title, description}, idx) => (
+                  <div
+                    key={`landing-page-highlight-${idx}`}
+                    className={classnames(styles.col4, styles.highlight)}>
+                    <img src={imageUrl} alt={title} />
+                    <h3>{title}</h3>
+                    <p>{description}</p>
+                  </div>
+                ))}
               </div>
             </div>
-          </section>
-        )}
-
-        {landingPage.features && landingPage.features.length && (
-          <section className={classnames('container', styles.features)}>
-            {/**
-             * TODO: Include most of the use cases as references
-             * */}
-            {landingPage.features.map(({title, imageUrl, description}, idx) => (
-              <div
-                key={`landing-page-feature-${idx}`}
-                className={classnames(styles.feature)}>
-                <img src={imageUrl} alt={title} />
-                <h3>{title}</h3>
-                <div dangerouslySetInnerHTML={{__html: description}} />
-              </div>
-            ))}
           </section>
         )}
       </main>
