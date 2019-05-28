@@ -1975,6 +1975,10 @@ input::placeholder {
   color: #717171;
 }
 
+.onPageNav .toc-headings>li>a.active {
+    font-weight: 700!important;
+}
+
 .onPageNav ul {
   list-style: none;
 }
