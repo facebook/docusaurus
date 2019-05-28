@@ -10,13 +10,12 @@ module.exports = {
     'Getting Started': [
       'introduction',
       'installation',
-      'project-structure',
+      'creating-pages',
+      'writing-documentation',
       'deployment',
     ],
     Guides: [
       'configuration',
-      'creating-pages',
-      'writing-documentation',
       'assets',
       'markdown',
       'styling-layout',
