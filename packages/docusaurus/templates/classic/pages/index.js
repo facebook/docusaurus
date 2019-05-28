@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import cx from 'classnames';
+import classnames from 'classnames';
 import Layout from '@theme/Layout';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import withBaseUrl from '@docusaurus/withBaseUrl';
@@ -22,7 +22,7 @@ function Home() {
       /** this title will overwrite the one in config */
       title={`Hello from ${siteConfig.title}`}
       description="Description will go into a meta tag in <head />">
-      <header className={cx('hero hero--dark', styles.header)}>
+      <header className={classnames('hero hero--dark', styles.header)}>
         <div className="container">
           <h1 className="hero__title">{siteConfig.title}</h1>
 
@@ -30,7 +30,7 @@ function Home() {
           <div className={styles.buttons}>
             <button
               type="button"
-              className={cx(
+              className={classnames(
                 'button button--outline button--primary button--lg',
                 styles.getStarted,
               )}>
@@ -61,7 +61,7 @@ function Home() {
                   ({imageUrl, title, description}, idx) => (
                     <div
                       key={`landing-page-highlight-${idx}`}
-                      className={cx(styles.col4, styles.highlight)}>
+                      className={classnames(styles.col4, styles.highlight)}>
                       <img src={imageUrl} alt={title} />
                       <h3>{title}</h3>
                       <p>{description}</p>
@@ -74,14 +74,14 @@ function Home() {
         )}
 
         {landingPage.features && landingPage.features.length && (
-          <section className={cx('container', styles.features)}>
+          <section className={classnames('container', styles.features)}>
             {/**
              * TODO: Include most of the use cases as references
              * */}
             {landingPage.features.map(({title, imageUrl, description}, idx) => (
               <div
                 key={`landing-page-feature-${idx}`}
-                className={cx(styles.feature)}>
+                className={classnames(styles.feature)}>
                 <img src={imageUrl} alt={title} />
                 <h3>{title}</h3>
                 <div dangerouslySetInnerHTML={{__html: description}} />
