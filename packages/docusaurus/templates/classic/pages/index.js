@@ -11,7 +11,7 @@ import Layout from '@theme/Layout';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import withBaseUrl from '@docusaurus/withBaseUrl';
 import landingPage from './data';
-import s from './s.module.css';
+import styles from './styles.module.css';
 
 /* Note that this is only temporary. TODO: better welcome screen */
 function Home() {
@@ -22,17 +22,17 @@ function Home() {
       /** this title will overwrite the one in config */
       title={`Hello from ${siteConfig.title}`}
       description="Description will go into a meta tag in <head />">
-      <header className={cx('hero hero--dark', s.header)}>
+      <header className={cx('hero hero--dark', styles.header)}>
         <div className="container">
           <h1 className="hero__title">{siteConfig.title}</h1>
 
           <p className="hero__subtitle">{siteConfig.tagline}</p>
-          <div className={s.buttons}>
+          <div className={styles.buttons}>
             <button
               type="button"
               className={cx(
                 'button button--outline button--primary button--lg',
-                s.getStarted,
+                styles.getStarted,
               )}>
               Get Started
             </button>
@@ -47,21 +47,21 @@ function Home() {
           </div>
           <img
             src={withBaseUrl('img/logo.svg')}
-            className={s.logo}
+            className={styles.logo}
             alt="logo"
           />
         </div>
       </header>
       <main>
         {landingPage.highlights && landingPage.highlights.length && (
-          <section className={s.highlights}>
+          <section className={styles.highlights}>
             <div className="container">
               <div className="row">
                 {landingPage.highlights.map(
                   ({imageUrl, title, description}, idx) => (
                     <div
                       key={`landing-page-highlight-${idx}`}
-                      className={cx(s.col4, s.highlight)}>
+                      className={cx(styles.col4, styles.highlight)}>
                       <img src={imageUrl} alt={title} />
                       <h3>{title}</h3>
                       <p>{description}</p>
@@ -74,14 +74,14 @@ function Home() {
         )}
 
         {landingPage.features && landingPage.features.length && (
-          <section className={cx('container', s.features)}>
+          <section className={cx('container', styles.features)}>
             {/**
              * TODO: Include most of the use cases as references
              * */}
             {landingPage.features.map(({title, imageUrl, description}, idx) => (
               <div
                 key={`landing-page-feature-${idx}`}
-                className={cx(s.feature)}>
+                className={cx(styles.feature)}>
                 <img src={imageUrl} alt={title} />
                 <h3>{title}</h3>
                 <div dangerouslySetInnerHTML={{__html: description}} />
