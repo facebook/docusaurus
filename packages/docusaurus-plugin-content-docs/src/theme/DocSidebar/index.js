@@ -72,12 +72,10 @@ function DocSidebar(props) {
   };
 
   return (
-    <div className="container margin-vert--lg">
-      <div className="menu menu--responsive sidebar">
-        <ul className="menu__list">
-          {thisSidebar.map(item => renderItem(item, {root: true}))}
-        </ul>
-      </div>
+    <div className="menu menu--responsive sidebar">
+      <ul className="menu__list">
+        {thisSidebar.map(item => renderItem(item, {root: true}))}
+      </ul>
     </div>
   );
 }

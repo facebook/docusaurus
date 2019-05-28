@@ -82,7 +82,7 @@ function BlogPostItem(props) {
       {renderPostHeader()}
       <article className="markdown">{children}</article>
       <div className="row margin-vert--lg">
-        <div className="col col-6">
+        <div className="col">
           {tags.length > 0 && (
             <>
               <strong>Tags:</strong>
@@ -97,7 +97,7 @@ function BlogPostItem(props) {
             </>
           )}
         </div>
-        <div className="col col-6 text--right">
+        <div className="col text--right">
           {truncated && (
             <Link to={metadata.permalink}>
               <strong>Read More</strong>
