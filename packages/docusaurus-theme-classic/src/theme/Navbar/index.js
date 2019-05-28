@@ -58,6 +58,7 @@ function Navbar() {
       <div className="navbar__inner">
         <div className="navbar__items">
           <div
+            aria-label="Navigation bar toggle"
             className="navbar__toggle"
             role="button"
             tabIndex={0}
