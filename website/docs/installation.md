@@ -3,17 +3,17 @@ id: installation
 title: Installation
 ---
 
-The easiest way to install Docusaurus is to use the command line tool that help you scaffold a Docusaurus site with some example templates.
+The easiest way to install Docusaurus is to use the command line tool that helps you scaffold a templated Docusaurus site.
 
 ```bash
 npx @docusaurus/core@next init
 ```
 
-It will then prompt you for `name` and `template` for your docusaurus site. We recommend `classic` for the template so that you can quickly get started. 
+It will then prompt you for the `name` and the `template` for your Docusaurus site. We recommend `classic` for the template so that you can quickly get started. 
 
 ## Project Structure
 
-If you choose the classic template and name your site `docusaurus`. There would be some example documentation and blog pages generated
+Assuming you choose the classic template and name your site `docusaurus`, you will see the following files generated under a new directory `docusaurus/`:
 
 ```md
 docusaurus
@@ -43,7 +43,7 @@ cd docusaurus
 yarn start
 ```
 
-A browser window will open up at http://localhost:3000.
+A browser window will open at http://localhost:3000.
 
-Congratulations, you have just made your first Docusaurus site! 
-Click around the pages generated for you to see what's available.
+Congratulations, you have just created your first Docusaurus site! 
+Browse around the site to see what's available.

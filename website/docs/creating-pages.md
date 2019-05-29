@@ -5,7 +5,15 @@ title: Creating Pages
 
 In this section, we will learn about creating a regular page in Docusaurus using React.
 
-1. Go into the `pages` directory and create a file called `hello.js` with the following contents:
+1. Start your development server:
+
+```bash
+yarn start # opens http://localhost:3000
+```
+
+<!-- TODO: What will the user see if pages/ is empty? -->
+
+2. Go to the `pages` directory and create a file called `hello.js` with the following contents:
 
 ```js
 import React from 'react';
@@ -33,12 +41,8 @@ function Hello() {
 export default Hello;
 ```
 
-Make sure your development server is run (if you haven't already)
+Once you save the file, the development server will automatically reload the changes. Now open http://localhost:3000/hello, you can see the hello page you just created. 
 
-```bash
-yarn start # open up http://localhost:3000
-```
+Any file you create under `pages/` directory will be automatically converted to a page. For example, `pages/test.js` will be available at http://localhost:3000/test
 
-If you open http://localhost:3000/hello, you can see that there is the page that we just created. 
-
-React is being used as a templating engine to create a page. You can leverage on the expressibility of React to build rich web content. If you create a new file `pages/test.js`, it will also be available at http://localhost:3000/test
+React is used as a templating engine to create pages. You can leverage on the expressibility of React to build rich web content. 
