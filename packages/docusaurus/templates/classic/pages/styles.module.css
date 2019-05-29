@@ -1,0 +1,103 @@
+:root {
+  --first-screen-main-section-height: calc((100vh - 60px - 60px) * .6);
+  --first-screen-secondary-section-height: calc((100vh - 60px - 60px) * .4);
+}
+
+.header {
+  color: white;
+  padding: 1rem 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.buttons  {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.buttons iframe {
+  margin-left: 1rem;
+}
+.logo {
+  position: absolute;
+  bottom: -80px;
+  left: 20px;
+}
+@media screen and (min-height: 900px) {
+  .buttons {
+    margin-top: 2rem;
+  }
+}
+@media screen and (max-width: 400px) {
+  .header {
+    /* display mainly the header section */
+    height: calc(100vh - 120px);
+  }
+}
+@media screen and (max-width: 799px) {
+.header {
+    /* display just one feature */
+    height: calc(100vh - 310px);
+  }
+}
+@media screen and (min-width: 800px) { 
+  .header {
+    padding: 4rem 0;
+    height: var(--first-screen-main-section-height);
+  }
+}
+
+/** 
+ * Highlights 
+ * - secondary section on the first screen
+ * - leaving a space equal to footer to indicate more content
+ */
+.highlights {
+  background: var(--ifm-color-black-alpha-10);
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.highlight {
+  text-align: center;
+}
+.highlight img {
+  height: 200px;
+  width: 200px;
+}
+.highlight p {
+  text-align: left;
+}
+
+/* TODO: move all of .col4 to infima .col--4 */
+.col4 {
+  padding-left: calc(var(--ifm-spacing-horizontal) / 2);
+  padding-right: calc(var(--ifm-spacing-horizontal) / 2);
+  min-width: calc(800px / 3 - var(--ifm-spacing-horizontal));
+}
+@media screen and (max-width: 519px /* smaller than 2 * min width */) {
+  .col4 {
+    width: 100%;
+  }
+}
+@media screen and (min-width: 520px) and (max-width: 799px) {
+  .highlights {
+    padding-bottom: 2rem;
+  }
+  .col4:first-child {
+    width: 100%;
+  }
+  .col4:not(:first-child) {
+    width: calc(50% - var(--ifm-spacing-horizontal) / 2);
+  }
+}
+@media screen and (min-width: 800px) {
+  .col4 {
+    width: calc(100% / 3 - var(--ifm-spacing-horizontal));
+  }
+.highlights {
+    height: var(--first-screen-secondary-section-height);
+  }
+}

@@ -7,7 +7,7 @@
 
 module.exports = {
   title: 'My site',
-  tagline: 'A website for testing',
+  tagline: 'The tagline of my site',
   url: 'https://your-docusaurus-test-site.com',
   baseUrl: '/',
   favicon: 'img/favicon.ico',
