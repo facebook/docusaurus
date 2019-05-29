@@ -1,14 +1,10 @@
-:root {
-  --first-screen-main-section-height: calc((100vh - 60px - 60px) * .6);
-  --first-screen-secondary-section-height: calc((100vh - 60px - 60px) * .4);
-}
-
 .header {
   color: white;
   padding: 1rem 0;
   text-align: center;
   position: relative;
   overflow: hidden;
+  min-height: 550px; 
 }
 
 .buttons  {
@@ -18,11 +14,6 @@
 }
 .buttons iframe {
   margin-left: 1rem;
-}
-.logo {
-  position: absolute;
-  bottom: -80px;
-  left: 20px;
 }
 @media screen and (min-height: 900px) {
   .buttons {
@@ -37,27 +28,31 @@
 }
 @media screen and (max-width: 799px) {
 .header {
-    /* display just one feature */
+    /* display just one highlight */
     height: calc(100vh - 310px);
   }
 }
-@media screen and (min-width: 800px) { 
+@media screen and (min-width: 800px) and (max-height: 999px) { 
+  /* if the viewport is not tall enough, display just the header */
+  .header {
+    height: calc(100vh - 120px);
+  }
+}
+@media screen and (min-width: 800px) and (min-height: 1000px) { 
+  /* if the viewport is tall enough, split between header and highlights */
   .header {
     padding: 4rem 0;
-    height: var(--first-screen-main-section-height);
+    height: calc((100vh - 60px - 60px) * .6);
   }
 }
 
-/** 
- * Highlights 
- * - secondary section on the first screen
- * - leaving a space equal to footer to indicate more content
- */
+/* secondary section on the first screen */
 .highlights {
   background: var(--ifm-color-black-alpha-10);
   display: flex;
   align-items: center;
   width: 100%;
+  min-height: 350px;
 }
 
 .highlight {
@@ -71,33 +66,13 @@
   text-align: left;
 }
 
-/* TODO: move all of .col4 to infima .col--4 */
-.col4 {
-  padding-left: calc(var(--ifm-spacing-horizontal) / 2);
-  padding-right: calc(var(--ifm-spacing-horizontal) / 2);
-  min-width: calc(800px / 3 - var(--ifm-spacing-horizontal));
-}
-@media screen and (max-width: 519px /* smaller than 2 * min width */) {
-  .col4 {
-    width: 100%;
-  }
-}
-@media screen and (min-width: 520px) and (max-width: 799px) {
+@media screen and (min-width: 520px) and (max-width: 1023px) {
   .highlights {
     padding-bottom: 2rem;
   }
-  .col4:first-child {
-    width: 100%;
-  }
-  .col4:not(:first-child) {
-    width: calc(50% - var(--ifm-spacing-horizontal) / 2);
-  }
 }
-@media screen and (min-width: 800px) {
-  .col4 {
-    width: calc(100% / 3 - var(--ifm-spacing-horizontal));
-  }
-.highlights {
-    height: var(--first-screen-secondary-section-height);
+@media screen and (min-width: 1024px) {
+  .highlights {
+    height: calc((100vh - 60px - 60px) * .4);
   }
 }
