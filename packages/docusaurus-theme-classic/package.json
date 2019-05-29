@@ -9,7 +9,8 @@
   "license": "MIT",
   "dependencies": {
     "classnames": "^2.2.6",
-    "docsearch.js": "^2.5.2"
+    "docsearch.js": "^2.5.2",
+    "react-toggle": "^4.0.2"
   },
   "peerDependencies": {
     "@docusaurus/core": "^2.0.0",
