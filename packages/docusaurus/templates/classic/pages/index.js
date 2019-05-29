@@ -44,8 +44,8 @@ function Home() {
       description="Description will go into a meta tag in <head />">
       <header className={classnames('hero hero--dark', styles.header)}>
         <div className="container">
+          <img src={withBaseUrl('img/logo.svg')} alt="logo" />
           <h1 className="hero__title">{siteConfig.title}</h1>
-
           <p className="hero__subtitle">{siteConfig.tagline}</p>
           <div className={styles.buttons}>
             <button
@@ -65,11 +65,6 @@ function Home() {
               title="GitHub Stars"
             />
           </div>
-          <img
-            src={withBaseUrl('img/logo.svg')}
-            className={styles.logo}
-            alt="logo"
-          />
         </div>
       </header>
       <main>
@@ -80,7 +75,7 @@ function Home() {
                 {highlights.map(({imageUrl, title, description}, idx) => (
                   <div
                     key={`landing-page-highlight-${idx}`}
-                    className={classnames(styles.col4, styles.highlight)}>
+                    className={classnames('col col--4', styles.highlight)}>
                     <img src={imageUrl} alt={title} />
                     <h3>{title}</h3>
                     <p>{description}</p>
