@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/plugin-content-docs",
-  "version": "2.0.0-alpha.16",
+  "version": "2.0.0-alpha.17",
   "description": "Documentation plugin for Docusaurus",
   "main": "src/index.js",
   "publishConfig": {
@@ -8,8 +8,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/mdx-loader": "^2.0.0-alpha.16",
-    "@docusaurus/utils": "^2.0.0-alpha.16",
+    "@docusaurus/mdx-loader": "^2.0.0-alpha.17",
+    "@docusaurus/utils": "^2.0.0-alpha.17",
     "fs-extra": "^7.0.1",
     "globby": "^9.1.0",
     "import-fresh": "^3.0.0",
