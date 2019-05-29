@@ -172,35 +172,19 @@ class Head extends React.Component {
             }}
           />
         )}
-        <script src="https://unpkg.com/smooth-scroll@16.0.3/dist/smooth-scroll.polyfills.min.js" />
         <script src="/js/scrollSpy.js" />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              document.addEventListener('DOMContentLoaded', () => {
-                // Find the active nav item in the sidebar
-                const item = document.getElementsByClassName('navListItemActive')[0];
-                if (!item) {
-                  return;
-                }
-                const bounding = item.getBoundingClientRect();
-                if (
-                  bounding.top >= 0 &&
-                  bounding.bottom <=
-                    (window.innerHeight || document.documentElement.clientHeight)
-                ) {
-                  // Already visible.  Do nothing.
-                } else {
-                  // Not visible.  Scroll sidebar.
-                  item.scrollIntoView({block: 'center', inline: 'nearest'});
-                  // eslint-disable-next-line no-multi-assign
-                  document.body.scrollTop = document.documentElement.scrollTop = 0;
-                }
-              });
+        {this.props.config.smoothScroll && (
+          <script src="https://unpkg.com/smooth-scroll@16.0.3/dist/smooth-scroll.polyfills.min.js" />
+        )}
+        {this.props.config.smoothScroll && (
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
               // smoothscroll
               const scroll = new SmoothScroll('a[href*="#"]');`,
-          }}
-        />
+            }}
+          />
+        )}
         {this.props.config.usePrism && (
           <link
             rel="stylesheet"

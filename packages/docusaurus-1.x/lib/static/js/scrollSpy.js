@@ -5,18 +5,20 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+/* eslint-disable prefer-arrow-callback */
 (function scrollSpy() {
   const OFFSET = 10;
   let timer;
   let headingsCache;
-  const findHeadings = () =>
-    headingsCache || document.querySelectorAll('.toc-headings > li > a');
-  const onScroll = () => {
+  const findHeadings = function findHeadings() {
+    return headingsCache || document.querySelectorAll('.toc-headings > li > a');
+  };
+  const onScroll = function onScroll() {
     if (timer) {
       // throttle
       return;
     }
-    timer = setTimeout(() => {
+    timer = setTimeout(function() {
       timer = null;
       let found = false;
       const headings = findHeadings();
@@ -35,18 +37,36 @@
         }
         if (current) {
           found = true;
-          headings[i].className = 'active';
+          headings[i].classList.add('active');
         } else {
-          headings[i].className = '';
+          headings[i].classList.remove('active');
         }
       }
     }, 100);
   };
   document.addEventListener('scroll', onScroll);
   document.addEventListener('resize', onScroll);
-  document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener('DOMContentLoaded', function() {
     // Cache the headings once the page has fully loaded.
     headingsCache = findHeadings();
     onScroll();
+    // Find the active nav item in the sidebar
+    const item = document.getElementsByClassName('navListItemActive')[0];
+    if (!item) {
+      return;
+    }
+    const bounding = item.getBoundingClientRect();
+    if (
+      bounding.top >= 0 &&
+      bounding.bottom <=
+        (window.innerHeight || document.documentElement.clientHeight)
+    ) {
+      // Already visible.  Do nothing.
+    } else {
+      // Not visible.  Scroll sidebar.
+      item.scrollIntoView({block: 'center', inline: 'nearest'});
+      // eslint-disable-next-line no-multi-assign
+      document.body.scrollTop = document.documentElement.scrollTop = 0;
+    }
   });
 })();
