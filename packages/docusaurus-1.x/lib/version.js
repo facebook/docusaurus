@@ -25,6 +25,7 @@ const fs = require('fs-extra');
 const mkdirp = require('mkdirp');
 const path = require('path');
 
+const headersUtils = require('./server/headersUtils.js');
 const readMetadata = require('./server/readMetadata.js');
 const utils = require('./server/utils.js');
 const versionFallback = require('./server/versionFallback.js');
@@ -80,15 +81,6 @@ if (versions.includes(version)) {
   process.exit(1);
 }
 
-function makeHeader(metadata) {
-  let header = '---\n';
-  Object.keys(metadata).forEach(key => {
-    header += `${key}: ${metadata[key]}\n`;
-  });
-  header += '---\n';
-  return header;
-}
-
 function writeFileAndCreateFolder(file, content, encoding) {
   mkdirp.sync(path.dirname(file));
 
@@ -139,7 +131,7 @@ files.forEach(file => {
 
   writeFileAndCreateFolder(
     targetFile,
-    makeHeader(metadata) + rawContent,
+    headersUtils.makeHeader(metadata) + rawContent,
     'utf8',
   );
 });

@@ -10,19 +10,19 @@
 const chalk = require('chalk');
 const program = require('commander');
 const escapeStringRegexp = require('escape-string-regexp');
-const fs = require('fs');
+const fs = require('fs-extra');
 const headerUtils = require('./server/headerUtils.js');
 
 const CWD = process.cwd();
 
 let currentVersion;
-let newVersion;
+let copyVersion;
 
 program
-  .arguments('<version_name> <new_version_name>')
+  .arguments('<version_name> <copy_version_name>')
   .action((ver1, ver2) => {
     currentVersion = ver1;
-    newVersion = ver2;
+    copyVersion = ver2;
   })
   .parse(process.argv);
 
@@ -30,7 +30,7 @@ program
 // renamed, and new version name
 if (
   typeof currentVersion === 'undefined' ||
-  typeof newVersion === 'undefined'
+  typeof copyVersion === 'undefined'
 ) {
   console.error(
     `${chalk.yellow(
@@ -62,8 +62,8 @@ if (versionIndex < 0) {
   );
   process.exit(1);
 }
-// replace old version with new version in versions.json file
-versions[versionIndex] = newVersion;
+// add new version
+versions.push(copyVersion);
 fs.writeFileSync(
   `${CWD}/versions.json`,
   `${JSON.stringify(versions, null, 2)}\n`,
@@ -72,34 +72,34 @@ fs.writeFileSync(
 // if folder of docs for this version exists, rename folder and rewrite doc
 // headers to use new version
 if (fs.existsSync(`${CWD}/versioned_docs/version-${currentVersion}`)) {
-  fs.renameSync(
+  fs.copySync(
     `${CWD}/versioned_docs/version-${currentVersion}`,
-    `${CWD}/versioned_docs/version-${newVersion}`,
+    `${CWD}/versioned_docs/version-${copyVersion}`,
   );
 
   headerUtils.rewriteHeaders(
-    `${CWD}/versioned_docs/version-${newVersion}`,
+    `${CWD}/versioned_docs/version-${copyVersion}`,
     currentVersion,
-    newVersion,
+    copyVersion,
   );
 }
 
 // if sidebar file exists for this version, rename sidebar file and rewrite
 // doc ids in the file
 const currentSidebarFile = `${CWD}/versioned_sidebars/version-${currentVersion}-sidebars.json`;
-const newSidebarFile = `${CWD}/versioned_sidebars/version-${newVersion}-sidebars.json`;
+const newSidebarFile = `${CWD}/versioned_sidebars/version-${copyVersion}-sidebars.json`;
 if (fs.existsSync(currentSidebarFile)) {
-  fs.renameSync(currentSidebarFile, newSidebarFile);
+  fs.copyFileSync(currentSidebarFile, newSidebarFile);
   let sidebarContent = fs.readFileSync(newSidebarFile, 'utf8');
   sidebarContent = sidebarContent.replace(
     new RegExp(`version-${escapeStringRegexp(currentVersion)}-`, 'g'),
-    `version-${newVersion}-`,
+    `version-${copyVersion}-`,
   );
   fs.writeFileSync(newSidebarFile, sidebarContent);
 }
 
 console.log(
-  `${chalk.green('Successfully renamed version ')}${chalk.yellow(
+  `${chalk.green('Successfully copied version ')}${chalk.yellow(
     currentVersion,
-  )}${chalk.green(' to version ')}${chalk.yellow(newVersion)}\n`,
+  )}${chalk.green(' to version ')}${chalk.yellow(copyVersion)}\n`,
 );

@@ -23,7 +23,8 @@
     "docusaurus-examples": "./lib/copy-examples.js",
     "docusaurus-write-translations": "./lib/write-translations.js",
     "docusaurus-version": "./lib/version.js",
-    "docusaurus-rename-version": "./lib/rename-version.js"
+    "docusaurus-rename-version": "./lib/rename-version.js",
+    "docusaurus-copy-version": "./lib/copy-version.js"
   },
   "dependencies": {
     "@babel/core": "^7.0.0",
