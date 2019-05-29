@@ -28,11 +28,14 @@
 
 .toggle {
   position: relative;
+  display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 10px;
+    height: 10px;
 }
 .toggle::before {
   position: absolute;
-  top: 20px;
-  left: -2px;
 } 
 .toggle--moon::before {
   content: '\1F31C';
