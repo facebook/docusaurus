@@ -66,12 +66,12 @@
   text-align: left;
 }
 
-@media screen and (min-width: 520px) and (max-width: 799px) {
+@media screen and (min-width: 520px) and (max-width: 1023px) {
   .highlights {
     padding-bottom: 2rem;
   }
 }
-@media screen and (min-width: 800px) {
+@media screen and (min-width: 1024px) {
   .highlights {
     height: calc((100vh - 60px - 60px) * .4);
   }
