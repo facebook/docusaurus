@@ -3,29 +3,46 @@ id: installation
 title: Installation
 ---
 
-Docusaurus is a website generator that runs on the React ecosystem that is great for building static content such as project documentation, your personal home page, a portfolio. However, if you're not using advanced features, you don't have to know much React at all as you can use the default templates and write your content in Markdown.
+The easiest way to install Docusaurus is to use the command line tool that helps you scaffold a Docusaurus site skeleton. You can run this command anywhere in a new empty repository or within an existing repository, it will create a new directory containing the scaffolded files.
 
-## Installation
+```bash
+npx @docusaurus/core@next init
+```
 
-TODO
+It will then prompt you for the `name` and the `template` for your Docusaurus site. We recommend the `classic` template so that you can get started quickly. The `classic` template comes with standard documentation, blog and custom pages features.
 
-### New Project
+## Project Structure
 
-TODO: Mention tutorial
+Assuming you chose the classic template and named your site `my-website`, you will see the following files generated under a new directory `my-website/`:
 
-### Adding to an Existing Project
+```sh
+my-website
+├── docs
+│   ├── doc1.md
+│   ├── doc2.md
+│   ├── doc3.md
+│   ├── exampledoc4.md
+│   └── exampledoc5.md
+├── blog
+│   ├── 2019-05-29-hello-world.md
+│   └── 2020-05-30-welcome.md
+├── package.json
+├── pages
+│   └── index.js
+├── sidebars.json
+├── docusaurus.config.js
+├── static
+│   └── img
+└── yarn.lock
+```
 
-TODO
+## Running the Development Server
 
-## Staying Informed
+```bash
+cd my-website
+npm start
+```
 
-TODO
+A browser window will open at http://localhost:3000.
 
-- Twitter
-- Blog
-
-## Something Missing?
-
-If you find issues with the documentation or have suggestions on how to improve the documentation or the project in general, please [file an issue](https://github.com/facebook/docusaurus) for us, or send a tweet mentioning the [@docusaurus](https://twitter.com/docusaurus) Twitter account.
-
-For new feature requests, you can create a post on our [Canny board](/feedback), which is a handy tool for roadmapping and allows for sorting by upvotes, which gives the core team a better indicator of what features are in high demand, as compared to GitHub issues which are harder to triage. Refrain from making a Pull Request for new features (especially large ones) as someone might already be working on it or will be part of our roadmap. Talk to us first!
+Congratulations! You have just created your first Docusaurus site! Browse around the site to see what's available.
