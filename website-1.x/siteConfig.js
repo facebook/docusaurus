@@ -63,7 +63,6 @@ const siteConfig = {
   twitterImage: 'img/docusaurus.png',
   onPageNav: 'separate',
   cleanUrl: true,
-  smoothScroll: true,
   scrollToTop: true,
   scrollToTopOptions: {
     zIndex: 100,

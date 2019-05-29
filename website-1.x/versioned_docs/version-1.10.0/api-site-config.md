@@ -278,12 +278,6 @@ An array of JavaScript sources to load. The values can be either strings or plai
 
 Directories inside which any `CSS` files will not be processed and concatenated to Docusaurus' styles. This is to support static `HTML` pages that may be separate from Docusaurus with completely separate styles.
 
-#### `smoothScroll` [boolean]
-
-Set this to `true` if you want to enable smooth scroll when navigating through TOC sidebar. **[See Image Below]**
-
-![Smooth Scroll](/img/smooth-scroll.gif)
-
 #### `scrollToTop` [boolean]
 
 Set this to `true` if you want to enable the scroll to top button at the bottom of your site.

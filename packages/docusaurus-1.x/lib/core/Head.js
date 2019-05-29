@@ -173,18 +173,6 @@ class Head extends React.Component {
           />
         )}
         <script src="/js/scrollSpy.js" />
-        {this.props.config.smoothScroll && (
-          <script src="https://unpkg.com/smooth-scroll@16.0.3/dist/smooth-scroll.polyfills.min.js" />
-        )}
-        {this.props.config.smoothScroll && (
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `
-              // smoothscroll
-              const scroll = new SmoothScroll('a[href*="#"]');`,
-            }}
-          />
-        )}
         {this.props.config.usePrism && (
           <link
             rel="stylesheet"
