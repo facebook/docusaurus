@@ -1,15 +1,10 @@
-:root {
-  /* leaving a space equal to footer to indicate more content */
-  --first-screen-main-section-height: calc((100vh - 60px - 60px) * .6);
-  --first-screen-secondary-section-height: calc((100vh - 60px - 60px) * .4);
-}
-
 .header {
   color: white;
   padding: 1rem 0;
   text-align: center;
   position: relative;
   overflow: hidden;
+  min-height: 550px; 
 }
 
 .buttons  {
@@ -37,17 +32,21 @@
     height: calc(100vh - 310px);
   }
 }
+@media screen and (min-width: 800px) and (max-height: 999px) { 
+  /* if the viewport is not tall enough, display just the header */
+  .header {
+    height: calc(100vh - 120px);
+  }
+}
 @media screen and (min-width: 800px) and (min-height: 1000px) { 
+  /* if the viewport is tall enough, split between header and highlights */
   .header {
     padding: 4rem 0;
-    height: var(--first-screen-main-section-height);
+    height: calc((100vh - 60px - 60px) * .6);
   }
 }
 
-/** 
- * Highlights 
- * - secondary section on the first screen
- */
+/* secondary section on the first screen */
 .highlights {
   background: var(--ifm-color-black-alpha-10);
   display: flex;
@@ -74,6 +73,6 @@
 }
 @media screen and (min-width: 800px) {
   .highlights {
-    height: var(--first-screen-secondary-section-height);
+    height: calc((100vh - 60px - 60px) * .4);
   }
 }
