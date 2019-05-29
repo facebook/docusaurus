@@ -6,7 +6,7 @@
  */
 
 import React, {useCallback, useState, useEffect} from 'react';
-import classnames from 'classnames';
+import Toggle from 'react-toggle';
 
 import Link from '@docusaurus/Link';
 import Head from '@docusaurus/Head';
@@ -14,7 +14,8 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import withBaseUrl from '@docusaurus/withBaseUrl';
 
 import SearchBar from '@theme/SearchBar';
-import Toggle from '@theme/SunMoonToggle';
+
+import classnames from 'classnames';
 
 import './styles.css';
 
@@ -130,17 +131,17 @@ function Navbar() {
               ))}
           </div>
           <div className="navbar__items navbar__items--right">
+            {links
+              .filter(linkItem => linkItem.position === 'right')
+              .map((linkItem, i) => (
+                <NavLink {...linkItem} key={i} />
+              ))}
             <Toggle
               className="large__viewport"
               aria-label="Dark mode toggle"
               checked={theme === 'dark'}
               onChange={onToggleChange}
             />
-            {links
-              .filter(linkItem => linkItem.position === 'right')
-              .map((linkItem, i) => (
-                <NavLink {...linkItem} key={i} />
-              ))}
             {algolia && (
               <div className="navbar__search" key="search-box">
                 <SearchBar />
