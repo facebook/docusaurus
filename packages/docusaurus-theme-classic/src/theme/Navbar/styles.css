@@ -26,6 +26,21 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+.toggle {
+  position: relative;
+}
+.toggle::before {
+  position: absolute;
+  top: 20px;
+  left: -2px;
+} 
+.toggle--moon::before {
+  content: '\1F31C';
+}
+.toggle--sun::before {
+  content: '\1F31E';
+}
+
 @media screen and (max-width: 996px) {
   .large__viewport {
     display: none !important;

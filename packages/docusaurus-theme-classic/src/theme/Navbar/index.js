@@ -39,6 +39,9 @@ function NavLink(props) {
   );
 }
 
+const Moon = () => <span className="toggle toggle--moon" />;
+const Sun = () => <span className="toggle toggle--sun" />;
+
 function Navbar() {
   const context = useDocusaurusContext();
   const [sidebarShown, setSidebarShown] = useState(false);
@@ -141,6 +144,10 @@ function Navbar() {
               aria-label="Dark mode toggle"
               checked={theme === 'dark'}
               onChange={onToggleChange}
+              icons={{
+                checked: <Moon />,
+                unchecked: <Sun />,
+              }}
             />
             {algolia && (
               <div className="navbar__search" key="search-box">
