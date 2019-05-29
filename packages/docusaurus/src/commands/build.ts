@@ -68,16 +68,21 @@ export async function build(
     ].filter(Boolean) as Plugin[],
   });
 
-  let serverConfig: Configuration = merge(createServerConfig(props), {
-    plugins: [
-      new CopyWebpackPlugin([
-        {
-          from: path.resolve(siteDir, STATIC_DIR_NAME),
-          to: outDir,
-        },
-      ]),
-    ],
-  });
+  let serverConfig: Configuration = createServerConfig(props);
+
+  const staticDir = path.resolve(siteDir, STATIC_DIR_NAME);
+  if (fs.existsSync(staticDir)) {
+    serverConfig = merge(serverConfig, {
+      plugins: [
+        new CopyWebpackPlugin([
+          {
+            from: staticDir,
+            to: outDir,
+          },
+        ]),
+      ],
+    });
+  }
 
   // Plugin lifecycle - configureWebpack
   plugins.forEach(plugin => {
