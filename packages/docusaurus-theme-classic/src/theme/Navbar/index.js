@@ -17,7 +17,7 @@ import SearchBar from '@theme/SearchBar';
 
 import classnames from 'classnames';
 
-import './styles.css';
+import styles from './styles.module.css';
 
 function NavLink(props) {
   return (
@@ -39,8 +39,8 @@ function NavLink(props) {
   );
 }
 
-const Moon = () => <span className="toggle toggle--moon" />;
-const Sun = () => <span className="toggle toggle--sun" />;
+const Moon = () => <span className={classnames(styles.toggle, styles.moon)} />;
+const Sun = () => <span className={classnames(styles.toggle, styles.sun)} />;
 
 function Navbar() {
   const context = useDocusaurusContext();
@@ -140,7 +140,7 @@ function Navbar() {
                 <NavLink {...linkItem} key={i} />
               ))}
             <Toggle
-              className="large__viewport"
+              className={styles.displayOnlyInLargeViewport}
               aria-label="Dark mode toggle"
               checked={theme === 'dark'}
               onChange={onToggleChange}
