@@ -725,7 +725,7 @@ blockquote {
   position: fixed;
   width: 100%;
   z-index: 9999;
-  transform: translate3d(0,0,0);
+  transform: translate3d(0, 0, 0);
 }
 
 @media only screen and (min-width: 1024px) {
@@ -1743,7 +1743,9 @@ input::placeholder {
   width: 100%;
 }
 
-.line1, .line2, .line3 {
+.line1,
+.line2,
+.line3 {
   width: 100%;
   height: 3px;
   background-color: #393939;
@@ -2377,7 +2379,6 @@ input::placeholder {
   padding: 5px 0;
 }
 /* End of Footer */
-
 
 .tabs {
   border-top: 1px solid #cfcfcf;
