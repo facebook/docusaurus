@@ -20,25 +20,33 @@
     }
     timer = setTimeout(function() {
       timer = null;
-      let found = false;
-      const headings = findHeadings();
+      let activeNavFound = false;
+      const headings = findHeadings(); // toc nav anchors
       for (let i = 0; i < headings.length; i++) {
-        // if !found and i is the last element, highlight the last
-        let current = !found;
-        if (!found && i < headings.length - 1) {
+        // headings[i] is current element
+        // if an element is already active, then current element is not active
+        // if no element is already active, then current element is active
+        let currNavActive = !activeNavFound;
+        // if current element is active and it is not the last nav item
+        // this loop decides if current active element should stay active or not
+        if (currNavActive && i < headings.length - 1) {
+          // find the next toc nav item
           const next = headings[i + 1].href.split('#')[1];
+          // find the corresponding page header
           const nextHeader = document.getElementById(next);
+          // get top offset (relative to viewport) of next page header
           const top = nextHeader.getBoundingClientRect().top;
-          // The following tests whether top + scrollTop
-          // (the top of the header) is greater than scrollTop
-          // (where scrollTop = window.pageYOffset, the top of
-          // the window), with OFFSET pixels of slop.
-          current = top > OFFSET;
+          // if next header is offset more than 10 pixels from top (it is far) (top > OFFSET)
+          // set/keep the current nav element to active
+          currNavActive = top > OFFSET;
         }
-        if (current) {
-          found = true;
+
+        if (currNavActive) {
+          // if the current nav element is active
+          activeNavFound = true;
           headings[i].classList.add('active');
         } else {
+          // if the current nav element is not active
           headings[i].classList.remove('active');
         }
       }
@@ -50,23 +58,5 @@
     // Cache the headings once the page has fully loaded.
     headingsCache = findHeadings();
     onScroll();
-    // Find the active nav item in the sidebar
-    const item = document.getElementsByClassName('navListItemActive')[0];
-    if (!item) {
-      return;
-    }
-    const bounding = item.getBoundingClientRect();
-    if (
-      bounding.top >= 0 &&
-      bounding.bottom <=
-        (window.innerHeight || document.documentElement.clientHeight)
-    ) {
-      // Already visible.  Do nothing.
-    } else {
-      // Not visible.  Scroll sidebar.
-      item.scrollIntoView({block: 'center', inline: 'nearest'});
-      // eslint-disable-next-line no-multi-assign
-      document.body.scrollTop = document.documentElement.scrollTop = 0;
-    }
   });
 })();
