@@ -69,7 +69,7 @@
     "static-site-generator-webpack-plugin": "^3.4.2",
     "style-loader": "^0.22.1",
     "terser-webpack-plugin": "^1.2.4",
-    "wait-on": "endiliey/wait-on#master",
+    "wait-file": "^1.0.1",
     "webpack": "^4.30.0",
     "webpack-bundle-analyzer": "^3.1.0",
     "webpack-dev-server": "^3.4.1",
