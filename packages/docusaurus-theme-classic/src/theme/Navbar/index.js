@@ -184,6 +184,10 @@ function Navbar() {
                 aria-label="Dark mode toggle in sidebar"
                 checked={theme === 'dark'}
                 onChange={onToggleChange}
+                icons={{
+                  checked: <Moon />,
+                  unchecked: <Sun />,
+                }}
               />
             )}
           </div>
