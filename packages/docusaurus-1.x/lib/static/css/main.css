@@ -1958,21 +1958,25 @@ input::placeholder {
 }
 
 .onPageNav::-webkit-scrollbar-track {
-  background: #f1f1f1; 
+  background: #f1f1f1;
   border-radius: 10px;
 }
 
 .onPageNav::-webkit-scrollbar-thumb {
-  background: #888; 
+  background: #888;
   border-radius: 10px;
 }
 
 .onPageNav::-webkit-scrollbar-thumb:hover {
-  background: #555; 
+  background: #555;
 }
 
 .onPageNav a {
   color: #717171;
+}
+
+.onPageNav .toc-headings > li > a.active {
+  font-weight: 600;
 }
 
 .onPageNav ul {

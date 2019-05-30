@@ -172,6 +172,7 @@ class Head extends React.Component {
             }}
           />
         )}
+        <script src={`${this.props.config.baseUrl}js/scrollSpy.js`} />
         {this.props.config.usePrism && (
           <link
             rel="stylesheet"
