@@ -11,12 +11,12 @@
   }
 }
 .toggle {
-  position: relative;
-  display: flex;
   align-items: center;
-  justify-content: center;
-  width: 10px;
+  display: flex;
   height: 10px;
+  justify-content: center;
+  position: relative;
+  width: 10px;
 }
 .toggle::before {
   position: absolute;
