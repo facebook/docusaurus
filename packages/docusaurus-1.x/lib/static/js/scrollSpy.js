@@ -22,31 +22,35 @@
       timer = null;
       let activeNavFound = false;
       const headings = findHeadings(); // toc nav anchors
+      /**
+       * On every call, try to find header right after  <-- next header
+       * the one whose content is on the current screen <-- highlight this
+       */
       for (let i = 0; i < headings.length; i++) {
         // headings[i] is current element
         // if an element is already active, then current element is not active
         // if no element is already active, then current element is active
         let currNavActive = !activeNavFound;
-        // if current element is active and it is not the last nav item
-        // this loop decides if current active element should stay active or not
+        /**
+         * Enter the following check up only when an active nav header is not yet found
+         * Then, check the bounding rectangle of the next header
+         * The headers that are scrolled passed will have negative bounding rect top
+         * So the first one with positive bounding rect top will be the nearest next header
+         */
         if (currNavActive && i < headings.length - 1) {
-          // find the next toc nav item
           const next = headings[i + 1].href.split('#')[1];
-          // find the corresponding page header
           const nextHeader = document.getElementById(next);
-          // get top offset (relative to viewport) of next page header
           const top = nextHeader.getBoundingClientRect().top;
-          // if next header is offset more than 10 pixels from top (it is far) (top > OFFSET)
-          // set/keep the current nav element to active
           currNavActive = top > OFFSET;
         }
-
+        /**
+         * Stop searching once a first such header is found,
+         * this makes sure the highlighted header is the most current one
+         */
         if (currNavActive) {
-          // if the current nav element is active
           activeNavFound = true;
           headings[i].classList.add('active');
         } else {
-          // if the current nav element is not active
           headings[i].classList.remove('active');
         }
       }
