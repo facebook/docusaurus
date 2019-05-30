@@ -1,6 +1,6 @@
 {
   "name": "docusaurus-2-website",
-  "version": "2.0.0-alpha.17",
+  "version": "2.0.0-alpha.18",
   "private": true,
   "scripts": {
     "start": "docusaurus start",
@@ -9,8 +9,8 @@
     "deploy": "docusaurus deploy"
   },
   "dependencies": {
-    "@docusaurus/core": "^2.0.0-alpha.17",
-    "@docusaurus/preset-classic": "^2.0.0-alpha.17",
+    "@docusaurus/core": "^2.0.0-alpha.18",
+    "@docusaurus/preset-classic": "^2.0.0-alpha.18",
     "classnames": "^2.2.6",
     "react": "^16.8.4",
     "react-dom": "^16.8.4"
