@@ -1,7 +1,7 @@
 {
   "name": "@docusaurus/core",
   "description": "Easy to Maintain Open Source Documentation Websites",
-  "version": "2.0.0-alpha.17",
+  "version": "2.0.0-alpha.18",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
@@ -33,7 +33,7 @@
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/preset-env": "^7.4.5",
     "@babel/preset-react": "^7.0.0",
-    "@docusaurus/utils": "^2.0.0-alpha.17",
+    "@docusaurus/utils": "^2.0.0-alpha.18",
     "babel-loader": "^8.0.0",
     "babel-plugin-dynamic-import-node": "^2.2.0",
     "cache-loader": "^2.0.1",
@@ -69,7 +69,7 @@
     "static-site-generator-webpack-plugin": "^3.4.2",
     "style-loader": "^0.22.1",
     "terser-webpack-plugin": "^1.2.4",
-    "wait-on": "endiliey/wait-on#master",
+    "wait-file": "^1.0.1",
     "webpack": "^4.30.0",
     "webpack-bundle-analyzer": "^3.1.0",
     "webpack-dev-server": "^3.4.1",
