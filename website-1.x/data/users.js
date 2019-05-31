@@ -373,6 +373,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: "Rawsec's CyberSecurity Inventory",
+    image: 'https://inventory.rawsec.ml/docs/img/logo5_50x40.png',
+    infoLink: 'https://inventory.rawsec.ml/docs/',
+    fbOpenSource: true,
+    pinned: true,
+  },
+  {
     caption: 'React 360',
     image: '/img/users/react-360.svg',
     infoLink: 'https://facebook.github.io/react-360',
