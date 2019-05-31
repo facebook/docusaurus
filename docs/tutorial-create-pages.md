@@ -3,7 +3,7 @@ id: tutorial-create-pages
 title: Create Pages
 ---
 
-In this section, we will learn about creating two new types of pages in Docusaurus, a regular page and a documentation page.
+In this section, we will learn about creating two types of pages in Docusaurus: a regular page and a documentation page.
 
 <img alt="Docusaurus MacBook" src="/img/undraw_docusaurus_tree.svg" class="docImage"/>
 
@@ -70,7 +70,7 @@ I can write content using [GitHub-flavored Markdown syntax](https://github.githu
 * Let's Go
 ```
 
-3. Go to `website/sidebars.json` and add `"doc4"` after `"doc1"`. This ID should be the same one as in the Markdown file above.
+3. The `sidebars.json` is where you specify the order of your documentation pages, so open `website/sidebars.json` and add `"doc4"` after `"doc1"`. This ID should be the same one as in the metadata for the Markdown file above, so if you gave a different ID in Step 2, just make sure to use the same ID in the sidebar file.
 
 ```diff
 {
@@ -88,9 +88,9 @@ I can write content using [GitHub-flavored Markdown syntax](https://github.githu
 }
 ```
 
-4. Kill your web server (<kbd>Cmd</kbd> + <kbd>C</kbd> or <kbd>Ctrl</kbd> + <kbd>C</kbd>) and restart it (with `npm run start`) because a server restart is needed for sidebar changes.
-5. Navigate to http://localhost:3000/docs/doc4.
+4. A server restart is needed to pick up sidebar changes, so kill your dev server (<kbd>Cmd</kbd> + <kbd>C</kbd> or <kbd>Ctrl</kbd> + <kbd>C</kbd>) and restart it with `npm run start`.
+1. Navigate to http://localhost:3000/docs/doc4.
 
-You've created your first documentation page on Docusaurus! The `sidebars.json` is where you specify the order of your documentation pages and in the front matter of the Markdown file is where you provide metadata about that page.
+You've created your first documentation page on Docusaurus!
 
 Learn more about creating docs pages [here](navigation).
