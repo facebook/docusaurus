@@ -373,8 +373,8 @@ module.exports = [
     pinned: false,
   },
   {
-    caption: "Rawsec's CyberSecurity Inventory",
-    image: 'https://inventory.rawsec.ml/docs/img/logo5_50x40.png',
+    caption: 'Rawsec Inventory',
+    image: 'https://rawsec.ml/logo5_dark_355x286.png',
     infoLink: 'https://inventory.rawsec.ml/docs/',
     fbOpenSource: true,
     pinned: true,
