@@ -16,6 +16,5 @@
     overflow-x: hidden;
     overflow-y: auto;
     top: var(--ifm-navbar-height);
-    width: 20rem;
   }
 }
