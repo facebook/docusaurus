@@ -374,10 +374,10 @@ module.exports = [
   },
   {
     caption: 'Rawsec Inventory',
-    image: 'https://rawsec.ml/logo5_dark_355x286.png',
+    image: '/img/users/rawsec.png',
     infoLink: 'https://inventory.rawsec.ml/docs/',
     fbOpenSource: false,
-    pinned: true,
+    pinned: false,
   },
   {
     caption: 'React 360',
