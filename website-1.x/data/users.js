@@ -376,7 +376,7 @@ module.exports = [
     caption: 'Rawsec Inventory',
     image: 'https://rawsec.ml/logo5_dark_355x286.png',
     infoLink: 'https://inventory.rawsec.ml/docs/',
-    fbOpenSource: true,
+    fbOpenSource: false,
     pinned: true,
   },
   {
