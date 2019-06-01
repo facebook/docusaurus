@@ -17,7 +17,7 @@ import SearchBar from '@theme/SearchBar';
 
 import classnames from 'classnames';
 
-import './styles.css';
+import styles from './styles.module.css';
 
 function NavLink(props) {
   return (
@@ -38,6 +38,9 @@ function NavLink(props) {
     </Link>
   );
 }
+
+const Moon = () => <span className={classnames(styles.toggle, styles.moon)} />;
+const Sun = () => <span className={classnames(styles.toggle, styles.sun)} />;
 
 function Navbar() {
   const context = useDocusaurusContext();
@@ -137,10 +140,14 @@ function Navbar() {
                 <NavLink {...linkItem} key={i} />
               ))}
             <Toggle
-              className="large__viewport"
+              className={styles.displayOnlyInLargeViewport}
               aria-label="Dark mode toggle"
               checked={theme === 'dark'}
               onChange={onToggleChange}
+              icons={{
+                checked: <Moon />,
+                unchecked: <Sun />,
+              }}
             />
             {algolia && (
               <div className="navbar__search" key="search-box">
@@ -177,6 +184,10 @@ function Navbar() {
                 aria-label="Dark mode toggle in sidebar"
                 checked={theme === 'dark'}
                 onChange={onToggleChange}
+                icons={{
+                  checked: <Moon />,
+                  unchecked: <Sun />,
+                }}
               />
             )}
           </div>

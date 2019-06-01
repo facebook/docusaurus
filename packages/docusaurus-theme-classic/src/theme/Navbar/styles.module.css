@@ -5,7 +5,36 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-.react-toggle {
+@media screen and (max-width: 996px) {
+  .displayOnlyInLargeViewport {
+    display: none !important;
+  }
+}
+.toggle {
+  align-items: center;
+  display: flex;
+  height: 10px;
+  justify-content: center;
+  position: relative;
+  width: 10px;
+}
+.toggle::before {
+  position: absolute;
+} 
+.moon::before {
+  content: '\1F31C';
+}
+.sun::before {
+  content: '\1F31E';
+}
+
+
+/**
+ * styles for React Toggle
+ * copied over because we want to allow user to swizzle it and modify the css
+ * https://github.com/aaronshaf/react-toggle/blob/master/style.css
+ */
+:global(.react-toggle) {
   touch-action: pan-x;
 
   display: inline-block;
@@ -26,13 +55,7 @@
   -webkit-tap-highlight-color: transparent;
 }
 
-@media screen and (max-width: 996px) {
-  .large__viewport {
-    display: none !important;
-  }
-}
-
-.react-toggle-screenreader-only {
+:global(.react-toggle-screenreader-only) {
   border: 0;
   clip: rect(0 0 0 0);
   height: 1px;
@@ -43,14 +66,14 @@
   width: 1px;
 }
 
-.react-toggle--disabled {
+:global(.react-toggle--disabled) {
   cursor: not-allowed;
   opacity: 0.5;
   -webkit-transition: opacity 0.25s;
   transition: opacity 0.25s;
 }
 
-.react-toggle-track {
+:global(.react-toggle-track) {
   width: 50px;
   height: 24px;
   padding: 0;
@@ -61,7 +84,7 @@
   transition: all 0.2s ease;
 }
 
-.react-toggle-track-check {
+:global(.react-toggle-track-check) {
   position: absolute;
   width: 14px;
   height: 10px;
@@ -77,14 +100,14 @@
   transition: opacity 0.25s ease;
 }
 
-.react-toggle--checked .react-toggle-track-check {
+:global(.react-toggle--checked .react-toggle-track-check) {
   opacity: 1;
   -webkit-transition: opacity 0.25s ease;
   -moz-transition: opacity 0.25s ease;
   transition: opacity 0.25s ease;
 }
 
-.react-toggle-track-x {
+:global(.react-toggle-track-x) {
   position: absolute;
   width: 10px;
   height: 10px;
@@ -100,11 +123,11 @@
   transition: opacity 0.25s ease;
 }
 
-.react-toggle--checked .react-toggle-track-x {
+:global(.react-toggle--checked .react-toggle-track-x) {
   opacity: 0;
 }
 
-.react-toggle-thumb {
+:global(.react-toggle-thumb) {
   transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1) 0ms;
   position: absolute;
   top: 1px;
@@ -124,18 +147,18 @@
   transition: all 0.25s ease;
 }
 
-.react-toggle--checked .react-toggle-thumb {
+:global(.react-toggle--checked .react-toggle-thumb) {
   left: 27px;
   border-color: #19ab27;
 }
 
-.react-toggle--focus .react-toggle-thumb {
+:global(.react-toggle--focus .react-toggle-thumb) {
   -webkit-box-shadow: 0px 0px 3px 2px #0099e0;
   -moz-box-shadow: 0px 0px 3px 2px #0099e0;
   box-shadow: 0px 0px 2px 3px #0099e0;
 }
 
-.react-toggle:active:not(.react-toggle--disabled) .react-toggle-thumb {
+:global(.react-toggle:active:not(.react-toggle--disabled) .react-toggle-thumb) {
   -webkit-box-shadow: 0px 0px 5px 5px #0099e0;
   -moz-box-shadow: 0px 0px 5px 5px #0099e0;
   box-shadow: 0px 0px 5px 5px #0099e0;
