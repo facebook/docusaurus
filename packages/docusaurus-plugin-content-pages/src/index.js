@@ -49,23 +49,15 @@ class DocusaurusPluginContentPages {
       cwd: pagesDir,
     });
 
-    // Prepare metadata container.
-    const pagesMetadatas = [];
-
-    await Promise.all(
-      pagesFiles.map(async relativeSource => {
-        const source = path.join(pagesDir, relativeSource);
-        const pathName = encodePath(fileToPath(relativeSource));
-        // Default Language.
-        const metadata = {
-          permalink: pathName.replace(/^\//, baseUrl),
-          source,
-        };
-        pagesMetadatas.push(metadata);
-      }),
-    );
-
-    return pagesMetadatas;
+    return pagesFiles.map(relativeSource => {
+      const source = path.join(pagesDir, relativeSource);
+      const pathName = encodePath(fileToPath(relativeSource));
+      // Default Language.
+      return {
+        permalink: pathName.replace(/^\//, baseUrl),
+        source,
+      };
+    });
   }
 
   async contentLoaded({content, actions}) {
