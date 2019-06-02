@@ -24,11 +24,9 @@
   "devDependencies": {
     "@babel/core": "^7.4.5",
     "@babel/preset-typescript": "^7.3.3",
-    "@types/chalk": "^2.2.0",
     "@types/escape-string-regexp": "^1.0.0",
     "@types/express": "^4.16.1",
     "@types/fs-extra": "7.0.0",
-    "@types/globby": "9.1.0",
     "@types/jest": "^24.0.13",
     "@types/lodash": "^4.14.129",
     "@types/node": "^12.0.2",

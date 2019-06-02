@@ -48,7 +48,7 @@
     "envinfo": "^7.2.0",
     "express": "^4.16.4",
     "fs-extra": "^7.0.0",
-    "globby": "^9.1.0",
+    "globby": "^9.2.0",
     "html-webpack-plugin": "^4.0.0-beta.5",
     "import-fresh": "^3.0.0",
     "inquirer": "^6.3.1",

@@ -14,7 +14,7 @@
     "docusaurus-init": "initialize.js"
   },
   "dependencies": {
-    "chalk": "^2.1.0",
+    "chalk": "^2.4.2",
     "shelljs": "^0.8.3"
   }
 }
