@@ -2,7 +2,7 @@
 
 ## 2.0.0-alpha.19
 
-- Changed plugin definitions from classes to functions.
+- Changed plugin definitions from classes to functions. Refer to the new plugin docs.
 - Added sun and moon emoji to the dark mode toggle.
 - Add a sensible default for browserslist config.
 
