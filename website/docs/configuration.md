@@ -3,77 +3,100 @@ id: configuration
 title: Configuration
 ---
 
-Docusaurus asks for only a few fields to configure your site.
+<!-- Goal: To explain the intention and best practices for configurations -->
 
-## `docusaurus.config.js`
+Docusaurus has a unique take on configurations. We encourage you to congregate information of your site into one place. We will guard the fields of this file, and facilitate making this data object accessible across your site.
 
-When you create your site using `docusaurus init`, the `docusaurus.config.js` file is initialized alongside the template.
+Keeping a well-maintained `docusaurus.config.js` helps you, your collaborators, and your open source contributors be able to focus on docs while having certain fields easy to customize.
 
-### Configurable fields
+## What goes into `docusaurus.config.js`?
 
-`docusaurus.config.js` contains configurable fields for:
+You should not have to write your `docusaurus.config.js` from scratch even if you are developing your site. All templates should come with a `docusaurus.config.js` at root that includes the necessary fields for the initial site.
 
-- Meta data of your site
-  - `title: string`
-  - `tagline: string`
-  - `favicon: string` relative url to your site's logo
-- Deployment fields for GitHub Pages, see [deployment configurations](/docs/deployment#docusaurusconfigjs-settings)
-  <!-- TODO: explain that theme configurations will be consumed by the theme, and link to theme doc -->
-- Theme configurations, see [theme configurations](#)
-  <!-- TODO: explain that preset configurations will be used to define presets of the site, and link to doc -->
-- Preset configurations, see [preset configurations](#)
+However, it can be helpful if you have a high-level understanding of how the configurations are designed and implemented.
+
+For reference to each of the configurable fields, you may refer to the API reference of [docusaurus.config.js](/docs/docusaurus.config.js).
+
+The configurations can be categorized into:
+
+- [Site meta](#site-meta)
+- [Deployment configurations](#deployment-configurations)
+- [Theme configurations, plugins, and presets](#theme-plugins-and-presets-configurations)
+- [Custom configurations](#custom-configurations)
+
+### Site meta
+
+Site meta contains the essential meta information such as titles and `favicon`.
+
+They are used by your site app in a number of places such as your site's title and headings, browser tab icon, and SEO.
+
+- [title](/docs/docusaurus.config.js#title)
+- [tagline](/docs/docusaurus.config.js#tagline)
+- [favicon](/docs/docusaurus.config.js#favicon)
+
+### Deployment configurations
+
+Deployment configurations are used when you deploy your site with Docusaurus' deploy command. The related fields are:
+
+<!-- TODO: if we use monospace for the field names, they no longer look like a link -->
+
+<!-- TODO: currently these fields are only used in GH Pages, what about other deployment services such as Netlify -->
+
+- [url](/docs/docusaurus.config.js#url)
+- [baseUrl](/docs/docusaurus.config.js#baseUrl)
+- [organizationName](/docs/docusaurus.config.js#organizationname)
+- [projectName](/docs/docusaurus.config.js#projectName)
+
+You may also check the doc for [Deployment](/docs/deployment) for more information about the fields.
+
+### Theme, plugins, and presets configurations
+
+<!-- TODO: More explanation from these docs, respectively -->
+
+- [themeConfig](/docs/docusaurus.config.js#themeConfig)
+- [presets](/docs/docusaurus.config.js#presets)
+- [plugins](/docs/docusaurus.config.js#plugins)
+
+### Custom configurations
+
+You may have your own custom fields. And `docusaurus.config.js` will be aware of the fields and guard your configuration from unknown fields.
+
+To add a custom field, add the field name to `customFields`. Then, you may use the field for your customization data:
 
 ```js
+// docusaurus.config.js
 module.exports = {
-  // Site meta
-  title: 'Docusaurus',
-  tagline: '⚡️ Painless static site generator',
-  favicon: 'img/docusaurus.ico',
-
-  // Deployment fields
-  organizationName: 'facebook',
-  projectName: 'docusaurus',
-  baseUrl: '/',
-  url: 'https://v2.docusaurus.io',
-
-  themeConfig: {
-    // theme specific configurations
+  customFields: ['seo'],
+  seo: {
+    image: '',
+    keywords: [],
   },
-  presets: [
-    // presets configurations
-  ],
 };
 ```
 
-**Note**: `docusaurus.config.js` is not to be extended.
+- [customFields](/docs/docusaurus.config.js#customFields)
 
-(Why?)
+## Accessing configuration from your site
 
-<!-- TODO: Explain why here -->
-
-Docusaurus will guard the config file at build time. Including unknown fields will result in build time error:
-
-```bash
-Error: The field(s) 'unknownField' are not recognized in docusaurus.config.js
-```
-
-### Accessing configured data from your site
-
-The exported data object from `docusaurus.config.js` is consumed at build time and will be accessible via context as `siteConfig` in any theme components.
+Your configuration object will be made available to all the components of your site. And you may access them via context as `siteConfig`:
 
 ```jsx
 import React from 'react';
+import Helmet from 'react-helmet';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 const Layout = props => {
   const context = useDocusaurusContext();
   const {siteConfig = {}} = context;
-  const {title, tagline} = siteConfig;
+  const {title, tagline, seo} = siteConfig;
   return (
     <React.Fragment>
+      <Helmet {...seo} />
       <h1>{title}</h1>
       <h2>{tagline}</h2>
     </React.Fragment>
   );
 };
 ```
+
+## Customized configurations
