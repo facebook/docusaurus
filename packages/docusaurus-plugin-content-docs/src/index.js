@@ -23,6 +23,9 @@ const DEFAULT_OPTIONS = {
   // TODO: Settle themeing.
   docLayoutComponent: '@theme/DocPage',
   docItemComponent: '@theme/DocItem',
+  remarkPlugins: [],
+  rehypePlugins: [],
+  prismTheme: '',
 };
 
 class DocusaurusPluginContentDocs {
@@ -161,6 +164,7 @@ class DocusaurusPluginContentDocs {
   }
 
   configureWebpack(config, isServer, {getBabelLoader, getCacheLoader}) {
+    const {rehypePlugins, remarkPlugins, prismTheme} = this.options;
     return {
       module: {
         rules: [
@@ -170,7 +174,14 @@ class DocusaurusPluginContentDocs {
             use: [
               getCacheLoader(isServer),
               getBabelLoader(isServer),
-              '@docusaurus/mdx-loader',
+              {
+                loader: '@docusaurus/mdx-loader',
+                options: {
+                  remarkPlugins,
+                  rehypePlugins,
+                  prismTheme,
+                },
+              },
               {
                 loader: path.resolve(__dirname, './markdown/index.js'),
                 options: {

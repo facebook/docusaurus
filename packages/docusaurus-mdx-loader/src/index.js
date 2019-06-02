@@ -25,9 +25,20 @@ module.exports = async function(fileString) {
   const callback = this.async();
 
   const {data, content} = matter(fileString);
-  const options = Object.assign(DEFAULT_OPTIONS, getOptions(this), {
+  const reqOptions = getOptions(this) || {};
+  const options = {
+    ...reqOptions,
+    remarkPlugins: [
+      ...DEFAULT_OPTIONS.remarkPlugins,
+      ...(reqOptions.remarkPlugins || []),
+    ],
+    rehypePlugins: [
+      ...DEFAULT_OPTIONS.rehypePlugins,
+      ...(reqOptions.rehypePlugins || []),
+    ],
+    prismTheme: reqOptions.prismTheme || DEFAULT_OPTIONS.prismTheme,
     filepath: this.resourcePath,
-  });
+  };
   let result;
 
   try {

@@ -29,6 +29,9 @@ const DEFAULT_OPTIONS = {
   blogPostComponent: '@theme/BlogPostPage',
   blogTagsListComponent: '@theme/BlogTagsListPage',
   blogTagsPostsComponent: '@theme/BlogTagsPostsPage',
+  remarkPlugins: [],
+  rehypePlugins: [],
+  prismTheme: '',
 };
 
 class DocusaurusPluginContentBlog {
@@ -342,6 +345,7 @@ class DocusaurusPluginContentBlog {
   }
 
   configureWebpack(config, isServer, {getBabelLoader, getCacheLoader}) {
+    const {rehypePlugins, remarkPlugins, prismTheme} = this.options;
     return {
       module: {
         rules: [
@@ -351,7 +355,14 @@ class DocusaurusPluginContentBlog {
             use: [
               getCacheLoader(isServer),
               getBabelLoader(isServer),
-              '@docusaurus/mdx-loader',
+              {
+                loader: '@docusaurus/mdx-loader',
+                options: {
+                  remarkPlugins,
+                  rehypePlugins,
+                  prismTheme,
+                },
+              },
               {
                 loader: path.resolve(__dirname, './markdownLoader.js'),
               },

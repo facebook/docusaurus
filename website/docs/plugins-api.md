@@ -15,7 +15,7 @@ yarn add docusaurus-plugin-name
 
 Then you add it in your site's `docusaurus.config.js` plugin arrays:
 
-```js
+```javascript
 module.exports = {
   plugins: [
     {
@@ -35,7 +35,7 @@ module.exports = {
 
 Docusaurus can also load plugins from your local folder, you can do something like below:
 
-```js
+```javascript
 module.exports = {
   plugins: [
     {
@@ -49,7 +49,7 @@ module.exports = {
 
 For examples, please refer to several official plugins created.
 
-```js
+```javascript
 // A JavaScript class
 class DocusaurusPlugin {
   constructor(context, options) {
