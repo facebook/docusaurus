@@ -119,7 +119,7 @@ ${Object.keys(registry)
     'routesChunkNames.json',
     JSON.stringify(routesChunkNames, null, 2),
   );
-  
+
   const genRoutes = generate(generatedFilesDir, 'routes.js', routesConfig);
 
   await Promise.all([
