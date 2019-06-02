@@ -6,7 +6,7 @@
  */
 
 import path from 'path';
-import DocusaurusPluginContentDocs from '../index';
+import pluginContentDocs from '../index';
 
 describe('loadDocs', () => {
   test('simple website', async () => {
@@ -17,7 +17,7 @@ describe('loadDocs', () => {
       url: 'https://docusaurus.io',
     };
     const sidebarPath = path.join(siteDir, 'sidebars.json');
-    const plugin = new DocusaurusPluginContentDocs(
+    const plugin = pluginContentDocs(
       {
         siteDir,
         siteConfig,
@@ -30,17 +30,33 @@ describe('loadDocs', () => {
     const {docs: docsMetadata} = await plugin.loadContent();
     const docsDir = plugin.contentPath;
 
-    expect(docsMetadata.hello).toEqual({
-      category: 'Guides',
-      id: 'hello',
-      permalink: '/docs/hello',
-      previous: 'foo/baz',
-      previous_title: 'baz',
-      sidebar: 'docs',
-      source: path.join(docsDir, 'hello.md'),
-      title: 'Hello, World !',
-      description: `Hi, Endilie here :)`,
-    });
+    expect(docsMetadata.hello).toMatchInlineSnapshot(
+      {
+        category: 'Guides',
+        id: 'hello',
+        permalink: '/docs/hello',
+        previous: 'foo/baz',
+        previous_title: 'baz',
+        sidebar: 'docs',
+        source: path.join(docsDir, 'hello.md'),
+        title: 'Hello, World !',
+        description: `Hi, Endilie here :)`,
+      },
+      `
+      Object {
+        "category": "Guides",
+        "description": "Hi, Endilie here :)",
+        "id": "hello",
+        "permalink": "/docs/hello",
+        "previous": "foo/baz",
+        "previous_title": "baz",
+        "sidebar": "docs",
+        "source": "/Users/yangshun/Developer/docusaurus-users/Docusaurus/packages/docusaurus-plugin-content-docs/src/__tests__/__fixtures__/website/docs/hello.md",
+        "subCategory": undefined,
+        "title": "Hello, World !",
+      }
+    `,
+    );
     expect(docsMetadata['foo/bar']).toEqual({
       category: 'Test',
       id: 'foo/bar',

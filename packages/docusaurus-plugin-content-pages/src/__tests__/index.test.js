@@ -7,7 +7,7 @@
 
 import path from 'path';
 
-import DocusaurusPluginContentPages from '../index';
+import pluginContentPages from '../index';
 
 describe('docusaurus-plugin-content-pages', () => {
   test('simple pages', async () => {
@@ -17,7 +17,7 @@ describe('docusaurus-plugin-content-pages', () => {
       url: 'https://docusaurus.io',
     };
     const siteDir = path.join(__dirname, '__fixtures__', 'website');
-    const plugin = new DocusaurusPluginContentPages({
+    const plugin = pluginContentPages({
       siteDir,
       siteConfig,
     });
