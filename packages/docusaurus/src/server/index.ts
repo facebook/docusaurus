@@ -42,7 +42,7 @@ export async function load(
   );
 
   const siteConfig: DocusaurusConfig = loadConfig(siteDir);
-  await generate(
+  const genSiteConfig = generate(
     generatedFilesDir,
     CONFIG_FILE_NAME,
     `export default ${JSON.stringify(siteConfig, null, 2)};`,
@@ -99,7 +99,7 @@ export async function load(
     routesPaths,
   } = await loadRoutes(pluginsRouteConfigs);
 
-  await generate(
+  const genRegistry = generate(
     generatedFilesDir,
     'registry.js',
     `export default {
@@ -114,13 +114,20 @@ ${Object.keys(registry)
   .join('\n')}};\n`,
   );
 
-  await generate(
+  const genRoutesChunkNames = generate(
     generatedFilesDir,
     'routesChunkNames.json',
     JSON.stringify(routesChunkNames, null, 2),
   );
 
-  await generate(generatedFilesDir, 'routes.js', routesConfig);
+  const genRoutes = generate(generatedFilesDir, 'routes.js', routesConfig);
+
+  await Promise.all([
+    genSiteConfig,
+    genRegistry,
+    genRoutesChunkNames,
+    genRoutes,
+  ]);
 
   const props = {
     siteConfig,
