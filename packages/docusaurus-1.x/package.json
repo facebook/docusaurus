@@ -37,7 +37,7 @@
     "@babel/types": "^7.1.2",
     "autoprefixer": "^9.1.5",
     "babylon": "^6.17.4",
-    "chalk": "^2.1.0",
+    "chalk": "^2.4.2",
     "classnames": "^2.2.6",
     "color": "^2.0.1",
     "commander": "^2.18.0",
