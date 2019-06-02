@@ -3,7 +3,7 @@ id: plugins-api
 title: Plugins
 ---
 
-Plugins are one of the best ways to add functionality to our Docusaurus. Plugins allow third-party developers to extend or modify the default functionality that Docusaurus provides. 
+Plugins are one of the best ways to add functionality to our Docusaurus. Plugins allow third-party developers to extend or modify the default functionality that Docusaurus provides.
 
 ## Installing a Plugin
 
@@ -19,11 +19,11 @@ Then you add it in your site's `docusaurus.config.js` plugin arrays:
 module.exports = {
   plugins: [
     {
-      name: '@docusaurus/plugin-content-pages',
+      module: '@docusaurus/plugin-content-pages',
     },
     {
       // Plugin with options
-      name: '@docusaurus/plugin-content-blog',
+      module: '@docusaurus/plugin-content-blog',
       options: {
         include: ['*.md', '*.mdx'],
         path: 'blog',
@@ -33,80 +33,83 @@ module.exports = {
 };
 ```
 
-Docusaurus can also load plugins from your local folder, you can do something like below:
+Docusaurus can also load plugins from your local directory, you can do something like the following:
 
 ```js
+const path = require('path');
+
 module.exports = {
   plugins: [
     {
-      path: '/path/to/docusaurus-local-plugin',
+      module: path.resolve(__dirname, '/path/to/docusaurus-local-plugin'),
     },
   ],
-}
+};
 ```
 
-## Basic Plugin Architecture
+## Basic Plugin Definition
+
+Plugins are modules which export a function that takes in the context, options and returns a plain JavaScript object that has some properties defined.
 
 For examples, please refer to several official plugins created.
 
 ```js
-// A JavaScript class
-class DocusaurusPlugin {
-  constructor(context, options) {
-    // Initialization hook
-      
-    // options are the plugin options set on config file
-    this.options = {...options};
-    
-    // context are provided from docusaurus. Example: siteConfig can be accessed from context
-    this.context = context;
-  }
+const DEFAULT_OPTIONS = {
+  // Some defaults.
+};
 
-  getName() {
-    // plugin name identifier
-  }
+// A JavaScript function that returns an object.
+// `context` is provided by Docusaurus. Example: siteConfig can be accessed from context.
+// `opts` is the user-defined options.
+module.exports = function(context, opts) {
+  // Merge defaults with user-defined options.
+  const options = {...DEFAULT_OPTIONS, ...options};
 
+  return {
+    // Namespace used for directories to cache the intermediate data for each plugin.
+    name: 'docusaurus-cool-plugin',
 
-  async loadContent()) {
-    // The loadContent hook is executed after siteConfig and env has been loaded
-    // You can return a JavaScript object that will be passed to contentLoaded hook
-  }
+    async loadContent() {
+      // The loadContent hook is executed after siteConfig and env has been loaded
+      // You can return a JavaScript object that will be passed to contentLoaded hook
+    },
 
-  async contentLoaded({content, actions}) {
-    // contentLoaded hook is done after loadContent hook is done
-    // actions are set of functional API provided by Docusaurus. e.g: addRoute
-  }
+    async contentLoaded({content, actions}) {
+      // contentLoaded hook is done after loadContent hook is done
+      // actions are set of functional API provided by Docusaurus. e.g: addRoute
+    },
 
-  async postBuild(props) {
-    // after docusaurus <build> finish
-  }
+    async postBuild(props) {
+      // after docusaurus <build> finish
+    },
 
-  // TODO
-  async postStart(props) {
-    // docusaurus <start> finish
-  }
+    // TODO
+    async postStart(props) {
+      // docusaurus <start> finish
+    },
 
-  // TODO
-  afterDevServer(app, server) {
-    // https://webpack.js.org/configuration/dev-server/#devserverbefore
-  }
+    // TODO
+    afterDevServer(app, server) {
+      // https://webpack.js.org/configuration/dev-server/#devserverbefore
+    },
 
-  // TODO
-  beforeDevServer(app, server) {
-    // https://webpack.js.org/configuration/dev-server/#devserverafter
+    // TODO
+    beforeDevServer(app, server) {
+      // https://webpack.js.org/configuration/dev-server/#devserverafter
+    },
 
-  }
+    configureWebpack(config, isServer) {
+      // Modify internal webpack config. If returned value is an Object, it
+      // will be merged into the final config using webpack-merge;
+      // If the returned value is a function, it will receive the config as the 1st argument and an isServer flag as the 2nd argument.
+    },
 
-  configureWebpack(config, isServer) {
-    // Modify internal webpack config. If returned value is an Object, it will be merged into the final config using webpack-merge; If returned value is a function, it will receive the config as the 1st argument and an isServer flag as the 2nd argument.
-  }
-
-  getPathsToWatch() {
-    // path to watch
-  }
-}
+    getPathsToWatch() {
+      // Path to watch
+    },
+  };
+};
 ```
-
 
 #### References
 
