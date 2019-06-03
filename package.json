@@ -13,7 +13,7 @@
     "build": "yarn tsc && yarn build:v2",
     "build:v1": "yarn workspace docusaurus-1-website build",
     "build:v2": "yarn workspace docusaurus-2-website build",
-    "postinstall": "yarn tsc",
+    "postinstall": "yarn tsc && opencollective-postinstall",
     "prettier": "prettier --config .prettierrc --write \"**/*.{js,ts}\"",
     "prettier:diff": "prettier --config .prettierrc --list-different \"**/*.{js,ts}\"",
     "lint": "eslint --cache \"**/*.js\"",
@@ -73,5 +73,11 @@
     "hooks": {
       "pre-commit": "lint-staged"
     }
+  },
+  "dependencies": {
+    "opencollective-postinstall": "^2.0.2"
+  },
+  "collective": {
+    "url": "https://opencollective.com/docusaurus"
   }
 }
