@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {PluginConfig} from './plugins';
+import {PluginConfig, Plugin} from './plugins';
 
 import path from 'path';
 import _ from 'lodash';
@@ -33,7 +33,7 @@ export interface LoadContext {
 }
 export interface Props extends LoadContext {
   routesPaths: string[];
-  plugins: any[];
+  plugins: Plugin<any>[];
 }
 
 export async function load(

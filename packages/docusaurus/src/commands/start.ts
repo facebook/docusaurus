@@ -59,7 +59,7 @@ export async function start(
   };
 
   const pluginPaths = _.compact(
-    _.flatten(
+    _.flatten<string | undefined>(
       plugins.map(plugin => plugin.getPathsToWatch && plugin.getPathsToWatch()),
     ),
   ).map(normalizeToSiteDir);

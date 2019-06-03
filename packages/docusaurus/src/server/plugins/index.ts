@@ -6,7 +6,7 @@
  */
 
 import {DocusaurusConfig} from '../config';
-import {LoadContext} from '..';
+import {LoadContext, Props} from '..';
 import {RouteConfig} from '../routes';
 
 import fs from 'fs-extra';
@@ -21,8 +21,8 @@ export interface Plugin<T> {
     content: T,
     actions: DocusaurusPluginContentLoadedActions,
   }): void;
-  postBuild?(props: any): void;
-  postStart?(props: any): void;
+  postBuild?(props: Props): void;
+  postStart?(props: Props): void;
   configureWebpack?(config: DocusaurusConfig, isServer: boolean);
   getThemePath?(): string;
   getPathsToWatch?(): string[];
