@@ -13,7 +13,7 @@ import {version as cacheLoaderVersion} from 'cache-loader/package.json';
 
 // Utility method to get style loaders
 export function getStyleLoaders(
-  isServer: Boolean,
+  isServer: boolean,
   cssOptions: {
     [key: string]: any;
   } = {},
@@ -43,7 +43,7 @@ export function getStyleLoaders(
   return loaders;
 }
 
-export function getCacheLoader(isServer: Boolean, cacheOptions?: {}): Loader {
+export function getCacheLoader(isServer: boolean, cacheOptions?: {}): Loader {
   return {
     loader: require.resolve('cache-loader'),
     options: Object.assign(
@@ -55,7 +55,7 @@ export function getCacheLoader(isServer: Boolean, cacheOptions?: {}): Loader {
   };
 }
 
-export function getBabelLoader(isServer: Boolean, babelOptions?: {}): Loader {
+export function getBabelLoader(isServer: boolean, babelOptions?: {}): Loader {
   return {
     loader: require.resolve('babel-loader'),
     options: Object.assign(
@@ -76,13 +76,13 @@ export function getBabelLoader(isServer: Boolean, babelOptions?: {}): Loader {
  * Helper function to modify webpack config
  * @param {Object | Function} configureWebpack a webpack config or a function to modify config
  * @param {Object} config initial webpack config
- * @param {Boolean} isServer indicates if this is a server webpack configuration
+ * @param {boolean} isServer indicates if this is a server webpack configuration
  * @returns {Object} final/ modified webpack config
  */
 export function applyConfigureWebpack(
   configureWebpack: any,
   config: Configuration,
-  isServer: Boolean,
+  isServer: boolean,
 ): Configuration {
   if (typeof configureWebpack === 'object') {
     return merge(config, configureWebpack);
