@@ -134,7 +134,7 @@ ${Object.keys(registry)
     genRoutes,
   ]);
 
-  const props = {
+  const props: Props = {
     siteConfig,
     siteDir,
     outDir,

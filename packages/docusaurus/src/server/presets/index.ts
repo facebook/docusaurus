@@ -16,15 +16,17 @@ export interface Preset {
   themes?: PluginConfig[];
 }
 
+export type PresetConfig = [string, Object] | string;
+
 export function loadPresets(
   context: LoadContext,
 ): {
   plugins: PluginConfig[];
   themes: PluginConfig[];
 } {
-  const presets: any[] = context.siteConfig.presets || [];
-  const plugins: (PluginConfig[] | undefined)[] = [];
-  const themes: (PluginConfig[] | undefined)[] = [];
+  const presets: PresetConfig[] = context.siteConfig.presets || [];
+  const unflatPlugins: (PluginConfig[])[] = [];
+  const unflatThemes: (PluginConfig[])[] = [];
 
   presets.forEach(presetItem => {
     let presetModuleImport;
@@ -38,12 +40,12 @@ export function loadPresets(
     const presetModule = importFresh(presetModuleImport);
     const preset: Preset = presetModule(context, presetOptions);
 
-    plugins.push(preset.plugins);
-    themes.push(preset.themes);
+    preset.plugins && unflatPlugins.push(preset.plugins);
+    preset.themes && unflatThemes.push(preset.themes);
   });
 
   return {
-    plugins: _.compact(_.flatten<PluginConfig | undefined>(plugins)),
-    themes: _.compact(_.flatten<PluginConfig | undefined>(themes)),
+    plugins: _.compact(_.flatten<PluginConfig>(unflatPlugins)),
+    themes: _.compact(_.flatten<PluginConfig>(unflatThemes)),
   };
 }

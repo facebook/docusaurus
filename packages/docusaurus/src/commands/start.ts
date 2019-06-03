@@ -58,7 +58,7 @@ export async function start(
     return filepath;
   };
 
-  const pluginPaths = _.compact(
+  const pluginPaths: string[] = _.compact(
     _.flatten<string | undefined>(
       plugins.map(plugin => plugin.getPathsToWatch && plugin.getPathsToWatch()),
     ),

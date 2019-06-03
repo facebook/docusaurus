@@ -12,8 +12,9 @@ module.exports = {
   projectName: 'hello',
   baseUrl: '/',
   useLessField: 'what',
-  superman: 'lol',
-  admin: 'endi',
-  customFields: ['admin', 'superman'],
+  customFields: {
+    admin: 'endi',
+    superman: 'lol',
+  },
   url: 'https://docusaurus.io',
 };

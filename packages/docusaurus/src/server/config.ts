@@ -12,6 +12,7 @@ import _ from 'lodash';
 import importFresh from 'import-fresh';
 import path from 'path';
 import {CONFIG_FILE_NAME} from '../constants';
+import {PresetConfig} from './presets';
 
 export interface DocusaurusConfig {
   baseUrl: string;
@@ -21,14 +22,16 @@ export interface DocusaurusConfig {
   url: string;
   organizationName?: string;
   projectName?: string;
-  customFields?: string[];
   githubHost?: string;
   plugins?: PluginConfig[];
-  presets?: any[];
+  themes?: PluginConfig[];
+  presets?: PresetConfig[];
   themeConfig?: {
     [key: string]: any;
   };
-  [key: string]: any;
+  customFields?: {
+    [key: string]: any;
+  };
 }
 
 const REQUIRED_FIELDS = ['baseUrl', 'favicon', 'tagline', 'title', 'url'];
@@ -39,14 +42,25 @@ const OPTIONAL_FIELDS = [
   'customFields',
   'githubHost',
   'plugins',
+  'themes',
   'presets',
   'themeConfig',
 ];
 
 const DEFAULT_CONFIG: {
-  [key: string]: any;
+  plugins: PluginConfig[];
+  themes: PluginConfig[];
+  customFields: {
+    [key: string]: any;
+  };
+  themeConfig: {
+    [key: string]: any;
+  };
 } = {
   plugins: [],
+  themes: [],
+  customFields: {},
+  themeConfig: {},
 };
 
 function formatFields(fields: string[]): string {
@@ -74,16 +88,8 @@ export function loadConfig(siteDir: string): DocusaurusConfig {
   // Merge default config with loaded config.
   const config: DocusaurusConfig = {...DEFAULT_CONFIG, ...loadedConfig};
 
-  // User's own array of custom fields/
-  // e.g: if they want to include some.field so they can access it later from `props.siteConfig`.
-  const {customFields = []} = config;
-
   // Don't allow unrecognized fields.
-  const allowedFields = [
-    ...REQUIRED_FIELDS,
-    ...OPTIONAL_FIELDS,
-    ...customFields,
-  ];
+  const allowedFields = [...REQUIRED_FIELDS, ...OPTIONAL_FIELDS];
   const unrecognizedFields = Object.keys(config).filter(
     field => !allowedFields.includes(field),
   );

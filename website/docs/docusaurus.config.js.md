@@ -203,21 +203,23 @@ module.exports = {
 };
 ```
 
-### `customFields` and other custom fields
+### `customFields`
 
-Docusaurus guards `docusaurus.config.js` from unknown fields. To add a custom field, add the field name to `customFields`, then add the field to the module.
+Docusaurus guards `docusaurus.config.js` from unknown fields. To add a custom field, define it on `customFields`
 
-- Type: `string[]`
+- Type: `Object`
 
-```js
+```jsx
 // docusaurus.config.js
 module.exports = {
-  customFields: ['seo'],
-  seo: // ... the actual custom field
+  customFields: {
+    admin: 'endi',
+    superman: 'lol'
+  },
 };
 ```
 
-Attempting to add custom fields without indicating in `customFields` will lead to error in build time:
+Attempting to add unknown field in the config will lead to error in build time:
 
 ```bash
 Error: The field(s) 'foo', 'bar' are not recognized in docusaurus.config.js

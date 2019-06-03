@@ -59,20 +59,19 @@ You may also check the doc for [Deployment](deployment.md) for more information 
 
 ### Custom configurations
 
-You may have your own custom fields. And `docusaurus.config.js` will be aware of the fields and guard your configuration from unknown fields.
+Docusaurus guards `docusaurus.config.js` from unknown fields. To add a custom field, define it on `customFields`
 
 - [customFields](docusaurus.config.js.md#customFields)
 
-To add a custom field, add the field name to `customFields`. Then, you may use the field for your customization data:
+Example:
 
 ```js
 // docusaurus.config.js
 module.exports = {
-  customFields: ['seo'],
-  seo: {
-    image: '',
-    keywords: [],
-  },
+  customFields: {
+    'image': '',
+    'keywords': []
+  }
 };
 ```
 

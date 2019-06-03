@@ -20,11 +20,14 @@ describe('loadConfig', () => {
       `
       Object {
         "baseUrl": "/",
+        "customFields": Object {},
         "favicon": "img/docusaurus.ico",
         "organizationName": "endiliey",
         "plugins": Any<Array>,
         "projectName": "hello",
         "tagline": "Hello World",
+        "themeConfig": Object {},
+        "themes": Array [],
         "title": "Hello",
         "url": "https://docusaurus.io",
       }
