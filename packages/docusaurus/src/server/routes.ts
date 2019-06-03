@@ -17,7 +17,7 @@ interface ChunkRegistry {
 type Module =
   | {
       path: string;
-      __import?: Boolean;
+      __import?: boolean;
       query?: ParsedUrlQueryInput;
     }
   | string;

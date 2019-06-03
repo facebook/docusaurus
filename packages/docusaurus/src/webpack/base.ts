@@ -18,7 +18,7 @@ const CSS_MODULE_REGEX = /\.module\.css$/;
 
 export function createBaseConfig(
   props: Props,
-  isServer: Boolean,
+  isServer: boolean,
 ): Configuration {
   const {
     outDir,
