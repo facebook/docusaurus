@@ -9,13 +9,13 @@ Docusaurus has a unique take on configurations. We encourage you to congregate i
 
 Keeping a well-maintained `docusaurus.config.js` helps you, your collaborators, and your open source contributors be able to focus on docs while having certain fields easy to customize.
 
+For reference to each of the configurable fields, you may refer to the API reference of [docusaurus.config.js](/docs/docusaurus.config.js).
+
 ## What goes into `docusaurus.config.js`?
 
-You should not have to write your `docusaurus.config.js` from scratch even if you are developing your site. All templates should come with a `docusaurus.config.js` at root that includes the necessary fields for the initial site.
+You should not have to write your `docusaurus.config.js` from scratch even if you are developing your site. All templates come with a `docusaurus.config.js` at root that includes the necessary data for the initial site.
 
 However, it can be helpful if you have a high-level understanding of how the configurations are designed and implemented.
-
-For reference to each of the configurable fields, you may refer to the API reference of [docusaurus.config.js](/docs/docusaurus.config.js).
 
 The configurations can be categorized into:
 
@@ -61,6 +61,8 @@ You may also check the doc for [Deployment](deployment.md) for more information 
 
 You may have your own custom fields. And `docusaurus.config.js` will be aware of the fields and guard your configuration from unknown fields.
 
+- [customFields](docusaurus.config.js.md#customFields)
+
 To add a custom field, add the field name to `customFields`. Then, you may use the field for your customization data:
 
 ```js
@@ -74,7 +76,6 @@ module.exports = {
 };
 ```
 
-- [customFields](docusaurus.config.js.md#customFields)
 
 ## Accessing configuration from your site
 
@@ -82,7 +83,7 @@ Your configuration object will be made available to all the components of your s
 
 ```jsx
 import React from 'react';
-import Helmet from 'react-helmet';
+import Head from '@docusaurus/Head';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 const Layout = props => {
@@ -91,7 +92,9 @@ const Layout = props => {
   const {title, tagline, seo} = siteConfig;
   return (
     <React.Fragment>
-      <Helmet {...seo} />
+      <Head defaultTitle={`${defaultTitle} · ${tagline}`}>
+        {description && <meta name="description" content={seo.description} />}
+      </Head>
       <h1>{title}</h1>
       <h2>{tagline}</h2>
     </React.Fragment>

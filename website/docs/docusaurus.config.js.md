@@ -41,7 +41,7 @@ interface DocusaurusConfig {
 
 - Type: `string`
 
-Title is used in a number of places in your site including the title for the web page, major headings, etc.
+Title is used in a number of places in your site including the title for the web page, headings, etc.
 
 ```js
 // docusaurus.config.js
@@ -68,7 +68,7 @@ module.exports = {
 
 - Type: `string`
 
-If you use an official template, your site will be generated with the following directory, and your generated `docusaurus.config.js` will contain this field `favicon: 'img/favicon.ico'`.
+If you use an official template, your site will be generated with the following directory
 
 ```bash
 .
@@ -79,7 +79,7 @@ If you use an official template, your site will be generated with the following 
         └── favicon.ico
 ```
 
-Favicon URL relative to the `static` directory of your site.
+And your generated `docusaurus.config.js` will contain this the field for your favicon URL relative to the `static` directory of your site.
 
 ```js
 // docusaurus.config.js
@@ -124,11 +124,12 @@ module.exports = {
 
 - Type: `string`
 
-The GitHub user or organization that owns the repository. If you are the owner, it is your GitHub username. In the case of Docusaurus, it is "_facebook_" which is the GitHub organization that owns Docusaurus.
+The GitHub user or organization that owns the repository.
 
 ```js
 // docusaurus.config.js
 module.exports = {
+  // Docusaurus's organization is facebook
   organizationName: 'facebook',
 };
 ```
@@ -137,7 +138,7 @@ module.exports = {
 
 - Type: `string`
 
-The name of the GitHub repository. For example, the repository name for Docusaurus is "docusaurus", so the project name is "docusaurus".
+The name of the GitHub repository.
 
 ```js
 // docusaurus.config.js
@@ -172,12 +173,7 @@ module.exports = {
           label: 'docusaurus.config.js',
           position: 'left',
         },
-        {to: 'blog', label: 'Blog', position: 'right'},
-        {
-          href: 'https://github.com/facebook/docusaurus',
-          label: 'GitHub',
-          position: 'right',
-        },
+        // ... other links
       ],
     },
     footer: {
@@ -206,6 +202,8 @@ module.exports = {
 
 ### `plugins`
 
+<!-- TODO: configuration for plugins -->
+
 - Type: `any[]`
 
 ```js
@@ -217,9 +215,9 @@ module.exports = {
 
 ### `presets`
 
-- Type: `any[]`
+<!-- TODO: configuration for presets -->
 
-<!-- TODO: explain that preset configurations will be used to define presets of the site, and link to doc -->
+- Type: `any[]`
 
 ```js
 // docusaurus.config.js
@@ -228,7 +226,9 @@ module.exports = {
 };
 ```
 
-### `customFields`
+### `customFields` and other custom fields
+
+Docusaurus guards `docusaurus.config.js` from unknown fields. To add a custom field, add the field name to `customFields`, then add the field to the module.
 
 - Type: `string[]`
 
@@ -238,4 +238,10 @@ module.exports = {
   customFields: ['seo'],
   seo: // ... the actual custom field
 };
+```
+
+Attempting to add custom fields without indicating in `customFields` will lead to error in build time:
+
+```bash
+Error: The field(s) 'foo', 'bar' are not recognized in docusaurus.config.js
 ```
