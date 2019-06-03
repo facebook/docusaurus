@@ -15,7 +15,7 @@ yarn add docusaurus-plugin-name
 
 Then you add it in your site's `docusaurus.config.js` plugin arrays:
 
-```javascript
+```jsx
 module.exports = {
   plugins: [
     {
