@@ -53,7 +53,7 @@ function DocItem(props) {
           </div>
           <div className="col col--3 col--offset-1">
             {DocContent.rightToc && (
-              <div className={styles.onPageNav}>
+              <div className={styles.tableOfContents}>
                 <Headings headings={DocContent.rightToc} />
               </div>
             )}
