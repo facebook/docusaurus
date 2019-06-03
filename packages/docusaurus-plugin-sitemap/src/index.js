@@ -5,10 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs';
-import path from 'path';
+const fs = require('fs');
+const path = require('path');
 
-import createSitemap from './createSitemap';
+const createSitemap = require('./createSitemap');
 
 const DEFAULT_OPTIONS = {
   cacheTime: 600 * 1000, // 600 sec - cache purge period
