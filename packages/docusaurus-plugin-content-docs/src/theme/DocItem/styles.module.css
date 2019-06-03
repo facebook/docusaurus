@@ -8,3 +8,13 @@
 .docBody {
   min-height: calc(100vh - 50px);
 }
+
+@media only screen and (min-width: 1024px) {
+  .onPageNav {
+    max-height: calc(100vh - 90px);
+    overflow-y: auto;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 90px;
+  }
+}

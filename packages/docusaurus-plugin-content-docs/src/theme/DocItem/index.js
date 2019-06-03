@@ -53,7 +53,11 @@ function DocItem(props) {
             <DocPaginator docsMetadata={docsMetadata} metadata={metadata} />
           </div>
           <div className="col col--3 col--offset-1">
-            {DocContent.rightToc && <Headings headings={DocContent.rightToc} />}
+            {DocContent.rightToc && (
+              <div className={styles.onPageNav}>
+                <Headings headings={DocContent.rightToc} />
+              </div>
+            )}
           </div>
         </div>
       </div>
