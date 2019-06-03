@@ -7,21 +7,12 @@
 
 const path = require('path');
 
-const DEFAULT_OPTIONS = {};
+module.exports = function() {
+  return {
+    name: 'docusaurus-theme-classic',
 
-class DocusaurusThemeClassic {
-  constructor(context, opts) {
-    this.options = {...DEFAULT_OPTIONS, ...opts};
-    this.context = context;
-  }
-
-  getName() {
-    return 'docusaurus-theme-classic';
-  }
-
-  getThemePath() {
-    return path.resolve(__dirname, './theme');
-  }
-}
-
-module.exports = DocusaurusThemeClassic;
+    getThemePath() {
+      return path.resolve(__dirname, './theme');
+    },
+  };
+};

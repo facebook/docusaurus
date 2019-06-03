@@ -19,14 +19,10 @@ export async function loadPlugins({
   context: LoadContext;
 }) {
   // 1. Plugin Lifecycle - Initialization/Constructor
-  const plugins = pluginConfigs.map(({name, path: pluginPath, options}) => {
-    let Plugin;
-    if (pluginPath && fs.existsSync(pluginPath)) {
-      Plugin = importFresh(pluginPath);
-    } else {
-      Plugin = importFresh(name);
-    }
-    return new Plugin(context, options);
+  const plugins = pluginConfigs.map(({module, options}) => {
+    // module is any valid module identifier - npm package or locally-resolved path.
+    const plugin = importFresh(module);
+    return plugin(context, options);
   });
 
   // 2. Plugin lifecycle - loadContent
@@ -51,8 +47,11 @@ export async function loadPlugins({
       if (!plugin.contentLoaded) {
         return;
       }
-      const pluginName = plugin.getName();
-      const pluginContentDir = path.join(context.generatedFilesDir, pluginName);
+
+      const pluginContentDir = path.join(
+        context.generatedFilesDir,
+        plugin.name,
+      );
       const actions = {
         addRoute: config => pluginsRouteConfigs.push(config),
         createData: async (name, content) => {

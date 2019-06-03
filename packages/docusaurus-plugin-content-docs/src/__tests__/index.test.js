@@ -6,7 +6,7 @@
  */
 
 import path from 'path';
-import DocusaurusPluginContentDocs from '../index';
+import pluginContentDocs from '../index';
 
 describe('loadDocs', () => {
   test('simple website', async () => {
@@ -17,7 +17,7 @@ describe('loadDocs', () => {
       url: 'https://docusaurus.io',
     };
     const sidebarPath = path.join(siteDir, 'sidebars.json');
-    const plugin = new DocusaurusPluginContentDocs(
+    const plugin = pluginContentDocs(
       {
         siteDir,
         siteConfig,
@@ -41,6 +41,7 @@ describe('loadDocs', () => {
       title: 'Hello, World !',
       description: `Hi, Endilie here :)`,
     });
+
     expect(docsMetadata['foo/bar']).toEqual({
       category: 'Test',
       id: 'foo/bar',

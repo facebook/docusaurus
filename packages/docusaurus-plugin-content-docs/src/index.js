@@ -25,166 +25,162 @@ const DEFAULT_OPTIONS = {
   docItemComponent: '@theme/DocItem',
 };
 
-class DocusaurusPluginContentDocs {
-  constructor(context, opts) {
-    this.options = {...DEFAULT_OPTIONS, ...opts};
-    this.context = context;
-    this.contentPath = path.resolve(this.context.siteDir, this.options.path);
-    this.content = {};
-  }
+module.exports = function(context, opts) {
+  const options = {...DEFAULT_OPTIONS, ...opts};
+  const contentPath = path.resolve(context.siteDir, options.path);
+  let globalContents = {};
 
-  getName() {
-    return 'docusaurus-plugin-content-docs';
-  }
+  return {
+    name: 'docusaurus-plugin-content-docs',
 
-  getPathsToWatch() {
-    const {include = []} = this.options;
-    const globPattern = include.map(
-      pattern => `${this.contentPath}/${pattern}`,
-    );
-    return [...globPattern, this.options.sidebarPath];
-  }
+    contentPath,
 
-  // Fetches blog contents and returns metadata for the contents.
-  async loadContent() {
-    const {include, routeBasePath, sidebarPath} = this.options;
-    const {siteConfig} = this.context;
-    const docsDir = this.contentPath;
+    getPathsToWatch() {
+      const {include = []} = options;
+      const globPattern = include.map(pattern => `${contentPath}/${pattern}`);
+      return [...globPattern, options.sidebarPath];
+    },
 
-    if (!fs.existsSync(docsDir)) {
-      return null;
-    }
+    // Fetches blog contents and returns metadata for the contents.
+    async loadContent() {
+      const {include, routeBasePath, sidebarPath} = options;
+      const {siteConfig} = context;
+      const docsDir = contentPath;
 
-    const docsSidebars = loadSidebars(sidebarPath);
-
-    // Build the docs ordering such as next, previous, category and sidebar
-    const order = createOrder(docsSidebars);
-
-    // Prepare metadata container.
-    const docs = {};
-
-    // Metadata for default docs files.
-    const docsFiles = await globby(include, {
-      cwd: docsDir,
-    });
-    await Promise.all(
-      docsFiles.map(async source => {
-        const metadata = await processMetadata(
-          source,
-          docsDir,
-          order,
-          siteConfig,
-          routeBasePath,
-        );
-        docs[metadata.id] = metadata;
-      }),
-    );
-
-    // Get the titles of the previous and next ids so that we can use them.
-    Object.keys(docs).forEach(currentID => {
-      const previousID = idx(docs, [currentID, 'previous']);
-      if (previousID) {
-        const previousTitle = idx(docs, [previousID, 'title']);
-        docs[currentID].previous_title = previousTitle || 'Previous';
+      if (!fs.existsSync(docsDir)) {
+        return null;
       }
-      const nextID = idx(docs, [currentID, 'next']);
-      if (nextID) {
-        const nextTitle = idx(docs, [nextID, 'title']);
-        docs[currentID].next_title = nextTitle || 'Next';
+
+      const docsSidebars = loadSidebars(sidebarPath);
+
+      // Build the docs ordering such as next, previous, category and sidebar
+      const order = createOrder(docsSidebars);
+
+      // Prepare metadata container.
+      const docs = {};
+
+      // Metadata for default docs files.
+      const docsFiles = await globby(include, {
+        cwd: docsDir,
+      });
+      await Promise.all(
+        docsFiles.map(async source => {
+          const metadata = await processMetadata(
+            source,
+            docsDir,
+            order,
+            siteConfig,
+            routeBasePath,
+          );
+          docs[metadata.id] = metadata;
+        }),
+      );
+
+      // Get the titles of the previous and next ids so that we can use them.
+      Object.keys(docs).forEach(currentID => {
+        const previousID = idx(docs, [currentID, 'previous']);
+        if (previousID) {
+          const previousTitle = idx(docs, [previousID, 'title']);
+          docs[currentID].previous_title = previousTitle || 'Previous';
+        }
+        const nextID = idx(docs, [currentID, 'next']);
+        if (nextID) {
+          const nextTitle = idx(docs, [nextID, 'title']);
+          docs[currentID].next_title = nextTitle || 'Next';
+        }
+      });
+
+      const sourceToPermalink = {};
+      const permalinkToId = {};
+      Object.values(docs).forEach(({id, source, permalink}) => {
+        sourceToPermalink[source] = permalink;
+        permalinkToId[permalink] = id;
+      });
+
+      globalContents = {
+        docs,
+        docsDir,
+        docsSidebars,
+        sourceToPermalink,
+        permalinkToId,
+      };
+
+      return globalContents;
+    },
+
+    async contentLoaded({content, actions}) {
+      if (!content) {
+        return;
       }
-    });
 
-    const sourceToPermalink = {};
-    const permalinkToId = {};
-    Object.values(docs).forEach(({id, source, permalink}) => {
-      sourceToPermalink[source] = permalink;
-      permalinkToId[permalink] = id;
-    });
+      const {docLayoutComponent, docItemComponent, routeBasePath} = options;
+      const {addRoute, createData} = actions;
 
-    this.content = {
-      docs,
-      docsDir,
-      docsSidebars,
-      sourceToPermalink,
-      permalinkToId,
-    };
+      const routes = await Promise.all(
+        Object.values(content.docs).map(async metadataItem => {
+          const metadataPath = await createData(
+            `${docuHash(metadataItem.permalink)}.json`,
+            JSON.stringify(metadataItem, null, 2),
+          );
+          return {
+            path: metadataItem.permalink,
+            component: docItemComponent,
+            exact: true,
+            modules: {
+              content: metadataItem.source,
+              metadata: metadataPath,
+            },
+          };
+        }),
+      );
 
-    return this.content;
-  }
+      const docsBaseRoute = normalizeUrl([
+        context.siteConfig.baseUrl,
+        routeBasePath,
+      ]);
+      const docsMetadataPath = await createData(
+        `${docuHash(docsBaseRoute)}.json`,
+        JSON.stringify(content, null, 2),
+      );
 
-  async contentLoaded({content, actions}) {
-    if (!content) {
-      return;
-    }
-    const {docLayoutComponent, docItemComponent, routeBasePath} = this.options;
-    const {addRoute, createData} = actions;
+      addRoute({
+        path: docsBaseRoute,
+        component: docLayoutComponent,
+        routes,
+        modules: {
+          docsMetadata: docsMetadataPath,
+        },
+      });
+    },
 
-    const routes = await Promise.all(
-      Object.values(content.docs).map(async metadataItem => {
-        const metadataPath = await createData(
-          `${docuHash(metadataItem.permalink)}.json`,
-          JSON.stringify(metadataItem, null, 2),
-        );
-        return {
-          path: metadataItem.permalink,
-          component: docItemComponent,
-          exact: true,
-          modules: {
-            content: metadataItem.source,
-            metadata: metadataPath,
-          },
-        };
-      }),
-    );
+    getThemePath() {
+      return path.resolve(__dirname, './theme');
+    },
 
-    const docsBaseRoute = normalizeUrl([
-      this.context.siteConfig.baseUrl,
-      routeBasePath,
-    ]);
-    const docsMetadataPath = await createData(
-      `${docuHash(docsBaseRoute)}.json`,
-      JSON.stringify(content, null, 2),
-    );
-
-    addRoute({
-      path: docsBaseRoute,
-      component: docLayoutComponent,
-      routes,
-      modules: {
-        docsMetadata: docsMetadataPath,
-      },
-    });
-  }
-
-  getThemePath() {
-    return path.resolve(__dirname, './theme');
-  }
-
-  configureWebpack(config, isServer, {getBabelLoader, getCacheLoader}) {
-    return {
-      module: {
-        rules: [
-          {
-            test: /(\.mdx?)$/,
-            include: [this.contentPath],
-            use: [
-              getCacheLoader(isServer),
-              getBabelLoader(isServer),
-              '@docusaurus/mdx-loader',
-              {
-                loader: path.resolve(__dirname, './markdown/index.js'),
-                options: {
-                  siteConfig: this.context.siteConfig,
-                  docsDir: this.content.docsDir,
-                  sourceToPermalink: this.content.sourceToPermalink,
+    configureWebpack(config, isServer, {getBabelLoader, getCacheLoader}) {
+      return {
+        module: {
+          rules: [
+            {
+              test: /(\.mdx?)$/,
+              include: [contentPath],
+              use: [
+                getCacheLoader(isServer),
+                getBabelLoader(isServer),
+                '@docusaurus/mdx-loader',
+                {
+                  loader: path.resolve(__dirname, './markdown/index.js'),
+                  options: {
+                    siteConfig: context.siteConfig,
+                    docsDir: globalContents.docsDir,
+                    sourceToPermalink: globalContents.sourceToPermalink,
+                  },
                 },
-              },
-            ],
-          },
-        ],
-      },
-    };
-  }
-}
-
-module.exports = DocusaurusPluginContentDocs;
+              ],
+            },
+          ],
+        },
+      };
+    },
+  };
+};

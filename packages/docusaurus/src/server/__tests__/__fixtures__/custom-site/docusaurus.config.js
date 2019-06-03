@@ -15,14 +15,14 @@ module.exports = {
   favicon: 'img/docusaurus.ico',
   plugins: [
     {
-      name: '@docusaurus/plugin-content-docs',
+      module: '@docusaurus/plugin-content-docs',
       options: {
         path: '../docs',
         sidebarPath: require.resolve('./sidebars.json'),
       },
     },
     {
-      name: '@docusaurus/plugin-content-pages',
+      module: '@docusaurus/plugin-content-pages',
     },
   ],
 };

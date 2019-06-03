@@ -15,10 +15,9 @@ export async function swizzle(
   themeName: string,
   componentName?: string,
 ): Promise<void> {
-  const Plugin = importFresh(themeName);
-  const context = {siteDir};
-  const PluginInstance = new Plugin(context);
-  let fromPath = PluginInstance.getThemePath();
+  const plugin = importFresh(themeName);
+  const pluginInstance = plugin({siteDir});
+  let fromPath = pluginInstance.getThemePath();
 
   if (fromPath) {
     let toPath = path.resolve(siteDir, 'theme');
