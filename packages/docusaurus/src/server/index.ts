@@ -60,14 +60,17 @@ export async function load(
     baseUrl,
   };
 
-  /* Preset */
-  const {plugins: presetPlugins, themes: presetThemes} = loadPresets(context);
+  // Presets.
+  const {
+    pluginConfigs: presetPluginConfigs,
+    themeConfigs: presetThemeConfigs,
+  } = loadPresets(context);
 
-  /* Plugin */
+  // Plugins.
   const pluginConfigs = [
-    ...presetPlugins,
+    ...presetPluginConfigs,
     ...(siteConfig.plugins || []),
-    ...presetThemes,
+    ...presetThemeConfigs,
     ...(siteConfig.themes || []),
   ];
   const {plugins, pluginsRouteConfigs} = await loadPlugins({
@@ -75,7 +78,7 @@ export async function load(
     context,
   });
 
-  /* Theme */
+  // Themes.
   const fallbackTheme = path.resolve(__dirname, '../client/theme-fallback');
   const pluginThemes = plugins
     .map(plugin => plugin.getThemePath && plugin.getThemePath())

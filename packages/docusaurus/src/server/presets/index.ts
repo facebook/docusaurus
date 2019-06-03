@@ -5,31 +5,49 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {LoadContext} from '../index';
+import {DocusaurusPluginConfig} from '../plugins';
+
 import importFresh from 'import-fresh';
 import _ from 'lodash';
-import {LoadContext} from '../index';
 
-export function loadPresets(context: LoadContext) {
+export interface DocusaurusPreset {
+  plugins?: DocusaurusPluginConfig[];
+  themes?: DocusaurusPluginConfig[];
+}
+
+export function loadPresets(
+  context: LoadContext,
+): {
+  pluginConfigs: DocusaurusPluginConfig[];
+  themeConfigs: DocusaurusPluginConfig[];
+} {
   const presets: any[] = context.siteConfig.presets || [];
-  const plugins: any[] = [];
-  const themes: any[] = [];
+  const plugins: (DocusaurusPluginConfig[] | undefined)[] = [];
+  const themes: (DocusaurusPluginConfig[] | undefined)[] = [];
 
   presets.forEach(presetItem => {
-    let presetModule;
+    let presetModuleImport;
     let presetOptions = {};
     if (typeof presetItem === 'string') {
-      presetModule = presetItem;
+      presetModuleImport = presetItem;
     } else if (Array.isArray(presetItem)) {
-      [presetModule, presetOptions] = presetItem;
+      [presetModuleImport, presetOptions] = presetItem;
     }
 
-    const preset = importFresh(presetModule);
-    plugins.push(preset(context, presetOptions).plugins);
-    themes.push(preset(context, presetOptions).themes);
+    const presetModule = importFresh(presetModuleImport);
+    const preset: DocusaurusPreset = presetModule(context, presetOptions);
+
+    plugins.push(preset.plugins);
+    themes.push(preset.themes);
   });
 
   return {
-    plugins: _.compact(_.flatten(plugins)),
-    themes: _.compact(_.flatten(themes)),
+    pluginConfigs: _.compact(
+      _.flatten<DocusaurusPluginConfig | undefined>(plugins),
+    ),
+    themeConfigs: _.compact(
+      _.flatten<DocusaurusPluginConfig | undefined>(themes),
+    ),
   };
 }
