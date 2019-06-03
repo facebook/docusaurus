@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {DocusaurusConfig} from '../config';
 import {LoadContext, Props} from '..';
 import {RouteConfig} from '../routes';
 
@@ -13,6 +12,7 @@ import fs from 'fs-extra';
 import importFresh from 'import-fresh';
 import path from 'path';
 import {generate} from '@docusaurus/utils';
+import {Configuration} from 'webpack';
 
 export interface Plugin<T> {
   name: string;
@@ -23,7 +23,7 @@ export interface Plugin<T> {
   }): void;
   postBuild?(props: Props): void;
   postStart?(props: Props): void;
-  configureWebpack?(config: DocusaurusConfig, isServer: boolean);
+  configureWebpack?(config: Configuration, isServer: boolean): Configuration;
   getThemePath?(): string;
   getPathsToWatch?(): string[];
 }
