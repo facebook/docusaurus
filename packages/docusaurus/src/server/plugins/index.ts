@@ -5,21 +5,51 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {LoadContext, Props} from '..';
+import {RouteConfig} from '../routes';
+
 import fs from 'fs-extra';
 import importFresh from 'import-fresh';
 import path from 'path';
 import {generate} from '@docusaurus/utils';
-import {LoadContext} from '..';
+import {Configuration} from 'webpack';
+
+export interface Plugin<T> {
+  name: string;
+  loadContent?(): T;
+  contentLoaded?({
+    content: T,
+    actions: DocusaurusPluginContentLoadedActions,
+  }): void;
+  postBuild?(props: Props): void;
+  postStart?(props: Props): void;
+  configureWebpack?(config: Configuration, isServer: boolean): Configuration;
+  getThemePath?(): string;
+  getPathsToWatch?(): string[];
+}
+
+export interface PluginConfig {
+  module: string;
+  options?: Object;
+}
+
+export interface PluginContentLoadedActions {
+  addRoute(config: RouteConfig): void;
+  createData(name: string, data: Object): Promise<string>;
+}
 
 export async function loadPlugins({
-  pluginConfigs = [],
+  pluginConfigs,
   context,
 }: {
-  pluginConfigs: any[];
+  pluginConfigs: PluginConfig[];
   context: LoadContext;
-}) {
+}): Promise<{
+  plugins: Plugin<any>[];
+  pluginsRouteConfigs: RouteConfig[];
+}> {
   // 1. Plugin Lifecycle - Initialization/Constructor
-  const plugins = pluginConfigs.map(({module, options}) => {
+  const plugins: Plugin<any>[] = pluginConfigs.map(({module, options}) => {
     // module is any valid module identifier - npm package or locally-resolved path.
     const plugin = importFresh(module);
     return plugin(context, options);
@@ -40,7 +70,7 @@ export async function loadPlugins({
   );
 
   // 3. Plugin lifecycle - contentLoaded
-  const pluginsRouteConfigs: any[] = [];
+  const pluginsRouteConfigs: RouteConfig[] = [];
 
   await Promise.all(
     plugins.map(async (plugin, index) => {
@@ -52,7 +82,8 @@ export async function loadPlugins({
         context.generatedFilesDir,
         plugin.name,
       );
-      const actions = {
+
+      const actions: PluginContentLoadedActions = {
         addRoute: config => pluginsRouteConfigs.push(config),
         createData: async (name, content) => {
           const modulePath = path.join(pluginContentDir, name);
@@ -62,9 +93,8 @@ export async function loadPlugins({
         },
       };
 
-      const loadedContent = pluginsLoadedContent[index];
       await plugin.contentLoaded({
-        content: loadedContent,
+        content: pluginsLoadedContent[index],
         actions,
       });
     }),

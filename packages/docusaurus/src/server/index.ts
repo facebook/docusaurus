@@ -5,7 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {PluginConfig, Plugin} from './plugins';
+
 import path from 'path';
+import _ from 'lodash';
+
 import {generate} from '@docusaurus/utils';
 
 import {loadConfig, DocusaurusConfig} from './config';
@@ -29,7 +33,7 @@ export interface LoadContext {
 }
 export interface Props extends LoadContext {
   routesPaths: string[];
-  plugins: any[];
+  plugins: Plugin<any>[];
 }
 
 export async function load(
@@ -60,11 +64,11 @@ export async function load(
     baseUrl,
   };
 
-  /* Preset */
+  // Presets.
   const {plugins: presetPlugins, themes: presetThemes} = loadPresets(context);
 
-  /* Plugin */
-  const pluginConfigs = [
+  // Plugins.
+  const pluginConfigs: PluginConfig[] = [
     ...presetPlugins,
     ...(siteConfig.plugins || []),
     ...presetThemes,
@@ -75,15 +79,16 @@ export async function load(
     context,
   });
 
-  /* Theme */
+  // Themes.
   const fallbackTheme = path.resolve(__dirname, '../client/theme-fallback');
-  const pluginThemes = plugins
-    .map(plugin => plugin.getThemePath && plugin.getThemePath())
-    .filter(Boolean) as string[];
+  const pluginThemes = _.compact(
+    plugins.map(plugin => plugin.getThemePath && plugin.getThemePath()),
+  );
   const userTheme = path.resolve(siteDir, 'theme');
   const alias = loadThemeAlias([fallbackTheme, ...pluginThemes, userTheme]);
   // Make a fake plugin to resolve aliased theme components.
   plugins.push({
+    name: 'docusaurus-bootstrap-plugin',
     configureWebpack: () => ({
       resolve: {
         alias,

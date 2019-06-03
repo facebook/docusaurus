@@ -5,11 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {themeAlias, Alias} from './alias';
+import {themeAlias, ThemeAlias} from './alias';
 
-export {Alias} from './alias';
+export {ThemeAlias} from './alias';
 
-export function loadThemeAlias(themePaths: string[]): Alias {
+export function loadThemeAlias(themePaths: string[]): ThemeAlias {
   return themePaths.reduce(
     (alias, themePath) => ({
       ...alias,

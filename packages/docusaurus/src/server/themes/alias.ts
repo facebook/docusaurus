@@ -10,11 +10,11 @@ import fs from 'fs-extra';
 import path from 'path';
 import {fileToPath, posixPath, normalizeUrl} from '@docusaurus/utils';
 
-export interface Alias {
+export interface ThemeAlias {
   [alias: string]: string;
 }
 
-export function themeAlias(themePath: string): Alias {
+export function themeAlias(themePath: string): ThemeAlias {
   if (!fs.pathExistsSync(themePath)) {
     return {};
   }
@@ -23,7 +23,7 @@ export function themeAlias(themePath: string): Alias {
     cwd: themePath,
   });
 
-  const alias = {};
+  const alias: ThemeAlias = {};
   themeComponentFiles.forEach(relativeSource => {
     const filePath = path.join(themePath, relativeSource);
     const fileName = fileToPath(relativeSource);
