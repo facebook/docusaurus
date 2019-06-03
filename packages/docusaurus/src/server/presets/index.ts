@@ -19,8 +19,8 @@ export interface Preset {
 export function loadPresets(
   context: LoadContext,
 ): {
-  pluginConfigs: PluginConfig[];
-  themeConfigs: PluginConfig[];
+  plugins: PluginConfig[];
+  themes: PluginConfig[];
 } {
   const presets: any[] = context.siteConfig.presets || [];
   const plugins: (PluginConfig[] | undefined)[] = [];
@@ -43,7 +43,7 @@ export function loadPresets(
   });
 
   return {
-    pluginConfigs: _.compact(_.flatten<PluginConfig | undefined>(plugins)),
-    themeConfigs: _.compact(_.flatten<PluginConfig | undefined>(themes)),
+    plugins: _.compact(_.flatten<PluginConfig | undefined>(plugins)),
+    themes: _.compact(_.flatten<PluginConfig | undefined>(themes)),
   };
 }

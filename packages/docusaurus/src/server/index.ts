@@ -65,16 +65,13 @@ export async function load(
   };
 
   // Presets.
-  const {
-    pluginConfigs: presetPluginConfigs,
-    themeConfigs: presetThemeConfigs,
-  } = loadPresets(context);
+  const {plugins: presetPlugins, themes: presetThemes} = loadPresets(context);
 
   // Plugins.
   const pluginConfigs: PluginConfig[] = [
-    ...presetPluginConfigs,
+    ...presetPlugins,
     ...(siteConfig.plugins || []),
-    ...presetThemeConfigs,
+    ...presetThemes,
     ...(siteConfig.themes || []),
   ];
   const {plugins, pluginsRouteConfigs} = await loadPlugins({
