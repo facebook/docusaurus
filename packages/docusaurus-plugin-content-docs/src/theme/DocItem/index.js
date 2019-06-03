@@ -8,7 +8,6 @@
 import React from 'react';
 
 import Head from '@docusaurus/Head';
-
 import DocPaginator from '@theme/DocPaginator';
 
 import styles from './styles.module.css';
@@ -53,7 +52,11 @@ function DocItem(props) {
             <DocPaginator docsMetadata={docsMetadata} metadata={metadata} />
           </div>
           <div className="col col--3 col--offset-1">
-            {DocContent.rightToc && <Headings headings={DocContent.rightToc} />}
+            {DocContent.rightToc && (
+              <div className={styles.tableOfContents}>
+                <Headings headings={DocContent.rightToc} />
+              </div>
+            )}
           </div>
         </div>
       </div>
