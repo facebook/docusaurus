@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {DocusaurusPluginConfig} from './plugins';
+import {PluginConfig} from './plugins';
 
 import fs from 'fs-extra';
 import _ from 'lodash';
@@ -23,7 +23,7 @@ export interface DocusaurusConfig {
   projectName?: string;
   customFields?: string[];
   githubHost?: string;
-  plugins?: DocusaurusPluginConfig[];
+  plugins?: PluginConfig[];
   presets?: any[];
   themeConfig?: {
     [key: string]: any;

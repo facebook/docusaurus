@@ -7,13 +7,14 @@
 
 import {DocusaurusConfig} from '../config';
 import {LoadContext} from '..';
+import {RouteConfig} from '../routes';
 
 import fs from 'fs-extra';
 import importFresh from 'import-fresh';
 import path from 'path';
 import {generate} from '@docusaurus/utils';
 
-export interface DocusaurusPlugin<T> {
+export interface Plugin<T> {
   name: string;
   loadContent?(): T;
   contentLoaded?({
@@ -23,25 +24,17 @@ export interface DocusaurusPlugin<T> {
   postBuild?(props: any): void;
   postStart?(props: any): void;
   configureWebpack?(config: DocusaurusConfig, isServer: boolean);
+  getThemePath?(): string;
   getPathsToWatch?(): string[];
-  getClientModules?(): string[];
 }
 
-export interface DocusaurusPluginConfig {
+export interface PluginConfig {
   module: string;
   options?: Object;
 }
 
-export interface DocusaurusPluginRouteConfig {
-  path: string;
-  component?: string;
-  exact?: boolean;
-  modules?: Object;
-  routes?: DocusaurusPluginRouteConfig[];
-}
-
-export interface DocusaurusPluginContentLoadedActions {
-  addRoute(config: DocusaurusPluginRouteConfig): void;
+export interface PluginContentLoadedActions {
+  addRoute(config: RouteConfig): void;
   createData(name: string, data: Object): Promise<string>;
 }
 
@@ -49,20 +42,18 @@ export async function loadPlugins({
   pluginConfigs,
   context,
 }: {
-  pluginConfigs: DocusaurusPluginConfig[];
+  pluginConfigs: PluginConfig[];
   context: LoadContext;
 }): Promise<{
-  plugins: DocusaurusPlugin<any>[];
-  pluginsRouteConfigs: DocusaurusPluginRouteConfig[];
+  plugins: Plugin<any>[];
+  pluginsRouteConfigs: RouteConfig[];
 }> {
   // 1. Plugin Lifecycle - Initialization/Constructor
-  const plugins: DocusaurusPlugin<any>[] = pluginConfigs.map(
-    ({module, options}) => {
-      // module is any valid module identifier - npm package or locally-resolved path.
-      const plugin = importFresh(module);
-      return plugin(context, options);
-    },
-  );
+  const plugins: Plugin<any>[] = pluginConfigs.map(({module, options}) => {
+    // module is any valid module identifier - npm package or locally-resolved path.
+    const plugin = importFresh(module);
+    return plugin(context, options);
+  });
 
   // 2. Plugin lifecycle - loadContent
   // Currently plugins run lifecycle in parallel and are not order-dependent. We could change
@@ -79,7 +70,7 @@ export async function loadPlugins({
   );
 
   // 3. Plugin lifecycle - contentLoaded
-  const pluginsRouteConfigs: DocusaurusPluginRouteConfig[] = [];
+  const pluginsRouteConfigs: RouteConfig[] = [];
 
   await Promise.all(
     plugins.map(async (plugin, index) => {
@@ -92,7 +83,7 @@ export async function loadPlugins({
         plugin.name,
       );
 
-      const actions: DocusaurusPluginContentLoadedActions = {
+      const actions: PluginContentLoadedActions = {
         addRoute: config => pluginsRouteConfigs.push(config),
         createData: async (name, content) => {
           const modulePath = path.join(pluginContentDir, name);

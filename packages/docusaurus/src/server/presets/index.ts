@@ -6,25 +6,25 @@
  */
 
 import {LoadContext} from '../index';
-import {DocusaurusPluginConfig} from '../plugins';
+import {PluginConfig} from '../plugins';
 
 import importFresh from 'import-fresh';
 import _ from 'lodash';
 
-export interface DocusaurusPreset {
-  plugins?: DocusaurusPluginConfig[];
-  themes?: DocusaurusPluginConfig[];
+export interface Preset {
+  plugins?: PluginConfig[];
+  themes?: PluginConfig[];
 }
 
 export function loadPresets(
   context: LoadContext,
 ): {
-  pluginConfigs: DocusaurusPluginConfig[];
-  themeConfigs: DocusaurusPluginConfig[];
+  pluginConfigs: PluginConfig[];
+  themeConfigs: PluginConfig[];
 } {
   const presets: any[] = context.siteConfig.presets || [];
-  const plugins: (DocusaurusPluginConfig[] | undefined)[] = [];
-  const themes: (DocusaurusPluginConfig[] | undefined)[] = [];
+  const plugins: (PluginConfig[] | undefined)[] = [];
+  const themes: (PluginConfig[] | undefined)[] = [];
 
   presets.forEach(presetItem => {
     let presetModuleImport;
@@ -36,18 +36,14 @@ export function loadPresets(
     }
 
     const presetModule = importFresh(presetModuleImport);
-    const preset: DocusaurusPreset = presetModule(context, presetOptions);
+    const preset: Preset = presetModule(context, presetOptions);
 
     plugins.push(preset.plugins);
     themes.push(preset.themes);
   });
 
   return {
-    pluginConfigs: _.compact(
-      _.flatten<DocusaurusPluginConfig | undefined>(plugins),
-    ),
-    themeConfigs: _.compact(
-      _.flatten<DocusaurusPluginConfig | undefined>(themes),
-    ),
+    pluginConfigs: _.compact(_.flatten<PluginConfig | undefined>(plugins)),
+    themeConfigs: _.compact(_.flatten<PluginConfig | undefined>(themes)),
   };
 }
