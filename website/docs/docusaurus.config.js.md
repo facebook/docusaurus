@@ -12,29 +12,6 @@ title: docusaurus.config.js
 
 `docusaurus.config.js` contains configurations for your site and is placed in the root directory of your site.
 
-```ts
-interface DocusaurusConfig {
-  baseUrl: string;
-  favicon: string;
-  tagline: string;
-  title: string;
-  url: string;
-
-  organizationName?: string;
-  projectName?: string;
-  githubHost?: string;
-
-  plugins?: any[];
-  presets?: any[];
-  themeConfig?: {
-    [key: string]: any;
-  };
-
-  customFields?: string[];
-  [key: string]: any;
-}
-```
-
 ## Required fields
 
 ### `title`
