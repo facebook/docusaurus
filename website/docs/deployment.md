@@ -32,7 +32,7 @@ You may refer to GitHub Pages' documentation [User, Organization, and Project Pa
 
 Example:
 
-```js
+```jsx
 module.exports = {
   ...
   url: 'https://endiliey.github.io', // Your website URL

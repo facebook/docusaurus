@@ -15,7 +15,7 @@ yarn add docusaurus-plugin-name
 
 Then you add it in your site's `docusaurus.config.js` plugin arrays:
 
-```js
+```jsx
 module.exports = {
   plugins: [
     {
@@ -35,7 +35,7 @@ module.exports = {
 
 Docusaurus can also load plugins from your local directory, you can do something like the following:
 
-```js
+```jsx
 const path = require('path');
 
 module.exports = {
@@ -53,7 +53,7 @@ Plugins are modules which export a function that takes in the context, options a
 
 For examples, please refer to several official plugins created.
 
-```js
+```jsx
 const DEFAULT_OPTIONS = {
   // Some defaults.
 };

@@ -46,3 +46,9 @@ module: {
 This is the PrismJS theme CSS that will be imported. The supported themes are :
 - prismjs/themes/XXXXXX.css (See https://github.com/PrismJS/prism/tree/master/themes)
 - prism-themes/themes/XXXXXX.css (See https://github.com/PrismJS/prism-themes/tree/master/themes)
+
+### `rehypePlugins`
+Array of rehype plugins to manipulate the MDXHAST
+
+### `remarkPlugins`
+Array of remark plugins to manipulate the MDXAST
