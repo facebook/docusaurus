@@ -30,9 +30,9 @@ Site meta contains the essential meta information such as titles and `favicon`.
 
 They are used by your site app in a number of places such as your site's title and headings, browser tab icon, and SEO.
 
-- [title](/docs/docusaurus.config.js#title)
-- [tagline](/docs/docusaurus.config.js#tagline)
-- [favicon](/docs/docusaurus.config.js#favicon)
+- [title](docusaurus.config.js.md#title)
+- [tagline](docusaurus.config.js.md#tagline)
+- [favicon](docusaurus.config.js.md#favicon)
 
 ### Deployment configurations
 
@@ -42,20 +42,20 @@ Deployment configurations are used when you deploy your site with Docusaurus' de
 
 <!-- TODO: currently these fields are only used in GH Pages, what about other deployment services such as Netlify -->
 
-- [url](/docs/docusaurus.config.js#url)
-- [baseUrl](/docs/docusaurus.config.js#baseUrl)
-- [organizationName](/docs/docusaurus.config.js#organizationname)
-- [projectName](/docs/docusaurus.config.js#projectName)
+- [url](docusaurus.config.js.md#url)
+- [baseUrl](docusaurus.config.js.md#baseUrl)
+- [organizationName](docusaurus.config.js.md#organizationname)
+- [projectName](docusaurus.config.js.md#projectName)
 
-You may also check the doc for [Deployment](/docs/deployment) for more information about the fields.
+You may also check the doc for [Deployment](deployment.md) for more information about the fields.
 
 ### Theme, plugins, and presets configurations
 
 <!-- TODO: More explanation from these docs, respectively -->
 
-- [themeConfig](/docs/docusaurus.config.js#themeConfig)
-- [presets](/docs/docusaurus.config.js#presets)
-- [plugins](/docs/docusaurus.config.js#plugins)
+- [themeConfig](docusaurus.config.js.md#themeConfig)
+- [presets](docusaurus.config.js.md#presets)
+- [plugins](docusaurus.config.js.md#plugins)
 
 ### Custom configurations
 
@@ -74,7 +74,7 @@ module.exports = {
 };
 ```
 
-- [customFields](/docs/docusaurus.config.js#customFields)
+- [customFields](docusaurus.config.js.md#customFields)
 
 ## Accessing configuration from your site
 
