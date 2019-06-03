@@ -15,7 +15,6 @@ module.exports = {
       'deployment',
     ],
     Guides: [
-      'configuration',
       'assets',
       'markdown',
       'styling-layout',
@@ -23,6 +22,7 @@ module.exports = {
       'using-themes',
       'search',
       'analytics',
+      'configuration',
     ],
     'Advanced Guides': ['blog', 'plugins', 'themes', 'presets'],
     'API Reference': [
