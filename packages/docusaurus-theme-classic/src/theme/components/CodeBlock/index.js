@@ -31,7 +31,15 @@ export default ({children, className: languageClassName, live, ...props}) => {
       code={children}
       language={language}>
       {({className, style, tokens, getLineProps, getTokenProps}) => (
-        <pre className={className} style={{...style, fontSize: 'inherit'}}>
+        <pre
+          className={className}
+          style={{
+            ...style,
+            overflow: 'hidden',
+            overflowWrap: 'break-word',
+            whiteSpace: 'pre-wrap',
+            fontSize: 'inherit',
+          }}>
           {tokens.map((line, i) => (
             <div key={i} {...getLineProps({line, key: i})}>
               {line.map((token, key) => (
