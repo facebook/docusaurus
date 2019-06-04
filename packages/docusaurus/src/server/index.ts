@@ -100,7 +100,7 @@ export async function load(
   });
 
   // Load client modules.
-  const clientModules = loadClientModules(plugins);   
+  const clientModules = loadClientModules(plugins);
   const genClientModules = generate(
     generatedFilesDir,
     'client-modules.js',
