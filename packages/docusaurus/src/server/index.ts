@@ -17,6 +17,8 @@ import {loadThemeAlias} from './themes';
 import {loadPlugins} from './plugins';
 import {loadRoutes} from './routes';
 import {loadPresets} from './presets';
+import {loadClientModules} from './client-modules';
+
 import {GENERATED_FILES_DIR_NAME, CONFIG_FILE_NAME} from '../constants';
 
 export interface CLIOptions {
@@ -70,8 +72,9 @@ export async function load(
   // Plugins.
   const pluginConfigs: PluginConfig[] = [
     ...presetPlugins,
-    ...(siteConfig.plugins || []),
     ...presetThemes,
+    // Site config should the highest priority.
+    ...(siteConfig.plugins || []),
     ...(siteConfig.themes || []),
   ];
   const {plugins, pluginsRouteConfigs} = await loadPlugins({
@@ -95,6 +98,16 @@ export async function load(
       },
     }),
   });
+
+  // Load client modules.
+  const clientModules = loadClientModules(plugins);
+  const genClientModules = generate(
+    generatedFilesDir,
+    'client-modules.js',
+    `export default [\n${clientModules
+      .map(module => `  require(${JSON.stringify(module)}),`)
+      .join('\n')}\n];\n`,
+  );
 
   // Routing
   const {
@@ -128,6 +141,7 @@ ${Object.keys(registry)
   const genRoutes = generate(generatedFilesDir, 'routes.js', routesConfig);
 
   await Promise.all([
+    genClientModules,
     genSiteConfig,
     genRegistry,
     genRoutesChunkNames,

@@ -9,14 +9,9 @@ const path = require('path');
 
 module.exports = function() {
   return {
-    name: 'docusaurus-theme-classic',
-
-    getThemePath() {
-      return path.resolve(__dirname, './theme');
-    },
-
+    name: 'docusaurus-plugin-website-infima',
     getClientModules() {
-      return [path.resolve(__dirname, './infima')];
+      return [path.resolve(__dirname, './infima-overrides')];
     },
   };
 };
