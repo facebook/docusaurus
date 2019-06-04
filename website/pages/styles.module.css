@@ -55,7 +55,7 @@
 }
 
 .index-hero-project-keywords {
-  color: #25c2a0;
+  color: var(--ifm-color-primary);
 }
 
 @keyframes jackInTheBox {
@@ -65,15 +65,15 @@
     transform-origin: center bottom;
   }
 
-   50% {
+  50% {
     transform: rotate(-10deg);
   }
 
-   70% {
+  70% {
     transform: rotate(3deg);
   }
 
-   to {
+  to {
     opacity: 1;
     transform: scale(1);
   }
@@ -93,12 +93,12 @@
 }
 
 .index-ctas-get-started-button {
-  border: 1px solid #25c2a0;
+  border: 1px solid var(--ifm-color-primary);
   display: inline-block;
   line-height: 1.2em;
-  text-decoration: none!important;
+  text-decoration: none !important;
   text-transform: uppercase;
-  transition: background .3s,color .3s;
+  transition: background 0.3s, color 0.3s;
   border-radius: 8px;
   border-width: 2px;
   color: #fff;
