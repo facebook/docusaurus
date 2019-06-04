@@ -105,7 +105,9 @@ export async function load(
     generatedFilesDir,
     'client-modules.js',
     `export default [\n${clientModules
-      .map(module => `  import(${JSON.stringify(module)}),`)
+      // import() is async so we use require() because client modules can have
+      // CSS and the order matters for loading CSS.
+      .map(module => `  require(${JSON.stringify(module)}),`)
       .join('\n')}\n];\n`,
   );
 
