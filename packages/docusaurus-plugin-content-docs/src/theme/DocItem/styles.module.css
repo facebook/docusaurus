@@ -9,6 +9,16 @@
   min-height: calc(100vh - 50px);
 }
 
+.container {
+  padding-top: 2rem !important;
+}
+
+@media (min-width: 996px) {
+  .container {
+    padding-left: 2rem;
+  }
+}
+
 @media only screen and (min-width: 996px) {
   .tableOfContents {
     max-height: calc(100vh - (var(--ifm-navbar-height) + 2rem));
