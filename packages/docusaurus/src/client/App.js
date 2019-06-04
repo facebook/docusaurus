@@ -15,7 +15,7 @@ import Head from '@docusaurus/Head';
 import DocusaurusContext from '@docusaurus/context';
 import PendingNavigation from './PendingNavigation';
 
-require('@generated/client-modules');
+import '@generated/client-modules';
 
 function App() {
   return (
