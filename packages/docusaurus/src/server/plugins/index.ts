@@ -26,6 +26,7 @@ export interface Plugin<T> {
   configureWebpack?(config: Configuration, isServer: boolean): Configuration;
   getThemePath?(): string;
   getPathsToWatch?(): string[];
+  getClientModules?(): string[];
 }
 
 export interface PluginConfig {
