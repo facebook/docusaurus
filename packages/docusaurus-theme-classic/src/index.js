@@ -7,7 +7,8 @@
 
 const path = require('path');
 
-module.exports = function() {
+module.exports = function(context, options) {
+  const {customCss} = options || {};
   return {
     name: 'docusaurus-theme-classic',
 
@@ -16,7 +17,7 @@ module.exports = function() {
     },
 
     getClientModules() {
-      return [path.resolve(__dirname, './infima')];
+      return ['infima/dist/css/default/default.css', customCss];
     },
   };
 };
