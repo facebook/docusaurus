@@ -106,15 +106,10 @@ module.exports = {
           path: '../website-1.x/blog',
           postsPerPage: 3,
         },
+        theme: {
+          customCss: require.resolve('./css/custom.css'),
+        },
       },
     ],
-  ],
-  plugins: [
-    {
-      module: require('path').resolve(
-        __dirname,
-        './plugins/plugin-infima-overrides',
-      ),
-    },
   ],
 };

@@ -10,6 +10,7 @@ module.exports = function preset(context, opts = {}) {
     themes: [
       {
         module: '@docusaurus/theme-classic',
+        options: opts.theme,
       },
       {
         module: '@docusaurus/theme-search-algolia',
