@@ -1,0 +1,38 @@
+/**
+ * Copyright (c) 2017-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+.headerTitle {
+  text-transform: uppercase;
+  color: #e1e6ef;
+  font-size: 11px;
+  font-weight: bold;
+  opacity: 0.4;
+}
+
+.editorHeaderContainer {
+  padding: 4px 8px;
+  background: #1a2d3c;
+}
+
+.editorContainer {
+  padding: 0;
+  border: 0;
+  outline: 0;
+}
+
+.previewHeaderContainer {
+  padding: 0 8px;
+  background: #1a2d3c;
+  height: 35px;
+  line-height: 34px;
+}
+
+.previewContainer {
+  position: relative;
+  padding: 16px;
+  border: 0.5px solid #011627;
+}
