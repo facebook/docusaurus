@@ -8,11 +8,14 @@
 import React from 'react';
 import {renderRoutes} from 'react-router-config';
 
-import Head from '@docusaurus/Head';
 import routes from '@generated/routes';
 import siteConfig from '@generated/docusaurus.config';
+
+import Head from '@docusaurus/Head';
 import DocusaurusContext from '@docusaurus/context';
 import PendingNavigation from './PendingNavigation';
+
+import '@generated/client-modules';
 
 function App() {
   return (
