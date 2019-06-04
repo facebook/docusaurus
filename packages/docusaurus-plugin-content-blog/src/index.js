@@ -31,7 +31,6 @@ const DEFAULT_OPTIONS = {
   blogTagsPostsComponent: '@theme/BlogTagsPostsPage',
   remarkPlugins: [],
   rehypePlugins: [],
-  prismTheme: '',
 };
 
 module.exports = function(context, opts) {
@@ -344,7 +343,7 @@ module.exports = function(context, opts) {
     },
 
     configureWebpack(config, isServer, {getBabelLoader, getCacheLoader}) {
-      const {rehypePlugins, remarkPlugins, prismTheme} = options;
+      const {rehypePlugins, remarkPlugins} = options;
       return {
         module: {
           rules: [
@@ -359,7 +358,6 @@ module.exports = function(context, opts) {
                   options: {
                     remarkPlugins,
                     rehypePlugins,
-                    prismTheme,
                   },
                 },
                 {
