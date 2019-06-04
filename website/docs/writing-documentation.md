@@ -98,11 +98,10 @@ References:
 - https://docusaurus.io/docs/en/navigation
 -->
 
-If you're writing technical documentation you may want a way to delineate blocks of 
-code, sometimes known as a *code fence*. The result is also known as a *code block*.
-
 ## Syntax highlighting
 
+If you're writing technical documentation you may want a way to delineate blocks of 
+code, sometimes known as a *code fence*. The result is also known as a *code block*.
 The simplest way to show code is to wrap it between two lines consisting of 3 backticks in a row.
 
 Example:
