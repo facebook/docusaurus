@@ -1,9 +1,21 @@
 {
   "docs": {
-    "Docusaurus": ["doc1", "doc2", "doc3"],
-    "Utilities": ["style-guide"]
+    "Docusaurus": [
+      "doc1",
+      "doc2",
+      "doc3"
+    ],
+    "Docusaurus Cool": [
+      "live-coding"
+    ],
+    "Utilities": [
+      "style-guide"
+    ]
   },
   "docs-other": {
-    "First Category": ["doc4", "doc5"]
+    "First Category": [
+      "doc4",
+      "doc5"
+    ]
   }
 }

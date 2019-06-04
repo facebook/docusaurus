@@ -15,3 +15,8 @@ I can write content using [GitHub-flavored Markdown syntax](https://github.githu
 - Hey
 - Ho
 - Let's Go
+
+
+```js live
+const hello = 'we got live coding now'
+```
