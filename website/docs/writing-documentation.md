@@ -97,3 +97,74 @@ TODO: Talk more about using the official docs plugin and how to configure the si
 References:
 - https://docusaurus.io/docs/en/navigation
 -->
+
+## Syntax highlighting
+
+If you're writing technical documentation you may want a way to delineate blocks of 
+code, sometimes known as a *code fence*. The result is also known as a *code block*.
+The simplest way to show code is to wrap it between two lines consisting of 3 backticks in a row.
+
+Example:
+
+    ```jsx
+	  console.log("Hello world");
+    ```
+
+And the result would be:
+
+```jsx
+console.log("Hello world");
+```
+
+## Live Editor
+
+You can also create live code editors with a code block `live` meta string.
+
+Example:
+
+    ```jsx live
+    function Clock(props) {
+      const [date, setDate] = useState(new Date());
+      useEffect(() => {
+        var timerID = setInterval(() => tick(), 1000);
+
+        return function cleanup() {
+          clearInterval(timerID);
+        };
+      });
+
+      function tick() {
+        setDate(new Date());
+      }
+
+      return (
+        <div>
+          <h2>It is {date.toLocaleTimeString()}.</h2>
+        </div>
+      );
+    }
+    ```
+And the result would be:
+
+```jsx live
+function Clock(props) {
+  const [date, setDate] = useState(new Date());
+  useEffect(() => {
+    var timerID = setInterval(() => tick(), 1000);
+
+    return function cleanup() {
+      clearInterval(timerID);
+    };
+  });
+
+  function tick() {
+    setDate(new Date());
+  }
+
+  return (
+    <div>
+      <h2>It is {date.toLocaleTimeString()}.</h2>
+    </div>
+  );
+}
+```
