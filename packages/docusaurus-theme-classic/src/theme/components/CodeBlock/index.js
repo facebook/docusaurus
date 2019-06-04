@@ -23,7 +23,7 @@ export default ({children, className: languageClassName, live, ...props}) => {
     return (
       <Playground
         scope={{...React}}
-        code={children}
+        code={children.trim()}
         theme={nightOwlTheme}
         {...props}
       />
@@ -35,7 +35,7 @@ export default ({children, className: languageClassName, live, ...props}) => {
     <Highlight
       {...defaultProps}
       theme={nightOwlTheme}
-      code={children}
+      code={children.trim()}
       language={language}>
       {({className, style, tokens, getLineProps, getTokenProps}) => (
         <pre
