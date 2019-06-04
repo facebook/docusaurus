@@ -9,7 +9,7 @@ Next, let's touch on the powerful feature in Docusaurus - documentation.
 
 Create a new file within the `docs` directory called `hello.md` with the following contents:
 
-```md
+```markdown
 ---
 title: Hello
 ---
@@ -43,7 +43,7 @@ Start the development server again and go to http://localhost:3000/docs/hello, y
 
 Edit `docs/hello.md` and append the following:
 
-```mdx
+```jsx
 import Trend from 'react-trend';
 
 _Here's a bar chart!_

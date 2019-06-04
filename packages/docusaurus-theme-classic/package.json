@@ -8,8 +8,12 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@mdx-js/mdx": "^1.0.20",
+    "@mdx-js/react": "^1.0.20",
     "classnames": "^2.2.6",
     "docsearch.js": "^2.5.2",
+    "prism-react-renderer": "^0.1.6",
+    "react-live": "^2.1.2",
     "infima": "0.2.0-alpha.1",
     "react-toggle": "^4.0.2"
   },
