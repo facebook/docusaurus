@@ -6,10 +6,17 @@
  */
 
 import React from 'react';
+import LoadableVisibility from 'react-loadable-visibility/react-loadable';
 import Highlight, {defaultProps} from 'prism-react-renderer';
 import nightOwlTheme from 'prism-react-renderer/themes/nightOwl';
 
-import Playground from '@theme/components/Playground';
+import Loading from '@theme/Loading';
+
+/* Live playground is not small in size, lazy load it is better */
+const Playground = LoadableVisibility({
+  loader: () => import('@theme/components/Playground'),
+  loading: Loading,
+});
 
 export default ({children, className: languageClassName, live, ...props}) => {
   if (live) {

@@ -11546,6 +11546,11 @@ react-loadable-ssr-addon@^0.1.8:
   resolved "https://registry.yarnpkg.com/react-loadable-ssr-addon/-/react-loadable-ssr-addon-0.1.9.tgz#c134275fd36637a554f6438a0b78e0d1f70a8260"
   integrity sha512-mjk0ykDmmgPvkoFVwjbhev/VtarlpdR7B9FzuFFxtviFWVjaL8ddw4J89uFvUkC1KtFmXdQ6BF7yzUB54QqmXg==
 
+react-loadable-visibility@^2.5.1:
+  version "2.5.1"
+  resolved "https://registry.yarnpkg.com/react-loadable-visibility/-/react-loadable-visibility-2.5.1.tgz#713ad70967865a0db1f4dc918228a29a59a593d5"
+  integrity sha512-rIwqjznjAi7i9K+BF/SUCcQZaiIhoPbbMj9aLceHeH093kL4aJ0bdj/iUG6E+ohIkKliKgKB2RKSai0MwNH51g==
+
 react-loadable@^5.5.0:
   version "5.5.0"
   resolved "https://registry.yarnpkg.com/react-loadable/-/react-loadable-5.5.0.tgz#582251679d3da86c32aae2c8e689c59f1196d8c4"
