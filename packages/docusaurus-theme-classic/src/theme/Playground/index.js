@@ -17,14 +17,10 @@ function Playground({children, theme, transformCode, ...props}) {
       transformCode={transformCode || (code => `${code};`)}
       theme={theme}
       {...props}>
-      <div className={styles.editorHeaderContainer}>
-        <div className={styles.headerTitle}>LIVE EDITOR</div>
-      </div>
-      <LiveEditor className={styles.editorContainer} />
-      <div className={styles.previewHeaderContainer}>
-        <div className={styles.headerTitle}>PREVIEW</div>
-      </div>
-      <div className={styles.previewContainer}>
+      <div className={styles.playgroundHeader}>LIVE EDITOR</div>
+      <LiveEditor />
+      <div className={styles.playgroundHeader}>PREVIEW</div>
+      <div className={styles.playgroundPreview}>
         <LivePreview />
         <LiveError />
       </div>

@@ -6,21 +6,11 @@
  */
 import React from 'react';
 import Link from '@docusaurus/Link';
-import CodeBlock from './components/CodeBlock';
+import CodeBlock from '@theme/CodeBlock';
+import styles from './styles.module.css';
 
 export default {
   code: CodeBlock,
   a: Link,
-  pre: props => (
-    <pre
-      className="pre"
-      style={{
-        backgroundColor: 'transparent',
-        fontFamily: 'inherit',
-        padding: 0,
-        boxSizing: 'border-box',
-      }}
-      {...props}
-    />
-  ),
+  pre: props => <pre className={styles.mdxCodeBlock} {...props} />,
 };

@@ -1,0 +1,8 @@
+.CodeBlock {
+  overflow: hidden;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+  font-size: inherit;
+  margin-bottom: 0;
+  border-radius: 0;
+}
