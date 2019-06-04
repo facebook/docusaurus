@@ -11,7 +11,6 @@ import {renderRoutes} from 'react-router-config';
 import routes from '@generated/routes';
 import siteConfig from '@generated/docusaurus.config';
 
-import Head from '@docusaurus/Head';
 import DocusaurusContext from '@docusaurus/context';
 import PendingNavigation from './PendingNavigation';
 
@@ -20,15 +19,6 @@ import '@generated/client-modules';
 function App() {
   return (
     <DocusaurusContext.Provider value={{siteConfig}}>
-      {/* TODO: this link stylesheet to infima is temporary */}
-      <Head>
-        <link
-          href="https://infima-dev.netlify.com/css/default/default.min.css"
-          preload
-          rel="stylesheet"
-          type="text/css"
-        />
-      </Head>
       <PendingNavigation routes={routes}>
         {renderRoutes(routes)}
       </PendingNavigation>

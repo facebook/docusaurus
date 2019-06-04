@@ -10,6 +10,7 @@
   "dependencies": {
     "classnames": "^2.2.6",
     "docsearch.js": "^2.5.2",
+    "infima": "0.2.0-alpha.1",
     "react-toggle": "^4.0.2"
   },
   "peerDependencies": {

@@ -7317,6 +7317,11 @@ indexof@0.0.1:
   resolved "https://registry.yarnpkg.com/indexof/-/indexof-0.0.1.tgz#82dc336d232b9062179d05ab3293a66059fd435d"
   integrity sha1-gtwzbSMrkGIXnQWrMpOmYFn9Q10=
 
+infima@0.2.0-alpha.1:
+  version "0.2.0-alpha.1"
+  resolved "https://registry.yarnpkg.com/infima/-/infima-0.2.0-alpha.1.tgz#f29ed163d84b3754788cc4a23fdbcc6fa96fdd1e"
+  integrity sha512-MkKiboxvTF1tSHQIuq5PquV2vrZ7gdPr9/VGxwVfN5/V814fIrzToiT7l5VYaqEJdMrMQ9EZNSds9IzbqwyESA==
+
 inflight@^1.0.4:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/inflight/-/inflight-1.0.6.tgz#49bd6331d7d02d0c09bc910a1075ba8165b56df9"

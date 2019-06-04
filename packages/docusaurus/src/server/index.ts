@@ -72,8 +72,9 @@ export async function load(
   // Plugins.
   const pluginConfigs: PluginConfig[] = [
     ...presetPlugins,
-    ...(siteConfig.plugins || []),
     ...presetThemes,
+    // Site config should the highest priority.
+    ...(siteConfig.plugins || []),
     ...(siteConfig.themes || []),
   ];
   const {plugins, pluginsRouteConfigs} = await loadPlugins({

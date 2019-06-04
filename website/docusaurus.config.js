@@ -109,4 +109,12 @@ module.exports = {
       },
     ],
   ],
+  plugins: [
+    {
+      module: require('path').resolve(
+        __dirname,
+        './plugins/plugin-infima-overrides',
+      ),
+    },
+  ],
 };
