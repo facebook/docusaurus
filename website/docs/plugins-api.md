@@ -66,8 +66,12 @@ module.exports = function(context, opts) {
   const options = {...DEFAULT_OPTIONS, ...options};
 
   return {
-    // Namespace used for directories to cache the intermediate data for each plugin.
-    name: 'docusaurus-cool-plugin',
+    // A compulsory field used as the namespace for directories to cache
+    // the intermediate data for each plugin.
+    // If you're writing your own local plugin, you will want it to
+    // be unique in order not to potentially conflict with imported plugins.
+    // A good way will be to add your own project name within.
+    name: 'docusaurus-my-project-cool-plugin',
 
     async loadContent() {
       // The loadContent hook is executed after siteConfig and env has been loaded
@@ -106,6 +110,17 @@ module.exports = function(context, opts) {
 
     getPathsToWatch() {
       // Path to watch
+    },
+
+    getThemePath() {
+      // Returns the path to the directory where the theme components can
+      // be found.
+    },
+
+    getClientModules() {
+      // Return an array of paths to the modules that are to be imported
+      // in the client bundle. These modules are imported globally before
+      // React even renders the initial UI.
     },
   };
 };
