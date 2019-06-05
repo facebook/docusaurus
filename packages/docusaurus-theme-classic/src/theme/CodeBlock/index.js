@@ -39,7 +39,7 @@ export default ({children, className: languageClassName, live, ...props}) => {
       code={children.trim()}
       language={language}>
       {({className, style, tokens, getLineProps, getTokenProps}) => (
-        <pre className={classnames(className, styles.CodeBlock)} style={style}>
+        <pre className={classnames(className, styles.codeBlock)} style={style}>
           {tokens.map((line, i) => (
             <div key={i} {...getLineProps({line, key: i})}>
               {line.map((token, key) => (
