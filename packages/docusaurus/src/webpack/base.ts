@@ -84,7 +84,7 @@ export function createBaseConfig(
           vendor: {
             test: /[\\/]node_modules[\\/]/,
             priority: 30,
-            minSize: 200000,
+            minSize: 250000,
             name(module) {
               const packageName = module.context.match(
                 /[\\/]node_modules[\\/](.*?)([\\/]|$)/,
