@@ -555,6 +555,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'T-Regx',
+    image: '/img/users/t-regx.png',
+    infoLink: 'https://t-regx.com',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Taro',
     image: '/img/users/taro.png',
     infoLink: 'https://nervjs.github.io/taro/',
