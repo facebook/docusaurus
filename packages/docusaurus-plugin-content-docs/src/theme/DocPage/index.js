@@ -12,6 +12,8 @@ import Layout from '@theme/Layout'; // eslint-disable-line
 
 import DocSidebar from '@theme/DocSidebar';
 
+import './styles.css';
+
 function DocPage(props) {
   const {route, docsMetadata, location} = props;
   const {permalinkToId} = docsMetadata;
@@ -24,11 +26,11 @@ function DocPage(props) {
   return (
     <Layout noFooter description={description}>
       <div className="container container--fluid">
-        <div className="row">
-          <div className="col col--3">
+        <div>
+          <div className="sidebar__container">
             <DocSidebar docsMetadata={docsMetadata} sidebar={sidebar} />
           </div>
-          <div className="col col--9">
+          <div className="content__container">
             {renderRoutes(route.routes, {docsMetadata})}
           </div>
         </div>

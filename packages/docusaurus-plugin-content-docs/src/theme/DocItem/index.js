@@ -36,7 +36,7 @@ function DocItem(props) {
       <Head>
         {metadata && metadata.title && <title>{metadata.title}</title>}
       </Head>
-      <div className="container margin-vert--lg">
+      <div className={`${styles.container} container margin-bottom--lg`}>
         <div className="row">
           <div className="col col--8">
             <header>
