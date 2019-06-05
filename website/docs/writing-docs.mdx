@@ -5,15 +5,27 @@ title: Writing Docs
 
 <!-- TODO: The title is a bit weird -->
 
-Next, let's touch on the powerful feature in Docusaurus - documentation.
+Documentation is one of your product's interfaces with your users. A well-written and well-organized set of docs helps your users understand your product quickly. Our alined goal here is to help your users find and understand the information they need as easily as possible.
+
+Docusaurus 2 uses modern tooling to help you compose your interactive documentations with ease. You may embed React components, or build live coding blocks where your users may play with the code on the spot. Start sharing your eureka moments with the code your audience cannot walk away from. It is perhaps the most effective way of forming akinships with your potential users.
+
+In this section, we'd like to introduce you to the tools we've picked that we believe will help you build a powerful documentation. Let us walk you through with an example.
 
 ## Using Markdown
 
-Docusaurus supports Markdown with [Remark](https://github.com/remarkjs/remark) as the Markdown parser and is extensible via plugins.
+Create a markdown file, `greeting.md`, and place it under the `docs` directory of your website's root.
 
-<!-- TODO: Remark plugins? https://github.com/remarkjs/remark/blob/master/doc/plugins.md#list-of-plugins -->
+```bash
+. # root directory of your site
+├── docs
+│   └── greeting.md
+├── pages
+├── # ...
+```
 
-In the beginning of each of your docs, specify the `id`, the `title`, and `sidebar_label` so that Docusaurus will pick them up correctly when generating your site. We'll talk about that again in a minute.
+<!-- TODO: talk about where to put the docs, resolving docs outside of website directory, etc. -->
+
+In the beginning of this file, specify `id`, `title`, and `sidebar_label` so that Docusaurus will pick them up correctly when generating your site. We'll talk about that again in just a minute.
 
 ```markdown
 ---
@@ -25,17 +37,59 @@ sidebar_label: hello
 # Hello from Docusaurus
 
 Are you ready to create the documentation site for your open source project?
+
+## Headers
+
+will show up on the table of contents on the upper right
+
+So that your users will know what this page is all about without scrolling down or even without reading too much.
+
+### Only h2 and h3 will be in the toc
+
+The headers are well-spaced so that the hierarchy is clear.
+
+- lists will help you
+- present the key points
+- that you want your users to remember
+  - and you may nest them
+    - multiple times
 ```
 
-<!-- TODO: talk about where to put the docs, resolving docs outside of website directory, etc. -->
+This will render as follows
+
+---
+
+# Hello from Docusaurus
+
+Are you ready to create the documentation site for your open source project?
+
+## Headers
+
+will show up on the table of contents on the upper right
+
+So that your users will know what this page is all about without scrolling down or even without reading too much.
+
+### Only h2 and h3 will be in the toc
+
+The headers are well-spaced so that the hierarchy is clear.
+
+- lists will help you
+- present the key points
+- that you want your users to quickly remember
+  - and you may nest them
+    - multiple layers
+
+---
 
 ## Embedding React Components
 
 Docusaurus has in-house support for [MDX](https://mdxjs.com). This allows you to write JSX within your Markdown files and render them as React components.
 
-Rename your file from `.md` to `.mdx`. Docusaurus will hot reload your dev server and you won't need to restart.
+**Note** While both `.md` and `.mdx` files are parsed, some of the syntax are treated slightly differently. For most accurate parsing, we recommend using `.mdx` for MDX files.
 
-And try this block here:
+**Note** Simply rename your file extension. The hot reload server will pick it up without the need of a restart.
+
+Try this block here:
 
 ```jsx
 export const Highlighter = ({children}) => (
@@ -75,18 +129,18 @@ export const Highlighter = ({children}) => (
 
 ## Sidebar
 
-To generate a sidebar to your Docusaurus site, you need `sidebars.js` under the root directory. Our template should have already generated it for you, so you may edit it for your own customization.
+To generate a sidebar to your Docusaurus site, you need `sidebars.js` under the root directory. Our template should have already generated it for you, so you may edit it directly for customization.
 
 <!-- TODO: change classic template to use `sidebars.js` from json -->
 
 ```bash
-.
+. # root directory of your site
 ├── docs
 │   └── greeting.md
 ├── sidebars.js
 ```
 
-The `sidebars` object requires a `docs` field, under which the keys are the names of each category of your docs, and the values are arrays of `id`'s you specify in your docs' frontmatter.
+Docusaurus will look for a `docs` field in your `sidebars.js` module exports, under which the keys will be treated as the names of each category of your docs, and the values the arrays of `id`'s you specify in your docs' frontmatter.
 
 To add a doc to the sidebar, add the `id` specified in the frontmatter of the doc into its category.
 
@@ -109,19 +163,21 @@ References:
 
 ## Syntax highlighting
 
-Code blocks are text blocks wrapped around by strings of 3 backticks.
+Code blocks are text blocks wrapped around by strings of 3 backticks. You may check out [this reference](https://github.com/mdx-js/specification) for specifications of MDX.
 
     ```jsx
-      console.log("Hello world");
+      console.log("Every repo must come with a mascot.");
     ```
 
 <!-- TODO: We need to allow users to pick syntax highlighting themes (maybe other than swizzling) -->
 
-Docusaurus uses Prism for syntax highlighting.
+Use the matching language meta string for your code block, and Docusaurus will pick up syntax highlighting automatically, powerd by [Prism React Renderer](https://github.com/FormidableLabs/prism-react-renderer). Just in case you need it, [here](https://prismjs.com/#supported-languages) is a list of supported languages and their corresponding meta strings.
 
 ```jsx
-console.log('Hello world');
+console.log('Every repo must come with a mascot.');
 ```
+
+**Work in Progress** Currently the Prism theme we use is [Night Owl](https://github.com/FormidableLabs/prism-react-renderer/blob/master/themes/nightOwl.js). We will support customized theme in a future version.
 
 ## Live Editor
 
@@ -174,3 +230,5 @@ function Clock(props) {
   );
 }
 ```
+
+**Work in Progress** The React Live component is rather big. We want to make it an opt-in by moving it to a plugin.
