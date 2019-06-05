@@ -81,6 +81,19 @@ export function createBaseConfig(
         cacheGroups: {
           // disable the built-in cacheGroups
           default: false,
+          vendor: {
+            test: /[\\/]node_modules[\\/]/,
+            priority: 30,
+            minSize: 200000,
+            name(module) {
+              const packageName = module.context.match(
+                /[\\/]node_modules[\\/](.*?)([\\/]|$)/,
+              )[1];
+
+              // some servers don't like @ symbols as filename
+              return `${packageName.replace('@', '')}`;
+            },
+          },
           vendors: {
             test: /[\\/]node_modules[\\/]/,
             name: 'vendors',
@@ -90,7 +103,6 @@ export function createBaseConfig(
           },
           common: {
             name: 'common',
-            chunks: 'all',
             minChunks: 2,
             priority: 10,
             reuseExistingChunk: true,
