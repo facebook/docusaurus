@@ -1,6 +1,7 @@
 {
   "docs": {
     "Docusaurus": ["doc1", "doc2", "doc3"],
+    "Docusaurus Cool": ["live-coding"],
     "Utilities": ["style-guide"]
   },
   "docs-other": {

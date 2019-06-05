@@ -1,0 +1,20 @@
+/**
+ * Copyright (c) 2017-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+.playgroundHeader {
+  padding: 4px 8px;
+  background: #1a2d3c;
+  text-transform: uppercase;
+  color: rgb(225, 230, 239, .4);
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.playgroundPreview {
+  position: relative;
+  padding: 16px 16px 0;
+}

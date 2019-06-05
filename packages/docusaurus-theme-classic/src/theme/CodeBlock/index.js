@@ -6,15 +6,16 @@
  */
 
 import React from 'react';
+import classnames from 'classnames';
 import LoadableVisibility from 'react-loadable-visibility/react-loadable';
 import Highlight, {defaultProps} from 'prism-react-renderer';
 import nightOwlTheme from 'prism-react-renderer/themes/nightOwl';
-
 import Loading from '@theme/Loading';
+import styles from './styles.module.css';
 
 /* Live playground is not small in size, lazy load it is better */
 const Playground = LoadableVisibility({
-  loader: () => import('@theme/components/Playground'),
+  loader: () => import('@theme/Playground'),
   loading: Loading,
 });
 
@@ -38,15 +39,7 @@ export default ({children, className: languageClassName, live, ...props}) => {
       code={children.trim()}
       language={language}>
       {({className, style, tokens, getLineProps, getTokenProps}) => (
-        <pre
-          className={className}
-          style={{
-            ...style,
-            overflow: 'hidden',
-            overflowWrap: 'break-word',
-            whiteSpace: 'pre-wrap',
-            fontSize: 'inherit',
-          }}>
+        <pre className={classnames(className, styles.codeBlock)} style={style}>
           {tokens.map((line, i) => (
             <div key={i} {...getLineProps({line, key: i})}>
               {line.map((token, key) => (
