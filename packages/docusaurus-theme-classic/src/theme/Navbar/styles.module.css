@@ -5,11 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-@media screen and (max-width: 996px) {
+@media screen and (max-width: 997px) {
   .displayOnlyInLargeViewport {
     display: none !important;
   }
 }
+
 .toggle {
   align-items: center;
   display: flex;
@@ -20,14 +21,13 @@
 }
 .toggle::before {
   position: absolute;
-} 
+}
 .moon::before {
   content: '\1F31C';
 }
 .sun::before {
   content: '\1F31E';
 }
-
 
 /**
  * styles for React Toggle
