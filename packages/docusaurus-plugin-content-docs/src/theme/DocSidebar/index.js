@@ -85,6 +85,7 @@ function DocSidebar(props) {
           'menu--show': showResponsiveSidebar,
         })}>
         <button
+          aria-label={showResponsiveSidebar ? 'Close Menu' : 'Open Menu'}
           className="button button--secondary button--sm menu__button"
           type="button"
           onClick={() => {
