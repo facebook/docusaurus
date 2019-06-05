@@ -1,19 +1,18 @@
 {
-  "name": "@docusaurus/theme-classic",
+  "name": "@docusaurus/theme-live-codeblock",
   "version": "2.0.0-alpha.18",
-  "description": "Classic theme for Docusaurus",
+  "description": "Docusaurus Live CodeBlock",
   "main": "src/index.js",
   "publishConfig": {
     "access": "public"
   },
   "license": "MIT",
   "dependencies": {
-    "@mdx-js/mdx": "^1.0.20",
-    "@mdx-js/react": "^1.0.20",
     "classnames": "^2.2.6",
-    "infima": "0.2.0-alpha.1",
     "prism-react-renderer": "^0.1.6",
-    "react-toggle": "^4.0.2"
+    "react-live": "^2.1.2",
+    "react-loadable": "^5.5.0",
+    "react-loadable-visibility": "^2.5.1"
   },
   "peerDependencies": {
     "@docusaurus/core": "^2.0.0",
