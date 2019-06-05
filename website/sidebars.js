@@ -11,7 +11,7 @@ module.exports = {
       'introduction',
       'installation',
       'creating-pages',
-      'writing-documentation',
+      'writing-docs',
       'deployment',
     ],
     Guides: [
