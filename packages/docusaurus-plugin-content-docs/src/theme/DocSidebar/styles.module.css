@@ -8,6 +8,7 @@
 @media (min-width: 997px) {
   .sidebar {
     height: calc(100vh - var(--ifm-navbar-height));
+    overflow-y: auto;
     padding: 0.5rem;
     position: sticky;
     top: var(--ifm-navbar-height);
