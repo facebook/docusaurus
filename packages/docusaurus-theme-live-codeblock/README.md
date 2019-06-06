@@ -9,17 +9,15 @@ Install
 npm i @docusaurus/theme-live-codeblock # or yarn add @docusaurus/theme-live-codeblock
 ```
 
-```js
-// docusaurus.config.js
-  themes: [
-    {	
-      module: '@docusaurus/theme-live-codeblock'	
-    },
-  ],
-  presets: [
-    [
-      '@docusaurus/preset-classic',
-// .....
+Modify your `docusaurus.config.js`
+
+```diff
+module.exports = {
+  ...
++ themes: ['@docusaurus/theme-live-codeblock'],
+  presets: ['@docusaurus/preset-classic']
+  ...
+}
 ```
 
 
