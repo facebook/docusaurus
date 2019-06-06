@@ -29,8 +29,8 @@ function getHost(reqHost: string | undefined): string {
 }
 
 async function getPort(reqPort: string | undefined): Promise<number> {
-  portfinder.basePort = reqPort ? parseInt(reqPort, 10) : 3000;
-  const port = await portfinder.getPortPromise();
+  const basePort = reqPort ? parseInt(reqPort, 10) : 3000;
+  const port = await portfinder.getPortPromise({port: basePort});
   return port;
 }
 
