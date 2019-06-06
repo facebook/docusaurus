@@ -12,23 +12,29 @@ import preloadHelper from './preload';
 import flat from './flat';
 
 const fetched = {};
+const loaded = {};
 
-const canPrefetchOrLoad = routePath => {
+const isSlowConnection = () => {
   // if user is on slow or constrained connection
   if (`connection` in navigator) {
-    if ((navigator.connection.effectiveType || ``).includes(`2g`)) {
-      return false;
-    }
-    if (navigator.connection.saveData) {
-      return false;
+    if (
+      (navigator.connection.effectiveType || ``).includes(`2g`) &&
+      navigator.connection.saveData
+    ) {
+      return true;
     }
   }
-  return !fetched[routePath];
+  return false;
 };
+
+const canPrefetch = routePath =>
+  !isSlowConnection() && !loaded[routePath] && !fetched[routePath];
+
+const canPreload = routePath => !isSlowConnection() && !loaded[routePath];
 
 const docusaurus = {
   prefetch: routePath => {
-    if (!canPrefetchOrLoad(routePath)) {
+    if (!canPrefetch(routePath)) {
       return false;
     }
 
@@ -56,10 +62,10 @@ const docusaurus = {
     return true;
   },
   preload: routePath => {
-    if (!canPrefetchOrLoad(routePath)) {
+    if (!canPreload(routePath)) {
       return false;
     }
-    fetched[routePath] = true;
+    loaded[routePath] = true;
     preloadHelper(routes, routePath);
     return true;
   },
