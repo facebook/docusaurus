@@ -43,7 +43,14 @@ class PendingNavigation extends React.Component {
             },
             this.stopProgressBar,
           );
-          window.scrollTo(0, 0);
+          const {hash} = nextProps.location;
+          if (!hash) {
+            window.scrollTo(0, 0);
+          } else {
+            const id = hash.replace('#', '');
+            const element = document.getElementById(id);
+            if (element) element.scrollIntoView();
+          }
         })
         .catch(e => console.warn(e));
     }

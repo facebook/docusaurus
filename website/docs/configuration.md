@@ -43,9 +43,9 @@ Deployment configurations are used when you deploy your site with Docusaurus' de
 <!-- TODO: currently these fields are only used in GH Pages, what about other deployment services such as Netlify -->
 
 - [url](docusaurus.config.js.md#url)
-- [baseUrl](docusaurus.config.js.md#baseUrl)
+- [baseUrl](docusaurus.config.js.md#baseurl)
 - [organizationName](docusaurus.config.js.md#organizationname)
-- [projectName](docusaurus.config.js.md#projectName)
+- [projectName](docusaurus.config.js.md#projectname)
 
 You may also check the doc for [Deployment](deployment.md) for more information about the fields.
 
@@ -53,7 +53,7 @@ You may also check the doc for [Deployment](deployment.md) for more information 
 
 <!-- TODO: More explanation from these docs, respectively -->
 
-- [themeConfig](docusaurus.config.js.md#themeConfig)
+- [themeConfig](docusaurus.config.js.md#themeconfig)
 - [presets](docusaurus.config.js.md#presets)
 - [plugins](docusaurus.config.js.md#plugins)
 
@@ -61,7 +61,7 @@ You may also check the doc for [Deployment](deployment.md) for more information 
 
 Docusaurus guards `docusaurus.config.js` from unknown fields. To add a custom field, define it on `customFields`
 
-- [customFields](docusaurus.config.js.md#customFields)
+- [customFields](docusaurus.config.js.md#customfields)
 
 Example:
 
