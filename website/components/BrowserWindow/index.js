@@ -15,9 +15,9 @@ function BrowserWindow({children, minHeight, url}) {
     <div className={styles.container} style={{minHeight}}>
       <div className={styles.row}>
         <div className={classnames(styles.column, styles.left)}>
-          <span className={styles.dot} style={{background: '#ED594A'}} />
-          <span className={styles.dot} style={{background: '#FDD800'}} />
-          <span className={styles.dot} style={{background: '#5AC05A'}} />
+          <span className={styles.dot} style={{background: '#f25f58'}} />
+          <span className={styles.dot} style={{background: '#fbbe3c'}} />
+          <span className={styles.dot} style={{background: '#58cb42'}} />
         </div>
         <div className={classnames(styles.column, styles.middle)}>
           <input disabled={true} type="text" value={url} readOnly />
