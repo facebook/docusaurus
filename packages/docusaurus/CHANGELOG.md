@@ -11,7 +11,22 @@
   - Changed plugin definitions from classes to functions. Refer to the new plugin docs.
   - Implement Clients module API.
   - Change format within `docusaurus.config.js` to be like presets.
-- Infima CSS is now locked down on certain versions and not relying upon the CDN which reads from trunk.
+- Infima CSS is now locked down to specific versions and not relying upon the CDN which reads from trunk.
+- Customize the CSS by passing options into the classic preset:
+
+```
+presets: [
+  [
+    '@docusaurus/preset-classic',
+    {
+      theme: {
+        customCss: require.resolve('./css/custom.css'),
+      },
+      ...
+    },
+  ],
+],
+```
 
 ## V2 Changelog
 
