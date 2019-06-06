@@ -7,7 +7,7 @@
 
 import React from 'react';
 
-import Layout from '@theme/Layout'; // eslint-disable-line
+import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
 
 const CHARS_IN_ALPHABET = 26;

@@ -6,13 +6,11 @@
  */
 
 import React from 'react';
-import {MDXProvider} from '@mdx-js/react';
 import Head from '@docusaurus/Head';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import withBaseUrl from '@docusaurus/withBaseUrl';
 import Navbar from '@theme/Navbar';
 import Footer from '@theme/Footer';
-import MDXComponents from '@theme/MDXComponents';
 
 import './styles.css';
 
@@ -32,7 +30,7 @@ function Layout(props) {
         )}
       </Head>
       <Navbar />
-      <MDXProvider components={MDXComponents}>{children}</MDXProvider>
+      {children}
       {!noFooter && <Footer />}
     </React.Fragment>
   );
