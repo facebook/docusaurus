@@ -6,11 +6,10 @@
  */
 
 import React from 'react';
-import {renderRoutes} from 'react-router-config';
 
 import routes from '@generated/routes';
 import siteConfig from '@generated/docusaurus.config';
-
+import renderRoutes from '@docusaurus/renderRoutes';
 import DocusaurusContext from '@docusaurus/context';
 import PendingNavigation from './PendingNavigation';
 

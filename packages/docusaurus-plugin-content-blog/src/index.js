@@ -338,10 +338,6 @@ module.exports = function(context, opts) {
       }
     },
 
-    getThemePath() {
-      return path.resolve(__dirname, './theme');
-    },
-
     configureWebpack(config, isServer, {getBabelLoader, getCacheLoader}) {
       const {rehypePlugins, remarkPlugins} = options;
       return {

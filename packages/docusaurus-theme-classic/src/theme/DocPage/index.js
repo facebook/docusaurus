@@ -6,10 +6,9 @@
  */
 
 import React from 'react';
-import {renderRoutes} from 'react-router-config';
 
-import Layout from '@theme/Layout'; // eslint-disable-line
-
+import renderRoutes from '@docusaurus/renderRoutes';
+import Layout from '@theme/Layout';
 import DocSidebar from '@theme/DocSidebar';
 
 function DocPage(props) {
