@@ -6,6 +6,7 @@
  */
 
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
 import path from 'path';
 import fs from 'fs-extra';
@@ -71,6 +72,11 @@ export function createBaseConfig(
                 output: {
                   comments: false,
                 },
+              },
+            }),
+            new OptimizeCSSAssetsPlugin({
+              cssProcessorPluginOptions: {
+                preset: 'default',
               },
             }),
           ]
