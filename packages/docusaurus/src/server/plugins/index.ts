@@ -29,10 +29,7 @@ export interface Plugin<T> {
   getClientModules?(): string[];
 }
 
-export interface PluginConfig {
-  module: string;
-  options?: Object;
-}
+export type PluginConfig = [string, Object | undefined] | string;
 
 export interface PluginContentLoadedActions {
   addRoute(config: RouteConfig): void;
@@ -50,10 +47,18 @@ export async function loadPlugins({
   pluginsRouteConfigs: RouteConfig[];
 }> {
   // 1. Plugin Lifecycle - Initialization/Constructor
-  const plugins: Plugin<any>[] = pluginConfigs.map(({module, options}) => {
+  const plugins: Plugin<any>[] = pluginConfigs.map(pluginItem => {
+    let pluginModuleImport;
+    let pluginOptions = {};
+    if (typeof pluginItem === 'string') {
+      pluginModuleImport = pluginItem;
+    } else if (Array.isArray(pluginItem)) {
+      pluginModuleImport = pluginItem[0];
+      pluginOptions = pluginItem[1] || {};
+    }
     // module is any valid module identifier - npm package or locally-resolved path.
-    const plugin = importFresh(module);
-    return plugin(context, options);
+    const pluginModule = importFresh(pluginModuleImport);
+    return pluginModule(context, pluginOptions);
   });
 
   // 2. Plugin lifecycle - loadContent

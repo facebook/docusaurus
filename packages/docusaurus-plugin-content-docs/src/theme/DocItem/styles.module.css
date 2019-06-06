@@ -5,25 +5,22 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-.docBody {
-  min-height: calc(100vh - 50px);
-}
-
-.container {
-  padding-top: 2rem !important;
-}
-
-@media (min-width: 996px) {
-  .container {
+@media (min-width: 997px) {
+  .docItemContainer {
     padding-left: 2rem;
   }
 }
 
-@media only screen and (min-width: 996px) {
+.tableOfContents {
+  display: inherit;
+  max-height: calc(100vh - (var(--ifm-navbar-height) + 2rem));
+  overflow-y: auto;
+  position: sticky;
+  top: calc(var(--ifm-navbar-height) + 2rem);
+}
+
+@media only screen and (max-width: 996px) {
   .tableOfContents {
-    max-height: calc(100vh - (var(--ifm-navbar-height) + 2rem));
-    overflow-y: auto;
-    position: sticky;
-    top: calc(var(--ifm-navbar-height) + 2rem);
+    display: none;
   }
 }

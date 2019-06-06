@@ -8,31 +8,14 @@
 module.exports = function preset(context, opts = {}) {
   return {
     themes: [
-      {
-        module: '@docusaurus/theme-classic',
-        options: opts.theme,
-      },
-      {
-        module: '@docusaurus/theme-search-algolia',
-      },
+      ['@docusaurus/theme-classic', opts.theme],
+      '@docusaurus/theme-search-algolia',
     ],
     plugins: [
-      {
-        module: '@docusaurus/plugin-content-docs',
-        options: opts.docs,
-      },
-      {
-        module: '@docusaurus/plugin-content-blog',
-        options: opts.blog,
-      },
-      {
-        module: '@docusaurus/plugin-content-pages',
-        options: opts.pages,
-      },
-      {
-        module: '@docusaurus/plugin-sitemap',
-        options: opts.sitemap,
-      },
+      ['@docusaurus/plugin-content-docs', opts.docs],
+      ['@docusaurus/plugin-content-blog', opts.blog],
+      ['@docusaurus/plugin-content-pages', opts.pages],
+      ['@docusaurus/plugin-sitemap', opts.sitemap],
     ],
   };
 };

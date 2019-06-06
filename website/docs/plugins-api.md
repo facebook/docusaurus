@@ -18,17 +18,15 @@ Then you add it in your site's `docusaurus.config.js` plugin arrays:
 ```jsx
 module.exports = {
   plugins: [
-    {
-      module: '@docusaurus/plugin-content-pages',
-    },
-    {
+    '@docusaurus/plugin-content-pages',
+    [
       // Plugin with options
-      module: '@docusaurus/plugin-content-blog',
-      options: {
+      '@docusaurus/plugin-content-blog',
+      {
         include: ['*.md', '*.mdx'],
         path: 'blog',
       },
-    },
+    ],
   ],
 };
 ```
@@ -39,11 +37,7 @@ Docusaurus can also load plugins from your local directory, you can do something
 const path = require('path');
 
 module.exports = {
-  plugins: [
-    {
-      module: path.resolve(__dirname, '/path/to/docusaurus-local-plugin'),
-    },
-  ],
+  plugins: [path.resolve(__dirname, '/path/to/docusaurus-local-plugin')],
 };
 ```
 

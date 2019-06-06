@@ -15,7 +15,7 @@ import styles from './styles.module.css';
 function Headings({headings, isChild}) {
   if (!headings.length) return null;
   return (
-    <ul className={isChild ? 'contents' : 'contents contents__left-border'}>
+    <ul className={isChild ? '' : 'contents contents__left-border'}>
       {headings.map(heading => (
         <li key={heading.id}>
           <a href={`#${heading.id}`} className="contents__link">
@@ -32,32 +32,34 @@ function DocItem(props) {
   const {metadata, content: DocContent, docsMetadata} = props;
 
   return (
-    <div className={styles.docBody}>
+    <div>
       <Head>
         {metadata && metadata.title && <title>{metadata.title}</title>}
       </Head>
-      <div className={`${styles.container} container margin-bottom--lg`}>
+      <div className="padding-vert--lg">
         <div className="row">
-          <div className="col col--8">
-            <header>
-              <h1 className="margin-bottom--lg">{metadata.title}</h1>
-            </header>
-            <article>
-              <div className="markdown">
-                <DocContent />
+          <div className="col">
+            <div className={styles.docItemContainer}>
+              <header>
+                <h1 className="margin-bottom--lg">{metadata.title}</h1>
+              </header>
+              <article>
+                <div className="markdown">
+                  <DocContent />
+                </div>
+              </article>
+              <div className="margin-top--xl margin-bottom--lg">
+                <DocPaginator docsMetadata={docsMetadata} metadata={metadata} />
               </div>
-            </article>
-            <div className="margin-vert--lg" />
-
-            <DocPaginator docsMetadata={docsMetadata} metadata={metadata} />
+            </div>
           </div>
-          <div className="col col--3 col--offset-1">
-            {DocContent.rightToc && (
+          {DocContent.rightToc && (
+            <div className="col col--3">
               <div className={styles.tableOfContents}>
                 <Headings headings={DocContent.rightToc} />
               </div>
-            )}
-          </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

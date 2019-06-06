@@ -2,9 +2,31 @@
 
 ## 2.0.0-alpha.19
 
-- Changed plugin definitions from classes to functions. Refer to the new plugin docs.
-- Added sun and moon emoji to the dark mode toggle.
 - Add a sensible default for browserslist config.
+- UI
+  - Added sun and moon emoji to the dark mode toggle.
+  - Mobile responsive menu.
+  - Right table of contents for docs is now sticky.
+- Plugins
+  - Changed plugin definitions from classes to functions. Refer to the new plugin docs.
+  - Implement Clients module API.
+  - Change format within `docusaurus.config.js` to be like presets.
+- Infima CSS is now locked down to specific versions and not relying upon the CDN which reads from trunk.
+- Customize the CSS by passing options into the classic preset:
+
+```
+presets: [
+  [
+    '@docusaurus/preset-classic',
+    {
+      theme: {
+        customCss: require.resolve('./css/custom.css'),
+      },
+      ...
+    },
+  ],
+],
+```
 
 ## V2 Changelog
 
