@@ -24,15 +24,13 @@ The configurations can be categorized into:
 - [Theme configurations, plugins, and presets](#theme-plugins-and-presets-configurations)
 - [Custom configurations](#custom-configurations)
 
+For more details on the API, check out [the API Reference on `docusaurus.config.js`](docusaurus.config.js)
+
 ### Site meta
 
 Site meta contains the essential meta information such as titles and `favicon`.
 
 They are used by your site app in a number of places such as your site's title and headings, browser tab icon, and SEO.
-
-- [title](docusaurus.config.js.md#title)
-- [tagline](docusaurus.config.js.md#tagline)
-- [favicon](docusaurus.config.js.md#favicon)
 
 ### Deployment configurations
 
@@ -42,26 +40,15 @@ Deployment configurations are used when you deploy your site with Docusaurus' de
 
 <!-- TODO: currently these fields are only used in GH Pages, what about other deployment services such as Netlify -->
 
-- [url](docusaurus.config.js.md#url)
-- [baseUrl](docusaurus.config.js.md#baseurl)
-- [organizationName](docusaurus.config.js.md#organizationname)
-- [projectName](docusaurus.config.js.md#projectname)
-
 You may also check the doc for [Deployment](deployment.md) for more information about the fields.
 
 ### Theme, plugins, and presets configurations
 
 <!-- TODO: More explanation from these docs, respectively -->
 
-- [themeConfig](docusaurus.config.js.md#themeconfig)
-- [presets](docusaurus.config.js.md#presets)
-- [plugins](docusaurus.config.js.md#plugins)
-
 ### Custom configurations
 
 Docusaurus guards `docusaurus.config.js` from unknown fields. To add a custom field, define it on `customFields`
-
-- [customFields](docusaurus.config.js.md#customfields)
 
 Example:
 
@@ -69,12 +56,11 @@ Example:
 // docusaurus.config.js
 module.exports = {
   customFields: {
-    'image': '',
-    'keywords': []
-  }
+    image: '',
+    keywords: [],
+  },
 };
 ```
-
 
 ## Accessing configuration from your site
 
@@ -100,5 +86,3 @@ const Layout = props => {
   );
 };
 ```
-
-## Customized configurations
