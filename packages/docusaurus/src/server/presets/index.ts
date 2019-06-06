@@ -16,7 +16,7 @@ export interface Preset {
   themes?: PluginConfig[];
 }
 
-export type PresetConfig = [string, Object] | string;
+export type PresetConfig = [string, Object | undefined] | string;
 
 export function loadPresets(
   context: LoadContext,
@@ -34,7 +34,8 @@ export function loadPresets(
     if (typeof presetItem === 'string') {
       presetModuleImport = presetItem;
     } else if (Array.isArray(presetItem)) {
-      [presetModuleImport, presetOptions] = presetItem;
+      presetModuleImport = presetItem[0];
+      presetOptions = presetItem[1] || {};
     }
 
     const presetModule = importFresh(presetModuleImport);

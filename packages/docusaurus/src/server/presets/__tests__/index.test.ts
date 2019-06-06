@@ -15,11 +15,11 @@ describe('loadPresets', () => {
     const context = {siteConfig: {}} as LoadContext;
     const presets = loadPresets(context);
     expect(presets).toMatchInlineSnapshot(`
-Object {
-  "plugins": Array [],
-  "themes": Array [],
-}
-`);
+      Object {
+        "plugins": Array [],
+        "themes": Array [],
+      }
+    `);
   });
 
   test('string form', () => {
@@ -30,20 +30,20 @@ Object {
     } as LoadContext;
     const presets = loadPresets(context);
     expect(presets).toMatchInlineSnapshot(`
-Object {
-  "plugins": Array [
-    Object {
-      "name": "@docusaurus/plugin-content-docs",
-      "options": undefined,
-    },
-    Object {
-      "name": "@docusaurus/plugin-content-blog",
-      "options": undefined,
-    },
-  ],
-  "themes": Array [],
-}
-`);
+      Object {
+        "plugins": Array [
+          Array [
+            "@docusaurus/plugin-content-docs",
+            undefined,
+          ],
+          Array [
+            "@docusaurus/plugin-content-blog",
+            undefined,
+          ],
+        ],
+        "themes": Array [],
+      }
+    `);
   });
 
   test('string form composite', () => {
@@ -57,28 +57,28 @@ Object {
     } as LoadContext;
     const presets = loadPresets(context);
     expect(presets).toMatchInlineSnapshot(`
-Object {
-  "plugins": Array [
-    Object {
-      "name": "@docusaurus/plugin-content-docs",
-      "options": undefined,
-    },
-    Object {
-      "name": "@docusaurus/plugin-content-blog",
-      "options": undefined,
-    },
-    Object {
-      "name": "@docusaurus/plugin-content-pages",
-      "options": undefined,
-    },
-    Object {
-      "name": "@docusaurus/plugin-sitemap",
-      "options": undefined,
-    },
-  ],
-  "themes": Array [],
-}
-`);
+      Object {
+        "plugins": Array [
+          Array [
+            "@docusaurus/plugin-content-docs",
+            undefined,
+          ],
+          Array [
+            "@docusaurus/plugin-content-blog",
+            undefined,
+          ],
+          Array [
+            "@docusaurus/plugin-content-pages",
+            undefined,
+          ],
+          Array [
+            "@docusaurus/plugin-sitemap",
+            undefined,
+          ],
+        ],
+        "themes": Array [],
+      }
+    `);
   });
 
   test('array form', () => {
@@ -89,20 +89,20 @@ Object {
     } as LoadContext;
     const presets = loadPresets(context);
     expect(presets).toMatchInlineSnapshot(`
-Object {
-  "plugins": Array [
-    Object {
-      "name": "@docusaurus/plugin-content-docs",
-      "options": undefined,
-    },
-    Object {
-      "name": "@docusaurus/plugin-content-blog",
-      "options": undefined,
-    },
-  ],
-  "themes": Array [],
-}
-`);
+      Object {
+        "plugins": Array [
+          Array [
+            "@docusaurus/plugin-content-docs",
+            undefined,
+          ],
+          Array [
+            "@docusaurus/plugin-content-blog",
+            undefined,
+          ],
+        ],
+        "themes": Array [],
+      }
+    `);
   });
 
   test('array form with options', () => {
@@ -118,22 +118,22 @@ Object {
     } as LoadContext;
     const presets = loadPresets(context);
     expect(presets).toMatchInlineSnapshot(`
-Object {
-  "plugins": Array [
-    Object {
-      "name": "@docusaurus/plugin-content-docs",
-      "options": Object {
-        "path": "../",
-      },
-    },
-    Object {
-      "name": "@docusaurus/plugin-content-blog",
-      "options": undefined,
-    },
-  ],
-  "themes": Array [],
-}
-`);
+      Object {
+        "plugins": Array [
+          Array [
+            "@docusaurus/plugin-content-docs",
+            Object {
+              "path": "../",
+            },
+          ],
+          Array [
+            "@docusaurus/plugin-content-blog",
+            undefined,
+          ],
+        ],
+        "themes": Array [],
+      }
+    `);
   });
 
   test('array form composite', () => {
@@ -153,32 +153,32 @@ Object {
     } as LoadContext;
     const presets = loadPresets(context);
     expect(presets).toMatchInlineSnapshot(`
-Object {
-  "plugins": Array [
-    Object {
-      "name": "@docusaurus/plugin-content-docs",
-      "options": Object {
-        "path": "../",
-      },
-    },
-    Object {
-      "name": "@docusaurus/plugin-content-blog",
-      "options": undefined,
-    },
-    Object {
-      "name": "@docusaurus/plugin-content-pages",
-      "options": Object {
-        "path": "../",
-      },
-    },
-    Object {
-      "name": "@docusaurus/plugin-sitemap",
-      "options": undefined,
-    },
-  ],
-  "themes": Array [],
-}
-`);
+      Object {
+        "plugins": Array [
+          Array [
+            "@docusaurus/plugin-content-docs",
+            Object {
+              "path": "../",
+            },
+          ],
+          Array [
+            "@docusaurus/plugin-content-blog",
+            undefined,
+          ],
+          Array [
+            "@docusaurus/plugin-content-pages",
+            Object {
+              "path": "../",
+            },
+          ],
+          Array [
+            "@docusaurus/plugin-sitemap",
+            undefined,
+          ],
+        ],
+        "themes": Array [],
+      }
+    `);
   });
 
   test('mixed form', () => {
@@ -195,30 +195,30 @@ Object {
     } as LoadContext;
     const presets = loadPresets(context);
     expect(presets).toMatchInlineSnapshot(`
-Object {
-  "plugins": Array [
-    Object {
-      "name": "@docusaurus/plugin-content-docs",
-      "options": Object {
-        "path": "../",
-      },
-    },
-    Object {
-      "name": "@docusaurus/plugin-content-blog",
-      "options": undefined,
-    },
-    Object {
-      "name": "@docusaurus/plugin-content-pages",
-      "options": undefined,
-    },
-    Object {
-      "name": "@docusaurus/plugin-sitemap",
-      "options": undefined,
-    },
-  ],
-  "themes": Array [],
-}
-`);
+      Object {
+        "plugins": Array [
+          Array [
+            "@docusaurus/plugin-content-docs",
+            Object {
+              "path": "../",
+            },
+          ],
+          Array [
+            "@docusaurus/plugin-content-blog",
+            undefined,
+          ],
+          Array [
+            "@docusaurus/plugin-content-pages",
+            undefined,
+          ],
+          Array [
+            "@docusaurus/plugin-sitemap",
+            undefined,
+          ],
+        ],
+        "themes": Array [],
+      }
+    `);
   });
 
   test('mixed form with themes', () => {
@@ -236,38 +236,38 @@ Object {
     } as LoadContext;
     const presets = loadPresets(context);
     expect(presets).toMatchInlineSnapshot(`
-Object {
-  "plugins": Array [
-    Object {
-      "name": "@docusaurus/plugin-content-docs",
-      "options": Object {
-        "path": "../",
-      },
-    },
-    Object {
-      "name": "@docusaurus/plugin-content-blog",
-      "options": undefined,
-    },
-    Object {
-      "name": "@docusaurus/plugin-content-pages",
-      "options": undefined,
-    },
-    Object {
-      "name": "@docusaurus/plugin-sitemap",
-      "options": undefined,
-    },
-    Object {
-      "name": "@docusaurus/plugin-test",
-      "options": undefined,
-    },
-  ],
-  "themes": Array [
-    Object {
-      "name": "@docusaurus/theme-classic",
-      "options": undefined,
-    },
-  ],
-}
-`);
+      Object {
+        "plugins": Array [
+          Array [
+            "@docusaurus/plugin-content-docs",
+            Object {
+              "path": "../",
+            },
+          ],
+          Array [
+            "@docusaurus/plugin-content-blog",
+            undefined,
+          ],
+          Array [
+            "@docusaurus/plugin-content-pages",
+            undefined,
+          ],
+          Array [
+            "@docusaurus/plugin-sitemap",
+            undefined,
+          ],
+          Array [
+            "@docusaurus/plugin-test",
+            undefined,
+          ],
+        ],
+        "themes": Array [
+          Array [
+            "@docusaurus/theme-classic",
+            undefined,
+          ],
+        ],
+      }
+    `);
   });
 });

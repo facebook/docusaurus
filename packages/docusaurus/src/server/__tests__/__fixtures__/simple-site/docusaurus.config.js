@@ -14,15 +14,13 @@ module.exports = {
   url: 'https://docusaurus.io',
   favicon: 'img/docusaurus.ico',
   plugins: [
-    {
-      module: '@docusaurus/plugin-content-docs',
-      options: {
+    [
+      '@docusaurus/plugin-content-docs',
+      {
         path: '../docs',
         sidebarPath: require.resolve('./sidebars.json'),
       },
-    },
-    {
-      module: '@docusaurus/plugin-content-pages',
-    },
+    ],
+    '@docusaurus/plugin-content-pages',
   ],
 };
