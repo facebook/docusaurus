@@ -6,11 +6,12 @@
  */
 
 import React from 'react';
-import {renderRoutes} from 'react-router-config';
+import {MDXProvider} from '@mdx-js/react';
 
-import Layout from '@theme/Layout'; // eslint-disable-line
-
+import renderRoutes from '@docusaurus/renderRoutes';
+import Layout from '@theme/Layout';
 import DocSidebar from '@theme/DocSidebar';
+import MDXComponents from '@theme/MDXComponents';
 
 function DocPage(props) {
   const {route, docsMetadata, location} = props;
@@ -29,7 +30,9 @@ function DocPage(props) {
             <DocSidebar docsMetadata={docsMetadata} sidebar={sidebar} />
           </div>
           <main className="col">
-            {renderRoutes(route.routes, {docsMetadata})}
+            <MDXProvider components={MDXComponents}>
+              {renderRoutes(route.routes, {docsMetadata})}
+            </MDXProvider>
           </main>
         </div>
       </div>
