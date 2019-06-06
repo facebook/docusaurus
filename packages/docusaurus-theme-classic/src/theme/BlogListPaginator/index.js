@@ -23,7 +23,7 @@ function BlogListPaginator(props) {
           </Link>
         )}
       </div>
-      <div className="pagination-nav__item pagination-nav__item-next">
+      <div className="pagination-nav__item pagination-nav__item--next">
         {nextPage && (
           <Link className="pagination-nav__link" to={nextPage}>
             <h4 className="pagination-nav__link--label">
