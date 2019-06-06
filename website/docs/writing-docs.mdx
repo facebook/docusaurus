@@ -9,7 +9,7 @@ Docusaurus 2 uses modern tooling to help you compose your interactive documentat
 
 In this section, we'd like to introduce you to the tools we've picked that we believe will help you build powerful documentation. Let us walk you through with an example.
 
-**Note:** All the following content assumes you are using `docusaurus-plugin-content-docs` or `docusaurus-preset-classic` (which contains `docusaurus-plugin-content-docs`).
+**Note:** All the following content assumes you are using `docusaurus-preset-classic`.
 
 ## Using Markdown
 
@@ -190,9 +190,25 @@ console.log('Every repo must come with a mascot.');
 
 **Work in Progress** Currently the Prism theme we use is [Night Owl](https://github.com/FormidableLabs/prism-react-renderer/blob/master/themes/nightOwl.js). We will support customized theme in a future version.
 
-## Live Editor
+## React Live Editor
 
-You can create live code editors by creating a code block with `live` attached to the language meta string.
+You can also create a react live editor by installing a plugin.
+
+```bash
+npm i @docusaurus/theme-live-codeblock
+```
+
+Add it to your `docusaurus.config.js`.
+
+```diff
+module.exports = {
+  ...
++ themes: ['@docusaurus/theme-live-codeblock'],
+  ...
+}
+```
+
+Then create a code block with `live` attached to the language meta string.
 
     ```jsx live
     function Clock(props) {
@@ -242,4 +258,4 @@ function Clock(props) {
 }
 ```
 
-**Work in Progress** The React Live component is rather big. We want to make it an opt-in by moving it to a plugin.
+**Note** The React Live component is rather big in bundle size. It is an opt-in.

@@ -6,10 +6,15 @@
  */
 
 module.exports = function preset(context, opts = {}) {
+  const {siteConfig = {}} = context;
+  const {themeConfig} = siteConfig;
+  const {algolia} = themeConfig;
+
   return {
     themes: [
       ['@docusaurus/theme-classic', opts.theme],
-      '@docusaurus/theme-search-algolia',
+      // Don't add this if algolia config is not defined
+      algolia && '@docusaurus/theme-search-algolia',
     ],
     plugins: [
       ['@docusaurus/plugin-content-docs', opts.docs],
