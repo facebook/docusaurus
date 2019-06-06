@@ -11,8 +11,10 @@
   - Changed plugin definitions from classes to functions. Refer to the new plugin docs.
   - Implement Clients module API.
   - Change format within `docusaurus.config.js` to be like presets.
-- Infima CSS is now locked down to specific versions and not relying upon the CDN which reads from trunk.
-- Customize the CSS by passing options into the classic preset:
+- Deps
+  - Infima CSS is now locked down to specific versions and not relying upon the CDN which reads from trunk.
+  - Update dependencies to latest
+- Customize/ Override infima CSS variables by passing options into the classic preset.
 
 ```
 presets: [
@@ -27,6 +29,17 @@ presets: [
   ],
 ],
 ```
+
+- Allow passing remark and rehype plugins to mdx-loader for docs and blog plugin
+- Move themes component of docs and blog to be part of theme-classic
+- Use composition style for prism syntax highlighting instead of doing it via rehype plugin
+- Pass MDXProvider to docs and blog. To change the provided MDX components, run `docusaurus swizzle @docusaurus/theme-classic MDXComponents`
+- Add @docusaurus/theme-livecodeblock plugin
+- Better run-time code generation & webpack splitchunks optimization
+- Minify css for production build
+- Fix weird scrolling problem when navigating to a route with a `hash` location
+
+
 
 ## V2 Changelog
 
