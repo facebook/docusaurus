@@ -86,6 +86,7 @@ export function createBaseConfig(
             priority: 30,
             minSize: 250000,
             name(module) {
+              // get the package name. E.g. node_modules/packageName/not/this/part
               const packageName = module.context.match(
                 /[\\/]node_modules[\\/](.*?)([\\/]|$)/,
               )[1];
