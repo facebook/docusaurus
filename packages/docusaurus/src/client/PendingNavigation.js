@@ -35,7 +35,7 @@ class PendingNavigation extends React.Component {
     // route. We will preload the new route.
     if (routeDidChange) {
       this.startProgressBar(delay);
-      // Save the location first
+      // Save the location first.
       this.previousLocation = this.props.location;
       this.setState({
         nextRouteHasLoaded: false,
@@ -89,6 +89,8 @@ class PendingNavigation extends React.Component {
   startProgressBar(delay) {
     this.clearProgressBarTimeout();
     this.progressBarTimeout = setTimeout(() => {
+      // TODO: Implement browser lifecycle.
+      // onRouteUpdateDelayed()
       nprogress.start();
     }, delay);
   }
