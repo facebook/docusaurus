@@ -44,6 +44,7 @@ export async function start(
   siteDir: string,
   cliOptions: CLIOptions = {},
 ): Promise<void> {
+  console.log(chalk.cyan(DOCUSAURUS_ASCII));
   console.log(chalk.blue('Starting the development server...'));
 
   // Process all related files as a prop.
@@ -83,6 +84,8 @@ export async function start(
   const {baseUrl} = props;
   const urls = prepareUrls(protocol, host, port);
   const openUrl = normalizeUrl([urls.localUrlForBrowser, baseUrl]);
+
+  console.log(chalk.cyan(`Building your site at ${openUrl}`));
 
   let config: webpack.Configuration = merge(createClientConfig(props), {
     plugins: [
@@ -147,8 +150,6 @@ export async function start(
     if (err) {
       console.log(err);
     }
-    console.log(chalk.cyan(DOCUSAURUS_ASCII));
-    console.log(chalk.cyan(`You can now visit your site at ${openUrl}`));
     openBrowser(openUrl);
   });
   ['SIGINT', 'SIGTERM'].forEach(sig => {
