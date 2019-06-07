@@ -1,4 +1,4 @@
-import { DocusaurusConfig } from '../server/types';
+import {DocusaurusConfig} from '../server/types';
 
 export interface DocusaurusContext {
   siteConfig?: DocusaurusConfig;
