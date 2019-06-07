@@ -5,34 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {PluginConfig} from './plugins';
-
 import fs from 'fs-extra';
-import _ from 'lodash';
 import importFresh from 'import-fresh';
+import _ from 'lodash';
 import path from 'path';
 import {CONFIG_FILE_NAME} from '../constants';
-import {PresetConfig} from './presets';
-
-export interface DocusaurusConfig {
-  baseUrl: string;
-  favicon: string;
-  tagline: string;
-  title: string;
-  url: string;
-  organizationName?: string;
-  projectName?: string;
-  githubHost?: string;
-  plugins?: PluginConfig[];
-  themes?: PluginConfig[];
-  presets?: PresetConfig[];
-  themeConfig?: {
-    [key: string]: any;
-  };
-  customFields?: {
-    [key: string]: any;
-  };
-}
+import {DocusaurusConfig, PluginConfig} from './types';
 
 const REQUIRED_FIELDS = ['baseUrl', 'favicon', 'tagline', 'title', 'url'];
 

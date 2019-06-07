@@ -5,18 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {LoadContext} from '../index';
-import {PluginConfig} from '../plugins';
-
 import importFresh from 'import-fresh';
 import _ from 'lodash';
-
-export interface Preset {
-  plugins?: PluginConfig[];
-  themes?: PluginConfig[];
-}
-
-export type PresetConfig = [string, Object | undefined] | string;
+import {LoadContext, PluginConfig, Preset, PresetConfig} from '../types';
 
 export function loadPresets(
   context: LoadContext,

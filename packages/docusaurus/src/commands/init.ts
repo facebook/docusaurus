@@ -6,12 +6,12 @@
  */
 
 import chalk from 'chalk';
-import fs from 'fs-extra';
-import shell from 'shelljs';
-import inquirer from 'inquirer';
-import path from 'path';
-import _ from 'lodash';
 import {execSync} from 'child_process';
+import fs from 'fs-extra';
+import inquirer from 'inquirer';
+import _ from 'lodash';
+import path from 'path';
+import shell from 'shelljs';
 
 function hasYarn(): boolean {
   try {

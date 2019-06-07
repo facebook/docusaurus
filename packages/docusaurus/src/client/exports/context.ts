@@ -6,10 +6,6 @@
  */
 
 import * as React from 'react';
-import {DocusaurusConfig} from '../../server/config';
-
-export interface DocusaurusContext {
-  siteConfig?: DocusaurusConfig;
-}
+import {DocusaurusContext} from '../types';
 
 export default React.createContext<DocusaurusContext>({});

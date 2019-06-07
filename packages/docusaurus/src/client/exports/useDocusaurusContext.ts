@@ -6,10 +6,11 @@
  */
 
 import {useContext} from 'react';
-import DocusaurusContext from './context';
+import context from './context';
+import {DocusaurusContext} from '../types';
 
-function useDocusaurusContext() {
-  return useContext(DocusaurusContext);
+function useDocusaurusContext(): DocusaurusContext {
+  return useContext(context);
 }
 
 export default useDocusaurusContext;

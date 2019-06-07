@@ -5,36 +5,17 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {LoadContext, Props} from '..';
-import {RouteConfig} from '../routes';
-
+import {generate} from '@docusaurus/utils';
 import fs from 'fs-extra';
 import importFresh from 'import-fresh';
 import path from 'path';
-import {generate} from '@docusaurus/utils';
-import {Configuration} from 'webpack';
-
-export interface Plugin<T> {
-  name: string;
-  loadContent?(): T;
-  contentLoaded?({
-    content: T,
-    actions: DocusaurusPluginContentLoadedActions,
-  }): void;
-  postBuild?(props: Props): void;
-  postStart?(props: Props): void;
-  configureWebpack?(config: Configuration, isServer: boolean): Configuration;
-  getThemePath?(): string;
-  getPathsToWatch?(): string[];
-  getClientModules?(): string[];
-}
-
-export type PluginConfig = [string, Object | undefined] | string;
-
-export interface PluginContentLoadedActions {
-  addRoute(config: RouteConfig): void;
-  createData(name: string, data: Object): Promise<string>;
-}
+import {
+  LoadContext,
+  Plugin,
+  PluginConfig,
+  PluginContentLoadedActions,
+  RouteConfig,
+} from '../types';
 
 export async function loadPlugins({
   pluginConfigs,

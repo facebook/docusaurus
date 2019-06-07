@@ -5,22 +5,23 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import _ from 'lodash';
-import path from 'path';
-import webpack from 'webpack';
-import express from 'express';
+import {normalizeUrl} from '@docusaurus/utils';
 import chalk from 'chalk';
 import chokidar from 'chokidar';
+import express from 'express';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import _ from 'lodash';
+import path from 'path';
 import portfinder from 'portfinder';
 import openBrowser from 'react-dev-utils/openBrowser';
 import {prepareUrls} from 'react-dev-utils/WebpackDevServerUtils';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
-import HotModuleReplacementPlugin from 'webpack/lib/HotModuleReplacementPlugin';
+import webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
 import merge from 'webpack-merge';
-import {normalizeUrl} from '@docusaurus/utils';
-import {load, CLIOptions} from '../server';
+import HotModuleReplacementPlugin from 'webpack/lib/HotModuleReplacementPlugin';
 import {CONFIG_FILE_NAME, STATIC_DIR_NAME} from '../constants';
+import {load} from '../server';
+import {CLIOptions} from '../server/types';
 import {createClientConfig} from '../webpack/client';
 import {applyConfigureWebpack} from '../webpack/utils';
 

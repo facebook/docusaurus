@@ -6,33 +6,9 @@
  */
 
 import {genChunkName} from '@docusaurus/utils';
-import {stringify, ParsedUrlQueryInput} from 'querystring';
 import _ from 'lodash';
-
-interface ChunkRegistry {
-  importStatement: string;
-  modulePath: string;
-}
-
-type Module =
-  | {
-      path: string;
-      __import?: boolean;
-      query?: ParsedUrlQueryInput;
-    }
-  | string;
-
-interface RouteModule {
-  [module: string]: Module | RouteModule | RouteModule[];
-}
-
-export interface RouteConfig {
-  path: string;
-  component: string;
-  modules?: RouteModule;
-  routes?: RouteConfig[];
-  exact?: boolean;
-}
+import {stringify} from 'querystring';
+import {ChunkRegistry, Module, RouteConfig, RouteModule} from './types';
 
 function getModulePath(target: Module): string {
   if (typeof target === 'string') {

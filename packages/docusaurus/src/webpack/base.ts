@@ -5,14 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import fs from 'fs-extra';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
-import TerserPlugin from 'terser-webpack-plugin';
 import path from 'path';
-import fs from 'fs-extra';
+import TerserPlugin from 'terser-webpack-plugin';
 import {Configuration} from 'webpack';
+
+import {Props} from '../server/types';
 import {getBabelLoader, getCacheLoader, getStyleLoaders} from './utils';
-import {Props} from '../server';
 
 const CSS_REGEX = /\.css$/;
 const CSS_MODULE_REGEX = /\.module\.css$/;

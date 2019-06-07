@@ -7,13 +7,13 @@
 
 import path from 'path';
 import StaticSiteGeneratorPlugin from 'static-site-generator-webpack-plugin';
-import WebpackNiceLog from 'webpack-nicelog';
-import merge from 'webpack-merge';
 import {Configuration} from 'webpack';
+import merge from 'webpack-merge';
+import WebpackNiceLog from 'webpack-nicelog';
 
+import {Props} from '../server/types';
 import {createBaseConfig} from './base';
 import WaitPlugin from './plugins/WaitPlugin';
-import {Props} from '../server';
 
 export function createServerConfig(props: Props): Configuration {
   const {baseUrl, routesPaths, outDir} = props;
