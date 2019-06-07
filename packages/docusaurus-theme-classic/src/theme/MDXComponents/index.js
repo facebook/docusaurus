@@ -10,7 +10,13 @@ import CodeBlock from '@theme/CodeBlock';
 import styles from './styles.module.css';
 
 export default {
-  code: CodeBlock,
+  code: props => {
+    const {children} = props;
+    if (typeof children === 'string') {
+      return <CodeBlock {...props} />;
+    }
+    return children;
+  },
   a: Link,
   pre: props => <pre className={styles.mdxCodeBlock} {...props} />,
 };
