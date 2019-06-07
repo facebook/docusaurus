@@ -12,6 +12,7 @@ import renderRoutes from '@docusaurus/renderRoutes';
 import Layout from '@theme/Layout';
 import DocSidebar from '@theme/DocSidebar';
 import MDXComponents from '@theme/MDXComponents';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 function DocPage(props) {
   const {route, docsMetadata, location} = props;
@@ -20,10 +21,17 @@ function DocPage(props) {
     permalinkToId[location.pathname] ||
     permalinkToId[location.pathname.replace(/\/$/, '')];
   const metadata = docsMetadata.docs[id] || {};
-  const {sidebar, description} = metadata;
-
+  const {sidebar, description, title, permalink, cover} = metadata;
+  const {
+    siteConfig: {url},
+  } = useDocusaurusContext();
   return (
-    <Layout noFooter description={description}>
+    <Layout
+      noFooter
+      description={description}
+      title={title}
+      image={cover}
+      permalink={`${url}${permalink}`}>
       <div className="container container--fluid">
         <div className="row">
           <div className="col col--3">
