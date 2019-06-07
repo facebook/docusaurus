@@ -5,9 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {Plugin} from '../plugins';
-
 import _ from 'lodash';
+import {Plugin} from '../types';
 
 export function loadClientModules(plugins: Plugin<any>[]): string[] {
   return _.compact(

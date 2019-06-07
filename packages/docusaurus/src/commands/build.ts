@@ -5,20 +5,21 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import webpack, {Configuration, Plugin} from 'webpack';
-import merge from 'webpack-merge';
+import chalk from 'chalk';
 import CleanWebpackPlugin from 'clean-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
-import ReactLoadableSSRAddon from 'react-loadable-ssr-addon';
-import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
-import path from 'path';
-import chalk from 'chalk';
 import fs from 'fs-extra';
-import {load, CLIOptions, Props} from '../server';
+import path from 'path';
+import ReactLoadableSSRAddon from 'react-loadable-ssr-addon';
+import webpack, {Configuration, Plugin} from 'webpack';
+import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
+import merge from 'webpack-merge';
+import {STATIC_DIR_NAME} from '../constants';
+import {load} from '../server';
+import {CLIOptions, Props} from '../server/types';
 import {createClientConfig} from '../webpack/client';
 import {createServerConfig} from '../webpack/server';
 import {applyConfigureWebpack} from '../webpack/utils';
-import {STATIC_DIR_NAME} from '../constants';
 
 function compile(config: Configuration[]): Promise<any> {
   return new Promise((resolve, reject) => {

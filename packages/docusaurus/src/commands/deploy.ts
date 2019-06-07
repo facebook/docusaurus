@@ -5,12 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import fs from 'fs-extra';
 import path from 'path';
 import shell from 'shelljs';
-import fs from 'fs-extra';
-import {build} from './build';
-import {loadConfig} from '../server/config';
 import {CONFIG_FILE_NAME} from '../constants';
+import {loadConfig} from '../server/config';
+import {build} from './build';
 
 export async function deploy(siteDir: string): Promise<void> {
   console.log('Deploy command invoked ...');

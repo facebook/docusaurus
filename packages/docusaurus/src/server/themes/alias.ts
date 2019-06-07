@@ -9,10 +9,7 @@ import globby from 'globby';
 import fs from 'fs-extra';
 import path from 'path';
 import {fileToPath, posixPath, normalizeUrl} from '@docusaurus/utils';
-
-export interface ThemeAlias {
-  [alias: string]: string;
-}
+import {ThemeAlias} from '../types';
 
 export function themeAlias(themePath: string): ThemeAlias {
   if (!fs.pathExistsSync(themePath)) {

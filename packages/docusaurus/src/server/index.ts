@@ -5,38 +5,23 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {PluginConfig, Plugin} from './plugins';
-
-import path from 'path';
-import _ from 'lodash';
-
 import {generate} from '@docusaurus/utils';
-
-import {loadConfig, DocusaurusConfig} from './config';
-import {loadThemeAlias} from './themes';
-import {loadPlugins} from './plugins';
-import {loadRoutes} from './routes';
-import {loadPresets} from './presets';
+import _ from 'lodash';
+import path from 'path';
+import {CONFIG_FILE_NAME, GENERATED_FILES_DIR_NAME} from '../constants';
 import {loadClientModules} from './client-modules';
-
-import {GENERATED_FILES_DIR_NAME, CONFIG_FILE_NAME} from '../constants';
-
-export interface CLIOptions {
-  [option: string]: any;
-}
-
-export interface LoadContext {
-  siteDir: string;
-  generatedFilesDir: string;
-  siteConfig: DocusaurusConfig;
-  cliOptions: CLIOptions;
-  outDir: string;
-  baseUrl: string;
-}
-export interface Props extends LoadContext {
-  routesPaths: string[];
-  plugins: Plugin<any>[];
-}
+import {loadConfig} from './config';
+import {loadPlugins} from './plugins';
+import {loadPresets} from './presets';
+import {loadRoutes} from './routes';
+import {loadThemeAlias} from './themes';
+import {
+  CLIOptions,
+  DocusaurusConfig,
+  LoadContext,
+  PluginConfig,
+  Props,
+} from './types';
 
 export async function load(
   siteDir: string,

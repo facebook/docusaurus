@@ -5,9 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {themeAlias, ThemeAlias} from './alias';
-
-export {ThemeAlias} from './alias';
+import {ThemeAlias} from '../types';
+import {themeAlias} from './alias';
 
 export function loadThemeAlias(themePaths: string[]): ThemeAlias {
   return themePaths.reduce(

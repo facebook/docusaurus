@@ -5,10 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs-extra';
 import chalk from 'chalk';
-import path from 'path';
+import fs from 'fs-extra';
 import importFresh from 'import-fresh';
+import path from 'path';
 
 export async function swizzle(
   siteDir: string,

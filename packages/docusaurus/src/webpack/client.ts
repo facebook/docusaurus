@@ -6,12 +6,12 @@
  */
 import path from 'path';
 import {Configuration} from 'webpack';
-import WebpackNiceLog from 'webpack-nicelog';
 import merge from 'webpack-merge';
-import ChunkManifestPlugin from './plugins/ChunkManifestPlugin';
+import WebpackNiceLog from 'webpack-nicelog';
 
+import {Props} from '../server/types';
 import {createBaseConfig} from './base';
-import {Props} from '../server';
+import ChunkManifestPlugin from './plugins/ChunkManifestPlugin';
 
 export function createClientConfig(props: Props): Configuration {
   const isProd = process.env.NODE_ENV === 'production';
