@@ -19,9 +19,11 @@ import webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
 import merge from 'webpack-merge';
 import HotModuleReplacementPlugin from 'webpack/lib/HotModuleReplacementPlugin';
-import {CONFIG_FILE_NAME, STATIC_DIR_NAME} from '../constants';
 import {load} from '../server';
 import {CLIOptions} from '../server/types';
+import {normalizeUrl} from '@docusaurus/utils';
+import {load} from '../server';
+import {CONFIG_FILE_NAME, STATIC_DIR_NAME, DEFAULT_PORT} from '../constants';
 import {createClientConfig} from '../webpack/client';
 import {applyConfigureWebpack} from '../webpack/utils';
 
@@ -30,7 +32,7 @@ function getHost(reqHost: string | undefined): string {
 }
 
 async function getPort(reqPort: string | undefined): Promise<number> {
-  const basePort = reqPort ? parseInt(reqPort, 10) : 3000;
+  const basePort = reqPort ? parseInt(reqPort, 10) : DEFAULT_PORT;
   const port = await portfinder.getPortPromise({port: basePort});
   return port;
 }
@@ -74,6 +76,7 @@ export async function start(
 
   const protocol: string = process.env.HTTPS === 'true' ? 'https' : 'http';
   const port: number = await getPort(cliOptions.port);
+  console.log(chalk.cyan(`Server starting on port ${port}...`));
   const host: string = getHost(cliOptions.host);
   const {baseUrl} = props;
   const urls = prepareUrls(protocol, host, port);
