@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {normalizeUrl} from '@docusaurus/utils';
+import {normalizeUrl, normalizeUrl} from '@docusaurus/utils';
 import chalk from 'chalk';
 import chokidar from 'chokidar';
 import express from 'express';
@@ -21,9 +21,12 @@ import merge from 'webpack-merge';
 import HotModuleReplacementPlugin from 'webpack/lib/HotModuleReplacementPlugin';
 import {load} from '../server';
 import {CLIOptions} from '../server/types';
-import {normalizeUrl} from '@docusaurus/utils';
-import {load} from '../server';
-import {CONFIG_FILE_NAME, STATIC_DIR_NAME, DEFAULT_PORT} from '../constants';
+import {
+  CONFIG_FILE_NAME,
+  STATIC_DIR_NAME,
+  DEFAULT_PORT,
+  DOCUSAURUS_ASCII,
+} from '../constants';
 import {createClientConfig} from '../webpack/client';
 import {applyConfigureWebpack} from '../webpack/utils';
 
@@ -76,7 +79,6 @@ export async function start(
 
   const protocol: string = process.env.HTTPS === 'true' ? 'https' : 'http';
   const port: number = await getPort(cliOptions.port);
-  console.log(chalk.cyan(`Server starting on port ${port}...`));
   const host: string = getHost(cliOptions.host);
   const {baseUrl} = props;
   const urls = prepareUrls(protocol, host, port);
@@ -145,6 +147,8 @@ export async function start(
     if (err) {
       console.log(err);
     }
+    console.log(chalk.cyan(DOCUSAURUS_ASCII));
+    console.log(chalk.cyan(`You can now visit your site at ${openUrl}`));
     openBrowser(openUrl);
   });
   ['SIGINT', 'SIGTERM'].forEach(sig => {
