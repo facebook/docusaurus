@@ -21,6 +21,7 @@ module.exports = {
       'using-plugins',
       'using-themes',
       'search',
+      'seo',
       'analytics',
       'configuration',
     ],
