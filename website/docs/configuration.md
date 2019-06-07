@@ -9,7 +9,7 @@ Docusaurus has a unique take on configurations. We encourage you to congregate i
 
 Keeping a well-maintained `docusaurus.config.js` helps you, your collaborators, and your open source contributors be able to focus on docs while having certain fields easy to customize.
 
-For reference to each of the configurable fields, you may refer to the API reference of [docusaurus.config.js](/docs/docusaurus.config.js).
+For reference to each of the configurable fields, you may refer to the API reference of [docusaurus.config.js](docusaurus.config.js).
 
 ## What goes into `docusaurus.config.js`?
 
