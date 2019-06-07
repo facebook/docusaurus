@@ -40,13 +40,9 @@ function Layout(props) {
         {keywords && keywords.length && (
           <meta property="keywords" content={keywords} />
         )}
-        {(image || favicon) && (
-          <meta property="og:image" content={image || favicon} />
-        )}
-        {(image || favicon) && (
-          <meta property="twitter:image" content={image || favicon} />
-        )}
-        {(image || favicon) && title && (
+        {image && <meta property="og:image" content={image} />}
+        {image && <meta property="twitter:image" content={image} />}
+        {image && title && (
           <meta name="twitter:image:alt" content={`Image for ${title}`} />
         )}
         {!!permalink && <meta property="og:url" content={permalink} />}
