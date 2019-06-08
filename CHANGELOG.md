@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [Unreleased]
 
+## [1.11.1] - 2019-06-08
+
+A bunch of dependency upgrades to resolve security issues.
+
 ## [1.11.0] - 2019-05-30
 
 We added a new feature of highlighting the table of contents on the right side as you scroll the docs pages. A few bugs affecting local development were also fixed. More notably, the blog's left sidebar will not hide the post titles when `docsSideNavCollapsible` is turned on. This is a bugfix/backward-incompatible change depending on how you view it, but probably nobody wanted that collapsing behavior on the blog sidebar.
@@ -1120,7 +1124,8 @@ N/A
   - Blog
   - Documentation
 
-[unreleased]: https://github.com/facebook/Docusaurus/compare/v1.11.0...HEAD
+[unreleased]: https://github.com/facebook/Docusaurus/compare/v1.11.1...HEAD
+[1.11.1]: https://github.com/facebook/Docusaurus/compare/v1.11.0...v1.11.1
 [1.11.0]: https://github.com/facebook/Docusaurus/compare/v1.10.0...v1.11.0
 [1.10.0]: https://github.com/facebook/Docusaurus/compare/v1.9.0...v1.10.0
 [1.9.0]: https://github.com/facebook/Docusaurus/compare/v1.8.1...v1.9.0
