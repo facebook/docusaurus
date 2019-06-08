@@ -191,15 +191,19 @@ console.log('Every repo must come with a mascot.');
 
 **Work in Progress** Currently the Prism theme we use is [Night Owl](https://github.com/FormidableLabs/prism-react-renderer/blob/master/themes/nightOwl.js). We will support customized theme in a future version.
 
-## React Live Editor
+## Interactive Coding Editor
 
-You can also create a react live editor by installing a plugin.
+(Powered by [React Live](https://github.com/FormidableLabs/react-live))
+
+You can create an interactive coding editor with the `@docusaurus/theme-live-codeblock` plugin.
+
+First, add the plugin to your package.
 
 ```bash
 npm i @docusaurus/theme-live-codeblock
 ```
 
-Add it to your `docusaurus.config.js`.
+You will also need to add the plugin to your `docusaurus.config.js`.
 
 ```diff
 module.exports = {
@@ -209,7 +213,7 @@ module.exports = {
 }
 ```
 
-Then create a code block with `live` attached to the language meta string.
+To use the plugin, create a code block with `live` attached to the language meta string.
 
     ```jsx live
     function Clock(props) {
@@ -234,7 +238,7 @@ Then create a code block with `live` attached to the language meta string.
     }
     ```
 
-It will render an interactive editor. Changes to the code will reflect on the result panel live.
+The code block will be rendered as an interactive editor. Changes to the code will reflect on the result panel live.
 
 ```jsx live
 function Clock(props) {
