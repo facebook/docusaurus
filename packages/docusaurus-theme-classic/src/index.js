@@ -17,12 +17,7 @@ module.exports = function(context, options) {
     },
 
     getClientModules() {
-      return [
-        'infima/dist/css/default/default.css',
-        path.resolve(__dirname, './commonjs-module'),
-        path.resolve(__dirname, './es-module'),
-        customCss,
-      ];
+      return ['infima/dist/css/default/default.css', customCss];
     },
   };
 };
