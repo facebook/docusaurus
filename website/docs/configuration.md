@@ -9,7 +9,7 @@ Docusaurus has a unique take on configurations. We encourage you to congregate i
 
 Keeping a well-maintained `docusaurus.config.js` helps you, your collaborators, and your open source contributors be able to focus on docs while having certain fields easy to customize.
 
-For reference to each of the configurable fields, you may refer to the API reference of [docusaurus.config.js](/docs/docusaurus.config.js).
+For reference to each of the configurable fields, you may refer to the API reference of [docusaurus.config.js](docusaurus.config.js.md).
 
 ## What goes into `docusaurus.config.js`?
 
@@ -23,8 +23,6 @@ The configurations can be categorized into:
 - [Deployment configurations](#deployment-configurations)
 - [Theme configurations, plugins, and presets](#theme-plugins-and-presets-configurations)
 - [Custom configurations](#custom-configurations)
-
-For more details on the API, check out [the API Reference on `docusaurus.config.js`](docusaurus.config.js)
 
 ### Site meta
 
