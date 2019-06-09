@@ -13,7 +13,7 @@ import renderRoutes from '@docusaurus/renderRoutes';
 import DocusaurusContext from '@docusaurus/context';
 import PendingNavigation from './PendingNavigation';
 
-import '@generated/client-modules';
+import './client-lifecycles-dispatcher';
 
 function App() {
   return (

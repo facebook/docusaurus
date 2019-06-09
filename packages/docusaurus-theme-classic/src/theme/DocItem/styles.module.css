@@ -10,12 +10,6 @@
   max-width: 45em;
 }
 
-@media (min-width: 997px) {
-  .docItemContainer {
-    padding-left: 2rem;
-  }
-}
-
 .tableOfContents {
   display: inherit;
   max-height: calc(100vh - (var(--ifm-navbar-height) + 2rem));
