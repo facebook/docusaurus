@@ -13,45 +13,54 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import withBaseUrl from '@docusaurus/withBaseUrl';
 import styles from './styles.module.css';
 
-const highlights = [
+const features = [
   {
-    title: 'Easy to use',
+    title: <>Easy to Use</>,
     imageUrl: 'img/undraw_docusaurus_mountain.svg',
-    description:
-      'Docusaurus was designed from the ground up to be easily installed and used to get your website up and running quickly.',
+    description: (
+      <>
+        Docusaurus was designed from the ground up to be easily installed and
+        used to get your website up and running quickly.
+      </>
+    ),
   },
   {
-    title: 'Focus on your docs',
+    title: <>Focus on What Matters</>,
     imageUrl: 'img/undraw_docusaurus_tree.svg',
-    description:
-      "Docusaurus lets you focus on your docs, and we'll do the chores. Now go ahead and dump all your docs into the docs directory.",
+    description: (
+      <>
+        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
+        ahead and move your docs into the <code>docs</code> directory.
+      </>
+    ),
   },
   {
-    title: 'Powered by React',
+    title: <>Powered by React</>,
     imageUrl: 'img/undraw_docusaurus_react.svg',
-    description:
-      "Extend or customize your project's layout by reusing React. Docusaurus can be extended while reusing the same header and footer.",
+    description: (
+      <>
+        Extend or customize your website layout by reusing React. Docusaurus can
+        be extended while reusing the same header and footer.
+      </>
+    ),
   },
 ];
 
-/* Note that this is only temporary. TODO: better welcome screen */
 function Home() {
   const context = useDocusaurusContext();
   const {siteConfig = {}} = context;
   return (
     <Layout
-      /** this title will overwrite the one in config */
       title={`Hello from ${siteConfig.title}`}
       description="Description will go into a meta tag in <head />">
-      <header className={classnames('hero hero--dark', styles.header)}>
+      <header className={classnames('hero hero--primary', styles.heroBanner)}>
         <div className="container">
-          <img src={withBaseUrl('img/logo.svg')} alt="logo" />
           <h1 className="hero__title">{siteConfig.title}</h1>
           <p className="hero__subtitle">{siteConfig.tagline}</p>
           <div className={styles.buttons}>
             <Link
               className={classnames(
-                'button button--outline button--primary button--lg',
+                'button button--outline button--secondary button--lg',
                 styles.getStarted,
               )}
               to={withBaseUrl('docs/doc1')}>
@@ -61,15 +70,23 @@ function Home() {
         </div>
       </header>
       <main>
-        {highlights && highlights.length && (
-          <section className={styles.highlights}>
+        {features && features.length && (
+          <section className={styles.features}>
             <div className="container">
               <div className="row">
-                {highlights.map(({imageUrl, title, description}, idx) => (
+                {features.map(({imageUrl, title, description}, idx) => (
                   <div
-                    key={`landing-page-highlight-${idx}`}
-                    className={classnames('col col--4', styles.highlight)}>
-                    <img src={withBaseUrl(imageUrl)} alt={title} />
+                    key={idx}
+                    className={classnames('col col--4', styles.feature)}>
+                    {imageUrl && (
+                      <div className="text--center">
+                        <img
+                          className={styles.featureImage}
+                          src={withBaseUrl(imageUrl)}
+                          alt={title}
+                        />
+                      </div>
+                    )}
                     <h3>{title}</h3>
                     <p>{description}</p>
                   </div>

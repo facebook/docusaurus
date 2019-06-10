@@ -6,16 +6,16 @@
  */
 
 module.exports = {
-  title: 'My site',
+  title: 'My Site',
   tagline: 'The tagline of my site',
   url: 'https://your-docusaurus-test-site.com',
   baseUrl: '/',
   favicon: 'img/favicon.ico',
   themeConfig: {
     navbar: {
-      title: 'My site',
+      title: 'My Site',
       logo: {
-        alt: 'My site Logo',
+        alt: 'My Site Logo',
         src: 'img/logo.svg',
       },
       links: [
@@ -63,7 +63,7 @@ module.exports = {
         alt: 'Facebook Open Source Logo',
         src: 'https://docusaurus.io/img/oss_logo.png',
       },
-      copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`,
+      copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc. Built with Docusaurus.`,
     },
   },
   presets: [
@@ -71,7 +71,10 @@ module.exports = {
       '@docusaurus/preset-classic',
       {
         docs: {
-          sidebarPath: require.resolve('./sidebars.json'),
+          sidebarPath: require.resolve('./sidebars.js'),
+        },
+        theme: {
+          customCss: require.resolve('./css/custom.css'),
         },
       },
     ],

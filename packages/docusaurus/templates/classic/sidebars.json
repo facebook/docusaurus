@@ -1,9 +1,0 @@
-{
-  "docs": {
-    "Docusaurus": ["doc1", "doc2", "doc3"],
-    "Utilities": ["style-guide"]
-  },
-  "docs-other": {
-    "First Category": ["doc4", "doc5"]
-  }
-}

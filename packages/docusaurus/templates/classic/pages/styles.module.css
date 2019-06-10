@@ -1,78 +1,42 @@
-.header {
-  color: white;
-  padding: 1rem 0;
+/**
+ * Copyright (c) 2017-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+/**
+ * CSS files with the .module.css suffix will be treated as CSS modules
+ * and scoped locally.
+ */
+
+.heroBanner {
+  padding: 4rem 0;
   text-align: center;
   position: relative;
   overflow: hidden;
-  min-height: 550px; 
 }
 
-.buttons  {
+@media screen and (max-width: 966px) {
+  .heroBanner {
+    padding: 2rem;
+  }
+}
+
+.buttons {
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.buttons iframe {
-  margin-left: 1rem;
-}
-@media screen and (min-height: 900px) {
-  .buttons {
-    margin-top: 2rem;
-  }
-}
-@media screen and (max-width: 400px) {
-  .header {
-    /* display mainly the header section */
-    height: calc(100vh - 120px);
-  }
-}
-@media screen and (max-width: 799px) {
-.header {
-    /* display just one highlight */
-    height: calc(100vh - 310px);
-  }
-}
-@media screen and (min-width: 800px) and (max-height: 999px) { 
-  /* if the viewport is not tall enough, display just the header */
-  .header {
-    height: calc(100vh - 120px);
-  }
-}
-@media screen and (min-width: 800px) and (min-height: 1000px) { 
-  /* if the viewport is tall enough, split between header and highlights */
-  .header {
-    padding: 4rem 0;
-    height: calc((100vh - 60px - 60px) * .6);
-  }
-}
 
-/* secondary section on the first screen */
-.highlights {
-  background: var(--ifm-color-black-alpha-10);
+.features {
   display: flex;
   align-items: center;
+  padding: 2rem 0;
   width: 100%;
-  min-height: 350px;
 }
 
-.highlight {
-  text-align: center;
-}
-.highlight img {
+.featureImage {
   height: 200px;
   width: 200px;
-}
-.highlight p {
-  text-align: left;
-}
-
-@media screen and (min-width: 520px) and (max-width: 1023px) {
-  .highlights {
-    padding-bottom: 2rem;
-  }
-}
-@media screen and (min-width: 1024px) {
-  .highlights {
-    height: calc((100vh - 60px - 60px) * .4);
-  }
 }
