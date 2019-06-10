@@ -24,7 +24,7 @@ export default (function() {
   }
 
   if (
-    // process.env.NODE_ENV !== 'production' || // TODO: Add it back after testing that it works.
+    process.env.NODE_ENV !== 'production' ||
     !trackingID ||
     typeof window === 'undefined'
   ) {

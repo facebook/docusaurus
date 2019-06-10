@@ -24,32 +24,36 @@ export default (function() {
   }
 
   if (
-    // process.env.NODE_ENV !== 'production' || // TODO: Add it back after testing that it works.
+    process.env.NODE_ENV !== 'production' ||
     !trackingID ||
     typeof window === 'undefined'
   ) {
     return null;
   }
 
+  /* eslint-disable */
   const $scriptEl = window.document.createElement('script');
   $scriptEl.async = 1;
   $scriptEl.src = `https://www.googletagmanager.com/gtag/js?id=${trackingID}`;
   window.document.head.appendChild($scriptEl);
 
   window.dataLayer = window.dataLayer || [];
-  // eslint-disable-next-line no-inner-declarations
-  function gtag(...args) {
-    window.dataLayer.push(args);
+  function gtag() {
+    // Have to use `arguments` instead of spreading as there are
+    // other properties attached to it e.g. callee.
+    // The GA library requires usage of `arguments.
+    window.dataLayer.push(arguments);
   }
   // Expose globally.
   window.gtag = gtag;
   gtag('js', new Date());
   gtag('config', trackingID);
+  /* eslint-enable */
 
   return {
     onRouteUpdate({location}) {
       // Always refer to the variable on window in-case it gets overridden elsewhere.
-      window.gtag('event', 'page_view', {
+      window.gtag('config', trackingID, {
         page_path: location.pathname,
       });
     },
