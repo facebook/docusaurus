@@ -85,6 +85,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'CodeceptJS',
+    image: '/img/users/codecept.png',
+    infoLink: 'https://codecept.io/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'ConfigCat',
     image: '/img/users/configcat.svg',
     infoLink: 'https://docs.configcat.com',
