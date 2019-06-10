@@ -36,13 +36,6 @@ module.exports = [
     pinned: false,
   },
   {
-  caption: 'Apify SDK',
-  image: '/img/users/apify.svg',
-  infoLink: 'https://sdk.apify.com/',
-  fbOpenSource: false,
-  pinned: false,
-  },
-  {
     caption: 'Atalaya',
     image: '/img/users/atalaya.png',
     infoLink: 'https://atalaya.io/',
@@ -88,6 +81,13 @@ module.exports = [
     caption: 'CapRover',
     image: '/img/users/caprover.png',
     infoLink: 'https://caprover.com/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
+    caption: 'CodeceptJS',
+    image: '/img/users/codecept.png',
+    infoLink: 'https://codecept.io/',
     fbOpenSource: false,
     pinned: false,
   },
