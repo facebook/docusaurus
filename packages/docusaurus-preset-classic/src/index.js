@@ -20,6 +20,7 @@ module.exports = function preset(context, opts = {}) {
       ['@docusaurus/plugin-content-docs', opts.docs],
       ['@docusaurus/plugin-content-blog', opts.blog],
       ['@docusaurus/plugin-content-pages', opts.pages],
+      ['@docusaurus/plugin-google-gtag', opts.gtag],
       ['@docusaurus/plugin-sitemap', opts.sitemap],
     ],
   };
