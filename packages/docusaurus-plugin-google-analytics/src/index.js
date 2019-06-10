@@ -9,10 +9,10 @@ const path = require('path');
 
 module.exports = function() {
   return {
-    name: 'docusaurus-plugin-google-gtag',
+    name: 'docusaurus-plugin-google-analytics',
 
     getClientModules() {
-      return [path.resolve(__dirname, './gtag')];
+      return [path.resolve(__dirname, './analytics')];
     },
   };
 };

@@ -48,7 +48,10 @@ export default (function() {
 
   return {
     onRouteUpdate({location}) {
-      gtag('event', 'page_view', {page_path: location.pathname});
+      // Always refer to the variable on window in-case it gets overridden elsewhere.
+      window.gtag('event', 'page_view', {
+        page_path: location.pathname,
+      });
     },
   };
 })();

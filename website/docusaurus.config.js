@@ -36,6 +36,9 @@ module.exports = {
     gtag: {
       trackingID: 'UA-141789564-1',
     },
+    // googleAnalytics: {
+    //   trackingID: 'UA-141789564-1',
+    // },
     algolia: {
       apiKey: '47ecd3b21be71c5822571b9f59e52544',
       indexName: 'docusaurus-2',
