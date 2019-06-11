@@ -10,7 +10,7 @@ import clientModules from '@generated/client-modules';
 function dispatchLifecycleAction(lifecycleAction, ...args) {
   clientModules.forEach(clientModule => {
     const mod = clientModule.__esModule ? clientModule.default : clientModule;
-    if (mod[lifecycleAction]) {
+    if (mod && mod[lifecycleAction]) {
       mod[lifecycleAction](...args);
     }
   });

@@ -1,5 +1,9 @@
 # Docusaurus 2 Changelog
 
+## Unreleased
+
+- Added Google analytics and Google gtag plugins.
+
 ## 2.0.0-alpha.19
 
 - Add a sensible default for browserslist config.
@@ -38,8 +42,6 @@ presets: [
 - Better run-time code generation & webpack splitchunks optimization
 - Minify css for production build
 - Fix weird scrolling problem when navigating to a route with a `hash` location
-
-
 
 ## V2 Changelog
 
