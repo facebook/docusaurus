@@ -622,7 +622,7 @@ module.exports = [
     image: '/img/users/type-route.svg',
     infoLink: 'https://www.type-route.org',
     fnOpenSource: false,
-    pinned: true
+    pinned: false,
   },
   {
     caption: 'Vasern',
