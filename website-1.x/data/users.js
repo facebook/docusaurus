@@ -621,7 +621,7 @@ module.exports = [
     caption: 'Type Route',
     image: '/img/users/type-route.svg',
     infoLink: 'https://www.type-route.org',
-    fnOpenSource: false,
+    fbOpenSource: false,
     pinned: false,
   },
   {
