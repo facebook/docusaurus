@@ -618,6 +618,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Type Route',
+    image: '/img/users/type-route.svg',
+    infoLink: 'https://www.type-route.org',
+    fnOpenSource: false,
+    pinned: true
+  },
+  {
     caption: 'Vasern',
     image: 'https://vasern.com/img/vasern.svg',
     infoLink: 'https://vasern.com/',
