@@ -36,11 +36,11 @@ module.exports = [
     pinned: false,
   },
   {
-  caption: 'Apify SDK',
-  image: '/img/users/apify.svg',
-  infoLink: 'https://sdk.apify.com/',
-  fbOpenSource: false,
-  pinned: false,
+    caption: 'Apify SDK',
+    image: '/img/users/apify.svg',
+    infoLink: 'https://sdk.apify.com/',
+    fbOpenSource: false,
+    pinned: false,
   },
   {
     caption: 'Atalaya',
