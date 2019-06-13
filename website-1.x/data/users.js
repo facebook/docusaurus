@@ -562,6 +562,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Substrate',
+    image: '/img/users/substrate.svg',
+    infoLink: 'https://substrate.dev',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'T-Regx',
     image: '/img/users/t-regx.png',
     infoLink: 'https://t-regx.com',
