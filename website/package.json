@@ -1,6 +1,6 @@
 {
   "name": "docusaurus-2-website",
-  "version": "2.0.0-alpha.16",
+  "version": "2.0.0-alpha.19",
   "private": true,
   "scripts": {
     "start": "docusaurus start",
@@ -9,10 +9,22 @@
     "deploy": "docusaurus deploy"
   },
   "dependencies": {
-    "@docusaurus/core": "^2.0.0-alpha.16",
-    "@docusaurus/preset-classic": "^2.0.0-alpha.16",
+    "@docusaurus/core": "^2.0.0-alpha.19",
+    "@docusaurus/preset-classic": "^2.0.0-alpha.19",
     "classnames": "^2.2.6",
     "react": "^16.8.4",
     "react-dom": "^16.8.4"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }

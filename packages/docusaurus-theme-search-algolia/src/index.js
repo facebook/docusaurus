@@ -7,21 +7,12 @@
 
 const path = require('path');
 
-const DEFAULT_OPTIONS = {};
+module.exports = function() {
+  return {
+    name: 'docusaurus-theme-search-algolia',
 
-class DocusaurusThemeSearchAlgolia {
-  constructor(context, opts) {
-    this.options = {...DEFAULT_OPTIONS, ...opts};
-    this.context = context;
-  }
-
-  getName() {
-    return 'docusaurus-theme-search-algolia';
-  }
-
-  getThemePath() {
-    return path.resolve(__dirname, './theme');
-  }
-}
-
-module.exports = DocusaurusThemeSearchAlgolia;
+    getThemePath() {
+      return path.resolve(__dirname, './theme');
+    },
+  };
+};

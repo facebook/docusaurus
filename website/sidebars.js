@@ -10,13 +10,11 @@ module.exports = {
     'Getting Started': [
       'introduction',
       'installation',
-      'project-structure',
+      'creating-pages',
+      'writing-docs',
       'deployment',
     ],
     Guides: [
-      'configuration',
-      'creating-pages',
-      'writing-documentation',
       'assets',
       'markdown',
       'styling-layout',
@@ -24,6 +22,7 @@ module.exports = {
       'using-themes',
       'search',
       'analytics',
+      'configuration',
     ],
     'Advanced Guides': ['blog', 'plugins', 'themes', 'presets'],
     'API Reference': [

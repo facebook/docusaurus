@@ -1,7 +1,7 @@
 {
   "name": "docusaurus-init",
   "description": "Initialization script for Docusaurus",
-  "version": "1.9.0",
+  "version": "1.11.1",
   "license": "MIT",
   "preferGlobal": true,
   "keywords": [
@@ -14,7 +14,7 @@
     "docusaurus-init": "initialize.js"
   },
   "dependencies": {
-    "chalk": "^2.1.0",
-    "shelljs": "^0.7.8"
+    "chalk": "^2.4.2",
+    "shelljs": "^0.8.3"
   }
 }

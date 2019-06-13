@@ -36,6 +36,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Apify SDK',
+    image: '/img/users/apify.svg',
+    infoLink: 'https://sdk.apify.com/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Atalaya',
     image: '/img/users/atalaya.png',
     infoLink: 'https://atalaya.io/',
@@ -81,6 +88,20 @@ module.exports = [
     caption: 'CapRover',
     image: '/img/users/caprover.png',
     infoLink: 'https://caprover.com/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
+    caption: 'CodeceptJS',
+    image: '/img/users/codecept.png',
+    infoLink: 'https://codecept.io/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
+    caption: 'ConfigCat',
+    image: '/img/users/configcat.svg',
+    infoLink: 'https://docs.configcat.com',
     fbOpenSource: false,
     pinned: false,
   },
@@ -232,6 +253,13 @@ module.exports = [
     pinned: true,
   },
   {
+    caption: 'mailgo',
+    image: '/img/users/mailgo.png',
+    infoLink: 'https://mailgo.js.org/',
+    fbOpenSource: false,
+    pinned: true,
+  },
+  {
     caption: 'Metro',
     image: '/img/users/metro.svg',
     infoLink: 'https://facebook.github.io/metro/',
@@ -350,6 +378,20 @@ module.exports = [
     infoLink: 'https://pyre-check.org',
     fbOpenSource: true,
     pinned: true,
+  },
+  {
+    caption: 'Quix',
+    image: '/img/users/quix.png',
+    infoLink: 'https://wix.github.io/quix/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
+    caption: 'Rawsec Inventory',
+    image: '/img/users/rawsec.png',
+    infoLink: 'https://inventory.rawsec.ml/docs/',
+    fbOpenSource: false,
+    pinned: false,
   },
   {
     caption: 'React 360',
@@ -527,6 +569,20 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Substrate',
+    image: '/img/users/substrate.svg',
+    infoLink: 'https://substrate.dev',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
+    caption: 'T-Regx',
+    image: '/img/users/t-regx.png',
+    infoLink: 'https://t-regx.com',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Taro',
     image: '/img/users/taro.png',
     infoLink: 'https://nervjs.github.io/taro/',
@@ -576,6 +632,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Type Route',
+    image: '/img/users/type-route.svg',
+    infoLink: 'https://www.type-route.org',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Vasern',
     image: 'https://vasern.com/img/vasern.svg',
     infoLink: 'https://vasern.com/',
@@ -603,5 +666,6 @@ module.exports = [
     fbOpenSource: false,
     pinned: false,
   },
+
   // Please add your logo in alphabetical order of caption.
 ];

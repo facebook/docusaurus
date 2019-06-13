@@ -11,9 +11,34 @@ module.exports = {
   organizationName: 'facebook',
   projectName: 'docusaurus',
   baseUrl: '/',
-  url: 'https://docusaurus-2.netlify.com',
+  url: 'https://v2.docusaurus.io',
   favicon: 'img/docusaurus.ico',
+  themes: ['@docusaurus/theme-live-codeblock'],
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        docs: {
+          path: 'docs',
+          sidebarPath: require.resolve('./sidebars.js'),
+        },
+        blog: {
+          path: '../website-1.x/blog',
+          postsPerPage: 3,
+        },
+        theme: {
+          customCss: require.resolve('./css/custom.css'),
+        },
+      },
+    ],
+  ],
   themeConfig: {
+    gtag: {
+      trackingID: 'UA-141789564-1',
+    },
+    // googleAnalytics: {
+    //   trackingID: 'UA-141789564-1',
+    // },
     algolia: {
       apiKey: '47ecd3b21be71c5822571b9f59e52544',
       indexName: 'docusaurus-2',
@@ -94,19 +119,4 @@ module.exports = {
       copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`,
     },
   },
-  presets: [
-    [
-      '@docusaurus/preset-classic',
-      {
-        docs: {
-          path: 'docs',
-          sidebarPath: require.resolve('./sidebars.js'),
-        },
-        blog: {
-          path: '../website-1.x/blog',
-          postsPerPage: 3,
-        },
-      },
-    ],
-  ],
 };

@@ -7,7 +7,7 @@
 
 /* eslint-disable no-cond-assign */
 
-function execute(port) {
+function execute(port, host) {
   const extractTranslations = require('../write-translations');
   const metadataUtils = require('./metadataUtils');
   const blog = require('./blog');
@@ -60,6 +60,18 @@ function execute(port) {
   let MetadataBlog;
   let siteConfig;
 
+  function reloadSiteConfig() {
+    const siteConfigPath = join(CWD, 'siteConfig.js');
+    removeModuleAndChildrenFromCache(siteConfigPath);
+    const oldBaseUrl = siteConfig && siteConfig.baseUrl;
+    siteConfig = loadConfig(siteConfigPath);
+
+    if (oldBaseUrl && oldBaseUrl !== siteConfig.baseUrl) {
+      console.log('Base url has changed. Please restart server ...');
+      process.exit();
+    }
+  }
+
   function reloadMetadata() {
     removeModuleAndChildrenFromCache('./readMetadata.js');
     readMetadata.generateMetadataDocs();
@@ -72,14 +84,13 @@ function execute(port) {
       removeModuleAndChildrenFromCache(join('..', 'core', 'MetadataBlog.js'));
       fs.removeSync(join(__dirname, '..', 'core', 'MetadataBlog.js'));
     }
-    readMetadata.generateMetadataBlog();
+    reloadSiteConfig();
+    readMetadata.generateMetadataBlog(siteConfig);
     MetadataBlog = require(join('..', 'core', 'MetadataBlog.js'));
   }
 
-  function reloadSiteConfig() {
-    const siteConfigPath = join(CWD, 'siteConfig.js');
-    removeModuleAndChildrenFromCache(siteConfigPath);
-    siteConfig = loadConfig(siteConfigPath);
+  function reloadTranslations() {
+    removeModuleAndChildrenFromCache('./translation.js');
   }
 
   function requestFile(url, res, notFoundCallback) {
@@ -109,20 +120,34 @@ function execute(port) {
 
   app.get(routing.docs(siteConfig), (req, res, next) => {
     const url = decodeURI(req.path.toString().replace(siteConfig.baseUrl, ''));
-    const metadata =
-      Metadata[
-        Object.keys(Metadata).find(id => Metadata[id].permalink === url)
-      ];
+    const metakey = Object.keys(Metadata).find(
+      id => Metadata[id].permalink === url,
+    );
+
+    let metadata = Metadata[metakey];
 
     const file = docs.getFile(metadata);
     if (!file) {
       next();
       return;
     }
-    const rawContent = metadataUtils.extractMetadata(file).rawContent;
+    const {rawContent, metadata: rawMetadata} = metadataUtils.extractMetadata(
+      file,
+    );
+
+    // if any of the followings is changed, reload the metadata
+    const reloadTriggers = ['sidebar_label', 'hide_title', 'title'];
+    if (reloadTriggers.some(key => metadata[key] !== rawMetadata[key])) {
+      reloadMetadata();
+      extractTranslations();
+      reloadTranslations();
+      metadata = Metadata[metakey];
+    }
+
+    reloadSiteConfig();
     removeModuleAndChildrenFromCache('../core/DocsLayout.js');
     const mdToHtml = metadataUtils.mdToHtml(Metadata, siteConfig);
-    res.send(docs.getMarkup(rawContent, mdToHtml, metadata));
+    res.send(docs.getMarkup(rawContent, mdToHtml, metadata, siteConfig));
   });
 
   app.get(routing.sitemap(siteConfig), (req, res) => {
@@ -177,6 +202,7 @@ function execute(port) {
   });
 
   app.get(routing.page(siteConfig), (req, res, next) => {
+    reloadSiteConfig();
     // Look for user-provided HTML file first.
     let htmlFile = req.path.toString().replace(siteConfig.baseUrl, '');
     htmlFile = join(CWD, 'pages', htmlFile);
@@ -355,7 +381,7 @@ function execute(port) {
   // for example, request to "blog" returns "blog/index.html" or "blog.html"
   app.get(routing.noExtension(), (req, res, next) => {
     const slash = req.path.toString().endsWith('/') ? '' : '/';
-    const requestUrl = `http://localhost:${port}${req.path}`;
+    const requestUrl = `http://${host}:${port}${req.path}`;
     requestFile(`${requestUrl + slash}index.html`, res, () => {
       requestFile(
         slash === '/'
@@ -374,7 +400,7 @@ function execute(port) {
       next();
       return;
     }
-    requestFile(`http://localhost:${port}${req.path}.html`, res, next);
+    requestFile(`http://${host}:${port}${req.path}.html`, res, next);
   });
 
   app.listen(port);

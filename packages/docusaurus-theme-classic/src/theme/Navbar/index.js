@@ -5,90 +5,210 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {useCallback, useState, useEffect} from 'react';
+import Toggle from 'react-toggle';
 
 import Link from '@docusaurus/Link';
+import Head from '@docusaurus/Head';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import withBaseUrl from '@docusaurus/withBaseUrl';
 
 import SearchBar from '@theme/SearchBar';
 
+import classnames from 'classnames';
+
+import styles from './styles.module.css';
+
 function NavLink(props) {
-  const {baseUrl, ...originalProps} = props;
   return (
     <Link
-      className="navbar__link"
-      {...originalProps}
-      {...(originalProps.href
+      className="navbar__item navbar__link"
+      {...props}
+      {...(props.href
         ? {
             target: '_blank',
             rel: 'noopener noreferrer',
-            href: originalProps.href,
+            href: props.href,
           }
         : {
             activeClassName: 'navbar__link--active',
-            to: `${baseUrl}${originalProps.to}`,
+            to: withBaseUrl(props.to),
           })}>
-      {originalProps.label}
+      {props.label}
     </Link>
   );
 }
 
+const Moon = () => <span className={classnames(styles.toggle, styles.moon)} />;
+const Sun = () => <span className={classnames(styles.toggle, styles.sun)} />;
+
 function Navbar() {
   const context = useDocusaurusContext();
+  const [sidebarShown, setSidebarShown] = useState(false);
+  const currentTheme =
+    typeof document !== 'undefined'
+      ? document.querySelector('html').getAttribute('data-theme')
+      : '';
+  const [theme, setTheme] = useState(currentTheme);
   const {siteConfig = {}} = context;
-  const {
-    baseUrl,
-    themeConfig: {algolia, navbar = {}},
-  } = siteConfig;
-  const {title, logo, links} = navbar;
+  const {baseUrl, themeConfig = {}} = siteConfig;
+  const {algolia, navbar = {}} = themeConfig;
+  const {title, logo, links = []} = navbar;
 
-  const getUrl = url => {
-    const externalRegex = /^(https?:|\/\/)/;
-    const internalRegex = /^\/(?!\/)/;
-    if (externalRegex.test(url) || internalRegex.test(url)) {
-      return url;
+  const showSidebar = useCallback(() => {
+    setSidebarShown(true);
+  }, [setSidebarShown]);
+  const hideSidebar = useCallback(() => {
+    setSidebarShown(false);
+  }, [setSidebarShown]);
+
+  useEffect(() => {
+    try {
+      const localStorageTheme = localStorage.getItem('theme');
+      setTheme(localStorageTheme);
+    } catch (err) {
+      console.error(err);
     }
-    return baseUrl + url;
+  }, []);
+
+  const onToggleChange = e => {
+    const nextTheme = e.target.checked ? 'dark' : '';
+    setTheme(nextTheme);
+    try {
+      localStorage.setItem('theme', nextTheme);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
-    <nav className="navbar navbar--light navbar--fixed-top">
-      <div className="navbar__inner">
-        <div className="navbar__items">
-          <Link className="navbar__brand" to={baseUrl}>
-            {logo != null && (
-              <img
-                className="navbar__logo"
-                src={getUrl(logo.src)}
-                alt={logo.alt}
+    <React.Fragment>
+      <Head>
+        {/* TODO: Do not assume that it is in english language */}
+        <html lang="en" data-theme={theme} />
+      </Head>
+      <nav
+        className={classnames('navbar', 'navbar--light', 'navbar--fixed-top', {
+          'navbar--sidebar-show': sidebarShown,
+        })}>
+        <div className="navbar__inner">
+          <div className="navbar__items">
+            <div
+              aria-label="Navigation bar toggle"
+              className="navbar__toggle"
+              role="button"
+              tabIndex={0}
+              onClick={showSidebar}
+              onKeyDown={showSidebar}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="30"
+                height="30"
+                viewBox="0 0 30 30"
+                role="img"
+                focusable="false">
+                <title>Menu</title>
+                <path
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeMiterlimit="10"
+                  strokeWidth="2"
+                  d="M4 7h22M4 15h22M4 23h22"
+                />
+              </svg>
+            </div>
+            <Link className="navbar__brand" to={baseUrl}>
+              {logo != null && (
+                <img
+                  className="navbar__logo"
+                  src={withBaseUrl(logo.src)}
+                  alt={logo.alt}
+                />
+              )}
+              {title != null && <strong>{title}</strong>}
+            </Link>
+            {links
+              .filter(linkItem => linkItem.position !== 'right')
+              .map((linkItem, i) => (
+                <NavLink {...linkItem} key={i} />
+              ))}
+          </div>
+          <div className="navbar__items navbar__items--right">
+            {links
+              .filter(linkItem => linkItem.position === 'right')
+              .map((linkItem, i) => (
+                <NavLink {...linkItem} key={i} />
+              ))}
+            <Toggle
+              className={styles.displayOnlyInLargeViewport}
+              aria-label="Dark mode toggle"
+              checked={theme === 'dark'}
+              onChange={onToggleChange}
+              icons={{
+                checked: <Moon />,
+                unchecked: <Sun />,
+              }}
+            />
+            {algolia && (
+              <div className="navbar__search" key="search-box">
+                <SearchBar />
+              </div>
+            )}
+          </div>
+        </div>
+        <div
+          role="presentation"
+          className="navbar__sidebar__backdrop"
+          onClick={() => {
+            setSidebarShown(false);
+          }}
+        />
+        <div className="navbar__sidebar">
+          <div className="navbar__sidebar__brand">
+            <a
+              className="navbar__brand"
+              href="#!"
+              role="button"
+              onClick={hideSidebar}>
+              {logo != null && (
+                <img
+                  className="navbar__logo"
+                  src={withBaseUrl(logo.src)}
+                  alt={logo.alt}
+                />
+              )}
+              {title != null && <strong>{title}</strong>}
+            </a>
+            {sidebarShown && (
+              <Toggle
+                aria-label="Dark mode toggle in sidebar"
+                checked={theme === 'dark'}
+                onChange={onToggleChange}
+                icons={{
+                  checked: <Moon />,
+                  unchecked: <Sun />,
+                }}
               />
             )}
-            {title != null && <strong>{title}</strong>}
-          </Link>
-          {links
-            .filter(linkItem => linkItem.position !== 'right')
-            .map((linkItem, i) => (
-              <div className="navbar__item" key={i}>
-                <NavLink baseUrl={baseUrl} {...linkItem} />
-              </div>
-            ))}
-        </div>
-        <div className="navbar__items navbar__items--right">
-          {links
-            .filter(linkItem => linkItem.position === 'right')
-            .map((linkItem, i) => (
-              <div className="navbar__item" key={i}>
-                <NavLink baseUrl={baseUrl} {...linkItem} />
-              </div>
-            ))}
-          {algolia && (
-            <div className="navbar__search" key="search-box">
-              <SearchBar />
+          </div>
+          <div className="navbar__sidebar__items">
+            <div className="menu">
+              <ul className="menu__list">
+                {links.map((linkItem, i) => (
+                  <li className="menu__list-item" key={i}>
+                    <NavLink
+                      className="menu__link"
+                      {...linkItem}
+                      onClick={hideSidebar}
+                    />
+                  </li>
+                ))}
+              </ul>
             </div>
-          )}
+          </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+    </React.Fragment>
   );
 }
 

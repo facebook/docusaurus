@@ -4,11 +4,12 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const pluginName = 'ChunkManifestPlugin';
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const fs = require('fs-extra');
 const path = require('path');
+
+const pluginName = 'ChunkManifestPlugin';
 
 class ChunkManifestPlugin {
   constructor(options) {

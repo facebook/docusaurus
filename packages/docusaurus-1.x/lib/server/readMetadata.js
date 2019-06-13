@@ -143,7 +143,7 @@ function processMetadata(file, refDir) {
   const rawContent = result.rawContent;
 
   if (!metadata.id) {
-    metadata.id = path.basename(file, path.extname(file));
+    metadata.id = path.parse(file).name;
   }
   if (metadata.id.includes('/')) {
     throw new Error('Document id cannot include "/".');
@@ -360,7 +360,7 @@ function generateMetadataDocs() {
 }
 
 // process metadata for blog posts and save into core/MetadataBlog.js
-function generateMetadataBlog() {
+function generateMetadataBlog(config = siteConfig) {
   const metadatas = [];
 
   const files = glob.sync(`${CWD}/blog/**/*.*`);
@@ -372,12 +372,9 @@ function generateMetadataBlog() {
       if (extension !== '.md' && extension !== '.markdown') {
         return;
       }
-      const metadata = blog.getMetadata(file);
+      const metadata = blog.getMetadata(file, config);
       // Extract, YYYY, MM, DD from the file name
-      const filePathDateArr = path
-        .basename(file)
-        .toString()
-        .split('-');
+      const filePathDateArr = path.basename(file).split('-');
       metadata.date = new Date(
         `${filePathDateArr[0]}-${filePathDateArr[1]}-${
           filePathDateArr[2]

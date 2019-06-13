@@ -2,11 +2,16 @@
 
 [Docusaurus](https://docusaurus.io) is our way to hopefully help creating open source documentation easier. We currently have [multiple open source projects using it](https://docusaurus.io/en/users.html), with many more planned. If you're interested in contributing to Docusaurus, hopefully this document makes the process for contributing clear.
 
+The [Open Source Guides](https://opensource.guide/) website has a collection of resources for individuals, communities, and companies who want to learn how to run and contribute to an open source project. Contributors and people new to open source alike will find the following guides especially useful:
+
+* [How to Contribute to Open Source](https://opensource.guide/how-to-contribute/)
+* [Building Welcoming Communities](https://opensource.guide/building-community/)
+
 ## [Code of Conduct](https://code.fb.com/codeofconduct)
 
 Facebook has adopted a Code of Conduct that we expect project participants to adhere to. Please read [the full text](https://code.fb.com/codeofconduct) so that you can understand what actions will and will not be tolerated.
 
-## Get involved
+## Get Involved
 
 There are many ways to contribute to Docusaurus, and many of them do not involve writing any code. Here's a few ideas to get started:
 
@@ -31,7 +36,9 @@ To make a fix to the published versions you must edit the corresponding markdown
 
 We have `#docusaurus-dev` on [Discord](https://discord.gg/docusaurus) to discuss all things Docusaurus development.
 
-### Triaging issues and pull requests
+To participate in Docusaurus 2 dev, we have the [`#docusaurus-2-dev`](https://discord.gg/9wrnhY) channel.
+
+### Triaging Issues and Pull Requests
 
 One great way you can contribute to the project without writing any code is to help triage issues and pull requests as they come in.
 
@@ -40,13 +47,13 @@ One great way you can contribute to the project without writing any code is to h
 - Flag issues that are stale or that should be closed.
 - Ask for test plans and review code.
 
-## Our development process
+## Our Development Process
 
 Docusaurus uses [GitHub](https://github.com/facebook/docusaurus) as its source of truth. The core team will be working directly there. All changes will be public from the beginning.
 
 When a change made on GitHub is approved, it will be checked by our continuous integration system, CircleCI.
 
-### Branch organization
+### Branch Organization
 
 Docusaurus has two primary branches: `master` and `gh-pages`.
 
@@ -62,14 +69,14 @@ If you have questions about using Docusaurus, contact the Docusaurus Twitter acc
 
 You can also file issues as [feature requests or enhancements](https://github.com/facebook/Docusaurus/labels/feature%20request). If you see anything you'd like to be implemented, create an issue with [feature template](https://raw.githubusercontent.com/facebook/docusaurus/master/.github/ISSUE_TEMPLATE/feature.md)
 
-## Reporting new issues
+## Reporting New Issues
 
 When [opening a new issue](https://github.com/facebook/docusaurus/issues/new/choose), always make sure to fill out the issue template. **This step is very important!** Not doing so may result in your issue not managed in a timely fashion. Don't take this personally if this happens, and feel free to open a new issue once you've gathered all the information required by the template.
 
 - **One issue, one bug:** Please report a single bug per issue.
 - **Provide reproduction steps:** List all the steps necessary to reproduce the issue. The person reading your bug report should be able to follow these steps to reproduce your issue with minimal effort.
 
-### Security bugs
+### Security Bugs
 
 Facebook has a [bounty program](https://www.facebook.com/whitehat/) for the safe disclosure of security bugs. With that in mind, please do not file public issues; go through the process outlined on that page.
 
@@ -83,9 +90,9 @@ Facebook has a [bounty program](https://www.facebook.com/whitehat/) for the safe
 
 1. Run `yarn start` in the respective project directory to start a local development server serving the Docusaurus docs.
 
-## Pull requests
+## Pull Requests
 
-### Your first pull request
+### Your First Pull Request
 
 So you have decided to contribute code back to upstream by opening a pull request. You've invested a good chunk of time, and we appreciate it. We will do our best to work with you and get the PR looked at.
 
@@ -95,7 +102,7 @@ Working on your first Pull Request? You can learn how from this free video serie
 
 We have a list of [beginner friendly issues](https://github.com/facebook/docusaurus/labels/good%20first%20issue) to help you get your feet wet in the Docusaurus codebase and familiar with our contribution process. This is a great place to get started.
 
-### Proposing a change
+### Proposing a Change
 
 If you would like to request a new feature or enhancement but are not yet thinking about opening a pull request, you can also file an issue with [feature template](https://github.com/facebook/docusaurus/issues/new?template=feature.md).
 
@@ -103,7 +110,7 @@ If you intend to change the public API (e.g., something in `siteConfig.js`), or 
 
 If you're only fixing a bug, it's fine to submit a pull request right away but we still recommend to file an issue detailing what you're fixing. This is helpful in case we don't accept that specific fix but want to keep track of the issue.
 
-### Sending a pull request
+### Sending a Pull Request
 
 Small pull requests are much easier to review and more likely to get merged. Make sure the PR does only one thing, otherwise please split it. It is recommended to follow this [commit message style](#semantic-commit-messages).
 
@@ -118,13 +125,13 @@ Please make sure the following is done when submitting a pull request:
 
 All pull requests should be opened against the `master` branch.
 
-#### Test plan
+#### Test Plan
 
 A good test plan has the exact commands you ran and their output, provides screenshots or videos if the pull request changes UI.
 
 - If you've changed APIs, update the documentation.
 
-#### Breaking changes
+#### Breaking Changes
 
 When adding a new breaking change, follow this template in your pull request:
 
@@ -154,9 +161,9 @@ Copy and paste this to the top of your new file(s):
 
 In order to accept your pull request, we need you to submit a CLA. You only need to do this once, so if you've done this for another Facebook open source project, you're good to go. If you are submitting a pull request for the first time, the Facebook GitHub Bot will reply with a link to the CLA form. You may also [complete your CLA here](https://code.facebook.com/cla).
 
-### What happens next?
+### What Happens Next?
 
-The core Docusaurus team will be monitoring for pull requests. Read [what to expect from maintainers](#handling-pull-requests) to understand what may happen after you open a pull request.
+The core Docusaurus team will be monitoring for pull requests. Do help us by making your pull request easy to review by following the guidelines above.
 
 ## Style Guide
 
@@ -201,11 +208,6 @@ Use lower case not title case!
 
 - **Most important: Look around.** Match the style you see used in the rest of the project. This includes formatting, naming files, naming things in code, naming things in documentation.
 - "Attractive"
-
-#### JavaScript
-
-- ES6 standards. Prefer using modern language features where they make the code better.
-- Do not use the optional parameters of `setTimeout` and `setInterval`
 
 ### Documentation
 

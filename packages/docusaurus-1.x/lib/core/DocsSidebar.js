@@ -7,9 +7,9 @@
 
 const React = require('react');
 const fs = require('fs');
-const Container = require('./Container.js');
 const SideNav = require('./nav/SideNav.js');
 const Metadata = require('../core/metadata.js');
+
 const readCategories = require('../server/readCategories.js');
 
 let languages;
@@ -37,15 +37,16 @@ class DocsSidebar extends React.Component {
     }
 
     return (
-      <Container className="docsNavContainer" id="docsNav" wrapper={false}>
+      <div className="docsNavContainer" id="docsNav">
         <SideNav
+          collapsible={this.props.collapsible}
           language={this.props.metadata.language}
           root={this.props.root}
           title={this.props.title}
           contents={docsCategories[this.props.metadata.language]}
           current={this.props.metadata}
         />
-      </Container>
+      </div>
     );
   }
 }

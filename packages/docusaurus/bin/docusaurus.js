@@ -12,7 +12,7 @@ const envinfo = require('envinfo');
 const semver = require('semver');
 const path = require('path');
 const program = require('commander');
-const {build, swizzle, init, deploy, start} = require('../src');
+const {build, swizzle, init, deploy, start} = require('../lib');
 const requiredVersion = require('../package.json').engines.node;
 
 if (!semver.satisfies(process.version, requiredVersion)) {
@@ -62,15 +62,15 @@ program
   });
 
 program
-  .command('init [projectDir]')
+  .command('init [siteName] [template] [rootDir]')
   .description('Initialize website')
-  .action((projectDir = '.') => {
-    wrapCommand(init)(path.resolve(projectDir));
+  .action((siteName, template, rootDir = '.') => {
+    wrapCommand(init)(path.resolve(rootDir), siteName, template);
   });
 
 program
   .command('deploy [siteDir]')
-  .description('deploy website')
+  .description('Deploy website to GitHub pages')
   .action((siteDir = '.') => {
     wrapCommand(deploy)(path.resolve(siteDir));
   });

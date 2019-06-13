@@ -66,7 +66,7 @@ class SideNav extends React.Component {
     let categoryClassName = 'navGroupCategoryTitle';
     let arrow;
 
-    if (siteConfig.docsSideNavCollapsible) {
+    if (this.props.collapsible) {
       categoryClassName += ' collapsible';
       ulClassName = 'hide';
       arrow = (
@@ -143,7 +143,10 @@ class SideNav extends React.Component {
               <h2>
                 <i>›</i>
                 <span>
-                  {this.getLocalizedCategoryString(this.props.current.category)}
+                  {this.getLocalizedCategoryString(
+                    this.props.current.subcategory ||
+                      this.props.current.category,
+                  )}
                 </span>
               </h2>
               {siteConfig.onPageNav === 'separate' && (
@@ -224,6 +227,7 @@ class SideNav extends React.Component {
 }
 
 SideNav.defaultProps = {
+  collapsible: false,
   contents: [],
 };
 

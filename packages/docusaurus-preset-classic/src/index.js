@@ -6,32 +6,23 @@
  */
 
 module.exports = function preset(context, opts = {}) {
+  const {siteConfig = {}} = context;
+  const {themeConfig} = siteConfig;
+  const {algolia, googleAnalytics, gtag} = themeConfig;
+
   return {
     themes: [
-      {
-        name: '@docusaurus/theme-classic',
-      },
-      {
-        name: '@docusaurus/theme-search-algolia',
-      },
+      ['@docusaurus/theme-classic', opts.theme],
+      // Don't add this if algolia config is not defined
+      algolia && '@docusaurus/theme-search-algolia',
     ],
     plugins: [
-      {
-        name: '@docusaurus/plugin-content-docs',
-        options: opts.docs,
-      },
-      {
-        name: '@docusaurus/plugin-content-blog',
-        options: opts.blog,
-      },
-      {
-        name: '@docusaurus/plugin-content-pages',
-        options: opts.pages,
-      },
-      {
-        name: '@docusaurus/plugin-sitemap',
-        options: opts.sitemap,
-      },
+      ['@docusaurus/plugin-content-docs', opts.docs],
+      ['@docusaurus/plugin-content-blog', opts.blog],
+      ['@docusaurus/plugin-content-pages', opts.pages],
+      googleAnalytics && '@docusaurus/plugin-google-analytics',
+      gtag && '@docusaurus/plugin-google-gtag',
+      ['@docusaurus/plugin-sitemap', opts.sitemap],
     ],
   };
 };

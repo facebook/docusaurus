@@ -16,83 +16,70 @@ const DEFAULT_OPTIONS = {
   include: ['**/*.{js,jsx}'], // Extensions to include.
 };
 
-class DocusaurusPluginContentPages {
-  constructor(context, opts) {
-    this.options = {...DEFAULT_OPTIONS, ...opts};
-    this.context = context;
-    this.contentPath = path.resolve(this.context.siteDir, this.options.path);
-  }
+module.exports = function(context, opts) {
+  const options = {...DEFAULT_OPTIONS, ...opts};
+  const contentPath = path.resolve(context.siteDir, options.path);
 
-  getName() {
-    return 'docusaurus-plugin-content-pages';
-  }
+  return {
+    name: 'docusaurus-plugin-content-pages',
 
-  getPathsToWatch() {
-    const {include = []} = this.options;
-    const globPattern = include.map(
-      pattern => `${this.contentPath}/${pattern}`,
-    );
-    return [...globPattern];
-  }
+    contentPath,
 
-  async loadContent() {
-    const {include} = this.options;
-    const {siteConfig} = this.context;
-    const pagesDir = this.contentPath;
+    getPathsToWatch() {
+      const {include = []} = options;
+      const globPattern = include.map(pattern => `${contentPath}/${pattern}`);
+      return [...globPattern];
+    },
 
-    if (!fs.existsSync(pagesDir)) {
-      return null;
-    }
+    async loadContent() {
+      const {include} = options;
+      const {siteConfig} = context;
+      const pagesDir = contentPath;
 
-    const {baseUrl} = siteConfig;
-    const pagesFiles = await globby(include, {
-      cwd: pagesDir,
-    });
+      if (!fs.existsSync(pagesDir)) {
+        return null;
+      }
 
-    // Prepare metadata container.
-    const pagesMetadatas = [];
+      const {baseUrl} = siteConfig;
+      const pagesFiles = await globby(include, {
+        cwd: pagesDir,
+      });
 
-    await Promise.all(
-      pagesFiles.map(async relativeSource => {
+      return pagesFiles.map(relativeSource => {
         const source = path.join(pagesDir, relativeSource);
         const pathName = encodePath(fileToPath(relativeSource));
         // Default Language.
-        const metadata = {
+        return {
           permalink: pathName.replace(/^\//, baseUrl),
           source,
         };
-        pagesMetadatas.push(metadata);
-      }),
-    );
+      });
+    },
 
-    return pagesMetadatas;
-  }
+    async contentLoaded({content, actions}) {
+      if (!content) {
+        return;
+      }
 
-  async contentLoaded({content, actions}) {
-    if (!content) {
-      return;
-    }
+      const {addRoute, createData} = actions;
 
-    const {addRoute, createData} = actions;
-
-    await Promise.all(
-      content.map(async metadataItem => {
-        const {permalink, source} = metadataItem;
-        const metadataPath = await createData(
-          `${docuHash(permalink)}.json`,
-          JSON.stringify(metadataItem, null, 2),
-        );
-        addRoute({
-          path: permalink,
-          component: source,
-          exact: true,
-          modules: {
-            metadata: metadataPath,
-          },
-        });
-      }),
-    );
-  }
-}
-
-module.exports = DocusaurusPluginContentPages;
+      await Promise.all(
+        content.map(async metadataItem => {
+          const {permalink, source} = metadataItem;
+          const metadataPath = await createData(
+            `${docuHash(permalink)}.json`,
+            JSON.stringify(metadataItem, null, 2),
+          );
+          addRoute({
+            path: permalink,
+            component: source,
+            exact: true,
+            modules: {
+              metadata: metadataPath,
+            },
+          });
+        }),
+      );
+    },
+  };
+};

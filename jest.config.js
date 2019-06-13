@@ -12,8 +12,13 @@ module.exports = {
   verbose: true,
   testURL: 'http://localhost/',
   testEnvironment: 'node',
-  testPathIgnorePatterns: ['/node_modules/', '__fixtures__'],
+  testPathIgnorePatterns: [
+    '/node_modules/',
+    '__fixtures__',
+    '/packages/docusaurus/lib',
+    '/packages/docusaurus-utils/lib',
+  ],
   transform: {
-    '^.+\\.js$': 'babel-jest',
+    '^.+\\.[jt]sx?$': 'babel-jest',
   },
 };

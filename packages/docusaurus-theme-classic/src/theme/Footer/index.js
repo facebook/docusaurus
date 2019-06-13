@@ -10,15 +10,13 @@ import classnames from 'classnames';
 
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import withBaseUrl from '@docusaurus/withBaseUrl';
 
 function Footer() {
   const context = useDocusaurusContext();
   const {siteConfig = {}} = context;
-
-  const {
-    baseUrl,
-    themeConfig: {footer},
-  } = siteConfig;
+  const {themeConfig = {}} = siteConfig;
+  const {footer} = themeConfig;
 
   if (!footer) {
     return null;
@@ -35,7 +33,7 @@ function Footer() {
         {links && links.length > 0 && (
           <div className="row footer__links">
             {links.map((linkItem, i) => (
-              <div key={`linkItem-${i}`} className="col">
+              <div key={i} className="col footer__col">
                 {linkItem.title != null ? (
                   <h4 className="footer__title">{linkItem.title}</h4>
                 ) : null}
@@ -55,7 +53,7 @@ function Footer() {
                                 href: item.href,
                               }
                             : {
-                                to: `${baseUrl}${item.to}`,
+                                to: withBaseUrl(item.to),
                               })}>
                           {item.label}
                         </Link>

@@ -53,7 +53,7 @@ class Footer extends React.Component {
               User Showcase
             </a>
             <a
-              href="http://stackoverflow.com/questions/tagged/"
+              href="https://stackoverflow.com/questions/tagged/"
               target="_blank"
               rel="noreferrer noopener">
               Stack Overflow
