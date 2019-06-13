@@ -6,7 +6,6 @@
  */
 
 const React = require('react');
-const Container = require('./Container.js');
 const SideNav = require('./nav/SideNav.js');
 
 const MetadataBlog = require('./MetadataBlog.js');
@@ -42,7 +41,7 @@ class BlogSidebar extends React.Component {
       category: blogSidebarTitle,
     };
     return (
-      <Container className="docsNavContainer" id="docsNav" wrapper={false}>
+      <div className="docsNavContainer" id="docsNav">
         <SideNav
           language={this.props.language}
           root={`${this.props.config.baseUrl}blog/`}
@@ -50,7 +49,7 @@ class BlogSidebar extends React.Component {
           contents={contents}
           current={current}
         />
-      </Container>
+      </div>
     );
   }
 }
