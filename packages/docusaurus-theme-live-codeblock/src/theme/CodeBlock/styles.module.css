@@ -1,8 +1,50 @@
+.codeBlock__parent {
+  position: relative;
+}
+
 .codeBlock {
+  position: relative;
   border-radius: 0;
   font-size: inherit;
   margin-bottom: 0;
   overflow: hidden;
   overflow-wrap: break-word;
   white-space: pre-wrap;
+}
+
+pre .btnCopy {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  cursor: pointer;
+  border: 1px solid transparent;
+  padding: 0;
+  color: rgb(214, 222, 235);
+  background-color: transparent;
+  height: 30px;
+  transition: all 0.25s ease-out;
+}
+
+pre .btnCopy:hover {
+  text-decoration: none;
+}
+
+.btnCopy__body {
+  align-items: center;
+  display: flex;
+}
+
+.btnCopy svg {
+  fill: currentColor;
+  margin-right: 0.4em;
+}
+
+.btnCopy__label {
+  font-size: 11px;
+  font-family: var(--ifm-font-family-monospace);
+}
+
+.btnClipboard {
+  right: 0.4em;
 }
