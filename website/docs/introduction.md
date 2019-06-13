@@ -48,12 +48,12 @@ Docusaurus is built with high attention to your experience building your site an
 Our shared goal — to help your users find what they need fast, and understand your products better. With the experience of Docusaurus 1, we share with you our best practices to help you build your doc site right and well.
 
 - 🎯 **SEO friendly**
-  - `index.html` files are statically generated for every possible path
+  - HTML files are statically generated for every possible path
   - page-specific SEO to help your users land on your official docs directly relating their problems at hand
-- 📝 **Powerd by MDX**
+- 📝 **Powered by MDX**
   - Write interactive components via JSX and React embedded in markdown
   - Share your code in live editors to get your users love your products on the spot
-- 🔍 **Search** Your full set of docs is searchable
+- 🔍 **Search** Your full site is searchable
 - 🌍 **i18n** (_coming soon_)
 - 💾 **Versioning** (_coming soon_)
 
