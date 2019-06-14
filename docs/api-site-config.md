@@ -76,6 +76,10 @@ Project name. This must match your GitHub repository project name (case-sensitiv
 
 The tagline for your website.
 
+#### `description` [string]
+
+Site level description for your website. Used in generating the description metadata tag. Can be overridden for specific pages by setting a description property on the exported React component. 
+
 #### `title` [string]
 
 Title for your website.
