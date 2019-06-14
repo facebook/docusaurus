@@ -40,7 +40,7 @@ class Site extends React.Component {
       : (!this.props.config.disableTitleTagline &&
           `${this.props.config.title} · ${tagline}`) ||
         this.props.config.title;
-    const description = this.props.description || tagline;
+    const description = this.props.description || this.props.config.description || tagline;
     const path = getPath(
       this.props.config.baseUrl + (this.props.url || 'index.html'),
       this.props.config.cleanUrl,
