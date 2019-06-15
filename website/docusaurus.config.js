@@ -92,6 +92,10 @@ module.exports = {
               label: 'Discord',
               href: 'https://discordapp.com/invite/docusaurus',
             },
+            {
+              label: 'About',
+              to: 'about',
+            },
           ],
         },
         {

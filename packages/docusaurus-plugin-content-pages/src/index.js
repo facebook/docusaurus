@@ -13,7 +13,9 @@ const {encodePath, fileToPath, docuHash} = require('@docusaurus/utils');
 const DEFAULT_OPTIONS = {
   path: 'src/pages', // Path to data on filesystem, relative to site dir.
   routeBasePath: '', // URL Route.
-  include: ['**/*.{js,jsx}'], // Extensions to include.
+  include: ['**/*.{js,jsx,md,mdx}'], // Extensions to include.
+  remarkPlugins: [],
+  rehypePlugins: [],
 };
 
 module.exports = function(context, opts) {
@@ -80,6 +82,31 @@ module.exports = function(context, opts) {
           });
         }),
       );
+    },
+
+    configureWebpack(config, isServer, {getBabelLoader, getCacheLoader}) {
+      const {rehypePlugins, remarkPlugins} = options;
+      return {
+        module: {
+          rules: [
+            {
+              test: /(\.mdx?)$/,
+              include: [contentPath],
+              use: [
+                getCacheLoader(isServer),
+                getBabelLoader(isServer),
+                {
+                  loader: '@docusaurus/mdx-loader',
+                  options: {
+                    remarkPlugins,
+                    rehypePlugins,
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      };
     },
   };
 };
