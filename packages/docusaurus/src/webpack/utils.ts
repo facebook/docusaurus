@@ -43,16 +43,29 @@ export function getStyleLoaders(
   return loaders;
 }
 
-export function getCacheLoader(isServer: boolean, cacheOptions?: {}): Loader {
-  return {
-    loader: require.resolve('cache-loader'),
-    options: Object.assign(
-      {
-        cacheIdentifier: `cache-loader:${cacheLoaderVersion}${isServer}`,
-      },
-      cacheOptions,
-    ),
-  };
+export function getCacheLoader(
+  isServer: boolean,
+  cacheOptions?: {},
+): Loader | false {
+  const isCI = !!(
+    process.env.CI || // Travis CI, CircleCI, Cirrus CI, Gitlab CI, Appveyor, CodeShip, dsari
+    process.env.CONTINUOUS_INTEGRATION || // Travis CI, Cirrus CI
+    process.env.BUILD_NUMBER || // Jenkins, TeamCity
+    process.env.RUN_ID || // TaskCluster, dsari
+    false
+  );
+
+  return (
+    !isCI && {
+      loader: require.resolve('cache-loader'),
+      options: Object.assign(
+        {
+          cacheIdentifier: `cache-loader:${cacheLoaderVersion}${isServer}`,
+        },
+        cacheOptions,
+      ),
+    }
+  );
 }
 
 export function getBabelLoader(isServer: boolean, babelOptions?: {}): Loader {
