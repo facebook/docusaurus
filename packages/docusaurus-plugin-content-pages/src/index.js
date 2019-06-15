@@ -102,7 +102,7 @@ module.exports = function(context, opts) {
                     rehypePlugins,
                   },
                 },
-              ],
+              ].filter(Boolean),
             },
           ],
         },
