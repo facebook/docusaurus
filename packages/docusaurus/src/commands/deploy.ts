@@ -8,7 +8,11 @@
 import fs from 'fs-extra';
 import path from 'path';
 import shell from 'shelljs';
-import {CONFIG_FILE_NAME} from '../constants';
+import {
+  BUILD_DIR_NAME,
+  CONFIG_FILE_NAME,
+  GENERATED_FILES_DIR_NAME,
+} from '../constants';
 import {loadConfig} from '../server/config';
 import {build} from './build';
 
@@ -131,9 +135,9 @@ export async function deploy(siteDir: string): Promise<void> {
 
       shell.cd('../..');
 
-      const fromPath = path.join('build');
+      const fromPath = path.join(BUILD_DIR_NAME);
       const toPath = path.join(
-        '.docusaurus',
+        GENERATED_FILES_DIR_NAME,
         `${projectName}-${deploymentBranch}`,
       );
 
