@@ -46,7 +46,7 @@ export function getStyleLoaders(
 export function getCacheLoader(
   isServer: boolean,
   cacheOptions?: {},
-): Loader | false {
+): Loader | null {
   const isCI = !!(
     process.env.CI || // Travis CI, CircleCI, Cirrus CI, Gitlab CI, Appveyor, CodeShip, dsari
     process.env.CONTINUOUS_INTEGRATION || // Travis CI, Cirrus CI
@@ -55,17 +55,19 @@ export function getCacheLoader(
     false
   );
 
-  return (
-    !isCI && {
-      loader: require.resolve('cache-loader'),
-      options: Object.assign(
-        {
-          cacheIdentifier: `cache-loader:${cacheLoaderVersion}${isServer}`,
-        },
-        cacheOptions,
-      ),
-    }
-  );
+  if (isCI) {
+    return null;
+  }
+
+  return {
+    loader: require.resolve('cache-loader'),
+    options: Object.assign(
+      {
+        cacheIdentifier: `cache-loader:${cacheLoaderVersion}${isServer}`,
+      },
+      cacheOptions,
+    ),
+  };
 }
 
 export function getBabelLoader(isServer: boolean, babelOptions?: {}): Loader {
