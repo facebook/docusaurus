@@ -11,7 +11,10 @@ const BlogSidebar = require('./BlogSidebar.js');
 const Container = require('./Container.js');
 const MetadataBlog = require('./MetadataBlog.js');
 
-const MetadataPublicBlog = MetadataBlog.filter(item => !item.draft);
+const MetadataPublicBlog =
+  process.env.NODE_ENV === 'development'
+    ? MetadataBlog
+    : MetadataBlog.filter(item => !item.unlisted);
 const Site = require('./Site.js');
 const utils = require('./utils.js');
 

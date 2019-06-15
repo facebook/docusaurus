@@ -10,7 +10,10 @@ const SideNav = require('./nav/SideNav.js');
 
 const MetadataBlog = require('./MetadataBlog.js');
 
-const MetadataPublicBlog = MetadataBlog.filter(item => !item.draft);
+const MetadataPublicBlog =
+  process.env.NODE_ENV === 'development'
+    ? MetadataBlog
+    : MetadataBlog.filter(item => !item.unlisted);
 
 class BlogSidebar extends React.Component {
   render() {

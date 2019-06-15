@@ -29,7 +29,7 @@ Docusaurus also provides core website and documentation features out-of-the-box 
 
 When Facebook first started their open source program, many teams implemented a custom website for each of their open source projects. This approach presented challenges when the open source program team was asked to help the project teams improve their documentation. Since each site was unique, adding basic infrastructure such as a blog, consistent navigation, search, etc. became challenging undertakings.
 
-The open source team tried to help mitigate this problem by coming up with a standard template, based on Jekyll, that could be used as a starting point for a project website. We asked our new projects to manually copy our template source to  their repo, write their docs, and publish. This template approach was adopted by most of open source projects launched; some existing projects even converted their custom website implementations to the new template as well.
+The open source team tried to help mitigate this problem by coming up with a standard template, based on Jekyll, that could be used as a starting point for a project website. We asked our new projects to manually copy our template source to their repo, write their docs, and publish. This template approach was adopted by most of open source projects launched; some existing projects even converted their custom website implementations to the new template as well.
 
 The problem with the "copy the template to your repo" approach is that, even though the platform is consistent, pushing updates becomes unmaintainable across an entire suite of projects already using the template. This is because we lost control of the template after a project copied it to their repo. Projects were free to modify the template as desired and apply their own project-specific features to it. So while projects share the same site generation platform, they have now diverted enough where they cannot take advantage of the new features we have added to the template over time. There was no easy way we could ask all current projects to "copy" a new version of the template since it might break their existing site or remove features that they have added on their own. Instead, we would have to apply the updates manually to each project one-by-one. This became very problematic when projects started asking for our team for internationalization support within the template, requiring low-level changes to how the template was structured and generated.
 
@@ -37,7 +37,7 @@ So we started thinking about what we could do to help mitigate the challenge of 
 
 Docusaurus was born!
 
-At Facebook, Docusaurus allows us to quickly get different projects up and running with documentation websites, especially for teams who don't have much experience with web development or primarily want a basic site to showcase their project. Docusaurus already supports sites needing more advanced features like internationalization for Jest and versioning for React Native. As different projects request new features for their sites, they are added to Docusaurus and simultaneously provided to all projects! All together, this ends up greatly reducing the work needed  to maintain different sites for different projects. Our teams are able to focus on keeping their projects healthier by spending more time adding features, fixing bugs, and writing documentation.
+At Facebook, Docusaurus allows us to quickly get different projects up and running with documentation websites, especially for teams who don't have much experience with web development or primarily want a basic site to showcase their project. Docusaurus already supports sites needing more advanced features like internationalization for Jest and versioning for React Native. As different projects request new features for their sites, they are added to Docusaurus and simultaneously provided to all projects! All together, this ends up greatly reducing the work needed to maintain different sites for different projects. Our teams are able to focus on keeping their projects healthier by spending more time adding features, fixing bugs, and writing documentation.
 
 ## Getting Up and Running
 
@@ -94,7 +94,7 @@ root-of-Docusaurus
 │   └── write-translations.js
 ```
 
-The key files here are build-files.js and start-server.js. There are many similarities between these two files: `build-files.js` is used to build the physical artifacts for serving by an external web server. `start-server.js` is used  to run the Docusaurus server and locally test your site. Both go through the following general process to take all of the markdown and configuration to create a runnable website:
+The key files here are build-files.js and start-server.js. There are many similarities between these two files: `build-files.js` is used to build the physical artifacts for serving by an external web server. `start-server.js` is used to run the Docusaurus server and locally test your site. Both go through the following general process to take all of the markdown and configuration to create a runnable website:
 
 1. Process your website settings in `siteConfig.js`
 1. Read the document metadata that exists in all the markdown files in your docs directory.

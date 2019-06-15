@@ -85,7 +85,7 @@ For Docusaurus 2, **layout and styling should be controlled by the user**. Docus
 
 Our markdown parsing is currently powered by [Remarkable](https://github.com/jonschlinkert/remarkable). What if the user wants to use [markdown-it](https://github.com/markdown-it/markdown-it) or even [MDX](https://github.com/mdx-js/mdx)? And then there is an issue of which syntax highlighter to use, (e.g: [Prism](https://prismjs.com/) vs [Highlight.js](https://highlightjs.org/)). We should leave these choices open to the user.
 
-For Docusaurus 2, **users can eject and choose their own markdown parser**. It does not matter if they want to use another markdown parser such as [Remark](https://github.com/remarkjs/remark), or even their own in-house markdown parser. As a rule of thumb, the user has to provide a React component, in which we will provide a children props containing the *RAW string of markdown*. By default, we will use Remarkable for the markdown parser and Highlight.js for the syntax highlighting. The default parser could still change in the future as we're still experimenting with different markdown parsers.
+For Docusaurus 2, **users can eject and choose their own markdown parser**. It does not matter if they want to use another markdown parser such as [Remark](https://github.com/remarkjs/remark), or even their own in-house markdown parser. As a rule of thumb, the user has to provide a React component, in which we will provide a children props containing the _RAW string of markdown_. By default, we will use Remarkable for the markdown parser and Highlight.js for the syntax highlighting. The default parser could still change in the future as we're still experimenting with different markdown parsers.
 
 ### Search
 
@@ -104,12 +104,12 @@ For Docusaurus 2, **we are adding tests as we develop** since we are going for a
 ## Frequently Asked Questions
 
 ### Will there be any breaking changes?
+
 If you've read the post up until to this point, you should be able to notice that there will be breaking changes. While we will try to **minimize the number of breaking changes** and make it backward compatible as much as possible, we believe that some breaking changes are required. This is mostly due to Docusaurus 2 being a **major rewrite and re-architecting** of the codebase.
 
 The exact list of breaking changes is not totally known yet as development is not 100% finalized. However, one thing that I will highlight is that we will deprecate a lot of options in `siteConfig.js` and we plan to keep it as lean as possible. For example, the `cleanUrl` siteConfig will be deprecated as all the URL for Docusaurus 2 sites will be without the `.html` suffix.
 
 Our goal is that most sites should be able to upgrade to Docusaurus 2 without a lot of pain. We will also include a migration guide when we release Docusaurus 2. When the times come, feel free to ping us on [Discord](https://discord.gg/docusaurus) or [Twitter](https://twitter.com/docusaurus) for questions and help.
-
 
 ### When is the release of Docusaurus 2?
 
@@ -132,4 +132,3 @@ If you are using Docusaurus, you are part of our community; keep letting us know
 > If you are sponsoring our work on [Open Collective](https://opencollective.com/Docusaurus), we'll personally offer you a helping hand for maintenance and upgrading of Docusaurus website.
 
 Lastly, if you haven't done so already, click the **star** and **watch** button on [GitHub](https://github.com/facebook/Docusaurus), and follow us on [Twitter](https://twitter.com/docusaurus).
-
