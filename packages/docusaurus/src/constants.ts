@@ -7,4 +7,7 @@
 
 export const GENERATED_FILES_DIR_NAME = '.docusaurus';
 export const STATIC_DIR_NAME = 'static';
+export const BUILD_DIR_NAME = 'build';
 export const CONFIG_FILE_NAME = 'docusaurus.config.js';
+export const SRC_DIR = 'src';
+export const THEME_PATH = `${SRC_DIR}/theme`;
