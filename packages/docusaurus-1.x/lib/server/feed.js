@@ -28,6 +28,7 @@ module.exports = function(type) {
 
   readMetadata.generateMetadataBlog(siteConfig);
   const MetadataBlog = require('../core/MetadataBlog.js');
+  const MetadataPublicBlog = MetadataBlog.filter(item => !item.draft);
 
   const feed = new Feed({
     title: `${siteConfig.title} Blog`,
@@ -38,10 +39,10 @@ module.exports = function(type) {
     link: blogRootURL,
     image: siteImageURL,
     copyright: siteConfig.copyright,
-    updated: new Date(MetadataBlog[0].date),
+    updated: new Date(MetadataPublicBlog[0].date),
   });
 
-  MetadataBlog.forEach(post => {
+  MetadataPublicBlog.forEach(post => {
     const url = `${blogRootURL}/${post.path}`;
     const description = utils.blogPostHasTruncateMarker(post.content)
       ? renderMarkdown(utils.extractBlogPostBeforeTruncate(post.content))
