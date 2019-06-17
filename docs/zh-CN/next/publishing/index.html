@@ -219,7 +219,7 @@
 <span class="hljs-comment">#         filters: *filter-only-master</span>
 </code></pre>
 <p>Make sure to replace all <code>&lt;....&gt;</code> in the <code>command:</code> sequence with appropriate values. For <code>&lt;GIT_USER&gt;</code>, it should be a GitHub account that has access to push documentation to your GitHub repository. Many times <code>&lt;GIT_USER&gt;</code> and <code>&lt;GITHUB_USERNAME&gt;</code> will be the same.</p>
-<p><strong>DO NOT</strong> place the actual value of <code>$GITHUB_TOKEN</code> in <code>circle.yml</code>. We already configured that as an environment variable back in Step 3.</p>
+<p><strong>DO NOT</strong> place the actual value of <code>$GITHUB_TOKEN</code> in <code>circle.yml</code>. We already configured that as an environment variable back in Step 5.</p>
 <blockquote>
 <p>If you want to use SSH for your GitHub repository connection, you can set <code>USE_SSH=true</code>. So the above command would look something like: <code>cd website &amp;&amp; npm install &amp;&amp; GIT_USER=&lt;GIT_USER&gt; USE_SSH=true npm run publish-gh-pages</code>.</p>
 <p>Unlike when you run the <code>publish-gh-pages</code> script manually when the script runs within the Circle environment, the value of <code>CURRENT_BRANCH</code> is already defined as an <a href="https://circleci.com/docs/1.0/environment-variables/">environment variable within CircleCI</a> and will be picked up by the script automatically.</p>
