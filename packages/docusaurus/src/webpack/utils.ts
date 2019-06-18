@@ -49,12 +49,10 @@ export function getStyleLoaders(
         // https://github.com/facebook/create-react-app/issues/2677
         ident: 'postcss',
         plugins: () => [
-          require('postcss-flexbugs-fixes'),
           require('postcss-preset-env')({
             autoprefixer: {
               flexbox: 'no-2009',
             },
-            stage: 3,
           }),
         ],
       },

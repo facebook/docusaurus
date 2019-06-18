@@ -138,7 +138,7 @@ export function createBaseConfig(
           test: CSS_REGEX,
           exclude: CSS_MODULE_REGEX,
           use: getStyleLoaders(isServer, {
-            importLoaders: 0,
+            importLoaders: 1,
             sourceMap: !isProd,
           }),
         },
@@ -148,7 +148,7 @@ export function createBaseConfig(
           test: CSS_MODULE_REGEX,
           use: getStyleLoaders(isServer, {
             modules: true,
-            importLoaders: 0,
+            importLoaders: 1,
             localIdentName: `[local]_[hash:base64:8]`,
             sourceMap: !isProd,
             exportOnlyLocals: isServer,
