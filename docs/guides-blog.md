@@ -96,7 +96,7 @@ blogSidebarTitle: { default: 'Recent posts', all: 'All blog posts' },
 
 Docusaurus provides a simple RSS feed for your blog posts. Both RSS and Atom feed formats are supported. This data is automatically added to your website page's HTML `<HEAD>` tag.
 
-A summary of the post's text is provided in the RSS feed up to the `<!--truncate-->`. If no `<!--truncate-->` tag is found, then all text up 250 characters are used.
+A summary of the post's text is provided in the RSS feed up to the `<!--truncate-->`. If no `<!--truncate-->` tag is found, then all text up to 250 characters is used.
 
 ## Social Buttons
 
@@ -115,7 +115,7 @@ To do this:
 1.  Customize the `<title>` of `website/static/index.html`
 1.  Delete the dynamic landing page `website/pages/en/index.js`
 
-> Now, when Docusaurus generates or builds your site, it will copy the file from `static/index.html` and place it in the site's main directory. The static file is served when a visitor arrives on your page. When the page loads it will redirect the visitor to `/blog`.
+> Now, when Docusaurus generates or builds your site, it will copy the file from `static/index.html` and place it in the site's main directory. The static file is served when a visitor arrives on your page. When the page loads, it will redirect the visitor to `/blog`.
 
 You can use this template:
 
