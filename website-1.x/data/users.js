@@ -338,6 +338,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Paynow',
+    image: '/img/users/paynow.svg',
+    infoLink: 'https://developers.paynow.co.zw/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'pnpm',
     image: 'https://pnpm.js.org/img/pnpm.svg',
     infoLink: 'https://pnpm.js.org/',
