@@ -246,6 +246,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Libra',
+    image: '/img/users/libra.svg',
+    infoLink: 'https://developers.libra.org',
+    fbOpenSource: false,
+    pinned: true,
+  },
+  {
     caption: 'MakeItOpen',
     image: '/img/users/makeitopen.png',
     infoLink: 'https://makeitopen.com/',
