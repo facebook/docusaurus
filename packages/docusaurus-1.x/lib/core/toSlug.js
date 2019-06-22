@@ -45,8 +45,8 @@ module.exports = (string, context = {}) => {
     .replace(new RegExp(`[${accents}]`, 'g'), c =>
       without.charAt(accents.indexOf(c)),
     )
-    // Replace `.`, `(` and `?` with blank string like Github does
-    .replace(/\.|\(|\?/g, '')
+    // Replace `'`, `’`, `.`, `(` and `?` with blank string like GitHub does
+    .replace(/'|’|\.|\(|\?/g, '')
     // Dash special characters except '_' (underscore)
     .replace(exceptAlphanumAndUnderscore, '-')
     // Compress multiple dash
