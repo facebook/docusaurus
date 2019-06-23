@@ -6,10 +6,10 @@ title: Installation
 The easiest way to install Docusaurus is to use the command line tool that helps you scaffold a Docusaurus site skeleton. You can run this command anywhere in a new empty repository or within an existing repository, it will create a new directory containing the scaffolded files.
 
 ```bash
-npx @docusaurus/core@next init
+npx @docusaurus/core@next init [name] [template]
 ```
 
-It will then prompt you for the `name` and the `template` for your Docusaurus site. We recommend the `classic` template so that you can get started quickly. The `classic` template comes with standard documentation, blog and custom pages features.
+If you do not specify `name` or `template`, it will prompt you for the missing inputs. We recommend the `classic` template so that you can get started quickly. The `classic` template comes with standard documentation, blog and custom pages features.
 
 ## Project Structure
 
@@ -21,8 +21,7 @@ my-website
 │   ├── doc1.md
 │   ├── doc2.md
 │   ├── doc3.md
-│   ├── exampledoc4.md
-│   └── exampledoc5.md
+│   └── mdx.md
 ├── blog
 │   ├── 2019-05-29-hello-world.md
 │   └── 2020-05-30-welcome.md
@@ -43,6 +42,6 @@ cd my-website
 npm start
 ```
 
-A browser window will open at http://localhost:3000.
+By default, a browser window will open at http://localhost:3000.
 
 Congratulations! You have just created your first Docusaurus site! Browse around the site to see what's available.
