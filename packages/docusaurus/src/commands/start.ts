@@ -19,9 +19,9 @@ import webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
 import merge from 'webpack-merge';
 import HotModuleReplacementPlugin from 'webpack/lib/HotModuleReplacementPlugin';
-import {CONFIG_FILE_NAME, STATIC_DIR_NAME} from '../constants';
 import {load} from '../server';
 import {CLIOptions} from '../server/types';
+import {CONFIG_FILE_NAME, STATIC_DIR_NAME, DEFAULT_PORT} from '../constants';
 import {createClientConfig} from '../webpack/client';
 import {applyConfigureWebpack} from '../webpack/utils';
 
@@ -30,7 +30,7 @@ function getHost(reqHost: string | undefined): string {
 }
 
 async function getPort(reqPort: string | undefined): Promise<number> {
-  const basePort = reqPort ? parseInt(reqPort, 10) : 3000;
+  const basePort = reqPort ? parseInt(reqPort, 10) : DEFAULT_PORT;
   const port = await portfinder.getPortPromise({port: basePort});
   return port;
 }
@@ -78,6 +78,8 @@ export async function start(
   const {baseUrl} = props;
   const urls = prepareUrls(protocol, host, port);
   const openUrl = normalizeUrl([urls.localUrlForBrowser, baseUrl]);
+
+  console.log(chalk.cyan(`Your site will be accessible at ${openUrl}`));
 
   let config: webpack.Configuration = merge(createClientConfig(props), {
     plugins: [
