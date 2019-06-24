@@ -21,12 +21,7 @@ import merge from 'webpack-merge';
 import HotModuleReplacementPlugin from 'webpack/lib/HotModuleReplacementPlugin';
 import {load} from '../server';
 import {CLIOptions} from '../server/types';
-import {
-  CONFIG_FILE_NAME,
-  STATIC_DIR_NAME,
-  DEFAULT_PORT,
-  DOCUSAURUS_ASCII,
-} from '../constants';
+import {CONFIG_FILE_NAME, STATIC_DIR_NAME, DEFAULT_PORT} from '../constants';
 import {createClientConfig} from '../webpack/client';
 import {applyConfigureWebpack} from '../webpack/utils';
 
@@ -44,7 +39,6 @@ export async function start(
   siteDir: string,
   cliOptions: CLIOptions = {},
 ): Promise<void> {
-  console.log(chalk.cyan(DOCUSAURUS_ASCII));
   console.log(chalk.blue('Starting the development server...'));
 
   // Process all related files as a prop.
@@ -85,7 +79,7 @@ export async function start(
   const urls = prepareUrls(protocol, host, port);
   const openUrl = normalizeUrl([urls.localUrlForBrowser, baseUrl]);
 
-  console.log(chalk.cyan(`Building your site at ${openUrl}`));
+  console.log(chalk.cyan(`Your site will be accessible at ${openUrl}`));
 
   let config: webpack.Configuration = merge(createClientConfig(props), {
     plugins: [
