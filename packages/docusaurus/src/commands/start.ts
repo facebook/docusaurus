@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {normalizeUrl, normalizeUrl} from '@docusaurus/utils';
+import {normalizeUrl} from '@docusaurus/utils';
 import chalk from 'chalk';
 import chokidar from 'chokidar';
 import express from 'express';
