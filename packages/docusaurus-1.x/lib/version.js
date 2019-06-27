@@ -25,7 +25,7 @@ const fs = require('fs-extra');
 const mkdirp = require('mkdirp');
 const path = require('path');
 
-const headersUtils = require('./server/headersUtils.js');
+const headerUtils = require('./server/headerUtils.js');
 const readMetadata = require('./server/readMetadata.js');
 const utils = require('./server/utils.js');
 const versionFallback = require('./server/versionFallback.js');
@@ -131,7 +131,7 @@ files.forEach(file => {
 
   writeFileAndCreateFolder(
     targetFile,
-    headersUtils.makeHeader(metadata) + rawContent,
+    headerUtils.makeHeader(metadata) + rawContent,
     'utf8',
   );
 });
