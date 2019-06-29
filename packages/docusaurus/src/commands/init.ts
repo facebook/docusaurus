@@ -162,7 +162,7 @@ export async function init(
   console.log();
 
   // Display the most elegant way to cd.
-  const cdPath = path.join(process.cwd(), name) === dest ? name : path.relative(process.cwd(), name);
+  const cdpath = path.join(process.cwd(), name) === dest ? name : path.relative(process.cwd(), name);
 
   console.log();
   console.log(`Success! Created ${chalk.cyan(cdpath)}`);
