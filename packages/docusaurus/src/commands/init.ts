@@ -23,7 +23,7 @@ function hasYarn(): boolean {
 }
 
 function isValidGitRepoUrl(gitRepoUrl): boolean {
-  return gitRepoUrl.startsWith('https://') || gitRepoUrl.startsWith('git@');
+  return ['https://', 'git@'].some(item => gitRepoUrl.startsWith(item));
 }
 
 async function updatePkg(pkgPath: string, obj): Promise<void> {
@@ -162,12 +162,7 @@ export async function init(
   console.log();
 
   // Display the most elegant way to cd.
-  let cdpath;
-  if (path.join(process.cwd(), name) === dest) {
-    cdpath = name;
-  } else {
-    cdpath = path.relative(process.cwd(), dest);
-  }
+  const cdPath = path.join(process.cwd(), name) === dest ? name : path.relative(process.cwd(), name);
 
   console.log();
   console.log(`Success! Created ${chalk.cyan(cdpath)}`);
