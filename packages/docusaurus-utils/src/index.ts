@@ -173,19 +173,19 @@ export function normalizeUrl(rawUrls: string[]): string {
     urls[0] = first + urls[0];
   }
 
-  // There must be two or three slashes in the file protocol, two slashes in anything else.
-  if (urls[0].match(/^file:\/\/\//)) {
-    urls[0] = urls[0].replace(/^([^/:]+):\/*/, '$1:///');
-  } else {
-    urls[0] = urls[0].replace(/^([^/:]+):\/*/, '$1://');
-  }
+  /*
+  * There must be two or three slashes in the file protocol,
+  * two slashes in anything else.
+  */
+  let replaceWith = urls[0].match(/^file:\/\/\//) ? '$1:///' : '$1://';
+  urls[0] = urls[0].replace(/^([^/:]+):\/*/, replaceWith);
 
   // eslint-disable-next-line
   for (let i = 0; i < urls.length; i++) {
     let component = urls[i];
 
     if (typeof component !== 'string') {
-      throw new TypeError(`Url must be a string. Received ${component}`);
+      throw new TypeError(`Url must be a string. Received ${typeof component}`);
     }
 
     if (component === '') {
@@ -197,13 +197,13 @@ export function normalizeUrl(rawUrls: string[]): string {
       // Removing the starting slashes for each component but the first.
       component = component.replace(/^[/]+/, '');
     }
-    if (i < urls.length - 1) {
-      // Removing the ending slashes for each component but the last.
-      component = component.replace(/[/]+$/, '');
-    } else {
-      // For the last component we will combine multiple slashes to a single one.
-      component = component.replace(/[/]+$/, '/');
-    }
+
+    /*
+    * Removing the ending slashes for each component but the last.
+    * For the last component we will combine multiple slashes to a single one.
+    */
+    replaceWith = i < urls.length - 1 ? '' : '/';
+    component = component.replace(/[/]+$/, replaceWith);
 
     resultArray.push(component);
   }
