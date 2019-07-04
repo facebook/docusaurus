@@ -71,6 +71,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Bitcoin-S',
+    image: '/img/users/bitcoin-s.png',
+    infoLink: 'https://bitcoin-s.org',
+    fbOpenSource: false,
+    pinned: true,
+  },
+  {
     caption: 'Bowler',
     image: '/img/users/bowler.svg',
     infoLink: 'https://pybowler.io/',
