@@ -541,6 +541,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'SimpliField',
+    image: '/img/users/simplifield.svg',
+    infoLink: 'https://www.simplifield.com/',
+    fbOpenSource: false,
+    pinned: true,
+  },
+  {
     caption: 'single-spa',
     image: 'https://single-spa.js.org/img/logo-white-bgblue.svg',
     infoLink: 'https://single-spa.js.org/',
