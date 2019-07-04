@@ -40,6 +40,10 @@ about: Submit a bug report to help us improve
 
 (Write what happened. Add screenshots, if applicable.)
 
+**Please paste the results of docusaurus info here :-**
+
+
+
 ## Reproducible Demo
 
 (Paste the link to an example repo, including a `siteConfig.js`, and exact instructions to reproduce the issue.)
