@@ -28,6 +28,8 @@ First, modify your `docusaurus.config.js` and add the required params:
 | `url` | URL for your GitHub Page's user/organization page. This is commonly https://_username_.github.io. |
 | `baseUrl` | Base URL for your project. For projects hosted on GitHub pages, it follows the format "/_projectName_/". For https://github.com/facebook/docusaurus, `baseUrl` is `/docusaurus/`. |
 
+In case you want to use your custom domain for GitHub Pages, just put your `CNAME` file in `static` folder.
+
 You may refer to GitHub Pages' documentation [User, Organization, and Project Pages](https://help.github.com/en/articles/user-organization-and-project-pages) for more details.
 
 Example:
