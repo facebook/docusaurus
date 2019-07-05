@@ -75,7 +75,7 @@ module.exports = [
     image: '/img/users/bitcoin-s.png',
     infoLink: 'https://bitcoin-s.org',
     fbOpenSource: false,
-    pinned: true,
+    pinned: false,
   },
   {
     caption: 'Bowler',
