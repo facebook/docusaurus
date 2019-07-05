@@ -8,13 +8,13 @@
 import React, {useState} from 'react';
 import classnames from 'classnames';
 
-import Link from '@docusaurus/Link'; // eslint-disable-line
+import Link from '@docusaurus/Link';
 
 import styles from './styles.module.css';
 
 const MOBILE_TOGGLE_SIZE = 24;
 
-function DocSidebar(props) {
+function DocLegacySidebar(props) {
   const [showResponsiveSidebar, setShowResponsiveSidebar] = useState(false);
   const {docsMetadata, sidebar} = props;
 
@@ -127,4 +127,4 @@ function DocSidebar(props) {
   );
 }
 
-export default DocSidebar;
+export default DocLegacySidebar;
