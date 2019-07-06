@@ -40,9 +40,22 @@ Deployment configurations are used when you deploy your site with Docusaurus' de
 
 You may also check the doc for [Deployment](deployment.md) for more information about the fields.
 
-### Theme, plugins, and presets configurations
+### Themes, plugins, and presets configurations
 
-<!-- TODO: More explanation from these docs, respectively -->
+_This section is a work in progress. [Welcoming PRs](https://github.com/facebook/docusaurus/issues/1640)._
+
+<!--
+
+TODO:
+- briefly introduce how to pass configurations to themes, plugins, and presets
+- throw in links to them respectively
+- make sure the logic flows nicely
+
+[themes](using-themes.md)
+[plugins](using-plugins.md)
+[presets](presets.md)
+
+-->
 
 ### Custom configurations
 

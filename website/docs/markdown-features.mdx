@@ -1,7 +1,13 @@
 ---
-id: writing-docs
-title: Writing Docs
+id: markdown-features
+title: Markdown Features
 ---
+
+<!--
+combining:
+- assets
+- markdown features
+-->
 
 Documentation is one of your product's interfaces with your users. A well-written and well-organized set of docs helps your users understand your product quickly. Our aligned goal here is to help your users find and understand the information they need, as easily as possible.
 
@@ -11,7 +17,7 @@ In this section, we'd like to introduce you to the tools we've picked that we be
 
 **Note:** All the following content assumes you are using `docusaurus-preset-classic`.
 
-## Using Markdown
+---
 
 Markdown is a syntax that enables you to write formatted content in an easy-to-use syntax. The [standard Markdown syntax](https://daringfireball.net/projects/markdown/syntax) is supported and we use [MDX](https://mdxjs.com/) as the parsing engine, which can do much more than just parsing Markdown. More on that later.
 
@@ -84,45 +90,7 @@ The headers are well-spaced so that the hierarchy is clear.
 
 </BrowserWindow>
 
-## Sidebar
-
-To generate a sidebar to your Docusaurus site, you need to define a file that exports a JS module and pass that into `docusaurus-plugin-docs` directly or via the `docusaurus-preset-classic`. If you are using the classic preset, you can find the `sidebars.js` under the root directory already created for you, so you may edit it directly for customization.
-
-<!-- TODO: change classic template to use `sidebars.js` from json -->
-
-```bash
-website # root directory of your site
-├── docs
-│   └── greeting.md
-├── docusaurus.config.js
-├── sidebars.js
-.
-```
-
-To add a doc to the sidebar, add the `id` specified in the frontmatter of the doc into its category.
-
-```diff
-module.exports = {
-  docs: {
-+   "Getting started": ["greeting"],
-    "Docusaurus": ["doc1"],
-    "First Category": ["doc2"],
-    "Second Category": ["doc3"],
-  }
-};
-```
-
-The `docs` key in the file is just the name of that particular sidebar hierarchy, and can be renamed to something else. You can have multiple sidebars for different Markdown files by adding more top-level keys to the exported object.
-
-<!-- TODO: Mention subcategories -->
-
-<!--
-TODO: Talk more about using the official docs plugin and how to configure the sidebar. Mention about incorporating assets and a preview of the cool Markdown features available, but don't list all the Markdown features here.
-References:
-- https://docusaurus.io/docs/en/navigation
--->
-
-## Embedding React Components
+### Embedding React Components
 
 Docusaurus has built-in support for [MDX](https://mdxjs.com), which allows you to write JSX within your Markdown files and render them as React components.
 
@@ -173,7 +141,7 @@ I can write **Markdown** alongside my _JSX_!
 
 You can also import your own components defined in other files or third-party components installed via npm! Check out the [MDX docs](https://mdxjs.com/) to see what other fancy stuff you can do with MDX.
 
-## Syntax Highlighting
+### Syntax Highlighting
 
 Code blocks are text blocks wrapped around by strings of 3 backticks. You may check out [this reference](https://github.com/mdx-js/specification) for specifications of MDX.
 
@@ -191,7 +159,7 @@ console.log('Every repo must come with a mascot.');
 
 **Work in Progress** Currently the Prism theme we use is [Night Owl](https://github.com/FormidableLabs/prism-react-renderer/blob/master/themes/nightOwl.js). We will support customized theme in a future version.
 
-## Interactive Coding Editor
+### Interactive Coding Editor
 
 (Powered by [React Live](https://github.com/FormidableLabs/react-live))
 

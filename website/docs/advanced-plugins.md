@@ -1,5 +1,5 @@
 ---
-id: plugins
+id: advanced-plugins
 title: Plugins
 ---
 
@@ -175,7 +175,7 @@ module.exports = {
 
 ### `@docusaurus/plugin-content-gtag`
 
-<!-- TODO -->
+_This section is a work in progress. [Welcoming PRs](https://github.com/facebook/docusaurus/issues/1640)._
 
 ### `@docusaurus/plugin-content-sitemap`
 

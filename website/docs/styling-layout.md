@@ -28,7 +28,7 @@ When you `init` your Docusaurus 2 project, the website will be generated with ba
 
 <!-- TODO need more refinement here -->
 
-## Styling your components
+## Styling components
 
 Your whole Docusaurus 2 site is a React app. Any styling that works with React will work with your site.
 
@@ -51,4 +51,4 @@ export default () => (
 
 ### With CSS-in-JS Frameworks
 
-This section is a work in progress. [Welcoming PRs](https://github.com/facebook/Docusaurus/pulls).
+_This section is a work in progress. [Welcoming PRs](https://github.com/facebook/docusaurus/issues/1640)._

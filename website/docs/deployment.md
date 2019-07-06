@@ -75,3 +75,7 @@ References:
 - https://www.gatsbyjs.org/docs/deploying-and-hosting/
 
 -->
+
+## Deployment with Netlify
+
+_This section is a work in progress. [Welcoming PRs](https://github.com/facebook/docusaurus/issues/1640)._
