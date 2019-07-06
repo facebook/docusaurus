@@ -10,10 +10,10 @@ import {MDXProvider} from '@mdx-js/react';
 
 import renderRoutes from '@docusaurus/renderRoutes';
 import Layout from '@theme/Layout';
-import DocSidebar from '@theme/DocSidebar';
+import DocLegacySidebar from '@theme/DocLegacySidebar';
 import MDXComponents from '@theme/MDXComponents';
 
-function DocPage(props) {
+function DocLegacyPage(props) {
   const {route, docsMetadata, location} = props;
   const {permalinkToId} = docsMetadata;
   const id =
@@ -27,7 +27,7 @@ function DocPage(props) {
       <div className="container container--fluid">
         <div className="row">
           <div className="col col--3">
-            <DocSidebar docsMetadata={docsMetadata} sidebar={sidebar} />
+            <DocLegacySidebar docsMetadata={docsMetadata} sidebar={sidebar} />
           </div>
           <main className="col">
             <MDXProvider components={MDXComponents}>
@@ -40,4 +40,4 @@ function DocPage(props) {
   );
 }
 
-export default DocPage;
+export default DocLegacyPage;

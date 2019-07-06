@@ -8,7 +8,7 @@
 import React from 'react';
 
 import Head from '@docusaurus/Head';
-import DocPaginator from '@theme/DocPaginator';
+import DocLegacyPaginator from '@theme/DocLegacyPaginator';
 
 import styles from './styles.module.css';
 
@@ -28,7 +28,7 @@ function Headings({headings, isChild}) {
   );
 }
 
-function DocItem(props) {
+function DocLegacyItem(props) {
   const {metadata, content: DocContent, docsMetadata} = props;
 
   return (
@@ -49,7 +49,10 @@ function DocItem(props) {
                 </div>
               </article>
               <div className="margin-top--xl margin-bottom--lg">
-                <DocPaginator docsMetadata={docsMetadata} metadata={metadata} />
+                <DocLegacyPaginator
+                  docsMetadata={docsMetadata}
+                  metadata={metadata}
+                />
               </div>
             </div>
           </div>
@@ -66,4 +69,4 @@ function DocItem(props) {
   );
 }
 
-export default DocItem;
+export default DocLegacyItem;
