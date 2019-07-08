@@ -9,7 +9,7 @@ In this section, we will learn about creating ad-hoc pages in Docusaurus using R
 
 <!-- TODO: What will the user see if pages/ is empty? -->
 
-In the `pages` directory, create a file called `hello.js` with the following contents:
+In the `src/pages` directory, create a file called `hello.js` with the following contents:
 
 ```jsx
 import React from 'react';

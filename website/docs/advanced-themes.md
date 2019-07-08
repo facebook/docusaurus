@@ -10,7 +10,7 @@ _This section is a work in progress._
 Advanced guide on:
 - customizing themes
 - implementing themes
-- shadowing components
+- swizzling components
 
 References
 ---
