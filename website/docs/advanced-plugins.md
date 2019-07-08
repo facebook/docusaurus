@@ -1,5 +1,5 @@
 ---
-id: plugins
+id: advanced-plugins
 title: Plugins
 ---
 
@@ -11,7 +11,7 @@ Docusaurus Plugins are very similar to [Gatsby Plugins](https://www.gatsbyjs.org
 
 In most cases, plugins are there to fetch data and create routes. A plugin could take in components as part of its options and to act as the wrapper for the page.
 
-## Lifecycle methods
+## Lifecycle Methods
 
 <!-- TODO: explain lifecycle methods -->
 
@@ -26,11 +26,13 @@ For example, the in docusaurus-plugin-content-docs:
     In contentLoaded, for each doc Markdown file, a route is created: /doc/installation, /doc/getting-started, etc.
  -->
 
-## How to create plugins
+## How to Create Plugins
+
+_This section is a work in progress._
 
 <!-- TODO: explain creating plugins using an example -->
 
-## Official plugins
+## Official Plugins
 
 ### `@docusaurus/plugin-content-blog`
 
@@ -175,7 +177,7 @@ module.exports = {
 
 ### `@docusaurus/plugin-content-gtag`
 
-<!-- TODO -->
+_This section is a work in progress. [Welcoming PRs](https://github.com/facebook/docusaurus/issues/1640)._
 
 ### `@docusaurus/plugin-content-sitemap`
 

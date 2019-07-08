@@ -3,8 +3,14 @@ id: docusaurus-core
 title: Docusaurus Core
 ---
 
-TODO: Mention Docusaurus core APIs here, such as `<Link />`, `<Head />`, `prefetch`, etc.
+_This section is a work in progress._
 
-#### References
+<!--
 
-- TODO
+Mention Docusaurus core APIs here, such as `<Link />`, `<Head />`, `prefetch`, etc.
+
+References
+---
+- [source code](/packages/docusaurus/README.MD)
+
+-->

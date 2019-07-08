@@ -119,7 +119,3 @@ module.exports = function(context, opts) {
   };
 };
 ```
-
-#### References
-
-- https://v1.vuepress.vuejs.org/plugin/option-api.html

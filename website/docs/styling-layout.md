@@ -3,17 +3,40 @@ id: styling-layout
 title: Styling and Layout
 ---
 
-## Styling your site with Infima
+## Traditional CSS
 
-The classic template of Docusaurus uses [Infima](https://infima-dev.netlify.com/) as the underlying styling framework. Infima provides powerful and flexible layout and styling for content-centric websites. For more details of Infima, check out [Infima docs](https://infima-dev.netlify.com/).
+If you're using `@docusaurus/preset-classic`, you can create your own CSS files (e.g. `src/css/custom.css`) and import them globally by passing it as an option into the preset.
 
-When you `init` your Docusaurus 2 project, the website will be generated with basic Infima stylesheets and default styling. You may customize the styling by editing the `custom.css` file under your site's `/css` directory:
+```diff
+// docusaurus.config.js
+module.exports = {
+  // ...
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
++       theme: {
++         customCss: require.resolve('./src/css/custom.css'),
++       },
+      },
+    ],
+  ],
+};
+```
+
+Any CSS you write within that file will be available globally and can be referenced directly using string literals. This is the most traditional approach to writing CSS and is fine for small websites that do not have much customization.
+
+## Styling your Site with Infima
+
+`@docusaurus/preset-classic` uses [Infima CSS](https://infima-dev.netlify.com/) as the underlying styling framework. Infima provides powerful and flexible layout and styling suitable for content-centric websites. For more details of Infima, check out [Infima docs](https://infima-dev.netlify.com/).
+
+When you `init` your Docusaurus 2 project, the website will be generated with basic Infima stylesheets and default styling. You may customize the styling by editing the `src/css/custom.css` file.
 
 ```css
 /**
- * /css/custom.css
- * You can override the default Infima variables here. 
- * this is not a complete list of --ifm- variables
+ * src/css/custom.css
+ * You can override the default Infima variables here.
+ * Note: this is not a complete list of --ifm- variables.
  */
 :root {
   --ifm-color-primary: #25c2a0;
@@ -28,27 +51,69 @@ When you `init` your Docusaurus 2 project, the website will be generated with ba
 
 <!-- TODO need more refinement here -->
 
-## Styling your components
+## Styling Approaches
 
-Your whole Docusaurus 2 site is a React app. Any styling that works with React will work with your site.
+A Docusaurus site is a single-page React application. You can style it the way you style React apps.
 
-Component styling can be particularly useful when you wish to customize or swizzle a component. And there are a few frameworks we recommend that work particularly well with components.
+There are a few approaches/frameworks which will work, depending on your preferences and the type of website you are trying to build. Websites that are highly interactive and behave more like web apps will benefit from a more modern styling approaches that co-locate styles with the components. Component styling can also be particularly useful when you wish to customize or swizzle a component.
 
-### With CSS Modules
+### Global Styles
 
-To style your components using CSS Modules, name your stylesheets as `xxx.module.css`. The build step will pick up such files as CSS Module stylesheets. Then, you may get the generated class names from the module:
+This is the most traditional way of styling that most developers (including non-front end developers) would be familiar with.
 
-```js
-import styles from './styles.module.css';
+Assuming you are using `@docusaurus/preset-classic` and `src/css/custom.css` was passed in to the preset config, styles inside that file would be available globally.
 
-export default () => (
-  <main className={styles.main}>
-    <h1 className={styles.heading}>Hello!</h1>
-    <article className={styles.docContent}>My doc</article>
-  </main>
-);
+```css
+/* src/css/custom.css */
+.purple-text {
+  color: rebeccapurple;
+}
 ```
 
-### With CSS-in-JS Frameworks
+```jsx
+function MyComponent() {
+  return (
+    <main>
+      <h1 className="purple-text">Purple Heading!</h1>
+    </main>
+  );
+}
+```
 
-This section is a work in progress. [Welcoming PRs](https://github.com/facebook/Docusaurus/pulls).
+### CSS Modules
+
+To style your components using [CSS Modules](https://github.com/css-modules/css-modules), name your stylesheet files with the `.module.css` suffix (e.g. `welcome.module.css`). webpack will load such CSS files as CSS modules and you have to reference the class names from the imported CSS module (as opposed to using plain strings). This is similar to the convention used in [Create React App](https://facebook.github.io/create-react-app/docs/adding-a-css-modules-stylesheet).
+
+```css
+/* styles.module.css */
+.main {
+  padding: 12px;
+}
+
+.heading {
+  font-weight: bold;
+}
+
+.contents {
+  color: #ccc;
+}
+```
+
+```jsx
+import styles from './styles.module.css';
+
+function MyComponent() {
+  return (
+    <main className={styles.main}>
+      <h1 className={styles.heading}>Hello!</h1>
+      <article className={styles.contents}>Lorem Ipsum</article>
+    </main>
+  );
+}
+```
+
+The class names which will be processed by webpack into a globally unique class name during build.
+
+### CSS-in-JS
+
+_This section is a work in progress. [Welcoming PRs](https://github.com/facebook/docusaurus/issues/1640)._

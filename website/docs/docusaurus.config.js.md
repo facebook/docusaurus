@@ -12,7 +12,7 @@ title: docusaurus.config.js
 
 `docusaurus.config.js` contains configurations for your site and is placed in the root directory of your site.
 
-## Required fields
+## Required Fields
 
 ### `title`
 
@@ -95,13 +95,13 @@ module.exports = {
 };
 ```
 
-## Optional fields
+## Optional Fields
 
 ### `organizationName`
 
 - Type: `string`
 
-The GitHub user or organization that owns the repository.
+The GitHub user or organization that owns the repository. Used by the deployment command.
 
 ```js
 // docusaurus.config.js
@@ -115,7 +115,7 @@ module.exports = {
 
 - Type: `string`
 
-The name of the GitHub repository.
+The name of the GitHub repository. Used by the deployment command.
 
 ```js
 // docusaurus.config.js
@@ -214,7 +214,7 @@ Docusaurus guards `docusaurus.config.js` from unknown fields. To add a custom fi
 module.exports = {
   customFields: {
     admin: 'endi',
-    superman: 'lol'
+    superman: 'lol',
   },
 };
 ```

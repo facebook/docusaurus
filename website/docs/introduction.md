@@ -18,7 +18,7 @@ This is a **very early and incomplete alpha release** of Docusaurus 2. We are ma
 - :x: You need a full production-ready solution (<small>try [Docusaurus 1](https://docusaurus.io/) instead</small>)
 - :x: You prefer not to work with potential breaking changes and/or features not yet working properly as we improve it during alpha period
 
-## The next Docusaurus is coming to town
+## The Next Docusaurus is Coming to Town
 
 <img src="https://docusaurus.io/img/slash-introducing.svg" alt="Docusaurus"/>
 
@@ -70,7 +70,7 @@ We've also studied other main static site generators and would like to share our
 
 ### Gatsby
 
-Gatsby is packed with a lot of features, has a rich ecosystem of plugins and is capable of doing everything that Docusaurus does. Naturally, that comes at a cost of a higher learning curve. Gatsby tries to do many things well, while Docusaurus tries to do one thing super well - be the best tool for writing and publishing content.
+Gatsby is packed with a lot of features, has a rich ecosystem of plugins and is capable of doing everything that Docusaurus does. Naturally, that comes at a cost of a higher learning curve. Gatsby does many things well and is suitable for building many types of websites. On the other hand, Docusaurus tries to do one thing super well - be the best tool for writing and publishing content.
 
 GraphQL is also pretty core to Gatsby, although you don't necessarily need GraphQL to build a Gatsby site. In most cases when building static websites, you won't need the flexibility that GraphQL provides.
 
@@ -78,7 +78,7 @@ Many aspects of Docusaurus 2 were inspired by the best things about Gatsby and i
 
 ### GitBook
 
-Gitbook has very clean slate design and has been used by many open source projects. With its focus shifting towards a commercial product rather than an open-source tool, many of its requirements no longer fit the needs as an open source project's doc site. As a result, many have to turn to other products. [You may read about Redux's switch to Docusaurus here](https://github.com/reduxjs/redux/issues/3161).
+Gitbook has very clean slate design and has been used by many open source projects. With its focus shifting towards a commercial product rather than an open-source tool, many of its requirements no longer fit the needs as an open source project's doc site. As a result, many have to turn to other products. You may read about Redux's switch to Docusaurus [here](https://github.com/reduxjs/redux/issues/3161).
 
 Currently, Gitbook is only free for open-source and non-profit teams. Docusaurus is free for everyone.
 

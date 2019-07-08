@@ -17,7 +17,7 @@ You can deploy your site to static site hosting services such as [GitHub Pages](
 
 Docusaurus provides a easy way to publish to GitHub Pages.
 
-### `docusaurus.config.js` settings
+### `docusaurus.config.js` Settings
 
 First, modify your `docusaurus.config.js` and add the required params:
 
@@ -65,7 +65,7 @@ There are two more optional parameters that are set as environment variables:
 Finally, to deploy your site to GitHub Pages, run:
 
 ```bash
-GIT_USER=[yourGitHubUserName] yarn run deploy
+GIT_USER=<GITHUB_USERNAME> yarn run deploy
 ```
 
 <!--
@@ -75,3 +75,7 @@ References:
 - https://www.gatsbyjs.org/docs/deploying-and-hosting/
 
 -->
+
+## Deployment with Netlify
+
+_This section is a work in progress. [Welcoming PRs](https://github.com/facebook/docusaurus/issues/1640)._
