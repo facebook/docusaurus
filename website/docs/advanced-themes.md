@@ -9,8 +9,13 @@ _This section is a work in progress._
 
 Advanced guide on:
 - customizing themes
-- implementing themes
+- creating your own themes
 - swizzling components
+
+Related pieces
+---
+- [Guides – Themes](using-themes.md)
+- [API - Themes](api-themes.md)
 
 References
 ---

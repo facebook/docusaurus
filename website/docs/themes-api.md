@@ -9,6 +9,11 @@ _This section is a work in progress. [Welcoming PRs](https://github.com/facebook
 
 API for themes
 
+Related pieces
+---
+- [Guides – Themes](using-themes.md)
+- [Advanced Guides - Themes](advanced-themes.md)
+
 References
 ---
 - [source code on loading themes](/packages/docusaurus/src/server/themes/index.ts)

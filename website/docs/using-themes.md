@@ -10,13 +10,15 @@ _This section is a work in progress. [Welcoming PRs](https://github.com/facebook
 Outline
 ---
 High-level overview about themes:
-- how they are used
-- how to shadow components and the power of it
+- how to use a theme
+- how to pass theme configurations
+- how to swizzle components and the power of it
 
 Related pieces
 ---
-- [Advanced Guide – Themes](advanced-themes.md)
-- [API - Themes](themes-api.md)
+
+- [Advanced Guides – Themes](advanced-themes.md)
+- [API - Themes](api-themes.md)
 
 References
 ---
