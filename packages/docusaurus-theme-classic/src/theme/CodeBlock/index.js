@@ -18,12 +18,18 @@ export default ({children, className: languageClassName}) => {
   const button = useRef(null);
 
   useEffect(() => {
-    const clipboard = new Clipboard(button.current, {
-      target: () => target.current,
-    });
+    let clipboard;
+
+    if (button.current) {
+      clipboard = new Clipboard(button.current, {
+        target: () => target.current,
+      });
+    }
 
     return () => {
-      clipboard.destroy();
+      if (clipboard) {
+        clipboard.destroy();
+      }
     };
   }, [button.current, target.current]);
 
