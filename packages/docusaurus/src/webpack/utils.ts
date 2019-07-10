@@ -6,6 +6,7 @@
  */
 
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import env from 'std-env';
 import merge from 'webpack-merge';
 import {Configuration, Loader} from 'webpack';
 
@@ -47,15 +48,7 @@ export function getCacheLoader(
   isServer: boolean,
   cacheOptions?: {},
 ): Loader | null {
-  const isCI = !!(
-    process.env.CI || // Travis CI, CircleCI, Cirrus CI, Gitlab CI, Appveyor, CodeShip, dsari
-    process.env.CONTINUOUS_INTEGRATION || // Travis CI, Cirrus CI
-    process.env.BUILD_NUMBER || // Jenkins, TeamCity
-    process.env.RUN_ID || // TaskCluster, dsari
-    false
-  );
-
-  if (isCI) {
+  if (env.ci || env.test) {
     return null;
   }
 
