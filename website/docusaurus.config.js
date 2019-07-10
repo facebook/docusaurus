@@ -27,7 +27,7 @@ module.exports = {
           postsPerPage: 3,
         },
         theme: {
-          customCss: require.resolve('./css/custom.css'),
+          customCss: require.resolve('./src/css/custom.css'),
         },
       },
     ],

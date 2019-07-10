@@ -11,6 +11,8 @@ module.exports = {
   url: 'https://your-docusaurus-test-site.com',
   baseUrl: '/',
   favicon: 'img/favicon.ico',
+  organizationName: 'facebook', // Usually your GitHub org/user name.
+  projectName: 'docusaurus', // Usually your repo name.
   themeConfig: {
     navbar: {
       title: 'My Site',
@@ -74,7 +76,7 @@ module.exports = {
           sidebarPath: require.resolve('./sidebars.js'),
         },
         theme: {
-          customCss: require.resolve('./css/custom.css'),
+          customCss: require.resolve('./src/css/custom.css'),
         },
       },
     ],

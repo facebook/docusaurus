@@ -21,8 +21,8 @@ const DEFAULT_OPTIONS = {
   // TODO: Change format to array.
   sidebarPath: '', // Path to sidebar configuration for showing a list of markdown pages.
   // TODO: Settle themeing.
-  docLayoutComponent: '@theme/DocPage',
-  docItemComponent: '@theme/DocItem',
+  docLayoutComponent: '@theme/DocLegacyPage',
+  docItemComponent: '@theme/DocLegacyItem',
   remarkPlugins: [],
   rehypePlugins: [],
 };

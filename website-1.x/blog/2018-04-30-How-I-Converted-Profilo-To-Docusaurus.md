@@ -7,10 +7,9 @@ authorTwitter: abernathyca
 tags: [profilo, adoption]
 ---
 
-> *“Joel and I were discussing having a website and how it would have been great to launch with it. So I challenged myself to add Docusaurus support. It took just over an hour and a half. I'm going to send you a PR with the addition so you can take a look and see if you like it. Your workflow for adding docs wouldn't be much different from editing those markdown files.”*
+> _“Joel and I were discussing having a website and how it would have been great to launch with it. So I challenged myself to add Docusaurus support. It took just over an hour and a half. I'm going to send you a PR with the addition so you can take a look and see if you like it. Your workflow for adding docs wouldn't be much different from editing those markdown files.”_
 >
-> *— Note sent to the Profilo team*
-
+> _— Note sent to the Profilo team_
 
 This is the story of the rather short journey it took to create the [Profilo](https://facebookincubator.github.io/profilo/) website using Docusaurus.
 
@@ -23,9 +22,9 @@ In general, when creating a website with Docusaurus you do the following:
 1. Generate a template website using Docusaurus scripts.
 1. Customize the generated template files for your desired site colors and your project configuration (ex: website and GitHub links).
 1. Create the website content:
-    1. Add your docs and any supporting assets.
-    1. Customize the default landing page provided by Docusaurus to suit your needs.
-    1. Configure the default site navigation file.
+   1. Add your docs and any supporting assets.
+   1. Customize the default landing page provided by Docusaurus to suit your needs.
+   1. Configure the default site navigation file.
 1. Publish the website and set up how it will be published for future changes.
 
 Given I had pre-existing Markdown files, I didn't have to generate the core content but simply make sure that Docusaurus could process the files by adding the expected metadata to them. Most of the work would therefore consist of customizing the defaults provided by Docusaurus.
@@ -36,7 +35,7 @@ Here's an overview of the steps taken to convert to a website. I'll discuss some
 
 **Design and colors:**
 
-1. Got all the desired logo formats from designer. I had to create the *.favicon* one.
+1. Got all the desired logo formats from designer. I had to create the _.favicon_ one.
 1. Worked out some passable primary and secondary website colors using the http://paletton.com/ tools - very handy!
 
 **Initial website setup:**
@@ -47,7 +46,7 @@ Here's an overview of the steps taken to convert to a website. I'll discuss some
 
 **Content creation:**
 
-1. Added metadata to the existing Markdown files found in the `docs` folder, for example:
+1.  Added metadata to the existing Markdown files found in the `docs` folder, for example:
 
         +---
         +id: architecture
@@ -55,13 +54,13 @@ Here's an overview of the steps taken to convert to a website. I'll discuss some
         +sidebar_label: Architecture
         +---
 
-1. Added the logo assets to the `website/static/img` folder.
-1. Modified `website/pages/en/index.js`, the landing page, to highlight Profilo features.
-1. Modified `website/core/Footer.js`, the footer, to simplify it for Profilo.
-1. Edited `website/siteConfig.js` (website configuration file) to specify the previously chosen primary and secondary colors.
-1. Modified `website/sidebars.json` that specifies the sidebar navigation. Listed all the docs and customized it based on the metadata added to the Markdown files.
-1. Edited the website configuration file to specify the GitHub properties, logo images, header links, and the website link.
-1. Tested the website locally throughout this phase. (I ran `yarn start` from the `website` folder to start the server.)
+1.  Added the logo assets to the `website/static/img` folder.
+1.  Modified `website/pages/en/index.js`, the landing page, to highlight Profilo features.
+1.  Modified `website/core/Footer.js`, the footer, to simplify it for Profilo.
+1.  Edited `website/siteConfig.js` (website configuration file) to specify the previously chosen primary and secondary colors.
+1.  Modified `website/sidebars.json` that specifies the sidebar navigation. Listed all the docs and customized it based on the metadata added to the Markdown files.
+1.  Edited the website configuration file to specify the GitHub properties, logo images, header links, and the website link.
+1.  Tested the website locally throughout this phase. (I ran `yarn start` from the `website` folder to start the server.)
 
 **Feedback and review changes:**
 
@@ -72,14 +71,14 @@ Here's an overview of the steps taken to convert to a website. I'll discuss some
 
 **Website publishing:**
 
-1. Pushed the first website version by running the Docusaurus publish script from the command line:
+1.  Pushed the first website version by running the Docusaurus publish script from the command line:
 
         USE_SSH=true \
           GIT_USER=caabernathy \
           CURRENT_BRANCH=master \
           yarn run publish-gh-pages
 
-1. Configured CircleCI using the [provided Docusaurus instructions](https://docusaurus.io/docs/en/publishing.html#automating-deployments-using-continuous-integration). There were 2 PRs for this, [the first](https://github.com/facebookincubator/profilo/pull/8)for the initial config and [the second](https://github.com/facebookincubator/profilo/pull/12) to make sure CircleCI only triggered for changes in the master branch (thanks Joel Marcey!).
+1.  Configured CircleCI using the [provided Docusaurus instructions](https://docusaurus.io/docs/en/publishing.html#automating-deployments-using-continuous-integration). There were 2 PRs for this, [the first](https://github.com/facebookincubator/profilo/pull/8)for the initial config and [the second](https://github.com/facebookincubator/profilo/pull/12) to make sure CircleCI only triggered for changes in the master branch (thanks Joel Marcey!).
 
 The final website was published on https://facebookincubator.github.io/profilo/. It had taken 1.5 hours to get to the initial PR stage and another half an hour or so to respond to review feedback and publish the website.
 

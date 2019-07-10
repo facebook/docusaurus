@@ -17,7 +17,7 @@ You can deploy your site to static site hosting services such as [GitHub Pages](
 
 Docusaurus provides a easy way to publish to GitHub Pages.
 
-### `docusaurus.config.js` settings
+### `docusaurus.config.js` Settings
 
 First, modify your `docusaurus.config.js` and add the required params:
 
@@ -27,6 +27,8 @@ First, modify your `docusaurus.config.js` and add the required params:
 | `projectName` | The name of the GitHub repository. For example, the repository name for Docusaurus is "docusaurus", so the project name is "docusaurus". |
 | `url` | URL for your GitHub Page's user/organization page. This is commonly https://_username_.github.io. |
 | `baseUrl` | Base URL for your project. For projects hosted on GitHub pages, it follows the format "/_projectName_/". For https://github.com/facebook/docusaurus, `baseUrl` is `/docusaurus/`. |
+
+In case you want to use your custom domain for GitHub Pages, create a `CNAME` file in the `static` directory. Anything within the `static` directory will be copied to the root of the `build` directory for deployment.
 
 You may refer to GitHub Pages' documentation [User, Organization, and Project Pages](https://help.github.com/en/articles/user-organization-and-project-pages) for more details.
 
@@ -63,7 +65,7 @@ There are two more optional parameters that are set as environment variables:
 Finally, to deploy your site to GitHub Pages, run:
 
 ```bash
-GIT_USER=[yourGitHubUserName] yarn run deploy
+GIT_USER=<GITHUB_USERNAME> yarn run deploy
 ```
 
 <!--
@@ -73,3 +75,7 @@ References:
 - https://www.gatsbyjs.org/docs/deploying-and-hosting/
 
 -->
+
+## Deployment with Netlify
+
+_This section is a work in progress. [Welcoming PRs](https://github.com/facebook/docusaurus/issues/1640)._

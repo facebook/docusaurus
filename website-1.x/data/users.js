@@ -71,6 +71,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Bitcoin-S',
+    image: '/img/users/bitcoin-s.png',
+    infoLink: 'https://bitcoin-s.org',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Bowler',
     image: '/img/users/bowler.svg',
     infoLink: 'https://pybowler.io/',
@@ -246,6 +253,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Libra',
+    image: '/img/users/libra.svg',
+    infoLink: 'https://developers.libra.org',
+    fbOpenSource: false,
+    pinned: true,
+  },
+  {
     caption: 'MakeItOpen',
     image: '/img/users/makeitopen.png',
     infoLink: 'https://makeitopen.com/',
@@ -334,6 +348,13 @@ module.exports = [
     caption: 'Plus (ThinkSNS+)',
     image: '/img/users/plus.png',
     infoLink: 'https://slimkit.github.io',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
+    caption: 'Paynow',
+    image: '/img/users/paynow.svg',
+    infoLink: 'https://developers.paynow.co.zw/',
     fbOpenSource: false,
     pinned: false,
   },

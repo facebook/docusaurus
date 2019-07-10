@@ -10,6 +10,11 @@ const SideNav = require('./nav/SideNav.js');
 
 const MetadataBlog = require('./MetadataBlog.js');
 
+const MetadataPublicBlog =
+  process.env.NODE_ENV === 'development'
+    ? MetadataBlog
+    : MetadataBlog.filter(item => !item.unlisted);
+
 class BlogSidebar extends React.Component {
   render() {
     let blogSidebarCount = 5;
@@ -17,7 +22,7 @@ class BlogSidebar extends React.Component {
     let blogSidebarTitle = blogSidebarTitleConfig.default || 'Recent Posts';
     if (this.props.config.blogSidebarCount) {
       if (this.props.config.blogSidebarCount === 'ALL') {
-        blogSidebarCount = MetadataBlog.length;
+        blogSidebarCount = MetadataPublicBlog.length;
         blogSidebarTitle = blogSidebarTitleConfig.all || 'All Blog Posts';
       } else {
         blogSidebarCount = this.props.config.blogSidebarCount;
@@ -28,7 +33,7 @@ class BlogSidebar extends React.Component {
       {
         type: 'CATEGORY',
         title: blogSidebarTitle,
-        children: MetadataBlog.slice(0, blogSidebarCount).map(item => ({
+        children: MetadataPublicBlog.slice(0, blogSidebarCount).map(item => ({
           type: 'LINK',
           item,
         })),
