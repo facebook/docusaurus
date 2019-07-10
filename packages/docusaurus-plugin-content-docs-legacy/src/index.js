@@ -181,7 +181,7 @@ module.exports = function(context, opts) {
                     sourceToPermalink: globalContents.sourceToPermalink,
                   },
                 },
-              ],
+              ].filter(Boolean),
             },
           ],
         },
