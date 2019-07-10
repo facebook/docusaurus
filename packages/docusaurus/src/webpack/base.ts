@@ -44,7 +44,7 @@ export function createBaseConfig(
     performance: {
       hints: false,
     },
-    devtool: isProd ? false: 'cheap-module-eval-source-map',
+    devtool: isProd ? false : 'cheap-module-eval-source-map',
     resolve: {
       symlinks: true,
       alias: {
