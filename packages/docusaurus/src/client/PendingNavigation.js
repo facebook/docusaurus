@@ -8,7 +8,10 @@
 import React from 'react';
 import {Route, withRouter} from 'react-router-dom';
 import nprogress from 'nprogress';
+
+import clientLifecyclesDispatcher from './client-lifecycles-dispatcher';
 import preload from './preload';
+
 import 'nprogress/nprogress.css';
 
 nprogress.configure({showSpinner: false});
@@ -44,11 +47,10 @@ class PendingNavigation extends React.Component {
       // Load data while the old screen remains.
       preload(routes, nextProps.location.pathname)
         .then(() => {
-          // TODO: Implement browser lifecycle.
-          // onRouteUpdate({
-          //   previousLocation: this.previousLocation,
-          //   location: nextProps.location,
-          // });
+          clientLifecyclesDispatcher.onRouteUpdate({
+            previousLocation: this.previousLocation,
+            location: nextProps.location,
+          });
           // Route has loaded, we can reset previousLocation.
           this.previousLocation = null;
           this.setState(
@@ -89,8 +91,9 @@ class PendingNavigation extends React.Component {
   startProgressBar(delay) {
     this.clearProgressBarTimeout();
     this.progressBarTimeout = setTimeout(() => {
-      // TODO: Implement browser lifecycle.
-      // onRouteUpdateDelayed()
+      clientLifecyclesDispatcher.onRouteUpdateDelayed({
+        location: this.props.location,
+      });
       nprogress.start();
     }, delay);
   }

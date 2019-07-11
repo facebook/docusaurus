@@ -19,30 +19,31 @@ headerLinks: [
 
 ## Adding Posts
 
-To publish in the blog, create a file within the blog directory with a formatted name of `YYYY-MM-DD-My-Blog-Post-Title.md`. The post date is extracted from the file name.
+To publish in the blog, create a file within the blog directory with a formatted name of `YYYY-MM-DD-my-blog-post-title.md`. The post date is extracted from the file name.
 
-For example, at `website/blog/2017-08-18-Introducing-Docusaurus.md`:
+For example, at `website/blog/2017-12-14-introducing-docusaurus.md`:
 
 ```yml
 ---
-author: Frank Li
-authorURL: https://twitter.com/foobarbaz
-authorFBID: 503283835
 title: Introducing Docusaurus
+author: Joel Marcey
+authorURL: http://twitter.com/JoelMarcey
+authorFBID: 611217057
+authorTwitter: JoelMarcey
 ---
-
 Lorem Ipsum...
 ```
 
 ## Header Options
 
-The only required field is `title`; however, we provide options to add author information to your blog post as well.
+The only required field is `title`; however, we provide options to add author information to your blog post as well along with other options.
 
-* `author` - The text label of the author byline.
-* `authorURL` - The URL associated with the author. This could be a Twitter, GitHub, Facebook account, etc.
-* `authorFBID` - The Facebook profile ID that is used to fetch the profile picture.
-* `authorImageURL` - The URL to the author's image. (Note: If you use both `authorFBID` and `authorImageURL`, `authorFBID` will take precedence. Don't include `authorFBID` if you want `authorImageURL` to appear.)
-* `title` - The blog post title.
+- `author` - The text label of the author byline.
+- `authorURL` - The URL associated with the author. This could be a Twitter, GitHub, Facebook account, etc.
+- `authorFBID` - The Facebook profile ID that is used to fetch the profile picture.
+- `authorImageURL` - The URL to the author's image. (Note: If you use both `authorFBID` and `authorImageURL`, `authorFBID` will take precedence. Don't include `authorFBID` if you want `authorImageURL` to appear.)
+- `title` - The blog post title.
+- `unlisted` - The post will be accessible by directly visiting the URL but will not show up in the sidebar in the final build; during local development, the post will still be listed. Useful in situations where you want to share a WIP post with others for feedback.
 
 ## Summary Truncation
 
@@ -52,7 +53,6 @@ Use the `<!--truncate-->` marker in your blog post to represent what will be sho
 ---
 title: Truncation Example
 ---
-
 All this will be part of the blog post summary.
 
 Even this.
@@ -96,7 +96,7 @@ blogSidebarTitle: { default: 'Recent posts', all: 'All blog posts' },
 
 Docusaurus provides a simple RSS feed for your blog posts. Both RSS and Atom feed formats are supported. This data is automatically added to your website page's HTML `<HEAD>` tag.
 
-A summary of the post's text is provided in the RSS feed up to the `<!--truncate-->`. If no `<!--truncate-->` tag is found, then all text up 250 characters are used.
+A summary of the post's text is provided in the RSS feed up to the `<!--truncate-->`. If no `<!--truncate-->` tag is found, then all text up to 250 characters is used.
 
 ## Social Buttons
 
@@ -115,23 +115,24 @@ To do this:
 1.  Customize the `<title>` of `website/static/index.html`
 1.  Delete the dynamic landing page `website/pages/en/index.js`
 
-> Now, when Docusaurus generates or builds your site, it will copy the file from `static/index.html` and place it in the site's main directory. The static file is served when a visitor arrives on your page. When the page loads it will redirect the visitor to `/blog`.
+> Now, when Docusaurus generates or builds your site, it will copy the file from `static/index.html` and place it in the site's main directory. The static file is served when a visitor arrives on your page. When the page loads, it will redirect the visitor to `/blog`.
 
 You can use this template:
 
 ```html
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="en-US">
   <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="0; url=blog/">
+    <meta charset="UTF-8" />
+    <meta http-equiv="refresh" content="0; url=blog/" />
     <script type="text/javascript">
       window.location.href = 'blog/';
     </script>
     <title>Title of Your Blog</title>
   </head>
   <body>
-    If you are not redirected automatically, follow this <a href="blog/">link</a>.
+    If you are not redirected automatically, follow this
+    <a href="blog/">link</a>.
   </body>
 </html>
 ```

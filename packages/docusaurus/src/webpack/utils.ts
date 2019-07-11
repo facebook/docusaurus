@@ -6,6 +6,7 @@
  */
 
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import env from 'std-env';
 import merge from 'webpack-merge';
 import {Configuration, Loader} from 'webpack';
 
@@ -43,7 +44,14 @@ export function getStyleLoaders(
   return loaders;
 }
 
-export function getCacheLoader(isServer: boolean, cacheOptions?: {}): Loader {
+export function getCacheLoader(
+  isServer: boolean,
+  cacheOptions?: {},
+): Loader | null {
+  if (env.ci || env.test) {
+    return null;
+  }
+
   return {
     loader: require.resolve('cache-loader'),
     options: Object.assign(

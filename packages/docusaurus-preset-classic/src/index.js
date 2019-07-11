@@ -8,7 +8,7 @@
 module.exports = function preset(context, opts = {}) {
   const {siteConfig = {}} = context;
   const {themeConfig} = siteConfig;
-  const {algolia} = themeConfig;
+  const {algolia, googleAnalytics, gtag} = themeConfig;
 
   return {
     themes: [
@@ -17,9 +17,11 @@ module.exports = function preset(context, opts = {}) {
       algolia && '@docusaurus/theme-search-algolia',
     ],
     plugins: [
-      ['@docusaurus/plugin-content-docs', opts.docs],
+      ['@docusaurus/plugin-content-docs-legacy', opts.docs],
       ['@docusaurus/plugin-content-blog', opts.blog],
       ['@docusaurus/plugin-content-pages', opts.pages],
+      googleAnalytics && '@docusaurus/plugin-google-analytics',
+      gtag && '@docusaurus/plugin-google-gtag',
       ['@docusaurus/plugin-sitemap', opts.sitemap],
     ],
   };

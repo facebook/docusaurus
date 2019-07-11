@@ -27,7 +27,7 @@ jest.mock('../env', () => ({
 }));
 
 describe('server utils', () => {
-  test('minify css', () => {
+  test('minify css', async () => {
     const testCss = fs.readFileSync(
       path.join(__dirname, '__fixtures__', 'test.css'),
       'utf8',
@@ -36,17 +36,24 @@ describe('server utils', () => {
       path.join(__dirname, '__fixtures__', 'test.md'),
       'utf8',
     );
-    utils.minifyCss(testCss).then(css => expect(css).toMatchSnapshot());
-    utils.minifyCss(notCss).catch(e => expect(e).toMatchSnapshot());
+    const css = await utils.minifyCss(testCss);
+    expect(css).toMatchSnapshot();
+
+    try {
+      await utils.minifyCss(notCss);
+    } catch (error) {
+      expect(error).toMatchSnapshot();
+    }
   });
 
-  test('autoprefix css', () => {
+  test('autoprefix css', async () => {
     const testCss = fs.readFileSync(
       path.join(__dirname, '__fixtures__', 'test.css'),
       'utf8',
     );
 
-    utils.autoPrefixCss(testCss).then(css => expect(css).toMatchSnapshot());
+    const css = await utils.autoPrefixCss(testCss);
+    expect(css).toMatchSnapshot();
   });
 
   test('getLanguage', () => {

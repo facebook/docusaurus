@@ -251,9 +251,21 @@ Path to your web app manifest (e.g., `manifest.json`). This will add a `<link>` 
 
 Override default [Remarkable options](https://github.com/jonschlinkert/remarkable#options) that will be used to render markdown.
 
+> To manage [syntax extensions](https://github.com/jonschlinkert/remarkable#syntax-extensions), use the `markdownPlugins` field.
+
 #### `markdownPlugins` [array]
 
 An array of plugins to be loaded by Remarkable, the markdown parser and renderer used by Docusaurus. The plugin will receive a reference to the Remarkable instance, allowing custom parsing and rendering rules to be defined.
+
+For example, if you want to [enable superscript and subscript](https://github.com/jonschlinkert/remarkable#syntax-extensions) in your markdown that is rendered by Remarkable to HTML, you would do the following:
+
+```
+  markdownPlugins: [
+    function foo(md) {
+      md.inline.ruler.enable(['sub', 'sup']);
+    },
+  ],
+```
 
 #### `noIndex` [boolean]
 

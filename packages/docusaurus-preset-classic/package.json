@@ -9,7 +9,7 @@
   "license": "MIT",
   "dependencies": {
     "@docusaurus/plugin-content-blog": "^2.0.0-alpha.19",
-    "@docusaurus/plugin-content-docs": "^2.0.0-alpha.19",
+    "@docusaurus/plugin-content-docs-legacy": "^2.0.0-alpha.19",
     "@docusaurus/plugin-content-pages": "^2.0.0-alpha.19",
     "@docusaurus/plugin-sitemap": "^2.0.0-alpha.19",
     "@docusaurus/theme-classic": "^2.0.0-alpha.19",

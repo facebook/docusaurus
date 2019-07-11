@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2017-present, Facebook, Inc.
  *
  * This source code is licensed under the MIT license found in the
@@ -7,31 +7,36 @@
 
 module.exports = {
   docs: {
-    'Getting Started': [
+    Docusaurus: [
       'introduction',
-      'installation',
-      'creating-pages',
-      'writing-docs',
-      'deployment',
+      /*'motivation', */ 'design-principles',
+      'contributing',
     ],
+    'Getting Started': ['installation', 'configuration'],
     Guides: [
-      'assets',
-      'markdown',
+      'creating-pages',
       'styling-layout',
+      {
+        type: 'category',
+        label: 'Docs',
+        items: ['markdown-features', 'sidebar', 'static-assets'],
+      },
+      'blog',
+      'reaching-users',
       'using-plugins',
       'using-themes',
-      'search',
-      'seo',
-      'analytics',
-      'configuration',
+      'deployment',
     ],
-    'Advanced Guides': ['blog', 'plugins', 'themes', 'presets'],
+    'Advanced Guides': [
+      'advanced-plugins',
+      'advanced-themes',
+      'advanced-presets',
+    ],
     'API Reference': [
       'cli',
       'docusaurus-core',
       'docusaurus.config.js',
       'plugins-api',
     ],
-    Contributing: ['how-to-contribute', 'motivation', 'design-principles'],
   },
 };

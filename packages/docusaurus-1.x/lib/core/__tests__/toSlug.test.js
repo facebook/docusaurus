@@ -16,6 +16,8 @@ const toSlug = require('../toSlug');
   ['Someting long ...', 'someting-long-'],
   ['foo_bar', 'foo_bar'],
   ['some _ heading', 'some-_-heading'],
+  ["I'm good", 'im-good'],
+  ['This is awes’ome', 'this-is-awesome'],
 ].forEach(([input, output]) => {
   test(`toSlug('${input}') -> '${output}'`, () => {
     expect(toSlug(input)).toBe(output);

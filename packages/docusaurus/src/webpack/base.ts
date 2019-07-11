@@ -10,7 +10,7 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 import path from 'path';
 import TerserPlugin from 'terser-webpack-plugin';
-import {Configuration} from 'webpack';
+import {Configuration, Loader} from 'webpack';
 
 import {Props} from '../server/types';
 import {getBabelLoader, getCacheLoader, getStyleLoaders} from './utils';
@@ -34,6 +34,7 @@ export function createBaseConfig(
   return {
     mode: isProd ? 'production' : 'development',
     output: {
+      pathinfo: false,
       path: outDir,
       filename: isProd ? '[name].[chunkhash].js' : '[name].js',
       chunkFilename: isProd ? '[name].[chunkhash].js' : '[name].js',
@@ -43,7 +44,7 @@ export function createBaseConfig(
     performance: {
       hints: false,
     },
-    devtool: !isProd && 'cheap-module-eval-source-map',
+    devtool: isProd ? false : 'cheap-module-eval-source-map',
     resolve: {
       symlinks: true,
       alias: {
@@ -132,7 +133,7 @@ export function createBaseConfig(
           use: [
             cacheLoader && getCacheLoader(isServer),
             getBabelLoader(isServer),
-          ].filter(Boolean),
+          ].filter(Boolean) as Loader[],
         },
         {
           test: CSS_REGEX,
