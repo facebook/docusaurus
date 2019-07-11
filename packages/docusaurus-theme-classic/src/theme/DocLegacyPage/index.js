@@ -21,17 +21,18 @@ function DocLegacyPage(props) {
     permalinkToId[location.pathname] ||
     permalinkToId[location.pathname.replace(/\/$/, '')];
   const metadata = docsMetadata.docs[id] || {};
-  const {sidebar, description, title, permalink, cover} = metadata;
+  const {sidebar, description, title, permalink, image} = metadata;
   const {
     siteConfig: {url},
   } = useDocusaurusContext();
+  const finalUrl = `${url}${permalink}`;
   return (
     <Layout
       noFooter
       description={description}
       title={title}
-      image={cover}
-      permalink={`${url}${permalink}`}>
+      image={image}
+      permalink={finalUrl}>
       <div className="container container--fluid">
         <div className="row">
           <div className="col col--3">
