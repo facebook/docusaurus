@@ -16,7 +16,12 @@ import './styles.css';
 
 function Layout(props) {
   const {siteConfig = {}} = useDocusaurusContext();
-  const {favicon, tagline, title: defaultTitle} = siteConfig;
+  const {
+    favicon,
+    tagline,
+    title: defaultTitle,
+    image: defaultImage,
+  } = siteConfig;
   const {
     children,
     title,
@@ -26,12 +31,14 @@ function Layout(props) {
     keywords,
     permalink,
   } = props;
+  const usedTitle = title || defaultTitle;
+  const usedImage = image || defaultImage;
   return (
     <React.Fragment>
       <Head defaultTitle={`${defaultTitle} · ${tagline}`}>
         <meta property="og:site_name" content={defaultTitle} />
-        {title && <title>{`${title} · ${tagline}`}</title>}
-        {title && <meta property="og:title" content={title} />}
+        {usedTitle && <title>{`${usedTitle} · ${tagline}`}</title>}
+        {usedTitle && <meta property="og:title" content={usedTitle} />}
         {favicon && <link rel="shortcut icon" href={withBaseUrl(favicon)} />}
         {description && <meta name="description" content={description} />}
         {description && (
@@ -40,10 +47,10 @@ function Layout(props) {
         {keywords && keywords.length && (
           <meta property="keywords" content={keywords} />
         )}
-        {image && <meta property="og:image" content={image} />}
-        {image && <meta property="twitter:image" content={image} />}
-        {image && title && (
-          <meta name="twitter:image:alt" content={`Image for ${title}`} />
+        {usedImage && <meta property="og:image" content={usedImage} />}
+        {usedImage && <meta property="twitter:image" content={usedImage} />}
+        {usedImage && usedTitle && (
+          <meta name="twitter:image:alt" content={`Image for ${usedTitle}`} />
         )}
         {!!permalink && <meta property="og:url" content={permalink} />}
         <meta

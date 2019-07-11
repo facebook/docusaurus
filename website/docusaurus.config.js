@@ -7,6 +7,7 @@
 
 module.exports = {
   title: 'Docusaurus',
+  logo: 'img/docusaurus.png',
   tagline: '⚡️ Painless static site generator',
   organizationName: 'facebook',
   projectName: 'docusaurus',
