@@ -23,6 +23,7 @@ const OPTIONAL_FIELDS = [
   'themes',
   'presets',
   'themeConfig',
+  'image',
 ];
 
 const DEFAULT_CONFIG: {
