@@ -20,7 +20,7 @@ function Layout(props) {
     favicon,
     tagline,
     title: defaultTitle,
-    image: defaultImage,
+    themeConfig: {image: defaultImage},
   } = siteConfig;
   const {
     children,
@@ -47,8 +47,12 @@ function Layout(props) {
         {keywords && keywords.length && (
           <meta property="keywords" content={keywords} />
         )}
-        {usedImage && <meta property="og:image" content={usedImage} />}
-        {usedImage && <meta property="twitter:image" content={usedImage} />}
+        {usedImage && (
+          <meta property="og:image" content={withBaseUrl(usedImage)} />
+        )}
+        {usedImage && (
+          <meta property="twitter:image" content={withBaseUrl(usedImage)} />
+        )}
         {usedImage && usedTitle && (
           <meta name="twitter:image:alt" content={`Image for ${usedTitle}`} />
         )}

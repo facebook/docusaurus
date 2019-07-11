@@ -7,7 +7,6 @@
 
 module.exports = {
   title: 'Docusaurus',
-  image: 'img/docusaurus.png',
   tagline: '⚡️ Painless static site generator',
   organizationName: 'facebook',
   projectName: 'docusaurus',
@@ -34,6 +33,7 @@ module.exports = {
     ],
   ],
   themeConfig: {
+    image: 'img/docusaurus.png',
     gtag: {
       trackingID: 'UA-141789564-1',
     },

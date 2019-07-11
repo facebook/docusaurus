@@ -5,7 +5,7 @@ keywods:
   - docusaurus
   - svg
 description: Adding SEO to docs
-cover: 'https://i.imgur.com/mErPwqL.png'
+image: 'https://i.imgur.com/mErPwqL.png'
 ---
 
 SEO helps your users reach your site. Page-specific SEO helps your users to have a higher chance of finding answers to their questions quickly.
@@ -24,7 +24,7 @@ keywords:
   - docs
   - docusaurus
 description: 'How do I find you when I cannot solve this problem'
-cover: 'https://i.imgur.com/mErPwqL.png'
+image: 'https://i.imgur.com/mErPwqL.png'
 ---
 
 ```
