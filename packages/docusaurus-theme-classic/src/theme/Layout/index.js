@@ -21,6 +21,7 @@ function Layout(props) {
     tagline,
     title: defaultTitle,
     themeConfig: {image: defaultImage},
+    url,
   } = siteConfig;
   const {
     children,
@@ -32,7 +33,7 @@ function Layout(props) {
     permalink,
   } = props;
   const usedTitle = title || defaultTitle;
-  const usedImage = image || defaultImage;
+  const usedImage = `${url}${withBaseUrl(image || defaultImage)}`;
   return (
     <React.Fragment>
       <Head defaultTitle={`${defaultTitle} · ${tagline}`}>
@@ -47,12 +48,8 @@ function Layout(props) {
         {keywords && keywords.length && (
           <meta property="keywords" content={keywords} />
         )}
-        {usedImage && (
-          <meta property="og:image" content={withBaseUrl(usedImage)} />
-        )}
-        {usedImage && (
-          <meta property="twitter:image" content={withBaseUrl(usedImage)} />
-        )}
+        {usedImage && <meta property="og:image" content={usedImage} />}
+        {usedImage && <meta property="twitter:image" content={usedImage} />}
         {usedImage && usedTitle && (
           <meta name="twitter:image:alt" content={`Image for ${usedTitle}`} />
         )}
