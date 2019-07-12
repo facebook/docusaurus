@@ -65,7 +65,9 @@ function Home() {
   const {siteConfig = {}} = context;
 
   return (
-    <Layout description={'Docusaurus makes it easy to build websites'}>
+    <Layout
+      permalink={'/'}
+      description={'Docusaurus makes it easy to build websites'}>
       <div className={styles['index-hero']}>
         <div className={styles['index-hero-inner']}>
           <h1 className={styles['index-hero-project-tagline']}>
