@@ -7,7 +7,7 @@
 
 module.exports = {
   title: 'Docusaurus',
-  tagline: '⚡️ Painless static site generator',
+  tagline: '⚡️ Easy to Maintain React Static Site Generator',
   organizationName: 'facebook',
   projectName: 'docusaurus',
   baseUrl: '/',
