@@ -3799,7 +3799,7 @@ cli-width@^2.0.0:
   resolved "https://registry.yarnpkg.com/cli-width/-/cli-width-2.2.0.tgz#ff19ede8a9a5e579324147b0c11f0fbcbabed639"
   integrity sha1-/xnt6Kml5XkyQUewwR8PvLq+1jk=
 
-clipboard@^2.0.0:
+clipboard@^2.0.0, clipboard@^2.0.4:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/clipboard/-/clipboard-2.0.4.tgz#836dafd66cf0fea5d71ce5d5b0bf6e958009112d"
   integrity sha512-Vw26VSLRpJfBofiVaFb/I8PVfdI1OxKcYShe6fm0sP/DtmiWQNCjhM/okTvdCo0G+lMMm1rMYbk4IK4x1X+kgQ==
