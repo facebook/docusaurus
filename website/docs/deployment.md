@@ -11,7 +11,7 @@ npm build
 
 Once it finishes, you should see the production build under the `build/` directory.
 
-You can deploy your site to static site hosting services such as [GitHub Pages](https://pages.github.com/), [Netlify](https://www.netlify.com/). Docusaurus sites are server rendered so they work without JavaScript too!
+You can deploy your site to static site hosting services such as [GitHub Pages](https://pages.github.com/), [Netlify](https://www.netlify.com/), and [Render](https://render.com/static-sites). Docusaurus sites are server rendered so they work without JavaScript too!
 
 ## Deploying to GitHub Pages
 
