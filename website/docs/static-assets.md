@@ -17,26 +17,26 @@ Markdown example:
 
 ```markdown
 <!-- reference static/img/docusaurus.png -->
-![alt-text](/img/docusaurus.png)
+![docusaurus logo](/img/docusaurus.png)
 ```
 
 Result:
 
-![alt-text](/img/docusaurus.png)
+![docusaurus logo](/img/docusaurus.png)
 
 JSX example:
 
 ```jsx
 // reference static/img/slash-birth.png
-<img src="/img/slash-birth.png" alt="logo" />
+<img src="/img/slash-birth.png" alt="docusaurus mascot" />
 ```
 
 Result:
 
-<img src="/img/slash-birth.png" alt="logod" />
+<img src="/img/slash-birth.png" alt="docusaurus mascot" />
 
 
 Keep in mind that:
 
-- None of the files in static folder be post-processed or minified.
+- None of the files in static folder will be post-processed or minified.
 - Missing files will not be called at compilation time, and will cause 404 errors for your users.
