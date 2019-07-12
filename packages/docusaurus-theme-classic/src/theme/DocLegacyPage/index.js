@@ -12,7 +12,6 @@ import renderRoutes from '@docusaurus/renderRoutes';
 import Layout from '@theme/Layout';
 import DocLegacySidebar from '@theme/DocLegacySidebar';
 import MDXComponents from '@theme/MDXComponents';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 function DocLegacyPage(props) {
   const {route, docsMetadata, location} = props;
@@ -22,17 +21,13 @@ function DocLegacyPage(props) {
     permalinkToId[location.pathname.replace(/\/$/, '')];
   const metadata = docsMetadata.docs[id] || {};
   const {sidebar, description, title, permalink, image} = metadata;
-  const {
-    siteConfig: {url},
-  } = useDocusaurusContext();
-  const finalUrl = `${url}${permalink}`;
   return (
     <Layout
       noFooter
       description={description}
       title={title}
       image={image}
-      permalink={finalUrl}>
+      permalink={permalink}>
       <div className="container container--fluid">
         <div className="row">
           <div className="col col--3">

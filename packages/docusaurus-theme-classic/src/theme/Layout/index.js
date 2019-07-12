@@ -21,7 +21,7 @@ function Layout(props) {
     tagline,
     title: defaultTitle,
     themeConfig: {image: defaultImage},
-    url,
+    url: siteUrl,
   } = siteConfig;
   const {
     children,
@@ -32,14 +32,14 @@ function Layout(props) {
     keywords,
     permalink,
   } = props;
-  const usedTitle = title || defaultTitle;
-  const usedImage = `${url}${withBaseUrl(image || defaultImage)}`;
+  const metaTitle = title || defaultTitle;
+  const metaImage = `${siteUrl}${withBaseUrl(image || defaultImage)}`;
   return (
     <React.Fragment>
       <Head defaultTitle={`${defaultTitle} · ${tagline}`}>
         <meta property="og:site_name" content={defaultTitle} />
-        {usedTitle && <title>{`${usedTitle} · ${tagline}`}</title>}
-        {usedTitle && <meta property="og:title" content={usedTitle} />}
+        {metaTitle && <title>{`${metaTitle} · ${tagline}`}</title>}
+        {metaTitle && <meta property="og:title" content={metaTitle} />}
         {favicon && <link rel="shortcut icon" href={withBaseUrl(favicon)} />}
         {description && <meta name="description" content={description} />}
         {description && (
@@ -48,12 +48,12 @@ function Layout(props) {
         {keywords && keywords.length && (
           <meta property="keywords" content={keywords} />
         )}
-        {usedImage && <meta property="og:image" content={usedImage} />}
-        {usedImage && <meta property="twitter:image" content={usedImage} />}
-        {usedImage && usedTitle && (
-          <meta name="twitter:image:alt" content={`Image for ${usedTitle}`} />
+        {metaImage && <meta property="og:image" content={metaImage} />}
+        {metaImage && <meta property="twitter:image" content={metaImage} />}
+        {metaImage && metaTitle && (
+          <meta name="twitter:image:alt" content={`Image for ${metaTitle}`} />
         )}
-        {!!permalink && <meta property="og:url" content={permalink} />}
+        {permalink && <meta property="og:url" content={siteUrl + permalink} />}
         <meta
           name="twitter:card"
           content={image || favicon ? 'summary_large_image' : 'summary'}
