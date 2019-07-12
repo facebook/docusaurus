@@ -76,6 +76,33 @@ References:
 
 -->
 
+## Deploying to Render
+
+Render offers free [static site](https://render.com/docs/static-sites) hosting with fully managed SSL, custom domains, a global CDN and continuous auto deploys from your Git repo. Deploy your app in just a few minutes by following these steps.
+
+1. Create a new **Web Service** on Render, and give Render's GitHub app permission to access your Docusaurus repo.
+
+2. Select the branch to deploy. The default is `master`.
+
+2. Enter the following values during creation.
+
+    |  Field  |  Value |
+    | ------- | ----- |
+    | **Environment** | `Static Site` |
+    | **Build Command** | `cd website; yarn install; yarn build` |
+    | **Publish Directory** | `website/build/<projectName>` |
+
+    `projectName` is the value you defined in your `siteConfig.js`.
+
+    ```javascript{7}
+    const siteConfig = {
+      // ...
+      projectName: 'your-project-name',
+      // ...
+    ```
+
+That's it! Your app will be live on your Render URL as soon as the build finishes.
+
 ## Deployment with Netlify
 
 _This section is a work in progress. [Welcoming PRs](https://github.com/facebook/docusaurus/issues/1640)._
