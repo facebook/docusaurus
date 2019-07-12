@@ -43,10 +43,10 @@ If you provide a description to this page, we will use this description for SEO.
 
 Consider putting key information about this page, error messages, searchable terms, etc., inside description to help your users land on your doc page.
 
-### `cover`
+### `image`
 
 - Type: `string`
 
-`cover` is used by search engines and Twitter for a cover or thumbnail image when displaying the link to your post.
+`image` is used by search engines and Twitter for a cover or thumbnail image when displaying the link to your post.
 
 Note that the file of this image cannot be SVG.
