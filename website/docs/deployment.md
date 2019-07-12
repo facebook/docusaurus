@@ -11,7 +11,7 @@ npm build
 
 Once it finishes, you should see the production build under the `build/` directory.
 
-You can deploy your site to static site hosting services such as [GitHub Pages](https://pages.github.com/), [Netlify](https://www.netlify.com/), and [Render](https://render.com/static-sites). Docusaurus sites are server rendered so they work without JavaScript too!
+You can deploy your site to static site hosting services such as [GitHub Pages](https://pages.github.com/), [Render](https://render.com/static-sites), and [Netlify](https://www.netlify.com/). Docusaurus sites are server rendered so they work without JavaScript too!
 
 ## Deploying to GitHub Pages
 
@@ -78,9 +78,9 @@ References:
 
 ## Deploying to Render
 
-Render offers free [static site](https://render.com/docs/static-sites) hosting with fully managed SSL, custom domains, a global CDN and continuous auto deploys from your Git repo. Deploy your app in just a few minutes by following these steps.
+Render offers [free static site hosting](https://render.com/docs/static-sites) with fully managed SSL, custom domains, a global CDN and continuous auto deploys from your Git repo. Deploy your app in just a few minutes by following these steps.
 
-1. Create a new **Web Service** on Render, and give Render's GitHub app permission to access your Docusaurus repo.
+1. Create a new **Web Service** on Render, and give Render permission to access your Docusaurus repo.
 
 2. Select the branch to deploy. The default is `master`.
 
@@ -89,17 +89,8 @@ Render offers free [static site](https://render.com/docs/static-sites) hosting w
     |  Field  |  Value |
     | ------- | ----- |
     | **Environment** | `Static Site` |
-    | **Build Command** | `cd website; yarn install; yarn build` |
-    | **Publish Directory** | `website/build/<projectName>` |
-
-    `projectName` is the value you defined in your `siteConfig.js`.
-
-    ```javascript{7}
-    const siteConfig = {
-      // ...
-      projectName: 'your-project-name',
-      // ...
-    ```
+    | **Build Command** | `yarn build` |
+    | **Publish Directory** | `build` |
 
 That's it! Your app will be live on your Render URL as soon as the build finishes.
 
