@@ -32,14 +32,13 @@ function Layout(props) {
     keywords,
     permalink,
   } = props;
+  const metaTitle = title || `${defaultTitle} · ${tagline}`;
   const metaImage = `${siteUrl}${withBaseUrl(image || defaultImage)}`;
   return (
     <React.Fragment>
-      <Head defaultTitle={`${defaultTitle} · ${tagline}`}>
-        {title && <title>{`${title} · ${tagline}`}</title>}
-        {title && (
-          <meta property="og:title" content={`${title} · ${tagline}`} />
-        )}
+      <Head>
+        {metaTitle && <title>{metaTitle}</title>}
+        {metaTitle && <meta property="og:title" content={metaTitle} />}
         {favicon && <link rel="shortcut icon" href={withBaseUrl(favicon)} />}
         {description && <meta name="description" content={description} />}
         {description && (
@@ -51,10 +50,7 @@ function Layout(props) {
         {metaImage && <meta property="og:image" content={metaImage} />}
         {metaImage && <meta property="twitter:image" content={metaImage} />}
         {metaImage && (
-          <meta
-            name="twitter:image:alt"
-            content={`Image for ${title || defaultTitle}`}
-          />
+          <meta name="twitter:image:alt" content={`Image for ${metaTitle}`} />
         )}
         {permalink && <meta property="og:url" content={siteUrl + permalink} />}
         <meta
