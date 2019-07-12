@@ -1706,10 +1706,35 @@
     unist-builder "^1.0.1"
     unist-util-visit "^1.3.0"
 
+"@mdx-js/mdx@^1.0.25":
+  version "1.0.25"
+  resolved "https://registry.yarnpkg.com/@mdx-js/mdx/-/mdx-1.0.25.tgz#f8c90ba348ba2fc39cb9663c840bc4ac736e6f95"
+  integrity sha512-EDv8MchuJBrHDE7V9fS/1OFhejIRc/yAs8d2UeIL61vTlJBf8dZJbD+/Vs2R4sO9fToByEcqmwRveAGqtz9Oxg==
+  dependencies:
+    "@babel/helper-plugin-utils" "^7.0.0"
+    "@babel/plugin-syntax-jsx" "^7.2.0"
+    "@babel/plugin-syntax-object-rest-spread" "^7.2.0"
+    detab "^2.0.0"
+    hast-util-raw "^5.0.0"
+    lodash.uniq "^4.5.0"
+    mdast-util-to-hast "^4.0.0"
+    remark-mdx "^1.0.25"
+    remark-parse "^6.0.0"
+    remark-squeeze-paragraphs "^3.0.1"
+    to-style "^1.3.3"
+    unified "^7.0.0"
+    unist-builder "^1.0.1"
+    unist-util-visit "^1.3.0"
+
 "@mdx-js/react@^1.0.20":
   version "1.0.20"
   resolved "https://registry.yarnpkg.com/@mdx-js/react/-/react-1.0.20.tgz#6af2191dee50ad659c328628f0e4dba86763ca42"
   integrity sha512-gU/sGs2Yo0fuztSJeUqzHutQWPBXEO4vywyFT+pHPFW+BRAcwuaf3ub03HogJasMnE0S2kYt6ValwCGxViHIEA==
+
+"@mdx-js/react@^1.0.23":
+  version "1.0.23"
+  resolved "https://registry.yarnpkg.com/@mdx-js/react/-/react-1.0.23.tgz#4120079ee4dda6a484b15a4ba8f17909b59bb829"
+  integrity sha512-cyBgTbeeqiocAh49gU6E+6bQAhNaW36QZjlkGcOKD5APWYlT9sBcI730lB4zjlaVvetl2Luk9QyWh/SPBoc+EA==
 
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
@@ -12110,6 +12135,19 @@ remark-mdx@^1.0.20:
   version "1.0.20"
   resolved "https://registry.yarnpkg.com/remark-mdx/-/remark-mdx-1.0.20.tgz#580e57c035bd1658beeacffc30f81ca56e8447e4"
   integrity sha512-yUDI87lzeYsTL3LyArD2DWxzYMxdJuJuvVAjteWcJQvY6ZgYNcVPnVzDXiD80SRQOf3/tXW5P2E/EsnBlNW8lw==
+  dependencies:
+    "@babel/core" "^7.2.2"
+    "@babel/helper-plugin-utils" "^7.0.0"
+    "@babel/plugin-proposal-object-rest-spread" "^7.3.2"
+    "@babel/plugin-syntax-jsx" "^7.2.0"
+    is-alphabetical "^1.0.2"
+    remark-parse "^6.0.0"
+    unified "^7.0.0"
+
+remark-mdx@^1.0.25:
+  version "1.0.25"
+  resolved "https://registry.yarnpkg.com/remark-mdx/-/remark-mdx-1.0.25.tgz#67c56a63df7cd850153c263d1478982bd8731a0c"
+  integrity sha512-xu6aarbPuD+if9CgxL2685mzmwHcj76pseSL5Vogrv0rB83gQSKFitD+Hm62AFwgAx9bYFtQZqSToyNGqqWIQw==
   dependencies:
     "@babel/core" "^7.2.2"
     "@babel/helper-plugin-utils" "^7.0.0"
