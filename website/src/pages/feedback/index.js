@@ -23,7 +23,7 @@ function Feedback() {
   }, []);
 
   return (
-    <Layout>
+    <Layout permalink={'/feedback'} description={'Docusaurus 2 Feedback page'}>
       <div className="container margin-vert--xl" data-canny />
     </Layout>
   );

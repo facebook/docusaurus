@@ -20,10 +20,14 @@ function DocLegacyPage(props) {
     permalinkToId[location.pathname] ||
     permalinkToId[location.pathname.replace(/\/$/, '')];
   const metadata = docsMetadata.docs[id] || {};
-  const {sidebar, description} = metadata;
-
+  const {sidebar, description, title, permalink, image} = metadata;
   return (
-    <Layout noFooter description={description}>
+    <Layout
+      noFooter
+      description={description}
+      title={title}
+      image={image}
+      permalink={permalink}>
       <div className="container container--fluid">
         <div className="row">
           <div className="col col--3">

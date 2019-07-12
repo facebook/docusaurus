@@ -15,19 +15,48 @@ import Footer from '@theme/Footer';
 import './styles.css';
 
 function Layout(props) {
-  const context = useDocusaurusContext();
-  const {siteConfig = {}} = context;
-  const {favicon, tagline, title: defaultTitle} = siteConfig;
-  const {children, title, noFooter, description} = props;
+  const {siteConfig = {}} = useDocusaurusContext();
+  const {
+    favicon,
+    tagline,
+    title: defaultTitle,
+    themeConfig: {image: defaultImage},
+    url: siteUrl,
+  } = siteConfig;
+  const {
+    children,
+    title,
+    noFooter,
+    description,
+    image,
+    keywords,
+    permalink,
+  } = props;
+  const metaTitle = title || `${defaultTitle} · ${tagline}`;
+  const metaImage = `${siteUrl}${withBaseUrl(image || defaultImage)}`;
   return (
     <React.Fragment>
-      <Head defaultTitle={`${defaultTitle} · ${tagline}`}>
-        {title && <title>{`${title} · ${tagline}`}</title>}
+      <Head>
+        {metaTitle && <title>{metaTitle}</title>}
+        {metaTitle && <meta property="og:title" content={metaTitle} />}
         {favicon && <link rel="shortcut icon" href={withBaseUrl(favicon)} />}
         {description && <meta name="description" content={description} />}
         {description && (
           <meta property="og:description" content={description} />
         )}
+        {keywords && keywords.length && (
+          <meta property="keywords" content={keywords} />
+        )}
+        {metaImage && <meta property="og:image" content={metaImage} />}
+        {metaImage && <meta property="twitter:image" content={metaImage} />}
+        {metaImage && (
+          <meta name="twitter:image:alt" content={`Image for ${metaTitle}`} />
+        )}
+        {permalink && <meta property="og:url" content={siteUrl + permalink} />}
+        <meta
+          name="twitter:card"
+          content={image || favicon ? 'summary_large_image' : 'summary'}
+        />
       </Head>
       <Navbar />
       {children}
