@@ -14,7 +14,7 @@ const siteConfig = {
   url: 'https://docusaurus.io',
   baseUrl: '/',
   organizationName: 'facebook',
-  projectName: 'Docusaurus',
+  projectName: 'docusaurus',
   cname: 'docusaurus.io',
   noIndex: false,
   users,

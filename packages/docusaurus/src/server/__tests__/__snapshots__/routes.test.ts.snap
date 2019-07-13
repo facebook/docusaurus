@@ -55,6 +55,7 @@ export default [
 ];
 ",
   "routesPaths": Array [
+    "404.html",
     "/blog",
   ],
 }
@@ -140,6 +141,7 @@ export default [
 ];
 ",
   "routesPaths": Array [
+    "404.html",
     "/docs/hello",
     "docs/foo/baz",
   ],
