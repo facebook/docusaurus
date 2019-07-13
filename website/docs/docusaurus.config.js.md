@@ -12,7 +12,7 @@ title: docusaurus.config.js
 
 `docusaurus.config.js` contains configurations for your site and is placed in the root directory of your site.
 
-## Required Fields
+## Required fields
 
 ### `title`
 
@@ -95,7 +95,7 @@ module.exports = {
 };
 ```
 
-## Optional Fields
+## Optional fields
 
 ### `organizationName`
 

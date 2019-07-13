@@ -7,11 +7,11 @@ title: Using Plugins
 
 Plugins are the building blocks which add features to a Docusaurus 2 site. Each plugin handles its own individual feature. Plugins may work be bundled together and distributed via [presets](advanced-presets.md).
 
-Docusaurus 2 provides a few essential plugins such as [Google Analytics](#docusaurus-plugin-content-analytics) and [Sitemap](#docusaurus-plugin-content-sitemap). You may also write your own plugins for customized features.
+Docusaurus 2 provides a few essential plugins such as [Google Analytics](advanced-plugins.md#docusaurusplugin-google-analytics) and [Sitemap](advanced-plugins.md#docusaurusplugin-sitemap). You may also write your own plugins for customized features.
 
-In this doc, we talk about how to use plugins with Docusaurus' official plugins. To learn about the design implementation and how to write your own plugins, check out [Advanced Guides: Plugins](advanced-plugins.md). For API reference, check out [API Reference: Plugins](api-plugins.md).
+In this doc, we talk about how to use plugins with Docusaurus' official plugins. To learn about the design implementation and how to write your own plugins, check out [Advanced Guides: Plugins](advanced-plugins.md). For API reference, check out [API Reference: Plugins](plugins-api.md).
 
-## Using Plugins
+## Using plugins
 
 To use a plugin, add the plugin to the `plugins` field of your `docusaurus.config.js`.
 
@@ -35,9 +35,9 @@ module.exports = {
 };
 ```
 
-## Passing Options to Docusaurus Plugins Within Preset
+## Passing options to Docusaurus plugins via preset
 
-Docusaurus' classic template is scaffolded with the classic preset, which in turn includes the following official plugins. You may read more about the configurations of these plugins in our [Advanced Guides: Plugins](advanced-plugins.md).
+Docusaurus' classic template is scaffolded with the classic preset, which includes the following official plugins. You may read more about the configurations of these plugins in our [Advanced Guides: Plugins](advanced-plugins.md).
 
 - `@docusaurus/plugin-content-blog`
 - `@docusaurus/plugin-content-docs`

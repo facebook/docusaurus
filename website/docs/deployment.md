@@ -11,13 +11,13 @@ npm build
 
 Once it finishes, you should see the production build under the `build/` directory.
 
-You can deploy your site to static site hosting services such as [GitHub Pages](https://pages.github.com/), [Render](https://render.com/static-sites), and [Netlify](https://www.netlify.com/). Docusaurus sites are server rendered so they work without JavaScript too!
+You can deploy your site to static site hosting services such as [GitHub Pages](https://pages.github.com/), [Now](https://zeit.co/now), [Netlify](https://www.netlify.com/), and [Render](https://render.com/static-sites). Docusaurus sites are statically rendered so they work without JavaScript too!
 
 ## Deploying to GitHub Pages
 
 Docusaurus provides a easy way to publish to GitHub Pages.
 
-### `docusaurus.config.js` Settings
+### `docusaurus.config.js` settings
 
 First, modify your `docusaurus.config.js` and add the required params:
 
@@ -45,7 +45,7 @@ module.exports = {
 }
 ```
 
-### Environment Settings
+### Environment settings
 
 Specify the Git user as an environment variable.
 
@@ -76,6 +76,14 @@ References:
 
 -->
 
+## Deploying to Now
+
+_This section is a work in progress. [Welcoming PRs](https://github.com/facebook/docusaurus/issues/1640)._
+
+## Deploying to Netlify
+
+_This section is a work in progress. [Welcoming PRs](https://github.com/facebook/docusaurus/issues/1640)._
+
 ## Deploying to Render
 
 Render offers [free static site hosting](https://render.com/docs/static-sites) with fully managed SSL, custom domains, a global CDN and continuous auto deploys from your Git repo. Deploy your app in just a few minutes by following these steps.
@@ -84,16 +92,12 @@ Render offers [free static site hosting](https://render.com/docs/static-sites) w
 
 2. Select the branch to deploy. The default is `master`.
 
-2. Enter the following values during creation.
+3. Enter the following values during creation.
 
-    |  Field  |  Value |
-    | ------- | ----- |
-    | **Environment** | `Static Site` |
-    | **Build Command** | `yarn build` |
-    | **Publish Directory** | `build` |
+   | Field                 | Value         |
+   | --------------------- | ------------- |
+   | **Environment**       | `Static Site` |
+   | **Build Command**     | `yarn build`  |
+   | **Publish Directory** | `build`       |
 
 That's it! Your app will be live on your Render URL as soon as the build finishes.
-
-## Deployment with Netlify
-
-_This section is a work in progress. [Welcoming PRs](https://github.com/facebook/docusaurus/issues/1640)._

@@ -3,13 +3,13 @@ id: creating-pages
 title: Creating Pages
 ---
 
-In this section, we will learn about creating ad-hoc pages in Docusaurus using React. This is most useful for creating one-off standalone pages.
+In this section, we will learn about creating ad-hoc pages in Docusaurus using React. This is most useful for creating one-off standalone pages like a showcase page, playground page or support page.
 
-### Creating Pages
+## Adding a new page
 
 <!-- TODO: What will the user see if pages/ is empty? -->
 
-In the `src/pages` directory, create a file called `hello.js` with the following contents:
+In the `/src/pages/` directory, create a file called `hello.js` with the following contents:
 
 ```jsx
 import React from 'react';
@@ -39,16 +39,35 @@ export default Hello;
 
 Once you save the file, the development server will automatically reload the changes. Now open http://localhost:3000/hello, you will see the new page you just created.
 
-Any file you create under `pages` directory will be automatically converted to a page, converting the directory hierarchy into paths. For example:
+## Routing
 
-- `pages/index.js` → `<baseUrl>/`
-- `pages/test.js` → `<baseUrl>/test`
-- `pages/foo/test.js` → `<baseUrl>/foo/test`
-- `pages/foo/index.js` → `<baseUrl>/foo`
+If you are familiar with other static site generators like Jekyll and Next, this routing approach will feel familiar to you. Any JavaScript file you create under `/src/pages/` directory will be automatically converted to a website page, following the `/src/pages/` directory hierarchy. For example:
 
-### Using React
+- `/src/pages/index.js` → `<baseUrl>/`
+- `/src/pages/test.js` → `<baseUrl>/test`
+- `/src/pages/foo/test.js` → `<baseUrl>/foo/test`
+- `/src/pages/foo/index.js` → `<baseUrl>/foo`
 
-React is used as the UI library to create pages. You can leverage on the expressibility of React to build rich web content.
+In this era of components, if you need to customize your page design with your own styles, we recommend co-locating your styles with the page component in its own directory. For example, to create a new support page, you could:
+
+1. Add a `/src/pages/support.js` file
+1. Create a `/src/pages/support/` directory and a `/src/pages/support/index.js` file. This has the benefits of letting you create a CSS module file (`styles.module.css`) for `support.js` that is near where it's being used. **Note:** you will have to manually import the CSS module file within your component module.
+
+```sh
+my-website
+├── src
+│   └── pages
+│       ├── styles.module.css
+│       └── index.js
+│           └── support
+│               ├── index.js
+│               └── styles.module.css
+.
+```
+
+## Using React
+
+React is used as the UI library to create pages. Every page component should export a React component and you can leverage on the expressibility of React to build rich and interactive content.
 
 <!--
 TODO:

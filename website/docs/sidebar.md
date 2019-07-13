@@ -3,7 +3,7 @@ id: sidebar
 title: Sidebar
 ---
 
-To generate a sidebar to your Docusaurus site, you need to define a file that exports a JS module and pass that into `docusaurus-plugin-docs` directly or via the `docusaurus-preset-classic`. If you are using the classic preset, you can find the `sidebars.js` under the root directory already created for you, so you may edit it directly for customization.
+To generate a sidebar to your Docusaurus site, you need to define a file that exports a JS module and pass that into the `@docusaurus/plugin-docs` plugin directly or via `@docusaurus/preset-classic`. If you are using the classic preset, you can find the `sidebars.js` under the root directory already created for you, so you may edit it directly for customization.
 
 <!-- TODO: change classic template to use `sidebars.js` from json -->
 
@@ -29,7 +29,7 @@ module.exports = {
 };
 ```
 
-The `docs` key in the file is just the name of that particular sidebar hierarchy, and can be renamed to something else. You can have multiple sidebars for different Markdown files by adding more top-level keys to the exported object.
+The `docs` key in the exported object is just the name of that particular sidebar hierarchy, and can be renamed to something else. You can have multiple sidebars for different Markdown files by adding more top-level keys to the exported object.
 
 ## Subcategories
 
