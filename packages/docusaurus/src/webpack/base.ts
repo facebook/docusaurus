@@ -28,8 +28,10 @@ export function createBaseConfig(
     baseUrl,
     generatedFilesDir,
     cliOptions: {cacheLoader},
+    routesPaths,
   } = props;
 
+  const totalPages = routesPaths.length;
   const isProd = process.env.NODE_ENV === 'production';
   return {
     mode: isProd ? 'production' : 'development',
@@ -89,32 +91,17 @@ export function createBaseConfig(
         cacheGroups: {
           // disable the built-in cacheGroups
           default: false,
-          vendor: {
-            test: /[\\/]node_modules[\\/]/,
+          common: {
+            name: 'common',
+            chunks: 'all',
+            minChunks: totalPages > 2 ? totalPages * 0.5 : 2,
             priority: 30,
-            minSize: 250000,
-            name(module) {
-              // get the package name. E.g. node_modules/packageName/not/this/part
-              const packageName = module.context.match(
-                /[\\/]node_modules[\\/](.*?)([\\/]|$)/,
-              )[1];
-
-              // some servers don't like @ symbols as filename
-              return `${packageName.replace('@', '')}`;
-            },
           },
           vendors: {
             test: /[\\/]node_modules[\\/]/,
             name: 'vendors',
             priority: 20,
             // create chunk regardless of the size of the chunk
-            enforce: true,
-          },
-          common: {
-            name: 'common',
-            minChunks: 2,
-            priority: 10,
-            reuseExistingChunk: true,
             enforce: true,
           },
         },
@@ -124,12 +111,8 @@ export function createBaseConfig(
       rules: [
         {
           test: /\.jsx?$/,
-          exclude: modulePath => {
-            // Don't transpile node_modules except any docusaurus package
-            return (
-              /node_modules/.test(modulePath) && !/docusaurus/.test(modulePath)
-            );
-          },
+          include: [siteDir, /docusaurus/],
+          exclude: /node_modules/,
           use: [
             cacheLoader && getCacheLoader(isServer),
             getBabelLoader(isServer),

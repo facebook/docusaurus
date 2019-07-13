@@ -11303,6 +11303,11 @@ prism-react-renderer@^0.1.0, prism-react-renderer@^0.1.6:
   resolved "https://registry.yarnpkg.com/prism-react-renderer/-/prism-react-renderer-0.1.6.tgz#c9216baa234fab1c234209fcdaf0cd23a01c50a9"
   integrity sha512-uZJn5wrygCH0ZMue+2JRd0qJharrmpxa6/uK7deKgvCtJFFE+VsyvJ49LS8/ATt0mlAJS6vFQTDvhXBEXsda+A==
 
+prism-react-renderer@^0.1.7:
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/prism-react-renderer/-/prism-react-renderer-0.1.7.tgz#dc273d0cb6e4a498ba0775094e9a8b01a3ad2eaa"
+  integrity sha512-EhnM0sYfLK103ASK0ViSv0rta//ZGB0dBA9TiFyOvA+zOj5peLmGEG01sLEDwl9sMe+gSqncInafBe1VFTCMvA==
+
 prismjs@^1.15.0:
   version "1.16.0"
   resolved "https://registry.yarnpkg.com/prismjs/-/prismjs-1.16.0.tgz#406eb2c8aacb0f5f0f1167930cb83835d10a4308"
@@ -11735,10 +11740,10 @@ react-loadable-ssr-addon@^0.1.8:
   resolved "https://registry.yarnpkg.com/react-loadable-ssr-addon/-/react-loadable-ssr-addon-0.1.9.tgz#c134275fd36637a554f6438a0b78e0d1f70a8260"
   integrity sha512-mjk0ykDmmgPvkoFVwjbhev/VtarlpdR7B9FzuFFxtviFWVjaL8ddw4J89uFvUkC1KtFmXdQ6BF7yzUB54QqmXg==
 
-react-loadable-visibility@^2.5.1:
-  version "2.5.1"
-  resolved "https://registry.yarnpkg.com/react-loadable-visibility/-/react-loadable-visibility-2.5.1.tgz#713ad70967865a0db1f4dc918228a29a59a593d5"
-  integrity sha512-rIwqjznjAi7i9K+BF/SUCcQZaiIhoPbbMj9aLceHeH093kL4aJ0bdj/iUG6E+ohIkKliKgKB2RKSai0MwNH51g==
+react-loadable-visibility@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/react-loadable-visibility/-/react-loadable-visibility-3.0.1.tgz#ab1e005ff4cf0551b28f5437d93d56d70fdfc9ef"
+  integrity sha512-DabYmhhu+ejoIfIOu0F5YjDgZQznBePTeIszICh6GCdfzFK6sYU9sdlxdjOlNnfxGzF4yRh/+YIl2ktJ/WB8xg==
 
 react-loadable@^5.5.0:
   version "5.5.0"
