@@ -6,7 +6,7 @@ title: Installation
 The easiest way to install Docusaurus is to use the command line tool that helps you scaffold a Docusaurus site skeleton. You can run this command anywhere in a new empty repository or within an existing repository, it will create a new directory containing the scaffolded files.
 
 ```bash
-npx @docusaurus/core@next init [name] [template]
+npx @docusaurus/init@next init [name] [template]
 ```
 
 If you do not specify `name` or `template`, it will prompt you for the missing inputs. We recommend the `classic` template so that you can get started quickly. The `classic` template comes with standard documentation, blog and custom pages features.
