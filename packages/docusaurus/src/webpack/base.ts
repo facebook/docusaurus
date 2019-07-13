@@ -93,9 +93,22 @@ export function createBaseConfig(
           default: false,
           common: {
             name: 'common',
-            chunks: 'all',
             minChunks: totalPages > 2 ? totalPages * 0.5 : 2,
+            priority: 40,
+          },
+          vendor: {
+            test: /[\\/]node_modules[\\/]/,
             priority: 30,
+            minSize: 250000,
+            name(module) {
+              // get the package name. E.g. node_modules/packageName/not/this/part
+              const packageName = module.context.match(
+                /[\\/]node_modules[\\/](.*?)([\\/]|$)/,
+              )[1];
+
+              // some servers don't like @ symbols as filename
+              return `${packageName.replace('@', '')}`;
+            },
           },
           vendors: {
             test: /[\\/]node_modules[\\/]/,
