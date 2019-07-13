@@ -33,7 +33,7 @@ function Layout(props) {
     permalink,
   } = props;
   const metaTitle = title || `${defaultTitle} · ${tagline}`;
-  const metaImage = `${siteUrl}${withBaseUrl(image || defaultImage)}`;
+  const metaImage = image || defaultImage;
   return (
     <React.Fragment>
       <Head>
@@ -50,8 +50,18 @@ function Layout(props) {
         {keywords && keywords.length && (
           <meta property="keywords" content={keywords} />
         )}
-        {metaImage && <meta property="og:image" content={metaImage} />}
-        {metaImage && <meta property="twitter:image" content={metaImage} />}
+        {metaImage && (
+          <meta
+            property="og:image"
+            content={siteUrl + withBaseUrl(metaImage)}
+          />
+        )}
+        {metaImage && (
+          <meta
+            property="twitter:image"
+            content={siteUrl + withBaseUrl(metaImage)}
+          />
+        )}
         {metaImage && (
           <meta name="twitter:image:alt" content={`Image for ${metaTitle}`} />
         )}

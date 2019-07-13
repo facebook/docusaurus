@@ -1,6 +1,6 @@
 # Templates
 
-Official templates provided by Docusaurus. They are designed to be selected when using the `docusaurus init` CLI command.
+Official templates provided by Docusaurus. They are designed to be selected when using the `npx @docusaurus/init@next init [name] [template]` CLI command.
 
 ## Guide to Test Templates for Developer
 

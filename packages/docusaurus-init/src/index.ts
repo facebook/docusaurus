@@ -6,12 +6,12 @@
  */
 
 import chalk from 'chalk';
-import {execSync} from 'child_process';
 import fs from 'fs-extra';
+import {execSync} from 'child_process';
 import inquirer from 'inquirer';
-import _ from 'lodash';
 import path from 'path';
 import shell from 'shelljs';
+import kebabCase from 'lodash.kebabcase';
 
 function hasYarn(): boolean {
   try {
@@ -22,11 +22,11 @@ function hasYarn(): boolean {
   }
 }
 
-function isValidGitRepoUrl(gitRepoUrl): boolean {
+function isValidGitRepoUrl(gitRepoUrl: string): boolean {
   return ['https://', 'git@'].some(item => gitRepoUrl.startsWith(item));
 }
 
-async function updatePkg(pkgPath: string, obj): Promise<void> {
+async function updatePkg(pkgPath: string, obj: any): Promise<void> {
   const content = await fs.readFile(pkgPath, 'utf-8');
   const pkg = JSON.parse(content);
   const newPkg = Object.assign(pkg, obj);
@@ -40,7 +40,7 @@ export async function init(
   reqTemplate?: string,
 ): Promise<void> {
   const useYarn = hasYarn();
-  const templatesDir = path.resolve(__dirname, '../../templates');
+  const templatesDir = path.resolve(__dirname, '../templates');
   const templates = fs
     .readdirSync(templatesDir)
     .filter(d => !d.startsWith('.') && !d.startsWith('README'));
@@ -52,13 +52,13 @@ export async function init(
 
   // Prompt if siteName is not passed from CLI
   if (!name) {
-    const answers = await inquirer.prompt({
+    const {name: promptedName} = await inquirer.prompt({
       type: 'input',
       name: 'name',
       message: 'What should we name this site?',
       default: 'website',
     });
-    name = answers.name;
+    name = promptedName;
   }
 
   if (!name) {
@@ -73,13 +73,13 @@ export async function init(
   let template = reqTemplate;
   // Prompt if template is not provided from CLI
   if (!template) {
-    const answers = await inquirer.prompt({
+    const {template: promptedTemplate} = await inquirer.prompt({
       type: 'list',
       name: 'template',
       message: 'Select a template below...',
       choices: templateChoices,
     });
-    template = answers.template;
+    template = promptedTemplate;
   }
 
   // If user choose Git repository, we'll prompt for the url
@@ -128,7 +128,7 @@ export async function init(
   // Update package.json info
   try {
     await updatePkg(path.join(dest, 'package.json'), {
-      name: _.kebabCase(name),
+      name: kebabCase(name),
       version: '0.0.0',
       private: true,
     });
@@ -152,9 +152,8 @@ export async function init(
 
   console.log(`Installing dependencies with: ${chalk.cyan(pkgManager)}`);
 
-  // we use execSync instead of shell.exec to hide installation output
   try {
-    execSync(`cd "${name}" && ${useYarn ? 'yarn' : 'npm install'}`);
+    shell.exec(`cd "${name}" && ${useYarn ? 'yarn' : 'npm install'}`);
   } catch (err) {
     console.log(chalk.red('Installation failed'));
     throw err;

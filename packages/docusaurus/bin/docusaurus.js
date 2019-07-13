@@ -8,11 +8,10 @@
  */
 
 const chalk = require('chalk');
-const envinfo = require('envinfo');
 const semver = require('semver');
 const path = require('path');
 const program = require('commander');
-const {build, swizzle, init, deploy, start} = require('../lib');
+const {build, swizzle, deploy, start} = require('../lib');
 const requiredVersion = require('../package.json').engines.node;
 
 if (!semver.satisfies(process.version, requiredVersion)) {
@@ -62,13 +61,6 @@ program
   });
 
 program
-  .command('init [siteName] [template] [rootDir]')
-  .description('Initialize website')
-  .action((siteName, template, rootDir = '.') => {
-    wrapCommand(init)(path.resolve(rootDir), siteName, template);
-  });
-
-program
   .command('deploy [siteDir]')
   .description('Deploy website to GitHub pages')
   .action((siteDir = '.') => {
@@ -92,22 +84,6 @@ program
       hotOnly,
       cacheLoader,
     });
-  });
-
-program
-  .command('info')
-  .description('Shows debugging information about the local environment')
-  .action(() => {
-    console.log(chalk.bold('\nEnvironment Info:'));
-    envinfo
-      .run({
-        System: ['OS', 'CPU'],
-        Binaries: ['Node', 'Yarn', 'npm'],
-        Browsers: ['Chrome', 'Edge', 'Firefox', 'Safari'],
-        npmPackages: '?(@)docusaurus{*,*/**}',
-        npmGlobalPackages: '?(@)docusaurus{*,*/**}',
-      })
-      .then(console.log);
   });
 
 program.arguments('<command>').action(cmd => {

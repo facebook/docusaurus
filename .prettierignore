@@ -4,3 +4,4 @@ build
 .docusaurus
 packages/docusaurus-utils/lib/
 packages/docusaurus/lib/
+packages/docusaurus-init/lib/
