@@ -93,6 +93,7 @@ export function createBaseConfig(
           default: false,
           common: {
             name: 'common',
+            chunks: 'all',
             minChunks: totalPages > 2 ? totalPages * 0.5 : 2,
             priority: 40,
           },
