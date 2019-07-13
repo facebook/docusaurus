@@ -26,7 +26,7 @@ export async function loadRoutes(pluginsRouteConfigs: RouteConfig[]) {
   const registry: {
     [chunkName: string]: ChunkRegistry;
   } = {};
-  const routesPaths: string[] = [];
+  const routesPaths: string[] = ['404.html'];
   const routesChunkNames: {
     [routePath: string]: any;
   } = {};
