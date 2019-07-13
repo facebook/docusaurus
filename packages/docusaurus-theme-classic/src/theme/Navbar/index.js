@@ -165,11 +165,7 @@ function Navbar() {
         />
         <div className="navbar__sidebar">
           <div className="navbar__sidebar__brand">
-            <a
-              className="navbar__brand"
-              href="#!"
-              role="button"
-              onClick={hideSidebar}>
+            <Link className="navbar__brand" onClick={hideSidebar} to={baseUrl}>
               {logo != null && (
                 <img
                   className="navbar__logo"
@@ -178,7 +174,7 @@ function Navbar() {
                 />
               )}
               {title != null && <strong>{title}</strong>}
-            </a>
+            </Link>
             {sidebarShown && (
               <Toggle
                 aria-label="Dark mode toggle in sidebar"
