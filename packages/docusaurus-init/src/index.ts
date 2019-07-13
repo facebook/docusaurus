@@ -114,7 +114,6 @@ export async function init(
   } else if (template && templates.includes(template)) {
     // Docusaurus templates
     try {
-
       await fs.copy(path.resolve(templatesDir, template), dest);
     } catch (err) {
       console.log(
@@ -153,7 +152,6 @@ export async function init(
 
   console.log(`Installing dependencies with: ${chalk.cyan(pkgManager)}`);
 
-  // we use execSync instead of shell.exec to hide installation output
   try {
     shell.exec(`cd "${name}" && ${useYarn ? 'yarn' : 'npm install'}`);
   } catch (err) {
