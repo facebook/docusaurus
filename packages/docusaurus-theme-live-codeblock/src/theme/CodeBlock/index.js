@@ -18,6 +18,8 @@ import styles from './styles.module.css';
 const Playground = LoadableVisibility({
   loader: () => import('@theme/Playground'),
   loading: Loading,
+  modules: ['@theme/Playground'],
+  webpack: () => [require.resolveWeak('@theme/Playground')],
 });
 
 export default ({children, className: languageClassName, live, ...props}) => {

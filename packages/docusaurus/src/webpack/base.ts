@@ -28,8 +28,10 @@ export function createBaseConfig(
     baseUrl,
     generatedFilesDir,
     cliOptions: {cacheLoader},
+    routesPaths,
   } = props;
 
+  const totalPages = routesPaths.length;
   const isProd = process.env.NODE_ENV === 'production';
   return {
     mode: isProd ? 'production' : 'development',
@@ -89,6 +91,12 @@ export function createBaseConfig(
         cacheGroups: {
           // disable the built-in cacheGroups
           default: false,
+          common: {
+            name: 'common',
+            chunks: 'all',
+            minChunks: totalPages > 2 ? totalPages * 0.5 : 2,
+            priority: 40,
+          },
           vendor: {
             test: /[\\/]node_modules[\\/]/,
             priority: 30,
@@ -110,13 +118,6 @@ export function createBaseConfig(
             // create chunk regardless of the size of the chunk
             enforce: true,
           },
-          common: {
-            name: 'common',
-            minChunks: 2,
-            priority: 10,
-            reuseExistingChunk: true,
-            enforce: true,
-          },
         },
       },
     },
@@ -124,12 +125,8 @@ export function createBaseConfig(
       rules: [
         {
           test: /\.jsx?$/,
-          exclude: modulePath => {
-            // Don't transpile node_modules except any docusaurus package
-            return (
-              /node_modules/.test(modulePath) && !/docusaurus/.test(modulePath)
-            );
-          },
+          include: [siteDir, /docusaurus/],
+          exclude: /node_modules/,
           use: [
             cacheLoader && getCacheLoader(isServer),
             getBabelLoader(isServer),
