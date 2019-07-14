@@ -38,7 +38,7 @@ module.exports = {
       trackingID: 'UA-141789564-1',
     },
     // googleAnalytics: {
-    //   trackingID: 'UA-141789564-1',
+    //   trackingID: 'UA-93956387-1',
     // },
     algolia: {
       apiKey: '47ecd3b21be71c5822571b9f59e52544',
