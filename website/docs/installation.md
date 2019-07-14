@@ -18,6 +18,13 @@ The easiest way to install Docusaurus is to use the command line tool that helps
 npx @docusaurus/init@next init [name] [template]
 ```
 
+Example:
+
+```bash
+npx @docusaurus/init@next init my-website classic
+```
+
+
 If you do not specify `name` or `template`, it will prompt you for them. We recommend the `classic` template so that you can get started quickly and it contains features found in Docusaurus 1. The `classic` template contains `@docusaurus/preset-classic` which includes standard documentation, a blog, custom pages, and a CSS framework (with dark mode support). You can get up and running extremely quickly with the classic template and customize things later on when you have gained more familiarity with Docusaurus.
 
 ## Project structure
