@@ -18,7 +18,7 @@ This is a **very early and incomplete alpha release** of Docusaurus 2. We are ma
 - :x: You need a full production-ready solution (<small>try [Docusaurus 1](https://docusaurus.io/) instead</small>)
 - :x: You prefer not to work with potential breaking changes and/or features not yet working properly as we improve it during alpha period
 
-## The Next Docusaurus is Coming to Town
+## A better Docusaurus is coming to town
 
 <img src="https://docusaurus.io/img/slash-introducing.svg" alt="Docusaurus"/>
 
@@ -62,7 +62,7 @@ Docusaurus 2 is born to be compassionately accessible to all your users, and lig
 - ⚡️ **Lightning fast** Docusaurus 2 follows [The PRPL Pattern](https://developers.google.com/web/fundamentals/performance/prpl-pattern/) that makes sure your content loads blazing fast
 - 🦖 **Accessible** Attention to accessibility, making your site equally accessible to all users
 
-## Comparison with other Tools
+## Comparison with other tools
 
 Across all static site generators, Docusaurus has a unique focus on doc sites and has out-of-the-box structure you need.
 
@@ -92,13 +92,15 @@ In comparison with statically generated HTML and interactivity based on `<script
 
 VuePress has many similarities with Docusaurus - both focus heavily on content-centric website and provides tailored documentation features out of the box. However, VuePress is powered by Vue, while Docusaurus is powered by React. If you wanted a Vue-based solution, VuePress would be a decent choice.
 
-## Staying Informed
+<!-- TODO: Add a Next.js comparison -->
+
+## Staying informed
 
 - [GitHub](https://github.com/facebook/docusaurus)
 - [Twitter](https://twitter.com/docusaurus)
 - [Blog](/blog)
 
-## Something Missing?
+## Something missing?
 
 If you find issues with the documentation or have suggestions on how to improve the documentation or the project in general, please [file an issue](https://github.com/facebook/docusaurus) for us, or send a tweet mentioning the [@docusaurus](https://twitter.com/docusaurus) Twitter account.
 

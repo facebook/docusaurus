@@ -11,7 +11,7 @@ Docusaurus Plugins are very similar to [Gatsby Plugins](https://www.gatsbyjs.org
 
 In most cases, plugins are there to fetch data and create routes. A plugin could take in components as part of its options and to act as the wrapper for the page.
 
-## Lifecycle Methods
+## Lifecycle methods
 
 <!-- TODO: explain lifecycle methods -->
 
@@ -26,13 +26,13 @@ For example, the in docusaurus-plugin-content-docs:
     In contentLoaded, for each doc Markdown file, a route is created: /doc/installation, /doc/getting-started, etc.
  -->
 
-## How to Create Plugins
+## How to create plugins
 
 _This section is a work in progress._
 
 <!-- TODO: explain creating plugins using an example -->
 
-## Official Plugins
+## Official plugins
 
 ### `@docusaurus/plugin-content-blog`
 
@@ -164,22 +164,22 @@ module.exports = {
 };
 ```
 
-### `@docusaurus/plugin-content-analytics`
+### `@docusaurus/plugin-google-analytics`
 
 The classic template ships with this plugin for Google Analytics. To use this analytics, specify the plugin in the `plugins` field, and provide your Google Analytics configuration in [theme config](./using-themes.md).
 
 ```js
 // docusaurus.config.js
 module.exports = {
-  plugins: ['@docusaurus/plugin-content-analytics'],
+  plugins: ['@docusaurus/plugin-google-analytics'],
 };
 ```
 
-### `@docusaurus/plugin-content-gtag`
+### `@docusaurus/plugin-google-gtag`
 
 _This section is a work in progress. [Welcoming PRs](https://github.com/facebook/docusaurus/issues/1640)._
 
-### `@docusaurus/plugin-content-sitemap`
+### `@docusaurus/plugin-sitemap`
 
 The classic template ships with this plugin.
 
@@ -187,7 +187,7 @@ The classic template ships with this plugin.
 // docusaurus.config.js
 module.exports = {
   plugins: [
-    '@docusaurus/plugin-content-sitemap',
+    '@docusaurus/plugin-sitemap',
     {
       cacheTime: 600 * 1000, // 600 sec - cache purge period
       changefreq: 'weekly',

@@ -16,7 +16,7 @@ High-level overview about themes:
 Related pieces
 ---
 - [Advanced Guide – Themes](advanced-themes.md)
-- [API - Themes](api-themes.md)
+- [API - Themes](themes-api.md)
 
 References
 ---

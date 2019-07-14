@@ -16,10 +16,11 @@ module.exports = {
     Guides: [
       'creating-pages',
       'styling-layout',
+      'static-assets',
       {
         type: 'category',
         label: 'Docs',
-        items: ['markdown-features', 'sidebar', 'static-assets'],
+        items: ['markdown-features', 'sidebar'],
       },
       'blog',
       'reaching-users',
@@ -37,6 +38,7 @@ module.exports = {
       'docusaurus-core',
       'docusaurus.config.js',
       'plugins-api',
+      'themes-api',
     ],
   },
 };

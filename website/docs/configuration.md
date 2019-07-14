@@ -7,7 +7,7 @@ title: Configuration
 
 Docusaurus has a unique take on configurations. We encourage you to congregate information of your site into one place. We will guard the fields of this file, and facilitate making this data object accessible across your site.
 
-Keeping a well-maintained `docusaurus.config.js` helps you, your collaborators, and your open source contributors be able to focus on docs while having certain fields easy to customize.
+Keeping a well-maintained `docusaurus.config.js` helps you, your collaborators, and your open source contributors be able to focus on documentation while still being able to easily customize fields.
 
 For reference to each of the configurable fields, you may refer to the API reference of [docusaurus.config.js](docusaurus.config.js.md).
 
@@ -24,13 +24,13 @@ The configurations can be categorized into:
 - [Theme Configurations, Plugins, and Presets](#theme-plugins-and-presets-configurations)
 - [Custom Configurations](#custom-configurations)
 
-### Site Metadata
+### Site metadata
 
 Site metadata contains the essential global metadata such as titles and `favicon`.
 
 They are used by your website in a number of places such as your site's title and headings, browser tab icon, social sharing (Facebook, Twitter) information and for search engine optimization (SEO).
 
-### Deployment Configurations
+### Deployment configurations
 
 Deployment configurations are used when you deploy your site with Docusaurus' `deploy` command. The related fields are:
 
@@ -38,9 +38,9 @@ Deployment configurations are used when you deploy your site with Docusaurus' `d
 
 <!-- TODO: currently these fields are only used in GH Pages, what about other deployment services such as Netlify -->
 
-You may also check the [Deployment docs](deployment.md) for more information about the fields.
+You may also check the [deployment docs](deployment.md) for more information about the fields.
 
-### Themes, Plugins, and Presets Configurations
+### Themes, Plugins, and Presets configurations
 
 _This section is a work in progress. [Welcoming PRs](https://github.com/facebook/docusaurus/issues/1640)._
 
@@ -57,7 +57,7 @@ TODO:
 
 -->
 
-### Custom Configurations
+### Custom configurations
 
 Docusaurus guards `docusaurus.config.js` from unknown fields. To add a custom field, define it on `customFields`
 
@@ -73,7 +73,7 @@ module.exports = {
 };
 ```
 
-## Accessing Configuration From Your Site
+## Accessing configuration from components
 
 Your configuration object will be made available to all the components of your site. And you may access them via context as `siteConfig`:
 
