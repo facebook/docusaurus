@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/plugin-content-blog",
-  "version": "2.0.0-alpha.20",
+  "version": "2.0.0-alpha.21",
   "description": "Blog plugin for Docusaurus",
   "main": "src/index.js",
   "publishConfig": {
@@ -8,8 +8,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/mdx-loader": "^2.0.0-alpha.20",
-    "@docusaurus/utils": "^2.0.0-alpha.20",
+    "@docusaurus/mdx-loader": "^2.0.0-alpha.21",
+    "@docusaurus/utils": "^2.0.0-alpha.21",
     "fs-extra": "^7.0.1",
     "globby": "^9.2.0",
     "loader-utils": "^1.2.3",
