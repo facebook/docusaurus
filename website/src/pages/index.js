@@ -9,6 +9,7 @@ import React from 'react';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import withBaseUrl from '@docusaurus/withBaseUrl';
+import Image from '@docusaurus/Image';
 
 import Layout from '@theme/Layout';
 
@@ -18,7 +19,7 @@ import styles from './styles.module.css';
 
 const QUOTES = [
   {
-    thumbnail: 'img/christopher-chedeau.jpg',
+    thumbnail: require('../../static/img/christopher-chedeau.jpg'),
     name: 'Christopher "vjeux" Chedeau',
     title: 'Lead Prettier Developer',
     text: (
@@ -34,7 +35,7 @@ const QUOTES = [
     ),
   },
   {
-    thumbnail: 'img/hector-ramos.png',
+    thumbnail: require('../../static/img/hector-ramos.png'),
     name: 'Hector Ramos',
     title: 'Lead React Native Advocate',
     text: (
@@ -47,7 +48,7 @@ const QUOTES = [
     ),
   },
   {
-    thumbnail: 'img/ricky-vetter.jpg',
+    thumbnail: require('../../static/img/ricky-vetter.jpg'),
     name: 'Ricky Vetter',
     title: 'ReasonReact Developer',
     text: (
@@ -197,10 +198,10 @@ function Home() {
             {QUOTES.map(quote => (
               <div className="col" key={quote.name}>
                 <div className="avatar avatar--vertical margin-bottom--sm">
-                  <img
+                  <Image
                     alt={quote.name}
                     className="avatar__photo avatar__photo--xl"
-                    src={withBaseUrl(quote.thumbnail)}
+                    img={quote.thumbnail}
                   />
                   <div className="avatar__intro">
                     <h4 className="avatar__name">{quote.name}</h4>

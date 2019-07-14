@@ -156,6 +156,20 @@ export function createBaseConfig(
             exportOnlyLocals: isServer,
           }),
         },
+        {
+          test: /\.(gif|png|jpe?g)$/i,
+          use: [
+            'lqip-loader',
+            {
+              loader: 'responsive-loader',
+              options: {
+                adapter: require('responsive-loader/sharp'),
+                sizes: [300, 600, 900, 1200],
+              },
+            },
+            'image-webpack-loader'
+          ],
+        },
       ],
     },
     plugins: [
