@@ -1,9 +1,8 @@
 ---
 id: using-plugins
 title: Using Plugins
+description: A plugin is a package that exports a class which can be instantiated with configurable options (provided by the user) and its various lifecycle methods will be invoked by the Docusaurus runtime.
 ---
-
-<!-- A plugin is a package that exports a class which can be instantiated with configurable options (provided by the user) and its various lifecycle methods will be invoked by the Docusaurus runtime. -->
 
 Plugins are the building blocks which add features to a Docusaurus 2 site. Each plugin handles its own individual feature. Plugins may work be bundled together and distributed via [presets](advanced-presets.md).
 

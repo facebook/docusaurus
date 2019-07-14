@@ -3,8 +3,6 @@ id: configuration
 title: Configuration
 ---
 
-<!-- Goal: To explain the intention and best practices for configurations -->
-
 Docusaurus has a unique take on configurations. We encourage you to congregate information of your site into one place. We will guard the fields of this file, and facilitate making this data object accessible across your site.
 
 Keeping a well-maintained `docusaurus.config.js` helps you, your collaborators, and your open source contributors be able to focus on documentation while still being able to easily customize fields.

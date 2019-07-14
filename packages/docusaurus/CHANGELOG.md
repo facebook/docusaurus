@@ -1,13 +1,19 @@
 # Docusaurus 2 Changelog
 
-## Unreleased
+## 2.0.0-alpha.20
 
 - Added Google analytics and Google gtag plugins.
 - Moved source components to `/src`. Please create a `website/src` directory and move your `/pages` and `/theme` code into it. This is to make it easier to integrate your website with external build/static analysis tooling (you can now just pass in `src/**/*.js` as the path to process).
 - Added more documentation thanks to @wgao19.
 - Deprecate the current docs plugin. The docs plugin as of 2.0.0-alpha.19 is heavily based on V1 specifications and we intend to create a better one that fixes some of the inconsistencies in V1. If you have swizzled any doc components, you will have to update their names. You are highly encourages to not swizzle the legacy doc components until we have completed the new docs plugin.
-- Render the NotFound page if an unspecified route was accessed.
+- Separate v2 init command to new package @docusaurus/init
+- Render 404.html page
+- Improve SEO
 - Clicking on the logo in the mobile sliding navigation will now bring you to the homepage.
+- Performance 
+  - Disable webpack output pathinfo. Webpack has the ability to generate path info in the output bundle. However, this puts garbage collection pressure on projects that bundle thousands of modules. Not very useful for our case
+  - Drop cache-loader in CI and test environment because it has an initial overhead. We always start from scratch in vm instance like CI so cache-loader is useless
+  - Better splitchunks and babel default webpack config
 
 ## 2.0.0-alpha.19
 
