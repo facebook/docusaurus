@@ -1,5 +1,8 @@
 # Docusaurus 2 Changelog
 
+## 2.0.0-alpha.21
+- Fix babel-loader not transpiling docusaurus package
+
 ## 2.0.0-alpha.20
 
 - Added Google analytics and Google gtag plugins.

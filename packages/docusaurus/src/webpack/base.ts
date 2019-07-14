@@ -125,8 +125,12 @@ export function createBaseConfig(
       rules: [
         {
           test: /\.jsx?$/,
-          include: [siteDir, /docusaurus/],
-          exclude: /node_modules/,
+          exclude: modulePath => {
+            // Don't transpile node_modules except any docusaurus package
+            return (
+              /node_modules/.test(modulePath) && !/docusaurus/.test(modulePath)
+            );
+          },
           use: [
             cacheLoader && getCacheLoader(isServer),
             getBabelLoader(isServer),
