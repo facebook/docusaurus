@@ -29,6 +29,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Almond',
+    image: '/img/users/almond.svg',
+    infoLink: 'https://almond.sh/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Anssr Data Platform',
     image: '/img/users/anssr.svg',
     infoLink: 'https://anssr.io/',
