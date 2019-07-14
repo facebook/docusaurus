@@ -6,6 +6,7 @@
  */
 
 import React, {useEffect} from 'react';
+import Image from '@docusaurus/Image';
 import Layout from '@theme/Layout';
 
 import classnames from 'classnames';
@@ -42,7 +43,7 @@ function Showcase() {
               <div className="col col--4">
                 <div className={classnames('card', styles.showcaseUser)}>
                   <div className="card__image">
-                    <img src={user.preview} alt={user.title} />
+                    <Image img={user.preview} alt={user.title} />
                   </div>
                   <div className="card__body">
                     <div class="avatar">
