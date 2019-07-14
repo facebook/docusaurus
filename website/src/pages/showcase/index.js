@@ -13,6 +13,9 @@ import styles from './styles.module.css';
 import users from '../../data/users';
 
 const ITEMS_PER_ROW = 3; // Sync up the item col width if this is changed.
+const TITLE = 'Showcase';
+const DESCRIPTION =
+  'See the awesome websites people are building with Docusaurus';
 
 function chunkArray(array, size) {
   const chunks = [];
@@ -27,11 +30,11 @@ function chunkArray(array, size) {
 
 function Showcase() {
   return (
-    <Layout permalink="/showcase" description="Docusaurus users">
+    <Layout title={TITLE} description={DESCRIPTION}>
       <div className="container margin-vert--xl">
         <div className="text--center margin-bottom--xl">
-          <h1>Showcase</h1>
-          <p>See the awesome websites people are building with Docusaurus!</p>
+          <h1>{TITLE}</h1>
+          <p>{DESCRIPTION}</p>
         </div>
         {chunkArray(users, ITEMS_PER_ROW).map(row => (
           <div className="row margin-vert--lg">
