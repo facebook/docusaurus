@@ -39,6 +39,8 @@ export default Hello;
 
 Once you save the file, the development server will automatically reload the changes. Now open http://localhost:3000/hello, you will see the new page you just created.
 
+Each page doesn't come with any styling. You will need to import the `Layout` component from `@theme/Layout` and wrap your contents within that component if you want the navbar and/or footer to appear.
+
 ## Routing
 
 If you are familiar with other static site generators like Jekyll and Next, this routing approach will feel familiar to you. Any JavaScript file you create under `/src/pages/` directory will be automatically converted to a website page, following the `/src/pages/` directory hierarchy. For example:
@@ -48,20 +50,22 @@ If you are familiar with other static site generators like Jekyll and Next, this
 - `/src/pages/foo/test.js` → `<baseUrl>/foo/test`
 - `/src/pages/foo/index.js` → `<baseUrl>/foo`
 
-In this era of components, if you need to customize your page design with your own styles, we recommend co-locating your styles with the page component in its own directory. For example, to create a new support page, you could:
+In this component-based development era, it is encouraged to co-locate your styling, markup and behavior together into components. Each page is a component, and if you need to customize your page design with your own styles, we recommend co-locating your styles with the page component in its own directory. For example, to create a "Support" page, you could do one of the following:
 
-1. Add a `/src/pages/support.js` file
-1. Create a `/src/pages/support/` directory and a `/src/pages/support/index.js` file. This has the benefits of letting you create a CSS module file (`styles.module.css`) for `support.js` that is near where it's being used. **Note:** you will have to manually import the CSS module file within your component module.
+- Add a `/src/pages/support.js` file
+- Create a `/src/pages/support/` directory and a `/src/pages/support/index.js` file.
+
+The latter is preferred as it has the benefits of letting you contain more files related to that page within that directory. For e.g. a CSS module file (`styles.module.css`) with styles meant to only be used on the "Support" page. **Note:** this is merely a recommender directory structure and you will need to manually import the CSS module file within your component module (`support/index.js`).
 
 ```sh
 my-website
 ├── src
 │   └── pages
 │       ├── styles.module.css
-│       └── index.js
-│           └── support
-│               ├── index.js
-│               └── styles.module.css
+│       ├── index.js
+│       └── support
+│           ├── index.js
+│           └── styles.module.css
 .
 ```
 
@@ -71,7 +75,5 @@ React is used as the UI library to create pages. Every page component should exp
 
 <!--
 TODO:
-- Explain that each page needs to be wrapped with `@theme/Layout`.
 - That v2 is different from v1, users can write interactive components with lifecycles.
-
 -->
