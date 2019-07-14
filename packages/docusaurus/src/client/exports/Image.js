@@ -9,7 +9,6 @@ import IdealImage from 'react-ideal-image';
 
 function Image(props) {
   const {alt, className, img} = props;
-  console.log(props);
   return (
     <IdealImage
       {...props}

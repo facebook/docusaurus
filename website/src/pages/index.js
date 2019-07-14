@@ -19,7 +19,7 @@ import styles from './styles.module.css';
 
 const QUOTES = [
   {
-    thumbnail: require('../../static/img/christopher-chedeau.jpg'),
+    thumbnail: require('./christopher-chedeau.jpg'),
     name: 'Christopher "vjeux" Chedeau',
     title: 'Lead Prettier Developer',
     text: (
@@ -35,7 +35,7 @@ const QUOTES = [
     ),
   },
   {
-    thumbnail: require('../../static/img/hector-ramos.png'),
+    thumbnail: require('./hector-ramos.png'),
     name: 'Hector Ramos',
     title: 'Lead React Native Advocate',
     text: (
@@ -48,7 +48,7 @@ const QUOTES = [
     ),
   },
   {
-    thumbnail: require('../../static/img/ricky-vetter.jpg'),
+    thumbnail: require('./ricky-vetter.jpg'),
     name: 'Ricky Vetter',
     title: 'ReasonReact Developer',
     text: (

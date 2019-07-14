@@ -10,7 +10,7 @@ const users = [
   {
     title: 'Channel.js',
     description: 'The missing constructor for creating safe async iterators',
-    preview: '/img/showcase/channeljs.png',
+    preview: require('./showcase/channeljs.png'),
     website: 'https://channel.js.org',
     source: 'https://github.com/channeljs/channel',
     fbOpenSource: false,
@@ -19,7 +19,7 @@ const users = [
   {
     title: 'Component Kit',
     description: 'A declarative UI framework for iOS',
-    preview: '/img/showcase/componentkit.png',
+    preview: require('./showcase/componentkit.png'),
     website: 'https://componentkit.org',
     source: 'https://github.com/facebook/componentkit',
     fbOpenSource: true,
@@ -28,7 +28,7 @@ const users = [
   {
     title: 'Flux',
     description: 'Application architecture for building user interfaces',
-    preview: '/img/showcase/flux.png',
+    preview: require('./showcase/flux.png'),
     website: 'https://facebook.github.io/flux/',
     source: 'https://github.com/facebook/flux',
     fbOpenSource: true,
@@ -37,7 +37,7 @@ const users = [
   {
     title: 'Hermes',
     description: 'JavaScript engine optimized for React Native',
-    preview: '/img/showcase/hermes.png',
+    preview: require('./showcase/hermes.png'),
     website: 'https://hermesengine.dev',
     source: 'https://github.com/facebook/hermes',
     fbOpenSource: true,
@@ -46,7 +46,7 @@ const users = [
   {
     title: 'uniforms',
     description: 'A set of React libraries for building forms',
-    preview: '/img/showcase/uniforms.png',
+    preview: require('./showcase/uniforms.png'),
     website: 'https://uniforms.tools/',
     source: 'https://github.com/vazco/uniforms',
     fbOpenSource: false,

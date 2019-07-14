@@ -167,7 +167,7 @@ export function createBaseConfig(
                 sizes: [300, 600, 900, 1200],
               },
             },
-            'image-webpack-loader'
+            'image-webpack-loader',
           ],
         },
       ],
