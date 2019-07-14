@@ -10,7 +10,7 @@ import Layout from '@theme/Layout';
 
 import classnames from 'classnames';
 import styles from './styles.module.css';
-import users from './users';
+import users from '../../data/users';
 
 const ITEMS_PER_ROW = 3; // Sync up the item col width if this is changed.
 
