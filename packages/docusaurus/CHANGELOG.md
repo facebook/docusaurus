@@ -5,6 +5,7 @@
 - Add missing dependencies on @docusaurus/preset-classic
 
 ## 2.0.0-alpha.21
+
 - Fix babel-loader not transpiling docusaurus package
 
 ## 2.0.0-alpha.20
@@ -18,7 +19,7 @@
 - Render 404.html page
 - Improve SEO
 - Clicking on the logo in the mobile sliding navigation will now bring you to the homepage.
-- Performance 
+- Performance
   - Disable webpack output pathinfo. Webpack has the ability to generate path info in the output bundle. However, this puts garbage collection pressure on projects that bundle thousands of modules. Not very useful for our case
   - Drop cache-loader in CI and test environment because it has an initial overhead. We always start from scratch in vm instance like CI so cache-loader is useless
   - Better splitchunks and babel default webpack config
