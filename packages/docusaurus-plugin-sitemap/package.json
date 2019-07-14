@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/plugin-sitemap",
-  "version": "2.0.0-alpha.19",
+  "version": "2.0.0-alpha.20",
   "description": "Simple sitemap generation plugin for Docusaurus",
   "main": "src/index.js",
   "publishConfig": {

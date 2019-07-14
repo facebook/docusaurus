@@ -1,6 +1,6 @@
 {
   "name": "docusaurus-2-classic-template",
-  "version": "2.0.0-alpha.19",
+  "version": "2.0.0-alpha.20",
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
@@ -10,8 +10,8 @@
     "deploy": "docusaurus deploy"
   },
   "dependencies": {
-    "@docusaurus/core": "^2.0.0-alpha.19",
-    "@docusaurus/preset-classic": "^2.0.0-alpha.19",
+    "@docusaurus/core": "^2.0.0-alpha.20",
+    "@docusaurus/preset-classic": "^2.0.0-alpha.20",
     "classnames": "^2.2.6",
     "react": "^16.8.4",
     "react-dom": "^16.8.4"
