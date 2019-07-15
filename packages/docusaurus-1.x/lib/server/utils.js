@@ -53,6 +53,7 @@ function minifyCss(cssContent) {
     .process(cssContent, {
       preset: 'default',
       zindex: false,
+      from: undefined,
     })
     .then(result => result.css);
 }
