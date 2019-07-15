@@ -157,17 +157,21 @@ export function createBaseConfig(
           }),
         },
         {
-          test: /\.(gif|png|jpe?g)$/i,
+          test: /\.(png|jpe?g|gif)$/,
           use: [
             'lqip-loader',
             {
               loader: 'responsive-loader',
               options: {
+                emitFile: !isServer, // todo need to fork. don't emit for server-side rendering
+                disable: !isProd,
                 adapter: require('responsive-loader/sharp'),
-                sizes: [300, 600, 900, 1200],
+                name: 'img/[name].[hash:hex:7].[width].[ext]',
+                max: 1200, // max resized image's size. 
+                min: 300, // min resized image's size. if original is lower, use that size. 
+                steps: 2, // the max number of images generated between min and max (inclusive)
               },
             },
-            'image-webpack-loader',
           ],
         },
       ],

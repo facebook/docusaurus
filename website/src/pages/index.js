@@ -68,9 +68,7 @@ function Home() {
   return (
     <Layout
       permalink={'/'}
-      description={
-        'Docusaurus makes it easy and painless for you to build websites'
-      }>
+      description={'Easy to Maintain Open Source Documentation Websites'}>
       <div className={styles['index-hero']}>
         <div className={styles['index-hero-inner']}>
           <h1 className={styles['index-hero-project-tagline']}>
