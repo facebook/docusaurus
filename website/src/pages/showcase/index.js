@@ -6,7 +6,8 @@
  */
 
 import React, {useEffect} from 'react';
-import Image from '@docusaurus/Image';
+
+import Image from '@theme/IdealImage';
 import Layout from '@theme/Layout';
 
 import classnames from 'classnames';

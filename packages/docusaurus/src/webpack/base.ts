@@ -156,24 +156,6 @@ export function createBaseConfig(
             exportOnlyLocals: isServer,
           }),
         },
-        {
-          test: /\.(png|jpe?g|gif)$/,
-          use: [
-            'lqip-loader',
-            {
-              loader: 'responsive-loader',
-              options: {
-                emitFile: !isServer, // todo need to fork. don't emit for server-side rendering
-                disable: !isProd,
-                adapter: require('responsive-loader/sharp'),
-                name: 'img/[name].[hash:hex:7].[width].[ext]',
-                max: 1200, // max resized image's size.
-                min: 300, // min resized image's size. if original is lower, use that size.
-                steps: 2, // the max number of images generated between min and max (inclusive)
-              },
-            },
-          ],
-        },
       ],
     },
     plugins: [

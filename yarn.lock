@@ -846,6 +846,13 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
+"@endiliey/responsive-loader@^1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@endiliey/responsive-loader/-/responsive-loader-1.3.0.tgz#a10317cbe43e1e6e3b176480820a56bbdec6dfd8"
+  integrity sha512-++ojgOoT3pzeElRDq7aAGb7i+f3l53pi6zu2jB+UxcXYmfnOkMFonqQSjoAtq63v14LK1dnMMkHB7DYf1kNGlA==
+  dependencies:
+    loader-utils "^1.2.3"
+
 "@hapi/address@2.x.x":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@hapi/address/-/address-2.0.0.tgz#9f05469c88cb2fd3dcd624776b54ee95c312126a"
@@ -13014,13 +13021,6 @@ responselike@1.0.2:
   integrity sha1-kYcg7ztjHFZCvgaPFa3lpG9Loec=
   dependencies:
     lowercase-keys "^1.0.0"
-
-responsive-loader@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/responsive-loader/-/responsive-loader-1.2.0.tgz#89b98a11d0cb27fe6c17b0831350e1455c14ba31"
-  integrity sha512-ZbeiKySyCMkMLm747DlwvpRS6mk7MiJZiXmOY6KxE5P7d08av3jy2fbEpDDnuxWDruVUePoMzMg9hYGtBWFNxg==
-  dependencies:
-    loader-utils "^1.1.0"
 
 restore-cursor@^2.0.0:
   version "2.0.0"

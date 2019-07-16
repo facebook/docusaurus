@@ -9,8 +9,8 @@ import React from 'react';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import withBaseUrl from '@docusaurus/withBaseUrl';
-import Image from '@docusaurus/Image';
 
+import Image from '@theme/IdealImage';
 import Layout from '@theme/Layout';
 
 import classnames from 'classnames';
