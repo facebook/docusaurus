@@ -38,19 +38,19 @@ function Showcase() {
           <h1>{TITLE}</h1>
           <p>{DESCRIPTION}</p>
         </div>
-        {chunkArray(users, ITEMS_PER_ROW).map(row => (
-          <div className="row margin-vert--lg">
+        {chunkArray(users, ITEMS_PER_ROW).map((row, i) => (
+          <div key={`row${i}`} className="row margin-vert--lg">
             {row.map(user => (
-              <div className="col col--4">
+              <div key={user.title} className="col col--4">
                 <div className={classnames('card', styles.showcaseUser)}>
                   <div className="card__image">
                     <Image img={user.preview} alt={user.title} />
                   </div>
                   <div className="card__body">
-                    <div class="avatar">
-                      <div class="avatar__intro margin-left--none">
-                        <h4 class="avatar__name">{user.title}</h4>
-                        <small class="avatar__subtitle">
+                    <div className="avatar">
+                      <div className="avatar__intro margin-left--none">
+                        <h4 className="avatar__name">{user.title}</h4>
+                        <small className="avatar__subtitle">
                           {user.description}
                         </small>
                       </div>
@@ -58,7 +58,7 @@ function Showcase() {
                   </div>
                   {(user.website || user.source) && (
                     <div className="card__footer">
-                      <div class="button-group button-group--block">
+                      <div className="button-group button-group--block">
                         {user.website && (
                           <a
                             className="button button--small button--secondary button--block"

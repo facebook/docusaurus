@@ -846,10 +846,10 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@endiliey/responsive-loader@^1.3.0":
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/@endiliey/responsive-loader/-/responsive-loader-1.3.0.tgz#a10317cbe43e1e6e3b176480820a56bbdec6dfd8"
-  integrity sha512-++ojgOoT3pzeElRDq7aAGb7i+f3l53pi6zu2jB+UxcXYmfnOkMFonqQSjoAtq63v14LK1dnMMkHB7DYf1kNGlA==
+"@endiliey/responsive-loader@^1.3.1":
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/@endiliey/responsive-loader/-/responsive-loader-1.3.1.tgz#842aa9e836945536f76467083faa658fa877efa0"
+  integrity sha512-hXWR/bC484wDoH+B5CQvfZwE8isKHFwTBIcty+7wnl/zIVIWpsV5+hiTUFYE4inSZeQcrxjJRjs5kMAc8AgWGg==
   dependencies:
     loader-utils "^1.2.3"
 
@@ -12317,7 +12317,7 @@ react-ideal-image@^0.0.5:
   resolved "https://registry.yarnpkg.com/react-ideal-image/-/react-ideal-image-0.0.5.tgz#92a1d6e7e6d5a32b2a6a41e82ffb7f122ed9bddf"
   integrity sha512-Xc/uyfigjE9nt5RPnEnvVVCxdrkVNRpvh1+WaCLTEk28jrshB1mM5/iA0Adxp2zqITT4aqx/C8CFNs02EskK0Q==
 
-react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1, react-is@^16.8.4, react-is@^16.8.6:
+react-is@^16.6.0, react-is@^16.6.3, react-is@^16.7.0, react-is@^16.8.1, react-is@^16.8.4, react-is@^16.8.6:
   version "16.8.6"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.8.6.tgz#5bbc1e2d29141c9fbdfed456343fe2bc430a6a16"
   integrity sha512-aUk3bHfZ2bRSVFFbbeVS4i+lNPZr3/WM5jT2J5omUVV1zzcs1nAaf3l51ctA5FFvCRbhrH0bdAsRRQddFJZPtA==
@@ -12419,13 +12419,14 @@ react-toggle@^4.0.2:
   dependencies:
     classnames "^2.2.5"
 
-react-waypoint@8.0.3:
-  version "8.0.3"
-  resolved "https://registry.yarnpkg.com/react-waypoint/-/react-waypoint-8.0.3.tgz#860db860d3301c6f449800f7a330856028730af5"
-  integrity sha512-2tfq6PU8meAOpZ+ZqyGO1YCa9n2kEhq6+UI5tOpgMUra2iJmpva9QvwReamO3eozVMxFQ495wR9pkMbLnXvI/w==
+react-waypoint@8.1.0:
+  version "8.1.0"
+  resolved "https://registry.yarnpkg.com/react-waypoint/-/react-waypoint-8.1.0.tgz#91d926a2fd1be4cbd0351cb8c3d494fac0ef1699"
+  integrity sha512-HoOItWTHObgz7bstmz9p3wuTVDRdsyNspnkAOFz9eE4z8LRj1bbNP9Nzye2k9zsFiujlz8lmp13UFmuXPWXPYw==
   dependencies:
     consolidated-events "^1.1.0 || ^2.0.0"
     prop-types "^15.0.0"
+    react-is "^16.6.3"
 
 react@^16.5.0, react@^16.8.4:
   version "16.8.6"
