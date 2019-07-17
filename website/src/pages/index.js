@@ -9,8 +9,8 @@ import React from 'react';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import withBaseUrl from '@docusaurus/withBaseUrl';
-import Image from '@docusaurus/Image';
 
+import Image from '@theme/IdealImage';
 import Layout from '@theme/Layout';
 
 import classnames from 'classnames';
@@ -68,9 +68,7 @@ function Home() {
   return (
     <Layout
       permalink={'/'}
-      description={
-        'Docusaurus makes it easy and painless for you to build websites'
-      }>
+      description={'Easy to Maintain Open Source Documentation Websites'}>
       <div className={styles['index-hero']}>
         <div className={styles['index-hero-inner']}>
           <h1 className={styles['index-hero-project-tagline']}>

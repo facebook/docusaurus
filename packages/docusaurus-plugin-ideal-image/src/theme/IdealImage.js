@@ -14,14 +14,14 @@ function Image(props) {
       {...props}
       alt={alt}
       className={className}
-      height={img.src.height}
+      height={img.src.height || 100}
+      width={img.src.width || 100}
       placeholder={{lqip: img.preSrc}}
       src={img.src.src}
       srcSet={img.src.images.map(image => ({
         ...image,
         src: image.path,
       }))}
-      width={img.src.width}
     />
   );
 }
