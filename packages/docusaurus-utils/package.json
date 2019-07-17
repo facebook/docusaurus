@@ -12,9 +12,9 @@
   },
   "license": "MIT",
   "dependencies": {
-    "escape-string-regexp": "^1.0.5",
-    "fs-extra": "^7.0.0",
+    "escape-string-regexp": "^2.0.0",
+    "fs-extra": "^8.1.0",
     "gray-matter": "^4.0.2",
-    "lodash": "^4.17.11"
+    "lodash": "^4.17.14"
   }
 }
