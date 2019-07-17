@@ -9,7 +9,7 @@
   "license": "MIT",
   "dependencies": {
     "@docusaurus/utils": "^2.0.0-alpha.21",
-    "globby": "^9.2.0"
+    "globby": "^10.0.1"
   },
   "peerDependencies": {
     "@docusaurus/core": "^2.0.0",
