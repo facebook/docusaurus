@@ -14,7 +14,17 @@ module.exports = {
   url: 'https://v2.docusaurus.io',
   favicon: 'img/docusaurus.ico',
   themes: ['@docusaurus/theme-live-codeblock'],
-  plugins: ['@docusaurus/plugin-ideal-image'],
+  plugins: [
+    ,
+    [
+      '@docusaurus/plugin-ideal-image',
+      {
+        max: 1080, // max resized image's size.
+        min: 360, // min resized image's size. if original is lower, use that size.
+        steps: 2, // the max number of images generated between min and max (inclusive)
+      },
+    ],
+  ],
   presets: [
     [
       '@docusaurus/preset-classic',
