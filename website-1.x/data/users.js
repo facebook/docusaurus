@@ -313,7 +313,7 @@ module.exports = [
     image: '/img/users/next-boilerplate.png',
     infoLink: 'https://pankod.github.io/next-boilerplate/',
     fbOpenSource: false,
-    pinned: false
+    pinned: false,
   },
   {
     caption: 'Netconsd',
