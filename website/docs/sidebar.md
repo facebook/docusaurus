@@ -33,13 +33,40 @@ The `docs` key in the exported object is just the name of that particular sideba
 
 ## Subcategories
 
-_This section is a work in progress. [Welcoming PRs](https://github.com/facebook/docusaurus/issues/1640)._
+To include subcategories in docs sidebar, use an object of the following shape
+
+```js
+{
+  type: 'category',
+  label: string, // sidebar label
+  items: string[], // strings of doc ids
+}
+```
+
+in place of a string of id. As an example, here's how we created the subcategory for "Docs" under "Guides" in this site:
+
+```jsx
+// sidebars.js
+module.exports = {
+  docs: {
+    Guides: [
+      'creating-pages',
+      {
+        type: 'category',
+        label: 'Docs',
+        items: ['markdown-features', 'sidebar'],
+      },
+    ],
+  },
+};
+```
+
+**Note**: Only one layer of nestedness is allowed.
+
+**Note**: We're implementing a new sidebar!
 
 <!--
 
-Note: We're implementing a new sidebar, this following links to the legacy sidebar as a reference
-[source code](packages/docusaurus-theme-classic/src/theme/DocLegacySidebar/index.js)
-
-If you are interested in this section, please follow up on our progress
+_This section is a work in progress. [Welcoming PRs](https://github.com/facebook/docusaurus/issues/1640)._
 
 -->
