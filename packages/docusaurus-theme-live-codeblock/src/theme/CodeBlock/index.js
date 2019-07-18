@@ -12,6 +12,7 @@ import Highlight, {defaultProps} from 'prism-react-renderer';
 import nightOwlTheme from 'prism-react-renderer/themes/nightOwl';
 import Clipboard from 'clipboard';
 import Loading from '@theme/Loading';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import styles from './styles.module.css';
 
 /* Live playground is not small in size, lazy load it is better */
@@ -23,6 +24,11 @@ const Playground = LoadableVisibility({
 });
 
 export default ({children, className: languageClassName, live, ...props}) => {
+  const {
+    siteConfig: {
+      themeConfig: {prismTheme},
+    },
+  } = useDocusaurusContext();
   const [showCopied, setShowCopied] = useState(false);
   const target = useRef(null);
   const button = useRef(null);
@@ -48,7 +54,7 @@ export default ({children, className: languageClassName, live, ...props}) => {
       <Playground
         scope={{...React}}
         code={children.trim()}
-        theme={nightOwlTheme}
+        theme={prismTheme || nightOwlTheme}
         {...props}
       />
     );
@@ -67,7 +73,7 @@ export default ({children, className: languageClassName, live, ...props}) => {
   return (
     <Highlight
       {...defaultProps}
-      theme={nightOwlTheme}
+      theme={prismTheme || nightOwlTheme}
       code={children.trim()}
       language={language}>
       {({className, style, tokens, getLineProps, getTokenProps}) => (

@@ -10,9 +10,15 @@ import classnames from 'classnames';
 import Highlight, {defaultProps} from 'prism-react-renderer';
 import nightOwlTheme from 'prism-react-renderer/themes/nightOwl';
 import Clipboard from 'clipboard';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import styles from './styles.module.css';
 
 export default ({children, className: languageClassName}) => {
+  const {
+    siteConfig: {
+      themeConfig: {prismTheme},
+    },
+  } = useDocusaurusContext();
   const [showCopied, setShowCopied] = useState(false);
   const target = useRef(null);
   const button = useRef(null);
@@ -46,7 +52,7 @@ export default ({children, className: languageClassName}) => {
   return (
     <Highlight
       {...defaultProps}
-      theme={nightOwlTheme}
+      theme={prismTheme || nightOwlTheme}
       code={children.trim()}
       language={language}>
       {({className, style, tokens, getLineProps, getTokenProps}) => (
