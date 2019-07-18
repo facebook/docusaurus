@@ -10,6 +10,7 @@ module.exports = function preset(context, opts = {}) {
   const {themeConfig} = siteConfig;
   const {algolia, googleAnalytics, gtag} = themeConfig;
 
+  const isProd = process.env.NODE_ENV === 'production';
   return {
     themes: [
       ['@docusaurus/theme-classic', opts.theme],
@@ -20,9 +21,9 @@ module.exports = function preset(context, opts = {}) {
       ['@docusaurus/plugin-content-docs-legacy', opts.docs],
       ['@docusaurus/plugin-content-blog', opts.blog],
       ['@docusaurus/plugin-content-pages', opts.pages],
-      googleAnalytics && '@docusaurus/plugin-google-analytics',
-      gtag && '@docusaurus/plugin-google-gtag',
-      ['@docusaurus/plugin-sitemap', opts.sitemap],
+      isProd && googleAnalytics && '@docusaurus/plugin-google-analytics',
+      isProd && gtag && '@docusaurus/plugin-google-gtag',
+      isProd && ['@docusaurus/plugin-sitemap', opts.sitemap],
     ],
   };
 };
