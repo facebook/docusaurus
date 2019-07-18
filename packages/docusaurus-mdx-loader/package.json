@@ -8,8 +8,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@babel/parser": "^7.5.0",
-    "@babel/traverse": "^7.5.0",
+    "@babel/parser": "^7.5.5",
+    "@babel/traverse": "^7.5.5",
     "@mdx-js/mdx": "^1.1.0",
     "@mdx-js/react": "^1.0.27",
     "github-slugger": "^1.2.1",
