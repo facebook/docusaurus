@@ -159,7 +159,20 @@ Use the matching language meta string for your code block, and Docusaurus will p
 console.log('Every repo must come with a mascot.');
 ```
 
-**Work in Progress** Currently the Prism theme we use is [Night Owl](https://github.com/FormidableLabs/prism-react-renderer/blob/master/themes/nightOwl.js). We will support customized theme in a future version.
+You can change the [theme](https://github.com/FormidableLabs/prism-react-renderer#theming) by simply passing `prismTheme` as `themeConfig` in your docusaurus.config.js.
+
+Example:
+
+```js
+// docusaurus.config.js
+module.exports = {
+  themeConfig: {
+    prismTheme: require('prism-react-renderer/themes/vsDark')
+  }
+};
+```
+
+By default, the Prism theme we use is [Night Owl](https://github.com/FormidableLabs/prism-react-renderer/blob/master/themes/nightOwl.js).
 
 ### Interactive code editor
 
