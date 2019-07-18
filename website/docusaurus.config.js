@@ -15,7 +15,6 @@ module.exports = {
   favicon: 'img/docusaurus.ico',
   themes: ['@docusaurus/theme-live-codeblock'],
   plugins: [
-    ,
     [
       '@docusaurus/plugin-ideal-image',
       {
