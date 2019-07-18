@@ -39,7 +39,7 @@ To include subcategories in docs sidebar, use an object of the following shape
 {
   type: 'category',
   label: string, // sidebar label
-  items: string[], // string of doc ids
+  items: string[], // strings of doc ids
 }
 ```
 
@@ -65,4 +65,8 @@ module.exports = {
 
 **Note**: We're implementing a new sidebar!
 
+<!--
+
 _This section is a work in progress. [Welcoming PRs](https://github.com/facebook/docusaurus/issues/1640)._
+
+-->
