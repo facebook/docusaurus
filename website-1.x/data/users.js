@@ -316,6 +316,20 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'moleculerjs-boilerplate',
+    image: '/img/users/moleculerjs-boilerplate.png',
+    infoLink: 'https://pankod.github.io/moleculerjs-boilerplate/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
+    caption: 'next-boilerplate',
+    image: '/img/users/next-boilerplate.png',
+    infoLink: 'https://pankod.github.io/next-boilerplate/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Netconsd',
     image: '/img/users/netconsd.svg',
     infoLink: 'https://facebookmicrosites.github.io/netconsd/',
