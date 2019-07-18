@@ -66,10 +66,7 @@ function Layout(props) {
           <meta name="twitter:image:alt" content={`Image for ${metaTitle}`} />
         )}
         {permalink && <meta property="og:url" content={siteUrl + permalink} />}
-        <meta
-          name="twitter:card"
-          content={image || favicon ? 'summary_large_image' : 'summary'}
-        />
+        <meta name="twitter:card" content="summary" />
       </Head>
       <Navbar />
       {children}
