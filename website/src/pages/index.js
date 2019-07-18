@@ -19,7 +19,7 @@ import styles from './styles.module.css';
 
 const QUOTES = [
   {
-    thumbnail: require('./christopher-chedeau.jpg'),
+    thumbnail: require('../data/quotes/christopher-chedeau.jpg'),
     name: 'Christopher "vjeux" Chedeau',
     title: 'Lead Prettier Developer',
     text: (
@@ -35,7 +35,7 @@ const QUOTES = [
     ),
   },
   {
-    thumbnail: require('./hector-ramos.png'),
+    thumbnail: require('../data/quotes/hector-ramos.png'),
     name: 'Hector Ramos',
     title: 'Lead React Native Advocate',
     text: (
@@ -48,7 +48,7 @@ const QUOTES = [
     ),
   },
   {
-    thumbnail: require('./ricky-vetter.jpg'),
+    thumbnail: require('../data/quotes/ricky-vetter.jpg'),
     name: 'Ricky Vetter',
     title: 'ReasonReact Developer',
     text: (
@@ -200,6 +200,7 @@ function Home() {
                     alt={quote.name}
                     className="avatar__photo avatar__photo--xl"
                     img={quote.thumbnail}
+                    style={{overflow: 'hidden'}}
                   />
                   <div className="avatar__intro">
                     <h4 className="avatar__name">{quote.name}</h4>
