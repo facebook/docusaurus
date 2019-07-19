@@ -91,6 +91,25 @@ Consider putting key information about this page, error messages, searchable ter
 
 Note that the file of this image cannot be SVG.
 
+### Customize SEO
+
+To add customized SEO, use the `Head` component from `@docusaurus/HEAD`.
+
+```js
+// your component
+import Head from '@docusaurus/HEAD';
+
+const MySEO = () => (
+  <React.Fragment>
+    <Head>
+      <meta charSet="utf-8" />
+      <meta httpEquiv="x-ua-compatible" content="ie=edge" />
+      <meta name="viewport" content="width=device-width" />
+    </Head>
+  </React.Fragment>
+);
+```
+
 ## Analytics
 
 _This section is a work in progress. [Welcoming PRs](https://github.com/facebook/docusaurus/issues/1640)._
