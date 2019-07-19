@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/theme-live-codeblock",
-  "version": "2.0.0-alpha.19",
+  "version": "2.0.0-alpha.21",
   "description": "Docusaurus Live CodeBlock",
   "main": "src/index.js",
   "publishConfig": {
@@ -9,10 +9,11 @@
   "license": "MIT",
   "dependencies": {
     "classnames": "^2.2.6",
-    "prism-react-renderer": "^0.1.6",
+    "clipboard": "^2.0.4",
+    "prism-react-renderer": "^0.1.7",
     "react-live": "^2.1.2",
     "react-loadable": "^5.5.0",
-    "react-loadable-visibility": "^2.5.1"
+    "react-loadable-visibility": "^3.0.1"
   },
   "peerDependencies": {
     "@docusaurus/core": "^2.0.0",

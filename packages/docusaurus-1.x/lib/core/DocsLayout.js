@@ -14,7 +14,6 @@ const Container = require('./Container.js');
 const Doc = require('./Doc.js');
 const DocsSidebar = require('./DocsSidebar.js');
 const OnPageNav = require('./nav/OnPageNav.js');
-const renderMarkdown = require('./renderMarkdown');
 const Site = require('./Site.js');
 const translation = require('../server/translation.js');
 const docs = require('../server/docs.js');
@@ -89,7 +88,7 @@ class DocsLayout extends React.Component {
           separateOnPageNav: hasOnPageNav,
         })}
         title={title}
-        description={renderMarkdown(content.trim().split('\n')[0])}
+        description={content.trim().split('\n')[0]}
         language={metadata.language}
         version={metadata.version}
         metadata={metadata}>

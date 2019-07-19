@@ -10,7 +10,7 @@ module.exports = `
 <html <%= htmlAttributes %>>
   <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width">
     <%- chunkManifestScript %>
     <% metaAttributes.forEach((metaAttribute) => { %>
       <%- metaAttribute %>

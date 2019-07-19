@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/preset-classic",
-  "version": "2.0.0-alpha.19",
+  "version": "2.0.0-alpha.21",
   "description": "Preset for classic Docusaurus",
   "main": "src/index.js",
   "publishConfig": {
@@ -8,12 +8,14 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/plugin-content-blog": "^2.0.0-alpha.19",
-    "@docusaurus/plugin-content-docs": "^2.0.0-alpha.19",
-    "@docusaurus/plugin-content-pages": "^2.0.0-alpha.19",
-    "@docusaurus/plugin-sitemap": "^2.0.0-alpha.19",
-    "@docusaurus/theme-classic": "^2.0.0-alpha.19",
-    "@docusaurus/theme-search-algolia": "^2.0.0-alpha.19"
+    "@docusaurus/plugin-content-blog": "^2.0.0-alpha.21",
+    "@docusaurus/plugin-content-docs-legacy": "^2.0.0-alpha.21",
+    "@docusaurus/plugin-content-pages": "^2.0.0-alpha.21",
+    "@docusaurus/plugin-sitemap": "^2.0.0-alpha.21",
+    "@docusaurus/theme-classic": "^2.0.0-alpha.21",
+    "@docusaurus/theme-search-algolia": "^2.0.0-alpha.21",
+    "@docusaurus/plugin-google-analytics": "^2.0.0-alpha.21",
+    "@docusaurus/plugin-google-gtag": "^2.0.0-alpha.21"
   },
   "peerDependencies": {
     "@docusaurus/core": "^2.0.0"

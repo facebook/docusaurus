@@ -11,7 +11,7 @@ const fs = require('fs');
 const {encodePath, fileToPath, docuHash} = require('@docusaurus/utils');
 
 const DEFAULT_OPTIONS = {
-  path: 'pages', // Path to data on filesystem, relative to site dir.
+  path: 'src/pages', // Path to data on filesystem, relative to site dir.
   routeBasePath: '', // URL Route.
   include: ['**/*.{js,jsx}'], // Extensions to include.
 };

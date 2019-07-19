@@ -4,7 +4,7 @@
     "packages/*",
     "website",
     "website-1.x",
-    "packages/docusaurus/templates/*"
+    "packages/docusaurus-init/templates/*"
   ],
   "scripts": {
     "start": "yarn tsc && yarn start:v2",
@@ -22,16 +22,18 @@
     "tsc": "lerna run tsc --no-private"
   },
   "devDependencies": {
-    "@babel/core": "^7.4.5",
+    "@babel/core": "^7.5.5",
     "@babel/preset-typescript": "^7.3.3",
-    "@types/escape-string-regexp": "^1.0.0",
-    "@types/express": "^4.16.1",
-    "@types/fs-extra": "7.0.0",
-    "@types/jest": "^24.0.13",
-    "@types/lodash": "^4.14.129",
+    "@types/express": "^4.17.0",
+    "@types/fs-extra": "8.0.0",
+    "@types/inquirer": "^6.0.3",
+    "@types/jest": "^24.0.15",
+    "@types/lodash": "^4.14.136",
+    "@types/lodash.kebabcase": "^4.1.6",
     "@types/node": "^12.0.2",
     "@types/react": "^16.8.18",
     "@types/react-dev-utils": "^9.0.1",
+    "@types/semver": "^6.0.1",
     "@types/shelljs": "^0.8.5",
     "@types/webpack": "^4.4.31",
     "@types/webpack-dev-server": "^3.1.5",
@@ -58,7 +60,7 @@
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
     "rimraf": "^2.6.3",
-    "typescript": "^3.5.0-rc"
+    "typescript": "^3.5.3"
   },
   "lint-staged": {
     "linters": {

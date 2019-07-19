@@ -8,7 +8,12 @@
 import {generate} from '@docusaurus/utils';
 import _ from 'lodash';
 import path from 'path';
-import {CONFIG_FILE_NAME, GENERATED_FILES_DIR_NAME} from '../constants';
+import {
+  BUILD_DIR_NAME,
+  CONFIG_FILE_NAME,
+  GENERATED_FILES_DIR_NAME,
+  THEME_PATH,
+} from '../constants';
 import {loadClientModules} from './client-modules';
 import {loadConfig} from './config';
 import {loadPlugins} from './plugins';
@@ -39,7 +44,7 @@ export async function load(
     `export default ${JSON.stringify(siteConfig, null, 2)};`,
   );
 
-  const outDir = path.resolve(siteDir, 'build');
+  const outDir = path.resolve(siteDir, BUILD_DIR_NAME);
   const {baseUrl} = siteConfig;
 
   const context: LoadContext = {
@@ -72,7 +77,7 @@ export async function load(
   const pluginThemes = _.compact(
     plugins.map(plugin => plugin.getThemePath && plugin.getThemePath()),
   );
-  const userTheme = path.resolve(siteDir, 'theme');
+  const userTheme = path.resolve(siteDir, THEME_PATH);
   const alias = loadThemeAlias([fallbackTheme, ...pluginThemes, userTheme]);
   // Make a fake plugin to resolve aliased theme components.
   plugins.push({

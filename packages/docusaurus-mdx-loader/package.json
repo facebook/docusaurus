@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/mdx-loader",
-  "version": "2.0.0-alpha.19",
+  "version": "2.0.0-alpha.21",
   "description": "Docusaurus Loader for MDX",
   "main": "src/index.js",
   "publishConfig": {
@@ -8,18 +8,18 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@babel/parser": "^7.4.3",
-    "@babel/traverse": "^7.4.3",
-    "@mdx-js/mdx": "^1.0.20",
-    "@mdx-js/react": "^1.0.20",
+    "@babel/parser": "^7.5.5",
+    "@babel/traverse": "^7.5.5",
+    "@mdx-js/mdx": "^1.1.0",
+    "@mdx-js/react": "^1.0.27",
     "github-slugger": "^1.2.1",
     "gray-matter": "^4.0.2",
     "loader-utils": "^1.2.3",
-    "mdast-util-to-string": "^1.0.5",
+    "mdast-util-to-string": "^1.0.6",
     "remark-emoji": "^2.0.2",
-    "remark-slug": "^5.1.1",
+    "remark-slug": "^5.1.2",
     "stringify-object": "^3.3.0",
-    "unist-util-visit": "^1.4.0"
+    "unist-util-visit": "^1.4.1"
   },
   "devDependencies": {
     "remark": "^10.0.1",

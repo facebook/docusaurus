@@ -15,10 +15,10 @@ module.exports = {
   favicon: 'img/docusaurus.ico',
   plugins: [
     [
-      '@docusaurus/plugin-content-docs',
+      '@docusaurus/plugin-content-docs-legacy',
       {
         path: '../docs',
-        sidebarPath: require.resolve('./sidebars.json'),
+        sidebarPath: require.resolve('./sidebars.js'),
       },
     ],
     '@docusaurus/plugin-content-pages',

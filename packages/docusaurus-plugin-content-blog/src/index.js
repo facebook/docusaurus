@@ -359,7 +359,7 @@ module.exports = function(context, opts) {
                 {
                   loader: path.resolve(__dirname, './markdownLoader.js'),
                 },
-              ],
+              ].filter(Boolean),
             },
           ],
         },

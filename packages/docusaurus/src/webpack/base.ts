@@ -10,7 +10,7 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 import path from 'path';
 import TerserPlugin from 'terser-webpack-plugin';
-import {Configuration} from 'webpack';
+import {Configuration, Loader} from 'webpack';
 
 import {Props} from '../server/types';
 import {getBabelLoader, getCacheLoader, getStyleLoaders} from './utils';
@@ -28,12 +28,15 @@ export function createBaseConfig(
     baseUrl,
     generatedFilesDir,
     cliOptions: {cacheLoader},
+    routesPaths,
   } = props;
 
+  const totalPages = routesPaths.length;
   const isProd = process.env.NODE_ENV === 'production';
   return {
     mode: isProd ? 'production' : 'development',
     output: {
+      pathinfo: false,
       path: outDir,
       filename: isProd ? '[name].[chunkhash].js' : '[name].js',
       chunkFilename: isProd ? '[name].[chunkhash].js' : '[name].js',
@@ -43,7 +46,7 @@ export function createBaseConfig(
     performance: {
       hints: false,
     },
-    devtool: !isProd && 'cheap-module-eval-source-map',
+    devtool: isProd ? false : 'cheap-module-eval-source-map',
     resolve: {
       symlinks: true,
       alias: {
@@ -88,6 +91,12 @@ export function createBaseConfig(
         cacheGroups: {
           // disable the built-in cacheGroups
           default: false,
+          common: {
+            name: 'common',
+            chunks: 'all',
+            minChunks: totalPages > 2 ? totalPages * 0.5 : 2,
+            priority: 40,
+          },
           vendor: {
             test: /[\\/]node_modules[\\/]/,
             priority: 30,
@@ -109,13 +118,6 @@ export function createBaseConfig(
             // create chunk regardless of the size of the chunk
             enforce: true,
           },
-          common: {
-            name: 'common',
-            minChunks: 2,
-            priority: 10,
-            reuseExistingChunk: true,
-            enforce: true,
-          },
         },
       },
     },
@@ -132,7 +134,7 @@ export function createBaseConfig(
           use: [
             cacheLoader && getCacheLoader(isServer),
             getBabelLoader(isServer),
-          ].filter(Boolean),
+          ].filter(Boolean) as Loader[],
         },
         {
           test: CSS_REGEX,

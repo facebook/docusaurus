@@ -5,17 +5,18 @@ title: Plugins
 
 Plugins are one of the best ways to add functionality to our Docusaurus. Plugins allow third-party developers to extend or modify the default functionality that Docusaurus provides.
 
-## Installing a Plugin
+## Installing a plugin
 
-A plugin is usually a dependency, so you install them like other packages in node using NPM.
+A plugin is an npm package, so you install them like other npm packages using npm.
 
 ```bash
 yarn add docusaurus-plugin-name
 ```
 
-Then you add it in your site's `docusaurus.config.js` plugin arrays:
+Then you add it in your site's `docusaurus.config.js`'s `plugins` option:
 
 ```jsx
+// docusaurus.config.js
 module.exports = {
   plugins: [
     '@docusaurus/plugin-content-pages',
@@ -34,6 +35,7 @@ module.exports = {
 Docusaurus can also load plugins from your local directory, you can do something like the following:
 
 ```jsx
+// docusaurus.config.js
 const path = require('path');
 
 module.exports = {
@@ -45,7 +47,7 @@ module.exports = {
 
 Plugins are modules which export a function that takes in the context, options and returns a plain JavaScript object that has some properties defined.
 
-For examples, please refer to several official plugins created.
+For examples, please refer to several [official plugins](https://github.com/facebook/docusaurus/tree/master/packages) created.
 
 ```jsx
 const DEFAULT_OPTIONS = {
@@ -119,7 +121,3 @@ module.exports = function(context, opts) {
   };
 };
 ```
-
-#### References
-
-- https://v1.vuepress.vuejs.org/plugin/option-api.html

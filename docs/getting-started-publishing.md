@@ -27,6 +27,7 @@ At this point, you can grab all of the files inside the `website/build` director
 
 * [GitHub Pages](#using-github-pages)
 * [Netlify](#hosting-on-netlify)
+* [Render](#hosting-on-render)
 
 ### Using GitHub Pages
 
@@ -152,7 +153,7 @@ workflows:
 
 Make sure to replace all `<....>` in the `command:` sequence with appropriate values. For `<GIT_USER>`, it should be a GitHub account that has access to push documentation to your GitHub repository. Many times `<GIT_USER>` and `<GITHUB_USERNAME>` will be the same.
 
-**DO NOT** place the actual value of `$GITHUB_TOKEN` in `circle.yml`. We already configured that as an environment variable back in Step 3.
+**DO NOT** place the actual value of `$GITHUB_TOKEN` in `circle.yml`. We already configured that as an environment variable back in Step 5.
 
 > If you want to use SSH for your GitHub repository connection, you can set `USE_SSH=true`. So the above command would look something like: `cd website && npm install && GIT_USER=<GIT_USER> USE_SSH=true npm run publish-gh-pages`.
 
@@ -232,6 +233,33 @@ Steps to configure your Docusaurus-powered site on Netlify.
 1.  Click **Deploy site**
 
 You can also configure Netlify to rebuild on every commit to your repository, or only `master` branch commits.
+
+### Hosting on Render
+
+Render offers free [static site](https://render.com/docs/static-sites) hosting with fully managed SSL, custom domains, a global CDN and continuous auto deploys from your Git repo. Deploy your app in just a few minutes by following these steps.
+
+1. Create a new **Web Service** on Render, and give Render's GitHub app permission to access your Docusaurus repo.
+
+2. Select the branch to deploy. The default is `master`.
+
+2. Enter the following values during creation.
+
+    |  Field  |  Value |
+    | ------- | ----- |
+    | **Environment** | `Static Site` |
+    | **Build Command** | `cd website; yarn install; yarn build` |
+    | **Publish Directory** | `website/build/<projectName>` |
+
+    `projectName` is the value you defined in your `siteConfig.js`.
+
+    ```javascript{7}
+    const siteConfig = {
+      // ...
+      projectName: 'your-project-name',
+      // ...
+    ```
+
+That's it! Your app will be live on your Render URL as soon as the build finishes.
 
 ### Publishing to GitHub Enterprise
 
