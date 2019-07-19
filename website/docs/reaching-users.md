@@ -96,7 +96,6 @@ Note that the file of this image cannot be SVG.
 To add customized SEO, use the `Head` component from `@docusaurus/HEAD`.
 
 ```js
-// your component
 import Head from '@docusaurus/HEAD';
 
 const MySEO = () => (
