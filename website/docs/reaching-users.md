@@ -23,13 +23,15 @@ References
 
 _This section is a work in progress. [Welcoming PRs](https://github.com/facebook/docusaurus/issues/1640)._
 
-<!--
+Docusaurus supports analytics tracking via [Global site tag](https://developers.google.com/gtagjs/). To enable gtag, specify your `trackingID` via `themeConfig` in `docusaurus.config.js`:
 
-Cover actual usage guidelines of adding analytics to sites.
-
-References
----
-- [source code](packages/docusaurus-plugin-google-analytics/src/index.js)
-- [plugins](plugins.md)
-
--->
+```js
+// docusaurus.config.js
+module.exports = {
+  themeConfig: {
+    gtag: {
+      trackingID: 'UA-142857-1',
+    },
+  },
+};
+```
