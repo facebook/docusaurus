@@ -23,7 +23,8 @@ module.exports = {
         items: ['markdown-features', 'sidebar'],
       },
       'blog',
-      'reaching-users',
+      'seo',
+      // 'reaching-users', // add back analytics and search
       'using-plugins',
       'using-themes',
       'deployment',
