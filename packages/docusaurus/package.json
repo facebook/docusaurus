@@ -57,7 +57,7 @@
     "optimize-css-assets-webpack-plugin": "^5.0.3",
     "portfinder": "^1.0.21",
     "postcss-loader": "^3.0.0",
-    "postcss-preset-env": "^6.6.0",
+    "postcss-preset-env": "^6.7.0",
     "react-dev-utils": "^9.0.1",
     "react-helmet": "^6.0.0-beta",
     "react-loadable": "^5.5.0",
