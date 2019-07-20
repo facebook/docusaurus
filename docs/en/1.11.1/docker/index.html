@@ -1,0 +1,154 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Docker · Docusaurus</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="[Docker](https://www.docker.com/) is a tool that enables you to create, deploy, and manage lightweight, stand-alone packages that contain everything needed to run an application. It can help us to avoid conflicting dependencies &amp; unwanted behavior when running Docusaurus."/><meta name="docsearch:version" content="1.11.1"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Docker · Docusaurus"/><meta property="og:type" content="website"/><meta property="og:url" content="https://docusaurus.io/"/><meta property="og:description" content="[Docker](https://www.docker.com/) is a tool that enables you to create, deploy, and manage lightweight, stand-alone packages that contain everything needed to run an application. It can help us to avoid conflicting dependencies &amp; unwanted behavior when running Docusaurus."/><meta property="og:image" content="https://docusaurus.io/img/docusaurus.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://docusaurus.io/img/docusaurus.png"/><link rel="shortcut icon" href="/img/docusaurus.ico"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css"/><link rel="alternate" type="application/atom+xml" href="https://docusaurus.io/blog/atom.xml" title="Docusaurus Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://docusaurus.io/blog/feed.xml" title="Docusaurus Blog RSS Feed"/><script>
+              (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+              (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+              m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+              })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+              ga('create', 'UA-44373548-31', 'auto');
+              ga('send', 'pageview');
+            </script><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script><script type="text/javascript" src="/js/code-blocks-buttons.js"></script><script src="https://unpkg.com/vanilla-back-to-top@7.1.14/dist/vanilla-back-to-top.min.js"></script><script>
+        document.addEventListener('DOMContentLoaded', function() {
+          addBackToTop(
+            {"zIndex":100}
+          )
+        });
+        </script><script src="/js/scrollSpy.js"></script><link rel="stylesheet" href="/css/prism.css"/><link rel="stylesheet" href="/css/main.css"/><script src="/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/en"><img class="logo" src="/img/docusaurus.svg" alt="Docusaurus"/><h2 class="headerTitleWithLogo">Docusaurus</h2></a><a href="/en/versions"><h3>1.11.1</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/docs/en/1.11.1/installation" target="_self">Docs</a></li><li class=""><a href="/docs/en/next/tutorial-setup" target="_self">Tutorial</a></li><li class=""><a href="/en/users" target="_self">Users</a></li><li class=""><a href="/blog/" target="_self">Blog</a></li><li class=""><a href="https://github.com/facebook/docusaurus" target="_self">GitHub</a></li><span><li><a id="languages-menu" href="#"><img class="languages-icon" src="/img/language.svg" alt="Languages icon"/>English</a><div id="languages-dropdown" class="hide"><ul id="languages-dropdown-items"><li><a href="/docs/es-ES/1.11.1/docker">Español</a></li><li><a href="/docs/ro/1.11.1/docker">Română</a></li><li><a href="/docs/tr/1.11.1/docker">Türkçe</a></li><li><a href="/docs/zh-CN/1.11.1/docker">简体中文</a></li><li><a href="https://crowdin.com/project/docusaurus" target="_blank" rel="noreferrer noopener">Help Us Translate</a></li></ul></div></li><script>
+        const languagesMenuItem = document.getElementById("languages-menu");
+        const languagesDropDown = document.getElementById("languages-dropdown");
+        languagesMenuItem.addEventListener("click", function(event) {
+          event.preventDefault();
+
+          if (languagesDropDown.className == "hide") {
+            languagesDropDown.className = "visible";
+          } else {
+            languagesDropDown.className = "hide";
+          }
+        });
+      </script></span><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>Getting Started</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">Getting Started<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/docs/en/1.11.1/installation">Installation</a></li><li class="navListItem"><a class="navItem" href="/docs/en/1.11.1/site-preparation">Site Preparation</a></li><li class="navListItem"><a class="navItem" href="/docs/en/1.11.1/site-creation">Creating your site</a></li><li class="navListItem"><a class="navItem" href="/docs/en/1.11.1/publishing">Publishing your site</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/docs/en/1.11.1/docker">Docker</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">Guides<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/docs/en/1.11.1/adding-blog">Adding a Blog</a></li><li class="navListItem"><a class="navItem" href="/docs/en/1.11.1/custom-pages">Custom Pages</a></li><li class="navListItem"><a class="navItem" href="/docs/en/1.11.1/search">Enabling Search</a></li><li class="navListItem"><a class="navItem" href="/docs/en/1.11.1/navigation">Navigation and Sidebars</a></li><li class="navListItem"><a class="navItem" href="/docs/en/1.11.1/translation">Translations &amp; Localization</a></li><li class="navListItem"><a class="navItem" href="/docs/en/1.11.1/versioning">Versioning</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">API<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/docs/en/1.11.1/commands">CLI Commands</a></li><li class="navListItem"><a class="navItem" href="/docs/en/1.11.1/doc-markdown">Markdown Features</a></li><li class="navListItem"><a class="navItem" href="/docs/en/1.11.1/api-pages">Pages and Styles</a></li><li class="navListItem"><a class="navItem" href="/docs/en/1.11.1/site-config">siteConfig.js</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/facebook/docusaurus/edit/master/docs/getting-started-docker.md" target="_blank" rel="noreferrer noopener">Edit</a><h1 class="postHeaderTitle">Docker</h1></header><article><div><span><p><a href="https://www.docker.com/">Docker</a> is a tool that enables you to create, deploy, and manage lightweight, stand-alone packages that contain everything needed to run an application. It can help us to avoid conflicting dependencies &amp; unwanted behavior when running Docusaurus.</p>
+<h2><a class="anchor" aria-hidden="true" id="run-the-local-web-server-in-docker"></a><a href="#run-the-local-web-server-in-docker" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Run the local web server in docker</h2>
+<p>Ensure you have previously installed <a href="https://www.docker.com/get-started">docker</a>.</p>
+<p>To run the local web server:</p>
+<ol>
+<li><p><strong>Build the docker image</strong> -- Enter the folder where you have Docusaurus installed. Run <code>docker build -t docusaurus-doc .</code></p>
+<p>Once the build phase finishes, you can verify the image exists by running <code>docker images</code>.</p>
+<blockquote>
+<p>We now include a <code>Dockerfile</code> when you install Docusaurus.</p>
+</blockquote></li>
+<li><p><strong>Run the Docusaurus container</strong> -- To start docker run <code>docker run --rm -p 3000:3000 docusaurus-doc</code></p>
+<p>This will start a docker container with the image <code>docusaurus-doc</code>. To see more detailed container info run <code>docker ps</code> .</p></li>
+</ol>
+<h2><a class="anchor" aria-hidden="true" id="use-docker-compose"></a><a href="#use-docker-compose" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Use docker-compose</h2>
+<p>We can also use <code>docker-compose</code> to configure our application. This feature of docker allows you to run the web server and any additional services with a single command.</p>
+<blockquote>
+<p>Compose is a tool for defining and running multi-container Docker applications. With Compose, you use a YAML file to configure your application’s services. Then, with a single command, you create and start all the services from your configuration.</p>
+</blockquote>
+<p>Using Compose is a three-step process:</p>
+<ol>
+<li><p>Define your app’s environment with a Dockerfile so it can be reproduced anywhere.</p></li>
+<li><p>Define the services that make up your app in <code>docker-compose.yml</code> so they can be run together in an isolated environment.</p></li>
+<li><p>Run <code>docker-compose up</code> and Compose starts and runs your entire app.</p></li>
+</ol>
+<p>We include a basic <code>docker-compose.yml</code> in your project:</p>
+<pre><code class="hljs css language-yml"><span class="hljs-attr">version:</span> <span class="hljs-string">"3"</span>
+
+<span class="hljs-attr">services:</span>
+<span class="hljs-attr">  docusaurus:</span>
+<span class="hljs-attr">    build:</span> <span class="hljs-string">.</span>
+<span class="hljs-attr">    ports:</span>
+<span class="hljs-bullet">      -</span> <span class="hljs-number">3000</span><span class="hljs-string">:3000</span>
+<span class="hljs-bullet">      -</span> <span class="hljs-number">35729</span><span class="hljs-string">:35729</span>
+<span class="hljs-attr">    volumes:</span>
+<span class="hljs-bullet">      -</span> <span class="hljs-string">./docs:/app/docs</span>
+<span class="hljs-bullet">      -</span> <span class="hljs-string">./website/blog:/app/website/blog</span>
+<span class="hljs-bullet">      -</span> <span class="hljs-string">./website/core:/app/website/core</span>
+<span class="hljs-bullet">      -</span> <span class="hljs-string">./website/i18n:/app/website/i18n</span>
+<span class="hljs-bullet">      -</span> <span class="hljs-string">./website/pages:/app/website/pages</span>
+<span class="hljs-bullet">      -</span> <span class="hljs-string">./website/static:/app/website/static</span>
+<span class="hljs-bullet">      -</span> <span class="hljs-string">./website/sidebars.json:/app/website/sidebars.json</span>
+<span class="hljs-bullet">      -</span> <span class="hljs-string">./website/siteConfig.js:/app/website/siteConfig.js</span>
+<span class="hljs-attr">    working_dir:</span> <span class="hljs-string">/app/website</span>
+
+</code></pre>
+<p>To run a local web server with <code>docker-compose</code> run <code>docker-compose up</code>.</p>
+<p>To build static HTML pages for publishing run <code>docker-compose run docusaurus bash -c 'yarn publish-gh-pages'</code></p>
+</span></div></article></div><div class="docLastUpdate"><em>Last updated on 2019-5-17 by Hongarc</em></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/en/1.11.1/publishing"><span class="arrow-prev">← </span><span>Publishing your site</span></a><a class="docs-next button" href="/docs/en/1.11.1/adding-blog"><span>Adding a Blog</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#run-the-local-web-server-in-docker">Run the local web server in docker</a></li><li><a href="#use-docker-compose">Use docker-compose</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/docusaurus_monochrome.svg" alt="Docusaurus" width="66" height="58"/></a><div class="footerSection"><h5>Docs</h5><a href="
+                /docs/en/installation">Getting Started</a><a href="
+                /docs/en/versioning">Versioning</a><a href="
+                /docs/en/translation">Localization</a><a href="
+                /docs/en/search">Adding Search</a></div><div class="footerSection"><h5>Community</h5><a href="/en/help">Help</a><a href="/en/users">User Showcase</a><a href="/en/about-slash">About</a></div><div class="footerSection"><h5>Social</h5><div class="social"><a class="github-button" href="https://github.com/facebook/docusaurus" data-count-href="https://github.com/facebook/docusaurus/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">docusaurus</a></div><div class="social"><a href="https://twitter.com/docusaurus" class="twitter-follow-button">Follow @docusaurus</a></div><div class="social"><div class="fb-like" data-href="https://docusaurus.io" data-colorscheme="dark" data-layout="standard" data-share="true" data-width="225" data-show-faces="false"></div></div></div></section><a href="https://opensource.facebook.com/" target="_blank" rel="noreferrer noopener" class="fbOpenSource"><img src="/img/oss_logo.png" alt="Facebook Open Source" width="170" height="45"/></a><section class="copyright"><span>Copyright © 2019 Facebook Inc.</span> Landing images by <a href="https://undraw.co/">unDraw</a>.</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>window.fbAsyncInit = function() {FB.init({appId:'199138890728411',xfbml:true,version:'v2.7'});};(function(d, s, id){var js, fjs = d.getElementsByTagName(s)[0];if (d.getElementById(id)) {return;}js = d.createElement(s); js.id = id;js.src = '//connect.facebook.net/en_US/sdk.js';fjs.parentNode.insertBefore(js, fjs);}(document, 'script','facebook-jssdk'));
+                </script><script>window.twttr=(function(d,s, id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return t;js=d.createElement(s);js.id=id;js.src='https://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js, fjs);t._e = [];t.ready = function(f) {t._e.push(f);};return t;}(document, 'script', 'twitter-wjs'));</script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                
+                apiKey: '3eb9507824b8be89e7a199ecaa1a9d2c',
+                indexName: 'docusaurus',
+                inputSelector: '#search_input_react',
+                algoliaOptions: {"facetFilters":["language:en","version:1.11.1"]}
+              });
+            </script></body></html>
