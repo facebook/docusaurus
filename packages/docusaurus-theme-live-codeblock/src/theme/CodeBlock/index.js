@@ -7,21 +7,12 @@
 
 import React, {useEffect, useState, useRef} from 'react';
 import classnames from 'classnames';
-import LoadableVisibility from 'react-loadable-visibility/react-loadable';
 import Highlight, {defaultProps} from 'prism-react-renderer';
 import nightOwlTheme from 'prism-react-renderer/themes/nightOwl';
 import Clipboard from 'clipboard';
-import Loading from '@theme/Loading';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import Playground from '@theme/Playground';
 import styles from './styles.module.css';
-
-/* Live playground is not small in size, lazy load it is better */
-const Playground = LoadableVisibility({
-  loader: () => import('@theme/Playground'),
-  loading: Loading,
-  modules: ['@theme/Playground'],
-  webpack: () => [require.resolveWeak('@theme/Playground')],
-});
 
 export default ({children, className: languageClassName, live, ...props}) => {
   const {
