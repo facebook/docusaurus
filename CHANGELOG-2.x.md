@@ -2,7 +2,16 @@
 
 ## Unreleased
 
-- Add missing dependencies on @docusaurus/preset-classic
+## 2.0.0-alpha.22
+
+- Add missing dependencies on `@docusaurus/preset-classic`
+- New plugin `@docusaurus/plugin-ideal-image` to generate an almost ideal image (responsive, lazy-loading, and low quality placeholder)
+- Better Twitter/discord image preview. Previously the size is too zoomed
+- Allow prism syntax highlighting theme customization. Refer to https://v2.docusaurus.io/docs/markdown-features#syntax-highlighting
+- CSS is now autoprefixed using postcss
+- Faster, lighter webpack bundle size
+- `@docusaurus/theme-live-codeblock` is now much smaller in size and no longer only load on viewport
+- Blog markdown files now support using the id field to specify the path
 
 ## 2.0.0-alpha.21
 
@@ -11,9 +20,9 @@
 ## 2.0.0-alpha.20
 
 - Add copy codeblock button
-- Added Google analytics and Google gtag plugins.
-- Moved source components to `/src`. Please create a `website/src` directory and move your `/pages` and `/theme` code into it. This is to make it easier to integrate your website with external build/static analysis tooling (you can now just pass in `src/**/*.js` as the path to process).
-- Added more documentation thanks to @wgao19.
+- Add Google analytics and Google gtag plugins.
+- Move source components to `/src`. Please create a `website/src` directory and move your `/pages` and `/theme` code into it. This is to make it easier to integrate your website with external build/static analysis tooling (you can now just pass in `src/**/*.js` as the path to process).
+- Adde more documentation thanks to @wgao19.
 - Deprecate the current docs plugin. The docs plugin as of 2.0.0-alpha.19 is heavily based on V1 specifications and we intend to create a better one that fixes some of the inconsistencies in V1. If you have swizzled any doc components, you will have to update their names. You are highly encourages to not swizzle the legacy doc components until we have completed the new docs plugin.
 - Separate v2 init command to new package @docusaurus/init
 - Render 404.html page
@@ -28,11 +37,11 @@
 
 - Add a sensible default for browserslist config.
 - UI
-  - Added sun and moon emoji to the dark mode toggle.
+  - Add sun and moon emoji to the dark mode toggle.
   - Mobile responsive menu.
   - Right table of contents for docs is now sticky.
 - Plugins
-  - Changed plugin definitions from classes to functions. Refer to the new plugin docs.
+  - Change plugin definitions from classes to functions. Refer to the new plugin docs.
   - Implement Clients module API.
   - Change format within `docusaurus.config.js` to be like presets.
 - Deps
@@ -68,7 +77,7 @@ presets: [
 ### `siteConfig.js` changes
 
 - `siteConfig.js` renamed to `docusaurus.config.js`.
-- Removed the following config options:
+- Remove the following config options:
   - `docsUrl`. Use the plugin option on `docusaurus-plugin-content-docs` instead.
   - `customDocsPath`. Use the plugin option on `docusaurus-plugin-content-docs` instead.
   - `sidebars.json` now has to be explicitly loaded by users and passed into the the plugin option on `docusaurus-plugin-content-docs`.
@@ -96,8 +105,10 @@ themeConfig: {
 }
 ```
 
-# Additions
+# Migration Guide
+
+_Work in Progress_
 
 ### Presets
 
-- Added presets for plugins that follow the [Babel preset convention](https://babeljs.io/docs/en/presets).
+- Add presets for plugins that follow the [Babel preset convention](https://babeljs.io/docs/en/presets).
