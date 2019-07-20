@@ -21,9 +21,9 @@ module.exports = function(context, options) {
         module: {
           rules: [
             {
-              test: /\.(png|jpe?g|gif)$/,
+              test: /\.(png|jpe?g|gif)$/i,
               use: [
-                'lqip-loader',
+                '@endiliey/lqip-loader',
                 {
                   loader: '@endiliey/responsive-loader',
                   options: {
@@ -31,7 +31,9 @@ module.exports = function(context, options) {
                     disable: !isProd,
                     // eslint-disable-next-line
                     adapter: require('@endiliey/responsive-loader/sharp'),
-                    name: 'ideal-img/[name].[hash:hex:7].[width].[ext]',
+                    name: isProd
+                      ? 'ideal-img/[name].[hash:hex:7].[width].[ext]'
+                      : 'ideal-img/[name].[width].[ext]',
                     ...options,
                   },
                 },

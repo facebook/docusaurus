@@ -86,37 +86,15 @@ export function createBaseConfig(
           ]
         : undefined,
       splitChunks: {
-        maxInitialRequests: Infinity,
-        maxAsyncRequests: Infinity,
+        // Since the chunk name includes all origin chunk names it’s recommended for production builds with long term caching to NOT include [name] in the filenames
+        name: false,
         cacheGroups: {
           // disable the built-in cacheGroups
           default: false,
           common: {
             name: 'common',
-            chunks: 'all',
             minChunks: totalPages > 2 ? totalPages * 0.5 : 2,
             priority: 40,
-          },
-          vendor: {
-            test: /[\\/]node_modules[\\/]/,
-            priority: 30,
-            minSize: 250000,
-            name(module) {
-              // get the package name. E.g. node_modules/packageName/not/this/part
-              const packageName = module.context.match(
-                /[\\/]node_modules[\\/](.*?)([\\/]|$)/,
-              )[1];
-
-              // some servers don't like @ symbols as filename
-              return `${packageName.replace('@', '')}`;
-            },
-          },
-          vendors: {
-            test: /[\\/]node_modules[\\/]/,
-            name: 'vendors',
-            priority: 20,
-            // create chunk regardless of the size of the chunk
-            enforce: true,
           },
         },
       },
@@ -140,7 +118,7 @@ export function createBaseConfig(
           test: CSS_REGEX,
           exclude: CSS_MODULE_REGEX,
           use: getStyleLoaders(isServer, {
-            importLoaders: 0,
+            importLoaders: 1,
             sourceMap: !isProd,
           }),
         },
@@ -150,7 +128,7 @@ export function createBaseConfig(
           test: CSS_MODULE_REGEX,
           use: getStyleLoaders(isServer, {
             modules: true,
-            importLoaders: 0,
+            importLoaders: 1,
             localIdentName: `[local]_[hash:base64:8]`,
             sourceMap: !isProd,
             exportOnlyLocals: isServer,
