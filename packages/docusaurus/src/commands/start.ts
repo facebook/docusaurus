@@ -24,7 +24,7 @@ import {CLIOptions} from '../server/types';
 import {CONFIG_FILE_NAME, STATIC_DIR_NAME, DEFAULT_PORT} from '../constants';
 import {createClientConfig} from '../webpack/client';
 import {applyConfigureWebpack} from '../webpack/utils';
-import fs from 'fs-extra'
+import fs from 'fs-extra';
 
 function getHost(reqHost: string | undefined): string {
   return reqHost || 'localhost';
