@@ -5,13 +5,12 @@
 ## 2.0.0-alpha.22
 
 - Add missing dependencies on `@docusaurus/preset-classic`
-- Image optimization
-  - Add webpack image loader for images
-  - Add `@docusaurus/IdealImage` component for serving optimized images tailored to the device
-- Better Twitter image preview
-- Allow syntax highlighting customization
+- New plugin `@docusaurus/plugin-ideal-image` to generate an almost ideal image (responsive, lazy-loading, and low quality placeholder)
+- Better Twitter/discord image preview. Previously the size is too zoomed
+- Allow prism syntax highlighting theme customization. Refer to https://v2.docusaurus.io/docs/markdown-features#syntax-highlighting
 - CSS is now autoprefixed using postcss
-- Lighter bundle size
+- Faster, lighter webpack bundle size
+- `@docusaurus/theme-live-codeblock` is now much smaller in size and no longer only load on viewport
 - Blog markdown files now support using the id field to specify the path
 
 ## 2.0.0-alpha.21
