@@ -1,18 +1,43 @@
 ---
 id: seo
 title: SEO
-keywods:
+keywords:
   - docusaurus
-  - svg
-description: Adding SEO to docs
-image: 'https://i.imgur.com/mErPwqL.png'
+  - seo
 ---
 
-SEO helps your users reach your site. Page-specific SEO helps your users to have a higher chance of finding answers to their questions quickly.
+Docusaurus takes care of both site level SEO and page specific SEO based on the content of your site.
 
-## Site SEO
+Site SEO helps users reach your site. Page specific SEO helps your users find answers to their questions quickly.
 
-Your site title and logo are by default used in each page of your docs.
+## Site level SEO
+
+Docusaurus' classic theme generates the essential meta tags for SEO using the site meta information you provide in `docusaurus.config.js`. For site level SEO to work correctly, make sure that you provide the following fields correctly:
+
+```js
+// docusaurus.config.js
+module.exports = {
+  /**
+   * the following two fields are used for title as well as image alt
+   * - `${title} · ${tagline}`
+   * - `Image for ${title} · ${tagline}`
+   */
+  title: 'Docusaurus',
+  tagline: 'Easy to Maintain Open Source Documentation Websites',
+  /**
+   * The following fields are used for `og:image` and `twitter:image`
+   */
+  baseUrl: '/',
+  siteUrl: 'https://docusaurus.io',
+  themeConfig: {
+    /**
+     * relative to your site's "static" directory
+     * cannot be svg
+     */
+    image: 'img/docusaurus.png',
+  },
+};
+```
 
 ## Page specific SEO
 
@@ -23,8 +48,8 @@ To add SEO to your doc, use the following fields in your doc's front matter:
 keywords:
   - docs
   - docusaurus
-description: 'How do I find you when I cannot solve this problem'
-image: 'https://i.imgur.com/mErPwqL.png'
+description: How do I find you when I cannot solve this problem
+image: https://i.imgur.com/mErPwqL.png
 ---
 
 ```
@@ -50,3 +75,21 @@ Consider putting key information about this page, error messages, searchable ter
 `image` is used by search engines and Twitter for a cover or thumbnail image when displaying the link to your post.
 
 Note that the file of this image cannot be SVG.
+
+## Customize SEO
+
+To add customized SEO, use the `Head` component from `@docusaurus/Head`.
+
+```js
+import Head from '@docusaurus/Head';
+
+const MySEO = () => (
+  <>
+    <Head>
+      <meta charSet="utf-8" />
+      <meta httpEquiv="x-ua-compatible" content="ie=edge" />
+      <meta name="viewport" content="width=device-width" />
+    </Head>
+  </>
+);
+```
