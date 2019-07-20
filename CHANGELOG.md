@@ -1177,7 +1177,8 @@ N/A
   - Blog
   - Documentation
 
-[unreleased]: https://github.com/facebook/Docusaurus/compare/v1.11.1...HEAD
+[unreleased]: https://github.com/facebook/Docusaurus/compare/v1.12.0...HEAD
+[1.12.0]: https://github.com/facebook/Docusaurus/compare/v1.11.1...v1.12.0
 [1.11.1]: https://github.com/facebook/Docusaurus/compare/v1.11.0...v1.11.1
 [1.11.0]: https://github.com/facebook/Docusaurus/compare/v1.10.0...v1.11.0
 [1.10.0]: https://github.com/facebook/Docusaurus/compare/v1.9.0...v1.10.0
