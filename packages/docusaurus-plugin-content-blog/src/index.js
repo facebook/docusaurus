@@ -80,12 +80,12 @@ module.exports = function(context, opts) {
           const {frontMatter, excerpt} = parse(fileString);
 
           blogPosts.push({
-            id: blogFileName,
+            id: frontMatter.id || blogFileName,
             metadata: {
               permalink: normalizeUrl([
                 baseUrl,
                 routeBasePath,
-                fileToUrl(blogFileName),
+                frontMatter.id || fileToUrl(blogFileName),
               ]),
               source,
               description: frontMatter.description || excerpt,
