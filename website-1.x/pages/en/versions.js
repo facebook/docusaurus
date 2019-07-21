@@ -80,7 +80,10 @@ function Versions(props) {
                 version =>
                   version !== latestVersion && (
                     <tr key={version}>
-                      <th>{version}</th>
+                      <th>
+                        {version === versions[versions.length - 1] ? '<=' : ''}
+                        {version}
+                      </th>
                       <td>
                         <a
                           href={`${siteConfig.baseUrl}${siteConfig.docsUrl}/${
