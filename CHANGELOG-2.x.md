@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Fix docusaurus route config generation for certain edge case
+
 ## 2.0.0-alpha.22
 
 - Add missing dependencies on `@docusaurus/preset-classic`
