@@ -41,9 +41,9 @@ export async function loadRoutes(pluginsRouteConfigs: RouteConfig[]) {
       exact,
     } = routeConfig;
 
-    if (!routePath || !component) {
+    if (!_.isString(routePath) || !component) {
       throw new Error(
-        `Invalid routeConfig (Path and component is required) \n${JSON.stringify(
+        `Invalid routeConfig (Path must be a string and component is required) \n${JSON.stringify(
           routeConfig,
         )}`,
       );
