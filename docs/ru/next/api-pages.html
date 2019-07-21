@@ -1,0 +1,274 @@
+<!DOCTYPE html><html lang="ru"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Страницы и стили · Docusaurus</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="Docusaurus предоставляет поддержку создания страниц в виде компонентов React в каталоге `website/pages`, такие страницы будут иметь те же шапку, футер и стили, что и на всем сайте."/><meta name="docsearch:version" content="next"/><meta name="docsearch:language" content="ru"/><meta property="og:title" content="Страницы и стили · Docusaurus"/><meta property="og:type" content="website"/><meta property="og:url" content="https://docusaurus.io/"/><meta property="og:description" content="Docusaurus предоставляет поддержку создания страниц в виде компонентов React в каталоге `website/pages`, такие страницы будут иметь те же шапку, футер и стили, что и на всем сайте."/><meta property="og:image" content="https://docusaurus.io/img/docusaurus.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://docusaurus.io/img/docusaurus.png"/><link rel="shortcut icon" href="/img/docusaurus.ico"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css"/><link rel="alternate" type="application/atom+xml" href="https://docusaurus.io/blog/atom.xml" title="Docusaurus Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://docusaurus.io/blog/feed.xml" title="Docusaurus Blog RSS Feed"/><script>
+              (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+              (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+              m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+              })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+              ga('create', 'UA-44373548-31', 'auto');
+              ga('send', 'pageview');
+            </script><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script><script type="text/javascript" src="/js/code-blocks-buttons.js"></script><script src="https://unpkg.com/vanilla-back-to-top@7.1.14/dist/vanilla-back-to-top.min.js"></script><script>
+        document.addEventListener('DOMContentLoaded', function() {
+          addBackToTop(
+            {"zIndex":100}
+          )
+        });
+        </script><script src="/js/scrollSpy.js"></script><link rel="stylesheet" href="/css/prism.css"/><link rel="stylesheet" href="/css/main.css"/><script src="/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/ru"><img class="logo" src="/img/docusaurus.svg" alt="Docusaurus"/><h2 class="headerTitleWithLogo">Docusaurus</h2></a><a href="/ru/versions"><h3>next</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/docs/ru/next/installation" target="_self">Документация</a></li><li class=""><a href="/docs/ru/next/tutorial-setup" target="_self">Tutorial</a></li><li class=""><a href="/ru/users" target="_self">Пользователи</a></li><li class=""><a href="/blog/" target="_self">Блог</a></li><li class=""><a href="https://github.com/facebook/docusaurus" target="_self">GitHub</a></li><span><li><a id="languages-menu" href="#"><img class="languages-icon" src="/img/language.svg" alt="Languages icon"/>Русский</a><div id="languages-dropdown" class="hide"><ul id="languages-dropdown-items"><li><a href="/docs/en/next/api-pages">English</a></li><li><a href="/docs/fr/next/api-pages">Français</a></li><li><a href="/docs/ko/next/api-pages">한국어</a></li><li><a href="/docs/pt-BR/next/api-pages">Português (Brasil)</a></li><li><a href="/docs/ro/next/api-pages">Română</a></li><li><a href="/docs/zh-CN/next/api-pages">简体中文</a></li><li><a href="https://crowdin.com/project/docusaurus" target="_blank" rel="noreferrer noopener">Помочь с переводом</a></li></ul></div></li><script>
+        const languagesMenuItem = document.getElementById("languages-menu");
+        const languagesDropDown = document.getElementById("languages-dropdown");
+        languagesMenuItem.addEventListener("click", function(event) {
+          event.preventDefault();
+
+          if (languagesDropDown.className == "hide") {
+            languagesDropDown.className = "visible";
+          } else {
+            languagesDropDown.className = "hide";
+          }
+        });
+      </script></span><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>API</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">Начало работы<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/docs/ru/next/installation">Установка</a></li><li class="navListItem"><a class="navItem" href="/docs/ru/next/site-preparation">Настройка сайта</a></li><li class="navListItem"><a class="navItem" href="/docs/ru/next/site-creation">Создание вашего сайта</a></li><li class="navListItem"><a class="navItem" href="/docs/ru/next/publishing">Публикация вашего сайта</a></li><li class="navListItem"><a class="navItem" href="/docs/ru/next/docker">Docker</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">Руководство<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/docs/ru/next/adding-blog">Добавление блога</a></li><li class="navListItem"><a class="navItem" href="/docs/ru/next/custom-pages">Пользовательские страницы</a></li><li class="navListItem"><a class="navItem" href="/docs/ru/next/search">Включение поиска</a></li><li class="navListItem"><a class="navItem" href="/docs/ru/next/navigation">Навигация и боковые панели</a></li><li class="navListItem"><a class="navItem" href="/docs/ru/next/translation">Перевод и локализация</a></li><li class="navListItem"><a class="navItem" href="/docs/ru/next/versioning">Версионирование</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">API<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/docs/ru/next/commands">Команды CLI</a></li><li class="navListItem"><a class="navItem" href="/docs/ru/next/doc-markdown">Особенности разметки Markdown в Docusaurus</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/docs/ru/next/api-pages">Страницы и стили</a></li><li class="navListItem"><a class="navItem" href="/docs/ru/next/site-config">siteConfig.js</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://crowdin.com/project/docusaurus/ru" target="_blank" rel="noreferrer noopener">Translate</a><h1 class="postHeaderTitle">Страницы и стили</h1></header><article><div><span><p>Docusaurus предоставляет поддержку создания страниц в виде компонентов React в каталоге <code>website/pages</code>, такие страницы будут иметь те же шапку, футер и стили, что и на всем сайте.</p>
+<h2><a class="anchor" aria-hidden="true" id="предоставляемые-свойства"></a><a href="#предоставляемые-свойства" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Предоставляемые свойства</h2>
+<p>Docusaurus предоставляет настройки из вашего файла <a href="/docs/ru/next/site-config">siteConfig.js</a> как свойство <code>config</code>. Таким образом, внутри компонента React можно получить доступ к <code>baseUrl</code> или <code>title</code> через это свойство.</p>
+<p>Пример</p>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">const</span> React = <span class="hljs-built_in">require</span>(<span class="hljs-string">'react'</span>);
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyPage</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+  render() {
+    <span class="hljs-keyword">const</span> siteConfig = <span class="hljs-keyword">this</span>.props.config;
+    <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>{siteConfig.title}<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>;
+  }
+}
+
+<span class="hljs-built_in">module</span>.exports = MyPage;
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="url-адреса-страниц"></a><a href="#url-адреса-страниц" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>URL-адреса страниц</h2>
+<p>Любые файлы <code>.js</code> в каталоге <code>website/pages</code> будут трансформированы в статические файлы HTML, используя путь к файлу после <code>pages</code>. Файлы в каталоге <code>website/pages/en</code> также будут скопированы в <code>pages</code> и ПЕРЕЗАПИШУТ любые файлы с теми же именами в <code>pages</code>. Например, страницу для файла <code>website/pages/en/help.js</code> можно будет получить по URL-адресу <code>${baseUrl}en/help.js</code>, а также по URL <code>${baseUrl}help.js</code>, где <code>${baseUrl}</code> это поле <code>baseUrl</code>, указанное в файле <a href="/docs/ru/next/site-config">siteConfig.js</a>.</p>
+<h2><a class="anchor" aria-hidden="true" id="заголовки-страниц"></a><a href="#заголовки-страниц" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Заголовки страниц</h2>
+<p>По-умолчанию, заголовок вашей страницы имеет вид <code>&lt;title&gt; • &lt;tagline&gt;</code>, где <code>title</code> и <code>tagline</code> - поля, указанные в <a href="/docs/ru/next/site-config"><code>siteConfig.js</code></a>. Вы можете исключить слоган из заголовка, установив поле <code>disableTitleTagline</code> равным <code>true</code>. Если вы хотите указать особый заголовок для своих пользовательских страниц, добавьте свойство <code>title</code> в экспортируемый компонент React.</p>
+<p>Например:</p>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">const</span> React = <span class="hljs-built_in">require</span>(<span class="hljs-string">'react'</span>);
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyPage</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+  render() {
+    <span class="hljs-comment">// ... ваш код разметки</span>
+  }
+}
+
+MyPage.title = <span class="hljs-string">'My Custom Title'</span>;
+
+<span class="hljs-built_in">module</span>.exports = MyPage;
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="описания-страниц"></a><a href="#описания-страниц" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Описания страниц</h2>
+<p>По-умолчанию, описание вашей страницы определено параметром <code>tagline</code> в <a href="/docs/ru/next/site-config"><code>siteConfig.js</code></a>. Если вы хотите указать особое описание для своих пользовательских страниц, добавьте свойство <code>description</code> в экспортируемый компонент React.</p>
+<p>Например:</p>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">const</span> React = <span class="hljs-built_in">require</span>(<span class="hljs-string">'react'</span>);
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyPage</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+  render() {
+    <span class="hljs-comment">// ... ваш код разметки</span>
+  }
+}
+
+MyPage.description = <span class="hljs-string">'My Custom Description'</span>;
+
+<span class="hljs-built_in">module</span>.exports = MyPage;
+</code></pre>
+<p>Данное свойство будет трансформировано в тег metadata description в созданном HTML.</p>
+<pre><code class="hljs css language-html"><span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">property</span>=<span class="hljs-string">"og:description"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"My Custom Description"</span>/&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"description"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"My Custom Description"</span>/&gt;</span>
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="пути-к-подключаемым-компонентам"></a><a href="#пути-к-подключаемым-компонентам" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Пути к подключаемым компонентам</h2>
+<p>Docusaurus предоставляет несколько полезных компонентов React для создания пользовательских страниц, найти эти компоненты можно в модуле <code>CompLibrary</code>. Этот модуль предоставляется как часть Docusaurus в <code>node_modules/docusaurus</code>, поэтому для доступа к нему, страницы из каталога <code>pages</code> временно копируются в <code>node_modules/docusaurus</code> при переработке их в статический HTML. Как видно из файлов-примеров, это означает, что пользовательская страница <code>pages/en/index.js</code> использует путь <code>&quot;../../core/CompLibrary.js&quot;</code> для подключения предоставленных компонентов.</p>
+<p>Это означает, что если вы желаете использовать модуль <code>CompLibrary</code>, вам следует убедиться, что путь указан корректно. Например, для страницы <code>page/mypage.js</code> этот путь будет иметь вид <code>&quot;../core/CompLibrary.js&quot;</code>.</p>
+<p>Если вы желаете использовать свои собственные компоненты в каталоге website, используйте <code>process.cwd()</code>, который обращается к каталогу <code>website</code> для создания трубемых путей. Например, если вы добавите компонент в <code>website/core/mycomponent.js</code>, вы можете использовать путь <code>&quot;process.cwd() + /core/mycomponent.js&quot;</code>.</p>
+<h2><a class="anchor" aria-hidden="true" id="предоставляемые-компоненты"></a><a href="#предоставляемые-компоненты" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Предоставляемые компоненты</h2>
+<p>Docusaurus предоставляет следующие компоненты в <code>CompLibrary</code>:</p>
+<h3><a class="anchor" aria-hidden="true" id="complibrarymarkdownblock"></a><a href="#complibrarymarkdownblock" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>CompLibrary.MarkdownBlock</code></h3>
+<p>Компонент React, который анализирует разметку markdown и трансформирует её в HTML.</p>
+<p>Например:</p>
+<pre><code class="hljs css language-jsx"><span class="token keyword">const</span> MarkdownBlock <span class="token operator">=</span> CompLibrary<span class="token punctuation">.</span>MarkdownBlock<span class="token punctuation">;</span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">MarkdownBlock</span></span><span class="token punctuation">></span></span>
+  <span class="token punctuation">[</span>Синтаксис Markdown для ссылок<span class="token punctuation">]</span><span class="token punctuation">(</span>http<span class="token punctuation">:</span><span class="token operator">/</span><span class="token operator">/</span>www<span class="token punctuation">.</span>example<span class="token punctuation">.</span>com<span class="token punctuation">)</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">MarkdownBlock</span></span><span class="token punctuation">></span></span><span class="token punctuation">;</span>
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="complibrarycontainer"></a><a href="#complibrarycontainer" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>CompLibrary.Container</code></h3>
+<p>Компонент-контейнер, использующий стили Docusaurus. Имеет настройки внутреннего отступа и цвета фона, которые вы можете указать.</p>
+<p><strong>Свойства</strong></p>
+<table>
+<thead>
+<tr><th>Свойство</th><th>Тип</th><th>По-умолчанию</th><th>Описание</th></tr>
+</thead>
+<tbody>
+<tr><td><code>padding</code></td><td>Массив, включающий значения: <code>'all'</code>, <code>'bottom'</code>, <code>'left'</code>, <code>'right'</code>, <code>'top'</code></td><td><code>[]</code></td><td>Позиции внутреннего отступа.</td></tr>
+<tr><td><code>background</code></td><td>Одно значение из: <code>'dark'</code>, <code>'highlight'</code>, <code>'light'</code></td><td><code>null</code></td><td>Стиль фона элемента.</td></tr>
+<tr><td><code>className</code></td><td>Строка</td><td>-</td><td>Пользовательский класс css, добавляемый элементу.</td></tr>
+</tbody>
+</table>
+<p><strong>Пример</strong></p>
+<pre><code class="hljs css language-jsx"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">Container</span></span>
+  <span class="token attr-name">padding</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span><span class="token punctuation">[</span><span class="token string">'bottom'</span><span class="token punctuation">,</span> <span class="token string">'top'</span><span class="token punctuation">]</span><span class="token punctuation">}</span></span>
+  <span class="token attr-name">background</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>light<span class="token punctuation">"</span></span>
+  <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>myCustomClass<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  <span class="token operator">...</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">Container</span></span><span class="token punctuation">></span></span>
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="complibrarygridblock"></a><a href="#complibrarygridblock" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>CompLibrary.GridBlock</code></h3>
+<p>Компонент React для размещения текста и изображений.</p>
+<p><strong>Свойства</strong></p>
+<table>
+<thead>
+<tr><th>Свойство</th><th>Тип</th><th>По-умолчанию</th><th>Описание</th></tr>
+</thead>
+<tbody>
+<tr><td><code>align</code></td><td>Одно значение из следующих: <code>'left'</code>, <code>'center'</code>, <code>'right'</code></td><td><code>'left'</code></td><td>Выравнивание текста.</td></tr>
+<tr><td><code>layout</code></td><td>Одно значение из следующих: <code>'twoColumn'</code>, <code>'threeColumn'</code>, <code>'fourColumn'</code></td><td><code>'twoColumn'</code></td><td>Количество секций-колонок в <code>GridBlock</code>.</td></tr>
+<tr><td><code>className</code></td><td>Строка</td><td>-</td><td>Пользовательский класс css, добавляемый элементу.</td></tr>
+<tr><td><code>contents</code></td><td>Массив объектов с контентом</td><td><code>[]</code></td><td>Контент для каждой секции GridBlock. Обратитесь к следующей таблице за информацией о содержимом этого объекта.</td></tr>
+</tbody>
+</table>
+<p><strong>Объект Content</strong></p>
+<table>
+<thead>
+<tr><th>Свойство</th><th>Тип</th><th>По-умолчанию</th><th>Описание</th></tr>
+</thead>
+<tbody>
+<tr><td><code>title</code></td><td>Строка</td><td>-</td><td>Отображаемый заголовок этого раздела, который анализируется с помощью Markdown</td></tr>
+<tr><td><code>content</code></td><td>Строка</td><td>-</td><td>Текст этого раздела, который анализируется с помощью Markdown</td></tr>
+<tr><td><code>image</code></td><td>Строка</td><td>-</td><td>Путь к отображаемому изображению</td></tr>
+<tr><td><code>imageAlt</code></td><td>Строка</td><td>-</td><td>Текст, который будет показан, если изображение окажется недоступным</td></tr>
+<tr><td><code>imageAlign</code></td><td>Одно значение из следующих: <code>'top'</code>, <code>'left'</code>, <code>'bottom'</code>, <code>'right'</code></td><td><code>'left'</code></td><td>Выравнивание изображения по отношению к тексту</td></tr>
+<tr><td><code>imageLink</code></td><td>Строка</td><td>-</td><td>Адрес, по которому произойдет переход при щелчке на изображение</td></tr>
+</tbody>
+</table>
+<p><strong>Пример</strong></p>
+<pre><code class="hljs css language-jsx"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">GridBlock</span></span>
+  <span class="token attr-name">align</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>center<span class="token punctuation">"</span></span>
+  <span class="token attr-name">layout</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>threeColumn<span class="token punctuation">"</span></span>
+  <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>myCustomClass<span class="token punctuation">"</span></span>
+  <span class="token attr-name">contents</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span><span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      title<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`[Learn](</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>siteConfig<span class="token punctuation">.</span>baseUrl<span class="token interpolation-punctuation punctuation">}</span></span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>siteConfig<span class="token punctuation">.</span>docsUrl<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">/tutorial.html)`</span></span><span class="token punctuation">,</span>
+      content<span class="token punctuation">:</span> <span class="token string">'Learn how to use this project'</span><span class="token punctuation">,</span>
+      image<span class="token punctuation">:</span> siteConfig<span class="token punctuation">.</span>baseUrl <span class="token operator">+</span> <span class="token string">'img/learn.png'</span><span class="token punctuation">,</span>
+      imageAlt<span class="token punctuation">:</span> <span class="token string">'Learn how to use this project'</span><span class="token punctuation">,</span>
+      imageLink<span class="token punctuation">:</span> siteConfig<span class="token punctuation">.</span>baseUrl <span class="token operator">+</span> <span class="token string">'docs/tutorial.html'</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span>
+      title<span class="token punctuation">:</span> <span class="token string">'Frequently Asked Questions'</span><span class="token punctuation">,</span>
+      content<span class="token punctuation">:</span> <span class="token string">'Questions gathered from the community'</span><span class="token punctuation">,</span>
+      image<span class="token punctuation">:</span> siteConfig<span class="token punctuation">.</span>baseUrl <span class="token operator">+</span> <span class="token string">'img/faq.png'</span><span class="token punctuation">,</span>
+      imageAlign<span class="token punctuation">:</span> <span class="token string">'top'</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span>
+      title<span class="token punctuation">:</span> <span class="token string">'More'</span><span class="token punctuation">,</span>
+      content<span class="token punctuation">:</span> <span class="token string">'Lots of documentation is on this site'</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">]</span><span class="token punctuation">}</span></span>
+<span class="token punctuation">/></span></span>
+</code></pre>
+<p>Дополнительные примеры использования этих компонентов можно найти среди <a href="/docs/ru/next/site-preparation">сгенерированных файлов примеров</a>, а также в собственном репозитории Docusaurus для настройки его веб-сайта.</p>
+<h2><a class="anchor" aria-hidden="true" id="перевод-строк"></a><a href="#перевод-строк" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Перевод строк</h2>
+<p>Когда перевод подключен, любая страница внутри каталога <code>website/pages/en</code> будет переведена на все подключенные языки. URL-адреса для страниц не на английском языке будут использовать языковые теги, указанные в файле <code>languages.js</code>. Например, URL для переведенной на французский язык страницы <code>website/pages/en/help.js</code> будет иметь вид <code>${baseUrl}fr/help.html</code>.</p>
+<p>Когда вы составляете страницу, которую желаете перевести, оберните каждую строку внутри нее в тег <code>&lt;translate&gt;</code>. Например:</p>
+<pre><code class="hljs css language-jsx"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>translate</span><span class="token punctuation">></span></span>Мне нравится переводить<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>translate</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">></span></span>
+</code></pre>
+<p>Вы также можете предоставить необязательный атрибут описания, что показать контекст переводчикам. Например,</p>
+<pre><code class="hljs css language-jsx"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>/community<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>translate</span> <span class="token attr-name">desc</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>Footer link to page referring to community GitHub and Slack<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    Community
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>translate</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">></span></span>
+</code></pre>
+<p>Добавьте также следующее выражение require:</p>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">const</span> translate = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../../server/translate.js'</span>).translate;
+</code></pre>
+<p>Заметьте, что данный путен корректен для файлов внутри <code>pages/en</code> и должен быть скорректирован соответственно для файлов, расположенных в других местах, как обсуждалось <a href="#page-require-paths">выше</a>.</p>
+<h2><a class="anchor" aria-hidden="true" id="использование-статических-ресурсов"></a><a href="#использование-статических-ресурсов" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Использование статических ресурсов</h2>
+<p>Статические ресурсы должны быть размещены в каталоге <code>website/static</code>. К ним можно получить доступ по их пути, из которого исключена часть <code>static</code>. Например, если <code>baseUrl</code> сайта равен <code>/docusaurus/</code>, то изображение <code>website/static/img/logo.png</code> будет доступно по адресу <code>/docusaurus/img/logo.png</code>.</p>
+<h2><a class="anchor" aria-hidden="true" id="стили"></a><a href="#стили" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Стили</h2>
+<p>Вам следует настроить для своего сайта цвета primary, secondary а также цвет блоков с кодом, используя поле <code>colors</code> в <code>siteConfig</code> как указано <a href="/docs/ru/next/site-config">здесь</a>. Вы также можете настроить другие цвета тем же способом, который описан в документации к <code>siteConfig</code>.</p>
+<p>Есть несколько способов доступа к стилям по умолчанию, предусмотренным для вашего сайта. Если вы начали разработку вашего сайта и выполнили команду <code>docusaurus-init</code> или <code>yarn install</code>, ваши стили по умолчанию можно найти в <code>website/node_modules/docusaurus/lib/static/css/main.css</code>. Alternatively, the <code>main.css</code> file may be inspected directly at the <a href="https://github.com/facebook/docusaurus/blob/master/packages/docusaurus-1.x/lib/static/css/main.css">Docusarus GitHub repository</a>.</p>
+<p>Вы можете добавить собственные стили, если сохраните файл с ними в каталог <code>website/static</code>. Любые файлы <code>.css</code>, которые вы добавляете в каталог <code>static</code>, будут присоеденены в конец файла стилей, предоставляемого Docusaurus, что позволяет вам дополнить и/или переопределить стили Docusaurus по-умолчанию, если потребуется.</p>
+<p>Простой способ выяснить, какие классы вы желаете переопределить или добавить - это <a href="/docs/ru/next/commands">запустить свой сервер локально</a> и использовать инструменты разработчика в браузере.</p>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/ru/next/doc-markdown"><span class="arrow-prev">← </span><span>Особенности разметки Markdown в Docusaurus</span></a><a class="docs-next button" href="/docs/ru/next/site-config"><span class="function-name-prevnext">siteConfig.js</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#предоставляемые-свойства">Предоставляемые свойства</a></li><li><a href="#url-адреса-страниц">URL-адреса страниц</a></li><li><a href="#заголовки-страниц">Заголовки страниц</a></li><li><a href="#описания-страниц">Описания страниц</a></li><li><a href="#пути-к-подключаемым-компонентам">Пути к подключаемым компонентам</a></li><li><a href="#предоставляемые-компоненты">Предоставляемые компоненты</a><ul class="toc-headings"><li><a href="#complibrarymarkdownblock"><code>CompLibrary.MarkdownBlock</code></a></li><li><a href="#complibrarycontainer"><code>CompLibrary.Container</code></a></li><li><a href="#complibrarygridblock"><code>CompLibrary.GridBlock</code></a></li></ul></li><li><a href="#перевод-строк">Перевод строк</a></li><li><a href="#использование-статических-ресурсов">Использование статических ресурсов</a></li><li><a href="#стили">Стили</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/docusaurus_monochrome.svg" alt="Docusaurus" width="66" height="58"/></a><div class="footerSection"><h5>Docs</h5><a href="
+                /docs/ru/installation">Getting Started</a><a href="
+                /docs/ru/versioning">Versioning</a><a href="
+                /docs/ru/translation">Localization</a><a href="
+                /docs/ru/search">Adding Search</a></div><div class="footerSection"><h5>Community</h5><a href="/ru/help">Help</a><a href="/ru/users">User Showcase</a><a href="/ru/about-slash">About</a></div><div class="footerSection"><h5>Social</h5><div class="social"><a class="github-button" href="https://github.com/facebook/docusaurus" data-count-href="https://github.com/facebook/docusaurus/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">docusaurus</a></div><div class="social"><a href="https://twitter.com/docusaurus" class="twitter-follow-button">Follow @docusaurus</a></div><div class="social"><div class="fb-like" data-href="https://docusaurus.io" data-colorscheme="dark" data-layout="standard" data-share="true" data-width="225" data-show-faces="false"></div></div></div></section><a href="https://opensource.facebook.com/" target="_blank" rel="noreferrer noopener" class="fbOpenSource"><img src="/img/oss_logo.png" alt="Facebook Open Source" width="170" height="45"/></a><section class="copyright"><span>Copyright © 2019 Facebook Inc.</span> Landing images by <a href="https://undraw.co/">unDraw</a>.</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>window.fbAsyncInit = function() {FB.init({appId:'199138890728411',xfbml:true,version:'v2.7'});};(function(d, s, id){var js, fjs = d.getElementsByTagName(s)[0];if (d.getElementById(id)) {return;}js = d.createElement(s); js.id = id;js.src = '//connect.facebook.net/en_US/sdk.js';fjs.parentNode.insertBefore(js, fjs);}(document, 'script','facebook-jssdk'));
+                </script><script>window.twttr=(function(d,s, id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return t;js=d.createElement(s);js.id=id;js.src='https://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js, fjs);t._e = [];t.ready = function(f) {t._e.push(f);};return t;}(document, 'script', 'twitter-wjs'));</script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                
+                apiKey: '3eb9507824b8be89e7a199ecaa1a9d2c',
+                indexName: 'docusaurus',
+                inputSelector: '#search_input_react',
+                algoliaOptions: {"facetFilters":["language:ru","version:next"]}
+              });
+            </script></body></html>

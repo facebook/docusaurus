@@ -1,0 +1,162 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Enabling Search · Docusaurus</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="O Docusaurus oferece suporte a pesquisa usando o [Algolia DocSearch](https://community.algolia.com/docsearch/). Assim que seu site estiver publicado, você poderá [enviá-lo para o DocSearch](https://community.algolia.com/docsearch/). Em seguida, o Algolia vai te enviar credenciais que você pode adicionar ao seu `siteConfig.js`."/><meta name="docsearch:version" content="1.9.x"/><meta name="docsearch:language" content="pt-BR"/><meta property="og:title" content="Enabling Search · Docusaurus"/><meta property="og:type" content="website"/><meta property="og:url" content="https://docusaurus.io/"/><meta property="og:description" content="O Docusaurus oferece suporte a pesquisa usando o [Algolia DocSearch](https://community.algolia.com/docsearch/). Assim que seu site estiver publicado, você poderá [enviá-lo para o DocSearch](https://community.algolia.com/docsearch/). Em seguida, o Algolia vai te enviar credenciais que você pode adicionar ao seu `siteConfig.js`."/><meta property="og:image" content="https://docusaurus.io/img/docusaurus.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://docusaurus.io/img/docusaurus.png"/><link rel="shortcut icon" href="/img/docusaurus.ico"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css"/><link rel="alternate" type="application/atom+xml" href="https://docusaurus.io/blog/atom.xml" title="Docusaurus Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://docusaurus.io/blog/feed.xml" title="Docusaurus Blog RSS Feed"/><script>
+              (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+              (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+              m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+              })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+              ga('create', 'UA-44373548-31', 'auto');
+              ga('send', 'pageview');
+            </script><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script><script type="text/javascript" src="/js/code-blocks-buttons.js"></script><script src="https://unpkg.com/vanilla-back-to-top@7.1.14/dist/vanilla-back-to-top.min.js"></script><script>
+        document.addEventListener('DOMContentLoaded', function() {
+          addBackToTop(
+            {"zIndex":100}
+          )
+        });
+        </script><script src="/js/scrollSpy.js"></script><link rel="stylesheet" href="/css/prism.css"/><link rel="stylesheet" href="/css/main.css"/><script src="/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/pt-BR"><img class="logo" src="/img/docusaurus.svg" alt="Docusaurus"/><h2 class="headerTitleWithLogo">Docusaurus</h2></a><a href="/pt-BR/versions"><h3>1.9.x</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/docs/pt-BR/1.9.x/installation" target="_self">Documentação</a></li><li class=""><a href="/docs/pt-BR/1.9.x/tutorial-setup" target="_self">Tutorial</a></li><li class=""><a href="/pt-BR/users" target="_self">Usuários</a></li><li class=""><a href="/blog/" target="_self">Blog</a></li><li class=""><a href="https://github.com/facebook/docusaurus" target="_self">GitHub</a></li><span><li><a id="languages-menu" href="#"><img class="languages-icon" src="/img/language.svg" alt="Languages icon"/>Português (Brasil)</a><div id="languages-dropdown" class="hide"><ul id="languages-dropdown-items"><li><a href="/docs/en/1.9.x/search">English</a></li><li><a href="/docs/fr/1.9.x/search">Français</a></li><li><a href="/docs/ko/1.9.x/search">한국어</a></li><li><a href="/docs/ro/1.9.x/search">Română</a></li><li><a href="/docs/ru/1.9.x/search">Русский</a></li><li><a href="/docs/zh-CN/1.9.x/search">简体中文</a></li><li><a href="https://crowdin.com/project/docusaurus" target="_blank" rel="noreferrer noopener">Ajude-nos a traduzir</a></li></ul></div></li><script>
+        const languagesMenuItem = document.getElementById("languages-menu");
+        const languagesDropDown = document.getElementById("languages-dropdown");
+        languagesMenuItem.addEventListener("click", function(event) {
+          event.preventDefault();
+
+          if (languagesDropDown.className == "hide") {
+            languagesDropDown.className = "visible";
+          } else {
+            languagesDropDown.className = "hide";
+          }
+        });
+      </script></span><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>Guias</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">Primeiros passos<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/docs/pt-BR/1.9.x/installation">Installation</a></li><li class="navListItem"><a class="navItem" href="/docs/pt-BR/1.9.x/site-preparation">Site Preparation</a></li><li class="navListItem"><a class="navItem" href="/docs/pt-BR/1.9.x/site-creation">Creating your site</a></li><li class="navListItem"><a class="navItem" href="/docs/pt-BR/1.9.x/publishing">Publishing your site</a></li><li class="navListItem"><a class="navItem" href="/docs/pt-BR/1.9.x/docker">Docker</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">Guias<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/docs/pt-BR/1.9.x/adding-blog">Adding a Blog</a></li><li class="navListItem"><a class="navItem" href="/docs/pt-BR/1.9.x/custom-pages">Custom Pages</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/docs/pt-BR/1.9.x/search">Enabling Search</a></li><li class="navListItem"><a class="navItem" href="/docs/pt-BR/1.9.x/navigation">Navigation and Sidebars</a></li><li class="navListItem"><a class="navItem" href="/docs/pt-BR/1.9.x/translation">Translations &amp; Localization</a></li><li class="navListItem"><a class="navItem" href="/docs/pt-BR/1.9.x/versioning">Versioning</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">API<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/docs/pt-BR/1.9.x/commands">CLI Commands</a></li><li class="navListItem"><a class="navItem" href="/docs/pt-BR/1.9.x/doc-markdown">Markdown Features</a></li><li class="navListItem"><a class="navItem" href="/docs/pt-BR/1.9.x/api-pages">Pages and Styles</a></li><li class="navListItem"><a class="navItem" href="/docs/pt-BR/1.9.x/site-config">siteConfig.js</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://crowdin.com/project/docusaurus/pt-BR" target="_blank" rel="noreferrer noopener">Translate</a><h1 class="postHeaderTitle">Enabling Search</h1></header><article><div><span><p>O Docusaurus oferece suporte a pesquisa usando o <a href="https://community.algolia.com/docsearch/">Algolia DocSearch</a>. Assim que seu site estiver publicado, você poderá <a href="https://community.algolia.com/docsearch/">enviá-lo para o DocSearch</a>. Em seguida, o Algolia vai te enviar credenciais que você pode adicionar ao seu <code>siteConfig.js</code>.</p>
+<p>Funciona assim: o DocSearch vasculha o conteúdo do seu site a cada 24 horas e coloca tudo que ele encontrou em um índice de pesquisa do Algolia. Esse conteúdo poderá então ser consultado diretamente do seu front-end usando a API do Algolia. Observe que seu site precisa estar disponível publicamente para que isso funcione (ou seja, ele não pode estar por trás de um firewall). Este serviço é gratuito.</p>
+<h2><a class="anchor" aria-hidden="true" id="ativando-a-barra-de-pesquisa"></a><a href="#ativando-a-barra-de-pesquisa" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Ativando a barra de pesquisa</h2>
+<p>Para ativar a pesquisa no seu site, basta salvar a sua chave de API e o nome do seu índice (enviados pelo Algolia) no <code>siteConfig.js</code>, na seção <code>algolia</code>.</p>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">const</span> siteConfig = {
+  ...
+  algolia: {
+    <span class="hljs-attr">apiKey</span>: <span class="hljs-string">'minha-chave-de-api'</span>,
+    <span class="hljs-attr">indexName</span>: <span class="hljs-string">'nome-do-meu-indice'</span>,
+    <span class="hljs-attr">algoliaOptions</span>: {} <span class="hljs-comment">// Opcional, caso o Algolia ofereça isso</span>
+  },
+  ...
+};
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="opcões-adicionais-de-pesquisa"></a><a href="#opcões-adicionais-de-pesquisa" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Opções adicionais de pesquisa</h2>
+<p>Você também pode especificar mais <a href="https://community.algolia.com/docsearch/documentation/">opções de pesquisa usadas pelo Algolia</a> usando um campo de <code>algoliaOptions</code> na seção <code>algolia</code>. Isso pode ser útil caso você queira fornecer resultados de busca diferentes para as diferentes versões e idiomas da sua documentação. Todas as ocorrências de &quot;VERSION&quot; ou &quot;LANGUAGE&quot; serão substituídas pela versão ou idioma da página atual, respectivamente. Mais detalhes sobre as opções de pesquisa podem ser <a href="https://www.algolia.com/doc/api-reference/api-parameters/#overview">encontrados aqui</a>.</p>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">const</span> siteConfig = {    
+  ...   
+  algolia: {    
+    ... 
+    algoliaOptions: {   
+      <span class="hljs-attr">facetFilters</span>: [ <span class="hljs-string">"language:LANGUAGE"</span>, <span class="hljs-string">"version:VERSION"</span> ] 
+    }   
+  },    
+};  
+</code></pre>
+<p>O Algolia também pode fornecer a você <a href="https://community.algolia.com/docsearch/documentation/">opções adicionais de pesquisa</a>. Se fornecer, você deve adicioná-las ao objeto <code>algoliaOptions</code>.</p>
+<h2><a class="anchor" aria-hidden="true" id="controlando-o-local-da-barra-de-pesquisa"></a><a href="#controlando-o-local-da-barra-de-pesquisa" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Controlando o local da barra de pesquisa</h2>
+<p>Por padrão, a barra de pesquisa será o elemento mais à direita no menu de navegação superior.</p>
+<p>Se você quiser mudar o local padrão, adicione a flag <code>searchBar</code> no campo <code>headerLinks</code> do <code>siteConfig.js</code>, na posição de sua preferência. Por exemplo, você pode querer que a barra de pesquisa fique entre seus links internos e externos.</p>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">const</span> siteConfig = {
+  ...
+  headerLinks: [
+    {...}
+    {...}
+    { <span class="hljs-attr">search</span>: <span class="hljs-literal">true</span> }
+    {...}
+    {...}
+  ],
+  ...
+};
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="customizing-the-placeholder"></a><a href="#customizing-the-placeholder" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Customizing the placeholder</h2>
+<p>If you want to change the placeholder (which defaults to <em>Search</em>), add the <code>placeholder</code> field in your config. For example, you may want the search bar to display <em>Ask me something</em>:</p>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">const</span> siteConfig = {    
+  ...   
+  algolia: {    
+    ... 
+    placeholder: <span class="hljs-string">'Ask me something'</span>
+  },    
+};  
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="desativando-a-barra-de-pesquisa"></a><a href="#desativando-a-barra-de-pesquisa" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Desativando a barra de pesquisa</h2>
+<p>Para desativar a barra de pesquisa, comente (recomendado) ou apague a seção <code>algolia</code> no arquivo <code>siteConfig.js</code>.</p>
+<p>Além disso, se você tiver personalizado a localização da barra de pesquisa em <code>headerLinks</code>, defina <code>search: false</code>.</p>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/pt-BR/1.9.x/custom-pages"><span class="arrow-prev">← </span><span>Páginas personalizadas</span></a><a class="docs-next button" href="/docs/pt-BR/1.9.x/navigation"><span>Navegação e Sidebars</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#ativando-a-barra-de-pesquisa">Ativando a barra de pesquisa</a></li><li><a href="#opcões-adicionais-de-pesquisa">Opções adicionais de pesquisa</a></li><li><a href="#controlando-o-local-da-barra-de-pesquisa">Controlando o local da barra de pesquisa</a></li><li><a href="#customizing-the-placeholder">Customizing the placeholder</a></li><li><a href="#desativando-a-barra-de-pesquisa">Desativando a barra de pesquisa</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/docusaurus_monochrome.svg" alt="Docusaurus" width="66" height="58"/></a><div class="footerSection"><h5>Docs</h5><a href="
+                /docs/pt-BR/installation">Getting Started</a><a href="
+                /docs/pt-BR/versioning">Versioning</a><a href="
+                /docs/pt-BR/translation">Localization</a><a href="
+                /docs/pt-BR/search">Adding Search</a></div><div class="footerSection"><h5>Community</h5><a href="/pt-BR/help">Help</a><a href="/pt-BR/users">User Showcase</a><a href="/pt-BR/about-slash">About</a></div><div class="footerSection"><h5>Social</h5><div class="social"><a class="github-button" href="https://github.com/facebook/docusaurus" data-count-href="https://github.com/facebook/docusaurus/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">docusaurus</a></div><div class="social"><a href="https://twitter.com/docusaurus" class="twitter-follow-button">Follow @docusaurus</a></div><div class="social"><div class="fb-like" data-href="https://docusaurus.io" data-colorscheme="dark" data-layout="standard" data-share="true" data-width="225" data-show-faces="false"></div></div></div></section><a href="https://opensource.facebook.com/" target="_blank" rel="noreferrer noopener" class="fbOpenSource"><img src="/img/oss_logo.png" alt="Facebook Open Source" width="170" height="45"/></a><section class="copyright"><span>Copyright © 2019 Facebook Inc.</span> Landing images by <a href="https://undraw.co/">unDraw</a>.</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>window.fbAsyncInit = function() {FB.init({appId:'199138890728411',xfbml:true,version:'v2.7'});};(function(d, s, id){var js, fjs = d.getElementsByTagName(s)[0];if (d.getElementById(id)) {return;}js = d.createElement(s); js.id = id;js.src = '//connect.facebook.net/en_US/sdk.js';fjs.parentNode.insertBefore(js, fjs);}(document, 'script','facebook-jssdk'));
+                </script><script>window.twttr=(function(d,s, id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return t;js=d.createElement(s);js.id=id;js.src='https://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js, fjs);t._e = [];t.ready = function(f) {t._e.push(f);};return t;}(document, 'script', 'twitter-wjs'));</script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                
+                apiKey: '3eb9507824b8be89e7a199ecaa1a9d2c',
+                indexName: 'docusaurus',
+                inputSelector: '#search_input_react',
+                algoliaOptions: {"facetFilters":["language:pt-BR","version:1.9.x"]}
+              });
+            </script></body></html>

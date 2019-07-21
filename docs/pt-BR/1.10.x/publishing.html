@@ -1,0 +1,329 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Publishing your site · Docusaurus</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="Agora você já deve ter um [site pronto rodando localmente](/docs/pt-BR/1.10.x/site-creation). Assim que você tiver terminado de [personalizar](/docs/pt-BR/1.10.x/site-config) ele para ficar nos trinques, é hora de publicá-lo. O Docusaurus gera um site estático HTML prontinho para ser servido pelo seu servidor ou solução de hospedagem favorito."/><meta name="docsearch:version" content="1.10.x"/><meta name="docsearch:language" content="pt-BR"/><meta property="og:title" content="Publishing your site · Docusaurus"/><meta property="og:type" content="website"/><meta property="og:url" content="https://docusaurus.io/"/><meta property="og:description" content="Agora você já deve ter um [site pronto rodando localmente](/docs/pt-BR/1.10.x/site-creation). Assim que você tiver terminado de [personalizar](/docs/pt-BR/1.10.x/site-config) ele para ficar nos trinques, é hora de publicá-lo. O Docusaurus gera um site estático HTML prontinho para ser servido pelo seu servidor ou solução de hospedagem favorito."/><meta property="og:image" content="https://docusaurus.io/img/docusaurus.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://docusaurus.io/img/docusaurus.png"/><link rel="shortcut icon" href="/img/docusaurus.ico"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css"/><link rel="alternate" type="application/atom+xml" href="https://docusaurus.io/blog/atom.xml" title="Docusaurus Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://docusaurus.io/blog/feed.xml" title="Docusaurus Blog RSS Feed"/><script>
+              (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+              (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+              m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+              })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+              ga('create', 'UA-44373548-31', 'auto');
+              ga('send', 'pageview');
+            </script><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script><script type="text/javascript" src="/js/code-blocks-buttons.js"></script><script src="https://unpkg.com/vanilla-back-to-top@7.1.14/dist/vanilla-back-to-top.min.js"></script><script>
+        document.addEventListener('DOMContentLoaded', function() {
+          addBackToTop(
+            {"zIndex":100}
+          )
+        });
+        </script><script src="/js/scrollSpy.js"></script><link rel="stylesheet" href="/css/prism.css"/><link rel="stylesheet" href="/css/main.css"/><script src="/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/pt-BR"><img class="logo" src="/img/docusaurus.svg" alt="Docusaurus"/><h2 class="headerTitleWithLogo">Docusaurus</h2></a><a href="/pt-BR/versions"><h3>1.10.x</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/docs/pt-BR/1.10.x/installation" target="_self">Documentação</a></li><li class=""><a href="/docs/pt-BR/1.10.x/tutorial-setup" target="_self">Tutorial</a></li><li class=""><a href="/pt-BR/users" target="_self">Usuários</a></li><li class=""><a href="/blog/" target="_self">Blog</a></li><li class=""><a href="https://github.com/facebook/docusaurus" target="_self">GitHub</a></li><span><li><a id="languages-menu" href="#"><img class="languages-icon" src="/img/language.svg" alt="Languages icon"/>Português (Brasil)</a><div id="languages-dropdown" class="hide"><ul id="languages-dropdown-items"><li><a href="/docs/en/1.10.x/publishing">English</a></li><li><a href="/docs/fr/1.10.x/publishing">Français</a></li><li><a href="/docs/ko/1.10.x/publishing">한국어</a></li><li><a href="/docs/ro/1.10.x/publishing">Română</a></li><li><a href="/docs/ru/1.10.x/publishing">Русский</a></li><li><a href="/docs/zh-CN/1.10.x/publishing">简体中文</a></li><li><a href="https://crowdin.com/project/docusaurus" target="_blank" rel="noreferrer noopener">Ajude-nos a traduzir</a></li></ul></div></li><script>
+        const languagesMenuItem = document.getElementById("languages-menu");
+        const languagesDropDown = document.getElementById("languages-dropdown");
+        languagesMenuItem.addEventListener("click", function(event) {
+          event.preventDefault();
+
+          if (languagesDropDown.className == "hide") {
+            languagesDropDown.className = "visible";
+          } else {
+            languagesDropDown.className = "hide";
+          }
+        });
+      </script></span><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>Primeiros passos</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">Primeiros passos<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/docs/pt-BR/1.10.x/installation">Installation</a></li><li class="navListItem"><a class="navItem" href="/docs/pt-BR/1.10.x/site-preparation">Site Preparation</a></li><li class="navListItem"><a class="navItem" href="/docs/pt-BR/1.10.x/site-creation">Creating your site</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/docs/pt-BR/1.10.x/publishing">Publishing your site</a></li><li class="navListItem"><a class="navItem" href="/docs/pt-BR/1.10.x/docker">Docker</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">Guias<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/docs/pt-BR/1.10.x/adding-blog">Adding a Blog</a></li><li class="navListItem"><a class="navItem" href="/docs/pt-BR/1.10.x/custom-pages">Custom Pages</a></li><li class="navListItem"><a class="navItem" href="/docs/pt-BR/1.10.x/search">Enabling Search</a></li><li class="navListItem"><a class="navItem" href="/docs/pt-BR/1.10.x/navigation">Navigation and Sidebars</a></li><li class="navListItem"><a class="navItem" href="/docs/pt-BR/1.10.x/translation">Translations &amp; Localization</a></li><li class="navListItem"><a class="navItem" href="/docs/pt-BR/1.10.x/versioning">Versioning</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">API<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/docs/pt-BR/1.10.x/commands">CLI Commands</a></li><li class="navListItem"><a class="navItem" href="/docs/pt-BR/1.10.x/doc-markdown">Markdown Features</a></li><li class="navListItem"><a class="navItem" href="/docs/pt-BR/1.10.x/api-pages">Pages and Styles</a></li><li class="navListItem"><a class="navItem" href="/docs/pt-BR/1.10.x/site-config">siteConfig.js</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://crowdin.com/project/docusaurus/pt-BR" target="_blank" rel="noreferrer noopener">Translate</a><h1 class="postHeaderTitle">Publishing your site</h1></header><article><div><span><p>Agora você já deve ter um <a href="/docs/pt-BR/1.10.x/site-creation">site pronto rodando localmente</a>. Assim que você tiver terminado de <a href="/docs/pt-BR/1.10.x/site-config">personalizar</a> ele para ficar nos trinques, é hora de publicá-lo. O Docusaurus gera um site estático HTML prontinho para ser servido pelo seu servidor ou solução de hospedagem favorito.</p>
+<h2><a class="anchor" aria-hidden="true" id="gerando-paginas-estaticas-html"></a><a href="#gerando-paginas-estaticas-html" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Gerando páginas estáticas HTML</h2>
+<p>Para criar uma versão estática do seu site, execute o seguinte script no diretório <code>website</code>:</p>
+<pre><code class="hljs css language-bash">yarn run build <span class="hljs-comment"># ou `npm run build`</span>
+</code></pre>
+<p>Isso vai gerar um diretório <code>build</code> dentro do diretório <code>website</code> contendo os arquivos <code>.html</code> da sua documentação e de outras páginas incluídas em <code>pages</code>.</p>
+<h2><a class="anchor" aria-hidden="true" id="hospedando-paginas-estaticas-html"></a><a href="#hospedando-paginas-estaticas-html" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Hospedando páginas estáticas HTML</h2>
+<p>Neste ponto, você já pode pegar todos os arquivos dentro do diretório <code>website/build</code> e copiar eles diretamente para o diretório <code>html</code> do seu servidor web favorito.</p>
+<blockquote>
+<p>For example, both Apache and Nginx serve content from <code>/var/www/html</code> by default. Com isso dito, escolher onde você vai hospedar seu site está fora do escopo do Docusaurus.</p>
+<p>Ao servir o site a partir de seu próprio servidor web, certifique-se de que ele esteja servindo os arquivos de assets com os cabeçalhos HTTP adequados. Arquivos CSS devem ser servidos com o cabeçalho de <code>content-type</code> como <code>text/css</code>. In the case of Nginx, this would mean setting <code>include /etc/nginx/mime.types;</code> in your <code>nginx.conf</code> file. Veja <a href="https://github.com/facebook/Docusaurus/issues/602">esta issue</a> para mais informações.</p>
+</blockquote>
+<h3><a class="anchor" aria-hidden="true" id="hospedando-em-um-servico"></a><a href="#hospedando-em-um-servico" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Hospedando em um serviço:</h3>
+<ul>
+<li><a href="#using-github-pages">GitHub Pages</a></li>
+<li><a href="#hosting-on-netlify">Netlify</a></li>
+</ul>
+<h3><a class="anchor" aria-hidden="true" id="usando-o-github-pages"></a><a href="#usando-o-github-pages" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Usando o GitHub Pages</h3>
+<p>Docusaurus was designed to work really well with one of the most popular hosting solutions for open source projects: <a href="https://pages.github.com/">GitHub Pages</a>.</p>
+<h4><a class="anchor" aria-hidden="true" id="deploying-to-github-pages"></a><a href="#deploying-to-github-pages" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Deploying to GitHub Pages</h4>
+<ol>
+<li>Docusaurus supports deploying as <a href="https://help.github.com/articles/user-organization-and-project-pages">project pages or user/organization pages</a>, your code repository does not even need to be public.</li>
+</ol>
+<blockquote>
+<p>Mesmo que seu repositório seja privado, qualquer coisa publicada em uma branch <code>gh-pages</code> será <a href="https://help.github.com/articles/user-organization-and-project-pages/">pública</a>.</p>
+</blockquote>
+<p><strong>Note:</strong> When you deploy as user/organization page, the publish script will deploy these sites to the root of the <strong><code>master</code></strong> branch of the <em>username</em>.github.io repo. Nesse caso, observe que você vai querer ter a infraestrutura do Docusaurus, sua documentação, etc. either in <strong>another branch of the <em>username</em>.github.io repo</strong> (e.g., maybe call it <code>source</code>), or in another, separate repo (e.g. in the same as the documented source code).</p>
+<ol start="2">
+<li>You will need to modify the file <code>website/siteConfig.js</code> and add the required parameters.</li>
+</ol>
+<table>
+<thead>
+<tr><th>Nome</th><th>Descrição</th></tr>
+</thead>
+<tbody>
+<tr><td><code>organizationName</code></td><td>O usuário ou organização que é dona do repositório. If you are the owner, then it is your GitHub username. In the case of Docusaurus, that would be the &quot;<em>facebook</em>&quot; GitHub organization.</td></tr>
+<tr><td><code>projectName</code></td><td>O nome do repositório do seu projeto no GitHub. For example, the source code for Docusaurus is hosted at <a href="https://github.com/facebook/docusaurus">https://github.com/facebook/docusaurus</a>, so our project name in this case would be &quot;docusaurus&quot;.</td></tr>
+<tr><td><code>url</code></td><td>Your website's URL. For projects hosted on GitHub pages, this will be &quot;https://<em>username</em>.github.io&quot;</td></tr>
+<tr><td><code>baseUrl</code></td><td>Base URL for your project. For projects hosted on GitHub pages, it follows the format &quot;/<em>projectName</em>/&quot;. For <a href="https://github.com/facebook/docusaurus">https://github.com/facebook/docusaurus</a>, <code>baseUrl</code> is <code>/docusaurus/</code>.</td></tr>
+</tbody>
+</table>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">const</span> siteConfig = {
+  ...
+  url: <span class="hljs-string">'https://__userName__.github.io'</span>, <span class="hljs-comment">// Your website URL</span>
+  baseUrl: <span class="hljs-string">'/testProject/'</span>,
+  <span class="hljs-attr">projectName</span>: <span class="hljs-string">'testProject'</span>,
+  <span class="hljs-attr">organizationName</span>: <span class="hljs-string">'userName'</span>
+  ...
+}
+</code></pre>
+<p>In case you want to deploy as a user or organization site, specify the project name as <code>&lt;username&gt;.github.io</code> or <code>&lt;orgname&gt;.github.io</code>. E.g. If your GitHub username is &quot;user42&quot; then <em>user42.github.io</em>, or in the case of an organization name of &quot;org123&quot;, it will be <em>org123.github.io</em>.</p>
+<p><strong>Note:</strong> Not setting the <code>url</code> and <code>baseUrl</code> of your project might result in incorrect file paths generated which can cause broken links to assets paths like stylesheets and images.</p>
+<blockquote>
+<p>Por mais que recomendemos configurar o <code>projectName</code> e o <code>organizationName</code> no <code>siteConfig.js</code>, você também pode usar as variáveis de ambiente <code>ORGANIZATION_NAME</code> e <code>PROJECT_NAME</code>.</p>
+</blockquote>
+<ol start="3">
+<li>Now you have to specify the git user as an environment variable, and run the script <a href="/docs/pt-BR/1.10.x/commands#docusaurus-publish"><code>publish-gh-pages</code></a></li>
+</ol>
+<table>
+<thead>
+<tr><th>Nome</th><th>Descrição</th></tr>
+</thead>
+<tbody>
+<tr><td><code>GIT_USER</code></td><td>O nome de usuário de uma conta do GitHub que tenha permissão para fazer commits para este repositório. No caso dos seus próprios repositórios, você pode usar seu próprio nome de usuário do GitHub. O <code>GIT_USER</code> especificado precisa ter acesso de push no repositório especificado pela combinação de <code>organizationName</code> e <code>projectName</code>.</td></tr>
+</tbody>
+</table>
+<p>Para rodar o script diretamente da linha de comando, você pode usar o seguinte comando, preenchendo os valores de parâmetros conforme apropriado.</p>
+<pre><code class="hljs css language-bash">GIT_USER=&lt;GIT_USER&gt; \
+  CURRENT_BRANCH=master \
+  USE_SSH=<span class="hljs-literal">true</span> \
+  yarn run publish-gh-pages <span class="hljs-comment"># ou `npm run publish-gh-pages`</span>
+</code></pre>
+<p>Há também dois parâmetros opcionais que são definidos como variáveis de ambiente:</p>
+<table>
+<thead>
+<tr><th>Nome</th><th>Descrição</th></tr>
+</thead>
+<tbody>
+<tr><td><code>USE_SSH</code></td><td>Se definida como <code>true</code>, a conexão ao repositório do GitHub será feita por meio de SSH, ao invés de HTTPS. HTTPS é o padrão se essa variável não for definida.</td></tr>
+<tr><td><code>CURRENT_BRANCH</code></td><td>A branch que contém as alterações na documentação mais recentes que serão publicadas. Geralmente, essa branch será a <code>master</code>, mas poderia ser qualquer branch (padrão ou não) exceto pela <code>gh-pages</code>. Se nada for definido para essa variável, então a branch atual será usada.</td></tr>
+</tbody>
+</table>
+<p>Caso enfrente problemas relacionados a chaves SSH, visite a <a href="https://help.github.com/articles/connecting-to-github-with-ssh/">documentação de autenticação do GitHub</a>.</p>
+<p>Agora você já deve ser capaz de abrir seu site visitando o URL dele no GitHub Pages, o qual deve ser algo como https://<em>nome-de-usuario</em>.github.io/<em>projectName</em>, ou um domínio personalizado, caso você tenha configurado assim. For example, Docusaurus' own GitHub Pages URL is <a href="https://facebook.github.io/Docusaurus">https://facebook.github.io/Docusaurus</a> because it is served from the <code>gh-pages</code> branch of the <a href="https://github.com/facebook/docusaurus">https://github.com/facebook/docusaurus</a> GitHub repository. However, it can also be accessed via <a href="https://docusaurus.io/">https://docusaurus.io/</a>, via a generated <code>CNAME</code> file which can be configured via the <code>cname</code> <a href="/docs/pt-BR/1.10.x/site-config#cname-string">siteConfig option</a>.</p>
+<p>Recomendamos fortemente que você leia a <a href="https://pages.github.com">documentação do GitHub Pages</a> para saber mais sobre como essa solução de hospedagem funciona.</p>
+<p>Você pode executar o comando acima a qualquer momento que você atualizar sua documentação e desejar publicar as alterações no seu site. Executar o script manualmente pode funcionar bem para sites onde a documentação raramente muda e não seja muito inconveniente lembrar de publicar as alterações manualmente.</p>
+<p>No entanto, você pode automatizar o processo de publicação com integração contínua (CI).</p>
+<h2><a class="anchor" aria-hidden="true" id="automatizando-deploys-usando-integracão-continua"></a><a href="#automatizando-deploys-usando-integracão-continua" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Automatizando deploys usando integração contínua</h2>
+<p>Serviços de integração contínua (CI) são normalmente usados para realizar tarefas de rotina sempre que novos commits são enviados para o controle de código fonte. Dentre essas tarefas estão a execução de testes unitários e de integração, a automatização de builds, a publicação de pacotes ao NPM e, sim, a implementação de alterações ao seu site. Tudo o que você precisa fazer para automatizar os deploys do seu site é invocar o script <code>publish-gh-pages</code> sempre que sua documentação for atualizada. In the following section, we'll be covering how to do just that using <a href="https://circleci.com/">CircleCI</a>, a popular continuous integration service provider.</p>
+<h3><a class="anchor" aria-hidden="true" id="usando-circleci-20"></a><a href="#usando-circleci-20" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Usando CircleCI 2.0</h3>
+<p>Se ainda não tiver o feito, você pode <a href="https://circleci.com/signup/">configurar o CircleCI</a> para seu projeto de código aberto. Depois disso, para poder fazer o deploy automático do seu site e documentação via CircleCI, basta configurar o Circle para executar o script <code>publish-gh-pages</code> como parte do processo de deploy. Você pode seguir este passo-a-passo para configurar certinho:</p>
+<ol>
+<li>Tenha certeza que a conta do GitHub que vai ser definida como <code>GIT_USER</code> tem acesso de escrita (<code>write</code>) ao repositório que contém a documentação. Você pode ver isso em <code>Settings | Collaborators &amp; teams</code> no repositório.</li>
+<li>Faça login no GitHub como o <code>GIT_USER</code>.</li>
+<li>Vá para <a href="https://github.com/settings/tokens">https://github.com/settings/tokens</a> como o <code>GIT_USER</code> e gere um novo <a href="https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/">token de acesso pessoal</a>, concedendo a ele controle total sobre repositórios privados através do escopo de acesso <code>repository</code>. Guarde este token em um lugar seguro, e tenha certeza de não compartilhar ele com ninguém. Este token pode ser usado para autenticar e realizar ações em seu nome, como se fosse a sua senha do GitHub.</li>
+<li>Open your CircleCI dashboard, and navigate to the Settings page for your repository, then select &quot;Environment variables&quot;. O URL é algo como <a href="https://circleci.com/gh/ORG/REPO/edit#env-vars">https://circleci.com/gh/ORG/REPO/edit#env-vars</a>, onde &quot;ORG/REPO&quot; deve ser substituído pela sua própria organização/repositório do seu GitHub.</li>
+<li>Crie uma nova variável de ambiente chamada <code>GITHUB_TOKEN</code>, usando seu token de acesso recém-criado como o valor dela.</li>
+<li>Crie um diretório <code>.circleci</code> e crie um arquivo <code>config.yml</code> dentro dele.</li>
+<li>Copie o texto abaixo para o <code>.circleci/config.yml</code>.</li>
+</ol>
+<pre><code class="hljs css language-yaml"><span class="hljs-comment"># Se você quiser que o Circle entre em ação apenas em commits diretos à master,</span>
+<span class="hljs-comment"># você pode descomentar as linhas seguintes e também o filtro `*filter-only-master`</span>
+<span class="hljs-comment"># lá no fim do arquivo</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># aliases:</span>
+<span class="hljs-comment">#  - &amp;filter-only-master</span>
+<span class="hljs-comment">#    branches:</span>
+<span class="hljs-comment">#      only:</span>
+<span class="hljs-comment">#        - master</span>
+
+<span class="hljs-attr">version:</span> <span class="hljs-number">2</span>
+<span class="hljs-attr">jobs:</span>
+<span class="hljs-attr">  deploy-website:</span>
+<span class="hljs-attr">    docker:</span>
+      <span class="hljs-comment"># Especifique aqui a versão desejada</span>
+
+<span class="hljs-attr">      - image:</span> <span class="hljs-string">circleci/node:8.11.1</span>
+
+<span class="hljs-attr">    steps:</span>
+
+<span class="hljs-bullet">      -</span> <span class="hljs-string">checkout</span>
+<span class="hljs-attr">      - run:</span>
+<span class="hljs-attr">          name:</span> <span class="hljs-string">Fazendo</span> <span class="hljs-string">deploy</span> <span class="hljs-literal">no</span> <span class="hljs-string">GitHub</span> <span class="hljs-string">Pages</span>
+<span class="hljs-attr">          command:</span> <span class="hljs-string">|
+            git config --global user.email "&lt;GITHUB_USERNAME&gt;@users.noreply.github.com"
+            git config --global user.name "&lt;YOUR_NAME&gt;"
+            echo "machine github.com login &lt;GITHUB_USERNAME&gt; password $GITHUB_TOKEN" &gt; ~/.netrc
+            cd website &amp;&amp; yarn install &amp;&amp; GIT_USER=&lt;GIT_USER&gt; yarn run publish-gh-pages
+
+</span><span class="hljs-attr">workflows:</span>
+<span class="hljs-attr">  version:</span> <span class="hljs-number">2</span>
+<span class="hljs-attr">  build_and_deploy:</span>
+<span class="hljs-attr">    jobs:</span>
+
+<span class="hljs-attr">      - deploy-website:</span>
+<span class="hljs-comment">#         filters: *filter-only-master</span>
+</code></pre>
+<p>Não se esqueça de substituir todos os <code>&lt;....&gt;</code> na sequência <code>command:</code> com os valores adequados. Como <code>&lt;GIT_USER&gt;</code>, você pode definir uma conta do GitHub que tenha permissão de push na documentação do seu repositório do GitHub. Na maioria das vezes, <code>&lt;GIT_USER&gt;</code> e <code>&lt;GITHUB_USERNAME&gt;</code> serão a mesma coisa.</p>
+<p><strong>NÃO</strong> coloque o valor da variável <code>$GITHUB_TOKEN</code> no <code>circle.yml</code>. Nós já configuramos esse token como uma variável lá no passo 3.</p>
+<blockquote>
+<p>Se você quiser usar SSH para a conexão com o seu repositório GitHub, você pode configurar <code>USE_SSH=true</code>. Dessa forma, o comando acima seria algo como: <code>cd website &amp;&amp; npm install &amp;&amp; GIT_USER=&lt;GIT_USER&gt; USE_SSH=true npm run publish-gh-pages</code>.</p>
+<p>Unlike when you run the <code>publish-gh-pages</code> script manually when the script runs within the Circle environment, the value of <code>CURRENT_BRANCH</code> is already defined as an <a href="https://circleci.com/docs/1.0/environment-variables/">environment variable within CircleCI</a> and will be picked up by the script automatically.</p>
+</blockquote>
+<p>Agora, sempre que um novo commit pintar na branch <code>master</code>, o CircleCI vai rodar sua bateria de testes e, se tudo passar, seu site será publicado através do script <code>publish-gh-pages</code>.</p>
+<blockquote>
+<p>If you would rather use a deploy key instead of a personal access token, you can by starting with the CircleCI <a href="https://circleci.com/docs/1.0/adding-read-write-deployment-key/">instructions</a> for adding a read/write deploy key.</p>
+</blockquote>
+<h3><a class="anchor" aria-hidden="true" id="truques-e-dicas"></a><a href="#truques-e-dicas" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Truques e dicas</h3>
+<p>When initially deploying to a <code>gh-pages</code> branch using CircleCI, you may notice that some jobs triggered by commits to the <code>gh-pages</code> branch fail to run successfully due to a lack of tests (This can also result in chat/slack build failure notifications).</p>
+<p>You can work around this easily by:</p>
+<ul>
+<li>Setting the environment variable <code>CUSTOM_COMMIT_MESSAGE</code> flag to the <code>publish-gh-pages</code> command with the contents of <code>[skip ci]</code>. e.g.</li>
+</ul>
+<pre><code class="hljs css language-bash">CUSTOM_COMMIT_MESSAGE=<span class="hljs-string">"[skip ci]"</span> \
+  yarn run publish-gh-pages <span class="hljs-comment"># or `npm run publish-gh-pages`</span>
+</code></pre>
+<ul>
+<li>Alternatively, you can work around this by creating a basic CircleCI config with the following contents:</li>
+</ul>
+<pre><code class="hljs css language-yaml"><span class="hljs-comment"># CircleCI 2.0 Config File</span>
+<span class="hljs-comment"># This config file will prevent tests from being run on the gh-pages branch.</span>
+<span class="hljs-attr">version:</span> <span class="hljs-number">2</span>
+<span class="hljs-attr">jobs:</span>
+<span class="hljs-attr">  build:</span>
+<span class="hljs-attr">    machine:</span> <span class="hljs-literal">true</span>
+<span class="hljs-attr">    branches:</span>
+<span class="hljs-attr">      ignore:</span> <span class="hljs-string">gh-pages</span>
+<span class="hljs-attr">    steps:</span>
+<span class="hljs-attr">      - run:</span> <span class="hljs-string">echo</span> <span class="hljs-string">"Pulando testes na branch gh-pages"</span>
+</code></pre>
+<p>Salve este arquivo como <code>config.yml</code> e coloque-o em um diretório <code>.circleci</code> dentro do seu diretório <code>website/static</code>.</p>
+<h3><a class="anchor" aria-hidden="true" id="usando-o-travis-ci"></a><a href="#usando-o-travis-ci" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Usando o Travis CI</h3>
+<ol>
+<li>Vá para <a href="https://github.com/settings/tokens">https://github.com/settings/tokens</a> e gere um novo <a href="https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/">token de acesso pessoal</a></li>
+<li>Usando sua conta do GitHub, <a href="https://github.com/marketplace/travis-ci">adicione o app Travis CI</a> ao repositório que você deseja ativar.</li>
+<li>Abra seu painel do Travis CI. O URL é algo como <a href="https://travis-ci.com/NOME_USUARIO/REPO">https://travis-ci.com/NOME_USUARIO/REPO</a>. Daí, em seu repositório, vá para <code>More options</code> &gt; <code>Setting</code> e navegue até a seção <code>Environment Variables</code>.</li>
+<li>Crie uma nova variável de ambiente chamada <code>GH_TOKEN</code> com seu token recém-criado como seu valor. Depois, crie <code>GH_EMAIL</code> (seu endereço de e-mail) e <code>GH_NAME</code> (seu nome de usuário do GitHub).</li>
+<li>Crie um <code>.travis.yml</code> na raiz do seu repositório contendo o texto abaixo.</li>
+</ol>
+<pre><code class="hljs css language-yaml"><span class="hljs-comment"># .travis.yml</span>
+<span class="hljs-attr">language:</span> <span class="hljs-string">node_js</span>
+<span class="hljs-attr">node_js:</span>
+<span class="hljs-bullet">  -</span> <span class="hljs-string">'8'</span>
+<span class="hljs-attr">branches:</span>
+<span class="hljs-attr">  only:</span>
+<span class="hljs-bullet">    -</span> <span class="hljs-string">master</span>
+<span class="hljs-attr">cache:</span>
+<span class="hljs-attr">  yarn:</span> <span class="hljs-literal">true</span>
+<span class="hljs-attr">script:</span>
+<span class="hljs-bullet">  -</span> <span class="hljs-string">git</span> <span class="hljs-string">config</span> <span class="hljs-bullet">--global</span> <span class="hljs-string">user.name</span> <span class="hljs-string">"${GH_NAME}"</span>
+<span class="hljs-bullet">  -</span> <span class="hljs-string">git</span> <span class="hljs-string">config</span> <span class="hljs-bullet">--global</span> <span class="hljs-string">user.email</span> <span class="hljs-string">"${GH_EMAIL}"</span>
+<span class="hljs-bullet">  -</span> <span class="hljs-string">echo</span> <span class="hljs-string">"machine github.com login ${GH_NAME} password ${GH_TOKEN}"</span> <span class="hljs-string">&gt; ~/.netrc
+  - cd website &amp;&amp; yarn install &amp;&amp; GIT_USER="${GH_NAME}" yarn run publish-gh-pages
+</span></code></pre>
+<p>Agora, sempre que um novo commit pintar na branch <code>master</code>, o Travis CI vai rodar sua bateria de testes e, se tudo passar, seu site será publicado através do script <code>publish-gh-pages</code>.</p>
+<h3><a class="anchor" aria-hidden="true" id="hospedando-no-netlify"></a><a href="#hospedando-no-netlify" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Hospedando no Netlify</h3>
+<p>Siga estes passos para configurar seu site Docusaurus no Netlify:</p>
+<ol>
+<li>Selecione <strong>New site from Git</strong></li>
+<li>Conecte ao provedor Git de sua preferência.</li>
+<li>Selecione a branch a ser publicada. A padrão é a <code>master</code></li>
+<li>Configure as etapas do processo de build:</li>
+</ol>
+<ul>
+<li>Como comando de build, insira: <code>cd website; npm install; npm run build;</code></li>
+<li>Como diretório de publicação: <code>website/build/&lt;nomeDoProjeto&gt;</code> (use o <code>nomeDoProjeto</code> que está lá no seu <code>siteConfig</code>)</li>
+</ul>
+<ol>
+<li>Clique em <strong>Deploy site</strong></li>
+</ol>
+<p>Você também pode configurar o Netlify para repetir esse processo a cada commit no seu repositório, ou apenas para commits na branch <code>master</code>.</p>
+<h3><a class="anchor" aria-hidden="true" id="publicando-no-github-enterprise"></a><a href="#publicando-no-github-enterprise" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Publicando no GitHub Enterprise</h3>
+<p>Publicar no GitHub Enterprise deve funcionar da mesma maneira que no GitHub.com; você só precisa identificar o host da organização no GitHub Enterprise.</p>
+<table>
+<thead>
+<tr><th>Nome</th><th>Descrição</th></tr>
+</thead>
+<tbody>
+<tr><td><code>GITHUB_HOST</code></td><td>O nome do host para o servidor GitHub Enterprise.</td></tr>
+</tbody>
+</table>
+<p>Altere o seu <code>siteConfig.js</code> para adicionar uma propriedade <code>'githubHost'</code>, que representa o nome do host no GitHub Enterprise. Como alternativa, você pode definir uma variável de ambiente <code>GITHUB_HOST</code> ao executar o comando de publicação.</p>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/pt-BR/1.10.x/site-creation"><span class="arrow-prev">← </span><span>Criando seu site</span></a><a class="docs-next button" href="/docs/pt-BR/1.10.x/docker"><span>Docker</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#gerando-paginas-estaticas-html">Gerando páginas estáticas HTML</a></li><li><a href="#hospedando-paginas-estaticas-html">Hospedando páginas estáticas HTML</a><ul class="toc-headings"><li><a href="#hospedando-em-um-servico">Hospedando em um serviço:</a></li><li><a href="#usando-o-github-pages">Usando o GitHub Pages</a></li></ul></li><li><a href="#automatizando-deploys-usando-integracão-continua">Automatizando deploys usando integração contínua</a><ul class="toc-headings"><li><a href="#usando-circleci-20">Usando CircleCI 2.0</a></li><li><a href="#truques-e-dicas">Truques e dicas</a></li><li><a href="#usando-o-travis-ci">Usando o Travis CI</a></li><li><a href="#hospedando-no-netlify">Hospedando no Netlify</a></li><li><a href="#publicando-no-github-enterprise">Publicando no GitHub Enterprise</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/docusaurus_monochrome.svg" alt="Docusaurus" width="66" height="58"/></a><div class="footerSection"><h5>Docs</h5><a href="
+                /docs/pt-BR/installation">Getting Started</a><a href="
+                /docs/pt-BR/versioning">Versioning</a><a href="
+                /docs/pt-BR/translation">Localization</a><a href="
+                /docs/pt-BR/search">Adding Search</a></div><div class="footerSection"><h5>Community</h5><a href="/pt-BR/help">Help</a><a href="/pt-BR/users">User Showcase</a><a href="/pt-BR/about-slash">About</a></div><div class="footerSection"><h5>Social</h5><div class="social"><a class="github-button" href="https://github.com/facebook/docusaurus" data-count-href="https://github.com/facebook/docusaurus/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">docusaurus</a></div><div class="social"><a href="https://twitter.com/docusaurus" class="twitter-follow-button">Follow @docusaurus</a></div><div class="social"><div class="fb-like" data-href="https://docusaurus.io" data-colorscheme="dark" data-layout="standard" data-share="true" data-width="225" data-show-faces="false"></div></div></div></section><a href="https://opensource.facebook.com/" target="_blank" rel="noreferrer noopener" class="fbOpenSource"><img src="/img/oss_logo.png" alt="Facebook Open Source" width="170" height="45"/></a><section class="copyright"><span>Copyright © 2019 Facebook Inc.</span> Landing images by <a href="https://undraw.co/">unDraw</a>.</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>window.fbAsyncInit = function() {FB.init({appId:'199138890728411',xfbml:true,version:'v2.7'});};(function(d, s, id){var js, fjs = d.getElementsByTagName(s)[0];if (d.getElementById(id)) {return;}js = d.createElement(s); js.id = id;js.src = '//connect.facebook.net/en_US/sdk.js';fjs.parentNode.insertBefore(js, fjs);}(document, 'script','facebook-jssdk'));
+                </script><script>window.twttr=(function(d,s, id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return t;js=d.createElement(s);js.id=id;js.src='https://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js, fjs);t._e = [];t.ready = function(f) {t._e.push(f);};return t;}(document, 'script', 'twitter-wjs'));</script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                
+                apiKey: '3eb9507824b8be89e7a199ecaa1a9d2c',
+                indexName: 'docusaurus',
+                inputSelector: '#search_input_react',
+                algoliaOptions: {"facetFilters":["language:pt-BR","version:1.10.x"]}
+              });
+            </script></body></html>

@@ -1,0 +1,236 @@
+<!DOCTYPE html><html lang="ko"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>CLI Commands · Docusaurus</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="Docusaurus는 당신이 웹사이트를 만들거나, 관련 서비스를 제공하거나 배포할 수 있도록 도와주는 스크립트 세트를 제공합니다. Yarn이나 npm을 사용하여 ` run` 명령어로 호출할 수 있습니다. 그 예는 다음과 같습니다:"/><meta name="docsearch:version" content="1.10.x"/><meta name="docsearch:language" content="ko"/><meta property="og:title" content="CLI Commands · Docusaurus"/><meta property="og:type" content="website"/><meta property="og:url" content="https://docusaurus.io/"/><meta property="og:description" content="Docusaurus는 당신이 웹사이트를 만들거나, 관련 서비스를 제공하거나 배포할 수 있도록 도와주는 스크립트 세트를 제공합니다. Yarn이나 npm을 사용하여 ` run` 명령어로 호출할 수 있습니다. 그 예는 다음과 같습니다:"/><meta property="og:image" content="https://docusaurus.io/img/docusaurus.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://docusaurus.io/img/docusaurus.png"/><link rel="shortcut icon" href="/img/docusaurus.ico"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css"/><link rel="alternate" type="application/atom+xml" href="https://docusaurus.io/blog/atom.xml" title="Docusaurus Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://docusaurus.io/blog/feed.xml" title="Docusaurus Blog RSS Feed"/><script>
+              (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+              (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+              m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+              })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+              ga('create', 'UA-44373548-31', 'auto');
+              ga('send', 'pageview');
+            </script><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script><script type="text/javascript" src="/js/code-blocks-buttons.js"></script><script src="https://unpkg.com/vanilla-back-to-top@7.1.14/dist/vanilla-back-to-top.min.js"></script><script>
+        document.addEventListener('DOMContentLoaded', function() {
+          addBackToTop(
+            {"zIndex":100}
+          )
+        });
+        </script><script src="/js/scrollSpy.js"></script><link rel="stylesheet" href="/css/prism.css"/><link rel="stylesheet" href="/css/main.css"/><script src="/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/ko"><img class="logo" src="/img/docusaurus.svg" alt="Docusaurus"/><h2 class="headerTitleWithLogo">Docusaurus</h2></a><a href="/ko/versions"><h3>1.10.x</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/docs/ko/1.10.x/installation" target="_self">Docs</a></li><li class=""><a href="/docs/ko/1.10.x/tutorial-setup" target="_self">Tutorial</a></li><li class=""><a href="/ko/users" target="_self">사용자</a></li><li class=""><a href="/blog/" target="_self">블로그</a></li><li class=""><a href="https://github.com/facebook/docusaurus" target="_self">GitHub</a></li><span><li><a id="languages-menu" href="#"><img class="languages-icon" src="/img/language.svg" alt="Languages icon"/>한국어</a><div id="languages-dropdown" class="hide"><ul id="languages-dropdown-items"><li><a href="/docs/en/1.10.x/commands">English</a></li><li><a href="/docs/fr/1.10.x/commands">Français</a></li><li><a href="/docs/pt-BR/1.10.x/commands">Português (Brasil)</a></li><li><a href="/docs/ro/1.10.x/commands">Română</a></li><li><a href="/docs/ru/1.10.x/commands">Русский</a></li><li><a href="/docs/zh-CN/1.10.x/commands">简体中文</a></li><li><a href="https://crowdin.com/project/docusaurus" target="_blank" rel="noreferrer noopener">번역을 도와주세요</a></li></ul></div></li><script>
+        const languagesMenuItem = document.getElementById("languages-menu");
+        const languagesDropDown = document.getElementById("languages-dropdown");
+        languagesMenuItem.addEventListener("click", function(event) {
+          event.preventDefault();
+
+          if (languagesDropDown.className == "hide") {
+            languagesDropDown.className = "visible";
+          } else {
+            languagesDropDown.className = "hide";
+          }
+        });
+      </script></span><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>API</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">시작하기<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/docs/ko/1.10.x/installation">Installation</a></li><li class="navListItem"><a class="navItem" href="/docs/ko/1.10.x/site-preparation">Site Preparation</a></li><li class="navListItem"><a class="navItem" href="/docs/ko/1.10.x/site-creation">Creating your site</a></li><li class="navListItem"><a class="navItem" href="/docs/ko/1.10.x/publishing">Publishing your site</a></li><li class="navListItem"><a class="navItem" href="/docs/ko/1.10.x/docker">Docker</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">가이드<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem"><a class="navItem" href="/docs/ko/1.10.x/adding-blog">Adding a Blog</a></li><li class="navListItem"><a class="navItem" href="/docs/ko/1.10.x/custom-pages">Custom Pages</a></li><li class="navListItem"><a class="navItem" href="/docs/ko/1.10.x/search">Enabling Search</a></li><li class="navListItem"><a class="navItem" href="/docs/ko/1.10.x/navigation">Navigation and Sidebars</a></li><li class="navListItem"><a class="navItem" href="/docs/ko/1.10.x/translation">Translations &amp; Localization</a></li><li class="navListItem"><a class="navItem" href="/docs/ko/1.10.x/versioning">Versioning</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle collapsible">API<span class="arrow"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="#565656" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span></h3><ul class="hide"><li class="navListItem navListItemActive"><a class="navItem" href="/docs/ko/1.10.x/commands">CLI Commands</a></li><li class="navListItem"><a class="navItem" href="/docs/ko/1.10.x/doc-markdown">Markdown Features</a></li><li class="navListItem"><a class="navItem" href="/docs/ko/1.10.x/api-pages">Pages and Styles</a></li><li class="navListItem"><a class="navItem" href="/docs/ko/1.10.x/site-config">siteConfig.js</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://crowdin.com/project/docusaurus/ko" target="_blank" rel="noreferrer noopener">Translate</a><h1 class="postHeaderTitle">CLI Commands</h1></header><article><div><span><p>Docusaurus는 당신이 웹사이트를 만들거나, 관련 서비스를 제공하거나 배포할 수 있도록 도와주는 스크립트 세트를 제공합니다. Yarn이나 npm을 사용하여 <code>run</code> 명령어로 호출할 수 있습니다. 그 예는 다음과 같습니다:</p>
+<ul>
+<li><a href="/docs/ko/1.10.x/commands#docusaurus-start-port-number"><code>yarn run start</code></a>: 웹브라우져에서 작업중인 프로젝트 앱을 실시간 보여 줍니다.</li>
+<li><a href="/docs/ko/1.10.x/commands#docusaurus-examples"><code>yarn run examples</code></a>: 예제 설정 파일들을 생성합니다</li>
+</ul>
+<h2><a class="anchor" aria-hidden="true" id="cli에서-실행하기"></a><a href="#cli에서-실행하기" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>CLI에서 실행하기</h2>
+<p>Yarn 이나 npm을 사용해서 이 스크립트들을 실행할 수 있습니다. 시작 가이드를 읽어 보신분이라면 <code>start</code> 명령어를 보셨을 것입니다. 아래의 명령어를 실행하면 Docusarurus는 프로젝트 사이트에 필요한 파일들을 생성한 후, 프리뷰 서버를 실행하게 됩니다. 아래의 명령어를 커맨드라인에서 실행하면 Docusarurus는 프로젝트 사이트에 필요한 파일들을 생성한 후, 프리뷰 서버를 실행하게 됩니다.</p>
+<pre><code class="hljs css language-bash">yarn run start
+</code></pre>
+<p>아래와 같이 npm을 이용해도 됩니다:</p>
+<pre><code class="hljs css language-bash">npm run start
+</code></pre>
+<p>같은 방식으로, <code>start</code> 명령어에 다른 명령어를 대입하는 식으로 원하시는 스크립트를 실행 할 수 있습니다.</p>
+<h2><a class="anchor" aria-hidden="true" id="옵션-명령어-추가하기"></a><a href="#옵션-명령어-추가하기" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>옵션 명령어 추가하기</h2>
+<p>명령어에 옵션을 추가할 수 있습니다. 예를 들어 서버를 8080 포트에서 동작하려면 당신은 <code>start</code>를 실행하면서 <code>--port</code>를 입력할 수 있습니다:</p>
+<pre><code class="hljs css language-bash">yarn run start --port 8080
+</code></pre>
+<p>Npm을 사용하는 경우, <code>npm run &lt;command&gt;</code>다음에 <code>--</code> 을 사용하고 아래와 같이 옵션을 추가 할 수 있습니다.</p>
+<pre><code class="hljs css language-bash">npm run start -- --port 8080
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="환경설정"></a><a href="#환경설정" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>환경설정</h2>
+<p>These scripts are set up under the <code>&quot;scripts&quot;</code> key in your <code>website/package.json</code> file as part of the installation process. 이를 변경하고자 재설치를 원하시면 먼저, <a href="/docs/ko/1.10.x/installation">설치 가이드</a>를 참고하시면 도움이 될 것입니다.</p>
+<p>Docusaurus는 Node 어법을 사용하는 명령어 실행을 할 수 있도록 하고 있고 이에 대한 명령어 조합을 기본으로 제공 하고 있습니다. 매번 <code>docusaurus-start</code>를 입력하는 대신, <code>yarn run start</code> 또는 <code>npm start</code>을 사용해도 똑같은 결과를 얻을 수 있습니다.</p>
+<h2><a class="anchor" aria-hidden="true" id="명령어"></a><a href="#명령어" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>명령어</h2>
+<ul>
+<li><a href="#docusaurus-build"><code>docusaurus-build</code></a></li>
+<li><a href="#ducusaurus-예제"><code>ducusaurus-예제</code></a></li>
+<li><a href="#docusaurus-publish"><code>docusaurus-publish</code></a></li>
+<li><a href="#docusaurus-rename-version"><code>docusaurus-rename-version</code></a></li>
+<li><a href="#docusaurus-start"><code>docusaurus-start</code></a></li>
+<li><a href="#docusaurus-version-version"><code>docusaurus-version &lt;version&gt;</code></a></li>
+<li><a href="#docusaurus-write-translations"><code>docusaurus-write-translations</code></a></li>
+</ul>
+<hr>
+<h2><a class="anchor" aria-hidden="true" id="참고"></a><a href="#참고" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>참고</h2>
+<h3><a class="anchor" aria-hidden="true" id="docusaurus-build"></a><a href="#docusaurus-build" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>docusaurus-build</code></h3>
+<p>Alias: <code>build</code>.</p>
+<table>
+<thead>
+<tr><th>옵션</th><th>기본설정</th><th>설명</th></tr>
+</thead>
+<tbody>
+<tr><td><code>--skip-image-compression</code></td><td><code>false</code></td><td>이미지 파일 압축 안함. 이미지 파일을 최적화 하지 않았다면 기본설정을 바꾸지 마시기 바랍니다.</td></tr>
+<tr><td><code>--skip-next-release</code></td><td><code>false</code></td><td>기본설정데로라면 버젼 옵션을 선택한 경우라도 새로운 버젼이 생성되지 않습니다. 기본 설정의 의미는 <code>/docs</code>폴더 파일의 HTML 변환을 하지 않게 됩니다.</td></tr>
+</tbody>
+</table>
+<p>필요에따라 번역을 적용한 정적 사이트를 생성합니다. 배포전에 웹사이트를 구성하는데 유용 함.</p>
+<p><a href="/docs/ko/1.10.x/commands#docusaurus-start"><code>docusaurus-start</code></a>를 참고하세요.</p>
+<hr>
+<h3><a class="anchor" aria-hidden="true" id="ducusaurus-예제"></a><a href="#ducusaurus-예제" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>ducusaurus-예제</code></h3>
+<p>Alias: <code>예제</code></p>
+<table>
+<thead>
+<tr><th>옵션</th><th>기본설정</th><th>설명</th></tr>
+</thead>
+<tbody>
+<tr><td><code>&lt;feature&gt;</code></td><td>-</td><td><code>translations</code>나 <code>versions</code>중 하나를 명시해서 해당하는 별도의 파일들이 생성되도록 합니다.</td></tr>
+</tbody>
+</table>
+<p><strong>예시</strong></p>
+<pre><code class="hljs css language-bash">docusaurus-examples &lt;feature&gt;
+</code></pre>
+<p>When no feature is specified, sets up a minimally configured example website in your project. This command is covered in depth in the <a href="/docs/ko/1.10.x/site-preparation">Site Preparation guide</a>.</p>
+<hr>
+<h3><a class="anchor" aria-hidden="true" id="docusaurus-publish"></a><a href="#docusaurus-publish" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>docusaurus-publish</code></h3>
+<p>Alias: <code>publish-gh-pages</code></p>
+<p><a href="/docs/ko/1.10.x/commands#docusaurus-build">Builds</a>, then deploys the static website to GitHub Pages. This command is meant to be run during the deployment step in CircleCI, and therefore expects a few environment variables to be defined:</p>
+<p>The following environment variables are generally set manually by the user in the CircleCI <code>config.yml</code> file.</p>
+<ul>
+<li><code>GIT_USER</code>: The git user to be associated with the deploy commit.</li>
+<li><code>USE_SSH</code>: Whether to use SSH instead of HTTPS for your connection to the GitHub repo.</li>
+</ul>
+<p><strong>예시</strong></p>
+<pre><code class="hljs css language-bash">GIT_USER=docusaurus-bot USE_SSH=<span class="hljs-literal">true</span> yarn run publish-gh-pages
+</code></pre>
+<p>The following environment variables are <a href="https://circleci.com/docs/1.0/environment-variables/">set by CircleCI</a> during the build process.</p>
+<ul>
+<li><code>CIRCLE_BRANCH</code>: The git branch associated with the commit that triggered the CI run.</li>
+<li><code>CI_PULL_REQUEST</code>: Expected to be truthy if the current CI run was triggered by a commit in a pull request.</li>
+</ul>
+<p>The following should be set by you in <code>siteConfig.js</code> as <code>organizationName</code> and <code>projectName</code>, respectively. If they are not set in your site configuration, they fall back to the <a href="https://circleci.com/docs/1.0/environment-variables/">CircleCI environment</a>.</p>
+<ul>
+<li><code>CIRCLE_PROJECT_USERNAME</code>: The GitHub username or organization name that hosts the Git repo, e.g. &quot;facebook&quot;.</li>
+<li><code>CIRCLE_PROJECT_REPONAME</code>: The name of the Git repo, e.g. &quot;Docusaurus&quot;.</li>
+</ul>
+<p>You can learn more about configuring automatic deployments with CircleCI in the <a href="/docs/ko/1.10.x/publishing">Publishing guide</a>.</p>
+<hr>
+<h3><a class="anchor" aria-hidden="true" id="docusaurus-rename-version"></a><a href="#docusaurus-rename-version" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>docusaurus-rename-version</code></h3>
+<p>Alias: <code>rename-version</code></p>
+<p>Renames an existing version of the docs to a new version name.</p>
+<table>
+<thead>
+<tr><th>옵션</th><th>기본설정</th><th>설명</th></tr>
+</thead>
+<tbody>
+<tr><td><code>&lt;currentVersion&gt;</code></td><td>-</td><td>Version to be renamed.</td></tr>
+<tr><td><code>&lt;newVersion&gt;</code></td><td>-</td><td>Version to be renamed to.</td></tr>
+</tbody>
+</table>
+<p><strong>예시</strong></p>
+<pre><code class="hljs css language-bash">docusaurus-rename-version &lt;currentVersion&gt; &lt;newVersion&gt;
+</code></pre>
+<p>See the <a href="/docs/ko/1.10.x/versioning#renaming-existing-versions">Versioning guide</a> to learn more.</p>
+<hr>
+<h3><a class="anchor" aria-hidden="true" id="docusaurus-start"></a><a href="#docusaurus-start" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>docusaurus-start</code></h3>
+<p>Alias: <code>start</code>.</p>
+<p>This command will build the static website, apply translations if necessary, and then start a local server.</p>
+<table>
+<thead>
+<tr><th>옵션</th><th>기본설정</th><th>설명</th></tr>
+</thead>
+<tbody>
+<tr><td><code>--port &lt;number&gt;</code></td><td><code>3000</code></td><td>The website will be served from port 3000 by default, but if the port is taken up, Docusaurus will attempt to find an available one.</td></tr>
+<tr><td><code>--host &lt;host&gt;</code></td><td><code>localhost</code></td><td>Specify a host to use. E.g., if you want your server to be accessible externally, you can use --host 0.0.0.0.</td></tr>
+<tr><td><code>--watch</code></td><td>-</td><td>Whether to watch the files and live reload the page when files are changed. Defaults to true. Disable this by using <code>--no-watch</code>.</td></tr>
+</tbody>
+</table>
+<p>You can specify the browser application to be opened by setting the <code>BROWSER</code> environment variable before the command, e.g.:</p>
+<pre><code class="hljs">$ BROWSER=firefox yarn start
+</code></pre>
+<hr>
+<h3><a class="anchor" aria-hidden="true" id="docusaurus-version-version"></a><a href="#docusaurus-version-version" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>docusaurus-version &lt;version&gt;</code></h3>
+<p>Alias: <code>version</code></p>
+<p>Generates a new version of the docs. This will result in a new copy of your site being generated and stored in its own versioned directory. Useful for capturing snapshots of API docs that map to specific versions of your software. Accepts any string as a version number.</p>
+<p>See the <a href="/docs/ko/1.10.x/versioning">Versioning guide</a> to learn more.</p>
+<hr>
+<h3><a class="anchor" aria-hidden="true" id="docusaurus-write-translations"></a><a href="#docusaurus-write-translations" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>docusaurus-write-translations</code></h3>
+<p>Alias: <code>write-translations</code></p>
+<p>Writes the English for any strings that need to be translated into a <code>website/i18n/en.json</code> file. The script will go through every file in <code>website/pages/en</code> and through the <code>siteConfig.js</code> file and other config files to fetch English strings that will then be translated on Crowdin. See the <a href="/docs/ko/1.10.x/translation">Translation guide</a> to learn more.</p>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/ko/1.10.x/versioning"><span class="arrow-prev">← </span><span>Versioning</span></a><a class="docs-next button" href="/docs/ko/1.10.x/doc-markdown"><span>Markdown 기능</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#cli에서-실행하기">CLI에서 실행하기</a></li><li><a href="#옵션-명령어-추가하기">옵션 명령어 추가하기</a></li><li><a href="#환경설정">환경설정</a></li><li><a href="#명령어">명령어</a></li><li><a href="#참고">참고</a><ul class="toc-headings"><li><a href="#docusaurus-build"><code>docusaurus-build</code></a></li><li><a href="#ducusaurus-예제"><code>ducusaurus-예제</code></a></li><li><a href="#docusaurus-publish"><code>docusaurus-publish</code></a></li><li><a href="#docusaurus-rename-version"><code>docusaurus-rename-version</code></a></li><li><a href="#docusaurus-start"><code>docusaurus-start</code></a></li><li><a href="#docusaurus-version-version"><code>docusaurus-version &lt;version&gt;</code></a></li><li><a href="#docusaurus-write-translations"><code>docusaurus-write-translations</code></a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/docusaurus_monochrome.svg" alt="Docusaurus" width="66" height="58"/></a><div class="footerSection"><h5>Docs</h5><a href="
+                /docs/ko/installation">Getting Started</a><a href="
+                /docs/ko/versioning">Versioning</a><a href="
+                /docs/ko/translation">Localization</a><a href="
+                /docs/ko/search">Adding Search</a></div><div class="footerSection"><h5>Community</h5><a href="/ko/help">Help</a><a href="/ko/users">User Showcase</a><a href="/ko/about-slash">About</a></div><div class="footerSection"><h5>Social</h5><div class="social"><a class="github-button" href="https://github.com/facebook/docusaurus" data-count-href="https://github.com/facebook/docusaurus/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">docusaurus</a></div><div class="social"><a href="https://twitter.com/docusaurus" class="twitter-follow-button">Follow @docusaurus</a></div><div class="social"><div class="fb-like" data-href="https://docusaurus.io" data-colorscheme="dark" data-layout="standard" data-share="true" data-width="225" data-show-faces="false"></div></div></div></section><a href="https://opensource.facebook.com/" target="_blank" rel="noreferrer noopener" class="fbOpenSource"><img src="/img/oss_logo.png" alt="Facebook Open Source" width="170" height="45"/></a><section class="copyright"><span>Copyright © 2019 Facebook Inc.</span> Landing images by <a href="https://undraw.co/">unDraw</a>.</section></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>window.fbAsyncInit = function() {FB.init({appId:'199138890728411',xfbml:true,version:'v2.7'});};(function(d, s, id){var js, fjs = d.getElementsByTagName(s)[0];if (d.getElementById(id)) {return;}js = d.createElement(s); js.id = id;js.src = '//connect.facebook.net/en_US/sdk.js';fjs.parentNode.insertBefore(js, fjs);}(document, 'script','facebook-jssdk'));
+                </script><script>window.twttr=(function(d,s, id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return t;js=d.createElement(s);js.id=id;js.src='https://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js, fjs);t._e = [];t.ready = function(f) {t._e.push(f);};return t;}(document, 'script', 'twitter-wjs'));</script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                
+                apiKey: '3eb9507824b8be89e7a199ecaa1a9d2c',
+                indexName: 'docusaurus',
+                inputSelector: '#search_input_react',
+                algoliaOptions: {"facetFilters":["language:ko","version:1.10.x"]}
+              });
+            </script></body></html>
