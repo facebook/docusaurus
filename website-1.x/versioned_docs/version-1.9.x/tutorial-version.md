@@ -4,7 +4,7 @@ title: Add Versions
 original_id: tutorial-version
 ---
 
-With an example site deployed, we can now try out one of the killer features of Docusaurus - versioned documentation. Versioned documentation helps to show relevant documention to the users for the current version of the tool they are using and also hide unreleased documentation from users, reducing confusion. Documentation for older versions are also preserved and accessible to users of older versions of the tool even as the latest documentation changes.
+With an example site deployed, we can now try out one of the killer features of Docusaurus - versioned documentation. Versioned documentation helps to show relevant documentation to the users for the current version of the tool they are using and also hide unreleased documentation from users, reducing confusion. Documentations for older versions are also preserved and accessible to users of older versions of the tool even as the latest documentation changes.
 
 <img alt="Docusaurus process" src="/img/undraw_docusaurus_process.svg" class="docImage"/>
 
@@ -49,10 +49,10 @@ If we go to the `localhost:3000/<baseUrl>/docs/doc1` URL in our browser, realize
 
 The latest versions of the docs have to be accessed by adding `next` to the URL: `localhost:3000/<baseUrl>/docs/next/doc1`. Note that the version beside the title also changes to `next` when we are on that URL.
 
-A versions page has been created for us at `localhost:3000/<baseUrl>/versions` which shows a list of the current versions of the documentation. See that both `1.0.0` and `master` are being listed here and they correctly link to the respective versions of documentation.
+A versions page has been created for us at `localhost:3000/<baseUrl>/versions` which shows a list of the current versions of the documentation. See that both `1.0.0` and `master` are being listed here and they correctly link to the respective versions of the documentation.
 
 Go ahead and publish your versioned site!
 
 ## Wrap Up
 
-That's all folks! In this short tutorial you have experienced how easy it was to create a documentation website from scratch and making versions for them. There are many more things you can do with Docusaurus, such as adding a blog, search and translations. Check out the Guides section for more.
+That's all folks! In this short tutorial, you have experienced how easy it was to create a documentation website from scratch and making versions for them. There are many more things you can do with Docusaurus, such as adding a blog, search and translations. Check out the Guides section for more.

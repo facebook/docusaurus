@@ -6,7 +6,7 @@ original_id: tutorial-publish-site
 
 <img alt="Docusaurus Facebook" src="/img/undraw_docusaurus_fb.svg" class="docImage"/>
 
-Next we'll learn how to publish the site to the WWW for everyone to browse! For the purpose of the tutorial, we'll use GitHub pages to host our website. But you can use any static file hosting service that you want, e.g. Netlify, Amazon S3, etc.
+Next, we'll learn how to publish the site to the WWW for everyone to browse! For the purpose of the tutorial, we'll use GitHub pages to host our website. But you can use any static file hosting service that you want, e.g. Netlify, Amazon S3, etc.
 
 ## Put the Site Online
 
