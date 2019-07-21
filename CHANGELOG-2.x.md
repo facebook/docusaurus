@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Use contenthash instead of chunkhash for better long term caching
+
+## 2.0.0-alpha.23
+
 - Fix docusaurus route config generation for certain edge case
 
 ## 2.0.0-alpha.22
