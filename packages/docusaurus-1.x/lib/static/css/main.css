@@ -618,7 +618,7 @@ blockquote {
 
 /* Main Container */
 .mainContainer {
-  flex: 1 1 auto;
+  flex: 1 1 0%;
   max-width: 100%;
   padding: 40px 0;
 }
