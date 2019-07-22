@@ -33,7 +33,7 @@ module.exports = function(context, opts) {
 
     async loadContent() {
       const {include} = options;
-      const {siteConfig} = context;
+      const {siteConfig, siteDir} = context;
       const pagesDir = contentPath;
 
       if (!fs.existsSync(pagesDir)) {
@@ -47,11 +47,15 @@ module.exports = function(context, opts) {
 
       return pagesFiles.map(relativeSource => {
         const source = path.join(pagesDir, relativeSource);
+        const aliasedSource = path.join(
+          '@site',
+          path.relative(siteDir, source),
+        );
         const pathName = encodePath(fileToPath(relativeSource));
         // Default Language.
         return {
           permalink: pathName.replace(/^\//, baseUrl),
-          source,
+          source: aliasedSource,
         };
       });
     },

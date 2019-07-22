@@ -22,15 +22,15 @@ describe('docusaurus-plugin-content-pages', () => {
       siteConfig,
     });
     const pagesMetadatas = await plugin.loadContent();
-    const pagesDir = plugin.contentPath;
+    const pagesPath = path.relative(siteDir, plugin.contentPath);
     expect(pagesMetadatas).toEqual([
       {
         permalink: '/',
-        source: path.join(pagesDir, 'index.js'),
+        source: path.join('@site', pagesPath, 'index.js'),
       },
       {
         permalink: '/hello/world',
-        source: path.join(pagesDir, 'hello', 'world.js'),
+        source: path.join('@site', pagesPath, 'hello', 'world.js'),
       },
     ]);
   });
