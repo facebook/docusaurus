@@ -37,7 +37,7 @@ module.exports = async function(fileString) {
       // Replace inline-style links or reference-style links e.g:
       // This is [Document 1](doc1.md) -> we replace this doc1.md with correct link
       // [doc1]: doc1.md -> we replace this doc1.md with correct link
-      const mdRegex = /(?:(?:\]\()|(?:\]:\s?))(?!https)([^'")\]\s>]+\.md)/g;
+      const mdRegex = /(?:(?:\]\()|(?:\]:\s?))(?!https)([^'")\]\s>]+\.mdx?)/g;
       let mdMatch = mdRegex.exec(modifiedLine);
       while (mdMatch !== null) {
         // Replace it to correct html link.

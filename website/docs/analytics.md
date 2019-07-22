@@ -25,7 +25,7 @@ module.exports = {
 };
 ```
 
-To learn how to manually set up the Google Analytics plugin for Docusaurus sites not generated from the classic template, refer to [Advanced Guides: Plugins – `@docusaurus/plugin-google-analytics`](/docs/advanced-plugins#docusaurusplugin-google-analytics).
+To learn how to manually set up the Google Analytics plugin for Docusaurus sites not generated from the classic template, refer to [Advanced Guides: Plugins – `@docusaurus/plugin-google-analytics`](advanced-plugins.md#docusaurusplugin-google-analytics).
 
 ## `@docusaurus/plugin-google-gtag`
 
@@ -44,4 +44,4 @@ module.exports = {
 };
 ```
 
-To learn how to manually set up the gtag plugin for Docusaurus sites not generated from the classic template, refer to [Advanced Guides: Plugins – `@docusaurus/plugin-google-gtag`](/docs/advanced-plugins.md#docusaurusplugin-google-gtag).
+To learn how to manually set up the gtag plugin for Docusaurus sites not generated from the classic template, refer to [Advanced Guides: Plugins – `@docusaurus/plugin-google-gtag`](advanced-plugins.md#docusaurusplugin-google-gtag).
