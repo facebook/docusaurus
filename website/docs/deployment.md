@@ -21,13 +21,13 @@ Most importantly, however, deploying a Docusaurus project only takes a couple se
 
 1. First, install their [command-line interface](https://zeit.co/download):
 
- ```bash
+```bash
 npm i -g now
 ```
 
 2. Run a single command inside the root directory of your project:
 
- ```bash
+```bash
 now
 ```
 
