@@ -30,7 +30,7 @@ At this point, you can grab all of the files inside the `website/build` director
 * [GitHub Pages](#using-github-pages)
 * [Netlify](#hosting-on-netlify)
 
-## Using ZEIT Now
+### Using ZEIT Now
 
 Deploying your Docusaurus project to [ZEIT Now](https://zeit.co/now) will provide you with [various benefits](https://zeit.co/now) in the areas of performance and ease of use.
 
@@ -42,7 +42,7 @@ Most importantly, however, deploying a Docusaurus project only takes a couple se
 npm i -g now
 ```
 
-2. Run a single command inside the directory if your project:
+2. Run a single command inside the root directory of your project:
 
 ```bash
 now
@@ -238,6 +238,10 @@ script:
 ```
 
 Now, whenever a new commit lands in `master`, Travis CI will run your suite of tests and, if everything passes, your website will be deployed via the `publish-gh-pages` script.
+
+### Hosting on ZEIT Now
+
+With [ZEIT Now](#using-zeit-now), you can deploy your site easily and connect it to [GitHub](https://zeit.co/github) or [GitLab](https://zeit.co/gitlab) to automatically receive a new deployment every time you push a commit.
 
 ### Hosting on Netlify
 

@@ -11,7 +11,29 @@ npm build
 
 Once it finishes, you should see the production build under the `build/` directory.
 
-You can deploy your site to static site hosting services such as [GitHub Pages](https://pages.github.com/), [Now](https://zeit.co/now), [Netlify](https://www.netlify.com/), and [Render](https://render.com/static-sites). Docusaurus sites are statically rendered so they work without JavaScript too!
+You can deploy your site to static site hosting services such as [ZEIT Now](https://zeit.co/now), [GitHub Pages](https://pages.github.com/), [Netlify](https://www.netlify.com/), and [Render](https://render.com/static-sites). Docusaurus sites are statically rendered so they work without JavaScript too!
+
+## Deploying to ZEIT Now
+
+Deploying your Docusaurus project to [ZEIT Now](https://zeit.co/now) will provide you with [various benefits](https://zeit.co/now) in the areas of performance and ease of use.
+
+Most importantly, however, deploying a Docusaurus project only takes a couple seconds:
+
+1. First, install their [command-line interface](https://zeit.co/download):
+
+```bash
+npm i -g now
+```
+
+2. Run a single command inside the root directory of your project:
+
+```bash
+now
+```
+
+**That's all.** Your docs will automatically be deployed.
+ 
+Now you can connect your site to [GitHub](https://zeit.co/github) or [GitLab](https://zeit.co/gitlab) to automatically receive a new deployment every time you push a commit.
 
 ## Deploying to GitHub Pages
 
@@ -75,10 +97,6 @@ References:
 - https://www.gatsbyjs.org/docs/deploying-and-hosting/
 
 -->
-
-## Deploying to Now
-
-_This section is a work in progress. [Welcoming PRs](https://github.com/facebook/docusaurus/issues/1640)._
 
 ## Deploying to Netlify
 
