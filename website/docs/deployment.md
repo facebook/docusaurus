@@ -15,11 +15,11 @@ You can deploy your site to static site hosting services such as [ZEIT Now](http
 
 ## Deploying to ZEIT Now
 
- Deploying your Docusaurus project to [ZEIT Now](https://zeit.co/now) will provide you with [various benefits](https://zeit.co/now) in the areas of performance and ease of use.
+Deploying your Docusaurus project to [ZEIT Now](https://zeit.co/now) will provide you with [various benefits](https://zeit.co/now) in the areas of performance and ease of use.
 
- Most importantly, however, deploying a Docusaurus project only takes a couple seconds:
+Most importantly, however, deploying a Docusaurus project only takes a couple seconds:
 
- 1. First, install their [command-line interface](https://zeit.co/download):
+1. First, install their [command-line interface](https://zeit.co/download):
 
  ```bash
 npm i -g now
@@ -31,7 +31,7 @@ npm i -g now
 now
 ```
 
- **That's all.** Your docs will automatically be deployed.
+**That's all.** Your docs will automatically be deployed.
  
 Now you can connect your site to [GitHub](https://zeit.co/github) or [GitLab](https://zeit.co/gitlab) to automatically receive a new deployment every time you push a commit.
 
