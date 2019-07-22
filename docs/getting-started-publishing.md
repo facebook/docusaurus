@@ -42,7 +42,7 @@ Most importantly, however, deploying a Docusaurus project only takes a couple se
 npm i -g now
 ```
 
-2. Run a single command inside the directory if your project:
+2. Run a single command inside the root directory of your project:
 
 ```bash
 now
