@@ -166,18 +166,55 @@ module.exports = {
 
 ### `@docusaurus/plugin-google-analytics`
 
-The classic template ships with this plugin for Google Analytics. To use this analytics, specify the plugin in the `plugins` field, and provide your Google Analytics configuration in [theme config](./using-themes.md).
+The default [Google Analytics](https://developers.google.com/analytics/devguides/collection/analyticsjs/) plugin.
+
+**Installation**
+
+```shell
+$ yarn add @docusaurus/plugin-google-analytics
+```
+
+**Configuration**
 
 ```js
 // docusaurus.config.js
 module.exports = {
-  plugins: ['@docusaurus/plugin-google-analytics'],
+  plugins: [
+    [
+      '@docusaurus/plugin-google-analytics',
+      {
+        trackingID: 'UA-142857148-5',
+      },
+    ],
+  ],
 };
 ```
 
 ### `@docusaurus/plugin-google-gtag`
 
-_This section is a work in progress. [Welcoming PRs](https://github.com/facebook/docusaurus/issues/1640)._
+The default [Global Site Tag (gtag.js)](https://developers.google.com/analytics/devguides/collection/gtagjs/) plugin.
+
+**Installation**
+
+```shell
+$ yarn add @docusaurus/plugin-google-gtag
+```
+
+**Configuration**
+
+```js
+// docusaurus.config.js
+module.exports = {
+  plugins: [
+    [
+      '@docusaurus/plugin-google-gtag',
+      {
+        trackingID: 'UA-142857148-5',
+      },
+    ],
+  ],
+};
+```
 
 ### `@docusaurus/plugin-sitemap`
 
