@@ -32,6 +32,8 @@ now
 ```
 
  **That's all.** Your docs will automatically be deployed.
+ 
+Now you can connect your site to [GitHub](https://zeit.co/github) or [GitLab](https://zeit.co/gitlab) to automatically receive a new deployment every time you push a commit.
 
 ## Deploying to GitHub Pages
 
