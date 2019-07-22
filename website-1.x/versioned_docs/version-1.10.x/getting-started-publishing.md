@@ -30,7 +30,7 @@ At this point, you can grab all of the files inside the `website/build` director
 * [GitHub Pages](#using-github-pages)
 * [Netlify](#hosting-on-netlify)
 
-## Using ZEIT Now
+### Using ZEIT Now
 
 Deploying your Docusaurus project to [ZEIT Now](https://zeit.co/now) will provide you with [various benefits](https://zeit.co/now) in the areas of performance and ease of use.
 
