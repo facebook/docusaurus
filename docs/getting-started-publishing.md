@@ -25,12 +25,12 @@ At this point, you can grab all of the files inside the `website/build` director
 
 ### Hosting on a Service:
 
-* [ZEIT Now](#hosting-on-now)
+* [ZEIT Now](#using-zeit-now)
 * [GitHub Pages](#using-github-pages)
 * [Netlify](#hosting-on-netlify)
 * [Render](#hosting-on-render)
 
-## Hosting on ZEIT Now
+## Using ZEIT Now
 
 Deploying your Docusaurus project to [ZEIT Now](https://zeit.co/now) will provide you with [various benefits](https://zeit.co/now) in the areas of performance and ease of use.
 
