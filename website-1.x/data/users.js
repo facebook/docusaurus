@@ -681,6 +681,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'uniforms',
+    image: '/img/users/uniforms.svg',
+    infoLink: 'https://uniforms.tools',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Vasern',
     image: 'https://vasern.com/img/vasern.svg',
     infoLink: 'https://vasern.com/',
