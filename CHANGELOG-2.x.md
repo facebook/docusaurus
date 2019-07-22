@@ -3,6 +3,7 @@
 ## Unreleased
 
 - Use contenthash instead of chunkhash for better long term caching
+- Allow user to customize generated heading from MDX. Swizzle `@theme/Heading`
 
 ## 2.0.0-alpha.23
 
