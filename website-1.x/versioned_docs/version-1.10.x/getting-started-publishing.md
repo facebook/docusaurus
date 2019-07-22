@@ -26,8 +26,29 @@ At this point, you can grab all of the files inside the `website/build` director
 
 ### Hosting on a Service:
 
+* [ZEIT Now](#using-zeit-now)
 * [GitHub Pages](#using-github-pages)
 * [Netlify](#hosting-on-netlify)
+
+## Using ZEIT Now
+
+Deploying your Docusaurus project to [ZEIT Now](https://zeit.co/now) will provide you with [various benefits](https://zeit.co/now) in the areas of performance and ease of use.
+
+Most importantly, however, deploying a Docusaurus project only takes a couple seconds:
+
+1. First, install their [command-line interface](https://zeit.co/download):
+
+```bash
+npm i -g now
+```
+
+2. Run a single command inside the directory if your project:
+
+```bash
+now
+```
+
+**That's all.** Your docs will automatically be deployed.
 
 ### Using GitHub Pages
 
