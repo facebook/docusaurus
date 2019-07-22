@@ -25,7 +25,7 @@ You can deploy your site to static site hosting services such as [ZEIT Now](http
 npm i -g now
 ```
 
- 2. Run a single command inside the directory if your project:
+2. Run a single command inside the root directory of your project:
 
  ```bash
 now
