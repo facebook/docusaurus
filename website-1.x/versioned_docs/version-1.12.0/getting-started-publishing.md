@@ -240,6 +240,10 @@ script:
 
 Now, whenever a new commit lands in `master`, Travis CI will run your suite of tests and, if everything passes, your website will be deployed via the `publish-gh-pages` script.
 
+### Hosting on ZEIT Now
+
+With [ZEIT Now](#using-zeit-now), you can deploy your site easily and connect it to [GitHub](https://zeit.co/github) or [GitLab](https://zeit.co/gitlab) to automatically receive a new deployment every time you push a commit.
+
 ### Hosting on Netlify
 
 Steps to configure your Docusaurus-powered site on Netlify.
