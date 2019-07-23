@@ -15,36 +15,28 @@ describe('processMetadata', () => {
     baseUrl: '/',
     url: 'https://docusaurus.io',
   };
-  const docsDir = path.resolve(siteDir, 'docs');
+  const pluginPath = 'docs';
+  const docsDir = path.resolve(siteDir, pluginPath);
 
   test('normal docs', async () => {
     const sourceA = path.join('foo', 'bar.md');
     const sourceB = path.join('hello.md');
-    const dataA = await processMetadata(
-      sourceA,
-      docsDir,
-      {},
-      siteConfig,
-      'docs',
-    );
-    const dataB = await processMetadata(
-      sourceB,
-      docsDir,
-      {},
-      siteConfig,
-      'docs',
-    );
+
+    const [dataA, dataB] = await Promise.all([
+      processMetadata(sourceA, docsDir, {}, siteConfig, pluginPath, siteDir),
+      processMetadata(sourceB, docsDir, {}, siteConfig, pluginPath, siteDir),
+    ]);
     expect(dataA).toEqual({
       id: 'foo/bar',
       permalink: '/docs/foo/bar',
-      source: path.join(docsDir, sourceA),
+      source: path.join('@site', pluginPath, sourceA),
       title: 'Bar',
       description: 'This is custom description',
     });
     expect(dataB).toEqual({
       id: 'hello',
       permalink: '/docs/hello',
-      source: path.join(docsDir, sourceB),
+      source: path.join('@site', pluginPath, sourceB),
       title: 'Hello, World !',
       description: `Hi, Endilie here :)`,
     });
@@ -52,11 +44,18 @@ describe('processMetadata', () => {
 
   test('docs with custom permalink', async () => {
     const source = path.join('permalink.md');
-    const data = await processMetadata(source, docsDir, {}, siteConfig, 'docs');
+    const data = await processMetadata(
+      source,
+      docsDir,
+      {},
+      siteConfig,
+      pluginPath,
+      siteDir,
+    );
     expect(data).toEqual({
       id: 'permalink',
       permalink: '/docs/endiliey/permalink',
-      source: path.join(docsDir, source),
+      source: path.join('@site', pluginPath, source),
       title: 'Permalink',
       description: 'This has a different permalink',
     });

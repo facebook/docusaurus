@@ -17,6 +17,7 @@ describe('loadDocs', () => {
       url: 'https://docusaurus.io',
     };
     const sidebarPath = path.join(siteDir, 'sidebars.json');
+    const pluginPath = 'docs';
     const plugin = pluginContentDocs(
       {
         siteDir,
@@ -28,7 +29,6 @@ describe('loadDocs', () => {
       },
     );
     const {docs: docsMetadata} = await plugin.loadContent();
-    const docsDir = plugin.contentPath;
 
     expect(docsMetadata.hello).toEqual({
       category: 'Guides',
@@ -37,7 +37,7 @@ describe('loadDocs', () => {
       previous: 'foo/baz',
       previous_title: 'baz',
       sidebar: 'docs',
-      source: path.join(docsDir, 'hello.md'),
+      source: path.join('@site', pluginPath, 'hello.md'),
       title: 'Hello, World !',
       description: `Hi, Endilie here :)`,
     });
@@ -49,7 +49,7 @@ describe('loadDocs', () => {
       next_title: 'baz',
       permalink: '/docs/foo/bar',
       sidebar: 'docs',
-      source: path.join(docsDir, 'foo', 'bar.md'),
+      source: path.join('@site', pluginPath, 'foo', 'bar.md'),
       title: 'Bar',
       description: 'This is custom description',
     });
