@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-- Shorter chunk naming for pages. Instead of absolute path, we use relative path from site directory
+- Fix potential security vulnerability because we're exposing the directory structure of the host machine. Instead of absolute path, we use relative path from site directory. Resulting in shorter webpack chunk naming and smaller bundle size. 
 - Use contenthash instead of chunkhash for better long term caching
 
 ## 2.0.0-alpha.23
