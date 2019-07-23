@@ -8,9 +8,47 @@ Plugins are the building blocks which add features to a Docusaurus 2 site. Each 
 
 Docusaurus 2 provides a few essential plugins such as [Google Analytics](advanced-plugins.md#docusaurusplugin-google-analytics) and [Sitemap](advanced-plugins.md#docusaurusplugin-sitemap). You may also write your own plugins for customized features.
 
-In this doc, we talk about how to use plugins with Docusaurus' official plugins. To learn about the design implementation and how to write your own plugins, check out [Advanced Guides: Plugins](advanced-plugins.md). For API reference, check out [API Reference: Plugins](api-plugins.md).
+In this doc, we talk about how to use plugins with Docusaurus' official plugins. To learn about the design implementation and how to write your own plugins, check out [Advanced Guides: Plugins](advanced-plugins.md).
 
-## Using plugins
+## Installing a plugin
+
+A plugin is an npm package, so you install them like other npm packages using npm.
+
+```bash
+yarn add docusaurus-plugin-name
+```
+
+Then you add it in your site's `docusaurus.config.js`'s `plugins` option:
+
+```jsx
+// docusaurus.config.js
+module.exports = {
+  plugins: [
+    '@docusaurus/plugin-content-pages',
+    [
+      // Plugin with options
+      '@docusaurus/plugin-content-blog',
+      {
+        include: ['*.md', '*.mdx'],
+        path: 'blog',
+      },
+    ],
+  ],
+};
+```
+
+Docusaurus can also load plugins from your local directory, you can do something like the following:
+
+```jsx
+// docusaurus.config.js
+const path = require('path');
+
+module.exports = {
+  plugins: [path.resolve(__dirname, '/path/to/docusaurus-local-plugin')],
+};
+```
+
+## Configuring plugins
 
 To use a plugin, add the plugin to the `plugins` field of your `docusaurus.config.js`.
 

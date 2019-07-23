@@ -3,7 +3,7 @@ id: advanced-themes
 title: Themes
 ---
 
-_This section is a work in progress._
+Under the hood, Themes are plugins with exactly the same lifecycle methods, but most likely they would not use `loadContent`. They exist to add component aliases by extending the webpack config. And they are run after all existing plugins.
 
 <!--
 

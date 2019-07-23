@@ -3,7 +3,7 @@ id: using-themes
 title: Using Themes
 ---
 
-_This section is a work in progress. [Welcoming PRs](https://github.com/facebook/docusaurus/issues/1640)._
+Themes provide the consistent components for your doc sites.
 
 <!--
 
