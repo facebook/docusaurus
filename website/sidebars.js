@@ -38,8 +38,8 @@ module.exports = {
       'cli',
       'docusaurus-core',
       'docusaurus.config.js',
-      'plugins-api',
-      'themes-api',
+      'api-plugins',
+      'api-themes',
     ],
   },
 };

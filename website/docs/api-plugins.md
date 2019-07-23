@@ -1,5 +1,5 @@
 ---
-id: plugins-api
+id: api-plugins
 title: Plugins
 ---
 

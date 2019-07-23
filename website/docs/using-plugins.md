@@ -8,7 +8,7 @@ Plugins are the building blocks which add features to a Docusaurus 2 site. Each 
 
 Docusaurus 2 provides a few essential plugins such as [Google Analytics](advanced-plugins.md#docusaurusplugin-google-analytics) and [Sitemap](advanced-plugins.md#docusaurusplugin-sitemap). You may also write your own plugins for customized features.
 
-In this doc, we talk about how to use plugins with Docusaurus' official plugins. To learn about the design implementation and how to write your own plugins, check out [Advanced Guides: Plugins](advanced-plugins.md). For API reference, check out [API Reference: Plugins](plugins-api.md).
+In this doc, we talk about how to use plugins with Docusaurus' official plugins. To learn about the design implementation and how to write your own plugins, check out [Advanced Guides: Plugins](advanced-plugins.md). For API reference, check out [API Reference: Plugins](api-plugins.md).
 
 ## Using plugins
 

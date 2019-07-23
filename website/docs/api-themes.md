@@ -1,5 +1,5 @@
 ---
-id: themes-api
+id: api-themes
 title: Themes
 ---
 
