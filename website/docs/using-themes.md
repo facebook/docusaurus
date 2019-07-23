@@ -5,6 +5,39 @@ title: Using Themes
 
 Themes provide the consistent components for your doc sites.
 
+<!-- TODO: WIP intro -->
+
+## Using themes
+
+To use themes, specify the themes in your `docusaurus.config.js`. You may use multiple themes:
+
+```js
+// docusaurus.config.js
+module.exports = {
+  themes: ['@docusaurus/theme-classic', '@docusaurus/theme-live-codeblock'],
+};
+```
+
+## Swizzling theme components
+
+Themes are all about components. Docusaurus Themes' components are designed to be easily replaceable. We created a command for you to replace the components called `swizzle`.
+
+To swizzle a component for a theme, run the following command in your doc site:
+
+```shell
+$ docusaurus swizzle [theme name] [component name]
+```
+
+As an example, to swizzle the `<Footer />` component in `@docusaurus/theme-classic` for your site, run:
+
+```shell
+$ yarn swizzle @docusaurus/theme-classic
+```
+
+This will copy the current `<Footer />` component used by the theme to a `theme/Footer` directory under the root of your site, which is where Docusaurus will look for swizzled components. Docusaurus will then use swizzled component in place of the original one from the theme.
+
+**Note**: You need to restart your dev server for Docusaurus to pick up the new component.
+
 <!--
 
 Outline
@@ -18,7 +51,7 @@ Related pieces
 ---
 
 - [Advanced Guides – Themes](advanced-themes.md)
-- [API - Themes](api-themes.md)
+- [Lifecycle APIs](lifecycle-apis.md)
 
 References
 ---
