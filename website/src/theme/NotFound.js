@@ -16,7 +16,7 @@ function NotFound({location}) {
 
   return (
     <Layout title="Page Not Found">
-      <div className="container margin-vert--xl">
+      <div className="container margin-vert--xl" data-canny>
         <div className="row">
           <div className="col col--6 col--offset-3">
             <h1 className="hero__title">Page Not Found</h1>
