@@ -40,7 +40,7 @@
     "chalk": "^2.4.2",
     "chokidar": "^3.0.2",
     "classnames": "^2.2.6",
-    "clean-webpack-plugin": "^3.0.0",
+    "clean-webpack-plugin": "^2.0.1",
     "commander": "^2.20.0",
     "copy-webpack-plugin": "^5.0.3",
     "css-loader": "^3.1.0",

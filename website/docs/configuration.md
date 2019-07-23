@@ -19,7 +19,7 @@ The configurations can be categorized into:
 
 - [Site Metadata](#site-metadata)
 - [Deployment Configurations](#deployment-configurations)
-- [Theme Configurations, Plugins, and Presets](#themes-plugins-and-presets-configurations)
+- [Themes, Plugins, and Presets configurations](#themes-plugins-and-presets-configurations)
 - [Custom Configurations](#custom-configurations)
 
 ### Site metadata
