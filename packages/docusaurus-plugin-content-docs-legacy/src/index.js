@@ -178,6 +178,7 @@ module.exports = function(context, opts) {
                   loader: path.resolve(__dirname, './markdown/index.js'),
                   options: {
                     siteConfig: context.siteConfig,
+                    siteDir: context.siteDir,
                     docsDir: globalContents.docsDir,
                     sourceToPermalink: globalContents.sourceToPermalink,
                   },
