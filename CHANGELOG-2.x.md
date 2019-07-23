@@ -4,6 +4,7 @@
 
 - Shorter chunk naming for pages. Instead of absolute path, we use relative path from site directory
 - Use contenthash instead of chunkhash for better long term caching
+- Allow user to customize generated heading from MDX. Swizzle `@theme/Heading`
 
 ## 2.0.0-alpha.23
 
