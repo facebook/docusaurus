@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+## 2.0.0-alpha.24
+
+- Upgrade dependencies of css-loader from 2.x to 3.x. Css modules localIdentName hash now only use the last 4 characters instead of 8.
 - Fix broken markdown linking replacement for mdx files
 - Fix potential security vulnerability because we're exposing the directory structure of the host machine. Instead of absolute path, we use relative path from site directory. Resulting in shorter webpack chunk naming and smaller bundle size. 
 - Use contenthash instead of chunkhash for better long term caching
