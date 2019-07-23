@@ -46,7 +46,7 @@ module.exports = function(context, opts) {
     // Fetches blog contents and returns metadata for the contents.
     async loadContent() {
       const {include, routeBasePath, sidebarPath} = options;
-      const {siteConfig} = context;
+      const {siteConfig, siteDir} = context;
       const docsDir = contentPath;
 
       if (!fs.existsSync(docsDir)) {
@@ -73,6 +73,7 @@ module.exports = function(context, opts) {
             order,
             siteConfig,
             routeBasePath,
+            siteDir,
           );
           docs[metadata.id] = metadata;
         }),

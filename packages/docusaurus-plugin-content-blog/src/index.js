@@ -49,7 +49,7 @@ module.exports = function(context, opts) {
     // Fetches blog contents and returns metadata for the necessary routes.
     async loadContent() {
       const {postsPerPage, include, routeBasePath} = options;
-      const {siteConfig} = context;
+      const {siteConfig, siteDir} = context;
       const blogDir = contentPath;
 
       if (!fs.existsSync(blogDir)) {
@@ -65,8 +65,9 @@ module.exports = function(context, opts) {
 
       await Promise.all(
         blogFiles.map(async relativeSource => {
+          // Cannot use path.join() as it resolves '../' and removes the '@site'. Let webpack loader resolve it.
           const source = path.join(blogDir, relativeSource);
-
+          const aliasedSource = `@site/${path.relative(siteDir, source)}`;
           const blogFileName = path.basename(relativeSource);
           // Extract, YYYY, MM, DD from the file name.
           const filePathDateArr = blogFileName.split('-');
@@ -87,7 +88,7 @@ module.exports = function(context, opts) {
                 routeBasePath,
                 frontMatter.id || fileToUrl(blogFileName),
               ]),
-              source,
+              source: aliasedSource,
               description: frontMatter.description || excerpt,
               date,
               tags: frontMatter.tags,

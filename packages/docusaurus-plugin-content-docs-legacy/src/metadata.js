@@ -11,12 +11,14 @@ const {parse, normalizeUrl} = require('@docusaurus/utils');
 
 module.exports = async function processMetadata(
   source,
-  refDir,
+  docsDir,
   order,
   siteConfig,
   docsBasePath,
+  siteDir,
 ) {
-  const filepath = path.resolve(refDir, source);
+  const filepath = path.join(docsDir, source);
+
   const fileString = await fs.readFile(filepath, 'utf-8');
   const {frontMatter: metadata = {}, excerpt} = parse(fileString);
 
@@ -24,6 +26,7 @@ module.exports = async function processMetadata(
   if (!metadata.id) {
     metadata.id = path.basename(source, path.extname(source));
   }
+
   if (metadata.id.includes('/')) {
     throw new Error('Document id cannot include "/".');
   }
@@ -45,9 +48,9 @@ module.exports = async function processMetadata(
     }
   }
 
-  // The docs absolute file source.
-  // e.g: `/end/docs/hello.md` or `/end/website/versioned_docs/version-1.0.0/hello.md`
-  metadata.source = path.join(refDir, source);
+  // Cannot use path.join() as it resolves '../' and removes the '@site'. Let webpack loader resolve it.
+  const aliasedPath = `@site/${path.relative(siteDir, filepath)}`;
+  metadata.source = aliasedPath;
 
   // Build the permalink.
   const {baseUrl} = siteConfig;

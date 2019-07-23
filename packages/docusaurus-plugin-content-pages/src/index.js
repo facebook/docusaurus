@@ -47,10 +47,8 @@ module.exports = function(context, opts) {
 
       return pagesFiles.map(relativeSource => {
         const source = path.join(pagesDir, relativeSource);
-        const aliasedSource = path.join(
-          '@site',
-          path.relative(siteDir, source),
-        );
+        // Cannot use path.join() as it resolves '../' and removes the '@site'. Let webpack loader resolve it.
+        const aliasedSource = `@site/${path.relative(siteDir, source)}`;
         const pathName = encodePath(fileToPath(relativeSource));
         // Default Language.
         return {
