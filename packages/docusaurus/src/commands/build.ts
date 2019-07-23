@@ -6,7 +6,7 @@
  */
 
 import chalk from 'chalk';
-import CleanWebpackPlugin from 'clean-webpack-plugin';
+import {CleanWebpackPlugin} from 'clean-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import fs from 'fs-extra';
 import path from 'path';

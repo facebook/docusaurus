@@ -127,11 +127,12 @@ export function createBaseConfig(
         {
           test: CSS_MODULE_REGEX,
           use: getStyleLoaders(isServer, {
-            modules: true,
+            modules: {
+              localIdentName: `[local]_[hash:base64:4]`,
+            },
             importLoaders: 1,
-            localIdentName: `[local]_[hash:base64:8]`,
             sourceMap: !isProd,
-            exportOnlyLocals: isServer,
+            onlyLocals: isServer,
           }),
         },
       ],

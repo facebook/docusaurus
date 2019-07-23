@@ -124,6 +124,19 @@ module.exports = {
 };
 ```
 
+### `githubHost`
+
+- Type: `string`
+
+The hostname of your server. Useful if you are using GitHub Enterprise.
+
+```js
+// docusaurus.config.js
+module.exports = {
+  githubHost: 'github.com',
+};
+```
+
 ### `themeConfig`
 
 - Type: `Object`
@@ -187,6 +200,19 @@ module.exports = {
 // docusaurus.config.js
 module.exports = {
   plugins: [],
+};
+```
+
+### `themes`
+
+<!-- TODO: configuration for plugins -->
+
+- Type: `any[]`
+
+```js
+// docusaurus.config.js
+module.exports = {
+  themes: [],
 };
 ```
 
