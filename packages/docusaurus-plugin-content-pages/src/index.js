@@ -8,7 +8,7 @@
 const globby = require('globby');
 const path = require('path');
 const fs = require('fs');
-const {encodePath, fileToPath, docuHash} = require('@docusaurus/utils');
+const {encodePath, fileToPath} = require('@docusaurus/utils');
 
 const DEFAULT_OPTIONS = {
   path: 'src/pages', // Path to data on filesystem, relative to site dir.
@@ -63,22 +63,15 @@ module.exports = function(context, opts) {
         return;
       }
 
-      const {addRoute, createData} = actions;
+      const {addRoute} = actions;
 
       await Promise.all(
         content.map(async metadataItem => {
           const {permalink, source} = metadataItem;
-          const metadataPath = await createData(
-            `${docuHash(permalink)}.json`,
-            JSON.stringify(metadataItem, null, 2),
-          );
           addRoute({
             path: permalink,
             component: source,
             exact: true,
-            modules: {
-              metadata: metadataPath,
-            },
           });
         }),
       );
