@@ -74,16 +74,7 @@ module.exports = {
 
 ## Passing options to Docusaurus plugins via preset
 
-Docusaurus' classic template is scaffolded with the classic preset, which includes the following official plugins. You may read more about the configurations of these plugins in our [Advanced Guides: Plugins](advanced-plugins.md).
-
-- `@docusaurus/plugin-content-blog`
-- `@docusaurus/plugin-content-docs`
-- `@docusaurus/plugin-content-pages`
-- `@docusaurus/plugin-google-analytics`
-- `@docusaurus/plugin-google-gtag`
-- `@docusaurus/plugin-sitemap`
-
-If you initialized your site using the classic template, you do not have to specify them individually in your `docusaurus.config.js`. To provide the neccesary fields to certain plugins, i.e. `trackingID` of `@docusaurus/plugin-content-analytics`, pass them in the preset field.
+If you initialized your site using the classic template, you do not have to specify plugin options individually in your `docusaurus.config.js`. To provide the neccesary fields to certain plugins, i.e. `trackingID` for `@docusaurus/plugin-google-analytics`, pass them in the preset field, like this:
 
 ```js
 // docusaurus.config.js
@@ -102,7 +93,7 @@ module.exports = {
         },
         // Will be passed to @docusaurus/plugin-google-analytics.
         googleAnalytics: {
-          trackingID: 'UA-000000-2',
+          trackingID: 'UA-1428571428-5',
         },
         ...
       },
@@ -110,3 +101,14 @@ module.exports = {
   ],
 };
 ```
+
+## Official plugins by Docusaurus
+
+Docusaurus' classic template is scaffolded with the classic preset, which includes the following official plugins. You may read more about the configurations of these plugins in our [Advanced Guides: Plugins](advanced-plugins.md).
+
+- [@docusaurus/plugin-content-blog](https://github.com/facebook/docusaurus/tree/master/packages/docusaurus-plugin-content-blog)
+- [@docusaurus/plugin-content-docs](https://github.com/facebook/docusaurus/tree/master/packages/docusaurus-plugin-content-docs-legacy)
+- [@docusaurus/plugin-content-pages](https://github.com/facebook/docusaurus/tree/master/packages/docusaurus-plugin-content-pages)
+- [@docusaurus/plugin-google-analytics](https://github.com/facebook/docusaurus/tree/master/packages/docusaurus-plugin-google-analytics)
+- [@docusaurus/plugin-google-gtag](https://github.com/facebook/docusaurus/tree/master/packages/docusaurus-plugin-google-gtag)
+- [@docusaurus/plugin-sitemap](https://github.com/facebook/docusaurus/tree/master/packages/docusaurus-plugin-sitemap)
