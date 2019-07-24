@@ -7,9 +7,9 @@ In this doc, we discuss how themes are designed and how you can write your own t
 
 ## Theme design
 
-While Themes share the exact same lifecycle methods with Plugins, their implementations can look very different from those of Plugins based on Themes' designed objectives.
+While themes share the exact same lifecycle methods with plugins, their implementations can look very different from those of plugins based on themes' designed objectives.
 
-Themes are designed to complete the build of your Docusaurus site and supply the components used by your site, Plugins, and the Themes you write themselves. So a typical Theme implementation would look like a `src/index.js` file that hooks it up to the lifecycle methods. Most likely they would not use `loadContent`, which Plugins would use. And it is typically accompanied by a `src/theme` directory full of components.
+Themes are designed to complete the build of your Docusaurus site and supply the components used by your site, plugins, and the themes themselves. So a typical theme implementation would look like a `src/index.js` file that hooks it up to the lifecycle methods. Most likely they would not use `loadContent`, which plugins would use. And it is typically accompanied by a `src/theme` directory full of components.
 
 To summarize:
 
@@ -17,9 +17,9 @@ To summarize:
 - Themes are run after all existing Plugins
 - Themes exist to add component aliases by extending the webpack config
 
-## Writing customized Docusaurus Themes
+## Writing customized Docusaurus themes
 
-A Docusaurus Theme normally includes an `index.js` file where you hook up to the lifecycle methods, alongside with a `theme/` directory of components. A typical Docusaurus Theme folder looks like this:
+A Docusaurus theme normally includes an `index.js` file where you hook up to the lifecycle methods, alongside with a `theme/` directory of components. A typical Docusaurus theme folder looks like this:
 
 ```shell
 .
