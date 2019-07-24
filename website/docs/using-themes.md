@@ -3,9 +3,9 @@ id: using-themes
 title: Using Themes
 ---
 
-Themes provide the consistent components for your doc sites.
+In Docusaurus 2, themes are there to finish the build step of your site by supplying the components used by your site, your plugins, and the themes themselves. Furthermore, you may easily swap out components from themes by _swizzling_ them with your own components.
 
-<!-- TODO: WIP intro -->
+In this document, we discuss the basic usages of themes. You will learn how to use a theme and how to swizzle a component. To grasp a deeper understanding of themes, and / or to learn how you may implement your own themes, check out our [advanced guide on themes](advanced-themes.md).
 
 ## Using themes
 
