@@ -3,6 +3,8 @@ id: lifecycle-apis
 title: Lifecycle APIs
 ---
 
+_This section is a work in progress._
+
 Lifecycle APIs are shared by Themes and Plugins.
 
 <!-- TODO: explain lifecycle methods -->
