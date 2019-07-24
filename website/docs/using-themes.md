@@ -38,6 +38,12 @@ This will copy the current `<Footer />` component used by the theme to a `theme/
 
 **Note**: You need to restart your dev server for Docusaurus to pick up the new component.
 
+## Official themes by Docusaurus
+
+- [@docusaurus/theme-classic](https://github.com/facebook/docusaurus/tree/master/packages/docusaurus-theme-classic)
+- [@docusaurus/theme-search-algolia](https://github.com/facebook/docusaurus/tree/master/packages/docusaurus-theme-search-algolia)
+- [@docusaurus/theme-live-codeblock](https://github.com/facebook/docusaurus/tree/master/packages/docusaurus-theme-live-codeblock)
+
 <!--
 
 Outline
