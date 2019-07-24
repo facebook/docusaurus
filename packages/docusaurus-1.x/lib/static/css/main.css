@@ -1010,12 +1010,8 @@ input::placeholder {
     margin: 0 12px;
   }
 
-  .gridBlock > *:first-child {
-    margin-left: 0;
-  }
-
-  .gridBlock > *:last-child {
-    margin-right: 0;
+  .gridBlock > .blockElement {
+    margin: 0 24px 0 0;
   }
 
   .gridBlock .twoByGridBlock {
