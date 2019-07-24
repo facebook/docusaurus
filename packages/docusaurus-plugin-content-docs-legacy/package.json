@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/plugin-content-docs-legacy",
-  "version": "2.0.0-alpha.23",
+  "version": "2.0.0-alpha.24",
   "description": "Documentation plugin for legacy v1 Docusaurus docs",
   "main": "src/index.js",
   "publishConfig": {
@@ -8,8 +8,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/mdx-loader": "^2.0.0-alpha.23",
-    "@docusaurus/utils": "^2.0.0-alpha.23",
+    "@docusaurus/mdx-loader": "^2.0.0-alpha.24",
+    "@docusaurus/utils": "^2.0.0-alpha.24",
     "fs-extra": "^8.1.0",
     "globby": "^10.0.1",
     "import-fresh": "^3.0.0",
