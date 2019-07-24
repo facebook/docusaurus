@@ -15,7 +15,7 @@ In this doc, we talk about how to use plugins with Docusaurus' official plugins.
 A plugin is an npm package, so you install them like other npm packages using npm.
 
 ```bash
-yarn add docusaurus-plugin-name
+npm install --save docusaurus-plugin-name
 ```
 
 Then you add it in your site's `docusaurus.config.js`'s `plugins` option:
@@ -23,17 +23,7 @@ Then you add it in your site's `docusaurus.config.js`'s `plugins` option:
 ```jsx
 // docusaurus.config.js
 module.exports = {
-  plugins: [
-    '@docusaurus/plugin-content-pages',
-    [
-      // Plugin with options
-      '@docusaurus/plugin-content-blog',
-      {
-        include: ['*.md', '*.mdx'],
-        path: 'blog',
-      },
-    ],
-  ],
+  plugins: ['@docusaurus/plugin-content-pages'],
 };
 ```
 
@@ -112,3 +102,4 @@ Docusaurus' classic template is scaffolded with the classic preset, which includ
 - [@docusaurus/plugin-google-analytics](https://github.com/facebook/docusaurus/tree/master/packages/docusaurus-plugin-google-analytics)
 - [@docusaurus/plugin-google-gtag](https://github.com/facebook/docusaurus/tree/master/packages/docusaurus-plugin-google-gtag)
 - [@docusaurus/plugin-sitemap](https://github.com/facebook/docusaurus/tree/master/packages/docusaurus-plugin-sitemap)
+- [@docusaurus/plugin-ideal-image](https://github.com/facebook/docusaurus/tree/master/packages/docusaurus-plugin-ideal-image)
