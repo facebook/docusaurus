@@ -142,14 +142,14 @@
 <p><strong>예시</strong></p>
 <pre><code class="hljs css language-bash">docusaurus-examples &lt;feature&gt;
 </code></pre>
-<p>When no feature is specified, sets up a minimally configured example website in your project. This command is covered in depth in the <a href="/docs/ko/1.10.x/site-preparation">Site Preparation guide</a>.</p>
+<p>feature 옵션을 지정하지 않으면, 최소기능만 설정된 예제 사이트가 생성됩니다. 이 명령에 대한 자세한 내용은 <a href="/docs/ko/1.10.x/site-preparation">사이트 준비 가이드</a>를 참고하세요.</p>
 <hr>
 <h3><a class="anchor" aria-hidden="true" id="docusaurus-publish"></a><a href="#docusaurus-publish" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>docusaurus-publish</code></h3>
 <p>Alias: <code>publish-gh-pages</code></p>
-<p><a href="/docs/ko/1.10.x/commands#docusaurus-build">Builds</a>, then deploys the static website to GitHub Pages. This command is meant to be run during the deployment step in CircleCI, and therefore expects a few environment variables to be defined:</p>
-<p>The following environment variables are generally set manually by the user in the CircleCI <code>config.yml</code> file.</p>
+<p><a href="/docs/ko/1.10.x/commands#docusaurus-build">Builds</a>를 하고 나면 정적 웹사이트를 GitHub Pages에 배포합니다. 이 명령은 CircleCI의 배포단계에서 실행되기 때문에, 몇가지 환경 변수가 정의되어 있어야 합니다:</p>
+<p>다음의 환경변수들은 일반적으로 사용자가 CircleCI <code>config.yml</code>파일에 직접 설정합니다.</p>
 <ul>
-<li><code>GIT_USER</code>: The git user to be associated with the deploy commit.</li>
+<li><code>GIT_USER</code>: 배포 commit과 관련된 git 사용자명</li>
 <li><code>USE_SSH</code>: Whether to use SSH instead of HTTPS for your connection to the GitHub repo.</li>
 </ul>
 <p><strong>예시</strong></p>
@@ -157,7 +157,7 @@
 </code></pre>
 <p>The following environment variables are <a href="https://circleci.com/docs/1.0/environment-variables/">set by CircleCI</a> during the build process.</p>
 <ul>
-<li><code>CIRCLE_BRANCH</code>: The git branch associated with the commit that triggered the CI run.</li>
+<li><code>CIRCLE_BRANCH</code>: commit이 되면 CI 실행이 트리거되는 git branch명</li>
 <li><code>CI_PULL_REQUEST</code>: Expected to be truthy if the current CI run was triggered by a commit in a pull request.</li>
 </ul>
 <p>The following should be set by you in <code>siteConfig.js</code> as <code>organizationName</code> and <code>projectName</code>, respectively. If they are not set in your site configuration, they fall back to the <a href="https://circleci.com/docs/1.0/environment-variables/">CircleCI environment</a>.</p>
@@ -192,7 +192,7 @@
 <tr><th>옵션</th><th>기본설정</th><th>설명</th></tr>
 </thead>
 <tbody>
-<tr><td><code>--port &lt;number&gt;</code></td><td><code>3000</code></td><td>The website will be served from port 3000 by default, but if the port is taken up, Docusaurus will attempt to find an available one.</td></tr>
+<tr><td><code>--port &lt;number&gt;</code></td><td><code>3000</code></td><td>웹사이트의 기본포트는 3000입니다. 포트 3000이 이미 사용중인 경우에는 Docusaurus가 이용 가능한 다른 포트를 찾을 것입니다.</td></tr>
 <tr><td><code>--host &lt;host&gt;</code></td><td><code>localhost</code></td><td>Specify a host to use. E.g., if you want your server to be accessible externally, you can use --host 0.0.0.0.</td></tr>
 <tr><td><code>--watch</code></td><td>-</td><td>Whether to watch the files and live reload the page when files are changed. Defaults to true. Disable this by using <code>--no-watch</code>.</td></tr>
 </tbody>
