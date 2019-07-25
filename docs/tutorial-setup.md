@@ -46,18 +46,18 @@ We highly recommend that you install Yarn, an alternative package manager that h
 ## Create a GitHub repository and local clone
 
 1. Go to https://github.com/ and sign up for an account if you don't already have one.
-1. Click **New** or go to https://github.com/new.
+1. Click on the green **New** button or go to https://github.com/new.
 1. Type a repository name without spaces. For example, `docusaurus-tutorial`.
 1. Click **Create repository** (without `.gitignore` and without a license).
 
 <img alt="GitHub create repo" src="/img/tutorial-git-clone.png" class="docImage"/>
 
-5. In your Terminal, `md` or `cd` to a directory where the local clone will be a subdirectory. (For help see [Introduction to the command-line interface](https://tutorial.djangogirls.org/en/intro_to_command_line/).) 
+5. In your terminal, `cd` to a directory where the local clone will be a subdirectory. (For help see [Introduction to the command-line interface](https://tutorial.djangogirls.org/en/intro_to_command_line/).) 
 
 ```sh
-cd /c/USERNAME/doc_projects # Windows example
-# or
 cd /Users/USERNAME/doc_projects # macOS example
+# or
+cd /c/USERNAME/doc_projects # Windows example
 ```
 
 6. Clone your repository to your local machine:
