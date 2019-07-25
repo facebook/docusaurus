@@ -7,7 +7,7 @@
 
 const {parseQuery} = require('loader-utils');
 
-const TRUNCATE_MARKER = /<!--\s*truncate\s*-->/;
+const TRUNCATE_MARKER = /<!--\s*(truncate|more)\s*-->/;
 
 module.exports = async function(fileString) {
   const callback = this.async();
