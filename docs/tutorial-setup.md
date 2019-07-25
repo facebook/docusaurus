@@ -9,7 +9,7 @@ This tutorial is geared at first-time users who want detailed instructions on ho
 
 ## Install Git
 
-Git copies files between your local system and your online repository. If not already installed, see [Installing Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
+Git is a version control system for tracking changes in source code during software development and it can help you synchronize and version files between your local system and your online repository. If not already installed, see [Installing Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
 
 ## Install Node.js
 
