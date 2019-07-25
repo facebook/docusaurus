@@ -39,20 +39,28 @@ v8.15.1
 
 ## Install Yarn (Optional)
 
-We highly recommend you to install Yarn, an alternative package manager that has superb performance for managing your NPM dependencies. Check it out [here](https://yarnpkg.com/en/docs/install).
+We highly recommend that you install Yarn, an alternative package manager that has superb performance for managing your NPM dependencies. Check it out [here](https://yarnpkg.com/en/docs/install).
 
 > You can still proceed with the tutorial without Yarn.
 
-## Create a GitHub Repository
+## Create a GitHub repository and local clone
 
 1. Go to https://github.com/ and sign up for an account if you don't already have one.
-1. Click on **"New Repository"** or go to https://github.com/new.
-1. Name your repository without spaces. For e.g. `docusaurus-tutorial`.
-1. Proceed to create the repository without adding `.gitignore` or a license.
+1. Click **New** or go to https://github.com/new.
+1. Type a repository name without spaces. For example, `docusaurus-tutorial`.
+1. Click **Create repository** (without `.gitignore` and without a license).
 
 <img alt="GitHub create repo" src="/img/tutorial-git-clone.png" class="docImage"/>
 
-5. Clone your repository to your local machine:
+5. In your Terminal, `md` or `cd` to a directory where the local clone will be a subdirectory. (For help see [Introduction to the command-line interface](https://tutorial.djangogirls.org/en/intro_to_command_line/).) 
+
+```sh
+cd /c/USERNAME/doc_projects # Windows example
+# or
+cd /Users/USERNAME/doc_projects # macOS example
+```
+
+6. Clone your repository to your local machine:
 
 ```sh
 git clone git@github.com:USERNAME/docusaurus-tutorial.git # SSH
@@ -60,7 +68,11 @@ git clone git@github.com:USERNAME/docusaurus-tutorial.git # SSH
 git clone https://github.com/USERNAME/docusaurus-tutorial.git # HTTPS
 ```
 
-6. `cd` into the repository which you just created.
+7. `cd` to the directory for the local clone.
+
+```sh
+cd docusaurus-tutorial
+```
 
 ## Install the Docusaurus init command
 
