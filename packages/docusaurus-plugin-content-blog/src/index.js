@@ -11,13 +11,15 @@ const _ = require('lodash');
 const path = require('path');
 const {parse, normalizeUrl, docuHash} = require('@docusaurus/utils');
 
-// TODO: Use a better slugify function that doesn't rely on a specific file extension.
-function fileToUrl(fileName) {
-  return fileName
-    .replace('-', '/')
-    .replace('-', '/')
-    .replace('-', '/')
-    .replace(/\.mdx?$/, '');
+// YYYY-MM-DD-{name}.mdx?
+// prefer named capture, but old node version do not support
+const FILENAME_PATTERN = /^((\d{4}-\d{1,2}-\d{1,2})-?)?(.*?).mdx?$/;
+
+function toUrl({date, title}) {
+  return `${date
+    .toISOString()
+    .substring(0, '2019-01-01'.length)
+    .replace(/-/g, '/')}/${title}`;
 }
 
 const DEFAULT_OPTIONS = {
@@ -69,30 +71,40 @@ module.exports = function(context, opts) {
           const source = path.join(blogDir, relativeSource);
           const aliasedSource = `@site/${path.relative(siteDir, source)}`;
           const blogFileName = path.basename(relativeSource);
-          // Extract, YYYY, MM, DD from the file name.
-          const filePathDateArr = blogFileName.split('-');
-          const date = new Date(
-            `${filePathDateArr[0]}-${filePathDateArr[1]}-${
-              filePathDateArr[2]
-            }T06:00:00.000Z`,
-          );
 
           const fileString = await fs.readFile(source, 'utf-8');
           const {frontMatter, excerpt} = parse(fileString);
 
+          let date;
+          // extract date and title from filename
+          const match = blogFileName.match(FILENAME_PATTERN);
+          if (match) {
+            const [, , dateString, name] = match;
+            date = new Date(dateString);
+            frontMatter.title = frontMatter.title || name;
+          }
+          // prefer usedefined date
+          if (frontMatter.date) {
+            date = new Date(frontMatter.date);
+          }
+          // use file create time for blog
+          date = date || (await fs.fstat(source)).ctime;
+          frontMatter.title =
+            frontMatter.title || blogFileName.replace(/\.mdx?$/, '');
+
           blogPosts.push({
-            id: frontMatter.id || blogFileName,
+            id: frontMatter.id || frontMatter.title,
             metadata: {
               permalink: normalizeUrl([
                 baseUrl,
                 routeBasePath,
-                frontMatter.id || fileToUrl(blogFileName),
+                frontMatter.id || toUrl({date, title: frontMatter.title}),
               ]),
               source: aliasedSource,
               description: frontMatter.description || excerpt,
               date,
               tags: frontMatter.tags,
-              title: frontMatter.title || blogFileName,
+              title: frontMatter.title,
             },
           });
         }),
