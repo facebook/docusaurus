@@ -55,4 +55,5 @@ You will need to keep the `website/siteConfig.js` and `website/core/Footer.js` f
 
 However, you should keep the `website/pages` and `website/static` directories. You may change the content inside them as you wish. At the bare minimum, you should have an `en/index.js` or `en/index.html` file inside `website/pages` and an image to use as your header icon inside `website/static`.
 
-If your directory does not yet have a `.gitignore`, we generate it with the necessary ignored files listed. As a general rule, you should ignore all node_modules, build files, system files (.DS_Store), logs, etc. [Here](https://github.com/github/gitignore/blob/master/Node.gitignore) is a more comprehensive list of what is normally ignored for Node.js projects.
+If your directory does not yet have a `.gitignore`, we generate it with the necessary ignored files listed. As a general rule, you should ignore all `node_modules`, build files, system files (`.DS_Store`), logs, etc. [Here](https://github.com/github/gitignore/blob/master/Node.gitignore) is a more comprehensive list of what is normally ignored for Node.js projects.
+
