@@ -82,9 +82,9 @@
             });
         </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://crowdin.com/project/docusaurus/zh-CN" target="_blank" rel="noreferrer noopener">Translate</a><h1 class="postHeaderTitle">Create Pages</h1></header><article><div><span><p>In this section, we will learn about creating two types of pages in Docusaurus: a regular page and a documentation page.</p>
 <p><img alt="Docusaurus MacBook" src="/img/undraw_docusaurus_tree.svg" class="docImage" /></p>
-<h2><a class="anchor" aria-hidden="true" id="creating-a-regular-page"></a><a href="#creating-a-regular-page" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Creating a Regular Page</h2>
+<h2><a class="anchor" aria-hidden="true" id="create-a-regular-page"></a><a href="#create-a-regular-page" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Create a Regular Page</h2>
 <ol>
-<li><p>Go into the <code>pages/en</code> directory and create a file called <code>hello-world.js</code> with the following contents:</p>
+<li><p>In the <code>website/pages/en</code> directory of your repository, save a text file called <code>hello-world.js</code> with the following contents:</p>
 <p>const React = require('react');</p>
 <p>const CompLibrary = require('../../core/CompLibrary.js');</p>
 <p>const Container = CompLibrary.Container;
@@ -101,9 +101,12 @@ return (
 }</p>
 <p>module.exports = HelloWorld;</p></li>
 </ol>
+<blockquote>
+<p>Use any text editor to make the file, such as <a href="https://code.visualstudio.com/download">Microsoft Visual Studio Code</a> or <a href="https://www.activestate.com/komodo-edit">Komodo Edit</a>.</p>
+</blockquote>
 <ol start="2">
 <li>Go to <a href="http://localhost:3000/hello-world">http://localhost:3000/hello-world</a> and you should be able to see the new page.</li>
-<li>Change the text within the <code>&lt;p&gt;...&lt;/p&gt;</code> to &quot;I can write JSX here!&quot;. The browser should refresh automatically to reflect the changes.</li>
+<li>Change the text within the <code>&lt;p&gt;...&lt;/p&gt;</code> to &quot;I can write JSX here!&quot; and save the file again. The browser should refresh automatically to reflect the change.</li>
 </ol>
 <pre><code class="hljs css language-diff"><span class="hljs-deletion">- &lt;p&gt;This is my first page!&lt;/p&gt;</span>
 <span class="hljs-addition">+ &lt;p&gt;I can write JSX here!&lt;/p&gt;</span>
@@ -154,7 +157,7 @@ id sem consectetuer libero luctus adipiscing.</p>
 </ol>
 <p>You've created your first documentation page on Docusaurus!</p>
 <p>Learn more about creating docs pages <a href="navigation">here</a>.</p>
-</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/zh-CN/next/tutorial-create-new-site"><span class="arrow-prev">← </span><span>Create a New Site</span></a><a class="docs-next button" href="/docs/zh-CN/next/tutorial-publish-site"><span>Publish the Site</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#creating-a-regular-page">Creating a Regular Page</a></li><li><a href="#create-a-documentation-page">Create a Documentation Page</a></li><li><a href="#markdown-syntax">Markdown Syntax</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/docusaurus_monochrome.svg" alt="Docusaurus" width="66" height="58"/></a><div class="footerSection"><h5>Docs</h5><a href="
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/zh-CN/next/tutorial-create-new-site"><span class="arrow-prev">← </span><span>Create a New Site</span></a><a class="docs-next button" href="/docs/zh-CN/next/tutorial-publish-site"><span>Publish the Site</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#create-a-regular-page">Create a Regular Page</a></li><li><a href="#create-a-documentation-page">Create a Documentation Page</a></li><li><a href="#markdown-syntax">Markdown Syntax</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/docusaurus_monochrome.svg" alt="Docusaurus" width="66" height="58"/></a><div class="footerSection"><h5>Docs</h5><a href="
                 /docs/zh-CN/installation">Getting Started</a><a href="
                 /docs/zh-CN/versioning">Versioning</a><a href="
                 /docs/zh-CN/translation">Localization</a><a href="
