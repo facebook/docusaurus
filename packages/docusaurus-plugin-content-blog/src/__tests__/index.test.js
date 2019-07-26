@@ -28,12 +28,29 @@ describe('loadBlog', () => {
     );
     const {blogPosts} = await plugin.loadContent();
 
-    expect(blogPosts[0].metadata).toEqual({
+    expect(
+      blogPosts.find(v => v.metadata.title === 'date-matter').metadata,
+    ).toEqual({
       permalink: '/blog/2019/01/01/date-matter',
       source: path.join('@site', pluginPath, 'date-matter.md'),
       title: 'date-matter',
       description: `date inside front matter`,
       date: new Date('2019-01-01'),
+      tags: [],
+    });
+    expect(
+      blogPosts.find(v => v.metadata.title === 'Happy 1st Birthday Slash!')
+        .metadata,
+    ).toEqual({
+      permalink: '/blog/2018/12/14/Happy-First-Birthday-Slash',
+      source: path.join(
+        '@site',
+        pluginPath,
+        '2018-12-14-Happy-First-Birthday-Slash.md',
+      ),
+      title: 'Happy 1st Birthday Slash!',
+      description: `pattern name`,
+      date: new Date('2018-12-14'),
       tags: [],
     });
   });

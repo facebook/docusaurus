@@ -15,11 +15,11 @@ const {parse, normalizeUrl, docuHash} = require('@docusaurus/utils');
 // prefer named capture, but old node version do not support
 const FILENAME_PATTERN = /^((\d{4}-\d{1,2}-\d{1,2})-?)?(.*?).mdx?$/;
 
-function toUrl({date, title}) {
+function toUrl({date, link}) {
   return `${date
     .toISOString()
     .substring(0, '2019-01-01'.length)
-    .replace(/-/g, '/')}/${title}`;
+    .replace(/-/g, '/')}/${link}`;
 }
 
 const DEFAULT_OPTIONS = {
@@ -78,10 +78,11 @@ module.exports = function(context, opts) {
           let date;
           // extract date and title from filename
           const match = blogFileName.match(FILENAME_PATTERN);
+          let linkName = blogFileName.replace(/\.mdx?$/, '');
           if (match) {
             const [, , dateString, name] = match;
             date = new Date(dateString);
-            frontMatter.title = frontMatter.title || name;
+            linkName = name;
           }
           // prefer usedefined date
           if (frontMatter.date) {
@@ -89,8 +90,7 @@ module.exports = function(context, opts) {
           }
           // use file create time for blog
           date = date || (await fs.fstat(source)).ctime;
-          frontMatter.title =
-            frontMatter.title || blogFileName.replace(/\.mdx?$/, '');
+          frontMatter.title = frontMatter.title || linkName;
 
           blogPosts.push({
             id: frontMatter.id || frontMatter.title,
@@ -98,7 +98,7 @@ module.exports = function(context, opts) {
               permalink: normalizeUrl([
                 baseUrl,
                 routeBasePath,
-                frontMatter.id || toUrl({date, title: frontMatter.title}),
+                frontMatter.id || toUrl({date, link: linkName}),
               ]),
               source: aliasedSource,
               description: frontMatter.description || excerpt,
