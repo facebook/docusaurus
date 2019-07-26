@@ -7,9 +7,9 @@ In this section, we will learn about creating two types of pages in Docusaurus: 
 
 <img alt="Docusaurus MacBook" src="/img/undraw_docusaurus_tree.svg" class="docImage"/>
 
-## Creating a Regular Page
+## Create a Regular Page
 
-1. Go into the `pages/en` directory and create a file called `hello-world.js` with the following contents:
+1. In the `website/pages/en` directory of your repository, save a text file called `hello-world.js` with the following contents:
 
 ```
 const React = require('react');
@@ -33,8 +33,10 @@ function HelloWorld(props) {
 module.exports = HelloWorld;
 ```
 
+> Use any text editor to make the file, such as [Microsoft Visual Studio Code](https://code.visualstudio.com/download) or [Komodo Edit](https://www.activestate.com/komodo-edit).
+
 2. Go to http://localhost:3000/hello-world and you should be able to see the new page.
-1. Change the text within the `<p>...</p>` to "I can write JSX here!". The browser should refresh automatically to reflect the changes.
+1. Change the text within the `<p>...</p>` to "I can write JSX here!" and save the file again. The browser should refresh automatically to reflect the change.
 
 ```diff
 - <p>This is my first page!</p>
