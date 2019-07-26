@@ -72,17 +72,17 @@ git clone git@github.com:USERNAME/docusaurus-tutorial.git # SSH
 git clone https://github.com/USERNAME/docusaurus-tutorial.git # HTTPS
 ```
 
-7. `cd` to the directory for the local clone.
+## Install the Docusaurus init command
+
+Docusaurus comes with a command line tool to help you scaffold a Docusaurus site with some example templates. Let's install the installer!
+
+1. `cd` to the directory of your local repository.
 
 ```sh
 cd docusaurus-tutorial
 ```
 
-## Install the Docusaurus init command
-
-Docusaurus comes with a command line tool to help you scaffold a Docusaurus site with some example templates. Let's install the installer!
-
-1. Run the following command:
+2. Run the following command:
 
 ```sh
 npm install --global docusaurus-init
