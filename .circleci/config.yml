@@ -92,7 +92,11 @@ jobs:
               sleep 5
               # upload translation strings and download translations
               yarn run crowdin-upload
-              yarn run crowdin-download
+              # download only enabled languages
+              for lang in fr ko ru ro pt-BR zh-CN
+              do
+                  yarn crowdin-download -l $lang
+              done
               # publish
               GIT_USER=docusaurus-bot USE_SSH=false yarn run publish-gh-pages
             else
