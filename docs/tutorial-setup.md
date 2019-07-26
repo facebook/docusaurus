@@ -13,12 +13,10 @@ Git is a version control system for tracking changes in source code during softw
 
 ## Install Node.js
 
-Node.js is an environment that can run JavaScript code outside of a web browser and is used to write and run server-side JavaScript apps.
-
-> Docusaurus' minimum supported Node.js version is Node 8, but more recent versions will work as well.
+Node.js is an environment that can run JavaScript code outside of a web browser and is used to write and run server-side JavaScript apps. Node.js installation includes `npm`, the package manager that allows you to install NPM modules from your terminal.
 
 1. Open your Terminal.
-1. If you have `brew` on your OS, run the following command to install Node (a JavaScript runtime that allows you to run JavaScript on the server) and `npm` the package manager (allows you to install npm modules from your terminal).
+1. If you have `brew` on your OS, run the following command to install Node.
 
 ```sh
 brew install node
@@ -40,6 +38,8 @@ You should see a version larger than Node 8.
 node -v
 v8.15.1
 ```
+
+> Docusaurus' minimum supported Node.js version is Node 8, but more recent versions will work as well.
 
 ## Install Yarn (Optional)
 
