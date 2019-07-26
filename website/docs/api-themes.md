@@ -1,5 +1,5 @@
 ---
-id: themes-api
+id: api-themes
 title: Themes
 ---
 
@@ -8,6 +8,11 @@ _This section is a work in progress. [Welcoming PRs](https://github.com/facebook
 <!--
 
 API for themes
+
+Related pieces
+---
+- [Guides – Themes](using-themes.md)
+- [Advanced Guides - Themes](advanced-themes.md)
 
 References
 ---
