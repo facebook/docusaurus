@@ -62,6 +62,6 @@ The following contents will be created in your current directory. Some example d
 2. Run `cd website` to go into the `website` directory.
 1. Run `npm start` or `yarn start`.
 
-A browser window will open up at http://localhost:3000.
+A browser window will open up at http://localhost:3000/docusaurus-tutorial/.
 
 Congratulations, you have just made your first Docusaurus site! Click around the pages to get a feel for it.
