@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Webpack `optimization.removeAvailableModules` is now disabled for performance gain. See https://github.com/webpack/webpack/releases/tag/v4.38.0 for more context.
+
 ## 2.0.0-alpha.24
 
 - Remove unused metadata for pages. This minimize number of http request & smaller bundle size.
