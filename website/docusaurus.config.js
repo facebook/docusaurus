@@ -85,8 +85,8 @@ module.exports = {
               to: 'docs/introduction',
             },
             {
-              label: 'Themes',
-              to: 'docs/themes',
+              label: 'Installation',
+              to: 'docs/installation',
             },
           ],
         },

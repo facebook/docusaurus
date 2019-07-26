@@ -62,6 +62,7 @@ export function createBaseConfig(
       ],
     },
     optimization: {
+      removeAvailableModules: false,
       // Only minimize client bundle in production because server bundle is only used for static site generation
       minimize: isProd && !isServer,
       minimizer: isProd
