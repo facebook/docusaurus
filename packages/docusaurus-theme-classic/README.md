@@ -28,23 +28,4 @@ module.exports = {
 $ npm swizzle @docusaurus/theme-classic [component name]
 ```
 
-### List of theme components
-
-- BlogListPage
-- BlogListPaginator
-- BlogPostItem
-- BlogPostPage
-- BlogPostPaginator
-- BlogTagsListPage
-- BlogTagsPostsPage
-- CodeBlock
-- DocLegacyItem
-- DocLegacyPage
-- DocLegacyPaginator
-- DocLegacySidebar
-- Footer
-- Layout
-- MDXComponents
-- Navbar
-- NotFound.js
-- SearchBar.js
+All components used by this theme can be found [here](https://github.com/facebook/docusaurus/tree/master/packages/docusaurus-theme-classic/src/theme)
