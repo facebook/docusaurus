@@ -13,7 +13,7 @@ const {parse, normalizeUrl, docuHash} = require('@docusaurus/utils');
 
 // YYYY-MM-DD-{name}.mdx?
 // prefer named capture, but old node version do not support
-const FILENAME_PATTERN = /^((\d{4}-\d{1,2}-\d{1,2})-?)?(.*?).mdx?$/;
+const FILENAME_PATTERN = /^(\d{4}-\d{1,2}-\d{1,2})-?(.*?).mdx?$/;
 
 function toUrl({date, link}) {
   return `${date
@@ -80,7 +80,7 @@ module.exports = function(context, opts) {
           const match = blogFileName.match(FILENAME_PATTERN);
           let linkName = blogFileName.replace(/\.mdx?$/, '');
           if (match) {
-            const [, , dateString, name] = match;
+            const [, dateString, name] = match;
             date = new Date(dateString);
             linkName = name;
           }
@@ -89,7 +89,7 @@ module.exports = function(context, opts) {
             date = new Date(frontMatter.date);
           }
           // use file create time for blog
-          date = date || (await fs.fstat(source)).birthtime;
+          date = date || (await fs.stat(source)).birthtime;
           frontMatter.title = frontMatter.title || linkName;
 
           blogPosts.push({

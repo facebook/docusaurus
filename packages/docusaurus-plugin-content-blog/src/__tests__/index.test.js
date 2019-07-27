@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import fs from 'fs-extra';
 import path from 'path';
 import pluginContentBlog from '../index';
 
@@ -51,6 +52,24 @@ describe('loadBlog', () => {
       title: 'Happy 1st Birthday Slash!',
       description: `pattern name`,
       date: new Date('2018-12-14'),
+      tags: [],
+    });
+
+    const noDateSource = path.join('@site', pluginPath, 'no date.md');
+    const noDateSourceBirthTime = (await fs.stat(
+      noDateSource.replace('@site', siteDir),
+    )).birthtime;
+    expect(
+      blogPosts.find(v => v.metadata.title === 'no date').metadata,
+    ).toEqual({
+      permalink: `/blog/${noDateSourceBirthTime
+        .toISOString()
+        .substr(0, '2019-01-01'.length)
+        .replace(/-/g, '/')}/no date`,
+      source: noDateSource,
+      title: 'no date',
+      description: `no date`,
+      date: noDateSourceBirthTime,
       tags: [],
     });
   });
