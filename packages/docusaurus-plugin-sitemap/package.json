@@ -1,0 +1,16 @@
+{
+  "name": "@docusaurus/plugin-sitemap",
+  "version": "2.0.0-alpha.24",
+  "description": "Simple sitemap generation plugin for Docusaurus",
+  "main": "src/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "sitemap": "^3.2.2"
+  },
+  "peerDependencies": {
+    "@docusaurus/core": "^2.0.0"
+  }
+}

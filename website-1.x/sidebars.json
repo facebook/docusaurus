@@ -1,0 +1,34 @@
+{
+  "docs": {
+    "Getting Started": [
+      "installation",
+      "site-preparation",
+      "site-creation",
+      "publishing",
+      "docker"
+    ],
+    "Guides": [
+      "adding-blog",
+      "custom-pages",
+      "search",
+      "navigation",
+      "translation",
+      "versioning"
+    ],
+    "API": [
+      "commands",
+      "doc-markdown",
+      "api-pages",
+      "site-config"
+    ]
+  },
+  "tutorial": {
+    "Tutorial": [
+      "tutorial-setup",
+      "tutorial-create-new-site",
+      "tutorial-create-pages",
+      "tutorial-publish-site",
+      "tutorial-version"
+    ]
+  }
+}

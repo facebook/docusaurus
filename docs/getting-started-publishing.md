@@ -19,14 +19,36 @@ This will generate a `build` directory inside the `website` directory containing
 
 At this point, you can grab all of the files inside the `website/build` directory and copy them over to your favorite web server's `html` directory.
 
-> For example, both Apache and nginx serve content from `/var/www/html` by default. That said, choosing a web server or provider is outside the scope of Docusaurus.
+> For example, both Apache and Nginx serve content from `/var/www/html` by default. That said, choosing a web server or provider is outside the scope of Docusaurus.
 
-> When serving the site from your own web server, ensure the web server is serving the asset files with the proper HTTP headers. CSS files should be served with the `content-type` header of `text/css`. In the case of nginx, this would mean setting `include /etc/nginx/mime.types;` in your `nginx.conf` file. See [this issue](https://github.com/facebook/Docusaurus/issues/602) for more info.
+> When serving the site from your own web server, ensure the web server is serving the asset files with the proper HTTP headers. CSS files should be served with the `content-type` header of `text/css`. In the case of Nginx, this would mean setting `include /etc/nginx/mime.types;` in your `nginx.conf` file. See [this issue](https://github.com/facebook/Docusaurus/issues/602) for more info.
 
 ### Hosting on a Service:
 
+* [ZEIT Now](#using-zeit-now)
 * [GitHub Pages](#using-github-pages)
 * [Netlify](#hosting-on-netlify)
+* [Render](#hosting-on-render)
+
+### Using ZEIT Now
+
+Deploying your Docusaurus project to [ZEIT Now](https://zeit.co/now) will provide you with [various benefits](https://zeit.co/now) in the areas of performance and ease of use.
+
+Most importantly, however, deploying a Docusaurus project only takes a couple seconds:
+
+1. First, install their [command-line interface](https://zeit.co/download):
+
+```bash
+npm i -g now
+```
+
+2. Run a single command inside the root directory of your project:
+
+```bash
+now
+```
+
+**That's all.** Your docs will automatically be deployed.
 
 ### Using GitHub Pages
 
@@ -101,16 +123,16 @@ However, you can automate the publishing process with continuous integration (CI
 
 ## Automating Deployments Using Continuous Integration
 
-Continuous integration (CI) services are typically used to perform routine tasks whenever new commits are checked in to source control. These tasks can be any combination of running unit tests and integration tests, automating builds, publishing packages to NPM, and yes, deploying changes to your website. All you need to do to automate deployment of your website is to invoke the `publish-gh-pages` script whenever your docs get updated. In the following section we'll be covering how to do just that using [Circle CI](https://circleci.com/), a popular continuous integration service provider.
+Continuous integration (CI) services are typically used to perform routine tasks whenever new commits are checked in to source control. These tasks can be any combination of running unit tests and integration tests, automating builds, publishing packages to NPM, and yes, deploying changes to your website. All you need to do to automate deployment of your website is to invoke the `publish-gh-pages` script whenever your docs get updated. In the following section, we'll be covering how to do just that using [CircleCI](https://circleci.com/), a popular continuous integration service provider.
 
-### Using Circle CI 2.0
+### Using CircleCI 2.0
 
 If you haven't done so already, you can [setup CircleCI](https://circleci.com/signup/) for your open source project. Afterwards, in order to enable automatic deployment of your site and documentation via CircleCI, just configure Circle to run the `publish-gh-pages` script as part of the deployment step. You can follow the steps below to get that setup.
 
 1.  Ensure the GitHub account that will be set as the `GIT_USER` has `write` access to the repository that contains the documentation, by checking `Settings | Collaborators & teams` in the repository.
 1.  Log into GitHub as the `GIT_USER`.
 1.  Go to https://github.com/settings/tokens for the `GIT_USER` and generate a new [personal access token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/), granting it full control of private repositories through the `repository` access scope. Store this token in a safe place, making sure to not share it with anyone. This token can be used to authenticate GitHub actions on your behalf in place of your GitHub password.
-1.  Open your Circle CI dashboard, and navigate to the Settings page for your repository, then select "Environment variables". The URL looks like https://circleci.com/gh/ORG/REPO/edit#env-vars, where "ORG/REPO" should be replaced with your own GitHub organization/repository.
+1.  Open your CircleCI dashboard, and navigate to the Settings page for your repository, then select "Environment variables". The URL looks like https://circleci.com/gh/ORG/REPO/edit#env-vars, where "ORG/REPO" should be replaced with your own GitHub organization/repository.
 1.  Create a new environment variable named `GITHUB_TOKEN`, using your newly generated access token as the value.
 1.  Create a `.circleci` directory and create a `config.yml` under that directory.
 1.  Copy the text below into `.circleci/config.yml`.
@@ -152,31 +174,31 @@ workflows:
 
 Make sure to replace all `<....>` in the `command:` sequence with appropriate values. For `<GIT_USER>`, it should be a GitHub account that has access to push documentation to your GitHub repository. Many times `<GIT_USER>` and `<GITHUB_USERNAME>` will be the same.
 
-**DO NOT** place the actual value of `$GITHUB_TOKEN` in `circle.yml`. We already configured that as an environment variable back in Step 3.
+**DO NOT** place the actual value of `$GITHUB_TOKEN` in `circle.yml`. We already configured that as an environment variable back in Step 5.
 
 > If you want to use SSH for your GitHub repository connection, you can set `USE_SSH=true`. So the above command would look something like: `cd website && npm install && GIT_USER=<GIT_USER> USE_SSH=true npm run publish-gh-pages`.
 
-> Unlike when you run the `publish-gh-pages` script manually, when the script runs within the Circle environment, the value of `CURRENT_BRANCH` is already defined as an [environment variable within CircleCI](https://circleci.com/docs/1.0/environment-variables/) and will be picked up by the script automatically.
+> Unlike when you run the `publish-gh-pages` script manually when the script runs within the Circle environment, the value of `CURRENT_BRANCH` is already defined as an [environment variable within CircleCI](https://circleci.com/docs/1.0/environment-variables/) and will be picked up by the script automatically.
 
 Now, whenever a new commit lands in `master`, CircleCI will run your suite of tests and, if everything passes, your website will be deployed via the `publish-gh-pages` script.
 
-> If you would rather use a deploy key instead of a personal access token, you can by starting with the Circle CI [instructions](https://circleci.com/docs/1.0/adding-read-write-deployment-key/) for adding a read/write deploy key.
+> If you would rather use a deploy key instead of a personal access token, you can by starting with the CircleCI [instructions](https://circleci.com/docs/1.0/adding-read-write-deployment-key/) for adding a read/write deploy key.
 
 ### Tips & Tricks
 
-When initially deploying to a `gh-pages` branch using Circle CI, you may notice that some jobs triggered by commits to the `gh-pages` branch fail to run successfully due to a lack of tests (This can also result in chat/slack build failure notifications).
+When initially deploying to a `gh-pages` branch using CircleCI, you may notice that some jobs triggered by commits to the `gh-pages` branch fail to run successfully due to a lack of tests (This can also result in chat/slack build failure notifications).
 
 You can work around this easily by:
 - Setting the environment variable `CUSTOM_COMMIT_MESSAGE` flag to the `publish-gh-pages` command with the contents of `[skip ci]`.
-e.g. 
+e.g.
 ```bash
 CUSTOM_COMMIT_MESSAGE="[skip ci]" \
   yarn run publish-gh-pages # or `npm run publish-gh-pages`
 ```
 
-- Alternatively you can work around this by creating a basic Circle CI config with the following contents:
+- Alternatively, you can work around this by creating a basic CircleCI config with the following contents:
 ```yaml
-# Circle CI 2.0 Config File
+# CircleCI 2.0 Config File
 # This config file will prevent tests from being run on the gh-pages branch.
 version: 2
 jobs:
@@ -217,6 +239,10 @@ script:
 
 Now, whenever a new commit lands in `master`, Travis CI will run your suite of tests and, if everything passes, your website will be deployed via the `publish-gh-pages` script.
 
+### Hosting on ZEIT Now
+
+With [ZEIT Now](#using-zeit-now), you can deploy your site easily and connect it to [GitHub](https://zeit.co/github) or [GitLab](https://zeit.co/gitlab) to automatically receive a new deployment every time you push a commit.
+
 ### Hosting on Netlify
 
 Steps to configure your Docusaurus-powered site on Netlify.
@@ -232,6 +258,33 @@ Steps to configure your Docusaurus-powered site on Netlify.
 1.  Click **Deploy site**
 
 You can also configure Netlify to rebuild on every commit to your repository, or only `master` branch commits.
+
+### Hosting on Render
+
+Render offers free [static site](https://render.com/docs/static-sites) hosting with fully managed SSL, custom domains, a global CDN and continuous auto deploys from your Git repo. Deploy your app in just a few minutes by following these steps.
+
+1. Create a new **Web Service** on Render, and give Render's GitHub app permission to access your Docusaurus repo.
+
+2. Select the branch to deploy. The default is `master`.
+
+2. Enter the following values during creation.
+
+    |  Field  |  Value |
+    | ------- | ----- |
+    | **Environment** | `Static Site` |
+    | **Build Command** | `cd website; yarn install; yarn build` |
+    | **Publish Directory** | `website/build/<projectName>` |
+
+    `projectName` is the value you defined in your `siteConfig.js`.
+
+    ```javascript{7}
+    const siteConfig = {
+      // ...
+      projectName: 'your-project-name',
+      // ...
+    ```
+
+That's it! Your app will be live on your Render URL as soon as the build finishes.
 
 ### Publishing to GitHub Enterprise
 

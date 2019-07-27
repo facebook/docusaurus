@@ -1,2 +1,7 @@
 # https://help.github.com/articles/about-codeowners/
-/v2/  @endiliey
+
+/packages/docusaurus-1.x/  @endiliey
+/packages/docusaurus-init-1.x/  @endiliey
+/packages/docusaurus/  @endiliey @yangshun
+/website/  @endiliey @yangshun
+/website-1.x/  @endiliey @yangshun

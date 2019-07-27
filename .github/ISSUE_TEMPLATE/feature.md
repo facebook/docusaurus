@@ -3,6 +3,11 @@ name: 🚀 Feature
 about: Submit a proposal/request for a new feature
 ---
 
+<!--
+  Consider requesting the feature on https://docusaurus-2.netlify.com/feedback/ instead.
+  Feature requests on v1 will not be accepted easily as we're focusing on building v2.
+-->
+
 ## 🚀 Feature
 
 (A clear and concise description of what the feature is.)

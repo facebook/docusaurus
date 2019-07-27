@@ -59,6 +59,7 @@ Alias: `build`.
 | Options                    | Default | Description                                                                                                           |
 | -------------------------- | ------- | --------------------------------------------------------------------------------------------------------------------- |
 | `--skip-image-compression` | `false` | Skip compression of image assets. You usually won't want to skip this unless your images have already been optimized. |
+| `--skip-next-release` | `false` | Skip the next release documents when versioning is enabled. This will not build HTML files for documents in `/docs` directory.|
 
 Generates the static website, applying translations if necessary. Useful for building the website prior to deployment.
 
@@ -88,7 +89,7 @@ When no feature is specified, sets up a minimally configured example website in 
 
 Alias: `publish-gh-pages`
 
-[Builds](api-commands.md#docusaurus-build), then deploys the static website to GitHub Pages. This command is meant to be run during the deployment step in Circle CI, and therefore expects a few environment variables to be defined:
+[Builds](api-commands.md#docusaurus-build), then deploys the static website to GitHub Pages. This command is meant to be run during the deployment step in CircleCI, and therefore expects a few environment variables to be defined:
 
 The following environment variables are generally set manually by the user in the CircleCI `config.yml` file.
 
@@ -145,6 +146,7 @@ This command will build the static website, apply translations if necessary, and
 | Options           | Default | Description                                                                                                                          |
 | ----------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------ |
 | `--port <number>` | `3000`  | The website will be served from port 3000 by default, but if the port is taken up, Docusaurus will attempt to find an available one. |
+|`--host <host>`|`localhost`|Specify a host to use. E.g., if you want your server to be accessible externally, you can use --host 0.0.0.0.|
 | `--watch` | -  | Whether to watch the files and live reload the page when files are changed. Defaults to true. Disable this by using `--no-watch`. |
 
 You can specify the browser application to be opened by setting the `BROWSER` environment variable before the command, e.g.:
@@ -169,4 +171,4 @@ See the [Versioning guide](guides-versioning.md) to learn more.
 
 Alias: `write-translations`
 
-Writes the English for any strings that need to be translated into an `website/i18n/en.json` file. The script will go through every file in `website/pages/en` and through the `siteConfig.js` file and other config files to fetch English strings that will then be translated on Crowdin. See the [Translation guide](guides-translation.md) to learn more.
+Writes the English for any strings that need to be translated into a `website/i18n/en.json` file. The script will go through every file in `website/pages/en` and through the `siteConfig.js` file and other config files to fetch English strings that will then be translated on Crowdin. See the [Translation guide](guides-translation.md) to learn more.

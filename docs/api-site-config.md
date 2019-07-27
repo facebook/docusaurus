@@ -3,13 +3,13 @@ id: site-config
 title: siteConfig.js
 ---
 
-A large part of site configuration is done by editing the `siteConfig.js` file.
+A large part of the site configuration is done by editing the `siteConfig.js` file.
 
 ## User Showcase
 
-The `users` array is used to store objects for each project/user that you want to show on your site. Currently this field is used by example the `pages/en/index.js` and `pages/en/users.js` files provided. Each user object should have `caption`, `image`, `infoLink`, and `pinned` fields. The `caption` is the text showed when someone hovers over the `image` of that user, and the `infoLink` is where clicking the image will bring someone. The `pinned` field determines whether or not it shows up on the `index` page.
+The `users` array is used to store objects for each project/user that you want to show on your site. Currently, this field is used by example the `pages/en/index.js` and `pages/en/users.js` files provided. Each user object should have `caption`, `image`, `infoLink`, and `pinned` fields. The `caption` is the text showed when someone hovers over the `image` of that user, and the `infoLink` is where clicking the image will bring someone. The `pinned` field determines whether or not it shows up on the `index` page.
 
-Currently this `users` array is used only by the `index.js` and `users.js` example files. If you do not wish to have a users page or show users on the `index` page, you may remove this section.
+Currently, this `users` array is used only by the `index.js` and `users.js` example files. If you do not wish to have a users page or show users on the `index` page, you may remove this section.
 
 ## siteConfig Fields
 
@@ -19,7 +19,7 @@ The `siteConfig` object contains the bulk of the configuration settings for your
 
 #### `baseUrl` [string]
 
-baseUrl for your site. This can also be considered the path after the host. For example, `/metro/` is the baseUrl of https://facebook.github.io/metro/. For urls that have no path, the baseUrl should be set to `/`. This field is related to the [`url` field](#url-string).
+baseUrl for your site. This can also be considered the path after the host. For example, `/metro/` is the baseUrl of https://facebook.github.io/metro/. For URLs that have no path, the baseUrl should be set to `/`. This field is related to the [`url` field](#url-string).
 
 #### `colors` [object]
 
@@ -31,7 +31,7 @@ Color configurations for the site.
 
 #### `copyright` [string]
 
-The copyright string at footer of site and within feed
+The copyright string at the footer of the site and within the feed
 
 #### `favicon` [string]
 
@@ -39,7 +39,7 @@ URL for site favicon.
 
 #### `headerIcon` [string]
 
-URL for icon used in header navigation bar.
+URL for icon used in the header navigation bar.
 
 #### `headerLinks` [array]
 
@@ -74,7 +74,7 @@ Project name. This must match your GitHub repository project name (case-sensitiv
 
 #### `tagline` [string]
 
-Tagline for your website.
+The tagline for your website.
 
 #### `title` [string]
 
@@ -82,7 +82,7 @@ Title for your website.
 
 #### `url` [string]
 
-URL for your website. This can also be considered the top-level hostname. For example, `https://facebook.github.io` is the url of https://facebook.github.io/metro/, and `https://docusaurus.io` is the url for https://docusaurus.io. This field is related to the [`baseUrl` field](#baseurl-string).
+URL for your website. This can also be considered the top-level hostname. For example, `https://facebook.github.io` is the URL of https://facebook.github.io/metro/, and `https://docusaurus.io` is the URL for https://docusaurus.io. This field is related to the [`baseUrl` field](#baseurl-string).
 
 ### Optional Fields
 
@@ -90,7 +90,7 @@ URL for your website. This can also be considered the top-level hostname. For ex
 
 Information for Algolia search integration. If this field is excluded, the search bar will not appear in the header. You must specify two values for this field, and one (`appId`) is optional.
 
-- `apiKey` - the Algolia provided API key for your search.
+- `apiKey` - the Algolia provided an API key for your search.
 - `indexName` - the Algolia provided index name for your search (usually this is the project name)
 - `appId` - Algolia provides a default scraper for your docs. If you provide your own, you will probably get this id from them.
 
@@ -104,7 +104,7 @@ Control the title of the blog sidebar. See the [adding a blog docs](guides-blog.
 
 #### `cleanUrl` [string]
 
-If `true`, allow URLs with no `html` extension. For example, a request to URL https://docusaurus.io/docs/installation will returns the same result as https://docusaurus.io/docs/installation.html.
+If `true`, allow URLs with no `HTML` extension. For example, a request to URL https://docusaurus.io/docs/installation will return the same result as https://docusaurus.io/docs/installation.html.
 
 #### `cname` [string]
 
@@ -128,7 +128,7 @@ The default version for the site to be shown. If this is not set, the latest ver
 
 #### `docsUrl` [string]
 
-The base url for all docs file. Set this field to `''` to remove the `docs` prefix of the documentation URL. 
+The base URL for all docs file. Set this field to `''` to remove the `docs` prefix of the documentation URL.
 If unset, it is defaulted to `docs`.
 
 #### `disableHeaderTitle` [boolean]
@@ -208,7 +208,7 @@ Set this to `true` if you want to use [global site tags (gtag.js)](https://devel
 
 #### `githubHost` [string]
 
-Hostname of your server. Useful if you are using GitHub Enterprise.
+The hostname of your server. Useful if you are using GitHub Enterprise.
 
 #### `highlight`
 
@@ -247,9 +247,25 @@ Hostname of your server. Useful if you are using GitHub Enterprise.
 
 Path to your web app manifest (e.g., `manifest.json`). This will add a `<link>` tag to `<head>` with `rel` as `"manifest"` and `href` as the provided path.
 
+#### `markdownOptions` [object]
+
+Override default [Remarkable options](https://github.com/jonschlinkert/remarkable#options) that will be used to render markdown.
+
+> To manage [syntax extensions](https://github.com/jonschlinkert/remarkable#syntax-extensions), use the `markdownPlugins` field.
+
 #### `markdownPlugins` [array]
 
 An array of plugins to be loaded by Remarkable, the markdown parser and renderer used by Docusaurus. The plugin will receive a reference to the Remarkable instance, allowing custom parsing and rendering rules to be defined.
+
+For example, if you want to [enable superscript and subscript](https://github.com/jonschlinkert/remarkable#syntax-extensions) in your markdown that is rendered by Remarkable to HTML, you would do the following:
+
+```
+  markdownPlugins: [
+    function foo(md) {
+      md.inline.ruler.enable(['sub', 'sup']);
+    },
+  ],
+```
 
 #### `noIndex` [boolean]
 
@@ -267,11 +283,11 @@ If you want a visible navigation option for representing topics on the current p
 
 #### `scripts` [array]
 
-Array of JavaScript sources to load. The values can be either strings or plain objects of attribute-value maps. Refer to the example below. The script tag will be inserted in the HTML head.
+An array of JavaScript sources to load. The values can be either strings or plain objects of attribute-value maps. Refer to the example below. The script tag will be inserted in the HTML head.
 
-#### `separateCss` [string]
+#### `separateCSS` [array]
 
-Directories inside which any `css` files will not be processed and concatenated to Docusaurus' styles. This is to support static `html` pages that may be separate from Docusaurus with completely separate styles.
+Directories inside which any `CSS` files will not be processed and concatenated to Docusaurus' styles. This is to support static `HTML` pages that may be separate from Docusaurus with completely separate styles.
 
 #### `scrollToTop` [boolean]
 
@@ -283,7 +299,7 @@ Optional options configuration for the scroll to top button. You do not need to 
 
 #### `stylesheets` [array]
 
-Array of CSS sources to load. The values can be either strings or plain objects of attribute-value maps. The link tag will be inserted in the HTML head.
+An array of CSS sources to load. The values can be either strings or plain objects of attribute-value maps. The link tag will be inserted in the HTML head.
 
 #### `translationRecruitingLink` [string]
 
@@ -311,11 +327,11 @@ The `users` array mentioned earlier.
 
 #### `usePrism` [array]
 
-Array of languages to use Prism syntax highlighter. Refer to [Using Prism as additional syntax highlighter](api-doc-markdown.md#using-prism-as-additional-syntax-highlighter). Set it to `true` to use Prism on all languages.
+An array of languages to use Prism syntax highlighter. Refer to [Using Prism as additional syntax highlighter](api-doc-markdown.md#using-prism-as-additional-syntax-highlighter). Set it to `true` to use Prism on all languages.
 
 #### `wrapPagesHTML` [boolean]
 
-Boolean flag to indicate whether `html` files in `/pages` should be wrapped with Docusaurus site styles, header and footer. This feature is experimental and relies on the files being `html` fragments instead of complete pages. It inserts the contents of your `html` file with no extra processing. Defaults to `false`.
+Boolean flag to indicate whether `HTML` files in `/pages` should be wrapped with Docusaurus site styles, header and footer. This feature is experimental and relies on the files being `HTML` fragments instead of complete pages. It inserts the contents of your `HTML` file with no extra processing. Defaults to `false`.
 
 Users can also add their own custom fields if they wish to provide some data across different files.
 

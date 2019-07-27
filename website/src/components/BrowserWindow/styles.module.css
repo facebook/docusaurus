@@ -1,0 +1,70 @@
+.browserWindow {
+  border: 3px solid var(--ifm-color-emphasis-alpha-10);
+  border-top-left-radius: var(--ifm-global-radius);
+  border-top-right-radius: var(--ifm-global-radius);
+}
+
+.browserWindowHeader {
+  align-items: center;
+  background: var(--ifm-color-emphasis-alpha-10);
+  display: flex;
+  padding: 0.5rem 1rem;
+}
+
+.row:after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+.buttons {
+  white-space: nowrap;
+}
+
+.right {
+  align-self: center;
+  width: 10%;
+}
+
+.browserWindowAddressBar {
+  flex: 1 0 auto;
+  margin-left: 0.5rem;
+  margin-right: 1rem;
+}
+
+.dot {
+  margin-right: 6px;
+  margin-top: 4px;
+  height: 12px;
+  width: 12px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+input[type='text'] {
+  width: 100%;
+  border-radius: 12.5px;
+  border: none;
+  background-color: white;
+  margin-top: -8px;
+  height: 25px;
+  color: #666;
+  padding: 5px 15px;
+}
+
+.browserWindowMenuIcon {
+  margin-left: auto;
+}
+
+.bar {
+  width: 17px;
+  height: 3px;
+  background-color: #aaa;
+  margin: 3px 0;
+  display: block;
+}
+
+.browserWindowBody {
+  padding: 1rem;
+}

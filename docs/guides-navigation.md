@@ -234,7 +234,7 @@ If search is enabled on your site, your search bar will appear to the right of y
 
 ### Languages Dropdown
 
-If translations is enabled on your site, the language dropdown will appear to the right of your links (and to the left of the search bar, if search is enabled). If you want to put the language selection drop down between links in the header, add a languages entry in the `headerLinks` config array:
+If translations are enabled on your site, the language dropdown will appear to the right of your links (and to the left of the search bar, if search is enabled). If you want to put the language selection drop down between links in the header, add a languages entry in the `headerLinks` config array:
 
 ```js
 {
@@ -256,7 +256,7 @@ The links in the top navigation bar get `siteNavItemActive` and `siteNavGroupAct
 The `siteNavGroupActive` class will be added to these links:
 
 - `doc` links that belong to the same sidebar as the currently displayed document
-- The blog link when a blog post, or the blog listing page is being displayed
+- The blog link when a blog post or the blog listing page is being displayed
 
 These are two separate class names so you can have the active styles applied to either exact matches only or a bit more broadly for docs that belong together. If you don't want to make this distinction you can add both classes to the same CSS rule.
 

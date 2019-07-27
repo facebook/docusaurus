@@ -14,40 +14,6 @@ aliases:
       - ~/.cache/yarn
     key: root-yarn-{{ .Branch }}-{{ checksum "yarn.lock" }}
 
-  - &v1-yarn |
-    cd v1
-    yarn install --non-interactive --cache-folder ~/.cache/yarn
-
-  - &v1-restore-yarn-cache
-    keys:
-      - v1-yarn-{{ .Branch }}-{{ checksum "yarn.lock" }}
-      # Fallback in case checksum fails
-      - v1-yarn-{{ .Branch }}-
-
-  - &v1-save-yarn-cache
-    paths:
-      - v1/node_modules
-      - ~/.cache/yarn
-    key: v1-yarn-{{ .Branch }}-{{ checksum "yarn.lock" }}
-
-  - &v2-yarn |
-    cd v2
-    yarn install --non-interactive --cache-folder ~/.cache/yarn
-    cd ../v2-website
-    yarn install --non-interactive --cache-folder ~/.cache/yarn
-
-  - &v2-restore-yarn-cache
-    keys:
-      - v2-yarn-{{ .Branch }}-{{ checksum "yarn.lock" }}
-      # Fallback in case checksum fails
-      - v2-yarn-{{ .Branch }}-
-
-  - &v2-save-yarn-cache
-    paths:
-      - v2/node_modules
-      - ~/.cache/yarn
-    key: v2-yarn-{{ .Branch }}-{{ checksum "yarn.lock" }}
-
   - &filter-only-master
     branches:
       only:
@@ -65,7 +31,7 @@ defaults: &defaults
 
 version: 2
 jobs:
-  prettier:
+  lint-prettier:
     <<: *defaults
     steps:
       - checkout
@@ -73,37 +39,32 @@ jobs:
       - run: *root-yarn
       - save-cache: *root-save-yarn-cache
       - run:
+          name: Check ESLint
+          command: yarn lint
+      - run:
           name: Check Prettier
-          command: |
-            yarn install
-            yarn prettier:diff
+          command: yarn prettier:diff
 
-  v1-tests:
+  tests:
     <<: *defaults
     steps:
       - checkout
-      - restore-cache: *v1-restore-yarn-cache
-      - run: *v1-yarn
-      - save-cache: *v1-save-yarn-cache
-      - run:
-          name: Check ESLint
-          command: cd v1 && yarn lint
+      - restore-cache: *root-restore-yarn-cache
+      - run: *root-yarn
+      - save-cache: *root-save-yarn-cache
       - run:
           name: Run Test Suites
-          command: cd v1 && yarn test
-      - run:
-          name: Test Static Website Builds
-          command: cd v1/website && yarn build
+          command: yarn test
 
   # The CIRCLE_ variables are defined during the CircleCI build process
   # https://circleci.com/docs/1.0/environment-variables/
-  v1-deploy-website:
+  deploy-website:
     <<: *defaults
     steps:
       - checkout
-      - restore-cache: *v1-restore-yarn-cache
-      - run: *v1-yarn
-      - save-cache: *v1-save-yarn-cache
+      - restore-cache: *root-restore-yarn-cache
+      - run: *root-yarn
+      - save-cache: *root-save-yarn-cache
       - run:
           name: Configure GitHub Bot
           # Do not do this if we don't have the right org (facebook), or if this is just a pull request
@@ -114,13 +75,15 @@ jobs:
               echo "machine github.com login docusaurus-bot password $DOCUSAURUS_PUBLISH_TOKEN" > ~/.netrc
             fi
       - run:
-          name: Deploy Website
+          name: Deploy v1 Website
           # Skip the deploy if we don't have the right org (facebook), or if this is just a pull request
           command: |
-            if [[ $CIRCLE_PROJECT_USERNAME == "facebook" && -z $CI_PULL_REQUEST && -z $CIRCLE_PR_USERNAME ]]; then
+            if ! git diff-tree --no-commit-id --name-only -r HEAD | grep -E "(^docs\/.*)|(docusaurus-1\.x\/.*)|(website-1\.x\/.*)"; then
+              echo "Skipping deploy. No relevant v1 website files have changed"
+            elif [[ $CIRCLE_PROJECT_USERNAME == "facebook" && -z $CI_PULL_REQUEST && -z $CIRCLE_PR_USERNAME ]]; then
               echo "Deploying website..."
               # install Docusaurus and generate file of English strings
-              cd v1 && yarn && cd website && yarn run write-translations
+              cd website-1.x && yarn run write-translations
               # install Crowdin
               sudo apt-get update
               sudo apt-get install default-jre rsync
@@ -129,75 +92,31 @@ jobs:
               sleep 5
               # upload translation strings and download translations
               yarn run crowdin-upload
-              yarn run crowdin-download
+              # download only enabled languages
+              for lang in fr ko ru ro pt-BR zh-CN
+              do
+                  yarn crowdin-download -l $lang
+              done
               # publish
               GIT_USER=docusaurus-bot USE_SSH=false yarn run publish-gh-pages
             else
               echo "Skipping deploy."
             fi
 
-  v2-tests:
-    <<: *defaults
-    steps:
-      - checkout
-      - restore-cache: *v2-restore-yarn-cache
-      - run: *v2-yarn
-      - save-cache: *v2-save-yarn-cache
-      - run:
-          name: Check ESLint
-          command: cd v2 && yarn lint
-      - run:
-          name: Run Test Suites
-          command: cd v2 && yarn test
-      - run:
-          name: Test Static Website Builds
-          command: cd v2-website && yarn build
-
-  publish-npm:
-    <<: *defaults
-    steps:
-      - checkout
-      - restore-cache: *v1-restore-yarn-cache
-      - run: *v1-yarn
-      - save-cache: *v1-save-yarn-cache
-      - ? run
-        name: Publish Docusaurus Package
-        command: |
-          if [ -z "$CIRCLE_PULL_REQUEST" ]; then
-            echo "//registry.npmjs.org/:_authToken=${CIRCLE_NPM_TOKEN}" > ~/.npmrc
-            node ./scripts/publish-npm.js
-          else
-            echo "Skipping publication."
-          fi
-
 # Workflows enables us to run multiple jobs in parallel
 workflows:
   version: 2
 
-  prettier:
+  lint-prettier:
     jobs:
-      - prettier:
+      - lint-prettier:
           filters: *filter-ignore-gh-pages
 
-  v1:
+  tests-and-deploy:
     jobs:
-      - v1-tests:
+      - tests:
           filters: *filter-ignore-gh-pages
-      - v1-deploy-website:
+      - deploy-website:
           requires:
-            - v1-tests
-          filters: *filter-only-master
-
-  v2:
-    jobs:
-      - v2-tests:
-          filters: *filter-ignore-gh-pages
-
-  deploy:
-    jobs:
-      - hold:
-          type: approval
-      - publish-npm:
-          requires:
-            - hold
+            - tests
           filters: *filter-only-master

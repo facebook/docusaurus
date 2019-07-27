@@ -1,0 +1,16 @@
+__fixtures__
+dist
+node_modules
+build
+jest.config.js
+jest.transform.js
+website-1.x/
+website/
+scripts
+packages/docusaurus-1.x/lib/core/metadata.js
+packages/docusaurus-1.x/lib/core/MetadataBlog.js
+packages/docusaurus-1.x/lib/core/__tests__/split-tab.test.js
+packages/docusaurus-utils/lib/
+packages/docusaurus/lib/
+packages/docusaurus-init/lib/
+

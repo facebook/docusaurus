@@ -1,27 +1,74 @@
 {
-  "keywords": ["documentation", "websites", "open source", "docusaurus"],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/facebook/Docusaurus.git"
-  },
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "website",
+    "website-1.x",
+    "packages/docusaurus-init/templates/*"
+  ],
   "scripts": {
-    "lint:v1": "cd v1 && yarn lint",
-    "lint:v2": "cd v2 && yarn lint",
-    "prettier:v1": "cd v1 && yarn prettier",
-    "prettier:v2": "cd v2 && yarn prettier",
-    "prettier": "yarn prettier:v1 && yarn prettier:v2",
-    "prettier:diff": "prettier --config .prettierrc --list-different \"**/*.js\"",
-    "start": "cd v1/website && yarn start"
+    "start": "yarn tsc && yarn start:v2",
+    "start:v1": "yarn workspace docusaurus-1-website start",
+    "start:v2": "yarn workspace docusaurus-2-website start",
+    "build": "yarn tsc && yarn build:v2",
+    "build:v1": "yarn workspace docusaurus-1-website build",
+    "build:v2": "yarn workspace docusaurus-2-website build",
+    "postinstall": "yarn tsc",
+    "prettier": "prettier --config .prettierrc --write \"**/*.{js,ts}\"",
+    "prettier:diff": "prettier --config .prettierrc --list-different \"**/*.{js,ts}\"",
+    "lint": "eslint --cache \"**/*.js\"",
+    "lerna": "lerna",
+    "test": "jest",
+    "tsc": "lerna run tsc --no-private"
   },
   "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/preset-typescript": "^7.3.3",
+    "@types/express": "^4.17.0",
+    "@types/fs-extra": "8.0.0",
+    "@types/inquirer": "^6.0.3",
+    "@types/jest": "^24.0.15",
+    "@types/lodash": "^4.14.136",
+    "@types/lodash.kebabcase": "^4.1.6",
+    "@types/node": "^12.0.2",
+    "@types/react": "^16.8.18",
+    "@types/react-dev-utils": "^9.0.1",
+    "@types/semver": "^6.0.1",
+    "@types/shelljs": "^0.8.5",
+    "@types/webpack": "^4.32.0",
+    "@types/webpack-dev-server": "^3.1.5",
+    "@types/webpack-merge": "^4.1.5",
+    "babel-eslint": "8",
+    "enzyme": "^3.9.0",
+    "enzyme-adapter-react-16": "^1.12.1",
+    "eslint": "4.x",
+    "eslint-config-airbnb": "17.1.0",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-plugin-header": "^3.0.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.11.1",
+    "eslint-plugin-react-hooks": "^0.0.0",
+    "filepath": "^1.1.0",
+    "front-matter": "^2.3.0",
+    "glob-promise": "^3.3.0",
     "husky": "^1.3.1",
+    "jest": "^24.6.0",
+    "lerna": "^3.14.1",
     "lint-staged": "^7.2.0",
-    "prettier": "^1.13.7"
+    "prettier": "^1.13.7",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4",
+    "rimraf": "^2.6.3",
+    "typescript": "^3.5.3"
   },
   "lint-staged": {
     "linters": {
-      "v1/**/*.js": ["yarn lint:v1 --fix", "yarn prettier:v1", "git add"],
-      "v2/**/*.js": ["yarn lint:v2 --fix", "yarn prettier:v2", "git add"]
+      "*.js": [
+        "yarn lint --fix",
+        "yarn prettier",
+        "git add"
+      ]
     }
   },
   "husky": {

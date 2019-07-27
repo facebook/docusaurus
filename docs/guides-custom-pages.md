@@ -24,9 +24,10 @@ root-directory
     │   └── Footer.js
     ├── package.json
     ├── pages
-    │   ├── index.js
-    │   ├── users.js
-    │   └── help.js
+    │   └── en
+    │       ├── help.js
+    │       ├── index.js
+    │       └── users.js
     ├── sidebars.json
     ├── siteConfig.js
     └── static
@@ -40,7 +41,7 @@ Of course, you are also free to write your own pages. It is strongly suggested t
 
 Static `.html` files can also be used, but they will not include Docusaurus' header, footer, or styles by default. These can be added to the `static` directory in the same way as other [static assets](api-pages.md#using-static-assets). Alternatively, they can be placed in the `pages` directory and would be served as-is instead of being rendered from React.
 
-If you wish to use Docusaurus' stylesheet, you can access it at `${baseUrl}css/main.css`. If you wish to use separate css for these static pages, you can exclude them from being concatenated to Docusaurus' styles by adding them into the `siteConfig.separateCss` field in `siteConfig.js`.
+If you wish to use Docusaurus' stylesheet, you can access it at `${baseUrl}css/main.css`. If you wish to use separate CSS for these static pages, you can exclude them from being concatenated to Docusaurus' styles by adding them into the `siteConfig.separateCss` field in `siteConfig.js`.
 
 > You can set the [`$wrapPagesHTML` site config option](api-site-config.md#optional-fields) in order to wrap raw HTML fragments with the Docusaurus site styling, header and footer.
 

@@ -1,0 +1,21 @@
+{
+  "name": "@docusaurus/theme-search-algolia",
+  "version": "2.0.0-alpha.24",
+  "description": "Algolia search component for Docusaurus",
+  "main": "src/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "docsearch.js": "^2.6.3"
+  },
+  "peerDependencies": {
+    "@docusaurus/core": "^2.0.0",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4"
+  },
+  "engines": {
+    "node": ">=8"
+  }
+}
