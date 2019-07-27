@@ -8,9 +8,37 @@ Plugins are the building blocks which add features to a Docusaurus 2 site. Each 
 
 Docusaurus 2 provides a few essential plugins such as [Google Analytics](advanced-plugins.md#docusaurusplugin-google-analytics) and [Sitemap](advanced-plugins.md#docusaurusplugin-sitemap). You may also write your own plugins for customized features.
 
-In this doc, we talk about how to use plugins with Docusaurus' official plugins. To learn about the design implementation and how to write your own plugins, check out [Advanced Guides: Plugins](advanced-plugins.md). For API reference, check out [API Reference: Plugins](plugins-api.md).
+In this doc, we talk about how to use plugins with Docusaurus' official plugins. To learn about the design implementation and how to write your own plugins, check out [Advanced Guides: Plugins](advanced-plugins.md).
 
-## Using plugins
+## Installing a plugin
+
+A plugin is an npm package, so you install them like other npm packages using npm.
+
+```bash
+npm install --save docusaurus-plugin-name
+```
+
+Then you add it in your site's `docusaurus.config.js`'s `plugins` option:
+
+```jsx
+// docusaurus.config.js
+module.exports = {
+  plugins: ['@docusaurus/plugin-content-pages'],
+};
+```
+
+Docusaurus can also load plugins from your local directory, you can do something like the following:
+
+```jsx
+// docusaurus.config.js
+const path = require('path');
+
+module.exports = {
+  plugins: [path.resolve(__dirname, '/path/to/docusaurus-local-plugin')],
+};
+```
+
+## Configuring plugins
 
 To use a plugin, add the plugin to the `plugins` field of your `docusaurus.config.js`.
 
@@ -36,16 +64,7 @@ module.exports = {
 
 ## Passing options to Docusaurus plugins via preset
 
-Docusaurus' classic template is scaffolded with the classic preset, which includes the following official plugins. You may read more about the configurations of these plugins in our [Advanced Guides: Plugins](advanced-plugins.md).
-
-- `@docusaurus/plugin-content-blog`
-- `@docusaurus/plugin-content-docs`
-- `@docusaurus/plugin-content-pages`
-- `@docusaurus/plugin-google-analytics`
-- `@docusaurus/plugin-google-gtag`
-- `@docusaurus/plugin-sitemap`
-
-If you initialized your site using the classic template, you do not have to specify them individually in your `docusaurus.config.js`. To provide the neccesary fields to certain plugins, i.e. `trackingID` of `@docusaurus/plugin-content-analytics`, pass them in the preset field.
+If you initialized your site using the classic template, you do not have to specify plugin options individually in your `docusaurus.config.js`. To provide the neccesary fields to certain plugins, i.e. `trackingID` for `@docusaurus/plugin-google-analytics`, pass them in the preset field, like this:
 
 ```js
 // docusaurus.config.js
@@ -64,7 +83,7 @@ module.exports = {
         },
         // Will be passed to @docusaurus/plugin-google-analytics.
         googleAnalytics: {
-          trackingID: 'UA-000000-2',
+          trackingID: 'UA-1428571428-5',
         },
         ...
       },
@@ -72,3 +91,15 @@ module.exports = {
   ],
 };
 ```
+
+## Official plugins by Docusaurus
+
+Docusaurus' classic template is scaffolded with the classic preset, which includes the following official plugins. You may read more about the configurations of these plugins in our [Advanced Guides: Plugins](advanced-plugins.md).
+
+- [@docusaurus/plugin-content-blog](https://github.com/facebook/docusaurus/tree/master/packages/docusaurus-plugin-content-blog)
+- [@docusaurus/plugin-content-docs](https://github.com/facebook/docusaurus/tree/master/packages/docusaurus-plugin-content-docs-legacy)
+- [@docusaurus/plugin-content-pages](https://github.com/facebook/docusaurus/tree/master/packages/docusaurus-plugin-content-pages)
+- [@docusaurus/plugin-google-analytics](https://github.com/facebook/docusaurus/tree/master/packages/docusaurus-plugin-google-analytics)
+- [@docusaurus/plugin-google-gtag](https://github.com/facebook/docusaurus/tree/master/packages/docusaurus-plugin-google-gtag)
+- [@docusaurus/plugin-sitemap](https://github.com/facebook/docusaurus/tree/master/packages/docusaurus-plugin-sitemap)
+- [@docusaurus/plugin-ideal-image](https://github.com/facebook/docusaurus/tree/master/packages/docusaurus-plugin-ideal-image)
