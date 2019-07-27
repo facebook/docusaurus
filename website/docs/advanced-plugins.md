@@ -3,36 +3,34 @@ id: advanced-plugins
 title: Plugins
 ---
 
+In this doc, we talk about the design intention of plugins, the lifecycle methods, how you may write your own plugins, etc.
+
 A plugin is a package that exports a class which can be instantiated with configurable options (provided by the user) and its various lifecycle methods will be invoked by the Docusaurus runtime.
 
-In this doc, we talk about the design intention of plugins, the lifecycle methods, how you may write your own plugins, etc.
+Plugins are one of the best ways to add functionality to our Docusaurus. Plugins allow third-party developers to extend or modify the default functionality that Docusaurus provides.
 
 Docusaurus Plugins are very similar to [Gatsby Plugins](https://www.gatsbyjs.org/plugins/) and [VuePress Plugins](https://v1.vuepress.vuejs.org/plugin/)<!-- TODO: is this the correct link? -->. The main difference here is that Docusaurus plugins don't allow using other plugins. Docusaurus provides [presets](./presets.md) for the use scenarios for plugins that are meant to work together.
 
 In most cases, plugins are there to fetch data and create routes. A plugin could take in components as part of its options and to act as the wrapper for the page.
 
-## Lifecycle methods
-
-<!-- TODO: explain lifecycle methods -->
-
-- `loadContent` - Plugins should fetch from data sources (filesystem, remote API, etc)
-- `contentLoaded` - Plugins should use the data loaded in loadContent and construct the pages/routes that consume the data
-- `configureWebpack` - To extend the webpack config via webpack-merge.
-
-<!--
-For example, the in docusaurus-plugin-content-docs:
-
-    In loadContent, it loads the doc Markdown files based on the specified directory in options (defaulting to docs).
-    In contentLoaded, for each doc Markdown file, a route is created: /doc/installation, /doc/getting-started, etc.
- -->
-
 ## How to create plugins
 
 _This section is a work in progress._
 
-<!-- TODO: explain creating plugins using an example -->
+<!--
+
+outline:
+- jump start a plugin
+- refer to lifecycle APIs
+- describe mindset how plugins should work
+
+Plugins are modules which export a function that takes in the context, options and returns a plain JavaScript object that has some properties defined.
+
+-->
 
 ## Official plugins
+
+List of [official plugins](https://github.com/facebook/docusaurus/tree/master/packages) created by Docusaurus.
 
 ### `@docusaurus/plugin-content-blog`
 

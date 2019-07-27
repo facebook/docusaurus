@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [Unreleased]
 
+**Docs**
+
+- docs: document what should be in .gitignore ([https://github.com/facebook/docusaurus/pull/1709](https://github.com/facebook/docusaurus/pull/1709))
+
 ## [1.12.0] - 2019-07-20
 
 ### Changes

@@ -1,53 +1,24 @@
 ---
-id: plugins-api
-title: Plugins
+id: lifecycle-apis
+title: Lifecycle APIs
 ---
 
-Plugins are one of the best ways to add functionality to our Docusaurus. Plugins allow third-party developers to extend or modify the default functionality that Docusaurus provides.
+_This section is a work in progress._
 
-## Installing a plugin
+Lifecycle APIs are shared by Themes and Plugins.
 
-A plugin is an npm package, so you install them like other npm packages using npm.
+<!-- TODO: explain lifecycle methods -->
 
-```bash
-yarn add docusaurus-plugin-name
-```
+- `loadContent` - Plugins should fetch from data sources (filesystem, remote API, etc)
+- `contentLoaded` - Plugins should use the data loaded in loadContent and construct the pages/routes that consume the data
+- `configureWebpack` - To extend the webpack config via webpack-merge.
 
-Then you add it in your site's `docusaurus.config.js`'s `plugins` option:
+<!--
+For example, the in docusaurus-plugin-content-docs:
 
-```jsx
-// docusaurus.config.js
-module.exports = {
-  plugins: [
-    '@docusaurus/plugin-content-pages',
-    [
-      // Plugin with options
-      '@docusaurus/plugin-content-blog',
-      {
-        include: ['*.md', '*.mdx'],
-        path: 'blog',
-      },
-    ],
-  ],
-};
-```
-
-Docusaurus can also load plugins from your local directory, you can do something like the following:
-
-```jsx
-// docusaurus.config.js
-const path = require('path');
-
-module.exports = {
-  plugins: [path.resolve(__dirname, '/path/to/docusaurus-local-plugin')],
-};
-```
-
-## Basic Plugin Definition
-
-Plugins are modules which export a function that takes in the context, options and returns a plain JavaScript object that has some properties defined.
-
-For examples, please refer to several [official plugins](https://github.com/facebook/docusaurus/tree/master/packages) created.
+    In loadContent, it loads the doc Markdown files based on the specified directory in options (defaulting to docs).
+    In contentLoaded, for each doc Markdown file, a route is created: /doc/installation, /doc/getting-started, etc.
+ -->
 
 ```jsx
 const DEFAULT_OPTIONS = {
