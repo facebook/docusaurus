@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Add `date` frontMatter support for blog plugin
+
 ## 2.0.0-alpha.24
 
 - Remove unused metadata for pages. This minimize number of http request & smaller bundle size.
