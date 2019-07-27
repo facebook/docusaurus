@@ -65,8 +65,8 @@ The following contents will be created in your current directory. Some example d
 ```
 
 
-2. Run `cd website` to go into the `website` directory.
-1. Run `npm start` or `yarn start`.
+3. Run `cd website` to go into the `website` directory.
+4. Run `npm start` or `yarn start`.
 
 A browser window will open up at http://localhost:3000/docusaurus-tutorial/.
 
