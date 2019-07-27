@@ -89,7 +89,7 @@ module.exports = function(context, opts) {
             date = new Date(frontMatter.date);
           }
           // use file create time for blog
-          date = date || (await fs.fstat(source)).ctime;
+          date = date || (await fs.fstat(source)).birthtime;
           frontMatter.title = frontMatter.title || linkName;
 
           blogPosts.push({
