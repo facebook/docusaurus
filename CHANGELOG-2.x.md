@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Add `truncateMarker` option to blog plugin, support string or regex.
+
 ## 2.0.0-alpha.24
 
 - Remove unused metadata for pages. This minimize number of http request & smaller bundle size.
