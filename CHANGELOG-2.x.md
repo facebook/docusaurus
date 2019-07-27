@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Add `truncateMarker` option to blog plugin, support string or regex.
 - Webpack `optimization.removeAvailableModules` is now disabled for performance gain. See https://github.com/webpack/webpack/releases/tag/v4.38.0 for more context.
 
 ## 2.0.0-alpha.24
