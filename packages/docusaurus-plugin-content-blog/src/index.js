@@ -31,6 +31,7 @@ const DEFAULT_OPTIONS = {
   blogTagsPostsComponent: '@theme/BlogTagsPostsPage',
   remarkPlugins: [],
   rehypePlugins: [],
+  truncateMarker: /<!--\s*(truncate)\s*-->/, // string or regex
 };
 
 module.exports = function(context, opts) {
@@ -340,7 +341,7 @@ module.exports = function(context, opts) {
     },
 
     configureWebpack(config, isServer, {getBabelLoader, getCacheLoader}) {
-      const {rehypePlugins, remarkPlugins} = options;
+      const {rehypePlugins, remarkPlugins, truncateMarker} = options;
       return {
         module: {
           rules: [
@@ -359,6 +360,9 @@ module.exports = function(context, opts) {
                 },
                 {
                   loader: path.resolve(__dirname, './markdownLoader.js'),
+                  options: {
+                    truncateMarker,
+                  },
                 },
               ].filter(Boolean),
             },

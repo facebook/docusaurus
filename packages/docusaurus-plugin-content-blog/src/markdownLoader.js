@@ -5,20 +5,25 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const {parseQuery} = require('loader-utils');
-
-const TRUNCATE_MARKER = /<!--\s*(truncate|more)\s*-->/;
+const {parseQuery, getOptions} = require('loader-utils');
 
 module.exports = async function(fileString) {
   const callback = this.async();
+
+  const {truncateMarker} = getOptions(this);
 
   let finalContent = fileString;
 
   // Truncate content if requested (e.g: file.md?truncated=true)
   const {truncated} = this.resourceQuery && parseQuery(this.resourceQuery);
-  if (truncated && TRUNCATE_MARKER.test(fileString)) {
+  if (
+    truncated &&
+    (typeof truncateMarker === 'string'
+      ? fileString.includes(truncateMarker)
+      : truncateMarker.test(fileString))
+  ) {
     // eslint-disable-next-line
-    finalContent = fileString.split(TRUNCATE_MARKER)[0];
+    finalContent = fileString.split(truncateMarker)[0];
   }
   return callback(null, finalContent);
 };
