@@ -32,7 +32,7 @@ now
 ```
 
 **That's all.** Your docs will automatically be deployed.
- 
+
 Now you can connect your site to [GitHub](https://zeit.co/github) or [GitLab](https://zeit.co/gitlab) to automatically receive a new deployment every time you push a commit.
 
 ## Deploying to GitHub Pages
@@ -100,7 +100,26 @@ References:
 
 ## Deploying to Netlify
 
-_This section is a work in progress. [Welcoming PRs](https://github.com/facebook/docusaurus/issues/1640)._
+To deploy your Docusaurus 2 sites to [Netlify](https://www.netlify.com/), first make sure the following options are properly configured:
+
+```js
+// docusaurus.config.js
+module.exports = {
+  url: 'https://docusaurus-2.netlify.com', // url to your site with no trailing slash
+  baseUrl: '/', // base directory of your site relative to your repo
+};
+```
+
+Then, [create your site with Netlify](https://app.netlify.com/start).
+
+While you set up the site, specify the build commands and directories as follows:
+
+- build command: `npm run build`
+- build directory: `build`
+
+If you did not configure these build options, you may still go to "Site settings" -> "Build and deploy" after your site is created.
+
+Once properly configured with the above options, your site should deploy and automatically redeploy upon merging to your deploy branch, which defaults to `master`.
 
 ## Deploying to Render
 
