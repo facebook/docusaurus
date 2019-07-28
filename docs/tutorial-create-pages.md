@@ -49,13 +49,13 @@ React is being used as a templating engine for rendering static markup. You can 
 
 ## Create a Documentation Page
 
-1. Create a new file in the `docs` folder called `doc4.md`. The `docs` folder is in the root of your Docusaurus project, one level above `website`.
+1. Create a new file in the `docs` folder called `doc9.md`. The `docs` folder is in the root of your Docusaurus project, one level above `website`.
 1. Paste the following contents:
 
 ```
 ---
-id: doc4
-title: This is Doc 4
+id: doc9
+title: This is Doc 9
 ---
 
 I can write content using [GitHub-flavored Markdown syntax](https://github.github.com/gfm/).
@@ -72,14 +72,14 @@ I can write content using [GitHub-flavored Markdown syntax](https://github.githu
 * Let's Go
 ```
 
-3. The `sidebars.json` is where you specify the order of your documentation pages, so open `website/sidebars.json` and add `"doc4"` after `"doc1"`. This ID should be the same one as in the metadata for the Markdown file above, so if you gave a different ID in Step 2, just make sure to use the same ID in the sidebar file.
+3. The `sidebars.json` is where you specify the order of your documentation pages, so open `website/sidebars.json` and add `"doc9"` after `"doc1"`. This ID should be the same one as in the metadata for the Markdown file above, so if you gave a different ID in Step 2, just make sure to use the same ID in the sidebar file.
 
 ```diff
 {
   "docs": {
     "Docusaurus": [
       "doc1",
-+     "doc4"
++     "doc9"
     ],
     "First Category": ["doc2"],
     "Second Category": ["doc3"]
@@ -91,7 +91,7 @@ I can write content using [GitHub-flavored Markdown syntax](https://github.githu
 ```
 
 4. A server restart is needed to pick up sidebar changes, so go to your terminal, kill your dev server (<kbd>Cmd</kbd> + <kbd>C</kbd> or <kbd>Ctrl</kbd> + <kbd>C</kbd>), and run `npm start` or `yarn start`.
-1. Navigate to http://localhost:3000/docusaurus-tutorial/docs/doc4 to see the new documentation page.
+1. Navigate to http://localhost:3000/docusaurus-tutorial/docs/doc9 to see the new documentation page.
 
 You've created your first documentation page on Docusaurus!
 
