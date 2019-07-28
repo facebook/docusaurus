@@ -90,8 +90,8 @@ I can write content using [GitHub-flavored Markdown syntax](https://github.githu
 }
 ```
 
-4. A server restart is needed to pick up sidebar changes, so kill your dev server (<kbd>Cmd</kbd> + <kbd>C</kbd> or <kbd>Ctrl</kbd> + <kbd>C</kbd>) and restart it with `npm run start`.
-1. Navigate to http://localhost:3000/docusaurus-tutorial/docs/doc4.
+4. A server restart is needed to pick up sidebar changes, so go to your terminal, kill your dev server (<kbd>Cmd</kbd> + <kbd>C</kbd> or <kbd>Ctrl</kbd> + <kbd>C</kbd>), and run `npm start` or `yarn start`.
+1. Navigate to http://localhost:3000/docusaurus-tutorial/docs/doc4 to see the new documentation page.
 
 You've created your first documentation page on Docusaurus!
 
