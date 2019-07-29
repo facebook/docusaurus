@@ -59,9 +59,9 @@ We highly recommend that you install Yarn, an alternative package manager that h
 5. In your terminal, `cd` to a directory where the local clone will be a subdirectory. (For help see [Introduction to the command-line interface](https://tutorial.djangogirls.org/en/intro_to_command_line/).) 
 
 ```sh
-cd /Users/USERNAME/doc_projects # macOS example
+cd /Users/NAME/doc_projects # macOS example
 # or
-cd /c/USERNAME/doc_projects # Windows example
+cd /c/NAME/doc_projects # Windows example
 ```
 
 6. Clone your repository to your local machine:
