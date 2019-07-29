@@ -39,9 +39,9 @@ program
   .usage('<command> [options]');
 
 program
-  .command('init [siteName] [template] [rootDir]')
+  .command('init [template] [siteName] [rootDir]')
   .description('Initialize website')
-  .action((siteName, template, rootDir = '.') => {
+  .action((template, siteName, rootDir = '.') => {
     wrapCommand(init)(path.resolve(rootDir), siteName, template);
   });
 
