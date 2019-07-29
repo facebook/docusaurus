@@ -35,7 +35,7 @@ module.exports = HelloWorld;
 
 > Use any text editor to make the file, such as [Microsoft Visual Studio Code](https://code.visualstudio.com/download) or [Komodo Edit](https://www.activestate.com/komodo-edit).
 
-2. Go to http://localhost:3000/docusaurus-tutorial/hello-world and you should be able to see the new page.
+2. Go to http://localhost:3000/hello-world and you should be able to see the new page.
 1. Change the text within the `<p>...</p>` to "I can write JSX here!" and save the file again. The browser should refresh automatically to reflect the change.
 
 ```diff
@@ -91,7 +91,7 @@ I can write content using [GitHub-flavored Markdown syntax](https://github.githu
 ```
 
 4. A server restart is needed to pick up sidebar changes, so go to your terminal, kill your dev server (<kbd>Cmd</kbd> + <kbd>C</kbd> or <kbd>Ctrl</kbd> + <kbd>C</kbd>), and run `npm start` or `yarn start`.
-1. Navigate to http://localhost:3000/docusaurus-tutorial/docs/doc9 to see the new documentation page.
+1. Navigate to http://localhost:3000/docs/doc9 to see the new documentation page.
 
 You've created your first documentation page on Docusaurus!
 
