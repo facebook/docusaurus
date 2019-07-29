@@ -15,17 +15,28 @@ Docusaurus is essentially a set of npm [packages](https://github.com/facebook/do
 The easiest way to install Docusaurus is to use the command line tool that helps you scaffold a skeleton Docusaurus website. You can run this command anywhere in a new empty repository or within an existing repository, it will create a new directory containing the scaffolded files.
 
 ```bash
-npx @docusaurus/init@next init [name] [template]
+npx @docusaurus/init@next init [template] [name]
 ```
 
 Example:
 
 ```bash
-npx @docusaurus/init@next init my-website classic
+npx @docusaurus/init@next init classic my-website
 ```
 
+If you do not specify `name` or `template`, it will prompt you for them.
 
-If you do not specify `name` or `template`, it will prompt you for them. We recommend the `classic` template so that you can get started quickly and it contains features found in Docusaurus 1. The `classic` template contains `@docusaurus/preset-classic` which includes standard documentation, a blog, custom pages, and a CSS framework (with dark mode support). You can get up and running extremely quickly with the classic template and customize things later on when you have gained more familiarity with Docusaurus.
+### Docusaurus templates
+
+Templates are designed to help you get started quickly building your doc site.
+
+Docusaurus 2 now ships with a `classic` template that contains features found in Docusaurus 1. The `classic` template contains `@docusaurus/preset-classic` which includes standard documentation, a blog, custom pages, and a CSS framework (with dark mode support). You can get up and running extremely quickly with the classic template and customize things later on when you have gained more familiarity with Docusaurus.
+
+You may also use a custom template. In fact, any repo to a Docusaurus 2 site can be a template. To use a custom template from a GitHub repo, use the URL to the repo as template:
+
+```bash
+$ npx @docusaurus/init@next init https://github.com/wgao19/docusaurus-template-no-style.git [name]
+```
 
 ## Project structure
 
