@@ -7,11 +7,115 @@ _This section is a work in progress._
 
 Lifecycle APIs are shared by Themes and Plugins.
 
-<!-- TODO: explain lifecycle methods -->
+## `async loadContent()`
 
-- `loadContent` - Plugins should fetch from data sources (filesystem, remote API, etc)
-- `contentLoaded` - Plugins should use the data loaded in loadContent and construct the pages/routes that consume the data
-- `configureWebpack` - To extend the webpack config via webpack-merge.
+Plugins should fetch from data sources (filesystem, remote API, etc)
+
+## `async contentLoaded({content, actions})`
+
+Plugins should use the data loaded in `loadContent` and construct the pages/routes that consume the data.
+
+### `content`
+
+`contentLoaded` will be called _after_ `loadContent` is done, the return of which passed to `contentLoaded` as `content`.
+
+### `actions`
+
+`actions` contain two functions,
+
+- `addRoute(config: RouteConfig): void`
+- `createData(name: string, data: Object): Promise<string>`
+
+where `RouteConfig` is an object with the necessary data to configure a route to add a page:
+
+```js
+interface RouteConfig {
+  path: string;
+  component: string;
+  modules?: RouteModule;
+  routes?: RouteConfig[];
+  exact?: boolean;
+}
+
+interface RouteModule {
+  [module: string]: Module | RouteModule | RouteModule[];
+}
+```
+
+Example `addRoute` call:
+
+```js
+addRoute({
+  path: permalink,
+  component: blogPostComponent,
+  exact: true,
+  modules: {
+    content: source,
+    metadata: metadataPath,
+    prevItem: prevItem && prevItem.metadataPath,
+    nextItem: nextItem && nextItem.metadataPath,
+  },
+});
+```
+
+And `createData` takes a file name relative to to your plugin's directory, a string for the `JSON.stringify` result of your data, and will return a path to the module which you may then use as the path to items in your `RouteModule`. The modules will be loaded when the related pages are loaded following our optimizations according to the [PRPL pattern](https://developers.google.com/web/fundamentals/performance/prpl-pattern/).
+
+## `configureWebpack(config, isServer, utils)`
+
+Modifies the internal webpack config. If the return is an `Object`, it will be merged into the final config using webpack-merge. If it is a function, it will be called and receive `config` as the 1st argument and an `isServer` flag as the 2nd argument.
+
+### `config`
+
+`configureWebpack` is called with `config` generated according to client / server build. You may treat this as the base config to be merged with.
+
+### `isServer`
+
+`configureWebpack` will be called both in server build and in client build. The server build receives `true` and the client build receives `false` as `isServer`.
+
+### `utils`
+
+The initial call to `configureWebpack` also receives a util object consists of three functions:
+
+- `getStyleLoaders(isServer: boolean, cssOptions: {[key: string]: any}): Loader[]`
+- `getCacheLoader(isServer: boolean, cacheOptions?: {}): Loader | null`
+- `getCacheLoader(isServer: boolean, cacheOptions?: {}): Loader | null`
+
+You may use them to return your webpack configures conditionally.
+
+Example:
+
+```js
+configureWebpack(config, isServer, {getBabelLoader, getCacheLoader}) {
+  const {rehypePlugins, remarkPlugins, truncateMarker} = options;
+  return {
+    module: {
+      rules: [
+        {
+          test: /(\.mdx?)$/,
+          include: [contentPath],
+          use: [
+            getCacheLoader(isServer),
+            getBabelLoader(isServer),
+            {
+              loader: '@docusaurus/mdx-loader',
+              options: {
+                remarkPlugins,
+                rehypePlugins,
+              },
+            },
+            {
+              loader: path.resolve(__dirname, './markdownLoader.js'),
+              options: {
+                truncateMarker,
+              },
+            },
+          ].filter(Boolean),
+        },
+      ],
+    },
+  };
+},
+```
 
 <!--
 For example, the in docusaurus-plugin-content-docs:
@@ -19,6 +123,10 @@ For example, the in docusaurus-plugin-content-docs:
     In loadContent, it loads the doc Markdown files based on the specified directory in options (defaulting to docs).
     In contentLoaded, for each doc Markdown file, a route is created: /doc/installation, /doc/getting-started, etc.
  -->
+
+## Example
+
+Mind model for a presumptious plugin implementation.
 
 ```jsx
 const DEFAULT_OPTIONS = {
