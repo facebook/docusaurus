@@ -366,6 +366,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Overwolf',
+    image: '/img/users/overwolf.svg',
+    infoLink: 'https://overwolf.github.io/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Plus (ThinkSNS+)',
     image: '/img/users/plus.png',
     infoLink: 'https://slimkit.github.io',
