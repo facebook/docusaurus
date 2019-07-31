@@ -728,6 +728,11 @@ blockquote {
   transform: translate3d(0, 0, 0);
 }
 
+.nextVersion {
+  background: $currentVersionHeaderColor;
+  color: $currentVersionTextColor;
+}
+
 @media only screen and (min-width: 1024px) {
   .fixedHeaderContainer {
     flex-shrink: 0;
@@ -776,6 +781,10 @@ blockquote {
   margin: 0;
   margin-left: 10px;
   text-decoration: underline;
+}
+
+.nextVersion header h3, .nextVersion a {
+  color: $currentVersionTextColor;
 }
 
 @media (max-width: 480px) {

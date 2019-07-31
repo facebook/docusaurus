@@ -299,8 +299,11 @@ class HeaderNav extends React.Component {
       (env.translation.enabled
         ? `${this.props.language}/versions${extension}`
         : `versions${extension}`);
+    const isNextVersion =
+      env.versioning.enabled && this.props.version === 'next';
+    const headerNextVersionClass = isNextVersion ? 'nextVersion' : '';
     return (
-      <div className="fixedHeaderContainer">
+      <div className={`fixedHeaderContainer ${headerNextVersionClass}`}>
         <div className="headerWrapper wrapper">
           <header>
             <a
