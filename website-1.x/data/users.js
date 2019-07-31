@@ -664,7 +664,7 @@ module.exports = [
     image: '/img/users/turtlecoin.png',
     infoLink: 'https://docs.turtlecoin.lol',
     fbOpenSource: false,
-    pinned: false
+    pinned: false,
   },
   {
     caption: 'Twirp',
