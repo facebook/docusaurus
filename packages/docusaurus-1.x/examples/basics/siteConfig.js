@@ -56,6 +56,10 @@ const siteConfig = {
   colors: {
     primaryColor: '{{primaryColor}}',
     secondaryColor: '{{secondaryColor}}',
+    /*
+    currentVersionHeaderColor: '{{currentVersionHeaderColor}}',
+    currentVersionTextColor: '{{currentVersionTextColor}}',
+    */
   },
 
   /* Custom fonts for website */

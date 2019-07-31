@@ -373,6 +373,8 @@ const siteConfig = {
   colors: {
     primaryColor: '#2E8555',
     secondaryColor: '#205C3B',
+    currentVersionHeaderColor: '#D50000',
+    currentVersionTextColor: '#FFFFFF',
   },
   editUrl: 'https://github.com/facebook/docusaurus/edit/master/docs/',
   // Users variable set above
