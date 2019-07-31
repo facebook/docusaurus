@@ -660,6 +660,13 @@ module.exports = [
     pinned: true,
   },
   {
+    caption: 'TurtleCoin',
+    image: '/img/users/turtlecoin.png',
+    infoLink: 'https://docs.turtlecoin.lol',
+    fbOpenSource: false,
+    pinned: false
+  },
+  {
     caption: 'Twirp',
     image: '/img/users/twirp.png',
     infoLink: 'https://twitchtv.github.io/twirp/',
