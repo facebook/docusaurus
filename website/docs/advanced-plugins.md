@@ -3,17 +3,24 @@ id: advanced-plugins
 title: Plugins
 ---
 
-In this doc, we talk about the design intention of plugins, the lifecycle methods, how you may write your own plugins, etc.
+_This section is a work in progress._
 
-A plugin is a package that exports a class which can be instantiated with configurable options (provided by the user) and its various lifecycle methods will be invoked by the Docusaurus runtime.
+<!-- TODO
+- move the list of plugins (maybe to links to each plugin's READMEs)
+- add guides on how to create plugins
+-->
 
-Plugins are one of the best ways to add functionality to our Docusaurus. Plugins allow third-party developers to extend or modify the default functionality that Docusaurus provides.
+In this doc, we talk about the design intention of plugins, the lifecycle methods, and how you may write your own plugins.
 
-Docusaurus Plugins are very similar to [Gatsby Plugins](https://www.gatsbyjs.org/plugins/) and [VuePress Plugins](https://v1.vuepress.vuejs.org/plugin/)<!-- TODO: is this the correct link? -->. The main difference here is that Docusaurus plugins don't allow using other plugins. Docusaurus provides [presets](./presets.md) for the use scenarios for plugins that are meant to work together.
+A plugin is a package that exports a class which can be instantiated with configurable options (provided by the user) and its various lifecycle methods invoked by the Docusaurus runtime.
+
+Plugins are one of the best ways to add functionalities to our Docusaurus. Plugins allow third-party developers to extend or modify the default functionality that Docusaurus provides.
+
+Docusaurus Plugins are very similar to [Gatsby Plugins](https://www.gatsbyjs.org/plugins/) and [VuePress Plugins](https://v1.vuepress.vuejs.org/plugin/). The main difference here is that Docusaurus plugins don't allow using other plugins. Docusaurus provides [presets](./presets.md) for the use scenarios for plugins that are meant to work together.
 
 In most cases, plugins are there to fetch data and create routes. A plugin could take in components as part of its options and to act as the wrapper for the page.
 
-## How to create plugins
+## Creating plugins
 
 _This section is a work in progress._
 
