@@ -7,6 +7,20 @@ _This section is a work in progress._
 
 Lifecycle APIs are shared by Themes and Plugins.
 
+## `getPathsToWatch(): string[]`
+
+Specifies paths to watch for plugins and themes. The paths are watched by the dev server for reload when the directories change. Note that the plugins and themes modules are initially called with context and options from Node, which you may use to find the necessary directory information about the site.
+
+```js
+const contentPath = path.resolve(context.siteDir, options.path);
+
+getPathsToWatch() {
+  const {include = []} = options;
+  const globPattern = include.map(pattern => `${contentPath}/${pattern}`);
+  return [...globPattern];
+}
+```
+
 ## `async loadContent()`
 
 Plugins should fetch from data sources (filesystem, remote API, etc)
