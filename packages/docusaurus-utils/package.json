@@ -15,6 +15,6 @@
     "escape-string-regexp": "^2.0.0",
     "fs-extra": "^8.1.0",
     "gray-matter": "^4.0.2",
-    "lodash": "^4.17.14"
+    "lodash": "^4.17.15"
   }
 }
