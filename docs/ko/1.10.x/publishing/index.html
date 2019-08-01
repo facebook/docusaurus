@@ -190,7 +190,7 @@
 <li><code>GIT_USER</code>에 설정한 GitHub 사용자 계정은 문서가 있는 저장소 <code>쓰기</code> 권한을 가지고 있어야 합니다. 저장소에서 <code>Settings | Collaborators &amp; teams</code> 메뉴에서 설정을 변경할 수 있습니다.</li>
 <li><code>GIT_USER</code>에 지정한 사용자로 GitHub 사이트에 로그인합니다.</li>
 <li><a href="Https://github.com/settings/tokens">Https://github.com/settings/tokens</a> URL로 접근해서 <code>GIT_USER</code>를 위한 <a href="https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/">personal access token</a>을 생성합니다. 접근 범위 설정 시 <code>repository</code>를 선택하면 프라이빗 저장소에 대한 모든 권한을 부여할 수 있습니다. 생성한 토큰은 안전한 곳에 보관하고 외부에 노출되지 않도록 합니다. 토큰은 GitHub 비밀번호를 대신해 GitHub에서 처리하고자하는 모든 작업에 대한 인증 작업을 수행합니다.</li>
-<li>Open your CircleCI dashboard, and navigate to the Settings page for your repository, then select &quot;Environment variables&quot;. URL은 <a href="https://circleci.com/gh/ORG/REPO/edit#env-vars">https://circleci.com/gh/ORG/REPO/edit#env-vars</a>와 같은 형식인데, &quot;ORG/REPO&quot; 부분은 여러분의 GitHub 그룹 계정/저장소로 변경합니다.</li>
+<li>Open your CircleCI dashboard, and navigate to the Settings page for your repository, then select &quot;Environment variables&quot;. URL은 <a href="https://circleci.com/gh/ORG/REPO/edit#env-vars와">https://circleci.com/gh/ORG/REPO/edit#env-vars와</a> 같은 형식인데, &quot;ORG/REPO&quot; 부분은 여러분의 GitHub 그룹 계정/저장소로 변경합니다.</li>
 <li><code>GITHUB_TOKEN</code>라는 이름으로 새로운 환경 변수를 생성하고 앞에서 생성된 액세스 토큰을 값으로 지정합니다.</li>
 <li><code>.circleci</code> 이라는 이름으로 디렉토리를 생성하고 <code>config.yml</code> 파일을 만들어서 넣어줍니다.</li>
 <li>아래에 있는 내용을 <code>.circleci/config.yml</code> 파일에 채워줍니다.</li>
