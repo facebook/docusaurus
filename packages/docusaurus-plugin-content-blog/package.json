@@ -13,7 +13,7 @@
     "fs-extra": "^8.1.0",
     "globby": "^10.0.1",
     "loader-utils": "^1.2.3",
-    "lodash": "^4.17.14"
+    "lodash": "^4.17.15"
   },
   "peerDependencies": {
     "@docusaurus/core": "^2.0.0",
