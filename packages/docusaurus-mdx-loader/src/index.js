@@ -37,19 +37,19 @@ module.exports = async function(fileString) {
     onRehypePlugins,
     ...reqOptions
   } = {...DEFAULT_OPTIONS, ...getOptions(this)};
-  const input = onInput(matter(fileString));
+  const input = await onInput(matter(fileString));
 
   const options = {
     ...reqOptions,
     remarkPlugins: [
       ...PERSIST_OPTIONS.remarkPlugins,
       ...(remarkPlugins || []),
-      ...(onRemarkPlugins(input) || []),
+      ...((await onRemarkPlugins(input)) || []),
     ],
     rehypePlugins: [
       ...PERSIST_OPTIONS.rehypePlugins,
       ...(rehypePlugins || []),
-      ...(onRemarkPlugins(input) || []),
+      ...((await onRemarkPlugins(input)) || []),
     ],
     filepath: this.resourcePath,
   };
