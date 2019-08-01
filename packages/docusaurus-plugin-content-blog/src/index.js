@@ -33,6 +33,7 @@ const DEFAULT_OPTIONS = {
   blogTagsPostsComponent: '@theme/BlogTagsPostsPage',
   remarkPlugins: [],
   rehypePlugins: [],
+  mdxLoaderOptions: {},
   truncateMarker: /<!--\s*(truncate)\s*-->/, // string or regex
 };
 
@@ -353,7 +354,12 @@ module.exports = function(context, opts) {
     },
 
     configureWebpack(config, isServer, {getBabelLoader, getCacheLoader}) {
-      const {rehypePlugins, remarkPlugins, truncateMarker} = options;
+      const {
+        rehypePlugins,
+        remarkPlugins,
+        mdxLoaderOptions,
+        truncateMarker,
+      } = options;
       return {
         module: {
           rules: [
@@ -368,6 +374,7 @@ module.exports = function(context, opts) {
                   options: {
                     remarkPlugins,
                     rehypePlugins,
+                    ...mdxLoaderOptions,
                   },
                 },
                 {

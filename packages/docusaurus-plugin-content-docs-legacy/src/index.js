@@ -25,6 +25,7 @@ const DEFAULT_OPTIONS = {
   docItemComponent: '@theme/DocLegacyItem',
   remarkPlugins: [],
   rehypePlugins: [],
+  mdxLoaderOptions: {},
 };
 
 module.exports = function(context, opts) {
@@ -157,7 +158,7 @@ module.exports = function(context, opts) {
     },
 
     configureWebpack(config, isServer, {getBabelLoader, getCacheLoader}) {
-      const {rehypePlugins, remarkPlugins} = options;
+      const {rehypePlugins, remarkPlugins, mdxLoaderOptions} = options;
       return {
         module: {
           rules: [
@@ -172,6 +173,7 @@ module.exports = function(context, opts) {
                   options: {
                     remarkPlugins,
                     rehypePlugins,
+                    ...mdxLoaderOptions,
                   },
                 },
                 {

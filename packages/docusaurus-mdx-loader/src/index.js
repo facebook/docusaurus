@@ -13,28 +13,48 @@ const matter = require('gray-matter');
 const stringifyObject = require('stringify-object');
 const rightToc = require('./remark/rightToc');
 
-const DEFAULT_OPTIONS = {
+const PERSIST_OPTIONS = {
   rehypePlugins: [],
   remarkPlugins: [emoji, slug, rightToc],
+};
+
+const DEFAULT_OPTIONS = {
+  rehypePlugins: [],
+  remarkPlugins: [],
+  onInput: v => v, // input preprocess
+  onRemarkPlugins: () => [], // per input remark plugins
+  onRehypePlugins: () => [], // per input rehype plugins
 };
 
 module.exports = async function(fileString) {
   const callback = this.async();
 
-  const {data, content} = matter(fileString);
-  const reqOptions = getOptions(this) || {};
+  const {
+    remarkPlugins,
+    rehypePlugins,
+    onInput,
+    onRemarkPlugins,
+    onRehypePlugins,
+    ...reqOptions
+  } = {...DEFAULT_OPTIONS, ...getOptions(this)};
+  const input = onInput(matter(fileString));
+
   const options = {
     ...reqOptions,
     remarkPlugins: [
-      ...DEFAULT_OPTIONS.remarkPlugins,
-      ...(reqOptions.remarkPlugins || []),
+      ...PERSIST_OPTIONS.remarkPlugins,
+      ...(remarkPlugins || []),
+      ...(onRemarkPlugins(input) || []),
     ],
     rehypePlugins: [
-      ...DEFAULT_OPTIONS.rehypePlugins,
-      ...(reqOptions.rehypePlugins || []),
+      ...PERSIST_OPTIONS.rehypePlugins,
+      ...(rehypePlugins || []),
+      ...(onRemarkPlugins(input) || []),
     ],
     filepath: this.resourcePath,
   };
+
+  const {data, content} = input;
   let result;
 
   try {
