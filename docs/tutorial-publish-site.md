@@ -9,7 +9,7 @@ Next, we'll learn how to publish the site to the WWW for everyone to browse! For
 
 ## Put the Site Online
 
-1. Edit the file docusaurus-tutorial/website/siteConfig.js and fill in the following values:
+1. Edit the file `docusaurus-tutorial/website/siteConfig.js` and fill in the following values:
 
 ```
 const siteConfig = {
@@ -23,17 +23,17 @@ const siteConfig = {
 ```
 
 2. In Terminal or Git Bash, kill the web server by pressing **Cmd+C** or **Ctrl+C**.
-3. In the website directory, run `npm run build` or `yarn build`. The command generates a build directory inside the website directory, containing .html files (and other file types) for all of your docs and other pages. Make sure the docusaurus-tutorial/website/build directory is there before running the next step.
+3. In the `website` directory, run `npm run build` or `yarn build`. The command generates a `build` directory inside the `website` directory, containing HTML files (and other file types) for all of your docs and other pages. Make sure the `docusaurus-tutorial/website/build` directory is successfully created before running the next step.
 4. Replace `USERNAME` with your GitHub username and run the following command.
 
-```
+```sh
 GIT_USER=USERNAME CURRENT_BRANCH=master USE_SSH=true npm run publish-gh-pages # SSH
 # or
 GIT_USER=USERNAME CURRENT_BRANCH=master npm run publish-gh-pages # HTTPS
 ```
 
-The .html files (and other file types) are pushed to the gh-pages branch of your repository,` https://github.com/USERNAME/docusaurus-tutorial`.
+The HTML files (and other file types) are pushed to the `gh-pages` branch of your repository:  https://github.com/USERNAME/docusaurus-tutorial.
 
-5. Go to `https://USERNAME.github.io/docusaurus-tutorial/` and view your site in action!
+5. Go to https://USERNAME.github.io/docusaurus-tutorial/ and view your site in action!
 
-> Note that when you run `npm run start` again, the baseUrl will now be part of the path.
+> Note that when you run `npm run start` again, the `baseUrl` will now be part of the path.
