@@ -37,27 +37,31 @@ module.exports = async function(fileString) {
     onRehypePlugins,
     ...reqOptions
   } = {...DEFAULT_OPTIONS, ...getOptions(this)};
-  const input = await onInput(matter(fileString));
 
-  const options = {
-    ...reqOptions,
-    remarkPlugins: [
-      ...PERSIST_OPTIONS.remarkPlugins,
-      ...(remarkPlugins || []),
-      ...((await onRemarkPlugins(input)) || []),
-    ],
-    rehypePlugins: [
-      ...PERSIST_OPTIONS.rehypePlugins,
-      ...(rehypePlugins || []),
-      ...((await onRemarkPlugins(input)) || []),
-    ],
-    filepath: this.resourcePath,
-  };
-
-  const {data, content} = input;
   let result;
+  let data;
 
   try {
+    const input = await onInput(matter(fileString));
+
+    const options = {
+      ...reqOptions,
+      remarkPlugins: [
+        ...PERSIST_OPTIONS.remarkPlugins,
+        ...(remarkPlugins || []),
+        ...((await onRemarkPlugins(input)) || []),
+      ],
+      rehypePlugins: [
+        ...PERSIST_OPTIONS.rehypePlugins,
+        ...(rehypePlugins || []),
+        ...((await onRemarkPlugins(input)) || []),
+      ],
+      filepath: this.resourcePath,
+    };
+
+    const {data: frontMatter, content} = input;
+    data = frontMatter;
+
     result = await mdx(content, options);
   } catch (err) {
     return callback(err);
