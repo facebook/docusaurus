@@ -9,13 +9,13 @@ This tutorial is geared at first-time users who want detailed instructions on ho
 
 ## Install Git
 
-Git is a version control system for tracking changes in source code during software development and it can help you synchronize and version files between your local system and your online repository. If not already installed, see [Installing Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
+Git is a version control system for tracking changes in source code during software development and it can help you synchronize and version files between your local system and your online repository. Git for Windows includes Git Bash, a terminal application. If not already installed, see [Installing Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
 
 ## Install Node.js
 
 Node.js is an environment that can run JavaScript code outside of a web browser and is used to write and run server-side JavaScript apps. Node.js installation includes `npm`, the package manager that allows you to install NPM modules from your terminal.
 
-1. Open your Terminal.
+1. Open Terminal on a Mac, Linux, or Unix system. Open Git Bash on a Windows system.
 1. If you have `brew` on your OS, run the following command to install Node.
 
 ```sh
@@ -56,7 +56,7 @@ We highly recommend that you install Yarn, an alternative package manager that h
 
 <img alt="GitHub create repo" src="/img/tutorial-git-clone.png" class="docImage"/>
 
-5. In your terminal, `cd` to a directory where the local clone will be a subdirectory. (For help see [Introduction to the command-line interface](https://tutorial.djangogirls.org/en/intro_to_command_line/).) 
+5. In Terminal or Git Bash, `cd` to a directory where the local clone will be a subdirectory. 
 
 ```sh
 cd /Users/NAME/doc_projects # macOS example
