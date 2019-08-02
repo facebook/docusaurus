@@ -7,15 +7,16 @@ keywords:
 ---
 
 Docusaurus's own `@docusaurus/preset-classic` supports easy search integration.
-There are two main choices, you can use [Algolia DocSearch](https://community.algolia.com/docsearch/) or bring in your own SearchBar component.
 
-## Algolia DocSearch
+There are two main options, you can use [Algolia DocSearch](https://community.algolia.com/docsearch/) or bring in your own `SearchBar` component.
 
-DocSearch works by crawling the content of your website every 24 hours and putting all the content in an Algolia index. This content is then queried directly from your front-end using the Algolia API. Note that your website needs to be publicly available for this to work (ie. not behind a firewall). This service is free.
+## Using Algolia DocSearch
 
-### Enabling the Search Bar
+Algolia DocSearch works by crawling the content of your website every 24 hours and putting all the content in an Algolia index. This content is then queried directly from your front-end using the Algolia API. Note that your website needs to be publicly available for this to work (i.e., not behind a firewall). The service is free.
 
-To add search bar with Algolia, just add algolia field in your themeConfig. Note that you will need algolia API key and algolia index. You can [apply for DocSearch here](https://community.algolia.com/docsearch/).
+### Connecting Algolia
+
+To connect your docs with Algolia, add an `algolia` field in your `themeConfig`. Note that you will need algolia API key and algolia index. You can [apply for DocSearch here](https://community.algolia.com/docsearch/).
 
 ```jsx
 // docusaurus.config.js
@@ -23,26 +24,26 @@ themeConfig: {
     // ....
     algolia: {
       apiKey: 'api-key',
-      indexName: 'index-namw',
+      indexName: 'index-name',
       algoliaOptions: {}, // Optional, if provided by Algolia
     },
   },
-  ```
+```
 
 ### Customizing the Algolia Search Bar
 
-If you wanted to use/customize the algolia search bar React component. Simply swizzle it
+If you prefer to customize Algolia's search bar React component, swizzle the `SearchBar` component in `@docusaurus/theme-search-algolia`:
 
 ```bash
 yarn swizzle @docusaurus/theme-search-algolia SearchBar
 ```
 
-## Custom SearchBar Component
+## Using your own search
 
-In order to bring your own search bar component, you need to provide a SearchBar as theme component. The easiest way to do that is
+To use your own search, swizzle the `SearchBar` component in `@docusaurus/theme-classic`
 
 ```bash
 yarn swizzle @docusaurus/theme-classic SearchBar
 ```
 
-It will create a `src/themes/SearchBar` file in your project folder. Try to edit that file, save it and you can see that we're customizing the SearchBar.
+This will create a `src/themes/SearchBar` file in your project folder. Restart your dev server and edit the component, you will see that Docusaurus uses your own `SearchBar` component now.
