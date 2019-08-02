@@ -81,27 +81,31 @@
               }
             });
         </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://crowdin.com/project/docusaurus/zh-CN" target="_blank" rel="noreferrer noopener">Translate</a><h1 class="postHeaderTitle">Publish the Site</h1></header><article><div><span><p><img alt="Docusaurus Facebook" src="/img/undraw_docusaurus_fb.svg" class="docImage" /></p>
-<p>Next, we'll learn how to publish the site to the WWW for everyone to browse! For the purpose of the tutorial, we'll use GitHub pages to host our website. But you can use any static file hosting service that you want, e.g. Netlify, Amazon S3, etc.</p>
+<p>Next, we'll learn how to publish the site to the WWW for everyone to browse! For the purpose of the tutorial, we'll use GitHub Pages to host our website. But you can use any static file hosting service that you want, like Netlify, Amazon S3, etc.</p>
 <h2><a class="anchor" aria-hidden="true" id="put-the-site-online"></a><a href="#put-the-site-online" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Put the Site Online</h2>
-<p>Kill the web server first by pressing Cmd + C or Ctrl + C depending on your operating system.</p>
-<p>In <code>website/siteConfig.js</code>, fill in the following fields:</p>
-<pre><code class="hljs">const siteConfig = {
-  ...
-  url: 'https://USERNAME.github.io', // Replace USERNAME with your GitHub username.
-  baseUrl: '/docusaurus-tutorial/', // The name of your GitHub project.
-  projectName: 'docusaurus-tutorial',  // The name of your GitHub project. Same as above.
-  organizationName: 'USERNAME' // Your GitHub username.
-  ...
-}
-</code></pre>
-<ol start="2">
-<li><p>In the <code>website</code> directory, run <code>npm run build</code> or <code>yarn build</code>. 这将在 <code>website</code> 目录下生成一个 <code>build</code> 文件夹, 其中包含 <code>website</code> 目录下所有文档和其他页面中所含的 <code>.html</code> 文件。 Make sure the <code>build</code> directory is there before running the next step.</p></li>
-<li><p>Replace <code>&lt;GIT_USER&gt;</code> with your GitHub username and run the following command.</p>
-<p>$ GIT_USER=&lt;GIT_USER&gt; CURRENT_BRANCH=master USE_SSH=true npm run publish-gh-pages</p></li>
+<ol>
+<li><p>Edit the file <code>docusaurus-tutorial/website/siteConfig.js</code> and fill in the following values:</p>
+<p>const siteConfig = {
+...
+url: '<a href="https://USERNAME.github.io">https://USERNAME.github.io</a>', // Replace USERNAME with your GitHub username.
+baseUrl: '/docusaurus-tutorial/', // The name of your GitHub project.
+projectName: 'docusaurus-tutorial',  // The name of your GitHub project. Same as above.
+organizationName: 'USERNAME' // Your GitHub username.
+...
+}</p></li>
 </ol>
-<p>The built code will be pushed to the <code>gh-pages</code> branch of your repository.</p>
-<ol start="4">
-<li>Go to <code>https://USERNAME.github.io/docusaurus-tutorial/</code> and view your site in action!</li>
+<ol start="2">
+<li>In Terminal or Git Bash, kill the web server by pressing <strong>Cmd+C</strong> or <strong>Ctrl+C</strong>.</li>
+<li>In the <code>website</code> directory, run <code>npm run build</code> or <code>yarn build</code>. The command generates a <code>build</code> directory inside the <code>website</code> directory, containing HTML files (and other file types) for all of your docs and other pages. Make sure the <code>docusaurus-tutorial/website/build</code> directory is successfully created before running the next step.</li>
+<li>Replace <code>USERNAME</code> with your GitHub username and run the following command.</li>
+</ol>
+<pre><code class="hljs css language-sh">GIT_USER=USERNAME CURRENT_BRANCH=master USE_SSH=<span class="hljs-literal">true</span> npm run publish-gh-pages <span class="hljs-comment"># SSH</span>
+<span class="hljs-comment"># or</span>
+GIT_USER=USERNAME CURRENT_BRANCH=master npm run publish-gh-pages <span class="hljs-comment"># HTTPS</span>
+</code></pre>
+<p>The HTML files (and other file types) are pushed to the <code>gh-pages</code> branch of your repository: <a href="https://github.com/USERNAME/docusaurus-tutorial">https://github.com/USERNAME/docusaurus-tutorial</a>.</p>
+<ol start="5">
+<li>Go to <a href="https://USERNAME.github.io/docusaurus-tutorial/">https://USERNAME.github.io/docusaurus-tutorial/</a> and view your site in action!</li>
 </ol>
 <blockquote>
 <p>Note that when you run <code>npm run start</code> again, the <code>baseUrl</code> will now be part of the path.</p>
