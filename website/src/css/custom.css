@@ -13,6 +13,11 @@
   --ifm-color-primary-light: rgb(70, 203, 174);
   --ifm-color-primary-lighter: rgb(102, 212, 189);
   --ifm-color-primary-lightest: rgb(146, 224, 208);
+  --ifm-color-feedback-background: #fff;
+}
+
+html[data-theme='dark'] {
+  --ifm-color-feedback-background: #f0f8ff;
 }
 
 @media screen and (max-width: 996px) {
@@ -26,4 +31,3 @@
     --ifm-font-size-base: 17px;
   }
 }
-
