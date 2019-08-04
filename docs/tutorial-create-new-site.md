@@ -9,7 +9,13 @@ In this section, we'll get our Docusaurus site up and running for local developm
 
 ## Scaffold the Site
 
-1. Execute the `docusaurus-init` command in your terminal.
+1. `cd` to the directory of your local repository.
+
+```sh
+cd docusaurus-tutorial
+```
+
+2. Execute the `docusaurus-init` command in your terminal.
 
 ```sh
 docusaurus-init
@@ -59,8 +65,8 @@ The following contents will be created in your current directory. Some example d
 ```
 
 
-2. Run `cd website` to go into the `website` directory.
-1. Run `npm start` or `yarn start`.
+3. Run `cd website` to go into the `website` directory.
+4. Run `npm start` or `yarn start`.
 
 A browser window will open up at http://localhost:3000.
 

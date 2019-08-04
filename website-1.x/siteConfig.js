@@ -14,14 +14,14 @@ const siteConfig = {
   url: 'https://docusaurus.io',
   baseUrl: '/',
   organizationName: 'facebook',
-  projectName: 'Docusaurus',
+  projectName: 'docusaurus',
   cname: 'docusaurus.io',
   noIndex: false,
   users,
   editUrl: 'https://github.com/facebook/docusaurus/edit/master/docs/',
   headerLinks: [
     {doc: 'installation', label: 'Docs'},
-    {href: '/docs/en/next/tutorial-setup', label: 'Tutorial'},
+    {doc: 'tutorial-setup', label: 'Tutorial'},
     {page: 'users', label: 'Users'},
     {blog: true, label: 'Blog'},
     {

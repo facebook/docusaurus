@@ -5,49 +5,91 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import classnames from 'classnames';
-import LoadableVisibility from 'react-loadable-visibility/react-loadable';
 import Highlight, {defaultProps} from 'prism-react-renderer';
 import nightOwlTheme from 'prism-react-renderer/themes/nightOwl';
-import Loading from '@theme/Loading';
+import Clipboard from 'clipboard';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import Playground from '@theme/Playground';
 import styles from './styles.module.css';
 
-/* Live playground is not small in size, lazy load it is better */
-const Playground = LoadableVisibility({
-  loader: () => import('@theme/Playground'),
-  loading: Loading,
-});
-
 export default ({children, className: languageClassName, live, ...props}) => {
+  const {
+    siteConfig: {
+      themeConfig: {prismTheme},
+    },
+  } = useDocusaurusContext();
+  const [showCopied, setShowCopied] = useState(false);
+  const target = useRef(null);
+  const button = useRef(null);
+
+  useEffect(() => {
+    let clipboard;
+
+    if (button.current) {
+      clipboard = new Clipboard(button.current, {
+        target: () => target.current,
+      });
+    }
+
+    return () => {
+      if (clipboard) {
+        clipboard.destroy();
+      }
+    };
+  }, [button.current, target.current]);
+
   if (live) {
     return (
       <Playground
         scope={{...React}}
         code={children.trim()}
-        theme={nightOwlTheme}
+        theme={prismTheme || nightOwlTheme}
         {...props}
       />
     );
   }
+
   const language =
     languageClassName && languageClassName.replace(/language-/, '');
+
+  const handleCopyCode = () => {
+    window.getSelection().empty();
+    setShowCopied(true);
+
+    setTimeout(() => setShowCopied(false), 2000);
+  };
+
   return (
     <Highlight
       {...defaultProps}
-      theme={nightOwlTheme}
+      theme={prismTheme || nightOwlTheme}
       code={children.trim()}
       language={language}>
       {({className, style, tokens, getLineProps, getTokenProps}) => (
-        <pre className={classnames(className, styles.codeBlock)} style={style}>
-          {tokens.map((line, i) => (
-            <div key={i} {...getLineProps({line, key: i})}>
-              {line.map((token, key) => (
-                <span key={key} {...getTokenProps({token, key})} />
-              ))}
-            </div>
-          ))}
-        </pre>
+        <div className={styles.codeBlockWrapper}>
+          <pre
+            ref={target}
+            className={classnames(className, styles.codeBlock)}
+            style={style}>
+            {tokens.map((line, i) => (
+              <div key={i} {...getLineProps({line, key: i})}>
+                {line.map((token, key) => (
+                  <span key={key} {...getTokenProps({token, key})} />
+                ))}
+              </div>
+            ))}
+          </pre>
+          <button
+            ref={button}
+            type="button"
+            aria-label="Copy code to clipboard"
+            className={styles.copyButton}
+            onClick={handleCopyCode}>
+            {showCopied ? 'Copied' : 'Copy'}
+          </button>
+        </div>
       )}
     </Highlight>
   );

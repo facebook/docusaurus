@@ -101,7 +101,7 @@ module.exports = {
 
 - Type: `string`
 
-The GitHub user or organization that owns the repository.
+The GitHub user or organization that owns the repository. Used by the deployment command.
 
 ```js
 // docusaurus.config.js
@@ -115,12 +115,25 @@ module.exports = {
 
 - Type: `string`
 
-The name of the GitHub repository.
+The name of the GitHub repository. Used by the deployment command.
 
 ```js
 // docusaurus.config.js
 module.exports = {
   projectName: 'docusaurus',
+};
+```
+
+### `githubHost`
+
+- Type: `string`
+
+The hostname of your server. Useful if you are using GitHub Enterprise.
+
+```js
+// docusaurus.config.js
+module.exports = {
+  githubHost: 'github.com',
 };
 ```
 
@@ -190,6 +203,19 @@ module.exports = {
 };
 ```
 
+### `themes`
+
+<!-- TODO: configuration for plugins -->
+
+- Type: `any[]`
+
+```js
+// docusaurus.config.js
+module.exports = {
+  themes: [],
+};
+```
+
 ### `presets`
 
 <!-- TODO: configuration for presets -->
@@ -214,7 +240,7 @@ Docusaurus guards `docusaurus.config.js` from unknown fields. To add a custom fi
 module.exports = {
   customFields: {
     admin: 'endi',
-    superman: 'lol'
+    superman: 'lol',
   },
 };
 ```

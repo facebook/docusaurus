@@ -11,7 +11,29 @@ npm build
 
 Once it finishes, you should see the production build under the `build/` directory.
 
-You can deploy your site to static site hosting services such as [GitHub Pages](https://pages.github.com/), [Netlify](https://www.netlify.com/). Docusaurus sites are server rendered so they work without JavaScript too!
+You can deploy your site to static site hosting services such as [ZEIT Now](https://zeit.co/now), [GitHub Pages](https://pages.github.com/), [Netlify](https://www.netlify.com/), and [Render](https://render.com/static-sites). Docusaurus sites are statically rendered so they work without JavaScript too!
+
+## Deploying to ZEIT Now
+
+Deploying your Docusaurus project to [ZEIT Now](https://zeit.co/now) will provide you with [various benefits](https://zeit.co/now) in the areas of performance and ease of use.
+
+Most importantly, however, deploying a Docusaurus project only takes a couple seconds:
+
+1. First, install their [command-line interface](https://zeit.co/download):
+
+```bash
+npm i -g now
+```
+
+2. Run a single command inside the root directory of your project:
+
+```bash
+now
+```
+
+**That's all.** Your docs will automatically be deployed.
+
+Now you can connect your site to [GitHub](https://zeit.co/github) or [GitLab](https://zeit.co/gitlab) to automatically receive a new deployment every time you push a commit.
 
 ## Deploying to GitHub Pages
 
@@ -28,6 +50,8 @@ First, modify your `docusaurus.config.js` and add the required params:
 | `url` | URL for your GitHub Page's user/organization page. This is commonly https://_username_.github.io. |
 | `baseUrl` | Base URL for your project. For projects hosted on GitHub pages, it follows the format "/_projectName_/". For https://github.com/facebook/docusaurus, `baseUrl` is `/docusaurus/`. |
 
+In case you want to use your custom domain for GitHub Pages, create a `CNAME` file in the `static` directory. Anything within the `static` directory will be copied to the root of the `build` directory for deployment.
+
 You may refer to GitHub Pages' documentation [User, Organization, and Project Pages](https://help.github.com/en/articles/user-organization-and-project-pages) for more details.
 
 Example:
@@ -43,7 +67,7 @@ module.exports = {
 }
 ```
 
-### Environment Settings
+### Environment settings
 
 Specify the Git user as an environment variable.
 
@@ -63,7 +87,7 @@ There are two more optional parameters that are set as environment variables:
 Finally, to deploy your site to GitHub Pages, run:
 
 ```bash
-GIT_USER=[yourGitHubUserName] yarn run deploy
+GIT_USER=<GITHUB_USERNAME> yarn run deploy
 ```
 
 <!--
@@ -73,3 +97,44 @@ References:
 - https://www.gatsbyjs.org/docs/deploying-and-hosting/
 
 -->
+
+## Deploying to Netlify
+
+To deploy your Docusaurus 2 sites to [Netlify](https://www.netlify.com/), first make sure the following options are properly configured:
+
+```js
+// docusaurus.config.js
+module.exports = {
+  url: 'https://docusaurus-2.netlify.com', // url to your site with no trailing slash
+  baseUrl: '/', // base directory of your site relative to your repo
+};
+```
+
+Then, [create your site with Netlify](https://app.netlify.com/start).
+
+While you set up the site, specify the build commands and directories as follows:
+
+- build command: `npm run build`
+- build directory: `build`
+
+If you did not configure these build options, you may still go to "Site settings" -> "Build and deploy" after your site is created.
+
+Once properly configured with the above options, your site should deploy and automatically redeploy upon merging to your deploy branch, which defaults to `master`.
+
+## Deploying to Render
+
+Render offers [free static site hosting](https://render.com/docs/static-sites) with fully managed SSL, custom domains, a global CDN and continuous auto deploys from your Git repo. Deploy your app in just a few minutes by following these steps.
+
+1. Create a new **Web Service** on Render, and give Render permission to access your Docusaurus repo.
+
+2. Select the branch to deploy. The default is `master`.
+
+3. Enter the following values during creation.
+
+   | Field                 | Value         |
+   | --------------------- | ------------- |
+   | **Environment**       | `Static Site` |
+   | **Build Command**     | `yarn build`  |
+   | **Publish Directory** | `build`       |
+
+That's it! Your app will be live on your Render URL as soon as the build finishes.

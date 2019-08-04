@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/theme-classic",
-  "version": "2.0.0-alpha.19",
+  "version": "2.0.0-alpha.24",
   "description": "Classic theme for Docusaurus",
   "main": "src/index.js",
   "publishConfig": {
@@ -8,11 +8,12 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@mdx-js/mdx": "^1.0.20",
-    "@mdx-js/react": "^1.0.20",
+    "@mdx-js/mdx": "^1.1.4",
+    "@mdx-js/react": "^1.1.4",
     "classnames": "^2.2.6",
+    "clipboard": "^2.0.4",
     "infima": "0.2.0-alpha.2",
-    "prism-react-renderer": "^0.1.6",
+    "prism-react-renderer": "^0.1.7",
     "react-toggle": "^4.0.2"
   },
   "peerDependencies": {

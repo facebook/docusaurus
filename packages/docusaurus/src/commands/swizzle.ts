@@ -10,6 +10,8 @@ import fs from 'fs-extra';
 import importFresh from 'import-fresh';
 import path from 'path';
 
+import {THEME_PATH} from '../constants';
+
 export async function swizzle(
   siteDir: string,
   themeName: string,
@@ -20,7 +22,7 @@ export async function swizzle(
   let fromPath = pluginInstance.getThemePath();
 
   if (fromPath) {
-    let toPath = path.resolve(siteDir, 'theme');
+    let toPath = path.resolve(siteDir, THEME_PATH);
     if (componentName) {
       fromPath = path.join(fromPath, componentName);
       toPath = path.join(toPath, componentName);

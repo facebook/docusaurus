@@ -26,7 +26,7 @@ export async function loadRoutes(pluginsRouteConfigs: RouteConfig[]) {
   const registry: {
     [chunkName: string]: ChunkRegistry;
   } = {};
-  const routesPaths: string[] = [];
+  const routesPaths: string[] = ['404.html'];
   const routesChunkNames: {
     [routePath: string]: any;
   } = {};
@@ -41,9 +41,9 @@ export async function loadRoutes(pluginsRouteConfigs: RouteConfig[]) {
       exact,
     } = routeConfig;
 
-    if (!routePath || !component) {
+    if (!_.isString(routePath) || !component) {
       throw new Error(
-        `Invalid routeConfig (Path and component is required) \n${JSON.stringify(
+        `Invalid routeConfig (Path must be a string and component is required) \n${JSON.stringify(
           routeConfig,
         )}`,
       );

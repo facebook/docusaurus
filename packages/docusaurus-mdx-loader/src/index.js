@@ -11,11 +11,10 @@ const emoji = require('remark-emoji');
 const slug = require('remark-slug');
 const matter = require('gray-matter');
 const stringifyObject = require('stringify-object');
-const linkHeadings = require('./rehype/linkHeadings');
 const rightToc = require('./remark/rightToc');
 
 const DEFAULT_OPTIONS = {
-  rehypePlugins: [linkHeadings],
+  rehypePlugins: [],
   remarkPlugins: [emoji, slug, rightToc],
 };
 

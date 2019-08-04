@@ -14,5 +14,17 @@ module.exports = function() {
     getThemePath() {
       return path.resolve(__dirname, './theme');
     },
+
+    configureWebpack() {
+      return {
+        resolve: {
+          alias: {
+            // fork of Buble which removes Buble's large dependency and weighs in at a smaller size of ~51kB
+            // https://github.com/FormidableLabs/react-live#what-bundle-size-can-i-expect
+            buble: '@philpl/buble',
+          },
+        },
+      };
+    },
   };
 };

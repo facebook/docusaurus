@@ -7,13 +7,24 @@
 
 module.exports = {
   title: 'Docusaurus',
-  tagline: '⚡️ Painless static site generator',
+  tagline: 'Easy to Maintain Open Source Documentation Websites',
   organizationName: 'facebook',
   projectName: 'docusaurus',
   baseUrl: '/',
   url: 'https://v2.docusaurus.io',
   favicon: 'img/docusaurus.ico',
   themes: ['@docusaurus/theme-live-codeblock'],
+  plugins: [
+    [
+      '@docusaurus/plugin-ideal-image',
+      {
+        quality: 70,
+        max: 1030, // max resized image's size.
+        min: 640, // min resized image's size. if original is lower, use that size.
+        steps: 2, // the max number of images generated between min and max (inclusive)
+      },
+    ],
+  ],
   presets: [
     [
       '@docusaurus/preset-classic',
@@ -27,12 +38,13 @@ module.exports = {
           postsPerPage: 3,
         },
         theme: {
-          customCss: require.resolve('./css/custom.css'),
+          customCss: require.resolve('./src/css/custom.css'),
         },
       },
     ],
   ],
   themeConfig: {
+    image: 'img/docusaurus.png',
     gtag: {
       trackingID: 'UA-141789564-1',
     },
@@ -53,6 +65,7 @@ module.exports = {
       links: [
         {to: 'docs/introduction', label: 'Docs', position: 'left'},
         {to: 'blog', label: 'Blog', position: 'left'},
+        {to: 'showcase', label: 'Showcase', position: 'left'},
         {to: 'feedback', label: 'Feedback', position: 'left'},
         {
           href: 'https://github.com/facebook/docusaurus',
@@ -72,8 +85,8 @@ module.exports = {
               to: 'docs/introduction',
             },
             {
-              label: 'Themes',
-              to: 'docs/themes',
+              label: 'Installation',
+              to: 'docs/installation',
             },
           ],
         },

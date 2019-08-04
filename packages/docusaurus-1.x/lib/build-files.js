@@ -13,10 +13,13 @@ require('@babel/register')({
   only: [__dirname, `${process.cwd()}/core`],
   plugins: [
     require('./server/translate-plugin.js'),
-    '@babel/plugin-proposal-class-properties',
-    '@babel/plugin-proposal-object-rest-spread',
+    require('@babel/plugin-proposal-class-properties').default,
+    require('@babel/plugin-proposal-object-rest-spread').default,
   ],
-  presets: ['@babel/react', '@babel/env'],
+  presets: [
+    require('@babel/preset-react').default,
+    require('@babel/preset-env').default,
+  ],
 });
 
 // initial check that required files are present

@@ -55,6 +55,7 @@ export default [
 ];
 ",
   "routesPaths": Array [
+    "404.html",
     "/blog",
   ],
 }
@@ -140,8 +141,48 @@ export default [
 ];
 ",
   "routesPaths": Array [
+    "404.html",
     "/docs/hello",
     "docs/foo/baz",
+  ],
+}
+`;
+
+exports[`loadRoutes route config with empty (but valid) path string 1`] = `
+Object {
+  "registry": Object {
+    "component---hello-world-jse-0-f-b6c": Object {
+      "importStatement": "() => import(/* webpackChunkName: 'component---hello-world-jse-0-f-b6c' */ \\"hello/world.js\\")",
+      "modulePath": "hello/world.js",
+    },
+  },
+  "routesChunkNames": Object {
+    "": Object {
+      "component": "component---hello-world-jse-0-f-b6c",
+    },
+  },
+  "routesConfig": "
+import React from 'react';
+import ComponentCreator from '@docusaurus/ComponentCreator';
+
+export default [
+  
+{
+  path: '',
+  component: ComponentCreator(''),
+  
+  
+},
+  
+  {
+    path: '*',
+    component: ComponentCreator('*')
+  }
+];
+",
+  "routesPaths": Array [
+    "404.html",
+    "",
   ],
 }
 `;

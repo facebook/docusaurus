@@ -8,10 +8,10 @@
 const globby = require('globby');
 const path = require('path');
 const fs = require('fs');
-const {encodePath, fileToPath, docuHash} = require('@docusaurus/utils');
+const {encodePath, fileToPath} = require('@docusaurus/utils');
 
 const DEFAULT_OPTIONS = {
-  path: 'pages', // Path to data on filesystem, relative to site dir.
+  path: 'src/pages', // Path to data on filesystem, relative to site dir.
   routeBasePath: '', // URL Route.
   include: ['**/*.{js,jsx}'], // Extensions to include.
 };
@@ -33,7 +33,7 @@ module.exports = function(context, opts) {
 
     async loadContent() {
       const {include} = options;
-      const {siteConfig} = context;
+      const {siteConfig, siteDir} = context;
       const pagesDir = contentPath;
 
       if (!fs.existsSync(pagesDir)) {
@@ -47,11 +47,13 @@ module.exports = function(context, opts) {
 
       return pagesFiles.map(relativeSource => {
         const source = path.join(pagesDir, relativeSource);
+        // Cannot use path.join() as it resolves '../' and removes the '@site'. Let webpack loader resolve it.
+        const aliasedSource = `@site/${path.relative(siteDir, source)}`;
         const pathName = encodePath(fileToPath(relativeSource));
         // Default Language.
         return {
           permalink: pathName.replace(/^\//, baseUrl),
-          source,
+          source: aliasedSource,
         };
       });
     },
@@ -61,22 +63,15 @@ module.exports = function(context, opts) {
         return;
       }
 
-      const {addRoute, createData} = actions;
+      const {addRoute} = actions;
 
       await Promise.all(
         content.map(async metadataItem => {
           const {permalink, source} = metadataItem;
-          const metadataPath = await createData(
-            `${docuHash(permalink)}.json`,
-            JSON.stringify(metadataItem, null, 2),
-          );
           addRoute({
             path: permalink,
             component: source,
             exact: true,
-            modules: {
-              metadata: metadataPath,
-            },
           });
         }),
       );

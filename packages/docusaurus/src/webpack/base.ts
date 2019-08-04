@@ -10,7 +10,7 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 import path from 'path';
 import TerserPlugin from 'terser-webpack-plugin';
-import {Configuration} from 'webpack';
+import {Configuration, Loader} from 'webpack';
 
 import {Props} from '../server/types';
 import {getBabelLoader, getCacheLoader, getStyleLoaders} from './utils';
@@ -28,22 +28,25 @@ export function createBaseConfig(
     baseUrl,
     generatedFilesDir,
     cliOptions: {cacheLoader},
+    routesPaths,
   } = props;
 
+  const totalPages = routesPaths.length;
   const isProd = process.env.NODE_ENV === 'production';
   return {
     mode: isProd ? 'production' : 'development',
     output: {
+      pathinfo: false,
       path: outDir,
-      filename: isProd ? '[name].[chunkhash].js' : '[name].js',
-      chunkFilename: isProd ? '[name].[chunkhash].js' : '[name].js',
+      filename: isProd ? '[name].[contenthash].js' : '[name].js',
+      chunkFilename: isProd ? '[name].[contenthash].js' : '[name].js',
       publicPath: baseUrl,
     },
     // Don't throw warning when asset created is over 250kb
     performance: {
       hints: false,
     },
-    devtool: !isProd && 'cheap-module-eval-source-map',
+    devtool: isProd ? false : 'cheap-module-eval-source-map',
     resolve: {
       symlinks: true,
       alias: {
@@ -59,6 +62,7 @@ export function createBaseConfig(
       ],
     },
     optimization: {
+      removeAvailableModules: false,
       // Only minimize client bundle in production because server bundle is only used for static site generation
       minimize: isProd && !isServer,
       minimizer: isProd
@@ -83,38 +87,15 @@ export function createBaseConfig(
           ]
         : undefined,
       splitChunks: {
-        maxInitialRequests: Infinity,
-        maxAsyncRequests: Infinity,
+        // Since the chunk name includes all origin chunk names it’s recommended for production builds with long term caching to NOT include [name] in the filenames
+        name: false,
         cacheGroups: {
           // disable the built-in cacheGroups
           default: false,
-          vendor: {
-            test: /[\\/]node_modules[\\/]/,
-            priority: 30,
-            minSize: 250000,
-            name(module) {
-              // get the package name. E.g. node_modules/packageName/not/this/part
-              const packageName = module.context.match(
-                /[\\/]node_modules[\\/](.*?)([\\/]|$)/,
-              )[1];
-
-              // some servers don't like @ symbols as filename
-              return `${packageName.replace('@', '')}`;
-            },
-          },
-          vendors: {
-            test: /[\\/]node_modules[\\/]/,
-            name: 'vendors',
-            priority: 20,
-            // create chunk regardless of the size of the chunk
-            enforce: true,
-          },
           common: {
             name: 'common',
-            minChunks: 2,
-            priority: 10,
-            reuseExistingChunk: true,
-            enforce: true,
+            minChunks: totalPages > 2 ? totalPages * 0.5 : 2,
+            priority: 40,
           },
         },
       },
@@ -132,13 +113,13 @@ export function createBaseConfig(
           use: [
             cacheLoader && getCacheLoader(isServer),
             getBabelLoader(isServer),
-          ].filter(Boolean),
+          ].filter(Boolean) as Loader[],
         },
         {
           test: CSS_REGEX,
           exclude: CSS_MODULE_REGEX,
           use: getStyleLoaders(isServer, {
-            importLoaders: 0,
+            importLoaders: 1,
             sourceMap: !isProd,
           }),
         },
@@ -147,19 +128,20 @@ export function createBaseConfig(
         {
           test: CSS_MODULE_REGEX,
           use: getStyleLoaders(isServer, {
-            modules: true,
-            importLoaders: 0,
-            localIdentName: `[local]_[hash:base64:8]`,
+            modules: {
+              localIdentName: `[local]_[hash:base64:4]`,
+            },
+            importLoaders: 1,
             sourceMap: !isProd,
-            exportOnlyLocals: isServer,
+            onlyLocals: isServer,
           }),
         },
       ],
     },
     plugins: [
       new MiniCssExtractPlugin({
-        filename: isProd ? '[name].[chunkhash].css' : '[name].css',
-        chunkFilename: isProd ? '[name].[chunkhash].css' : '[name].css',
+        filename: isProd ? '[name].[contenthash].css' : '[name].css',
+        chunkFilename: isProd ? '[name].[contenthash].css' : '[name].css',
       }),
     ],
   };

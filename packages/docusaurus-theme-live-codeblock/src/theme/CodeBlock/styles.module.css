@@ -6,3 +6,31 @@
   overflow-wrap: break-word;
   white-space: pre-wrap;
 }
+
+.codeBlockWrapper {
+  position: relative;
+}
+
+.codeBlockWrapper:hover > .copyButton {
+  bottom: calc(var(--ifm-pre-padding) - 2px);
+  visibility: visible;
+  opacity: 1;
+}
+
+.copyButton {
+  position: absolute;
+  right: var(--ifm-pre-padding);
+  bottom: calc(var(--ifm-pre-padding) - 4px);
+  padding: 4px 8px;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 200ms ease-in-out, visibility 200ms ease-in-out,
+    bottom 200ms ease-in-out;
+  border: 1px solid rgb(214, 222, 235);
+  border-radius: var(--ifm-global-radius);
+  outline: none;
+  cursor: pointer;
+  line-height: 12px;
+  background: rgb(1, 22, 39);
+  color: rgb(214, 222, 235);
+}

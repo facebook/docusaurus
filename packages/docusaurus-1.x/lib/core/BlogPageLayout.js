@@ -10,6 +10,11 @@ const BlogPost = require('./BlogPost.js');
 const BlogSidebar = require('./BlogSidebar.js');
 const Container = require('./Container.js');
 const MetadataBlog = require('./MetadataBlog.js');
+
+const MetadataPublicBlog =
+  process.env.NODE_ENV === 'development'
+    ? MetadataBlog
+    : MetadataBlog.filter(item => !item.unlisted);
 const Site = require('./Site.js');
 const utils = require('./utils.js');
 
@@ -40,27 +45,28 @@ class BlogPageLayout extends React.Component {
           />
           <Container className="mainContainer postContainer blogContainer">
             <div className="posts">
-              {MetadataBlog.slice(page * perPage, (page + 1) * perPage).map(
-                post => (
-                  <BlogPost
-                    post={post}
-                    content={post.content}
-                    truncate
-                    key={
-                      utils.getPath(post.path, this.props.config.cleanUrl) +
-                      post.title
-                    }
-                    config={this.props.config}
-                  />
-                ),
-              )}
+              {MetadataPublicBlog.slice(
+                page * perPage,
+                (page + 1) * perPage,
+              ).map(post => (
+                <BlogPost
+                  post={post}
+                  content={post.content}
+                  truncate
+                  key={
+                    utils.getPath(post.path, this.props.config.cleanUrl) +
+                    post.title
+                  }
+                  config={this.props.config}
+                />
+              ))}
               <div className="docs-prevnext">
                 {page > 0 && (
                   <a className="docs-prev" href={this.getPageURL(page - 1)}>
                     ← Prev
                   </a>
                 )}
-                {MetadataBlog.length > (page + 1) * perPage && (
+                {MetadataPublicBlog.length > (page + 1) * perPage && (
                   <a className="docs-next" href={this.getPageURL(page + 1)}>
                     Next →
                   </a>

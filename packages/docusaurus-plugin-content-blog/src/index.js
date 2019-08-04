@@ -11,13 +11,15 @@ const _ = require('lodash');
 const path = require('path');
 const {parse, normalizeUrl, docuHash} = require('@docusaurus/utils');
 
-// TODO: Use a better slugify function that doesn't rely on a specific file extension.
-function fileToUrl(fileName) {
-  return fileName
-    .replace('-', '/')
-    .replace('-', '/')
-    .replace('-', '/')
-    .replace(/\.mdx?$/, '');
+// YYYY-MM-DD-{name}.mdx?
+// prefer named capture, but old node version do not support
+const FILENAME_PATTERN = /^(\d{4}-\d{1,2}-\d{1,2})-?(.*?).mdx?$/;
+
+function toUrl({date, link}) {
+  return `${date
+    .toISOString()
+    .substring(0, '2019-01-01'.length)
+    .replace(/-/g, '/')}/${link}`;
 }
 
 const DEFAULT_OPTIONS = {
@@ -31,6 +33,7 @@ const DEFAULT_OPTIONS = {
   blogTagsPostsComponent: '@theme/BlogTagsPostsPage',
   remarkPlugins: [],
   rehypePlugins: [],
+  truncateMarker: /<!--\s*(truncate)\s*-->/, // string or regex
 };
 
 module.exports = function(context, opts) {
@@ -49,7 +52,7 @@ module.exports = function(context, opts) {
     // Fetches blog contents and returns metadata for the necessary routes.
     async loadContent() {
       const {postsPerPage, include, routeBasePath} = options;
-      const {siteConfig} = context;
+      const {siteConfig, siteDir} = context;
       const blogDir = contentPath;
 
       if (!fs.existsSync(blogDir)) {
@@ -65,33 +68,44 @@ module.exports = function(context, opts) {
 
       await Promise.all(
         blogFiles.map(async relativeSource => {
+          // Cannot use path.join() as it resolves '../' and removes the '@site'. Let webpack loader resolve it.
           const source = path.join(blogDir, relativeSource);
-
+          const aliasedSource = `@site/${path.relative(siteDir, source)}`;
           const blogFileName = path.basename(relativeSource);
-          // Extract, YYYY, MM, DD from the file name.
-          const filePathDateArr = blogFileName.split('-');
-          const date = new Date(
-            `${filePathDateArr[0]}-${filePathDateArr[1]}-${
-              filePathDateArr[2]
-            }T06:00:00.000Z`,
-          );
 
           const fileString = await fs.readFile(source, 'utf-8');
           const {frontMatter, excerpt} = parse(fileString);
 
+          let date;
+          // extract date and title from filename
+          const match = blogFileName.match(FILENAME_PATTERN);
+          let linkName = blogFileName.replace(/\.mdx?$/, '');
+          if (match) {
+            const [, dateString, name] = match;
+            date = new Date(dateString);
+            linkName = name;
+          }
+          // prefer usedefined date
+          if (frontMatter.date) {
+            date = new Date(frontMatter.date);
+          }
+          // use file create time for blog
+          date = date || (await fs.stat(source)).birthtime;
+          frontMatter.title = frontMatter.title || linkName;
+
           blogPosts.push({
-            id: blogFileName,
+            id: frontMatter.id || frontMatter.title,
             metadata: {
               permalink: normalizeUrl([
                 baseUrl,
                 routeBasePath,
-                fileToUrl(blogFileName),
+                frontMatter.id || toUrl({date, link: linkName}),
               ]),
-              source,
+              source: aliasedSource,
               description: frontMatter.description || excerpt,
               date,
               tags: frontMatter.tags,
-              title: frontMatter.title || blogFileName,
+              title: frontMatter.title,
             },
           });
         }),
@@ -339,7 +353,7 @@ module.exports = function(context, opts) {
     },
 
     configureWebpack(config, isServer, {getBabelLoader, getCacheLoader}) {
-      const {rehypePlugins, remarkPlugins} = options;
+      const {rehypePlugins, remarkPlugins, truncateMarker} = options;
       return {
         module: {
           rules: [
@@ -358,8 +372,11 @@ module.exports = function(context, opts) {
                 },
                 {
                   loader: path.resolve(__dirname, './markdownLoader.js'),
+                  options: {
+                    truncateMarker,
+                  },
                 },
-              ],
+              ].filter(Boolean),
             },
           ],
         },

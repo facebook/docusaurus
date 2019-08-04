@@ -6,7 +6,6 @@
  */
 
 export {build} from './commands/build';
-export {init} from './commands/init';
 export {start} from './commands/start';
 export {swizzle} from './commands/swizzle';
 export {deploy} from './commands/deploy';
