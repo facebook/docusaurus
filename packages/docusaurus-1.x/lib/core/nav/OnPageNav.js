@@ -25,7 +25,7 @@ const Headings = ({headings}) => {
     <ul className="toc-headings">
       {headings.map(heading => (
         <li key={heading.hashLink}>
-          <Link hashLink={heading.hashLink} content={heading.content} />
+          <Link hashLink={heading.hashLink} content={heading.rawContent} />
           <Headings headings={heading.children} />
         </li>
       ))}
