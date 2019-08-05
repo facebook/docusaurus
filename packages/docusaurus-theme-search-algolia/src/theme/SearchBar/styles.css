@@ -61,7 +61,6 @@
 }
 
 @media (max-width: 360px) {
-
   .search-bar {
     width: 0 !important;
     background: none !important;;
