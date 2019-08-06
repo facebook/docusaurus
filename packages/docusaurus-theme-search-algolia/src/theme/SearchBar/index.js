@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {Fragment} from 'react';
 
 import DocusaurusContext from '@docusaurus/context';
 
@@ -16,7 +16,10 @@ class Search extends React.Component {
     super(props);
     this.state = {
       enabled: true,
+      isExpanded: false,
     };
+    this.searchBarRef = React.createRef();
+    this.toggleSearchIconClick = this.toggleSearchIconClick.bind(this);
   }
 
   componentDidMount() {
@@ -43,16 +46,40 @@ class Search extends React.Component {
     }
   }
 
+  toggleSearchIconClick() {
+    this.setState(
+      oldState => ({
+        isExpanded: !oldState.isExpanded,
+      }),
+      () => {
+        this.searchBarRef.current.focus();
+        this.props.handleSearchBarToggle();
+      },
+    );
+  }
+
   render() {
-    const {enabled} = this.state;
+    const {enabled, isExpanded} = this.state;
 
     return enabled ? (
-      <input
-        id="search_input_react"
-        type="search"
-        placeholder="Search"
-        aria-label="Search"
-      />
+      <Fragment>
+        <span
+          role="button"
+          className={`search-icon ${isExpanded ? 'search-icon-hidden' : ''}`}
+          onClick={this.toggleSearchIconClick}
+          onKeyDown={this.toggleSearchIconClick}
+          tabIndex={0}
+        />
+        <input
+          id="search_input_react"
+          type="search"
+          placeholder="Search"
+          aria-label="Search"
+          className={`${isExpanded ? 'search-bar-expanded' : 'search-bar'}`}
+          onBlur={this.toggleSearchIconClick}
+          ref={this.searchBarRef}
+        />
+      </Fragment>
     ) : null;
   }
 }

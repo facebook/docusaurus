@@ -45,6 +45,7 @@ const Sun = () => <span className={classnames(styles.toggle, styles.sun)} />;
 function Navbar() {
   const context = useDocusaurusContext();
   const [sidebarShown, setSidebarShown] = useState(false);
+  const [searchBarExpanded, setSearchBarExpanded] = useState(false);
   const currentTheme =
     typeof document !== 'undefined'
       ? document.querySelector('html').getAttribute('data-theme')
@@ -79,6 +80,10 @@ function Navbar() {
     } catch (err) {
       console.error(err);
     }
+  };
+
+  const handleSearchBarToggle = () => {
+    setSearchBarExpanded(!searchBarExpanded);
   };
 
   return (
@@ -125,7 +130,12 @@ function Navbar() {
                   alt={logo.alt}
                 />
               )}
-              {title != null && <strong>{title}</strong>}
+              {title != null && (
+                <strong
+                  className={searchBarExpanded ? styles.hideLogoText : ''}>
+                  {title}
+                </strong>
+              )}
             </Link>
             {links
               .filter(linkItem => linkItem.position !== 'right')
@@ -151,7 +161,7 @@ function Navbar() {
             />
             {algolia && (
               <div className="navbar__search" key="search-box">
-                <SearchBar />
+                <SearchBar handleSearchBarToggle={handleSearchBarToggle} />
               </div>
             )}
           </div>
