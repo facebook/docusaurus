@@ -7,7 +7,7 @@
 
 module.exports = `
 <!DOCTYPE html>
-<html <%= htmlAttributes %>>
+<html <%- htmlAttributes %>>
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
@@ -19,7 +19,7 @@ module.exports = `
       <link rel="stylesheet" type="text/css" href="<%= baseUrl %><%= stylesheet %>" />
     <% }); %>
   </head>
-  <body <%= bodyAttributes %>>
+  <body <%- bodyAttributes %>>
     <div id="__docusaurus">
       <%- appHtml %>
     </div>
