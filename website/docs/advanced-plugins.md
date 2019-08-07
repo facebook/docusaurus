@@ -14,11 +14,7 @@ Docusaurus Plugins are very similar to [Gatsby Plugins](https://www.gatsbyjs.org
 
 ## Plugins design
 
-Docusaurus' implementation of the plugins system provides us a unified way to participate in the doc site's build process, and specify to Docusaurus:
-
-- which files to watch
-- generate which pages from those files
-- in those pages, which components to call and with what props
+Docusaurus' implementation of the plugins system provides us a unified way to participate in the doc site's build process and create components in a systematic way.
 
 A plugin _may_ include its own components. You can also specify a resolution rule for the plugin to find its components to call, which you then supply with a [theme](./advanced-themes.md).
 
@@ -44,7 +40,17 @@ Plugins are modules which export a function that takes in the context, options a
 
 ## Creating plugins
 
-To create a plugin, ...
+To create a plugin, define your module as a function that takes two parameters and returns an object.
+
+We need to specify for our plugin:
+
+- which files to watch
+- generate which pages from those files
+- in those pages, which components to call and with what props
+
+We'll use [@docusaurus/plugin-content-blog](https://github.com/facebook/docusaurus/tree/master/packages/docusaurus-plugin-content-blog) as an examples to explain how to create a plugin.
+
+### Module definition
 
 The exported modules for plugins are called with two parameters: `context` and `options`:
 
@@ -74,6 +80,29 @@ interface CLIOptions {
 ```
 
 And `options` are optionally the [second parameter when the plugins are used](/docs/using-plugins#configuring-plugins).
+
+### Paths to watch
+
+To specify which paths to watch for your plugin, implement `getPathsToWatch` in your return object:
+
+```js
+module.exports = function(context, opts) {
+  const options = {...DEFAULT_OPTIONS, ...opts};
+  const contentPath = path.resolve(context.siteDir, options.path);
+
+  return {
+    name: 'docusaurus-plugin-content-blog',
+
+    getPathsToWatch() {
+      const {include = []} = options;
+      const globPattern = include.map(pattern => `${contentPath}/${pattern}`);
+      return [...globPattern];
+    },
+
+    // ...
+  };
+};
+```
 
 ## Official plugins
 
