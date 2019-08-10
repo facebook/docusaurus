@@ -27,7 +27,21 @@ function start(port) {
     },
   );
 }
+
 const getReloadScriptUrl = () => {
+  // Please, JS programmer show me how to save state of 'program' globally for each
+  // invocation of this function.
+  
+  // hacked in
+  program
+  .option('--port <number>', 'Specify port number')
+  .option('--no-watch', 'Toggle live reload file watching')
+  .option('--host <host>', 'use specified host (default: localhost)')
+  .parse(process.argv);
+
+  // hacked in
+  program.parse(process.argv)
+
   const port = process.env.LIVERELOAD_PORT;
   const host = program.host || 'localhost';
 
