@@ -82,8 +82,8 @@ function Navbar() {
     }
   };
 
-  const handleSearchBarToggle = () => {
-    setSearchBarExpanded(!searchBarExpanded);
+  const handleSearchBarToggle = isExpanded => {
+    setSearchBarExpanded(isExpanded);
   };
 
   return (

@@ -5,25 +5,26 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {Fragment} from 'react';
-
+import React, {
+  useState,
+  useEffect,
+  Fragment,
+  useContext,
+  useRef,
+  useCallback,
+} from 'react';
 import DocusaurusContext from '@docusaurus/context';
 
 import './styles.css';
 
-class Search extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      enabled: true,
-      isExpanded: false,
-    };
-    this.searchBarRef = React.createRef();
-    this.toggleSearchIconClick = this.toggleSearchIconClick.bind(this);
-  }
+const Search = props => {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [enabled, setEnabled] = useState(true);
+  const searchBarRef = useRef(null);
+  const context = useContext(DocusaurusContext);
 
-  componentDidMount() {
-    const {siteConfig = {}} = this.context;
+  useEffect(() => {
+    const {siteConfig = {}} = context;
     const {
       themeConfig: {algolia},
     } = siteConfig;
@@ -42,48 +43,41 @@ class Search extends React.Component {
       });
     } else {
       console.warn('Search has failed to load and now is being disabled');
-      this.setState({enabled: false});
+      setEnabled(false);
     }
-  }
+  }, []);
 
-  toggleSearchIconClick() {
-    this.setState(
-      oldState => ({
-        isExpanded: !oldState.isExpanded,
-      }),
-      () => {
-        this.searchBarRef.current.focus();
-        this.props.handleSearchBarToggle();
-      },
-    );
-  }
+  const toggleSearchIconClick = useCallback(() => {
+    setIsExpanded(oldState => !oldState);
+  }, []);
 
-  render() {
-    const {enabled, isExpanded} = this.state;
+  useEffect(() => {
+    if (isExpanded) {
+      searchBarRef.current.focus();
+    }
+    props.handleSearchBarToggle(isExpanded);
+  }, [isExpanded]);
 
-    return enabled ? (
-      <Fragment>
-        <span
-          role="button"
-          className={`search-icon ${isExpanded ? 'search-icon-hidden' : ''}`}
-          onClick={this.toggleSearchIconClick}
-          onKeyDown={this.toggleSearchIconClick}
-          tabIndex={0}
-        />
-        <input
-          id="search_input_react"
-          type="search"
-          placeholder="Search"
-          aria-label="Search"
-          className={`${isExpanded ? 'search-bar-expanded' : 'search-bar'}`}
-          onBlur={this.toggleSearchIconClick}
-          ref={this.searchBarRef}
-        />
-      </Fragment>
-    ) : null;
-  }
-}
-
-Search.contextType = DocusaurusContext;
+  return enabled ? (
+    <Fragment>
+      <span
+        role="button"
+        className={`search-icon ${isExpanded ? 'search-icon-hidden' : ''}`}
+        onClick={toggleSearchIconClick}
+        onKeyDown={toggleSearchIconClick}
+        tabIndex={0}
+      />
+      <input
+        id="search_input_react"
+        type="search"
+        placeholder="Search"
+        aria-label="Search"
+        className={`${isExpanded ? 'search-bar-expanded' : 'search-bar'}`}
+        onBlur={toggleSearchIconClick}
+        ref={searchBarRef}
+      />
+    </Fragment>
+  ) : null;
+};
 
 export default Search;
