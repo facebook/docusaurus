@@ -18,8 +18,7 @@ import DocusaurusContext from '@docusaurus/context';
 import './styles.css';
 
 const Search = props => {
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [enabled, setEnabled] = useState(true);
+  const [isEnabled, setIsEnabled] = useState(true);
   const searchBarRef = useRef(null);
   const context = useContext(DocusaurusContext);
 
@@ -43,26 +42,27 @@ const Search = props => {
       });
     } else {
       console.warn('Search has failed to load and now is being disabled');
-      setEnabled(false);
+      setIsEnabled(false);
     }
   }, []);
 
   const toggleSearchIconClick = useCallback(() => {
-    setIsExpanded(oldState => !oldState);
-  }, []);
+    props.handleSearchBarToggle(!props.isSearchBarExpanded);
+  }, [props.isSearchBarExpanded]);
 
   useEffect(() => {
-    if (isExpanded) {
+    if (props.isSearchBarExpanded) {
       searchBarRef.current.focus();
     }
-    props.handleSearchBarToggle(isExpanded);
-  }, [isExpanded]);
+  }, [props.isSearchBarExpanded]);
 
-  return enabled ? (
+  return isEnabled ? (
     <Fragment>
       <span
         role="button"
-        className={`search-icon ${isExpanded ? 'search-icon-hidden' : ''}`}
+        className={`search-icon ${
+          props.isSearchBarExpanded ? 'search-icon-hidden' : ''
+        }`}
         onClick={toggleSearchIconClick}
         onKeyDown={toggleSearchIconClick}
         tabIndex={0}
@@ -72,7 +72,9 @@ const Search = props => {
         type="search"
         placeholder="Search"
         aria-label="Search"
-        className={`${isExpanded ? 'search-bar-expanded' : 'search-bar'}`}
+        className={`${
+          props.isSearchBarExpanded ? 'search-bar-expanded' : 'search-bar'
+        }`}
         onBlur={toggleSearchIconClick}
         ref={searchBarRef}
       />
