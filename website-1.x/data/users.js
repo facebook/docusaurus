@@ -8,6 +8,13 @@
 module.exports = [
   // Please add your logo in alphabetical order of caption.
   {
+    caption: '1Hive',
+    image: '/img/users/1hive.png',
+    infoLink: 'https://1hive.org',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Accord Project',
     image: '/img/users/accord-project.png',
     infoLink: 'https://docs.accordproject.org/',
