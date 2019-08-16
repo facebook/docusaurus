@@ -12,7 +12,7 @@ module.exports = [
     image: '/img/users/1hive.png',
     infoLink: 'https://1hive.org',
     fbOpenSource: false,
-    pinned: true,
+    pinned: false,
   },
   {
     caption: 'Accord Project',
