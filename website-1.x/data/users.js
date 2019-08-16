@@ -10,7 +10,7 @@ module.exports = [
   {
     caption: '1Hive',
     image: '/img/users/1hive.png',
-    infoLInk: 'https://1hive.org',
+    infoLink: 'https://1hive.org',
     fbOpenSource: false,
     pinned: true,
   },
