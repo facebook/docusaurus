@@ -70,6 +70,7 @@ __Note:__ When you deploy as user/organization page, the publish script will dep
 | `projectName`      | The name of the GitHub repository for your project. For example, the source code for Docusaurus is hosted at https://github.com/facebook/docusaurus, so our project name in this case would be "docusaurus". |
 | `url`              | Your website's URL. For projects hosted on GitHub pages, this will be "https://_username_.github.io" |
 | `baseUrl`          | Base URL for your project. For projects hosted on GitHub pages, it follows the format "/_projectName_/". For https://github.com/facebook/docusaurus, `baseUrl` is `/docusaurus/`. |
+| `cname` | (optional) If you are using a custom domain you can configure it via the CNAME attribute. e.g. 'docusaurus.io' |
 
 
 ```js
