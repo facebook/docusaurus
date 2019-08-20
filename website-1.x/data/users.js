@@ -57,6 +57,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Ara',
+    image: '/img/users/ara.png',
+    infoLink: 'https://ara-framework.github.io/website/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Atalaya',
     image: '/img/users/atalaya.png',
     infoLink: 'https://atalaya.io/',
