@@ -22,6 +22,9 @@ export async function deploy(siteDir: string): Promise<void> {
     throw new Error('Sorry, this script requires git');
   }
 
+  const gitName = process.env.GIT_NAME;
+  const gitEmail = process.env.GIT_EMAIL;
+  const gitToken = process.env.GIT_TOKEN;
   const gitUser = process.env.GIT_USER;
   if (!gitUser) {
     throw new Error(`Please set the GIT_USER`);
@@ -69,7 +72,13 @@ export async function deploy(siteDir: string): Promise<void> {
   const useSSH = process.env.USE_SSH;
   const remoteBranch = useSSH
     ? `git@${githubHost}:${organizationName}/${projectName}.git`
-    : `https://${gitUser}@${githubHost}/${organizationName}/${projectName}.git`;
+    : `https://${gitUser}${gitToken ? `:${gitToken}` : ''}@${githubHost}/${organizationName}/${projectName}.git`;
+
+  // Set Git identity if a token is used for auth
+  if (gitToken && gitName && gitEmail) {
+    shell.exec(`git config  user.name "${gitName}"`);
+    shell.exec(`git config  user.email "${gitEmail}"`);
+  }
 
   // Check if this is a cross-repo publish
   const currentRepoUrl = shell
