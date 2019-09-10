@@ -72,12 +72,14 @@ export async function deploy(siteDir: string): Promise<void> {
   const useSSH = process.env.USE_SSH;
   const remoteBranch = useSSH
     ? `git@${githubHost}:${organizationName}/${projectName}.git`
-    : `https://${gitUser}${gitToken ? `:${gitToken}` : ''}@${githubHost}/${organizationName}/${projectName}.git`;
+    : `https://${gitUser}${
+        gitToken ? `:${gitToken}` : ''
+      }@${githubHost}/${organizationName}/${projectName}.git`;
 
   // Set Git identity if a token is used for auth
-  if (gitToken && gitName && gitEmail) {
-    shell.exec(`git config  user.name "${gitName}"`);
-    shell.exec(`git config  user.email "${gitEmail}"`);
+  if (gitToken && gitName) {
+    shell.exec(`git config --global user.name "${gitName}"`);
+    shell.exec(`git config  --global user.email "${gitEmail || ''}"`);
   }
 
   // Check if this is a cross-repo publish
