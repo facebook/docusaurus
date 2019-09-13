@@ -90,11 +90,11 @@
 ]
 </code></pre>
 <h2><a class="anchor" aria-hidden="true" id="добавление-сообщений"></a><a href="#добавление-сообщений" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Добавление сообщений</h2>
-<p>To publish in the blog, create a file within the blog directory with a formatted name of <code>YYYY-MM-DD-my-blog-post-title.md</code>. Дата добавления сообщения будет извлечена из этого имени.</p>
-<p>For example, at <code>website/blog/2017-12-14-introducing-docusaurus.md</code>:</p>
+<p>Чтобы добавить сообщение в блог, создайте в своем каталоге blog файл с именем следующего вида: <code>YYYY-MM-DD-my-blog-post-title.md</code>. Дата добавления сообщения будет извлечена из этого имени.</p>
+<p>Например, <code>website/blog/2017-12-14-introducing-docusaurus.md</code>:</p>
 <pre><code class="hljs css language-yml"><span class="hljs-meta">---</span>
-<span class="hljs-attr">title:</span> <span class="hljs-string">Introducing</span> <span class="hljs-string">Docusaurus</span>
-<span class="hljs-attr">author:</span> <span class="hljs-string">Joel</span> <span class="hljs-string">Marcey</span>
+<span class="hljs-attr">title:</span> <span class="hljs-string">Представляем</span> <span class="hljs-string">Docusaurus</span>
+<span class="hljs-attr">author:</span> <span class="hljs-string">Джоэл</span> <span class="hljs-string">Марси</span>
 <span class="hljs-attr">authorURL:</span> <span class="hljs-attr">http://twitter.com/JoelMarcey</span>
 <span class="hljs-attr">authorFBID:</span> <span class="hljs-number">611217057</span>
 <span class="hljs-attr">authorTwitter:</span> <span class="hljs-string">JoelMarcey</span>
@@ -102,21 +102,22 @@
 <span class="hljs-string">Lorem</span> <span class="hljs-string">Ipsum...</span>
 </code></pre>
 <h2><a class="anchor" aria-hidden="true" id="настройки-заголовка"></a><a href="#настройки-заголовка" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Настройки заголовка</h2>
-<p>The only required field is <code>title</code>; however, we provide options to add author information to your blog post as well along with other options.</p>
+<p>Единственное обязательное поле это <code>title</code>; однако мы также предоставляем возможность добавить в сообщение информацию об авторе.</p>
 <ul>
 <li><code>author</code> - Текстовое обозначение автора, имя.</li>
 <li><code>authorURL</code> - URL-адрес, связанный с автором. Это может быть ссылка на учетную запись Twiter, Github, Facebook или что-либо еще.</li>
 <li><code>authorFBID</code> - Идентификатор профиля Facebook, который используется для получения изображения-аватара.</li>
 <li><code>authorImageURL</code> - URL-адрес к изображению-аватару автора. (Примечание: Если вы используете вместе <code>authorFBID</code> и <code>authorImageURL</code>, то <code>authorFBID</code> будет иметь приоритет. Не указывайте поле <code>authorFBID</code>, если желаете использовать изображение по адресу, указанному в <code>authorImageURL</code>.)</li>
 <li><code>title</code> - Заголовок сообщения блога.</li>
-<li><code>unlisted</code> - The post will be accessible by directly visiting the URL but will not show up in the sidebar in the final build; during local development, the post will still be listed. Useful in situations where you want to share a WIP post with others for feedback.</li>
+<li><code>unlisted</code> - Сообщение будет доступно по прямому URL-адресу, но не будет отображено в боковой панели в конечной сборке; при локальной же разработке сообщение будет отображено. Полезно в ситуациях, когда вам нужно поделиться WIP сообщением с другими людьми для получения их оценки.</li>
 </ul>
 <h2><a class="anchor" aria-hidden="true" id="обрезка-резюме"></a><a href="#обрезка-резюме" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Обрезка резюме</h2>
 <p>Используйте маркер <code>&lt;!--truncate--&gt;</code> в своем сообщении для указания того, какая часть этого сообщения будет отображена в его резюме. Все, что размещено до <code>&lt;!--truncate--&gt;</code>, станет частью резюме. Например:</p>
 <pre><code class="hljs css language-yaml"><span class="hljs-meta">---</span>
-<span class="hljs-attr">title:</span> <span class="hljs-string">Truncation</span> <span class="hljs-string">Example</span>
+<span class="hljs-attr">title:</span> <span class="hljs-string">Пример</span> <span class="hljs-string">обрезки</span>
 <span class="hljs-meta">---</span>
-<span class="hljs-string">All</span> <span class="hljs-string">this</span> <span class="hljs-string">will</span> <span class="hljs-string">be</span> <span class="hljs-string">part</span> <span class="hljs-string">of</span> <span class="hljs-string">the</span> <span class="hljs-string">blog</span> <span class="hljs-string">post</span> <span class="hljs-string">summary.</span>
+
+<span class="hljs-string">Все</span> <span class="hljs-string">это</span> <span class="hljs-string">будет</span> <span class="hljs-string">частью</span> <span class="hljs-string">резюме</span> <span class="hljs-string">сообщения</span> <span class="hljs-string">в</span> <span class="hljs-string">блоге.</span>
 
 <span class="hljs-string">И</span> <span class="hljs-string">это</span> <span class="hljs-string">тоже.</span>
 
@@ -142,8 +143,8 @@
 <pre><code class="hljs css language-js">blogSidebarTitle: { <span class="hljs-attr">default</span>: <span class="hljs-string">'Recent posts'</span>, <span class="hljs-attr">all</span>: <span class="hljs-string">'All blog posts'</span> },
 </code></pre>
 <h2><a class="anchor" aria-hidden="true" id="rss-канал"></a><a href="#rss-канал" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>RSS-канал</h2>
-<p>Docusaurus предоставляет простой RSS канал для сообщений вашего блога. Поддерживаются оба формата - RSS и Atom. This data is automatically added to your website page's HTML <code>&lt;HEAD&gt;</code> tag.</p>
-<p>Краткий текст сообщения до тега <code>&lt;!--truncate--&gt;</code> отправляется в RSS-канал. If no <code>&lt;!--truncate--&gt;</code> tag is found, then all text up to 250 characters is used.</p>
+<p>Docusaurus предоставляет простой RSS канал для сообщений вашего блога. Поддерживаются оба формата - RSS и Atom. Эти данные будут автоматически добавлены в секцию <code>&lt;HEAD&gt;</code> HTML страниц вашего сайта.</p>
+<p>Краткий текст сообщения до тега <code>&lt;!--truncate--&gt;</code> отправляется в RSS-канал. Если сообщение не содержит тег <code>&lt;!--truncate--&gt;</code>, то из его текста будут использованы первые 250 символов.</p>
 <h2><a class="anchor" aria-hidden="true" id="социальные-кнопки"></a><a href="#социальные-кнопки" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Социальные Кнопки</h2>
 <p>Если вы желаете добавить кнопки социальных сетей Facebook или Twitter в нижнюю часть сообщений своего блога, установите параметр <code>facebookAppId</code> и/или <code>twitter</code> в <a href="/docs/ru/site-config">настройках сайта</a> в <code>siteConfig.js</code>.</p>
 <h2><a class="anchor" aria-hidden="true" id="дополнительные-возможности"></a><a href="#дополнительные-возможности" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Дополнительные возможности</h2>
@@ -157,7 +158,7 @@
 <li>Удалите динамически генерируемую посадочную страницу <code>website/pages/en/index.js</code></li>
 </ol>
 <blockquote>
-<p>Теперь, когда Docusaurus будет генерировать или строить ваш сайт, он скопирует файл <code>static/index.html</code> и разместит его в главном каталоге вашего сайта. Статический файл будет отдан посетителю, когда он придет на страницу. When the page loads, it will redirect the visitor to <code>/blog</code>.</p>
+<p>Теперь, когда Docusaurus будет генерировать или строить ваш сайт, он скопирует файл <code>static/index.html</code> и разместит его в главном каталоге вашего сайта. Статический файл будет отдан посетителю, когда он придет на страницу. Когда страница загрузится, посетитель будет перенаправлен на <code>/blog</code>.</p>
 </blockquote>
 <p>Вы можете использовать этот шаблон:</p>
 <pre><code class="hljs css language-html"><span class="hljs-meta">&lt;!DOCTYPE html&gt;</span>
@@ -168,10 +169,10 @@
     <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/javascript"</span>&gt;</span><span class="javascript">
       <span class="hljs-built_in">window</span>.location.href = <span class="hljs-string">'blog/'</span>;
     </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>Title of Your Blog<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>Заголовок вашего блога<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
-    If you are not redirected automatically, follow this
+    Если ваш брузер не поддерживает автоматическую переадресацию, перейдите по этой ссылке: 
     <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"blog/"</span>&gt;</span>link<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>.
   <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span>
