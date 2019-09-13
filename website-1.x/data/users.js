@@ -246,6 +246,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Hygeia JS',
+    image: '/img/users/hygeia.png',
+    infoLink: 'https://hygeia.darteaga.com/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Idb',
     image: '/img/users/idb.svg',
     infoLink: 'https://www.fbidb.io/',
