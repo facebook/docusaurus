@@ -10,13 +10,13 @@ title: Plugins
 
 In this doc, we talk about the design intention of plugins and how you may write your own plugins.
 
-Docusaurus Plugins are very similar to [Gatsby Plugins](https://www.gatsbyjs.org/plugins/) and [VuePress Plugins](https://v1.vuepress.vuejs.org/plugin/). The main difference here is that Docusaurus plugins don't allow using other plugins. Docusaurus provides [presets](./presets.md) for the use scenarios for plugins that are meant to work together.
+Docusaurus Plugins are very similar to [Gatsby Plugins](https://www.gatsbyjs.org/plugins/) and [VuePress Plugins](https://v1.vuepress.vuejs.org/plugin/). The main difference here is that Docusaurus plugins don't allow using other plugins. Docusaurus provides [presets](./presets.md) to bundle plugins that are meant to work together.
 
 ## Plugins design
 
-Docusaurus' implementation of the plugins system provides us a unified way to participate in the doc site's build process and create components in a systematic way.
+Docusaurus' implementation of the plugins system provides us a unified way to participate in the website's build process and create components in a systematic way.
 
-A plugin _may_ include its own components. You can also specify a resolution rule for the plugin to find its components to call, which you then supply with a [theme](./advanced-themes.md).
+A plugin can provide React components to be used together with the non-UI functionality. You can also specify a resolution rule for the plugin to find its components to call, which you then supply with a [theme](./advanced-themes.md).
 
 <!--
 
@@ -40,7 +40,7 @@ Plugins are modules which export a function that takes in the context, options a
 
 ## Creating plugins
 
-To create a plugin, define your module as a function that takes two parameters and returns an object.
+A plugin is a module which exports a function that takes two parameters and returns an object.
 
 We need to specify for our plugin:
 
@@ -48,7 +48,7 @@ We need to specify for our plugin:
 - generate which pages from those files
 - in those pages, which components to call and with what props
 
-We'll use [@docusaurus/plugin-content-blog](https://github.com/facebook/docusaurus/tree/master/packages/docusaurus-plugin-content-blog) as an examples to explain how to create a plugin.
+We'll use [@docusaurus/plugin-content-blog](https://github.com/facebook/docusaurus/tree/master/packages/docusaurus-plugin-content-blog) as an example to explain how to create a plugin.
 
 ### Module definition
 
@@ -83,7 +83,7 @@ And `options` are optionally the [second parameter when the plugins are used](/d
 
 ### Paths to watch
 
-To specify which paths to watch for your plugin, implement `getPathsToWatch` in your return object:
+To specify which paths to watch for your plugin, implement `getPathsToWatch()` in your return object:
 
 ```js
 module.exports = function(context, opts) {
@@ -106,7 +106,7 @@ module.exports = function(context, opts) {
 
 ## Official plugins
 
-List of [official plugins](https://github.com/facebook/docusaurus/tree/master/packages) created by Docusaurus.
+Find the list of official Docusaurus plugins [here](https://github.com/facebook/docusaurus/tree/master/packages).
 
 ### `@docusaurus/plugin-content-blog`
 
