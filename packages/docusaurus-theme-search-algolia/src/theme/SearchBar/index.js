@@ -13,6 +13,8 @@ import React, {
   useRef,
   useCallback,
 } from 'react';
+import classnames from 'classnames';
+
 import DocusaurusContext from '@docusaurus/context';
 
 import './styles.css';
@@ -60,9 +62,9 @@ const Search = props => {
     <Fragment>
       <span
         role="button"
-        className={`search-icon ${
-          props.isSearchBarExpanded ? 'search-icon-hidden' : ''
-        }`}
+        className={classnames('search-icon', {
+          'search-icon-hidden': props.isSearchBarExpanded,
+        })}
         onClick={toggleSearchIconClick}
         onKeyDown={toggleSearchIconClick}
         tabIndex={0}
@@ -72,9 +74,10 @@ const Search = props => {
         type="search"
         placeholder="Search"
         aria-label="Search"
-        className={`${
-          props.isSearchBarExpanded ? 'search-bar-expanded' : 'search-bar'
-        }`}
+        className={classnames(
+          {'search-bar-expanded': props.isSearchBarExpanded},
+          {'search-bar': !props.isSearchBarExpanded},
+        )}
         onBlur={toggleSearchIconClick}
         ref={searchBarRef}
       />
