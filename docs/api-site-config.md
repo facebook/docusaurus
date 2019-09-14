@@ -102,7 +102,7 @@ Control the number of blog posts that show up in the sidebar. See the [adding a 
 
 Control the title of the blog sidebar. See the [adding a blog docs](guides-blog.md#changing-the-sidebar-title) for more information.
 
-#### `cleanUrl` [string]
+#### `cleanUrl` [boolean]
 
 If `true`, allow URLs with no `HTML` extension. For example, a request to URL https://docusaurus.io/docs/installation will return the same result as https://docusaurus.io/docs/installation.html.
 
