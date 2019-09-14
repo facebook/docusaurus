@@ -22,8 +22,6 @@ export async function deploy(siteDir: string): Promise<void> {
     throw new Error('Sorry, this script requires git');
   }
 
-  const gitName = process.env.GIT_NAME;
-  const gitEmail = process.env.GIT_EMAIL;
   const gitToken = process.env.GIT_TOKEN;
   const gitUser = process.env.GIT_USER;
   if (!gitUser) {
@@ -76,12 +74,6 @@ export async function deploy(siteDir: string): Promise<void> {
         gitToken ? `:${gitToken}` : ''
       }@${githubHost}/${organizationName}/${projectName}.git`;
 
-  // Set Git identity if a token is used for auth
-  if (gitToken && gitName) {
-    shell.exec(`git config --global user.name "${gitName}"`);
-    shell.exec(`git config  --global user.email "${gitEmail || ''}"`);
-  }
-
   // Check if this is a cross-repo publish
   const currentRepoUrl = shell
     .exec('git config --get remote.origin.url')
@@ -104,6 +96,10 @@ export async function deploy(siteDir: string): Promise<void> {
   const tempDir = path.join(siteDir, '.docusaurus');
   fs.removeSync(tempDir);
 
+  // Collect Git identity from current repo's configuration
+  const gitName = shell.exec('git config user.name').stdout.trim();
+  const gitEmail = shell.exec('git config user.email').stdout.trim();
+
   // build static html files, then push to deploymentBranch branch of specified repo
   build(siteDir)
     .then(() => {
@@ -118,6 +114,16 @@ export async function deploy(siteDir: string): Promise<void> {
       }
 
       shell.cd(`${projectName}-${deploymentBranch}`);
+
+
+      // Set the Git identity for the temp deploy repo if it's available
+      if(gitName) {
+        shell.exec(`git config user.name "${gitName}"`).stdout.trim();
+      }
+
+      if(gitEmail) {
+        shell.exec(`git config user.email "${gitEmail}"`).stdout.trim();
+      }
 
       // If the default branch is the one we're deploying to, then we'll fail to create it.
       // This is the case of a cross-repo publish, where we clone a github.io repo with a default master branch.
