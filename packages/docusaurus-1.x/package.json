@@ -70,6 +70,7 @@
     "request": "^2.88.0",
     "shelljs": "^0.8.3",
     "sitemap": "^3.2.2",
+    "striptags": "^3.1.1",
     "tcp-port-used": "^1.0.1",
     "tiny-lr": "^1.1.1",
     "tree-node-cli": "^1.2.5",

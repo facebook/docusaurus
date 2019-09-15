@@ -2323,8 +2323,8 @@ input::placeholder {
 .nav-footer .sitemap a {
   color: rgba(255, 255, 255, 0.6);
   display: block;
-  margin: 2px -10px;
-  padding: 3px 10px;
+  margin: 2px 0;
+  padding: 3px 0;
 }
 
 .nav-footer .sitemap a:hover,
