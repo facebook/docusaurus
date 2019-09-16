@@ -30,7 +30,7 @@ export function loadPresets(
     }
 
     const presetModule = importFresh(presetModuleImport);
-    const preset: Preset = presetModule(context, presetOptions);
+    const preset: Preset = (presetModule.default || presetModule)(context, presetOptions);
 
     preset.plugins && unflatPlugins.push(preset.plugins);
     preset.themes && unflatThemes.push(preset.themes);

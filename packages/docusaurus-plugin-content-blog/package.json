@@ -2,7 +2,10 @@
   "name": "@docusaurus/plugin-content-blog",
   "version": "2.0.0-alpha.24",
   "description": "Blog plugin for Docusaurus",
-  "main": "src/index.js",
+  "main": "lib/index.js",
+  "scripts": {
+    "tsc": "tsc"
+  },
   "publishConfig": {
     "access": "public"
   },

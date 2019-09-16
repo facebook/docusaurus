@@ -5,3 +5,4 @@ build
 packages/docusaurus-utils/lib/
 packages/docusaurus/lib/
 packages/docusaurus-init/lib/
+packages/docusaurus-plugin-content-blog/lib/

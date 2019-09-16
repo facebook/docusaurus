@@ -6,8 +6,9 @@
  */
 
 const {parseQuery, getOptions} = require('loader-utils');
+import {loader} from 'webpack';
 
-module.exports = async function(fileString) {
+export = function(fileString: string) {
   const callback = this.async();
 
   const {truncateMarker} = getOptions(this);
@@ -25,5 +26,5 @@ module.exports = async function(fileString) {
     // eslint-disable-next-line
     finalContent = fileString.split(truncateMarker)[0];
   }
-  return callback(null, finalContent);
-};
+  return callback && callback(null, finalContent);
+} as loader.Loader;
