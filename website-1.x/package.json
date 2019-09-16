@@ -15,6 +15,6 @@
   },
   "dependencies": {
     "async": "^2.5.0",
-    "docusaurus": "^2.0.0-alpha.24"
+    "docusaurus": "1.13.0"
   }
 }
