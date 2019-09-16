@@ -17,6 +17,7 @@ module.exports = {
     '__fixtures__',
     '/packages/docusaurus/lib',
     '/packages/docusaurus-utils/lib',
+    '/packages/docusaurus-plugin-content-blog/lib',
   ],
   transform: {
     '^.+\\.[jt]sx?$': 'babel-jest',

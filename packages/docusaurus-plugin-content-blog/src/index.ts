@@ -4,25 +4,42 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+import fs from 'fs-extra';
+import globby from 'globby';
+import _ from 'lodash';
+import path from 'path';
+import {parse, normalizeUrl, docuHash} from '@docusaurus/utils';
 
-const fs = require('fs-extra');
-const globby = require('globby');
-const _ = require('lodash');
-const path = require('path');
-const {parse, normalizeUrl, docuHash} = require('@docusaurus/utils');
+import {
+  DateLink,
+  PluginOptions,
+  BlogTags,
+  BlogPost,
+  Tag,
+  BlogContent,
+  BlogItemsToModules,
+  TagsModule,
+  ConfigureWebpackUtils,
+} from './types';
+import {
+  LoadContext,
+  PluginContentLoadedActions,
+  RouteModule,
+} from './typesDocusaurus';
+import {Configuration} from 'webpack';
 
 // YYYY-MM-DD-{name}.mdx?
 // prefer named capture, but old node version do not support
 const FILENAME_PATTERN = /^(\d{4}-\d{1,2}-\d{1,2})-?(.*?).mdx?$/;
 
-function toUrl({date, link}) {
+function toUrl({date, link}: DateLink) {
   return `${date
     .toISOString()
     .substring(0, '2019-01-01'.length)
     .replace(/-/g, '/')}/${link}`;
 }
 
-const DEFAULT_OPTIONS = {
+const DEFAULT_OPTIONS: PluginOptions = {
   path: 'blog', // Path to data on filesystem, relative to site dir.
   routeBasePath: 'blog', // URL Route.
   include: ['*.md', '*.mdx'], // Extensions to include.
@@ -36,7 +53,10 @@ const DEFAULT_OPTIONS = {
   truncateMarker: /<!--\s*(truncate)\s*-->/, // string or regex
 };
 
-module.exports = function(context, opts) {
+export default function pluginContentBlog(
+  context: LoadContext,
+  opts: Partial<PluginOptions>,
+) {
   const options = {...DEFAULT_OPTIONS, ...opts};
   const contentPath = path.resolve(context.siteDir, options.path);
 
@@ -64,10 +84,10 @@ module.exports = function(context, opts) {
         cwd: blogDir,
       });
 
-      const blogPosts = [];
+      const blogPosts: BlogPost[] = [];
 
       await Promise.all(
-        blogFiles.map(async relativeSource => {
+        blogFiles.map(async (relativeSource: string) => {
           // Cannot use path.join() as it resolves '../' and removes the '@site'. Let webpack loader resolve it.
           const source = path.join(blogDir, relativeSource);
           const aliasedSource = `@site/${path.relative(siteDir, source)}`;
@@ -110,7 +130,9 @@ module.exports = function(context, opts) {
           });
         }),
       );
-      blogPosts.sort((a, b) => b.metadata.date - a.metadata.date);
+      blogPosts.sort(
+        (a, b) => b.metadata.date.getTime() - a.metadata.date.getTime(),
+      );
 
       // Blog pagination routes.
       // Example: `/blog`, `/blog/page/1`, `/blog/page/2`
@@ -120,7 +142,7 @@ module.exports = function(context, opts) {
 
       const blogListPaginated = [];
 
-      function blogPaginationPermalink(page) {
+      function blogPaginationPermalink(page: number) {
         return page > 0
           ? normalizeUrl([basePageUrl, `page/${page + 1}`])
           : basePageUrl;
@@ -146,7 +168,7 @@ module.exports = function(context, opts) {
         });
       }
 
-      const blogTags = {};
+      const blogTags: BlogTags = {};
       const tagsPath = normalizeUrl([basePageUrl, 'tags']);
       blogPosts.forEach(blogPost => {
         const {tags} = blogPost.metadata;
@@ -159,22 +181,26 @@ module.exports = function(context, opts) {
 
         // eslint-disable-next-line no-param-reassign
         blogPost.metadata.tags = tags.map(tag => {
-          const normalizedTag = _.kebabCase(tag);
-          const permalink = normalizeUrl([tagsPath, normalizedTag]);
-          if (!blogTags[normalizedTag]) {
-            blogTags[normalizedTag] = {
-              name: tag.toLowerCase(), // Will only use the name of the first occurrence of the tag.
-              items: [],
+          if (typeof tag === 'string') {
+            const normalizedTag = _.kebabCase(tag);
+            const permalink = normalizeUrl([tagsPath, normalizedTag]);
+            if (!blogTags[normalizedTag]) {
+              blogTags[normalizedTag] = {
+                name: tag.toLowerCase(), // Will only use the name of the first occurrence of the tag.
+                items: [],
+                permalink,
+              };
+            }
+
+            blogTags[normalizedTag].items.push(blogPost.id);
+
+            return {
+              label: tag,
               permalink,
-            };
+            } as Tag;
+          } else {
+            return tag;
           }
-
-          blogTags[normalizedTag].items.push(blogPost.id);
-
-          return {
-            label: tag,
-            permalink,
-          };
         });
       });
 
@@ -189,7 +215,13 @@ module.exports = function(context, opts) {
       };
     },
 
-    async contentLoaded({content: blogContents, actions}) {
+    async contentLoaded({
+      content: blogContents,
+      actions,
+    }: {
+      content: BlogContent;
+      actions: PluginContentLoadedActions;
+    }) {
       if (!blogContents) {
         return;
       }
@@ -209,7 +241,7 @@ module.exports = function(context, opts) {
         blogTagsListPath,
       } = blogContents;
 
-      const blogItemsToModules = {};
+      const blogItemsToModules: BlogItemsToModules = {};
       // Create routes for blog entries.
       const blogItems = await Promise.all(
         blogPosts.map(async blogPost => {
@@ -245,7 +277,7 @@ module.exports = function(context, opts) {
             metadata: metadataPath,
             prevItem: prevItem && prevItem.metadataPath,
             nextItem: nextItem && nextItem.metadataPath,
-          },
+          } as RouteModule,
         });
       });
 
@@ -288,7 +320,7 @@ module.exports = function(context, opts) {
       );
 
       // Tags.
-      const tagsModule = {};
+      const tagsModule: TagsModule = {};
 
       await Promise.all(
         Object.keys(blogTags).map(async tag => {
@@ -352,7 +384,11 @@ module.exports = function(context, opts) {
       }
     },
 
-    configureWebpack(config, isServer, {getBabelLoader, getCacheLoader}) {
+    configureWebpack(
+      _config: Configuration,
+      isServer: boolean,
+      {getBabelLoader, getCacheLoader}: ConfigureWebpackUtils,
+    ) {
       const {rehypePlugins, remarkPlugins, truncateMarker} = options;
       return {
         module: {
@@ -383,4 +419,4 @@ module.exports = function(context, opts) {
       };
     },
   };
-};
+}
