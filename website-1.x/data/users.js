@@ -148,6 +148,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'DevSpace',
+    image: '/img/users/devspace.svg',
+    infoLink: 'https://devspace.cloud/docs/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Docusaurus',
     image: '/img/users/docusaurus.svg',
     infoLink: 'https://www.docusaurus.io',
