@@ -10,15 +10,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 **Fixed**
 
-- fix: content aligning breaks at IE11 ([#1684](https://github.com/facebook/docusaurus/pull/#1684))
-- fix: footer links margin ([#1781](https://github.com/facebook/docusaurus/pull/#1781))
-- feat: strip html from TOC ([#1762](https://github.com/facebook/docusaurus/pull/#1762))
+- fix: content aligning breaks at IE11 ([#1684](https://github.com/facebook/docusaurus/pull/1684))
+- fix: footer links margin ([#1781](https://github.com/facebook/docusaurus/pull/1781))
+- feat: strip html from TOC ([#1762](https://github.com/facebook/docusaurus/pull/1762))
 
 **Docs**
 
 - docs: document what should be in .gitignore ([#1709](https://github.com/facebook/docusaurus/pull/1709))
-- docs: change separateCSS to separateCss ([#1735](https://github.com/facebook/docusaurus/pull/#1735))
-- docs: fix documented type for the `cleanUrl` option ([#1775](https://github.com/facebook/docusaurus/pull/#1775))
+- docs: change separateCSS to separateCss ([#1735](https://github.com/facebook/docusaurus/pull/1735))
+- docs: fix documented type for the `cleanUrl` option ([#1775](https://github.com/facebook/docusaurus/pull/1775))
 - docs: improve tutorial
 
 ## [1.12.0] - 2019-07-20
