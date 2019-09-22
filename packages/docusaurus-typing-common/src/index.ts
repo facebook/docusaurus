@@ -1,3 +1,4 @@
+import {Loader} from 'webpack';
 import {ParsedUrlQueryInput} from 'querystring';
 
 export interface DocusaurusConfig {
@@ -18,6 +19,10 @@ export interface DocusaurusConfig {
   customFields?: {
     [key: string]: any;
   };
+}
+
+export interface DocusaurusContext {
+  siteConfig?: DocusaurusConfig;
 }
 
 export type PluginConfig = [string, Object | undefined] | string;
@@ -60,4 +65,15 @@ export interface RouteConfig {
   modules?: RouteModule;
   routes?: RouteConfig[];
   exact?: boolean;
+}
+
+export interface ConfigureWebpackUtils {
+  getStyleLoaders: (
+    isServer: boolean,
+    cssOptions: {
+      [key: string]: any;
+    },
+  ) => Loader[];
+  getCacheLoader: (isServer: boolean, cacheOptions?: {}) => Loader | null;
+  getBabelLoader: (isServer: boolean, babelOptions?: {}) => Loader;
 }

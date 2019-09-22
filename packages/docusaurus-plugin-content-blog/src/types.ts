@@ -1,5 +1,3 @@
-import {Loader} from 'webpack';
-
 export interface BlogContent {
   blogPosts: BlogPost[];
   blogListPaginated: BlogPaginated[];
@@ -79,15 +77,4 @@ export interface TagModule {
   name: string;
   count: number;
   permalink: string;
-}
-
-export interface ConfigureWebpackUtils {
-  getStyleLoaders: (
-    isServer: boolean,
-    cssOptions: {
-      [key: string]: any;
-    },
-  ) => Loader[];
-  getCacheLoader: (isServer: boolean, cacheOptions?: {}) => Loader | null;
-  getBabelLoader: (isServer: boolean, babelOptions?: {}) => Loader;
 }

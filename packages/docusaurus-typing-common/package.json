@@ -1,0 +1,17 @@
+{
+  "name": "@docusaurus/typing-common",
+  "version": "2.0.0-alpha.24",
+  "description": "Common used typings for Docusaurus packages",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "scripts": {
+    "tsc": "tsc"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "querystring": "0.2.0"
+  }
+}

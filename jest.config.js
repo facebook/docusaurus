@@ -18,6 +18,7 @@ module.exports = {
     '/packages/docusaurus/lib',
     '/packages/docusaurus-utils/lib',
     '/packages/docusaurus-plugin-content-blog/lib',
+    '/packages/docusaurus-typing-common/lib',
   ],
   transform: {
     '^.+\\.[jt]sx?$': 'babel-jest',
