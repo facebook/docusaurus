@@ -408,6 +408,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'PayTabs',
+    image: '/img/users/paytabs.png',
+    infoLink: 'https://dev.paytabs.com/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'pnpm',
     image: 'https://pnpm.js.org/img/pnpm.svg',
     infoLink: 'https://pnpm.js.org/',
