@@ -34,6 +34,7 @@
     "@babel/preset-env": "^7.5.5",
     "@babel/preset-react": "^7.0.0",
     "@docusaurus/utils": "^2.0.0-alpha.24",
+    "@docusaurus/types": "^2.0.0-alpha.24",
     "babel-loader": "^8.0.6",
     "babel-plugin-dynamic-import-node": "^2.3.0",
     "cache-loader": "^4.1.0",
