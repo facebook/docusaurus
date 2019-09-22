@@ -1,5 +1,5 @@
 {
-  "name": "@docusaurus/typing-common",
+  "name": "@docusaurus/types",
   "version": "2.0.0-alpha.24",
   "description": "Common used typings for Docusaurus packages",
   "main": "./lib/index.js",

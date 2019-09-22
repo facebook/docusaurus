@@ -8,7 +8,7 @@
 import fs from 'fs-extra';
 import path from 'path';
 import pluginContentBlog from '../index';
-import {DocusaurusConfig} from '@docusaurus/typing-common';
+import {DocusaurusConfig} from '@docusaurus/types';
 
 describe('loadBlog', () => {
   test('simple website', async () => {

@@ -25,7 +25,7 @@ import {
   PluginContentLoadedActions,
   RouteModule,
   ConfigureWebpackUtils,
-} from '@docusaurus/typing-common';
+} from '@docusaurus/types';
 import {Configuration} from 'webpack';
 
 // YYYY-MM-DD-{name}.mdx?
