@@ -8,7 +8,12 @@
 import {genChunkName} from '@docusaurus/utils';
 import _ from 'lodash';
 import {stringify} from 'querystring';
-import {ChunkRegistry, Module, RouteConfig, RouteModule} from '@docusaurus/types';
+import {
+  ChunkRegistry,
+  Module,
+  RouteConfig,
+  RouteModule,
+} from '@docusaurus/types';
 
 function getModulePath(target: Module): string {
   if (typeof target === 'string') {

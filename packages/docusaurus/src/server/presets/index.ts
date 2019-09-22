@@ -7,7 +7,12 @@
 
 import importFresh from 'import-fresh';
 import _ from 'lodash';
-import {LoadContext, PluginConfig, Preset, PresetConfig} from '@docusaurus/types';
+import {
+  LoadContext,
+  PluginConfig,
+  Preset,
+  PresetConfig,
+} from '@docusaurus/types';
 
 export function loadPresets(
   context: Partial<LoadContext>,

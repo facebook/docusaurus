@@ -2,11 +2,8 @@
   "name": "@docusaurus/types",
   "version": "2.0.0-alpha.24",
   "description": "Common used typings for Docusaurus packages",
-  "main": "./lib/index.js",
-  "types": "./lib/index.d.ts",
-  "scripts": {
-    "tsc": "tsc"
-  },
+  "main": "./src/index.js",
+  "types": "./src/index.d.ts",
   "publishConfig": {
     "access": "public"
   },
