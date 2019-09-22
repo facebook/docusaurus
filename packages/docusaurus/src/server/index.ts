@@ -26,7 +26,7 @@ import {
   LoadContext,
   PluginConfig,
   Props,
-} from './types';
+} from '@docusaurus/types';
 
 export async function load(
   siteDir: string,

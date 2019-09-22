@@ -20,7 +20,7 @@ import WebpackDevServer from 'webpack-dev-server';
 import merge from 'webpack-merge';
 import HotModuleReplacementPlugin from 'webpack/lib/HotModuleReplacementPlugin';
 import {load} from '../server';
-import {CLIOptions} from '../server/types';
+import {CLIOptions} from '@docusaurus/types';
 import {CONFIG_FILE_NAME, STATIC_DIR_NAME, DEFAULT_PORT} from '../constants';
 import {createClientConfig} from '../webpack/client';
 import {applyConfigureWebpack} from '../webpack/utils';

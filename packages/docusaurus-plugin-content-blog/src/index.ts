@@ -79,7 +79,7 @@ export default function pluginContentBlog(
         return null;
       }
 
-      const {baseUrl} = siteConfig;
+      const {baseUrl = ''} = siteConfig;
       const blogFiles = await globby(include, {
         cwd: blogDir,
       });

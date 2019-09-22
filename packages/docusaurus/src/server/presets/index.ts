@@ -7,15 +7,15 @@
 
 import importFresh from 'import-fresh';
 import _ from 'lodash';
-import {LoadContext, PluginConfig, Preset, PresetConfig} from '../types';
+import {LoadContext, PluginConfig, Preset, PresetConfig} from '@docusaurus/types';
 
 export function loadPresets(
-  context: LoadContext,
+  context: Partial<LoadContext>,
 ): {
   plugins: PluginConfig[];
   themes: PluginConfig[];
 } {
-  const presets: PresetConfig[] = context.siteConfig.presets || [];
+  const presets: PresetConfig[] = (context.siteConfig || {}).presets || [];
   const unflatPlugins: (PluginConfig[])[] = [];
   const unflatThemes: (PluginConfig[])[] = [];
 

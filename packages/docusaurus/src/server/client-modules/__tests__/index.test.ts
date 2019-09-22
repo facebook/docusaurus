@@ -8,7 +8,6 @@
 import path from 'path';
 
 import {loadClientModules} from '../index';
-import {LoadContext} from '../../index';
 
 const pluginEmpty = require('./__fixtures__/plugin-empty');
 const pluginFooBar = require('./__fixtures__/plugin-foo-bar');

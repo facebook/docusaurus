@@ -6,6 +6,6 @@
  */
 
 import * as React from 'react';
-import {DocusaurusContext} from '../types';
+import {DocusaurusContext} from '@docusaurus/types';
 
 export default React.createContext<DocusaurusContext>({});
