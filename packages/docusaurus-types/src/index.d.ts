@@ -73,7 +73,7 @@ export interface Plugin<T> {
   getClientModules?(): string[];
 }
 
-export type PluginConfig = [string, Object | undefined] | string;
+export type PluginConfig = [string, Object] | [string] | string;
 
 export interface ChunkRegistry {
   importStatement: string;
