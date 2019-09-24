@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 2.0.0-alpha.25
+
+- Blog plugin is rewritten in TypeScript and can now support CJK
+- Upgrade key direct dependencies such as webpack, mdx and babel to latest 
 - Do not escape html and body attributes
 - For devices with very small viewport width, the searchbar is replaced with a search icon. On tap of the search icon the searchbar is expanded and the text beside the logo is hidden and remains hidden while the search bar is expanded.
 - Add `date` frontMatter support for blog plugin
