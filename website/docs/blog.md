@@ -5,14 +5,14 @@ title: Blog
 
 ## Initial Setup
 
-To setup your site's blog, start by creating a `blog` directory within your repo's `website` directory.
+To setup your site's blog, start by creating a `blog` directory within your repo's `my-website` directory.
 
-Then, add a header link to your blog within `siteConfig.js`:
+Then, add a navbar link to your blog within `docusaurus.config.js`:
 
 ```js
-headerLinks: [
+links: [
     ...
-    { blog: true, label: 'Blog' },
+    {to: 'blog', label: 'Blog', position: 'left'}, // position: 'left' for creating Blog link on the left side of navbar, position: 'right' for creating Blog link on the right side of navbar
     ...
 ]
 ```
@@ -26,9 +26,9 @@ For example, at `my-website/blog/2019-09-05-hello-docusaurus-v2.md`:
 ```yml
 ---
 id: hello-docusaurus-v2
-title: Hello Docusaurus v2
+title: Welcome Docusaurus v2
 author: Dattatreya Tripathy
-authorTitle: Contributor of Docusaurus
+authorTitle: Contributor of Docusaurus 2
 authorURL: https://github.com/dt97
 authorTwitter: CuriousDT
 tags: [hello, docusaurus-v2]
@@ -38,7 +38,7 @@ Welcome to this blog. This blog is created with [**Docusaurus 2 alpha**]
 
 <!--truncate-->
 
-This is my first post on Docusaurus.
+This is my first post on Docusaurus 2.
 
 A whole bunch of exploration to follow.
 ```
@@ -75,56 +75,20 @@ Not this.
 Or this.
 ```
 
-## Changing How Many Blog Posts Show on Sidebar
-
-By default, 5 recent blog posts are shown on the sidebar.
-
-You can configure a specific amount of blog posts to show by adding a `blogSidebarCount` setting to your `siteConfig.js`.
-
-The available options are an integer representing the number of posts you wish to show or a string with the value `'ALL'`.
-
-Example:
-
-```js
-blogSidebarCount: 'ALL',
-```
-
-## Changing The Sidebar Title
-
-You can configure a specific sidebar title by adding a `blogSidebarTitle` setting to your `siteConfig.js`.
-
-The option is an object which can have the keys `default` and `all`. Specifying a value for `default` allows you to change the default sidebar title. Specifying a value for `all` allows you to change the sidebar title when the `blogSidebarCount` option is set to `'ALL'`.
-
-Example:
-
-```js
-blogSidebarTitle: { default: 'Recent posts', all: 'All blog posts' },
-```
-
-## RSS Feed
-
-Docusaurus provides a simple RSS feed for your blog posts. Both RSS and Atom feed formats are supported. This data is automatically added to your website page's HTML `<HEAD>` tag.
-
-A summary of the post's text is provided in the RSS feed up to the `<!--truncate-->`. If no `<!--truncate-->` tag is found, then all text up to 250 characters is used.
-
-## Social Buttons
-
-If you want Facebook and/or Twitter social buttons at the bottom of your blog posts, set the `facebookAppId` and/or `twitter` [site configuration](api-site-config.md) options in `siteConfig.js`.
-
 ## Advanced Topics
 
 ### I want to run in "Blog Only" mode.
 
-You can run your Docusaurus site without a landing page and instead have your blog load first.
+You can run your Docusaurus 2 site without a landing page and instead have your blog load first.
 
 To do this:
 
-1.  Create a file `index.html` in `website/static/`.
-1.  Place the contents of the template below into `website/static/index.html`
-1.  Customize the `<title>` of `website/static/index.html`
-1.  Delete the dynamic landing page `website/pages/en/index.js`
+1.  Create a file `index.html` in `my-website/static/`.
+1.  Place the contents of the template below into `my-website/static/index.html`
+1.  Customize the `<title>` of `my-website/static/index.html`
+1.  Delete the dynamic landing page `my-website/src/pages/index.js`
 
-> Now, when Docusaurus generates or builds your site, it will copy the file from `static/index.html` and place it in the site's main directory. The static file is served when a visitor arrives on your page. When the page loads, it will redirect the visitor to `/blog`.
+> Now, when Docusaurus 2 generates or builds your site, it will copy the file from `static/index.html` and place it in the site's main directory. The static file is served when a visitor arrives on your page. When the page loads, it will redirect the visitor to `/blog`.
 
 You can use this template:
 
