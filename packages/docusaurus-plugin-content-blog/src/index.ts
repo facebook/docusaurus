@@ -19,13 +19,13 @@ import {
   BlogContent,
   BlogItemsToModules,
   TagsModule,
-  ConfigureWebpackUtils,
 } from './types';
 import {
   LoadContext,
   PluginContentLoadedActions,
   RouteModule,
-} from './typesDocusaurus';
+  ConfigureWebpackUtils,
+} from '@docusaurus/types';
 import {Configuration} from 'webpack';
 
 // YYYY-MM-DD-{name}.mdx?
@@ -57,7 +57,7 @@ export default function pluginContentBlog(
   context: LoadContext,
   opts: Partial<PluginOptions>,
 ) {
-  const options = {...DEFAULT_OPTIONS, ...opts};
+  const options: PluginOptions = {...DEFAULT_OPTIONS, ...opts};
   const contentPath = path.resolve(context.siteDir, options.path);
 
   return {
@@ -79,7 +79,7 @@ export default function pluginContentBlog(
         return null;
       }
 
-      const {baseUrl} = siteConfig;
+      const {baseUrl = ''} = siteConfig;
       const blogFiles = await globby(include, {
         cwd: blogDir,
       });

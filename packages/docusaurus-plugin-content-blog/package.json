@@ -10,6 +10,9 @@
     "access": "public"
   },
   "license": "MIT",
+  "devDependencies": {
+    "@docusaurus/types": "^2.0.0-alpha.24"
+  },
   "dependencies": {
     "@docusaurus/mdx-loader": "^2.0.0-alpha.24",
     "@docusaurus/utils": "^2.0.0-alpha.24",

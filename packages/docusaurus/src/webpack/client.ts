@@ -9,7 +9,7 @@ import {Configuration} from 'webpack';
 import merge from 'webpack-merge';
 import WebpackNiceLog from 'webpack-nicelog';
 
-import {Props} from '../server/types';
+import {Props} from '@docusaurus/types';
 import {createBaseConfig} from './base';
 import ChunkManifestPlugin from './plugins/ChunkManifestPlugin';
 

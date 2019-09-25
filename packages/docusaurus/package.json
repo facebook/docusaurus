@@ -28,6 +28,9 @@
   "bugs": {
     "url": "https://github.com/facebook/Docusaurus/issues"
   },
+  "devDependencies": {
+    "@docusaurus/types": "^2.0.0-alpha.24"
+  },
   "dependencies": {
     "@babel/core": "^7.6.2",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",

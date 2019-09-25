@@ -12,7 +12,7 @@ import path from 'path';
 import TerserPlugin from 'terser-webpack-plugin';
 import {Configuration, Loader} from 'webpack';
 
-import {Props} from '../server/types';
+import {Props} from '@docusaurus/types';
 import {getBabelLoader, getCacheLoader, getStyleLoaders} from './utils';
 
 const CSS_REGEX = /\.css$/;

@@ -10,7 +10,7 @@ import importFresh from 'import-fresh';
 import _ from 'lodash';
 import path from 'path';
 import {CONFIG_FILE_NAME} from '../constants';
-import {DocusaurusConfig, PluginConfig} from './types';
+import {DocusaurusConfig, PluginConfig} from '@docusaurus/types';
 
 const REQUIRED_FIELDS = ['baseUrl', 'favicon', 'tagline', 'title', 'url'];
 

@@ -16,7 +16,7 @@ import {
   PluginConfig,
   PluginContentLoadedActions,
   RouteConfig,
-} from '../types';
+} from '@docusaurus/types';
 
 export async function loadPlugins({
   pluginConfigs,

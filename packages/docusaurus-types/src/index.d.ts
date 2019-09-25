@@ -1,5 +1,5 @@
+import {Loader, Configuration} from 'webpack';
 import {ParsedUrlQueryInput} from 'querystring';
-import {Configuration} from 'webpack';
 
 export interface DocusaurusConfig {
   baseUrl: string;
@@ -21,12 +21,16 @@ export interface DocusaurusConfig {
   };
 }
 
+export interface DocusaurusContext {
+  siteConfig?: Partial<DocusaurusConfig>;
+}
+
 export interface Preset {
   plugins?: PluginConfig[];
   themes?: PluginConfig[];
 }
 
-export type PresetConfig = [string, Object | undefined] | string;
+export type PresetConfig = [string, Object] | [string] | string;
 
 export interface CLIOptions {
   [option: string]: any;
@@ -35,7 +39,7 @@ export interface CLIOptions {
 export interface LoadContext {
   siteDir: string;
   generatedFilesDir: string;
-  siteConfig: DocusaurusConfig;
+  siteConfig: Partial<DocusaurusConfig>;
   cliOptions: CLIOptions;
   outDir: string;
   baseUrl: string;
@@ -68,7 +72,8 @@ export interface Plugin<T> {
   getPathsToWatch?(): string[];
   getClientModules?(): string[];
 }
-export type PluginConfig = [string, Object | undefined] | string;
+
+export type PluginConfig = [string, Object] | [string] | string;
 
 export interface ChunkRegistry {
   importStatement: string;
@@ -97,4 +102,15 @@ export interface RouteConfig {
 
 export interface ThemeAlias {
   [alias: string]: string;
+}
+
+export interface ConfigureWebpackUtils {
+  getStyleLoaders: (
+    isServer: boolean,
+    cssOptions: {
+      [key: string]: any;
+    },
+  ) => Loader[];
+  getCacheLoader: (isServer: boolean, cacheOptions?: {}) => Loader | null;
+  getBabelLoader: (isServer: boolean, babelOptions?: {}) => Loader;
 }
