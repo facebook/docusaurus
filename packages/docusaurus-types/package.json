@@ -8,7 +8,7 @@
     "access": "public"
   },
   "license": "MIT",
-  "devDependencies": {
+  "dependencies": {
     "@types/webpack": "^4.32.0",
     "querystring": "0.2.0"
   }
