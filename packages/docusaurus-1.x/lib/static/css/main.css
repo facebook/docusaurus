@@ -1275,7 +1275,7 @@ input::placeholder {
   height: 50px;
   justify-content: center;
   margin: 0;
-  padding: 10px;
+  padding: 20px;
   transition: background-color 0.3s;
 }
 
