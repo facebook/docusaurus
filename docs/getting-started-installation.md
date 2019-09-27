@@ -3,27 +3,26 @@ id: installation
 title: Installation
 ---
 
-Docusaurus was designed from the ground up to be easily installed and used to get your website up and running quickly.
+Docusaurus is a documentation plaform designed from the ground up to get your website up and running quickly.
+
+## Before You Start
+
+You'll need to have [Node](https://nodejs.org/en/download/) installed before we get started. We also recommend you install [Yarn](https://yarnpkg.com/en/docs/install) as well, but it is optional.
 
 ## Installing Docusaurus
 
-We have created an easy script that will get all of the infrastructure set up for you:
+1.  Create a folder for your project project if none exists, and move into that folder:
 
-1.  Ensure you have the latest version of [Node](https://nodejs.org/en/download/) installed. We also recommend you install [Yarn](https://yarnpkg.com/en/docs/install) as well.
+    ```bash
+    mkdir new-docusaurus-project
+    cd new-docusaurus-project
+    ```
 
-    > You have to be on Node >= 8.x and Yarn >= 1.5.
+1.  Run the Docusaurus installation script: 
 
-1.  Create a project, if none exists, and change your directory to this project's root.
-
-    You will be creating the docs in this directory. The root directory may
-    contain other files. The Docusaurus installation script will create two new
-    directories: `docs` and `website`.
-
-    > Commonly, either an existing or newly created GitHub project will be the location for your Docusaurus site, but that is not mandatory to use Docusaurus.
-
-1.  Run the Docusaurus installation script: `npx docusaurus-init`.
-
-    > If you don't have Node 8.2+ or if you prefer to install Docusaurus globally, run `yarn global add docusaurus-init` or `npm install --global docusaurus-init`. After that, run `docusaurus-init`.
+    ```bash
+    npx docusaurus-init
+    ```
 
 ## Verifying Installation
 
@@ -56,7 +55,7 @@ root-directory
     └── static
 ```
 
-## Running the example website
+## Running the Example Website
 
 After running the Docusaurus initialization script, `docusaurus-init` as
 described in the [Installation](#installing-docusaurus) section, you will have a
@@ -72,7 +71,7 @@ runnable, example website to use as your site's base. To run:
 
 ![](/img/getting-started-preparation-verify.png)
 
-### Launching the server behind a proxy
+### Launching the Server Behind a Proxy
 
 If you are behind a corporate proxy, you need to disable it for the development server requests. It can be done using the `NO_PROXY` environment variable.
 
