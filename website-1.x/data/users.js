@@ -344,6 +344,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Mojito',
+    image: '/img/users/mojito.png',
+    infoLink: 'https://mojito.mx/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'next-boilerplate',
     image: '/img/users/next-boilerplate.png',
     infoLink: 'https://pankod.github.io/next-boilerplate/',
