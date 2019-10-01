@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/theme-search-algolia",
-  "version": "2.0.0-alpha.24",
+  "version": "2.0.0-alpha.25",
   "description": "Algolia search component for Docusaurus",
   "main": "src/index.js",
   "publishConfig": {
@@ -8,8 +8,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "docsearch.js": "^2.6.3",
-    "classnames": "^2.2.6"
+    "classnames": "^2.2.6",
+    "docsearch.js": "^2.6.3"
   },
   "peerDependencies": {
     "@docusaurus/core": "^2.0.0",
