@@ -718,7 +718,7 @@ module.exports = [
   {
     caption: 'TypeGraphQL',
     image: '/img/users/type-graphql.png',
-    infoLink: 'https://19majkel94.github.io/type-graphql/',
+    infoLink: 'https://typegraphql.ml/',
     fbOpenSource: false,
     pinned: false,
   },
