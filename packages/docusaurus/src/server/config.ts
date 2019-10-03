@@ -51,7 +51,7 @@ export function loadConfig(siteDir: string): DocusaurusConfig {
   if (!fs.existsSync(configPath)) {
     throw new Error(`${CONFIG_FILE_NAME} not found`);
   }
-  const loadedConfig = importFresh(configPath);
+  const loadedConfig: any = importFresh(configPath);
   const missingFields = REQUIRED_FIELDS.filter(
     field => !_.has(loadedConfig, field),
   );

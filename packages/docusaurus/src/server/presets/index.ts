@@ -34,7 +34,7 @@ export function loadPresets(
       presetOptions = presetItem[1] || {};
     }
 
-    const presetModule = importFresh(presetModuleImport);
+    const presetModule: any = importFresh(presetModuleImport);
     const preset: Preset = (presetModule.default || presetModule)(
       context,
       presetOptions,
