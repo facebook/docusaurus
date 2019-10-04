@@ -88,7 +88,16 @@ export function getBabelLoader(isServer: boolean, babelOptions?: {}): Loader {
       {
         babelrc: false,
         configFile: false,
-        presets: ['@babel/env', '@babel/react'],
+        presets: [
+          [
+            '@babel/env',
+            {
+              useBuiltIns: 'usage',
+              corejs: 2,
+            },
+          ],
+          '@babel/react',
+        ],
         plugins: [
           isServer ? 'dynamic-import-node' : '@babel/syntax-dynamic-import',
         ],
