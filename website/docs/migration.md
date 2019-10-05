@@ -3,7 +3,9 @@ id: migration
 title: Migration
 ---
 
-Refer users to this document when upgrading to Docusaurus 2. This migration guide is targeted to Docusaurus user with translation and/or versioning feature disabled and assumes following structure.
+This doc guides you through migrating an existing Docusaurus 1 site to Docusaurus 2.
+
+This migration guide is targeted to Docusaurus user with translation and/or versioning features disabled and assumes the following structure:
 
 ```sh
 ├── docs
@@ -18,17 +20,47 @@ Refer users to this document when upgrading to Docusaurus 2. This migration guid
     └── static
 ```
 
-## Step 1 - Updating package.json
+## Step 1 - Update package.json
 
-In previous version, we only have two packages `docusaurus` and `docusaurus-init`. However, with the introduction of pluggable architecture in Docusaurus 2, we expect that community will start to publish their own docusaurus plugin package. What is an "official" package and what is a user/community package ? We can get issue reports of people using misnamed or unofficial packages because they assumed it was part of Docusaurus. Hence, we decided to use scoped package from now on.
+### Scoped package names
 
-Examples of the scoped name change:
-- docusaurus -> @docusaurus/core
-- docusaurus-init -> @docusaurus/init
+In Docusaurus 2, we use scoped package names:
 
-Also, CLI commands should be using `docusaurus <command>` (instead of `docusaurus-command`) which is more conventional (see Yarn and Git). 
+- `docusaurus` -> `@docusaurus/core`
 
-To upgrade to v2, modify your `website/package.json` into this
+This provides a clear distinction between Docusaurus' official packages and community maintained packages. In another words, all Docusaurus' official packages are namespaced under `@docusaurus/`.
+
+Meanwhile, the default doc site functionalities provided by Docusaurus 1 is now provided by `@docusaurus/preset-classic`. Therefore, we need to add this dependency as well:
+
+```diff
+// package.json
+{
+  dependencies: {
+-    "docusaurus": "^1.x.x",
++    "@docusaurus/core": "^2.0.0-alpha.25",
++    "@docusaurus/preset-classic": "^2.0.0-alpha.25",
+  }
+}
+```
+
+### CLI commands
+
+Meanwhile, CLI commands are renamed to `docusaurus <command>` (instead of `docusaurus-command`).
+
+The `"scripts"` section of your `package.json` should be updated as follows:
+
+```json
+{
+  "scripts": {
+    "start": "docusaurus start",
+    "build": "docusaurus build",
+    "swizzle": "docusaurus swizzle",
+    "deploy": "docusaurus deploy"
+  }
+}
+```
+
+A typical Docusaurus 2 `package.json` may look like this:
 
 ```json
 {
@@ -46,11 +78,7 @@ To upgrade to v2, modify your `website/package.json` into this
     "react-dom": "^16.8.4"
   },
   "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
+    "production": [">0.2%", "not dead", "not op_mini all"],
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",
@@ -60,9 +88,9 @@ To upgrade to v2, modify your `website/package.json` into this
 }
 ```
 
-## Step 2 - Migrating siteConfig
+## Step 2 - Migrate `siteConfig` to `docusaurus.config.js`
 
-First of all, rename `siteConfig.js` to `docusaurus.config.js`.Then, add this line first to your siteConfig object.
+Rename `siteConfig.js` to `docusaurus.config.js`. Then, add the preset configuration to your `docusaurus.config.js`'s default export:
 
 ```jsx
 // docusaurus.config.js
@@ -84,13 +112,22 @@ module.exports = {
 };
 ```
 
-Refer to migration guide below for each field
+Refer to migration guide below for each field:
 
-#### `baseUrl` `tagline` `title` `url` `favicon` `organizationName` `projectName` `githubHost`
-No action needed
+- `baseUrl`
+- `tagline`
+- `title`
+- `url`
+- `favico`
+- `organizationName`
+- `projectName`
+- `githubHost`
 
-#### `colors`
-Deprecated. Override docusaurus CSS variable instead by creating your own CSS files (e.g. /src/css/custom.css) and import them globally by passing it as an option into the preset.
+No actions needed
+
+- `colors`
+
+Deprecated. To overwrite Docusaurus' CSS variables, create your own CSS file (e.g. /src/css/custom.css) and import it globally by passing it as an option in preset:
 
 ```diff
 // docusaurus.config.js
@@ -126,34 +163,33 @@ module.exports = {
 }
 ```
 
-#### `footerIcon` `copyright`
+- `footerIcon`
+- `copyright`
+- `ogImage`
+- `twitterImage`
+
+Site meta info such as assets, SEO, copyright info are now handled by themes. To customize them, use the `themeConfig` field in your `docusaurus.config.js`:
 
 ```jsx
 // docusaurus.config.js
-themeConfig: {
-  footer: {
-    logo: {
-      alt: 'Facebook Open Source Logo',
-      src: 'https://docusaurus.io/img/oss_logo.png',
+module.exports = {
+  themeConfig: {
+    footer: {
+      logo: {
+        alt: 'Facebook Open Source Logo',
+        src: 'https://docusaurus.io/img/oss_logo.png',
+      },
+      copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`,
     },
-    copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`,
+    image: 'img/docusaurus.png',
   },
-}
+};
 ```
 
-#### `ogImage` `twitterImage`
+- `headerIcon`
+- `headerLinks`
 
-```jsx
-// docusaurus.config.js
-themeConfig: {
-  image: 'img/docusaurus.png',
-}
-```
-
-
-#### `headerIcon` `headerLinks`
-
-Previously:
+In Docusaurus 1, header icon and header links were root fields in `siteConfig`:
 
 ```js
 headerIcon: 'img/docusaurus.svg',
@@ -165,51 +201,56 @@ headerLinks: [
 ],
 ```
 
-The syntax is now:
+Now, these two fields are both handled by theme:
 
 ```jsx
 // docusaurus.config.js
-themeConfig: {
-  navbar: {
-    title: 'Docusaurus',
-    logo: {
-      alt: 'Docusaurus Logo',
-      src: 'img/docusaurus.svg',
-    },
-    links: [
-      {to: 'docs/doc1', label: 'Getting Started', position: 'left'},
-      {to: 'help', label: 'Help', position: 'left'},
-      {
-        href: 'https://github.com/',
-        label: 'GitHub',
-        position: 'right',
+module.exports = {
+  themeConfig: {
+    navbar: {
+      title: 'Docusaurus',
+      logo: {
+        alt: 'Docusaurus Logo',
+        src: 'img/docusaurus.svg',
       },
-      {to: 'blog', label: 'Blog', position: 'left'},
-    ],
+      links: [
+        {to: 'docs/doc1', label: 'Getting Started', position: 'left'},
+        {to: 'help', label: 'Help', position: 'left'},
+        {
+          href: 'https://github.com/',
+          label: 'GitHub',
+          position: 'right',
+        },
+        {to: 'blog', label: 'Blog', position: 'left'},
+      ],
+    },
   },
-}
+};
 ```
 
-#### `algolia`
+- `algolia`
 
 ```jsx
 // docusaurus.config.js
-themeConfig: {
-  algolia: {
-    apiKey: '47ecd3b21be71c5822571b9f59e52544',
-    indexName: 'docusaurus-2',
-    algoliaOptions: {},
+module.exports = {
+  themeConfig: {
+    algolia: {
+      apiKey: '47ecd3b21be71c5822571b9f59e52544',
+      indexName: 'docusaurus-2',
+      algoliaOptions: {},
+    },
   },
-}
+};
 ```
 
-#### `blogSidebarCount`
+- `blogSidebarCount`
 
-Deprecated. Pass it as blog option to `@docusaurus/preset-classic` instead.
+Deprecated. Pass it as blog option to `@docusaurus/preset-classic` instead:
 
 ```jsx
 // docusaurus.config.js
-presets: [
+module.exports = {
+  presets: [
     [
       '@docusaurus/preset-classic',
       {
@@ -219,17 +260,21 @@ presets: [
       },
     ],
   ],
+};
 ```
 
-#### `cname`
+- `cname`
+
 Deprecated. Create a `CNAME` file in your `static` folder instead.
 
-#### `customDocsPath` `docsUrl`
-Deprecated. Pass it as an option to `@docusaurus/preset-classic` docs instead. 
+- `customDocsPath` `docsUrl`
+
+Deprecated. Pass it as an option to `@docusaurus/preset-classic` docs instead:
 
 ```jsx
 // docusaurus.config.js
-presets: [
+module.exports = {
+  presets: [
     [
       '@docusaurus/preset-classic',
       {
@@ -245,16 +290,10 @@ presets: [
       },
     ],
   ],
+};
 ```
 
-#### `cleanUrl` `defaultVersionShown` `disableHeaderTitle` `disableTitleTagline` `docsSideNavCollapsible` `facebookAppId` `facebookComments` `facebookPixelId` `fonts` `separateCss` `scrollToTop` `scrollToTopOptions` `manifest` `noIndex` `translationRecruitingLink` `twitter` `twitterUsername` `useEnglishUrl` `users` `usePrism` `wrapPagesHTML` `onPageNav` `blogSidebarTitle`
-Deprecated
-
-#### `enableUpdateBy` `editUrl` `enableUpdateTime`
-
-Deprecated. In the future maybe available as a plugin.
-
-#### `gaTrackingId`
+- `gaTrackingId`
 
 ```jsx
 // docusaurus.config.js
@@ -263,11 +302,11 @@ module.exports = {
     googleAnalytics: {
       trackingID: 'UA-141789564-1',
     },
-  }
+  },
 };
 ```
 
-#### `gaGtag`
+- `gaGtag`
 
 ```jsx
 // docusaurus.config.js
@@ -276,38 +315,69 @@ module.exports = {
     gtag: {
       trackingID: 'UA-141789564-1',
     },
-  }
+  },
 };
 ```
 
-#### `highlight`
-Deprecated. We now use prismjs instead of highlight.js.
+### Deprecated fields that may be implemented using a plugin
 
-#### `markdownOptions` `markdownPlugins`
-Deprecated because we use MDX in v2 instead of Remarkable that has different plugin and option.
+- `enableUpdateBy`
+- `editUrl`
+- `enableUpdateTime`
+- `scripts`
+- `stylesheets`
 
-#### `scripts` `stylesheets`
-Not implemented yet
+### Removed fields
 
-## Step 3. Delete footer file
+The following fields are all deprecated, you may remove from your configuration file.
 
-`website/core/Footer.js` is no longer needed. If you want to modify the default footer provided by docusaurus, swizzle it
+- `highlight` - we now use prismjs instead of highlight.js
+- `markdownOptions` - we use MDX in v2 instead of Remarkable that has different plugin and option
+- `markdownPlugins` - we use MDX in v2 instead of Remarkable that has different plugin and option
+- `cleanUrl`
+- `defaultVersionShown`
+- `disableHeaderTitle`
+- `disableTitleTagline`
+- `docsSideNavCollapsible`
+- `facebookAppId`
+- `facebookComments`
+- `facebookPixelId`
+- `fonts`
+- `separateCss`
+- `scrollToTop`
+- `scrollToTopOptions`
+- `manifest`
+- `noIndex`
+- `translationRecruitingLink`
+- `twitter`
+- `twitterUsername`
+- `useEnglishUrl`
+- `users`
+- `usePrism`
+- `wrapPagesHTML`
+- `onPageNav`
+- `blogSidebarTitle`
+
+## Step 3 - Delete footer file
+
+`website/core/Footer.js` is no longer needed. If you want to modify the default footer provided by docusaurus, swizzle it:
 
 ```bash
 yarn swizzle @docusaurus/theme-classic Footer
 ```
 
-This will copy the current `<Footer />` component used by the theme to a `src/theme/Footer `directory under the root of your site, which is where Docusaurus will look for swizzled components.
+This will copy the current `<Footer />` component used by the theme to a `src/theme/Footer`directory under the root of your site, you may then edit this component for customization.
 
-## Step 4. Update your pages file
+## Step 4 - Update your page files
 
 Please refer to [creating pages](creating-pages.md) to learn how Docusaurus 2 pages work. After reading that, you can notice that we have to move `pages/en` files in v1 to `src/pages` instead.
 
 `CompLibrary` is deprecated in v2, so you have to write your own React component.
 
-## Step 5. Modify .gitignore
+## Step 5 - Modify `.gitignore`
 
-Create `.gitignore` in your `website`
+The `.gitignore` in your `website` should contain:
+
 ```
 # dependencies
 /node_modules
@@ -331,7 +401,7 @@ yarn-debug.log*
 yarn-error.log*
 ```
 
-## Step 6. Test your site
+## Step 6 - Test your site
 
 After migration, your folder structure should look like this
 
