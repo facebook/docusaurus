@@ -256,16 +256,9 @@ Deprecated. In the future maybe available as a plugin.
 
 #### `gaTrackingId`
 
-Deprecated. Available as plugin instead.
-
-```bash
-yarn add @docusaurus/plugin-google-analytics
-```
-
-```js
+```jsx
 // docusaurus.config.js
 module.exports = {
-  plugins: ['@docusaurus/plugin-google-analytics'],
   themeConfig: {
     googleAnalytics: {
       trackingID: 'UA-141789564-1',
@@ -276,16 +269,9 @@ module.exports = {
 
 #### `gaGtag`
 
-Deprecated. Available as plugin instead.
-
-```bash
-yarn add @docusaurus/plugin-google-gtag
-```
-
-```js
+```jsx
 // docusaurus.config.js
 module.exports = {
-  plugins: ['@docusaurus/plugin-google-gtag'],
   themeConfig: {
     gtag: {
       trackingID: 'UA-141789564-1',
