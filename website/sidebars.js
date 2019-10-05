@@ -29,6 +29,7 @@ module.exports = {
       'using-plugins',
       'using-themes',
       'deployment',
+      'migration',
     ],
     'Advanced Guides': [
       'advanced-plugins',
