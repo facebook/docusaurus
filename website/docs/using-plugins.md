@@ -64,7 +64,7 @@ module.exports = {
 
 ## Passing options to Docusaurus plugins via preset
 
-If you initialized your site using the classic template, you do not have to specify plugin options individually in your `docusaurus.config.js`. To provide the neccesary fields to certain plugins, i.e. `trackingID` for `@docusaurus/plugin-google-analytics`, pass them in the preset field, like this:
+If you initialized your site using the classic template, you do not have to specify plugin options individually in your `docusaurus.config.js`. To provide the neccesary fields to certain plugins, i.e. `customCss` for `@docusaurus/theme-classic`, pass them in the preset field, like this:
 
 ```js
 // docusaurus.config.js
@@ -73,17 +73,9 @@ module.exports = {
     [
       '@docusaurus/preset-classic',
       {
-        // Will be passed to @docusaurus/plugin-content-docs.
-        docs: {
-          sidebarPath: require.resolve('./sidebars.js'),
-        },
         // Will be passed to @docusaurus/theme-classic.
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
-        },
-        // Will be passed to @docusaurus/plugin-google-analytics.
-        googleAnalytics: {
-          trackingID: 'UA-1428571428-5',
         },
         ...
       },

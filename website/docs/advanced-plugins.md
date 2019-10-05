@@ -177,14 +177,12 @@ $ yarn add @docusaurus/plugin-google-analytics
 ```js
 // docusaurus.config.js
 module.exports = {
-  plugins: [
-    [
-      '@docusaurus/plugin-google-analytics',
-      {
-        trackingID: 'UA-142857148-5',
-      },
-    ],
-  ],
+  plugins: ['@docusaurus/plugin-google-analytics'],
+  themeConfig: {
+    googleAnalytics: {
+      trackingID: 'UA-141789564-1',
+    },
+  }
 };
 ```
 
@@ -203,14 +201,12 @@ $ yarn add @docusaurus/plugin-google-gtag
 ```js
 // docusaurus.config.js
 module.exports = {
-  plugins: [
-    [
-      '@docusaurus/plugin-google-gtag',
-      {
-        trackingID: 'UA-142857148-5',
-      },
-    ],
-  ],
+  plugins: ['@docusaurus/plugin-google-gtag'],
+  themeConfig: {
+    gtag: {
+      trackingID: 'UA-141789564-1',
+    },
+  }
 };
 ```
 

@@ -34,7 +34,7 @@ As an example, to swizzle the `<Footer />` component in `@docusaurus/theme-class
 $ npm swizzle @docusaurus/theme-classic Footer
 ```
 
-This will copy the current `<Footer />` component used by the theme to a `theme/Footer` directory under the root of your site, which is where Docusaurus will look for swizzled components. Docusaurus will then use swizzled component in place of the original one from the theme.
+This will copy the current `<Footer />` component used by the theme to a `src/theme/Footer` directory under the root of your site, which is where Docusaurus will look for swizzled components. Docusaurus will then use swizzled component in place of the original one from the theme.
 
 **Note**: You need to restart your dev server for Docusaurus to pick up the new component.
 
