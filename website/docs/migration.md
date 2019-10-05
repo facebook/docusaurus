@@ -428,3 +428,7 @@ Start the development server and fix any errors
 cd website
 yarn start
 ```
+
+## Step 7 - Configure your build directory
+
+In previous version, all the build artifacts is located at `website/build/projectName`. However, in Docusaurus 2, it is now moved to just `website/build`. Make sure that you deploy from the correct build directory.
