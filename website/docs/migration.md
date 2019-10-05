@@ -305,7 +305,33 @@ Please refer to [creating pages](creating-pages.md) to learn how Docusaurus 2 pa
 
 `CompLibrary` is deprecated in v2, so you have to write your own React component.
 
-## Step 5. Test your site
+## Step 5. Modify .gitignore
+
+Create `.gitignore` in your `website`
+```
+# dependencies
+/node_modules
+
+# production
+/build
+
+# generated files
+.docusaurus
+.cache-loader
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+```
+
+## Step 6. Test your site
 
 After migration, your folder structure should look like this
 
@@ -320,6 +346,7 @@ After migration, your folder structure should look like this
     │       └── index.js
     ├── package.json
     ├── sidebars.json
+    ├── .gitignore
     ├── docusaurus.config.js
     └── static
 ```
