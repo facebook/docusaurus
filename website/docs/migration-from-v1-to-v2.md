@@ -1,11 +1,11 @@
 ---
-id: migration
-title: Migration
+id: migration-from-v1-to-v2
+title: Migration from v1 to v2
 ---
 
 This doc guides you through migrating an existing Docusaurus 1 site to Docusaurus 2.
 
-This migration guide is targeted to Docusaurus user with translation and/or versioning features disabled and assumes the following structure:
+**Note: This migration guide is targeted at Docusaurus users without translation and/or versioning features and assumes the following structure:**
 
 ```sh
 ├── docs
@@ -20,7 +20,7 @@ This migration guide is targeted to Docusaurus user with translation and/or vers
     └── static
 ```
 
-## Step 1 - Update package.json
+## Step 1 - Update `package.json`
 
 ### Scoped package names
 
@@ -30,7 +30,7 @@ In Docusaurus 2, we use scoped package names:
 
 This provides a clear distinction between Docusaurus' official packages and community maintained packages. In another words, all Docusaurus' official packages are namespaced under `@docusaurus/`.
 
-Meanwhile, the default doc site functionalities provided by Docusaurus 1 is now provided by `@docusaurus/preset-classic`. Therefore, we need to add this dependency as well:
+Meanwhile, the default doc site functionalities provided by Docusaurus 1 are now provided by `@docusaurus/preset-classic`. Therefore, we need to add this dependency as well:
 
 ```diff
 // package.json
@@ -74,8 +74,8 @@ A typical Docusaurus 2 `package.json` may look like this:
     "@docusaurus/core": "^2.0.0-alpha.25",
     "@docusaurus/preset-classic": "^2.0.0-alpha.25",
     "classnames": "^2.2.6",
-    "react": "^16.8.4",
-    "react-dom": "^16.8.4"
+    "react": "^16.10.2",
+    "react-dom": "^16.10.2"
   },
   "browserslist": {
     "production": [">0.2%", "not dead", "not op_mini all"],
@@ -90,7 +90,9 @@ A typical Docusaurus 2 `package.json` may look like this:
 
 ## Step 2 - Migrate `siteConfig` to `docusaurus.config.js`
 
-Rename `siteConfig.js` to `docusaurus.config.js`. Then, add the preset configuration to your `docusaurus.config.js`'s default export:
+Rename `siteConfig.js` to `docusaurus.config.js`. In Docusaurus 2, we split each functionality (blog, docs, pages) into plugins for modularity. Presets are bundles of plugins and for backward compatibility we built a `@docusaurus/preset-classic` preset which bundles most of the essential plugins present in Docusaurus 1.
+
+Add the following preset configuration to your `docusaurus.config.js`.
 
 ```jsx
 // docusaurus.config.js
@@ -101,33 +103,27 @@ module.exports = {
       '@docusaurus/preset-classic',
       {
         docs: {
-          // docs folder path relative to site dir
+          // docs folder path relative to site dir.
           path: '../docs',
-          // sidebars file relative to site dir
+          // sidebars file relative to site dir.
           sidebarPath: require.resolve('./sidebars.json'),
         },
+        ...
       },
     ],
   ],
 };
 ```
 
-Refer to migration guide below for each field:
+Refer to migration guide below for each field in `siteConfig.js`.
 
-- `baseUrl`
-- `tagline`
-- `title`
-- `url`
-- `favico`
-- `organizationName`
-- `projectName`
-- `githubHost`
+#### `baseUrl`, `tagline`, `title`, `url`, `favicon`, `organizationName`, `projectName`, `githubHost`
 
-No actions needed
+No actions needed.
 
-- `colors`
+#### `colors`
 
-Deprecated. To overwrite Docusaurus' CSS variables, create your own CSS file (e.g. /src/css/custom.css) and import it globally by passing it as an option in preset:
+Deprecated. We wrote a custom CSS framework for Docusaurus 2 called Infima which uses CSS variables for theming. The docs are not quite ready yet and we will update here when it is. To overwrite Infima' CSS variables, create your own CSS file (e.g. `./src/css/custom.css`) and import it globally by passing it as an option to `@docusaurus/preset-classic`:
 
 ```diff
 // docusaurus.config.js
@@ -146,6 +142,8 @@ module.exports = {
 };
 ```
 
+Infima uses 7 shades of each color. We recommend using [ColorBox](https://www.colorbox.io/) to find the different shades of colors for your chosen primary color.
+
 ```css
 /**
  * /src/css/custom.css
@@ -163,10 +161,7 @@ module.exports = {
 }
 ```
 
-- `footerIcon`
-- `copyright`
-- `ogImage`
-- `twitterImage`
+#### `footerIcon`, `copyright`, `ogImage`, `twitterImage`
 
 Site meta info such as assets, SEO, copyright info are now handled by themes. To customize them, use the `themeConfig` field in your `docusaurus.config.js`:
 
@@ -182,12 +177,12 @@ module.exports = {
       copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`,
     },
     image: 'img/docusaurus.png',
+    ...
   },
 };
 ```
 
-- `headerIcon`
-- `headerLinks`
+#### `headerIcon`, `headerLinks`
 
 In Docusaurus 1, header icon and header links were root fields in `siteConfig`:
 
@@ -201,7 +196,7 @@ headerLinks: [
 ],
 ```
 
-Now, these two fields are both handled by theme:
+Now, these two fields are both handled by the theme:
 
 ```jsx
 // docusaurus.config.js
@@ -224,11 +219,12 @@ module.exports = {
         {to: 'blog', label: 'Blog', position: 'left'},
       ],
     },
+    ...
   },
 };
 ```
 
-- `algolia`
+#### `algolia`
 
 ```jsx
 // docusaurus.config.js
@@ -237,15 +233,16 @@ module.exports = {
     algolia: {
       apiKey: '47ecd3b21be71c5822571b9f59e52544',
       indexName: 'docusaurus-2',
-      algoliaOptions: {},
+      algoliaOptions: { ... },
     },
+    ...
   },
 };
 ```
 
-- `blogSidebarCount`
+#### `blogSidebarCount`
 
-Deprecated. Pass it as blog option to `@docusaurus/preset-classic` instead:
+Deprecated. Pass it as a blog option to `@docusaurus/preset-classic` instead:
 
 ```jsx
 // docusaurus.config.js
@@ -257,18 +254,18 @@ module.exports = {
         blog: {
           postsPerPage: 10,
         },
+        ...
       },
     ],
   ],
 };
 ```
 
-- `cname`
+#### `cname`
 
-Deprecated. Create a `CNAME` file in your `static` folder instead.
+Deprecated. Create a `CNAME` file in your `static` folder instead. Files in the `static` folder will be copied into the root of the `build` folder during execution of the build command.
 
-- `customDocsPath` 
-- `docsUrl`
+#### `customDocsPath`, `docsUrl`
 
 Deprecated. Pass it as an option to `@docusaurus/preset-classic` docs instead:
 
@@ -280,21 +277,22 @@ module.exports = {
       '@docusaurus/preset-classic',
       {
         docs: {
-          // equivalent to customDocsPath
+          // Equivalent to `customDocsPath`.
           path: 'docs',
-          // equivalent to docsUrl
+          // Equivalent to `docsUrl`.
           routeBasePath: 'docs',
-          // Remark and Rehype plugins passed to MDX
+          // Remark and Rehype plugins passed to MDX. Replaces `markdownOptions` and `markdownPlugins`.
           remarkPlugins: [],
           rehypePlugins: [],
         },
+        ...
       },
     ],
   ],
 };
 ```
 
-- `gaTrackingId`
+#### `gaTrackingId`
 
 ```jsx
 // docusaurus.config.js
@@ -307,7 +305,7 @@ module.exports = {
 };
 ```
 
-- `gaGtag`
+#### `gaGtag`
 
 ```jsx
 // docusaurus.config.js
@@ -332,9 +330,7 @@ module.exports = {
 
 The following fields are all deprecated, you may remove from your configuration file.
 
-- `highlight` - we now use prismjs instead of highlight.js
-- `markdownOptions` - we use MDX in v2 instead of Remarkable that has different plugin and option
-- `markdownPlugins` - we use MDX in v2 instead of Remarkable that has different plugin and option
+- `blogSidebarTitle`
 - `cleanUrl`
 - `defaultVersionShown`
 - `disableHeaderTitle`
@@ -344,36 +340,40 @@ The following fields are all deprecated, you may remove from your configuration 
 - `facebookComments`
 - `facebookPixelId`
 - `fonts`
-- `separateCss`
+- `highlight` - We now use [Prism](https://prismjs.com/) instead of [highlight.js](https://highlightjs.org/).
+- `markdownOptions` - We use MDX in v2 instead of Remarkable. Your markdown options have to be converted to Remark/Rehype plugins.
+- `markdownPlugins` - We use MDX in v2 instead of Remarkable. Your markdown plugins have to be converted to Remark/Rehype plugins.
+- `separateCss` - It can imported in the same manner as `custom.css` mentioned above.
 - `scrollToTop`
 - `scrollToTopOptions`
 - `manifest`
 - `noIndex`
+- `onPageNav`
 - `translationRecruitingLink`
 - `twitter`
 - `twitterUsername`
 - `useEnglishUrl`
 - `users`
-- `usePrism`
+- `usePrism` - We now use [Prism](https://prismjs.com/) instead of [highlight.js](https://highlightjs.org/)
 - `wrapPagesHTML`
-- `onPageNav`
-- `blogSidebarTitle`
+
+We intend to implement many of the deprecated config fields as plugins in future. Help will be appreciated!
 
 ## Step 3 - Delete footer file
 
-`website/core/Footer.js` is no longer needed. If you want to modify the default footer provided by docusaurus, swizzle it:
+`website/core/Footer.js` is no longer needed. If you want to modify the default footer provided by docusaurus, [swizzle](using-themes.md#swizzling-theme-components) it:
 
 ```bash
 yarn swizzle @docusaurus/theme-classic Footer
 ```
 
-This will copy the current `<Footer />` component used by the theme to a `src/theme/Footer`directory under the root of your site, you may then edit this component for customization.
+This will copy the current `<Footer />` component used by the theme to a `src/theme/Footer` directory under the root of your site, you may then edit this component for customization.
 
 ## Step 4 - Update your page files
 
 Please refer to [creating pages](creating-pages.md) to learn how Docusaurus 2 pages work. After reading that, you can notice that we have to move `pages/en` files in v1 to `src/pages` instead.
 
-`CompLibrary` is deprecated in v2, so you have to write your own React component.
+`CompLibrary` is deprecated in v2, so you have to write your own React component or use Infima styles (Docs will be available soon, sorry about that! In the meanwhile, inspect the V2 website to see what styles are available).
 
 ## Step 5 - Modify `.gitignore`
 
@@ -404,9 +404,10 @@ yarn-error.log*
 
 ## Step 6 - Test your site
 
-After migration, your folder structure should look like this
+After migration, your folder structure should look like this:
 
 ```sh
+my-project
 ├── docs
 └── website
     ├── blog
@@ -431,4 +432,4 @@ yarn start
 
 ## Step 7 - Configure your build directory
 
-In previous version, all the build artifacts is located at `website/build/projectName`. However, in Docusaurus 2, it is now moved to just `website/build`. Make sure that you deploy from the correct build directory.
+In Docusaurus 1, all the build artifacts are located within `website/build/<PROJECT_NAME>`. However, in Docusaurus 2, it is now moved to just `website/build`. Make sure that you update your deployment configuration to read the generated files from the correct `build` directory.
