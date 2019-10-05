@@ -267,7 +267,8 @@ module.exports = {
 
 Deprecated. Create a `CNAME` file in your `static` folder instead.
 
-- `customDocsPath` `docsUrl`
+- `customDocsPath` 
+- `docsUrl`
 
 Deprecated. Pass it as an option to `@docusaurus/preset-classic` docs instead:
 
