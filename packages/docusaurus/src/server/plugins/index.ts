@@ -49,7 +49,7 @@ export async function loadPlugins({
       }
 
       // module is any valid module identifier - npm package or locally-resolved path.
-      const pluginModule = importFresh(pluginModuleImport);
+      const pluginModule: any = importFresh(pluginModuleImport);
       return (pluginModule.default || pluginModule)(context, pluginOptions);
     }),
   );

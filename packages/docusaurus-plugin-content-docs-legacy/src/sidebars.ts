@@ -5,16 +5,20 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const fs = require('fs');
-const importFresh = require('import-fresh');
+import fs from 'fs';
+import importFresh from 'import-fresh';
+import {
+  SidebarItemCategory,
+  Sidebar,
+  SidebarRaw,
+  SidebarItem,
+  SidebarItemCategoryRaw,
+} from './types';
 
 /**
  * Check that item contains only allowed keys
- *
- * @param {Object} item
- * @param {Array<string>} keys
  */
-function assertItem(item, keys) {
+function assertItem(item: Object, keys: string[]): void {
   const unknownKeys = Object.keys(item).filter(
     key => !keys.includes(key) && key !== 'type',
   );
@@ -31,13 +35,11 @@ function assertItem(item, keys) {
 /**
  * Normalizes recursively category and all its children. Ensures, that at the end
  * each item will be an object with the corresponding type
- *
- * @param {Array<Object>} category
- * @param {number} [level=0]
- *
- * @return {Array<Object>}
  */
-function normalizeCategory(category, level = 0) {
+function normalizeCategory(
+  category: SidebarItemCategoryRaw,
+  level = 0,
+): SidebarItemCategory {
   if (level === 2) {
     throw new Error(
       `Can not process ${
@@ -54,33 +56,32 @@ function normalizeCategory(category, level = 0) {
     );
   }
 
-  const items = category.items.map(item => {
+  const items: SidebarItem[] = category.items.map(item => {
+    if (typeof item === 'string') {
+      return {
+        type: 'doc',
+        id: item,
+      };
+    }
     switch (item.type) {
       case 'category':
-        return normalizeCategory(item, level + 1);
+        return normalizeCategory(item as SidebarItemCategoryRaw, level + 1);
       case 'link':
         assertItem(item, ['href', 'label']);
         break;
       case 'ref':
-        assertItem(item, ['id', 'label']);
+        assertItem(item, ['id']);
         break;
       default:
-        if (typeof item === 'string') {
-          return {
-            type: 'doc',
-            id: item,
-          };
-        }
-
         if (item.type !== 'doc') {
           throw new Error(`Unknown sidebar item type: ${item.type}`);
         }
 
-        assertItem(item, ['id', 'label']);
+        assertItem(item, ['id']);
         break;
     }
 
-    return item;
+    return item as SidebarItem;
   });
 
   return {...category, items};
@@ -88,35 +89,36 @@ function normalizeCategory(category, level = 0) {
 
 /**
  * Converts sidebars object to mapping to arrays of sidebar item objects
- *
- * @param  {{[key: string]: Object}} sidebars
- *
- * @return {{[key: string]: Array<Object>}}
  */
-function normalizeSidebar(sidebars) {
-  return Object.entries(sidebars).reduce((acc, [sidebarId, sidebar]) => {
-    let normalizedSidebar = sidebar;
+function normalizeSidebar(sidebars: SidebarRaw): Sidebar {
+  return Object.entries(sidebars).reduce(
+    (acc: Sidebar, [sidebarId, sidebar]) => {
+      let normalizedSidebar: SidebarItemCategoryRaw[];
 
-    if (!Array.isArray(sidebar)) {
-      // convert sidebar to a more generic structure
-      normalizedSidebar = Object.entries(sidebar).map(([label, items]) => ({
-        type: 'category',
-        label,
-        items,
-      }));
-    }
+      if (!Array.isArray(sidebar)) {
+        // convert sidebar to a more generic structure
+        normalizedSidebar = Object.entries(sidebar).map(([label, items]) => ({
+          type: 'category',
+          label,
+          items,
+        }));
+      } else {
+        normalizedSidebar = sidebar;
+      }
 
-    acc[sidebarId] = normalizedSidebar.map(item => normalizeCategory(item));
+      acc[sidebarId] = normalizedSidebar.map(item => normalizeCategory(item));
 
-    return acc;
-  }, {});
+      return acc;
+    },
+    {},
+  );
 }
 
-module.exports = function loadSidebars(sidebarPath) {
+export default function loadSidebars(sidebarPath: string): Sidebar {
   // We don't want sidebars to be cached because of hotreloading.
-  let allSidebars = {};
+  let allSidebars: SidebarRaw = {};
   if (sidebarPath && fs.existsSync(sidebarPath)) {
-    allSidebars = importFresh(sidebarPath);
+    allSidebars = importFresh(sidebarPath) as SidebarRaw;
   }
   return normalizeSidebar(allSidebars);
-};
+}

@@ -57,7 +57,7 @@ export interface PluginContentLoadedActions {
 
 export interface Plugin<T> {
   name: string;
-  loadContent?(): T;
+  loadContent?(): Promise<T>;
   contentLoaded?({
     content,
     actions,
@@ -67,7 +67,11 @@ export interface Plugin<T> {
   }): void;
   postBuild?(props: Props): void;
   postStart?(props: Props): void;
-  configureWebpack?(config: Configuration, isServer: boolean): Configuration;
+  configureWebpack?(
+    config: Configuration,
+    isServer: boolean,
+    utils: ConfigureWebpackUtils,
+  ): Configuration;
   getThemePath?(): string;
   getPathsToWatch?(): string[];
   getClientModules?(): string[];

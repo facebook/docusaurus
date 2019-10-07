@@ -5,24 +5,42 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {
+  Sidebar,
+  SidebarItem,
+  SidebarItemDoc,
+  SidebarItemCategory,
+  Order,
+} from './types';
+
 // Build the docs meta such as next, previous, category and sidebar.
-module.exports = function createOrder(allSidebars = {}) {
-  const order = {};
+export default function createOrder(allSidebars: Sidebar = {}): Order {
+  const order: Order = {};
 
   Object.keys(allSidebars).forEach(sidebarId => {
     const sidebar = allSidebars[sidebarId];
 
-    const ids = [];
-    const categoryOrder = [];
-    const subCategoryOrder = [];
-    const indexItems = ({items, categoryLabel, subCategoryLabel}) => {
+    const ids: string[] = [];
+    const categoryOrder: (string | undefined)[] = [];
+    const subCategoryOrder: (string | undefined)[] = [];
+    const indexItems = ({
+      items,
+      categoryLabel,
+      subCategoryLabel,
+    }: {
+      items: SidebarItem[];
+      categoryLabel?: string;
+      subCategoryLabel?: string;
+    }) => {
       items.forEach(item => {
         switch (item.type) {
           case 'category':
             indexItems({
-              items: item.items,
-              categoryLabel: categoryLabel || item.label,
-              subCategoryLabel: categoryLabel && item.label,
+              items: (item as SidebarItemCategory).items,
+              categoryLabel:
+                categoryLabel || (item as SidebarItemCategory).label,
+              subCategoryLabel:
+                categoryLabel && (item as SidebarItemCategory).label,
             });
             break;
           case 'ref':
@@ -30,7 +48,7 @@ module.exports = function createOrder(allSidebars = {}) {
             // Refs and links should not be shown in navigation.
             break;
           case 'doc':
-            ids.push(item.id);
+            ids.push((item as SidebarItemDoc).id);
             categoryOrder.push(categoryLabel);
             subCategoryOrder.push(subCategoryLabel);
             break;
@@ -69,4 +87,4 @@ module.exports = function createOrder(allSidebars = {}) {
   });
 
   return order;
-};
+}
