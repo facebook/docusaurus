@@ -5,7 +5,7 @@ title: Sidebar
 
 To generate a sidebar to your Docusaurus site, you need to define a file that exports a sidebar object and pass that into the `@docusaurus/plugin-docs` plugin directly or via `@docusaurus/preset-classic`. 
 
-```jsx
+```js
 // docusaurus.config.js
 module.exports = {
   // ...
