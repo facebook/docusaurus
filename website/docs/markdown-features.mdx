@@ -143,6 +143,17 @@ I can write **Markdown** alongside my _JSX_!
 
 You can also import your own components defined in other files or third-party components installed via npm! Check out the [MDX docs](https://mdxjs.com/) to see what other fancy stuff you can do with MDX.
 
+### Referencing Site Documents
+
+If you want to reference another document in your `docs` directory, then you just use the name of the document you want to reference.
+
+For example, if you are in `doc2.md` and you want to reference `doc1.md` and `folder/doc3.md`:
+
+```md
+I am referencing a [document](doc1.md).
+Reference to another [document in a folder](folder/doc3.md)
+```
+
 ### Syntax highlighting
 
 Code blocks are text blocks wrapped around by strings of 3 backticks. You may check out [this reference](https://github.com/mdx-js/specification) for specifications of MDX.

@@ -40,14 +40,6 @@ function normalizeCategory(
   category: SidebarItemCategoryRaw,
   level = 0,
 ): SidebarItemCategory {
-  if (level === 2) {
-    throw new Error(
-      `Can not process ${
-        category.label
-      } category. Categories can be nested only one level deep.`,
-    );
-  }
-
   assertItem(category, ['items', 'label']);
 
   if (!Array.isArray(category.items)) {

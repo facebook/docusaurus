@@ -3,47 +3,174 @@ id: sidebar
 title: Sidebar
 ---
 
-To generate a sidebar to your Docusaurus site, you need to define a file that exports a JS module and pass that into the `@docusaurus/plugin-docs` plugin directly or via `@docusaurus/preset-classic`. If you are using the classic preset, you can find the `sidebars.js` under the root directory already created for you, so you may edit it directly for customization.
+To generate a sidebar to your Docusaurus site, you need to define a file that exports a sidebar object and pass that into the `@docusaurus/plugin-docs` plugin directly or via `@docusaurus/preset-classic`. 
 
-<!-- TODO: change classic template to use `sidebars.js` from json -->
-
-```bash
-website # root directory of your site
-├── docs
-│   └── greeting.md
-├── docusaurus.config.js
-├── sidebars.js
-.
+```jsx
+// docusaurus.config.js
+module.exports = {
+  // ...
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        docs: {
+          // sidebars filepath relative to site dir.
+          sidebarPath: require.resolve('./sidebars.js'),
+        },
+        ...
+      },
+    ],
+  ],
+};
 ```
 
-To add a doc to the sidebar, add the `id` specified in the frontmatter of the doc into its category.
+## Sidebar Object
 
-```diff
+A sidebar object looks like this below. The key `docs` is the name of the sidebar (can be renamed to something else) and `Getting Started` is a category within the sidebar. `greeting` and `doc1` is just a [Sidebar Item](#sidebar-item). 
+
+```js
+// sidebars.js
 module.exports = {
   docs: {
-+   "Getting started": ["greeting"],
+    "Getting started": ["greeting"],
     "Docusaurus": ["doc1"],
-    "First Category": ["doc2"],
-    "Second Category": ["doc3"],
   }
 };
 ```
 
-The `docs` key in the exported object is just the name of that particular sidebar hierarchy, and can be renamed to something else. You can have multiple sidebars for different Markdown files by adding more top-level keys to the exported object.
+If you don't want to rely on iteration order of JavaScript object keys for the category name, this below sidebar object is also equivalent of above.
 
-## Subcategories
+```js
+// sidebars.js
+module.exports = {
+  docs: [
+    {
+      type: 'category',
+      label: 'Getting Started',
+      items: ['greeting']
+    },
+    {
+      type: 'category',
+      label: 'Docusaurus',
+      items: ['doc1']
+    },
+  ]
+};
+```
 
-To include subcategories in docs sidebar, use an object of the following shape
+You can also have multiple sidebars for different Markdown files by adding more top-level keys to the exported object.
+
+Example:
+```js
+// sidebars.js
+module.exports = {
+  firstSidebar: {
+    "Category A": ["doc1"],
+  },
+  secondSidebar: {
+    "Category A": ["doc2"],
+    "Category B": ["doc3"],
+  }
+};
+```
+
+## Document ID
+Every document has a unique `id`. By default, a document `id` is the name of the document (without the extension) relative to the root docs directory. 
+
+For example, `greeting.md` id is `greeting` and `guide/hello.md` id is `guide/hello`.
+
+```bash
+website # root directory of your site
+├── docs
+   └── greeting.md
+   └── guide
+      └── hello.md
+```
+
+However, the last part of the `id` can be defined by user in the frontmatter. For example, if `guide/hello.md` content is defined as below, it's final `id` is `guide/part1`.
+
+  ```markdown
+  ---
+  id: part1
+  ---
+  Lorem ipsum
+  ```
+
+## Sidebar Item
+
+As the name implies, `SidebarItem` is an item defined in a Sidebar. There are many types of it:
+- Doc
+- Link
+- Ref
+- Category
+
+### Doc
+Sidebar item type that links to doc. Example:
+
+```js
+{
+  type: 'doc',
+  id: 'doc1', // string - document id
+}
+```
+
+Using just the [Document ID](#document-id) is perfectly valid as well, this below is equivalent to above:
+
+```js
+'doc1' // string - document id
+```
+
+Note that using thie type will bound the linked doc to current sidebar, this means that if you access `doc1` page, the sidebar displayed will be the sidebar this item is on. For below case, 
+`doc1` is bounded to `firstSidebar`.
+
+```js
+// sidebars.js
+module.exports = {
+  firstSidebar: {
+    "Category A": ["doc1"],
+  },
+  secondSidebar: {
+    "Category A": ["doc2"],
+    "Category B": ["doc3"],
+  }
+};
+```
+
+
+### Link
+Sidebar item type that links to other non-document page. Example:
+
+```js
+{
+  type: 'link',
+  label: 'Custom Label', // string - the label that should be displayed
+  href: 'https://example.com' // string - the target url
+}
+```
+
+### Ref
+Sidebar item type that links to doc without bounding it to the sidebar. Example:
+
+```js
+{
+  type: 'ref',
+  id: 'doc1', // string - document id
+}
+```
+
+### Category
+
+It is defined like below:
 
 ```js
 {
   type: 'category',
   label: string, // sidebar label
-  items: string[], // strings of doc ids
+  items: SidebarItem[], // array of sidebar item,
 }
 ```
 
-in place of a string of id. As an example, here's how we created the subcategory for "Docs" under "Guides" in this site:
+As an example, here's how we created the subcategory for "Docs" under "Guides" in this site:
 
 ```jsx
 // sidebars.js
@@ -60,13 +187,3 @@ module.exports = {
   },
 };
 ```
-
-**Note**: Only one layer of nestedness is allowed.
-
-**Note**: We're implementing a new sidebar!
-
-<!--
-
-_This section is a work in progress. [Welcoming PRs](https://github.com/facebook/docusaurus/issues/1640)._
-
--->
