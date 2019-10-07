@@ -5,37 +5,48 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const globby = require('globby');
-const fs = require('fs');
-const path = require('path');
-const {idx, normalizeUrl, docuHash} = require('@docusaurus/utils');
+import globby from 'globby';
+import fs from 'fs-extra';
+import path from 'path';
+import {idx, normalizeUrl, docuHash} from '@docusaurus/utils';
 
-const createOrder = require('./order');
-const loadSidebars = require('./sidebars');
-const processMetadata = require('./metadata');
+import createOrder from './order';
+import loadSidebars from './sidebars';
+import processMetadata from './metadata';
+import {LoadContext, Plugin, DocusaurusConfig} from '@docusaurus/types';
+import {
+  PluginOptions,
+  Sidebar,
+  Order,
+  Metadata,
+  DocsMetadata,
+  LoadedContent,
+  SourceToPermalink,
+  PermalinkToId,
+} from './types';
+import {Configuration} from 'webpack';
 
-const DEFAULT_OPTIONS = {
+const DEFAULT_OPTIONS: PluginOptions = {
   path: 'docs', // Path to data on filesystem, relative to site dir.
   routeBasePath: 'docs', // URL Route.
   include: ['**/*.md', '**/*.mdx'], // Extensions to include.
-  // TODO: Change format to array.
   sidebarPath: '', // Path to sidebar configuration for showing a list of markdown pages.
-  // TODO: Settle themeing.
   docLayoutComponent: '@theme/DocLegacyPage',
   docItemComponent: '@theme/DocLegacyItem',
   remarkPlugins: [],
   rehypePlugins: [],
 };
 
-module.exports = function(context, opts) {
+export default function pluginContentDocs(
+  context: LoadContext,
+  opts: Partial<PluginOptions>,
+): Plugin<LoadedContent | null> {
   const options = {...DEFAULT_OPTIONS, ...opts};
   const contentPath = path.resolve(context.siteDir, options.path);
-  let globalContents = {};
+  let sourceToPermalink: SourceToPermalink = {};
 
   return {
     name: 'docusaurus-plugin-content-docs',
-
-    contentPath,
 
     getPathsToWatch() {
       const {include = []} = options;
@@ -53,13 +64,13 @@ module.exports = function(context, opts) {
         return null;
       }
 
-      const docsSidebars = loadSidebars(sidebarPath);
+      const docsSidebars: Sidebar = loadSidebars(sidebarPath);
 
       // Build the docs ordering such as next, previous, category and sidebar
-      const order = createOrder(docsSidebars);
+      const order: Order = createOrder(docsSidebars);
 
       // Prepare metadata container.
-      const docs = {};
+      const docs: DocsMetadata = {};
 
       // Metadata for default docs files.
       const docsFiles = await globby(include, {
@@ -67,7 +78,7 @@ module.exports = function(context, opts) {
       });
       await Promise.all(
         docsFiles.map(async source => {
-          const metadata = await processMetadata(
+          const metadata: Metadata = await processMetadata(
             source,
             docsDir,
             order,
@@ -93,22 +104,19 @@ module.exports = function(context, opts) {
         }
       });
 
-      const sourceToPermalink = {};
-      const permalinkToId = {};
+      const permalinkToId: PermalinkToId = {};
       Object.values(docs).forEach(({id, source, permalink}) => {
         sourceToPermalink[source] = permalink;
         permalinkToId[permalink] = id;
       });
 
-      globalContents = {
+      return {
         docs,
         docsDir,
         docsSidebars,
         sourceToPermalink,
         permalinkToId,
       };
-
-      return globalContents;
     },
 
     async contentLoaded({content, actions}) {
@@ -138,7 +146,7 @@ module.exports = function(context, opts) {
       );
 
       const docsBaseRoute = normalizeUrl([
-        context.siteConfig.baseUrl,
+        (context.siteConfig as DocusaurusConfig).baseUrl,
         routeBasePath,
       ]);
       const docsMetadataPath = await createData(
@@ -156,7 +164,8 @@ module.exports = function(context, opts) {
       });
     },
 
-    configureWebpack(config, isServer, {getBabelLoader, getCacheLoader}) {
+    configureWebpack(_, isServer, utils) {
+      const {getBabelLoader, getCacheLoader} = utils;
       const {rehypePlugins, remarkPlugins} = options;
       return {
         module: {
@@ -179,15 +188,15 @@ module.exports = function(context, opts) {
                   options: {
                     siteConfig: context.siteConfig,
                     siteDir: context.siteDir,
-                    docsDir: globalContents.docsDir,
-                    sourceToPermalink: globalContents.sourceToPermalink,
+                    docsDir: contentPath,
+                    sourceToPermalink: sourceToPermalink,
                   },
                 },
               ].filter(Boolean),
             },
           ],
         },
-      };
+      } as Configuration;
     },
   };
-};
+}

@@ -5,18 +5,20 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const fs = require('fs-extra');
-const path = require('path');
-const {parse, normalizeUrl} = require('@docusaurus/utils');
+import fs from 'fs-extra';
+import path from 'path';
+import {parse, normalizeUrl} from '@docusaurus/utils';
+import {Order, MetadataRaw} from './types';
+import {DocusaurusConfig} from '@docusaurus/types';
 
-module.exports = async function processMetadata(
-  source,
-  docsDir,
-  order,
-  siteConfig,
-  docsBasePath,
-  siteDir,
-) {
+export default async function processMetadata(
+  source: string,
+  docsDir: string,
+  order: Order,
+  siteConfig: Partial<DocusaurusConfig>,
+  docsBasePath: string,
+  siteDir: string,
+): Promise<MetadataRaw> {
   const filepath = path.join(docsDir, source);
 
   const fileString = await fs.readFile(filepath, 'utf-8');
@@ -82,5 +84,5 @@ module.exports = async function processMetadata(
     }
   }
 
-  return metadata;
-};
+  return metadata as MetadataRaw;
+}

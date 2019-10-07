@@ -7,6 +7,7 @@
 
 import path from 'path';
 import pluginContentDocs from '../index';
+import {LoadContext} from '@docusaurus/types';
 
 describe('loadDocs', () => {
   test('simple website', async () => {
@@ -16,18 +17,16 @@ describe('loadDocs', () => {
       baseUrl: '/',
       url: 'https://docusaurus.io',
     };
+    const context = {
+      siteDir,
+      siteConfig,
+    } as LoadContext;
     const sidebarPath = path.join(siteDir, 'sidebars.json');
     const pluginPath = 'docs';
-    const plugin = pluginContentDocs(
-      {
-        siteDir,
-        siteConfig,
-      },
-      {
-        path: 'docs',
-        sidebarPath,
-      },
-    );
+    const plugin = pluginContentDocs(context, {
+      path: 'docs',
+      sidebarPath,
+    });
     const {docs: docsMetadata} = await plugin.loadContent();
 
     expect(docsMetadata.hello).toEqual({

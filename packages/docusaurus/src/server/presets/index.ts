@@ -32,9 +32,11 @@ export function loadPresets(
     } else if (Array.isArray(presetItem)) {
       presetModuleImport = presetItem[0];
       presetOptions = presetItem[1] || {};
+    } else {
+      throw new Error('Invalid presets format detected in config.');
     }
 
-    const presetModule = importFresh(presetModuleImport);
+    const presetModule: any = importFresh(presetModuleImport);
     const preset: Preset = (presetModule.default || presetModule)(
       context,
       presetOptions,
