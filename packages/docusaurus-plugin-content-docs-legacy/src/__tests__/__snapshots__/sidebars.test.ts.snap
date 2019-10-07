@@ -1,5 +1,62 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`loadSidebars sidebars with deep level of category 1`] = `
+Object {
+  "docs": Array [
+    Object {
+      "items": Array [
+        Object {
+          "id": "a",
+          "type": "doc",
+        },
+        Object {
+          "items": Array [
+            Object {
+              "items": Array [
+                Object {
+                  "id": "c",
+                  "type": "doc",
+                },
+                Object {
+                  "items": Array [
+                    Object {
+                      "id": "d",
+                      "type": "doc",
+                    },
+                    Object {
+                      "items": Array [
+                        Object {
+                          "id": "e",
+                          "type": "doc",
+                        },
+                      ],
+                      "label": "deeper more more",
+                      "type": "category",
+                    },
+                  ],
+                  "label": "level 4",
+                  "type": "category",
+                },
+              ],
+              "label": "level 3",
+              "type": "category",
+            },
+            Object {
+              "id": "f",
+              "type": "doc",
+            },
+          ],
+          "label": "level 2",
+          "type": "category",
+        },
+      ],
+      "label": "level 1",
+      "type": "category",
+    },
+  ],
+}
+`;
+
 exports[`loadSidebars sidebars with known sidebar item type 1`] = `
 Object {
   "docs": Array [

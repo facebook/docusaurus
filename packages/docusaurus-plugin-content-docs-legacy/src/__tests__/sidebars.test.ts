@@ -22,6 +22,17 @@ describe('loadSidebars', () => {
     expect(result).toMatchSnapshot();
   });
 
+  test('sidebars with deep level of category', async () => {
+    const sidebarPath = path.join(
+      __dirname,
+      '__fixtures__',
+      'website',
+      'sidebars-category.js',
+    );
+    const result = loadSidebars(sidebarPath);
+    expect(result).toMatchSnapshot();
+  });
+
   test('sidebars with unknown sidebar item type', async () => {
     const sidebarPath = path.join(
       __dirname,
