@@ -597,6 +597,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Saleor',
+    image: '/img/users/saleor.png',
+    infoLink: 'https://docs.getsaleor.com/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Scalafmt',
     image: '/img/users/scalameta.png',
     infoLink: 'https://scalameta.org/scalafmt/',
