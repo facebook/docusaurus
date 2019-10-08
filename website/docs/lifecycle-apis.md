@@ -9,7 +9,7 @@ Lifecycle APIs are shared by Themes and Plugins.
 
 ## `getPathsToWatch(): string[]`
 
-Specifies paths to watch for plugins and themes. The paths are watched by the dev server for reload when the directories change. Note that the plugins and themes modules are initially called with context and options from Node, which you may use to find the necessary directory information about the site.
+Specifies the paths to watch for plugins and themes. The paths are watched by the dev server so that the plugin lifecycles are reloaded when contents in the watched paths change. Note that the plugins and themes modules are initially called with `context` and `options` from Node, which you may use to find the necessary directory information about the site.
 
 ```js
 const contentPath = path.resolve(context.siteDir, options.path);
@@ -23,24 +23,24 @@ getPathsToWatch() {
 
 ## `async loadContent()`
 
-Plugins should fetch from data sources (filesystem, remote API, etc)
+Plugins should use this lifecycle to fetch from data sources (filesystem, remote API, headless CMS, etc).
 
 ## `async contentLoaded({content, actions})`
 
-Plugins should use the data loaded in `loadContent` and construct the pages/routes that consume the data.
+Plugins should use the data loaded in `loadContent` and construct the pages/routes that consume the loaded data.
 
 ### `content`
 
-`contentLoaded` will be called _after_ `loadContent` is done, the return of which passed to `contentLoaded` as `content`.
+`contentLoaded` will be called _after_ `loadContent` is done, the return value of `loadContent()` will be passed to `contentLoaded` as `content`.
 
 ### `actions`
 
-`actions` contain two functions,
+`actions` contain two functions:
 
 - `addRoute(config: RouteConfig): void`
 - `createData(name: string, data: Object): Promise<string>`
 
-where `RouteConfig` is an object with the necessary data to configure a route to add a page:
+where `RouteConfig` is an object with the necessary data to configure a route to add to the website:
 
 ```js
 interface RouteConfig {
@@ -76,11 +76,11 @@ And `createData` takes a file name relative to to your plugin's directory, a str
 
 ## `configureWebpack(config, isServer, utils)`
 
-Modifies the internal webpack config. If the return is an `Object`, it will be merged into the final config using webpack-merge. If it is a function, it will be called and receive `config` as the 1st argument and an `isServer` flag as the 2nd argument.
+Modifies the internal webpack config. If the return value is a JavaScript object, it will be merged into the final config using [`webpack-merge`](https://github.com/survivejs/webpack-merge). If it is a function, it will be called and receive `config` as the first argument and an `isServer` flag as the argument argument.
 
 ### `config`
 
-`configureWebpack` is called with `config` generated according to client / server build. You may treat this as the base config to be merged with.
+`configureWebpack` is called with `config` generated according to client/server build. You may treat this as the base config to be merged with.
 
 ### `isServer`
 
@@ -140,7 +140,7 @@ For example, the in docusaurus-plugin-content-docs:
 
 ## Example
 
-Mind model for a presumptious plugin implementation.
+Mind model for a presumptuous plugin implementation.
 
 ```jsx
 const DEFAULT_OPTIONS = {
