@@ -106,7 +106,6 @@ configureWebpack(config, isServer, {getBabelLoader, getCacheLoader}) {
       rules: [
         {
           test: /(\.mdx?)$/,
-          include: [contentPath],
           use: [
             getCacheLoader(isServer),
             getBabelLoader(isServer),
