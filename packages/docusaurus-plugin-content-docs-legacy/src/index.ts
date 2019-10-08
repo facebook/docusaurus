@@ -9,11 +9,11 @@ import globby from 'globby';
 import fs from 'fs-extra';
 import path from 'path';
 import {idx, normalizeUrl, docuHash} from '@docusaurus/utils';
+import {LoadContext, Plugin, DocusaurusConfig} from '@docusaurus/types';
 
 import createOrder from './order';
 import loadSidebars from './sidebars';
 import processMetadata from './metadata';
-import {LoadContext, Plugin, DocusaurusConfig} from '@docusaurus/types';
 import {
   PluginOptions,
   Sidebar,
@@ -46,7 +46,7 @@ export default function pluginContentDocs(
   let sourceToPermalink: SourceToPermalink = {};
 
   return {
-    name: 'docusaurus-plugin-content-docs',
+    name: 'docusaurus-plugin-content-docs-legacy',
 
     getPathsToWatch() {
       const {include = []} = options;
@@ -66,7 +66,7 @@ export default function pluginContentDocs(
 
       const docsSidebars: Sidebar = loadSidebars(sidebarPath);
 
-      // Build the docs ordering such as next, previous, category and sidebar
+      // Build the docs ordering such as next, previous, category and sidebar.
       const order: Order = createOrder(docsSidebars);
 
       // Prepare metadata container.

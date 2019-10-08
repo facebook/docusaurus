@@ -6,6 +6,7 @@
  */
 
 import path from 'path';
+
 import pluginContentDocs from '../index';
 import {LoadContext} from '@docusaurus/types';
 
@@ -24,7 +25,7 @@ describe('loadDocs', () => {
     const sidebarPath = path.join(siteDir, 'sidebars.json');
     const pluginPath = 'docs';
     const plugin = pluginContentDocs(context, {
-      path: 'docs',
+      path: pluginPath,
       sidebarPath,
     });
     const {docs: docsMetadata} = await plugin.loadContent();
@@ -38,7 +39,7 @@ describe('loadDocs', () => {
       sidebar: 'docs',
       source: path.join('@site', pluginPath, 'hello.md'),
       title: 'Hello, World !',
-      description: `Hi, Endilie here :)`,
+      description: 'Hi, Endilie here :)',
     });
 
     expect(docsMetadata['foo/bar']).toEqual({
