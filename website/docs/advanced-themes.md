@@ -5,7 +5,7 @@ title: Themes
 
 In this doc, we discuss how themes are designed and how you can write your own themes.
 
-## Theme design
+## Themes design
 
 While themes share the exact same lifecycle methods with plugins, their implementations can look very different from those of plugins based on themes' designed objectives.
 
