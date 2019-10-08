@@ -3,34 +3,72 @@ id: advanced-plugins
 title: Plugins
 ---
 
-In this doc, we talk about the design intention of plugins, the lifecycle methods, how you may write your own plugins, etc.
-
-A plugin is a package that exports a class which can be instantiated with configurable options (provided by the user) and its various lifecycle methods will be invoked by the Docusaurus runtime.
-
-Plugins are one of the best ways to add functionality to our Docusaurus. Plugins allow third-party developers to extend or modify the default functionality that Docusaurus provides.
-
-Docusaurus Plugins are very similar to [Gatsby Plugins](https://www.gatsbyjs.org/plugins/) and [VuePress Plugins](https://v1.vuepress.vuejs.org/plugin/)<!-- TODO: is this the correct link? -->. The main difference here is that Docusaurus plugins don't allow using other plugins. Docusaurus provides [presets](./presets.md) for the use scenarios for plugins that are meant to work together.
-
-In most cases, plugins are there to fetch data and create routes. A plugin could take in components as part of its options and to act as the wrapper for the page.
-
-## How to create plugins
-
-_This section is a work in progress._
-
-<!--
-
-outline:
-- jump start a plugin
-- refer to lifecycle APIs
-- describe mindset how plugins should work
-
-Plugins are modules which export a function that takes in the context, options and returns a plain JavaScript object that has some properties defined.
-
+<!-- TODO
+- move the list of plugins (maybe to links to each plugin's READMEs)
+- add guides on how to create plugins
 -->
+
+In this doc, we talk about the design intention of plugins and how you may write your own plugins.
+
+Docusaurus Plugins are very similar to [Gatsby Plugins](https://www.gatsbyjs.org/plugins/) and [VuePress Plugins](https://v1.vuepress.vuejs.org/plugin/). The main difference here is that Docusaurus plugins don't allow using other plugins. Docusaurus provides [presets](./advanced-presets.md) to bundle plugins that are meant to work together.
+
+## Plugins design
+
+Docusaurus' implementation of the plugins system provides us with a convenient way to hook into the website's lifecycle to modify what goes on during development/build, which involves (but not limited to) extending the webpack config, modifying the data being loaded and creating new components to be used in a page.
+
+In most cases, plugins are there to fetch data and create routes. A plugin could take in components as part of its options and to act as the wrapper for the page. A plugin can also provide React components to be used together with the non-UI functionality. You can also specify a resolution rule for the plugin to find its components to call, which you then supply with a [theme](./advanced-themes.md).
+
+## Creating plugins
+
+A plugin is a module which exports a function that takes two parameters and returns an object when executed.
+
+### Module definition
+
+The exported modules for plugins are called with two parameters: `context` and `options` and returns a JavaScript object with defining the [lifecycle APIs](./lifecycle-apis.md).
+
+```js
+// Example contents of a Docusaurus plugin.
+module.exports = function(context, options) {
+  // ...
+  return {
+    name: 'my-docusaurus-plugin',
+    async loadContent() { ... },
+    async contentLoaded({content, actions}) { ... },
+    ...
+  };
+};
+```
+
+#### `context`
+
+`context` is plugin-agnostic and the same object will be passed into all plugins used for a Docusaurus website. The `context` object contains the following fields:
+
+```js
+interface LoadContext {
+  siteDir: string;
+  generatedFilesDir: string;
+  siteConfig: DocusaurusConfig;
+  cliOptions: CLIOptions;
+  outDir: string;
+  baseUrl: string;
+}
+
+interface CLIOptions {
+  [option: string]: any;
+}
+```
+
+#### `options`
+
+`options` are the [second optional parameter when the plugins are used](./using-plugins.md#configuring-plugins). `options` is plugin-specific and are specified by the user when they use it in `docusaurus.config.js` or if preset contains the plugin. The preset will then be in-charge of passing the correct options into the plugin. It is up to individual plugins to define what options it takes.
+
+#### Return value
+
+The returned object value should implement the [lifecycle APIs](./lifecycle-apis.md).
 
 ## Official plugins
 
-List of [official plugins](https://github.com/facebook/docusaurus/tree/master/packages) created by Docusaurus.
+Find the list of official Docusaurus plugins [here](https://github.com/facebook/docusaurus/tree/master/packages).
 
 ### `@docusaurus/plugin-content-blog`
 
@@ -182,7 +220,7 @@ module.exports = {
     googleAnalytics: {
       trackingID: 'UA-141789564-1',
     },
-  }
+  },
 };
 ```
 
@@ -206,7 +244,7 @@ module.exports = {
     gtag: {
       trackingID: 'UA-141789564-1',
     },
-  }
+  },
 };
 ```
 

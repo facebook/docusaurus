@@ -8,29 +8,34 @@
 import path from 'path';
 
 import pluginContentPages from '../index';
+import {LoadContext} from '@docusaurus/types';
 
 describe('docusaurus-plugin-content-pages', () => {
   test('simple pages', async () => {
+    const siteDir = path.join(__dirname, '__fixtures__', 'website');
     const siteConfig = {
       title: 'Hello',
       baseUrl: '/',
       url: 'https://docusaurus.io',
     };
-    const siteDir = path.join(__dirname, '__fixtures__', 'website');
-    const plugin = pluginContentPages({
+    const context = {
       siteDir,
       siteConfig,
+    } as LoadContext;
+    const pluginPath = 'src/pages';
+    const plugin = pluginContentPages(context, {
+      path: pluginPath,
     });
     const pagesMetadatas = await plugin.loadContent();
-    const pagesPath = path.relative(siteDir, plugin.contentPath);
+
     expect(pagesMetadatas).toEqual([
       {
         permalink: '/',
-        source: path.join('@site', pagesPath, 'index.js'),
+        source: path.join('@site', pluginPath, 'index.js'),
       },
       {
         permalink: '/hello/world',
-        source: path.join('@site', pagesPath, 'hello', 'world.js'),
+        source: path.join('@site', pluginPath, 'hello', 'world.js'),
       },
     ]);
   });

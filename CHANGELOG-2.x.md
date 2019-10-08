@@ -1,6 +1,9 @@
 # Docusaurus 2 Changelog
 
 ## Unreleased
+- Docs plugin is rewritten in TypeScript
+- Docs sidebar can now be more than one level deep, theoretically up to infinity.
+- more documentation ...
 
 ## 2.0.0-alpha.25
 

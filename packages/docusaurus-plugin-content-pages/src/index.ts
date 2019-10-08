@@ -5,25 +5,29 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const globby = require('globby');
-const path = require('path');
-const fs = require('fs');
-const {encodePath, fileToPath} = require('@docusaurus/utils');
+import globby from 'globby';
+import fs from 'fs';
+import path from 'path';
+import {encodePath, fileToPath} from '@docusaurus/utils';
+import {LoadContext, Plugin} from '@docusaurus/types';
 
-const DEFAULT_OPTIONS = {
+import {PluginOptions, LoadedContent} from './types';
+
+const DEFAULT_OPTIONS: PluginOptions = {
   path: 'src/pages', // Path to data on filesystem, relative to site dir.
   routeBasePath: '', // URL Route.
   include: ['**/*.{js,jsx}'], // Extensions to include.
 };
 
-module.exports = function(context, opts) {
+export default function pluginContentPages(
+  context: LoadContext,
+  opts: Partial<PluginOptions>,
+): Plugin<LoadedContent | null> {
   const options = {...DEFAULT_OPTIONS, ...opts};
   const contentPath = path.resolve(context.siteDir, options.path);
 
   return {
     name: 'docusaurus-plugin-content-pages',
-
-    contentPath,
 
     getPathsToWatch() {
       const {include = []} = options;
@@ -52,7 +56,7 @@ module.exports = function(context, opts) {
         const pathName = encodePath(fileToPath(relativeSource));
         // Default Language.
         return {
-          permalink: pathName.replace(/^\//, baseUrl),
+          permalink: pathName.replace(/^\//, baseUrl || ''),
           source: aliasedSource,
         };
       });
@@ -77,4 +81,4 @@ module.exports = function(context, opts) {
       );
     },
   };
-};
+}
