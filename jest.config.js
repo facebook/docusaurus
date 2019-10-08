@@ -19,6 +19,7 @@ module.exports = {
     '/packages/docusaurus-utils/lib',
     '/packages/docusaurus-plugin-content-blog/lib',
     '/packages/docusaurus-plugin-content-docs-legacy/lib',
+    '/packages/docusaurus-plugin-content-pages/lib',
   ],
   transform: {
     '^.+\\.[jt]sx?$': 'babel-jest',
