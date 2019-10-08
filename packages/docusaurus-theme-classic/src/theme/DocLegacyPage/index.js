@@ -15,27 +15,20 @@ import MDXComponents from '@theme/MDXComponents';
 
 function DocLegacyPage(props) {
   const {route, docsMetadata, location} = props;
-  const {permalinkToId} = docsMetadata;
-  const id =
-    permalinkToId[location.pathname] ||
-    permalinkToId[location.pathname.replace(/\/$/, '')];
-  const metadata = docsMetadata.docs[id] || {};
-  const {sidebar, description, title, permalink, image} = metadata;
+  const {permalinkToSidebar, docsSidebars} = docsMetadata;
+  const sidebar =
+    permalinkToSidebar[location.pathname] ||
+    permalinkToSidebar[location.pathname.replace(/\/$/, '')];
   return (
-    <Layout
-      noFooter
-      description={description}
-      title={title}
-      image={image}
-      permalink={permalink}>
+    <Layout noFooter>
       <div className="container container--fluid">
         <div className="row">
           <div className="col col--3">
-            <DocLegacySidebar docsMetadata={docsMetadata} sidebar={sidebar} />
+            <DocLegacySidebar docsSidebars={docsSidebars} sidebar={sidebar} />
           </div>
           <main className="col">
             <MDXProvider components={MDXComponents}>
-              {renderRoutes(route.routes, {docsMetadata})}
+              {renderRoutes(route.routes)}
             </MDXProvider>
           </main>
         </div>

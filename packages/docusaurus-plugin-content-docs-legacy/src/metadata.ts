@@ -74,8 +74,6 @@ export default async function processMetadata(
   const {id} = metadata;
   if (order[id]) {
     metadata.sidebar = order[id].sidebar;
-    metadata.category = order[id].category;
-    metadata.subCategory = order[id].subCategory;
     if (order[id].next) {
       metadata.next = order[id].next;
     }

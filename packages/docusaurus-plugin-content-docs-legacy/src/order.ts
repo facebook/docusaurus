@@ -21,26 +21,12 @@ export default function createOrder(allSidebars: Sidebar = {}): Order {
     const sidebar = allSidebars[sidebarId];
 
     const ids: string[] = [];
-    const categoryOrder: (string | undefined)[] = [];
-    const subCategoryOrder: (string | undefined)[] = [];
-    const indexItems = ({
-      items,
-      categoryLabel,
-      subCategoryLabel,
-    }: {
-      items: SidebarItem[];
-      categoryLabel?: string;
-      subCategoryLabel?: string;
-    }) => {
+    const indexItems = ({items}: {items: SidebarItem[]}) => {
       items.forEach(item => {
         switch (item.type) {
           case 'category':
             indexItems({
               items: (item as SidebarItemCategory).items,
-              categoryLabel:
-                categoryLabel || (item as SidebarItemCategory).label,
-              subCategoryLabel:
-                categoryLabel && (item as SidebarItemCategory).label,
             });
             break;
           case 'ref':
@@ -49,8 +35,6 @@ export default function createOrder(allSidebars: Sidebar = {}): Order {
             break;
           case 'doc':
             ids.push((item as SidebarItemDoc).id);
-            categoryOrder.push(categoryLabel);
-            subCategoryOrder.push(subCategoryLabel);
             break;
           default:
             throw new Error(
@@ -80,8 +64,6 @@ export default function createOrder(allSidebars: Sidebar = {}): Order {
         previous,
         next,
         sidebar: sidebarId,
-        category: categoryOrder[i],
-        subCategory: subCategoryOrder[i],
       };
     }
   });
