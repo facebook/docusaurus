@@ -69,9 +69,7 @@ function mdToHtmlify(oldContent, mdToHtml, metadata, siteConfig) {
     let mdMatch = mdRegex.exec(modifiedLine);
     while (mdMatch !== null) {
       /* Replace it to correct html link */
-      const docsSource = metadata.version
-        ? metadata.source.replace(/version-.*?\//, '')
-        : metadata.source;
+      const docsSource = metadata.source;
       let htmlLink =
         mdToHtml[resolve(docsSource, mdMatch[1])] || mdToHtml[mdMatch[1]];
       if (htmlLink) {

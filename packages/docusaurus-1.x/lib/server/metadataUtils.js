@@ -70,7 +70,7 @@ function mdToHtml(Metadata, siteConfig) {
   const result = {};
   Object.keys(Metadata).forEach(id => {
     const metadata = Metadata[id];
-    if (metadata.language !== 'en' || metadata.original_id) {
+    if (metadata.language !== 'en') {
       return;
     }
     let htmlLink = baseUrl + metadata.permalink.replace('/next/', '/');
