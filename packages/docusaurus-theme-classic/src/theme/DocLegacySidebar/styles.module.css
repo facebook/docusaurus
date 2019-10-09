@@ -15,10 +15,6 @@
   }
 }
 
-.sidebar {
-  border-right: 1px solid var(--ifm-contents-border-color);
-}
-
 .sidebarMenuIcon {
   vertical-align: middle;
 }
