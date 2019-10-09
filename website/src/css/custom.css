@@ -31,9 +31,3 @@ html[data-theme='dark'] {
     --ifm-font-size-base: 17px;
   }
 }
-
-.menu__list .menu__list .menu__list .menu__link {
-  font-size: 0.75em;
-  font-weight: normal;
-  color: #999;
-}

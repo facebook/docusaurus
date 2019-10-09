@@ -14,49 +14,102 @@ import styles from './styles.module.css';
 
 const MOBILE_TOGGLE_SIZE = 24;
 
+function DocSidebarItem({item, onItemClick}) {
+  const {items, href, label, type} = item;
+  const [collapsed, setCollapsed] = useState(item.collapsed);
+  const [prevCollapsedProp, setPreviousCollapsedProp] = useState(null);
+
+  // If the collapsing state from props changed, probably a navigation event
+  // occurred. Overwrite the component's collapsed state with the props'
+  // collapsed value.
+  if (item.collapsed !== prevCollapsedProp) {
+    setPreviousCollapsedProp(item.collapsed);
+    setCollapsed(item.collapsed);
+  }
+
+  switch (type) {
+    case 'category':
+      return (
+        <li
+          className={classnames('menu__list-item', {
+            'menu__list-item--collapsed': collapsed,
+          })}
+          key={label}>
+          <a
+            className={classnames('menu__link', 'menu__link--sublist', {
+              'menu__link--active': !item.collapsed,
+            })}
+            href="#!"
+            onClick={() => setCollapsed(!collapsed)}>
+            {label}
+          </a>
+          <ul className="menu__list">
+            {items.map(childItem => (
+              <DocSidebarItem
+                key={childItem.label}
+                item={childItem}
+                onItemClick={onItemClick}
+              />
+            ))}
+          </ul>
+        </li>
+      );
+
+    case 'link':
+    default:
+      return (
+        <li className="menu__list-item" key={label}>
+          <Link
+            activeClassName="menu__link--active"
+            className="menu__link"
+            to={href}
+            onClick={onItemClick}>
+            {label}
+          </Link>
+        </li>
+      );
+  }
+}
+
+// Calculate the category collapsing state when a page navigation occurs.
+// We want to automatically expand the categories which contains the current page.
+function mutateSidebarCollapsingState(item, location) {
+  const {items, href, type} = item;
+  switch (type) {
+    case 'category': {
+      const anyChildItemsActive =
+        items
+          .map(childItem => mutateSidebarCollapsingState(childItem, location))
+          .filter(val => val).length > 0;
+      // eslint-disable-next-line no-param-reassign
+      item.collapsed = !anyChildItemsActive;
+      return anyChildItemsActive;
+    }
+
+    case 'link':
+    default:
+      return href === location.pathname.replace(/\/$/, '');
+  }
+}
+
 function DocLegacySidebar(props) {
   const [showResponsiveSidebar, setShowResponsiveSidebar] = useState(false);
-  const {docsSidebars, sidebar} = props;
 
-  if (!sidebar) {
+  const {docsSidebars, location, sidebar: currentSidebar} = props;
+
+  if (!currentSidebar) {
     return null;
   }
 
-  const thisSidebar = docsSidebars[sidebar];
+  const sidebarData = docsSidebars[currentSidebar];
 
-  if (!thisSidebar) {
-    throw new Error(`Can not find ${sidebar} config`);
+  if (!sidebarData) {
+    throw new Error(`Can not find ${currentSidebar} config`);
   }
 
-  const renderItem = item => {
-    switch (item.type) {
-      case 'category':
-        return (
-          <li className="menu__list-item" key={item.label}>
-            <a className="menu__link" href="#!">
-              {item.label}
-            </a>
-            <ul className="menu__list">{item.items.map(renderItem)}</ul>
-          </li>
-        );
-
-      case 'link':
-      default:
-        return (
-          <li className="menu__list-item" key={item.label}>
-            <Link
-              activeClassName="menu__link--active"
-              className="menu__link"
-              to={item.href}
-              onClick={() => {
-                setShowResponsiveSidebar(false);
-              }}>
-              {item.label}
-            </Link>
-          </li>
-        );
-    }
-  };
+  sidebarData.forEach(sidebarItem =>
+    mutateSidebarCollapsingState(sidebarItem, location),
+  );
 
   return (
     <div className={styles.sidebar}>
@@ -100,7 +153,15 @@ function DocLegacySidebar(props) {
           )}
         </button>
         <ul className="menu__list">
-          {thisSidebar.map(item => renderItem(item, {root: true}))}
+          {sidebarData.map(item => (
+            <DocSidebarItem
+              key={item.label}
+              item={item}
+              onItemClick={() => {
+                setShowResponsiveSidebar(false);
+              }}
+            />
+          ))}
         </ul>
       </div>
     </div>
