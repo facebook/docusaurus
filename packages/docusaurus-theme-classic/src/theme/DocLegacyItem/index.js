@@ -66,15 +66,6 @@ function DocLegacyItem(props) {
           <div className="col">
             <div className={styles.docItemContainer}>
               <header>
-                {editUrl && (
-                  <a
-                    className={styles.editButton}
-                    href={editUrl}
-                    target="_blank"
-                    rel="noreferrer noopener">
-                    {'Edit'}
-                  </a>
-                )}
                 <h1 className="margin-bottom--lg">{metadata.title}</h1>
               </header>
               <article>
@@ -82,7 +73,16 @@ function DocLegacyItem(props) {
                   <DocContent />
                 </div>
               </article>
-              <div className="margin-top--xl margin-bottom--lg">
+              {editUrl && (
+                <div className="margin-vert--lg">
+                  {editUrl && (
+                    <a href={editUrl} target="_blank" rel="noreferrer noopener">
+                      Edit this page
+                    </a>
+                  )}
+                </div>
+              )}
+              <div className="margin-vert--lg">
                 <DocLegacyPaginator metadata={metadata} />
               </div>
             </div>

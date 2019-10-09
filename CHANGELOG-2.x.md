@@ -3,10 +3,10 @@
 ## Unreleased
 
 - Docs, pages plugin is rewritten in TypeScript
-- Docs sidebar can now be more than one level deep, theoretically up to infinity
-- Collapsible docs sidebar!
-- Add `editUrl` option (URL for editing) to docs plugin. If this field is set, there will be "Edit" button for each document page. Example: 'https://github.com/facebook/docusaurus/edit/master/docs'.
-- More documentation ...
+- Docs sidebar can now be more than one level deep - theoretically up to infinity, but 3-4 layers is the practical limit
+- Collapsible docs sidebar! This is ideal for projects with a long list of docs
+- Add `editUrl` option (URL for editing) to docs plugin. If this field is set, there will be an "Edit this page" link for each doc page. Example: 'https://github.com/facebook/docusaurus/edit/master/docs'.
+- More documentation...
 
 ## 2.0.0-alpha.25
 
