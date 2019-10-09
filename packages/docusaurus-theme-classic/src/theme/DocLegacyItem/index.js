@@ -66,7 +66,7 @@ function DocLegacyItem(props) {
           <div className="col">
             <div className={styles.docItemContainer}>
               <header>
-                <h1 className="margin-bottom--lg">{metadata.title}</h1>
+                <h1 className={styles.docTitle}>{metadata.title}</h1>
               </header>
               <article>
                 <div className="markdown">
