@@ -24,7 +24,11 @@ function DocLegacyPage(props) {
       <div className="container container--fluid">
         <div className="row">
           <div className="col col--3">
-            <DocLegacySidebar docsSidebars={docsSidebars} sidebar={sidebar} />
+            <DocLegacySidebar
+              docsSidebars={docsSidebars}
+              location={location}
+              sidebar={sidebar}
+            />
           </div>
           <main className="col">
             <MDXProvider components={MDXComponents}>
