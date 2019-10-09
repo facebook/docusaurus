@@ -1,14 +1,16 @@
 # Docusaurus 2 Changelog
 
 ## Unreleased
-- Docs plugin is rewritten in TypeScript
-- Docs sidebar can now be more than one level deep, theoretically up to infinity.
-- more documentation ...
+
+- Docs, pages plugin is rewritten in TypeScript
+- Docs sidebar can now be more than one level deep, theoretically up to infinity
+- Collapsible docs sidebar!
+- More documentation ...
 
 ## 2.0.0-alpha.25
 
 - Blog plugin is rewritten in TypeScript and can now support CJK
-- Upgrade key direct dependencies such as webpack, mdx and babel to latest 
+- Upgrade key direct dependencies such as webpack, mdx and babel to latest
 - Do not escape html and body attributes
 - For devices with very small viewport width, the searchbar is replaced with a search icon. On tap of the search icon the searchbar is expanded and the text beside the logo is hidden and remains hidden while the search bar is expanded.
 - Add `date` frontMatter support for blog plugin
@@ -20,7 +22,7 @@
 - Remove unused metadata for pages. This minimize number of http request & smaller bundle size.
 - Upgrade dependencies of css-loader from 2.x to 3.x. Css modules localIdentName hash now only use the last 4 characters instead of 8.
 - Fix broken markdown linking replacement for mdx files
-- Fix potential security vulnerability because we're exposing the directory structure of the host machine. Instead of absolute path, we use relative path from site directory. Resulting in shorter webpack chunk naming and smaller bundle size. 
+- Fix potential security vulnerability because we're exposing the directory structure of the host machine. Instead of absolute path, we use relative path from site directory. Resulting in shorter webpack chunk naming and smaller bundle size.
 - Use contenthash instead of chunkhash for better long term caching
 - Allow user to customize generated heading from MDX. Swizzle `@theme/Heading`
 
