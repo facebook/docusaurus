@@ -74,12 +74,19 @@ function DocLegacyItem(props) {
                 </div>
               </article>
               {editUrl && (
-                <div className="margin-vert--lg">
-                  {editUrl && (
-                    <a href={editUrl} target="_blank" rel="noreferrer noopener">
-                      Edit this page
-                    </a>
-                  )}
+                <div className="margin-vert--xl">
+                  <div className="row">
+                    <div className="col">
+                      {editUrl && (
+                        <a
+                          href={editUrl}
+                          target="_blank"
+                          rel="noreferrer noopener">
+                          Edit this page
+                        </a>
+                      )}
+                    </div>
+                  </div>
                 </div>
               )}
               <div className="margin-vert--lg">
