@@ -88,7 +88,10 @@ function mutateSidebarCollapsingState(item, location) {
 
     case 'link':
     default:
-      return href === location.pathname;
+      return (
+        href === location.pathname ||
+        href === location.pathname.replace(/\/$/, '')
+      );
   }
 }
 
