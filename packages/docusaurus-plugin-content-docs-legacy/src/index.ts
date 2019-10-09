@@ -18,11 +18,17 @@ import {
   PluginOptions,
   Sidebar,
   Order,
-  Metadata,
   DocsMetadata,
   LoadedContent,
   SourceToPermalink,
-  PermalinkToId,
+  PermalinkToSidebar,
+  DocsSidebarItemCategory,
+  SidebarItemLink,
+  SidebarItemDoc,
+  SidebarItemCategory,
+  DocsSidebar,
+  DocsBaseMetadata,
+  MetadataRaw,
 } from './types';
 import {Configuration} from 'webpack';
 
@@ -64,13 +70,15 @@ export default function pluginContentDocs(
         return null;
       }
 
-      const docsSidebars: Sidebar = loadSidebars(sidebarPath);
+      const loadedSidebars: Sidebar = loadSidebars(sidebarPath);
 
       // Build the docs ordering such as next, previous, category and sidebar.
-      const order: Order = createOrder(docsSidebars);
+      const order: Order = createOrder(loadedSidebars);
 
       // Prepare metadata container.
-      const docs: DocsMetadata = {};
+      const docsMetadataRaw: {
+        [id: string]: MetadataRaw;
+      } = {};
 
       // Metadata for default docs files.
       const docsFiles = await globby(include, {
@@ -78,7 +86,7 @@ export default function pluginContentDocs(
       });
       await Promise.all(
         docsFiles.map(async source => {
-          const metadata: Metadata = await processMetadata(
+          const metadata: MetadataRaw = await processMetadata(
             source,
             docsDir,
             order,
@@ -86,36 +94,99 @@ export default function pluginContentDocs(
             routeBasePath,
             siteDir,
           );
-          docs[metadata.id] = metadata;
+          docsMetadataRaw[metadata.id] = metadata;
         }),
       );
 
-      // Get the titles of the previous and next ids so that we can use them.
-      Object.keys(docs).forEach(currentID => {
-        const previousID = idx(docs, [currentID, 'previous']);
+      // Construct docsMetadata
+      const docsMetadata: DocsMetadata = {};
+      Object.keys(docsMetadataRaw).forEach(currentID => {
+        let previous;
+        let next;
+        const previousID = idx(docsMetadataRaw, [currentID, 'previous']);
         if (previousID) {
-          const previousTitle = idx(docs, [previousID, 'title']);
-          docs[currentID].previous_title = previousTitle || 'Previous';
+          previous = {
+            title: idx(docsMetadataRaw, [previousID, 'title']) || 'Previous',
+            permalink: idx(docsMetadataRaw, [previousID, 'permalink']),
+          };
         }
-        const nextID = idx(docs, [currentID, 'next']);
+        const nextID = idx(docsMetadataRaw, [currentID, 'next']);
         if (nextID) {
-          const nextTitle = idx(docs, [nextID, 'title']);
-          docs[currentID].next_title = nextTitle || 'Next';
+          next = {
+            title: idx(docsMetadataRaw, [nextID, 'title']) || 'Next',
+            permalink: idx(docsMetadataRaw, [nextID, 'permalink']),
+          };
+        }
+        docsMetadata[currentID] = {
+          ...docsMetadataRaw[currentID],
+          previous,
+          next,
+        };
+      });
+
+      const permalinkToSidebar: PermalinkToSidebar = {};
+      Object.values(docsMetadataRaw).forEach(({source, permalink, sidebar}) => {
+        sourceToPermalink[source] = permalink;
+        if (sidebar) {
+          permalinkToSidebar[permalink] = sidebar;
         }
       });
 
-      const permalinkToId: PermalinkToId = {};
-      Object.values(docs).forEach(({id, source, permalink}) => {
-        sourceToPermalink[source] = permalink;
-        permalinkToId[permalink] = id;
-      });
+      const convertDocLink = (item: SidebarItemDoc): SidebarItemLink => {
+        const linkID = item.id;
+        const linkMetadata = docsMetadataRaw[linkID];
+
+        if (!linkMetadata) {
+          throw new Error(
+            `Improper sidebars file, document with id '${linkID}' not found.`,
+          );
+        }
+
+        return {
+          type: 'link',
+          label: linkMetadata.sidebar_label || linkMetadata.title,
+          href: linkMetadata.permalink,
+        };
+      };
+
+      const normalizeCategory = (
+        category: SidebarItemCategory,
+      ): DocsSidebarItemCategory => {
+        const items = category.items.map(item => {
+          switch (item.type) {
+            case 'category':
+              return normalizeCategory(item as SidebarItemCategory);
+            case 'ref':
+            case 'doc':
+              return convertDocLink(item as SidebarItemDoc);
+            case 'link':
+              break;
+            default:
+              throw new Error(`Unknown sidebar item type: ${item.type}`);
+          }
+          return item as SidebarItemLink;
+        });
+        return {...category, items};
+      };
+
+      // Transform the sidebar so that all sidebar item will be in the form of 'link' or 'category' only
+      // This is what will be passed as props to the UI component
+      const docsSidebars: DocsSidebar = Object.entries(loadedSidebars).reduce(
+        (acc: DocsSidebar, [sidebarId, sidebarItemCategories]) => {
+          acc[sidebarId] = sidebarItemCategories.map(sidebarItemCategory =>
+            normalizeCategory(sidebarItemCategory),
+          );
+          return acc;
+        },
+        {},
+      );
 
       return {
-        docs,
+        docsMetadata,
         docsDir,
         docsSidebars,
         sourceToPermalink,
-        permalinkToId,
+        permalinkToSidebar,
       };
     },
 
@@ -128,7 +199,7 @@ export default function pluginContentDocs(
       const {addRoute, createData} = actions;
 
       const routes = await Promise.all(
-        Object.values(content.docs).map(async metadataItem => {
+        Object.values(content.docsMetadata).map(async metadataItem => {
           const metadataPath = await createData(
             `${docuHash(metadataItem.permalink)}.json`,
             JSON.stringify(metadataItem, null, 2),
@@ -145,13 +216,18 @@ export default function pluginContentDocs(
         }),
       );
 
+      const docsBaseMetadata: DocsBaseMetadata = {
+        docsSidebars: content.docsSidebars,
+        permalinkToSidebar: content.permalinkToSidebar,
+      };
+
       const docsBaseRoute = normalizeUrl([
         (context.siteConfig as DocusaurusConfig).baseUrl,
         routeBasePath,
       ]);
-      const docsMetadataPath = await createData(
+      const docsBaseMetadataPath = await createData(
         `${docuHash(docsBaseRoute)}.json`,
-        JSON.stringify(content, null, 2),
+        JSON.stringify(docsBaseMetadata, null, 2),
       );
 
       addRoute({
@@ -159,7 +235,7 @@ export default function pluginContentDocs(
         component: docLayoutComponent,
         routes,
         modules: {
-          docsMetadata: docsMetadataPath,
+          docsMetadata: docsBaseMetadataPath,
         },
       });
     },

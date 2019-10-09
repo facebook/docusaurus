@@ -61,12 +61,20 @@ export interface Sidebar {
   [sidebarId: string]: SidebarItemCategory[];
 }
 
+export interface DocsSidebarItemCategory {
+  type: string;
+  label: string;
+  items: (SidebarItemLink | DocsSidebarItemCategory)[];
+}
+
+export interface DocsSidebar {
+  [sidebarId: string]: DocsSidebarItemCategory[];
+}
+
 export interface OrderMetadata {
   previous?: string;
   next?: string;
   sidebar?: string;
-  category?: string;
-  subCategory?: string;
 }
 
 export interface Order {
@@ -79,11 +87,18 @@ export interface MetadataRaw extends OrderMetadata {
   description: string;
   source: string;
   permalink: string;
+  sidebar_label?: string;
+  [key: string]: any;
 }
 
-export interface Metadata extends MetadataRaw {
-  previous_title?: string;
-  next_title?: string;
+export interface Paginator {
+  title: string;
+  permalink: string;
+}
+
+export interface Metadata extends Omit<MetadataRaw, 'previous' | 'next'> {
+  previous?: Paginator;
+  next?: Paginator;
 }
 
 export interface DocsMetadata {
@@ -94,14 +109,19 @@ export interface SourceToPermalink {
   [source: string]: string;
 }
 
-export interface PermalinkToId {
+export interface PermalinkToSidebar {
   [permalink: string]: string;
 }
 
 export interface LoadedContent {
-  docs: DocsMetadata;
+  docsMetadata: DocsMetadata;
   docsDir: string;
   docsSidebars: Sidebar;
   sourceToPermalink: SourceToPermalink;
-  permalinkToId: PermalinkToId;
+  permalinkToSidebar: PermalinkToSidebar;
 }
+
+export type DocsBaseMetadata = Pick<
+  LoadedContent,
+  'docsSidebars' | 'permalinkToSidebar'
+>;

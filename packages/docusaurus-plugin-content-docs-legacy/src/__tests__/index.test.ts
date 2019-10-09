@@ -28,14 +28,15 @@ describe('loadDocs', () => {
       path: pluginPath,
       sidebarPath,
     });
-    const {docs: docsMetadata} = await plugin.loadContent();
+    const {docsMetadata} = await plugin.loadContent();
 
     expect(docsMetadata.hello).toEqual({
-      category: 'Guides',
       id: 'hello',
       permalink: '/docs/hello',
-      previous: 'foo/baz',
-      previous_title: 'baz',
+      previous: {
+        title: 'baz',
+        permalink: '/docs/foo/baz',
+      },
       sidebar: 'docs',
       source: path.join('@site', pluginPath, 'hello.md'),
       title: 'Hello, World !',
@@ -43,10 +44,11 @@ describe('loadDocs', () => {
     });
 
     expect(docsMetadata['foo/bar']).toEqual({
-      category: 'Test',
       id: 'foo/bar',
-      next: 'foo/baz',
-      next_title: 'baz',
+      next: {
+        title: 'baz',
+        permalink: '/docs/foo/baz',
+      },
       permalink: '/docs/foo/bar',
       sidebar: 'docs',
       source: path.join('@site', pluginPath, 'foo', 'bar.md'),

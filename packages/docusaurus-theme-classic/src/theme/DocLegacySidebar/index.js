@@ -16,34 +16,17 @@ const MOBILE_TOGGLE_SIZE = 24;
 
 function DocLegacySidebar(props) {
   const [showResponsiveSidebar, setShowResponsiveSidebar] = useState(false);
-  const {docsMetadata, sidebar} = props;
+  const {docsSidebars, sidebar} = props;
 
   if (!sidebar) {
     return null;
   }
 
-  const thisSidebar = docsMetadata.docsSidebars[sidebar];
+  const thisSidebar = docsSidebars[sidebar];
 
   if (!thisSidebar) {
     throw new Error(`Can not find ${sidebar} config`);
   }
-
-  const convertDocLink = item => {
-    const linkID = item.id;
-    const linkMetadata = docsMetadata.docs[linkID];
-
-    if (!linkMetadata) {
-      throw new Error(
-        `Improper sidebars file, document with id '${linkID}' not found.`,
-      );
-    }
-
-    return {
-      type: 'link',
-      label: linkMetadata.sidebar_label || linkMetadata.title,
-      href: linkMetadata.permalink,
-    };
-  };
 
   const renderItem = item => {
     switch (item.type) {
@@ -58,6 +41,7 @@ function DocLegacySidebar(props) {
         );
 
       case 'link':
+      default:
         return (
           <li className="menu__list-item" key={item.label}>
             <Link
@@ -71,10 +55,6 @@ function DocLegacySidebar(props) {
             </Link>
           </li>
         );
-
-      case 'ref':
-      default:
-        return renderItem(convertDocLink(item));
     }
   };
 

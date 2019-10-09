@@ -8,6 +8,8 @@
 import React from 'react';
 
 import Head from '@docusaurus/Head';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import withBaseUrl from '@docusaurus/withBaseUrl';
 import DocLegacyPaginator from '@theme/DocLegacyPaginator';
 
 import styles from './styles.module.css';
@@ -29,12 +31,35 @@ function Headings({headings, isChild}) {
 }
 
 function DocLegacyItem(props) {
-  const {metadata, content: DocContent, docsMetadata} = props;
+  const {siteConfig = {}} = useDocusaurusContext();
+  const {url: siteUrl} = siteConfig;
+  const {metadata, content: DocContent} = props;
+  const {description, title, permalink, image: metaImage} = metadata;
 
   return (
     <div>
       <Head>
-        {metadata && metadata.title && <title>{metadata.title}</title>}
+        {title && <title>{title}</title>}
+        {description && <meta name="description" content={description} />}
+        {description && (
+          <meta property="og:description" content={description} />
+        )}
+        {metaImage && (
+          <meta
+            property="og:image"
+            content={siteUrl + withBaseUrl(metaImage)}
+          />
+        )}
+        {metaImage && (
+          <meta
+            property="twitter:image"
+            content={siteUrl + withBaseUrl(metaImage)}
+          />
+        )}
+        {metaImage && (
+          <meta name="twitter:image:alt" content={`Image for ${title}`} />
+        )}
+        {permalink && <meta property="og:url" content={siteUrl + permalink} />}
       </Head>
       <div className="padding-vert--lg">
         <div className="row">
@@ -49,10 +74,7 @@ function DocLegacyItem(props) {
                 </div>
               </article>
               <div className="margin-top--xl margin-bottom--lg">
-                <DocLegacyPaginator
-                  docsMetadata={docsMetadata}
-                  metadata={metadata}
-                />
+                <DocLegacyPaginator metadata={metadata} />
               </div>
             </div>
           </div>
