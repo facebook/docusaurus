@@ -34,7 +34,7 @@ function DocLegacyItem(props) {
   const {siteConfig = {}} = useDocusaurusContext();
   const {url: siteUrl} = siteConfig;
   const {metadata, content: DocContent} = props;
-  const {description, title, permalink, image: metaImage} = metadata;
+  const {description, title, permalink, image: metaImage, editUrl} = metadata;
 
   return (
     <div>
@@ -66,6 +66,15 @@ function DocLegacyItem(props) {
           <div className="col">
             <div className={styles.docItemContainer}>
               <header>
+                {editUrl && (
+                  <a
+                    className={styles.editButton}
+                    href={editUrl}
+                    target="_blank"
+                    rel="noreferrer noopener">
+                    {'Edit'}
+                  </a>
+                )}
                 <h1 className="margin-bottom--lg">{metadata.title}</h1>
               </header>
               <article>

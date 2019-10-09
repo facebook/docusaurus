@@ -60,4 +60,28 @@ describe('processMetadata', () => {
       description: 'This has a different permalink',
     });
   });
+
+  test('docs with editUrl', async () => {
+    const editUrl =
+      'https://github.com/facebook/docusaurus/edit/master/website/docs/';
+    const source = path.join('foo', 'baz.md');
+    const data = await processMetadata(
+      source,
+      docsDir,
+      {},
+      siteConfig,
+      pluginPath,
+      siteDir,
+      editUrl,
+    );
+    expect(data).toEqual({
+      id: 'foo/baz',
+      permalink: '/docs/foo/baz',
+      source: path.join('@site', pluginPath, source),
+      title: 'baz',
+      editUrl:
+        'https://github.com/facebook/docusaurus/edit/master/website/docs/foo/baz.md',
+      description: '## Images',
+    });
+  });
 });

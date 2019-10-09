@@ -265,7 +265,7 @@ module.exports = {
 
 Deprecated. Create a `CNAME` file in your `static` folder instead. Files in the `static` folder will be copied into the root of the `build` folder during execution of the build command.
 
-#### `customDocsPath`, `docsUrl`
+#### `customDocsPath`, `docsUrl`, `editUrl`
 
 Deprecated. Pass it as an option to `@docusaurus/preset-classic` docs instead:
 
@@ -279,6 +279,8 @@ module.exports = {
         docs: {
           // Equivalent to `customDocsPath`.
           path: 'docs',
+          // Equivalent to `editUrl`
+          editUrl: 'https://github.com/facebook/docusaurus/edit/master/website/docs/',
           // Equivalent to `docsUrl`.
           routeBasePath: 'docs',
           // Remark and Rehype plugins passed to MDX. Replaces `markdownOptions` and `markdownPlugins`.
@@ -321,7 +323,6 @@ module.exports = {
 ### Deprecated fields that may be implemented using a plugin
 
 - `enableUpdateBy`
-- `editUrl`
 - `enableUpdateTime`
 - `scripts`
 - `stylesheets`

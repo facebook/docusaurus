@@ -23,3 +23,30 @@
     display: none;
   }
 }
+
+.editButton {
+  float: right;
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1em;
+  height: 30px;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 3px;
+  transition: all 0.2s ease-out 0s;
+  text-decoration: none !important;
+  padding: 5px 16px;
+}
+
+.editButton:hover {
+  color: var(--ifm-font-base-color);
+}
+
+@media only screen and (max-width: 997px) {
+  .editButton {
+    display: none;
+  }
+}
