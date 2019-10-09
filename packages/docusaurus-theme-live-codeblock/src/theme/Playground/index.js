@@ -7,6 +7,7 @@
 
 import * as React from 'react';
 import {LiveProvider, LiveEditor, LiveError, LivePreview} from 'react-live';
+import classnames from 'classnames';
 
 import styles from './styles.module.css';
 
@@ -17,9 +18,21 @@ function Playground({children, theme, transformCode, ...props}) {
       transformCode={transformCode || (code => `${code};`)}
       theme={theme}
       {...props}>
-      <div className={styles.playgroundHeader}>LIVE EDITOR</div>
+      <div
+        className={classnames(
+          styles.playgroundHeader,
+          styles.playgroundEditorHeader,
+        )}>
+        Live Editor
+      </div>
       <LiveEditor />
-      <div className={styles.playgroundHeader}>PREVIEW</div>
+      <div
+        className={classnames(
+          styles.playgroundHeader,
+          styles.playgroundPreviewHeader,
+        )}>
+        Result
+      </div>
       <div className={styles.playgroundPreview}>
         <LivePreview />
         <LiveError />

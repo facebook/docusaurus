@@ -6,15 +6,26 @@
  */
 
 .playgroundHeader {
-  padding: 4px 8px;
-  background: #1a2d3c;
+  letter-spacing: 0.08rem;
+  padding: 0.75rem;
   text-transform: uppercase;
-  color: rgb(225, 230, 239, .4);
-  font-size: 11px;
   font-weight: bold;
 }
 
+.playgroundEditorHeader {
+  background: rgb(32, 35, 42);
+  color: #999;
+}
+
+.playgroundPreviewHeader {
+  background: rgb(236, 236, 236);
+  color: rgb(109, 109, 109);
+}
+
 .playgroundPreview {
+  border: 1px solid #f0f0f0;
+  border-bottom-left-radius: var(--ifm-global-radius);
+  border-bottom-right-radius: var(--ifm-global-radius);
   position: relative;
-  padding: 16px 16px 0;
+  padding: 1rem;
 }

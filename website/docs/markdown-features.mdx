@@ -150,8 +150,7 @@ If you want to reference another document file, you should use the name of the d
 For example, if you are in `doc2.md` and you want to reference `doc1.md` and `folder/doc3.md`:
 
 ```md
-I am referencing a [document](doc1.md).
-Reference to another [document in a folder](folder/doc3.md)
+I am referencing a [document](doc1.md). Reference to another [document in a folder](folder/doc3.md)
 ```
 
 One benefit of this approach is that the links to external files will still work if you are viewing the file on GitHub.
@@ -180,12 +179,12 @@ Example:
 // docusaurus.config.js
 module.exports = {
   themeConfig: {
-    prismTheme: require('prism-react-renderer/themes/vsDark')
-  }
+    prismTheme: require('prism-react-renderer/themes/palenight'),
+  },
 };
 ```
 
-By default, the Prism theme we use is [Night Owl](https://github.com/FormidableLabs/prism-react-renderer/blob/master/themes/nightOwl.js).
+By default, the Prism theme we use is [Palenight](https://github.com/FormidableLabs/prism-react-renderer/blob/master/src/themes/palenight.js).
 
 ### Interactive code editor
 
@@ -259,4 +258,4 @@ function Clock(props) {
 }
 ```
 
-**Note:** The React Live component is rather big in bundle size. It is an opt-in.
+**Note:** The React Live component is rather big in bundle size, hence it is an opt-in (lazily loaded) by default.

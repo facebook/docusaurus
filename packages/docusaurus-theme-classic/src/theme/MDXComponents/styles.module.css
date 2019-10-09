@@ -1,8 +1,6 @@
 .mdxCodeBlock {
   background-color: transparent;
-  border: 0.5px solid rgba(31, 34, 39, .6);
   border-radius: var(--ifm-global-radius);
-  box-shadow: rgba(0,0,0,.1) 1px 1px 4px 1px;
   box-sizing: border-box;
   font-family: inherit;
   padding: 0;
