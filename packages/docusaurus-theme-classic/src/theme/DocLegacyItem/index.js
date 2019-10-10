@@ -62,45 +62,47 @@ function DocLegacyItem(props) {
         {permalink && <meta property="og:url" content={siteUrl + permalink} />}
       </Head>
       <div className="padding-vert--lg">
-        <div className="row">
-          <div className="col">
-            <div className={styles.docItemContainer}>
-              <header>
-                <h1 className="margin-bottom--lg">{metadata.title}</h1>
-              </header>
-              <article>
-                <div className="markdown">
-                  <DocContent />
-                </div>
-              </article>
-              {editUrl && (
-                <div className="margin-vert--xl">
-                  <div className="row">
-                    <div className="col">
-                      {editUrl && (
-                        <a
-                          href={editUrl}
-                          target="_blank"
-                          rel="noreferrer noopener">
-                          Edit this page
-                        </a>
-                      )}
+        <div className="container">
+          <div className="row">
+            <div className="col">
+              <div className={styles.docItemContainer}>
+                <header>
+                  <h1 className={styles.docTitle}>{metadata.title}</h1>
+                </header>
+                <article>
+                  <div className="markdown">
+                    <DocContent />
+                  </div>
+                </article>
+                {editUrl && (
+                  <div className="margin-vert--xl">
+                    <div className="row">
+                      <div className="col">
+                        {editUrl && (
+                          <a
+                            href={editUrl}
+                            target="_blank"
+                            rel="noreferrer noopener">
+                            Edit this page
+                          </a>
+                        )}
+                      </div>
                     </div>
                   </div>
+                )}
+                <div className="margin-vert--lg">
+                  <DocLegacyPaginator metadata={metadata} />
                 </div>
-              )}
-              <div className="margin-vert--lg">
-                <DocLegacyPaginator metadata={metadata} />
               </div>
             </div>
+            {DocContent.rightToc && (
+              <div className="col col--3">
+                <div className={styles.tableOfContents}>
+                  <Headings headings={DocContent.rightToc} />
+                </div>
+              </div>
+            )}
           </div>
-          {DocContent.rightToc && (
-            <div className="col col--3">
-              <div className={styles.tableOfContents}>
-                <Headings headings={DocContent.rightToc} />
-              </div>
-            </div>
-          )}
         </div>
       </div>
     </div>

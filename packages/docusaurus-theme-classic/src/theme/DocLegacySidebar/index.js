@@ -104,7 +104,9 @@ function DocLegacySidebar(props) {
   const sidebarData = docsSidebars[currentSidebar];
 
   if (!sidebarData) {
-    throw new Error(`Can not find ${currentSidebar} config`);
+    throw new Error(
+      `Cannot find the sidebar "${currentSidebar}" in the sidebar config!`,
+    );
   }
 
   sidebarData.forEach(sidebarItem =>
