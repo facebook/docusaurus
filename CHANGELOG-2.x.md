@@ -10,6 +10,9 @@
   - Add `editUrl` option (URL for editing) to docs plugin. If this field is set, there will be an "Edit this page" link for each doc page. Example: 'https://github.com/facebook/docusaurus/edit/master/docs'.
 - More documentation ...
 - Slight tweaks to the Blog components - blog title is larger now
+- Code Blocks
+  - Change default theme from Night Owl to Palenight
+  - Slight tweaks to playground/preview components
 
 ## 2.0.0-alpha.25
 
