@@ -13,29 +13,28 @@ import Layout from '@theme/Layout';
 import DocLegacySidebar from '@theme/DocLegacySidebar';
 import MDXComponents from '@theme/MDXComponents';
 
+import styles from './styles.module.css';
+
 function DocLegacyPage(props) {
   const {route, docsMetadata, location} = props;
   const {permalinkToSidebar, docsSidebars} = docsMetadata;
-  const sidebar =
-    permalinkToSidebar[location.pathname] ||
-    permalinkToSidebar[location.pathname.replace(/\/$/, '')];
+  const sidebar = permalinkToSidebar[location.pathname.replace(/\/$/, '')];
+
   return (
     <Layout noFooter>
-      <div className="container container--fluid">
-        <div className="row">
-          <div className="col col--3">
-            <DocLegacySidebar
-              docsSidebars={docsSidebars}
-              location={location}
-              sidebar={sidebar}
-            />
-          </div>
-          <main className="col">
-            <MDXProvider components={MDXComponents}>
-              {renderRoutes(route.routes)}
-            </MDXProvider>
-          </main>
+      <div className={styles.docPage}>
+        <div className={styles.docSidebarContainer}>
+          <DocLegacySidebar
+            docsSidebars={docsSidebars}
+            location={location}
+            sidebar={sidebar}
+          />
         </div>
+        <main className={styles.docMainContainer}>
+          <MDXProvider components={MDXComponents}>
+            {renderRoutes(route.routes)}
+          </MDXProvider>
+        </main>
       </div>
     </Layout>
   );

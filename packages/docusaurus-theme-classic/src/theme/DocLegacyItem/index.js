@@ -62,29 +62,31 @@ function DocLegacyItem(props) {
         {permalink && <meta property="og:url" content={siteUrl + permalink} />}
       </Head>
       <div className="padding-vert--lg">
-        <div className="row">
-          <div className="col">
-            <div className={styles.docItemContainer}>
-              <header>
-                <h1 className="margin-bottom--lg">{metadata.title}</h1>
-              </header>
-              <article>
-                <div className="markdown">
-                  <DocContent />
+        <div className="container">
+          <div className="row">
+            <div className="col">
+              <div className={styles.docItemContainer}>
+                <header>
+                  <h1 className={styles.docTitle}>{metadata.title}</h1>
+                </header>
+                <article>
+                  <div className="markdown">
+                    <DocContent />
+                  </div>
+                </article>
+                <div className="margin-top--xl margin-bottom--lg">
+                  <DocLegacyPaginator metadata={metadata} />
                 </div>
-              </article>
-              <div className="margin-top--xl margin-bottom--lg">
-                <DocLegacyPaginator metadata={metadata} />
               </div>
             </div>
+            {DocContent.rightToc && (
+              <div className="col col--3">
+                <div className={styles.tableOfContents}>
+                  <Headings headings={DocContent.rightToc} />
+                </div>
+              </div>
+            )}
           </div>
-          {DocContent.rightToc && (
-            <div className="col col--3">
-              <div className={styles.tableOfContents}>
-                <Headings headings={DocContent.rightToc} />
-              </div>
-            </div>
-          )}
         </div>
       </div>
     </div>

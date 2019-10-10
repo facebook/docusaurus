@@ -3,8 +3,10 @@
 ## Unreleased
 
 - Docs, pages plugin is rewritten in TypeScript
-- Docs sidebar can now be more than one level deep, theoretically up to infinity
-- Collapsible docs sidebar!
+- Docs improvements and tweaks
+  - Docs sidebar can now be more than one level deep, theoretically up to infinity
+  - Collapsible docs sidebar!
+  - Make doc page title larger
 - More documentation ...
 - Slight tweaks to the Blog components - blog title is larger now
 
