@@ -18,6 +18,7 @@ export default async function processMetadata(
   siteConfig: Partial<DocusaurusConfig>,
   docsBasePath: string,
   siteDir: string,
+  editUrl?: string,
 ): Promise<MetadataRaw> {
   const filepath = path.join(docsDir, source);
 
@@ -80,6 +81,10 @@ export default async function processMetadata(
     if (order[id].previous) {
       metadata.previous = order[id].previous;
     }
+  }
+
+  if (editUrl) {
+    metadata.editUrl = normalizeUrl([editUrl, source]);
   }
 
   return metadata as MetadataRaw;

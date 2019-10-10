@@ -7,6 +7,7 @@
   - Docs sidebar can now be more than one level deep, theoretically up to infinity
   - Collapsible docs sidebar!
   - Make doc page title larger
+  - Add `editUrl` option (URL for editing) to docs plugin. If this field is set, there will be an "Edit this page" link for each doc page. Example: 'https://github.com/facebook/docusaurus/edit/master/docs'.
 - More documentation ...
 - Slight tweaks to the Blog components - blog title is larger now
 

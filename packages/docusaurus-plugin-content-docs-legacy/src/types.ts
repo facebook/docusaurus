@@ -14,6 +14,7 @@ export interface PluginOptions {
   docItemComponent: string;
   remarkPlugins: string[];
   rehypePlugins: string[];
+  editUrl?: string;
 }
 
 export type SidebarItemDoc = {
@@ -88,6 +89,7 @@ export interface MetadataRaw extends OrderMetadata {
   source: string;
   permalink: string;
   sidebar_label?: string;
+  editUrl?: string;
   [key: string]: any;
 }
 

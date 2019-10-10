@@ -145,6 +145,10 @@ module.exports = {
          */
         path: 'docs',
         /**
+         * URL for editing docs, example: 'https://github.com/facebook/docusaurus/edit/master/website/docs/'
+         */
+        editUrl: 'https://github.com/repo/project/website/docs/',
+        /**
          * URL route for the blog section of your site
          * do not include trailing slash
          */

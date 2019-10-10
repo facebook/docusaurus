@@ -62,7 +62,7 @@ export default function pluginContentDocs(
 
     // Fetches blog contents and returns metadata for the contents.
     async loadContent() {
-      const {include, routeBasePath, sidebarPath} = options;
+      const {include, routeBasePath, sidebarPath, editUrl} = options;
       const {siteConfig, siteDir} = context;
       const docsDir = contentPath;
 
@@ -93,6 +93,7 @@ export default function pluginContentDocs(
             siteConfig,
             routeBasePath,
             siteDir,
+            editUrl,
           );
           docsMetadataRaw[metadata.id] = metadata;
         }),
