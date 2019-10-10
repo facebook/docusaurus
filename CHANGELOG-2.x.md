@@ -6,6 +6,7 @@
 - Docs sidebar can now be more than one level deep, theoretically up to infinity
 - Collapsible docs sidebar!
 - More documentation ...
+- Slight tweaks to the Blog components - blog title is larger now
 
 ## 2.0.0-alpha.25
 
