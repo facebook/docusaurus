@@ -8,7 +8,7 @@
 import React, {useEffect, useState, useRef} from 'react';
 import classnames from 'classnames';
 import Highlight, {defaultProps} from 'prism-react-renderer';
-import nightOwlTheme from 'prism-react-renderer/themes/nightOwl';
+import defaultTheme from 'prism-react-renderer/themes/palenight';
 import Clipboard from 'clipboard';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import styles from './styles.module.css';
@@ -52,7 +52,7 @@ export default ({children, className: languageClassName}) => {
   return (
     <Highlight
       {...defaultProps}
-      theme={prismTheme || nightOwlTheme}
+      theme={prismTheme || defaultTheme}
       code={children.trim()}
       language={language}>
       {({className, style, tokens, getLineProps, getTokenProps}) => (
