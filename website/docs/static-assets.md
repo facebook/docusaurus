@@ -17,7 +17,7 @@ A better way would be to use the `withBaseUrl` utility function which appends th
 
 ### JSX example
 
-```
+```jsx
 // MyComponent.js
 import withBaseUrl from '@docusaurus/withBaseUrl';
 
@@ -29,17 +29,33 @@ import withBaseUrl from '@docusaurus/withBaseUrl';
 
 ### Markdown example
 
-Unfortunately you can't use the `withBaseUrl` utility function in Markdown files yet. You'd have to write the paths as plain strings.
+Thanks to MDX, you can also use `withBaseUrl` utility function in Markdown files! You'd have to use `<img>` tags instead of the Markdown image syntax though. The syntax is exactly the same as in JSX.
 
-```markdown
-<!-- reference static/img/docusaurus.png -->
+```txt
+// my-doc.mdx
+---
+id: my-doc
+title: My Doc
+---
 
-![Docusaurus logo](/img/docusaurus.png)
+import withBaseUrl from '@docusaurus/withBaseUrl'; // Add to the top of the file below the front matter.
+
+...
+
+<img alt="Docusaurus with Keytar" src={withBaseUrl('img/docusaurus_keytar.svg')} />;
+```
+
+You could also just use Markdown image syntax, but you would have to manually maintain the image paths yourself and isn't recommended.
+
+```md
+// my-doc.md
+
+![Docusaurus with Keytar](/img/docusaurus_keytar.png)
 ```
 
 ### Caveats
 
 Keep in mind that:
 
-- None of the files in `static` folder will be post-processed or minified.
+- By default, none of the files in `static` folder will be post-processed or minified.
 - Missing files references via hardcoded absolute paths will not be detected at compilation time, and will result in a 404 error.
