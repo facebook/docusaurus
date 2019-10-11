@@ -84,11 +84,10 @@ Facebook has a [bounty program](https://www.facebook.com/whitehat/) for the safe
 
 1. Ensure you have [Yarn](https://yarnpkg.com/) installed.
 1. After cloning the repository, run `yarn install` in the root of the repository.
+1. To start a development server:
 
-   - For Docusaurus 1 development, look into the `packages/docusaurus-1.x` and `website-1.x` directory.
-   - For Docusaurus 2 development, go into the `packages/docusaurus` and `website` directory.
-
-1. Run `yarn start` in the respective project directory to start a local development server serving the Docusaurus docs.
+   - For Docusaurus 1 development, run `yarn start:v1`
+   - For Docusaurus 2 development, run `yarn start`
 
 ## Pull Requests
 
