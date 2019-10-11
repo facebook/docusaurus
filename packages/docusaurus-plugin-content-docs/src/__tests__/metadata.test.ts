@@ -23,9 +23,24 @@ describe('processMetadata', () => {
     const sourceB = path.join('hello.md');
 
     const [dataA, dataB] = await Promise.all([
-      processMetadata(sourceA, docsDir, {}, siteConfig, pluginPath, siteDir),
-      processMetadata(sourceB, docsDir, {}, siteConfig, pluginPath, siteDir),
+      processMetadata({
+        source: sourceA,
+        docsDir,
+        order: {},
+        siteConfig,
+        docsBasePath: pluginPath,
+        siteDir,
+      }),
+      processMetadata({
+        source: sourceB,
+        docsDir,
+        order: {},
+        siteConfig,
+        docsBasePath: pluginPath,
+        siteDir,
+      }),
     ]);
+
     expect(dataA).toEqual({
       id: 'foo/bar',
       permalink: '/docs/foo/bar',
@@ -44,14 +59,15 @@ describe('processMetadata', () => {
 
   test('docs with custom permalink', async () => {
     const source = path.join('permalink.md');
-    const data = await processMetadata(
+    const data = await processMetadata({
       source,
       docsDir,
-      {},
+      order: {},
       siteConfig,
-      pluginPath,
+      docsBasePath: pluginPath,
       siteDir,
-    );
+    });
+
     expect(data).toEqual({
       id: 'permalink',
       permalink: '/docs/endiliey/permalink',
@@ -65,15 +81,16 @@ describe('processMetadata', () => {
     const editUrl =
       'https://github.com/facebook/docusaurus/edit/master/website/docs/';
     const source = path.join('foo', 'baz.md');
-    const data = await processMetadata(
+    const data = await processMetadata({
       source,
       docsDir,
-      {},
+      order: {},
       siteConfig,
-      pluginPath,
+      docsBasePath: pluginPath,
       siteDir,
       editUrl,
-    );
+    });
+
     expect(data).toEqual({
       id: 'foo/baz',
       permalink: '/docs/foo/baz',
