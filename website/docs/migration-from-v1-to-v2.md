@@ -117,7 +117,7 @@ module.exports = {
 
 Refer to migration guide below for each field in `siteConfig.js`.
 
-#### `baseUrl`, `tagline`, `title`, `url`, `favicon`, `organizationName`, `projectName`, `githubHost`
+#### `baseUrl`, `tagline`, `title`, `url`, `favicon`, `organizationName`, `projectName`, `githubHost`, `scripts`, `stylesheets`
 
 No actions needed.
 
@@ -324,8 +324,6 @@ module.exports = {
 
 - `enableUpdateBy`
 - `enableUpdateTime`
-- `scripts`
-- `stylesheets`
 
 ### Removed fields
 

@@ -19,6 +19,18 @@ export interface DocusaurusConfig {
   customFields?: {
     [key: string]: any;
   };
+  scripts?: (
+    | string
+    | {
+        src: string;
+        [key: string]: any;
+      })[];
+  stylesheets?: (
+    | string
+    | {
+        href: string;
+        [key: string]: any;
+      })[];
 }
 
 export interface DocusaurusContext {
