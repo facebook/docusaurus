@@ -8,7 +8,7 @@
 import React from 'react';
 import Link from '@docusaurus/Link';
 
-function DocLegacyPaginator(props) {
+function DocPaginator(props) {
   const {metadata} = props;
 
   return (
@@ -39,4 +39,4 @@ function DocLegacyPaginator(props) {
   );
 }
 
-export default DocLegacyPaginator;
+export default DocPaginator;

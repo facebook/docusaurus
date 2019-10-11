@@ -10,7 +10,7 @@ import React from 'react';
 import Head from '@docusaurus/Head';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import withBaseUrl from '@docusaurus/withBaseUrl';
-import DocLegacyPaginator from '@theme/DocLegacyPaginator';
+import DocPaginator from '@theme/DocPaginator';
 
 import styles from './styles.module.css';
 
@@ -30,7 +30,7 @@ function Headings({headings, isChild}) {
   );
 }
 
-function DocLegacyItem(props) {
+function DocItem(props) {
   const {siteConfig = {}} = useDocusaurusContext();
   const {url: siteUrl} = siteConfig;
   const {metadata, content: DocContent} = props;
@@ -91,7 +91,7 @@ function DocLegacyItem(props) {
                   </div>
                 )}
                 <div className="margin-vert--lg">
-                  <DocLegacyPaginator metadata={metadata} />
+                  <DocPaginator metadata={metadata} />
                 </div>
               </div>
             </div>
@@ -109,4 +109,4 @@ function DocLegacyItem(props) {
   );
 }
 
-export default DocLegacyItem;
+export default DocItem;

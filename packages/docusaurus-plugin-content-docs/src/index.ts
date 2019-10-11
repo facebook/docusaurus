@@ -37,8 +37,8 @@ const DEFAULT_OPTIONS: PluginOptions = {
   routeBasePath: 'docs', // URL Route.
   include: ['**/*.md', '**/*.mdx'], // Extensions to include.
   sidebarPath: '', // Path to sidebar configuration for showing a list of markdown pages.
-  docLayoutComponent: '@theme/DocLegacyPage',
-  docItemComponent: '@theme/DocLegacyItem',
+  docLayoutComponent: '@theme/DocPage',
+  docItemComponent: '@theme/DocItem',
   remarkPlugins: [],
   rehypePlugins: [],
 };
@@ -52,7 +52,7 @@ export default function pluginContentDocs(
   let sourceToPermalink: SourceToPermalink = {};
 
   return {
-    name: 'docusaurus-plugin-content-docs-legacy',
+    name: 'docusaurus-plugin-content-docs',
 
     getPathsToWatch() {
       const {include = []} = options;

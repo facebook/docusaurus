@@ -10,12 +10,12 @@ import {MDXProvider} from '@mdx-js/react';
 
 import renderRoutes from '@docusaurus/renderRoutes';
 import Layout from '@theme/Layout';
-import DocLegacySidebar from '@theme/DocLegacySidebar';
+import DocSidebar from '@theme/DocSidebar';
 import MDXComponents from '@theme/MDXComponents';
 
 import styles from './styles.module.css';
 
-function DocLegacyPage(props) {
+function DocPage(props) {
   const {route, docsMetadata, location} = props;
   const {permalinkToSidebar, docsSidebars} = docsMetadata;
   const sidebar = permalinkToSidebar[location.pathname.replace(/\/$/, '')];
@@ -24,7 +24,7 @@ function DocLegacyPage(props) {
     <Layout noFooter>
       <div className={styles.docPage}>
         <div className={styles.docSidebarContainer}>
-          <DocLegacySidebar
+          <DocSidebar
             docsSidebars={docsSidebars}
             location={location}
             sidebar={sidebar}
@@ -40,4 +40,4 @@ function DocLegacyPage(props) {
   );
 }
 
-export default DocLegacyPage;
+export default DocPage;

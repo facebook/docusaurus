@@ -15,7 +15,7 @@ module.exports = {
   favicon: 'img/docusaurus.ico',
   plugins: [
     [
-      '@docusaurus/plugin-content-docs-legacy',
+      '@docusaurus/plugin-content-docs',
       {
         path: '../docs',
         sidebarPath: require.resolve('./sidebars.js'),

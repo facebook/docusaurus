@@ -92,7 +92,7 @@ function mutateSidebarCollapsingState(item, location) {
   }
 }
 
-function DocLegacySidebar(props) {
+function DocSidebar(props) {
   const [showResponsiveSidebar, setShowResponsiveSidebar] = useState(false);
 
   const {docsSidebars, location, sidebar: currentSidebar} = props;
@@ -170,4 +170,4 @@ function DocLegacySidebar(props) {
   );
 }
 
-export default DocLegacySidebar;
+export default DocSidebar;
