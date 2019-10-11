@@ -9,7 +9,6 @@ import fs from 'fs';
 import path from 'path';
 
 import lastUpdate from '../lastUpdate';
-import {SpawnSyncReturns} from 'child_process';
 
 describe('lastUpdate', () => {
   test('existing test file in repository with Git timestamp', () => {
