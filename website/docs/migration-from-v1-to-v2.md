@@ -265,7 +265,7 @@ module.exports = {
 
 Deprecated. Create a `CNAME` file in your `static` folder instead. Files in the `static` folder will be copied into the root of the `build` folder during execution of the build command.
 
-#### `customDocsPath`, `docsUrl`, `editUrl`
+#### `customDocsPath`, `docsUrl`, `editUrl`, `enableUpdateBy`, `enableUpdateTime`
 
 Deprecated. Pass it as an option to `@docusaurus/preset-classic` docs instead:
 
@@ -286,6 +286,10 @@ module.exports = {
           // Remark and Rehype plugins passed to MDX. Replaces `markdownOptions` and `markdownPlugins`.
           remarkPlugins: [],
           rehypePlugins: [],
+          // Equivalent to `enableUpdateBy`.
+          showLastUpdateAuthor: true,
+          // Equivalent to `enableUpdateTime`.
+          showLastUpdateTime: true,
         },
         ...
       },
@@ -322,8 +326,6 @@ module.exports = {
 
 ### Deprecated fields that may be implemented using a plugin
 
-- `enableUpdateBy`
-- `enableUpdateTime`
 - `scripts`
 - `stylesheets`
 

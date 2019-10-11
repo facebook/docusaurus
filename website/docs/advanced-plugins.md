@@ -169,6 +169,14 @@ module.exports = {
          */
         remarkPlugins: [],
         rehypePlugins: [],
+        /**
+         * Whether to display the author who last updated the doc.
+         * /
+        showLastUpdateAuthor: false,
+        /**
+         * Whether to display the last date the doc was updated.
+         * /
+        showLastUpdateTime: false,
       },
     ],
   ],

@@ -14,6 +14,7 @@ import {LoadContext, Plugin, DocusaurusConfig} from '@docusaurus/types';
 import createOrder from './order';
 import loadSidebars from './sidebars';
 import processMetadata from './metadata';
+
 import {
   PluginOptions,
   Sidebar,
@@ -41,6 +42,8 @@ const DEFAULT_OPTIONS: PluginOptions = {
   docItemComponent: '@theme/DocItem',
   remarkPlugins: [],
   rehypePlugins: [],
+  showLastUpdateTime: false,
+  showLastUpdateAuthor: false,
 };
 
 export default function pluginContentDocs(
@@ -62,7 +65,14 @@ export default function pluginContentDocs(
 
     // Fetches blog contents and returns metadata for the contents.
     async loadContent() {
-      const {include, routeBasePath, sidebarPath, editUrl} = options;
+      const {
+        include,
+        routeBasePath,
+        sidebarPath,
+        editUrl,
+        showLastUpdateAuthor,
+        showLastUpdateTime,
+      } = options;
       const {siteConfig, siteDir} = context;
       const docsDir = contentPath;
 
@@ -86,15 +96,17 @@ export default function pluginContentDocs(
       });
       await Promise.all(
         docsFiles.map(async source => {
-          const metadata: MetadataRaw = await processMetadata(
+          const metadata: MetadataRaw = await processMetadata({
             source,
             docsDir,
             order,
             siteConfig,
-            routeBasePath,
+            docsBasePath: routeBasePath,
             siteDir,
             editUrl,
-          );
+            showLastUpdateAuthor,
+            showLastUpdateTime,
+          });
           docsMetadataRaw[metadata.id] = metadata;
         }),
       );
