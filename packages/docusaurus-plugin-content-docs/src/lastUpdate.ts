@@ -6,6 +6,7 @@
  */
 
 import shell from 'shelljs';
+import spawn from 'cross-spawn';
 
 type FileLastUpdateData = {timestamp?: number; author?: string};
 
@@ -16,10 +17,6 @@ let showedGitRequirementError = false;
 export default function getFileLastUpdate(
   filePath: string,
 ): FileLastUpdateData | null {
-  function isTimestampAndAuthor(str: string): boolean {
-    return GIT_COMMIT_TIMESTAMP_AUTHOR_REGEX.test(str);
-  }
-
   function getTimestampAndAuthor(str: string): FileLastUpdateData | null {
     if (!str) {
       return null;
@@ -42,36 +39,12 @@ export default function getFileLastUpdate(
       return null;
     }
 
-    // To differentiate between content change and file renaming/moving, use --summary
-    // To follow the file history until before it is moved (when we create new version), use
-    // --follow.
-    const silentState = shell.config.silent; // Save old silent state.
-    shell.config.silent = true;
-    const result = shell
-      .exec(`git log --follow --summary --format="%ct, %an" ${filePath}`)
-      .stdout.trim();
-    shell.config.silent = silentState;
+    const result = spawn
+      .sync('git', ['log', '-1', '--format=%ct, %an', filePath])
+      .stdout.toString()
+      .trim();
 
-    // Format the log results to be
-    // ['1234567890, Yangshun Tay', 'rename ...', '1234567880,
-    //  'Joel Marcey', 'move ...', '1234567870', '1234567860']
-    const records = result
-      .replace(/\n\s*\n/g, '\n')
-      .split('\n')
-      .filter(String);
-    const lastContentModifierCommit = records.find((item, index, arr) => {
-      const currentItemIsTimestampAndAuthor = isTimestampAndAuthor(item);
-      const isLastTwoItem = index + 2 >= arr.length;
-      const nextItemIsTimestampAndAuthor = isTimestampAndAuthor(arr[index + 1]);
-      return (
-        currentItemIsTimestampAndAuthor &&
-        (isLastTwoItem || nextItemIsTimestampAndAuthor)
-      );
-    });
-
-    return lastContentModifierCommit
-      ? getTimestampAndAuthor(lastContentModifierCommit)
-      : null;
+    return getTimestampAndAuthor(result);
   } catch (error) {
     console.error(error);
   }
