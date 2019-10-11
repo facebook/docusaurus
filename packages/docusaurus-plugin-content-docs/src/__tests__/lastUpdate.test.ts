@@ -7,7 +7,6 @@
 
 import fs from 'fs';
 import path from 'path';
-import spawn from 'cross-spawn';
 
 import lastUpdate from '../lastUpdate';
 import {SpawnSyncReturns} from 'child_process';
