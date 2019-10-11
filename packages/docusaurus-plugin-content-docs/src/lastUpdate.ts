@@ -31,7 +31,11 @@ export default function getFileLastUpdate(
 
   // Wrap in try/catch in case the shell commands fail (e.g. project doesn't use Git, etc).
   try {
-    // To differentiate between content change and file renaming / moving, use --summary
+    if (!shell.which('git')) {
+      console.log('Sorry, the docs plugin last update options require Git.');
+      return null;
+    }
+    // To differentiate between content change and file renaming/moving, use --summary
     // To follow the file history until before it is moved (when we create new version), use
     // --follow.
     const silentState = shell.config.silent; // Save old silent state.
