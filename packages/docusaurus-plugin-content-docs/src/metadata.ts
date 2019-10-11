@@ -8,21 +8,37 @@
 import fs from 'fs-extra';
 import path from 'path';
 import {parse, normalizeUrl} from '@docusaurus/utils';
-import {Order, MetadataRaw} from './types';
 import {DocusaurusConfig} from '@docusaurus/types';
 
-export default async function processMetadata(
-  source: string,
-  docsDir: string,
-  order: Order,
-  siteConfig: Partial<DocusaurusConfig>,
-  docsBasePath: string,
-  siteDir: string,
-  editUrl?: string,
-): Promise<MetadataRaw> {
-  const filepath = path.join(docsDir, source);
+import lastUpdate from './lastUpdate';
+import {Order, MetadataRaw} from './types';
 
-  const fileString = await fs.readFile(filepath, 'utf-8');
+type Args = {
+  source: string;
+  docsDir: string;
+  order: Order;
+  siteConfig: Partial<DocusaurusConfig>;
+  docsBasePath: string;
+  siteDir: string;
+  editUrl?: string;
+  showLastUpdateAuthor?: boolean;
+  showLastUpdateTime?: boolean;
+};
+
+export default async function processMetadata({
+  source,
+  docsDir,
+  order,
+  siteConfig,
+  docsBasePath,
+  siteDir,
+  editUrl,
+  showLastUpdateAuthor,
+  showLastUpdateTime,
+}: Args): Promise<MetadataRaw> {
+  const filePath = path.join(docsDir, source);
+
+  const fileString = await fs.readFile(filePath, 'utf-8');
   const {frontMatter: metadata = {}, excerpt} = parse(fileString);
 
   // Default id is the file name.
@@ -52,7 +68,7 @@ export default async function processMetadata(
   }
 
   // Cannot use path.join() as it resolves '../' and removes the '@site'. Let webpack loader resolve it.
-  const aliasedPath = `@site/${path.relative(siteDir, filepath)}`;
+  const aliasedPath = `@site/${path.relative(siteDir, filePath)}`;
   metadata.source = aliasedPath;
 
   // Build the permalink.
@@ -85,6 +101,21 @@ export default async function processMetadata(
 
   if (editUrl) {
     metadata.editUrl = normalizeUrl([editUrl, source]);
+  }
+
+  if (showLastUpdateAuthor || showLastUpdateTime) {
+    const fileLastUpdateData = lastUpdate(filePath);
+
+    if (fileLastUpdateData) {
+      const {author, timestamp} = fileLastUpdateData;
+      if (showLastUpdateAuthor && author) {
+        metadata.lastUpdatedBy = author;
+      }
+
+      if (showLastUpdateTime && timestamp) {
+        metadata.lastUpdatedAt = timestamp;
+      }
+    }
   }
 
   return metadata as MetadataRaw;

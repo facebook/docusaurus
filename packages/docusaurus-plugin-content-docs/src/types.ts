@@ -15,6 +15,8 @@ export interface PluginOptions {
   remarkPlugins: string[];
   rehypePlugins: string[];
   editUrl?: string;
+  showLastUpdateTime?: boolean;
+  showLastUpdateAuthor?: boolean;
 }
 
 export type SidebarItemDoc = {
@@ -90,6 +92,8 @@ export interface MetadataRaw extends OrderMetadata {
   permalink: string;
   sidebar_label?: string;
   editUrl?: string;
+  lastUpdatedAt?: number;
+  lastUpdatedBy?: string;
   [key: string]: any;
 }
 

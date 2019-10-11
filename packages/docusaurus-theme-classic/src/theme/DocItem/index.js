@@ -34,7 +34,15 @@ function DocItem(props) {
   const {siteConfig = {}} = useDocusaurusContext();
   const {url: siteUrl} = siteConfig;
   const {metadata, content: DocContent} = props;
-  const {description, title, permalink, image: metaImage, editUrl} = metadata;
+  const {
+    description,
+    title,
+    permalink,
+    image: metaImage,
+    editUrl,
+    lastUpdatedAt,
+    lastUpdatedBy,
+  } = metadata;
 
   return (
     <div>
@@ -74,7 +82,7 @@ function DocItem(props) {
                     <DocContent />
                   </div>
                 </article>
-                {editUrl && (
+                {(editUrl || lastUpdatedAt || lastUpdatedBy) && (
                   <div className="margin-vert--xl">
                     <div className="row">
                       <div className="col">
@@ -87,6 +95,29 @@ function DocItem(props) {
                           </a>
                         )}
                       </div>
+                      {(lastUpdatedAt || lastUpdatedBy) && (
+                        <div className="col text--right">
+                          <em>
+                            <small>
+                              Last updated{' '}
+                              {lastUpdatedAt && (
+                                <>
+                                  on{' '}
+                                  {new Date(
+                                    lastUpdatedAt * 1000,
+                                  ).toLocaleDateString()}
+                                  {lastUpdatedBy && ' '}
+                                </>
+                              )}
+                              {lastUpdatedBy && (
+                                <>
+                                  by <strong>{lastUpdatedBy}</strong>
+                                </>
+                              )}
+                            </small>
+                          </em>
+                        </div>
+                      )}
                     </div>
                   </div>
                 )}

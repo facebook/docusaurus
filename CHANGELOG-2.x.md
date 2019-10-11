@@ -8,13 +8,14 @@
   - Docs sidebar can now be more than one level deep, theoretically up to infinity
   - Collapsible docs sidebar!
   - Make doc page title larger
-  - Add `editUrl` option (URL for editing) to docs plugin. If this field is set, there will be an "Edit this page" link for each doc page. Example: 'https://github.com/facebook/docusaurus/edit/master/docs'.
-- More documentation ...
+  - Add `editUrl` option (URL for editing) to docs plugin. If this field is set, there will be an "Edit this page" link for each doc page. Example: 'https://github.com/facebook/docusaurus/edit/master/docs'
+  - Add `showLastUpdateTime` and `showLastUpdateAuthor` options to docs plugin to further achieve v1 parity of showing last update data for a particular doc
 - Slight tweaks to the Blog components - blog title is larger now
 - Code Blocks
   - Change default theme from Night Owl to Palenight
   - Slight tweaks to playground/preview components
-  - Add `scripts` and `stylesheets` field to docusaurus.config.
+- Add `scripts` and `stylesheets` field to docusaurus.config.
+- More documentation...
 
 ## 2.0.0-alpha.25
 
