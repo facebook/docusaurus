@@ -11,6 +11,8 @@ type FileLastUpdateData = {timestamp?: number; author?: string};
 
 const GIT_COMMIT_TIMESTAMP_AUTHOR_REGEX = /^(\d+), (.+)$/;
 
+let showedGitRequirementError = false;
+
 export default function getFileLastUpdate(
   filePath: string,
 ): FileLastUpdateData | null {
@@ -32,9 +34,14 @@ export default function getFileLastUpdate(
   // Wrap in try/catch in case the shell commands fail (e.g. project doesn't use Git, etc).
   try {
     if (!shell.which('git')) {
-      console.log('Sorry, the docs plugin last update options require Git.');
+      if (!showedGitRequirementError) {
+        showedGitRequirementError = true;
+        console.log('Sorry, the docs plugin last update options require Git.');
+      }
+
       return null;
     }
+
     // To differentiate between content change and file renaming/moving, use --summary
     // To follow the file history until before it is moved (when we create new version), use
     // --follow.
