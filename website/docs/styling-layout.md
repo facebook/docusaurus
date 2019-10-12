@@ -50,7 +50,7 @@ When you `init` your Docusaurus 2 project, the website will be generated with ba
 }
 ```
 
-In future, we will provide an easier way to generate the different shades of colors.
+Infima uses 7 shades of each color. We recommend using [ColorBox](https://www.colorbox.io/) to find the different shades of colors for your chosen primary color. In future, we will provide an easier way to generate the different shades of colors.
 
 <!-- TODO need more refinement here -->
 

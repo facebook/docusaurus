@@ -11,9 +11,9 @@ Then, add a navbar link to your blog within `docusaurus.config.js`:
 
 ```js
 links: [
-    ...
-    {to: 'blog', label: 'Blog', position: 'left'}, // or position: 'right'
-    ...
+  ...
+  {to: 'blog', label: 'Blog', position: 'left'}, // or position: 'right'
+  ...
 ]
 ```
 
@@ -23,7 +23,7 @@ To publish in the blog, create a file within the blog directory with a formatted
 
 For example, at `my-website/blog/2019-09-05-hello-docusaurus-v2.md`:
 
-```yml
+```md
 ---
 title: Welcome Docusaurus v2
 author: Dattatreya Tripathy
@@ -33,8 +33,7 @@ authorTwitter: CuriousDT
 tags: [hello, docusaurus-v2]
 ---
 
-Welcome to this blog. This blog is created with [**Docusaurus 2 alpha**]
-(https://v2.docusaurus.io/).
+Welcome to this blog. This blog is created with [**Docusaurus 2 alpha**](https://v2.docusaurus.io/).
 
 <!--truncate-->
 
@@ -57,7 +56,7 @@ The only required field is `title`; however, we provide options to add author in
 
 Use the `<!--truncate-->` marker in your blog post to represent what will be shown as the summary when viewing all published blog posts. Anything above `<!--truncate-->` will be part of the summary. For example:
 
-```yml
+```md
 ---
 title: Truncation Example
 ---
@@ -79,9 +78,11 @@ Or this.
 
 ### Blog-only mode
 
-You can run your Docusaurus 2 site without a landing page and instead have your blog's post list page as the index page. Set the `routeBasePath` to be `'/'` to indicate it's the root path. Make sure there's no `index.js` page in `src/pages` or else there could be a conflict of paths!
+You can run your Docusaurus 2 site without a landing page and instead have your blog's post list page as the index page. Set the `routeBasePath` to be `'/'` to indicate it's the root path.
 
-```diff
+**Note:** Make sure there's no `index.js` page in `src/pages` or else there will be two files mapping to the same route!
+
+```js
 // docusaurus.config.js
 module.exports = {
   // ...
@@ -91,14 +92,13 @@ module.exports = {
       {
         blog: {
           path: './blog',
-+         routeBasePath: '/',
+          routeBasePath: '/', // Set this value to '/'.
         },
       },
     ],
   ],
 };
 ```
-
 
 <!--
 

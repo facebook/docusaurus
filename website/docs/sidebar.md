@@ -3,7 +3,7 @@ id: sidebar
 title: Sidebar
 ---
 
-To generate a sidebar to your Docusaurus site, you need to define a file that exports a sidebar object and pass that into the `@docusaurus/plugin-docs` plugin directly or via `@docusaurus/preset-classic`. 
+To generate a sidebar to your Docusaurus site, you need to define a file that exports a sidebar object and pass that into the `@docusaurus/plugin-docs` plugin directly or via `@docusaurus/preset-classic`.
 
 ```js
 // docusaurus.config.js
@@ -26,15 +26,15 @@ module.exports = {
 
 ## Sidebar object
 
-A sidebar object looks like the following. The key `docs` is the name of the sidebar (can be renamed to something else) and `Getting Started` is a category within the sidebar. `greeting` and `doc1` is just a [Sidebar Item](#sidebar-item). 
+A sidebar object looks like the following. The key `docs` is the name of the sidebar (can be renamed to something else) and `Getting Started` is a category within the sidebar. `greeting` and `doc1` is just a [Sidebar Item](#sidebar-item).
 
 ```js
 // sidebars.js
 module.exports = {
   docs: {
     'Getting started': ['greeting'],
-    'Docusaurus': ['doc1'],
-  }
+    Docusaurus: ['doc1'],
+  },
 };
 ```
 
@@ -47,20 +47,21 @@ module.exports = {
     {
       type: 'category',
       label: 'Getting Started',
-      items: ['greeting']
+      items: ['greeting'],
     },
     {
       type: 'category',
       label: 'Docusaurus',
-      items: ['doc1']
+      items: ['doc1'],
     },
-  ]
+  ],
 };
 ```
 
 You can also have multiple sidebars for different Markdown files by adding more top-level keys to the exported object.
 
 Example:
+
 ```js
 // sidebars.js
 module.exports = {
@@ -70,13 +71,13 @@ module.exports = {
   secondSidebar: {
     'Category A': ['doc2'],
     'Category B': ['doc3'],
-  }
+  },
 };
 ```
 
 ## Document ID
 
-Every document has a unique `id`. By default, a document `id` is the name of the document (without the extension) relative to the root docs directory. 
+Every document has a unique `id`. By default, a document `id` is the name of the document (without the extension) relative to the root docs directory.
 
 For example, `greeting.md` id is `greeting` and `guide/hello.md` id is `guide/hello`.
 
@@ -90,12 +91,13 @@ website # root directory of your site
 
 However, the last part of the `id` can be defined by user in the frontmatter. For example, if `guide/hello.md` content is defined as below, it's final `id` is `guide/part1`.
 
-  ```md
-  ---
-  id: part1
-  ---
-  Lorem ipsum
-  ```
+```md
+---
+id: part1
+---
+
+Lorem ipsum
+```
 
 ## Sidebar item
 
@@ -120,7 +122,7 @@ Sidebar item type that links to a doc page. Example:
 Using just the [Document ID](#document-id) is perfectly valid as well, the following is equivalent to the above:
 
 ```js
-'doc1' // string - document id
+'doc1'; // string - document id
 ```
 
 Note that using this type will bind the linked doc to current sidebar, this means that if you access `doc1` page, the sidebar displayed will be the sidebar this item is on. For below case, `doc1` is bounded to `firstSidebar`.
@@ -134,10 +136,9 @@ module.exports = {
   secondSidebar: {
     'Category A': ['doc2'],
     'Category B': ['doc3'],
-  }
+  },
 };
 ```
-
 
 ### Link
 

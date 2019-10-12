@@ -20,7 +20,7 @@ This doc guides you through migrating an existing Docusaurus 1 site to Docusauru
     └── static
 ```
 
-## Step 1 - Update `package.json`
+## Update `package.json`
 
 ### Scoped package names
 
@@ -88,7 +88,7 @@ A typical Docusaurus 2 `package.json` may look like this:
 }
 ```
 
-## Step 2 - Migrate `siteConfig` to `docusaurus.config.js`
+## Migrate `siteConfig` to `docusaurus.config.js`
 
 Rename `siteConfig.js` to `docusaurus.config.js`. In Docusaurus 2, we split each functionality (blog, docs, pages) into plugins for modularity. Presets are bundles of plugins and for backward compatibility we built a `@docusaurus/preset-classic` preset which bundles most of the essential plugins present in Docusaurus 1.
 
@@ -103,9 +103,9 @@ module.exports = {
       '@docusaurus/preset-classic',
       {
         docs: {
-          // docs folder path relative to site dir.
+          // docs folder path relative to website dir.
           path: '../docs',
-          // sidebars file relative to site dir.
+          // sidebars file relative to website dir.
           sidebarPath: require.resolve('./sidebars.json'),
         },
         ...
@@ -357,7 +357,7 @@ The following fields are all deprecated, you may remove from your configuration 
 
 We intend to implement many of the deprecated config fields as plugins in future. Help will be appreciated!
 
-## Step 3 - Delete footer file
+## Delete footer file
 
 `website/core/Footer.js` is no longer needed. If you want to modify the default footer provided by docusaurus, [swizzle](using-themes.md#swizzling-theme-components) it:
 
@@ -367,13 +367,23 @@ yarn swizzle @docusaurus/theme-classic Footer
 
 This will copy the current `<Footer />` component used by the theme to a `src/theme/Footer` directory under the root of your site, you may then edit this component for customization.
 
-## Step 4 - Update your page files
+## Update your page files
 
 Please refer to [creating pages](creating-pages.md) to learn how Docusaurus 2 pages work. After reading that, you can notice that we have to move `pages/en` files in v1 to `src/pages` instead.
 
 `CompLibrary` is deprecated in v2, so you have to write your own React component or use Infima styles (Docs will be available soon, sorry about that! In the meanwhile, inspect the V2 website to see what styles are available).
 
-## Step 5 - Modify `.gitignore`
+## Update your docs
+
+### Update syntax
+
+In Docusaurus 2, the markdown syntax has been changed to [MDX](https://mdxjs.com/). Hence there might be some broken syntax in the existing docs which you would have to update. A common examples is that self-closing tags like `<img>` and `<br>` would have to be explicitly closed now: `<img/>` and `<br/>`. The tags have to be valid JSX.
+
+### Language-specific Code Tabs
+
+Not yet supported. Stay tuned.
+
+## Modify `.gitignore`
 
 The `.gitignore` in your `website` should contain:
 
@@ -400,7 +410,7 @@ yarn-debug.log*
 yarn-error.log*
 ```
 
-## Step 6 - Test your site
+## Test your site
 
 After migration, your folder structure should look like this:
 
@@ -428,6 +438,10 @@ cd website
 yarn start
 ```
 
-## Step 7 - Configure your build directory
+## Configure your `build` directory
 
 In Docusaurus 1, all the build artifacts are located within `website/build/<PROJECT_NAME>`. However, in Docusaurus 2, it is now moved to just `website/build`. Make sure that you update your deployment configuration to read the generated files from the correct `build` directory.
+
+## Support
+
+For any questions, you can ask in the [`#docusaurus-1-to-2-migration` Discord channel](https://discordapp.com/invite/kYaNd6V). Feel free to tag us ([@yangshun](https://github.com/yangshun) and [@endiliey](https://github.com/endiliey)) in any migration PRs if you would like us to have a look.
