@@ -1,6 +1,6 @@
 # Docusaurus 2 Changelog
 
-## Unreleased
+## 2.0.0-alpha.26
 
 - Docs, pages plugin is rewritten in TypeScript
 - Docs improvements and tweaks
