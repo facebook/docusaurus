@@ -253,7 +253,9 @@ Error: The field(s) 'foo', 'bar' are not recognized in docusaurus.config.js
 
 ### `scripts`
 
-An array of JavaScript sources to load. The values can be either strings or plain objects of attribute-value maps. The script tag will be inserted in the HTML head.
+An array of scripts to load. The values can be either strings or plain objects of attribute-value maps. The `<script>` tags will be inserted in the HTML `<head>`.
+
+Note that `<script>` added here are render-blocking so you might want to add `async: true`/`defer: true` to the objects.
 
 - Type: `(string | Object)[]`
 
@@ -263,10 +265,11 @@ Example:
 // docusaurus.config.js
 module.exports = {
   scripts: [
-    'https://docusaurus.io/slash.js',
+    // String format.
+    'https://docusaurus.io/script.js',
+    // Object format.
     {
-      src:
-        'https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js',
+      src: 'https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js',
       async: true,
     },
   ],
@@ -275,7 +278,7 @@ module.exports = {
 
 ### `stylesheets`
 
-An array of CSS sources to load. The values can be either strings or plain objects of attribute-value maps. The link tag will be inserted in the HTML head.
+An array of CSS sources to load. The values can be either strings or plain objects of attribute-value maps. The `<link>` tags will be inserted in the HTML `<head>`.
 
 - Type: `(string | Object)[]`
 
@@ -285,9 +288,11 @@ Example:
 // docusaurus.config.js
 module.exports = {
   stylesheets: [
+    // String format.
     'https://docusaurus.io/style.css',
-    {
-      href: 'http://css.link',
+    // Object format.
+    { 
+      href: 'http://mydomain.com/style.css',
       type: 'text/css',
     },
   ],
