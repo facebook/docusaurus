@@ -90,7 +90,7 @@
 <p>此时，您会在 <code>website/build</code> 目录中得到所有的文件，并将它们复制到您青睐的 Web 服务器的 <code>html</code> 目录中。</p>
 <blockquote>
 <p>For example, both Apache and Nginx serve content from <code>/var/www/html</code> by default. 也就是说，选择 web 服务端或提供相应服务都超出了Docusaurus 的范围。</p>
-<p>当您使用自己的 web 服务端时，请确保 web 服务端使用了合适的 HTTP headers 为静态资源文件提供服务。 CSS 文件 header 中的 <code>content-type</code> 应该是 <code>text/css</code>。 In the case of Nginx, this would mean setting <code>include /etc/nginx/mime.types;</code> in your <code>nginx.conf</code> file. 更多信息请参阅 <a href="https://github.com/facebook/Docusaurus/issues/602">this issue</a>。</p>
+<p>当您使用自己的 web 服务端时，请确保 web 服务端使用了合适的 HTTP headers 为静态资源文件提供服务。 CSS 文件 header 中的 <code>content-type</code> 应该是 <code>text/css</code>。 In the case of Nginx, this would mean setting <code>include /etc/nginx/mime.types;</code> in your <code>nginx.conf</code> file. See <a href="https://github.com/facebook/docusaurus/issues/602">this issue</a> for more info.</p>
 </blockquote>
 <h3><a class="anchor" aria-hidden="true" id="hosting-on-a-service"></a><a href="#hosting-on-a-service" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Hosting on a Service:</h3>
 <ul>

@@ -61,7 +61,7 @@
         </link>
         <updated>2017-12-14T06:00:00Z</updated>
         <summary type="html"><![CDATA[<p><img src="/img/slash-introducing.svg" alt="Introducing Slash"></p>
-<p>We are very happy to introduce <a href="https://github.com/facebook/Docusaurus">Docusaurus</a> to help you manage one or many open source websites.</p>
+<p>We are very happy to introduce <a href="https://github.com/facebook/docusaurus">Docusaurus</a> to help you manage one or many open source websites.</p>
 <p>We created <a href="https://docusaurus.io">Docusaurus</a> for the following reasons:</p>
 <ol>
 <li>To put the focus on writing good documentation instead of worrying about the infrastructure of a website.</li>
