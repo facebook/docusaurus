@@ -24,18 +24,18 @@ function App() {
         <Head>
           {stylesheets &&
             stylesheets.map(source =>
-              source.href ? (
-                <link rel="stylesheet" key={source.href} {...source} />
-              ) : (
+              typeof source === 'string' ? (
                 <link rel="stylesheet" key={source} href={source} />
+              ) : (
+                <link rel="stylesheet" key={source.href} {...source} />
               ),
             )}
           {scripts &&
             scripts.map(source =>
-              source.src ? (
-                <script type="text/javascript" key={source.src} {...source} />
-              ) : (
+              typeof source === 'string' ? (
                 <script type="text/javascript" src={source} key={source} />
+              ) : (
+                <script type="text/javascript" key={source.src} {...source} />
               ),
             )}
         </Head>
