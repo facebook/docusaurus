@@ -4,6 +4,7 @@
 
 - Docs, pages plugin is rewritten in TypeScript
 - Docs improvements and tweaks
+  - Improved metadata which results in smaller bundle size.
   - Docs sidebar can now be more than one level deep, theoretically up to infinity
   - Collapsible docs sidebar!
   - Make doc page title larger
@@ -13,6 +14,7 @@
 - Code Blocks
   - Change default theme from Night Owl to Palenight
   - Slight tweaks to playground/preview components
+- Add `scripts` and `stylesheets` field to docusaurus.config.
 - More documentation...
 
 ## 2.0.0-alpha.25

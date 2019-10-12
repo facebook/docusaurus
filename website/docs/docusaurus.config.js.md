@@ -250,3 +250,51 @@ Attempting to add unknown field in the config will lead to error in build time:
 ```bash
 Error: The field(s) 'foo', 'bar' are not recognized in docusaurus.config.js
 ```
+
+### `scripts`
+
+An array of scripts to load. The values can be either strings or plain objects of attribute-value maps. The `<script>` tags will be inserted in the HTML `<head>`.
+
+Note that `<script>` added here are render-blocking so you might want to add `async: true`/`defer: true` to the objects.
+
+- Type: `(string | Object)[]`
+
+Example:
+
+```js
+// docusaurus.config.js
+module.exports = {
+  scripts: [
+    // String format.
+    'https://docusaurus.io/script.js',
+    // Object format.
+    {
+      src: 'https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js',
+      async: true,
+    },
+  ],
+};
+```
+
+### `stylesheets`
+
+An array of CSS sources to load. The values can be either strings or plain objects of attribute-value maps. The `<link>` tags will be inserted in the HTML `<head>`.
+
+- Type: `(string | Object)[]`
+
+Example:
+
+```js
+// docusaurus.config.js
+module.exports = {
+  stylesheets: [
+    // String format.
+    'https://docusaurus.io/style.css',
+    // Object format.
+    { 
+      href: 'http://mydomain.com/style.css',
+      type: 'text/css',
+    },
+  ],
+};
+```

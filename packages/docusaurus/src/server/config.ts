@@ -23,6 +23,8 @@ const OPTIONAL_FIELDS = [
   'themes',
   'presets',
   'themeConfig',
+  'scripts',
+  'stylesheets',
 ];
 
 const DEFAULT_CONFIG: {

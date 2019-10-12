@@ -117,7 +117,7 @@ module.exports = {
 
 Refer to migration guide below for each field in `siteConfig.js`.
 
-#### `baseUrl`, `tagline`, `title`, `url`, `favicon`, `organizationName`, `projectName`, `githubHost`
+#### `baseUrl`, `tagline`, `title`, `url`, `favicon`, `organizationName`, `projectName`, `githubHost`, `scripts`, `stylesheets`
 
 No actions needed.
 
@@ -323,11 +323,6 @@ module.exports = {
   },
 };
 ```
-
-### Deprecated fields that may be implemented using a plugin
-
-- `scripts`
-- `stylesheets`
 
 ### Removed fields
 
