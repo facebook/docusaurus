@@ -27,10 +27,8 @@ const QUOTES = [
         I&apos;ve helped open source many projects at Facebook and every one
         needed a website. They all had very similar constraints: the
         documentation should be written in markdown and be deployed via GitHub
-        pages. None of the existing solutions were great, so I hacked my own and
-        then forked it whenever we needed a new website. I’m so glad that
-        Docusaurus now exists so that I don’t have to spend a week each time
-        spinning up a new one.
+        pages. I’m so glad that Docusaurus now exists so that I don’t have to
+        spend a week each time spinning up a new one.
       </>
     ),
   },
@@ -69,27 +67,25 @@ function Home() {
     <Layout
       permalink={'/'}
       description={'Easy to Maintain Open Source Documentation Websites'}>
-      <div className={styles['index-hero']}>
-        <div className={styles['index-hero-inner']}>
-          <h1 className={styles['index-hero-project-tagline']}>
+      <div className={styles.hero}>
+        <div className={styles.heroInner}>
+          <h1 className={styles.heroProjectTagline}>
             <img
               alt="Docusaurus with Keytar"
-              className={styles['index-hero-logo']}
+              className={styles.heroLogo}
               src={withBaseUrl('img/docusaurus_keytar.svg')}
             />
             {siteConfig.title} makes it easy to maintain{' '}
-            <span className={styles['index-hero-project-keywords']}>
-              Open Source
-            </span>{' '}
+            <span className={styles.heroProjectKeywords}>Open Source</span>{' '}
             documentation websites.
           </h1>
-          <div className={styles['index-ctas']}>
+          <div className={styles.indexCtas}>
             <Link
-              className={styles['index-ctas-get-started-button']}
+              className={styles.indexCtasGetStartedButton}
               to={withBaseUrl('docs/introduction')}>
               Get Started
             </Link>
-            <span className={styles['index-ctas-github-button']}>
+            <span className={styles.indexCtasGitHubButton}>
               <iframe
                 src="https://ghbtns.com/github-btn.html?user=facebook&amp;repo=docusaurus&amp;type=star&amp;count=true&amp;size=large"
                 frameBorder={0}
@@ -102,14 +98,24 @@ function Home() {
           </div>
         </div>
       </div>
-      <div className={styles['announcement']}>
-        <div className={styles['announcement-inner']}>
+      <div className={classnames(styles.announcement, styles.announcementDark)}>
+        <div className={styles.announcementInner}>
           We're working on{' '}
           <a href="https://github.com/facebook/docusaurus/issues/789">
             Docusaurus 2
           </a>
-          , contribute to its roadmap by suggesting features or giving{' '}
-          <Link to={withBaseUrl('/feedback')}>feedback here</Link>!
+          , contribute to its roadmap by suggesting features or giving feedback{' '}
+          <Link to={withBaseUrl('/feedback')}>here</Link>!
+        </div>
+      </div>
+      <div
+        className={classnames(styles.announcement, styles.announcementPrimary)}>
+        <div className={styles.announcementInner}>
+          Coming from v1? Check out our{' '}
+          <Link to={withBaseUrl('/docs/migrating-from-v1-to-v2')}>
+            v1 to v2 migration guide
+          </Link>
+          .
         </div>
       </div>
       <div className={styles.section}>
@@ -118,23 +124,24 @@ function Home() {
             <div className="col">
               <img
                 className={styles.featureImage}
-                alt={'Powered by Markdown'}
+                alt="Powered by MDX"
                 src={withBaseUrl('img/undraw_typewriter.svg')}
               />
-              <h3>Powered by Markdown</h3>
+              <h3 className="padding-top--md">Powered by Markdown</h3>
               <p className="padding-horiz--md">
                 Save time and focus on your project's documentation. Simply
-                write docs and blog posts with Markdown and Docusaurus will
-                publish a set of static html files ready to serve.
+                write docs and blog posts with Markdown/MDX and Docusaurus will
+                publish a set of static HTML files ready to serve. You can even
+                embed JSX components into your Markdown thanks to MDX.
               </p>
             </div>
             <div className="col">
               <img
-                alt={'Built Using React'}
+                alt="Built Using React"
                 className={styles.featureImage}
                 src={withBaseUrl('img/undraw_react.svg')}
               />
-              <h3>Built Using React</h3>
+              <h3 className="padding-top--md">Built Using React</h3>
               <p className="padding-horiz--md">
                 Extend or customize your project's layout by reusing React.
                 Docusaurus can be extended while reusing the same header and
@@ -143,11 +150,11 @@ function Home() {
             </div>
             <div className="col">
               <img
-                alt={'Ready for Translations'}
+                alt="Ready for Translations"
                 className={styles.featureImage}
                 src={withBaseUrl('img/undraw_around_the_world.svg')}
               />
-              <h3>Ready for Translations</h3>
+              <h3 className="padding-top--md">Ready for Translations</h3>
               <p className="padding-horiz--md">
                 Localization comes pre-configured. Use Crowdin to translate your
                 docs into over 70 languages.
@@ -159,11 +166,11 @@ function Home() {
           <div className="row">
             <div className="col col--4 col--offset-2">
               <img
-                alt={'Document Versioning'}
+                alt="Document Versioning"
                 className={styles.featureImage}
                 src={withBaseUrl('img/undraw_version_control.svg')}
               />
-              <h3>Document Versioning</h3>
+              <h3 className="padding-top--md">Document Versioning</h3>
               <p className="padding-horiz--md">
                 Support users on all versions of your project. Document
                 versioning helps you keep documentation in sync with project
@@ -172,11 +179,11 @@ function Home() {
             </div>
             <div className="col col--4">
               <img
-                alt={'Document Search'}
+                alt="Document Search"
                 className={styles.featureImage}
                 src={withBaseUrl('img/undraw_algolia.svg')}
               />
-              <h3>Document Search</h3>
+              <h3 className="padding-top--md">Document Search</h3>
               <p className="padding-horiz--md">
                 Make it easy for your community to find what they need in your
                 documentation. We proudly support Algolia documentation search.
@@ -202,7 +209,7 @@ function Home() {
                     img={quote.thumbnail}
                     style={{overflow: 'hidden'}}
                   />
-                  <div className="avatar__intro">
+                  <div className="avatar__intro padding-top--sm">
                     <h4 className="avatar__name">{quote.name}</h4>
                     <small className="avatar__subtitle">{quote.title}</small>
                   </div>

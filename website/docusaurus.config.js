@@ -94,7 +94,7 @@ module.exports = {
             },
             {
               label: 'Migration from v1 to v2',
-              to: 'docs/migration-from-v1-to-v2',
+              to: 'docs/migrating-from-v1-to-v2',
             },
           ],
         },

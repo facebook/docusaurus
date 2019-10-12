@@ -19,12 +19,11 @@
 
 .featureImage {
   max-width: 60%;
+  max-height: 128px;
   margin: 0 auto;
 }
 
 .announcement {
-  background-color: #20232a;
-  color: #fff;
   font-weight: bold;
   font-size: 24px;
   padding: 48px;
@@ -32,29 +31,43 @@
   text-align: center;
 }
 
-.announcement-inner {
+.announcementDark {
+  background-color: #20232a;
+  color: #fff;
+}
+
+.announcementPrimary {
+  background-color: var(--ifm-color-primary);
+  color: #20232a;
+}
+
+.announcementPrimary a {
+  color: #fff;
+}
+
+.announcementInner {
   margin: 0 auto;
   max-width: 768px;
 }
 
-.index-hero {
+.hero {
   background-color: #2b3137;
   padding: 48px;
 }
 
-.index-hero-inner {
+.heroInner {
   margin: 0 auto;
   max-width: 1100px;
   padding: 0 20px;
 }
 
-.index-hero-project-tagline {
+.heroProjectTagline {
   color: #fff;
   font-size: 64px;
   margin: 0;
 }
 
-.index-hero-project-keywords {
+.heroProjectKeywords {
   color: var(--ifm-color-primary);
 }
 
@@ -79,7 +92,7 @@
   }
 }
 
-.index-hero-logo {
+.heroLogo {
   animation-duration: 2s;
   animation-name: jackInTheBox;
   float: right;
@@ -88,11 +101,11 @@
   background-color: #2b3137;
 }
 
-.index-ctas {
+.indexCtas {
   margin-top: 24px;
 }
 
-.index-ctas-get-started-button {
+.indexCtasGetStartedButton {
   border: 1px solid var(--ifm-color-primary);
   display: inline-block;
   line-height: 1.2em;
@@ -108,36 +121,36 @@
   padding: 18px 36px;
 }
 
-.index-ctas-github-button {
+.indexCtasGitHubButton {
   vertical-align: sub;
 }
 
 @media only screen and (max-width: 768px) {
-  .index-hero {
+  .hero {
     padding-left: 20px;
     padding-right: 20px;
   }
 
-  .index-hero-inner {
+  .heroInner {
     padding: 0;
   }
 
-  .index-hero-project-tagline {
+  .heroProjectTagline {
     font-size: 36px;
     text-align: center;
   }
 
-  .index-hero-logo {
+  .heroLogo {
     display: block;
     float: none;
     margin: 0 auto;
   }
 
-  .index-ctas {
+  .indexCtas {
     text-align: center;
   }
 
-  .index-ctas-github-button {
+  .indexCtasGitHubButton {
     display: none;
   }
 }

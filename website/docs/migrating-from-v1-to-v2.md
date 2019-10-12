@@ -1,6 +1,6 @@
 ---
-id: migration-from-v1-to-v2
-title: Migration from v1 to v2
+id: migrating-from-v1-to-v2
+title: Migrating from v1 to v2
 ---
 
 This doc guides you through migrating an existing Docusaurus 1 site to Docusaurus 2.
