@@ -323,13 +323,6 @@ module.exports = [
     pinned: false,
   },
   {
-    caption: 'ml5.js',
-    image: '/img/users/ml5.png',
-    infoLink: 'https://ml5js.org/',
-    fbOpenSource: false,
-    pinned: false,
-  },
-  {
     caption: 'Mockit',
     image: '/img/users/mockit.png',
     infoLink: 'https://mockit.netlify.com/',
@@ -430,7 +423,7 @@ module.exports = [
   },
   {
     caption: 'Polymath Network',
-    image: 'https://polymath.network/dist/assets/images/logo/logo-top-bar.svg',
+    image: 'https://developers.polymath.network/img/text.svg',
     infoLink: 'https://developers.polymath.network',
     fbOpenSource: false,
     pinned: false,
