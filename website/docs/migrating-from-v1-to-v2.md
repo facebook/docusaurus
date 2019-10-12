@@ -263,7 +263,7 @@ module.exports = {
 
 #### `cname`
 
-Deprecated. Create a `CNAME` file in your `static` folder instead. Files in the `static` folder will be copied into the root of the `build` folder during execution of the build command.
+Deprecated. Create a `CNAME` file in your `static` folder instead with your custom domain. Files in the `static` folder will be copied into the root of the `build` folder during execution of the build command.
 
 #### `customDocsPath`, `docsUrl`, `editUrl`, `enableUpdateBy`, `enableUpdateTime`
 
@@ -373,17 +373,21 @@ Please refer to [creating pages](creating-pages.md) to learn how Docusaurus 2 pa
 
 `CompLibrary` is deprecated in v2, so you have to write your own React component or use Infima styles (Docs will be available soon, sorry about that! In the meanwhile, inspect the V2 website to see what styles are available).
 
+- The following code could be helpful for migration of various pages
+  - Index page - [Flux](https://github.com/facebook/flux/blob/master/website/src/pages/index.js) (recommended), [Docusaurus 2](https://github.com/facebook/docusaurus/blob/master/website/src/pages/index.js), [Hermes](https://github.com/facebook/hermes/blob/master/website/src/pages/index.js),
+  - Help/Support page - [Docusaurus 2](https://github.com/facebook/docusaurus/blob/master/website/src/pages/help.js), [Flux](http://facebook.github.io/flux/support)
+
 ## Update your docs
 
-### Update syntax
+### Update Markdown syntax to be MDX-compatible
 
-In Docusaurus 2, the markdown syntax has been changed to [MDX](https://mdxjs.com/). Hence there might be some broken syntax in the existing docs which you would have to update. A common examples is that self-closing tags like `<img>` and `<br>` would have to be explicitly closed now: `<img/>` and `<br/>`. The tags have to be valid JSX.
+In Docusaurus 2, the markdown syntax has been changed to [MDX](https://mdxjs.com/). Hence there might be some broken syntax in the existing docs which you would have to update. A common example is self-closing tags like `<img>` and `<br>` which are valid in HTML would have to be explicitly closed now ( `<img/>` and `<br/>`). All tags in MDX documents have to be valid JSX.
 
 ### Language-specific Code Tabs
 
 Not yet supported. Stay tuned.
 
-## Modify `.gitignore`
+## Update `.gitignore`
 
 The `.gitignore` in your `website` should contain:
 
@@ -438,9 +442,13 @@ cd website
 yarn start
 ```
 
-## Configure your `build` directory
+## Update references to the `build` directory
 
 In Docusaurus 1, all the build artifacts are located within `website/build/<PROJECT_NAME>`. However, in Docusaurus 2, it is now moved to just `website/build`. Make sure that you update your deployment configuration to read the generated files from the correct `build` directory.
+
+## Example migration PRs
+
+You might want to refer to our migration PRs for [Create React App](https://github.com/facebook/create-react-app/pull/7785) and [Flux](https://github.com/facebook/flux/pull/471) as examples of how a migration for a basic Docusaurus v1 site can be done.
 
 ## Support
 
