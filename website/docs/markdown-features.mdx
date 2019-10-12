@@ -257,3 +257,97 @@ function Clock(props) {
   );
 }
 ```
+
+### Multi-language support code blocks
+
+With MDX, you can easily create interactive components within your documentation, for example, to display code in multiple programming languages and switching between them using a tabs component.
+
+Instead of implementing a dedicated component for multi-language support code blocks, we've implemented a generic Tabs component in the classic theme so that you can use it for other non-code scenarios as well.
+
+The following example is how you can have multi-language code tabs in your docs. Note that the empty lines above and below each language block is **intentional**. This is a current limitation of MDX, you have to leave empty lines around Markdown syntax for the MDX parser to know that it's Markdown syntax and not JSX.
+
+    import Tabs from '@theme/Tabs';
+    import TabItem from '@theme/TabItem';
+
+    <Tabs
+      defaultValue="js"
+      values={[
+        { label: 'JavaScript', value: 'js', },
+        { label: 'Python', value: 'py', },
+        { label: 'Java', value: 'java', },
+      ]
+    }>
+    <TabItem value="js">
+
+    ```js
+    function helloWorld() {
+      console.log('Hello, world!');
+    }
+    ```
+
+    </TabItem>
+    <TabItem value="py">
+
+    ```py
+    def hello_world():
+      print 'Hello, world!'
+    ```
+
+    </TabItem>
+    <TabItem value="java">
+
+    ```java
+    class HelloWorld {
+      public static void main(String args[]) {
+        System.out.println("Hello, World");
+      }
+    }
+    ```
+
+    </TabItem>
+    </Tabs>
+
+And you will get the following:
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<Tabs
+  defaultValue="js"
+  values={[
+    { label: 'JavaScript', value: 'js', },
+    { label: 'Python', value: 'py', },
+    { label: 'Java', value: 'java', },
+  ]
+}>
+<TabItem value="js">
+
+```js
+function helloWorld() {
+  console.log('Hello, world!');
+}
+```
+
+</TabItem>
+<TabItem value="py">
+
+```py
+def hello_world():
+  print 'Hello, world!'
+```
+
+</TabItem>
+<TabItem value="java">
+
+```java
+class HelloWorld {
+  public static void main(String args[]) {
+    System.out.println("Hello, World");
+  }
+}
+```
+
+</TabItem>
+</Tabs>
+
+You may want to implement your own `<MultiLanguageCode />` abstraction if you find the above approach too verbose. We might just implement one in future for convenience.
