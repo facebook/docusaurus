@@ -14,7 +14,7 @@
 - Code Blocks
   - Change default theme from Night Owl to Palenight
   - Slight tweaks to playground/preview components
-- Add `scripts` and `stylesheets` field to docusaurus.config.
+- Add `scripts` and `stylesheets` field to `docusaurus.config.js`
 - More documentation...
 
 ## 2.0.0-alpha.25

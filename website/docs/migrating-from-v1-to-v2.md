@@ -329,11 +329,11 @@ module.exports = {
 The following fields are all deprecated, you may remove from your configuration file.
 
 - `blogSidebarTitle`
-- `cleanUrl`
-- `defaultVersionShown`
+- `cleanUrl` - Clean URL is used by default now.
+- `defaultVersionShown` - Versioning is not ported yet. You'd be unable to migration to Docusaurus 2 if you are using versioning. Stay tuned.
 - `disableHeaderTitle`
 - `disableTitleTagline`
-- `docsSideNavCollapsible`
+- `docsSideNavCollapsible` - This is turned on by default now.
 - `facebookAppId`
 - `facebookComments`
 - `facebookPixelId`
@@ -341,12 +341,12 @@ The following fields are all deprecated, you may remove from your configuration 
 - `highlight` - We now use [Prism](https://prismjs.com/) instead of [highlight.js](https://highlightjs.org/).
 - `markdownOptions` - We use MDX in v2 instead of Remarkable. Your markdown options have to be converted to Remark/Rehype plugins.
 - `markdownPlugins` - We use MDX in v2 instead of Remarkable. Your markdown plugins have to be converted to Remark/Rehype plugins.
+- `manifest`
+- `noIndex`
+- `onPageNav` - This is turned on by default now.
 - `separateCss` - It can imported in the same manner as `custom.css` mentioned above.
 - `scrollToTop`
 - `scrollToTopOptions`
-- `manifest`
-- `noIndex`
-- `onPageNav`
 - `translationRecruitingLink`
 - `twitter`
 - `twitterUsername`
