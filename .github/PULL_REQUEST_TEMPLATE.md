@@ -3,7 +3,7 @@ Thank you for sending the PR! We appreciate you spending the time to work on the
 
 Help us understand your motivation by explaining why you decided to make this change.
 
-You can learn more about contributing to Docusaurus here: https://github.com/facebook/Docusaurus/blob/master/CONTRIBUTING.md
+You can learn more about contributing to Docusaurus here: https://github.com/facebook/docusaurus/blob/master/CONTRIBUTING.md
 
 Happy contributing!
 
@@ -13,7 +13,7 @@ Happy contributing!
 
 (Write your motivation here.)
 
-### Have you read the [Contributing Guidelines on pull requests](https://github.com/facebook/Docusaurus/blob/master/CONTRIBUTING.md#pull-requests)?
+### Have you read the [Contributing Guidelines on pull requests](https://github.com/facebook/docusaurus/blob/master/CONTRIBUTING.md#pull-requests)?
 
 (Write your answer here.)
 

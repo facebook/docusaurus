@@ -105,7 +105,7 @@ function Home() {
       <div className={styles['announcement']}>
         <div className={styles['announcement-inner']}>
           We're working on{' '}
-          <a href="https://github.com/facebook/Docusaurus/issues/789">
+          <a href="https://github.com/facebook/docusaurus/issues/789">
             Docusaurus 2
           </a>
           , contribute to its roadmap by suggesting features or giving{' '}

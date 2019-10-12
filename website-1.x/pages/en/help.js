@@ -37,7 +37,7 @@ class Help extends React.Component {
       {
         title: <translate>GitHub</translate>,
         content:
-          'At our [GitHub repo](https://github.com/facebook/docusaurus) Browse and submit [issues](https://github.com/facebook/Docusaurus/issues) or [pull requests](https://github.com/facebook/Docusaurus/pulls) for bugs you find or any new features you may want implemented. Be sure to also check out our [contributing information](https://github.com/facebook/Docusaurus/blob/master/CONTRIBUTING.md).',
+          'At our [GitHub repo](https://github.com/facebook/docusaurus) Browse and submit [issues](https://github.com/facebook/docusaurus/issues) or [pull requests](https://github.com/facebook/docusaurus/pulls) for bugs you find or any new features you may want implemented. Be sure to also check out our [contributing information](https://github.com/facebook/docusaurus/blob/master/CONTRIBUTING.md).',
       },
     ];
 

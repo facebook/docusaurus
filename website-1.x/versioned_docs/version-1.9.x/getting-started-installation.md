@@ -99,7 +99,7 @@ info Color legend :
  "<yellow>" : Minor Update backward-compatible features
  "<green>"  : Patch Update backward-compatible bug fixes
 Package    Current Wanted Latest Package Type    URL
-docusaurus 1.0.9   1.2.0  1.2.0  devDependencies https://github.com/facebook/Docusaurus#readme
+docusaurus 1.0.9   1.2.0  1.2.0  devDependencies https://github.com/facebook/docusaurus#readme
 ✨  Done in 0.41s.
 ```
 

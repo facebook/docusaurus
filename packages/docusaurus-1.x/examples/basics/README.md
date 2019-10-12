@@ -160,7 +160,7 @@ For more information about blog posts, click [here](https://docusaurus.io/docs/e
     /* you can add custom pages */
     { page: 'help', label: 'Help' },
     /* you can add external links */
-    { href: 'https://github.com/facebook/Docusaurus', label: 'GitHub' },
+    { href: 'https://github.com/facebook/docusaurus', label: 'GitHub' },
     ...
   ],
   ...

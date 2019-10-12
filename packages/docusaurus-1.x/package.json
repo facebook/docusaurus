@@ -11,7 +11,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/facebook/Docusaurus.git"
+    "url": "https://github.com/facebook/docusaurus.git"
   },
   "scripts": {
     "start": "cd ../../website-1.x && yarn start"

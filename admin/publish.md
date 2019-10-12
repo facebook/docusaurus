@@ -11,13 +11,13 @@ If you are not currently logged into npm locally:
 
 ## Publish
 
-1. Bump version number in [`package.json`](https://github.com/facebook/Docusaurus/blob/master/package.json).
-1. Update the [changelog](https://github.com/facebook/Docusaurus/blob/master/CHANGELOG.md), including at the reference links at the bottom.
+1. Bump version number in [`package.json`](https://github.com/facebook/docusaurus/blob/master/package.json).
+1. Update the [changelog](https://github.com/facebook/docusaurus/blob/master/CHANGELOG.md), including at the reference links at the bottom.
 1. Do this always, but particularly important if there were any `package.json` changes in this release:
    1. If there is no `node_modules` directory in you local Docusaurus version, run `yarn install` and `npm install`.
    1. Run `yarn upgrade` to update `yarn.lock` and `npm update` to update `package-lock.json`.
 1. From the `website-1.x` directory, run `npm run docusaurus-version x.x.x`, where x.x.x is the same version number you updated to in `package.json`.
-1. Test your PR locally on a project that was created via [these instructions](https://github.com/facebook/Docusaurus/blob/master/admin/local-third-party-project-testing.md).
+1. Test your PR locally on a project that was created via [these instructions](https://github.com/facebook/docusaurus/blob/master/admin/local-third-party-project-testing.md).
 1. Submit your PR
 1. When your PR is merged, rebase to get the PR commit locally.
 1. Run `npm publish`
@@ -32,7 +32,7 @@ The version number should generally increase by some factor than the current one
   "version": "1.0.0-alpha.41",
   "repository": {
     "type": "git",
-    "url": "https://github.com/facebook/Docusaurus.git"
+    "url": "https://github.com/facebook/docusaurus.git"
   }
   ...
 }

@@ -8,4 +8,4 @@ authorTwitter: endiliey
 
 ![Docusaurus](/img/slash-introducing.png)
 
-We are very happy to introduce [Docusaurus](https://github.com/facebook/Docusaurus) to help you manage one or many open source websites.
+We are very happy to introduce [Docusaurus](https://github.com/facebook/docusaurus) to help you manage one or many open source websites.

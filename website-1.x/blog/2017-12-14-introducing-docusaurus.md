@@ -8,7 +8,7 @@ authorTwitter: JoelMarcey
 
 ![Introducing Slash](/img/slash-introducing.svg)
 
-We are very happy to introduce [Docusaurus](https://github.com/facebook/Docusaurus) to help you manage one or many open source websites.
+We are very happy to introduce [Docusaurus](https://github.com/facebook/docusaurus) to help you manage one or many open source websites.
 
 We created [Docusaurus](https://docusaurus.io) for the following reasons:
 
@@ -73,7 +73,7 @@ With the exception of node_modules and package.json, all the directories and fil
 
 ## How does Docusaurus work?
 
-Docusaurus is written primarily in JavaScript and [React](https://facebook.github.io/react), replacing Jekyll which we used in the old template. We use [Remarkable](https://github.com/jonschlinkert/remarkable) for our markdown rendering and [highlight.js](https://highlightjs.org/) for our code block syntax highlighting. The core of Docusaurus' functionality is in the [lib directory](https://github.com/facebookexperimental/Docusaurus/tree/master/lib) of the [Docusaurus repo](https://github.com/facebook/Docusaurus/). The general structure looks like:
+Docusaurus is written primarily in JavaScript and [React](https://facebook.github.io/react), replacing Jekyll which we used in the old template. We use [Remarkable](https://github.com/jonschlinkert/remarkable) for our markdown rendering and [highlight.js](https://highlightjs.org/) for our code block syntax highlighting. The core of Docusaurus' functionality is in the [lib directory](https://github.com/facebookexperimental/Docusaurus/tree/master/lib) of the [Docusaurus repo](https://github.com/facebook/docusaurus/). The general structure looks like:
 
 ```bash
 root-of-Docusaurus
@@ -131,7 +131,7 @@ build
 
 ![Docusaurus](/img/docusaurus.svg)
 
-We welcome your [contributions](https://github.com/facebook/Docusaurus/blob/master/CONTRIBUTING.md) to Docusaurus, whether you want to use it for your own site, you want to [contribute](https://github.com/facebook/Docusaurus/blob/master/CONTRIBUTING.md) to the Docusaurus core or just have questions. Follow us on [GitHub](https://github.com/facebook/Docusaurus) and [Twitter](https://twitter.com/docusaurus).
+We welcome your [contributions](https://github.com/facebook/docusaurus/blob/master/CONTRIBUTING.md) to Docusaurus, whether you want to use it for your own site, you want to [contribute](https://github.com/facebook/docusaurus/blob/master/CONTRIBUTING.md) to the Docusaurus core or just have questions. Follow us on [GitHub](https://github.com/facebook/docusaurus) and [Twitter](https://twitter.com/docusaurus).
 
 ## Acknowledgements
 
@@ -154,5 +154,5 @@ Without their dedication to creating or migrating their websites over to the pla
 
 - [Read our documentation](https://docusaurus.io)
 - [Follow our Twitter feed](https://twitter.com/docusaurus)
-- [Follow us on GitHub](https://github.com/facebook/Docusaurus)
+- [Follow us on GitHub](https://github.com/facebook/docusaurus)
 - [About Slash, the Docusaurus mascot](https://docusaurus.io/about-slash.html)
