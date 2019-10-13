@@ -385,7 +385,7 @@ In Docusaurus 2, the markdown syntax has been changed to [MDX](https://mdxjs.com
 
 ### Language-specific Code Tabs
 
-Not yet supported. Stay tuned.
+Refer to the [multi-language support code blocks](markdown-features.md#multi-language-support-code-blocks) section.
 
 ## Update `.gitignore`
 

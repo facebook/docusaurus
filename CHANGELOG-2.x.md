@@ -1,5 +1,9 @@
 # Docusaurus 2 Changelog
 
+## Unreleased
+
+- Add `@theme/Tabs` which can be used to implement multi-language code tabs
+
 ## 2.0.0-alpha.26
 
 - Docs, pages plugin is rewritten in TypeScript
