@@ -1,6 +1,6 @@
 # Docusaurus 2 Changelog
 
-## Unreleased
+## 2.0.0-alpha.27
 
 - Add `@theme/Tabs` which can be used to implement multi-language code tabs.
 - Implement `custom_edit_url` and `hide_title` markdown header for docusaurus v1 feature parity.
