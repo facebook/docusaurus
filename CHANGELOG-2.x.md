@@ -3,6 +3,8 @@
 ## Unreleased
 
 - Add `@theme/Tabs` which can be used to implement multi-language code tabs
+- Reduce memory usage and slightly faster production build.
+- Misc dependency upgrades. 
 
 ## 2.0.0-alpha.26
 
