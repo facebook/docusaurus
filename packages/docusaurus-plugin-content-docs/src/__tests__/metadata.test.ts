@@ -101,4 +101,25 @@ describe('processMetadata', () => {
       description: '## Images',
     });
   });
+
+  test('docs with custom editUrl', async () => {
+    const source = 'lorem.md';
+    const data = await processMetadata({
+      source,
+      docsDir,
+      order: {},
+      siteConfig,
+      docsBasePath: pluginPath,
+      siteDir,
+    });
+
+    expect(data).toEqual({
+      id: 'lorem',
+      permalink: '/docs/lorem',
+      source: path.join('@site', pluginPath, source),
+      title: 'lorem',
+      editUrl: 'https://github.com/customUrl/docs/lorem.md',
+      description: 'Lorem ipsum.',
+    });
+  });
 });

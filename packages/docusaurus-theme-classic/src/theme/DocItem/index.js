@@ -74,9 +74,11 @@ function DocItem(props) {
           <div className="row">
             <div className="col">
               <div className={styles.docItemContainer}>
-                <header>
-                  <h1 className={styles.docTitle}>{metadata.title}</h1>
-                </header>
+                {!metadata.hide_title && (
+                  <header>
+                    <h1 className={styles.docTitle}>{metadata.title}</h1>
+                  </header>
+                )}
                 <article>
                   <div className="markdown">
                     <DocContent />
