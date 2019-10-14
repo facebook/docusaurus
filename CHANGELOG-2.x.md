@@ -1,5 +1,8 @@
 # Docusaurus 2 Changelog
 
+## 2.0.0-alpha.28
+- Further reduce memory usage to avoid heap memory allocation failure.
+
 ## 2.0.0-alpha.27
 
 - Add `@theme/Tabs` which can be used to implement multi-language code tabs.
