@@ -2,7 +2,8 @@
 
 ## Unreleased
 
-- Add `@theme/Tabs` which can be used to implement multi-language code tabs
+- Add `@theme/Tabs` which can be used to implement multi-language code tabs.
+- Implement `custom_edit_url` and `hide_title` markdown header for docusaurus v1 feature parity.
 - Reduce memory usage and slightly faster production build.
 - Misc dependency upgrades. 
 

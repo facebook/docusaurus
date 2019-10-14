@@ -103,6 +103,11 @@ export default async function processMetadata({
     metadata.editUrl = normalizeUrl([editUrl, source]);
   }
 
+  if (metadata.custom_edit_url) {
+    metadata.editUrl = metadata.custom_edit_url;
+    delete metadata.custom_edit_url;
+  }
+
   if (showLastUpdateAuthor || showLastUpdateTime) {
     // Use fake data in dev for faster development
     const fileLastUpdateData =
