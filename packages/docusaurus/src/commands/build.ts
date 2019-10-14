@@ -6,7 +6,6 @@
  */
 
 import chalk from 'chalk';
-import CleanWebpackPlugin from 'clean-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import fs from 'fs-extra';
 import path from 'path';
@@ -20,6 +19,7 @@ import {CLIOptions, Props} from '@docusaurus/types';
 import {createClientConfig} from '../webpack/client';
 import {createServerConfig} from '../webpack/server';
 import {applyConfigureWebpack} from '../webpack/utils';
+import CleanWebpackPlugin from '../webpack/plugins/CleanWebpackPlugin';
 
 function compile(config: Configuration[]): Promise<any> {
   return new Promise((resolve, reject) => {
