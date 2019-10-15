@@ -10,8 +10,8 @@
 const chalk = require('chalk');
 const semver = require('semver');
 const path = require('path');
-const program = require('commander');
-const {build, swizzle, deploy, start} = require('../lib');
+const cli = require('commander');
+const {build, swizzle, deploy, start, unknownCommand} = require('../lib');
 const requiredVersion = require('../package.json').engines.node;
 
 if (!semver.satisfies(process.version, requiredVersion)) {
@@ -34,11 +34,9 @@ function wrapCommand(fn) {
     });
 }
 
-program
-  .version(require('../package.json').version)
-  .usage('<command> [options]');
+cli.version(require('../package.json').version).usage('<command> [options]');
 
-program
+cli
   .command('build [siteDir]')
   .description('Build website')
   .option(
@@ -51,21 +49,21 @@ program
     });
   });
 
-program
+cli
   .command('swizzle <themeName> [componentName] [siteDir]')
   .description('Copy the theme files into website folder for customization.')
   .action((themeName, componentName, siteDir = '.') => {
     wrapCommand(swizzle)(path.resolve(siteDir), themeName, componentName);
   });
 
-program
+cli
   .command('deploy [siteDir]')
   .description('Deploy website to GitHub pages')
   .action((siteDir = '.') => {
     wrapCommand(deploy)(path.resolve(siteDir));
   });
 
-program
+cli
   .command('start [siteDir]')
   .description('Start development server')
   .option('-p, --port <port>', 'use specified port (default: 3000)')
@@ -82,14 +80,22 @@ program
     });
   });
 
-program.arguments('<command>').action(cmd => {
-  program.outputHelp();
+cli.arguments('<command>').action(cmd => {
+  cli.outputHelp();
   console.log(`  ${chalk.red(`\n  Unknown command ${chalk.yellow(cmd)}.`)}`);
   console.log();
 });
 
-program.parse(process.argv);
+function isKnownCommand(argv) {
+  return ['start', 'build', 'swizzle', 'deploy'].includes(argv[0]);
+}
+
+if (!isKnownCommand(process.argv.slice(2))) {
+  unknownCommand(cli, path.resolve('.'));
+}
+
+cli.parse(process.argv);
 
 if (!process.argv.slice(2).length) {
-  program.outputHelp();
+  cli.outputHelp();
 }

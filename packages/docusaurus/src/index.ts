@@ -9,3 +9,4 @@ export {build} from './commands/build';
 export {start} from './commands/start';
 export {swizzle} from './commands/swizzle';
 export {deploy} from './commands/deploy';
+export {unknownCommand} from './commands/unknown';

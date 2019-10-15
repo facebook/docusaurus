@@ -130,6 +130,23 @@ configureWebpack(config, isServer, {getBabelLoader, getCacheLoader}) {
 },
 ```
 
+## extendCli(cli)
+
+Register an extra command to enhance the CLI of docusaurus. `cli` is [commander](https://www.npmjs.com/package/commander) object.
+
+Example:
+
+```js
+extendCli(cli) {
+  cli
+    .command('roll')
+    .description('Roll a random number between 1 and 1000')
+    .action(() => {
+      console.log(Math.floor(Math.random() * 1000 + 1));
+  });
+},
+```
+
 <!--
 For example, the in docusaurus-plugin-content-docs:
 
@@ -209,6 +226,10 @@ module.exports = function(context, opts) {
       // Return an array of paths to the modules that are to be imported
       // in the client bundle. These modules are imported globally before
       // React even renders the initial UI.
+    },
+
+    extendCli(cli) {
+      // Register an extra command to enhance the CLI of docusaurus
     },
   };
 };

@@ -27,41 +27,48 @@ import {
   Props,
 } from '@docusaurus/types';
 
-export async function load(siteDir: string): Promise<Props> {
+export function loadContext(siteDir: string): LoadContext {
   const generatedFilesDir: string = path.resolve(
     siteDir,
     GENERATED_FILES_DIR_NAME,
   );
-
   const siteConfig: DocusaurusConfig = loadConfig(siteDir);
-  const genSiteConfig = generate(
-    generatedFilesDir,
-    CONFIG_FILE_NAME,
-    `export default ${JSON.stringify(siteConfig, null, 2)};`,
-  );
-
   const outDir = path.resolve(siteDir, BUILD_DIR_NAME);
   const {baseUrl} = siteConfig;
 
-  const context: LoadContext = {
+  return {
     siteDir,
     generatedFilesDir,
     siteConfig,
     outDir,
     baseUrl,
   };
+}
 
-  // Presets.
+export function loadPluginConfigs(context: LoadContext): PluginConfig[] {
   const {plugins: presetPlugins, themes: presetThemes} = loadPresets(context);
-
-  // Plugins.
-  const pluginConfigs: PluginConfig[] = [
+  const {siteConfig} = context;
+  return [
     ...presetPlugins,
     ...presetThemes,
     // Site config should the highest priority.
     ...(siteConfig.plugins || []),
     ...(siteConfig.themes || []),
   ];
+}
+
+export async function load(siteDir: string): Promise<Props> {
+  // Context
+  const context: LoadContext = loadContext(siteDir);
+  const {generatedFilesDir, siteConfig, outDir, baseUrl} = context;
+  const genSiteConfig = generate(
+    generatedFilesDir,
+    CONFIG_FILE_NAME,
+    `export default ${JSON.stringify(siteConfig, null, 2)};`,
+  );
+
+  // Plugins
+  const pluginConfigs: PluginConfig[] = loadPluginConfigs(context);
   const {plugins, pluginsRouteConfigs} = await loadPlugins({
     pluginConfigs,
     context,
