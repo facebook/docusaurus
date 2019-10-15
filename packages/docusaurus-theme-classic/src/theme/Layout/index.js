@@ -48,7 +48,7 @@ function Layout(props) {
           <meta property="og:description" content={description} />
         )}
         {keywords && keywords.length && (
-          <meta property="keywords" content={keywords} />
+          <meta property="keywords" content={keywords.join(',')} />
         )}
         {metaImage && (
           <meta

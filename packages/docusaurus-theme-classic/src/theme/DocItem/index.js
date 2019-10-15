@@ -42,6 +42,7 @@ function DocItem(props) {
     editUrl,
     lastUpdatedAt,
     lastUpdatedBy,
+    keywords,
   } = metadata;
 
   return (
@@ -68,6 +69,9 @@ function DocItem(props) {
           <meta name="twitter:image:alt" content={`Image for ${title}`} />
         )}
         {permalink && <meta property="og:url" content={siteUrl + permalink} />}
+        {keywords && keywords.length && (
+          <meta property="keywords" content={keywords.join(',')} />
+        )}
       </Head>
       <div className="padding-vert--lg">
         <div className="container">

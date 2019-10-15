@@ -39,7 +39,7 @@ module.exports = {
 };
 ```
 
-## Page specific SEO
+## Document Page specific SEO
 
 To add SEO to your doc, use the following fields in your doc's front matter:
 
@@ -80,15 +80,15 @@ Note that the file of this image cannot be SVG.
 
 To add customized SEO, use the `Head` component from `@docusaurus/Head`.
 
+Example:
+
 ```js
 import Head from '@docusaurus/Head';
 
 const MySEO = () => (
   <>
     <Head>
-      <meta charSet="utf-8" />
-      <meta httpEquiv="x-ua-compatible" content="ie=edge" />
-      <meta name="viewport" content="width=device-width" />
+      <meta property="og:description" content={'My custom description'} />
     </Head>
   </>
 );
