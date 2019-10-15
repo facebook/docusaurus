@@ -21,17 +21,13 @@ import {loadPresets} from './presets';
 import {loadRoutes} from './routes';
 import {loadThemeAlias} from './themes';
 import {
-  CLIOptions,
   DocusaurusConfig,
   LoadContext,
   PluginConfig,
   Props,
 } from '@docusaurus/types';
 
-export async function load(
-  siteDir: string,
-  cliOptions: CLIOptions = {},
-): Promise<Props> {
+export async function load(siteDir: string): Promise<Props> {
   const generatedFilesDir: string = path.resolve(
     siteDir,
     GENERATED_FILES_DIR_NAME,
@@ -51,7 +47,6 @@ export async function load(
     siteDir,
     generatedFilesDir,
     siteConfig,
-    cliOptions,
     outDir,
     baseUrl,
   };
@@ -148,7 +143,6 @@ ${Object.keys(registry)
     generatedFilesDir,
     routesPaths,
     plugins,
-    cliOptions,
   };
 
   return props;

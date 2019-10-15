@@ -20,7 +20,7 @@ import WebpackDevServer from 'webpack-dev-server';
 import merge from 'webpack-merge';
 import HotModuleReplacementPlugin from 'webpack/lib/HotModuleReplacementPlugin';
 import {load} from '../server';
-import {CLIOptions} from '@docusaurus/types';
+import {StartCLIOptions} from '@docusaurus/types';
 import {CONFIG_FILE_NAME, STATIC_DIR_NAME, DEFAULT_PORT} from '../constants';
 import {createClientConfig} from '../webpack/client';
 import {applyConfigureWebpack} from '../webpack/utils';
@@ -37,12 +37,12 @@ async function getPort(reqPort: string | undefined): Promise<number> {
 
 export async function start(
   siteDir: string,
-  cliOptions: CLIOptions = {},
+  cliOptions: Partial<StartCLIOptions> = {},
 ): Promise<void> {
   console.log(chalk.blue('Starting the development server...'));
 
   // Process all related files as a prop.
-  const props = await load(siteDir, cliOptions);
+  const props = await load(siteDir);
 
   // Reload files processing.
   const reload = () => {

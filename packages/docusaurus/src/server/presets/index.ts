@@ -15,7 +15,7 @@ import {
 } from '@docusaurus/types';
 
 export function loadPresets(
-  context: Partial<LoadContext>,
+  context: LoadContext,
 ): {
   plugins: PluginConfig[];
   themes: PluginConfig[];

@@ -15,7 +15,7 @@ import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
 import merge from 'webpack-merge';
 import {STATIC_DIR_NAME} from '../constants';
 import {load} from '../server';
-import {CLIOptions, Props} from '@docusaurus/types';
+import {BuildCLIOptions, Props} from '@docusaurus/types';
 import {createClientConfig} from '../webpack/client';
 import {createServerConfig} from '../webpack/server';
 import {applyConfigureWebpack} from '../webpack/utils';
@@ -46,12 +46,12 @@ function compile(config: Configuration[]): Promise<any> {
 
 export async function build(
   siteDir: string,
-  cliOptions: CLIOptions = {},
+  cliOptions: Partial<BuildCLIOptions> = {},
 ): Promise<void> {
   process.env.NODE_ENV = 'production';
   console.log(chalk.blue('Creating an optimized production build...'));
 
-  const props: Props = await load(siteDir, cliOptions);
+  const props: Props = await load(siteDir);
 
   // Apply user webpack config.
   const {outDir, plugins} = props;

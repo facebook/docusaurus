@@ -48,13 +48,8 @@ interface LoadContext {
   siteDir: string;
   generatedFilesDir: string;
   siteConfig: DocusaurusConfig;
-  cliOptions: CLIOptions;
   outDir: string;
   baseUrl: string;
-}
-
-interface CLIOptions {
-  [option: string]: any;
 }
 ```
 

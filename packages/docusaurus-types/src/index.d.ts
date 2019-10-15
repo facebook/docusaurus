@@ -34,7 +34,7 @@ export interface DocusaurusConfig {
 }
 
 export interface DocusaurusContext {
-  siteConfig?: Partial<DocusaurusConfig>;
+  siteConfig?: DocusaurusConfig;
 }
 
 export interface Preset {
@@ -44,15 +44,20 @@ export interface Preset {
 
 export type PresetConfig = [string, Object] | [string] | string;
 
-export interface CLIOptions {
-  [option: string]: any;
+export interface StartCLIOptions {
+  port: string;
+  host: string;
+  hotOnly: boolean;
+}
+
+export interface BuildCLIOptions {
+  bundleAnalyzer: boolean;
 }
 
 export interface LoadContext {
   siteDir: string;
   generatedFilesDir: string;
-  siteConfig: Partial<DocusaurusConfig>;
-  cliOptions: CLIOptions;
+  siteConfig: DocusaurusConfig;
   outDir: string;
   baseUrl: string;
 }
