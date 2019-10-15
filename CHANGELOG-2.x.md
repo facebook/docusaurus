@@ -2,6 +2,7 @@
 
 ## 2.0.0-alpha.28
 - Further reduce memory usage to avoid heap memory allocation failure.
+- Fix `keywords` frontmatter for SEO not working properly.
 
 ## 2.0.0-alpha.27
 

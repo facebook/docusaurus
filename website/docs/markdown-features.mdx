@@ -101,6 +101,9 @@ Documents use the following markdown header fields that are enclosed by a line `
 - `hide_title`: Whether to hide the title at the top of the doc. By default it is `false`.
 - `sidebar_label`: The text shown in the document sidebar and in the next/previous button for this document. If this field is not present, the document's `sidebar_label` will default to its `title`.
 - `custom_edit_url`: The URL for editing this document. If this field is not present, the document's edit URL will fall back to `editUrl` from options fields passed to `docusaurus-plugin-content-docs`.
+- `description`: Description of this document page. 
+- `image`: Cover or thumbnail image that will be used when displaying the link to your post. 
+- `keywords`: Keywords for search engines.
 
 Example:
 
@@ -110,6 +113,11 @@ id: doc-markdown
 title: Markdown Features
 sidebar_label: Markdown :)
 custom_edit_url: https://github.com/facebook/docusaurus/edit/master/docs/api-doc-markdown.md
+keywords:
+  - docs
+  - docusaurus
+description: How do I find you when I cannot solve this problem
+image: https://i.imgur.com/mErPwqL.png
 ---
 
 ```
