@@ -22,14 +22,7 @@ export function createBaseConfig(
   props: Props,
   isServer: boolean,
 ): Configuration {
-  const {
-    outDir,
-    siteDir,
-    baseUrl,
-    generatedFilesDir,
-    cliOptions: {cacheLoader},
-    routesPaths,
-  } = props;
+  const {outDir, siteDir, baseUrl, generatedFilesDir, routesPaths} = props;
 
   const totalPages = routesPaths.length;
   const isProd = process.env.NODE_ENV === 'production';
@@ -110,10 +103,9 @@ export function createBaseConfig(
               /node_modules/.test(modulePath) && !/docusaurus/.test(modulePath)
             );
           },
-          use: [
-            cacheLoader && getCacheLoader(isServer),
-            getBabelLoader(isServer),
-          ].filter(Boolean) as Loader[],
+          use: [getCacheLoader(isServer), getBabelLoader(isServer)].filter(
+            Boolean,
+          ) as Loader[],
         },
         {
           test: CSS_REGEX,

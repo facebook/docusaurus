@@ -45,11 +45,9 @@ program
     '--bundle-analyzer',
     'Visualize size of webpack output files with an interactive zoomable treemap (default = false)',
   )
-  .option('--no-cache-loader', 'Do not use cache-loader')
-  .action((siteDir = '.', {bundleAnalyzer, cacheLoader}) => {
+  .action((siteDir = '.', {bundleAnalyzer}) => {
     wrapCommand(build)(path.resolve(siteDir), {
       bundleAnalyzer,
-      cacheLoader,
     });
   });
 
@@ -76,13 +74,11 @@ program
     '--hot-only',
     'Do not fallback to page refresh if hot reload fails (default: false)',
   )
-  .option('--no-cache-loader', 'Do not use cache-loader')
-  .action((siteDir = '.', {port, host, hotOnly, cacheLoader}) => {
+  .action((siteDir = '.', {port, host, hotOnly}) => {
     wrapCommand(start)(path.resolve(siteDir), {
       port,
       host,
       hotOnly,
-      cacheLoader,
     });
   });
 
