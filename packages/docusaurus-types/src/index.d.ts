@@ -1,4 +1,5 @@
 import {Loader, Configuration} from 'webpack';
+import {CommanderStatic} from 'commander';
 import {ParsedUrlQueryInput} from 'querystring';
 
 export interface DocusaurusConfig {
@@ -92,6 +93,7 @@ export interface Plugin<T> {
   getThemePath?(): string;
   getPathsToWatch?(): string[];
   getClientModules?(): string[];
+  extendCli?(cli: CommanderStatic): any;
 }
 
 export type PluginConfig = [string, Object] | [string] | string;

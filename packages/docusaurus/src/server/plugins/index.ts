@@ -5,10 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import _ from 'lodash';
 import {generate} from '@docusaurus/utils';
 import fs from 'fs-extra';
-import importFresh from 'import-fresh';
 import path from 'path';
 import {
   LoadContext,
@@ -17,6 +15,7 @@ import {
   PluginContentLoadedActions,
   RouteConfig,
 } from '@docusaurus/types';
+import {initPlugins} from './init';
 
 export async function loadPlugins({
   pluginConfigs,
@@ -29,30 +28,7 @@ export async function loadPlugins({
   pluginsRouteConfigs: RouteConfig[];
 }> {
   // 1. Plugin Lifecycle - Initialization/Constructor
-  const plugins: Plugin<any>[] = _.compact(
-    pluginConfigs.map(pluginItem => {
-      let pluginModuleImport;
-      let pluginOptions = {};
-      if (!pluginItem) {
-        return null;
-      }
-
-      if (typeof pluginItem === 'string') {
-        pluginModuleImport = pluginItem;
-      } else if (Array.isArray(pluginItem)) {
-        pluginModuleImport = pluginItem[0];
-        pluginOptions = pluginItem[1] || {};
-      }
-
-      if (!pluginModuleImport) {
-        return null;
-      }
-
-      // module is any valid module identifier - npm package or locally-resolved path.
-      const pluginModule: any = importFresh(pluginModuleImport);
-      return (pluginModule.default || pluginModule)(context, pluginOptions);
-    }),
-  );
+  const plugins: Plugin<any>[] = initPlugins({pluginConfigs, context});
 
   // 2. Plugin lifecycle - loadContent
   // Currently plugins run lifecycle in parallel and are not order-dependent. We could change
