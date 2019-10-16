@@ -37,7 +37,7 @@ export async function swizzle(
 
     const relativeDir = path.relative(process.cwd(), toPath);
     const fromMsg = chalk.blue(
-      componentName ? `${themeName}/${componentName}` : themeName,
+      componentName ? `${themeName} ${chalk.yellow(componentName)}` : themeName,
     );
     const toMsg = chalk.cyan(relativeDir);
     console.log(
