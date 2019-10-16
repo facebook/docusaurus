@@ -44,9 +44,7 @@ class BlogPost extends React.Component {
     }`;
     if (post.authorFBID || post.authorImageURL) {
       const authorImageURL = post.authorFBID
-        ? `https://graph.facebook.com/${
-            post.authorFBID
-          }/picture/?height=200&width=200`
+        ? `https://graph.facebook.com/${post.authorFBID}/picture/?height=200&width=200`
         : post.authorImageURL;
       return (
         <div className={className}>

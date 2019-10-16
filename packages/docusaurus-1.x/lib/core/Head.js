@@ -22,9 +22,7 @@ class Head extends React.Component {
     // Use user-provided themeUrl if it exists, else construct one from version and theme.
     const highlightThemeURL = highlight.themeUrl
       ? highlight.themeUrl
-      : `//cdnjs.cloudflare.com/ajax/libs/highlight.js/${
-          highlight.version
-        }/styles/${highlight.theme}.min.css`;
+      : `//cdnjs.cloudflare.com/ajax/libs/highlight.js/${highlight.version}/styles/${highlight.theme}.min.css`;
 
     // ensure the siteUrl variable ends with a single slash
     const siteUrl = `${(
@@ -99,9 +97,7 @@ class Head extends React.Component {
         {this.props.config.gaTrackingId && this.props.config.gaGtag && (
           <script
             async
-            src={`https://www.googletagmanager.com/gtag/js?id=${
-              this.props.config.gaTrackingId
-            }`}
+            src={`https://www.googletagmanager.com/gtag/js?id=${this.props.config.gaTrackingId}`}
           />
         )}
         {this.props.config.gaTrackingId && this.props.config.gaGtag && (

@@ -83,9 +83,7 @@ class Footer extends React.Component {
             {this.props.config.twitterUsername && (
               <div className="social">
                 <a
-                  href={`https://twitter.com/${
-                    this.props.config.twitterUsername
-                  }`}
+                  href={`https://twitter.com/${this.props.config.twitterUsername}`}
                   className="twitter-follow-button">
                   Follow @{this.props.config.twitterUsername}
                 </a>
