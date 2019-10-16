@@ -36,7 +36,10 @@ export function initPlugins({
       }
 
       // module is any valid module identifier - npm package or locally-resolved path.
-      const pluginModule: any = importFresh(pluginModuleImport);
+      const isProd = process.env.NODE_ENV === 'production';
+      const pluginModule: any = isProd
+        ? importFresh(pluginModuleImport)
+        : require(pluginModuleImport);
       return (pluginModule.default || pluginModule)(context, pluginOptions);
     }),
   );

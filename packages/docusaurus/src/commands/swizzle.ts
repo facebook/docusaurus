@@ -11,6 +11,7 @@ import importFresh from 'import-fresh';
 import path from 'path';
 
 import {THEME_PATH} from '../constants';
+import {loadContext} from '../server';
 
 export async function swizzle(
   siteDir: string,
@@ -18,7 +19,8 @@ export async function swizzle(
   componentName?: string,
 ): Promise<void> {
   const plugin: any = importFresh(themeName);
-  const pluginInstance = plugin({siteDir});
+  const context = loadContext(siteDir);
+  const pluginInstance = plugin(context);
   let fromPath = pluginInstance.getThemePath();
 
   if (fromPath) {
