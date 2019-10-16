@@ -4,6 +4,7 @@
 - Further reduce memory usage to avoid heap memory allocation failure.
 - Fix `keywords` frontmatter for SEO not working properly.
 - Add `extendCli` api for plugins. This will allow plugin to further extend Docusaurus CLI.
+- Fix `swizzle` command not being able to swizzle single js file.
 
 ## 2.0.0-alpha.27
 
