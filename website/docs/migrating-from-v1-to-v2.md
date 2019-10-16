@@ -357,6 +357,68 @@ The following fields are all deprecated, you may remove from your configuration 
 
 We intend to implement many of the deprecated config fields as plugins in future. Help will be appreciated!
 
+## Update subcategory type in ```sidebar.json```
+Change the ```"type": "subcategory",``` to ```"type": "category"``` and ```"ids": []``` to ```items : []```
+
+Version 1
+
+```json
+{
+  "docs": {
+    "My Example Category": [
+      "examples",
+      {
+        "type": "subcategory",
+        "label": "My Example Subcategory",
+        "ids": [
+          "my-examples",
+          ...
+        ]
+      },
+      {
+        "type": "subcategory",
+        "label": "My Next Subcategory",
+        "ids": [
+          "some-other-examples"
+        ]
+      },
+      "even-more-examples",
+      ...
+    ],
+    ...
+  }
+}
+```
+Version 2
+
+```json
+{
+  "docs": {
+    "My Example Category": [
+      "examples",
+      {
+        "type": "category", <------
+        "label": "My Example Subcategory",
+        "items": [ <-------
+          "my-examples",
+          ...
+        ]
+      },
+      {
+        "type": "category", <-----
+        "label": "My Next Subcategory",
+        "items": [ <------
+          "some-other-examples"
+        ]
+      },
+      "even-more-examples",
+      ...
+    ],
+    ...
+  }
+}
+```
+
 ## Delete footer file
 
 `website/core/Footer.js` is no longer needed. If you want to modify the default footer provided by docusaurus, [swizzle](using-themes.md#swizzling-theme-components) it:
