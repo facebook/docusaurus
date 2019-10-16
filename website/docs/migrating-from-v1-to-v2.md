@@ -357,6 +357,22 @@ The following fields are all deprecated, you may remove from your configuration 
 
 We intend to implement many of the deprecated config fields as plugins in future. Help will be appreciated!
 
+## Migrate your sidebar
+
+In previous version, nested sidebar category is not allowed and sidebar category can only contain doc id. However, v2 allows infinite nested sidebar and we have many types of [Sidebar Item](sidebar.md#sidebar-item) other than document.
+
+You'll have to migrate your sidebar if it contains category type. Rename `subcategory` to `category` and `ids` to `items`.
+
+```js
+{
+- type: 'subcategory',
++ type: 'category',
+  label: 'My Example Subcategory',
++ items: ['doc1'],
+- ids: ['doc1']
+},
+```
+
 ## Delete footer file
 
 `website/core/Footer.js` is no longer needed. If you want to modify the default footer provided by docusaurus, [swizzle](using-themes.md#swizzling-theme-components) it:
