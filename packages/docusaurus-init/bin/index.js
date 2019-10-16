@@ -18,9 +18,7 @@ if (!semver.satisfies(process.version, requiredVersion)) {
   console.log(
     chalk.red(`\nMinimum node version not met :)`) +
       chalk.yellow(
-        `\nYou are using Node ${
-          process.version
-        }, Requirement: Node ${requiredVersion}.\n`,
+        `\nYou are using Node ${process.version}, Requirement: Node ${requiredVersion}.\n`,
       ),
   );
   process.exit(1);

@@ -35,9 +35,7 @@ module.exports = function(type) {
 
   const feed = new Feed({
     title: `${siteConfig.title} Blog`,
-    description: `The best place to stay up-to-date with the latest ${
-      siteConfig.title
-    } news and events.`,
+    description: `The best place to stay up-to-date with the latest ${siteConfig.title} news and events.`,
     id: blogRootURL,
     link: blogRootURL,
     image: siteImageURL,
