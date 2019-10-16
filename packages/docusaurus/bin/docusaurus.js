@@ -11,7 +11,7 @@ const chalk = require('chalk');
 const semver = require('semver');
 const path = require('path');
 const cli = require('commander');
-const {build, swizzle, deploy, start, unknownCommand} = require('../lib');
+const {build, swizzle, deploy, start, externalCommand} = require('../lib');
 const requiredVersion = require('../package.json').engines.node;
 
 if (!semver.satisfies(process.version, requiredVersion)) {
@@ -86,12 +86,12 @@ cli.arguments('<command>').action(cmd => {
   console.log();
 });
 
-function isKnownCommand(argv) {
-  return ['start', 'build', 'swizzle', 'deploy'].includes(argv[0]);
+function isInternalCommand(command) {
+  return ['start', 'build', 'swizzle', 'deploy'].includes(command);
 }
 
-if (!isKnownCommand(process.argv.slice(2))) {
-  unknownCommand(cli, path.resolve('.'));
+if (!isInternalCommand(process.argv.slice(2)[0])) {
+  externalCommand(cli, path.resolve('.'));
 }
 
 cli.parse(process.argv);
