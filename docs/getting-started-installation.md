@@ -63,7 +63,7 @@ root-directory
     └── static
 ```
 
-***Note:*** This installation creates some Docker files that are not necessary to run docusaurus. They may be deleted without issue in the interest of saving space. For more information on Docker, please see the [Docker documentation](https://docs.docker.com/).
+> This installation creates some Docker files that are not necessary to run docusaurus. They may be deleted without issue in the interest of saving space. For more information on Docker, please see the [Docker documentation](https://docs.docker.com/).
 
 ## Running the example website
 
