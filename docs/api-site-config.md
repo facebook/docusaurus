@@ -337,6 +337,23 @@ Boolean flag to indicate whether `HTML` files in `/pages` should be wrapped with
 
 Users can also add their own custom fields if they wish to provide some data across different files.
 
+## Adding Google Fonts
+
+Google Fonts offers faster load times by caching fonts without forcing users to sacrifice privacy. For more information on Google Fonts, see the [**Google Fonts**](https://fonts.google.com/#) documentation.
+
+To add Google Fonts to your Docusaurus deployment, open the **siteConfig.js** file located in the */docusaurus/website-1.x/* directory. In this file, add the following property:
+
+```css
+stylesheets: [
+    "https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,700",
+    "/css/code-block-buttons.css"
+  ],
+```
+
+Once saved, your Docusaurus instance will use Google Fonts.
+
+> Using this method of implementing Google Fonts is the correct method. Using`@import` will not function as expected.
+
 ## Example siteConfig.js with many available fields
 
 ```js
