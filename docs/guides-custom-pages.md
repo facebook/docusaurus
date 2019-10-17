@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2017-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ **/
+
 ---
 id: custom-pages
 title: Custom Pages
@@ -57,8 +64,29 @@ Your footer will automatically get applied to all pages on your site, including 
 
 If you do not want a footer for your site, change the `render` function of `core/Footer.js` to return `null`. e.g.,
 
+## Adding Google Fonts
+
+Google Fonts offers faster load times by caching fonts without forcing users to sacrifice privacy. For more information on Google Fonts, see the [**Google Fonts**](https://fonts.google.com/#) documentation.
+
+To add Google Fonts to your Docusaurus deployment, open the **siteConfig.js** file located in the */docusaurus/website-1.x/* directory. In this file, add the following property:
+
+```css
+stylesheets: [
+    "https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,700",
+    "/css/code-block-buttons.css"
+  ],
+```
+
+Once saved, your Docusaurus instance will use Google Fonts.
+
+> Using this method of implementing Google Fonts is the correct method. Using`@import` will not function as expected.
+
+
+
 ```jsx
 const React = require('react');
+
+
 
 class Footer extends React.Component {
   render() {
