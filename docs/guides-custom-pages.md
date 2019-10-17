@@ -57,6 +57,20 @@ Your footer will automatically get applied to all pages on your site, including 
 
 If you do not want a footer for your site, change the `render` function of `core/Footer.js` to return `null`. e.g.,
 
+```jsx
+const React = require('react');
+
+
+
+class Footer extends React.Component {
+  render() {
+    return null;
+  }
+}
+
+module.exports = Footer;
+```
+
 ## Adding Google Fonts
 
 Google Fonts offers faster load times by caching fonts without forcing users to sacrifice privacy. For more information on Google Fonts, see the [**Google Fonts**](https://fonts.google.com/#) documentation.
@@ -73,19 +87,3 @@ stylesheets: [
 Once saved, your Docusaurus instance will use Google Fonts.
 
 > Using this method of implementing Google Fonts is the correct method. Using`@import` will not function as expected.
-
-
-
-```jsx
-const React = require('react');
-
-
-
-class Footer extends React.Component {
-  render() {
-    return null;
-  }
-}
-
-module.exports = Footer;
-```
