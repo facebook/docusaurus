@@ -106,7 +106,7 @@ Control the title of the blog sidebar. See the [adding a blog docs](guides-blog.
 
 If `true`, allow URLs with no `HTML` extension. For example, a request to URL https://docusaurus.io/docs/installation will return the same result as https://docusaurus.io/docs/installation.html.
 
-***Note:*** If users intend for this website to be used exclusively offline, this value must be set to 'false.' Otherwise, it will cause an offline site to route to the parent folder of the linked page.
+> If users intend for this website to be used exclusively offline, this value must be set to `false`. Otherwise, it will cause the site to route to the parent folder of the linked page.
 
 #### `cname` [string]
 
