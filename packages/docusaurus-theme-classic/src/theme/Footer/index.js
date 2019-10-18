@@ -69,7 +69,11 @@ function Footer() {
           <div className="text--center">
             {logo && logo.src && (
               <div className="margin-bottom--sm">
-                <img className="footer__logo" alt={logo.alt} src={logo.src} />
+                <img
+                  className="footer__logo"
+                  alt={logo.alt}
+                  src={withBaseUrl(logo.src)}
+                />
               </div>
             )}
             {copyright}
