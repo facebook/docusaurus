@@ -6,6 +6,7 @@
 - Fix `swizzle` command not passing context properly to theme packages.
 - Add `extendCli` api for plugins. This will allow plugin to further extend Docusaurus CLI.
 - Fix `swizzle` command not being able to swizzle single js file.
+- Fix logo URL in footer to use absolute path.
 
 ## 2.0.0-alpha.27
 
