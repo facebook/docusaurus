@@ -71,12 +71,12 @@ cli
     'Do not fallback to page refresh if hot reload fails (default: false)',
   )
   .option('--no-open', 'Do not open page in the browser (default: false)')
-  .action((siteDir = '.', {port, host, hotOnly, noOpen}) => {
+  .action((siteDir = '.', {port, host, hotOnly, open}) => {
     wrapCommand(start)(path.resolve(siteDir), {
       port,
       host,
       hotOnly,
-      noOpen,
+      open,
     });
   });
 
