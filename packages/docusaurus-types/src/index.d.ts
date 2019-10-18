@@ -49,7 +49,7 @@ export interface StartCLIOptions {
   port: string;
   host: string;
   hotOnly: boolean;
-  disableOpenBrowser: boolean;
+  noOpen: boolean;
 }
 
 export interface BuildCLIOptions {

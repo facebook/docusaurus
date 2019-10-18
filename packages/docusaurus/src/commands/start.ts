@@ -144,7 +144,7 @@ export async function start(
     if (err) {
       console.log(err);
     }
-    !cliOptions.disableOpenBrowser && openBrowser(openUrl);
+    !cliOptions.noOpen && openBrowser(openUrl);
   });
   ['SIGINT', 'SIGTERM'].forEach(sig => {
     process.on(sig as NodeJS.Signals, () => {

@@ -70,16 +70,13 @@ cli
     '--hot-only',
     'Do not fallback to page refresh if hot reload fails (default: false)',
   )
-  .option(
-    '--disable-open-browser',
-    'Do not open page in the browser (default: false)',
-  )
-  .action((siteDir = '.', {port, host, hotOnly, disableOpenBrowser}) => {
+  .option('--no-open', 'Do not open page in the browser (default: false)')
+  .action((siteDir = '.', {port, host, hotOnly, noOpen}) => {
     wrapCommand(start)(path.resolve(siteDir), {
       port,
       host,
       hotOnly,
-      disableOpenBrowser,
+      noOpen,
     });
   });
 
