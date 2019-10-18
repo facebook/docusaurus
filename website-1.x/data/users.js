@@ -127,6 +127,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Cohesity',
+    image: '/img/users/cohesity.png',
+    infoLink: 'https://developer.cohesity.com',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'ConfigCat',
     image: '/img/users/configcat.svg',
     infoLink: 'https://docs.configcat.com',
