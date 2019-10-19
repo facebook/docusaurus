@@ -7,7 +7,8 @@
 
 import useDocusaurusContext from './useDocusaurusContext';
 
-function withBaseUrl(url: string): string {
+export default function withBaseUrl(url) {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const {siteConfig} = useDocusaurusContext();
   const {baseUrl = '/'} = siteConfig || {};
 
@@ -20,5 +21,3 @@ function withBaseUrl(url: string): string {
   }
   return baseUrl + url;
 }
-
-export default withBaseUrl;

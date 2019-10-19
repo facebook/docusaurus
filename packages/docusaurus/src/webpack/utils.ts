@@ -92,9 +92,8 @@ export function getBabelLoader(isServer: boolean, babelOptions?: {}): Loader {
           [
             '@babel/env',
             {
-              // Allow importing core-js in entrypoint and use browserlist to select polyfills
-              useBuiltIns: 'entry',
-              corejs: 3,
+              useBuiltIns: 'usage',
+              corejs: '2',
               // Do not transform modules to CJS
               modules: false,
               // Exclude transforms that make all code slower

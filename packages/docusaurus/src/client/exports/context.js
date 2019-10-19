@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import * as React from 'react';
-import {DocusaurusContext} from '@docusaurus/types';
+import React from 'react';
 
-export default React.createContext<DocusaurusContext>({});
+export default React.createContext({});
