@@ -8,7 +8,7 @@
 - Fix `swizzle` command not being able to swizzle single js file.
 - Fix logo URL in footer to be appended with baseUrl automatically.
 - Add the option `--no-open` for `start` command.
-- Set `@babel/env` useBuiltins to `entry`. This will automatically use browserlist and import polyfills required in entrypoints.
+- Set `@babel/env` useBuiltins to `usage`. This will automatically use browserlist and import polyfills required.
 - Modified TerserWebpackPlugin `terserOptions` like CRA. 
 
 ## 2.0.0-alpha.27
