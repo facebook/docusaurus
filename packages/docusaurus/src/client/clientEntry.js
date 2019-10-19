@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import 'core-js';
+import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
 import React from 'react';
