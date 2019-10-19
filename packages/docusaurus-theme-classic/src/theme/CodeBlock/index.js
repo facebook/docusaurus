@@ -13,7 +13,29 @@ import Clipboard from 'clipboard';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import styles from './styles.module.css';
 
-export default ({children, className: languageClassName}) => {
+const regexHighlightRange = /{([\d,-]+)}/;
+
+const calculateLinesToHighlight = meta => {
+  if (!regexHighlightRange.test(meta)) {
+    return () => false;
+  }
+
+  const lineNumbers = regexHighlightRange
+    .exec(meta)[1]
+    .split(',')
+    .map(v => v.split('-').map(ve => parseInt(ve, 10)));
+
+  return index => {
+    const lineNumber = index + 1;
+    const inRange = lineNumbers.some(([start, end]) =>
+      end ? lineNumber >= start && lineNumber <= end : lineNumber === start,
+    );
+
+    return inRange;
+  };
+};
+
+export default ({children, className: languageClassName, metastring}) => {
   const {
     siteConfig: {
       themeConfig: {prismTheme},
@@ -22,6 +44,7 @@ export default ({children, className: languageClassName}) => {
   const [showCopied, setShowCopied] = useState(false);
   const target = useRef(null);
   const button = useRef(null);
+  const shouldHighlightLine = calculateLinesToHighlight(metastring);
 
   useEffect(() => {
     let clipboard;
@@ -61,13 +84,21 @@ export default ({children, className: languageClassName}) => {
             ref={target}
             className={classnames(className, styles.codeBlock)}
             style={style}>
-            {tokens.map((line, i) => (
-              <div key={i} {...getLineProps({line, key: i})}>
-                {line.map((token, key) => (
-                  <span key={key} {...getTokenProps({token, key})} />
-                ))}
-              </div>
-            ))}
+            {tokens.map((line, i) => {
+              const lineProps = getLineProps({line, key: i});
+
+              if (shouldHighlightLine(i)) {
+                lineProps.className = `${lineProps.className} highlight-line`;
+              }
+
+              return (
+                <div key={i} {...lineProps}>
+                  {line.map((token, key) => (
+                    <span key={key} {...getTokenProps({token, key})} />
+                  ))}
+                </div>
+              );
+            })}
           </pre>
           <button
             ref={button}

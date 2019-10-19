@@ -8,6 +8,7 @@
 - Fix `swizzle` command not being able to swizzle single js file.
 - Fix logo URL in footer to be appended with baseUrl automatically.
 - Add the option `--no-open` for `start` command.
+- Add highlight specific lines in code blocks.
 
 ## 2.0.0-alpha.27
 
