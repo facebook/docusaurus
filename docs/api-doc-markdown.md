@@ -11,13 +11,11 @@ Docusaurus uses [GitHub Flavored Markdown (GFM)](https://guides.github.com/featu
 
 Documents use the following markdown header fields that are enclosed by a line `---` on either side:
 
-`id`: A unique document id. If this field is not present, the document's `id` will default to its file name (without the extension).
-
-`title`: The title of your document. If this field is not present, the document's `title` will default to its `id`.
-
-`hide_title`: Whether to hide the title at the top of the doc.
-
-`sidebar_label`: The text shown in the document sidebar and in the next/previous button for this document. If this field is not present, the document's `sidebar_label` will default to its `title`.
+- `id`: A unique document id. If this field is not present, the document's `id` will default to its file name (without the extension).
+- `title`: The title of your document. If this field is not present, the document's `title` will default to its `id`.
+- `hide_title`: Whether to hide the title at the top of the doc.
+- `description`: The description of your document which will become the `<meta name="description" content="..."/>` and `<meta property="og:description" content="..."/>` in `<head>`, used by search engines. If this field is not present, it will default to the first line of the contents.
+- `sidebar_label`: The text shown in the document sidebar and in the next/previous button for this document. If this field is not present, the document's `sidebar_label` will default to its `title`.
 
 For example:
 
