@@ -4,19 +4,19 @@ exports[`loadRoutes flat route config 1`] = `
 Object {
   "registry": Object {
     "component---theme-blog-list-pagea-6-a-7ba": Object {
-      "importStatement": "() => import(/* webpackChunkName: 'component---theme-blog-list-pagea-6-a-7ba' */ \\"@theme/BlogListPage\\")",
+      "loader": "() => import(/* webpackChunkName: 'component---theme-blog-list-pagea-6-a-7ba' */ \\"@theme/BlogListPage\\")",
       "modulePath": "@theme/BlogListPage",
     },
     "content---blog-0-b-4-09e": Object {
-      "importStatement": "() => import(/* webpackChunkName: 'content---blog-0-b-4-09e' */ \\"blog/2018-12-14-Happy-First-Birthday-Slash.md?truncated=true\\")",
+      "loader": "() => import(/* webpackChunkName: 'content---blog-0-b-4-09e' */ \\"blog/2018-12-14-Happy-First-Birthday-Slash.md?truncated=true\\")",
       "modulePath": "blog/2018-12-14-Happy-First-Birthday-Slash.md?truncated=true",
     },
     "content---blog-7-b-8-fd9": Object {
-      "importStatement": "() => import(/* webpackChunkName: 'content---blog-7-b-8-fd9' */ \\"blog/2018-12-14-Happy-First-Birthday-Slash.md\\")",
+      "loader": "() => import(/* webpackChunkName: 'content---blog-7-b-8-fd9' */ \\"blog/2018-12-14-Happy-First-Birthday-Slash.md\\")",
       "modulePath": "blog/2018-12-14-Happy-First-Birthday-Slash.md",
     },
     "metadata---blog-0-b-6-74c": Object {
-      "importStatement": "() => import(/* webpackChunkName: 'metadata---blog-0-b-6-74c' */ \\"blog-2018-12-14-happy-first-birthday-slash-d2c.json\\")",
+      "loader": "() => import(/* webpackChunkName: 'metadata---blog-0-b-6-74c' */ \\"blog-2018-12-14-happy-first-birthday-slash-d2c.json\\")",
       "modulePath": "blog-2018-12-14-happy-first-birthday-slash-d2c.json",
     },
   },
@@ -65,31 +65,31 @@ exports[`loadRoutes nested route config 1`] = `
 Object {
   "registry": Object {
     "component---theme-doc-item-178-a40": Object {
-      "importStatement": "() => import(/* webpackChunkName: 'component---theme-doc-item-178-a40' */ \\"@theme/DocItem\\")",
+      "loader": "() => import(/* webpackChunkName: 'component---theme-doc-item-178-a40' */ \\"@theme/DocItem\\")",
       "modulePath": "@theme/DocItem",
     },
     "component---theme-doc-page-1-be-9be": Object {
-      "importStatement": "() => import(/* webpackChunkName: 'component---theme-doc-page-1-be-9be' */ \\"@theme/DocPage\\")",
+      "loader": "() => import(/* webpackChunkName: 'component---theme-doc-page-1-be-9be' */ \\"@theme/DocPage\\")",
       "modulePath": "@theme/DocPage",
     },
     "content---docs-foo-baz-8-ce-61e": Object {
-      "importStatement": "() => import(/* webpackChunkName: 'content---docs-foo-baz-8-ce-61e' */ \\"docs/foo/baz.md\\")",
+      "loader": "() => import(/* webpackChunkName: 'content---docs-foo-baz-8-ce-61e' */ \\"docs/foo/baz.md\\")",
       "modulePath": "docs/foo/baz.md",
     },
     "content---docs-helloaff-811": Object {
-      "importStatement": "() => import(/* webpackChunkName: 'content---docs-helloaff-811' */ \\"docs/hello.md\\")",
+      "loader": "() => import(/* webpackChunkName: 'content---docs-helloaff-811' */ \\"docs/hello.md\\")",
       "modulePath": "docs/hello.md",
     },
     "docsMetadata---docsf-34-2ab": Object {
-      "importStatement": "() => import(/* webpackChunkName: 'docsMetadata---docsf-34-2ab' */ \\"docs-b5f.json\\")",
+      "loader": "() => import(/* webpackChunkName: 'docsMetadata---docsf-34-2ab' */ \\"docs-b5f.json\\")",
       "modulePath": "docs-b5f.json",
     },
     "metadata---docs-foo-baz-2-cf-fa7": Object {
-      "importStatement": "() => import(/* webpackChunkName: 'metadata---docs-foo-baz-2-cf-fa7' */ \\"docs-foo-baz-dd9.json\\")",
+      "loader": "() => import(/* webpackChunkName: 'metadata---docs-foo-baz-2-cf-fa7' */ \\"docs-foo-baz-dd9.json\\")",
       "modulePath": "docs-foo-baz-dd9.json",
     },
     "metadata---docs-hello-956-741": Object {
-      "importStatement": "() => import(/* webpackChunkName: 'metadata---docs-hello-956-741' */ \\"docs-hello-da2.json\\")",
+      "loader": "() => import(/* webpackChunkName: 'metadata---docs-hello-956-741' */ \\"docs-hello-da2.json\\")",
       "modulePath": "docs-hello-da2.json",
     },
   },
@@ -152,7 +152,7 @@ exports[`loadRoutes route config with empty (but valid) path string 1`] = `
 Object {
   "registry": Object {
     "component---hello-world-jse-0-f-b6c": Object {
-      "importStatement": "() => import(/* webpackChunkName: 'component---hello-world-jse-0-f-b6c' */ \\"hello/world.js\\")",
+      "loader": "() => import(/* webpackChunkName: 'component---hello-world-jse-0-f-b6c' */ \\"hello/world.js\\")",
       "modulePath": "hello/world.js",
     },
   },
