@@ -10,7 +10,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 **Added**
 
-- feat: allow specifying meta desc in front matter ([#1859])(https://github.com/facebook/docusaurus/pull/1859)
+- feat: allow specifying meta desc in front matter ([#1859](https://github.com/facebook/docusaurus/pull/1859))
 
 **Docs**
 
