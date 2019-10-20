@@ -8,22 +8,24 @@
 import fs from 'fs-extra';
 import path from 'path';
 import pluginContentBlog from '../index';
-import {DocusaurusConfig} from '@docusaurus/types';
+import {DocusaurusConfig, LoadContext} from '@docusaurus/types';
 
 describe('loadBlog', () => {
   test('simple website', async () => {
     const siteDir = path.join(__dirname, '__fixtures__', 'website');
-    const siteConfig: DocusaurusConfig = {
+    const generatedFilesDir: string = path.resolve(siteDir, '.docusaurus');
+    const siteConfig = {
       title: 'Hello',
       baseUrl: '/',
       url: 'https://docusaurus.io',
-    };
+    } as DocusaurusConfig;
     const pluginPath = 'blog';
     const plugin = pluginContentBlog(
       {
         siteDir,
         siteConfig,
-      },
+        generatedFilesDir,
+      } as LoadContext,
       {
         path: 'blog',
       },
