@@ -7,10 +7,13 @@
 
 import useDocusaurusContext from './useDocusaurusContext';
 
-export default function withBaseUrl(url) {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
+export default function useBaseUrl(url) {
   const {siteConfig} = useDocusaurusContext();
   const {baseUrl = '/'} = siteConfig || {};
+
+  if (!url) {
+    return url;
+  }
 
   const externalRegex = /^(https?:|\/\/)/;
   if (externalRegex.test(url)) {

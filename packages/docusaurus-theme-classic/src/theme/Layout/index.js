@@ -8,7 +8,7 @@
 import React from 'react';
 import Head from '@docusaurus/Head';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import withBaseUrl from '@docusaurus/withBaseUrl';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 import Navbar from '@theme/Navbar';
 import Footer from '@theme/Footer';
 
@@ -34,6 +34,8 @@ function Layout(props) {
   } = props;
   const metaTitle = title || `${defaultTitle} · ${tagline}`;
   const metaImage = image || defaultImage;
+  const metaImageUrl = siteUrl + useBaseUrl(metaImage);
+  const faviconUrl = useBaseUrl(favicon);
   return (
     <React.Fragment>
       <Head>
@@ -42,7 +44,7 @@ function Layout(props) {
         <meta name="viewport" content="width=device-width" />
         {metaTitle && <title>{metaTitle}</title>}
         {metaTitle && <meta property="og:title" content={metaTitle} />}
-        {favicon && <link rel="shortcut icon" href={withBaseUrl(favicon)} />}
+        {favicon && <link rel="shortcut icon" href={faviconUrl} />}
         {description && <meta name="description" content={description} />}
         {description && (
           <meta property="og:description" content={description} />
@@ -50,18 +52,8 @@ function Layout(props) {
         {keywords && keywords.length && (
           <meta property="keywords" content={keywords.join(',')} />
         )}
-        {metaImage && (
-          <meta
-            property="og:image"
-            content={siteUrl + withBaseUrl(metaImage)}
-          />
-        )}
-        {metaImage && (
-          <meta
-            property="twitter:image"
-            content={siteUrl + withBaseUrl(metaImage)}
-          />
-        )}
+        {metaImage && <meta property="og:image" content={metaImageUrl} />}
+        {metaImage && <meta property="twitter:image" content={metaImageUrl} />}
         {metaImage && (
           <meta name="twitter:image:alt" content={`Image for ${metaTitle}`} />
         )}

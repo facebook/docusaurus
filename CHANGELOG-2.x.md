@@ -10,6 +10,7 @@
 - Add the option `--no-open` for `start` command.
 - Set `@babel/env` useBuiltins to `usage`. This will automatically use browserlist and import polyfills required.
 - Modified TerserWebpackPlugin `terserOptions` like CRA. 
+- **BREAKING** `withBaseUrl` is renamed to `useBaseUrl` because its a React Hooks. Make sure you import/rename it correctly. Eg: `import useBaseUrl from '@docusaurus/useBaseUrl`;
 
 ## 2.0.0-alpha.27
 

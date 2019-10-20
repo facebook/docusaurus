@@ -9,7 +9,7 @@ import React, {useEffect} from 'react';
 import Layout from '@theme/Layout';
 
 import Link from '@docusaurus/Link';
-import withBaseUrl from '@docusaurus/withBaseUrl';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 function Help() {
   return (
@@ -27,7 +27,7 @@ function Help() {
             <h2>Browse the docs</h2>
             <p>
               Learn more about Docusaurus using the{' '}
-              <Link to={withBaseUrl('docs/introduction')}>
+              <Link to={useBaseUrl('docs/introduction')}>
                 official documentation
               </Link>
             </p>

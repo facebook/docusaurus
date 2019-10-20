@@ -9,7 +9,7 @@ import React from 'react';
 
 import Head from '@docusaurus/Head';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import withBaseUrl from '@docusaurus/withBaseUrl';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 import DocPaginator from '@theme/DocPaginator';
 
 import styles from './styles.module.css';
@@ -45,6 +45,8 @@ function DocItem(props) {
     keywords,
   } = metadata;
 
+  const metaImageUrl = siteUrl + useBaseUrl(metaImage);
+
   return (
     <div>
       <Head>
@@ -53,18 +55,8 @@ function DocItem(props) {
         {description && (
           <meta property="og:description" content={description} />
         )}
-        {metaImage && (
-          <meta
-            property="og:image"
-            content={siteUrl + withBaseUrl(metaImage)}
-          />
-        )}
-        {metaImage && (
-          <meta
-            property="twitter:image"
-            content={siteUrl + withBaseUrl(metaImage)}
-          />
-        )}
+        {metaImage && <meta property="og:image" content={metaImageUrl} />}
+        {metaImage && <meta property="twitter:image" content={metaImageUrl} />}
         {metaImage && (
           <meta name="twitter:image:alt" content={`Image for ${title}`} />
         )}

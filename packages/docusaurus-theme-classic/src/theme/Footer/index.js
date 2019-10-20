@@ -10,7 +10,27 @@ import classnames from 'classnames';
 
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import withBaseUrl from '@docusaurus/withBaseUrl';
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
+function FooterLink({item}) {
+  const toUrl = useBaseUrl(item.to);
+  return (
+    <Link
+      className="footer__link-item"
+      {...item}
+      {...(item.href
+        ? {
+            target: '_blank',
+            rel: 'noopener noreferrer',
+            href: item.href,
+          }
+        : {
+            to: toUrl,
+          })}>
+      {item.label}
+    </Link>
+  );
+}
 
 function Footer() {
   const context = useDocusaurusContext();
@@ -18,11 +38,12 @@ function Footer() {
   const {themeConfig = {}} = siteConfig;
   const {footer} = themeConfig;
 
+  const {copyright, links = [], logo = {}} = footer || {};
+  const logoUrl = useBaseUrl(logo.src);
+
   if (!footer) {
     return null;
   }
-
-  const {copyright, links = [], logo} = footer;
 
   return (
     <footer
@@ -43,20 +64,7 @@ function Footer() {
                   <ul className="footer__items">
                     {linkItem.items.map(item => (
                       <li key={item.href || item.to} className="footer__item">
-                        <Link
-                          className="footer__link-item"
-                          {...item}
-                          {...(item.href
-                            ? {
-                                target: '_blank',
-                                rel: 'noopener noreferrer',
-                                href: item.href,
-                              }
-                            : {
-                                to: withBaseUrl(item.to),
-                              })}>
-                          {item.label}
-                        </Link>
+                        <FooterLink item={item} />
                       </li>
                     ))}
                   </ul>
@@ -69,11 +77,7 @@ function Footer() {
           <div className="text--center">
             {logo && logo.src && (
               <div className="margin-bottom--sm">
-                <img
-                  className="footer__logo"
-                  alt={logo.alt}
-                  src={withBaseUrl(logo.src)}
-                />
+                <img className="footer__logo" alt={logo.alt} src={logoUrl} />
               </div>
             )}
             {copyright}
