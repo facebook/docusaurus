@@ -347,7 +347,7 @@ To add Google Fonts to your Docusaurus deployment, add the font path to the `sit
 
 ```js
 stylesheets: [
-  "https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,700",
+  'https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,700',
 ],
 ```
 
