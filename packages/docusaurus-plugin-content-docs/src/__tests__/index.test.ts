@@ -13,6 +13,7 @@ import {LoadContext} from '@docusaurus/types';
 describe('loadDocs', () => {
   test('simple website', async () => {
     const siteDir = path.join(__dirname, '__fixtures__', 'website');
+    const generatedFilesDir: string = path.resolve(siteDir, '.docusaurus');
     const siteConfig = {
       title: 'Hello',
       baseUrl: '/',
@@ -21,6 +22,7 @@ describe('loadDocs', () => {
     const context = {
       siteDir,
       siteConfig,
+      generatedFilesDir,
     } as LoadContext;
     const sidebarPath = path.join(siteDir, 'sidebars.json');
     const pluginPath = 'docs';
