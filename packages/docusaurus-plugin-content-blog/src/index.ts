@@ -59,6 +59,10 @@ export default function pluginContentBlog(
 ) {
   const options: PluginOptions = {...DEFAULT_OPTIONS, ...opts};
   const contentPath = path.resolve(context.siteDir, options.path);
+  const dataDir = path.join(
+    context.generatedFilesDir,
+    'docusaurus-plugin-content-blog',
+  );
 
   return {
     name: 'docusaurus-plugin-content-blog',
@@ -233,6 +237,8 @@ export default function pluginContentBlog(
         blogTagsPostsComponent,
       } = options;
 
+      const aliasedSource = (source: string) =>
+        `@docusaurus-plugin-content-blog/${path.relative(dataDir, source)}`;
       const {addRoute, createData} = actions;
       const {
         blogPosts,
@@ -274,9 +280,9 @@ export default function pluginContentBlog(
           exact: true,
           modules: {
             content: source,
-            metadata: metadataPath,
-            prevItem: prevItem && prevItem.metadataPath,
-            nextItem: nextItem && nextItem.metadataPath,
+            metadata: aliasedSource(metadataPath),
+            prevItem: prevItem && aliasedSource(prevItem.metadataPath),
+            nextItem: nextItem && aliasedSource(nextItem.metadataPath),
           } as RouteModule,
         });
       });
@@ -310,10 +316,10 @@ export default function pluginContentBlog(
                       truncated: true,
                     },
                   },
-                  metadata: metadataPath,
+                  metadata: aliasedSource(metadataPath),
                 };
               }),
-              metadata: pageMetadataPath,
+              metadata: aliasedSource(pageMetadataPath),
             },
           });
         }),
@@ -357,10 +363,10 @@ export default function pluginContentBlog(
                       truncated: true,
                     },
                   },
-                  metadata: metadataPath,
+                  metadata: aliasedSource(metadataPath),
                 };
               }),
-              metadata: tagsMetadataPath,
+              metadata: aliasedSource(tagsMetadataPath),
             },
           });
         }),
@@ -378,7 +384,7 @@ export default function pluginContentBlog(
           component: blogTagsListComponent,
           exact: true,
           modules: {
-            tags: tagsListPath,
+            tags: aliasedSource(tagsListPath),
           },
         });
       }
@@ -391,6 +397,11 @@ export default function pluginContentBlog(
     ) {
       const {rehypePlugins, remarkPlugins, truncateMarker} = options;
       return {
+        resolve: {
+          alias: {
+            '@docusaurus-plugin-content-blog': dataDir,
+          },
+        },
         module: {
           rules: [
             {

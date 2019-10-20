@@ -100,7 +100,7 @@ export interface Plugin<T> {
 export type PluginConfig = [string, Object] | [string] | string;
 
 export interface ChunkRegistry {
-  importStatement: string;
+  loader: string;
   modulePath: string;
 }
 

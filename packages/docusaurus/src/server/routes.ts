@@ -83,12 +83,12 @@ export async function loadRoutes(pluginsRouteConfigs: RouteConfig[]) {
 
       const modulePath = getModulePath(value as Module);
       const chunkName = genChunkName(modulePath, prefix, name);
-      const importStatement = `() => import(/* webpackChunkName: '${chunkName}' */ ${JSON.stringify(
+      const loader = `() => import(/* webpackChunkName: '${chunkName}' */ ${JSON.stringify(
         modulePath,
       )})`;
 
       registry[chunkName] = {
-        importStatement,
+        loader,
         modulePath,
       };
       return chunkName;
