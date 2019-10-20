@@ -93,6 +93,7 @@ export function getBabelLoader(isServer: boolean, babelOptions?: {}): Loader {
             '@babel/env',
             {
               useBuiltIns: 'usage',
+              loose: true,
               corejs: '2',
               // Do not transform modules to CJS
               modules: false,
