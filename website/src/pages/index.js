@@ -63,9 +63,6 @@ function Home() {
   const context = useDocusaurusContext();
   const {siteConfig = {}} = context;
 
-  const heroLogoUrl = useBaseUrl('img/docusaurus_keytar.svg');
-  const getStartedUrl = useBaseUrl('docs/introduction');
-
   return (
     <Layout
       permalink={'/'}
@@ -76,7 +73,7 @@ function Home() {
             <img
               alt="Docusaurus with Keytar"
               className={styles.heroLogo}
-              src={heroLogoUrl}
+              src={useBaseUrl('img/docusaurus_keytar.svg')}
             />
             {siteConfig.title} makes it easy to maintain{' '}
             <span className={styles.heroProjectKeywords}>Open Source</span>{' '}
@@ -85,7 +82,7 @@ function Home() {
           <div className={styles.indexCtas}>
             <Link
               className={styles.indexCtasGetStartedButton}
-              to={getStartedUrl}>
+              to={useBaseUrl('docs/introduction')}>
               Get Started
             </Link>
             <span className={styles.indexCtasGitHubButton}>
