@@ -69,18 +69,36 @@ function mdToHtmlify(oldContent, mdToHtml, metadata, siteConfig) {
     let mdMatch = mdRegex.exec(modifiedLine);
     while (mdMatch !== null) {
       /* Replace it to correct html link */
-      let docsSource;
+      const docsSource = metadata.version
+        ? metadata.source.replace(/version-.*?\//, '')
+        : metadata.source;
+
+      let htmlLink;
+
       if (readMetadata.shouldGenerateNextReleaseDocs()) {
-        docsSource = metadata.version
-          ? metadata.source.replace(/version-.*?\//, '')
-          : metadata.source;
+        htmlLink =
+          mdToHtml[resolve(docsSource, mdMatch[1])] || mdToHtml[mdMatch[1]];
       } else {
-        docsSource = metadata.source;
+        /*
+         * Check if the target file exists in the versioned doc.
+         * If it exists with the versioned doc, resolve the link.
+         * If it does not exist with the versioned doc,
+         * check if it exists at the directory where the version
+         *  was created from. If yes, resolve the link. Otherwise,
+         * this is a broken link.
+         */
+        const originalFilePath = metadata.original_id.match('.+/')
+          ? metadata.original_id.match('.+/')[0]
+          : '';
+        const targetFileAtRoot =
+          '../' + siteConfig.docsUrl + '/' + originalFilePath + mdMatch[1];
+
+        if (fs.existsSync(mdMatch[1])) {
+          htmlLink = resolve(docsSource, mdMatch[1]).replace('.md', '.html');
+        } else if (fs.existsSync(targetFileAtRoot)) {
+          htmlLink = resolve(docsSource, mdMatch[1]).replace('.md', '.html');
+        }
       }
-      let htmlLink =
-        mdToHtml[resolve(docsSource, mdMatch[1])] ||
-        mdToHtml[mdMatch[1]] ||
-        resolve(docsSource, mdMatch[1]).replace('.md', '.html');
 
       if (htmlLink) {
         htmlLink = getPath(htmlLink, siteConfig.cleanUrl);
