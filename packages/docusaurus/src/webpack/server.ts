@@ -9,16 +9,15 @@ import path from 'path';
 import StaticSiteGeneratorPlugin from 'static-site-generator-webpack-plugin';
 import {Configuration} from 'webpack';
 import merge from 'webpack-merge';
-import WebpackNiceLog from 'webpack-nicelog';
 
 import {Props} from '@docusaurus/types';
 import {createBaseConfig} from './base';
 import WaitPlugin from './plugins/WaitPlugin';
+import LogPlugin from './plugins/LogPlugin';
 
 export function createServerConfig(props: Props): Configuration {
   const {baseUrl, routesPaths, outDir} = props;
   const config = createBaseConfig(props, true);
-  const isProd = process.env.NODE_ENV === 'production';
 
   const routesLocation = {};
   // Array of paths to be rendered. Relative to output directory
@@ -57,10 +56,9 @@ export function createServerConfig(props: Props): Configuration {
       }),
 
       // Show compilation progress bar.
-      new WebpackNiceLog({
+      new LogPlugin({
         name: 'Server',
         color: 'yellow',
-        skipBuildTime: isProd,
       }),
     ],
   });
