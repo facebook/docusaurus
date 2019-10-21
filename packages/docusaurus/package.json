@@ -45,7 +45,7 @@
     "classnames": "^2.2.6",
     "commander": "^2.20.0",
     "copy-webpack-plugin": "^5.0.4",
-    "core-js": "^2.6.10",
+    "core-js": "^2.6.5",
     "css-loader": "^3.2.0",
     "del": "^4.1.1",
     "ejs": "^2.6.2",
