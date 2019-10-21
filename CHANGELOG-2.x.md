@@ -1,5 +1,8 @@
 # Docusaurus 2 Changelog
 
+## 2.0.0-alpha.30
+- Fix babel transpilation include/exclude logic to be more efficient.
+
 ## 2.0.0-alpha.29
 
 **HOTFIX for 2.0.0-alpha.28**. 
