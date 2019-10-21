@@ -53,6 +53,9 @@ function DocItem(props) {
         {description && (
           <meta property="og:description" content={description} />
         )}
+        {keywords && keywords.length && (
+          <meta name="keywords" content={keywords.join(',')} />
+        )}
         {metaImage && (
           <meta
             property="og:image"
@@ -69,9 +72,6 @@ function DocItem(props) {
           <meta name="twitter:image:alt" content={`Image for ${title}`} />
         )}
         {permalink && <meta property="og:url" content={siteUrl + permalink} />}
-        {keywords && keywords.length && (
-          <meta property="keywords" content={keywords.join(',')} />
-        )}
       </Head>
       <div className="padding-vert--lg">
         <div className="container">
