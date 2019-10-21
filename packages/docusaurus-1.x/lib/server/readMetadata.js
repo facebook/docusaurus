@@ -36,6 +36,7 @@ const SupportedHeaderFields = new Set([
   'hide_title',
   'layout',
   'custom_edit_url',
+  'description',
 ]);
 
 let allSidebars;

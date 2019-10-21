@@ -1,6 +1,7 @@
 ---
-id: doc-markdown
+id: version-1.14.0-doc-markdown
 title: Markdown Features
+original_id: doc-markdown
 ---
 
 Docusaurus uses [GitHub Flavored Markdown (GFM)](https://guides.github.com/features/mastering-markdown/). Find out more about Docusaurus-specific fields when writing Markdown.
