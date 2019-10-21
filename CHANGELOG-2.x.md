@@ -12,6 +12,7 @@
 - Modified TerserWebpackPlugin `terserOptions` for better cross-browser compatibility. 
 - **BREAKING** `withBaseUrl` is renamed to `useBaseUrl` because its a React Hooks. Make sure you import/rename it correctly. Eg: `import useBaseUrl from '@docusaurus/useBaseUrl`;
 - Fix potential security vulnerability because we're exposing the directory structure of the host machine.
+- Upgrade dependencies.
 
 ## 2.0.0-alpha.27
 

@@ -6,7 +6,7 @@
  */
 
 import path from 'path';
-import {getOptions} from 'loader-utils';
+const {getOptions} = require('loader-utils');
 import {resolve} from 'url';
 import {loader} from 'webpack';
 
