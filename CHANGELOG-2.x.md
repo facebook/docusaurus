@@ -1,6 +1,10 @@
 # Docusaurus 2 Changelog
 
 ## 2.0.0-alpha.29
+
+**HOTFIX for 2.0.0-alpha.28**. 
+- Fix missing `core-js` dependencies on `@docusaurus/core`.
+- Fix wrong `@babel/env` preset configuration that causes build compilation error.
 - New UI for webpack compilation progress bar.
 
 ## 2.0.0-alpha.28
