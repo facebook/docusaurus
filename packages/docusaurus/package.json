@@ -80,7 +80,7 @@
     "webpack-bundle-analyzer": "^3.6.0",
     "webpack-dev-server": "^3.8.2",
     "webpack-merge": "^4.2.2",
-    "webpack-nicelog": "^2.3.1"
+    "webpackbar": "^4.0.0"
   },
   "peerDependencies": {
     "react": "^16.8.4",
