@@ -8,6 +8,9 @@
 - Fix `swizzle` command not being able to swizzle single js file.
 - Fix logo URL in footer to be appended with baseUrl automatically.
 - Add the option `--no-open` for `start` command.
+- Set `@babel/env` useBuiltins to `usage`. This will automatically use browserlist and import polyfills required.
+- Modified TerserWebpackPlugin `terserOptions` for better cross-browser compatibility. 
+- **BREAKING** `withBaseUrl` is renamed to `useBaseUrl` because its a React Hooks. Make sure you import/rename it correctly. Eg: `import useBaseUrl from '@docusaurus/useBaseUrl`;
 - Fix potential security vulnerability because we're exposing the directory structure of the host machine.
 
 ## 2.0.0-alpha.27

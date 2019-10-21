@@ -11,7 +11,7 @@ import Toggle from 'react-toggle';
 import Link from '@docusaurus/Link';
 import Head from '@docusaurus/Head';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import withBaseUrl from '@docusaurus/withBaseUrl';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 import SearchBar from '@theme/SearchBar';
 
@@ -20,6 +20,7 @@ import classnames from 'classnames';
 import styles from './styles.module.css';
 
 function NavLink(props) {
+  const toUrl = useBaseUrl(props.to);
   return (
     <Link
       className="navbar__item navbar__link"
@@ -32,7 +33,7 @@ function NavLink(props) {
           }
         : {
             activeClassName: 'navbar__link--active',
-            to: withBaseUrl(props.to),
+            to: toUrl,
           })}>
       {props.label}
     </Link>
@@ -54,7 +55,7 @@ function Navbar() {
   const {siteConfig = {}} = context;
   const {baseUrl, themeConfig = {}} = siteConfig;
   const {algolia, navbar = {}} = themeConfig;
-  const {title, logo, links = []} = navbar;
+  const {title, logo = {}, links = []} = navbar;
 
   const showSidebar = useCallback(() => {
     setSidebarShown(true);
@@ -82,6 +83,7 @@ function Navbar() {
     }
   };
 
+  const logoUrl = useBaseUrl(logo.src);
   return (
     <React.Fragment>
       <Head>
@@ -120,11 +122,7 @@ function Navbar() {
             </div>
             <Link className="navbar__brand" to={baseUrl}>
               {logo != null && (
-                <img
-                  className="navbar__logo"
-                  src={withBaseUrl(logo.src)}
-                  alt={logo.alt}
-                />
+                <img className="navbar__logo" src={logoUrl} alt={logo.alt} />
               )}
               {title != null && (
                 <strong
@@ -176,11 +174,7 @@ function Navbar() {
           <div className="navbar__sidebar__brand">
             <Link className="navbar__brand" onClick={hideSidebar} to={baseUrl}>
               {logo != null && (
-                <img
-                  className="navbar__logo"
-                  src={withBaseUrl(logo.src)}
-                  alt={logo.alt}
-                />
+                <img className="navbar__logo" src={logoUrl} alt={logo.alt} />
               )}
               {title != null && <strong>{title}</strong>}
             </Link>
