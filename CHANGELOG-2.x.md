@@ -1,5 +1,8 @@
 # Docusaurus 2 Changelog
 
+## 2.0.0-alpha.30
+- Fix babel transpilation include/exclude logic to be more efficient. This also fix a very weird bug `TypeError: Cannot assign to read only property 'exports' of object '#<Object>'` if your website path contains `docusaurus` word in it.
+
 ## 2.0.0-alpha.29
 
 **HOTFIX for 2.0.0-alpha.28**. 

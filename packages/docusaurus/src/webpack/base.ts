@@ -24,6 +24,7 @@ export function createBaseConfig(
 ): Configuration {
   const {outDir, siteDir, baseUrl, generatedFilesDir, routesPaths} = props;
 
+  const clientDir = path.join(__dirname, '..', 'client');
   const totalPages = routesPaths.length;
   const isProd = process.env.NODE_ENV === 'production';
   return {
@@ -115,9 +116,14 @@ export function createBaseConfig(
         {
           test: /\.jsx?$/,
           exclude: modulePath => {
-            // Don't transpile node_modules except any docusaurus package
+            // always transpile client dir
+            if (modulePath.startsWith(clientDir)) {
+              return false;
+            }
+            // Don't transpile node_modules except any docusaurus npm package
             return (
-              /node_modules/.test(modulePath) && !/docusaurus/.test(modulePath)
+              /node_modules/.test(modulePath) &&
+              !/(docusaurus)((?!node_modules).)*\.jsx?$/.test(modulePath)
             );
           },
           use: [getCacheLoader(isServer), getBabelLoader(isServer)].filter(

@@ -90,7 +90,14 @@ export function getBabelLoader(isServer: boolean, babelOptions?: {}): Loader {
         configFile: false,
         presets: [
           isServer
-            ? '@babel/env'
+            ? [
+                '@babel/env',
+                {
+                  targets: {
+                    node: 'current',
+                  },
+                },
+              ]
             : [
                 '@babel/env',
                 {
