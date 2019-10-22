@@ -1,6 +1,7 @@
 ---
-id: site-config
+id: version-1.14.0-site-config
 title: siteConfig.js
+original_id: site-config
 ---
 
 A large part of the site configuration is done by editing the `siteConfig.js` file.

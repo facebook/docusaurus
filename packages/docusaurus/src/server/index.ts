@@ -118,7 +118,7 @@ export async function load(siteDir: string): Promise<Props> {
 ${Object.keys(registry)
   .map(
     key => `  '${key}': {
-    'importStatement': ${registry[key].importStatement},
+    'loader': ${registry[key].loader},
     'module': ${JSON.stringify(registry[key].modulePath)},
     'webpack': require.resolveWeak(${JSON.stringify(registry[key].modulePath)}),
   },`,

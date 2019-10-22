@@ -8,7 +8,7 @@
 import React from 'react';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import withBaseUrl from '@docusaurus/withBaseUrl';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 import Image from '@theme/IdealImage';
 import Layout from '@theme/Layout';
@@ -73,7 +73,7 @@ function Home() {
             <img
               alt="Docusaurus with Keytar"
               className={styles.heroLogo}
-              src={withBaseUrl('img/docusaurus_keytar.svg')}
+              src={useBaseUrl('img/docusaurus_keytar.svg')}
             />
             {siteConfig.title} makes it easy to maintain{' '}
             <span className={styles.heroProjectKeywords}>Open Source</span>{' '}
@@ -82,7 +82,7 @@ function Home() {
           <div className={styles.indexCtas}>
             <Link
               className={styles.indexCtasGetStartedButton}
-              to={withBaseUrl('docs/introduction')}>
+              to={useBaseUrl('docs/introduction')}>
               Get Started
             </Link>
             <span className={styles.indexCtasGitHubButton}>
@@ -105,14 +105,14 @@ function Home() {
             Docusaurus 2
           </a>
           , contribute to its roadmap by suggesting features or giving feedback{' '}
-          <Link to={withBaseUrl('/feedback')}>here</Link>!
+          <Link to={useBaseUrl('/feedback')}>here</Link>!
         </div>
       </div>
       <div
         className={classnames(styles.announcement, styles.announcementPrimary)}>
         <div className={styles.announcementInner}>
           Coming from v1? Check out our{' '}
-          <Link to={withBaseUrl('/docs/migrating-from-v1-to-v2')}>
+          <Link to={useBaseUrl('/docs/migrating-from-v1-to-v2')}>
             v1 to v2 migration guide
           </Link>
           .
@@ -125,7 +125,7 @@ function Home() {
               <img
                 className={styles.featureImage}
                 alt="Powered by MDX"
-                src={withBaseUrl('img/undraw_typewriter.svg')}
+                src={useBaseUrl('img/undraw_typewriter.svg')}
               />
               <h3 className="padding-top--md">Powered by Markdown</h3>
               <p className="padding-horiz--md">
@@ -139,7 +139,7 @@ function Home() {
               <img
                 alt="Built Using React"
                 className={styles.featureImage}
-                src={withBaseUrl('img/undraw_react.svg')}
+                src={useBaseUrl('img/undraw_react.svg')}
               />
               <h3 className="padding-top--md">Built Using React</h3>
               <p className="padding-horiz--md">
@@ -152,7 +152,7 @@ function Home() {
               <img
                 alt="Ready for Translations"
                 className={styles.featureImage}
-                src={withBaseUrl('img/undraw_around_the_world.svg')}
+                src={useBaseUrl('img/undraw_around_the_world.svg')}
               />
               <h3 className="padding-top--md">Ready for Translations</h3>
               <p className="padding-horiz--md">
@@ -168,7 +168,7 @@ function Home() {
               <img
                 alt="Document Versioning"
                 className={styles.featureImage}
-                src={withBaseUrl('img/undraw_version_control.svg')}
+                src={useBaseUrl('img/undraw_version_control.svg')}
               />
               <h3 className="padding-top--md">Document Versioning</h3>
               <p className="padding-horiz--md">
@@ -181,7 +181,7 @@ function Home() {
               <img
                 alt="Document Search"
                 className={styles.featureImage}
-                src={withBaseUrl('img/undraw_algolia.svg')}
+                src={useBaseUrl('img/undraw_algolia.svg')}
               />
               <h3 className="padding-top--md">Document Search</h3>
               <p className="padding-horiz--md">

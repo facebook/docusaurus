@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [Unreleased]
 
+## [1.14.0] - 2019-10-20
+
+**Added**
+
+- feat: allow specifying meta desc in front matter ([#1859](https://github.com/facebook/docusaurus/pull/1859))
+
+**Docs**
+
+- docs: document docker is optional ([#1848])(https://github.com/facebook/docusaurus/pull/1848)
+
 ## [1.13.0] - 2019-09-15
 
 **Fixed**

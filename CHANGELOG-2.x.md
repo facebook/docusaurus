@@ -1,5 +1,16 @@
 # Docusaurus 2 Changelog
 
+## 2.0.0-alpha.30
+- Fix babel transpilation include/exclude logic to be more efficient. This also fix a very weird bug `TypeError: Cannot assign to read only property 'exports' of object '#<Object>'` if your website path contains `docusaurus` word in it.
+- Add highlight specific lines in code blocks.
+
+## 2.0.0-alpha.29
+
+**HOTFIX for 2.0.0-alpha.28**. 
+- Fix missing `core-js` dependencies on `@docusaurus/core`.
+- Fix wrong `@babel/env` preset configuration that causes build compilation error.
+- New UI for webpack compilation progress bar.
+
 ## 2.0.0-alpha.28
 - Further reduce memory usage to avoid heap memory allocation failure.
 - Fix `keywords` frontmatter for SEO not working properly.
@@ -8,7 +19,11 @@
 - Fix `swizzle` command not being able to swizzle single js file.
 - Fix logo URL in footer to be appended with baseUrl automatically.
 - Add the option `--no-open` for `start` command.
-- Add highlight specific lines in code blocks.
+- Set `@babel/env` useBuiltins to `usage`. This will automatically use browserlist and import polyfills required.
+- Modified TerserWebpackPlugin `terserOptions` for better cross-browser compatibility. 
+- **BREAKING** `withBaseUrl` is renamed to `useBaseUrl` because its a React Hooks. Make sure you import/rename it correctly. Eg: `import useBaseUrl from '@docusaurus/useBaseUrl`;
+- Fix potential security vulnerability because we're exposing the directory structure of the host machine.
+- Upgrade dependencies.
 
 ## 2.0.0-alpha.27
 
