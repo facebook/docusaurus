@@ -101,9 +101,9 @@ Documents use the following markdown header fields that are enclosed by a line `
 - `hide_title`: Whether to hide the title at the top of the doc. By default it is `false`.
 - `sidebar_label`: The text shown in the document sidebar and in the next/previous button for this document. If this field is not present, the document's `sidebar_label` will default to its `title`.
 - `custom_edit_url`: The URL for editing this document. If this field is not present, the document's edit URL will fall back to `editUrl` from options fields passed to `docusaurus-plugin-content-docs`.
-- `description`: Description of this document page. 
-- `image`: Cover or thumbnail image that will be used when displaying the link to your post. 
-- `keywords`: Keywords for search engines.
+- `keywords`: Keywords meta tag for the document page, for search engines.
+- `description`: The description of your document, which will become the `<meta name="description" content="..."/>` and `<meta property="og:description" content="..."/>` in `<head>`, used by search engines. If this field is not present, it will default to the first line of the contents.
+- `image`: Cover or thumbnail image that will be used when displaying the link to your post.
 
 Example:
 
@@ -111,12 +111,13 @@ Example:
 ---
 id: doc-markdown
 title: Markdown Features
+hide_title: false
 sidebar_label: Markdown :)
 custom_edit_url: https://github.com/facebook/docusaurus/edit/master/docs/api-doc-markdown.md
+description: How do I find you when I cannot solve this problem
 keywords:
   - docs
   - docusaurus
-description: How do I find you when I cannot solve this problem
 image: https://i.imgur.com/mErPwqL.png
 ---
 
@@ -195,26 +196,43 @@ Code blocks are text blocks wrapped around by strings of 3 backticks. You may ch
 
 <!-- TODO: We need to allow users to pick syntax highlighting themes (maybe other than swizzling) -->
 
-Use the matching language meta string for your code block, and Docusaurus will pick up syntax highlighting automatically, powered by [Prism React Renderer](https://github.com/FormidableLabs/prism-react-renderer). Just in case you need it, [here](https://prismjs.com/#supported-languages) is a list of supported languages and their corresponding meta strings.
+Use the matching language meta string for your code block, and Docusaurus will pick up syntax highlighting automatically, powered by [Prism React Renderer](https://github.com/FormidableLabs/prism-react-renderer).
 
 ```jsx
 console.log('Every repo must come with a mascot.');
 ```
 
-You can change the [theme](https://github.com/FormidableLabs/prism-react-renderer#theming) by simply passing `prismTheme` as `themeConfig` in your docusaurus.config.js.
+By default, the Prism [syntax highlighting theme](https://github.com/FormidableLabs/prism-react-renderer#theming)
+we use is [Palenight](https://github.com/FormidableLabs/prism-react-renderer/blob/master/src/themes/palenight.js).
+You can change this to another theme by passing `prismTheme` as `themeConfig` in your docusaurus.config.js.
 
-Example:
+For example, if you prefer to use the `dracula` highlighting theme:
 
 ```js
 // docusaurus.config.js
 module.exports = {
   themeConfig: {
-    prismTheme: require('prism-react-renderer/themes/palenight'),
+    prismTheme: require('prism-react-renderer/themes/dracula'),
   },
 };
 ```
 
-By default, the Prism theme we use is [Palenight](https://github.com/FormidableLabs/prism-react-renderer/blob/master/src/themes/palenight.js).
+By default, Docusaurus comes with this subset of
+[commonly used languages](https://github.com/FormidableLabs/prism-react-renderer/blob/master/src/vendor/prism/includeLangs.js).
+
+To add syntax highlighting for any of the other
+[Prism supported languages](https://prismjs.com/#supported-languages),
+install the `prismjs` npm package, then swizzle the `CodeBlock`
+component and add the desired language(s) there.
+
+For example, if you want to add highlighting for the `powershell` language:
+
+```js
+// src/theme/CodeBlock/index.js
+import Prism from 'prism-react-renderer/prism';
+(typeof global !== 'undefined' ? global : window).Prism = Prism;
+require('prismjs/components/prism-powershell');
+```
 
 ### Interactive code editor
 

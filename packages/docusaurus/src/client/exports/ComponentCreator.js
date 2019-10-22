@@ -56,7 +56,7 @@ function ComponentCreator(path) {
     }
 
     const chunkRegistry = registry[target] || {};
-    optsLoader[keys.join('.')] = chunkRegistry.importStatement;
+    optsLoader[keys.join('.')] = chunkRegistry.loader;
     optsModules.push(chunkRegistry.module);
     optsWebpack.push(chunkRegistry.webpack);
   }

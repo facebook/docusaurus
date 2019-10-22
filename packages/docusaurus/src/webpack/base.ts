@@ -24,6 +24,7 @@ export function createBaseConfig(
 ): Configuration {
   const {outDir, siteDir, baseUrl, generatedFilesDir, routesPaths} = props;
 
+  const clientDir = path.join(__dirname, '..', 'client');
   const totalPages = routesPaths.length;
   const isProd = process.env.NODE_ENV === 'production';
   return {
@@ -65,10 +66,27 @@ export function createBaseConfig(
               parallel: true,
               sourceMap: false,
               terserOptions: {
-                ecma: 6,
-                mangle: true,
+                parse: {
+                  // we want uglify-js to parse ecma 8 code. However, we don't want it
+                  // to apply any minfication steps that turns valid ecma 5 code
+                  // into invalid ecma 5 code. This is why the 'compress' and 'output'
+                  // sections only apply transformations that are ecma 5 safe
+                  // https://github.com/facebook/create-react-app/pull/4234
+                  ecma: 8,
+                },
+                compress: {
+                  ecma: 5,
+                  warnings: false,
+                },
+                mangle: {
+                  safari10: true,
+                },
                 output: {
+                  ecma: 5,
                   comments: false,
+                  // Turned on because emoji and regex is not minified properly using default
+                  // https://github.com/facebook/create-react-app/issues/2488
+                  ascii_only: true,
                 },
               },
             }),
@@ -98,9 +116,14 @@ export function createBaseConfig(
         {
           test: /\.jsx?$/,
           exclude: modulePath => {
-            // Don't transpile node_modules except any docusaurus package
+            // always transpile client dir
+            if (modulePath.startsWith(clientDir)) {
+              return false;
+            }
+            // Don't transpile node_modules except any docusaurus npm package
             return (
-              /node_modules/.test(modulePath) && !/docusaurus/.test(modulePath)
+              /node_modules/.test(modulePath) &&
+              !/(docusaurus)((?!node_modules).)*\.jsx?$/.test(modulePath)
             );
           },
           use: [getCacheLoader(isServer), getBabelLoader(isServer)].filter(

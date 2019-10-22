@@ -53,6 +53,10 @@ export default function pluginContentDocs(
   const options = {...DEFAULT_OPTIONS, ...opts};
   const contentPath = path.resolve(context.siteDir, options.path);
   let sourceToPermalink: SourceToPermalink = {};
+  const dataDir = path.join(
+    context.generatedFilesDir,
+    'docusaurus-plugin-content-docs',
+  );
 
   return {
     name: 'docusaurus-plugin-content-docs',
@@ -210,6 +214,8 @@ export default function pluginContentDocs(
 
       const {docLayoutComponent, docItemComponent, routeBasePath} = options;
       const {addRoute, createData} = actions;
+      const aliasedSource = (source: string) =>
+        `@docusaurus-plugin-content-docs/${path.relative(dataDir, source)}`;
 
       const routes = await Promise.all(
         Object.values(content.docsMetadata).map(async metadataItem => {
@@ -223,7 +229,7 @@ export default function pluginContentDocs(
             exact: true,
             modules: {
               content: metadataItem.source,
-              metadata: metadataPath,
+              metadata: aliasedSource(metadataPath),
             },
           };
         }),
@@ -248,7 +254,7 @@ export default function pluginContentDocs(
         component: docLayoutComponent,
         routes,
         modules: {
-          docsMetadata: docsBaseMetadataPath,
+          docsMetadata: aliasedSource(docsBaseMetadataPath),
         },
       });
     },
@@ -257,6 +263,11 @@ export default function pluginContentDocs(
       const {getBabelLoader, getCacheLoader} = utils;
       const {rehypePlugins, remarkPlugins} = options;
       return {
+        resolve: {
+          alias: {
+            '@docusaurus-plugin-content-docs': dataDir,
+          },
+        },
         module: {
           rules: [
             {

@@ -7,9 +7,13 @@
 
 import useDocusaurusContext from './useDocusaurusContext';
 
-function withBaseUrl(url: string): string {
+export default function useBaseUrl(url) {
   const {siteConfig} = useDocusaurusContext();
   const {baseUrl = '/'} = siteConfig || {};
+
+  if (!url) {
+    return url;
+  }
 
   const externalRegex = /^(https?:|\/\/)/;
   if (externalRegex.test(url)) {
@@ -20,5 +24,3 @@ function withBaseUrl(url: string): string {
   }
   return baseUrl + url;
 }
-
-export default withBaseUrl;

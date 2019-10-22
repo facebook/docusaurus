@@ -79,8 +79,6 @@ export async function start(
   const urls = prepareUrls(protocol, host, port);
   const openUrl = normalizeUrl([urls.localUrlForBrowser, baseUrl]);
 
-  console.log(chalk.cyan(`Your site will be accessible at ${openUrl}`));
-
   let config: webpack.Configuration = merge(createClientConfig(props), {
     plugins: [
       // Generates an `index.html` file with the <script> injected.
@@ -144,7 +142,7 @@ export async function start(
     if (err) {
       console.log(err);
     }
-    openBrowser(openUrl);
+    cliOptions.open && openBrowser(openUrl);
   });
   ['SIGINT', 'SIGTERM'].forEach(sig => {
     process.on(sig as NodeJS.Signals, () => {

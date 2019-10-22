@@ -13,23 +13,23 @@ This means that if the site's `baseUrl` is `/`, an image in `/static/img/docusau
 
 You can reference assets from the `static` folder in your code. You could use hardcoded absolute paths, i.e. starting with a slash /, but remember to include the `baseUrl` if it is not `/`. However, this will break if you change your `baseUrl` in the config.
 
-A better way would be to use the `withBaseUrl` utility function which appends the `baseUrl` to paths for you.
+A better way would be to use the `useBaseUrl` utility function which appends the `baseUrl` to paths for you.
 
 ### JSX example
 
 ```jsx
 // MyComponent.js
-import withBaseUrl from '@docusaurus/withBaseUrl';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 <img
   alt="Docusaurus with Keytar"
-  src={withBaseUrl('img/docusaurus_keytar.svg')}
+  src={useBaseUrl('img/docusaurus_keytar.svg')}
 />;
 ```
 
 ### Markdown example
 
-Thanks to MDX, you can also use `withBaseUrl` utility function in Markdown files! You'd have to use `<img>` tags instead of the Markdown image syntax though. The syntax is exactly the same as in JSX.
+Thanks to MDX, you can also use `useBaseUrl` utility function in Markdown files! You'd have to use `<img>` tags instead of the Markdown image syntax though. The syntax is exactly the same as in JSX.
 
 ```txt
 // my-doc.mdx
@@ -38,11 +38,11 @@ id: my-doc
 title: My Doc
 ---
 
-import withBaseUrl from '@docusaurus/withBaseUrl'; // Add to the top of the file below the front matter.
+import useBaseUrl from '@docusaurus/useBaseUrl'; // Add to the top of the file below the front matter.
 
 ...
 
-<img alt="Docusaurus with Keytar" src={withBaseUrl('img/docusaurus_keytar.svg')} />;
+<img alt="Docusaurus with Keytar" src={useBaseUrl('img/docusaurus_keytar.svg')} />;
 ```
 
 You could also just use Markdown image syntax, but you would have to manually maintain the image paths yourself and isn't recommended.
