@@ -10,30 +10,11 @@ import classnames from 'classnames';
 import Highlight, {defaultProps} from 'prism-react-renderer';
 import defaultTheme from 'prism-react-renderer/themes/palenight';
 import Clipboard from 'clipboard';
+import rangeParser from 'parse-numeric-range';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import styles from './styles.module.css';
 
-const regexHighlightRange = /{([\d,-]+)}/;
-
-const calculateLinesToHighlight = meta => {
-  if (!regexHighlightRange.test(meta)) {
-    return () => false;
-  }
-
-  const lineNumbers = regexHighlightRange
-    .exec(meta)[1]
-    .split(',')
-    .map(v => v.split('-').map(ve => parseInt(ve, 10)));
-
-  return index => {
-    const lineNumber = index + 1;
-    const inRange = lineNumbers.some(([start, end]) =>
-      end ? lineNumber >= start && lineNumber <= end : lineNumber === start,
-    );
-
-    return inRange;
-  };
-};
+const highlightLinesRangeRegex = /{([\d,-]+)}/;
 
 export default ({children, className: languageClassName, metastring}) => {
   const {
@@ -44,8 +25,12 @@ export default ({children, className: languageClassName, metastring}) => {
   const [showCopied, setShowCopied] = useState(false);
   const target = useRef(null);
   const button = useRef(null);
-  const shouldHighlightLine = calculateLinesToHighlight(metastring);
+  let highlightLines = [];
 
+  if (metastring && highlightLinesRangeRegex.test(metastring)) {
+    const highlightLinesRange = metastring.match(highlightLinesRangeRegex)[1];
+    highlightLines = rangeParser.parse(highlightLinesRange).filter(n => n > 0);
+  }
   useEffect(() => {
     let clipboard;
 
@@ -87,7 +72,7 @@ export default ({children, className: languageClassName, metastring}) => {
             {tokens.map((line, i) => {
               const lineProps = getLineProps({line, key: i});
 
-              if (shouldHighlightLine(i)) {
+              if (highlightLines.includes(i + 1)) {
                 lineProps.className = `${lineProps.className} highlight-line`;
               }
 
