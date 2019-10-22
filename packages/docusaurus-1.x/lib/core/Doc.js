@@ -238,7 +238,9 @@ class Doc extends React.Component {
         <header className="postHeader">
           {editLink}
           {!this.props.hideTitle && (
-            <h1 className="postHeaderTitle">{this.props.title}</h1>
+            <h1 id="__docusaurus" className="postHeaderTitle">
+              {this.props.title}
+            </h1>
           )}
         </header>
         <article>
