@@ -120,12 +120,11 @@ export function createBaseConfig(
             if (modulePath.startsWith(clientDir)) {
               return false;
             }
-            // transpile docusaurus npm packages, except its nested dependencies
-            if (/(docusaurus)((?!node_modules).)*\.jsx?$/.test(modulePath)) {
-              return false;
-            }
-            // Don't transpile node_modules
-            return /node_modules/.test(modulePath);
+            // Don't transpile node_modules except any docusaurus npm package
+            return (
+              /node_modules/.test(modulePath) &&
+              !/(docusaurus)((?!node_modules).)*\.jsx?$/.test(modulePath)
+            );
           },
           use: [getCacheLoader(isServer), getBabelLoader(isServer)].filter(
             Boolean,
