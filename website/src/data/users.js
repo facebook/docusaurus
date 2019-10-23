@@ -44,6 +44,15 @@ const users = [
     pinned: true,
   },
   {
+    title: 'MBT Bundle',
+    description: 'An open source model-based testing tool',
+    preview: require('./showcase/mbt-bundle.png'),
+    website: 'https://mbtbundle.org',
+    source: 'https://github.com/tienvx/mbt-bundle',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'uniforms',
     description: 'A set of React libraries for building forms',
     preview: require('./showcase/uniforms.png'),
