@@ -1,8 +1,12 @@
 # Docusaurus 2 Changelog
 
-## 2.0.0-alpha.30
-- Fix babel transpilation include/exclude logic to be more efficient. This also fix a very weird bug `TypeError: Cannot assign to read only property 'exports' of object '#<Object>'` if your website path contains `docusaurus` word in it.
+## Unreleased
+
 - Add sticky footer.
+
+## 2.0.0-alpha.30
+
+- Fix babel transpilation include/exclude logic to be more efficient. This also fix a very weird bug `TypeError: Cannot assign to read only property 'exports' of object '#<Object>'` if your website path contains `docusaurus` word in it.
 
 ## 2.0.0-alpha.29
 
@@ -12,6 +16,7 @@
 - New UI for webpack compilation progress bar.
 
 ## 2.0.0-alpha.28
+
 - Further reduce memory usage to avoid heap memory allocation failure.
 - Fix `keywords` frontmatter for SEO not working properly.
 - Fix `swizzle` command not passing context properly to theme packages.
