@@ -1982,6 +1982,11 @@ input::placeholder {
   color: $primaryColor;
 }
 
+.onPageNav .toc-headings > li > a:hover {
+  font-weight: 600;
+  color: $primaryColor;
+}
+
 .onPageNav ul {
   list-style: none;
 }
