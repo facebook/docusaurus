@@ -43,6 +43,7 @@ describe('loadDocs', () => {
       source: path.join('@site', pluginPath, 'hello.md'),
       title: 'Hello, World !',
       description: 'Hi, Endilie here :)',
+      sidebarCollapsible: true,
     });
 
     expect(docsMetadata['foo/bar']).toEqual({
@@ -56,6 +57,7 @@ describe('loadDocs', () => {
       source: path.join('@site', pluginPath, 'foo', 'bar.md'),
       title: 'Bar',
       description: 'This is custom description',
+      sidebarCollapsible: true,
     });
   });
 });
