@@ -23,13 +23,15 @@ function DocPage(props) {
   return (
     <Layout noFooter>
       <div className={styles.docPage}>
-        <div className={styles.docSidebarContainer}>
-          <DocSidebar
-            docsSidebars={docsSidebars}
-            location={location}
-            sidebar={sidebar}
-          />
-        </div>
+        {sidebar && (
+          <div className={styles.docSidebarContainer}>
+            <DocSidebar
+              docsSidebars={docsSidebars}
+              location={location}
+              sidebar={sidebar}
+            />
+          </div>
+        )}
         <main className={styles.docMainContainer}>
           <MDXProvider components={MDXComponents}>
             {renderRoutes(route.routes)}

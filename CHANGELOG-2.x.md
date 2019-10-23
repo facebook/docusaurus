@@ -3,6 +3,7 @@
 ## Unreleased
 
 - Add sticky footer.
+- Remove empty doc sidebar container
 
 ## 2.0.0-alpha.30
 
