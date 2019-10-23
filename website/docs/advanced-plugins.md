@@ -108,18 +108,19 @@ module.exports = {
 
 <!--
 #### Options
-| Option | Default | Notes |
-| :-- | :-- | :-- |
-| `path` | `'blog'` | Path to data on filesystem, relative to site dir |
-| `routeBasePath` | `'blog'` | URL Route |
-| `include` | `['*.md', '*.mdx']` | Extensions to include |
-| `postsPerPage` | `10` | How many posts per page |
-| `blogListComponent` | `'@theme/BlogListPage'` | Theme component used for the blog listing page |
-| `blogPostComponent` | `'@theme/BlogPostPage'` | Theme component used for the blog post page |
-| `blogTagsListComponent` | `'@theme/BlogTagsListPage'` | Theme component used for the blog tags list page |
+| Option                   | Default                      | Notes                                            |
+|--------------------------|------------------------------|--------------------------------------------------|
+| :--                      | :--                          | :--                                              |
+| `path`                   | `'blog'`                     | Path to data on filesystem, relative to site dir |
+| `routeBasePath`          | `'blog'`                     | URL Route                                        |
+| `include`                | `['*.md', '*.mdx']`          | Extensions to include                            |
+| `postsPerPage`           | `10`                         | How many posts per page                          |
+| `blogListComponent`      | `'@theme/BlogListPage'`      | Theme component used for the blog listing page   |
+| `blogPostComponent`      | `'@theme/BlogPostPage'`      | Theme component used for the blog post page      |
+| `blogTagsListComponent`  | `'@theme/BlogTagsListPage'`  | Theme component used for the blog tags list page |
 | `blogTagsPostsComponent` | `'@theme/BlogTagsPostsPage'` | Theme component used for the blog tags post page |
-| `remarkPlugins` | `[]` | Plugins for remark |
-| `rehypePlugins` | `[]` | Plugins for rehype |
+| `remarkPlugins`          | `[]`                         | Plugins for remark                               |
+| `rehypePlugins`          | `[]`                         | Plugins for rehype                               |
 commenting out because charts look less direct than code example
 -->
 
@@ -172,6 +173,11 @@ module.exports = {
          * Whether to display the last date the doc was updated.
          * /
         showLastUpdateTime: false,
+        /**
+         * For sites with a sizable amount of content, set collapsible to true.
+         * Expand/collapse the links and subcategories under categories.
+         * /
+        sidebarCollapsible: true,
       },
     ],
   ],

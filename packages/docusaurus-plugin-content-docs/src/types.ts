@@ -17,6 +17,7 @@ export interface PluginOptions {
   editUrl?: string;
   showLastUpdateTime?: boolean;
   showLastUpdateAuthor?: boolean;
+  sidebarCollapsible?: boolean;
 }
 
 export type SidebarItemDoc = {
@@ -95,6 +96,7 @@ export interface MetadataRaw extends OrderMetadata {
   lastUpdatedAt?: number;
   lastUpdatedBy?: string;
   hide_title?: boolean;
+  sidebarCollapsible?: boolean;
   [key: string]: any;
 }
 
@@ -126,9 +128,10 @@ export interface LoadedContent {
   docsSidebars: Sidebar;
   sourceToPermalink: SourceToPermalink;
   permalinkToSidebar: PermalinkToSidebar;
+  sidebarCollapsible?: boolean;
 }
 
 export type DocsBaseMetadata = Pick<
   LoadedContent,
-  'docsSidebars' | 'permalinkToSidebar'
+  'docsSidebars' | 'permalinkToSidebar' | 'sidebarCollapsible'
 >;

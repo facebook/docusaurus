@@ -290,6 +290,8 @@ module.exports = {
           showLastUpdateAuthor: true,
           // Equivalent to `enableUpdateTime`.
           showLastUpdateTime: true,
+          // Equivalent to `docsSideNavCollapsible`.
+          sidebarCollapsible: true,
         },
         ...
       },

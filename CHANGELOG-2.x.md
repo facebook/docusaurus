@@ -4,6 +4,7 @@
 
 - Add sticky footer.
 - Remove empty doc sidebar container
+- Add ability expand all doc items in sidebar (same as `docsSideNavCollapsible` field in v1)
 
 ## 2.0.0-alpha.30
 

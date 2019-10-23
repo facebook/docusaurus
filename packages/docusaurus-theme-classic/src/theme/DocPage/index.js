@@ -17,7 +17,7 @@ import styles from './styles.module.css';
 
 function DocPage(props) {
   const {route, docsMetadata, location} = props;
-  const {permalinkToSidebar, docsSidebars} = docsMetadata;
+  const {permalinkToSidebar, docsSidebars, sidebarCollapsible} = docsMetadata;
   const sidebar = permalinkToSidebar[location.pathname.replace(/\/$/, '')];
 
   return (
@@ -29,6 +29,7 @@ function DocPage(props) {
               docsSidebars={docsSidebars}
               location={location}
               sidebar={sidebar}
+              sidebarCollapsible={sidebarCollapsible}
             />
           </div>
         )}

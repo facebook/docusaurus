@@ -23,6 +23,7 @@ type Args = {
   editUrl?: string;
   showLastUpdateAuthor?: boolean;
   showLastUpdateTime?: boolean;
+  sidebarCollapsible?: boolean;
 };
 
 export default async function processMetadata({
@@ -35,6 +36,7 @@ export default async function processMetadata({
   editUrl,
   showLastUpdateAuthor,
   showLastUpdateTime,
+  sidebarCollapsible,
 }: Args): Promise<MetadataRaw> {
   const filePath = path.join(docsDir, source);
 
@@ -129,6 +131,8 @@ export default async function processMetadata({
       }
     }
   }
+
+  metadata.sidebarCollapsible = sidebarCollapsible;
 
   return metadata as MetadataRaw;
 }
