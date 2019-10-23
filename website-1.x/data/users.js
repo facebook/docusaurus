@@ -44,7 +44,7 @@ module.exports = [
   },
   {
     caption: 'Amphora Data',
-    image: '/img/users/amphoradata.png',
+    image: '/img/users/AmphoraData.png',
     infoLink: 'https://amphoradata.github.io/',
     fbOpenSource: false,
     pinned: false,
