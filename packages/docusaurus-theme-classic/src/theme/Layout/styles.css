@@ -5,8 +5,23 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+html,
+body {
+  height: 100%;
+}
+
 body {
   margin: 0;
   padding-top: var(--ifm-navbar-height);
   transition: var(--ifm-transition-fast) ease color;
+}
+
+body > div {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  flex: 1 0 auto;
 }
