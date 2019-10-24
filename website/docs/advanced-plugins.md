@@ -108,19 +108,17 @@ module.exports = {
 
 <!--
 #### Options
-| Option                   | Default                      | Notes                                            |
-|--------------------------|------------------------------|--------------------------------------------------|
-| :--                      | :--                          | :--                                              |
-| `path`                   | `'blog'`                     | Path to data on filesystem, relative to site dir |
-| `routeBasePath`          | `'blog'`                     | URL Route                                        |
-| `include`                | `['*.md', '*.mdx']`          | Extensions to include                            |
-| `postsPerPage`           | `10`                         | How many posts per page                          |
-| `blogListComponent`      | `'@theme/BlogListPage'`      | Theme component used for the blog listing page   |
-| `blogPostComponent`      | `'@theme/BlogPostPage'`      | Theme component used for the blog post page      |
-| `blogTagsListComponent`  | `'@theme/BlogTagsListPage'`  | Theme component used for the blog tags list page |
-| `blogTagsPostsComponent` | `'@theme/BlogTagsPostsPage'` | Theme component used for the blog tags post page |
-| `remarkPlugins`          | `[]`                         | Plugins for remark                               |
-| `rehypePlugins`          | `[]`                         | Plugins for rehype                               |
+| Option | Default | Notes |
+| :-- | :-- | :-- |
+| `path` | `'blog'` | Path to data on filesystem, relative to site dir |
+| `routeBasePath` | `'blog'` | URL Route |
+| `include` | `['*.md', '*.mdx']` | Extensions to include |
+| `postsPerPage` | `10` | How many posts per page |
+| `blogListComponent` | `'@theme/BlogListPage'` | Theme component used for the blog listing page |
+| `blogPostComponent` | `'@theme/BlogPostPage'` | Theme component used for the blog post page |
+| `blogTagsListComponent` | `'@theme/BlogTagsListPage'` | Theme component used for the blog tags list page |
+| `remarkPlugins` | `[]` | Plugins for remark |
+| `rehypePlugins` | `[]` | Plugins for rehype |
 commenting out because charts look less direct than code example
 -->
 

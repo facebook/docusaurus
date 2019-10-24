@@ -111,7 +111,6 @@ export default function pluginContentDocs(
             showLastUpdateAuthor,
             showLastUpdateTime,
           });
-
           docsMetadataRaw[metadata.id] = metadata;
         }),
       );

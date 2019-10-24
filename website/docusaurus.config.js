@@ -48,7 +48,6 @@ module.exports = {
     ],
   ],
   themeConfig: {
-    sidebarCollapsible: false,
     image: 'img/docusaurus.png',
     gtag: {
       trackingID: 'UA-141789564-1',
