@@ -161,7 +161,7 @@ Infima uses 7 shades of each color. We recommend using [ColorBox](https://www.co
 }
 ```
 
-#### `footerIcon`, `copyright`, `ogImage`, `twitterImage`
+#### `footerIcon`, `copyright`, `ogImage`, `twitterImage`, 'docsSideNavCollapsible'
 
 Site meta info such as assets, SEO, copyright info are now handled by themes. To customize them, use the `themeConfig` field in your `docusaurus.config.js`:
 
@@ -177,6 +177,8 @@ module.exports = {
       copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`,
     },
     image: 'img/docusaurus.png',
+    // Equivalent to `docsSideNavCollapsible`
+    sidebarCollapsible: false,
     ...
   },
 };
@@ -333,7 +335,7 @@ The following fields are all deprecated, you may remove from your configuration 
 - `defaultVersionShown` - Versioning is not ported yet. You'd be unable to migration to Docusaurus 2 if you are using versioning. Stay tuned.
 - `disableHeaderTitle`
 - `disableTitleTagline`
-- `docsSideNavCollapsible` renamed to `sidebarCollapsible`, and this is turned on by default now. ???
+- `docsSideNavCollapsible` is available at `themeConfig.sidebarCollapsible`, and this is turned on by default now.
 - `facebookAppId`
 - `facebookComments`
 - `facebookPixelId`
