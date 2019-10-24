@@ -43,6 +43,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Amphora Data',
+    image: '/img/users/AmphoraData.png',
+    infoLink: 'https://amphoradata.github.io/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Anssr Data Platform',
     image: '/img/users/anssr.svg',
     infoLink: 'https://anssr.io/',

@@ -48,15 +48,16 @@ const Search = props => {
     }
   }, []);
 
-  const toggleSearchIconClick = useCallback(() => {
-    props.handleSearchBarToggle(!props.isSearchBarExpanded);
-  }, [props.isSearchBarExpanded]);
+  const toggleSearchIconClick = useCallback(
+    e => {
+      if (!searchBarRef.current.contains(e.target)) {
+        searchBarRef.current.focus();
+      }
 
-  useEffect(() => {
-    if (props.isSearchBarExpanded) {
-      searchBarRef.current.focus();
-    }
-  }, [props.isSearchBarExpanded]);
+      props.handleSearchBarToggle(!props.isSearchBarExpanded);
+    },
+    [props.isSearchBarExpanded],
+  );
 
   return isEnabled ? (
     <Fragment>
@@ -78,6 +79,7 @@ const Search = props => {
           {'search-bar-expanded': props.isSearchBarExpanded},
           {'search-bar': !props.isSearchBarExpanded},
         )}
+        onFocus={toggleSearchIconClick}
         onBlur={toggleSearchIconClick}
         ref={searchBarRef}
       />
