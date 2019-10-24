@@ -5,6 +5,7 @@
 - Add sticky footer.
 - Remove empty doc sidebar container
 - PostCSS preset env now only polyfills Stage 3 features (previously it was stage 2) like Create React App. Stage 2 CSS is considered relatively unstable and subject to change while Stage 3 features will likely become a standard.
+- Add ability expand all doc items in sidebar (same as `docsSideNavCollapsible` field in v1)
 
 ## 2.0.0-alpha.30
 

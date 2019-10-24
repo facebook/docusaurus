@@ -8,6 +8,7 @@
 import React from 'react';
 import {MDXProvider} from '@mdx-js/react';
 
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import renderRoutes from '@docusaurus/renderRoutes';
 import Layout from '@theme/Layout';
 import DocSidebar from '@theme/DocSidebar';
@@ -19,6 +20,8 @@ function DocPage(props) {
   const {route, docsMetadata, location} = props;
   const {permalinkToSidebar, docsSidebars} = docsMetadata;
   const sidebar = permalinkToSidebar[location.pathname.replace(/\/$/, '')];
+  const {siteConfig: {themeConfig = {}} = {}} = useDocusaurusContext();
+  const {sidebarCollapsible = true} = themeConfig;
 
   return (
     <Layout noFooter>
@@ -29,6 +32,7 @@ function DocPage(props) {
               docsSidebars={docsSidebars}
               location={location}
               sidebar={sidebar}
+              sidebarCollapsible={sidebarCollapsible}
             />
           </div>
         )}
