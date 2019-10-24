@@ -6,6 +6,7 @@
 - Remove empty doc sidebar container
 - PostCSS preset env now only polyfills Stage 3 features (previously it was stage 2) like Create React App. Stage 2 CSS is considered relatively unstable and subject to change while Stage 3 features will likely become a standard.
 - Add ability expand all doc items in sidebar (same as `docsSideNavCollapsible` field in v1)
+- Disable adding hashes to the generated class names of CSS modules in dev mode. Generating unique identifiers takes some time, which can be saved since including paths to files in class names is enough to avoid collisions.
 
 ## 2.0.0-alpha.30
 
