@@ -173,11 +173,6 @@ module.exports = {
          * Whether to display the last date the doc was updated.
          * /
         showLastUpdateTime: false,
-        /**
-         * For sites with a sizable amount of content, set collapsible to true.
-         * Expand/collapse the links and subcategories under categories.
-         * /
-        sidebarCollapsible: true,
       },
     ],
   ],

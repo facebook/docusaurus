@@ -290,8 +290,6 @@ module.exports = {
           showLastUpdateAuthor: true,
           // Equivalent to `enableUpdateTime`.
           showLastUpdateTime: true,
-          // Equivalent to `docsSideNavCollapsible`.
-          sidebarCollapsible: true,
         },
         ...
       },
@@ -335,7 +333,7 @@ The following fields are all deprecated, you may remove from your configuration 
 - `defaultVersionShown` - Versioning is not ported yet. You'd be unable to migration to Docusaurus 2 if you are using versioning. Stay tuned.
 - `disableHeaderTitle`
 - `disableTitleTagline`
-- `docsSideNavCollapsible` - This is turned on by default now.
+- `docsSideNavCollapsible` renamed to `sidebarCollapsible`, and this is turned on by default now. ???
 - `facebookAppId`
 - `facebookComments`
 - `facebookPixelId`

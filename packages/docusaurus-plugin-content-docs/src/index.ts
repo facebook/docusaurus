@@ -44,7 +44,6 @@ const DEFAULT_OPTIONS: PluginOptions = {
   rehypePlugins: [],
   showLastUpdateTime: false,
   showLastUpdateAuthor: false,
-  sidebarCollapsible: true,
 };
 
 export default function pluginContentDocs(
@@ -77,7 +76,6 @@ export default function pluginContentDocs(
         editUrl,
         showLastUpdateAuthor,
         showLastUpdateTime,
-        sidebarCollapsible,
       } = options;
       const {siteConfig, siteDir} = context;
       const docsDir = contentPath;
@@ -112,7 +110,6 @@ export default function pluginContentDocs(
             editUrl,
             showLastUpdateAuthor,
             showLastUpdateTime,
-            sidebarCollapsible,
           });
 
           docsMetadataRaw[metadata.id] = metadata;
@@ -208,7 +205,6 @@ export default function pluginContentDocs(
         docsSidebars,
         sourceToPermalink,
         permalinkToSidebar,
-        sidebarCollapsible,
       };
     },
 
@@ -243,7 +239,6 @@ export default function pluginContentDocs(
       const docsBaseMetadata: DocsBaseMetadata = {
         docsSidebars: content.docsSidebars,
         permalinkToSidebar: content.permalinkToSidebar,
-        sidebarCollapsible: content.sidebarCollapsible,
       };
 
       const docsBaseRoute = normalizeUrl([
