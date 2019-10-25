@@ -24,7 +24,7 @@ function DocPage(props) {
   const {sidebarCollapsible = true} = themeConfig;
 
   return (
-    <Layout noFooter>
+    <Layout>
       <div className={styles.docPage}>
         {sidebar && (
           <div className={styles.docSidebarContainer}>
