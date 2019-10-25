@@ -1,13 +1,13 @@
 ---
 id: docusaurus-core
-title: Docusaurus API
+title: Docusaurus Core API
 ---
 
 Docusaurus provides some API on client that can be helpful when building your site.
 
 ## `<Head />`
 
-This reusable React component will manage all of your changes to the document head. It takes plain HTML tags and outputs plain HTML tags. It's dead simple, and React beginner friendly. It is a wrapper of [React Helmet](https://github.com/nfl/react-helmet).
+This reusable React component will manage all of your changes to the document head. It takes plain HTML tags and outputs plain HTML tags and is beginner-friendly. It is a wrapper around [React Helmet](https://github.com/nfl/react-helmet).
 
 Usage Example:
 
@@ -27,7 +27,7 @@ const MySEO = () => (
 );
 ```
 
-Nested or latter components will override duplicate changes:
+Nested or latter components will override duplicate usages:
 
 ```jsx
 <Parent>
@@ -56,9 +56,9 @@ Outputs
 
 ## `<Link />`
 
-This component enables linking to internal pages as well as a powerful performance feature called preloading. Preloading is used to prefetch resources so that the resources are fetched by the time the user navigates with this component. We use an `IntersectionObserver` to fetch a low-priority request when the `Link` is in the viewport and then use an onMouseOver event to trigger a high-priority request when it is likely that a user will navigate to the requested resource.
+This component enables linking to internal pages as well as a powerful performance feature called preloading. Preloading is used to prefetch resources so that the resources are fetched by the time the user navigates with this component. We use an `IntersectionObserver` to fetch a low-priority request when the `<Link>` is in the viewport and then use an `onMouseOver` event to trigger a high-priority request when it is likely that a user will navigate to the requested resource.
 
-The component is a wrapper around react-router’s NavLink component that adds useful enhancements specific to Docusaurus. All props are passed through to react-router’s Link component.
+The component is a wrapper around react-router’s `<NavLink>` component that adds useful enhancements specific to Docusaurus. All props are passed through to react-router’s `<Link>` component.
 
 ```jsx
 import React from 'react';
@@ -77,17 +77,17 @@ const Page = () => (
 );
 ```
 
-### to: string
+### `to`: string
 
-A string representation of the Link location, created by concatenating the location's pathname, search, and hash properties.
+A string representation of the `<Link>` location, created by concatenating the location's pathname, search, and hash properties.
 
 ```jsx
 <Link to="/courses" />
 ```
 
-### activeClassName: string
+### `activeClassName`: string
 
-The class to give the element when it is active. The default given class is `active`. This will be joined with the `className` prop.
+The class to give the `<Link>` when it is active. The default given class is `active`. This will be joined with the `className` prop.
 
 ```jsx
 <Link to="/faq" activeClassName="selected">
@@ -95,9 +95,9 @@ The class to give the element when it is active. The default given class is `act
 </Link>
 ```
 
-## useDocusaurusContext
+## `useDocusaurusContext`
 
-React Hooks to access Docusaurus Context. Context contains siteConfig object from [docusaurus.config.js](docusaurus.config.js.md).
+React Hooks to access Docusaurus Context. Context contains `siteConfig` object from [docusaurus.config.js](docusaurus.config.js.md).
 
 ```ts
 interface DocusaurusContext {
@@ -120,9 +120,9 @@ const Test = () => {
 };
 ```
 
-## useBaseUrl
+## `useBaseUrl`
 
-React Hooks to automatically append [baseUrl] to a string automatically.
+React Hooks to automatically append `baseUrl` to a string automatically.
 
 Example usage:
 
