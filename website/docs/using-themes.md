@@ -1,11 +1,11 @@
 ---
 id: using-themes
-title: Using Themes
+title: Themes
+sidebar_label: Introduction
 ---
 
-In Docusaurus 2, themes are there to finish the build step of your site by supplying the components used by your site, your plugins, and the themes themselves. Furthermore, you may easily swap out components from themes by _swizzling_ them with your own components.
-
-In this document, we discuss the basic usages of themes. You will learn how to use a theme and how to swizzle a component. To grasp a deeper understanding of themes, and / or to learn how you may implement your own themes, check out our [advanced guide on themes](advanced-themes.md).
+Like plugins, themes are designed to add functionality to your Docusaurus site. As a good rule of thumb, themes is mostly about client-side, while plugins is more focused to server-side functionality.
+Theme is also designed to be easily replace-able with another similar theme.
 
 ## Using themes
 
@@ -18,9 +18,64 @@ module.exports = {
 };
 ```
 
+## Theme components
+
+Most of the times, theme is used to provide a set of React components, e.g. `Navbar`, `Layout`, `Footer`.
+
+Users can use these components in their code by importing them using the `@theme` webpack alias:
+
+```js
+import Navbar from '@theme/Navbar';
+```
+
+The alias `@theme` can refer to a few directories, in the following priority:
+
+1. A user's `website/src/theme` directory, which is a special directory that has the higher precedence.
+1. A Docusaurus theme packages's `theme` directory.
+1. Fallback components provided by Docusaurus core (usually not needed).
+
+Given the following structure
+
+```
+website
+├── node_modules
+│   └── docusaurus-theme
+│       └── theme
+│           └── Navbar.js
+└── src
+    └── theme
+        └── Navbar.js
+```
+
+`website/src/theme/Navbar.js` takes precedence whenever `@theme/Navbar` is imported. This behavior is called component swizzling. In iOS, method swizzling is the process of changing the implementation of an existing selector (method). In the context of a website, component swizzling will mean providing an alternative component that takes precedence over the theme-provided component.
+
+**Themes are for providing UI components to present the content.** Most content plugins would need to be paired with a theme in order to be actually useful. The UI is a separate layer from the data schema, so it makes it easy to swap out the themes for other designs (if someone wants to use Bootstrap for example).
+
+For example, a Docusaurus blog can consist of a blog plugin and a blog theme.
+
+```js
+// docusaurus.config.js
+{
+  theme: ['theme-blog'],
+  plugins: ['plugin-content-blog'],
+}
+```
+
+and if someone wants to use Bootstrap styling:
+
+```js
+// docusaurus.config.js
+{
+  theme: ['theme-blog-bootstrap'],
+  plugins: ['plugin-content-blog'],
+}
+```
+
+The content plugin remains the same and the only thing they need to change will be the theme.
+
 ## Swizzling theme components
 
-Themes are all about components. Docusaurus Themes' components are designed to be easily replaceable. We created a command for you to replace the components called `swizzle`.
+Docusaurus Themes' components are designed to be easily replaceable. To make it easier for you, we created a command for you to replace theme components called `swizzle`.
 
 To swizzle a component for a theme, run the following command in your doc site:
 

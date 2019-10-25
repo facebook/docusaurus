@@ -60,15 +60,9 @@ Example `addRoute` call:
 
 ```js
 addRoute({
-  path: permalink,
-  component: blogPostComponent,
+  path: '/help',
+  component: '@site/src/pages/help',
   exact: true,
-  modules: {
-    content: source,
-    metadata: metadataPath,
-    prevItem: prevItem && prevItem.metadataPath,
-    nextItem: nextItem && nextItem.metadataPath,
-  },
 });
 ```
 
@@ -99,34 +93,42 @@ You may use them to return your webpack configures conditionally.
 Example:
 
 ```js
-configureWebpack(config, isServer, {getBabelLoader, getCacheLoader}) {
-  const {rehypePlugins, remarkPlugins, truncateMarker} = options;
-  return {
-    module: {
-      rules: [
-        {
-          test: /(\.mdx?)$/,
-          use: [
-            getCacheLoader(isServer),
-            getBabelLoader(isServer),
-            {
-              loader: '@docusaurus/mdx-loader',
-              options: {
-                remarkPlugins,
-                rehypePlugins,
-              },
-            },
-            {
-              loader: path.resolve(__dirname, './markdownLoader.js'),
-              options: {
-                truncateMarker,
-              },
-            },
-          ].filter(Boolean),
-        },
-      ],
-    },
-  };
+configureWebpack(config, isServer) {
+  if (!isServer) {
+    // mutate the webpack config for client
+
+  }
+  return config;
+},
+```
+
+## postBuild(props)
+
+Called when a (production) build finishes.
+
+```ts
+interface LoadContext {
+  siteDir: string;
+  generatedFilesDir: string;
+  siteConfig: DocusaurusConfig;
+  outDir: string;
+  baseUrl: string;
+}
+
+interface Props extends LoadContext {
+  routesPaths: string[];
+  plugins: Plugin<any>[];
+}
+```
+
+Example:
+
+```js
+async postBuild({siteConfig = {}, routesPaths = [], outDir}) {
+  // Print out to console all the rendered routes 
+  routesPaths.map(route => {
+    console.log(route);
+  })
 },
 ```
 

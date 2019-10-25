@@ -1,6 +1,6 @@
 ---
 id: advanced-themes
-title: Themes
+title: Writing Themes
 ---
 
 In this doc, we discuss how themes are designed and how you can write your own themes.
