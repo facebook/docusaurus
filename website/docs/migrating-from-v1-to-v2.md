@@ -161,7 +161,7 @@ Infima uses 7 shades of each color. We recommend using [ColorBox](https://www.co
 }
 ```
 
-#### `footerIcon`, `copyright`, `ogImage`, `twitterImage`, 'docsSideNavCollapsible'
+#### `footerIcon`, `copyright`, `ogImage`, `twitterImage`, `docsSideNavCollapsible`
 
 Site meta info such as assets, SEO, copyright info are now handled by themes. To customize them, use the `themeConfig` field in your `docusaurus.config.js`:
 
