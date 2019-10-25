@@ -79,7 +79,7 @@ const Page = () => (
 
 ### `to`: string
 
-A string representation of the `<Link>` location, created by concatenating the location's pathname, search, and hash properties.
+The target location to navigate to. Example: `/docs/introduction`.
 
 ```jsx
 <Link to="/courses" />
