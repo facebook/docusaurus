@@ -20,11 +20,18 @@ function Layout(props) {
     favicon,
     tagline,
     title: defaultTitle,
-    noFooter,
     themeConfig: {image: defaultImage},
     url: siteUrl,
   } = siteConfig;
-  const {children, title, description, image, keywords, permalink} = props;
+  const {
+    children,
+    title,
+    noFooter,
+    description,
+    image,
+    keywords,
+    permalink,
+  } = props;
   const metaTitle = title || `${defaultTitle} · ${tagline}`;
   const metaImage = image || defaultImage;
   const metaImageUrl = siteUrl + useBaseUrl(metaImage);
