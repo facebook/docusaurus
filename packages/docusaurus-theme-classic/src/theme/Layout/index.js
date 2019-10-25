@@ -20,6 +20,7 @@ function Layout(props) {
     favicon,
     tagline,
     title: defaultTitle,
+    noFooter,
     themeConfig: {image: defaultImage},
     url: siteUrl,
   } = siteConfig;
@@ -54,7 +55,7 @@ function Layout(props) {
       </Head>
       <Navbar />
       <main className="main">{children}</main>
-      <Footer />
+      {!noFooter && <Footer />}
     </React.Fragment>
   );
 }
