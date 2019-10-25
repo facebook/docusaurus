@@ -7,38 +7,36 @@ Docusaurus has a unique take on configurations. We encourage you to congregate i
 
 Keeping a well-maintained `docusaurus.config.js` helps you, your collaborators, and your open source contributors be able to focus on documentation while still being able to easily customize fields.
 
-For reference to each of the configurable fields, you may refer to the API reference of [docusaurus.config.js](docusaurus.config.js.md).
-
 ## What goes into `docusaurus.config.js`?
 
 You should not have to write your `docusaurus.config.js` from scratch even if you are developing your site. All templates come with a `docusaurus.config.js` at root that includes the necessary data for the initial site.
 
 However, it can be helpful if you have a high-level understanding of how the configurations are designed and implemented.
 
-The configurations can be categorized into:
+The high-level overview of Docusaurus configuration can be categorized into:
 
 - [Site Metadata](#site-metadata)
 - [Deployment Configurations](#deployment-configurations)
 - [Themes, Plugins, and Presets configurations](#themes-plugins-and-presets-configurations)
 - [Custom Configurations](#custom-configurations)
 
+For exact reference to each of the configurable fields, you may refer to [**docusaurus.config.js API reference**](docusaurus.config.js.md).
+
 ### Site metadata
 
-Site metadata contains the essential global metadata such as titles and `favicon`.
+Site metadata contains the essential global metadata such as `title`, `url`, `baseUrl` and `favicon`.
 
-They are used by your website in a number of places such as your site's title and headings, browser tab icon, social sharing (Facebook, Twitter) information and for search engine optimization (SEO).
+They are used in a number of places such as your site's title and headings, browser tab icon, social sharing (Facebook, Twitter) information or even to generate the correct path to serve your static files.
 
 ### Deployment configurations
 
-Deployment configurations are used when you deploy your site with Docusaurus' `deploy` command. The related fields are:
+Deployment configurations such as `projectName` and `organizationName` are used when you deploy your site with Docusaurus' `deploy` command.
 
-<!-- TODO: if we use monospace for the field names, they no longer look like a link -->
-
-<!-- TODO: currently these fields are only used in GH Pages, what about other deployment services such as Netlify -->
-
-You may also check the [deployment docs](deployment.md) for more information about the fields.
+It is recommended to check the [deployment docs](deployment.md) for more information.
 
 ### Themes, Plugins, and Presets configurations
+
+
 
 _This section is a work in progress. [Welcoming PRs](https://github.com/facebook/docusaurus/issues/1640)._
 
@@ -73,27 +71,20 @@ module.exports = {
 
 ## Accessing configuration from components
 
-Your configuration object will be made available to all the components of your site. And you may access them via context as `siteConfig`:
+Your configuration object will be made available to all the components of your site. And you may access them via React context as `siteConfig`.
+
+Basic Example:
 
 ```jsx
 import React from 'react';
-import Head from '@docusaurus/Head';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
-const Layout = props => {
+const Hello = () => {
   const context = useDocusaurusContext();
   const {siteConfig = {}} = context;
-  const {title, tagline, seo} = siteConfig;
+  const {title, tagline} = siteConfig;
 
-  return (
-    <React.Fragment>
-      <Head defaultTitle={`${defaultTitle} · ${tagline}`}>
-        {description && <meta name="description" content={seo.description} />}
-      </Head>
-      <h1>{title}</h1>
-      <h2>{tagline}</h2>
-    </React.Fragment>
-  );
+  return <div>{`${title} · ${tagline}`}</div>;
 };
 ```
 
