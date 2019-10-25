@@ -18,7 +18,7 @@ import Head from '@docusaurus/Head';
 const MySEO = () => (
   <>
     <Head>
-      <meta property="og:description" content={'My custom description'} />
+      <meta property="og:description" content="My custom description" />
       <meta charSet="utf-8" />
       <title>My Title</title>
       <link rel="canonical" href="http://mysite.com/example" />
