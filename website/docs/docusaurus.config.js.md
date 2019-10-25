@@ -1,12 +1,8 @@
 ---
 id: docusaurus.config.js
 title: docusaurus.config.js
+description: API reference for Docusaurus configuration file.
 ---
-
-<!--
-  Goal: To serve as a manual for all configurations in docusaurus.config.js
-  Should keep the titles to themselves for cleaner link
--->
 
 ## Overview
 
@@ -18,7 +14,7 @@ title: docusaurus.config.js
 
 - Type: `string`
 
-Title is used in a number of places in your site including the title for the web page, headings, etc.
+Title for your website.
 
 ```js
 // docusaurus.config.js
@@ -31,7 +27,7 @@ module.exports = {
 
 - Type: `string`
 
-Tagline is used in a number of places in your site including the title for the web page, sub headings, etc.
+The tagline for your website.
 
 ```js
 // docusaurus.config.js
@@ -45,7 +41,16 @@ module.exports = {
 
 - Type: `string`
 
-If you use an official template, your site will be generated with the following directory
+URL for site favicon. Example:
+
+```js
+// docusaurus.config.js
+module.exports = {
+  favicon: 'https://v2.docusaurus.io/favicon.ico',
+};
+```
+
+You can also use the favicon URL relative to the `static` directory of your site. For example, your site has the following directory structure:
 
 ```bash
 .
@@ -56,7 +61,7 @@ If you use an official template, your site will be generated with the following 
         └── favicon.ico
 ```
 
-And your generated `docusaurus.config.js` will contain this the field for your favicon URL relative to the `static` directory of your site.
+So you can refer it like below:
 
 ```js
 // docusaurus.config.js
@@ -65,15 +70,11 @@ module.exports = {
 };
 ```
 
-**Note**: It does accept external nor absolute url.
-
 ### `url`
-
-<!-- TODO: where else is this used other than GH Pages? -->
 
 - Type: `string`
 
-If you use GitHub Pages, this will be the URL for your GitHub Page's user/organization page, commonly https://_username_.github.io.
+URL for your website. This can also be considered the top-level hostname. For example, `https://facebook.github.io` is the URL of https://facebook.github.io/metro/, and `https://docusaurus.io` is the URL for https://docusaurus.io. This field is related to the [baseUrl](#baseurl) field.
 
 ```js
 // docusaurus.config.js
@@ -86,7 +87,7 @@ module.exports = {
 
 - Type: `string`
 
-Base URL for your project. For projects hosted on GitHub pages, it follows the format "/_projectName_/". For https://github.com/facebook/docusaurus, `baseUrl` is `/docusaurus/`.
+Base URL for your site. This can also be considered the path after the host. For example, `/metro/` is the baseUrl of https://facebook.github.io/metro/. For URLs that have no path, the baseUrl should be set to `/`. This field is related to the [url](#url) field.
 
 ```js
 // docusaurus.config.js
@@ -146,6 +147,8 @@ module.exports = {
 An object containing data needed by the theme you use.<!--, see [theme configurations](#).-->
 
 For Docusaurus' default theme _classic_, we use `themeConfig` to customize your navbar and footer links:
+
+Example:
 
 ```js
 // docusaurus.config.js
