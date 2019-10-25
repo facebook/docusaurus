@@ -144,7 +144,9 @@ export function createBaseConfig(
           test: CSS_MODULE_REGEX,
           use: getStyleLoaders(isServer, {
             modules: {
-              localIdentName: `[local]_[hash:base64:4]`,
+              localIdentName: isProd
+                ? `[local]_[hash:base64:4]`
+                : `[local]_[path]`,
             },
             importLoaders: 1,
             sourceMap: !isProd,
