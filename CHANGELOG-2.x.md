@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 2.0.0-alpha.31
+
 - Footer is now sticky/ pinned to the bottom of the viewport in desktop browsers. 
 - Footer is now also displayed in docs page for consistency.
 - Remove empty doc sidebar container if sidebar for a particular doc page does not exist. Otherwise, it will cause an additional empty space.
@@ -14,6 +16,7 @@
   - Fix pagination nav and right sidebar color contrast ratio
   - Fix sidebar arrow color in dark mode
   - Fix footer mobile issue
+  - Increase sidebar width
   - etc
 - Slightly adjust search icon position to be more aligned on small width device.
 
