@@ -94,7 +94,7 @@ export interface Plugin<T> {
   getThemePath?(): string;
   getPathsToWatch?(): string[];
   getClientModules?(): string[];
-  extendCli?(cli: CommanderStatic): any;
+  extendCli?(cli: CommanderStatic): void;
 }
 
 export type PluginConfig = [string, Object] | [string] | string;
