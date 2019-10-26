@@ -7,7 +7,7 @@ _This section is a work in progress._
 
 Lifecycle APIs are shared by Themes and Plugins.
 
-## `getPathsToWatch(): string[]`
+## getPathsToWatch()
 
 Specifies the paths to watch for plugins and themes. The paths are watched by the dev server so that the plugin lifecycles are reloaded when contents in the watched paths change. Note that the plugins and themes modules are initially called with `context` and `options` from Node, which you may use to find the necessary directory information about the site.
 
@@ -21,11 +21,11 @@ getPathsToWatch() {
 }
 ```
 
-## `async loadContent()`
+## async loadContent()
 
 Plugins should use this lifecycle to fetch from data sources (filesystem, remote API, headless CMS, etc).
 
-## `async contentLoaded({content, actions})`
+## async contentLoaded({content, actions})
 
 Plugins should use the data loaded in `loadContent` and construct the pages/routes that consume the loaded data.
 
@@ -60,21 +60,15 @@ Example `addRoute` call:
 
 ```js
 addRoute({
-  path: permalink,
-  component: blogPostComponent,
+  path: '/help',
+  component: '@site/src/pages/help',
   exact: true,
-  modules: {
-    content: source,
-    metadata: metadataPath,
-    prevItem: prevItem && prevItem.metadataPath,
-    nextItem: nextItem && nextItem.metadataPath,
-  },
 });
 ```
 
 And `createData` takes a file name relative to to your plugin's directory, a string for the `JSON.stringify` result of your data, and will return a path to the module which you may then use as the path to items in your `RouteModule`. The modules will be loaded when the related pages are loaded following our optimizations according to the [PRPL pattern](https://developers.google.com/web/fundamentals/performance/prpl-pattern/).
 
-## `configureWebpack(config, isServer, utils)`
+## configureWebpack(config, isServer, utils)
 
 Modifies the internal webpack config. If the return value is a JavaScript object, it will be merged into the final config using [`webpack-merge`](https://github.com/survivejs/webpack-merge). If it is a function, it will be called and receive `config` as the first argument and an `isServer` flag as the argument argument.
 
@@ -99,34 +93,42 @@ You may use them to return your webpack configures conditionally.
 Example:
 
 ```js
-configureWebpack(config, isServer, {getBabelLoader, getCacheLoader}) {
-  const {rehypePlugins, remarkPlugins, truncateMarker} = options;
-  return {
-    module: {
-      rules: [
-        {
-          test: /(\.mdx?)$/,
-          use: [
-            getCacheLoader(isServer),
-            getBabelLoader(isServer),
-            {
-              loader: '@docusaurus/mdx-loader',
-              options: {
-                remarkPlugins,
-                rehypePlugins,
-              },
-            },
-            {
-              loader: path.resolve(__dirname, './markdownLoader.js'),
-              options: {
-                truncateMarker,
-              },
-            },
-          ].filter(Boolean),
-        },
-      ],
-    },
-  };
+configureWebpack(config, isServer) {
+  if (!isServer) {
+    // mutate the webpack config for client
+
+  }
+  return config;
+},
+```
+
+## postBuild(props)
+
+Called when a (production) build finishes.
+
+```ts
+interface LoadContext {
+  siteDir: string;
+  generatedFilesDir: string;
+  siteConfig: DocusaurusConfig;
+  outDir: string;
+  baseUrl: string;
+}
+
+interface Props extends LoadContext {
+  routesPaths: string[];
+  plugins: Plugin<any>[];
+}
+```
+
+Example:
+
+```js
+async postBuild({siteConfig = {}, routesPaths = [], outDir}) {
+  // Print out to console all the rendered routes 
+  routesPaths.map(route => {
+    console.log(route);
+  })
 },
 ```
 
@@ -145,6 +147,47 @@ extendCli(cli) {
       console.log(Math.floor(Math.random() * 1000 + 1));
   });
 },
+```
+
+## getThemePath()
+
+Returns the path to the directory where the theme components can be found. When your users calls `swizzle`, `getThemePath` is called and its returned path is used to find your theme components.
+
+If you use the folder directory above, your `getThemePath` can be:
+
+```js
+// my-theme/src/index.js
+
+const path = require('path');
+module.exports = function(context, options) {
+  return {
+    name: 'name-of-my-theme',
+    getThemePath() {
+      return path.resolve(__dirname, './theme');
+    },
+  };
+};
+```
+
+## getClientModules()
+
+Returns an array of paths to the modules that are to be imported in the client bundle. These modules are imported globally before React even renders the initial UI.
+
+As an example, to make your theme load a `customCss` object from `options` passed in by the user:
+
+```js
+// my-theme/src/index.js
+
+const path = require('path');
+module.exports = function(context, options) {
+  const {customCss} = options || {};
+  return {
+    name: 'name-of-my-theme',
+    getClientModules() {
+      return [customCss];
+    },
+  };
+};
 ```
 
 <!--

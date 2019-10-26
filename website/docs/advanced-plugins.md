@@ -1,22 +1,15 @@
 ---
 id: advanced-plugins
-title: Plugins
+title: Writing Plugins
 ---
-
-<!-- TODO
-- move the list of plugins (maybe to links to each plugin's READMEs)
-- add guides on how to create plugins
--->
 
 In this doc, we talk about the design intention of plugins and how you may write your own plugins.
 
-Docusaurus Plugins are very similar to [Gatsby Plugins](https://www.gatsbyjs.org/plugins/) and [VuePress Plugins](https://v1.vuepress.vuejs.org/plugin/). The main difference here is that Docusaurus plugins don't allow using other plugins. Docusaurus provides [presets](./advanced-presets.md) to bundle plugins that are meant to work together.
+Docusaurus Plugins are very similar to [Gatsby Plugins](https://www.gatsbyjs.org/plugins/) and [VuePress Plugins](https://v1.vuepress.vuejs.org/plugin/). The main difference here is that Docusaurus plugins don't allow plugins to include another plugin. Docusaurus provides [presets](presets.md) to bundle plugins that are meant to work together.
 
 ## Plugins design
 
 Docusaurus' implementation of the plugins system provides us with a convenient way to hook into the website's lifecycle to modify what goes on during development/build, which involves (but not limited to) extending the webpack config, modifying the data being loaded and creating new components to be used in a page.
-
-In most cases, plugins are there to fetch data and create routes. A plugin could take in components as part of its options and to act as the wrapper for the page. A plugin can also provide React components to be used together with the non-UI functionality. You can also specify a resolution rule for the plugin to find its components to call, which you then supply with a [theme](./advanced-themes.md).
 
 ## Creating plugins
 
@@ -34,7 +27,7 @@ module.exports = function(context, options) {
     name: 'my-docusaurus-plugin',
     async loadContent() { ... },
     async contentLoaded({content, actions}) { ... },
-    ...
+    /* other lifecycle api */
   };
 };
 ```
@@ -55,7 +48,7 @@ interface LoadContext {
 
 #### `options`
 
-`options` are the [second optional parameter when the plugins are used](./using-plugins.md#configuring-plugins). `options` is plugin-specific and are specified by the user when they use it in `docusaurus.config.js` or if preset contains the plugin. The preset will then be in-charge of passing the correct options into the plugin. It is up to individual plugins to define what options it takes.
+`options` are the [second optional parameter when the plugins are used](using-plugins.md#configuring-plugins). `options` are plugin-specific and are specified by users when they use them in `docusaurus.config.js`. Alternatively, if preset contains the plugin, the preset will then be in charge of passing the correct options into the plugin. It is up to individual plugin to define what options it takes.
 
 #### Return value
 
@@ -67,7 +60,7 @@ Find the list of official Docusaurus plugins [here](https://github.com/facebook/
 
 ### `@docusaurus/plugin-content-blog`
 
-The default blog plugin for Docusaurus. The classic template ships with this plugin with default configurations.
+Provides the [Blog](blog.md) feature and is the default blog plugin for Docusaurus. The classic template ships with this plugin with default configurations.
 
 ```js
 // docusaurus.config.js
@@ -106,26 +99,9 @@ module.exports = {
 };
 ```
 
-<!--
-#### Options
-| Option | Default | Notes |
-| :-- | :-- | :-- |
-| `path` | `'blog'` | Path to data on filesystem, relative to site dir |
-| `routeBasePath` | `'blog'` | URL Route |
-| `include` | `['*.md', '*.mdx']` | Extensions to include |
-| `postsPerPage` | `10` | How many posts per page |
-| `blogListComponent` | `'@theme/BlogListPage'` | Theme component used for the blog listing page |
-| `blogPostComponent` | `'@theme/BlogPostPage'` | Theme component used for the blog post page |
-| `blogTagsListComponent` | `'@theme/BlogTagsListPage'` | Theme component used for the blog tags list page |
-| `blogTagsPostsComponent` | `'@theme/BlogTagsPostsPage'` | Theme component used for the blog tags post page |
-| `remarkPlugins` | `[]` | Plugins for remark |
-| `rehypePlugins` | `[]` | Plugins for rehype |
-commenting out because charts look less direct than code example
--->
-
 ### `@docusaurus/plugin-content-docs`
 
-The default docs plugin for Docusaurus. The classic template ships with this plugin with default configurations.
+Provides the [Docs](markdown-features.mdx) functionality and is the default docs plugin for Docusaurus. The classic template ships with this plugin with default configurations.
 
 ```js
 // docusaurus.config.js
@@ -166,11 +142,11 @@ module.exports = {
         rehypePlugins: [],
         /**
          * Whether to display the author who last updated the doc.
-         * /
+         */
         showLastUpdateAuthor: false,
         /**
          * Whether to display the last date the doc was updated.
-         * /
+         */
         showLastUpdateTime: false,
       },
     ],
@@ -180,7 +156,7 @@ module.exports = {
 
 ### `@docusaurus/plugin-content-pages`
 
-The default pages plugin for Docusaurus. The classic template ships with this plugin with default configurations.
+The default pages plugin for Docusaurus. The classic template ships with this plugin with default configurations. This plugin provides [creating pages](creating-pages.md) functionality.
 
 ```js
 // docusaurus.config.js
@@ -214,7 +190,7 @@ The default [Google Analytics](https://developers.google.com/analytics/devguides
 **Installation**
 
 ```shell
-$ yarn add @docusaurus/plugin-google-analytics
+$ npm install --save @docusaurus/plugin-google-analytics
 ```
 
 **Configuration**
@@ -238,7 +214,7 @@ The default [Global Site Tag (gtag.js)](https://developers.google.com/analytics/
 **Installation**
 
 ```shell
-$ yarn add @docusaurus/plugin-google-gtag
+$ npm install --save @docusaurus/plugin-google-gtag
 ```
 
 **Configuration**
@@ -257,7 +233,7 @@ module.exports = {
 
 ### `@docusaurus/plugin-sitemap`
 
-The classic template ships with this plugin.
+The classic template ships with this plugin. This plugin creates sitemap for your site so that search engine crawlers can crawl your site more accurately.
 
 ```js
 // docusaurus.config.js
@@ -272,3 +248,48 @@ module.exports = {
   ],
 };
 ```
+
+### `@docusaurus/plugin-ideal-image`
+
+Docusaurus Plugin to generate an almost ideal image (responsive, lazy-loading, and low quality placeholder)
+
+```sh
+npm install --save @docusaurus/plugin-ideal-image
+```
+
+Modify your `docusaurus.config.js`
+
+```diff
+module.exports = {
+  ...
++ plugins: ['@docusaurus/plugin-ideal-image'],
+  ...
+}
+```
+
+## Usage
+
+This plugin supports png, gif and jpg only
+
+```jsx
+import Image from '@theme/IdealImage';
+import thumbnail from './path/to/img.png';
+
+// your react code
+<Image img={thumbnail} />
+
+// or
+<Image img={require('./path/to/img.png')} />
+```
+
+### Options
+
+| Option | Type | Default | Description |
+| --- | --- | --- | --- |
+| `name` | `string` | `ideal-img/[name].[hash:hex:7].[width].[ext]` | Filename template for output files. |
+| `sizes` | `array` | _original size_ | Specify all widths you want to use. If a specified size exceeds the original image's width, the latter will be used (i.e. images won't be scaled up). You may also declare a default `sizes` array in the loader options in your `webpack.config.js`. |
+| `size` | `integer` | _original size_ | Specify one width you want to use; if the specified size exceeds the original image's width, the latter will be used (i.e. images won't be scaled up) |
+| `min` | `integer` |  | As an alternative to manually specifying `sizes`, you can specify `min`, `max` and `steps`, and the sizes will be generated for you. |
+| `max` | `integer` |  | See `min` above |
+| `steps` | `integer` | `4` | Configure the number of images generated between `min` and `max` (inclusive) |
+| `quality` | `integer` | `85` | JPEG compression quality |
