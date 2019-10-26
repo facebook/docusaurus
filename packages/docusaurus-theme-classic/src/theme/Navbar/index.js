@@ -92,7 +92,7 @@ function Navbar() {
       </Head>
       <nav
         className={classnames('navbar', 'navbar--light', 'navbar--fixed-top', {
-          'navbar--sidebar-show': sidebarShown,
+          'navbar-sidebar--show': sidebarShown,
         })}>
         <div className="navbar__inner">
           <div className="navbar__items">
