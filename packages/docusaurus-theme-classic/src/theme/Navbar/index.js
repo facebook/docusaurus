@@ -165,13 +165,13 @@ function Navbar() {
         </div>
         <div
           role="presentation"
-          className="navbar__sidebar__backdrop"
+          className="navbar-sidebar__backdrop"
           onClick={() => {
             setSidebarShown(false);
           }}
         />
-        <div className="navbar__sidebar">
-          <div className="navbar__sidebar__brand">
+        <div className="navbar-sidebar">
+          <div className="navbar-sidebar__brand">
             <Link className="navbar__brand" onClick={hideSidebar} to={baseUrl}>
               {logo != null && (
                 <img className="navbar__logo" src={logoUrl} alt={logo.alt} />
@@ -190,7 +190,7 @@ function Navbar() {
               />
             )}
           </div>
-          <div className="navbar__sidebar__items">
+          <div className="navbar-sidebar__items">
             <div className="menu">
               <ul className="menu__list">
                 {links.map((linkItem, i) => (
