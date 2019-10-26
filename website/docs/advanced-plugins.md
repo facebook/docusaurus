@@ -5,7 +5,7 @@ title: Writing Plugins
 
 In this doc, we talk about the design intention of plugins and how you may write your own plugins.
 
-Docusaurus Plugins are very similar to [Gatsby Plugins](https://www.gatsbyjs.org/plugins/) and [VuePress Plugins](https://v1.vuepress.vuejs.org/plugin/). The main difference here is that Docusaurus plugins don't allow plugins to include another plugins. Docusaurus provides [presets](presets.md) to bundle plugins that are meant to work together.
+Docusaurus Plugins are very similar to [Gatsby Plugins](https://www.gatsbyjs.org/plugins/) and [VuePress Plugins](https://v1.vuepress.vuejs.org/plugin/). The main difference here is that Docusaurus plugins don't allow plugins to include another plugin. Docusaurus provides [presets](presets.md) to bundle plugins that are meant to work together.
 
 ## Plugins design
 
@@ -48,7 +48,7 @@ interface LoadContext {
 
 #### `options`
 
-`options` are the [second optional parameter when the plugins are used](using-plugins.md#configuring-plugins). `options` is plugin-specific and are specified by the user when they use it in `docusaurus.config.js` or if preset contains the plugin. The preset will then be in-charge of passing the correct options into the plugin. It is up to individual plugins to define what options it takes.
+`options` are the [second optional parameter when the plugins are used](using-plugins.md#configuring-plugins). `options` are plugin-specific and are specified by users when they use them in `docusaurus.config.js`. Alternatively, if preset contains the plugin, the preset will then be in charge of passing the correct options into the plugin. It is up to individual plugin to define what options it takes.
 
 #### Return value
 
@@ -60,7 +60,7 @@ Find the list of official Docusaurus plugins [here](https://github.com/facebook/
 
 ### `@docusaurus/plugin-content-blog`
 
-The default blog plugin for Docusaurus. The classic template ships with this plugin with default configurations. This plugin provides [Blog](blog.md) functionality.
+Provides the [Blog](blog.md) feature and is the default blog plugin for Docusaurus. The classic template ships with this plugin with default configurations.
 
 ```js
 // docusaurus.config.js
@@ -101,7 +101,7 @@ module.exports = {
 
 ### `@docusaurus/plugin-content-docs`
 
-The default docs plugin for Docusaurus. The classic template ships with this plugin with default configurations. This plugin provides [Docs](markdown-features.mdx) functionality.
+Provides the [Docs](markdown-features.mdx) functionality and is the default docs plugin for Docusaurus. The classic template ships with this plugin with default configurations.
 
 ```js
 // docusaurus.config.js
@@ -233,7 +233,7 @@ module.exports = {
 
 ### `@docusaurus/plugin-sitemap`
 
-The classic template ships with this plugin. This plugin creates sitemap for your site so that search engine crawlers can crawl your site better.
+The classic template ships with this plugin. This plugin creates sitemap for your site so that search engine crawlers can crawl your site more accurately.
 
 ```js
 // docusaurus.config.js
@@ -269,7 +269,7 @@ module.exports = {
 
 ## Usage
 
-Support png, gif and jpg only
+This plugin supports png, gif and jpg only
 
 ```jsx
 import Image from '@theme/IdealImage';
@@ -285,11 +285,11 @@ import thumbnail from './path/to/img.png';
 ### Options
 
 | Option | Type | Default | Description |
-|--------|------|---------|-------------|
+| --- | --- | --- | --- |
 | `name` | `string` | `ideal-img/[name].[hash:hex:7].[width].[ext]` | Filename template for output files. |
-| `sizes` | `array` | *original size* | Specify all widths you want to use; if a specified size exceeds the original image's width, the latter will be used (i.e. images won't be scaled up). You may also declare a default `sizes` array in the loader options in your `webpack.config.js`. |
-| `size` | `integer` | *original size* | Specify one width you want to use; if the specified size exceeds the original image's width, the latter will be used (i.e. images won't be scaled up) |
-| `min` | `integer` | | As an alternative to manually specifying `sizes`, you can specify `min`, `max` and `steps`, and the sizes will be generated for you. |
-| `max` | `integer` | | See `min` above |
-| `steps` | `integer` |`4` | Configure the number of images generated between `min` and `max` (inclusive) |
+| `sizes` | `array` | _original size_ | Specify all widths you want to use. If a specified size exceeds the original image's width, the latter will be used (i.e. images won't be scaled up). You may also declare a default `sizes` array in the loader options in your `webpack.config.js`. |
+| `size` | `integer` | _original size_ | Specify one width you want to use; if the specified size exceeds the original image's width, the latter will be used (i.e. images won't be scaled up) |
+| `min` | `integer` |  | As an alternative to manually specifying `sizes`, you can specify `min`, `max` and `steps`, and the sizes will be generated for you. |
+| `max` | `integer` |  | See `min` above |
+| `steps` | `integer` | `4` | Configure the number of images generated between `min` and `max` (inclusive) |
 | `quality` | `integer` | `85` | JPEG compression quality |

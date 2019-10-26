@@ -4,8 +4,7 @@ title: Themes
 sidebar_label: Introduction
 ---
 
-Like plugins, themes are designed to add functionality to your Docusaurus site. As a good rule of thumb, themes is mostly about client-side, while plugins is more focused to server-side functionality.
-Theme is also designed to be easily replace-able with another similar theme.
+Like plugins, themes are designed to add functionality to your Docusaurus site. As a good rule of thumb, themes are mostly focused on client-side, where plugins are more focused on server-side functionalities. Themes are also designed to be easily replace-able with other themes.
 
 ## Using themes
 
@@ -20,7 +19,7 @@ module.exports = {
 
 ## Theme components
 
-Most of the times, theme is used to provide a set of React components, e.g. `Navbar`, `Layout`, `Footer`.
+Most of the time, theme is used to provide a set of React components, e.g. `Navbar`, `Layout`, `Footer`.
 
 Users can use these components in their code by importing them using the `@theme` webpack alias:
 
@@ -47,11 +46,11 @@ website
         └── Navbar.js
 ```
 
-`website/src/theme/Navbar.js` takes precedence whenever `@theme/Navbar` is imported. This behavior is called component swizzling. In iOS, method swizzling is the process of changing the implementation of an existing selector (method). In the context of a website, component swizzling will mean providing an alternative component that takes precedence over the theme-provided component.
+`website/src/theme/Navbar.js` takes precedence whenever `@theme/Navbar` is imported. This behavior is called component swizzling. In iOS, method swizzling is the process of changing the implementation of an existing selector (method). In the context of a website, component swizzling means providing an alternative component that takes precedence over the component provided by the theme.
 
-**Themes are for providing UI components to present the content.** Most content plugins would need to be paired with a theme in order to be actually useful. The UI is a separate layer from the data schema, so it makes it easy to swap out the themes for other designs (if someone wants to use Bootstrap for example).
+**Themes are for providing UI components to present the content.** Most content plugins need to be paired with a theme in order to be actually useful. The UI is a separate layer from the data schema, so it makes it easy to swap out the themes for other designs (i.e., Bootstrap).
 
-For example, a Docusaurus blog can consist of a blog plugin and a blog theme.
+For example, a Docusaurus blog consists of a blog plugin and a blog theme.
 
 ```js
 // docusaurus.config.js
@@ -61,7 +60,7 @@ For example, a Docusaurus blog can consist of a blog plugin and a blog theme.
 }
 ```
 
-and if someone wants to use Bootstrap styling:
+and if you want to use Bootstrap styling, you can swap out the theme with `theme-blog-bootstrap`:
 
 ```js
 // docusaurus.config.js
@@ -71,7 +70,7 @@ and if someone wants to use Bootstrap styling:
 }
 ```
 
-The content plugin remains the same and the only thing they need to change will be the theme.
+The content plugin remains the same and the only thing you need to change is the theme.
 
 ## Swizzling theme components
 

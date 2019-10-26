@@ -4,7 +4,7 @@ title: Plugins
 sidebar_label: Introduction
 ---
 
-Plugins are the building blocks which add features to a Docusaurus 2 site. Each plugin handles its own individual feature. Plugins may work be bundled together and distributed via [presets](presets.md).
+Plugins are the building blocks of features in a Docusaurus 2 site. Each plugin handles its own individual feature. Plugins may work and be distributed as part of bundle via [presets](presets.md).
 
 In this doc, we talk about how to use plugins with Docusaurus' official plugins. To learn about the design implementation and how to write your own plugins, check out [Advanced Guides: Plugins](advanced-plugins.md).
 
@@ -38,7 +38,7 @@ module.exports = {
 
 ## Configuring plugins
 
-For the most basic usage of plugins, you can provide just the plugin name or the absolute path to the plugin. 
+For the most basic usage of plugins, you can provide just the plugin name or the absolute path to the plugin.
 
 However, plugins can have options specified by wrapping the name and an options object in an array inside your config. This style is usually called `Babel Style`.
 
@@ -48,7 +48,9 @@ module.exports = {
   plugins: [
     [
       '@docusaurus/plugin-xxx',
-      { /* options */ }
+      {
+        /* options */
+      },
     ],
   ],
 };
@@ -73,4 +75,3 @@ module.exports = {
   ],
 };
 ```
-
