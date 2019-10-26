@@ -843,7 +843,7 @@ input[type='search'] {
   padding-left: 10px;
   position: absolute;
   right: 10px;
-  top: 15px;
+  top: 10px;
 }
 
 .navSearchWrapper:before {
@@ -1382,6 +1382,7 @@ input::placeholder {
     transition: background-color 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55),
       width 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55), color 0.2s ease;
     width: 100%;
+    height: 30px;
   }
 
   .reactNavSearchWrapper input#search_input_react:focus,
