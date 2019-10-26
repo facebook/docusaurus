@@ -1,0 +1,62 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`blogFeed atom can show feed without posts 1`] = `Array []`;
+
+exports[`blogFeed atom shows feed item for each post 1`] = `
+"<?xml version=\\"1.0\\" encoding=\\"utf-8\\"?>
+<feed xmlns=\\"http://www.w3.org/2005/Atom\\">
+    <id>https://docusaurus.io/blog</id>
+    <title>Hello Blog</title>
+    <updated>2019-01-01T00:00:00.000Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel=\\"alternate\\" href=\\"https://docusaurus.io/blog\\"/>
+    <subtitle>Hello Blog</subtitle>
+    <icon>https://docusaurus.io/image/favicon.ico</icon>
+    <rights>Copyright</rights>
+    <entry>
+        <title type=\\"html\\"><![CDATA[date-matter]]></title>
+        <id>date-matter</id>
+        <link href=\\"https://docusaurus.io/blog/2019/01/01/date-matter\\"/>
+        <updated>2019-01-01T00:00:00.000Z</updated>
+        <summary type=\\"html\\"><![CDATA[date inside front matter]]></summary>
+    </entry>
+    <entry>
+        <title type=\\"html\\"><![CDATA[Happy 1st Birthday Slash!]]></title>
+        <id>Happy 1st Birthday Slash!</id>
+        <link href=\\"https://docusaurus.io/blog/2018/12/14/Happy-First-Birthday-Slash\\"/>
+        <updated>2018-12-14T00:00:00.000Z</updated>
+        <summary type=\\"html\\"><![CDATA[pattern name]]></summary>
+    </entry>
+</feed>"
+`;
+
+exports[`blogFeed rss can show feed without posts 1`] = `Array []`;
+
+exports[`blogFeed rss shows feed item for each post 1`] = `
+"<?xml version=\\"1.0\\" encoding=\\"utf-8\\"?>
+<rss version=\\"2.0\\">
+    <channel>
+        <title>Hello Blog</title>
+        <link>https://docusaurus.io/blog</link>
+        <description>Hello Blog</description>
+        <lastBuildDate>Tue, 01 Jan 2019 00:00:00 GMT</lastBuildDate>
+        <docs>http://blogs.law.harvard.edu/tech/rss</docs>
+        <generator>https://github.com/jpmonette/feed</generator>
+        <copyright>Copyright</copyright>
+        <item>
+            <title><![CDATA[date-matter]]></title>
+            <link>https://docusaurus.io/blog/2019/01/01/date-matter</link>
+            <guid>https://docusaurus.io/blog/2019/01/01/date-matter</guid>
+            <pubDate>Tue, 01 Jan 2019 00:00:00 GMT</pubDate>
+            <description><![CDATA[date inside front matter]]></description>
+        </item>
+        <item>
+            <title><![CDATA[Happy 1st Birthday Slash!]]></title>
+            <link>https://docusaurus.io/blog/2018/12/14/Happy-First-Birthday-Slash</link>
+            <guid>https://docusaurus.io/blog/2018/12/14/Happy-First-Birthday-Slash</guid>
+            <pubDate>Fri, 14 Dec 2018 00:00:00 GMT</pubDate>
+            <description><![CDATA[pattern name]]></description>
+        </item>
+    </channel>
+</rss>"
+`;

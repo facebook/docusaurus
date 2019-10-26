@@ -5,16 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 import fs from 'fs-extra';
-import globby from 'globby';
 import _ from 'lodash';
 import path from 'path';
-import {parse, normalizeUrl, docuHash} from '@docusaurus/utils';
+import {normalizeUrl, docuHash} from '@docusaurus/utils';
 
 import {
-  DateLink,
   PluginOptions,
   BlogTags,
-  BlogPost,
   Tag,
   BlogContent,
   BlogItemsToModules,
@@ -24,19 +21,10 @@ import {
   LoadContext,
   PluginContentLoadedActions,
   ConfigureWebpackUtils,
+  Props,
 } from '@docusaurus/types';
 import {Configuration} from 'webpack';
-
-// YYYY-MM-DD-{name}.mdx?
-// prefer named capture, but old node version do not support
-const FILENAME_PATTERN = /^(\d{4}-\d{1,2}-\d{1,2})-?(.*?).mdx?$/;
-
-function toUrl({date, link}: DateLink) {
-  return `${date
-    .toISOString()
-    .substring(0, '2019-01-01'.length)
-    .replace(/-/g, '/')}/${link}`;
-}
+import {generateBlogFeed, generateBlogPosts} from './blogUtils';
 
 const DEFAULT_OPTIONS: PluginOptions = {
   path: 'blog', // Path to data on filesystem, relative to site dir.
@@ -74,68 +62,12 @@ export default function pluginContentBlog(
 
     // Fetches blog contents and returns metadata for the necessary routes.
     async loadContent() {
-      const {postsPerPage, include, routeBasePath} = options;
-      const {siteConfig, siteDir} = context;
-      const blogDir = contentPath;
+      const {postsPerPage, routeBasePath} = options;
 
-      if (!fs.existsSync(blogDir)) {
+      const blogPosts = await generateBlogPosts(contentPath, context, options);
+      if (!blogPosts) {
         return null;
       }
-
-      const {baseUrl = ''} = siteConfig;
-      const blogFiles = await globby(include, {
-        cwd: blogDir,
-      });
-
-      const blogPosts: BlogPost[] = [];
-
-      await Promise.all(
-        blogFiles.map(async (relativeSource: string) => {
-          // Cannot use path.join() as it resolves '../' and removes the '@site'. Let webpack loader resolve it.
-          const source = path.join(blogDir, relativeSource);
-          const aliasedSource = `@site/${path.relative(siteDir, source)}`;
-          const blogFileName = path.basename(relativeSource);
-
-          const fileString = await fs.readFile(source, 'utf-8');
-          const {frontMatter, excerpt} = parse(fileString);
-
-          let date;
-          // extract date and title from filename
-          const match = blogFileName.match(FILENAME_PATTERN);
-          let linkName = blogFileName.replace(/\.mdx?$/, '');
-          if (match) {
-            const [, dateString, name] = match;
-            date = new Date(dateString);
-            linkName = name;
-          }
-          // prefer usedefined date
-          if (frontMatter.date) {
-            date = new Date(frontMatter.date);
-          }
-          // use file create time for blog
-          date = date || (await fs.stat(source)).birthtime;
-          frontMatter.title = frontMatter.title || linkName;
-
-          blogPosts.push({
-            id: frontMatter.id || frontMatter.title,
-            metadata: {
-              permalink: normalizeUrl([
-                baseUrl,
-                routeBasePath,
-                frontMatter.id || toUrl({date, link: linkName}),
-              ]),
-              source: aliasedSource,
-              description: frontMatter.description || excerpt,
-              date,
-              tags: frontMatter.tags,
-              title: frontMatter.title,
-            },
-          });
-        }),
-      );
-      blogPosts.sort(
-        (a, b) => b.metadata.date.getTime() - a.metadata.date.getTime(),
-      );
 
       // Colocate next and prev metadata
       blogPosts.forEach((blogPost, index) => {
@@ -160,6 +92,9 @@ export default function pluginContentBlog(
       // Example: `/blog`, `/blog/page/1`, `/blog/page/2`
       const totalCount = blogPosts.length;
       const numberOfPages = Math.ceil(totalCount / postsPerPage);
+      const {
+        siteConfig: {baseUrl = ''},
+      } = context;
       const basePageUrl = normalizeUrl([baseUrl, routeBasePath]);
 
       const blogListPaginated = [];
@@ -441,6 +376,23 @@ export default function pluginContentBlog(
           ],
         },
       };
+    },
+
+    async postBuild({outDir}: Props) {
+      if (!options.feedOptions) {
+        return;
+      }
+
+      const {
+        feedOptions: {type: feedType},
+      } = options;
+      const feedContent = await generateBlogFeed(context, options);
+      const feedPath = path.join(outDir, `${feedType}.xml`);
+      fs.writeFile(feedPath, feedContent, err => {
+        if (err) {
+          throw new Error(`Generating ${feedType} feed failed: ${err}`);
+        }
+      });
     },
   };
 }

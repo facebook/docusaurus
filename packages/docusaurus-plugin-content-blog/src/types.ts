@@ -22,6 +22,13 @@ export interface PluginOptions {
   remarkPlugins: string[];
   rehypePlugins: string[];
   truncateMarker: RegExp | string;
+  feedOptions?: {
+    type: 'rss' | 'atom';
+    title?: string;
+    description?: string;
+    copyright: string;
+    language?: string;
+  };
 }
 
 export interface BlogTags {
