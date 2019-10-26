@@ -5,30 +5,34 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
+import {PluginOptions} from './types';
+import createSitemap from './createSitemap';
+import {LoadContext, Props} from '@docusaurus/types';
 
-const createSitemap = require('./createSitemap');
-
-const DEFAULT_OPTIONS = {
+const DEFAULT_OPTIONS: PluginOptions = {
   cacheTime: 600 * 1000, // 600 sec - cache purge period
   changefreq: 'weekly',
   priority: 0.5,
 };
 
-module.exports = function(context, opts) {
+export default function pluginSitemap(
+  _context: LoadContext,
+  opts: Partial<PluginOptions>,
+) {
   const options = {...DEFAULT_OPTIONS, ...opts};
 
   return {
     name: 'docusaurus-plugin-sitemap',
 
-    async postBuild({siteConfig = {}, routesPaths = [], outDir}) {
+    async postBuild({siteConfig, routesPaths, outDir}: Props) {
       // Generate sitemap
-      const generatedSitemap = createSitemap({
+      const generatedSitemap = createSitemap(
         siteConfig,
         routesPaths,
         options,
-      }).toString();
+      ).toString();
 
       // Write sitemap file
       const sitemapPath = path.join(outDir, 'sitemap.xml');
@@ -39,4 +43,4 @@ module.exports = function(context, opts) {
       });
     },
   };
-};
+}
