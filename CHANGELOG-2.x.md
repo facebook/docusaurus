@@ -15,6 +15,7 @@
   - Fix sidebar arrow color in dark mode
   - Fix footer mobile issue
   - etc
+- Slightly adjust search icon position to be more aligned on small width device.
 
 ## 2.0.0-alpha.30
 
