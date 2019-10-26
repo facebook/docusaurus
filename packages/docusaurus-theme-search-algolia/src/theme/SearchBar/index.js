@@ -76,6 +76,7 @@ const Search = props => {
         placeholder="Search"
         aria-label="Search"
         className={classnames(
+          'navbar__search-input',
           {'search-bar-expanded': props.isSearchBarExpanded},
           {'search-bar': !props.isSearchBarExpanded},
         )}
