@@ -30,31 +30,35 @@ function DocSidebarItem({item, onItemClick, collapsible}) {
   switch (type) {
     case 'category':
       return (
-        <li
-          className={classnames('menu__list-item', {
-            'menu__list-item--collapsed': collapsed,
-          })}
-          key={label}>
-          <a
-            className={classnames('menu__link', {
-              'menu__link--sublist': collapsible,
-              'menu__link--active': collapsible && !item.collapsed,
+        items.length > 0 && (
+          <li
+            className={classnames('menu__list-item', {
+              'menu__list-item--collapsed': collapsed,
             })}
-            href="#!"
-            onClick={collapsible ? () => setCollapsed(!collapsed) : undefined}>
-            {label}
-          </a>
-          <ul className="menu__list">
-            {items.map(childItem => (
-              <DocSidebarItem
-                key={childItem.label}
-                item={childItem}
-                onItemClick={onItemClick}
-                collapsible={collapsible}
-              />
-            ))}
-          </ul>
-        </li>
+            key={label}>
+            <a
+              className={classnames('menu__link', {
+                'menu__link--sublist': collapsible,
+                'menu__link--active': collapsible && !item.collapsed,
+              })}
+              href="#!"
+              onClick={
+                collapsible ? () => setCollapsed(!collapsed) : undefined
+              }>
+              {label}
+            </a>
+            <ul className="menu__list">
+              {items.map(childItem => (
+                <DocSidebarItem
+                  key={childItem.label}
+                  item={childItem}
+                  onItemClick={onItemClick}
+                  collapsible={collapsible}
+                />
+              ))}
+            </ul>
+          </li>
+        )
       );
 
     case 'link':
@@ -164,16 +168,19 @@ function DocSidebar(props) {
           )}
         </button>
         <ul className="menu__list">
-          {sidebarData.map(item => (
-            <DocSidebarItem
-              key={item.label}
-              item={item}
-              onItemClick={() => {
-                setShowResponsiveSidebar(false);
-              }}
-              collapsible={sidebarCollapsible}
-            />
-          ))}
+          {sidebarData.map(
+            item =>
+              item.items.length > 0 && (
+                <DocSidebarItem
+                  key={item.label}
+                  item={item}
+                  onItemClick={() => {
+                    setShowResponsiveSidebar(false);
+                  }}
+                  collapsible={sidebarCollapsible}
+                />
+              ),
+          )}
         </ul>
       </div>
     </div>
