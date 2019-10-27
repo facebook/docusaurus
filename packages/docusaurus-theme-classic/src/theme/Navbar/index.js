@@ -17,7 +17,7 @@ import SearchBar from '@theme/SearchBar';
 
 import classnames from 'classnames';
 
-import useTheme from '../../hooks/theme';
+import useTheme from '@theme/hooks/theme';
 
 import styles from './styles.module.css';
 

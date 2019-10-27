@@ -6,8 +6,12 @@
  */
 import * as React from 'react';
 
-const useTheme = defaultTheme => {
-  const [theme, setTheme] = React.useState(defaultTheme);
+const useTheme = () => {
+  const [theme, setTheme] = React.useState(
+    typeof document !== 'undefined'
+      ? document.querySelector('html').getAttribute('data-theme')
+      : '',
+  );
   React.useEffect(() => {
     try {
       setTheme(localStorage.getItem('theme'));
