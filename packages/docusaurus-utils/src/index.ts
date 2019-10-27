@@ -106,7 +106,10 @@ export function genChunkName(
   let chunkName: string | undefined = chunkNameCache.get(modulePath);
   if (!chunkName) {
     if (shortId) {
-      chunkName = _.uniqueId();
+      chunkName = createHash('md5')
+        .update(modulePath)
+        .digest('hex')
+        .substr(0, 8);
     } else {
       let str = modulePath;
       if (preferredName) {

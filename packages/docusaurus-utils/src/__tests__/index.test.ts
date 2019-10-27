@@ -111,19 +111,17 @@ describe('load utils', () => {
 
     // Only generate short unique id
     const thirdAssert = {
-      a: '1',
-      b: '2',
-      c: '3',
-      d: '4',
+      a: '0cc175b9',
+      b: '92eb5ffe',
+      c: '4a8a08f0',
+      d: '8277e091',
     };
     Object.keys(thirdAssert).forEach(str => {
       expect(genChunkName(str, undefined, undefined, true)).toBe(
         thirdAssert[str],
       );
     });
-
-    expect(genChunkName('e', undefined, undefined, true)).toBe('5');
-    expect(genChunkName('d', undefined, undefined, true)).toBe('4');
+    expect(genChunkName('d', undefined, undefined, true)).toBe('8277e091');
   });
 
   test('idx', () => {
