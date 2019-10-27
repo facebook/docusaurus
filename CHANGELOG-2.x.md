@@ -3,6 +3,7 @@
 ## Unreleased
 
 - Convert sitemap plugin to TypeScript
+- Significantly reduce main bundle size and initial HTML payload on production build.
 
 ## 2.0.0-alpha.31
 
