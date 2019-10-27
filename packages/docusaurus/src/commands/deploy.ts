@@ -67,9 +67,10 @@ export async function deploy(siteDir: string): Promise<void> {
     process.env.GITHUB_HOST || siteConfig.githubHost || 'github.com';
 
   const useSSH = process.env.USE_SSH;
-  const remoteBranch = useSSH
-    ? `git@${githubHost}:${organizationName}/${projectName}.git`
-    : `https://${gitUser}@${githubHost}/${organizationName}/${projectName}.git`;
+  const remoteBranch =
+    useSSH && useSSH.toLowerCase() === 'true'
+      ? `git@${githubHost}:${organizationName}/${projectName}.git`
+      : `https://${gitUser}@${githubHost}/${organizationName}/${projectName}.git`;
 
   // Check if this is a cross-repo publish
   const currentRepoUrl = shell
