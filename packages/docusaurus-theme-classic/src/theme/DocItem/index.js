@@ -34,10 +34,11 @@ function getActiveHeader() {
 }
 
 function highlightTableOfContentLink(tableOfContentLink) {
+  const cssClass = 'contents__link--active';
   if (lastActiveTableOfContentLink) {
-    lastActiveTableOfContentLink.classList.remove('contents__link--active');
+    lastActiveTableOfContentLink.classList.remove(cssClass);
   }
-  tableOfContentLink.classList.add('contents__link--active');
+  tableOfContentLink.classList.add(cssClass);
   lastActiveTableOfContentLink = tableOfContentLink;
 }
 
