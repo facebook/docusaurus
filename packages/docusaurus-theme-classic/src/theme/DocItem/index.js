@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {useEffect} from 'react';
 
 import Head from '@docusaurus/Head';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
@@ -14,7 +14,74 @@ import DocPaginator from '@theme/DocPaginator';
 
 import styles from './styles.module.css';
 
+let headersCache = [];
+let tableOfContentLinksCache = [];
+let lastActiveTableOfContentLink;
+
+function getActiveHeader() {
+  const TOP_OFFSET = 80;
+  let index = 0;
+  let activeHeader;
+  while (index < headersCache.length && !activeHeader) {
+    const header = headersCache[index];
+    const {top} = header.getBoundingClientRect();
+    if (top > 0 && top <= TOP_OFFSET) {
+      activeHeader = header;
+    }
+    index += 1;
+  }
+  return activeHeader;
+}
+
+function highlightTableOfContentLink(tableOfContentLink) {
+  if (lastActiveTableOfContentLink) {
+    lastActiveTableOfContentLink.classList.remove('contents__link--active');
+  }
+  tableOfContentLink.classList.add('contents__link--active');
+  lastActiveTableOfContentLink = tableOfContentLink;
+}
+
+function setActiveTableOfContentLink() {
+  const activeHeader = getActiveHeader();
+  if (activeHeader) {
+    let index = 0;
+    let itemHighlighted = false;
+    while (index < tableOfContentLinksCache.length && !itemHighlighted) {
+      const tableOfContentLink = tableOfContentLinksCache[index];
+      if (activeHeader.innerText.indexOf(tableOfContentLink.innerText) > -1) {
+        highlightTableOfContentLink(tableOfContentLink);
+        itemHighlighted = true;
+      }
+      index += 1;
+    }
+  }
+}
+
+function addEventListeners() {
+  document.addEventListener('scroll', setActiveTableOfContentLink);
+  document.addEventListener('resize', setActiveTableOfContentLink);
+  document.addEventListener('hashchange', setActiveTableOfContentLink);
+}
+
+function removeEventListeners() {
+  document.removeEventListener('scroll', setActiveTableOfContentLink);
+  document.removeEventListener('resize', setActiveTableOfContentLink);
+  document.removeEventListener('hashchange', setActiveTableOfContentLink);
+}
+
+function componentLoaded() {
+  headersCache = document.querySelectorAll('h2, h3');
+  tableOfContentLinksCache = document.querySelectorAll('.contents__link');
+  setActiveTableOfContentLink();
+  addEventListeners();
+}
+
 function Headings({headings, isChild}) {
+  useEffect(() => {
+    componentLoaded();
+    return removeEventListeners;
+  });
+
   if (!headings.length) return null;
   return (
     <ul className={isChild ? '' : 'contents contents__left-border'}>
