@@ -32,8 +32,8 @@ export function createBaseConfig(
     output: {
       pathinfo: false,
       path: outDir,
-      filename: isProd ? '[name].[contenthash].js' : '[name].js',
-      chunkFilename: isProd ? '[name].[contenthash].js' : '[name].js',
+      filename: isProd ? '[name].[contenthash:8].js' : '[name].js',
+      chunkFilename: isProd ? '[name].[contenthash:8].js' : '[name].js',
       publicPath: baseUrl,
     },
     // Don't throw warning when asset created is over 250kb
@@ -157,8 +157,8 @@ export function createBaseConfig(
     },
     plugins: [
       new MiniCssExtractPlugin({
-        filename: isProd ? '[name].[contenthash].css' : '[name].css',
-        chunkFilename: isProd ? '[name].[contenthash].css' : '[name].css',
+        filename: isProd ? '[name].[contenthash:8].css' : '[name].css',
+        chunkFilename: isProd ? '[name].[contenthash:8].css' : '[name].css',
       }),
     ],
   };
