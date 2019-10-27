@@ -6,7 +6,7 @@
  */
 
 import path from 'path';
-import StaticSiteGeneratorPlugin from 'static-site-generator-webpack-plugin';
+import StaticSiteGeneratorPlugin from '@endiliey/static-site-generator-webpack-plugin';
 import {Configuration} from 'webpack';
 import merge from 'webpack-merge';
 
