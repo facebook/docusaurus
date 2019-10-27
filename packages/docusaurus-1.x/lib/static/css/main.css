@@ -1977,7 +1977,8 @@ input::placeholder {
   color: #717171;
 }
 
-.onPageNav .toc-headings > li > a.active {
+.onPageNav .toc-headings > li > a.active,
+.onPageNav .toc-headings > li > a.hover {
   font-weight: 600;
   color: $primaryColor;
 }
