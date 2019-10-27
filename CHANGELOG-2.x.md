@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Convert sitemap plugin to TypeScript
+
 ## 2.0.0-alpha.31
 
 - Footer is now sticky/ pinned to the bottom of the viewport in desktop browsers. 
