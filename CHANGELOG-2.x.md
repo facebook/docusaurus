@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Reduce memory usage consumption.
 - Slightly adjust search icon position to be more aligned on small width device.
 - Convert sitemap plugin to TypeScript.
 - Significantly reduce main bundle size and initial HTML payload on production build. Generated JS files from webpack is also shorter in name.
