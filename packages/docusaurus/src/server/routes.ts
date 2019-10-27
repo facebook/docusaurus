@@ -24,6 +24,7 @@ function getModulePath(target: Module): string {
 }
 
 export async function loadRoutes(pluginsRouteConfigs: RouteConfig[]) {
+  const isProd = process.env.NODE_ENV === 'production';
   const routesImports = [
     `import React from 'react';`,
     `import ComponentCreator from '@docusaurus/ComponentCreator';`,
@@ -82,7 +83,7 @@ export async function loadRoutes(pluginsRouteConfigs: RouteConfig[]) {
       }
 
       const modulePath = getModulePath(value as Module);
-      const chunkName = genChunkName(modulePath, prefix, name);
+      const chunkName = genChunkName(modulePath, prefix, name, isProd);
       const loader = `() => import(/* webpackChunkName: '${chunkName}' */ ${JSON.stringify(
         modulePath,
       )})`;

@@ -56,9 +56,11 @@ function ComponentCreator(path) {
     }
 
     const chunkRegistry = registry[target] || {};
-    optsLoader[keys.join('.')] = chunkRegistry.loader;
-    optsModules.push(chunkRegistry.module);
-    optsWebpack.push(chunkRegistry.webpack);
+    /* eslint-disable prefer-destructuring */
+    optsLoader[keys.join('.')] = chunkRegistry[0];
+    optsModules.push(chunkRegistry[1]);
+    optsWebpack.push(chunkRegistry[2]);
+    /* eslint-enable prefer-destructuring */
   }
 
   traverseChunk(chunkNames, []);
