@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useCallback, useState, useEffect} from 'react';
+import React, {useCallback, useState} from 'react';
 import Toggle from 'react-toggle';
 
 import Link from '@docusaurus/Link';
@@ -16,6 +16,8 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 import SearchBar from '@theme/SearchBar';
 
 import classnames from 'classnames';
+
+import useTheme from '@theme/hooks/theme';
 
 import styles from './styles.module.css';
 
@@ -47,11 +49,7 @@ function Navbar() {
   const context = useDocusaurusContext();
   const [sidebarShown, setSidebarShown] = useState(false);
   const [isSearchBarExpanded, setIsSearchBarExpanded] = useState(false);
-  const currentTheme =
-    typeof document !== 'undefined'
-      ? document.querySelector('html').getAttribute('data-theme')
-      : '';
-  const [theme, setTheme] = useState(currentTheme);
+  const [theme, setTheme] = useTheme();
   const {siteConfig = {}} = context;
   const {baseUrl, themeConfig = {}} = siteConfig;
   const {algolia, navbar = {}} = themeConfig;
@@ -64,24 +62,10 @@ function Navbar() {
     setSidebarShown(false);
   }, [setSidebarShown]);
 
-  useEffect(() => {
-    try {
-      const localStorageTheme = localStorage.getItem('theme');
-      setTheme(localStorageTheme);
-    } catch (err) {
-      console.error(err);
-    }
-  }, []);
-
-  const onToggleChange = e => {
-    const nextTheme = e.target.checked ? 'dark' : '';
-    setTheme(nextTheme);
-    try {
-      localStorage.setItem('theme', nextTheme);
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  const onToggleChange = useCallback(
+    e => setTheme(e.target.checked ? 'dark' : ''),
+    [setTheme],
+  );
 
   const logoUrl = useBaseUrl(logo.src);
   return (
