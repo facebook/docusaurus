@@ -101,19 +101,24 @@ export function genChunkName(
   modulePath: string,
   prefix?: string,
   preferredName?: string,
+  shortId?: boolean,
 ): string {
   let chunkName: string | undefined = chunkNameCache.get(modulePath);
   if (!chunkName) {
-    let str = modulePath;
-    if (preferredName) {
-      const shortHash = createHash('md5')
-        .update(modulePath)
-        .digest('hex')
-        .substr(0, 3);
-      str = `${preferredName}${shortHash}`;
+    if (shortId) {
+      chunkName = _.uniqueId();
+    } else {
+      let str = modulePath;
+      if (preferredName) {
+        const shortHash = createHash('md5')
+          .update(modulePath)
+          .digest('hex')
+          .substr(0, 3);
+        str = `${preferredName}${shortHash}`;
+      }
+      const name = str === '/' ? 'index' : docuHash(str);
+      chunkName = prefix ? `${prefix}---${name}` : name;
     }
-    const name = str === '/' ? 'index' : docuHash(str);
-    chunkName = prefix ? `${prefix}---${name}` : name;
     chunkNameCache.set(modulePath, chunkName);
   }
   return chunkName;

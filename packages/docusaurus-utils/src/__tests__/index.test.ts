@@ -108,6 +108,22 @@ describe('load utils', () => {
     Object.keys(secondAssert).forEach(str => {
       expect(genChunkName(str, undefined, 'blog')).toBe(secondAssert[str]);
     });
+
+    // Only generate short unique id
+    const thirdAssert = {
+      a: '1',
+      b: '2',
+      c: '3',
+      d: '4',
+    };
+    Object.keys(thirdAssert).forEach(str => {
+      expect(genChunkName(str, undefined, undefined, true)).toBe(
+        thirdAssert[str],
+      );
+    });
+
+    expect(genChunkName('e', undefined, undefined, true)).toBe('5');
+    expect(genChunkName('d', undefined, undefined, true)).toBe('4');
   });
 
   test('idx', () => {
