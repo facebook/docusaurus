@@ -5,13 +5,14 @@
 - Slightly adjust search icon position to be more aligned on small width device.
 - Convert sitemap plugin to TypeScript.
 - Significantly reduce main bundle size and initial HTML payload on production build. Generated JS files from webpack is also shorter in name.
+- Refactor dark toggle into a hook.
 
 ## 2.0.0-alpha.31
 
-- Footer is now sticky/ pinned to the bottom of the viewport in desktop browsers. 
+- Footer is now sticky/ pinned to the bottom of the viewport in desktop browsers.
 - Footer is now also displayed in docs page for consistency.
 - Remove empty doc sidebar container if sidebar for a particular doc page does not exist. Otherwise, it will cause an additional empty space.
-- Default PostCSS loader now only polyfills stage 3+ features (previously it was stage 2) like Create React App. Stage 2 CSS is considered relatively unstable and subject to change while Stage 3 features will likely become a standard. 
+- Default PostCSS loader now only polyfills stage 3+ features (previously it was stage 2) like Create React App. Stage 2 CSS is considered relatively unstable and subject to change while Stage 3 features will likely become a standard.
 - Fix search bar focus bug. When you put the focus on search input, previously the focus will remain although we have clicked to other area outside of the search input.
 - New themeConfig option `sidebarCollapsible`. It is on by default. If explicitly set to `false`, all doc items in sidebar is expanded. Otherwise, it will still be a collapsible sidebar.
 - Disable adding hashes to the generated class names of CSS modules in dev mode. Generating unique identifiers takes some time, which can be saved since including paths to files in class names is enough to avoid collisions.
@@ -27,11 +28,12 @@
 
 - Fix babel transpilation include/exclude logic to be more efficient. This also fix a very weird bug `TypeError: Cannot assign to read only property 'exports' of object '#<Object>'`.([#1868](https://github.com/facebook/docusaurus/pull/1868))
 
-If you are still encountering the error. Please check whether you use `module.exports` for your `.js` file instead of doing `export` (mixing CJS and ES). See https://github.com/webpack/webpack/issues/4039#issuecomment-477779322 and https://github.com/webpack/webpack/issues/4039#issuecomment-273804003 for more context. 
+If you are still encountering the error. Please check whether you use `module.exports` for your `.js` file instead of doing `export` (mixing CJS and ES). See https://github.com/webpack/webpack/issues/4039#issuecomment-477779322 and https://github.com/webpack/webpack/issues/4039#issuecomment-273804003 for more context.
 
 ## 2.0.0-alpha.29
 
-**HOTFIX for 2.0.0-alpha.28**. 
+**HOTFIX for 2.0.0-alpha.28**.
+
 - Fix missing `core-js` dependencies on `@docusaurus/core`.
 - Fix wrong `@babel/env` preset configuration that causes build compilation error.
 - New UI for webpack compilation progress bar.
@@ -46,7 +48,7 @@ If you are still encountering the error. Please check whether you use `module.ex
 - Fix logo URL in footer to be appended with baseUrl automatically.
 - Add the option `--no-open` for `start` command.
 - Set `@babel/env` useBuiltins to `usage`. This will automatically use browserlist and import polyfills required.
-- Modified TerserWebpackPlugin `terserOptions` for better cross-browser compatibility. 
+- Modified TerserWebpackPlugin `terserOptions` for better cross-browser compatibility.
 - **BREAKING** `withBaseUrl` is renamed to `useBaseUrl` because its a React Hooks. Make sure you import/rename it correctly. Eg: `import useBaseUrl from '@docusaurus/useBaseUrl`;
 - Fix potential security vulnerability because we're exposing the directory structure of the host machine.
 - Upgrade dependencies.
@@ -56,7 +58,7 @@ If you are still encountering the error. Please check whether you use `module.ex
 - Add `@theme/Tabs` which can be used to implement multi-language code tabs.
 - Implement `custom_edit_url` and `hide_title` markdown header for docusaurus v1 feature parity.
 - Reduce memory usage and slightly faster production build.
-- Misc dependency upgrades. 
+- Misc dependency upgrades.
 
 ## 2.0.0-alpha.26
 
