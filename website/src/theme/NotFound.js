@@ -7,7 +7,7 @@
 
 import React from 'react';
 import Layout from '@theme/Layout';
-import Feedback from '../pages/feedback';
+import Feedback from '@site/src/pages/feedback';
 
 function NotFound({location}) {
   if (/^\/feedback/.test(location.pathname)) {

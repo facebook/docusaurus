@@ -131,11 +131,7 @@ export default [
   component: ComponentCreator('docs/foo/baz'),
   
   
-}, 
-  {
-    path: '*',
-    component: ComponentCreator('*')
-  }],
+}],
 },
   
   {
