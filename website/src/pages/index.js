@@ -104,8 +104,8 @@ function Home() {
           <a href="https://github.com/facebook/docusaurus/issues/789">
             Docusaurus 2
           </a>
-          , contribute to its roadmap by suggesting features or giving feedback{' '}
-          <Link to={useBaseUrl('/feedback')}>here</Link>!
+          , contribute to its roadmap by suggesting features or{' '}
+          <Link to={useBaseUrl('/feedback')}>giving feedback</Link>!
         </div>
       </div>
       <div
