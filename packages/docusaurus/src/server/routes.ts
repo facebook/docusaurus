@@ -15,6 +15,12 @@ import {
   RouteModule,
 } from '@docusaurus/types';
 
+const notFoundRoute = `
+  {
+    path: '*',
+    component: ComponentCreator('*')
+  }`;
+
 function getModulePath(target: Module): string {
   if (typeof target === 'string') {
     return target;
@@ -102,7 +108,9 @@ export async function loadRoutes(pluginsRouteConfigs: RouteConfig[]) {
     );
 
     const routesStr = routes
-      ? `routes: [${routes.map(generateRouteCode).join(',')}],`
+      ? `routes: [${routes
+          .map(generateRouteCode)
+          .join(',')}, ${notFoundRoute}],`
       : '';
     const exactStr = exact ? `exact: true,` : '';
 
@@ -116,12 +124,6 @@ export async function loadRoutes(pluginsRouteConfigs: RouteConfig[]) {
   }
 
   const routes = pluginsRouteConfigs.map(generateRouteCode);
-  const notFoundRoute = `
-  {
-    path: '*',
-    component: ComponentCreator('*')
-  }`;
-
   const routesConfig = `
 ${routesImports.join('\n')}
 

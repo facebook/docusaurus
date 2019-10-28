@@ -9,6 +9,7 @@
 - Refactor dark toggle into a hook.
 - Changed the way we read the `USE_SSH` env variable during deployment to be the same as in v1.
 - Add highlight specific lines in code blocks.
+- Accessing `docs/` or `/docs/xxxx` should return not found page, not blank page.
 
 ## 2.0.0-alpha.31
 
