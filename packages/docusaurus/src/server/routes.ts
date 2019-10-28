@@ -121,6 +121,7 @@ export async function loadRoutes(pluginsRouteConfigs: RouteConfig[]) {
     path: '*',
     component: ComponentCreator('*')
   }`;
+
   const routesConfig = `
 ${routesImports.join('\n')}
 
