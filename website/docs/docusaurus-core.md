@@ -11,7 +11,7 @@ This reusable React component will manage all of your changes to the document he
 
 Usage Example:
 
-```jsx
+```jsx {2,6,11}
 import React from 'react';
 import Head from '@docusaurus/Head';
 
@@ -29,7 +29,7 @@ const MySEO = () => (
 
 Nested or latter components will override duplicate usages:
 
-```jsx
+```jsx {2,5,8,11}
 <Parent>
   <Head>
     <title>My Title</title>
@@ -60,7 +60,7 @@ This component enables linking to internal pages as well as a powerful performan
 
 The component is a wrapper around react-router’s `<NavLink>` component that adds useful enhancements specific to Docusaurus. All props are passed through to react-router’s `<NavLink>` component.
 
-```jsx
+```jsx {2,7}
 import React from 'react';
 import Link from '@docusaurus/Link';
 
@@ -89,7 +89,7 @@ The target location to navigate to. Example: `/docs/introduction`.
 
 The class to give the `<Link>` when it is active. The default given class is `active`. This will be joined with the `className` prop.
 
-```jsx
+```jsx {1}
 <Link to="/faq" activeClassName="selected">
   FAQs
 </Link>
@@ -107,7 +107,7 @@ interface DocusaurusContext {
 
 Usage example:
 
-```jsx
+```jsx {2,5}
 import React from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
@@ -126,7 +126,7 @@ React Hook to automatically append `baseUrl` to a string automatically. This is 
 
 Example usage:
 
-```jsx
+```jsx {3,11}
 import React, {useEffect} from 'react';
 import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';

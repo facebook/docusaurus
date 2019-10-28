@@ -92,7 +92,7 @@ export default ({
               const lineProps = getLineProps({line, key: i});
 
               if (highlightLines.includes(i + 1)) {
-                lineProps.className = `${lineProps.className} highlight-line`;
+                lineProps.className = `${lineProps.className} docusaurus-highlight-code-line`;
               }
 
               return (
