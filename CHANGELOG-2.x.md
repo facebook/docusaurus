@@ -8,8 +8,8 @@
 - Significantly reduce main bundle size and initial HTML payload on production build. Generated JS files from webpack is also shorter in name.
 - Refactor dark toggle into a hook.
 - Changed the way we read the `USE_SSH` env variable during deployment to be the same as in v1.
-- Add highlight specific lines in code blocks.
 - Fix accessing `docs/` or `/docs/xxxx` that does not match any existing doc page should return 404 (Not found) page, not blank page.
+- Added code block line highlighting feature (thanks @lex111)!
 
 ## 2.0.0-alpha.31
 
