@@ -37,6 +37,7 @@ const DEFAULT_OPTIONS: PluginOptions = {
   path: 'docs', // Path to data on filesystem, relative to site dir.
   routeBasePath: 'docs', // URL Route.
   include: ['**/*.md', '**/*.mdx'], // Extensions to include.
+  exclude: [], // files to exclude from processing.
   sidebarPath: '', // Path to sidebar configuration for showing a list of markdown pages.
   docLayoutComponent: '@theme/DocPage',
   docItemComponent: '@theme/DocItem',
@@ -261,7 +262,7 @@ export default function pluginContentDocs(
 
     configureWebpack(_, isServer, utils) {
       const {getBabelLoader, getCacheLoader} = utils;
-      const {rehypePlugins, remarkPlugins} = options;
+      const {exclude, rehypePlugins, remarkPlugins} = options;
       return {
         resolve: {
           alias: {
@@ -273,6 +274,7 @@ export default function pluginContentDocs(
             {
               test: /(\.mdx?)$/,
               include: [contentPath],
+              exclude,
               use: [
                 getCacheLoader(isServer),
                 getBabelLoader(isServer),

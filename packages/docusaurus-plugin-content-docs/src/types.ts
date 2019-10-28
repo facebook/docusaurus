@@ -9,6 +9,7 @@ export interface PluginOptions {
   path: string;
   routeBasePath: string;
   include: string[];
+  exclude: string[];
   sidebarPath: string;
   docLayoutComponent: string;
   docItemComponent: string;

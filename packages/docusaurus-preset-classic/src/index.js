@@ -18,8 +18,8 @@ module.exports = function preset(context, opts = {}) {
       algolia && '@docusaurus/theme-search-algolia',
     ],
     plugins: [
-      ['@docusaurus/plugin-content-docs', opts.docs],
       ['@docusaurus/plugin-content-blog', opts.blog],
+      ['@docusaurus/plugin-content-docs', opts.docs],
       ['@docusaurus/plugin-content-pages', opts.pages],
       isProd && googleAnalytics && '@docusaurus/plugin-google-analytics',
       isProd && gtag && '@docusaurus/plugin-google-gtag',
