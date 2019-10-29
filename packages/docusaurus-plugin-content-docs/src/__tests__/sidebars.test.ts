@@ -30,7 +30,7 @@ describe('loadSidebars', () => {
       'sidebars-category-wrong-items.json',
     );
     expect(() => loadSidebars(sidebarPath)).toThrowErrorMatchingInlineSnapshot(
-      `"Error loading category category. Category items must be array."`,
+      `"Error loading \\"Category Label\\" category. Category items must be array."`,
     );
   });
 

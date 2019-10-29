@@ -44,7 +44,7 @@ function normalizeCategory(
 
   if (!Array.isArray(category.items)) {
     throw new Error(
-      `Error loading ${category.label} category. Category items must be array.`,
+      `Error loading "${category.label}" category. Category items must be array.`,
     );
   }
 

@@ -3,7 +3,7 @@
     "Test": [
       {
         "type": "category",
-        "label": "category",
+        "label": "Category Label",
         "items": "doc1"
       }
     ]
