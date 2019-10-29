@@ -15,20 +15,22 @@ npm install --save docusaurus-preset-name
 
 Then, add it in your site's `docusaurus.config.js`'s `presets` option:
 
-```jsx
+```jsx {4}
 // docusaurus.config.js
 module.exports = {
+  // ...
   presets: ['@docusaurus/preset-xxxx'],
 };
 ```
 
 To load presets from your local directory, specify how to resolve them:
 
-```jsx
+```jsx {6}
 // docusaurus.config.js
 const path = require('path');
 
 module.exports = {
+  // ...
   presets: [path.resolve(__dirname, '/path/to/docusaurus-local-presets')],
 };
 ```
@@ -48,9 +50,10 @@ module.exports = function preset(context, opts = {}) {
 
 then in your Docusaurus config, you may configure the preset instead:
 
-```jsx
+```jsx {4}
 // docusaurus.config.js
 module.exports = {
+  // ...
   presets: ['@docusaurus/preset-a'],
 };
 ```

@@ -19,10 +19,10 @@ To summarize:
 
 ## Writing customized Docusaurus themes
 
-A Docusaurus theme normally includes an `index.js` file where you hook up to the lifecycle methods, alongside with a `theme/` directory of components. A typical Docusaurus theme folder looks like this:
+A Docusaurus theme normally includes an `index.js` file where you hook up to the lifecycle methods, alongside with a `theme/` directory of components. A typical Docusaurus `theme` folder looks like this:
 
-```shell
-.
+```shell {5-7}
+website
 ├── package.json
 └── src
     ├── index.js
@@ -32,6 +32,7 @@ A Docusaurus theme normally includes an `index.js` file where you hook up to the
 ```
 
 There are two lifecycle methods that are essential to theme implementation:
+
 - [getThemePath](lifecycle-apis.md#getthemepath)
 - [getClientModules](lifecycle-apis.md#getclientmodules)
 

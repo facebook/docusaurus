@@ -18,7 +18,7 @@ Algolia DocSearch works by crawling the content of your website every 24 hours a
 
 To connect your docs with Algolia, add an `algolia` field in your `themeConfig`. Note that you will need algolia API key and algolia index. You can [apply for DocSearch here](https://community.algolia.com/docsearch/).
 
-```jsx
+```jsx {4-8}
 // docusaurus.config.js
 themeConfig: {
     // ....

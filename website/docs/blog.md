@@ -56,7 +56,7 @@ The only required field is `title`; however, we provide options to add author in
 
 Use the `<!--truncate-->` marker in your blog post to represent what will be shown as the summary when viewing all published blog posts. Anything above `<!--truncate-->` will be part of the summary. For example:
 
-```md
+```md {9}
 ---
 title: Truncation Example
 ---
@@ -82,7 +82,7 @@ You can run your Docusaurus 2 site without a landing page and instead have your 
 
 **Note:** Make sure there's no `index.js` page in `src/pages` or else there will be two files mapping to the same route!
 
-```js
+```js {10}
 // docusaurus.config.js
 module.exports = {
   // ...
