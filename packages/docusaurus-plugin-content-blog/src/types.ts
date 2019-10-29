@@ -51,6 +51,13 @@ export interface MetaData {
   date: Date;
   tags: (Tag | string)[];
   title: string;
+  prevItem?: Paginator;
+  nextItem?: Paginator;
+}
+
+export interface Paginator {
+  title: string;
+  permalink: string;
 }
 
 export interface Tag {

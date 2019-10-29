@@ -23,7 +23,6 @@ import {
 import {
   LoadContext,
   PluginContentLoadedActions,
-  RouteModule,
   ConfigureWebpackUtils,
 } from '@docusaurus/types';
 import {Configuration} from 'webpack';
@@ -137,6 +136,25 @@ export default function pluginContentBlog(
       blogPosts.sort(
         (a, b) => b.metadata.date.getTime() - a.metadata.date.getTime(),
       );
+
+      // Colocate next and prev metadata
+      blogPosts.forEach((blogPost, index) => {
+        const prevItem = index > 0 ? blogPosts[index - 1] : null;
+        if (prevItem) {
+          blogPost.metadata.prevItem = {
+            title: prevItem.metadata.title,
+            permalink: prevItem.metadata.permalink,
+          };
+        }
+        const nextItem =
+          index < blogPosts.length - 1 ? blogPosts[index + 1] : null;
+        if (nextItem) {
+          blogPost.metadata.nextItem = {
+            title: nextItem.metadata.title,
+            permalink: nextItem.metadata.permalink,
+          };
+        }
+      });
 
       // Blog pagination routes.
       // Example: `/blog`, `/blog/page/1`, `/blog/page/2`
@@ -267,10 +285,7 @@ export default function pluginContentBlog(
         }),
       );
 
-      blogItems.forEach((blogItem, index) => {
-        const prevItem = index > 0 ? blogItems[index - 1] : null;
-        const nextItem =
-          index < blogItems.length - 1 ? blogItems[index + 1] : null;
+      blogItems.map(blogItem => {
         const {metadata, metadataPath} = blogItem;
         const {source, permalink} = metadata;
 
@@ -281,9 +296,7 @@ export default function pluginContentBlog(
           modules: {
             content: source,
             metadata: aliasedSource(metadataPath),
-            prevItem: prevItem && aliasedSource(prevItem.metadataPath),
-            nextItem: nextItem && aliasedSource(nextItem.metadataPath),
-          } as RouteModule,
+          },
         });
       });
 
