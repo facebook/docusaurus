@@ -147,7 +147,7 @@ function Help() {
 
 ## `<Redirect />`
 
-Rendering a `<Redirect>` will navigate to a new location. The new location will override the current location in the history stack, like server-side redirects (HTTP 3xx) do. You can refer to [React Router's Redirect documentation](https://github.com/ReactTraining/react-router/blob/master/packages/react-router/docs/api/Redirect.md) for more info on available props.
+Rendering a `<Redirect>` will navigate to a new location. The new location will override the current location in the history stack, like server-side redirects (HTTP 3xx) do. You can refer to [React Router's Redirect documentation](https://reacttraining.com/react-router/web/api/Redirect) for more info on available props.
 
 Example usage:
 
