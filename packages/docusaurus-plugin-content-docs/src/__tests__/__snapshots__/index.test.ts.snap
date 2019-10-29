@@ -1,0 +1,110 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`simple website content 1`] = `
+Object {
+  "docs": Array [
+    Object {
+      "items": Array [
+        Object {
+          "items": Array [
+            Object {
+              "href": "/docs/foo/bar",
+              "label": "Bar",
+              "type": "link",
+            },
+            Object {
+              "href": "/docs/foo/baz",
+              "label": "baz",
+              "type": "link",
+            },
+          ],
+          "label": "foo",
+          "type": "category",
+        },
+        Object {
+          "href": "https://github.com",
+          "label": "Github",
+          "type": "link",
+        },
+        Object {
+          "href": "/docs/hello",
+          "label": "Hello, World !",
+          "type": "link",
+        },
+      ],
+      "label": "Test",
+      "type": "category",
+    },
+    Object {
+      "items": Array [
+        Object {
+          "href": "/docs/hello",
+          "label": "Hello, World !",
+          "type": "link",
+        },
+      ],
+      "label": "Guides",
+      "type": "category",
+    },
+  ],
+}
+`;
+
+exports[`simple website content 2`] = `
+Array [
+  Object {
+    "component": "@theme/DocPage",
+    "modules": Object {
+      "docsMetadata": "@docusaurus-plugin-content-docs/docs-b5f.json",
+    },
+    "path": "/docs",
+    "routes": Array [
+      Object {
+        "component": "@theme/DocItem",
+        "exact": true,
+        "modules": Object {
+          "content": "@site/docs/permalink.md",
+          "metadata": "@docusaurus-plugin-content-docs/docs-endiliey-permalink-086.json",
+        },
+        "path": "/docs/endiliey/permalink",
+      },
+      Object {
+        "component": "@theme/DocItem",
+        "exact": true,
+        "modules": Object {
+          "content": "@site/docs/foo/bar.md",
+          "metadata": "@docusaurus-plugin-content-docs/docs-foo-bar-cef.json",
+        },
+        "path": "/docs/foo/bar",
+      },
+      Object {
+        "component": "@theme/DocItem",
+        "exact": true,
+        "modules": Object {
+          "content": "@site/docs/foo/baz.md",
+          "metadata": "@docusaurus-plugin-content-docs/docs-foo-baz-dd9.json",
+        },
+        "path": "/docs/foo/baz",
+      },
+      Object {
+        "component": "@theme/DocItem",
+        "exact": true,
+        "modules": Object {
+          "content": "@site/docs/hello.md",
+          "metadata": "@docusaurus-plugin-content-docs/docs-hello-da2.json",
+        },
+        "path": "/docs/hello",
+      },
+      Object {
+        "component": "@theme/DocItem",
+        "exact": true,
+        "modules": Object {
+          "content": "@site/docs/lorem.md",
+          "metadata": "@docusaurus-plugin-content-docs/docs-lorem-17b.json",
+        },
+        "path": "/docs/lorem",
+      },
+    ],
+  },
+]
+`;

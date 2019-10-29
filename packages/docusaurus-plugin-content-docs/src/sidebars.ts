@@ -44,7 +44,7 @@ function normalizeCategory(
 
   if (!Array.isArray(category.items)) {
     throw new Error(
-      `Error loading ${category.label} category. Category items must be array.`,
+      `Error loading "${category.label}" category. Category items must be array.`,
     );
   }
 
@@ -62,15 +62,11 @@ function normalizeCategory(
         assertItem(item, ['href', 'label']);
         break;
       case 'ref':
+      case 'doc':
         assertItem(item, ['id']);
         break;
       default:
-        if (item.type !== 'doc') {
-          throw new Error(`Unknown sidebar item type: ${item.type}`);
-        }
-
-        assertItem(item, ['id']);
-        break;
+        throw new Error(`Unknown sidebar item type: ${item.type}`);
     }
 
     return item as SidebarItem;
