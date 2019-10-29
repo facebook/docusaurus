@@ -7,6 +7,7 @@
 - Convert sitemap plugin to TypeScript.
 - Significantly reduce main bundle size and initial HTML payload on production build. Generated JS files from webpack is also shorter in name.
 - Refactor dark toggle into a hook.
+- Fix algolia styling bug, sometimes search suggestion result is hidden.
 - Changed the way we read the `USE_SSH` env variable during deployment to be the same as in v1.
 - Fix accessing `docs/` or `/docs/xxxx` that does not match any existing doc page should return 404 (Not found) page, not blank page.
 - Simplify blog metadata. Previously, accessing `/blog/post-xxx` will request for next and prev blog post metadata too aside from target post metadata. We should only request target post metadata.  
