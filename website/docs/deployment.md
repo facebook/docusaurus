@@ -56,7 +56,7 @@ You may refer to GitHub Pages' documentation [User, Organization, and Project Pa
 
 Example:
 
-```jsx
+```jsx {3-6}
 module.exports = {
   ...
   url: 'https://endiliey.github.io', // Your website URL
@@ -102,7 +102,7 @@ References:
 
 To deploy your Docusaurus 2 sites to [Netlify](https://www.netlify.com/), first make sure the following options are properly configured:
 
-```js
+```js {3-4}
 // docusaurus.config.js
 module.exports = {
   url: 'https://docusaurus-2.netlify.com', // url to your site with no trailing slash

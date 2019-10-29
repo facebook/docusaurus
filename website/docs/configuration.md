@@ -36,8 +36,6 @@ It is recommended to check the [deployment docs](deployment.md) for more informa
 
 ### Themes, Plugins, and Presets configurations
 
-
-
 _This section is a work in progress. [Welcoming PRs](https://github.com/facebook/docusaurus/issues/1640)._
 
 <!--
@@ -59,7 +57,7 @@ Docusaurus guards `docusaurus.config.js` from unknown fields. To add a custom fi
 
 Example:
 
-```js
+```js {3-6}
 // docusaurus.config.js
 module.exports = {
   customFields: {
@@ -75,7 +73,7 @@ Your configuration object will be made available to all the components of your s
 
 Basic Example:
 
-```jsx
+```jsx {2,5-6}
 import React from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 

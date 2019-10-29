@@ -8,7 +8,7 @@ description: A Docusaurus site is a pre-rendered single-page React application. 
 
 If you're using `@docusaurus/preset-classic`, you can create your own CSS files (e.g. `/src/css/custom.css`) and import them globally by passing it as an option into the preset.
 
-```diff
+```js {8-10}
 // docusaurus.config.js
 module.exports = {
   // ...
@@ -16,9 +16,9 @@ module.exports = {
     [
       '@docusaurus/preset-classic',
       {
-+       theme: {
-+         customCss: require.resolve('./src/css/custom.css'),
-+       },
+        theme: {
+          customCss: require.resolve('./src/css/custom.css'),
+        },
       },
     ],
   ],

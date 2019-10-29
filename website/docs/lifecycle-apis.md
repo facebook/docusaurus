@@ -125,7 +125,7 @@ Example:
 
 ```js
 async postBuild({siteConfig = {}, routesPaths = [], outDir}) {
-  // Print out to console all the rendered routes 
+  // Print out to console all the rendered routes
   routesPaths.map(route => {
     console.log(route);
   })
@@ -157,8 +157,8 @@ If you use the folder directory above, your `getThemePath` can be:
 
 ```js
 // my-theme/src/index.js
-
 const path = require('path');
+
 module.exports = function(context, options) {
   return {
     name: 'name-of-my-theme',
@@ -177,8 +177,8 @@ As an example, to make your theme load a `customCss` object from `options` passe
 
 ```js
 // my-theme/src/index.js
-
 const path = require('path');
+
 module.exports = function(context, options) {
   const {customCss} = options || {};
   return {

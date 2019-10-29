@@ -120,7 +120,6 @@ keywords:
   - docusaurus
 image: https://i.imgur.com/mErPwqL.png
 ---
-
 ```
 
 ### Embedding React components
@@ -202,13 +201,11 @@ Use the matching language meta string for your code block, and Docusaurus will p
 console.log('Every repo must come with a mascot.');
 ```
 
-By default, the Prism [syntax highlighting theme](https://github.com/FormidableLabs/prism-react-renderer#theming)
-we use is [Palenight](https://github.com/FormidableLabs/prism-react-renderer/blob/master/src/themes/palenight.js).
-You can change this to another theme by passing `prismTheme` as `themeConfig` in your docusaurus.config.js.
+By default, the Prism [syntax highlighting theme](https://github.com/FormidableLabs/prism-react-renderer#theming) we use is [Palenight](https://github.com/FormidableLabs/prism-react-renderer/blob/master/src/themes/palenight.js). You can change this to another theme by passing `prismTheme` as `themeConfig` in your docusaurus.config.js.
 
 For example, if you prefer to use the `dracula` highlighting theme:
 
-```js
+```js {4}
 // docusaurus.config.js
 module.exports = {
   themeConfig: {
@@ -217,13 +214,9 @@ module.exports = {
 };
 ```
 
-By default, Docusaurus comes with this subset of
-[commonly used languages](https://github.com/FormidableLabs/prism-react-renderer/blob/master/src/vendor/prism/includeLangs.js).
+By default, Docusaurus comes with this subset of [commonly used languages](https://github.com/FormidableLabs/prism-react-renderer/blob/master/src/vendor/prism/includeLangs.js).
 
-To add syntax highlighting for any of the other
-[Prism supported languages](https://prismjs.com/#supported-languages),
-install the `prismjs` npm package, then swizzle the `CodeBlock`
-component and add the desired language(s) there.
+To add syntax highlighting for any of the other [Prism supported languages](https://prismjs.com/#supported-languages), install the `prismjs` npm package, then swizzle the `CodeBlock` component and add the desired language(s) there.
 
 For example, if you want to add highlighting for the `powershell` language:
 
@@ -232,6 +225,72 @@ For example, if you want to add highlighting for the `powershell` language:
 import Prism from 'prism-react-renderer/prism';
 (typeof global !== 'undefined' ? global : window).Prism = Prism;
 require('prismjs/components/prism-powershell');
+```
+
+### Line highlighting
+
+You can bring emphasis to certain lines of code by specifying line ranges after the language meta string (leave a space after the language).
+
+    ```jsx {3}
+    function HighlightSomeText(highlight) {
+      if (highlight) {
+        return 'This text is highlighted!';
+      }
+
+      return 'Nothing highlighted';
+    }
+    ```
+
+```jsx {3}
+function HighlightSomeText(highlight) {
+  if (highlight) {
+    return 'This text is highlighted!';
+  }
+
+  return 'Nothing highlighted';
+}
+```
+
+To accomplish this, Docusaurus adds the `docusaurus-highlight-code-line` class to the highlighted lines. You will need to define your own styling for this CSS, possibly in your `src/css/custom.css` with a custom background color which is dependent on your selected syntax highlighting theme. The color given below works for the default highlighting theme (Palenight), so if you are using another theme will have to tweak the color accordingly.
+
+```css
+/* /src/css/custom.css */
+.docusaurus-highlight-code-line {
+  background-color: rgb(72, 77, 91);
+  display: block;
+  margin: 0 calc(-1 * var(--ifm-pre-padding));
+  padding: 0 var(--ifm-pre-padding);
+}
+```
+
+To highlight multiple lines, separate the line numbers by commas or use the range syntax to select a chunk of lines. This feature uses the `parse-number-range` library and you can find [more syntax](<(https://www.npmjs.com/package/parse-numeric-range)>) on their project details.
+
+    ```jsx {1,4-6,11}
+    import React from 'react';
+
+    function MyComponent(props) {
+      if (props.isBar) {
+        return <div>Bar</div>;
+      }
+
+      return <div>Foo</div>;
+    }
+
+    export default MyComponent;
+    ```
+
+```jsx {1,4-6,11}
+import React from 'react';
+
+function MyComponent(props) {
+  if (props.isBar) {
+    return <div>Bar</div>;
+  }
+
+  return <div>Foo</div>;
+}
+
+export default MyComponent;
 ```
 
 ### Interactive code editor
@@ -248,10 +307,10 @@ npm i @docusaurus/theme-live-codeblock
 
 You will also need to add the plugin to your `docusaurus.config.js`.
 
-```diff
+```js {3}
 module.exports = {
   ...
-+ themes: ['@docusaurus/theme-live-codeblock'],
+  themes: ['@docusaurus/theme-live-codeblock'],
   ...
 }
 ```

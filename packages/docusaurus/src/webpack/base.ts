@@ -50,10 +50,13 @@ export function createBaseConfig(
         '@generated': generatedFilesDir,
         '@docusaurus': path.resolve(__dirname, '../client/exports'),
       },
-      modules: [
-        'node_modules',
+      // This allows you to set a fallback for where Webpack should look for modules.
+      // We want `@docusaurus/core` own dependencies/`node_modules` to "win" if there is conflict
+      // Example: if there is core-js@3 in user's own node_modules, but core depends on
+      // core-js@2, we should use core-js@2.
+      modules: module.paths.concat([
         path.resolve(fs.realpathSync(process.cwd()), 'node_modules'),
-      ],
+      ]),
     },
     optimization: {
       removeAvailableModules: false,
