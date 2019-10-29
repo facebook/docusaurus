@@ -10,6 +10,7 @@
 - Changed the way we read the `USE_SSH` env variable during deployment to be the same as in v1.
 - Add highlight specific lines in code blocks.
 - Fix accessing `docs/` or `/docs/xxxx` that does not match any existing doc page should return 404 (Not found) page, not blank page.
+- Simplify blog metadata. Previously, accessing `/blog/post-xxx` will request for next and prev blog post metadata too aside from target post metadata. We should only request target post metadata.  
 
 ## 2.0.0-alpha.31
 
