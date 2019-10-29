@@ -143,7 +143,7 @@ module.exports = [
   {
     caption: 'ConfigCat',
     image: '/img/users/configcat.svg',
-    infoLink: 'https://docs.configcat.com',
+    infoLink: 'https://configcat.com/docs',
     fbOpenSource: false,
     pinned: false,
   },
