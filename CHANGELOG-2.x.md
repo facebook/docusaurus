@@ -10,6 +10,8 @@
 - Changed the way we read the `USE_SSH` env variable during deployment to be the same as in v1.
 - Add highlight specific lines in code blocks.
 - Fix accessing `docs/` or `/docs/xxxx` that does not match any existing doc page should return 404 (Not found) page, not blank page.
+- Prioritize `@docusaurus/core` dependencies/ node_modules over user's node_modules. This fix a bug whereby if user has core-js@3 on its own node_modules but docusaurus depends on core-js@2, we previously encounter `Module not found: core-js/modules/xxxx` (because core-js@3 doesn't have that).
+Another example is if user installed webpack@3 but docusaurus depends on webpack@4.
 
 ## 2.0.0-alpha.31
 
