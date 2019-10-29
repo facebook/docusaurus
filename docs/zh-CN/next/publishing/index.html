@@ -163,11 +163,15 @@
 </tbody>
 </table>
 <p>To run the script directly from the command-line, you can use the following, filling in the parameter values as appropriate.</p>
+<p><strong>Bash</strong></p>
 <pre><code class="hljs css language-bash">GIT_USER=&lt;GIT_USER&gt; \
   CURRENT_BRANCH=master \
   USE_SSH=<span class="hljs-literal">true</span> \
   yarn run publish-gh-pages <span class="hljs-comment"># or `npm run publish-gh-pages`</span>
 </code></pre>
+<p><strong>Windows</strong></p>
+<pre><code class="hljs css language-batch">cmd /C "<span class="hljs-keyword">set</span> GIT_USER=&lt;GIT_USER&gt; &amp;&amp; <span class="hljs-keyword">set</span> CURRENT_BRANCH=<span class="hljs-keyword">master</span> &amp;&amp; <span class="hljs-keyword">set</span> USE_SSH=<span class="hljs-literal">true</span> &amp;&amp; yarn run publish-gh-pages<span class="hljs-string">"
+</span></code></pre>
 <p>There are also two optional parameters that are set as environment variables:</p>
 <table>
 <thead>

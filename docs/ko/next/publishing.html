@@ -163,11 +163,15 @@
 </tbody>
 </table>
 <p>명령행에서 스크립트를 바로 실행하기 위해서는 적절하게 파라미터 값을 채워주어야 합니다.</p>
+<p><strong>Bash</strong></p>
 <pre><code class="hljs css language-bash">GIT_USER=&lt;GIT_USER&gt; \
   CURRENT_BRANCH=master \
   USE_SSH=<span class="hljs-literal">true</span> \
   yarn run publish-gh-pages <span class="hljs-comment"># 또는 `npm run publish-gh-pages`</span>
 </code></pre>
+<p><strong>Windows</strong></p>
+<pre><code class="hljs css language-batch">cmd /C "<span class="hljs-keyword">set</span> GIT_USER=&lt;GIT_USER&gt; &amp;&amp; <span class="hljs-keyword">set</span> CURRENT_BRANCH=<span class="hljs-keyword">master</span> &amp;&amp; <span class="hljs-keyword">set</span> USE_SSH=<span class="hljs-literal">true</span> &amp;&amp; yarn run publish-gh-pages<span class="hljs-string">"
+</span></code></pre>
 <p>환경 변수로 설정할 수 있는 추가적인 2가지 파라미터는 아래와 같습니다.</p>
 <table>
 <thead>

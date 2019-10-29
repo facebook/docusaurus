@@ -165,11 +165,15 @@
 </tbody>
 </table>
 <p>To run the script directly from the command-line, you can use the following, filling in the parameter values as appropriate.</p>
+<p><strong>Bash</strong></p>
 <pre><code class="hljs css language-bash">GIT_USER=&lt;GIT_USER&gt; \
   CURRENT_BRANCH=master \
   USE_SSH=<span class="hljs-literal">true</span> \
   yarn run publish-gh-pages <span class="hljs-comment"># or `npm run publish-gh-pages`</span>
 </code></pre>
+<p><strong>Windows</strong></p>
+<pre><code class="hljs css language-batch">cmd /C "<span class="hljs-keyword">set</span> GIT_USER=&lt;GIT_USER&gt; &amp;&amp; <span class="hljs-keyword">set</span> CURRENT_BRANCH=<span class="hljs-keyword">master</span> &amp;&amp; <span class="hljs-keyword">set</span> USE_SSH=<span class="hljs-literal">true</span> &amp;&amp; yarn run publish-gh-pages<span class="hljs-string">"
+</span></code></pre>
 <p>There are also two optional parameters that are set as environment variables:</p>
 <table>
 <thead>
@@ -343,7 +347,7 @@ e.g.</li>
 </tbody>
 </table>
 <p>Alter your <code>siteConfig.js</code> to add a property <code>'githubHost'</code> which represents the GitHub Enterprise hostname. Alternatively, set an environment variable <code>GITHUB_HOST</code> when executing the publish command.</p>
-</span></div></article></div><div class="docLastUpdate"><em>Last updated on 2019-10-12 by Yangshun Tay</em></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/en/next/site-creation"><span class="arrow-prev">← </span><span>Creating your site</span></a><a class="docs-next button" href="/docs/en/next/docker"><span>Docker</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#building-static-html-pages">Building Static HTML Pages</a></li><li><a href="#hosting-static-html-pages">Hosting Static HTML Pages</a><ul class="toc-headings"><li><a href="#hosting-on-a-service">Hosting on a Service:</a></li><li><a href="#using-zeit-now">Using ZEIT Now</a></li><li><a href="#using-github-pages">Using GitHub Pages</a></li></ul></li><li><a href="#automating-deployments-using-continuous-integration">Automating Deployments Using Continuous Integration</a><ul class="toc-headings"><li><a href="#using-circleci-20">Using CircleCI 2.0</a></li><li><a href="#tips-amp-tricks">Tips &amp; Tricks</a></li><li><a href="#using-travis-ci">Using Travis CI</a></li><li><a href="#hosting-on-zeit-now">Hosting on ZEIT Now</a></li><li><a href="#hosting-on-netlify">Hosting on Netlify</a></li><li><a href="#hosting-on-render">Hosting on Render</a></li><li><a href="#publishing-to-github-enterprise">Publishing to GitHub Enterprise</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/docusaurus_monochrome.svg" alt="Docusaurus" width="66" height="58"/></a><div class="footerSection"><h5>Docs</h5><a href="
+</span></div></article></div><div class="docLastUpdate"><em>Last updated on 2019-10-29 by Dylan Myers</em></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/en/next/site-creation"><span class="arrow-prev">← </span><span>Creating your site</span></a><a class="docs-next button" href="/docs/en/next/docker"><span>Docker</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#building-static-html-pages">Building Static HTML Pages</a></li><li><a href="#hosting-static-html-pages">Hosting Static HTML Pages</a><ul class="toc-headings"><li><a href="#hosting-on-a-service">Hosting on a Service:</a></li><li><a href="#using-zeit-now">Using ZEIT Now</a></li><li><a href="#using-github-pages">Using GitHub Pages</a></li></ul></li><li><a href="#automating-deployments-using-continuous-integration">Automating Deployments Using Continuous Integration</a><ul class="toc-headings"><li><a href="#using-circleci-20">Using CircleCI 2.0</a></li><li><a href="#tips-amp-tricks">Tips &amp; Tricks</a></li><li><a href="#using-travis-ci">Using Travis CI</a></li><li><a href="#hosting-on-zeit-now">Hosting on ZEIT Now</a></li><li><a href="#hosting-on-netlify">Hosting on Netlify</a></li><li><a href="#hosting-on-render">Hosting on Render</a></li><li><a href="#publishing-to-github-enterprise">Publishing to GitHub Enterprise</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/docusaurus_monochrome.svg" alt="Docusaurus" width="66" height="58"/></a><div class="footerSection"><h5>Docs</h5><a href="
                 /docs/en/installation">Getting Started</a><a href="
                 /docs/en/versioning">Versioning</a><a href="
                 /docs/en/translation">Localization</a><a href="
