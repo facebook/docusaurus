@@ -152,7 +152,7 @@ Example usage:
 
 ```jsx {5}
 import React from 'react';
-import Redirect from '@docusaurus/router';
+import {Redirect} from '@docusaurus/router';
 
 function Home() {
   return <Redirect to="/docs/test" />;
