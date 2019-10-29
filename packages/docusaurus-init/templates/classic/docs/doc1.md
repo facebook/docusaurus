@@ -110,6 +110,12 @@ No language indicated, so no syntax highlighting.
 But let's throw in a <b>tag</b>.
 ```
 
+```js {2}
+function highlightMe() {
+  console.log('This line can be highlighted!');
+}
+```
+
 ---
 
 ## Tables
