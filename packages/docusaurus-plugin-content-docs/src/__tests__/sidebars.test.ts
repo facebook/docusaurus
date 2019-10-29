@@ -44,7 +44,7 @@ describe('loadSidebars', () => {
   test('sidebars with known sidebar item type but wrong field', async () => {
     const sidebarPath = path.join(fixtureDir, 'sidebars-wrong-field.json');
     expect(() => loadSidebars(sidebarPath)).toThrowErrorMatchingInlineSnapshot(
-      `"Unknown sidebar item keys: href.Item: {\\"type\\":\\"category\\",\\"label\\":\\"category\\",\\"href\\":\\"https://github.com\\"}"`,
+      `"Unknown sidebar item keys: href. Item: {\\"type\\":\\"category\\",\\"label\\":\\"category\\",\\"href\\":\\"https://github.com\\"}"`,
     );
   });
 

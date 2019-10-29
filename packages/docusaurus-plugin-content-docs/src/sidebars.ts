@@ -25,7 +25,9 @@ function assertItem(item: Object, keys: string[]): void {
 
   if (unknownKeys.length) {
     throw new Error(
-      `Unknown sidebar item keys: ${unknownKeys}.Item: ${JSON.stringify(item)}`,
+      `Unknown sidebar item keys: ${unknownKeys}. Item: ${JSON.stringify(
+        item,
+      )}`,
     );
   }
 }
