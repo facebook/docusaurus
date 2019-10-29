@@ -81,30 +81,30 @@
               }
             });
         </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://crowdin.com/project/docusaurus/fr" target="_blank" rel="noreferrer noopener">Translate</a><h1 class="postHeaderTitle">Docker</h1></header><article><div><span><p><a href="https://www.docker.com/">Docker</a> est un outil qui vous permet de créer, déployer et gérer des paquets légers et autonomes qui contiennent tout ce qui est nécessaire pour exécuter une application. Il peut aider à éviter les dépendances conflictuelles et les comportements indésirables lors de l'exécution de Docusaurus.</p>
-<h2><a class="anchor" aria-hidden="true" id="run-the-local-web-server-in-docker"></a><a href="#run-the-local-web-server-in-docker" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Run the local web server in docker</h2>
+<h2><a class="anchor" aria-hidden="true" id="executer-le-serveur-web-local-dans-docker"></a><a href="#executer-le-serveur-web-local-dans-docker" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Exécuter le serveur web local dans docker</h2>
 <p>Assurez-vous d'avoir installé <a href="https://www.docker.com/get-started">docker</a>.</p>
-<p>To run the local web server:</p>
+<p>Pour exécuter le serveur web local :</p>
 <ol>
-<li><p><strong>Build the docker image</strong> -- Enter the folder where you have Docusaurus installed. Run <code>docker build -t docusaurus-doc .</code></p>
-<p>Once the build phase finishes, you can verify the image exists by running <code>docker images</code>.</p>
+<li><p><strong>Construisez l'image docker</strong> -- Entrez le dossier où vous avez installé Docusaurus. Exécutez <code>build docker -t docusaurus-doc .</code></p>
+<p>Une fois la phase de construction terminée, vous pouvez vérifier que l'image existe en exécutant <code>docker images</code>.</p>
 <blockquote>
-<p>We now include a <code>Dockerfile</code> when you install Docusaurus.</p>
+<p>Nous incluons maintenant un <code>Dockerfile</code> lorsque vous installez Docusaurus.</p>
 </blockquote></li>
-<li><p><strong>Run the Docusaurus container</strong> -- To start docker run <code>docker run --rm -p 3000:3000 docusaurus-doc</code></p>
-<p>This will start a docker container with the image <code>docusaurus-doc</code>. To see more detailed container info run <code>docker ps</code> .</p></li>
+<li><p><strong>Exécutez le conteneur Docusaurus</strong> -- Pour démarrer le docker exécuter <code>docker run --rm -p 3000:3000 docusaurus-doc</code></p>
+<p>Ceci démarrera un conteneur docker avec l'image <code>docusaurus-doc</code>. Pour voir plus d'informations détaillées sur les conteneurs, exécutez <code>docker ps</code> .</p></li>
 </ol>
-<h2><a class="anchor" aria-hidden="true" id="use-docker-compose"></a><a href="#use-docker-compose" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Use docker-compose</h2>
-<p>We can also use <code>docker-compose</code> to configure our application. This feature of docker allows you to run the web server and any additional services with a single command.</p>
+<h2><a class="anchor" aria-hidden="true" id="utiliser-docker-compose"></a><a href="#utiliser-docker-compose" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Utiliser docker-compose</h2>
+<p>Nous pouvons également utiliser <code>docker-compose</code> pour configurer notre application. Cette fonctionnalité de docker vous permet d'exécuter le serveur web et tout autre service avec une seule commande.</p>
 <blockquote>
-<p>Compose is a tool for defining and running multi-container Docker applications. With Compose, you use a YAML file to configure your application’s services. Then, with a single command, you create and start all the services from your configuration.</p>
+<p>Compose est un outil pour définir et exécuter les applications Docker multi-conteneurs. Avec Compose, vous utilisez un fichier YAML pour configurer les services de votre application. Ensuite, avec une seule commande, vous créez et démarrez tous les services de votre configuration.</p>
 </blockquote>
-<p>Using Compose is a three-step process:</p>
+<p>L'utilisation de Compose est un processus à trois étapes :</p>
 <ol>
-<li><p>Define your app’s environment with a Dockerfile so it can be reproduced anywhere.</p></li>
-<li><p>Define the services that make up your app in <code>docker-compose.yml</code> so they can be run together in an isolated environment.</p></li>
-<li><p>Run <code>docker-compose up</code> and Compose starts and runs your entire app.</p></li>
+<li><p>Définissez l'environnement de votre application avec un Dockerfile pour qu'il puisse être reproduit n'importe où.</p></li>
+<li><p>Définissez les services qui composent votre application dans <code>docker-compose.yml</code> afin qu'ils puissent être exécutés ensemble dans un environnement isolé.</p></li>
+<li><p>Exécutez <code>docker-compose</code> et Compose démarre et exécute toute votre application.</p></li>
 </ol>
-<p>We include a basic <code>docker-compose.yml</code> in your project:</p>
+<p>Nous incluons un <code>docker-compose.yml</code> de base dans votre projet :</p>
 <pre><code class="hljs css language-yml"><span class="hljs-attr">version:</span> <span class="hljs-string">"3"</span>
 
 <span class="hljs-attr">services:</span>
@@ -126,9 +126,9 @@
 <span class="hljs-attr">    working_dir:</span> <span class="hljs-string">/app/website</span>
 
 </code></pre>
-<p>To run a local web server with <code>docker-compose</code> run <code>docker-compose up</code>.</p>
-<p>To build static HTML pages for publishing run <code>docker-compose run docusaurus bash -c 'yarn publish-gh-pages'</code></p>
-</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/fr/1.11.x/publishing"><span class="arrow-prev">← </span><span>Publication de votre site</span></a><a class="docs-next button" href="/docs/fr/1.11.x/adding-blog"><span>Ajouter un blog</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#run-the-local-web-server-in-docker">Run the local web server in docker</a></li><li><a href="#use-docker-compose">Use docker-compose</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/docusaurus_monochrome.svg" alt="Docusaurus" width="66" height="58"/></a><div class="footerSection"><h5>Docs</h5><a href="
+<p>Pour exécuter un serveur web local avec <code>docker-compose</code>, exécutez <code>docker-compose up</code>.</p>
+<p>Pour construire des pages HTML statiques, exécutez <code>docker-compose run docusaurus bash -c 'yarn publish-gh-pages'</code></p>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/fr/1.11.x/publishing"><span class="arrow-prev">← </span><span>Publication de votre site</span></a><a class="docs-next button" href="/docs/fr/1.11.x/adding-blog"><span>Ajouter un blog</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#executer-le-serveur-web-local-dans-docker">Exécuter le serveur web local dans docker</a></li><li><a href="#utiliser-docker-compose">Utiliser docker-compose</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/docusaurus_monochrome.svg" alt="Docusaurus" width="66" height="58"/></a><div class="footerSection"><h5>Docs</h5><a href="
                 /docs/fr/installation">Getting Started</a><a href="
                 /docs/fr/versioning">Versioning</a><a href="
                 /docs/fr/translation">Localization</a><a href="

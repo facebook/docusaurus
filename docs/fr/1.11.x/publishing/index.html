@@ -89,8 +89,8 @@
 <h2><a class="anchor" aria-hidden="true" id="hebergement-de-pages-html-statiques"></a><a href="#hebergement-de-pages-html-statiques" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Hébergement de pages HTML statiques</h2>
 <p>À ce point, vous pouvez prendre tout les fichiers dans le dossier <code>website/build</code> et les copier dans votre dossier <code>html</code> de votre serveur web préféré.</p>
 <blockquote>
-<p>For example, both Apache and Nginx serve content from <code>/var/www/html</code> by default. Cela dit, choisir un serveur web ou un hébergeur est à l'extérieur du cadre de Docusaurus.</p>
-<p>Lorsque vous diffusez le site à partir de votre propre serveur web, assurez-vous que le serveur web fournit bien les fichiers de composants avec les en-têtes HTTP appropriés. Les fichiers CSS peuvent être servi avec <code>type de contenu</code> de l'en-tête de <code>text/css</code>. In the case of Nginx, this would mean setting <code>include /etc/nginx/mime.types;</code> in your <code>nginx.conf</code> file. See <a href="https://github.com/facebook/docusaurus/issues/602">this issue</a> for more info.</p>
+<p>Par exemple, Apache et Nginx diffuse le contenu à partir de <code>/var/www/html</code> par défaut. Cela dit, choisir un serveur web ou un hébergeur est à l'extérieur du cadre de Docusaurus.</p>
+<p>Lorsque vous diffusez le site à partir de votre propre serveur web, assurez-vous que le serveur web fournit bien les fichiers de composants avec les en-têtes HTTP appropriés. Les fichiers CSS peuvent être servi avec <code>type de contenu</code> de l'en-tête de <code>text/css</code>. Dans le cas de Nginx, cela signifierait le paramètre <code>inclure /etc/nginx/mime.types;</code> dans votre fichier <code>nginx.conf</code> . Voir <a href="https://github.com/facebook/docusaurus/issues/602">ce problème</a> pour plus d'informations.</p>
 </blockquote>
 <h3><a class="anchor" aria-hidden="true" id="hebergement-dans-un-service"></a><a href="#hebergement-dans-un-service" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Hébergement dans un service:</h3>
 <ul>
@@ -98,20 +98,20 @@
 <li><a href="#using-github-pages">Github Pages</a></li>
 <li><a href="#hosting-on-netlify">Netlify</a></li>
 </ul>
-<h3><a class="anchor" aria-hidden="true" id="using-zeit-now"></a><a href="#using-zeit-now" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Using ZEIT Now</h3>
-<p>Deploying your Docusaurus project to <a href="https://zeit.co/now">ZEIT Now</a> will provide you with <a href="https://zeit.co/now">various benefits</a> in the areas of performance and ease of use.</p>
-<p>Most importantly, however, deploying a Docusaurus project only takes a couple seconds:</p>
+<h3><a class="anchor" aria-hidden="true" id="utiliser-zeit-now"></a><a href="#utiliser-zeit-now" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Utiliser ZEIT Now</h3>
+<p>Déployer votre projet Docusaurus sur <a href="https://zeit.co/now">ZEIT Now</a> vous fournira <a href="https://zeit.co/now">différents avantages</a> dans les domaines de la performance et de la facilité d'utilisation.</p>
+<p>Mais surtout, le déploiement d'un projet Docusaurus ne prend que quelques secondes :</p>
 <ol>
-<li>First, install their <a href="https://zeit.co/download">command-line interface</a>:</li>
+<li>Tout d'abord, installez leur <a href="https://zeit.co/download">interface de ligne de commande</a>:</li>
 </ol>
 <pre><code class="hljs css language-bash">npm i -g now
 </code></pre>
 <ol start="2">
-<li>Run a single command inside the root directory of your project:</li>
+<li>Exécutez une seule commande dans le répertoire racine de votre projet :</li>
 </ol>
 <pre><code class="hljs css language-bash">now
 </code></pre>
-<p><strong>That's all.</strong> Your docs will automatically be deployed.</p>
+<p><strong>C'est tout.</strong> Vos docs seront automatiquement déployées.</p>
 <h3><a class="anchor" aria-hidden="true" id="utilisation-de-github-pages"></a><a href="#utilisation-de-github-pages" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Utilisation de Github Pages</h3>
 <p>Docusaurus was designed to work really well with one of the most popular hosting solutions for open source projects: <a href="https://pages.github.com/">GitHub Pages</a>.</p>
 <h4><a class="anchor" aria-hidden="true" id="deploying-to-github-pages"></a><a href="#deploying-to-github-pages" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Deploying to GitHub Pages</h4>
@@ -119,7 +119,7 @@
 <li>Docusaurus supports deploying as <a href="https://help.github.com/articles/user-organization-and-project-pages">project pages or user/organization pages</a>, your code repository does not even need to be public.</li>
 </ol>
 <blockquote>
-<p>Even if your repository is private, anything published to a <code>gh-pages</code> branch will be <a href="https://help.github.com/articles/user-organization-and-project-pages/">public</a>.</p>
+<p>Même si votre dépôt est privé, tout ce qui est publié dans une branche <code>gh-pages</code> sera <a href="https://help.github.com/articles/user-organization-and-project-pages/">public</a>.</p>
 </blockquote>
 <p><strong>Note:</strong> When you deploy as user/organization page, the publish script will deploy these sites to the root of the <strong><code>master</code></strong> branch of the <em>username</em>.github.io repo. In this case, note that you will want to have the Docusaurus infra, your docs, etc. either in <strong>another branch of the <em>username</em>.github.io repo</strong> (e.g., maybe call it <code>source</code>), or in another, separate repo (e.g. in the same as the documented source code).</p>
 <ol start="2">
@@ -127,11 +127,11 @@
 </ol>
 <table>
 <thead>
-<tr><th>Name</th><th>Description</th></tr>
+<tr><th>Nom</th><th>Description</th></tr>
 </thead>
 <tbody>
-<tr><td><code>organizationName</code></td><td>The GitHub user or organization that owns the repository. If you are the owner, then it is your GitHub username. In the case of Docusaurus, that would be the &quot;<em>facebook</em>&quot; GitHub organization.</td></tr>
-<tr><td><code>projectName</code></td><td>The name of the GitHub repository for your project. For example, the source code for Docusaurus is hosted at <a href="https://github.com/facebook/docusaurus">https://github.com/facebook/docusaurus</a>, so our project name in this case would be &quot;docusaurus&quot;.</td></tr>
+<tr><td><code>organizationName</code></td><td>L'utilisateur ou l'organisation GitHub qui possède le dépôt. If you are the owner, then it is your GitHub username. In the case of Docusaurus, that would be the &quot;<em>facebook</em>&quot; GitHub organization.</td></tr>
+<tr><td><code>projectName</code></td><td>Le nom du dépôt GitHub pour votre projet. For example, the source code for Docusaurus is hosted at <a href="https://github.com/facebook/docusaurus">https://github.com/facebook/docusaurus</a>, so our project name in this case would be &quot;docusaurus&quot;.</td></tr>
 <tr><td><code>url</code></td><td>Your website's URL. For projects hosted on GitHub pages, this will be &quot;https://<em>username</em>.github.io&quot;</td></tr>
 <tr><td><code>baseUrl</code></td><td>Base URL for your project. For projects hosted on GitHub pages, it follows the format &quot;/<em>projectName</em>/&quot;. For <a href="https://github.com/facebook/docusaurus">https://github.com/facebook/docusaurus</a>, <code>baseUrl</code> is <code>/docusaurus/</code>.</td></tr>
 </tbody>
@@ -155,10 +155,10 @@
 </ol>
 <table>
 <thead>
-<tr><th>Name</th><th>Description</th></tr>
+<tr><th>Nom</th><th>Description</th></tr>
 </thead>
 <tbody>
-<tr><td><code>GIT_USER</code></td><td>The username for a GitHub account that has commit access to this repo. Pour vos propres dépôts, ce sera habituellement votre propre nom d'utilisateur GitHub. Le <code>GIT_USER</code> spécifié doit avoir accès au référentiel spécifié dans la combinaison de <code>organisation</code> et <code>projectName</code>.</td></tr>
+<tr><td><code>GIT_USER</code></td><td>Le nom d'utilisateur d'un compte GitHub qui a un accès à ce dépôt. Pour vos propres dépôts, ce sera habituellement votre propre nom d'utilisateur GitHub. Le <code>GIT_USER</code> spécifié doit avoir accès au référentiel spécifié dans la combinaison de <code>organisation</code> et <code>projectName</code>.</td></tr>
 </tbody>
 </table>
 <p>Pour exécuter le script directement à partir de la ligne de commande, vous pouvez utiliser le suivant, en remplissant les valeurs de paramètre comme il se doit.</p>
@@ -170,7 +170,7 @@
 <p>Il y a également deux paramètres optionnels définis comme variables d'environnement :</p>
 <table>
 <thead>
-<tr><th>Name</th><th>Description</th></tr>
+<tr><th>Nom</th><th>Description</th></tr>
 </thead>
 <tbody>
 <tr><td><code>USE_SSH</code></td><td>Si cela est défini à <code>true</code>, alors SSH est utilisé au lieu de HTTPS pour la connexion au repo GitHub. HTTPS est la valeur par défaut si cette variable n'est pas définie.</td></tr>
@@ -235,11 +235,11 @@
 <p><strong>DO NOT</strong> place la valeur réelle de <code>$GITHUB_TOKEN</code> dans <code>circle.yml</code>. Nous avons déjà configuré cela en tant que variable d'environnement à l'étape 3.</p>
 <blockquote>
 <p>Si vous voulez utiliser SSH pour votre connexion de dépôt GitHub, vous pouvez définir <code>USE_SSH=true</code>. La commande ci-dessus ressemblerait donc à : <code>cd website &amp;&amp; npm install &amp;&amp; GIT_USER=&lt;GIT_USER&gt; USE_SSH=true npm run publish-gh-pages</code>.</p>
-<p>Unlike when you run the <code>publish-gh-pages</code> script manually when the script runs within the Circle environment, the value of <code>CURRENT_BRANCH</code> is already defined as an <a href="https://circleci.com/docs/1.0/environment-variables/">environment variable within CircleCI</a> and will be picked up by the script automatically.</p>
+<p>Contrairement au script <code>publish-gh-pages</code> lancé manuellement, lorsque le script s'exécute dans l'environnement Circle, la valeur de <code>CURRENT_BRANCH</code> est déjà définie comme une variable d'environnement <a href="https://circleci.com/docs/1.0/environment-variables/">dans CircleCI</a> et sera récupérée automatiquement par le script.</p>
 </blockquote>
 <p>Maintenant, chaque fois qu'un nouveau commit se trouve dans <code>master</code>, CircleCI exécutera votre suite de tests et, si tout passe, votre site sera déployé via le script <code>publish-gh-pages</code> .</p>
 <blockquote>
-<p>If you would rather use a deploy key instead of a personal access token, you can by starting with the CircleCI <a href="https://circleci.com/docs/1.0/adding-read-write-deployment-key/">instructions</a> for adding a read/write deploy key.</p>
+<p>Si vous préférez utiliser une clé de déploiement au lieu d'un jeton d'accès personnel, vous pouvez en commençant par les <a href="https://circleci.com/docs/1.0/adding-read-write-deployment-key/">instructions</a> de CircleCI pour ajouter une clé de déploiement en lecture/écriture.</p>
 </blockquote>
 <h3><a class="anchor" aria-hidden="true" id="tips-tricks"></a><a href="#tips-tricks" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Tips &amp; Tricks</h3>
 <p>When initially deploying to a <code>gh-pages</code> branch using CircleCI, you may notice that some jobs triggered by commits to the <code>gh-pages</code> branch fail to run successfully due to a lack of tests (This can also result in chat/slack build failure notifications).</p>
@@ -251,7 +251,7 @@
   yarn run publish-gh-pages <span class="hljs-comment"># or `npm run publish-gh-pages`</span>
 </code></pre>
 <ul>
-<li>Alternatively, you can work around this by creating a basic CircleCI config with the following contents:</li>
+<li>Vous pouvez également travailler autour de cela en créant une configuration CircleCI basique avec le contenu suivant :</li>
 </ul>
 <pre><code class="hljs css language-yaml"><span class="hljs-comment"># CircleCI 2.0 Config File</span>
 <span class="hljs-comment"># This config file will prevent tests from being run on the gh-pages branch.</span>
@@ -289,8 +289,8 @@
   - cd website &amp;&amp; yarn install &amp;&amp; GIT_USER="${GH_NAME}" yarn run publish-gh-pages
 </span></code></pre>
 <p>Now, whenever a new commit lands in <code>master</code>, Travis CI will run your suite of tests and, if everything passes, your website will be deployed via the <code>publish-gh-pages</code> script.</p>
-<h3><a class="anchor" aria-hidden="true" id="hosting-on-zeit-now"></a><a href="#hosting-on-zeit-now" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Hosting on ZEIT Now</h3>
-<p>With <a href="#using-zeit-now">ZEIT Now</a>, you can deploy your site easily and connect it to <a href="https://zeit.co/github">GitHub</a> or <a href="https://zeit.co/gitlab">GitLab</a> to automatically receive a new deployment every time you push a commit.</p>
+<h3><a class="anchor" aria-hidden="true" id="hebergement-sur-zeit-now"></a><a href="#hebergement-sur-zeit-now" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Hébergement sur ZEIT now</h3>
+<p>Avec <a href="#using-zeit-now">ZEIT Now</a>, vous pouvez déployer votre site facilement et le connecter à <a href="https://zeit.co/github">GitHub</a> ou <a href="https://zeit.co/gitlab">GitLab</a> pour recevoir automatiquement un nouveau déploiement à chaque fois que vous pousser un commit.</p>
 <h3><a class="anchor" aria-hidden="true" id="hosting-on-netlify"></a><a href="#hosting-on-netlify" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Hosting on Netlify</h3>
 <p>Steps to configure your Docusaurus-powered site on Netlify.</p>
 <ol>
@@ -311,14 +311,14 @@
 <p>GitHub enterprise installations should work in the same manner as github.com; you only need to identify the organization's GitHub Enterprise host.</p>
 <table>
 <thead>
-<tr><th>Name</th><th>Description</th></tr>
+<tr><th>Nom</th><th>Description</th></tr>
 </thead>
 <tbody>
-<tr><td><code>GITHUB_HOST</code></td><td>The hostname for the GitHub enterprise server.</td></tr>
+<tr><td><code>GITHUB_HOST</code></td><td>Le nom d'hôte du serveur d'entreprise GitHub.</td></tr>
 </tbody>
 </table>
 <p>Alter your <code>siteConfig.js</code> to add a property <code>'githubHost'</code> which represents the GitHub Enterprise hostname. Alternatively, set an environment variable <code>GITHUB_HOST</code> when executing the publish command.</p>
-</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/fr/1.11.x/site-creation"><span class="arrow-prev">← </span><span>Création de votre site</span></a><a class="docs-next button" href="/docs/fr/1.11.x/docker"><span>Docker</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#creation-des-pages-html-statiques">Création des pages HTML statiques</a></li><li><a href="#hebergement-de-pages-html-statiques">Hébergement de pages HTML statiques</a><ul class="toc-headings"><li><a href="#hebergement-dans-un-service">Hébergement dans un service:</a></li><li><a href="#using-zeit-now">Using ZEIT Now</a></li><li><a href="#utilisation-de-github-pages">Utilisation de Github Pages</a></li></ul></li><li><a href="#automatisation-des-deployements-en-utilisant-lintegration-continue">Automatisation des Déployements en utilisant l'intégration continue</a><ul class="toc-headings"><li><a href="#using-circleci-20">Using CircleCI 2.0</a></li><li><a href="#tips-amp-tricks">Tips &amp; Tricks</a></li><li><a href="#using-travis-ci">Using Travis CI</a></li><li><a href="#hosting-on-zeit-now">Hosting on ZEIT Now</a></li><li><a href="#hosting-on-netlify">Hosting on Netlify</a></li><li><a href="#publishing-to-github-enterprise">Publishing to GitHub Enterprise</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/docusaurus_monochrome.svg" alt="Docusaurus" width="66" height="58"/></a><div class="footerSection"><h5>Docs</h5><a href="
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/fr/1.11.x/site-creation"><span class="arrow-prev">← </span><span>Création de votre site</span></a><a class="docs-next button" href="/docs/fr/1.11.x/docker"><span>Docker</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#creation-des-pages-html-statiques">Création des pages HTML statiques</a></li><li><a href="#hebergement-de-pages-html-statiques">Hébergement de pages HTML statiques</a><ul class="toc-headings"><li><a href="#hebergement-dans-un-service">Hébergement dans un service:</a></li><li><a href="#utiliser-zeit-now">Utiliser ZEIT Now</a></li><li><a href="#utilisation-de-github-pages">Utilisation de Github Pages</a></li></ul></li><li><a href="#automatisation-des-deployements-en-utilisant-lintegration-continue">Automatisation des Déployements en utilisant l'intégration continue</a><ul class="toc-headings"><li><a href="#using-circleci-20">Using CircleCI 2.0</a></li><li><a href="#tips-amp-tricks">Tips &amp; Tricks</a></li><li><a href="#using-travis-ci">Using Travis CI</a></li><li><a href="#hebergement-sur-zeit-now">Hébergement sur ZEIT now</a></li><li><a href="#hosting-on-netlify">Hosting on Netlify</a></li><li><a href="#publishing-to-github-enterprise">Publishing to GitHub Enterprise</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/docusaurus_monochrome.svg" alt="Docusaurus" width="66" height="58"/></a><div class="footerSection"><h5>Docs</h5><a href="
                 /docs/fr/installation">Getting Started</a><a href="
                 /docs/fr/versioning">Versioning</a><a href="
                 /docs/fr/translation">Localization</a><a href="

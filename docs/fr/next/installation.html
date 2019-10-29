@@ -89,7 +89,7 @@
 <p>Vous devez avoir une version de Node &gt;= 8.x et de Yarn &gt;= 1.5.</p>
 </blockquote></li>
 <li><p>Create a project, if none exists, and change your directory to this project's root.</p>
-<p>Vous pouvez créer la documentation dans ce dossier. Le répertoire racine peut contenir d'autres fichiers. The Docusaurus installation script will create two new directories: <code>docs</code> and <code>website</code>.</p>
+<p>Vous pouvez créer la documentation dans ce dossier. Le répertoire racine peut contenir d'autres fichiers. Le script d'installation de Docusaurus vous créera deux nouveaux répertoires : <code>docs</code> et <code>website</code>.</p>
 <blockquote>
 <p>Généralement, un projet GitHub existant ou nouvellement créé sera l'emplacement de votre site Docusaurus, mais ce n'est pas obligatoire pour utiliser Docusaurus.</p>
 </blockquote></li>
@@ -126,15 +126,15 @@
     └── static
 </code></pre>
 <blockquote>
-<p>This installation creates some Docker files that are not necessary to run docusaurus. They may be deleted without issue in the interest of saving space. For more information on Docker, please see the <a href="https://docs.docker.com/">Docker documentation</a>.</p>
+<p>Cette installation crée des fichiers Docker qui ne sont pas nécessaires pour exécuter docusaurus. Ils peuvent être supprimés sans problème dans un souci d'économie de place. Pour plus d'informations sur Docker, veuillez consulter la documentation <a href="https://docs.docker.com/">Docker</a>.</p>
 </blockquote>
 <h2><a class="anchor" aria-hidden="true" id="execution-du-site-web-dexemple"></a><a href="#execution-du-site-web-dexemple" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Exécution du site web d'exemple</h2>
 <p>Après avoir exécuté le script d'initialisation de Docusaurus, <code>docusaurus-init</code> comme décrit dans la section d'<a href="#installing-docusaurus">Installation</a>, vous devriez avoir un exemple de site web à utiliser comme base. Pour se faire:</p>
 <ol>
 <li><p><code>cd website</code></p></li>
-<li><p>From within the <code>website</code> directory, run the local web server using <code>yarn start</code> or <code>npm start</code>.</p></li>
-<li><p>Chargez l'exemple à l'adresse <a href="http://localhost:3000">http://localhost:3000</a> si il ne s'est pas ouvert automatiquement. If port 3000 has already been taken, another port will be used. Look at the console messages to see which.</p>
-<p>Vous devrez voir le site d'exemple chargé dans votre navigateur. Il y a également un serveur de LiveReload de lancé et tous les changements effectuées sur la documentation et les fichés placés dans le dossier <code>website</code> causeront une actualisation de la page. A randomly generated primary and secondary theme color will be picked for you.</p></li>
+<li><p>Dans le dossier <code>website</code>, exécutez le serveur web local en utilisant <code>yarn start</code> ou <code>npm start</code>.</p></li>
+<li><p>Chargez l'exemple à l'adresse <a href="http://localhost:3000">http://localhost:3000</a> si il ne s'est pas ouvert automatiquement. Si le port 3000 est déjà pris, un autre port sera utilisé. Regardez les messages de la console pour voir lequel.</p>
+<p>Vous devrez voir le site d'exemple chargé dans votre navigateur. Il y a également un serveur de LiveReload de lancé et tous les changements effectuées sur la documentation et les fichés placés dans le dossier <code>website</code> causeront une actualisation de la page. Une couleur de thème primaire et secondaire générée aléatoirement sera choisie pour vous.</p></li>
 </ol>
 <p><img src="/img/getting-started-preparation-verify.png" alt=""></p>
 <h3><a class="anchor" aria-hidden="true" id="lancement-du-serveur-derriere-un-proxy"></a><a href="#lancement-du-serveur-derriere-un-proxy" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Lancement du serveur derrière un proxy</h3>

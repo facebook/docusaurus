@@ -123,7 +123,7 @@
 </thead>
 <tbody>
 <tr><td><code>--skip-image-compression</code></td><td><code>false</code></td><td>Saute la compression de l'image. Généralement, vous ne voulez pas sauter cette étape à moins que vos images aient été déjà optimisés.</td></tr>
-<tr><td><code>--skip-next-release</code></td><td><code>false</code></td><td>Skip the next release documents when versioning is enabled. This will not build HTML files for documents in <code>/docs</code> directory.</td></tr>
+<tr><td><code>--skip-next-release</code></td><td><code>false</code></td><td>Ignore les prochains documents de version lorsque le versioning est activé. Cela ne construira pas les fichiers HTML pour les documents dans le répertoire <code>/docs</code> .</td></tr>
 </tbody>
 </table>
 <p>Génère le site Web statique, appliquant des traductions si nécessaire. Utile pour construire le site avant le déploiement.</p>
@@ -146,7 +146,7 @@
 <hr>
 <h3><a class="anchor" aria-hidden="true" id="docusaurus-publish"></a><a href="#docusaurus-publish" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>docusaurus-publish</code></h3>
 <p>Alias: <code>publish-gh-pages</code></p>
-<p><a href="/docs/fr/1.9.x/commands#docusaurus-build">Builds</a>, puis déploie le site web statique sur GitHub Pages. This command is meant to be run during the deployment step in CircleCI, and therefore expects a few environment variables to be defined:</p>
+<p><a href="/docs/fr/1.9.x/commands#docusaurus-build">Builds</a>, puis déploie le site web statique sur GitHub Pages. Cette commande est est destinée à être lancé durant l'étape de déploiement de CircleCI, et donc requiert d'avoir quelques variables d'environnement définit:</p>
 <p>Ces variables d'environnements sont généralement définies manuellement par l'utilisateur dans le fichier de configuration CircleCI <code>config.yml</code>.</p>
 <ul>
 <li><code>GIT_USER</code>: L'utilisateur git qui doit être associé au commit de déploiement.</li>

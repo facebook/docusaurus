@@ -96,7 +96,7 @@
 <span class="hljs-built_in">module</span>.exports = MyPage;
 </code></pre>
 <h2><a class="anchor" aria-hidden="true" id="url-des-pages"></a><a href="#url-des-pages" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>URL des pages</h2>
-<p>Tout fichier <code>.js</code> dans le dossier <code>website/pages</code> sera converti en HTML statique à l'aide du chemin de fichier après <code>pages</code>. Les fichiers dans <code>website/pages/en</code> seront également copiés dans <code>pages</code> et écraseront tous les fichiers du même nom dans <code>pages</code>. For example, the page for the <code>website/pages/en/help.js</code> file will be found at the URL <code>${baseUrl}en/help.js</code> as well as the URL <code>${baseUrl}help.js</code>, where <code>${baseUrl}</code> is the <code>baseUrl</code> fieldset in your <a href="/docs/fr/next/site-config">siteConfig.js file</a>.</p>
+<p>Tout fichier <code>.js</code> dans le dossier <code>website/pages</code> sera converti en HTML statique à l'aide du chemin de fichier après <code>pages</code>. Les fichiers dans <code>website/pages/en</code> seront également copiés dans <code>pages</code> et écraseront tous les fichiers du même nom dans <code>pages</code>. Par exemple, la page pour le fichier <code>website/pages/en/help.js</code> peut-être trouvée à l'URL <code>${baseUrl}/en/help.js</code> ou à l'URL <code>${baseUrl}help.js</code> où <code>${baseUrl}</code> est le champ <code>baseURL</code> configuré dans votre fichier <a href="/docs/fr/next/site-config">siteConfig.js</a>.</p>
 <h2><a class="anchor" aria-hidden="true" id="titre-des-pages"></a><a href="#titre-des-pages" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Titre des pages</h2>
 <p>Par défaut,le titre de votre page est is <code>&lt;title&gt; • &lt;tagline&gt;</code> où les champs <code>title</code> et <code>tagline</code> sont configurés dans <a href="/docs/fr/next/site-config"><code>siteConfig.js</code></a>. Vous pouvez exclure le slogan du titre en paramétrant <code>disableTitleTagline</code> à <code>true</code>. Si vous voulez configurer un titre spécifique dans vos pages personnalisées, ajoutez une propriété de classe <code>title</code> dans votre composant React exporté.</p>
 <p>Exemple :</p>
@@ -153,9 +153,9 @@ module.exports = MyPage;
 <tr><th>Prop</th><th>Type</th><th>Défault</th><th>Description</th></tr>
 </thead>
 <tbody>
-<tr><td><code>padding</code></td><td>Array of <code>'all'</code>, <code>'bottom'</code>, <code>'left'</code>, <code>'right'</code>, <code>'top'</code></td><td><code>[]</code></td><td>Positions of the padding.</td></tr>
-<tr><td><code>arrière-plan</code></td><td>One of <code>'dark'</code>, <code>'highlight'</code>, <code>'light'</code></td><td><code>null</code></td><td>Style d'arrière-plan de l'élément.</td></tr>
-<tr><td><code>className</code></td><td>String</td><td>-</td><td>Custom class to add to the element.</td></tr>
+<tr><td><code>padding</code></td><td>Tableau contenant les valeurs <code>'all'</code>, <code>'bottom'</code>, <code>'left'</code>, <code>'right'</code>, <code>'top'</code></td><td><code>[]</code></td><td>Positions du padding.</td></tr>
+<tr><td><code>arrière-plan</code></td><td>Une des valeurs <code>'dark'</code>, <code>'highlight'</code>, <code>'light'</code></td><td><code>null</code></td><td>Style d'arrière-plan de l'élément.</td></tr>
+<tr><td><code>className</code></td><td>String</td><td>-</td><td>Classe personnalisée pour ajout à l'élément.</td></tr>
 </tbody>
 </table>
 <p><strong>Exemple</strong></p>
@@ -174,23 +174,23 @@ module.exports = MyPage;
 <tr><th>Prop</th><th>Type</th><th>Défault</th><th>Description</th></tr>
 </thead>
 <tbody>
-<tr><td><code>align</code></td><td>One of <code>'left'</code>, <code>'center'</code>, <code>'right'</code></td><td><code>'left'</code></td><td>Alignement du texte du contenu.</td></tr>
-<tr><td><code>layout</code></td><td>One of <code>'twoColumn'</code>, <code>'threeColumn'</code>, <code>'fourColumn'</code></td><td><code>'twoColumn'</code></td><td>Number of column sections in the <code>GridBlock</code>.</td></tr>
-<tr><td><code>className</code></td><td>String</td><td>-</td><td>Custom class to add to the element.</td></tr>
-<tr><td><code>contents</code></td><td>Array of content objects</td><td><code>[]</code></td><td>Contenu de chaque section du bloc GridBlock. Reportez-vous à la table suivante pour les champs disponibles sur un objet de contenu.</td></tr>
+<tr><td><code>align</code></td><td>Une des valeurs <code>'left'</code>, <code>'center'</code>, <code>'right'</code></td><td><code>'left'</code></td><td>Alignement du texte du contenu.</td></tr>
+<tr><td><code>layout</code></td><td>Une des valeurs <code>'twoColumn'</code>, <code>'threeColumn'</code>, <code>'fourColumn'</code></td><td><code>'twoColumn'</code></td><td>Nombre de sections de colonnes dans <code>GridBlock</code>.</td></tr>
+<tr><td><code>className</code></td><td>String</td><td>-</td><td>Classe personnalisée pour ajout à l'élément.</td></tr>
+<tr><td><code>contents</code></td><td>Tableau d'objets de contenu</td><td><code>[]</code></td><td>Contenu de chaque section du bloc GridBlock. Reportez-vous à la table suivante pour les champs disponibles sur un objet de contenu.</td></tr>
 </tbody>
 </table>
 <p><strong>Content Object</strong></p>
 <table>
 <thead>
-<tr><th>Key</th><th>Type</th><th>Défault</th><th>Description</th></tr>
+<tr><th>Clé</th><th>Type</th><th>Défault</th><th>Description</th></tr>
 </thead>
 <tbody>
-<tr><td><code>titre</code></td><td>String</td><td>-</td><td>Le titre d'affichage de cette section, qui est analysé en utilisant Markdown</td></tr>
+<tr><td><code>title</code></td><td>String</td><td>-</td><td>Le titre d'affichage de cette section, qui est analysé en utilisant Markdown</td></tr>
 <tr><td><code>content</code></td><td>String</td><td>-</td><td>Le texte de cette section, qui est analysé en utilisant Markdown</td></tr>
 <tr><td><code>image</code></td><td>String</td><td>-</td><td>Le chemin d’accès de l’image</td></tr>
 <tr><td><code>imageAlt</code></td><td>String</td><td>-</td><td>Le texte qui sera affiché dans le cas où l'image n'est pas disponible</td></tr>
-<tr><td><code>imageAlign</code></td><td>One of <code>'top'</code>, <code>'left'</code>, <code>'bottom'</code>, <code>'right'</code></td><td><code>'left'</code></td><td>Image alignment relative to the text</td></tr>
+<tr><td><code>imageAlign</code></td><td>Une des valeurs <code>'top'</code>, <code>'left'</code>, <code>'bottom'</code>, <code>'right'</code></td><td><code>'left'</code></td><td>Alignement de l'image par rapport au texte</td></tr>
 <tr><td><code>imageLink</code></td><td>String</td><td>-</td><td>Lien de la destination en cliquant sur le lien d'image</td></tr>
 </tbody>
 </table>
@@ -243,7 +243,7 @@ module.exports = MyPage;
 <p>Static assets should be placed into the <code>website/static</code> directory. They can be accessed by their paths, excluding <code>static</code>. For example, if the site's <code>baseUrl</code> is <code>/docusaurus/</code>, an image in <code>website/static/img/logo.png</code> is available at <code>/docusaurus/img/logo.png</code>.</p>
 <h2><a class="anchor" aria-hidden="true" id="styles"></a><a href="#styles" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Styles</h2>
 <p>You should configure your site's primary, secondary, and code block colors using the <code>colors</code> field in <code>siteConfig</code> as specified <a href="/docs/fr/next/site-config">here</a>. You can also configure other colors in the same way as described in the <code>siteConfig</code> doc.</p>
-<p>There are several ways to access the default styles provided for your site. If you have started developing your website and executed the <code>docusaurus-init</code> or <code>yarn install</code> command, your default styles can be found at <code>website/node_modules/docusaurus/lib/static/css/main.css</code>. Alternatively, the <code>main.css</code> file may be inspected directly at the <a href="https://github.com/facebook/docusaurus/blob/master/packages/docusaurus-1.x/lib/static/css/main.css">Docusarus GitHub repository</a>.</p>
+<p>Il existe plusieurs façons d'accéder aux styles par défaut fournis pour votre site. Si vous avez commencé à développer votre site web et exécuter la commande <code>docusaurus-init</code> ou <code>yarn install</code> vous pouvez trouver vos styles par défaut dans <code>site/node_modules/docusaurus/lib/static/css/main.css</code>. Alternativement, le fichier <code>main.css</code> peut être inspecté directement sur le <a href="https://github.com/facebook/docusaurus/blob/master/packages/docusaurus-1.x/lib/static/css/main.css">dépôt Github de Docusarus</a>.</p>
 <p>Vous pouvez fournir vos propres styles personnalisés en les ajoutant n'importe où dans le répertoire <code>website/static</code> . Any <code>.css</code> files you provide in the <code>static</code> directory will get concatenated to the end of Docusaurus' provided styles, allowing you to add to or override Docusaurus default styles as you wish.</p>
 <p>An easy way to figure out what classes you wish to override or add to is to <a href="/docs/fr/next/commands">start your server locally</a> and use your browser's inspect element tool.</p>
 </span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/fr/next/doc-markdown"><span class="arrow-prev">← </span><span>Fonctionnalités de Markdown</span></a><a class="docs-next button" href="/docs/fr/next/site-config"><span class="function-name-prevnext">siteConfig.js</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#provided-props">Provided Props</a></li><li><a href="#url-des-pages">URL des pages</a></li><li><a href="#titre-des-pages">Titre des pages</a></li><li><a href="#description-des-pages">Description des pages</a></li><li><a href="#page-require-paths">Page Require Paths</a></li><li><a href="#provided-components">Provided Components</a><ul class="toc-headings"><li><a href="#complibrarymarkdownblock"><code>CompLibrary.MarkdownBlock</code></a></li><li><a href="#complibrarycontainer"><code>CompLibrary.Container</code></a></li><li><a href="#complibrarygridblock"><code>CompLibrary.GridBlock</code></a></li></ul></li><li><a href="#translating-strings">Translating Strings</a></li><li><a href="#using-static-assets">Using Static Assets</a></li><li><a href="#styles">Styles</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/docusaurus_monochrome.svg" alt="Docusaurus" width="66" height="58"/></a><div class="footerSection"><h5>Docs</h5><a href="

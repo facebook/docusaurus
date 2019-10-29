@@ -123,7 +123,7 @@
 </thead>
 <tbody>
 <tr><td><code>--skip-image-compression</code></td><td><code>false</code></td><td>Saute la compression de l'image. Généralement, vous ne voulez pas sauter cette étape à moins que vos images aient été déjà optimisés.</td></tr>
-<tr><td><code>--skip-next-release</code></td><td><code>false</code></td><td>Skip the next release documents when versioning is enabled. This will not build HTML files for documents in <code>/docs</code> directory.</td></tr>
+<tr><td><code>--skip-next-release</code></td><td><code>false</code></td><td>Ignore les prochains documents de version lorsque le versioning est activé. Cela ne construira pas les fichiers HTML pour les documents dans le répertoire <code>/docs</code> .</td></tr>
 </tbody>
 </table>
 <p>Génère le site Web statique, appliquant des traductions si nécessaire. Utile pour construire le site avant le déploiement.</p>
@@ -146,7 +146,7 @@
 <hr>
 <h3><a class="anchor" aria-hidden="true" id="docusaurus-publish"></a><a href="#docusaurus-publish" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>docusaurus-publish</code></h3>
 <p>Alias: <code>publish-gh-pages</code></p>
-<p><a href="/docs/fr/commands#docusaurus-build">Builds</a>, puis déploie le site web statique sur GitHub Pages. This command is meant to be run during the deployment step in CircleCI, and therefore expects a few environment variables to be defined:</p>
+<p><a href="/docs/fr/commands#docusaurus-build">Builds</a>, puis déploie le site web statique sur GitHub Pages. Cette commande est est destinée à être lancé durant l'étape de déploiement de CircleCI, et donc requiert d'avoir quelques variables d'environnement définit:</p>
 <p>Ces variables d'environnements sont généralement définies manuellement par l'utilisateur dans le fichier de configuration CircleCI <code>config.yml</code>.</p>
 <ul>
 <li><code>GIT_USER</code>: L'utilisateur git qui doit être associé au commit de déploiement.</li>
@@ -193,7 +193,7 @@
 </thead>
 <tbody>
 <tr><td><code>--port &lt;number&gt;</code></td><td><code>3000</code></td><td>Le site web est accessible par défaut sur le port 3000, mais si le port est déjà utilisé Docusaurus va essayer d'en trouver un de libre.</td></tr>
-<tr><td><code>--host &lt;host&gt;</code></td><td><code>localhost</code></td><td>Specify a host to use. E.g., if you want your server to be accessible externally, you can use --host 0.0.0.0.</td></tr>
+<tr><td><code>--host &lt;host&gt;</code></td><td><code>localhost</code></td><td>Spécifie un hôte à utiliser. Par exemple, si vous voulez que votre serveur soit accessible à l'extérieur, vous pouvez utiliser --host 0.0.0.0.0.</td></tr>
 <tr><td><code>--watch</code></td><td>-</td><td>Regarde les fichiers et actualise la page lorsque des modifications ont été apporté. La valeur par défaut est true. Vous pouvez désactiver cette mécanique en utilisant <code>--no-cache</code>.</td></tr>
 </tbody>
 </table>
@@ -208,7 +208,7 @@
 <hr>
 <h3><a class="anchor" aria-hidden="true" id="docusaurus-write-translations"></a><a href="#docusaurus-write-translations" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>docusaurus-write-translations</code></h3>
 <p>Alias: <code>write-translations</code></p>
-<p>Writes the English for any strings that need to be translated into a <code>website/i18n/en.json</code> file. The script will go through every file in <code>website/pages/en</code> and through the <code>siteConfig.js</code> file and other config files to fetch English strings that will then be translated on Crowdin. See the <a href="/docs/fr/translation">Translation guide</a> to learn more.</p>
+<p>Écrit en anglais toutes les chaînes qui doivent être traduites dans un fichier <code>website/i18n/en.json</code> . The script will go through every file in <code>website/pages/en</code> and through the <code>siteConfig.js</code> file and other config files to fetch English strings that will then be translated on Crowdin. See the <a href="/docs/fr/translation">Translation guide</a> to learn more.</p>
 </span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/fr/versioning"><span class="arrow-prev">← </span><span>Gestion de version</span></a><a class="docs-next button" href="/docs/fr/doc-markdown"><span>Fonctionnalités de Markdown</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#utilisation-depuis-linterface-de-commande">Utilisation depuis l'interface de commande</a></li><li><a href="#utilisation-avec-des-arguments">Utilisation avec des arguments</a></li><li><a href="#configuration">Configuration</a></li><li><a href="#les-commandes">Les Commandes</a></li><li><a href="#reference">Référence</a><ul class="toc-headings"><li><a href="#docusaurus-build"><code>docusaurus-build</code></a></li><li><a href="#docusaurus-examples"><code>docusaurus-examples</code></a></li><li><a href="#docusaurus-publish"><code>docusaurus-publish</code></a></li><li><a href="#docusaurus-rename-version"><code>docusaurus-rename-version</code></a></li><li><a href="#docusaurus-start"><code>docusaurus-start</code></a></li><li><a href="#docusaurus-version"><code>docusaurus-version</code></a></li><li><a href="#docusaurus-write-translations"><code>docusaurus-write-translations</code></a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/docusaurus_monochrome.svg" alt="Docusaurus" width="66" height="58"/></a><div class="footerSection"><h5>Docs</h5><a href="
                 /docs/fr/installation">Getting Started</a><a href="
                 /docs/fr/versioning">Versioning</a><a href="
