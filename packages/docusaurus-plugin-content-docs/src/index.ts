@@ -177,9 +177,8 @@ export default function pluginContentDocs(
             case 'doc':
               return convertDocLink(item as SidebarItemDoc);
             case 'link':
-              break;
             default:
-              throw new Error(`Unknown sidebar item type: ${item.type}`);
+              break;
           }
           return item as SidebarItemLink;
         });
@@ -208,7 +207,7 @@ export default function pluginContentDocs(
     },
 
     async contentLoaded({content, actions}) {
-      if (!content) {
+      if (!content || Object.keys(content.docsMetadata).length === 0) {
         return;
       }
 

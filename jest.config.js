@@ -13,7 +13,7 @@ const ignorePatterns = [
   '/packages/docusaurus/lib',
   '/packages/docusaurus-utils/lib',
   '/packages/docusaurus-plugin-content-blog/lib',
-  '/packages/docusaurus-plugin-content-docs-legacy/lib',
+  '/packages/docusaurus-plugin-content-docs/lib',
   '/packages/docusaurus-plugin-content-pages/lib',
 ];
 

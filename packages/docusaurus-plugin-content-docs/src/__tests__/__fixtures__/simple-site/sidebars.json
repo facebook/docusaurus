@@ -1,8 +1,11 @@
 {
   "docs": {
     "Test": [
-      "foo/bar",
-      "foo/baz",
+      {
+        "type": "category",
+        "label": "foo",
+        "items": ["foo/bar", "foo/baz"] 
+      },
       {
         "type": "link",
         "label": "Github",

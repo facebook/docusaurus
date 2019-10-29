@@ -7,7 +7,6 @@
 
 import shell from 'shelljs';
 import spawn from 'cross-spawn';
-import {file} from '@babel/types';
 
 type FileLastUpdateData = {timestamp?: number; author?: string};
 
