@@ -9,7 +9,7 @@
 - Refactor dark toggle into a hook.
 - Changed the way we read the `USE_SSH` env variable during deployment to be the same as in v1.
 - Fix accessing `docs/` or `/docs/xxxx` that does not match any existing doc page should return 404 (Not found) page, not blank page.
-- Added code block line highlighting feature (thanks @lex111)!
+- Added code block line highlighting feature (thanks @lex111)! If you have previously swizzled the `CodeBlock` theme component, it is recommended to update your source code to have this feature.
 
 ## 2.0.0-alpha.31
 
