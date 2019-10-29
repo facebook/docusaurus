@@ -7,6 +7,7 @@
 
 import path from 'path';
 import {validate} from 'webpack';
+import fs from 'fs-extra';
 import pluginContentDocs from '../index';
 import {loadContext} from '@docusaurus/core/src/server/index';
 import {applyConfigureWebpack} from '@docusaurus/core/src/webpack/utils';
@@ -47,6 +48,7 @@ describe('empty/no docs website', () => {
   const context = loadContext(siteDir);
 
   test('no files in docs folder', async () => {
+    await fs.ensureDir(path.join(siteDir, 'docs'));
     const plugin = pluginContentDocs(context, {});
     const content = await plugin.loadContent();
     const {docsMetadata, docsSidebars} = content;

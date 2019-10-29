@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1572358764789" clover="3.2.0">
+  <project timestamp="1572358764789" name="All files">
+    <metrics statements="289" coveredstatements="192" conditionals="171" coveredconditionals="95" methods="55" coveredmethods="32" elements="515" coveredelements="319" complexity="0" loc="289" ncloc="289" packages="3" files="7" classes="7"/>
+    <package name="docusaurus-plugin-content-docs.src">
+      <metrics statements="184" coveredstatements="141" conditionals="106" coveredconditionals="72" methods="32" coveredmethods="26"/>
+      <file name="index.ts" path="/mnt/c/Users/endij/Desktop/Linux/Docusaurus/packages/docusaurus-plugin-content-docs/src/index.ts">
+        <metrics statements="71" coveredstatements="48" conditionals="24" coveredconditionals="15" methods="16" coveredmethods="10"/>
+        <line num="36" count="1" type="stmt"/>
+        <line num="53" count="1" type="stmt"/>
+        <line num="54" count="1" type="stmt"/>
+        <line num="55" count="1" type="stmt"/>
+        <line num="56" count="1" type="stmt"/>
+        <line num="61" count="1" type="stmt"/>
+        <line num="65" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="66" count="0" type="stmt"/>
+        <line num="67" count="0" type="stmt"/>
+        <line num="79" count="1" type="stmt"/>
+        <line num="80" count="1" type="stmt"/>
+        <line num="81" count="1" type="stmt"/>
+        <line num="83" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="84" count="0" type="stmt"/>
+        <line num="87" count="1" type="stmt"/>
+        <line num="90" count="1" type="stmt"/>
+        <line num="95" count="1" type="stmt"/>
+        <line num="98" count="1" type="stmt"/>
+        <line num="101" count="1" type="stmt"/>
+        <line num="103" count="5" type="stmt"/>
+        <line num="114" count="5" type="stmt"/>
+        <line num="119" count="1" type="stmt"/>
+        <line num="120" count="1" type="stmt"/>
+        <line num="123" count="5" type="stmt"/>
+        <line num="124" count="5" type="cond" truecount="2" falsecount="0"/>
+        <line num="125" count="2" type="stmt"/>
+        <line num="130" count="5" type="stmt"/>
+        <line num="131" count="5" type="cond" truecount="2" falsecount="0"/>
+        <line num="132" count="2" type="stmt"/>
+        <line num="137" count="5" type="stmt"/>
+        <line num="144" count="1" type="stmt"/>
+        <line num="145" count="1" type="stmt"/>
+        <line num="146" count="5" type="stmt"/>
+        <line num="147" count="5" type="cond" truecount="2" falsecount="0"/>
+        <line num="148" count="3" type="stmt"/>
+        <line num="152" count="1" type="stmt"/>
+        <line num="153" count="4" type="stmt"/>
+        <line num="154" count="4" type="stmt"/>
+        <line num="156" count="4" type="cond" truecount="1" falsecount="1"/>
+        <line num="157" count="0" type="stmt"/>
+        <line num="162" count="4" type="stmt"/>
+        <line num="169" count="1" type="stmt"/>
+        <line num="172" count="2" type="stmt"/>
+        <line num="173" count="5" type="cond" truecount="3" falsecount="2"/>
+        <line num="175" count="0" type="stmt"/>
+        <line num="178" count="4" type="stmt"/>
+        <line num="180" count="1" type="stmt"/>
+        <line num="182" count="0" type="stmt"/>
+        <line num="184" count="1" type="stmt"/>
+        <line num="186" count="2" type="stmt"/>
+        <line num="191" count="1" type="stmt"/>
+        <line num="193" count="1" type="stmt"/>
+        <line num="194" count="2" type="stmt"/>
+        <line num="196" count="1" type="stmt"/>
+        <line num="201" count="1" type="stmt"/>
+        <line num="211" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="212" count="0" type="stmt"/>
+        <line num="215" count="0" type="stmt"/>
+        <line num="216" count="0" type="stmt"/>
+        <line num="217" count="0" type="stmt"/>
+        <line num="218" count="0" type="stmt"/>
+        <line num="220" count="0" type="stmt"/>
+        <line num="222" count="0" type="stmt"/>
+        <line num="226" count="0" type="stmt"/>
+        <line num="238" count="0" type="stmt"/>
+        <line num="243" count="0" type="stmt"/>
+        <line num="247" count="0" type="stmt"/>
+        <line num="252" count="0" type="stmt"/>
+        <line num="263" count="0" type="stmt"/>
+        <line num="264" count="0" type="stmt"/>
+        <line num="265" count="0" type="stmt"/>
+      </file>
+      <file name="lastUpdate.ts" path="/mnt/c/Users/endij/Desktop/Linux/Docusaurus/packages/docusaurus-plugin-content-docs/src/lastUpdate.ts">
+        <metrics statements="16" coveredstatements="10" conditionals="10" coveredconditionals="6" methods="2" coveredmethods="2"/>
+        <line num="13" count="3" type="stmt"/>
+        <line num="15" count="3" type="stmt"/>
+        <line num="21" count="5" type="cond" truecount="2" falsecount="0"/>
+        <line num="22" count="4" type="stmt"/>
+        <line num="25" count="1" type="stmt"/>
+        <line num="26" count="1" type="cond" truecount="3" falsecount="1"/>
+        <line num="32" count="5" type="stmt"/>
+        <line num="33" count="5" type="cond" truecount="1" falsecount="1"/>
+        <line num="34" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="35" count="0" type="stmt"/>
+        <line num="36" count="0" type="stmt"/>
+        <line num="39" count="0" type="stmt"/>
+        <line num="42" count="5" type="stmt"/>
+        <line num="47" count="5" type="stmt"/>
+        <line num="49" count="0" type="stmt"/>
+        <line num="52" count="0" type="stmt"/>
+      </file>
+      <file name="metadata.ts" path="/mnt/c/Users/endij/Desktop/Linux/Docusaurus/packages/docusaurus-plugin-content-docs/src/metadata.ts">
+        <metrics statements="43" coveredstatements="34" conditionals="41" coveredconditionals="24" methods="1" coveredmethods="1"/>
+        <line num="39" count="10" type="stmt"/>
+        <line num="41" count="10" type="stmt"/>
+        <line num="42" count="10" type="cond" truecount="0" falsecount="1"/>
+        <line num="45" count="10" type="cond" truecount="1" falsecount="1"/>
+        <line num="46" count="0" type="stmt"/>
+        <line num="49" count="10" type="cond" truecount="1" falsecount="1"/>
+        <line num="50" count="0" type="stmt"/>
+        <line num="54" count="10" type="cond" truecount="2" falsecount="0"/>
+        <line num="55" count="2" type="stmt"/>
+        <line num="58" count="10" type="cond" truecount="2" falsecount="0"/>
+        <line num="59" count="8" type="stmt"/>
+        <line num="62" count="10" type="stmt"/>
+        <line num="63" count="10" type="cond" truecount="2" falsecount="0"/>
+        <line num="64" count="4" type="stmt"/>
+        <line num="65" count="4" type="cond" truecount="1" falsecount="1"/>
+        <line num="66" count="4" type="stmt"/>
+        <line num="71" count="10" type="stmt"/>
+        <line num="72" count="10" type="stmt"/>
+        <line num="75" count="10" type="stmt"/>
+        <line num="79" count="10" type="cond" truecount="2" falsecount="0"/>
+        <line num="80" count="2" type="stmt"/>
+        <line num="87" count="8" type="stmt"/>
+        <line num="91" count="10" type="stmt"/>
+        <line num="92" count="10" type="cond" truecount="2" falsecount="0"/>
+        <line num="93" count="3" type="stmt"/>
+        <line num="94" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="95" count="2" type="stmt"/>
+        <line num="97" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="98" count="2" type="stmt"/>
+        <line num="102" count="10" type="cond" truecount="2" falsecount="0"/>
+        <line num="103" count="1" type="stmt"/>
+        <line num="106" count="10" type="cond" truecount="2" falsecount="0"/>
+        <line num="107" count="2" type="stmt"/>
+        <line num="108" count="2" type="stmt"/>
+        <line num="111" count="10" type="cond" truecount="3" falsecount="1"/>
+        <line num="114" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="121" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="122" count="0" type="stmt"/>
+        <line num="123" count="0" type="cond" truecount="0" falsecount="4"/>
+        <line num="124" count="0" type="stmt"/>
+        <line num="127" count="0" type="cond" truecount="0" falsecount="4"/>
+        <line num="128" count="0" type="stmt"/>
+        <line num="133" count="10" type="stmt"/>
+      </file>
+      <file name="order.ts" path="/mnt/c/Users/endij/Desktop/Linux/Docusaurus/packages/docusaurus-plugin-content-docs/src/order.ts">
+        <metrics statements="22" coveredstatements="21" conditionals="10" coveredconditionals="9" methods="4" coveredmethods="4"/>
+        <line num="18" count="8" type="stmt"/>
+        <line num="20" count="8" type="stmt"/>
+        <line num="21" count="9" type="stmt"/>
+        <line num="23" count="9" type="stmt"/>
+        <line num="24" count="9" type="stmt"/>
+        <line num="25" count="28" type="stmt"/>
+        <line num="26" count="43" type="cond" truecount="4" falsecount="1"/>
+        <line num="28" count="19" type="stmt"/>
+        <line num="31" count="19" type="stmt"/>
+        <line num="35" count="5" type="stmt"/>
+        <line num="37" count="19" type="stmt"/>
+        <line num="38" count="19" type="stmt"/>
+        <line num="40" count="0" type="stmt"/>
+        <line num="47" count="9" type="stmt"/>
+        <line num="50" count="9" type="stmt"/>
+        <line num="51" count="19" type="stmt"/>
+        <line num="55" count="19" type="cond" truecount="2" falsecount="0"/>
+        <line num="56" count="10" type="stmt"/>
+        <line num="59" count="19" type="cond" truecount="2" falsecount="0"/>
+        <line num="60" count="10" type="stmt"/>
+        <line num="63" count="19" type="stmt"/>
+        <line num="71" count="7" type="stmt"/>
+      </file>
+      <file name="sidebars.ts" path="/mnt/c/Users/endij/Desktop/Linux/Docusaurus/packages/docusaurus-plugin-content-docs/src/sidebars.ts">
+        <metrics statements="32" coveredstatements="28" conditionals="21" coveredconditionals="18" methods="9" coveredmethods="9"/>
+        <line num="22" count="14" type="stmt"/>
+        <line num="23" count="40" type="cond" truecount="2" falsecount="0"/>
+        <line num="26" count="14" type="cond" truecount="1" falsecount="1"/>
+        <line num="27" count="0" type="stmt"/>
+        <line num="43" count="10" type="stmt"/>
+        <line num="45" count="10" type="cond" truecount="1" falsecount="1"/>
+        <line num="46" count="0" type="stmt"/>
+        <line num="51" count="10" type="stmt"/>
+        <line num="52" count="22" type="cond" truecount="2" falsecount="0"/>
+        <line num="53" count="13" type="stmt"/>
+        <line num="58" count="9" type="cond" truecount="4" falsecount="0"/>
+        <line num="60" count="4" type="stmt"/>
+        <line num="62" count="2" type="stmt"/>
+        <line num="63" count="2" type="stmt"/>
+        <line num="65" count="2" type="stmt"/>
+        <line num="66" count="2" type="stmt"/>
+        <line num="68" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="69" count="1" type="stmt"/>
+        <line num="72" count="0" type="stmt"/>
+        <line num="73" count="0" type="stmt"/>
+        <line num="76" count="4" type="stmt"/>
+        <line num="79" count="9" type="stmt"/>
+        <line num="86" count="5" type="stmt"/>
+        <line num="90" count="4" type="cond" truecount="2" falsecount="0"/>
+        <line num="92" count="6" type="stmt"/>
+        <line num="98" count="1" type="stmt"/>
+        <line num="101" count="6" type="stmt"/>
+        <line num="103" count="3" type="stmt"/>
+        <line num="111" count="5" type="stmt"/>
+        <line num="112" count="5" type="cond" truecount="4" falsecount="0"/>
+        <line num="113" count="4" type="stmt"/>
+        <line num="115" count="5" type="stmt"/>
+      </file>
+    </package>
+    <package name="docusaurus-plugin-content-docs.src.__tests__.__fixtures__.website">
+      <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="sidebars-category.js" path="/mnt/c/Users/endij/Desktop/Linux/Docusaurus/packages/docusaurus-plugin-content-docs/src/__tests__/__fixtures__/website/sidebars-category.js">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="8" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="docusaurus-utils.lib">
+      <metrics statements="104" coveredstatements="50" conditionals="65" coveredconditionals="23" methods="23" coveredmethods="6"/>
+      <file name="index.js" path="/mnt/c/Users/endij/Desktop/Linux/Docusaurus/packages/docusaurus-utils/lib/index.js">
+        <metrics statements="104" coveredstatements="50" conditionals="65" coveredconditionals="23" methods="23" coveredmethods="6"/>
+        <line num="8" count="2" type="cond" truecount="2" falsecount="1"/>
+        <line num="9" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="10" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="12" count="0" type="stmt"/>
+        <line num="13" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="14" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="17" count="2" type="cond" truecount="2" falsecount="1"/>
+        <line num="18" count="10" type="cond" truecount="3" falsecount="1"/>
+        <line num="20" count="2" type="stmt"/>
+        <line num="21" count="2" type="stmt"/>
+        <line num="22" count="2" type="stmt"/>
+        <line num="23" count="2" type="stmt"/>
+        <line num="24" count="2" type="stmt"/>
+        <line num="25" count="2" type="stmt"/>
+        <line num="26" count="2" type="stmt"/>
+        <line num="27" count="2" type="stmt"/>
+        <line num="29" count="0" type="stmt"/>
+        <line num="30" count="0" type="stmt"/>
+        <line num="31" count="0" type="stmt"/>
+        <line num="32" count="0" type="stmt"/>
+        <line num="35" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="36" count="0" type="stmt"/>
+        <line num="37" count="0" type="stmt"/>
+        <line num="38" count="0" type="stmt"/>
+        <line num="42" count="2" type="stmt"/>
+        <line num="43" count="2" type="stmt"/>
+        <line num="44" count="2" type="stmt"/>
+        <line num="49" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="50" count="0" type="stmt"/>
+        <line num="52" count="0" type="stmt"/>
+        <line num="54" count="2" type="stmt"/>
+        <line num="56" count="0" type="stmt"/>
+        <line num="58" count="0" type="stmt"/>
+        <line num="61" count="2" type="stmt"/>
+        <line num="66" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="67" count="0" type="stmt"/>
+        <line num="69" count="0" type="stmt"/>
+        <line num="73" count="0" type="stmt"/>
+        <line num="75" count="2" type="stmt"/>
+        <line num="80" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="81" count="0" type="stmt"/>
+        <line num="83" count="0" type="stmt"/>
+        <line num="84" count="0" type="stmt"/>
+        <line num="85" count="0" type="stmt"/>
+        <line num="87" count="2" type="stmt"/>
+        <line num="92" count="0" type="stmt"/>
+        <line num="93" count="0" type="stmt"/>
+        <line num="94" count="0" type="cond" truecount="0" falsecount="4"/>
+        <line num="95" count="0" type="stmt"/>
+        <line num="97" count="0" type="stmt"/>
+        <line num="99" count="2" type="stmt"/>
+        <line num="100" count="2" type="stmt"/>
+        <line num="105" count="0" type="stmt"/>
+        <line num="106" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="107" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="108" count="0" type="stmt"/>
+        <line num="114" count="0" type="stmt"/>
+        <line num="115" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="116" count="0" type="stmt"/>
+        <line num="120" count="0" type="stmt"/>
+        <line num="122" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="123" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="125" count="0" type="stmt"/>
+        <line num="127" count="0" type="stmt"/>
+        <line num="129" count="2" type="stmt"/>
+        <line num="131" count="18" type="cond" truecount="3" falsecount="0"/>
+        <line num="134" count="36" type="cond" truecount="2" falsecount="0"/>
+        <line num="137" count="2" type="stmt"/>
+        <line num="142" count="0" type="stmt"/>
+        <line num="143" count="0" type="stmt"/>
+        <line num="144" count="0" type="stmt"/>
+        <line num="145" count="0" type="stmt"/>
+        <line num="146" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="148" count="2" type="stmt"/>
+        <line num="150" count="10" type="stmt"/>
+        <line num="152" count="10" type="stmt"/>
+        <line num="158" count="10" type="stmt"/>
+        <line num="159" count="10" type="stmt"/>
+        <line num="161" count="2" type="stmt"/>
+        <line num="163" count="9" type="stmt"/>
+        <line num="164" count="9" type="stmt"/>
+        <line num="166" count="9" type="cond" truecount="2" falsecount="2"/>
+        <line num="167" count="0" type="stmt"/>
+        <line num="168" count="0" type="stmt"/>
+        <line num="172" count="9" type="cond" truecount="1" falsecount="1"/>
+        <line num="173" count="9" type="stmt"/>
+        <line num="175" count="9" type="stmt"/>
+        <line num="176" count="26" type="stmt"/>
+        <line num="177" count="26" type="cond" truecount="1" falsecount="1"/>
+        <line num="178" count="0" type="stmt"/>
+        <line num="180" count="26" type="cond" truecount="1" falsecount="1"/>
+        <line num="182" count="0" type="stmt"/>
+        <line num="184" count="26" type="cond" truecount="2" falsecount="0"/>
+        <line num="186" count="17" type="stmt"/>
+        <line num="190" count="26" type="cond" truecount="2" falsecount="0"/>
+        <line num="191" count="26" type="stmt"/>
+        <line num="193" count="9" type="stmt"/>
+        <line num="196" count="9" type="stmt"/>
+        <line num="198" count="9" type="stmt"/>
+        <line num="199" count="9" type="cond" truecount="1" falsecount="1"/>
+        <line num="201" count="9" type="stmt"/>
+        <line num="202" count="9" type="stmt"/>
+        <line num="204" count="2" type="stmt"/>
+      </file>
+    </package>
+  </project>
+</coverage>
