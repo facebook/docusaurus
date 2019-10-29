@@ -285,22 +285,20 @@ export default function pluginContentBlog(
         }),
       );
 
-      await Promise.all(
-        blogItems.map(async blogItem => {
-          const {metadata, metadataPath} = blogItem;
-          const {source, permalink} = metadata;
+      blogItems.map(blogItem => {
+        const {metadata, metadataPath} = blogItem;
+        const {source, permalink} = metadata;
 
-          addRoute({
-            path: permalink,
-            component: blogPostComponent,
-            exact: true,
-            modules: {
-              content: source,
-              metadata: aliasedSource(metadataPath),
-            },
-          });
-        }),
-      );
+        addRoute({
+          path: permalink,
+          component: blogPostComponent,
+          exact: true,
+          modules: {
+            content: source,
+            metadata: aliasedSource(metadataPath),
+          },
+        });
+      });
 
       // Create routes for blog's paginated list entries.
       await Promise.all(
