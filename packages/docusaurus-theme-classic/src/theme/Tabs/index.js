@@ -14,7 +14,7 @@ function Tabs(props) {
   const [selectedValue, setSelectedValue] = useState(defaultValue);
 
   return (
-    <div>
+    <div className="docusaurus-code-tabs">
       <ul
         className={classnames('tabs', {
           'tabs--block': block,
