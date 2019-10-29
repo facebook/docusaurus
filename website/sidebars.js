@@ -34,7 +34,7 @@ module.exports = {
       {
         type: 'category',
         label: 'Themes',
-        items: ['using-themes', 'advanced-themes'],
+        items: ['using-themes', 'advanced-themes', 'theme-classic'],
       },
       'presets',
     ],

@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Fixed a bug in which if `themeConfig.algolia` is not defined, the custom searchbar won't appear.
 - Reduce memory usage consumption.
 - Slightly adjust search icon position to be more aligned on small width device.
 - Convert sitemap plugin to TypeScript.

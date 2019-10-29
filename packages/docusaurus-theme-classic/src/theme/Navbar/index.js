@@ -52,7 +52,7 @@ function Navbar() {
   const [theme, setTheme] = useTheme();
   const {siteConfig = {}} = context;
   const {baseUrl, themeConfig = {}} = siteConfig;
-  const {algolia, navbar = {}} = themeConfig;
+  const {navbar = {}} = themeConfig;
   const {title, logo = {}, links = []} = navbar;
 
   const showSidebar = useCallback(() => {
@@ -137,14 +137,12 @@ function Navbar() {
                 unchecked: <Sun />,
               }}
             />
-            {algolia && (
-              <div className="navbar__search" key="search-box">
-                <SearchBar
-                  handleSearchBarToggle={setIsSearchBarExpanded}
-                  isSearchBarExpanded={isSearchBarExpanded}
-                />
-              </div>
-            )}
+            <div className="navbar__search" key="search-box">
+              <SearchBar
+                handleSearchBarToggle={setIsSearchBarExpanded}
+                isSearchBarExpanded={isSearchBarExpanded}
+              />
+            </div>
           </div>
         </div>
         <div
