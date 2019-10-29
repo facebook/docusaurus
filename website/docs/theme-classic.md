@@ -46,6 +46,6 @@ module.exports = {
 }
 ```
 
-Outbound links automatically get `target="_blank" rel="noopener noreferrer"`. You can offer `target` and `rel` to customize the attributes:
+Outbound links automatically get `target="_blank" rel="noopener noreferrer"`.
 
 ## Footer
