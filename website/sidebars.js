@@ -37,7 +37,6 @@ module.exports = {
         items: ['using-themes', 'advanced-themes'],
       },
       'presets',
-      'monorepo',
     ],
     'API Reference': [
       'cli',
