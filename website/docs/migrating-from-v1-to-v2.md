@@ -49,13 +49,14 @@ Meanwhile, CLI commands are renamed to `docusaurus <command>` (instead of `docus
 
 The `"scripts"` section of your `package.json` should be updated as follows:
 
-```json
+```json {3-6}
 {
   "scripts": {
     "start": "docusaurus start",
     "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy"
+    ...
   }
 }
 ```
@@ -125,7 +126,7 @@ No actions needed.
 
 Deprecated. We wrote a custom CSS framework for Docusaurus 2 called Infima which uses CSS variables for theming. The docs are not quite ready yet and we will update here when it is. To overwrite Infima' CSS variables, create your own CSS file (e.g. `./src/css/custom.css`) and import it globally by passing it as an option to `@docusaurus/preset-classic`:
 
-```diff
+```js {8-10}
 // docusaurus.config.js
 module.exports = {
   // ...
@@ -133,9 +134,9 @@ module.exports = {
     [
       '@docusaurus/preset-classic',
       {
-+       theme: {
-+         customCss: require.resolve('./src/css/custom.css'),
-+       },
+        theme: {
+          customCss: require.resolve('./src/css/custom.css'),
+        },
       },
     ],
   ],
@@ -168,6 +169,7 @@ Site meta info such as assets, SEO, copyright info are now handled by themes. To
 ```jsx
 // docusaurus.config.js
 module.exports = {
+  // ...
   themeConfig: {
     footer: {
       logo: {
@@ -179,7 +181,7 @@ module.exports = {
     image: 'img/docusaurus.png',
     // Equivalent to `docsSideNavCollapsible`
     sidebarCollapsible: false,
-    ...
+    // ...
   },
 };
 ```
@@ -200,9 +202,10 @@ headerLinks: [
 
 Now, these two fields are both handled by the theme:
 
-```jsx
+```jsx {7-20}
 // docusaurus.config.js
 module.exports = {
+  // ...
   themeConfig: {
     navbar: {
       title: 'Docusaurus',
@@ -221,23 +224,24 @@ module.exports = {
         {to: 'blog', label: 'Blog', position: 'left'},
       ],
     },
-    ...
+    // ...
   },
 };
 ```
 
 #### `algolia`
 
-```jsx
+```jsx {5-9}
 // docusaurus.config.js
 module.exports = {
+  // ...
   themeConfig: {
     algolia: {
       apiKey: '47ecd3b21be71c5822571b9f59e52544',
       indexName: 'docusaurus-2',
       algoliaOptions: { ... },
     },
-    ...
+    // ...
   },
 };
 ```
@@ -246,9 +250,10 @@ module.exports = {
 
 Deprecated. Pass it as a blog option to `@docusaurus/preset-classic` instead:
 
-```jsx
+```jsx {9}
 // docusaurus.config.js
 module.exports = {
+  // ...
   presets: [
     [
       '@docusaurus/preset-classic',
@@ -256,7 +261,7 @@ module.exports = {
         blog: {
           postsPerPage: 10,
         },
-        ...
+        // ...
       },
     ],
   ],
@@ -271,9 +276,10 @@ Deprecated. Create a `CNAME` file in your `static` folder instead with your cust
 
 Deprecated. Pass it as an option to `@docusaurus/preset-classic` docs instead:
 
-```jsx
+```jsx {9-22}
 // docusaurus.config.js
 module.exports = {
+  // ...
   presets: [
     [
       '@docusaurus/preset-classic',
@@ -282,7 +288,8 @@ module.exports = {
           // Equivalent to `customDocsPath`.
           path: 'docs',
           // Equivalent to `editUrl`
-          editUrl: 'https://github.com/facebook/docusaurus/edit/master/website/docs/',
+          editUrl:
+            'https://github.com/facebook/docusaurus/edit/master/website/docs/',
           // Equivalent to `docsUrl`.
           routeBasePath: 'docs',
           // Remark and Rehype plugins passed to MDX. Replaces `markdownOptions` and `markdownPlugins`.
@@ -293,7 +300,7 @@ module.exports = {
           // Equivalent to `enableUpdateTime`.
           showLastUpdateTime: true,
         },
-        ...
+        // ...
       },
     ],
   ],
@@ -302,26 +309,30 @@ module.exports = {
 
 #### `gaTrackingId`
 
-```jsx
+```jsx {6}
 // docusaurus.config.js
 module.exports = {
+  // ...
   themeConfig: {
     googleAnalytics: {
       trackingID: 'UA-141789564-1',
     },
+    // ...
   },
 };
 ```
 
 #### `gaGtag`
 
-```jsx
+```jsx {6}
 // docusaurus.config.js
 module.exports = {
+  // ...
   themeConfig: {
     gtag: {
       trackingID: 'UA-141789564-1',
     },
+    // ...
   },
 };
 ```

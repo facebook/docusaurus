@@ -18,20 +18,22 @@ npm install --save docusaurus-plugin-name
 
 Then you add it in your site's `docusaurus.config.js`'s `plugins` option:
 
-```jsx
+```jsx {4}
 // docusaurus.config.js
 module.exports = {
+  // ...
   plugins: ['@docusaurus/plugin-content-pages'],
 };
 ```
 
 Docusaurus can also load plugins from your local directory, you can do something like the following:
 
-```jsx
+```jsx {6}
 // docusaurus.config.js
 const path = require('path');
 
 module.exports = {
+  // ...
   plugins: [path.resolve(__dirname, '/path/to/docusaurus-local-plugin')],
 };
 ```
@@ -42,9 +44,10 @@ For the most basic usage of plugins, you can provide just the plugin name or the
 
 However, plugins can have options specified by wrapping the name and an options object in an array inside your config. This style is usually called `Babel Style`.
 
-```js
+```js {5-10}
 // docusaurus.config.js
 module.exports = {
+  // ...
   plugins: [
     [
       '@docusaurus/plugin-xxx',

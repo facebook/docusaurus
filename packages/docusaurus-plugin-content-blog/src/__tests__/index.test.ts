@@ -31,6 +31,14 @@ describe('loadBlog', () => {
       },
     );
     const {blogPosts} = await plugin.loadContent();
+    const noDateSource = path.join('@site', pluginPath, 'no date.md');
+    const noDateSourceBirthTime = (await fs.stat(
+      noDateSource.replace('@site', siteDir),
+    )).birthtime;
+    const noDatePermalink = `/blog/${noDateSourceBirthTime
+      .toISOString()
+      .substr(0, '2019-01-01'.length)
+      .replace(/-/g, '/')}/no date`;
 
     expect(
       blogPosts.find(v => v.metadata.title === 'date-matter').metadata,
@@ -41,6 +49,14 @@ describe('loadBlog', () => {
       description: `date inside front matter`,
       date: new Date('2019-01-01'),
       tags: [],
+      nextItem: {
+        permalink: '/blog/2018/12/14/Happy-First-Birthday-Slash',
+        title: 'Happy 1st Birthday Slash!',
+      },
+      prevItem: {
+        permalink: noDatePermalink,
+        title: 'no date',
+      },
     });
     expect(
       blogPosts.find(v => v.metadata.title === 'Happy 1st Birthday Slash!')
@@ -56,24 +72,25 @@ describe('loadBlog', () => {
       description: `pattern name`,
       date: new Date('2018-12-14'),
       tags: [],
+      prevItem: {
+        permalink: '/blog/2019/01/01/date-matter',
+        title: 'date-matter',
+      },
     });
 
-    const noDateSource = path.join('@site', pluginPath, 'no date.md');
-    const noDateSourceBirthTime = (await fs.stat(
-      noDateSource.replace('@site', siteDir),
-    )).birthtime;
     expect(
       blogPosts.find(v => v.metadata.title === 'no date').metadata,
     ).toEqual({
-      permalink: `/blog/${noDateSourceBirthTime
-        .toISOString()
-        .substr(0, '2019-01-01'.length)
-        .replace(/-/g, '/')}/no date`,
+      permalink: noDatePermalink,
       source: noDateSource,
       title: 'no date',
       description: `no date`,
       date: noDateSourceBirthTime,
       tags: [],
+      nextItem: {
+        permalink: '/blog/2019/01/01/date-matter',
+        title: 'date-matter',
+      },
     });
   });
 });
