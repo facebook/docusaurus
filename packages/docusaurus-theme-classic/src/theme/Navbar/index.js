@@ -137,12 +137,10 @@ function Navbar() {
                 unchecked: <Sun />,
               }}
             />
-            <div className="navbar__search" key="search-box">
-              <SearchBar
-                handleSearchBarToggle={setIsSearchBarExpanded}
-                isSearchBarExpanded={isSearchBarExpanded}
-              />
-            </div>
+            <SearchBar
+              handleSearchBarToggle={setIsSearchBarExpanded}
+              isSearchBarExpanded={isSearchBarExpanded}
+            />
           </div>
         </div>
         <div
