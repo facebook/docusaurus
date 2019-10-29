@@ -12,7 +12,7 @@ import {LoadContext} from '@docusaurus/types';
 
 describe('loadDocs', () => {
   test('simple website', async () => {
-    const siteDir = path.join(__dirname, '__fixtures__', 'website');
+    const siteDir = path.join(__dirname, '__fixtures__', 'simple-site');
     const generatedFilesDir: string = path.resolve(siteDir, '.docusaurus');
     const siteConfig = {
       title: 'Hello',

@@ -218,6 +218,29 @@ describe('createOrder', () => {
     });
   });
 
+  test('multiple sidebars with unknown sidebar item type', () => {
+    expect(() =>
+      createOrder({
+        docs: [
+          {
+            type: 'category',
+            label: 'Category1',
+            items: [{type: 'endi', id: 'doc1'}, {type: 'doc', id: 'doc2'}],
+          },
+        ],
+        otherDocs: [
+          {
+            type: 'category',
+            label: 'Category1',
+            items: [{type: 'doc', id: 'doc5'}],
+          },
+        ],
+      }),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"Unknown item type: endi. Item: {\\"type\\":\\"endi\\",\\"id\\":\\"doc1\\"}"`,
+    );
+  });
+
   test('edge cases', () => {
     expect(createOrder({})).toEqual({});
     expect(createOrder(undefined)).toEqual({});

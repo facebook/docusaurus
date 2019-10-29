@@ -25,9 +25,7 @@ function assertItem(item: Object, keys: string[]): void {
 
   if (unknownKeys.length) {
     throw new Error(
-      `Unknown sidebar item keys: ${unknownKeys}. Item: ${JSON.stringify(
-        item,
-      )}`,
+      `Unknown sidebar item keys: ${unknownKeys}.Item: ${JSON.stringify(item)}`,
     );
   }
 }
@@ -62,15 +60,11 @@ function normalizeCategory(
         assertItem(item, ['href', 'label']);
         break;
       case 'ref':
+      case 'doc':
         assertItem(item, ['id']);
         break;
       default:
-        if (item.type !== 'doc') {
-          throw new Error(`Unknown sidebar item type: ${item.type}`);
-        }
-
-        assertItem(item, ['id']);
-        break;
+        throw new Error(`Unknown sidebar item type: ${item.type}`);
     }
 
     return item as SidebarItem;
