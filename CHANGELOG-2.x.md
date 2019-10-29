@@ -10,6 +10,7 @@
 - Changed the way we read the `USE_SSH` env variable during deployment to be the same as in v1.
 - Add highlight specific lines in code blocks.
 - Fix accessing `docs/` or `/docs/xxxx` that does not match any existing doc page should return 404 (Not found) page, not blank page.
+- Allow user to add custom HTML to footer items.
 
 ## 2.0.0-alpha.31
 
