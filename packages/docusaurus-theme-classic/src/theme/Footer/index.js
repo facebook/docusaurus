@@ -62,11 +62,19 @@ function Footer() {
                 Array.isArray(linkItem.items) &&
                 linkItem.items.length > 0 ? (
                   <ul className="footer__items">
-                    {linkItem.items.map(item => (
-                      <li key={item.href || item.to} className="footer__item">
-                        <FooterLink item={item} />
-                      </li>
-                    ))}
+                    {linkItem.items.map(item =>
+                      item.html ? (
+                        <div
+                          dangerouslySetInnerHTML={{
+                            __html: item.html,
+                          }}
+                        />
+                      ) : (
+                        <li key={item.href || item.to} className="footer__item">
+                          <FooterLink item={item} />
+                        </li>
+                      ),
+                    )}
                   </ul>
                 ) : null}
               </div>
