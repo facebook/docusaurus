@@ -3,6 +3,16 @@
 ## Unreleased
 
 - Reduce memory usage consumption.
+- Add `<Redirect>` component for easy client side redirect.
+Example Uaage:
+```js
+import React from 'react';
+import Redirect from '@docusaurus/router';
+
+function Home() {
+  return <Redirect to="/docs/test" />;
+}
+```
 - Slightly adjust search icon position to be more aligned on small width device.
 - Convert sitemap plugin to TypeScript.
 - Significantly reduce main bundle size and initial HTML payload on production build. Generated JS files from webpack is also shorter in name.
