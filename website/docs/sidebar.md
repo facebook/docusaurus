@@ -5,7 +5,7 @@ title: Sidebar
 
 To generate a sidebar to your Docusaurus site, you need to define a file that exports a sidebar object and pass that into the `@docusaurus/plugin-docs` plugin directly or via `@docusaurus/preset-classic`.
 
-```js
+```js {9-10}
 // docusaurus.config.js
 module.exports = {
   // ...
@@ -83,8 +83,8 @@ For example, `greeting.md` id is `greeting` and `guide/hello.md` id is `guide/he
 
 ```bash
 website # root directory of your site
-├── docs
-   └── greeting.md
+└── docs
+   ├── greeting.md
    └── guide
       └── hello.md
 ```
