@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- Fixed a bug in which if `themeConfig.algolia` is not defined, the custom searchbar won't appear.
+If you've swizzled Algolia `SearchBar` component before, please update your source code otherwise CSS might break. See [#1909](https://github.com/facebook/docusaurus/pull/1909/files) for reference.
+```js
+- <Fragment>
++ <div className="navbar__search" key="search-box">
+```
 - Reduce memory usage consumption.
 - Slightly adjust search icon position to be more aligned on small width device.
 - Convert sitemap plugin to TypeScript.
