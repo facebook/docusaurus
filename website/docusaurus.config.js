@@ -32,6 +32,10 @@ module.exports = {
         docs: {
           path: 'docs',
           sidebarPath: require.resolve('./sidebars.js'),
+          editUrl:
+            'https://github.com/facebook/docusaurus/edit/master/website/docs/',
+          showLastUpdateAuthor: true,
+          showLastUpdateTime: true,
         },
         blog: {
           path: '../website-1.x/blog',
@@ -88,6 +92,10 @@ module.exports = {
               label: 'Installation',
               to: 'docs/installation',
             },
+            {
+              label: 'Migration from v1 to v2',
+              to: 'docs/migrating-from-v1-to-v2',
+            },
           ],
         },
         {
@@ -104,6 +112,10 @@ module.exports = {
             {
               label: 'Discord',
               href: 'https://discordapp.com/invite/docusaurus',
+            },
+            {
+              label: 'Help',
+              to: 'help',
             },
           ],
         },

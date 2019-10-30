@@ -1,14 +1,18 @@
 {
   "name": "@docusaurus/plugin-content-pages",
-  "version": "2.0.0-alpha.24",
+  "version": "2.0.0-alpha.31",
   "description": "Pages content plugin for Docusaurus",
-  "main": "src/index.js",
+  "main": "lib/index.js",
+  "scripts": {
+    "tsc": "tsc"
+  },
   "publishConfig": {
     "access": "public"
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/utils": "^2.0.0-alpha.24",
+    "@docusaurus/types": "^2.0.0-alpha.31",
+    "@docusaurus/utils": "^2.0.0-alpha.31",
     "globby": "^10.0.1"
   },
   "peerDependencies": {

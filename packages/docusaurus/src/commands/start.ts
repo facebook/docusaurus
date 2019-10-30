@@ -20,7 +20,7 @@ import WebpackDevServer from 'webpack-dev-server';
 import merge from 'webpack-merge';
 import HotModuleReplacementPlugin from 'webpack/lib/HotModuleReplacementPlugin';
 import {load} from '../server';
-import {CLIOptions} from '../server/types';
+import {StartCLIOptions} from '@docusaurus/types';
 import {CONFIG_FILE_NAME, STATIC_DIR_NAME, DEFAULT_PORT} from '../constants';
 import {createClientConfig} from '../webpack/client';
 import {applyConfigureWebpack} from '../webpack/utils';
@@ -37,12 +37,12 @@ async function getPort(reqPort: string | undefined): Promise<number> {
 
 export async function start(
   siteDir: string,
-  cliOptions: CLIOptions = {},
+  cliOptions: Partial<StartCLIOptions> = {},
 ): Promise<void> {
   console.log(chalk.blue('Starting the development server...'));
 
   // Process all related files as a prop.
-  const props = await load(siteDir, cliOptions);
+  const props = await load(siteDir);
 
   // Reload files processing.
   const reload = () => {
@@ -78,8 +78,6 @@ export async function start(
   const {baseUrl} = props;
   const urls = prepareUrls(protocol, host, port);
   const openUrl = normalizeUrl([urls.localUrlForBrowser, baseUrl]);
-
-  console.log(chalk.cyan(`Your site will be accessible at ${openUrl}`));
 
   let config: webpack.Configuration = merge(createClientConfig(props), {
     plugins: [
@@ -144,7 +142,7 @@ export async function start(
     if (err) {
       console.log(err);
     }
-    openBrowser(openUrl);
+    cliOptions.open && openBrowser(openUrl);
   });
   ['SIGINT', 'SIGTERM'].forEach(sig => {
     process.on(sig as NodeJS.Signals, () => {

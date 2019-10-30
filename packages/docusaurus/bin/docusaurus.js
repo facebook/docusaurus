@@ -10,17 +10,15 @@
 const chalk = require('chalk');
 const semver = require('semver');
 const path = require('path');
-const program = require('commander');
-const {build, swizzle, deploy, start} = require('../lib');
+const cli = require('commander');
+const {build, swizzle, deploy, start, externalCommand} = require('../lib');
 const requiredVersion = require('../package.json').engines.node;
 
 if (!semver.satisfies(process.version, requiredVersion)) {
   console.log(
     chalk.red(`\nMinimum node version not met :)`) +
       chalk.yellow(
-        `\nYou are using Node ${
-          process.version
-        }, Requirement: Node ${requiredVersion}.\n`,
+        `\nYou are using Node ${process.version}, Requirement: Node ${requiredVersion}.\n`,
       ),
   );
   process.exit(1);
@@ -34,40 +32,36 @@ function wrapCommand(fn) {
     });
 }
 
-program
-  .version(require('../package.json').version)
-  .usage('<command> [options]');
+cli.version(require('../package.json').version).usage('<command> [options]');
 
-program
+cli
   .command('build [siteDir]')
   .description('Build website')
   .option(
     '--bundle-analyzer',
     'Visualize size of webpack output files with an interactive zoomable treemap (default = false)',
   )
-  .option('--no-cache-loader', 'Do not use cache-loader')
-  .action((siteDir = '.', {bundleAnalyzer, cacheLoader}) => {
+  .action((siteDir = '.', {bundleAnalyzer}) => {
     wrapCommand(build)(path.resolve(siteDir), {
       bundleAnalyzer,
-      cacheLoader,
     });
   });
 
-program
+cli
   .command('swizzle <themeName> [componentName] [siteDir]')
   .description('Copy the theme files into website folder for customization.')
   .action((themeName, componentName, siteDir = '.') => {
     wrapCommand(swizzle)(path.resolve(siteDir), themeName, componentName);
   });
 
-program
+cli
   .command('deploy [siteDir]')
   .description('Deploy website to GitHub pages')
   .action((siteDir = '.') => {
     wrapCommand(deploy)(path.resolve(siteDir));
   });
 
-program
+cli
   .command('start [siteDir]')
   .description('Start development server')
   .option('-p, --port <port>', 'use specified port (default: 3000)')
@@ -76,24 +70,32 @@ program
     '--hot-only',
     'Do not fallback to page refresh if hot reload fails (default: false)',
   )
-  .option('--no-cache-loader', 'Do not use cache-loader')
-  .action((siteDir = '.', {port, host, hotOnly, cacheLoader}) => {
+  .option('--no-open', 'Do not open page in the browser (default: false)')
+  .action((siteDir = '.', {port, host, hotOnly, open}) => {
     wrapCommand(start)(path.resolve(siteDir), {
       port,
       host,
       hotOnly,
-      cacheLoader,
+      open,
     });
   });
 
-program.arguments('<command>').action(cmd => {
-  program.outputHelp();
+cli.arguments('<command>').action(cmd => {
+  cli.outputHelp();
   console.log(`  ${chalk.red(`\n  Unknown command ${chalk.yellow(cmd)}.`)}`);
   console.log();
 });
 
-program.parse(process.argv);
+function isInternalCommand(command) {
+  return ['start', 'build', 'swizzle', 'deploy'].includes(command);
+}
+
+if (!isInternalCommand(process.argv.slice(2)[0])) {
+  externalCommand(cli, path.resolve('.'));
+}
+
+cli.parse(process.argv);
 
 if (!process.argv.slice(2).length) {
-  program.outputHelp();
+  cli.outputHelp();
 }

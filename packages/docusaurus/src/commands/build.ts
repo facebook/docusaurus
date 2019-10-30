@@ -6,7 +6,6 @@
  */
 
 import chalk from 'chalk';
-import CleanWebpackPlugin from 'clean-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import fs from 'fs-extra';
 import path from 'path';
@@ -16,10 +15,11 @@ import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
 import merge from 'webpack-merge';
 import {STATIC_DIR_NAME} from '../constants';
 import {load} from '../server';
-import {CLIOptions, Props} from '../server/types';
+import {BuildCLIOptions, Props} from '@docusaurus/types';
 import {createClientConfig} from '../webpack/client';
 import {createServerConfig} from '../webpack/server';
 import {applyConfigureWebpack} from '../webpack/utils';
+import CleanWebpackPlugin from '../webpack/plugins/CleanWebpackPlugin';
 
 function compile(config: Configuration[]): Promise<any> {
   return new Promise((resolve, reject) => {
@@ -29,13 +29,13 @@ function compile(config: Configuration[]): Promise<any> {
         reject(err);
       }
       if (stats.hasErrors()) {
-        stats.toJson().errors.forEach(e => {
+        stats.toJson('errors-only').errors.forEach(e => {
           console.error(e);
         });
         reject(new Error('Failed to compile with errors.'));
       }
       if (stats.hasWarnings()) {
-        stats.toJson().warnings.forEach(warning => {
+        stats.toJson('errors-warnings').warnings.forEach(warning => {
           console.warn(warning);
         });
       }
@@ -46,12 +46,12 @@ function compile(config: Configuration[]): Promise<any> {
 
 export async function build(
   siteDir: string,
-  cliOptions: CLIOptions = {},
+  cliOptions: Partial<BuildCLIOptions> = {},
 ): Promise<void> {
   process.env.NODE_ENV = 'production';
   console.log(chalk.blue('Creating an optimized production build...'));
 
-  const props: Props = await load(siteDir, cliOptions);
+  const props: Props = await load(siteDir);
 
   // Apply user webpack config.
   const {outDir, plugins} = props;

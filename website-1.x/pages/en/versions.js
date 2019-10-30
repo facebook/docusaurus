@@ -18,9 +18,7 @@ const versions = require(`${CWD}/versions.json`);
 function Versions(props) {
   const {config: siteConfig} = props;
   const latestVersion = versions[0];
-  const repoUrl = `https://github.com/${siteConfig.organizationName}/${
-    siteConfig.projectName
-  }`;
+  const repoUrl = `https://github.com/${siteConfig.organizationName}/${siteConfig.projectName}`;
   return (
     <div className="docMainWrapper wrapper">
       <Container className="mainContainer versionsContainer">
@@ -36,9 +34,7 @@ function Versions(props) {
                 <th>{latestVersion}</th>
                 <td>
                   <a
-                    href={`${siteConfig.baseUrl}${siteConfig.docsUrl}/${
-                      props.language
-                    }/installation`}>
+                    href={`${siteConfig.baseUrl}${siteConfig.docsUrl}/${props.language}/installation`}>
                     Documentation
                   </a>
                 </td>
@@ -58,9 +54,7 @@ function Versions(props) {
                 <th>master</th>
                 <td>
                   <a
-                    href={`${siteConfig.baseUrl}${siteConfig.docsUrl}/${
-                      props.language
-                    }/next/installation`}>
+                    href={`${siteConfig.baseUrl}${siteConfig.docsUrl}/${props.language}/next/installation`}>
                     Documentation
                   </a>
                 </td>
@@ -86,9 +80,7 @@ function Versions(props) {
                       </th>
                       <td>
                         <a
-                          href={`${siteConfig.baseUrl}${siteConfig.docsUrl}/${
-                            props.language
-                          }/${version}/installation`}>
+                          href={`${siteConfig.baseUrl}${siteConfig.docsUrl}/${props.language}/${version}/installation`}>
                           Documentation
                         </a>
                       </td>

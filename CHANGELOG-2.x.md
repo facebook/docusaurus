@@ -2,6 +2,123 @@
 
 ## Unreleased
 
+## 2.0.0-alpha.32
+
+### Features
+- Add `<Redirect>` component for easy client side redirect.
+Example Usage:
+```js
+import React from 'react';
+import {Redirect} from '@docusaurus/router';
+
+function Home() {
+  return <Redirect to="/docs/test" />;
+}
+```
+- Allow user to add custom HTML to footer items. [#1905](https://github.com/facebook/docusaurus/pull/1905)
+- Added code block line highlighting feature (thanks @lex111)! If you have previously swizzled the `CodeBlock` theme component, it is recommended to update your source code to have this feature.
+([#1860](https://github.com/facebook/Docusaurus/issues/1860))
+
+### Bug Fixes
+- Fixed a bug in which if `themeConfig.algolia` is not defined, the custom searchbar won't appear.
+If you've swizzled Algolia `SearchBar` component before, please update your source code otherwise CSS might break. See [#1909](https://github.com/facebook/docusaurus/pull/1909/files) for reference.
+```js
+- <Fragment>
++ <div className="navbar__search" key="search-box">
+```
+- Slightly adjust search icon position to be more aligned on small width device. ([#1893](https://github.com/facebook/Docusaurus/issues/1893))
+- Fix algolia styling bug, previously search suggestion result is sometimes hidden. ([#1915](https://github.com/facebook/Docusaurus/issues/1915))
+- Changed the way we read the `USE_SSH` env variable during deployment to be the same as in v1.
+- Fix accessing `docs/` or `/docs/xxxx` that does not match any existing doc page should return 404 (Not found) page, not blank page. ([#1903](https://github.com/facebook/Docusaurus/issues/1903))
+- Prioritize `@docusaurus/core` dependencies/ node_modules over user's node_modules. This fix a bug whereby if user has core-js@3 on its own node_modules but docusaurus depends on core-js@2, we previously encounter `Module not found: core-js/modules/xxxx` (because core-js@3 doesn't have that).
+- Fix a bug where docs plugin add `/docs` route even if docs folder is empty. We also improved docs plugin test coverage to 100% for stability before working on docs versioning. ([#1912](https://github.com/facebook/Docusaurus/issues/1912))
+
+### Performance Improvement
+- Reduce memory usage consumption. ([#1900](https://github.com/facebook/Docusaurus/issues/1900))
+- Significantly reduce main bundle size and initial HTML payload on production build. Generated files from webpack is also shorter in name. ([#1898](https://github.com/facebook/Docusaurus/issues/1898))
+- Simplify blog metadata. Previously, accessing `/blog/post-xxx` will request for next and prev blog post metadata too aside from target post metadata. We should only request target post metadata. 
+([#1908](https://github.com/facebook/Docusaurus/issues/1908))
+
+### Others
+- Convert sitemap plugin to TypeScript. ([#1894](https://github.com/facebook/Docusaurus/issues/1894))
+- Refactor dark mode toggle into a hook. ([#1899](https://github.com/facebook/Docusaurus/issues/1899))
+
+## 2.0.0-alpha.31
+
+- Footer is now sticky/ pinned to the bottom of the viewport in desktop browsers.
+- Footer is now also displayed in docs page for consistency.
+- Remove empty doc sidebar container if sidebar for a particular doc page does not exist. Otherwise, it will cause an additional empty space.
+- Default PostCSS loader now only polyfills stage 3+ features (previously it was stage 2) like Create React App. Stage 2 CSS is considered relatively unstable and subject to change while Stage 3 features will likely become a standard.
+- Fix search bar focus bug. When you put the focus on search input, previously the focus will remain although we have clicked to other area outside of the search input.
+- New themeConfig option `sidebarCollapsible`. It is on by default. If explicitly set to `false`, all doc items in sidebar is expanded. Otherwise, it will still be a collapsible sidebar.
+- Disable adding hashes to the generated class names of CSS modules in dev mode. Generating unique identifiers takes some time, which can be saved since including paths to files in class names is enough to avoid collisions.
+- Fix showing sidebar category with empty items.
+- Update infima from 0.2.0-alpha.2 to 0.2.0-alpha.3
+  - Fix pagination nav and right sidebar color contrast ratio
+  - Fix sidebar arrow color in dark mode
+  - Fix footer mobile issue
+  - Increase sidebar width
+  - etc
+
+## 2.0.0-alpha.30
+
+- Fix babel transpilation include/exclude logic to be more efficient. This also fix a very weird bug `TypeError: Cannot assign to read only property 'exports' of object '#<Object>'`.([#1868](https://github.com/facebook/docusaurus/pull/1868))
+
+If you are still encountering the error. Please check whether you use `module.exports` for your `.js` file instead of doing `export` (mixing CJS and ES). See https://github.com/webpack/webpack/issues/4039#issuecomment-477779322 and https://github.com/webpack/webpack/issues/4039#issuecomment-273804003 for more context.
+
+## 2.0.0-alpha.29
+
+**HOTFIX for 2.0.0-alpha.28**.
+
+- Fix missing `core-js` dependencies on `@docusaurus/core`.
+- Fix wrong `@babel/env` preset configuration that causes build compilation error.
+- New UI for webpack compilation progress bar.
+
+## 2.0.0-alpha.28
+
+- Further reduce memory usage to avoid heap memory allocation failure.
+- Fix `keywords` frontmatter for SEO not working properly.
+- Fix `swizzle` command not passing context properly to theme packages.
+- Add `extendCli` api for plugins. This will allow plugin to further extend Docusaurus CLI.
+- Fix `swizzle` command not being able to swizzle single js file.
+- Fix logo URL in footer to be appended with baseUrl automatically.
+- Add the option `--no-open` for `start` command.
+- Set `@babel/env` useBuiltins to `usage`. This will automatically use browserlist and import polyfills required.
+- Modified TerserWebpackPlugin `terserOptions` for better cross-browser compatibility.
+- **BREAKING** `withBaseUrl` is renamed to `useBaseUrl` because its a React Hooks. Make sure you import/rename it correctly. Eg: `import useBaseUrl from '@docusaurus/useBaseUrl`;
+- Fix potential security vulnerability because we're exposing the directory structure of the host machine.
+- Upgrade dependencies.
+
+## 2.0.0-alpha.27
+
+- Add `@theme/Tabs` which can be used to implement multi-language code tabs.
+- Implement `custom_edit_url` and `hide_title` markdown header for docusaurus v1 feature parity.
+- Reduce memory usage and slightly faster production build.
+- Misc dependency upgrades.
+
+## 2.0.0-alpha.26
+
+- Docs, pages plugin is rewritten in TypeScript
+- Docs improvements and tweaks
+  - Improved metadata which results in smaller bundle size.
+  - Docs sidebar can now be more than one level deep, theoretically up to infinity
+  - Collapsible docs sidebar!
+  - Make doc page title larger
+  - Add `editUrl` option (URL for editing) to docs plugin. If this field is set, there will be an "Edit this page" link for each doc page. Example: 'https://github.com/facebook/docusaurus/edit/master/docs'
+  - Add `showLastUpdateTime` and `showLastUpdateAuthor` options to docs plugin to further achieve v1 parity of showing last update data for a particular doc
+- Slight tweaks to the Blog components - blog title is larger now
+- Code Blocks
+  - Change default theme from Night Owl to Palenight
+  - Slight tweaks to playground/preview components
+- Add `scripts` and `stylesheets` field to `docusaurus.config.js`
+- More documentation...
+
+## 2.0.0-alpha.25
+
+- Blog plugin is rewritten in TypeScript and can now support CJK
+- Upgrade key direct dependencies such as webpack, mdx and babel to latest
+- Do not escape html and body attributes
+- For devices with very small viewport width, the searchbar is replaced with a search icon. On tap of the search icon the searchbar is expanded and the text beside the logo is hidden and remains hidden while the search bar is expanded.
 - Add `date` frontMatter support for blog plugin
 - Add `truncateMarker` option to blog plugin, support string or regex.
 - Webpack `optimization.removeAvailableModules` is now disabled for performance gain. See https://github.com/webpack/webpack/releases/tag/v4.38.0 for more context.
@@ -11,7 +128,7 @@
 - Remove unused metadata for pages. This minimize number of http request & smaller bundle size.
 - Upgrade dependencies of css-loader from 2.x to 3.x. Css modules localIdentName hash now only use the last 4 characters instead of 8.
 - Fix broken markdown linking replacement for mdx files
-- Fix potential security vulnerability because we're exposing the directory structure of the host machine. Instead of absolute path, we use relative path from site directory. Resulting in shorter webpack chunk naming and smaller bundle size. 
+- Fix potential security vulnerability because we're exposing the directory structure of the host machine. Instead of absolute path, we use relative path from site directory. Resulting in shorter webpack chunk naming and smaller bundle size.
 - Use contenthash instead of chunkhash for better long term caching
 - Allow user to customize generated heading from MDX. Swizzle `@theme/Heading`
 

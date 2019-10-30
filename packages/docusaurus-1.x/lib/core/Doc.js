@@ -225,9 +225,7 @@ class Doc extends React.Component {
       editLink = (
         <a
           className="edit-page-link button"
-          href={`${this.props.config.translationRecruitingLink}/${
-            this.props.language
-          }`}
+          href={`${this.props.config.translationRecruitingLink}/${this.props.language}`}
           target="_blank"
           rel="noreferrer noopener">
           {translateThisDoc}

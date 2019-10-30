@@ -67,7 +67,7 @@ We use [GitHub Issues](https://github.com/facebook/docusaurus/issues) for our pu
 
 If you have questions about using Docusaurus, contact the Docusaurus Twitter account at [@docusaurus](https://twitter.com/docusaurus), and we will do our best to answer your questions.
 
-You can also file issues as [feature requests or enhancements](https://github.com/facebook/Docusaurus/labels/feature%20request). If you see anything you'd like to be implemented, create an issue with [feature template](https://raw.githubusercontent.com/facebook/docusaurus/master/.github/ISSUE_TEMPLATE/feature.md)
+You can also file issues as [feature requests or enhancements](https://github.com/facebook/docusaurus/labels/feature%20request). If you see anything you'd like to be implemented, create an issue with [feature template](https://raw.githubusercontent.com/facebook/docusaurus/master/.github/ISSUE_TEMPLATE/feature.md)
 
 ## Reporting New Issues
 
@@ -84,11 +84,10 @@ Facebook has a [bounty program](https://www.facebook.com/whitehat/) for the safe
 
 1. Ensure you have [Yarn](https://yarnpkg.com/) installed.
 1. After cloning the repository, run `yarn install` in the root of the repository.
+1. To start a development server:
 
-   - For Docusaurus 1 development, look into the `packages/docusaurus-1.x` and `website-1.x` directory.
-   - For Docusaurus 2 development, go into the `packages/docusaurus` and `website` directory.
-
-1. Run `yarn start` in the respective project directory to start a local development server serving the Docusaurus docs.
+   - For Docusaurus 1 development, run `yarn start:v1`
+   - For Docusaurus 2 development, run `yarn start`
 
 ## Pull Requests
 
@@ -118,7 +117,7 @@ Please make sure the following is done when submitting a pull request:
 
 1. Fork [the repository](https://github.com/facebook/docusaurus) and create your branch from `master`.
 1. Add the copyright notice to the top of any code new files you've added.
-1. Describe your [**test plan**](#test-plan) in your pull request description. Make sure to [test your changes](https://github.com/facebook/Docusaurus/blob/master/admin/testing-changes-on-Docusaurus-itself.md)!
+1. Describe your [**test plan**](#test-plan) in your pull request description. Make sure to [test your changes](https://github.com/facebook/docusaurus/blob/master/admin/testing-changes-on-Docusaurus-itself.md)!
 1. Make sure your code lints (`yarn prettier && yarn lint`).
 1. Make sure your Jest tests pass (`yarn test`).
 1. If you haven't already, [sign the CLA](https://code.facebook.com/cla).

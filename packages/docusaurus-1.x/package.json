@@ -1,7 +1,7 @@
 {
   "name": "docusaurus",
   "description": "Easy to Maintain Open Source Documentation Websites",
-  "version": "2.0.0-alpha.24",
+  "version": "2.0.0-alpha.31",
   "license": "MIT",
   "keywords": [
     "documentation",
@@ -11,7 +11,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/facebook/Docusaurus.git"
+    "url": "https://github.com/facebook/docusaurus.git"
   },
   "scripts": {
     "start": "cd ../../website-1.x && yarn start"
@@ -26,16 +26,16 @@
     "docusaurus-rename-version": "./lib/rename-version.js"
   },
   "dependencies": {
-    "@babel/core": "^7.5.5",
+    "@babel/core": "^7.6.4",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
-    "@babel/plugin-proposal-object-rest-spread": "^7.5.5",
-    "@babel/polyfill": "^7.4.4",
-    "@babel/preset-env": "^7.5.5",
-    "@babel/preset-react": "^7.0.0",
-    "@babel/register": "^7.5.5",
-    "@babel/traverse": "^7.5.5",
-    "@babel/types": "^7.5.5",
-    "autoprefixer": "^9.6.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.6.2",
+    "@babel/polyfill": "^7.6.0",
+    "@babel/preset-env": "^7.6.3",
+    "@babel/preset-react": "^7.6.3",
+    "@babel/register": "^7.6.2",
+    "@babel/traverse": "^7.6.3",
+    "@babel/types": "^7.6.3",
+    "autoprefixer": "^9.6.1",
     "babylon": "^6.18.0",
     "chalk": "^2.4.2",
     "chokidar": "^3.0.2",
@@ -44,7 +44,7 @@
     "commander": "^2.20.0",
     "cross-spawn": "^6.0.5",
     "crowdin-cli": "^0.3.0",
-    "cssnano": "^4.1.0",
+    "cssnano": "^4.1.10",
     "escape-string-regexp": "^2.0.0",
     "express": "^4.17.1",
     "feed": "^1.1.0",
@@ -57,22 +57,23 @@
     "imagemin-jpegtran": "^6.0.0",
     "imagemin-optipng": "^6.0.0",
     "imagemin-svgo": "^7.0.0",
-    "lodash": "^4.17.14",
+    "lodash": "^4.17.15",
     "markdown-toc": "^1.2.0",
     "mkdirp": "^0.5.1",
     "portfinder": "^1.0.21",
     "postcss": "^7.0.17",
-    "prismjs": "^1.16.0",
+    "prismjs": "^1.17.1",
     "react": "^16.8.4",
     "react-dev-utils": "^9.0.1",
     "react-dom": "^16.8.4",
-    "remarkable": "^1.7.1",
+    "remarkable": "^1.7.4",
     "request": "^2.88.0",
     "shelljs": "^0.8.3",
     "sitemap": "^3.2.2",
+    "striptags": "^3.1.1",
     "tcp-port-used": "^1.0.1",
     "tiny-lr": "^1.1.1",
     "tree-node-cli": "^1.2.5",
-    "truncate-html": "^1.0.1"
+    "truncate-html": "^1.0.2"
   }
 }

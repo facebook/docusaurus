@@ -51,7 +51,7 @@ For example:
 ---
 id: doc-markdown
 title: Markdown Features
-custom_edit_url: https://github.com/facebook/Docusaurus/edit/master/docs/api-doc-markdown.md
+custom_edit_url: https://github.com/facebook/docusaurus/edit/master/docs/api-doc-markdown.md
 ---
 ```
 

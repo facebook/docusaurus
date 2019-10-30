@@ -5,22 +5,26 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {
+  useState,
+  useEffect,
+  useContext,
+  useRef,
+  useCallback,
+} from 'react';
+import classnames from 'classnames';
 
 import DocusaurusContext from '@docusaurus/context';
 
 import './styles.css';
 
-class Search extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      enabled: true,
-    };
-  }
+const Search = props => {
+  const [isEnabled, setIsEnabled] = useState(true);
+  const searchBarRef = useRef(null);
+  const context = useContext(DocusaurusContext);
 
-  componentDidMount() {
-    const {siteConfig = {}} = this.context;
+  useEffect(() => {
+    const {siteConfig = {}} = context;
     const {
       themeConfig: {algolia},
     } = siteConfig;
@@ -39,24 +43,48 @@ class Search extends React.Component {
       });
     } else {
       console.warn('Search has failed to load and now is being disabled');
-      this.setState({enabled: false});
+      setIsEnabled(false);
     }
-  }
+  }, []);
 
-  render() {
-    const {enabled} = this.state;
+  const toggleSearchIconClick = useCallback(
+    e => {
+      if (!searchBarRef.current.contains(e.target)) {
+        searchBarRef.current.focus();
+      }
 
-    return enabled ? (
+      props.handleSearchBarToggle(!props.isSearchBarExpanded);
+    },
+    [props.isSearchBarExpanded],
+  );
+
+  return isEnabled ? (
+    <div className="navbar__search" key="search-box">
+      <span
+        role="button"
+        className={classnames('search-icon', {
+          'search-icon-hidden': props.isSearchBarExpanded,
+        })}
+        onClick={toggleSearchIconClick}
+        onKeyDown={toggleSearchIconClick}
+        tabIndex={0}
+      />
       <input
         id="search_input_react"
         type="search"
         placeholder="Search"
         aria-label="Search"
+        className={classnames(
+          'navbar__search-input',
+          {'search-bar-expanded': props.isSearchBarExpanded},
+          {'search-bar': !props.isSearchBarExpanded},
+        )}
+        onFocus={toggleSearchIconClick}
+        onBlur={toggleSearchIconClick}
+        ref={searchBarRef}
       />
-    ) : null;
-  }
-}
-
-Search.contextType = DocusaurusContext;
+    </div>
+  ) : null;
+};
 
 export default Search;

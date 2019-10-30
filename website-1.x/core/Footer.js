@@ -9,9 +9,7 @@ const PropTypes = require('prop-types');
 const React = require('react');
 
 function SocialFooter(props) {
-  const repoUrl = `https://github.com/${props.config.organizationName}/${
-    props.config.projectName
-  }`;
+  const repoUrl = `https://github.com/${props.config.organizationName}/${props.config.projectName}`;
   return (
     <div className="footerSection">
       <h5>Social</h5>
@@ -67,9 +65,7 @@ class Footer extends React.Component {
           {this.props.config.footerIcon && (
             <a href={this.props.config.baseUrl} className="nav-home">
               <img
-                src={`${this.props.config.baseUrl}${
-                  this.props.config.footerIcon
-                }`}
+                src={`${this.props.config.baseUrl}${this.props.config.footerIcon}`}
                 alt={this.props.config.title}
                 width="66"
                 height="58"
@@ -80,30 +76,22 @@ class Footer extends React.Component {
             <h5>Docs</h5>
             <a
               href={`
-                ${this.props.config.baseUrl}${docsPart}${
-                this.props.language
-              }/installation`}>
+                ${this.props.config.baseUrl}${docsPart}${this.props.language}/installation`}>
               Getting Started
             </a>
             <a
               href={`
-                ${this.props.config.baseUrl}${docsPart}${
-                this.props.language
-              }/versioning`}>
+                ${this.props.config.baseUrl}${docsPart}${this.props.language}/versioning`}>
               Versioning
             </a>
             <a
               href={`
-                ${this.props.config.baseUrl}${docsPart}${
-                this.props.language
-              }/translation`}>
+                ${this.props.config.baseUrl}${docsPart}${this.props.language}/translation`}>
               Localization
             </a>
             <a
               href={`
-                ${this.props.config.baseUrl}${docsPart}${
-                this.props.language
-              }/search`}>
+                ${this.props.config.baseUrl}${docsPart}${this.props.language}/search`}>
               Adding Search
             </a>
           </div>
@@ -117,9 +105,7 @@ class Footer extends React.Component {
               User Showcase
             </a>
             <a
-              href={`${this.props.config.baseUrl}${
-                this.props.language
-              }/about-slash`}>
+              href={`${this.props.config.baseUrl}${this.props.language}/about-slash`}>
               About
             </a>
           </div>

@@ -21,7 +21,7 @@ At this point, you can grab all of the files inside the `website/build` director
 
 > For example, both Apache and Nginx serve content from `/var/www/html` by default. That said, choosing a web server or provider is outside the scope of Docusaurus.
 
-> When serving the site from your own web server, ensure the web server is serving the asset files with the proper HTTP headers. CSS files should be served with the `content-type` header of `text/css`. In the case of Nginx, this would mean setting `include /etc/nginx/mime.types;` in your `nginx.conf` file. See [this issue](https://github.com/facebook/Docusaurus/issues/602) for more info.
+> When serving the site from your own web server, ensure the web server is serving the asset files with the proper HTTP headers. CSS files should be served with the `content-type` header of `text/css`. In the case of Nginx, this would mean setting `include /etc/nginx/mime.types;` in your `nginx.conf` file. See [this issue](https://github.com/facebook/docusaurus/issues/602) for more info.
 
 ### Hosting on a Service:
 
@@ -97,11 +97,17 @@ __Note:__ Not setting the `url` and `baseUrl` of your project might result in in
 
 To run the script directly from the command-line, you can use the following, filling in the parameter values as appropriate.
 
+**Bash**
 ```bash
 GIT_USER=<GIT_USER> \
   CURRENT_BRANCH=master \
   USE_SSH=true \
   yarn run publish-gh-pages # or `npm run publish-gh-pages`
+```
+
+**Windows**
+```batch
+cmd /C "set GIT_USER=<GIT_USER> && set CURRENT_BRANCH=master && set USE_SSH=true && yarn run publish-gh-pages"
 ```
 
 There are also two optional parameters that are set as environment variables:

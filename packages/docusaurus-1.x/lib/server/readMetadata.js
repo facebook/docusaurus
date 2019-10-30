@@ -36,6 +36,7 @@ const SupportedHeaderFields = new Set([
   'hide_title',
   'layout',
   'custom_edit_url',
+  'description',
 ]);
 
 let allSidebars;
@@ -175,9 +176,7 @@ function processMetadata(file, refDir) {
     versionPart = 'next/';
   }
 
-  metadata.permalink = `${docsPart}${langPart}${versionPart}${
-    metadata.id
-  }.html`;
+  metadata.permalink = `${docsPart}${langPart}${versionPart}${metadata.id}.html`;
 
   // change ids previous, next
   metadata.localized_id = metadata.id;

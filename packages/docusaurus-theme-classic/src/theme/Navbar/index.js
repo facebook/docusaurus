@@ -5,21 +5,24 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useCallback, useState, useEffect} from 'react';
+import React, {useCallback, useState} from 'react';
 import Toggle from 'react-toggle';
 
 import Link from '@docusaurus/Link';
 import Head from '@docusaurus/Head';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import withBaseUrl from '@docusaurus/withBaseUrl';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 import SearchBar from '@theme/SearchBar';
 
 import classnames from 'classnames';
 
+import useTheme from '@theme/hooks/theme';
+
 import styles from './styles.module.css';
 
 function NavLink(props) {
+  const toUrl = useBaseUrl(props.to);
   return (
     <Link
       className="navbar__item navbar__link"
@@ -32,7 +35,7 @@ function NavLink(props) {
           }
         : {
             activeClassName: 'navbar__link--active',
-            to: withBaseUrl(props.to),
+            to: toUrl,
           })}>
       {props.label}
     </Link>
@@ -45,15 +48,12 @@ const Sun = () => <span className={classnames(styles.toggle, styles.sun)} />;
 function Navbar() {
   const context = useDocusaurusContext();
   const [sidebarShown, setSidebarShown] = useState(false);
-  const currentTheme =
-    typeof document !== 'undefined'
-      ? document.querySelector('html').getAttribute('data-theme')
-      : '';
-  const [theme, setTheme] = useState(currentTheme);
+  const [isSearchBarExpanded, setIsSearchBarExpanded] = useState(false);
+  const [theme, setTheme] = useTheme();
   const {siteConfig = {}} = context;
   const {baseUrl, themeConfig = {}} = siteConfig;
-  const {algolia, navbar = {}} = themeConfig;
-  const {title, logo, links = []} = navbar;
+  const {navbar = {}} = themeConfig;
+  const {title, logo = {}, links = []} = navbar;
 
   const showSidebar = useCallback(() => {
     setSidebarShown(true);
@@ -62,25 +62,12 @@ function Navbar() {
     setSidebarShown(false);
   }, [setSidebarShown]);
 
-  useEffect(() => {
-    try {
-      const localStorageTheme = localStorage.getItem('theme');
-      setTheme(localStorageTheme);
-    } catch (err) {
-      console.error(err);
-    }
-  }, []);
+  const onToggleChange = useCallback(
+    e => setTheme(e.target.checked ? 'dark' : ''),
+    [setTheme],
+  );
 
-  const onToggleChange = e => {
-    const nextTheme = e.target.checked ? 'dark' : '';
-    setTheme(nextTheme);
-    try {
-      localStorage.setItem('theme', nextTheme);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
+  const logoUrl = useBaseUrl(logo.src);
   return (
     <React.Fragment>
       <Head>
@@ -89,7 +76,7 @@ function Navbar() {
       </Head>
       <nav
         className={classnames('navbar', 'navbar--light', 'navbar--fixed-top', {
-          'navbar--sidebar-show': sidebarShown,
+          'navbar-sidebar--show': sidebarShown,
         })}>
         <div className="navbar__inner">
           <div className="navbar__items">
@@ -119,13 +106,14 @@ function Navbar() {
             </div>
             <Link className="navbar__brand" to={baseUrl}>
               {logo != null && (
-                <img
-                  className="navbar__logo"
-                  src={withBaseUrl(logo.src)}
-                  alt={logo.alt}
-                />
+                <img className="navbar__logo" src={logoUrl} alt={logo.alt} />
               )}
-              {title != null && <strong>{title}</strong>}
+              {title != null && (
+                <strong
+                  className={isSearchBarExpanded ? styles.hideLogoText : ''}>
+                  {title}
+                </strong>
+              )}
             </Link>
             {links
               .filter(linkItem => linkItem.position !== 'right')
@@ -149,29 +137,24 @@ function Navbar() {
                 unchecked: <Sun />,
               }}
             />
-            {algolia && (
-              <div className="navbar__search" key="search-box">
-                <SearchBar />
-              </div>
-            )}
+            <SearchBar
+              handleSearchBarToggle={setIsSearchBarExpanded}
+              isSearchBarExpanded={isSearchBarExpanded}
+            />
           </div>
         </div>
         <div
           role="presentation"
-          className="navbar__sidebar__backdrop"
+          className="navbar-sidebar__backdrop"
           onClick={() => {
             setSidebarShown(false);
           }}
         />
-        <div className="navbar__sidebar">
-          <div className="navbar__sidebar__brand">
+        <div className="navbar-sidebar">
+          <div className="navbar-sidebar__brand">
             <Link className="navbar__brand" onClick={hideSidebar} to={baseUrl}>
               {logo != null && (
-                <img
-                  className="navbar__logo"
-                  src={withBaseUrl(logo.src)}
-                  alt={logo.alt}
-                />
+                <img className="navbar__logo" src={logoUrl} alt={logo.alt} />
               )}
               {title != null && <strong>{title}</strong>}
             </Link>
@@ -187,7 +170,7 @@ function Navbar() {
               />
             )}
           </div>
-          <div className="navbar__sidebar__items">
+          <div className="navbar-sidebar__items">
             <div className="menu">
               <ul className="menu__list">
                 {links.map((linkItem, i) => (

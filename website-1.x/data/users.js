@@ -8,6 +8,13 @@
 module.exports = [
   // Please add your logo in alphabetical order of caption.
   {
+    caption: '1Hive',
+    image: '/img/users/1hive.png',
+    infoLink: 'https://1hive.org',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Accord Project',
     image: '/img/users/accord-project.png',
     infoLink: 'https://docs.accordproject.org/',
@@ -36,6 +43,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Amphora Data',
+    image: '/img/users/AmphoraData.png',
+    infoLink: 'https://amphoradata.github.io/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Anssr Data Platform',
     image: '/img/users/anssr.svg',
     infoLink: 'https://anssr.io/',
@@ -46,6 +60,13 @@ module.exports = [
     caption: 'Apify SDK',
     image: '/img/users/apify.svg',
     infoLink: 'https://sdk.apify.com/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
+    caption: 'Ara',
+    image: '/img/users/ara.png',
+    infoLink: 'https://ara-framework.github.io/website/',
     fbOpenSource: false,
     pinned: false,
   },
@@ -113,9 +134,16 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Cohesity',
+    image: '/img/users/cohesity.png',
+    infoLink: 'https://developer.cohesity.com',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'ConfigCat',
     image: '/img/users/configcat.svg',
-    infoLink: 'https://docs.configcat.com',
+    infoLink: 'https://configcat.com/docs',
     fbOpenSource: false,
     pinned: false,
   },
@@ -130,6 +158,13 @@ module.exports = [
     caption: 'Dep',
     image: '/img/users/golang-dep.svg',
     infoLink: 'https://golang.github.io/dep/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
+    caption: 'DevSpace',
+    image: '/img/users/devspace.svg',
+    infoLink: 'https://devspace.cloud/docs/',
     fbOpenSource: false,
     pinned: false,
   },
@@ -302,13 +337,6 @@ module.exports = [
     pinned: false,
   },
   {
-    caption: 'ml5.js',
-    image: '/img/users/ml5.png',
-    infoLink: 'https://ml5js.org/',
-    fbOpenSource: false,
-    pinned: false,
-  },
-  {
     caption: 'Mockit',
     image: '/img/users/mockit.png',
     infoLink: 'https://mockit.netlify.com/',
@@ -319,6 +347,13 @@ module.exports = [
     caption: 'moleculerjs-boilerplate',
     image: '/img/users/moleculerjs-boilerplate.png',
     infoLink: 'https://pankod.github.io/moleculerjs-boilerplate/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
+    caption: 'Mojito',
+    image: '/img/users/mojito.png',
+    infoLink: 'https://mojito.mx/',
     fbOpenSource: false,
     pinned: false,
   },
@@ -366,6 +401,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Overwolf',
+    image: '/img/users/overwolf.svg',
+    infoLink: 'https://overwolf.github.io/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Plus (ThinkSNS+)',
     image: '/img/users/plus.png',
     infoLink: 'https://slimkit.github.io',
@@ -380,6 +422,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'PayTabs',
+    image: '/img/users/paytabs.png',
+    infoLink: 'https://dev.paytabs.com/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'pnpm',
     image: 'https://pnpm.js.org/img/pnpm.svg',
     infoLink: 'https://pnpm.js.org/',
@@ -388,7 +437,7 @@ module.exports = [
   },
   {
     caption: 'Polymath Network',
-    image: 'https://polymath.network/dist/assets/images/logo/logo-top-bar.svg',
+    image: 'https://developers.polymath.network/img/text.svg',
     infoLink: 'https://developers.polymath.network',
     fbOpenSource: false,
     pinned: false,
@@ -562,6 +611,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Saleor',
+    image: '/img/users/saleor.png',
+    infoLink: 'https://docs.getsaleor.com/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Scalafmt',
     image: '/img/users/scalameta.png',
     infoLink: 'https://scalameta.org/scalafmt/',
@@ -683,7 +739,7 @@ module.exports = [
   {
     caption: 'TypeGraphQL',
     image: '/img/users/type-graphql.png',
-    infoLink: 'https://19majkel94.github.io/type-graphql/',
+    infoLink: 'https://typegraphql.ml/',
     fbOpenSource: false,
     pinned: false,
   },
@@ -691,13 +747,6 @@ module.exports = [
     caption: 'Type Route',
     image: '/img/users/type-route.svg',
     infoLink: 'https://www.type-route.org',
-    fbOpenSource: false,
-    pinned: false,
-  },
-  {
-    caption: 'Vasern',
-    image: 'https://vasern.com/img/vasern.svg',
-    infoLink: 'https://vasern.com/',
     fbOpenSource: false,
     pinned: false,
   },

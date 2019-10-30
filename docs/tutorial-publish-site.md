@@ -5,13 +5,11 @@ title: Publish the Site
 
 <img alt="Docusaurus Facebook" src="/img/undraw_docusaurus_fb.svg" class="docImage"/>
 
-Next, we'll learn how to publish the site to the WWW for everyone to browse! For the purpose of the tutorial, we'll use GitHub pages to host our website. But you can use any static file hosting service that you want, e.g. Netlify, Amazon S3, etc.
+Next, we'll learn how to publish the site to the WWW for everyone to browse! For the purpose of the tutorial, we'll use GitHub Pages to host our website. But you can use any static file hosting service that you want, like Netlify, Amazon S3, etc.
 
 ## Put the Site Online
 
-Kill the web server first by pressing Cmd + C or Ctrl + C depending on your operating system.
-
-In `website/siteConfig.js`, fill in the following fields:
+1. Edit the file `docusaurus-tutorial/website/siteConfig.js` and fill in the following values:
 
 ```
 const siteConfig = {
@@ -24,15 +22,18 @@ const siteConfig = {
 }
 ```
 
-2. In the `website` directory, run `npm run build` or `yarn build`. This will generate a `build` directory inside the `website` directory containing the `.html` files from all of your docs and other pages included in `pages`. Make sure the `build` directory is there before running the next step.
-3. Replace `<GIT_USER>` with your GitHub username and run the following command.
+2. In Terminal or Git Bash, kill the web server by pressing **Cmd+C** or **Ctrl+C**.
+3. In the `website` directory, run `npm run build` or `yarn build`. The command generates a `build` directory inside the `website` directory, containing HTML files (and other file types) for all of your docs and other pages. Make sure the `docusaurus-tutorial/website/build` directory is successfully created before running the next step.
+4. Replace `USERNAME` with your GitHub username and run the following command.
 
+```sh
+GIT_USER=USERNAME CURRENT_BRANCH=master USE_SSH=true npm run publish-gh-pages # SSH
+# or
+GIT_USER=USERNAME CURRENT_BRANCH=master npm run publish-gh-pages # HTTPS
 ```
-$ GIT_USER=<GIT_USER> CURRENT_BRANCH=master USE_SSH=true npm run publish-gh-pages
-```
 
-The built code will be pushed to the `gh-pages` branch of your repository.
+The HTML files (and other file types) are pushed to the `gh-pages` branch of your repository:  https://github.com/USERNAME/docusaurus-tutorial.
 
-4. Go to `https://USERNAME.github.io/docusaurus-tutorial/` and view your site in action!
+5. Go to https://USERNAME.github.io/docusaurus-tutorial/ and view your site in action!
 
 > Note that when you run `npm run start` again, the `baseUrl` will now be part of the path.

@@ -10,7 +10,7 @@ import importFresh from 'import-fresh';
 import _ from 'lodash';
 import path from 'path';
 import {CONFIG_FILE_NAME} from '../constants';
-import {DocusaurusConfig, PluginConfig} from './types';
+import {DocusaurusConfig, PluginConfig} from '@docusaurus/types';
 
 const REQUIRED_FIELDS = ['baseUrl', 'favicon', 'tagline', 'title', 'url'];
 
@@ -23,6 +23,8 @@ const OPTIONAL_FIELDS = [
   'themes',
   'presets',
   'themeConfig',
+  'scripts',
+  'stylesheets',
 ];
 
 const DEFAULT_CONFIG: {
@@ -51,7 +53,7 @@ export function loadConfig(siteDir: string): DocusaurusConfig {
   if (!fs.existsSync(configPath)) {
     throw new Error(`${CONFIG_FILE_NAME} not found`);
   }
-  const loadedConfig = importFresh(configPath);
+  const loadedConfig = importFresh(configPath) as Partial<DocusaurusConfig>;
   const missingFields = REQUIRED_FIELDS.filter(
     field => !_.has(loadedConfig, field),
   );
@@ -64,7 +66,10 @@ export function loadConfig(siteDir: string): DocusaurusConfig {
   }
 
   // Merge default config with loaded config.
-  const config: DocusaurusConfig = {...DEFAULT_CONFIG, ...loadedConfig};
+  const config: DocusaurusConfig = {
+    ...DEFAULT_CONFIG,
+    ...loadedConfig,
+  } as DocusaurusConfig;
 
   // Don't allow unrecognized fields.
   const allowedFields = [...REQUIRED_FIELDS, ...OPTIONAL_FIELDS];

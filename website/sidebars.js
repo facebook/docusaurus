@@ -7,11 +7,7 @@
 
 module.exports = {
   docs: {
-    Docusaurus: [
-      'introduction',
-      /*'motivation', */ 'design-principles',
-      'contributing',
-    ],
+    Docusaurus: ['introduction', 'design-principles', 'contributing'],
     'Getting Started': ['installation', 'configuration'],
     Guides: [
       'creating-pages',
@@ -26,14 +22,21 @@ module.exports = {
       'analytics',
       'seo',
       'search',
-      'using-plugins',
-      'using-themes',
       'deployment',
+      'migrating-from-v1-to-v2',
     ],
     'Advanced Guides': [
-      'advanced-plugins',
-      'advanced-themes',
-      'advanced-presets',
+      {
+        type: 'category',
+        label: 'Plugins',
+        items: ['using-plugins', 'advanced-plugins'],
+      },
+      {
+        type: 'category',
+        label: 'Themes',
+        items: ['using-themes', 'advanced-themes', 'theme-classic'],
+      },
+      'presets',
     ],
     'API Reference': [
       'cli',

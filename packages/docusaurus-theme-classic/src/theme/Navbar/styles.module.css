@@ -29,6 +29,12 @@
   content: '\1F31E';
 }
 
+@media (max-width: 360px) {
+  .hideLogoText {
+    display: none;
+  }
+}
+
 /**
  * styles for React Toggle
  * copied over because we want to allow user to swizzle it and modify the css

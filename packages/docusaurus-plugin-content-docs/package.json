@@ -1,0 +1,34 @@
+{
+  "name": "@docusaurus/plugin-content-docs",
+  "version": "2.0.0-alpha.31",
+  "description": "Docs content plugin for Docusaurus",
+  "main": "lib/index.js",
+  "scripts": {
+    "tsc": "tsc"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@docusaurus/types": "^2.0.0-alpha.31"
+  },
+  "dependencies": {
+    "@docusaurus/mdx-loader": "^2.0.0-alpha.31",
+    "@docusaurus/utils": "^2.0.0-alpha.31",
+    "cross-spawn": "^7.0.1",
+    "fs-extra": "^8.1.0",
+    "globby": "^10.0.1",
+    "import-fresh": "^3.1.0",
+    "loader-utils": "^1.2.3",
+    "shelljs": "^0.8.3"
+  },
+  "peerDependencies": {
+    "@docusaurus/core": "^2.0.0",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4"
+  },
+  "engines": {
+    "node": ">=8"
+  }
+}

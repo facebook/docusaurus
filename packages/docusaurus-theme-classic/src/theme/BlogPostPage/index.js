@@ -12,7 +12,7 @@ import BlogPostItem from '@theme/BlogPostItem';
 import BlogPostPaginator from '@theme/BlogPostPaginator';
 
 function BlogPostPage(props) {
-  const {content: BlogPostContents, metadata, nextItem, prevItem} = props;
+  const {content: BlogPostContents, metadata} = props;
   const {frontMatter} = BlogPostContents;
   return (
     <Layout title={metadata.title} description={metadata.description}>
@@ -24,7 +24,10 @@ function BlogPostPage(props) {
                 <BlogPostContents />
               </BlogPostItem>
               <div className="margin-vert--xl">
-                <BlogPostPaginator nextItem={nextItem} prevItem={prevItem} />
+                <BlogPostPaginator
+                  nextItem={metadata.nextItem}
+                  prevItem={metadata.prevItem}
+                />
               </div>
             </div>
           </div>

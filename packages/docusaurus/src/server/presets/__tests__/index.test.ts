@@ -8,7 +8,7 @@
 import path from 'path';
 
 import {loadPresets} from '../index';
-import {LoadContext} from '../../index';
+import {DocusaurusConfig, LoadContext} from '@docusaurus/types';
 
 describe('loadPresets', () => {
   test('no presets', () => {
@@ -86,7 +86,7 @@ describe('loadPresets', () => {
       siteConfig: {
         presets: [[path.join(__dirname, '__fixtures__/preset-bar.js')]],
       },
-    } as LoadContext;
+    } as Partial<LoadContext>;
     const presets = loadPresets(context);
     expect(presets).toMatchInlineSnapshot(`
       Object {
@@ -115,7 +115,7 @@ describe('loadPresets', () => {
           ],
         ],
       },
-    } as LoadContext;
+    } as Partial<LoadContext>;
     const presets = loadPresets(context);
     expect(presets).toMatchInlineSnapshot(`
       Object {
@@ -150,7 +150,7 @@ describe('loadPresets', () => {
           ],
         ],
       },
-    } as LoadContext;
+    } as Partial<LoadContext>;
     const presets = loadPresets(context);
     expect(presets).toMatchInlineSnapshot(`
       Object {

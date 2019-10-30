@@ -11,14 +11,16 @@ import importFresh from 'import-fresh';
 import path from 'path';
 
 import {THEME_PATH} from '../constants';
+import {loadContext} from '../server';
 
 export async function swizzle(
   siteDir: string,
   themeName: string,
   componentName?: string,
 ): Promise<void> {
-  const plugin = importFresh(themeName);
-  const pluginInstance = plugin({siteDir});
+  const plugin: any = importFresh(themeName);
+  const context = loadContext(siteDir);
+  const pluginInstance = plugin(context);
   let fromPath = pluginInstance.getThemePath();
 
   if (fromPath) {
@@ -26,12 +28,18 @@ export async function swizzle(
     if (componentName) {
       fromPath = path.join(fromPath, componentName);
       toPath = path.join(toPath, componentName);
+
+      // Handle single js file only.
+      // E.g: if <fromPath> does not exist, we try to swizzle <fromPath>.js instead
+      if (!fs.existsSync(fromPath) && fs.existsSync(`${fromPath}.js`)) {
+        [fromPath, toPath] = [`${fromPath}.js`, `${toPath}.js`];
+      }
     }
     await fs.copy(fromPath, toPath);
 
     const relativeDir = path.relative(process.cwd(), toPath);
     const fromMsg = chalk.blue(
-      componentName ? `${themeName}/${componentName}` : themeName,
+      componentName ? `${themeName} ${chalk.yellow(componentName)}` : themeName,
     );
     const toMsg = chalk.cyan(relativeDir);
     console.log(

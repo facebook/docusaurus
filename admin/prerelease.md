@@ -4,14 +4,14 @@
 
 # Steps
 
-1. Ensure that `origin` remote is your Docusaurus fork and `upstream` is Docusaurus original repository. 
+1. Ensure that `origin` remote is your Docusaurus fork and `upstream` is Docusaurus original repository.
 
 ```bash
 $ git remote -v
 origin	https://github.com/endiliey/Docusaurus.git (fetch)
 origin	https://github.com/endiliey/Docusaurus.git (push)
-upstream    https://github.com/facebook/Docusaurus.git (fetch)
-upstream    https://github.com/facebook/Docusaurus.git (push)
+upstream    https://github.com/facebook/docusaurus.git (fetch)
+upstream    https://github.com/facebook/docusaurus.git (push)
 ```
 
 2. Pull latest changes from Docusaurus repository.

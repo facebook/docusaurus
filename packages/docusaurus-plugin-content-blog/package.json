@@ -1,19 +1,25 @@
 {
   "name": "@docusaurus/plugin-content-blog",
-  "version": "2.0.0-alpha.24",
+  "version": "2.0.0-alpha.31",
   "description": "Blog plugin for Docusaurus",
-  "main": "src/index.js",
+  "main": "lib/index.js",
+  "scripts": {
+    "tsc": "tsc"
+  },
   "publishConfig": {
     "access": "public"
   },
   "license": "MIT",
+  "devDependencies": {
+    "@docusaurus/types": "^2.0.0-alpha.31"
+  },
   "dependencies": {
-    "@docusaurus/mdx-loader": "^2.0.0-alpha.24",
-    "@docusaurus/utils": "^2.0.0-alpha.24",
+    "@docusaurus/mdx-loader": "^2.0.0-alpha.31",
+    "@docusaurus/utils": "^2.0.0-alpha.31",
     "fs-extra": "^8.1.0",
     "globby": "^10.0.1",
     "loader-utils": "^1.2.3",
-    "lodash": "^4.17.14"
+    "lodash": "^4.17.15"
   },
   "peerDependencies": {
     "@docusaurus/core": "^2.0.0",

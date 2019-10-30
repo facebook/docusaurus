@@ -843,7 +843,7 @@ input[type='search'] {
   padding-left: 10px;
   position: absolute;
   right: 10px;
-  top: 15px;
+  top: 10px;
 }
 
 .navSearchWrapper:before {
@@ -1382,6 +1382,7 @@ input::placeholder {
     transition: background-color 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55),
       width 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55), color 0.2s ease;
     width: 100%;
+    height: 30px;
   }
 
   .reactNavSearchWrapper input#search_input_react:focus,
@@ -1977,7 +1978,8 @@ input::placeholder {
   color: #717171;
 }
 
-.onPageNav .toc-headings > li > a.active {
+.onPageNav .toc-headings > li > a.active,
+.onPageNav .toc-headings > li > a.hover {
   font-weight: 600;
   color: $primaryColor;
 }
@@ -2323,8 +2325,8 @@ input::placeholder {
 .nav-footer .sitemap a {
   color: rgba(255, 255, 255, 0.6);
   display: block;
-  margin: 2px -10px;
-  padding: 3px 10px;
+  margin: 2px 0;
+  padding: 3px 0;
 }
 
 .nav-footer .sitemap a:hover,

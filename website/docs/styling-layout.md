@@ -8,7 +8,7 @@ description: A Docusaurus site is a pre-rendered single-page React application. 
 
 If you're using `@docusaurus/preset-classic`, you can create your own CSS files (e.g. `/src/css/custom.css`) and import them globally by passing it as an option into the preset.
 
-```diff
+```js {8-10}
 // docusaurus.config.js
 module.exports = {
   // ...
@@ -16,9 +16,9 @@ module.exports = {
     [
       '@docusaurus/preset-classic',
       {
-+       theme: {
-+         customCss: require.resolve('./src/css/custom.css'),
-+       },
+        theme: {
+          customCss: require.resolve('./src/css/custom.css'),
+        },
       },
     ],
   ],
@@ -50,7 +50,7 @@ When you `init` your Docusaurus 2 project, the website will be generated with ba
 }
 ```
 
-In future, we will provide an easier way to generate the different shades of colors.
+Infima uses 7 shades of each color. We recommend using [ColorBox](https://www.colorbox.io/) to find the different shades of colors for your chosen primary color. In future, we will provide an easier way to generate the different shades of colors.
 
 <!-- TODO need more refinement here -->
 

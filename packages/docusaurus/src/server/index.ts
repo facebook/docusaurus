@@ -21,52 +21,54 @@ import {loadPresets} from './presets';
 import {loadRoutes} from './routes';
 import {loadThemeAlias} from './themes';
 import {
-  CLIOptions,
   DocusaurusConfig,
   LoadContext,
   PluginConfig,
   Props,
-} from './types';
+} from '@docusaurus/types';
 
-export async function load(
-  siteDir: string,
-  cliOptions: CLIOptions = {},
-): Promise<Props> {
+export function loadContext(siteDir: string): LoadContext {
   const generatedFilesDir: string = path.resolve(
     siteDir,
     GENERATED_FILES_DIR_NAME,
   );
-
   const siteConfig: DocusaurusConfig = loadConfig(siteDir);
-  const genSiteConfig = generate(
-    generatedFilesDir,
-    CONFIG_FILE_NAME,
-    `export default ${JSON.stringify(siteConfig, null, 2)};`,
-  );
-
   const outDir = path.resolve(siteDir, BUILD_DIR_NAME);
   const {baseUrl} = siteConfig;
 
-  const context: LoadContext = {
+  return {
     siteDir,
     generatedFilesDir,
     siteConfig,
-    cliOptions,
     outDir,
     baseUrl,
   };
+}
 
-  // Presets.
+export function loadPluginConfigs(context: LoadContext): PluginConfig[] {
   const {plugins: presetPlugins, themes: presetThemes} = loadPresets(context);
-
-  // Plugins.
-  const pluginConfigs: PluginConfig[] = [
+  const {siteConfig} = context;
+  return [
     ...presetPlugins,
     ...presetThemes,
     // Site config should the highest priority.
     ...(siteConfig.plugins || []),
     ...(siteConfig.themes || []),
   ];
+}
+
+export async function load(siteDir: string): Promise<Props> {
+  // Context
+  const context: LoadContext = loadContext(siteDir);
+  const {generatedFilesDir, siteConfig, outDir, baseUrl} = context;
+  const genSiteConfig = generate(
+    generatedFilesDir,
+    CONFIG_FILE_NAME,
+    `export default ${JSON.stringify(siteConfig, null, 2)};`,
+  );
+
+  // Plugins
+  const pluginConfigs: PluginConfig[] = loadPluginConfigs(context);
   const {plugins, pluginsRouteConfigs} = await loadPlugins({
     pluginConfigs,
     context,
@@ -115,11 +117,10 @@ export async function load(
     `export default {
 ${Object.keys(registry)
   .map(
-    key => `  '${key}': {
-    'importStatement': ${registry[key].importStatement},
-    'module': ${JSON.stringify(registry[key].modulePath)},
-    'webpack': require.resolveWeak(${JSON.stringify(registry[key].modulePath)}),
-  },`,
+    key =>
+      `  '${key}': [${registry[key].loader}, ${JSON.stringify(
+        registry[key].modulePath,
+      )}, require.resolveWeak(${JSON.stringify(registry[key].modulePath)})],`,
   )
   .join('\n')}};\n`,
   );
@@ -148,7 +149,6 @@ ${Object.keys(registry)
     generatedFilesDir,
     routesPaths,
     plugins,
-    cliOptions,
   };
 
   return props;

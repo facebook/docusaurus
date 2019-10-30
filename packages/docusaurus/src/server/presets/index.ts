@@ -7,7 +7,12 @@
 
 import importFresh from 'import-fresh';
 import _ from 'lodash';
-import {LoadContext, PluginConfig, Preset, PresetConfig} from '../types';
+import {
+  LoadContext,
+  PluginConfig,
+  Preset,
+  PresetConfig,
+} from '@docusaurus/types';
 
 export function loadPresets(
   context: LoadContext,
@@ -15,7 +20,7 @@ export function loadPresets(
   plugins: PluginConfig[];
   themes: PluginConfig[];
 } {
-  const presets: PresetConfig[] = context.siteConfig.presets || [];
+  const presets: PresetConfig[] = (context.siteConfig || {}).presets || [];
   const unflatPlugins: (PluginConfig[])[] = [];
   const unflatThemes: (PluginConfig[])[] = [];
 
@@ -27,10 +32,15 @@ export function loadPresets(
     } else if (Array.isArray(presetItem)) {
       presetModuleImport = presetItem[0];
       presetOptions = presetItem[1] || {};
+    } else {
+      throw new Error('Invalid presets format detected in config.');
     }
 
-    const presetModule = importFresh(presetModuleImport);
-    const preset: Preset = presetModule(context, presetOptions);
+    const presetModule: any = importFresh(presetModuleImport);
+    const preset: Preset = (presetModule.default || presetModule)(
+      context,
+      presetOptions,
+    );
 
     preset.plugins && unflatPlugins.push(preset.plugins);
     preset.themes && unflatThemes.push(preset.themes);

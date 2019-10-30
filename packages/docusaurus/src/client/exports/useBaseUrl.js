@@ -1,0 +1,26 @@
+/**
+ * Copyright (c) 2017-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+import useDocusaurusContext from './useDocusaurusContext';
+
+export default function useBaseUrl(url) {
+  const {siteConfig} = useDocusaurusContext();
+  const {baseUrl = '/'} = siteConfig || {};
+
+  if (!url) {
+    return url;
+  }
+
+  const externalRegex = /^(https?:|\/\/)/;
+  if (externalRegex.test(url)) {
+    return url;
+  }
+  if (url.startsWith('/')) {
+    return baseUrl + url.slice(1);
+  }
+  return baseUrl + url;
+}

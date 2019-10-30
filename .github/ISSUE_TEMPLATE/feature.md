@@ -12,7 +12,7 @@ about: Submit a proposal/request for a new feature
 
 (A clear and concise description of what the feature is.)
 
-## Have you read the [Contributing Guidelines on issues](https://github.com/facebook/Docusaurus/blob/master/CONTRIBUTING.md#reporting-new-issues)?
+## Have you read the [Contributing Guidelines on issues](https://github.com/facebook/docusaurus/blob/master/CONTRIBUTING.md#reporting-new-issues)?
 
 (Write your answer here.)
 

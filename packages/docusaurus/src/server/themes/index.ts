@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {ThemeAlias} from '../types';
+import {ThemeAlias} from '@docusaurus/types';
 import {themeAlias} from './alias';
 
 export function loadThemeAlias(themePaths: string[]): ThemeAlias {

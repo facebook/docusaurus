@@ -13,6 +13,11 @@
   --ifm-color-primary-light: rgb(70, 203, 174);
   --ifm-color-primary-lighter: rgb(102, 212, 189);
   --ifm-color-primary-lightest: rgb(146, 224, 208);
+  --ifm-color-feedback-background: #fff;
+}
+
+html[data-theme='dark'] {
+  --ifm-color-feedback-background: #f0f8ff;
 }
 
 @media screen and (max-width: 996px) {
@@ -27,3 +32,9 @@
   }
 }
 
+.docusaurus-highlight-code-line {
+  background-color: rgb(72, 77, 91);
+  display: block;
+  margin: 0 calc(-1 * var(--ifm-pre-padding));
+  padding: 0 var(--ifm-pre-padding);
+}

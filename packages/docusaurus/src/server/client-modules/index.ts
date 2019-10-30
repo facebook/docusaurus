@@ -6,7 +6,7 @@
  */
 
 import _ from 'lodash';
-import {Plugin} from '../types';
+import {Plugin} from '@docusaurus/types';
 
 export function loadClientModules(plugins: Plugin<any>[]): string[] {
   return _.compact(

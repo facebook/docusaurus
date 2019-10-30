@@ -102,9 +102,11 @@ Control the number of blog posts that show up in the sidebar. See the [adding a 
 
 Control the title of the blog sidebar. See the [adding a blog docs](guides-blog.md#changing-the-sidebar-title) for more information.
 
-#### `cleanUrl` [string]
+#### `cleanUrl` [boolean]
 
 If `true`, allow URLs with no `HTML` extension. For example, a request to URL https://docusaurus.io/docs/installation will return the same result as https://docusaurus.io/docs/installation.html.
+
+> If users intend for this website to be used exclusively offline, this value must be set to `false`. Otherwise, it will cause the site to route to the parent folder of the linked page.
 
 #### `cname` [string]
 
@@ -285,7 +287,7 @@ If you want a visible navigation option for representing topics on the current p
 
 An array of JavaScript sources to load. The values can be either strings or plain objects of attribute-value maps. Refer to the example below. The script tag will be inserted in the HTML head.
 
-#### `separateCSS` [array]
+#### `separateCss` [array]
 
 Directories inside which any `CSS` files will not be processed and concatenated to Docusaurus' styles. This is to support static `HTML` pages that may be separate from Docusaurus with completely separate styles.
 
@@ -334,6 +336,20 @@ An array of languages to use Prism syntax highlighter. Refer to [Using Prism as 
 Boolean flag to indicate whether `HTML` files in `/pages` should be wrapped with Docusaurus site styles, header and footer. This feature is experimental and relies on the files being `HTML` fragments instead of complete pages. It inserts the contents of your `HTML` file with no extra processing. Defaults to `false`.
 
 Users can also add their own custom fields if they wish to provide some data across different files.
+
+## Adding Google Fonts
+
+<!-- TODO: Shift this into a dedicated styling section in future -->
+
+Google Fonts offers faster load times by caching fonts without forcing users to sacrifice privacy. For more information on Google Fonts, see the [Google Fonts](https://fonts.google.com/) documentation.
+
+To add Google Fonts to your Docusaurus deployment, add the font path to the `siteConfig.js` under `stylesheets`:
+
+```js
+stylesheets: [
+  'https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,700',
+],
+```
 
 ## Example siteConfig.js with many available fields
 

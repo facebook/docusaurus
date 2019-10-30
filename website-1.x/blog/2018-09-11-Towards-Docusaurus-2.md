@@ -16,9 +16,9 @@ There is a saying that the very best software is constantly evolving, and the ve
 
 ## Introduction
 
-It all started with this [RFC issue](https://github.com/facebook/Docusaurus/issues/789) opened by [Yangshun](https://github.com/yangshun) towards the end of June 2018.
+It all started with this [RFC issue](https://github.com/facebook/docusaurus/issues/789) opened by [Yangshun](https://github.com/yangshun) towards the end of June 2018.
 
-<blockquote><h4><a href="https://github.com/facebook/Docusaurus/issues/789">[RFC] Docusaurus v2 · Issue #789 · facebook/Docusaurus</a></h4><p>These are some of the problems I'm seeing in Docusaurus now and also how we can address them in v2. A number of the ideas here were inspired by VuePress and other static site generators. In the current static site generators ecosystem, t...</p></blockquote>
+<blockquote><h4><a href="https://github.com/facebook/docusaurus/issues/789">[RFC] Docusaurus v2 · Issue #789 · facebook/docusaurus</a></h4><p>These are some of the problems I'm seeing in Docusaurus now and also how we can address them in v2. A number of the ideas here were inspired by VuePress and other static site generators. In the current static site generators ecosystem, t...</p></blockquote>
 
 Most of the suggested improvements are mentioned in the issue; I will provide details on some of issues in Docusaurus 1 and how we are going to address them in Docusaurus 2.
 
@@ -61,7 +61,7 @@ However, if there are no changes to `hello.md` when cutting v2.0.0, Docusaurus w
 
 This can be very confusing for users; if they want to edit the v2.0.0 docs, they have to edit `versioned_docs/version-1.0.0/hello.md` or manually add `versioned_docs/version-2.0.0/hello.md`. This could potentially lead to unwanted bugs. Here is a [real scenario in Jest](https://github.com/facebook/jest/pull/6758#issuecomment-408274413).
 
-In addition, this adds complexity within the codebase as we require a mechanism for version fallbacks. And during build time, Docusaurus has to replace the linking to the correct version. This is also the cause of a bug where [renaming docs breaks links in old versions](https://github.com/facebook/Docusaurus/issues/845).
+In addition, this adds complexity within the codebase as we require a mechanism for version fallbacks. And during build time, Docusaurus has to replace the linking to the correct version. This is also the cause of a bug where [renaming docs breaks links in old versions](https://github.com/facebook/docusaurus/issues/845).
 
 For Docusaurus 2, **every time we cut a new version, we will instead take a snapshot of all the docs**. We will not require the content of a document to have changed. This is a space complexity trade-off for a better developer and user experience. We will use more space for better separation of concerns and guaranteed correctness.
 
@@ -117,7 +117,7 @@ As of now, we do not have an exact date planned for the release. I personally es
 
 One thing that I would like to share is that while Docusaurus is part of [Facebook Open Source](https://opensource.fb.com/) and most of the team are Facebook employees, the maintenance and development work is mostly done outside of normal working hours. I am currently a final year undergraduate student at [NTU Singapore](https://twitter.com/NTUsg), so I had to juggle between doing my coursework, my final year project and maintaining/developing Docusaurus. However, that does not mean that we do not want to make Docusaurus better. In fact, **we want to make it as awesome as possible**.
 
-For now, the actual Docusaurus 2 work is still hosted in a private repository. In the near future, we will move them into the [public repository](https://github.com/facebook/Docusaurus). When that time arrives, I encourage everyone to look into it and hopefully contribute in some way. Before then, please stay tuned 😉!
+For now, the actual Docusaurus 2 work is still hosted in a private repository. In the near future, we will move them into the [public repository](https://github.com/facebook/docusaurus). When that time arrives, I encourage everyone to look into it and hopefully contribute in some way. Before then, please stay tuned 😉!
 
 ## Final Thoughts
 
@@ -131,4 +131,4 @@ If you are using Docusaurus, you are part of our community; keep letting us know
 
 > If you are sponsoring our work on [Open Collective](https://opencollective.com/Docusaurus), we'll personally offer you a helping hand for maintenance and upgrading of Docusaurus website.
 
-Lastly, if you haven't done so already, click the **star** and **watch** button on [GitHub](https://github.com/facebook/Docusaurus), and follow us on [Twitter](https://twitter.com/docusaurus).
+Lastly, if you haven't done so already, click the **star** and **watch** button on [GitHub](https://github.com/facebook/docusaurus), and follow us on [Twitter](https://twitter.com/docusaurus).

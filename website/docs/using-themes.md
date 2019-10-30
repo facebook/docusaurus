@@ -1,26 +1,81 @@
 ---
 id: using-themes
-title: Using Themes
+title: Themes
+sidebar_label: Introduction
 ---
 
-In Docusaurus 2, themes are there to finish the build step of your site by supplying the components used by your site, your plugins, and the themes themselves. Furthermore, you may easily swap out components from themes by _swizzling_ them with your own components.
-
-In this document, we discuss the basic usages of themes. You will learn how to use a theme and how to swizzle a component. To grasp a deeper understanding of themes, and / or to learn how you may implement your own themes, check out our [advanced guide on themes](advanced-themes.md).
+Like plugins, themes are designed to add functionality to your Docusaurus site. As a good rule of thumb, themes are mostly focused on client-side, where plugins are more focused on server-side functionalities. Themes are also designed to be easily replace-able with other themes.
 
 ## Using themes
 
 To use themes, specify the themes in your `docusaurus.config.js`. You may use multiple themes:
 
-```js
+```js {4}
 // docusaurus.config.js
 module.exports = {
+  // ...
   themes: ['@docusaurus/theme-classic', '@docusaurus/theme-live-codeblock'],
 };
 ```
 
+## Theme components
+
+Most of the time, theme is used to provide a set of React components, e.g. `Navbar`, `Layout`, `Footer`.
+
+Users can use these components in their code by importing them using the `@theme` webpack alias:
+
+```js
+import Navbar from '@theme/Navbar';
+```
+
+The alias `@theme` can refer to a few directories, in the following priority:
+
+1. A user's `website/src/theme` directory, which is a special directory that has the higher precedence.
+1. A Docusaurus theme packages's `theme` directory.
+1. Fallback components provided by Docusaurus core (usually not needed).
+
+Given the following structure
+
+```
+website
+├── node_modules
+│   └── docusaurus-theme
+│       └── theme
+│           └── Navbar.js
+└── src
+    └── theme
+        └── Navbar.js
+```
+
+`website/src/theme/Navbar.js` takes precedence whenever `@theme/Navbar` is imported. This behavior is called component swizzling. In iOS, method swizzling is the process of changing the implementation of an existing selector (method). In the context of a website, component swizzling means providing an alternative component that takes precedence over the component provided by the theme.
+
+**Themes are for providing UI components to present the content.** Most content plugins need to be paired with a theme in order to be actually useful. The UI is a separate layer from the data schema, so it makes it easy to swap out the themes for other designs (i.e., Bootstrap).
+
+For example, a Docusaurus blog consists of a blog plugin and a blog theme.
+
+```js
+// docusaurus.config.js
+{
+  theme: ['theme-blog'],
+  plugins: ['plugin-content-blog'],
+}
+```
+
+and if you want to use Bootstrap styling, you can swap out the theme with `theme-blog-bootstrap` (fictitious non-existing theme):
+
+```js
+// docusaurus.config.js
+{
+  theme: ['theme-blog-bootstrap'],
+  plugins: ['plugin-content-blog'],
+}
+```
+
+The content plugin remains the same and the only thing you need to change is the theme.
+
 ## Swizzling theme components
 
-Themes are all about components. Docusaurus Themes' components are designed to be easily replaceable. We created a command for you to replace the components called `swizzle`.
+Docusaurus Themes' components are designed to be easily replaceable. To make it easier for you, we created a command for you to replace theme components called `swizzle`.
 
 To swizzle a component for a theme, run the following command in your doc site:
 
@@ -34,7 +89,7 @@ As an example, to swizzle the `<Footer />` component in `@docusaurus/theme-class
 $ npm swizzle @docusaurus/theme-classic Footer
 ```
 
-This will copy the current `<Footer />` component used by the theme to a `theme/Footer` directory under the root of your site, which is where Docusaurus will look for swizzled components. Docusaurus will then use swizzled component in place of the original one from the theme.
+This will copy the current `<Footer />` component used by the theme to a `src/theme/Footer` directory under the root of your site, which is where Docusaurus will look for swizzled components. Docusaurus will then use swizzled component in place of the original one from the theme.
 
 **Note**: You need to restart your dev server for Docusaurus to pick up the new component.
 

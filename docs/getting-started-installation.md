@@ -1,6 +1,7 @@
 ---
 id: installation
 title: Installation
+description: Docusaurus was designed from the ground up to be easily installed and used to get your website up and running quickly!
 ---
 
 Docusaurus was designed from the ground up to be easily installed and used to get your website up and running quickly.
@@ -56,6 +57,8 @@ root-directory
     └── static
 ```
 
+> This installation creates some Docker files that are not necessary to run docusaurus. They may be deleted without issue in the interest of saving space. For more information on Docker, please see the [Docker documentation](https://docs.docker.com/).
+
 ## Running the example website
 
 After running the Docusaurus initialization script, `docusaurus-init` as
@@ -98,7 +101,7 @@ info Color legend :
  "<yellow>" : Minor Update backward-compatible features
  "<green>"  : Patch Update backward-compatible bug fixes
 Package    Current Wanted Latest Package Type    URL
-docusaurus 1.0.9   1.2.0  1.2.0  devDependencies https://github.com/facebook/Docusaurus#readme
+docusaurus 1.0.9   1.2.0  1.2.0  devDependencies https://github.com/facebook/docusaurus#readme
 ✨  Done in 0.41s.
 ```
 

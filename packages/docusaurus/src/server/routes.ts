@@ -8,7 +8,12 @@
 import {genChunkName} from '@docusaurus/utils';
 import _ from 'lodash';
 import {stringify} from 'querystring';
-import {ChunkRegistry, Module, RouteConfig, RouteModule} from './types';
+import {
+  ChunkRegistry,
+  Module,
+  RouteConfig,
+  RouteModule,
+} from '@docusaurus/types';
 
 function getModulePath(target: Module): string {
   if (typeof target === 'string') {
@@ -19,6 +24,7 @@ function getModulePath(target: Module): string {
 }
 
 export async function loadRoutes(pluginsRouteConfigs: RouteConfig[]) {
+  const isProd = process.env.NODE_ENV === 'production';
   const routesImports = [
     `import React from 'react';`,
     `import ComponentCreator from '@docusaurus/ComponentCreator';`,
@@ -77,13 +83,13 @@ export async function loadRoutes(pluginsRouteConfigs: RouteConfig[]) {
       }
 
       const modulePath = getModulePath(value as Module);
-      const chunkName = genChunkName(modulePath, prefix, name);
-      const importStatement = `() => import(/* webpackChunkName: '${chunkName}' */ ${JSON.stringify(
+      const chunkName = genChunkName(modulePath, prefix, name, isProd);
+      const loader = `() => import(/* webpackChunkName: '${chunkName}' */ ${JSON.stringify(
         modulePath,
       )})`;
 
       registry[chunkName] = {
-        importStatement,
+        loader,
         modulePath,
       };
       return chunkName;

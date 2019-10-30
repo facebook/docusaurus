@@ -7,11 +7,11 @@
 import path from 'path';
 import {Configuration} from 'webpack';
 import merge from 'webpack-merge';
-import WebpackNiceLog from 'webpack-nicelog';
 
-import {Props} from '../server/types';
+import {Props} from '@docusaurus/types';
 import {createBaseConfig} from './base';
 import ChunkManifestPlugin from './plugins/ChunkManifestPlugin';
+import LogPlugin from './plugins/LogPlugin';
 
 export function createClientConfig(props: Props): Configuration {
   const isProd = process.env.NODE_ENV === 'production';
@@ -34,9 +34,8 @@ export function createClientConfig(props: Props): Configuration {
         inlineManifest: !isProd,
       }),
       // Show compilation progress bar and build time.
-      new WebpackNiceLog({
+      new LogPlugin({
         name: 'Client',
-        skipBuildTime: isProd,
       }),
     ],
   });

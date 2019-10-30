@@ -8,12 +8,15 @@
 import React, {useEffect, useState, useRef} from 'react';
 import classnames from 'classnames';
 import Highlight, {defaultProps} from 'prism-react-renderer';
-import nightOwlTheme from 'prism-react-renderer/themes/nightOwl';
+import defaultTheme from 'prism-react-renderer/themes/palenight';
 import Clipboard from 'clipboard';
+import rangeParser from 'parse-numeric-range';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import styles from './styles.module.css';
 
-export default ({children, className: languageClassName}) => {
+const highlightLinesRangeRegex = /{([\d,-]+)}/;
+
+export default ({children, className: languageClassName, metastring}) => {
   const {
     siteConfig: {
       themeConfig: {prismTheme},
@@ -22,6 +25,12 @@ export default ({children, className: languageClassName}) => {
   const [showCopied, setShowCopied] = useState(false);
   const target = useRef(null);
   const button = useRef(null);
+  let highlightLines = [];
+
+  if (metastring && highlightLinesRangeRegex.test(metastring)) {
+    const highlightLinesRange = metastring.match(highlightLinesRangeRegex)[1];
+    highlightLines = rangeParser.parse(highlightLinesRange).filter(n => n > 0);
+  }
 
   useEffect(() => {
     let clipboard;
@@ -52,7 +61,7 @@ export default ({children, className: languageClassName}) => {
   return (
     <Highlight
       {...defaultProps}
-      theme={prismTheme || nightOwlTheme}
+      theme={prismTheme || defaultTheme}
       code={children.trim()}
       language={language}>
       {({className, style, tokens, getLineProps, getTokenProps}) => (
@@ -61,13 +70,21 @@ export default ({children, className: languageClassName}) => {
             ref={target}
             className={classnames(className, styles.codeBlock)}
             style={style}>
-            {tokens.map((line, i) => (
-              <div key={i} {...getLineProps({line, key: i})}>
-                {line.map((token, key) => (
-                  <span key={key} {...getTokenProps({token, key})} />
-                ))}
-              </div>
-            ))}
+            {tokens.map((line, i) => {
+              const lineProps = getLineProps({line, key: i});
+
+              if (highlightLines.includes(i + 1)) {
+                lineProps.className = `${lineProps.className} docusaurus-highlight-code-line`;
+              }
+
+              return (
+                <div key={i} {...lineProps}>
+                  {line.map((token, key) => (
+                    <span key={key} {...getTokenProps({token, key})} />
+                  ))}
+                </div>
+              );
+            })}
           </pre>
           <button
             ref={button}

@@ -6,10 +6,13 @@
  */
 
 import React from 'react';
+import classnames from 'classnames';
 import {MDXProvider} from '@mdx-js/react';
 
 import Link from '@docusaurus/Link';
 import MDXComponents from '@theme/MDXComponents';
+
+import styles from './styles.module.css';
 
 function BlogPostItem(props) {
   const {children, frontMatter, metadata, truncated} = props;
@@ -41,7 +44,7 @@ function BlogPostItem(props) {
 
     return (
       <header>
-        <h1 className="margin-bottom--xs">
+        <h1 className={classnames('margin-bottom--sm', styles.blogPostTitle)}>
           <Link to={permalink}>{title}</Link>
         </h1>
         <div className="margin-bottom--sm">
