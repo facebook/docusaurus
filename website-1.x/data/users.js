@@ -506,6 +506,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Reactive Interaction Gateway',
+    image: '/img/users/reactive-interaction-gateway.svg',
+    infoLink: 'https://accenture.github.io/reactive-interaction-gateway/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Reason',
     image: '/img/users/reason.svg',
     infoLink: 'https://reasonml.github.io/',
