@@ -23,6 +23,7 @@ import styles from './styles.module.css';
 
 function NavLink(props) {
   const toUrl = useBaseUrl(props.to);
+  console.log(toUrl);
   return (
     <Link
       className="navbar__item navbar__link"
