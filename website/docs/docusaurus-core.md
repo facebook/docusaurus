@@ -151,7 +151,7 @@ Rendering a `<Redirect>` will navigate to a new location. The new location will 
 
 Example usage:
 
-```jsx {5}
+```jsx {2,5}
 import React from 'react';
 import {Redirect} from '@docusaurus/router';
 
