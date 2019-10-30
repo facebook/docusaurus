@@ -5,90 +5,32 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useEffect} from 'react';
+import React from 'react';
 
 import Head from '@docusaurus/Head';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import DocPaginator from '@theme/DocPaginator';
+import useTableOfContentHighlight from '@theme/hooks/useTableOfContentHighlight';
 
 import styles from './styles.module.css';
 
-let headersCache = [];
-let tableOfContentLinksCache = [];
-let lastActiveTableOfContentLink;
-
-function getActiveHeader() {
-  const TOP_OFFSET = 80;
-  let index = 0;
-  let activeHeader;
-  while (index < headersCache.length && !activeHeader) {
-    const header = headersCache[index];
-    const {top} = header.getBoundingClientRect();
-    if (top > 0 && top <= TOP_OFFSET) {
-      activeHeader = header;
-    }
-    index += 1;
-  }
-  return activeHeader;
-}
-
-function highlightTableOfContentLink(tableOfContentLink) {
-  const cssClass = 'contents__link--active';
-  if (lastActiveTableOfContentLink) {
-    lastActiveTableOfContentLink.classList.remove(cssClass);
-  }
-  tableOfContentLink.classList.add(cssClass);
-  lastActiveTableOfContentLink = tableOfContentLink;
-}
-
-function setActiveTableOfContentLink() {
-  const activeHeader = getActiveHeader();
-  if (activeHeader) {
-    let index = 0;
-    let itemHighlighted = false;
-    while (index < tableOfContentLinksCache.length && !itemHighlighted) {
-      const tableOfContentLink = tableOfContentLinksCache[index];
-      if (activeHeader.innerText.indexOf(tableOfContentLink.innerText) > -1) {
-        highlightTableOfContentLink(tableOfContentLink);
-        itemHighlighted = true;
-      }
-      index += 1;
-    }
-  }
-}
-
-function addEventListeners() {
-  document.addEventListener('scroll', setActiveTableOfContentLink);
-  document.addEventListener('resize', setActiveTableOfContentLink);
-  document.addEventListener('hashchange', setActiveTableOfContentLink);
-}
-
-function removeEventListeners() {
-  document.removeEventListener('scroll', setActiveTableOfContentLink);
-  document.removeEventListener('resize', setActiveTableOfContentLink);
-  document.removeEventListener('hashchange', setActiveTableOfContentLink);
-}
-
-function componentLoaded() {
-  headersCache = document.querySelectorAll('h2, h3');
-  tableOfContentLinksCache = document.querySelectorAll('.contents__link');
-  setActiveTableOfContentLink();
-  addEventListeners();
-}
-
 function Headings({headings, isChild}) {
-  useEffect(() => {
-    componentLoaded();
-    return removeEventListeners;
-  });
+  const LINK_CLASS_NAME = 'contents__link';
+  const TOP_OFFSET = 100;
+
+  useTableOfContentHighlight(
+    LINK_CLASS_NAME,
+    'contents__link--active',
+    TOP_OFFSET,
+  );
 
   if (!headings.length) return null;
   return (
     <ul className={isChild ? '' : 'contents contents__left-border'}>
       {headings.map(heading => (
         <li key={heading.id}>
-          <a href={`#${heading.id}`} className="contents__link">
+          <a href={`#${heading.id}`} className={LINK_CLASS_NAME}>
             {heading.value}
           </a>
           <Headings isChild headings={heading.children} />
