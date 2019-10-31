@@ -1,6 +1,7 @@
 ---
 id: docusaurus-core
-title: Docusaurus Core API
+title: Docusaurus Client API
+sidebar_title: Client API
 ---
 
 Docusaurus provides some API on client that can be helpful when building your site.
@@ -141,5 +142,20 @@ function Help() {
       </p>
     </div>
   );
+}
+```
+
+## `<Redirect />`
+
+Rendering a `<Redirect>` will navigate to a new location. The new location will override the current location in the history stack, like server-side redirects (HTTP 3xx) do. You can refer to [React Router's Redirect documentation](https://reacttraining.com/react-router/web/api/Redirect) for more info on available props.
+
+Example usage:
+
+```jsx {2,5}
+import React from 'react';
+import {Redirect} from '@docusaurus/router';
+
+function Home() {
+  return <Redirect to="/docs/test" />;
 }
 ```

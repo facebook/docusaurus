@@ -54,9 +54,11 @@ export function createBaseConfig(
       // We want `@docusaurus/core` own dependencies/`node_modules` to "win" if there is conflict
       // Example: if there is core-js@3 in user's own node_modules, but core depends on
       // core-js@2, we should use core-js@2.
-      modules: module.paths.concat([
+      modules: [
+        path.resolve(__dirname, '..', '..', 'node_modules'),
+        'node_modules',
         path.resolve(fs.realpathSync(process.cwd()), 'node_modules'),
-      ]),
+      ],
     },
     optimization: {
       removeAvailableModules: false,

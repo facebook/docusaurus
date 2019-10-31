@@ -33,7 +33,7 @@ export default function getFileLastUpdate(
     if (!shell.which('git')) {
       if (!showedGitRequirementError) {
         showedGitRequirementError = true;
-        console.log('Sorry, the docs plugin last update options require Git.');
+        console.warn('Sorry, the docs plugin last update options require Git.');
       }
 
       return null;
