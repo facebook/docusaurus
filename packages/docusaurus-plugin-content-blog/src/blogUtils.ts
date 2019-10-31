@@ -6,6 +6,14 @@ import {PluginOptions, BlogPost, DateLink} from './types';
 import {parse, normalizeUrl} from '@docusaurus/utils';
 import {LoadContext} from '@docusaurus/types';
 
+export function truncate(fileString: string, truncateMarker: RegExp | string) {
+  const truncated =
+    typeof truncateMarker === 'string'
+      ? fileString.includes(truncateMarker)
+      : truncateMarker.test(fileString);
+  return truncated ? fileString.split(truncateMarker)[0] : fileString;
+}
+
 // YYYY-MM-DD-{name}.mdx?
 // prefer named capture, but old node version do not support
 const FILENAME_PATTERN = /^(\d{4}-\d{1,2}-\d{1,2})-?(.*?).mdx?$/;
@@ -30,7 +38,7 @@ export async function generateBlogFeed(
   const contentPath = path.resolve(siteDir, options.path);
   const blogPosts = await generateBlogPosts(contentPath, context, options);
   if (blogPosts == null) {
-    return [];
+    return null;
   }
 
   const {feedOptions, routeBasePath} = options;
@@ -66,7 +74,7 @@ export async function generateBlogFeed(
     });
   });
 
-  return feedOptions.type === 'rss' ? feed.rss2() : feed.atom1();
+  return feed;
 }
 
 export async function generateBlogPosts(

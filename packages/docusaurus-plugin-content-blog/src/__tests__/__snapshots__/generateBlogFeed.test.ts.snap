@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`blogFeed atom can show feed without posts 1`] = `Array []`;
+exports[`blogFeed atom can show feed without posts 1`] = `null`;
 
 exports[`blogFeed atom shows feed item for each post 1`] = `
 "<?xml version=\\"1.0\\" encoding=\\"utf-8\\"?>
@@ -30,7 +30,7 @@ exports[`blogFeed atom shows feed item for each post 1`] = `
 </feed>"
 `;
 
-exports[`blogFeed rss can show feed without posts 1`] = `Array []`;
+exports[`blogFeed rss can show feed without posts 1`] = `null`;
 
 exports[`blogFeed rss shows feed item for each post 1`] = `
 "<?xml version=\\"1.0\\" encoding=\\"utf-8\\"?>

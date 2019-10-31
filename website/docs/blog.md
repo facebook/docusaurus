@@ -74,6 +74,42 @@ Not this.
 Or this.
 ```
 
+## Feed
+
+You can generate RSS/ Atom feed by passing feedOptions.
+
+```ts
+feedOptions?: {
+  type: 'rss' | 'atom' | 'all';
+  title?: string;
+  description?: string;
+  copyright: string;
+  language?: string; // possible values: http://www.w3.org/TR/REC-html40/struct/dirlang.html#langcodes
+};
+```
+
+Example usage:
+
+```js {9-12}
+// docusaurus.config.js
+module.exports = {
+  // ...
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        blog: {
+          feedOptions: {
+            type: 'all',
+            copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`
+          },
+        },
+      },
+    ],
+  ],
+};
+```
+
 ## Advanced topics
 
 ### Blog-only mode

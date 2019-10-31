@@ -29,7 +29,9 @@ describe('blogFeed', () => {
             },
           } as PluginOptions,
         );
-        expect(feed).toMatchSnapshot();
+        const feedContent =
+          feed && (feedType === 'rss' ? feed.rss2() : feed.atom1());
+        expect(feedContent).toMatchSnapshot();
       });
 
       test('shows feed item for each post', async () => {
@@ -58,7 +60,9 @@ describe('blogFeed', () => {
             },
           } as PluginOptions,
         );
-        expect(feed).toMatchSnapshot();
+        const feedContent =
+          feed && (feedType === 'rss' ? feed.rss2() : feed.atom1());
+        expect(feedContent).toMatchSnapshot();
       });
     });
   });

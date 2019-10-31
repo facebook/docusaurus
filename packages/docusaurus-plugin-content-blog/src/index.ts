@@ -386,13 +386,32 @@ export default function pluginContentBlog(
       const {
         feedOptions: {type: feedType},
       } = options;
-      const feedContent = await generateBlogFeed(context, options);
-      const feedPath = path.join(outDir, `${feedType}.xml`);
-      fs.writeFile(feedPath, feedContent, err => {
-        if (err) {
-          throw new Error(`Generating ${feedType} feed failed: ${err}`);
-        }
-      });
+      const feed = await generateBlogFeed(context, options);
+      if (!feed) {
+        return;
+      }
+      let feedTypes = [];
+      if (feedType === 'all') {
+        feedTypes = ['rss', 'atom'];
+      } else {
+        feedTypes.push(feedType);
+      }
+
+      await Promise.all(
+        feedTypes.map(feedType => {
+          const feedPath = path.join(
+            outDir,
+            options.routeBasePath,
+            `${feedType}.xml`,
+          );
+          const feedContent = feedType === 'rss' ? feed.rss2() : feed.atom1();
+          return fs.writeFile(feedPath, feedContent, err => {
+            if (err) {
+              throw new Error(`Generating ${feedType} feed failed: ${err}`);
+            }
+          });
+        }),
+      );
     },
   };
 }

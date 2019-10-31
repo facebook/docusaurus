@@ -23,7 +23,7 @@ export interface PluginOptions {
   rehypePlugins: string[];
   truncateMarker: RegExp | string;
   feedOptions?: {
-    type: 'rss' | 'atom';
+    type: 'rss' | 'atom' | 'all';
     title?: string;
     description?: string;
     copyright: string;
