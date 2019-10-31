@@ -7,7 +7,8 @@
 
 const _ = require('lodash');
 const hljs = require('highlight.js');
-const Markdown = require('remarkable');
+const {Remarkable: Markdown} = require('remarkable');
+const {linkify} = require('remarkable/linkify');
 const prismjs = require('prismjs');
 const loadLanguages = require('prismjs/components/index');
 const chalk = require('chalk');
@@ -83,7 +84,6 @@ class MarkdownRenderer {
         return '';
       },
       html: true,
-      linkify: true,
     };
 
     // Allow overriding default options
@@ -99,6 +99,9 @@ class MarkdownRenderer {
 
     // Register anchors plugin
     md.use(anchors);
+
+    // Linkify
+    md.use(linkify);
 
     // Allow client sites to register their own plugins
     if (siteConfig.markdownPlugins) {
