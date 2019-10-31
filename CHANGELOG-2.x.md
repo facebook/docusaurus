@@ -20,6 +20,7 @@ function Home() {
 ([#1860](https://github.com/facebook/Docusaurus/issues/1860))
 
 ### Bug Fixes
+- Fix MDX `@theme/Heading` component. If there is no id, it should not create anchor link.
 - Fixed a bug in which if `themeConfig.algolia` is not defined, the custom searchbar won't appear.
 If you've swizzled Algolia `SearchBar` component before, please update your source code otherwise CSS might break. See [#1909](https://github.com/facebook/docusaurus/pull/1909/files) for reference.
 ```js
