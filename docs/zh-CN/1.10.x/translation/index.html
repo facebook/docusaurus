@@ -208,20 +208,20 @@ languages.js
 <span class="hljs-attr">preserve_hierarchy:</span> <span class="hljs-literal">true</span>
 
 <span class="hljs-attr">files:</span>
-  <span class="hljs-bullet">-</span>
-    <span class="hljs-attr">source:</span> <span class="hljs-string">'/docs/**/*.md'</span>
-    <span class="hljs-attr">translation:</span> <span class="hljs-string">'/website/translated_docs/%locale%/**/%original_file_name%'</span>
-    <span class="hljs-attr">languages_mapping:</span> <span class="hljs-meta">&amp;anchor</span>
-      <span class="hljs-attr">locale:</span>
-        <span class="hljs-attr">'de':</span> <span class="hljs-string">'de'</span>
-        <span class="hljs-attr">'es-ES':</span> <span class="hljs-string">'es-ES'</span>
-        <span class="hljs-attr">'fr':</span> <span class="hljs-string">'fr'</span>
-        <span class="hljs-attr">'ja':</span> <span class="hljs-string">'ja'</span>
-        <span class="hljs-attr">'ko':</span> <span class="hljs-string">'ko'</span>
-        <span class="hljs-attr">'mr':</span> <span class="hljs-string">'mr-IN'</span>
-        <span class="hljs-attr">'pt-BR':</span> <span class="hljs-string">'pt-BR'</span>
-        <span class="hljs-attr">'zh-CN':</span> <span class="hljs-string">'zh-CN'</span>
-        <span class="hljs-attr">'zh-TW':</span> <span class="hljs-string">'zh-TW'</span>
+<span class="hljs-bullet">  -</span>
+<span class="hljs-attr">    source:</span> <span class="hljs-string">'/docs/**/*.md'</span>
+<span class="hljs-attr">    translation:</span> <span class="hljs-string">'/website/translated_docs/%locale%/**/%original_file_name%'</span>
+<span class="hljs-attr">    languages_mapping:</span> <span class="hljs-meta">&amp;anchor</span>
+<span class="hljs-attr">      locale:</span>
+<span class="hljs-attr">        'de':</span> <span class="hljs-string">'de'</span>
+<span class="hljs-attr">        'es-ES':</span> <span class="hljs-string">'es-ES'</span>
+<span class="hljs-attr">        'fr':</span> <span class="hljs-string">'fr'</span>
+<span class="hljs-attr">        'ja':</span> <span class="hljs-string">'ja'</span>
+<span class="hljs-attr">        'ko':</span> <span class="hljs-string">'ko'</span>
+<span class="hljs-attr">        'mr':</span> <span class="hljs-string">'mr-IN'</span>
+<span class="hljs-attr">        'pt-BR':</span> <span class="hljs-string">'pt-BR'</span>
+<span class="hljs-attr">        'zh-CN':</span> <span class="hljs-string">'zh-CN'</span>
+<span class="hljs-attr">        'zh-TW':</span> <span class="hljs-string">'zh-TW'</span>
 </code></pre>
 <p>You can go <a href="https://support.crowdin.com/configuration-file/">here</a> to learn more about customizing your <code>crowdin.yaml</code> file.</p>
 <h3><a class="anchor" aria-hidden="true" id="setup-the-crowdin-scripts"></a><a href="#setup-the-crowdin-scripts" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Setup the Crowdin Scripts</h3>
@@ -257,18 +257,18 @@ CROWDIN_DOCUSAURUS_PROJECT_ID=YOUR_CROWDIN_PROJECT_ID CROWDIN_DOCUSAURUS_API_KEY
 
 <span class="hljs-attr">version:</span> <span class="hljs-number">2</span>
 <span class="hljs-attr">jobs:</span>
-  <span class="hljs-attr">deploy-website:</span>
-    <span class="hljs-attr">docker:</span>
+<span class="hljs-attr">  deploy-website:</span>
+<span class="hljs-attr">    docker:</span>
       <span class="hljs-comment"># specify the version you desire here</span>
 
-      <span class="hljs-bullet">-</span> <span class="hljs-attr">image:</span> <span class="hljs-string">circleci/node:8.11.1</span>
+<span class="hljs-attr">      - image:</span> <span class="hljs-string">circleci/node:8.11.1</span>
 
-    <span class="hljs-attr">steps:</span>
+<span class="hljs-attr">    steps:</span>
 
-      <span class="hljs-bullet">-</span> <span class="hljs-string">checkout</span>
-      <span class="hljs-bullet">-</span> <span class="hljs-attr">run:</span>
-          <span class="hljs-attr">name:</span> <span class="hljs-string">Deploying</span> <span class="hljs-string">to</span> <span class="hljs-string">GitHub</span> <span class="hljs-string">Pages</span>
-          <span class="hljs-attr">command:</span> <span class="hljs-string">|
+<span class="hljs-bullet">      -</span> <span class="hljs-string">checkout</span>
+<span class="hljs-attr">      - run:</span>
+<span class="hljs-attr">          name:</span> <span class="hljs-string">Deploying</span> <span class="hljs-string">to</span> <span class="hljs-string">GitHub</span> <span class="hljs-string">Pages</span>
+<span class="hljs-attr">          command:</span> <span class="hljs-string">|
             git config --global user.email "&lt;GITHUB_USERNAME&gt;@users.noreply.github.com"
             git config --global user.name "&lt;YOUR_NAME&gt;"
             echo "machine github.com login &lt;GITHUB_USERNAME&gt; password $GITHUB_TOKEN" &gt; ~/.netrc
@@ -283,13 +283,13 @@ CROWDIN_DOCUSAURUS_PROJECT_ID=YOUR_CROWDIN_PROJECT_ID CROWDIN_DOCUSAURUS_API_KEY
             - crowdin --config crowdin.yaml download -b master
             # build and publish website
             cd website &amp;&amp; GIT_USER=&lt;GIT_USER&gt; yarn run publish-gh-pages
-</span>
-<span class="hljs-attr">workflows:</span>
-  <span class="hljs-attr">version:</span> <span class="hljs-number">2</span>
-  <span class="hljs-attr">build_and_deploy:</span>
-    <span class="hljs-attr">jobs:</span>
 
-      <span class="hljs-bullet">-</span> <span class="hljs-attr">deploy-website:</span>
+</span><span class="hljs-attr">workflows:</span>
+<span class="hljs-attr">  version:</span> <span class="hljs-number">2</span>
+<span class="hljs-attr">  build_and_deploy:</span>
+<span class="hljs-attr">    jobs:</span>
+
+<span class="hljs-attr">      - deploy-website:</span>
 <span class="hljs-comment">#         filters: *filter-only-master</span>
 </code></pre>
 <p>The <code>crowdin</code> command uses the <code>crowdin.yaml</code> file generated with the <code>examples</code> script. It should be placed in your project directory to configure how and what files are uploaded/downloaded.</p>
@@ -298,10 +298,10 @@ CROWDIN_DOCUSAURUS_PROJECT_ID=YOUR_CROWDIN_PROJECT_ID CROWDIN_DOCUSAURUS_API_KEY
 <p>If you wish to use Crowdin on your machine locally, you can install the <a href="https://support.crowdin.com/cli-tool/">Crowdin CLI tool</a> and run the same commands found in the <code>circle.yaml</code> file. The only difference is that you must set <code>project_identifier</code> and <code>api_key</code> values in the <code>crowdin.yaml</code> file since you will not have Circle environment variables set up.</p>
 <h2><a class="anchor" aria-hidden="true" id="版本翻译"></a><a href="#版本翻译" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>版本翻译</h2>
 <p>If you wish to have translation and versioning for your documentation, add the following section to the end of your <code>crowdin.yaml</code> file:</p>
-<pre><code class="hljs css language-yaml">  <span class="hljs-bullet">-</span>
-    <span class="hljs-attr">source:</span> <span class="hljs-string">'/website/versioned_docs/**/*.md'</span>
-    <span class="hljs-attr">translation:</span> <span class="hljs-string">'/website/translated_docs/%locale%/**/%original_file_name%'</span>
-    <span class="hljs-attr">languages_mapping:</span> <span class="hljs-meta">*anchor</span>
+<pre><code class="hljs css language-yaml"><span class="hljs-bullet">  -</span>
+<span class="hljs-attr">    source:</span> <span class="hljs-string">'/website/versioned_docs/**/*.md'</span>
+<span class="hljs-attr">    translation:</span> <span class="hljs-string">'/website/translated_docs/%locale%/**/%original_file_name%'</span>
+<span class="hljs-attr">    languages_mapping:</span> <span class="hljs-meta">*anchor</span>
 </code></pre>
 <p>Translated, versioned documents will be copied into <code>website/translated_docs/${language}/${version}/</code>.</p>
 </span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/zh-CN/1.10.x/navigation"><span class="arrow-prev">← </span><span>导航和边栏</span></a><a class="docs-next button" href="/docs/zh-CN/1.10.x/versioning"><span>版本管理</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#docusaurus-翻译配置">Docusaurus 翻译配置</a></li><li><a href="#翻译现有文档">翻译现有文档</a></li><li><a href="#在页面上启用翻译">在页面上启用翻译</a></li><li><a href="#收集字符串以进行转换">收集字符串以进行转换</a><ul class="toc-headings"><li><a href="#custom-translation-strings">Custom Translation Strings</a></li></ul></li><li><a href="#字符串是怎么转换的">字符串是怎么转换的</a></li><li><a href="#docusaurus怎样使用字符串翻译">Docusaurus怎样使用字符串翻译</a><ul class="toc-headings"><li><a href="#字符串">字符串</a></li><li><a href="#markdown-files">Markdown Files</a></li><li><a href="#other-pages">Other Pages</a></li></ul></li><li><a href="#crowdin">Crowdin</a><ul class="toc-headings"><li><a href="#setup-the-crowdin-scripts">Setup the Crowdin Scripts</a></li><li><a href="#manual-file-sync">Manual File Sync</a></li><li><a href="#automated-file-sync-using-circleci">Automated File Sync Using CircleCI</a></li></ul></li><li><a href="#版本翻译">版本翻译</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/docusaurus_monochrome.svg" alt="Docusaurus" width="66" height="58"/></a><div class="footerSection"><h5>Docs</h5><a href="
