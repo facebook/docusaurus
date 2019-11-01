@@ -17,7 +17,7 @@ The high-level overview of Docusaurus configuration can be categorized into:
 
 - [Site Metadata](#site-metadata)
 - [Deployment Configurations](#deployment-configurations)
-- [Themes, Plugins, and Presets configurations](#themes-plugins-and-presets-configurations)
+- [Theme, Plugin, and Preset Configurations](#theme-plugin-and-preset-configurations)
 - [Custom Configurations](#custom-configurations)
 
 For exact reference to each of the configurable fields, you may refer to [**docusaurus.config.js API reference**](docusaurus.config.js.md).
@@ -34,22 +34,76 @@ Deployment configurations such as `projectName` and `organizationName` are used 
 
 It is recommended to check the [deployment docs](deployment.md) for more information.
 
-### Themes, Plugins, and Presets configurations
+### Theme, plugin, and preset configurations
 
-_This section is a work in progress. [Welcoming PRs](https://github.com/facebook/docusaurus/issues/1640)._
+List the installed [themes](using-themes.md), [plugins](using-plugins.md), and [presets](presets.md) for your site in the `themes`, `plugins`, and `presets` fields, respectively. These are typically npm packages:
 
-<!--
+```js
+// docusaurus.config.js
+module.exports = {
+	// ...
+	plugins: ['@docusaurus/plugin-content-blog', '@docusaurus/plugin-content-pages'],
+	themes: ['@docusaurus/themes-bootstrap'],
+};
+```
 
-TODO:
-- briefly introduce how to pass configurations to themes, plugins, and presets
-- throw in links to them respectively
-- make sure the logic flows nicely
+They can also be loaded from local directories:
 
-[themes](using-themes.md)
-[plugins](using-plugins.md)
-[presets](presets.md)
+```js
+// docusaurus.config.js
+const path = require('path');
 
--->
+module.exports = {
+	// ...
+	themes: [path.resolve(__dirname, '/path/to/docusaurus-local-theme')],
+};
+
+```
+
+To specify options for a plugin or theme, replace the name of the plugin or theme in the config file with an array containing the name and an options object:
+
+```js
+// docusaurus.config.js
+module.exports = {
+	// ...
+	plugins: [
+		[
+			'@docusaurus/plugin-content-blog',
+			{
+				path: 'blog',
+				routeBasePath: 'blog',
+				include: ['*.md', '*.mdx'],
+				// ...
+			},
+		],
+		'@docusaurus/plugin-content-pages',
+	],
+};
+```
+
+To specify options for a plugin or theme that is bundled in a preset, pass the options through the `presets` field. In this example, `docs` refers to `@docusaurus/plugin-content-docs` and `theme` refers to `@docusaurus/theme-classic`.
+
+```js
+//docusaurus.config.js
+module.exports = {
+  // ...
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        docs: {
+          sidebarPath: require.resolve('./sidebars.js'),
+        },
+        theme: {
+          customCss: require.resolve('./src/css/custom.css'),
+        },
+      },
+    ],
+  ],
+};
+```
+
+For further help configuring themes, plugins, and presets, see [Using Themes](using-themes.md), [Using Plugins](using-plugins.md), and [Using Presets](presets.md).
 
 ### Custom configurations
 
