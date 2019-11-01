@@ -71,7 +71,7 @@ my-website
 
 ## Running the development server
 
-To preview your changes as you edit the files, you can run a local development server that will serve your website and it will reflect the latest chages
+To preview your changes as you edit the files, you can run a local development server that will serve your website and it will reflect the latest changes.
 
 ```bash
 cd my-website
