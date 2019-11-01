@@ -41,9 +41,9 @@ List the installed [themes](using-themes.md), [plugins](using-plugins.md), and [
 ```js
 // docusaurus.config.js
 module.exports = {
-	// ...
-	plugins: ['@docusaurus/plugin-content-blog', '@docusaurus/plugin-content-pages'],
-	themes: ['@docusaurus/themes-bootstrap'],
+  // ...
+  plugins: ['@docusaurus/plugin-content-blog', '@docusaurus/plugin-content-pages'],
+  themes: ['@docusaurus/themes-bootstrap'],
 };
 ```
 
@@ -54,10 +54,9 @@ They can also be loaded from local directories:
 const path = require('path');
 
 module.exports = {
-	// ...
-	themes: [path.resolve(__dirname, '/path/to/docusaurus-local-theme')],
+  // ...
+  themes: [path.resolve(__dirname, '/path/to/docusaurus-local-theme')],
 };
-
 ```
 
 To specify options for a plugin or theme, replace the name of the plugin or theme in the config file with an array containing the name and an options object:
@@ -65,19 +64,19 @@ To specify options for a plugin or theme, replace the name of the plugin or them
 ```js
 // docusaurus.config.js
 module.exports = {
-	// ...
-	plugins: [
-		[
-			'@docusaurus/plugin-content-blog',
-			{
-				path: 'blog',
-				routeBasePath: 'blog',
-				include: ['*.md', '*.mdx'],
-				// ...
-			},
-		],
-		'@docusaurus/plugin-content-pages',
-	],
+  // ...
+  plugins: [
+    [
+      '@docusaurus/plugin-content-blog',
+      {
+        path: 'blog',
+        routeBasePath: 'blog',
+        include: ['*.md', '*.mdx'],
+        // ...
+      },
+    ],
+    '@docusaurus/plugin-content-pages',
+  ],
 };
 ```
 
