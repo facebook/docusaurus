@@ -43,7 +43,7 @@ List the installed [themes](using-themes.md), [plugins](using-plugins.md), and [
 module.exports = {
   // ...
   plugins: ['@docusaurus/plugin-content-blog', '@docusaurus/plugin-content-pages'],
-  themes: ['@docusaurus/themes-bootstrap'],
+  themes: ['@docusaurus/theme-classic'],
 };
 ```
 
