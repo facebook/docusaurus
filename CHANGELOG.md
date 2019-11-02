@@ -14,7 +14,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 **Docs**
 
-- docs: document docker is optional ([#1848])(https://github.com/facebook/docusaurus/pull/1848)
+- docs: document docker is optional ([#1848](https://github.com/facebook/docusaurus/pull/1848))
 
 ## [1.13.0] - 2019-09-15
 
@@ -1178,7 +1178,8 @@ N/A
   - Blog
   - Documentation
 
-[unreleased]: https://github.com/facebook/docusaurus/compare/v1.13.0...HEAD
+[unreleased]: https://github.com/facebook/docusaurus/compare/v1.14.0...HEAD
+[1.14.0]: https://github.com/facebook/docusaurus/compare/v1.13.0...v1.14.0
 [1.13.0]: https://github.com/facebook/docusaurus/compare/v1.12.0...v1.13.0
 [1.12.0]: https://github.com/facebook/docusaurus/compare/v1.11.1...v1.12.0
 [1.11.1]: https://github.com/facebook/docusaurus/compare/v1.11.0...v1.11.1
