@@ -208,17 +208,17 @@
 <p>Настройки <a href="/docs/ru/next/doc-markdown">подсветки синтаксиса</a>:</p>
 <pre><code class="hljs css language-js">{
   <span class="hljs-comment">// ...</span>
-  highlight: {
+  <span class="hljs-attr">highlight</span>: {
     <span class="hljs-comment">// Наименование темы, используемой Highlight.js для подсветки кода.</span>
     <span class="hljs-comment">// Вы можете просмотреть список поддерживаемых тем здесь: </span>
     <span class="hljs-comment">// https://github.com/isagalaev/highlight.js/tree/master/src/styles</span>
-    theme: <span class="hljs-string">'default'</span>,
+    <span class="hljs-attr">theme</span>: <span class="hljs-string">'default'</span>,
 
     <span class="hljs-comment">// Конкретная версия Highlight.js, которая будет использована.</span>
-    version: <span class="hljs-string">'9.12.0'</span>,
+    <span class="hljs-attr">version</span>: <span class="hljs-string">'9.12.0'</span>,
 
     <span class="hljs-comment">// Промежуточное звено для передачи экземпляра Highlight.js в функцию, указанную здесь, позволяет зарегистрировать дополнительные языки для подсветки.</span>
-    hljs: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">highlightJsInstance</span>) </span>{
+    <span class="hljs-attr">hljs</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">highlightJsInstance</span>) </span>{
       <span class="hljs-comment">// ваш код</span>
     },
 
@@ -226,10 +226,10 @@
     <span class="hljs-comment">// Будет использован, если язык не указан в верхней части блока с кодом. Вы можете просмотреть список поддкрживаемых языков здесь:</span>
     <span class="hljs-comment">// https://github.com/isagalaev/highlight.js/tree/master/src/languages</span>
 
-    defaultLang: <span class="hljs-string">'javascript'</span>,
+    <span class="hljs-attr">defaultLang</span>: <span class="hljs-string">'javascript'</span>,
 
     <span class="hljs-comment">// пользовательский URL файла CSS с темой, которую вы желаете использовать в Highlight.js. Если указан, поля `theme` и `version` будут проигнорированы.</span>
-    themeUrl: <span class="hljs-string">'http://foo.bar/custom.css'</span>
+    <span class="hljs-attr">themeUrl</span>: <span class="hljs-string">'http://foo.bar/custom.css'</span>
   },
 }
 </code></pre>
@@ -311,12 +311,12 @@
   <span class="hljs-comment">// Для URL github.io, используйте url и baseUrl следующим образом:</span>
   <span class="hljs-comment">// url: 'https://reasonml.github.io',</span>
   <span class="hljs-comment">// baseUrl: '/reason-react/',</span>
-  defaultVersionShown: <span class="hljs-string">'1.0.0'</span>,
+  <span class="hljs-attr">defaultVersionShown</span>: <span class="hljs-string">'1.0.0'</span>,
   <span class="hljs-attr">organizationName</span>: <span class="hljs-string">'facebook'</span>,
   <span class="hljs-attr">projectName</span>: <span class="hljs-string">'docusaurus'</span>,
   <span class="hljs-attr">noIndex</span>: <span class="hljs-literal">false</span>,
   <span class="hljs-comment">// Если ссылки в навигационном меню не требуются -&gt; headerLinks: [],</span>
-  headerLinks: [
+  <span class="hljs-attr">headerLinks</span>: [
     {<span class="hljs-attr">doc</span>: <span class="hljs-string">'doc1'</span>, <span class="hljs-attr">label</span>: <span class="hljs-string">'Docs'</span>},
     {<span class="hljs-attr">page</span>: <span class="hljs-string">'help'</span>, <span class="hljs-attr">label</span>: <span class="hljs-string">'Help'</span>},
     {<span class="hljs-attr">search</span>: <span class="hljs-literal">true</span>},

@@ -140,7 +140,7 @@
 <pre><code class="hljs css language-js"><span class="hljs-keyword">const</span> siteConfig = {
   ...
   url: <span class="hljs-string">'https://__userName__.github.io'</span>, <span class="hljs-comment">// Your website URL</span>
-  baseUrl: <span class="hljs-string">'/testProject/'</span>,
+  <span class="hljs-attr">baseUrl</span>: <span class="hljs-string">'/testProject/'</span>,
   <span class="hljs-attr">projectName</span>: <span class="hljs-string">'testProject'</span>,
   <span class="hljs-attr">organizationName</span>: <span class="hljs-string">'userName'</span>
   ...
@@ -207,29 +207,29 @@
 
 <span class="hljs-attr">version:</span> <span class="hljs-number">2</span>
 <span class="hljs-attr">jobs:</span>
-<span class="hljs-attr">  deploy-website:</span>
-<span class="hljs-attr">    docker:</span>
+  <span class="hljs-attr">deploy-website:</span>
+    <span class="hljs-attr">docker:</span>
       <span class="hljs-comment"># specify the version you desire here</span>
 
-<span class="hljs-attr">      - image:</span> <span class="hljs-string">circleci/node:8.11.1</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-attr">image:</span> <span class="hljs-string">circleci/node:8.11.1</span>
 
-<span class="hljs-attr">    steps:</span>
+    <span class="hljs-attr">steps:</span>
 
-<span class="hljs-bullet">      -</span> <span class="hljs-string">checkout</span>
-<span class="hljs-attr">      - run:</span>
-<span class="hljs-attr">          name:</span> <span class="hljs-string">Deploying</span> <span class="hljs-string">to</span> <span class="hljs-string">GitHub</span> <span class="hljs-string">Pages</span>
-<span class="hljs-attr">          command:</span> <span class="hljs-string">|
+      <span class="hljs-bullet">-</span> <span class="hljs-string">checkout</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-attr">run:</span>
+          <span class="hljs-attr">name:</span> <span class="hljs-string">Deploying</span> <span class="hljs-string">to</span> <span class="hljs-string">GitHub</span> <span class="hljs-string">Pages</span>
+          <span class="hljs-attr">command:</span> <span class="hljs-string">|
             git config --global user.email "&lt;GITHUB_USERNAME&gt;@users.noreply.github.com"
             git config --global user.name "&lt;YOUR_NAME&gt;"
             echo "machine github.com login &lt;GITHUB_USERNAME&gt; password $GITHUB_TOKEN" &gt; ~/.netrc
             cd website &amp;&amp; yarn install &amp;&amp; GIT_USER=&lt;GIT_USER&gt; yarn run publish-gh-pages
+</span>
+<span class="hljs-attr">workflows:</span>
+  <span class="hljs-attr">version:</span> <span class="hljs-number">2</span>
+  <span class="hljs-attr">build_and_deploy:</span>
+    <span class="hljs-attr">jobs:</span>
 
-</span><span class="hljs-attr">workflows:</span>
-<span class="hljs-attr">  version:</span> <span class="hljs-number">2</span>
-<span class="hljs-attr">  build_and_deploy:</span>
-<span class="hljs-attr">    jobs:</span>
-
-<span class="hljs-attr">      - deploy-website:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-attr">deploy-website:</span>
 <span class="hljs-comment">#         filters: *filter-only-master</span>
 </code></pre>
 <p><code>command:</code> 항목에서 <code>&lt;....&gt;</code>로 표시된 부분은 적절한 값으로 변경해주어야 합니다. <code>&lt;GIT_USER&gt;</code> 항목은 GitHub 저장소에 문서를 집어넣기 위한 권한을 가지고 있는 GitHub 사용자 계정을 지정해줍니다. 대부분의 경우 <code>&lt;GIT_USER&gt;</code>와 <code>&lt;GITHUB_USERNAME&gt;</code>은 같은 값을 사용합니다.</p>
@@ -258,12 +258,12 @@
 <span class="hljs-comment"># This config file will prevent tests from being run on the gh-pages branch.</span>
 <span class="hljs-attr">version:</span> <span class="hljs-number">2</span>
 <span class="hljs-attr">jobs:</span>
-<span class="hljs-attr">  build:</span>
-<span class="hljs-attr">    machine:</span> <span class="hljs-literal">true</span>
-<span class="hljs-attr">    branches:</span>
-<span class="hljs-attr">      ignore:</span> <span class="hljs-string">gh-pages</span>
-<span class="hljs-attr">    steps:</span>
-<span class="hljs-attr">      - run:</span> <span class="hljs-string">echo</span> <span class="hljs-string">"Skipping tests on gh-pages branch"</span>
+  <span class="hljs-attr">build:</span>
+    <span class="hljs-attr">machine:</span> <span class="hljs-literal">true</span>
+    <span class="hljs-attr">branches:</span>
+      <span class="hljs-attr">ignore:</span> <span class="hljs-string">gh-pages</span>
+    <span class="hljs-attr">steps:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-attr">run:</span> <span class="hljs-string">echo</span> <span class="hljs-string">"Skipping tests on gh-pages branch"</span>
 </code></pre>
 <p><code>config.yml</code> 파일로 만들고 <code>website/static</code> 디렉토리 밑에 있는 <code>.circleci</code> 디렉토리 아래에 저장합니다.</p>
 <h3><a class="anchor" aria-hidden="true" id="travis-ci-사용하기"></a><a href="#travis-ci-사용하기" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Travis CI 사용하기</h3>
@@ -277,18 +277,18 @@
 <pre><code class="hljs css language-yaml"><span class="hljs-comment"># .travis.yml</span>
 <span class="hljs-attr">language:</span> <span class="hljs-string">node_js</span>
 <span class="hljs-attr">node_js:</span>
-<span class="hljs-bullet">  -</span> <span class="hljs-string">'8'</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-string">'8'</span>
 <span class="hljs-attr">branches:</span>
-<span class="hljs-attr">  only:</span>
-<span class="hljs-bullet">    -</span> <span class="hljs-string">master</span>
+  <span class="hljs-attr">only:</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-string">master</span>
 <span class="hljs-attr">cache:</span>
-<span class="hljs-attr">  yarn:</span> <span class="hljs-literal">true</span>
+  <span class="hljs-attr">yarn:</span> <span class="hljs-literal">true</span>
 <span class="hljs-attr">script:</span>
-<span class="hljs-bullet">  -</span> <span class="hljs-string">git</span> <span class="hljs-string">config</span> <span class="hljs-bullet">--global</span> <span class="hljs-string">user.name</span> <span class="hljs-string">"${GH_NAME}"</span>
-<span class="hljs-bullet">  -</span> <span class="hljs-string">git</span> <span class="hljs-string">config</span> <span class="hljs-bullet">--global</span> <span class="hljs-string">user.email</span> <span class="hljs-string">"${GH_EMAIL}"</span>
-<span class="hljs-bullet">  -</span> <span class="hljs-string">echo</span> <span class="hljs-string">"machine github.com login ${GH_NAME} password ${GH_TOKEN}"</span> <span class="hljs-string">&gt; ~/.netrc
-  - cd website &amp;&amp; yarn install &amp;&amp; GIT_USER="${GH_NAME}" yarn run publish-gh-pages
-</span></code></pre>
+  <span class="hljs-bullet">-</span> <span class="hljs-string">git</span> <span class="hljs-string">config</span> <span class="hljs-string">--global</span> <span class="hljs-string">user.name</span> <span class="hljs-string">"${GH_NAME}"</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-string">git</span> <span class="hljs-string">config</span> <span class="hljs-string">--global</span> <span class="hljs-string">user.email</span> <span class="hljs-string">"${GH_EMAIL}"</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-string">echo</span> <span class="hljs-string">"machine github.com login ${GH_NAME} password ${GH_TOKEN}"</span> <span class="hljs-string">&gt;</span> <span class="hljs-string">~/.netrc</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-string">cd</span> <span class="hljs-string">website</span> <span class="hljs-string">&amp;&amp;</span> <span class="hljs-string">yarn</span> <span class="hljs-string">install</span> <span class="hljs-string">&amp;&amp;</span> <span class="hljs-string">GIT_USER="${GH_NAME}"</span> <span class="hljs-string">yarn</span> <span class="hljs-string">run</span> <span class="hljs-string">publish-gh-pages</span>
+</code></pre>
 <p>이제 <code>master</code> 브랜치에 새로운 커밋이 발생하게 되면 Travis CI는 여러분의 테스트 스위트가 실행되고 모든 테스트가 통과되면 <code>publish-gh-pages</code> 스크립트가 실행되어 여러분의 웹사이트를 배포하게 됩니다.</p>
 <h3><a class="anchor" aria-hidden="true" id="hosting-on-zeit-now"></a><a href="#hosting-on-zeit-now" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Hosting on ZEIT Now</h3>
 <p>With <a href="#using-zeit-now">ZEIT Now</a>, you can deploy your site easily and connect it to <a href="https://zeit.co/github">GitHub</a> or <a href="https://zeit.co/gitlab">GitLab</a> to automatically receive a new deployment every time you push a commit.</p>
