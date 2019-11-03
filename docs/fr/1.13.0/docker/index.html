@@ -108,22 +108,22 @@
 <pre><code class="hljs css language-yml"><span class="hljs-attr">version:</span> <span class="hljs-string">"3"</span>
 
 <span class="hljs-attr">services:</span>
-  <span class="hljs-attr">docusaurus:</span>
-    <span class="hljs-attr">build:</span> <span class="hljs-string">.</span>
-    <span class="hljs-attr">ports:</span>
+<span class="hljs-attr">  docusaurus:</span>
+<span class="hljs-attr">    build:</span> <span class="hljs-string">.</span>
+<span class="hljs-attr">    ports:</span>
 
-      <span class="hljs-bullet">-</span> <span class="hljs-number">3000</span><span class="hljs-string">:3000</span>
-      <span class="hljs-bullet">-</span> <span class="hljs-number">35729</span><span class="hljs-string">:35729</span>
-    <span class="hljs-attr">volumes:</span>
-      <span class="hljs-bullet">-</span> <span class="hljs-string">./docs:/app/docs</span>
-      <span class="hljs-bullet">-</span> <span class="hljs-string">./website/blog:/app/website/blog</span>
-      <span class="hljs-bullet">-</span> <span class="hljs-string">./website/core:/app/website/core</span>
-      <span class="hljs-bullet">-</span> <span class="hljs-string">./website/i18n:/app/website/i18n</span>
-      <span class="hljs-bullet">-</span> <span class="hljs-string">./website/pages:/app/website/pages</span>
-      <span class="hljs-bullet">-</span> <span class="hljs-string">./website/static:/app/website/static</span>
-      <span class="hljs-bullet">-</span> <span class="hljs-string">./website/sidebars.json:/app/website/sidebars.json</span>
-      <span class="hljs-bullet">-</span> <span class="hljs-string">./website/siteConfig.js:/app/website/siteConfig.js</span>
-    <span class="hljs-attr">working_dir:</span> <span class="hljs-string">/app/website</span>
+<span class="hljs-bullet">      -</span> <span class="hljs-number">3000</span><span class="hljs-string">:3000</span>
+<span class="hljs-bullet">      -</span> <span class="hljs-number">35729</span><span class="hljs-string">:35729</span>
+<span class="hljs-attr">    volumes:</span>
+<span class="hljs-bullet">      -</span> <span class="hljs-string">./docs:/app/docs</span>
+<span class="hljs-bullet">      -</span> <span class="hljs-string">./website/blog:/app/website/blog</span>
+<span class="hljs-bullet">      -</span> <span class="hljs-string">./website/core:/app/website/core</span>
+<span class="hljs-bullet">      -</span> <span class="hljs-string">./website/i18n:/app/website/i18n</span>
+<span class="hljs-bullet">      -</span> <span class="hljs-string">./website/pages:/app/website/pages</span>
+<span class="hljs-bullet">      -</span> <span class="hljs-string">./website/static:/app/website/static</span>
+<span class="hljs-bullet">      -</span> <span class="hljs-string">./website/sidebars.json:/app/website/sidebars.json</span>
+<span class="hljs-bullet">      -</span> <span class="hljs-string">./website/siteConfig.js:/app/website/siteConfig.js</span>
+<span class="hljs-attr">    working_dir:</span> <span class="hljs-string">/app/website</span>
 
 </code></pre>
 <p>Pour exécuter un serveur web local avec <code>docker-compose</code>, exécutez <code>docker-compose up</code>.</p>
