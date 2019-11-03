@@ -208,20 +208,20 @@ languages.js
 <span class="hljs-attr">preserve_hierarchy:</span> <span class="hljs-literal">true</span>
 
 <span class="hljs-attr">files:</span>
-<span class="hljs-bullet">  -</span>
-<span class="hljs-attr">    source:</span> <span class="hljs-string">'/docs/**/*.md'</span>
-<span class="hljs-attr">    translation:</span> <span class="hljs-string">'/website/translated_docs/%locale%/**/%original_file_name%'</span>
-<span class="hljs-attr">    languages_mapping:</span> <span class="hljs-meta">&amp;anchor</span>
-<span class="hljs-attr">      locale:</span>
-<span class="hljs-attr">        'de':</span> <span class="hljs-string">'de'</span>
-<span class="hljs-attr">        'es-ES':</span> <span class="hljs-string">'es-ES'</span>
-<span class="hljs-attr">        'fr':</span> <span class="hljs-string">'fr'</span>
-<span class="hljs-attr">        'ja':</span> <span class="hljs-string">'ja'</span>
-<span class="hljs-attr">        'ko':</span> <span class="hljs-string">'ko'</span>
-<span class="hljs-attr">        'mr':</span> <span class="hljs-string">'mr-IN'</span>
-<span class="hljs-attr">        'pt-BR':</span> <span class="hljs-string">'pt-BR'</span>
-<span class="hljs-attr">        'zh-CN':</span> <span class="hljs-string">'zh-CN'</span>
-<span class="hljs-attr">        'zh-TW':</span> <span class="hljs-string">'zh-TW'</span>
+  <span class="hljs-bullet">-</span>
+    <span class="hljs-attr">source:</span> <span class="hljs-string">'/docs/**/*.md'</span>
+    <span class="hljs-attr">translation:</span> <span class="hljs-string">'/website/translated_docs/%locale%/**/%original_file_name%'</span>
+    <span class="hljs-attr">languages_mapping:</span> <span class="hljs-meta">&amp;anchor</span>
+      <span class="hljs-attr">locale:</span>
+        <span class="hljs-attr">'de':</span> <span class="hljs-string">'de'</span>
+        <span class="hljs-attr">'es-ES':</span> <span class="hljs-string">'es-ES'</span>
+        <span class="hljs-attr">'fr':</span> <span class="hljs-string">'fr'</span>
+        <span class="hljs-attr">'ja':</span> <span class="hljs-string">'ja'</span>
+        <span class="hljs-attr">'ko':</span> <span class="hljs-string">'ko'</span>
+        <span class="hljs-attr">'mr':</span> <span class="hljs-string">'mr-IN'</span>
+        <span class="hljs-attr">'pt-BR':</span> <span class="hljs-string">'pt-BR'</span>
+        <span class="hljs-attr">'zh-CN':</span> <span class="hljs-string">'zh-CN'</span>
+        <span class="hljs-attr">'zh-TW':</span> <span class="hljs-string">'zh-TW'</span>
 </code></pre>
 <p>Você pode passar <a href="https://support.crowdin.com/configuration-file/">aqui</a> para aprender mais sobre como personalizar seu arquivo <code>crowdin.yaml</code>.</p>
 <h3><a class="anchor" aria-hidden="true" id="configurando-os-scripts-do-crowdin"></a><a href="#configurando-os-scripts-do-crowdin" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Configurando os scripts do Crowdin</h3>
@@ -258,40 +258,40 @@ CROWDIN_DOCUSAURUS_PROJECT_ID=SEU_ID_DE_PROJETO_CROWDIN CROWDIN_DOCUSAURUS_API_K
 
 <span class="hljs-attr">version:</span> <span class="hljs-number">2</span>
 <span class="hljs-attr">jobs:</span>
-<span class="hljs-attr">  deploy-website:</span>
-<span class="hljs-attr">    docker:</span>
+  <span class="hljs-attr">deploy-website:</span>
+    <span class="hljs-attr">docker:</span>
       <span class="hljs-comment"># Especifique aqui a versão desejada</span>
 
-<span class="hljs-attr">      - image:</span> <span class="hljs-string">circleci/node:8.11.1</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-attr">image:</span> <span class="hljs-string">circleci/node:8.11.1</span>
 
-<span class="hljs-attr">    steps:</span>
+    <span class="hljs-attr">steps:</span>
 
-<span class="hljs-bullet">      -</span> <span class="hljs-string">checkout</span>
-<span class="hljs-attr">      - run:</span>
-<span class="hljs-attr">          name:</span> <span class="hljs-string">Fazendo</span> <span class="hljs-string">deploy</span> <span class="hljs-literal">no</span> <span class="hljs-string">GitHub</span> <span class="hljs-string">Pages</span>
-<span class="hljs-attr">          command:</span> <span class="hljs-string">|
+      <span class="hljs-bullet">-</span> <span class="hljs-string">checkout</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-attr">run:</span>
+          <span class="hljs-attr">name:</span> <span class="hljs-string">Fazendo</span> <span class="hljs-string">deploy</span> <span class="hljs-literal">no</span> <span class="hljs-string">GitHub</span> <span class="hljs-string">Pages</span>
+          <span class="hljs-attr">command:</span> <span class="hljs-string">|
             git config --global user.email 
-"&lt;GITHUB_USERNAME&gt;@users.noreply.github.com"
-            git config --global user.name "&lt;YOUR_NAME&gt;"
-            echo "machine github.com login &lt;GITHUB_USERNAME&gt; password $GITHUB_TOKEN" &gt; ~/.netrc
-            # Instala o Docusaurus e gera o arquivo das strings em inglês
-            - cd website &amp;&amp; yarn install &amp;&amp; yarn run write-translations &amp;&amp; cd ..
-            # Instala o Crowdin
-            - sudo apt-get install default-jre
-            - wget https://artifacts.crowdin.com/repo/deb/crowdin.deb -O crowdin.deb
-            - sudo dpkg -i crowdin.deb
-            # Faz o upload/download das traduções
-            - crowdin --config crowdin.yaml upload sources --auto-update -b master
-            - crowdin --config crowdin.yaml download -b master
-            # build and publish website
-            cd website &amp;&amp; GIT_USER=&lt;GIT_USER&gt; yarn run publish-gh-pages
+</span><span class="hljs-string">"&lt;GITHUB_USERNAME&gt;@users.noreply.github.com"</span>
+            <span class="hljs-string">git</span> <span class="hljs-string">config</span> <span class="hljs-string">--global</span> <span class="hljs-string">user.name</span> <span class="hljs-string">"&lt;YOUR_NAME&gt;"</span>
+            <span class="hljs-string">echo</span> <span class="hljs-string">"machine github.com login &lt;GITHUB_USERNAME&gt; password $GITHUB_TOKEN"</span> <span class="hljs-string">&gt;</span> <span class="hljs-string">~/.netrc</span>
+            <span class="hljs-comment"># Instala o Docusaurus e gera o arquivo das strings em inglês</span>
+            <span class="hljs-bullet">-</span> <span class="hljs-string">cd</span> <span class="hljs-string">website</span> <span class="hljs-string">&amp;&amp;</span> <span class="hljs-string">yarn</span> <span class="hljs-string">install</span> <span class="hljs-string">&amp;&amp;</span> <span class="hljs-string">yarn</span> <span class="hljs-string">run</span> <span class="hljs-string">write-translations</span> <span class="hljs-string">&amp;&amp;</span> <span class="hljs-string">cd</span> <span class="hljs-string">..</span>
+            <span class="hljs-comment"># Instala o Crowdin</span>
+            <span class="hljs-bullet">-</span> <span class="hljs-string">sudo</span> <span class="hljs-string">apt-get</span> <span class="hljs-string">install</span> <span class="hljs-string">default-jre</span>
+            <span class="hljs-bullet">-</span> <span class="hljs-string">wget</span> <span class="hljs-string">https://artifacts.crowdin.com/repo/deb/crowdin.deb</span> <span class="hljs-string">-O</span> <span class="hljs-string">crowdin.deb</span>
+            <span class="hljs-bullet">-</span> <span class="hljs-string">sudo</span> <span class="hljs-string">dpkg</span> <span class="hljs-string">-i</span> <span class="hljs-string">crowdin.deb</span>
+            <span class="hljs-comment"># Faz o upload/download das traduções</span>
+            <span class="hljs-bullet">-</span> <span class="hljs-string">crowdin</span> <span class="hljs-string">--config</span> <span class="hljs-string">crowdin.yaml</span> <span class="hljs-string">upload</span> <span class="hljs-string">sources</span> <span class="hljs-string">--auto-update</span> <span class="hljs-string">-b</span> <span class="hljs-string">master</span>
+            <span class="hljs-bullet">-</span> <span class="hljs-string">crowdin</span> <span class="hljs-string">--config</span> <span class="hljs-string">crowdin.yaml</span> <span class="hljs-string">download</span> <span class="hljs-string">-b</span> <span class="hljs-string">master</span>
+            <span class="hljs-comment"># build and publish website</span>
+            <span class="hljs-string">cd</span> <span class="hljs-string">website</span> <span class="hljs-string">&amp;&amp;</span> <span class="hljs-string">GIT_USER=&lt;GIT_USER&gt;</span> <span class="hljs-string">yarn</span> <span class="hljs-string">run</span> <span class="hljs-string">publish-gh-pages</span>
 
-</span><span class="hljs-attr">workflows:</span>
-<span class="hljs-attr">  version:</span> <span class="hljs-number">2</span>
-<span class="hljs-attr">  build_and_deploy:</span>
-<span class="hljs-attr">    jobs:</span>
+<span class="hljs-attr">workflows:</span>
+  <span class="hljs-attr">version:</span> <span class="hljs-number">2</span>
+  <span class="hljs-attr">build_and_deploy:</span>
+    <span class="hljs-attr">jobs:</span>
 
-<span class="hljs-attr">      - deploy-website:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-attr">deploy-website:</span>
 <span class="hljs-comment">#         filters: *filter-only-master</span>
 </code></pre>
 <p>O comando <code>crowdin</code> usa o arquivo <code>crowdin.yaml</code> gerado pelo script <code>examples</code>. Ele deve ser colocado no diretório raiz do seu projeto para configurar como e quais arquivos serão enviados/baixados.</p>
@@ -300,10 +300,10 @@ CROWDIN_DOCUSAURUS_PROJECT_ID=SEU_ID_DE_PROJETO_CROWDIN CROWDIN_DOCUSAURUS_API_K
 <p>Caso você deseje usar o Crowdin localmente na sua máquina, você pode instalar a <a href="https://support.crowdin.com/cli-tool/">ferramenta de linha de comando do Crowdin</a> e executar os mesmos comandos encontrados no arquivo <code>circle.yaml</code>. A única diferença é que você precisa definir os valores de <code>project_identifier</code> e <code>api_key</code> no arquivo <code>crowdin.yaml</code>, já que você não vai ter as variáveis de ambiente do Circle configuradas.</p>
 <h2><a class="anchor" aria-hidden="true" id="traducões-versionadas"></a><a href="#traducões-versionadas" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Traduções versionadas</h2>
 <p>Caso você deseje manter versões traduzidas para cada versão da sua documentação, adicione a seguinte seção ao fim do seu arquivo <code>crowdin.yaml</code>:</p>
-<pre><code class="hljs css language-yaml"><span class="hljs-bullet">  -</span>
-<span class="hljs-attr">    source:</span> <span class="hljs-string">'/website/versioned_docs/**/*.md'</span>
-<span class="hljs-attr">    translation:</span> <span class="hljs-string">'/website/translated_docs/%locale%/**/%original_file_name%'</span>
-<span class="hljs-attr">    languages_mapping:</span> <span class="hljs-meta">*anchor</span>
+<pre><code class="hljs css language-yaml">  <span class="hljs-bullet">-</span>
+    <span class="hljs-attr">source:</span> <span class="hljs-string">'/website/versioned_docs/**/*.md'</span>
+    <span class="hljs-attr">translation:</span> <span class="hljs-string">'/website/translated_docs/%locale%/**/%original_file_name%'</span>
+    <span class="hljs-attr">languages_mapping:</span> <span class="hljs-meta">*anchor</span>
 </code></pre>
 <p>Documentos traduzidos e versionados serão copiados para <code>website/translated_docs/${idioma}/${versão}/</code>.</p>
 </span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/pt-BR/next/navigation"><span class="arrow-prev">← </span><span>Navegação e Sidebars</span></a><a class="docs-next button" href="/docs/pt-BR/next/versioning"><span>Versionamento</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#configuracões-de-traducão-do-docusaurus">Configurações de tradução do Docusaurus</a></li><li><a href="#traduzindo-sua-documentacão-existente">Traduzindo sua documentação existente</a></li><li><a href="#ativando-traducões-em-paginas">Ativando traduções em páginas</a></li><li><a href="#juntando-tudo-o-que-vai-ser-traduzido">Juntando tudo o que vai ser traduzido</a><ul class="toc-headings"><li><a href="#strings-personalizadas-para-traducões">Strings personalizadas para traduções</a></li></ul></li><li><a href="#como-as-strings-são-traduzidas">Como as strings são traduzidas</a></li><li><a href="#como-o-docusaurus-usa-as-strings-traduzidas">Como o Docusaurus usa as strings traduzidas</a><ul class="toc-headings"><li><a href="#strings">Strings</a></li><li><a href="#arquivos-markdown">Arquivos Markdown</a></li><li><a href="#outras-paginas">Outras páginas</a></li></ul></li><li><a href="#crowdin">Crowdin</a><ul class="toc-headings"><li><a href="#configurando-os-scripts-do-crowdin">Configurando os scripts do Crowdin</a></li><li><a href="#sincronizacão-manual-de-arquivos">Sincronização manual de arquivos</a></li><li><a href="#sincronizacão-automatizada-usando-o-circleci">Sincronização automatizada usando o CircleCI</a></li></ul></li><li><a href="#traducões-versionadas">Traduções versionadas</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/docusaurus_monochrome.svg" alt="Docusaurus" width="66" height="58"/></a><div class="footerSection"><h5>Docs</h5><a href="

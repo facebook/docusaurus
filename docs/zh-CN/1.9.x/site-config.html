@@ -205,17 +205,17 @@
 <p><a href="/docs/zh-CN/1.9.x/doc-markdown">Syntax highlighting</a> options:</p>
 <pre><code class="hljs css language-js">{
   <span class="hljs-comment">// ...</span>
-  highlight: {
+  <span class="hljs-attr">highlight</span>: {
     <span class="hljs-comment">// The name of the theme used by Highlight.js when highlighting code.</span>
     <span class="hljs-comment">// You can find the list of supported themes here:</span>
     <span class="hljs-comment">// https://github.com/isagalaev/highlight.js/tree/master/src/styles</span>
-    theme: <span class="hljs-string">'default'</span>,
+    <span class="hljs-attr">theme</span>: <span class="hljs-string">'default'</span>,
 
     <span class="hljs-comment">// The particular version of Highlight.js to be used.</span>
-    version: <span class="hljs-string">'9.12.0'</span>,
+    <span class="hljs-attr">version</span>: <span class="hljs-string">'9.12.0'</span>,
 
     <span class="hljs-comment">// Escape valve by passing an instance of Highlight.js to the function specified here, allowing additional languages to be registered for syntax highlighting.</span>
-    hljs: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">highlightJsInstance</span>) </span>{
+    <span class="hljs-attr">hljs</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">highlightJsInstance</span>) </span>{
       <span class="hljs-comment">// do something here</span>
     },
 
@@ -223,10 +223,10 @@
     <span class="hljs-comment">// It will be used if one is not specified at the top of the code block. You can find the list of supported languages here:</span>
     <span class="hljs-comment">// https://github.com/isagalaev/highlight.js/tree/master/src/languages</span>
 
-    defaultLang: <span class="hljs-string">'javascript'</span>,
+    <span class="hljs-attr">defaultLang</span>: <span class="hljs-string">'javascript'</span>,
 
     <span class="hljs-comment">// custom URL of CSS theme file that you want to use with Highlight.js. If this is provided, the `theme` and `version` fields will be ignored.</span>
-    themeUrl: <span class="hljs-string">'http://foo.bar/custom.css'</span>
+    <span class="hljs-attr">themeUrl</span>: <span class="hljs-string">'http://foo.bar/custom.css'</span>
   },
 }
 </code></pre>
@@ -288,12 +288,12 @@
   <span class="hljs-comment">// For github.io type URLS, you would combine the URL and baseUrl like:</span>
   <span class="hljs-comment">// url: 'https://reasonml.github.io',</span>
   <span class="hljs-comment">// baseUrl: '/reason-react/',</span>
-  defaultVersionShown: <span class="hljs-string">'1.0.0'</span>,
+  <span class="hljs-attr">defaultVersionShown</span>: <span class="hljs-string">'1.0.0'</span>,
   <span class="hljs-attr">organizationName</span>: <span class="hljs-string">'facebook'</span>,
   <span class="hljs-attr">projectName</span>: <span class="hljs-string">'docusaurus'</span>,
   <span class="hljs-attr">noIndex</span>: <span class="hljs-literal">false</span>,
   <span class="hljs-comment">// For no header links in the top nav bar -&gt; headerLinks: [],</span>
-  headerLinks: [
+  <span class="hljs-attr">headerLinks</span>: [
     {<span class="hljs-attr">doc</span>: <span class="hljs-string">'doc1'</span>, <span class="hljs-attr">label</span>: <span class="hljs-string">'Docs'</span>},
     {<span class="hljs-attr">page</span>: <span class="hljs-string">'help'</span>, <span class="hljs-attr">label</span>: <span class="hljs-string">'Help'</span>},
     {<span class="hljs-attr">search</span>: <span class="hljs-literal">true</span>},
