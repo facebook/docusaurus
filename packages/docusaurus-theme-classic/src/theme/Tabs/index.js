@@ -13,6 +13,10 @@ function Tabs(props) {
   const {block, children, defaultValue, values} = props;
   const [selectedValue, setSelectedValue] = useState(defaultValue);
 
+  const selectedTabItem = React.Children.toArray(children).filter(
+    child => child.props.value === selectedValue,
+  )[0];
+
   return (
     <div>
       <ul
@@ -30,9 +34,7 @@ function Tabs(props) {
           </li>
         ))}
       </ul>
-      <div className="margin-vert--md">
-        {children.filter(child => child.props.value === selectedValue)[0]}
-      </div>
+      <div className="margin-vert--md">{selectedTabItem}</div>
     </div>
   );
 }
