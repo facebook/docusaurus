@@ -23,6 +23,7 @@ Another example is if user installed webpack@3 but docusaurus depends on webpack
   +   },
   },
   ```
+- Added new `prism` option `defaultLanguage` that is used if the language is not specified in code blocks
 
 ## 2.0.0-alpha.31
 
