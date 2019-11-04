@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+## 2.0.0-alpha.33
+
+**HOTFIX for 2.0.0-alpha.32**.
+
+- Fix build compilation if exists only one code tab.
+
 ## 2.0.0-alpha.32
 
 ### Features
