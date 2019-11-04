@@ -25,7 +25,6 @@ module.exports = {
       },
     ],
   ],
-  scripts: ['https://buttons.github.io/buttons.js'],
   presets: [
     [
       '@docusaurus/preset-classic',
@@ -60,9 +59,6 @@ module.exports = {
       apiKey: '47ecd3b21be71c5822571b9f59e52544',
       indexName: 'docusaurus-2',
       algoliaOptions: {},
-    },
-    prism: {
-      defaultLanguage: 'PHP',
     },
     navbar: {
       title: 'Docusaurus',
@@ -137,10 +133,6 @@ module.exports = {
             {
               label: 'Twitter',
               href: 'https://twitter.com/docusaurus',
-            },
-            {
-              html:
-                '<a class="github-button" href="https://github.com/facebook/docusaurus" data-icon="octicon-star" data-show-count="true" aria-label="Star facebook/docusaurus on GitHub">Star</a>',
             },
           ],
         },
