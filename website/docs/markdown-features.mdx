@@ -201,7 +201,7 @@ Use the matching language meta string for your code block, and Docusaurus will p
 console.log('Every repo must come with a mascot.');
 ```
 
-By default, the Prism [syntax highlighting theme](https://github.com/FormidableLabs/prism-react-renderer#theming) we use is [Palenight](https://github.com/FormidableLabs/prism-react-renderer/blob/master/src/themes/palenight.js). You can change this to another theme by passing `prismTheme` as `themeConfig` in your docusaurus.config.js.
+By default, the Prism [syntax highlighting theme](https://github.com/FormidableLabs/prism-react-renderer#theming) we use is [Palenight](https://github.com/FormidableLabs/prism-react-renderer/blob/master/src/themes/palenight.js). You can change this to another theme by passing `theme` field in `prism` as `themeConfig` in your docusaurus.config.js.
 
 For example, if you prefer to use the `dracula` highlighting theme:
 
@@ -209,7 +209,9 @@ For example, if you prefer to use the `dracula` highlighting theme:
 // docusaurus.config.js
 module.exports = {
   themeConfig: {
-    prismTheme: require('prism-react-renderer/themes/dracula'),
+    prism: {
+      theme: require('prism-react-renderer/themes/dracula'),
+    },
   },
 };
 ```
