@@ -9,14 +9,15 @@ import path from 'path';
 import processMetadata from '../metadata';
 
 describe('processMetadata', () => {
-  const siteDir = path.join(__dirname, '__fixtures__', 'website');
+  const fixtureDir = path.join(__dirname, '__fixtures__');
+  const simpleSiteDir = path.join(fixtureDir, 'simple-site');
   const siteConfig = {
     title: 'Hello',
     baseUrl: '/',
     url: 'https://docusaurus.io',
   };
   const pluginPath = 'docs';
-  const docsDir = path.resolve(siteDir, pluginPath);
+  const docsDir = path.resolve(simpleSiteDir, pluginPath);
 
   test('normal docs', async () => {
     const sourceA = path.join('foo', 'bar.md');
@@ -29,7 +30,7 @@ describe('processMetadata', () => {
         order: {},
         siteConfig,
         docsBasePath: pluginPath,
-        siteDir,
+        siteDir: simpleSiteDir,
       }),
       processMetadata({
         source: sourceB,
@@ -37,7 +38,7 @@ describe('processMetadata', () => {
         order: {},
         siteConfig,
         docsBasePath: pluginPath,
-        siteDir,
+        siteDir: simpleSiteDir,
       }),
     ]);
 
@@ -65,7 +66,7 @@ describe('processMetadata', () => {
       order: {},
       siteConfig,
       docsBasePath: pluginPath,
-      siteDir,
+      siteDir: simpleSiteDir,
     });
 
     expect(data).toEqual({
@@ -87,7 +88,7 @@ describe('processMetadata', () => {
       order: {},
       siteConfig,
       docsBasePath: pluginPath,
-      siteDir,
+      siteDir: simpleSiteDir,
       editUrl,
     });
 
@@ -110,7 +111,7 @@ describe('processMetadata', () => {
       order: {},
       siteConfig,
       docsBasePath: pluginPath,
-      siteDir,
+      siteDir: simpleSiteDir,
     });
 
     expect(data).toEqual({
@@ -121,5 +122,47 @@ describe('processMetadata', () => {
       editUrl: 'https://github.com/customUrl/docs/lorem.md',
       description: 'Lorem ipsum.',
     });
+  });
+
+  test('docs with last update time and author', async () => {
+    const source = 'lorem.md';
+    const data = await processMetadata({
+      source,
+      docsDir,
+      order: {},
+      siteConfig,
+      docsBasePath: pluginPath,
+      siteDir: simpleSiteDir,
+      showLastUpdateAuthor: true,
+      showLastUpdateTime: true,
+    });
+
+    expect(data).toEqual({
+      id: 'lorem',
+      permalink: '/docs/lorem',
+      source: path.join('@site', pluginPath, source),
+      title: 'lorem',
+      editUrl: 'https://github.com/customUrl/docs/lorem.md',
+      description: 'Lorem ipsum.',
+      lastUpdatedAt: '1539502055',
+      lastUpdatedBy: 'Author',
+    });
+  });
+
+  test('docs with invalid id', async () => {
+    const badSiteDir = path.join(fixtureDir, 'bad-site');
+
+    return processMetadata({
+      source: 'invalid-id.md',
+      docsDir: path.join(badSiteDir, 'docs'),
+      order: {},
+      siteConfig,
+      docsBasePath: 'docs',
+      siteDir: simpleSiteDir,
+    }).catch(e =>
+      expect(e).toMatchInlineSnapshot(
+        `[Error: Document id cannot include "/".]`,
+      ),
+    );
   });
 });

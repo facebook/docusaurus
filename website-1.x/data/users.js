@@ -143,7 +143,7 @@ module.exports = [
   {
     caption: 'ConfigCat',
     image: '/img/users/configcat.svg',
-    infoLink: 'https://docs.configcat.com',
+    infoLink: 'https://configcat.com/docs',
     fbOpenSource: false,
     pinned: false,
   },
@@ -551,6 +551,13 @@ module.exports = [
     caption: 'reaction-commerce',
     image: '/img/users/reaction-commerce.svg',
     infoLink: 'https://docs.reactioncommerce.com/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
+    caption: 'Reactive Interaction Gateway',
+    image: '/img/users/reactive-interaction-gateway.svg',
+    infoLink: 'https://accenture.github.io/reactive-interaction-gateway/',
     fbOpenSource: false,
     pinned: false,
   },

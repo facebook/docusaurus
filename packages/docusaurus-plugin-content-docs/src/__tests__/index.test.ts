@@ -6,32 +6,109 @@
  */
 
 import path from 'path';
-
+import {validate} from 'webpack';
+import fs from 'fs-extra';
 import pluginContentDocs from '../index';
-import {LoadContext} from '@docusaurus/types';
+import {loadContext} from '@docusaurus/core/src/server/index';
+import {applyConfigureWebpack} from '@docusaurus/core/src/webpack/utils';
+import {RouteConfig} from '@docusaurus/types';
 
-describe('loadDocs', () => {
-  test('simple website', async () => {
-    const siteDir = path.join(__dirname, '__fixtures__', 'website');
-    const generatedFilesDir: string = path.resolve(siteDir, '.docusaurus');
-    const siteConfig = {
-      title: 'Hello',
-      baseUrl: '/',
-      url: 'https://docusaurus.io',
-    };
-    const context = {
-      siteDir,
-      siteConfig,
-      generatedFilesDir,
-    } as LoadContext;
-    const sidebarPath = path.join(siteDir, 'sidebars.json');
-    const pluginPath = 'docs';
-    const plugin = pluginContentDocs(context, {
-      path: pluginPath,
-      sidebarPath,
+const createFakeActions = (routeConfigs: RouteConfig[], contentDir) => {
+  return {
+    addRoute: (config: RouteConfig) => {
+      config.routes.sort((a, b) =>
+        a.path > b.path ? 1 : b.path > a.path ? -1 : 0,
+      );
+      routeConfigs.push(config);
+    },
+    createData: async (name, _content) => {
+      return path.join(contentDir, name);
+    },
+  };
+};
+
+test('site with wrong sidebar file', async () => {
+  const siteDir = path.join(__dirname, '__fixtures__', 'simple-site');
+  const context = loadContext(siteDir);
+  const sidebarPath = path.join(siteDir, 'wrong-sidebars.json');
+  const plugin = pluginContentDocs(context, {
+    sidebarPath,
+  });
+  return plugin
+    .loadContent()
+    .catch(e =>
+      expect(e).toMatchInlineSnapshot(
+        `[Error: Improper sidebars file, document with id 'goku' not found.]`,
+      ),
+    );
+});
+
+describe('empty/no docs website', () => {
+  const siteDir = path.join(__dirname, '__fixtures__', 'empty-site');
+  const context = loadContext(siteDir);
+
+  test('no files in docs folder', async () => {
+    await fs.ensureDir(path.join(siteDir, 'docs'));
+    const plugin = pluginContentDocs(context, {});
+    const content = await plugin.loadContent();
+    const {docsMetadata, docsSidebars} = content;
+    expect(docsMetadata).toMatchInlineSnapshot(`Object {}`);
+    expect(docsSidebars).toMatchInlineSnapshot(`Object {}`);
+
+    const routeConfigs = [];
+    const pluginContentDir = path.join(context.generatedFilesDir, plugin.name);
+    const actions = createFakeActions(routeConfigs, pluginContentDir);
+
+    await plugin.contentLoaded({
+      content,
+      actions,
     });
-    const {docsMetadata} = await plugin.loadContent();
 
+    expect(routeConfigs).toEqual([]);
+  });
+
+  test('docs folder does not exist', async () => {
+    const plugin = pluginContentDocs(context, {path: '/path/does/not/exist/'});
+    const content = await plugin.loadContent();
+    expect(content).toBeNull();
+  });
+});
+
+describe('simple website', () => {
+  const siteDir = path.join(__dirname, '__fixtures__', 'simple-site');
+  const context = loadContext(siteDir);
+  const sidebarPath = path.join(siteDir, 'sidebars.json');
+  const pluginPath = 'docs';
+  const plugin = pluginContentDocs(context, {
+    path: pluginPath,
+    sidebarPath,
+  });
+  const pluginContentDir = path.join(context.generatedFilesDir, plugin.name);
+
+  test('getPathToWatch', () => {
+    const pathToWatch = plugin.getPathsToWatch();
+    expect(pathToWatch).not.toEqual([]);
+  });
+
+  test('configureWebpack', async () => {
+    const config = applyConfigureWebpack(
+      plugin.configureWebpack,
+      {
+        entry: './src/index.js',
+        output: {
+          filename: 'main.js',
+          path: path.resolve(__dirname, 'dist'),
+        },
+      },
+      false,
+    );
+    const errors = validate(config);
+    expect(errors.length).toBe(0);
+  });
+
+  test('content', async () => {
+    const content = await plugin.loadContent();
+    const {docsMetadata, docsSidebars} = content;
     expect(docsMetadata.hello).toEqual({
       id: 'hello',
       permalink: '/docs/hello',
@@ -57,5 +134,18 @@ describe('loadDocs', () => {
       title: 'Bar',
       description: 'This is custom description',
     });
+
+    expect(docsSidebars).toMatchSnapshot();
+
+    const routeConfigs = [];
+    const actions = createFakeActions(routeConfigs, pluginContentDir);
+
+    await plugin.contentLoaded({
+      content,
+      actions,
+    });
+
+    expect(routeConfigs).not.toEqual([]);
+    expect(routeConfigs).toMatchSnapshot();
   });
 });

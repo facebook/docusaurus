@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const Remarkable = require('remarkable');
+const {Remarkable} = require('remarkable');
 const mdToc = require('markdown-toc');
 const striptags = require('striptags');
 const toSlug = require('./toSlug');

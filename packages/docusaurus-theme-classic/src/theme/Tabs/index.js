@@ -31,7 +31,7 @@ function Tabs(props) {
         ))}
       </ul>
       <div className="margin-vert--md">
-        {children.filter(child => child.props.value === selectedValue)[0]}
+        {[...children].filter(child => child.props.value === selectedValue)[0]}
       </div>
     </div>
   );

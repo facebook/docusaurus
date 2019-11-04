@@ -1,0 +1,23 @@
+{
+  "docs": {
+    "Test": [
+      {
+        "type": "category",
+        "label": "foo",
+        "items": ["foo/bar", "foo/baz"] 
+      },
+      {
+        "type": "link",
+        "label": "Github",
+        "href": "https://github.com"
+      },
+      {
+        "type": "ref",
+        "id": "hello"
+      }
+    ],
+    "Guides": [
+      "hello"
+    ]
+  }
+}

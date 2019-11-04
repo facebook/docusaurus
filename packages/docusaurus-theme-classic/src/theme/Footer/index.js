@@ -62,9 +62,10 @@ function Footer() {
                 Array.isArray(linkItem.items) &&
                 linkItem.items.length > 0 ? (
                   <ul className="footer__items">
-                    {linkItem.items.map(item =>
+                    {linkItem.items.map((item, key) =>
                       item.html ? (
                         <div
+                          key={key}
                           dangerouslySetInnerHTML={{
                             __html: item.html,
                           }}

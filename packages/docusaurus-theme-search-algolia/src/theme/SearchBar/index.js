@@ -8,7 +8,6 @@
 import React, {
   useState,
   useEffect,
-  Fragment,
   useContext,
   useRef,
   useCallback,
@@ -60,7 +59,7 @@ const Search = props => {
   );
 
   return isEnabled ? (
-    <Fragment>
+    <div className="navbar__search" key="search-box">
       <span
         role="button"
         className={classnames('search-icon', {
@@ -84,7 +83,7 @@ const Search = props => {
         onBlur={toggleSearchIconClick}
         ref={searchBarRef}
       />
-    </Fragment>
+    </div>
   ) : null;
 };
 

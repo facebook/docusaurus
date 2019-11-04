@@ -97,11 +97,17 @@ __Note:__ Not setting the `url` and `baseUrl` of your project might result in in
 
 To run the script directly from the command-line, you can use the following, filling in the parameter values as appropriate.
 
+**Bash**
 ```bash
 GIT_USER=<GIT_USER> \
   CURRENT_BRANCH=master \
   USE_SSH=true \
   yarn run publish-gh-pages # or `npm run publish-gh-pages`
+```
+
+**Windows**
+```batch
+cmd /C "set GIT_USER=<GIT_USER> && set CURRENT_BRANCH=master && set USE_SSH=true && yarn run publish-gh-pages"
 ```
 
 There are also two optional parameters that are set as environment variables:

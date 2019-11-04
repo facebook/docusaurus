@@ -85,7 +85,7 @@ The classic preset that is usually shipped by default to new docusaurus website.
 |                                  | @docusaurus/plugin-google-gtag      |
 |                                  | @docusaurus/plugin-sitemap          |
 
-To specify plugin options individually, you can provide the neccesary fields to certain plugins, i.e. `customCss` for `@docusaurus/theme-classic`, pass them in the preset field, like this:
+To specify plugin options individually, you can provide the necessary fields to certain plugins, i.e. `customCss` for `@docusaurus/theme-classic`, pass them in the preset field, like this:
 
 ```js
 // docusaurus.config.js
