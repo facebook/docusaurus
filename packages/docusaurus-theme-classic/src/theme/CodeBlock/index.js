@@ -19,7 +19,7 @@ const highlightLinesRangeRegex = /{([\d,-]+)}/;
 export default ({children, className: languageClassName, metastring}) => {
   const {
     siteConfig: {
-      themeConfig: {prism},
+      themeConfig: {prism = {}},
     },
   } = useDocusaurusContext();
   const [showCopied, setShowCopied] = useState(false);

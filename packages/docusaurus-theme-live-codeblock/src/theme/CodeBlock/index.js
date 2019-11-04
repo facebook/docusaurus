@@ -26,7 +26,7 @@ export default ({
 }) => {
   const {
     siteConfig: {
-      themeConfig: {prism},
+      themeConfig: {prism = {}},
     },
   } = useDocusaurusContext();
   const [showCopied, setShowCopied] = useState(false);
