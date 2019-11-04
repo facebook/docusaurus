@@ -19,7 +19,7 @@ const highlightLinesRangeRegex = /{([\d,-]+)}/;
 export default ({children, className: languageClassName, metastring}) => {
   const {
     siteConfig: {
-      themeConfig: {prismTheme},
+      themeConfig: {prism},
     },
   } = useDocusaurusContext();
   const [showCopied, setShowCopied] = useState(false);
@@ -48,8 +48,12 @@ export default ({children, className: languageClassName, metastring}) => {
     };
   }, [button.current, target.current]);
 
-  const language =
+  let language =
     languageClassName && languageClassName.replace(/language-/, '');
+
+  if (language === 'undefined' && prism.defaultLanguage) {
+    language = prism.defaultLanguage;
+  }
 
   const handleCopyCode = () => {
     window.getSelection().empty();
@@ -61,7 +65,7 @@ export default ({children, className: languageClassName, metastring}) => {
   return (
     <Highlight
       {...defaultProps}
-      theme={prismTheme || defaultTheme}
+      theme={prism.theme || defaultTheme}
       code={children.trim()}
       language={language}>
       {({className, style, tokens, getLineProps, getTokenProps}) => (
