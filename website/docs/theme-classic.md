@@ -49,3 +49,37 @@ module.exports = {
 Outbound links automatically get `target="_blank" rel="noopener noreferrer"`.
 
 ## Footer
+
+## Code Blocks
+
+Docusaurus uses [Prism React Renderer](https://github.com/FormidableLabs/prism-react-renderer) to highlight code blocks.
+
+### Theme
+
+By default, we use [Palenight](https://github.com/FormidableLabs/prism-react-renderer/blob/master/src/themes/palenight.js) as syntax highlighting theme. You can specify a custom theme from the [list of available themes](https://github.com/FormidableLabs/prism-react-renderer#theming), e.g.:
+
+```js
+// docusaurus/config.js
+module.exports = {
+  themeConfig: {
+    prism: {
+      theme: require('prism-react-renderer/themes/dracula'),
+    },
+  }
+}
+```
+
+### Default language
+
+You can set a default language for code blocks if no language is added after the opening triple backticks (i.e. ```). Note that a valid [language name](https://prismjs.com/#supported-languages) must be passed, e.g.:
+
+```js
+// docusaurus/config.js
+module.exports = {
+  themeConfig: {
+    prism: {
+      defaultLanguage: 'javascript',
+    },
+  }
+}
+```
