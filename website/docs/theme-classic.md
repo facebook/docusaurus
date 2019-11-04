@@ -50,7 +50,7 @@ Outbound links automatically get `target="_blank" rel="noopener noreferrer"`.
 
 ## Footer
 
-## Code Blocks
+## `CodeBlock`
 
 Docusaurus uses [Prism React Renderer](https://github.com/FormidableLabs/prism-react-renderer) to highlight code blocks.
 
