@@ -1,12 +1,12 @@
 .browserWindow {
-  border: 3px solid var(--ifm-color-emphasis-alpha-10);
+  border: 3px solid var(--ifm-color-emphasis-200);
   border-top-left-radius: var(--ifm-global-radius);
   border-top-right-radius: var(--ifm-global-radius);
 }
 
 .browserWindowHeader {
   align-items: center;
-  background: var(--ifm-color-emphasis-alpha-10);
+  background: var(--ifm-color-emphasis-200);
   display: flex;
   padding: 0.5rem 1rem;
 }
