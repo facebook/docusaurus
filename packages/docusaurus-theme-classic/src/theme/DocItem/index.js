@@ -11,19 +11,16 @@ import Head from '@docusaurus/Head';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import DocPaginator from '@theme/DocPaginator';
-import useTableOfContentHighlight from '@theme/hooks/useTableOfContentHighlight';
+import useTOCHighlight from '@theme/hooks/useTOCHighlight';
 
 import styles from './styles.module.css';
 
-function Headings({headings, isChild}) {
-  const LINK_CLASS_NAME = 'contents__link';
-  const TOP_OFFSET = 100;
+const LINK_CLASS_NAME = 'contents__link';
+const ACTIVE_LINK_CLASS_NAME = 'contents__link--active';
+const TOP_OFFSET = 100;
 
-  useTableOfContentHighlight(
-    LINK_CLASS_NAME,
-    'contents__link--active',
-    TOP_OFFSET,
-  );
+function Headings({headings, isChild}) {
+  useTOCHighlight(LINK_CLASS_NAME, ACTIVE_LINK_CLASS_NAME, TOP_OFFSET);
 
   if (!headings.length) return null;
   return (
