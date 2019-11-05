@@ -4,6 +4,16 @@
 
 - **HOTFIX for 2.0.0-alpha.32** - Fix build compilation if exists only one code tab.
 - Add table of contents highlighting on scroll.
+- **BREAKING** `prismTheme` is renamed to `theme` as part new `prism` object in `themeConfig` field in your `docusaurus.config.js`. Eg: 
+  ```diff
+   themeConfig: {
+  -   prismTheme: require('prism-react-renderer/themes/dracula'),
+  +   prism: {
+  +     theme: require('prism-react-renderer/themes/dracula'),
+  +   },
+  },
+  ```
+- Added new `prism` option `defaultLanguage` that is used if the language is not specified in code blocks.
 
 ## 2.0.0-alpha.32
 
