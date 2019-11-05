@@ -75,7 +75,7 @@ function Navbar() {
         <html lang="en" data-theme={theme} />
       </Head>
       <nav
-        className={classnames('navbar', 'navbar--light', 'navbar--fixed-top', {
+        className={classnames('navbar', `navbar--${theme || 'light'}`, 'navbar--fixed-top', {
           'navbar-sidebar--show': sidebarShown,
         })}>
         <div className="navbar__inner">
