@@ -11,16 +11,26 @@ import Head from '@docusaurus/Head';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import DocPaginator from '@theme/DocPaginator';
+import useTableOfContentHighlight from '@theme/hooks/useTableOfContentHighlight';
 
 import styles from './styles.module.css';
 
 function Headings({headings, isChild}) {
+  const LINK_CLASS_NAME = 'contents__link';
+  const TOP_OFFSET = 100;
+
+  useTableOfContentHighlight(
+    LINK_CLASS_NAME,
+    'contents__link--active',
+    TOP_OFFSET,
+  );
+
   if (!headings.length) return null;
   return (
     <ul className={isChild ? '' : 'contents contents__left-border'}>
       {headings.map(heading => (
         <li key={heading.id}>
-          <a href={`#${heading.id}`} className="contents__link">
+          <a href={`#${heading.id}`} className={LINK_CLASS_NAME}>
             {heading.value}
           </a>
           <Headings isChild headings={heading.children} />
