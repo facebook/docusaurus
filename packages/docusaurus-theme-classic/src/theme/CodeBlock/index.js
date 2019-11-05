@@ -51,7 +51,7 @@ export default ({children, className: languageClassName, metastring}) => {
   let language =
     languageClassName && languageClassName.replace(/language-/, '');
 
-  if (language === 'undefined' && prism.defaultLanguage) {
+  if (!language && prism.defaultLanguage) {
     language = prism.defaultLanguage;
   }
 
