@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- **HOTFIX for 2.0.0-alpha.32** - Fix build compilation if exists only one code tab.
 - Add table of contents highlighting on scroll.
 
 ## 2.0.0-alpha.32
