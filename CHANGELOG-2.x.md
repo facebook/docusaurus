@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- **HOTFIX for 2.0.0-alpha.32** - Fix build compilation if exists only one code tab.
+- Add table of contents highlighting on scroll.
 - **BREAKING** `prismTheme` is renamed to `theme` as part new `prism` object in `themeConfig` field in your `docusaurus.config.js`. Eg: 
   ```diff
    themeConfig: {
@@ -16,8 +18,9 @@
 ## 2.0.0-alpha.32
 
 ### Features
-- Add `<Redirect>` component for easy client side redirect.
-Example Usage:
+
+- Add `<Redirect>` component for easy client side redirect. Example Usage:
+
 ```js
 import React from 'react';
 import {Redirect} from '@docusaurus/router';
@@ -26,19 +29,21 @@ function Home() {
   return <Redirect to="/docs/test" />;
 }
 ```
+
 - Allow user to add custom HTML to footer items. [#1905](https://github.com/facebook/docusaurus/pull/1905)
-- Added code block line highlighting feature (thanks @lex111)! If you have previously swizzled the `CodeBlock` theme component, it is recommended to update your source code to have this feature.
-([#1860](https://github.com/facebook/Docusaurus/issues/1860))
+- Added code block line highlighting feature (thanks @lex111)! If you have previously swizzled the `CodeBlock` theme component, it is recommended to update your source code to have this feature. ([#1860](https://github.com/facebook/Docusaurus/issues/1860))
 
 ### Bug Fixes
+
 - Fix `@theme/Tabs` component to be able to create tabs with only one item.
 - Fix MDX `@theme/Heading` component. If there is no id, it should not create anchor link.
-- Fixed a bug in which if `themeConfig.algolia` is not defined, the custom searchbar won't appear.
-If you've swizzled Algolia `SearchBar` component before, please update your source code otherwise CSS might break. See [#1909](https://github.com/facebook/docusaurus/pull/1909/files) for reference.
+- Fixed a bug in which if `themeConfig.algolia` is not defined, the custom searchbar won't appear. If you've swizzled Algolia `SearchBar` component before, please update your source code otherwise CSS might break. See [#1909](https://github.com/facebook/docusaurus/pull/1909/files) for reference.
+
 ```js
 - <Fragment>
 + <div className="navbar__search" key="search-box">
 ```
+
 - Slightly adjust search icon position to be more aligned on small width device. ([#1893](https://github.com/facebook/Docusaurus/issues/1893))
 - Fix algolia styling bug, previously search suggestion result is sometimes hidden. ([#1915](https://github.com/facebook/Docusaurus/issues/1915))
 - Changed the way we read the `USE_SSH` env variable during deployment to be the same as in v1.
@@ -47,12 +52,13 @@ If you've swizzled Algolia `SearchBar` component before, please update your sour
 - Fix a bug where docs plugin add `/docs` route even if docs folder is empty. We also improved docs plugin test coverage to 100% for stability before working on docs versioning. ([#1912](https://github.com/facebook/Docusaurus/issues/1912))
 
 ### Performance Improvement
+
 - Reduce memory usage consumption. ([#1900](https://github.com/facebook/Docusaurus/issues/1900))
 - Significantly reduce main bundle size and initial HTML payload on production build. Generated files from webpack is also shorter in name. ([#1898](https://github.com/facebook/Docusaurus/issues/1898))
-- Simplify blog metadata. Previously, accessing `/blog/post-xxx` will request for next and prev blog post metadata too aside from target post metadata. We should only request target post metadata. 
-([#1908](https://github.com/facebook/Docusaurus/issues/1908))
+- Simplify blog metadata. Previously, accessing `/blog/post-xxx` will request for next and prev blog post metadata too aside from target post metadata. We should only request target post metadata. ([#1908](https://github.com/facebook/Docusaurus/issues/1908))
 
 ### Others
+
 - Convert sitemap plugin to TypeScript. ([#1894](https://github.com/facebook/Docusaurus/issues/1894))
 - Refactor dark mode toggle into a hook. ([#1899](https://github.com/facebook/Docusaurus/issues/1899))
 
