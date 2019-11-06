@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Fix watcher does not trigger reload on windows.
 - Add feed for blog posts.
 - **HOTFIX for 2.0.0-alpha.32** - Fix build compilation if exists only one code tab.
 - Add table of contents highlighting on scroll.

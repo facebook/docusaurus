@@ -21,6 +21,7 @@ import merge from 'webpack-merge';
 import HotModuleReplacementPlugin from 'webpack/lib/HotModuleReplacementPlugin';
 import {load} from '../server';
 import {StartCLIOptions} from '@docusaurus/types';
+import {posixPath} from '@docusaurus/utils';
 import {CONFIG_FILE_NAME, STATIC_DIR_NAME, DEFAULT_PORT} from '../constants';
 import {createClientConfig} from '../webpack/client';
 import {applyConfigureWebpack} from '../webpack/utils';
@@ -54,9 +55,9 @@ export async function start(
 
   const normalizeToSiteDir = filepath => {
     if (filepath && path.isAbsolute(filepath)) {
-      return path.relative(siteDir, filepath);
+      return posixPath(path.relative(siteDir, filepath));
     }
-    return filepath;
+    return posixPath(filepath);
   };
 
   const pluginPaths: string[] = _.compact(
