@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState} from 'react';
+import React, {useState, Children} from 'react';
 
 import classnames from 'classnames';
 
@@ -31,7 +31,11 @@ function Tabs(props) {
         ))}
       </ul>
       <div className="margin-vert--md">
-        {children.filter(child => child.props.value === selectedValue)[0]}
+        {
+          Children.toArray(children).filter(
+            child => child.props.value === selectedValue,
+          )[0]
+        }
       </div>
     </div>
   );

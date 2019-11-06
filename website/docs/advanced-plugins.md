@@ -123,7 +123,7 @@ Provides the [Docs](markdown-features.mdx) functionality and is the default docs
 module.exports = {
   plugins: [
     [
-      '@docuaurus/plugin-content-docs',
+      '@docusaurus/plugin-content-docs',
       {
         /**
          * Path to data on filesystem

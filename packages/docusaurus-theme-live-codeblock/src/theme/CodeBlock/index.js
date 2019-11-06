@@ -26,7 +26,7 @@ export default ({
 }) => {
   const {
     siteConfig: {
-      themeConfig: {prismTheme},
+      themeConfig: {prism = {}},
     },
   } = useDocusaurusContext();
   const [showCopied, setShowCopied] = useState(false);
@@ -60,14 +60,18 @@ export default ({
       <Playground
         scope={{...React}}
         code={children.trim()}
-        theme={prismTheme || defaultTheme}
+        theme={prism.theme || defaultTheme}
         {...props}
       />
     );
   }
 
-  const language =
+  let language =
     languageClassName && languageClassName.replace(/language-/, '');
+
+  if (!language && prism.defaultLanguage) {
+    language = prism.defaultLanguage;
+  }
 
   const handleCopyCode = () => {
     window.getSelection().empty();
@@ -79,7 +83,7 @@ export default ({
   return (
     <Highlight
       {...defaultProps}
-      theme={prismTheme || defaultTheme}
+      theme={prism.theme || defaultTheme}
       code={children.trim()}
       language={language}>
       {({className, style, tokens, getLineProps, getTokenProps}) => (
