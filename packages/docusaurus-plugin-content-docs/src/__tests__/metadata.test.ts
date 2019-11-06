@@ -26,7 +26,7 @@ describe('processMetadata', () => {
     const [dataA, dataB] = await Promise.all([
       processMetadata({
         source: sourceA,
-        docsDir,
+        refDir: docsDir,
         order: {},
         siteConfig,
         docsBasePath: pluginPath,
@@ -34,7 +34,7 @@ describe('processMetadata', () => {
       }),
       processMetadata({
         source: sourceB,
-        docsDir,
+        refDir: docsDir,
         order: {},
         siteConfig,
         docsBasePath: pluginPath,
@@ -62,7 +62,7 @@ describe('processMetadata', () => {
     const source = path.join('permalink.md');
     const data = await processMetadata({
       source,
-      docsDir,
+      refDir: docsDir,
       order: {},
       siteConfig,
       docsBasePath: pluginPath,
@@ -80,11 +80,11 @@ describe('processMetadata', () => {
 
   test('docs with editUrl', async () => {
     const editUrl =
-      'https://github.com/facebook/docusaurus/edit/master/website/docs/';
+      'https://github.com/facebook/docusaurus/edit/master/website/';
     const source = path.join('foo', 'baz.md');
     const data = await processMetadata({
       source,
-      docsDir,
+      refDir: docsDir,
       order: {},
       siteConfig,
       docsBasePath: pluginPath,
@@ -107,7 +107,7 @@ describe('processMetadata', () => {
     const source = 'lorem.md';
     const data = await processMetadata({
       source,
-      docsDir,
+      refDir: docsDir,
       order: {},
       siteConfig,
       docsBasePath: pluginPath,
@@ -128,7 +128,7 @@ describe('processMetadata', () => {
     const source = 'lorem.md';
     const data = await processMetadata({
       source,
-      docsDir,
+      refDir: docsDir,
       order: {},
       siteConfig,
       docsBasePath: pluginPath,
@@ -154,7 +154,7 @@ describe('processMetadata', () => {
 
     return processMetadata({
       source: 'invalid-id.md',
-      docsDir: path.join(badSiteDir, 'docs'),
+      refDir: path.join(badSiteDir, 'docs'),
       order: {},
       siteConfig,
       docsBasePath: 'docs',
@@ -165,4 +165,6 @@ describe('processMetadata', () => {
       ),
     );
   });
+
+  // TODO: docs for versioning
 });

@@ -167,3 +167,69 @@ describe('simple website', () => {
     expect(routeConfigs).toMatchSnapshot();
   });
 });
+
+/* TODO for versioning */
+describe('versioned website', () => {
+  const siteDir = path.join(__dirname, '__fixtures__', 'versioned-site');
+  const context = loadContext(siteDir);
+  const sidebarPath = path.join(siteDir, 'sidebars.json');
+  const pluginPath = 'docs';
+  const plugin = pluginContentDocs(context, {
+    path: pluginPath,
+    sidebarPath,
+  });
+  const pluginContentDir = path.join(context.generatedFilesDir, plugin.name);
+
+  test('getPathToWatch', () => {
+    const pathToWatch = plugin.getPathsToWatch();
+    const matchPattern = pathToWatch.map(filepath =>
+      posixPath(path.relative(siteDir, filepath)),
+    );
+    expect(matchPattern).not.toEqual([]);
+    /* TODO */
+    expect(matchPattern).toMatchInlineSnapshot(`
+      Array [
+        "docs/**/*.{md,mdx}",
+        "sidebars.json",
+      ]
+    `);
+    expect(isMatch('docs/hello.md', matchPattern)).toEqual(true);
+    expect(isMatch('docs/hello.mdx', matchPattern)).toEqual(true);
+    expect(isMatch('docs/foo/bar.md', matchPattern)).toEqual(true);
+    expect(isMatch('sidebars.json', matchPattern)).toEqual(true);
+    expect(
+      isMatch('versioned_docs/version-1.0.0/hello.md', matchPattern),
+    ).toEqual(true);
+    expect(
+      isMatch('versioned_docs/version-1.0.0/foo/bar.md', matchPattern),
+    ).toEqual(true);
+    expect(
+      isMatch('versioned_sidebars/version-1.0.0-sidebars.json', matchPattern),
+    ).toEqual(true);
+    expect(isMatch('docs/hello.js', matchPattern)).toEqual(false);
+    expect(isMatch('docs/super.mdl', matchPattern)).toEqual(false);
+    expect(isMatch('docs/mdx', matchPattern)).toEqual(false);
+    expect(isMatch('hello.md', matchPattern)).toEqual(false);
+    expect(isMatch('super/docs/hello.md', matchPattern)).toEqual(false);
+  });
+
+  test('content', async () => {
+    const content = await plugin.loadContent();
+    const {docsMetadata, docsSidebars} = content;
+
+    // TODO: expect docsMetadata.blabla.toEqual()
+
+    // expect(docsSidebars).toMatchSnapshot();
+
+    // const routeConfigs = [];
+    // const actions = createFakeActions(routeConfigs, pluginContentDir);
+
+    // await plugin.contentLoaded({
+    //   content,
+    //   actions,
+    // });
+
+    // expect(routeConfigs).not.toEqual([]);
+    // expect(routeConfigs).toMatchSnapshot();
+  });
+});

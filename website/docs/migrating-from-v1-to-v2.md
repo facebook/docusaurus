@@ -287,9 +287,9 @@ module.exports = {
         docs: {
           // Equivalent to `customDocsPath`.
           path: 'docs',
-          // Equivalent to `editUrl`
+          // Equivalent to `editUrl`. But instead of pointing to docs dir, it should be website dir.
           editUrl:
-            'https://github.com/facebook/docusaurus/edit/master/website/docs/',
+            'https://github.com/facebook/docusaurus/edit/master/website/',
           // Equivalent to `docsUrl`.
           routeBasePath: 'docs',
           // Remark and Rehype plugins passed to MDX. Replaces `markdownOptions` and `markdownPlugins`.

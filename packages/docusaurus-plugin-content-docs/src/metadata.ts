@@ -7,7 +7,7 @@
 
 import fs from 'fs-extra';
 import path from 'path';
-import {parse, normalizeUrl} from '@docusaurus/utils';
+import {parse, normalizeUrl, posixPath} from '@docusaurus/utils';
 import {DocusaurusConfig} from '@docusaurus/types';
 
 import lastUpdate from './lastUpdate';
@@ -15,7 +15,7 @@ import {Order, MetadataRaw} from './types';
 
 type Args = {
   source: string;
-  docsDir: string;
+  refDir: string;
   order: Order;
   siteConfig: Partial<DocusaurusConfig>;
   docsBasePath: string;
@@ -27,7 +27,7 @@ type Args = {
 
 export default async function processMetadata({
   source,
-  docsDir,
+  refDir,
   order,
   siteConfig,
   docsBasePath,
@@ -36,7 +36,7 @@ export default async function processMetadata({
   showLastUpdateAuthor,
   showLastUpdateTime,
 }: Args): Promise<MetadataRaw> {
-  const filePath = path.join(docsDir, source);
+  const filePath = path.join(refDir, source);
 
   const fileString = await fs.readFile(filePath, 'utf-8');
   const {frontMatter: metadata = {}, excerpt} = parse(fileString);
@@ -100,7 +100,10 @@ export default async function processMetadata({
   }
 
   if (editUrl) {
-    metadata.editUrl = normalizeUrl([editUrl, source]);
+    metadata.editUrl = normalizeUrl([
+      editUrl,
+      posixPath(path.relative(siteDir, filePath)),
+    ]);
   }
 
   if (metadata.custom_edit_url) {

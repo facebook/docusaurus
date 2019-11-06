@@ -9,14 +9,19 @@ import fs from 'fs-extra';
 import path from 'path';
 import linkify from '../linkify';
 import {SourceToPermalink} from '../../types';
+import {VERSIONED_DOCS_DIR_NAME} from '../../constants';
 
 const siteDir = path.join(__dirname, '__fixtures__');
 const docsDir = path.join(siteDir, 'docs');
+const versionedDir = path.join(siteDir, VERSIONED_DOCS_DIR_NAME);
 const sourceToPermalink: SourceToPermalink = {
   '@site/docs/doc1.md': '/docs/doc1',
   '@site/docs/doc2.md': '/docs/doc2',
   '@site/docs/subdir/doc3.md': '/docs/subdir/doc3',
   '@site/docs/doc4.md': '/docs/doc4',
+  '@site/versioned_docs/version-1.0.0/doc2.md': '/docs/1.0.0/doc2',
+  '@site/versioned_docs/version-1.0.0/subdir/doc1.md':
+    '/docs/1.0.0/subdir/doc1',
 };
 
 const transform = filepath => {
@@ -27,6 +32,7 @@ const transform = filepath => {
     docsDir,
     siteDir,
     sourceToPermalink,
+    versionedDir,
   );
   return [content, transformedContent];
 };
@@ -68,5 +74,25 @@ test('transforms reference links', () => {
   expect(transformedContent).toContain('[doc2]: /docs/doc2');
   expect(transformedContent).not.toContain('[doc1]: doc1.md');
   expect(transformedContent).not.toContain('[doc2]: ./doc2.md');
+  expect(content).not.toEqual(transformedContent);
+});
+
+test('transforms absolute links in versioned docs', () => {
+  const doc2 = path.join(versionedDir, 'version-1.0.0', 'doc2.md');
+  const [content, transformedContent] = transform(doc2);
+  expect(transformedContent).toMatchSnapshot();
+  expect(transformedContent).toContain('](/docs/1.0.0/subdir/doc1');
+  expect(transformedContent).toContain('](/docs/1.0.0/doc2#existing-docs');
+  expect(transformedContent).not.toContain('](subdir/doc1.md)');
+  expect(transformedContent).not.toContain('](doc2.md#existing-docs)');
+  expect(content).not.toEqual(transformedContent);
+});
+
+test('transforms relative links in versioned docs', () => {
+  const doc1 = path.join(versionedDir, 'version-1.0.0', 'subdir', 'doc1.md');
+  const [content, transformedContent] = transform(doc1);
+  expect(transformedContent).toMatchSnapshot();
+  expect(transformedContent).toContain('](/docs/1.0.0/doc2');
+  expect(transformedContent).not.toContain('](../doc2.md)');
   expect(content).not.toEqual(transformedContent);
 });

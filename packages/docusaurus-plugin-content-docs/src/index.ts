@@ -37,6 +37,10 @@ import {
   MetadataRaw,
 } from './types';
 import {Configuration} from 'webpack';
+import {
+  VERSIONED_DOCS_DIR_NAME,
+  VERSIONED_SIDEBARS_DIR_NAME,
+} from './constants';
 
 const DEFAULT_OPTIONS: PluginOptions = {
   path: 'docs', // Path to data on filesystem, relative to site dir.
@@ -63,12 +67,26 @@ export default function pluginContentDocs(
     'docusaurus-plugin-content-docs',
   );
 
+  // TODO: loadEnvironment. Whether got versioning or not
+  const versioningEnabled = false;
+  const versionedDir = path.join(context.siteDir, VERSIONED_DOCS_DIR_NAME);
+  const versionedSidebarsDir = path.join(
+    context.siteDir,
+    VERSIONED_SIDEBARS_DIR_NAME,
+  );
+
   return {
     name: 'docusaurus-plugin-content-docs',
 
     getPathsToWatch() {
       const {include = []} = options;
-      const globPattern = include.map(pattern => `${contentPath}/${pattern}`);
+      let globPattern = include.map(pattern => `${contentPath}/${pattern}`);
+      if (versioningEnabled) {
+        const versionedGlob = include.map(
+          pattern => `${versionedDir}/${pattern}`,
+        );
+        globPattern = [...globPattern, versionedSidebarsDir, ...versionedGlob];
+      }
       return [...globPattern, options.sidebarPath];
     },
 
@@ -107,7 +125,7 @@ export default function pluginContentDocs(
         docsFiles.map(async source => {
           const metadata: MetadataRaw = await processMetadata({
             source,
-            docsDir,
+            refDir: docsDir,
             order,
             siteConfig,
             docsBasePath: routeBasePath,
@@ -296,6 +314,7 @@ export default function pluginContentDocs(
                     siteDir: context.siteDir,
                     docsDir: contentPath,
                     sourceToPermalink: sourceToPermalink,
+                    versionedDir,
                   },
                 },
               ].filter(Boolean),
