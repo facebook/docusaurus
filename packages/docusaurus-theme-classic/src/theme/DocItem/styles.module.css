@@ -19,6 +19,7 @@
 
 .docItemContainer {
   margin: 0 auto;
+  padding: 0 0.5rem;
   max-width: 45em;
 }
 
@@ -34,4 +35,8 @@
   .tableOfContents {
     display: none;
   }
+
+  .docItemContainer {
+  padding: 0 0.3rem;
+}
 }

@@ -4,6 +4,7 @@
 
 - **HOTFIX for 2.0.0-alpha.32** - Fix build compilation if exists only one code tab.
 - Add table of contents highlighting on scroll.
+- Add minor padding to docs container so that hash-link won't be cut off.
 - **BREAKING** `prismTheme` is renamed to `theme` as part new `prism` object in `themeConfig` field in your `docusaurus.config.js`. Eg: 
   ```diff
    themeConfig: {
