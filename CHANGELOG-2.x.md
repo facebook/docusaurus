@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Add feed for blog posts.
 - **HOTFIX for 2.0.0-alpha.32** - Fix build compilation if exists only one code tab.
 - Add table of contents highlighting on scroll.
 - **BREAKING** `prismTheme` is renamed to `theme` as part new `prism` object in `themeConfig` field in your `docusaurus.config.js`. Eg: 
@@ -20,7 +21,6 @@
 ### Features
 
 - Add `<Redirect>` component for easy client side redirect. Example Usage:
-
 ```js
 import React from 'react';
 import {Redirect} from '@docusaurus/router';

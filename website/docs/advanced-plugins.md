@@ -93,6 +93,21 @@ module.exports = {
          */
         remarkPlugins: [],
         rehypePlugins: [],
+        /**
+         * Truncate marker, can be a regex or string.
+         */
+        truncateMarker: /<!--\s*(truncate)\s*-->/
+         /**
+         * Blog feed
+         * If feedOptions is undefined, no rss feed will be generated
+         */
+        feedOptions: {
+          type: '', // required. 'rss' | 'feed' | 'all'
+          title: '', // default to siteConfig.title
+          description: '', // default to  `${siteConfig.title} Blog`
+          copyright: '',
+          language: undefined; // possible values: http://www.w3.org/TR/REC-html40/struct/dirlang.html#langcodes
+        };
       },
     ],
   ],

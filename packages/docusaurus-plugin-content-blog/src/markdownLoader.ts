@@ -7,24 +7,19 @@
 
 const {parseQuery, getOptions} = require('loader-utils');
 import {loader} from 'webpack';
+import {truncate} from './blogUtils';
 
 export = function(fileString: string) {
   const callback = this.async();
 
-  const {truncateMarker} = getOptions(this);
+  const {truncateMarker}: {truncateMarker: RegExp | string} = getOptions(this);
 
   let finalContent = fileString;
 
   // Truncate content if requested (e.g: file.md?truncated=true)
   const {truncated} = this.resourceQuery && parseQuery(this.resourceQuery);
-  if (
-    truncated &&
-    (typeof truncateMarker === 'string'
-      ? fileString.includes(truncateMarker)
-      : truncateMarker.test(fileString))
-  ) {
-    // eslint-disable-next-line
-    finalContent = fileString.split(truncateMarker)[0];
+  if (truncated) {
+    finalContent = truncate(fileString, truncateMarker);
   }
   return callback && callback(null, finalContent);
 } as loader.Loader;

@@ -40,6 +40,10 @@ module.exports = {
         blog: {
           path: '../website-1.x/blog',
           postsPerPage: 3,
+          feedOptions: {
+            type: 'all',
+            copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`,
+          },
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
