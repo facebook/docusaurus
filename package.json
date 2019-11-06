@@ -58,7 +58,6 @@
     "jest": "^24.9.0",
     "lerna": "^3.18.1",
     "lint-staged": "^7.2.0",
-    "memory-fs": "^0.5.0",
     "prettier": "^1.18.2",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
