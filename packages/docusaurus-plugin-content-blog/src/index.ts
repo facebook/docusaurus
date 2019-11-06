@@ -7,7 +7,7 @@
 import fs from 'fs-extra';
 import _ from 'lodash';
 import path from 'path';
-import {normalizeUrl, docuHash, posixPath} from '@docusaurus/utils';
+import {normalizeUrl, docuHash} from '@docusaurus/utils';
 
 import {
   PluginOptions,
