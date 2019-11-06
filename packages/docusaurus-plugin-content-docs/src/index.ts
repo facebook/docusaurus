@@ -285,7 +285,6 @@ export default function pluginContentDocs(
                 {
                   loader: path.resolve(__dirname, './markdown/index.js'),
                   options: {
-                    siteConfig: context.siteConfig,
                     siteDir: context.siteDir,
                     docsDir: contentPath,
                     sourceToPermalink: sourceToPermalink,
