@@ -7,7 +7,7 @@
 import fs from 'fs-extra';
 import _ from 'lodash';
 import path from 'path';
-import {normalizeUrl, docuHash} from '@docusaurus/utils';
+import {normalizeUrl, docuHash, posixPath} from '@docusaurus/utils';
 
 import {
   PluginOptions,
@@ -399,10 +399,8 @@ export default function pluginContentBlog(
 
       await Promise.all(
         feedTypes.map(feedType => {
-          const feedPath = path.join(
-            outDir,
-            options.routeBasePath,
-            `${feedType}.xml`,
+          const feedPath = posixPath(
+            path.join(outDir, options.routeBasePath, `${feedType}.xml`),
           );
           const feedContent = feedType === 'rss' ? feed.rss2() : feed.atom1();
           return fs.writeFile(feedPath, feedContent, err => {

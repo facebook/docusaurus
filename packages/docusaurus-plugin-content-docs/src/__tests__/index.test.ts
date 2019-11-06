@@ -7,11 +7,13 @@
 
 import path from 'path';
 import {validate} from 'webpack';
+import {isMatch} from 'picomatch';
 import fs from 'fs-extra';
 import pluginContentDocs from '../index';
 import {loadContext} from '@docusaurus/core/src/server/index';
 import {applyConfigureWebpack} from '@docusaurus/core/src/webpack/utils';
 import {RouteConfig} from '@docusaurus/types';
+import {posixPath} from '@docusaurus/utils';
 
 const createFakeActions = (routeConfigs: RouteConfig[], contentDir) => {
   return {
@@ -87,7 +89,24 @@ describe('simple website', () => {
 
   test('getPathToWatch', () => {
     const pathToWatch = plugin.getPathsToWatch();
-    expect(pathToWatch).not.toEqual([]);
+    const matchPattern = pathToWatch.map(filepath =>
+      posixPath(path.relative(siteDir, filepath)),
+    );
+    expect(matchPattern).not.toEqual([]);
+    expect(matchPattern).toMatchInlineSnapshot(`
+      Array [
+        "docs/**/*.{md,mdx}",
+        "sidebars.json",
+      ]
+    `);
+    expect(isMatch('docs/hello.md', matchPattern)).toEqual(true);
+    expect(isMatch('docs/hello.mdx', matchPattern)).toEqual(true);
+    expect(isMatch('docs/foo/bar.md', matchPattern)).toEqual(true);
+    expect(isMatch('docs/hello.js', matchPattern)).toEqual(false);
+    expect(isMatch('docs/super.mdl', matchPattern)).toEqual(false);
+    expect(isMatch('docs/mdx', matchPattern)).toEqual(false);
+    expect(isMatch('sidebars.json', matchPattern)).toEqual(true);
+    expect(isMatch('versioned_docs/hello.md', matchPattern)).toEqual(false);
   });
 
   test('configureWebpack', async () => {

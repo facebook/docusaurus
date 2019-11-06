@@ -36,7 +36,7 @@ import {Configuration} from 'webpack';
 const DEFAULT_OPTIONS: PluginOptions = {
   path: 'docs', // Path to data on filesystem, relative to site dir.
   routeBasePath: 'docs', // URL Route.
-  include: ['**/*.md', '**/*.mdx'], // Extensions to include.
+  include: ['**/*.{md,mdx}'], // Extensions to include.
   sidebarPath: '', // Path to sidebar configuration for showing a list of markdown pages.
   docLayoutComponent: '@theme/DocPage',
   docItemComponent: '@theme/DocItem',

@@ -25,6 +25,8 @@ describe('load utils', () => {
       '\\\\?\\c:\\aaaa\\bbbb': '\\\\?\\c:\\aaaa\\bbbb',
       'c:\\aaaa\\bbbb': 'c:/aaaa/bbbb',
       'foo\\bar': 'foo/bar',
+      'foo\\bar/lol': 'foo/bar/lol',
+      'website\\docs/**/*.{md,mdx}': 'website/docs/**/*.{md,mdx}',
     };
     Object.keys(asserts).forEach(file => {
       expect(posixPath(file)).toBe(asserts[file]);
