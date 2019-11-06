@@ -399,8 +399,10 @@ export default function pluginContentBlog(
 
       await Promise.all(
         feedTypes.map(feedType => {
-          const feedPath = posixPath(
-            path.join(outDir, options.routeBasePath, `${feedType}.xml`),
+          const feedPath = path.join(
+            outDir,
+            options.routeBasePath,
+            `${feedType}.xml`,
           );
           const feedContent = feedType === 'rss' ? feed.rss2() : feed.atom1();
           return fs.writeFile(feedPath, feedContent, err => {
