@@ -107,6 +107,8 @@ describe('simple website', () => {
     expect(isMatch('docs/mdx', matchPattern)).toEqual(false);
     expect(isMatch('sidebars.json', matchPattern)).toEqual(true);
     expect(isMatch('versioned_docs/hello.md', matchPattern)).toEqual(false);
+    expect(isMatch('hello.md', matchPattern)).toEqual(false);
+    expect(isMatch('super/docs/hello.md', matchPattern)).toEqual(false);
   });
 
   test('configureWebpack', async () => {
