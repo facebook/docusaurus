@@ -19,6 +19,7 @@
 
 .docItemContainer {
   margin: 0 auto;
+  padding: 0 0.5rem;
   max-width: 45em;
 }
 
@@ -33,5 +34,9 @@
 @media only screen and (max-width: 996px) {
   .tableOfContents {
     display: none;
+  }
+
+  .docItemContainer {
+    padding: 0 0.3rem;
   }
 }
