@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Ensure routes config generation to be more consistent in ordering. Nested routes should be placed last in routes.js. This will allow user to create `src/pages/docs.js` to create custom docs page for `/docs`.
 - Fix watcher does not trigger reload on windows.
 - Add feed for blog posts.
 - **HOTFIX for 2.0.0-alpha.32** - Fix build compilation if exists only one code tab.
