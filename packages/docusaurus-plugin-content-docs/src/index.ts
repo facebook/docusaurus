@@ -242,7 +242,7 @@ export default function pluginContentDocs(
       const docsBaseRoute = normalizeUrl([
         (context.siteConfig as DocusaurusConfig).baseUrl,
         routeBasePath,
-        ':docsRoute',
+        ':route',
       ]);
       const docsBaseMetadataPath = await createData(
         `${docuHash(docsBaseRoute)}.json`,
