@@ -8,7 +8,7 @@
 import globby from 'globby';
 import fs from 'fs-extra';
 import path from 'path';
-import {idx, normalizeUrl, docuHash} from '@docusaurus/utils';
+import {normalizeUrl, docuHash} from '@docusaurus/utils';
 import {LoadContext, Plugin, DocusaurusConfig} from '@docusaurus/types';
 
 import createOrder from './order';
@@ -120,18 +120,18 @@ export default function pluginContentDocs(
       Object.keys(docsMetadataRaw).forEach(currentID => {
         let previous;
         let next;
-        const previousID = idx(docsMetadataRaw, [currentID, 'previous']);
+        const previousID = docsMetadataRaw[currentID]?.previous;
         if (previousID) {
           previous = {
-            title: idx(docsMetadataRaw, [previousID, 'title']) || 'Previous',
-            permalink: idx(docsMetadataRaw, [previousID, 'permalink']),
+            title: docsMetadataRaw[previousID]?.title ?? 'Previous',
+            permalink: docsMetadataRaw[previousID]?.permalink,
           };
         }
-        const nextID = idx(docsMetadataRaw, [currentID, 'next']);
+        const nextID = docsMetadataRaw[currentID]?.next;
         if (nextID) {
           next = {
-            title: idx(docsMetadataRaw, [nextID, 'title']) || 'Next',
-            permalink: idx(docsMetadataRaw, [nextID, 'permalink']),
+            title: docsMetadataRaw[nextID]?.title ?? 'Next',
+            permalink: docsMetadataRaw[nextID]?.permalink,
           };
         }
         docsMetadata[currentID] = {
