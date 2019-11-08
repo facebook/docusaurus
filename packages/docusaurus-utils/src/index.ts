@@ -12,17 +12,16 @@ import _ from 'lodash';
 import escapeStringRegexp from 'escape-string-regexp';
 import fs from 'fs-extra';
 
-const isProd = process.env.NODE_ENV === 'production';
 const fileHash = new Map();
 export async function generate(
   generatedFilesDir: string,
   file: string,
   content: any,
+  skipCache: boolean = process.env.NODE_ENV === 'production',
 ): Promise<void> {
   const filepath = path.join(generatedFilesDir, file);
 
-  // skip hash calculation in production, Runtime fileHash cache won't be used anyway
-  if (isProd) {
+  if (skipCache) {
     await fs.ensureDir(path.dirname(filepath));
     await fs.writeFile(filepath, content);
     return;
@@ -119,7 +118,7 @@ export function genChunkName(
   modulePath: string,
   prefix?: string,
   preferredName?: string,
-  shortId?: boolean,
+  shortId: boolean = process.env.NODE_ENV === 'production',
 ): string {
   let chunkName: string | undefined = chunkNameCache.get(modulePath);
   if (!chunkName) {
