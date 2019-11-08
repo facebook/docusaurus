@@ -75,6 +75,17 @@ export async function loadPlugins({
     }),
   );
 
+  // Sort the route config. This ensures that route with nested routes is always placed last
+  pluginsRouteConfigs.sort((a, b) => {
+    if (a.routes && !b.routes) {
+      return 1;
+    }
+    if (!a.routes && b.routes) {
+      return -1;
+    }
+    return a.path > b.path ? 1 : b.path > a.path ? -1 : 0;
+  });
+
   return {
     plugins,
     pluginsRouteConfigs,

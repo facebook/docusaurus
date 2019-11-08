@@ -55,9 +55,9 @@ Array [
   Object {
     "component": "@theme/DocPage",
     "modules": Object {
-      "docsMetadata": "@docusaurus-plugin-content-docs/docs-b5f.json",
+      "docsMetadata": "@docusaurus-plugin-content-docs/docs-route-ff2.json",
     },
-    "path": "/docs",
+    "path": "/docs/:route",
     "routes": Array [
       Object {
         "component": "@theme/DocItem",
