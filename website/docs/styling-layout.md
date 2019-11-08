@@ -29,7 +29,7 @@ Any CSS you write within that file will be available globally and can be referen
 
 ## Styling your site with Infima
 
-`@docusaurus/preset-classic` uses [Infima](https://infima-dev.netlify.com/) as the underlying styling framework. Infima provides flexible layout and common UI components styling suitable for content-centric websites (blogs, documentation, landing pages). For more details, check out the [Infima website](https://infima-dev.netlify.com/).
+`@docusaurus/preset-classic` uses [Infima](http://facebookincubator.github.io/infima/) as the underlying styling framework. Infima provides flexible layout and common UI components styling suitable for content-centric websites (blogs, documentation, landing pages). For more details, check out the [Infima website](http://facebookincubator.github.io/infima/).
 
 When you `init` your Docusaurus 2 project, the website will be generated with basic Infima stylesheets and default styling. You may customize the styling by editing the `src/css/custom.css` file.
 
