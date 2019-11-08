@@ -2,6 +2,7 @@
 
 ## Unreleased
 - More efficient hot reload & consistent generated file. 
+- Set babel `compact` options to `true` which removes "superfluous whitespace characters and line terminators.
 
 ## 2.0.0-alpha.33
 
