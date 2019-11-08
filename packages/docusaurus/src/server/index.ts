@@ -116,6 +116,7 @@ export async function load(siteDir: string): Promise<Props> {
     'registry.js',
     `export default {
 ${Object.keys(registry)
+  .sort()
   .map(
     key =>
       `  '${key}': [${registry[key].loader}, ${JSON.stringify(

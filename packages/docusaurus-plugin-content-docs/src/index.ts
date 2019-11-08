@@ -8,7 +8,12 @@
 import globby from 'globby';
 import fs from 'fs-extra';
 import path from 'path';
-import {idx, normalizeUrl, docuHash} from '@docusaurus/utils';
+import {
+  idx,
+  normalizeUrl,
+  docuHash,
+  objectWithKeySorted,
+} from '@docusaurus/utils';
 import {LoadContext, Plugin} from '@docusaurus/types';
 
 import createOrder from './order';
@@ -202,7 +207,7 @@ export default function pluginContentDocs(
         docsDir,
         docsSidebars,
         sourceToPermalink,
-        permalinkToSidebar,
+        permalinkToSidebar: objectWithKeySorted(permalinkToSidebar),
       };
     },
 
@@ -252,7 +257,9 @@ export default function pluginContentDocs(
       addRoute({
         path: docsBaseRoute,
         component: docLayoutComponent,
-        routes,
+        routes: routes.sort((a, b) =>
+          a.path > b.path ? 1 : b.path > a.path ? -1 : 0,
+        ),
         modules: {
           docsMetadata: aliasedSource(docsBaseMetadataPath),
         },

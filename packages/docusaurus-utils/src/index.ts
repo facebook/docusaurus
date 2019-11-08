@@ -31,6 +31,15 @@ export async function generate(
   }
 }
 
+export function objectWithKeySorted(obj: Object) {
+  // https://github.com/lodash/lodash/issues/1459#issuecomment-253969771
+  return _(obj)
+    .toPairs()
+    .sortBy(0)
+    .fromPairs()
+    .value();
+}
+
 const indexRE = /(^|.*\/)index\.(md|js)$/i;
 const extRE = /\.(md|js)$/;
 

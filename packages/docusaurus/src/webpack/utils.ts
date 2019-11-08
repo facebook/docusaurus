@@ -89,6 +89,8 @@ export function getBabelLoader(isServer: boolean, babelOptions?: {}): Loader {
       {
         babelrc: false,
         configFile: false,
+        // All optional newlines and whitespace will be omitted when generating code in compact mode
+        compact: true,
         presets: [
           isServer
             ? [
