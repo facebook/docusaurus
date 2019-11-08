@@ -40,6 +40,8 @@ export async function start(
   siteDir: string,
   cliOptions: Partial<StartCLIOptions> = {},
 ): Promise<void> {
+  process.env.NODE_ENV = 'development';
+  process.env.BABEL_ENV = 'development';
   console.log(chalk.blue('Starting the development server...'));
 
   // Process all related files as a prop.
