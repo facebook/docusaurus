@@ -6,7 +6,7 @@
  */
 
 import shell from 'shelljs';
-import spawn from 'cross-spawn';
+import execa from 'execa';
 
 type FileLastUpdateData = {timestamp?: number; author?: string};
 
@@ -14,9 +14,12 @@ const GIT_COMMIT_TIMESTAMP_AUTHOR_REGEX = /^(\d+), (.+)$/;
 
 let showedGitRequirementError = false;
 
-export default function getFileLastUpdate(
-  filePath: string,
-): FileLastUpdateData | null {
+export default async function getFileLastUpdate(
+  filePath?: string,
+): Promise<FileLastUpdateData | null> {
+  if (!filePath) {
+    return null;
+  }
   function getTimestampAndAuthor(str: string): FileLastUpdateData | null {
     if (!str) {
       return null;
@@ -39,12 +42,13 @@ export default function getFileLastUpdate(
       return null;
     }
 
-    const result = spawn
-      .sync('git', ['log', '-1', '--format=%ct, %an', filePath])
-      .stdout.toString()
-      .trim();
-
-    return getTimestampAndAuthor(result);
+    const {stdout} = await execa('git', [
+      'log',
+      '-1',
+      '--format=%ct, %an',
+      filePath,
+    ]);
+    return getTimestampAndAuthor(stdout);
   } catch (error) {
     console.error(error);
   }

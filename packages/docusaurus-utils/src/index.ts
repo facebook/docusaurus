@@ -17,8 +17,16 @@ export async function generate(
   generatedFilesDir: string,
   file: string,
   content: any,
+  skipCache: boolean = process.env.NODE_ENV === 'production',
 ): Promise<void> {
   const filepath = path.join(generatedFilesDir, file);
+
+  if (skipCache) {
+    await fs.ensureDir(path.dirname(filepath));
+    await fs.writeFile(filepath, content);
+    return;
+  }
+
   const lastHash = fileHash.get(filepath);
   const currentHash = createHash('md5')
     .update(content)
@@ -110,7 +118,7 @@ export function genChunkName(
   modulePath: string,
   prefix?: string,
   preferredName?: string,
-  shortId?: boolean,
+  shortId: boolean = process.env.NODE_ENV === 'production',
 ): string {
   let chunkName: string | undefined = chunkNameCache.get(modulePath);
   if (!chunkName) {

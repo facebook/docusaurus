@@ -3,6 +3,8 @@
 ## Unreleased
 - More efficient hot reload & consistent generated file. 
 - Set babel `compact` options to `true` which removes "superfluous whitespace characters and line terminators.
+- Skip fileHash caching on production calculation to improve build performance. The runtime cache is only useful in development.
+- Obtain git timestamp for `showLastUpdateAuthor`/ `showLastUpdateTime` asynchronously instead of synchronously. This improves build performance greatly.  
 
 ## 2.0.0-alpha.33
 

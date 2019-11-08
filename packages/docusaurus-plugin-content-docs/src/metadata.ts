@@ -112,7 +112,7 @@ export default async function processMetadata({
     // Use fake data in dev for faster development
     const fileLastUpdateData =
       process.env.NODE_ENV === 'production'
-        ? lastUpdate(filePath)
+        ? await lastUpdate(filePath)
         : {
             author: 'Author',
             timestamp: '1539502055',
