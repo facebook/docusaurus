@@ -2,13 +2,11 @@
 
 ## Unreleased
 
-- Fix babel/env not picking the correct browserslist configuration during development. When running `docusaurus start`, `process.env.NODE_ENV` is now consistently set to `development`.
-- Ensure routes config generation to be more consistent in ordering. Nested routes should be placed last in routes.js. This will allow user to create `src/pages/docs.js` to create custom docs page for `/docs` or even `src/pages/docs/super.js` to create page for `/docs/super/`;
-- Fix watcher does not trigger reload on windows.
-- Add feed for blog posts.
-- **HOTFIX for 2.0.0-alpha.32** - Fix build compilation if exists only one code tab.
-- Add table of contents highlighting on scroll.
-- Add minor padding to docs container so that hash-link won't be cut off.
+## 2.0.0-alpha.33
+
+### Features
+- Table of contents is now highlighted depending on current active headings. (thanks to awesome @SantiagoGdaR) [#1896](https://github.com/facebook/docusaurus/pull/1896)
+- Official blog plugin can now generate feed for blog posts. (thanks to awesome @moozzyk) [#1916](https://github.com/facebook/docusaurus/pull/1916)
 - **BREAKING** `prismTheme` is renamed to `theme` as part new `prism` object in `themeConfig` field in your `docusaurus.config.js`. Eg: 
   ```diff
    themeConfig: {
@@ -19,6 +17,18 @@
   },
   ```
 - Added new `prism` option `defaultLanguage` that is used if the language is not specified in code blocks.
+[#1910](https://github.com/facebook/docusaurus/pull/1910)
+
+### Fixes
+- Fix babel/env not picking the correct browserslist configuration during development. When running `docusaurus start`, `process.env.NODE_ENV` is now consistently set to `development`.
+- Ensure routes config generation to be more consistent in ordering. Nested routes should be placed last in routes.js. This will allow user to create `src/pages/docs.js` to create custom docs page for `/docs` or even `src/pages/docs/super.js` to create page for `/docs/super/`;
+- Fix watcher does not trigger reload on windows.
+- Fix build compilation error if exists only one code tab.
+- Add minor padding to docs container so that hash-link won't be cut off.
+
+### Others
+- Misc dependency upgrades.
+- Stability improvement (more tests) & refactoring on docs plugin to prevent regression.
 
 ## 2.0.0-alpha.32
 
