@@ -9,7 +9,7 @@ import globby from 'globby';
 import fs from 'fs-extra';
 import path from 'path';
 import {idx, normalizeUrl, docuHash} from '@docusaurus/utils';
-import {LoadContext, Plugin, DocusaurusConfig} from '@docusaurus/types';
+import {LoadContext, Plugin} from '@docusaurus/types';
 
 import createOrder from './order';
 import loadSidebars from './sidebars';
