@@ -12,6 +12,7 @@ import _ from 'lodash';
 import escapeStringRegexp from 'escape-string-regexp';
 import fs from 'fs-extra';
 
+const isProd = process.env.NODE_ENV === 'production';
 const fileHash = new Map();
 export async function generate(
   generatedFilesDir: string,
@@ -19,6 +20,14 @@ export async function generate(
   content: any,
 ): Promise<void> {
   const filepath = path.join(generatedFilesDir, file);
+
+  // skip hash calculation in production, Runtime fileHash cache won't be used anyway
+  if (isProd) {
+    await fs.ensureDir(path.dirname(filepath));
+    await fs.writeFile(filepath, content);
+    return;
+  }
+
   const lastHash = fileHash.get(filepath);
   const currentHash = createHash('md5')
     .update(content)
