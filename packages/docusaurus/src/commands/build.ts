@@ -48,6 +48,7 @@ export async function build(
   siteDir: string,
   cliOptions: Partial<BuildCLIOptions> = {},
 ): Promise<void> {
+  process.env.BABEL_ENV = 'production';
   process.env.NODE_ENV = 'production';
   console.log(chalk.blue('Creating an optimized production build...'));
 
