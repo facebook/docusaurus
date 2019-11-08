@@ -30,11 +30,7 @@ describe('lastUpdate', () => {
 
   test('non-existing file', async () => {
     const consoleMock = jest.spyOn(console, 'error');
-    consoleMock.mockImplementationOnce(err => {
-      expect(err).toMatchInlineSnapshot(
-        `[Error: Command failed with exit code 128: git log -1 --format=%ct, %an /mnt/c/Users/endij/Desktop/Linux/Docusaurus/packages/docusaurus-plugin-content-docs/src/__tests__/__fixtures__/.nonExisting]`,
-      );
-    });
+    consoleMock.mockImplementation();
     const nonExistingFilePath = path.join(
       __dirname,
       '__fixtures__',
@@ -42,6 +38,11 @@ describe('lastUpdate', () => {
     );
     expect(await lastUpdate(nonExistingFilePath)).toBeNull();
     expect(consoleMock).toHaveBeenCalledTimes(1);
+    expect(consoleMock).toHaveBeenCalledWith(
+      new Error(
+        `Command failed with exit code 128: git log -1 --format=%ct, %an ${nonExistingFilePath}`,
+      ),
+    );
     expect(await lastUpdate(null)).toBeNull();
     expect(await lastUpdate(undefined)).toBeNull();
     consoleMock.mockRestore();
