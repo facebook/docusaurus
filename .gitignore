@@ -2,6 +2,7 @@
 .vscode
 .idea
 *.code-workspace
+.changelog
 
 node_modules
 

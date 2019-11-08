@@ -1,10 +1,14 @@
 # Docusaurus 2 Changelog
 
 ## Unreleased
-- More efficient hot reload & consistent generated file. 
-- Set babel `compact` options to `true` which removes "superfluous whitespace characters and line terminators.
-- Skip fileHash caching on production calculation to improve build performance. The runtime cache is only useful in development.
-- Obtain git timestamp for `showLastUpdateAuthor`/ `showLastUpdateTime` asynchronously instead of synchronously. This improves build performance greatly.  
+
+#### :running_woman: Performance
+* `docusaurus-plugin-content-docs`, `docusaurus-utils`, `docusaurus`
+  * [#1951](https://github.com/facebook/docusaurus/pull/1951) perf(v2): skip runtime fileHash cache in prod & get timestamp asynchronously ([@endiliey](https://github.com/endiliey))
+  * [#1950](https://github.com/facebook/docusaurus/pull/1950) perf(v2): more efficient hot reload & consistent filegen ([@endiliey](https://github.com/endiliey))
+
+#### Committers: 1
+- Endi ([@endiliey](https://github.com/endiliey))
 
 ## 2.0.0-alpha.33
 
