@@ -80,8 +80,8 @@ Object {
       "loader": "() => import(/* webpackChunkName: 'content---docs-helloaff-811' */ \\"docs/hello.md\\")",
       "modulePath": "docs/hello.md",
     },
-    "docsMetadata---docsf-34-2ab": Object {
-      "loader": "() => import(/* webpackChunkName: 'docsMetadata---docsf-34-2ab' */ \\"docs-b5f.json\\")",
+    "docsMetadata---docs-routef-34-881": Object {
+      "loader": "() => import(/* webpackChunkName: 'docsMetadata---docs-routef-34-881' */ \\"docs-b5f.json\\")",
       "modulePath": "docs-b5f.json",
     },
     "metadata---docs-foo-baz-2-cf-fa7": Object {
@@ -94,14 +94,14 @@ Object {
     },
   },
   "routesChunkNames": Object {
-    "/docs": Object {
-      "component": "component---theme-doc-page-1-be-9be",
-      "docsMetadata": "docsMetadata---docsf-34-2ab",
-    },
     "/docs/hello": Object {
       "component": "component---theme-doc-item-178-a40",
       "content": "content---docs-helloaff-811",
       "metadata": "metadata---docs-hello-956-741",
+    },
+    "/docs:route": Object {
+      "component": "component---theme-doc-page-1-be-9be",
+      "docsMetadata": "docsMetadata---docs-routef-34-881",
     },
     "docs/foo/baz": Object {
       "component": "component---theme-doc-item-178-a40",
@@ -116,8 +116,8 @@ import ComponentCreator from '@docusaurus/ComponentCreator';
 export default [
   
 {
-  path: '/docs',
-  component: ComponentCreator('/docs'),
+  path: '/docs:route',
+  component: ComponentCreator('/docs:route'),
   
   routes: [
 {

@@ -72,19 +72,19 @@ export async function loadPlugins({
         content: pluginsLoadedContent[index],
         actions,
       });
-
-      // Sort the route config. This ensures that route with nested routes is always placed last
-      pluginsRouteConfigs.sort((a, b) => {
-        if (a.routes && !b.routes) {
-          return 1;
-        } else if (!a.routes && b.routes) {
-          return -1;
-        } else {
-          return a.path > b.path ? 1 : b.path > a.path ? -1 : 0;
-        }
-      });
     }),
   );
+
+  // Sort the route config. This ensures that route with nested routes is always placed last
+  pluginsRouteConfigs.sort((a, b) => {
+    if (a.routes && !b.routes) {
+      return 1;
+    }
+    if (!a.routes && b.routes) {
+      return -1;
+    }
+    return a.path > b.path ? 1 : b.path > a.path ? -1 : 0;
+  });
 
   return {
     plugins,

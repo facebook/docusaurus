@@ -5,13 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {loadRoutes, RouteConfig} from '../routes';
+import {loadRoutes} from '../routes';
+import {RouteConfig} from '@docusaurus/types';
 
 describe('loadRoutes', () => {
   test('nested route config', async () => {
     const nestedRouteConfig: RouteConfig = {
       component: '@theme/DocPage',
-      path: '/docs',
+      path: '/docs:route',
       modules: {
         docsMetadata: 'docs-b5f.json',
       },
