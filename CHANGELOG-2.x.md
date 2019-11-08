@@ -1,6 +1,7 @@
 # Docusaurus 2 Changelog
 
 ## Unreleased
+- More efficient hot reload & consistent generated file. 
 
 ## 2.0.0-alpha.33
 
