@@ -18,9 +18,6 @@ import {posixPath} from '@docusaurus/utils';
 const createFakeActions = (routeConfigs: RouteConfig[], contentDir) => {
   return {
     addRoute: (config: RouteConfig) => {
-      config.routes.sort((a, b) =>
-        a.path > b.path ? 1 : b.path > a.path ? -1 : 0,
-      );
       routeConfigs.push(config);
     },
     createData: async (name, _content) => {

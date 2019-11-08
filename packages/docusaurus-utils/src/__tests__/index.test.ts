@@ -15,6 +15,7 @@ import {
   getSubFolder,
   normalizeUrl,
   posixPath,
+  objectWithKeySorted,
 } from '../index';
 
 describe('load utils', () => {
@@ -80,6 +81,41 @@ describe('load utils', () => {
     Object.keys(asserts).forEach(file => {
       expect(fileToPath(file)).toBe(asserts[file]);
     });
+  });
+
+  test('objectWithKeySorted', () => {
+    const obj = {
+      '/docs/adding-blog': '4',
+      '/docs/versioning': '5',
+      '/': '1',
+      '/blog/2018': '3',
+      '/youtube': '7',
+      '/users/en/': '6',
+      '/blog': '2',
+    };
+    expect(objectWithKeySorted(obj)).toMatchInlineSnapshot(`
+      Object {
+        "/": "1",
+        "/blog": "2",
+        "/blog/2018": "3",
+        "/docs/adding-blog": "4",
+        "/docs/versioning": "5",
+        "/users/en/": "6",
+        "/youtube": "7",
+      }
+    `);
+    const obj2 = {
+      b: 'foo',
+      c: 'bar',
+      a: 'baz',
+    };
+    expect(objectWithKeySorted(obj2)).toMatchInlineSnapshot(`
+      Object {
+        "a": "baz",
+        "b": "foo",
+        "c": "bar",
+      }
+    `);
   });
 
   test('genChunkName', () => {
