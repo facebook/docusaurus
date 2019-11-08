@@ -117,6 +117,7 @@ export default function pluginContentDocs(
 
       // Construct docsMetadata
       const docsMetadata: DocsMetadata = {};
+      const permalinkToSidebar: PermalinkToSidebar = {};
       Object.keys(docsMetadataRaw).forEach(currentID => {
         let previous;
         let next;
@@ -139,10 +140,9 @@ export default function pluginContentDocs(
           previous,
           next,
         };
-      });
 
-      const permalinkToSidebar: PermalinkToSidebar = {};
-      Object.values(docsMetadataRaw).forEach(({source, permalink, sidebar}) => {
+        // sourceToPermalink and permalinkToSidebar mapping
+        const {source, permalink, sidebar} = docsMetadataRaw[currentID];
         sourceToPermalink[source] = permalink;
         if (sidebar) {
           permalinkToSidebar[permalink] = sidebar;
@@ -240,7 +240,7 @@ export default function pluginContentDocs(
       };
 
       const docsBaseRoute = normalizeUrl([
-        (context.siteConfig as DocusaurusConfig).baseUrl,
+        context.baseUrl,
         routeBasePath,
         ':route',
       ]);
