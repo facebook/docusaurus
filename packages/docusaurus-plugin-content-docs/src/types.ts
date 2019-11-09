@@ -132,3 +132,13 @@ export type DocsBaseMetadata = Pick<
   LoadedContent,
   'docsSidebars' | 'permalinkToSidebar'
 >;
+
+export type VersioningEnv = {
+  enabled: boolean;
+  latestVersion?: string;
+  versions?: string[];
+};
+
+export type Env = {
+  versioning: VersioningEnv;
+};

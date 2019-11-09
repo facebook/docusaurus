@@ -9,11 +9,11 @@ import fs from 'fs-extra';
 import path from 'path';
 import linkify from '../linkify';
 import {SourceToPermalink} from '../../types';
-import {VERSIONED_DOCS_DIR_NAME} from '../../constants';
+import {VERSIONED_DOCS_DIR} from '../../constants';
 
 const siteDir = path.join(__dirname, '__fixtures__');
 const docsDir = path.join(siteDir, 'docs');
-const versionedDir = path.join(siteDir, VERSIONED_DOCS_DIR_NAME);
+const versionedDir = path.join(siteDir, VERSIONED_DOCS_DIR);
 const sourceToPermalink: SourceToPermalink = {
   '@site/docs/doc1.md': '/docs/doc1',
   '@site/docs/doc2.md': '/docs/doc2',

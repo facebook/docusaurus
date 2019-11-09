@@ -5,20 +5,17 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import _ from 'lodash';
 import globby from 'globby';
 import fs from 'fs-extra';
 import path from 'path';
-import {
-  idx,
-  normalizeUrl,
-  docuHash,
-  objectWithKeySorted,
-} from '@docusaurus/utils';
+import {normalizeUrl, docuHash, objectWithKeySorted} from '@docusaurus/utils';
 import {LoadContext, Plugin} from '@docusaurus/types';
 
 import createOrder from './order';
 import loadSidebars from './sidebars';
 import processMetadata from './metadata';
+import loadEnv from './env';
 
 import {
   PluginOptions,
@@ -37,10 +34,7 @@ import {
   MetadataRaw,
 } from './types';
 import {Configuration} from 'webpack';
-import {
-  VERSIONED_DOCS_DIR_NAME,
-  VERSIONED_SIDEBARS_DIR_NAME,
-} from './constants';
+import {VERSIONED_DOCS_DIR, VERSIONED_SIDEBARS_DIR} from './constants';
 
 const DEFAULT_OPTIONS: PluginOptions = {
   path: 'docs', // Path to data on filesystem, relative to site dir.
@@ -60,32 +54,39 @@ export default function pluginContentDocs(
   opts: Partial<PluginOptions>,
 ): Plugin<LoadedContent | null> {
   const options = {...DEFAULT_OPTIONS, ...opts};
-  const contentPath = path.resolve(context.siteDir, options.path);
-  let sourceToPermalink: SourceToPermalink = {};
+  const {siteDir, generatedFilesDir, baseUrl} = context;
+  const docsDir = path.resolve(siteDir, options.path);
+  const sourceToPermalink: SourceToPermalink = {};
   const dataDir = path.join(
-    context.generatedFilesDir,
+    generatedFilesDir,
     'docusaurus-plugin-content-docs',
   );
 
-  // TODO: loadEnvironment. Whether got versioning or not
-  const versioningEnabled = false;
-  const versionedDir = path.join(context.siteDir, VERSIONED_DOCS_DIR_NAME);
-  const versionedSidebarsDir = path.join(
-    context.siteDir,
-    VERSIONED_SIDEBARS_DIR_NAME,
-  );
+  // Versioning
+  const env = loadEnv(siteDir);
+  const versioningEnabled = env.versioning.enabled;
+  const versions = env.versioning.versions ?? [];
+  const versionedDir = path.join(siteDir, VERSIONED_DOCS_DIR);
+  const versionedSidebarsDir = path.join(siteDir, VERSIONED_SIDEBARS_DIR);
 
   return {
     name: 'docusaurus-plugin-content-docs',
 
     getPathsToWatch() {
       const {include = []} = options;
-      let globPattern = include.map(pattern => `${contentPath}/${pattern}`);
+      let globPattern = include.map(pattern => `${docsDir}/${pattern}`);
       if (versioningEnabled) {
-        const versionedGlob = include.map(
-          pattern => `${versionedDir}/${pattern}`,
+        const docsGlob = _.flatten(
+          include.map(pattern =>
+            versions.map(
+              version => `${versionedDir}/version-${version}/${pattern}`,
+            ),
+          ),
         );
-        globPattern = [...globPattern, versionedSidebarsDir, ...versionedGlob];
+        const sidebarsGlob = versions.map(
+          version => `${versionedSidebarsDir}/version-${version}-sidebars.json`,
+        );
+        globPattern = [...globPattern, ...sidebarsGlob, ...docsGlob];
       }
       return [...globPattern, options.sidebarPath];
     },
@@ -100,8 +101,6 @@ export default function pluginContentDocs(
         showLastUpdateAuthor,
         showLastUpdateTime,
       } = options;
-      const {siteConfig, siteDir} = context;
-      const docsDir = contentPath;
 
       if (!fs.existsSync(docsDir)) {
         return null;
@@ -117,19 +116,22 @@ export default function pluginContentDocs(
         [id: string]: MetadataRaw;
       } = {};
 
-      // Metadata for default docs files.
+      // Metadata for default/ master docs files.
       const docsFiles = await globby(include, {
         cwd: docsDir,
       });
       await Promise.all(
         docsFiles.map(async source => {
+          /* TODO: do we need to do this ????
+        Do not allow reserved version/ translated folder name in 'docs'
+        e.g: 'docs/version-1.0.0/' should not be allowed as it can cause unwanted bug
+      */
           const metadata: MetadataRaw = await processMetadata({
             source,
             refDir: docsDir,
             order,
-            siteConfig,
+            context,
             docsBasePath: routeBasePath,
-            siteDir,
             editUrl,
             showLastUpdateAuthor,
             showLastUpdateTime,
@@ -138,24 +140,26 @@ export default function pluginContentDocs(
         }),
       );
 
+      // TODO: Metadata for versioned docs
+
       // Construct docsMetadata
       const docsMetadata: DocsMetadata = {};
       const permalinkToSidebar: PermalinkToSidebar = {};
       Object.keys(docsMetadataRaw).forEach(currentID => {
         let previous;
         let next;
-        const previousID = idx(docsMetadataRaw, [currentID, 'previous']);
+        const previousID = docsMetadataRaw[currentID].previous;
         if (previousID) {
           previous = {
-            title: idx(docsMetadataRaw, [previousID, 'title']) || 'Previous',
-            permalink: idx(docsMetadataRaw, [previousID, 'permalink']),
+            title: docsMetadataRaw[previousID]?.title ?? 'Previous',
+            permalink: docsMetadataRaw[previousID]?.permalink,
           };
         }
-        const nextID = idx(docsMetadataRaw, [currentID, 'next']);
+        const nextID = docsMetadataRaw[currentID].next;
         if (nextID) {
           next = {
-            title: idx(docsMetadataRaw, [nextID, 'title']) || 'Next',
-            permalink: idx(docsMetadataRaw, [nextID, 'permalink']),
+            title: docsMetadataRaw[nextID]?.title ?? 'Next',
+            permalink: docsMetadataRaw[nextID]?.permalink,
           };
         }
         docsMetadata[currentID] = {
@@ -262,11 +266,7 @@ export default function pluginContentDocs(
         permalinkToSidebar: content.permalinkToSidebar,
       };
 
-      const docsBaseRoute = normalizeUrl([
-        context.baseUrl,
-        routeBasePath,
-        ':route',
-      ]);
+      const docsBaseRoute = normalizeUrl([baseUrl, routeBasePath, ':route']);
       const docsBaseMetadataPath = await createData(
         `${docuHash(docsBaseRoute)}.json`,
         JSON.stringify(docsBaseMetadata, null, 2),
@@ -297,7 +297,7 @@ export default function pluginContentDocs(
           rules: [
             {
               test: /(\.mdx?)$/,
-              include: [contentPath],
+              include: [docsDir],
               use: [
                 getCacheLoader(isServer),
                 getBabelLoader(isServer),
@@ -311,8 +311,8 @@ export default function pluginContentDocs(
                 {
                   loader: path.resolve(__dirname, './markdown/index.js'),
                   options: {
-                    siteDir: context.siteDir,
-                    docsDir: contentPath,
+                    siteDir,
+                    docsDir,
                     sourceToPermalink: sourceToPermalink,
                     versionedDir,
                   },

@@ -190,6 +190,10 @@ describe('versioned website', () => {
     expect(matchPattern).toMatchInlineSnapshot(`
       Array [
         "docs/**/*.{md,mdx}",
+        "versioned_sidebars/version-1.0.1-sidebars.json",
+        "versioned_sidebars/version-1.0.0-sidebars.json",
+        "versioned_docs/version-1.0.1/**/*.{md,mdx}",
+        "versioned_docs/version-1.0.0/**/*.{md,mdx}",
         "sidebars.json",
       ]
     `);
@@ -206,6 +210,18 @@ describe('versioned website', () => {
     expect(
       isMatch('versioned_sidebars/version-1.0.0-sidebars.json', matchPattern),
     ).toEqual(true);
+
+    // Non existing version
+    expect(
+      isMatch('versioned_docs/version-2.0.0/foo/bar.md', matchPattern),
+    ).toEqual(false);
+    expect(
+      isMatch('versioned_docs/version-2.0.0/hello.md', matchPattern),
+    ).toEqual(false);
+    expect(
+      isMatch('versioned_sidebars/version-2.0.0-sidebars.json', matchPattern),
+    ).toEqual(false);
+
     expect(isMatch('docs/hello.js', matchPattern)).toEqual(false);
     expect(isMatch('docs/super.mdl', matchPattern)).toEqual(false);
     expect(isMatch('docs/mdx', matchPattern)).toEqual(false);

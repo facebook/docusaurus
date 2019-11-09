@@ -5,6 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-export const VERSIONED_DOCS_DIR_NAME = 'versioned_docs';
-export const VERSIONED_SIDEBARS_DIR_NAME = 'versioned_sidebars';
-export const VERSION_FILE = 'versions.json';
+export const VERSIONED_DOCS_DIR = 'versioned_docs';
+export const VERSIONED_SIDEBARS_DIR = 'versioned_sidebars';
+export const VERSIONS_JSON_FILE = 'versions.json';

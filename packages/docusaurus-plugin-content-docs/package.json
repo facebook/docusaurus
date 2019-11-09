@@ -22,6 +22,7 @@
     "globby": "^10.0.1",
     "import-fresh": "^3.1.0",
     "loader-utils": "^1.2.3",
+    "lodash": "^4.17.15",
     "shelljs": "^0.8.3"
   },
   "peerDependencies": {

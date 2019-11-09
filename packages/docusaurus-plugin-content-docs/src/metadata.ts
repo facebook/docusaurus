@@ -8,7 +8,7 @@
 import fs from 'fs-extra';
 import path from 'path';
 import {parse, normalizeUrl, posixPath} from '@docusaurus/utils';
-import {DocusaurusConfig} from '@docusaurus/types';
+import {DocusaurusConfig, LoadContext} from '@docusaurus/types';
 
 import lastUpdate from './lastUpdate';
 import {Order, MetadataRaw} from './types';
@@ -17,9 +17,8 @@ type Args = {
   source: string;
   refDir: string;
   order: Order;
-  siteConfig: Partial<DocusaurusConfig>;
+  context: LoadContext;
   docsBasePath: string;
-  siteDir: string;
   editUrl?: string;
   showLastUpdateAuthor?: boolean;
   showLastUpdateTime?: boolean;
@@ -29,13 +28,13 @@ export default async function processMetadata({
   source,
   refDir,
   order,
-  siteConfig,
+  context,
   docsBasePath,
-  siteDir,
   editUrl,
   showLastUpdateAuthor,
   showLastUpdateTime,
 }: Args): Promise<MetadataRaw> {
+  const {siteDir, baseUrl} = context;
   const filePath = path.join(refDir, source);
 
   const fileString = await fs.readFile(filePath, 'utf-8');
@@ -70,9 +69,6 @@ export default async function processMetadata({
   // Cannot use path.join() as it resolves '../' and removes the '@site'. Let webpack loader resolve it.
   const aliasedPath = `@site/${path.relative(siteDir, filePath)}`;
   metadata.source = aliasedPath;
-
-  // Build the permalink.
-  const {baseUrl} = siteConfig;
 
   // If user has own custom permalink defined in frontmatter
   // e.g: :baseUrl:docsUrl/:langPart/:versionPart/endiliey/:id

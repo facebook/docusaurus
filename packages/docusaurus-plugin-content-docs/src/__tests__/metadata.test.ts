@@ -6,16 +6,13 @@
  */
 
 import path from 'path';
+import {loadContext} from '@docusaurus/core/src/server/index';
 import processMetadata from '../metadata';
 
 describe('processMetadata', () => {
   const fixtureDir = path.join(__dirname, '__fixtures__');
   const simpleSiteDir = path.join(fixtureDir, 'simple-site');
-  const siteConfig = {
-    title: 'Hello',
-    baseUrl: '/',
-    url: 'https://docusaurus.io',
-  };
+  const context = loadContext(simpleSiteDir);
   const pluginPath = 'docs';
   const docsDir = path.resolve(simpleSiteDir, pluginPath);
 
@@ -28,17 +25,15 @@ describe('processMetadata', () => {
         source: sourceA,
         refDir: docsDir,
         order: {},
-        siteConfig,
+        context,
         docsBasePath: pluginPath,
-        siteDir: simpleSiteDir,
       }),
       processMetadata({
         source: sourceB,
         refDir: docsDir,
         order: {},
-        siteConfig,
+        context,
         docsBasePath: pluginPath,
-        siteDir: simpleSiteDir,
       }),
     ]);
 
@@ -64,9 +59,8 @@ describe('processMetadata', () => {
       source,
       refDir: docsDir,
       order: {},
-      siteConfig,
+      context,
       docsBasePath: pluginPath,
-      siteDir: simpleSiteDir,
     });
 
     expect(data).toEqual({
@@ -86,9 +80,8 @@ describe('processMetadata', () => {
       source,
       refDir: docsDir,
       order: {},
-      siteConfig,
+      context,
       docsBasePath: pluginPath,
-      siteDir: simpleSiteDir,
       editUrl,
     });
 
@@ -109,9 +102,8 @@ describe('processMetadata', () => {
       source,
       refDir: docsDir,
       order: {},
-      siteConfig,
+      context,
       docsBasePath: pluginPath,
-      siteDir: simpleSiteDir,
     });
 
     expect(data).toEqual({
@@ -130,9 +122,8 @@ describe('processMetadata', () => {
       source,
       refDir: docsDir,
       order: {},
-      siteConfig,
+      context,
       docsBasePath: pluginPath,
-      siteDir: simpleSiteDir,
       showLastUpdateAuthor: true,
       showLastUpdateTime: true,
     });
@@ -156,9 +147,8 @@ describe('processMetadata', () => {
       source: 'invalid-id.md',
       refDir: path.join(badSiteDir, 'docs'),
       order: {},
-      siteConfig,
+      context,
       docsBasePath: 'docs',
-      siteDir: simpleSiteDir,
     }).catch(e =>
       expect(e).toMatchInlineSnapshot(
         `[Error: Document id cannot include "/".]`,
