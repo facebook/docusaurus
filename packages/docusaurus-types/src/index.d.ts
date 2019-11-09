@@ -25,13 +25,15 @@ export interface DocusaurusConfig {
     | {
         src: string;
         [key: string]: any;
-      })[];
+      }
+  )[];
   stylesheets?: (
     | string
     | {
         href: string;
         [key: string]: any;
-      })[];
+      }
+  )[];
 }
 
 export interface DocusaurusContext {

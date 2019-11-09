@@ -69,7 +69,7 @@ function Navbar() {
 
   const logoUrl = useBaseUrl(logo.src);
   return (
-    <React.Fragment>
+    <>
       <Head>
         {/* TODO: Do not assume that it is in english language */}
         <html lang="en" data-theme={theme} />
@@ -187,7 +187,7 @@ function Navbar() {
           </div>
         </div>
       </nav>
-    </React.Fragment>
+    </>
   );
 }
 

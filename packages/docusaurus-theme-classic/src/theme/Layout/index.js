@@ -37,7 +37,7 @@ function Layout(props) {
   const metaImageUrl = siteUrl + useBaseUrl(metaImage);
   const faviconUrl = useBaseUrl(favicon);
   return (
-    <React.Fragment>
+    <>
       <Head>
         <meta charSet="utf-8" />
         <meta httpEquiv="x-ua-compatible" content="ie=edge" />
@@ -63,7 +63,7 @@ function Layout(props) {
       <Navbar />
       <main className="main">{children}</main>
       {!noFooter && <Footer />}
-    </React.Fragment>
+    </>
   );
 }
 

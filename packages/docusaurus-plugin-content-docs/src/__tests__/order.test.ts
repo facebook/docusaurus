@@ -30,7 +30,10 @@ describe('createOrder', () => {
         {
           type: 'category',
           label: 'Category2',
-          items: [{type: 'doc', id: 'doc3'}, {type: 'doc', id: 'doc4'}],
+          items: [
+            {type: 'doc', id: 'doc3'},
+            {type: 'doc', id: 'doc4'},
+          ],
         },
       ],
       otherDocs: [
@@ -75,12 +78,18 @@ describe('createOrder', () => {
         {
           type: 'category',
           label: 'Category1',
-          items: [{type: 'doc', id: 'doc1'}, {type: 'doc', id: 'doc2'}],
+          items: [
+            {type: 'doc', id: 'doc1'},
+            {type: 'doc', id: 'doc2'},
+          ],
         },
         {
           type: 'category',
           label: 'Category2',
-          items: [{type: 'doc', id: 'doc3'}, {type: 'doc', id: 'doc4'}],
+          items: [
+            {type: 'doc', id: 'doc3'},
+            {type: 'doc', id: 'doc4'},
+          ],
         },
       ],
       otherDocs: [
@@ -188,7 +197,10 @@ describe('createOrder', () => {
         {
           type: 'category',
           label: 'Category2',
-          items: [{type: 'doc', id: 'doc3'}, {type: 'ref', id: 'doc4'}],
+          items: [
+            {type: 'doc', id: 'doc3'},
+            {type: 'ref', id: 'doc4'},
+          ],
         },
       ],
       otherDocs: [
@@ -225,7 +237,10 @@ describe('createOrder', () => {
           {
             type: 'category',
             label: 'Category1',
-            items: [{type: 'endi', id: 'doc1'}, {type: 'doc', id: 'doc2'}],
+            items: [
+              {type: 'endi', id: 'doc1'},
+              {type: 'doc', id: 'doc2'},
+            ],
           },
         ],
         otherDocs: [

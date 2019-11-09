@@ -17,7 +17,7 @@ function Layout(props) {
   const {children, title, description} = props;
   const faviconUrl = useBaseUrl(favicon);
   return (
-    <React.Fragment>
+    <>
       <Head defaultTitle={`${defaultTitle} · ${tagline}`}>
         {title && <title>{`${title} · ${tagline}`}</title>}
         {favicon && <link rel="shortcut icon" href={faviconUrl} />}
@@ -27,7 +27,7 @@ function Layout(props) {
         )}
       </Head>
       {children}
-    </React.Fragment>
+    </>
   );
 }
 
