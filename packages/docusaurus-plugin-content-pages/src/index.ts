@@ -6,7 +6,7 @@
  */
 
 import globby from 'globby';
-import fs from 'fs-extra';
+import fs from 'fs';
 import path from 'path';
 import {encodePath, fileToPath} from '@docusaurus/utils';
 import {LoadContext, Plugin} from '@docusaurus/types';
@@ -40,8 +40,7 @@ export default function pluginContentPages(
       const {siteConfig, siteDir} = context;
       const pagesDir = contentPath;
 
-      const dirExist = await fs.pathExists(pagesDir);
-      if (!dirExist) {
+      if (!fs.existsSync(pagesDir)) {
         return null;
       }
 

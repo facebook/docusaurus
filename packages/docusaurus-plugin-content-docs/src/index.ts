@@ -85,8 +85,7 @@ export default function pluginContentDocs(
       const {siteConfig, siteDir} = context;
       const docsDir = contentPath;
 
-      const dirExist = await fs.pathExists(docsDir);
-      if (!dirExist) {
+      if (!fs.existsSync(docsDir)) {
         return null;
       }
 
