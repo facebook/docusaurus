@@ -8,7 +8,7 @@
 import fs from 'fs-extra';
 import path from 'path';
 import {parse, normalizeUrl, posixPath} from '@docusaurus/utils';
-import {DocusaurusConfig, LoadContext} from '@docusaurus/types';
+import {LoadContext} from '@docusaurus/types';
 
 import lastUpdate from './lastUpdate';
 import {Order, MetadataRaw} from './types';
