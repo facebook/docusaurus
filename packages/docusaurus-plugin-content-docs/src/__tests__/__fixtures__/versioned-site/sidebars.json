@@ -1,8 +1,7 @@
 {
   "docs": {
     "Test": [
-      "foo/bar",
-      "foo/baz"
+      "foo/bar"
     ],
     "Guides": [
       "hello"
