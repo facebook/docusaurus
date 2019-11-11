@@ -64,7 +64,7 @@ function DocItem(props) {
   const metaImageUrl = siteUrl + useBaseUrl(metaImage);
 
   return (
-    <div>
+    <>
       <Head>
         {title && <title>{title}</title>}
         {description && <meta name="description" content={description} />}
@@ -168,7 +168,7 @@ function DocItem(props) {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
