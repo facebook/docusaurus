@@ -26,7 +26,7 @@ class ChunkManifestPlugin {
     const {path: outputPath, publicPath} = compiler.options.output;
 
     // Build the chunk mapping
-    compiler.hooks.afterCompile.tap(pluginName, compilation => {
+    compiler.hooks.afterCompile.tapAsync(pluginName, (compilation, done) => {
       const assets = {};
       const assetsMap = {};
       // eslint-disable-next-line
@@ -50,8 +50,11 @@ class ChunkManifestPlugin {
       chunkManifest = assetsMap;
       if (!this.options.inlineManifest) {
         const finalPath = path.resolve(outputPath, this.options.filename);
-        fs.ensureDirSync(path.dirname(finalPath));
-        fs.writeFileSync(finalPath, JSON.stringify(chunkManifest, null, 2));
+        fs.ensureDir(path.dirname(finalPath), () => {
+          fs.writeFile(finalPath, JSON.stringify(chunkManifest, null, 2), done);
+        });
+      } else {
+        done();
       }
     });
 

@@ -84,7 +84,8 @@ export async function generateBlogPosts(
 ) {
   const {include, routeBasePath} = options;
 
-  if (!fs.existsSync(blogDir)) {
+  const dirExist = await fs.pathExists(blogDir);
+  if (!dirExist) {
     return null;
   }
 

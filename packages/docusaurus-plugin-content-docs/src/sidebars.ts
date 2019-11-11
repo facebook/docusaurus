@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs';
 import importFresh from 'import-fresh';
 import {
   SidebarItemCategory,
@@ -105,7 +104,7 @@ function normalizeSidebar(sidebars: SidebarRaw): Sidebar {
 export default function loadSidebars(sidebarPath: string): Sidebar {
   // We don't want sidebars to be cached because of hotreloading.
   let allSidebars: SidebarRaw = {};
-  if (sidebarPath && fs.existsSync(sidebarPath)) {
+  if (sidebarPath) {
     allSidebars = importFresh(sidebarPath) as SidebarRaw;
   }
   return normalizeSidebar(allSidebars);
