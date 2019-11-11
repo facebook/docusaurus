@@ -35,7 +35,7 @@ All of your documentation files should be placed inside the `docs` directory as 
 
 To create a fully functional site, you only need to do a few steps:
 
-1.  Add your documentation to the `/docs` directory as `.md` files, ensuring you have the proper [header](api-doc-markdown.md#documents) in each file. The simplest header would be the following, where `id` is the link name (e.g., `docs/intro.html`) and the `title` is the webpage's title.
+1.  Add your documentation to the `/docs` directory as `.md` files, ensuring you have the proper [header](api-doc-markdown.md#documents) in each file. One example header would be the following, where `id` is the link name (e.g., `docs/intro.html`) and the `title` is the webpage's title.
 
     ```yaml
     ---
@@ -46,7 +46,7 @@ To create a fully functional site, you only need to do a few steps:
     My new content here..
     ```
 
-1.  Add zero or more docs to the [`sidebars.json`](guides-navigation.md#adding-docs-to-a-sidebar) file so that your documentation is rendered in a sidebar if you choose them to be.
+2.  Add zero or more docs to the [`sidebars.json`](guides-navigation.md#adding-docs-to-a-sidebar) file so that your documentation is rendered in a sidebar if you choose them to be.
 
 > If you do not add your documentation to the `sidebars.json` file, the docs will be rendered, but they can only be linked to from other documentation and visited with the known URL.
 

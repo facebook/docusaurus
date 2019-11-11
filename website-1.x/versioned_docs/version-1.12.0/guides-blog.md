@@ -95,7 +95,7 @@ blogSidebarTitle: { default: 'Recent posts', all: 'All blog posts' },
 
 ## RSS Feed
 
-Docusaurus provides a simple RSS feed for your blog posts. Both RSS and Atom feed formats are supported. This data is automatically added to your website page's HTML `<HEAD>` tag.
+Docusaurus provides an RSS feed for your blog posts. Both RSS and Atom feed formats are supported. This data is automatically added to your website page's HTML `<HEAD>` tag.
 
 A summary of the post's text is provided in the RSS feed up to the `<!--truncate-->`. If no `<!--truncate-->` tag is found, then all text up to 250 characters is used.
 
@@ -112,9 +112,9 @@ You can run your Docusaurus site without a landing page and instead have your bl
 To do this:
 
 1.  Create a file `index.html` in `website/static/`.
-1.  Place the contents of the template below into `website/static/index.html`
-1.  Customize the `<title>` of `website/static/index.html`
-1.  Delete the dynamic landing page `website/pages/en/index.js`
+2.  Place the contents of the template below into `website/static/index.html`
+3.  Customize the `<title>` of `website/static/index.html`
+4.  Delete the dynamic landing page `website/pages/en/index.js`
 
 > Now, when Docusaurus generates or builds your site, it will copy the file from `static/index.html` and place it in the site's main directory. The static file is served when a visitor arrives on your page. When the page loads, it will redirect the visitor to `/blog`.
 

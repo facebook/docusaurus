@@ -6,7 +6,7 @@ keywords:
   - search
 ---
 
-Docusaurus's own `@docusaurus/preset-classic` supports easy search integration.
+Docusaurus's own `@docusaurus/preset-classic` supports a search integration.
 
 There are two main options, you can use [Algolia DocSearch](https://community.algolia.com/docsearch/) or bring in your own `SearchBar` component.
 

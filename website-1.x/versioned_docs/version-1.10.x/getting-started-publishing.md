@@ -188,7 +188,7 @@ Now, whenever a new commit lands in `master`, CircleCI will run your suite of te
 
 When initially deploying to a `gh-pages` branch using CircleCI, you may notice that some jobs triggered by commits to the `gh-pages` branch fail to run successfully due to a lack of tests (This can also result in chat/slack build failure notifications).
 
-You can work around this easily by:
+You can work around this by:
 - Setting the environment variable `CUSTOM_COMMIT_MESSAGE` flag to the `publish-gh-pages` command with the contents of `[skip ci]`.
 e.g.
 ```bash
@@ -215,10 +215,10 @@ Save this file as `config.yml` and place it in a `.circleci` directory inside yo
 ### Using Travis CI
 
 1.  Go to https://github.com/settings/tokens and generate a new [personal access token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/)
-1.  Using your GitHub account, [add the Travis CI app](https://github.com/marketplace/travis-ci) to the repository you want to activate.
-1.  Open your Travis CI dashboard. The URL looks like https://travis-ci.com/USERNAME/REPO, and navigate to the `More options` > `Setting` > `Environment Variables` section of your repository.
-1.  Create a new environment variable named `GH_TOKEN` with your newly generated token as its value, then `GH_EMAIL` (your email address) and `GH_NAME` (your GitHub username).
-1.  Create a `.travis.yml` on the root of your repository with below text.
+2.  Using your GitHub account, [add the Travis CI app](https://github.com/marketplace/travis-ci) to the repository you want to activate.
+3.  Open your Travis CI dashboard. The URL looks like https://travis-ci.com/USERNAME/REPO, and navigate to the `More options` > `Setting` > `Environment Variables` section of your repository.
+4.  Create a new environment variable named `GH_TOKEN` with your newly generated token as its value, then `GH_EMAIL` (your email address) and `GH_NAME` (your GitHub username).
+5.  Create a `.travis.yml` on the root of your repository with below text.
 
 ```yaml
 # .travis.yml
@@ -241,21 +241,21 @@ Now, whenever a new commit lands in `master`, Travis CI will run your suite of t
 
 ### Hosting on ZEIT Now
 
-With [ZEIT Now](#using-zeit-now), you can deploy your site easily and connect it to [GitHub](https://zeit.co/github) or [GitLab](https://zeit.co/gitlab) to automatically receive a new deployment every time you push a commit.
+With [ZEIT Now](#using-zeit-now), you can deploy your site and connect it to [GitHub](https://zeit.co/github) or [GitLab](https://zeit.co/gitlab) to automatically receive a new deployment every time you push a commit.
 
 ### Hosting on Netlify
 
 Steps to configure your Docusaurus-powered site on Netlify.
 
 1.  Select **New site from Git**
-1.  Connect to your preferred Git provider.
-1.  Select the branch to deploy. Default is `master`
-1.  Configure your build steps:
+2.  Connect to your preferred Git provider.
+3.  Select the branch to deploy. Default is `master`
+4.  Configure your build steps:
 
     * For your build command enter: `cd website; npm install; npm run build;`
     * For publish directory: `website/build/<projectName>` (use the `projectName` from your `siteConfig`)
 
-1.  Click **Deploy site**
+5.  Click **Deploy site**
 
 You can also configure Netlify to rebuild on every commit to your repository, or only `master` branch commits.
 

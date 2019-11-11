@@ -4,7 +4,7 @@ title: Themes
 sidebar_label: Introduction
 ---
 
-Like plugins, themes are designed to add functionality to your Docusaurus site. As a good rule of thumb, themes are mostly focused on client-side, where plugins are more focused on server-side functionalities. Themes are also designed to be easily replace-able with other themes.
+Like plugins, themes are designed to add functionality to your Docusaurus site. As a good rule of thumb, themes are mostly focused on client-side, where plugins are more focused on server-side functionalities. Themes are also designed to be replace-able with other themes.
 
 ## Using themes
 
@@ -31,8 +31,8 @@ import Navbar from '@theme/Navbar';
 The alias `@theme` can refer to a few directories, in the following priority:
 
 1. A user's `website/src/theme` directory, which is a special directory that has the higher precedence.
-1. A Docusaurus theme packages's `theme` directory.
-1. Fallback components provided by Docusaurus core (usually not needed).
+2. A Docusaurus theme packages's `theme` directory.
+3. Fallback components provided by Docusaurus core (usually not needed).
 
 Given the following structure
 
@@ -75,7 +75,7 @@ The content plugin remains the same and the only thing you need to change is the
 
 ## Swizzling theme components
 
-Docusaurus Themes' components are designed to be easily replaceable. To make it easier for you, we created a command for you to replace theme components called `swizzle`.
+Docusaurus Themes' components are designed to be replaceable. To make it easier for you, we created a command for you to replace theme components called `swizzle`.
 
 To swizzle a component for a theme, run the following command in your doc site:
 

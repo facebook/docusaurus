@@ -69,7 +69,7 @@
 
 ### Features
 
-- Add `<Redirect>` component for easy client side redirect. Example Usage:
+- Add `<Redirect>` component for client side redirect. Example Usage:
 ```js
 import React from 'react';
 import {Redirect} from '@docusaurus/router';

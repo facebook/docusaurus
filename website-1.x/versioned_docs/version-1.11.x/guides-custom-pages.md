@@ -14,7 +14,7 @@ You can [start](getting-started-preparation.md#verifying-installation) your loca
 
 ## Adding Other Custom Pages
 
-Docusaurus provides some simple example pages in the `website/pages/en` directory, including `index.js`, `users.js`, and `help.js`. These are good examples to showcase how to create a custom page for Docusaurus.
+Docusaurus provides some helpful example pages in the `website/pages/en` directory, including `index.js`, `users.js`, and `help.js`. These are good examples to showcase how to create a custom page for Docusaurus.
 
 ```bash
 root-directory
@@ -34,7 +34,7 @@ root-directory
     └── static
 ```
 
-Of course, you are also free to write your own pages. It is strongly suggested that you at least have an index page, but none of the pages provided are mandatory to include in your site. More information on how to use the provided components or include your own can be found [here](api-pages.md). Information on how to link to your different pages in the header navigation bar can be found [here](guides-navigation.md).
+You are also free to write your own pages. It is strongly suggested that you at least have an index page, but none of the pages provided are mandatory to include in your site. More information on how to use the provided components or include your own can be found [here](api-pages.md). Information on how to link to your different pages in the header navigation bar can be found [here](guides-navigation.md).
 
 > If you want your page to show up in your navigation header, you will need to update `siteConfig.js` to add to the `headerLinks` element. e.g., `{ page: 'about-slash', label: 'About/' }`,
 

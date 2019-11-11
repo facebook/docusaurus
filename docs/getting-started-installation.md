@@ -8,13 +8,13 @@ Docusaurus was designed from the ground up to be easily installed and used to ge
 
 ## Installing Docusaurus
 
-We have created an easy script that will get all of the infrastructure set up for you:
+We have created a helpful script that will get all of the infrastructure set up for you:
 
 1.  Ensure you have the latest version of [Node](https://nodejs.org/en/download/) installed. We also recommend you install [Yarn](https://yarnpkg.com/en/docs/install) as well.
 
     > You have to be on Node >= 8.x and Yarn >= 1.5.
 
-1.  Create a project, if none exists, and change your directory to this project's root.
+2.  Create a project, if none exists, and change your directory to this project's root.
 
     You will be creating the docs in this directory. The root directory may
     contain other files. The Docusaurus installation script will create two new
@@ -22,7 +22,7 @@ We have created an easy script that will get all of the infrastructure set up fo
 
     > Commonly, either an existing or newly created GitHub project will be the location for your Docusaurus site, but that is not mandatory to use Docusaurus.
 
-1.  Run the Docusaurus installation script: `npx docusaurus-init`.
+3.  Run the Docusaurus installation script: `npx docusaurus-init`.
 
     > If you don't have Node 8.2+ or if you prefer to install Docusaurus globally, run `yarn global add docusaurus-init` or `npm install --global docusaurus-init`. After that, run `docusaurus-init`.
 
