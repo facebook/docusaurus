@@ -18,19 +18,19 @@ class WaitPlugin {
     // Before finishing the compilation step
     compiler.hooks.make.tapAsync('WaitPlugin', (compilation, callback) => {
       // To prevent 'waitFile' error on waiting non-existing directory
-      fs.ensureDirSync(path.dirname(this.filepath));
-
-      // Wait until file exist
-      waitFile({
-        resources: [this.filepath],
-        interval: 300,
-      })
-        .then(() => {
-          callback();
+      fs.ensureDir(path.dirname(this.filepath), () => {
+        // Wait until file exist
+        waitFile({
+          resources: [this.filepath],
+          interval: 300,
         })
-        .catch(error => {
-          console.warn(`WaitPlugin error: ${error}`);
-        });
+          .then(() => {
+            callback();
+          })
+          .catch(error => {
+            console.warn(`WaitPlugin error: ${error}`);
+          });
+      });
     });
   }
 }

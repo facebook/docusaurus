@@ -52,7 +52,7 @@ function Navbar() {
   const [theme, setTheme] = useTheme();
   const {siteConfig = {}} = context;
   const {baseUrl, themeConfig = {}} = siteConfig;
-  const {navbar = {}} = themeConfig;
+  const {navbar = {}, disableDarkMode = false} = themeConfig;
   const {title, logo = {}, links = []} = navbar;
 
   const showSidebar = useCallback(() => {
@@ -127,16 +127,18 @@ function Navbar() {
               .map((linkItem, i) => (
                 <NavLink {...linkItem} key={i} />
               ))}
-            <Toggle
-              className={styles.displayOnlyInLargeViewport}
-              aria-label="Dark mode toggle"
-              checked={theme === 'dark'}
-              onChange={onToggleChange}
-              icons={{
-                checked: <Moon />,
-                unchecked: <Sun />,
-              }}
-            />
+            {!disableDarkMode && (
+              <Toggle
+                className={styles.displayOnlyInLargeViewport}
+                aria-label="Dark mode toggle"
+                checked={theme === 'dark'}
+                onChange={onToggleChange}
+                icons={{
+                  checked: <Moon />,
+                  unchecked: <Sun />,
+                }}
+              />
+            )}
             <SearchBar
               handleSearchBarToggle={setIsSearchBarExpanded}
               isSearchBarExpanded={isSearchBarExpanded}
@@ -158,7 +160,7 @@ function Navbar() {
               )}
               {title != null && <strong>{title}</strong>}
             </Link>
-            {sidebarShown && (
+            {!disableDarkMode && sidebarShown && (
               <Toggle
                 aria-label="Dark mode toggle in sidebar"
                 checked={theme === 'dark'}

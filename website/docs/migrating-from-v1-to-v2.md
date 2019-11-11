@@ -37,8 +37,8 @@ Meanwhile, the default doc site functionalities provided by Docusaurus 1 are now
 {
   dependencies: {
 -    "docusaurus": "^1.x.x",
-+    "@docusaurus/core": "^2.0.0-alpha.33",
-+    "@docusaurus/preset-classic": "^2.0.0-alpha.33",
++    "@docusaurus/core": "^2.0.0-alpha.34",
++    "@docusaurus/preset-classic": "^2.0.0-alpha.34",
   }
 }
 ```
@@ -72,8 +72,8 @@ A typical Docusaurus 2 `package.json` may look like this:
     "deploy": "docusaurus deploy"
   },
   "dependencies": {
-    "@docusaurus/core": "^2.0.0-alpha.33",
-    "@docusaurus/preset-classic": "^2.0.0-alpha.33",
+    "@docusaurus/core": "^2.0.0-alpha.34",
+    "@docusaurus/preset-classic": "^2.0.0-alpha.34",
     "classnames": "^2.2.6",
     "react": "^16.10.2",
     "react-dom": "^16.10.2"
@@ -274,6 +274,8 @@ Deprecated. Create a `CNAME` file in your `static` folder instead with your cust
 
 #### `customDocsPath`, `docsUrl`, `editUrl`, `enableUpdateBy`, `enableUpdateTime`
 
+**BREAKING**: `editUrl` should point to (website) docusaurus project instead of `docs` directory. 
+
 Deprecated. Pass it as an option to `@docusaurus/preset-classic` docs instead:
 
 ```jsx {9-22}
@@ -287,9 +289,9 @@ module.exports = {
         docs: {
           // Equivalent to `customDocsPath`.
           path: 'docs',
-          // Equivalent to `editUrl`. But instead of pointing to docs dir, it should be website dir.
+          // Equivalent to `editUrl` but should point to `website` dir instead of `website/docs`
           editUrl:
-            'https://github.com/facebook/docusaurus/edit/master/website/',
+            'https://github.com/facebook/docusaurus/edit/master/website',
           // Equivalent to `docsUrl`.
           routeBasePath: 'docs',
           // Remark and Rehype plugins passed to MDX. Replaces `markdownOptions` and `markdownPlugins`.

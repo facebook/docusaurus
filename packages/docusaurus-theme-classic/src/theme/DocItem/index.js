@@ -19,9 +19,18 @@ const LINK_CLASS_NAME = 'contents__link';
 const ACTIVE_LINK_CLASS_NAME = 'contents__link--active';
 const TOP_OFFSET = 100;
 
-function Headings({headings, isChild}) {
+function DocTOC({headings}) {
   useTOCHighlight(LINK_CLASS_NAME, ACTIVE_LINK_CLASS_NAME, TOP_OFFSET);
+  return (
+    <div className="col col--3">
+      <div className={styles.tableOfContents}>
+        <Headings headings={headings} />
+      </div>
+    </div>
+  );
+}
 
+function Headings({headings, isChild}) {
   if (!headings.length) return null;
   return (
     <ul className={isChild ? '' : 'contents contents__left-border'}>
@@ -55,7 +64,7 @@ function DocItem(props) {
   const metaImageUrl = siteUrl + useBaseUrl(metaImage);
 
   return (
-    <div>
+    <>
       <Head>
         {title && <title>{title}</title>}
         {description && <meta name="description" content={description} />}
@@ -155,17 +164,11 @@ function DocItem(props) {
                 </div>
               </div>
             </div>
-            {DocContent.rightToc && (
-              <div className="col col--3">
-                <div className={styles.tableOfContents}>
-                  <Headings headings={DocContent.rightToc} />
-                </div>
-              </div>
-            )}
+            {DocContent.rightToc && <DocTOC headings={DocContent.rightToc} />}
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
