@@ -262,7 +262,7 @@ These are two separate class names so you can have the active styles applied to 
 
 ## Secondary On-Page Navigation
 
-We support secondary on-page navigation so you can more easily see the topics associated with a given document. To enable this feature, you need to add the `onPageNav` site configuration [option](api-site-config.md#optional-fields) to your `siteConfig.js`.
+We support secondary on-page navigation so you can quickly see the topics associated with a given document. To enable this feature, you need to add the `onPageNav` site configuration [option](api-site-config.md#optional-fields) to your `siteConfig.js`.
 
 ```js
 {

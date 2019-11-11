@@ -36,7 +36,7 @@ All of your documentation files should be placed inside the `docs` directory as 
 
 To create a fully functional site, you only need to do a few steps:
 
-1.  Add your documentation to the `/docs` directory as `.md` files, ensuring you have the proper [header](api-doc-markdown.md#documents) in each file. The simplest header would be the following, where `id` is the link name (e.g., `docs/intro.html`) and the `title` is the webpage's title.
+1.  Add your documentation to the `/docs` directory as `.md` files, ensuring you have the proper [header](api-doc-markdown.md#documents) in each file. One example header would be the following, where `id` is the link name (e.g., `docs/intro.html`) and the `title` is the webpage's title.
 
     ```yaml
     ---

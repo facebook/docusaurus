@@ -183,7 +183,7 @@ In order to accept your pull request, we need you to submit a CLA. You only need
 
 ### What happens next?
 
-The core Docusaurus team will be monitoring for pull requests. Do help us by making your pull request easy to review by following the guidelines above.
+The core Docusaurus team will be monitoring for pull requests. Do help us by keeping pull requests consistent by following the guidelines above.
 
 ## License
 
