@@ -52,4 +52,10 @@ describe('loadSidebars', () => {
     const result = loadSidebars(null);
     expect(result).toEqual({});
   });
+
+  test('fake sidebars path', () => {
+    expect(() => {
+      loadSidebars('/fake/path');
+    }).toThrowError();
+  });
 });
