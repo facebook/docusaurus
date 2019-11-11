@@ -221,10 +221,10 @@ Save this file as `config.yml` and place it in a `.circleci` directory inside yo
 ### Using Travis CI
 
 1.  Go to https://github.com/settings/tokens and generate a new [personal access token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/)
-2.  Using your GitHub account, [add the Travis CI app](https://github.com/marketplace/travis-ci) to the repository you want to activate.
-3.  Open your Travis CI dashboard. The URL looks like https://travis-ci.com/USERNAME/REPO, and navigate to the `More options` > `Setting` > `Environment Variables` section of your repository.
-4.  Create a new environment variable named `GH_TOKEN` with your newly generated token as its value, then `GH_EMAIL` (your email address) and `GH_NAME` (your GitHub username).
-5.  Create a `.travis.yml` on the root of your repository with below text.
+1.  Using your GitHub account, [add the Travis CI app](https://github.com/marketplace/travis-ci) to the repository you want to activate.
+1.  Open your Travis CI dashboard. The URL looks like https://travis-ci.com/USERNAME/REPO, and navigate to the `More options` > `Setting` > `Environment Variables` section of your repository.
+1.  Create a new environment variable named `GH_TOKEN` with your newly generated token as its value, then `GH_EMAIL` (your email address) and `GH_NAME` (your GitHub username).
+1.  Create a `.travis.yml` on the root of your repository with below text.
 
 ```yaml
 # .travis.yml
@@ -254,14 +254,14 @@ With [ZEIT Now](#using-zeit-now), you can deploy your site and connect it to [Gi
 Steps to configure your Docusaurus-powered site on Netlify.
 
 1.  Select **New site from Git**
-2.  Connect to your preferred Git provider.
-3.  Select the branch to deploy. Default is `master`
-4.  Configure your build steps:
+1.  Connect to your preferred Git provider.
+1.  Select the branch to deploy. Default is `master`
+1.  Configure your build steps:
 
     * For your build command enter: `cd website; npm install; npm run build;`
     * For publish directory: `website/build/<projectName>` (use the `projectName` from your `siteConfig`)
 
-5.  Click **Deploy site**
+1.  Click **Deploy site**
 
 You can also configure Netlify to rebuild on every commit to your repository, or only `master` branch commits.
 

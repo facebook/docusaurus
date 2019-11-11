@@ -47,7 +47,7 @@ To create a fully functional site, you only need to do a few steps:
     My new content here..
     ```
 
-2.  Add zero or more docs to the [`sidebars.json`](guides-navigation.md#adding-docs-to-a-sidebar) file so that your documentation is rendered in a sidebar, if you choose them to be.
+1.  Add zero or more docs to the [`sidebars.json`](guides-navigation.md#adding-docs-to-a-sidebar) file so that your documentation is rendered in a sidebar, if you choose them to be.
 
 > If you do not add your documentation to the `sidebars.json` file, the docs will be rendered, but they can only be linked to from other documentation and visited with the known URL.
 
