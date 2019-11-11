@@ -5,6 +5,12 @@ title: Classic Theme Configuration
 
 _This section is a work in progress._
 
+## Common
+
+### Dark mode
+
+To remove the ability to switch on dark mode, there is an option `themeConfig.disableDarkMode`, which is implicitly set to `false`.
+
 ## Navbar
 
 ### Navbar Title & Logo
