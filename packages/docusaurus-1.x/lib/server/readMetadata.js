@@ -375,9 +375,7 @@ function generateMetadataBlog(config = siteConfig) {
       // Extract, YYYY, MM, DD from the file name
       const filePathDateArr = path.basename(file).split('-');
       metadata.date = new Date(
-        `${filePathDateArr[0]}-${filePathDateArr[1]}-${
-          filePathDateArr[2]
-        }T06:00:00.000Z`,
+        `${filePathDateArr[0]}-${filePathDateArr[1]}-${filePathDateArr[2]}T06:00:00.000Z`,
       );
       // allow easier sorting of blog by providing seconds since epoch
       metadata.seconds = Math.round(metadata.date.getTime() / 1000);

@@ -32,9 +32,9 @@ describe('loadBlog', () => {
     );
     const {blogPosts} = await plugin.loadContent();
     const noDateSource = path.join('@site', pluginPath, 'no date.md');
-    const noDateSourceBirthTime = (await fs.stat(
-      noDateSource.replace('@site', siteDir),
-    )).birthtime;
+    const noDateSourceBirthTime = (
+      await fs.stat(noDateSource.replace('@site', siteDir))
+    ).birthtime;
     const noDatePermalink = `/blog/${noDateSourceBirthTime
       .toISOString()
       .substr(0, '2019-01-01'.length)

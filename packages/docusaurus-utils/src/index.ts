@@ -90,10 +90,7 @@ export function genComponentName(pagePath: string): string {
     return 'index';
   }
   const pageHash = docuHash(pagePath);
-  const pascalCase = _.flow(
-    _.camelCase,
-    _.upperFirst,
-  );
+  const pascalCase = _.flow(_.camelCase, _.upperFirst);
   return pascalCase(pageHash);
 }
 

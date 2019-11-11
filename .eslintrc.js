@@ -57,6 +57,7 @@ module.exports = {
     'react/prop-types': OFF,
     'react/destructuring-assignment': OFF, // Too many lines.
     'react/prefer-stateless-function': WARNING,
+    'react/jsx-props-no-spreading': OFF,
     'react-hooks/rules-of-hooks': ERROR,
   },
 };

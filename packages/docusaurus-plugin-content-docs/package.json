@@ -11,7 +11,8 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@docusaurus/types": "^2.0.0-alpha.33"
+    "@docusaurus/types": "^2.0.0-alpha.33",
+    "picomatch": "^2.1.0"
   },
   "dependencies": {
     "@docusaurus/mdx-loader": "^2.0.0-alpha.33",

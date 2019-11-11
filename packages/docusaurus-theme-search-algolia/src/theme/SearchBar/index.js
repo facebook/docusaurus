@@ -61,6 +61,7 @@ const Search = props => {
   return isEnabled ? (
     <div className="navbar__search" key="search-box">
       <span
+        aria-label="expand searchbar"
         role="button"
         className={classnames('search-icon', {
           'search-icon-hidden': props.isSearchBarExpanded,

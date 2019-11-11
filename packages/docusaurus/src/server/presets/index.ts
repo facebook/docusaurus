@@ -21,8 +21,8 @@ export function loadPresets(
   themes: PluginConfig[];
 } {
   const presets: PresetConfig[] = (context.siteConfig || {}).presets || [];
-  const unflatPlugins: (PluginConfig[])[] = [];
-  const unflatThemes: (PluginConfig[])[] = [];
+  const unflatPlugins: PluginConfig[][] = [];
+  const unflatThemes: PluginConfig[][] = [];
 
   presets.forEach(presetItem => {
     let presetModuleImport;
