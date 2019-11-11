@@ -80,7 +80,7 @@ describe('processMetadata', () => {
 
   test('docs with editUrl', async () => {
     const editUrl =
-      'https://github.com/facebook/docusaurus/edit/master/website/docs/';
+      'https://github.com/facebook/docusaurus/edit/master/website';
     const source = path.join('foo', 'baz.md');
     const data = await processMetadata({
       source,

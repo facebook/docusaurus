@@ -33,7 +33,7 @@ module.exports = {
           path: 'docs',
           sidebarPath: require.resolve('./sidebars.js'),
           editUrl:
-            'https://github.com/facebook/docusaurus/edit/master/website/docs/',
+            'https://github.com/facebook/docusaurus/edit/master/website/',
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
         },
