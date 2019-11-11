@@ -84,7 +84,12 @@ export interface Order {
   [id: string]: OrderMetadata;
 }
 
-export interface MetadataRaw extends OrderMetadata {
+export interface LastUpdateData {
+  lastUpdatedAt?: number;
+  lastUpdatedBy?: string;
+}
+
+export interface MetadataRaw extends OrderMetadata, LastUpdateData {
   id: string;
   title: string;
   description: string;
@@ -92,10 +97,7 @@ export interface MetadataRaw extends OrderMetadata {
   permalink: string;
   sidebar_label?: string;
   editUrl?: string;
-  lastUpdatedAt?: number;
-  lastUpdatedBy?: string;
   hide_title?: boolean;
-  [key: string]: any;
 }
 
 export interface Paginator {

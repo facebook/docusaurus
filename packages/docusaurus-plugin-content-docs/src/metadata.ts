@@ -11,7 +11,7 @@ import {parse, normalizeUrl, posixPath} from '@docusaurus/utils';
 import {LoadContext} from '@docusaurus/types';
 
 import lastUpdate from './lastUpdate';
-import {Order, MetadataRaw} from './types';
+import {Order, MetadataRaw, LastUpdateData} from './types';
 
 type Args = {
   source: string;
@@ -23,6 +23,32 @@ type Args = {
   showLastUpdateAuthor?: boolean;
   showLastUpdateTime?: boolean;
 };
+
+async function getLastUpdated(
+  filePath: string,
+  showLastUpdateAuthor?: boolean,
+  showLastUpdateTime?: boolean,
+): Promise<LastUpdateData> {
+  if (showLastUpdateAuthor || showLastUpdateTime) {
+    // Use fake data in dev for faster development
+    const fileLastUpdateData =
+      process.env.NODE_ENV === 'production'
+        ? await lastUpdate(filePath)
+        : {
+            author: 'Author',
+            timestamp: 1539502055,
+          };
+
+    if (fileLastUpdateData) {
+      const {author, timestamp} = fileLastUpdateData;
+      return {
+        lastUpdatedAt: showLastUpdateTime ? timestamp : undefined,
+        lastUpdatedBy: showLastUpdateAuthor ? author : undefined,
+      };
+    }
+  }
+  return {};
+}
 
 export default async function processMetadata({
   source,
@@ -38,96 +64,74 @@ export default async function processMetadata({
   const filePath = path.join(refDir, source);
 
   const fileString = await fs.readFile(filePath, 'utf-8');
-  const {frontMatter: metadata = {}, excerpt} = parse(fileString);
+  const {frontMatter = {}, excerpt} = parse(fileString);
 
   // Default id is the file name.
-  if (!metadata.id) {
-    metadata.id = path.basename(source, path.extname(source));
-  }
-
-  if (metadata.id.includes('/')) {
+  const baseID: string =
+    frontMatter.id || path.basename(source, path.extname(source));
+  if (baseID.includes('/')) {
     throw new Error('Document id cannot include "/".');
   }
 
   // Default title is the id.
-  if (!metadata.title) {
-    metadata.title = metadata.id;
-  }
+  const title: string = frontMatter.title || baseID;
 
-  if (!metadata.description) {
-    metadata.description = excerpt;
-  }
+  const description: string = frontMatter.description || excerpt;
 
+  let id = baseID;
   const dirName = path.dirname(source);
   if (dirName !== '.') {
     const prefix = dirName;
     if (prefix) {
-      metadata.id = `${prefix}/${metadata.id}`;
+      id = `${prefix}/${baseID}`;
     }
   }
+
+  const {
+    sidebar_label,
+    hide_title,
+    custom_edit_url,
+    permalink: customPermalink,
+  } = frontMatter;
 
   // Cannot use path.join() as it resolves '../' and removes the '@site'. Let webpack loader resolve it.
   const aliasedPath = `@site/${path.relative(siteDir, filePath)}`;
-  metadata.source = aliasedPath;
 
+  // TODO: this has never been a feature in v1 or documented in v2. I think we can remove it.
   // If user has own custom permalink defined in frontmatter
   // e.g: :baseUrl:docsUrl/:langPart/:versionPart/endiliey/:id
-  if (metadata.permalink) {
-    metadata.permalink = path.resolve(
-      metadata.permalink
+  const permalink = customPermalink
+    ? customPermalink
         .replace(/:baseUrl/, baseUrl)
         .replace(/:docsUrl/, docsBasePath)
-        .replace(/:id/, metadata.id),
-    );
-  } else {
-    metadata.permalink = normalizeUrl([baseUrl, docsBasePath, metadata.id]);
-  }
+        .replace(/:id/, id)
+    : normalizeUrl([baseUrl, docsBasePath, id]);
 
-  // Determine order.
-  const {id} = metadata;
-  if (order[id]) {
-    metadata.sidebar = order[id].sidebar;
-    if (order[id].next) {
-      metadata.next = order[id].next;
-    }
-    if (order[id].previous) {
-      metadata.previous = order[id].previous;
-    }
-  }
+  const docsEditUrl = editUrl
+    ? normalizeUrl([editUrl, posixPath(path.relative(siteDir, filePath))])
+    : undefined;
 
-  if (editUrl) {
-    metadata.editUrl = normalizeUrl([
-      editUrl,
-      posixPath(path.relative(siteDir, filePath)),
-    ]);
-  }
+  const lastUpdateData = await getLastUpdated(
+    filePath,
+    showLastUpdateAuthor,
+    showLastUpdateTime,
+  );
 
-  if (metadata.custom_edit_url) {
-    metadata.editUrl = metadata.custom_edit_url;
-    delete metadata.custom_edit_url;
-  }
+  // Assign all of object properties during instantiation (if possible) for NodeJS optimization
+  // Adding properties to object after instantiation will cause hidden class transitions.
 
-  if (showLastUpdateAuthor || showLastUpdateTime) {
-    // Use fake data in dev for faster development
-    const fileLastUpdateData =
-      process.env.NODE_ENV === 'production'
-        ? await lastUpdate(filePath)
-        : {
-            author: 'Author',
-            timestamp: '1539502055',
-          };
+  const metadata: MetadataRaw = {
+    id,
+    title,
+    description,
+    source: aliasedPath,
+    permalink,
+    sidebar_label,
+    hide_title,
+    editUrl: custom_edit_url || docsEditUrl,
+    ...order[id],
+    ...lastUpdateData,
+  };
 
-    if (fileLastUpdateData) {
-      const {author, timestamp} = fileLastUpdateData;
-      if (showLastUpdateAuthor && author) {
-        metadata.lastUpdatedBy = author;
-      }
-
-      if (showLastUpdateTime && timestamp) {
-        metadata.lastUpdatedAt = timestamp;
-      }
-    }
-  }
-
-  return metadata as MetadataRaw;
+  return metadata;
 }

@@ -135,7 +135,7 @@ describe('processMetadata', () => {
       title: 'lorem',
       editUrl: 'https://github.com/customUrl/docs/lorem.md',
       description: 'Lorem ipsum.',
-      lastUpdatedAt: '1539502055',
+      lastUpdatedAt: 1539502055,
       lastUpdatedBy: 'Author',
     });
   });
