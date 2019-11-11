@@ -1,14 +1,41 @@
 # Docusaurus 2 Changelog
 
-## Unreleased
+## 2.0.0-alpha.34
+
+#### :rocket: New Feature
+* `docusaurus-theme-classic`
+  * [#1956](https://github.com/facebook/docusaurus/pull/1956) feat(v2): add ability hide dark mode toggle ([@lex111](https://github.com/lex111))
+
+#### :boom: Breaking Change
+* `docusaurus-plugin-content-docs`
+  * [#1958](https://github.com/facebook/docusaurus/pull/1958) breaking(v2): editUrl should point to website instead of docsDir ([@endiliey](https://github.com/endiliey))
+
+#### :bug: Bug Fix
+* `docusaurus-theme-classic`
+  * [#1959](https://github.com/facebook/docusaurus/pull/1959) fix(v2): useTOC hooks should not be called in each nested children ([@endiliey](https://github.com/endiliey))
+
+#### :nail_care: Polish
+* `docusaurus-plugin-content-docs`, `docusaurus`
+  * [#1957](https://github.com/facebook/docusaurus/pull/1957) refactor(v2): avoid synchronous/ blocking operation when possible ([@endiliey](https://github.com/endiliey))
+
+#### :memo: Documentation
+* [#1953](https://github.com/facebook/docusaurus/pull/1953) fix(v2): update Infima website URL ([@yangshun](https://github.com/yangshun))
+
+#### :house: Internal
+* `docusaurus-1.x`, `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-theme-classic`, `docusaurus-theme-search-algolia`, `docusaurus-types`, `docusaurus-utils`, `docusaurus`
+  * [#1955](https://github.com/facebook/docusaurus/pull/1955) chore: bump dev dependencies ([@endiliey](https://github.com/endiliey))
+* Other
+  * [#1952](https://github.com/facebook/docusaurus/pull/1952) chore(v2): add lerna-changelog ([@endiliey](https://github.com/endiliey))
 
 #### :running_woman: Performance
 * `docusaurus-plugin-content-docs`, `docusaurus-utils`, `docusaurus`
   * [#1951](https://github.com/facebook/docusaurus/pull/1951) perf(v2): skip runtime fileHash cache in prod & get timestamp asynchronously ([@endiliey](https://github.com/endiliey))
   * [#1950](https://github.com/facebook/docusaurus/pull/1950) perf(v2): more efficient hot reload & consistent filegen ([@endiliey](https://github.com/endiliey))
 
-#### Committers: 1
+#### Committers: 3
+- Alexey Pyltsyn ([@lex111](https://github.com/lex111))
 - Endi ([@endiliey](https://github.com/endiliey))
+- Yangshun Tay ([@yangshun](https://github.com/yangshun))
 
 ## 2.0.0-alpha.33
 
