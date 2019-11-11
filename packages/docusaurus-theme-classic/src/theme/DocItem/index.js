@@ -19,7 +19,7 @@ const LINK_CLASS_NAME = 'contents__link';
 const ACTIVE_LINK_CLASS_NAME = 'contents__link--active';
 const TOP_OFFSET = 100;
 
-function RightTOC({headings}) {
+function DocTOC({headings}) {
   useTOCHighlight(LINK_CLASS_NAME, ACTIVE_LINK_CLASS_NAME, TOP_OFFSET);
   return (
     <div className="col col--3">
@@ -164,7 +164,7 @@ function DocItem(props) {
                 </div>
               </div>
             </div>
-            {DocContent.rightToc && <RightTOC headings={DocContent.rightToc} />}
+            {DocContent.rightToc && <DocTOC headings={DocContent.rightToc} />}
           </div>
         </div>
       </div>
