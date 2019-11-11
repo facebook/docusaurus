@@ -7,7 +7,7 @@
 
 import fs from 'fs-extra';
 import path from 'path';
-import {parse, normalizeUrl} from '@docusaurus/utils';
+import {parse, normalizeUrl, posixPath} from '@docusaurus/utils';
 import {DocusaurusConfig} from '@docusaurus/types';
 
 import lastUpdate from './lastUpdate';
@@ -100,7 +100,10 @@ export default async function processMetadata({
   }
 
   if (editUrl) {
-    metadata.editUrl = normalizeUrl([editUrl, source]);
+    metadata.editUrl = normalizeUrl([
+      editUrl,
+      posixPath(path.relative(siteDir, filePath)),
+    ]);
   }
 
   if (metadata.custom_edit_url) {
