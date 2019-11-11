@@ -97,15 +97,7 @@ export default async function processMetadata({
   // Cannot use path.join() as it resolves '../' and removes the '@site'. Let webpack loader resolve it.
   const aliasedPath = `@site/${path.relative(siteDir, filePath)}`;
 
-  // TODO: this has never been a feature in v1 or documented in v2. I think we can remove it.
-  // If user has own custom permalink defined in frontmatter
-  // e.g: :baseUrl:docsUrl/:langPart/:versionPart/endiliey/:id
-  const permalink = customPermalink
-    ? customPermalink
-        .replace(/:baseUrl/, baseUrl)
-        .replace(/:docsUrl/, docsBasePath)
-        .replace(/:id/, id)
-    : normalizeUrl([baseUrl, docsBasePath, id]);
+  const permalink = normalizeUrl([baseUrl, docsBasePath, id]);
 
   const docsEditUrl = editUrl
     ? normalizeUrl([editUrl, posixPath(path.relative(siteDir, filePath))])

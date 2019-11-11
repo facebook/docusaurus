@@ -53,25 +53,6 @@ describe('processMetadata', () => {
     });
   });
 
-  test('docs with custom permalink', async () => {
-    const source = path.join('permalink.md');
-    const data = await processMetadata({
-      source,
-      refDir: docsDir,
-      order: {},
-      context,
-      docsBasePath: pluginPath,
-    });
-
-    expect(data).toEqual({
-      id: 'permalink',
-      permalink: '/docs/endiliey/permalink',
-      source: path.join('@site', pluginPath, source),
-      title: 'Permalink',
-      description: 'This has a different permalink',
-    });
-  });
-
   test('docs with editUrl', async () => {
     const editUrl =
       'https://github.com/facebook/docusaurus/edit/master/website';

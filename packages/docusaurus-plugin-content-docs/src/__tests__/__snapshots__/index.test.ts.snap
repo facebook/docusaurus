@@ -63,15 +63,6 @@ Array [
         "component": "@theme/DocItem",
         "exact": true,
         "modules": Object {
-          "content": "@site/docs/permalink.md",
-          "metadata": "@docusaurus-plugin-content-docs/docs-endiliey-permalink-086.json",
-        },
-        "path": "/docs/endiliey/permalink",
-      },
-      Object {
-        "component": "@theme/DocItem",
-        "exact": true,
-        "modules": Object {
           "content": "@site/docs/foo/bar.md",
           "metadata": "@docusaurus-plugin-content-docs/docs-foo-bar-cef.json",
         },
