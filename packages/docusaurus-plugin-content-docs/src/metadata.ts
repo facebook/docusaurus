@@ -11,23 +11,20 @@ import {parse, normalizeUrl, posixPath} from '@docusaurus/utils';
 import {LoadContext} from '@docusaurus/types';
 
 import lastUpdate from './lastUpdate';
-import {MetadataRaw, LastUpdateData} from './types';
+import {MetadataRaw, LastUpdateData, MetadataOptions} from './types';
 
 type Args = {
   source: string;
   refDir: string;
   context: LoadContext;
-  docsBasePath: string;
-  editUrl?: string;
-  showLastUpdateAuthor?: boolean;
-  showLastUpdateTime?: boolean;
+  options: MetadataOptions;
 };
 
-async function getLastUpdated(
+async function lastUpdated(
   filePath: string,
-  showLastUpdateAuthor?: boolean,
-  showLastUpdateTime?: boolean,
+  options: MetadataOptions,
 ): Promise<LastUpdateData> {
+  const {showLastUpdateAuthor, showLastUpdateTime} = options;
   if (showLastUpdateAuthor || showLastUpdateTime) {
     // Use fake data in dev for faster development
     const fileLastUpdateData =
@@ -53,11 +50,9 @@ export default async function processMetadata({
   source,
   refDir,
   context,
-  docsBasePath,
-  editUrl,
-  showLastUpdateAuthor,
-  showLastUpdateTime,
+  options,
 }: Args): Promise<MetadataRaw> {
+  const {routeBasePath, editUrl} = options;
   const {siteDir, baseUrl} = context;
   const filePath = path.join(refDir, source);
 
@@ -92,17 +87,13 @@ export default async function processMetadata({
   // Cannot use path.join() as it resolves '../' and removes the '@site'. Let webpack loader resolve it.
   const aliasedPath = `@site/${relativePath}`;
 
-  const permalink = normalizeUrl([baseUrl, docsBasePath, id]);
+  const permalink = normalizeUrl([baseUrl, routeBasePath, id]);
 
   const docsEditUrl = editUrl
     ? normalizeUrl([editUrl, posixPath(relativePath)])
     : undefined;
 
-  const {lastUpdatedAt, lastUpdatedBy} = await getLastUpdated(
-    filePath,
-    showLastUpdateAuthor,
-    showLastUpdateTime,
-  );
+  const {lastUpdatedAt, lastUpdatedBy} = await lastUpdated(filePath, options);
 
   // Assign all of object properties during instantiation (if possible) for NodeJS optimization
   // Adding properties to object after instantiation will cause hidden class transitions.

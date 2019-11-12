@@ -5,18 +5,21 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-export interface PluginOptions {
-  path: string;
+export interface MetadataOptions {
   routeBasePath: string;
+  editUrl?: string;
+  showLastUpdateTime?: boolean;
+  showLastUpdateAuthor?: boolean;
+}
+
+export interface PluginOptions extends MetadataOptions {
+  path: string;
   include: string[];
   sidebarPath: string;
   docLayoutComponent: string;
   docItemComponent: string;
   remarkPlugins: string[];
   rehypePlugins: string[];
-  editUrl?: string;
-  showLastUpdateTime?: boolean;
-  showLastUpdateAuthor?: boolean;
 }
 
 export type SidebarItemDoc = {

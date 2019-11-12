@@ -182,9 +182,7 @@ describe('versioned website', () => {
   const siteDir = path.join(__dirname, '__fixtures__', 'versioned-site');
   const context = loadContext(siteDir);
   const sidebarPath = path.join(siteDir, 'sidebars.json');
-  const pluginPath = 'docs';
   const plugin = pluginContentDocs(context, {
-    path: pluginPath,
     sidebarPath,
   });
   const pluginContentDir = path.join(context.generatedFilesDir, plugin.name);
@@ -195,7 +193,6 @@ describe('versioned website', () => {
       posixPath(path.relative(siteDir, filepath)),
     );
     expect(matchPattern).not.toEqual([]);
-    /* TODO */
     expect(matchPattern).toMatchInlineSnapshot(`
       Array [
         "docs/**/*.{md,mdx}",

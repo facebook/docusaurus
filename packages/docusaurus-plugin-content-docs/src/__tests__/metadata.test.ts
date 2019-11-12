@@ -19,19 +19,22 @@ describe('processMetadata', () => {
   test('normal docs', async () => {
     const sourceA = path.join('foo', 'bar.md');
     const sourceB = path.join('hello.md');
+    const options = {
+      routeBasePath: pluginPath,
+    };
 
     const [dataA, dataB] = await Promise.all([
       processMetadata({
         source: sourceA,
         refDir: docsDir,
         context,
-        docsBasePath: pluginPath,
+        options,
       }),
       processMetadata({
         source: sourceB,
         refDir: docsDir,
         context,
-        docsBasePath: pluginPath,
+        options,
       }),
     ]);
 
@@ -55,12 +58,16 @@ describe('processMetadata', () => {
     const editUrl =
       'https://github.com/facebook/docusaurus/edit/master/website';
     const source = path.join('foo', 'baz.md');
+    const options = {
+      routeBasePath: pluginPath,
+      editUrl,
+    };
+
     const data = await processMetadata({
       source,
       refDir: docsDir,
       context,
-      docsBasePath: pluginPath,
-      editUrl,
+      options,
     });
 
     expect(data).toEqual({
@@ -76,11 +83,15 @@ describe('processMetadata', () => {
 
   test('docs with custom editUrl', async () => {
     const source = 'lorem.md';
+    const options = {
+      routeBasePath: pluginPath,
+    };
+
     const data = await processMetadata({
       source,
       refDir: docsDir,
       context,
-      docsBasePath: pluginPath,
+      options,
     });
 
     expect(data).toEqual({
@@ -95,13 +106,18 @@ describe('processMetadata', () => {
 
   test('docs with last update time and author', async () => {
     const source = 'lorem.md';
+    const options = {
+      routeBasePath: pluginPath,
+
+      showLastUpdateAuthor: true,
+      showLastUpdateTime: true,
+    };
+
     const data = await processMetadata({
       source,
       refDir: docsDir,
       context,
-      docsBasePath: pluginPath,
-      showLastUpdateAuthor: true,
-      showLastUpdateTime: true,
+      options,
     });
 
     expect(data).toEqual({
@@ -118,12 +134,15 @@ describe('processMetadata', () => {
 
   test('docs with invalid id', async () => {
     const badSiteDir = path.join(fixtureDir, 'bad-site');
+    const options = {
+      routeBasePath: 'docs',
+    };
 
     return processMetadata({
       source: 'invalid-id.md',
       refDir: path.join(badSiteDir, 'docs'),
       context,
-      docsBasePath: 'docs',
+      options,
     }).catch(e =>
       expect(e).toMatchInlineSnapshot(
         `[Error: Document id cannot include "/".]`,

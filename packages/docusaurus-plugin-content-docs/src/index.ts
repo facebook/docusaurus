@@ -95,14 +95,7 @@ export default function pluginContentDocs(
 
     // Fetches blog contents and returns metadata for the contents.
     async loadContent() {
-      const {
-        include,
-        routeBasePath,
-        sidebarPath,
-        editUrl,
-        showLastUpdateAuthor,
-        showLastUpdateTime,
-      } = options;
+      const {include, sidebarPath} = options;
 
       if (!fs.existsSync(docsDir)) {
         return null;
@@ -137,10 +130,7 @@ export default function pluginContentDocs(
               source,
               refDir: docsDir,
               context,
-              docsBasePath: routeBasePath,
-              editUrl,
-              showLastUpdateAuthor,
-              showLastUpdateTime,
+              options,
             });
             docsMetadataRaw[metadata.id] = metadata;
           }),
