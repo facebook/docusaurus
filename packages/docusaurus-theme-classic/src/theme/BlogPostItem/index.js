@@ -45,7 +45,12 @@ function BlogPostItem(props) {
     return (
       <header>
         <h1 className={classnames('margin-bottom--sm', styles.blogPostTitle)}>
-          <Link to={permalink}>{title}</Link>
+          {/* eslint-disable no-restricted-globals */}
+          {location.pathname !== permalink ? (
+            <Link to={permalink}>{title}</Link>
+          ) : (
+            title
+          )}
         </h1>
         <div className="margin-bottom--sm">
           <small>
