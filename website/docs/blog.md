@@ -114,13 +114,13 @@ Accessing the feed:
 
 The feed for RSS can be found at
 
-```url
+```text
 https://{your-domain}/blog/rss.xml
 ```
 
 and for atom
 
-```url
+```text
 https://{your-domain}/blog/atom.xml
 ```
 
