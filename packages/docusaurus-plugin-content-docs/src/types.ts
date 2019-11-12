@@ -101,6 +101,7 @@ export interface MetadataRaw extends LastUpdateData {
   sidebar_label?: string;
   editUrl?: string;
   hide_title?: boolean;
+  version?: string;
 }
 
 export interface Paginator {
@@ -151,6 +152,7 @@ export type VersioningEnv = {
   sidebarsDir: string;
 };
 
-export type Env = {
+export interface Env {
   versioning: VersioningEnv;
-};
+  // TODO: translation
+}

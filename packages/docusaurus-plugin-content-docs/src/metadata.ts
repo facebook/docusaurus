@@ -11,13 +11,14 @@ import {parse, normalizeUrl, posixPath} from '@docusaurus/utils';
 import {LoadContext} from '@docusaurus/types';
 
 import lastUpdate from './lastUpdate';
-import {MetadataRaw, LastUpdateData, MetadataOptions} from './types';
+import {MetadataRaw, LastUpdateData, MetadataOptions, Env} from './types';
 
 type Args = {
   source: string;
   refDir: string;
   context: LoadContext;
   options: MetadataOptions;
+  env: Env;
 };
 
 async function lastUpdated(
@@ -51,9 +52,11 @@ export default async function processMetadata({
   refDir,
   context,
   options,
+  env,
 }: Args): Promise<MetadataRaw> {
   const {routeBasePath, editUrl} = options;
   const {siteDir, baseUrl} = context;
+  const {versioning} = env;
   const filePath = path.join(refDir, source);
 
   const fileString = await fs.readFile(filePath, 'utf-8');
@@ -71,14 +74,44 @@ export default async function processMetadata({
 
   const description: string = frontMatter.description || excerpt;
 
+  let version;
   let id = baseID;
+
+  // Append subdirectory as part of id.
   const dirName = path.dirname(source);
   if (dirName !== '.') {
-    const prefix = dirName;
-    if (prefix) {
-      id = `${prefix}/${baseID}`;
+    id = `${dirName}/${baseID}`;
+  }
+
+  if (versioning.enabled) {
+    if (/^version-/.test(dirName)) {
+      const inferredVersion = dirName
+        .split('/', 1)
+        .shift()!
+        .replace(/^version-/, '');
+      if (inferredVersion && versioning.versions.includes(inferredVersion)) {
+        version = inferredVersion;
+      }
+    } else {
+      version = 'next';
     }
   }
+
+  // The version portion of the url path. Eg: 'next', '1.0.0', and ''
+  const versionPath =
+    version && version !== versioning.latestVersion ? version : '';
+
+  // The last portion of the url path. Eg: 'foo/bar', 'bar'
+  const routePath =
+    version && version !== 'next'
+      ? id.replace(new RegExp(`^version-${version}/`), '')
+      : id;
+  const permalink = normalizeUrl([
+    baseUrl,
+    routeBasePath,
+    versionPath,
+    routePath,
+  ]);
 
   const {sidebar_label, hide_title, custom_edit_url} = frontMatter;
 
@@ -86,8 +119,6 @@ export default async function processMetadata({
 
   // Cannot use path.join() as it resolves '../' and removes the '@site'. Let webpack loader resolve it.
   const aliasedPath = `@site/${relativePath}`;
-
-  const permalink = normalizeUrl([baseUrl, routeBasePath, id]);
 
   const docsEditUrl = editUrl
     ? normalizeUrl([editUrl, posixPath(relativePath)])
@@ -97,7 +128,6 @@ export default async function processMetadata({
 
   // Assign all of object properties during instantiation (if possible) for NodeJS optimization
   // Adding properties to object after instantiation will cause hidden class transitions.
-
   const metadata: MetadataRaw = {
     id,
     title,
@@ -109,6 +139,7 @@ export default async function processMetadata({
     editUrl: custom_edit_url || docsEditUrl,
     lastUpdatedBy,
     lastUpdatedAt,
+    version,
   };
 
   return metadata;

@@ -63,7 +63,8 @@ export default function pluginContentDocs(
   );
 
   // Versioning
-  const {versioning} = loadEnv(siteDir);
+  const env = loadEnv(siteDir);
+  const {versioning} = env;
   const {
     versions,
     docsDir: versionedDir,
@@ -131,13 +132,38 @@ export default function pluginContentDocs(
               refDir: docsDir,
               context,
               options,
+              env,
             });
             docsMetadataRaw[metadata.id] = metadata;
           }),
         ),
       );
 
-      // TODO: Metadata for versioned docs
+      // Metadata for versioned docs
+      if (versioning.enabled) {
+        const versionedGlob = _.flatten(
+          include.map(pattern =>
+            versionsNames.map(versionName => `${versionName}/${pattern}`),
+          ),
+        );
+        const versionedFiles = await globby(versionedGlob, {
+          cwd: versionedDir,
+        });
+        docsPromises.push(
+          Promise.all(
+            versionedFiles.map(async source => {
+              const metadata = await processMetadata({
+                source,
+                refDir: versionedDir,
+                context,
+                options,
+                env,
+              });
+              docsMetadataRaw[metadata.id] = metadata;
+            }),
+          ),
+        );
+      }
 
       // Load the sidebars & create docs ordering
       const loadedSidebars: Sidebar = loadSidebars(sidebarPath);

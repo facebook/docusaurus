@@ -14,6 +14,7 @@ import {loadContext} from '@docusaurus/core/src/server/index';
 import {applyConfigureWebpack} from '@docusaurus/core/src/webpack/utils';
 import {RouteConfig} from '@docusaurus/types';
 import {posixPath} from '@docusaurus/utils';
+import {cat} from 'shelljs';
 
 const createFakeActions = (routeConfigs: RouteConfig[], contentDir) => {
   return {
@@ -42,7 +43,7 @@ test('site with wrong sidebar file', async () => {
     );
 });
 
-describe('empty/no docs website', () => {
+describe('empty/no docs/ bad website', () => {
   const siteDir = path.join(__dirname, '__fixtures__', 'empty-site');
   const context = loadContext(siteDir);
 
@@ -168,20 +169,15 @@ describe('simple website', () => {
   });
 });
 
-test('bad versioned website', async () => {
-  const siteDir = path.join(__dirname, '__fixtures__', 'bad-site');
-  const context = loadContext(siteDir);
-  const plugin = pluginContentDocs(context, {});
-  expect(plugin.loadContent()).rejects.toThrowErrorMatchingInlineSnapshot(
-    `"You cannot have a folder named \\"version-1.0.0\\""`,
-  );
-});
-
 /* TODO for versioning */
-describe('versioned website', () => {
-  const siteDir = path.join(__dirname, '__fixtures__', 'versioned-site');
-  const context = loadContext(siteDir);
-  const sidebarPath = path.join(siteDir, 'sidebars.json');
+describe('versioned website lol', () => {
+  const versionedSiteDir = path.join(
+    __dirname,
+    '__fixtures__',
+    'versioned-site',
+  );
+  const context = loadContext(versionedSiteDir);
+  const sidebarPath = path.join(versionedSiteDir, 'sidebars.json');
   const plugin = pluginContentDocs(context, {
     sidebarPath,
   });
@@ -190,7 +186,7 @@ describe('versioned website', () => {
   test('getPathToWatch', () => {
     const pathToWatch = plugin.getPathsToWatch();
     const matchPattern = pathToWatch.map(filepath =>
-      posixPath(path.relative(siteDir, filepath)),
+      posixPath(path.relative(versionedSiteDir, filepath)),
     );
     expect(matchPattern).not.toEqual([]);
     expect(matchPattern).toMatchInlineSnapshot(`
@@ -235,9 +231,9 @@ describe('versioned website', () => {
     expect(isMatch('super/docs/hello.md', matchPattern)).toEqual(false);
   });
 
-  test('content', async () => {
+  test('content cache', async () => {
     const content = await plugin.loadContent();
-    const {docsMetadata, docsSidebars} = content;
+    // const {docsMetadata, docsSidebars} = content;
 
     // TODO: expect docsMetadata.blabla.toEqual()
 
@@ -254,4 +250,14 @@ describe('versioned website', () => {
     // expect(routeConfigs).not.toEqual([]);
     // expect(routeConfigs).toMatchSnapshot();
   });
+});
+
+test('bad docs folder contains reserved version folder', async () => {
+  const badSiteDir = path.join(__dirname, '__fixtures__', 'bad-site');
+  const context = loadContext(badSiteDir);
+  const plugin = pluginContentDocs(context, {});
+  // There will be some unhandledpromise log. See https://github.com/facebook/jest/issues/5311
+  expect(plugin.loadContent()).rejects.toThrowError(
+    new Error(`You cannot have a folder named "version-1.0.0"`),
+  );
 });
