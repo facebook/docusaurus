@@ -24,14 +24,12 @@ describe('processMetadata', () => {
       processMetadata({
         source: sourceA,
         refDir: docsDir,
-        order: {},
         context,
         docsBasePath: pluginPath,
       }),
       processMetadata({
         source: sourceB,
         refDir: docsDir,
-        order: {},
         context,
         docsBasePath: pluginPath,
       }),
@@ -60,7 +58,6 @@ describe('processMetadata', () => {
     const data = await processMetadata({
       source,
       refDir: docsDir,
-      order: {},
       context,
       docsBasePath: pluginPath,
       editUrl,
@@ -82,7 +79,6 @@ describe('processMetadata', () => {
     const data = await processMetadata({
       source,
       refDir: docsDir,
-      order: {},
       context,
       docsBasePath: pluginPath,
     });
@@ -102,7 +98,6 @@ describe('processMetadata', () => {
     const data = await processMetadata({
       source,
       refDir: docsDir,
-      order: {},
       context,
       docsBasePath: pluginPath,
       showLastUpdateAuthor: true,
@@ -127,7 +122,6 @@ describe('processMetadata', () => {
     return processMetadata({
       source: 'invalid-id.md',
       refDir: path.join(badSiteDir, 'docs'),
-      order: {},
       context,
       docsBasePath: 'docs',
     }).catch(e =>

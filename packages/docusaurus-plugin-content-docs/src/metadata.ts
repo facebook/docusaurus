@@ -11,12 +11,11 @@ import {parse, normalizeUrl, posixPath} from '@docusaurus/utils';
 import {LoadContext} from '@docusaurus/types';
 
 import lastUpdate from './lastUpdate';
-import {Order, MetadataRaw, LastUpdateData} from './types';
+import {MetadataRaw, LastUpdateData} from './types';
 
 type Args = {
   source: string;
   refDir: string;
-  order: Order;
   context: LoadContext;
   docsBasePath: string;
   editUrl?: string;
@@ -53,7 +52,6 @@ async function getLastUpdated(
 export default async function processMetadata({
   source,
   refDir,
-  order,
   context,
   docsBasePath,
   editUrl,
@@ -87,23 +85,20 @@ export default async function processMetadata({
     }
   }
 
-  const {
-    sidebar_label,
-    hide_title,
-    custom_edit_url,
-    permalink: customPermalink,
-  } = frontMatter;
+  const {sidebar_label, hide_title, custom_edit_url} = frontMatter;
+
+  const relativePath = path.relative(siteDir, filePath);
 
   // Cannot use path.join() as it resolves '../' and removes the '@site'. Let webpack loader resolve it.
-  const aliasedPath = `@site/${path.relative(siteDir, filePath)}`;
+  const aliasedPath = `@site/${relativePath}`;
 
   const permalink = normalizeUrl([baseUrl, docsBasePath, id]);
 
   const docsEditUrl = editUrl
-    ? normalizeUrl([editUrl, posixPath(path.relative(siteDir, filePath))])
+    ? normalizeUrl([editUrl, posixPath(relativePath)])
     : undefined;
 
-  const lastUpdateData = await getLastUpdated(
+  const {lastUpdatedAt, lastUpdatedBy} = await getLastUpdated(
     filePath,
     showLastUpdateAuthor,
     showLastUpdateTime,
@@ -121,8 +116,8 @@ export default async function processMetadata({
     sidebar_label,
     hide_title,
     editUrl: custom_edit_url || docsEditUrl,
-    ...order[id],
-    ...lastUpdateData,
+    lastUpdatedBy,
+    lastUpdatedAt,
   };
 
   return metadata;

@@ -129,7 +129,6 @@ export default function pluginContentDocs(
           const metadata: MetadataRaw = await processMetadata({
             source,
             refDir: docsDir,
-            order,
             context,
             docsBasePath: routeBasePath,
             editUrl,
@@ -142,34 +141,33 @@ export default function pluginContentDocs(
 
       // TODO: Metadata for versioned docs
 
-      // Construct docsMetadata
+      // Construct inter-metadata relationship in docsMetadata
       const docsMetadata: DocsMetadata = {};
       const permalinkToSidebar: PermalinkToSidebar = {};
       Object.keys(docsMetadataRaw).forEach(currentID => {
-        let previous;
-        let next;
-        const previousID = docsMetadataRaw[currentID].previous;
-        if (previousID) {
-          previous = {
-            title: docsMetadataRaw[previousID]?.title ?? 'Previous',
-            permalink: docsMetadataRaw[previousID]?.permalink,
-          };
-        }
-        const nextID = docsMetadataRaw[currentID].next;
-        if (nextID) {
-          next = {
-            title: docsMetadataRaw[nextID]?.title ?? 'Next',
-            permalink: docsMetadataRaw[nextID]?.permalink,
-          };
-        }
+        const {next: nextID, previous: previousID, sidebar} =
+          order[currentID] || {};
+        const previous = previousID
+          ? {
+              title: docsMetadataRaw[previousID]?.title ?? 'Previous',
+              permalink: docsMetadataRaw[previousID]?.permalink,
+            }
+          : undefined;
+        const next = nextID
+          ? {
+              title: docsMetadataRaw[nextID]?.title ?? 'Next',
+              permalink: docsMetadataRaw[nextID]?.permalink,
+            }
+          : undefined;
         docsMetadata[currentID] = {
           ...docsMetadataRaw[currentID],
+          sidebar,
           previous,
           next,
         };
 
         // sourceToPermalink and permalinkToSidebar mapping
-        const {source, permalink, sidebar} = docsMetadataRaw[currentID];
+        const {source, permalink} = docsMetadataRaw[currentID];
         sourceToPermalink[source] = permalink;
         if (sidebar) {
           permalinkToSidebar[permalink] = sidebar;
