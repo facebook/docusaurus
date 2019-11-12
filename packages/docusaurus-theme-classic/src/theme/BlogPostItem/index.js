@@ -48,9 +48,9 @@ function BlogPostItem(props) {
           <Link to={permalink}>{title}</Link>
         </h1>
         <div className="margin-bottom--sm">
-          <small>
+          <time dateTime={date} className={styles.blogPostDate}>
             {month} {day}, {year}
-          </small>
+          </time>
         </div>
         <div className="avatar margin-bottom--md">
           {authorImageURL && (
