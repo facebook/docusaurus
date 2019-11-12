@@ -106,6 +106,20 @@ export default function pluginContentDocs(
       const docsMetadataRaw: DocsMetadataRaw = {};
       const docsPromises = [];
 
+      if (versioning.enabled) {
+        // Do not allow reserved version/ translated folder name in 'docs'
+        // e.g: 'docs/version-1.0.0/' should not be allowed as it can cause unwanted bug
+        const dirs = fs
+          .readdirSync(docsDir, {withFileTypes: true})
+          .filter(dirent => dirent.isDirectory())
+          .map(dirent => dirent.name);
+        // console.log(dirs);
+        const bannedDir = dirs.find(dir => versionsNames.includes(dir));
+        if (bannedDir) {
+          throw new Error(`You cannot have a folder named "${bannedDir}"`);
+        }
+      }
+
       // Metadata for default/ master docs files.
       const docsFiles = await globby(include, {
         cwd: docsDir,
@@ -113,20 +127,6 @@ export default function pluginContentDocs(
       docsPromises.push(
         Promise.all(
           docsFiles.map(async source => {
-            // Do not allow reserved version/ translated folder name in 'docs'
-            // e.g: 'docs/version-1.0.0/' should not be allowed as it can cause unwanted bug
-            if (versioning.enabled) {
-              const subFolder = source
-                .split('/', 1)
-                .shift()!
-                .replace(source, '');
-              if (subFolder && versionsNames.includes(subFolder)) {
-                throw new Error(
-                  `You cannot have a folder named "${subFolder}"`,
-                );
-              }
-            }
-
             const metadata: MetadataRaw = await processMetadata({
               source,
               refDir: docsDir,

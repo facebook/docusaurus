@@ -14,7 +14,6 @@ import {loadContext} from '@docusaurus/core/src/server/index';
 import {applyConfigureWebpack} from '@docusaurus/core/src/webpack/utils';
 import {RouteConfig} from '@docusaurus/types';
 import {posixPath} from '@docusaurus/utils';
-import {cat} from 'shelljs';
 
 const createFakeActions = (routeConfigs: RouteConfig[], contentDir) => {
   return {
@@ -43,7 +42,7 @@ test('site with wrong sidebar file', async () => {
     );
 });
 
-describe('empty/no docs/ bad website', () => {
+describe('empty/no docs website', () => {
   const siteDir = path.join(__dirname, '__fixtures__', 'empty-site');
   const context = loadContext(siteDir);
 
@@ -231,22 +230,17 @@ describe('versioned website lol', () => {
     expect(isMatch('super/docs/hello.md', matchPattern)).toEqual(false);
   });
 
-  test('content cache', async () => {
-    const content = await plugin.loadContent();
+  test('content', async () => {
+    // const content = await plugin.loadContent();
     // const {docsMetadata, docsSidebars} = content;
-
     // TODO: expect docsMetadata.blabla.toEqual()
-
     // expect(docsSidebars).toMatchSnapshot();
-
     // const routeConfigs = [];
     // const actions = createFakeActions(routeConfigs, pluginContentDir);
-
     // await plugin.contentLoaded({
     //   content,
     //   actions,
     // });
-
     // expect(routeConfigs).not.toEqual([]);
     // expect(routeConfigs).toMatchSnapshot();
   });
@@ -256,8 +250,7 @@ test('bad docs folder contains reserved version folder', async () => {
   const badSiteDir = path.join(__dirname, '__fixtures__', 'bad-site');
   const context = loadContext(badSiteDir);
   const plugin = pluginContentDocs(context, {});
-  // There will be some unhandledpromise log. See https://github.com/facebook/jest/issues/5311
-  expect(plugin.loadContent()).rejects.toThrowError(
-    new Error(`You cannot have a folder named "version-1.0.0"`),
+  await expect(plugin.loadContent()).rejects.toThrowErrorMatchingInlineSnapshot(
+    `"You cannot have a folder named \\"version-1.0.0\\""`,
   );
 });
