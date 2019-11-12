@@ -106,7 +106,9 @@ function BlogPostItem(props) {
           )}
           {truncated && (
             <div className="col text--right">
-              <Link to={metadata.permalink}>
+              <Link
+                to={metadata.permalink}
+                aria-label={`Read more about ${title}`}>
                 <strong>Read More</strong>
               </Link>
             </div>
