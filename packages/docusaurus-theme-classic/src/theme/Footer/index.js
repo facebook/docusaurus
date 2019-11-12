@@ -33,6 +33,10 @@ function FooterLink({item}) {
   );
 }
 
+const FooterLogo = ({url, alt}) => (
+  <img className="footer__logo" alt={alt} src={url} />
+);
+
 function Footer() {
   const context = useDocusaurusContext();
   const {siteConfig = {}} = context;
@@ -93,14 +97,10 @@ function Footer() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className={styles.footerLogoLink}>
-                    <img
-                      className="footer__logo"
-                      alt={logo.alt}
-                      src={logoUrl}
-                    />
+                    <FooterLogo alt={logo.alt} url={logoUrl} />
                   </a>
                 ) : (
-                  <img className="footer__logo" alt={logo.alt} src={logoUrl} />
+                  <FooterLogo alt={logo.alt} url={logoUrl} />
                 )}
               </div>
             )}
