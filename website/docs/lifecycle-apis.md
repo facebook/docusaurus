@@ -86,7 +86,7 @@ The initial call to `configureWebpack` also receives a util object consists of t
 
 - `getStyleLoaders(isServer: boolean, cssOptions: {[key: string]: any}): Loader[]`
 - `getCacheLoader(isServer: boolean, cacheOptions?: {}): Loader | null`
-- `getCacheLoader(isServer: boolean, cacheOptions?: {}): Loader | null`
+- `getBabelLoader(isServer: boolean, babelOptions?: {}): Loader`
 
 You may use them to return your webpack configures conditionally.
 
