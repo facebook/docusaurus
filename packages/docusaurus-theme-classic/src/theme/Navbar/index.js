@@ -21,7 +21,7 @@ import useTheme from '@theme/hooks/useTheme';
 
 import styles from './styles.module.css';
 
-function NavLink({to, href, label}) {
+function NavLink({to, href, label, position, ...props}) {
   const toUrl = useBaseUrl(to);
   return (
     <Link
@@ -35,7 +35,8 @@ function NavLink({to, href, label}) {
         : {
             activeClassName: 'navbar__link--active',
             to: toUrl,
-          })}>
+          })}
+      {...props}>
       {label}
     </Link>
   );
