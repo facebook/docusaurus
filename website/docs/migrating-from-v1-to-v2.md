@@ -175,6 +175,7 @@ module.exports = {
       logo: {
         alt: 'Facebook Open Source Logo',
         src: 'https://docusaurus.io/img/oss_logo.png',
+        href: 'https://opensource.facebook.com/',
       },
       copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`,
     },
@@ -274,7 +275,7 @@ Deprecated. Create a `CNAME` file in your `static` folder instead with your cust
 
 #### `customDocsPath`, `docsUrl`, `editUrl`, `enableUpdateBy`, `enableUpdateTime`
 
-**BREAKING**: `editUrl` should point to (website) docusaurus project instead of `docs` directory. 
+**BREAKING**: `editUrl` should point to (website) docusaurus project instead of `docs` directory.
 
 Deprecated. Pass it as an option to `@docusaurus/preset-classic` docs instead:
 
@@ -290,8 +291,7 @@ module.exports = {
           // Equivalent to `customDocsPath`.
           path: 'docs',
           // Equivalent to `editUrl` but should point to `website` dir instead of `website/docs`
-          editUrl:
-            'https://github.com/facebook/docusaurus/edit/master/website',
+          editUrl: 'https://github.com/facebook/docusaurus/edit/master/website',
           // Equivalent to `docsUrl`.
           routeBasePath: 'docs',
           // Remark and Rehype plugins passed to MDX. Replaces `markdownOptions` and `markdownPlugins`.

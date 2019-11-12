@@ -11,6 +11,7 @@ import classnames from 'classnames';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
+import styles from './styles.module.css';
 
 function FooterLink({item}) {
   const toUrl = useBaseUrl(item.to);
@@ -86,7 +87,21 @@ function Footer() {
           <div className="text--center">
             {logo && logo.src && (
               <div className="margin-bottom--sm">
-                <img className="footer__logo" alt={logo.alt} src={logoUrl} />
+                {logo.href ? (
+                  <a
+                    href={logo.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.footerLogoLink}>
+                    <img
+                      className="footer__logo"
+                      alt={logo.alt}
+                      src={logoUrl}
+                    />
+                  </a>
+                ) : (
+                  <img className="footer__logo" alt={logo.alt} src={logoUrl} />
+                )}
               </div>
             )}
             {copyright}
