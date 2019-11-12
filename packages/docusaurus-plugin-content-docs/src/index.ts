@@ -317,7 +317,7 @@ export default function pluginContentDocs(
           rules: [
             {
               test: /(\.mdx?)$/,
-              include: [docsDir],
+              include: [docsDir, versionedDir].filter(Boolean),
               use: [
                 getCacheLoader(isServer),
                 getBabelLoader(isServer),
