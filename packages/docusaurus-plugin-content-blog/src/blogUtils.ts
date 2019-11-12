@@ -7,7 +7,7 @@ import {parse, normalizeUrl} from '@docusaurus/utils';
 import {LoadContext} from '@docusaurus/types';
 
 export function truncate(fileString: string, truncateMarker: RegExp | string) {
-  return fileString.split(truncateMarker, 1).shift() || fileString;
+  return fileString.split(truncateMarker, 1).shift()!;
 }
 
 // YYYY-MM-DD-{name}.mdx?
