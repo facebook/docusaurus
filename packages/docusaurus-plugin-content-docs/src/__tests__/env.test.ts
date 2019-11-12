@@ -18,8 +18,14 @@ describe('loadEnv', () => {
   });
 
   test('website with invalid versions.json file', () => {
-    const siteDir = path.join(__dirname, '__fixtures__', 'bad-site');
+    const siteDir = path.join(__dirname, '__fixtures__', 'versioned-site');
+    const mock = jest.spyOn(JSON, 'parse').mockImplementationOnce(() => {
+      return {
+        invalid: 'json',
+      };
+    });
     const env = loadEnv(siteDir);
     expect(env.versioning.enabled).toBe(false);
+    mock.mockRestore();
   });
 });

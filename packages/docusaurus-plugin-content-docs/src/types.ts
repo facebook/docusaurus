@@ -115,6 +115,10 @@ export interface DocsMetadata {
   [id: string]: Metadata;
 }
 
+export interface DocsMetadataRaw {
+  [id: string]: MetadataRaw;
+}
+
 export interface SourceToPermalink {
   [source: string]: string;
 }

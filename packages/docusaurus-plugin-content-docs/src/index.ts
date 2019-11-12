@@ -32,6 +32,7 @@ import {
   DocsSidebar,
   DocsBaseMetadata,
   MetadataRaw,
+  DocsMetadataRaw,
 } from './types';
 import {Configuration} from 'webpack';
 
@@ -68,23 +69,24 @@ export default function pluginContentDocs(
     docsDir: versionedDir,
     sidebarsDir: versionedSidebarsDir,
   } = versioning;
+  const versionsNames = versions.map(version => `version-${version}`);
 
   return {
     name: 'docusaurus-plugin-content-docs',
 
     getPathsToWatch() {
-      const {include = []} = options;
+      const {include} = options;
       let globPattern = include.map(pattern => `${docsDir}/${pattern}`);
       if (versioning.enabled) {
         const docsGlob = _.flatten(
           include.map(pattern =>
-            versions.map(
-              version => `${versionedDir}/version-${version}/${pattern}`,
+            versionsNames.map(
+              versionName => `${versionedDir}/${versionName}/${pattern}`,
             ),
           ),
         );
-        const sidebarsGlob = versions.map(
-          version => `${versionedSidebarsDir}/version-${version}-sidebars.json`,
+        const sidebarsGlob = versionsNames.map(
+          versionName => `${versionedSidebarsDir}/${versionName}-sidebars.json`,
         );
         globPattern = [...globPattern, ...sidebarsGlob, ...docsGlob];
       }
@@ -107,40 +109,51 @@ export default function pluginContentDocs(
       }
 
       // Prepare metadata container.
-      const docsMetadataRaw: {
-        [id: string]: MetadataRaw;
-      } = {};
+      const docsMetadataRaw: DocsMetadataRaw = {};
+      const docsPromises = [];
 
       // Metadata for default/ master docs files.
       const docsFiles = await globby(include, {
         cwd: docsDir,
       });
-      await Promise.all(
-        docsFiles.map(async source => {
-          /* TODO: do we need to do this ????
-        Do not allow reserved version/ translated folder name in 'docs'
-        e.g: 'docs/version-1.0.0/' should not be allowed as it can cause unwanted bug
-      */
-          const metadata: MetadataRaw = await processMetadata({
-            source,
-            refDir: docsDir,
-            context,
-            docsBasePath: routeBasePath,
-            editUrl,
-            showLastUpdateAuthor,
-            showLastUpdateTime,
-          });
-          docsMetadataRaw[metadata.id] = metadata;
-        }),
+      docsPromises.push(
+        Promise.all(
+          docsFiles.map(async source => {
+            // Do not allow reserved version/ translated folder name in 'docs'
+            // e.g: 'docs/version-1.0.0/' should not be allowed as it can cause unwanted bug
+            if (versioning.enabled) {
+              const subFolder = source
+                .split('/', 1)
+                .shift()!
+                .replace(source, '');
+              if (subFolder && versionsNames.includes(subFolder)) {
+                throw new Error(
+                  `You cannot have a folder named "${subFolder}"`,
+                );
+              }
+            }
+
+            const metadata: MetadataRaw = await processMetadata({
+              source,
+              refDir: docsDir,
+              context,
+              docsBasePath: routeBasePath,
+              editUrl,
+              showLastUpdateAuthor,
+              showLastUpdateTime,
+            });
+            docsMetadataRaw[metadata.id] = metadata;
+          }),
+        ),
       );
 
       // TODO: Metadata for versioned docs
 
-      // Load the sidebars
+      // Load the sidebars & create docs ordering
       const loadedSidebars: Sidebar = loadSidebars(sidebarPath);
-
-      // Build the docs ordering such as next, previous, and sidebar.
       const order: Order = createOrder(loadedSidebars);
+
+      await Promise.all(docsPromises);
 
       // Construct inter-metadata relationship in docsMetadata
       const docsMetadata: DocsMetadata = {};

@@ -168,6 +168,15 @@ describe('simple website', () => {
   });
 });
 
+test('bad versioned website', async () => {
+  const siteDir = path.join(__dirname, '__fixtures__', 'bad-site');
+  const context = loadContext(siteDir);
+  const plugin = pluginContentDocs(context, {});
+  expect(plugin.loadContent()).rejects.toThrowErrorMatchingInlineSnapshot(
+    `"You cannot have a folder named \\"version-1.0.0\\""`,
+  );
+});
+
 /* TODO for versioning */
 describe('versioned website', () => {
   const siteDir = path.join(__dirname, '__fixtures__', 'versioned-site');
