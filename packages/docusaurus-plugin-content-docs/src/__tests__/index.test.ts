@@ -10,6 +10,7 @@ import {validate} from 'webpack';
 import {isMatch} from 'picomatch';
 import fs from 'fs-extra';
 import pluginContentDocs from '../index';
+import loadEnv from '../env';
 import {loadContext} from '@docusaurus/core/src/server/index';
 import {applyConfigureWebpack} from '@docusaurus/core/src/webpack/utils';
 import {RouteConfig} from '@docusaurus/types';
@@ -168,24 +169,23 @@ describe('simple website', () => {
   });
 });
 
-/* TODO for versioning */
-describe('versioned website lol', () => {
-  const versionedSiteDir = path.join(
-    __dirname,
-    '__fixtures__',
-    'versioned-site',
-  );
-  const context = loadContext(versionedSiteDir);
-  const sidebarPath = path.join(versionedSiteDir, 'sidebars.json');
+describe('versioned website', () => {
+  const siteDir = path.join(__dirname, '__fixtures__', 'versioned-site');
+  const context = loadContext(siteDir);
+  const sidebarPath = path.join(siteDir, 'sidebars.json');
+  const routeBasePath = 'docs';
   const plugin = pluginContentDocs(context, {
+    routeBasePath,
     sidebarPath,
   });
+  const env = loadEnv(siteDir);
+  const {docsDir: versionedDir} = env.versioning;
   const pluginContentDir = path.join(context.generatedFilesDir, plugin.name);
 
   test('getPathToWatch', () => {
     const pathToWatch = plugin.getPathsToWatch();
     const matchPattern = pathToWatch.map(filepath =>
-      posixPath(path.relative(versionedSiteDir, filepath)),
+      posixPath(path.relative(siteDir, filepath)),
     );
     expect(matchPattern).not.toEqual([]);
     expect(matchPattern).toMatchInlineSnapshot(`
@@ -231,26 +231,89 @@ describe('versioned website lol', () => {
   });
 
   test('content', async () => {
-    // const content = await plugin.loadContent();
-    // const {docsMetadata, docsSidebars} = content;
-    // TODO: expect docsMetadata.blabla.toEqual()
-    // expect(docsSidebars).toMatchSnapshot();
-    // const routeConfigs = [];
-    // const actions = createFakeActions(routeConfigs, pluginContentDir);
-    // await plugin.contentLoaded({
-    //   content,
-    //   actions,
-    // });
-    // expect(routeConfigs).not.toEqual([]);
-    // expect(routeConfigs).toMatchSnapshot();
-  });
-});
+    const content = await plugin.loadContent();
+    const {docsMetadata, docsSidebars} = content;
 
-test('bad docs folder contains reserved version folder', async () => {
-  const badSiteDir = path.join(__dirname, '__fixtures__', 'bad-site');
-  const context = loadContext(badSiteDir);
-  const plugin = pluginContentDocs(context, {});
-  await expect(plugin.loadContent()).rejects.toThrowErrorMatchingInlineSnapshot(
-    `"You cannot have a folder named \\"version-1.0.0\\""`,
-  );
+    // foo/baz.md only exists in version -1.0.0
+    expect(docsMetadata['foo/baz']).toBeUndefined();
+    expect(docsMetadata['version-1.0.1/foo/baz']).toBeUndefined();
+    expect(docsMetadata['foo/bar']).toEqual({
+      id: 'foo/bar',
+      permalink: '/docs/next/foo/bar',
+      source: path.join('@site', routeBasePath, 'foo', 'bar.md'),
+      title: 'bar',
+      description: 'This is `next` version of bar.',
+      version: 'next',
+      sidebar: 'docs',
+      next: {
+        title: 'hello',
+        permalink: '/docs/next/hello',
+      },
+    });
+    expect(docsMetadata['hello']).toEqual({
+      id: 'hello',
+      permalink: '/docs/next/hello',
+      source: path.join('@site', routeBasePath, 'hello.md'),
+      title: 'hello',
+      description: 'Hello `next` !',
+      version: 'next',
+      sidebar: 'docs',
+      previous: {
+        title: 'bar',
+        permalink: '/docs/next/foo/bar',
+      },
+    });
+    expect(docsMetadata['version-1.0.1/hello']).toEqual({
+      id: 'version-1.0.1/hello',
+      permalink: '/docs/hello',
+      source: path.join(
+        '@site',
+        path.relative(siteDir, versionedDir),
+        'version-1.0.1',
+        'hello.md',
+      ),
+      title: 'hello',
+      description: 'Hello `1.0.1` !',
+      version: '1.0.1',
+      sidebar: 'version-1.0.1/docs',
+      previous: {
+        title: 'bar',
+        permalink: '/docs/foo/bar',
+      },
+    });
+    expect(docsMetadata['version-1.0.0/foo/baz']).toEqual({
+      id: 'version-1.0.0/foo/baz',
+      permalink: '/docs/1.0.0/foo/baz',
+      source: path.join(
+        '@site',
+        path.relative(siteDir, versionedDir),
+        'version-1.0.0',
+        'foo',
+        'baz.md',
+      ),
+      title: 'baz',
+      description:
+        'Baz `1.0.0` ! This will be deleted in next subsequent versions.',
+      version: '1.0.0',
+      sidebar: 'version-1.0.0/docs',
+      next: {
+        title: 'hello',
+        permalink: '/docs/1.0.0/hello',
+      },
+      previous: {
+        title: 'bar',
+        permalink: '/docs/1.0.0/foo/bar',
+      },
+    });
+
+    expect(docsSidebars).toMatchSnapshot();
+    const routeConfigs = [];
+    const actions = createFakeActions(routeConfigs, pluginContentDir);
+    await plugin.contentLoaded({
+      content,
+      actions,
+    });
+    expect(routeConfigs).not.toEqual([]);
+    expect(routeConfigs).toMatchSnapshot();
+  });
 });

@@ -106,20 +106,6 @@ export default function pluginContentDocs(
       const docsMetadataRaw: DocsMetadataRaw = {};
       const docsPromises = [];
 
-      if (versioning.enabled) {
-        // Do not allow reserved version/ translated folder name in 'docs'
-        // e.g: 'docs/version-1.0.0/' should not be allowed as it can cause unwanted bug
-        const dirs = fs
-          .readdirSync(docsDir, {withFileTypes: true})
-          .filter(dirent => dirent.isDirectory())
-          .map(dirent => dirent.name);
-        // console.log(dirs);
-        const bannedDir = dirs.find(dir => versionsNames.includes(dir));
-        if (bannedDir) {
-          throw new Error(`You cannot have a folder named "${bannedDir}"`);
-        }
-      }
-
       // Metadata for default/ master docs files.
       const docsFiles = await globby(include, {
         cwd: docsDir,
@@ -166,7 +152,13 @@ export default function pluginContentDocs(
       }
 
       // Load the sidebars & create docs ordering
-      const loadedSidebars: Sidebar = loadSidebars(sidebarPath);
+      const sidebarPaths = [
+        sidebarPath,
+        ...versionsNames.map(
+          versionName => `${versionedSidebarsDir}/${versionName}-sidebars.json`,
+        ),
+      ];
+      const loadedSidebars: Sidebar = loadSidebars(sidebarPaths);
       const order: Order = createOrder(loadedSidebars);
 
       await Promise.all(docsPromises);
