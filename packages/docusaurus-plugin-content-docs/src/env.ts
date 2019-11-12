@@ -8,19 +8,32 @@
 import path from 'path';
 import fs from 'fs-extra';
 import {VersioningEnv, Env} from './types';
-import {VERSIONS_JSON_FILE} from './constants';
+import {
+  VERSIONS_JSON_FILE,
+  VERSIONED_DOCS_DIR,
+  VERSIONED_SIDEBARS_DIR,
+} from './constants';
 
 export default function(siteDir: string): Env {
   const versioning: VersioningEnv = {
     enabled: false,
+    versions: [],
+    latestVersion: null,
+    docsDir: '',
+    sidebarsDir: '',
   };
 
   const versionsJSONFile = path.join(siteDir, VERSIONS_JSON_FILE);
   if (fs.existsSync(versionsJSONFile)) {
-    versioning.versions = JSON.parse(fs.readFileSync(versionsJSONFile, 'utf8'));
-    if (versioning.versions && versioning.versions.length > 0) {
-      versioning.latestVersion = versioning.versions[0];
+    const parsedVersions = JSON.parse(
+      fs.readFileSync(versionsJSONFile, 'utf8'),
+    );
+    if (parsedVersions && parsedVersions.length > 0) {
+      versioning.latestVersion = parsedVersions[0];
       versioning.enabled = true;
+      versioning.versions = parsedVersions;
+      (versioning.docsDir = path.join(siteDir, VERSIONED_DOCS_DIR)),
+        (versioning.sidebarsDir = path.join(siteDir, VERSIONED_SIDEBARS_DIR));
     }
   }
 

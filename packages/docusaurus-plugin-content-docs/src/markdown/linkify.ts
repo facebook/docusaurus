@@ -16,14 +16,14 @@ export default function(
   docsDir: string,
   siteDir: string,
   sourceToPermalink: SourceToPermalink,
-  versionedDir: string,
+  versionedDir?: string,
 ) {
   // Determine the source dir. e.g: /website/docs, /website/versioned_docs/version-1.0.0
   let sourceDir: string | undefined;
   const thisSource = filePath;
   if (thisSource.startsWith(docsDir)) {
     sourceDir = docsDir;
-  } else if (thisSource.startsWith(versionedDir)) {
+  } else if (versionedDir && thisSource.startsWith(versionedDir)) {
     const specificVersionDir = getSubFolder(thisSource, versionedDir);
     // e.g: specificVersionDir = version-1.0.0
     if (specificVersionDir) {

@@ -138,8 +138,10 @@ export type DocsBaseMetadata = Pick<
 
 export type VersioningEnv = {
   enabled: boolean;
-  latestVersion?: string;
-  versions?: string[];
+  latestVersion: string | null;
+  versions: string[];
+  docsDir: string;
+  sidebarsDir: string;
 };
 
 export type Env = {

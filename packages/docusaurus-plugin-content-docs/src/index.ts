@@ -34,7 +34,6 @@ import {
   MetadataRaw,
 } from './types';
 import {Configuration} from 'webpack';
-import {VERSIONED_DOCS_DIR, VERSIONED_SIDEBARS_DIR} from './constants';
 
 const DEFAULT_OPTIONS: PluginOptions = {
   path: 'docs', // Path to data on filesystem, relative to site dir.
@@ -63,11 +62,12 @@ export default function pluginContentDocs(
   );
 
   // Versioning
-  const env = loadEnv(siteDir);
-  const versioningEnabled = env.versioning.enabled;
-  const versions = env.versioning.versions ?? [];
-  const versionedDir = path.join(siteDir, VERSIONED_DOCS_DIR);
-  const versionedSidebarsDir = path.join(siteDir, VERSIONED_SIDEBARS_DIR);
+  const {versioning} = loadEnv(siteDir);
+  const {
+    versions,
+    docsDir: versionedDir,
+    sidebarsDir: versionedSidebarsDir,
+  } = versioning;
 
   return {
     name: 'docusaurus-plugin-content-docs',
@@ -75,7 +75,7 @@ export default function pluginContentDocs(
     getPathsToWatch() {
       const {include = []} = options;
       let globPattern = include.map(pattern => `${docsDir}/${pattern}`);
-      if (versioningEnabled) {
+      if (versioning.enabled) {
         const docsGlob = _.flatten(
           include.map(pattern =>
             versions.map(
@@ -106,11 +106,6 @@ export default function pluginContentDocs(
         return null;
       }
 
-      const loadedSidebars: Sidebar = loadSidebars(sidebarPath);
-
-      // Build the docs ordering such as next, previous, category and sidebar.
-      const order: Order = createOrder(loadedSidebars);
-
       // Prepare metadata container.
       const docsMetadataRaw: {
         [id: string]: MetadataRaw;
@@ -140,6 +135,12 @@ export default function pluginContentDocs(
       );
 
       // TODO: Metadata for versioned docs
+
+      // Load the sidebars
+      const loadedSidebars: Sidebar = loadSidebars(sidebarPath);
+
+      // Build the docs ordering such as next, previous, and sidebar.
+      const order: Order = createOrder(loadedSidebars);
 
       // Construct inter-metadata relationship in docsMetadata
       const docsMetadata: DocsMetadata = {};
