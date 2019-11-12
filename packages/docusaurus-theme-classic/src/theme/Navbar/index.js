@@ -21,23 +21,22 @@ import useTheme from '@theme/hooks/useTheme';
 
 import styles from './styles.module.css';
 
-function NavLink(props) {
-  const toUrl = useBaseUrl(props.to);
+function NavLink({to, href, label}) {
+  const toUrl = useBaseUrl(to);
   return (
     <Link
       className="navbar__item navbar__link"
-      {...props}
-      {...(props.href
+      {...(href
         ? {
             target: '_blank',
             rel: 'noopener noreferrer',
-            href: props.href,
+            href,
           }
         : {
             activeClassName: 'navbar__link--active',
             to: toUrl,
           })}>
-      {props.label}
+      {label}
     </Link>
   );
 }
