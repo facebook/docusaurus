@@ -15,7 +15,13 @@ import MDXComponents from '@theme/MDXComponents';
 import styles from './styles.module.css';
 
 function BlogPostItem(props) {
-  const {children, frontMatter, metadata, truncated} = props;
+  const {
+    children,
+    frontMatter,
+    metadata,
+    truncated,
+    isBlogPostPage = false,
+  } = props;
   const {date, permalink, tags} = metadata;
   const {author, authorURL, authorTitle, authorFBID, title} = frontMatter;
 
@@ -45,12 +51,7 @@ function BlogPostItem(props) {
     return (
       <header>
         <h1 className={classnames('margin-bottom--sm', styles.blogPostTitle)}>
-          {/* eslint-disable no-restricted-globals */}
-          {location.pathname !== permalink ? (
-            <Link to={permalink}>{title}</Link>
-          ) : (
-            title
-          )}
+          {isBlogPostPage ? title : <Link to={permalink}>{title}</Link>}
         </h1>
         <div className="margin-bottom--sm">
           <small>

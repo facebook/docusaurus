@@ -20,7 +20,10 @@ function BlogPostPage(props) {
         <div className="container margin-vert--xl">
           <div className="row">
             <div className="col col--8 col--offset-2">
-              <BlogPostItem frontMatter={frontMatter} metadata={metadata}>
+              <BlogPostItem
+                frontMatter={frontMatter}
+                metadata={metadata}
+                isBlogPostPage>
                 <BlogPostContents />
               </BlogPostItem>
               <div className="margin-vert--xl">
