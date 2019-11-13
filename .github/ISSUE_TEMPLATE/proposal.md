@@ -1,6 +1,7 @@
 ---
 name: 💥 Proposal
 about: Propose a non-trivial change to Docusaurus
+labels: 'proposal, needs triage'
 ---
 
 <!--

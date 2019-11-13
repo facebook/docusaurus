@@ -1,6 +1,7 @@
 ---
 name: 🚀 Feature
 about: Submit a proposal/request for a new feature
+labels: 'feature, needs triage'
 ---
 
 <!--
