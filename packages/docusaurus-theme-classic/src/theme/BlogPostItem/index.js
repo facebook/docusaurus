@@ -26,6 +26,7 @@ function BlogPostItem(props) {
   const {author, authorURL, authorTitle, authorFBID, title} = frontMatter;
 
   const renderPostHeader = () => {
+    const TitleHeading = isBlogPostPage ? 'h1' : 'h2';
     const match = date.substring(0, 10).split('-');
     const year = match[0];
     const month = [
@@ -50,9 +51,10 @@ function BlogPostItem(props) {
 
     return (
       <header>
-        <h1 className={classnames('margin-bottom--sm', styles.blogPostTitle)}>
+        <TitleHeading
+          className={classnames('margin-bottom--sm', styles.blogPostTitle)}>
           {isBlogPostPage ? title : <Link to={permalink}>{title}</Link>}
-        </h1>
+        </TitleHeading>
         <div className="margin-bottom--sm">
           <time dateTime={date} className={styles.blogPostDate}>
             {month} {day}, {year}
