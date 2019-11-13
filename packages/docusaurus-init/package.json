@@ -20,8 +20,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "chalk": "^2.4.2",
-    "commander": "^2.20.0",
+    "chalk": "^3.0.0",
+    "commander": "^4.0.1",
     "fs-extra": "^8.1.0",
     "inquirer": "^6.5.0",
     "lodash.kebabcase": "^4.1.1",

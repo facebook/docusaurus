@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import chalk from 'chalk';
+import chalk = require('chalk');
 import fs from 'fs-extra';
 import importFresh from 'import-fresh';
 import path from 'path';

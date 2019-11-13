@@ -266,7 +266,7 @@ export default function pluginContentDocs(
       });
     },
 
-    configureWebpack(_, isServer, utils) {
+    configureWebpack(_config, isServer, utils) {
       const {getBabelLoader, getCacheLoader} = utils;
       const {rehypePlugins, remarkPlugins} = options;
       return {
