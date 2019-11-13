@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import chalk from 'chalk';
+import chalk = require('chalk');
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import fs from 'fs-extra';
 import path from 'path';

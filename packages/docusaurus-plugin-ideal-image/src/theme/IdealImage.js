@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 import React from 'react';
-import IdealImage from 'react-ideal-image';
+import IdealImage from '@endiliey/react-ideal-image';
 
 function Image(props) {
   const {alt, className, img} = props;

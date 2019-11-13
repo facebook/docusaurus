@@ -13,22 +13,22 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import styles from './styles.module.css';
 
-function FooterLink({item}) {
-  const toUrl = useBaseUrl(item.to);
+function FooterLink({to, href, label, ...props}) {
+  const toUrl = useBaseUrl(to);
   return (
     <Link
       className="footer__link-item"
-      {...item}
-      {...(item.href
+      {...(href
         ? {
             target: '_blank',
             rel: 'noopener noreferrer',
-            href: item.href,
+            href,
           }
         : {
             to: toUrl,
-          })}>
-      {item.label}
+          })}
+      {...props}>
+      {label}
     </Link>
   );
 }
@@ -77,7 +77,7 @@ function Footer() {
                         />
                       ) : (
                         <li key={item.href || item.to} className="footer__item">
-                          <FooterLink item={item} />
+                          <FooterLink {...item} />
                         </li>
                       ),
                     )}

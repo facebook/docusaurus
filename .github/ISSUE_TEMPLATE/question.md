@@ -1,6 +1,7 @@
 ---
 name: ❓ Questions/Help
 about: If you have questions, please check Stack Overflow or Discord or Twitter
+labels: 'questions, needs triage'
 ---
 
 ## ❓ Questions and Help
