@@ -222,4 +222,4 @@ There are several ways to access the default styles provided for your site. If y
 
 You can provide your own custom styles by adding them anywhere in the `website/static` directory. Any `.css` files you provide in the `static` directory will get concatenated to the end of Docusaurus' provided styles, allowing you to add to or override Docusaurus default styles as you wish.
 
-An easy way to figure out what classes you wish to override or add to is to [start your server locally](api-commands.md) and use your browser's inspect element tool.
+One way to figure out what classes you wish to override or add to is to [start your server locally](api-commands.md) and use your browser's inspect element tool.

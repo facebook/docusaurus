@@ -110,6 +110,20 @@ module.exports = {
 };
 ```
 
+Accessing the feed:
+
+The feed for RSS can be found at
+
+```text
+https://{your-domain}/blog/rss.xml
+```
+
+and for atom
+
+```text
+https://{your-domain}/blog/atom.xml
+```
+
 ## Advanced topics
 
 ### Blog-only mode

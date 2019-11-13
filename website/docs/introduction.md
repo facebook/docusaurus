@@ -41,7 +41,7 @@ Docusaurus is built with high attention to your experience building your site an
   - Open source your plugins to share with your fellow documentarians, because sharing is caring.
 - ✂️ **Developer experience**
   - Multiple bootstrapping templates to get your site up and running, start writing your docs right now
-  - Universal configuration entry point to make it easily maintainable by contributors
+  - Universal configuration entry point to make it more maintainable by contributors
   - Hot reloading with lightning fast incremental build on changes
   - Route-based code and data splitting
   - Publish to GitHub Pages, Netlify, and other deployment services with ease

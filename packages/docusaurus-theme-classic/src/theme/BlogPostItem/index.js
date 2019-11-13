@@ -48,9 +48,9 @@ function BlogPostItem(props) {
           <Link to={permalink}>{title}</Link>
         </h1>
         <div className="margin-bottom--sm">
-          <small>
+          <time dateTime={date} className={styles.blogPostDate}>
             {month} {day}, {year}
-          </small>
+          </time>
         </div>
         <div className="avatar margin-bottom--md">
           {authorImageURL && (
@@ -89,10 +89,10 @@ function BlogPostItem(props) {
       <article className="markdown">
         <MDXProvider components={MDXComponents}>{children}</MDXProvider>
       </article>
-      <div className="row margin-vert--lg">
-        <div className="col">
+      {(tags.length > 0 || truncated) && (
+        <div className="row margin-vert--lg">
           {tags.length > 0 && (
-            <>
+            <div className="col">
               <strong>Tags:</strong>
               {tags.map(({label, permalink: tagPermalink}) => (
                 <Link
@@ -102,17 +102,19 @@ function BlogPostItem(props) {
                   {label}
                 </Link>
               ))}
-            </>
+            </div>
           )}
-        </div>
-        <div className="col text--right">
           {truncated && (
-            <Link to={metadata.permalink}>
-              <strong>Read More</strong>
-            </Link>
+            <div className="col text--right">
+              <Link
+                to={metadata.permalink}
+                aria-label={`Read more about ${title}`}>
+                <strong>Read More</strong>
+              </Link>
+            </div>
           )}
         </div>
-      </div>
+      )}
     </div>
   );
 }

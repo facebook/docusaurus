@@ -18,7 +18,7 @@ const isSlowConnection = () => {
   // if user is on slow or constrained connection
   if (`connection` in navigator) {
     if (
-      (navigator.connection.effectiveType || ``).includes(`2g`) &&
+      (navigator.connection.effectiveType || ``).indexOf(`2g`) !== -1 &&
       navigator.connection.saveData
     ) {
       return true;
@@ -55,8 +55,7 @@ const docusaurus = {
       const chunkAssets = window.__chunkMapping[chunkName] || [];
       return arr.concat(chunkAssets);
     }, []);
-    const dedupedChunkAssets = Array.from(new Set(chunkAssetsNeeded));
-    Promise.all(dedupedChunkAssets.map(prefetchHelper)).then(() => {
+    Promise.all(chunkAssetsNeeded.map(prefetchHelper)).then(() => {
       fetched[routePath] = true;
     });
     return true;

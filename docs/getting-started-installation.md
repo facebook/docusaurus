@@ -8,7 +8,7 @@ Docusaurus was designed from the ground up to be easily installed and used to ge
 
 ## Installing Docusaurus
 
-We have created an easy script that will get all of the infrastructure set up for you:
+We have created a helpful script that will get all of the infrastructure set up for you:
 
 1.  Ensure you have the latest version of [Node](https://nodejs.org/en/download/) installed. We also recommend you install [Yarn](https://yarnpkg.com/en/docs/install) as well.
 

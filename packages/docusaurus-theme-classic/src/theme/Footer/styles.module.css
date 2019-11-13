@@ -5,10 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-.blogPostTitle {
-  font-size: 3rem;
+.footerLogoLink {
+  opacity: 0.5;
+  transition: opacity 0.15s ease-in-out;
 }
 
-.blogPostDate {
-  font-size: 0.9rem;
+.footerLogoLink:hover {
+  opacity: 1;
 }

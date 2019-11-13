@@ -194,7 +194,7 @@ Now, whenever a new commit lands in `master`, CircleCI will run your suite of te
 
 When initially deploying to a `gh-pages` branch using CircleCI, you may notice that some jobs triggered by commits to the `gh-pages` branch fail to run successfully due to a lack of tests (This can also result in chat/slack build failure notifications).
 
-You can work around this easily by:
+You can work around this by:
 - Setting the environment variable `CUSTOM_COMMIT_MESSAGE` flag to the `publish-gh-pages` command with the contents of `[skip ci]`.
 e.g.
 ```bash
@@ -247,7 +247,7 @@ Now, whenever a new commit lands in `master`, Travis CI will run your suite of t
 
 ### Hosting on ZEIT Now
 
-With [ZEIT Now](#using-zeit-now), you can deploy your site easily and connect it to [GitHub](https://zeit.co/github) or [GitLab](https://zeit.co/gitlab) to automatically receive a new deployment every time you push a commit.
+With [ZEIT Now](#using-zeit-now), you can deploy your site and connect it to [GitHub](https://zeit.co/github) or [GitLab](https://zeit.co/gitlab) to automatically receive a new deployment every time you push a commit.
 
 ### Hosting on Netlify
 
