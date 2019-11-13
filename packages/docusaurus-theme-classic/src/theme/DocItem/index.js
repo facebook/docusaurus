@@ -132,11 +132,15 @@ function DocItem(props) {
                               {lastUpdatedAt && (
                                 <>
                                   on{' '}
-                                  <strong>
+                                  <time
+                                    dateTime={new Date(
+                                      lastUpdatedAt * 1000,
+                                    ).toISOString()}
+                                    className={styles.docLastUpdatedAt}>
                                     {new Date(
                                       lastUpdatedAt * 1000,
                                     ).toLocaleDateString()}
-                                  </strong>
+                                  </time>
                                   {lastUpdatedBy && ' '}
                                 </>
                               )}
