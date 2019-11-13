@@ -23,7 +23,7 @@ function BlogPostPage(props) {
               <BlogPostItem
                 frontMatter={frontMatter}
                 metadata={metadata}
-                isBlogPostPage={true}>
+                isBlogPostPage>
                 <BlogPostContents />
               </BlogPostItem>
               <div className="margin-vert--xl">
