@@ -23,7 +23,7 @@ To publish in the blog, create a file within the blog directory with a formatted
 
 For example, at `my-website/blog/2019-09-05-hello-docusaurus-v2.md`:
 
-```md
+```yml
 ---
 title: Welcome Docusaurus v2
 author: Dattatreya Tripathy
@@ -32,7 +32,6 @@ authorURL: https://github.com/dt97
 authorTwitter: CuriousDT
 tags: [hello, docusaurus-v2]
 ---
-
 Welcome to this blog. This blog is created with [**Docusaurus 2 alpha**](https://v2.docusaurus.io/).
 
 <!--truncate-->
@@ -56,11 +55,10 @@ The only required field is `title`; however, we provide options to add author in
 
 Use the `<!--truncate-->` marker in your blog post to represent what will be shown as the summary when viewing all published blog posts. Anything above `<!--truncate-->` will be part of the summary. For example:
 
-```md {9}
+```yml
 ---
 title: Truncation Example
 ---
-
 All this will be part of the blog post summary.
 
 Even this.
@@ -101,7 +99,7 @@ module.exports = {
         blog: {
           feedOptions: {
             type: 'all',
-            copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`
+            copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`,
           },
         },
       },

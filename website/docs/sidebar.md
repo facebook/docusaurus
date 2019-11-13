@@ -91,11 +91,10 @@ website # root directory of your site
 
 However, the last part of the `id` can be defined by user in the frontmatter. For example, if `guide/hello.md` content is defined as below, it's final `id` is `guide/part1`.
 
-```md
+```yml
 ---
 id: part1
 ---
-
 Lorem ipsum
 ```
 
