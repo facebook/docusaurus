@@ -121,8 +121,13 @@
   padding: 18px 36px;
 }
 
-.indexCtasGitHubButton {
+.indexCtasGitHubButtonWrapper {
   vertical-align: sub;
+}
+
+.indexCtasGitHubButton {
+  border: none;
+  overflow: hidden;
 }
 
 @media only screen and (max-width: 768px) {

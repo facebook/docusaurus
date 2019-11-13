@@ -85,11 +85,10 @@ function Home() {
               to={useBaseUrl('docs/introduction')}>
               Get Started
             </Link>
-            <span className={styles.indexCtasGitHubButton}>
+            <span className={styles.indexCtasGitHubButtonWrapper}>
               <iframe
+                className={styles.indexCtasGitHubButton}
                 src="https://ghbtns.com/github-btn.html?user=facebook&amp;repo=docusaurus&amp;type=star&amp;count=true&amp;size=large"
-                frameBorder={0}
-                scrolling={0}
                 width={160}
                 height={30}
                 title="GitHub Stars"
