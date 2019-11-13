@@ -18,7 +18,6 @@ function FooterLink({to, href, label, ...props}) {
   return (
     <Link
       className="footer__link-item"
-      {...props}
       {...(href
         ? {
             target: '_blank',
@@ -27,7 +26,8 @@ function FooterLink({to, href, label, ...props}) {
           }
         : {
             to: toUrl,
-          })}>
+          })}
+      {...props}>
       {label}
     </Link>
   );
