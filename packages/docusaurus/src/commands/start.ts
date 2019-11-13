@@ -6,7 +6,7 @@
  */
 
 import {normalizeUrl} from '@docusaurus/utils';
-import chalk from 'chalk';
+import chalk = require('chalk');
 import chokidar from 'chokidar';
 import express from 'express';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
