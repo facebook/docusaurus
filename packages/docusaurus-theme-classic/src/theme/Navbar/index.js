@@ -9,6 +9,7 @@ import React, {useCallback, useState} from 'react';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
+import {dispatch} from '@docusaurus/useEventBus';
 
 import SearchBar from '@theme/SearchBar';
 import Toggle from '@theme/Toggle';
@@ -63,7 +64,11 @@ function Navbar() {
   }, [setSidebarShown]);
 
   const onToggleChange = useCallback(
-    e => setTheme(e.target.checked ? 'dark' : ''),
+    e => {
+      const newTheme = e.target.checked ? 'dark' : '';
+      setTheme(newTheme);
+      dispatch('docusaurus-change-theme', {newTheme});
+    },
     [setTheme],
   );
 

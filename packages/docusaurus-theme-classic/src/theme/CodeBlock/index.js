@@ -13,6 +13,7 @@ import Clipboard from 'clipboard';
 import rangeParser from 'parse-numeric-range';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useTheme from '@theme/hooks/useTheme';
+import useEventBus from '@docusaurus/useEventBus';
 import styles from './styles.module.css';
 
 const highlightLinesRangeRegex = /{([\d,-]+)}/;
@@ -30,17 +31,21 @@ export default ({children, className: languageClassName, metastring}) => {
 
   const [theme] = useTheme();
   const [prismTheme, setPrismTheme] = useState(defaultTheme);
+  const changePrismTheme = newTheme =>
+    prism.darkTheme && newTheme === 'dark'
+      ? setPrismTheme(prism.darkTheme)
+      : setPrismTheme(defaultTheme);
 
   if (metastring && highlightLinesRangeRegex.test(metastring)) {
     const highlightLinesRange = metastring.match(highlightLinesRangeRegex)[1];
     highlightLines = rangeParser.parse(highlightLinesRange).filter(n => n > 0);
   }
 
-  useEffect(() => {
-    if (prism.darkTheme && theme === 'dark') {
-      setPrismTheme(prism.darkTheme);
-    }
-  }, [theme]);
+  useEventBus('docusaurus-change-theme', ({newTheme}) =>
+    changePrismTheme(newTheme),
+  );
+
+  useEffect(() => changePrismTheme(theme), [theme]);
 
   useEffect(() => {
     let clipboard;
