@@ -28,7 +28,6 @@ export default ({children, className: languageClassName, metastring}) => {
   const target = useRef(null);
   const button = useRef(null);
   let highlightLines = [];
-
   const [theme] = useTheme();
   const [prismTheme, setPrismTheme] = useState(defaultTheme);
   const changePrismTheme = newTheme =>
