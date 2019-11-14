@@ -39,6 +39,13 @@ function normalizeCategory(
   category: SidebarItemCategoryRaw,
   level = 0,
 ): SidebarItemCategory {
+  if (level === 0 && category.type !== 'category') {
+    throw new Error(
+      `Error loading ${JSON.stringify(
+        category,
+      )}. First level item of a sidebar must be a category`,
+    );
+  }
   assertItem(category, ['items', 'label']);
 
   if (!Array.isArray(category.items)) {
