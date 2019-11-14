@@ -34,6 +34,16 @@ describe('loadSidebars', () => {
     );
   });
 
+  test('sidebars with first level not a category', async () => {
+    const sidebarPath = path.join(
+      fixtureDir,
+      'sidebars-first-level-not-category',
+    );
+    expect(() => loadSidebars(sidebarPath)).toThrowErrorMatchingInlineSnapshot(
+      `"Error loading {\\"type\\":\\"doc\\",\\"id\\":\\"api\\"}. First level item of a sidebar must be a category"`,
+    );
+  });
+
   test('sidebars with unknown sidebar item type', async () => {
     const sidebarPath = path.join(fixtureDir, 'sidebars-unknown-type.json');
     expect(() => loadSidebars(sidebarPath)).toThrowErrorMatchingInlineSnapshot(
