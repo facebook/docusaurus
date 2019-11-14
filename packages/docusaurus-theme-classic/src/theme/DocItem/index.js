@@ -37,7 +37,7 @@ function Headings({headings, isChild}) {
       {headings.map(heading => (
         <li key={heading.id}>
           <a href={`#${heading.id}`} className={LINK_CLASS_NAME}>
-            {heading.value}
+            <div dangerouslySetInnerHTML={{__html: heading.value}} />
           </a>
           <Headings isChild headings={heading.children} />
         </li>

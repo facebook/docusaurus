@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`non text phrasing content 1`] = `
+"export const rightToc = [
+	{
+		value: '<em>Emphasis</em>',
+		id: 'emphasis',
+		children: [
+			{
+				value: '<strong>Importance</strong>',
+				id: 'importance',
+				children: []
+			}
+		]
+	},
+	{
+		value: '<del>Strikethrough</del>',
+		id: 'strikethrough',
+		children: []
+	},
+	{
+		value: '<i>HTML</i>',
+		id: 'ihtmli',
+		children: []
+	},
+	{
+		value: '<code>inline.code()</code>',
+		id: 'inlinecode',
+		children: []
+	}
+];
+
+## _Emphasis_
+
+### **Importance**
+
+## ~~Strikethrough~~
+
+## <i>HTML</i>
+
+## \`inline.code()\`
+"
+`;
