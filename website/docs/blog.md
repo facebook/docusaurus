@@ -29,7 +29,6 @@ title: Welcome Docusaurus v2
 author: Dattatreya Tripathy
 authorTitle: Contributor of Docusaurus 2
 authorURL: https://github.com/dt97
-authorTwitter: CuriousDT
 tags: [hello, docusaurus-v2]
 ---
 Welcome to this blog. This blog is created with [**Docusaurus 2 alpha**](https://v2.docusaurus.io/).
@@ -47,7 +46,7 @@ The only required field is `title`; however, we provide options to add author in
 
 - `author` - The author name to be displayed.
 - `authorURL` - The URL that the author's name will be linked to. This could be a GitHub, Twitter, Facebook account URL, etc.
-- `authorImageURL` - The URL to the author's image. (Note: If you use both `authorFBID` and `authorImageURL`, `authorFBID` will take precedence. Don't include `authorFBID` if you want `authorImageURL` to appear.)
+- `authorImageURL` - The URL to the author's image.
 - `title` - The blog post title.
 - `tags` - A list of strings to tag to your post.
 
