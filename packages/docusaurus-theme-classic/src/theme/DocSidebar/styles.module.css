@@ -12,6 +12,12 @@
     padding: 0.5rem;
     position: sticky;
     top: var(--ifm-navbar-height);
+    flex: 0 0 300px;
+    scrollbar-width: none;
+  }
+
+  .sidebar::-webkit-scrollbar {
+    width: 0 !important;
   }
 }
 
