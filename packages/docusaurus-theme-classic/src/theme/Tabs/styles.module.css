@@ -1,0 +1,9 @@
+.tabItem:hover,
+.tabItem:active,
+.tabItem:focus {
+  outline: 0;
+}
+
+.tabItem:focus {
+  background-color: var(--ifm-hover-overlay);
+}
