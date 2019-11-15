@@ -27,7 +27,7 @@ function DocSidebarItem({item, onItemClick, collapsible}) {
     setCollapsed(item.collapsed);
   }
 
-  const handleClickItem = useCallback(e => {
+  const handleItemClick = useCallback(e => {
     e.preventDefault();
     setCollapsed(state => !state);
   });
@@ -47,7 +47,7 @@ function DocSidebarItem({item, onItemClick, collapsible}) {
                 'menu__link--active': collapsible && !item.collapsed,
               })}
               href="#!"
-              onClick={collapsible ? handleClickItem : undefined}>
+              onClick={collapsible ? handleItemClick : undefined}>
               {label}
             </a>
             <ul className="menu__list">
