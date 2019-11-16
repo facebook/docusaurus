@@ -30,15 +30,18 @@ function DocTOC({headings}) {
   );
 }
 
+/* eslint-disable jsx-a11y/control-has-associated-label */
 function Headings({headings, isChild}) {
   if (!headings.length) return null;
   return (
     <ul className={isChild ? '' : 'contents contents__left-border'}>
       {headings.map(heading => (
         <li key={heading.id}>
-          <a href={`#${heading.id}`} className={LINK_CLASS_NAME}>
-            {heading.value}
-          </a>
+          <a
+            href={`#${heading.id}`}
+            className={LINK_CLASS_NAME}
+            dangerouslySetInnerHTML={{__html: heading.value}}
+          />
           <Headings isChild headings={heading.children} />
         </li>
       ))}

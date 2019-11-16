@@ -22,7 +22,12 @@ const processFixture = async (name, options) => {
   return result.toString();
 };
 
-test('no options', async () => {
+test('non text phrasing content', async () => {
+  const result = await processFixture('non-text-content');
+  expect(result).toMatchSnapshot();
+});
+
+test('text content', async () => {
   const result = await processFixture('just-content');
   expect(result).toMatchInlineSnapshot(`
 "export const rightToc = [
