@@ -10,7 +10,7 @@ import globby from 'globby';
 import fs from 'fs-extra';
 import path from 'path';
 import {normalizeUrl, docuHash, objectWithKeySorted} from '@docusaurus/utils';
-import {LoadContext, Plugin} from '@docusaurus/types';
+import {LoadContext, Plugin, RouteConfig} from '@docusaurus/types';
 
 import createOrder from './order';
 import loadSidebars from './sidebars';
@@ -33,6 +33,8 @@ import {
   DocsBaseMetadata,
   MetadataRaw,
   DocsMetadataRaw,
+  Metadata,
+  PermalinkToVersion,
 } from './types';
 import {Configuration} from 'webpack';
 
@@ -57,6 +59,7 @@ export default function pluginContentDocs(
   const {siteDir, generatedFilesDir, baseUrl} = context;
   const docsDir = path.resolve(siteDir, options.path);
   const sourceToPermalink: SourceToPermalink = {};
+  const permalinkToVersion: PermalinkToVersion = {};
   const dataDir = path.join(
     generatedFilesDir,
     'docusaurus-plugin-content-docs',
@@ -189,10 +192,13 @@ export default function pluginContentDocs(
         };
 
         // sourceToPermalink and permalinkToSidebar mapping
-        const {source, permalink} = docsMetadataRaw[currentID];
+        const {source, permalink, version} = docsMetadataRaw[currentID];
         sourceToPermalink[source] = permalink;
         if (sidebar) {
           permalinkToSidebar[permalink] = sidebar;
+        }
+        if (version && versioning.enabled) {
+          permalinkToVersion[permalink] = version;
         }
       });
 
@@ -248,7 +254,6 @@ export default function pluginContentDocs(
         docsMetadata,
         docsDir,
         docsSidebars,
-        sourceToPermalink,
         permalinkToSidebar: objectWithKeySorted(permalinkToSidebar),
       };
     },
@@ -263,45 +268,113 @@ export default function pluginContentDocs(
       const aliasedSource = (source: string) =>
         `@docusaurus-plugin-content-docs/${path.relative(dataDir, source)}`;
 
-      const routes = await Promise.all(
-        Object.values(content.docsMetadata).map(async metadataItem => {
-          const metadataPath = await createData(
-            `${docuHash(metadataItem.permalink)}.json`,
-            JSON.stringify(metadataItem, null, 2),
-          );
-          return {
-            path: metadataItem.permalink,
-            component: docItemComponent,
-            exact: true,
-            modules: {
-              content: metadataItem.source,
-              metadata: aliasedSource(metadataPath),
-            },
-          };
-        }),
-      );
-
-      const docsBaseMetadata: DocsBaseMetadata = {
-        docsSidebars: content.docsSidebars,
-        permalinkToSidebar: content.permalinkToSidebar,
+      const genRoutes = async (
+        metadataItems: Metadata[],
+      ): Promise<RouteConfig[]> => {
+        const routes = await Promise.all(
+          metadataItems.map(async metadataItem => {
+            const metadataPath = await createData(
+              `${docuHash(metadataItem.permalink)}.json`,
+              JSON.stringify(metadataItem, null, 2),
+            );
+            return {
+              path: metadataItem.permalink,
+              component: docItemComponent,
+              exact: true,
+              modules: {
+                content: metadataItem.source,
+                metadata: aliasedSource(metadataPath),
+              },
+            };
+          }),
+        );
+        return routes.sort((a, b) =>
+          a.path > b.path ? 1 : b.path > a.path ? -1 : 0,
+        );
       };
 
-      const docsBaseRoute = normalizeUrl([baseUrl, routeBasePath, ':route']);
-      const docsBaseMetadataPath = await createData(
-        `${docuHash(docsBaseRoute)}.json`,
-        JSON.stringify(docsBaseMetadata, null, 2),
-      );
+      const addBaseRoute = async (
+        docsBaseRoute: string,
+        docsBaseMetadata: DocsBaseMetadata,
+        routes: RouteConfig[],
+        priority?: number,
+      ) => {
+        const docsBaseMetadataPath = await createData(
+          `${docuHash(docsBaseRoute)}.json`,
+          JSON.stringify(docsBaseMetadata, null, 2),
+        );
 
-      addRoute({
-        path: docsBaseRoute,
-        component: docLayoutComponent,
-        routes: routes.sort((a, b) =>
-          a.path > b.path ? 1 : b.path > a.path ? -1 : 0,
-        ),
-        modules: {
-          docsMetadata: aliasedSource(docsBaseMetadataPath),
-        },
-      });
+        addRoute({
+          path: docsBaseRoute,
+          component: docLayoutComponent,
+          routes,
+          modules: {
+            docsMetadata: aliasedSource(docsBaseMetadataPath),
+          },
+          priority,
+        });
+      };
+
+      // If versioning is enabled, we cleverly chunk the generated routes to be by version
+      // and pick only needed base metadata
+      if (versioning.enabled) {
+        const docsMetadataByVersion = _.groupBy(
+          Object.values(content.docsMetadata),
+          'version',
+        );
+        await Promise.all(
+          Object.keys(docsMetadataByVersion).map(async version => {
+            const routes: RouteConfig[] = await genRoutes(
+              docsMetadataByVersion[version],
+            );
+
+            const isLatestVersion = version === versioning.latestVersion;
+            const docsBasePermalink = normalizeUrl([
+              baseUrl,
+              routeBasePath,
+              isLatestVersion ? '' : version,
+            ]);
+            const docsBaseRoute = normalizeUrl([docsBasePermalink, ':route']);
+            const pickedSidebarsKeys: Set<string> = new Set();
+            const pickedPermalinkToSidebar: PermalinkToSidebar = _.pickBy(
+              content.permalinkToSidebar,
+              (sidebar, permalink) => {
+                const isPartOfRoute = permalinkToVersion[permalink] === version;
+                if (isPartOfRoute) {
+                  pickedSidebarsKeys.add(sidebar);
+                }
+                return isPartOfRoute;
+              },
+            );
+            const docsBaseMetadata: DocsBaseMetadata = {
+              docsSidebars: _.pick(
+                content.docsSidebars,
+                Array.from(pickedSidebarsKeys),
+              ),
+              permalinkToSidebar: pickedPermalinkToSidebar,
+              version,
+            };
+
+            // We want latest version route config to be placed last in the generated routeconfig.
+            // Otherwise, `/docs/next/foo` will match `/docs/:route` instead of `/docs/next/:route`
+            return addBaseRoute(
+              docsBaseRoute,
+              docsBaseMetadata,
+              routes,
+              isLatestVersion ? -1 : undefined,
+            );
+          }),
+        );
+      } else {
+        const routes = await genRoutes(Object.values(content.docsMetadata));
+        const docsBaseMetadata: DocsBaseMetadata = {
+          docsSidebars: content.docsSidebars,
+          permalinkToSidebar: content.permalinkToSidebar,
+        };
+
+        const docsBaseRoute = normalizeUrl([baseUrl, routeBasePath, ':route']);
+        return addBaseRoute(docsBaseRoute, docsBaseMetadata, routes);
+      }
     },
 
     configureWebpack(_config, isServer, utils) {

@@ -131,18 +131,23 @@ export interface PermalinkToSidebar {
   [permalink: string]: string;
 }
 
+export interface PermalinkToVersion {
+  [permalink: string]: string;
+}
+
 export interface LoadedContent {
   docsMetadata: DocsMetadata;
   docsDir: string;
   docsSidebars: Sidebar;
-  sourceToPermalink: SourceToPermalink;
   permalinkToSidebar: PermalinkToSidebar;
 }
 
 export type DocsBaseMetadata = Pick<
   LoadedContent,
   'docsSidebars' | 'permalinkToSidebar'
->;
+> & {
+  version?: string;
+};
 
 export type VersioningEnv = {
   enabled: boolean;

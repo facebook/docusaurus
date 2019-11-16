@@ -124,6 +124,7 @@ export interface RouteConfig {
   modules?: RouteModule;
   routes?: RouteConfig[];
   exact?: boolean;
+  priority?: number;
 }
 
 export interface ThemeAlias {

@@ -58,6 +58,7 @@ Array [
       "docsMetadata": "@docusaurus-plugin-content-docs/docs-route-ff2.json",
     },
     "path": "/docs/:route",
+    "priority": undefined,
     "routes": Array [
       Object {
         "component": "@theme/DocItem",
@@ -187,9 +188,66 @@ Array [
   Object {
     "component": "@theme/DocPage",
     "modules": Object {
+      "docsMetadata": "@docusaurus-plugin-content-docs/docs-next-route-1c8.json",
+    },
+    "path": "/docs/next/:route",
+    "priority": undefined,
+    "routes": Array [
+      Object {
+        "component": "@theme/DocItem",
+        "exact": true,
+        "modules": Object {
+          "content": "@site/docs/foo/bar.md",
+          "metadata": "@docusaurus-plugin-content-docs/docs-next-foo-bar-09c.json",
+        },
+        "path": "/docs/next/foo/bar",
+      },
+      Object {
+        "component": "@theme/DocItem",
+        "exact": true,
+        "modules": Object {
+          "content": "@site/docs/hello.md",
+          "metadata": "@docusaurus-plugin-content-docs/docs-next-hello-64c.json",
+        },
+        "path": "/docs/next/hello",
+      },
+    ],
+  },
+  Object {
+    "component": "@theme/DocPage",
+    "modules": Object {
       "docsMetadata": "@docusaurus-plugin-content-docs/docs-route-ff2.json",
     },
     "path": "/docs/:route",
+    "priority": -1,
+    "routes": Array [
+      Object {
+        "component": "@theme/DocItem",
+        "exact": true,
+        "modules": Object {
+          "content": "@site/versioned_docs/version-1.0.1/foo/bar.md",
+          "metadata": "@docusaurus-plugin-content-docs/docs-foo-bar-cef.json",
+        },
+        "path": "/docs/foo/bar",
+      },
+      Object {
+        "component": "@theme/DocItem",
+        "exact": true,
+        "modules": Object {
+          "content": "@site/versioned_docs/version-1.0.1/hello.md",
+          "metadata": "@docusaurus-plugin-content-docs/docs-hello-da2.json",
+        },
+        "path": "/docs/hello",
+      },
+    ],
+  },
+  Object {
+    "component": "@theme/DocPage",
+    "modules": Object {
+      "docsMetadata": "@docusaurus-plugin-content-docs/docs-1-0-0-route-660.json",
+    },
+    "path": "/docs/1.0.0/:route",
+    "priority": undefined,
     "routes": Array [
       Object {
         "component": "@theme/DocItem",
@@ -217,42 +275,6 @@ Array [
           "metadata": "@docusaurus-plugin-content-docs/docs-1-0-0-hello-1d0.json",
         },
         "path": "/docs/1.0.0/hello",
-      },
-      Object {
-        "component": "@theme/DocItem",
-        "exact": true,
-        "modules": Object {
-          "content": "@site/versioned_docs/version-1.0.1/foo/bar.md",
-          "metadata": "@docusaurus-plugin-content-docs/docs-foo-bar-cef.json",
-        },
-        "path": "/docs/foo/bar",
-      },
-      Object {
-        "component": "@theme/DocItem",
-        "exact": true,
-        "modules": Object {
-          "content": "@site/versioned_docs/version-1.0.1/hello.md",
-          "metadata": "@docusaurus-plugin-content-docs/docs-hello-da2.json",
-        },
-        "path": "/docs/hello",
-      },
-      Object {
-        "component": "@theme/DocItem",
-        "exact": true,
-        "modules": Object {
-          "content": "@site/docs/foo/bar.md",
-          "metadata": "@docusaurus-plugin-content-docs/docs-next-foo-bar-09c.json",
-        },
-        "path": "/docs/next/foo/bar",
-      },
-      Object {
-        "component": "@theme/DocItem",
-        "exact": true,
-        "modules": Object {
-          "content": "@site/docs/hello.md",
-          "metadata": "@docusaurus-plugin-content-docs/docs-next-hello-64c.json",
-        },
-        "path": "/docs/next/hello",
       },
     ],
   },

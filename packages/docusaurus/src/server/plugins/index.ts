@@ -83,6 +83,15 @@ export async function loadPlugins({
     if (!a.routes && b.routes) {
       return -1;
     }
+    // Higher priority get placed first
+    if (a.priority || b.priority) {
+      const priorityA = a.priority || 0;
+      const priorityB = b.priority || 0;
+      const score = priorityA > priorityB ? -1 : priorityB > priorityA ? 1 : 0;
+      if (score !== 0) {
+        return score;
+      }
+    }
     return a.path > b.path ? 1 : b.path > a.path ? -1 : 0;
   });
 

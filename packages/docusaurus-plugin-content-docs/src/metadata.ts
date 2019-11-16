@@ -134,12 +134,12 @@ export default async function processMetadata({
     description,
     source: aliasedPath,
     permalink,
-    sidebar_label,
-    hide_title,
     editUrl: custom_edit_url || docsEditUrl,
+    version,
     lastUpdatedBy,
     lastUpdatedAt,
-    version,
+    sidebar_label,
+    hide_title,
   };
 
   return metadata;

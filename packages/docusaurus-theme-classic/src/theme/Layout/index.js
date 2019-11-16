@@ -31,6 +31,7 @@ function Layout(props) {
     image,
     keywords,
     permalink,
+    version,
   } = props;
   const metaTitle = title || `${defaultTitle} · ${tagline}`;
   const metaImage = image || defaultImage;
@@ -47,6 +48,7 @@ function Layout(props) {
         {description && (
           <meta property="og:description" content={description} />
         )}
+        {version && <meta name="docsearch:version" content={version} />}
         {keywords && keywords.length && (
           <meta name="keywords" content={keywords.join(',')} />
         )}
