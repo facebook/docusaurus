@@ -184,6 +184,20 @@ Object {
 `;
 
 exports[`versioned website content 2`] = `
+Object {
+  "1.0.0": Set {
+    "version-1.0.0/docs",
+  },
+  "1.0.1": Set {
+    "version-1.0.1/docs",
+  },
+  "next": Set {
+    "docs",
+  },
+}
+`;
+
+exports[`versioned website content 3`] = `
 Array [
   Object {
     "component": "@theme/DocPage",

@@ -127,7 +127,8 @@ describe('simple website', () => {
 
   test('content', async () => {
     const content = await plugin.loadContent();
-    const {docsMetadata, docsSidebars} = content;
+    const {docsMetadata, docsSidebars, versionToSidebars} = content;
+    expect(versionToSidebars).toEqual({});
     expect(docsMetadata.hello).toEqual({
       id: 'hello',
       permalink: '/docs/hello',
@@ -232,7 +233,7 @@ describe('versioned website', () => {
 
   test('content', async () => {
     const content = await plugin.loadContent();
-    const {docsMetadata, docsSidebars} = content;
+    const {docsMetadata, docsSidebars, versionToSidebars} = content;
 
     // foo/baz.md only exists in version -1.0.0
     expect(docsMetadata['foo/baz']).toBeUndefined();
@@ -307,6 +308,7 @@ describe('versioned website', () => {
     });
 
     expect(docsSidebars).toMatchSnapshot();
+    expect(versionToSidebars).toMatchSnapshot();
     const routeConfigs = [];
     const actions = createFakeActions(routeConfigs, pluginContentDir);
     await plugin.contentLoaded({

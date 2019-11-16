@@ -131,8 +131,8 @@ export interface PermalinkToSidebar {
   [permalink: string]: string;
 }
 
-export interface PermalinkToVersion {
-  [permalink: string]: string;
+export interface VersionToSidebars {
+  [version: string]: Set<string>;
 }
 
 export interface LoadedContent {
@@ -140,6 +140,7 @@ export interface LoadedContent {
   docsDir: string;
   docsSidebars: Sidebar;
   permalinkToSidebar: PermalinkToSidebar;
+  versionToSidebars: VersionToSidebars;
 }
 
 export type DocsBaseMetadata = Pick<

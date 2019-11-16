@@ -34,7 +34,7 @@ import {
   MetadataRaw,
   DocsMetadataRaw,
   Metadata,
-  PermalinkToVersion,
+  VersionToSidebars,
 } from './types';
 import {Configuration} from 'webpack';
 
@@ -59,7 +59,7 @@ export default function pluginContentDocs(
   const {siteDir, generatedFilesDir, baseUrl} = context;
   const docsDir = path.resolve(siteDir, options.path);
   const sourceToPermalink: SourceToPermalink = {};
-  const permalinkToVersion: PermalinkToVersion = {};
+
   const dataDir = path.join(
     generatedFilesDir,
     'docusaurus-plugin-content-docs',
@@ -169,6 +169,7 @@ export default function pluginContentDocs(
       // Construct inter-metadata relationship in docsMetadata
       const docsMetadata: DocsMetadata = {};
       const permalinkToSidebar: PermalinkToSidebar = {};
+      const versionToSidebars: VersionToSidebars = {};
       Object.keys(docsMetadataRaw).forEach(currentID => {
         const {next: nextID, previous: previousID, sidebar} =
           order[currentID] || {};
@@ -196,9 +197,12 @@ export default function pluginContentDocs(
         sourceToPermalink[source] = permalink;
         if (sidebar) {
           permalinkToSidebar[permalink] = sidebar;
-        }
-        if (version && versioning.enabled) {
-          permalinkToVersion[permalink] = version;
+          if (versioning.enabled && version) {
+            if (!versionToSidebars[version]) {
+              versionToSidebars[version] = new Set();
+            }
+            versionToSidebars[version].add(sidebar);
+          }
         }
       });
 
@@ -255,6 +259,7 @@ export default function pluginContentDocs(
         docsDir,
         docsSidebars,
         permalinkToSidebar: objectWithKeySorted(permalinkToSidebar),
+        versionToSidebars,
       };
     },
 
@@ -335,23 +340,17 @@ export default function pluginContentDocs(
               isLatestVersion ? '' : version,
             ]);
             const docsBaseRoute = normalizeUrl([docsBasePermalink, ':route']);
-            const pickedSidebarsKeys: Set<string> = new Set();
-            const pickedPermalinkToSidebar: PermalinkToSidebar = _.pickBy(
-              content.permalinkToSidebar,
-              (sidebar, permalink) => {
-                const isPartOfRoute = permalinkToVersion[permalink] === version;
-                if (isPartOfRoute) {
-                  pickedSidebarsKeys.add(sidebar);
-                }
-                return isPartOfRoute;
-              },
-            );
+            const neededSidebars: Set<string> =
+              content.versionToSidebars[version] || new Set();
             const docsBaseMetadata: DocsBaseMetadata = {
               docsSidebars: _.pick(
                 content.docsSidebars,
-                Array.from(pickedSidebarsKeys),
+                Array.from(neededSidebars),
               ),
-              permalinkToSidebar: pickedPermalinkToSidebar,
+              permalinkToSidebar: _.pickBy(
+                content.permalinkToSidebar,
+                sidebar => neededSidebars.has(sidebar),
+              ),
               version,
             };
 
