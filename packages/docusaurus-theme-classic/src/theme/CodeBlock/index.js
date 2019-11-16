@@ -13,7 +13,7 @@ import Clipboard from 'clipboard';
 import rangeParser from 'parse-numeric-range';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useTheme from '@theme/hooks/useTheme';
-import useEventBus from '@docusaurus/useEventBus';
+import useEventBus from '@theme/hooks/useEventBus';
 import styles from './styles.module.css';
 
 const highlightLinesRangeRegex = /{([\d,-]+)}/;
@@ -29,11 +29,12 @@ export default ({children, className: languageClassName, metastring}) => {
   const button = useRef(null);
   let highlightLines = [];
   const [theme] = useTheme();
-  const [prismTheme, setPrismTheme] = useState(defaultTheme);
+  const lightThemePrism = prism.theme || defaultTheme;
+  const [prismTheme, setPrismTheme] = useState(lightThemePrism);
   const changePrismTheme = newTheme =>
     prism.darkTheme && newTheme === 'dark'
       ? setPrismTheme(prism.darkTheme)
-      : setPrismTheme(defaultTheme);
+      : setPrismTheme(lightThemePrism);
 
   if (metastring && highlightLinesRangeRegex.test(metastring)) {
     const highlightLinesRange = metastring.match(highlightLinesRangeRegex)[1];

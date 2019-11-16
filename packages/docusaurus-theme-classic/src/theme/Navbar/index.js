@@ -9,7 +9,6 @@ import React, {useCallback, useState} from 'react';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
-import {dispatch} from '@docusaurus/useEventBus';
 
 import SearchBar from '@theme/SearchBar';
 import Toggle from '@theme/Toggle';
@@ -18,6 +17,7 @@ import classnames from 'classnames';
 
 import useTheme from '@theme/hooks/useTheme';
 import useHideableNavbar from '@theme/hooks/useHideableNavbar';
+import {dispatch} from '@theme/hooks/useEventBus';
 
 import styles from './styles.module.css';
 
