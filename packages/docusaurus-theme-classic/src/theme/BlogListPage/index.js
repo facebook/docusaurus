@@ -22,7 +22,6 @@ function BlogListPage(props) {
             {items.map(
               ({content: BlogPostContent, metadata: blogPostMetadata}) => (
                 <BlogPostItem
-                  className="margin-bottom--xl"
                   key={blogPostMetadata.permalink}
                   frontMatter={BlogPostContent.frontMatter}
                   metadata={blogPostMetadata}

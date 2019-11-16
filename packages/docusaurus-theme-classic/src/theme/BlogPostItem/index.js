@@ -21,7 +21,6 @@ function BlogPostItem(props) {
     metadata,
     truncated,
     isBlogPostPage = false,
-    ...attrs
   } = props;
   const {date, permalink, tags} = metadata;
   const {author, authorURL, authorTitle, authorFBID, title} = frontMatter;
@@ -93,7 +92,7 @@ function BlogPostItem(props) {
   };
 
   return (
-    <article {...attrs}>
+    <article className={!isBlogPostPage ? 'margin-bottom--xl' : undefined}>
       {renderPostHeader()}
       <section className="markdown">
         <MDXProvider components={MDXComponents}>{children}</MDXProvider>
