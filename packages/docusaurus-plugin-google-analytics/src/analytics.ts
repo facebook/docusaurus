@@ -4,13 +4,19 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+import {DocusaurusConfig} from '@docusaurus/types';
 
-import siteConfig from '@generated/docusaurus.config';
+declare global {
+  interface Window {
+    ga?: UniversalAnalytics.ga;
+    GoogleAnalyticsObject?: string;
+  }
+}
 
-const {themeConfig} = siteConfig;
+const {themeConfig}: DocusaurusConfig = require('@generated/docusaurus.config');
 
 export default (function() {
-  if (!themeConfig.googleAnalytics) {
+  if (!themeConfig || !themeConfig.googleAnalytics) {
     return null;
   }
 
@@ -32,18 +38,19 @@ export default (function() {
   }
 
   /* eslint-disable */
-  (function(i, s, o, g, r, a, m) {
+  (function(i, s, o: 'script', g, r: 'ga') {
     i['GoogleAnalyticsObject'] = r;
     (i[r] =
       i[r] ||
       function() {
         (i[r].q = i[r].q || []).push(arguments);
       }),
-      (i[r].l = 1 * new Date());
-    (a = s.createElement(o)), (m = s.getElementsByTagName(o)[0]);
-    a.async = 1;
+      (i[r].l = 1 * (new Date() as any));
+    const a = s.createElement(o);
+    const m = s.getElementsByTagName(o)[0];
+    a.async = (1 as any) as boolean;
     a.src = g;
-    m.parentNode.insertBefore(a, m);
+    m.parentNode!.insertBefore(a, m);
   })(
     window,
     document,
@@ -57,7 +64,7 @@ export default (function() {
   window.ga('send', 'pageview');
 
   return {
-    onRouteUpdate({location}) {
+    onRouteUpdate({location}: {location: Location}) {
       // Set page so that subsequent hits on this page are attributed
       // to this page. This is recommended for Single-page Applications.
       window.ga('set', 'page', location.pathname);

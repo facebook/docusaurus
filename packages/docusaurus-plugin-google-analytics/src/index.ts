@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const path = require('path');
+import path from 'path';
 
-module.exports = function() {
+export = function() {
   return {
     name: 'docusaurus-plugin-google-analytics',
 
