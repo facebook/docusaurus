@@ -29,16 +29,14 @@ function BlogTagsPostPage(props) {
             <div className="margin-vert--xl">
               {items.map(
                 ({content: BlogPostContent, metadata: blogPostMetadata}) => (
-                  <div
+                  <BlogPostItem
                     className="margin-vert--xl"
-                    key={blogPostMetadata.permalink}>
-                    <BlogPostItem
-                      frontMatter={BlogPostContent.frontMatter}
-                      metadata={blogPostMetadata}
-                      truncated>
-                      <BlogPostContent />
-                    </BlogPostItem>
-                  </div>
+                    key={blogPostMetadata.permalink}
+                    frontMatter={BlogPostContent.frontMatter}
+                    metadata={blogPostMetadata}
+                    truncated>
+                    <BlogPostContent />
+                  </BlogPostItem>
                 ),
               )}
             </div>

@@ -21,6 +21,7 @@ function BlogPostItem(props) {
     metadata,
     truncated,
     isBlogPostPage = false,
+    ...attrs
   } = props;
   const {date, permalink, tags} = metadata;
   const {author, authorURL, authorTitle, authorFBID, title} = frontMatter;
@@ -92,13 +93,13 @@ function BlogPostItem(props) {
   };
 
   return (
-    <div>
+    <article {...attrs}>
       {renderPostHeader()}
-      <article className="markdown">
+      <section className="markdown">
         <MDXProvider components={MDXComponents}>{children}</MDXProvider>
-      </article>
+      </section>
       {(tags.length > 0 || truncated) && (
-        <div className="row margin-vert--lg">
+        <footer className="row margin-vert--lg">
           {tags.length > 0 && (
             <div className="col">
               <strong>Tags:</strong>
@@ -121,9 +122,9 @@ function BlogPostItem(props) {
               </Link>
             </div>
           )}
-        </div>
+        </footer>
       )}
-    </div>
+    </article>
   );
 }
 
