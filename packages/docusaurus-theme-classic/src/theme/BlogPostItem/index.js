@@ -92,13 +92,13 @@ function BlogPostItem(props) {
   };
 
   return (
-    <div>
+    <article className={!isBlogPostPage ? 'margin-bottom--xl' : undefined}>
       {renderPostHeader()}
-      <article className="markdown">
+      <section className="markdown">
         <MDXProvider components={MDXComponents}>{children}</MDXProvider>
-      </article>
+      </section>
       {(tags.length > 0 || truncated) && (
-        <div className="row margin-vert--lg">
+        <footer className="row margin-vert--lg">
           {tags.length > 0 && (
             <div className="col">
               <strong>Tags:</strong>
@@ -121,9 +121,9 @@ function BlogPostItem(props) {
               </Link>
             </div>
           )}
-        </div>
+        </footer>
       )}
-    </div>
+    </article>
   );
 }
 
