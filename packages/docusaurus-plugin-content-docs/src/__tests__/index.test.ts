@@ -16,12 +16,19 @@ import {applyConfigureWebpack} from '@docusaurus/core/src/webpack/utils';
 import {RouteConfig} from '@docusaurus/types';
 import {posixPath} from '@docusaurus/utils';
 
-const createFakeActions = (routeConfigs: RouteConfig[], contentDir) => {
+const createFakeActions = (
+  routeConfigs: RouteConfig[],
+  contentDir,
+  dataContainer?,
+) => {
   return {
     addRoute: (config: RouteConfig) => {
       routeConfigs.push(config);
     },
-    createData: async (name, _content) => {
+    createData: async (name, content) => {
+      if (dataContainer) {
+        dataContainer[name] = content;
+      }
       return path.join(contentDir, name);
     },
   };
@@ -127,7 +134,12 @@ describe('simple website', () => {
 
   test('content', async () => {
     const content = await plugin.loadContent();
-    const {docsMetadata, docsSidebars, versionToSidebars} = content;
+    const {
+      docsMetadata,
+      docsSidebars,
+      versionToSidebars,
+      permalinkToSidebar,
+    } = content;
     expect(versionToSidebars).toEqual({});
     expect(docsMetadata.hello).toEqual({
       id: 'hello',
@@ -158,12 +170,22 @@ describe('simple website', () => {
     expect(docsSidebars).toMatchSnapshot();
 
     const routeConfigs = [];
-    const actions = createFakeActions(routeConfigs, pluginContentDir);
+    const dataContainer = {};
+    const actions = createFakeActions(
+      routeConfigs,
+      pluginContentDir,
+      dataContainer,
+    );
 
     await plugin.contentLoaded({
       content,
       actions,
     });
+
+    // There is only one nested docs route for simple site
+    const baseMetadata = JSON.parse(dataContainer['docs-route-ff2.json']);
+    expect(baseMetadata.docsSidebars).toEqual(docsSidebars);
+    expect(baseMetadata.permalinkToSidebar).toEqual(permalinkToSidebar);
 
     expect(routeConfigs).not.toEqual([]);
     expect(routeConfigs).toMatchSnapshot();
@@ -233,7 +255,12 @@ describe('versioned website', () => {
 
   test('content', async () => {
     const content = await plugin.loadContent();
-    const {docsMetadata, docsSidebars, versionToSidebars} = content;
+    const {
+      docsMetadata,
+      docsSidebars,
+      versionToSidebars,
+      permalinkToSidebar,
+    } = content;
 
     // foo/baz.md only exists in version -1.0.0
     expect(docsMetadata['foo/baz']).toBeUndefined();
@@ -307,14 +334,54 @@ describe('versioned website', () => {
       },
     });
 
-    expect(docsSidebars).toMatchSnapshot();
-    expect(versionToSidebars).toMatchSnapshot();
+    expect(docsSidebars).toMatchSnapshot('all sidebars');
+    expect(versionToSidebars).toMatchSnapshot(
+      'sidebars needed for each version',
+    );
     const routeConfigs = [];
-    const actions = createFakeActions(routeConfigs, pluginContentDir);
+    const dataContainer = {};
+    const actions = createFakeActions(
+      routeConfigs,
+      pluginContentDir,
+      dataContainer,
+    );
     await plugin.contentLoaded({
       content,
       actions,
     });
+
+    // The created base metadata for each nested docs route is smartly chunked/ splitted across version
+    const latestVersionBaseMetadata = JSON.parse(
+      dataContainer['docs-route-ff2.json'],
+    );
+    expect(latestVersionBaseMetadata).toMatchSnapshot(
+      'base metadata for latest version',
+    );
+    expect(latestVersionBaseMetadata.docsSidebars).not.toEqual(docsSidebars);
+    expect(latestVersionBaseMetadata.permalinkToSidebar).not.toEqual(
+      permalinkToSidebar,
+    );
+    const nextVersionBaseMetadata = JSON.parse(
+      dataContainer['docs-next-route-1c8.json'],
+    );
+    expect(nextVersionBaseMetadata).toMatchSnapshot(
+      'base metadata for next version',
+    );
+    expect(nextVersionBaseMetadata.docsSidebars).not.toEqual(docsSidebars);
+    expect(nextVersionBaseMetadata.permalinkToSidebar).not.toEqual(
+      permalinkToSidebar,
+    );
+    const firstVersionBaseMetadata = JSON.parse(
+      dataContainer['docs-1-0-0-route-660.json'],
+    );
+    expect(firstVersionBaseMetadata).toMatchSnapshot(
+      'base metadata for first version',
+    );
+    expect(nextVersionBaseMetadata.docsSidebars).not.toEqual(docsSidebars);
+    expect(nextVersionBaseMetadata.permalinkToSidebar).not.toEqual(
+      permalinkToSidebar,
+    );
+
     expect(routeConfigs).not.toEqual([]);
     expect(routeConfigs).toMatchSnapshot();
   });

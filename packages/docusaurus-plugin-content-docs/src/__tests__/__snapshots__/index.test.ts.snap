@@ -102,102 +102,6 @@ Array [
 `;
 
 exports[`versioned website content 1`] = `
-Object {
-  "docs": Array [
-    Object {
-      "items": Array [
-        Object {
-          "href": "/docs/next/foo/bar",
-          "label": "bar",
-          "type": "link",
-        },
-      ],
-      "label": "Test",
-      "type": "category",
-    },
-    Object {
-      "items": Array [
-        Object {
-          "href": "/docs/next/hello",
-          "label": "hello",
-          "type": "link",
-        },
-      ],
-      "label": "Guides",
-      "type": "category",
-    },
-  ],
-  "version-1.0.0/docs": Array [
-    Object {
-      "items": Array [
-        Object {
-          "href": "/docs/1.0.0/foo/bar",
-          "label": "bar",
-          "type": "link",
-        },
-        Object {
-          "href": "/docs/1.0.0/foo/baz",
-          "label": "baz",
-          "type": "link",
-        },
-      ],
-      "label": "Test",
-      "type": "category",
-    },
-    Object {
-      "items": Array [
-        Object {
-          "href": "/docs/1.0.0/hello",
-          "label": "hello",
-          "type": "link",
-        },
-      ],
-      "label": "Guides",
-      "type": "category",
-    },
-  ],
-  "version-1.0.1/docs": Array [
-    Object {
-      "items": Array [
-        Object {
-          "href": "/docs/foo/bar",
-          "label": "bar",
-          "type": "link",
-        },
-      ],
-      "label": "Test",
-      "type": "category",
-    },
-    Object {
-      "items": Array [
-        Object {
-          "href": "/docs/hello",
-          "label": "hello",
-          "type": "link",
-        },
-      ],
-      "label": "Guides",
-      "type": "category",
-    },
-  ],
-}
-`;
-
-exports[`versioned website content 2`] = `
-Object {
-  "1.0.0": Set {
-    "version-1.0.0/docs",
-  },
-  "1.0.1": Set {
-    "version-1.0.1/docs",
-  },
-  "next": Set {
-    "docs",
-  },
-}
-`;
-
-exports[`versioned website content 3`] = `
 Array [
   Object {
     "component": "@theme/DocPage",
@@ -293,4 +197,214 @@ Array [
     ],
   },
 ]
+`;
+
+exports[`versioned website content: all sidebars 1`] = `
+Object {
+  "docs": Array [
+    Object {
+      "items": Array [
+        Object {
+          "href": "/docs/next/foo/bar",
+          "label": "bar",
+          "type": "link",
+        },
+      ],
+      "label": "Test",
+      "type": "category",
+    },
+    Object {
+      "items": Array [
+        Object {
+          "href": "/docs/next/hello",
+          "label": "hello",
+          "type": "link",
+        },
+      ],
+      "label": "Guides",
+      "type": "category",
+    },
+  ],
+  "version-1.0.0/docs": Array [
+    Object {
+      "items": Array [
+        Object {
+          "href": "/docs/1.0.0/foo/bar",
+          "label": "bar",
+          "type": "link",
+        },
+        Object {
+          "href": "/docs/1.0.0/foo/baz",
+          "label": "baz",
+          "type": "link",
+        },
+      ],
+      "label": "Test",
+      "type": "category",
+    },
+    Object {
+      "items": Array [
+        Object {
+          "href": "/docs/1.0.0/hello",
+          "label": "hello",
+          "type": "link",
+        },
+      ],
+      "label": "Guides",
+      "type": "category",
+    },
+  ],
+  "version-1.0.1/docs": Array [
+    Object {
+      "items": Array [
+        Object {
+          "href": "/docs/foo/bar",
+          "label": "bar",
+          "type": "link",
+        },
+      ],
+      "label": "Test",
+      "type": "category",
+    },
+    Object {
+      "items": Array [
+        Object {
+          "href": "/docs/hello",
+          "label": "hello",
+          "type": "link",
+        },
+      ],
+      "label": "Guides",
+      "type": "category",
+    },
+  ],
+}
+`;
+
+exports[`versioned website content: base metadata for first version 1`] = `
+Object {
+  "docsSidebars": Object {
+    "version-1.0.0/docs": Array [
+      Object {
+        "items": Array [
+          Object {
+            "href": "/docs/1.0.0/foo/bar",
+            "label": "bar",
+            "type": "link",
+          },
+          Object {
+            "href": "/docs/1.0.0/foo/baz",
+            "label": "baz",
+            "type": "link",
+          },
+        ],
+        "label": "Test",
+        "type": "category",
+      },
+      Object {
+        "items": Array [
+          Object {
+            "href": "/docs/1.0.0/hello",
+            "label": "hello",
+            "type": "link",
+          },
+        ],
+        "label": "Guides",
+        "type": "category",
+      },
+    ],
+  },
+  "permalinkToSidebar": Object {
+    "/docs/1.0.0/foo/bar": "version-1.0.0/docs",
+    "/docs/1.0.0/foo/baz": "version-1.0.0/docs",
+    "/docs/1.0.0/hello": "version-1.0.0/docs",
+  },
+  "version": "1.0.0",
+}
+`;
+
+exports[`versioned website content: base metadata for latest version 1`] = `
+Object {
+  "docsSidebars": Object {
+    "version-1.0.1/docs": Array [
+      Object {
+        "items": Array [
+          Object {
+            "href": "/docs/foo/bar",
+            "label": "bar",
+            "type": "link",
+          },
+        ],
+        "label": "Test",
+        "type": "category",
+      },
+      Object {
+        "items": Array [
+          Object {
+            "href": "/docs/hello",
+            "label": "hello",
+            "type": "link",
+          },
+        ],
+        "label": "Guides",
+        "type": "category",
+      },
+    ],
+  },
+  "permalinkToSidebar": Object {
+    "/docs/foo/bar": "version-1.0.1/docs",
+    "/docs/hello": "version-1.0.1/docs",
+  },
+  "version": "1.0.1",
+}
+`;
+
+exports[`versioned website content: base metadata for next version 1`] = `
+Object {
+  "docsSidebars": Object {
+    "docs": Array [
+      Object {
+        "items": Array [
+          Object {
+            "href": "/docs/next/foo/bar",
+            "label": "bar",
+            "type": "link",
+          },
+        ],
+        "label": "Test",
+        "type": "category",
+      },
+      Object {
+        "items": Array [
+          Object {
+            "href": "/docs/next/hello",
+            "label": "hello",
+            "type": "link",
+          },
+        ],
+        "label": "Guides",
+        "type": "category",
+      },
+    ],
+  },
+  "permalinkToSidebar": Object {
+    "/docs/next/foo/bar": "docs",
+    "/docs/next/hello": "docs",
+  },
+  "version": "next",
+}
+`;
+
+exports[`versioned website content: sidebars needed for each version 1`] = `
+Object {
+  "1.0.0": Set {
+    "version-1.0.0/docs",
+  },
+  "1.0.1": Set {
+    "version-1.0.1/docs",
+  },
+  "next": Set {
+    "docs",
+  },
+}
 `;
