@@ -422,6 +422,8 @@ Refer to the [multi-language support code blocks](markdown-features.mdx#multi-la
 
 The Docusaurus frontmatter fields for the blog have been changed from camelCase to snake_case to be consistent with the docs.
 
+The fields `authorFBID` and `authorTwitter` have been deprecated. They are only used for generating the profile image of the author which can be done via the `author_image_url` field.
+
 ## Update `.gitignore`
 
 The `.gitignore` in your `website` should contain:
