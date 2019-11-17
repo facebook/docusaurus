@@ -63,7 +63,7 @@
 
 .heroProjectTagline {
   color: #fff;
-  font-size: 64px;
+  font-size: 60px;
   margin: 0;
 }
 
@@ -117,7 +117,6 @@
   color: #fff;
   font-size: 24px;
   font-weight: bold;
-  margin-right: 24px;
   padding: 18px 36px;
 }
 
@@ -127,6 +126,7 @@
 
 .indexCtasGitHubButton {
   border: none;
+  margin-left: 24px;
   overflow: hidden;
 }
 
