@@ -117,7 +117,7 @@ export function createBaseConfig(
               },
               // Only create one CSS file to avoid
               // problems with code-split CSS loading in different orders
-              // causing inconsistent/non-determanistic styling
+              // causing inconsistent/non-deterministic styling
               // See https://github.com/facebook/docusaurus/issues/2006
               styles: {
                 name: 'styles',
