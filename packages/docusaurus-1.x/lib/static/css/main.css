@@ -653,6 +653,16 @@ blockquote {
   padding: 0;
 }
 
+.mainContainer .wrapper .post .postHeader:before,
+.mainContainer .wrapper .post .postHeaderTitle:before {
+  content: "";
+  display: block;
+  height: 90px; /* fixed header height and empty space below it */
+  margin-top: -90px;  /* negative fixed header height and empty space below it  */
+  visibility: hidden;
+  pointer-events: none;
+}
+
 .mainContainer .wrapper .post .postSocialPlugins {
   padding-top: 1em;
 }
@@ -712,6 +722,18 @@ blockquote {
 
   .mainContainer .wrapper .posts .post {
     width: 100%;
+  }
+}
+
+@media only screen and (max-width: 1023px) {
+  .mainContainer .wrapper .post .postHeader:before,
+  .mainContainer .wrapper .post .postHeaderTitle:before {
+    content: "";
+    display: block;
+    height: 200px; /* fixed header height and empty space below it */
+    margin-top: -200px;  /* negative fixed header height and empty space below it  */
+    visibility: hidden;
+    pointer-events: none;
   }
 }
 /* End of Main Container */
