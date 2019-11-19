@@ -113,7 +113,7 @@ export default async function processMetadata({
     routePath,
   ]);
 
-  const {sidebar_label, hide_title, custom_edit_url} = frontMatter;
+  const {sidebar_label, custom_edit_url} = frontMatter;
 
   const relativePath = path.relative(siteDir, filePath);
 
@@ -139,7 +139,6 @@ export default async function processMetadata({
     lastUpdatedBy,
     lastUpdatedAt,
     sidebar_label,
-    hide_title,
   };
 
   return metadata;

@@ -100,7 +100,6 @@ export interface MetadataRaw extends LastUpdateData {
   permalink: string;
   sidebar_label?: string;
   editUrl?: string;
-  hide_title?: boolean;
   version?: string;
 }
 

@@ -9,6 +9,29 @@ const toString = require('mdast-util-to-string');
 const visit = require('unist-util-visit');
 const slugs = require('github-slugger')();
 
+// https://github.com/syntax-tree/mdast#heading
+function toValue(node) {
+  if (node && node.type) {
+    switch (node.type) {
+      case 'text':
+        return node.value;
+      case 'heading':
+        return node.children.map(toValue).join('');
+      case 'inlineCode':
+        return `<code>${node.value}</code>`;
+      case 'emphasis':
+        return `<em>${node.children.map(toValue).join('')}</em>`;
+      case 'strong':
+        return `<strong>${node.children.map(toValue).join('')}</strong>`;
+      case 'delete':
+        return `<del>${node.children.map(toValue).join('')}</del>`;
+      default:
+        return toString(node);
+    }
+  }
+  return '';
+}
+
 // Visit all headings. We `slug` all headings (to account for
 // duplicates), but only take h2 and h3 headings.
 const search = node => {
@@ -28,7 +51,7 @@ const search = node => {
       return;
     }
 
-    const entry = {value, id: slug, children: []};
+    const entry = {value: toValue(child), id: slug, children: []};
 
     if (!headings.length || currentDepth >= child.depth) {
       headings.push(entry);

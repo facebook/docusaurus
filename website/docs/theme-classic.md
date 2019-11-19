@@ -3,7 +3,7 @@ id: theme-classic
 title: Classic Theme Configuration
 ---
 
-_This section is a work in progress._
+> :warning: _This section is a work in progress._
 
 ## Common
 
@@ -71,8 +71,8 @@ module.exports = {
     prism: {
       theme: require('prism-react-renderer/themes/dracula'),
     },
-  }
-}
+  },
+};
 ```
 
 ### Default language
@@ -86,6 +86,6 @@ module.exports = {
     prism: {
       defaultLanguage: 'javascript',
     },
-  }
-}
+  },
+};
 ```

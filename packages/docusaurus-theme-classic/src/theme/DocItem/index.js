@@ -30,15 +30,18 @@ function DocTOC({headings}) {
   );
 }
 
+/* eslint-disable jsx-a11y/control-has-associated-label */
 function Headings({headings, isChild}) {
   if (!headings.length) return null;
   return (
     <ul className={isChild ? '' : 'contents contents__left-border'}>
       {headings.map(heading => (
         <li key={heading.id}>
-          <a href={`#${heading.id}`} className={LINK_CLASS_NAME}>
-            {heading.value}
-          </a>
+          <a
+            href={`#${heading.id}`}
+            className={LINK_CLASS_NAME}
+            dangerouslySetInnerHTML={{__html: heading.value}}
+          />
           <Headings isChild headings={heading.children} />
         </li>
       ))}
@@ -49,7 +52,7 @@ function Headings({headings, isChild}) {
 function DocItem(props) {
   const {siteConfig = {}} = useDocusaurusContext();
   const {url: siteUrl} = siteConfig;
-  const {metadata, content: DocContent} = props;
+  const {metadata, frontMatter, content: DocContent} = props;
   const {
     description,
     title,
@@ -60,6 +63,7 @@ function DocItem(props) {
     lastUpdatedBy,
     keywords,
   } = metadata;
+  const {hide_title: hideTitle} = frontMatter;
 
   const metaImageUrl = siteUrl + useBaseUrl(metaImage);
 
@@ -87,7 +91,7 @@ function DocItem(props) {
             <div className="col">
               <div className={styles.docItemContainer}>
                 <article>
-                  {!metadata.hide_title && (
+                  {!hideTitle && (
                     <header>
                       <h1 className={styles.docTitle}>{metadata.title}</h1>
                     </header>
@@ -132,11 +136,15 @@ function DocItem(props) {
                               {lastUpdatedAt && (
                                 <>
                                   on{' '}
-                                  <strong>
+                                  <time
+                                    dateTime={new Date(
+                                      lastUpdatedAt * 1000,
+                                    ).toISOString()}
+                                    className={styles.docLastUpdatedAt}>
                                     {new Date(
                                       lastUpdatedAt * 1000,
                                     ).toLocaleDateString()}
-                                  </strong>
+                                  </time>
                                   {lastUpdatedBy && ' '}
                                 </>
                               )}

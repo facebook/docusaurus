@@ -27,7 +27,7 @@
 }
 
 .browserWindowAddressBar {
-  flex: 1 0 auto;
+  flex: 1 0;
   margin-left: 0.5rem;
   margin-right: 1rem;
 }

@@ -64,9 +64,7 @@ function Home() {
   const {siteConfig = {}} = context;
 
   return (
-    <Layout
-      permalink={'/'}
-      description={'Easy to Maintain Open Source Documentation Websites'}>
+    <Layout permalink="/" description={siteConfig.tagline}>
       <div className={styles.hero}>
         <div className={styles.heroInner}>
           <h1 className={styles.heroProjectTagline}>
@@ -75,9 +73,10 @@ function Home() {
               className={styles.heroLogo}
               src={useBaseUrl('img/docusaurus_keytar.svg')}
             />
-            {siteConfig.title} makes it easy to maintain{' '}
-            <span className={styles.heroProjectKeywords}>Open Source</span>{' '}
-            documentation websites.
+            Build <span className={styles.heroProjectKeywords}>optimized</span>{' '}
+            websites <span className={styles.heroProjectKeywords}>quickly</span>
+            , focus on your{' '}
+            <span className={styles.heroProjectKeywords}>content</span>
           </h1>
           <div className={styles.indexCtas}>
             <Link
@@ -85,11 +84,10 @@ function Home() {
               to={useBaseUrl('docs/introduction')}>
               Get Started
             </Link>
-            <span className={styles.indexCtasGitHubButton}>
+            <span className={styles.indexCtasGitHubButtonWrapper}>
               <iframe
+                className={styles.indexCtasGitHubButton}
                 src="https://ghbtns.com/github-btn.html?user=facebook&amp;repo=docusaurus&amp;type=star&amp;count=true&amp;size=large"
-                frameBorder={0}
-                scrolling={0}
                 width={160}
                 height={30}
                 title="GitHub Stars"
@@ -183,7 +181,7 @@ function Home() {
                 className={styles.featureImage}
                 src={useBaseUrl('img/undraw_algolia.svg')}
               />
-              <h3 className="padding-top--md">Document Search</h3>
+              <h3 className="padding-top--md">Content Search</h3>
               <p className="padding-horiz--md">
                 Make it easy for your community to find what they need in your
                 documentation. We proudly support Algolia documentation search.

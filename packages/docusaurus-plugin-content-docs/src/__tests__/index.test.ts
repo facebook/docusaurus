@@ -15,6 +15,7 @@ import {loadContext} from '@docusaurus/core/src/server/index';
 import {applyConfigureWebpack} from '@docusaurus/core/src/webpack/utils';
 import {RouteConfig} from '@docusaurus/types';
 import {posixPath} from '@docusaurus/utils';
+import {sortConfig} from '@docusaurus/core/src/server/plugins';
 
 const createFakeActions = (
   routeConfigs: RouteConfig[],
@@ -381,6 +382,9 @@ describe('versioned website', () => {
     expect(nextVersionBaseMetadata.permalinkToSidebar).not.toEqual(
       permalinkToSidebar,
     );
+
+    // Sort the route config like in src/server/plugins/index.ts for consistent snapshot ordering
+    sortConfig(routeConfigs);
 
     expect(routeConfigs).not.toEqual([]);
     expect(routeConfigs).toMatchSnapshot();

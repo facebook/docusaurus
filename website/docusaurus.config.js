@@ -7,7 +7,8 @@
 
 module.exports = {
   title: 'Docusaurus',
-  tagline: 'Easy to Maintain Open Source Documentation Websites',
+  tagline:
+    'An optimized site generator in React. Docusaurus helps you to move fast and write content. Build documentation websites, blogs, marketing pages, and more.',
   organizationName: 'facebook',
   projectName: 'docusaurus',
   baseUrl: '/',

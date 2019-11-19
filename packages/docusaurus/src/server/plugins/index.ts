@@ -17,6 +17,28 @@ import {
 } from '@docusaurus/types';
 import {initPlugins} from './init';
 
+export function sortConfig(routeConfigs: RouteConfig[]) {
+  // Sort the route config. This ensures that route with nested routes is always placed last
+  routeConfigs.sort((a, b) => {
+    if (a.routes && !b.routes) {
+      return 1;
+    }
+    if (!a.routes && b.routes) {
+      return -1;
+    }
+    // Higher priority get placed first
+    if (a.priority || b.priority) {
+      const priorityA = a.priority || 0;
+      const priorityB = b.priority || 0;
+      const score = priorityA > priorityB ? -1 : priorityB > priorityA ? 1 : 0;
+      if (score !== 0) {
+        return score;
+      }
+    }
+    return a.path > b.path ? 1 : b.path > a.path ? -1 : 0;
+  });
+}
+
 export async function loadPlugins({
   pluginConfigs,
   context,
@@ -76,24 +98,7 @@ export async function loadPlugins({
   );
 
   // Sort the route config. This ensures that route with nested routes is always placed last
-  pluginsRouteConfigs.sort((a, b) => {
-    if (a.routes && !b.routes) {
-      return 1;
-    }
-    if (!a.routes && b.routes) {
-      return -1;
-    }
-    // Higher priority get placed first
-    if (a.priority || b.priority) {
-      const priorityA = a.priority || 0;
-      const priorityB = b.priority || 0;
-      const score = priorityA > priorityB ? -1 : priorityB > priorityA ? 1 : 0;
-      if (score !== 0) {
-        return score;
-      }
-    }
-    return a.path > b.path ? 1 : b.path > a.path ? -1 : 0;
-  });
+  sortConfig(pluginsRouteConfigs);
 
   return {
     plugins,

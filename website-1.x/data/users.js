@@ -141,6 +141,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Collective',
+    image: '/img/users/collective.png',
+    infoLink: 'https://collective.gg/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'ConfigCat',
     image: '/img/users/configcat.svg',
     infoLink: 'https://configcat.com/docs',

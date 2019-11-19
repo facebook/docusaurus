@@ -102,19 +102,32 @@ export function createBaseConfig(
             }),
           ]
         : undefined,
-      splitChunks: {
-        // Since the chunk name includes all origin chunk names it’s recommended for production builds with long term caching to NOT include [name] in the filenames
-        name: false,
-        cacheGroups: {
-          // disable the built-in cacheGroups
-          default: false,
-          common: {
-            name: 'common',
-            minChunks: totalPages > 2 ? totalPages * 0.5 : 2,
-            priority: 40,
+      splitChunks: isServer
+        ? false
+        : {
+            // Since the chunk name includes all origin chunk names it’s recommended for production builds with long term caching to NOT include [name] in the filenames
+            name: false,
+            cacheGroups: {
+              // disable the built-in cacheGroups
+              default: false,
+              common: {
+                name: 'common',
+                minChunks: totalPages > 2 ? totalPages * 0.5 : 2,
+                priority: 40,
+              },
+              // Only create one CSS file to avoid
+              // problems with code-split CSS loading in different orders
+              // causing inconsistent/non-deterministic styling
+              // See https://github.com/facebook/docusaurus/issues/2006
+              styles: {
+                name: 'styles',
+                test: /\.css$/,
+                chunks: `all`,
+                enforce: true,
+                priority: 50,
+              },
+            },
           },
-        },
-      },
     },
     module: {
       rules: [
@@ -163,7 +176,6 @@ export function createBaseConfig(
     plugins: [
       new MiniCssExtractPlugin({
         filename: isProd ? '[name].[contenthash:8].css' : '[name].css',
-        chunkFilename: isProd ? '[name].[contenthash:8].css' : '[name].css',
       }),
     ],
   };
