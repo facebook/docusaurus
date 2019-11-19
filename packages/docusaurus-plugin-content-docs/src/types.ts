@@ -94,8 +94,6 @@ export interface MetadataRaw extends OrderMetadata {
   editUrl?: string;
   lastUpdatedAt?: number;
   lastUpdatedBy?: string;
-  hide_title?: boolean;
-  hide_table_of_contents?: boolean;
   [key: string]: any;
 }
 

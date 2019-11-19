@@ -62,8 +62,13 @@ function DocItem(props) {
     lastUpdatedAt,
     lastUpdatedBy,
     keywords,
-    hideTableOfContents,
   } = metadata;
+  const {
+    frontMatter: {
+      hide_title: hideTitle,
+      hide_table_of_contents: hideTableOfContents,
+    },
+  } = DocContent;
 
   const metaImageUrl = siteUrl + useBaseUrl(metaImage);
 
@@ -91,7 +96,7 @@ function DocItem(props) {
             <div className="col">
               <div className={styles.docItemContainer}>
                 <article>
-                  {!metadata.hide_title && (
+                  {!hideTitle && (
                     <header>
                       <h1 className={styles.docTitle}>{metadata.title}</h1>
                     </header>
