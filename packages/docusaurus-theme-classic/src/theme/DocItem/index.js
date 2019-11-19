@@ -52,7 +52,7 @@ function Headings({headings, isChild}) {
 function DocItem(props) {
   const {siteConfig = {}} = useDocusaurusContext();
   const {url: siteUrl} = siteConfig;
-  const {metadata, frontMatter, content: DocContent} = props;
+  const {metadata, content: DocContent} = props;
   const {
     description,
     title,
@@ -63,7 +63,9 @@ function DocItem(props) {
     lastUpdatedBy,
     keywords,
   } = metadata;
-  const {hide_title: hideTitle} = frontMatter;
+  const {
+    frontMatter: {hide_title: hideTitle},
+  } = DocContent;
 
   const metaImageUrl = siteUrl + useBaseUrl(metaImage);
 
