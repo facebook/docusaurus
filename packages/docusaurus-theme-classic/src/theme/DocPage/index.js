@@ -35,7 +35,6 @@ function DocPage(props) {
 
   return (
     <Layout version={version}>
-      {version && <div className="badge badge--info">Version: {version}</div>}
       <div className={styles.docPage}>
         {sidebar && (
           <div className={styles.docSidebarContainer}>
