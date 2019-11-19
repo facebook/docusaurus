@@ -62,6 +62,7 @@ function DocItem(props) {
     lastUpdatedAt,
     lastUpdatedBy,
     keywords,
+    hideTableOfContents,
   } = metadata;
 
   const metaImageUrl = siteUrl + useBaseUrl(metaImage);
@@ -172,7 +173,9 @@ function DocItem(props) {
                 </div>
               </div>
             </div>
-            {DocContent.rightToc && <DocTOC headings={DocContent.rightToc} />}
+            {!hideTableOfContents && DocContent.rightToc && (
+              <DocTOC headings={DocContent.rightToc} />
+            )}
           </div>
         </div>
       </div>

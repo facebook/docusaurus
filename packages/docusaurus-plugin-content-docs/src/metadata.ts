@@ -111,6 +111,11 @@ export default async function processMetadata({
     delete metadata.custom_edit_url;
   }
 
+  if (metadata.hide_table_of_contents) {
+    metadata.hideTableOfContents = Boolean(metadata.hide_table_of_contents);
+    delete metadata.hide_table_of_contents;
+  }
+
   if (showLastUpdateAuthor || showLastUpdateTime) {
     // Use fake data in dev for faster development
     const fileLastUpdateData =
