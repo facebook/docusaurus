@@ -3,6 +3,7 @@ title: Happy 1st Birthday Slash!
 author: Joel Marcey
 authorTitle: Co-creator of Docusaurus
 authorURL: https://github.com/JoelMarcey
+authorImageURL: https://graph.facebook.com/611217057/picture/?height=200&width=200
 authorFBID: 611217057
 authorTwitter: JoelMarcey
 tags: [birth]

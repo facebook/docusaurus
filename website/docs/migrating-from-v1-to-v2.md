@@ -400,9 +400,9 @@ This will copy the current `<Footer />` component used by the theme to a `src/th
 
 ## Update your page files
 
-Please refer to [creating pages](creating-pages.md) to learn how Docusaurus 2 pages work. After reading that, you can notice that we have to move `pages/en` files in v1 to `src/pages` instead.
+Please refer to [creating pages](creating-pages.md) to learn how Docusaurus 2 pages work. After reading that, notice that you have to move `pages/en` files in v1 to `src/pages` instead.
 
-`CompLibrary` is deprecated in v2, so you have to write your own React component or use Infima styles (Docs will be available soon, sorry about that! In the meanwhile, inspect the V2 website to see what styles are available).
+`CompLibrary` is deprecated in v2, so you have to write your own React component or use Infima styles (Docs will be available soon, sorry about that! In the meanwhile, inspect the V2 website or view https://facebookincubator.github.io/infima/ to see what styles are available).
 
 - The following code could be helpful for migration of various pages
   - Index page - [Flux](https://github.com/facebook/flux/blob/master/website/src/pages/index.js) (recommended), [Docusaurus 2](https://github.com/facebook/docusaurus/blob/master/website/src/pages/index.js), [Hermes](https://github.com/facebook/hermes/blob/master/website/src/pages/index.js),
@@ -417,6 +417,12 @@ In Docusaurus 2, the markdown syntax has been changed to [MDX](https://mdxjs.com
 ### Language-specific Code Tabs
 
 Refer to the [multi-language support code blocks](markdown-features.mdx#multi-language-support-code-blocks) section.
+
+## Update blog
+
+The Docusaurus frontmatter fields for the blog have been changed from camelCase to snake_case to be consistent with the docs.
+
+The fields `authorFBID` and `authorTwitter` have been deprecated. They are only used for generating the profile image of the author which can be done via the `author_image_url` field.
 
 ## Update `.gitignore`
 

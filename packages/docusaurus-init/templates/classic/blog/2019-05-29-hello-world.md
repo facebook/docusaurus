@@ -2,10 +2,9 @@
 id: hello-world
 title: Hello
 author: Endilie Yacop Sucipto
-authorTitle: Maintainer of Docusaurus
-authorURL: https://github.com/endiliey
-authorImageURL: https://avatars1.githubusercontent.com/u/17883920?s=460&v=4
-authorTwitter: endiliey
+author_title: Maintainer of Docusaurus
+author_url: https://github.com/endiliey
+author_image_url: https://avatars1.githubusercontent.com/u/17883920?s=460&v=4
 tags: [hello, docusaurus]
 ---
 
