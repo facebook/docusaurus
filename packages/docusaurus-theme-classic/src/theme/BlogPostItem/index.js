@@ -14,6 +14,21 @@ import MDXComponents from '@theme/MDXComponents';
 
 import styles from './styles.module.css';
 
+const MONTHS = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];
+
 function BlogPostItem(props) {
   const {
     children,
@@ -23,31 +38,19 @@ function BlogPostItem(props) {
     isBlogPostPage = false,
   } = props;
   const {date, permalink, tags} = metadata;
-  const {author, authorURL, authorTitle, authorFBID, title} = frontMatter;
+  const {author, title} = frontMatter;
+
+  const authorURL = frontMatter.author_url || frontMatter.authorURL;
+  const authorTitle = frontMatter.author_title || frontMatter.authorTitle;
+  const authorImageURL =
+    frontMatter.author_image_url || frontMatter.authorImageURL;
 
   const renderPostHeader = () => {
     const TitleHeading = isBlogPostPage ? 'h1' : 'h2';
     const match = date.substring(0, 10).split('-');
     const year = match[0];
-    const month = [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December',
-    ][parseInt(match[1], 10) - 1];
+    const month = MONTHS[parseInt(match[1], 10) - 1];
     const day = parseInt(match[2], 10);
-
-    const authorImageURL = authorFBID
-      ? `https://graph.facebook.com/${authorFBID}/picture/?height=200&width=200`
-      : frontMatter.authorImageURL;
 
     return (
       <header>
