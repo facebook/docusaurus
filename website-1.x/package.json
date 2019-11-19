@@ -14,7 +14,6 @@
     "crowdin-download": "crowdin --config ../crowdin.yaml download -b master"
   },
   "dependencies": {
-    "async": "^2.5.0",
     "docusaurus": "^2.0.0-alpha.35"
   }
 }
