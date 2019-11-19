@@ -39,12 +39,12 @@ describe('loadSidebars', () => {
   test('sidebars with first level not a category', async () => {
     const sidebarPath = path.join(
       fixtureDir,
-      'sidebars-first-level-not-category',
+      'sidebars-first-level-not-category.js',
     );
     expect(() =>
       loadSidebars([sidebarPath]),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"sidebarPaths.map is not a function"`,
+      `"Error loading {\\"type\\":\\"doc\\",\\"id\\":\\"api\\"}. First level item of a sidebar must be a category"`,
     );
   });
 
