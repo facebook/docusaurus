@@ -37,6 +37,7 @@ import {
   VersionToSidebars,
 } from './types';
 import {Configuration} from 'webpack';
+import {docsVersion} from './version';
 
 const DEFAULT_OPTIONS: PluginOptions = {
   path: 'docs', // Path to data on filesystem, relative to site dir.
@@ -77,6 +78,16 @@ export default function pluginContentDocs(
 
   return {
     name: 'docusaurus-plugin-content-docs',
+
+    extendCli(cli) {
+      cli
+        .command('docs:version')
+        .arguments('<version>')
+        .description('Tag a new version for docs')
+        .action(version => {
+          docsVersion(version, siteDir, options);
+        });
+    },
 
     getPathsToWatch() {
       const {include} = options;

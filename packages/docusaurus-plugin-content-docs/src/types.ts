@@ -23,24 +23,24 @@ export interface PluginOptions extends MetadataOptions {
 }
 
 export type SidebarItemDoc = {
-  type: string;
+  type: 'doc' | 'ref';
   id: string;
 };
 
 export interface SidebarItemLink {
-  type: string;
+  type: 'link';
   href: string;
   label: string;
 }
 
 export interface SidebarItemCategory {
-  type: string;
+  type: 'category';
   label: string;
   items: SidebarItem[];
 }
 
 export interface SidebarItemCategoryRaw {
-  type: string;
+  type: 'category';
   label: string;
   items: SidebarItemRaw[];
 }
@@ -54,7 +54,11 @@ export type SidebarItemRaw =
   | string
   | SidebarItemDoc
   | SidebarItemLink
-  | SidebarItemCategoryRaw;
+  | SidebarItemCategoryRaw
+  | {
+      type: string;
+      [key: string]: any;
+    };
 
 // Sidebar given by user that is not normalized yet. e.g: sidebars.json
 export interface SidebarRaw {
@@ -68,7 +72,7 @@ export interface Sidebar {
 }
 
 export interface DocsSidebarItemCategory {
-  type: string;
+  type: 'category';
   label: string;
   items: (SidebarItemLink | DocsSidebarItemCategory)[];
 }
@@ -137,7 +141,7 @@ export interface VersionToSidebars {
 export interface LoadedContent {
   docsMetadata: DocsMetadata;
   docsDir: string;
-  docsSidebars: Sidebar;
+  docsSidebars: DocsSidebar;
   permalinkToSidebar: PermalinkToSidebar;
   versionToSidebars: VersionToSidebars;
 }

@@ -14,6 +14,18 @@ import {
   VERSIONED_SIDEBARS_DIR,
 } from './constants';
 
+export function getVersionedDocsDir(siteDir: string) {
+  return path.join(siteDir, VERSIONED_DOCS_DIR);
+}
+
+export function getVersionedSidebarsDir(siteDir: string) {
+  return path.join(siteDir, VERSIONED_SIDEBARS_DIR);
+}
+
+export function getVersionsJSONFile(siteDir: string) {
+  return path.join(siteDir, VERSIONS_JSON_FILE);
+}
+
 export default function(siteDir: string): Env {
   const versioning: VersioningEnv = {
     enabled: false,
@@ -23,7 +35,7 @@ export default function(siteDir: string): Env {
     sidebarsDir: '',
   };
 
-  const versionsJSONFile = path.join(siteDir, VERSIONS_JSON_FILE);
+  const versionsJSONFile = getVersionsJSONFile(siteDir);
   if (fs.existsSync(versionsJSONFile)) {
     const parsedVersions = JSON.parse(
       fs.readFileSync(versionsJSONFile, 'utf8'),
@@ -32,8 +44,8 @@ export default function(siteDir: string): Env {
       versioning.latestVersion = parsedVersions[0];
       versioning.enabled = true;
       versioning.versions = parsedVersions;
-      (versioning.docsDir = path.join(siteDir, VERSIONED_DOCS_DIR)),
-        (versioning.sidebarsDir = path.join(siteDir, VERSIONED_SIDEBARS_DIR));
+      versioning.docsDir = getVersionedDocsDir(siteDir);
+      versioning.sidebarsDir = getVersionedSidebarsDir(siteDir);
     }
   }
 
