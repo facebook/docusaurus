@@ -37,8 +37,8 @@ Meanwhile, the default doc site functionalities provided by Docusaurus 1 are now
 {
   dependencies: {
 -    "docusaurus": "^1.x.x",
-+    "@docusaurus/core": "^2.0.0-alpha.36",
-+    "@docusaurus/preset-classic": "^2.0.0-alpha.36",
++    "@docusaurus/core": "^2.0.0-alpha.35",
++    "@docusaurus/preset-classic": "^2.0.0-alpha.35",
   }
 }
 ```
@@ -72,8 +72,8 @@ A typical Docusaurus 2 `package.json` may look like this:
     "deploy": "docusaurus deploy"
   },
   "dependencies": {
-    "@docusaurus/core": "^2.0.0-alpha.36",
-    "@docusaurus/preset-classic": "^2.0.0-alpha.36",
+    "@docusaurus/core": "^2.0.0-alpha.35",
+    "@docusaurus/preset-classic": "^2.0.0-alpha.35",
     "classnames": "^2.2.6",
     "react": "^16.10.2",
     "react-dom": "^16.10.2"
