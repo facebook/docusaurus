@@ -43,7 +43,7 @@ describe('getTOC', () => {
     test('correctly removes', () => {
       const headings = getTOC(`## <a name="foo"></a> Foo`, 'h2', []);
 
-      expect(headings[0].hashLink).toEqual('foo');
+      expect(headings[0].hashLink).toEqual('a-namefooa-foo');
       expect(headings[0].rawContent).toEqual(`<a name="foo"></a> Foo`);
       expect(headings[0].content).toEqual('Foo');
     });
@@ -51,7 +51,7 @@ describe('getTOC', () => {
     test('retains formatting from Markdown', () => {
       const headings = getTOC(`## <a name="foo"></a> _Foo_`, 'h2', []);
 
-      expect(headings[0].hashLink).toEqual('foo');
+      expect(headings[0].hashLink).toEqual('a-namefooa-_foo_');
       expect(headings[0].rawContent).toEqual(`<a name="foo"></a> _Foo_`);
       expect(headings[0].content).toEqual('<em>Foo</em>');
     });
