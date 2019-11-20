@@ -8,6 +8,7 @@
 import path from 'path';
 import {validate} from 'webpack';
 import {isMatch} from 'picomatch';
+import commander from 'commander';
 import fs from 'fs-extra';
 import pluginContentDocs from '../index';
 import loadEnv from '../env';
@@ -16,6 +17,8 @@ import {applyConfigureWebpack} from '@docusaurus/core/src/webpack/utils';
 import {RouteConfig} from '@docusaurus/types';
 import {posixPath} from '@docusaurus/utils';
 import {sortConfig} from '@docusaurus/core/src/server/plugins';
+
+import * as version from '../version';
 
 const createFakeActions = (
   routeConfigs: RouteConfig[],
@@ -92,6 +95,18 @@ describe('simple website', () => {
     sidebarPath,
   });
   const pluginContentDir = path.join(context.generatedFilesDir, plugin.name);
+
+  test('extendCli - docsVersion', () => {
+    const mock = jest.spyOn(version, 'docsVersion').mockImplementation();
+    const cli = new commander.Command();
+    plugin.extendCli(cli);
+    cli.parse(['node', 'test', 'docs:version', '1.0.0']);
+    expect(mock).toHaveBeenCalledWith('1.0.0', siteDir, {
+      path: pluginPath,
+      sidebarPath,
+    });
+    mock.mockRestore();
+  });
 
   test('getPathToWatch', () => {
     const pathToWatch = plugin.getPathsToWatch();
@@ -205,6 +220,18 @@ describe('versioned website', () => {
   const env = loadEnv(siteDir);
   const {docsDir: versionedDir} = env.versioning;
   const pluginContentDir = path.join(context.generatedFilesDir, plugin.name);
+
+  test('extendCli - docsVersion', () => {
+    const mock = jest.spyOn(version, 'docsVersion').mockImplementation();
+    const cli = new commander.Command();
+    plugin.extendCli(cli);
+    cli.parse(['node', 'test', 'docs:version', '2.0.0']);
+    expect(mock).toHaveBeenCalledWith('2.0.0', siteDir, {
+      path: routeBasePath,
+      sidebarPath,
+    });
+    mock.mockRestore();
+  });
 
   test('getPathToWatch', () => {
     const pathToWatch = plugin.getPathsToWatch();

@@ -12,22 +12,40 @@ import {
 } from './env';
 import fs from 'fs-extra';
 import path from 'path';
-import {PluginOptions, Sidebar, SidebarItemCategory} from './types';
+import {Sidebar, SidebarItemCategory, PathOptions} from './types';
 import loadSidebars from './sidebars';
 
 export function docsVersion(
   version: string | null | undefined,
   siteDir: string,
-  options: PluginOptions,
+  options: PathOptions,
 ) {
   if (!version) {
     throw new Error(
-      'No version number specified!.\nPass the version you wish to create as an argument.\nEx: 1.0.0',
+      'No version tag specified!. Pass the version you wish to create as an argument. Ex: 1.0.0',
     );
   }
-  if (version.includes('/')) {
+  if (version.includes('/') || version.includes('\\')) {
     throw new Error(
-      'Invalid version number specified! Do not include slash (/). Try something like: 1.0.0',
+      `Invalid version tag specified! Do not include slash (/) or (\\). Try something like: 1.0.0`,
+    );
+  }
+  if (version.length > 32) {
+    throw new Error(
+      'Invalid version tag specified! Length must <= 32 characters. Try something like: 1.0.0',
+    );
+  }
+
+  // Since we are going to create `version-${version}` folder, we need to make sure its a valid path name
+  if (/[<>:"\/\\|?*\x00-\x1F]/g.test(version)) {
+    throw new Error(
+      'Invalid version tag specified! Please ensure its a valid pathname too. Try something like: 1.0.0',
+    );
+  }
+
+  if (/^\.\.?$/.test(version)) {
+    throw new Error(
+      'Invalid version tag specified! Do not name your version "." or "..". Try something like: 1.0.0',
     );
   }
 
@@ -41,7 +59,7 @@ export function docsVersion(
   // Check if version already exist
   if (versions.includes(version)) {
     throw new Error(
-      'This version already exists!.\nSpecify a new version to create that does not already exist.',
+      'This version already exists!. Use a version tag that does not already exist.',
     );
   }
 
@@ -49,11 +67,12 @@ export function docsVersion(
 
   // Copy docs files
   const docsDir = path.join(siteDir, docsPath);
-  if (fs.existsSync(docsDir)) {
+  if (fs.existsSync(docsDir) && fs.readdirSync(docsDir).length > 0) {
     const versionedDir = getVersionedDocsDir(siteDir);
     const newVersionDir = path.join(versionedDir, `version-${version}`);
-
-    fs.copy(docsDir, newVersionDir);
+    fs.copySync(docsDir, newVersionDir);
+  } else {
+    throw new Error('There is no docs to version !');
   }
 
   // Load current sidebar and create a new versioned sidebars file
@@ -109,5 +128,5 @@ export function docsVersion(
   versions.unshift(version);
   fs.writeFileSync(versionsJSONFile, `${JSON.stringify(versions, null, 2)}\n`);
 
-  console.log(`Version ${version} created!\n`);
+  console.log(`Version ${version} created!`);
 }

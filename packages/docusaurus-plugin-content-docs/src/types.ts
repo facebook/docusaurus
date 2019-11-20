@@ -12,10 +12,13 @@ export interface MetadataOptions {
   showLastUpdateAuthor?: boolean;
 }
 
-export interface PluginOptions extends MetadataOptions {
+export interface PathOptions {
   path: string;
-  include: string[];
   sidebarPath: string;
+}
+
+export interface PluginOptions extends MetadataOptions, PathOptions {
+  include: string[];
   docLayoutComponent: string;
   docItemComponent: string;
   remarkPlugins: string[];

@@ -85,7 +85,10 @@ export default function pluginContentDocs(
         .arguments('<version>')
         .description('Tag a new version for docs')
         .action(version => {
-          docsVersion(version, siteDir, options);
+          docsVersion(version, siteDir, {
+            path: options.path,
+            sidebarPath: options.sidebarPath,
+          });
         });
     },
 
