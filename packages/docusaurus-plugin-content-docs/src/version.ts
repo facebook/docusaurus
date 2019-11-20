@@ -117,6 +117,7 @@ export function docsVersion(
       versionedSidebarsDir,
       `version-${version}-sidebars.json`,
     );
+    fs.ensureDirSync(path.dirname(newSidebarFile));
     fs.writeFileSync(
       newSidebarFile,
       `${JSON.stringify(versionedSidebar, null, 2)}\n`,
@@ -126,6 +127,7 @@ export function docsVersion(
 
   // update versions.json file
   versions.unshift(version);
+  fs.ensureDirSync(path.dirname(versionsJSONFile));
   fs.writeFileSync(versionsJSONFile, `${JSON.stringify(versions, null, 2)}\n`);
 
   console.log(`Version ${version} created!`);

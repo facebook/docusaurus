@@ -72,9 +72,8 @@ module.exports = {
         src: 'img/docusaurus.svg',
       },
       links: [
+        {to: 'docs/introduction', label: 'Docs', position: 'left'},
         {to: 'docs/next/introduction', label: 'Next', position: 'left'},
-        {to: 'docs/foo/bar', label: 'Latest', position: 'left'},
-        {to: 'docs/1.0.0/hello', label: '1.0.0', position: 'left'},
         {to: 'blog', label: 'Blog', position: 'left'},
         {to: 'showcase', label: 'Showcase', position: 'left'},
         {to: 'feedback', label: 'Feedback', position: 'left'},

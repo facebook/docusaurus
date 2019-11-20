@@ -112,6 +112,7 @@ describe('docsVersion', () => {
 
   test('first time versioning', () => {
     const copyMock = jest.spyOn(fs, 'copySync').mockImplementation();
+    const ensureMock = jest.spyOn(fs, 'ensureDirSync').mockImplementation();
     const writeMock = jest.spyOn(fs, 'writeFileSync');
     let versionedSidebar;
     let versionedSidebarPath;
@@ -149,10 +150,12 @@ describe('docsVersion', () => {
     copyMock.mockRestore();
     writeMock.mockRestore();
     consoleMock.mockRestore();
+    ensureMock.mockRestore();
   });
 
   test('not the first time versioning', () => {
     const copyMock = jest.spyOn(fs, 'copySync').mockImplementation();
+    const ensureMock = jest.spyOn(fs, 'ensureDirSync').mockImplementation();
     const writeMock = jest.spyOn(fs, 'writeFileSync');
     let versionedSidebar;
     let versionedSidebarPath;
@@ -190,5 +193,6 @@ describe('docsVersion', () => {
     copyMock.mockRestore();
     writeMock.mockRestore();
     consoleMock.mockRestore();
+    ensureMock.mockRestore();
   });
 });
