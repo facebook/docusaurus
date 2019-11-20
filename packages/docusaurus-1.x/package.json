@@ -49,6 +49,7 @@
     "feed": "^1.1.0",
     "fs-extra": "^8.1.0",
     "gaze": "^1.1.3",
+    "github-slugger": "^1.2.1",
     "glob": "^7.1.5",
     "highlight.js": "^9.16.1",
     "imagemin": "^6.0.0",
