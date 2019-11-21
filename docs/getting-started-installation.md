@@ -4,6 +4,10 @@ title: Installation
 description: Docusaurus was designed from the ground up to be easily installed and used to get your website up and running quickly!
 ---
 
+## function1 [array\<string>]
+
+## <a name="foo"></a> _Foo_
+
 Docusaurus was designed from the ground up to be easily installed and used to get your website up and running quickly.
 
 ## Installing Docusaurus
