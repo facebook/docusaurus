@@ -7,7 +7,6 @@
 
 const {Remarkable} = require('remarkable');
 const mdToc = require('markdown-toc');
-const striptags = require('striptags');
 const GithubSlugger = require('github-slugger');
 const toSlug = require('./toSlug');
 
@@ -27,7 +26,10 @@ function getTOC(content, headingTags = 'h2', subHeadingTags = 'h3') {
     ? [].concat(subHeadingTags).map(tagToLevel)
     : [];
   const allowedHeadingLevels = headingLevels.concat(subHeadingLevels);
-  const md = new Remarkable();
+  const md = new Remarkable({
+    // Enable HTML tags in source (same as './renderMarkdown.js')
+    html: true,
+  });
   const headings = mdToc(content).json;
   const toc = [];
   const slugger = new GithubSlugger();
@@ -35,8 +37,7 @@ function getTOC(content, headingTags = 'h2', subHeadingTags = 'h3') {
 
   headings.forEach(heading => {
     const rawContent = heading.content;
-    const safeContent = striptags(rawContent);
-    const rendered = md.renderInline(safeContent);
+    const rendered = md.renderInline(rawContent);
 
     const hashLink = toSlug(rawContent, slugger);
     if (!allowedHeadingLevels.includes(heading.lvl)) {
