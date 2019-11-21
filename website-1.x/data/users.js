@@ -129,9 +129,9 @@ module.exports = [
   {
     caption: 'Channelize.io',
     image: '/img/users/channelize.png',
-    infoLink: 'https://channelize.io/',
+    infoLink: 'https://docs.channelize.io/',
     fbOpenSource: false,
-    pinned: true,
+    pinned: false,
   },
   {
     caption: 'CodeceptJS',
