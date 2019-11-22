@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.14.2] - 2019-11-22
+
+#### :bug: Bug Fix
+* `docusaurus-1.x`
+  * [#2028](https://github.com/facebook/docusaurus/pull/2028) fix(v1): apply negative margin to docs heading only ([@yangshun](https://github.com/yangshun))
+
+#### :memo: Documentation
+* [#2026](https://github.com/facebook/docusaurus/pull/2026) docs(v1): showcase user Channelize.io ([@gauravberiwal](https://github.com/gauravberiwal))
+
 ## [1.14.1] - 2019-11-21
 
 #### :bug: Bug Fix
@@ -1198,7 +1207,8 @@ N/A
   - Blog
   - Documentation
 
-[unreleased]: https://github.com/facebook/docusaurus/compare/v1.14.1...HEAD
+[unreleased]: https://github.com/facebook/docusaurus/compare/v1.14.2...HEAD
+[1.14.2]: https://github.com/facebook/docusaurus/compare/v1.14.1...v1.14.2
 [1.14.1]: https://github.com/facebook/docusaurus/compare/v1.14.0...v1.14.1
 [1.14.0]: https://github.com/facebook/docusaurus/compare/v1.13.0...v1.14.0
 [1.13.0]: https://github.com/facebook/docusaurus/compare/v1.12.0...v1.13.0
