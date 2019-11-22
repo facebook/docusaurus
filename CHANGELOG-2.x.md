@@ -1,5 +1,44 @@
 # Docusaurus 2 Changelog
 
+## 2.0.0-alpha.36
+
+#### :boom: Breaking Change
+* `docusaurus-init`, `docusaurus-plugin-content-blog`, `docusaurus-theme-classic`
+  * [#1989](https://github.com/facebook/docusaurus/pull/1989) misc(v2): change blog front matter to snake_case ([@yangshun](https://github.com/yangshun))
+
+#### :rocket: New Feature
+* `docusaurus-plugin-content-docs`, `docusaurus-theme-classic`
+  * [#2012](https://github.com/facebook/docusaurus/pull/2012) feat(v2): allow hiding docs table of contents ([@yangshun](https://github.com/yangshun))
+
+#### :bug: Bug Fix
+* `docusaurus`
+  * [#2007](https://github.com/facebook/docusaurus/pull/2007) feat(v2): only create one css file to avoid code-split css loading problem ([@endiliey](https://github.com/endiliey))
+* `docusaurus-theme-classic`
+  * [#2005](https://github.com/facebook/docusaurus/pull/2005) fix(v2): adjust first-level heading offset ([@lex111](https://github.com/lex111))
+
+#### :nail_care: Polish
+* `docusaurus-theme-classic`
+  * [#2013](https://github.com/facebook/docusaurus/pull/2013) refactor(v2): split out dark mode toggle so it is easily swizzle-able ([@endiliey](https://github.com/endiliey))
+  * [#2017](https://github.com/facebook/docusaurus/pull/2017) feat(v2): style right sidebar scrollbar when overflow ([@endiliey](https://github.com/endiliey))
+  * [#2003](https://github.com/facebook/docusaurus/pull/2003) refactor(v2): improve semantic markup of blog ([@lex111](https://github.com/lex111))
+
+#### :house: Internal
+* `docusaurus`
+  * [#2024](https://github.com/facebook/docusaurus/pull/2024) test(v2): babel exclude transpilation logic to prevent regression ([@endiliey](https://github.com/endiliey))
+  * [#2014](https://github.com/facebook/docusaurus/pull/2014) feat(v2): add meta generator docusaurus ([@endiliey](https://github.com/endiliey))
+* `docusaurus-mdx-loader`, `docusaurus-plugin-ideal-image`
+  * [#2015](https://github.com/facebook/docusaurus/pull/2015) chore(v2): bump & remove unused deps ([@endiliey](https://github.com/endiliey))
+* Other
+  * [#2009](https://github.com/facebook/docusaurus/pull/2009) misc(v2): branding update ([@yangshun](https://github.com/yangshun))
+
+#### :memo: Documentation
+* [#2010](https://github.com/facebook/docusaurus/pull/2010) docs(v2): misc updates ([@yangshun](https://github.com/yangshun))
+
+#### Committers: 3
+- Alexey Pyltsyn ([@lex111](https://github.com/lex111))
+- Endi ([@endiliey](https://github.com/endiliey))
+- Yangshun Tay ([@yangshun](https://github.com/yangshun))
+
 ## 2.0.0-alpha.35
 
 #### :rocket: New Feature
