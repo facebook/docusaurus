@@ -6,7 +6,7 @@
         <description>The best place to stay up-to-date with the latest Docusaurus news and events.</description>
         <lastBuildDate>Fri, 14 Dec 2018 06:00:00 GMT</lastBuildDate>
         <docs>http://blogs.law.harvard.edu/tech/rss</docs>
-        <generator>Feed for Node.js</generator>
+        <generator>https://github.com/jpmonette/feed</generator>
         <image>
             <title>Docusaurus Blog</title>
             <url>https://docusaurus.io/img/docusaurus.svg</url>

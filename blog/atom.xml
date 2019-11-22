@@ -2,8 +2,8 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://docusaurus.io/blog</id>
     <title>Docusaurus Blog</title>
-    <updated>2018-12-14T06:00:00Z</updated>
-    <generator>Feed for Node.js</generator>
+    <updated>2018-12-14T06:00:00.000Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://docusaurus.io/blog"/>
     <subtitle>The best place to stay up-to-date with the latest Docusaurus news and events.</subtitle>
     <logo>https://docusaurus.io/img/docusaurus.svg</logo>
@@ -11,37 +11,36 @@
     <entry>
         <title type="html"><![CDATA[Happy 1st Birthday Slash!]]></title>
         <id>https://docusaurus.io/blog/2018/12/14/Happy-First-Birthday-Slash.html</id>
-        <link href="https://docusaurus.io/blog/2018/12/14/Happy-First-Birthday-Slash.html">
-        </link>
-        <updated>2018-12-14T06:00:00Z</updated>
+        <link href="https://docusaurus.io/blog/2018/12/14/Happy-First-Birthday-Slash.html"/>
+        <updated>2018-12-14T06:00:00.000Z</updated>
         <summary type="html"><![CDATA[<p><img src="/img/docusaurus-slash-first-birthday.svg" alt="First Birthday Slash"></p>
 <p>Docusaurus <a href="https://docusaurus.io/blog/2017/12/14/introducing-docusaurus">went live</a> on December 14, 2017. At the time, we had <a href="https://docusaurus.io/blog/2017/12/14/introducing-docusaurus#acknowledgements">8 early adopters</a>.</p>
 ]]></summary>
         <author>
             <name>Joel Marcey</name>
+            <email/>
             <uri>https://github.com/JoelMarcey</uri>
         </author>
     </entry>
     <entry>
         <title type="html"><![CDATA[Towards Docusaurus 2]]></title>
         <id>https://docusaurus.io/blog/2018/09/11/Towards-Docusaurus-2.html</id>
-        <link href="https://docusaurus.io/blog/2018/09/11/Towards-Docusaurus-2.html">
-        </link>
-        <updated>2018-09-11T06:00:00Z</updated>
+        <link href="https://docusaurus.io/blog/2018/09/11/Towards-Docusaurus-2.html"/>
+        <updated>2018-09-11T06:00:00.000Z</updated>
         <summary type="html"><![CDATA[<p>Docusaurus was <a href="https://docusaurus.io/blog/2017/12/14/introducing-docusaurus">officially announced</a> over nine months ago as a way to easily build open source documentation websites. Since then, it has amassed over 8,600 GitHub Stars, and is used by many popular open source projects such as <a href="https://facebook.github.io/react-native/">React Native</a>, <a href="https://babeljs.io/">Babel</a>, <a href="https://jestjs.io/">Jest</a>, <a href="https://reasonml.github.io/">Reason</a> and <a href="https://prettier.io/">Prettier</a>.</p>
 <p>There is a saying that the very best software is constantly evolving, and the very worst is not. In case you are not aware, we have been planning and working on the next version of Docusaurus 🎉.</p>
 ]]></summary>
         <author>
             <name>Endilie Yacop Sucipto</name>
+            <email/>
             <uri>https://github.com/endiliey</uri>
         </author>
     </entry>
     <entry>
         <title type="html"><![CDATA[How I Converted Profilo to Docusaurus in Under 2 Hours]]></title>
         <id>https://docusaurus.io/blog/2018/04/30/How-I-Converted-Profilo-To-Docusaurus.html</id>
-        <link href="https://docusaurus.io/blog/2018/04/30/How-I-Converted-Profilo-To-Docusaurus.html">
-        </link>
-        <updated>2018-04-30T06:00:00Z</updated>
+        <link href="https://docusaurus.io/blog/2018/04/30/How-I-Converted-Profilo-To-Docusaurus.html"/>
+        <updated>2018-04-30T06:00:00.000Z</updated>
         <summary type="html"><![CDATA[<blockquote>
 <p><em>“Joel and I were discussing having a website and how it would have been great to launch with it. So I challenged myself to add Docusaurus support. It took just over an hour and a half. I'm going to send you a PR with the addition so you can take a look and see if you like it. Your workflow for adding docs wouldn't be much different from editing those markdown files.”</em></p>
 <p><em>— Note sent to the Profilo team</em></p>
@@ -51,15 +50,15 @@
 ]]></summary>
         <author>
             <name>Christine Abernathy</name>
+            <email/>
             <uri>http://twitter.com/abernathyca</uri>
         </author>
     </entry>
     <entry>
         <title type="html"><![CDATA[Introducing Docusaurus]]></title>
         <id>https://docusaurus.io/blog/2017/12/14/introducing-docusaurus.html</id>
-        <link href="https://docusaurus.io/blog/2017/12/14/introducing-docusaurus.html">
-        </link>
-        <updated>2017-12-14T06:00:00Z</updated>
+        <link href="https://docusaurus.io/blog/2017/12/14/introducing-docusaurus.html"/>
+        <updated>2017-12-14T06:00:00.000Z</updated>
         <summary type="html"><![CDATA[<p><img src="/img/slash-introducing.svg" alt="Introducing Slash"></p>
 <p>We are very happy to introduce <a href="https://github.com/facebook/docusaurus">Docusaurus</a> to help you manage one or many open source websites.</p>
 <p>We created <a href="https://docusaurus.io">Docusaurus</a> for the following reasons:</p>
@@ -72,6 +71,7 @@
 ]]></summary>
         <author>
             <name>Joel Marcey</name>
+            <email/>
             <uri>http://twitter.com/JoelMarcey</uri>
         </author>
     </entry>
