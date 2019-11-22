@@ -23,7 +23,7 @@
     "chalk": "^3.0.0",
     "commander": "^4.0.1",
     "fs-extra": "^8.1.0",
-    "inquirer": "^6.5.0",
+    "inquirer": "^7.0.0",
     "lodash.kebabcase": "^4.1.1",
     "semver": "^6.3.0",
     "shelljs": "^0.8.3"

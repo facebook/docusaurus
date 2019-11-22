@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const Feed = require('feed');
+const {Feed} = require('feed');
 const truncateHtml = require('truncate-html');
 
 const BLOG_POST_SUMMARY_LENGTH = 250;
