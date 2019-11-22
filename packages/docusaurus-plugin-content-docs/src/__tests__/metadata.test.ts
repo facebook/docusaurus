@@ -88,7 +88,7 @@ describe('simple site', () => {
     });
   });
 
-  test('docs with custom editUrl', async () => {
+  test('docs with custom editUrl & unrelated frontmatter', async () => {
     const source = 'lorem.md';
     const options = {
       routeBasePath,
@@ -110,6 +110,9 @@ describe('simple site', () => {
       editUrl: 'https://github.com/customUrl/docs/lorem.md',
       description: 'Lorem ipsum.',
     });
+
+    // unrelated frontmatter is not part of metadata
+    expect(data['unrelated_frontmatter']).toBeUndefined();
   });
 
   test('docs with last update time and author', async () => {
