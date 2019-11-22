@@ -40,7 +40,6 @@
     "chalk": "^3.0.0",
     "classnames": "^2.2.6",
     "commander": "^4.0.1",
-    "cross-spawn": "^6.0.5",
     "crowdin-cli": "^0.3.0",
     "cssnano": "^4.1.10",
     "escape-string-regexp": "^2.0.0",
