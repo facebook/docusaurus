@@ -62,6 +62,7 @@ function DocItem(props) {
     lastUpdatedAt,
     lastUpdatedBy,
     keywords,
+    version,
   } = metadata;
   const {
     frontMatter: {
@@ -96,6 +97,13 @@ function DocItem(props) {
             <div className="col">
               <div className={styles.docItemContainer}>
                 <article>
+                  {version && (
+                    <span
+                      style={{verticalAlign: 'top'}}
+                      className="badge badge--info">
+                      Version: {version}
+                    </span>
+                  )}
                   {!hideTitle && (
                     <header>
                       <h1 className={styles.docTitle}>{metadata.title}</h1>

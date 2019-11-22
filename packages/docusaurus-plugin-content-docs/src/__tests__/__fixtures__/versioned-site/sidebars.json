@@ -1,0 +1,10 @@
+{
+  "docs": {
+    "Test": [
+      "foo/bar"
+    ],
+    "Guides": [
+      "hello"
+    ]
+  }
+}

@@ -133,7 +133,7 @@ module.exports = {
         /**
          * URL for editing website repo, example: 'https://github.com/facebook/docusaurus/edit/master/website/'
          */
-        editUrl: 'https://github.com/repo/project/website/',
+        editUrl: 'https://github.com/facebook/docusaurus/edit/master/website/',
         /**
          * URL route for the blog section of your site
          * do not include trailing slash

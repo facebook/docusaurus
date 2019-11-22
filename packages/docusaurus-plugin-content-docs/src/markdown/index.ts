@@ -11,7 +11,7 @@ import linkify from './linkify';
 
 export = function(fileString: string) {
   const callback = this.async();
-  const {docsDir, siteDir, sourceToPermalink} = getOptions(this);
+  const {docsDir, siteDir, versionedDir, sourceToPermalink} = getOptions(this);
   return (
     callback &&
     callback(
@@ -22,6 +22,7 @@ export = function(fileString: string) {
         docsDir,
         siteDir,
         sourceToPermalink,
+        versionedDir,
       ),
     )
   );

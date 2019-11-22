@@ -5,10 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-module.exports = {
-  title: 'My Site',
-  tagline: 'The tagline of my site',
-  url: 'https://your-docusaurus-test-site.com',
-  baseUrl: '/',
-  favicon: 'img/favicon.ico',
-};
+export const VERSIONED_DOCS_DIR = 'versioned_docs';
+export const VERSIONED_SIDEBARS_DIR = 'versioned_sidebars';
+export const VERSIONS_JSON_FILE = 'versions.json';

@@ -24,7 +24,7 @@ function matchingRouteExist(routes, pathname) {
 
 function DocPage(props) {
   const {route, docsMetadata, location} = props;
-  const {permalinkToSidebar, docsSidebars} = docsMetadata;
+  const {permalinkToSidebar, docsSidebars, version} = docsMetadata;
   const sidebar = permalinkToSidebar[location.pathname.replace(/\/$/, '')];
   const {siteConfig: {themeConfig = {}} = {}} = useDocusaurusContext();
   const {sidebarCollapsible = true} = themeConfig;
@@ -34,7 +34,7 @@ function DocPage(props) {
   }
 
   return (
-    <Layout>
+    <Layout version={version}>
       <div className={styles.docPage}>
         {sidebar && (
           <div className={styles.docSidebarContainer}>
