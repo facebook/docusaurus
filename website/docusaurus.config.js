@@ -73,7 +73,6 @@ module.exports = {
       },
       links: [
         {to: 'docs/introduction', label: 'Docs', position: 'left'},
-        {to: 'docs/next/introduction', label: 'Next', position: 'left'},
         {to: 'blog', label: 'Blog', position: 'left'},
         {to: 'showcase', label: 'Showcase', position: 'left'},
         {to: 'feedback', label: 'Feedback', position: 'left'},

@@ -72,8 +72,8 @@ A typical Docusaurus 2 `package.json` may look like this:
     "deploy": "docusaurus deploy"
   },
   "dependencies": {
-    "@docusaurus/core": "^2.0.0-alpha.37",
-    "@docusaurus/preset-classic": "^2.0.0-alpha.37",
+    "@docusaurus/core": "^2.0.0-alpha.36",
+    "@docusaurus/preset-classic": "^2.0.0-alpha.36",
     "classnames": "^2.2.6",
     "react": "^16.10.2",
     "react-dom": "^16.10.2"
