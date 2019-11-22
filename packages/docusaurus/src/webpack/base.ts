@@ -17,6 +17,19 @@ import {getBabelLoader, getCacheLoader, getStyleLoaders} from './utils';
 
 const CSS_REGEX = /\.css$/;
 const CSS_MODULE_REGEX = /\.module\.css$/;
+export const clientDir = path.join(__dirname, '..', 'client');
+
+export function excludeJS(modulePath: string) {
+  // always transpile client dir
+  if (modulePath.startsWith(clientDir)) {
+    return false;
+  }
+  // Don't transpile node_modules except any docusaurus npm package
+  return (
+    /node_modules/.test(modulePath) &&
+    !/(docusaurus)((?!node_modules).)*\.jsx?$/.test(modulePath)
+  );
+}
 
 export function createBaseConfig(
   props: Props,
@@ -24,7 +37,6 @@ export function createBaseConfig(
 ): Configuration {
   const {outDir, siteDir, baseUrl, generatedFilesDir, routesPaths} = props;
 
-  const clientDir = path.join(__dirname, '..', 'client');
   const totalPages = routesPaths.length;
   const isProd = process.env.NODE_ENV === 'production';
   return {
@@ -133,17 +145,7 @@ export function createBaseConfig(
       rules: [
         {
           test: /\.jsx?$/,
-          exclude: modulePath => {
-            // always transpile client dir
-            if (modulePath.startsWith(clientDir)) {
-              return false;
-            }
-            // Don't transpile node_modules except any docusaurus npm package
-            return (
-              /node_modules/.test(modulePath) &&
-              !/(docusaurus)((?!node_modules).)*\.jsx?$/.test(modulePath)
-            );
-          },
+          exclude: excludeJS,
           use: [getCacheLoader(isServer), getBabelLoader(isServer)].filter(
             Boolean,
           ) as Loader[],

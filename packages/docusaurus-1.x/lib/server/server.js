@@ -276,7 +276,7 @@ function execute(port, host) {
       fs.existsSync((userFile = englishFile))
     ) {
       // copy into docusaurus so require paths work
-      const userFileParts = userFile.split(`pages${sep}`);
+      const userFileParts = userFile.split(join(CWD, `pages${sep}`));
       let tempFile = join(__dirname, '..', 'pages', userFileParts[1]);
       tempFile = tempFile.replace(
         path.basename(file),

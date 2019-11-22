@@ -26,10 +26,9 @@ function toValue(node) {
       case 'delete':
         return `<del>${node.children.map(toValue).join('')}</del>`;
       default:
-        return toString(node);
     }
   }
-  return '';
+  return toString(node);
 }
 
 // Visit all headings. We `slug` all headings (to account for

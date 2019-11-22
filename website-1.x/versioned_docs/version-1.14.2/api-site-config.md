@@ -1,5 +1,5 @@
 ---
-id: version-1.14.0-site-config
+id: version-1.14.2-site-config
 title: siteConfig.js
 original_id: site-config
 ---
