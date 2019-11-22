@@ -653,12 +653,12 @@ blockquote {
   padding: 0;
 }
 
-.mainContainer .wrapper .post .postHeader:before,
-.mainContainer .wrapper .post .postHeaderTitle:before {
-  content: "";
+.docsContainer .wrapper .post .postHeader:before,
+.docsContainer .wrapper .post .postHeaderTitle:before {
+  content: '';
   display: block;
   height: 90px; /* fixed header height and empty space below it */
-  margin-top: -90px;  /* negative fixed header height and empty space below it  */
+  margin-top: -90px; /* negative fixed header height and empty space below it  */
   visibility: hidden;
   pointer-events: none;
 }
@@ -726,12 +726,12 @@ blockquote {
 }
 
 @media only screen and (max-width: 1023px) {
-  .mainContainer .wrapper .post .postHeader:before,
-  .mainContainer .wrapper .post .postHeaderTitle:before {
-    content: "";
+  .docsContainer .wrapper .post .postHeader:before,
+  .docsContainer .wrapper .post .postHeaderTitle:before {
+    content: '';
     display: block;
     height: 200px; /* fixed header height and empty space below it */
-    margin-top: -200px;  /* negative fixed header height and empty space below it  */
+    margin-top: -200px; /* negative fixed header height and empty space below it  */
     visibility: hidden;
     pointer-events: none;
   }

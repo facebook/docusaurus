@@ -97,7 +97,7 @@ class DocsLayout extends React.Component {
             collapsible={this.props.config.docsSideNavCollapsible}
             metadata={metadata}
           />
-          <Container className="mainContainer">
+          <Container className="mainContainer docsContainer">
             <DocComponent
               metadata={metadata}
               content={content}
