@@ -36,7 +36,7 @@ type Sidebar = {
 }
 ```
 
-Below is an example of a sidebar object. The key `docs` is the id of the sidebar (can be renamed to something else) and `Getting Started` is a category within the sidebar. `greeting` and `doc1` is just a [Sidebar Item](#sidebar-item).
+Below is an example of a sidebar object. The key `docs` is the id of the sidebar (can be renamed to something else) and `Getting Started` is a category within the sidebar. `greeting` and `doc1` are both [sidebar item](#sidebar-item).
 
 
 ```js
