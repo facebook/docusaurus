@@ -254,9 +254,7 @@ export default function pluginContentDocs(
       // This is what will be passed as props to the UI component
       const docsSidebars: DocsSidebar = Object.entries(loadedSidebars).reduce(
         (acc: DocsSidebar, [sidebarId, sidebarItems]) => {
-          acc[sidebarId] = sidebarItems.map(sidebarItem =>
-            normalizeItem(sidebarItem),
-          );
+          acc[sidebarId] = sidebarItems.map(normalizeItem);
           return acc;
         },
         {},
