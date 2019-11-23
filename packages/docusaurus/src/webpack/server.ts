@@ -16,7 +16,7 @@ import WaitPlugin from './plugins/WaitPlugin';
 import LogPlugin from './plugins/LogPlugin';
 
 export function createServerConfig(props: Props): Configuration {
-  const {baseUrl, routesPaths, outDir} = props;
+  const {baseUrl, routesPaths, generatedFilesDir} = props;
   const config = createBaseConfig(props, true);
 
   const routesLocation = {};
@@ -41,7 +41,7 @@ export function createServerConfig(props: Props): Configuration {
     plugins: [
       // Wait until manifest from client bundle is generated
       new WaitPlugin({
-        filepath: path.join(outDir, 'client-manifest.json'),
+        filepath: path.join(generatedFilesDir, 'client-manifest.json'),
       }),
 
       // Static site generator webpack plugin.
@@ -49,7 +49,7 @@ export function createServerConfig(props: Props): Configuration {
         entry: 'main',
         locals: {
           baseUrl,
-          outDir,
+          generatedFilesDir,
           routesLocation,
         },
         paths: ssgPaths,

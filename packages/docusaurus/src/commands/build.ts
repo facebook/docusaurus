@@ -55,7 +55,7 @@ export async function build(
   const props: Props = await load(siteDir);
 
   // Apply user webpack config.
-  const {outDir, plugins} = props;
+  const {outDir, generatedFilesDir, plugins} = props;
 
   let clientConfig: Configuration = merge(createClientConfig(props), {
     plugins: [
@@ -65,7 +65,7 @@ export async function build(
       cliOptions.bundleAnalyzer && new BundleAnalyzerPlugin(),
       // Generate client manifests file that will be used for server bundle
       new ReactLoadableSSRAddon({
-        filename: 'client-manifest.json',
+        filename: path.join(generatedFilesDir, 'client-manifest.json'),
       }),
     ].filter(Boolean) as Plugin[],
   });
