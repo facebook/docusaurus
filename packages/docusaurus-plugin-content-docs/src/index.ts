@@ -25,16 +25,16 @@ import {
   LoadedContent,
   SourceToPermalink,
   PermalinkToSidebar,
-  DocsSidebarItemCategory,
   SidebarItemLink,
   SidebarItemDoc,
-  SidebarItemCategory,
   DocsSidebar,
   DocsBaseMetadata,
   MetadataRaw,
   DocsMetadataRaw,
   Metadata,
   VersionToSidebars,
+  SidebarItem,
+  DocsSidebarItem,
 } from './types';
 import {Configuration} from 'webpack';
 import {docsVersion} from './version';
@@ -237,31 +237,25 @@ export default function pluginContentDocs(
         };
       };
 
-      const normalizeCategory = (
-        category: SidebarItemCategory,
-      ): DocsSidebarItemCategory => {
-        const items = category.items.map(item => {
-          switch (item.type) {
-            case 'category':
-              return normalizeCategory(item as SidebarItemCategory);
-            case 'ref':
-            case 'doc':
-              return convertDocLink(item as SidebarItemDoc);
-            case 'link':
-            default:
-              break;
-          }
-          return item as SidebarItemLink;
-        });
-        return {...category, items};
+      const normalizeItem = (item: SidebarItem): DocsSidebarItem => {
+        switch (item.type) {
+          case 'category':
+            return {...item, items: item.items.map(normalizeItem)};
+          case 'ref':
+          case 'doc':
+            return convertDocLink(item);
+          case 'link':
+          default:
+            return item;
+        }
       };
 
       // Transform the sidebar so that all sidebar item will be in the form of 'link' or 'category' only
       // This is what will be passed as props to the UI component
       const docsSidebars: DocsSidebar = Object.entries(loadedSidebars).reduce(
-        (acc: DocsSidebar, [sidebarId, sidebarItemCategories]) => {
-          acc[sidebarId] = sidebarItemCategories.map(sidebarItemCategory =>
-            normalizeCategory(sidebarItemCategory),
+        (acc: DocsSidebar, [sidebarId, sidebarItems]) => {
+          acc[sidebarId] = sidebarItems.map(sidebarItem =>
+            normalizeItem(sidebarItem),
           );
           return acc;
         },

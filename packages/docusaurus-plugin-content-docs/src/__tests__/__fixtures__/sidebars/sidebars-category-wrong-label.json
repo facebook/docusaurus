@@ -1,0 +1,11 @@
+{
+  "docs": {
+    "Test": [
+      {
+        "type": "category",
+        "label": true,
+        "items": ["doc1"]
+      }
+    ]
+  }
+}

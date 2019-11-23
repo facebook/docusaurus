@@ -1,5 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`loadSidebars sidebars link 1`] = `
+Object {
+  "docs": Array [
+    Object {
+      "items": Array [
+        Object {
+          "href": "https://github.com",
+          "label": "category",
+          "type": "link",
+        },
+      ],
+      "label": "Test",
+      "type": "category",
+    },
+  ],
+}
+`;
+
 exports[`loadSidebars sidebars with deep level of category 1`] = `
 Object {
   "docs": Array [
@@ -52,6 +70,27 @@ Object {
       ],
       "label": "level 1",
       "type": "category",
+    },
+  ],
+}
+`;
+
+exports[`loadSidebars sidebars with first level not a category 1`] = `
+Object {
+  "docs": Array [
+    Object {
+      "items": Array [
+        Object {
+          "id": "greeting",
+          "type": "doc",
+        },
+      ],
+      "label": "Getting Started",
+      "type": "category",
+    },
+    Object {
+      "id": "api",
+      "type": "doc",
     },
   ],
 }
