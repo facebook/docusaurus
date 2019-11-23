@@ -48,7 +48,7 @@ const transformNode = node => {
       value: '</TabItem>\n</Tabs>',
     },
   ];
-  node.type = 'paragraph';
+  node.type = 'element';
   delete node.lang;
   delete node.meta;
   delete node.value;
