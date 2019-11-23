@@ -12,7 +12,7 @@ In this doc, we talk about how to use plugins with Docusaurus' official plugins.
 
 A plugin is usually a npm package, so you install them like other npm packages using npm.
 
-```bash
+```bash npm2yarn
 npm install --save docusaurus-plugin-name
 ```
 

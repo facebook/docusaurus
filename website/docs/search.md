@@ -34,16 +34,16 @@ themeConfig: {
 
 If you prefer to customize Algolia's search bar React component, swizzle the `SearchBar` component in `@docusaurus/theme-search-algolia`:
 
-```bash
-yarn swizzle @docusaurus/theme-search-algolia SearchBar
+```bash npm2yarn
+npm run swizzle @docusaurus/theme-search-algolia SearchBar
 ```
 
 ## Using your own search
 
 To use your own search, swizzle the `SearchBar` component in `@docusaurus/theme-classic`
 
-```bash
-yarn swizzle @docusaurus/theme-classic SearchBar
+```bash npm2yarn
+npm run swizzle @docusaurus/theme-classic SearchBar
 ```
 
 This will create a `src/themes/SearchBar` file in your project folder. Restart your dev server and edit the component, you will see that Docusaurus uses your own `SearchBar` component now.

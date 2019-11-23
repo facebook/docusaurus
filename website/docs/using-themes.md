@@ -75,18 +75,20 @@ The content plugin remains the same and the only thing you need to change is the
 
 ## Swizzling theme components
 
+> ⚠️ We would like to discourage swizzling of components until we've minimally reached a Beta stage. The components APIs have been changing rapidly and are likely to keep changing until we reach Beta. Stick with the default appearance for now if possible to save yourself some potential pain in future.
+
 Docusaurus Themes' components are designed to be replaceable. To make it easier for you, we created a command for you to replace theme components called `swizzle`.
 
 To swizzle a component for a theme, run the following command in your doc site:
 
 ```shell
-$ docusaurus swizzle [theme name] [component name]
+docusaurus swizzle <theme name> [component name]
 ```
 
 As an example, to swizzle the `<Footer />` component in `@docusaurus/theme-classic` for your site, run:
 
-```shell
-$ npm swizzle @docusaurus/theme-classic Footer
+```bash npm2yarn
+npm run swizzle @docusaurus/theme-classic Footer
 ```
 
 This will copy the current `<Footer />` component used by the theme to a `src/theme/Footer` directory under the root of your site, which is where Docusaurus will look for swizzled components. Docusaurus will then use swizzled component in place of the original one from the theme.

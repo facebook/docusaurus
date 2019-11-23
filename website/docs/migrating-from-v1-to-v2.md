@@ -392,8 +392,8 @@ You'll have to migrate your sidebar if it contains category type. Rename `subcat
 
 `website/core/Footer.js` is no longer needed. If you want to modify the default footer provided by docusaurus, [swizzle](using-themes.md#swizzling-theme-components) it:
 
-```bash
-yarn swizzle @docusaurus/theme-classic Footer
+```bash npm2yarn
+npm run swizzle @docusaurus/theme-classic Footer
 ```
 
 This will copy the current `<Footer />` component used by the theme to a `src/theme/Footer` directory under the root of your site, you may then edit this component for customization.
