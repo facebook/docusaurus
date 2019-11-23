@@ -38,14 +38,12 @@ function assertIsCategory(item: any): asserts item is SidebarItemCategoryRaw {
   assertItem(item, ['items', 'label']);
   if (typeof item.label !== 'string') {
     throw new Error(
-      `Error loading ${JSON.stringify(
-        item,
-      )}. "label" should have been a string.`,
+      `Error loading ${JSON.stringify(item)}. "label" must be a string.`,
     );
   }
   if (!Array.isArray(item.items)) {
     throw new Error(
-      `Error loading ${JSON.stringify(item)}. "items" must be array.`,
+      `Error loading ${JSON.stringify(item)}. "items" must be an array.`,
     );
   }
 }
@@ -54,7 +52,7 @@ function assertIsDoc(item: any): asserts item is SidebarItemDoc {
   assertItem(item, ['id']);
   if (typeof item.id !== 'string') {
     throw new Error(
-      `Error loading ${JSON.stringify(item)}. "id" should have been a string.`,
+      `Error loading ${JSON.stringify(item)}. "id" must be a string.`,
     );
   }
 }
@@ -63,14 +61,12 @@ function assertIsLink(item: any): asserts item is SidebarItemLink {
   assertItem(item, ['href', 'label']);
   if (typeof item.href !== 'string') {
     throw new Error(
-      `Error loading ${JSON.stringify(
-        item,
-      )}. "href" should have been a string.`,
+      `Error loading ${JSON.stringify(item)}. "href" must be a string.`,
     );
   }
   if (typeof item.label !== 'string') {
     throw new Error(
-      `Error loading ${JSON.stringify(item)}. "id" should have been a string.`,
+      `Error loading ${JSON.stringify(item)}. "label" must be a string.`,
     );
   }
 }

@@ -32,7 +32,7 @@ describe('loadSidebars', () => {
     expect(() =>
       loadSidebars([sidebarPath]),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Error loading {\\"type\\":\\"category\\",\\"label\\":\\"Category Label\\",\\"items\\":\\"doc1\\"}. \\"items\\" must be array."`,
+      `"Error loading {\\"type\\":\\"category\\",\\"label\\":\\"Category Label\\",\\"items\\":\\"doc1\\"}. \\"items\\" must be an array."`,
     );
   });
 
@@ -44,7 +44,7 @@ describe('loadSidebars', () => {
     expect(() =>
       loadSidebars([sidebarPath]),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Error loading {\\"type\\":\\"category\\",\\"label\\":true,\\"items\\":[\\"doc1\\"]}. \\"label\\" should have been a string."`,
+      `"Error loading {\\"type\\":\\"category\\",\\"label\\":true,\\"items\\":[\\"doc1\\"]}. \\"label\\" must be a string."`,
     );
   });
 
@@ -56,7 +56,7 @@ describe('loadSidebars', () => {
     expect(() =>
       loadSidebars([sidebarPath]),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Error loading {\\"type\\":\\"doc\\",\\"id\\":[\\"doc1\\"]}. \\"id\\" should have been a string."`,
+      `"Error loading {\\"type\\":\\"doc\\",\\"id\\":[\\"doc1\\"]}. \\"id\\" must be a string."`,
     );
   });
 
@@ -80,7 +80,7 @@ describe('loadSidebars', () => {
     expect(() =>
       loadSidebars([sidebarPath]),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Error loading {\\"type\\":\\"link\\",\\"label\\":false,\\"href\\":\\"https://github.com\\"}. \\"id\\" should have been a string."`,
+      `"Error loading {\\"type\\":\\"link\\",\\"label\\":false,\\"href\\":\\"https://github.com\\"}. \\"label\\" must be a string."`,
     );
   });
 
@@ -89,7 +89,7 @@ describe('loadSidebars', () => {
     expect(() =>
       loadSidebars([sidebarPath]),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Error loading {\\"type\\":\\"link\\",\\"label\\":\\"GitHub\\",\\"href\\":[\\"example.com\\"]}. \\"href\\" should have been a string."`,
+      `"Error loading {\\"type\\":\\"link\\",\\"label\\":\\"GitHub\\",\\"href\\":[\\"example.com\\"]}. \\"href\\" must be a string."`,
     );
   });
 
