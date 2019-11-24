@@ -19,7 +19,7 @@
     "remark-emoji": "^2.0.2",
     "remark-slug": "^5.1.2",
     "stringify-object": "^3.3.0",
-    "unist-util-visit": "^2.0.0"
+    "unist-util-visit": "^2.0.1"
   },
   "devDependencies": {
     "remark": "^11.0.2",
