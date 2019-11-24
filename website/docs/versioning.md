@@ -143,4 +143,13 @@ Should you cut a new documentation version 1.0.1? **You probably shouldn't**. 1.
 
 ### Keep the number of versions small
 
-As a good rule of thumb, try to keep the number of your versions below 10. **It is very likely** that you will have a lot of obsolete versioned documentation that nobody even reads anymore. For example, [Babel](https://babeljs.io/versions) for example is currently in version `7.x`, and it no longer maintains documentation for version `<= 6.x`. Keep it small 😊
+As a good rule of thumb, try to keep the number of your versions below 10. **It is very likely** that you will have a lot of obsolete versioned documentation that nobody even reads anymore. For example, [Jest](https://jestjs.io/versions) for example is currently in version `24.9`, and only maintains several latest documentation version with the lowest being `22.X`. Keep it small 😊
+
+### Use absolute import within the docs
+
+Don't use relative paths import within the docs. Because when we cut a version the paths no longer work (the nesting level is different, among other reasons). You can utilize the `@site` alias provided by docusaurus, that points to the `website` directory. Example:
+
+```diff
+- import Foo from '../src/components/Foo';
++ import Foo from '@site/src/components/Foo';
+```
