@@ -178,6 +178,9 @@ export function createBaseConfig(
     plugins: [
       new MiniCssExtractPlugin({
         filename: isProd ? '[name].[contenthash:8].css' : '[name].css',
+        // remove css order warnings if css imports are not sorted alphabetically
+        // see https://github.com/webpack-contrib/mini-css-extract-plugin/pull/422 for more reasoning
+        ignoreOrder: true,
       }),
     ],
   };
