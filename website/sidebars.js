@@ -16,7 +16,7 @@ module.exports = {
       {
         type: 'category',
         label: 'Docs',
-        items: ['markdown-features', 'sidebar'],
+        items: ['markdown-features', 'sidebar', 'versioning'],
       },
       'blog',
       'analytics',
