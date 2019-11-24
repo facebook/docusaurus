@@ -98,17 +98,6 @@ function Home() {
       </div>
       <div className={classnames(styles.announcement, styles.announcementDark)}>
         <div className={styles.announcementInner}>
-          We're working on{' '}
-          <a href="https://github.com/facebook/docusaurus/issues/789">
-            Docusaurus 2
-          </a>
-          , contribute to its roadmap by suggesting features or{' '}
-          <Link to={useBaseUrl('/feedback')}>giving feedback</Link>!
-        </div>
-      </div>
-      <div
-        className={classnames(styles.announcement, styles.announcementPrimary)}>
-        <div className={styles.announcementInner}>
           Coming from v1? Check out our{' '}
           <Link to={useBaseUrl('/docs/migrating-from-v1-to-v2')}>
             v1 to v2 migration guide

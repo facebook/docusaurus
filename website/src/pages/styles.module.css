@@ -36,15 +36,6 @@
   color: #fff;
 }
 
-.announcementPrimary {
-  background-color: var(--ifm-color-primary);
-  color: #20232a;
-}
-
-.announcementPrimary a {
-  color: #fff;
-}
-
 .announcementInner {
   margin: 0 auto;
   max-width: 768px;
