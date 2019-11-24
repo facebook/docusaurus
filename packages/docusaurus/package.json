@@ -51,7 +51,7 @@
     "core-js": "^2.6.5",
     "css-loader": "^3.2.0",
     "del": "^5.1.0",
-    "ejs": "^2.7.4",
+    "ejs": "^3.0.1",
     "express": "^4.17.1",
     "fs-extra": "^8.1.0",
     "globby": "^10.0.1",
@@ -80,7 +80,7 @@
     "wait-file": "^1.0.5",
     "webpack": "^4.41.2",
     "webpack-bundle-analyzer": "^3.6.0",
-    "webpack-dev-server": "^3.8.2",
+    "webpack-dev-server": "^3.9.0",
     "webpack-merge": "^4.2.2",
     "webpackbar": "^4.0.0"
   },

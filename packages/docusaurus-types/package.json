@@ -9,7 +9,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@types/webpack": "^4.32.0",
+    "@types/webpack": "^4.41.0",
     "commander": "^4.0.1",
     "querystring": "0.2.0"
   }
