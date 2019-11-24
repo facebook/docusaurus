@@ -23,10 +23,10 @@
     "tsc": "lerna run tsc --no-private"
   },
   "devDependencies": {
-    "@babel/core": "^7.7.2",
-    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.4.4",
-    "@babel/plugin-proposal-optional-chaining": "^7.6.0",
-    "@babel/preset-typescript": "^7.7.2",
+    "@babel/core": "^7.7.4",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.7.4",
+    "@babel/plugin-proposal-optional-chaining": "^7.7.4",
+    "@babel/preset-typescript": "^7.7.4",
     "@types/express": "^4.17.1",
     "@types/fs-extra": "^8.0.1",
     "@types/inquirer": "^6.5.0",

@@ -12,7 +12,7 @@ import {
 } from './env';
 import fs from 'fs-extra';
 import path from 'path';
-import {Sidebar, SidebarItemCategory, PathOptions} from './types';
+import {Sidebar, PathOptions, SidebarItem} from './types';
 import loadSidebars from './sidebars';
 
 export function docsVersion(
@@ -80,33 +80,25 @@ export function docsVersion(
     const loadedSidebars: Sidebar = loadSidebars([sidebarPath]);
 
     // Transform id in original sidebar to versioned id
-    const normalizeCategory = (
-      category: SidebarItemCategory,
-    ): SidebarItemCategory => {
-      const items = category.items.map(item => {
-        switch (item.type) {
-          case 'category':
-            return normalizeCategory(item);
-          case 'ref':
-          case 'doc':
-            return {
-              type: item.type,
-              id: `version-${version}/${item.id}`,
-            };
-        }
-        return item;
-      });
-      return {...category, items};
+    const normalizeItem = (item: SidebarItem): SidebarItem => {
+      switch (item.type) {
+        case 'category':
+          return {...item, items: item.items.map(normalizeItem)};
+        case 'ref':
+        case 'doc':
+          return {
+            type: item.type,
+            id: `version-${version}/${item.id}`,
+          };
+        default:
+          return item;
+      }
     };
 
     const versionedSidebar: Sidebar = Object.entries(loadedSidebars).reduce(
-      (acc: Sidebar, [sidebarId, sidebarItemCategories]) => {
+      (acc: Sidebar, [sidebarId, sidebarItems]) => {
         const newVersionedSidebarId = `version-${version}/${sidebarId}`;
-        acc[
-          newVersionedSidebarId
-        ] = sidebarItemCategories.map(sidebarItemCategory =>
-          normalizeCategory(sidebarItemCategory),
-        );
+        acc[newVersionedSidebarId] = sidebarItems.map(normalizeItem);
         return acc;
       },
       {},

@@ -171,19 +171,16 @@ function DocSidebar(props) {
           )}
         </button>
         <ul className="menu__list">
-          {sidebarData.map(
-            item =>
-              item.items.length > 0 && (
-                <DocSidebarItem
-                  key={item.label}
-                  item={item}
-                  onItemClick={() => {
-                    setShowResponsiveSidebar(false);
-                  }}
-                  collapsible={sidebarCollapsible}
-                />
-              ),
-          )}
+          {sidebarData.map(item => (
+            <DocSidebarItem
+              key={item.label}
+              item={item}
+              onItemClick={() => {
+                setShowResponsiveSidebar(false);
+              }}
+              collapsible={sidebarCollapsible}
+            />
+          ))}
         </ul>
       </div>
     </div>

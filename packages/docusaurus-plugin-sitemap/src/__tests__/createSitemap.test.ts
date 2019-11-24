@@ -7,7 +7,6 @@
 
 import createSitemap from '../createSitemap';
 import {DocusaurusConfig} from '@docusaurus/types';
-import DEFAULT_OPTIONS from '../index';
 
 describe('createSitemap', () => {
   test('simple site', () => {

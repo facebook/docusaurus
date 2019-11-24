@@ -65,23 +65,27 @@ export type SidebarItemRaw =
 
 // Sidebar given by user that is not normalized yet. e.g: sidebars.json
 export interface SidebarRaw {
-  [sidebarId: string]: {
-    [sidebarCategory: string]: SidebarItemRaw[];
-  };
+  [sidebarId: string]:
+    | {
+        [sidebarCategory: string]: SidebarItemRaw[];
+      }
+    | SidebarItemRaw[];
 }
 
 export interface Sidebar {
-  [sidebarId: string]: SidebarItemCategory[];
+  [sidebarId: string]: SidebarItem[];
 }
 
 export interface DocsSidebarItemCategory {
   type: 'category';
   label: string;
-  items: (SidebarItemLink | DocsSidebarItemCategory)[];
+  items: DocsSidebarItem[];
 }
 
+export type DocsSidebarItem = SidebarItemLink | DocsSidebarItemCategory;
+
 export interface DocsSidebar {
-  [sidebarId: string]: DocsSidebarItemCategory[];
+  [sidebarId: string]: DocsSidebarItem[];
 }
 
 export interface OrderMetadata {
