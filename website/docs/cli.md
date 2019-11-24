@@ -67,7 +67,7 @@ Compiles your site for production.
 Swizzle any Docusaurus Theme components with your own component with `docusaurus swizzle`.
 
 ```shell
-$ docusaurus swizzle <themeName> [componentName] [siteDir]
+docusaurus swizzle <themeName> [componentName] [siteDir]
 ```
 
 **params**

@@ -5,8 +5,8 @@ title: Deployment
 
 To build the static files of your website for production, run:
 
-```bash
-npm build
+```bash npm2yarn
+npm run build
 ```
 
 Once it finishes, you should see the production build under the `build/` directory.

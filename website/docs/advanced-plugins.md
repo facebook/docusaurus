@@ -204,8 +204,8 @@ The default [Google Analytics](https://developers.google.com/analytics/devguides
 
 **Installation**
 
-```shell
-$ npm install --save @docusaurus/plugin-google-analytics
+```bash npm2yarn
+npm install --save @docusaurus/plugin-google-analytics
 ```
 
 **Configuration**
@@ -228,8 +228,8 @@ The default [Global Site Tag (gtag.js)](https://developers.google.com/analytics/
 
 **Installation**
 
-```shell
-$ npm install --save @docusaurus/plugin-google-gtag
+```bash npm2yarn
+npm install --save @docusaurus/plugin-google-gtag
 ```
 
 **Configuration**
@@ -268,7 +268,7 @@ module.exports = {
 
 Docusaurus Plugin to generate an almost ideal image (responsive, lazy-loading, and low quality placeholder)
 
-```sh
+```bash npm2yarn
 npm install --save @docusaurus/plugin-ideal-image
 ```
 
@@ -302,7 +302,7 @@ import thumbnail from './path/to/img.png';
 | Option | Type | Default | Description |
 | --- | --- | --- | --- |
 | `name` | `string` | `ideal-img/[name].[hash:hex:7].[width].[ext]` | Filename template for output files. |
-| `sizes` | `array` | _original size_ | Specify all widths you want to use. If a specified size exceeds the original image's width, the latter will be used (i.e. images won't be scaled up). You may also declare a default `sizes` array in the loader options in your `webpack.config.js`. |
+| `sizes` | `array` | _original size_ | Specify all widths you want to use. If a specified size exceeds the original image's width, the latter will be used (i.e. images won't be scaled up).|
 | `size` | `integer` | _original size_ | Specify one width you want to use; if the specified size exceeds the original image's width, the latter will be used (i.e. images won't be scaled up) |
 | `min` | `integer` |  | As an alternative to manually specifying `sizes`, you can specify `min`, `max` and `steps`, and the sizes will be generated for you. |
 | `max` | `integer` |  | See `min` above |

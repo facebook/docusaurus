@@ -73,9 +73,9 @@ my-website
 
 To preview your changes as you edit the files, you can run a local development server that will serve your website and it will reflect the latest changes.
 
-```bash
+```bash npm2yarn
 cd my-website
-npm start
+npm run start
 ```
 
 By default, a browser window will open at http://localhost:3000.
@@ -86,8 +86,8 @@ Congratulations! You have just created your first Docusaurus site! Browse around
 
 Docusaurus is a modern static website generator so we need to build the website into a directory of static contents and put it on a web server so that it can be viewed. To build the website:
 
-```bash
-npm build
+```bash npm2yarn
+npm run build
 ```
 
 and contents will be generated within the `/build` directory, which can be copied to any static file hosting service like [GitHub pages](https://pages.github.com/), [Now](https://zeit.co/now) or [Netlify](https://www.netlify.com/). Check out the docs on [deployment](deployment.md) for more details.
