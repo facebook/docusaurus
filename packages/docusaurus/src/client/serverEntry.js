@@ -45,12 +45,12 @@ export default async function render(locals) {
   ];
   const metaAttributes = metaStrings.filter(Boolean);
 
-  const {outDir} = locals;
-  const manifestPath = path.join(outDir, 'client-manifest.json');
+  const {generatedFilesDir} = locals;
+  const manifestPath = path.join(generatedFilesDir, 'client-manifest.json');
   const manifest = JSON.parse(await fs.readFile(manifestPath, 'utf8'));
 
   // chunkName -> chunkAssets mapping.
-  const chunkManifestPath = path.join(outDir, 'chunk-map.json');
+  const chunkManifestPath = path.join(generatedFilesDir, 'chunk-map.json');
   const chunkManifest = JSON.parse(
     await fs.readFile(chunkManifestPath, 'utf8'),
   );

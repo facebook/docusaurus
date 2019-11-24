@@ -15,6 +15,7 @@ class ChunkManifestPlugin {
   constructor(options) {
     this.options = {
       filename: 'manifest.json',
+      outputPath: null,
       manifestVariable: 'webpackManifest',
       inlineManifest: false,
       ...options,
@@ -23,7 +24,7 @@ class ChunkManifestPlugin {
 
   apply(compiler) {
     let chunkManifest;
-    const {path: outputPath, publicPath} = compiler.options.output;
+    const {path: defaultOutputPath, publicPath} = compiler.options.output;
 
     // Build the chunk mapping
     compiler.hooks.afterCompile.tapAsync(pluginName, (compilation, done) => {
@@ -49,6 +50,7 @@ class ChunkManifestPlugin {
       }
       chunkManifest = assetsMap;
       if (!this.options.inlineManifest) {
+        const outputPath = this.options.outputPath || defaultOutputPath;
         const finalPath = path.resolve(outputPath, this.options.filename);
         fs.ensureDir(path.dirname(finalPath), () => {
           fs.writeFile(finalPath, JSON.stringify(chunkManifest, null, 2), done);
