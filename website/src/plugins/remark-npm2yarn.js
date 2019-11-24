@@ -23,11 +23,17 @@ const convertNpmToYarn = npmCode => {
 const transformNode = node => {
   const npmCode = node.value;
   const yarnCode = convertNpmToYarn(node.value);
-  node.children = [
+  return [
     {
       type: 'jsx',
       value:
-        "<Tabs\n  defaultValue=\"npm\"\n  values={[\n    { label: 'npm', value: 'npm', },\n    { label: 'yarn', value: 'yarn', },\n  ]\n}>\n<TabItem value=\"npm\">",
+        `<Tabs defaultValue="npm" ` +
+        `values={[
+    { label: 'npm', value: 'npm', },
+    { label: 'yarn', value: 'yarn', },
+  ]}
+>
+<TabItem value="npm">`,
     },
     {
       type: node.type,
@@ -48,28 +54,38 @@ const transformNode = node => {
       value: '</TabItem>\n</Tabs>',
     },
   ];
-  node.type = 'element';
-  delete node.lang;
-  delete node.meta;
-  delete node.value;
+};
+
+const matchNode = node => node.type === 'code' && node.meta === 'npm2yarn';
+const nodeForImport = {
+  type: 'import',
+  value:
+    "import Tabs from '@theme/Tabs';\nimport TabItem from '@theme/TabItem';",
 };
 
 module.exports = () => {
   let transformed = false;
   const transformer = node => {
-    if (node.type === 'code' && node.meta === 'npm2yarn') {
-      transformNode(node);
+    if (matchNode(node)) {
       transformed = true;
-    } else if (Array.isArray(node.children)) {
-      node.children.forEach(transformer);
+      return transformNode(node);
+    }
+    if (Array.isArray(node.children)) {
+      let index = 0;
+      while (index < node.children.length) {
+        const result = transformer(node.children[index]);
+        if (result) {
+          node.children.splice(index, 1, ...result);
+          index += result.length;
+        } else {
+          index += 1;
+        }
+      }
     }
     if (node.type === 'root' && transformed) {
-      node.children.unshift({
-        type: 'import',
-        value:
-          "import Tabs from '@theme/Tabs';\nimport TabItem from '@theme/TabItem';",
-      });
+      node.children.unshift(nodeForImport);
     }
+    return null;
   };
   return transformer;
 };
