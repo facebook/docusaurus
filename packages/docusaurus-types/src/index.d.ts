@@ -118,6 +118,10 @@ export interface RouteModule {
   [module: string]: Module | RouteModule | RouteModule[];
 }
 
+export interface ChunkNames {
+  [name: string]: string | null | ChunkNames | ChunkNames[];
+}
+
 export interface RouteConfig {
   path: string;
   component: string;
