@@ -13,7 +13,22 @@ import {
   Module,
   RouteConfig,
   RouteModule,
+  ChunkNames,
 } from '@docusaurus/types';
+
+function isModule(value: any): value is Module {
+  if (_.isString(value)) {
+    return true;
+  }
+  if (
+    _.isPlainObject(value) &&
+    _.has(value, '__import') &&
+    _.has(value, 'path')
+  ) {
+    return true;
+  }
+  return false;
+}
 
 function getModulePath(target: Module): string {
   if (typeof target === 'string') {
@@ -33,7 +48,7 @@ export async function loadRoutes(pluginsRouteConfigs: RouteConfig[]) {
   } = {};
   const routesPaths: string[] = ['404.html'];
   const routesChunkNames: {
-    [routePath: string]: any;
+    [routePath: string]: ChunkNames;
   } = {};
 
   // This is the higher level overview of route code generation
@@ -73,25 +88,23 @@ export async function loadRoutes(pluginsRouteConfigs: RouteConfig[]) {
         );
       }
 
-      if (_.isPlainObject(value) && !_.isString(value) && !value.__import) {
-        const newValue = {};
-        Object.keys(value).forEach(key => {
-          newValue[key] = genRouteChunkNames(value[key], key, name);
-        });
-        return newValue;
+      if (isModule(value)) {
+        const modulePath = getModulePath(value);
+        const chunkName = genChunkName(modulePath, prefix, name);
+        const loader = `() => import(/* webpackChunkName: '${chunkName}' */ "${modulePath}")`;
+
+        registry[chunkName] = {
+          loader,
+          modulePath,
+        };
+        return chunkName;
       }
 
-      const modulePath = getModulePath(value as Module);
-      const chunkName = genChunkName(modulePath, prefix, name);
-      const loader = `() => import(/* webpackChunkName: '${chunkName}' */ ${JSON.stringify(
-        modulePath,
-      )})`;
-
-      registry[chunkName] = {
-        loader,
-        modulePath,
-      };
-      return chunkName;
+      const newValue: ChunkNames = {};
+      Object.keys(value).forEach(key => {
+        newValue[key] = genRouteChunkNames(value[key], key, name);
+      });
+      return newValue;
     }
 
     routesChunkNames[routePath] = _.assign(
