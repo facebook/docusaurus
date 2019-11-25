@@ -73,7 +73,7 @@ export interface Props extends LoadContext {
 
 export interface PluginContentLoadedActions {
   addRoute(config: RouteConfig): void;
-  createData(name: string, data: Object): Promise<string>;
+  createData(name: string, data: any): Promise<string>;
 }
 
 export interface Plugin<T> {
