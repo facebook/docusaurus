@@ -30,7 +30,7 @@ const transformNode = node => {
         `<Tabs defaultValue="npm" ` +
         `values={[
     { label: 'npm', value: 'npm', },
-    { label: 'yarn', value: 'yarn', },
+    { label: 'Yarn', value: 'yarn', },
   ]}
 >
 <TabItem value="npm">`,
