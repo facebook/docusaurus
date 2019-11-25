@@ -69,6 +69,7 @@ module.exports = {
       algoliaOptions: {},
     },
     navbar: {
+      hideOnScroll: true,
       title: 'Docusaurus',
       logo: {
         alt: 'Docusaurus Logo',
