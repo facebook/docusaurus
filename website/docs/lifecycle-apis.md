@@ -148,7 +148,7 @@ The initial call to `configureWebpack` also receives a util object consists of t
 
 You may use them to return your webpack configures conditionally.
 
-For example, this plugin below modify the webpack config to transpile `.foo` file with babel.
+For example, this plugin below modify the webpack config to transpile `.foo` file.
 
 ```js {5-12}
 // docusaurus-plugin/src/index.js
