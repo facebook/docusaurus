@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useState, useEffect} from 'react';
 import Link from '@docusaurus/Link';
 import Head from '@docusaurus/Head';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
@@ -43,13 +43,21 @@ function NavLink({to, href, label, position, ...props}) {
 
 function Navbar() {
   const context = useDocusaurusContext();
-  const [sidebarShown, setSidebarShown] = useState(false);
-  const [isSearchBarExpanded, setIsSearchBarExpanded] = useState(false);
-  const [theme, setTheme] = useTheme();
   const {siteConfig = {}} = context;
   const {baseUrl, themeConfig = {}} = siteConfig;
   const {navbar = {}, disableDarkMode = false} = themeConfig;
-  const {title, logo = {}, links = []} = navbar;
+  const {title, logo = {}, links = [], hideOnScroll = false} = navbar;
+  const [sidebarShown, setSidebarShown] = useState(false);
+  const [isSearchBarExpanded, setIsSearchBarExpanded] = useState(false);
+  const [theme, setTheme] = useTheme();
+  const [isNavbarVisible, setIsNavbarVisible] = useState(true);
+  const [lastScrollTop, setLastScrollTop] = useState(0);
+  const [navbarHeight, setNavbarHeight] = useState(0);
+  const navbarRef = useCallback(node => {
+    if (node !== null) {
+      setNavbarHeight(node.getBoundingClientRect().height);
+    }
+  }, []);
 
   const showSidebar = useCallback(() => {
     setSidebarShown(true);
@@ -63,6 +71,36 @@ function Navbar() {
     [setTheme],
   );
 
+  const handleScroll = () => {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const documentHeight = document.documentElement.scrollHeight - navbarHeight;
+    const windowHeight = window.innerHeight;
+
+    if (scrollTop < navbarHeight) {
+      return;
+    }
+
+    if (lastScrollTop && scrollTop > lastScrollTop) {
+      setIsNavbarVisible(false);
+    } else if (scrollTop + windowHeight < documentHeight) {
+      setIsNavbarVisible(true);
+    }
+
+    setLastScrollTop(scrollTop);
+  };
+
+  useEffect(() => {
+    if (!hideOnScroll) {
+      return undefined;
+    }
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [lastScrollTop, navbarHeight]);
+
   const logoUrl = useBaseUrl(logo.src);
   return (
     <>
@@ -71,8 +109,11 @@ function Navbar() {
         <html lang="en" data-theme={theme} />
       </Head>
       <nav
+        ref={navbarRef}
         className={classnames('navbar', 'navbar--light', 'navbar--fixed-top', {
           'navbar-sidebar--show': sidebarShown,
+          [styles.navbarHidable]: hideOnScroll,
+          [styles.navbarHided]: !isNavbarVisible,
         })}>
         <div className="navbar__inner">
           <div className="navbar__items">

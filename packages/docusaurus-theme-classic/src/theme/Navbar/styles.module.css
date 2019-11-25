@@ -16,3 +16,11 @@
     display: none;
   }
 }
+
+.navbarHidable {
+  transition: top 0.2s ease-in-out;
+}
+
+.navbarHided {
+  top: calc(var(--ifm-navbar-height) * -1) !important;
+}
