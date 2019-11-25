@@ -1,7 +1,7 @@
 ---
 id: docusaurus-core
 title: Docusaurus Client API
-sidebar_title: Client API
+sidebar_label: Client API
 ---
 
 Docusaurus provides some API on client that can be helpful when building your site.

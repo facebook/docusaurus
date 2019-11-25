@@ -1,6 +1,6 @@
 ---
 id: theme-classic
-title: Classic Theme Configuration
+title: "@docusaurus/theme-classic"
 ---
 
 > :warning: _This section is a work in progress._
