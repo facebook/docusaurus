@@ -1,10 +1,5 @@
-.codeBlockWrapper {
-  position: relative;
-}
-
-.codeBlockWrapper:hover > .copyButton {
-  visibility: visible;
-  opacity: 1;
+.codeBlock {
+  padding: 0;
 }
 
 .copyButton {
@@ -25,17 +20,14 @@
     bottom 200ms ease-in-out;
 }
 
-.codeBlock {
-  overflow: auto;
-  display: block;
-  padding: 0;
-  font-size: inherit;
+.codeBlock:hover > .copyButton {
+  visibility: visible;
+  opacity: 1;
 }
 
 .codeBlockLines {
-  border-radius: 0;
-  margin-bottom: 0;
   float: left;
   min-width: 100%;
   padding: var(--ifm-pre-padding);
+  border-radius: 0;
 }

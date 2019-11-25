@@ -20,7 +20,7 @@ export default {
     return children;
   },
   a: Link,
-  pre: props => <pre className={styles.mdxCodeBlock} {...props} />,
+  pre: props => <div className={styles.mdxCodeBlock} {...props} />,
   h1: Heading('h1'),
   h2: Heading('h2'),
   h3: Heading('h3'),

@@ -81,46 +81,44 @@ export default ({
   };
 
   return (
-    <div className={styles.codeBlockWrapper}>
-      <button
-        ref={button}
-        type="button"
-        aria-label="Copy code to clipboard"
-        className={styles.copyButton}
-        onClick={handleCopyCode}>
-        {showCopied ? 'Copied' : 'Copy'}
-      </button>
+    <Highlight
+      {...defaultProps}
+      theme={prism.theme || defaultTheme}
+      code={children.trim()}
+      language={language}>
+      {({className, style, tokens, getLineProps, getTokenProps}) => (
+        <pre className={classnames(className, styles.codeBlock)}>
+          <button
+            ref={button}
+            type="button"
+            aria-label="Copy code to clipboard"
+            className={styles.copyButton}
+            onClick={handleCopyCode}>
+            {showCopied ? 'Copied' : 'Copy'}
+          </button>
 
-      <Highlight
-        {...defaultProps}
-        theme={prism.theme || defaultTheme}
-        code={children.trim()}
-        language={language}>
-        {({className, style, tokens, getLineProps, getTokenProps}) => (
-          <pre className={classnames(className, styles.codeBlock)}>
-            <code
-              ref={target}
-              className={classnames(className, styles.codeBlockLines)}
-              style={style}>
-              {tokens.map((line, i) => {
-                const lineProps = getLineProps({line, key: i});
+          <code
+            ref={target}
+            className={classnames(className, styles.codeBlockLines)}
+            style={style}>
+            {tokens.map((line, i) => {
+              const lineProps = getLineProps({line, key: i});
 
-                if (highlightLines.includes(i + 1)) {
-                  lineProps.className = `${lineProps.className} docusaurus-highlight-code-line`;
-                }
+              if (highlightLines.includes(i + 1)) {
+                lineProps.className = `${lineProps.className} docusaurus-highlight-code-line`;
+              }
 
-                return (
-                  <div key={i} {...lineProps}>
-                    {line.map((token, key) => (
-                      <span key={key} {...getTokenProps({token, key})} />
-                    ))}
-                  </div>
-                );
-              })}
-            </code>
-          </pre>
-        )}
-      </Highlight>
-    </div>
+              return (
+                <div key={i} {...lineProps}>
+                  {line.map((token, key) => (
+                    <span key={key} {...getTokenProps({token, key})} />
+                  ))}
+                </div>
+              );
+            })}
+          </code>
+        </pre>
+      )}
+    </Highlight>
   );
 };
