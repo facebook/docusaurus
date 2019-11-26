@@ -257,9 +257,19 @@ describe('load utils', () => {
         input: ['http://foobar.com', '', 'test'],
         output: 'http://foobar.com/test',
       },
+      {
+        input: ['http://foobar.com', '', 'test', '/'],
+        output: 'http://foobar.com/test/',
+      },
     ];
     asserts.forEach(testCase => {
       expect(normalizeUrl(testCase.input)).toBe(testCase.output);
     });
+
+    expect(() =>
+      normalizeUrl(['http:example.com', undefined]),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"Url must be a string. Received undefined"`,
+    );
   });
 });
