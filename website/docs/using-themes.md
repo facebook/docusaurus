@@ -96,9 +96,33 @@ This will copy the current `<Footer />` component used by the theme to a `src/th
 
 ## Official themes by Docusaurus
 
-- [@docusaurus/theme-classic](https://github.com/facebook/docusaurus/tree/master/packages/docusaurus-theme-classic)
-- [@docusaurus/theme-search-algolia](https://github.com/facebook/docusaurus/tree/master/packages/docusaurus-theme-search-algolia)
-- [@docusaurus/theme-live-codeblock](https://github.com/facebook/docusaurus/tree/master/packages/docusaurus-theme-live-codeblock)
+### `@docusaurus/theme-classic`
+
+The classic theme for Docusaurus. You can refer to [classic theme configuration](theme-classic.md) for more details on the configuration.
+
+```bash npm2yarn
+npm install --save @docusaurus/theme-classic
+```
+
+> If you have installed `@docusaurus/preset-classic`, you don't need to install it as a dependency.
+
+### `@docusaurus/theme-search-algolia`
+
+This theme provides a `@theme/SearchBar` component that integrates with Algolia DocSearch easily. Combined with `@docusaurus/theme-classic`, it provides a very easy search integration. You can read more on [search](search.md) documentation.
+
+```bash npm2yarn
+npm install --save @docusaurus/theme-search-algolia
+```
+
+> If you have installed `@docusaurus/preset-classic`, you don't need to install it as a dependency.
+
+### `@docusaurus/theme-live-codeblock`
+
+This theme provides a `@theme/CodeBlock` component that is powered by react-live. You can read more on [interactive code editor](markdown-features.mdx#interactive-code-editor) documentation.
+
+```bash npm2yarn
+npm install --save @docusaurus/theme-live-codeblock
+```
 
 ## Themes design
 

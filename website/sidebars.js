@@ -19,8 +19,6 @@ module.exports = {
         items: ['markdown-features', 'sidebar', 'versioning'],
       },
       'blog',
-      'analytics',
-      'seo',
       'search',
       'deployment',
       'migrating-from-v1-to-v2',

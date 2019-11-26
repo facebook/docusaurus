@@ -129,7 +129,15 @@ Find the list of official Docusaurus plugins [here](https://github.com/facebook/
 
 ### `@docusaurus/plugin-content-blog`
 
-Provides the [Blog](blog.md) feature and is the default blog plugin for Docusaurus. The classic template ships with this plugin with default configurations.
+Provides the [Blog](blog.md) feature and is the default blog plugin for Docusaurus.
+
+**Installation**
+
+```bash npm2yarn
+npm install --save @docusaurus/plugin-content-blog
+```
+
+> If you have installed `@docusaurus/preset-classic`, you don't need to install it as a dependency. You can also configure it through the [classic preset options](presets.md#docusauruspreset-classic) instead of doing it like below.
 
 ```js
 // docusaurus.config.js
@@ -185,7 +193,15 @@ module.exports = {
 
 ### `@docusaurus/plugin-content-docs`
 
-Provides the [Docs](markdown-features.mdx) functionality and is the default docs plugin for Docusaurus. The classic template ships with this plugin with default configurations.
+Provides the [Docs](markdown-features.mdx) functionality and is the default docs plugin for Docusaurus. 
+
+**Installation**
+
+```bash npm2yarn
+npm install --save @docusaurus/plugin-content-docs
+```
+
+> If you have installed `@docusaurus/preset-classic`, you don't need to install it as a dependency. You can also configure it through the [classic preset options](presets.md#docusauruspreset-classic) instead of doing it like below.
 
 ```js
 // docusaurus.config.js
@@ -242,6 +258,14 @@ module.exports = {
 
 The default pages plugin for Docusaurus. The classic template ships with this plugin with default configurations. This plugin provides [creating pages](creating-pages.md) functionality.
 
+**Installation**
+
+```bash npm2yarn
+npm install --save @docusaurus/plugin-content-pages
+```
+
+> If you have installed `@docusaurus/preset-classic`, you don't need to install it as a dependency. You can also configure it through the [classic preset options](presets.md#docusauruspreset-classic) instead of doing it like below.
+
 ```js
 // docusaurus.config.js
 module.exports = {
@@ -269,13 +293,15 @@ module.exports = {
 
 ### `@docusaurus/plugin-google-analytics`
 
-The default [Google Analytics](https://developers.google.com/analytics/devguides/collection/analyticsjs/) plugin.
+The default [Google Analytics](https://developers.google.com/analytics/devguides/collection/analyticsjs/) plugin. It is a JavaScript library for measuring how users interact with your website.
 
 **Installation**
 
 ```bash npm2yarn
 npm install --save @docusaurus/plugin-google-analytics
 ```
+
+> If you have installed `@docusaurus/preset-classic`, you don't need to install it as a dependency.
 
 **Configuration**
 
@@ -293,13 +319,15 @@ module.exports = {
 
 ### `@docusaurus/plugin-google-gtag`
 
-The default [Global Site Tag (gtag.js)](https://developers.google.com/analytics/devguides/collection/gtagjs/) plugin.
+The default [Global Site Tag (gtag.js)](https://developers.google.com/analytics/devguides/collection/gtagjs/) plugin. It is a JavaScript tagging framework and API that allows you to send event data to Google Analytics, Google Ads, and Google Marketing Platform. This section describes how to configure a Docusaurus site to enable global site tag for Google Analytics.
 
 **Installation**
 
 ```bash npm2yarn
 npm install --save @docusaurus/plugin-google-gtag
 ```
+
+> If you have installed `@docusaurus/preset-classic`, you don't need to install it as a dependency.
 
 **Configuration**
 
@@ -317,7 +345,15 @@ module.exports = {
 
 ### `@docusaurus/plugin-sitemap`
 
-The classic template ships with this plugin. This plugin creates sitemap for your site so that search engine crawlers can crawl your site more accurately.
+This plugin creates sitemap for your site so that search engine crawlers can crawl your site more accurately.
+
+**Installation**
+
+```bash npm2yarn
+npm install --save @docusaurus/plugin-sitemap
+```
+
+> If you have installed `@docusaurus/preset-classic`, you don't need to install it as a dependency. You can also configure it through the [classic preset options](presets.md#docusauruspreset-classic) instead of doing it like below.
 
 ```js
 // docusaurus.config.js

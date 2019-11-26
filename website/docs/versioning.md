@@ -44,7 +44,7 @@ The table below explains how a versioned file maps to its version and the genera
 | --------------------------------------- | -------------- | ----------------- |
 | `versioned_docs/version-1.0.0/hello.md` | 1.0.0          | /docs/1.0.0/hello |
 | `versioned_docs/version-1.1.0/hello.md` | 1.1.0 (latest) | /docs/hello       |
-| `docs/guides/hello.md`                  | next           | /docs/next/hello  |
+| `docs/hello.md`                  | next           | /docs/next/hello  |
 
 ### Tagging a new version
 
