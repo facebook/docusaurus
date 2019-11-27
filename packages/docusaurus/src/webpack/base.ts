@@ -42,6 +42,8 @@ export function createBaseConfig(
   return {
     mode: isProd ? 'production' : 'development',
     output: {
+      // Use future version of asset emitting logic, which allows freeing memory of assets after emitting.
+      futureEmitAssets: true,
       pathinfo: false,
       path: outDir,
       filename: isProd ? '[name].[contenthash:8].js' : '[name].js',

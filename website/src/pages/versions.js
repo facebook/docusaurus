@@ -19,6 +19,7 @@ function Version() {
   const context = useDocusaurusContext();
   const {siteConfig = {}} = context;
   const latestVersion = versions[0];
+  const pastVersions = versions.filter(version => version !== latestVersion);
   const repoUrl = `https://github.com/${siteConfig.organizationName}/${siteConfig.projectName}`;
   return (
     <Layout
@@ -65,34 +66,34 @@ function Version() {
             </tbody>
           </table>
         </div>
-        <div className="margin-bottom--lg">
-          <h3 id="archive">Past Versions</h3>
-          <p>
-            Here you can find documentation for previous versions of Docusaurus.
-          </p>
-          <table>
-            <tbody>
-              {versions.map(
-                version =>
-                  version !== latestVersion && (
-                    <tr key={version}>
-                      <th>{version}</th>
-                      <td>
-                        <Link to={useBaseUrl(`/docs/${version}/introduction`)}>
-                          Documentation
-                        </Link>
-                      </td>
-                      <td>
-                        <a href={`${repoUrl}/releases/tag/v${version}`}>
-                          Release Notes
-                        </a>
-                      </td>
-                    </tr>
-                  ),
-              )}
-            </tbody>
-          </table>
-        </div>
+        {pastVersions.length > 0 && (
+          <div className="margin-bottom--lg">
+            <h3 id="archive">Past Versions</h3>
+            <p>
+              Here you can find documentation for previous versions of
+              Docusaurus.
+            </p>
+            <table>
+              <tbody>
+                {pastVersions.map(version => (
+                  <tr key={version}>
+                    <th>{version}</th>
+                    <td>
+                      <Link to={useBaseUrl(`/docs/${version}/introduction`)}>
+                        Documentation
+                      </Link>
+                    </td>
+                    <td>
+                      <a href={`${repoUrl}/releases/tag/v${version}`}>
+                        Release Notes
+                      </a>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
     </Layout>
   );

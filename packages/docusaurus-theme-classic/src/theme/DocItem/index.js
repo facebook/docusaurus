@@ -94,7 +94,7 @@ function DocItem(props) {
       <div className="padding-vert--lg">
         <div className="container">
           <div className="row">
-            <div className="col">
+            <div className="col col--9">
               <div className={styles.docItemContainer}>
                 <article>
                   {version && (
