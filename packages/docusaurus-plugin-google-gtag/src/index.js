@@ -14,5 +14,26 @@ module.exports = function() {
     getClientModules() {
       return [path.resolve(__dirname, './gtag')];
     },
+
+    injectHtmlTags() {
+      return {
+        headTags: [
+          {
+            tagName: 'link',
+            attributes: {
+              rel: 'preconnect',
+              href: 'https://www.google-analytics.com',
+            },
+          },
+          {
+            tagName: 'link',
+            attributes: {
+              rel: 'preconnect',
+              href: 'https://www.googletagmanager.com',
+            },
+          },
+        ],
+      };
+    },
   };
 };
