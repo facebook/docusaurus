@@ -12,7 +12,7 @@ import vfile from 'to-vfile';
 import plugin from '../index';
 
 const processFixture = async (name, options) => {
-  const path = join(__dirname, 'fixtures', `${name}.mdx`);
+  const path = join(__dirname, 'fixtures', `${name}.md`);
   const file = await vfile.read(path);
   const result = await remark()
     .use(mdx)
