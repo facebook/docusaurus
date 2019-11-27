@@ -57,6 +57,10 @@ export async function build(
   // Apply user webpack config.
   const {outDir, generatedFilesDir, plugins} = props;
 
+  const clientManifestPath = path.join(
+    generatedFilesDir,
+    'client-manifest.json',
+  );
   let clientConfig: Configuration = merge(createClientConfig(props), {
     plugins: [
       // Remove/clean build folders before building bundles.
@@ -65,7 +69,7 @@ export async function build(
       cliOptions.bundleAnalyzer && new BundleAnalyzerPlugin(),
       // Generate client manifests file that will be used for server bundle
       new ReactLoadableSSRAddon({
-        filename: path.join(generatedFilesDir, 'client-manifest.json'),
+        filename: clientManifestPath,
       }),
     ].filter(Boolean) as Plugin[],
   });
@@ -103,6 +107,17 @@ export async function build(
       true,
     );
   });
+
+  // Make sure generated client-manifest and chunk-map is cleaned first so we don't reuse the one from prevs build
+  const chunkManifestPath = path.join(generatedFilesDir, 'chunk-map.json');
+  await Promise.all(
+    [clientManifestPath, chunkManifestPath].map(async manifestPath => {
+      const manifestExist = await fs.pathExists(manifestPath);
+      if (manifestExist) {
+        await fs.unlink(manifestPath);
+      }
+    }),
+  );
 
   // Run webpack to build JS bundle (client) and static html files (server).
   await compile([clientConfig, serverConfig]);
