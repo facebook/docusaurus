@@ -12,7 +12,7 @@ module.exports = `
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
     <meta name="generator" content="Docusaurus">
-    <%= headTags %>
+    <%- headTags %>
     <%- chunkManifestScript %>
     <% metaAttributes.forEach((metaAttribute) => { %>
       <%- metaAttribute %>
@@ -22,7 +22,7 @@ module.exports = `
     <% }); %>
   </head>
   <body <%- bodyAttributes %>>
-    <%= bodyTags %>
+    <%- bodyTags %>
     <div id="__docusaurus">
       <%- appHtml %>
     </div>

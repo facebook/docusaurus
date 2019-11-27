@@ -25,7 +25,6 @@ import {posixPath} from '@docusaurus/utils';
 import {CONFIG_FILE_NAME, STATIC_DIR_NAME, DEFAULT_PORT} from '../constants';
 import {createClientConfig} from '../webpack/client';
 import {applyConfigureWebpack} from '../webpack/utils';
-import {head} from 'shelljs';
 
 function getHost(reqHost: string | undefined): string {
   return reqHost || 'localhost';
