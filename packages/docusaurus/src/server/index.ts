@@ -26,6 +26,7 @@ import {
   PluginConfig,
   Props,
 } from '@docusaurus/types';
+import {loadHtmlTags} from './html-tags';
 
 export function loadContext(siteDir: string): LoadContext {
   const generatedFilesDir: string = path.resolve(
@@ -103,6 +104,9 @@ export async function load(siteDir: string): Promise<Props> {
       .join('\n')}\n];\n`,
   );
 
+  // Load extra head & body html tags
+  const {headTags, bodyTags} = loadHtmlTags(plugins);
+
   // Routing
   const {
     registry,
@@ -148,6 +152,8 @@ ${Object.keys(registry)
     generatedFilesDir,
     routesPaths,
     plugins,
+    headTags,
+    bodyTags,
   };
 
   return props;

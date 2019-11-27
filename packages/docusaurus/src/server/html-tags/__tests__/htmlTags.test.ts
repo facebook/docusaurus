@@ -46,6 +46,13 @@ describe('htmlTagObjectToString', () => {
     ).toMatchInlineSnapshot(
       `"<div style=\\"background-color:lightblue\\">Lightblue color here</div>"`,
     );
+
+    expect(
+      htmlTagObjectToString({
+        tagName: 'div',
+        innerHTML: 'Test',
+      }),
+    ).toMatchInlineSnapshot(`"<div>Test</div>"`);
   });
 
   test('valid html void tag', () => {
@@ -86,6 +93,30 @@ describe('htmlTagObjectToString', () => {
       }),
     ).toThrowErrorMatchingInlineSnapshot(
       `"Error loading {\\"tagName\\":\\"endiliey\\",\\"attributes\\":{\\"this\\":\\"is invalid\\"}}, \\"endiliey\\" is not a valid HTML tags"`,
+    );
+  });
+
+  test('invalid tagName', () => {
+    expect(() =>
+      htmlTagObjectToString({
+        tagName: true,
+      }),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"{\\"tagName\\":true} is not a valid HTML tag object. \\"tagName\\" must be defined as a string"`,
+    );
+  });
+
+  test('invalid html tag object', () => {
+    expect(() =>
+      htmlTagObjectToString('fooofofoofo'),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"\\"fooofofoofo\\" is not a valid HTML tag object"`,
+    );
+
+    expect(() =>
+      htmlTagObjectToString(null),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"\\"null\\" is not a valid HTML tag object"`,
     );
   });
 });

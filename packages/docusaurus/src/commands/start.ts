@@ -25,6 +25,7 @@ import {posixPath} from '@docusaurus/utils';
 import {CONFIG_FILE_NAME, STATIC_DIR_NAME, DEFAULT_PORT} from '../constants';
 import {createClientConfig} from '../webpack/client';
 import {applyConfigureWebpack} from '../webpack/utils';
+import {head} from 'shelljs';
 
 function getHost(reqHost: string | undefined): string {
   return reqHost || 'localhost';
@@ -78,7 +79,7 @@ export async function start(
   const protocol: string = process.env.HTTPS === 'true' ? 'https' : 'http';
   const port: number = await getPort(cliOptions.port);
   const host: string = getHost(cliOptions.host);
-  const {baseUrl} = props;
+  const {baseUrl, headTags, bodyTags} = props;
   const urls = prepareUrls(protocol, host, port);
   const openUrl = normalizeUrl([urls.localUrlForBrowser, baseUrl]);
 
@@ -92,6 +93,8 @@ export async function start(
         ),
         filename: 'index.html',
         title: siteConfig.title,
+        headTags,
+        bodyTags,
       }),
       // This is necessary to emit hot updates for webpack-dev-server
       new HotModuleReplacementPlugin(),

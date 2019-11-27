@@ -73,7 +73,12 @@ export interface LoadContext {
   baseUrl: string;
 }
 
-export interface Props extends LoadContext {
+export interface HtmlTags {
+  headTags: string;
+  bodyTags: string;
+}
+
+export interface Props extends LoadContext, HtmlTags {
   routesPaths: string[];
   plugins: Plugin<any>[];
 }
@@ -104,6 +109,10 @@ export interface Plugin<T> {
   getPathsToWatch?(): string[];
   getClientModules?(): string[];
   extendCli?(cli: Command): void;
+  injectHtmlTags?(): {
+    headTags?: HtmlTagObject | HtmlTagObject[];
+    bodyTags?: HtmlTagObject | HtmlTagObject[];
+  };
 }
 
 export type PluginConfig = [string, Object] | [string] | string;
@@ -158,7 +167,7 @@ interface HtmlTagObject {
    * Attributes of the html tag
    * E.g. `{'disabled': true, 'value': 'demo', 'rel': 'preconnect'}`
    */
-  attributes: {
+  attributes?: {
     [attributeName: string]: string | boolean;
   };
   /**

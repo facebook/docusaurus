@@ -5,11 +5,26 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import _ from 'lodash';
 import {HtmlTagObject} from '@docusaurus/types';
 import htmlTags from 'html-tags';
 import voidHtmlTags from 'html-tags/void';
 
-export function htmlTagObjectToString(tagDefinition: HtmlTagObject): string {
+function assertIsHtmlTagObject(val: any): asserts val is HtmlTagObject {
+  if (!_.isPlainObject(val)) {
+    throw new Error(`"${val}" is not a valid HTML tag object`);
+  }
+  if (typeof val.tagName !== 'string') {
+    throw new Error(
+      `${JSON.stringify(
+        val,
+      )} is not a valid HTML tag object. "tagName" must be defined as a string`,
+    );
+  }
+}
+
+export function htmlTagObjectToString(tagDefinition: any): string {
+  assertIsHtmlTagObject(tagDefinition);
   if (htmlTags.indexOf(tagDefinition.tagName) === -1) {
     throw new Error(
       `Error loading ${JSON.stringify(tagDefinition)}, "${
@@ -18,15 +33,14 @@ export function htmlTagObjectToString(tagDefinition: HtmlTagObject): string {
     );
   }
   const isVoidTag = voidHtmlTags.indexOf(tagDefinition.tagName) !== -1;
-  const attributes = Object.keys(tagDefinition.attributes || {})
-    .filter(attributeName => tagDefinition.attributes[attributeName] !== false)
+  const tagAttributes = tagDefinition.attributes || {};
+  const attributes = Object.keys(tagAttributes)
+    .filter(attributeName => tagAttributes[attributeName] !== false)
     .map(attributeName => {
-      if (tagDefinition.attributes[attributeName] === true) {
+      if (tagAttributes[attributeName] === true) {
         return attributeName;
       }
-      return (
-        attributeName + '="' + tagDefinition.attributes[attributeName] + '"'
-      );
+      return attributeName + '="' + tagAttributes[attributeName] + '"';
     });
   return (
     '<' +
