@@ -23,7 +23,7 @@ const Heading = Tag => ({id, ...props}) => {
         tabIndex="-1"
         className="hash-link"
         href={`#${id}`}
-        title="Direct link to section">
+        title="Direct link to heading">
         #
       </a>
       {props.children}
