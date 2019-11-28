@@ -551,9 +551,9 @@ title: Hello, World !
 Hi, Endilie here :)
 ```
 
-Since we're going for snapshot and allows people to move (and edit) docs easily inside version. The id frontmatter is no longer altered, it's gonna be keep as it is. But internally it is set as `version-${version}/${id}`
+Since we're going for snapshot and allow people to move (and edit) docs easily inside version. The `id` frontmatter is no longer altered and will remain the same. Internally, it is set as `version-${version}/${id}`.
 
-Essentially, here's what needs to be done on each versioned_docs file:
+Essentially, here are the necessary changes in each versioned_docs file:
 
 ```yaml {2-3,5}
 ---
@@ -570,9 +570,9 @@ Hi, Endilie here :)
 
 - Refer to versioned_docs id as `version-${version}/${id}` (v2) instead of `version-${version}-${original_id}` (v1). 
 
-Why ? because in v1 there is a good chance someone created a new file with front matter id `"version-${version}-${id}"` that can conflict with versioned_docs id
+Because in v1 there is a good chance someone created a new file with front matter id `"version-${version}-${id}"` that can conflict with versioned_docs id.
 
-Example, docusaurus 1 can't differentiate `docs/xxx.md`
+Example, Docusaurus 1 can't differentiate `docs/xxx.md`
 ```md
 ---
 id: version-1.0.0-hello
@@ -591,7 +591,7 @@ original_id: hello
 Hi, Endilie here :)
 ```
 
-Since we don't allow `/` in v1 & v2 for frontmatter, conflict is less likely.
+Since we don't allow `/` in v1 & v2 for frontmatter, conflicts are less likely to occur.
 
 So v1 users need to migrate their versioned_sidebars file
 
@@ -625,7 +625,7 @@ For example, if your `versions.json` looks like this in v1
 ]
 ```
 
-Docusaurus v1 creates versioned docs **if and only if the docs content are different** .Your docs structure might look like this if the only docs changed from v1.0.0 to v1.1.0 is `hello.md`.
+Docusaurus v1 creates versioned docs **if and only if the doc content is different**. Your docs structure might look like this if the only doc changed from v1.0.0 to v1.1.0 is `hello.md`.
 
 ```shell
 website
