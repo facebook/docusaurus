@@ -7,19 +7,10 @@
 
 module.exports = function() {
   return {
-    name: 'plugin-both-tags',
+    name: 'plugin-postBody-tags',
     injectHtmlTags() {
       return {
-        headTags: [
-          {
-            tagName: 'link',
-            attributes: {
-              rel: 'preconnect',
-              href: 'www.google-analytics.com',
-            },
-          },
-        ],
-        bodyTags: [
+        postBodyTags: [
           {
             tagName: 'div',
             innerHTML: 'Test content',

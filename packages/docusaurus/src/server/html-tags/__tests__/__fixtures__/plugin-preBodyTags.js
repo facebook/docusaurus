@@ -7,10 +7,10 @@
 
 module.exports = function() {
   return {
-    name: 'plugin-bodyTags-only',
+    name: 'plugin-preBodyTags',
     injectHtmlTags() {
       return {
-        bodyTags: {
+        preBodyTags: {
           tagName: 'script',
           attributes: {
             type: 'text/javascript',

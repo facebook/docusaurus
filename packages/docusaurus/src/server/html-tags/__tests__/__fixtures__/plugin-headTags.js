@@ -18,6 +18,7 @@ module.exports = function() {
               href: 'www.google-analytics.com',
             },
           },
+          `<meta name="generator" content="docusaurus">`,
         ],
       };
     },

@@ -16,7 +16,14 @@ import WaitPlugin from './plugins/WaitPlugin';
 import LogPlugin from './plugins/LogPlugin';
 
 export function createServerConfig(props: Props): Configuration {
-  const {baseUrl, routesPaths, generatedFilesDir, headTags, bodyTags} = props;
+  const {
+    baseUrl,
+    routesPaths,
+    generatedFilesDir,
+    headTags,
+    preBodyTags,
+    postBodyTags,
+  } = props;
   const config = createBaseConfig(props, true);
 
   const routesLocation = {};
@@ -52,7 +59,8 @@ export function createServerConfig(props: Props): Configuration {
           generatedFilesDir,
           routesLocation,
           headTags,
-          bodyTags,
+          preBodyTags,
+          postBodyTags,
         },
         paths: ssgPaths,
       }),

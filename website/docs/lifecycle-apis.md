@@ -231,8 +231,9 @@ Inject head and/or body html tags to Docusaurus generated html.
 
 ```typescript
 function injectHtmlTags(): {
-  headTags?: HtmlTagObject | HtmlTagObject[];
-  bodyTags?: HtmlTagObject | HtmlTagObject[];
+  headTags?: string | HtmlTagObject | (string | HtmlTagObject)[];
+  preBodyTags?: string | HtmlTagObject | (string | HtmlTagObject)[];
+  postBodyTags?: string | HtmlTagObject | (string | HtmlTagObject)[];
 };
 
 interface HtmlTagObject {
@@ -256,7 +257,7 @@ interface HtmlTagObject {
 
 Example:
 
-```js {5-24}
+```js {5-29}
 // docusaurus-plugin/src/index.js
 module.exports = function(context, options, utils) {
   return {
@@ -272,15 +273,16 @@ module.exports = function(context, options, utils) {
             },
           },
         ],
-        bodyTags: [
+        preBodyTags: [
           {
             tagName: 'script',
             attributes: {
-              type: 'text/javascript',
-              src: `/noflash.js`,
+              charset: 'utf-8',
+              src: '/noflash.js'
             },
           },
         ],
+        postBodyTags: [`<div> This is post body </div>`],
       };
     },
   };

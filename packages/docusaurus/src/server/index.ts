@@ -105,7 +105,7 @@ export async function load(siteDir: string): Promise<Props> {
   );
 
   // Load extra head & body html tags
-  const {headTags, bodyTags} = loadHtmlTags(plugins);
+  const {headTags, preBodyTags, postBodyTags} = loadHtmlTags(plugins);
 
   // Routing
   const {
@@ -153,7 +153,8 @@ ${Object.keys(registry)
     routesPaths,
     plugins,
     headTags,
-    bodyTags,
+    preBodyTags,
+    postBodyTags,
   };
 
   return props;

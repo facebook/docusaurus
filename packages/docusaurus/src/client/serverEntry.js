@@ -22,7 +22,7 @@ import ssrTemplate from './templates/ssr.html.template';
 
 // Renderer for static-site-generator-webpack-plugin (async rendering via promises)
 export default async function render(locals) {
-  const {routesLocation, headTags, bodyTags} = locals;
+  const {routesLocation, headTags, preBodyTags, postBodyTags} = locals;
   const location = routesLocation[locals.path];
   await preload(routes, location);
   const modules = new Set();
@@ -77,7 +77,8 @@ export default async function render(locals) {
       htmlAttributes: htmlAttributes || '',
       bodyAttributes: bodyAttributes || '',
       headTags,
-      bodyTags,
+      preBodyTags,
+      postBodyTags,
       metaAttributes,
       scripts,
       stylesheets,

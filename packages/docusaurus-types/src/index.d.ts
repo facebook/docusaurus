@@ -75,7 +75,8 @@ export interface LoadContext {
 
 export interface HtmlTags {
   headTags: string;
-  bodyTags: string;
+  preBodyTags: string;
+  postBodyTags: string;
 }
 
 export interface Props extends LoadContext, HtmlTags {
@@ -110,8 +111,9 @@ export interface Plugin<T> {
   getClientModules?(): string[];
   extendCli?(cli: Command): void;
   injectHtmlTags?(): {
-    headTags?: HtmlTagObject | HtmlTagObject[];
-    bodyTags?: HtmlTagObject | HtmlTagObject[];
+    headTags?: string | HtmlTagObject | (string | HtmlTagObject)[];
+    preBodyTags?: string | HtmlTagObject | (string | HtmlTagObject)[];
+    postBodyTags?: string | HtmlTagObject | (string | HtmlTagObject)[];
   };
 }
 

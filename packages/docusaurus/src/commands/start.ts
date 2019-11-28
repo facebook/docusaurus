@@ -78,7 +78,7 @@ export async function start(
   const protocol: string = process.env.HTTPS === 'true' ? 'https' : 'http';
   const port: number = await getPort(cliOptions.port);
   const host: string = getHost(cliOptions.host);
-  const {baseUrl, headTags, bodyTags} = props;
+  const {baseUrl, headTags, preBodyTags, postBodyTags} = props;
   const urls = prepareUrls(protocol, host, port);
   const openUrl = normalizeUrl([urls.localUrlForBrowser, baseUrl]);
 
@@ -90,10 +90,13 @@ export async function start(
           __dirname,
           '../client/templates/index.html.template.ejs',
         ),
+        // so we can define the position where the scripts are injected
+        inject: false,
         filename: 'index.html',
         title: siteConfig.title,
         headTags,
-        bodyTags,
+        preBodyTags,
+        postBodyTags,
       }),
       // This is necessary to emit hot updates for webpack-dev-server
       new HotModuleReplacementPlugin(),

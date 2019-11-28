@@ -22,13 +22,14 @@ module.exports = `
     <% }); %>
   </head>
   <body <%- bodyAttributes %>>
-    <%- bodyTags %>
+    <%- preBodyTags %>
     <div id="__docusaurus">
       <%- appHtml %>
     </div>
     <% scripts.forEach((script) => { %>
       <script type="text/javascript" src="<%= baseUrl %><%= script %>"></script>
     <% }); %>
+    <%- postBodyTags %>
   </body>
 </html>
 `;
