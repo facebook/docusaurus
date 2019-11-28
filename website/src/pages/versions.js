@@ -26,6 +26,7 @@ function Version() {
       permalink="/versions"
       description="Docusaurus 2 Versions page listing all documented site versions">
       <div className="container margin-vert--xl">
+        <h1>Docusaurus documentation versions</h1>
         <div className="margin-bottom--lg">
           <h3 id="latest">Latest version (Stable)</h3>
           <p>Here you can find the latest documentation.</p>
