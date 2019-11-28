@@ -179,7 +179,8 @@ type Props = {
   outDir: string;
   baseUrl: string;
   headTags: string;
-  bodyTags: string;
+  preBodyTags: string;
+  postBodyTags: string;
   routesPaths: string[];
   plugins: Plugin<any>[];
 };
