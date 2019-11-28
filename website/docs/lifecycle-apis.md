@@ -232,10 +232,12 @@ Inject head and/or body html tags to Docusaurus generated html.
 
 ```typescript
 function injectHtmlTags(): {
-  headTags?: string | HtmlTagObject | (string | HtmlTagObject)[];
-  preBodyTags?: string | HtmlTagObject | (string | HtmlTagObject)[];
-  postBodyTags?: string | HtmlTagObject | (string | HtmlTagObject)[];
+  headTags?: HtmlTags;
+  preBodyTags?: HtmlTags;
+  postBodyTags?: HtmlTags;
 };
+
+type HtmlTags = string | HtmlTagObject | (string | HtmlTagObject)[];
 
 interface HtmlTagObject {
   /**

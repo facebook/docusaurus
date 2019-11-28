@@ -7,19 +7,22 @@
 
 import _ from 'lodash';
 import {htmlTagObjectToString} from './htmlTags';
-import {Plugin, HtmlTags, HtmlTagObject} from '@docusaurus/types';
+import {
+  Plugin,
+  InjectedHtmlTags,
+  HtmlTagObject,
+  HtmlTags,
+} from '@docusaurus/types';
 
 function toString(val: string | HtmlTagObject): string {
   return typeof val === 'string' ? val : htmlTagObjectToString(val);
 }
 
-export function createHtmlTagsString(
-  tags: string | HtmlTagObject | (string | HtmlTagObject)[],
-): string {
+export function createHtmlTagsString(tags: HtmlTags): string {
   return _.isArray(tags) ? tags.map(toString).join('\n') : toString(tags);
 }
 
-export function loadHtmlTags(plugins: Plugin<any>[]): HtmlTags {
+export function loadHtmlTags(plugins: Plugin<any>[]): InjectedHtmlTags {
   const htmlTags = plugins.reduce(
     (acc, plugin) => {
       if (!plugin.injectHtmlTags) {
