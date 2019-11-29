@@ -76,7 +76,7 @@
     "semver": "^6.3.0",
     "shelljs": "^0.8.3",
     "std-env": "^2.2.1",
-    "style-loader": "^1.0.0",
+    "style-loader": "^1.0.1",
     "terser-webpack-plugin": "^2.2.1",
     "wait-file": "^1.0.5",
     "webpack": "^4.41.2",

@@ -59,7 +59,7 @@ Our shared goal — to help your users find what they need fast, and understand 
   - Share your code in live editors to get your users love your products on the spot
 - 🔍 **Search** Your full site is searchable
 - 🌍 **i18n** (_coming soon_)
-- 💾 **Versioning** (_coming soon_)
+- 💾 **Document Versioning** Helps you keep documentation in sync with project releases. 
 
 Docusaurus 2 is born to be compassionately accessible to all your users, and lightning fast.
 

@@ -21,7 +21,7 @@ module.exports = {
 
 ### Meta image
 
-You can configure a default image that will be used for your meta tag, in particular `og:image` and `twitter:image`;
+You can configure a default image that will be used for your meta tag, in particular `og:image` and `twitter:image`.
 
 ```js
 // docusaurus.config.js

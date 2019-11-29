@@ -27,6 +27,11 @@ test('non text phrasing content', async () => {
   expect(result).toMatchSnapshot();
 });
 
+test('inline code should be escaped', async () => {
+  const result = await processFixture('inline-code');
+  expect(result).toMatchSnapshot();
+});
+
 test('text content', async () => {
   const result = await processFixture('just-content');
   expect(result).toMatchInlineSnapshot(`
