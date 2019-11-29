@@ -6,7 +6,7 @@ sidebar_label: Client API
 
 Docusaurus provides some API on client that can be helpful when building your site.
 
-## `<Head />`
+## `Head`
 
 This reusable React component will manage all of your changes to the document head. It takes plain HTML tags and outputs plain HTML tags and is beginner-friendly. It is a wrapper around [React Helmet](https://github.com/nfl/react-helmet).
 
@@ -55,7 +55,7 @@ Outputs
 </head>
 ```
 
-## `<Link />`
+## `Link`
 
 This component enables linking to internal pages as well as a powerful performance feature called preloading. Preloading is used to prefetch resources so that the resources are fetched by the time the user navigates with this component. We use an `IntersectionObserver` to fetch a low-priority request when the `<Link>` is in the viewport and then use an `onMouseOver` event to trigger a high-priority request when it is likely that a user will navigate to the requested resource.
 
@@ -145,7 +145,7 @@ function Help() {
 }
 ```
 
-## `<Redirect />`
+## `Redirect`
 
 Rendering a `<Redirect>` will navigate to a new location. The new location will override the current location in the history stack, like server-side redirects (HTTP 3xx) do. You can refer to [React Router's Redirect documentation](https://reacttraining.com/react-router/web/api/Redirect) for more info on available props.
 
