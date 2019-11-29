@@ -1,5 +1,47 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`inline code should be escaped 1`] = `
+"export const rightToc = [
+	{
+		value: '<code>&lt;Head /&gt;</code>',
+		id: 'head-',
+		children: [
+			{
+				value: '<code>&lt;Head&gt;Test&lt;/Head&gt;</code>',
+				id: 'headtesthead',
+				children: []
+			}
+		]
+	},
+	{
+		value: '<code>&lt;div /&gt;</code>',
+		id: 'div-',
+		children: []
+	},
+	{
+		value: '<code>&lt;div&gt; Test &lt;/div&gt;</code>',
+		id: 'div-test-div',
+		children: []
+	},
+	{
+		value: '<code>&lt;div&gt;&lt;i&gt;Test&lt;/i&gt;&lt;/div&gt;</code>',
+		id: 'divitestidiv',
+		children: []
+	}
+];
+
+## \`<Head />\`
+
+### \`<Head>Test</Head>\`
+
+## \`<div />\`
+
+## \`<div> Test </div>\`
+
+## \`<div><i>Test</i></div>\`
+"
+`;
+
 exports[`non text phrasing content 1`] = `
 "export const rightToc = [
 	{

@@ -12,6 +12,7 @@
     "@babel/traverse": "^7.7.4",
     "@mdx-js/mdx": "^1.5.1",
     "@mdx-js/react": "^1.5.1",
+    "escape-html": "^1.0.3",
     "github-slugger": "^1.2.1",
     "gray-matter": "^4.0.2",
     "loader-utils": "^1.2.3",
