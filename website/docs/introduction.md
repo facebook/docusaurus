@@ -19,14 +19,14 @@ This is an **early and alpha release** of Docusaurus 2. We are making it availab
 **Do not use this if**
 
 - :x: You need a full production-ready solution (<small>try [Docusaurus 1](https://docusaurus.io/) instead</small>)
-- :x: You need the versioning and translation features present in v1
+- :x: You need the translation features present in v1
 - :x: You prefer not to work with potential breaking changes and/or features not yet working properly as we improve it during alpha period
 
 ## A better Docusaurus is coming to town
 
 <img alt="Docusaurus " src={useBaseUrl('img/slash-introducing.svg')} />
 
-Docusaurus 1 used to be a pure documentation site generator. In Docusaurus 2, we rebuilt it from the ground up, allowing for more customizability but preserved the best parts of Docusaurus 1 - easy to get started, versioned docs (_coming soon_), and i18n (_coming soon_).
+Docusaurus 1 used to be a pure documentation site generator. In Docusaurus 2, we rebuilt it from the ground up, allowing for more customizability but preserved the best parts of Docusaurus 1 - easy to get started, versioned docs, and i18n (_coming soon_).
 
 Beyond that, Docusaurus 2 is a **performant static site generator** and can be used to create most content-driven websites (e.g. Documentation, Blogs, Product Landing and Marketing Pages, etc) extremely fast.
 
