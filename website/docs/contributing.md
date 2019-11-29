@@ -126,7 +126,7 @@ We have a list of [beginner friendly issues](https://github.com/facebook/docusau
 
 If you would like to request a new feature or enhancement but are not yet thinking about opening a pull request, you can also file an issue with [feature template](https://github.com/facebook/docusaurus/issues/new?template=feature.md).
 
-If you intend to change the public API (e.g., something in `siteConfig.js`), or make any non-trivial changes to the implementation, we recommend filing an issue with [proposal template](https://github.com/facebook/docusaurus/issues/new?template=proposal.md) and including `[Proposal]` in the title. This lets us reach an agreement on your proposal before you put significant effort into it. These types of issues should be rare.
+If you intend to change the public API (e.g., something in `docusaurus.config.js`), or make any non-trivial changes to the implementation, we recommend filing an issue with [proposal template](https://github.com/facebook/docusaurus/issues/new?template=proposal.md) and including `[Proposal]` in the title. This lets us reach an agreement on your proposal before you put significant effort into it. These types of issues should be rare.
 
 If you're only fixing a bug, it's fine to submit a pull request right away but we still recommend to file an issue detailing what you're fixing. This is helpful in case we don't accept that specific fix but want to keep track of the issue.
 

@@ -113,10 +113,10 @@ Lorem ipsum
 
 As the name implies, `SidebarItem` is an item defined in a Sidebar. There are a few types we support:
 
-- Doc
-- Link
-- Ref
-- Category
+- [Doc](#doc)
+- [Link](#link)
+- [Ref](#ref)
+- [Category](#category)
 
 ### Doc
 

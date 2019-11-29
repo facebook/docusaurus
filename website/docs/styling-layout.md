@@ -47,6 +47,7 @@ When you `init` your Docusaurus 2 project, the website will be generated with ba
   --ifm-color-primary-light: rgb(70, 203, 174);
   --ifm-color-primary-lighter: rgb(102, 212, 189);
   --ifm-color-primary-lightest: rgb(146, 224, 208);
+  --ifm-code-font-size: 95%;
 }
 ```
 
