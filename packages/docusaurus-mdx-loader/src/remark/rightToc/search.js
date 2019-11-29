@@ -7,6 +7,7 @@
 
 const toString = require('mdast-util-to-string');
 const visit = require('unist-util-visit');
+const escapeHtml = require('escape-html');
 const slugs = require('github-slugger')();
 
 // https://github.com/syntax-tree/mdast#heading
@@ -18,7 +19,7 @@ function toValue(node) {
       case 'heading':
         return node.children.map(toValue).join('');
       case 'inlineCode':
-        return `<code>${node.value}</code>`;
+        return `<code>${escapeHtml(node.value)}</code>`;
       case 'emphasis':
         return `<em>${node.children.map(toValue).join('')}</em>`;
       case 'strong':
