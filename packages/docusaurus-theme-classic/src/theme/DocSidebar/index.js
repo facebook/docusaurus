@@ -71,6 +71,7 @@ function DocSidebarItem({item, onItemClick, collapsible}) {
           <Link
             activeClassName="menu__link--active"
             className="menu__link"
+            exact
             to={href}
             onClick={onItemClick}>
             {label}
