@@ -63,46 +63,43 @@ export default ({children, className: languageClassName, metastring}) => {
   };
 
   return (
-    <div className={styles.codeBlockWrapper}>
-      <button
-        ref={button}
-        type="button"
-        aria-label="Copy code to clipboard"
-        className={styles.copyButton}
-        onClick={handleCopyCode}>
-        {showCopied ? 'Copied' : 'Copy'}
-      </button>
+    <Highlight
+      {...defaultProps}
+      theme={prism.theme || defaultTheme}
+      code={children.trim()}
+      language={language}>
+      {({className, style, tokens, getLineProps, getTokenProps}) => (
+        <div className={styles.codeBlockWrapper}>
+          <pre
+            ref={target}
+            className={classnames(className, styles.codeBlock)}
+            style={style}>
+            {tokens.map((line, i) => {
+              const lineProps = getLineProps({line, key: i});
 
-      <Highlight
-        {...defaultProps}
-        theme={prism.theme || defaultTheme}
-        code={children.trim()}
-        language={language}>
-        {({className, style, tokens, getLineProps, getTokenProps}) => (
-          <pre className={classnames(className, styles.codeBlock)}>
-            <code
-              ref={target}
-              className={classnames(className, styles.codeBlockLines)}
-              style={style}>
-              {tokens.map((line, i) => {
-                const lineProps = getLineProps({line, key: i});
+              if (highlightLines.includes(i + 1)) {
+                lineProps.className = `${lineProps.className} docusaurus-highlight-code-line`;
+              }
 
-                if (highlightLines.includes(i + 1)) {
-                  lineProps.className = `${lineProps.className} docusaurus-highlight-code-line`;
-                }
-
-                return (
-                  <div key={i} {...lineProps}>
-                    {line.map((token, key) => (
-                      <span key={key} {...getTokenProps({token, key})} />
-                    ))}
-                  </div>
-                );
-              })}
-            </code>
+              return (
+                <div key={i} {...lineProps}>
+                  {line.map((token, key) => (
+                    <span key={key} {...getTokenProps({token, key})} />
+                  ))}
+                </div>
+              );
+            })}
           </pre>
-        )}
-      </Highlight>
-    </div>
+          <button
+            ref={button}
+            type="button"
+            aria-label="Copy code to clipboard"
+            className={styles.copyButton}
+            onClick={handleCopyCode}>
+            {showCopied ? 'Copied' : 'Copy'}
+          </button>
+        </div>
+      )}
+    </Highlight>
   );
 };
