@@ -32,11 +32,6 @@ export default (function() {
   }
 
   /* eslint-disable */
-  const $scriptEl = window.document.createElement('script');
-  $scriptEl.async = 1;
-  $scriptEl.src = `https://www.googletagmanager.com/gtag/js?id=${trackingID}`;
-  window.document.head.appendChild($scriptEl);
-
   window.dataLayer = window.dataLayer || [];
   function gtag() {
     // Have to use `arguments` instead of spreading as there are

@@ -14,5 +14,19 @@ module.exports = function() {
     getClientModules() {
       return [path.resolve(__dirname, './analytics')];
     },
+
+    injectHtmlTags() {
+      return {
+        headTags: [
+          {
+            tagName: 'link',
+            attributes: {
+              rel: 'preconnect',
+              href: 'https://www.google-analytics.com',
+            },
+          },
+        ],
+      };
+    },
   };
 };
