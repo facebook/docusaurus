@@ -172,18 +172,18 @@ module.exports = function(context, options, utils) {
 Called when a (production) build finishes.
 
 ```ts
-interface LoadContext {
+type Props = {
   siteDir: string;
   generatedFilesDir: string;
   siteConfig: DocusaurusConfig;
   outDir: string;
   baseUrl: string;
-}
-
-interface Props extends LoadContext {
+  headTags: string;
+  preBodyTags: string;
+  postBodyTags: string;
   routesPaths: string[];
   plugins: Plugin<any>[];
-}
+};
 ```
 
 Example:
@@ -221,6 +221,72 @@ module.exports = function(context, options, utils) {
         .action(() => {
           console.log(Math.floor(Math.random() * 1000 + 1));
         });
+    },
+  };
+};
+```
+
+## injectHtmlTags()
+
+Inject head and/or body html tags to Docusaurus generated html.
+
+```typescript
+function injectHtmlTags(): {
+  headTags?: HtmlTags;
+  preBodyTags?: HtmlTags;
+  postBodyTags?: HtmlTags;
+};
+
+type HtmlTags = string | HtmlTagObject | (string | HtmlTagObject)[];
+
+interface HtmlTagObject {
+  /**
+   * Attributes of the html tag
+   * E.g. `{'disabled': true, 'value': 'demo', 'rel': 'preconnect'}`
+   */
+  attributes?: {
+    [attributeName: string]: string | boolean;
+  };
+  /**
+   * The tag name e.g. `div`, `script`, `link`, `meta`
+   */
+  tagName: string;
+  /**
+   * The inner HTML
+   */
+  innerHTML?: string;
+}
+```
+
+Example:
+
+```js {5-29}
+// docusaurus-plugin/src/index.js
+module.exports = function(context, options, utils) {
+  return {
+    name: 'docusaurus-plugin',
+    injectHtmlTags() {
+      return {
+        headTags: [
+          {
+            tagName: 'link',
+            attributes: {
+              rel: 'preconnect',
+              href: 'https://www.github.com',
+            },
+          },
+        ],
+        preBodyTags: [
+          {
+            tagName: 'script',
+            attributes: {
+              charset: 'utf-8',
+              src: '/noflash.js'
+            },
+          },
+        ],
+        postBodyTags: [`<div> This is post body </div>`],
+      };
     },
   };
 };
@@ -350,6 +416,10 @@ module.exports = function(context, opts) {
 
     extendCli(cli) {
       // Register an extra command to enhance the CLI of docusaurus
+    },
+
+    injectHtmlTags() {
+      // Inject head and/or body html tags
     },
   };
 };
