@@ -17,6 +17,7 @@ import {
   BlogItemsToModules,
   TagsModule,
   BlogPaginated,
+  FeedType,
 } from './types';
 import {
   LoadContext,
@@ -43,15 +44,23 @@ const DEFAULT_OPTIONS: PluginOptions = {
   truncateMarker: /<!--\s*(truncate)\s*-->/, // string or regex
 };
 
-const getFeedTypes = ({type}: {type: 'rss' | 'atom' | 'all'}) => {
-  let feedTypes = [];
+function assertFeedTypes(val: any): asserts val is FeedType {
+  if (typeof val !== 'string' && !['rss', 'atom', 'all'].includes(val)) {
+    throw new Error(
+      `Invalid feedOptions type: ${val}. It must be either 'rss', 'atom', or 'all'`,
+    );
+  }
+}
+
+const getFeedTypes = (type?: FeedType) => {
+  assertFeedTypes(type);
+  let feedTypes: ('rss' | 'atom')[] = [];
 
   if (type === 'all') {
     feedTypes = ['rss', 'atom'];
   } else {
     feedTypes.push(type);
   }
-
   return feedTypes;
 };
 
@@ -408,7 +417,7 @@ export default function pluginContentBlog(
         return;
       }
 
-      const feedTypes = getFeedTypes(options.feedOptions);
+      const feedTypes = getFeedTypes(options.feedOptions?.type);
 
       await Promise.all(
         feedTypes.map(feedType => {
@@ -429,16 +438,15 @@ export default function pluginContentBlog(
 
     injectHtmlTags() {
       if (!options.feedOptions) {
-        return;
+        return {};
       }
 
-      const feedTypes = getFeedTypes(options.feedOptions);
+      const feedTypes = getFeedTypes(options.feedOptions?.type);
       const {
-        siteConfig: {baseUrl = '', title},
+        siteConfig: {title},
+        baseUrl,
       } = context;
-      const feedsConfig: {
-        [key: string]: {type: string; path: string; title: string};
-      } = {
+      const feedsConfig = {
         rss: {
           type: 'application/rss+xml',
           path: 'blog/rss.xml',
@@ -450,7 +458,7 @@ export default function pluginContentBlog(
           title: `${title} Blog Atom Feed`,
         },
       };
-      const headTags: HtmlTags[] = [];
+      const headTags: HtmlTags = [];
 
       feedTypes.map(feedType => {
         const feedConfig = feedsConfig[feedType] || {};
