@@ -7,8 +7,8 @@
 
 const path = require('path');
 
+// Need to be inlined to prevent dark mode FOUC
 const noFlash = `(function() {
-  // Change these if you use something different in your hook.
   var storageKey = 'theme';
 
   function setDataThemeAttribute(theme) {
@@ -24,23 +24,19 @@ const noFlash = `(function() {
   } catch (err) {}
   var localStorageExists = localStorageTheme !== null;
 
-  // Determine the source of truth
   if (localStorageExists) {
-    // source of truth from localStorage
     setDataThemeAttribute(localStorageTheme);
   } else if (supportsColorSchemeQuery) {
-    // source of truth from system
     var theme = mql.matches ? 'dark' : '';
     setDataThemeAttribute(theme);
-    localStorage.setItem(storageKey, theme);
-  } else {
-    // source of truth from document
-    var theme = document.querySelector('html').getAttribute('data-theme');
-    localStorage.setItem(storageKey, theme);
   }
 })();`;
 
 module.exports = function(context, options) {
+  const {
+    siteConfig: {themeConfig},
+  } = context;
+  const {disableDarkMode = false} = themeConfig || {};
   const {customCss} = options || {};
   return {
     name: 'docusaurus-theme-classic',
@@ -54,6 +50,9 @@ module.exports = function(context, options) {
     },
 
     injectHtmlTags() {
+      if (disableDarkMode) {
+        return {};
+      }
       return {
         preBodyTags: [
           {

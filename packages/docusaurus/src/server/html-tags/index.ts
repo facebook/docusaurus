@@ -28,7 +28,8 @@ export function loadHtmlTags(plugins: Plugin<any>[]): InjectedHtmlTags {
       if (!plugin.injectHtmlTags) {
         return acc;
       }
-      const {headTags, preBodyTags, postBodyTags} = plugin.injectHtmlTags();
+      const {headTags, preBodyTags, postBodyTags} =
+        plugin.injectHtmlTags() || {};
       return {
         headTags: headTags
           ? acc.headTags + '\n' + createHtmlTagsString(headTags)
