@@ -27,19 +27,18 @@ module.exports = function(context) {
     );
   }
 
+  const isProd = process.env.NODE_ENV === 'production';
   return {
     name: 'docusaurus-plugin-google-gtag',
 
     getClientModules() {
-      return [path.resolve(__dirname, './gtag')];
+      return isProd ? [path.resolve(__dirname, './gtag')] : [];
     },
 
     injectHtmlTags() {
-      const innerHTML = `window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', ${trackingID});`;
-
+      if (!isProd) {
+        return {};
+      }
       return {
         headTags: [
           {
@@ -56,6 +55,7 @@ module.exports = function(context) {
               href: 'https://www.googletagmanager.com',
             },
           },
+          // https://developers.google.com/analytics/devguides/collection/gtagjs/#install_the_global_site_tag
           {
             tagName: 'script',
             attributes: {
@@ -65,7 +65,11 @@ module.exports = function(context) {
           },
           {
             tagName: 'script',
-            innerHTML,
+            innerHTML: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', '${trackingID}');`,
           },
         ],
       };

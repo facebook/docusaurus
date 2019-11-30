@@ -7,29 +7,16 @@
 
 import siteConfig from '@generated/docusaurus.config';
 
-const {themeConfig} = siteConfig;
-
 export default (function() {
-  if (!themeConfig.gtag) {
+  if (typeof window === 'undefined') {
     return null;
   }
 
-  const {trackingID} = themeConfig.gtag;
-  if (process.env.NODE_ENV === 'development' && !trackingID) {
-    console.warn(
-      'You specified the `gtag` object in `themeConfig` but the `trackingID` field was missing. ' +
-        'Please ensure this is not a mistake.',
-    );
-    return null;
-  }
-
-  if (
-    process.env.NODE_ENV !== 'production' ||
-    !trackingID ||
-    typeof window === 'undefined'
-  ) {
-    return null;
-  }
+  const {
+    themeConfig: {
+      gtag: {trackingID},
+    },
+  } = siteConfig;
 
   return {
     onRouteUpdate({location}) {
