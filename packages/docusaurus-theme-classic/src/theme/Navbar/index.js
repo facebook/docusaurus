@@ -6,14 +6,13 @@
  */
 
 import React, {useCallback, useState} from 'react';
-import Toggle from 'react-toggle';
-
 import Link from '@docusaurus/Link';
 import Head from '@docusaurus/Head';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
 import SearchBar from '@theme/SearchBar';
+import Toggle from '@theme/Toggle';
 
 import classnames from 'classnames';
 
@@ -41,9 +40,6 @@ function NavLink({to, href, label, position, ...props}) {
     </Link>
   );
 }
-
-const Moon = () => <span className={classnames(styles.toggle, styles.moon)} />;
-const Sun = () => <span className={classnames(styles.toggle, styles.sun)} />;
 
 function Navbar() {
   const context = useDocusaurusContext();
@@ -133,10 +129,6 @@ function Navbar() {
                 aria-label="Dark mode toggle"
                 checked={theme === 'dark'}
                 onChange={onToggleChange}
-                icons={{
-                  checked: <Moon />,
-                  unchecked: <Sun />,
-                }}
               />
             )}
             <SearchBar
@@ -165,10 +157,6 @@ function Navbar() {
                 aria-label="Dark mode toggle in sidebar"
                 checked={theme === 'dark'}
                 onChange={onToggleChange}
-                icons={{
-                  checked: <Moon />,
-                  unchecked: <Sun />,
-                }}
               />
             )}
           </div>

@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/init",
-  "version": "2.0.0-alpha.34",
+  "version": "2.0.0-alpha.36",
   "description": "Create Docusaurus app easily",
   "repository": {
     "type": "git",
@@ -23,12 +23,12 @@
     "chalk": "^3.0.0",
     "commander": "^4.0.1",
     "fs-extra": "^8.1.0",
-    "inquirer": "^6.5.0",
+    "inquirer": "^7.0.0",
     "lodash.kebabcase": "^4.1.1",
     "semver": "^6.3.0",
     "shelljs": "^0.8.3"
   },
   "engines": {
-    "node": ">= 8.9.0"
+    "node": ">= 8.10.0"
   }
 }

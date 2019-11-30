@@ -7,8 +7,6 @@ In general, every website needs assets: images, stylesheets, favicons and etc. I
 
 This means that if the site's `baseUrl` is `/`, an image in `/static/img/docusaurus_keytar.svg` is available at `/img/docusaurus_keytar.svg`.
 
-<!-- TODO: Yangshun: This is inaccurate for sites with a non '/' baseUrl -->
-
 ## Referencing your static asset
 
 You can reference assets from the `static` folder in your code. You could use hardcoded absolute paths, i.e. starting with a slash /, but remember to include the `baseUrl` if it is not `/`. However, this will break if you change your `baseUrl` in the config.

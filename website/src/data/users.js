@@ -61,6 +61,15 @@ const users = [
     fbOpenSource: false,
     pinned: false,
   },
+  {
+    title: 'Vector',
+    description: 'A High-Performance, Logs, Metrics, & Events Router',
+    preview: require('./showcase/vector.png'),
+    website: 'https://vector.dev/',
+    source: 'https://github.com/timberio/vector',
+    fbOpenSource: false,
+    pinned: true,
+  },
 ];
 
 export default users;

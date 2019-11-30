@@ -22,7 +22,7 @@ import ssrTemplate from './templates/ssr.html.template';
 
 // Renderer for static-site-generator-webpack-plugin (async rendering via promises)
 export default async function render(locals) {
-  const {routesLocation} = locals;
+  const {routesLocation, headTags, preBodyTags, postBodyTags} = locals;
   const location = routesLocation[locals.path];
   await preload(routes, location);
   const modules = new Set();
@@ -45,12 +45,12 @@ export default async function render(locals) {
   ];
   const metaAttributes = metaStrings.filter(Boolean);
 
-  const {outDir} = locals;
-  const manifestPath = path.join(outDir, 'client-manifest.json');
+  const {generatedFilesDir} = locals;
+  const manifestPath = path.join(generatedFilesDir, 'client-manifest.json');
   const manifest = JSON.parse(await fs.readFile(manifestPath, 'utf8'));
 
   // chunkName -> chunkAssets mapping.
-  const chunkManifestPath = path.join(outDir, 'chunk-map.json');
+  const chunkManifestPath = path.join(generatedFilesDir, 'chunk-map.json');
   const chunkManifest = JSON.parse(
     await fs.readFile(chunkManifestPath, 'utf8'),
   );
@@ -76,6 +76,9 @@ export default async function render(locals) {
       chunkManifestScript,
       htmlAttributes: htmlAttributes || '',
       bodyAttributes: bodyAttributes || '',
+      headTags,
+      preBodyTags,
+      postBodyTags,
       metaAttributes,
       scripts,
       stylesheets,

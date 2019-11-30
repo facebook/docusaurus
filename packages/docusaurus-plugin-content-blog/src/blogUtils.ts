@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2017-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
 import fs from 'fs-extra';
 import globby from 'globby';
 import path from 'path';
@@ -11,7 +18,7 @@ export function truncate(fileString: string, truncateMarker: RegExp | string) {
 }
 
 // YYYY-MM-DD-{name}.mdx?
-// prefer named capture, but old node version do not support
+// prefer named capture, but old Node version does not support.
 const FILENAME_PATTERN = /^(\d{4}-\d{1,2}-\d{1,2})-?(.*?).mdx?$/;
 
 function toUrl({date, link}: DateLink) {
@@ -93,7 +100,8 @@ export async function generateBlogPosts(
 
   await Promise.all(
     blogFiles.map(async (relativeSource: string) => {
-      // Cannot use path.join() as it resolves '../' and removes the '@site'. Let webpack loader resolve it.
+      // Cannot use path.join() as it resolves '../' and removes the '@site'.
+      // Let webpack loader resolve it.
       const source = path.join(blogDir, relativeSource);
       const aliasedSource = `@site/${path.relative(siteDir, source)}`;
       const blogFileName = path.basename(relativeSource);
@@ -102,7 +110,7 @@ export async function generateBlogPosts(
       const {frontMatter, excerpt} = parse(fileString);
 
       let date;
-      // extract date and title from filename
+      // Extract date and title from filename.
       const match = blogFileName.match(FILENAME_PATTERN);
       let linkName = blogFileName.replace(/\.mdx?$/, '');
       if (match) {
@@ -110,11 +118,11 @@ export async function generateBlogPosts(
         date = new Date(dateString);
         linkName = name;
       }
-      // prefer usedefined date
+      // Prefer user-defined date.
       if (frontMatter.date) {
         date = new Date(frontMatter.date);
       }
-      // use file create time for blog
+      // Use file create time for blog.
       date = date || (await fs.stat(source)).birthtime;
       frontMatter.title = frontMatter.title || linkName;
 
@@ -135,6 +143,7 @@ export async function generateBlogPosts(
       });
     }),
   );
+
   blogPosts.sort(
     (a, b) => b.metadata.date.getTime() - a.metadata.date.getTime(),
   );

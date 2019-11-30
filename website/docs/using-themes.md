@@ -1,7 +1,6 @@
 ---
 id: using-themes
 title: Themes
-sidebar_label: Introduction
 ---
 
 Like plugins, themes are designed to add functionality to your Docusaurus site. As a good rule of thumb, themes are mostly focused on client-side, where plugins are more focused on server-side functionalities. Themes are also designed to be replace-able with other themes.
@@ -75,18 +74,20 @@ The content plugin remains the same and the only thing you need to change is the
 
 ## Swizzling theme components
 
+> ⚠️ We would like to discourage swizzling of components until we've minimally reached a Beta stage. The components APIs have been changing rapidly and are likely to keep changing until we reach Beta. Stick with the default appearance for now if possible to save yourself some potential pain in future.
+
 Docusaurus Themes' components are designed to be replaceable. To make it easier for you, we created a command for you to replace theme components called `swizzle`.
 
 To swizzle a component for a theme, run the following command in your doc site:
 
 ```shell
-$ docusaurus swizzle [theme name] [component name]
+docusaurus swizzle <theme name> [component name]
 ```
 
 As an example, to swizzle the `<Footer />` component in `@docusaurus/theme-classic` for your site, run:
 
-```shell
-$ npm swizzle @docusaurus/theme-classic Footer
+```bash npm2yarn
+npm run swizzle @docusaurus/theme-classic Footer
 ```
 
 This will copy the current `<Footer />` component used by the theme to a `src/theme/Footer` directory under the root of your site, which is where Docusaurus will look for swizzled components. Docusaurus will then use swizzled component in place of the original one from the theme.
@@ -95,9 +96,64 @@ This will copy the current `<Footer />` component used by the theme to a `src/th
 
 ## Official themes by Docusaurus
 
-- [@docusaurus/theme-classic](https://github.com/facebook/docusaurus/tree/master/packages/docusaurus-theme-classic)
-- [@docusaurus/theme-search-algolia](https://github.com/facebook/docusaurus/tree/master/packages/docusaurus-theme-search-algolia)
-- [@docusaurus/theme-live-codeblock](https://github.com/facebook/docusaurus/tree/master/packages/docusaurus-theme-live-codeblock)
+### `@docusaurus/theme-classic`
+
+The classic theme for Docusaurus. You can refer to [classic theme configuration](theme-classic.md) for more details on the configuration.
+
+```bash npm2yarn
+npm install --save @docusaurus/theme-classic
+```
+
+> If you have installed `@docusaurus/preset-classic`, you don't need to install it as a dependency.
+
+### `@docusaurus/theme-search-algolia`
+
+This theme provides a `@theme/SearchBar` component that integrates with Algolia DocSearch easily. Combined with `@docusaurus/theme-classic`, it provides a very easy search integration. You can read more on [search](search.md) documentation.
+
+```bash npm2yarn
+npm install --save @docusaurus/theme-search-algolia
+```
+
+> If you have installed `@docusaurus/preset-classic`, you don't need to install it as a dependency.
+
+### `@docusaurus/theme-live-codeblock`
+
+This theme provides a `@theme/CodeBlock` component that is powered by react-live. You can read more on [interactive code editor](markdown-features.mdx#interactive-code-editor) documentation.
+
+```bash npm2yarn
+npm install --save @docusaurus/theme-live-codeblock
+```
+
+## Themes design
+
+While themes share the exact same lifecycle methods with plugins, their implementations can look very different from those of plugins based on themes' designed objectives.
+
+Themes are designed to complete the build of your Docusaurus site and supply the components used by your site, plugins, and the themes themselves. So a typical theme implementation would look like a `src/index.js` file that hooks it up to the lifecycle methods. Most likely they would not use `loadContent`, which plugins would use. And it is typically accompanied by a `src/theme` directory full of components.
+
+To summarize:
+
+- Themes share the same lifecycle methods with Plugins
+- Themes are run after all existing Plugins
+- Themes exist to add component aliases by extending the webpack config
+
+## Writing customized Docusaurus themes
+
+A Docusaurus theme normally includes an `index.js` file where you hook up to the lifecycle methods, alongside with a `theme/` directory of components. A typical Docusaurus `theme` folder looks like this:
+
+```shell {5-7}
+website
+├── package.json
+└── src
+    ├── index.js
+    └── theme
+        ├── MyThemeComponent
+        └── AnotherThemeComponent.js
+```
+
+There are two lifecycle methods that are essential to theme implementation:
+
+- [getThemePath](lifecycle-apis.md#getthemepath)
+- [getClientModules](lifecycle-apis.md#getclientmodules)
 
 <!--
 

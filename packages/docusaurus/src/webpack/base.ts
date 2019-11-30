@@ -17,6 +17,19 @@ import {getBabelLoader, getCacheLoader, getStyleLoaders} from './utils';
 
 const CSS_REGEX = /\.css$/;
 const CSS_MODULE_REGEX = /\.module\.css$/;
+export const clientDir = path.join(__dirname, '..', 'client');
+
+export function excludeJS(modulePath: string) {
+  // always transpile client dir
+  if (modulePath.startsWith(clientDir)) {
+    return false;
+  }
+  // Don't transpile node_modules except any docusaurus npm package
+  return (
+    /node_modules/.test(modulePath) &&
+    !/(docusaurus)((?!node_modules).)*\.jsx?$/.test(modulePath)
+  );
+}
 
 export function createBaseConfig(
   props: Props,
@@ -24,12 +37,13 @@ export function createBaseConfig(
 ): Configuration {
   const {outDir, siteDir, baseUrl, generatedFilesDir, routesPaths} = props;
 
-  const clientDir = path.join(__dirname, '..', 'client');
   const totalPages = routesPaths.length;
   const isProd = process.env.NODE_ENV === 'production';
   return {
     mode: isProd ? 'production' : 'development',
     output: {
+      // Use future version of asset emitting logic, which allows freeing memory of assets after emitting.
+      futureEmitAssets: true,
       pathinfo: false,
       path: outDir,
       filename: isProd ? '[name].[contenthash:8].js' : '[name].js',
@@ -102,35 +116,38 @@ export function createBaseConfig(
             }),
           ]
         : undefined,
-      splitChunks: {
-        // Since the chunk name includes all origin chunk names it’s recommended for production builds with long term caching to NOT include [name] in the filenames
-        name: false,
-        cacheGroups: {
-          // disable the built-in cacheGroups
-          default: false,
-          common: {
-            name: 'common',
-            minChunks: totalPages > 2 ? totalPages * 0.5 : 2,
-            priority: 40,
+      splitChunks: isServer
+        ? false
+        : {
+            // Since the chunk name includes all origin chunk names it’s recommended for production builds with long term caching to NOT include [name] in the filenames
+            name: false,
+            cacheGroups: {
+              // disable the built-in cacheGroups
+              default: false,
+              common: {
+                name: 'common',
+                minChunks: totalPages > 2 ? totalPages * 0.5 : 2,
+                priority: 40,
+              },
+              // Only create one CSS file to avoid
+              // problems with code-split CSS loading in different orders
+              // causing inconsistent/non-deterministic styling
+              // See https://github.com/facebook/docusaurus/issues/2006
+              styles: {
+                name: 'styles',
+                test: /\.css$/,
+                chunks: `all`,
+                enforce: true,
+                priority: 50,
+              },
+            },
           },
-        },
-      },
     },
     module: {
       rules: [
         {
           test: /\.jsx?$/,
-          exclude: modulePath => {
-            // always transpile client dir
-            if (modulePath.startsWith(clientDir)) {
-              return false;
-            }
-            // Don't transpile node_modules except any docusaurus npm package
-            return (
-              /node_modules/.test(modulePath) &&
-              !/(docusaurus)((?!node_modules).)*\.jsx?$/.test(modulePath)
-            );
-          },
+          exclude: excludeJS,
           use: [getCacheLoader(isServer), getBabelLoader(isServer)].filter(
             Boolean,
           ) as Loader[],
@@ -163,7 +180,9 @@ export function createBaseConfig(
     plugins: [
       new MiniCssExtractPlugin({
         filename: isProd ? '[name].[contenthash:8].css' : '[name].css',
-        chunkFilename: isProd ? '[name].[contenthash:8].css' : '[name].css',
+        // remove css order warnings if css imports are not sorted alphabetically
+        // see https://github.com/webpack-contrib/mini-css-extract-plugin/pull/422 for more reasoning
+        ignoreOrder: true,
       }),
     ],
   };

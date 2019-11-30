@@ -30,6 +30,7 @@ export function createClientConfig(props: Props): Configuration {
       // Generate chunk-map.json (mapping of chunk names to their corresponding chunk assets)
       new ChunkManifestPlugin({
         filename: 'chunk-map.json',
+        outputPath: props.generatedFilesDir,
         manifestVariable: '__chunkMapping',
         inlineManifest: !isProd,
       }),

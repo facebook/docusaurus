@@ -5,13 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {
-  Sidebar,
-  SidebarItem,
-  SidebarItemDoc,
-  SidebarItemCategory,
-  Order,
-} from './types';
+import {Sidebar, SidebarItem, Order} from './types';
 
 // Build the docs meta such as next, previous, category and sidebar.
 export default function createOrder(allSidebars: Sidebar = {}): Order {
@@ -26,7 +20,7 @@ export default function createOrder(allSidebars: Sidebar = {}): Order {
         switch (item.type) {
           case 'category':
             indexItems({
-              items: (item as SidebarItemCategory).items,
+              items: item.items,
             });
             break;
           case 'ref':
@@ -34,12 +28,8 @@ export default function createOrder(allSidebars: Sidebar = {}): Order {
             // Refs and links should not be shown in navigation.
             break;
           case 'doc':
-            ids.push((item as SidebarItemDoc).id);
+            ids.push(item.id);
             break;
-          default:
-            throw new Error(
-              `Unknown item type: ${item.type}. Item: ${JSON.stringify(item)}`,
-            );
         }
       });
     };

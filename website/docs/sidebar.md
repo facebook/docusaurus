@@ -26,7 +26,18 @@ module.exports = {
 
 ## Sidebar object
 
-A sidebar object looks like the following. The key `docs` is the name of the sidebar (can be renamed to something else) and `Getting Started` is a category within the sidebar. `greeting` and `doc1` is just a [Sidebar Item](#sidebar-item).
+A sidebar object is defined like this.
+
+```typescript
+type Sidebar = {
+  [sidebarId: string]: {
+    [sidebarCategory: string]: SidebarItem[];
+  } | SidebarItem[];
+}
+```
+
+Below is an example of a sidebar object. The key `docs` is the id of the sidebar (can be renamed to something else) and `Getting Started` is a category within the sidebar. `greeting` and `doc1` are both [sidebar item](#sidebar-item).
+
 
 ```js
 // sidebars.js
@@ -102,12 +113,19 @@ Lorem ipsum
 
 As the name implies, `SidebarItem` is an item defined in a Sidebar. There are a few types we support:
 
-- Doc
-- Link
-- Ref
-- Category
+- [Doc](#doc)
+- [Link](#link)
+- [Ref](#ref)
+- [Category](#category)
 
 ### Doc
+
+```typescript
+type SidebarItemDoc = string | {
+  type: 'doc';
+  id: string;
+};
+```
 
 Sidebar item type that links to a doc page. Example:
 
@@ -141,6 +159,14 @@ module.exports = {
 
 ### Link
 
+```typescript
+type SidebarItemLink = {
+  type: 'link';
+  label: string;
+  href: string;
+};
+```
+
 Sidebar item type that links to a non-document page. Example:
 
 ```js
@@ -152,6 +178,13 @@ Sidebar item type that links to a non-document page. Example:
 ```
 
 ### Ref
+
+```typescript
+type SidebarItemRef = {
+  type: 'ref';
+  id: string;
+};
+```
 
 Sidebar item type that links to doc without bounding it to the sidebar. Example:
 
@@ -166,11 +199,11 @@ Sidebar item type that links to doc without bounding it to the sidebar. Example:
 
 This is used to add hierarchies to the sidebar:
 
-```js
-{
-  type: 'category',
-  label: string, // Sidebar label text.
-  items: SidebarItem[], // Array of sidebar items.
+```typescript
+type SidebarItemCategory = {
+  type: 'category';
+  label: string; // Sidebar label text.
+  items: SidebarItem[]; // Array of sidebar items.
 }
 ```
 

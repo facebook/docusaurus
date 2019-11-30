@@ -20,7 +20,6 @@
 .docItemContainer {
   margin: 0 auto;
   padding: 0 0.5rem;
-  max-width: 45em;
 }
 
 .tableOfContents {
@@ -29,6 +28,24 @@
   overflow-y: auto;
   position: sticky;
   top: calc(var(--ifm-navbar-height) + 2rem);
+}
+
+.tableOfContents::-webkit-scrollbar {
+  width: 7px;
+}
+
+.tableOfContents::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.tableOfContents::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+.tableOfContents::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 
 @media only screen and (max-width: 996px) {

@@ -5,14 +5,20 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+const versions = require('./versions.json');
+
 module.exports = {
   title: 'Docusaurus',
-  tagline: 'Easy to Maintain Open Source Documentation Websites',
+  tagline: 'Build optimized websites quickly, focus on your content',
   organizationName: 'facebook',
   projectName: 'docusaurus',
   baseUrl: '/',
   url: 'https://v2.docusaurus.io',
   favicon: 'img/docusaurus.ico',
+  customFields: {
+    description:
+      'An optimized site generator in React. Docusaurus helps you to move fast and write content. Build documentation websites, blogs, marketing pages, and more.',
+  },
   themes: ['@docusaurus/theme-live-codeblock'],
   plugins: [
     [
@@ -36,6 +42,7 @@ module.exports = {
             'https://github.com/facebook/docusaurus/edit/master/website/',
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
+          remarkPlugins: [require('./src/plugins/remark-npm2yarn')],
         },
         blog: {
           path: '../website-1.x/blog',
@@ -62,7 +69,9 @@ module.exports = {
     algolia: {
       apiKey: '47ecd3b21be71c5822571b9f59e52544',
       indexName: 'docusaurus-2',
-      algoliaOptions: {},
+      algoliaOptions: {
+        facetFilters: [`version:${versions[0]}`],
+      },
     },
     navbar: {
       title: 'Docusaurus',
@@ -71,6 +80,17 @@ module.exports = {
         src: 'img/docusaurus.svg',
       },
       links: [
+        {
+          to: 'versions',
+          label: `${versions[0]}`,
+          position: 'left',
+          style: {
+            whiteSpace: 'nowrap',
+            padding: '0.25rem 0.5rem 0.2rem 0.25rem',
+            fontSize: 'calc(0.9 * var(--ifm-font-size-base))',
+            textDecoration: 'underline',
+          },
+        },
         {to: 'docs/introduction', label: 'Docs', position: 'left'},
         {to: 'blog', label: 'Blog', position: 'left'},
         {to: 'showcase', label: 'Showcase', position: 'left'},

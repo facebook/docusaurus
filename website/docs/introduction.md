@@ -4,7 +4,9 @@ title: Introduction
 description: Docusaurus was designed from the ground up to be easily installed and used to get your website up and running quickly.
 ---
 
-#### :warning: Disclaimers
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
+## :warning: Disclaimer
 
 This is an **early and alpha release** of Docusaurus 2. We are making it available early to maximize community participation and feedback. Expect it to evolve a lot over the course of the alpha-beta period. If you are adventurous enough to be an early adopter, chat with us on [**Discord**](https://discordapp.com/invite/docusaurus) :wink:.
 
@@ -17,13 +19,14 @@ This is an **early and alpha release** of Docusaurus 2. We are making it availab
 **Do not use this if**
 
 - :x: You need a full production-ready solution (<small>try [Docusaurus 1](https://docusaurus.io/) instead</small>)
+- :x: You need the translation features present in v1
 - :x: You prefer not to work with potential breaking changes and/or features not yet working properly as we improve it during alpha period
 
 ## A better Docusaurus is coming to town
 
-<img src="https://docusaurus.io/img/slash-introducing.svg" alt="Docusaurus"/>
+<img alt="Docusaurus " src={useBaseUrl('img/slash-introducing.svg')} />
 
-Docusaurus 1 used to be a pure documentation site generator. In Docusaurus 2, we rebuilt it from the ground up, allowing for more customizability but preserved the best parts of Docusaurus 1 - easy to get started, versioned docs (_coming soon_), and i18n (_coming soon_).
+Docusaurus 1 used to be a pure documentation site generator. In Docusaurus 2, we rebuilt it from the ground up, allowing for more customizability but preserved the best parts of Docusaurus 1 - easy to get started, versioned docs, and i18n (_coming soon_).
 
 Beyond that, Docusaurus 2 is a **performant static site generator** and can be used to create most content-driven websites (e.g. Documentation, Blogs, Product Landing and Marketing Pages, etc) extremely fast.
 
@@ -56,7 +59,7 @@ Our shared goal — to help your users find what they need fast, and understand 
   - Share your code in live editors to get your users love your products on the spot
 - 🔍 **Search** Your full site is searchable
 - 🌍 **i18n** (_coming soon_)
-- 💾 **Versioning** (_coming soon_)
+- 💾 **Document Versioning** Helps you keep documentation in sync with project releases. 
 
 Docusaurus 2 is born to be compassionately accessible to all your users, and lightning fast.
 

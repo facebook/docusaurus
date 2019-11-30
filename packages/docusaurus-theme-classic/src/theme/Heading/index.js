@@ -17,8 +17,13 @@ const Heading = Tag => ({id, ...props}) => {
   }
   return (
     <Tag {...props}>
-      <a aria-hidden="true" className="anchor" id={id} />
-      <a aria-hidden="true" className="hash-link" href={`#${id}`}>
+      <a aria-hidden="true" tabIndex="-1" className="anchor" id={id} />
+      <a
+        aria-hidden="true"
+        tabIndex="-1"
+        className="hash-link"
+        href={`#${id}`}
+        title="Direct link to heading">
         #
       </a>
       {props.children}

@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import path from 'path';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import env from 'std-env';
 import merge from 'webpack-merge';
@@ -83,6 +84,9 @@ export function getCacheLoader(
 }
 
 export function getBabelLoader(isServer: boolean, babelOptions?: {}): Loader {
+  const absoluteRuntimePath = path.dirname(
+    require.resolve(`@babel/runtime/package.json`),
+  );
   return {
     loader: require.resolve('babel-loader'),
     options: Object.assign(
@@ -116,6 +120,22 @@ export function getBabelLoader(isServer: boolean, babelOptions?: {}): Loader {
           '@babel/react',
         ],
         plugins: [
+          // Polyfills the runtime needed for async/await, generators, and friends
+          // https://babeljs.io/docs/en/babel-plugin-transform-runtime
+          [
+            '@babel/plugin-transform-runtime',
+            {
+              corejs: false,
+              helpers: true,
+              regenerator: true,
+              useESModules: true,
+              // Undocumented option that lets us encapsulate our runtime, ensuring
+              // the correct version is used
+              // https://github.com/babel/babel/blob/090c364a90fe73d36a30707fc612ce037bdbbb24/packages/babel-plugin-transform-runtime/src/index.js#L35-L42
+              absoluteRuntime: absoluteRuntimePath,
+            },
+          ],
+          // Adds syntax support for import()
           isServer ? 'dynamic-import-node' : '@babel/syntax-dynamic-import',
         ],
       },

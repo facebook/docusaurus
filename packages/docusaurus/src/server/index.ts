@@ -26,6 +26,7 @@ import {
   PluginConfig,
   Props,
 } from '@docusaurus/types';
+import {loadHtmlTags} from './html-tags';
 
 export function loadContext(siteDir: string): LoadContext {
   const generatedFilesDir: string = path.resolve(
@@ -99,9 +100,12 @@ export async function load(siteDir: string): Promise<Props> {
     `export default [\n${clientModules
       // import() is async so we use require() because client modules can have
       // CSS and the order matters for loading CSS.
-      .map(module => `  require(${JSON.stringify(module)}),`)
+      .map(module => `  require("${module}"),`)
       .join('\n')}\n];\n`,
   );
+
+  // Load extra head & body html tags
+  const {headTags, preBodyTags, postBodyTags} = loadHtmlTags(plugins);
 
   // Routing
   const {
@@ -119,9 +123,7 @@ ${Object.keys(registry)
   .sort()
   .map(
     key =>
-      `  '${key}': [${registry[key].loader}, ${JSON.stringify(
-        registry[key].modulePath,
-      )}, require.resolveWeak(${JSON.stringify(registry[key].modulePath)})],`,
+      `  '${key}': [${registry[key].loader}, "${registry[key].modulePath}", require.resolveWeak("${registry[key].modulePath}")],`,
   )
   .join('\n')}};\n`,
   );
@@ -150,6 +152,9 @@ ${Object.keys(registry)
     generatedFilesDir,
     routesPaths,
     plugins,
+    headTags,
+    preBodyTags,
+    postBodyTags,
   };
 
   return props;

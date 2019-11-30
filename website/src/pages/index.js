@@ -61,12 +61,10 @@ const QUOTES = [
 
 function Home() {
   const context = useDocusaurusContext();
-  const {siteConfig = {}} = context;
+  const {siteConfig: {customFields = {}} = {}} = context;
 
   return (
-    <Layout
-      permalink={'/'}
-      description={'Easy to Maintain Open Source Documentation Websites'}>
+    <Layout permalink="/" description={customFields.description}>
       <div className={styles.hero}>
         <div className={styles.heroInner}>
           <h1 className={styles.heroProjectTagline}>
@@ -75,9 +73,10 @@ function Home() {
               className={styles.heroLogo}
               src={useBaseUrl('img/docusaurus_keytar.svg')}
             />
-            {siteConfig.title} makes it easy to maintain{' '}
-            <span className={styles.heroProjectKeywords}>Open Source</span>{' '}
-            documentation websites.
+            Build <span className={styles.heroProjectKeywords}>optimized</span>{' '}
+            websites <span className={styles.heroProjectKeywords}>quickly</span>
+            , focus on your{' '}
+            <span className={styles.heroProjectKeywords}>content</span>
           </h1>
           <div className={styles.indexCtas}>
             <Link
@@ -98,17 +97,6 @@ function Home() {
         </div>
       </div>
       <div className={classnames(styles.announcement, styles.announcementDark)}>
-        <div className={styles.announcementInner}>
-          We're working on{' '}
-          <a href="https://github.com/facebook/docusaurus/issues/789">
-            Docusaurus 2
-          </a>
-          , contribute to its roadmap by suggesting features or{' '}
-          <Link to={useBaseUrl('/feedback')}>giving feedback</Link>!
-        </div>
-      </div>
-      <div
-        className={classnames(styles.announcement, styles.announcementPrimary)}>
         <div className={styles.announcementInner}>
           Coming from v1? Check out our{' '}
           <Link to={useBaseUrl('/docs/migrating-from-v1-to-v2')}>
@@ -182,7 +170,7 @@ function Home() {
                 className={styles.featureImage}
                 src={useBaseUrl('img/undraw_algolia.svg')}
               />
-              <h3 className="padding-top--md">Document Search</h3>
+              <h3 className="padding-top--md">Content Search</h3>
               <p className="padding-horiz--md">
                 Make it easy for your community to find what they need in your
                 documentation. We proudly support Algolia documentation search.

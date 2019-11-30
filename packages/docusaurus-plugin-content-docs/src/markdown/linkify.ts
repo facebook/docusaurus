@@ -7,6 +7,7 @@
 
 import path from 'path';
 import {resolve} from 'url';
+import {getSubFolder} from '@docusaurus/utils';
 import {SourceToPermalink} from '../types';
 
 export default function(
@@ -15,12 +16,19 @@ export default function(
   docsDir: string,
   siteDir: string,
   sourceToPermalink: SourceToPermalink,
+  versionedDir?: string,
 ) {
   // Determine the source dir. e.g: /website/docs, /website/versioned_docs/version-1.0.0
   let sourceDir: string | undefined;
   const thisSource = filePath;
   if (thisSource.startsWith(docsDir)) {
     sourceDir = docsDir;
+  } else if (versionedDir && thisSource.startsWith(versionedDir)) {
+    const specificVersionDir = getSubFolder(thisSource, versionedDir);
+    // e.g: specificVersionDir = version-1.0.0
+    if (specificVersionDir) {
+      sourceDir = path.join(versionedDir, specificVersionDir);
+    }
   }
 
   let content = fileString;

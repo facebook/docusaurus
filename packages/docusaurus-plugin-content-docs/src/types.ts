@@ -5,39 +5,45 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-export interface PluginOptions {
-  path: string;
+export interface MetadataOptions {
   routeBasePath: string;
-  include: string[];
-  sidebarPath: string;
-  docLayoutComponent: string;
-  docItemComponent: string;
-  remarkPlugins: string[];
-  rehypePlugins: string[];
   editUrl?: string;
   showLastUpdateTime?: boolean;
   showLastUpdateAuthor?: boolean;
 }
 
+export interface PathOptions {
+  path: string;
+  sidebarPath: string;
+}
+
+export interface PluginOptions extends MetadataOptions, PathOptions {
+  include: string[];
+  docLayoutComponent: string;
+  docItemComponent: string;
+  remarkPlugins: string[];
+  rehypePlugins: string[];
+}
+
 export type SidebarItemDoc = {
-  type: string;
+  type: 'doc' | 'ref';
   id: string;
 };
 
 export interface SidebarItemLink {
-  type: string;
+  type: 'link';
   href: string;
   label: string;
 }
 
 export interface SidebarItemCategory {
-  type: string;
+  type: 'category';
   label: string;
   items: SidebarItem[];
 }
 
 export interface SidebarItemCategoryRaw {
-  type: string;
+  type: 'category';
   label: string;
   items: SidebarItemRaw[];
 }
@@ -51,27 +57,35 @@ export type SidebarItemRaw =
   | string
   | SidebarItemDoc
   | SidebarItemLink
-  | SidebarItemCategoryRaw;
+  | SidebarItemCategoryRaw
+  | {
+      type: string;
+      [key: string]: any;
+    };
 
 // Sidebar given by user that is not normalized yet. e.g: sidebars.json
 export interface SidebarRaw {
-  [sidebarId: string]: {
-    [sidebarCategory: string]: SidebarItemRaw[];
-  };
+  [sidebarId: string]:
+    | {
+        [sidebarCategory: string]: SidebarItemRaw[];
+      }
+    | SidebarItemRaw[];
 }
 
 export interface Sidebar {
-  [sidebarId: string]: SidebarItemCategory[];
+  [sidebarId: string]: SidebarItem[];
 }
 
 export interface DocsSidebarItemCategory {
-  type: string;
+  type: 'category';
   label: string;
-  items: (SidebarItemLink | DocsSidebarItemCategory)[];
+  items: DocsSidebarItem[];
 }
 
+export type DocsSidebarItem = SidebarItemLink | DocsSidebarItemCategory;
+
 export interface DocsSidebar {
-  [sidebarId: string]: DocsSidebarItemCategory[];
+  [sidebarId: string]: DocsSidebarItem[];
 }
 
 export interface OrderMetadata {
@@ -84,7 +98,12 @@ export interface Order {
   [id: string]: OrderMetadata;
 }
 
-export interface MetadataRaw extends OrderMetadata {
+export interface LastUpdateData {
+  lastUpdatedAt?: number;
+  lastUpdatedBy?: string;
+}
+
+export interface MetadataRaw extends LastUpdateData {
   id: string;
   title: string;
   description: string;
@@ -92,10 +111,7 @@ export interface MetadataRaw extends OrderMetadata {
   permalink: string;
   sidebar_label?: string;
   editUrl?: string;
-  lastUpdatedAt?: number;
-  lastUpdatedBy?: string;
-  hide_title?: boolean;
-  [key: string]: any;
+  version?: string;
 }
 
 export interface Paginator {
@@ -103,13 +119,18 @@ export interface Paginator {
   permalink: string;
 }
 
-export interface Metadata extends Omit<MetadataRaw, 'previous' | 'next'> {
+export interface Metadata extends MetadataRaw {
+  sidebar?: string;
   previous?: Paginator;
   next?: Paginator;
 }
 
 export interface DocsMetadata {
   [id: string]: Metadata;
+}
+
+export interface DocsMetadataRaw {
+  [id: string]: MetadataRaw;
 }
 
 export interface SourceToPermalink {
@@ -120,15 +141,34 @@ export interface PermalinkToSidebar {
   [permalink: string]: string;
 }
 
+export interface VersionToSidebars {
+  [version: string]: Set<string>;
+}
+
 export interface LoadedContent {
   docsMetadata: DocsMetadata;
   docsDir: string;
-  docsSidebars: Sidebar;
-  sourceToPermalink: SourceToPermalink;
+  docsSidebars: DocsSidebar;
   permalinkToSidebar: PermalinkToSidebar;
+  versionToSidebars: VersionToSidebars;
 }
 
 export type DocsBaseMetadata = Pick<
   LoadedContent,
   'docsSidebars' | 'permalinkToSidebar'
->;
+> & {
+  version?: string;
+};
+
+export type VersioningEnv = {
+  enabled: boolean;
+  latestVersion: string | null;
+  versions: string[];
+  docsDir: string;
+  sidebarsDir: string;
+};
+
+export interface Env {
+  versioning: VersioningEnv;
+  // TODO: translation
+}

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState} from 'react';
+import React, {useState, useCallback} from 'react';
 import classnames from 'classnames';
 
 import Link from '@docusaurus/Link';
@@ -27,6 +27,11 @@ function DocSidebarItem({item, onItemClick, collapsible}) {
     setCollapsed(item.collapsed);
   }
 
+  const handleItemClick = useCallback(e => {
+    e.preventDefault();
+    setCollapsed(state => !state);
+  });
+
   switch (type) {
     case 'category':
       return (
@@ -42,9 +47,7 @@ function DocSidebarItem({item, onItemClick, collapsible}) {
                 'menu__link--active': collapsible && !item.collapsed,
               })}
               href="#!"
-              onClick={
-                collapsible ? () => setCollapsed(!collapsed) : undefined
-              }>
+              onClick={collapsible ? handleItemClick : undefined}>
               {label}
             </a>
             <ul className="menu__list">
@@ -68,6 +71,7 @@ function DocSidebarItem({item, onItemClick, collapsible}) {
           <Link
             activeClassName="menu__link--active"
             className="menu__link"
+            exact
             to={href}
             onClick={onItemClick}>
             {label}
@@ -168,19 +172,16 @@ function DocSidebar(props) {
           )}
         </button>
         <ul className="menu__list">
-          {sidebarData.map(
-            item =>
-              item.items.length > 0 && (
-                <DocSidebarItem
-                  key={item.label}
-                  item={item}
-                  onItemClick={() => {
-                    setShowResponsiveSidebar(false);
-                  }}
-                  collapsible={sidebarCollapsible}
-                />
-              ),
-          )}
+          {sidebarData.map(item => (
+            <DocSidebarItem
+              key={item.label}
+              item={item}
+              onItemClick={() => {
+                setShowResponsiveSidebar(false);
+              }}
+              collapsible={sidebarCollapsible}
+            />
+          ))}
         </ul>
       </div>
     </div>

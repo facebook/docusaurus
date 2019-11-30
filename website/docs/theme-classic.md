@@ -1,15 +1,40 @@
 ---
 id: theme-classic
-title: Classic Theme Configuration
+title: "@docusaurus/theme-classic"
 ---
 
-_This section is a work in progress._
+> :warning: _This section is a work in progress._
 
 ## Common
 
 ### Dark mode
 
 To remove the ability to switch on dark mode, there is an option `themeConfig.disableDarkMode`, which is implicitly set to `false`.
+
+```js
+// docusaurus.config.js
+module.exports = {
+  themeConfig: {
+    disableDarkMode: false,
+}
+```
+
+### Meta image
+
+You can configure a default image that will be used for your meta tag, in particular `og:image` and `twitter:image`.
+
+```js
+// docusaurus.config.js
+module.exports = {
+  themeConfig: {
+    /**
+     * relative to your site's "static" directory
+     * cannot be svg
+     * can be external url too
+     */
+    image: 'img/docusaurus.png',
+}
+```
 
 ## Navbar
 
@@ -71,8 +96,8 @@ module.exports = {
     prism: {
       theme: require('prism-react-renderer/themes/dracula'),
     },
-  }
-}
+  },
+};
 ```
 
 ### Default language
@@ -86,6 +111,6 @@ module.exports = {
     prism: {
       defaultLanguage: 'javascript',
     },
-  }
-}
+  },
+};
 ```

@@ -39,22 +39,35 @@ describe('getTOC', () => {
     expect(headingsJson).toContain('4th level headings');
   });
 
-  describe('stripping of HTML', () => {
-    test('correctly removes', () => {
-      const headings = getTOC(`## <a name="foo"></a> Foo`, 'h2', []);
+  test('html tag in source', () => {
+    const headings = getTOC(`## <a name="foo"></a> Foo`, 'h2', []);
 
-      expect(headings[0].hashLink).toEqual('foo');
-      expect(headings[0].rawContent).toEqual(`<a name="foo"></a> Foo`);
-      expect(headings[0].content).toEqual('Foo');
-    });
+    expect(headings[0].hashLink).toEqual('a-namefooa-foo');
+    expect(headings[0].rawContent).toEqual(`<a name="foo"></a> Foo`);
+    expect(headings[0].content).toEqual(`<a name="foo"></a> Foo`);
+  });
 
-    test('retains formatting from Markdown', () => {
-      const headings = getTOC(`## <a name="foo"></a> _Foo_`, 'h2', []);
+  test('transform markdown syntax to html syntax', () => {
+    const headings = getTOC(`## <a name="foo"></a> _Foo_`, 'h2', []);
 
-      expect(headings[0].hashLink).toEqual('foo');
-      expect(headings[0].rawContent).toEqual(`<a name="foo"></a> _Foo_`);
-      expect(headings[0].content).toEqual('<em>Foo</em>');
-    });
+    expect(headings[0].hashLink).toEqual('a-namefooa-_foo_');
+    expect(headings[0].rawContent).toEqual(`<a name="foo"></a> _Foo_`);
+    expect(headings[0].content).toEqual(`<a name="foo"></a> <em>Foo</em>`);
+
+    const headings2 = getTOC(`## **Foo**`, 'h2', []);
+
+    expect(headings2[0].hashLink).toEqual('foo');
+    expect(headings2[0].rawContent).toEqual(`**Foo**`);
+    expect(headings2[0].content).toEqual(`<strong>Foo</strong>`);
+  });
+
+  test('does not strip tags randomly', () => {
+    // eslint-disable-next-line no-useless-escape
+    const headings = getTOC(`## function1 [array\<string>]`, 'h2', []);
+
+    expect(headings[0].hashLink).toEqual('function1-arraystring');
+    expect(headings[0].rawContent).toEqual(`function1 [array<string>]`);
+    expect(headings[0].content).toEqual(`function1 [array<string>]`);
   });
 });
 

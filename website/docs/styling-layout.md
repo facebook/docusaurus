@@ -47,6 +47,7 @@ When you `init` your Docusaurus 2 project, the website will be generated with ba
   --ifm-color-primary-light: rgb(70, 203, 174);
   --ifm-color-primary-lighter: rgb(102, 212, 189);
   --ifm-color-primary-lightest: rgb(146, 224, 208);
+  --ifm-code-font-size: 95%;
 }
 ```
 
@@ -119,4 +120,4 @@ The class names which will be processed by webpack into a globally unique class 
 
 ### CSS-in-JS
 
-_This section is a work in progress. [Welcoming PRs](https://github.com/facebook/docusaurus/issues/1640)._
+> :warning: _This section is a work in progress._ [Welcoming PRs](https://github.com/facebook/docusaurus/issues/1640).\_

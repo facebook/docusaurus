@@ -30,15 +30,18 @@ function DocTOC({headings}) {
   );
 }
 
+/* eslint-disable jsx-a11y/control-has-associated-label */
 function Headings({headings, isChild}) {
   if (!headings.length) return null;
   return (
     <ul className={isChild ? '' : 'contents contents__left-border'}>
       {headings.map(heading => (
         <li key={heading.id}>
-          <a href={`#${heading.id}`} className={LINK_CLASS_NAME}>
-            {heading.value}
-          </a>
+          <a
+            href={`#${heading.id}`}
+            className={LINK_CLASS_NAME}
+            dangerouslySetInnerHTML={{__html: heading.value}}
+          />
           <Headings isChild headings={heading.children} />
         </li>
       ))}
@@ -59,7 +62,14 @@ function DocItem(props) {
     lastUpdatedAt,
     lastUpdatedBy,
     keywords,
+    version,
   } = metadata;
+  const {
+    frontMatter: {
+      hide_title: hideTitle,
+      hide_table_of_contents: hideTableOfContents,
+    },
+  } = DocContent;
 
   const metaImageUrl = siteUrl + useBaseUrl(metaImage);
 
@@ -84,10 +94,17 @@ function DocItem(props) {
       <div className="padding-vert--lg">
         <div className="container">
           <div className="row">
-            <div className="col">
+            <div className="col col--9">
               <div className={styles.docItemContainer}>
                 <article>
-                  {!metadata.hide_title && (
+                  {version && (
+                    <span
+                      style={{verticalAlign: 'top'}}
+                      className="badge badge--info">
+                      Version: {version}
+                    </span>
+                  )}
+                  {!hideTitle && (
                     <header>
                       <h1 className={styles.docTitle}>{metadata.title}</h1>
                     </header>
@@ -169,7 +186,9 @@ function DocItem(props) {
                 </div>
               </div>
             </div>
-            {DocContent.rightToc && <DocTOC headings={DocContent.rightToc} />}
+            {!hideTableOfContents && DocContent.rightToc && (
+              <DocTOC headings={DocContent.rightToc} />
+            )}
           </div>
         </div>
       </div>

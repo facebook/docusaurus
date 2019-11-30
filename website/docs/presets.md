@@ -9,7 +9,7 @@ Presets are collections of plugins and themes.
 
 A preset is usually a npm package, so you install them like other npm packages using npm.
 
-```bash
+```bash npm2yarn
 npm install --save docusaurus-preset-name
 ```
 
