@@ -1,3 +1,12 @@
+.codeBlock {
+  border-radius: 0;
+  font-size: inherit;
+  margin-bottom: 0;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+}
+
 .codeBlockWrapper {
   position: relative;
 }
@@ -23,19 +32,4 @@
   visibility: hidden;
   transition: opacity 200ms ease-in-out, visibility 200ms ease-in-out,
     bottom 200ms ease-in-out;
-}
-
-.codeBlock {
-  overflow: auto;
-  display: block;
-  padding: 0;
-  font-size: inherit;
-}
-
-.codeBlockLines {
-  border-radius: 0;
-  margin-bottom: 0;
-  float: left;
-  min-width: 100%;
-  padding: var(--ifm-pre-padding);
 }
