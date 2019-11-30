@@ -9,7 +9,7 @@ export interface BlogContent {
   blogPosts: BlogPost[];
   blogListPaginated: BlogPaginated[];
   blogTags: BlogTags;
-  blogTagsListPath: string;
+  blogTagsListPath: string | null;
 }
 
 export interface DateLink {
@@ -53,8 +53,18 @@ export interface BlogPost {
   metadata: MetaData;
 }
 
+export interface BlogPaginatedMetadata {
+  permalink: string;
+  page: number;
+  postsPerPage: number;
+  totalPages: number;
+  totalCount: number;
+  previousPage: string | null;
+  nextPage: string | null;
+}
+
 export interface BlogPaginated {
-  metadata: MetaData;
+  metadata: BlogPaginatedMetadata;
   items: string[];
 }
 
