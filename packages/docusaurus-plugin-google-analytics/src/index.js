@@ -14,7 +14,7 @@ module.exports = function(context) {
 
   if (!googleAnalytics) {
     throw new Error(
-      `You need to specify 'googleAnalytics' object in 'themeConfig' with 'trackingId' field in it to use docusaurus-plugin-google-gtag`,
+      `You need to specify 'googleAnalytics' object in 'themeConfig' with 'trackingId' field in it to use docusaurus-plugin-google-analytics`,
     );
   }
 
