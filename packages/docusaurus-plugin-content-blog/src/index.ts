@@ -41,6 +41,18 @@ const DEFAULT_OPTIONS: PluginOptions = {
   truncateMarker: /<!--\s*(truncate)\s*-->/, // string or regex
 };
 
+const getFeedTypes = ({type}: {type: string}) => {
+  let feedTypes = [];
+
+  if (type === 'all') {
+    feedTypes = ['rss', 'atom'];
+  } else {
+    feedTypes.push(type);
+  }
+
+  return feedTypes;
+};
+
 export default function pluginContentBlog(
   context: LoadContext,
   opts: Partial<PluginOptions>,
@@ -384,19 +396,13 @@ export default function pluginContentBlog(
         return;
       }
 
-      const {
-        feedOptions: {type: feedType},
-      } = options;
       const feed = await generateBlogFeed(context, options);
+
       if (!feed) {
         return;
       }
-      let feedTypes = [];
-      if (feedType === 'all') {
-        feedTypes = ['rss', 'atom'];
-      } else {
-        feedTypes.push(feedType);
-      }
+
+      const feedTypes = getFeedTypes(options.feedOptions);
 
       await Promise.all(
         feedTypes.map(feedType => {
@@ -413,6 +419,56 @@ export default function pluginContentBlog(
           });
         }),
       );
+    },
+
+    injectHtmlTags() {
+      if (!options.feedOptions) {
+        return;
+      }
+
+      const feedTypes = getFeedTypes(options.feedOptions);
+      const {
+        siteConfig: {baseUrl = '', title},
+      } = context;
+      const feedsConfig: {
+        [key: string]: {type: string; path: string; title: string};
+      } = {
+        rss: {
+          type: 'application/rss+xml',
+          path: 'blog/rss.xml',
+          title: `${title} Blog RSS Feed`,
+        },
+        atom: {
+          type: 'application/atom+xml',
+          path: 'blog/atom.xml',
+          title: `${title} Blog Atom Feed`,
+        },
+      };
+      const headTags: object[] = [];
+
+      feedTypes.map(feedType => {
+        const feedConfig = feedsConfig[feedType] || {};
+
+        if (!feedsConfig) {
+          return;
+        }
+
+        const {type, path, title} = feedConfig;
+
+        headTags.push({
+          tagName: 'link',
+          attributes: {
+            rel: 'alternate',
+            type,
+            href: normalizeUrl([baseUrl, path]),
+            title,
+          },
+        });
+      });
+
+      return {
+        headTags,
+      };
     },
   };
 }

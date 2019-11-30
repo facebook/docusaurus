@@ -22,7 +22,6 @@ function Layout(props) {
     title: defaultTitle,
     themeConfig: {image: defaultImage},
     url: siteUrl,
-    presets,
   } = siteConfig;
   const {
     children,
@@ -38,10 +37,6 @@ function Layout(props) {
   const metaImage = image || defaultImage;
   const metaImageUrl = siteUrl + useBaseUrl(metaImage);
   const faviconUrl = useBaseUrl(favicon);
-  const hasBlog = presets.some(preset => (preset[1] || {}).blog !== undefined);
-  const rssFeedLink = siteUrl + useBaseUrl('blog/feed.xml');
-  const atomFeedLink = siteUrl + useBaseUrl('blog/atom.xml');
-
   return (
     <>
       <Head>
@@ -64,22 +59,6 @@ function Layout(props) {
         )}
         {permalink && <meta property="og:url" content={siteUrl + permalink} />}
         <meta name="twitter:card" content="summary" />
-        {hasBlog && (
-          <link
-            rel="alternate"
-            type="application/rss+xml"
-            href={rssFeedLink}
-            title={`${defaultTitle} Blog RSS Feed`}
-          />
-        )}
-        {hasBlog && (
-          <link
-            rel="alternate"
-            type="application/atom+xml"
-            href={atomFeedLink}
-            title={`${defaultTitle} Blog Atom Feed`}
-          />
-        )}
       </Head>
       <Navbar />
       <div className="main-wrapper">{children}</div>
