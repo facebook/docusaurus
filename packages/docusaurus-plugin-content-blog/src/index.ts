@@ -17,6 +17,7 @@ import {
   BlogItemsToModules,
   TagsModule,
   BlogPaginated,
+  FeedType,
 } from './types';
 import {
   LoadContext,
@@ -24,6 +25,7 @@ import {
   ConfigureWebpackUtils,
   Props,
   Plugin,
+  HtmlTags,
 } from '@docusaurus/types';
 import {Configuration, Loader} from 'webpack';
 import {generateBlogFeed, generateBlogPosts} from './blogUtils';
@@ -40,6 +42,26 @@ const DEFAULT_OPTIONS: PluginOptions = {
   remarkPlugins: [],
   rehypePlugins: [],
   truncateMarker: /<!--\s*(truncate)\s*-->/, // string or regex
+};
+
+function assertFeedTypes(val: any): asserts val is FeedType {
+  if (typeof val !== 'string' && !['rss', 'atom', 'all'].includes(val)) {
+    throw new Error(
+      `Invalid feedOptions type: ${val}. It must be either 'rss', 'atom', or 'all'`,
+    );
+  }
+}
+
+const getFeedTypes = (type?: FeedType) => {
+  assertFeedTypes(type);
+  let feedTypes: ('rss' | 'atom')[] = [];
+
+  if (type === 'all') {
+    feedTypes = ['rss', 'atom'];
+  } else {
+    feedTypes.push(type);
+  }
+  return feedTypes;
 };
 
 export default function pluginContentBlog(
@@ -389,19 +411,13 @@ export default function pluginContentBlog(
         return;
       }
 
-      const {
-        feedOptions: {type: feedType},
-      } = options;
       const feed = await generateBlogFeed(context, options);
+
       if (!feed) {
         return;
       }
-      let feedTypes = [];
-      if (feedType === 'all') {
-        feedTypes = ['rss', 'atom'];
-      } else {
-        feedTypes.push(feedType);
-      }
+
+      const feedTypes = getFeedTypes(options.feedOptions?.type);
 
       await Promise.all(
         feedTypes.map(feedType => {
@@ -418,6 +434,55 @@ export default function pluginContentBlog(
           });
         }),
       );
+    },
+
+    injectHtmlTags() {
+      if (!options.feedOptions) {
+        return {};
+      }
+
+      const feedTypes = getFeedTypes(options.feedOptions?.type);
+      const {
+        siteConfig: {title},
+        baseUrl,
+      } = context;
+      const feedsConfig = {
+        rss: {
+          type: 'application/rss+xml',
+          path: 'blog/rss.xml',
+          title: `${title} Blog RSS Feed`,
+        },
+        atom: {
+          type: 'application/atom+xml',
+          path: 'blog/atom.xml',
+          title: `${title} Blog Atom Feed`,
+        },
+      };
+      const headTags: HtmlTags = [];
+
+      feedTypes.map(feedType => {
+        const feedConfig = feedsConfig[feedType] || {};
+
+        if (!feedsConfig) {
+          return;
+        }
+
+        const {type, path, title} = feedConfig;
+
+        headTags.push({
+          tagName: 'link',
+          attributes: {
+            rel: 'alternate',
+            type,
+            href: normalizeUrl([baseUrl, path]),
+            title,
+          },
+        });
+      });
+
+      return {
+        headTags,
+      };
     },
   };
 }
