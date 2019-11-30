@@ -276,7 +276,7 @@ export default function pluginContentBlog(
       );
 
       // Tags.
-      if (!blogTagsListPath) {
+      if (blogTagsListPath === null) {
         return;
       }
 
