@@ -13,19 +13,20 @@ import {normalizeUrl, docuHash} from '@docusaurus/utils';
 import {
   PluginOptions,
   BlogTags,
-  Tag,
   BlogContent,
   BlogItemsToModules,
   TagsModule,
+  BlogPaginated,
 } from './types';
 import {
   LoadContext,
   PluginContentLoadedActions,
   ConfigureWebpackUtils,
   Props,
+  Plugin,
   HtmlTags,
 } from '@docusaurus/types';
-import {Configuration} from 'webpack';
+import {Configuration, Loader} from 'webpack';
 import {generateBlogFeed, generateBlogPosts} from './blogUtils';
 
 const DEFAULT_OPTIONS: PluginOptions = {
@@ -57,7 +58,7 @@ const getFeedTypes = ({type}: {type: 'rss' | 'atom' | 'all'}) => {
 export default function pluginContentBlog(
   context: LoadContext,
   opts: Partial<PluginOptions>,
-) {
+): Plugin<BlogContent | null> {
   const options: PluginOptions = {...DEFAULT_OPTIONS, ...opts};
   const contentPath = path.resolve(context.siteDir, options.path);
   const dataDir = path.join(
@@ -111,7 +112,7 @@ export default function pluginContentBlog(
       } = context;
       const basePageUrl = normalizeUrl([baseUrl, routeBasePath]);
 
-      const blogListPaginated = [];
+      const blogListPaginated: BlogPaginated[] = [];
 
       function blogPaginationPermalink(page: number) {
         return page > 0
@@ -168,7 +169,7 @@ export default function pluginContentBlog(
             return {
               label: tag,
               permalink,
-            } as Tag;
+            };
           } else {
             return tag;
           }
@@ -288,6 +289,10 @@ export default function pluginContentBlog(
       );
 
       // Tags.
+      if (blogTagsListPath === null) {
+        return;
+      }
+
       const tagsModule: TagsModule = {};
 
       await Promise.all(
@@ -385,7 +390,7 @@ export default function pluginContentBlog(
                     truncateMarker,
                   },
                 },
-              ].filter(Boolean),
+              ].filter(Boolean) as Loader[],
             },
           ],
         },
