@@ -35,6 +35,11 @@ module.exports = function(context) {
     },
 
     injectHtmlTags() {
+      const innerHTML = `window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', ${trackingID});`;
+
       return {
         headTags: [
           {
@@ -57,6 +62,10 @@ module.exports = function(context) {
               async: true,
               src: `https://www.googletagmanager.com/gtag/js?id=${trackingID}`,
             },
+          },
+          {
+            tagName: 'script',
+            innerHTML,
           },
         ],
       };

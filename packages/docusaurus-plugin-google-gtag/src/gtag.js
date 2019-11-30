@@ -31,20 +31,6 @@ export default (function() {
     return null;
   }
 
-  /* eslint-disable */
-  window.dataLayer = window.dataLayer || [];
-  function gtag() {
-    // Have to use `arguments` instead of spreading as there are
-    // other properties attached to it e.g. callee.
-    // The GA library requires usage of `arguments.
-    window.dataLayer.push(arguments);
-  }
-  // Expose globally.
-  window.gtag = gtag;
-  gtag('js', new Date());
-  gtag('config', trackingID);
-  /* eslint-enable */
-
   return {
     onRouteUpdate({location}) {
       // Always refer to the variable on window in-case it gets overridden elsewhere.
