@@ -23,6 +23,7 @@ import {
   PluginContentLoadedActions,
   ConfigureWebpackUtils,
   Props,
+  HtmlTags,
 } from '@docusaurus/types';
 import {Configuration} from 'webpack';
 import {generateBlogFeed, generateBlogPosts} from './blogUtils';
@@ -41,7 +42,7 @@ const DEFAULT_OPTIONS: PluginOptions = {
   truncateMarker: /<!--\s*(truncate)\s*-->/, // string or regex
 };
 
-const getFeedTypes = ({type}: {type: string}) => {
+const getFeedTypes = ({type}: {type: 'rss' | 'atom' | 'all'}) => {
   let feedTypes = [];
 
   if (type === 'all') {
@@ -444,7 +445,7 @@ export default function pluginContentBlog(
           title: `${title} Blog Atom Feed`,
         },
       };
-      const headTags: object[] = [];
+      const headTags: HtmlTags[] = [];
 
       feedTypes.map(feedType => {
         const feedConfig = feedsConfig[feedType] || {};
