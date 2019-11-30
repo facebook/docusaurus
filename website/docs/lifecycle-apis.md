@@ -152,10 +152,10 @@ For example, this plugin below modify the webpack config to transpile `.foo` fil
 
 ```js {5-12}
 // docusaurus-plugin/src/index.js
-module.exports = function(context, options, utils) {
+module.exports = function(context, options) {
   return {
     name: 'docusaurus-plugin',
-    configureWebpack(config, isServer) {
+    configureWebpack(config, isServer, utils) {
       const {getCacheLoader} = utils;
       config.modules.rules.push({
         test: /\.foo$/,
@@ -190,7 +190,7 @@ Example:
 
 ```js {5-10}
 // docusaurus-plugin/src/index.js
-module.exports = function(context, options, utils) {
+module.exports = function(context, options) {
   return {
     name: 'docusaurus-plugin',
     async postBuild({siteConfig = {}, routesPaths = [], outDir}) {
@@ -211,7 +211,7 @@ Example:
 
 ```js {5-12}
 // docusaurus-plugin/src/index.js
-module.exports = function(context, options, utils) {
+module.exports = function(context, options) {
   return {
     name: 'docusaurus-plugin',
     extendCli(cli) {
@@ -262,7 +262,7 @@ Example:
 
 ```js {5-29}
 // docusaurus-plugin/src/index.js
-module.exports = function(context, options, utils) {
+module.exports = function(context, options) {
   return {
     name: 'docusaurus-plugin',
     injectHtmlTags() {
