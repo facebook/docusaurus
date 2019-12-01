@@ -4,14 +4,15 @@
   "description": "Docusaurus Plugin to generate an almost ideal image (responsive, lazy-loading, and low quality placeholder)",
   "main": "lib/index.js",
   "scripts": {
-    "tsc": "tsc"
+    "tsc": "tsc && node copyUntypedFiles.js"
   },
   "publishConfig": {
     "access": "public"
   },
   "license": "MIT",
   "devDependencies": {
-    "@docusaurus/types": "^2.0.0-alpha.37"
+    "@docusaurus/types": "^2.0.0-alpha.37",
+    "fs-extra": "^8.1.0"
   },
   "dependencies": {
     "@endiliey/lqip-loader": "^3.0.2",

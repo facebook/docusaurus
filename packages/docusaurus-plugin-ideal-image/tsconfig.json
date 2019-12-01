@@ -5,7 +5,5 @@
     "tsBuildInfoFile": "./lib/.tsbuildinfo",
     "rootDir": "src",
     "outDir": "lib",
-    "jsx": "react",
-    "typeRoots": ["@types"],
   }
 }
