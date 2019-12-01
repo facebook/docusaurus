@@ -8,9 +8,9 @@
 const path = require('path');
 
 // Need to be inlined to prevent dark mode FOUC
+// Make sure that the 'storageKey' is the same as the one in `/theme/hooks/useTheme.js`
+const storageKey = 'theme';
 const noFlash = `(function() {
-  var storageKey = 'theme';
-
   function setDataThemeAttribute(theme) {
     document.querySelector('html').setAttribute('data-theme', theme);
   }
@@ -20,15 +20,14 @@ const noFlash = `(function() {
   var supportsColorSchemeQuery = mql.media === preferDarkQuery;
   var localStorageTheme = null;
   try {
-    localStorageTheme = localStorage.getItem(storageKey);
+    localStorageTheme = localStorage.getItem('${storageKey}');
   } catch (err) {}
   var localStorageExists = localStorageTheme !== null;
 
   if (localStorageExists) {
     setDataThemeAttribute(localStorageTheme);
-  } else if (supportsColorSchemeQuery) {
-    var theme = mql.matches ? 'dark' : '';
-    setDataThemeAttribute(theme);
+  } else if (supportsColorSchemeQuery && mql.matches) {
+    setDataThemeAttribute('dark');
   }
 })();`;
 
