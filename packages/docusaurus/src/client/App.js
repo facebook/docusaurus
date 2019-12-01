@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 
 import Head from '@docusaurus/Head';
 import routes from '@generated/routes';
@@ -18,8 +18,14 @@ import './client-lifecycles-dispatcher';
 
 function App() {
   const {stylesheets, scripts} = siteConfig;
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   return (
-    <DocusaurusContext.Provider value={{siteConfig}}>
+    <DocusaurusContext.Provider value={{siteConfig, isClient}}>
       {(stylesheets || scripts) && (
         <Head>
           {stylesheets &&
