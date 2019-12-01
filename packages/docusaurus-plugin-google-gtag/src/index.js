@@ -40,6 +40,7 @@ module.exports = function(context) {
         return {};
       }
       return {
+        // Gtag includes GA by default, so we also preconnect to google-analytics.
         headTags: [
           {
             tagName: 'link',
