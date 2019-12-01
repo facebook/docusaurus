@@ -4,10 +4,13 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+import {LoadContext} from '@docusaurus/types';
+import {PluginOptions} from './types';
+import {Configuration} from 'webpack';
 
-const path = require('path');
+import path from 'path';
 
-module.exports = function(context, options) {
+export = function(_context: LoadContext, options: PluginOptions) {
   const isProd = process.env.NODE_ENV === 'production';
   return {
     name: 'docusaurus-plugin-ideal-image',
@@ -16,7 +19,7 @@ module.exports = function(context, options) {
       return path.resolve(__dirname, './theme');
     },
 
-    configureWebpack(config, isServer) {
+    configureWebpack(_config: Configuration, isServer: boolean) {
       return {
         module: {
           rules: [
