@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.14.3] - 2019-12-01
+
+#### :bug: Bug Fix
+* `docusaurus-1.x`
+  * [#2063](https://github.com/facebook/docusaurus/pull/2063) fix: transpile static js to IE 10 ([@JLHwung](https://github.com/JLHwung))
+
+#### :house: Internal
+* `docusaurus-1.x`
+  * [#2029](https://github.com/facebook/docusaurus/pull/2029) chore: bump deps and remove unused deps ([@endiliey](https://github.com/endiliey))
+
+#### Committers: 2
+- Endi ([@endiliey](https://github.com/endiliey))
+- Huáng Jùnliàng ([@JLHwung](https://github.com/JLHwung))
+
 ## [1.14.2] - 2019-11-22
 
 #### :bug: Bug Fix
@@ -1207,7 +1221,8 @@ N/A
   - Blog
   - Documentation
 
-[unreleased]: https://github.com/facebook/docusaurus/compare/v1.14.2...HEAD
+[unreleased]: https://github.com/facebook/docusaurus/compare/v1.14.3...HEAD
+[1.14.3]: https://github.com/facebook/docusaurus/compare/v1.14.2...v1.14.3
 [1.14.2]: https://github.com/facebook/docusaurus/compare/v1.14.1...v1.14.2
 [1.14.1]: https://github.com/facebook/docusaurus/compare/v1.14.0...v1.14.1
 [1.14.0]: https://github.com/facebook/docusaurus/compare/v1.13.0...v1.14.0
