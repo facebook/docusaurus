@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/theme-classic",
-  "version": "2.0.0-alpha.36",
+  "version": "2.0.0-alpha.37",
   "description": "Classic theme for Docusaurus",
   "main": "src/index.js",
   "publishConfig": {
