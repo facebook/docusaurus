@@ -35,7 +35,3 @@ export interface PluginOptions {
    */
   quality?: number;
 }
-
-export interface ImageProps extends React.ImgHTMLAttributes<{}> {
-  img: any;
-}
