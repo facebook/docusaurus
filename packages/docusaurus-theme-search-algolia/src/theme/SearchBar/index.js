@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState, useRef, useCallback} from 'react';
+import React, {useRef, useCallback} from 'react';
 import classnames from 'classnames';
 
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
@@ -16,7 +16,7 @@ const loadJS = () => import('docsearch.js');
 let loadedJs = false;
 
 const Search = props => {
-  const [initialized, setInitialized] = useState(false);
+  const initialized = useRef(false);
   const searchBarRef = useRef(null);
   const {siteConfig = {}} = useDocusaurusContext();
   const {
@@ -24,7 +24,7 @@ const Search = props => {
   } = siteConfig;
 
   const initAlgolia = () => {
-    if (!initialized) {
+    if (!initialized.current) {
       window.docsearch({
         appId: algolia.appId,
         apiKey: algolia.apiKey,
@@ -32,7 +32,7 @@ const Search = props => {
         inputSelector: '#search_input_react',
         algoliaOptions: algolia.algoliaOptions,
       });
-      setInitialized(true);
+      initialized.current = true;
     }
   };
 
