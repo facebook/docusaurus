@@ -33,7 +33,7 @@ const QUOTES = [
     ),
   },
   {
-    thumbnail: require('../data/quotes/hector-ramos.png'),
+    thumbnail: require('../data/quotes/hector-ramos.jpg'),
     name: 'Hector Ramos',
     title: 'Lead React Native Advocate',
     text: (
