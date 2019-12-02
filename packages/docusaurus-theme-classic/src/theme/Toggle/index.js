@@ -10,11 +10,10 @@ import Toggle from 'react-toggle';
 
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
-import classnames from 'classnames';
-import styles from './styles.module.css';
+import './styles.css';
 
-const Moon = () => <span className={classnames(styles.toggle, styles.moon)} />;
-const Sun = () => <span className={classnames(styles.toggle, styles.sun)} />;
+const Moon = () => <span className="toggle moon" />;
+const Sun = () => <span className="toggle sun" />;
 
 export default function(props) {
   const {isClient} = useDocusaurusContext();
