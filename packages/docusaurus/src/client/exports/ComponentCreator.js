@@ -10,6 +10,7 @@ import Loadable from 'react-loadable';
 import Loading from '@theme/Loading';
 import routesChunkNames from '@generated/routesChunkNames';
 import registry from '@generated/registry';
+import flat from '../flat';
 
 function ComponentCreator(path) {
   // 404 page
@@ -36,34 +37,17 @@ function ComponentCreator(path) {
   - optsModules: ['./Pages.js', './doc1.md']
   - optsWebpack: [require.resolveWeak('./Pages.js'), require.resolveWeak('./doc1.md')]
   */
-  function traverseChunk(target, keys) {
-    if (Array.isArray(target)) {
-      target.forEach((value, index) => {
-        traverseChunk(value, [...keys, index]);
-      });
-      return;
+  const flatChunkNames = flat(chunkNames);
+  Object.keys(flatChunkNames).forEach(key => {
+    const chunkRegistry = registry[flatChunkNames[key]];
+    if (chunkRegistry) {
+      /* eslint-disable prefer-destructuring */
+      optsLoader[key] = chunkRegistry[0];
+      optsModules.push(chunkRegistry[1]);
+      optsWebpack.push(chunkRegistry[2]);
+      /* eslint-enable prefer-destructuring */
     }
-
-    if (target == null) {
-      return;
-    }
-
-    if (typeof target === 'object') {
-      Object.keys(target).forEach(key => {
-        traverseChunk(target[key], [...keys, key]);
-      });
-      return;
-    }
-
-    const chunkRegistry = registry[target] || {};
-    /* eslint-disable prefer-destructuring */
-    optsLoader[keys.join('.')] = chunkRegistry[0];
-    optsModules.push(chunkRegistry[1]);
-    optsWebpack.push(chunkRegistry[2]);
-    /* eslint-enable prefer-destructuring */
-  }
-
-  traverseChunk(chunkNames, []);
+  });
 
   return Loadable.Map({
     loading: Loading,
