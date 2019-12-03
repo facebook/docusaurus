@@ -82,7 +82,9 @@ export async function load(siteDir: string): Promise<Props> {
   );
   const userTheme = path.resolve(siteDir, THEME_PATH);
   const alias = loadThemeAlias([fallbackTheme, ...pluginThemes, userTheme]);
-  // Make a fake plugin to resolve aliased theme components.
+
+  // Make a fake plugin to resolve aliased theme components && inject scripts/stylesheets
+  const {stylesheets = [], scripts = []} = siteConfig;
   plugins.push({
     name: 'docusaurus-bootstrap-plugin',
     configureWebpack: () => ({
@@ -90,6 +92,33 @@ export async function load(siteDir: string): Promise<Props> {
         alias,
       },
     }),
+    injectHtmlTags: () => {
+      const stylesheetsTags = stylesheets.map(source =>
+        typeof source === 'string'
+          ? `<link rel="stylesheet" href="${source}">`
+          : {
+              tagName: 'link',
+              attributes: {
+                rel: 'stylesheet',
+                ...source,
+              },
+            },
+      );
+      const scriptsTags = scripts.map(source =>
+        typeof source === 'string'
+          ? `<script type="text/javascript" src="${source}"></script>`
+          : {
+              tagName: 'script',
+              attributes: {
+                type: 'text/javascript',
+                ...source,
+              },
+            },
+      );
+      return {
+        headTags: [...stylesheetsTags, ...scriptsTags],
+      };
+    },
   });
 
   // Load client modules.
