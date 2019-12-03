@@ -20,7 +20,7 @@ module: {
       use: [
         'babel-loader',
         {
-            loader: '@docuaurus/mdx-loader',
+            loader: '@docusaurus/mdx-loader',
             options: {
                 // .. See options
             }
