@@ -7,7 +7,7 @@ title: Lifecycle APIs
 
 Lifecycle APIs are shared by Themes and Plugins.
 
-## getPathsToWatch()
+## `getPathsToWatch()`
 
 Specifies the paths to watch for plugins and themes. The paths are watched by the dev server so that the plugin lifecycles are reloaded when contents in the watched paths change. Note that the plugins and themes modules are initially called with `context` and `options` from Node, which you may use to find the necessary directory information about the site.
 
@@ -27,7 +27,7 @@ module.exports = function(context, options) {
 };
 ```
 
-## async loadContent()
+## `async loadContent()`
 
 Plugins should use this lifecycle to fetch from data sources (filesystem, remote API, headless CMS, etc) or doing some server processing.
 
@@ -46,7 +46,7 @@ module.exports = function(context, options) {
 };
 ```
 
-## async contentLoaded({content, actions})
+## `async contentLoaded({content, actions})`
 
 Plugins should use the data loaded in `loadContent` and construct the pages/routes that consume the loaded data (optional).
 
@@ -126,7 +126,7 @@ module.exports = function(context, options) {
 };
 ```
 
-## configureWebpack(config, isServer, utils)
+## `configureWebpack(config, isServer, utils)`
 
 Modifies the internal webpack config. If the return value is a JavaScript object, it will be merged into the final config using [`webpack-merge`](https://github.com/survivejs/webpack-merge). If it is a function, it will be called and receive `config` as the first argument and an `isServer` flag as the argument argument.
 
@@ -203,7 +203,7 @@ module.exports = function(context, options) {
 };
 ```
 
-## extendCli(cli)
+## `extendCli(cli)`
 
 Register an extra command to enhance the CLI of docusaurus. `cli` is [commander](https://www.npmjs.com/package/commander) object.
 
@@ -226,7 +226,7 @@ module.exports = function(context, options) {
 };
 ```
 
-## injectHtmlTags()
+## `injectHtmlTags()`
 
 Inject head and/or body html tags to Docusaurus generated html.
 
@@ -281,7 +281,7 @@ module.exports = function(context, options) {
             tagName: 'script',
             attributes: {
               charset: 'utf-8',
-              src: '/noflash.js'
+              src: '/noflash.js',
             },
           },
         ],
@@ -292,7 +292,7 @@ module.exports = function(context, options) {
 };
 ```
 
-## getThemePath()
+## `getThemePath()`
 
 Returns the path to the directory where the theme components can be found. When your users calls `swizzle`, `getThemePath` is called and its returned path is used to find your theme components.
 
@@ -312,7 +312,7 @@ module.exports = function(context, options) {
 };
 ```
 
-## getClientModules()
+## `getClientModules()`
 
 Returns an array of paths to the modules that are to be imported in the client bundle. These modules are imported globally before React even renders the initial UI.
 
@@ -342,7 +342,7 @@ For example, the in docusaurus-plugin-content-docs:
 
 ## Example
 
-Mind model for a presumptuous plugin implementation.
+Here's a mind model for a presumptuous plugin implementation.
 
 ```jsx
 const DEFAULT_OPTIONS = {

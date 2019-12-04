@@ -71,7 +71,7 @@ my-website
 
 ## Using React
 
-React is used as the UI library to create pages. Every page component should export a React component and you can leverage on the expressibility of React to build rich and interactive content.
+React is used as the UI library to create pages. Every page component should export a React component and you can leverage on the expressiveness of React to build rich and interactive content.
 
 <!--
 TODO:
