@@ -11,8 +11,7 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@docusaurus/types": "^2.0.0-alpha.37",
-    "@types/stringify-object": "^3.2.0"
+    "@docusaurus/types": "^2.0.0-alpha.37"
   },
   "dependencies": {
     "@docusaurus/mdx-loader": "^2.0.0-alpha.37",
@@ -21,8 +20,7 @@
     "fs-extra": "^8.1.0",
     "globby": "^10.0.1",
     "loader-utils": "^1.2.3",
-    "lodash": "^4.17.15",
-    "stringify-object": "^3.3.0"
+    "lodash": "^4.17.15"
   },
   "peerDependencies": {
     "@docusaurus/core": "^2.0.0",

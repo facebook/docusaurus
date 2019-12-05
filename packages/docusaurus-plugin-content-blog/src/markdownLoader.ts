@@ -9,9 +9,8 @@ const {parseQuery, getOptions} = require('loader-utils');
 import {loader} from 'webpack';
 import {truncate} from './blogUtils';
 import path from 'path';
-import {readJson} from 'fs-extra';
+import {readFile} from 'fs-extra';
 import {aliasedSitePath, docuHash} from '@docusaurus/utils';
-import stringifyObject from 'stringify-object';
 
 export = function(fileString: string) {
   const callback = this.async();
@@ -31,13 +30,13 @@ export = function(fileString: string) {
   const aliasedSource = aliasedSitePath(this.resourcePath, siteDir);
   const metadataPath = path.join(dataDir, `${docuHash(aliasedSource)}.json`);
 
-  // Used to invalidate cacheable loaders and recompile in watch mode
+  // Add metadataPath as dependency of this loader result so that we can recompile if metadata is changed
   this.addDependency(metadataPath);
 
-  readJson(metadataPath, function(err, metadata) {
+  readFile(metadataPath, 'utf8', function(err, metadata) {
     if (err) return callback && callback(err);
 
-    const metadataStr = `export const metadata = ${stringifyObject(metadata)};`;
+    const metadataStr = `export const metadata = ${metadata};`;
     callback && callback(null, finalContent + '\n' + metadataStr);
   });
 } as loader.Loader;
