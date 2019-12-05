@@ -12,6 +12,7 @@
   "license": "MIT",
   "devDependencies": {
     "@docusaurus/types": "^2.0.0-alpha.37",
+    "@types/stringify-object": "^3.2.0",
     "commander": "^4.0.1",
     "picomatch": "^2.1.1"
   },
@@ -24,7 +25,8 @@
     "import-fresh": "^3.2.1",
     "loader-utils": "^1.2.3",
     "lodash": "^4.17.15",
-    "shelljs": "^0.8.3"
+    "shelljs": "^0.8.3",
+    "stringify-object": "^3.3.0"
   },
   "peerDependencies": {
     "@docusaurus/core": "^2.0.0",

@@ -8,7 +8,7 @@
 import globby from 'globby';
 import fs from 'fs';
 import path from 'path';
-import {encodePath, fileToPath} from '@docusaurus/utils';
+import {encodePath, fileToPath, aliasedSitePath} from '@docusaurus/utils';
 import {LoadContext, Plugin} from '@docusaurus/types';
 
 import {PluginOptions, LoadedContent} from './types';
@@ -51,8 +51,7 @@ export default function pluginContentPages(
 
       return pagesFiles.map(relativeSource => {
         const source = path.join(pagesDir, relativeSource);
-        // Cannot use path.join() as it resolves '../' and removes the '@site'. Let webpack loader resolve it.
-        const aliasedSource = `@site/${path.relative(siteDir, source)}`;
+        const aliasedSource = aliasedSitePath(source, siteDir);
         const pathName = encodePath(fileToPath(relativeSource));
         // Default Language.
         return {

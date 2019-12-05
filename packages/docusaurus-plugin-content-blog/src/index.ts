@@ -215,7 +215,7 @@ export default function pluginContentBlog(
       } = options;
 
       const aliasedSource = (source: string) =>
-        `@docusaurus-plugin-content-blog/${path.relative(dataDir, source)}`;
+        `~blog/${path.relative(dataDir, source)}`;
       const {addRoute, createData} = actions;
       const {
         blogPosts,
@@ -375,7 +375,7 @@ export default function pluginContentBlog(
       return {
         resolve: {
           alias: {
-            '@docusaurus-plugin-content-blog': dataDir,
+            '~blog': dataDir,
           },
         },
         module: {

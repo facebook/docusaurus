@@ -10,7 +10,7 @@ import globby from 'globby';
 import path from 'path';
 import {Feed} from 'feed';
 import {PluginOptions, BlogPost, DateLink} from './types';
-import {parse, normalizeUrl} from '@docusaurus/utils';
+import {parse, normalizeUrl, aliasedSitePath} from '@docusaurus/utils';
 import {LoadContext} from '@docusaurus/types';
 
 export function truncate(fileString: string, truncateMarker: RegExp | string) {
@@ -100,10 +100,8 @@ export async function generateBlogPosts(
 
   await Promise.all(
     blogFiles.map(async (relativeSource: string) => {
-      // Cannot use path.join() as it resolves '../' and removes the '@site'.
-      // Let webpack loader resolve it.
       const source = path.join(blogDir, relativeSource);
-      const aliasedSource = `@site/${path.relative(siteDir, source)}`;
+      const aliasedSource = aliasedSitePath(source, siteDir);
       const blogFileName = path.basename(relativeSource);
 
       const fileString = await fs.readFile(source, 'utf-8');

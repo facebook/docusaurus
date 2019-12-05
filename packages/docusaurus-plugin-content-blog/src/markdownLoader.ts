@@ -21,5 +21,6 @@ export = function(fileString: string) {
   if (truncated) {
     finalContent = truncate(fileString, truncateMarker);
   }
+
   return callback && callback(null, finalContent);
 } as loader.Loader;

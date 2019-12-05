@@ -277,15 +277,16 @@ export default function pluginContentDocs(
       const {docLayoutComponent, docItemComponent, routeBasePath} = options;
       const {addRoute, createData} = actions;
       const aliasedSource = (source: string) =>
-        `@docusaurus-plugin-content-docs/${path.relative(dataDir, source)}`;
+        `~docs/${path.relative(dataDir, source)}`;
 
       const genRoutes = async (
         metadataItems: Metadata[],
       ): Promise<RouteConfig[]> => {
         const routes = await Promise.all(
           metadataItems.map(async metadataItem => {
-            const metadataPath = await createData(
-              `${docuHash(metadataItem.permalink)}.json`,
+            await createData(
+              // Note that this created data path must be in sync with markdown/index.ts metadataPath
+              `${docuHash(metadataItem.source)}.json`,
               JSON.stringify(metadataItem, null, 2),
             );
             return {
@@ -294,7 +295,6 @@ export default function pluginContentDocs(
               exact: true,
               modules: {
                 content: metadataItem.source,
-                metadata: aliasedSource(metadataPath),
               },
             };
           }),
@@ -388,7 +388,7 @@ export default function pluginContentDocs(
       return {
         resolve: {
           alias: {
-            '@docusaurus-plugin-content-docs': dataDir,
+            '~docs': dataDir,
           },
         },
         module: {
@@ -410,6 +410,7 @@ export default function pluginContentDocs(
                   loader: path.resolve(__dirname, './markdown/index.js'),
                   options: {
                     siteDir,
+                    dataDir,
                     docsDir,
                     sourceToPermalink: sourceToPermalink,
                     versionedDir,
