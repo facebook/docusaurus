@@ -91,13 +91,8 @@ export interface Tag {
   permalink: string;
 }
 
-export interface BlogItemsToModules {
-  [key: string]: MetaDataWithPath;
-}
-
-export interface MetaDataWithPath {
-  metadata: MetaData;
-  metadataPath: string;
+export interface BlogItemsToMetadata {
+  [key: string]: MetaData;
 }
 
 export interface TagsModule {

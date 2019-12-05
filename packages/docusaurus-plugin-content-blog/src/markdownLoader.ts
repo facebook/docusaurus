@@ -8,11 +8,15 @@
 const {parseQuery, getOptions} = require('loader-utils');
 import {loader} from 'webpack';
 import {truncate} from './blogUtils';
+import path from 'path';
+import {readJson} from 'fs-extra';
+import {aliasedSitePath, docuHash} from '@docusaurus/utils';
+import stringifyObject from 'stringify-object';
 
 export = function(fileString: string) {
   const callback = this.async();
 
-  const {truncateMarker}: {truncateMarker: RegExp | string} = getOptions(this);
+  const {truncateMarker, siteDir, dataDir} = getOptions(this);
 
   let finalContent = fileString;
 
@@ -22,5 +26,18 @@ export = function(fileString: string) {
     finalContent = truncate(fileString, truncateMarker);
   }
 
-  return callback && callback(null, finalContent);
+  // Read metadata & then embed it to this markdown content
+  // Note that metadataPath must be the same/ in-sync as the path from createData
+  const aliasedSource = aliasedSitePath(this.resourcePath, siteDir);
+  const metadataPath = path.join(dataDir, `${docuHash(aliasedSource)}.json`);
+
+  // Used to invalidate cacheable loaders and recompile in watch mode
+  this.addDependency(metadataPath);
+
+  readJson(metadataPath, function(err, metadata) {
+    if (err) return callback && callback(err);
+
+    const metadataStr = `export const metadata = ${stringifyObject(metadata)};`;
+    callback && callback(null, finalContent + '\n' + metadataStr);
+  });
 } as loader.Loader;

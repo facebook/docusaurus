@@ -14,7 +14,7 @@ import {
   PluginOptions,
   BlogTags,
   BlogContent,
-  BlogItemsToModules,
+  BlogItemsToMetadata,
   TagsModule,
   BlogPaginated,
   FeedType,
@@ -224,40 +224,30 @@ export default function pluginContentBlog(
         blogTagsListPath,
       } = blogContents;
 
-      const blogItemsToModules: BlogItemsToModules = {};
+      const blogItemsToMetadata: BlogItemsToMetadata = {};
+
       // Create routes for blog entries.
-      const blogItems = await Promise.all(
+      await Promise.all(
         blogPosts.map(async blogPost => {
           const {id, metadata} = blogPost;
-          const {permalink} = metadata;
-          const metadataPath = await createData(
-            `${docuHash(permalink)}.json`,
+          await createData(
+            // Note that this created data path must be in sync with markdownLoader.ts metadataPath
+            `${docuHash(metadata.source)}.json`,
             JSON.stringify(metadata, null, 2),
           );
-          const temp = {
-            metadata,
-            metadataPath,
-          };
 
-          blogItemsToModules[id] = temp;
-          return temp;
+          addRoute({
+            path: metadata.permalink,
+            component: blogPostComponent,
+            exact: true,
+            modules: {
+              content: metadata.source,
+            },
+          });
+
+          blogItemsToMetadata[id] = metadata;
         }),
       );
-
-      blogItems.map(blogItem => {
-        const {metadata, metadataPath} = blogItem;
-        const {source, permalink} = metadata;
-
-        addRoute({
-          path: permalink,
-          component: blogPostComponent,
-          exact: true,
-          modules: {
-            content: source,
-            metadata: aliasedSource(metadataPath),
-          },
-        });
-      });
 
       // Create routes for blog's paginated list entries.
       await Promise.all(
@@ -275,20 +265,16 @@ export default function pluginContentBlog(
             exact: true,
             modules: {
               items: items.map(postID => {
-                const {
-                  metadata: postMetadata,
-                  metadataPath,
-                } = blogItemsToModules[postID];
+                const metadata = blogItemsToMetadata[postID];
                 // To tell routes.js this is an import and not a nested object to recurse.
                 return {
                   content: {
                     __import: true,
-                    path: postMetadata.source,
+                    path: metadata.source,
                     query: {
                       truncated: true,
                     },
                   },
-                  metadata: aliasedSource(metadataPath),
                 };
               }),
               metadata: aliasedSource(pageMetadataPath),
@@ -327,19 +313,15 @@ export default function pluginContentBlog(
             exact: true,
             modules: {
               items: items.map(postID => {
-                const {
-                  metadata: postMetadata,
-                  metadataPath,
-                } = blogItemsToModules[postID];
+                const metadata = blogItemsToMetadata[postID];
                 return {
                   content: {
                     __import: true,
-                    path: postMetadata.source,
+                    path: metadata.source,
                     query: {
                       truncated: true,
                     },
                   },
-                  metadata: aliasedSource(metadataPath),
                 };
               }),
               metadata: aliasedSource(tagsMetadataPath),
@@ -396,6 +378,8 @@ export default function pluginContentBlog(
                 {
                   loader: path.resolve(__dirname, './markdownLoader.js'),
                   options: {
+                    dataDir,
+                    siteDir: context.siteDir,
                     truncateMarker,
                   },
                 },
