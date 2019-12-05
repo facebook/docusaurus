@@ -25,7 +25,7 @@ describe('load utils', () => {
       'user/website/docs/asd.md': '@site/docs/asd.md',
       'user/website/versioned_docs/foo/bar.md':
         '@site/versioned_docs/foo/bar.md',
-      'user/docs/test.md': '@site/../test.md',
+      'user/docs/test.md': '@site/../docs/test.md',
     };
     Object.keys(asserts).forEach(file => {
       expect(aliasedSitePath(file, 'user/website')).toBe(asserts[file]);
