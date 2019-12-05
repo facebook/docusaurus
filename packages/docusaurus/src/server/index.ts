@@ -152,6 +152,7 @@ ${Object.keys(registry)
   .sort()
   .map(
     key =>
+      // We need to JSON.stringify so that if its on windows, backslash are escaped.
       `  '${key}': [${registry[key].loader}, ${JSON.stringify(
         registry[key].modulePath,
       )}, require.resolveWeak(${JSON.stringify(registry[key].modulePath)})],`,
