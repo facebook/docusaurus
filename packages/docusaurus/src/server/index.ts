@@ -129,6 +129,7 @@ export async function load(siteDir: string): Promise<Props> {
     `export default [\n${clientModules
       // import() is async so we use require() because client modules can have
       // CSS and the order matters for loading CSS.
+      // We need to JSON.stringify so that if its on windows, backslash are escaped.
       .map(module => `  require(${JSON.stringify(module)}),`)
       .join('\n')}\n];\n`,
   );
