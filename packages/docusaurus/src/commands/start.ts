@@ -119,6 +119,9 @@ export async function start(
 
   // https://webpack.js.org/configuration/dev-server
   const devServerConfig: WebpackDevServer.Configuration = {
+    // Use 'ws' instead of 'sockjs' to use native websockets
+    // https://webpack.js.org/configuration/dev-server/#devservertransportmode
+    transportMode: 'ws',
     compress: true,
     clientLogLevel: 'error',
     hot: true,
@@ -135,21 +138,21 @@ export async function start(
       rewrites: [{from: /\/*/, to: baseUrl}],
     },
     disableHostCheck: true,
-    // Enable overlay on browser. E.g: display errors
-    overlay: true,
+    // Disable overlay on browser since we use CRA's overlay error reporting
+    overlay: false,
     host,
     before: app => {
       app.use(baseUrl, express.static(path.resolve(siteDir, STATIC_DIR_NAME)));
       // TODO: add plugins beforeDevServer and afterDevServer hook
     },
   };
-  WebpackDevServer.addDevServerEntrypoints(config, devServerConfig);
   const compiler = webpack(config);
   const devServer = new WebpackDevServer(compiler, devServerConfig);
   devServer.listen(port, host, err => {
     if (err) {
       console.log(err);
     }
+    // WSL and windows Bug TODO: https://github.com/sindresorhus/open/issues/154
     cliOptions.open && openBrowser(openUrl);
   });
   ['SIGINT', 'SIGTERM'].forEach(sig => {
