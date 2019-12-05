@@ -29,7 +29,8 @@ export async function generate(
 
   let lastHash = fileHash.get(filepath);
 
-  // If file already exist, we try to calculate the content hash and compare
+  // If file already exist but its not in runtime cache hash yet,
+  // we try to calculate the content hash and then compare
   // This is to avoid unnecessary overwrite and we can reuse old file
   if (!lastHash && fs.existsSync(filepath)) {
     const lastContent = await fs.readFile(filepath, 'utf8');
