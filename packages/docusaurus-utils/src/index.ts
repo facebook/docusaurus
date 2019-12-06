@@ -37,6 +37,7 @@ export async function generate(
     lastHash = createHash('md5')
       .update(lastContent)
       .digest('hex');
+    fileHash.set(filepath, lastHash);
   }
 
   const currentHash = createHash('md5')

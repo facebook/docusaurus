@@ -81,7 +81,7 @@ function Versions(props) {
               {versions.map(
                 version =>
                   version !== latestVersion && (
-                    <tr>
+                    <tr key={version}>
                       <th>{version}</th>
                       <td>
                         {/* You are supposed to change this href where appropriate
