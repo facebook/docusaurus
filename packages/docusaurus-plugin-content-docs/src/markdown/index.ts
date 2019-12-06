@@ -44,6 +44,7 @@ export = function(fileString: string) {
     if (err) return callback && callback(err);
 
     const metadataStr = `export const metadata = ${metadata}`;
-    callback && callback(null, linkifiedStr + '\n' + metadataStr);
+    // We need to add two lines break so that mdx won't mistake it as part of previous paragraph
+    callback && callback(null, linkifiedStr + '\n\n' + metadataStr);
   });
 } as loader.Loader;
