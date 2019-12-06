@@ -106,6 +106,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Bottender',
+    image: '/img/users/bottender.png',  
+    infoLink: 'https://bottender.js.org/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Bowler',
     image: '/img/users/bowler.svg',
     infoLink: 'https://pybowler.io/',
