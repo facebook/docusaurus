@@ -52,7 +52,8 @@ function Headings({headings, isChild}) {
 function DocItem(props) {
   const {siteConfig = {}} = useDocusaurusContext();
   const {url: siteUrl} = siteConfig;
-  const {metadata, content: DocContent} = props;
+  const {content: DocContent} = props;
+  const {metadata} = DocContent;
   const {
     description,
     title,
@@ -106,7 +107,7 @@ function DocItem(props) {
                   )}
                   {!hideTitle && (
                     <header>
-                      <h1 className={styles.docTitle}>{metadata.title}</h1>
+                      <h1 className={styles.docTitle}>{title}</h1>
                     </header>
                   )}
 

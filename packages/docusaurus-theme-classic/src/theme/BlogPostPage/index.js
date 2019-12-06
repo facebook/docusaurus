@@ -12,8 +12,8 @@ import BlogPostItem from '@theme/BlogPostItem';
 import BlogPostPaginator from '@theme/BlogPostPaginator';
 
 function BlogPostPage(props) {
-  const {content: BlogPostContents, metadata} = props;
-  const {frontMatter} = BlogPostContents;
+  const {content: BlogPostContents} = props;
+  const {frontMatter, metadata} = BlogPostContents;
   return (
     <Layout title={metadata.title} description={metadata.description}>
       {BlogPostContents && (

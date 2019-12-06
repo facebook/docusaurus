@@ -7,7 +7,12 @@
 
 import fs from 'fs-extra';
 import path from 'path';
-import {parse, normalizeUrl, posixPath} from '@docusaurus/utils';
+import {
+  parse,
+  aliasedSitePath,
+  normalizeUrl,
+  posixPath,
+} from '@docusaurus/utils';
 import {LoadContext} from '@docusaurus/types';
 
 import lastUpdate from './lastUpdate';
@@ -84,9 +89,6 @@ export default async function processMetadata({
 
   const relativePath = path.relative(siteDir, filePath);
 
-  // Cannot use path.join() as it resolves '../' and removes the '@site'. Let webpack loader resolve it.
-  const aliasedPath = `@site/${relativePath}`;
-
   const docsEditUrl = editUrl
     ? normalizeUrl([editUrl, posixPath(relativePath)])
     : undefined;
@@ -130,7 +132,7 @@ export default async function processMetadata({
     id,
     title,
     description,
-    source: aliasedPath,
+    source: aliasedSitePath(filePath, siteDir),
     permalink,
     editUrl: custom_edit_url || docsEditUrl,
     version,
