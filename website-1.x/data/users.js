@@ -107,7 +107,7 @@ module.exports = [
   },
   {
     caption: 'Bottender',
-    image: '/img/users/bottender.png',  
+    image: '/img/users/bottender.png',
     infoLink: 'https://bottender.js.org/',
     fbOpenSource: false,
     pinned: false,
