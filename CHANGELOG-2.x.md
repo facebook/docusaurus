@@ -1,5 +1,51 @@
 # Docusaurus 2 Changelog
 
+## 2.0.0-alpha.38
+
+#### :boom: Breaking Change
+* `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`, `docusaurus-plugin-content-pages`, `docusaurus-theme-classic`, `docusaurus-utils`
+  * [#2088](https://github.com/facebook/docusaurus/pull/2088) perf(v2): smaller bundlesize by embedding metadata to content ([@endiliey](https://github.com/endiliey))
+
+If you have swizzled any Docs/Blog component that depends on metadata, you'll have to update. If you haven't, no action is needed.
+
+For example, if you've swizzled `@theme/DocItem`. You'll have to update
+```diff
+- const {metadata, content: DocContent} = props;
++ const {content: DocContent} = props;
++ const {metadata} = DocContent;
+```
+
+#### :bug: Bug Fix
+* `docusaurus`
+  * [#2086](https://github.com/facebook/docusaurus/pull/2086) fix(v2): windows compatibility regression ([@endiliey](https://github.com/endiliey))
+* `docusaurus-plugin-ideal-image`
+  * [#2074](https://github.com/facebook/docusaurus/pull/2074) fix(v2): fix plugin-ideal-image breaking website (exports not defined) ([@endiliey](https://github.com/endiliey))
+
+#### :nail_care: Polish
+* `docusaurus-mdx-loader`
+  * [#2085](https://github.com/facebook/docusaurus/pull/2085) misc(v2): update mdx loader plugin README ([@shivangna](https://github.com/shivangna))
+
+#### :house: Internal
+* `docusaurus-1.x`
+  * [#2087](https://github.com/facebook/docusaurus/pull/2087) fix(v1): add key to versions.map in versions.js ([@FeynmanDNA](https://github.com/FeynmanDNA))
+  * [#2083](https://github.com/facebook/docusaurus/pull/2083) refactor(v1): fix props for ProjectTitle ([@FeynmanDNA](https://github.com/FeynmanDNA))
+* `docusaurus`
+  * [#2081](https://github.com/facebook/docusaurus/pull/2081) refactor(v2): move scripts/stylesheets injection to server side ([@endiliey](https://github.com/endiliey))
+  * [#2080](https://github.com/facebook/docusaurus/pull/2080) refactor(v2): minor code refactoring on component creator ([@endiliey](https://github.com/endiliey))
+
+#### :running_woman: Performance
+* `docusaurus-utils`
+  * [#2089](https://github.com/facebook/docusaurus/pull/2089) perf(v2): improve dev build time by not overwriting file if possible ([@endiliey](https://github.com/endiliey))
+* `docusaurus-theme-search-algolia`
+  * [#2079](https://github.com/facebook/docusaurus/pull/2079) perf(v2): algolia search result no longer cause full page refresh ([@endiliey](https://github.com/endiliey))
+  * [#2076](https://github.com/facebook/docusaurus/pull/2076) perf(v2): load algolia JS only when user interacts with search ([@endiliey](https://github.com/endiliey))
+
+#### Committers: 4
+- Endi ([@endiliey](https://github.com/endiliey))
+- KYY ([@FeynmanDNA](https://github.com/FeynmanDNA))
+- Shivangna Kaistha ([@shivangna](https://github.com/shivangna))
+- kaichu ([@qshiwu](https://github.com/qshiwu))
+
 ## 2.0.0-alpha.37
 
 #### :boom: Breaking Change
