@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/plugin-ideal-image",
-  "version": "2.0.0-alpha.37",
+  "version": "2.0.0-alpha.38",
   "description": "Docusaurus Plugin to generate an almost ideal image (responsive, lazy-loading, and low quality placeholder)",
   "main": "lib/index.js",
   "scripts": {
@@ -11,7 +11,7 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@docusaurus/types": "^2.0.0-alpha.37",
+    "@docusaurus/types": "^2.0.0-alpha.38",
     "fs-extra": "^8.1.0"
   },
   "dependencies": {
