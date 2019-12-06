@@ -15,6 +15,8 @@ import path from 'path';
 import portfinder from 'portfinder';
 import openBrowser from 'react-dev-utils/openBrowser';
 import {prepareUrls} from 'react-dev-utils/WebpackDevServerUtils';
+import errorOverlayMiddleware from 'react-dev-utils/errorOverlayMiddleware';
+import evalSourceMapMiddleware from 'react-dev-utils/evalSourceMapMiddleware';
 import webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
 import merge from 'webpack-merge';
@@ -119,9 +121,6 @@ export async function start(
 
   // https://webpack.js.org/configuration/dev-server
   const devServerConfig: WebpackDevServer.Configuration = {
-    // Use 'ws' instead of 'sockjs' to use native websockets
-    // https://webpack.js.org/configuration/dev-server/#devservertransportmode
-    transportMode: 'ws',
     compress: true,
     clientLogLevel: 'error',
     hot: true,
@@ -141,8 +140,14 @@ export async function start(
     // Disable overlay on browser since we use CRA's overlay error reporting
     overlay: false,
     host,
-    before: app => {
+    before: (app, server) => {
       app.use(baseUrl, express.static(path.resolve(siteDir, STATIC_DIR_NAME)));
+
+      // This lets us fetch source contents from webpack for the error overlay
+      app.use(evalSourceMapMiddleware(server));
+      // This lets us open files from the runtime error overlay.
+      app.use(errorOverlayMiddleware());
+
       // TODO: add plugins beforeDevServer and afterDevServer hook
     },
   };
@@ -152,7 +157,6 @@ export async function start(
     if (err) {
       console.log(err);
     }
-    // WSL and windows Bug TODO: https://github.com/sindresorhus/open/issues/154
     cliOptions.open && openBrowser(openUrl);
   });
   ['SIGINT', 'SIGTERM'].forEach(sig => {
