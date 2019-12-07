@@ -1,6 +1,6 @@
 ---
 id: theme-classic
-title: "@docusaurus/theme-classic"
+title: '@docusaurus/theme-classic'
 ---
 
 > :warning: _This section is a work in progress._

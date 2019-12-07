@@ -64,7 +64,6 @@ The following contents will be created in your current directory. Some example d
     └── yarn.lock
 ```
 
-
 3. Run `cd website` to go into the `website` directory.
 4. Run `npm start` or `yarn start`.
 

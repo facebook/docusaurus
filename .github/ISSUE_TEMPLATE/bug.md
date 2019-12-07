@@ -16,9 +16,7 @@ labels: 'bug, needs triage'
 
 (Write your steps here:)
 
-1.
-1.
-1.
+1. 1. 1.
 
 ## Expected behavior
 

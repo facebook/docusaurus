@@ -26,18 +26,18 @@ const siteConfig = {
 
 ## Extra Search Options
 
-You can also specify extra [search options used by Algolia](https://community.algolia.com/docsearch/documentation/) by using an `algoliaOptions` field in `algolia`. This may be useful if you want to provide different search results for the different versions or languages of your docs. Any occurrences of "VERSION" or "LANGUAGE" will be replaced by the version or language of the current page, respectively. More details about search options can be [found here](https://www.algolia.com/doc/api-reference/api-parameters/#overview).	
+You can also specify extra [search options used by Algolia](https://community.algolia.com/docsearch/documentation/) by using an `algoliaOptions` field in `algolia`. This may be useful if you want to provide different search results for the different versions or languages of your docs. Any occurrences of "VERSION" or "LANGUAGE" will be replaced by the version or language of the current page, respectively. More details about search options can be [found here](https://www.algolia.com/doc/api-reference/api-parameters/#overview).
 
-```js	
-const siteConfig = {	
-  ...	
-  algolia: {	
-    ...	
-    algoliaOptions: {	
-      facetFilters: [ "language:LANGUAGE", "version:VERSION" ] 
-    }	
-  },	
-};	
+```js
+const siteConfig = {
+  ...
+  algolia: {
+    ...
+    algoliaOptions: {
+      facetFilters: [ "language:LANGUAGE", "version:VERSION" ]
+    }
+  },
+};
 ```
 
 Algolia might provide you with [extra search options](https://community.algolia.com/docsearch/documentation/). If so, you should add them to the `algoliaOptions` object.
@@ -64,16 +64,16 @@ const siteConfig = {
 
 ## Customizing the placeholder
 
-If you want to change the placeholder (which defaults to *Search*), add the `placeholder` field in your config. For example, you may want the search bar to display *Ask me something*:
+If you want to change the placeholder (which defaults to _Search_), add the `placeholder` field in your config. For example, you may want the search bar to display _Ask me something_:
 
 ```js
-const siteConfig = {	
-  ...	
-  algolia: {	
-    ...	
+const siteConfig = {
+  ...
+  algolia: {
+    ...
     placeholder: 'Ask me something'
-  },	
-};	
+  },
+};
 ```
 
 ## Disabling the Search Bar

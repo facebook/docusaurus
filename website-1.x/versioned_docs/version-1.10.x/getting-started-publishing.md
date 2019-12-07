@@ -26,9 +26,9 @@ At this point, you can grab all of the files inside the `website/build` director
 
 ### Hosting on a Service:
 
-* [ZEIT Now](#using-zeit-now)
-* [GitHub Pages](#using-github-pages)
-* [Netlify](#hosting-on-netlify)
+- [ZEIT Now](#using-zeit-now)
+- [GitHub Pages](#using-github-pages)
+- [Netlify](#hosting-on-netlify)
 
 ### Using ZEIT Now
 
@@ -60,17 +60,16 @@ Docusaurus was designed to work really well with one of the most popular hosting
 
 > Even if your repository is private, anything published to a `gh-pages` branch will be [public](https://help.github.com/articles/user-organization-and-project-pages/).
 
-__Note:__ When you deploy as user/organization page, the publish script will deploy these sites to the root of the __`master`__ branch of the _username_.github.io repo. In this case, note that you will want to have the Docusaurus infra, your docs, etc. either in __another branch of the _username_.github.io repo__ (e.g., maybe call it `source`), or in another, separate repo (e.g. in the same as the documented source code).
+**Note:** When you deploy as user/organization page, the publish script will deploy these sites to the root of the **`master`** branch of the _username_.github.io repo. In this case, note that you will want to have the Docusaurus infra, your docs, etc. either in **another branch of the _username_.github.io repo** (e.g., maybe call it `source`), or in another, separate repo (e.g. in the same as the documented source code).
 
 2. You will need to modify the file `website/siteConfig.js` and add the required parameters.
 
-| Name               | Description                                                                                                                                                                              |
-| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `organizationName` | The GitHub user or organization that owns the repository. If you are the owner, then it is your GitHub username. In the case of Docusaurus, that would be the "_facebook_" GitHub organization.                                                   |
-| `projectName`      | The name of the GitHub repository for your project. For example, the source code for Docusaurus is hosted at https://github.com/facebook/docusaurus, so our project name in this case would be "docusaurus". |
-| `url`              | Your website's URL. For projects hosted on GitHub pages, this will be "https://_username_.github.io" |
-| `baseUrl`          | Base URL for your project. For projects hosted on GitHub pages, it follows the format "/_projectName_/". For https://github.com/facebook/docusaurus, `baseUrl` is `/docusaurus/`. |
-
+| Name | Description |
+| --- | --- |
+| `organizationName` | The GitHub user or organization that owns the repository. If you are the owner, then it is your GitHub username. In the case of Docusaurus, that would be the "_facebook_" GitHub organization. |
+| `projectName` | The name of the GitHub repository for your project. For example, the source code for Docusaurus is hosted at https://github.com/facebook/docusaurus, so our project name in this case would be "docusaurus". |
+| `url` | Your website's URL. For projects hosted on GitHub pages, this will be "https://_username_.github.io" |
+| `baseUrl` | Base URL for your project. For projects hosted on GitHub pages, it follows the format "/_projectName_/". For https://github.com/facebook/docusaurus, `baseUrl` is `/docusaurus/`. |
 
 ```js
 const siteConfig = {
@@ -85,14 +84,14 @@ const siteConfig = {
 
 In case you want to deploy as a user or organization site, specify the project name as `<username>.github.io` or `<orgname>.github.io`. E.g. If your GitHub username is "user42" then _user42.github.io_, or in the case of an organization name of "org123", it will be _org123.github.io_.
 
-__Note:__ Not setting the `url` and `baseUrl` of your project might result in incorrect file paths generated which can cause broken links to assets paths like stylesheets and images.
+**Note:** Not setting the `url` and `baseUrl` of your project might result in incorrect file paths generated which can cause broken links to assets paths like stylesheets and images.
 
 > While we recommend setting the `projectName` and `organizationName` in `siteConfig.js`, you can also use environment variables `ORGANIZATION_NAME` and `PROJECT_NAME`.
 
 3. Now you have to specify the git user as an environment variable, and run the script [`publish-gh-pages`](./api-commands.md#docusaurus-publish)
 
-| Name       | Description                                                                                                                                      |
-| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Name | Description |
+| --- | --- |
 | `GIT_USER` | The username for a GitHub account that has commit access to this repo. For your own repositories, this will usually be your own GitHub username. The specified `GIT_USER` must have push access to the repository specified in the combination of `organizationName` and `projectName`. |
 
 To run the script directly from the command-line, you can use the following, filling in the parameter values as appropriate.
@@ -106,9 +105,9 @@ GIT_USER=<GIT_USER> \
 
 There are also two optional parameters that are set as environment variables:
 
-| Name             | Description                                                                                                                                                                                                                                                       |
-| ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `USE_SSH`        | If this is set to `true`, then SSH is used instead of HTTPS for the connection to the GitHub repo. HTTPS is the default if this variable is not set.                                                                                                              |
+| Name | Description |
+| --- | --- |
+| `USE_SSH` | If this is set to `true`, then SSH is used instead of HTTPS for the connection to the GitHub repo. HTTPS is the default if this variable is not set. |
 | `CURRENT_BRANCH` | The branch that contains the latest docs changes that will be deployed. Usually, the branch will be `master`, but it could be any branch (default or otherwise) except for `gh-pages`. If nothing is set for this variable, then the current branch will be used. |
 
 If you run into issues related to SSH keys, visit [GitHub's authentication documentation](https://help.github.com/articles/connecting-to-github-with-ssh/).
@@ -189,14 +188,16 @@ Now, whenever a new commit lands in `master`, CircleCI will run your suite of te
 When initially deploying to a `gh-pages` branch using CircleCI, you may notice that some jobs triggered by commits to the `gh-pages` branch fail to run successfully due to a lack of tests (This can also result in chat/slack build failure notifications).
 
 You can work around this by:
-- Setting the environment variable `CUSTOM_COMMIT_MESSAGE` flag to the `publish-gh-pages` command with the contents of `[skip ci]`.
-e.g.
+
+- Setting the environment variable `CUSTOM_COMMIT_MESSAGE` flag to the `publish-gh-pages` command with the contents of `[skip ci]`. e.g.
+
 ```bash
 CUSTOM_COMMIT_MESSAGE="[skip ci]" \
   yarn run publish-gh-pages # or `npm run publish-gh-pages`
 ```
 
 - Alternatively, you can work around this by creating a basic CircleCI config with the following contents:
+
 ```yaml
 # CircleCI 2.0 Config File
 # This config file will prevent tests from being run on the gh-pages branch.
@@ -252,8 +253,8 @@ Steps to configure your Docusaurus-powered site on Netlify.
 1.  Select the branch to deploy. Default is `master`
 1.  Configure your build steps:
 
-    * For your build command enter: `cd website; npm install; npm run build;`
-    * For publish directory: `website/build/<projectName>` (use the `projectName` from your `siteConfig`)
+    - For your build command enter: `cd website; npm install; npm run build;`
+    - For publish directory: `website/build/<projectName>` (use the `projectName` from your `siteConfig`)
 
 1.  Click **Deploy site**
 

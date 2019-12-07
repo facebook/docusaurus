@@ -87,11 +87,13 @@ There are two more optional parameters that are set as environment variables:
 Finally, to deploy your site to GitHub Pages, run:
 
 **Bash**
+
 ```bash
 GIT_USER=<GITHUB_USERNAME> yarn deploy
 ```
 
 **Windows**
+
 ```batch
 cmd /C "set GIT_USER=<GITHUB_USERNAME> && yarn deploy"
 ```

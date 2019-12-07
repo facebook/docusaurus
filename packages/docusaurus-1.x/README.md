@@ -43,7 +43,7 @@ Read our [contributing guide](https://github.com/facebook/docusaurus/blob/master
 
 ### Beginner Friendly Bugs
 
-To help you get your feet wet and get you familiar with our contribution process, we have a list of [beginner friendly bugs](https://github.com/facebook/docusaurus/labels/good%20first%20issue) that  might contain smaller issues to tackle first. This is a great place to get started.
+To help you get your feet wet and get you familiar with our contribution process, we have a list of [beginner friendly bugs](https://github.com/facebook/docusaurus/labels/good%20first%20issue) that might contain smaller issues to tackle first. This is a great place to get started.
 
 ## Contact
 

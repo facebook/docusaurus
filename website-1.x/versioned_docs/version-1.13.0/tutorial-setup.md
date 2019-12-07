@@ -57,7 +57,7 @@ We highly recommend that you install Yarn, an alternative package manager that h
 
 <img alt="GitHub create repo" src="/img/tutorial-git-clone.png" class="docImage"/>
 
-5. In Terminal or Git Bash, `cd` to a directory where the local clone will be a subdirectory. 
+5. In Terminal or Git Bash, `cd` to a directory where the local clone will be a subdirectory.
 
 ```sh
 cd /Users/NAME/doc_projects # macOS example
