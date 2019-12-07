@@ -1,5 +1,22 @@
 # Docusaurus 2 Changelog
 
+## 2.0.0-alpha.39
+
+#### :bug: Bug Fix
+* `docusaurus`
+  * [#2099](https://github.com/facebook/docusaurus/pull/2099) fix(v2): escape import path on windows ([@endiliey](https://github.com/endiliey))
+* `docusaurus-plugin-content-blog`, `docusaurus-plugin-content-docs`
+  * [#2095](https://github.com/facebook/docusaurus/pull/2095) fix(v2): metadata error if markdown does not have ending line ([@endiliey](https://github.com/endiliey))
+
+#### :house: Internal
+* Other
+  * [#2100](https://github.com/facebook/docusaurus/pull/2100) chore(CI): docusaurus build on Windows with GitHub actions ([@endiliey](https://github.com/endiliey))
+* `docusaurus`
+  * [#2096](https://github.com/facebook/docusaurus/pull/2096) feat(v2): better & nice looking error overlay ([@endiliey](https://github.com/endiliey))
+
+#### Committers: 1
+- Endi ([@endiliey](https://github.com/endiliey))
+
 ## 2.0.0-alpha.38
 
 #### :boom: Breaking Change
