@@ -1,0 +1,132 @@
+{
+  "version-2.0.0-alpha.39/docs": [
+    {
+      "type": "category",
+      "label": "Docusaurus",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.39/introduction"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.39/design-principles"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.39/contributing"
+        }
+      ]
+    },
+    {
+      "type": "category",
+      "label": "Getting Started",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.39/installation"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.39/configuration"
+        }
+      ]
+    },
+    {
+      "type": "category",
+      "label": "Guides",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.39/creating-pages"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.39/styling-layout"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.39/static-assets"
+        },
+        {
+          "type": "category",
+          "label": "Docs",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-2.0.0-alpha.39/markdown-features"
+            },
+            {
+              "type": "doc",
+              "id": "version-2.0.0-alpha.39/sidebar"
+            },
+            {
+              "type": "doc",
+              "id": "version-2.0.0-alpha.39/versioning"
+            }
+          ]
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.39/blog"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.39/search"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.39/deployment"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.39/migrating-from-v1-to-v2"
+        }
+      ]
+    },
+    {
+      "type": "category",
+      "label": "Advanced Guides",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.39/using-plugins"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.39/using-themes"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.39/presets"
+        }
+      ]
+    },
+    {
+      "type": "category",
+      "label": "API Reference",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.39/cli"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.39/docusaurus-core"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.39/docusaurus.config.js"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.39/lifecycle-apis"
+        },
+        {
+          "type": "doc",
+          "id": "version-2.0.0-alpha.39/theme-classic"
+        }
+      ]
+    }
+  ]
+}
