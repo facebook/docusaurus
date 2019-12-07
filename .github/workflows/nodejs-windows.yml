@@ -1,4 +1,4 @@
-name: Node CI Build on Windows
+name: Docusaurus on Windows
 
 on:
   # Trigger the workflow on push or pull request,
@@ -22,9 +22,11 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - name: yarn and yarn build
-      run: |
-        yarn
-        yarn build
+    - name: Installation
+      run: yarn
+    - name: Docusaurus 1 Build
+      run: yarn build:v1
+    - name: Docusaurus 2 Build
+      run: yarn build:v2
       env:
         CI: true
