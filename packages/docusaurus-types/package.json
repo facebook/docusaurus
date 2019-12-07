@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/types",
-  "version": "2.0.0-alpha.38",
+  "version": "2.0.0-alpha.39",
   "description": "Common used typings for Docusaurus packages",
   "main": "./src/index.js",
   "types": "./src/index.d.ts",

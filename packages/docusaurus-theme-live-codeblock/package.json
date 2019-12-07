@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/theme-live-codeblock",
-  "version": "2.0.0-alpha.38",
+  "version": "2.0.0-alpha.39",
   "description": "Docusaurus Live CodeBlock",
   "main": "src/index.js",
   "publishConfig": {

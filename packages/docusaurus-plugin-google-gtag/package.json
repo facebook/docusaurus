@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/plugin-google-gtag",
-  "version": "2.0.0-alpha.38",
+  "version": "2.0.0-alpha.39",
   "description": "Global Site Tag (gtag.js) plugin for Docusaurus",
   "main": "src/index.js",
   "publishConfig": {
