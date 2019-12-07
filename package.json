@@ -73,6 +73,9 @@
     "*.{ts,tsx}": [
       "yarn prettier",
       "git add"
+    ],
+    "*.md": [
+      "yarn prettier-docs"
     ]
   },
   "husky": {
