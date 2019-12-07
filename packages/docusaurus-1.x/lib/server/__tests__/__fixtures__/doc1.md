@@ -11,7 +11,9 @@ Docusaurus is the best :)
 console.log('Docusaurus');
 ```
 
-![image2](assets/image2.jpg) ![image3](assets/image3.gif)
+![image2](assets/image2.jpg)
+
+![image3](assets/image3.gif)
 
 Don't replace the one below
 

@@ -5,6 +5,7 @@ exports[`mdToHtmlify transform link even in subdirectory 1`] = `
 Test subdirectory file
 
 ### Replace this
+
 - [doc3](/docs/subdir/doc3)
 "
 `;
@@ -16,17 +17,19 @@ Docusaurus is the best :)
 ![image1](assets/image1.png)
 
 \`\`\`js
-console.log(\\"Docusaurus\\");
+console.log('Docusaurus');
 \`\`\`
 
 ![image2](assets/image2.jpg)
+
 ![image3](assets/image3.gif)
 
 Don't replace the one below
-\`\`\`md
 
+\`\`\`md
 ![image4](assets/image4.bmp)
-\`\`\`"
+\`\`\`
+"
 `;
 
 exports[`mdToHtmlify transform to correct link 1`] = `
@@ -46,15 +49,17 @@ exports[`mdToHtmlify transform to correct link 1`] = `
 - [doc2](/docs/en/next/doc2)
 
 ## Do not replace this
+
 \`\`\`md
 ![image1](assets/image1.png)
 \`\`\`
 
 \`\`\`js
 const doc1 = foo();
-console.log(\\"[image2](assets/image2.jpg)\\");
+console.log('[image2](assets/image2.jpg)');
 const testStr = \`![image3](assets/image3.gif)\`;
-\`\`\`"
+\`\`\`
+"
 `;
 
 exports[`mdToHtmlify transforms reference links 1`] = `
@@ -74,13 +79,14 @@ exports[`mdToHtmlify transforms reference links 1`] = `
 - [doc2][doc2]
 
 ## Do not replace this
+
 \`\`\`md
 ![image1][image1]
 \`\`\`
 
 \`\`\`js
 const doc1 = foo();
-console.log(\\"[image2][image2]\\");
+console.log('[image2][image2]');
 const testStr = \`![image3][image3]\`;
 \`\`\`
 
@@ -110,15 +116,17 @@ exports[`replaceAssetsLink does not transform document without valid assets link
 - [doc2](./doc2.md)
 
 ## Do not replace this
+
 \`\`\`md
 ![image1](assets/image1.png)
 \`\`\`
 
 \`\`\`js
 const doc1 = foo();
-console.log(\\"[image2](assets/image2.jpg)\\");
+console.log('[image2](assets/image2.jpg)');
 const testStr = \`![image3](assets/image3.gif)\`;
-\`\`\`"
+\`\`\`
+"
 `;
 
 exports[`replaceAssetsLink transform document with valid assets link 1`] = `
@@ -128,15 +136,17 @@ Docusaurus is the best :)
 ![image1](/docs/assets/image1.png)
 
 \`\`\`js
-console.log(\\"Docusaurus\\");
+console.log('Docusaurus');
 \`\`\`
 
 ![image2](/docs/assets/image2.jpg)
+
 ![image3](/docs/assets/image3.gif)
 
 Don't replace the one below
-\`\`\`md
 
+\`\`\`md
 ![image4](assets/image4.bmp)
-\`\`\`"
+\`\`\`
+"
 `;

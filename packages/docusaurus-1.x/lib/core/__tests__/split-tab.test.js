@@ -39,33 +39,33 @@ describe('when code tabs are used correctly', () => {
   it('renders tabs correctly', () => {
     const node = page.getDOMNode();
     const firstTab = node.querySelector('[data-tab$="-content-2"]').textContent;
-    expect('JavaScript').toEqual(firstTab);
+    expect(firstTab).toEqual('JavaScript');
     const secondTab = node.querySelector('[data-tab$="-content-3"]')
       .textContent;
-    expect('Python').toEqual(secondTab);
+    expect(secondTab).toEqual('Python');
     const thirdTab = node.querySelector('[data-tab$="-content-4"]').textContent;
-    expect('C').toEqual(thirdTab);
+    expect(thirdTab).toEqual('C');
     const fourthTab = node.querySelector('[data-tab$="-content-5"]')
       .textContent;
-    expect('Pascal').toEqual(fourthTab);
+    expect(fourthTab).toEqual('Pascal');
   });
   it('renders content correctly', () => {
     const node = page.getDOMNode();
     const firstContent = node.querySelector('[id$="-content-2"] code')
       .textContent;
-    expect("console.log('Hello, world!');").toEqual(firstContent);
+    expect(firstContent).toEqual("console.log('Hello, world!');");
     const secondContent = node.querySelector('[id$="-content-3"] code')
       .textContent;
-    expect("print('Hello, world!')").toEqual(secondContent);
+    expect(secondContent).toEqual("print('Hello, world!')");
     const thirdContent = node.querySelector('[id$="-content-4"] code')
       .textContent;
-    expect(
-      '#include <stdio.h>int main() {   printf("Hello World!");   return 0;}',
-    ).toEqual(thirdContent);
+    expect(thirdContent).toEqual(
+      '#include <stdio.h>int main() {  printf("Hello World!");  return 0;}',
+    );
     const fourthContent = node.querySelector('[id$="-content-5"] code')
       .textContent;
-    expect("program HelloWorld;begin  WriteLn('Hello, world!');end.").toEqual(
-      fourthContent,
+    expect(fourthContent).toEqual(
+      "program HelloWorld;begin  WriteLn('Hello, world!');end.",
     );
   });
 });
@@ -92,33 +92,33 @@ describe('when code tab is used in a list', () => {
   it('renders tabs correctly', () => {
     const node = page.getDOMNode();
     const firstTab = node.querySelector('[data-tab$="-content-2"]').textContent;
-    expect('JavaScript').toEqual(firstTab);
+    expect(firstTab).toEqual('JavaScript');
     const secondTab = node.querySelector('[data-tab$="-content-3"]')
       .textContent;
-    expect('Python').toEqual(secondTab);
+    expect(secondTab).toEqual('Python');
     const thirdTab = node.querySelector('[data-tab$="-content-4"]').textContent;
-    expect('C').toEqual(thirdTab);
+    expect(thirdTab).toEqual('C');
     const fourthTab = node.querySelector('[data-tab$="-content-5"]')
       .textContent;
-    expect('Pascal').toEqual(fourthTab);
+    expect(fourthTab).toEqual('Pascal');
   });
   it('renders content correctly', () => {
     const node = page.getDOMNode();
     const firstContent = node.querySelector('[id$="-content-2"] code')
       .textContent;
-    expect("console.log('Hello, world!');").toEqual(firstContent);
+    expect(firstContent).toEqual("console.log('Hello, world!');");
     const secondContent = node.querySelector('[id$="-content-3"] code')
       .textContent;
-    expect("print('Hello, world!')").toEqual(secondContent);
+    expect(secondContent).toEqual("print('Hello, world!')");
     const thirdContent = node.querySelector('[id$="-content-4"] code')
       .textContent;
-    expect(
+    expect(thirdContent).toEqual(
       '#include <stdio.h>int main() {   printf("Hello World!");   return 0;}',
-    ).toEqual(thirdContent);
+    );
     const fourthContent = node.querySelector('[id$="-content-5"] code')
       .textContent;
-    expect("program HelloWorld;begin  WriteLn('Hello, world!');end.").toEqual(
-      fourthContent,
+    expect(fourthContent).toEqual(
+      "program HelloWorld;begin  WriteLn('Hello, world!');end.",
     );
   });
 });
