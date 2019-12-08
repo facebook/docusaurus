@@ -9,24 +9,27 @@ title: Bar
 
 Click the `clear` link to start with a clean slate, or get the `permalink` to share or save your results.
 
-***
+---
 
 # h1 Heading
-## h2 Heading
-### h3 Heading
-#### h4 Heading
-##### h5 Heading
-###### h6 Heading
 
+## h2 Heading
+
+### h3 Heading
+
+#### h4 Heading
+
+##### h5 Heading
+
+###### h6 Heading
 
 ## Horizontal Rules
 
-___
+---
 
-***
+---
 
-***
-
+---
 
 ## Typographic replacements
 
@@ -44,14 +47,13 @@ Remarkable -- awesome
 
 'Smartypants, single quotes'
 
-
 ## Emphasis
 
 **This is bold text**
 
-__This is bold text__
+**This is bold text**
 
-*This is italic text*
+_This is italic text_
 
 _This is italic text_
 

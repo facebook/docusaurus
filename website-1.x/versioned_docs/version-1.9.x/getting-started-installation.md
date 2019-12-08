@@ -16,9 +16,7 @@ We have created an easy script that will get all of the infrastructure set up fo
 
 1.  Create a project, if none exists, and change your directory to this project's root.
 
-    You will be creating the docs in this directory. The root directory may
-    contain other files. The Docusaurus installation script will create two new
-    directories: `docs` and `website`.
+    You will be creating the docs in this directory. The root directory may contain other files. The Docusaurus installation script will create two new directories: `docs` and `website`.
 
     > Commonly, either an existing or newly created GitHub project will be the location for your Docusaurus site, but that is not mandatory to use Docusaurus.
 
@@ -59,15 +57,11 @@ root-directory
 
 ## Running the example website
 
-After running the Docusaurus initialization script, `docusaurus-init` as
-described in the [Installation](#installing-docusaurus) section, you will have a
-runnable, example website to use as your site's base. To run:
+After running the Docusaurus initialization script, `docusaurus-init` as described in the [Installation](#installing-docusaurus) section, you will have a runnable, example website to use as your site's base. To run:
 
 1.  `cd website`
-1.  From within the `website` directory, run the local web server using
-    `yarn start` or `npm start`.
-1.  Load the example site at http://localhost:3000 if it did not already open
-    automatically. If port 3000 has already been taken, another port will be used. Look at the console messages to see which.
+1.  From within the `website` directory, run the local web server using `yarn start` or `npm start`.
+1.  Load the example site at http://localhost:3000 if it did not already open automatically. If port 3000 has already been taken, another port will be used. Look at the console messages to see which.
 
     You should see the example site loaded in your web browser. There's also a LiveReload server running and any changes made to the docs and files in the `website` directory will cause the page to refresh. A randomly generated primary and secondary theme color will be picked for you.
 

@@ -17,6 +17,7 @@
     "postinstall": "yarn tsc",
     "prettier": "prettier --config .prettierrc --write \"**/*.{js,ts}\"",
     "prettier:diff": "prettier --config .prettierrc --list-different \"**/*.{js,ts}\"",
+    "prettier-docs": "prettier --config .prettierrc --write \"**/*.md\"",
     "lint": "eslint --cache \"**/*.js\"",
     "lerna": "lerna",
     "test": "jest",
@@ -72,6 +73,9 @@
     "*.{ts,tsx}": [
       "yarn prettier",
       "git add"
+    ],
+    "*.md": [
+      "yarn prettier-docs"
     ]
   },
   "husky": {

@@ -281,7 +281,7 @@ module.exports = function(context, options) {
             tagName: 'script',
             attributes: {
               charset: 'utf-8',
-              src: '/noflash.js'
+              src: '/noflash.js',
             },
           },
         ],

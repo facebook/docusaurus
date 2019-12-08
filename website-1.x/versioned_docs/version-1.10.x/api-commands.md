@@ -6,8 +6,8 @@ original_id: commands
 
 Docusaurus provides a set of scripts to help you generate, serve, and deploy your website. These scripts can be invoked with the `run` command when using Yarn or npm. Some common commands are:
 
-* [`yarn run start`](api-commands.md#docusaurus-start-port-number): build and serve the website from a local server
-* [`yarn run examples`](api-commands.md#docusaurus-examples): create example configuration files
+- [`yarn run start`](api-commands.md#docusaurus-start-port-number): build and serve the website from a local server
+- [`yarn run examples`](api-commands.md#docusaurus-examples): create example configuration files
 
 ## Running from the command line
 
@@ -57,10 +57,10 @@ Docusaurus provides some default mappings to allow you to run commands following
 
 Alias: `build`.
 
-| Options                    | Default | Description                                                                                                           |
-| -------------------------- | ------- | --------------------------------------------------------------------------------------------------------------------- |
+| Options | Default | Description |
+| --- | --- | --- |
 | `--skip-image-compression` | `false` | Skip compression of image assets. You usually won't want to skip this unless your images have already been optimized. |
-| `--skip-next-release` | `false` | Skip the next release documents when versioning is enabled. This will not build HTML files for documents in `/docs` directory.|
+| `--skip-next-release` | `false` | Skip the next release documents when versioning is enabled. This will not build HTML files for documents in `/docs` directory. |
 
 Generates the static website, applying translations if necessary. Useful for building the website prior to deployment.
 
@@ -72,9 +72,9 @@ See also [`docusaurus-start`](api-commands.md#docusaurus-start).
 
 Alias: `examples`
 
-| Arguments   | Default | Description                                                                                          |
-| ----------- | ------- | ---------------------------------------------------------------------------------------------------- |
-| `<feature>` | -       | Specify a feature `translations` or `versions` to generate the extra example files for that feature. |
+| Arguments | Default | Description |
+| --- | --- | --- |
+| `<feature>` | - | Specify a feature `translations` or `versions` to generate the extra example files for that feature. |
 
 **Example**
 
@@ -94,8 +94,8 @@ Alias: `publish-gh-pages`
 
 The following environment variables are generally set manually by the user in the CircleCI `config.yml` file.
 
-* `GIT_USER`: The git user to be associated with the deploy commit.
-* `USE_SSH`: Whether to use SSH instead of HTTPS for your connection to the GitHub repo.
+- `GIT_USER`: The git user to be associated with the deploy commit.
+- `USE_SSH`: Whether to use SSH instead of HTTPS for your connection to the GitHub repo.
 
 **Example**
 
@@ -105,13 +105,13 @@ GIT_USER=docusaurus-bot USE_SSH=true yarn run publish-gh-pages
 
 The following environment variables are [set by CircleCI](https://circleci.com/docs/1.0/environment-variables/) during the build process.
 
-* `CIRCLE_BRANCH`: The git branch associated with the commit that triggered the CI run.
-* `CI_PULL_REQUEST`: Expected to be truthy if the current CI run was triggered by a commit in a pull request.
+- `CIRCLE_BRANCH`: The git branch associated with the commit that triggered the CI run.
+- `CI_PULL_REQUEST`: Expected to be truthy if the current CI run was triggered by a commit in a pull request.
 
 The following should be set by you in `siteConfig.js` as `organizationName` and `projectName`, respectively. If they are not set in your site configuration, they fall back to the [CircleCI environment](https://circleci.com/docs/1.0/environment-variables/).
 
-* `CIRCLE_PROJECT_USERNAME`: The GitHub username or organization name that hosts the Git repo, e.g. "facebook".
-* `CIRCLE_PROJECT_REPONAME`: The name of the Git repo, e.g. "Docusaurus".
+- `CIRCLE_PROJECT_USERNAME`: The GitHub username or organization name that hosts the Git repo, e.g. "facebook".
+- `CIRCLE_PROJECT_REPONAME`: The name of the Git repo, e.g. "Docusaurus".
 
 You can learn more about configuring automatic deployments with CircleCI in the [Publishing guide](getting-started-publishing.md).
 
@@ -144,11 +144,11 @@ Alias: `start`.
 
 This command will build the static website, apply translations if necessary, and then start a local server.
 
-| Options           | Default | Description                                                                                                                          |
-| ----------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| `--port <number>` | `3000`  | The website will be served from port 3000 by default, but if the port is taken up, Docusaurus will attempt to find an available one. |
-|`--host <host>`|`localhost`|Specify a host to use. E.g., if you want your server to be accessible externally, you can use --host 0.0.0.0.|
-| `--watch` | -  | Whether to watch the files and live reload the page when files are changed. Defaults to true. Disable this by using `--no-watch`. |
+| Options | Default | Description |
+| --- | --- | --- |
+| `--port <number>` | `3000` | The website will be served from port 3000 by default, but if the port is taken up, Docusaurus will attempt to find an available one. |
+| `--host <host>` | `localhost` | Specify a host to use. E.g., if you want your server to be accessible externally, you can use --host 0.0.0.0. |
+| `--watch` | - | Whether to watch the files and live reload the page when files are changed. Defaults to true. Disable this by using `--no-watch`. |
 
 You can specify the browser application to be opened by setting the `BROWSER` environment variable before the command, e.g.:
 

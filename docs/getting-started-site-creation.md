@@ -42,7 +42,6 @@ To create a fully functional site, you only need to do a few steps:
     id: intro
     title: Getting Started
     ---
-
     My new content here..
     ```
 
@@ -71,18 +70,22 @@ If you prefer to have your landing page be straight to your documentation, you c
 1.  Add a [custom static `index.html` page](guides-custom-pages.md#adding-static-pages) in the `website/static` directory with the following contents:
 
 ```html
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="en-US">
   <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="0; url=docs/id-of-doc-to-land-on.html">
+    <meta charset="UTF-8" />
+    <meta
+      http-equiv="refresh"
+      content="0; url=docs/id-of-doc-to-land-on.html"
+    />
     <script type="text/javascript">
       window.location.href = 'docs/id-of-doc-to-land-on.html';
     </script>
     <title>Your Site Title Here</title>
   </head>
   <body>
-    If you are not redirected automatically, follow this <a href="docs/id-of-doc-to-land-on.html">link</a>.
+    If you are not redirected automatically, follow this
+    <a href="docs/id-of-doc-to-land-on.html">link</a>.
   </body>
 </html>
 ```

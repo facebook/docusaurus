@@ -18,13 +18,14 @@ title: Reference Links
 - [doc2][doc2]
 
 ## Do not replace this
+
 ```md
 ![image1][image1]
 ```
 
 ```js
 const doc1 = foo();
-console.log("[image2][image2]");
+console.log('[image2][image2]');
 const testStr = `![image3][image3]`;
 ```
 

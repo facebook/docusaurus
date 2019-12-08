@@ -42,7 +42,10 @@ List the installed [themes](using-themes.md), [plugins](using-plugins.md), and [
 // docusaurus.config.js
 module.exports = {
   // ...
-  plugins: ['@docusaurus/plugin-content-blog', '@docusaurus/plugin-content-pages'],
+  plugins: [
+    '@docusaurus/plugin-content-blog',
+    '@docusaurus/plugin-content-pages',
+  ],
   themes: ['@docusaurus/theme-classic'],
 };
 ```

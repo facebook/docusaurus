@@ -33,7 +33,7 @@ GIT_USER=USERNAME CURRENT_BRANCH=master USE_SSH=true npm run publish-gh-pages # 
 GIT_USER=USERNAME CURRENT_BRANCH=master npm run publish-gh-pages # HTTPS
 ```
 
-The HTML files (and other file types) are pushed to the `gh-pages` branch of your repository:  https://github.com/USERNAME/docusaurus-tutorial.
+The HTML files (and other file types) are pushed to the `gh-pages` branch of your repository: https://github.com/USERNAME/docusaurus-tutorial.
 
 5. Go to https://USERNAME.github.io/docusaurus-tutorial/ and view your site in action!
 

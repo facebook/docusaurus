@@ -9,6 +9,7 @@
 - [doc2][doc2]
 
 ## Do not replace this
+
 ```md
 ![image1][image1]
 ```

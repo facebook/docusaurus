@@ -131,8 +131,7 @@ The default version for the site to be shown. If this is not set, the latest ver
 
 #### `docsUrl` [string]
 
-The base URL for all docs file. Set this field to `''` to remove the `docs` prefix of the documentation URL.
-If unset, it is defaulted to `docs`.
+The base URL for all docs file. Set this field to `''` to remove the `docs` prefix of the documentation URL. If unset, it is defaulted to `docs`.
 
 #### `disableHeaderTitle` [boolean]
 

@@ -31,7 +31,6 @@ authorURL: https://twitter.com/foobarbaz
 authorFBID: 503283835
 title: Introducing Docusaurus
 ---
-
 Lorem Ipsum...
 ```
 
@@ -39,11 +38,11 @@ Lorem Ipsum...
 
 The only required field is `title`; however, we provide options to add author information to your blog post as well.
 
-* `author` - The text label of the author byline.
-* `authorURL` - The URL associated with the author. This could be a Twitter, GitHub, Facebook account, etc.
-* `authorFBID` - The Facebook profile ID that is used to fetch the profile picture.
-* `authorImageURL` - The URL to the author's image. (Note: If you use both `authorFBID` and `authorImageURL`, `authorFBID` will take precedence. Don't include `authorFBID` if you want `authorImageURL` to appear.)
-* `title` - The blog post title.
+- `author` - The text label of the author byline.
+- `authorURL` - The URL associated with the author. This could be a Twitter, GitHub, Facebook account, etc.
+- `authorFBID` - The Facebook profile ID that is used to fetch the profile picture.
+- `authorImageURL` - The URL to the author's image. (Note: If you use both `authorFBID` and `authorImageURL`, `authorFBID` will take precedence. Don't include `authorFBID` if you want `authorImageURL` to appear.)
+- `title` - The blog post title.
 
 ## Summary Truncation
 
@@ -53,7 +52,6 @@ Use the `<!--truncate-->` marker in your blog post to represent what will be sho
 ---
 title: Truncation Example
 ---
-
 All this will be part of the blog post summary.
 
 Even this.
@@ -121,18 +119,19 @@ To do this:
 You can use this template:
 
 ```html
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="en-US">
   <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="0; url=blog/">
+    <meta charset="UTF-8" />
+    <meta http-equiv="refresh" content="0; url=blog/" />
     <script type="text/javascript">
       window.location.href = 'blog/';
     </script>
     <title>Title of Your Blog</title>
   </head>
   <body>
-    If you are not redirected automatically, follow this <a href="blog/">link</a>.
+    If you are not redirected automatically, follow this
+    <a href="blog/">link</a>.
   </body>
 </html>
 ```
