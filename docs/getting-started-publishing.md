@@ -50,6 +50,8 @@ now
 
 **That's all.** Your docs will automatically be deployed.
 
+> Note that the directory structure Now supports is slightly different from the default directory structure of a Docusaurus project - The `docs` directory has to be within the `website` directory, ideally following the directory structure in this example. You will also have to specify a `customDocsPath` value in `siteConfig.js`. Take a look at the the [now-examples repository for a Docusaurus project](https://github.com/zeit/now-examples/tree/master/docusaurus).
+
 ### Using GitHub Pages
 
 Docusaurus was designed to work really well with one of the most popular hosting solutions for open source projects: [GitHub Pages](https://pages.github.com/).
