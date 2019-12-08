@@ -98,7 +98,6 @@
 <span class="hljs-attr">authorFBID:</span> <span class="hljs-number">503283835</span>
 <span class="hljs-attr">title:</span> <span class="hljs-string">Introducing</span> <span class="hljs-string">Docusaurus</span>
 <span class="hljs-meta">---</span>
-
 <span class="hljs-string">Lorem</span> <span class="hljs-string">Ipsum...</span>
 </code></pre>
 <h2><a class="anchor" aria-hidden="true" id="header-options"></a><a href="#header-options" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Header Options</h2>
@@ -115,7 +114,6 @@
 <pre><code class="hljs css language-yaml"><span class="hljs-meta">---</span>
 <span class="hljs-attr">title:</span> <span class="hljs-string">Truncation</span> <span class="hljs-string">Example</span>
 <span class="hljs-meta">---</span>
-
 <span class="hljs-string">All</span> <span class="hljs-string">this</span> <span class="hljs-string">will</span> <span class="hljs-string">be</span> <span class="hljs-string">part</span> <span class="hljs-string">of</span> <span class="hljs-string">the</span> <span class="hljs-string">blog</span> <span class="hljs-string">post</span> <span class="hljs-string">summary.</span>
 
 <span class="hljs-string">Even</span> <span class="hljs-string">this.</span>
@@ -160,22 +158,23 @@
 <p>Now, when Docusaurus generates or builds your site, it will copy the file from <code>static/index.html</code> and place it in the site's main directory. The static file is served when a visitor arrives on your page. When the page loads it will redirect the visitor to <code>/blog</code>.</p>
 </blockquote>
 <p>You can use this template:</p>
-<pre><code class="hljs css language-html"><span class="hljs-meta">&lt;!DOCTYPE HTML&gt;</span>
+<pre><code class="hljs css language-html"><span class="hljs-meta">&lt;!DOCTYPE html&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en-US"</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">"UTF-8"</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">http-equiv</span>=<span class="hljs-string">"refresh"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"0; url=blog/"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">"UTF-8"</span> /&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">http-equiv</span>=<span class="hljs-string">"refresh"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"0; url=blog/"</span> /&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/javascript"</span>&gt;</span><span class="javascript">
       <span class="hljs-built_in">window</span>.location.href = <span class="hljs-string">'blog/'</span>;
     </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>Title of Your Blog<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
-    If you are not redirected automatically, follow this <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"blog/"</span>&gt;</span>link<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>.
+    If you are not redirected automatically, follow this
+    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"blog/"</span>&gt;</span>link<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>.
   <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span>
 </code></pre>
-</span></div></article></div><div class="docLastUpdate"><em>Last updated on 2019-11-11 by Eric Carboni</em></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/en/1.11.x/docker"><span class="arrow-prev">← </span><span>Docker</span></a><a class="docs-next button" href="/docs/en/1.11.x/custom-pages"><span>Custom Pages</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#initial-setup">Initial Setup</a></li><li><a href="#adding-posts">Adding Posts</a></li><li><a href="#header-options">Header Options</a></li><li><a href="#summary-truncation">Summary Truncation</a></li><li><a href="#changing-how-many-blog-posts-show-on-sidebar">Changing How Many Blog Posts Show on Sidebar</a></li><li><a href="#changing-the-sidebar-title">Changing The Sidebar Title</a></li><li><a href="#rss-feed">RSS Feed</a></li><li><a href="#social-buttons">Social Buttons</a></li><li><a href="#advanced-topics">Advanced Topics</a><ul class="toc-headings"><li><a href="#i-want-to-run-in-blog-only-mode">I want to run in &quot;Blog Only&quot; mode.</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/docusaurus_monochrome.svg" alt="Docusaurus" width="66" height="58"/></a><div class="footerSection"><h5>Docs</h5><a href="
+</span></div></article></div><div class="docLastUpdate"><em>Last updated on 2019-12-8 by Yangshun Tay</em></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/en/1.11.x/docker"><span class="arrow-prev">← </span><span>Docker</span></a><a class="docs-next button" href="/docs/en/1.11.x/custom-pages"><span>Custom Pages</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#initial-setup">Initial Setup</a></li><li><a href="#adding-posts">Adding Posts</a></li><li><a href="#header-options">Header Options</a></li><li><a href="#summary-truncation">Summary Truncation</a></li><li><a href="#changing-how-many-blog-posts-show-on-sidebar">Changing How Many Blog Posts Show on Sidebar</a></li><li><a href="#changing-the-sidebar-title">Changing The Sidebar Title</a></li><li><a href="#rss-feed">RSS Feed</a></li><li><a href="#social-buttons">Social Buttons</a></li><li><a href="#advanced-topics">Advanced Topics</a><ul class="toc-headings"><li><a href="#i-want-to-run-in-blog-only-mode">I want to run in &quot;Blog Only&quot; mode.</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/docusaurus_monochrome.svg" alt="Docusaurus" width="66" height="58"/></a><div class="footerSection"><h5>Docs</h5><a href="
                 /docs/en/installation">Getting Started</a><a href="
                 /docs/en/versioning">Versioning</a><a href="
                 /docs/en/translation">Localization</a><a href="

@@ -97,6 +97,7 @@
 <span class="hljs-attr">title:</span> <span class="hljs-string">My</span> <span class="hljs-string">Document</span>
 <span class="hljs-attr">sidebar_label:</span> <span class="hljs-string">Document</span>
 <span class="hljs-meta">---</span>
+
 </code></pre>
 <p>经过版本控制的文档在被复制时会更改其 id 这样才能包含版本号。 新的 <code>id</code> 为 <code>version-${version}-${id}</code>, 其中 <code>${version}</code> 是该文档的版本号, <code>$ {id}</code> 是原始的 <code>id</code>。 此外，版本文档可得到<code>original_id</code> 文件，使用原版的文件id。</p>
 <p>例如：</p>
@@ -106,6 +107,7 @@
 <span class="hljs-attr">sidebar_label:</span> <span class="hljs-string">Document</span>
 <span class="hljs-attr">original_id:</span> <span class="hljs-string">doc1</span>
 <span class="hljs-meta">---</span>
+
 </code></pre>
 <p><code>custom_edit_url</code>: The URL for editing this document. If this field is not present, the document's edit URL will fall back to <code>editUrl</code> from optional fields of <code>siteConfig.js</code>. See <a href="/docs/zh-CN/site-config">siteConfig.js</a> docs for more information.</p>
 <p>例如：</p>
@@ -114,6 +116,7 @@
 <span class="hljs-attr">title:</span> <span class="hljs-string">Markdown</span> <span class="hljs-string">Features</span>
 <span class="hljs-attr">custom_edit_url:</span> <span class="hljs-string">https://github.com/facebook/docusaurus/edit/master/docs/api-doc-markdown.md</span>
 <span class="hljs-meta">---</span>
+
 </code></pre>
 <h3><a class="anchor" aria-hidden="true" id="博客文章"></a><a href="#博客文章" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>博客文章</h3>
 <p>Blog posts use the following markdown header fields that are enclosed by a line <code>---</code> on either side:</p>
@@ -128,6 +131,7 @@
 <span class="hljs-attr">authorURL:</span> <span class="hljs-string">http://twitter.com/franchementli</span>
 <span class="hljs-attr">authorFBID:</span> <span class="hljs-number">100002976521003</span>
 <span class="hljs-meta">---</span>
+
 </code></pre>
 <h2><a class="anchor" aria-hidden="true" id="更多功能"></a><a href="#更多功能" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>更多功能</h2>
 <p>Docusaurus 在markdown中编写文档时支持一些额外的功能。</p>

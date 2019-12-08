@@ -96,15 +96,15 @@
 </code></pre>
 <h2><a class="anchor" aria-hidden="true" id="дополнительные-параметры-поиска"></a><a href="#дополнительные-параметры-поиска" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Дополнительные параметры поиска</h2>
 <p>Вы также можете указать дополнительные <a href="https://community.algolia.com/docsearch/documentation/">параметры поиска, используемые в Algolia</a>, заполнив поле <code>algoliaOptions</code> в <code>algolia</code>. Это может быть полезно, если вы желаете предоставить разные результаты поиска для различных версий или языков документации. Любое вхождение &quot;VERSION&quot; или &quot;LANGUAGE&quot; будет заменено на версию или язык текущей страницы соответственно. Больше информации о параметрах поиска вы можете найти <a href="https://www.algolia.com/doc/api-reference/api-parameters/#overview">здесь</a>.</p>
-<pre><code class="hljs css language-js"><span class="hljs-keyword">const</span> siteConfig = {    
-  ...   
-  algolia: {    
-    ... 
-    algoliaOptions: {   
-      <span class="hljs-attr">facetFilters</span>: [ <span class="hljs-string">"language:LANGUAGE"</span>, <span class="hljs-string">"version:VERSION"</span> ] 
-    }   
-  },    
-};  
+<pre><code class="hljs css language-js"><span class="hljs-keyword">const</span> siteConfig = {
+  ...
+  algolia: {
+    ...
+    algoliaOptions: {
+      <span class="hljs-attr">facetFilters</span>: [ <span class="hljs-string">"language:LANGUAGE"</span>, <span class="hljs-string">"version:VERSION"</span> ]
+    }
+  },
+};
 </code></pre>
 <p>Algolia может предоставлять вам <a href="https://community.algolia.com/docsearch/documentation/">дополнительные настройки поиска</a>. В этом случае вам следует добавить их в объект <code>algoliaOptions</code>.</p>
 <h2><a class="anchor" aria-hidden="true" id="настройка-местоположения-панели-поиска"></a><a href="#настройка-местоположения-панели-поиска" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Настройка местоположения панели поиска</h2>
@@ -124,13 +124,13 @@
 </code></pre>
 <h2><a class="anchor" aria-hidden="true" id="настройка-атрибута-placeholder"></a><a href="#настройка-атрибута-placeholder" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Настройка атрибута placeholder</h2>
 <p>Если вы желаете изменить атрибут placeholder (по-умолчанию равен <em>Search</em>), добавьте поле <code>placeholder</code> в свой файл настроек. Например, если вам нужно, чтобы панель поиска отображала фразу <em>Спросите меня о чем-либо</em>:</p>
-<pre><code class="hljs css language-js"><span class="hljs-keyword">const</span> siteConfig = {    
-  ...   
-  algolia: {    
-    ... 
-    placeholder: <span class="hljs-string">'Спросите меня о чем-либо'</span>
-  },    
-};  
+<pre><code class="hljs css language-js"><span class="hljs-keyword">const</span> siteConfig = {
+  ...
+  algolia: {
+    ...
+    placeholder: <span class="hljs-string">'Ask me something'</span>
+  },
+};
 </code></pre>
 <h2><a class="anchor" aria-hidden="true" id="отключение-панели-поиска"></a><a href="#отключение-панели-поиска" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Отключение панели поиска</h2>
 <p>Чтобы отключить панель поиска, закомментируйте (рекомендуется) или удалите раздел <code>algolia</code> в файле <code>siteConfig.js</code>.</p>

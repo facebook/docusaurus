@@ -160,7 +160,7 @@ languages.js
       }
     }
   },
-  <span class="hljs-attr">"pages-strings"</span> : {
+  <span class="hljs-attr">"pages-strings"</span>: {
     <span class="hljs-attr">"id3"</span>: <span class="hljs-string">"string3"</span>,
     <span class="hljs-attr">"id4"</span>: <span class="hljs-string">"string4"</span>
   }
@@ -173,8 +173,8 @@ languages.js
   <span class="hljs-attr">"localized-strings"</span>: {
     <span class="hljs-attr">"translation"</span>: <span class="hljs-string">"Translations and Localization"</span>
   },
-  <span class="hljs-attr">"pages-strings"</span> : {
-        <span class="hljs-attr">"Help Translate|recruit community translators for your project"</span>: <span class="hljs-string">"Help Us Translate"</span>
+  <span class="hljs-attr">"pages-strings"</span>: {
+    <span class="hljs-attr">"Help Translate|recruit community translators for your project"</span>: <span class="hljs-string">"Help Us Translate"</span>
   }
 }
 </code></pre>
@@ -204,12 +204,11 @@ languages.js
 <p>Below is an example Crowdin configuration for the respective languages: German, Spanish, French, Japanese, Korean, Bahasa Indonesia, Portuguese Brazilian, Chinese Simplified, and Chinese Traditional.</p>
 <pre><code class="hljs css language-yaml"><span class="hljs-attr">project_identifier_env:</span> <span class="hljs-string">CROWDIN_DOCUSAURUS_PROJECT_ID</span>
 <span class="hljs-attr">api_key_env:</span> <span class="hljs-string">CROWDIN_DOCUSAURUS_API_KEY</span>
-<span class="hljs-attr">base_path:</span> <span class="hljs-string">"./"</span>
+<span class="hljs-attr">base_path:</span> <span class="hljs-string">'./'</span>
 <span class="hljs-attr">preserve_hierarchy:</span> <span class="hljs-literal">true</span>
 
 <span class="hljs-attr">files:</span>
-  <span class="hljs-bullet">-</span>
-    <span class="hljs-attr">source:</span> <span class="hljs-string">'/docs/**/*.md'</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-attr">source:</span> <span class="hljs-string">'/docs/**/*.md'</span>
     <span class="hljs-attr">translation:</span> <span class="hljs-string">'/website/translated_docs/%locale%/**/%original_file_name%'</span>
     <span class="hljs-attr">languages_mapping:</span> <span class="hljs-meta">&amp;anchor</span>
       <span class="hljs-attr">locale:</span>

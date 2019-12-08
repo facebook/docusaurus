@@ -89,7 +89,7 @@
 <p>您必须有 Node &gt; = 8. x 与 Yarn &gt; = 1.5。</p>
 </blockquote></li>
 <li><p>Create a project, if none exists, and change your directory to this project's root.</p>
-<p>文档会被创建在此目录下。 根目录可能会包含其他文件。 The Docusaurus installation script will create two new directories: <code>docs</code> and <code>website</code>.</p>
+<p>文档会被创建在此目录下。 The root directory may contain other files. The Docusaurus installation script will create two new directories: <code>docs</code> and <code>website</code>.</p>
 <blockquote>
 <p>通常，Docusaurus 站点的位置会是现有或新创建的 GitHub 项目。但这不是 Docusaurus 的强制要求。</p>
 </blockquote></li>
@@ -129,11 +129,11 @@
 <p>This installation creates some Docker files that are not necessary to run docusaurus. They may be deleted without issue in the interest of saving space. For more information on Docker, please see the <a href="https://docs.docker.com/">Docker documentation</a>.</p>
 </blockquote>
 <h2><a class="anchor" aria-hidden="true" id="运行示例网站"></a><a href="#运行示例网站" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>运行示例网站</h2>
-<p>根据 <a href="#installing-docusaurus">Installation</a> 部分所述运行完 Docusaurus 的初始化脚本 <code>docusaurus-init</code> 后，你将会有一个可运行的基础示例网站。 To run:</p>
+<p>After running the Docusaurus initialization script, <code>docusaurus-init</code> as described in the <a href="#installing-docusaurus">Installation</a> section, you will have a runnable, example website to use as your site's base. To run:</p>
 <ol>
 <li><p><code>cd website</code></p></li>
 <li><p>From within the <code>website</code> directory, run the local web server using <code>yarn start</code> or <code>npm start</code>.</p></li>
-<li><p>如果没有自动打开本地的示例网站，请在 <a href="http://localhost:3000">http://localhost:3000</a> 访问示例站点。 If port 3000 has already been taken, another port will be used. Look at the console messages to see which.</p>
+<li><p>Load the example site at <a href="http://localhost:3000">http://localhost:3000</a> if it did not already open automatically. If port 3000 has already been taken, another port will be used. Look at the console messages to see which.</p>
 <p>You should see the example site loaded in your web browser. There's also a LiveReload server running and any changes made to the docs and files in the <code>website</code> directory will cause the page to refresh. A randomly generated primary and secondary theme color will be picked for you.</p></li>
 </ol>
 <p><img src="/img/getting-started-preparation-verify.png" alt=""></p>

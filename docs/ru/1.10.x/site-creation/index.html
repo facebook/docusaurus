@@ -111,7 +111,6 @@
 <span class="hljs-attr">id:</span> <span class="hljs-string">intro</span>
 <span class="hljs-attr">title:</span> <span class="hljs-string">Getting</span> <span class="hljs-string">Started</span>
 <span class="hljs-meta">---</span>
-
 <span class="hljs-string">My</span> <span class="hljs-string">new</span> <span class="hljs-string">content</span> <span class="hljs-string">here..</span>
 </code></pre></li>
 <li><p>Add zero or more docs to the <a href="/docs/ru/1.10.x/navigation#adding-docs-to-a-sidebar"><code>sidebars.json</code></a> file so that your documentation is rendered in a sidebar if you choose them to be.</p></li>
@@ -136,18 +135,22 @@ yarn run start <span class="hljs-comment"># или `npm run start`</span>
 <li>Удалите файл <code>index.js</code> из каталога <code>website/pages</code>, если он там есть.</li>
 <li>Добавьте <a href="/docs/ru/1.10.x/custom-pages#adding-static-pages">пользовательскую статическую страницу <code>index.html</code></a> в каталог <code>website/static</code>, содержащую следующий код:</li>
 </ol>
-<pre><code class="hljs css language-html"><span class="hljs-meta">&lt;!DOCTYPE HTML&gt;</span>
+<pre><code class="hljs css language-html"><span class="hljs-meta">&lt;!DOCTYPE html&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en-US"</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">"UTF-8"</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">http-equiv</span>=<span class="hljs-string">"refresh"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"0; url=docs/id-of-doc-to-land-on.html"</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/javascript"</span>&gt;</span><span class="javascript">
-            <span class="hljs-built_in">window</span>.location.href = <span class="hljs-string">"docs/id-of-doc-to-land-on.html"</span>
-        </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>Заголовок вашего сайта<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
-        Если ваш брузер не поддерживает автоматическую переадресацию, перейдите по этой ссылке: <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">'docs/id-of-doc-to-land-on.html'</span>&gt;</span>link<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>.
+  <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">"UTF-8"</span> /&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span>
+      <span class="hljs-attr">http-equiv</span>=<span class="hljs-string">"refresh"</span>
+      <span class="hljs-attr">content</span>=<span class="hljs-string">"0; url=docs/id-of-doc-to-land-on.html"</span>
+    /&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/javascript"</span>&gt;</span><span class="javascript">
+      <span class="hljs-built_in">window</span>.location.href = <span class="hljs-string">'docs/id-of-doc-to-land-on.html'</span>;
+    </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>Your Site Title Here<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+    If you are not redirected automatically, follow this
+    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"docs/id-of-doc-to-land-on.html"</span>&gt;</span>link<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>.
   <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span>
 </code></pre>

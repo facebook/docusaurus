@@ -89,7 +89,7 @@
 <p>Требуется версия Node не ниже 8.x и Yarn не ниже 1.5.</p>
 </blockquote></li>
 <li><p>Создайте проект, если он еще не существует, и перейдите в его корневой каталог.</p>
-<p>В этом каталоге вами будут созданы документы. Корневой каталог может также содержать другие файлы. Скрипт установки Docusaurus создаст две новые директории: <code>docs</code> и <code>website</code>.</p>
+<p>В этом каталоге вами будут созданы документы. The root directory may contain other files. The Docusaurus installation script will create two new directories: <code>docs</code> and <code>website</code>.</p>
 <blockquote>
 <p>Обычно, в качестве места расположения вашего сайта на Docusaurus будет использован либо существующий, либо вновь созданный проект GitHub, но это не единственный способ использования Docusaurus.</p>
 </blockquote></li>
@@ -132,11 +132,11 @@ XPath: /pre/code
 <p>This installation creates some Docker files that are not necessary to run docusaurus. They may be deleted without issue in the interest of saving space. For more information on Docker, please see the <a href="https://docs.docker.com/">Docker documentation</a>.</p>
 </blockquote>
 <h2><a class="anchor" aria-hidden="true" id="запуск-веб-сайта"></a><a href="#запуск-веб-сайта" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Запуск веб-сайта</h2>
-<p>После запуска скрипта инициализации Docusaurus, <code>docusaurus-init</code>, как описано в разделе <a href="#installing-docusaurus">установки</a>, у вас будет готовый к запуску образец веб-сайта, который можно использовать в качестве базы для вашего собственного сайта. Для этого:</p>
+<p>After running the Docusaurus initialization script, <code>docusaurus-init</code> as described in the <a href="#installing-docusaurus">Installation</a> section, you will have a runnable, example website to use as your site's base. Для этого:</p>
 <ol>
 <li><p><code>cd website</code></p></li>
-<li><p>Находясь в каталоге <code>website</code>, запустите локальный веб-сервер, выполнив <code>yarn start</code> или <code>npm start</code>.</p></li>
-<li><p>Перейдите по адресу <a href="http://localhost:3000">http://localhost:3000</a> в браузере, если сайт не запустился автоматически. Если порт 3000 уже занят, то будет использован другой порт. Проверьте сообщения в консоли, чтобы увидеть который именно.</p>
+<li><p>From within the <code>website</code> directory, run the local web server using <code>yarn start</code> or <code>npm start</code>.</p></li>
+<li><p>Load the example site at <a href="http://localhost:3000">http://localhost:3000</a> if it did not already open automatically. Если порт 3000 уже занят, то будет использован другой порт. Проверьте сообщения в консоли, чтобы увидеть который именно.</p>
 <p>Вы должны увидеть главную страницу запущенного примера веб-сайта. Также вы можете запустить LiveReload сервер, чтобы любые изменения в документах и файлах в каталоге <code>website</code> приводили к обновлению страницы. Для вашего сайта будут выбраны случайным образом основном и второстепенный цвета.</p></li>
 </ol>
 <p><img src="/img/getting-started-preparation-verify.png" alt=""></p>

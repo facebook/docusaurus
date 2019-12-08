@@ -97,6 +97,7 @@
 <span class="hljs-attr">title:</span> <span class="hljs-string">Meu</span> <span class="hljs-string">documento</span>
 <span class="hljs-attr">sidebar_label:</span> <span class="hljs-string">Documento</span>
 <span class="hljs-meta">---</span>
+
 </code></pre>
 <p>Documentos versionados, quando são copiados, têm seus IDs alterados para incluírem o número da versão. O novo <code>id</code> se torna <code>version-${versão}-${id}</code>, onde <code>${versão}</code> é o número de versão daquele documento e <code>${id}</code> é o <code>id</code> original dele. Além disso, os documentos versionados recebem um campo <code>original_id</code> com o ID original do documento.</p>
 <p>Por exemplo:</p>
@@ -106,6 +107,7 @@
 <span class="hljs-attr">sidebar_label:</span> <span class="hljs-string">Documento</span>
 <span class="hljs-attr">original_id:</span> <span class="hljs-string">doc1</span>
 <span class="hljs-meta">---</span>
+
 </code></pre>
 <p><code>custom_edit_url</code>: O link para editar este documento. Se este campo não estiver presente, então o link para editar o documento será o do campo opcional <code>editUrl</code> do arquivo <code>siteConfig.js</code>. See <a href="/docs/pt-BR/site-config">siteConfig.js</a> docs for more information.</p>
 <p>Por exemplo:</p>
@@ -114,6 +116,7 @@
 <span class="hljs-attr">title:</span> <span class="hljs-string">Markdown</span> <span class="hljs-string">Features</span>
 <span class="hljs-attr">custom_edit_url:</span> <span class="hljs-string">https://github.com/facebook/docusaurus/edit/master/docs/api-doc-markdown.md</span>
 <span class="hljs-meta">---</span>
+
 </code></pre>
 <h3><a class="anchor" aria-hidden="true" id="posts-do-blog"></a><a href="#posts-do-blog" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Posts do blog</h3>
 <p>Os posts de blog usam os seguintes campos no cabeçalho Markdown, que precisa estar dentro de duas linhas <code>---</code>, uma a cada lado:</p>
@@ -128,6 +131,7 @@
 <span class="hljs-attr">authorURL:</span> <span class="hljs-string">http://twitter.com/franchementli</span>
 <span class="hljs-attr">authorFBID:</span> <span class="hljs-number">100002976521003</span>
 <span class="hljs-meta">---</span>
+
 </code></pre>
 <h2><a class="anchor" aria-hidden="true" id="recursos-adicionais"></a><a href="#recursos-adicionais" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Recursos adicionais</h2>
 <p>O Docusaurus oferece suporte a alguns recursos adicionais ao escrever sua documentação em Markdown.</p>

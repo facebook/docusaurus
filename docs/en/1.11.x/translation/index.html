@@ -160,7 +160,7 @@ languages.js
       }
     }
   },
-  <span class="hljs-attr">"pages-strings"</span> : {
+  <span class="hljs-attr">"pages-strings"</span>: {
     <span class="hljs-attr">"id3"</span>: <span class="hljs-string">"string3"</span>,
     <span class="hljs-attr">"id4"</span>: <span class="hljs-string">"string4"</span>
   }
@@ -173,8 +173,8 @@ languages.js
   <span class="hljs-attr">"localized-strings"</span>: {
     <span class="hljs-attr">"translation"</span>: <span class="hljs-string">"Translations and Localization"</span>
   },
-  <span class="hljs-attr">"pages-strings"</span> : {
-        <span class="hljs-attr">"Help Translate|recruit community translators for your project"</span>: <span class="hljs-string">"Help Us Translate"</span>
+  <span class="hljs-attr">"pages-strings"</span>: {
+    <span class="hljs-attr">"Help Translate|recruit community translators for your project"</span>: <span class="hljs-string">"Help Us Translate"</span>
   }
 }
 </code></pre>
@@ -204,12 +204,11 @@ languages.js
 <p>Below is an example Crowdin configuration for the respective languages: German, Spanish, French, Japanese, Korean, Bahasa Indonesia, Portuguese Brazilian, Chinese Simplified, and Chinese Traditional.</p>
 <pre><code class="hljs css language-yaml"><span class="hljs-attr">project_identifier_env:</span> <span class="hljs-string">CROWDIN_DOCUSAURUS_PROJECT_ID</span>
 <span class="hljs-attr">api_key_env:</span> <span class="hljs-string">CROWDIN_DOCUSAURUS_API_KEY</span>
-<span class="hljs-attr">base_path:</span> <span class="hljs-string">"./"</span>
+<span class="hljs-attr">base_path:</span> <span class="hljs-string">'./'</span>
 <span class="hljs-attr">preserve_hierarchy:</span> <span class="hljs-literal">true</span>
 
 <span class="hljs-attr">files:</span>
-  <span class="hljs-bullet">-</span>
-    <span class="hljs-attr">source:</span> <span class="hljs-string">'/docs/**/*.md'</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-attr">source:</span> <span class="hljs-string">'/docs/**/*.md'</span>
     <span class="hljs-attr">translation:</span> <span class="hljs-string">'/website/translated_docs/%locale%/**/%original_file_name%'</span>
     <span class="hljs-attr">languages_mapping:</span> <span class="hljs-meta">&amp;anchor</span>
       <span class="hljs-attr">locale:</span>
@@ -307,7 +306,7 @@ CROWDIN_DOCUSAURUS_PROJECT_ID=YOUR_CROWDIN_PROJECT_ID CROWDIN_DOCUSAURUS_API_KEY
     <span class="hljs-attr">languages_mapping:</span> <span class="hljs-meta">*anchor</span>
 </code></pre>
 <p>Translated, versioned documents will be copied into <code>website/translated_docs/${language}/${version}/</code>.</p>
-</span></div></article></div><div class="docLastUpdate"><em>Last updated on 2019-5-17 by Hongarc</em></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/en/1.11.x/navigation"><span class="arrow-prev">← </span><span>Navigation and Sidebars</span></a><a class="docs-next button" href="/docs/en/1.11.x/versioning"><span>Versioning</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#docusaurus-translation-configurations">Docusaurus Translation Configurations</a></li><li><a href="#translating-your-existing-docs">Translating Your Existing Docs</a></li><li><a href="#enabling-translations-on-pages">Enabling Translations on Pages</a></li><li><a href="#gathering-strings-to-translate">Gathering Strings to Translate</a><ul class="toc-headings"><li><a href="#custom-translation-strings">Custom Translation Strings</a></li></ul></li><li><a href="#how-strings-get-translated">How Strings Get Translated</a></li><li><a href="#how-docusaurus-uses-string-translations">How Docusaurus Uses String Translations</a><ul class="toc-headings"><li><a href="#strings">Strings</a></li><li><a href="#markdown-files">Markdown Files</a></li><li><a href="#other-pages">Other Pages</a></li></ul></li><li><a href="#crowdin">Crowdin</a><ul class="toc-headings"><li><a href="#setup-the-crowdin-scripts">Setup the Crowdin Scripts</a></li><li><a href="#manual-file-sync">Manual File Sync</a></li><li><a href="#automated-file-sync-using-circleci">Automated File Sync Using CircleCI</a></li></ul></li><li><a href="#versioned-translations">Versioned Translations</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/docusaurus_monochrome.svg" alt="Docusaurus" width="66" height="58"/></a><div class="footerSection"><h5>Docs</h5><a href="
+</span></div></article></div><div class="docLastUpdate"><em>Last updated on 2019-12-8 by Yangshun Tay</em></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/en/1.11.x/navigation"><span class="arrow-prev">← </span><span>Navigation and Sidebars</span></a><a class="docs-next button" href="/docs/en/1.11.x/versioning"><span>Versioning</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#docusaurus-translation-configurations">Docusaurus Translation Configurations</a></li><li><a href="#translating-your-existing-docs">Translating Your Existing Docs</a></li><li><a href="#enabling-translations-on-pages">Enabling Translations on Pages</a></li><li><a href="#gathering-strings-to-translate">Gathering Strings to Translate</a><ul class="toc-headings"><li><a href="#custom-translation-strings">Custom Translation Strings</a></li></ul></li><li><a href="#how-strings-get-translated">How Strings Get Translated</a></li><li><a href="#how-docusaurus-uses-string-translations">How Docusaurus Uses String Translations</a><ul class="toc-headings"><li><a href="#strings">Strings</a></li><li><a href="#markdown-files">Markdown Files</a></li><li><a href="#other-pages">Other Pages</a></li></ul></li><li><a href="#crowdin">Crowdin</a><ul class="toc-headings"><li><a href="#setup-the-crowdin-scripts">Setup the Crowdin Scripts</a></li><li><a href="#manual-file-sync">Manual File Sync</a></li><li><a href="#automated-file-sync-using-circleci">Automated File Sync Using CircleCI</a></li></ul></li><li><a href="#versioned-translations">Versioned Translations</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/docusaurus_monochrome.svg" alt="Docusaurus" width="66" height="58"/></a><div class="footerSection"><h5>Docs</h5><a href="
                 /docs/en/installation">Getting Started</a><a href="
                 /docs/en/versioning">Versioning</a><a href="
                 /docs/en/translation">Localization</a><a href="

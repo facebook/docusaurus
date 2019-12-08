@@ -105,7 +105,7 @@
 <li><p>Run <code>docker-compose up</code> and Compose starts and runs your entire app.</p></li>
 </ol>
 <p>We include a basic <code>docker-compose.yml</code> in your project:</p>
-<pre><code class="hljs css language-yml"><span class="hljs-attr">version:</span> <span class="hljs-string">"3"</span>
+<pre><code class="hljs css language-yml"><span class="hljs-attr">version:</span> <span class="hljs-string">'3'</span>
 
 <span class="hljs-attr">services:</span>
   <span class="hljs-attr">docusaurus:</span>
@@ -124,7 +124,6 @@
       <span class="hljs-bullet">-</span> <span class="hljs-string">./website/sidebars.json:/app/website/sidebars.json</span>
       <span class="hljs-bullet">-</span> <span class="hljs-string">./website/siteConfig.js:/app/website/siteConfig.js</span>
     <span class="hljs-attr">working_dir:</span> <span class="hljs-string">/app/website</span>
-
 </code></pre>
 <p>To run a local web server with <code>docker-compose</code> run <code>docker-compose up</code>.</p>
 <p>To build static HTML pages for publishing run <code>docker-compose run docusaurus bash -c 'yarn publish-gh-pages'</code></p>

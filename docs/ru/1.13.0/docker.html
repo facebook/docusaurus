@@ -105,7 +105,7 @@
 <li><p>Выполните <code>docker-compose up</code>, чтобы Compose запустил целиком ваше приложение.</p></li>
 </ol>
 <p>Мы добавляем файл <code>docker-compose.yml</code> с минимальными настройками в ваш проект:</p>
-<pre><code class="hljs css language-yml"><span class="hljs-attr">version:</span> <span class="hljs-string">"3"</span>
+<pre><code class="hljs css language-yml"><span class="hljs-attr">version:</span> <span class="hljs-string">'3'</span>
 
 <span class="hljs-attr">services:</span>
   <span class="hljs-attr">docusaurus:</span>
@@ -124,7 +124,6 @@
       <span class="hljs-bullet">-</span> <span class="hljs-string">./website/sidebars.json:/app/website/sidebars.json</span>
       <span class="hljs-bullet">-</span> <span class="hljs-string">./website/siteConfig.js:/app/website/siteConfig.js</span>
     <span class="hljs-attr">working_dir:</span> <span class="hljs-string">/app/website</span>
-
 </code></pre>
 <p>To run a local web server with <code>docker-compose</code> run <code>docker-compose up</code>.</p>
 <p>Чтобы создать статические HTML страницы для публикации, выполните <code>docker-compose run docusaurus bash -c 'yarn publish-gh-pages'</code></p>

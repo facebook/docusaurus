@@ -96,9 +96,8 @@
 <span class="hljs-attr">author:</span> <span class="hljs-string">Frank</span> <span class="hljs-string">Li</span>
 <span class="hljs-attr">authorURL:</span> <span class="hljs-string">https://twitter.com/foobarbaz</span>
 <span class="hljs-attr">authorFBID:</span> <span class="hljs-number">503283835</span>
-<span class="hljs-attr">title:</span> <span class="hljs-string">Apresentando</span> <span class="hljs-string">o</span> <span class="hljs-string">Docusaurus</span>
+<span class="hljs-attr">title:</span> <span class="hljs-string">Introducing</span> <span class="hljs-string">Docusaurus</span>
 <span class="hljs-meta">---</span>
-
 <span class="hljs-string">Lorem</span> <span class="hljs-string">Ipsum...</span>
 </code></pre>
 <h2><a class="anchor" aria-hidden="true" id="opções-do-cabeçalho"></a><a href="#opções-do-cabeçalho" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Opções do cabeçalho</h2>
@@ -113,10 +112,9 @@
 <h2><a class="anchor" aria-hidden="true" id="definindo-um-resumo-para-o-post"></a><a href="#definindo-um-resumo-para-o-post" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Definindo um resumo para o post</h2>
 <p>Use o marcador <code>&lt;!--truncate--&gt;</code> no seu post para demarcar a parte do seu post que será mostrada como resumo ao visualizar todos os posts publicados. Tudo que estiver sobre <code>&lt;!--truncate--&gt;</code> será parte do resumo. Por exemplo:</p>
 <pre><code class="hljs css language-yaml"><span class="hljs-meta">---</span>
-<span class="hljs-attr">title:</span> <span class="hljs-string">Exemplo</span> <span class="hljs-string">de</span> <span class="hljs-string">demarcação</span> <span class="hljs-string">de</span> <span class="hljs-string">resumo</span>
+<span class="hljs-attr">title:</span> <span class="hljs-string">Truncation</span> <span class="hljs-string">Example</span>
 <span class="hljs-meta">---</span>
-
-<span class="hljs-string">Isso</span> <span class="hljs-string">aqui</span> <span class="hljs-string">tudo</span> <span class="hljs-string">será</span> <span class="hljs-string">parte</span> <span class="hljs-string">do</span> <span class="hljs-string">resumo</span> <span class="hljs-string">do</span> <span class="hljs-string">post</span> <span class="hljs-literal">no</span> <span class="hljs-string">blog.</span>
+<span class="hljs-string">All</span> <span class="hljs-string">this</span> <span class="hljs-string">will</span> <span class="hljs-string">be</span> <span class="hljs-string">part</span> <span class="hljs-string">of</span> <span class="hljs-string">the</span> <span class="hljs-string">blog</span> <span class="hljs-string">post</span> <span class="hljs-string">summary.</span>
 
 <span class="hljs-string">Isso</span> <span class="hljs-string">aqui</span> <span class="hljs-string">também.</span>
 
@@ -160,18 +158,19 @@
 <p>Agora, quando o Docusaurus gerar ou construir o seu site, ele vai copiar o conteúdo de <code>static/index.html</code> e colocá-lo no diretório principal do site. O arquivo estático é servido quando um visitante chega em sua página. Quando a página for carregada, ela irá redirecionar o visitante para <code>/ blog</code>.</p>
 </blockquote>
 <p>Você pode usar este modelo:</p>
-<pre><code class="hljs css language-html"><span class="hljs-meta">&lt;!DOCTYPE HTML&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"pt-BR"</span>&gt;</span>
+<pre><code class="hljs css language-html"><span class="hljs-meta">&lt;!DOCTYPE html&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en-US"</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">"UTF-8"</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">http-equiv</span>=<span class="hljs-string">"refresh"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"0; url=blog/"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">"UTF-8"</span> /&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">http-equiv</span>=<span class="hljs-string">"refresh"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"0; url=blog/"</span> /&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/javascript"</span>&gt;</span><span class="javascript">
       <span class="hljs-built_in">window</span>.location.href = <span class="hljs-string">'blog/'</span>;
     </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>Título do seu blog<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>Title of Your Blog<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
-    Se você não for redirecionado automaticamente, <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">'blog/'</span>&gt;</span>clique aqui<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>.
+    If you are not redirected automatically, follow this
+    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"blog/"</span>&gt;</span>link<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>.
   <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span>
 </code></pre>
