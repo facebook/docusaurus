@@ -90,6 +90,23 @@ module.exports = {
 
 Outbound links automatically get `target="_blank" rel="noopener noreferrer"`.
 
+### Auto-hide sticky navbar
+
+You can enable this cool UI feature that automatically hides the navbar when a user starts scrolling down the page, and show it again when the user scrolls up.
+
+```js
+// docusaurus/config.js
+module.exports = {
+  ...
+  themeConfig: {
+    navbar: {
+      hideOnScroll: true,
+    },
+    ...
+  },
+}
+```
+
 ## Footer
 
 ## `CodeBlock`

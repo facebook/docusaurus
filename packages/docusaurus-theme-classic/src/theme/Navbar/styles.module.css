@@ -17,10 +17,10 @@
   }
 }
 
-.navbarHidable {
+.navbarHideable {
   transition: top 0.2s ease-in-out;
 }
 
-.navbarHided {
+.navbarHidden {
   top: calc(var(--ifm-navbar-height) * -1) !important;
 }
