@@ -39,11 +39,3 @@ Array of rehype plugins to manipulate the MDXHAST
 ### `remarkPlugins`
 Array of remark plugins to manipulate the MDXAST
 
-### `metadataPath`
-A function to provide the metadataPath depending on current loaded MDX path that will be embedded as the MDX metadata.
-Example
-```js
-const metadataPath = (mdxPath) => {
-  return path.join('/some/metadata/path', `${path.basename(mdxPath)}-metadata.json`);
-}
-```
