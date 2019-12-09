@@ -44,6 +44,8 @@ module.exports = async function(fileString) {
     return callback(err);
   }
 
+  let exportStr = `export const frontMatter = ${stringifyObject(data)};`;
+
   // If metadataPath is provided, we read metadata & then embed it to this MDX content
   if (options.metadataPath && typeof options.metadataPath === 'function') {
     const metadataPath = options.metadataPath(this.resourcePath);
@@ -52,7 +54,7 @@ module.exports = async function(fileString) {
       // Add as dependency of this loader result so that we can recompile if metadata is changed
       this.addDependency(metadataPath);
       const metadata = await readFile(metadataPath, 'utf8');
-      result = `export const metadata = ${metadata};\n${result}`;
+      exportStr += `\nexport const metadata = ${metadata};`;
     }
   }
 
@@ -60,7 +62,7 @@ module.exports = async function(fileString) {
   import React from 'react';
   import { mdx } from '@mdx-js/react';
 
-  export const frontMatter = ${stringifyObject(data)};
+  ${exportStr}
   ${result}
   `;
 
