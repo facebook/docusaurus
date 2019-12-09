@@ -46,7 +46,7 @@ module.exports = async function(fileString) {
 
   let exportStr = `export const frontMatter = ${stringifyObject(data)};`;
 
-  // If metadataPath is provided, we read metadata & then embed it to this MDX content
+  // Read metadata for this MDX and export it
   if (options.metadataPath && typeof options.metadataPath === 'function') {
     const metadataPath = options.metadataPath(this.resourcePath);
 
