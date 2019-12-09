@@ -6,6 +6,7 @@
  */
 
 const {getOptions} = require('loader-utils');
+const {readFile} = require('fs-extra');
 const mdx = require('@mdx-js/mdx');
 const emoji = require('remark-emoji');
 const slug = require('remark-slug');
@@ -41,6 +42,18 @@ module.exports = async function(fileString) {
     result = await mdx(content, options);
   } catch (err) {
     return callback(err);
+  }
+
+  // If metadataPath is provided, we read metadata & then embed it to this MDX content
+  if (options.metadataPath && typeof options.metadataPath === 'function') {
+    const metadataPath = options.metadataPath(this.resourcePath);
+
+    if (metadataPath) {
+      // Add as dependency of this loader result so that we can recompile if metadata is changed
+      this.addDependency(metadataPath);
+      const metadata = await readFile(metadataPath, 'utf8');
+      result = `export const metadata = ${metadata};\n${result}`;
+    }
   }
 
   const code = `

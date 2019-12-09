@@ -122,7 +122,7 @@ export async function start(
   // https://webpack.js.org/configuration/dev-server
   const devServerConfig: WebpackDevServer.Configuration = {
     compress: true,
-    clientLogLevel: 'error',
+    clientLogLevel: 'info',
     hot: true,
     hotOnly: cliOptions.hotOnly,
     quiet: true,
