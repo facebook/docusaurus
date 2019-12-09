@@ -13,6 +13,7 @@
     "@docusaurus/plugin-ideal-image": "^2.0.0-alpha.39",
     "@docusaurus/preset-classic": "^2.0.0-alpha.39",
     "classnames": "^2.2.6",
+    "color": "^3.1.2",
     "react": "^16.8.4",
     "react-dom": "^16.8.4"
   },
