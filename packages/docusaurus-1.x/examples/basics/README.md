@@ -45,7 +45,7 @@ my-docusaurus/
       css/
       img/
     package.json
-    sidebar.json
+    sidebars.json
     siteConfig.js
 ```
 
@@ -100,7 +100,7 @@ title: This Doc Needs To Be Edited
 My new content here..
 ```
 
-1. Refer to that doc's ID in an existing sidebar in `website/sidebar.json`:
+1. Refer to that doc's ID in an existing sidebar in `website/sidebars.json`:
 
 ```javascript
 // Add newly-created-doc to the Getting Started category of docs

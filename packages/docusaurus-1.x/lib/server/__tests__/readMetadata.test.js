@@ -31,7 +31,7 @@ jest.mock('../env', () => ({
 }));
 
 jest.mock(`${process.cwd()}/siteConfig.js`, () => ({}), {virtual: true});
-jest.mock(`${process.cwd()}/sidebar.json`, () => true, {virtual: true});
+jest.mock(`${process.cwd()}/sidebars.json`, () => true, {virtual: true});
 
 describe('readMetadata', () => {
   describe('readSidebar', () => {
