@@ -4,6 +4,8 @@ title: Styling and Layout
 description: A Docusaurus site is a pre-rendered single-page React application. You can style it the way you style React apps.
 ---
 
+import ColorGenerator from '@site/src/components/ColorGenerator';
+
 ## Traditional CSS
 
 If you're using `@docusaurus/preset-classic`, you can create your own CSS files (e.g. `/src/css/custom.css`) and import them globally by passing it as an option into the preset.
@@ -51,7 +53,11 @@ When you `init` your Docusaurus 2 project, the website will be generated with ba
 }
 ```
 
-Infima uses 7 shades of each color. We recommend using [ColorBox](https://www.colorbox.io/) to find the different shades of colors for your chosen primary color. In future, we will provide an easier way to generate the different shades of colors.
+Infima uses 7 shades of each color. We recommend using [ColorBox](https://www.colorbox.io/) to find the different shades of colors for your chosen primary color.
+
+Alternatively, use the following tool to generate the different shades for your website and copy the variables into `src/css/custom.css`.
+
+<ColorGenerator/>
 
 <!-- TODO need more refinement here -->
 

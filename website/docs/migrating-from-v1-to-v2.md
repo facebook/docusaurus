@@ -3,6 +3,8 @@ id: migrating-from-v1-to-v2
 title: Migrating from v1 to v2
 ---
 
+import ColorGenerator from '@site/src/components/ColorGenerator';
+
 This doc guides you through migrating an existing Docusaurus 1 site to Docusaurus 2.
 
 **Note: This migration guide is targeted at Docusaurus users without translation and/or versioning features and assumes the following structure:**
@@ -163,7 +165,7 @@ No actions needed.
 
 #### `colors`
 
-Deprecated. We wrote a custom CSS framework for Docusaurus 2 called Infima which uses CSS variables for theming. The docs are not quite ready yet and we will update here when it is. To overwrite Infima' CSS variables, create your own CSS file (e.g. `./src/css/custom.css`) and import it globally by passing it as an option to `@docusaurus/preset-classic`:
+Deprecated. We wrote a custom CSS framework for Docusaurus 2 called Infima which uses CSS variables for theming. The docs are not quite ready yet and we will update here when it is. To overwrite Infima's CSS variables, create your own CSS file (e.g. `./src/css/custom.css`) and import it globally by passing it as an option to `@docusaurus/preset-classic`:
 
 ```js {8-10}
 // docusaurus.config.js
@@ -182,7 +184,7 @@ module.exports = {
 };
 ```
 
-Infima uses 7 shades of each color. We recommend using [ColorBox](https://www.colorbox.io/) to find the different shades of colors for your chosen primary color.
+Infima uses 7 shades of each color.
 
 ```css
 /**
@@ -200,6 +202,12 @@ Infima uses 7 shades of each color. We recommend using [ColorBox](https://www.co
   --ifm-color-primary-lightest: rgb(146, 224, 208);
 }
 ```
+
+We recommend using [ColorBox](https://www.colorbox.io/) to find the different shades of colors for your chosen primary color.
+
+Alteratively, use the following tool to generate the different shades for your website and copy the variables into `src/css/custom.css`.
+
+<ColorGenerator/>
 
 #### `footerIcon`, `copyright`, `ogImage`, `twitterImage`, `docsSideNavCollapsible`
 

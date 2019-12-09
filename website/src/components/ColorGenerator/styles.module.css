@@ -1,0 +1,23 @@
+/**
+ * Copyright (c) 2017-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+.color {
+  border-radius: 0.5rem;
+  display: inline-block;
+  vertical-align: middle;
+  width: 2rem;
+  height: 2rem;
+}
+
+.input {
+  border-color: var(--ifm-color-content-secondary);
+  border-radius: var(--ifm-global-radius);
+  border-style: solid;
+  border-width: var(--ifm-global-border-width);
+  font-size: var(--ifm-font-size-base);
+  padding: 0.5rem;
+}
