@@ -71,8 +71,8 @@ module.exports = MyPage;
 This will be translated to a description metadata tag on the generated HTML.
 
 ```html
-<meta property="og:description" content="My Custom Description"/>
-<meta name="description" content="My Custom Description"/>
+<meta property="og:description" content="My Custom Description" />
+<meta name="description" content="My Custom Description" />
 ```
 
 ## Page Require Paths
@@ -107,11 +107,11 @@ A React container component using Docusaurus styles. Has optional padding and ba
 
 **Props**
 
-| Prop         | Type                                                       | Default | Description                         |
-| ------------ | ---------------------------------------------------------- | ------- | ----------------------------------- |
-| `padding`    | Array of `'all'`, `'bottom'`, `'left'`, `'right'`, `'top'` | `[]`    | Positions of the padding.           |
-| `background` | One of `'dark'`, `'highlight'`, `'light'`                  | `null`  | Background styling of the element.  |
-| `className`  | String                                                     | -       | Custom class to add to the element. |
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `padding` | Array of `'all'`, `'bottom'`, `'left'`, `'right'`, `'top'` | `[]` | Positions of the padding. |
+| `background` | One of `'dark'`, `'highlight'`, `'light'` | `null` | Background styling of the element. |
+| `className` | String | - | Custom class to add to the element. |
 
 **Example**
 
@@ -130,23 +130,23 @@ A React component to organize text and images.
 
 **Props**
 
-| Prop        | Type                                                  | Default       | Description                                                                                                      |
-| ----------- | ----------------------------------------------------- | ------------- | ---------------------------------------------------------------------------------------------------------------- |
-| `align`     | One of `'left'`, `'center'`, `'right'`                | `'left'`      | Text alignment of content.                                                                                       |
-| `layout`    | One of `'twoColumn'`, `'threeColumn'`, `'fourColumn'` | `'twoColumn'` | Number of column sections in the `GridBlock`.                                                                    |
-| `className` | String                                                | -             | Custom class to add to the element.                                                                              |
-| `contents`  | Array of content objects                              | `[]`          | Contents of each section of the GridBlock. Refer to the next table for the fields available on a content object. |
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `align` | One of `'left'`, `'center'`, `'right'` | `'left'` | Text alignment of content. |
+| `layout` | One of `'twoColumn'`, `'threeColumn'`, `'fourColumn'` | `'twoColumn'` | Number of column sections in the `GridBlock`. |
+| `className` | String | - | Custom class to add to the element. |
+| `contents` | Array of content objects | `[]` | Contents of each section of the GridBlock. Refer to the next table for the fields available on a content object. |
 
 **Content Object**
 
-| Key          | Type                                            | Default  | Description                                                       |
-| ------------ | ----------------------------------------------- | -------- | ----------------------------------------------------------------- |
-| `title`      | String                                          | -        | The display title of this section, which is parsed using Markdown |
-| `content`    | String                                          | -        | The text of this section, which is parsed using Markdown          |
-| `image`      | String                                          | -        | The path of the display image                                     |
-| `imageAlt`   | String                                          | -        | The text that will be shown in case the image is not available    |
-| `imageAlign` | One of `'top'`, `'left'`, `'bottom'`, `'right'` | `'left'` | Image alignment relative to the text                              |
-| `imageLink`  | String                                          | -        | Link destination from clicking the image                          |
+| Key | Type | Default | Description |
+| --- | --- | --- | --- |
+| `title` | String | - | The display title of this section, which is parsed using Markdown |
+| `content` | String | - | The text of this section, which is parsed using Markdown |
+| `image` | String | - | The path of the display image |
+| `imageAlt` | String | - | The text that will be shown in case the image is not available |
+| `imageAlign` | One of `'top'`, `'left'`, `'bottom'`, `'right'` | `'left'` | Image alignment relative to the text |
+| `imageLink` | String | - | Link destination from clicking the image |
 
 **Example**
 

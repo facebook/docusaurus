@@ -7,7 +7,12 @@
 
 import fs from 'fs-extra';
 import path from 'path';
-import {parse, normalizeUrl, posixPath} from '@docusaurus/utils';
+import {
+  parse,
+  aliasedSitePath,
+  normalizeUrl,
+  posixPath,
+} from '@docusaurus/utils';
 import {LoadContext} from '@docusaurus/types';
 
 import lastUpdate from './lastUpdate';
@@ -59,30 +64,11 @@ export default async function processMetadata({
   const {versioning} = env;
   const filePath = path.join(refDir, source);
 
-  const fileString = await fs.readFile(filePath, 'utf-8');
-  const {frontMatter = {}, excerpt} = parse(fileString);
-
-  // Default id is the file name.
-  const baseID: string =
-    frontMatter.id || path.basename(source, path.extname(source));
-  if (baseID.includes('/')) {
-    throw new Error('Document id cannot include "/".');
-  }
-
-  // Default title is the id.
-  const title: string = frontMatter.title || baseID;
-
-  const description: string = frontMatter.description || excerpt;
+  const fileStringPromise = fs.readFile(filePath, 'utf-8');
+  const lastUpdatedPromise = lastUpdated(filePath, options);
 
   let version;
-  let id = baseID;
-
-  // Append subdirectory as part of id.
   const dirName = path.dirname(source);
-  if (dirName !== '.') {
-    id = `${dirName}/${baseID}`;
-  }
-
   if (versioning.enabled) {
     if (/^version-/.test(dirName)) {
       const inferredVersion = dirName
@@ -101,6 +87,31 @@ export default async function processMetadata({
   const versionPath =
     version && version !== versioning.latestVersion ? version : '';
 
+  const relativePath = path.relative(siteDir, filePath);
+
+  const docsEditUrl = editUrl
+    ? normalizeUrl([editUrl, posixPath(relativePath)])
+    : undefined;
+
+  const {frontMatter = {}, excerpt} = parse(await fileStringPromise);
+  const {sidebar_label, custom_edit_url} = frontMatter;
+
+  // Default base id is the file name.
+  const baseID: string =
+    frontMatter.id || path.basename(source, path.extname(source));
+
+  if (baseID.includes('/')) {
+    throw new Error('Document id cannot include "/".');
+  }
+
+  // Append subdirectory as part of id.
+  const id = dirName !== '.' ? `${dirName}/${baseID}` : baseID;
+
+  // Default title is the id.
+  const title: string = frontMatter.title || baseID;
+
+  const description: string = frontMatter.description || excerpt;
+
   // The last portion of the url path. Eg: 'foo/bar', 'bar'
   const routePath =
     version && version !== 'next'
@@ -113,18 +124,7 @@ export default async function processMetadata({
     routePath,
   ]);
 
-  const {sidebar_label, custom_edit_url} = frontMatter;
-
-  const relativePath = path.relative(siteDir, filePath);
-
-  // Cannot use path.join() as it resolves '../' and removes the '@site'. Let webpack loader resolve it.
-  const aliasedPath = `@site/${relativePath}`;
-
-  const docsEditUrl = editUrl
-    ? normalizeUrl([editUrl, posixPath(relativePath)])
-    : undefined;
-
-  const {lastUpdatedAt, lastUpdatedBy} = await lastUpdated(filePath, options);
+  const {lastUpdatedAt, lastUpdatedBy} = await lastUpdatedPromise;
 
   // Assign all of object properties during instantiation (if possible) for NodeJS optimization
   // Adding properties to object after instantiation will cause hidden class transitions.
@@ -132,7 +132,7 @@ export default async function processMetadata({
     id,
     title,
     description,
-    source: aliasedPath,
+    source: aliasedSitePath(filePath, siteDir),
     permalink,
     editUrl: custom_edit_url || docsEditUrl,
     version,

@@ -15,6 +15,8 @@ import path from 'path';
 import portfinder from 'portfinder';
 import openBrowser from 'react-dev-utils/openBrowser';
 import {prepareUrls} from 'react-dev-utils/WebpackDevServerUtils';
+import errorOverlayMiddleware from 'react-dev-utils/errorOverlayMiddleware';
+import evalSourceMapMiddleware from 'react-dev-utils/evalSourceMapMiddleware';
 import webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
 import merge from 'webpack-merge';
@@ -78,7 +80,7 @@ export async function start(
   const protocol: string = process.env.HTTPS === 'true' ? 'https' : 'http';
   const port: number = await getPort(cliOptions.port);
   const host: string = getHost(cliOptions.host);
-  const {baseUrl} = props;
+  const {baseUrl, headTags, preBodyTags, postBodyTags} = props;
   const urls = prepareUrls(protocol, host, port);
   const openUrl = normalizeUrl([urls.localUrlForBrowser, baseUrl]);
 
@@ -90,8 +92,13 @@ export async function start(
           __dirname,
           '../client/templates/index.html.template.ejs',
         ),
+        // so we can define the position where the scripts are injected
+        inject: false,
         filename: 'index.html',
         title: siteConfig.title,
+        headTags,
+        preBodyTags,
+        postBodyTags,
       }),
       // This is necessary to emit hot updates for webpack-dev-server
       new HotModuleReplacementPlugin(),
@@ -130,15 +137,20 @@ export async function start(
       rewrites: [{from: /\/*/, to: baseUrl}],
     },
     disableHostCheck: true,
-    // Enable overlay on browser. E.g: display errors
-    overlay: true,
+    // Disable overlay on browser since we use CRA's overlay error reporting
+    overlay: false,
     host,
-    before: app => {
+    before: (app, server) => {
       app.use(baseUrl, express.static(path.resolve(siteDir, STATIC_DIR_NAME)));
+
+      // This lets us fetch source contents from webpack for the error overlay
+      app.use(evalSourceMapMiddleware(server));
+      // This lets us open files from the runtime error overlay.
+      app.use(errorOverlayMiddleware());
+
       // TODO: add plugins beforeDevServer and afterDevServer hook
     },
   };
-  WebpackDevServer.addDevServerEntrypoints(config, devServerConfig);
   const compiler = webpack(config);
   const devServer = new WebpackDevServer(compiler, devServerConfig);
   devServer.listen(port, host, err => {

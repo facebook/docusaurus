@@ -14,13 +14,13 @@ To run the local web server:
 
 1. **Build the docker image** -- Enter the folder where you have Docusaurus installed. Run `docker build -t docusaurus-doc .`
 
-    Once the build phase finishes, you can verify the image exists by running `docker images`.
+   Once the build phase finishes, you can verify the image exists by running `docker images`.
 
-    > We now include a `Dockerfile` when you install Docusaurus.
+   > We now include a `Dockerfile` when you install Docusaurus.
 
 2. **Run the Docusaurus container** -- To start docker run `docker run --rm -p 3000:3000 docusaurus-doc`
 
-    This will start a docker container with the image `docusaurus-doc`. To see more detailed container info run `docker ps` .
+   This will start a docker container with the image `docusaurus-doc`. To see more detailed container info run `docker ps` .
 
 ## Use docker-compose
 
@@ -37,8 +37,9 @@ Using Compose is a three-step process:
 3. Run `docker-compose up` and Compose starts and runs your entire app.
 
 We include a basic `docker-compose.yml` in your project:
-``` yml
-version: "3"
+
+```yml
+version: '3'
 
 services:
   docusaurus:
@@ -56,7 +57,6 @@ services:
       - ./website/sidebars.json:/app/website/sidebars.json
       - ./website/siteConfig.js:/app/website/siteConfig.js
     working_dir: /app/website
-
 ```
 
 To run a local web server with `docker-compose` run `docker-compose up`.

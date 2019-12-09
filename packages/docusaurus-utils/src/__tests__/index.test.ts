@@ -16,9 +16,22 @@ import {
   normalizeUrl,
   posixPath,
   objectWithKeySorted,
+  aliasedSitePath,
 } from '../index';
 
 describe('load utils', () => {
+  test('aliasedSitePath', () => {
+    const asserts = {
+      'user/website/docs/asd.md': '@site/docs/asd.md',
+      'user/website/versioned_docs/foo/bar.md':
+        '@site/versioned_docs/foo/bar.md',
+      'user/docs/test.md': '@site/../docs/test.md',
+    };
+    Object.keys(asserts).forEach(file => {
+      expect(aliasedSitePath(file, 'user/website')).toBe(asserts[file]);
+    });
+  });
+
   test('posixPath', () => {
     const asserts = {
       'c:/aaaa\\bbbb': 'c:/aaaa/bbbb',
@@ -257,9 +270,19 @@ describe('load utils', () => {
         input: ['http://foobar.com', '', 'test'],
         output: 'http://foobar.com/test',
       },
+      {
+        input: ['http://foobar.com', '', 'test', '/'],
+        output: 'http://foobar.com/test/',
+      },
     ];
     asserts.forEach(testCase => {
       expect(normalizeUrl(testCase.input)).toBe(testCase.output);
     });
+
+    expect(() =>
+      normalizeUrl(['http:example.com', undefined]),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"Url must be a string. Received undefined"`,
+    );
   });
 });

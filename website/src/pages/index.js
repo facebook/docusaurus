@@ -33,7 +33,7 @@ const QUOTES = [
     ),
   },
   {
-    thumbnail: require('../data/quotes/hector-ramos.png'),
+    thumbnail: require('../data/quotes/hector-ramos.jpg'),
     name: 'Hector Ramos',
     title: 'Lead React Native Advocate',
     text: (
@@ -61,10 +61,10 @@ const QUOTES = [
 
 function Home() {
   const context = useDocusaurusContext();
-  const {siteConfig = {}} = context;
+  const {siteConfig: {customFields = {}} = {}} = context;
 
   return (
-    <Layout permalink="/" description={siteConfig.tagline}>
+    <Layout permalink="/" description={customFields.description}>
       <div className={styles.hero}>
         <div className={styles.heroInner}>
           <h1 className={styles.heroProjectTagline}>

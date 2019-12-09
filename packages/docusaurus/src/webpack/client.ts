@@ -18,9 +18,12 @@ export function createClientConfig(props: Props): Configuration {
   const config = createBaseConfig(props, false);
 
   const clientConfig = merge(config, {
-    entry: {
-      main: path.resolve(__dirname, '../client/clientEntry.js'),
-    },
+    entry: [
+      // Instead of the default WebpackDevServer client, we use a custom one
+      // like CRA to bring better experience.
+      !isProd && require.resolve('react-dev-utils/webpackHotDevClient'),
+      path.resolve(__dirname, '../client/clientEntry.js'),
+    ].filter(Boolean) as string[],
     optimization: {
       // Keep the runtime chunk separated to enable long term caching
       // https://twitter.com/wSokra/status/969679223278505985

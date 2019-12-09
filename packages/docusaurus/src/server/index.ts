@@ -26,6 +26,7 @@ import {
   PluginConfig,
   Props,
 } from '@docusaurus/types';
+import {loadHtmlTags} from './html-tags';
 
 export function loadContext(siteDir: string): LoadContext {
   const generatedFilesDir: string = path.resolve(
@@ -81,7 +82,9 @@ export async function load(siteDir: string): Promise<Props> {
   );
   const userTheme = path.resolve(siteDir, THEME_PATH);
   const alias = loadThemeAlias([fallbackTheme, ...pluginThemes, userTheme]);
-  // Make a fake plugin to resolve aliased theme components.
+
+  // Make a fake plugin to resolve aliased theme components && inject scripts/stylesheets
+  const {stylesheets = [], scripts = []} = siteConfig;
   plugins.push({
     name: 'docusaurus-bootstrap-plugin',
     configureWebpack: () => ({
@@ -89,6 +92,33 @@ export async function load(siteDir: string): Promise<Props> {
         alias,
       },
     }),
+    injectHtmlTags: () => {
+      const stylesheetsTags = stylesheets.map(source =>
+        typeof source === 'string'
+          ? `<link rel="stylesheet" href="${source}">`
+          : {
+              tagName: 'link',
+              attributes: {
+                rel: 'stylesheet',
+                ...source,
+              },
+            },
+      );
+      const scriptsTags = scripts.map(source =>
+        typeof source === 'string'
+          ? `<script type="text/javascript" src="${source}"></script>`
+          : {
+              tagName: 'script',
+              attributes: {
+                type: 'text/javascript',
+                ...source,
+              },
+            },
+      );
+      return {
+        headTags: [...stylesheetsTags, ...scriptsTags],
+      };
+    },
   });
 
   // Load client modules.
@@ -99,9 +129,13 @@ export async function load(siteDir: string): Promise<Props> {
     `export default [\n${clientModules
       // import() is async so we use require() because client modules can have
       // CSS and the order matters for loading CSS.
-      .map(module => `  require("${module}"),`)
+      // We need to JSON.stringify so that if its on windows, backslash are escaped.
+      .map(module => `  require(${JSON.stringify(module)}),`)
       .join('\n')}\n];\n`,
   );
+
+  // Load extra head & body html tags
+  const {headTags, preBodyTags, postBodyTags} = loadHtmlTags(plugins);
 
   // Routing
   const {
@@ -119,7 +153,10 @@ ${Object.keys(registry)
   .sort()
   .map(
     key =>
-      `  '${key}': [${registry[key].loader}, "${registry[key].modulePath}", require.resolveWeak("${registry[key].modulePath}")],`,
+      // We need to JSON.stringify so that if its on windows, backslash are escaped.
+      `  '${key}': [${registry[key].loader}, ${JSON.stringify(
+        registry[key].modulePath,
+      )}, require.resolveWeak(${JSON.stringify(registry[key].modulePath)})],`,
   )
   .join('\n')}};\n`,
   );
@@ -148,6 +185,9 @@ ${Object.keys(registry)
     generatedFilesDir,
     routesPaths,
     plugins,
+    headTags,
+    preBodyTags,
+    postBodyTags,
   };
 
   return props;

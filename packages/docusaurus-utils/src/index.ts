@@ -27,7 +27,19 @@ export async function generate(
     return;
   }
 
-  const lastHash = fileHash.get(filepath);
+  let lastHash = fileHash.get(filepath);
+
+  // If file already exist but its not in runtime cache hash yet,
+  // we try to calculate the content hash and then compare
+  // This is to avoid unnecessary overwrite and we can reuse old file
+  if (!lastHash && fs.existsSync(filepath)) {
+    const lastContent = await fs.readFile(filepath, 'utf8');
+    lastHash = createHash('md5')
+      .update(lastContent)
+      .digest('hex');
+    fileHash.set(filepath, lastHash);
+  }
+
   const currentHash = createHash('md5')
     .update(content)
     .digest('hex');
@@ -239,4 +251,14 @@ export function normalizeUrl(rawUrls: string[]): string {
   str = str.replace(/^\/+/, '/');
 
   return str;
+}
+
+/**
+ * Alias filepath relative to site directory, very useful so that we don't expose user's site structure.
+ * Example: some/path/to/website/docs/foo.md -> @site/docs/foo.md
+ */
+export function aliasedSitePath(filePath: string, siteDir: string) {
+  const relativePath = path.relative(siteDir, filePath);
+  // Cannot use path.join() as it resolves '../' and removes the '@site'. Let webpack loader resolve it.
+  return `@site/${relativePath}`;
 }

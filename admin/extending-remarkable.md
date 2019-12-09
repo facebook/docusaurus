@@ -65,18 +65,35 @@ md.renderer.rules.heading_close = function(tokens, idx /*, options, env */) {
 That's pretty straightforward: whenever these tokens are found, we render a `<hN>` or `</hN>` HTML tag, where N is the `hLevel` for this heading. That would result in `<h3>Hi there</h3>` being output. But what we want is something closer to this:
 
 ```html
-<h3><a class="anchor" id="hi-there"></a>Hi there <a class="hash-link" href="#hi-there">#</a></h3>
+<h3>
+  <a class="anchor" id="hi-there"></a>Hi there
+  <a class="hash-link" href="#hi-there">#</a>
+</h3>
 ```
 
 In that case, we need to override our heading rules like so:
 
 ```js
 md.renderer.rules.heading_open = function(tokens, idx /*, options, env */) {
-  return '<h' + tokens[idx].hLevel + '>' + '<a class="anchor" id="' + toSlug(tokens[idx+1].content) + '"></a>';
+  return (
+    '<h' +
+    tokens[idx].hLevel +
+    '>' +
+    '<a class="anchor" id="' +
+    toSlug(tokens[idx + 1].content) +
+    '"></a>'
+  );
 };
 
 md.renderer.rules.heading_close = function(tokens, idx /*, options, env */) {
-  return ' <a class="hash-link" href="#' + toSlug(tokens[idx-1].content) + '">#</a>' + '</h' + tokens[idx].hLevel + '>\n';
+  return (
+    ' <a class="hash-link" href="#' +
+    toSlug(tokens[idx - 1].content) +
+    '">#</a>' +
+    '</h' +
+    tokens[idx].hLevel +
+    '>\n'
+  );
 };
 ```
 
@@ -89,11 +106,25 @@ We now need to tell Remarkable to use our extension. We can wrap our rules in a 
 ```js
 function anchors(md) {
   md.renderer.rules.heading_open = function(tokens, idx /*, options, env */) {
-    return '<h' + tokens[idx].hLevel + '>' + '<a class="anchor" id="' + toSlug(tokens[idx+1].content) + '"></a>';
+    return (
+      '<h' +
+      tokens[idx].hLevel +
+      '>' +
+      '<a class="anchor" id="' +
+      toSlug(tokens[idx + 1].content) +
+      '"></a>'
+    );
   };
 
   md.renderer.rules.heading_close = function(tokens, idx /*, options, env */) {
-    return ' <a class="hash-link" href="#' + toSlug(tokens[idx-1].content) + '">#</a>' + '</h' + tokens[idx].hLevel + '>\n';
+    return (
+      ' <a class="hash-link" href="#' +
+      toSlug(tokens[idx - 1].content) +
+      '">#</a>' +
+      '</h' +
+      tokens[idx].hLevel +
+      '>\n'
+    );
   };
 }
 ```

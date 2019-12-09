@@ -12,7 +12,7 @@ import vfile from 'to-vfile';
 import plugin from '../index';
 
 const processFixture = async (name, options) => {
-  const path = join(__dirname, 'fixtures', `${name}.mdx`);
+  const path = join(__dirname, 'fixtures', `${name}.md`);
   const file = await vfile.read(path);
   const result = await remark()
     .use(mdx)
@@ -24,6 +24,11 @@ const processFixture = async (name, options) => {
 
 test('non text phrasing content', async () => {
   const result = await processFixture('non-text-content');
+  expect(result).toMatchSnapshot();
+});
+
+test('inline code should be escaped', async () => {
+  const result = await processFixture('inline-code');
   expect(result).toMatchSnapshot();
 });
 

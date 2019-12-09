@@ -3,6 +3,8 @@ id: migrating-from-v1-to-v2
 title: Migrating from v1 to v2
 ---
 
+import ColorGenerator from '@site/src/components/ColorGenerator';
+
 This doc guides you through migrating an existing Docusaurus 1 site to Docusaurus 2.
 
 **Note: This migration guide is targeted at Docusaurus users without translation and/or versioning features and assumes the following structure:**
@@ -39,8 +41,8 @@ Meanwhile, the default doc site functionalities provided by Docusaurus 1 are now
 {
   dependencies: {
 -    "docusaurus": "^1.x.x",
-+    "@docusaurus/core": "^2.0.0-alpha.36",
-+    "@docusaurus/preset-classic": "^2.0.0-alpha.36",
++    "@docusaurus/core": "^2.0.0-alpha.39",
++    "@docusaurus/preset-classic": "^2.0.0-alpha.39",
   }
 }
 ```
@@ -74,8 +76,8 @@ A typical Docusaurus 2 `package.json` may look like this:
     "deploy": "docusaurus deploy"
   },
   "dependencies": {
-    "@docusaurus/core": "^2.0.0-alpha.36",
-    "@docusaurus/preset-classic": "^2.0.0-alpha.36",
+    "@docusaurus/core": "^2.0.0-alpha.39",
+    "@docusaurus/preset-classic": "^2.0.0-alpha.39",
     "classnames": "^2.2.6",
     "react": "^16.10.2",
     "react-dom": "^16.10.2"
@@ -153,6 +155,8 @@ module.exports = {
 };
 ```
 
+We recommend moving the `docs` folder into the `website` folder and that is also the default directory structure in v2. [Now](https://zeit.co/now) supports [Docusaurus project deployments out-of-the-box](https://github.com/zeit/now-examples/tree/master/docusaurus) if the `docs` directory is within the `website`. It is also generally better for the docs to be within the website so that the docs and the rest of the website code are co-located within one `website` directory.
+
 Refer to migration guide below for each field in `siteConfig.js`.
 
 ### Updated fields
@@ -163,7 +167,7 @@ No actions needed.
 
 #### `colors`
 
-Deprecated. We wrote a custom CSS framework for Docusaurus 2 called Infima which uses CSS variables for theming. The docs are not quite ready yet and we will update here when it is. To overwrite Infima' CSS variables, create your own CSS file (e.g. `./src/css/custom.css`) and import it globally by passing it as an option to `@docusaurus/preset-classic`:
+Deprecated. We wrote a custom CSS framework for Docusaurus 2 called Infima which uses CSS variables for theming. The docs are not quite ready yet and we will update here when it is. To overwrite Infima's CSS variables, create your own CSS file (e.g. `./src/css/custom.css`) and import it globally by passing it as an option to `@docusaurus/preset-classic`:
 
 ```js {8-10}
 // docusaurus.config.js
@@ -182,7 +186,7 @@ module.exports = {
 };
 ```
 
-Infima uses 7 shades of each color. We recommend using [ColorBox](https://www.colorbox.io/) to find the different shades of colors for your chosen primary color.
+Infima uses 7 shades of each color.
 
 ```css
 /**
@@ -200,6 +204,12 @@ Infima uses 7 shades of each color. We recommend using [ColorBox](https://www.co
   --ifm-color-primary-lightest: rgb(146, 224, 208);
 }
 ```
+
+We recommend using [ColorBox](https://www.colorbox.io/) to find the different shades of colors for your chosen primary color.
+
+Alteratively, use the following tool to generate the different shades for your website and copy the variables into `src/css/custom.css`.
+
+<ColorGenerator/>
 
 #### `footerIcon`, `copyright`, `ogImage`, `twitterImage`, `docsSideNavCollapsible`
 
@@ -459,6 +469,8 @@ This feature is deprecated. You may read more about it in [this issue](https://g
 
 In Docusaurus 2, the markdown syntax has been changed to [MDX](https://mdxjs.com/). Hence there might be some broken syntax in the existing docs which you would have to update. A common example is self-closing tags like `<img>` and `<br>` which are valid in HTML would have to be explicitly closed now ( `<img/>` and `<br/>`). All tags in MDX documents have to be valid JSX.
 
+**Tips**: You might want to use some online tools like [HTML to JSX](https://transform.tools/html-to-jsx) to make the migration easier.
+
 ### Language-specific Code Tabs
 
 Refer to the [multi-language support code blocks](markdown-features.mdx#multi-language-support-code-blocks) section.
@@ -504,3 +516,161 @@ You might want to refer to our migration PRs for [Create React App](https://gith
 ## Support
 
 For any questions, you can ask in the [`#docusaurus-1-to-2-migration` Discord channel](https://discordapp.com/invite/kYaNd6V). Feel free to tag us ([@yangshun](https://github.com/yangshun) and [@endiliey](https://github.com/endiliey)) in any migration PRs if you would like us to have a look.
+
+## Versioned Site
+
+> :warning: _This section is a work in progress._
+
+> ⚠️ Although we've implemented docs versioning since 2.0.0-alpha.37, we'd like to test it out for v2 users first before we recommend v1 users to migrate to v2. There are some changes in how v2 versioning works compared to v1. In the future, we might create a script to migrate your versioned docs easier. However, if you are adventurous enough to manually migrate, feel free to do so. Be warned though, the manual migration requires lot of work.
+
+## Changes from v1
+
+- Read up https://v2.docusaurus.io/blog/2018/09/11/Towards-Docusaurus-2#versioning first for reasoning on v1's problem
+
+### Migrate your versioned_docs frontmatter
+
+- Unlike v1, The markdown header for each versioned doc is no longer altered by using `version-${version}-${original_id}` as the value for the actual id field. See scenario below for better explanation.
+
+Example, you have a `docs/hello.md`.
+
+```md
+---
+id: hello
+title: Hello, World !
+---
+
+Hi, Endilie here :)
+```
+
+When you cut a new version 1.0.0
+
+In Docusaurus v1, `website/versioned_docs/version-1.0.0/hello.md` looks like this
+
+```md
+---
+id: version-1.0.0-hello
+title: Hello, World !
+original_id: hello
+---
+
+Hi, Endilie here :)
+```
+
+In comparison, Docusaurus 2 `website/versioned_docs/version-1.0.0/hello.md` looks like this (exactly same as original)
+
+```md
+---
+id: hello
+title: Hello, World !
+---
+
+Hi, Endilie here :)
+```
+
+Since we're going for snapshot and allow people to move (and edit) docs easily inside version. The `id` frontmatter is no longer altered and will remain the same. Internally, it is set as `version-${version}/${id}`.
+
+Essentially, here are the necessary changes in each versioned_docs file:
+
+```yaml {2-3,5}
+---
+- id: version-1.0.0-hello
++ id: hello
+title: Hello, World !
+- original_id: hello
+---
+Hi, Endilie here :)
+```
+
+### Migrate your versioned_sidebars
+
+- Refer to versioned_docs id as `version-${version}/${id}` (v2) instead of `version-${version}-${original_id}` (v1).
+
+Because in v1 there is a good chance someone created a new file with front matter id `"version-${version}-${id}"` that can conflict with versioned_docs id.
+
+Example, Docusaurus 1 can't differentiate `docs/xxx.md`
+
+```md
+---
+id: version-1.0.0-hello
+---
+
+Another content
+```
+
+and `website/versioned_docs/version-1.0.0/hello.md`
+
+```md
+---
+id: version-1.0.0-hello
+title: Hello, World !
+original_id: hello
+---
+
+Hi, Endilie here :)
+```
+
+Since we don't allow `/` in v1 & v2 for frontmatter, conflicts are less likely to occur.
+
+So v1 users need to migrate their versioned_sidebars file
+
+Example `versioned_sidebars/version-1.0.0-sidebars.json`:
+
+```json {2-3,5-6,9-10}
+{
++ "version-1.0.0/docs": {
+- "version-1.0.0-docs": {
+    "Test": [
++    "version-1.0.0/foo/bar",
+-    "version-1.0.0-foo/bar",
+    ],
+    "Guides": [
++    "version-1.0.0/hello",
+-    "version-1.0.0-hello"
+    ]
+  }
+}
+```
+
+### Populate your versioned_sidebars & versioned_docs
+
+In v2, we use snapshot approach on documentation versioning. **Every versioned docs does not depends on other version**. It is possible to have `foo.md` in `version-1.0.0` but it doesn't exist in `version-1.2.0`. This is not possible in previous version due to Docusaurus v1 fallback functionality (https://docusaurus.io/docs/en/versioning#fallback-functionality).
+
+For example, if your `versions.json` looks like this in v1
+
+```json
+// versions.json
+["1.1.0", "1.0.0"]
+```
+
+Docusaurus v1 creates versioned docs **if and only if the doc content is different**. Your docs structure might look like this if the only doc changed from v1.0.0 to v1.1.0 is `hello.md`.
+
+```shell
+website
+├── versioned_docs
+│   ├── version-1.1.0
+│   │   └── hello.md
+│   └── version-1.0.0
+│       ├── foo
+│       │   └── bar.md
+│       └── hello.md
+├── versioned_sidebars
+│   └── version-1.0.0-sidebars.json
+```
+
+In v2, you have to populate the missing versioned_docs & versioned_sidebars (with the right frontmatter and id reference too).
+
+```shell {3-5,12}
+website
+├── versioned_docs
+│   ├── version-1.1.0
+│   │   ├── foo
+│   │   │   └── bar.md
+│   │   └── hello.md
+│   └── version-1.0.0
+│       ├── foo
+│       │   └── bar.md
+│       └── hello.md
+├── versioned_sidebars
+│   ├── version-1.1.0-sidebars.json
+│   └── version-1.0.0-sidebars.json
+```

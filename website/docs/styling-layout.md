@@ -4,6 +4,8 @@ title: Styling and Layout
 description: A Docusaurus site is a pre-rendered single-page React application. You can style it the way you style React apps.
 ---
 
+import ColorGenerator from '@site/src/components/ColorGenerator';
+
 ## Traditional CSS
 
 If you're using `@docusaurus/preset-classic`, you can create your own CSS files (e.g. `/src/css/custom.css`) and import them globally by passing it as an option into the preset.
@@ -47,10 +49,15 @@ When you `init` your Docusaurus 2 project, the website will be generated with ba
   --ifm-color-primary-light: rgb(70, 203, 174);
   --ifm-color-primary-lighter: rgb(102, 212, 189);
   --ifm-color-primary-lightest: rgb(146, 224, 208);
+  --ifm-code-font-size: 95%;
 }
 ```
 
-Infima uses 7 shades of each color. We recommend using [ColorBox](https://www.colorbox.io/) to find the different shades of colors for your chosen primary color. In future, we will provide an easier way to generate the different shades of colors.
+Infima uses 7 shades of each color. We recommend using [ColorBox](https://www.colorbox.io/) to find the different shades of colors for your chosen primary color.
+
+Alternatively, use the following tool to generate the different shades for your website and copy the variables into `src/css/custom.css`.
+
+<ColorGenerator/>
 
 <!-- TODO need more refinement here -->
 
@@ -83,7 +90,7 @@ function MyComponent() {
 }
 ```
 
-### CSS Modules
+### CSS modules
 
 To style your components using [CSS Modules](https://github.com/css-modules/css-modules), name your stylesheet files with the `.module.css` suffix (e.g. `welcome.module.css`). webpack will load such CSS files as CSS modules and you have to reference the class names from the imported CSS module (as opposed to using plain strings). This is similar to the convention used in [Create React App](https://facebook.github.io/create-react-app/docs/adding-a-css-modules-stylesheet).
 

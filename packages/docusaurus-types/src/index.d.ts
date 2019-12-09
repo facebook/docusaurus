@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2017-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
 import {Loader, Configuration} from 'webpack';
 import {Command} from 'commander';
 import {ParsedUrlQueryInput} from 'querystring';
@@ -66,14 +73,22 @@ export interface LoadContext {
   baseUrl: string;
 }
 
-export interface Props extends LoadContext {
+export interface InjectedHtmlTags {
+  headTags: string;
+  preBodyTags: string;
+  postBodyTags: string;
+}
+
+export type HtmlTags = string | HtmlTagObject | (string | HtmlTagObject)[];
+
+export interface Props extends LoadContext, InjectedHtmlTags {
   routesPaths: string[];
   plugins: Plugin<any>[];
 }
 
 export interface PluginContentLoadedActions {
   addRoute(config: RouteConfig): void;
-  createData(name: string, data: Object): Promise<string>;
+  createData(name: string, data: any): Promise<string>;
 }
 
 export interface Plugin<T> {
@@ -97,6 +112,11 @@ export interface Plugin<T> {
   getPathsToWatch?(): string[];
   getClientModules?(): string[];
   extendCli?(cli: Command): void;
+  injectHtmlTags?(): {
+    headTags?: HtmlTags;
+    preBodyTags?: HtmlTags;
+    postBodyTags?: HtmlTags;
+  };
 }
 
 export type PluginConfig = [string, Object] | [string] | string;
@@ -144,4 +164,22 @@ export interface ConfigureWebpackUtils {
   ) => Loader[];
   getCacheLoader: (isServer: boolean, cacheOptions?: {}) => Loader | null;
   getBabelLoader: (isServer: boolean, babelOptions?: {}) => Loader;
+}
+
+interface HtmlTagObject {
+  /**
+   * Attributes of the html tag
+   * E.g. `{'disabled': true, 'value': 'demo', 'rel': 'preconnect'}`
+   */
+  attributes?: {
+    [attributeName: string]: string | boolean;
+  };
+  /**
+   * The tag name e.g. `div`, `script`, `link`, `meta`
+   */
+  tagName: string;
+  /**
+   * The inner HTML
+   */
+  innerHTML?: string;
 }

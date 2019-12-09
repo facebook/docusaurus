@@ -19,30 +19,17 @@ module.exports = {
         items: ['markdown-features', 'sidebar', 'versioning'],
       },
       'blog',
-      'analytics',
-      'seo',
       'search',
       'deployment',
       'migrating-from-v1-to-v2',
     ],
-    'Advanced Guides': [
-      {
-        type: 'category',
-        label: 'Plugins',
-        items: ['using-plugins', 'advanced-plugins'],
-      },
-      {
-        type: 'category',
-        label: 'Themes',
-        items: ['using-themes', 'advanced-themes', 'theme-classic'],
-      },
-      'presets',
-    ],
+    'Advanced Guides': ['using-plugins', 'using-themes', 'presets'],
     'API Reference': [
       'cli',
       'docusaurus-core',
       'docusaurus.config.js',
       'lifecycle-apis',
+      'theme-classic',
     ],
   },
 };

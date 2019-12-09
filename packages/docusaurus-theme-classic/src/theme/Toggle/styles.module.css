@@ -26,6 +26,7 @@
 /**
  * styles for React Toggle
  * copied over because we want to allow user to swizzle it and modify the css
+ * and also to make sure its compatible with our dark mode
  * https://github.com/aaronshaf/react-toggle/blob/master/style.css
  */
 :global(.react-toggle) {
@@ -62,9 +63,6 @@
 
 :global(.react-toggle--disabled) {
   cursor: not-allowed;
-  opacity: 0.5;
-  -webkit-transition: opacity 0.25s;
-  transition: opacity 0.25s;
 }
 
 :global(.react-toggle-track) {
@@ -94,6 +92,7 @@
   transition: opacity 0.25s ease;
 }
 
+:global([data-theme="dark"] .react-toggle .react-toggle-track-check),
 :global(.react-toggle--checked .react-toggle-track-check) {
   opacity: 1;
   -webkit-transition: opacity 0.25s ease;
@@ -117,6 +116,7 @@
   transition: opacity 0.25s ease;
 }
 
+:global([data-theme="dark"] .react-toggle .react-toggle-track-x),
 :global(.react-toggle--checked .react-toggle-track-x) {
   opacity: 0;
 }
@@ -141,6 +141,7 @@
   transition: all 0.25s ease;
 }
 
+:global([data-theme="dark"] .react-toggle .react-toggle-thumb),
 :global(.react-toggle--checked .react-toggle-thumb) {
   left: 27px;
   border-color: #19ab27;

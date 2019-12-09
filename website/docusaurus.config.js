@@ -9,13 +9,16 @@ const versions = require('./versions.json');
 
 module.exports = {
   title: 'Docusaurus',
-  tagline:
-    'An optimized site generator in React. Docusaurus helps you to move fast and write content. Build documentation websites, blogs, marketing pages, and more.',
+  tagline: 'Build optimized websites quickly, focus on your content',
   organizationName: 'facebook',
   projectName: 'docusaurus',
   baseUrl: '/',
   url: 'https://v2.docusaurus.io',
   favicon: 'img/docusaurus.ico',
+  customFields: {
+    description:
+      'An optimized site generator in React. Docusaurus helps you to move fast and write content. Build documentation websites, blogs, marketing pages, and more.',
+  },
   themes: ['@docusaurus/theme-live-codeblock'],
   plugins: [
     [
@@ -66,7 +69,9 @@ module.exports = {
     algolia: {
       apiKey: '47ecd3b21be71c5822571b9f59e52544',
       indexName: 'docusaurus-2',
-      algoliaOptions: {},
+      algoliaOptions: {
+        facetFilters: [`version:${versions[0]}`],
+      },
     },
     navbar: {
       hideOnScroll: true,

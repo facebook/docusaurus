@@ -5,47 +5,66 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {
-  useState,
-  useEffect,
-  useContext,
-  useRef,
-  useCallback,
-} from 'react';
+import React, {useRef, useCallback} from 'react';
 import classnames from 'classnames';
 
-import DocusaurusContext from '@docusaurus/context';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import {useHistory} from '@docusaurus/router';
 
 import './styles.css';
 
+const loadJS = () => import('docsearch.js');
+let loadedJs = false;
+
 const Search = props => {
-  const [isEnabled, setIsEnabled] = useState(true);
+  const initialized = useRef(false);
   const searchBarRef = useRef(null);
-  const context = useContext(DocusaurusContext);
+  const {siteConfig = {}} = useDocusaurusContext();
+  const {
+    themeConfig: {algolia},
+  } = siteConfig;
+  const history = useHistory();
 
-  useEffect(() => {
-    const {siteConfig = {}} = context;
-    const {
-      themeConfig: {algolia},
-    } = siteConfig;
+  const initAlgolia = () => {
+    if (!initialized.current) {
+      window.docsearch({
+        appId: algolia.appId,
+        apiKey: algolia.apiKey,
+        indexName: algolia.indexName,
+        inputSelector: '#search_input_react',
+        algoliaOptions: algolia.algoliaOptions,
+        // Override algolia's default selection event, allowing us to do client-side
+        // navigation and avoiding a full page refresh.
+        handleSelected: (_input, _event, suggestion) => {
+          // Use an anchor tag to parse the absolute url into a relative url
+          // Alternatively, we can use new URL(suggestion.url) but its not supported in IE
+          const a = document.createElement('a');
+          a.href = suggestion.url;
 
-    // https://github.com/algolia/docsearch/issues/352
-    const isClient = typeof window !== 'undefined';
-    if (isClient) {
-      import('docsearch.js').then(({default: docsearch}) => {
-        docsearch({
-          appId: algolia.appId,
-          apiKey: algolia.apiKey,
-          indexName: algolia.indexName,
-          inputSelector: '#search_input_react',
-          algoliaOptions: algolia.algoliaOptions,
-        });
+          // Algolia use closest parent element id #__docusaurus when a h1 page title does not have an id
+          // So, we can safely remove it. See https://github.com/facebook/docusaurus/issues/1828 for more details.
+          const routePath =
+            `#__docusaurus` === a.hash
+              ? `${a.pathname}`
+              : `${a.pathname}${a.hash}`;
+          history.push(routePath);
+        },
+      });
+      initialized.current = true;
+    }
+  };
+
+  const loadAlgoliaJS = () => {
+    if (!loadedJs) {
+      loadJS().then(a => {
+        loadedJs = true;
+        window.docsearch = a.default;
+        initAlgolia();
       });
     } else {
-      console.warn('Search has failed to load and now is being disabled');
-      setIsEnabled(false);
+      initAlgolia();
     }
-  }, []);
+  };
 
   const toggleSearchIconClick = useCallback(
     e => {
@@ -58,7 +77,7 @@ const Search = props => {
     [props.isSearchBarExpanded],
   );
 
-  return isEnabled ? (
+  return (
     <div className="navbar__search" key="search-box">
       <span
         aria-label="expand searchbar"
@@ -80,12 +99,14 @@ const Search = props => {
           {'search-bar-expanded': props.isSearchBarExpanded},
           {'search-bar': !props.isSearchBarExpanded},
         )}
+        onClick={loadAlgoliaJS}
+        onMouseOver={loadAlgoliaJS}
         onFocus={toggleSearchIconClick}
         onBlur={toggleSearchIconClick}
         ref={searchBarRef}
       />
     </div>
-  ) : null;
+  );
 };
 
 export default Search;

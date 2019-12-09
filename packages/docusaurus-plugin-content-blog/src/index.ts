@@ -13,18 +13,21 @@ import {normalizeUrl, docuHash} from '@docusaurus/utils';
 import {
   PluginOptions,
   BlogTags,
-  Tag,
   BlogContent,
-  BlogItemsToModules,
+  BlogItemsToMetadata,
   TagsModule,
+  BlogPaginated,
+  FeedType,
 } from './types';
 import {
   LoadContext,
   PluginContentLoadedActions,
   ConfigureWebpackUtils,
   Props,
+  Plugin,
+  HtmlTags,
 } from '@docusaurus/types';
-import {Configuration} from 'webpack';
+import {Configuration, Loader} from 'webpack';
 import {generateBlogFeed, generateBlogPosts} from './blogUtils';
 
 const DEFAULT_OPTIONS: PluginOptions = {
@@ -41,10 +44,30 @@ const DEFAULT_OPTIONS: PluginOptions = {
   truncateMarker: /<!--\s*(truncate)\s*-->/, // string or regex
 };
 
+function assertFeedTypes(val: any): asserts val is FeedType {
+  if (typeof val !== 'string' && !['rss', 'atom', 'all'].includes(val)) {
+    throw new Error(
+      `Invalid feedOptions type: ${val}. It must be either 'rss', 'atom', or 'all'`,
+    );
+  }
+}
+
+const getFeedTypes = (type?: FeedType) => {
+  assertFeedTypes(type);
+  let feedTypes: ('rss' | 'atom')[] = [];
+
+  if (type === 'all') {
+    feedTypes = ['rss', 'atom'];
+  } else {
+    feedTypes.push(type);
+  }
+  return feedTypes;
+};
+
 export default function pluginContentBlog(
   context: LoadContext,
   opts: Partial<PluginOptions>,
-) {
+): Plugin<BlogContent | null> {
   const options: PluginOptions = {...DEFAULT_OPTIONS, ...opts};
   const contentPath = path.resolve(context.siteDir, options.path);
   const dataDir = path.join(
@@ -98,7 +121,7 @@ export default function pluginContentBlog(
       } = context;
       const basePageUrl = normalizeUrl([baseUrl, routeBasePath]);
 
-      const blogListPaginated = [];
+      const blogListPaginated: BlogPaginated[] = [];
 
       function blogPaginationPermalink(page: number) {
         return page > 0
@@ -155,7 +178,7 @@ export default function pluginContentBlog(
             return {
               label: tag,
               permalink,
-            } as Tag;
+            };
           } else {
             return tag;
           }
@@ -192,7 +215,7 @@ export default function pluginContentBlog(
       } = options;
 
       const aliasedSource = (source: string) =>
-        `@docusaurus-plugin-content-blog/${path.relative(dataDir, source)}`;
+        `~blog/${path.relative(dataDir, source)}`;
       const {addRoute, createData} = actions;
       const {
         blogPosts,
@@ -201,40 +224,30 @@ export default function pluginContentBlog(
         blogTagsListPath,
       } = blogContents;
 
-      const blogItemsToModules: BlogItemsToModules = {};
+      const blogItemsToMetadata: BlogItemsToMetadata = {};
+
       // Create routes for blog entries.
-      const blogItems = await Promise.all(
+      await Promise.all(
         blogPosts.map(async blogPost => {
           const {id, metadata} = blogPost;
-          const {permalink} = metadata;
-          const metadataPath = await createData(
-            `${docuHash(permalink)}.json`,
+          await createData(
+            // Note that this created data path must be in sync with markdownLoader.ts metadataPath
+            `${docuHash(metadata.source)}.json`,
             JSON.stringify(metadata, null, 2),
           );
-          const temp = {
-            metadata,
-            metadataPath,
-          };
 
-          blogItemsToModules[id] = temp;
-          return temp;
+          addRoute({
+            path: metadata.permalink,
+            component: blogPostComponent,
+            exact: true,
+            modules: {
+              content: metadata.source,
+            },
+          });
+
+          blogItemsToMetadata[id] = metadata;
         }),
       );
-
-      blogItems.map(blogItem => {
-        const {metadata, metadataPath} = blogItem;
-        const {source, permalink} = metadata;
-
-        addRoute({
-          path: permalink,
-          component: blogPostComponent,
-          exact: true,
-          modules: {
-            content: source,
-            metadata: aliasedSource(metadataPath),
-          },
-        });
-      });
 
       // Create routes for blog's paginated list entries.
       await Promise.all(
@@ -252,20 +265,16 @@ export default function pluginContentBlog(
             exact: true,
             modules: {
               items: items.map(postID => {
-                const {
-                  metadata: postMetadata,
-                  metadataPath,
-                } = blogItemsToModules[postID];
+                const metadata = blogItemsToMetadata[postID];
                 // To tell routes.js this is an import and not a nested object to recurse.
                 return {
                   content: {
                     __import: true,
-                    path: postMetadata.source,
+                    path: metadata.source,
                     query: {
                       truncated: true,
                     },
                   },
-                  metadata: aliasedSource(metadataPath),
                 };
               }),
               metadata: aliasedSource(pageMetadataPath),
@@ -275,6 +284,10 @@ export default function pluginContentBlog(
       );
 
       // Tags.
+      if (blogTagsListPath === null) {
+        return;
+      }
+
       const tagsModule: TagsModule = {};
 
       await Promise.all(
@@ -300,19 +313,15 @@ export default function pluginContentBlog(
             exact: true,
             modules: {
               items: items.map(postID => {
-                const {
-                  metadata: postMetadata,
-                  metadataPath,
-                } = blogItemsToModules[postID];
+                const metadata = blogItemsToMetadata[postID];
                 return {
                   content: {
                     __import: true,
-                    path: postMetadata.source,
+                    path: metadata.source,
                     query: {
                       truncated: true,
                     },
                   },
-                  metadata: aliasedSource(metadataPath),
                 };
               }),
               metadata: aliasedSource(tagsMetadataPath),
@@ -348,7 +357,7 @@ export default function pluginContentBlog(
       return {
         resolve: {
           alias: {
-            '@docusaurus-plugin-content-blog': dataDir,
+            '~blog': dataDir,
           },
         },
         module: {
@@ -369,10 +378,12 @@ export default function pluginContentBlog(
                 {
                   loader: path.resolve(__dirname, './markdownLoader.js'),
                   options: {
+                    dataDir,
+                    siteDir: context.siteDir,
                     truncateMarker,
                   },
                 },
-              ].filter(Boolean),
+              ].filter(Boolean) as Loader[],
             },
           ],
         },
@@ -384,19 +395,13 @@ export default function pluginContentBlog(
         return;
       }
 
-      const {
-        feedOptions: {type: feedType},
-      } = options;
       const feed = await generateBlogFeed(context, options);
+
       if (!feed) {
         return;
       }
-      let feedTypes = [];
-      if (feedType === 'all') {
-        feedTypes = ['rss', 'atom'];
-      } else {
-        feedTypes.push(feedType);
-      }
+
+      const feedTypes = getFeedTypes(options.feedOptions?.type);
 
       await Promise.all(
         feedTypes.map(feedType => {
@@ -413,6 +418,55 @@ export default function pluginContentBlog(
           });
         }),
       );
+    },
+
+    injectHtmlTags() {
+      if (!options.feedOptions) {
+        return {};
+      }
+
+      const feedTypes = getFeedTypes(options.feedOptions?.type);
+      const {
+        siteConfig: {title},
+        baseUrl,
+      } = context;
+      const feedsConfig = {
+        rss: {
+          type: 'application/rss+xml',
+          path: 'blog/rss.xml',
+          title: `${title} Blog RSS Feed`,
+        },
+        atom: {
+          type: 'application/atom+xml',
+          path: 'blog/atom.xml',
+          title: `${title} Blog Atom Feed`,
+        },
+      };
+      const headTags: HtmlTags = [];
+
+      feedTypes.map(feedType => {
+        const feedConfig = feedsConfig[feedType] || {};
+
+        if (!feedsConfig) {
+          return;
+        }
+
+        const {type, path, title} = feedConfig;
+
+        headTags.push({
+          tagName: 'link',
+          attributes: {
+            rel: 'alternate',
+            type,
+            href: normalizeUrl([baseUrl, path]),
+            title,
+          },
+        });
+      });
+
+      return {
+        headTags,
+      };
     },
   };
 }

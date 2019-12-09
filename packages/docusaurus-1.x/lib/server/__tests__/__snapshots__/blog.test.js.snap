@@ -9,7 +9,8 @@ Object {
   "content": "
 ![Docusaurus](/img/slash-introducing.png)
 
-We are very happy to introduce [Docusaurus](https://github.com/facebook/docusaurus) to help you manage one or many open source websites.",
+We are very happy to introduce [Docusaurus](https://github.com/facebook/docusaurus) to help you manage one or many open source websites.
+",
   "id": "Docusaurus",
   "path": "2018/08/17/docusaurus.html",
   "title": "Docusaurus",
@@ -33,15 +34,17 @@ exports[`replaceAssetsLink does not transform document without valid assets link
 - [doc2](./doc2.md)
 
 ## Do not replace this
+
 \`\`\`md
 ![image1](assets/image1.png)
 \`\`\`
 
 \`\`\`js
 const doc1 = foo();
-console.log(\\"[image2](assets/image2.jpg)\\");
+console.log('[image2](assets/image2.jpg)');
 const testStr = \`![image3](assets/image3.gif)\`;
-\`\`\`"
+\`\`\`
+"
 `;
 
 exports[`replaceAssetsLink transform document with valid assets link 1`] = `
@@ -51,15 +54,17 @@ Docusaurus is the best :)
 ![image1](/blog/assets/image1.png)
 
 \`\`\`js
-console.log(\\"Docusaurus\\");
+console.log('Docusaurus');
 \`\`\`
 
 ![image2](/blog/assets/image2.jpg)
+
 ![image3](/blog/assets/image3.gif)
 
 Don't replace the one below
-\`\`\`md
 
+\`\`\`md
 ![image4](assets/image4.bmp)
-\`\`\`"
+\`\`\`
+"
 `;

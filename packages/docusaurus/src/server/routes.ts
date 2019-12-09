@@ -91,7 +91,10 @@ export async function loadRoutes(pluginsRouteConfigs: RouteConfig[]) {
       if (isModule(value)) {
         const modulePath = getModulePath(value);
         const chunkName = genChunkName(modulePath, prefix, name);
-        const loader = `() => import(/* webpackChunkName: '${chunkName}' */ "${modulePath}")`;
+        // We need to JSON.stringify so that if its on windows, backslash are escaped.
+        const loader = `() => import(/* webpackChunkName: '${chunkName}' */ ${JSON.stringify(
+          modulePath,
+        )})`;
 
         registry[chunkName] = {
           loader,

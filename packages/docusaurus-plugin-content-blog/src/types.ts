@@ -1,14 +1,23 @@
+/**
+ * Copyright (c) 2017-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
 export interface BlogContent {
   blogPosts: BlogPost[];
   blogListPaginated: BlogPaginated[];
   blogTags: BlogTags;
-  blogTagsListPath: string;
+  blogTagsListPath: string | null;
 }
 
 export interface DateLink {
   date: Date;
   link: string;
 }
+
+export type FeedType = 'rss' | 'atom' | 'all';
 
 export interface PluginOptions {
   path: string;
@@ -23,7 +32,7 @@ export interface PluginOptions {
   rehypePlugins: string[];
   truncateMarker: RegExp | string;
   feedOptions?: {
-    type: 'rss' | 'atom' | 'all';
+    type: FeedType;
     title?: string;
     description?: string;
     copyright: string;
@@ -46,8 +55,18 @@ export interface BlogPost {
   metadata: MetaData;
 }
 
+export interface BlogPaginatedMetadata {
+  permalink: string;
+  page: number;
+  postsPerPage: number;
+  totalPages: number;
+  totalCount: number;
+  previousPage: string | null;
+  nextPage: string | null;
+}
+
 export interface BlogPaginated {
-  metadata: MetaData;
+  metadata: BlogPaginatedMetadata;
   items: string[];
 }
 
@@ -72,13 +91,8 @@ export interface Tag {
   permalink: string;
 }
 
-export interface BlogItemsToModules {
-  [key: string]: MetaDataWithPath;
-}
-
-export interface MetaDataWithPath {
-  metadata: MetaData;
-  metadataPath: string;
+export interface BlogItemsToMetadata {
+  [key: string]: MetaData;
 }
 
 export interface TagsModule {

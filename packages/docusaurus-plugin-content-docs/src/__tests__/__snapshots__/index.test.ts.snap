@@ -55,7 +55,7 @@ Array [
   Object {
     "component": "@theme/DocPage",
     "modules": Object {
-      "docsMetadata": "@docusaurus-plugin-content-docs/docs-route-ff2.json",
+      "docsMetadata": "~docs/docs-route-ff2.json",
     },
     "path": "/docs/:route",
     "priority": undefined,
@@ -65,7 +65,6 @@ Array [
         "exact": true,
         "modules": Object {
           "content": "@site/docs/foo/bar.md",
-          "metadata": "@docusaurus-plugin-content-docs/docs-foo-bar-cef.json",
         },
         "path": "/docs/foo/bar",
       },
@@ -74,7 +73,6 @@ Array [
         "exact": true,
         "modules": Object {
           "content": "@site/docs/foo/baz.md",
-          "metadata": "@docusaurus-plugin-content-docs/docs-foo-baz-dd9.json",
         },
         "path": "/docs/foo/baz",
       },
@@ -83,7 +81,6 @@ Array [
         "exact": true,
         "modules": Object {
           "content": "@site/docs/hello.md",
-          "metadata": "@docusaurus-plugin-content-docs/docs-hello-da2.json",
         },
         "path": "/docs/hello",
       },
@@ -92,7 +89,6 @@ Array [
         "exact": true,
         "modules": Object {
           "content": "@site/docs/lorem.md",
-          "metadata": "@docusaurus-plugin-content-docs/docs-lorem-17b.json",
         },
         "path": "/docs/lorem",
       },
@@ -106,7 +102,7 @@ Array [
   Object {
     "component": "@theme/DocPage",
     "modules": Object {
-      "docsMetadata": "@docusaurus-plugin-content-docs/docs-1-0-0-route-660.json",
+      "docsMetadata": "~docs/docs-1-0-0-route-660.json",
     },
     "path": "/docs/1.0.0/:route",
     "priority": undefined,
@@ -116,7 +112,6 @@ Array [
         "exact": true,
         "modules": Object {
           "content": "@site/versioned_docs/version-1.0.0/foo/bar.md",
-          "metadata": "@docusaurus-plugin-content-docs/docs-1-0-0-foo-bar-568.json",
         },
         "path": "/docs/1.0.0/foo/bar",
       },
@@ -125,7 +120,6 @@ Array [
         "exact": true,
         "modules": Object {
           "content": "@site/versioned_docs/version-1.0.0/foo/baz.md",
-          "metadata": "@docusaurus-plugin-content-docs/docs-1-0-0-foo-baz-5e1.json",
         },
         "path": "/docs/1.0.0/foo/baz",
       },
@@ -134,7 +128,6 @@ Array [
         "exact": true,
         "modules": Object {
           "content": "@site/versioned_docs/version-1.0.0/hello.md",
-          "metadata": "@docusaurus-plugin-content-docs/docs-1-0-0-hello-1d0.json",
         },
         "path": "/docs/1.0.0/hello",
       },
@@ -143,7 +136,7 @@ Array [
   Object {
     "component": "@theme/DocPage",
     "modules": Object {
-      "docsMetadata": "@docusaurus-plugin-content-docs/docs-next-route-1c8.json",
+      "docsMetadata": "~docs/docs-next-route-1c8.json",
     },
     "path": "/docs/next/:route",
     "priority": undefined,
@@ -153,7 +146,6 @@ Array [
         "exact": true,
         "modules": Object {
           "content": "@site/docs/foo/bar.md",
-          "metadata": "@docusaurus-plugin-content-docs/docs-next-foo-bar-09c.json",
         },
         "path": "/docs/next/foo/bar",
       },
@@ -162,7 +154,6 @@ Array [
         "exact": true,
         "modules": Object {
           "content": "@site/docs/hello.md",
-          "metadata": "@docusaurus-plugin-content-docs/docs-next-hello-64c.json",
         },
         "path": "/docs/next/hello",
       },
@@ -171,7 +162,7 @@ Array [
   Object {
     "component": "@theme/DocPage",
     "modules": Object {
-      "docsMetadata": "@docusaurus-plugin-content-docs/docs-route-ff2.json",
+      "docsMetadata": "~docs/docs-route-ff2.json",
     },
     "path": "/docs/:route",
     "priority": -1,
@@ -181,7 +172,6 @@ Array [
         "exact": true,
         "modules": Object {
           "content": "@site/versioned_docs/version-1.0.1/foo/bar.md",
-          "metadata": "@docusaurus-plugin-content-docs/docs-foo-bar-cef.json",
         },
         "path": "/docs/foo/bar",
       },
@@ -190,7 +180,6 @@ Array [
         "exact": true,
         "modules": Object {
           "content": "@site/versioned_docs/version-1.0.1/hello.md",
-          "metadata": "@docusaurus-plugin-content-docs/docs-hello-da2.json",
         },
         "path": "/docs/hello",
       },
