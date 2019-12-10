@@ -75,7 +75,8 @@
       "git add"
     ],
     "*.md": [
-      "yarn prettier-docs"
+      "yarn prettier-docs",
+      "git add"
     ]
   },
   "husky": {
