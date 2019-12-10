@@ -14,7 +14,10 @@ const useTheme = () => {
   );
   React.useEffect(() => {
     try {
-      setTheme(localStorage.getItem('theme'));
+      const localStorageTheme = localStorage.getItem('theme');
+      if (localStorageTheme !== null) {
+        setTheme(localStorageTheme);
+      }
     } catch (err) {
       console.error(err);
     }
