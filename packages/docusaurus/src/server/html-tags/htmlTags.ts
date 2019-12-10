@@ -9,6 +9,7 @@ import _ from 'lodash';
 import {HtmlTagObject} from '@docusaurus/types';
 import htmlTags from 'html-tags';
 import voidHtmlTags from 'html-tags/void';
+import {transform as babelTransform} from '@babel/core';
 
 function assertIsHtmlTagObject(val: any): asserts val is HtmlTagObject {
   if (!_.isPlainObject(val)) {
@@ -42,11 +43,24 @@ export function htmlTagObjectToString(tagDefinition: any): string {
       }
       return attributeName + '="' + tagAttributes[attributeName] + '"';
     });
+  let tagContent = tagDefinition.innerHTML;
+
+  if (
+    tagDefinition.tagName === 'script' &&
+    tagContent &&
+    process.env.NODE_ENV === 'production'
+  ) {
+    tagContent = babelTransform(tagContent, {
+      comments: false,
+      presets: ['@babel/preset-env', 'minify'],
+    })!.code;
+  }
+
   return (
     '<' +
     [tagDefinition.tagName].concat(attributes).join(' ') +
     '>' +
-    ((!isVoidTag && tagDefinition.innerHTML) || '') +
+    ((!isVoidTag && tagContent) || '') +
     (isVoidTag ? '' : '</' + tagDefinition.tagName + '>')
   );
 }

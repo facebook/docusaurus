@@ -181,5 +181,5 @@ interface HtmlTagObject {
   /**
    * The inner HTML
    */
-  innerHTML?: string;
+  innerHTML?: string | null;
 }

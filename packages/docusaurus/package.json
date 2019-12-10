@@ -42,6 +42,7 @@
     "@endiliey/static-site-generator-webpack-plugin": "^4.0.0",
     "babel-loader": "^8.0.6",
     "babel-plugin-dynamic-import-node": "^2.3.0",
+    "babel-preset-minify": "^0.5.1",
     "cache-loader": "^4.1.0",
     "chalk": "^3.0.0",
     "chokidar": "^3.3.0",
