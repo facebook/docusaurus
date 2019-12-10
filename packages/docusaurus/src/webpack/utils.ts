@@ -127,6 +127,10 @@ export function getBabelLoader(isServer: boolean, babelOptions?: {}): Loader {
             {
               corejs: false,
               helpers: true,
+              // By default, it assumes @babel/runtime@7.0.0. Since we use >7.0.0, better to
+              // explicitly specify the version so that it can reuse the helper better
+              // See https://github.com/babel/babel/issues/10261
+              version: require('@babel/runtime/package.json').version,
               regenerator: true,
               useESModules: true,
               // Undocumented option that lets us encapsulate our runtime, ensuring
