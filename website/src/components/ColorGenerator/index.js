@@ -9,6 +9,8 @@ import React, {useState} from 'react';
 
 import Color from 'color';
 
+import CodeBlock from '@theme/CodeBlock';
+
 import styles from './styles.module.css';
 
 const COLOR_SHADES = {
@@ -154,12 +156,12 @@ function ColorGenerator({children, minHeight, url}) {
         Replace the variables in <code>src/css/custom.css</code> with these new
         variables.
       </p>
-      <pre>
+      <CodeBlock className="css">
         {adjustedColors
           .sort((a, b) => a.codeOrder - b.codeOrder)
           .map(value => `${value.variableName}: ${value.hex.toLowerCase()};`)
           .join('\n')}
-      </pre>
+      </CodeBlock>
     </div>
   );
 }
