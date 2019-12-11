@@ -9,7 +9,12 @@ import _ from 'lodash';
 import globby from 'globby';
 import fs from 'fs-extra';
 import path from 'path';
-import {normalizeUrl, docuHash, objectWithKeySorted} from '@docusaurus/utils';
+import {
+  normalizeUrl,
+  docuHash,
+  objectWithKeySorted,
+  aliasedSitePath,
+} from '@docusaurus/utils';
 import {LoadContext, Plugin, RouteConfig} from '@docusaurus/types';
 
 import createOrder from './order';
@@ -285,7 +290,7 @@ export default function pluginContentDocs(
         const routes = await Promise.all(
           metadataItems.map(async metadataItem => {
             await createData(
-              // Note that this created data path must be in sync with markdown/index.ts metadataPath
+              // Note that this created data path must be in sync with metadataPath provided to mdx-loader
               `${docuHash(metadataItem.source)}.json`,
               JSON.stringify(metadataItem, null, 2),
             );
@@ -404,13 +409,20 @@ export default function pluginContentDocs(
                   options: {
                     remarkPlugins,
                     rehypePlugins,
+                    metadataPath: (mdxPath: string) => {
+                      // Note that metadataPath must be the same/ in-sync as the path from createData for each MDX
+                      const aliasedSource = aliasedSitePath(mdxPath, siteDir);
+                      return path.join(
+                        dataDir,
+                        `${docuHash(aliasedSource)}.json`,
+                      );
+                    },
                   },
                 },
                 {
                   loader: path.resolve(__dirname, './markdown/index.js'),
                   options: {
                     siteDir,
-                    dataDir,
                     docsDir,
                     sourceToPermalink: sourceToPermalink,
                     versionedDir,

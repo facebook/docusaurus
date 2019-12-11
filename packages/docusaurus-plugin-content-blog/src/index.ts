@@ -8,7 +8,7 @@
 import fs from 'fs-extra';
 import _ from 'lodash';
 import path from 'path';
-import {normalizeUrl, docuHash} from '@docusaurus/utils';
+import {normalizeUrl, docuHash, aliasedSitePath} from '@docusaurus/utils';
 
 import {
   PluginOptions,
@@ -69,9 +69,10 @@ export default function pluginContentBlog(
   opts: Partial<PluginOptions>,
 ): Plugin<BlogContent | null> {
   const options: PluginOptions = {...DEFAULT_OPTIONS, ...opts};
-  const contentPath = path.resolve(context.siteDir, options.path);
+  const {siteDir, generatedFilesDir} = context;
+  const contentPath = path.resolve(siteDir, options.path);
   const dataDir = path.join(
-    context.generatedFilesDir,
+    generatedFilesDir,
     'docusaurus-plugin-content-blog',
   );
 
@@ -231,7 +232,7 @@ export default function pluginContentBlog(
         blogPosts.map(async blogPost => {
           const {id, metadata} = blogPost;
           await createData(
-            // Note that this created data path must be in sync with markdownLoader.ts metadataPath
+            // Note that this created data path must be in sync with metadataPath provided to mdx-loader
             `${docuHash(metadata.source)}.json`,
             JSON.stringify(metadata, null, 2),
           );
@@ -373,13 +374,19 @@ export default function pluginContentBlog(
                   options: {
                     remarkPlugins,
                     rehypePlugins,
+                    // Note that metadataPath must be the same/ in-sync as the path from createData for each MDX
+                    metadataPath: (mdxPath: string) => {
+                      const aliasedSource = aliasedSitePath(mdxPath, siteDir);
+                      return path.join(
+                        dataDir,
+                        `${docuHash(aliasedSource)}.json`,
+                      );
+                    },
                   },
                 },
                 {
                   loader: path.resolve(__dirname, './markdownLoader.js'),
                   options: {
-                    dataDir,
-                    siteDir: context.siteDir,
                     truncateMarker,
                   },
                 },
