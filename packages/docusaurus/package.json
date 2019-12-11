@@ -55,6 +55,7 @@
     "express": "^4.17.1",
     "fs-extra": "^8.1.0",
     "globby": "^10.0.1",
+    "html-minifier-terser": "^5.0.2",
     "html-tags": "^3.1.0",
     "html-webpack-plugin": "^4.0.0-beta.11",
     "import-fresh": "^3.2.1",

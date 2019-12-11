@@ -13,6 +13,7 @@ import {Helmet} from 'react-helmet';
 import {getBundles} from 'react-loadable-ssr-addon';
 import Loadable from 'react-loadable';
 
+import {minify} from 'html-minifier-terser';
 import path from 'path';
 import fs from 'fs-extra';
 import routes from '@generated/routes';
@@ -68,7 +69,7 @@ export default async function render(locals) {
   const scripts = (bundles.js || []).map(b => b.file);
   const {baseUrl} = locals;
 
-  return ejs.render(
+  const renderedHtml = ejs.render(
     ssrTemplate.trim(),
     {
       appHtml,
@@ -87,4 +88,17 @@ export default async function render(locals) {
       rmWhitespace: true,
     },
   );
+
+  // minify html
+  return minify(renderedHtml, {
+    // https://github.com/DanielRuf/html-minifier-terser
+    collapseWhitespace: true,
+    removeComments: true,
+    removeRedundantAttributes: true,
+    removeScriptTypeAttributes: true,
+    removeStyleLinkTypeAttributes: true,
+    useShortDoctype: true,
+    minifyJS: true,
+    minifyCSS: true,
+  });
 }
