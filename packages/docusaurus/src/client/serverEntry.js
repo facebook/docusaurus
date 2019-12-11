@@ -89,9 +89,8 @@ export default async function render(locals) {
     },
   );
 
-  // minify html
+  // minify html with https://github.com/DanielRuf/html-minifier-terser
   return minify(renderedHtml, {
-    // https://github.com/DanielRuf/html-minifier-terser
     collapseWhitespace: true,
     removeComments: true,
     removeRedundantAttributes: true,
