@@ -14,19 +14,29 @@ const noFlash = `(function() {
   function setDataThemeAttribute(theme) {
     document.querySelector('html').setAttribute('data-theme', theme);
   }
-  
-  var preferDarkQuery = '(prefers-color-scheme: dark)';
-  var mql = window.matchMedia(preferDarkQuery);
-  var supportsColorSchemeQuery = mql.media === preferDarkQuery;
-  var localStorageTheme = null;
-  try {
-    localStorageTheme = localStorage.getItem('${storageKey}');
-  } catch (err) {}
-  var localStorageExists = localStorageTheme !== null;
 
-  if (localStorageExists) {
-    setDataThemeAttribute(localStorageTheme);
-  } else if (supportsColorSchemeQuery && mql.matches) {
+  function getPreferredTheme() {
+    var theme = null;
+    try {
+      theme = localStorage.getItem('${storageKey}');
+    } catch (err) {}
+
+    return theme;
+  }
+
+  var darkQuery = window.matchMedia('(prefers-color-scheme: dark)');
+  darkQuery.addListener(function(e) {
+    if (getPreferredTheme() !== null) {
+      return;
+    }
+
+    setDataThemeAttribute(e.matches ? 'dark' : '');
+  });
+
+  var preferredTheme = getPreferredTheme();
+  if (preferredTheme !== null) {
+    setDataThemeAttribute(preferredTheme);
+  } else if (darkQuery.matches) {
     setDataThemeAttribute('dark');
   }
 })();`;
