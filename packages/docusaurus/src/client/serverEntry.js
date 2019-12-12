@@ -94,6 +94,7 @@ export default async function render(locals) {
     collapseWhitespace: true,
     removeComments: true,
     removeRedundantAttributes: true,
+    removeEmptyAttributes: true,
     removeScriptTypeAttributes: true,
     removeStyleLinkTypeAttributes: true,
     useShortDoctype: true,
