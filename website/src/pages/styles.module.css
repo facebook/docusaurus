@@ -93,6 +93,8 @@
 }
 
 .indexCtas {
+  display: flex;
+  align-items: center;
   margin-top: 24px;
 }
 
@@ -112,7 +114,7 @@
 }
 
 .indexCtasGitHubButtonWrapper {
-  vertical-align: sub;
+  display: flex;
 }
 
 .indexCtasGitHubButton {
@@ -143,7 +145,7 @@
   }
 
   .indexCtas {
-    text-align: center;
+    justify-content: center;
   }
 
   .indexCtasGitHubButton {
