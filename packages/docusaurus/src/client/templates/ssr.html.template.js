@@ -13,7 +13,6 @@ module.exports = `
     <meta name="viewport" content="width=device-width">
     <meta name="generator" content="Docusaurus">
     <%- headTags %>
-    <%- chunkManifestScript %>
     <% metaAttributes.forEach((metaAttribute) => { %>
       <%- metaAttribute %>
     <% }); %>
