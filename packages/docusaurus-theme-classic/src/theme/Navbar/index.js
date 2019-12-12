@@ -17,6 +17,7 @@ import Toggle from '@theme/Toggle';
 import classnames from 'classnames';
 
 import useTheme from '@theme/hooks/useTheme';
+import useHideableNavbar from '@theme/hooks/useHideableNavbar';
 
 import styles from './styles.module.css';
 
@@ -43,13 +44,15 @@ function NavLink({to, href, label, position, ...props}) {
 
 function Navbar() {
   const context = useDocusaurusContext();
-  const [sidebarShown, setSidebarShown] = useState(false);
-  const [isSearchBarExpanded, setIsSearchBarExpanded] = useState(false);
-  const [theme, setTheme] = useTheme();
   const {siteConfig = {}} = context;
   const {baseUrl, themeConfig = {}} = siteConfig;
   const {navbar = {}, disableDarkMode = false} = themeConfig;
-  const {title, logo = {}, links = []} = navbar;
+  const {title, logo = {}, links = [], hideOnScroll = false} = navbar;
+  const [sidebarShown, setSidebarShown] = useState(false);
+  const [isSearchBarExpanded, setIsSearchBarExpanded] = useState(false);
+  const [theme, setTheme] = useTheme();
+
+  const {navbarRef, isNavbarVisible} = useHideableNavbar(hideOnScroll);
 
   const showSidebar = useCallback(() => {
     setSidebarShown(true);
@@ -71,8 +74,11 @@ function Navbar() {
         <html lang="en" data-theme={theme} />
       </Head>
       <nav
+        ref={navbarRef}
         className={classnames('navbar', 'navbar--light', 'navbar--fixed-top', {
           'navbar-sidebar--show': sidebarShown,
+          [styles.navbarHideable]: hideOnScroll,
+          [styles.navbarHidden]: !isNavbarVisible,
         })}>
         <div className="navbar__inner">
           <div className="navbar__items">
