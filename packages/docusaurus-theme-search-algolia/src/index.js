@@ -14,5 +14,25 @@ module.exports = function() {
     getThemePath() {
       return path.resolve(__dirname, './theme');
     },
+
+    configureWebpack() {
+      // Ensure that algolia docsearch css is its own chunk
+      return {
+        optimization: {
+          splitChunks: {
+            cacheGroups: {
+              algolia: {
+                name: 'algolia',
+                test: /algolia\.css$/,
+                chunks: `all`,
+                enforce: true,
+                // Set priority higher than docusaurus single-css extraction
+                priority: 60,
+              },
+            },
+          },
+        },
+      };
+    },
   };
 };

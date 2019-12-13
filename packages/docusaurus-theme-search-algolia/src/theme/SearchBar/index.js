@@ -5,14 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useRef, useCallback} from 'react';
+import React, {useRef, useCallback, useEffect} from 'react';
 import classnames from 'classnames';
 
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useHistory} from '@docusaurus/router';
 
-import './styles.css';
-
+const loadCss = () => import('./algolia.css');
 const loadJS = () => import('docsearch.js');
 let loadedJs = false;
 
@@ -76,6 +75,17 @@ const Search = props => {
     },
     [props.isSearchBarExpanded],
   );
+
+  useEffect(() => {
+    if (
+      typeof window === `undefined` ||
+      typeof window.docsearch === `undefined`
+    ) {
+      // Algolia's docsearch lib not loaded yet so load it.
+      // Lazy load css
+      loadCss();
+    }
+  }, []);
 
   return (
     <div className="navbar__search" key="search-box">
