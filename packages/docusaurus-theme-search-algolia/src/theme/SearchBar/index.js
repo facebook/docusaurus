@@ -77,10 +77,7 @@ const Search = props => {
   );
 
   useEffect(() => {
-    if (
-      typeof window === `undefined` ||
-      typeof window.docsearch === `undefined`
-    ) {
+    if (typeof window.docsearch === `undefined`) {
       // Algolia's docsearch lib not loaded yet so load it.
       // Lazy load css
       loadCss();
