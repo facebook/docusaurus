@@ -50,18 +50,6 @@ export default async function render(locals) {
   const manifestPath = path.join(generatedFilesDir, 'client-manifest.json');
   const manifest = JSON.parse(await fs.readFile(manifestPath, 'utf8'));
 
-  // chunkName -> chunkAssets mapping.
-  const chunkManifestPath = path.join(generatedFilesDir, 'chunk-map.json');
-  const chunkManifest = JSON.parse(
-    await fs.readFile(chunkManifestPath, 'utf8'),
-  );
-  const chunkManifestScript =
-    `<script type="text/javascript">` +
-    `/*<![CDATA[*/window.__chunkMapping=${JSON.stringify(
-      chunkManifest,
-    )};/*]]>*/` +
-    `</script>`;
-
   // Get all required assets for this particular page based on client manifest information
   const modulesToBeLoaded = [...manifest.entrypoints, ...Array.from(modules)];
   const bundles = getBundles(manifest, modulesToBeLoaded);
@@ -74,7 +62,6 @@ export default async function render(locals) {
     {
       appHtml,
       baseUrl,
-      chunkManifestScript,
       htmlAttributes: htmlAttributes || '',
       bodyAttributes: bodyAttributes || '',
       headTags,

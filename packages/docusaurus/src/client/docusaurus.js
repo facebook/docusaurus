@@ -37,6 +37,8 @@ const docusaurus = {
     if (!canPrefetch(routePath)) {
       return false;
     }
+    // prevent future duplicate prefetch of routePath
+    fetched[routePath] = true;
 
     // Find all webpack chunk names needed
     const matches = matchRoutes(routes, routePath);
@@ -51,12 +53,14 @@ const docusaurus = {
     }, []);
 
     // Prefetch all webpack chunk assets file needed
-    const chunkAssetsNeeded = chunkNamesNeeded.reduce((arr, chunkName) => {
-      const chunkAssets = window.__chunkMapping[chunkName] || [];
-      return arr.concat(chunkAssets);
-    }, []);
-    Promise.all(chunkAssetsNeeded.map(prefetchHelper)).then(() => {
-      fetched[routePath] = true;
+    chunkNamesNeeded.forEach(chunkName => {
+      // "__webpack_require__.gca" is a custom function provided by ChunkAssetPlugin
+      // Pass it the chunkName or chunkId you want to load and it will return the URL for that chunk
+      // eslint-disable-next-line no-undef
+      const chunkAsset = __webpack_require__.gca(chunkName);
+      if (chunkAsset) {
+        prefetchHelper(chunkAsset);
+      }
     });
     return true;
   },

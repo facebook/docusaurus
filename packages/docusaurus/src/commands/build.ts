@@ -108,16 +108,10 @@ export async function build(
     );
   });
 
-  // Make sure generated client-manifest and chunk-map is cleaned first so we don't reuse the one from prevs build
-  const chunkManifestPath = path.join(generatedFilesDir, 'chunk-map.json');
-  await Promise.all(
-    [clientManifestPath, chunkManifestPath].map(async manifestPath => {
-      const manifestExist = await fs.pathExists(manifestPath);
-      if (manifestExist) {
-        await fs.unlink(manifestPath);
-      }
-    }),
-  );
+  // Make sure generated client-manifest is cleaned first so we don't reuse the one from prevs build
+  if (fs.existsSync(clientManifestPath)) {
+    fs.unlinkSync(clientManifestPath);
+  }
 
   // Run webpack to build JS bundle (client) and static html files (server).
   await compile([clientConfig, serverConfig]);

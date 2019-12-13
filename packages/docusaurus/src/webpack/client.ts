@@ -10,7 +10,7 @@ import merge from 'webpack-merge';
 
 import {Props} from '@docusaurus/types';
 import {createBaseConfig} from './base';
-import ChunkManifestPlugin from './plugins/ChunkManifestPlugin';
+import ChunkAssetPlugin from './plugins/ChunkAssetPlugin';
 import LogPlugin from './plugins/LogPlugin';
 
 export function createClientConfig(props: Props): Configuration {
@@ -30,13 +30,7 @@ export function createClientConfig(props: Props): Configuration {
       runtimeChunk: true,
     },
     plugins: [
-      // Generate chunk-map.json (mapping of chunk names to their corresponding chunk assets)
-      new ChunkManifestPlugin({
-        filename: 'chunk-map.json',
-        outputPath: props.generatedFilesDir,
-        manifestVariable: '__chunkMapping',
-        inlineManifest: !isProd,
-      }),
+      new ChunkAssetPlugin(),
       // Show compilation progress bar and build time.
       new LogPlugin({
         name: 'Client',
