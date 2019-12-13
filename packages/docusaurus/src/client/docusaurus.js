@@ -53,17 +53,15 @@ const docusaurus = {
     }, []);
 
     // Prefetch all webpack chunk assets file needed
-    const chunkAssetsNeeded = chunkNamesNeeded.reduce((arr, chunkName) => {
+    chunkNamesNeeded.forEach(chunkName => {
       // "__webpack_require__.gca" is a custom function provided by ChunkAssetPlugin
-      // Pass it the chunkName or chunkId you want to load.
-      // For example: if you have a chunk named "my-chunk-name" that will map to "/0a84b5e7.c8e35c7a.js" as its corresponding output path
-      // __webpack_require__.gca("my-chunk-name") will return "/0a84b5e7.c8e35c7a.js"
+      // Pass it the chunkName or chunkId you want to load and it will return the URL for that chunk
       // eslint-disable-next-line no-undef
-      const chunkAssets = __webpack_require__.gca(chunkName) || [];
-      return arr.concat(chunkAssets);
-    }, []);
-
-    chunkAssetsNeeded.map(prefetchHelper);
+      const chunkAsset = __webpack_require__.gca(chunkName);
+      if (chunkAsset) {
+        prefetchHelper(chunkAsset);
+      }
+    });
     return true;
   },
   preload: routePath => {
