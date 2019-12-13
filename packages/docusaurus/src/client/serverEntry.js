@@ -78,7 +78,6 @@ export default async function render(locals) {
 
   // minify html with https://github.com/DanielRuf/html-minifier-terser
   return minify(renderedHtml, {
-    collapseWhitespace: true,
     removeComments: true,
     removeRedundantAttributes: true,
     removeEmptyAttributes: true,
