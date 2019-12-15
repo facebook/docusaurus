@@ -95,8 +95,6 @@ module.exports = {
           sidebarPath: require.resolve('./sidebars.js'),
           editUrl:
             'https://github.com/facebook/docusaurus/edit/master/website/',
-          showLastUpdateAuthor: true,
-          showLastUpdateTime: true,
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
