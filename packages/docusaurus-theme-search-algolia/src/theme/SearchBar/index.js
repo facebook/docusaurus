@@ -55,12 +55,10 @@ const Search = props => {
 
   const loadAlgolia = () => {
     if (!loaded) {
-      loadCss().then(() => {
-        loadJS().then(a => {
-          loaded = true;
-          window.docsearch = a.default;
-          initAlgolia();
-        });
+      Promise.all([loadJS, loadCss]).then(([a]) => {
+        loaded = true;
+        window.docsearch = a.default;
+        initAlgolia();
       });
     } else {
       initAlgolia();
