@@ -85,6 +85,5 @@ export default async function render(locals) {
     removeStyleLinkTypeAttributes: true,
     useShortDoctype: true,
     minifyJS: true,
-    minifyCSS: true,
   });
 }
