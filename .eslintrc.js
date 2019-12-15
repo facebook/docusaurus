@@ -60,4 +60,12 @@ module.exports = {
     'react/jsx-props-no-spreading': OFF,
     'react-hooks/rules-of-hooks': ERROR,
   },
+  overrides: [
+    {
+      files: ['packages/docusaurus-init/templates/classic/**/*.js'],
+      rules: {
+        'header/header': 'off',
+      },
+    },
+  ],
 };
