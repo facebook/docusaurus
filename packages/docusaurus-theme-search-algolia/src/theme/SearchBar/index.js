@@ -11,8 +11,6 @@ import classnames from 'classnames';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useHistory} from '@docusaurus/router';
 
-const loadCss = () => import('./algolia.css');
-const loadJS = () => import('docsearch.js');
 let loaded = false;
 
 const Search = props => {
@@ -55,11 +53,13 @@ const Search = props => {
 
   const loadAlgolia = () => {
     if (!loaded) {
-      Promise.all([loadJS, loadCss]).then(([a]) => {
-        loaded = true;
-        window.docsearch = a.default;
-        initAlgolia();
-      });
+      Promise.all([import('docsearch.js'), import('./algolia.css')]).then(
+        ([{default: docsearch}]) => {
+          loaded = true;
+          window.docsearch = docsearch;
+          initAlgolia();
+        },
+      );
     } else {
       initAlgolia();
     }
