@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useEffect} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {NavLink} from 'react-router-dom';
 
 const internalRegex = /^\/(?!\/)/;
@@ -14,7 +14,7 @@ function Link(props) {
   const {to, href} = props;
   const targetLink = to || href;
   const isInternal = internalRegex.test(targetLink);
-  let preloaded = false;
+  const preloaded = useRef(false);
 
   const IOSupported =
     typeof window !== 'undefined' && 'IntersectionObserver' in window;
@@ -48,9 +48,9 @@ function Link(props) {
   };
 
   const onMouseEnter = () => {
-    if (!preloaded) {
+    if (!preloaded.current) {
       window.docusaurus.preload(targetLink);
-      preloaded = true;
+      preloaded.current = true;
     }
   };
 

@@ -12,6 +12,11 @@ const useTheme = () => {
       ? document.querySelector('html').getAttribute('data-theme')
       : '',
   );
+
+  React.useEffect(() => {
+    document.querySelector('html').setAttribute('data-theme', theme);
+  }, [theme]);
+
   React.useEffect(() => {
     try {
       const localStorageTheme = localStorage.getItem('theme');
