@@ -6,6 +6,8 @@ description: Docusaurus was designed from the ground up to be easily installed a
 
 Docusaurus was designed from the ground up to be easily installed and used to get your website up and running quickly.
 
+> **Important Note:** If you are setting up a new Docusaurus website for a Facebook Open Source project, we highly encourage you to use [Docusaurus 2](https://v2.docusaurus.io) instead.
+
 ## Installing Docusaurus
 
 We have created a helpful script that will get all of the infrastructure set up for you:

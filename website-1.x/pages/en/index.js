@@ -62,12 +62,14 @@ class Index extends React.Component {
         <HomeSplash siteConfig={siteConfig} language={language} />
         <div className="announcement">
           <div className="announcement-inner">
-            We're working on{' '}
-            <a href="https://github.com/facebook/docusaurus/issues/789">
-              Docusaurus 2
+            If you don't need advanced features such as versioning or
+            translations, try out
+            <a href="https://v2.docusaurus.io">Docusaurus 2</a> instead!
+            Contribute to its roadmap by suggesting features or{' '}
+            <a href="https://v2.docusaurus.io/feedback/">
+              giving feedback here
             </a>
-            , contribute to its roadmap by suggesting features or giving
-            feedback <a href="https://v2.docusaurus.io/feedback/">here</a>!
+            !
           </div>
         </div>
         <div className="mainContainer">
