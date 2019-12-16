@@ -54,9 +54,11 @@ function Navbar() {
   const {navbarRef, isNavbarVisible} = useHideableNavbar(hideOnScroll);
 
   const showSidebar = useCallback(() => {
+    document.body.style.overflow = 'hidden';
     setSidebarShown(true);
   }, [setSidebarShown]);
   const hideSidebar = useCallback(() => {
+    document.body.style.overflow = 'visible';
     setSidebarShown(false);
   }, [setSidebarShown]);
 
@@ -140,9 +142,7 @@ function Navbar() {
       <div
         role="presentation"
         className="navbar-sidebar__backdrop"
-        onClick={() => {
-          setSidebarShown(false);
-        }}
+        onClick={hideSidebar}
       />
       <div className="navbar-sidebar">
         <div className="navbar-sidebar__brand">
