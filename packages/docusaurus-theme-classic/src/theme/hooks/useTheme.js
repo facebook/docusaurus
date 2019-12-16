@@ -9,9 +9,14 @@ import * as React from 'react';
 const useTheme = () => {
   const [theme, setTheme] = React.useState(
     typeof document !== 'undefined'
-      ? document.querySelector('html').getAttribute('data-theme')
+      ? document.documentElement.getAttribute('data-theme')
       : '',
   );
+
+  React.useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
+
   React.useEffect(() => {
     try {
       const localStorageTheme = localStorage.getItem('theme');

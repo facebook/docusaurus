@@ -12,7 +12,7 @@ const path = require('path');
 const storageKey = 'theme';
 const noFlash = `(function() {
   function setDataThemeAttribute(theme) {
-    document.querySelector('html').setAttribute('data-theme', theme);
+    document.documentElement.setAttribute('data-theme', theme);
   }
 
   function getPreferredTheme() {
