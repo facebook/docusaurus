@@ -653,6 +653,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Shrine',
+    image: '/img/users/shrine.png',
+    infoLink: 'https://shrinerb.com',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'single-spa',
     image: 'https://single-spa.js.org/img/logo-white-bgblue.svg',
     infoLink: 'https://single-spa.js.org/',
