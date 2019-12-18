@@ -40,6 +40,9 @@ function Layout(props) {
   return (
     <>
       <Head>
+        {/* TODO: Do not assume that it is in english language */}
+        <html lang="en" />
+
         <meta httpEquiv="x-ua-compatible" content="ie=edge" />
         {metaTitle && <title>{metaTitle}</title>}
         {metaTitle && <meta property="og:title" content={metaTitle} />}
