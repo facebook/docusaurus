@@ -154,17 +154,22 @@ For example, this plugin below modify the webpack config to transpile `.foo` fil
 // docusaurus-plugin/src/index.js
 module.exports = function(context, options) {
   return {
-    name: 'docusaurus-plugin',
-    configureWebpack(config, isServer, utils) {
+    name: 'custom-docusaurus-plugin',
+    configureWebpack(_config, isServer, utils) {
       const {getCacheLoader} = utils;
-      config.modules.rules.push({
-        test: /\.foo$/,
-        use: [getCacheLoader(isServer), 'my-custom-webpack-loader'],
-      });
-      return config;
+      return {
+        module: {
+          rules: [
+            {
+              test: /\.foo$/,
+              use: [getCacheLoader(isServer), 'my-custom-webpack-loader']
+            }
+          ],
+        },
+      };
     },
   };
-};
+}
 ```
 
 ## postBuild(props)
