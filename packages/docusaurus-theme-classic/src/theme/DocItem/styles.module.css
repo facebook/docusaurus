@@ -61,3 +61,7 @@
 .docLastUpdatedAt {
   font-weight: bold;
 }
+
+[data-theme='dark'] .versionBadge {
+  --ifm-badge-background-color: var(--ifm-color-info-darkest);
+}

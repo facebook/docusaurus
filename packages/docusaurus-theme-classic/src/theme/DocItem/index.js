@@ -6,6 +6,7 @@
  */
 
 import React from 'react';
+import classnames from 'classnames';
 
 import Head from '@docusaurus/Head';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
@@ -101,7 +102,10 @@ function DocItem(props) {
                   {version && (
                     <span
                       style={{verticalAlign: 'top'}}
-                      className="badge badge--info">
+                      className={classnames(
+                        'badge badge--info',
+                        styles.versionBadge,
+                      )}>
                       Version: {version}
                     </span>
                   )}
