@@ -155,7 +155,7 @@ For example, this plugin below modify the webpack config to transpile `.foo` fil
 module.exports = function(context, options) {
   return {
     name: 'custom-docusaurus-plugin',
-    configureWebpack(_config, isServer, utils) {
+    configureWebpack(config, isServer, utils) {
       const {getCacheLoader} = utils;
       return {
         module: {
