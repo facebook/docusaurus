@@ -22,7 +22,7 @@ export default function createSitemap(
   const urls = routesPaths.map(
     routesPath =>
       ({
-        url: routesPath,
+        url: (routesPath + '/'),
         changefreq: options.changefreq,
         priority: options.priority,
       } as SitemapItemOptions),
