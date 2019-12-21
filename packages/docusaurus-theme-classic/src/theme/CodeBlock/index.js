@@ -12,8 +12,8 @@ import defaultTheme from 'prism-react-renderer/themes/palenight';
 import Clipboard from 'clipboard';
 import rangeParser from 'parse-numeric-range';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import useTheme from '@theme/hooks/useTheme';
-import useEventBus from '@theme/hooks/useEventBus';
+import useThemeContext from '@theme/hooks/useThemeContext';
+
 import styles from './styles.module.css';
 
 const highlightLinesRangeRegex = /{([\d,-]+)}/;
@@ -28,24 +28,14 @@ export default ({children, className: languageClassName, metastring}) => {
   const target = useRef(null);
   const button = useRef(null);
   let highlightLines = [];
-  const [theme] = useTheme();
-  const lightThemePrism = prism.theme || defaultTheme;
-  const [prismTheme, setPrismTheme] = useState(lightThemePrism);
-  const changePrismTheme = newTheme =>
-    prism.darkTheme && newTheme === 'dark'
-      ? setPrismTheme(prism.darkTheme)
-      : setPrismTheme(lightThemePrism);
+  const {theme} = useThemeContext();
+  const prismTheme =
+    theme === 'dark' ? prism.darkTheme : prism.theme || defaultTheme;
 
   if (metastring && highlightLinesRangeRegex.test(metastring)) {
     const highlightLinesRange = metastring.match(highlightLinesRangeRegex)[1];
     highlightLines = rangeParser.parse(highlightLinesRange).filter(n => n > 0);
   }
-
-  useEventBus('docusaurus-change-theme', ({newTheme}) =>
-    changePrismTheme(newTheme),
-  );
-
-  useEffect(() => changePrismTheme(theme), [theme]);
 
   useEffect(() => {
     let clipboard;
