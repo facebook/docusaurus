@@ -9,6 +9,7 @@
   margin-bottom: 0;
   overflow: hidden;
   overflow-wrap: break-word;
+  position: relative;
   white-space: pre-wrap;
 }
 

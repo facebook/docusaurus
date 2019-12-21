@@ -1,18 +1,26 @@
+/**
+ * Copyright (c) 2017-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
 .codeBlock {
-  font-size: inherit;
   margin-bottom: 0;
   overflow: hidden;
   overflow-wrap: break-word;
+  position: relative;
   white-space: pre-wrap;
 }
 
-.codeBlockWrapper {
-  position: relative;
-}
-
-.codeBlockWrapper:hover > .copyButton {
+.codeBlock:hover > .copyButton {
   visibility: visible;
   opacity: 1;
+}
+
+.codeBlockLines {
+  background-color: transparent;
+  display: block;
 }
 
 .copyButton {

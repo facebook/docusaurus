@@ -87,11 +87,8 @@ export default ({
       code={children.trim()}
       language={language}>
       {({className, style, tokens, getLineProps, getTokenProps}) => (
-        <div className={styles.codeBlockWrapper}>
-          <pre
-            ref={target}
-            className={classnames(className, styles.codeBlock)}
-            style={style}>
+        <pre className={classnames(className, styles.codeBlock)}>
+          <code ref={target} className={styles.codeBlockLines}>
             {tokens.map((line, i) => {
               const lineProps = getLineProps({line, key: i});
 
@@ -107,7 +104,7 @@ export default ({
                 </div>
               );
             })}
-          </pre>
+          </code>
           <button
             ref={button}
             type="button"
@@ -116,7 +113,7 @@ export default ({
             onClick={handleCopyCode}>
             {showCopied ? 'Copied' : 'Copy'}
           </button>
-        </div>
+        </pre>
       )}
     </Highlight>
   );
