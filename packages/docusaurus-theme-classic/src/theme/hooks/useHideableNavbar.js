@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState, useCallback, useEffect} from 'react'; // eslint-disable-line no-unused-vars
+import {useState, useCallback, useEffect} from 'react';
 
 const useHideableNavbar = hideOnScroll => {
   const [isNavbarVisible, setIsNavbarVisible] = useState(true);
