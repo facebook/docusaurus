@@ -7,27 +7,48 @@ title: Lifecycle APIs
 
 Lifecycle APIs are shared by Themes and Plugins.
 
-## getPathsToWatch()
+## `getPathsToWatch()`
 
 Specifies the paths to watch for plugins and themes. The paths are watched by the dev server so that the plugin lifecycles are reloaded when contents in the watched paths change. Note that the plugins and themes modules are initially called with `context` and `options` from Node, which you may use to find the necessary directory information about the site.
 
-```js
-const contentPath = path.resolve(context.siteDir, options.path);
+Example:
 
-getPathsToWatch() {
-  const {include = []} = options;
-  const globPattern = include.map(pattern => `${contentPath}/${pattern}`);
-  return [...globPattern];
-}
+```js {6-8}
+// docusaurus-plugin/src/index.js
+const path = require('path');
+module.exports = function(context, options) {
+  return {
+    name: 'docusaurus-plugin',
+    getPathsToWatch() {
+      const contentPath = path.resolve(context.siteDir, options.path);
+      return [`${contentPath}/**/*.{ts,tsx}`);
+    },
+  };
+};
 ```
 
-## async loadContent()
+## `async loadContent()`
 
-Plugins should use this lifecycle to fetch from data sources (filesystem, remote API, headless CMS, etc).
+Plugins should use this lifecycle to fetch from data sources (filesystem, remote API, headless CMS, etc) or doing some server processing.
 
-## async contentLoaded({content, actions})
+For example, this plugin below return a random integer between 1 to 10 as content;
 
-Plugins should use the data loaded in `loadContent` and construct the pages/routes that consume the loaded data.
+```js {6-7}
+// docusaurus-plugin/src/index.js
+const path = require('path');
+module.exports = function(context, options) {
+  return {
+    name: 'docusaurus-plugin',
+    async loadContent() {
+      return 1 + Math.floor(Math.random() * 10);
+    },
+  };
+};
+```
+
+## `async contentLoaded({content, actions})`
+
+Plugins should use the data loaded in `loadContent` and construct the pages/routes that consume the loaded data (optional).
 
 ### `content`
 
@@ -38,37 +59,74 @@ Plugins should use the data loaded in `loadContent` and construct the pages/rout
 `actions` contain two functions:
 
 - `addRoute(config: RouteConfig): void`
-- `createData(name: string, data: Object): Promise<string>`
 
-where `RouteConfig` is an object with the necessary data to configure a route to add to the website:
+Create a route to add to the website.
 
-```js
+```typescript
 interface RouteConfig {
   path: string;
   component: string;
   modules?: RouteModule;
   routes?: RouteConfig[];
   exact?: boolean;
+  priority?: number;
 }
-
 interface RouteModule {
   [module: string]: Module | RouteModule | RouteModule[];
 }
+type Module =
+  | {
+      path: string;
+      __import?: boolean;
+      query?: ParsedUrlQueryInput;
+    }
+  | string;
 ```
 
-Example `addRoute` call:
+- `createData(name: string, data: any): Promise<string>`
 
-```js
-addRoute({
-  path: '/help',
-  component: '@site/src/pages/help',
-  exact: true,
-});
+A helper function to help you write some data (usually a string or JSON) to disk with in-built caching. It takes a file name relative to to your plugin's directory **(name)**, your data **(data)**, and will return a path to where the data is created.
+
+For example, this plugin below create a `/roll` page which display "You won xxxx" to user.
+
+```jsx
+// website/src/components/roll.js
+import React from 'react';
+
+export default function(props) {
+  const {prizes} = props;
+  const index = Math.floor(Math.random() * 3);
+  return <div> You won ${prizes[index]} </div>;
+}
 ```
 
-And `createData` takes a file name relative to to your plugin's directory, a string for the `JSON.stringify` result of your data, and will return a path to the module which you may then use as the path to items in your `RouteModule`. The modules will be loaded when the related pages are loaded following our optimizations according to the [PRPL pattern](https://developers.google.com/web/fundamentals/performance/prpl-pattern/).
+```javascript {5-20}
+// docusaurus-plugin/src/index.js
+module.exports = function(context, options) {
+  return {
+    name: 'docusaurus-plugin',
+    async contentLoaded({content, actions}) {
+      const {createData, addRoute} = actions;
+      // create a data named 'prizes.json'
+      const prizes = JSON.stringify(['$1', 'a cybertruck', 'nothing']);
+      const prizesDataPath = await createData('prizes.json', prizes);
 
-## configureWebpack(config, isServer, utils)
+      // add '/roll' page using 'website/src/component/roll.js` as the component
+      // and providing 'prizes' as props
+      addRoute({
+        path: '/roll',
+        component: '@site/src/components/roll.js',
+        modules: {
+          prizes: prizesDataPath
+        }
+        exact: true,
+      });
+    },
+  };
+};
+```
+
+## `configureWebpack(config, isServer, utils)`
 
 Modifies the internal webpack config. If the return value is a JavaScript object, it will be merged into the final config using [`webpack-merge`](https://github.com/survivejs/webpack-merge). If it is a function, it will be called and receive `config` as the first argument and an `isServer` flag as the argument argument.
 
@@ -90,16 +148,23 @@ The initial call to `configureWebpack` also receives a util object consists of t
 
 You may use them to return your webpack configures conditionally.
 
-Example:
+For example, this plugin below modify the webpack config to transpile `.foo` file.
 
-```js
-configureWebpack(config, isServer) {
-  if (!isServer) {
-    // mutate the webpack config for client
-
-  }
-  return config;
-},
+```js {5-12}
+// docusaurus-plugin/src/index.js
+module.exports = function(context, options) {
+  return {
+    name: 'docusaurus-plugin',
+    configureWebpack(config, isServer, utils) {
+      const {getCacheLoader} = utils;
+      config.modules.rules.push({
+        test: /\.foo$/,
+        use: [getCacheLoader(isServer), 'my-custom-webpack-loader'],
+      });
+      return config;
+    },
+  };
+};
 ```
 
 ## postBuild(props)
@@ -107,55 +172,133 @@ configureWebpack(config, isServer) {
 Called when a (production) build finishes.
 
 ```ts
-interface LoadContext {
+type Props = {
   siteDir: string;
   generatedFilesDir: string;
   siteConfig: DocusaurusConfig;
   outDir: string;
   baseUrl: string;
-}
-
-interface Props extends LoadContext {
+  headTags: string;
+  preBodyTags: string;
+  postBodyTags: string;
   routesPaths: string[];
   plugins: Plugin<any>[];
-}
+};
 ```
 
 Example:
 
-```js
-async postBuild({siteConfig = {}, routesPaths = [], outDir}) {
-  // Print out to console all the rendered routes
-  routesPaths.map(route => {
-    console.log(route);
-  })
-},
+```js {5-10}
+// docusaurus-plugin/src/index.js
+module.exports = function(context, options) {
+  return {
+    name: 'docusaurus-plugin',
+    async postBuild({siteConfig = {}, routesPaths = [], outDir}) {
+      // Print out to console all the rendered routes
+      routesPaths.map(route => {
+        console.log(route);
+      });
+    },
+  };
+};
 ```
 
-## extendCli(cli)
+## `extendCli(cli)`
 
 Register an extra command to enhance the CLI of docusaurus. `cli` is [commander](https://www.npmjs.com/package/commander) object.
 
 Example:
 
-```js
-extendCli(cli) {
-  cli
-    .command('roll')
-    .description('Roll a random number between 1 and 1000')
-    .action(() => {
-      console.log(Math.floor(Math.random() * 1000 + 1));
-  });
-},
+```js {5-12}
+// docusaurus-plugin/src/index.js
+module.exports = function(context, options) {
+  return {
+    name: 'docusaurus-plugin',
+    extendCli(cli) {
+      cli
+        .command('roll')
+        .description('Roll a random number between 1 and 1000')
+        .action(() => {
+          console.log(Math.floor(Math.random() * 1000 + 1));
+        });
+    },
+  };
+};
 ```
 
-## getThemePath()
+## `injectHtmlTags()`
+
+Inject head and/or body html tags to Docusaurus generated html.
+
+```typescript
+function injectHtmlTags(): {
+  headTags?: HtmlTags;
+  preBodyTags?: HtmlTags;
+  postBodyTags?: HtmlTags;
+};
+
+type HtmlTags = string | HtmlTagObject | (string | HtmlTagObject)[];
+
+interface HtmlTagObject {
+  /**
+   * Attributes of the html tag
+   * E.g. `{'disabled': true, 'value': 'demo', 'rel': 'preconnect'}`
+   */
+  attributes?: {
+    [attributeName: string]: string | boolean;
+  };
+  /**
+   * The tag name e.g. `div`, `script`, `link`, `meta`
+   */
+  tagName: string;
+  /**
+   * The inner HTML
+   */
+  innerHTML?: string;
+}
+```
+
+Example:
+
+```js {5-29}
+// docusaurus-plugin/src/index.js
+module.exports = function(context, options) {
+  return {
+    name: 'docusaurus-plugin',
+    injectHtmlTags() {
+      return {
+        headTags: [
+          {
+            tagName: 'link',
+            attributes: {
+              rel: 'preconnect',
+              href: 'https://www.github.com',
+            },
+          },
+        ],
+        preBodyTags: [
+          {
+            tagName: 'script',
+            attributes: {
+              charset: 'utf-8',
+              src: '/noflash.js',
+            },
+          },
+        ],
+        postBodyTags: [`<div> This is post body </div>`],
+      };
+    },
+  };
+};
+```
+
+## `getThemePath()`
 
 Returns the path to the directory where the theme components can be found. When your users calls `swizzle`, `getThemePath` is called and its returned path is used to find your theme components.
 
 If you use the folder directory above, your `getThemePath` can be:
 
-```js
+```js {7-9}
 // my-theme/src/index.js
 const path = require('path');
 
@@ -169,13 +312,13 @@ module.exports = function(context, options) {
 };
 ```
 
-## getClientModules()
+## `getClientModules()`
 
 Returns an array of paths to the modules that are to be imported in the client bundle. These modules are imported globally before React even renders the initial UI.
 
 As an example, to make your theme load a `customCss` object from `options` passed in by the user:
 
-```js
+```js {8-10}
 // my-theme/src/index.js
 const path = require('path');
 
@@ -199,7 +342,7 @@ For example, the in docusaurus-plugin-content-docs:
 
 ## Example
 
-Mind model for a presumptuous plugin implementation.
+Here's a mind model for a presumptuous plugin implementation.
 
 ```jsx
 const DEFAULT_OPTIONS = {
@@ -273,6 +416,10 @@ module.exports = function(context, opts) {
 
     extendCli(cli) {
       // Register an extra command to enhance the CLI of docusaurus
+    },
+
+    injectHtmlTags() {
+      // Inject head and/or body html tags
     },
   };
 };

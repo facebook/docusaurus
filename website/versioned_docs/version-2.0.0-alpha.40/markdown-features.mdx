@@ -183,6 +183,7 @@ For example, if you are in `doc2.md` and you want to reference `doc1.md` and `fo
 
 ```md
 I am referencing a [document](doc1.md). Reference to another [document in a folder](folder/doc3.md)
+[Relative document](../doc2.md) referencing works as well.
 ```
 
 One benefit of this approach is that the links to external files will still work if you are viewing the file on GitHub.
@@ -305,8 +306,8 @@ You can create an interactive coding editor with the `@docusaurus/theme-live-cod
 
 First, add the plugin to your package.
 
-```bash
-npm i @docusaurus/theme-live-codeblock
+```bash npm2yarn
+npm install --save @docusaurus/theme-live-codeblock
 ```
 
 You will also need to add the plugin to your `docusaurus.config.js`.
@@ -419,9 +420,6 @@ The following example is how you can have multi-language code tabs in your docs.
     </Tabs>
 
 And you will get the following:
-
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
 
 <Tabs
   defaultValue="js"

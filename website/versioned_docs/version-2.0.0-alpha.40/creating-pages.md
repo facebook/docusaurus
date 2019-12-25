@@ -45,10 +45,10 @@ Each page doesn't come with any styling. You will need to import the `Layout` co
 
 If you are familiar with other static site generators like Jekyll and Next, this routing approach will feel familiar to you. Any JavaScript file you create under `/src/pages/` directory will be automatically converted to a website page, following the `/src/pages/` directory hierarchy. For example:
 
-- `/src/pages/index.js` → `<baseUrl>/`
-- `/src/pages/test.js` → `<baseUrl>/test`
+- `/src/pages/index.js` → `<baseUrl>`
+- `/src/pages/foo.js` → `<baseUrl>/foo`
 - `/src/pages/foo/test.js` → `<baseUrl>/foo/test`
-- `/src/pages/foo/index.js` → `<baseUrl>/foo`
+- `/src/pages/foo/index.js` → `<baseUrl>/foo/`
 
 In this component-based development era, it is encouraged to co-locate your styling, markup and behavior together into components. Each page is a component, and if you need to customize your page design with your own styles, we recommend co-locating your styles with the page component in its own directory. For example, to create a "Support" page, you could do one of the following:
 
@@ -71,7 +71,7 @@ my-website
 
 ## Using React
 
-React is used as the UI library to create pages. Every page component should export a React component and you can leverage on the expressibility of React to build rich and interactive content.
+React is used as the UI library to create pages. Every page component should export a React component and you can leverage on the expressiveness of React to build rich and interactive content.
 
 <!--
 TODO:

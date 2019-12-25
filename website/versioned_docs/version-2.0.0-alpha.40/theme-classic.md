@@ -14,9 +14,12 @@ To remove the ability to switch on dark mode, there is an option `themeConfig.di
 ```js
 // docusaurus.config.js
 module.exports = {
+  ...
   themeConfig: {
     disableDarkMode: false,
-}
+    ...
+  },
+};
 ```
 
 ### Meta image
@@ -26,13 +29,15 @@ You can configure a default image that will be used for your meta tag, in partic
 ```js
 // docusaurus.config.js
 module.exports = {
+  ...
   themeConfig: {
     /**
-     * relative to your site's "static" directory
-     * cannot be svg
-     * can be external url too
+     * Relative to your site's "static" directory.
+     * Cannot be SVGs. Can be external URLs too.
      */
     image: 'img/docusaurus.png',
+    ...
+  },
 }
 ```
 
@@ -45,6 +50,7 @@ You can add a logo and title to the navbar via `themeConfig.navbar`. Logo can be
 ```js
 // docusaurus.config.js
 module.exports = {
+  ...
   themeConfig: {
     navbar: {
       title: 'Site Title',
@@ -52,7 +58,9 @@ module.exports = {
         alt: 'Site Logo',
         src: 'img/logo.svg',
       },
-    }
+    },
+    ...
+  },
 }
 ```
 
@@ -63,6 +71,7 @@ You can add links to the navbar via `themeConfig.navbar.links`:
 ```js
 // docusaurus/config.js
 module.exports = {
+  ...
   themeConfig: {
     navbar: {
       links: [
@@ -73,11 +82,30 @@ module.exports = {
         },
         // ... other links
       ],
-    }
+    },
+    ...
+  },
 }
 ```
 
 Outbound links automatically get `target="_blank" rel="noopener noreferrer"`.
+
+### Auto-hide sticky navbar
+
+You can enable this cool UI feature that automatically hides the navbar when a user starts scrolling down the page, and show it again when the user scrolls up.
+
+```js
+// docusaurus/config.js
+module.exports = {
+  ...
+  themeConfig: {
+    navbar: {
+      hideOnScroll: true,
+    },
+    ...
+  },
+}
+```
 
 ## Footer
 
@@ -107,10 +135,12 @@ You can set a default language for code blocks if no language is added after the
 ```js
 // docusaurus/config.js
 module.exports = {
+  ...
   themeConfig: {
     prism: {
       defaultLanguage: 'javascript',
     },
+    ...
   },
 };
 ```
