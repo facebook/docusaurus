@@ -30,7 +30,7 @@ themeConfig: {
   },
 ```
 
-### Customizing the Algolia Search Bar
+### Customizing the Algolia search bar
 
 If you prefer to customize Algolia's search bar React component, swizzle the `SearchBar` component in `@docusaurus/theme-search-algolia`:
 

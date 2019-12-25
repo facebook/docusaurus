@@ -83,7 +83,7 @@ module.exports = {
       links: [
         {
           to: 'versions',
-          label: `${versions[0]}`,
+          label: `${versions[0].substr(6)}`,
           position: 'left',
           style: {
             whiteSpace: 'nowrap',
