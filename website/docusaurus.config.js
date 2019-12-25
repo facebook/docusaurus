@@ -160,7 +160,7 @@ module.exports = {
               href: 'https://twitter.com/docusaurus',
             },
             {
-              html: `<a href="https://www.netlify.com"><img src="https://www.netlify.com/img/global/badges/netlify-color-accent.svg"/></a>`,
+              html: `<a href="https://www.netlify.com" target="_blank" rel="noreferrer noopener"><img src="https://www.netlify.com/img/global/badges/netlify-color-accent.svg"/></a>`,
             },
           ],
         },
