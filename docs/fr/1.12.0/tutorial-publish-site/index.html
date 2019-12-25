@@ -81,32 +81,32 @@
               }
             });
         </script></nav></div><div class="container mainContainer docsContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://crowdin.com/project/docusaurus/fr" target="_blank" rel="noreferrer noopener">Translate</a><h1 id="__docusaurus" class="postHeaderTitle">Publish the Site</h1></header><article><div><span><p><img src="/img/undraw_docusaurus_fb.svg" alt="Docusaurus Facebook"> {.docImage}</p>
-<p>Next, we'll learn how to publish the site to the WWW for everyone to browse! For the purpose of the tutorial, we'll use GitHub pages to host our website. But you can use any static file hosting service that you want, e.g. Netlify, Amazon S3, etc.</p>
-<h2><a class="anchor" aria-hidden="true" id="put-the-site-online"></a><a href="#put-the-site-online" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Put the Site Online</h2>
-<p>Kill the web server first by pressing Cmd + C or Ctrl + C depending on your operating system.</p>
-<p>In <code>website/siteConfig.js</code>, fill in the following fields:</p>
+<p>Ensuite, nous allons apprendre à publier le site sur le WWW pour que tout le monde puisse y naviguer ! Dans le cadre du tutoriel, nous utiliserons les pages GitHub pour héberger notre site Web. Mais vous pouvez utiliser n'importe quel service d'hébergement de fichiers statique que vous voulez, comme par exemple Netlify, Amazon S3, etc.</p>
+<h2><a class="anchor" aria-hidden="true" id="mettre-le-site-en-ligne"></a><a href="#mettre-le-site-en-ligne" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Mettre le site en ligne</h2>
+<p>Tuez d'abord le serveur web en appuyant sur Cmd + C ou Ctrl + C selon votre système d'exploitation.</p>
+<p>Dans <code>website/siteConfig.js</code>, remplissez les champs suivants :</p>
 <pre><code class="hljs">const siteConfig = {
   ...
-  url: 'https://USERNAME.github.io', // Replace USERNAME with your GitHub username.
-  baseUrl: '/docusaurus-tutorial/', // The name of your GitHub project.
-  projectName: 'docusaurus-tutorial',  // The name of your GitHub project. Same as above.
-  organizationName: 'USERNAME' // Your GitHub username.
+  url: 'https://USERNAME.github.io', // Remplacez USERNAME avec votre nom d'utilisateur GitHub.
+  baseUrl: '/docusaurus-tutorial/', // Le nom de votre projet GitHub.
+  projectName: 'docusaurus-tutorial', // Le nom de votre projet GitHub. Identique au précédent.
+  organizationName: 'USERNAME' // Votre nom d'utilisateur GitHub.
   ...
 }
 </code></pre>
 <ol start="2">
-<li><p>In the <code>website</code> directory, run <code>npm run build</code> or <code>yarn build</code>. Cela va générer un dossier <code>build</code> dans le dossier <code>website</code> contenant les fichiers <code>.html</code> de toute votre documentation et d'autres pages incluses dans <code>pages</code>. Make sure the <code>build</code> directory is there before running the next step.</p></li>
-<li><p>Replace <code>&lt;GIT_USER&gt;</code> with your GitHub username and run the following command.</p>
+<li><p>Dans le répertoire <code>website</code>, exécutez <code>npm run build</code> ou <code>yarn build</code>. Cela va générer un dossier <code>build</code> dans le dossier <code>website</code> contenant les fichiers <code>.html</code> de toute votre documentation et d'autres pages incluses dans <code>pages</code>. Assurez-vous que le répertoire <code>build</code> est là avant d'exécuter l'étape suivante.</p></li>
+<li><p>Remplacez <code>&lt;GIT_USER&gt;</code> par votre nom d'utilisateur GitHub et exécutez la commande suivante.</p>
 <p>$ GIT_USER=&lt;GIT_USER&gt; CURRENT_BRANCH=master USE_SSH=true npm run publish-gh-pages</p></li>
 </ol>
-<p>The built code will be pushed to the <code>gh-pages</code> branch of your repository.</p>
+<p>Le code construit sera poussé dans la branche <code>gh-pages</code> de votre dépôt.</p>
 <ol start="4">
-<li>Go to <code>https://USERNAME.github.io/docusaurus-tutorial/</code> and view your site in action!</li>
+<li>Allez sur <code>https://USERNAME.github.io/docusaurus-tutorial/</code> et regardez votre site en action !</li>
 </ol>
 <blockquote>
-<p>Note that when you run <code>npm run start</code> again, the <code>baseUrl</code> will now be part of the path.</p>
+<p>Notez que lorsque vous exécutez à nouveau <code>npm run start</code>, la <code>baseUrl</code> fera désormais partie du chemin.</p>
 </blockquote>
-</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/fr/1.12.0/tutorial-create-pages"><span class="arrow-prev">← </span><span>Créer des pages</span></a><a class="docs-next button" href="/docs/fr/1.12.0/tutorial-version"><span>Ajouter des versions</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#put-the-site-online">Put the Site Online</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/docusaurus_monochrome.svg" alt="Docusaurus" width="66" height="58"/></a><div class="footerSection"><h5>Docs</h5><a href="
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/fr/1.12.0/tutorial-create-pages"><span class="arrow-prev">← </span><span>Créer des pages</span></a><a class="docs-next button" href="/docs/fr/1.12.0/tutorial-version"><span>Ajouter des versions</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#mettre-le-site-en-ligne">Mettre le site en ligne</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/docusaurus_monochrome.svg" alt="Docusaurus" width="66" height="58"/></a><div class="footerSection"><h5>Docs</h5><a href="
                 /docs/fr/installation">Getting Started</a><a href="
                 /docs/fr/versioning">Versioning</a><a href="
                 /docs/fr/translation">Localization</a><a href="
