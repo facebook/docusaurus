@@ -33,10 +33,12 @@ export function getStyleLoaders(
 
   const isProd = process.env.NODE_ENV === 'production';
   const loaders = [
-    isProd && {
+    {
       loader: MiniCssExtractPlugin.loader,
+      options: {
+        hmr: !isProd,
+      },
     },
-    !isProd && require.resolve('style-loader'),
     {
       loader: require.resolve('css-loader'),
       options: cssOptions,
@@ -60,7 +62,7 @@ export function getStyleLoaders(
         ],
       },
     },
-  ].filter(Boolean) as Loader[];
+  ];
   return loaders;
 }
 
