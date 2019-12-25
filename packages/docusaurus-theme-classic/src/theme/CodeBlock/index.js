@@ -12,6 +12,8 @@ import defaultTheme from 'prism-react-renderer/themes/palenight';
 import Clipboard from 'clipboard';
 import rangeParser from 'parse-numeric-range';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import useThemeContext from '@theme/hooks/useThemeContext';
+
 import styles from './styles.module.css';
 
 const highlightLinesRangeRegex = /{([\d,-]+)}/;
@@ -26,6 +28,9 @@ export default ({children, className: languageClassName, metastring}) => {
   const target = useRef(null);
   const button = useRef(null);
   let highlightLines = [];
+  const {theme} = useThemeContext();
+  const prismTheme =
+    theme === 'dark' ? prism.darkTheme : prism.theme || defaultTheme;
 
   if (metastring && highlightLinesRangeRegex.test(metastring)) {
     const highlightLinesRange = metastring.match(highlightLinesRangeRegex)[1];
@@ -65,7 +70,7 @@ export default ({children, className: languageClassName, metastring}) => {
   return (
     <Highlight
       {...defaultProps}
-      theme={prism.theme || defaultTheme}
+      theme={prismTheme}
       code={children.trim()}
       language={language}>
       {({className, style, tokens, getLineProps, getTokenProps}) => (

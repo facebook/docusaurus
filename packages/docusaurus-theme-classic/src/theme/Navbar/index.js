@@ -15,7 +15,7 @@ import Toggle from '@theme/Toggle';
 
 import classnames from 'classnames';
 
-import useTheme from '@theme/hooks/useTheme';
+import useThemeContext from '@theme/hooks/useThemeContext';
 import useHideableNavbar from '@theme/hooks/useHideableNavbar';
 
 import styles from './styles.module.css';
@@ -47,10 +47,11 @@ function Navbar() {
   const {baseUrl, themeConfig = {}} = siteConfig;
   const {navbar = {}, disableDarkMode = false} = themeConfig;
   const {title, logo = {}, links = [], hideOnScroll = false} = navbar;
+
   const [sidebarShown, setSidebarShown] = useState(false);
   const [isSearchBarExpanded, setIsSearchBarExpanded] = useState(false);
-  const [theme, setTheme] = useTheme();
 
+  const {theme, setTheme} = useThemeContext();
   const {navbarRef, isNavbarVisible} = useHideableNavbar(hideOnScroll);
 
   const showSidebar = useCallback(() => {
@@ -63,7 +64,10 @@ function Navbar() {
   }, [setSidebarShown]);
 
   const onToggleChange = useCallback(
-    e => setTheme(e.target.checked ? 'dark' : ''),
+    e => {
+      const newTheme = e.target.checked ? 'dark' : '';
+      setTheme(newTheme);
+    },
     [setTheme],
   );
 

@@ -9,6 +9,8 @@ import React from 'react';
 import Head from '@docusaurus/Head';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
+
+import ThemeProvider from '@theme/ThemeProvider';
 import Navbar from '@theme/Navbar';
 import Footer from '@theme/Footer';
 
@@ -37,8 +39,9 @@ function Layout(props) {
   const metaImage = image || defaultImage;
   const metaImageUrl = siteUrl + useBaseUrl(metaImage);
   const faviconUrl = useBaseUrl(favicon);
+
   return (
-    <>
+    <ThemeProvider>
       <Head>
         {/* TODO: Do not assume that it is in english language */}
         <html lang="en" />
@@ -66,7 +69,7 @@ function Layout(props) {
       <Navbar />
       <div className="main-wrapper">{children}</div>
       {!noFooter && <Footer />}
-    </>
+    </ThemeProvider>
   );
 }
 

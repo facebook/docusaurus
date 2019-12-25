@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import * as React from 'react';
+import React from 'react';
 
 const useTheme = () => {
   const [theme, setTheme] = React.useState(
