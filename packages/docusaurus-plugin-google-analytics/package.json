@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/plugin-google-analytics",
-  "version": "2.0.0-alpha.39",
+  "version": "2.0.0-alpha.40",
   "description": "Global analytics (analytics.js) plugin for Docusaurus",
   "main": "src/index.js",
   "publishConfig": {
