@@ -94,6 +94,11 @@ Information for Algolia search integration. If this field is excluded, the searc
 - `indexName` - the Algolia provided index name for your search (usually this is the project name)
 - `appId` - Algolia provides a default scraper for your docs. If you provide your own, you will probably get this id from them.
 
+#### `anonymizeIP` [boolean]
+
+Sets if you want IPs of page visitors to be sent to Google Analytics (see the [documentation](https://developers.google.com/analytics/devguides/collection/gtagjs/ip-anonymization)).
+Defaults to `true`.
+
 #### `blogSidebarCount` [number]
 
 Control the number of blog posts that show up in the sidebar. See the [adding a blog docs](guides-blog.md#changing-how-many-blog-posts-show-on-sidebar) for more information.
