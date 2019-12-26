@@ -97,7 +97,7 @@ Information for Algolia search integration. If this field is excluded, the searc
 #### `anonymizeIP` [boolean]
 
 Sets if you want IPs of page visitors to be sent to Google Analytics (see the [documentation](https://developers.google.com/analytics/devguides/collection/gtagjs/ip-anonymization)).
-Defaults to `true`.
+Defaults to `false`.
 
 #### `blogSidebarCount` [number]
 
