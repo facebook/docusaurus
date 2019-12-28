@@ -53,6 +53,15 @@ const users = [
     pinned: false,
   },
   {
+    title: 'Neutron JS',
+    description: 'An open source CLI to work with Redux + Redux Saga',
+    preview: require('./showcase/neutronjs.png'),
+    website: 'https://www.neutronjs.com/',
+    source: 'https://github.com/neutronjs/neutron-cli',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'uniforms',
     description: 'A set of React libraries for building forms',
     preview: require('./showcase/uniforms.png'),
