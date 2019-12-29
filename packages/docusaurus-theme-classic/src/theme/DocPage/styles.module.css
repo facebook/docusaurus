@@ -13,6 +13,8 @@
   border-right: 1px solid var(--ifm-contents-border-color);
   box-sizing: border-box;
   width: 300px;
+  position: relative;
+  top: calc(-1 * var(--ifm-navbar-height));
 }
 
 .docMainContainer {

@@ -7,7 +7,8 @@
 
 import React, {useState, useCallback} from 'react';
 import classnames from 'classnames';
-
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 import Link from '@docusaurus/Link';
 
 import styles from './styles.module.css';
@@ -104,6 +105,10 @@ function mutateSidebarCollapsingState(item, location) {
 
 function DocSidebar(props) {
   const [showResponsiveSidebar, setShowResponsiveSidebar] = useState(false);
+  const {
+    siteConfig: {themeConfig: {navbar: {title, logo = {}} = {}}} = {},
+  } = useDocusaurusContext();
+  const logoUrl = useBaseUrl(logo.src);
 
   const {
     docsSidebars,
@@ -132,6 +137,10 @@ function DocSidebar(props) {
 
   return (
     <div className={styles.sidebar}>
+      <div className={styles.sidebarLogo}>
+        {logo != null && <img src={logoUrl} alt={logo.alt} />}
+        {title != null && <strong>{title}</strong>}
+      </div>
       <div
         className={classnames('menu', 'menu--responsive', {
           'menu--show': showResponsiveSidebar,
