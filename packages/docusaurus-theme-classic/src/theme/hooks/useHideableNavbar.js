@@ -41,9 +41,11 @@ const useHideableNavbar = hideOnScroll => {
     }
 
     window.addEventListener('scroll', handleScroll);
+    window.addEventListener('onRouteUpdate', handleScroll);
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('onRouteUpdate', handleScroll);
     };
   }, [lastScrollTop, navbarHeight]);
 
