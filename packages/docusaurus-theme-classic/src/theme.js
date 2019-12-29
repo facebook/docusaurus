@@ -6,13 +6,15 @@
  */
 
 export default (function() {
-  if (!window || !CustomEvent || !window.dispatchEvent) {
+  if (typeof window === 'undefined') {
     return null;
   }
 
   return {
     onRouteUpdate() {
-      window.dispatchEvent(new CustomEvent('onRouteUpdate'));
+      if (window && window.dispatchEvent && CustomEvent) {
+        window.dispatchEvent(new CustomEvent('onRouteUpdate'));
+      }
     },
   };
 })();
