@@ -1,8 +1,10 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
+ *
+ * @format
  */
 
 import React from 'react';
@@ -89,8 +91,13 @@ function Home() {
           <section className={styles.features}>
             <div className="container">
               <div className="row">
-                {features.map((props, idx) => (
-                  <Feature key={idx} {...props} />
+                {features.map(({title, imageUrl, description}) => (
+                  <Feature
+                    key={title}
+                    title={title}
+                    imageUrl={imageUrl}
+                    description={description}
+                  />
                 ))}
               </div>
             </div>
