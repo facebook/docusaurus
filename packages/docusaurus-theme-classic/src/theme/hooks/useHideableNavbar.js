@@ -19,12 +19,21 @@ const useHideableNavbar = hideOnScroll => {
 
   const handleScroll = () => {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    const documentHeight = document.documentElement.scrollHeight - navbarHeight;
-    const windowHeight = window.innerHeight;
 
     if (scrollTop < navbarHeight) {
       return;
     }
+
+    const focusedElement = document.querySelector(':focus');
+
+    if (focusedElement && /^#/.test(window.location.hash)) {
+      setIsNavbarVisible(false);
+      focusedElement.blur();
+      return;
+    }
+
+    const documentHeight = document.documentElement.scrollHeight - navbarHeight;
+    const windowHeight = window.innerHeight;
 
     if (lastScrollTop && scrollTop > lastScrollTop) {
       setIsNavbarVisible(false);
