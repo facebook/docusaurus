@@ -4,7 +4,7 @@
         <title>Docusaurus Blog</title>
         <link>https://docusaurus.io/blog</link>
         <description>The best place to stay up-to-date with the latest Docusaurus news and events.</description>
-        <lastBuildDate>Fri, 14 Dec 2018 06:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 30 Dec 2019 06:00:00 GMT</lastBuildDate>
         <docs>http://blogs.law.harvard.edu/tech/rss</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <image>
@@ -13,6 +13,14 @@
             <link>https://docusaurus.io/blog</link>
         </image>
         <copyright>Copyright © 2019 Facebook Inc.</copyright>
+        <item>
+            <title><![CDATA[Docusaurus 2019 Recap]]></title>
+            <link>https://docusaurus.io/blog/2019/12/30/docusaurus-2019-recap.html</link>
+            <guid>https://docusaurus.io/blog/2019/12/30/docusaurus-2019-recap.html</guid>
+            <pubDate>Mon, 30 Dec 2019 06:00:00 GMT</pubDate>
+            <description><![CDATA[<p>2019 was a great year for Docusaurus - we've made tremendous progress on <a href="https://v2.docusaurus.io/">Docusaurus 2</a>. Current Docusaurus 1 users who aren't using the translations feature can feel free to check it out and <a href="https://v2.docusaurus.io/docs/migrating-from-v1-to-v2">migrate</a> to it! Otherwise we will work with you to make that happen in 2020 :)</p>
+]]></description>
+        </item>
         <item>
             <title><![CDATA[Happy 1st Birthday Slash!]]></title>
             <link>https://docusaurus.io/blog/2018/12/14/Happy-First-Birthday-Slash.html</link>

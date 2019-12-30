@@ -145,28 +145,28 @@
   ...
 }
 </code></pre>
-<h3><a class="anchor" aria-hidden="true" id="adding-subcategories"></a><a href="#adding-subcategories" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Adding Subcategories</h3>
-<p>It is possible to add subcategories to a sidebar. Instead of using IDs as the contents of the category array like the previous examples, you can pass an object where the keys will be the subcategory name and the value an array of IDs for that subcategory.</p>
+<h3><a class="anchor" aria-hidden="true" id="ajouter-des-sous-catégories"></a><a href="#ajouter-des-sous-catégories" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Ajouter des sous-catégories</h3>
+<p>Il est possible d'ajouter des sous-catégories à une barre latérale. Au lieu d'utiliser les ID comme contenu du tableau des catégories selon les exemples précédents, vous pouvez passer un objet où les clés seront le nom de la sous-catégorie et la valeur d'un tableau d'ID pour cette sous-catégorie.</p>
 <pre><code class="hljs css language-js">{
   <span class="hljs-string">"docs"</span>: {
-    <span class="hljs-string">"My Example Category"</span>: [
-      <span class="hljs-string">"examples"</span>,
+    <span class="hljs-string">"Mon exemple de catégorie"</span>: [
+      <span class="hljs-string">"exemples"</span>,
       {
         <span class="hljs-string">"type"</span>: <span class="hljs-string">"subcategory"</span>,
-        <span class="hljs-string">"label"</span>: <span class="hljs-string">"My Example Subcategory"</span>,
+        <span class="hljs-string">"label"</span>: <span class="hljs-string">"Mon exemple de sous-catégorie"</span>,
         <span class="hljs-string">"ids"</span>: [
-          <span class="hljs-string">"my-examples"</span>,
+          <span class="hljs-string">"mes-exemples"</span>,
           ...
         ]
       },
       {
         <span class="hljs-string">"type"</span>: <span class="hljs-string">"subcategory"</span>,
-        <span class="hljs-string">"label"</span>: <span class="hljs-string">"My Next Subcategory"</span>,
+        <span class="hljs-string">"label"</span>: <span class="hljs-string">"Ma sous-catégorie suivante"</span>,
         <span class="hljs-string">"ids"</span>: [
-          <span class="hljs-string">"some-other-examples"</span>
+          <span class="hljs-string">"quelques-autres-exemples"</span>
         ]
       },
-      <span class="hljs-string">"even-more-examples"</span>,
+      <span class="hljs-string">"encore-plus-exemples"</span>,
       ...
     ],
     ...
@@ -174,25 +174,25 @@
 }
 
 <span class="hljs-comment">/*
-The above will generate:
+Ce qui précède va générer :
 
-- My Example Category
-  - examples
-  - My Example Subcategory
-    - my-examples
+- Mon exemple de catégorie
+  - exemples
+  - Mon exemple de sous-catégorie
+    - mes-exemples
     ...
-  - My Next Subcategory
-    - some-other-examples
-  - even-more-examples
+  - Ma sous-catégorie suivante
+    - quelques-autres-exemples
+  - encore-plus-exemples
   ...
 */</span>
 </code></pre>
-<h3><a class="anchor" aria-hidden="true" id="adding-new-sidebars"></a><a href="#adding-new-sidebars" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Adding New Sidebars</h3>
+<h3><a class="anchor" aria-hidden="true" id="ajouter-de-nouvelles-barres-latérales"></a><a href="#ajouter-de-nouvelles-barres-latérales" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Ajouter de nouvelles barres latérales</h3>
 <p>You can also put a document in a new sidebar. In the following example, we are creating an <code>examples-sidebar</code> sidebar within <code>sidebars.json</code> that has a category called <code>My Example Category</code> containing a document with an <code>id</code> of <code>my-examples</code>.</p>
 <pre><code class="hljs css language-js">{
-  <span class="hljs-string">"examples-sidebar"</span>: {
-    <span class="hljs-string">"My Example Category"</span>: [
-      <span class="hljs-string">"my-examples"</span>
+  <span class="hljs-string">"exemples-barre-laterale"</span>: {
+    <span class="hljs-string">"Mon exemple de catégorie"</span>: [
+      <span class="hljs-string">"mes-exemples"</span>
     ],
     ...
   },
@@ -207,7 +207,7 @@ The above will generate:
 <pre><code class="hljs css language-js">{
   <span class="hljs-attr">headerLinks</span>: [
     ...
-    { <span class="hljs-attr">doc</span>: <span class="hljs-string">'my-examples'</span>, <span class="hljs-attr">label</span>: <span class="hljs-string">'Examples'</span> },
+    { <span class="hljs-attr">doc</span>: <span class="hljs-string">'mes-exemples'</span>, <span class="hljs-attr">label</span>: <span class="hljs-string">'Exemples'</span> },
     ...
   ],
   ...
@@ -291,7 +291,7 @@ The above will generate:
   ...
 }
 </code></pre>
-</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/fr/1.11.x/search"><span class="arrow-prev">← </span><span>Activation de la recherche</span></a><a class="docs-next button" href="/docs/fr/1.11.x/translation"><span>Traductions &amp; Localisation</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#faire-référence-aux-documents-du-site">Faire référence aux documents du site</a></li><li><a href="#comment-les-documents-sont-liés">Comment les documents sont liés</a></li><li><a href="#ajouter-des-documents-à-une-barre-latérale">Ajouter des documents à une barre latérale</a><ul class="toc-headings"><li><a href="#adding-subcategories">Adding Subcategories</a></li><li><a href="#adding-new-sidebars">Adding New Sidebars</a></li></ul></li><li><a href="#additions-to-the-site-navigation-bar">Additions to the Site Navigation Bar</a><ul class="toc-headings"><li><a href="#adding-documents">Adding Documents</a></li><li><a href="#adding-custom-pages">Adding Custom Pages</a></li><li><a href="#adding-external-links">Adding External Links</a></li></ul></li><li><a href="#site-navigation-bar-positioning">Site Navigation Bar Positioning</a><ul class="toc-headings"><li><a href="#search">Search</a></li><li><a href="#languages-dropdown">Languages Dropdown</a></li></ul></li><li><a href="#active-links-in-site-navigation-bar">Active Links In Site Navigation Bar</a></li><li><a href="#secondary-on-page-navigation">Secondary On-Page Navigation</a></li><li><a href="#collapsible-categories">Collapsible Categories</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/docusaurus_monochrome.svg" alt="Docusaurus" width="66" height="58"/></a><div class="footerSection"><h5>Docs</h5><a href="
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/fr/1.11.x/search"><span class="arrow-prev">← </span><span>Activation de la recherche</span></a><a class="docs-next button" href="/docs/fr/1.11.x/translation"><span>Traductions &amp; Localisation</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#faire-référence-aux-documents-du-site">Faire référence aux documents du site</a></li><li><a href="#comment-les-documents-sont-liés">Comment les documents sont liés</a></li><li><a href="#ajouter-des-documents-à-une-barre-latérale">Ajouter des documents à une barre latérale</a><ul class="toc-headings"><li><a href="#ajouter-des-sous-catégories">Ajouter des sous-catégories</a></li><li><a href="#ajouter-de-nouvelles-barres-latérales">Ajouter de nouvelles barres latérales</a></li></ul></li><li><a href="#additions-to-the-site-navigation-bar">Additions to the Site Navigation Bar</a><ul class="toc-headings"><li><a href="#adding-documents">Adding Documents</a></li><li><a href="#adding-custom-pages">Adding Custom Pages</a></li><li><a href="#adding-external-links">Adding External Links</a></li></ul></li><li><a href="#site-navigation-bar-positioning">Site Navigation Bar Positioning</a><ul class="toc-headings"><li><a href="#search">Search</a></li><li><a href="#languages-dropdown">Languages Dropdown</a></li></ul></li><li><a href="#active-links-in-site-navigation-bar">Active Links In Site Navigation Bar</a></li><li><a href="#secondary-on-page-navigation">Secondary On-Page Navigation</a></li><li><a href="#collapsible-categories">Collapsible Categories</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/docusaurus_monochrome.svg" alt="Docusaurus" width="66" height="58"/></a><div class="footerSection"><h5>Docs</h5><a href="
                 /docs/fr/installation">Getting Started</a><a href="
                 /docs/fr/versioning">Versioning</a><a href="
                 /docs/fr/translation">Localization</a><a href="

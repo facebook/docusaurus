@@ -2,12 +2,25 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://docusaurus.io/blog</id>
     <title>Docusaurus Blog</title>
-    <updated>2018-12-14T06:00:00.000Z</updated>
+    <updated>2019-12-30T06:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://docusaurus.io/blog"/>
     <subtitle>The best place to stay up-to-date with the latest Docusaurus news and events.</subtitle>
     <logo>https://docusaurus.io/img/docusaurus.svg</logo>
     <rights>Copyright © 2019 Facebook Inc.</rights>
+    <entry>
+        <title type="html"><![CDATA[Docusaurus 2019 Recap]]></title>
+        <id>https://docusaurus.io/blog/2019/12/30/docusaurus-2019-recap.html</id>
+        <link href="https://docusaurus.io/blog/2019/12/30/docusaurus-2019-recap.html"/>
+        <updated>2019-12-30T06:00:00.000Z</updated>
+        <summary type="html"><![CDATA[<p>2019 was a great year for Docusaurus - we've made tremendous progress on <a href="https://v2.docusaurus.io/">Docusaurus 2</a>. Current Docusaurus 1 users who aren't using the translations feature can feel free to check it out and <a href="https://v2.docusaurus.io/docs/migrating-from-v1-to-v2">migrate</a> to it! Otherwise we will work with you to make that happen in 2020 :)</p>
+]]></summary>
+        <author>
+            <name>Yangshun Tay</name>
+            <email/>
+            <uri>https://github.com/yangshun</uri>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Happy 1st Birthday Slash!]]></title>
         <id>https://docusaurus.io/blog/2018/12/14/Happy-First-Birthday-Slash.html</id>
