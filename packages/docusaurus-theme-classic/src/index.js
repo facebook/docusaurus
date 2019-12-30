@@ -63,12 +63,9 @@ module.exports = function(context, options) {
         return {};
       }
       return {
-        preBodyTags: [
+        headTags: [
           {
             tagName: 'script',
-            attributes: {
-              type: 'text/javascript',
-            },
             innerHTML: noFlash,
           },
         ],
