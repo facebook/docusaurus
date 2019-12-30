@@ -59,6 +59,6 @@ A few third-party hosting/development services also has first-class integration 
 
 D2 has gained some traction among the [developer community](https://v2.docusaurus.io/showcase). In 2020, we want to achieve full feature parity with D1 by the first half and help the remaining Facebook projects on D1 move to D2. It would also be great if we could use Docusaurus for internal documentation, but that is a non-trivial undertaking. If you have a need for it or have some ideas, come speak with us!
 
-Huge thanks to the community for their contributions, especially the core team - [Endilie Yacop Sucipto](https://github.com/endiliey), [Alexey Pyltsyn](https://github.com/lex111), [Wei Gao](https://github.com/lex111). Lastly, thank you [Joel Marcey](https://github.com/JoelMarcey) for starting Docusaurus and supporting the project all this time.
+Huge thanks to the community for their contributions, especially the core team - [Endilie Yacop Sucipto](https://github.com/endiliey), [Alexey Pyltsyn](https://github.com/lex111), [Wei Gao](https://github.com/wgao19). Lastly, thank you [Joel Marcey](https://github.com/JoelMarcey) for starting Docusaurus and supporting the project all this time.
 
 Cheers to a great 2020! 🎉
