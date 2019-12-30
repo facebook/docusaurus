@@ -34,7 +34,7 @@
   }
 
   .sidebarLogo {
-    display: flex;
+    display: flex !important;
     align-items: center;
     position: absolute;
     top: var(--ifm-navbar-padding-horizontal);
@@ -45,6 +45,10 @@
     margin-right: 0.5rem;
     height: 2rem;
   }
+}
+
+.sidebarLogo {
+  display: none;
 }
 
 .sidebarMenuIcon {
