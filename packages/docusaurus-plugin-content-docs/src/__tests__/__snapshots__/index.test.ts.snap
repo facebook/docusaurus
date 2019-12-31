@@ -88,6 +88,14 @@ Array [
         "component": "@theme/DocItem",
         "exact": true,
         "modules": Object {
+          "content": "@site/docs/ipsum.md",
+        },
+        "path": "/docs/ipsum",
+      },
+      Object {
+        "component": "@theme/DocItem",
+        "exact": true,
+        "modules": Object {
           "content": "@site/docs/lorem.md",
         },
         "path": "/docs/lorem",
