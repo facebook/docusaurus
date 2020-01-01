@@ -41,6 +41,7 @@ And welcomed more projects to Docusaurus 1:
 
 - [Libra](https://developers.libra.org/)
 - [MobX](https://mobx.js.org/)
+- [Immer](https://immerjs.github.io/immer/)
 - [Sorbet](https://sorbet.org/)
 
 ## Media
