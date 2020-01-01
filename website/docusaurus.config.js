@@ -149,7 +149,7 @@ module.exports = {
           ],
         },
         {
-          title: 'Social',
+          title: 'More',
           items: [
             {
               label: 'Blog',
