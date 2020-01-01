@@ -58,7 +58,10 @@ const docusaurus = {
       // Pass it the chunkName or chunkId you want to load and it will return the URL for that chunk
       // eslint-disable-next-line no-undef
       const chunkAsset = __webpack_require__.gca(chunkName);
-      if (chunkAsset) {
+
+      // In some cases, webpack might decide to optimize further & hence the chunk asssets are merged to another chunk/previous chunk
+      // Hence, we can safely filter it out/ dont need to load it
+      if (chunkAsset && !/undefined/.test(chunkAsset)) {
         prefetchHelper(chunkAsset);
       }
     });
