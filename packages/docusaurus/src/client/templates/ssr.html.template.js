@@ -26,7 +26,7 @@ module.exports = `
       <%- appHtml %>
     </div>
     <% scripts.forEach((script) => { %>
-      <script type="text/javascript" src="<%= baseUrl %><%= script %>"></script>
+      <script type="text/javascript" src="<%= baseUrl %><%= script %>" async></script>
     <% }); %>
     <%- postBodyTags %>
   </body>
