@@ -71,6 +71,7 @@ function Footer() {
                       item.html ? (
                         <li
                           key={key}
+                          className="footer__item"
                           dangerouslySetInnerHTML={{
                             __html: item.html,
                           }}
