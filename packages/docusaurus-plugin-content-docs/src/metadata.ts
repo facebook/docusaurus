@@ -134,7 +134,7 @@ export default async function processMetadata({
     description,
     source: aliasedSitePath(filePath, siteDir),
     permalink,
-    editUrl: custom_edit_url || docsEditUrl,
+    editUrl: custom_edit_url !== undefined ? custom_edit_url : docsEditUrl,
     version,
     lastUpdatedBy,
     lastUpdatedAt,
