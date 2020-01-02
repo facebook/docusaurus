@@ -24,7 +24,7 @@ const Search = props => {
   } = siteConfig;
   const history = useHistory();
 
-  const initAlgolia = () => {
+  function initAlgolia(focusOnInit) {
     if (!initialized.current) {
       window.docsearch({
         appId: algolia.appId,
@@ -50,26 +50,30 @@ const Search = props => {
         },
       });
       initialized.current = true;
+      // Needed because the search input loses focus after calling window.docsearch()
+      if (focusOnInit) {
+        searchBarRef.current.focus();
+      }
     }
-  };
+  }
 
-  const loadAlgolia = () => {
+  function loadAlgolia(focusAfterLoading) {
     if (!loaded) {
       Promise.all([import('docsearch.js'), import('./algolia.css')]).then(
         ([{default: docsearch}]) => {
           loaded = true;
           window.docsearch = docsearch;
-          initAlgolia();
+          initAlgolia(focusAfterLoading);
         },
       );
     } else {
-      initAlgolia();
+      initAlgolia(focusAfterLoading);
     }
-  };
+  }
 
   const toggleSearchIconClick = useCallback(
-    e => {
-      if (!searchBarRef.current.contains(e.target)) {
+    event => {
+      if (!searchBarRef.current.contains(event.target)) {
         searchBarRef.current.focus();
       }
 
@@ -100,8 +104,8 @@ const Search = props => {
           {'search-bar-expanded': props.isSearchBarExpanded},
           {'search-bar': !props.isSearchBarExpanded},
         )}
-        onClick={loadAlgolia}
-        onMouseOver={loadAlgolia}
+        onClick={loadAlgolia.bind(this, true)}
+        onMouseOver={loadAlgolia.bind(this, false)}
         onFocus={toggleSearchIconClick}
         onBlur={toggleSearchIconClick}
         ref={searchBarRef}
