@@ -11,6 +11,8 @@ import classnames from 'classnames';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useHistory} from '@docusaurus/router';
 
+import './styles.css';
+
 let loaded = false;
 
 const Search = props => {
