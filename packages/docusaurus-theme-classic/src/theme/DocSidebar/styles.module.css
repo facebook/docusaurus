@@ -56,7 +56,9 @@
 }
 
 .sidebarMenuCloseIcon {
-  display: inline-block;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
   height: 24px;
   font-size: 1.5rem;
   font-weight: var(--ifm-font-weight-bold);
