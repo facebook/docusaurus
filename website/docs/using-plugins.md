@@ -312,6 +312,7 @@ module.exports = {
   themeConfig: {
     googleAnalytics: {
       trackingID: 'UA-141789564-1',
+      anonymizeIP: false, // should IPs be anonymized?
     },
   },
 };
