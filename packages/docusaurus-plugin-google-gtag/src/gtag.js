@@ -15,6 +15,7 @@ export default (function() {
   const {
     themeConfig: {
       gtag: {trackingID},
+      anonymizeIP: {anonymizeIP},
     },
   } = siteConfig;
 
@@ -23,6 +24,9 @@ export default (function() {
       // Always refer to the variable on window in-case it gets overridden elsewhere.
       window.gtag('config', trackingID, {
         page_path: location.pathname,
+      });
+      window.gtag('config', trackingID, {
+        anonymize_ip: anonymizeIP,
       });
     },
   };
