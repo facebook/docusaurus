@@ -6,6 +6,7 @@
  */
 
 import {useState, useCallback, useEffect} from 'react';
+import {useLocation} from 'react-router-dom';
 
 const useHideableNavbar = hideOnScroll => {
   const [isNavbarVisible, setIsNavbarVisible] = useState(true);
@@ -16,6 +17,7 @@ const useHideableNavbar = hideOnScroll => {
       setNavbarHeight(node.getBoundingClientRect().height);
     }
   }, []);
+  const location = useLocation();
 
   const handleScroll = () => {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
@@ -46,6 +48,10 @@ const useHideableNavbar = hideOnScroll => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, [lastScrollTop, navbarHeight]);
+
+  useEffect(() => {
+    setIsNavbarVisible(true);
+  }, [location]);
 
   return {
     navbarRef,
