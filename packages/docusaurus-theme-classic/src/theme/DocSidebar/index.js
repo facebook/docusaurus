@@ -142,7 +142,7 @@ function DocSidebar(props) {
         {title != null && <strong>{title}</strong>}
       </div>
       <div
-        className={classnames('menu', 'menu--responsive', {
+        className={classnames('menu', 'menu--responsive', styles.menu, {
           'menu--show': showResponsiveSidebar,
         })}>
         <button
