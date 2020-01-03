@@ -105,7 +105,11 @@ export default async function processMetadata({
   }
 
   // Append subdirectory as part of id.
-  const id = frontMatter.route || (dirName !== '.' ? `${dirName}/${baseID}` : baseID);
+  let id = dirName !== '.' ? `${dirName}/${baseID}` : baseID;
+
+  if (frontMatter.route) {
+    id = frontMatter.route;
+  }
 
   // Default title is the id.
   const title: string = frontMatter.title || baseID;
