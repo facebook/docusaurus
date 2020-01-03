@@ -204,6 +204,13 @@ module.exports = [
     pinned: true,
   },
   {
+    caption: 'Draftail',
+    image: '/img/users/draftail.svg',
+    infoLink: 'https://www.draftail.org/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Express Validator',
     image: '/img/users/express-validator.svg',
     infoLink: 'https://express-validator.github.io/',
