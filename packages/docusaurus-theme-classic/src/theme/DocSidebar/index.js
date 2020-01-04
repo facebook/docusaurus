@@ -10,6 +10,7 @@ import classnames from 'classnames';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import Link from '@docusaurus/Link';
+import isInternalUrl from '@docusaurus/utils';
 
 import styles from './styles.module.css';
 
@@ -70,11 +71,18 @@ function DocSidebarItem({item, onItemClick, collapsible}) {
       return (
         <li className="menu__list-item" key={label}>
           <Link
-            activeClassName="menu__link--active"
             className="menu__link"
-            exact
             to={href}
-            onClick={onItemClick}>
+            {...(isInternalUrl(href)
+              ? {
+                  activeClassName: 'menu__link--active',
+                  exact: true,
+                  onClick: onItemClick,
+                }
+              : {
+                  target: '_blank',
+                  rel: 'noreferrer noopener',
+                })}>
             {label}
           </Link>
         </li>
