@@ -6,7 +6,7 @@
  */
 
 import {useState, useCallback, useEffect} from 'react';
-import {useLocation} from 'react-router-dom';
+import {useLocation} from '@docusaurus/router';
 
 const useHideableNavbar = hideOnScroll => {
   const [isNavbarVisible, setIsNavbarVisible] = useState(true);
