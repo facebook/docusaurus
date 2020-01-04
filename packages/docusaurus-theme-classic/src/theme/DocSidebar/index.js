@@ -10,7 +10,7 @@ import classnames from 'classnames';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import Link from '@docusaurus/Link';
-import isInternalUrl from '@docusaurus/utils';
+import isInternalUrl from '@docusaurus/utils'; // eslint-disable-line import/no-extraneous-dependencies
 
 import styles from './styles.module.css';
 
