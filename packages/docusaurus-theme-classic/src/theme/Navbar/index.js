@@ -17,6 +17,7 @@ import classnames from 'classnames';
 
 import useThemeContext from '@theme/hooks/useThemeContext';
 import useHideableNavbar from '@theme/hooks/useHideableNavbar';
+import useLockBodyScroll from '@theme/hooks/useLockBodyScroll';
 
 import styles from './styles.module.css';
 
@@ -54,12 +55,12 @@ function Navbar() {
   const {theme, setTheme} = useThemeContext();
   const {navbarRef, isNavbarVisible} = useHideableNavbar(hideOnScroll);
 
+  useLockBodyScroll(sidebarShown);
+
   const showSidebar = useCallback(() => {
-    document.body.style.overflow = 'hidden';
     setSidebarShown(true);
   }, [setSidebarShown]);
   const hideSidebar = useCallback(() => {
-    document.body.style.overflow = 'visible';
     setSidebarShown(false);
   }, [setSidebarShown]);
 
