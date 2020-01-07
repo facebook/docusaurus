@@ -12,7 +12,7 @@ import isInternalUrl from '@docusaurus/utils';
 function Link(props) {
   const {to, href} = props;
   const targetLink = to || href;
-  const isInternal = isInternalUrl;
+  const isInternal = isInternalUrl(targetLink);
   const preloaded = useRef(false);
 
   const IOSupported =
@@ -66,7 +66,7 @@ function Link(props) {
     };
   }, [targetLink, IOSupported, isInternal]);
 
-  return !targetLink || !isInternal(targetLink) ? (
+  return !targetLink || !isInternal ? (
     // eslint-disable-next-line jsx-a11y/anchor-has-content
     <a {...props} href={targetLink} />
   ) : (
