@@ -54,7 +54,11 @@ class MarkdownRenderer {
                 // Currently people using prismjs on Node have to individually require()
                 // every single language (https://github.com/PrismJS/prism/issues/593)
                 loadLanguages([language]);
-                return prismjs.highlight(str, prismjs.languages[language], language);
+                return prismjs.highlight(
+                  str,
+                  prismjs.languages[language],
+                  language
+                );
               } catch (err) {
                 if (err.code === 'MODULE_NOT_FOUND') {
                   const unsupportedLanguageError = chalk.yellow(
