@@ -57,7 +57,7 @@ class MarkdownRenderer {
                 return prismjs.highlight(
                   str,
                   prismjs.languages[language],
-                  language
+                  language,
                 );
               } catch (err) {
                 if (err.code === 'MODULE_NOT_FOUND') {
