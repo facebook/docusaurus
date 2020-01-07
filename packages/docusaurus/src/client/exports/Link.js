@@ -7,13 +7,12 @@
 
 import React, {useEffect, useRef} from 'react';
 import {NavLink} from 'react-router-dom';
-
-const internalRegex = /^\/(?!\/)/;
+import isInternalUrl from '@docusaurus/utils';
 
 function Link(props) {
   const {to, href} = props;
   const targetLink = to || href;
-  const isInternal = internalRegex.test(targetLink);
+  const isInternal = isInternalUrl;
   const preloaded = useRef(false);
 
   const IOSupported =

@@ -7,8 +7,10 @@
 
 import React, {useState, useCallback} from 'react';
 import classnames from 'classnames';
-
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 import Link from '@docusaurus/Link';
+import isInternalUrl from '@docusaurus/utils'; // eslint-disable-line import/no-extraneous-dependencies
 
 import styles from './styles.module.css';
 
@@ -69,11 +71,18 @@ function DocSidebarItem({item, onItemClick, collapsible}) {
       return (
         <li className="menu__list-item" key={label}>
           <Link
-            activeClassName="menu__link--active"
             className="menu__link"
-            exact
             to={href}
-            onClick={onItemClick}>
+            {...(isInternalUrl(href)
+              ? {
+                  activeClassName: 'menu__link--active',
+                  exact: true,
+                  onClick: onItemClick,
+                }
+              : {
+                  target: '_blank',
+                  rel: 'noreferrer noopener',
+                })}>
             {label}
           </Link>
         </li>
@@ -104,6 +113,10 @@ function mutateSidebarCollapsingState(item, location) {
 
 function DocSidebar(props) {
   const [showResponsiveSidebar, setShowResponsiveSidebar] = useState(false);
+  const {
+    siteConfig: {themeConfig: {navbar: {title, logo = {}} = {}}} = {},
+  } = useDocusaurusContext();
+  const logoUrl = useBaseUrl(logo.src);
 
   const {
     docsSidebars,
@@ -132,8 +145,12 @@ function DocSidebar(props) {
 
   return (
     <div className={styles.sidebar}>
+      <div className={styles.sidebarLogo}>
+        {logo != null && <img src={logoUrl} alt={logo.alt} />}
+        {title != null && <strong>{title}</strong>}
+      </div>
       <div
-        className={classnames('menu', 'menu--responsive', {
+        className={classnames('menu', 'menu--responsive', styles.menu, {
           'menu--show': showResponsiveSidebar,
         })}>
         <button

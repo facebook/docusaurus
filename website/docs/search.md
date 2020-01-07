@@ -2,7 +2,7 @@
 id: search
 title: Search
 keywords:
-  - docusaurus
+  - algolia
   - search
 ---
 

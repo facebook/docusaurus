@@ -7,11 +7,11 @@
 
 @media (min-width: 997px) {
   .sidebar {
-    height: calc(100vh - var(--ifm-navbar-height));
+    height: 100vh;
     overflow-y: auto;
-    padding: 0.5rem;
     position: sticky;
-    top: var(--ifm-navbar-height);
+    top: 0;
+    padding-top: var(--ifm-navbar-height);
   }
 
   .sidebar::-webkit-scrollbar {
@@ -31,6 +31,28 @@
   .sidebar::-webkit-scrollbar-thumb:hover {
     background: #555;
   }
+
+  .sidebarLogo {
+    display: flex !important;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    margin: 0 var(--ifm-navbar-padding-horizontal);
+    height: var(--ifm-navbar-height);
+  }
+
+  .sidebarLogo img {
+    margin-right: 0.5rem;
+    height: 2rem;
+  }
+
+  .menu {
+    padding: 0.5rem;
+  }
+}
+
+.sidebarLogo {
+  display: none;
 }
 
 .sidebarMenuIcon {
@@ -38,7 +60,9 @@
 }
 
 .sidebarMenuCloseIcon {
-  display: inline-block;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
   height: 24px;
   font-size: 1.5rem;
   font-weight: var(--ifm-font-weight-bold);
