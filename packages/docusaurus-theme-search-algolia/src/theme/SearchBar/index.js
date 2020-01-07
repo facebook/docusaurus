@@ -101,6 +101,7 @@ const Search = props => {
           {'search-bar-expanded': props.isSearchBarExpanded},
           {'search-bar': !props.isSearchBarExpanded},
         )}
+        onMouseOver={loadAlgolia}
         onFocus={loadAlgolia}
         onBlur={handleSearchInputBlur}
         ref={searchBarRef}
