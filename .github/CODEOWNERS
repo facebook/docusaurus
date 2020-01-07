@@ -1,12 +1,12 @@
 # https://help.github.com/articles/about-codeowners/
 
-/packages/docusaurus-1.x/  @endiliey
-/packages/docusaurus-plugin-content-docs/ @endiliey
+/packages/docusaurus-1.x/  @yangshun
+/packages/docusaurus-plugin-content-docs/ @yangshun
 /packages/docusaurus-plugin-content-blog/ @yangshun
-/packages/docusaurus-mdx-loader/ @endiliey
-/packages/docusaurus-theme-classic/ @endiliey @yangshun @lex111 @wgao19
-/packages/docusaurus-init-1.x/  @endiliey
-/packages/docusaurus/  @endiliey @yangshun
-/website/  @endiliey @yangshun
+/packages/docusaurus-mdx-loader/ @yangshun
+/packages/docusaurus-theme-classic/ @yangshun @lex111 @wgao19
+/packages/docusaurus-init-1.x/  @yangshun
+/packages/docusaurus/  @yangshun
+/website/  @yangshun
 /website/docs/ @wgao19
-/website-1.x/  @endiliey @yangshun
+/website-1.x/  @yangshun
