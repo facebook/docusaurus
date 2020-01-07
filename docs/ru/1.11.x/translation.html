@@ -112,16 +112,16 @@ languages.js
 <pre><code class="hljs css language-jsx"><span class="token operator">...</span>
 <span class="token keyword">const</span> translate <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'../../server/translate.js'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>translate<span class="token punctuation">;</span>
 <span class="token operator">...</span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h2</span><span class="token punctuation">></span></span>
-  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>translate</span><span class="token punctuation">></span></span>This header will be translated<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>translate</span><span class="token punctuation">></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h2</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h2</span><span class="token punctuation">></span></span><span class="token plain-text">
+  </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>translate</span><span class="token punctuation">></span></span><span class="token plain-text">This header will be translated</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>translate</span><span class="token punctuation">></span></span><span class="token plain-text">
+</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h2</span><span class="token punctuation">></span></span>
 <span class="token operator">...</span>
 </code></pre>
 <p>Вы также можете добавить описание - необязательный атрибут desc, чтобы дать больше информации переводчику о том, как переводить строку:</p>
-<pre><code class="hljs css language-jsx"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">></span></span>
-  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>translate</span> <span class="token attr-name">desc</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>flower, not verb<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Rose<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>translate</span><span class="token punctuation">></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">></span></span>
-</code></pre>
+<pre><code class="hljs css language-jsx"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">></span></span><span class="token plain-text">
+  </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>translate</span> <span class="token attr-name">desc</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>flower, not verb<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token plain-text">Rose</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>translate</span><span class="token punctuation">></span></span><span class="token plain-text">
+</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">></span></span><span class="token plain-text">
+</span></code></pre>
 <blockquote>
 <p>Тег <code>&lt;translate&gt;</code> в общем случае хорошо работает на чистых строках. Если у вас есть строка вида &quot;Docusaurus currently provides support to help your website use <a href="${siteConfig.baseUrl}${siteConfig.docsUrl}/${this.props.language}/translation.html">translations</a>&quot;, то обернув её целиком в тег <code>&amp;lt;translation&amp;gt;</code> вы столкнетесь с проблемами, т. к. строка содержит ссылки markdown и прочее. В этом случае вы можете либо не переводить такую строку, либо обернуть в тег <code>&amp;lt;translate&amp;gt;</code> её каждую чистую подстроку.</p>
 </blockquote>

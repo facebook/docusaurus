@@ -112,16 +112,16 @@ languages.js
 <pre><code class="hljs css language-jsx"><span class="token operator">...</span>
 <span class="token keyword">const</span> translate <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'../../server/translate.js'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>translate<span class="token punctuation">;</span>
 <span class="token operator">...</span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h2</span><span class="token punctuation">></span></span>
-  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>translate</span><span class="token punctuation">></span></span>This header will be translated<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>translate</span><span class="token punctuation">></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h2</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h2</span><span class="token punctuation">></span></span><span class="token plain-text">
+  </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>translate</span><span class="token punctuation">></span></span><span class="token plain-text">This header will be translated</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>translate</span><span class="token punctuation">></span></span><span class="token plain-text">
+</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h2</span><span class="token punctuation">></span></span>
 <span class="token operator">...</span>
 </code></pre>
 <p>문자열을 어떻게 번역해야 하는지 추가 정보를 제공하기 위해 옵션 항목으로 설명을 추가할 수도 있습니다.</p>
-<pre><code class="hljs css language-jsx"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">></span></span>
-  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>translate</span> <span class="token attr-name">desc</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>flower, not verb<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Rose<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>translate</span><span class="token punctuation">></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">></span></span>
-</code></pre>
+<pre><code class="hljs css language-jsx"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">></span></span><span class="token plain-text">
+  </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>translate</span> <span class="token attr-name">desc</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>flower, not verb<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token plain-text">Rose</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>translate</span><span class="token punctuation">></span></span><span class="token plain-text">
+</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">></span></span><span class="token plain-text">
+</span></code></pre>
 <blockquote>
 <p><code>&lt;translate&gt;</code> 태그는 일반 문자열인 경우에는 적절하게 동작합니다. If you have a string like &quot;Docusaurus currently provides support to help your website use <a href="${siteConfig.baseUrl}${siteConfig.docsUrl}/${this.props.language}/translation.html">translations</a>&quot;, wrapping the <code>&lt;translation&gt;</code> tag around that entire string will cause issues because of the markdown linking, etc. 이런 경우에는 번역하지 않을 문자열을 지정하거나 문자열 사이에 번역할 대상만 <code>&lt;translate&gt;</code> 태그로 지정하는 방법을 사용할 수 있습니다.</p>
 </blockquote>

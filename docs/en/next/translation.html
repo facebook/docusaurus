@@ -112,16 +112,16 @@ languages.js
 <pre><code class="hljs css language-jsx"><span class="token operator">...</span>
 <span class="token keyword">const</span> translate <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'../../server/translate.js'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>translate<span class="token punctuation">;</span>
 <span class="token operator">...</span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h2</span><span class="token punctuation">></span></span>
-  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>translate</span><span class="token punctuation">></span></span>This header will be translated<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>translate</span><span class="token punctuation">></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h2</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h2</span><span class="token punctuation">></span></span><span class="token plain-text">
+  </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>translate</span><span class="token punctuation">></span></span><span class="token plain-text">This header will be translated</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>translate</span><span class="token punctuation">></span></span><span class="token plain-text">
+</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h2</span><span class="token punctuation">></span></span>
 <span class="token operator">...</span>
 </code></pre>
 <p>You can also include an optional description attribute to give more context to a translator about how to translate the string:</p>
-<pre><code class="hljs css language-jsx"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">></span></span>
-  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>translate</span> <span class="token attr-name">desc</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>flower, not verb<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Rose<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>translate</span><span class="token punctuation">></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">></span></span>
-</code></pre>
+<pre><code class="hljs css language-jsx"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">></span></span><span class="token plain-text">
+  </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>translate</span> <span class="token attr-name">desc</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>flower, not verb<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token plain-text">Rose</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>translate</span><span class="token punctuation">></span></span><span class="token plain-text">
+</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">></span></span><span class="token plain-text">
+</span></code></pre>
 <blockquote>
 <p>The <code>&lt;translate&gt;</code> tag generally works well on pure strings. If you have a string like &quot;Docusaurus currently provides support to help your website use <a href="${siteConfig.baseUrl}${siteConfig.docsUrl}/${this.props.language}/translation.html">translations</a>&quot;, wrapping the <code>&lt;translation&gt;</code> tag around that entire string will cause issues because of the markdown linking, etc. Your options are to not translate those strings, or spread a bunch of <code>&lt;translate&gt;</code> tags amongst the pure substrings of that string.</p>
 </blockquote>

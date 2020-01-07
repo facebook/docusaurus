@@ -112,16 +112,16 @@ languages.js
 <pre><code class="hljs css language-jsx"><span class="token operator">...</span>
 <span class="token keyword">const</span> translate <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'../../server/translate.js'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>translate<span class="token punctuation">;</span>
 <span class="token operator">...</span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h2</span><span class="token punctuation">></span></span>
-  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>translate</span><span class="token punctuation">></span></span>This header will be translated<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>translate</span><span class="token punctuation">></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h2</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h2</span><span class="token punctuation">></span></span><span class="token plain-text">
+  </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>translate</span><span class="token punctuation">></span></span><span class="token plain-text">This header will be translated</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>translate</span><span class="token punctuation">></span></span><span class="token plain-text">
+</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h2</span><span class="token punctuation">></span></span>
 <span class="token operator">...</span>
 </code></pre>
 <p>Vous pouvez également inclure un attribut de description facultatif pour donner plus de contexte à un traducteur sur la façon de traduire la chaîne :</p>
-<pre><code class="hljs css language-jsx"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">></span></span>
-  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>translate</span> <span class="token attr-name">desc</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>flower, not verb<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Rose<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>translate</span><span class="token punctuation">></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">></span></span>
-</code></pre>
+<pre><code class="hljs css language-jsx"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">></span></span><span class="token plain-text">
+  </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>translate</span> <span class="token attr-name">desc</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>flower, not verb<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token plain-text">Rose</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>translate</span><span class="token punctuation">></span></span><span class="token plain-text">
+</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">></span></span><span class="token plain-text">
+</span></code></pre>
 <blockquote>
 <p>La balise <code>&lt;translate&gt;</code> fonctionne généralement bien sur des chaînes de caractères pures. Si vous avez une chaîne comme &quot;Docusaurus fournit actuellement un support pour aider votre site à utiliser <a href="${siteConfig.baseUrl}${siteConfig.docsUrl}/${this.props.language}/translation.html">translations</a>&quot;, encapsuler la balise <code>&lt;translation&gt;</code> autour de cette chaîne entière causera des problèmes à cause du lien markdown, etc. Vos possibilités sont de ne pas traduire ces chaînes de caractères, ou de disséminer un tas de balises <code>&lt;translate&gt;</code> parmi les chaînes de caractères pures de cette chaîne.</p>
 </blockquote>
