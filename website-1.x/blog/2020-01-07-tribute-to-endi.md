@@ -20,7 +20,7 @@ It is impossible to overstate Endi's impact on this project:
 
 Thinking about it now, it is absolutely amazing how much Endi accomplished on Docusaurus given what he was battling with his health.
 
-We are working on ways to honor Endi's contributions - a commemerative sticker, possibly - and we are open to ideas. Leave a comment here or [tweet]() if you have a suggestion.
+We are working on ways to honor Endi's contributions - a commemerative sticker, possibly - and we are open to ideas. Leave a comment here or [tweet](https://twitter.com/docusaurus) if you have a suggestion.
 
 The Docusaurus project will not be the same without Endi, and those of us who worked with him will miss him greatly. 😔
 
