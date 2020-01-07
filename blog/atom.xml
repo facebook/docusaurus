@@ -2,12 +2,25 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://docusaurus.io/blog</id>
     <title>Docusaurus Blog</title>
-    <updated>2019-12-30T06:00:00.000Z</updated>
+    <updated>2020-01-07T06:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://docusaurus.io/blog"/>
     <subtitle>The best place to stay up-to-date with the latest Docusaurus news and events.</subtitle>
     <logo>https://docusaurus.io/img/docusaurus.svg</logo>
     <rights>Copyright © 2020 Facebook Inc.</rights>
+    <entry>
+        <title type="html"><![CDATA[Tribute to Endi]]></title>
+        <id>https://docusaurus.io/blog/2020/01/07/tribute-to-endi.html</id>
+        <link href="https://docusaurus.io/blog/2020/01/07/tribute-to-endi.html"/>
+        <updated>2020-01-07T06:00:00.000Z</updated>
+        <summary type="html"><![CDATA[<p>It is with great sadness to announce that our primary external Docusaurus contributor, <a href="https://github.com/endiliey">Endilie Yacop Sucipto</a> (Endi to those who knew him), <a href="https://give.asia/campaign/help_endi_beat_cancer#/updates">passed away</a> over the weekend after an illness associated with his bout with cancer.</p>
+]]></summary>
+        <author>
+            <name>Joel Marcey</name>
+            <email/>
+            <uri>https://github.com/JoelMarcey</uri>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Docusaurus 2019 Recap]]></title>
         <id>https://docusaurus.io/blog/2019/12/30/docusaurus-2019-recap.html</id>

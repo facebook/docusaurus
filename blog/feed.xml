@@ -4,7 +4,7 @@
         <title>Docusaurus Blog</title>
         <link>https://docusaurus.io/blog</link>
         <description>The best place to stay up-to-date with the latest Docusaurus news and events.</description>
-        <lastBuildDate>Mon, 30 Dec 2019 06:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 07 Jan 2020 06:00:00 GMT</lastBuildDate>
         <docs>http://blogs.law.harvard.edu/tech/rss</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <image>
@@ -13,6 +13,14 @@
             <link>https://docusaurus.io/blog</link>
         </image>
         <copyright>Copyright © 2020 Facebook Inc.</copyright>
+        <item>
+            <title><![CDATA[Tribute to Endi]]></title>
+            <link>https://docusaurus.io/blog/2020/01/07/tribute-to-endi.html</link>
+            <guid>https://docusaurus.io/blog/2020/01/07/tribute-to-endi.html</guid>
+            <pubDate>Tue, 07 Jan 2020 06:00:00 GMT</pubDate>
+            <description><![CDATA[<p>It is with great sadness to announce that our primary external Docusaurus contributor, <a href="https://github.com/endiliey">Endilie Yacop Sucipto</a> (Endi to those who knew him), <a href="https://give.asia/campaign/help_endi_beat_cancer#/updates">passed away</a> over the weekend after an illness associated with his bout with cancer.</p>
+]]></description>
+        </item>
         <item>
             <title><![CDATA[Docusaurus 2019 Recap]]></title>
             <link>https://docusaurus.io/blog/2019/12/30/docusaurus-2019-recap.html</link>
