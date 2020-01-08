@@ -9,6 +9,7 @@ import React, {useState, useCallback} from 'react';
 import classnames from 'classnames';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
+import useLockBodyScroll from '@theme/hooks/useLockBodyScroll';
 import Link from '@docusaurus/Link';
 import isInternalUrl from '@docusaurus/utils'; // eslint-disable-line import/no-extraneous-dependencies
 
@@ -124,6 +125,8 @@ function DocSidebar(props) {
     sidebar: currentSidebar,
     sidebarCollapsible,
   } = props;
+
+  useLockBodyScroll(showResponsiveSidebar);
 
   if (!currentSidebar) {
     return null;
