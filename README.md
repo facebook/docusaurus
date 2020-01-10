@@ -12,6 +12,7 @@
   <a href="https://discord.gg/docusaurus"><img src="https://img.shields.io/badge/chat-on%20discord-7289da.svg" alt="Chat"></a>
   <a href="https://github.com/prettier/prettier"><img alt="code style: prettier" src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg"></a>
   <a href="https://github.com/facebook/jest"><img src="https://img.shields.io/badge/tested_with-jest-99424f.svg" alt="Tested with Jest"></a>
+  <a href="https://gitpod.io/#https://github.com/facebook/docusaurus"><img src="https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod" alt="Gitpod Ready-to-Code"/></a>
   <a href="https://app.netlify.com/sites/docusaurus-preview/deploys"><img src="https://api.netlify.com/api/v1/badges/57ebb454-c937-4c1d-a228-d9dccb494f49/deploy-status" alt="Netlify Status"></a>
 </p>
 
@@ -40,6 +41,12 @@ Facebook has adopted a Code of Conduct that we expect project participants to ad
 ### Contributing Guide
 
 Read our [contributing guide](https://github.com/facebook/docusaurus/blob/master/CONTRIBUTING.md) to learn about our development process, how to propose bugfixes and improvements, and how to build and test your changes to Docusaurus.
+
+### Contribute online with a single click
+
+You can use Gitpod(A free online VS Code like IDE) for contributing with a single click it will launch a ready to code workspace with all the dependencies being pre-installed and the build & start script in process so that you can start contributing straight away.
+
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/facebook/docusaurus)
 
 ### Beginner Friendly Bugs
 
