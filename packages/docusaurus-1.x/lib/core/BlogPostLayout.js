@@ -121,7 +121,7 @@ class BlogPostLayout extends React.Component {
               {this.renderSocialButtons()}
             </div>
             <div className="blog-recent">
-              <a className="button" href={`${this.props.config.baseUrl}blog`}>
+              <a className="button" href={`${this.props.config.baseUrl}blog/`}>
                 {blogSidebarTitleConfig.default || 'Recent Posts'}
               </a>
             </div>
