@@ -312,6 +312,8 @@ module.exports = {
   themeConfig: {
     googleAnalytics: {
       trackingID: 'UA-141789564-1',
+      // Optional fields.
+      anonymizeIP: true, // Should IPs be anonymized?
     },
   },
 };
@@ -338,6 +340,8 @@ module.exports = {
   themeConfig: {
     gtag: {
       trackingID: 'UA-141789564-1',
+      // Optional fields.
+      anonymizeIP: true, // Should IPs be anonymized?
     },
   },
 };

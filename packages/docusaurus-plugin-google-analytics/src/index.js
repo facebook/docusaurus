@@ -18,7 +18,7 @@ module.exports = function(context) {
     );
   }
 
-  const {trackingID} = googleAnalytics;
+  const {trackingID, anonymizeIP} = googleAnalytics;
 
   if (!trackingID) {
     throw new Error(
@@ -53,6 +53,7 @@ module.exports = function(context) {
             innerHTML: `
               window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
               ga('create', '${trackingID}', 'auto');
+              ga('set', 'anonymizeIp', ${anonymizeIP});
               ga('send', 'pageview');
             `,
           },
