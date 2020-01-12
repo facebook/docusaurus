@@ -142,6 +142,7 @@ describe('Page routing', () => {
 
   test('valid page url', () => {
     expect('/index.html').toMatch(pageRegex);
+    expect('/en/example-html/index.html').toMatch(pageRegex);
     expect('/en/help.html').toMatch(pageRegex);
     expect('/reason/index.html').toMatch(pageRegex2);
     expect('/reason/ro/users.html').toMatch(pageRegex2);

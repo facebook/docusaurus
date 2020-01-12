@@ -36,7 +36,7 @@ function page(siteConfig) {
   return new RegExp(
     `(?!${gr(blog(siteConfig))}|${gr(docs(siteConfig))})^${
       siteConfig.baseUrl
-    }.*.html$`,
+    }.*\\.html$`,
   );
 }
 
