@@ -24,7 +24,7 @@ const useHideableNavbar = hideOnScroll => {
       return;
     }
 
-    const focusedElement = document.querySelector(':focus');
+    const focusedElement = document.activeElement;
 
     if (focusedElement && /^#/.test(window.location.hash)) {
       setIsNavbarVisible(false);
