@@ -1,5 +1,5 @@
 ---
-id: version-1.14.3-publishing
+id: version-1.14.4-publishing
 title: Publishing your site
 original_id: publishing
 ---
@@ -50,6 +50,8 @@ now
 ```
 
 **That's all.** Your docs will automatically be deployed.
+
+> Note that the directory structure Now supports is slightly different from the default directory structure of a Docusaurus project - The `docs` directory has to be within the `website` directory, ideally following the directory structure in this example. You will also have to specify a `customDocsPath` value in `siteConfig.js`. Take a look at the the [now-examples repository for a Docusaurus project](https://github.com/zeit/now-examples/tree/master/docusaurus).
 
 ### Using GitHub Pages
 
