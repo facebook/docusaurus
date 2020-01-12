@@ -38,17 +38,17 @@ We've released Docusaurus because it helps us better scale and supports the many
 
 Facebook has adopted a Code of Conduct that we expect project participants to adhere to. Please read [the full text](https://code.fb.com/codeofconduct) so that you can understand what actions will and will not be tolerated.
 
-### Contributing Guide
+### Contributing guide
 
 Read our [contributing guide](https://github.com/facebook/docusaurus/blob/master/CONTRIBUTING.md) to learn about our development process, how to propose bugfixes and improvements, and how to build and test your changes to Docusaurus.
 
 ### Contribute online with a single click
 
-You can use Gitpod(A free online VS Code like IDE) for contributing with a single click it will launch a ready to code workspace with all the dependencies being pre-installed and the build & start script in process so that you can start contributing straight away.
+You can use Gitpod (a free, online, VS Code-based IDE) for contributing. It will launch a ready to code workspace (for Docusaurus 2) with all the dependencies installed and the development server running so that you can start contributing straight away.
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/facebook/docusaurus)
 
-### Beginner Friendly Bugs
+### Beginner-friendly bugs
 
 To help you get your feet wet and get you familiar with our contribution process, we have a list of [beginner friendly bugs](https://github.com/facebook/docusaurus/labels/good%20first%20issue) that might contain smaller issues to tackle first. This is a great place to get started.
 
