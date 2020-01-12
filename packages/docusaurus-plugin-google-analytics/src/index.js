@@ -53,7 +53,7 @@ module.exports = function(context) {
             innerHTML: `
               window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
               ga('create', '${trackingID}', 'auto');
-              ga('set', 'anonymizeIp', ${anonymizeIP});
+              ${anonymizeIP ? "ga('set', 'anonymizeIp', true);\n" : ''}
               ga('send', 'pageview');
             `,
           },
