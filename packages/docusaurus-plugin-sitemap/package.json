@@ -16,5 +16,8 @@
   },
   "peerDependencies": {
     "@docusaurus/core": "^2.0.0"
+  },
+  "engines": {
+    "node": ">=10.9.0"
   }
 }
