@@ -4,6 +4,30 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.14.4] - 2020-01-12
+
+#### :bug: Bug Fix
+
+- `docusaurus-1.x`
+  - [#2196](https://github.com/facebook/docusaurus/pull/2196) fix(v1): fix JSX highlighting by passing language to Prism ([@gaearon](https://github.com/gaearon))
+
+#### :house: Internal
+
+- `docusaurus-1.x`
+  - [#2194](https://github.com/facebook/docusaurus/pull/2194) blog: tribute to Endi ([@JoelMarcey](https://github.com/JoelMarcey))
+  - [#2163](https://github.com/facebook/docusaurus/pull/2163) blog: 2019 recap ([@yangshun](https://github.com/yangshun))
+  - [#2087](https://github.com/facebook/docusaurus/pull/2087) fix(v1): add key to versions.map in versions.js ([@FeynmanDNA](https://github.com/FeynmanDNA))
+  - [#2083](https://github.com/facebook/docusaurus/pull/2083) refactor(v1): fix props for ProjectTitle ([@FeynmanDNA](https://github.com/FeynmanDNA))
+
+#### Committers: 6
+
+- [@TransmissionsDev](https://github.com/TransmissionsDev)
+- [@gaearon](https://github.com/gaearon)
+- [@janko](https://github.com/janko)
+- [@yangshun](https://github.com/yangshun)
+- [@JoelMarcey](https://github.com/JoelMarcey)
+- [@FeynmanDNA](https://github.com/FeynmanDNA)
+
 ## [1.14.3] - 2019-12-01
 
 #### :bug: Bug Fix
@@ -1229,7 +1253,8 @@ N/A
   - Blog
   - Documentation
 
-[unreleased]: https://github.com/facebook/docusaurus/compare/v1.14.3...HEAD
+[unreleased]: https://github.com/facebook/docusaurus/compare/v1.14.4...HEAD
+[1.14.4]: https://github.com/facebook/docusaurus/compare/v1.14.3...v1.14.4
 [1.14.3]: https://github.com/facebook/docusaurus/compare/v1.14.2...v1.14.3
 [1.14.2]: https://github.com/facebook/docusaurus/compare/v1.14.1...v1.14.2
 [1.14.1]: https://github.com/facebook/docusaurus/compare/v1.14.0...v1.14.1
