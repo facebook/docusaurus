@@ -19,6 +19,9 @@ module.exports = `
     <% stylesheets.forEach((stylesheet) => { %>
       <link rel="stylesheet" type="text/css" href="<%= baseUrl %><%= stylesheet %>" />
     <% }); %>
+    <% scripts.forEach((script) => { %>
+      <link rel="preload" href="<%= baseUrl %><%= script %>" as="script">
+    <% }); %>
   </head>
   <body <%- bodyAttributes %>>
     <%- preBodyTags %>
