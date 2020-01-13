@@ -26,7 +26,7 @@ module.exports = `
   <body <%- bodyAttributes %>>
     <%- preBodyTags %>
     <div id="__docusaurus">
-      <%- appHtml %>
+      <%= appHtml %>
     </div>
     <% scripts.forEach((script) => { %>
       <script type="text/javascript" src="<%= baseUrl %><%= script %>"></script>
