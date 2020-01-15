@@ -71,13 +71,6 @@ module.exports = [
     pinned: false,
   },
   {
-    caption: 'Atalaya',
-    image: '/img/users/atalaya.png',
-    infoLink: 'https://atalaya.io/',
-    fbOpenSource: false,
-    pinned: false,
-  },
-  {
     caption: 'Ax',
     image: '/img/users/ax.svg',
     infoLink: 'https://ax.dev/',
@@ -417,14 +410,6 @@ module.exports = [
     caption: 'Noderize',
     image: '/img/users/noderize.svg',
     infoLink: 'https://noderize.js.org/',
-    fbOpenSource: false,
-    pinned: false,
-  },
-  {
-    caption: 'nteract',
-    image:
-      'https://media.githubusercontent.com/media/nteract/logos/master/nteract_logo_cube_book/exports/images/png/nteract_logo_mark_purple.png',
-    infoLink: 'https://docs.nteract.io/',
     fbOpenSource: false,
     pinned: false,
   },
