@@ -115,7 +115,7 @@ Docusaurus uses [Prism React Renderer](https://github.com/FormidableLabs/prism-r
 
 ### Theme
 
-By default, we use [Palenight](https://github.com/FormidableLabs/prism-react-renderer/blob/master/src/themes/palenight.js) as syntax highlighting theme. You can specify a custom theme from the [list of available themes](https://github.com/FormidableLabs/prism-react-renderer#theming). If you want to use a different syntax highlighting theme when the site is in dark mode, you may also do so.
+By default, we use [Palenight](https://github.com/FormidableLabs/prism-react-renderer/blob/master/src/themes/palenight.js) as syntax highlighting theme. You can specify a custom theme from the [list of available themes](https://github.com/FormidableLabs/prism-react-renderer/tree/master/src/themes). If you want to use a different syntax highlighting theme when the site is in dark mode, you may also do so.
 
 ```js {5,6}
 // docusaurus/config.js
