@@ -16,7 +16,7 @@ import {PluginOptions, LoadedContent} from './types';
 const DEFAULT_OPTIONS: PluginOptions = {
   path: 'src/pages', // Path to data on filesystem, relative to site dir.
   routeBasePath: '', // URL Route.
-  include: ['**/*.{js,jsx}'], // Extensions to include.
+  include: ['**/*.{js,jsx,ts,tsx}'], // Extensions to include.
 };
 
 export default function pluginContentPages(

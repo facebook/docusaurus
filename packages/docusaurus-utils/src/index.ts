@@ -60,7 +60,7 @@ export function objectWithKeySorted(obj: Object) {
     .value();
 }
 
-const indexRE = /(^|.*\/)index\.(md|js)$/i;
+const indexRE = /(^|.*\/)index\.(md|js|jsx|ts|tsx)$/i;
 const extRE = /\.(md|js)$/;
 
 /**

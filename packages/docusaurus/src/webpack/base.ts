@@ -56,6 +56,7 @@ export function createBaseConfig(
     },
     devtool: isProd ? false : 'cheap-module-eval-source-map',
     resolve: {
+      extensions: ['.wasm', '.mjs', '.js', '.jsx', '.ts', '.tsx', '.json'],
       symlinks: true,
       alias: {
         // https://stackoverflow.com/a/55433680/6072730
@@ -146,7 +147,7 @@ export function createBaseConfig(
     module: {
       rules: [
         {
-          test: /\.jsx?$/,
+          test: /\.(j|t)sx?$/,
           exclude: excludeJS,
           use: [getCacheLoader(isServer), getBabelLoader(isServer)].filter(
             Boolean,
