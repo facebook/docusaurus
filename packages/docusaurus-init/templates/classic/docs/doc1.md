@@ -166,3 +166,27 @@ Here's a line for us to start with.
 This line is separated from the one above by two newlines, so it will be a _separate paragraph_.
 
 This line is also a separate paragraph, but... This line is only separated by a single newline, so it's a separate line in the _same paragraph_.
+
+---
+
+## Admonitions
+
+:::note
+This is a note
+:::
+
+:::tip
+This is a tip
+:::
+
+:::important
+This is important
+:::
+
+:::caution
+This is a caution
+:::
+
+:::warning
+This is a warning
+:::
