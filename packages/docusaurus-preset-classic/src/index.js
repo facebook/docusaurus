@@ -6,22 +6,25 @@
  */
 const admonitions = require('remark-admonitions');
 
+const addAdmonitions = pluginOptions => {
+  if (pluginOptions === undefined) return {remarkPlugins: [admonitions]};
+  if (pluginOptions.admonitions === false) return pluginOptions;
+  const admonitionsOptions = {
+    remarkPlugins: (pluginOptions.remarkPlugins || []).concat([
+      admonitions,
+      pluginOptions.admonitions || {},
+    ]),
+  };
+  return {...pluginOptions, ...admonitionsOptions};
+};
+
 module.exports = function preset(context, opts = {}) {
   const {siteConfig = {}} = context;
   const {themeConfig} = siteConfig;
   const {algolia, googleAnalytics, gtag} = themeConfig;
 
-  // add the admonitions settings to the options for docs and blog unless admonitions === false
-  opts.docs = opts.docs || {};
-  opts.blog = opts.blog || {};
-
-  if (opts.docs.admonitions !== false) {
-    opts.docs.remarkPlugins = (opts.docs.remarkPlugins || []).concat([admonitions, opts.docs.admonitions || {}])
-  }
-
-  if (opts.blog.admonitions !== false) {
-    opts.blog.remarkPlugins = (opts.blog.remarkPlugins || []).concat([admonitions, opts.blog.admonitions || {}])
-  }
+  const docs = addAdmonitions(opts.docs);
+  const blog = addAdmonitions(opts.blog);
 
   const isProd = process.env.NODE_ENV === 'production';
   return {
@@ -31,8 +34,8 @@ module.exports = function preset(context, opts = {}) {
       algolia && '@docusaurus/theme-search-algolia',
     ],
     plugins: [
-      ['@docusaurus/plugin-content-docs', opts.docs],
-      ['@docusaurus/plugin-content-blog', opts.blog],
+      ['@docusaurus/plugin-content-docs', docs],
+      ['@docusaurus/plugin-content-blog', blog],
       ['@docusaurus/plugin-content-pages', opts.pages],
       isProd && googleAnalytics && '@docusaurus/plugin-google-analytics',
       isProd && gtag && '@docusaurus/plugin-google-gtag',
