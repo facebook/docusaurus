@@ -55,7 +55,7 @@ module.exports = function(context, options) {
     },
 
     getClientModules() {
-      return ['infima/dist/css/default/default.css', customCss];
+      return ['infima/dist/css/default/default.css', 'remark-admonitions/styles/infima.css', customCss];
     },
 
     injectHtmlTags() {

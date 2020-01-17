@@ -4,11 +4,24 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+const admonitions = require('remark-admonitions');
 
 module.exports = function preset(context, opts = {}) {
   const {siteConfig = {}} = context;
   const {themeConfig} = siteConfig;
   const {algolia, googleAnalytics, gtag} = themeConfig;
+
+  // add the admonitions settings to the options for docs and blog unless admonitions === false
+  opts.docs = opts.docs || {};
+  opts.blog = opts.blog || {};
+
+  if (opts.docs.admonitions !== false) {
+    opts.docs.remarkPlugins = (opts.docs.remarkPlugins || []).concat([admonitions, opts.docs.admonitions || {}])
+  }
+
+  if (opts.blog.admonitions !== false) {
+    opts.blog.remarkPlugins = (opts.blog.remarkPlugins || []).concat([admonitions, opts.blog.admonitions || {}])
+  }
 
   const isProd = process.env.NODE_ENV === 'production';
   return {
