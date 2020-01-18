@@ -736,6 +736,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'The Diff Podcast',
+    image: '/img/users/the-diff.svg',
+    infoLink: 'https://thediffpodcast.com',
+    fbOpenSource: true,
+    pinned: true,
+  },
+  {
     caption: 'tipsi-stripe',
     image: '/img/users/tipsi-stripe.png',
     infoLink: 'https://tipsi.github.io/tipsi-stripe/',
