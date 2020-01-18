@@ -157,7 +157,7 @@ module.exports = function(context, options) {
     name: 'docusaurus-plugin',
     configureWebpack(config, isServer, utils) {
       const {getCacheLoader} = utils;
-      config.modules.rules.push({
+      config.module.rules.push({
         test: /\.foo$/,
         use: [getCacheLoader(isServer), 'my-custom-webpack-loader'],
       });

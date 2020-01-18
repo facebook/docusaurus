@@ -162,14 +162,14 @@ module.exports = function(context, options) {
           rules: [
             {
               test: /\.foo$/,
-              use: [getCacheLoader(isServer), 'my-custom-webpack-loader']
-            }
+              use: [getCacheLoader(isServer), 'my-custom-webpack-loader'],
+            },
           ],
         },
       };
     },
   };
-}
+};
 ```
 
 ## postBuild(props)
