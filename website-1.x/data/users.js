@@ -22,6 +22,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Adapt.js',
+    image: '/img/users/adaptjs.svg',
+    infoLink: 'https://adaptjs.org/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'All Contributors',
     image: '/img/users/allcontributors.png',
     infoLink: 'https://allcontributors.org/',
