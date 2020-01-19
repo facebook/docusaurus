@@ -16,7 +16,9 @@ Docusaurus 2 uses modern tooling to help you compose your interactive documentat
 
 In this section, we'd like to introduce you to the tools we've picked that we believe will help you build powerful documentation. Let us walk you through with an example.
 
-**Note:** All the following content assumes you are using `docusaurus-preset-classic`.
+:::important 
+All the following content assumes you are using `docusaurus-preset-classic`.
+:::
 
 ---
 
@@ -465,3 +467,20 @@ class HelloWorld {
 </Tabs>
 
 You may want to implement your own `<MultiLanguageCode />` abstraction if you find the above approach too verbose. We might just implement one in future for convenience.
+
+### Callouts/admonitions
+
+In addition to the basic Markdown syntax, we use [remark-admonitions](https://github.com/elviswolcott/remark-admonitions) alongside MDX to add support for admonitions.
+Admonitions are wrapped by a set of 3 colons.
+
+Example:
+
+  ```markdown
+  :::tip Title
+  The and title *can* include markdown.
+  :::
+  ```
+
+:::tip Title
+The content and title *can* include markdown.
+:::
