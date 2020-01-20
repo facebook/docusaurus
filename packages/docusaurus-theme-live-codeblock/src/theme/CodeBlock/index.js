@@ -78,6 +78,7 @@ export default ({
   if (live) {
     return (
       <Playground
+        key={mounted}
         scope={{...React}}
         code={children.trim()}
         theme={prismTheme}
