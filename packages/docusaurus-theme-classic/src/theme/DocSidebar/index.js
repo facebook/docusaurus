@@ -93,13 +93,13 @@ function DocSidebarItem({item, onItemClick, collapsible}) {
 
 // Calculate the category collapsing state when a page navigation occurs.
 // We want to automatically expand the categories which contains the current page.
-function mutateSidebarCollapsingState(item, location) {
+function mutateSidebarCollapsingState(item, path) {
   const {items, href, type} = item;
   switch (type) {
     case 'category': {
       const anyChildItemsActive =
         items
-          .map(childItem => mutateSidebarCollapsingState(childItem, location))
+          .map(childItem => mutateSidebarCollapsingState(childItem, path))
           .filter(val => val).length > 0;
       // eslint-disable-next-line no-param-reassign
       item.collapsed = !anyChildItemsActive;
@@ -108,7 +108,7 @@ function mutateSidebarCollapsingState(item, location) {
 
     case 'link':
     default:
-      return href === location.pathname.replace(/\/$/, '');
+      return href === path;
   }
 }
 
@@ -121,7 +121,7 @@ function DocSidebar(props) {
 
   const {
     docsSidebars,
-    location,
+    path,
     sidebar: currentSidebar,
     sidebarCollapsible,
   } = props;
@@ -142,7 +142,7 @@ function DocSidebar(props) {
 
   if (sidebarCollapsible) {
     sidebarData.forEach(sidebarItem =>
-      mutateSidebarCollapsingState(sidebarItem, location),
+      mutateSidebarCollapsingState(sidebarItem, path),
     );
   }
 
