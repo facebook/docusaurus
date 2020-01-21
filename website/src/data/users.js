@@ -62,6 +62,15 @@ const users = [
     pinned: false,
   },
   {
+    title: 'Supabase',
+    description: 'Open Source Realtime and RESTful APIs for Postgres',
+    preview: require('./showcase/supabase.png'),
+    website: 'https://www.supabase.io/',
+    source: 'https://github.com/supabase/monorepo',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'uniforms',
     description: 'A set of React libraries for building forms',
     preview: require('./showcase/uniforms.png'),
