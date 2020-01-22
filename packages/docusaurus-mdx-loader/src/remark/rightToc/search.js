@@ -15,7 +15,7 @@ function toValue(node) {
   if (node && node.type) {
     switch (node.type) {
       case 'text':
-        return node.value;
+        return escapeHtml(node.value);
       case 'heading':
         return node.children.map(toValue).join('');
       case 'inlineCode':
