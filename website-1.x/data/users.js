@@ -190,6 +190,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Dime',
+    image: '/img/users/dime.png',
+    infoLink: 'https://docs.dimescheduler.com',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Docusaurus',
     image: '/img/users/docusaurus.svg',
     infoLink: 'https://www.docusaurus.io',
