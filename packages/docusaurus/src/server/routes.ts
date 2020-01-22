@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {genChunkName} from '@docusaurus/utils';
+import {genChunkName, normalizeUrl} from '@docusaurus/utils';
 import _ from 'lodash';
 import {stringify} from 'querystring';
 import {
@@ -38,7 +38,10 @@ function getModulePath(target: Module): string {
   return `${target.path}${queryStr}`;
 }
 
-export async function loadRoutes(pluginsRouteConfigs: RouteConfig[]) {
+export async function loadRoutes(
+  pluginsRouteConfigs: RouteConfig[],
+  baseUrl: string,
+) {
   const routesImports = [
     `import React from 'react';`,
     `import ComponentCreator from '@docusaurus/ComponentCreator';`,
@@ -46,7 +49,7 @@ export async function loadRoutes(pluginsRouteConfigs: RouteConfig[]) {
   const registry: {
     [chunkName: string]: ChunkRegistry;
   } = {};
-  const routesPaths: string[] = ['404.html'];
+  const routesPaths: string[] = [normalizeUrl([baseUrl, '404.html'])];
   const routesChunkNames: {
     [routePath: string]: ChunkNames;
   } = {};

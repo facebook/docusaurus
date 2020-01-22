@@ -143,7 +143,7 @@ export async function load(siteDir: string): Promise<Props> {
     routesChunkNames,
     routesConfig,
     routesPaths,
-  } = await loadRoutes(pluginsRouteConfigs);
+  } = await loadRoutes(pluginsRouteConfigs, baseUrl);
 
   const genRegistry = generate(
     generatedFilesDir,
