@@ -114,7 +114,7 @@ module.exports = {
 
 In addition to these plugins and themes, `@docusaurus/theme-classic` adds [`remark-admonitions`](https://github.com/elviswolcott/remark-admonitions) as a remark plugin to `@docusaurus/plugin-content-blog` and `@docusaurus/plugin-content-docs`.
 
-The `admonitions` key will be passed as the options to `remark-admonitions`. Passing `false` will prevent the plugin from being added to MDX.
+The `admonitions` key will be passed as the [options](https://github.com/elviswolcott/remark-admonitions#options) to `remark-admonitions`. Passing `false` will prevent the plugin from being added to MDX.
 
 ```js
 // docusaurus.config.js
