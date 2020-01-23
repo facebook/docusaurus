@@ -88,7 +88,16 @@ export default ({
       language={language}>
       {({className, style, tokens, getLineProps, getTokenProps}) => (
         <pre className={classnames(className, styles.codeBlock)}>
-          <code ref={target} className={styles.codeBlockLines}>
+          <button
+            ref={button}
+            type="button"
+            aria-label="Copy code to clipboard"
+            className={styles.copyButton}
+            onClick={handleCopyCode}>
+            {showCopied ? 'Copied' : 'Copy'}
+          </button>
+
+          <code ref={target} className={styles.codeBlockLines} style={style}>
             {tokens.map((line, i) => {
               const lineProps = getLineProps({line, key: i});
 
@@ -105,14 +114,6 @@ export default ({
               );
             })}
           </code>
-          <button
-            ref={button}
-            type="button"
-            aria-label="Copy code to clipboard"
-            className={styles.copyButton}
-            onClick={handleCopyCode}>
-            {showCopied ? 'Copied' : 'Copy'}
-          </button>
         </pre>
       )}
     </Highlight>

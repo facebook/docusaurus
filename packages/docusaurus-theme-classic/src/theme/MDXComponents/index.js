@@ -27,13 +27,7 @@ export default {
     }
     return <Link {...props} />;
   },
-  pre: props => {
-    const {children} = props;
-    if (typeof children === 'string') {
-      return <CodeBlock {...props} />;
-    }
-    return children;
-  },
+  pre: props => <div className={styles.mdxCodeBlock} {...props} />,
   h1: Heading('h1'),
   h2: Heading('h2'),
   h3: Heading('h3'),
