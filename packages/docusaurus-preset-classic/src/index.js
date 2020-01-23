@@ -7,15 +7,24 @@
 const admonitions = require('remark-admonitions');
 
 const addAdmonitions = pluginOptions => {
-  if (pluginOptions === undefined) return {remarkPlugins: [admonitions]};
-  if (pluginOptions.admonitions === false) return pluginOptions;
+  if (pluginOptions == null) {
+    return {
+      remarkPlugins: [admonitions],
+    };
+  }
+  if (pluginOptions.admonitions === false) {
+    return pluginOptions;
+  }
   const admonitionsOptions = {
     remarkPlugins: (pluginOptions.remarkPlugins || []).concat([
       admonitions,
       pluginOptions.admonitions || {},
     ]),
   };
-  return {...pluginOptions, ...admonitionsOptions};
+  return {
+    ...pluginOptions,
+    ...admonitionsOptions,
+  };
 };
 
 module.exports = function preset(context, opts = {}) {
