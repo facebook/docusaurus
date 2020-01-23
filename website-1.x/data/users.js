@@ -22,6 +22,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Adapt.js',
+    image: '/img/users/adaptjs.svg',
+    infoLink: 'https://adaptjs.org/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'All Contributors',
     image: '/img/users/allcontributors.png',
     infoLink: 'https://allcontributors.org/',
@@ -67,13 +74,6 @@ module.exports = [
     caption: 'Ara',
     image: '/img/users/ara.png',
     infoLink: 'https://ara-framework.github.io/website/',
-    fbOpenSource: false,
-    pinned: false,
-  },
-  {
-    caption: 'Atalaya',
-    image: '/img/users/atalaya.png',
-    infoLink: 'https://atalaya.io/',
     fbOpenSource: false,
     pinned: false,
   },
@@ -190,6 +190,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Dime',
+    image: '/img/users/dime.png',
+    infoLink: 'https://docs.dimescheduler.com',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Docusaurus',
     image: '/img/users/docusaurus.svg',
     infoLink: 'https://www.docusaurus.io',
@@ -202,6 +209,20 @@ module.exports = [
     infoLink: 'https://draftjs.org/',
     fbOpenSource: true,
     pinned: true,
+  },
+  {
+    caption: 'Draftail',
+    image: '/img/users/draftail.svg',
+    infoLink: 'https://www.draftail.org/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
+    caption: 'Erxes',
+    image: '/img/users/erxes.png',
+    infoLink: 'https://docs.erxes.io/',
+    fbOpenSource: false,
+    pinned: false,
   },
   {
     caption: 'Express Validator',
@@ -403,14 +424,6 @@ module.exports = [
     caption: 'Noderize',
     image: '/img/users/noderize.svg',
     infoLink: 'https://noderize.js.org/',
-    fbOpenSource: false,
-    pinned: false,
-  },
-  {
-    caption: 'nteract',
-    image:
-      'https://media.githubusercontent.com/media/nteract/logos/master/nteract_logo_cube_book/exports/images/png/nteract_logo_mark_purple.png',
-    infoLink: 'https://docs.nteract.io/',
     fbOpenSource: false,
     pinned: false,
   },
@@ -735,6 +748,13 @@ module.exports = [
     infoLink: 'https://textlint.github.io/',
     fbOpenSource: false,
     pinned: false,
+  },
+  {
+    caption: 'The Diff Podcast',
+    image: '/img/users/the-diff.svg',
+    infoLink: 'https://thediffpodcast.com',
+    fbOpenSource: true,
+    pinned: true,
   },
   {
     caption: 'tipsi-stripe',

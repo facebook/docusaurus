@@ -256,7 +256,7 @@ function HighlightSomeText(highlight) {
 }
 ```
 
-To accomplish this, Docusaurus adds the `docusaurus-highlight-code-line` class to the highlighted lines. You will need to define your own styling for this CSS, possibly in your `src/css/custom.css` with a custom background color which is dependent on your selected syntax highlighting theme. The color given below works for the default highlighting theme (Palenight), so if you are using another theme will have to tweak the color accordingly.
+To accomplish this, Docusaurus adds the `docusaurus-highlight-code-line` class to the highlighted lines. You will need to define your own styling for this CSS, possibly in your `src/css/custom.css` with a custom background color which is dependent on your selected syntax highlighting theme. The color given below works for the default highlighting theme (Palenight), so if you are using another theme, you will have to tweak the color accordingly.
 
 ```css
 /* /src/css/custom.css */
@@ -265,6 +265,11 @@ To accomplish this, Docusaurus adds the `docusaurus-highlight-code-line` class t
   display: block;
   margin: 0 calc(-1 * var(--ifm-pre-padding));
   padding: 0 var(--ifm-pre-padding);
+}
+
+/* If you have a different syntax highlighting theme for dark mode. */
+html[data-theme='dark'] .docusaurus-highlight-code-line {
+  background-color: /* Color which works with dark mode syntax highlighting theme */
 }
 ```
 

@@ -18,7 +18,7 @@ module.exports = function(context) {
     );
   }
 
-  const {trackingID} = gtag;
+  const {anonymizeIP, trackingID} = gtag;
 
   if (!trackingID) {
     throw new Error(
@@ -70,7 +70,9 @@ module.exports = function(context) {
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
-              gtag('config', '${trackingID}');`,
+              gtag('config', '${trackingID}', { ${
+              anonymizeIP ? "'anonymize_ip': true" : ''
+            } });`,
           },
         ],
       };

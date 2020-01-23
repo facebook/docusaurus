@@ -5,7 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState, useCallback, useEffect} from 'react'; // eslint-disable-line no-unused-vars
+import {useState, useCallback, useEffect} from 'react';
+import {useLocation} from '@docusaurus/router';
 
 const useHideableNavbar = hideOnScroll => {
   const [isNavbarVisible, setIsNavbarVisible] = useState(true);
@@ -16,15 +17,25 @@ const useHideableNavbar = hideOnScroll => {
       setNavbarHeight(node.getBoundingClientRect().height);
     }
   }, []);
+  const location = useLocation();
 
   const handleScroll = () => {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    const documentHeight = document.documentElement.scrollHeight - navbarHeight;
-    const windowHeight = window.innerHeight;
 
     if (scrollTop < navbarHeight) {
       return;
     }
+
+    const focusedElement = document.activeElement;
+
+    if (focusedElement && /^#/.test(window.location.hash)) {
+      setIsNavbarVisible(false);
+      focusedElement.blur();
+      return;
+    }
+
+    const documentHeight = document.documentElement.scrollHeight - navbarHeight;
+    const windowHeight = window.innerHeight;
 
     if (lastScrollTop && scrollTop > lastScrollTop) {
       setIsNavbarVisible(false);
@@ -46,6 +57,10 @@ const useHideableNavbar = hideOnScroll => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, [lastScrollTop, navbarHeight]);
+
+  useEffect(() => {
+    setIsNavbarVisible(true);
+  }, [location]);
 
   return {
     navbarRef,

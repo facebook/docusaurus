@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/utils",
-  "version": "2.0.0-alpha.39",
+  "version": "2.0.0-alpha.40",
   "description": "Node utility functions for Docusaurus packages",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
@@ -18,6 +18,6 @@
     "lodash": "^4.17.15"
   },
   "engines": {
-    "node": ">= 8.10.0"
+    "node": ">=10.9.0"
   }
 }

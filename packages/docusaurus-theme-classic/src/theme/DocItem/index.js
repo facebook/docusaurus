@@ -59,15 +59,15 @@ function DocItem(props) {
     description,
     title,
     permalink,
-    image: metaImage,
     editUrl,
     lastUpdatedAt,
     lastUpdatedBy,
-    keywords,
     version,
   } = metadata;
   const {
     frontMatter: {
+      image: metaImage,
+      keywords,
       hide_title: hideTitle,
       hide_table_of_contents: hideTableOfContents,
     },

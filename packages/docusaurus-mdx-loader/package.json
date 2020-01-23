@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/mdx-loader",
-  "version": "2.0.0-alpha.39",
+  "version": "2.0.0-alpha.40",
   "description": "Docusaurus Loader for MDX",
   "main": "src/index.js",
   "publishConfig": {
@@ -27,5 +27,8 @@
     "remark": "^11.0.2",
     "remark-mdx": "^1.5.1",
     "to-vfile": "^6.0.0"
+  },
+  "engines": {
+    "node": ">=10.9.0"
   }
 }

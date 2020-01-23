@@ -7,8 +7,11 @@
 
 import React, {useState, useCallback} from 'react';
 import classnames from 'classnames';
-
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import useBaseUrl from '@docusaurus/useBaseUrl';
+import useLockBodyScroll from '@theme/hooks/useLockBodyScroll';
 import Link from '@docusaurus/Link';
+import isInternalUrl from '@docusaurus/utils'; // eslint-disable-line import/no-extraneous-dependencies
 
 import styles from './styles.module.css';
 
@@ -69,11 +72,18 @@ function DocSidebarItem({item, onItemClick, collapsible}) {
       return (
         <li className="menu__list-item" key={label}>
           <Link
-            activeClassName="menu__link--active"
             className="menu__link"
-            exact
             to={href}
-            onClick={onItemClick}>
+            {...(isInternalUrl(href)
+              ? {
+                  activeClassName: 'menu__link--active',
+                  exact: true,
+                  onClick: onItemClick,
+                }
+              : {
+                  target: '_blank',
+                  rel: 'noreferrer noopener',
+                })}>
             {label}
           </Link>
         </li>
@@ -83,13 +93,13 @@ function DocSidebarItem({item, onItemClick, collapsible}) {
 
 // Calculate the category collapsing state when a page navigation occurs.
 // We want to automatically expand the categories which contains the current page.
-function mutateSidebarCollapsingState(item, location) {
+function mutateSidebarCollapsingState(item, path) {
   const {items, href, type} = item;
   switch (type) {
     case 'category': {
       const anyChildItemsActive =
         items
-          .map(childItem => mutateSidebarCollapsingState(childItem, location))
+          .map(childItem => mutateSidebarCollapsingState(childItem, path))
           .filter(val => val).length > 0;
       // eslint-disable-next-line no-param-reassign
       item.collapsed = !anyChildItemsActive;
@@ -98,19 +108,25 @@ function mutateSidebarCollapsingState(item, location) {
 
     case 'link':
     default:
-      return href === location.pathname.replace(/\/$/, '');
+      return href === path;
   }
 }
 
 function DocSidebar(props) {
   const [showResponsiveSidebar, setShowResponsiveSidebar] = useState(false);
+  const {
+    siteConfig: {themeConfig: {navbar: {title, logo = {}} = {}}} = {},
+  } = useDocusaurusContext();
+  const logoUrl = useBaseUrl(logo.src);
 
   const {
     docsSidebars,
-    location,
+    path,
     sidebar: currentSidebar,
     sidebarCollapsible,
   } = props;
+
+  useLockBodyScroll(showResponsiveSidebar);
 
   if (!currentSidebar) {
     return null;
@@ -126,14 +142,18 @@ function DocSidebar(props) {
 
   if (sidebarCollapsible) {
     sidebarData.forEach(sidebarItem =>
-      mutateSidebarCollapsingState(sidebarItem, location),
+      mutateSidebarCollapsingState(sidebarItem, path),
     );
   }
 
   return (
     <div className={styles.sidebar}>
+      <div className={styles.sidebarLogo}>
+        {logo != null && <img src={logoUrl} alt={logo.alt} />}
+        {title != null && <strong>{title}</strong>}
+      </div>
       <div
-        className={classnames('menu', 'menu--responsive', {
+        className={classnames('menu', 'menu--responsive', styles.menu, {
           'menu--show': showResponsiveSidebar,
         })}>
         <button

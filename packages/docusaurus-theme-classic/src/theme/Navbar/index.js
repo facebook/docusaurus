@@ -15,8 +15,9 @@ import Toggle from '@theme/Toggle';
 
 import classnames from 'classnames';
 
-import useTheme from '@theme/hooks/useTheme';
+import useThemeContext from '@theme/hooks/useThemeContext';
 import useHideableNavbar from '@theme/hooks/useHideableNavbar';
+import useLockBodyScroll from '@theme/hooks/useLockBodyScroll';
 
 import styles from './styles.module.css';
 
@@ -47,23 +48,27 @@ function Navbar() {
   const {baseUrl, themeConfig = {}} = siteConfig;
   const {navbar = {}, disableDarkMode = false} = themeConfig;
   const {title, logo = {}, links = [], hideOnScroll = false} = navbar;
+
   const [sidebarShown, setSidebarShown] = useState(false);
   const [isSearchBarExpanded, setIsSearchBarExpanded] = useState(false);
-  const [theme, setTheme] = useTheme();
 
+  const {theme, setTheme} = useThemeContext();
   const {navbarRef, isNavbarVisible} = useHideableNavbar(hideOnScroll);
 
+  useLockBodyScroll(sidebarShown);
+
   const showSidebar = useCallback(() => {
-    document.body.style.overflow = 'hidden';
     setSidebarShown(true);
   }, [setSidebarShown]);
   const hideSidebar = useCallback(() => {
-    document.body.style.overflow = 'visible';
     setSidebarShown(false);
   }, [setSidebarShown]);
 
   const onToggleChange = useCallback(
-    e => setTheme(e.target.checked ? 'dark' : ''),
+    e => {
+      const newTheme = e.target.checked ? 'dark' : '';
+      setTheme(newTheme);
+    },
     [setTheme],
   );
 

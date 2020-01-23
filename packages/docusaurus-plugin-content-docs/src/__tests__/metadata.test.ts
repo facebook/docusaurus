@@ -143,6 +143,34 @@ describe('simple site', () => {
     });
   });
 
+  test('docs with null custom_edit_url', async () => {
+    const source = 'ipsum.md';
+    const options = {
+      routeBasePath,
+      showLastUpdateAuthor: true,
+      showLastUpdateTime: true,
+    };
+
+    const data = await processMetadata({
+      source,
+      refDir: docsDir,
+      context,
+      options,
+      env,
+    });
+
+    expect(data).toEqual({
+      id: 'ipsum',
+      permalink: '/docs/ipsum',
+      source: path.join('@site', routeBasePath, source),
+      title: 'ipsum',
+      editUrl: null,
+      description: 'Lorem ipsum.',
+      lastUpdatedAt: 1539502055,
+      lastUpdatedBy: 'Author',
+    });
+  });
+
   test('docs with invalid id', async () => {
     const badSiteDir = path.join(fixtureDir, 'bad-site');
     const options = {

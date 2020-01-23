@@ -69,8 +69,9 @@ function Footer() {
                   <ul className="footer__items">
                     {linkItem.items.map((item, key) =>
                       item.html ? (
-                        <div
+                        <li
                           key={key}
+                          className="footer__item"
                           dangerouslySetInnerHTML={{
                             __html: item.html,
                           }}

@@ -4,9 +4,15 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import * as React from 'react';
+
+import React from 'react';
+
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 const useTheme = () => {
+  const {
+    siteConfig: {themeConfig: {disableDarkMode}} = {},
+  } = useDocusaurusContext();
   const [theme, setTheme] = React.useState(
     typeof document !== 'undefined'
       ? document.documentElement.getAttribute('data-theme')
@@ -18,6 +24,10 @@ const useTheme = () => {
   }, [theme]);
 
   React.useEffect(() => {
+    if (disableDarkMode) {
+      return;
+    }
+
     try {
       const localStorageTheme = localStorage.getItem('theme');
       if (localStorageTheme !== null) {

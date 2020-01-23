@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/theme-classic",
-  "version": "2.0.0-alpha.39",
+  "version": "2.0.0-alpha.40",
   "description": "Classic theme for Docusaurus",
   "main": "src/index.js",
   "publishConfig": {
@@ -15,6 +15,7 @@
     "infima": "0.2.0-alpha.3",
     "parse-numeric-range": "^0.0.2",
     "prism-react-renderer": "^1.0.2",
+    "react-router-dom": "^5.1.2",
     "react-toggle": "^4.1.1"
   },
   "peerDependencies": {
@@ -23,6 +24,6 @@
     "react-dom": "^16.8.4"
   },
   "engines": {
-    "node": ">= 8.10.0"
+    "node": ">=10.9.0"
   }
 }

@@ -59,13 +59,14 @@ module.exports = {
     ],
   ],
   themeConfig: {
+    prism: {
+      theme: require('prism-react-renderer/themes/github'),
+      darkTheme: require('prism-react-renderer/themes/dracula'),
+    },
     image: 'img/docusaurus.png',
     gtag: {
       trackingID: 'UA-141789564-1',
     },
-    // googleAnalytics: {
-    //   trackingID: 'UA-141789564-1',
-    // },
     algolia: {
       apiKey: '47ecd3b21be71c5822571b9f59e52544',
       indexName: 'docusaurus-2',
@@ -83,7 +84,7 @@ module.exports = {
       links: [
         {
           to: 'versions',
-          label: `${versions[0]}`,
+          label: `${versions[0].substr(6)}`,
           position: 'left',
           style: {
             whiteSpace: 'nowrap',
@@ -145,7 +146,7 @@ module.exports = {
           ],
         },
         {
-          title: 'Social',
+          title: 'More',
           items: [
             {
               label: 'Blog',
@@ -158,6 +159,13 @@ module.exports = {
             {
               label: 'Twitter',
               href: 'https://twitter.com/docusaurus',
+            },
+            {
+              html: `
+                <a href="https://www.netlify.com" target="_blank" rel="noreferrer noopener" aria-label="Deploys by Netlify">
+                  <img src="https://www.netlify.com/img/global/badges/netlify-color-accent.svg" alt="Deploys by Netlify" />
+                </a>
+              `,
             },
           ],
         },

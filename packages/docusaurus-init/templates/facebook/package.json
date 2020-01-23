@@ -1,19 +1,35 @@
 {
   "name": "docusaurus-2-facebook-template",
-  "version": "2.0.0-alpha.39",
+  "version": "2.0.0-alpha.40",
   "private": true,
   "scripts": {
     "start": "docusaurus start",
     "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",
-    "deploy": "docusaurus deploy"
+    "deploy": "docusaurus deploy",
+    "ci": "yarn lint && yarn prettier:diff",
+    "lint": "eslint --cache \"**/*.js\"",
+    "prettier": "prettier --config .prettierrc --write \"**/*.{js,md}\"",
+    "prettier:diff": "prettier --config .prettierrc --list-different \"**/*.{js,md}\""
   },
   "dependencies": {
-    "@docusaurus/core": "^2.0.0-alpha.39",
-    "@docusaurus/preset-classic": "^2.0.0-alpha.39",
+    "@docusaurus/core": "^2.0.0-alpha.40",
+    "@docusaurus/preset-classic": "^2.0.0-alpha.40",
     "classnames": "^2.2.6",
     "react": "^16.8.4",
     "react-dom": "^16.8.4"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.0.3",
+    "eslint": "^6.7.1",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-config-prettier": "^6.7.0",
+    "eslint-plugin-header": "^3.0.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.16.0",
+    "eslint-plugin-react-hooks": "^2.3.0",
+    "prettier": "^1.19.1"
   },
   "browserslist": {
     "production": [

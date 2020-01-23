@@ -5,16 +5,16 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useRef, useCallback} from 'react';
+import React, {useState, useRef, useCallback} from 'react';
 import classnames from 'classnames';
 
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useHistory} from '@docusaurus/router';
 
-let loaded = false;
+import './styles.css';
 
 const Search = props => {
-  const initialized = useRef(false);
+  const [algoliaLoaded, setAlgoliaLoaded] = useState(false);
   const searchBarRef = useRef(null);
   const {siteConfig = {}} = useDocusaurusContext();
   const {
@@ -22,59 +22,62 @@ const Search = props => {
   } = siteConfig;
   const history = useHistory();
 
-  const initAlgolia = () => {
-    if (!initialized.current) {
-      window.docsearch({
-        appId: algolia.appId,
-        apiKey: algolia.apiKey,
-        indexName: algolia.indexName,
-        inputSelector: '#search_input_react',
-        algoliaOptions: algolia.algoliaOptions,
-        // Override algolia's default selection event, allowing us to do client-side
-        // navigation and avoiding a full page refresh.
-        handleSelected: (_input, _event, suggestion) => {
-          // Use an anchor tag to parse the absolute url into a relative url
-          // Alternatively, we can use new URL(suggestion.url) but its not supported in IE
-          const a = document.createElement('a');
-          a.href = suggestion.url;
+  function initAlgolia() {
+    window.docsearch({
+      appId: algolia.appId,
+      apiKey: algolia.apiKey,
+      indexName: algolia.indexName,
+      inputSelector: '#search_input_react',
+      algoliaOptions: algolia.algoliaOptions,
+      // Override algolia's default selection event, allowing us to do client-side
+      // navigation and avoiding a full page refresh.
+      handleSelected: (_input, _event, suggestion) => {
+        // Use an anchor tag to parse the absolute url into a relative url
+        // Alternatively, we can use new URL(suggestion.url) but its not supported in IE
+        const a = document.createElement('a');
+        a.href = suggestion.url;
 
-          // Algolia use closest parent element id #__docusaurus when a h1 page title does not have an id
-          // So, we can safely remove it. See https://github.com/facebook/docusaurus/issues/1828 for more details.
-          const routePath =
-            `#__docusaurus` === a.hash
-              ? `${a.pathname}`
-              : `${a.pathname}${a.hash}`;
-          history.push(routePath);
-        },
-      });
-      initialized.current = true;
-    }
-  };
+        // Algolia use closest parent element id #__docusaurus when a h1 page title does not have an id
+        // So, we can safely remove it. See https://github.com/facebook/docusaurus/issues/1828 for more details.
+        const routePath =
+          `#__docusaurus` === a.hash
+            ? `${a.pathname}`
+            : `${a.pathname}${a.hash}`;
+        history.push(routePath);
+      },
+    });
+
+    // Needed because the search input loses focus after calling window.docsearch()
+    searchBarRef.current.focus();
+  }
 
   const loadAlgolia = () => {
-    if (!loaded) {
-      Promise.all([import('docsearch.js'), import('./algolia.css')]).then(
-        ([{default: docsearch}]) => {
-          loaded = true;
-          window.docsearch = docsearch;
-          initAlgolia();
-        },
-      );
-    } else {
-      initAlgolia();
+    if (algoliaLoaded) {
+      return;
     }
+
+    Promise.all([import('docsearch.js'), import('./algolia.css')]).then(
+      ([{default: docsearch}]) => {
+        setAlgoliaLoaded(true);
+        window.docsearch = docsearch;
+        initAlgolia();
+      },
+    );
   };
 
-  const toggleSearchIconClick = useCallback(
-    e => {
-      if (!searchBarRef.current.contains(e.target)) {
-        searchBarRef.current.focus();
-      }
+  const toggleSearchIconClick = useCallback(() => {
+    loadAlgolia();
 
-      props.handleSearchBarToggle(!props.isSearchBarExpanded);
-    },
-    [props.isSearchBarExpanded],
-  );
+    if (algoliaLoaded) {
+      searchBarRef.current.focus();
+    }
+
+    props.handleSearchBarToggle(!props.isSearchBarExpanded);
+  }, [props.isSearchBarExpanded]);
+
+  const handleSearchInputBlur = useCallback(() => {
+    props.handleSearchBarToggle(!props.isSearchBarExpanded);
+  }, [algoliaLoaded]);
 
   return (
     <div className="navbar__search" key="search-box">
@@ -98,10 +101,9 @@ const Search = props => {
           {'search-bar-expanded': props.isSearchBarExpanded},
           {'search-bar': !props.isSearchBarExpanded},
         )}
-        onClick={loadAlgolia}
         onMouseOver={loadAlgolia}
-        onFocus={toggleSearchIconClick}
-        onBlur={toggleSearchIconClick}
+        onFocus={loadAlgolia}
+        onBlur={handleSearchInputBlur}
         ref={searchBarRef}
       />
     </div>
