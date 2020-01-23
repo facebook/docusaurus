@@ -57,6 +57,7 @@ describe('loadBlog', () => {
         permalink: noDatePermalink,
         title: 'no date',
       },
+      truncated: false,
     });
     expect(
       blogPosts.find(v => v.metadata.title === 'Happy 1st Birthday Slash!')
@@ -76,6 +77,7 @@ describe('loadBlog', () => {
         permalink: '/blog/2019/01/01/date-matter',
         title: 'date-matter',
       },
+      truncated: false,
     });
 
     expect(
@@ -91,6 +93,7 @@ describe('loadBlog', () => {
         permalink: '/blog/2019/01/01/date-matter',
         title: 'date-matter',
       },
+      truncated: false,
     });
   });
 });

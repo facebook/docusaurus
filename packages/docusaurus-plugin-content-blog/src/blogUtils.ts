@@ -137,7 +137,7 @@ export async function generateBlogPosts(
           date,
           tags: frontMatter.tags,
           title: frontMatter.title,
-          truncated: truncateMarker.test(content),
+          truncated: truncateMarker?.test(content) || false,
         },
       });
     }),
