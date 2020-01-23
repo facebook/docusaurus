@@ -12,7 +12,7 @@ import {truncate} from './blogUtils';
 export = function(fileString: string) {
   const callback = this.async();
 
-  const {truncateMarker}: {truncateMarker: RegExp | string} = getOptions(this);
+  const {truncateMarker}: {truncateMarker: RegExp} = getOptions(this);
 
   let finalContent = fileString;
 

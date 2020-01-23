@@ -41,7 +41,7 @@ const DEFAULT_OPTIONS: PluginOptions = {
   blogTagsPostsComponent: '@theme/BlogTagsPostsPage',
   remarkPlugins: [],
   rehypePlugins: [],
-  truncateMarker: /<!--\s*(truncate)\s*-->/, // string or regex
+  truncateMarker: /<!--\s*(truncate)\s*-->/, // Regex
 };
 
 function assertFeedTypes(val: any): asserts val is FeedType {
