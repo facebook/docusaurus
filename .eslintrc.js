@@ -51,6 +51,7 @@ module.exports = {
     'jsx-a11y/no-noninteractive-element-interactions': WARNING,
     'no-console': OFF,
     'no-underscore-dangle': OFF,
+    curly: [WARNING, 'all'],
     'react/jsx-closing-bracket-location': OFF, // Conflicts with Prettier.
     'react/jsx-filename-extension': OFF,
     'react/jsx-one-expression-per-line': OFF,
