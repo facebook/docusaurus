@@ -323,6 +323,14 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Jafar',
+    image: 'https://yahoo.github.io/jafar/img/jafar.svg',
+    infoLink: 'https://yahoo.github.io/jafar',
+    fbOpenSource: false,
+    pinned: true,
+    
+  },
+  {
     caption: 'Jest',
     image: '/img/users/jest.png',
     infoLink: 'https://jestjs.io',
