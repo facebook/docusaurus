@@ -21,6 +21,8 @@ import useLockBodyScroll from '@theme/hooks/useLockBodyScroll';
 
 import styles from './styles.module.css';
 
+const DOCS_ROUTE_BASE_PATH = 'docs';
+
 function NavLink({to, href, label, position, ...props}) {
   const toUrl = useBaseUrl(to);
   return (
@@ -35,6 +37,17 @@ function NavLink({to, href, label, position, ...props}) {
         : {
             activeClassName: 'navbar__link--active',
             to: toUrl,
+            isActive: (match, location) => {
+              const firstPathSegment = toUrl
+                .replace(/^\//, '')
+                .split('/')
+                .shift();
+              const isDocsPage =
+                firstPathSegment === DOCS_ROUTE_BASE_PATH &&
+                location.pathname.match(DOCS_ROUTE_BASE_PATH);
+
+              return isDocsPage || !!match;
+            },
           })}
       {...props}>
       {label}
