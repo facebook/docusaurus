@@ -327,8 +327,7 @@ module.exports = [
     image: 'https://yahoo.github.io/jafar/img/jafar.svg',
     infoLink: 'https://yahoo.github.io/jafar',
     fbOpenSource: false,
-    pinned: true,
-    
+    pinned: true, 
   },
   {
     caption: 'Jest',
