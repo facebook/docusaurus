@@ -30,7 +30,7 @@ export interface PluginOptions {
   blogTagsPostsComponent: string;
   remarkPlugins: string[];
   rehypePlugins: string[];
-  truncateMarker: RegExp | string;
+  truncateMarker: RegExp;
   feedOptions?: {
     type: FeedType;
     title?: string;
@@ -79,6 +79,7 @@ export interface MetaData {
   title: string;
   prevItem?: Paginator;
   nextItem?: Paginator;
+  truncated: boolean;
 }
 
 export interface Paginator {

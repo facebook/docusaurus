@@ -24,7 +24,7 @@ function BlogListPage(props) {
                 key={BlogPostContent.metadata.permalink}
                 frontMatter={BlogPostContent.frontMatter}
                 metadata={BlogPostContent.metadata}
-                truncated>
+                truncated={BlogPostContent.metadata.truncated}>
                 <BlogPostContent />
               </BlogPostItem>
             ))}

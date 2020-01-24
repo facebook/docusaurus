@@ -13,7 +13,7 @@ import {PluginOptions, BlogPost, DateLink} from './types';
 import {parse, normalizeUrl, aliasedSitePath} from '@docusaurus/utils';
 import {LoadContext} from '@docusaurus/types';
 
-export function truncate(fileString: string, truncateMarker: RegExp | string) {
+export function truncate(fileString: string, truncateMarker: RegExp) {
   return fileString.split(truncateMarker, 1).shift()!;
 }
 
@@ -85,7 +85,7 @@ export async function generateBlogPosts(
   {siteConfig, siteDir}: LoadContext,
   options: PluginOptions,
 ) {
-  const {include, routeBasePath} = options;
+  const {include, routeBasePath, truncateMarker} = options;
 
   if (!fs.existsSync(blogDir)) {
     return null;
@@ -105,7 +105,7 @@ export async function generateBlogPosts(
       const blogFileName = path.basename(relativeSource);
 
       const fileString = await fs.readFile(source, 'utf-8');
-      const {frontMatter, excerpt} = parse(fileString);
+      const {frontMatter, content, excerpt} = parse(fileString);
 
       let date;
       // Extract date and title from filename.
@@ -137,6 +137,7 @@ export async function generateBlogPosts(
           date,
           tags: frontMatter.tags,
           title: frontMatter.title,
+          truncated: truncateMarker?.test(content) || false,
         },
       });
     }),
