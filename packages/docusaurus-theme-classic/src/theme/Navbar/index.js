@@ -42,11 +42,11 @@ function NavLink({to, href, label, position, ...props}) {
                 .replace(/^\//, '')
                 .split('/')
                 .shift();
-              const isDocsPage =
+              const isDocPage =
                 firstPathSegment === DOCS_ROUTE_BASE_PATH &&
                 location.pathname.match(DOCS_ROUTE_BASE_PATH);
 
-              return isDocsPage || !!match;
+              return isDocPage || !!match;
             },
           })}
       {...props}>
