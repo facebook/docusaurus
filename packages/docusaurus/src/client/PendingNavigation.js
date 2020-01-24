@@ -65,7 +65,9 @@ class PendingNavigation extends React.Component {
           } else {
             const id = hash.substring(1);
             const element = document.getElementById(id);
-            if (element) element.scrollIntoView();
+            if (element) {
+              element.scrollIntoView();
+            }
           }
         })
         .catch(e => console.warn(e));

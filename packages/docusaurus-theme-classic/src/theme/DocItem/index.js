@@ -32,7 +32,9 @@ function DocTOC({headings}) {
 
 /* eslint-disable jsx-a11y/control-has-associated-label */
 function Headings({headings, isChild}) {
-  if (!headings.length) return null;
+  if (!headings.length) {
+    return null;
+  }
   return (
     <ul className={isChild ? '' : 'contents contents__left-border'}>
       {headings.map(heading => (
