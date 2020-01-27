@@ -8,6 +8,15 @@
 const users = [
   // Please add in alphabetical order of title.
   {
+    title: 'Benthos',
+    description: 'A stream processor for mundane tasks',
+    preview: require('./showcase/benthos.png'),
+    website: 'https://benthos.dev/',
+    source: 'https://github.com/Jeffail/benthos',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'Channel.js',
     description: 'The missing constructor for creating safe async iterators',
     preview: require('./showcase/channeljs.png'),
