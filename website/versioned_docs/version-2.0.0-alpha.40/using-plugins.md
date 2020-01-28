@@ -3,9 +3,9 @@ id: using-plugins
 title: Plugins
 ---
 
-Plugins are the building blocks of features in a Docusaurus 2 site. Each plugin handles its own individual feature. Plugins may work and be distributed as part of bundle via [presets](presets.md).
+Plugins are the building blocks of features in a Docusaurus 2 site. Each plugin handles its own individual feature. Plugins may work and be distributed as part of bundle via [presets](presets.md). There are two kinds of plugins: Docusaurus plugins and MDX plugins.
 
-## Installing a plugin
+## Installing a Docusaurus plugin
 
 A plugin is usually a npm package, so you install them like other npm packages using npm.
 
@@ -413,3 +413,68 @@ import thumbnail from './path/to/img.png';
 | `max` | `integer` |  | See `min` above |
 | `steps` | `integer` | `4` | Configure the number of images generated between `min` and `max` (inclusive) |
 | `quality` | `integer` | `85` | JPEG compression quality |
+
+## Installing an MDX plugin
+
+An MDX plugin is usually a npm package, so you install them like other npm packages using npm. Docusaurus supports both remark and rehype-style plugins that work with MDX.
+
+```bash npm2yarn
+npm install --save mdx-plugin-name
+```
+
+Next, `require` the plugin and assign to a variable or constant.
+
+```jsx
+const pluginConstant = require('remark-plugin')
+const rehypeConstant = require('rehype-plugin')
+```
+
+Then you add it in your site's `docusaurus.config.js`'s `presets` / `docs` / `[remarkPlugins | rehypePlugins]` option:
+
+```jsx {11,12}
+// docusaurus.config.js
+module.exports = {
+  // ...
+presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        docs: {
+          sidebarPath: require.resolve('./sidebars.js'),
+          // ...
+          remarkPlugins: [pluginConstant], 
+          rehypePlugins: [rehypeConstant],
+        },
+        },
+      },
+    ],
+  ],
+};
+```
+
+### Configuring optional plugin settings
+
+You can pass options to the remark or rehype plugin as well by including an array with the plugin
+constant and a dictionary of settings in place of the plugin constant:
+
+```jsx {11}
+// docusaurus.config.js
+module.exports = {
+  // ...
+presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        docs: {
+          sidebarPath: require.resolve('./sidebars.js'),
+          // ...
+          remarkPlugins: [plugin1, [plugin2, {option1: setting1} ], 
+        },
+        },
+      },
+    ],
+  ],
+};
+```
+
+See more information in the [MDXjs documentation](https://mdxjs.com/advanced/plugins).
