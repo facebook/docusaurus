@@ -468,7 +468,7 @@ presets: [
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
           // ...
-          remarkPlugins: [plugin1, [plugin2, {option1: setting1} ], 
+          remarkPlugins: [plugin1, [plugin2, {option1: setting1} ]], 
         },
         },
       },
