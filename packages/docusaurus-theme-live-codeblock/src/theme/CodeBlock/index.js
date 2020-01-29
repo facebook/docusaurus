@@ -8,6 +8,7 @@
 import React, {useEffect, useState, useRef} from 'react';
 import classnames from 'classnames';
 import Highlight, {defaultProps} from 'prism-react-renderer';
+import Prism from 'prism-react-renderer/prism';
 import defaultTheme from 'prism-react-renderer/themes/palenight';
 import Clipboard from 'clipboard';
 import rangeParser from 'parse-numeric-range';
@@ -16,6 +17,16 @@ import useThemeContext from '@theme/hooks/useThemeContext';
 import Playground from '@theme/Playground';
 
 import styles from './styles.module.css';
+
+if (PRISM_ADDITIONAL_LANGUAGES.length) {
+  window.Prism = Prism;
+
+  PRISM_ADDITIONAL_LANGUAGES.forEach(language => {
+    if (!Prism.languages[language]) {
+      require(`prismjs/components/prism-${language}`); // eslint-disable-line
+    }
+  });
+}
 
 const highlightLinesRangeRegex = /{([\d,-]+)}/;
 

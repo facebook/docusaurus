@@ -9,6 +9,7 @@ import React, {useEffect, useState, useRef} from 'react';
 import classnames from 'classnames';
 import Highlight, {defaultProps} from 'prism-react-renderer';
 import defaultTheme from 'prism-react-renderer/themes/palenight';
+import Prism from 'prism-react-renderer/prism';
 import Clipboard from 'clipboard';
 import rangeParser from 'parse-numeric-range';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
@@ -17,6 +18,16 @@ import useThemeContext from '@theme/hooks/useThemeContext';
 import styles from './styles.module.css';
 
 const highlightLinesRangeRegex = /{([\d,-]+)}/;
+
+if (PRISM_ADDITIONAL_LANGUAGES.length) {
+  window.Prism = Prism;
+
+  PRISM_ADDITIONAL_LANGUAGES.forEach(language => {
+    if (!Prism.languages[language]) {
+      require(`prismjs/components/prism-${language}`); // eslint-disable-line
+    }
+  });
+}
 
 export default ({children, className: languageClassName, metastring}) => {
   const {

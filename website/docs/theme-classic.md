@@ -157,3 +157,20 @@ module.exports = {
   },
 };
 ```
+
+### Adding support of new languages
+
+Prism React Renderer of the box supports a [limited number of languages](https://github.com/FormidableLabs/prism-react-renderer/blob/master/src/vendor/prism/includeLangs.js) for syntax highlighting, which supports itself Prism. Therefore, to add a new language, define it in an array of additional languages, e.g.:
+
+```js
+// docusaurus/config.js
+module.exports = {
+  ...
+  themeConfig: {
+    prism: {
+      additionalLanguages: ['rust'],
+    },
+    ...
+  },
+};
+```
