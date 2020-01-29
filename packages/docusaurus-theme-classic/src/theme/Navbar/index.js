@@ -73,8 +73,8 @@ function Navbar() {
   );
 
   const logoLink = logo.link || baseUrl;
-  const isExternalLink = /http/.test(logoLink);
-  const logoLinkProps = isExternalLink
+  const isExternalLogoLink = /http/.test(logoLink);
+  const logoLinkProps = isExternalLogoLink
     ? {
         rel: 'noopener noreferrer',
         target: '_blank',
