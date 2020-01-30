@@ -21,8 +21,6 @@ import useLockBodyScroll from '@theme/hooks/useLockBodyScroll';
 
 import styles from './styles.module.css';
 
-const DOCS_ROUTE_BASE_PATH = 'docs';
-
 function NavLink({to, href, label, position, ...props}) {
   const toUrl = useBaseUrl(to);
   return (

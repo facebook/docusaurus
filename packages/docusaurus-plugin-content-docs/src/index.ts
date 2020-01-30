@@ -41,7 +41,7 @@ import {
   SidebarItem,
   DocsSidebarItem,
 } from './types';
-import {Configuration} from 'webpack';
+import {Configuration, DefinePlugin} from 'webpack';
 import {docsVersion} from './version';
 
 const DEFAULT_OPTIONS: PluginOptions = {
@@ -389,7 +389,7 @@ export default function pluginContentDocs(
 
     configureWebpack(_config, isServer, utils) {
       const {getBabelLoader, getCacheLoader} = utils;
-      const {rehypePlugins, remarkPlugins} = options;
+      const {rehypePlugins, remarkPlugins, routeBasePath} = options;
       return {
         resolve: {
           alias: {
@@ -432,6 +432,11 @@ export default function pluginContentDocs(
             },
           ],
         },
+        plugins: [
+          new DefinePlugin({
+            DOCS_ROUTE_BASE_PATH: JSON.stringify(routeBasePath),
+          }),
+        ],
       } as Configuration;
     },
   };

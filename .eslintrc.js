@@ -16,6 +16,9 @@ module.exports = {
     jest: true,
     node: true,
   },
+  globals: {
+    DOCS_ROUTE_BASE_PATH: true,
+  },
   parser: 'babel-eslint',
   parserOptions: {
     allowImportExportEverywhere: true,
