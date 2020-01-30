@@ -25,7 +25,10 @@ function Feedback() {
   }, []);
 
   return (
-    <Layout permalink={'/feedback'} description={'Docusaurus 2 Feedback page'}>
+    <Layout
+      permalink={'/feedback'}
+      title="Feedback"
+      description={'Docusaurus 2 Feedback page'}>
       <div
         className={classnames(
           'container',
