@@ -21,7 +21,7 @@ function Layout(props) {
   const {
     favicon,
     tagline,
-    title: defaultTitle,
+    title: siteTitle,
     themeConfig: {image: defaultImage},
     url: siteUrl,
   } = siteConfig;
@@ -35,7 +35,9 @@ function Layout(props) {
     permalink,
     version,
   } = props;
-  const metaTitle = title || `${defaultTitle} · ${tagline}`;
+  const metaTitle = title
+    ? `${title} · ${siteTitle}`
+    : `${siteTitle} · ${tagline}`;
   const metaImage = image || defaultImage;
   const metaImageUrl = siteUrl + useBaseUrl(metaImage);
   const faviconUrl = useBaseUrl(favicon);
