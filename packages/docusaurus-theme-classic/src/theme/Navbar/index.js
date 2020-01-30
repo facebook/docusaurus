@@ -52,7 +52,7 @@ function Navbar() {
   const [sidebarShown, setSidebarShown] = useState(false);
   const [isSearchBarExpanded, setIsSearchBarExpanded] = useState(false);
 
-  const {theme, setTheme} = useThemeContext();
+  const {isDarkTheme, setLightTheme, setDarkTheme} = useThemeContext();
   const {navbarRef, isNavbarVisible} = useHideableNavbar(hideOnScroll);
 
   useLockBodyScroll(sidebarShown);
@@ -65,11 +65,8 @@ function Navbar() {
   }, [setSidebarShown]);
 
   const onToggleChange = useCallback(
-    e => {
-      const newTheme = e.target.checked ? 'dark' : '';
-      setTheme(newTheme);
-    },
-    [setTheme],
+    e => (e.target.checked ? setDarkTheme() : setLightTheme()),
+    [setLightTheme, setDarkTheme],
   );
 
   const logoUrl = useBaseUrl(logo.src);
@@ -134,7 +131,7 @@ function Navbar() {
             <Toggle
               className={styles.displayOnlyInLargeViewport}
               aria-label="Dark mode toggle"
-              checked={theme === 'dark'}
+              checked={isDarkTheme}
               onChange={onToggleChange}
             />
           )}
@@ -160,7 +157,7 @@ function Navbar() {
           {!disableDarkMode && sidebarShown && (
             <Toggle
               aria-label="Dark mode toggle in sidebar"
-              checked={theme === 'dark'}
+              checked={isDarkTheme}
               onChange={onToggleChange}
             />
           )}

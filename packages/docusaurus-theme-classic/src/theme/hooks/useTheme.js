@@ -5,25 +5,48 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import {useState, useCallback, useEffect} from 'react';
 
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+
+const themes = {
+  light: '',
+  dark: 'dark',
+};
 
 const useTheme = () => {
   const {
     siteConfig: {themeConfig: {disableDarkMode}} = {},
   } = useDocusaurusContext();
-  const [theme, setTheme] = React.useState(
+  const [theme, setTheme] = useState(
     typeof document !== 'undefined'
       ? document.documentElement.getAttribute('data-theme')
-      : '',
+      : themes.light,
   );
+  const setThemeSyncWithLocalStorage = useCallback(
+    newTheme => {
+      try {
+        localStorage.setItem('theme', newTheme);
+      } catch (err) {
+        console.error(err);
+      }
+    },
+    [setTheme],
+  );
+  const setLightTheme = useCallback(() => {
+    setTheme(themes.light);
+    setThemeSyncWithLocalStorage(themes.light);
+  }, []);
+  const setDarkTheme = useCallback(() => {
+    setTheme(themes.dark);
+    setThemeSyncWithLocalStorage(themes.dark);
+  }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
   }, [theme]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (disableDarkMode) {
       return;
     }
@@ -38,19 +61,11 @@ const useTheme = () => {
     }
   }, [setTheme]);
 
-  const setThemeSyncWithLocalStorage = React.useCallback(
-    nextTheme => {
-      try {
-        localStorage.setItem('theme', nextTheme);
-        setTheme(nextTheme);
-      } catch (err) {
-        console.error(err);
-      }
-    },
-    [setTheme],
-  );
-
-  return [theme, setThemeSyncWithLocalStorage];
+  return {
+    isDarkTheme: theme === themes.dark,
+    setLightTheme,
+    setDarkTheme,
+  };
 };
 
 export default useTheme;

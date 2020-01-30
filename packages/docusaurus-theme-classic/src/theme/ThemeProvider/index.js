@@ -11,10 +11,10 @@ import useTheme from '@theme/hooks/useTheme';
 import ThemeContext from '@theme/ThemeContext';
 
 function ThemeProvider(props) {
-  const [theme, setTheme] = useTheme();
+  const {isDarkTheme, setLightTheme, setDarkTheme} = useTheme();
 
   return (
-    <ThemeContext.Provider value={{theme, setTheme}}>
+    <ThemeContext.Provider value={{isDarkTheme, setLightTheme, setDarkTheme}}>
       {props.children}
     </ThemeContext.Provider>
   );

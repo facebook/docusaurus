@@ -42,10 +42,10 @@ export default ({children, className: languageClassName, metastring}) => {
   const button = useRef(null);
   let highlightLines = [];
 
-  const {theme} = useThemeContext();
+  const {isDarkTheme} = useThemeContext();
   const lightModeTheme = prism.theme || defaultTheme;
   const darkModeTheme = prism.darkTheme || lightModeTheme;
-  const prismTheme = theme === 'dark' ? darkModeTheme : lightModeTheme;
+  const prismTheme = isDarkTheme ? darkModeTheme : lightModeTheme;
 
   if (metastring && highlightLinesRangeRegex.test(metastring)) {
     const highlightLinesRange = metastring.match(highlightLinesRangeRegex)[1];
