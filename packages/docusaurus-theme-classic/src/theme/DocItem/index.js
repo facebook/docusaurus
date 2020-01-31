@@ -53,7 +53,7 @@ function Headings({headings, isChild}) {
 
 function DocItem(props) {
   const {siteConfig = {}} = useDocusaurusContext();
-  const {url: siteUrl} = siteConfig;
+  const {url: siteUrl, title: siteTitle} = siteConfig;
   const {content: DocContent} = props;
   const {metadata} = DocContent;
   const {
@@ -79,7 +79,11 @@ function DocItem(props) {
   return (
     <>
       <Head>
-        {title && <title>{title}</title>}
+        {title && (
+          <title>
+            {title} | {siteTitle}
+          </title>
+        )}
         {description && <meta name="description" content={description} />}
         {description && (
           <meta property="og:description" content={description} />

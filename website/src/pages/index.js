@@ -61,10 +61,13 @@ const QUOTES = [
 
 function Home() {
   const context = useDocusaurusContext();
-  const {siteConfig: {customFields = {}} = {}} = context;
+  const {siteConfig: {customFields = {}, tagline} = {}} = context;
 
   return (
-    <Layout permalink="/" description={customFields.description}>
+    <Layout
+      permalink="/"
+      title={tagline}
+      description={customFields.description}>
       <div className={styles.hero}>
         <div className={styles.heroInner}>
           <h1 className={styles.heroProjectTagline}>
