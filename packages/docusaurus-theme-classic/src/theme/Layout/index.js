@@ -36,8 +36,8 @@ function Layout(props) {
     version,
   } = props;
   const metaTitle = title
-    ? `${title} · ${siteTitle}`
-    : `${siteTitle} · ${tagline}`;
+    ? `${title} | ${siteTitle}`
+    : `${siteTitle} | ${tagline}`;
   const metaImage = image || defaultImage;
   const metaImageUrl = siteUrl + useBaseUrl(metaImage);
   const faviconUrl = useBaseUrl(favicon);
