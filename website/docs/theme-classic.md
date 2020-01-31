@@ -57,7 +57,7 @@ module.exports = {
       logo: {
         alt: 'Site Logo',
         src: 'img/logo.svg',
-        link: 'https://v2.docusaurus.io/', // default to siteConfig.baseUrl
+        href: 'https://v2.docusaurus.io/', // default to siteConfig.baseUrl
       },
     },
     ...

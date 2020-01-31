@@ -72,7 +72,7 @@ function Navbar() {
     [setTheme],
   );
 
-  const logoLink = logo.link || baseUrl;
+  const logoLink = logo.href || baseUrl;
   const isExternalLogoLink = /http/.test(logoLink);
   const logoLinkProps = isExternalLogoLink
     ? {
