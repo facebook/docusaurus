@@ -20,7 +20,6 @@ function Layout(props) {
   const {siteConfig = {}} = useDocusaurusContext();
   const {
     favicon,
-    tagline,
     title: siteTitle,
     themeConfig: {image: defaultImage},
     url: siteUrl,
@@ -35,9 +34,7 @@ function Layout(props) {
     permalink,
     version,
   } = props;
-  const metaTitle = title
-    ? `${title} | ${siteTitle}`
-    : `${siteTitle} | ${tagline}`;
+  const metaTitle = title ? `${title} | ${siteTitle}` : siteTitle;
   const metaImage = image || defaultImage;
   const metaImageUrl = siteUrl + useBaseUrl(metaImage);
   const faviconUrl = useBaseUrl(favicon);
