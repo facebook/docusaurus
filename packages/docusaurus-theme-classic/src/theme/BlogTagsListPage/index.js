@@ -48,7 +48,7 @@ function BlogTagsListPage(props) {
     .filter(item => item != null);
 
   return (
-    <Layout title="Blog Tags" description="Blog Tags">
+    <Layout title="Tags" description="Blog Tags">
       <div className="container margin-vert--xl">
         <div className="row">
           <div className="col col--8 col--offset-2">
