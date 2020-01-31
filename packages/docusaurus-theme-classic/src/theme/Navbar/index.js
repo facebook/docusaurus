@@ -69,7 +69,16 @@ function Navbar() {
     [setLightTheme, setDarkTheme],
   );
 
-  const logoUrl = useBaseUrl(logo.src);
+  const logoLink = logo.href || baseUrl;
+  const isExternalLogoLink = /http/.test(logoLink);
+  const logoLinkProps = isExternalLogoLink
+    ? {
+        rel: 'noopener noreferrer',
+        target: '_blank',
+      }
+    : null;
+  const logoImageUrl = useBaseUrl(logo.src);
+
   return (
     <nav
       ref={navbarRef}
@@ -104,9 +113,9 @@ function Navbar() {
               />
             </svg>
           </div>
-          <Link className="navbar__brand" to={baseUrl}>
+          <Link className="navbar__brand" to={logoLink} {...logoLinkProps}>
             {logo != null && (
-              <img className="navbar__logo" src={logoUrl} alt={logo.alt} />
+              <img className="navbar__logo" src={logoImageUrl} alt={logo.alt} />
             )}
             {title != null && (
               <strong
@@ -148,9 +157,13 @@ function Navbar() {
       />
       <div className="navbar-sidebar">
         <div className="navbar-sidebar__brand">
-          <Link className="navbar__brand" onClick={hideSidebar} to={baseUrl}>
+          <Link
+            className="navbar__brand"
+            onClick={hideSidebar}
+            to={logoLink}
+            {...logoLinkProps}>
             {logo != null && (
-              <img className="navbar__logo" src={logoUrl} alt={logo.alt} />
+              <img className="navbar__logo" src={logoImageUrl} alt={logo.alt} />
             )}
             {title != null && <strong>{title}</strong>}
           </Link>
