@@ -230,9 +230,9 @@ module.exports = {
 
 ### Collapsible categories
 
-For sites with a sizable amount of content, we support the option to expand/collapse the links and subcategories under categories. Categories are collapsible by default, but so that they are always expanded, set `themeConfig.sidebarCollapsible` to `false`:
+For sites with a sizable amount of content, we support the option to expand/collapse a category to toggle the display of its contents. Categories are collapsible by default. If you want them to be always expanded, set `themeConfig.sidebarCollapsible` to `false`:
 
-```js
+```js {5}
 // docusaurus.config.js
 module.exports = {
   ...
