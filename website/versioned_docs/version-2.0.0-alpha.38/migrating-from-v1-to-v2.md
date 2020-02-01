@@ -664,3 +664,21 @@ website
 │   ├── version-1.1.0-sidebars.json
 │   └── version-1.0.0-sidebars.json
 ```
+
+### Convert style attributes to style objects in MDX
+
+Docusaurus 2 uses JSX for doc files. If you have any style attributes in your Docusaurus 1 docs, convert them to style objects, like this:
+
+```diff
+---
+id: demo
+title: Demo
+---
+
+## Section
+
+hello world
+
+- pre style="background: black">zzz</pre>
++ pre style={{background: 'black'}}>zzz</pre>
+```
