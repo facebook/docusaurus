@@ -78,16 +78,13 @@ const Search = props => {
 
   const handleSearchInputBlur = useCallback(() => {
     props.handleSearchBarToggle(!props.isSearchBarExpanded);
-  }, [algoliaLoaded]);
+  }, [props.isSearchBarExpanded]);
 
-  const handleSearchInput = useCallback(
-    e => {
-      const needFocus = e.type !== 'mouseover';
+  const handleSearchInput = useCallback(e => {
+    const needFocus = e.type !== 'mouseover';
 
-      loadAlgolia(needFocus);
-    },
-    [algoliaLoaded],
-  );
+    loadAlgolia(needFocus);
+  });
 
   return (
     <div className="navbar__search" key="search-box">
