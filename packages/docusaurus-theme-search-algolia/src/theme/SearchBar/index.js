@@ -66,7 +66,7 @@ const Search = props => {
     );
   };
 
-  const toggleSearchIconClick = useCallback(() => {
+  const handleSearchIcon = useCallback(() => {
     loadAlgolia();
 
     if (algoliaLoaded) {
@@ -94,8 +94,8 @@ const Search = props => {
         className={classnames('search-icon', {
           'search-icon-hidden': props.isSearchBarExpanded,
         })}
-        onClick={toggleSearchIconClick}
-        onKeyDown={toggleSearchIconClick}
+        onClick={handleSearchIcon}
+        onKeyDown={handleSearchIcon}
         tabIndex={0}
       />
       <input
