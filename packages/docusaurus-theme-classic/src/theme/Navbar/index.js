@@ -77,7 +77,8 @@ function Navbar() {
         target: '_blank',
       }
     : null;
-  const logoImageUrl = useBaseUrl(logo.src);
+  const logoSrc = logo.srcDark && isDarkTheme ? logo.srcDark : logo.src;
+  const logoImageUrl = useBaseUrl(logoSrc);
 
   return (
     <nav

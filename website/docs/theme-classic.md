@@ -45,7 +45,7 @@ module.exports = {
 
 ### Navbar Title & Logo
 
-You can add a logo and title to the navbar via `themeConfig.navbar`. Logo can be placed in [static folder](static-assets.md). Logo URL is set to base URL of your site by default. Although you can specify your own URL for the logo, if it is an external link, it will open in a new tab.
+You can add a logo and title to the navbar via `themeConfig.navbar`. Logo can be placed in [static folder](static-assets.md). Logo URL is set to base URL of your site by default. Although you can specify your own URL for the logo, if it is an external link, it will open in a new tab. You can also set a different logo for dark mode.
 
 ```js
 // docusaurus.config.js
@@ -57,6 +57,7 @@ module.exports = {
       logo: {
         alt: 'Site Logo',
         src: 'img/logo.svg',
+        srcDark: 'img/logo_dark.svg', // default to logo.src
         href: 'https://v2.docusaurus.io/', // default to siteConfig.baseUrl
       },
     },
