@@ -57,7 +57,7 @@ module.exports = {
       logo: {
         alt: 'Site Logo',
         src: 'img/logo.svg',
-        darkSrc: 'img/logo_dark.svg', // default to logo.src
+        srcDark: 'img/logo_dark.svg', // default to logo.src
         href: 'https://v2.docusaurus.io/', // default to siteConfig.baseUrl
       },
     },
