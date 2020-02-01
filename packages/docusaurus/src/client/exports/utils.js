@@ -4,6 +4,11 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-export default function isInternalUrl(url) {
+
+export function isInternalUrl(url) {
   return /^\/(?!\/)/.test(url);
+}
+
+export function pluralize(count, word) {
+  return count > 1 ? `${word}s` : word;
 }
