@@ -22,7 +22,7 @@ const Search = props => {
   } = siteConfig;
   const history = useHistory();
 
-  function initAlgolia() {
+  function initAlgolia(focus) {
     window.docsearch({
       appId: algolia.appId,
       apiKey: algolia.apiKey,
@@ -47,11 +47,12 @@ const Search = props => {
       },
     });
 
-    // Needed because the search input loses focus after calling window.docsearch()
-    searchBarRef.current.focus();
+    if (focus) {
+      searchBarRef.current.focus();
+    }
   }
 
-  const loadAlgolia = () => {
+  const loadAlgolia = (focus = true) => {
     if (algoliaLoaded) {
       return;
     }
@@ -60,7 +61,7 @@ const Search = props => {
       ([{default: docsearch}]) => {
         setAlgoliaLoaded(true);
         window.docsearch = docsearch;
-        initAlgolia();
+        initAlgolia(focus);
       },
     );
   };
@@ -78,6 +79,15 @@ const Search = props => {
   const handleSearchInputBlur = useCallback(() => {
     props.handleSearchBarToggle(!props.isSearchBarExpanded);
   }, [algoliaLoaded]);
+
+  const handleSearchInput = useCallback(
+    e => {
+      const needFocus = e.type !== 'mouseover';
+
+      loadAlgolia(needFocus);
+    },
+    [algoliaLoaded],
+  );
 
   return (
     <div className="navbar__search" key="search-box">
@@ -101,8 +111,8 @@ const Search = props => {
           {'search-bar-expanded': props.isSearchBarExpanded},
           {'search-bar': !props.isSearchBarExpanded},
         )}
-        onMouseOver={loadAlgolia}
-        onFocus={loadAlgolia}
+        onMouseOver={handleSearchInput}
+        onFocus={handleSearchInput}
         onBlur={handleSearchInputBlur}
         ref={searchBarRef}
       />
