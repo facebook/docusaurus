@@ -10,7 +10,7 @@ import React from 'react';
 import Layout from '@theme/Layout';
 import BlogPostItem from '@theme/BlogPostItem';
 import Link from '@docusaurus/Link';
-import {pluralize} from '@docusaurus/utils'; // eslint-disable-line import/no-extraneous-dependencies
+import {pluralize} from '@docusaurus/utils';
 
 function BlogTagsPostPage(props) {
   const {metadata, items} = props;

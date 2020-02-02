@@ -23,6 +23,9 @@
     "react": "^16.8.4",
     "react-dom": "^16.8.4"
   },
+  "bundledDependencies": [
+    "@docusaurus/utils"
+  ],
   "engines": {
     "node": ">=10.9.0"
   }
