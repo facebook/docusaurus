@@ -14,7 +14,7 @@ We have created a helpful script that will get all of the infrastructure set up 
 
 1.  Ensure you have the latest version of [Node](https://nodejs.org/en/download/) installed. We also recommend you install [Yarn](https://yarnpkg.com/en/docs/install) as well.
 
-    > You have to be on Node >= 8.x and Yarn >= 1.5.
+    > You have to be on Node >= 10.9.0 and Yarn >= 1.5.
 
 1.  Create a project, if none exists, and change your directory to this project's root.
 
