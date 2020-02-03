@@ -5,10 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-export function isInternalUrl(url) {
+export default function isInternalUrl(url) {
   return /^\/(?!\/)/.test(url);
-}
-
-export function pluralize(count, word) {
-  return count > 1 ? `${word}s` : word;
 }

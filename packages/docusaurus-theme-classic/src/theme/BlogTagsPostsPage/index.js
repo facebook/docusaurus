@@ -10,7 +10,10 @@ import React from 'react';
 import Layout from '@theme/Layout';
 import BlogPostItem from '@theme/BlogPostItem';
 import Link from '@docusaurus/Link';
-import {pluralize} from '@docusaurus/utils';
+
+function pluralize(count, word) {
+  return count > 1 ? `${word}s` : word;
+}
 
 function BlogTagsPostPage(props) {
   const {metadata, items} = props;
