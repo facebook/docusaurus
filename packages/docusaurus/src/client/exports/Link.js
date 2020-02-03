@@ -7,7 +7,7 @@
 
 import React, {useEffect, useRef} from 'react';
 import {NavLink} from 'react-router-dom';
-import {isInternalUrl} from '@docusaurus/utils';
+import isInternalUrl from '@docusaurus/utils';
 
 function Link(props) {
   const {to, href} = props;
