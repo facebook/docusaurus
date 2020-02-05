@@ -1,0 +1,18 @@
+{
+  "name": "@docusaurus/plugin-pwa",
+  "version": "2.0.0-alpha.40",
+  "description": "Docusaurus Plugin to add PWA support",
+  "main": "src/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "webpack": "^4.41.2",
+    "workbox-build": "^5.0.0",
+    "terser": "^4.6.3"
+  },
+  "peerDependencies": {
+    "@docusaurus/core": "^2.0.0"
+  }
+}
