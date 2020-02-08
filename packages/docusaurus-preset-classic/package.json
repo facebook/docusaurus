@@ -15,7 +15,8 @@
     "@docusaurus/plugin-google-gtag": "^2.0.0-alpha.40",
     "@docusaurus/plugin-sitemap": "^2.0.0-alpha.40",
     "@docusaurus/theme-classic": "^2.0.0-alpha.40",
-    "@docusaurus/theme-search-algolia": "^2.0.0-alpha.40"
+    "@docusaurus/theme-search-algolia": "^2.0.0-alpha.40",
+    "remark-admonitions": "^1.1.0"
   },
   "peerDependencies": {
     "@docusaurus/core": "^2.0.0"
