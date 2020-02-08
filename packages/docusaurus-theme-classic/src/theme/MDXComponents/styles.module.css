@@ -6,9 +6,12 @@
  */
 
 .mdxCodeBlock {
-  background-color: transparent;
+  position: relative;
   border-radius: var(--ifm-global-radius);
-  box-sizing: border-box;
-  font-family: inherit;
-  padding: 0;
+  margin-bottom: var(--ifm-leading);
+  font-size: var(--ifm-code-font-size);
+}
+
+.mdxCodeBlock pre {
+  font-size: inherit;
 }
