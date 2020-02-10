@@ -10,8 +10,18 @@
 const shell = require('shelljs');
 const chalk = require('chalk');
 const fs = require('fs');
-
 const CWD = process.cwd();
+
+const updateNotifier = require('update-notifier');
+const pkg = require('./package.json');
+
+updateNotifier({ //For testing purposes
+	pkg: {
+		name: 'docusaurus-init',
+		version: '1.14.0'
+	},
+	updateCheckInterval: 0
+}).notify();
 
 let useYarn = false;
 if (shell.which('yarn')) {
