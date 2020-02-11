@@ -40,7 +40,9 @@ export default function(
       if (line.trim().startsWith('```')) {
         fencedBlock = !fencedBlock;
       }
-      if (fencedBlock) return line;
+      if (fencedBlock) {
+        return line;
+      }
 
       let modifiedLine = line;
       // Replace inline-style links or reference-style links e.g:

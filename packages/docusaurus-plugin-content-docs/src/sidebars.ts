@@ -20,7 +20,7 @@ import {
 /**
  * Check that item contains only allowed keys
  */
-function assertItem(item: Object, keys: string[]): void {
+function assertItem(item: Record<string, any>, keys: string[]): void {
   const unknownKeys = Object.keys(item).filter(
     key => !keys.includes(key) && key !== 'type',
   );
@@ -130,7 +130,7 @@ function normalizeSidebar(sidebars: SidebarRaw): Sidebar {
 
 export default function loadSidebars(sidebarPaths?: string[]): Sidebar {
   // We don't want sidebars to be cached because of hotreloading.
-  let allSidebars: SidebarRaw = {};
+  const allSidebars: SidebarRaw = {};
   if (!sidebarPaths || !sidebarPaths.length) {
     return {} as Sidebar;
   }

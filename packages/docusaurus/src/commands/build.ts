@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import chalk = require('chalk');
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import fs from 'fs-extra';
 import path from 'path';
@@ -13,13 +12,15 @@ import ReactLoadableSSRAddon from 'react-loadable-ssr-addon';
 import webpack, {Configuration, Plugin} from 'webpack';
 import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
 import merge from 'webpack-merge';
+import {BuildCLIOptions, Props} from '@docusaurus/types';
 import {STATIC_DIR_NAME} from '../constants';
 import {load} from '../server';
-import {BuildCLIOptions, Props} from '@docusaurus/types';
 import {createClientConfig} from '../webpack/client';
 import {createServerConfig} from '../webpack/server';
 import {applyConfigureWebpack} from '../webpack/utils';
 import CleanWebpackPlugin from '../webpack/plugins/CleanWebpackPlugin';
+
+import chalk = require('chalk');
 
 function compile(config: Configuration[]): Promise<any> {
   return new Promise((resolve, reject) => {

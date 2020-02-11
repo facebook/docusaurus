@@ -52,7 +52,7 @@ export interface Preset {
   themes?: PluginConfig[];
 }
 
-export type PresetConfig = [string, Object] | [string] | string;
+export type PresetConfig = [string, Record<string, any>] | [string] | string;
 
 export interface StartCLIOptions {
   port: string;
@@ -119,7 +119,7 @@ export interface Plugin<T> {
   };
 }
 
-export type PluginConfig = [string, Object] | [string] | string;
+export type PluginConfig = [string, Record<string, any>] | [string] | string;
 
 export interface ChunkRegistry {
   loader: string;

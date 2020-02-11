@@ -5,9 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const {parseQuery, getOptions} = require('loader-utils');
 import {loader} from 'webpack';
 import {truncate} from './blogUtils';
+
+const {parseQuery, getOptions} = require('loader-utils');
 
 export = function(fileString: string) {
   const callback = this.async();

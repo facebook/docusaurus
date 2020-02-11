@@ -9,6 +9,12 @@ import {generate} from '@docusaurus/utils';
 import _ from 'lodash';
 import path from 'path';
 import {
+  DocusaurusConfig,
+  LoadContext,
+  PluginConfig,
+  Props,
+} from '@docusaurus/types';
+import {
   BUILD_DIR_NAME,
   CONFIG_FILE_NAME,
   GENERATED_FILES_DIR_NAME,
@@ -20,12 +26,6 @@ import {loadPlugins} from './plugins';
 import {loadPresets} from './presets';
 import {loadRoutes} from './routes';
 import {loadThemeAlias} from './themes';
-import {
-  DocusaurusConfig,
-  LoadContext,
-  PluginConfig,
-  Props,
-} from '@docusaurus/types';
 import {loadHtmlTags} from './html-tags';
 
 export function loadContext(siteDir: string): LoadContext {

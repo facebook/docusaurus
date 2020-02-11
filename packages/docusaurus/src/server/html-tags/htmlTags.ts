@@ -40,13 +40,11 @@ export function htmlTagObjectToString(tagDefinition: any): string {
       if (tagAttributes[attributeName] === true) {
         return attributeName;
       }
-      return attributeName + '="' + tagAttributes[attributeName] + '"';
+      return `${attributeName}="${tagAttributes[attributeName]}"`;
     });
-  return (
-    '<' +
-    [tagDefinition.tagName].concat(attributes).join(' ') +
-    '>' +
-    ((!isVoidTag && tagDefinition.innerHTML) || '') +
-    (isVoidTag ? '' : '</' + tagDefinition.tagName + '>')
-  );
+  return `<${[tagDefinition.tagName]
+    .concat(attributes)
+    .join(' ')}>${(!isVoidTag && tagDefinition.innerHTML) || ''}${
+    isVoidTag ? '' : `</${tagDefinition.tagName}>`
+  }`;
 }

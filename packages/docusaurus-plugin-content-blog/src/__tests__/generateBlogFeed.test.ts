@@ -6,8 +6,8 @@
  */
 
 import path from 'path';
-import {generateBlogFeed} from '../blogUtils';
 import {LoadContext} from '@docusaurus/types';
+import {generateBlogFeed} from '../blogUtils';
 import {PluginOptions} from '../types';
 
 describe('blogFeed', () => {

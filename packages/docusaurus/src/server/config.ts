@@ -9,8 +9,8 @@ import fs from 'fs-extra';
 import importFresh from 'import-fresh';
 import _ from 'lodash';
 import path from 'path';
-import {CONFIG_FILE_NAME} from '../constants';
 import {DocusaurusConfig, PluginConfig} from '@docusaurus/types';
+import {CONFIG_FILE_NAME} from '../constants';
 
 const REQUIRED_FIELDS = ['baseUrl', 'favicon', 'tagline', 'title', 'url'];
 

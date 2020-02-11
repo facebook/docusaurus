@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import createSitemap from '../createSitemap';
 import {DocusaurusConfig} from '@docusaurus/types';
+import createSitemap from '../createSitemap';
 
 describe('createSitemap', () => {
   test('simple site', () => {

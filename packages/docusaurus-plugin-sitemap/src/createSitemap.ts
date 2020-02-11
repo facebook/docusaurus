@@ -6,8 +6,8 @@
  */
 
 import sitemap, {SitemapItemOptions} from 'sitemap';
-import {PluginOptions} from './types';
 import {DocusaurusConfig} from '@docusaurus/types';
+import {PluginOptions} from './types';
 
 export default function createSitemap(
   siteConfig: DocusaurusConfig,

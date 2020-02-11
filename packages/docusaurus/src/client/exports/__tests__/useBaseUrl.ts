@@ -7,6 +7,7 @@
 
 import useBaseUrl from '../useBaseUrl';
 import useDocusaurusContext from '../useDocusaurusContext';
+
 jest.mock('../useDocusaurusContext', () => jest.fn(), {virtual: true});
 
 const mockedContext = <jest.Mock>useDocusaurusContext;

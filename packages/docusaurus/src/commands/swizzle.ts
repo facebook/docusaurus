@@ -5,13 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import chalk = require('chalk');
 import fs from 'fs-extra';
 import importFresh from 'import-fresh';
 import path from 'path';
 
 import {THEME_PATH} from '../constants';
 import {loadContext} from '../server';
+
+import chalk = require('chalk');
 
 export async function swizzle(
   siteDir: string,

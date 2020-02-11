@@ -9,9 +9,9 @@ import fs from 'fs-extra';
 import globby from 'globby';
 import path from 'path';
 import {Feed} from 'feed';
-import {PluginOptions, BlogPost, DateLink} from './types';
 import {parse, normalizeUrl, aliasedSitePath} from '@docusaurus/utils';
 import {LoadContext} from '@docusaurus/types';
+import {PluginOptions, BlogPost, DateLink} from './types';
 
 export function truncate(fileString: string, truncateMarker: RegExp) {
   return fileString.split(truncateMarker, 1).shift()!;
@@ -70,7 +70,7 @@ export async function generateBlogFeed(
     } = post;
     feed.addItem({
       title,
-      id: id,
+      id,
       link: normalizeUrl([siteUrl, permalink]),
       date,
       description,

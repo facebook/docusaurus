@@ -17,6 +17,7 @@ import {
 } from '@docusaurus/utils';
 import {LoadContext, Plugin, RouteConfig} from '@docusaurus/types';
 
+import {Configuration} from 'webpack';
 import createOrder from './order';
 import loadSidebars from './sidebars';
 import processMetadata from './metadata';
@@ -41,7 +42,6 @@ import {
   SidebarItem,
   DocsSidebarItem,
 } from './types';
-import {Configuration} from 'webpack';
 import {docsVersion} from './version';
 
 const DEFAULT_OPTIONS: PluginOptions = {
@@ -424,7 +424,7 @@ export default function pluginContentDocs(
                   options: {
                     siteDir,
                     docsDir,
-                    sourceToPermalink: sourceToPermalink,
+                    sourceToPermalink,
                     versionedDir,
                   },
                 },

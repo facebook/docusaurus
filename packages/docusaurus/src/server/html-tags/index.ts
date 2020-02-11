@@ -6,13 +6,13 @@
  */
 
 import _ from 'lodash';
-import {htmlTagObjectToString} from './htmlTags';
 import {
   Plugin,
   InjectedHtmlTags,
   HtmlTagObject,
   HtmlTags,
 } from '@docusaurus/types';
+import {htmlTagObjectToString} from './htmlTags';
 
 function toString(val: string | HtmlTagObject): string {
   return typeof val === 'string' ? val : htmlTagObjectToString(val);
@@ -32,13 +32,13 @@ export function loadHtmlTags(plugins: Plugin<any>[]): InjectedHtmlTags {
         plugin.injectHtmlTags() || {};
       return {
         headTags: headTags
-          ? acc.headTags + '\n' + createHtmlTagsString(headTags)
+          ? `${acc.headTags}\n${createHtmlTagsString(headTags)}`
           : acc.headTags,
         preBodyTags: preBodyTags
-          ? acc.preBodyTags + '\n' + createHtmlTagsString(preBodyTags)
+          ? `${acc.preBodyTags}\n${createHtmlTagsString(preBodyTags)}`
           : acc.preBodyTags,
         postBodyTags: postBodyTags
-          ? acc.postBodyTags + '\n' + createHtmlTagsString(postBodyTags)
+          ? `${acc.postBodyTags}\n${createHtmlTagsString(postBodyTags)}`
           : acc.postBodyTags,
       };
     },

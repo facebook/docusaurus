@@ -7,8 +7,8 @@
 
 import path from 'path';
 
-import pluginContentPages from '../index';
 import {LoadContext} from '@docusaurus/types';
+import pluginContentPages from '../index';
 
 describe('docusaurus-plugin-content-pages', () => {
   test('simple pages', async () => {

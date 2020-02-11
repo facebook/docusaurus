@@ -11,15 +11,6 @@ import path from 'path';
 import {normalizeUrl, docuHash, aliasedSitePath} from '@docusaurus/utils';
 
 import {
-  PluginOptions,
-  BlogTags,
-  BlogContent,
-  BlogItemsToMetadata,
-  TagsModule,
-  BlogPaginated,
-  FeedType,
-} from './types';
-import {
   LoadContext,
   PluginContentLoadedActions,
   ConfigureWebpackUtils,
@@ -28,6 +19,15 @@ import {
   HtmlTags,
 } from '@docusaurus/types';
 import {Configuration, Loader} from 'webpack';
+import {
+  PluginOptions,
+  BlogTags,
+  BlogContent,
+  BlogItemsToMetadata,
+  TagsModule,
+  BlogPaginated,
+  FeedType,
+} from './types';
 import {generateBlogFeed, generateBlogPosts} from './blogUtils';
 
 const DEFAULT_OPTIONS: PluginOptions = {
@@ -180,9 +180,8 @@ export default function pluginContentBlog(
               label: tag,
               permalink,
             };
-          } else {
-            return tag;
           }
+          return tag;
         });
       });
 

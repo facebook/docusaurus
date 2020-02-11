@@ -6,8 +6,8 @@
  */
 
 import path from 'path';
-import {load} from './index';
 import {Props} from '@docusaurus/types';
+import {load} from './index';
 
 // Helper methods to setup dummy/fake projects
 export const loadSetup = async (name: string): Promise<Props> => {

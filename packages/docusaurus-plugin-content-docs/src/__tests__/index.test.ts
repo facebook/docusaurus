@@ -10,13 +10,13 @@ import {validate} from 'webpack';
 import {isMatch} from 'picomatch';
 import commander from 'commander';
 import fs from 'fs-extra';
-import pluginContentDocs from '../index';
-import loadEnv from '../env';
 import {loadContext} from '@docusaurus/core/src/server/index';
 import {applyConfigureWebpack} from '@docusaurus/core/src/webpack/utils';
 import {RouteConfig} from '@docusaurus/types';
 import {posixPath} from '@docusaurus/utils';
 import {sortConfig} from '@docusaurus/core/src/server/plugins';
+import loadEnv from '../env';
+import pluginContentDocs from '../index';
 
 import * as version from '../version';
 
@@ -306,7 +306,7 @@ describe('versioned website', () => {
         permalink: '/docs/next/hello',
       },
     });
-    expect(docsMetadata['hello']).toEqual({
+    expect(docsMetadata.hello).toEqual({
       id: 'hello',
       permalink: '/docs/next/hello',
       source: path.join('@site', routeBasePath, 'hello.md'),

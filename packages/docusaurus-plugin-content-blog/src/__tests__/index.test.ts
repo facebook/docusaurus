@@ -7,8 +7,8 @@
 
 import fs from 'fs-extra';
 import path from 'path';
-import pluginContentBlog from '../index';
 import {DocusaurusConfig, LoadContext} from '@docusaurus/types';
+import pluginContentBlog from '../index';
 
 describe('loadBlog', () => {
   test('simple website', async () => {

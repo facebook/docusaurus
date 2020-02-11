@@ -6,9 +6,9 @@
  */
 
 import path from 'path';
+import fs from 'fs-extra';
 import {docsVersion} from '../version';
 import {PathOptions} from '../types';
-import fs from 'fs-extra';
 import {
   getVersionedDocsDir,
   getVersionsJSONFile,

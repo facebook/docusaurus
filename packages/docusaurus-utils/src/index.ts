@@ -51,7 +51,7 @@ export async function generate(
   }
 }
 
-export function objectWithKeySorted(obj: Object) {
+export function objectWithKeySorted(obj: Record<string, any>) {
   // https://github.com/lodash/lodash/issues/1459#issuecomment-253969771
   return _(obj)
     .toPairs()

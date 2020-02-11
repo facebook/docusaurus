@@ -7,8 +7,8 @@
 
 import path from 'path';
 
-import {loadPresets} from '../index';
 import {DocusaurusConfig, LoadContext} from '@docusaurus/types';
+import {loadPresets} from '../index';
 
 describe('loadPresets', () => {
   test('no presets', () => {

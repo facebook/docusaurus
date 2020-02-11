@@ -5,13 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import fs from 'fs-extra';
+import path from 'path';
 import {
   getVersionsJSONFile,
   getVersionedDocsDir,
   getVersionedSidebarsDir,
 } from './env';
-import fs from 'fs-extra';
-import path from 'path';
 import {Sidebar, PathOptions, SidebarItem} from './types';
 import loadSidebars from './sidebars';
 

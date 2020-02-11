@@ -112,7 +112,7 @@ describe('simple site', () => {
     });
 
     // unrelated frontmatter is not part of metadata
-    expect(data['unrelated_frontmatter']).toBeUndefined();
+    expect(data.unrelated_frontmatter).toBeUndefined();
   });
 
   test('docs with last update time and author', async () => {

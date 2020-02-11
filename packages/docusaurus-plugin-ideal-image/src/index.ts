@@ -5,10 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 import {LoadContext} from '@docusaurus/types';
-import {PluginOptions} from './types';
 import {Configuration} from 'webpack';
 
 import path from 'path';
+import {PluginOptions} from './types';
 
 export default function(_context: LoadContext, options: PluginOptions) {
   const isProd = process.env.NODE_ENV === 'production';

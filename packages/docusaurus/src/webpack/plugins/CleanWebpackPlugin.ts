@@ -94,14 +94,23 @@ export interface Options {
 
 class CleanWebpackPlugin {
   private readonly dry: boolean;
+
   private readonly verbose: boolean;
+
   private readonly cleanStaleWebpackAssets: boolean;
+
   private readonly protectWebpackAssets: boolean;
+
   private readonly cleanAfterEveryBuildPatterns: string[];
+
   private readonly cleanOnceBeforeBuildPatterns: string[];
+
   private readonly dangerouslyAllowCleanPatternsOutsideProject: boolean;
+
   private currentAssets: string[];
+
   private initialClean: boolean;
+
   private outputPath: string;
 
   constructor(options: Options = {}) {
@@ -197,7 +206,7 @@ class CleanWebpackPlugin {
      *
      * Check for hooks in-order to support old plugin system
      */
-    const hooks = compiler.hooks;
+    const {hooks} = compiler;
 
     if (this.cleanOnceBeforeBuildPatterns.length !== 0) {
       if (hooks) {

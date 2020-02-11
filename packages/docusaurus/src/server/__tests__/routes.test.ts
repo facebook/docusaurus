@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {loadRoutes} from '../routes';
 import {RouteConfig} from '@docusaurus/types';
+import {loadRoutes} from '../routes';
 
 describe('loadRoutes', () => {
   test('nested route config', async () => {
