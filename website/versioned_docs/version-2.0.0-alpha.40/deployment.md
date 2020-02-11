@@ -95,7 +95,7 @@ GIT_USER=<GITHUB_USERNAME> yarn deploy
 **Windows**
 
 ```batch
-cmd /C "set GIT_USER=<GITHUB_USERNAME> && yarn deploy"
+cmd /C "set "GIT_USER=<GITHUB_USERNAME>" && yarn deploy"
 ```
 
 <!--
