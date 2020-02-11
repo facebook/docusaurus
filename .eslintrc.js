@@ -69,5 +69,18 @@ module.exports = {
         'header/header': 'off',
       },
     },
+    {
+      files: ['**/*.ts', '**/*.tsx'],
+      extends: [
+        'eslint:recommended',
+        'plugin:@typescript-eslint/eslint-recommended',
+        'plugin:@typescript-eslint/recommended',
+        'plugin:import/errors',
+        'plugin:import/warnings',
+        'plugin:import/typescript',
+      ],
+      plugins: ['@typescript-eslint'],
+      parser: '@typescript-eslint/parser'
+    },
   ],
 };

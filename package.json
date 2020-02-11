@@ -18,7 +18,7 @@
     "prettier": "prettier --config .prettierrc --write \"**/*.{js,ts}\"",
     "prettier:diff": "prettier --config .prettierrc --list-different \"**/*.{js,ts}\"",
     "prettier-docs": "prettier --config .prettierrc --write \"**/*.md\"",
-    "lint": "eslint --cache \"**/*.js\"",
+    "lint": "eslint --cache \"**/*.{js,ts}\"",
     "lerna": "lerna",
     "test": "jest",
     "tsc": "lerna run tsc --no-private"
@@ -43,6 +43,8 @@
     "@types/webpack": "^4.41.0",
     "@types/webpack-dev-server": "^3.9.0",
     "@types/webpack-merge": "^4.1.5",
+    "@typescript-eslint/parser":"^2.19.2",
+    "@typescript-eslint/eslint-plugin":"^2.19.2",
     "babel-eslint": "^10.0.3",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.15.1",
@@ -72,7 +74,8 @@
     ],
     "*.{ts,tsx}": [
       "yarn prettier",
-      "git add"
+      "git add",
+      "eslint"
     ],
     "*.md": [
       "yarn prettier-docs",
