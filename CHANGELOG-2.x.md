@@ -2,8 +2,6 @@
 
 ## 2.0.0-alpha.41 (2020-02-16)
 
-## Unreleased (2020-02-16)
-
 #### :rocket: New Feature
 
 - `docusaurus-init`, `docusaurus-preset-classic`, `docusaurus-theme-classic`
