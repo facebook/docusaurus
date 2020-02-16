@@ -1,5 +1,96 @@
 # Docusaurus 2 Changelog
 
+## 2.0.0-alpha.41 (2020-02-16)
+
+## Unreleased (2020-02-16)
+
+#### :rocket: New Feature
+
+- `docusaurus-init`, `docusaurus-preset-classic`, `docusaurus-theme-classic`
+  - [#2224](https://github.com/facebook/docusaurus/pull/2224) feat(v2): add remark-admonitions to @docusaurus/preset-classic ([@elviswolcott](https://github.com/elviswolcott))
+- `docusaurus-theme-classic`, `docusaurus`
+  - [#2263](https://github.com/facebook/docusaurus/pull/2263) feat(v2): pluralize posts on tag's page ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-classic`
+  - [#2261](https://github.com/facebook/docusaurus/pull/2261) feat(v2): allow to specify different logo for dark mode ([@lex111](https://github.com/lex111))
+  - [#2253](https://github.com/facebook/docusaurus/pull/2253) feat(v2): allow specify custom link for logo ([@lex111](https://github.com/lex111))
+  - [#2255](https://github.com/facebook/docusaurus/pull/2255) feat(v2): add site title to meta title ([@lex111](https://github.com/lex111))
+- `docusaurus-plugin-content-pages`, `docusaurus-utils`, `docusaurus`
+  - [#2221](https://github.com/facebook/docusaurus/pull/2221) feat(v2): allow for Typescript pages and components ([@jonathanrdelgado](https://github.com/jonathanrdelgado))
+
+#### :boom: Breaking Change
+
+- `docusaurus-theme-classic`
+  - [#2235](https://github.com/facebook/docusaurus/pull/2235) fix(v2): show doc sidebar on pages with case-sensitive paths ([@lex111](https://github.com/lex111))
+
+#### :bug: Bug Fix
+
+- `docusaurus-theme-classic`, `docusaurus-theme-live-codeblock`
+  - [#2285](https://github.com/facebook/docusaurus/pull/2285) fix(v2): fix codeblock copy button not including blank lines ([@KohheePeace](https://github.com/KohheePeace))
+  - [#2241](https://github.com/facebook/docusaurus/pull/2241) fix(v2): make code blocks scrollable ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-classic`
+  - [#2259](https://github.com/facebook/docusaurus/pull/2259) fix(v2): use site title if enabled blog-only mode ([@lex111](https://github.com/lex111))
+  - [#2248](https://github.com/facebook/docusaurus/pull/2248) fix(v2): adjust correct behavior of navbar when active anchor ([@lex111](https://github.com/lex111))
+  - [#2235](https://github.com/facebook/docusaurus/pull/2235) fix(v2): show doc sidebar on pages with case-sensitive paths ([@lex111](https://github.com/lex111))
+  - [#2162](https://github.com/facebook/docusaurus/pull/2162) fix(v2): unify anchor behavior ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-search-algolia`
+  - [#2262](https://github.com/facebook/docusaurus/pull/2262) fix(v2): remove focus on search input when hovering over it ([@lex111](https://github.com/lex111))
+- `docusaurus-plugin-content-blog`, `docusaurus-theme-classic`
+  - [#2240](https://github.com/facebook/docusaurus/pull/2240) fix(v2): hide read more button on non-truncated posts ([@lex111](https://github.com/lex111))
+- `docusaurus`
+  - [#2237](https://github.com/facebook/docusaurus/pull/2237) fix(v2): include base url in 404 route ([@lex111](https://github.com/lex111))
+- `docusaurus-mdx-loader`
+  - [#2236](https://github.com/facebook/docusaurus/pull/2236) fix(v2): escape link text in TOC ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-live-codeblock`
+  - [#2227](https://github.com/facebook/docusaurus/pull/2227) fix(v2): render correct theme for live code blocks on SSR ([@lex111](https://github.com/lex111))
+
+#### :nail_care: Polish
+
+- `docusaurus-theme-classic`, `docusaurus-theme-live-codeblock`
+  - [#2254](https://github.com/facebook/docusaurus/pull/2254) refactor(v2): avoid to use raw theme values ([@lex111](https://github.com/lex111))
+
+#### :memo: Documentation
+
+- [#2281](https://github.com/facebook/docusaurus/pull/2281) docs: update windows deploy command ([@OndrejNepozitek](https://github.com/OndrejNepozitek))
+- [#2257](https://github.com/facebook/docusaurus/pull/2257) docs(v2): require using JSX flavored style objects in mdx ([@wgao19](https://github.com/wgao19))
+- [#2251](https://github.com/facebook/docusaurus/pull/2251) docs(v2): collapsible categories in sidebar ([@lex111](https://github.com/lex111))
+- [#2218](https://github.com/facebook/docusaurus/pull/2218) docs(v2): update link to available prism themes ([@jsjoeio](https://github.com/jsjoeio))
+- [#2216](https://github.com/facebook/docusaurus/pull/2216) docs(v2): fix plugin-content-docs config comment typo ([@sdowding](https://github.com/sdowding))
+
+#### :house: Internal
+
+- Other
+  - [#2256](https://github.com/facebook/docusaurus/pull/2256) fix(v2): add title for Feedback page ([@lex111](https://github.com/lex111))
+  - [#2246](https://github.com/facebook/docusaurus/pull/2246) docs(v2): add Benthos to showcase ([@Jeffail](https://github.com/Jeffail))
+  - [#2242](https://github.com/facebook/docusaurus/pull/2242) docs(v1): showcase user Jafar ([@galhavivi](https://github.com/galhavivi))
+  - [#2238](https://github.com/facebook/docusaurus/pull/2238) docs(v1): showcase Dime ([@hbulens](https://github.com/hbulens))
+  - [#2233](https://github.com/facebook/docusaurus/pull/2233) docs(v2): showcase user supabase ([@awalias](https://github.com/awalias))
+  - [#2226](https://github.com/facebook/docusaurus/pull/2226) docs(v1): showcase user Adapt.js ([@mterrel](https://github.com/mterrel))
+  - [#2225](https://github.com/facebook/docusaurus/pull/2225) docs(v1): add The Diff Podcast to users ([@JoelMarcey](https://github.com/JoelMarcey))
+  - [#2219](https://github.com/facebook/docusaurus/pull/2219) chore(v1): Updated users list, removing sites not using docusaurus ([@jjwill](https://github.com/jjwill))
+- `docusaurus-theme-classic`, `docusaurus`
+  - [#2239](https://github.com/facebook/docusaurus/pull/2239) chore(eslint): require curly brackets on all blocks ([@lex111](https://github.com/lex111))
+
+#### Committers: 18
+
+- Alexey Pyltsyn ([@lex111](https://github.com/lex111))
+- Ashley Jeffs ([@Jeffail](https://github.com/Jeffail))
+- Elie Dutheil ([@edwandr](https://github.com/edwandr))
+- Elvis Wolcott ([@elviswolcott](https://github.com/elviswolcott))
+- Evan Rubinton ([@erubi](https://github.com/erubi))
+- Gal Havivi ([@galhavivi](https://github.com/galhavivi))
+- Hanseung Yoo ([@trustyoo86](https://github.com/trustyoo86))
+- Hendrik Bulens ([@hbulens](https://github.com/hbulens))
+- JavaScript Joe ([@jsjoeio](https://github.com/jsjoeio))
+- Joel Marcey ([@JoelMarcey](https://github.com/JoelMarcey))
+- Jonathan Delgado ([@jonathanrdelgado](https://github.com/jonathanrdelgado))
+- Joshua Williams ([@jjwill](https://github.com/jjwill))
+- KohheePeace ([@KohheePeace](https://github.com/KohheePeace))
+- Mark Terrel ([@mterrel](https://github.com/mterrel))
+- Ondřej Nepožitek ([@OndrejNepozitek](https://github.com/OndrejNepozitek))
+- Scott Dowding ([@sdowding](https://github.com/sdowding))
+- Wei Gao ([@wgao19](https://github.com/wgao19))
+- [@awalias](https://github.com/awalias)
+
 ## 2.0.0-alpha.40 (2019-12-25)
 
 #### :rocket: New Feature
