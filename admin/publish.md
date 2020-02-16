@@ -16,7 +16,7 @@ If you are not currently logged into npm on your CLI, do the following:
 
 If you're publishing new v2 versions, 2FA might get in the way as the pin might expire during the publishing as there are over 10 packages to publish. You're encouraged not to use the "Authorization and Publishing" 2FA option.
 
-1. Update the v2 changelog
+### 1. Update the v2 changelog
 
 Generate a GitHub auth token by going to https://github.com/settings/tokens. Save the token somewhere for future reference.
 
@@ -26,7 +26,7 @@ GITHUB_AUTH=<Your GitHub auth token> yarn changelog
 
 Copy the generated contents and paste them in `CHANGELOG-2.x.md`.
 
-2. Cut a new version of the docs
+### 2. Cut a new version of the docs
 
 ```sh
 cd website
@@ -35,9 +35,13 @@ yarn run docusaurus docs:version 2.0.0-alpha.41
 
 Test running the website with the new version locally.
 
-3. Create a Pull Request with the changes and get it merged. An example PR would be [#2287](https://github.com/facebook/docusaurus/pull/2287). Make sure the preview loads fine and is showing the new version.
+### 3. Create a Pull Request
 
-4. Use Lerna publish to publish the new packages to npm
+Make a commit and create a pull request with the changes and get it merged. An example PR would be [#2287](https://github.com/facebook/docusaurus/pull/2287). Make sure the preview loads fine and is showing the new version.
+
+### 4. Publish to npm
+
+As we have a monorepo structure, we use `lerna publish` to publish the new version of packages to npm in one shot.
 
 ```sh
 yarn lerna publish 2.0.0-alpha.41 --dist-tag next
@@ -53,7 +57,7 @@ This command does a few things:
 
 You should receive many emails notifying you that a new version of the packages has been published.
 
-5. Create a release on GitHub
+### 5. Create a release on GitHub
 
 - Go to https://github.com/facebook/docusaurus/releases/new
 - Under the "Tag version" field, look for the newly-created tag, which is `v2.0.0-alpha.41` in this case
