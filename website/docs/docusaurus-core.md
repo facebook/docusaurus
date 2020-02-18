@@ -4,9 +4,11 @@ title: Docusaurus Client API
 sidebar_label: Client API
 ---
 
-Docusaurus provides some API on client that can be helpful when building your site.
+Docusaurus provides some APIs on the clients that can be helpful to you when building your site.
 
-## `Head`
+## Components
+
+### `<Head/>`
 
 This reusable React component will manage all of your changes to the document head. It takes plain HTML tags and outputs plain HTML tags and is beginner-friendly. It is a wrapper around [React Helmet](https://github.com/nfl/react-helmet).
 
@@ -55,7 +57,7 @@ Outputs
 </head>
 ```
 
-## `Link`
+### `<Link/>`
 
 This component enables linking to internal pages as well as a powerful performance feature called preloading. Preloading is used to prefetch resources so that the resources are fetched by the time the user navigates with this component. We use an `IntersectionObserver` to fetch a low-priority request when the `<Link>` is in the viewport and then use an `onMouseOver` event to trigger a high-priority request when it is likely that a user will navigate to the requested resource.
 
@@ -78,7 +80,7 @@ const Page = () => (
 );
 ```
 
-### `to`: string
+#### `to`: string
 
 The target location to navigate to. Example: `/docs/introduction`.
 
@@ -86,7 +88,7 @@ The target location to navigate to. Example: `/docs/introduction`.
 <Link to="/courses" />
 ```
 
-### `activeClassName`: string
+#### `activeClassName`: string
 
 The class to give the `<Link>` when it is active. The default given class is `active`. This will be joined with the `className` prop.
 
@@ -96,9 +98,26 @@ The class to give the `<Link>` when it is active. The default given class is `ac
 </Link>
 ```
 
-## `useDocusaurusContext`
+### `<Redirect/>`
 
-React Hooks to access Docusaurus Context. Context contains `siteConfig` object from [docusaurus.config.js](docusaurus.config.js.md).
+Rendering a `<Redirect>` will navigate to a new location. The new location will override the current location in the history stack, like server-side redirects (HTTP 3xx) do. You can refer to [React Router's Redirect documentation](https://reacttraining.com/react-router/web/api/Redirect) for more info on available props.
+
+Example usage:
+
+```jsx {2,5}
+import React from 'react';
+import {Redirect} from '@docusaurus/router';
+
+function Home() {
+  return <Redirect to="/docs/test" />;
+}
+```
+
+## Hooks
+
+### `useDocusaurusContext`
+
+React hook to access Docusaurus Context. Context contains `siteConfig` object from [docusaurus.config.js](docusaurus.config.js.md).
 
 ```ts
 interface DocusaurusContext {
@@ -121,9 +140,9 @@ const Test = () => {
 };
 ```
 
-## `useBaseUrl`
+### `useBaseUrl`
 
-React Hook to automatically append `baseUrl` to a string automatically. This is particularly useful if you don't want to hardcode your baseUrl.
+React hook to automatically append `baseUrl` to a string automatically. This is particularly useful if you don't want to hardcode your config's `baseUrl`. We highly recommend you to use this.
 
 Example usage:
 
@@ -145,17 +164,25 @@ function Help() {
 }
 ```
 
-## `Redirect`
+## Modules
 
-Rendering a `<Redirect>` will navigate to a new location. The new location will override the current location in the history stack, like server-side redirects (HTTP 3xx) do. You can refer to [React Router's Redirect documentation](https://reacttraining.com/react-router/web/api/Redirect) for more info on available props.
+### `ExecutionEnvironment`
 
-Example usage:
+A module which exposes a few boolean variables to check the current rendering environment. Useful if you want to only run certain code on client/server or need to write server-side rendering compatible code.
 
-```jsx {2,5}
+```jsx {2}
 import React from 'react';
-import {Redirect} from '@docusaurus/router';
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 
-function Home() {
-  return <Redirect to="/docs/test" />;
+function MyPage() {
+  const location = ExecutionEnvironment.canUseDOM ? window.href.location : null;
+  return <div>{location}</div>;
 }
 ```
+
+| Field | Description |
+| --- | --- |
+| `ExecutionEnvironment.canUseDOM` | `true` if on client, `false` if SSR. |
+| `ExecutionEnvironment.canUseEventListeners` | `true` if on client and has `window.addEventListener`. |
+| `ExecutionEnvironment.canUseIntersectionObserver` | `true` if on client and has `IntersectionObserver`. |
+| `ExecutionEnvironment.canUseViewport` | `true` if on client and has `window.screen`. |

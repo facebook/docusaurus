@@ -8,6 +8,7 @@
 import React, {useEffect, useRef} from 'react';
 import {NavLink} from 'react-router-dom';
 import isInternalUrl from '@docusaurus/isInternalUrl';
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 
 function Link(props) {
   const {to, href} = props;
@@ -16,7 +17,8 @@ function Link(props) {
   const preloaded = useRef(false);
 
   const IOSupported =
-    typeof window !== 'undefined' && 'IntersectionObserver' in window;
+    ExecutionEnvironment.canUseDOM &&
+    ExecutionEnvironment.canUseIntersectionObserver;
 
   let io;
   const handleIntersection = (el, cb) => {

@@ -5,8 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
+
 export default (function() {
-  if (typeof window === 'undefined') {
+  if (!ExecutionEnvironment.canUseDOM) {
     return null;
   }
 
