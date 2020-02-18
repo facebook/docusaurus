@@ -1,6 +1,6 @@
 # Docusaurus 2 Changelog
 
-## 2.0.0-alpha.42 (2020-02-18)
+## 2.0.0-alpha.43 (2020-02-18)
 
 **HOTFIX for 2.0.0-alpha.41**.
 
