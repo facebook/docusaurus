@@ -164,7 +164,7 @@ Continuous integration (CI) services are typically used to perform routine tasks
 # .travis.yml
 language: node_js
 node_js:
-  - '8'
+  - '10'
 branches:
   only:
     - master
