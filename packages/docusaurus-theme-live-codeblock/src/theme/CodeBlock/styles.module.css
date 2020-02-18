@@ -1,18 +1,15 @@
+/**
+ * Copyright (c) 2017-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
 .codeBlock {
-  font-size: inherit;
-  margin-bottom: 0;
-  overflow: hidden;
-  overflow-wrap: break-word;
-  white-space: pre-wrap;
-}
-
-.codeBlockWrapper {
-  position: relative;
-}
-
-.codeBlockWrapper:hover > .copyButton {
-  visibility: visible;
-  opacity: 1;
+  overflow: auto;
+  display: block;
+  padding: 0;
+  margin: 0;
 }
 
 .copyButton {
@@ -31,4 +28,18 @@
   visibility: hidden;
   transition: opacity 200ms ease-in-out, visibility 200ms ease-in-out,
     bottom 200ms ease-in-out;
+}
+
+.codeBlock:hover > .copyButton {
+  visibility: visible;
+  opacity: 1;
+}
+
+.codeBlockLines {
+  background-color: transparent;
+  border-radius: 0;
+  margin-bottom: 0;
+  float: left;
+  min-width: 100%;
+  padding: var(--ifm-pre-padding);
 }

@@ -22,6 +22,12 @@
   padding: 0 0.5rem;
 }
 
+@media only screen and (min-width: 997px) {
+  .docItemCol {
+    max-width: 75% !important;
+  }
+}
+
 .tableOfContents {
   display: inherit;
   max-height: calc(100vh - (var(--ifm-navbar-height) + 2rem));

@@ -11,19 +11,24 @@ import Layout from '@theme/Layout';
 import BlogPostItem from '@theme/BlogPostItem';
 import Link from '@docusaurus/Link';
 
+function pluralize(count, word) {
+  return count > 1 ? `${word}s` : word;
+}
+
 function BlogTagsPostPage(props) {
   const {metadata, items} = props;
   const {allTagsPath, name: tagName, count} = metadata;
 
   return (
     <Layout
-      title={`Blog | Tagged "${tagName}"`}
+      title={`Posts tagged "${tagName}"`}
       description={`Blog | Tagged "${tagName}"`}>
       <div className="container margin-vert--xl">
         <div className="row">
           <div className="col col--8 col--offset-2">
             <h1>
-              {count} post(s) tagged with &quot;{tagName}&quot;
+              {count} {pluralize(count, 'post')} tagged with &quot;{tagName}
+              &quot;
             </h1>
             <Link href={allTagsPath}>View All Tags</Link>
             <div className="margin-vert--xl">

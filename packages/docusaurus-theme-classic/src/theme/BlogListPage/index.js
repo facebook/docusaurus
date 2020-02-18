@@ -7,15 +7,21 @@
 
 import React from 'react';
 
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
 import BlogPostItem from '@theme/BlogPostItem';
 import BlogListPaginator from '@theme/BlogListPaginator';
 
 function BlogListPage(props) {
   const {metadata, items} = props;
+  const {
+    siteConfig: {title: siteTitle},
+  } = useDocusaurusContext();
+  const isBlogOnlyMode = metadata.permalink === '/';
+  const title = isBlogOnlyMode ? siteTitle : 'Blog';
 
   return (
-    <Layout title="Blog" description="Blog">
+    <Layout title={title} description="Blog">
       <div className="container margin-vert--xl">
         <div className="row">
           <div className="col col--8 col--offset-2">

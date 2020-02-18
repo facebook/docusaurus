@@ -90,12 +90,22 @@ export default ({children, className: languageClassName, metastring}) => {
       code={children.trim()}
       language={language}>
       {({className, style, tokens, getLineProps, getTokenProps}) => (
-        <div className={styles.codeBlockWrapper}>
-          <pre
-            ref={target}
-            className={classnames(className, styles.codeBlock)}
-            style={style}>
+        <pre className={classnames(className, styles.codeBlock)}>
+          <button
+            ref={button}
+            type="button"
+            aria-label="Copy code to clipboard"
+            className={styles.copyButton}
+            onClick={handleCopyCode}>
+            {showCopied ? 'Copied' : 'Copy'}
+          </button>
+
+          <code ref={target} className={styles.codeBlockLines} style={style}>
             {tokens.map((line, i) => {
+              if (line.length === 1 && line[0].content === '') {
+                line[0].content = '\n'; // eslint-disable-line no-param-reassign
+              }
+
               const lineProps = getLineProps({line, key: i});
 
               if (highlightLines.includes(i + 1)) {
@@ -110,16 +120,8 @@ export default ({children, className: languageClassName, metastring}) => {
                 </div>
               );
             })}
-          </pre>
-          <button
-            ref={button}
-            type="button"
-            aria-label="Copy code to clipboard"
-            className={styles.copyButton}
-            onClick={handleCopyCode}>
-            {showCopied ? 'Copied' : 'Copy'}
-          </button>
-        </div>
+          </code>
+        </pre>
       )}
     </Highlight>
   );

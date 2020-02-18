@@ -449,6 +449,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Paubox',
+    image: '/img/users/paubox.png',
+    infoLink: 'https://docs.paubox.com/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Plus (ThinkSNS+)',
     image: '/img/users/plus.png',
     infoLink: 'https://slimkit.github.io',
