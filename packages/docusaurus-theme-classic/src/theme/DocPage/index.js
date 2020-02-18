@@ -21,10 +21,10 @@ import styles from './styles.module.css';
 function DocPage(props) {
   const {route: baseRoute, docsMetadata, location} = props;
   // case-sensitive route such as it is defined in the sidebar
-  const currentRoute = baseRoute.routes.find(route =>
-    matchPath(location.pathname, route),
-  );
-
+  const currentRoute =
+    baseRoute.routes.find(route => {
+      return matchPath(location.pathname, route);
+    }) || {};
   const {permalinkToSidebar, docsSidebars, version} = docsMetadata;
   const sidebar = permalinkToSidebar[currentRoute.path];
   const {
@@ -33,7 +33,7 @@ function DocPage(props) {
   } = useDocusaurusContext();
   const {sidebarCollapsible = true} = themeConfig;
 
-  if (!currentRoute) {
+  if (Object.keys(currentRoute).length === 0) {
     return <NotFound {...props} />;
   }
 
