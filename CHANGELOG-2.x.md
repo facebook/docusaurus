@@ -1,5 +1,21 @@
 # Docusaurus 2 Changelog
 
+## 2.0.0-alpha.42 (2020-02-18)
+
+**HOTFIX for 2.0.0-alpha.41**.
+
+#### :bug: Bug Fix
+
+- `docusaurus-theme-classic`
+  - [#2292](https://github.com/facebook/docusaurus/pull/2292) chore(v2): update Infima to 0.2.0-alpha.4 ([@yangshun](https://github.com/yangshun))
+  - [#2291](https://github.com/facebook/docusaurus/pull/2291) fix(v2): fix build and deps install ([@lex111](https://github.com/lex111))
+
+#### Committers: 3
+
+- Alexey Pyltsyn ([@lex111](https://github.com/lex111))
+- Hanseung Yoo ([@trustyoo86](https://github.com/trustyoo86))
+- Yangshun Tay ([@yangshun](https://github.com/yangshun))
+
 ## 2.0.0-alpha.41 (2020-02-16)
 
 #### :rocket: New Feature
