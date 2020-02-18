@@ -16,9 +16,7 @@ function Link(props) {
   const isInternal = isInternalUrl(targetLink);
   const preloaded = useRef(false);
 
-  const IOSupported =
-    ExecutionEnvironment.canUseDOM &&
-    ExecutionEnvironment.canUseIntersectionObserver;
+  const IOSupported = ExecutionEnvironment.canUseIntersectionObserver;
 
   let io;
   const handleIntersection = (el, cb) => {
