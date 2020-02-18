@@ -53,10 +53,12 @@ export function loadConfig(siteDir: string): DocusaurusConfig {
   if (!fs.existsSync(configPath)) {
     throw new Error(`${CONFIG_FILE_NAME} not found`);
   }
+
   const loadedConfig = importFresh(configPath) as Partial<DocusaurusConfig>;
   const missingFields = REQUIRED_FIELDS.filter(
     field => !_.has(loadedConfig, field),
   );
+
   if (missingFields.length > 0) {
     throw new Error(
       `The required field(s) ${formatFields(
@@ -76,6 +78,7 @@ export function loadConfig(siteDir: string): DocusaurusConfig {
   const unrecognizedFields = Object.keys(config).filter(
     field => !allowedFields.includes(field),
   );
+
   if (unrecognizedFields && unrecognizedFields.length > 0) {
     throw new Error(
       `The field(s) ${formatFields(

@@ -67,7 +67,7 @@ export async function build(
       new CleanWebpackPlugin({verbose: false}),
       // Visualize size of webpack output files with an interactive zoomable treemap.
       cliOptions.bundleAnalyzer && new BundleAnalyzerPlugin(),
-      // Generate client manifests file that will be used for server bundle
+      // Generate client manifests file that will be used for server bundle.
       new ReactLoadableSSRAddon({
         filename: clientManifestPath,
       }),
@@ -90,17 +90,19 @@ export async function build(
     });
   }
 
-  // Plugin lifecycle - configureWebpack
+  // Plugin Lifecycle - configureWebpack.
   plugins.forEach(plugin => {
     const {configureWebpack} = plugin;
     if (!configureWebpack) {
       return;
     }
+
     clientConfig = applyConfigureWebpack(
       configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`.
       clientConfig,
       false,
     );
+
     serverConfig = applyConfigureWebpack(
       configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`.
       serverConfig,
@@ -108,7 +110,8 @@ export async function build(
     );
   });
 
-  // Make sure generated client-manifest is cleaned first so we don't reuse the one from prevs build
+  // Make sure generated client-manifest is cleaned first so we don't reuse
+  // the one from previous builds.
   if (fs.existsSync(clientManifestPath)) {
     fs.unlinkSync(clientManifestPath);
   }
@@ -116,7 +119,7 @@ export async function build(
   // Run webpack to build JS bundle (client) and static html files (server).
   await compile([clientConfig, serverConfig]);
 
-  // Remove server.bundle.js because it is useless
+  // Remove server.bundle.js because it is not needed.
   if (
     serverConfig.output &&
     serverConfig.output.filename &&
@@ -128,7 +131,7 @@ export async function build(
     });
   }
 
-  /* Plugin lifecycle - postBuild */
+  // Plugin Lifecycle - postBuild.
   await Promise.all(
     plugins.map(async plugin => {
       if (!plugin.postBuild) {

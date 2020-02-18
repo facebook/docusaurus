@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/theme-classic",
-  "version": "2.0.0-alpha.41",
+  "version": "2.0.0-alpha.43",
   "description": "Classic theme for Docusaurus",
   "main": "src/index.js",
   "publishConfig": {
@@ -12,7 +12,7 @@
     "@mdx-js/react": "^1.5.1",
     "classnames": "^2.2.6",
     "clipboard": "^2.0.4",
-    "infima": "0.2.0-alpha.3",
+    "infima": "0.2.0-alpha.4",
     "parse-numeric-range": "^0.0.2",
     "prism-react-renderer": "^1.0.2",
     "react-router-dom": "^5.1.2",
@@ -24,9 +24,6 @@
     "react": "^16.8.4",
     "react-dom": "^16.8.4"
   },
-  "bundledDependencies": [
-    "@docusaurus/utils"
-  ],
   "engines": {
     "node": ">=10.9.0"
   }

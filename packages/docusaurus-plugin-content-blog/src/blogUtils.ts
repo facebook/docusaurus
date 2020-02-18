@@ -18,7 +18,7 @@ export function truncate(fileString: string, truncateMarker: RegExp) {
 }
 
 // YYYY-MM-DD-{name}.mdx?
-// prefer named capture, but old Node version does not support.
+// Prefer named capture, but older Node versions do not support it.
 const FILENAME_PATTERN = /^(\d{4}-\d{1,2}-\d{1,2})-?(.*?).mdx?$/;
 
 function toUrl({date, link}: DateLink) {
@@ -111,15 +111,18 @@ export async function generateBlogPosts(
       // Extract date and title from filename.
       const match = blogFileName.match(FILENAME_PATTERN);
       let linkName = blogFileName.replace(/\.mdx?$/, '');
+
       if (match) {
         const [, dateString, name] = match;
         date = new Date(dateString);
         linkName = name;
       }
+
       // Prefer user-defined date.
       if (frontMatter.date) {
         date = new Date(frontMatter.date);
       }
+
       // Use file create time for blog.
       date = date || (await fs.stat(source)).birthtime;
       frontMatter.title = frontMatter.title || linkName;

@@ -26,7 +26,9 @@ module.exports = function(context) {
         'Please ensure this is not a mistake.',
     );
   }
+
   const isProd = process.env.NODE_ENV === 'production';
+
   return {
     name: 'docusaurus-plugin-google-analytics',
 

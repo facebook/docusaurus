@@ -18,7 +18,7 @@ import {
 } from './types';
 
 /**
- * Check that item contains only allowed keys
+ * Check that item contains only allowed keys.
  */
 function assertItem(item: Object, keys: string[]): void {
   const unknownKeys = Object.keys(item).filter(
@@ -72,8 +72,8 @@ function assertIsLink(item: any): asserts item is SidebarItemLink {
 }
 
 /**
- * Normalizes recursively item and all its children. Ensures, that at the end
- * each item will be an object with the corresponding type
+ * Normalizes recursively item and all its children. Ensures that at the end
+ * each item will be an object with the corresponding type.
  */
 function normalizeItem(item: SidebarItemRaw): SidebarItem {
   if (typeof item === 'string') {
@@ -102,7 +102,7 @@ function normalizeItem(item: SidebarItemRaw): SidebarItem {
 }
 
 /**
- * Converts sidebars object to mapping to arrays of sidebar item objects
+ * Converts sidebars object to mapping to arrays of sidebar item objects.
  */
 function normalizeSidebar(sidebars: SidebarRaw): Sidebar {
   return Object.entries(sidebars).reduce(
@@ -110,7 +110,7 @@ function normalizeSidebar(sidebars: SidebarRaw): Sidebar {
       let normalizedSidebar: SidebarItemRaw[];
 
       if (!Array.isArray(sidebar)) {
-        // convert sidebar to a more generic structure
+        // Convert sidebar to a more generic structure.
         normalizedSidebar = Object.entries(sidebar).map(([label, items]) => ({
           type: 'category',
           label,
@@ -129,11 +129,13 @@ function normalizeSidebar(sidebars: SidebarRaw): Sidebar {
 }
 
 export default function loadSidebars(sidebarPaths?: string[]): Sidebar {
-  // We don't want sidebars to be cached because of hotreloading.
+  // We don't want sidebars to be cached because of hot reloading.
   let allSidebars: SidebarRaw = {};
+
   if (!sidebarPaths || !sidebarPaths.length) {
     return {} as Sidebar;
   }
+
   sidebarPaths.map(sidebarPath => {
     if (sidebarPath && fs.existsSync(sidebarPath)) {
       const sidebar = importFresh(sidebarPath) as SidebarRaw;

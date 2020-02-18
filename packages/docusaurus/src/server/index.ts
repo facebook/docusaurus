@@ -52,14 +52,14 @@ export function loadPluginConfigs(context: LoadContext): PluginConfig[] {
   return [
     ...presetPlugins,
     ...presetThemes,
-    // Site config should the highest priority.
+    // Site config should be the highest priority.
     ...(siteConfig.plugins || []),
     ...(siteConfig.themes || []),
   ];
 }
 
 export async function load(siteDir: string): Promise<Props> {
-  // Context
+  // Context.
   const context: LoadContext = loadContext(siteDir);
   const {generatedFilesDir, siteConfig, outDir, baseUrl} = context;
   const genSiteConfig = generate(
@@ -68,7 +68,7 @@ export async function load(siteDir: string): Promise<Props> {
     `export default ${JSON.stringify(siteConfig, null, 2)};`,
   );
 
-  // Plugins
+  // Plugins.
   const pluginConfigs: PluginConfig[] = loadPluginConfigs(context);
   const {plugins, pluginsRouteConfigs} = await loadPlugins({
     pluginConfigs,
@@ -83,7 +83,9 @@ export async function load(siteDir: string): Promise<Props> {
   const userTheme = path.resolve(siteDir, THEME_PATH);
   const alias = loadThemeAlias([fallbackTheme, ...pluginThemes, userTheme]);
 
-  // Make a fake plugin to resolve aliased theme components && inject scripts/stylesheets
+  // Make a fake plugin to:
+  // - Resolve aliased theme components
+  // - Inject scripts/stylesheets
   const {stylesheets = [], scripts = []} = siteConfig;
   plugins.push({
     name: 'docusaurus-bootstrap-plugin',
@@ -134,10 +136,10 @@ export async function load(siteDir: string): Promise<Props> {
       .join('\n')}\n];\n`,
   );
 
-  // Load extra head & body html tags
+  // Load extra head & body html tags.
   const {headTags, preBodyTags, postBodyTags} = loadHtmlTags(plugins);
 
-  // Routing
+  // Routing.
   const {
     registry,
     routesChunkNames,

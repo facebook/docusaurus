@@ -11,7 +11,7 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import useLockBodyScroll from '@theme/hooks/useLockBodyScroll';
 import Link from '@docusaurus/Link';
-import isInternalUrl from '@docusaurus/utils';
+import isInternalUrl from '@docusaurus/isInternalUrl';
 
 import styles from './styles.module.css';
 
