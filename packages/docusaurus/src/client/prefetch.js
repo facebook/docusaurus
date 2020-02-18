@@ -5,10 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const support = function(feature) {
+function support(feature) {
   if (typeof document === 'undefined') {
     return false;
   }
+
   const fakeLink = document.createElement('link');
   try {
     if (fakeLink.relList && typeof fakeLink.relList.supports === 'function') {
@@ -17,10 +18,11 @@ const support = function(feature) {
   } catch (err) {
     return false;
   }
-  return false;
-};
 
-const linkPrefetchStrategy = function(url) {
+  return false;
+}
+
+function linkPrefetchStrategy(url) {
   return new Promise((resolve, reject) => {
     if (typeof document === 'undefined') {
       reject();
@@ -39,9 +41,9 @@ const linkPrefetchStrategy = function(url) {
       document.getElementsByName('script')[0].parentNode;
     parentElement.appendChild(link);
   });
-};
+}
 
-const xhrPrefetchStrategy = function(url) {
+function xhrPrefetchStrategy(url) {
   return new Promise((resolve, reject) => {
     const req = new XMLHttpRequest();
     req.open('GET', url, true);
@@ -57,7 +59,7 @@ const xhrPrefetchStrategy = function(url) {
 
     req.send(null);
   });
-};
+}
 
 const supportedPrefetchStrategy = support('prefetch')
   ? linkPrefetchStrategy
@@ -65,7 +67,7 @@ const supportedPrefetchStrategy = support('prefetch')
 
 const preFetched = {};
 
-const prefetch = function(url) {
+function prefetch(url) {
   return new Promise(resolve => {
     if (preFetched[url]) {
       resolve();
@@ -77,8 +79,8 @@ const prefetch = function(url) {
         resolve();
         preFetched[url] = true;
       })
-      .catch(() => {}); // 404s are logged to the console anyway
+      .catch(() => {}); // 404s are logged to the console anyway.
   });
-};
+}
 
 export default prefetch;

@@ -29,9 +29,9 @@ export async function generate(
 
   let lastHash = fileHash.get(filepath);
 
-  // If file already exist but its not in runtime cache hash yet,
+  // If file already exists but its not in runtime cache yet,
   // we try to calculate the content hash and then compare
-  // This is to avoid unnecessary overwrite and we can reuse old file
+  // This is to avoid unnecessary overwriting and we can reuse old file.
   if (!lastHash && fs.existsSync(filepath)) {
     const lastContent = await fs.readFile(filepath, 'utf8');
     lastHash = createHash('md5')
@@ -64,7 +64,8 @@ const indexRE = /(^|.*\/)index\.(md|js|jsx|ts|tsx)$/i;
 const extRE = /\.(md|js)$/;
 
 /**
- * Convert filepath to url path. Example: 'index.md' -> '/', 'foo/bar.js' -> '/foo/bar',
+ * Convert filepath to url path.
+ * Example: 'index.md' -> '/', 'foo/bar.js' -> '/foo/bar',
  */
 export function fileToPath(file: string): string {
   if (indexRE.test(file)) {
@@ -81,7 +82,8 @@ export function encodePath(userpath: string): string {
 }
 
 /**
- * Given an input string, convert to kebab-case and append a hash. Avoid str collision
+ * Given an input string, convert to kebab-case and append a hash.
+ * Avoid str collision.
  */
 export function docuHash(str: string): string {
   if (str === '/') {
@@ -95,7 +97,8 @@ export function docuHash(str: string): string {
 }
 
 /**
- * Generate unique React Component Name. E.g: /foo-bar -> FooBar096
+ * Generate unique React Component Name.
+ * E.g: /foo-bar -> FooBar096
  */
 export function genComponentName(pagePath: string): string {
   if (pagePath === '/') {
@@ -107,7 +110,8 @@ export function genComponentName(pagePath: string): string {
 }
 
 /**
- * Convert Windows backslash paths to posix style paths. E.g: endi\\lie -> endi/lie
+ * Convert Windows backslash paths to posix style paths.
+ * E.g: endi\\lie -> endi/lie
  */
 export function posixPath(str: string): string {
   const isExtendedLengthPath = /^\\\\\?\\/.test(str);
@@ -121,7 +125,7 @@ export function posixPath(str: string): string {
 
 const chunkNameCache = new Map();
 /**
- * Generate unique chunk name given a module path
+ * Generate unique chunk name given a module path.
  */
 export function genChunkName(
   modulePath: string,
@@ -164,7 +168,7 @@ export function idx(target: any, keyPaths?: string | (string | number)[]): any {
 }
 
 /**
- * Given a filepath and dirpath, get the first directory
+ * Given a filepath and dirpath, get the first directory.
  */
 export function getSubFolder(file: string, refDir: string): string | null {
   const separator = escapeStringRegexp(path.sep);
@@ -193,6 +197,7 @@ export function parse(
         .shift();
     },
   };
+
   const {data: frontMatter, content, excerpt} = matter(fileString, options);
   return {frontMatter, content, excerpt};
 }
@@ -238,27 +243,30 @@ export function normalizeUrl(rawUrls: string[]): string {
   }
 
   let str = resultArray.join('/');
-  // Each input component is now separated by a single slash except the possible first plain protocol part.
+  // Each input component is now separated by a single slash
+  // except the possible first plain protocol part.
 
-  // remove trailing slash before parameters or hash
+  // Remove trailing slash before parameters or hash.
   str = str.replace(/\/(\?|&|#[^!])/g, '$1');
 
-  // replace ? in parameters with &
+  // Replace ? in parameters with &.
   const parts = str.split('?');
   str = parts.shift() + (parts.length > 0 ? '?' : '') + parts.join('&');
 
-  // dedupe forward slashes
+  // Dedupe forward slashes.
   str = str.replace(/^\/+/, '/');
 
   return str;
 }
 
 /**
- * Alias filepath relative to site directory, very useful so that we don't expose user's site structure.
+ * Alias filepath relative to site directory, very useful so that we
+ * don't expose user's site structure.
  * Example: some/path/to/website/docs/foo.md -> @site/docs/foo.md
  */
 export function aliasedSitePath(filePath: string, siteDir: string) {
   const relativePath = path.relative(siteDir, filePath);
-  // Cannot use path.join() as it resolves '../' and removes the '@site'. Let webpack loader resolve it.
+  // Cannot use path.join() as it resolves '../' and removes
+  // the '@site'. Let webpack loader resolve it.
   return `@site/${relativePath}`;
 }

@@ -33,12 +33,13 @@ const Search = props => {
       // navigation and avoiding a full page refresh.
       handleSelected: (_input, _event, suggestion) => {
         // Use an anchor tag to parse the absolute url into a relative url
-        // Alternatively, we can use new URL(suggestion.url) but its not supported in IE
+        // Alternatively, we can use new URL(suggestion.url) but it's not supported in IE.
         const a = document.createElement('a');
         a.href = suggestion.url;
 
-        // Algolia use closest parent element id #__docusaurus when a h1 page title does not have an id
-        // So, we can safely remove it. See https://github.com/facebook/docusaurus/issues/1828 for more details.
+        // Algolia use closest parent element id #__docusaurus when a h1 page title does
+        // not have an id, so we can safely remove it.
+        // See https://github.com/facebook/docusaurus/issues/1828 for more details.
         const routePath =
           `#__docusaurus` === a.hash
             ? `${a.pathname}`

@@ -12,7 +12,7 @@ import createSitemap from './createSitemap';
 import {LoadContext, Props} from '@docusaurus/types';
 
 const DEFAULT_OPTIONS: PluginOptions = {
-  cacheTime: 600 * 1000, // 600 sec - cache purge period
+  cacheTime: 600 * 1000, // 600 sec - cache purge period.
   changefreq: 'weekly',
   priority: 0.5,
 };
@@ -27,14 +27,14 @@ export default function pluginSitemap(
     name: 'docusaurus-plugin-sitemap',
 
     async postBuild({siteConfig, routesPaths, outDir}: Props) {
-      // Generate sitemap
+      // Generate sitemap.
       const generatedSitemap = createSitemap(
         siteConfig,
         routesPaths,
         options,
       ).toString();
 
-      // Write sitemap file
+      // Write sitemap file.
       const sitemapPath = path.join(outDir, 'sitemap.xml');
       fs.writeFile(sitemapPath, generatedSitemap, err => {
         if (err) {

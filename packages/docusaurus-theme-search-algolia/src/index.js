@@ -16,7 +16,7 @@ module.exports = function() {
     },
 
     configureWebpack() {
-      // Ensure that algolia docsearch css is its own chunk
+      // Ensure that algolia docsearch styles is its own chunk.
       return {
         optimization: {
           splitChunks: {
@@ -26,7 +26,7 @@ module.exports = function() {
                 test: /algolia\.css$/,
                 chunks: `all`,
                 enforce: true,
-                // Set priority higher than docusaurus single-css extraction
+                // Set priority higher than docusaurus single-css extraction.
                 priority: 60,
               },
             },

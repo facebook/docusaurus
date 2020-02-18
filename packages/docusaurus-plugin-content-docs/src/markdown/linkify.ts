@@ -64,6 +64,7 @@ export default function(
       }
       return modifiedLine;
     });
+
     content = lines.join('\n');
   }
 

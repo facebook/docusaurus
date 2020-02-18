@@ -12,15 +12,18 @@ const addAdmonitions = pluginOptions => {
       remarkPlugins: [admonitions],
     };
   }
+
   if (pluginOptions.admonitions === false) {
     return pluginOptions;
   }
+
   const admonitionsOptions = {
     remarkPlugins: (pluginOptions.remarkPlugins || []).concat([
       admonitions,
       pluginOptions.admonitions || {},
     ]),
   };
+
   return {
     ...pluginOptions,
     ...admonitionsOptions,
@@ -39,7 +42,7 @@ module.exports = function preset(context, opts = {}) {
   return {
     themes: [
       ['@docusaurus/theme-classic', opts.theme],
-      // Don't add this if algolia config is not defined
+      // Don't add this if algolia config is not defined.
       algolia && '@docusaurus/theme-search-algolia',
     ],
     plugins: [

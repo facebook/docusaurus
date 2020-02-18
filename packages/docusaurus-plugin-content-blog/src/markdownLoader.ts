@@ -16,10 +16,11 @@ export = function(fileString: string) {
 
   let finalContent = fileString;
 
-  // Truncate content if requested (e.g: file.md?truncated=true)
+  // Truncate content if requested (e.g: file.md?truncated=true).
   const {truncated} = this.resourceQuery && parseQuery(this.resourceQuery);
   if (truncated) {
     finalContent = truncate(fileString, truncateMarker);
   }
+
   return callback && callback(null, finalContent);
 } as loader.Loader;

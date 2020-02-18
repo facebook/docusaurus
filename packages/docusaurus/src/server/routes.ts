@@ -54,7 +54,7 @@ export async function loadRoutes(
     [routePath: string]: ChunkNames;
   } = {};
 
-  // This is the higher level overview of route code generation
+  // This is the higher level overview of route code generation.
   function generateRouteCode(routeConfig: RouteConfig): string {
     const {
       path: routePath,
@@ -94,7 +94,7 @@ export async function loadRoutes(
       if (isModule(value)) {
         const modulePath = getModulePath(value);
         const chunkName = genChunkName(modulePath, prefix, name);
-        // We need to JSON.stringify so that if its on windows, backslash are escaped.
+        // We need to JSON.stringify so that if its on windows, backslashes are escaped.
         const loader = `() => import(/* webpackChunkName: '${chunkName}' */ ${JSON.stringify(
           modulePath,
         )})`;

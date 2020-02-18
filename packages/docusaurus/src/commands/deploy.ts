@@ -27,7 +27,7 @@ export async function deploy(siteDir: string): Promise<void> {
     throw new Error(`Please set the GIT_USER`);
   }
 
-  // The branch that contains the latest docs changes that will be deployed
+  // The branch that contains the latest docs changes that will be deployed.
   const currentBranch =
     process.env.CURRENT_BRANCH ||
     shell.exec('git rev-parse --abbrev-ref HEAD').stdout.trim();
@@ -52,7 +52,7 @@ export async function deploy(siteDir: string): Promise<void> {
     );
   }
 
-  // We never deploy on pull request
+  // We never deploy on pull request.
   const isPullRequest =
     process.env.CI_PULL_REQUEST || process.env.CIRCLE_PULL_REQUEST;
   if (isPullRequest) {
@@ -72,7 +72,7 @@ export async function deploy(siteDir: string): Promise<void> {
       ? `git@${githubHost}:${organizationName}/${projectName}.git`
       : `https://${gitUser}@${githubHost}/${organizationName}/${projectName}.git`;
 
-  // Check if this is a cross-repo publish
+  // Check if this is a cross-repo publish.
   const currentRepoUrl = shell
     .exec('git config --get remote.origin.url')
     .stdout.trim();
@@ -80,21 +80,22 @@ export async function deploy(siteDir: string): Promise<void> {
     `${organizationName}/${projectName}.git`,
   );
 
-  // We don't allow deploying to the same branch unless it's a cross publish
+  // We don't allow deploying to the same branch unless it's a cross publish.
   if (currentBranch === deploymentBranch && !crossRepoPublish) {
     throw new Error(
       `Cannot deploy from a ${deploymentBranch} branch. Only to it`,
     );
   }
 
-  // Save the commit hash that triggers publish-gh-pages before checking out to deployment branch
+  // Save the commit hash that triggers publish-gh-pages before checking
+  // out to deployment branch.
   const currentCommit = shell.exec('git rev-parse HEAD').stdout.trim();
 
-  // Clear docusaurus 2 cache dir for deploy consistency
+  // Clear Docusaurus 2 cache dir for deploy consistency.
   const tempDir = path.join(siteDir, '.docusaurus');
   fs.removeSync(tempDir);
 
-  // build static html files, then push to deploymentBranch branch of specified repo
+  // Build static html files, then push to deploymentBranch branch of specified repo.
   build(siteDir)
     .then(() => {
       shell.cd(tempDir);
@@ -109,8 +110,9 @@ export async function deploy(siteDir: string): Promise<void> {
 
       shell.cd(`${projectName}-${deploymentBranch}`);
 
-      // If the default branch is the one we're deploying to, then we'll fail to create it.
-      // This is the case of a cross-repo publish, where we clone a github.io repo with a default master branch.
+      // If the default branch is the one we're deploying to, then we'll fail
+      // to create it. This is the case of a cross-repo publish, where we clone
+      // a github.io repo with a default master branch.
       const defaultBranch = shell
         .exec('git rev-parse --abbrev-ref HEAD')
         .stdout.trim();
@@ -164,8 +166,10 @@ export async function deploy(siteDir: string): Promise<void> {
           // The commit might return a non-zero value when site is up to date.
           const websiteURL =
             githubHost === 'github.com'
-              ? `https://${organizationName}.github.io/${projectName}` // gh-pages hosted repo
-              : `https://${githubHost}/pages/${organizationName}/${projectName}`; // GitHub enterprise hosting.
+              ? // gh-pages hosted repo
+                `https://${organizationName}.github.io/${projectName}`
+              : // GitHub enterprise hosting.
+                `https://${githubHost}/pages/${organizationName}/${projectName}`;
           shell.echo(`Website is live at: ${websiteURL}`);
           shell.exit(0);
         }

@@ -92,7 +92,7 @@ export async function start(
           __dirname,
           '../client/templates/index.html.template.ejs',
         ),
-        // so we can define the position where the scripts are injected
+        // So we can define the position where the scripts are injected.
         inject: false,
         filename: 'index.html',
         title: siteConfig.title,
@@ -100,12 +100,12 @@ export async function start(
         preBodyTags,
         postBodyTags,
       }),
-      // This is necessary to emit hot updates for webpack-dev-server
+      // This is necessary to emit hot updates for webpack-dev-server.
       new HotModuleReplacementPlugin(),
     ],
   });
 
-  // Plugin lifecycle - configureWebpack
+  // Plugin Lifecycle - configureWebpack.
   plugins.forEach(plugin => {
     const {configureWebpack} = plugin;
     if (!configureWebpack) {
@@ -137,13 +137,13 @@ export async function start(
       rewrites: [{from: /\/*/, to: baseUrl}],
     },
     disableHostCheck: true,
-    // Disable overlay on browser since we use CRA's overlay error reporting
+    // Disable overlay on browser since we use CRA's overlay error reporting.
     overlay: false,
     host,
     before: (app, server) => {
       app.use(baseUrl, express.static(path.resolve(siteDir, STATIC_DIR_NAME)));
 
-      // This lets us fetch source contents from webpack for the error overlay
+      // This lets us fetch source contents from webpack for the error overlay.
       app.use(evalSourceMapMiddleware(server));
       // This lets us open files from the runtime error overlay.
       app.use(errorOverlayMiddleware());

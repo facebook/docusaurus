@@ -29,12 +29,13 @@ function toValue(node) {
       default:
     }
   }
+
   return toString(node);
 }
 
 // Visit all headings. We `slug` all headings (to account for
 // duplicates), but only take h2 and h3 headings.
-const search = node => {
+function search(node) {
   const headings = [];
   let current = -1;
   let currentDepth = 0;
@@ -65,6 +66,6 @@ const search = node => {
   visit(node, 'heading', onHeading);
 
   return headings;
-};
+}
 
 module.exports = search;

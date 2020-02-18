@@ -14,12 +14,14 @@ export function externalCommand(cli: CommanderStatic, siteDir: string): void {
   const pluginConfigs = loadPluginConfigs(context);
   const plugins = initPlugins({pluginConfigs, context});
 
-  // Plugin lifecycle - extendCli
+  // Plugin Lifecycle - extendCli.
   plugins.forEach(plugin => {
     const {extendCli} = plugin;
+
     if (!extendCli) {
       return;
     }
+
     extendCli(cli);
   });
 }

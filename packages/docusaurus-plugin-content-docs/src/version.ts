@@ -25,18 +25,21 @@ export function docsVersion(
       'No version tag specified!. Pass the version you wish to create as an argument. Ex: 1.0.0',
     );
   }
+
   if (version.includes('/') || version.includes('\\')) {
     throw new Error(
       `Invalid version tag specified! Do not include slash (/) or (\\). Try something like: 1.0.0`,
     );
   }
+
   if (version.length > 32) {
     throw new Error(
       'Invalid version tag specified! Length must <= 32 characters. Try something like: 1.0.0',
     );
   }
 
-  // Since we are going to create `version-${version}` folder, we need to make sure its a valid path name
+  // Since we are going to create `version-${version}` folder, we need to make
+  // sure it's a valid pathname.
   if (/[<>:"\/\\|?*\x00-\x1F]/g.test(version)) {
     throw new Error(
       'Invalid version tag specified! Please ensure its a valid pathname too. Try something like: 1.0.0',
@@ -49,14 +52,14 @@ export function docsVersion(
     );
   }
 
-  // Load existing versions
+  // Load existing versions.
   let versions = [];
   const versionsJSONFile = getVersionsJSONFile(siteDir);
   if (fs.existsSync(versionsJSONFile)) {
     versions = JSON.parse(fs.readFileSync(versionsJSONFile, 'utf8'));
   }
 
-  // Check if version already exist
+  // Check if version already exists.
   if (versions.includes(version)) {
     throw new Error(
       'This version already exists!. Use a version tag that does not already exist.',
@@ -65,7 +68,7 @@ export function docsVersion(
 
   const {path: docsPath, sidebarPath} = options;
 
-  // Copy docs files
+  // Copy docs files.
   const docsDir = path.join(siteDir, docsPath);
   if (fs.existsSync(docsDir) && fs.readdirSync(docsDir).length > 0) {
     const versionedDir = getVersionedDocsDir(siteDir);
@@ -75,11 +78,11 @@ export function docsVersion(
     throw new Error('There is no docs to version !');
   }
 
-  // Load current sidebar and create a new versioned sidebars file
+  // Load current sidebar and create a new versioned sidebars file.
   if (fs.existsSync(sidebarPath)) {
     const loadedSidebars: Sidebar = loadSidebars([sidebarPath]);
 
-    // Transform id in original sidebar to versioned id
+    // Transform id in original sidebar to versioned id.
     const normalizeItem = (item: SidebarItem): SidebarItem => {
       switch (item.type) {
         case 'category':
@@ -117,7 +120,7 @@ export function docsVersion(
     );
   }
 
-  // update versions.json file
+  // Update versions.json file.
   versions.unshift(version);
   fs.ensureDirSync(path.dirname(versionsJSONFile));
   fs.writeFileSync(versionsJSONFile, `${JSON.stringify(versions, null, 2)}\n`);
