@@ -21,7 +21,7 @@ import preload from './preload';
 import App from './App';
 import ssrTemplate from './templates/ssr.html.template';
 
-// Renderer for static-site-generator-webpack-plugin (async rendering via promises)
+// Renderer for static-site-generator-webpack-plugin (async rendering via promises).
 export default async function render(locals) {
   const {routesLocation, headTags, preBodyTags, postBodyTags} = locals;
   const location = routesLocation[locals.path];
@@ -50,7 +50,8 @@ export default async function render(locals) {
   const manifestPath = path.join(generatedFilesDir, 'client-manifest.json');
   const manifest = JSON.parse(await fs.readFile(manifestPath, 'utf8'));
 
-  // Get all required assets for this particular page based on client manifest information
+  // Get all required assets for this particular page based on client
+  // manifest information.
   const modulesToBeLoaded = [...manifest.entrypoints, ...Array.from(modules)];
   const bundles = getBundles(manifest, modulesToBeLoaded);
   const stylesheets = (bundles.css || []).map(b => b.file);
@@ -76,7 +77,7 @@ export default async function render(locals) {
     },
   );
 
-  // minify html with https://github.com/DanielRuf/html-minifier-terser
+  // Minify html with https://github.com/DanielRuf/html-minifier-terser
   return minify(renderedHtml, {
     removeComments: true,
     removeRedundantAttributes: true,

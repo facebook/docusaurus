@@ -28,6 +28,7 @@ module.exports = function(context) {
   }
 
   const isProd = process.env.NODE_ENV === 'production';
+
   return {
     name: 'docusaurus-plugin-google-gtag',
 

@@ -23,6 +23,7 @@ function flat(target) {
       output[newKey] = value;
     });
   }
+
   step(target);
   return output;
 }

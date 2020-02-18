@@ -44,6 +44,7 @@ export function loadHtmlTags(plugins: Plugin<any>[]): InjectedHtmlTags {
     },
     {headTags: '', preBodyTags: '', postBodyTags: ''},
   );
+
   return {
     headTags: htmlTags.headTags.trim(),
     preBodyTags: htmlTags.preBodyTags.trim(),

@@ -19,8 +19,10 @@ export default function useBaseUrl(url) {
   if (externalRegex.test(url)) {
     return url;
   }
+
   if (url.startsWith('/')) {
     return baseUrl + url.slice(1);
   }
+
   return baseUrl + url;
 }

@@ -41,7 +41,7 @@ const DEFAULT_OPTIONS: PluginOptions = {
   blogTagsPostsComponent: '@theme/BlogTagsPostsPage',
   remarkPlugins: [],
   rehypePlugins: [],
-  truncateMarker: /<!--\s*(truncate)\s*-->/, // Regex
+  truncateMarker: /<!--\s*(truncate)\s*-->/, // Regex.
 };
 
 function assertFeedTypes(val: any): asserts val is FeedType {
@@ -94,7 +94,7 @@ export default function pluginContentBlog(
         return null;
       }
 
-      // Colocate next and prev metadata
+      // Colocate next and prev metadata.
       blogPosts.forEach((blogPost, index) => {
         const prevItem = index > 0 ? blogPosts[index - 1] : null;
         if (prevItem) {
@@ -103,6 +103,7 @@ export default function pluginContentBlog(
             permalink: prevItem.metadata.permalink,
           };
         }
+
         const nextItem =
           index < blogPosts.length - 1 ? blogPosts[index + 1] : null;
         if (nextItem) {
@@ -168,7 +169,8 @@ export default function pluginContentBlog(
             const permalink = normalizeUrl([tagsPath, normalizedTag]);
             if (!blogTags[normalizedTag]) {
               blogTags[normalizedTag] = {
-                name: tag.toLowerCase(), // Will only use the name of the first occurrence of the tag.
+                // Will only use the name of the first occurrence of the tag.
+                name: tag.toLowerCase(),
                 items: [],
                 permalink,
               };
@@ -232,7 +234,8 @@ export default function pluginContentBlog(
         blogPosts.map(async blogPost => {
           const {id, metadata} = blogPost;
           await createData(
-            // Note that this created data path must be in sync with metadataPath provided to mdx-loader
+            // Note that this created data path must be in sync with
+            // metadataPath provided to mdx-loader.
             `${docuHash(metadata.source)}.json`,
             JSON.stringify(metadata, null, 2),
           );
@@ -374,7 +377,8 @@ export default function pluginContentBlog(
                   options: {
                     remarkPlugins,
                     rehypePlugins,
-                    // Note that metadataPath must be the same/ in-sync as the path from createData for each MDX
+                    // Note that metadataPath must be the same/in-sync as
+                    // the path from createData for each MDX.
                     metadataPath: (mdxPath: string) => {
                       const aliasedSource = aliasedSitePath(mdxPath, siteDir);
                       return path.join(

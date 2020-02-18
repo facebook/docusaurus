@@ -12,6 +12,7 @@ import path from 'path';
 
 export default function(_context: LoadContext, options: PluginOptions) {
   const isProd = process.env.NODE_ENV === 'production';
+
   return {
     name: 'docusaurus-plugin-ideal-image',
 

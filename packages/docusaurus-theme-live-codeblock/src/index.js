@@ -19,7 +19,8 @@ module.exports = function() {
       return {
         resolve: {
           alias: {
-            // fork of Buble which removes Buble's large dependency and weighs in at a smaller size of ~51kB
+            // fork of Buble which removes Buble's large dependency and weighs in
+            // at a smaller size of ~51kB
             // https://github.com/FormidableLabs/react-live#what-bundle-size-can-i-expect
             buble: '@philpl/buble',
           },
