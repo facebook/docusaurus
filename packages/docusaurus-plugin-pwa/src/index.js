@@ -30,16 +30,18 @@ function pluginOffline(_context, options = {}) {
   const {injectManifestConfig, pwaHead, swCustom, swRegister} = pluginOptions;
 
   return {
-    configureWebpack(config, isServer) {
+    name: 'docusaurus-plugin-pwa',
+
+    getClientModules() {
+      return isProd ? [swRegister] : [];
+    },
+
+    configureWebpack(config) {
       if (!isProd) {
         return {};
       }
 
-      const entry =
-        !isServer && swRegister ? [swRegister, ...config.entry] : config.entry;
-
       return {
-        entry,
         plugins: [
           new EnvironmentPlugin({
             SERVICE_WORKER: path.resolve(
@@ -54,15 +56,13 @@ function pluginOffline(_context, options = {}) {
     injectHtmlTags() {
       const headTags = [];
 
-      if (isProd) {
-        if (isProd && pwaHead) {
-          pwaHead.forEach(({tagName, ...attributes}) =>
-            headTags.push({
-              tagName,
-              attributes,
-            }),
-          );
-        }
+      if (isProd && pwaHead) {
+        pwaHead.forEach(({tagName, ...attributes}) =>
+          headTags.push({
+            tagName,
+            attributes,
+          }),
+        );
       }
 
       return {headTags};

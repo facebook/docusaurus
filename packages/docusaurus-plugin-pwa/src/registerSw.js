@@ -5,15 +5,21 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-if ('serviceWorker' in navigator) {
-  console.log(`ServiceWorker: Registering ${process.env.SERVICE_WORKER}`);
+(() => {
+  if (typeof window === 'undefined') {
+    return;
+  }
 
-  window.addEventListener('load', async () => {
-    try {
-      await navigator.serviceWorker.register(process.env.SERVICE_WORKER);
-      console.log('ServiceWorker: Registered SW successfully');
-    } catch {
-      console.log('ServiceWorker: Failed to Register!');
-    }
-  });
-}
+  if ('serviceWorker' in navigator) {
+    console.log(`ServiceWorker: Registering ${process.env.SERVICE_WORKER}`);
+
+    window.addEventListener('load', async () => {
+      try {
+        await navigator.serviceWorker.register(process.env.SERVICE_WORKER);
+        console.log('ServiceWorker: Registered SW successfully');
+      } catch {
+        console.log('ServiceWorker: Failed to Register!');
+      }
+    });
+  }
+})();
