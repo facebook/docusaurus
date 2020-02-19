@@ -5,10 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import siteConfig from '@generated/docusaurus.config';
 
 export default (function() {
-  if (typeof window === 'undefined') {
+  if (!ExecutionEnvironment.canUseDOM) {
     return null;
   }
 
