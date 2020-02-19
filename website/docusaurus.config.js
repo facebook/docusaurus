@@ -93,7 +93,12 @@ module.exports = {
             textDecoration: 'underline',
           },
         },
-        {to: 'docs/introduction', label: 'Docs', position: 'left'},
+        {
+          to: 'docs/introduction',
+          activeBaseRoute: 'docs',
+          label: 'Docs',
+          position: 'left',
+        },
         {to: 'blog', label: 'Blog', position: 'left'},
         {to: 'showcase', label: 'Showcase', position: 'left'},
         {to: 'feedback', label: 'Feedback', position: 'left'},
