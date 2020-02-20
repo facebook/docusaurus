@@ -163,6 +163,7 @@ module.exports = {
       links: [
         {
           to: 'docs/docusaurus.config.js',
+          activeBasePath: 'docs',
           label: 'docusaurus.config.js',
           position: 'left',
         },
