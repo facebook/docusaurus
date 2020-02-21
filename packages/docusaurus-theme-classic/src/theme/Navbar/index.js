@@ -21,16 +21,9 @@ import useLockBodyScroll from '@theme/hooks/useLockBodyScroll';
 
 import styles from './styles.module.css';
 
-function NavLink({activeBaseRoute, to, href, label, position, ...props}) {
+function NavLink({activeBasePath, to, href, label, position, ...props}) {
   const toUrl = useBaseUrl(to);
-  const activeBaseUrl = useBaseUrl(activeBaseRoute);
-  const activeBaseProps =
-    activeBaseRoute != null
-      ? {
-          isActive: (_match, location) =>
-            location.pathname.startsWith(activeBaseUrl),
-        }
-      : {};
+  const activeBaseUrl = useBaseUrl(activeBasePath);
 
   return (
     <Link
@@ -44,7 +37,12 @@ function NavLink({activeBaseRoute, to, href, label, position, ...props}) {
         : {
             activeClassName: 'navbar__link--active',
             to: toUrl,
-            ...activeBaseProps,
+            ...(activeBasePath
+              ? {
+                  isActive: (_match, location) =>
+                    location.pathname.startsWith(activeBaseUrl),
+                }
+              : null),
           })}
       {...props}>
       {label}

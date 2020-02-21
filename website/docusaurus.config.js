@@ -95,7 +95,7 @@ module.exports = {
         },
         {
           to: 'docs/introduction',
-          activeBaseRoute: 'docs',
+          activeBasePath: 'docs',
           label: 'Docs',
           position: 'left',
         },
