@@ -127,13 +127,26 @@ function getMarkup(rawContent, mdToHtml, metadata, siteConfig) {
 }
 
 function getRedirectMarkup(metadata, siteConfig) {
-  const docsPart = `${siteConfig.docsUrl ? `${siteConfig.docsUrl}/` : ''}`;
-  if (
-    !env.translation.enabled ||
-    !metadata.permalink.includes(`${docsPart}en`)
-  ) {
+  if (!env.translation.enabled) {
     return null;
   }
+
+  const permalinkParts = metadata.permalink.split('/');
+  const defaultLocalePrefix = 'en';
+  let isUnderDefaultLocalePath;
+  if (siteConfig.docsUrl) {
+    isUnderDefaultLocalePath =
+      permalinkParts.indexOf(siteConfig.docsUrl) === 0 &&
+      permalinkParts.indexOf(defaultLocalePrefix) === 1;
+  } else {
+    isUnderDefaultLocalePath =
+      permalinkParts.indexOf(defaultLocalePrefix) === 0;
+  }
+
+  if (!isUnderDefaultLocalePath) {
+    return null;
+  }
+
   const Redirect = require('../core/Redirect.js');
   const redirectlink = getPath(metadata.permalink, siteConfig.cleanUrl);
   return renderToStaticMarkupWithDoctype(
