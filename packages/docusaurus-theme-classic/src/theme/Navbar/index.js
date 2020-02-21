@@ -24,13 +24,6 @@ import styles from './styles.module.css';
 function NavLink({activeBasePath, to, href, label, position, ...props}) {
   const toUrl = useBaseUrl(to);
   const activeBaseUrl = useBaseUrl(activeBasePath);
-  const activeBaseProps =
-    activeBasePath != null
-      ? {
-          isActive: (_match, location) =>
-            location.pathname.startsWith(activeBaseUrl),
-        }
-      : {};
 
   return (
     <Link
@@ -44,7 +37,12 @@ function NavLink({activeBasePath, to, href, label, position, ...props}) {
         : {
             activeClassName: 'navbar__link--active',
             to: toUrl,
-            ...activeBaseProps,
+            ...(activeBasePath
+              ? {
+                  isActive: (_match, location) =>
+                    location.pathname.startsWith(activeBaseUrl),
+                }
+              : null),
           })}
       {...props}>
       {label}
