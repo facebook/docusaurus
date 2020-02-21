@@ -120,6 +120,7 @@ export function getBabelLoader(isServer: boolean, babelOptions?: {}): Loader {
                 },
               ],
           '@babel/react',
+          '@babel/preset-typescript',
         ],
         plugins: [
           // Polyfills the runtime needed for async/await, generators, and friends
