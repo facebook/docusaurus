@@ -110,7 +110,7 @@ GIT_USER=<GIT_USER> \
 **Windows**
 
 ```batch
-cmd /C "set "GIT_USER=<GIT_USER>" && set CURRENT_BRANCH=master && set USE_SSH=true && yarn run publish-gh-pages"
+cmd /C "set "GIT_USER=<GIT_USER>"&& set CURRENT_BRANCH=master && set USE_SSH=true && yarn run publish-gh-pages"
 ```
 
 There are also two optional parameters that are set as environment variables:
