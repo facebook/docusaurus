@@ -142,4 +142,8 @@ const Hello = () => {
 };
 ```
 
-> If you just want to use those fields on the client side, you could create your own JS files and import them as ES6 modules, there is no need to put them in `docusaurus.config.js`.
+:::tip
+
+If you just want to use those fields on the client side, you could create your own JS files and import them as ES6 modules, there is no need to put them in `docusaurus.config.js`.
+
+:::

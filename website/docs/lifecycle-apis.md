@@ -3,7 +3,11 @@ id: lifecycle-apis
 title: Lifecycle APIs
 ---
 
-> :warning: _This section is a work in progress._
+:::caution
+
+_This section is a work in progress._
+
+:::
 
 Lifecycle APIs are shared by Themes and Plugins.
 
