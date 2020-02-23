@@ -6,7 +6,11 @@ You can use the version script to cut a new documentation version based on the l
 
 ## :warning: Disclaimer
 
-> Consider it really well before starting to version your documentation.
+:::important
+
+Consider it really well before starting to version your documentation.
+
+:::
 
 Most of the times, you don't need versioning and it will just increase your build time and introduces complexity to your codebase. Versioning is **best suited for website with high-traffic and rapid changes in documentation between version**. If your documentation rarely changes, don't version.
 

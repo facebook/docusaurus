@@ -3,7 +3,11 @@ id: design-principles
 title: Design Principles
 ---
 
-> :warning: _This section is a work in progress._
+:::caution
+
+_This section is a work in progress._
+
+:::
 
 - **Little to learn** - Docusaurus should be easy to learn and use as the API is quite small. Most things will still be achievable by users, even if it takes them more code and more time to write. Not having abstractions is better than having the wrong abstractions, and we don't want users to have to hack around the wrong abstractions. Mandatory talk - [Minimal API Surface Area](https://www.youtube.com/watch?v=4anAwXYqLG8).
 - **Intuitive** - Users will not feel overwhelmed when looking at the project directory of a Docusaurus project or adding new features. It should look intuitive and easy to build on top of, using approaches they are familiar with.

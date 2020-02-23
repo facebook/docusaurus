@@ -74,7 +74,11 @@ The content plugin remains the same and the only thing you need to change is the
 
 ## Swizzling theme components
 
-> ⚠️ We would like to discourage swizzling of components until we've minimally reached a Beta stage. The components APIs have been changing rapidly and are likely to keep changing until we reach Beta. Stick with the default appearance for now if possible to save yourself some potential pain in future.
+:::caution
+
+We would like to discourage swizzling of components until we've minimally reached a Beta stage. The components APIs have been changing rapidly and are likely to keep changing until we reach Beta. Stick with the default appearance for now if possible to save yourself some potential pain in future.
+
+:::
 
 Docusaurus Themes' components are designed to be replaceable. To make it easier for you, we created a command for you to replace theme components called `swizzle`.
 
@@ -104,7 +108,11 @@ The classic theme for Docusaurus. You can refer to [classic theme configuration]
 npm install --save @docusaurus/theme-classic
 ```
 
-> If you have installed `@docusaurus/preset-classic`, you don't need to install it as a dependency.
+:::tip
+
+If you have installed `@docusaurus/preset-classic`, you don't need to install it as a dependency.
+
+:::
 
 ### `@docusaurus/theme-search-algolia`
 
@@ -114,7 +122,11 @@ This theme provides a `@theme/SearchBar` component that integrates with Algolia 
 npm install --save @docusaurus/theme-search-algolia
 ```
 
-> If you have installed `@docusaurus/preset-classic`, you don't need to install it as a dependency.
+:::tip
+
+If you have installed `@docusaurus/preset-classic`, you don't need to install it as a dependency.
+
+:::
 
 ### `@docusaurus/theme-live-codeblock`
 

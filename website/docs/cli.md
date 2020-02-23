@@ -62,7 +62,11 @@ Compiles your site for production.
 
 ### `docusaurus swizzle`
 
-> ⚠️ We would like to discourage swizzling of components until we've minimally reached a Beta stage. The components APIs have been changing rapidly and are likely to keep changing until we reach Beta. Stick with the default appearance for now if possible to save yourself some potential pain in future.
+:::caution
+
+We would like to discourage swizzling of components until we've minimally reached a Beta stage. The components APIs have been changing rapidly and are likely to keep changing until we reach Beta. Stick with the default appearance for now if possible to save yourself some potential pain in future.
+
+:::
 
 Swizzle any Docusaurus Theme components with your own component with `docusaurus swizzle`.
 

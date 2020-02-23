@@ -126,4 +126,8 @@ The class names which will be processed by webpack into a globally unique class 
 
 ### CSS-in-JS
 
-> :warning: _This section is a work in progress._ [Welcoming PRs](https://github.com/facebook/docusaurus/issues/1640).\_
+:::caution
+
+_This section is a work in progress._ [Welcoming PRs](https://github.com/facebook/docusaurus/issues/1640).\_
+
+:::

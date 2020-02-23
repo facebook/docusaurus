@@ -137,7 +137,11 @@ Provides the [Blog](blog.md) feature and is the default blog plugin for Docusaur
 npm install --save @docusaurus/plugin-content-blog
 ```
 
-> If you have installed `@docusaurus/preset-classic`, you don't need to install it as a dependency. You can also configure it through the [classic preset options](presets.md#docusauruspreset-classic) instead of doing it like below.
+:::tip
+
+If you have installed `@docusaurus/preset-classic`, you don't need to install it as a dependency. You can also configure it through the [classic preset options](presets.md#docusauruspreset-classic) instead of doing it like below.
+
+:::
 
 ```js
 // docusaurus.config.js
@@ -174,7 +178,7 @@ module.exports = {
          * Truncate marker, can be a regex or string.
          */
         truncateMarker: /<!--\s*(truncate)\s*-->/,
-         /**
+        /**
          * Blog feed
          * If feedOptions is undefined, no rss feed will be generated
          */
@@ -201,7 +205,11 @@ Provides the [Docs](markdown-features.mdx) functionality and is the default docs
 npm install --save @docusaurus/plugin-content-docs
 ```
 
-> If you have installed `@docusaurus/preset-classic`, you don't need to install it as a dependency. You can also configure it through the [classic preset options](presets.md#docusauruspreset-classic) instead of doing it like below.
+:::tip
+
+If you have installed `@docusaurus/preset-classic`, you don't need to install it as a dependency. You can also configure it through the [classic preset options](presets.md#docusauruspreset-classic) instead of doing it like below.
+
+:::
 
 ```js
 // docusaurus.config.js
@@ -264,7 +272,11 @@ The default pages plugin for Docusaurus. The classic template ships with this pl
 npm install --save @docusaurus/plugin-content-pages
 ```
 
-> If you have installed `@docusaurus/preset-classic`, you don't need to install it as a dependency. You can also configure it through the [classic preset options](presets.md#docusauruspreset-classic) instead of doing it like below.
+:::tip
+
+If you have installed `@docusaurus/preset-classic`, you don't need to install it as a dependency. You can also configure it through the [classic preset options](presets.md#docusauruspreset-classic) instead of doing it like below.
+
+:::
 
 ```js
 // docusaurus.config.js
@@ -301,7 +313,11 @@ The default [Google Analytics](https://developers.google.com/analytics/devguides
 npm install --save @docusaurus/plugin-google-analytics
 ```
 
-> If you have installed `@docusaurus/preset-classic`, you don't need to install it as a dependency.
+:::tip
+
+If you have installed `@docusaurus/preset-classic`, you don't need to install it as a dependency.
+
+:::
 
 **Configuration**
 
@@ -329,7 +345,11 @@ The default [Global Site Tag (gtag.js)](https://developers.google.com/analytics/
 npm install --save @docusaurus/plugin-google-gtag
 ```
 
-> If you have installed `@docusaurus/preset-classic`, you don't need to install it as a dependency.
+:::tip
+
+If you have installed `@docusaurus/preset-classic`, you don't need to install it as a dependency.
+
+:::
 
 **Configuration**
 
@@ -357,7 +377,11 @@ This plugin creates sitemap for your site so that search engine crawlers can cra
 npm install --save @docusaurus/plugin-sitemap
 ```
 
-> If you have installed `@docusaurus/preset-classic`, you don't need to install it as a dependency. You can also configure it through the [classic preset options](presets.md#docusauruspreset-classic) instead of doing it like below.
+:::tip
+
+If you have installed `@docusaurus/preset-classic`, you don't need to install it as a dependency. You can also configure it through the [classic preset options](presets.md#docusauruspreset-classic) instead of doing it like below.
+
+:::
 
 ```js
 // docusaurus.config.js
