@@ -61,6 +61,14 @@ const useTheme = () => {
     }
   }, [setTheme]);
 
+  useEffect(() => {
+    window
+      .matchMedia('(prefers-color-scheme: dark)')
+      .addListener(({matches}) => {
+        setTheme(matches ? themes.dark : themes.light);
+      });
+  }, []);
+
   return {
     isDarkTheme: theme === themes.dark,
     setLightTheme,
