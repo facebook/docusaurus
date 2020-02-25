@@ -113,6 +113,16 @@ function Home() {
 }
 ```
 
+### `ClientOnly`
+
+This component purposely removes components from the subject of Server Side Rendering (SSR).
+
+```jsx {1,7}
+import ClientOnly from '@docusaurus/Link';
+
+<ClientOnly>{/* Something that should be excluded on the SSR. */}</ClientOnly>;
+```
+
 ## Hooks
 
 ### `useDocusaurusContext`
