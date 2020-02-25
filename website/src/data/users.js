@@ -8,6 +8,16 @@
 const users = [
   // Please add in alphabetical order of title.
   {
+    title: 'Algolia Docsearch',
+    description:
+      'The best search experience for docs, integrates in minutes, for free',
+    preview: require('./showcase/algolia.png'),
+    website: 'https://docsearch.algolia.com/',
+    source: 'https://github.com/algolia/docsearch-website',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'Benthos',
     description: 'A stream processor for mundane tasks',
     preview: require('./showcase/benthos.png'),
