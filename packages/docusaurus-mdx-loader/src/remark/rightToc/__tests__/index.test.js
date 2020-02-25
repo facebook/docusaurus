@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -35,78 +35,78 @@ test('inline code should be escaped', async () => {
 test('text content', async () => {
   const result = await processFixture('just-content');
   expect(result).toMatchInlineSnapshot(`
-"export const rightToc = [
-	{
-		value: 'Endi',
-		id: 'endi',
-		children: []
-	},
-	{
-		value: 'Endi',
-		id: 'endi-1',
-		children: [
-			{
-				value: 'Yangshun',
-				id: 'yangshun',
-				children: []
-			}
-		]
-	},
-	{
-		value: 'I ♥ unicode.',
-		id: 'i--unicode',
-		children: []
-	}
-];
+    "export const rightToc = [
+    	{
+    		value: 'Endi',
+    		id: 'endi',
+    		children: []
+    	},
+    	{
+    		value: 'Endi',
+    		id: 'endi-1',
+    		children: [
+    			{
+    				value: 'Yangshun',
+    				id: 'yangshun',
+    				children: []
+    			}
+    		]
+    	},
+    	{
+    		value: 'I ♥ unicode.',
+    		id: 'i--unicode',
+    		children: []
+    	}
+    ];
 
-### Endi
+    ### Endi
 
-\`\`\`md
-## This is ignored
-\`\`\`
+    \`\`\`md
+    ## This is ignored
+    \`\`\`
 
-## Endi
+    ## Endi
 
-Lorem ipsum
+    Lorem ipsum
 
-### Yangshun
+    ### Yangshun
 
-Some content here
+    Some content here
 
-## I ♥ unicode.
-"
-`);
+    ## I ♥ unicode.
+    "
+  `);
 });
 
 test('should export even with existing name', async () => {
   const result = await processFixture('name-exist');
   expect(result).toMatchInlineSnapshot(`
-"export const rightToc = [
-	{
-		value: 'Thanos',
-		id: 'thanos',
-		children: []
-	},
-	{
-		value: 'Tony Stark',
-		id: 'tony-stark',
-		children: [
-			{
-				value: 'Avengers',
-				id: 'avengers',
-				children: []
-			}
-		]
-	}
-];
+    "export const rightToc = [
+    	{
+    		value: 'Thanos',
+    		id: 'thanos',
+    		children: []
+    	},
+    	{
+    		value: 'Tony Stark',
+    		id: 'tony-stark',
+    		children: [
+    			{
+    				value: 'Avengers',
+    				id: 'avengers',
+    				children: []
+    			}
+    		]
+    	}
+    ];
 
-## Thanos
+    ## Thanos
 
-## Tony Stark
+    ## Tony Stark
 
-### Avengers
-"
-`);
+    ### Avengers
+    "
+  `);
 });
 
 test('should export with custom name', async () => {
@@ -115,96 +115,96 @@ test('should export with custom name', async () => {
   };
   const result = await processFixture('just-content', options);
   expect(result).toMatchInlineSnapshot(`
-"export const customName = [
-	{
-		value: 'Endi',
-		id: 'endi',
-		children: []
-	},
-	{
-		value: 'Endi',
-		id: 'endi-1',
-		children: [
-			{
-				value: 'Yangshun',
-				id: 'yangshun',
-				children: []
-			}
-		]
-	},
-	{
-		value: 'I ♥ unicode.',
-		id: 'i--unicode',
-		children: []
-	}
-];
+    "export const customName = [
+    	{
+    		value: 'Endi',
+    		id: 'endi',
+    		children: []
+    	},
+    	{
+    		value: 'Endi',
+    		id: 'endi-1',
+    		children: [
+    			{
+    				value: 'Yangshun',
+    				id: 'yangshun',
+    				children: []
+    			}
+    		]
+    	},
+    	{
+    		value: 'I ♥ unicode.',
+    		id: 'i--unicode',
+    		children: []
+    	}
+    ];
 
-### Endi
+    ### Endi
 
-\`\`\`md
-## This is ignored
-\`\`\`
+    \`\`\`md
+    ## This is ignored
+    \`\`\`
 
-## Endi
+    ## Endi
 
-Lorem ipsum
+    Lorem ipsum
 
-### Yangshun
+    ### Yangshun
 
-Some content here
+    Some content here
 
-## I ♥ unicode.
-"
-`);
+    ## I ♥ unicode.
+    "
+  `);
 });
 
 test('should insert below imports', async () => {
   const result = await processFixture('insert-below-imports');
   expect(result).toMatchInlineSnapshot(`
-"import something from 'something';
+    "import something from 'something';
 
-import somethingElse from 'something-else';
+    import somethingElse from 'something-else';
 
-export const rightToc = [
-	{
-		value: 'Title',
-		id: 'title',
-		children: []
-	},
-	{
-		value: 'Test',
-		id: 'test',
-		children: [
-			{
-				value: 'Again',
-				id: 'again',
-				children: []
-			}
-		]
-	}
-];
+    export const rightToc = [
+    	{
+    		value: 'Title',
+    		id: 'title',
+    		children: []
+    	},
+    	{
+    		value: 'Test',
+    		id: 'test',
+    		children: [
+    			{
+    				value: 'Again',
+    				id: 'again',
+    				children: []
+    			}
+    		]
+    	}
+    ];
 
-## Title
+    ## Title
 
-## Test
+    ## Test
 
-### Again
+    ### Again
 
-Content.
-"
-`);
+    Content.
+    "
+  `);
 });
 
 test('empty headings', async () => {
   const result = await processFixture('empty-headings');
   expect(result).toMatchInlineSnapshot(`
-"export const rightToc = [];
+    "export const rightToc = [];
 
-# Ignore this
+    # Ignore this
 
-## 
+    ## 
 
-## ![](an-image.svg)
-"
-`);
+    ## ![](an-image.svg)
+    "
+  `);
 });
