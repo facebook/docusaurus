@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -75,7 +75,7 @@ describe('loadRoutes', () => {
 
     expect(loadRoutes([routeConfigWithoutPath], '/')).rejects
       .toMatchInlineSnapshot(`
-      [Error: Invalid routeConfig (Path must be a string and component is required) 
+      [Error: Invalid routeConfig (Path must be a string and component is required)
       {"component":"hello/world.js"}]
     `);
 
@@ -85,7 +85,7 @@ describe('loadRoutes', () => {
 
     expect(loadRoutes([routeConfigWithoutComponent], '/')).rejects
       .toMatchInlineSnapshot(`
-      [Error: Invalid routeConfig (Path must be a string and component is required) 
+      [Error: Invalid routeConfig (Path must be a string and component is required)
       {"path":"/hello/world"}]
     `);
   });
