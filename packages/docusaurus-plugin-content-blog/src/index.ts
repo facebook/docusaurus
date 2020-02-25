@@ -18,6 +18,7 @@ import {
   TagsModule,
   BlogPaginated,
   FeedType,
+  BlogPost,
 } from './types';
 import {
   LoadContext,
@@ -75,6 +76,7 @@ export default function pluginContentBlog(
     generatedFilesDir,
     'docusaurus-plugin-content-blog',
   );
+  let blogPosts: BlogPost[] = [];
 
   return {
     name: 'docusaurus-plugin-content-blog',
@@ -89,8 +91,8 @@ export default function pluginContentBlog(
     async loadContent() {
       const {postsPerPage, routeBasePath} = options;
 
-      const blogPosts = await generateBlogPosts(contentPath, context, options);
-      if (!blogPosts) {
+      blogPosts = await generateBlogPosts(contentPath, context, options);
+      if (!blogPosts.length) {
         return null;
       }
 
@@ -391,7 +393,10 @@ export default function pluginContentBlog(
                 {
                   loader: path.resolve(__dirname, './markdownLoader.js'),
                   options: {
+                    siteDir,
+                    contentPath,
                     truncateMarker,
+                    blogPosts,
                   },
                 },
               ].filter(Boolean) as Loader[],
