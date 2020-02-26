@@ -16,7 +16,9 @@
     "classnames": "^2.2.6",
     "color": "^3.1.2",
     "react": "^16.8.4",
-    "react-dom": "^16.8.4"
+    "react-dom": "^16.8.4",
+    "workbox-routing": "^5.0.0",
+    "workbox-strategies": "^5.0.0"
   },
   "browserslist": {
     "production": [

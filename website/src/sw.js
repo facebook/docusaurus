@@ -5,13 +5,16 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-/* global workbox */
+import {registerRoute} from 'workbox-routing';
+import {StaleWhileRevalidate} from 'workbox-strategies';
 
-// Cache responses from external resources
-workbox.routing.registerRoute(context => {
-  return [
-    /graph\.facebook\.com\/.*\/picture/,
-    /netlify\.com\/img/,
-    /avatars1\.githubusercontent/,
-  ].some(regex => context.url.href.match(regex));
-}, new workbox.strategies.StaleWhileRevalidate());
+export default function customSW() {
+  // Cache responses from external resources
+  registerRoute(context => {
+    return [
+      /graph\.facebook\.com\/.*\/picture/,
+      /netlify\.com\/img/,
+      /avatars1\.githubusercontent/,
+    ].some(regex => context.url.href.match(regex));
+  }, new StaleWhileRevalidate());
+}
