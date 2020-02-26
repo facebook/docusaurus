@@ -38,9 +38,8 @@ module.exports = function(context, options) {
   const {
     siteConfig: {themeConfig},
   } = context;
-  const {disableDarkMode = false} = themeConfig;
+  const {disableDarkMode = false} = themeConfig || {};
   const {customCss} = options || {};
-
   return {
     name: 'docusaurus-theme-classic',
 

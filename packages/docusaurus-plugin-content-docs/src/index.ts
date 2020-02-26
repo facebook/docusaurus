@@ -395,7 +395,6 @@ export default function pluginContentDocs(
     configureWebpack(_config, isServer, utils) {
       const {getBabelLoader, getCacheLoader} = utils;
       const {rehypePlugins, remarkPlugins} = options;
-
       return {
         resolve: {
           alias: {
