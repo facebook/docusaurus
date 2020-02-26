@@ -149,18 +149,25 @@ module.exports = {
 - Type: `string`
 - Default: `''`
 
-Appends the file contents of `swCustom` to the end of the service worker after the precache manifest is registered. Useful for adding additional Workbox rules. For example, to cache files from external routes:
+Module to import and run after the precache manifest is registered. Useful for additional Workbox rules. For example, to cache files from external routes:
 
 ```js
-// Cache responses from external resources
-workbox.routing.registerRoute(context => {
-  return [
-    /graph\.facebook\.com\/.*\/picture/,
-    /netlify\.com\/img/,
-    /avatars1\.githubusercontent/,
-  ].some(regex => context.url.href.match(regex));
-}, new workbox.strategies.StaleWhileRevalidate());
+import {registerRoute} from 'workbox-routing';
+import {StaleWhileRevalidate} from 'workbox-strategies';
+
+export default function customSW() {
+  // Cache responses from external resources
+  registerRoute(context => {
+    return [
+      /graph\.facebook\.com\/.*\/picture/,
+      /netlify\.com\/img/,
+      /avatars1\.githubusercontent/,
+    ].some(regex => context.url.href.match(regex));
+  }, new StaleWhileRevalidate());
+}
 ```
+
+The module should have a `default` export and it should be a function.
 
 #### `swRegister`
 
@@ -174,16 +181,35 @@ Passing an empty string `''` or `false` will disable registration entirely.
 The default code registering the service worker looks like this:
 
 ```js
-if ('serviceWorker' in navigator) {
-  console.log(`ServiceWorker: Registering ${process.env.SERVICE_WORKER}`);
+(() => {
+  if (typeof window === 'undefined') {
+    return;
+  }
 
-  window.addEventListener('load', async () => {
-    try {
-      await navigator.serviceWorker.register(process.env.SERVICE_WORKER);
-      console.log('ServiceWorker: Registered SW successfully');
-    } catch {
-      console.log('ServiceWorker: Failed to Register!');
+  document.addEventListener('DOMContentLoaded', async () => {
+    if ('serviceWorker' in navigator) {
+      const {Workbox} = await import('workbox-window');
+
+      const wb = new Workbox(process.env.SERVICE_WORKER);
+
+      if (process.env.PWA_POPUP) {
+        const {default: renderPopup} = await import('./renderPopup');
+
+        wb.addEventListener('waiting', () => {
+          renderPopup({
+            onRefresh() {
+              wb.addEventListener('controlling', () => {
+                window.location.reload();
+              });
+
+              wb.messageSW({type: 'SKIP_WAITING'});
+            },
+          });
+        });
+      }
+
+      wb.register();
     }
   });
-}
+})();
 ```
