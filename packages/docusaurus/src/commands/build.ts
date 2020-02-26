@@ -10,7 +10,7 @@ import CopyWebpackPlugin from 'copy-webpack-plugin';
 import fs from 'fs-extra';
 import path from 'path';
 import ReactLoadableSSRAddon from 'react-loadable-ssr-addon';
-import webpack, {Configuration, Plugin} from 'webpack';
+import {Configuration, Plugin} from 'webpack';
 import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
 import merge from 'webpack-merge';
 import {STATIC_DIR_NAME} from '../constants';
@@ -18,31 +18,8 @@ import {load} from '../server';
 import {BuildCLIOptions, Props} from '@docusaurus/types';
 import {createClientConfig} from '../webpack/client';
 import {createServerConfig} from '../webpack/server';
-import {applyConfigureWebpack} from '../webpack/utils';
+import {applyConfigureWebpack, compile} from '../webpack/utils';
 import CleanWebpackPlugin from '../webpack/plugins/CleanWebpackPlugin';
-
-function compile(config: Configuration[]): Promise<any> {
-  return new Promise((resolve, reject) => {
-    const compiler = webpack(config);
-    compiler.run((err, stats) => {
-      if (err) {
-        reject(err);
-      }
-      if (stats.hasErrors()) {
-        stats.toJson('errors-only').errors.forEach(e => {
-          console.error(e);
-        });
-        reject(new Error('Failed to compile with errors.'));
-      }
-      if (stats.hasWarnings()) {
-        stats.toJson('errors-warnings').warnings.forEach(warning => {
-          console.warn(warning);
-        });
-      }
-      resolve();
-    });
-  });
-}
 
 export async function build(
   siteDir: string,

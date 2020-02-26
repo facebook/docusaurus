@@ -9,7 +9,7 @@ import path from 'path';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import env from 'std-env';
 import merge from 'webpack-merge';
-import {Configuration, Loader} from 'webpack';
+import webpack, {Configuration, Loader} from 'webpack';
 
 import {version as cacheLoaderVersion} from 'cache-loader/package.json';
 
@@ -180,4 +180,27 @@ export function applyConfigureWebpack(
     }
   }
   return config;
+}
+
+export function compile(config: Configuration[]): Promise<any> {
+  return new Promise((resolve, reject) => {
+    const compiler = webpack(config);
+    compiler.run((err, stats) => {
+      if (err) {
+        reject(err);
+      }
+      if (stats.hasErrors()) {
+        stats.toJson('errors-only').errors.forEach(e => {
+          console.error(e);
+        });
+        reject(new Error('Failed to compile with errors.'));
+      }
+      if (stats.hasWarnings()) {
+        stats.toJson('errors-warnings').warnings.forEach(warning => {
+          console.warn(warning);
+        });
+      }
+      resolve();
+    });
+  });
 }
