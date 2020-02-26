@@ -166,7 +166,7 @@ The core Docusaurus team will be monitoring for pull requests. Do help us by kee
 
 ## Style Guide
 
-[Prettier](https://prettier.io) will catch most styling issues that may exist in your code. You can check the status of your code styling by simply running `npm run prettier`.
+[Prettier](https://prettier.io) will catch most styling issues that may exist in your code. You can check the status of your code styling by simply running `yarn prettier`.
 
 However, there are still some styles that Prettier cannot pick up.
 
