@@ -61,7 +61,7 @@ export function objectWithKeySorted(obj: Object) {
 }
 
 const indexRE = /(^|.*\/)index\.(md|js|jsx|ts|tsx)$/i;
-const extRE = /\.(md|js)$/;
+const extRE = /\.(md|js|tsx)$/;
 
 /**
  * Convert filepath to url path.
