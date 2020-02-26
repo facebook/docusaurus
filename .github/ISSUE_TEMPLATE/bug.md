@@ -45,9 +45,9 @@ labels: 'bug, needs triage'
 
 <!-- Include as many relevant details about the environment you experienced the bug in -->
 
-* Docusaurus version used:
-* Environment name and version (e.g. Chrome 78.0.3904.108, Node.js 10.17.0):
-* Operating system and version (desktop or mobile):
+- Docusaurus version used:
+- Environment name and version (e.g. Chrome 78.0.3904.108, Node.js 10.17.0):
+- Operating system and version (desktop or mobile):
 
 ## Reproducible Demo
 
