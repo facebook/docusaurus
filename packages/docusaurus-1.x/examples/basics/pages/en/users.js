@@ -36,7 +36,9 @@ class Users extends React.Component {
             {siteConfig.repoUrl && (
               <>
                 <p>Are you using this project?</p>
-                <a href={`${siteConfig.repoUrl}/edit/master/website/siteConfig.js`} className="button">
+                <a
+                  href={`${siteConfig.repoUrl}/edit/master/website/siteConfig.js`}
+                  className="button">
                   Add your company
                 </a>
               </>
