@@ -1,0 +1,29 @@
+.announcementBar {
+  position: absolute;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 20px;
+  font-size: 85%;
+  background-color: #fff;
+  color: #000;
+}
+
+.announcementBarClose {
+  position: absolute;
+  font-size: 25px;
+  top: 0;
+  right: 1em;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  background: none;
+  height: 100%;
+  line-height: 1;
+}
+
+.announcementBarContent a {
+  color: inherit;
+  text-decoration: underline;
+}

@@ -43,6 +43,25 @@ module.exports = {
 }
 ```
 
+### Announcement bar
+
+Sometimes you want to announce something in your website. Just for such a case, you can add an announcement bar. This is a non-fixed and dismissable panel above the navbar.
+
+```js {5-9}
+// docusaurus.config.js
+module.exports = {
+  ...
+  themeConfig: {
+    announcementBar: {
+      content: 'We are looking to revamp our docs, please fill <a target="_blank" rel="noopener noreferrer" href="#">this survey</a>',
+      backgroundColor: '#fafbfc', // Defaults to `#fff`
+      textColor: '#091E42', // Defaults to `#000`
+    },
+    ...
+  },
+}
+```
+
 ## Navbar
 
 ### Navbar Title & Logo

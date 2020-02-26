@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {createRef} from 'react';
 import Head from '@docusaurus/Head';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
@@ -38,6 +38,7 @@ function Layout(props) {
   const metaImage = image || defaultImage;
   const metaImageUrl = siteUrl + useBaseUrl(metaImage);
   const faviconUrl = useBaseUrl(favicon);
+  const mainWrapperRef = createRef();
 
   return (
     <ThemeProvider>
@@ -65,8 +66,10 @@ function Layout(props) {
         {permalink && <meta property="og:url" content={siteUrl + permalink} />}
         <meta name="twitter:card" content="summary" />
       </Head>
-      <Navbar />
-      <div className="main-wrapper">{children}</div>
+      <Navbar mainWrapperRef={mainWrapperRef} />
+      <div className="main-wrapper" ref={mainWrapperRef}>
+        {children}
+      </div>
       {!noFooter && <Footer />}
     </ThemeProvider>
   );
