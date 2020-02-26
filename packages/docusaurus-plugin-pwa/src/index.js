@@ -6,17 +6,20 @@
  */
 /* eslint-disable import/no-extraneous-dependencies */
 
-const fs = require('fs');
+const {createBaseConfig} = require('@docusaurus/core/lib/webpack/base');
+const LogPlugin = require('@docusaurus/core/lib/webpack/plugins/LogPlugin');
+const {compile} = require('@docusaurus/core/lib/webpack/utils');
 const path = require('path');
-const {EnvironmentPlugin} = require('webpack');
-const {copyWorkboxLibraries, injectManifest} = require('workbox-build');
-const Terser = require('terser');
+const webpack = require('webpack');
+const merge = require('webpack-merge');
+const {injectManifest} = require('workbox-build');
 
 const defaultOptions = {
   injectManifestConfig: {},
   pwaHead: [],
   swCustom: '',
   swRegister: path.join(__dirname, 'registerSw.js'),
+  popup: '@theme/PwaReloadPopup',
 };
 
 const isProd = process.env.NODE_ENV === 'production';
@@ -27,7 +30,13 @@ function pluginOffline(_context, options = {}) {
     ...options,
   };
 
-  const {injectManifestConfig, pwaHead, swCustom, swRegister} = pluginOptions;
+  const {
+    injectManifestConfig,
+    popup,
+    pwaHead,
+    swCustom,
+    swRegister,
+  } = pluginOptions;
 
   return {
     name: 'docusaurus-plugin-pwa',
@@ -43,7 +52,8 @@ function pluginOffline(_context, options = {}) {
 
       return {
         plugins: [
-          new EnvironmentPlugin({
+          new webpack.EnvironmentPlugin({
+            PWA_POPUP: popup,
             SERVICE_WORKER: path.resolve(
               `${config.output.publicPath || '/'}`,
               'sw.js',
@@ -68,24 +78,38 @@ function pluginOffline(_context, options = {}) {
       return {headTags};
     },
 
-    async postBuild({outDir}) {
+    async postBuild(props) {
       if (isProd) {
-        const swDest = path.resolve(outDir, 'sw.js');
+        const serviceWorkerConfig = merge(createBaseConfig(props), {
+          entry: path.resolve(__dirname, 'sw.js'),
+          target: 'webworker',
 
-        const workboxDir = await copyWorkboxLibraries(outDir);
+          output: {
+            filename: 'sw.js',
+          },
 
-        // Clear dev.js files from workbox dir
-        const fullWorkboxDir = path.resolve(outDir, workboxDir);
-        fs.readdirSync(fullWorkboxDir).forEach(file => {
-          if (file.includes('.dev')) {
-            fs.unlinkSync(path.resolve(fullWorkboxDir, file));
-          }
+          optimization: {
+            splitChunks: false,
+          },
+
+          plugins: [
+            new webpack.EnvironmentPlugin({
+              SW_CUSTOM: swCustom,
+            }),
+            new LogPlugin({
+              name: 'Service Worker',
+              color: 'red',
+            }),
+          ],
         });
 
+        await compile([serviceWorkerConfig]);
+
+        const swDest = path.resolve(props.outDir, 'sw.js');
         await injectManifest({
           swDest,
-          swSrc: path.resolve(__dirname, 'sw.js'),
-          globDirectory: outDir,
+          swSrc: swDest,
+          globDirectory: props.outDir,
           ...injectManifestConfig,
           globPatterns: [
             '**/*.{js,json,css,html}',
@@ -93,25 +117,7 @@ function pluginOffline(_context, options = {}) {
             '**/*.{woff,woff2,eot,ttf,otf}',
             ...(injectManifest.globPatterns || []),
           ],
-          globIgnores: [
-            'server.bundle.js',
-            ...(injectManifestConfig.globIgnores || []),
-          ],
         });
-
-        let swDestContents = fs.readFileSync(swDest, 'utf-8');
-        swDestContents = swDestContents.replace('<WORKBOX_DIR>', workboxDir);
-
-        if (swCustom) {
-          const swCustomContents = fs.readFileSync(swCustom, 'utf-8');
-          swDestContents += swCustomContents;
-        }
-
-        const {code} = Terser.minify(swDestContents, {
-          compress: true,
-          mangle: true,
-        });
-        fs.writeFileSync(swDest, code, 'utf-8');
       }
     },
   };

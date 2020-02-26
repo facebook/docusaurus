@@ -10,16 +10,29 @@
     return;
   }
 
-  if ('serviceWorker' in navigator) {
-    console.log(`ServiceWorker: Registering ${process.env.SERVICE_WORKER}`);
+  document.addEventListener('DOMContentLoaded', async () => {
+    if ('serviceWorker' in navigator) {
+      const {Workbox} = await import('workbox-window');
 
-    window.addEventListener('load', async () => {
-      try {
-        await navigator.serviceWorker.register(process.env.SERVICE_WORKER);
-        console.log('ServiceWorker: Registered SW successfully');
-      } catch {
-        console.log('ServiceWorker: Failed to Register!');
+      const wb = new Workbox(process.env.SERVICE_WORKER);
+
+      if (process.env.PWA_POPUP) {
+        const {default: renderPopup} = await import('./renderPopup');
+
+        wb.addEventListener('waiting', () => {
+          renderPopup({
+            onRefresh() {
+              wb.addEventListener('controlling', () => {
+                window.location.reload();
+              });
+
+              wb.messageSW({type: 'SKIP_WAITING'});
+            },
+          });
+        });
       }
-    });
-  }
+
+      wb.register();
+    }
+  });
 })();

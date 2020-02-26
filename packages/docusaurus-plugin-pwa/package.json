@@ -8,11 +8,15 @@
   },
   "license": "MIT",
   "dependencies": {
+    "webpack-merge": "^4.2.2",
     "webpack": "^4.41.2",
     "workbox-build": "^5.0.0",
-    "terser": "^4.6.3"
+    "workbox-precaching": "^5.0.0",
+    "workbox-window": "^5.0.0"
   },
   "peerDependencies": {
-    "@docusaurus/core": "^2.0.0"
+    "@docusaurus/core": "^2.0.0",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4"
   }
 }
