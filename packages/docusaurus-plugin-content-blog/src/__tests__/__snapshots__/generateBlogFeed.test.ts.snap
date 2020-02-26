@@ -19,19 +19,12 @@ exports[`blogFeed atom shows feed item for each post 1`] = `
 <feed xmlns=\\"http://www.w3.org/2005/Atom\\">
     <id>https://docusaurus.io/blog</id>
     <title>Hello Blog</title>
-    <updated>2020-02-25T20:40:40.817Z</updated>
+    <updated>2019-01-01T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel=\\"alternate\\" href=\\"https://docusaurus.io/blog\\"/>
     <subtitle>Hello Blog</subtitle>
     <icon>https://docusaurus.io/image/favicon.ico</icon>
     <rights>Copyright</rights>
-    <entry>
-        <title type=\\"html\\"><![CDATA[This post links to another one!]]></title>
-        <id>This post links to another one!</id>
-        <link href=\\"https://docusaurus.io/blog/2020/02/25/with reference\\"/>
-        <updated>2020-02-25T20:40:40.817Z</updated>
-        <summary type=\\"html\\"><![CDATA[[Linked post](2018-12-14-Happy-First-Birthday-Slash.md)]]></summary>
-    </entry>
     <entry>
         <title type=\\"html\\"><![CDATA[date-matter]]></title>
         <id>date-matter</id>
@@ -71,17 +64,10 @@ exports[`blogFeed rss shows feed item for each post 1`] = `
         <title>Hello Blog</title>
         <link>https://docusaurus.io/blog</link>
         <description>Hello Blog</description>
-        <lastBuildDate>Tue, 25 Feb 2020 20:40:40 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 01 Jan 2019 00:00:00 GMT</lastBuildDate>
         <docs>http://blogs.law.harvard.edu/tech/rss</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <copyright>Copyright</copyright>
-        <item>
-            <title><![CDATA[This post links to another one!]]></title>
-            <link>https://docusaurus.io/blog/2020/02/25/with reference</link>
-            <guid>https://docusaurus.io/blog/2020/02/25/with reference</guid>
-            <pubDate>Tue, 25 Feb 2020 20:40:40 GMT</pubDate>
-            <description><![CDATA[[Linked post](2018-12-14-Happy-First-Birthday-Slash.md)]]></description>
-        </item>
         <item>
             <title><![CDATA[date-matter]]></title>
             <link>https://docusaurus.io/blog/2019/01/01/date-matter</link>

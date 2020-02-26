@@ -11,8 +11,8 @@ import {linkify} from '../blogUtils';
 import {BlogPost} from '../types';
 
 const sitePath = path.join(__dirname, '__fixtures__', 'website');
-const blogPath = path.join(sitePath, 'blog');
-const pluginDir = 'blog';
+const blogPath = path.join(sitePath, 'blog-with-ref');
+const pluginDir = 'blog-with-ref';
 const blogPosts: BlogPost[] = [
   {
     id: 'Happy 1st Birthday Slash!',
@@ -43,7 +43,7 @@ const transform = filepath => {
 };
 
 test('transform to correct link', () => {
-  const post = path.join(blogPath, 'with reference.md');
+  const post = path.join(blogPath, 'post.md');
   const [content, transformedContent] = transform(post);
   expect(transformedContent).toMatchSnapshot();
   expect(transformedContent).toContain(
