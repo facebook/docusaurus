@@ -62,6 +62,10 @@ const useTheme = () => {
   }, [setTheme]);
 
   useEffect(() => {
+    if (disableDarkMode) {
+      return;
+    }
+
     window
       .matchMedia('(prefers-color-scheme: dark)')
       .addListener(({matches}) => {
