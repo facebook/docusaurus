@@ -7,7 +7,7 @@
 
 import React, {useEffect, useState} from 'react';
 
-const ClientOnly = ({children}) => {
+const BrowserOnly = ({children}) => {
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
@@ -17,4 +17,4 @@ const ClientOnly = ({children}) => {
   return isClient && <>{children}</>;
 };
 
-export default ClientOnly;
+export default BrowserOnly;
