@@ -113,14 +113,14 @@ function Home() {
 }
 ```
 
-### `ClientOnly`
+### `<BrowserOnly/>`
 
-This component purposely removes components from the subject of Server Side Rendering (SSR).
+This component purposely removes its `children` during the prerendering stage of the build process. This is useful for hiding code that is only meant to run in the browsers (e.g. where the `window`/`document` objects are being accessed).
 
 ```jsx {1,7}
-import ClientOnly from '@docusaurus/Link';
+import BrowserOnly from '@docusaurus/BrowserOnly';
 
-<ClientOnly>{/* Something that should be excluded on the SSR. */}</ClientOnly>;
+<BrowserOnly>{/* Something that should be excluded during build process prerendering. */}</BrowserOnly>;
 ```
 
 ## Hooks
