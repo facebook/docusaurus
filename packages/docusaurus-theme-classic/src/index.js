@@ -38,8 +38,9 @@ module.exports = function(context, options) {
   const {
     siteConfig: {themeConfig},
   } = context;
-  const {disableDarkMode = false} = themeConfig || {};
+  const {disableDarkMode = false} = themeConfig;
   const {customCss} = options || {};
+
   return {
     name: 'docusaurus-theme-classic',
 
@@ -52,6 +53,7 @@ module.exports = function(context, options) {
         'infima/dist/css/default/default.css',
         'remark-admonitions/styles/infima.css',
         customCss,
+        path.resolve(__dirname, './include-additional-languages'),
       ];
     },
 

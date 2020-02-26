@@ -16,9 +16,6 @@ module.exports = {
     jest: true,
     node: true,
   },
-  globals: {
-    PRISM_ADDITIONAL_LANGUAGES: true,
-  },
   parser: 'babel-eslint',
   parserOptions: {
     allowImportExportEverywhere: true,
