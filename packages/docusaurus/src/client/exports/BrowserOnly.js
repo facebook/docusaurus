@@ -8,13 +8,13 @@
 import React, {useEffect, useState} from 'react';
 
 const BrowserOnly = ({children}) => {
-  const [isClient, setIsClient] = useState(false);
+  const [isComponentMounted, setIsComponentMounted] = useState(false);
 
   useEffect(() => {
-    setIsClient(true);
+    setIsComponentMounted(true);
   }, []);
 
-  return isClient && <>{children}</>;
+  return isComponentMounted && <>{children}</>;
 };
 
 export default BrowserOnly;
