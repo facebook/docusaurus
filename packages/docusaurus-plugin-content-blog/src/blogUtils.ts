@@ -107,6 +107,10 @@ export async function generateBlogPosts(
       const fileString = await fs.readFile(source, 'utf-8');
       const {frontMatter, content, excerpt} = parse(fileString);
 
+      if (frontMatter.draft && process.env.NODE_ENV === 'production') {
+        return;
+      }
+
       let date;
       // Extract date and title from filename.
       const match = blogFileName.match(FILENAME_PATTERN);
