@@ -67,6 +67,10 @@ module.exports = {
 }
 ```
 
+### Configuration
+
+By default, GitHub Pages publishes sites with jekyll enabled. To prevent conflicts between docusarus and jekyll, it is recommended that you disable jekyll by adding an empty file named `.nojekyll` file to your `static` directory.
+
 ### Environment settings
 
 Specify the Git user as an environment variable.
