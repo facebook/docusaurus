@@ -25,13 +25,6 @@ const noFlash = `(function() {
   }
 
   var darkQuery = window.matchMedia('(prefers-color-scheme: dark)');
-  darkQuery.addListener(function(e) {
-    if (getPreferredTheme() !== null) {
-      return;
-    }
-
-    setDataThemeAttribute(e.matches ? 'dark' : '');
-  });
 
   var preferredTheme = getPreferredTheme();
   if (preferredTheme !== null) {
