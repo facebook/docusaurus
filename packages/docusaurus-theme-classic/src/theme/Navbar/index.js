@@ -51,8 +51,7 @@ function NavLink({activeBasePath, to, href, label, position, ...props}) {
 }
 
 function Navbar() {
-  const context = useDocusaurusContext();
-  const {siteConfig = {}} = context;
+  const {siteConfig = {}, isClient} = useDocusaurusContext();
   const {baseUrl, themeConfig = {}} = siteConfig;
   const {navbar = {}, disableDarkMode = false} = themeConfig;
   const {title, logo = {}, links = [], hideOnScroll = false} = navbar;
@@ -124,7 +123,12 @@ function Navbar() {
           </div>
           <Link className="navbar__brand" to={logoLink} {...logoLinkProps}>
             {logo != null && (
-              <img className="navbar__logo" src={logoImageUrl} alt={logo.alt} />
+              <img
+                key={isClient}
+                className="navbar__logo"
+                src={logoImageUrl}
+                alt={logo.alt}
+              />
             )}
             {title != null && (
               <strong
@@ -172,7 +176,12 @@ function Navbar() {
             to={logoLink}
             {...logoLinkProps}>
             {logo != null && (
-              <img className="navbar__logo" src={logoImageUrl} alt={logo.alt} />
+              <img
+                key={isClient}
+                className="navbar__logo"
+                src={logoImageUrl}
+                alt={logo.alt}
+              />
             )}
             {title != null && <strong>{title}</strong>}
           </Link>
