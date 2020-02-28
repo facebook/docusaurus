@@ -13,12 +13,12 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 function Layout(props) {
   const context = useDocusaurusContext();
   const {siteConfig = {}} = context;
-  const {favicon, tagline, title: defaultTitle} = siteConfig;
+  const {favicon, tagline = '', title: defaultTitle} = siteConfig;
   const {children, title, description} = props;
   const faviconUrl = useBaseUrl(favicon);
   return (
     <>
-      <Head defaultTitle={`${defaultTitle} · ${tagline}`}>
+      <Head defaultTitle={`${defaultTitle}${tagline ? ` · ${tagline}` : ''}`}>
         {title && <title>{`${title} · ${tagline}`}</title>}
         {favicon && <link rel="shortcut icon" href={faviconUrl} />}
         {description && <meta name="description" content={description} />}
