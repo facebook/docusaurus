@@ -5,40 +5,36 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {forwardRef, useState} from 'react';
+import React, {useState} from 'react';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import withForwardedRef from '@theme/hocs/withForwardedRef';
 
 import styles from './styles.module.css';
 
 const STORAGE_KEY = 'announcement_closed';
 
-const AnnouncementBar = forwardRef((props, ref) => {
+const AnnouncementBar = ({forwardedRef}) => {
   const {
     siteConfig: {themeConfig: {announcementBar = {}}} = {},
   } = useDocusaurusContext();
   const {content, backgroundColor, textColor} = announcementBar;
-
-  if (!content) {
-    return null;
-  }
-
   const [isClosed, setClosed] = useState(false);
+  const storedClosed = ExecutionEnvironment.canUseDOM
+    ? sessionStorage.getItem(STORAGE_KEY)
+    : false;
   const handleClose = () => {
     sessionStorage.setItem(STORAGE_KEY, true);
     setClosed(true);
   };
-  const storedClosed = ExecutionEnvironment.canUseDOM
-    ? sessionStorage.getItem(STORAGE_KEY)
-    : false;
 
-  if (!announcementBar || isClosed || storedClosed) {
+  if (!content || storedClosed || isClosed) {
     return null;
   }
 
   return (
     <div
-      ref={ref}
+      ref={forwardedRef}
       className={styles.announcementBar}
       style={{backgroundColor, color: textColor}}
       role="banner">
@@ -56,6 +52,6 @@ const AnnouncementBar = forwardRef((props, ref) => {
       />
     </div>
   );
-});
+};
 
-export default AnnouncementBar;
+export default withForwardedRef(AnnouncementBar);

@@ -5,20 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {useState, useCallback, useEffect} from 'react';
+import {useState, useEffect} from 'react';
 import {useLocation} from '@docusaurus/router';
 import useLocationHash from '@theme/hooks/useLocationHash';
 
-const useHideableNavbar = hideOnScroll => {
+const useHideableNavbar = (hideOnScroll, navbarRef) => {
   const [isNavbarVisible, setIsNavbarVisible] = useState(true);
   const [isFocusedAnchor, setIsFocusedAnchor] = useState(false);
   const [lastScrollTop, setLastScrollTop] = useState(0);
   const [navbarHeight, setNavbarHeight] = useState(0);
-  const navbarRef = useCallback(node => {
-    if (node !== null) {
-      setNavbarHeight(node.getBoundingClientRect().height);
-    }
-  }, []);
   const location = useLocation();
   const [hash, setHash] = useLocationHash(location.hash);
 
@@ -54,6 +49,14 @@ const useHideableNavbar = hideOnScroll => {
 
   useEffect(() => {
     if (!hideOnScroll) {
+      return;
+    }
+
+    setNavbarHeight(navbarRef.current.getBoundingClientRect().height);
+  }, []);
+
+  useEffect(() => {
+    if (!hideOnScroll) {
       return undefined;
     }
 
@@ -86,7 +89,6 @@ const useHideableNavbar = hideOnScroll => {
   }, [hash]);
 
   return {
-    navbarRef,
     isNavbarVisible,
   };
 };
