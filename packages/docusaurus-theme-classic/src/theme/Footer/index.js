@@ -105,7 +105,12 @@ function Footer() {
                 )}
               </div>
             )}
-            {copyright}
+
+            <div
+              dangerouslySetInnerHTML={{
+                __html: copyright,
+              }}
+            />
           </div>
         )}
       </div>

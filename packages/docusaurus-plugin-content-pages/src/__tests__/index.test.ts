@@ -34,6 +34,10 @@ describe('docusaurus-plugin-content-pages', () => {
         source: path.join('@site', pluginPath, 'index.js'),
       },
       {
+        permalink: '/typescript',
+        source: path.join('@site', pluginPath, 'typescript.tsx'),
+      },
+      {
         permalink: '/hello/world',
         source: path.join('@site', pluginPath, 'hello', 'world.js'),
       },

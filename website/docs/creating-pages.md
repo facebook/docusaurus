@@ -41,6 +41,12 @@ Once you save the file, the development server will automatically reload the cha
 
 Each page doesn't come with any styling. You will need to import the `Layout` component from `@theme/Layout` and wrap your contents within that component if you want the navbar and/or footer to appear.
 
+:::tip
+
+You can also create a page in TypeScript, in which case the its file name should use the `.tsx` extension, eg. `hello.tsx`.
+
+:::
+
 ## Routing
 
 If you are familiar with other static site generators like Jekyll and Next, this routing approach will feel familiar to you. Any JavaScript file you create under `/src/pages/` directory will be automatically converted to a website page, following the `/src/pages/` directory hierarchy. For example:
