@@ -97,24 +97,37 @@ npm run build
 
 and contents will be generated within the `/build` directory, which can be copied to any static file hosting service like [GitHub pages](https://pages.github.com/), [Now](https://zeit.co/now) or [Netlify](https://www.netlify.com/). Check out the docs on [deployment](deployment.md) for more details.
 
-## Updating Your Docusaurus Version
-To update/upgrade your Docusaurus Version, manually change the version number in `package.json`. Here, the version number is `X`:
-```
+## Update your Docusaurus version
+
+There are many ways to update your Docusaurus version. One guaranteed way is to manually change the version number in `package.json` to the desired version. Note that all `@docusaurus/`-namespaced packages should be using the same version.
+
+```json
   "dependencies": {
-    "@docusaurus/core": "^2.0.0-alpha.X",
-    "@docusaurus/preset-classic": "^2.0.0-alpha.X",
-  ```
-Then, in the directory containing `package.json`, run:
+    "@docusaurus/core": "^2.0.0-alpha.43",
+    "@docusaurus/preset-classic": "^2.0.0-alpha.43",
+    ...
+  }
+    
 ```
-yarn install
+
+Then, in the directory containing `package.json`, run your package manager's install command:
+
+```bash npm2yarn
+npm install
 ```
+
 To check that that the update occurred successfully, run:
+
+```bash npm2yarn
+npm docusaurus --version
 ```
-yarn docusaurus --version
+
+You should see the correct version as output.
+
+Alternatively, if you are using Yarn, you can do:
+
 ```
-If the update occurred successfully, then the output should be:
-```
-2.0.0-alpha.X
+yarn upgrade @docusaurus/core@2.0.0-alpha.43 @docusaurus/preset-classic@2.0.0-alpha.43
 ```
 
 ## Problems?
