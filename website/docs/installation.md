@@ -97,7 +97,7 @@ npm run build
 
 and contents will be generated within the `/build` directory, which can be copied to any static file hosting service like [GitHub pages](https://pages.github.com/), [Now](https://zeit.co/now) or [Netlify](https://www.netlify.com/). Check out the docs on [deployment](deployment.md) for more details.
 
-## Update your Docusaurus version
+## Updating your Docusaurus version
 
 There are many ways to update your Docusaurus version. One guaranteed way is to manually change the version number in `package.json` to the desired version. Note that all `@docusaurus/`-namespaced packages should be using the same version.
 
