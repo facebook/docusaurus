@@ -106,8 +106,7 @@ There are many ways to update your Docusaurus version. One guaranteed way is to 
     "@docusaurus/core": "^2.0.0-alpha.43",
     "@docusaurus/preset-classic": "^2.0.0-alpha.43",
     ...
-  }
-    
+  } 
 ```
 
 Then, in the directory containing `package.json`, run your package manager's install command:
