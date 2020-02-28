@@ -97,6 +97,38 @@ npm run build
 
 and contents will be generated within the `/build` directory, which can be copied to any static file hosting service like [GitHub pages](https://pages.github.com/), [Now](https://zeit.co/now) or [Netlify](https://www.netlify.com/). Check out the docs on [deployment](deployment.md) for more details.
 
+## Updating your Docusaurus version
+
+There are many ways to update your Docusaurus version. One guaranteed way is to manually change the version number in `package.json` to the desired version. Note that all `@docusaurus/`-namespaced packages should be using the same version.
+
+```json
+  "dependencies": {
+    "@docusaurus/core": "^2.0.0-alpha.43",
+    "@docusaurus/preset-classic": "^2.0.0-alpha.43",
+    ...
+  } 
+```
+
+Then, in the directory containing `package.json`, run your package manager's install command:
+
+```bash npm2yarn
+npm install
+```
+
+To check that that the update occurred successfully, run:
+
+```bash npm2yarn
+npm docusaurus --version
+```
+
+You should see the correct version as output.
+
+Alternatively, if you are using Yarn, you can do:
+
+```
+yarn upgrade @docusaurus/core@2.0.0-alpha.43 @docusaurus/preset-classic@2.0.0-alpha.43
+```
+
 ## Problems?
 
 Ask for help on [Stack Overflow](https://stackoverflow.com/questions/tagged/docusaurus), on our [GitHub repository](https://github.com/facebook/docusaurus) or [Twitter](https://twitter.com/docusaurus).
