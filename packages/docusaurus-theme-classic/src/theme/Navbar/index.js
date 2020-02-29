@@ -77,13 +77,17 @@ function Navbar() {
   );
 
   const logoLink = logo.href || baseUrl;
-  const isExternalLogoLink = /http/.test(logoLink);
-  const logoLinkProps = isExternalLogoLink
-    ? {
-        rel: 'noopener noreferrer',
-        target: '_blank',
-      }
-    : null;
+  let logoLinkProps = {};
+
+  if (logo.target) {
+    logoLinkProps = {target: logo.target};
+  } else if (/http/.test(logoLink)) {
+    logoLinkProps = {
+      rel: 'noopener noreferrer',
+      target: '_blank',
+    };
+  }
+
   const logoSrc = logo.srcDark && isDarkTheme ? logo.srcDark : logo.src;
   const logoImageUrl = useBaseUrl(logoSrc);
 
