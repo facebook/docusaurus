@@ -4,6 +4,8 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+
+import chalk = require('chalk');
 import path from 'path';
 import {Configuration} from 'webpack';
 import merge from 'webpack-merge';
@@ -30,6 +32,26 @@ export function createClientConfig(props: Props): Configuration {
       runtimeChunk: true,
     },
     plugins: [
+      // Plugin to force terminate building if errors happened in the client bundle
+      {
+        apply: compiler => {
+          compiler.hooks.done.tap('client:done', stats => {
+            if (stats.hasErrors()) {
+              console.log(
+                chalk.red(
+                  'Client bundle compiled with errors therefore further build is impossible.',
+                ),
+              );
+
+              stats.toJson('errors-only').errors.forEach(e => {
+                console.error(e);
+              });
+
+              process.exit(1);
+            }
+          });
+        },
+      },
       new ChunkAssetPlugin(),
       // Show compilation progress bar and build time.
       new LogPlugin({
