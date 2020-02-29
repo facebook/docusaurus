@@ -225,15 +225,22 @@ module.exports = {
 
 By default, Docusaurus comes with this subset of [commonly used languages](https://github.com/FormidableLabs/prism-react-renderer/blob/master/src/vendor/prism/includeLangs.js).
 
-To add syntax highlighting for any of the other [Prism supported languages](https://prismjs.com/#supported-languages), install the `prismjs` npm package, then swizzle the `CodeBlock` component and add the desired language(s) there.
+To add syntax highlighting for any of the other [Prism supported languages](https://prismjs.com/#supported-languages),
+define it in an array of additional languages.
 
 For example, if you want to add highlighting for the `powershell` language:
 
 ```js
-// src/theme/CodeBlock/index.js
-import Prism from 'prism-react-renderer/prism';
-(typeof global !== 'undefined' ? global : window).Prism = Prism;
-require('prismjs/components/prism-powershell');
+// docusaurus/config.js
+module.exports = {
+  ...
+  themeConfig: {
+    prism: {
+      additionalLanguages: ['powershell'],
+    },
+    ...
+  },
+};
 ```
 
 ### Line highlighting
