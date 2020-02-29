@@ -5,30 +5,46 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState} from 'react';
-import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
+import React, {useState, useEffect} from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import withForwardedRef from '@theme/hocs/withForwardedRef';
 
 import styles from './styles.module.css';
 
-const STORAGE_KEY = 'announcement_closed';
+const STORAGE_DISMISS_KEY = 'docusaurus.announcement.dismiss';
+const STORAGE_VIEWED_MESSAGE_KEY = 'docusaurus.announcement.viewed_message';
 
 const AnnouncementBar = ({forwardedRef}) => {
   const {
     siteConfig: {themeConfig: {announcementBar = {}}} = {},
   } = useDocusaurusContext();
   const {content, backgroundColor, textColor} = announcementBar;
-  const [isClosed, setClosed] = useState(false);
-  const storedClosed = ExecutionEnvironment.canUseDOM
-    ? sessionStorage.getItem(STORAGE_KEY)
-    : false;
+  const [isClosed, setClosed] = useState(true);
   const handleClose = () => {
-    sessionStorage.setItem(STORAGE_KEY, true);
+    sessionStorage.setItem(STORAGE_DISMISS_KEY, true);
     setClosed(true);
   };
 
-  if (!content || storedClosed || isClosed) {
+  useEffect(() => {
+    const currentAnnouncement = JSON.stringify(content);
+    const oldAnnouncement = sessionStorage.getItem(STORAGE_VIEWED_MESSAGE_KEY);
+    const isNewAnnouncement = currentAnnouncement !== oldAnnouncement;
+
+    sessionStorage.setItem(STORAGE_VIEWED_MESSAGE_KEY, currentAnnouncement);
+
+    if (isNewAnnouncement) {
+      sessionStorage.setItem(STORAGE_DISMISS_KEY, false);
+    }
+
+    if (
+      isNewAnnouncement ||
+      sessionStorage.getItem(STORAGE_DISMISS_KEY) === 'false'
+    ) {
+      setClosed(false);
+    }
+  }, []);
+
+  if (!content || isClosed) {
     return null;
   }
 
