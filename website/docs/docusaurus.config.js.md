@@ -23,20 +23,6 @@ module.exports = {
 };
 ```
 
-### `tagline`
-
-- Type: `string`
-
-The tagline for your website.
-
-```js
-// docusaurus.config.js
-module.exports = {
-  tagline:
-    'Docusaurus makes it easy to maintain Open Source documentation websites.',
-};
-```
-
 ### `favicon`
 
 - Type: `string`
@@ -97,6 +83,20 @@ module.exports = {
 ```
 
 ## Optional fields
+
+### `tagline`
+
+- Type: `string`
+
+The tagline for your website.
+
+```js
+// docusaurus.config.js
+module.exports = {
+  tagline:
+    'Docusaurus makes it easy to maintain Open Source documentation websites.',
+};
+```
 
 ### `organizationName`
 

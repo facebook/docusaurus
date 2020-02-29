@@ -41,7 +41,7 @@ describe('loadConfig', () => {
     expect(() => {
       loadConfig(siteDir);
     }).toThrowErrorMatchingInlineSnapshot(
-      `"The required field(s) 'favicon', 'tagline', 'url' are missing from docusaurus.config.js"`,
+      `"The required field(s) 'favicon', 'url' are missing from docusaurus.config.js"`,
     );
   });
 
