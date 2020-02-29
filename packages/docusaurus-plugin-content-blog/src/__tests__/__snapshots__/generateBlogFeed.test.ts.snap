@@ -1,6 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`blogFeed atom can show feed without posts 1`] = `null`;
+exports[`blogFeed atom can show feed without posts 1`] = `
+"<?xml version=\\"1.0\\" encoding=\\"utf-8\\"?>
+<feed xmlns=\\"http://www.w3.org/2005/Atom\\">
+    <id>https://docusaurus.io/blog</id>
+    <title>Hello Blog</title>
+    <updated>2015-10-25T23:29:00.000Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel=\\"alternate\\" href=\\"https://docusaurus.io/blog\\"/>
+    <subtitle>Hello Blog</subtitle>
+    <icon>https://docusaurus.io/image/favicon.ico</icon>
+    <rights>Copyright</rights>
+</feed>"
+`;
 
 exports[`blogFeed atom shows feed item for each post 1`] = `
 "<?xml version=\\"1.0\\" encoding=\\"utf-8\\"?>
@@ -37,7 +49,20 @@ exports[`blogFeed atom shows feed item for each post 1`] = `
 </feed>"
 `;
 
-exports[`blogFeed rss can show feed without posts 1`] = `null`;
+exports[`blogFeed rss can show feed without posts 1`] = `
+"<?xml version=\\"1.0\\" encoding=\\"utf-8\\"?>
+<rss version=\\"2.0\\">
+    <channel>
+        <title>Hello Blog</title>
+        <link>https://docusaurus.io/blog</link>
+        <description>Hello Blog</description>
+        <lastBuildDate>Sun, 25 Oct 2015 23:29:00 GMT</lastBuildDate>
+        <docs>http://blogs.law.harvard.edu/tech/rss</docs>
+        <generator>https://github.com/jpmonette/feed</generator>
+        <copyright>Copyright</copyright>
+    </channel>
+</rss>"
+`;
 
 exports[`blogFeed rss shows feed item for each post 1`] = `
 "<?xml version=\\"1.0\\" encoding=\\"utf-8\\"?>

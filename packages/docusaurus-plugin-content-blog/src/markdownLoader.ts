@@ -5,21 +5,20 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const {parseQuery, getOptions} = require('loader-utils');
 import {loader} from 'webpack';
-import {truncate} from './blogUtils';
+import {truncate, linkify} from './blogUtils';
+const {parseQuery, getOptions} = require('loader-utils');
 
 export = function(fileString: string) {
   const callback = this.async();
-
-  const {truncateMarker}: {truncateMarker: RegExp} = getOptions(this);
-
-  let finalContent = fileString;
+  const {truncateMarker, siteDir, contentPath, blogPosts} = getOptions(this);
+  // Linkify posts
+  let finalContent = linkify(fileString, siteDir, contentPath, blogPosts);
 
   // Truncate content if requested (e.g: file.md?truncated=true).
   const {truncated} = this.resourceQuery && parseQuery(this.resourceQuery);
   if (truncated) {
-    finalContent = truncate(fileString, truncateMarker);
+    finalContent = truncate(finalContent, truncateMarker);
   }
 
   return callback && callback(null, finalContent);

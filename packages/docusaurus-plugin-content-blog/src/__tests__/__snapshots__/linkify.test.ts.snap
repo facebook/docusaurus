@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`transform to correct link 1`] = `
+"---
+title: This post links to another one!
+---
+
+[Linked post](/blog/2018/12/14/Happy-First-Birthday-Slash)"
+`;
