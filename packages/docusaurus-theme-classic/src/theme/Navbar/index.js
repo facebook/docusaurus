@@ -9,6 +9,7 @@ import React, {useCallback, useState} from 'react';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
+import isInternalUrl from '@docusaurus/isInternalUrl';
 
 import SearchBar from '@theme/SearchBar';
 import Toggle from '@theme/Toggle';
@@ -81,7 +82,7 @@ function Navbar() {
 
   if (logo.target) {
     logoLinkProps = {target: logo.target};
-  } else if (/http/.test(logoLink)) {
+  } else if (!isInternalUrl(logoLink)) {
     logoLinkProps = {
       rel: 'noopener noreferrer',
       target: '_blank',
