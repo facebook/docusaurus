@@ -17,6 +17,7 @@ import useThemeContext from '@theme/hooks/useThemeContext';
 import styles from './styles.module.css';
 
 const highlightLinesRangeRegex = /{([\d,-]+)}/;
+const codeBlockTitleRegex = /title=".*"/;
 
 export default ({children, className: languageClassName, metastring}) => {
   const {
@@ -40,13 +41,20 @@ export default ({children, className: languageClassName, metastring}) => {
 
   const target = useRef(null);
   const button = useRef(null);
-  const fileName = languageClassName.split(':')[1];
+  let codeBlockTitle = '';
   let highlightLines = [];
 
   const {isDarkTheme} = useThemeContext();
   const lightModeTheme = prism.theme || defaultTheme;
   const darkModeTheme = prism.darkTheme || lightModeTheme;
   const prismTheme = isDarkTheme ? darkModeTheme : lightModeTheme;
+
+  if (metastring && codeBlockTitleRegex.test(metastring)) {
+    codeBlockTitle = metastring
+      .match(codeBlockTitleRegex)[0]
+      .split('title=')[1]
+      .replace(/"+/g, '');
+  }
 
   if (metastring && highlightLinesRangeRegex.test(metastring)) {
     const highlightLinesRange = metastring.match(highlightLinesRangeRegex)[1];
@@ -70,8 +78,7 @@ export default ({children, className: languageClassName, metastring}) => {
   }, [button.current, target.current]);
 
   let language =
-    languageClassName &&
-    languageClassName.split(':')[0].replace(/language-/, '');
+    languageClassName && languageClassName.replace(/language-/, '');
 
   if (!language && prism.defaultLanguage) {
     language = prism.defaultLanguage;
@@ -92,39 +99,49 @@ export default ({children, className: languageClassName, metastring}) => {
       code={children.replace(/\n$/, '')}
       language={language}>
       {({className, style, tokens, getLineProps, getTokenProps}) => (
-        <pre className={classnames(className, styles.codeBlock)} style={style}>
-          {fileName && <div className={styles.fileName}>{fileName}</div>}
+        <div className={styles.codeBlockWrapper}>
+          {codeBlockTitle && (
+            <div style={style} className={styles.codeBlockTitle}>
+              {codeBlockTitle}
+            </div>
+          )}
           <button
             ref={button}
             type="button"
             aria-label="Copy code to clipboard"
-            className={styles.copyButton}
+            className={classnames(styles.copyButton, {
+              [`${styles.copyButtonWithTitle}`]: codeBlockTitle,
+            })}
             onClick={handleCopyCode}>
             {showCopied ? 'Copied' : 'Copy'}
           </button>
+          <pre
+            className={classnames(className, styles.codeBlock, {
+              [`${styles.codeBlockWithTitle}`]: codeBlockTitle,
+            })}>
+            <div ref={target} className={styles.codeBlockLines} style={style}>
+              {tokens.map((line, i) => {
+                if (line.length === 1 && line[0].content === '') {
+                  line[0].content = '\n'; // eslint-disable-line no-param-reassign
+                }
 
-          <div ref={target} className={styles.codeBlockLines} style={style}>
-            {tokens.map((line, i) => {
-              if (line.length === 1 && line[0].content === '') {
-                line[0].content = '\n'; // eslint-disable-line no-param-reassign
-              }
+                const lineProps = getLineProps({line, key: i});
 
-              const lineProps = getLineProps({line, key: i});
+                if (highlightLines.includes(i + 1)) {
+                  lineProps.className = `${lineProps.className} docusaurus-highlight-code-line`;
+                }
 
-              if (highlightLines.includes(i + 1)) {
-                lineProps.className = `${lineProps.className} docusaurus-highlight-code-line`;
-              }
-
-              return (
-                <div key={i} {...lineProps}>
-                  {line.map((token, key) => (
-                    <span key={key} {...getTokenProps({token, key})} />
-                  ))}
-                </div>
-              );
-            })}
-          </div>
-        </pre>
+                return (
+                  <div key={i} {...lineProps}>
+                    {line.map((token, key) => (
+                      <span key={key} {...getTokenProps({token, key})} />
+                    ))}
+                  </div>
+                );
+              })}
+            </div>
+          </pre>
+        </div>
       )}
     </Highlight>
   );
