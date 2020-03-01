@@ -40,6 +40,7 @@ export default ({children, className: languageClassName, metastring}) => {
 
   const target = useRef(null);
   const button = useRef(null);
+  const fileName = languageClassName.split(':')[1];
   let highlightLines = [];
 
   const {isDarkTheme} = useThemeContext();
@@ -69,7 +70,8 @@ export default ({children, className: languageClassName, metastring}) => {
   }, [button.current, target.current]);
 
   let language =
-    languageClassName && languageClassName.replace(/language-/, '');
+    languageClassName &&
+    languageClassName.split(':')[0].replace(/language-/, '');
 
   if (!language && prism.defaultLanguage) {
     language = prism.defaultLanguage;
@@ -90,7 +92,8 @@ export default ({children, className: languageClassName, metastring}) => {
       code={children.replace(/\n$/, '')}
       language={language}>
       {({className, style, tokens, getLineProps, getTokenProps}) => (
-        <pre className={classnames(className, styles.codeBlock)}>
+        <pre className={classnames(className, styles.codeBlock)} style={style}>
+          {fileName && <div className={styles.fileName}>{fileName}</div>}
           <button
             ref={button}
             type="button"

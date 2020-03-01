@@ -12,6 +12,12 @@
   margin: 0;
 }
 
+.fileName {
+  padding: 4px 12px;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
 .copyButton {
   background: rgb(1, 22, 39);
   border: 1px solid rgb(214, 222, 235);
