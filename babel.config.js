@@ -8,17 +8,20 @@
 module.exports = {
   presets: [
     [
-      '@babel/env',
+      '@babel/preset-env',
       {
         targets: {
           node: 'current',
         },
+        useBuiltIns: 'entry',
+        corejs: '3',
       },
     ],
-    '@babel/react',
+    '@babel/preset-react',
     '@babel/preset-typescript',
   ],
   plugins: [
+    '@babel/plugin-transform-runtime',
     '@babel/plugin-proposal-class-properties',
     '@babel/plugin-proposal-object-rest-spread',
     '@babel/plugin-proposal-nullish-coalescing-operator',
