@@ -21,7 +21,7 @@ module.exports = function(context, options) {
     name: 'docusaurus-plugin',
     getPathsToWatch() {
       const contentPath = path.resolve(context.siteDir, options.path);
-      return [`${contentPath}/**/*.{ts,tsx}`);
+      return [`${contentPath}/**/*.{ts,tsx}`];
     },
   };
 };
