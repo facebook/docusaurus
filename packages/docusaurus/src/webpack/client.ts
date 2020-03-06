@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import chalk = require('chalk');
+import chalk from 'chalk';
 import path from 'path';
 import {Configuration} from 'webpack';
 import merge from 'webpack-merge';
