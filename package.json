@@ -62,6 +62,7 @@
     "prettier": "^1.19.1",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
+    "stylelint": "^13.2.0",
     "typescript": "^3.7.2"
   },
   "lint-staged": {
