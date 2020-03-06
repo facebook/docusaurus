@@ -15,7 +15,7 @@ body {
   transition: var(--ifm-transition-fast) ease color;
 }
 
-body > div {
+body > div:first-of-type {
   height: 100%;
   display: flex;
   flex-direction: column;
