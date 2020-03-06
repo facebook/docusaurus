@@ -1,6 +1,0 @@
-{
-    "plugins": ["./packages/stylelint-copyright/index.js"],
-    "rules": {
-        "plugin/stylelint-copyright": true
-    }
-}
