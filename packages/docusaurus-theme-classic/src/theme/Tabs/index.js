@@ -6,6 +6,7 @@
  */
 
 import React, {useState, Children} from 'react';
+import useTabGroupChoiceContext from '@theme/hooks/useTabGroupChoiceContext';
 
 import classnames from 'classnames';
 
@@ -17,8 +18,27 @@ const keys = {
 };
 
 function Tabs(props) {
-  const {block, children, defaultValue, values} = props;
+  const {block, children, defaultValue, values, groupId} = props;
+  const {getTabGroupChoice, setTabGroupChoice} = useTabGroupChoiceContext();
   const [selectedValue, setSelectedValue] = useState(defaultValue);
+
+  if (typeof groupId !== 'undefined') {
+    const tabGroupChoice = getTabGroupChoice(groupId);
+    if (
+      typeof tabGroupChoice !== 'undefined' &&
+      tabGroupChoice !== selectedValue
+    ) {
+      setSelectedValue(tabGroupChoice);
+    }
+  }
+
+  const changeSelectedValue = newValue => {
+    setSelectedValue(newValue);
+    if (typeof groupId !== 'undefined') {
+      setTabGroupChoice(groupId, newValue);
+    }
+  };
+
   const tabRefs = [];
 
   const focusNextTab = (tabs, target) => {
@@ -73,8 +93,8 @@ function Tabs(props) {
             key={value}
             ref={tabControl => tabRefs.push(tabControl)}
             onKeyDown={event => handleKeydown(tabRefs, event.target, event)}
-            onFocus={() => setSelectedValue(value)}
-            onClick={() => setSelectedValue(value)}>
+            onFocus={() => changeSelectedValue(value)}
+            onClick={() => changeSelectedValue(value)}>
             {label}
           </li>
         ))}

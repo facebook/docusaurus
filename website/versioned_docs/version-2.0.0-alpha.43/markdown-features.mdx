@@ -16,7 +16,7 @@ Docusaurus 2 uses modern tooling to help you compose your interactive documentat
 
 In this section, we'd like to introduce you to the tools we've picked that we believe will help you build powerful documentation. Let us walk you through with an example.
 
-:::important 
+:::important
 All the following content assumes you are using `@docusaurus/preset-classic`.
 :::
 
@@ -468,7 +468,115 @@ class HelloWorld {
 </TabItem>
 </Tabs>
 
+
 You may want to implement your own `<MultiLanguageCode />` abstraction if you find the above approach too verbose. We might just implement one in future for convenience.
+
+### Syncing Tab Choices
+
+You may want choices of tabs to sync with each other. For example, you might want to provide different instructions for users on Windows vs users on macOS, and you want to changing all OS-specific instructions tabs in one click. To achieve that, you can give all related tabs the same group id:
+
+    import Tabs from '@theme/Tabs';
+    import TabItem from '@theme/TabItem';
+    <Tabs
+      groupId="windows-mac"
+      defaultValue="win"
+      values={[
+        { label: 'Windows', value: 'win', },
+        { label: 'macOS', value: 'mac', },
+      ]
+    }>
+    <TabItem value="win">Use Ctrl + C to copy.</TabItem>
+    <TabItem value="mac">Use Command + C to copy.</TabItem>
+    </Tabs>
+
+    <Tabs
+      groupId="windows-mac"
+      defaultValue="win"
+      values={[
+        { label: 'Windows', value: 'win', },
+        { label: 'macOS', value: 'mac', },
+      ]
+    }>
+    <TabItem value="win">Use Ctrl + V to paste.</TabItem>
+    <TabItem value="mac">Use Command + V to paste.</TabItem>
+    </Tabs>
+
+
+<Tabs
+  groupId="windows-mac"
+  defaultValue="win"
+  values={[
+    { label: 'Windows', value: 'win', },
+    { label: 'macOS', value: 'mac', },
+  ]
+}>
+<TabItem value="win">Use Ctrl + C to copy.</TabItem>
+<TabItem value="mac">Use Command + C to copy.</TabItem>
+</Tabs>
+
+<Tabs
+  groupId="windows-mac"
+  defaultValue="win"
+  values={[
+    { label: 'Windows', value: 'win', },
+    { label: 'macOS', value: 'mac', },
+  ]
+}>
+<TabItem value="win">Use Ctrl + V to paste.</TabItem>
+<TabItem value="mac">Use Command + V to paste.</TabItem>
+</Tabs>
+
+Tab choices with different `groupId`s will not interfere with each other:
+
+    import Tabs from '@theme/Tabs';
+    import TabItem from '@theme/TabItem';
+    <Tabs
+      groupId="windows-unix"
+      defaultValue="win"
+      values={[
+        { label: 'Windows', value: 'win', },
+        { label: 'Unix', value: 'unix', },
+      ]
+    }>
+    <TabItem value="win">Windows is windows.</TabItem>
+    <TabItem value="unix">Unix is unix.</TabItem>
+    </Tabs>
+
+    <Tabs
+      groupId="windows-unix"
+      defaultValue="win"
+      values={[
+        { label: 'Windows', value: 'win', },
+        { label: 'Unix', value: 'unix', },
+      ]
+    }>
+    <TabItem value="win">Windows is not unix.</TabItem>
+    <TabItem value="unix">Unix is not windows.</TabItem>
+    </Tabs>
+
+<Tabs
+  groupId="windows-unix"
+  defaultValue="win"
+  values={[
+    { label: 'Windows', value: 'win', },
+    { label: 'Unix', value: 'unix', },
+  ]
+}>
+<TabItem value="win">Windows is windows.</TabItem>
+<TabItem value="unix">Unix is unix.</TabItem>
+</Tabs>
+
+<Tabs
+  groupId="windows-unix"
+  defaultValue="win"
+  values={[
+    { label: 'Windows', value: 'win', },
+    { label: 'Unix', value: 'unix', },
+  ]
+}>
+<TabItem value="win">Windows is not unix.</TabItem>
+<TabItem value="unix">Unix is not windows.</TabItem>
+</Tabs>
 
 ### Callouts/admonitions
 
