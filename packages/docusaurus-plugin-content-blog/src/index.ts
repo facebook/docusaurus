@@ -76,7 +76,7 @@ export default function pluginContentBlog(
 
     // Fetches blog contents and returns metadata for the necessary routes.
     async loadContent() {
-      const {postsPerPage, routeBasePath} = options;
+      const {postsPerPage, routeBasePath, blogSiteDescription} = options;
 
       blogPosts = await generateBlogPosts(contentPath, context, options);
       if (!blogPosts.length) {
@@ -269,6 +269,9 @@ export default function pluginContentBlog(
                 };
               }),
               metadata: aliasedSource(pageMetadataPath),
+            },
+            props: {
+              blogSiteDescription,
             },
           });
         }),

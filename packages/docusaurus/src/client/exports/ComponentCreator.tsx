@@ -81,7 +81,7 @@ function ComponentCreator(
 
       const Component = loadedModules.component;
       delete loadedModules.component;
-      return <Component {...loadedModules} {...props} />;
+      return <Component {...loadedModules} {...props} {...routeProps} />;
     },
   });
 }

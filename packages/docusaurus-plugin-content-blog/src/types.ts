@@ -30,6 +30,7 @@ export interface PluginOptions {
   blogTagsListComponent: string;
   blogTagsPostsComponent: string;
   remarkPlugins: ([Function, object] | Function)[];
+  blogDescription: string;
   rehypePlugins: string[];
   truncateMarker: RegExp;
   showReadingTime: boolean;
@@ -72,6 +73,7 @@ export interface BlogPaginatedMetadata {
 export interface BlogPaginated {
   metadata: BlogPaginatedMetadata;
   items: string[];
+  blogSiteDescription: string;
 }
 
 export interface MetaData {

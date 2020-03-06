@@ -108,6 +108,7 @@ export default async function loadRoutes(
       modules = {},
       routes: subroutes,
       exact,
+      props,
     } = routeConfig;
 
     if (!isString(routePath) || !component) {
