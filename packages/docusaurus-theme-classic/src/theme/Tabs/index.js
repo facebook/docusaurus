@@ -22,7 +22,6 @@ function Tabs(props) {
   const {tabGroupChoice, setTabGroupChoice} = useTabGroupChoiceContext();
   const [selectedValue, setSelectedValue] = useState(defaultValue);
 
-  console.log({values, tabGroupChoice});
   if (
     typeof tabGroupChoice !== 'undefined' &&
     tabGroupChoice !== selectedValue &&
@@ -34,7 +33,6 @@ function Tabs(props) {
   const changeSelectedValue = newValue => {
     setSelectedValue(newValue);
     setTabGroupChoice(newValue);
-    console.log({newValue});
   };
 
   const tabRefs = [];
