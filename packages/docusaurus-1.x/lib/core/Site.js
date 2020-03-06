@@ -9,7 +9,7 @@ const React = require('react');
 const fs = require('fs');
 const classNames = require('classnames');
 
-const HeaderNav = require('./nav/HeaderNav.js');
+const HeaderNav = require(`${process.cwd()}/core/HeaderNav.js`);
 const Head = require('./Head.js');
 
 const Footer = require(`${process.cwd()}/core/Footer.js`);
