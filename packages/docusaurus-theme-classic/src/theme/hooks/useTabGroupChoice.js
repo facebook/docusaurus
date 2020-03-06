@@ -8,35 +8,34 @@
 import {useState, useCallback, useEffect} from 'react';
 
 const useTabGroupChoice = () => {
-  const [choices, setChoices] = useState({});
+  const [tabGroupChoice, setChoice] = useState();
   const setChoiceSyncWithLocalStorage = useCallback(
-    newChoices => {
+    newChoice => {
       try {
-        localStorage.setItem('tab-group', JSON.stringify(newChoices));
+        localStorage.setItem('docusaurus.tab-choice', newChoice);
       } catch (err) {
         console.error(err);
       }
     },
-    [setChoices],
+    [setChoice],
   );
 
   useEffect(() => {
     try {
-      const localStorageChoice = JSON.parse(localStorage.getItem('tab-group'));
+      const localStorageChoice = localStorage.getItem('docusaurus.tab-choice');
       if (localStorageChoice !== null) {
-        setChoices(localStorageChoice);
+        setChoice(localStorageChoice);
       }
     } catch (err) {
       console.error(err);
     }
-  }, [setChoices]);
+  }, [setChoice]);
 
   return {
-    getTabGroupChoice: key => choices[key],
-    setTabGroupChoice: (key, value) => {
-      const newChoices = {...choices, [key]: value};
-      setChoices(newChoices);
-      setChoiceSyncWithLocalStorage(newChoices);
+    tabGroupChoice,
+    setTabGroupChoice: newChoice => {
+      setChoice(newChoice);
+      setChoiceSyncWithLocalStorage(newChoice);
     },
   };
 };
