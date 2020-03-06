@@ -7,12 +7,14 @@
 
 import {useState, useCallback, useEffect} from 'react';
 
+const TAB_CHOICE_STORAGE_KEY = 'docusaurus.tab-choice';
+
 const useTabGroupChoice = () => {
   const [tabGroupChoice, setChoice] = useState();
   const setChoiceSyncWithLocalStorage = useCallback(
     newChoice => {
       try {
-        localStorage.setItem('docusaurus.tab-choice', newChoice);
+        localStorage.setItem(TAB_CHOICE_STORAGE_KEY, newChoice);
       } catch (err) {
         console.error(err);
       }
@@ -22,7 +24,7 @@ const useTabGroupChoice = () => {
 
   useEffect(() => {
     try {
-      const localStorageChoice = localStorage.getItem('docusaurus.tab-choice');
+      const localStorageChoice = localStorage.getItem(TAB_CHOICE_STORAGE_KEY);
       if (localStorageChoice !== null) {
         setChoice(localStorageChoice);
       }
