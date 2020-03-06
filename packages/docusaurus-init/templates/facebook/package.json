@@ -8,7 +8,7 @@
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
     "ci": "yarn lint && yarn prettier:diff",
-    "lint": "eslint --cache \"**/*.js\"",
+    "lint": "eslint --cache \"**/*.js\" && stylelint \"**/*.css\"",
     "prettier": "prettier --config .prettierrc --write \"**/*.{js,md}\"",
     "prettier:diff": "prettier --config .prettierrc --list-different \"**/*.{js,md}\""
   },
@@ -17,7 +17,8 @@
     "@docusaurus/preset-classic": "^2.0.0-alpha.43",
     "classnames": "^2.2.6",
     "react": "^16.8.4",
-    "react-dom": "^16.8.4"
+    "react-dom": "^16.8.4",
+    "stylelint": "^13.2.0"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.3",
