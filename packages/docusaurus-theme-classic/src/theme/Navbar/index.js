@@ -16,7 +16,6 @@ import Toggle from '@theme/Toggle';
 import useThemeContext from '@theme/hooks/useThemeContext';
 import useHideableNavbar from '@theme/hooks/useHideableNavbar';
 import useLockBodyScroll from '@theme/hooks/useLockBodyScroll';
-import withForwardedRef from '@theme/hocs/withForwardedRef';
 
 import styles from './styles.module.css';
 
@@ -49,15 +48,14 @@ function NavLink({activeBasePath, to, href, label, position, ...props}) {
   );
 }
 
-const Navbar = ({forwardedRef}) => {
-  const context = useDocusaurusContext();
-  const {siteConfig = {}, isClient} = context;
+function Navbar() {
+  const {siteConfig = {}, isClient} = useDocusaurusContext();
   const {baseUrl, themeConfig = {}} = siteConfig;
   const {navbar = {}, disableDarkMode = false} = themeConfig;
   const {title, logo = {}, links = [], hideOnScroll = false} = navbar;
 
   const {isDarkTheme, setLightTheme, setDarkTheme} = useThemeContext();
-  const {isNavbarVisible} = useHideableNavbar(hideOnScroll, forwardedRef);
+  const {navbarRef, isNavbarVisible} = useHideableNavbar(hideOnScroll);
 
   const [sidebarShown, setSidebarShown] = useState(false);
   const [isSearchBarExpanded, setIsSearchBarExpanded] = useState(false);
@@ -88,7 +86,7 @@ const Navbar = ({forwardedRef}) => {
 
   return (
     <nav
-      ref={forwardedRef}
+      ref={navbarRef}
       className={classnames('navbar', 'navbar--light', 'navbar--fixed-top', {
         'navbar-sidebar--show': sidebarShown,
         [styles.navbarHideable]: hideOnScroll,
@@ -210,6 +208,6 @@ const Navbar = ({forwardedRef}) => {
       </div>
     </nav>
   );
-};
+}
 
-export default withForwardedRef(Navbar);
+export default Navbar;

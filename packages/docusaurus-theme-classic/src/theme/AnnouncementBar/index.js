@@ -7,14 +7,13 @@
 
 import React, {useState, useEffect} from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import withForwardedRef from '@theme/hocs/withForwardedRef';
 
 import styles from './styles.module.css';
 
 const STORAGE_DISMISS_KEY = 'docusaurus.announcement.dismiss';
 const STORAGE_VIEWED_MESSAGE_KEY = 'docusaurus.announcement.viewed_message';
 
-const AnnouncementBar = ({forwardedRef}) => {
+function AnnouncementBar() {
   const {
     siteConfig: {themeConfig: {announcementBar = {}}} = {},
   } = useDocusaurusContext();
@@ -50,7 +49,6 @@ const AnnouncementBar = ({forwardedRef}) => {
 
   return (
     <div
-      ref={forwardedRef}
       className={styles.announcementBar}
       style={{backgroundColor, color: textColor}}
       role="banner">
@@ -68,6 +66,6 @@ const AnnouncementBar = ({forwardedRef}) => {
       />
     </div>
   );
-};
+}
 
-export default withForwardedRef(AnnouncementBar);
+export default AnnouncementBar;

@@ -14,7 +14,6 @@ import ThemeProvider from '@theme/ThemeProvider';
 import AnnouncementBar from '@theme/AnnouncementBar';
 import Navbar from '@theme/Navbar';
 import Footer from '@theme/Footer';
-import useAnnouncementBar from '@theme/hooks/useAnnouncementBar';
 
 import './styles.css';
 
@@ -40,7 +39,6 @@ function Layout(props) {
   const metaImage = image || defaultImage;
   const metaImageUrl = siteUrl + useBaseUrl(metaImage);
   const faviconUrl = useBaseUrl(favicon);
-  const {announcementBarRef, navbarRef, mainWrapperRef} = useAnnouncementBar();
 
   return (
     <ThemeProvider>
@@ -68,11 +66,9 @@ function Layout(props) {
         {permalink && <meta property="og:url" content={siteUrl + permalink} />}
         <meta name="twitter:card" content="summary" />
       </Head>
-      <AnnouncementBar ref={announcementBarRef} />
-      <Navbar ref={navbarRef} />
-      <div className="main-wrapper" ref={mainWrapperRef}>
-        {children}
-      </div>
+      <AnnouncementBar />
+      <Navbar />
+      <div className="main-wrapper">{children}</div>
       {!noFooter && <Footer />}
     </ThemeProvider>
   );
