@@ -15,13 +15,12 @@ body {
   transition: var(--ifm-transition-fast) ease color;
 }
 
-body > #__docusaurus {
-  height: 100%;
+#__docusaurus {
+  min-height: 100%;
   display: flex;
   flex-direction: column;
 }
 
 .main-wrapper {
   flex: 1 0 auto;
-  margin-top: var(--ifm-navbar-height);
 }

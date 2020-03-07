@@ -8391,10 +8391,10 @@ infer-owner@^1.0.3, infer-owner@^1.0.4:
   resolved "https://registry.yarnpkg.com/infer-owner/-/infer-owner-1.0.4.tgz#c4cefcaa8e51051c2a40ba2ce8a3d27295af9467"
   integrity sha512-IClj+Xz94+d7irH5qRyfJonOdfTzuDaifE6ZPWfx0N0+/ATZCbuTPq2prFl526urkQd90WyUKIh1DfBQ2hMz9A==
 
-infima@0.2.0-alpha.4:
-  version "0.2.0-alpha.4"
-  resolved "https://registry.yarnpkg.com/infima/-/infima-0.2.0-alpha.4.tgz#0817cd5e74ff45aa5c3ba7b6352dfcb088f07143"
-  integrity sha512-b2uwUMI40IAyGRG0IHZpQOPPEKB41y5U+ZKHZxhtLjLJ90FCCcUiMYUbNAf7gRXvNSmotymTeydLj10Et+X3sQ==
+infima@0.2.0-alpha.5:
+  version "0.2.0-alpha.5"
+  resolved "https://registry.yarnpkg.com/infima/-/infima-0.2.0-alpha.5.tgz#1b5c9c63b90c4b5449c481c6e12a72c0cbe64585"
+  integrity sha512-kG8ivgCIlV4aFU7kaq1IlSybLETN2dkQaFNwcJIr2uOY6ojz7qgc9RT+TRVx6a48VYNJTz821wHVtj22XukVYw==
 
 inflight@^1.0.4:
   version "1.0.6"
@@ -13842,6 +13842,15 @@ remark-admonitions@^1.1.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/remark-admonitions/-/remark-admonitions-1.1.1.tgz#bc9d7f54f47fc78f8faa6580677cfa635208cb5e"
   integrity sha512-F0MZRtN/sE3OUcLyal3lKtjYeM3ep2T6pLjYwhwJ9Uw3XQYzn4EQOzThbR5zvMpDE+gX5k+3zfOaEVC5qitgYg==
+  dependencies:
+    rehype-parse "^6.0.2"
+    unified "^8.4.2"
+    unist-util-visit "^2.0.1"
+
+remark-admonitions@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/remark-admonitions/-/remark-admonitions-1.2.0.tgz#0c8ba565c018357afb5f4f89efe4e543d71bd216"
+  integrity sha512-h7P99HNMuSeA3HBw+RIF4PoTEI2knjPqBIfmYSgavXvA5PHgP3oHo0XKfDmmPpUZY6vBWKzcLXRZcYHNnNcJaw==
   dependencies:
     rehype-parse "^6.0.2"
     unified "^8.4.2"
