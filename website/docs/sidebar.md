@@ -139,6 +139,18 @@ Sidebar item type that links to a doc page. Example:
 }
 ```
 
+If you do not specify sidebar_label in your md files, you can add an optional 'label' option. Example:
+
+```js
+{
+  type: 'doc',
+  id: 'doc1', // string - document id,
+  label: 'First Document', // string - document label (will be shown in sidebar)
+}
+```
+
+However, note that this label option does not override 'sidebar_label' if it is specified in the md files front matter.
+
 Using just the [Document ID](#document-id) is perfectly valid as well, the following is equivalent to the above:
 
 ```js
