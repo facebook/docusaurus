@@ -137,7 +137,9 @@ function Navbar() {
             )}
             {title != null && (
               <strong
-                className={isSearchBarExpanded ? styles.hideLogoText : ''}>
+                className={classnames('navbar__title', {
+                  [styles.hideLogoText]: isSearchBarExpanded,
+                })}>
                 {title}
               </strong>
             )}
@@ -188,7 +190,9 @@ function Navbar() {
                 alt={logo.alt}
               />
             )}
-            {title != null && <strong>{title}</strong>}
+            {title != null && (
+              <strong className="navbar__title">{title}</strong>
+            )}
           </Link>
           {!disableDarkMode && sidebarShown && (
             <Toggle
