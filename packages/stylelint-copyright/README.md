@@ -1,6 +1,6 @@
 # stylelint-copyright
 
-stylelint plugin to check css files for a copyright header
+stylelint plugin to check CSS files for a copyright header.
 
 ```css
 /*
@@ -11,12 +11,12 @@ stylelint plugin to check css files for a copyright header
 
 ## Usage
 
-```js
+```json
 // .stylelintrc
 {
-    "plugins": ["./packages/stylelint-copyright/index.js"],
-    "rules": {
-        "plugin/stylelint-copyright": true
-    }
+  "plugins": ["stylelint-copyright"],
+  "rules": {
+    "docusaurus/copyright-header": true
+  }
 }
 ```

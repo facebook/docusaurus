@@ -7,9 +7,9 @@
 
 const stylelint = require('stylelint');
 
-const ruleName = 'plugin/stylelint-copyright';
+const ruleName = 'docusaurus/copyright-header';
 const messages = stylelint.utils.ruleMessages(ruleName, {
-  rejected: 'Unexpected missing copyright in the first comment',
+  rejected: 'Missing copyright in the header comment',
 });
 
 module.exports = stylelint.createPlugin(ruleName, actual => {
@@ -23,7 +23,7 @@ module.exports = stylelint.createPlugin(ruleName, actual => {
     }
 
     root.walkComments(comment => {
-      // ignore root comments with copyright text
+      // Ignore root comments with copyright text.
       if (
         comment === comment.parent.first &&
         /[Cc]opyright/.test(comment.text)
@@ -31,12 +31,12 @@ module.exports = stylelint.createPlugin(ruleName, actual => {
         return;
       }
 
-      // ignore non-root comments
+      // Ignore non-root comments.
       if (comment.type !== 'root' && comment !== comment.parent.first) {
         return;
       }
 
-      // ignore indented comments
+      // Ignore indented comments.
       if (comment.source.start.column > 1) {
         return;
       }
