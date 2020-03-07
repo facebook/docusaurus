@@ -15,7 +15,7 @@ body {
   transition: var(--ifm-transition-fast) ease color;
 }
 
-body > div:first-of-type {
+body > #__docusaurus {
   height: 100%;
   display: flex;
   flex-direction: column;
