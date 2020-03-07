@@ -90,7 +90,7 @@ export function docsVersion(
         case 'ref':
         case 'doc':
           return {
-            type: item.type,
+            ...item,
             id: `version-${version}/${item.id}`,
           };
         default:

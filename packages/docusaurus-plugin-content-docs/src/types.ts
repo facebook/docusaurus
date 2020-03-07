@@ -28,6 +28,7 @@ export interface PluginOptions extends MetadataOptions, PathOptions {
 export type SidebarItemDoc = {
   type: 'doc' | 'ref';
   id: string;
+  label?: string;
 };
 
 export interface SidebarItemLink {

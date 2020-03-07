@@ -237,7 +237,7 @@ export default function pluginContentDocs(
 
         return {
           type: 'link',
-          label: linkMetadata.sidebar_label || linkMetadata.title,
+          label: linkMetadata.sidebar_label || item.label || linkMetadata.title,
           href: linkMetadata.permalink,
         };
       };

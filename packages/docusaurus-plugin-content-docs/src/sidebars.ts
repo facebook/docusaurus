@@ -49,10 +49,15 @@ function assertIsCategory(item: any): asserts item is SidebarItemCategoryRaw {
 }
 
 function assertIsDoc(item: any): asserts item is SidebarItemDoc {
-  assertItem(item, ['id']);
+  assertItem(item, ['id', 'label']);
   if (typeof item.id !== 'string') {
     throw new Error(
       `Error loading ${JSON.stringify(item)}. "id" must be a string.`,
+    );
+  }
+  if (item.label && typeof item.label !== 'string') {
+    throw new Error(
+      `Error loading ${JSON.stringify(item)}. "label" must be a string.`,
     );
   }
 }
@@ -95,7 +100,7 @@ function normalizeItem(item: SidebarItemRaw): SidebarItem {
     case 'ref':
     case 'doc':
       assertIsDoc(item);
-      return item;
+      return {...item};
     default:
       throw new Error(`Unknown sidebar item type: ${item.type}`);
   }
