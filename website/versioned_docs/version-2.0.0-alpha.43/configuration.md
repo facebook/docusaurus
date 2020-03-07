@@ -143,3 +143,30 @@ const Hello = () => {
 ```
 
 > If you just want to use those fields on the client side, you could create your own JS files and import them as ES6 modules, there is no need to put them in `docusaurus.config.js`.
+
+## Docs-only mode
+
+You can run your Docusaurus 2 site without a landing page and instead have a page from your documentation as the index page.
+
+Set the `routeBasePath` to indicate that it’s the root path.
+
+**Note**: Make sure there’s no `index.js` page in `src/pages` or there will be two files mapped to the same route!
+
+```js {9}
+// docusaurus.config.js
+module.exports = {
+  // ...
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        docs: {
+          routeBasePath: '/' // Set this value to '/'.
+        },
+      },
+    ],
+  ],
+};
+```
+
+You can apply the same principle for blogs with the [Blog-only mode](blog.md).
