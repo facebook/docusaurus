@@ -10,34 +10,47 @@ import {useState, useCallback, useEffect} from 'react';
 const TAB_CHOICE_STORAGE_KEY = 'docusaurus.tab-choice';
 
 const useTabGroupChoice = () => {
-  const [tabGroupChoice, setChoice] = useState();
+  const [tabGroupChoices, setChoices] = useState([]);
   const setChoiceSyncWithLocalStorage = useCallback(
     newChoice => {
       try {
-        localStorage.setItem(TAB_CHOICE_STORAGE_KEY, newChoice);
+        localStorage.setItem(TAB_CHOICE_STORAGE_KEY, JSON.stringify(newChoice));
       } catch (err) {
         console.error(err);
       }
     },
-    [setChoice],
+    [setChoices],
   );
 
   useEffect(() => {
     try {
       const localStorageChoice = localStorage.getItem(TAB_CHOICE_STORAGE_KEY);
       if (localStorageChoice !== null) {
-        setChoice(localStorageChoice);
+        setChoices(JSON.parse(localStorageChoice));
       }
     } catch (err) {
       console.error(err);
     }
-  }, [setChoice]);
+  }, [setChoices]);
 
   return {
-    tabGroupChoice,
-    setTabGroupChoice: newChoice => {
-      setChoice(newChoice);
-      setChoiceSyncWithLocalStorage(newChoice);
+    tabGroupChoices,
+    setTabGroupChoices: (oldChoice, newChoice) => {
+      const newChoices = [];
+      let foundOldChoice = false;
+      tabGroupChoices.forEach(choice => {
+        if (choice === oldChoice) {
+          foundOldChoice = true;
+          newChoices.push(newChoice);
+        } else {
+          newChoices.push(choice);
+        }
+      });
+      if (!foundOldChoice) {
+        newChoices.push(newChoice);
+      }
+      setChoices(newChoices);
+      setChoiceSyncWithLocalStorage(newChoices);
     },
   };
 };

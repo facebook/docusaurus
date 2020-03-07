@@ -11,10 +11,11 @@ import useTabGroupChoice from '@theme/hooks/useTabGroupChoice';
 import TabGroupChoiceContext from '@theme/TabGroupChoiceContext';
 
 function TabGroupChoiceProvider(props) {
-  const {tabGroupChoice, setTabGroupChoice} = useTabGroupChoice();
+  const {tabGroupChoices, setTabGroupChoices} = useTabGroupChoice();
 
   return (
-    <TabGroupChoiceContext.Provider value={{tabGroupChoice, setTabGroupChoice}}>
+    <TabGroupChoiceContext.Provider
+      value={{tabGroupChoices, setTabGroupChoices}}>
       {props.children}
     </TabGroupChoiceContext.Provider>
   );

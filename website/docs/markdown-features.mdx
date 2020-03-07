@@ -483,6 +483,7 @@ You may want choices of tabs to sync with each other. For example, you might wan
 
     import Tabs from '@theme/Tabs';
     import TabItem from '@theme/TabItem';
+
     <Tabs
       defaultValue="win"
       values={[
@@ -503,6 +504,74 @@ You may want choices of tabs to sync with each other. For example, you might wan
     }>
     <TabItem value="win">Use Ctrl + V to paste.</TabItem>
     <TabItem value="mac">Use Command + V to paste.</TabItem>
+    </Tabs>
+
+    <Tabs
+      defaultValue="win"
+      values={[
+        { label: 'Windows', value: 'win', },
+        { label: 'macOS', value: 'mac', },
+      ]
+    }>
+    <TabItem value="win">Use Ctrl + C to copy.</TabItem>
+    <TabItem value="mac">Use Command + C to copy.</TabItem>
+    </Tabs>
+
+    <Tabs
+      defaultValue="win"
+      values={[
+        { label: 'Windows', value: 'win', },
+        { label: 'macOS', value: 'mac', },
+      ]
+    }>
+    <TabItem value="win">Use Ctrl + V to paste.</TabItem>
+    <TabItem value="mac">Use Command + V to paste.</TabItem>
+    </Tabs>
+
+    <Tabs
+      defaultValue="npm"
+      values={[
+        { label: 'NPM', value: 'npm', },
+        { label: 'Yarn', value: 'yarn', },
+      ]
+    }>
+    <TabItem value="npm">
+
+    ```bash
+    npm run start
+    ```
+
+    </TabItem>
+    <TabItem value="yarn">
+
+    ```bash
+    yarn start
+    ```
+
+    </TabItem>
+    </Tabs>
+
+    <Tabs
+      defaultValue="npm"
+      values={[
+        { label: 'NPM', value: 'npm', },
+        { label: 'Yarn', value: 'yarn', },
+      ]
+    }>
+    <TabItem value="npm">
+
+    ```bash
+    npm run build
+    ```
+
+    </TabItem>
+    <TabItem value="yarn">
+
+    ```bash
+    yarn build
+    ```
+
+    </TabItem>
     </Tabs>
 
 
@@ -526,6 +595,52 @@ You may want choices of tabs to sync with each other. For example, you might wan
 }>
 <TabItem value="win">Use Ctrl + V to paste.</TabItem>
 <TabItem value="mac">Use Command + V to paste.</TabItem>
+</Tabs>
+
+<Tabs
+  defaultValue="npm"
+  values={[
+    { label: 'NPM', value: 'npm', },
+    { label: 'Yarn', value: 'yarn', },
+  ]
+}>
+<TabItem value="npm">
+
+```bash
+npm run start
+```
+
+</TabItem>
+<TabItem value="yarn">
+
+```bash
+yarn start
+```
+
+</TabItem>
+</Tabs>
+
+<Tabs
+  defaultValue="npm"
+  values={[
+    { label: 'NPM', value: 'npm', },
+    { label: 'Yarn', value: 'yarn', },
+  ]
+}>
+<TabItem value="npm">
+
+```bash
+npm run build
+```
+
+</TabItem>
+<TabItem value="yarn">
+
+```bash
+yarn build
+```
+
+</TabItem>
 </Tabs>
 
 ### Callouts/admonitions

@@ -8,8 +8,8 @@
 import {createContext} from 'react';
 
 const TabGroupChoiceContext = createContext({
-  tabGroupChoice: undefined,
-  setTabGroupChoice: () => {},
+  tabGroupChoices: [],
+  setTabGroupChoices: () => {},
 });
 
 export default TabGroupChoiceContext;
