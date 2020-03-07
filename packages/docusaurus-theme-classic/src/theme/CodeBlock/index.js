@@ -87,7 +87,7 @@ export default ({children, className: languageClassName, metastring}) => {
       {...defaultProps}
       key={mounted}
       theme={prismTheme}
-      code={children.trim()}
+      code={children.replace(/\n$/, '')}
       language={language}>
       {({className, style, tokens, getLineProps, getTokenProps}) => (
         <pre className={classnames(className, styles.codeBlock)}>
