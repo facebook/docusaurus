@@ -5,7 +5,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "test": "node __tests__"
+    "test": "node tests"
   },
   "dependencies": {
     "stylelint": "^13.2.0",
