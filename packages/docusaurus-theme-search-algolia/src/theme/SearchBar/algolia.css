@@ -236,6 +236,7 @@
 
 .algolia-autocomplete pre {
   padding: 0;
+  right: 0;
 }
 
 .algolia-autocomplete .ds-dropdown-menu:before {
