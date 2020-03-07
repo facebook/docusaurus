@@ -80,7 +80,7 @@ export default ({
       <Playground
         key={mounted}
         scope={{...React}}
-        code={children.trim()}
+        code={children.replace(/\n$/, '')}
         theme={prismTheme}
         {...props}
       />
@@ -106,7 +106,7 @@ export default ({
       {...defaultProps}
       key={mounted}
       theme={prismTheme}
-      code={children.trim()}
+      code={children.replace(/\n$/, '')}
       language={language}>
       {({className, style, tokens, getLineProps, getTokenProps}) => (
         <pre className={classnames(className, styles.codeBlock)}>
