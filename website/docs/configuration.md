@@ -173,4 +173,4 @@ module.exports = {
 };
 ```
 
-You can apply the same principle for blogs with the [Blog-only mode](blog.md).
+You can apply the same principle for blogs with the [Blog-only mode](blog.md#blog-only-mode).
