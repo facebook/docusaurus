@@ -10,6 +10,7 @@ import classnames from 'classnames';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
+import isInternalUrl from '@docusaurus/isInternalUrl';
 
 import SearchBar from '@theme/SearchBar';
 import Toggle from '@theme/Toggle';
@@ -74,13 +75,17 @@ function Navbar() {
   useLockBodyScroll(sidebarShown);
 
   const logoLink = logo.href || baseUrl;
-  const isExternalLogoLink = /http/.test(logoLink);
-  const logoLinkProps = isExternalLogoLink
-    ? {
-        rel: 'noopener noreferrer',
-        target: '_blank',
-      }
-    : null;
+  let logoLinkProps = {};
+
+  if (logo.target) {
+    logoLinkProps = {target: logo.target};
+  } else if (!isInternalUrl(logoLink)) {
+    logoLinkProps = {
+      rel: 'noopener noreferrer',
+      target: '_blank',
+    };
+  }
+
   const logoSrc = logo.srcDark && isDarkTheme ? logo.srcDark : logo.src;
   const logoImageUrl = useBaseUrl(logoSrc);
 
@@ -129,7 +134,9 @@ function Navbar() {
             )}
             {title != null && (
               <strong
-                className={isSearchBarExpanded ? styles.hideLogoText : ''}>
+                className={classnames('navbar__title', {
+                  [styles.hideLogoText]: isSearchBarExpanded,
+                })}>
                 {title}
               </strong>
             )}
@@ -180,7 +187,9 @@ function Navbar() {
                 alt={logo.alt}
               />
             )}
-            {title != null && <strong>{title}</strong>}
+            {title != null && (
+              <strong className="navbar__title">{title}</strong>
+            )}
           </Link>
           {!disableDarkMode && sidebarShown && (
             <Toggle

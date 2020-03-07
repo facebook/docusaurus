@@ -11,15 +11,15 @@ import pluginContentBlog from '../index';
 import {DocusaurusConfig, LoadContext} from '@docusaurus/types';
 
 describe('loadBlog', () => {
-  test('simple website', async () => {
-    const siteDir = path.join(__dirname, '__fixtures__', 'website');
+  const siteDir = path.join(__dirname, '__fixtures__', 'website');
+  const pluginPath = 'blog';
+  const getBlogPosts = async () => {
     const generatedFilesDir: string = path.resolve(siteDir, '.docusaurus');
     const siteConfig = {
       title: 'Hello',
       baseUrl: '/',
       url: 'https://docusaurus.io',
     } as DocusaurusConfig;
-    const pluginPath = 'blog';
     const plugin = pluginContentBlog(
       {
         siteDir,
@@ -27,10 +27,16 @@ describe('loadBlog', () => {
         generatedFilesDir,
       } as LoadContext,
       {
-        path: 'blog',
+        path: pluginPath,
       },
     );
     const {blogPosts} = await plugin.loadContent();
+
+    return blogPosts;
+  };
+
+  test('simple website', async () => {
+    const blogPosts = await getBlogPosts();
     const noDateSource = path.join('@site', pluginPath, 'no date.md');
     const noDateSourceBirthTime = (
       await fs.stat(noDateSource.replace('@site', siteDir))
@@ -40,9 +46,10 @@ describe('loadBlog', () => {
       .substr(0, '2019-01-01'.length)
       .replace(/-/g, '/')}/no date`;
 
-    expect(
-      blogPosts.find(v => v.metadata.title === 'date-matter').metadata,
-    ).toEqual({
+    expect({
+      ...blogPosts.find(v => v.metadata.title === 'date-matter').metadata,
+      ...{prevItem: undefined},
+    }).toEqual({
       permalink: '/blog/2019/01/01/date-matter',
       source: path.join('@site', pluginPath, 'date-matter.md'),
       title: 'date-matter',
@@ -53,12 +60,9 @@ describe('loadBlog', () => {
         permalink: '/blog/2018/12/14/Happy-First-Birthday-Slash',
         title: 'Happy 1st Birthday Slash!',
       },
-      prevItem: {
-        permalink: noDatePermalink,
-        title: 'no date',
-      },
       truncated: false,
     });
+
     expect(
       blogPosts.find(v => v.metadata.title === 'Happy 1st Birthday Slash!')
         .metadata,
@@ -80,9 +84,10 @@ describe('loadBlog', () => {
       truncated: false,
     });
 
-    expect(
-      blogPosts.find(v => v.metadata.title === 'no date').metadata,
-    ).toEqual({
+    expect({
+      ...blogPosts.find(v => v.metadata.title === 'no date').metadata,
+      ...{prevItem: undefined},
+    }).toEqual({
       permalink: noDatePermalink,
       source: noDateSource,
       title: 'no date',
@@ -90,10 +95,17 @@ describe('loadBlog', () => {
       date: noDateSourceBirthTime,
       tags: [],
       nextItem: {
-        permalink: '/blog/2019/01/01/date-matter',
-        title: 'date-matter',
+        permalink: '/blog/2020/02/27/draft',
+        title: 'draft',
       },
       truncated: false,
     });
+  });
+
+  test('draft blog post not exists in production build', async () => {
+    process.env.NODE_ENV = 'production';
+    const blogPosts = await getBlogPosts();
+
+    expect(blogPosts.find(v => v.metadata.title === 'draft')).toBeUndefined();
   });
 });

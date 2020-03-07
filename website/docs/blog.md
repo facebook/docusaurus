@@ -52,6 +52,7 @@ The only required field is `title`; however, we provide options to add author in
 - `author_title` - A description of the author.
 - `title` - The blog post title.
 - `tags` - A list of strings to tag to your post.
+- `draft` - A boolean flag to indicate that the blog post is work in process and therefore should not be published yet. However, draft blog posts will be displayed during development.
 
 ## Summary truncation
 

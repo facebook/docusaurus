@@ -12,7 +12,7 @@ import path from 'path';
 import {CONFIG_FILE_NAME} from '../constants';
 import {DocusaurusConfig, PluginConfig} from '@docusaurus/types';
 
-const REQUIRED_FIELDS = ['baseUrl', 'favicon', 'tagline', 'title', 'url'];
+const REQUIRED_FIELDS = ['baseUrl', 'favicon', 'title', 'url'];
 
 const OPTIONAL_FIELDS = [
   'organizationName',
@@ -25,6 +25,7 @@ const OPTIONAL_FIELDS = [
   'themeConfig',
   'scripts',
   'stylesheets',
+  'tagline',
 ];
 
 const DEFAULT_CONFIG: {

@@ -16,6 +16,8 @@
   <a href="https://app.netlify.com/sites/docusaurus-preview/deploys"><img src="https://api.netlify.com/api/v1/badges/57ebb454-c937-4c1d-a228-d9dccb494f49/deploy-status" alt="Netlify Status"></a>
 </p>
 
+> **We are working hard on Docusaurus v2. If you are new to Docusaurus, try using the new version instead of v1. See the [Docusaurus v2 website](https://v2.docusaurus.io/) for more details.**
+
 ## Introduction
 
 Docusaurus is a project for easily building, deploying, and maintaining open source project websites.
