@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/plugin-content-blog",
-  "version": "2.0.0-alpha.45",
+  "version": "2.0.0-alpha.46",
   "description": "Blog plugin for Docusaurus",
   "main": "lib/index.js",
   "scripts": {
@@ -11,11 +11,11 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@docusaurus/types": "^2.0.0-alpha.45"
+    "@docusaurus/types": "^2.0.0-alpha.46"
   },
   "dependencies": {
-    "@docusaurus/mdx-loader": "^2.0.0-alpha.45",
-    "@docusaurus/utils": "^2.0.0-alpha.45",
+    "@docusaurus/mdx-loader": "^2.0.0-alpha.46",
+    "@docusaurus/utils": "^2.0.0-alpha.46",
     "feed": "^4.0.0",
     "fs-extra": "^8.1.0",
     "globby": "^10.0.1",
