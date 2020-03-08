@@ -37,6 +37,7 @@
     "@babel/plugin-transform-runtime": "^7.7.4",
     "@babel/preset-env": "^7.7.4",
     "@babel/preset-react": "^7.7.4",
+    "@babel/preset-typescript": "^7.7.4",
     "@babel/runtime": "^7.7.4",
     "@docusaurus/utils": "^2.0.0-alpha.44",
     "@endiliey/static-site-generator-webpack-plugin": "^4.0.0",
