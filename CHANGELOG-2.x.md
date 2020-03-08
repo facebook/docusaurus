@@ -1,6 +1,6 @@
 # Docusaurus 2 Changelog
 
-## 2.0.0-alpha.47 (2020-03-08)
+## 2.0.0-alpha.48 (2020-03-08)
 
 **HOTFIX for 2.0.0-alpha.44**.
 
@@ -10,6 +10,8 @@
   - [#2383](https://github.com/facebook/docusaurus/pull/2383) fix(v2): specify proper version for stylelint-copyright ([@lex111](https://github.com/lex111))
 - `docusaurus`
   - [#2382](https://github.com/facebook/docusaurus/pull/2382) fix(v2): add missing preset-typescript dependency ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-classic`
+  - [#2386](https://github.com/facebook/docusaurus/pull/2386) fix(v2): add missing prismjs dependency and Noop component ([@lex111](https://github.com/lex111))
 
 #### Committers: 1
 
