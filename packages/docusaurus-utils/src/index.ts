@@ -180,6 +180,8 @@ export function getSubFolder(file: string, refDir: string): string | null {
   return match && match[1];
 }
 
+const importRegexString = '^(.*import){1}(.+){0,1}\\s[\'"](.+)[\'"];';
+
 export function parse(
   fileString: string,
 ): {
@@ -191,10 +193,15 @@ export function parse(
 } {
   const options: {} = {
     excerpt: (file: matter.GrayMatterFile<string>): void => {
-      file.excerpt = file.content
-        .trim()
-        .split('\n', 1)
-        .shift();
+      let fileContent = file.content.trimLeft();
+
+      if (RegExp(importRegexString).test(fileContent)) {
+        fileContent = fileContent
+          .replace(RegExp(importRegexString, 'gm'), '')
+          .trimLeft();
+      }
+
+      file.excerpt = fileContent.split('\n', 1).shift();
     },
   };
 
