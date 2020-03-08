@@ -17,6 +17,9 @@
 
 #### :bug: Bug Fix
 
+- `docusaurus`
+  - [#2345](https://github.com/facebook/docusaurus/pull/2345) fix(v2): force terminate building if client bundle failed ([@lex111](https://github.com/lex111))
+  - [#2310](https://github.com/facebook/docusaurus/pull/2310) fix(v2): add @babel/preset-typescript to babel-loader ([@deniaz](https://github.com/deniaz))
 - `docusaurus-theme-classic`, `docusaurus-theme-live-codeblock`
   - [#2371](https://github.com/facebook/docusaurus/pull/2371) fix(v2): remove line break from end of code blocks ([@lex111](https://github.com/lex111))
 - `docusaurus-plugin-content-blog`
@@ -26,12 +29,8 @@
   - [#2325](https://github.com/facebook/docusaurus/pull/2325) fix(v2): switch a toggle when system theme changed ([@lex111](https://github.com/lex111))
 - `docusaurus-plugin-content-pages`, `docusaurus-utils`
   - [#2334](https://github.com/facebook/docusaurus/pull/2334) fix(v2): make proper path to pages in TS ([@lex111](https://github.com/lex111))
-- `docusaurus-1.x`
-  - [#2331](https://github.com/facebook/docusaurus/pull/2331) fix(v1): check repoUrl before using on users.js ([@jsjoeio](https://github.com/jsjoeio))
 - Other
   - [#2316](https://github.com/facebook/docusaurus/pull/2316) fix(v2): properly scale logo on IE 11 ([@lex111](https://github.com/lex111))
-- `docusaurus`
-  - [#2310](https://github.com/facebook/docusaurus/pull/2310) fix(v2): add @babel/preset-typescript to babel-loader ([@deniaz](https://github.com/deniaz))
 
 #### :nail_care: Polish
 
