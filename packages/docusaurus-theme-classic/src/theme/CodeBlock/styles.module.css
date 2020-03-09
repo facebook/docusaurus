@@ -50,7 +50,7 @@
 }
 
 .copyButtonWithTitle {
-  top: calc(32px + var(--ifm-pre-padding))!important;
+  top: calc(32px + var(--ifm-pre-padding));
 }
 
 .codeBlockWrapper:hover > .copyButton {

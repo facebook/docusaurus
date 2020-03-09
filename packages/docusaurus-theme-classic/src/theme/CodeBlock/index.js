@@ -110,14 +110,14 @@ export default ({children, className: languageClassName, metastring}) => {
             type="button"
             aria-label="Copy code to clipboard"
             className={classnames(styles.copyButton, {
-              [`${styles.copyButtonWithTitle}`]: codeBlockTitle,
+              [styles.copyButtonWithTitle]: codeBlockTitle,
             })}
             onClick={handleCopyCode}>
             {showCopied ? 'Copied' : 'Copy'}
           </button>
           <pre
             className={classnames(className, styles.codeBlock, {
-              [`${styles.codeBlockWithTitle}`]: codeBlockTitle,
+              [styles.codeBlockWithTitle]: codeBlockTitle,
             })}>
             <div ref={target} className={styles.codeBlockLines} style={style}>
               {tokens.map((line, i) => {
