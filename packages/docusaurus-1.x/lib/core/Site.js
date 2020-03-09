@@ -16,6 +16,7 @@ const Footer = require(`${process.cwd()}/core/Footer.js`);
 const translation = require('../server/translation.js');
 const env = require('../server/env.js');
 const liveReloadServer = require('../server/liveReloadServer.js');
+const metadata = require('./metadata.js');
 const {idx, getPath} = require('./utils.js');
 
 const CWD = process.cwd();
@@ -79,6 +80,7 @@ class Site extends React.Component {
             language={this.props.language}
             version={this.props.version}
             current={this.props.metadata}
+            metadata={metadata}
           />
           <div className={navPusherClasses}>
             {this.props.children}
