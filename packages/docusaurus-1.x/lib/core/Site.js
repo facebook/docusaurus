@@ -84,6 +84,7 @@ class Site extends React.Component {
             getPath={getPath}
             classNamesFn={classNames}
             translation={translation}
+            idx={idx}
           />
           <div className={navPusherClasses}>
             {this.props.children}
