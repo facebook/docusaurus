@@ -41,24 +41,24 @@ export default ({children, className: languageClassName, metastring}) => {
 
   const target = useRef(null);
   const button = useRef(null);
-  let codeBlockTitle = '';
   let highlightLines = [];
+  let codeBlockTitle = '';
 
   const {isDarkTheme} = useThemeContext();
   const lightModeTheme = prism.theme || defaultTheme;
   const darkModeTheme = prism.darkTheme || lightModeTheme;
   const prismTheme = isDarkTheme ? darkModeTheme : lightModeTheme;
 
+  if (metastring && highlightLinesRangeRegex.test(metastring)) {
+    const highlightLinesRange = metastring.match(highlightLinesRangeRegex)[1];
+    highlightLines = rangeParser.parse(highlightLinesRange).filter(n => n > 0);
+  }
+
   if (metastring && codeBlockTitleRegex.test(metastring)) {
     codeBlockTitle = metastring
       .match(codeBlockTitleRegex)[0]
       .split('title=')[1]
       .replace(/"+/g, '');
-  }
-
-  if (metastring && highlightLinesRangeRegex.test(metastring)) {
-    const highlightLinesRange = metastring.match(highlightLinesRangeRegex)[1];
-    highlightLines = rangeParser.parse(highlightLinesRange).filter(n => n > 0);
   }
 
   useEffect(() => {
