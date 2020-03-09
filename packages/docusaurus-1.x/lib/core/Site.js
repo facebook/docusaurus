@@ -82,6 +82,7 @@ class Site extends React.Component {
             current={this.props.metadata}
             metadata={metadata}
             getPath={getPath}
+            classNamesFn={classNames}
           />
           <div className={navPusherClasses}>
             {this.props.children}
