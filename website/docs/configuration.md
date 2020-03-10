@@ -150,11 +150,11 @@ If you just want to use those fields on the client side, you could create your o
 
 ## Docs-only mode
 
-You can run your Docusaurus 2 site without a landing page and instead have a page from your documentation as the index page.
+While Docusaurus is a performant static site generator with support for blogs, product landing and marketing pages, some sites just want the documentation component.
 
-Set the `routeBasePath` to indicate that it’s the root path.
+Here are some steps you need to follow for a "docs-only mode":
 
-**Note**: Make sure there’s no `index.js` page in `src/pages` or there will be two files mapped to the same route!
+1. Set the `routeBasePath` property of the `docs` object in `@docusaurus/preset-classic` in `docusaurus.config.js` to the root of your site:
 
 ```js {9}
 // docusaurus.config.js
@@ -165,12 +165,35 @@ module.exports = {
       '@docusaurus/preset-classic',
       {
         docs: {
-          routeBasePath: '/' // Set this value to '/'.
+          routeBasePath: '', // Set to empty string.
+          ...
         },
       },
     ],
   ],
+  // ...
 };
 ```
 
-You can apply the same principle for blogs with the [Blog-only mode](blog.md#blog-only-mode).
+2. Set up a redirect to the initial document on the home page in `src/pages/index.js`, e.g. for the document `getting-started`. This is needed because by default there's no page created for the root of the docs.
+
+```jsx
+import React from 'react';
+
+import {Redirect} from '@docusaurus/router';
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
+function Home() {
+  return <Redirect to={useBaseUrl('/getting-started')} />;
+}
+
+export default Home;
+```
+
+Now, when visiting your site, it will show your initial document instead of a landing page.
+
+:::tip
+
+There's also a "blog-only mode", for those who only want to use the blog component of Docusaurus 2. You can use the same method detailed above, except that you need to delete the `src/pages/index.js` file. Follow the setup instructions on [Blog-only mode](blog.md#blog-only-mode).
+
+:::
