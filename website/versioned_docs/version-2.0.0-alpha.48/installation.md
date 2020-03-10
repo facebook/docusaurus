@@ -103,8 +103,8 @@ There are many ways to update your Docusaurus version. One guaranteed way is to 
 
 ```json
   "dependencies": {
-    "@docusaurus/core": "^2.0.0-alpha.43",
-    "@docusaurus/preset-classic": "^2.0.0-alpha.43",
+    "@docusaurus/core": "^2.0.0-alpha.48",
+    "@docusaurus/preset-classic": "^2.0.0-alpha.48",
     ...
   }
 ```
@@ -126,7 +126,7 @@ You should see the correct version as output.
 Alternatively, if you are using Yarn, you can do:
 
 ```
-yarn upgrade @docusaurus/core@2.0.0-alpha.43 @docusaurus/preset-classic@2.0.0-alpha.43
+yarn upgrade @docusaurus/core@2.0.0-alpha.48 @docusaurus/preset-classic@2.0.0-alpha.48
 ```
 
 ## Problems?
