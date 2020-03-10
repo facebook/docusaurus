@@ -314,6 +314,22 @@ function MyComponent(props) {
 export default MyComponent;
 ```
 
+### Code Title
+You can add title to code block by addding `title` key after the language meta string (leave a space after the language).
+
+    ```jsx title="src/components/HelloCodeTitle.js"
+    function HelloCodeTitle(props) {
+      return <h1>Hello, {props.name}</h1>;
+    }
+    ```
+
+```jsx title="src/components/HelloCodeTitle.js"
+function HelloCodeTitle(props) {
+  return <h1>Hello, {props.name}</h1>;
+}
+```
+
+
 ### Interactive code editor
 
 (Powered by [React Live](https://github.com/FormidableLabs/react-live))
