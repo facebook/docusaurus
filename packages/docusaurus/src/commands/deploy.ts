@@ -62,7 +62,9 @@ export async function deploy(siteDir: string): Promise<void> {
 
   // github.io indicates organization repos that deploy via master. All others use gh-pages.
   const deploymentBranch =
-    projectName.indexOf('.github.io') !== -1 ? 'master' : 'gh-pages';
+    process.env.DEPLOYMENT_BRANCH || projectName.indexOf('.github.io') !== -1
+      ? 'master'
+      : 'gh-pages';
   const githubHost =
     process.env.GITHUB_HOST || siteConfig.githubHost || 'github.com';
 
