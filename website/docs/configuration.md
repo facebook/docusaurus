@@ -150,42 +150,41 @@ If you just want to use those fields on the client side, you could create your o
 
 ## Docs-only mode
 
-While Docusaurus 2 is a performant static site generator with support for blogs, product landing and marketing pages, some sites just want the documentation component.
+While Docusaurus is a performant static site generator with support for blogs, product landing and marketing pages, some sites just want the documentation component.
 
-There are some steps you need to follow for a ”docs-only mode“:
+Here are some steps you need to follow for a "docs-only mode":
 
 1. Set the `routeBasePath` property of the `docs` object in `@docusaurus/preset-classic` in `docusaurus.config.js` to the root of your site:
 
-```js {11}
+```js {9}
 // docusaurus.config.js
 module.exports = {
-
   // ...
-
   presets: [
     [
       '@docusaurus/preset-classic',
       {
         docs: {
-          routeBasePath: '/'
-        }
-      }
-    ]
-  ]
-
+          routeBasePath: '', // Set to empty string.
+          ...
+        },
+      },
+    ],
+  ],
   // ...
 };
 ```
 
-2. Set up a redirect to the initial document on the home page in `src/pages/index.js`, e.g. for the document `getting-started`:
+2. Set up a redirect to the initial document on the home page in `src/pages/index.js`, e.g. for the document `getting-started`. This is needed because by default there's no page created for the root of the docs.
 
 ```jsx
-import React from "react";
+import React from 'react';
 
-import { Redirect } from "@docusaurus/router";
+import {Redirect} from '@docusaurus/router';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 function Home() {
-  return <Redirect to="/getting-started" />;
+  return <Redirect to={useBaseUrl('/getting-started')} />;
 }
 
 export default Home;
@@ -195,6 +194,6 @@ Now, when visiting your site, it will show your initial document instead of a la
 
 :::tip
 
-There’s also a ”blog-only mode“, for those who only want to use the blog component of Docusaurus 2. You can use the same method detailed above, except that you need to delete the `src/pages/index.js` file. Follow the setup instructions on [Blog-only mode](blog.md#blog-only-mode).
+There's also a "blog-only mode", for those who only want to use the blog component of Docusaurus 2. You can use the same method detailed above, except that you need to delete the `src/pages/index.js` file. Follow the setup instructions on [Blog-only mode](blog.md#blog-only-mode).
 
 :::
