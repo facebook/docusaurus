@@ -7,7 +7,12 @@
 
 module.exports = {
   docs: {
-    Docusaurus: ['introduction', 'design-principles', 'contributing'],
+    Docusaurus: [
+      'introduction',
+      'design-principles',
+      'contributing',
+      'resources',
+    ],
     'Getting Started': ['installation', 'configuration'],
     Guides: [
       'creating-pages',
