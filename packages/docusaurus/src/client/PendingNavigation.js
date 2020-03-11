@@ -11,6 +11,7 @@ import nprogress from 'nprogress';
 
 import clientLifecyclesDispatcher from './client-lifecycles-dispatcher';
 import preload from './preload';
+import normalizeLocation from './normalizeLocation';
 
 import 'nprogress/nprogress.css';
 
@@ -24,6 +25,7 @@ class PendingNavigation extends React.Component {
     this.previousLocation = null;
     this.progressBarTimeout = null;
     this.state = {
+      location: normalizeLocation(props.location),
       nextRouteHasLoaded: true,
     };
   }
@@ -37,19 +39,21 @@ class PendingNavigation extends React.Component {
     // If `routeDidChange` is true, means the router is trying to navigate to a new
     // route. We will preload the new route.
     if (routeDidChange) {
+      const nextLocation = normalizeLocation(nextProps.location);
       this.startProgressBar(delay);
       // Save the location first.
-      this.previousLocation = this.props.location;
+      this.previousLocation = this.state.location;
       this.setState({
+        location: nextLocation,
         nextRouteHasLoaded: false,
       });
 
       // Load data while the old screen remains.
-      preload(routes, nextProps.location.pathname)
+      preload(routes, nextLocation.pathname)
         .then(() => {
           clientLifecyclesDispatcher.onRouteUpdate({
             previousLocation: this.previousLocation,
-            location: nextProps.location,
+            location: nextLocation,
           });
           // Route has loaded, we can reset previousLocation.
           this.previousLocation = null;
@@ -59,7 +63,7 @@ class PendingNavigation extends React.Component {
             },
             this.stopProgressBar,
           );
-          const {hash} = nextProps.location;
+          const {hash} = nextLocation;
           if (!hash) {
             window.scrollTo(0, 0);
           } else {
@@ -94,7 +98,7 @@ class PendingNavigation extends React.Component {
     this.clearProgressBarTimeout();
     this.progressBarTimeout = setTimeout(() => {
       clientLifecyclesDispatcher.onRouteUpdateDelayed({
-        location: this.props.location,
+        location: this.state.location,
       });
       nprogress.start();
     }, delay);
@@ -106,7 +110,8 @@ class PendingNavigation extends React.Component {
   }
 
   render() {
-    const {children, location} = this.props;
+    const {children} = this.props;
+    const {location} = this.state;
     return <Route location={location} render={() => children} />;
   }
 }
