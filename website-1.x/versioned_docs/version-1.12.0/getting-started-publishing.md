@@ -297,3 +297,43 @@ GitHub enterprise installations should work in the same manner as github.com; yo
 | `GITHUB_HOST` | The hostname for the GitHub enterprise server. |
 
 Alter your `siteConfig.js` to add a property `'githubHost'` which represents the GitHub Enterprise hostname. Alternatively, set an environment variable `GITHUB_HOST` when executing the publish command.
+
+## Deploying with Surge
+
+Surge is a [static web hosting platform](https://surge.sh/help/getting-started-with-surge) , it is used to deploy your Docusaurus project from command line in a minute. Deploying your project to surge is easy and it’s also free (including a custom domain and SSL).
+
+Deploy your app in a matter of seconds using surge with the following steps:
+
+1. First, install surge using npm by running the following command
+
+```bash
+npm install --global surge
+```
+
+2. Run a single command inside the root directory of your project
+
+```bash
+surge build/
+```
+
+This generate the version of the site you want to publish in the `build` directory. A site `url` would be given at the end of the upload which can be edited if you want. Done! You will be given a `*.surge.sh subdomain`.
+
+### Using your domain
+
+if you have a domain name you can deploy your site using surge to your domain using the command
+
+```bash
+surge build/ yourdomain.com
+```
+
+You site is now deployed for free at `subdomain.surge.sh` or `yourdomain.com` depending on the method you chose.
+
+### Setting up CNAME file
+
+Store your domain in a CNAME file for future deployments with the following commands
+
+```bash
+echo subdomain.surge.sh > CNAME
+```
+
+You can deploy any other changes in the future with the command `surge`
