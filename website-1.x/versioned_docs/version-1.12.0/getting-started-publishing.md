@@ -1,5 +1,5 @@
 ---
-id: version-1.12.0-publishing
+id: version-1.14.4-publishing
 title: Publishing your site
 original_id: publishing
 ---
@@ -30,6 +30,7 @@ At this point, you can grab all of the files inside the `website/build` director
 - [GitHub Pages](#using-github-pages)
 - [Netlify](#hosting-on-netlify)
 - [Render](#hosting-on-render)
+- [Surge](#using-surge)
 
 ### Using ZEIT Now
 
@@ -50,6 +51,8 @@ now
 ```
 
 **That's all.** Your docs will automatically be deployed.
+
+> Note that the directory structure Now supports is slightly different from the default directory structure of a Docusaurus project - The `docs` directory has to be within the `website` directory, ideally following the directory structure in this example. You will also have to specify a `customDocsPath` value in `siteConfig.js`. Take a look at the the [now-examples repository for a Docusaurus project](https://github.com/zeit/now-examples/tree/master/docusaurus).
 
 ### Using GitHub Pages
 
@@ -97,11 +100,19 @@ In case you want to deploy as a user or organization site, specify the project n
 
 To run the script directly from the command-line, you can use the following, filling in the parameter values as appropriate.
 
+**Bash**
+
 ```bash
 GIT_USER=<GIT_USER> \
   CURRENT_BRANCH=master \
   USE_SSH=true \
   yarn run publish-gh-pages # or `npm run publish-gh-pages`
+```
+
+**Windows**
+
+```batch
+cmd /C "set GIT_USER=<GIT_USER> && set CURRENT_BRANCH=master && set USE_SSH=true && yarn run publish-gh-pages"
 ```
 
 There are also two optional parameters that are set as environment variables:
@@ -300,27 +311,35 @@ Alter your `siteConfig.js` to add a property `'githubHost'` which represents the
 
 ## Deploying with Surge
 
-Surge is a [static web hosting platform](https://surge.sh/help/getting-started-with-surge) , it is used to deploy your Docusaurus project from command line in a minute. Deploying your project to surge is easy and it’s also free (including a custom domain and SSL).
+Surge is a [static web hosting platform](https://surge.sh/help/getting-started-with-surge), it is used to deploy your Docusaurus project from command line in a minute. Deploying your project to surge is easy and it’s also free (including a custom domain and SSL).
 
 Deploy your app in a matter of seconds using surge with the following steps:
 
-1. First, install surge using npm by running the following command
+1. First, install surge using npm by running the following command:
 
 ```bash
-npm install --global surge
+npm install --g surge
 ```
 
-2. Run a single command inside the root directory of your project
+2. To build the static files of your site for production in the root directory of your project, run:
+
+```bash
+npm run build
+```
+
+2. Then, run a single command inside the root directory of your project:
 
 ```bash
 surge build/
 ```
 
-This generate the version of the site you want to publish in the `build` directory. A site `url` would be given at the end of the upload which can be edited if you want. Done! You will be given a `*.surge.sh subdomain`.
+First time users of Surge would be prompted to create an account from the command line(happens only once).
+
+Confirm that the site you want to publish is in the `build` directory, a randomly generate subdomain `*.surge.sh subdomain` is always given(which can be edited).
 
 ### Using your domain
 
-if you have a domain name you can deploy your site using surge to your domain using the command
+If you have a domain name you can deploy your site using surge to your domain using the command:
 
 ```bash
 surge build/ yourdomain.com
@@ -330,7 +349,7 @@ You site is now deployed for free at `subdomain.surge.sh` or `yourdomain.com` de
 
 ### Setting up CNAME file
 
-Store your domain in a CNAME file for future deployments with the following commands
+Store your domain in a CNAME file for future deployments with the following command:
 
 ```bash
 echo subdomain.surge.sh > CNAME
