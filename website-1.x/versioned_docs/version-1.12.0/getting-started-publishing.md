@@ -1,5 +1,5 @@
 ---
-id: version-1.14.4-publishing
+id: version-1.12.0-publishing
 title: Publishing your site
 original_id: publishing
 ---
