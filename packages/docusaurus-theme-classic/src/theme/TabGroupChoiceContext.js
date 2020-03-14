@@ -8,7 +8,7 @@
 import {createContext} from 'react';
 
 const TabGroupChoiceContext = createContext({
-  tabGroupChoices: [],
+  tabGroupChoices: {},
   setTabGroupChoices: () => {},
 });
 

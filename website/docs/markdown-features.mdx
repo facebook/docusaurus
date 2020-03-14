@@ -479,12 +479,12 @@ You may want to implement your own `<MultiLanguageCode />` abstraction if you fi
 
 ### Syncing tab choices
 
-You may want choices of tabs to sync with each other. For example, you might want to provide different instructions for users on Windows vs users on macOS, and you want to changing all OS-specific instructions tabs in one click.
+You may want choices of tabs to sync with each other. For example, you might want to provide different instructions for users on Windows vs users on macOS, and you want to changing all OS-specific instructions tabs in one click. To achieve that, you can give all related tabs the same group id:
 
     import Tabs from '@theme/Tabs';
     import TabItem from '@theme/TabItem';
-
     <Tabs
+      groupId="windows-mac"
       defaultValue="win"
       values={[
         { label: 'Windows', value: 'win', },
@@ -496,6 +496,7 @@ You may want choices of tabs to sync with each other. For example, you might wan
     </Tabs>
 
     <Tabs
+      groupId="windows-mac"
       defaultValue="win"
       values={[
         { label: 'Windows', value: 'win', },
@@ -504,78 +505,11 @@ You may want choices of tabs to sync with each other. For example, you might wan
     }>
     <TabItem value="win">Use Ctrl + V to paste.</TabItem>
     <TabItem value="mac">Use Command + V to paste.</TabItem>
-    </Tabs>
-
-    <Tabs
-      defaultValue="win"
-      values={[
-        { label: 'Windows', value: 'win', },
-        { label: 'macOS', value: 'mac', },
-      ]
-    }>
-    <TabItem value="win">Use Ctrl + C to copy.</TabItem>
-    <TabItem value="mac">Use Command + C to copy.</TabItem>
-    </Tabs>
-
-    <Tabs
-      defaultValue="win"
-      values={[
-        { label: 'Windows', value: 'win', },
-        { label: 'macOS', value: 'mac', },
-      ]
-    }>
-    <TabItem value="win">Use Ctrl + V to paste.</TabItem>
-    <TabItem value="mac">Use Command + V to paste.</TabItem>
-    </Tabs>
-
-    <Tabs
-      defaultValue="npm"
-      values={[
-        { label: 'NPM', value: 'npm', },
-        { label: 'Yarn', value: 'yarn', },
-      ]
-    }>
-    <TabItem value="npm">
-
-    ```bash
-    npm run start
-    ```
-
-    </TabItem>
-    <TabItem value="yarn">
-
-    ```bash
-    yarn start
-    ```
-
-    </TabItem>
-    </Tabs>
-
-    <Tabs
-      defaultValue="npm"
-      values={[
-        { label: 'NPM', value: 'npm', },
-        { label: 'Yarn', value: 'yarn', },
-      ]
-    }>
-    <TabItem value="npm">
-
-    ```bash
-    npm run build
-    ```
-
-    </TabItem>
-    <TabItem value="yarn">
-
-    ```bash
-    yarn build
-    ```
-
-    </TabItem>
     </Tabs>
 
 
 <Tabs
+  groupId="windows-mac"
   defaultValue="win"
   values={[
     { label: 'Windows', value: 'win', },
@@ -587,6 +521,7 @@ You may want choices of tabs to sync with each other. For example, you might wan
 </Tabs>
 
 <Tabs
+  groupId="windows-mac"
   defaultValue="win"
   values={[
     { label: 'Windows', value: 'win', },
@@ -597,50 +532,56 @@ You may want choices of tabs to sync with each other. For example, you might wan
 <TabItem value="mac">Use Command + V to paste.</TabItem>
 </Tabs>
 
+Tab choices with different `groupId`s will not interfere with each other:
+
+    import Tabs from '@theme/Tabs';
+    import TabItem from '@theme/TabItem';
+    <Tabs
+      groupId="windows-unix"
+      defaultValue="win"
+      values={[
+        { label: 'Windows', value: 'win', },
+        { label: 'Unix', value: 'unix', },
+      ]
+    }>
+    <TabItem value="win">Windows is windows.</TabItem>
+    <TabItem value="unix">Unix is unix.</TabItem>
+    </Tabs>
+
+    <Tabs
+      groupId="windows-unix"
+      defaultValue="win"
+      values={[
+        { label: 'Windows', value: 'win', },
+        { label: 'Unix', value: 'unix', },
+      ]
+    }>
+    <TabItem value="win">Windows is not unix.</TabItem>
+    <TabItem value="unix">Unix is not windows.</TabItem>
+    </Tabs>
+
 <Tabs
-  defaultValue="npm"
+  groupId="windows-unix"
+  defaultValue="win"
   values={[
-    { label: 'NPM', value: 'npm', },
-    { label: 'Yarn', value: 'yarn', },
+    { label: 'Windows', value: 'win', },
+    { label: 'Unix', value: 'unix', },
   ]
 }>
-<TabItem value="npm">
-
-```bash
-npm run start
-```
-
-</TabItem>
-<TabItem value="yarn">
-
-```bash
-yarn start
-```
-
-</TabItem>
+<TabItem value="win">Windows is windows.</TabItem>
+<TabItem value="unix">Unix is unix.</TabItem>
 </Tabs>
 
 <Tabs
-  defaultValue="npm"
+  groupId="windows-unix"
+  defaultValue="win"
   values={[
-    { label: 'NPM', value: 'npm', },
-    { label: 'Yarn', value: 'yarn', },
+    { label: 'Windows', value: 'win', },
+    { label: 'Unix', value: 'unix', },
   ]
 }>
-<TabItem value="npm">
-
-```bash
-npm run build
-```
-
-</TabItem>
-<TabItem value="yarn">
-
-```bash
-yarn build
-```
-
-</TabItem>
+<TabItem value="win">Windows is not unix.</TabItem>
+<TabItem value="unix">Unix is not windows.</TabItem>
 </Tabs>
 
 ### Callouts/admonitions

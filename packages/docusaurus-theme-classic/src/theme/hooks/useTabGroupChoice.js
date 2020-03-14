@@ -7,50 +7,39 @@
 
 import {useState, useCallback, useEffect} from 'react';
 
-const TAB_CHOICE_STORAGE_KEY = 'docusaurus.tab-choice';
+const TAB_CHOICE_PREFIX = 'docusaurus.tab.';
 
 const useTabGroupChoice = () => {
-  const [tabGroupChoices, setChoices] = useState([]);
-  const setChoiceSyncWithLocalStorage = useCallback(
-    newChoice => {
-      try {
-        localStorage.setItem(TAB_CHOICE_STORAGE_KEY, JSON.stringify(newChoice));
-      } catch (err) {
-        console.error(err);
-      }
-    },
-    [setChoices],
-  );
-
-  useEffect(() => {
+  const [tabGroupChoices, setChoices] = useState({});
+  const setChoiceSyncWithLocalStorage = useCallback((groupId, newChoice) => {
     try {
-      const localStorageChoice = localStorage.getItem(TAB_CHOICE_STORAGE_KEY);
-      if (localStorageChoice !== null) {
-        setChoices(JSON.parse(localStorageChoice));
-      }
+      localStorage.setItem(`${TAB_CHOICE_PREFIX}${groupId}`, newChoice);
     } catch (err) {
       console.error(err);
     }
-  }, [setChoices]);
+  }, []);
+
+  useEffect(() => {
+    try {
+      const localStorageChoices = {};
+      for (let i = 0; i < localStorage.length; i += 1) {
+        const storageKey = localStorage.key(i);
+        if (storageKey.startsWith(TAB_CHOICE_PREFIX)) {
+          const groupId = storageKey.substring(TAB_CHOICE_PREFIX.length);
+          localStorageChoices[groupId] = localStorage.getItem(storageKey);
+        }
+      }
+      setChoices(localStorageChoices);
+    } catch (err) {
+      console.error(err);
+    }
+  }, []);
 
   return {
     tabGroupChoices,
-    setTabGroupChoices: (oldChoice, newChoice) => {
-      const newChoices = [];
-      let foundOldChoice = false;
-      tabGroupChoices.forEach(choice => {
-        if (choice === oldChoice) {
-          foundOldChoice = true;
-          newChoices.push(newChoice);
-        } else {
-          newChoices.push(choice);
-        }
-      });
-      if (!foundOldChoice) {
-        newChoices.push(newChoice);
-      }
-      setChoices(newChoices);
-      setChoiceSyncWithLocalStorage(newChoices);
+    setTabGroupChoices: (groupId, newChoice) => {
+      setChoices(oldChoices => ({...oldChoices, [groupId]: newChoice}));
+      setChoiceSyncWithLocalStorage(groupId, newChoice);
     },
   };
 };

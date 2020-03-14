@@ -18,21 +18,25 @@ const keys = {
 };
 
 function Tabs(props) {
-  const {block, children, defaultValue, values} = props;
+  const {block, children, defaultValue, values, groupId} = props;
   const {tabGroupChoices, setTabGroupChoices} = useTabGroupChoiceContext();
   const [selectedValue, setSelectedValue] = useState(defaultValue);
 
-  const relevantTabGroupChoice = tabGroupChoices.find(
-    choice =>
-      choice !== selectedValue && values.some(value => value.value === choice),
-  );
-  if (relevantTabGroupChoice !== undefined) {
-    setSelectedValue(relevantTabGroupChoice);
+  if (groupId != null) {
+    const relevantTabGroupChoice = tabGroupChoices[groupId];
+    if (
+      relevantTabGroupChoice != null &&
+      relevantTabGroupChoice !== selectedValue
+    ) {
+      setSelectedValue(relevantTabGroupChoice);
+    }
   }
 
   const changeSelectedValue = newValue => {
     setSelectedValue(newValue);
-    setTabGroupChoices(selectedValue, newValue);
+    if (groupId != null) {
+      setTabGroupChoices(groupId, newValue);
+    }
   };
 
   const tabRefs = [];
