@@ -21,14 +21,19 @@ module.exports = {
       {
         type: 'category',
         label: 'Docs',
-        items: ['markdown-features', 'sidebar', 'versioning'],
+        items: ['markdown-features', 'sidebar'],
       },
       'blog',
       'search',
       'deployment',
       'migrating-from-v1-to-v2',
     ],
-    'Advanced Guides': ['using-plugins', 'using-themes', 'presets'],
+    'Advanced Guides': [
+      'using-plugins',
+      'using-themes',
+      'presets',
+      'versioning',
+    ],
     'API Reference': [
       'cli',
       'docusaurus-core',
