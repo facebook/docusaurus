@@ -135,6 +135,10 @@ If you did not configure these build options, you may still go to "Site settings
 
 Once properly configured with the above options, your site should deploy and automatically redeploy upon merging to your deploy branch, which defaults to `master`.
 
+:::important
+Make sure to disable Netlify setting `Pretty URLs` to prevent lowercased URLs, unneccessary redirects and 404 errors.
+:::
+
 ## Deploying to Render
 
 Render offers [free static site hosting](https://render.com/docs/static-sites) with fully managed SSL, custom domains, a global CDN and continuous auto deploys from your Git repo. Deploy your app in just a few minutes by following these steps.
