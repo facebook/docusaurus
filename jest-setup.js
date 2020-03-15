@@ -5,8 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const _ = require('lodash');
+// eslint-disable-next-line import/no-extraneous-dependencies
 const stylelint = require('stylelint');
+
+function getOutputCss(output) {
+  const result = output.results[0]._postcssResult;
+  const css = result.root.toString(result.opts.syntax);
+
+  return css;
+}
 
 global.testRule = (rule, schema) => {
   describe(schema.ruleName, () => {
@@ -40,11 +47,14 @@ global.testRule = (rule, schema) => {
               }
 
               // Check the fix
-              return stylelint.lint({...options, fix: true}).then(output2 => {
-                const fixedCode = getOutputCss(output2);
+              // eslint-disable-next-line consistent-return
+              return stylelint
+                .lint({...options, fix: true})
+                .then(fixedOutput => {
+                  const fixedCode = getOutputCss(fixedOutput);
 
-                expect(fixedCode).toBe(testCase.code);
-              });
+                  expect(fixedCode).toBe(testCase.code);
+                });
             });
           });
         });
@@ -54,6 +64,7 @@ global.testRule = (rule, schema) => {
     if (schema.reject && schema.reject.length) {
       describe('reject', () => {
         schema.reject.forEach(testCase => {
+          // eslint-disable-next-line no-nested-ternary
           const spec = testCase.only ? it.only : testCase.skip ? it.skip : it;
 
           spec(checkTestCaseContent(testCase), () => {
@@ -71,15 +82,15 @@ global.testRule = (rule, schema) => {
               expect(testCase).toHaveMessage();
 
               if (testCase.message !== undefined) {
-                expect(_.get(warning, 'text')).toBe(testCase.message);
+                expect(warning.text).toBe(testCase.message);
               }
 
               if (testCase.line !== undefined) {
-                expect(_.get(warning, 'line')).toBe(testCase.line);
+                expect(warning.line).toBe(testCase.line);
               }
 
               if (testCase.column !== undefined) {
-                expect(_.get(warning, 'column')).toBe(testCase.column);
+                expect(warning.column).toBe(testCase.column);
               }
 
               if (!schema.fix) {
@@ -92,6 +103,7 @@ global.testRule = (rule, schema) => {
                 );
               }
               // Check the fix
+              // eslint-disable-next-line consistent-return
               return stylelint
                 .lint({...options, fix: true})
                 .then(fixedOutput => {
@@ -121,10 +133,3 @@ global.testRule = (rule, schema) => {
     });
   });
 };
-
-function getOutputCss(output) {
-  const result = output.results[0]._postcssResult;
-  const css = result.root.toString(result.opts.syntax);
-
-  return css;
-}
