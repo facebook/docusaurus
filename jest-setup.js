@@ -9,22 +9,6 @@ const _ = require('lodash');
 const stylelint = require('stylelint');
 
 global.testRule = (rule, schema) => {
-  expect.extend({
-    toHaveMessage(testCase) {
-      if (testCase.message === undefined) {
-        return {
-          message: () =>
-            'Expected "reject" test case to have a "message" property',
-          pass: false,
-        };
-      }
-
-      return {
-        pass: true,
-      };
-    },
-  });
-
   describe(schema.ruleName, () => {
     const stylelintConfig = {
       plugins: ['./packages/stylelint-copyright'],
@@ -33,36 +17,36 @@ global.testRule = (rule, schema) => {
       },
     };
 
+    const checkTestCaseContent = testCase =>
+      testCase.description || testCase.code || 'no description';
+
     if (schema.accept && schema.accept.length) {
       describe('accept', () => {
         schema.accept.forEach(testCase => {
           const spec = testCase.only ? it.only : it;
 
-          spec(
-            testCase.description || testCase.code || 'no description',
-            () => {
-              const options = {
-                code: testCase.code,
-                config: stylelintConfig,
-                syntax: schema.syntax,
-              };
+          spec(checkTestCaseContent(testCase), () => {
+            const options = {
+              code: testCase.code,
+              config: stylelintConfig,
+              syntax: schema.syntax,
+            };
 
-              return stylelint.lint(options).then(output => {
-                expect(output.results[0].warnings).toEqual([]);
+            return stylelint.lint(options).then(output => {
+              expect(output.results[0].warnings).toEqual([]);
 
-                if (!schema.fix) {
-                  return;
-                }
+              if (!schema.fix) {
+                return;
+              }
 
-                // Check the fix
-                return stylelint.lint({...options, fix: true}).then(output2 => {
-                  const fixedCode = getOutputCss(output2);
+              // Check the fix
+              return stylelint.lint({...options, fix: true}).then(output2 => {
+                const fixedCode = getOutputCss(output2);
 
-                  expect(fixedCode).toBe(testCase.code);
-                });
+                expect(fixedCode).toBe(testCase.code);
               });
-            },
-          );
+            });
+          });
         });
       });
     }
@@ -70,65 +54,71 @@ global.testRule = (rule, schema) => {
     if (schema.reject && schema.reject.length) {
       describe('reject', () => {
         schema.reject.forEach(testCase => {
-          let spec = it;
+          const spec = testCase.only ? it.only : testCase.skip ? it.skip : it;
 
-          if (testCase.only) {
-            spec = it.only;
-          }
+          spec(checkTestCaseContent(testCase), () => {
+            const options = {
+              code: testCase.code,
+              config: stylelintConfig,
+              syntax: schema.syntax,
+            };
 
-          if (testCase.skip) {
-            spec = it.skip;
-          }
+            return stylelint.lint(options).then(output => {
+              const {warnings} = output.results[0];
+              const warning = warnings[0];
 
-          spec(
-            testCase.description || testCase.code || 'no description',
-            () => {
-              const options = {
-                code: testCase.code,
-                config: stylelintConfig,
-                syntax: schema.syntax,
-              };
+              expect(warnings.length).toBeGreaterThanOrEqual(1);
+              expect(testCase).toHaveMessage();
 
-              return stylelint.lint(options).then(output => {
-                const {warnings} = output.results[0];
-                const warning = warnings[0];
+              if (testCase.message !== undefined) {
+                expect(_.get(warning, 'text')).toBe(testCase.message);
+              }
 
-                expect(warnings.length).toBeGreaterThanOrEqual(1);
+              if (testCase.line !== undefined) {
+                expect(_.get(warning, 'line')).toBe(testCase.line);
+              }
 
-                if (testCase.message !== undefined) {
-                  expect(_.get(warning, 'text')).toBe(testCase.message);
-                }
+              if (testCase.column !== undefined) {
+                expect(_.get(warning, 'column')).toBe(testCase.column);
+              }
 
-                if (testCase.line !== undefined) {
-                  expect(_.get(warning, 'line')).toBe(testCase.line);
-                }
+              if (!schema.fix) {
+                return;
+              }
 
-                if (testCase.column !== undefined) {
-                  expect(_.get(warning, 'column')).toBe(testCase.column);
-                }
-
-                if (!schema.fix) {
-                  return;
-                }
-
-                if (!testCase.fixed) {
-                  throw new Error(
-                    'If using { fix: true } in test schema, all reject cases must have { fixed: .. }',
-                  );
-                }
-
-                // Check the fix
-                return stylelint.lint({...options, fix: true}).then(output2 => {
-                  const fixedCode = getOutputCss(output2);
+              if (!testCase.fixed) {
+                throw new Error(
+                  'If using { fix: true } in test schema, all reject cases must have { fixed: .. }',
+                );
+              }
+              // Check the fix
+              return stylelint
+                .lint({...options, fix: true})
+                .then(fixedOutput => {
+                  const fixedCode = getOutputCss(fixedOutput);
 
                   expect(fixedCode).toBe(testCase.fixed);
                 });
-              });
-            },
-          );
+            });
+          });
         });
       });
     }
+    expect.extend({
+      toHaveMessage(testCase) {
+        if (testCase.message === undefined) {
+          return {
+            message: () =>
+              'Expected "reject" test case to have a "message" property',
+            pass: false,
+          };
+        }
+
+        return {
+          pass: true,
+        };
+      },
+    });
   });
 };
 
