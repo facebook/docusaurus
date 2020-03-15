@@ -479,7 +479,7 @@ You may want to implement your own `<MultiLanguageCode />` abstraction if you fi
 
 ### Syncing tab choices
 
-You may want choices of tabs to sync with each other. For example, you might want to provide different instructions for users on Windows vs users on macOS, and you want to changing all OS-specific instructions tabs in one click. To achieve that, you can give all related tabs the same group id:
+You may want choices of tabs to sync with each other. For example, you might want to provide different instructions for users on Windows vs users on macOS, and you want to changing all OS-specific instructions tabs in one click. To achieve that, you can give all related tabs the same `groupId`. Note that doing this will persist the choice in `localStorage` and  all `<Tab>` instances with the same `groupId` will update automatically when the value of one of them is changed.
 
     import Tabs from '@theme/Tabs';
     import TabItem from '@theme/TabItem';
