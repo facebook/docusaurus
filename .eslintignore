@@ -3,6 +3,7 @@ dist
 node_modules
 build
 jest.config.js
+jest-setup.js
 jest.transform.js
 website-1.x/
 website/

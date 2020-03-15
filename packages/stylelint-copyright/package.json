@@ -4,11 +4,7 @@
   "description": "stylelint plugin to check css files for a copyright header",
   "main": "index.js",
   "license": "MIT",
-  "scripts": {
-    "test": "node tests"
-  },
   "dependencies": {
-    "stylelint": "^13.2.0",
-    "stylelint-test-rule-tape": "^0.2.0"
+    "stylelint": "^13.2.0"
   }
 }
