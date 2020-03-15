@@ -477,14 +477,16 @@ class HelloWorld {
 
 You may want to implement your own `<MultiLanguageCode />` abstraction if you find the above approach too verbose. We might just implement one in future for convenience.
 
+If you have multiple of these multi-language code tabs, and you want to sync the selection across the tab instances, read on for the [Syncing tab choices section](#syncing-tab-choices).
+
 ### Syncing tab choices
 
-You may want choices of tabs to sync with each other. For example, you might want to provide different instructions for users on Windows vs users on macOS, and you want to changing all OS-specific instructions tabs in one click. To achieve that, you can give all related tabs the same `groupId`. Note that doing this will persist the choice in `localStorage` and  all `<Tab>` instances with the same `groupId` will update automatically when the value of one of them is changed.
+You may want choices of the same kind of tabs to sync with each other. For example, you might want to provide different instructions for users on Windows vs users on macOS, and you want to changing all OS-specific instructions tabs in one click. To achieve that, you can give all related tabs the same `groupId`. Note that doing this will persist the choice in `localStorage` and  all `<Tab>` instances with the same `groupId` will update automatically when the value of one of them is changed.
 
     import Tabs from '@theme/Tabs';
     import TabItem from '@theme/TabItem';
     <Tabs
-      groupId="windows-mac"
+      groupId="operating-systems"
       defaultValue="win"
       values={[
         { label: 'Windows', value: 'win', },
@@ -496,7 +498,7 @@ You may want choices of tabs to sync with each other. For example, you might wan
     </Tabs>
 
     <Tabs
-      groupId="windows-mac"
+      groupId="operating-systems"
       defaultValue="win"
       values={[
         { label: 'Windows', value: 'win', },
@@ -509,7 +511,7 @@ You may want choices of tabs to sync with each other. For example, you might wan
 
 
 <Tabs
-  groupId="windows-mac"
+  groupId="operating-systems"
   defaultValue="win"
   values={[
     { label: 'Windows', value: 'win', },
@@ -521,7 +523,7 @@ You may want choices of tabs to sync with each other. For example, you might wan
 </Tabs>
 
 <Tabs
-  groupId="windows-mac"
+  groupId="operating-systems"
   defaultValue="win"
   values={[
     { label: 'Windows', value: 'win', },
@@ -537,7 +539,7 @@ Tab choices with different `groupId`s will not interfere with each other:
     import Tabs from '@theme/Tabs';
     import TabItem from '@theme/TabItem';
     <Tabs
-      groupId="windows-unix"
+      groupId="non-mac-operating-systems"
       defaultValue="win"
       values={[
         { label: 'Windows', value: 'win', },
@@ -549,7 +551,7 @@ Tab choices with different `groupId`s will not interfere with each other:
     </Tabs>
 
     <Tabs
-      groupId="windows-unix"
+      groupId="non-mac-operating-systems"
       defaultValue="win"
       values={[
         { label: 'Windows', value: 'win', },
@@ -561,7 +563,7 @@ Tab choices with different `groupId`s will not interfere with each other:
     </Tabs>
 
 <Tabs
-  groupId="windows-unix"
+  groupId="non-mac-operating-systems"
   defaultValue="win"
   values={[
     { label: 'Windows', value: 'win', },
@@ -573,7 +575,7 @@ Tab choices with different `groupId`s will not interfere with each other:
 </Tabs>
 
 <Tabs
-  groupId="windows-unix"
+  groupId="non-mac-operating-systems"
   defaultValue="win"
   values={[
     { label: 'Windows', value: 'win', },
