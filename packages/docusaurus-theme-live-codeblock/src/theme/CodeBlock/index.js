@@ -118,51 +118,51 @@ export default ({
       code={children.replace(/\n$/, '')}
       language={language}>
       {({className, style, tokens, getLineProps, getTokenProps}) => (
-        <div className={styles.codeBlockWrapper}>
+        <>
           {codeBlockTitle && (
             <div style={style} className={styles.codeBlockTitle}>
               {codeBlockTitle}
             </div>
           )}
-
-          <button
-            ref={button}
-            type="button"
-            aria-label="Copy code to clipboard"
-            className={classnames(styles.copyButton, {
-              [styles.copyButtonWithTitle]: codeBlockTitle,
-            })}
-            onClick={handleCopyCode}>
-            {showCopied ? 'Copied' : 'Copy'}
-          </button>
-
-          <pre
-            className={classnames(className, styles.codeBlock, {
-              [styles.codeBlockWithTitle]: codeBlockTitle,
-            })}>
-            <div ref={target} className={styles.codeBlockLines} style={style}>
-              {tokens.map((line, i) => {
-                if (line.length === 1 && line[0].content === '') {
-                  line[0].content = '\n'; // eslint-disable-line no-param-reassign
-                }
-
-                const lineProps = getLineProps({line, key: i});
-
-                if (highlightLines.includes(i + 1)) {
-                  lineProps.className = `${lineProps.className} docusaurus-highlight-code-line`;
-                }
-
-                return (
-                  <div key={i} {...lineProps}>
-                    {line.map((token, key) => (
-                      <span key={key} {...getTokenProps({token, key})} />
-                    ))}
-                  </div>
-                );
+          <div className={styles.codeBlockWrapper}>
+            <button
+              ref={button}
+              type="button"
+              aria-label="Copy code to clipboard"
+              className={classnames(styles.copyButton, {
+                [styles.copyButtonWithTitle]: codeBlockTitle,
               })}
-            </div>
-          </pre>
-        </div>
+              onClick={handleCopyCode}>
+              {showCopied ? 'Copied' : 'Copy'}
+            </button>
+            <pre
+              className={classnames(className, styles.codeBlock, {
+                [styles.codeBlockWithTitle]: codeBlockTitle,
+              })}>
+              <div ref={target} className={styles.codeBlockLines} style={style}>
+                {tokens.map((line, i) => {
+                  if (line.length === 1 && line[0].content === '') {
+                    line[0].content = '\n'; // eslint-disable-line no-param-reassign
+                  }
+
+                  const lineProps = getLineProps({line, key: i});
+
+                  if (highlightLines.includes(i + 1)) {
+                    lineProps.className = `${lineProps.className} docusaurus-highlight-code-line`;
+                  }
+
+                  return (
+                    <div key={i} {...lineProps}>
+                      {line.map((token, key) => (
+                        <span key={key} {...getTokenProps({token, key})} />
+                      ))}
+                    </div>
+                  );
+                })}
+              </div>
+            </pre>
+          </div>
+        </>
       )}
     </Highlight>
   );

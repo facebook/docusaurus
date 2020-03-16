@@ -13,7 +13,6 @@
   border-top-left-radius: var(--ifm-pre-border-radius);
   border-top-right-radius: var(--ifm-pre-border-radius);
   font-weight: bold;
-  height: 32px;
   padding: 4px 12px;
   border-bottom: 1px solid;
   width: 100%;
@@ -50,7 +49,7 @@
 }
 
 .copyButtonWithTitle {
-  top: calc(32px + var(--ifm-pre-padding));
+  top: calc(var(--ifm-pre-padding));
 }
 
 .codeBlockWrapper:hover > .copyButton {
