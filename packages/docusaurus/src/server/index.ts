@@ -28,13 +28,18 @@ import {
 } from '@docusaurus/types';
 import {loadHtmlTags} from './html-tags';
 
-export function loadContext(siteDir: string): LoadContext {
+export function loadContext(
+  siteDir: string,
+  customOutDir?: string,
+): LoadContext {
   const generatedFilesDir: string = path.resolve(
     siteDir,
     GENERATED_FILES_DIR_NAME,
   );
   const siteConfig: DocusaurusConfig = loadConfig(siteDir);
-  const outDir = path.resolve(siteDir, BUILD_DIR_NAME);
+  const outDir = customOutDir
+    ? path.resolve(customOutDir)
+    : path.resolve(siteDir, BUILD_DIR_NAME);
   const {baseUrl} = siteConfig;
 
   return {
@@ -58,9 +63,12 @@ export function loadPluginConfigs(context: LoadContext): PluginConfig[] {
   ];
 }
 
-export async function load(siteDir: string): Promise<Props> {
+export async function load(
+  siteDir: string,
+  customOutDir?: string,
+): Promise<Props> {
   // Context.
-  const context: LoadContext = loadContext(siteDir);
+  const context: LoadContext = loadContext(siteDir, customOutDir);
   const {generatedFilesDir, siteConfig, outDir, baseUrl} = context;
   const genSiteConfig = generate(
     generatedFilesDir,
