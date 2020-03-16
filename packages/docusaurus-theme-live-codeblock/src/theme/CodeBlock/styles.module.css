@@ -52,6 +52,7 @@
   top: calc(var(--ifm-pre-padding));
 }
 
+.codeBlockTitle:hover + .codeBlockContent .copyButton,
 .codeBlockContent:hover > .copyButton {
   visibility: visible;
   opacity: 1;
