@@ -27,6 +27,16 @@ const users = [
     pinned: false,
   },
   {
+    title: 'Build Tracker',
+    description:
+      'Track performance budgets & prevent unexpected bloat in your app',
+    preview: require('./showcase/build-tracker.png'),
+    website: 'https://buildtracker.dev',
+    source: 'https://github.com/paularmstrong/build-tracker',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'Channel.js',
     description: 'The missing constructor for creating safe async iterators',
     preview: require('./showcase/channeljs.png'),
