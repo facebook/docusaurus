@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-.codeBlockWrapper {
+.codeBlockContent {
   position: relative;
 }
 
@@ -52,7 +52,7 @@
   top: calc(var(--ifm-pre-padding));
 }
 
-.codeBlockWrapper:hover > .copyButton {
+.codeBlockContent:hover > .copyButton {
   visibility: visible;
   opacity: 1;
 }

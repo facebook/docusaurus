@@ -105,7 +105,7 @@ export default ({children, className: languageClassName, metastring}) => {
               {codeBlockTitle}
             </div>
           )}
-          <div className={styles.codeBlockWrapper}>
+          <div className={styles.codeBlockContent}>
             <button
               ref={button}
               type="button"
