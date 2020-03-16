@@ -37,7 +37,11 @@ function Layout(props) {
   } = props;
   const metaTitle = title ? `${title} | ${siteTitle}` : siteTitle;
   const metaImage = image || defaultImage;
-  const metaImageUrl = siteUrl + useBaseUrl(metaImage);
+  const _metaImageUrl = siteUrl + useBaseUrl(metaImage);
+  const externalRegex = /^(https?:|\/\/)/;
+  const metaImageUrl = externalRegex.test(metaImage)
+    ? metaImage
+    : _metaImageUrl;
   const faviconUrl = useBaseUrl(favicon);
 
   return (

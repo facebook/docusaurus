@@ -75,7 +75,11 @@ function DocItem(props) {
     },
   } = DocContent;
 
-  const metaImageUrl = siteUrl + useBaseUrl(metaImage);
+  const _metaImageUrl = siteUrl + useBaseUrl(metaImage);
+  const externalRegex = /^(https?:|\/\/)/;
+  const metaImageUrl = externalRegex.test(metaImage)
+    ? metaImage
+    : _metaImageUrl;
 
   return (
     <>
