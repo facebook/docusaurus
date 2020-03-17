@@ -44,9 +44,15 @@ Facebook has adopted a Code of Conduct that we expect project participants to ad
 
 Read our [contributing guide](https://github.com/facebook/docusaurus/blob/master/CONTRIBUTING.md) to learn about our development process, how to propose bugfixes and improvements, and how to build and test your changes to Docusaurus.
 
-### Contribute online with a single click
+### Online one-click setup for contributing
 
-You can use Gitpod (a free, online, VS Code-based IDE) for contributing. It will launch a ready to code workspace (for Docusaurus 2) with all the dependencies installed and the development server running so that you can start contributing straight away.
+You can use Gitpod (a free, online, VS Code-like IDE) for contributing. With a single click It will launch a workspace (for Docusaurus 2) and automatically:
+
+- clone the docusaurus repo.
+- install the dependencies.
+- run `yarn run start`
+
+So that you can start contributing straight away.
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/facebook/docusaurus)
 
