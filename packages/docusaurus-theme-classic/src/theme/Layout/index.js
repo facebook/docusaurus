@@ -7,6 +7,7 @@
 
 import React from 'react';
 import Head from '@docusaurus/Head';
+import isInternalUrl from '@docusaurus/isInternalUrl';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
@@ -37,11 +38,10 @@ function Layout(props) {
   } = props;
   const metaTitle = title ? `${title} | ${siteTitle}` : siteTitle;
   const metaImage = image || defaultImage;
-  const _metaImageUrl = siteUrl + useBaseUrl(metaImage);
-  const externalRegex = /^(https?:|\/\/)/;
-  const metaImageUrl = externalRegex.test(metaImage)
-    ? metaImage
-    : _metaImageUrl;
+  let metaImageUrl = siteUrl + useBaseUrl(metaImage);
+  if (!isInternalUrl(metaImage)) {
+    metaImageUrl = metaImage;
+  }
   const faviconUrl = useBaseUrl(favicon);
 
   return (
