@@ -11,7 +11,7 @@ npm run build
 
 Once it finishes, you should see the production build under the `build/` directory.
 
-You can deploy your site to static site hosting services such as [ZEIT Now](https://zeit.co/now), [GitHub Pages](https://pages.github.com/), [Netlify](https://www.netlify.com/), [Render](https://render.com/static-sites), and [Surge](https://surge.sh/help/getting-started-with-surge). Docusaurus sites are statically rendered so they work without JavaScript too!
+You can deploy your site to static site hosting services such as [ZEIT Now](https://zeit.co/now), [GitHub Pages](https://pages.github.com/), [Netlify](https://www.netlify.com/), and [Render](https://render.com/static-sites). Docusaurus sites are statically rendered so they work without JavaScript too!
 
 ## Deploying to ZEIT Now
 
@@ -182,50 +182,3 @@ script:
 
 Now, whenever a new commit lands in `master`, Travis CI will run your suite of tests and if everything passes, your website will be deployed via the `yarn deploy` script.
 
-## Deploying with Surge
-
-Surge is a [static web hosting platform](https://surge.sh/help/getting-started-with-surge), it is used to deploy your Docusaurus project from command line in a minute. Deploying your project to surge is easy and it’s also free (including a custom domain and SSL).
-
-Deploy your app in a matter of seconds using surge with the following steps:
-
-1. First, install surge using npm by running the following command:
-
-```bash
-npm install --g surge
-```
-
-2. To build the static files of your site for production in the root directory of your project, run:
-
-```bash
-npm run build
-```
-
-2. Then, run this command inside the root directory of your project:
-
-```bash
-surge build/
-```
-
-First time users of Surge would be prompted to create an account from the command line(happens only once).
-
-Confirm that the site you want to publish is in the `build` directory, a randomly generated subdomain `*.surge.sh subdomain` is always given(which can be edited).
-
-### Using your domain
-
-If you have a domain name you can deploy your site using surge to your domain using the command:
-
-```bash
-surge build/ yourdomain.com
-```
-
-You site is now deployed for free at `subdomain.surge.sh` or `yourdomain.com` depending on the method you chose.
-
-### Setting up CNAME file
-
-Store your domain in a CNAME file for future deployments with the following command:
-
-```bash
-echo subdomain.surge.sh > CNAME
-```
-
-You can deploy any other changes in the future with the command `surge`
