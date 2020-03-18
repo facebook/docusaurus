@@ -38,6 +38,7 @@ function Layout(props) {
   } = props;
   const metaTitle = title ? `${title} | ${siteTitle}` : siteTitle;
 
+  const metaImage = image || defaultImage;
   let metaImageUrl = siteUrl + useBaseUrl(metaImage);
   if (!isInternalUrl(metaImage)) {
     metaImageUrl = metaImage;
