@@ -76,9 +76,10 @@ function DocItem(props) {
     },
   } = DocContent;
 
-  const metaImageUrl = isInternalUrl(metaImage)
-    ? metaImage
-    : siteUrl + useBaseUrl(metaImage);
+  let metaImageUrl = siteUrl + useBaseUrl(metaImage);
+  if (!isInternalUrl(metaImage)) {
+    metaImageUrl = metaImage;
+  }
 
   return (
     <>
