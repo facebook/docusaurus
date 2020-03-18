@@ -37,11 +37,12 @@ function Layout(props) {
     version,
   } = props;
   const metaTitle = title ? `${title} | ${siteTitle}` : siteTitle;
+
   const metaImage = image || defaultImage;
-  let metaImageUrl = siteUrl + useBaseUrl(metaImage);
-  if (!isInternalUrl(metaImage)) {
-    metaImageUrl = metaImage;
-  }
+  const metaImageUrl = isInternalUrl(metaImage)
+    ? metaImage
+    : siteUrl + useBaseUrl(metaImage);
+  
   const faviconUrl = useBaseUrl(favicon);
 
   return (
