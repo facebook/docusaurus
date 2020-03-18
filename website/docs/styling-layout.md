@@ -131,3 +131,75 @@ The class names which will be processed by webpack into a globally unique class 
 _This section is a work in progress._ [Welcoming PRs](https://github.com/facebook/docusaurus/issues/1640).\_
 
 :::
+
+### Sass/SCSS
+
+To use Sass/SCSS as your CSS preprocessor, install the unofficial Docusaurus 2 plugin [`docusaurus-plugin-sass`](https://github.com/rlamana/docusaurus-plugin-sass). This plugin works for both global styles and the CSS modules approach:
+
+1. Install [`docusaurus-plugin-sass`](https://github.com/rlamana/docusaurus-plugin-sass):
+
+```bash npm2yarn
+npm install --save docusaurus-plugin-sass
+```
+
+2. Include the plugin in your `docusaurus.config.js` file:
+
+```jsx {4}
+// docusaurus.config.js
+module.exports = {
+  ...
+  plugins: ['docusaurus-plugin-sass'],
+  ...
+}
+```
+
+3. Write and import your stylesheets in Sass/SCSS as normal.
+
+#### Global styles using Sass/SCSS
+
+You can now set the `customCss` property of `@docusaurus/preset-classic` to point to your Sass/SCSS file:
+
+```jsx {9}
+// docusaurus.config.js
+module.exports = {
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        ...
+        theme: {
+          customCss: require.resolve('./src/css/custom.scss'),
+        },
+        ...
+      },
+    ],
+  ],
+};
+```
+
+#### Modules using Sass/SCSS
+
+Name your stylesheet files with the `.module.scss` suffix (e.g. `welcome.module.scss`) instead of `.css`. Webpack will use `sass-loader` to preprocess your stylesheets and load them as CSS modules.
+
+```scss
+/* styles.module.scss */
+.main {
+  padding: 12px;
+
+  article {
+    color: #ccc;
+  }
+}
+```
+
+```javascript
+import styles from './styles.module.scss';
+
+function MyComponent() {
+  return (
+    <main className={styles.main}>
+      <article>Lorem Ipsum</article>
+    </main>
+  );
+}
+```
