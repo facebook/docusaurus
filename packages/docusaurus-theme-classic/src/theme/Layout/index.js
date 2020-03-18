@@ -42,7 +42,7 @@ function Layout(props) {
   const metaImageUrl = isInternalUrl(metaImage)
     ? metaImage
     : siteUrl + useBaseUrl(metaImage);
-  
+
   const faviconUrl = useBaseUrl(favicon);
 
   return (
