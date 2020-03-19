@@ -47,12 +47,12 @@ function compile(config: Configuration[]): Promise<any> {
 export async function build(
   siteDir: string,
   cliOptions: Partial<BuildCLIOptions> = {},
-): Promise<void> {
+): Promise<string> {
   process.env.BABEL_ENV = 'production';
   process.env.NODE_ENV = 'production';
   console.log(chalk.blue('Creating an optimized production build...'));
 
-  const props: Props = await load(siteDir);
+  const props: Props = await load(siteDir, cliOptions.outDir);
 
   // Apply user webpack config.
   const {outDir, generatedFilesDir, plugins} = props;
@@ -147,4 +147,5 @@ export async function build(
       relativeDir,
     )}.\n`,
   );
+  return outDir;
 }
