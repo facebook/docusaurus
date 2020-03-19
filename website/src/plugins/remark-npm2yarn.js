@@ -8,16 +8,12 @@
 // This is a very naive implementation of converting npm commands to yarn commands
 // Works well for our use case since we only use either 'npm install', or 'npm run <something>'
 // Its impossible to convert it right since some commands at npm are not available in yarn and vice/versa
+
+var n2y = require('npm-to-yarn');
+
 const convertNpmToYarn = npmCode => {
   // global install: 'npm i' -> 'yarn'
-  return (
-    npmCode
-      .replace(/^npm i$/gm, 'yarn')
-      // install: 'npm install --save foo' -> 'yarn add foo'
-      .replace(/npm install --save/gm, 'yarn add')
-      // run command: 'npm run start' -> 'yarn run start'
-      .replace(/npm run/gm, 'yarn run')
-  );
+  return n2y(npmCode, 'yarn');
 };
 
 const transformNode = node => {
