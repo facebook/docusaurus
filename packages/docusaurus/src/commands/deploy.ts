@@ -8,15 +8,15 @@
 import fs from 'fs-extra';
 import path from 'path';
 import shell from 'shelljs';
-import {
-  BUILD_DIR_NAME,
-  CONFIG_FILE_NAME,
-  GENERATED_FILES_DIR_NAME,
-} from '../constants';
+import {CONFIG_FILE_NAME, GENERATED_FILES_DIR_NAME} from '../constants';
 import {loadConfig} from '../server/config';
 import {build} from './build';
+import {BuildCLIOptions} from '@docusaurus/types';
 
-export async function deploy(siteDir: string): Promise<void> {
+export async function deploy(
+  siteDir: string,
+  cliOptions: Partial<BuildCLIOptions> = {},
+): Promise<void> {
   console.log('Deploy command invoked ...');
   if (!shell.which('git')) {
     throw new Error('Sorry, this script requires git');
@@ -62,7 +62,9 @@ export async function deploy(siteDir: string): Promise<void> {
 
   // github.io indicates organization repos that deploy via master. All others use gh-pages.
   const deploymentBranch =
-    projectName.indexOf('.github.io') !== -1 ? 'master' : 'gh-pages';
+    process.env.DEPLOYMENT_BRANCH || projectName.indexOf('.github.io') !== -1
+      ? 'master'
+      : 'gh-pages';
   const githubHost =
     process.env.GITHUB_HOST || siteConfig.githubHost || 'github.com';
 
@@ -96,8 +98,8 @@ export async function deploy(siteDir: string): Promise<void> {
   fs.removeSync(tempDir);
 
   // Build static html files, then push to deploymentBranch branch of specified repo.
-  build(siteDir)
-    .then(() => {
+  build(siteDir, cliOptions)
+    .then(outDir => {
       shell.cd(tempDir);
 
       if (
@@ -138,7 +140,7 @@ export async function deploy(siteDir: string): Promise<void> {
 
       shell.cd('../..');
 
-      const fromPath = path.join(BUILD_DIR_NAME);
+      const fromPath = outDir;
       const toPath = path.join(
         GENERATED_FILES_DIR_NAME,
         `${projectName}-${deploymentBranch}`,

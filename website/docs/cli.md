@@ -59,6 +59,7 @@ Compiles your site for production.
 | Options | Default | Description |
 | --- | --- | --- |
 | `--bundle-analyzer` |  | Analyze your bundle with [bundle analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer) |
+| `--out-dir` | `build` | The full path for the new output directory, relative to the current workspace. |
 
 ### `docusaurus swizzle`
 
@@ -90,3 +91,9 @@ To learn more about swizzling, check [here](#).
 ### `docusaurus deploy`
 
 Deploys your site with [GitHub Pages](https://pages.github.com/).
+
+**options**
+
+| Options | Default | Description |
+| --- | --- | --- |
+| `--out-dir` | `build` | The full path for the new output directory, relative to the current workspace. |

@@ -41,9 +41,14 @@ cli
     '--bundle-analyzer',
     'Visualize size of webpack output files with an interactive zoomable treemap (default = false)',
   )
-  .action((siteDir = '.', {bundleAnalyzer}) => {
+  .option(
+    '--out-dir <dir>',
+    'The full path for the new output directory, relative to the current workspace (default = build).',
+  )
+  .action((siteDir = '.', {bundleAnalyzer, outDir}) => {
     wrapCommand(build)(path.resolve(siteDir), {
       bundleAnalyzer,
+      outDir,
     });
   });
 
@@ -57,8 +62,12 @@ cli
 cli
   .command('deploy [siteDir]')
   .description('Deploy website to GitHub pages')
-  .action((siteDir = '.') => {
-    wrapCommand(deploy)(path.resolve(siteDir));
+  .option(
+    '--out-dir <dir>',
+    'The full path for the new output directory, relative to the current workspace (default = build).',
+  )
+  .action((siteDir = '.', {outDir}) => {
+    wrapCommand(deploy)(path.resolve(siteDir), {outDir});
   });
 
 cli
