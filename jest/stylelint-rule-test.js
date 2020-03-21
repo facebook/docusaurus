@@ -10,68 +10,55 @@ const stylelint = require('stylelint');
 
 function getOutputCss(output) {
   const result = output.results[0]._postcssResult;
-  const css = result.root.toString(result.opts.syntax);
-
-  return css;
+  return result.root.toString(result.opts.syntax);
 }
 
-global.testRule = (rule, schema) => {
-  describe(schema.ruleName, () => {
-    const stylelintConfig = {
-      plugins: ['./packages/stylelint-copyright'],
-      rules: {
-        [schema.ruleName]: schema.config,
-      },
-    };
-
+global.testStylelintRule = (config, tests) => {
+  describe(tests.ruleName, () => {
     const checkTestCaseContent = testCase =>
       testCase.description || testCase.code || 'no description';
 
-    if (schema.accept && schema.accept.length) {
-      describe('accept', () => {
-        schema.accept.forEach(testCase => {
+    if (tests.accept && tests.accept.length) {
+      describe('accept cases', () => {
+        tests.accept.forEach(testCase => {
           const spec = testCase.only ? it.only : it;
 
           spec(checkTestCaseContent(testCase), () => {
             const options = {
               code: testCase.code,
-              config: stylelintConfig,
-              syntax: schema.syntax,
+              config,
+              syntax: tests.syntax,
             };
 
             return stylelint.lint(options).then(output => {
               expect(output.results[0].warnings).toEqual([]);
 
-              if (!schema.fix) {
-                return;
+              if (!tests.fix) {
+                return null;
               }
 
-              // Check the fix
-              // eslint-disable-next-line consistent-return
+              // Check the fix.
               return stylelint
                 .lint({...options, fix: true})
-                .then(fixedOutput => {
-                  const fixedCode = getOutputCss(fixedOutput);
-
-                  expect(fixedCode).toBe(testCase.code);
-                });
+                .then(fixedOutput => getOutputCss(fixedOutput))
+                .then(fixedCode => expect(fixedCode).toBe(testCase.fixed));
             });
           });
         });
       });
     }
 
-    if (schema.reject && schema.reject.length) {
-      describe('reject', () => {
-        schema.reject.forEach(testCase => {
-          // eslint-disable-next-line no-nested-ternary
-          const spec = testCase.only ? it.only : testCase.skip ? it.skip : it;
+    if (tests.reject && tests.reject.length) {
+      describe('reject cases', () => {
+        tests.reject.forEach(testCase => {
+          const skip = testCase.skip ? it.skip : it;
+          const spec = testCase.only ? it.only : skip;
 
           spec(checkTestCaseContent(testCase), () => {
             const options = {
               code: testCase.code,
-              config: stylelintConfig,
-              syntax: schema.syntax,
+              config,
+              syntax: tests.syntax,
             };
 
             return stylelint.lint(options).then(output => {
@@ -81,44 +68,42 @@ global.testRule = (rule, schema) => {
               expect(warnings.length).toBeGreaterThanOrEqual(1);
               expect(testCase).toHaveMessage();
 
-              if (testCase.message !== undefined) {
+              if (testCase.message != null) {
                 expect(warning.text).toBe(testCase.message);
               }
 
-              if (testCase.line !== undefined) {
+              if (testCase.line != null) {
                 expect(warning.line).toBe(testCase.line);
               }
 
-              if (testCase.column !== undefined) {
+              if (testCase.column != null) {
                 expect(warning.column).toBe(testCase.column);
               }
 
-              if (!schema.fix) {
-                return;
+              if (!tests.fix) {
+                return null;
               }
 
               if (!testCase.fixed) {
                 throw new Error(
-                  'If using { fix: true } in test schema, all reject cases must have { fixed: .. }',
+                  'If using { fix: true } in test tests, all reject cases must have { fixed: .. }',
                 );
               }
-              // Check the fix
-              // eslint-disable-next-line consistent-return
+
+              // Check the fix.
               return stylelint
                 .lint({...options, fix: true})
-                .then(fixedOutput => {
-                  const fixedCode = getOutputCss(fixedOutput);
-
-                  expect(fixedCode).toBe(testCase.fixed);
-                });
+                .then(fixedOutput => getOutputCss(fixedOutput))
+                .then(fixedCode => expect(fixedCode).toBe(testCase.fixed));
             });
           });
         });
       });
     }
+
     expect.extend({
       toHaveMessage(testCase) {
-        if (testCase.message === undefined) {
+        if (testCase.message == null) {
           return {
             message: () =>
               'Expected "reject" test case to have a "message" property',

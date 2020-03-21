@@ -9,41 +9,49 @@ const rule = require('..');
 
 const {ruleName, messages} = rule;
 
-testRule(rule, {
-  ruleName,
-  fix: false,
-  accept: [
-    {
-      code: `
+testStylelintRule(
+  {
+    // Relative to repo root.
+    plugins: ['./packages/stylelint-copyright'],
+    rules: {
+      [ruleName]: true,
+    },
+  },
+  {
+    ruleName,
+    fix: false,
+    accept: [
+      {
+        code: `
 /**
  * Copyright
  */
 
  .foo {}`,
-    },
-    {
-      code: `
+      },
+      {
+        code: `
       /**
  * copyright
  */
 
  .foo {}`,
-    },
-  ],
-  reject: [
-    {
-      code: `
+      },
+    ],
+    reject: [
+      {
+        code: `
 /**
  * Copyleft
  */
 
  .foo {}`,
-      message: messages.rejected,
-      line: 2,
-      column: 1,
-    },
-    {
-      code: `
+        message: messages.rejected,
+        line: 2,
+        column: 1,
+      },
+      {
+        code: `
 /**
  * Copyleft
  */
@@ -52,9 +60,10 @@ testRule(rule, {
  * Copyright
  */
  .foo {}`,
-      message: messages.rejected,
-      line: 2,
-      column: 1,
-    },
-  ],
-});
+        message: messages.rejected,
+        line: 2,
+        column: 1,
+      },
+    ],
+  },
+);
