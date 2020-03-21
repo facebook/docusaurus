@@ -23,11 +23,14 @@ function slug() {
       if (id) {
         id = slugs.slug(id, true);
       } else {
-        const headingTextNodes =
-          headingNode.children.find(
-            ({type}) => !['html', 'jsx'].includes(type),
-          ) || headingNode;
-        id = slugs.slug(toString(headingTextNodes));
+        const headingTextNodes = headingNode.children.filter(
+          ({type}) => !['html', 'jsx'].includes(type),
+        );
+        const normalizedHeadingNode =
+          headingTextNodes.length > 0
+            ? {children: headingTextNodes}
+            : headingNode;
+        id = slugs.slug(toString(normalizedHeadingNode));
       }
 
       data.id = id;
