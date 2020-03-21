@@ -5,11 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const testRule = require('stylelint-test-rule-tape');
-const stylelintCopyright = require('..');
+const rule = require('..');
 
-testRule(stylelintCopyright.rule, {
-  ruleName: stylelintCopyright.ruleName,
+const {ruleName, messages} = rule;
+
+testRule(rule, {
+  ruleName,
+  fix: false,
   accept: [
     {
       code: `
@@ -36,7 +38,7 @@ testRule(stylelintCopyright.rule, {
  */
 
  .foo {}`,
-      message: `Missing copyright in the header comment (${stylelintCopyright.ruleName})`,
+      message: messages.rejected,
       line: 2,
       column: 1,
     },
@@ -50,7 +52,7 @@ testRule(stylelintCopyright.rule, {
  * Copyright
  */
  .foo {}`,
-      message: `Missing copyright in the header comment (${stylelintCopyright.ruleName})`,
+      message: messages.rejected,
       line: 2,
       column: 1,
     },

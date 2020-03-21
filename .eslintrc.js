@@ -20,6 +20,9 @@ module.exports = {
   parserOptions: {
     allowImportExportEverywhere: true,
   },
+  globals: {
+    testRule: true,
+  },
   extends: ['airbnb', 'prettier', 'prettier/react'],
   plugins: ['react-hooks', 'header'],
   rules: {
@@ -36,10 +39,17 @@ module.exports = {
       'block',
       [
         '*',
-        ' * Copyright (c) Facebook, Inc. and its affiliates.',
+        {
+          pattern: ' * Copyright \\(c\\) Facebook, Inc. and its affiliates.',
+        },
         ' *',
-        ' * This source code is licensed under the MIT license found in the',
-        ' * LICENSE file in the root directory of this source tree.',
+        {
+          pattern:
+            ' * This source code is licensed under the MIT license found in the',
+        },
+        {
+          pattern: ' * LICENSE file in the root directory of this source tree.',
+        },
         ' ',
       ],
     ],

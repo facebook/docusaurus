@@ -27,4 +27,5 @@ module.exports = {
   transform: {
     '^.+\\.[jt]sx?$': 'babel-jest',
   },
+  setupFiles: ['./jest-setup.js'],
 };
