@@ -148,4 +148,5 @@ export async function build(
     )}.\n`,
   );
   return outDir;
+  process.exit(0);
 }
