@@ -80,6 +80,7 @@ module.exports = {
       logo: {
         alt: 'Docusaurus Logo',
         src: 'img/docusaurus.svg',
+        srcDark: 'img/docusaurus_keytar.svg',
       },
       links: [
         {
