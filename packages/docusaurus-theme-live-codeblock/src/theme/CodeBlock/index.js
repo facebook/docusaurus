@@ -119,7 +119,7 @@ export default ({
             {showCopied ? 'Copied' : 'Copy'}
           </button>
 
-          <code ref={target} className={styles.codeBlockLines} style={style}>
+          <div ref={target} className={styles.codeBlockLines} style={style}>
             {tokens.map((line, i) => {
               if (line.length === 1 && line[0].content === '') {
                 line[0].content = '\n'; // eslint-disable-line no-param-reassign
@@ -139,7 +139,7 @@ export default ({
                 </div>
               );
             })}
-          </code>
+          </div>
         </pre>
       )}
     </Highlight>

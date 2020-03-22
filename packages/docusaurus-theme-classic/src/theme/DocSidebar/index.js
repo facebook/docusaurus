@@ -162,6 +162,7 @@ function DocSidebar(props) {
         })}>
         <button
           aria-label={showResponsiveSidebar ? 'Close Menu' : 'Open Menu'}
+          aria-haspopup="true"
           className="button button--secondary button--sm menu__button"
           type="button"
           onClick={() => {
@@ -177,6 +178,7 @@ function DocSidebar(props) {
             </span>
           ) : (
             <svg
+              aria-label="Menu"
               className={styles.sidebarMenuIcon}
               xmlns="http://www.w3.org/2000/svg"
               height={MOBILE_TOGGLE_SIZE}

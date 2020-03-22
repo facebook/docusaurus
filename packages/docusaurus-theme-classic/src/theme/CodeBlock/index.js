@@ -100,7 +100,7 @@ export default ({children, className: languageClassName, metastring}) => {
             {showCopied ? 'Copied' : 'Copy'}
           </button>
 
-          <code ref={target} className={styles.codeBlockLines} style={style}>
+          <div ref={target} className={styles.codeBlockLines} style={style}>
             {tokens.map((line, i) => {
               if (line.length === 1 && line[0].content === '') {
                 line[0].content = '\n'; // eslint-disable-line no-param-reassign
@@ -120,7 +120,7 @@ export default ({children, className: languageClassName, metastring}) => {
                 </div>
               );
             })}
-          </code>
+          </div>
         </pre>
       )}
     </Highlight>
