@@ -9,7 +9,6 @@ import React, {useCallback, useState} from 'react';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
-import isInternalUrl from '@docusaurus/isInternalUrl';
 
 import SearchBar from '@theme/SearchBar';
 import Toggle from '@theme/Toggle';
@@ -19,6 +18,7 @@ import classnames from 'classnames';
 import useThemeContext from '@theme/hooks/useThemeContext';
 import useHideableNavbar from '@theme/hooks/useHideableNavbar';
 import useLockBodyScroll from '@theme/hooks/useLockBodyScroll';
+import useLogo from '@theme/hooks/useLogo';
 
 import styles from './styles.module.css';
 
@@ -52,16 +52,21 @@ function NavLink({activeBasePath, to, href, label, position, ...props}) {
 }
 
 function Navbar() {
-  const {siteConfig = {}, isClient} = useDocusaurusContext();
-  const {baseUrl, themeConfig = {}} = siteConfig;
-  const {navbar = {}, disableDarkMode = false} = themeConfig;
-  const {title, logo = {}, links = [], hideOnScroll = false} = navbar;
-
+  const {
+    siteConfig: {
+      themeConfig: {
+        navbar: {title, links = [], hideOnScroll = false} = {},
+        disableDarkMode = false,
+      },
+    },
+    isClient,
+  } = useDocusaurusContext();
   const [sidebarShown, setSidebarShown] = useState(false);
   const [isSearchBarExpanded, setIsSearchBarExpanded] = useState(false);
 
   const {isDarkTheme, setLightTheme, setDarkTheme} = useThemeContext();
   const {navbarRef, isNavbarVisible} = useHideableNavbar(hideOnScroll);
+  const {logoLink, logoLinkProps, logoImageUrl, logoAlt} = useLogo();
 
   useLockBodyScroll(sidebarShown);
 
@@ -76,21 +81,6 @@ function Navbar() {
     e => (e.target.checked ? setDarkTheme() : setLightTheme()),
     [setLightTheme, setDarkTheme],
   );
-
-  const logoLink = logo.href || baseUrl;
-  let logoLinkProps = {};
-
-  if (logo.target) {
-    logoLinkProps = {target: logo.target};
-  } else if (!isInternalUrl(logoLink)) {
-    logoLinkProps = {
-      rel: 'noopener noreferrer',
-      target: '_blank',
-    };
-  }
-
-  const logoSrc = logo.srcDark && isDarkTheme ? logo.srcDark : logo.src;
-  const logoImageUrl = useBaseUrl(logoSrc);
 
   return (
     <nav
@@ -127,12 +117,12 @@ function Navbar() {
             </svg>
           </div>
           <Link className="navbar__brand" to={logoLink} {...logoLinkProps}>
-            {logo != null && (
+            {logoImageUrl != null && (
               <img
                 key={isClient}
                 className="navbar__logo"
                 src={logoImageUrl}
-                alt={logo.alt}
+                alt={logoAlt}
               />
             )}
             {title != null && (
@@ -182,12 +172,12 @@ function Navbar() {
             onClick={hideSidebar}
             to={logoLink}
             {...logoLinkProps}>
-            {logo != null && (
+            {logoImageUrl != null && (
               <img
                 key={isClient}
                 className="navbar__logo"
                 src={logoImageUrl}
-                alt={logo.alt}
+                alt={logoAlt}
               />
             )}
             {title != null && (
