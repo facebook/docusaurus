@@ -75,7 +75,7 @@ function Layout(props) {
           {permalink && (
             <meta property="og:url" content={siteUrl + permalink} />
           )}
-          <meta name="twitter:card" content="summary" />
+          <meta name="twitter:card" content="summary_large_image" />
         </Head>
         <Navbar />
         <div className="main-wrapper">{children}</div>

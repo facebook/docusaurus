@@ -17,6 +17,7 @@ import LogPlugin from './plugins/LogPlugin';
 
 export function createClientConfig(props: Props): Configuration {
   const isProd = process.env.NODE_ENV === 'production';
+  const isBuilding = process.argv[2] === 'build';
   const config = createBaseConfig(props, false);
 
   const clientConfig = merge(config, {
@@ -32,26 +33,6 @@ export function createClientConfig(props: Props): Configuration {
       runtimeChunk: true,
     },
     plugins: [
-      // Plugin to force terminate building if errors happened in the client bundle
-      {
-        apply: compiler => {
-          compiler.hooks.done.tap('client:done', stats => {
-            if (stats.hasErrors()) {
-              console.log(
-                chalk.red(
-                  'Client bundle compiled with errors therefore further build is impossible.',
-                ),
-              );
-
-              stats.toJson('errors-only').errors.forEach(e => {
-                console.error(e);
-              });
-
-              process.exit(1);
-            }
-          });
-        },
-      },
       new ChunkAssetPlugin(),
       // Show compilation progress bar and build time.
       new LogPlugin({
@@ -59,6 +40,29 @@ export function createClientConfig(props: Props): Configuration {
       }),
     ],
   });
+
+  // When building include the plugin to force terminate building if errors happened in the client bundle.
+  if (isBuilding) {
+    clientConfig.plugins!.push({
+      apply: compiler => {
+        compiler.hooks.done.tap('client:done', stats => {
+          if (stats.hasErrors()) {
+            console.log(
+              chalk.red(
+                'Client bundle compiled with errors therefore further build is impossible.',
+              ),
+            );
+
+            stats.toJson('errors-only').errors.forEach(e => {
+              console.error(e);
+            });
+
+            process.exit(1);
+          }
+        });
+      },
+    });
+  }
 
   return clientConfig;
 }
