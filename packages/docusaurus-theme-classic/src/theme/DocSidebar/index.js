@@ -8,9 +8,8 @@
 import React, {useState, useCallback} from 'react';
 import classnames from 'classnames';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import useThemeContext from '@theme/hooks/useThemeContext';
-import useBaseUrl from '@docusaurus/useBaseUrl';
 import useLockBodyScroll from '@theme/hooks/useLockBodyScroll';
+import useLogo from '@theme/hooks/useLogo';
 import Link from '@docusaurus/Link';
 import isInternalUrl from '@docusaurus/isInternalUrl';
 
@@ -116,12 +115,10 @@ function mutateSidebarCollapsingState(item, path) {
 function DocSidebar(props) {
   const [showResponsiveSidebar, setShowResponsiveSidebar] = useState(false);
   const {
-    siteConfig: {themeConfig: {navbar: {title, logo = {}} = {}}} = {},
+    siteConfig: {themeConfig: {navbar: {title} = {}}} = {},
     isClient,
   } = useDocusaurusContext();
-  const {isDarkTheme} = useThemeContext();
-  const logoSrc = logo.srcDark && isDarkTheme ? logo.srcDark : logo.src;
-  const logoUrl = useBaseUrl(logoSrc);
+  const {logoLink, logoLinkProps, logoImageUrl, logoAlt} = useLogo();
 
   const {
     docsSidebars,
@@ -152,10 +149,12 @@ function DocSidebar(props) {
 
   return (
     <div className={styles.sidebar}>
-      <div className={styles.sidebarLogo}>
-        {logo != null && <img key={isClient} src={logoUrl} alt={logo.alt} />}
+      <Link className={styles.sidebarLogo} to={logoLink} {...logoLinkProps}>
+        {logoImageUrl != null && (
+          <img key={isClient} src={logoImageUrl} alt={logoAlt} />
+        )}
         {title != null && <strong>{title}</strong>}
-      </div>
+      </Link>
       <div
         className={classnames('menu', 'menu--responsive', styles.menu, {
           'menu--show': showResponsiveSidebar,
