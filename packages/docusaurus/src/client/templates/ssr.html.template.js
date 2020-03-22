@@ -11,7 +11,7 @@ module.exports = `
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
-    <meta name="generator" content="Docusaurus">
+    <meta name="generator" content="Docusaurus v<%= version %>">
     <%- headTags %>
     <% metaAttributes.forEach((metaAttribute) => { %>
       <%- metaAttribute %>
