@@ -147,6 +147,6 @@ export async function build(
       relativeDir,
     )}.\n`,
   );
-  return outDir;
   process.exit(0);
+  return outDir;
 }
