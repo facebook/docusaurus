@@ -8,6 +8,7 @@
 import React, {useState, useCallback} from 'react';
 import classnames from 'classnames';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import useThemeContext from '@theme/hooks/useThemeContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import useLockBodyScroll from '@theme/hooks/useLockBodyScroll';
 import Link from '@docusaurus/Link';
@@ -116,8 +117,11 @@ function DocSidebar(props) {
   const [showResponsiveSidebar, setShowResponsiveSidebar] = useState(false);
   const {
     siteConfig: {themeConfig: {navbar: {title, logo = {}} = {}}} = {},
+    isClient,
   } = useDocusaurusContext();
-  const logoUrl = useBaseUrl(logo.src);
+  const {isDarkTheme} = useThemeContext();
+  const logoSrc = logo.srcDark && isDarkTheme ? logo.srcDark : logo.src;
+  const logoUrl = useBaseUrl(logoSrc);
 
   const {
     docsSidebars,
@@ -149,7 +153,7 @@ function DocSidebar(props) {
   return (
     <div className={styles.sidebar}>
       <div className={styles.sidebarLogo}>
-        {logo != null && <img src={logoUrl} alt={logo.alt} />}
+        {logo != null && <img key={isClient} src={logoUrl} alt={logo.alt} />}
         {title != null && <strong>{title}</strong>}
       </div>
       <div
