@@ -25,7 +25,7 @@ Most importantly, however, deploying a Docusaurus project only takes a couple se
 npm i -g now
 ```
 
-3. Run a single command inside the root directory of your project:
+2. Run a single command inside the root directory of your project:
 
 ```bash
 now
@@ -181,4 +181,3 @@ script:
 ```
 
 Now, whenever a new commit lands in `master`, Travis CI will run your suite of tests and if everything passes, your website will be deployed via the `yarn deploy` script.
-
