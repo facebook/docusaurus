@@ -184,11 +184,11 @@ Now, whenever a new commit lands in `master`, Travis CI will run your suite of t
 
 ## Deploying with Surge
 
-Surge is a [static web hosting platform](https://surge.sh/help/getting-started-with-surge), it is used to deploy your Docusaurus project from command line in a minute. Deploying your project to surge is easy and it’s also free (including a custom domain and SSL).
+Surge is a [static web hosting platform](https://surge.sh/help/getting-started-with-surge), it is used to deploy your Docusaurus project from command line in a minute. Deploying your project to Surge is easy and it is also free (including a custom domain and SSL).
 
 Deploy your app in a matter of seconds using surge with the following steps:
 
-1. First, install surge using npm by running the following command:
+1. First, install Surge using npm by running the following command:
 
 ```bash
 npm install --g surge
@@ -228,4 +228,4 @@ Store your domain in a CNAME file for future deployments with the following comm
 echo subdomain.surge.sh > CNAME
 ```
 
-You can deploy any other changes in the future with the command `surge`
+You can deploy any other changes in the future with the command `surge`.
