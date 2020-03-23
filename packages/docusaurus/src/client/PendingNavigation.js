@@ -96,7 +96,7 @@ class PendingNavigation extends React.Component {
     this.clearProgressBarTimeout();
     this.progressBarTimeout = setTimeout(() => {
       clientLifecyclesDispatcher.onRouteUpdateDelayed({
-        location: this.state.location,
+        location: normalizeLocation(this.props.location),
       });
       nprogress.start();
     }, delay);
