@@ -82,6 +82,16 @@ const users = [
     pinned: false,
   },
   {
+    title: 'Motion Layout',
+    description:
+      'Create beautiful immersive React.js animations using shared components',
+    preview: require('./showcase/motion-layout.png'),
+    website: 'https://motion-layout.azurewebsites.net',
+    source: 'https://github.com/jeffersonlicet/react-motion-layout',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'Neutron JS',
     description: 'An open source CLI to work with Redux + Redux Saga',
     preview: require('./showcase/neutronjs.png'),
