@@ -12,25 +12,25 @@ describe('normalizeLocation', () => {
     expect(
       normalizeLocation({
         pathname: '/docs/introduction/index.html',
-        search: '#features',
-        hash: '',
+        search: '?search=foo',
+        hash: '#features',
       }),
     ).toEqual({
       pathname: '/docs/introduction',
-      search: '#features',
-      hash: '',
+      search: '?search=foo',
+      hash: '#features',
     });
 
     expect(
       normalizeLocation({
         pathname: '/index.html',
-        search: '#features',
-        hash: '',
+        search: '',
+        hash: '#features',
       }),
     ).toEqual({
       pathname: '/',
-      search: '#features',
-      hash: '',
+      search: '',
+      hash: '#features',
     });
   });
 
@@ -38,13 +38,25 @@ describe('normalizeLocation', () => {
     expect(
       normalizeLocation({
         pathname: '/docs/introduction',
-        search: '#features',
-        hash: '',
+        search: '',
+        hash: '#features',
       }),
     ).toEqual({
       pathname: '/docs/introduction',
-      search: '#features',
-      hash: '',
+      search: '',
+      hash: '#features',
+    });
+
+    expect(
+      normalizeLocation({
+        pathname: '/docs/introduction/foo.html',
+        search: '',
+        hash: '#bar',
+      }),
+    ).toEqual({
+      pathname: '/docs/introduction/foo.html',
+      search: '',
+      hash: '#bar',
     });
 
     expect(

@@ -25,7 +25,6 @@ class PendingNavigation extends React.Component {
     this.previousLocation = null;
     this.progressBarTimeout = null;
     this.state = {
-      location: normalizeLocation(props.location),
       nextRouteHasLoaded: true,
     };
   }
@@ -42,9 +41,8 @@ class PendingNavigation extends React.Component {
       const nextLocation = normalizeLocation(nextProps.location);
       this.startProgressBar(delay);
       // Save the location first.
-      this.previousLocation = this.state.location;
+      this.previousLocation = normalizeLocation(this.props.location);
       this.setState({
-        location: nextLocation,
         nextRouteHasLoaded: false,
       });
 
@@ -110,9 +108,10 @@ class PendingNavigation extends React.Component {
   }
 
   render() {
-    const {children} = this.props;
-    const {location} = this.state;
-    return <Route location={location} render={() => children} />;
+    const {children, location} = this.props;
+    return (
+      <Route location={normalizeLocation(location)} render={() => children} />
+    );
   }
 }
 
