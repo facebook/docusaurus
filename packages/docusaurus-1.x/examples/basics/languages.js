@@ -12,4 +12,5 @@ const languages = [
     tag: 'en',
   },
 ];
+
 module.exports = languages;
