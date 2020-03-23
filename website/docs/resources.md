@@ -29,6 +29,7 @@ See the <a href={require('@docusaurus/useBaseUrl').default('showcase')}>showcase
 - [docusaurus-lunr-search](https://github.com/lelouch77/docusurus-lunr-search) - Offline Search for Docusaurus v2
 - [docusaurus-search-local](https://github.com/cmfcmf/docusaurus-search-local) - Offline/local search for Docusaurus v2
 - [docusaurus-pdf](https://github.com/KohheePeace/docusaurus-pdf) - Generate documentation into PDF format
+- [docusaurus-plugin-sass](https://github.com/rlamana/docusaurus-plugin-sass) - Sass/SCSS stylesheets support
 
 ## Enterprise usage
 
