@@ -89,7 +89,8 @@ function Navbar() {
         'navbar-sidebar--show': sidebarShown,
         [styles.navbarHideable]: hideOnScroll,
         [styles.navbarHidden]: !isNavbarVisible,
-      })}>
+      })}
+      role="navigation">
       <div className="navbar__inner">
         <div className="navbar__items">
           <div
