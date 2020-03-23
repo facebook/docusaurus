@@ -146,4 +146,3 @@ Render offers [free static site hosting](https://render.com/docs/static-sites) w
    | **Publish Directory** | `build`       |
 
 That's it! Your app will be live on your Render URL as soon as the build finishes.
-
