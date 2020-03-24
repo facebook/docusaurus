@@ -136,9 +136,9 @@ If you did not configure these build options, you may still go to "Site settings
 
 Once properly configured with the above options, your site should deploy and automatically redeploy upon merging to your deploy branch, which defaults to `master`.
 
-:::
+:::important
 
-important Make sure to disable Netlify setting `Pretty URLs` to prevent lowercased URLs, unneccessary redirects and 404 errors.
+Make sure to disable Netlify setting `Pretty URLs` to prevent lowercased URLs, unneccessary redirects and 404 errors.
 
 :::
 
