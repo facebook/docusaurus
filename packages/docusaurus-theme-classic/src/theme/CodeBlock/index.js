@@ -160,7 +160,6 @@ export default ({children, className: languageClassName, metastring}) => {
         const directive = match
           .slice(1)
           .reduce((final, item) => final || item, undefined);
-        console.log(lineNumber, directive);
         switch (directive) {
           case 'highlight-next-line':
             range += `${lineNumber},`;
@@ -183,7 +182,6 @@ export default ({children, className: languageClassName, metastring}) => {
         index += 1;
       }
     }
-    console.log(range);
     highlightLines = rangeParser.parse(range);
     code = lines.join('\n');
   }
