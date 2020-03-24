@@ -144,7 +144,7 @@ export default ({children, className: languageClassName, metastring}) => {
 
   // only declaration OR directive highlight can be used for a block
   let code = children.replace(/\n$/, '');
-  if (highlightLines.length === 0) {
+  if (highlightLines.length === 0 && language !== undefined) {
     let range = '';
     const directiveRegex = highlightDirectiveRegex(language);
     // go through line by line
