@@ -11,7 +11,10 @@ import path from 'path';
 import {fileToPath, posixPath, normalizeUrl} from '@docusaurus/utils';
 import {ThemeAlias} from '@docusaurus/types';
 
-export function themeAlias(themePath: string): ThemeAlias {
+export function themeAlias(
+  themePath: string,
+  addOriginalAlias: boolean = true,
+): ThemeAlias {
   if (!fs.pathExistsSync(themePath)) {
     return {};
   }
@@ -20,15 +23,25 @@ export function themeAlias(themePath: string): ThemeAlias {
     cwd: themePath,
   });
 
-  const alias: ThemeAlias = {};
+  const aliases: ThemeAlias = {};
+
   themeComponentFiles.forEach(relativeSource => {
     const filePath = path.join(themePath, relativeSource);
     const fileName = fileToPath(relativeSource);
+
     const aliasName = posixPath(
       normalizeUrl(['@theme', fileName]).replace(/\/$/, ''),
     );
-    alias[aliasName] = filePath;
+    aliases[aliasName] = filePath;
+
+    if (addOriginalAlias) {
+      // For swizzled components to access the original.
+      const originalAliasName = posixPath(
+        normalizeUrl(['@theme-original', fileName]).replace(/\/$/, ''),
+      );
+      aliases[originalAliasName] = filePath;
+    }
   });
 
-  return alias;
+  return aliases;
 }

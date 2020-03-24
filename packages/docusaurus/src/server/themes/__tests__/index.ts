@@ -17,8 +17,11 @@ describe('loadThemeAlias', () => {
     const alias = loadThemeAlias([theme1Path, theme2Path]);
     expect(alias).toEqual({
       '@theme/Footer': path.join(theme1Path, 'Footer/index.js'),
+      '@theme-original/Footer': path.join(theme1Path, 'Footer/index.js'),
       '@theme/Navbar': path.join(theme2Path, 'Navbar.js'),
+      '@theme-original/Navbar': path.join(theme2Path, 'Navbar.js'),
       '@theme/Layout': path.join(theme2Path, 'Layout/index.js'),
+      '@theme-original/Layout': path.join(theme2Path, 'Layout/index.js'),
     });
     expect(alias).not.toEqual({});
   });

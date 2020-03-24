@@ -89,7 +89,7 @@ export async function load(
     plugins.map(plugin => plugin.getThemePath && plugin.getThemePath()),
   );
   const userTheme = path.resolve(siteDir, THEME_PATH);
-  const alias = loadThemeAlias([fallbackTheme, ...pluginThemes, userTheme]);
+  const alias = loadThemeAlias([fallbackTheme, ...pluginThemes], [userTheme]);
 
   // Make a fake plugin to:
   // - Resolve aliased theme components
