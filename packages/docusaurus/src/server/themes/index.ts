@@ -17,6 +17,11 @@ export function loadThemeAlias(
   themePaths.forEach(themePath => {
     const themeAliases = themeAlias(themePath);
     Object.keys(themeAliases).forEach(aliasKey => {
+      if (aliasKey in aliases) {
+        const componentName = aliasKey.substring(aliasKey.indexOf('/') + 1);
+        aliases[`@theme-init/${componentName}`] = aliases[aliasKey];
+      }
+
       aliases[aliasKey] = themeAliases[aliasKey];
     });
   });

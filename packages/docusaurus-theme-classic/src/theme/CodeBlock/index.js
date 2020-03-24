@@ -8,11 +8,10 @@
 import React, {useEffect, useState, useRef} from 'react';
 import classnames from 'classnames';
 import Highlight, {defaultProps} from 'prism-react-renderer';
-import defaultTheme from 'prism-react-renderer/themes/palenight';
 import Clipboard from 'clipboard';
 import rangeParser from 'parse-numeric-range';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import useThemeContext from '@theme/hooks/useThemeContext';
+import usePrismTheme from '@theme/hooks/usePrismTheme';
 
 import styles from './styles.module.css';
 
@@ -42,10 +41,7 @@ export default ({children, className: languageClassName, metastring}) => {
   const button = useRef(null);
   let highlightLines = [];
 
-  const {isDarkTheme} = useThemeContext();
-  const lightModeTheme = prism.theme || defaultTheme;
-  const darkModeTheme = prism.darkTheme || lightModeTheme;
-  const prismTheme = isDarkTheme ? darkModeTheme : lightModeTheme;
+  const prismTheme = usePrismTheme();
 
   if (metastring && highlightLinesRangeRegex.test(metastring)) {
     const highlightLinesRange = metastring.match(highlightLinesRangeRegex)[1];
