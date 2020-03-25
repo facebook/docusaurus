@@ -5,11 +5,29 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+.codeBlockContent {
+  position: relative;
+}
+
+.codeBlockTitle {
+  border-top-left-radius: var(--ifm-pre-border-radius);
+  border-top-right-radius: var(--ifm-pre-border-radius);
+  font-weight: bold;
+  padding: 4px 12px;
+  border-bottom: 1px solid;
+  width: 100%;
+}
+
 .codeBlock {
   overflow: auto;
   display: block;
   padding: 0;
   margin: 0;
+}
+
+.codeBlockWithTitle {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
 }
 
 .copyButton {
@@ -30,7 +48,12 @@
     bottom 200ms ease-in-out;
 }
 
-.codeBlock:hover > .copyButton {
+.copyButtonWithTitle {
+  top: calc(var(--ifm-pre-padding));
+}
+
+.codeBlockTitle:hover + .codeBlockContent .copyButton,
+.codeBlockContent:hover > .copyButton {
   visibility: visible;
   opacity: 1;
 }
