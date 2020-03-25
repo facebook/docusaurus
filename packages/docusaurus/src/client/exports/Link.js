@@ -9,12 +9,16 @@ import React, {useEffect, useRef} from 'react';
 import {NavLink} from 'react-router-dom';
 import isInternalUrl from '@docusaurus/isInternalUrl';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
+import {useLocation} from '@docusaurus/router';
 
 function Link(props) {
   const {to, href} = props;
   const targetLink = to || href;
   const isInternal = isInternalUrl(targetLink);
   const preloaded = useRef(false);
+  const location = useLocation();
+  // Change the current state of location by removing trailing slash from its pathname.
+  location.pathname = location.pathname.replace(/\/$/, '');
 
   const IOSupported = ExecutionEnvironment.canUseIntersectionObserver;
 
