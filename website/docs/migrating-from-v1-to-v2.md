@@ -36,8 +36,7 @@ This provides a clear distinction between Docusaurus' official packages and comm
 
 Meanwhile, the default doc site functionalities provided by Docusaurus 1 are now provided by `@docusaurus/preset-classic`. Therefore, we need to add this dependency as well:
 
-```json
-// package.json
+```json title="package.json"
 {
   dependencies: {
 -   "docusaurus": "^1.x.x",

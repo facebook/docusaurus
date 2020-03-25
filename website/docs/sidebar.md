@@ -50,7 +50,7 @@ module.exports = {
 };
 ```
 
-If you don't want to rely on iteration order of JavaScript object keys for the category name, the following sidebar object is also equivalent of the above.
+Keep in mind that EcmaScript does not guarantee `Object.keys({a,b}) === ['a','b']` (yet, this is generally true). If you don't want to rely on iteration order of JavaScript object keys for the category name, the following sidebar object is also equivalent of the above shorthand syntax.
 
 ```js
 // sidebars.js
@@ -221,7 +221,23 @@ module.exports = {
       {
         type: 'category',
         label: 'Docs',
-        items: ['markdown-features', 'sidebar'],
+        items: ['markdown-features', 'sidebar', 'versioning'],
+      },
+    ],
+  },
+};
+```
+
+**Note**: it's possible to use the shorthand syntax to create nested categories:
+
+```js
+// sidebars.js
+module.exports = {
+  docs: {
+    Guides: [
+      'creating-pages',
+      {
+        Docs: ['markdown-features', 'sidebar', 'versioning'],
       },
     ],
   },

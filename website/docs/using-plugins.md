@@ -172,7 +172,9 @@ module.exports = {
         /**
          * Remark and Rehype plugins passed to MDX
          */
-        remarkPlugins: [/* require('remark-math') */],
+        remarkPlugins: [
+          /* require('remark-math') */
+        ],
         rehypePlugins: [],
         /**
          * Truncate marker, can be a regex or string.
@@ -246,7 +248,9 @@ module.exports = {
         /**
          * Remark and Rehype plugins passed to MDX
          */
-        remarkPlugins: [/* require('remark-math') */],
+        remarkPlugins: [
+          /* require('remark-math') */
+        ],
         rehypePlugins: [],
         /**
          * Whether to display the author who last updated the doc.
