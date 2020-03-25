@@ -19,9 +19,7 @@ module.exports = {
       'styling-layout',
       'static-assets',
       {
-        type: 'category',
-        label: 'Docs',
-        items: ['markdown-features', 'sidebar', 'versioning'],
+        Docs: ['markdown-features', 'sidebar', 'versioning'],
       },
       'blog',
       'search',

@@ -171,12 +171,32 @@ This line is also a separate paragraph, but... This line is only separated by a 
 
 ## Admonitions
 
-:::note This is a note :::
+:::note
 
-:::tip This is a tip :::
+This is a note
 
-:::important This is important :::
+:::
 
-:::caution This is a caution :::
+:::tip
 
-:::warning This is a warning :::
+This is a tip
+
+:::
+
+:::important
+
+This is important
+
+:::
+
+:::caution
+
+This is a caution
+
+:::
+
+:::warning
+
+This is a warning
+
+:::
