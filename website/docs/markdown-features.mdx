@@ -332,19 +332,19 @@ function HelloCodeTitle(props) {
 
 ### Configuring plugins
 
-You can expand the mdx functionalities, using plugins. An MDX plugin is usually a npm package, 
+You can expand the MDX functionalities, using plugins. An MDX plugin is usually a npm package, 
 so you install them like other npm packages using npm. Docusaurus supports both [remark](https://github.com/remarkjs/remark)
 and [rehype-style](https://github.com/rehypejs/rehype) plugins that work with MDX.
 
-First, install [remark](https://github.com/remarkjs/remark/blob/master/doc/plugins.md#list-of-plugins) and [rehype](https://github.com/rehypejs/rehype/blob/master/doc/plugins.md#list-of-plugins) plugins
+First, install [remark](https://github.com/remarkjs/remark/blob/master/doc/plugins.md#list-of-plugins) and [rehype](https://github.com/rehypejs/rehype/blob/master/doc/plugins.md#list-of-plugins) plugins.
 For example:
 
 ```bash npm2yarn
 npm install --save remark-images
 npm install --save rehype-truncate
-
 ```
-Next, import the plugins
+
+Next, import the plugins:
 
 ```jsx
 const remarkImages = require('remark-images')
@@ -352,7 +352,7 @@ const rehypeTruncate = require('rehype-truncate')
 ```
 Finally, add in your `docusaurus.config.js` in `presets` option:
 
-```jsx {11,12}
+```js {11,12}
 // docusaurus.config.js
 module.exports = {
   // ...
@@ -375,7 +375,7 @@ presets: [
 
 ### Configuring plugin options
 
-Some plugins can be configured and accept their own options. In that case, use the [plugin, pluginOptions] syntax, like so:
+Some plugins can be configured and accept their own options. In that case, use the `[plugin, pluginOptions]` syntax, like so:
 
 ```jsx {11}
 // docusaurus.config.js
@@ -397,7 +397,7 @@ presets: [
 };
 ```
 
-See more information in the [MDXjs documentation](https://mdxjs.com/advanced/plugins).
+See more information in the [MDX documentation](https://mdxjs.com/advanced/plugins).
 
 
 ### Interactive code editor
