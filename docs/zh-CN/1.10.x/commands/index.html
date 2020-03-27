@@ -86,7 +86,7 @@
 <li><a href="/docs/zh-CN/1.10.x/commands#docusaurus-examples"> <code>yarn run examples</code> </a>: 创建示例配置文件</li>
 </ul>
 <h2><a class="anchor" aria-hidden="true" id="从命令行运行"></a><a href="#从命令行运行" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>从命令行运行</h2>
-<p>这些脚本可以使用 Yarn 或 npm 来运行。 如果您已经完成了我们的入门指南, 您可能已经熟悉了 <code>start</code> 命令。 这是这样的命令,：它告诉 Docusaurus 运行 <code>Docusaurus-start</code> 脚本, 它生成站点并启动服务器, 通常是这样调用的:</p>
+<p>这些脚本可以使用 Yarn 或 npm 来运行。 如果您已经完成了我们的入门指南, 您可能已经熟悉了 <code>start</code> 命令。 简单的命令，它告诉 Docusaurus 运行 <code>Docusaurus-start</code> 脚本, 生成站点并启动服务器, 通常是这样使用的:</p>
 <pre><code class="hljs css language-bash">yarn run start
 </code></pre>
 <p>也可以使用 npm 调用相同的脚本:</p>
@@ -94,15 +94,15 @@
 </code></pre>
 <p>若要运行特定的脚本, 只需用与脚本关联的命令替换上面示例中的 <code>start</code> 命令。</p>
 <h2><a class="anchor" aria-hidden="true" id="使用参数"></a><a href="#使用参数" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>使用参数</h2>
-<p>一些命令支持可选参数 例如，为了在端口80800上启动服务器，您可以在运行 “start” 时指定 “--port” 参数：</p>
+<p>一些命令支持可选参数 例如，为了在8080端口上启动服务，您可以在运行 <code>start</code> 指定 <code>--port</code> 端口：</p>
 <pre><code class="hljs css language-bash">yarn run start -- port 8080
 </code></pre>
-<p>如果使用 npm 运行 Docusaurus, 则仍然可以通过在 <code>npm run &lt;command&gt;</code> 和命令参数之间插入 <code>--</code> 来使用命令行参数:</p>
+<p>同样，使用 npm 运行 Docusaurus, 则仍然可以通过在 <code>npm run &lt;command&gt;</code> 后加上 <code>--</code> 指定启动端口:</p>
 <pre><code class="hljs css language-bash">npm run start -- --port 8080
 </code></pre>
 <h2><a class="anchor" aria-hidden="true" id="配置"></a><a href="#配置" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>配置</h2>
-<p>这些脚本是在 <code>website/package.json</code> 文件的 <code>&quot;scripts&quot;</code> 项下设置的, 作为安装过程的一部分。 如果需要帮助再次设置它们, 请参阅 <a href="/docs/zh-CN/1.10.x/installation"> 安装指南 </a>。</p>
-<p>Docusaurus 提供了一些默认的映像, 允许您按照节点约定运行命令。 您可以键入 <code>yarn run start</code> 或 <code>npm start</code> 来实现相同的目的, 而不是每次都键入 <code>docusaurus-start</code>。</p>
+<p>这些脚本是在 <code>website/package.json</code> 文件的 <code>&quot;scripts&quot;</code> ，是安装过程中自动生成的。 如果在设置的时候需要帮助, 请参阅 <a href="/docs/zh-CN/1.10.x/installation"> 安装指南 </a>。</p>
+<p>Docusaurus 提供了一些默认的映射脚本, 允许您按照 Node 约定运行命令。 您可以键入 <code>yarn run start</code> 或 <code>npm start</code> 来实现相同的目的, 而不是每次输入 <code>docusaurus-start</code>。</p>
 <h2><a class="anchor" aria-hidden="true" id="命令"></a><a href="#命令" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>命令</h2>
 <ul>
 <li><a href="#docusaurus-build"><code>docusaurus-build</code></a></li>
@@ -110,13 +110,13 @@
 <li><a href="#docusaurus-publish"><code>docusaurus-publish</code></a></li>
 <li><a href="#docusaurus-rename-version"><code>docusaurus-rename-version</code></a></li>
 <li><a href="#docusaurus-start"><code>docusaurus-start</code></a></li>
-<li><a href="#docusaurus-版本-版本"><code>docusaurus-版本 &lt;版本&gt;</code></a></li>
-<li><a href="#docusaurus-书写-翻译"><code>docusaurus-书写-翻译</code></a></li>
+<li><a href="#docusaurus-version-version"><code>docusaurus-version &lt;version&gt;</code></a></li>
+<li><a href="#docusaurus-write-translations"><code>docusaurus-write-translations</code></a></li>
 </ul>
 <hr>
 <h2><a class="anchor" aria-hidden="true" id="参考"></a><a href="#参考" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>参考</h2>
 <h3><a class="anchor" aria-hidden="true" id="docusaurus-build"></a><a href="#docusaurus-build" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>docusaurus-build</code></h3>
-<p>别名︰ <code>build</code>。</p>
+<p>指令︰ <code>build</code></p>
 <table>
 <thead>
 <tr><th>可选项</th><th>默认</th><th>说明</th></tr>
@@ -130,7 +130,7 @@
 <p>另请参阅 <a href="/docs/zh-CN/1.10.x/commands#docusaurus-start"><code>docusaurus-start</code></a>。</p>
 <hr>
 <h3><a class="anchor" aria-hidden="true" id="docusaurus-examples"></a><a href="#docusaurus-examples" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>docusaurus-examples</code></h3>
-<p>别名：<code>examples</code></p>
+<p>指令：<code>examples</code></p>
 <table>
 <thead>
 <tr><th>参数</th><th>默认</th><th>说明</th></tr>
@@ -145,11 +145,11 @@
 <p>如果没有指定附加功能，则会在你的项目中设置一个最小化配置的示例站点。 <a href="/docs/zh-CN/1.10.x/site-preparation">Site Preparation guide</a> 中会深入介绍此命令。</p>
 <hr>
 <h3><a class="anchor" aria-hidden="true" id="docusaurus-publish"></a><a href="#docusaurus-publish" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>docusaurus-publish</code></h3>
-<p>别名: <code>publish-gh-pages</code></p>
-<p><a href="/docs/zh-CN/1.10.x/commands#docusaurus-build">Builds</a>，然后在 GitHub Pages 上部署静态网站。 此命令会在 Circle Ci 部署步骤中运行，因此需要定义一些环境变量：</p>
+<p>指令：<code>publish-gh-pages</code></p>
+<p><a href="/docs/zh-CN/1.10.x/commands#docusaurus-build">构建静态页面</a>，然后在 GitHub Pages 上部署静态网站。 此命令会在 Circle Ci 部署步骤中运行，因此需要定义一些环境变量：</p>
 <p>以下环境变量通常由用户在 CircleCI 的 <code>config.yml</code> 文件中手动设置。</p>
 <ul>
-<li><code>GIT_USER</code>：与部署相关的 GIT 用户。</li>
+<li><code>GIT_USER</code>：部署仓库的所有者。</li>
 <li><code>USE_SSH</code>: Whether to use SSH instead of HTTPS for your connection to the GitHub repo.</li>
 </ul>
 <p><strong>示例</strong></p>
@@ -175,8 +175,8 @@
 <tr><th>参数</th><th>默认</th><th>说明</th></tr>
 </thead>
 <tbody>
-<tr><td><code>&lt;currentVersion&gt;</code></td><td>-</td><td>Version to be renamed.</td></tr>
-<tr><td><code>&lt;newVersion&gt;</code></td><td>-</td><td>Version to be renamed to.</td></tr>
+<tr><td><code>&lt;currentVersion&gt;</code></td><td>-</td><td>需要被重命名的版本。</td></tr>
+<tr><td><code>&lt;newVersion&gt;</code></td><td>-</td><td>重命名后的版本。</td></tr>
 </tbody>
 </table>
 <p><strong>示例</strong></p>
@@ -201,15 +201,15 @@
 <pre><code class="hljs">$ BROWSER=firefox yarn start
 </code></pre>
 <hr>
-<h3><a class="anchor" aria-hidden="true" id="docusaurus-版本-版本"></a><a href="#docusaurus-版本-版本" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>docusaurus-版本 &lt;版本&gt;</code></h3>
+<h3><a class="anchor" aria-hidden="true" id="docusaurus-version-version"></a><a href="#docusaurus-version-version" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>docusaurus-version &lt;version&gt;</code></h3>
 <p>Alias: <code>version</code></p>
 <p>Generates a new version of the docs. This will result in a new copy of your site being generated and stored in its own versioned directory. Useful for capturing snapshots of API docs that map to specific versions of your software. Accepts any string as a version number.</p>
 <p>See the <a href="/docs/zh-CN/1.10.x/versioning">Versioning guide</a> to learn more.</p>
 <hr>
-<h3><a class="anchor" aria-hidden="true" id="docusaurus-书写-翻译"></a><a href="#docusaurus-书写-翻译" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>docusaurus-书写-翻译</code></h3>
+<h3><a class="anchor" aria-hidden="true" id="docusaurus-write-translations"></a><a href="#docusaurus-write-translations" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>docusaurus-write-translations</code></h3>
 <p>Alias: <code>write-translations</code></p>
-<p>Writes the English for any strings that need to be translated into a <code>website/i18n/en.json</code> file. The script will go through every file in <code>website/pages/en</code> and through the <code>siteConfig.js</code> file and other config files to fetch English strings that will then be translated on Crowdin. See the <a href="/docs/zh-CN/1.10.x/translation">Translation guide</a> to learn more.</p>
-</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/zh-CN/1.10.x/versioning"><span class="arrow-prev">← </span><span>版本管理</span></a><a class="docs-next button" href="/docs/zh-CN/1.10.x/doc-markdown"><span>Markdown 特性</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#从命令行运行">从命令行运行</a></li><li><a href="#使用参数">使用参数</a></li><li><a href="#配置">配置</a></li><li><a href="#命令">命令</a></li><li><a href="#参考">参考</a><ul class="toc-headings"><li><a href="#docusaurus-build"><code>docusaurus-build</code></a></li><li><a href="#docusaurus-examples"><code>docusaurus-examples</code></a></li><li><a href="#docusaurus-publish"><code>docusaurus-publish</code></a></li><li><a href="#docusaurus-rename-version"><code>docusaurus-rename-version</code></a></li><li><a href="#docusaurus-start"><code>docusaurus-start</code></a></li><li><a href="#docusaurus-版本-版本"><code>docusaurus-版本 &lt;版本&gt;</code></a></li><li><a href="#docusaurus-书写-翻译"><code>docusaurus-书写-翻译</code></a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/docusaurus_monochrome.svg" alt="Docusaurus" width="66" height="58"/></a><div class="footerSection"><h5>Docs</h5><a href="
+<p>把用英文需要被翻译的字符串写到 <code>website/i18n/en.json</code> 文件中。 The script will go through every file in <code>website/pages/en</code> and through the <code>siteConfig.js</code> file and other config files to fetch English strings that will then be translated on Crowdin. See the <a href="/docs/zh-CN/1.10.x/translation">Translation guide</a> to learn more.</p>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/zh-CN/1.10.x/versioning"><span class="arrow-prev">← </span><span>版本管理</span></a><a class="docs-next button" href="/docs/zh-CN/1.10.x/doc-markdown"><span>Markdown 特性</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#从命令行运行">从命令行运行</a></li><li><a href="#使用参数">使用参数</a></li><li><a href="#配置">配置</a></li><li><a href="#命令">命令</a></li><li><a href="#参考">参考</a><ul class="toc-headings"><li><a href="#docusaurus-build"><code>docusaurus-build</code></a></li><li><a href="#docusaurus-examples"><code>docusaurus-examples</code></a></li><li><a href="#docusaurus-publish"><code>docusaurus-publish</code></a></li><li><a href="#docusaurus-rename-version"><code>docusaurus-rename-version</code></a></li><li><a href="#docusaurus-start"><code>docusaurus-start</code></a></li><li><a href="#docusaurus-version-version"><code>docusaurus-version &lt;version&gt;</code></a></li><li><a href="#docusaurus-write-translations"><code>docusaurus-write-translations</code></a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/docusaurus_monochrome.svg" alt="Docusaurus" width="66" height="58"/></a><div class="footerSection"><h5>Docs</h5><a href="
                 /docs/zh-CN/installation">Getting Started</a><a href="
                 /docs/zh-CN/versioning">Versioning</a><a href="
                 /docs/zh-CN/translation">Localization</a><a href="

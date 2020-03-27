@@ -82,60 +82,60 @@
             });
         </script></nav></div><div class="container mainContainer docsContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://crowdin.com/project/docusaurus/zh-CN" target="_blank" rel="noreferrer noopener">Translate</a><h1 id="__docusaurus" class="postHeaderTitle">Setting Up</h1></header><article><div><span><p>本教程是针对首次使用者的，详细地说明如何从零开始完成一个的Docusaurus网站。 让我们开始吧！</p>
 <p><img src="/img/undraw_docusaurus_mountain.svg" alt="Docusaurus campfire"> {.docImage}</p>
-<h2><a class="anchor" aria-hidden="true" id="install-nodejs"></a><a href="#install-nodejs" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Install Node.js</h2>
-<p>Node.js is an environment that can run JavaScript code outside of a web browser and is used to write and run server-side JavaScript apps.</p>
+<h2><a class="anchor" aria-hidden="true" id="安装-nodejs"></a><a href="#安装-nodejs" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>安装 Node.js</h2>
+<p>Node.js是一个可以在网页浏览器之外运行JavaScript代码的运行环境，并被用于编写和运行服务器端JavaScript应用程序。</p>
 <blockquote>
 <p>Docusaurus' minimum supported Node.js version is Node 8, but more recent versions will work as well.</p>
 </blockquote>
 <ol>
-<li>Open your Terminal.</li>
-<li>If you have <code>brew</code> on your OS, run the following command to install Node (a JavaScript runtime that allows you to run JavaScript on the server) and <code>npm</code> the package manager (allows you to install npm modules from your terminal).</li>
+<li>打开你的终端程序。</li>
+<li>如果你安装有 <code>brew</code> 在你的操作系统里，运行以下命令来安装 Node（JavaScript 运行时间，允许你在服务端运行 JavaScript）和包管理工具 <code>npm</code> （允许你使用终端安装你项目所需要的依赖包）。</li>
 </ol>
 <pre><code class="hljs css language-sh">brew install node
 </code></pre>
-<p>Alternatively, you can download an installer from the <a href="https://nodejs.org/en/">Node.js homepage</a>.</p>
-<h2><a class="anchor" aria-hidden="true" id="check-your-nodejs-installation"></a><a href="#check-your-nodejs-installation" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Check your Node.js installation</h2>
-<p>Check that you have the minimum required version installed by running the following command:</p>
+<p>或者，你可以从 <a href="https://nodejs.org/en/">Node.js</a> 的官网下载安装。</p>
+<h2><a class="anchor" aria-hidden="true" id="检查你的-nodejs-安装情况"></a><a href="#检查你的-nodejs-安装情况" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>检查你的 Node.js 安装情况</h2>
+<p>检查您是否已安装了最低要求版本：</p>
 <pre><code class="hljs css language-sh">node -v
 </code></pre>
-<p>You should see a version larger than Node 8.</p>
+<p>你应该看到一个大于 Node 8 的版本。</p>
 <pre><code class="hljs css language-sh">node -v
 v8.15.1
 </code></pre>
-<h2><a class="anchor" aria-hidden="true" id="install-yarn-optional"></a><a href="#install-yarn-optional" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Install Yarn (Optional)</h2>
-<p>We highly recommend you to install Yarn, an alternative package manager that has superb performance for managing your NPM dependencies. Check it out <a href="https://yarnpkg.com/en/docs/install">here</a>.</p>
+<h2><a class="anchor" aria-hidden="true" id="安装-yarn（可选）"></a><a href="#安装-yarn（可选）" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>安装 Yarn（可选）</h2>
+<p>我们强烈建议你安装 Yarn，这是一个替代的包管理工具，在管理你的 NPM 依赖时十分高效。 点击 <a href="https://yarnpkg.com/en/docs/install">这里查看</a>。</p>
 <blockquote>
 <p>You can still proceed with the tutorial without Yarn.</p>
 </blockquote>
-<h2><a class="anchor" aria-hidden="true" id="create-a-github-repository"></a><a href="#create-a-github-repository" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Create a GitHub Repository</h2>
+<h2><a class="anchor" aria-hidden="true" id="创建一个github仓库"></a><a href="#创建一个github仓库" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>创建一个Github仓库</h2>
 <ol>
 <li>Go to <a href="https://github.com/">https://github.com/</a> and sign up for an account if you don't already have one.</li>
-<li>Click on <strong>&quot;New Repository&quot;</strong> or go to <a href="https://github.com/new">https://github.com/new</a>.</li>
-<li>Name your repository without spaces. For e.g. <code>docusaurus-tutorial</code>.</li>
-<li>Proceed to create the repository without adding <code>.gitignore</code> or a license.</li>
+<li>点击 <strong>&quot;New Repository&quot;</strong> 或是访问 <a href="https://github.com/new">https://github.com/new</a>。</li>
+<li>给你的仓库去一个名字，注意不要带有空格。 比如 <code>docusaurus-tutorial</code>。</li>
+<li>继续创建仓库而不添加 <code>.gitignore</code> 或许可协议。</li>
 </ol>
-<p><img src="/img/tutorial-git-clone.png" alt="GitHub create repo"> {.docImage}</p>
+<p><img src="/img/tutorial-git-clone.png" alt="在Github 中创建仓库"> {.docImage}</p>
 <ol start="5">
-<li>Clone your repository to your local machine:</li>
+<li>将你的仓库克隆到你的电脑上。</li>
 </ol>
 <pre><code class="hljs css language-sh">git <span class="hljs-built_in">clone</span> git@github.com:USERNAME/docusaurus-tutorial.git <span class="hljs-comment"># SSH</span>
 <span class="hljs-comment"># or</span>
 git <span class="hljs-built_in">clone</span> https://github.com/USERNAME/docusaurus-tutorial.git <span class="hljs-comment"># HTTPS</span>
 </code></pre>
 <ol start="6">
-<li><code>cd</code> into the repository which you just created.</li>
+<li><code>cd</code> 进入到你刚刚创建的仓库中。</li>
 </ol>
-<h2><a class="anchor" aria-hidden="true" id="install-the-docusaurus-init-command"></a><a href="#install-the-docusaurus-init-command" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Install the Docusaurus init command</h2>
-<p>Docusaurus comes with a command line tool to help you scaffold a Docusaurus site with some example templates. Let's install the installer!</p>
+<h2><a class="anchor" aria-hidden="true" id="安装-docusaurus-init-初始化命令"></a><a href="#安装-docusaurus-init-初始化命令" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>安装 Docusaurus init 初始化命令</h2>
+<p>Docusaurus 带有命令行工具来帮助您手写一个 Docusaurus 网站与一些示例模板。 让我们一起来安装吧！</p>
 <ol>
-<li>Run the following command:</li>
+<li>运行以下命令：</li>
 </ol>
 <pre><code class="hljs css language-sh">npm install --global docusaurus-init
 </code></pre>
-<p>or if you have Yarn:</p>
+<p>或者你使用的 Yarn：</p>
 <pre><code class="hljs css language-sh">yarn global add docusaurus-init
 </code></pre>
-</span></div></article></div><div class="docs-prevnext"><a class="docs-next button" href="/docs/zh-CN/1.10.x/tutorial-create-new-site"><span>Create a New Site</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#install-nodejs">Install Node.js</a></li><li><a href="#check-your-nodejs-installation">Check your Node.js installation</a></li><li><a href="#install-yarn-optional">Install Yarn (Optional)</a></li><li><a href="#create-a-github-repository">Create a GitHub Repository</a></li><li><a href="#install-the-docusaurus-init-command">Install the Docusaurus init command</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/docusaurus_monochrome.svg" alt="Docusaurus" width="66" height="58"/></a><div class="footerSection"><h5>Docs</h5><a href="
+</span></div></article></div><div class="docs-prevnext"><a class="docs-next button" href="/docs/zh-CN/1.10.x/tutorial-create-new-site"><span>Create a New Site</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#安装-nodejs">安装 Node.js</a></li><li><a href="#检查你的-nodejs-安装情况">检查你的 Node.js 安装情况</a></li><li><a href="#安装-yarn（可选）">安装 Yarn（可选）</a></li><li><a href="#创建一个github仓库">创建一个Github仓库</a></li><li><a href="#安装-docusaurus-init-初始化命令">安装 Docusaurus init 初始化命令</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/docusaurus_monochrome.svg" alt="Docusaurus" width="66" height="58"/></a><div class="footerSection"><h5>Docs</h5><a href="
                 /docs/zh-CN/installation">Getting Started</a><a href="
                 /docs/zh-CN/versioning">Versioning</a><a href="
                 /docs/zh-CN/translation">Localization</a><a href="
