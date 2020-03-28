@@ -5,7 +5,7 @@ title: Lifecycle APIs
 
 :::caution
 
-_This section is a work in progress._
+This section is a work in progress.
 
 :::
 
@@ -17,15 +17,14 @@ Specifies the paths to watch for plugins and themes. The paths are watched by th
 
 Example:
 
-```js {6-8}
-// docusaurus-plugin/src/index.js
+```js {5-7} title="docusaurus-plugin/src/index.js"
 const path = require('path');
 module.exports = function(context, options) {
   return {
     name: 'docusaurus-plugin',
     getPathsToWatch() {
       const contentPath = path.resolve(context.siteDir, options.path);
-      return [`${contentPath}/**/*.{ts,tsx}`);
+      return [`${contentPath}/**/*.{ts,tsx}`];
     },
   };
 };
@@ -37,8 +36,7 @@ Plugins should use this lifecycle to fetch from data sources (filesystem, remote
 
 For example, this plugin below return a random integer between 1 to 10 as content;
 
-```js {6-7}
-// docusaurus-plugin/src/index.js
+```js {5-6} title="docusaurus-plugin/src/index.js"
 const path = require('path');
 module.exports = function(context, options) {
   return {
@@ -93,8 +91,7 @@ A helper function to help you write some data (usually a string or JSON) to disk
 
 For example, this plugin below create a `/roll` page which display "You won xxxx" to user.
 
-```jsx
-// website/src/components/roll.js
+```jsx title="website/src/components/roll.js"
 import React from 'react';
 
 export default function(props) {
@@ -104,8 +101,7 @@ export default function(props) {
 }
 ```
 
-```javascript {5-20}
-// docusaurus-plugin/src/index.js
+```javascript {4-19} title="docusaurus-plugin/src/index.js"
 module.exports = function(context, options) {
   return {
     name: 'docusaurus-plugin',
@@ -154,8 +150,7 @@ You may use them to return your webpack configures conditionally.
 
 For example, this plugin below modify the webpack config to transpile `.foo` file.
 
-```js {5-12}
-// docusaurus-plugin/src/index.js
+```js {4-11} title="docusaurus-plugin/src/index.js"
 module.exports = function(context, options) {
   return {
     name: 'custom-docusaurus-plugin',
@@ -176,7 +171,7 @@ module.exports = function(context, options) {
 };
 ```
 
-## postBuild(props)
+## `postBuild(props)`
 
 Called when a (production) build finishes.
 
@@ -197,8 +192,7 @@ type Props = {
 
 Example:
 
-```js {5-10}
-// docusaurus-plugin/src/index.js
+```js {4-9} title="docusaurus-plugin/src/index.js"
 module.exports = function(context, options) {
   return {
     name: 'docusaurus-plugin',
@@ -218,8 +212,7 @@ Register an extra command to enhance the CLI of docusaurus. `cli` is [commander]
 
 Example:
 
-```js {5-12}
-// docusaurus-plugin/src/index.js
+```js {4-11} title="docusaurus-plugin/src/index.js"
 module.exports = function(context, options) {
   return {
     name: 'docusaurus-plugin',
@@ -269,8 +262,7 @@ interface HtmlTagObject {
 
 Example:
 
-```js {5-29}
-// docusaurus-plugin/src/index.js
+```js {4-28} title="docusaurus-plugin/src/index.js"
 module.exports = function(context, options) {
   return {
     name: 'docusaurus-plugin',
@@ -307,8 +299,7 @@ Returns the path to the directory where the theme components can be found. When 
 
 If you use the folder directory above, your `getThemePath` can be:
 
-```js {7-9}
-// my-theme/src/index.js
+```js {6-8} title="my-theme/src/index.js"
 const path = require('path');
 
 module.exports = function(context, options) {
@@ -327,8 +318,7 @@ Returns an array of paths to the modules that are to be imported in the client b
 
 As an example, to make your theme load a `customCss` object from `options` passed in by the user:
 
-```js {8-10}
-// my-theme/src/index.js
+```js {7-9} title="my-theme/src/index.js"
 const path = require('path');
 
 module.exports = function(context, options) {

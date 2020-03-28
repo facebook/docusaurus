@@ -18,6 +18,7 @@ import classnames from 'classnames';
 import useThemeContext from '@theme/hooks/useThemeContext';
 import useHideableNavbar from '@theme/hooks/useHideableNavbar';
 import useLockBodyScroll from '@theme/hooks/useLockBodyScroll';
+import useLogo from '@theme/hooks/useLogo';
 
 import styles from './styles.module.css';
 
@@ -51,17 +52,21 @@ function NavLink({activeBasePath, to, href, label, position, ...props}) {
 }
 
 function Navbar() {
-  const context = useDocusaurusContext();
-  const {siteConfig = {}} = context;
-  const {baseUrl, themeConfig = {}} = siteConfig;
-  const {navbar = {}, disableDarkMode = false} = themeConfig;
-  const {title, logo = {}, links = [], hideOnScroll = false} = navbar;
-
+  const {
+    siteConfig: {
+      themeConfig: {
+        navbar: {title, links = [], hideOnScroll = false} = {},
+        disableDarkMode = false,
+      },
+    },
+    isClient,
+  } = useDocusaurusContext();
   const [sidebarShown, setSidebarShown] = useState(false);
   const [isSearchBarExpanded, setIsSearchBarExpanded] = useState(false);
 
   const {isDarkTheme, setLightTheme, setDarkTheme} = useThemeContext();
   const {navbarRef, isNavbarVisible} = useHideableNavbar(hideOnScroll);
+  const {logoLink, logoLinkProps, logoImageUrl, logoAlt} = useLogo();
 
   useLockBodyScroll(sidebarShown);
 
@@ -77,17 +82,6 @@ function Navbar() {
     [setLightTheme, setDarkTheme],
   );
 
-  const logoLink = logo.href || baseUrl;
-  const isExternalLogoLink = /http/.test(logoLink);
-  const logoLinkProps = isExternalLogoLink
-    ? {
-        rel: 'noopener noreferrer',
-        target: '_blank',
-      }
-    : null;
-  const logoSrc = logo.srcDark && isDarkTheme ? logo.srcDark : logo.src;
-  const logoImageUrl = useBaseUrl(logoSrc);
-
   return (
     <nav
       ref={navbarRef}
@@ -95,7 +89,8 @@ function Navbar() {
         'navbar-sidebar--show': sidebarShown,
         [styles.navbarHideable]: hideOnScroll,
         [styles.navbarHidden]: !isNavbarVisible,
-      })}>
+      })}
+      role="navigation">
       <div className="navbar__inner">
         <div className="navbar__items">
           <div
@@ -123,12 +118,19 @@ function Navbar() {
             </svg>
           </div>
           <Link className="navbar__brand" to={logoLink} {...logoLinkProps}>
-            {logo != null && (
-              <img className="navbar__logo" src={logoImageUrl} alt={logo.alt} />
+            {logoImageUrl != null && (
+              <img
+                key={isClient}
+                className="navbar__logo"
+                src={logoImageUrl}
+                alt={logoAlt}
+              />
             )}
             {title != null && (
               <strong
-                className={isSearchBarExpanded ? styles.hideLogoText : ''}>
+                className={classnames('navbar__title', {
+                  [styles.hideLogoText]: isSearchBarExpanded,
+                })}>
                 {title}
               </strong>
             )}
@@ -171,10 +173,17 @@ function Navbar() {
             onClick={hideSidebar}
             to={logoLink}
             {...logoLinkProps}>
-            {logo != null && (
-              <img className="navbar__logo" src={logoImageUrl} alt={logo.alt} />
+            {logoImageUrl != null && (
+              <img
+                key={isClient}
+                className="navbar__logo"
+                src={logoImageUrl}
+                alt={logoAlt}
+              />
             )}
-            {title != null && <strong>{title}</strong>}
+            {title != null && (
+              <strong className="navbar__title">{title}</strong>
+            )}
           </Link>
           {!disableDarkMode && sidebarShown && (
             <Toggle

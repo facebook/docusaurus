@@ -16,24 +16,9 @@ description: API reference for Docusaurus configuration file.
 
 Title for your website.
 
-```js
-// docusaurus.config.js
+```js title="docusaurus.config.js"
 module.exports = {
   title: 'Docusaurus',
-};
-```
-
-### `tagline`
-
-- Type: `string`
-
-The tagline for your website.
-
-```js
-// docusaurus.config.js
-module.exports = {
-  tagline:
-    'Docusaurus makes it easy to maintain Open Source documentation websites.',
 };
 ```
 
@@ -43,8 +28,7 @@ module.exports = {
 
 URL for site favicon. Example:
 
-```js
-// docusaurus.config.js
+```js title="docusaurus.config.js"
 module.exports = {
   favicon: 'https://v2.docusaurus.io/favicon.ico',
 };
@@ -63,8 +47,7 @@ You can also use the favicon URL relative to the `static` directory of your site
 
 So you can refer it like below:
 
-```js
-// docusaurus.config.js
+```js title="docusaurus.config.js"
 module.exports = {
   favicon: 'img/favicon.ico',
 };
@@ -76,8 +59,7 @@ module.exports = {
 
 URL for your website. This can also be considered the top-level hostname. For example, `https://facebook.github.io` is the URL of https://facebook.github.io/metro/, and `https://docusaurus.io` is the URL for https://docusaurus.io. This field is related to the [baseUrl](#baseurl) field.
 
-```js
-// docusaurus.config.js
+```js title="docusaurus.config.js"
 module.exports = {
   url: 'https://docusaurus.io',
 };
@@ -89,8 +71,7 @@ module.exports = {
 
 Base URL for your site. This can also be considered the path after the host. For example, `/metro/` is the baseUrl of https://facebook.github.io/metro/. For URLs that have no path, the baseUrl should be set to `/`. This field is related to the [url](#url) field.
 
-```js
-// docusaurus.config.js
+```js title="docusaurus.config.js"
 module.exports = {
   baseUrl: '/',
 };
@@ -98,16 +79,28 @@ module.exports = {
 
 ## Optional fields
 
+### `tagline`
+
+- Type: `string`
+
+The tagline for your website.
+
+```js title="docusaurus.config.js"
+module.exports = {
+  tagline:
+    'Docusaurus makes it easy to maintain Open Source documentation websites.',
+};
+```
+
 ### `organizationName`
 
 - Type: `string`
 
 The GitHub user or organization that owns the repository. Used by the deployment command.
 
-```js
-// docusaurus.config.js
+```js title="docusaurus.config.js"
 module.exports = {
-  // Docusaurus's organization is facebook
+  // Docusaurus' organization is facebook
   organizationName: 'facebook',
 };
 ```
@@ -118,8 +111,7 @@ module.exports = {
 
 The name of the GitHub repository. Used by the deployment command.
 
-```js
-// docusaurus.config.js
+```js title="docusaurus.config.js"
 module.exports = {
   projectName: 'docusaurus',
 };
@@ -131,8 +123,7 @@ module.exports = {
 
 The hostname of your server. Useful if you are using GitHub Enterprise.
 
-```js
-// docusaurus.config.js
+```js title="docusaurus.config.js"
 module.exports = {
   githubHost: 'github.com',
 };
@@ -150,8 +141,7 @@ For Docusaurus' default theme _classic_, we use `themeConfig` to customize your 
 
 Example:
 
-```js
-// docusaurus.config.js
+```js title="docusaurus.config.js"
 module.exports = {
   themeConfig: {
     navbar: {
@@ -188,7 +178,7 @@ module.exports = {
         alt: 'Facebook Open Source Logo',
         src: 'https://docusaurus.io/img/oss_logo.png',
       },
-      copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`,
+      copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`, // You can also put own HTML here
     },
   },
 };
@@ -200,8 +190,7 @@ module.exports = {
 
 - Type: `any[]`
 
-```js
-// docusaurus.config.js
+```js title="docusaurus.config.js"
 module.exports = {
   plugins: [],
 };
@@ -213,8 +202,7 @@ module.exports = {
 
 - Type: `any[]`
 
-```js
-// docusaurus.config.js
+```js title="docusaurus.config.js"
 module.exports = {
   themes: [],
 };
@@ -226,8 +214,7 @@ module.exports = {
 
 - Type: `any[]`
 
-```js
-// docusaurus.config.js
+```js title="docusaurus.config.js"
 module.exports = {
   presets: [],
 };
@@ -239,8 +226,7 @@ Docusaurus guards `docusaurus.config.js` from unknown fields. To add a custom fi
 
 - Type: `Object`
 
-```jsx
-// docusaurus.config.js
+```js title="docusaurus.config.js"
 module.exports = {
   customFields: {
     admin: 'endi',
@@ -265,8 +251,7 @@ Note that `<script>` added here are render-blocking so you might want to add `as
 
 Example:
 
-```js
-// docusaurus.config.js
+```js title="docusaurus.config.js"
 module.exports = {
   scripts: [
     // String format.
@@ -289,8 +274,7 @@ An array of CSS sources to load. The values can be either strings or plain objec
 
 Example:
 
-```js
-// docusaurus.config.js
+```js title="docusaurus.config.js"
 module.exports = {
   stylesheets: [
     // String format.

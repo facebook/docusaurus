@@ -19,8 +19,7 @@ const addAdmonitions = pluginOptions => {
 
   const admonitionsOptions = {
     remarkPlugins: (pluginOptions.remarkPlugins || []).concat([
-      admonitions,
-      pluginOptions.admonitions || {},
+      [admonitions, pluginOptions.admonitions || {}],
     ]),
   };
 

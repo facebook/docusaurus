@@ -1,5 +1,110 @@
 # Docusaurus 2 Changelog
 
+## 2.0.0-alpha.48 (2020-03-08)
+
+**HOTFIX for 2.0.0-alpha.44**.
+
+#### :bug: Bug Fix
+
+- Other
+  - [#2383](https://github.com/facebook/docusaurus/pull/2383) fix(v2): specify proper version for stylelint-copyright ([@lex111](https://github.com/lex111))
+- `docusaurus`
+  - [#2382](https://github.com/facebook/docusaurus/pull/2382) fix(v2): add missing preset-typescript dependency ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-classic`
+  - [#2386](https://github.com/facebook/docusaurus/pull/2386) fix(v2): add missing prismjs dependency and Noop component ([@lex111](https://github.com/lex111))
+
+#### Committers: 1
+
+- Alexey Pyltsyn ([@lex111](https://github.com/lex111))
+
+## 2.0.0-alpha.44 (2020-03-08)
+
+#### :rocket: New Feature
+
+- `docusaurus-theme-classic`
+  - [#2250](https://github.com/facebook/docusaurus/pull/2250) feat(v2): add support specify new languages for Prism ([@lex111](https://github.com/lex111))
+  - [#2344](https://github.com/facebook/docusaurus/pull/2344) feat(v2): allow specifying custom target for logo link ([@lex111](https://github.com/lex111))
+  - [#2327](https://github.com/facebook/docusaurus/pull/2327) feat(v2): add ability to use HTML in footer copyright ([@lex111](https://github.com/lex111))
+- `docusaurus-plugin-content-blog`
+  - [#2335](https://github.com/facebook/docusaurus/pull/2335) feat(v2): add draft feature to blog posts ([@lex111](https://github.com/lex111))
+- `docusaurus-init`, `docusaurus-theme-classic`
+  - [#2303](https://github.com/facebook/docusaurus/pull/2303) docs(v2): Nav links activeBasePath ([@yangshun](https://github.com/yangshun))
+- `docusaurus-plugin-google-analytics`, `docusaurus-plugin-google-gtag`, `docusaurus`
+  - [#2296](https://github.com/facebook/docusaurus/pull/2296) feat(v2): add ExecutionEnvironment API ([@yangshun](https://github.com/yangshun))
+
+#### :bug: Bug Fix
+
+- `docusaurus`
+  - [#2345](https://github.com/facebook/docusaurus/pull/2345) fix(v2): force terminate building if client bundle failed ([@lex111](https://github.com/lex111))
+  - [#2310](https://github.com/facebook/docusaurus/pull/2310) fix(v2): add @babel/preset-typescript to babel-loader ([@deniaz](https://github.com/deniaz))
+- `docusaurus-theme-classic`, `docusaurus-theme-live-codeblock`
+  - [#2371](https://github.com/facebook/docusaurus/pull/2371) fix(v2): remove line break from end of code blocks ([@lex111](https://github.com/lex111))
+- `docusaurus-plugin-content-blog`
+  - [#2326](https://github.com/facebook/docusaurus/pull/2326) fix(v2): linkify blog posts ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-classic`
+  - [#2324](https://github.com/facebook/docusaurus/pull/2324) fix(v2): properly set dark mode logo on build-time prerendering ([@lex111](https://github.com/lex111))
+  - [#2325](https://github.com/facebook/docusaurus/pull/2325) fix(v2): switch a toggle when system theme changed ([@lex111](https://github.com/lex111))
+- `docusaurus-plugin-content-pages`, `docusaurus-utils`
+  - [#2334](https://github.com/facebook/docusaurus/pull/2334) fix(v2): make proper path to pages in TS ([@lex111](https://github.com/lex111))
+- Other
+  - [#2316](https://github.com/facebook/docusaurus/pull/2316) fix(v2): properly scale logo on IE 11 ([@lex111](https://github.com/lex111))
+
+#### :nail_care: Polish
+
+- `docusaurus-theme-search-algolia`
+  - [#2376](https://github.com/facebook/docusaurus/pull/2376) refactor(v2): clean up and improve Algolia styles ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-classic`, `docusaurus-theme-search-algolia`
+  - [#2372](https://github.com/facebook/docusaurus/pull/2372) chore(v2): upgrade Infima and remark-admonitions ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-classic`
+  - [#2367](https://github.com/facebook/docusaurus/pull/2367) refactor(v2): increase CSS specificity on application container ([@lex111](https://github.com/lex111))
+- `docusaurus-init`, `stylelint-copyright`
+  - [#2363](https://github.com/facebook/docusaurus/pull/2363) fix(v2): improve stylelint copyright header rule ([@yangshun](https://github.com/yangshun))
+- `docusaurus-types`, `docusaurus`
+  - [#2342](https://github.com/facebook/docusaurus/pull/2342) chore(v2): mark tagline field as optional ([@lex111](https://github.com/lex111))
+
+#### :memo: Documentation
+
+- [#2378](https://github.com/facebook/docusaurus/pull/2378) docs(v2): add section for docs-only mode ([@phoqe](https://github.com/phoqe))
+- [#2357](https://github.com/facebook/docusaurus/pull/2357) docs(v2): fix getPathsToWatch() example syntax in lifecycle APIs ([@rlamana](https://github.com/rlamana))
+- [#2351](https://github.com/facebook/docusaurus/pull/2351) docs(v2): add examples to plugin usage doc ([@Noah-Silvera](https://github.com/Noah-Silvera))
+- [#2343](https://github.com/facebook/docusaurus/pull/2343) docs(v2): fix typo in remark-admonitions example ([@hassanfarid](https://github.com/hassanfarid))
+- [#2340](https://github.com/facebook/docusaurus/pull/2340) docs(v2): mention about disabling Jekyll when using GitHub pages ([@amilajack](https://github.com/amilajack))
+- [#2338](https://github.com/facebook/docusaurus/pull/2338) docs(v2): guide on upgrading Docusaurus within a project ([@TheodoreChu](https://github.com/TheodoreChu))
+- [#2313](https://github.com/facebook/docusaurus/pull/2313) docs(v2): move the quotes to remark admonitions ([@Zhencha0Cai](https://github.com/Zhencha0Cai))
+- [#2307](https://github.com/facebook/docusaurus/pull/2307) docs(v1): fix Windows instructions for GitHub Pages publishing ([@jartuso](https://github.com/jartuso))
+- [#2300](https://github.com/facebook/docusaurus/pull/2300) docs(v2): make blog plugin config example valid ([@balloob](https://github.com/balloob))
+- [#2289](https://github.com/facebook/docusaurus/pull/2289) docs(v2): add instructions on Travis CI deployment ([@mohamedsgap](https://github.com/mohamedsgap))
+
+#### :house: Internal
+
+- Other
+  - [#2369](https://github.com/facebook/docusaurus/pull/2369) misc: mention about v2 in README file ([@lex111](https://github.com/lex111))
+  - [#2368](https://github.com/facebook/docusaurus/pull/2368) misc: add note about edits in versioned docs ([@lex111](https://github.com/lex111))
+  - [#2333](https://github.com/facebook/docusaurus/pull/2333) docs: update use of npm/yarn in contributing.md ([@jsjoeio](https://github.com/jsjoeio))
+  - [#2328](https://github.com/facebook/docusaurus/pull/2328) docs(v2): remove unwanted black line from DocSearch showcase image ([@s-pace](https://github.com/s-pace))
+  - [#2319](https://github.com/facebook/docusaurus/pull/2319) docs(v2): showcase user Algolia ([@scottilee](https://github.com/scottilee))
+- `docusaurus-init`
+  - [#2322](https://github.com/facebook/docusaurus/pull/2322) docs(v2): fix misc styling ([@lex111](https://github.com/lex111))
+
+#### Committers: 16
+
+- Alexey Pyltsyn ([@lex111](https://github.com/lex111))
+- Amila Welihinda ([@amilajack](https://github.com/amilajack))
+- Hassan Farid ([@hassanfarid](https://github.com/hassanfarid))
+- Joe Previte ([@jsjoeio](https://github.com/jsjoeio))
+- Linus Långberg ([@phoqe](https://github.com/phoqe))
+- Mohamed Abdel Nasser ([@mohamedsgap](https://github.com/mohamedsgap))
+- Noah Silvera ([@Noah-Silvera](https://github.com/Noah-Silvera))
+- Paulus Schoutsen ([@balloob](https://github.com/balloob))
+- Ramón Lamana ([@rlamana](https://github.com/rlamana))
+- Robert ([@deniaz](https://github.com/deniaz))
+- Scott Lee ([@scottilee](https://github.com/scottilee))
+- Sylvain Pace ([@s-pace](https://github.com/s-pace))
+- Theodore Chu ([@TheodoreChu](https://github.com/TheodoreChu))
+- Yangshun Tay ([@yangshun](https://github.com/yangshun))
+- Zhenchao Cai ([@Zhencha0Cai](https://github.com/Zhencha0Cai))
+- [@jartuso](https://github.com/jartuso)
+
 ## 2.0.0-alpha.43 (2020-02-18)
 
 **HOTFIX for 2.0.0-alpha.41**.

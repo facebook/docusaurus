@@ -61,6 +61,18 @@ const useTheme = () => {
     }
   }, [setTheme]);
 
+  useEffect(() => {
+    if (disableDarkMode) {
+      return;
+    }
+
+    window
+      .matchMedia('(prefers-color-scheme: dark)')
+      .addListener(({matches}) => {
+        setTheme(matches ? themes.dark : themes.light);
+      });
+  }, []);
+
   return {
     isDarkTheme: theme === themes.dark,
     setLightTheme,

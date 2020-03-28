@@ -5,7 +5,7 @@ title: '@docusaurus/theme-classic'
 
 :::caution
 
-_This section is a work in progress._
+This section is a work in progress.
 
 :::
 
@@ -15,8 +15,7 @@ _This section is a work in progress._
 
 To remove the ability to switch on dark mode, there is an option `themeConfig.disableDarkMode`, which is implicitly set to `false`.
 
-```js {5}
-// docusaurus.config.js
+```js {4} title="docusaurus.config.js"
 module.exports = {
   ...
   themeConfig: {
@@ -30,8 +29,7 @@ module.exports = {
 
 You can configure a default image that will be used for your meta tag, in particular `og:image` and `twitter:image`.
 
-```js {5-7}
-// docusaurus.config.js
+```js {4-6} title="docusaurus.config.js"
 module.exports = {
   ...
   themeConfig: {
@@ -47,10 +45,11 @@ module.exports = {
 
 ### Navbar Title & Logo
 
-You can add a logo and title to the navbar via `themeConfig.navbar`. Logo can be placed in [static folder](static-assets.md). Logo URL is set to base URL of your site by default. Although you can specify your own URL for the logo, if it is an external link, it will open in a new tab. You can also set a different logo for dark mode.
+You can add a logo and title to the navbar via `themeConfig.navbar`. Logo can be placed in [static folder](static-assets.md). Logo URL is set to base URL of your site by default. Although you can specify your own URL for the logo, if it is an external link, it will open in a new tab. In addition, you can override a value for the target attribute of logo link, it can come in handy if you are hosting docs website in a subdirectory of your main website, and in which case you probably do not need a link in the logo to the main website will open in a new tab.
 
-```js {6-12}
-// docusaurus.config.js
+To improve dark mode support, you can also set a different logo for this mode.
+
+```js {5-11} title="docusaurus.config.js"
 module.exports = {
   ...
   themeConfig: {
@@ -61,6 +60,7 @@ module.exports = {
         src: 'img/logo.svg',
         srcDark: 'img/logo_dark.svg', // default to logo.src
         href: 'https://v2.docusaurus.io/', // default to siteConfig.baseUrl
+        target: '_self', // by default, this value is calculated based on the `href` attribute (the external link will open in a new tab, all others in the current one)
       },
     },
     ...
@@ -72,8 +72,7 @@ module.exports = {
 
 You can add links to the navbar via `themeConfig.navbar.links`:
 
-```js {6-16}
-// docusaurus/config.js
+```js {5-15} title="docusaurus.config.js"
 module.exports = {
   ...
   themeConfig: {
@@ -101,8 +100,7 @@ Outbound links automatically get `target="_blank" rel="noopener noreferrer"` att
 
 You can enable this cool UI feature that automatically hides the navbar when a user starts scrolling down the page, and show it again when the user scrolls up.
 
-```js {6}
-// docusaurus/config.js
+```js {5} title="docusaurus.config.js"
 module.exports = {
   ...
   themeConfig: {
@@ -124,8 +122,7 @@ Docusaurus uses [Prism React Renderer](https://github.com/FormidableLabs/prism-r
 
 By default, we use [Palenight](https://github.com/FormidableLabs/prism-react-renderer/blob/master/src/themes/palenight.js) as syntax highlighting theme. You can specify a custom theme from the [list of available themes](https://github.com/FormidableLabs/prism-react-renderer/tree/master/src/themes). If you want to use a different syntax highlighting theme when the site is in dark mode, you may also do so.
 
-```js {5,6}
-// docusaurus/config.js
+```js {4-5} title="docusaurus.config.js"
 module.exports = {
   themeConfig: {
     prism: {
@@ -142,8 +139,7 @@ module.exports = {
 
 You can set a default language for code blocks if no language is added after the opening triple backticks (i.e. ```). Note that a valid [language name](https://prismjs.com/#supported-languages) must be passed, e.g.:
 
-```js {6}
-// docusaurus/config.js
+```js {5} title="docusaurus.config.js"
 module.exports = {
   ...
   themeConfig: {

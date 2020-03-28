@@ -88,7 +88,7 @@ export async function generateBlogPosts(
   const {include, routeBasePath, truncateMarker} = options;
 
   if (!fs.existsSync(blogDir)) {
-    return null;
+    return [];
   }
 
   const {baseUrl = ''} = siteConfig;
@@ -106,6 +106,10 @@ export async function generateBlogPosts(
 
       const fileString = await fs.readFile(source, 'utf-8');
       const {frontMatter, content, excerpt} = parse(fileString);
+
+      if (frontMatter.draft && process.env.NODE_ENV === 'production') {
+        return;
+      }
 
       let date;
       // Extract date and title from filename.
@@ -151,4 +155,49 @@ export async function generateBlogPosts(
   );
 
   return blogPosts;
+}
+
+export function linkify(
+  fileContent: string,
+  siteDir: string,
+  blogPath: string,
+  blogPosts: BlogPost[],
+) {
+  let fencedBlock = false;
+  const lines = fileContent.split('\n').map(line => {
+    if (line.trim().startsWith('```')) {
+      fencedBlock = !fencedBlock;
+    }
+
+    if (fencedBlock) return line;
+
+    let modifiedLine = line;
+    const mdRegex = /(?:(?:\]\()|(?:\]:\s?))(?!https)([^'")\]\s>]+\.mdx?)/g;
+    let mdMatch = mdRegex.exec(modifiedLine);
+
+    while (mdMatch !== null) {
+      const mdLink = mdMatch[1];
+      const aliasedPostSource = `@site/${path.relative(
+        siteDir,
+        path.resolve(blogPath, mdLink),
+      )}`;
+      let blogPostPermalink = null;
+
+      blogPosts.forEach(blogPost => {
+        if (blogPost.metadata.source === aliasedPostSource) {
+          blogPostPermalink = blogPost.metadata.permalink;
+        }
+      });
+
+      if (blogPostPermalink) {
+        modifiedLine = modifiedLine.replace(mdLink, blogPostPermalink);
+      }
+
+      mdMatch = mdRegex.exec(modifiedLine);
+    }
+
+    return modifiedLine;
+  });
+
+  return lines.join('\n');
 }

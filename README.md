@@ -16,6 +16,8 @@
   <a href="https://app.netlify.com/sites/docusaurus-preview/deploys"><img src="https://api.netlify.com/api/v1/badges/57ebb454-c937-4c1d-a228-d9dccb494f49/deploy-status" alt="Netlify Status"></a>
 </p>
 
+> **We are working hard on Docusaurus v2. If you are new to Docusaurus, try using the new version instead of v1. See the [Docusaurus v2 website](https://v2.docusaurus.io/) for more details.**
+
 ## Introduction
 
 Docusaurus is a project for easily building, deploying, and maintaining open source project websites.
@@ -41,12 +43,6 @@ Facebook has adopted a Code of Conduct that we expect project participants to ad
 ### Contributing guide
 
 Read our [contributing guide](https://github.com/facebook/docusaurus/blob/master/CONTRIBUTING.md) to learn about our development process, how to propose bugfixes and improvements, and how to build and test your changes to Docusaurus.
-
-### Contribute online with a single click
-
-You can use Gitpod (a free, online, VS Code-based IDE) for contributing. It will launch a ready to code workspace (for Docusaurus 2) with all the dependencies installed and the development server running so that you can start contributing straight away.
-
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/facebook/docusaurus)
 
 ### Beginner-friendly bugs
 

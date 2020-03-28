@@ -5,8 +5,7 @@ title: Sidebar
 
 To generate a sidebar to your Docusaurus site, you need to define a file that exports a sidebar object and pass that into the `@docusaurus/plugin-docs` plugin directly or via `@docusaurus/preset-classic`.
 
-```js {9-10}
-// docusaurus.config.js
+```js {8-9} title="docusaurus.config.js"
 module.exports = {
   // ...
   presets: [
@@ -40,8 +39,7 @@ type Sidebar = {
 
 Below is an example of a sidebar object. The key `docs` is the id of the sidebar (can be renamed to something else) and `Getting Started` is a category within the sidebar. `greeting` and `doc1` are both [sidebar item](#sidebar-item).
 
-```js
-// sidebars.js
+```js title="sidebars.js"
 module.exports = {
   docs: {
     'Getting started': ['greeting'],
@@ -50,10 +48,9 @@ module.exports = {
 };
 ```
 
-If you don't want to rely on iteration order of JavaScript object keys for the category name, the following sidebar object is also equivalent of the above.
+Keep in mind that EcmaScript does not guarantee `Object.keys({a,b}) === ['a','b']` (yet, this is generally true). If you don't want to rely on iteration order of JavaScript object keys for the category name, the following sidebar object is also equivalent of the above shorthand syntax.
 
-```js
-// sidebars.js
+```js title="sidebars.js"
 module.exports = {
   docs: [
     {
@@ -74,8 +71,7 @@ You can also have multiple sidebars for different Markdown files by adding more 
 
 Example:
 
-```js
-// sidebars.js
+```js title="sidebars.js"
 module.exports = {
   firstSidebar: {
     'Category A': ['doc1'],
@@ -147,8 +143,7 @@ Using just the [Document ID](#document-id) is perfectly valid as well, the follo
 
 Note that using this type will bind the linked doc to current sidebar, this means that if you access `doc1` page, the sidebar displayed will be the sidebar this item is on. For below case, `doc1` is bounded to `firstSidebar`.
 
-```js
-// sidebars.js
+```js title="sidebars.js"
 module.exports = {
   firstSidebar: {
     'Category A': ['doc1'],
@@ -212,8 +207,7 @@ type SidebarItemCategory = {
 
 As an example, here's how we created the subcategory for "Docs" under "Guides" in this site:
 
-```js
-// sidebars.js
+```js title="sidebars.js"
 module.exports = {
   docs: {
     Guides: [
@@ -221,7 +215,22 @@ module.exports = {
       {
         type: 'category',
         label: 'Docs',
-        items: ['markdown-features', 'sidebar'],
+        items: ['markdown-features', 'sidebar', 'versioning'],
+      },
+    ],
+  },
+};
+```
+
+**Note**: it's possible to use the shorthand syntax to create nested categories:
+
+```js title="sidebars.js"
+module.exports = {
+  docs: {
+    Guides: [
+      'creating-pages',
+      {
+        Docs: ['markdown-features', 'sidebar', 'versioning'],
       },
     ],
   },
@@ -232,8 +241,7 @@ module.exports = {
 
 For sites with a sizable amount of content, we support the option to expand/collapse a category to toggle the display of its contents. Categories are collapsible by default. If you want them to be always expanded, set `themeConfig.sidebarCollapsible` to `false`:
 
-```js {5}
-// docusaurus.config.js
+```js {4} title="docusaurus.config.js"
 module.exports = {
   ...
   themeConfig: {

@@ -52,6 +52,7 @@ The only required field is `title`; however, we provide options to add author in
 - `author_title` - A description of the author.
 - `title` - The blog post title.
 - `tags` - A list of strings to tag to your post.
+- `draft` - A boolean flag to indicate that the blog post is work in process and therefore should not be published yet. However, draft blog posts will be displayed during development.
 
 ## Summary truncation
 
@@ -90,8 +91,7 @@ feedOptions?: {
 
 Example usage:
 
-```js {9-12}
-// docusaurus.config.js
+```js {8-11} title="docusaurus.config.js"
 module.exports = {
   // ...
   presets: [
@@ -132,8 +132,7 @@ You can run your Docusaurus 2 site without a landing page and instead have your 
 
 **Note:** Make sure there's no `index.js` page in `src/pages` or else there will be two files mapping to the same route!
 
-```js {10}
-// docusaurus.config.js
+```js {9} title="docusaurus.config.js"
 module.exports = {
   // ...
   presets: [

@@ -11,7 +11,7 @@ npm run build
 
 Once it finishes, you should see the production build under the `build/` directory.
 
-You can deploy your site to static site hosting services such as [ZEIT Now](https://zeit.co/now), [GitHub Pages](https://pages.github.com/), [Netlify](https://www.netlify.com/), and [Render](https://render.com/static-sites). Docusaurus sites are statically rendered so they work without JavaScript too!
+You can deploy your site to static site hosting services such as [ZEIT Now](https://zeit.co/now), [GitHub Pages](https://pages.github.com/), [Netlify](https://www.netlify.com/), [Render](https://render.com/static-sites), and [Surge](https://surge.sh/help/getting-started-with-surge). Docusaurus sites are statically rendered so they work without JavaScript too!
 
 ## Deploying to ZEIT Now
 
@@ -56,7 +56,7 @@ You may refer to GitHub Pages' documentation [User, Organization, and Project Pa
 
 Example:
 
-```jsx {3-6}
+```jsx {3-6} title="docusaurus.config.js"
 module.exports = {
   ...
   url: 'https://endiliey.github.io', // Your website URL
@@ -66,6 +66,12 @@ module.exports = {
   ...
 }
 ```
+
+:::tip
+
+By default, GitHub Pages runs published files through [Jekyll](https://jekyllrb.com/). Since Jekyll will discard any files that begin with `_`, it is recommended that you disable Jekyll by adding an empty file named `.nojekyll` file to your `static` directory.
+
+:::
 
 ### Environment settings
 
@@ -80,6 +86,7 @@ There are two more optional parameters that are set as environment variables:
 | Name | Description |
 | --- | --- |
 | `USE_SSH` | Set to `true` to use SSH instead of the default HTTPS for the connection to the GitHub repo. |
+| `DEPLOYMENT_BRANCH` | The branch that the website will be deployed to, defaults to `gh-pages` for normal repos and `master` for repository names ending in `github.io`. |
 | `CURRENT_BRANCH` | The branch that contains the latest docs changes that will be deployed. Usually, the branch will be `master`, but it could be any branch (default or otherwise) except for `gh-pages`. If nothing is set for this variable, then the current branch will be used. |
 
 ### Deploy
@@ -110,11 +117,11 @@ References:
 
 To deploy your Docusaurus 2 sites to [Netlify](https://www.netlify.com/), first make sure the following options are properly configured:
 
-```js {3-4}
-// docusaurus.config.js
+```js {2-3} title="docusaurus.config.js"
 module.exports = {
   url: 'https://docusaurus-2.netlify.com', // url to your site with no trailing slash
   baseUrl: '/', // base directory of your site relative to your repo
+  ...
 };
 ```
 
@@ -128,6 +135,12 @@ While you set up the site, specify the build commands and directories as follows
 If you did not configure these build options, you may still go to "Site settings" -> "Build and deploy" after your site is created.
 
 Once properly configured with the above options, your site should deploy and automatically redeploy upon merging to your deploy branch, which defaults to `master`.
+
+:::important
+
+Make sure to disable Netlify setting `Pretty URLs` to prevent lowercased URLs, unneccessary redirects and 404 errors.
+
+:::
 
 ## Deploying to Render
 
@@ -147,7 +160,7 @@ Render offers [free static site hosting](https://render.com/docs/static-sites) w
 
 That's it! Your app will be live on your Render URL as soon as the build finishes.
 
-### Deplying to Travis CI
+### Deploying to Travis CI
 
 Continuous integration (CI) services are typically used to perform routine tasks whenever new commits are checked in to source control. These tasks can be any combination of running unit tests and integration tests, automating builds, publishing packages to NPM, and deploying changes to your website. All you need to do to automate deployment of your website is to invoke the `yarn deploy` script whenever your website is updated. The following section covers how to do just that using [Travis CI](https://travis-ci.com/), a popular continuous integration service provider.
 
@@ -157,8 +170,7 @@ Continuous integration (CI) services are typically used to perform routine tasks
 1. Create a new environment variable named `GH_TOKEN` with your newly generated token as its value, then `GH_EMAIL` (your email address) and `GH_NAME` (your GitHub username).
 1. Create a `.travis.yml` on the root of your repository with the following:
 
-```yaml
-# .travis.yml
+```yaml title=".travis.yml"
 language: node_js
 node_js:
   - '10'
@@ -175,3 +187,51 @@ script:
 ```
 
 Now, whenever a new commit lands in `master`, Travis CI will run your suite of tests and if everything passes, your website will be deployed via the `yarn deploy` script.
+
+## Deploying with Surge
+
+Surge is a [static web hosting platform](https://surge.sh/help/getting-started-with-surge), it is used to deploy your Docusaurus project from command line in a minute. Deploying your project to Surge is easy and it is also free (including a custom domain and SSL).
+
+Deploy your app in a matter of seconds using surge with the following steps:
+
+1. First, install Surge using npm by running the following command:
+
+```bash
+npm install --g surge
+```
+
+2. To build the static files of your site for production in the root directory of your project, run:
+
+```bash
+npm run build
+```
+
+3. Then, run this command inside the root directory of your project:
+
+```bash
+surge build/
+```
+
+First time users of Surge would be prompted to create an account from the command line(happens only once).
+
+Confirm that the site you want to publish is in the `build` directory, a randomly generated subdomain `*.surge.sh subdomain` is always given(which can be edited).
+
+### Using your domain
+
+If you have a domain name you can deploy your site using surge to your domain using the command:
+
+```bash
+surge build/ yourdomain.com
+```
+
+You site is now deployed for free at `subdomain.surge.sh` or `yourdomain.com` depending on the method you chose.
+
+### Setting up CNAME file
+
+Store your domain in a CNAME file for future deployments with the following command:
+
+```bash
+echo subdomain.surge.sh > CNAME
+```
+
+You can deploy any other changes in the future with the command `surge`.

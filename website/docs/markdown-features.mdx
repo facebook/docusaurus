@@ -16,7 +16,7 @@ Docusaurus 2 uses modern tooling to help you compose your interactive documentat
 
 In this section, we'd like to introduce you to the tools we've picked that we believe will help you build powerful documentation. Let us walk you through with an example.
 
-:::important 
+:::important
 All the following content assumes you are using `@docusaurus/preset-classic`.
 :::
 
@@ -212,8 +212,7 @@ By default, the Prism [syntax highlighting theme](https://github.com/FormidableL
 
 For example, if you prefer to use the `dracula` highlighting theme:
 
-```js {4}
-// docusaurus.config.js
+```js {3} title="docusaurus.config.js"
 module.exports = {
   themeConfig: {
     prism: {
@@ -225,15 +224,21 @@ module.exports = {
 
 By default, Docusaurus comes with this subset of [commonly used languages](https://github.com/FormidableLabs/prism-react-renderer/blob/master/src/vendor/prism/includeLangs.js).
 
-To add syntax highlighting for any of the other [Prism supported languages](https://prismjs.com/#supported-languages), install the `prismjs` npm package, then swizzle the `CodeBlock` component and add the desired language(s) there.
+To add syntax highlighting for any of the other [Prism supported languages](https://prismjs.com/#supported-languages),
+define it in an array of additional languages.
 
 For example, if you want to add highlighting for the `powershell` language:
 
-```js
-// src/theme/CodeBlock/index.js
-import Prism from 'prism-react-renderer/prism';
-(typeof global !== 'undefined' ? global : window).Prism = Prism;
-require('prismjs/components/prism-powershell');
+```js {5} title="docusaurus.config.js"
+module.exports = {
+  ...
+  themeConfig: {
+    prism: {
+      additionalLanguages: ['powershell'],
+    },
+    ...
+  },
+};
 ```
 
 ### Line highlighting
@@ -262,8 +267,7 @@ function HighlightSomeText(highlight) {
 
 To accomplish this, Docusaurus adds the `docusaurus-highlight-code-line` class to the highlighted lines. You will need to define your own styling for this CSS, possibly in your `src/css/custom.css` with a custom background color which is dependent on your selected syntax highlighting theme. The color given below works for the default highlighting theme (Palenight), so if you are using another theme, you will have to tweak the color accordingly.
 
-```css
-/* /src/css/custom.css */
+```css title="/src/css/custom.css"
 .docusaurus-highlight-code-line {
   background-color: rgb(72, 77, 91);
   display: block;
@@ -277,7 +281,7 @@ html[data-theme='dark'] .docusaurus-highlight-code-line {
 }
 ```
 
-To highlight multiple lines, separate the line numbers by commas or use the range syntax to select a chunk of lines. This feature uses the `parse-number-range` library and you can find [more syntax](<(https://www.npmjs.com/package/parse-numeric-range)>) on their project details.
+To highlight multiple lines, separate the line numbers by commas or use the range syntax to select a chunk of lines. This feature uses the `parse-number-range` library and you can find [more syntax](https://www.npmjs.com/package/parse-numeric-range) on their project details.
 
     ```jsx {1,4-6,11}
     import React from 'react';
@@ -306,6 +310,90 @@ function MyComponent(props) {
 
 export default MyComponent;
 ```
+
+### Code title
+
+You can add title to code block by adding `title` key after the language (leave a space between them).
+
+    ```jsx title="src/components/HelloCodeTitle.js"
+    function HelloCodeTitle(props) {
+      return <h1>Hello, {props.name}</h1>;
+    }
+    ```
+
+```jsx title="src/components/HelloCodeTitle.js"
+function HelloCodeTitle(props) {
+  return <h1>Hello, {props.name}</h1>;
+}
+```
+
+### Configuring plugins
+
+You can expand the MDX functionalities, using plugins. An MDX plugin is usually a npm package, so you install them like other npm packages using npm. Docusaurus supports both [remark](https://github.com/remarkjs/remark) and [rehype](https://github.com/rehypejs/rehype) plugins that work with MDX.
+
+First, install your [remark](https://github.com/remarkjs/remark/blob/master/doc/plugins.md#list-of-plugins) and [rehype](https://github.com/rehypejs/rehype/blob/master/doc/plugins.md#list-of-plugins) plugins.
+
+For example:
+
+```bash npm2yarn
+npm install --save remark-images
+npm install --save rehype-truncate
+```
+
+Next, import the plugins:
+
+```js
+const remarkImages = require('remark-images');
+const rehypeTruncate = require('rehype-truncate');
+```
+
+Finally, add them to the `@docusaurus/preset-classic` options in `docusaurus.config.js`:
+
+```js {10,11} title="docusaurus.config.js"
+module.exports = {
+  // ...
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        docs: {
+          sidebarPath: require.resolve('./sidebars.js'),
+          // ...
+          remarkPlugins: [remarkImages],
+          rehypePlugins: [rehypeTruncate],
+        },
+      },
+    ],
+  ],
+};
+```
+
+### Configuring plugin options
+
+Some plugins can be configured and accept their own options. In that case, use the `[plugin, pluginOptions]` syntax, like so:
+
+```jsx {10-13} title="docusaurus.config.js"
+module.exports = {
+  // ...
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        docs: {
+          sidebarPath: require.resolve('./sidebars.js'),
+          // ...
+          remarkPlugins: [
+            plugin1,
+            [plugin2, {option1: {...}}],
+          ],
+        },
+      },
+    ],
+  ],
+};
+```
+
+See more information in the [MDX documentation](https://mdxjs.com/advanced/plugins).
 
 ### Interactive code editor
 
@@ -470,6 +558,115 @@ class HelloWorld {
 
 You may want to implement your own `<MultiLanguageCode />` abstraction if you find the above approach too verbose. We might just implement one in future for convenience.
 
+If you have multiple of these multi-language code tabs, and you want to sync the selection across the tab instances, read on for the [Syncing tab choices section](#syncing-tab-choices).
+
+### Syncing tab choices
+
+You may want choices of the same kind of tabs to sync with each other. For example, you might want to provide different instructions for users on Windows vs users on macOS, and you want to changing all OS-specific instructions tabs in one click. To achieve that, you can give all related tabs the same `groupId`. Note that doing this will persist the choice in `localStorage` and  all `<Tab>` instances with the same `groupId` will update automatically when the value of one of them is changed.
+
+    import Tabs from '@theme/Tabs';
+    import TabItem from '@theme/TabItem';
+    <Tabs
+      groupId="operating-systems"
+      defaultValue="win"
+      values={[
+        { label: 'Windows', value: 'win', },
+        { label: 'macOS', value: 'mac', },
+      ]
+    }>
+    <TabItem value="win">Use Ctrl + C to copy.</TabItem>
+    <TabItem value="mac">Use Command + C to copy.</TabItem>
+    </Tabs>
+
+    <Tabs
+      groupId="operating-systems"
+      defaultValue="win"
+      values={[
+        { label: 'Windows', value: 'win', },
+        { label: 'macOS', value: 'mac', },
+      ]
+    }>
+    <TabItem value="win">Use Ctrl + V to paste.</TabItem>
+    <TabItem value="mac">Use Command + V to paste.</TabItem>
+    </Tabs>
+
+
+<Tabs
+  groupId="operating-systems"
+  defaultValue="win"
+  values={[
+    { label: 'Windows', value: 'win', },
+    { label: 'macOS', value: 'mac', },
+  ]
+}>
+<TabItem value="win">Use Ctrl + C to copy.</TabItem>
+<TabItem value="mac">Use Command + C to copy.</TabItem>
+</Tabs>
+
+<Tabs
+  groupId="operating-systems"
+  defaultValue="win"
+  values={[
+    { label: 'Windows', value: 'win', },
+    { label: 'macOS', value: 'mac', },
+  ]
+}>
+<TabItem value="win">Use Ctrl + V to paste.</TabItem>
+<TabItem value="mac">Use Command + V to paste.</TabItem>
+</Tabs>
+
+Tab choices with different `groupId`s will not interfere with each other:
+
+    import Tabs from '@theme/Tabs';
+    import TabItem from '@theme/TabItem';
+    <Tabs
+      groupId="non-mac-operating-systems"
+      defaultValue="win"
+      values={[
+        { label: 'Windows', value: 'win', },
+        { label: 'Unix', value: 'unix', },
+      ]
+    }>
+    <TabItem value="win">Windows is windows.</TabItem>
+    <TabItem value="unix">Unix is unix.</TabItem>
+    </Tabs>
+
+    <Tabs
+      groupId="non-mac-operating-systems"
+      defaultValue="win"
+      values={[
+        { label: 'Windows', value: 'win', },
+        { label: 'Unix', value: 'unix', },
+      ]
+    }>
+    <TabItem value="win">Windows is not unix.</TabItem>
+    <TabItem value="unix">Unix is not windows.</TabItem>
+    </Tabs>
+
+<Tabs
+  groupId="non-mac-operating-systems"
+  defaultValue="win"
+  values={[
+    { label: 'Windows', value: 'win', },
+    { label: 'Unix', value: 'unix', },
+  ]
+}>
+<TabItem value="win">Windows is windows.</TabItem>
+<TabItem value="unix">Unix is unix.</TabItem>
+</Tabs>
+
+<Tabs
+  groupId="non-mac-operating-systems"
+  defaultValue="win"
+  values={[
+    { label: 'Windows', value: 'win', },
+    { label: 'Unix', value: 'unix', },
+  ]
+}>
+<TabItem value="win">Windows is not unix.</TabItem>
+<TabItem value="unix">Unix is not windows.</TabItem>
+</Tabs>
+
 ### Callouts/admonitions
 
 In addition to the basic Markdown syntax, we use [remark-admonitions](https://github.com/elviswolcott/remark-admonitions) alongside MDX to add support for admonitions.
@@ -479,7 +676,7 @@ Example:
 
   ```markdown
   :::tip Title
-  The and title *can* include markdown.
+  The content and title *can* include markdown.
   :::
   ```
 

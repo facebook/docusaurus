@@ -61,7 +61,7 @@ export function objectWithKeySorted(obj: Object) {
 }
 
 const indexRE = /(^|.*\/)index\.(md|js|jsx|ts|tsx)$/i;
-const extRE = /\.(md|js)$/;
+const extRE = /\.(md|js|tsx)$/;
 
 /**
  * Convert filepath to url path.
@@ -253,8 +253,8 @@ export function normalizeUrl(rawUrls: string[]): string {
   const parts = str.split('?');
   str = parts.shift() + (parts.length > 0 ? '?' : '') + parts.join('&');
 
-  // Dedupe forward slashes.
-  str = str.replace(/^\/+/, '/');
+  // Dedupe forward slashes in the entire path, avoiding protocol slashes.
+  str = str.replace(/([^:]\/)\/+/g, '$1');
 
   return str;
 }

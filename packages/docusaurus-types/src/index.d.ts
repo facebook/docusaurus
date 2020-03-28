@@ -12,7 +12,7 @@ import {ParsedUrlQueryInput} from 'querystring';
 export interface DocusaurusConfig {
   baseUrl: string;
   favicon: string;
-  tagline: string;
+  tagline?: string;
   title: string;
   url: string;
   organizationName?: string;
@@ -63,6 +63,7 @@ export interface StartCLIOptions {
 
 export interface BuildCLIOptions {
   bundleAnalyzer: boolean;
+  outDir: string;
 }
 
 export interface LoadContext {

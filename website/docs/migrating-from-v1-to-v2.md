@@ -36,16 +36,21 @@ This provides a clear distinction between Docusaurus' official packages and comm
 
 Meanwhile, the default doc site functionalities provided by Docusaurus 1 are now provided by `@docusaurus/preset-classic`. Therefore, we need to add this dependency as well:
 
-```json
-// package.json
+```json title="package.json"
 {
   dependencies: {
--    "docusaurus": "^1.x.x",
-+    "@docusaurus/core": "^2.0.0-alpha.40",
-+    "@docusaurus/preset-classic": "^2.0.0-alpha.40",
+-   "docusaurus": "^1.x.x",
++   "@docusaurus/core": "^2.0.0-alpha.48",
++   "@docusaurus/preset-classic": "^2.0.0-alpha.48",
   }
 }
 ```
+
+:::tip
+
+Please use the most recent Docusaurus 2 alpha version, which you can check out [here](https://www.npmjs.com/package/@docusaurus/core) (it's tagged `next`).
+
+:::
 
 #### CLI commands
 
@@ -134,8 +139,7 @@ Rename `siteConfig.js` to `docusaurus.config.js`. In Docusaurus 2, we split each
 
 Add the following preset configuration to your `docusaurus.config.js`.
 
-```jsx
-// docusaurus.config.js
+```jsx title="docusaurus.config.js"
 module.exports = {
   // ...
   presets: [
@@ -169,8 +173,7 @@ No actions needed.
 
 Deprecated. We wrote a custom CSS framework for Docusaurus 2 called Infima which uses CSS variables for theming. The docs are not quite ready yet and we will update here when it is. To overwrite Infima's CSS variables, create your own CSS file (e.g. `./src/css/custom.css`) and import it globally by passing it as an option to `@docusaurus/preset-classic`:
 
-```js {8-10}
-// docusaurus.config.js
+```js {7-9} title="docusaurus.config.js"
 module.exports = {
   // ...
   presets: [
@@ -188,9 +191,8 @@ module.exports = {
 
 Infima uses 7 shades of each color.
 
-```css
+```css title="/src/css/custom.css"
 /**
- * /src/css/custom.css
  * You can override the default Infima variables here.
  * Note: this is not a complete list of --ifm- variables.
  */
@@ -215,8 +217,7 @@ Alteratively, use the following tool to generate the different shades for your w
 
 Site meta info such as assets, SEO, copyright info are now handled by themes. To customize them, use the `themeConfig` field in your `docusaurus.config.js`:
 
-```jsx
-// docusaurus.config.js
+```jsx title="docusaurus.config.js"
 module.exports = {
   // ...
   themeConfig: {
@@ -226,7 +227,7 @@ module.exports = {
         src: 'https://docusaurus.io/img/oss_logo.png',
         href: 'https://opensource.facebook.com/',
       },
-      copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`,
+      copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`, // You can also put own HTML here
     },
     image: 'img/docusaurus.png',
     // Equivalent to `docsSideNavCollapsible`
@@ -252,8 +253,7 @@ headerLinks: [
 
 Now, these two fields are both handled by the theme:
 
-```jsx {7-20}
-// docusaurus.config.js
+```jsx {6-19} title="docusaurus.config.js"
 module.exports = {
   // ...
   themeConfig: {
@@ -281,8 +281,7 @@ module.exports = {
 
 #### `algolia`
 
-```jsx {5-9}
-// docusaurus.config.js
+```jsx {4-8} title="docusaurus.config.js"
 module.exports = {
   // ...
   themeConfig: {
@@ -300,8 +299,7 @@ module.exports = {
 
 Deprecated. Pass it as a blog option to `@docusaurus/preset-classic` instead:
 
-```jsx {9}
-// docusaurus.config.js
+```jsx {8} title="docusaurus.config.js"
 module.exports = {
   // ...
   presets: [
@@ -328,8 +326,7 @@ Deprecated. Create a `CNAME` file in your `static` folder instead with your cust
 
 Deprecated. Pass it as an option to `@docusaurus/preset-classic` docs instead:
 
-```jsx {9-22}
-// docusaurus.config.js
+```jsx {8-21} title="docusaurus.config.js"
 module.exports = {
   // ...
   presets: [
@@ -360,8 +357,7 @@ module.exports = {
 
 #### `gaTrackingId`
 
-```jsx {6}
-// docusaurus.config.js
+```jsx {5} title="docusaurus.config.js"
 module.exports = {
   // ...
   themeConfig: {
@@ -375,8 +371,7 @@ module.exports = {
 
 #### `gaGtag`
 
-```jsx {6}
-// docusaurus.config.js
+```jsx {5} title="docusaurus.config.js"
 module.exports = {
   // ...
   themeConfig: {
@@ -441,7 +436,7 @@ You'll have to migrate your sidebar if it contains category type. Rename `subcat
 
 ### Footer
 
-`website/core/Footer.js` is no longer needed. If you want to modify the default footer provided by docusaurus, [swizzle](using-themes.md#swizzling-theme-components) it:
+`website/core/Footer.js` is no longer needed. If you want to modify the default footer provided by Docusaurus, [swizzle](using-themes.md#swizzling-theme-components) it:
 
 ```bash npm2yarn
 npm run swizzle @docusaurus/theme-classic Footer
@@ -455,9 +450,10 @@ Please refer to [creating pages](creating-pages.md) to learn how Docusaurus 2 pa
 
 `CompLibrary` is deprecated in v2, so you have to write your own React component or use Infima styles (Docs will be available soon, sorry about that! In the meanwhile, inspect the V2 website or view https://facebookincubator.github.io/infima/ to see what styles are available).
 
-- The following code could be helpful for migration of various pages
-  - Index page - [Flux](https://github.com/facebook/flux/blob/master/website/src/pages/index.js) (recommended), [Docusaurus 2](https://github.com/facebook/docusaurus/blob/master/website/src/pages/index.js), [Hermes](https://github.com/facebook/hermes/blob/master/website/src/pages/index.js),
-  - Help/Support page - [Docusaurus 2](https://github.com/facebook/docusaurus/blob/master/website/src/pages/help.js), [Flux](http://facebook.github.io/flux/support)
+The following code could be helpful for migration of various pages:
+
+- Index page - [Flux](https://github.com/facebook/flux/blob/master/website/src/pages/index.js) (recommended), [Docusaurus 2](https://github.com/facebook/docusaurus/blob/master/website/src/pages/index.js), [Hermes](https://github.com/facebook/hermes/blob/master/website/src/pages/index.js)
+- Help/Support page - [Docusaurus 2](https://github.com/facebook/docusaurus/blob/master/website/src/pages/help.js), [Flux](http://facebook.github.io/flux/support)
 
 ## Content
 
@@ -521,25 +517,19 @@ For any questions, you can ask in the [`#docusaurus-1-to-2-migration` Discord ch
 
 :::caution
 
-_This section is a work in progress._
-
-:::
-
-:::warning
-
-Although we've implemented docs versioning since 2.0.0-alpha.37, we'd like to test it out for v2 users first before we recommend v1 users to migrate to v2. There are some changes in how v2 versioning works compared to v1. In the future, we might create a script to migrate your versioned docs easier. However, if you are adventurous enough to manually migrate, feel free to do so. Be warned though, the manual migration requires lot of work.
+The versioning feature is a work in progress! Although we've implemented docs versioning since `2.0.0-alpha.37`, we'd like to test it out for v2 users first before we recommend v1 users to migrate to v2. There are some changes in how v2 versioning works compared to v1. In the future, we might create a script to migrate your versioned docs easier. However, if you are adventurous enough to manually migrate, feel free to do so. Be warned though, the manual migration requires lot of work.
 
 :::
 
 ## Changes from v1
 
-- Read up https://v2.docusaurus.io/blog/2018/09/11/Towards-Docusaurus-2#versioning first for reasoning on v1's problem
+Read up https://v2.docusaurus.io/blog/2018/09/11/Towards-Docusaurus-2#versioning first for reasoning on v1's problem
 
-### Migrate your versioned_docs frontmatter
+### Migrate your `versioned_docs` frontmatter
 
-- Unlike v1, The markdown header for each versioned doc is no longer altered by using `version-${version}-${original_id}` as the value for the actual id field. See scenario below for better explanation.
+Unlike v1, The markdown header for each versioned doc is no longer altered by using `version-${version}-${original_id}` as the value for the actual id field. See scenario below for better explanation.
 
-Example, you have a `docs/hello.md`.
+For example, if you have a `docs/hello.md`.
 
 ```md
 ---
@@ -550,9 +540,7 @@ title: Hello, World !
 Hi, Endilie here :)
 ```
 
-When you cut a new version 1.0.0
-
-In Docusaurus v1, `website/versioned_docs/version-1.0.0/hello.md` looks like this
+When you cut a new version 1.0.0, in Docusaurus v1, `website/versioned_docs/version-1.0.0/hello.md` looks like this:
 
 ```md
 ---
@@ -589,13 +577,13 @@ title: Hello, World !
 Hi, Endilie here :)
 ```
 
-### Migrate your versioned_sidebars
+### Migrate your `versioned_sidebars`
 
-- Refer to versioned_docs id as `version-${version}/${id}` (v2) instead of `version-${version}-${original_id}` (v1).
+- Refer to `versioned_docs` id as `version-${version}/${id}` (v2) instead of `version-${version}-${original_id}` (v1).
 
-Because in v1 there is a good chance someone created a new file with front matter id `"version-${version}-${id}"` that can conflict with versioned_docs id.
+Because in v1 there is a good chance someone created a new file with front matter id `"version-${version}-${id}"` that can conflict with `versioned_docs` id.
 
-Example, Docusaurus 1 can't differentiate `docs/xxx.md`
+For example, Docusaurus 1 can't differentiate `docs/xxx.md`
 
 ```md
 ---
@@ -605,7 +593,7 @@ id: version-1.0.0-hello
 Another content
 ```
 
-and `website/versioned_docs/version-1.0.0/hello.md`
+vs `website/versioned_docs/version-1.0.0/hello.md`
 
 ```md
 ---
@@ -639,14 +627,13 @@ Example `versioned_sidebars/version-1.0.0-sidebars.json`:
 }
 ```
 
-### Populate your versioned_sidebars & versioned_docs
+### Populate your `versioned_sidebars` and `versioned_docs`
 
 In v2, we use snapshot approach on documentation versioning. **Every versioned docs does not depends on other version**. It is possible to have `foo.md` in `version-1.0.0` but it doesn't exist in `version-1.2.0`. This is not possible in previous version due to Docusaurus v1 fallback functionality (https://docusaurus.io/docs/en/versioning#fallback-functionality).
 
 For example, if your `versions.json` looks like this in v1
 
-```json
-// versions.json
+```json title="versions.json"
 ["1.1.0", "1.0.0"]
 ```
 
@@ -665,7 +652,7 @@ website
 │   └── version-1.0.0-sidebars.json
 ```
 
-In v2, you have to populate the missing versioned_docs & versioned_sidebars (with the right frontmatter and id reference too).
+In v2, you have to populate the missing `versioned_docs` and `versioned_sidebars` (with the right frontmatter and id reference too).
 
 ```shell {3-5,12}
 website

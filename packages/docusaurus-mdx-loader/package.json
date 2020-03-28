@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/mdx-loader",
-  "version": "2.0.0-alpha.43",
+  "version": "2.0.0-alpha.48",
   "description": "Docusaurus Loader for MDX",
   "main": "src/index.js",
   "publishConfig": {
@@ -19,14 +19,15 @@
     "loader-utils": "^1.2.3",
     "mdast-util-to-string": "^1.0.7",
     "remark-emoji": "^2.0.2",
-    "remark-slug": "^5.1.2",
     "stringify-object": "^3.3.0",
     "unist-util-visit": "^2.0.1"
   },
   "devDependencies": {
     "remark": "^11.0.2",
     "remark-mdx": "^1.5.1",
-    "to-vfile": "^6.0.0"
+    "to-vfile": "^6.0.0",
+    "unist-builder": "^2.0.3",
+    "unist-util-remove-position": "^2.0.1"
   },
   "engines": {
     "node": ">=10.9.0"
