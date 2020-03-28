@@ -55,6 +55,7 @@ export type SidebarItem =
 
 export type SidebarItemRaw =
   | string
+  | SidebarCategoryShorthandRaw
   | SidebarItemDoc
   | SidebarItemLink
   | SidebarItemCategoryRaw
@@ -63,13 +64,13 @@ export type SidebarItemRaw =
       [key: string]: any;
     };
 
+export interface SidebarCategoryShorthandRaw {
+  [sidebarCategory: string]: SidebarItemRaw[];
+}
+
 // Sidebar given by user that is not normalized yet. e.g: sidebars.json
 export interface SidebarRaw {
-  [sidebarId: string]:
-    | {
-        [sidebarCategory: string]: SidebarItemRaw[];
-      }
-    | SidebarItemRaw[];
+  [sidebarId: string]: SidebarCategoryShorthandRaw | SidebarItemRaw[];
 }
 
 export interface Sidebar {

@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import 'array-flat-polyfill';
+
 export {build} from './commands/build';
 export {start} from './commands/start';
 export {swizzle} from './commands/swizzle';

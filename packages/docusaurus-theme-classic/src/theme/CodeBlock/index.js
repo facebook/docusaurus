@@ -16,6 +16,7 @@ import usePrismTheme from '@theme/hooks/usePrismTheme';
 import styles from './styles.module.css';
 
 const highlightLinesRangeRegex = /{([\d,-]+)}/;
+const codeBlockTitleRegex = /title=".*"/;
 
 export default ({children, className: languageClassName, metastring}) => {
   const {
@@ -40,12 +41,20 @@ export default ({children, className: languageClassName, metastring}) => {
   const target = useRef(null);
   const button = useRef(null);
   let highlightLines = [];
+  let codeBlockTitle = '';
 
   const prismTheme = usePrismTheme();
 
   if (metastring && highlightLinesRangeRegex.test(metastring)) {
     const highlightLinesRange = metastring.match(highlightLinesRangeRegex)[1];
     highlightLines = rangeParser.parse(highlightLinesRange).filter(n => n > 0);
+  }
+
+  if (metastring && codeBlockTitleRegex.test(metastring)) {
+    codeBlockTitle = metastring
+      .match(codeBlockTitleRegex)[0]
+      .split('title=')[1]
+      .replace(/"+/g, '');
   }
 
   useEffect(() => {
@@ -86,38 +95,51 @@ export default ({children, className: languageClassName, metastring}) => {
       code={children.replace(/\n$/, '')}
       language={language}>
       {({className, style, tokens, getLineProps, getTokenProps}) => (
-        <pre className={classnames(className, styles.codeBlock)}>
-          <button
-            ref={button}
-            type="button"
-            aria-label="Copy code to clipboard"
-            className={styles.copyButton}
-            onClick={handleCopyCode}>
-            {showCopied ? 'Copied' : 'Copy'}
-          </button>
+        <>
+          {codeBlockTitle && (
+            <div style={style} className={styles.codeBlockTitle}>
+              {codeBlockTitle}
+            </div>
+          )}
+          <div className={styles.codeBlockContent}>
+            <button
+              ref={button}
+              type="button"
+              aria-label="Copy code to clipboard"
+              className={classnames(styles.copyButton, {
+                [styles.copyButtonWithTitle]: codeBlockTitle,
+              })}
+              onClick={handleCopyCode}>
+              {showCopied ? 'Copied' : 'Copy'}
+            </button>
+            <pre
+              className={classnames(className, styles.codeBlock, {
+                [styles.codeBlockWithTitle]: codeBlockTitle,
+              })}>
+              <div ref={target} className={styles.codeBlockLines} style={style}>
+                {tokens.map((line, i) => {
+                  if (line.length === 1 && line[0].content === '') {
+                    line[0].content = '\n'; // eslint-disable-line no-param-reassign
+                  }
 
-          <div ref={target} className={styles.codeBlockLines} style={style}>
-            {tokens.map((line, i) => {
-              if (line.length === 1 && line[0].content === '') {
-                line[0].content = '\n'; // eslint-disable-line no-param-reassign
-              }
+                  const lineProps = getLineProps({line, key: i});
 
-              const lineProps = getLineProps({line, key: i});
+                  if (highlightLines.includes(i + 1)) {
+                    lineProps.className = `${lineProps.className} docusaurus-highlight-code-line`;
+                  }
 
-              if (highlightLines.includes(i + 1)) {
-                lineProps.className = `${lineProps.className} docusaurus-highlight-code-line`;
-              }
-
-              return (
-                <div key={i} {...lineProps}>
-                  {line.map((token, key) => (
-                    <span key={key} {...getTokenProps({token, key})} />
-                  ))}
-                </div>
-              );
-            })}
+                  return (
+                    <div key={i} {...lineProps}>
+                      {line.map((token, key) => (
+                        <span key={key} {...getTokenProps({token, key})} />
+                      ))}
+                    </div>
+                  );
+                })}
+              </div>
+            </pre>
           </div>
-        </pre>
+        </>
       )}
     </Highlight>
   );

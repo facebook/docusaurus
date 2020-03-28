@@ -27,5 +27,5 @@ module.exports = {
   transform: {
     '^.+\\.[jt]sx?$': 'babel-jest',
   },
-  setupFiles: ['./jest/stylelint-rule-test.js'],
+  setupFiles: ['./jest/stylelint-rule-test.js', 'array-flat-polyfill'],
 };

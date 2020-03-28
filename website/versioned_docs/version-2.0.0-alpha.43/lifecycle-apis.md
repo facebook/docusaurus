@@ -172,7 +172,7 @@ module.exports = function(context, options) {
 };
 ```
 
-## postBuild(props)
+## `postBuild(props)`
 
 Called when a (production) build finishes.
 
