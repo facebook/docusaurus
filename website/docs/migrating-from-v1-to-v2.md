@@ -139,8 +139,7 @@ Rename `siteConfig.js` to `docusaurus.config.js`. In Docusaurus 2, we split each
 
 Add the following preset configuration to your `docusaurus.config.js`.
 
-```jsx
-// docusaurus.config.js
+```jsx title="docusaurus.config.js"
 module.exports = {
   // ...
   presets: [
@@ -174,8 +173,7 @@ No actions needed.
 
 Deprecated. We wrote a custom CSS framework for Docusaurus 2 called Infima which uses CSS variables for theming. The docs are not quite ready yet and we will update here when it is. To overwrite Infima's CSS variables, create your own CSS file (e.g. `./src/css/custom.css`) and import it globally by passing it as an option to `@docusaurus/preset-classic`:
 
-```js {8-10}
-// docusaurus.config.js
+```js {7-9} title="docusaurus.config.js"
 module.exports = {
   // ...
   presets: [
@@ -193,9 +191,8 @@ module.exports = {
 
 Infima uses 7 shades of each color.
 
-```css
+```css title="/src/css/custom.css"
 /**
- * /src/css/custom.css
  * You can override the default Infima variables here.
  * Note: this is not a complete list of --ifm- variables.
  */
@@ -220,8 +217,7 @@ Alteratively, use the following tool to generate the different shades for your w
 
 Site meta info such as assets, SEO, copyright info are now handled by themes. To customize them, use the `themeConfig` field in your `docusaurus.config.js`:
 
-```jsx
-// docusaurus.config.js
+```jsx title="docusaurus.config.js"
 module.exports = {
   // ...
   themeConfig: {
@@ -257,8 +253,7 @@ headerLinks: [
 
 Now, these two fields are both handled by the theme:
 
-```jsx {7-20}
-// docusaurus.config.js
+```jsx {6-19} title="docusaurus.config.js"
 module.exports = {
   // ...
   themeConfig: {
@@ -286,8 +281,7 @@ module.exports = {
 
 #### `algolia`
 
-```jsx {5-9}
-// docusaurus.config.js
+```jsx {4-8} title="docusaurus.config.js"
 module.exports = {
   // ...
   themeConfig: {
@@ -305,8 +299,7 @@ module.exports = {
 
 Deprecated. Pass it as a blog option to `@docusaurus/preset-classic` instead:
 
-```jsx {9}
-// docusaurus.config.js
+```jsx {8} title="docusaurus.config.js"
 module.exports = {
   // ...
   presets: [
@@ -333,8 +326,7 @@ Deprecated. Create a `CNAME` file in your `static` folder instead with your cust
 
 Deprecated. Pass it as an option to `@docusaurus/preset-classic` docs instead:
 
-```jsx {9-22}
-// docusaurus.config.js
+```jsx {8-21} title="docusaurus.config.js"
 module.exports = {
   // ...
   presets: [
@@ -365,8 +357,7 @@ module.exports = {
 
 #### `gaTrackingId`
 
-```jsx {6}
-// docusaurus.config.js
+```jsx {5} title="docusaurus.config.js"
 module.exports = {
   // ...
   themeConfig: {
@@ -380,8 +371,7 @@ module.exports = {
 
 #### `gaGtag`
 
-```jsx {6}
-// docusaurus.config.js
+```jsx {5} title="docusaurus.config.js"
 module.exports = {
   // ...
   themeConfig: {
@@ -643,8 +633,7 @@ In v2, we use snapshot approach on documentation versioning. **Every versioned d
 
 For example, if your `versions.json` looks like this in v1
 
-```json
-// versions.json
+```json title="versions.json"
 ["1.1.0", "1.0.0"]
 ```
 

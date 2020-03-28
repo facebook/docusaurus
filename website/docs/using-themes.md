@@ -9,8 +9,7 @@ Like plugins, themes are designed to add functionality to your Docusaurus site. 
 
 To use themes, specify the themes in your `docusaurus.config.js`. You may use multiple themes:
 
-```js {4}
-// docusaurus.config.js
+```js {3} title="docusaurus.config.js"
 module.exports = {
   // ...
   themes: ['@docusaurus/theme-classic', '@docusaurus/theme-live-codeblock'],
@@ -52,8 +51,7 @@ website
 
 For example, a Docusaurus blog consists of a blog plugin and a blog theme.
 
-```js
-// docusaurus.config.js
+```js title="docusaurus.config.js"
 {
   theme: ['theme-blog'],
   plugins: ['plugin-content-blog'],
@@ -62,8 +60,7 @@ For example, a Docusaurus blog consists of a blog plugin and a blog theme.
 
 and if you want to use Bootstrap styling, you can swap out the theme with `theme-blog-bootstrap` (fictitious non-existing theme):
 
-```js
-// docusaurus.config.js
+```js title="docusaurus.config.js"
 {
   theme: ['theme-blog-bootstrap'],
   plugins: ['plugin-content-blog'],

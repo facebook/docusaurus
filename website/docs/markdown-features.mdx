@@ -212,8 +212,7 @@ By default, the Prism [syntax highlighting theme](https://github.com/FormidableL
 
 For example, if you prefer to use the `dracula` highlighting theme:
 
-```js {4}
-// docusaurus.config.js
+```js {3} title="docusaurus.config.js"
 module.exports = {
   themeConfig: {
     prism: {
@@ -230,8 +229,7 @@ define it in an array of additional languages.
 
 For example, if you want to add highlighting for the `powershell` language:
 
-```js
-// docusaurus/config.js
+```js {5} title="docusaurus.config.js"
 module.exports = {
   ...
   themeConfig: {
@@ -269,8 +267,7 @@ function HighlightSomeText(highlight) {
 
 To accomplish this, Docusaurus adds the `docusaurus-highlight-code-line` class to the highlighted lines. You will need to define your own styling for this CSS, possibly in your `src/css/custom.css` with a custom background color which is dependent on your selected syntax highlighting theme. The color given below works for the default highlighting theme (Palenight), so if you are using another theme, you will have to tweak the color accordingly.
 
-```css
-/* /src/css/custom.css */
+```css title="/src/css/custom.css"
 .docusaurus-highlight-code-line {
   background-color: rgb(72, 77, 91);
   display: block;
@@ -352,8 +349,7 @@ const rehypeTruncate = require('rehype-truncate');
 
 Finally, add them to the `@docusaurus/preset-classic` options in `docusaurus.config.js`:
 
-```js {11,12}
-// docusaurus.config.js
+```js {10,11} title="docusaurus.config.js"
 module.exports = {
   // ...
   presets: [
@@ -363,7 +359,7 @@ module.exports = {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
           // ...
-          remarkPlugins: [remarkImages], 
+          remarkPlugins: [remarkImages],
           rehypePlugins: [rehypeTruncate],
         },
       },
@@ -376,8 +372,7 @@ module.exports = {
 
 Some plugins can be configured and accept their own options. In that case, use the `[plugin, pluginOptions]` syntax, like so:
 
-```jsx {11-14}
-// docusaurus.config.js
+```jsx {10-13} title="docusaurus.config.js"
 module.exports = {
   // ...
   presets: [
@@ -388,9 +383,9 @@ module.exports = {
           sidebarPath: require.resolve('./sidebars.js'),
           // ...
           remarkPlugins: [
-            plugin1, 
+            plugin1,
             [plugin2, {option1: {...}}],
-          ], 
+          ],
         },
       },
     ],
