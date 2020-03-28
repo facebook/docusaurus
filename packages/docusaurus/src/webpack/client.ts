@@ -15,10 +15,13 @@ import {createBaseConfig} from './base';
 import ChunkAssetPlugin from './plugins/ChunkAssetPlugin';
 import LogPlugin from './plugins/LogPlugin';
 
-export function createClientConfig(props: Props): Configuration {
+export function createClientConfig(
+  props: Props,
+  minify: boolean = true,
+): Configuration {
   const isProd = process.env.NODE_ENV === 'production';
   const isBuilding = process.argv[2] === 'build';
-  const config = createBaseConfig(props, false);
+  const config = createBaseConfig(props, false, minify);
 
   const clientConfig = merge(config, {
     entry: [
