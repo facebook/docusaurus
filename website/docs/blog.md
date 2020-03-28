@@ -91,8 +91,7 @@ feedOptions?: {
 
 Example usage:
 
-```js {9-12}
-// docusaurus.config.js
+```js {8-11} title="docusaurus.config.js"
 module.exports = {
   // ...
   presets: [
@@ -133,8 +132,7 @@ You can run your Docusaurus 2 site without a landing page and instead have your 
 
 **Note:** Make sure there's no `index.js` page in `src/pages` or else there will be two files mapping to the same route!
 
-```js {10}
-// docusaurus.config.js
+```js {9} title="docusaurus.config.js"
 module.exports = {
   // ...
   presets: [

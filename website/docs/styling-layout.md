@@ -10,8 +10,7 @@ import ColorGenerator from '@site/src/components/ColorGenerator';
 
 If you're using `@docusaurus/preset-classic`, you can create your own CSS files (e.g. `/src/css/custom.css`) and import them globally by passing it as an option into the preset.
 
-```js {8-10}
-// docusaurus.config.js
+```js {7-9} title="docusaurus.config.js"
 module.exports = {
   // ...
   presets: [
@@ -35,9 +34,8 @@ Any CSS you write within that file will be available globally and can be referen
 
 When you `init` your Docusaurus 2 project, the website will be generated with basic Infima stylesheets and default styling. You may customize the styling by editing the `src/css/custom.css` file.
 
-```css
+```css title="/src/css/custom.css"
 /**
- * /src/css/custom.css
  * You can override the default Infima variables here.
  * Note: this is not a complete list of --ifm- variables.
  */
@@ -73,8 +71,7 @@ This is the most traditional way of styling that most developers (including non-
 
 Assuming you are using `@docusaurus/preset-classic` and `/src/css/custom.css` was passed in to the preset config, styles inside that file would be available globally.
 
-```css
-/* /src/css/custom.css */
+```css title="/src/css/custom.css"
 .purple-text {
   color: rebeccapurple;
 }
@@ -94,8 +91,7 @@ function MyComponent() {
 
 To style your components using [CSS Modules](https://github.com/css-modules/css-modules), name your stylesheet files with the `.module.css` suffix (e.g. `welcome.module.css`). webpack will load such CSS files as CSS modules and you have to reference the class names from the imported CSS module (as opposed to using plain strings). This is similar to the convention used in [Create React App](https://facebook.github.io/create-react-app/docs/adding-a-css-modules-stylesheet).
 
-```css
-/* styles.module.css */
+```css title="styles.module.css"
 .main {
   padding: 12px;
 }
@@ -144,8 +140,7 @@ npm install --save docusaurus-plugin-sass
 
 2. Include the plugin in your `docusaurus.config.js` file:
 
-```jsx {4}
-// docusaurus.config.js
+```jsx {3} title="docusaurus.config.js"
 module.exports = {
   ...
   plugins: ['docusaurus-plugin-sass'],
@@ -159,8 +154,7 @@ module.exports = {
 
 You can now set the `customCss` property of `@docusaurus/preset-classic` to point to your Sass/SCSS file:
 
-```jsx {9}
-// docusaurus.config.js
+```jsx {8} title="docusaurus.config.js"
 module.exports = {
   presets: [
     [
@@ -181,8 +175,7 @@ module.exports = {
 
 Name your stylesheet files with the `.module.scss` suffix (e.g. `welcome.module.scss`) instead of `.css`. Webpack will use `sass-loader` to preprocess your stylesheets and load them as CSS modules.
 
-```scss
-/* styles.module.scss */
+```scss title="styles.module.scss"
 .main {
   padding: 12px;
 

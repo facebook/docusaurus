@@ -7,8 +7,7 @@ Docusaurus provides a set of scripts to help you generate, serve, and deploy you
 
 Once your website is generated, your website package will contain the Docusaurus scripts that you may invoke with your package manager:
 
-```json
-// package.json
+```json title="package.json"
 {
   // ...
   "scripts": {
