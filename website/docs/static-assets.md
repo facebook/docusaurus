@@ -15,8 +15,7 @@ A better way would be to use the `useBaseUrl` utility function which appends the
 
 ### JSX example
 
-```jsx
-// MyComponent.js
+```jsx title="MyComponent.js"
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
 <img
@@ -29,8 +28,7 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 
 Thanks to MDX, you can also use `useBaseUrl` utility function in Markdown files! You'd have to use `<img>` tags instead of the Markdown image syntax though. The syntax is exactly the same as in JSX.
 
-```txt
-// my-doc.mdx
+```txt title="my-doc.mdx"
 ---
 id: my-doc
 title: My Doc
@@ -45,9 +43,7 @@ import useBaseUrl from '@docusaurus/useBaseUrl'; // Add to the top of the file b
 
 You could also just use Markdown image syntax, but you would have to manually maintain the image paths yourself and isn't recommended.
 
-```md
-// my-doc.md
-
+```md title="my-doc.md"
 ![Docusaurus with Keytar](/img/docusaurus_keytar.png)
 ```
 

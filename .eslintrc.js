@@ -20,6 +20,9 @@ module.exports = {
   parserOptions: {
     allowImportExportEverywhere: true,
   },
+  globals: {
+    testStylelintRule: true,
+  },
   extends: ['airbnb', 'prettier', 'prettier/react'],
   plugins: ['react-hooks', 'header'],
   rules: {

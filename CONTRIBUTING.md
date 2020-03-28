@@ -91,6 +91,18 @@ Facebook has a [bounty program](https://www.facebook.com/whitehat/) for the safe
    - For Docusaurus 1 development, run `yarn start:v1`
    - For Docusaurus 2 development, run `yarn start`
 
+## Online one-click setup for contributing
+
+You can use Gitpod (a free, online, VS Code-like IDE) for contributing. With a single click it will launch a workspace (for Docusaurus 2) and automatically:
+
+- clone the docusaurus repo.
+- install the dependencies.
+- run `yarn run start`
+
+So that you can start contributing straight away.
+
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/facebook/docusaurus)
+
 ## Pull Requests
 
 ### Your First Pull Request
@@ -151,7 +163,7 @@ Copy and paste this to the top of your new file(s):
 
 ```js
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.

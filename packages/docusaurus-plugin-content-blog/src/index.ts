@@ -6,7 +6,7 @@
  */
 
 import fs from 'fs-extra';
-import _ from 'lodash';
+import kebabCase from 'lodash.kebabcase';
 import path from 'path';
 import {normalizeUrl, docuHash, aliasedSitePath} from '@docusaurus/utils';
 
@@ -167,7 +167,7 @@ export default function pluginContentBlog(
         // eslint-disable-next-line no-param-reassign
         blogPost.metadata.tags = tags.map(tag => {
           if (typeof tag === 'string') {
-            const normalizedTag = _.kebabCase(tag);
+            const normalizedTag = kebabCase(tag);
             const permalink = normalizeUrl([tagsPath, normalizedTag]);
             if (!blogTags[normalizedTag]) {
               blogTags[normalizedTag] = {

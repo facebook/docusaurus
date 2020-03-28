@@ -251,6 +251,10 @@ describe('load utils', () => {
         output: '/test/docs/ro/doc1',
       },
       {
+        input: ['/test/', '/', 'ro', 'doc1'],
+        output: '/test/ro/doc1',
+      },
+      {
         input: ['', '/', 'ko', 'hello'],
         output: '/ko/hello',
       },

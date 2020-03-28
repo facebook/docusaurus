@@ -1,0 +1,495 @@
+---
+id: markdown-features
+title: Markdown Features
+description: Docusaurus uses GitHub Flavored Markdown (GFM). Find out more about Docusaurus-specific features when writing Markdown.
+---
+
+<!--
+combining:
+- assets
+- markdown features
+-->
+
+Documentation is one of your product's interfaces with your users. A well-written and well-organized set of docs helps your users understand your product quickly. Our aligned goal here is to help your users find and understand the information they need, as quickly as possible.
+
+Docusaurus 2 uses modern tooling to help you compose your interactive documentations with ease. You may embed React components, or build live coding blocks where your users may play with the code on the spot. Start sharing your eureka moments with the code your audience cannot walk away from. It is perhaps the most effective way of attracting potential users.
+
+In this section, we'd like to introduce you to the tools we've picked that we believe will help you build powerful documentation. Let us walk you through with an example.
+
+:::important
+All the following content assumes you are using `@docusaurus/preset-classic`.
+:::
+
+---
+
+Markdown is a syntax that enables you to write formatted content in a readable syntax. The [standard Markdown syntax](https://daringfireball.net/projects/markdown/syntax) is supported and we use [MDX](https://mdxjs.com/) as the parsing engine, which can do much more than just parsing Markdown. More on that later.
+
+Create a markdown file, `greeting.md`, and place it under the `docs` directory.
+
+```bash
+website # root directory of your site
+├── docs
+│   └── greeting.md
+├── src
+│   └── pages
+├── docusaurus.config.js
+├── ...
+```
+
+<!-- TODO: talk about where to put the docs, resolving docs outside of website directory, etc. -->
+
+In the top of the file, specify `id` the `title` in the front matter, so that Docusaurus will pick them up correctly when generating your site.
+
+```yml
+---
+id: greeting
+title: Hello
+---
+
+## Hello from Docusaurus
+
+Are you ready to create the documentation site for your open source project?
+
+### Headers
+
+will show up on the table of contents on the upper right
+
+So that your users will know what this page is all about without scrolling down or even without reading too much.
+
+### Only h2 and h3 will be in the toc
+
+The headers are well-spaced so that the hierarchy is clear.
+
+- lists will help you
+- present the key points
+- that you want your users to remember
+  - and you may nest them
+    - multiple times
+```
+
+This will render in the browser as follows:
+
+import BrowserWindow from '@site/src/components/BrowserWindow';
+
+<BrowserWindow url="http://localhost:3000">
+<h2>Hello from Docusaurus</h2>
+
+Are you ready to create the documentation site for your open source project?
+
+<h3>Headers</h3>
+
+will show up on the table of contents on the upper right
+
+So that your users will know what this page is all about without scrolling down or even without reading too much.
+
+<h3>Only h2 and h3 will be in the toc</h3>
+
+The headers are well-spaced so that the hierarchy is clear.
+
+- lists will help you
+- present the key points
+- that you want your users to remember
+  - and you may nest them
+    - multiple times
+
+</BrowserWindow>
+
+### Markdown Headers
+
+Documents use the following markdown header fields that are enclosed by a line `---` on either side:
+
+- `id`: A unique document id. If this field is not present, the document's `id` will default to its file name (without the extension).
+- `title`: The title of your document. If this field is not present, the document's `title` will default to its `id`.
+- `hide_title`: Whether to hide the title at the top of the doc. By default it is `false`.
+- `hide_table_of_contents`: Whether to hide the table of contents to the right. By default it is `false`.
+- `sidebar_label`: The text shown in the document sidebar and in the next/previous button for this document. If this field is not present, the document's `sidebar_label` will default to its `title`.
+- `custom_edit_url`: The URL for editing this document. If this field is not present, the document's edit URL will fall back to `editUrl` from options fields passed to `docusaurus-plugin-content-docs`.
+- `keywords`: Keywords meta tag for the document page, for search engines.
+- `description`: The description of your document, which will become the `<meta name="description" content="..."/>` and `<meta property="og:description" content="..."/>` in `<head>`, used by search engines. If this field is not present, it will default to the first line of the contents.
+- `image`: Cover or thumbnail image that will be used when displaying the link to your post.
+
+Example:
+
+```yml
+---
+id: doc-markdown
+title: Markdown Features
+hide_title: false
+hide_table_of_contents: false
+sidebar_label: Markdown :)
+custom_edit_url: https://github.com/facebook/docusaurus/edit/master/docs/api-doc-markdown.md
+description: How do I find you when I cannot solve this problem
+keywords:
+  - docs
+  - docusaurus
+image: https://i.imgur.com/mErPwqL.png
+---
+```
+
+### Embedding React components
+
+Docusaurus has built-in support for [MDX](https://mdxjs.com), which allows you to write JSX within your Markdown files and render them as React components.
+
+**Note 1:** While both `.md` and `.mdx` files are parsed using MDX, some of the syntax are treated slightly differently. For the most accurate parsing and better editor support, we recommend using the `.mdx` extension for files containing MDX syntax. Let's rename the previous file to `greeting.mdx`.
+
+**Note 2:** Since all doc files are parsed using MDX, any HTML is treated as JSX. Therefore, if you need to inline-style a component, follow JSX flavor and provide style objects. This behavior is different from Docusaurus 1. See also [Migrating from v1 to v2](./migrating-from-v1-to-v2.md#convert-style-attributes-to-style-objects-in-mdx).
+
+Try this block here:
+
+```jsx
+export const Highlight = ({children, color}) => (
+  <span
+    style={{
+      backgroundColor: color,
+      borderRadius: '2px',
+      color: '#fff',
+      padding: '0.2rem',
+    }}>
+    {children}
+  </span>
+);
+
+<Highlight color="#25c2a0">Docusaurus green</Highlight> and <Highlight color="#1877F2">Facebook blue</Highlight> are my favorite colors.
+
+I can write **Markdown** alongside my _JSX_!
+```
+
+Notice how it renders both the markup from your React component and the Markdown syntax:
+
+export const Highlight = ({children, color}) => (
+  <span
+    style={{
+      backgroundColor: color,
+      borderRadius: '2px',
+      color: '#fff',
+      padding: '0.2rem',
+    }}>
+    {children}
+  </span>
+);
+
+<BrowserWindow minHeight={240} url="http://localhost:3000">
+<Highlight color="#25c2a0">Docusaurus green</Highlight> and <Highlight color="#1877F2">Facebook blue</Highlight> are my favorite colors.
+
+I can write **Markdown** alongside my _JSX_!
+
+</BrowserWindow>
+
+<br />
+
+You can also import your own components defined in other files or third-party components installed via npm! Check out the [MDX docs](https://mdxjs.com/) to see what other fancy stuff you can do with MDX.
+
+### Referencing other documents
+
+If you want to reference another document file, you should use the name of the document you want to reference. Docusaurus will convert the file path to be the final website path (and remove the `.md`).
+
+For example, if you are in `doc2.md` and you want to reference `doc1.md` and `folder/doc3.md`:
+
+```md
+I am referencing a [document](doc1.md). Reference to another [document in a folder](folder/doc3.md)
+[Relative document](../doc2.md) referencing works as well.
+```
+
+One benefit of this approach is that the links to external files will still work if you are viewing the file on GitHub.
+
+### Syntax highlighting
+
+Code blocks are text blocks wrapped around by strings of 3 backticks. You may check out [this reference](https://github.com/mdx-js/specification) for specifications of MDX.
+
+    ```jsx
+    console.log('Every repo must come with a mascot.');
+    ```
+
+<!-- TODO: We need to allow users to pick syntax highlighting themes (maybe other than swizzling) -->
+
+Use the matching language meta string for your code block, and Docusaurus will pick up syntax highlighting automatically, powered by [Prism React Renderer](https://github.com/FormidableLabs/prism-react-renderer).
+
+```jsx
+console.log('Every repo must come with a mascot.');
+```
+
+By default, the Prism [syntax highlighting theme](https://github.com/FormidableLabs/prism-react-renderer#theming) we use is [Palenight](https://github.com/FormidableLabs/prism-react-renderer/blob/master/src/themes/palenight.js). You can change this to another theme by passing `theme` field in `prism` as `themeConfig` in your docusaurus.config.js.
+
+For example, if you prefer to use the `dracula` highlighting theme:
+
+```js {4}
+// docusaurus.config.js
+module.exports = {
+  themeConfig: {
+    prism: {
+      theme: require('prism-react-renderer/themes/dracula'),
+    },
+  },
+};
+```
+
+By default, Docusaurus comes with this subset of [commonly used languages](https://github.com/FormidableLabs/prism-react-renderer/blob/master/src/vendor/prism/includeLangs.js).
+
+To add syntax highlighting for any of the other [Prism supported languages](https://prismjs.com/#supported-languages),
+define it in an array of additional languages.
+
+For example, if you want to add highlighting for the `powershell` language:
+
+```js
+// docusaurus/config.js
+module.exports = {
+  ...
+  themeConfig: {
+    prism: {
+      additionalLanguages: ['powershell'],
+    },
+    ...
+  },
+};
+```
+
+### Line highlighting
+
+You can bring emphasis to certain lines of code by specifying line ranges after the language meta string (leave a space after the language).
+
+    ```jsx {3}
+    function HighlightSomeText(highlight) {
+      if (highlight) {
+        return 'This text is highlighted!';
+      }
+
+      return 'Nothing highlighted';
+    }
+    ```
+
+```jsx {3}
+function HighlightSomeText(highlight) {
+  if (highlight) {
+    return 'This text is highlighted!';
+  }
+
+  return 'Nothing highlighted';
+}
+```
+
+To accomplish this, Docusaurus adds the `docusaurus-highlight-code-line` class to the highlighted lines. You will need to define your own styling for this CSS, possibly in your `src/css/custom.css` with a custom background color which is dependent on your selected syntax highlighting theme. The color given below works for the default highlighting theme (Palenight), so if you are using another theme, you will have to tweak the color accordingly.
+
+```css
+/* /src/css/custom.css */
+.docusaurus-highlight-code-line {
+  background-color: rgb(72, 77, 91);
+  display: block;
+  margin: 0 calc(-1 * var(--ifm-pre-padding));
+  padding: 0 var(--ifm-pre-padding);
+}
+
+/* If you have a different syntax highlighting theme for dark mode. */
+html[data-theme='dark'] .docusaurus-highlight-code-line {
+  background-color: /* Color which works with dark mode syntax highlighting theme */
+}
+```
+
+To highlight multiple lines, separate the line numbers by commas or use the range syntax to select a chunk of lines. This feature uses the `parse-number-range` library and you can find [more syntax](https://www.npmjs.com/package/parse-numeric-range) on their project details.
+
+    ```jsx {1,4-6,11}
+    import React from 'react';
+
+    function MyComponent(props) {
+      if (props.isBar) {
+        return <div>Bar</div>;
+      }
+
+      return <div>Foo</div>;
+    }
+
+    export default MyComponent;
+    ```
+
+```jsx {1,4-6,11}
+import React from 'react';
+
+function MyComponent(props) {
+  if (props.isBar) {
+    return <div>Bar</div>;
+  }
+
+  return <div>Foo</div>;
+}
+
+export default MyComponent;
+```
+
+### Interactive code editor
+
+(Powered by [React Live](https://github.com/FormidableLabs/react-live))
+
+You can create an interactive coding editor with the `@docusaurus/theme-live-codeblock` plugin.
+
+First, add the plugin to your package.
+
+```bash npm2yarn
+npm install --save @docusaurus/theme-live-codeblock
+```
+
+You will also need to add the plugin to your `docusaurus.config.js`.
+
+```js {3}
+module.exports = {
+  ...
+  themes: ['@docusaurus/theme-live-codeblock'],
+  ...
+}
+```
+
+To use the plugin, create a code block with `live` attached to the language meta string.
+
+    ```jsx live
+    function Clock(props) {
+      const [date, setDate] = useState(new Date());
+      useEffect(() => {
+        var timerID = setInterval(() => tick(), 1000);
+
+        return function cleanup() {
+          clearInterval(timerID);
+        };
+      });
+
+      function tick() {
+        setDate(new Date());
+      }
+
+      return (
+        <div>
+          <h2>It is {date.toLocaleTimeString()}.</h2>
+        </div>
+      );
+    }
+    ```
+
+The code block will be rendered as an interactive editor. Changes to the code will reflect on the result panel live.
+
+```jsx live
+function Clock(props) {
+  const [date, setDate] = useState(new Date());
+  useEffect(() => {
+    var timerID = setInterval(() => tick(), 1000);
+
+    return function cleanup() {
+      clearInterval(timerID);
+    };
+  });
+
+  function tick() {
+    setDate(new Date());
+  }
+
+  return (
+    <div>
+      <h2>It is {date.toLocaleTimeString()}.</h2>
+    </div>
+  );
+}
+```
+
+### Multi-language support code blocks
+
+With MDX, you can easily create interactive components within your documentation, for example, to display code in multiple programming languages and switching between them using a tabs component.
+
+Instead of implementing a dedicated component for multi-language support code blocks, we've implemented a generic Tabs component in the classic theme so that you can use it for other non-code scenarios as well.
+
+The following example is how you can have multi-language code tabs in your docs. Note that the empty lines above and below each language block is **intentional**. This is a current limitation of MDX, you have to leave empty lines around Markdown syntax for the MDX parser to know that it's Markdown syntax and not JSX.
+
+    import Tabs from '@theme/Tabs';
+    import TabItem from '@theme/TabItem';
+
+    <Tabs
+      defaultValue="js"
+      values={[
+        { label: 'JavaScript', value: 'js', },
+        { label: 'Python', value: 'py', },
+        { label: 'Java', value: 'java', },
+      ]
+    }>
+    <TabItem value="js">
+
+    ```js
+    function helloWorld() {
+      console.log('Hello, world!');
+    }
+    ```
+
+    </TabItem>
+    <TabItem value="py">
+
+    ```py
+    def hello_world():
+      print 'Hello, world!'
+    ```
+
+    </TabItem>
+    <TabItem value="java">
+
+    ```java
+    class HelloWorld {
+      public static void main(String args[]) {
+        System.out.println("Hello, World");
+      }
+    }
+    ```
+
+    </TabItem>
+    </Tabs>
+
+And you will get the following:
+
+<Tabs
+  defaultValue="js"
+  values={[
+    { label: 'JavaScript', value: 'js', },
+    { label: 'Python', value: 'py', },
+    { label: 'Java', value: 'java', },
+  ]
+}>
+<TabItem value="js">
+
+```js
+function helloWorld() {
+  console.log('Hello, world!');
+}
+```
+
+</TabItem>
+<TabItem value="py">
+
+```py
+def hello_world():
+  print 'Hello, world!'
+```
+
+</TabItem>
+<TabItem value="java">
+
+```java
+class HelloWorld {
+  public static void main(String args[]) {
+    System.out.println("Hello, World");
+  }
+}
+```
+
+</TabItem>
+</Tabs>
+
+You may want to implement your own `<MultiLanguageCode />` abstraction if you find the above approach too verbose. We might just implement one in future for convenience.
+
+### Callouts/admonitions
+
+In addition to the basic Markdown syntax, we use [remark-admonitions](https://github.com/elviswolcott/remark-admonitions) alongside MDX to add support for admonitions.
+Admonitions are wrapped by a set of 3 colons.
+
+Example:
+
+  ```markdown
+  :::tip Title
+  The content and title *can* include markdown.
+  :::
+  ```
+
+:::tip Title
+The content and title *can* include markdown.
+:::

@@ -5,7 +5,7 @@ title: '@docusaurus/theme-classic'
 
 :::caution
 
-_This section is a work in progress._
+This section is a work in progress.
 
 :::
 
@@ -15,8 +15,7 @@ _This section is a work in progress._
 
 To remove the ability to switch on dark mode, there is an option `themeConfig.disableDarkMode`, which is implicitly set to `false`.
 
-```js {5}
-// docusaurus.config.js
+```js {4} title="docusaurus.config.js"
 module.exports = {
   ...
   themeConfig: {
@@ -30,8 +29,7 @@ module.exports = {
 
 You can configure a default image that will be used for your meta tag, in particular `og:image` and `twitter:image`.
 
-```js {5-7}
-// docusaurus.config.js
+```js {4-6} title="docusaurus.config.js"
 module.exports = {
   ...
   themeConfig: {
@@ -70,8 +68,7 @@ You can add a logo and title to the navbar via `themeConfig.navbar`. Logo can be
 
 To improve dark mode support, you can also set a different logo for this mode.
 
-```js {6-12}
-// docusaurus.config.js
+```js {5-11} title="docusaurus.config.js"
 module.exports = {
   ...
   themeConfig: {
@@ -94,8 +91,7 @@ module.exports = {
 
 You can add links to the navbar via `themeConfig.navbar.links`:
 
-```js {6-16}
-// docusaurus/config.js
+```js {5-15} title="docusaurus.config.js"
 module.exports = {
   ...
   themeConfig: {
@@ -123,8 +119,7 @@ Outbound links automatically get `target="_blank" rel="noopener noreferrer"` att
 
 You can enable this cool UI feature that automatically hides the navbar when a user starts scrolling down the page, and show it again when the user scrolls up.
 
-```js {6}
-// docusaurus/config.js
+```js {5} title="docusaurus.config.js"
 module.exports = {
   ...
   themeConfig: {
@@ -146,8 +141,7 @@ Docusaurus uses [Prism React Renderer](https://github.com/FormidableLabs/prism-r
 
 By default, we use [Palenight](https://github.com/FormidableLabs/prism-react-renderer/blob/master/src/themes/palenight.js) as syntax highlighting theme. You can specify a custom theme from the [list of available themes](https://github.com/FormidableLabs/prism-react-renderer/tree/master/src/themes). If you want to use a different syntax highlighting theme when the site is in dark mode, you may also do so.
 
-```js {5,6}
-// docusaurus/config.js
+```js {4-5} title="docusaurus.config.js"
 module.exports = {
   themeConfig: {
     prism: {
@@ -164,8 +158,7 @@ module.exports = {
 
 You can set a default language for code blocks if no language is added after the opening triple backticks (i.e. ```). Note that a valid [language name](https://prismjs.com/#supported-languages) must be passed, e.g.:
 
-```js {6}
-// docusaurus/config.js
+```js {5} title="docusaurus.config.js"
 module.exports = {
   ...
   themeConfig: {

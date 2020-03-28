@@ -7,8 +7,7 @@ Docusaurus provides a set of scripts to help you generate, serve, and deploy you
 
 Once your website is generated, your website package will contain the Docusaurus scripts that you may invoke with your package manager:
 
-```json
-// package.json
+```json title="package.json"
 {
   // ...
   "scripts": {
@@ -59,6 +58,7 @@ Compiles your site for production.
 | Options | Default | Description |
 | --- | --- | --- |
 | `--bundle-analyzer` |  | Analyze your bundle with [bundle analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer) |
+| `--out-dir` | `build` | The full path for the new output directory, relative to the current workspace. |
 
 ### `docusaurus swizzle`
 
@@ -90,3 +90,9 @@ To learn more about swizzling, check [here](#).
 ### `docusaurus deploy`
 
 Deploys your site with [GitHub Pages](https://pages.github.com/).
+
+**options**
+
+| Options | Default | Description |
+| --- | --- | --- |
+| `--out-dir` | `build` | The full path for the new output directory, relative to the current workspace. |

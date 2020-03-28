@@ -1,6 +1,6 @@
 {
   "name": "docusaurus-1-website",
-  "version": "2.0.0-alpha.43",
+  "version": "2.0.0-alpha.48",
   "private": true,
   "scripts": {
     "start": "docusaurus-start",
@@ -14,6 +14,6 @@
     "crowdin-download": "crowdin --config ../crowdin.yaml download -b master"
   },
   "dependencies": {
-    "docusaurus": "^1.14.4"
+    "docusaurus": "^2.0.0-alpha.48"
   }
 }

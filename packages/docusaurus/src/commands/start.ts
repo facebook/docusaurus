@@ -125,6 +125,12 @@ export async function start(
     clientLogLevel: 'error',
     hot: true,
     hotOnly: cliOptions.hotOnly,
+    // Use 'ws' instead of 'sockjs-node' on server since we're using native
+    // websockets in `webpackHotDevClient`.
+    transportMode: 'ws',
+    // Prevent a WS client from getting injected as we're already including
+    // `webpackHotDevClient`.
+    injectClient: false,
     quiet: true,
     headers: {
       'access-control-allow-origin': '*',

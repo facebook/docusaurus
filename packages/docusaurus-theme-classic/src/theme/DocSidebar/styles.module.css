@@ -39,6 +39,8 @@
     top: 0;
     margin: 0 var(--ifm-navbar-padding-horizontal);
     height: var(--ifm-navbar-height);
+    color: inherit !important;
+    text-decoration: none !important;
   }
 
   .sidebarLogo img {

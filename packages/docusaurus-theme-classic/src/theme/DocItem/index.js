@@ -8,6 +8,7 @@
 import React from 'react';
 
 import Head from '@docusaurus/Head';
+import isInternalUrl from '@docusaurus/isInternalUrl';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import DocPaginator from '@theme/DocPaginator';
@@ -75,7 +76,10 @@ function DocItem(props) {
     },
   } = DocContent;
 
-  const metaImageUrl = siteUrl + useBaseUrl(metaImage);
+  let metaImageUrl = siteUrl + useBaseUrl(metaImage);
+  if (!isInternalUrl(metaImage)) {
+    metaImageUrl = metaImage;
+  }
 
   return (
     <>

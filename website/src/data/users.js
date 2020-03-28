@@ -27,6 +27,16 @@ const users = [
     pinned: false,
   },
   {
+    title: 'Build Tracker',
+    description:
+      'Track performance budgets & prevent unexpected bloat in your app',
+    preview: require('./showcase/build-tracker.png'),
+    website: 'https://buildtracker.dev',
+    source: 'https://github.com/paularmstrong/build-tracker',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'Channel.js',
     description: 'The missing constructor for creating safe async iterators',
     preview: require('./showcase/channeljs.png'),
@@ -68,6 +78,16 @@ const users = [
     preview: require('./showcase/mbt-bundle.png'),
     website: 'https://mbtbundle.org',
     source: 'https://github.com/tienvx/mbt-bundle',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
+    title: 'Motion Layout',
+    description:
+      'Create beautiful immersive React.js animations using shared components',
+    preview: require('./showcase/motion-layout.png'),
+    website: 'https://motion-layout.azurewebsites.net',
+    source: 'https://github.com/jeffersonlicet/react-motion-layout',
     fbOpenSource: false,
     pinned: false,
   },

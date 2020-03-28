@@ -7,10 +7,12 @@
 
 import React from 'react';
 import Head from '@docusaurus/Head';
+import isInternalUrl from '@docusaurus/isInternalUrl';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
 import ThemeProvider from '@theme/ThemeProvider';
+import TabGroupChoiceProvider from '@theme/TabGroupChoiceProvider';
 import AnnouncementBar from '@theme/AnnouncementBar';
 import Navbar from '@theme/Navbar';
 import Footer from '@theme/Footer';
@@ -36,40 +38,51 @@ function Layout(props) {
     version,
   } = props;
   const metaTitle = title ? `${title} | ${siteTitle}` : siteTitle;
+
   const metaImage = image || defaultImage;
-  const metaImageUrl = siteUrl + useBaseUrl(metaImage);
+  let metaImageUrl = siteUrl + useBaseUrl(metaImage);
+  if (!isInternalUrl(metaImage)) {
+    metaImageUrl = metaImage;
+  }
+
   const faviconUrl = useBaseUrl(favicon);
 
   return (
     <ThemeProvider>
-      <Head>
-        {/* TODO: Do not assume that it is in english language */}
-        <html lang="en" />
+      <TabGroupChoiceProvider>
+        <Head>
+          {/* TODO: Do not assume that it is in english language */}
+          <html lang="en" />
 
-        <meta httpEquiv="x-ua-compatible" content="ie=edge" />
-        {metaTitle && <title>{metaTitle}</title>}
-        {metaTitle && <meta property="og:title" content={metaTitle} />}
-        {favicon && <link rel="shortcut icon" href={faviconUrl} />}
-        {description && <meta name="description" content={description} />}
-        {description && (
-          <meta property="og:description" content={description} />
-        )}
-        {version && <meta name="docsearch:version" content={version} />}
-        {keywords && keywords.length && (
-          <meta name="keywords" content={keywords.join(',')} />
-        )}
-        {metaImage && <meta property="og:image" content={metaImageUrl} />}
-        {metaImage && <meta property="twitter:image" content={metaImageUrl} />}
-        {metaImage && (
-          <meta name="twitter:image:alt" content={`Image for ${metaTitle}`} />
-        )}
-        {permalink && <meta property="og:url" content={siteUrl + permalink} />}
-        <meta name="twitter:card" content="summary" />
-      </Head>
-      <AnnouncementBar />
-      <Navbar />
-      <div className="main-wrapper">{children}</div>
-      {!noFooter && <Footer />}
+          <meta httpEquiv="x-ua-compatible" content="ie=edge" />
+          {metaTitle && <title>{metaTitle}</title>}
+          {metaTitle && <meta property="og:title" content={metaTitle} />}
+          {favicon && <link rel="shortcut icon" href={faviconUrl} />}
+          {description && <meta name="description" content={description} />}
+          {description && (
+            <meta property="og:description" content={description} />
+          )}
+          {version && <meta name="docsearch:version" content={version} />}
+          {keywords && keywords.length && (
+            <meta name="keywords" content={keywords.join(',')} />
+          )}
+          {metaImage && <meta property="og:image" content={metaImageUrl} />}
+          {metaImage && (
+            <meta property="twitter:image" content={metaImageUrl} />
+          )}
+          {metaImage && (
+            <meta name="twitter:image:alt" content={`Image for ${metaTitle}`} />
+          )}
+          {permalink && (
+            <meta property="og:url" content={siteUrl + permalink} />
+          )}
+          <meta name="twitter:card" content="summary_large_image" />
+        </Head>
+        <AnnouncementBar />
+        <Navbar />
+        <div className="main-wrapper">{children}</div>
+        {!noFooter && <Footer />}
+      </TabGroupChoiceProvider>
     </ThemeProvider>
   );
 }

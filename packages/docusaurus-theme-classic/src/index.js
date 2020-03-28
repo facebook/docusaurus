@@ -6,6 +6,7 @@
  */
 
 const path = require('path');
+const ContextReplacementPlugin = require('webpack/lib/ContextReplacementPlugin');
 
 // Need to be inlined to prevent dark mode FOUC
 // Make sure that the 'storageKey' is the same as the one in `/theme/hooks/useTheme.js`
@@ -38,8 +39,10 @@ module.exports = function(context, options) {
   const {
     siteConfig: {themeConfig},
   } = context;
-  const {disableDarkMode = false} = themeConfig || {};
+  const {disableDarkMode = false, prism: {additionalLanguages = []} = {}} =
+    themeConfig || {};
   const {customCss} = options || {};
+
   return {
     name: 'docusaurus-theme-classic',
 
@@ -52,7 +55,23 @@ module.exports = function(context, options) {
         'infima/dist/css/default/default.css',
         'remark-admonitions/styles/infima.css',
         customCss,
+        path.resolve(__dirname, './prism-include-languages'),
       ];
+    },
+
+    configureWebpack() {
+      const prismLanguages = additionalLanguages
+        .map(lang => `prism-${lang}`)
+        .join('|');
+
+      return {
+        plugins: [
+          new ContextReplacementPlugin(
+            /prismjs[\\/]components$/,
+            new RegExp(`^./(${prismLanguages})$`),
+          ),
+        ],
+      };
     },
 
     injectHtmlTags() {

@@ -15,8 +15,7 @@ npm install --save docusaurus-preset-name
 
 Then, add it in your site's `docusaurus.config.js`'s `presets` option:
 
-```jsx {4}
-// docusaurus.config.js
+```jsx {3} title="docusaurus.config.js"
 module.exports = {
   // ...
   presets: ['@docusaurus/preset-xxxx'],
@@ -25,8 +24,7 @@ module.exports = {
 
 To load presets from your local directory, specify how to resolve them:
 
-```jsx {6}
-// docusaurus.config.js
+```jsx {5} title="docusaurus.config.js"
 const path = require('path');
 
 module.exports = {
@@ -50,18 +48,16 @@ module.exports = function preset(context, opts = {}) {
 
 then in your Docusaurus config, you may configure the preset instead:
 
-```jsx {4}
-// docusaurus.config.js
+```jsx {3} title="docusaurus.config.js"
 module.exports = {
   // ...
-  presets: ['@docusaurus/preset-a'],
+  presets: ['@docusaurus/preset-my-own'],
 };
 ```
 
 This is equivalent of doing:
 
-```jsx
-// docusaurus.config.js
+```jsx title="docusaurus.config.js"
 module.exports = {
   themes: ['@docusaurus/themes-cool', '@docusaurus/themes-bootstrap'],
   plugins: ['@docusaurus/plugin-blog'],
@@ -87,8 +83,7 @@ The classic preset that is usually shipped by default to new docusaurus website.
 
 To specify plugin options individually, you can provide the necessary fields to certain plugins, i.e. `customCss` for `@docusaurus/theme-classic`, pass them in the preset field, like this:
 
-```js
-// docusaurus.config.js
+```js title="docusaurus.config.js"
 module.exports = {
   presets: [
     [
@@ -116,8 +111,7 @@ In addition to these plugins and themes, `@docusaurus/theme-classic` adds [`rema
 
 The `admonitions` key will be passed as the [options](https://github.com/elviswolcott/remark-admonitions#options) to `remark-admonitions`. Passing `false` will prevent the plugin from being added to MDX.
 
-```js
-// docusaurus.config.js
+```js title="docusaurus.config.js"
 module.exports = {
   presets: [
     [

@@ -77,8 +77,11 @@ function ColorGenerator({children, minHeight, url}) {
   return (
     <div>
       <p>
-        <strong className="margin-right--sm">Primary Color:</strong>{' '}
+        <label htmlFor="primary_color">
+          <strong className="margin-right--sm">Primary Color:</strong>
+        </label>{' '}
         <input
+          id="primary_color"
           className={styles.input}
           defaultValue={baseColor}
           onChange={event => {
@@ -127,6 +130,7 @@ function ColorGenerator({children, minHeight, url}) {
                         0
                       ) : (
                         <input
+                          aria-label={`${variableName} CSS variable name`}
                           className={styles.input}
                           type="number"
                           value={adjustmentInput}

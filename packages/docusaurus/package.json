@@ -1,7 +1,7 @@
 {
   "name": "@docusaurus/core",
   "description": "Easy to Maintain Open Source Documentation Websites",
-  "version": "2.0.0-alpha.43",
+  "version": "2.0.0-alpha.48",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
@@ -29,7 +29,7 @@
     "url": "https://github.com/facebook/docusaurus/issues"
   },
   "devDependencies": {
-    "@docusaurus/types": "^2.0.0-alpha.43"
+    "@docusaurus/types": "^2.0.0-alpha.48"
   },
   "dependencies": {
     "@babel/core": "^7.7.4",
@@ -37,9 +37,11 @@
     "@babel/plugin-transform-runtime": "^7.7.4",
     "@babel/preset-env": "^7.7.4",
     "@babel/preset-react": "^7.7.4",
+    "@babel/preset-typescript": "^7.7.4",
     "@babel/runtime": "^7.7.4",
-    "@docusaurus/utils": "^2.0.0-alpha.43",
+    "@docusaurus/utils": "^2.0.0-alpha.48",
     "@endiliey/static-site-generator-webpack-plugin": "^4.0.0",
+    "array-flat-polyfill": "^1.0.1",
     "babel-loader": "^8.0.6",
     "babel-plugin-dynamic-import-node": "^2.3.0",
     "cache-loader": "^4.1.0",
@@ -67,7 +69,7 @@
     "portfinder": "^1.0.25",
     "postcss-loader": "^3.0.0",
     "postcss-preset-env": "^6.7.0",
-    "react-dev-utils": "^9.1.0",
+    "react-dev-utils": "^10.2.1",
     "react-helmet": "^6.0.0-beta",
     "react-loadable": "^5.5.0",
     "react-loadable-ssr-addon": "^0.2.0",

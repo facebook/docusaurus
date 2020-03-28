@@ -176,6 +176,13 @@ module.exports = [
     pinned: true,
   },
   {
+    caption: 'Day.js',
+    image: '/img/users/dayjs.png',
+    infoLink: 'https://day.js.org/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Dep',
     image: '/img/users/golang-dep.svg',
     infoLink: 'https://golang.github.io/dep/',

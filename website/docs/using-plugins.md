@@ -15,8 +15,7 @@ npm install --save docusaurus-plugin-name
 
 Then you add it in your site's `docusaurus.config.js`'s `plugins` option:
 
-```jsx {4}
-// docusaurus.config.js
+```jsx {3} title="docusaurus.config.js"
 module.exports = {
   // ...
   plugins: ['@docusaurus/plugin-content-pages'],
@@ -25,8 +24,7 @@ module.exports = {
 
 Docusaurus can also load plugins from your local directory, you can do something like the following:
 
-```jsx {6}
-// docusaurus.config.js
+```jsx {5} title="docusaurus.config.js"
 const path = require('path');
 
 module.exports = {
@@ -41,8 +39,7 @@ For the most basic usage of plugins, you can provide just the plugin name or the
 
 However, plugins can have options specified by wrapping the name and an options object in an array inside your config. This style is usually called `Babel Style`.
 
-```js {5-10}
-// docusaurus.config.js
+```js {4-9} title="docusaurus.config.js"
 module.exports = {
   // ...
   plugins: [
@@ -58,8 +55,7 @@ module.exports = {
 
 Example:
 
-```js
-// docusaurus.config.js
+```js title="docusaurus.config.js"
 module.exports = {
   plugins: [
     // Basic usage.
@@ -88,8 +84,7 @@ A plugin is a module which exports a function that takes two parameters and retu
 
 The exported modules for plugins are called with two parameters: `context` and `options` and returns a JavaScript object with defining the [lifecycle APIs](./lifecycle-apis.md).
 
-```js
-// my-docusaurus-plugin.js
+```js title="docusaurus.config.js"
 module.exports = function(context, options) {
   // ...
   return {
@@ -143,8 +138,7 @@ If you have installed `@docusaurus/preset-classic`, you don't need to install it
 
 :::
 
-```js
-// docusaurus.config.js
+```js title="docusaurus.config.js"
 module.exports = {
   plugins: [
     [
@@ -172,7 +166,9 @@ module.exports = {
         /**
          * Remark and Rehype plugins passed to MDX
          */
-        remarkPlugins: [/* require('remark-math') */],
+        remarkPlugins: [
+          /* require('remark-math') */
+        ],
         rehypePlugins: [],
         /**
          * Truncate marker, can be a regex or string.
@@ -211,8 +207,7 @@ If you have installed `@docusaurus/preset-classic`, you don't need to install it
 
 :::
 
-```js
-// docusaurus.config.js
+```js title="docusaurus.config.js"
 module.exports = {
   plugins: [
     [
@@ -246,7 +241,9 @@ module.exports = {
         /**
          * Remark and Rehype plugins passed to MDX
          */
-        remarkPlugins: [/* require('remark-math') */],
+        remarkPlugins: [
+          /* require('remark-math') */
+        ],
         rehypePlugins: [],
         /**
          * Whether to display the author who last updated the doc.
@@ -278,8 +275,7 @@ If you have installed `@docusaurus/preset-classic`, you don't need to install it
 
 :::
 
-```js
-// docusaurus.config.js
+```js title="docusaurus.config.js"
 module.exports = {
   plugins: [
     [
@@ -321,8 +317,7 @@ If you have installed `@docusaurus/preset-classic`, you don't need to install it
 
 **Configuration**
 
-```js
-// docusaurus.config.js
+```js title="docusaurus.config.js"
 module.exports = {
   plugins: ['@docusaurus/plugin-google-analytics'],
   themeConfig: {
@@ -353,8 +348,7 @@ If you have installed `@docusaurus/preset-classic`, you don't need to install it
 
 **Configuration**
 
-```js
-// docusaurus.config.js
+```js title="docusaurus.config.js"
 module.exports = {
   plugins: ['@docusaurus/plugin-google-gtag'],
   themeConfig: {
@@ -383,8 +377,7 @@ If you have installed `@docusaurus/preset-classic`, you don't need to install it
 
 :::
 
-```js
-// docusaurus.config.js
+```js title="docusaurus.config.js"
 module.exports = {
   plugins: [
     '@docusaurus/plugin-sitemap',
