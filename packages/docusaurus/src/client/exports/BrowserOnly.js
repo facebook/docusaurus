@@ -5,16 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useEffect, useState} from 'react';
+import React from 'react';
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 
-const BrowserOnly = ({children}) => {
-  const [isComponentMounted, setIsComponentMounted] = useState(false);
-
-  useEffect(() => {
-    setIsComponentMounted(true);
-  }, []);
-
-  return isComponentMounted && <>{children}</>;
+function BrowserOnly({children}) {
+  return ExecutionEnvironment.canUseDOM && children != null && <>{children()}</>;
 };
 
 export default BrowserOnly;
