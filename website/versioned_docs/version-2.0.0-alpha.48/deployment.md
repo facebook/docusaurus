@@ -153,7 +153,7 @@ Render offers [free static site hosting](https://render.com/docs/static-sites) w
 
 That's it! Your app will be live on your Render URL as soon as the build finishes.
 
-### Deplying to Travis CI
+### Deploying to Travis CI
 
 Continuous integration (CI) services are typically used to perform routine tasks whenever new commits are checked in to source control. These tasks can be any combination of running unit tests and integration tests, automating builds, publishing packages to NPM, and deploying changes to your website. All you need to do to automate deployment of your website is to invoke the `yarn deploy` script whenever your website is updated. The following section covers how to do just that using [Travis CI](https://travis-ci.com/), a popular continuous integration service provider.
 
