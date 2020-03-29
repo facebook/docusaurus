@@ -20,9 +20,6 @@
 
 .codeBlock {
   overflow: auto;
-  display: block;
-  padding: 0;
-  margin: 0;
 }
 
 .codeBlockWithTitle {
@@ -59,9 +56,10 @@
 }
 
 .codeBlockLines {
-  background-color: transparent;
-  border-radius: 0;
-  margin-bottom: 0;
+  font-family: var(--ifm-font-family-monospace);
+  font-size: inherit;
+  line-height: var(--ifm-pre-line-height);
+  white-space: pre;
   float: left;
   min-width: 100%;
   padding: var(--ifm-pre-padding);
