@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
+
 import React, {useEffect, useState, useRef} from 'react';
 import classnames from 'classnames';
 import Highlight, {defaultProps} from 'prism-react-renderer';
@@ -136,6 +138,7 @@ export default ({
               {showCopied ? 'Copied' : 'Copy'}
             </button>
             <pre
+              tabIndex="0"
               className={classnames(className, styles.codeBlock, {
                 [styles.codeBlockWithTitle]: codeBlockTitle,
               })}>
