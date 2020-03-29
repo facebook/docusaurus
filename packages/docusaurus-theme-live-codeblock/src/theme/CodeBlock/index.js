@@ -137,7 +137,7 @@ export default ({
               onClick={handleCopyCode}>
               {showCopied ? 'Copied' : 'Copy'}
             </button>
-            <pre
+            <div
               tabIndex="0"
               className={classnames(className, styles.codeBlock, {
                 [styles.codeBlockWithTitle]: codeBlockTitle,
@@ -163,7 +163,7 @@ export default ({
                   );
                 })}
               </div>
-            </pre>
+            </div>
           </div>
         </>
       )}
