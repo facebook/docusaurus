@@ -13597,19 +13597,10 @@ relateurl@^0.2.7:
   resolved "https://registry.yarnpkg.com/relateurl/-/relateurl-0.2.7.tgz#54dbf377e51440aca90a4cd274600d3ff2d888a9"
   integrity sha1-VNvzd+UUQKypCkzSdGANP/LYiKk=
 
-remark-admonitions@^1.1.0:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/remark-admonitions/-/remark-admonitions-1.1.1.tgz#bc9d7f54f47fc78f8faa6580677cfa635208cb5e"
-  integrity sha512-F0MZRtN/sE3OUcLyal3lKtjYeM3ep2T6pLjYwhwJ9Uw3XQYzn4EQOzThbR5zvMpDE+gX5k+3zfOaEVC5qitgYg==
-  dependencies:
-    rehype-parse "^6.0.2"
-    unified "^8.4.2"
-    unist-util-visit "^2.0.1"
-
-remark-admonitions@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/remark-admonitions/-/remark-admonitions-1.2.0.tgz#0c8ba565c018357afb5f4f89efe4e543d71bd216"
-  integrity sha512-h7P99HNMuSeA3HBw+RIF4PoTEI2knjPqBIfmYSgavXvA5PHgP3oHo0XKfDmmPpUZY6vBWKzcLXRZcYHNnNcJaw==
+remark-admonitions@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/remark-admonitions/-/remark-admonitions-1.2.1.tgz#87caa1a442aa7b4c0cafa04798ed58a342307870"
+  integrity sha512-Ji6p68VDvD+H1oS95Fdx9Ar5WA2wcDA4kwrrhVU7fGctC6+d3uiMICu7w7/2Xld+lnU7/gi+432+rRbup5S8ow==
   dependencies:
     rehype-parse "^6.0.2"
     unified "^8.4.2"
