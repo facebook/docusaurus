@@ -8,26 +8,38 @@
 .announcementBar {
   position: relative;
   width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 5px 20px;
-  font-size: 85%;
   background-color: #fff;
   color: #000;
 }
 
 .announcementBarClose {
   position: absolute;
-  font-size: 25px;
+  right: 0;
   top: 0;
-  right: 1em;
+  width: 55px;
+  font-size: 25px;
   padding: 0;
   border: none;
   cursor: pointer;
   background: none;
   height: 100%;
-  line-height: 1;
+}
+
+.announcementBarContent {
+  font-size: 85%;
+  width: 100%;
+  text-align: center;
+  padding: 5px 0;
+  margin-right: 55px;
+}
+
+@media screen and (max-width: 576px) {
+  .announcementBarClose {
+    width: 35px;
+  }
+  .announcementBarContent {
+    margin-right: 35px;
+  }
 }
 
 .announcementBarContent a {

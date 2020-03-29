@@ -11,13 +11,13 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import styles from './styles.module.css';
 
 const STORAGE_DISMISS_KEY = 'docusaurus.announcement.dismiss';
-const STORAGE_VIEWED_MESSAGE_KEY = 'docusaurus.announcement.viewed_message';
+const STORAGE_ID_KEY = 'docusaurus.announcement.id';
 
 function AnnouncementBar() {
   const {
     siteConfig: {themeConfig: {announcementBar = {}}} = {},
   } = useDocusaurusContext();
-  const {content, backgroundColor, textColor} = announcementBar;
+  const {id, content, backgroundColor, textColor} = announcementBar;
   const [isClosed, setClosed] = useState(true);
   const handleClose = () => {
     sessionStorage.setItem(STORAGE_DISMISS_KEY, true);
@@ -25,11 +25,10 @@ function AnnouncementBar() {
   };
 
   useEffect(() => {
-    const currentAnnouncement = JSON.stringify(content);
-    const oldAnnouncement = sessionStorage.getItem(STORAGE_VIEWED_MESSAGE_KEY);
-    const isNewAnnouncement = currentAnnouncement !== oldAnnouncement;
+    const viewedId = sessionStorage.getItem(STORAGE_ID_KEY);
+    const isNewAnnouncement = id !== viewedId;
 
-    sessionStorage.setItem(STORAGE_VIEWED_MESSAGE_KEY, currentAnnouncement);
+    sessionStorage.setItem(STORAGE_ID_KEY, id);
 
     if (isNewAnnouncement) {
       sessionStorage.setItem(STORAGE_DISMISS_KEY, false);
@@ -52,6 +51,11 @@ function AnnouncementBar() {
       className={styles.announcementBar}
       style={{backgroundColor, color: textColor}}
       role="banner">
+      <div
+        className={styles.announcementBarContent}
+        dangerouslySetInnerHTML={{__html: content}}
+      />
+
       <button
         type="button"
         className={styles.announcementBarClose}
@@ -59,11 +63,6 @@ function AnnouncementBar() {
         aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
-
-      <div
-        className={styles.announcementBarContent}
-        dangerouslySetInnerHTML={{__html: content}}
-      />
     </div>
   );
 }
