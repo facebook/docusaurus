@@ -79,3 +79,13 @@ Support this project by becoming a sponsor. Your logo will show up here with a l
 Docusaurus is [MIT licensed](./LICENSE).
 
 The Docusaurus documentation (e.g., `.md` files in the `/docs` folder) is [Creative Commons licensed](./LICENSE-docs).
+
+## Special thanks
+
+[![BrowserStack logo](./admin/img/browserstack-logo.png)](http://www.browserstack.com/)
+
+[BrowserStack](http://www.browserstack.com/) supports us with [free access for open source](https://www.browserstack.com/open-source).
+
+[![Rocket Validator logo](./admin/img/rocketvalidator-logo.png)](https://rocketvalidator.com/)
+
+[Rocket Validator](https://rocketvalidator.com/) helps us find HTML markup or accessibility issues.
