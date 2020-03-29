@@ -10,8 +10,8 @@
   "dependencies": {
     "@babel/parser": "^7.7.4",
     "@babel/traverse": "^7.7.4",
-    "@mdx-js/mdx": "^1.5.1",
-    "@mdx-js/react": "^1.5.1",
+    "@mdx-js/mdx": "^1.5.8",
+    "@mdx-js/react": "^1.5.8",
     "escape-html": "^1.0.3",
     "fs-extra": "^8.1.0",
     "github-slugger": "^1.2.1",
@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "remark": "^11.0.2",
-    "remark-mdx": "^1.5.1",
+    "remark-mdx": "^1.5.8",
     "to-vfile": "^6.0.0",
     "unist-builder": "^2.0.3",
     "unist-util-remove-position": "^2.0.1"
