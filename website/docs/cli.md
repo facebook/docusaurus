@@ -65,6 +65,7 @@ Compiles your site for production.
 | --- | --- | --- |
 | `--bundle-analyzer` |  | Analyze your bundle with [bundle analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer) |
 | `--out-dir` | `build` | The full path for the new output directory, relative to the current workspace. |
+| `--no-minify` | `false` | Build website without minimizing JS/CSS bundles. |
 
 ### `docusaurus swizzle`
 
