@@ -49,6 +49,12 @@ Builds and serves the static site with [Webpack Dev Server](https://webpack.js.o
 | `--hot-only` | `false` | Enables Hot Module Replacement without page refresh as fallback in case of build failures. More information [here](https://webpack.js.org/configuration/dev-server/#devserverhotonly). |
 | `--no-open` | `false` | Do not open automatically the page in the browser. |
 
+:::important
+
+Please note that some functionality (for example, anchor links) will not work in dev server. When building the website, all the functionality will work as expected.
+
+:::
+
 ### `docusaurus build`
 
 Compiles your site for production.
