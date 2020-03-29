@@ -88,4 +88,4 @@ The Docusaurus documentation (e.g., `.md` files in the `/docs` folder) is [Creat
 
 [![Rocket Validator logo](./admin/img/rocketvalidator-logo.png)](https://rocketvalidator.com/)
 
-[Rocket Validator](https://rocketvalidator.com/) helps us finding HTML markup or accessibility issues.
+[Rocket Validator](https://rocketvalidator.com/) helps us find HTML markup or accessibility issues.
