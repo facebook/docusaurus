@@ -115,13 +115,15 @@ function Home() {
 
 ### `<BrowserOnly/>`
 
-This component excludes its `children` during the prerendering stage of the build process. This is useful for hiding code that is only meant to run in the browsers (e.g. where the `window`/`document` objects are being accessed).
+This component excludes `children` passed via render function during the prerendering stage of the build process. This is useful for hiding code that is only meant to run in the browsers (e.g. where the `window`/`document` objects are being accessed).
 
-```jsx {1,7}
+```jsx
 import BrowserOnly from '@docusaurus/BrowserOnly';
 
 <BrowserOnly>
-  {/* Something that should be excluded during build process prerendering. */}
+  {() => {
+    /* Something that should be excluded during build process prerendering. */
+  }}
 </BrowserOnly>;
 ```
 
