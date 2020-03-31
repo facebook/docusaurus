@@ -26,7 +26,6 @@ function NavLink({activeBasePath, to, href, label, position, ...props}) {
 
   return (
     <Link
-      className="navbar__item navbar__link"
       {...(href
         ? {
             target: '_blank',
@@ -51,7 +50,7 @@ function NavLink({activeBasePath, to, href, label, position, ...props}) {
 
 function NavItem({items, position, ...props}) {
   if (!items) {
-    return <NavLink {...props} />;
+    return <NavLink className="navbar__item navbar__link" {...props} />;
   }
 
   return (
@@ -60,10 +59,16 @@ function NavItem({items, position, ...props}) {
         'dropdown--left': position === 'left',
         'dropdown--right': position === 'right',
       })}>
-      <NavLink {...props}>{props.label}</NavLink>
+      <NavLink className="navbar__item navbar__link" {...props}>
+        {props.label}
+      </NavLink>
       <ul className="dropdown__menu">
         {items.map((linkItemInner, i) => (
-          <NavLink {...linkItemInner} key={i} />
+          <NavLink
+            className="navbar__item navbar__link"
+            {...linkItemInner}
+            key={i}
+          />
         ))}
       </ul>
     </div>
@@ -81,7 +86,7 @@ function MobileNavItem({items, ...props}) {
 
   return (
     <li className="menu__list-item">
-      <NavLink class="menu__link menu__link--sublist" {...props}>
+      <NavLink className="menu__link menu__link--sublist" {...props}>
         {props.label}
       </NavLink>
       <ul className="menu__list">
@@ -179,7 +184,7 @@ function Navbar() {
             )}
           </Link>
           {links
-            .filter(linkItem => linkItem.position !== 'right')
+            .filter(linkItem => linkItem.position === 'left')
             .map((linkItem, i) => (
               <NavItem {...linkItem} key={i} />
             ))}
