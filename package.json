@@ -21,6 +21,8 @@
     "lint": "eslint --cache \"**/*.js\" && stylelint \"**/*.css\"",
     "lerna": "lerna",
     "test": "jest",
+    "test:registry": "verdaccio --listen 4002 --config ./admin/verdaccio.yaml",
+    "test:release": "./admin/scripts/test-release.sh",
     "tsc": "lerna run tsc --no-private"
   },
   "devDependencies": {

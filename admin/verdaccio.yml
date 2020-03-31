@@ -1,0 +1,31 @@
+#
+# This is the default config file. It allows all users to do anything,
+# so don't use it on production systems.
+#
+# Look here for more config file examples:
+# https://github.com/verdaccio/verdaccio/tree/master/conf
+#
+
+# File paths are relative to this configuration file.
+
+# Path to a directory with all packages
+storage: ./tmp/verdaccio
+
+# A list of other known repositories we can talk to
+uplinks:
+  npmjs:
+    url: https://registry.npmjs.org/
+
+packages:
+  '**':
+    # Allow all users (including non-authenticated users) to read and
+    # publish all packages
+    access: $all
+    publish: $all
+
+    # Download from npm if a package is not available in the local registry
+    proxy: npmjs
+
+# Log settings
+logs:
+  - {type: stdout, format: pretty, level: http}

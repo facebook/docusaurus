@@ -16,6 +16,36 @@ If you are not currently logged into npm on your CLI, do the following:
 
 If you're publishing new v2 versions, 2FA might get in the way as the pin might expire during the publishing as there are over 10 packages to publish. You're encouraged not to use the "Authorization and Publishing" 2FA option.
 
+### 0. Test build
+
+First run your own private npm proxy registry (by default it will be available at http://localhost:4000/):
+
+```bash
+yarn test:registry
+```
+
+Do not close this bash session and then open a new one and build packages in it:
+
+```bash
+yarn test:release
+```
+
+Now install the skeleton website with the new version of Docusaurus:
+
+```bash
+NPM_CONFIG_REGISTRY=http://localhost:4000/ npx @docusaurus/init@latest init test-website classic
+```
+
+All ready for start the dev server and build the website:.
+
+```bash
+cd test-website
+yarn start
+yarn build # after manual testing in browser
+```
+
+If there are no errors, you can start preparing for the new release. The bash session running private npm registry can be closed.
+
 ### 1. Update the v2 changelog
 
 Generate a GitHub auth token by going to https://github.com/settings/tokens. Save the token somewhere for future reference.

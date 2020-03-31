@@ -10,6 +10,7 @@ node_modules
 .eslintcache
 
 yarn-error.log
+admin/tmp
 build
 .docusaurus
 .cache-loader
