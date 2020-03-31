@@ -15,6 +15,7 @@ const ignorePatterns = [
   '/packages/docusaurus-plugin-content-blog/lib',
   '/packages/docusaurus-plugin-content-docs/lib',
   '/packages/docusaurus-plugin-content-pages/lib',
+  '/admin/',
 ];
 
 module.exports = {
@@ -24,6 +25,7 @@ module.exports = {
   testEnvironment: 'node',
   testPathIgnorePatterns: ignorePatterns,
   coveragePathIgnorePatterns: ignorePatterns,
+  modulePathIgnorePatterns: ignorePatterns,
   transform: {
     '^.+\\.[jt]sx?$': 'babel-jest',
   },

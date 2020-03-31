@@ -36,7 +36,7 @@ Now install the skeleton website with the new version of Docusaurus:
 NPM_CONFIG_REGISTRY=http://localhost:4000/ npx @docusaurus/init@latest init test-website classic
 ```
 
-All ready for start the dev server and build the website:.
+All ready for start the dev server and build the website:
 
 ```bash
 cd test-website
