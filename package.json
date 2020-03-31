@@ -65,7 +65,8 @@
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
     "stylelint": "^13.2.0",
-    "typescript": "^3.7.2"
+    "typescript": "^3.7.2",
+    "verdaccio": "^4.5.1"
   },
   "peerDependencies": {
     "stylelint-copyright": "^2.0.0"
