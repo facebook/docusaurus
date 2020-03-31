@@ -6,15 +6,13 @@
  */
 
 import React, {useCallback, useState} from 'react';
+import classnames from 'classnames';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
 import SearchBar from '@theme/SearchBar';
 import Toggle from '@theme/Toggle';
-
-import classnames from 'classnames';
-
 import useThemeContext from '@theme/hooks/useThemeContext';
 import useHideableNavbar from '@theme/hooks/useHideableNavbar';
 import useLockBodyScroll from '@theme/hooks/useLockBodyScroll';

@@ -59,6 +59,13 @@ module.exports = {
     ],
   ],
   themeConfig: {
+    announcementBar: {
+      id: 'supportus',
+      content:
+        '⭐️ If you like Docusaurus, give it a star on <a target="_blank" rel="noopener noreferrer" href="https://github.com/facebook/docusaurus">GitHub</a>! ⭐️',
+      backgroundColor: '#fafbfc',
+      textColor: '#091E42',
+    },
     prism: {
       theme: require('prism-react-renderer/themes/github'),
       darkTheme: require('prism-react-renderer/themes/dracula'),
