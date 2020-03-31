@@ -265,6 +265,51 @@ function HighlightSomeText(highlight) {
 }
 ```
 
+You can also use comments with `highlight-next-line`, `highlight-start`, and `highlight-end` to select which lines are highlighted.
+
+    ```jsx
+    function HighlightSomeText(highlight) {
+      if (highlight) {
+        // highlight-next-line
+        return 'This text is highlighted!';
+      }
+
+      return 'Nothing highlighted';
+    }
+
+    function HighlightMoreText(highlight) {
+      // highlight-start
+      if (highlight) {
+        return 'This range is highlighted!';
+      }
+      // highlight-end
+
+      return 'Nothing highlighted';
+    }
+    ```
+
+```jsx
+function HighlightSomeText(highlight) {
+  if (highlight) {
+    // highlight-next-line
+    return 'This text is highlighted!';
+  }
+  
+  return 'Nothing highlighted';
+}
+function HighlightMoreText(highlight) {
+  // highlight-start
+  if (highlight) {
+    return 'This range is highlighted!';
+  }
+  // highlight-end
+
+  return 'Nothing highlighted';
+}
+```
+
+JS style (`/* */` and `//`), JSX style (`{ /* */ }`), Python style (`# `), and HTML style (`<!-- -->`) are supported.
+
 To accomplish this, Docusaurus adds the `docusaurus-highlight-code-line` class to the highlighted lines. You will need to define your own styling for this CSS, possibly in your `src/css/custom.css` with a custom background color which is dependent on your selected syntax highlighting theme. The color given below works for the default highlighting theme (Palenight), so if you are using another theme, you will have to tweak the color accordingly.
 
 ```css title="/src/css/custom.css"
