@@ -98,9 +98,9 @@ module.exports = {
     navbar: {
       links: [
         {
-          to: 'docs/docusaurus.config.js',
-          label: 'docusaurus.config.js',
-          position: 'left',
+          to: 'docs/introduction',
+          label: 'Introduction',
+          position: 'left', // or 'right'
           // To apply the active class styling on all
           // routes starting with this path.
           activeBasePath: 'docs',
@@ -114,6 +114,38 @@ module.exports = {
 ```
 
 Outbound links automatically get `target="_blank" rel="noopener noreferrer"` attributes.
+
+### Navbar Dropdown
+
+Navbar items can also be dropdown items by specifying the `items`, an inner array of navbar links.
+
+```js {9-19} title="docusaurus.config.js"
+module.exports = {
+  ...
+  themeConfig: {
+    navbar: {
+      links: [
+        {
+          label: 'Community',
+          position: 'left', // or 'right'
+          items: [
+            {
+              label: 'Facebook',
+              href: '...',
+            },
+            {
+              label: 'GitHub',
+              href: '...',
+            },
+            // ... more items
+          ],
+        },
+      ],
+    },
+    ...
+  },
+}
+```
 
 ### Auto-hide sticky navbar
 
