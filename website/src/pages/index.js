@@ -141,7 +141,6 @@ function Home() {
                 <h2 className={classnames(styles.featureHeading)}>
                   Built Using React
                 </h2>
-                quotes
                 <p className="padding-horiz--md">
                   Extend or customize your project's layout by reusing React.
                   Docusaurus can be extended while reusing the same header and
