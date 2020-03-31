@@ -21,8 +21,7 @@
     "lint": "eslint --cache \"**/*.js\" && stylelint \"**/*.css\"",
     "lerna": "lerna",
     "test": "jest",
-    "test:registry": "verdaccio --listen 4002 --config ./admin/verdaccio.yaml",
-    "test:release": "./admin/scripts/test-release.sh",
+    "test:build:v2": "./admin/scripts/test-release.sh",
     "tsc": "lerna run tsc --no-private"
   },
   "devDependencies": {
@@ -65,8 +64,7 @@
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
     "stylelint": "^13.2.0",
-    "typescript": "^3.7.2",
-    "verdaccio": "^4.5.1"
+    "typescript": "^3.7.2"
   },
   "peerDependencies": {
     "stylelint-copyright": "^2.0.0"

@@ -9,13 +9,14 @@
 # File paths are relative to this configuration file.
 
 # Path to a directory with all packages
-storage: ./tmp/verdaccio
+# storage: ./tmp/verdaccio
+
+storage: ../storage
 
 # A list of other known repositories we can talk to
 uplinks:
   npmjs:
     url: https://registry.npmjs.org/
-
 packages:
   '**':
     # Allow all users (including non-authenticated users) to read and
