@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import _ from 'lodash';
 import fs from 'fs-extra';
 import importFresh from 'import-fresh';
 import {
@@ -105,12 +106,12 @@ function normalizeItem(item: SidebarItemRaw): SidebarItem[] {
     ];
   }
   if (isCategoryShorthand(item)) {
-    return normalizeCategoryShorthand(item).flatMap(normalizeItem);
+    return _.flatMap(normalizeCategoryShorthand(item), normalizeItem);
   }
   switch (item.type) {
     case 'category':
       assertIsCategory(item);
-      return [{...item, items: item.items.flatMap(normalizeItem)}];
+      return [{...item, items: _.flatMap(item.items, normalizeItem)}];
     case 'link':
       assertIsLink(item);
       return [item];
@@ -133,7 +134,7 @@ function normalizeSidebar(sidebars: SidebarRaw): Sidebar {
         ? sidebar
         : normalizeCategoryShorthand(sidebar);
 
-      acc[sidebarId] = normalizedSidebar.flatMap(normalizeItem);
+      acc[sidebarId] = _.flatMap(normalizedSidebar, normalizeItem);
 
       return acc;
     },
