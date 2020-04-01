@@ -92,12 +92,13 @@ module.exports = {
       links: [
         {
           label: 'Docs',
+          to: 'docs/introduction', // "fake" link
           position: 'left',
           activeBasePath: 'docs',
           items: [
             {
               label: versions[0],
-              to: `docs/introduction`,
+              to: 'docs/introduction',
             },
           ].concat(
             versions.slice(1).map(version => ({
