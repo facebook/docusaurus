@@ -302,6 +302,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Hazelcast Jet',
+    image: '/img/users/hazelcast-jet.svg',
+    infoLink: 'https://jet-start.sh',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Hemera',
     image: '/img/users/hemera.png',
     infoLink: 'https://hemerajs.github.io/hemera/',
