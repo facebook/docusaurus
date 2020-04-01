@@ -61,18 +61,21 @@ export async function build(
     generatedFilesDir,
     'client-manifest.json',
   );
-  let clientConfig: Configuration = merge(createClientConfig(props), {
-    plugins: [
-      // Remove/clean build folders before building bundles.
-      new CleanWebpackPlugin({verbose: false}),
-      // Visualize size of webpack output files with an interactive zoomable treemap.
-      cliOptions.bundleAnalyzer && new BundleAnalyzerPlugin(),
-      // Generate client manifests file that will be used for server bundle.
-      new ReactLoadableSSRAddon({
-        filename: clientManifestPath,
-      }),
-    ].filter(Boolean) as Plugin[],
-  });
+  let clientConfig: Configuration = merge(
+    createClientConfig(props, cliOptions.minify),
+    {
+      plugins: [
+        // Remove/clean build folders before building bundles.
+        new CleanWebpackPlugin({verbose: false}),
+        // Visualize size of webpack output files with an interactive zoomable treemap.
+        cliOptions.bundleAnalyzer && new BundleAnalyzerPlugin(),
+        // Generate client manifests file that will be used for server bundle.
+        new ReactLoadableSSRAddon({
+          filename: clientManifestPath,
+        }),
+      ].filter(Boolean) as Plugin[],
+    },
+  );
 
   let serverConfig: Configuration = createServerConfig(props);
 

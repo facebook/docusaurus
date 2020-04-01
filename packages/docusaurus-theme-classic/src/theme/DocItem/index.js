@@ -76,6 +76,7 @@ function DocItem(props) {
     },
   } = DocContent;
 
+  const metaTitle = title ? `${title} | ${siteTitle}` : siteTitle;
   let metaImageUrl = siteUrl + useBaseUrl(metaImage);
   if (!isInternalUrl(metaImage)) {
     metaImageUrl = metaImage;
@@ -84,11 +85,8 @@ function DocItem(props) {
   return (
     <>
       <Head>
-        {title && (
-          <title>
-            {title} | {siteTitle}
-          </title>
-        )}
+        <title>{metaTitle}</title>
+        <meta property="og:title" content={metaTitle} />
         {description && <meta name="description" content={description} />}
         {description && (
           <meta property="og:description" content={description} />

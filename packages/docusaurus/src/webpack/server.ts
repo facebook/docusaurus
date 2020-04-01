@@ -15,7 +15,10 @@ import {createBaseConfig} from './base';
 import WaitPlugin from './plugins/WaitPlugin';
 import LogPlugin from './plugins/LogPlugin';
 
-export function createServerConfig(props: Props): Configuration {
+export function createServerConfig(
+  props: Props,
+  minify: boolean = true,
+): Configuration {
   const {
     baseUrl,
     routesPaths,
@@ -24,7 +27,7 @@ export function createServerConfig(props: Props): Configuration {
     preBodyTags,
     postBodyTags,
   } = props;
-  const config = createBaseConfig(props, true);
+  const config = createBaseConfig(props, true, minify);
 
   const routesLocation = {};
   // Array of paths to be rendered. Relative to output directory

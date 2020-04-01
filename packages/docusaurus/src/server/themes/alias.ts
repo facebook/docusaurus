@@ -19,7 +19,7 @@ export function themeAlias(
     return {};
   }
 
-  const themeComponentFiles = globby.sync(['**/*.{js,jsx}'], {
+  const themeComponentFiles = globby.sync(['**/*.{js,jsx,ts,tsx}'], {
     cwd: themePath,
   });
 

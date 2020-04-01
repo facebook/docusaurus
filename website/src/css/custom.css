@@ -20,18 +20,6 @@ html[data-theme='dark'] {
   --ifm-color-feedback-background: #f0f8ff;
 }
 
-@media screen and (max-width: 996px) {
-  :root {
-    --ifm-font-size-base: 15px;
-  }
-}
-
-@media screen and (min-width: 997px) {
-  :root {
-    --ifm-font-size-base: 17px;
-  }
-}
-
 .docusaurus-highlight-code-line {
   background-color: rgb(0, 0, 0, 0.1);
   display: block;
@@ -41,4 +29,9 @@ html[data-theme='dark'] {
 
 html[data-theme='dark'] .docusaurus-highlight-code-line {
   background-color: rgb(0, 0, 0, 0.3);
+}
+
+/* This will be removed after new release of Infima */
+.navbar__item.dropdown > .navbar__link {
+  pointer-events: none;
 }

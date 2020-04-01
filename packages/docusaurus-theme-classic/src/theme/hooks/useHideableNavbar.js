@@ -25,6 +25,10 @@ const useHideableNavbar = hideOnScroll => {
   const handleScroll = () => {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
+    if (scrollTop === 0) {
+      setIsNavbarVisible(true);
+    }
+
     if (scrollTop < navbarHeight) {
       return;
     }
@@ -39,7 +43,7 @@ const useHideableNavbar = hideOnScroll => {
     const documentHeight = document.documentElement.scrollHeight - navbarHeight;
     const windowHeight = window.innerHeight;
 
-    if (lastScrollTop && scrollTop > lastScrollTop) {
+    if (lastScrollTop && scrollTop >= lastScrollTop) {
       setIsNavbarVisible(false);
     } else if (scrollTop + windowHeight < documentHeight) {
       setIsNavbarVisible(true);
