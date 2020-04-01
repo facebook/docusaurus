@@ -6,15 +6,13 @@
  */
 
 import React, {useCallback, useState} from 'react';
+import classnames from 'classnames';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
 import SearchBar from '@theme/SearchBar';
 import Toggle from '@theme/Toggle';
-
-import classnames from 'classnames';
-
 import useThemeContext from '@theme/hooks/useThemeContext';
 import useHideableNavbar from '@theme/hooks/useHideableNavbar';
 import useLockBodyScroll from '@theme/hooks/useLockBodyScroll';
@@ -28,7 +26,6 @@ function NavLink({activeBasePath, to, href, label, position, ...props}) {
 
   return (
     <Link
-      className="navbar__item navbar__link"
       {...(href
         ? {
             target: '_blank',
@@ -48,6 +45,58 @@ function NavLink({activeBasePath, to, href, label, position, ...props}) {
       {...props}>
       {label}
     </Link>
+  );
+}
+
+function NavItem({items, position, ...props}) {
+  if (!items) {
+    return <NavLink className="navbar__item navbar__link" {...props} />;
+  }
+
+  return (
+    <div
+      className={classnames('navbar__item', 'dropdown', 'dropdown--hoverable', {
+        'dropdown--left': position === 'left',
+        'dropdown--right': position === 'right',
+      })}>
+      <NavLink className="navbar__item navbar__link" {...props}>
+        {props.label}
+      </NavLink>
+      <ul className="dropdown__menu">
+        {items.map((linkItemInner, i) => (
+          <NavLink
+            className="navbar__item navbar__link"
+            {...linkItemInner}
+            key={i}
+          />
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function MobileNavItem({items, ...props}) {
+  if (!items) {
+    return (
+      <li className="menu__list-item">
+        <NavLink className="menu__link" {...props} />
+      </li>
+    );
+  }
+
+  return (
+    <li className="menu__list-item">
+      <NavLink className="menu__link menu__link--sublist" {...props}>
+        {props.label}
+      </NavLink>
+      <ul className="menu__list">
+        {items.map((linkItemInner, i) => (
+          <li className="menu__list-item">
+            <NavLink className="menu__link" {...linkItemInner} key={i} />
+          </li>
+        ))}
+      </ul>
+    </li>
   );
 }
 
@@ -135,16 +184,16 @@ function Navbar() {
             )}
           </Link>
           {links
-            .filter(linkItem => linkItem.position !== 'right')
+            .filter(linkItem => linkItem.position === 'left')
             .map((linkItem, i) => (
-              <NavLink {...linkItem} key={i} />
+              <NavItem {...linkItem} key={i} />
             ))}
         </div>
         <div className="navbar__items navbar__items--right">
           {links
             .filter(linkItem => linkItem.position === 'right')
             .map((linkItem, i) => (
-              <NavLink {...linkItem} key={i} />
+              <NavItem {...linkItem} key={i} />
             ))}
           {!disableDarkMode && (
             <Toggle
@@ -196,13 +245,7 @@ function Navbar() {
           <div className="menu">
             <ul className="menu__list">
               {links.map((linkItem, i) => (
-                <li className="menu__list-item" key={i}>
-                  <NavLink
-                    className="menu__link"
-                    {...linkItem}
-                    onClick={hideSidebar}
-                  />
-                </li>
+                <MobileNavItem {...linkItem} onClick={hideSidebar} key={i} />
               ))}
             </ul>
           </div>

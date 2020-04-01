@@ -8,7 +8,7 @@
 const React = require('react');
 const fs = require('fs');
 const SideNav = require('./nav/SideNav.js');
-const Metadata = require('./metadata.js');
+const Metadata = require('../core/metadata.js');
 
 const readCategories = require('../server/readCategories.js');
 

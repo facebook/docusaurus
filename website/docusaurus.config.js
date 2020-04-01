@@ -59,6 +59,13 @@ module.exports = {
     ],
   ],
   themeConfig: {
+    announcementBar: {
+      id: 'supportus',
+      content:
+        '⭐️ If you like Docusaurus, give it a star on <a target="_blank" rel="noopener noreferrer" href="https://github.com/facebook/docusaurus">GitHub</a>! ⭐️',
+      backgroundColor: '#fafbfc',
+      textColor: '#091E42',
+    },
     prism: {
       theme: require('prism-react-renderer/themes/github'),
       darkTheme: require('prism-react-renderer/themes/dracula'),
@@ -84,25 +91,29 @@ module.exports = {
       },
       links: [
         {
-          to: 'versions',
-          label: `${versions[0].substr(6)}`,
-          position: 'left',
-          style: {
-            whiteSpace: 'nowrap',
-            padding: '0.25rem 0.5rem 0.2rem 0.25rem',
-            fontSize: 'calc(0.9 * var(--ifm-font-size-base))',
-            textDecoration: 'underline',
-          },
-        },
-        {
-          to: 'docs/introduction',
-          activeBasePath: 'docs',
           label: 'Docs',
           position: 'left',
+          activeBasePath: 'docs',
+          items: [
+            {
+              label: versions[0],
+              to: `docs/introduction`,
+            },
+          ].concat(
+            versions.slice(1).map(version => ({
+              label: version,
+              to: `docs/${version}/introduction`,
+            })),
+          ),
         },
         {to: 'blog', label: 'Blog', position: 'left'},
         {to: 'showcase', label: 'Showcase', position: 'left'},
         {to: 'feedback', label: 'Feedback', position: 'left'},
+        {
+          to: 'versions',
+          label: `v${versions[0]}`,
+          position: 'right',
+        },
         {
           href: 'https://github.com/facebook/docusaurus',
           label: 'GitHub',

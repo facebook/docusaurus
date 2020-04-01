@@ -57,7 +57,7 @@ exports[`blogFeed rss can show feed without posts 1`] = `
         <link>https://docusaurus.io/blog</link>
         <description>Hello Blog</description>
         <lastBuildDate>Sun, 25 Oct 2015 23:29:00 GMT</lastBuildDate>
-        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <docs>http://blogs.law.harvard.edu/tech/rss</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <copyright>Copyright</copyright>
     </channel>
@@ -72,27 +72,27 @@ exports[`blogFeed rss shows feed item for each post 1`] = `
         <link>https://docusaurus.io/blog</link>
         <description>Hello Blog</description>
         <lastBuildDate>Thu, 27 Feb 2020 00:00:00 GMT</lastBuildDate>
-        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <docs>http://blogs.law.harvard.edu/tech/rss</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <copyright>Copyright</copyright>
         <item>
             <title><![CDATA[draft]]></title>
             <link>https://docusaurus.io/blog/2020/02/27/draft</link>
-            <guid>draft</guid>
+            <guid>https://docusaurus.io/blog/2020/02/27/draft</guid>
             <pubDate>Thu, 27 Feb 2020 00:00:00 GMT</pubDate>
             <description><![CDATA[this post should not be published yet]]></description>
         </item>
         <item>
             <title><![CDATA[date-matter]]></title>
             <link>https://docusaurus.io/blog/2019/01/01/date-matter</link>
-            <guid>date-matter</guid>
+            <guid>https://docusaurus.io/blog/2019/01/01/date-matter</guid>
             <pubDate>Tue, 01 Jan 2019 00:00:00 GMT</pubDate>
             <description><![CDATA[date inside front matter]]></description>
         </item>
         <item>
             <title><![CDATA[Happy 1st Birthday Slash!]]></title>
             <link>https://docusaurus.io/blog/2018/12/14/Happy-First-Birthday-Slash</link>
-            <guid>Happy 1st Birthday Slash!</guid>
+            <guid>https://docusaurus.io/blog/2018/12/14/Happy-First-Birthday-Slash</guid>
             <pubDate>Fri, 14 Dec 2018 00:00:00 GMT</pubDate>
             <description><![CDATA[pattern name]]></description>
         </item>

@@ -13,6 +13,7 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 
 import ThemeProvider from '@theme/ThemeProvider';
 import TabGroupChoiceProvider from '@theme/TabGroupChoiceProvider';
+import AnnouncementBar from '@theme/AnnouncementBar';
 import Navbar from '@theme/Navbar';
 import Footer from '@theme/Footer';
 
@@ -76,6 +77,7 @@ function Layout(props) {
           )}
           <meta name="twitter:card" content="summary_large_image" />
         </Head>
+        <AnnouncementBar />
         <Navbar />
         <div className="main-wrapper">{children}</div>
         {!noFooter && <Footer />}
