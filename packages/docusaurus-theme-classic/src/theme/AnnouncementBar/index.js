@@ -20,23 +20,23 @@ function AnnouncementBar() {
   const {id, content, backgroundColor, textColor} = announcementBar;
   const [isClosed, setClosed] = useState(true);
   const handleClose = () => {
-    sessionStorage.setItem(STORAGE_DISMISS_KEY, true);
+    localStorage.setItem(STORAGE_DISMISS_KEY, true);
     setClosed(true);
   };
 
   useEffect(() => {
-    const viewedId = sessionStorage.getItem(STORAGE_ID_KEY);
+    const viewedId = localStorage.getItem(STORAGE_ID_KEY);
     const isNewAnnouncement = id !== viewedId;
 
-    sessionStorage.setItem(STORAGE_ID_KEY, id);
+    localStorage.setItem(STORAGE_ID_KEY, id);
 
     if (isNewAnnouncement) {
-      sessionStorage.setItem(STORAGE_DISMISS_KEY, false);
+      localStorage.setItem(STORAGE_DISMISS_KEY, false);
     }
 
     if (
       isNewAnnouncement ||
-      sessionStorage.getItem(STORAGE_DISMISS_KEY) === 'false'
+      localStorage.getItem(STORAGE_DISMISS_KEY) === 'false'
     ) {
       setClosed(false);
     }
