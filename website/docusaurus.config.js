@@ -63,7 +63,7 @@ module.exports = {
       id: 'supportus',
       content:
         '⭐️ If you like Docusaurus, give it a star on <a target="_blank" rel="noopener noreferrer" href="https://github.com/facebook/docusaurus">GitHub</a>! ⭐️',
-      backgroundColor: '#fafbfc',
+      backgroundColor: '#f2f3f5',
       textColor: '#091E42',
     },
     prism: {

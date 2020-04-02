@@ -38,6 +38,7 @@
     width: 35px;
   }
   .announcementBarContent {
+    width: auto;
     margin-right: 35px;
   }
 }
