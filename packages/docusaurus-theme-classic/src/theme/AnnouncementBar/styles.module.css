@@ -8,8 +8,8 @@
 .announcementBar {
   position: relative;
   width: 100%;
-  background-color: #fff;
-  color: #000;
+  background-color: var(--ifm-color-primary);
+  color: var(--ifm-color-black);
 }
 
 .announcementBarClose {
@@ -17,7 +17,7 @@
   right: 0;
   top: 0;
   width: 55px;
-  font-size: 25px;
+  font-size: 1.25rem;
   padding: 0;
   border: none;
   cursor: pointer;
