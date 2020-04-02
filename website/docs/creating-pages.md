@@ -5,6 +5,8 @@ title: Creating Pages
 
 In this section, we will learn about creating ad-hoc pages in Docusaurus using React. This is most useful for creating one-off standalone pages like a showcase page, playground page or support page.
 
+The functionality of pages is powered by `@docusaurus/plugin-content-pages`.
+
 ## Adding a new page
 
 <!-- TODO: What will the user see if pages/ is empty? -->
@@ -74,6 +76,12 @@ my-website
 │           └── styles.module.css
 .
 ```
+
+:::caution
+
+All JavaScript/TypeScript files within the `src/pages/` directory will have corresponding website paths generated for them. Do not put reusable components or test files (ending with `.test.js`) into that directory otherwise they will be turned into pages, which might not be intended.
+
+:::
 
 ## Using React
 
