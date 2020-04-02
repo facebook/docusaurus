@@ -9,7 +9,7 @@
   position: relative;
   width: 100%;
   background-color: var(--ifm-color-primary);
-  color: var(--ifm-color-content);
+  color: var(--ifm-color-black);
 }
 
 .announcementBarClose {
