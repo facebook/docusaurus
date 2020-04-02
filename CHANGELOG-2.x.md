@@ -1,5 +1,49 @@
 # Docusaurus 2 Changelog
 
+## 2.0.0-alpha.50 (2020-04-02)
+
+**HOTFIX for 2.0.0-alpha.49**.
+
+#### :bug: Bug Fix
+
+- `docusaurus-theme-classic`, `docusaurus-theme-live-codeblock`
+  - [#2509](https://github.com/facebook/docusaurus/pull/2509) fix(v2): synchronize code block components changes ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-classic`
+  - [#2498](https://github.com/facebook/docusaurus/pull/2498) fix(v2): blog item styling ([@yangshun](https://github.com/yangshun))
+  - [#2489](https://github.com/facebook/docusaurus/pull/2489) fix(v2): fix HTML issues nav dropdown and highlight docs item ([@lex111](https://github.com/lex111))
+- `docusaurus`
+  - [#2496](https://github.com/facebook/docusaurus/pull/2496) fix(v2): do not force terminate building when running deploy command ([@lex111](https://github.com/lex111))
+- `docusaurus-utils`
+  - [#2497](https://github.com/facebook/docusaurus/pull/2497) fix(v2): unbreak blog-only mode routing by deplicating starting forward slashes ([@SamChou19815](https://github.com/SamChou19815))
+
+#### :nail_care: Polish
+
+- `docusaurus-theme-classic`
+  - [#2505](https://github.com/facebook/docusaurus/pull/2505) fix(v2): tweak colors for announcement bar ([@yangshun](https://github.com/yangshun))
+  - [#2504](https://github.com/facebook/docusaurus/pull/2504) refactor(v2): improve announcement bar ([@lex111](https://github.com/lex111))
+  - [#2495](https://github.com/facebook/docusaurus/pull/2495) refactor(v2): update HTML markup of pagination for better a11y ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-classic`, `docusaurus-theme-live-codeblock`
+  - [#2502](https://github.com/facebook/docusaurus/pull/2502) fix(v2): make code block nicer ([@yangshun](https://github.com/yangshun))
+- `docusaurus-plugin-content-docs`, `docusaurus`
+  - [#2490](https://github.com/facebook/docusaurus/pull/2490) fix(v2): use lodash instead of array-map-polyfill ([@lex111](https://github.com/lex111))
+
+#### :memo: Documentation
+
+- `docusaurus-theme-classic`
+  - [#2500](https://github.com/facebook/docusaurus/pull/2500) docs(v2): misc docs updates ([@yangshun](https://github.com/yangshun))
+
+#### :house: Internal
+
+- [#2486](https://github.com/facebook/docusaurus/pull/2486) misc: add instructions about test release ([@lex111](https://github.com/lex111))
+
+#### Committers: 5
+
+- Alexey Pyltsyn ([@lex111](https://github.com/lex111))
+- Can Gencer ([@cangencer](https://github.com/cangencer))
+- Richard Chan ([@iWun](https://github.com/iWun))
+- Sam Zhou ([@SamChou19815](https://github.com/SamChou19815))
+- Yangshun Tay ([@yangshun](https://github.com/yangshun))
+
 ## 2.0.0-alpha.49 (2020-04-01)
 
 #### :rocket: New Feature
