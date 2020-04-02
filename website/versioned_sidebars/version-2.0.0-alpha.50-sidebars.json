@@ -58,11 +58,11 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-2.0.0-alpha.50/markdown-features"
+              "id": "version-2.0.0-alpha.50/docs"
             },
             {
               "type": "doc",
-              "id": "version-2.0.0-alpha.50/sidebar"
+              "id": "version-2.0.0-alpha.50/markdown-features"
             },
             {
               "type": "doc",
