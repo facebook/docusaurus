@@ -365,6 +365,13 @@ module.exports = [
     pinned: true,
   },
   {
+    caption: 'LisanJS',
+    image: '/img/users/lisan.svg',
+    infoLink: 'https://lisanjs.com',
+    fbOpenSource: false,
+    pinned: true,
+  },
+  {
     caption: 'MakeItOpen',
     image: '/img/users/makeitopen.png',
     infoLink: 'https://makeitopen.com/',
