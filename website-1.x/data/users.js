@@ -379,6 +379,13 @@ module.exports = [
     pinned: true,
   },
   {
+    caption: 'manylesson',
+    image: '/img/users/manylesson.png',
+    infoLink: 'http://www.manylesson.com/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Metro',
     image: '/img/users/metro.svg',
     infoLink: 'https://facebook.github.io/metro/',
