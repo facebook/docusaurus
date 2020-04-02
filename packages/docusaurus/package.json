@@ -1,7 +1,7 @@
 {
   "name": "@docusaurus/core",
   "description": "Easy to Maintain Open Source Documentation Websites",
-  "version": "2.0.0-alpha.49",
+  "version": "2.0.0-alpha.50",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
@@ -29,7 +29,7 @@
     "url": "https://github.com/facebook/docusaurus/issues"
   },
   "devDependencies": {
-    "@docusaurus/types": "^2.0.0-alpha.49"
+    "@docusaurus/types": "^2.0.0-alpha.50"
   },
   "dependencies": {
     "@babel/core": "^7.9.0",
@@ -39,7 +39,7 @@
     "@babel/preset-react": "^7.9.4",
     "@babel/preset-typescript": "^7.9.0",
     "@babel/runtime": "^7.9.2",
-    "@docusaurus/utils": "^2.0.0-alpha.49",
+    "@docusaurus/utils": "^2.0.0-alpha.50",
     "@endiliey/static-site-generator-webpack-plugin": "^4.0.0",
     "babel-loader": "^8.1.0",
     "babel-plugin-dynamic-import-node": "^2.3.0",
