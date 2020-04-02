@@ -5,15 +5,13 @@ title: Versioning
 
 You can use the version script to cut a new documentation version based on the latest content in the `docs` directory. That specific set of documentation will then be preserved and accessible even as the documentation in the `docs` directory changes moving forward.
 
-## :warning: Disclaimer
+:::caution
 
-:::important
-
-Consider it really well before starting to version your documentation.
+Consider hard before starting to version your documentation.
 
 :::
 
-Most of the times, you don't need versioning and it will just increase your build time and introduces complexity to your codebase. Versioning is **best suited for website with high-traffic and rapid changes in documentation between version**. If your documentation rarely changes, don't add versions to the website.
+Most of the times, you don't need versioning and it will just increase your build time and introduces complexity to your codebase. Versioning is **best suited for website with high-traffic and rapid changes to documentation between versions**. If your documentation rarely changes, don't add versioning to your documentation.
 
 To better understand how versioning works and see if it suits your needs, you can read on below.
 
