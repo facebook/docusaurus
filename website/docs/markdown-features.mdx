@@ -409,46 +409,56 @@ Admonitions are wrapped by a set of 3 colons.
 
 Example:
 
-  ```markdown
-  :::note
-  Primary
-  :::
+    :::note
+    The content and title *can* include markdown.
+    :::
 
-  :::tip Your Title
-  The content and title *can* include markdown.
-  :::
+    :::tip You can specify an optional title
+    Heads up! Here's a pro-tip.
+    :::
 
-  :::info Your Title
-  Useful information.
-  :::
+    :::info
+    Useful information.
+    :::
 
-  :::caution Your Title
-  Warning! You better pay attention!
-  :::
+    :::caution
+    Warning! You better pay attention!
+    :::
 
-  :::danger Your Title
-  Danger danger, mayday!
-  :::
-  ```
+    :::danger
+    Danger danger, mayday!
+    :::
 
 :::note
-Primary
-:::
-
-:::tip Your Title
 The content and title *can* include markdown.
 :::
 
-:::info Your Title
+:::tip
+Heads up! Here's a pro-tip.
+:::
+
+:::info
 Useful information.
 :::
 
-:::caution Your Title
+:::caution
 Warning! You better pay attention!
 :::
 
-:::danger Your Title
+:::danger
 Danger danger, mayday!
+:::
+
+### Specifying title
+
+You may also specify an optional title
+
+    :::note Your Title
+    The content and title *can* include markdown.
+    :::
+
+:::note Your Title
+The content and title *can* include markdown.
 :::
 
 ## Code Blocks
@@ -457,7 +467,7 @@ Code blocks within documentation are super-powered 💪.
 
 ### Code title
 
-You can add title to code block by adding `title` key after the language (leave a space between them).
+You can add a title to the code block by adding `title` key after the language (leave a space between them).
 
     ```jsx title="src/components/HelloCodeTitle.js"
     function HelloCodeTitle(props) {

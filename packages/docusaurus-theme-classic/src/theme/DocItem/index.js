@@ -109,7 +109,7 @@ function DocItem(props) {
                 <article>
                   {version && (
                     <div>
-                      <span className="badge badge--info">
+                      <span className="badge badge--secondary">
                         Version: {version}
                       </span>
                     </div>
