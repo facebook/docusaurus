@@ -5,9 +5,13 @@ title: Migrating from v1 to v2
 
 import ColorGenerator from '@site/src/components/ColorGenerator';
 
-This doc guides you through migrating an existing Docusaurus 1 site to Docusaurus 2.
+:::caution
 
-**Note: This migration guide is targeted at Docusaurus users without translation and/or versioning features and assumes the following structure:**
+This migration guide is targeted at Docusaurus users without translation and/or versioning features.
+
+:::
+
+This doc guides you through migrating an existing Docusaurus 1 site to Docusaurus 2. Your Docusaurus 1 site should have the following structure:
 
 ```sh
 ├── docs
@@ -326,7 +330,7 @@ Deprecated. Create a `CNAME` file in your `static` folder instead with your cust
 
 Deprecated. Pass it as an option to `@docusaurus/preset-classic` docs instead:
 
-```jsx {8-21} title="docusaurus.config.js"
+```jsx {8-20} title="docusaurus.config.js"
 module.exports = {
   // ...
   presets: [
@@ -471,9 +475,9 @@ In Docusaurus 2, the markdown syntax has been changed to [MDX](https://mdxjs.com
 
 Refer to the [multi-language support code blocks](markdown-features.mdx#multi-language-support-code-blocks) section.
 
-### Frontmatter
+### Front matter
 
-The Docusaurus frontmatter fields for the blog have been changed from camelCase to snake_case to be consistent with the docs.
+The Docusaurus front matter fields for the blog have been changed from camelCase to snake_case to be consistent with the docs.
 
 The fields `authorFBID` and `authorTwitter` have been deprecated. They are only used for generating the profile image of the author which can be done via the `author_image_url` field.
 
@@ -523,9 +527,9 @@ The versioning feature is a work in progress! Although we've implemented docs ve
 
 ## Changes from v1
 
-Read up https://v2.docusaurus.io/blog/2018/09/11/Towards-Docusaurus-2#versioning first for reasoning on v1's problem
+Read up https://v2.docusaurus.io/blog/2018/09/11/Towards-Docusaurus-2#versioning first for problems in v1's approach.
 
-### Migrate your `versioned_docs` frontmatter
+### Migrate your `versioned_docs` front matter
 
 Unlike v1, The markdown header for each versioned doc is no longer altered by using `version-${version}-${original_id}` as the value for the actual id field. See scenario below for better explanation.
 
@@ -629,7 +633,7 @@ Example `versioned_sidebars/version-1.0.0-sidebars.json`:
 
 ### Populate your `versioned_sidebars` and `versioned_docs`
 
-In v2, we use snapshot approach on documentation versioning. **Every versioned docs does not depends on other version**. It is possible to have `foo.md` in `version-1.0.0` but it doesn't exist in `version-1.2.0`. This is not possible in previous version due to Docusaurus v1 fallback functionality (https://docusaurus.io/docs/en/versioning#fallback-functionality).
+In v2, we use snapshot approach for documentation versioning. **Every versioned docs does not depends on other version**. It is possible to have `foo.md` in `version-1.0.0` but it doesn't exist in `version-1.2.0`. This is not possible in previous version due to Docusaurus v1 fallback functionality (https://docusaurus.io/docs/en/versioning#fallback-functionality).
 
 For example, if your `versions.json` looks like this in v1
 

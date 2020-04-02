@@ -10,11 +10,10 @@
 }
 
 .codeBlockTitle {
-  border-top-left-radius: var(--ifm-pre-border-radius);
-  border-top-right-radius: var(--ifm-pre-border-radius);
+  font-family: var(--ifm-font-family-monospace);
   font-weight: bold;
-  padding: 4px 12px;
-  border-bottom: 1px solid;
+  padding: var(--ifm-pre-padding);
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
   width: 100%;
 }
 
@@ -31,10 +30,10 @@
 }
 
 .copyButton {
-  background: rgb(1, 22, 39);
-  border: 1px solid rgb(214, 222, 235);
+  background: rgba(0, 0, 0, 0.3);
+  border: none;
   border-radius: var(--ifm-global-radius);
-  color: rgb(214, 222, 235);
+  color: var(--ifm-color-content);
   cursor: pointer;
   line-height: 12px;
   opacity: 0;

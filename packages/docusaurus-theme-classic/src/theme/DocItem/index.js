@@ -108,18 +108,17 @@ function DocItem(props) {
               <div className={styles.docItemContainer}>
                 <article>
                   {version && (
-                    <span
-                      style={{verticalAlign: 'top'}}
-                      className="badge badge--info">
-                      Version: {version}
-                    </span>
+                    <div>
+                      <span className="badge badge--secondary">
+                        Version: {version}
+                      </span>
+                    </div>
                   )}
                   {!hideTitle && (
                     <header>
                       <h1 className={styles.docTitle}>{title}</h1>
                     </header>
                   )}
-
                   <div className="markdown">
                     <DocContent />
                   </div>

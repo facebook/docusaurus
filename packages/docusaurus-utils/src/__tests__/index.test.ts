@@ -255,6 +255,10 @@ describe('load utils', () => {
         output: '/test/ro/doc1',
       },
       {
+        input: ['/', '/', '2020/02/29/leap-day'],
+        output: '/2020/02/29/leap-day',
+      },
+      {
         input: ['', '/', 'ko', 'hello'],
         output: '/ko/hello',
       },

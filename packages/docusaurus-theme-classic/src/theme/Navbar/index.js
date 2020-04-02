@@ -64,11 +64,9 @@ function NavItem({items, position, ...props}) {
       </NavLink>
       <ul className="dropdown__menu">
         {items.map((linkItemInner, i) => (
-          <NavLink
-            className="navbar__item navbar__link"
-            {...linkItemInner}
-            key={i}
-          />
+          <li key={i}>
+            <NavLink className="navbar__item navbar__link" {...linkItemInner} />
+          </li>
         ))}
       </ul>
     </div>
@@ -91,8 +89,8 @@ function MobileNavItem({items, ...props}) {
       </NavLink>
       <ul className="menu__list">
         {items.map((linkItemInner, i) => (
-          <li className="menu__list-item">
-            <NavLink className="menu__link" {...linkItemInner} key={i} />
+          <li className="menu__list-item" key={i}>
+            <NavLink className="menu__link" {...linkItemInner} />
           </li>
         ))}
       </ul>

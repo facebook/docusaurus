@@ -47,6 +47,7 @@ function compile(config: Configuration[]): Promise<any> {
 export async function build(
   siteDir: string,
   cliOptions: Partial<BuildCLIOptions> = {},
+  forceTerminate: boolean = true,
 ): Promise<string> {
   process.env.BABEL_ENV = 'production';
   process.env.NODE_ENV = 'production';
@@ -150,6 +151,6 @@ export async function build(
       relativeDir,
     )}.\n`,
   );
-  !cliOptions.bundleAnalyzer && process.exit(0);
+  forceTerminate && !cliOptions.bundleAnalyzer && process.exit(0);
   return outDir;
 }
