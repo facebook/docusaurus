@@ -98,12 +98,15 @@ module.exports = {
               label: versions[0],
               to: 'docs/introduction',
             },
-          ].concat(
-            versions.slice(1).map(version => ({
+            ...versions.slice(1).map(version => ({
               label: version,
               to: `docs/${version}/introduction`,
             })),
-          ),
+            {
+              label: 'Master/Unreleased',
+              to: 'docs/next/introduction',
+            },
+          ],
         },
         {to: 'blog', label: 'Blog', position: 'left'},
         {to: 'showcase', label: 'Showcase', position: 'left'},
