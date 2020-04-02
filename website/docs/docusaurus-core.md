@@ -121,11 +121,13 @@ The `<BrowserOnly>` component accepts a `children` prop, a render function which
 import BrowserOnly from '@docusaurus/BrowserOnly';
 
 function MyComponent() {
-  return <BrowserOnly>
-    {() => {
-      // Something that should be excluded during build process prerendering.
-    }}
-  </BrowserOnly>;
+  return (
+    <BrowserOnly>
+      {() => {
+        // Something that should be excluded during build process prerendering.
+      }}
+    </BrowserOnly>
+  );
 }
 ```
 
