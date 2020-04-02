@@ -16,7 +16,7 @@ If you are not currently logged into npm on your CLI, do the following:
 
 If you're publishing new v2 versions, 2FA might get in the way as the pin might expire during the publishing as there are over 10 packages to publish. You're encouraged not to use the "Authorization and Publishing" 2FA option.
 
-### 0. Build skeleton website with new version
+### 0. Build skeleton website with new version (Docker required)
 
 To make sure that all packages will work correctly when they are published, you can build them locally and use them to run the skeleton website:
 
