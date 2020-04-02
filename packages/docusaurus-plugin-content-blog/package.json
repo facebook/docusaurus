@@ -16,7 +16,7 @@
   "dependencies": {
     "@docusaurus/mdx-loader": "^2.0.0-alpha.49",
     "@docusaurus/utils": "^2.0.0-alpha.49",
-    "feed": "^4.0.0",
+    "feed": "^4.1.0",
     "fs-extra": "^8.1.0",
     "globby": "^10.0.1",
     "loader-utils": "^1.2.3",
