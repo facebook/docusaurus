@@ -73,6 +73,15 @@ const users = [
     pinned: true,
   },
   {
+    title: 'LisanJS',
+    description: 'A blazing fast and super small i18n library for Javascript',
+    preview: require('./showcase/lisan.png'),
+    website: 'https://lisanjs.com',
+    source: 'https://github.com/lisanjs/lisan',
+    fbOpenSource: false,
+    pinned: true,
+  },
+  {
     title: 'MBT Bundle',
     description: 'An open source model-based testing tool',
     preview: require('./showcase/mbt-bundle.png'),
