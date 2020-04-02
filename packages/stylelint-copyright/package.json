@@ -5,6 +5,6 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "stylelint": "^13.2.0"
+    "stylelint": "^13.2.1"
   }
 }
