@@ -13,6 +13,7 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 
 import ThemeProvider from '@theme/ThemeProvider';
 import TabGroupChoiceProvider from '@theme/TabGroupChoiceProvider';
+import AnnouncementBar from '@theme/AnnouncementBar';
 import Navbar from '@theme/Navbar';
 import Footer from '@theme/Footer';
 
@@ -53,7 +54,6 @@ function Layout(props) {
           {/* TODO: Do not assume that it is in english language */}
           <html lang="en" />
 
-          <meta httpEquiv="x-ua-compatible" content="ie=edge" />
           {metaTitle && <title>{metaTitle}</title>}
           {metaTitle && <meta property="og:title" content={metaTitle} />}
           {favicon && <link rel="shortcut icon" href={faviconUrl} />}
@@ -77,6 +77,7 @@ function Layout(props) {
           )}
           <meta name="twitter:card" content="summary_large_image" />
         </Head>
+        <AnnouncementBar />
         <Navbar />
         <div className="main-wrapper">{children}</div>
         {!noFooter && <Footer />}

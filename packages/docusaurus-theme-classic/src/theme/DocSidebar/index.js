@@ -115,7 +115,9 @@ function mutateSidebarCollapsingState(item, path) {
 function DocSidebar(props) {
   const [showResponsiveSidebar, setShowResponsiveSidebar] = useState(false);
   const {
-    siteConfig: {themeConfig: {navbar: {title} = {}}} = {},
+    siteConfig: {
+      themeConfig: {navbar: {title, hideOnScroll = false} = {}},
+    } = {},
     isClient,
   } = useDocusaurusContext();
   const {logoLink, logoLinkProps, logoImageUrl, logoAlt} = useLogo();
@@ -149,12 +151,14 @@ function DocSidebar(props) {
 
   return (
     <div className={styles.sidebar}>
-      <Link className={styles.sidebarLogo} to={logoLink} {...logoLinkProps}>
-        {logoImageUrl != null && (
-          <img key={isClient} src={logoImageUrl} alt={logoAlt} />
-        )}
-        {title != null && <strong>{title}</strong>}
-      </Link>
+      {hideOnScroll && (
+        <Link className={styles.sidebarLogo} to={logoLink} {...logoLinkProps}>
+          {logoImageUrl != null && (
+            <img key={isClient} src={logoImageUrl} alt={logoAlt} />
+          )}
+          {title != null && <strong>{title}</strong>}
+        </Link>
+      )}
       <div
         className={classnames('menu', 'menu--responsive', styles.menu, {
           'menu--show': showResponsiveSidebar,

@@ -47,6 +47,7 @@ function compile(config: Configuration[]): Promise<any> {
 export async function build(
   siteDir: string,
   cliOptions: Partial<BuildCLIOptions> = {},
+  forceTerminate: boolean = true,
 ): Promise<string> {
   process.env.BABEL_ENV = 'production';
   process.env.NODE_ENV = 'production';
@@ -61,18 +62,21 @@ export async function build(
     generatedFilesDir,
     'client-manifest.json',
   );
-  let clientConfig: Configuration = merge(createClientConfig(props), {
-    plugins: [
-      // Remove/clean build folders before building bundles.
-      new CleanWebpackPlugin({verbose: false}),
-      // Visualize size of webpack output files with an interactive zoomable treemap.
-      cliOptions.bundleAnalyzer && new BundleAnalyzerPlugin(),
-      // Generate client manifests file that will be used for server bundle.
-      new ReactLoadableSSRAddon({
-        filename: clientManifestPath,
-      }),
-    ].filter(Boolean) as Plugin[],
-  });
+  let clientConfig: Configuration = merge(
+    createClientConfig(props, cliOptions.minify),
+    {
+      plugins: [
+        // Remove/clean build folders before building bundles.
+        new CleanWebpackPlugin({verbose: false}),
+        // Visualize size of webpack output files with an interactive zoomable treemap.
+        cliOptions.bundleAnalyzer && new BundleAnalyzerPlugin(),
+        // Generate client manifests file that will be used for server bundle.
+        new ReactLoadableSSRAddon({
+          filename: clientManifestPath,
+        }),
+      ].filter(Boolean) as Plugin[],
+    },
+  );
 
   let serverConfig: Configuration = createServerConfig(props);
 
@@ -147,6 +151,6 @@ export async function build(
       relativeDir,
     )}.\n`,
   );
-  !cliOptions.bundleAnalyzer && process.exit(0);
+  forceTerminate && !cliOptions.bundleAnalyzer && process.exit(0);
   return outDir;
 }

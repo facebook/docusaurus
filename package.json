@@ -21,6 +21,7 @@
     "lint": "eslint --cache \"**/*.js\" && stylelint \"**/*.css\"",
     "lerna": "lerna",
     "test": "jest",
+    "test:build:v2": "./admin/scripts/test-release.sh",
     "tsc": "lerna run tsc --no-private"
   },
   "devDependencies": {

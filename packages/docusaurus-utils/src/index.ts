@@ -256,6 +256,9 @@ export function normalizeUrl(rawUrls: string[]): string {
   // Dedupe forward slashes in the entire path, avoiding protocol slashes.
   str = str.replace(/([^:]\/)\/+/g, '$1');
 
+  // Dedupe forward slashes at the beginning of the path.
+  str = str.replace(/^\/+/g, '/');
+
   return str;
 }
 

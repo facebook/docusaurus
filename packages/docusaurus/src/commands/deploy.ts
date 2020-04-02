@@ -98,7 +98,7 @@ export async function deploy(
   fs.removeSync(tempDir);
 
   // Build static html files, then push to deploymentBranch branch of specified repo.
-  build(siteDir, cliOptions)
+  build(siteDir, cliOptions, false)
     .then(outDir => {
       shell.cd(tempDir);
 

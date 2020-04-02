@@ -45,10 +45,15 @@ cli
     '--out-dir <dir>',
     'The full path for the new output directory, relative to the current workspace (default = build).',
   )
-  .action((siteDir = '.', {bundleAnalyzer, outDir}) => {
+  .option(
+    '--no-minify',
+    'Build website without minimizing JS bundles (default = false)',
+  )
+  .action((siteDir = '.', {bundleAnalyzer, outDir, minify}) => {
     wrapCommand(build)(path.resolve(siteDir), {
       bundleAnalyzer,
       outDir,
+      minify,
     });
   });
 

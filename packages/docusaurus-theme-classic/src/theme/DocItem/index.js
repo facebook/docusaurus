@@ -76,6 +76,7 @@ function DocItem(props) {
     },
   } = DocContent;
 
+  const metaTitle = title ? `${title} | ${siteTitle}` : siteTitle;
   let metaImageUrl = siteUrl + useBaseUrl(metaImage);
   if (!isInternalUrl(metaImage)) {
     metaImageUrl = metaImage;
@@ -84,11 +85,8 @@ function DocItem(props) {
   return (
     <>
       <Head>
-        {title && (
-          <title>
-            {title} | {siteTitle}
-          </title>
-        )}
+        <title>{metaTitle}</title>
+        <meta property="og:title" content={metaTitle} />
         {description && <meta name="description" content={description} />}
         {description && (
           <meta property="og:description" content={description} />
@@ -110,18 +108,17 @@ function DocItem(props) {
               <div className={styles.docItemContainer}>
                 <article>
                   {version && (
-                    <span
-                      style={{verticalAlign: 'top'}}
-                      className="badge badge--info">
-                      Version: {version}
-                    </span>
+                    <div>
+                      <span className="badge badge--secondary">
+                        Version: {version}
+                      </span>
+                    </div>
                   )}
                   {!hideTitle && (
                     <header>
                       <h1 className={styles.docTitle}>{title}</h1>
                     </header>
                   )}
-
                   <div className="markdown">
                     <DocContent />
                   </div>
