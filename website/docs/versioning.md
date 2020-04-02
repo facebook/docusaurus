@@ -7,7 +7,7 @@ You can use the version script to cut a new documentation version based on the l
 
 :::caution
 
-Consider hard before starting to version your documentation.
+Consider well before starting to version your documentation.
 
 :::
 
