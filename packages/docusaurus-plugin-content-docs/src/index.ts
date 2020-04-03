@@ -5,7 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import _ from 'lodash';
+import groupBy from 'lodash.groupby';
+import pick from 'lodash.pick';
+import pickBy from 'lodash.pickby';
 import globby from 'globby';
 import fs from 'fs-extra';
 import path from 'path';
@@ -101,13 +103,13 @@ export default function pluginContentDocs(
       const {include} = options;
       let globPattern = include.map(pattern => `${docsDir}/${pattern}`);
       if (versioning.enabled) {
-        const docsGlob = _.flatten(
-          include.map(pattern =>
+        const docsGlob = include
+          .map(pattern =>
             versionsNames.map(
               versionName => `${versionedDir}/${versionName}/${pattern}`,
             ),
-          ),
-        );
+          )
+          .reduce((a, b) => a.concat(b), []);
         const sidebarsGlob = versionsNames.map(
           versionName => `${versionedSidebarsDir}/${versionName}-sidebars.json`,
         );
@@ -149,11 +151,11 @@ export default function pluginContentDocs(
 
       // Metadata for versioned docs.
       if (versioning.enabled) {
-        const versionedGlob = _.flatten(
-          include.map(pattern =>
+        const versionedGlob = include
+          .map(pattern =>
             versionsNames.map(versionName => `${versionName}/${pattern}`),
-          ),
-        );
+          )
+          .reduce((a, b) => a.concat(b), []);
         const versionedFiles = await globby(versionedGlob, {
           cwd: versionedDir,
         });
@@ -338,7 +340,7 @@ export default function pluginContentDocs(
       // If versioning is enabled, we cleverly chunk the generated routes
       // to be by version and pick only needed base metadata.
       if (versioning.enabled) {
-        const docsMetadataByVersion = _.groupBy(
+        const docsMetadataByVersion = groupBy(
           Object.values(content.docsMetadata),
           'version',
         );
@@ -358,13 +360,12 @@ export default function pluginContentDocs(
             const neededSidebars: Set<string> =
               content.versionToSidebars[version] || new Set();
             const docsBaseMetadata: DocsBaseMetadata = {
-              docsSidebars: _.pick(
+              docsSidebars: pick(
                 content.docsSidebars,
                 Array.from(neededSidebars),
               ),
-              permalinkToSidebar: _.pickBy(
-                content.permalinkToSidebar,
-                sidebar => neededSidebars.has(sidebar),
+              permalinkToSidebar: pickBy(content.permalinkToSidebar, sidebar =>
+                neededSidebars.has(sidebar),
               ),
               version,
             };
