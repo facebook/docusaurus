@@ -6,7 +6,6 @@
  */
 
 import importFresh from 'import-fresh';
-import _ from 'lodash';
 import {
   LoadContext,
   PluginConfig,
@@ -47,7 +46,7 @@ export function loadPresets(
   });
 
   return {
-    plugins: _.compact(_.flatten<PluginConfig>(unflatPlugins)),
-    themes: _.compact(_.flatten<PluginConfig>(unflatThemes)),
+    plugins: unflatPlugins.reduce((a, b) => a.concat(b), []).filter(Boolean),
+    themes: unflatThemes.reduce((a, b) => a.concat(b), []).filter(Boolean),
   };
 }
