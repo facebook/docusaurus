@@ -60,6 +60,27 @@ module.exports = {
 }
 ```
 
+## Hooks
+
+### `useThemeContext`
+
+React hook to access theme context. This context contains functions for setting light and dark mode and boolean property, indicating which mode is currently in use.
+
+Usage example:
+
+```jsx
+import React from 'react';
+// highlight-next-line
+import useThemeContext from '@theme/hooks/useThemeContext';
+
+const Test = () => {
+  // highlight-next-line
+  const {isDarkTheme, setLightTheme, setDarkTheme} = useThemeContext();
+
+  return <h1>Dark mode is now {isDarkTheme ? 'on' : 'off'}</h1>;
+};
+```
+
 ## Navbar
 
 ### Navbar Title & Logo
