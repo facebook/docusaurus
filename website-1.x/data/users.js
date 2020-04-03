@@ -369,7 +369,7 @@ module.exports = [
     image: '/img/users/lisan.svg',
     infoLink: 'https://lisanjs.com',
     fbOpenSource: false,
-    pinned: true,
+    pinned: false,
   },
   {
     caption: 'MakeItOpen',
