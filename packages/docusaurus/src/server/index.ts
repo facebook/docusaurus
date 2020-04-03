@@ -6,7 +6,6 @@
  */
 
 import {generate} from '@docusaurus/utils';
-import _ from 'lodash';
 import path from 'path';
 import {
   BUILD_DIR_NAME,
