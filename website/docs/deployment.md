@@ -13,31 +13,9 @@ Once it finishes, you should see the production build under the `build/` directo
 
 You can deploy your site to static site hosting services such as [ZEIT Now](https://zeit.co/now), [GitHub Pages](https://pages.github.com/), [Netlify](https://www.netlify.com/), [Render](https://render.com/static-sites), and [Surge](https://surge.sh/help/getting-started-with-surge). Docusaurus sites are statically rendered so they work without JavaScript too!
 
-## Deploying to ZEIT Now
-
-Deploying your Docusaurus project to [ZEIT Now](https://zeit.co/now) will provide you with [various benefits](https://zeit.co/now) in the areas of performance and ease of use.
-
-Most importantly, however, deploying a Docusaurus project only takes a couple seconds:
-
-1. First, install their [command-line interface](https://zeit.co/download):
-
-```bash
-npm i -g now
-```
-
-2. Run a single command inside the root directory of your project:
-
-```bash
-now
-```
-
-**That's all.** Your docs will automatically be deployed.
-
-Now you can connect your site to [GitHub](https://zeit.co/github) or [GitLab](https://zeit.co/gitlab) to automatically receive a new deployment every time you push a commit.
-
 ## Deploying to GitHub Pages
 
-Docusaurus provides a easy way to publish to GitHub Pages.
+Docusaurus provides a easy way to publish to [GitHub Pages](https://pages.github.com/). Which is hosting that comes for free with every GitHub repository.
 
 ### `docusaurus.config.js` settings
 
@@ -105,13 +83,33 @@ GIT_USER=<GITHUB_USERNAME> yarn deploy
 cmd /C "set "GIT_USER=<GITHUB_USERNAME>" && yarn deploy"
 ```
 
-<!--
-TODO: Talk about deployment steps and different hosting options.
+### Triggering deployment with Travis CI
 
-References:
-- https://www.gatsbyjs.org/docs/deploying-and-hosting/
+Continuous integration (CI) services are typically used to perform routine tasks whenever new commits are checked in to source control. These tasks can be any combination of running unit tests and integration tests, automating builds, publishing packages to NPM, and deploying changes to your website. All you need to do to automate deployment of your website is to invoke the `yarn deploy` script whenever your website is updated. The following section covers how to do just that using [Travis CI](https://travis-ci.com/), a popular continuous integration service provider.
 
--->
+1. Go to https://github.com/settings/tokens and generate a new [personal access token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/).
+1. Using your GitHub account, [add the Travis CI app](https://github.com/marketplace/travis-ci) to the repository you want to activate.
+1. Open your Travis CI dashboard. The URL looks like https://travis-ci.com/USERNAME/REPO, and navigate to the `More options` > `Setting` > `Environment Variables` section of your repository.
+1. Create a new environment variable named `GH_TOKEN` with your newly generated token as its value, then `GH_EMAIL` (your email address) and `GH_NAME` (your GitHub username).
+1. Create a `.travis.yml` on the root of your repository with the following:
+
+```yaml title=".travis.yml"
+language: node_js
+node_js:
+  - '10'
+branches:
+  only:
+    - master
+cache:
+  yarn: true
+script:
+  - git config --global user.name "${GH_NAME}"
+  - git config --global user.email "${GH_EMAIL}"
+  - echo "machine github.com login ${GH_NAME} password ${GH_TOKEN}" > ~/.netrc
+  - yarn && GIT_USER="${GH_NAME}" yarn deploy
+```
+
+Now, whenever a new commit lands in `master`, Travis CI will run your suite of tests and if everything passes, your website will be deployed via the `yarn deploy` script.
 
 ## Deploying to Netlify
 
@@ -142,6 +140,28 @@ Make sure to disable Netlify setting `Pretty URLs` to prevent lowercased URLs, u
 
 :::
 
+## Deploying to ZEIT Now
+
+Deploying your Docusaurus project to [ZEIT Now](https://zeit.co/now) will provide you with [various benefits](https://zeit.co/now) in the areas of performance and ease of use.
+
+Most importantly, however, deploying a Docusaurus project only takes a couple seconds:
+
+1. First, install their [command-line interface](https://zeit.co/download):
+
+```bash
+npm i -g now
+```
+
+2. Run a single command inside the root directory of your project:
+
+```bash
+now
+```
+
+**That's all.** Your docs will automatically be deployed.
+
+Now you can connect your site to [GitHub](https://zeit.co/github) or [GitLab](https://zeit.co/gitlab) to automatically receive a new deployment every time you push a commit.
+
 ## Deploying to Render
 
 Render offers [free static site hosting](https://render.com/docs/static-sites) with fully managed SSL, custom domains, a global CDN and continuous auto deploys from your Git repo. Deploy your app in just a few minutes by following these steps.
@@ -160,35 +180,7 @@ Render offers [free static site hosting](https://render.com/docs/static-sites) w
 
 That's it! Your app will be live on your Render URL as soon as the build finishes.
 
-### Deploying to Travis CI
-
-Continuous integration (CI) services are typically used to perform routine tasks whenever new commits are checked in to source control. These tasks can be any combination of running unit tests and integration tests, automating builds, publishing packages to NPM, and deploying changes to your website. All you need to do to automate deployment of your website is to invoke the `yarn deploy` script whenever your website is updated. The following section covers how to do just that using [Travis CI](https://travis-ci.com/), a popular continuous integration service provider.
-
-1. Go to https://github.com/settings/tokens and generate a new [personal access token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/)
-1. Using your GitHub account, [add the Travis CI app](https://github.com/marketplace/travis-ci) to the repository you want to activate.
-1. Open your Travis CI dashboard. The URL looks like https://travis-ci.com/USERNAME/REPO, and navigate to the `More options` > `Setting` > `Environment Variables` section of your repository.
-1. Create a new environment variable named `GH_TOKEN` with your newly generated token as its value, then `GH_EMAIL` (your email address) and `GH_NAME` (your GitHub username).
-1. Create a `.travis.yml` on the root of your repository with the following:
-
-```yaml title=".travis.yml"
-language: node_js
-node_js:
-  - '10'
-branches:
-  only:
-    - master
-cache:
-  yarn: true
-script:
-  - git config --global user.name "${GH_NAME}"
-  - git config --global user.email "${GH_EMAIL}"
-  - echo "machine github.com login ${GH_NAME} password ${GH_TOKEN}" > ~/.netrc
-  - yarn && GIT_USER="${GH_NAME}" yarn deploy
-```
-
-Now, whenever a new commit lands in `master`, Travis CI will run your suite of tests and if everything passes, your website will be deployed via the `yarn deploy` script.
-
-## Deploying with Surge
+## Deploying to Surge
 
 Surge is a [static web hosting platform](https://surge.sh/help/getting-started-with-surge), it is used to deploy your Docusaurus project from command line in a minute. Deploying your project to Surge is easy and it is also free (including a custom domain and SSL).
 

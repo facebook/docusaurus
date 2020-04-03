@@ -63,8 +63,6 @@ module.exports = {
       id: 'supportus',
       content:
         '⭐️ If you like Docusaurus, give it a star on <a target="_blank" rel="noopener noreferrer" href="https://github.com/facebook/docusaurus">GitHub</a>! ⭐️',
-      backgroundColor: '#fafbfc',
-      textColor: '#091E42',
     },
     prism: {
       theme: require('prism-react-renderer/themes/github'),
@@ -100,12 +98,15 @@ module.exports = {
               label: versions[0],
               to: 'docs/introduction',
             },
-          ].concat(
-            versions.slice(1).map(version => ({
+            ...versions.slice(1).map(version => ({
               label: version,
               to: `docs/${version}/introduction`,
             })),
-          ),
+            {
+              label: 'Master/Unreleased',
+              to: 'docs/next/introduction',
+            },
+          ],
         },
         {to: 'blog', label: 'Blog', position: 'left'},
         {to: 'showcase', label: 'Showcase', position: 'left'},

@@ -1,7 +1,35 @@
 ---
-id: sidebar
-title: Sidebar
+id: docs
+title: Docs Introduction
+sidebar_label: Introduction
 ---
+
+The docs feature provides users with a way to organize Markdown files in a hierarchical format.
+
+## Document ID
+
+Every document has a unique `id`. By default, a document `id` is the name of the document (without the extension) relative to the root docs directory.
+
+For example, `greeting.md` id is `greeting` and `guide/hello.md` id is `guide/hello`.
+
+```bash
+website # root directory of your site
+└── docs
+   ├── greeting.md
+   └── guide
+      └── hello.md
+```
+
+However, the last part of the `id` can be defined by user in the front matter. For example, if `guide/hello.md`'s content is defined as below, its final `id` is `guide/part1`.
+
+```yml
+---
+id: part1
+---
+Lorem ipsum
+```
+
+## Sidebar
 
 To generate a sidebar to your Docusaurus site, you need to define a file that exports a sidebar object and pass that into the `@docusaurus/plugin-docs` plugin directly or via `@docusaurus/preset-classic`.
 
@@ -23,7 +51,7 @@ module.exports = {
 };
 ```
 
-## Sidebar object
+### Sidebar object
 
 A sidebar object is defined like this.
 
@@ -83,30 +111,7 @@ module.exports = {
 };
 ```
 
-## Document ID
-
-Every document has a unique `id`. By default, a document `id` is the name of the document (without the extension) relative to the root docs directory.
-
-For example, `greeting.md` id is `greeting` and `guide/hello.md` id is `guide/hello`.
-
-```bash
-website # root directory of your site
-└── docs
-   ├── greeting.md
-   └── guide
-      └── hello.md
-```
-
-However, the last part of the `id` can be defined by user in the frontmatter. For example, if `guide/hello.md` content is defined as below, it's final `id` is `guide/part1`.
-
-```yml
----
-id: part1
----
-Lorem ipsum
-```
-
-## Sidebar item
+#### Sidebar item
 
 As the name implies, `SidebarItem` is an item defined in a Sidebar. There are a few types we support:
 
@@ -115,7 +120,7 @@ As the name implies, `SidebarItem` is an item defined in a Sidebar. There are a 
 - [Ref](#ref)
 - [Category](#category)
 
-### Doc
+#### Doc
 
 ```typescript
 type SidebarItemDoc =
@@ -155,7 +160,7 @@ module.exports = {
 };
 ```
 
-### Link
+#### Link
 
 ```typescript
 type SidebarItemLink = {
@@ -175,7 +180,7 @@ Sidebar item type that links to a non-document page. Example:
 }
 ```
 
-### Ref
+#### Ref
 
 ```typescript
 type SidebarItemRef = {
@@ -193,7 +198,7 @@ Sidebar item type that links to doc without bounding it to the sidebar. Example:
 }
 ```
 
-### Category
+#### Category
 
 This is used to add hierarchies to the sidebar:
 
@@ -237,7 +242,7 @@ module.exports = {
 };
 ```
 
-### Collapsible categories
+#### Collapsible categories
 
 For sites with a sizable amount of content, we support the option to expand/collapse a category to toggle the display of its contents. Categories are collapsible by default. If you want them to be always expanded, set `themeConfig.sidebarCollapsible` to `false`:
 
@@ -250,3 +255,50 @@ module.exports = {
   },
 }
 ```
+
+## Docs-only mode
+
+If you just want the documentation feature, you can follow the instructions for a "docs-only mode":
+
+1. Set the `routeBasePath` property of the `docs` object in `@docusaurus/preset-classic` in `docusaurus.config.js` to the root of your site:
+
+```js {8} title="docusaurus.config.js"
+module.exports = {
+  // ...
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        docs: {
+          routeBasePath: '', // Set to empty string.
+          ...
+        },
+      },
+    ],
+  ],
+  // ...
+};
+```
+
+2. Set up a redirect to the initial document on the home page in `src/pages/index.js`, e.g. for the document `getting-started`. This is needed because by default there's no page created for the root of the docs.
+
+```jsx title="src/pages/index.js"
+import React from 'react';
+
+import {Redirect} from '@docusaurus/router';
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
+function Home() {
+  return <Redirect to={useBaseUrl('/getting-started')} />;
+}
+
+export default Home;
+```
+
+Now, when visiting your site, it will show your initial document instead of a landing page.
+
+:::tip
+
+There's also a "blog-only mode", for those who only want to use the blog component of Docusaurus 2. You can use the same method detailed above, except that you need to delete the `src/pages/index.js` file. Follow the setup instructions on [Blog-only mode](blog.md#blog-only-mode).
+
+:::

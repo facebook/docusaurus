@@ -58,23 +58,19 @@ function BlogPostItem(props) {
           className={classnames('margin-bottom--sm', styles.blogPostTitle)}>
           {isBlogPostPage ? title : <Link to={permalink}>{title}</Link>}
         </TitleHeading>
-        <div className="margin-bottom--sm">
+        <div className="margin-vert--md">
           <time dateTime={date} className={styles.blogPostDate}>
             {month} {day}, {year}
           </time>
         </div>
-        <div className="avatar margin-bottom--md">
+        <div className="avatar margin-vert--md">
           {authorImageURL && (
             <a
-              className="avatar__photo-link"
+              className="avatar__photo-link avatar__photo"
               href={authorURL}
               target="_blank"
               rel="noreferrer noopener">
-              <img
-                className="avatar__photo"
-                src={authorImageURL}
-                alt={author}
-              />
+              <img src={authorImageURL} alt={author} />
             </a>
           )}
           <div className="avatar__intro">

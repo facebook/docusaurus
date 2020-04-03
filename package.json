@@ -21,13 +21,14 @@
     "lint": "eslint --cache \"**/*.js\" && stylelint \"**/*.css\"",
     "lerna": "lerna",
     "test": "jest",
+    "test:build:v2": "./admin/scripts/test-release.sh",
     "tsc": "lerna run tsc --no-private"
   },
   "devDependencies": {
-    "@babel/core": "^7.7.4",
-    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.7.4",
-    "@babel/plugin-proposal-optional-chaining": "^7.7.4",
-    "@babel/preset-typescript": "^7.7.4",
+    "@babel/core": "^7.9.0",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.8.3",
+    "@babel/plugin-proposal-optional-chaining": "^7.9.0",
+    "@babel/preset-typescript": "^7.9.0",
     "@types/express": "^4.17.2",
     "@types/fs-extra": "^8.0.1",
     "@types/inquirer": "^6.5.0",
@@ -62,7 +63,7 @@
     "prettier": "^1.19.1",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
-    "stylelint": "^13.2.0",
+    "stylelint": "^13.2.1",
     "typescript": "^3.7.2"
   },
   "peerDependencies": {

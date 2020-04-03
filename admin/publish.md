@@ -16,6 +16,24 @@ If you are not currently logged into npm on your CLI, do the following:
 
 If you're publishing new v2 versions, 2FA might get in the way as the pin might expire during the publishing as there are over 10 packages to publish. You're encouraged not to use the "Authorization and Publishing" 2FA option.
 
+### 0. Build skeleton website with new version (Docker required)
+
+To make sure that all packages will work correctly when they are published, you can build them locally and use them to run the skeleton website:
+
+```bash
+yarn test:build:v2
+```
+
+This command will build all the packages that it will publish to the running private npm proxy registry, and then initialize a new website in the `test-website` directory. Now you can start the dev server and/or make a production built.
+
+```bash
+cd test-website
+yarn start
+yarn build # after manual testing in browser
+```
+
+If there are no errors, you can start preparing for the new release.
+
 ### 1. Update the v2 changelog
 
 Generate a GitHub auth token by going to https://github.com/settings/tokens. Save the token somewhere for future reference.
