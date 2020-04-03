@@ -63,11 +63,12 @@ export async function start(
     return posixPath(filepath);
   };
 
-  const pluginPaths: string[] = plugins
-    .map(plugin => plugin.getPathsToWatch && plugin.getPathsToWatch())
-    .reduce((a, b) => a.concat(b), [])
-    .filter(Boolean)
-    .map(normalizeToSiteDir);
+  const pluginPaths: string[] = ([] as string[]).concat(
+    ...plugins
+      .map<any>(plugin => plugin.getPathsToWatch && plugin.getPathsToWatch())
+      .filter(Boolean)
+      .map(normalizeToSiteDir),
+  );
   const fsWatcher = chokidar.watch([...pluginPaths, CONFIG_FILE_NAME], {
     cwd: siteDir,
     ignoreInitial: true,

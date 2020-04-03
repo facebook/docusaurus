@@ -84,8 +84,12 @@ export async function load(
 
   // Themes.
   const fallbackTheme = path.resolve(__dirname, '../client/theme-fallback');
-  const pluginThemes = plugins
-    .map(plugin => plugin.getThemePath && plugin.getThemePath())
+  const pluginThemes = ([] as string[])
+    .concat(
+      ...plugins.map<any>(
+        plugin => plugin.getThemePath && plugin.getThemePath(),
+      ),
+    )
     .filter(Boolean);
   const userTheme = path.resolve(siteDir, THEME_PATH);
   const alias = loadThemeAlias([fallbackTheme, ...pluginThemes], [userTheme]);

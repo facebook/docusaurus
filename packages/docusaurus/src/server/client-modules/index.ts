@@ -8,10 +8,9 @@
 import {Plugin} from '@docusaurus/types';
 
 export function loadClientModules(plugins: Plugin<any>[]): string[] {
-  return plugins
-    .map(plugin =>
-      !plugin.getClientModules ? null : plugin.getClientModules(),
-    )
-    .reduce((a, b) => a.concat(b), [])
-    .filter(Boolean);
+  return ([] as string[]).concat(
+    ...plugins
+      .map<any>(plugin => plugin.getClientModules && plugin.getClientModules())
+      .filter(Boolean),
+  );
 }
