@@ -10,10 +10,12 @@
 }
 
 .codeBlockTitle {
+  border-top-left-radius: var(--ifm-global-radius);
+  border-top-right-radius: var(--ifm-global-radius);
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
   font-family: var(--ifm-font-family-monospace);
   font-weight: bold;
-  padding: var(--ifm-pre-padding);
-  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+  padding: 0.75rem var(--ifm-pre-padding);
   width: 100%;
 }
 
@@ -30,12 +32,11 @@
   background: rgba(0, 0, 0, 0.3);
   border: none;
   border-radius: var(--ifm-global-radius);
-  color: var(--ifm-color-content);
+  color: var(--ifm-color-white);
   cursor: pointer;
-  line-height: 12px;
   opacity: 0;
   outline: none;
-  padding: 4px 8px;
+  padding: 0.4rem 0.5rem;
   position: absolute;
   right: var(--ifm-pre-padding);
   top: var(--ifm-pre-padding);
@@ -55,6 +56,7 @@
 }
 
 .codeBlockLines {
+  border-radius: var(--ifm-global-radius);
   font-family: var(--ifm-font-family-monospace);
   font-size: inherit;
   line-height: var(--ifm-pre-line-height);
@@ -62,4 +64,10 @@
   float: left;
   min-width: 100%;
   padding: var(--ifm-pre-padding);
+}
+
+/* Disable top border radius when title is present. */
+.codeBlockTitle + .codeBlockContent .codeBlockLines {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
 }
