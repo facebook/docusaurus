@@ -115,7 +115,7 @@ describe('loadBlog', () => {
       ...{prevItem: undefined},
     }).toEqual({
       editBlogUrl:
-        'https://github.com/facebook/docusaurus/edit/master/website-1x/blog/date-matter',
+        'https://github.com/facebook/docusaurus/edit/master/website-1x/blog/date-matter.md',
       permalink: '/blog/2019/01/01/date-matter',
       source: path.join('@site', pluginPath, 'date-matter.md'),
       title: 'date-matter',
