@@ -47,7 +47,7 @@ module.exports = {
         blog: {
           path: '../website-1.x/blog',
           editUrl:
-            'https://github.com/facebook/docusaurus/tree/master/website-1.x/',
+            'https://github.com/facebook/docusaurus/edit/master/website-1.x/',
           postsPerPage: 3,
           feedOptions: {
             type: 'all',
