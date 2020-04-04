@@ -400,12 +400,13 @@ npm install --save @docusaurus/plugin-ideal-image
 
 Modify your `docusaurus.config.js`
 
-```diff
+```js title="docusaurus.config.js"
 module.exports = {
-  ...
-+ plugins: ['@docusaurus/plugin-ideal-image'],
-  ...
-}
+  // ...
+  // highlight-next-line
+  plugins: ['@docusaurus/plugin-ideal-image'],
+  // ...
+};
 ```
 
 #### Usage

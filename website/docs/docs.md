@@ -44,7 +44,7 @@ module.exports = {
           // Sidebars filepath relative to the site dir.
           sidebarPath: require.resolve('./sidebars.js'),
         },
-        ...
+        // ...
       },
     ],
   ],
@@ -248,12 +248,12 @@ For sites with a sizable amount of content, we support the option to expand/coll
 
 ```js {4} title="docusaurus.config.js"
 module.exports = {
-  ...
+  // ...
   themeConfig: {
     sidebarCollapsible: false,
-    ...
+    // ...
   },
-}
+};
 ```
 
 ## Docs-only mode
@@ -271,7 +271,7 @@ module.exports = {
       {
         docs: {
           routeBasePath: '', // Set to empty string.
-          ...
+          // ...
         },
       },
     ],
@@ -280,7 +280,7 @@ module.exports = {
 };
 ```
 
-2. Set up a redirect to the initial document on the home page in `src/pages/index.js`, e.g. for the document `getting-started`. This is needed because by default there's no page created for the root of the docs.
+2. Set up a redirect to the initial document on the home page in `/src/pages/index.js`, e.g. for the document `getting-started`. This is needed because by default there's no page created for the root of the docs.
 
 ```jsx title="src/pages/index.js"
 import React from 'react';
@@ -299,6 +299,6 @@ Now, when visiting your site, it will show your initial document instead of a la
 
 :::tip
 
-There's also a "blog-only mode", for those who only want to use the blog component of Docusaurus 2. You can use the same method detailed above, except that you need to delete the `src/pages/index.js` file. Follow the setup instructions on [Blog-only mode](blog.md#blog-only-mode).
+There's also a "blog-only mode", for those who only want to use the blog component of Docusaurus 2. You can use the same method detailed above, except that you need to delete the `/src/pages/index.js` file. Follow the setup instructions on [Blog-only mode](blog.md#blog-only-mode).
 
 :::

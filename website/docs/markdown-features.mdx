@@ -469,13 +469,13 @@ Code blocks within documentation are super-powered 💪.
 
 You can add a title to the code block by adding `title` key after the language (leave a space between them).
 
-    ```jsx title="src/components/HelloCodeTitle.js"
+    ```jsx title="/src/components/HelloCodeTitle.js"
     function HelloCodeTitle(props) {
       return <h1>Hello, {props.name}</h1>;
     }
     ```
 
-```jsx title="src/components/HelloCodeTitle.js"
+```jsx title="/src/components/HelloCodeTitle.js"
 function HelloCodeTitle(props) {
   return <h1>Hello, {props.name}</h1>;
 }
@@ -520,12 +520,12 @@ For example, if you want to add highlighting for the `powershell` language:
 
 ```js {5} title="docusaurus.config.js"
 module.exports = {
-  ...
+  // ...
   themeConfig: {
     prism: {
       additionalLanguages: ['powershell'],
     },
-    ...
+    // ...
   },
 };
 ```
@@ -672,9 +672,9 @@ You will also need to add the plugin to your `docusaurus.config.js`.
 
 ```js {3}
 module.exports = {
-  ...
+  // ...
   themes: ['@docusaurus/theme-live-codeblock'],
-  ...
+  // ...
 }
 ```
 

@@ -36,13 +36,13 @@ Example:
 
 ```jsx {3-6} title="docusaurus.config.js"
 module.exports = {
-  ...
+  // ...
   url: 'https://endiliey.github.io', // Your website URL
   baseUrl: '/',
   projectName: 'endiliey.github.io',
-  organizationName: 'endiliey'
-  ...
-}
+  organizationName: 'endiliey',
+  // ...
+};
 ```
 
 :::tip
@@ -119,7 +119,7 @@ To deploy your Docusaurus 2 sites to [Netlify](https://www.netlify.com/), first 
 module.exports = {
   url: 'https://docusaurus-2.netlify.com', // url to your site with no trailing slash
   baseUrl: '/', // base directory of your site relative to your repo
-  ...
+  // ...
 };
 ```
 

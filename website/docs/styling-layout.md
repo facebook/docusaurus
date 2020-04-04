@@ -10,16 +10,18 @@ import ColorGenerator from '@site/src/components/ColorGenerator';
 
 If you're using `@docusaurus/preset-classic`, you can create your own CSS files (e.g. `/src/css/custom.css`) and import them globally by passing it as an option into the preset.
 
-```js {7-9} title="docusaurus.config.js"
+```js title="docusaurus.config.js"
 module.exports = {
   // ...
   presets: [
     [
       '@docusaurus/preset-classic',
       {
+        // highlight-start
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
         },
+        // highlight-end
       },
     ],
   ],
@@ -32,7 +34,7 @@ Any CSS you write within that file will be available globally and can be referen
 
 `@docusaurus/preset-classic` uses [Infima](https://facebookincubator.github.io/infima/) as the underlying styling framework. Infima provides flexible layout and common UI components styling suitable for content-centric websites (blogs, documentation, landing pages). For more details, check out the [Infima website](https://facebookincubator.github.io/infima/).
 
-When you `init` your Docusaurus 2 project, the website will be generated with basic Infima stylesheets and default styling. You may customize the styling by editing the `src/css/custom.css` file.
+When you `init` your Docusaurus 2 project, the website will be generated with basic Infima stylesheets and default styling. You may customize the styling by editing the `/src/css/custom.css` file.
 
 ```css title="/src/css/custom.css"
 /**
@@ -53,7 +55,7 @@ When you `init` your Docusaurus 2 project, the website will be generated with ba
 
 Infima uses 7 shades of each color. We recommend using [ColorBox](https://www.colorbox.io/) to find the different shades of colors for your chosen primary color.
 
-Alternatively, use the following tool to generate the different shades for your website and copy the variables into `src/css/custom.css`.
+Alternatively, use the following tool to generate the different shades for your website and copy the variables into `/src/css/custom.css`.
 
 <ColorGenerator/>
 
@@ -142,10 +144,10 @@ npm install --save docusaurus-plugin-sass
 
 ```jsx {3} title="docusaurus.config.js"
 module.exports = {
-  ...
+  // ...
   plugins: ['docusaurus-plugin-sass'],
-  ...
-}
+  // ...
+};
 ```
 
 3. Write and import your stylesheets in Sass/SCSS as normal.
@@ -160,11 +162,11 @@ module.exports = {
     [
       '@docusaurus/preset-classic',
       {
-        ...
+        // ...
         theme: {
           customCss: require.resolve('./src/css/custom.scss'),
         },
-        ...
+        // ...
       },
     ],
   ],

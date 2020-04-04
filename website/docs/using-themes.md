@@ -161,8 +161,8 @@ website
 
 There are two lifecycle methods that are essential to theme implementation:
 
-- [getThemePath](lifecycle-apis.md#getthemepath)
-- [getClientModules](lifecycle-apis.md#getclientmodules)
+- [`getThemePath()`](lifecycle-apis.md#getthemepath)
+- [`getClientModules()`](lifecycle-apis.md#getclientmodules)
 
 <!--
 
