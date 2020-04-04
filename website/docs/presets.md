@@ -72,14 +72,14 @@ This is especially useful when some plugins and themes are intended to be used t
 
 The classic preset that is usually shipped by default to new docusaurus website. It is a set of plugins and themes.
 
-| Themes                           | Plugins                             |
-| -------------------------------- | ----------------------------------- |
-| @docusaurus/theme-classic        | @docusaurus/plugin-content-docs     |
-| @docusaurus/theme-search-algolia | @docusaurus/plugin-content-blog     |
-|                                  | @docusaurus/plugin-content-pages    |
-|                                  | @docusaurus/plugin-google-analytics |
-|                                  | @docusaurus/plugin-google-gtag      |
-|                                  | @docusaurus/plugin-sitemap          |
+| Themes                             | Plugins                               |
+| ---------------------------------- | ------------------------------------- |
+| `@docusaurus/theme-classic`        | `@docusaurus/plugin-content-docs`     |
+| `@docusaurus/theme-search-algolia` | `@docusaurus/plugin-content-blog`     |
+|                                    | `@docusaurus/plugin-content-pages`    |
+|                                    | `@docusaurus/plugin-google-analytics` |
+|                                    | `@docusaurus/plugin-google-gtag`      |
+|                                    | `@docusaurus/plugin-sitemap`          |
 
 To specify plugin options individually, you can provide the necessary fields to certain plugins, i.e. `customCss` for `@docusaurus/theme-classic`, pass them in the preset field, like this:
 

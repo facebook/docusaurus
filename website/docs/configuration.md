@@ -109,14 +109,16 @@ Docusaurus guards `docusaurus.config.js` from unknown fields. To add a custom fi
 
 Example:
 
-```js {3-6} title="docusaurus.config.js"
+```js title="docusaurus.config.js"
 module.exports = {
-  ...
+  // ...
+  // highlight-start
   customFields: {
     image: '',
     keywords: [],
   },
-  ...
+  // highlight-end
+  // ...
 };
 ```
 
@@ -126,13 +128,16 @@ Your configuration object will be made available to all the components of your s
 
 Basic Example:
 
-```jsx {2,5-6}
+```jsx
 import React from 'react';
+// highlight-next-line
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 const Hello = () => {
+  // highlight-start
   const context = useDocusaurusContext();
   const {siteConfig = {}} = context;
+  // highlight-end
   const {title, tagline} = siteConfig;
 
   return <div>{`${title} · ${tagline}`}</div>;

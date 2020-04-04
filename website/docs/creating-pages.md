@@ -13,7 +13,7 @@ The functionality of pages is powered by `@docusaurus/plugin-content-pages`.
 
 In the `/src/pages/` directory, create a file called `hello.js` with the following contents:
 
-```jsx
+```jsx title="/src/pages/hello.js"
 import React from 'react';
 import Layout from '@theme/Layout';
 
