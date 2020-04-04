@@ -98,7 +98,7 @@ describe('loadBlog', () => {
       ...{prevItem: undefined},
     }).toEqual({
       editUrl:
-        'https://github.com/facebook/docusaurus/edit/master/website-1x/blog/draft.md',
+        'https://github.com/facebook/docusaurus/edit/master/website-1x/blog/no date.md',
       permalink: noDatePermalink,
       readingTime: 0.01,
       source: noDateSource,
