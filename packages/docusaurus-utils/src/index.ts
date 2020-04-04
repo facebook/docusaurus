@@ -274,7 +274,7 @@ export function aliasedSitePath(filePath: string, siteDir: string) {
   return `@site/${relativePath}`;
 }
 
-export function getEditUrl(editUrl: string, fileRelativePath: string) {
+export function getEditUrl(fileRelativePath: string, editUrl?: string) {
   return editUrl
     ? normalizeUrl([editUrl, posixPath(fileRelativePath)])
     : undefined;

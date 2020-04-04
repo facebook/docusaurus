@@ -15,8 +15,10 @@ import EditPage from '@theme/EditPage';
 function BlogPostPage(props) {
   const {content: BlogPostContents} = props;
   const {frontMatter, metadata} = BlogPostContents;
+  const {title, description, nextItem, prevItem, editBlogUrl} = metadata;
+
   return (
-    <Layout title={metadata.title} description={metadata.description}>
+    <Layout title={title} description={description}>
       {BlogPostContents && (
         <div className="container margin-vert--xl">
           <div className="row">
@@ -27,13 +29,10 @@ function BlogPostPage(props) {
                 isBlogPostPage>
                 <BlogPostContents />
               </BlogPostItem>
-              <EditPage editUrl={metadata.editBlogUrl} />
-              {(metadata.nextItem || metadata.prevItem) && (
+              <EditPage editUrl={editBlogUrl} />
+              {(nextItem || prevItem) && (
                 <div className="margin-vert--xl">
-                  <BlogPostPaginator
-                    nextItem={metadata.nextItem}
-                    prevItem={metadata.prevItem}
-                  />
+                  <BlogPostPaginator nextItem={nextItem} prevItem={prevItem} />
                 </div>
               )}
             </div>

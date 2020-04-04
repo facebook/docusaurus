@@ -128,7 +128,7 @@ function DocItem(props) {
                   <div className="margin-vert--xl">
                     <div className="row">
                       <div className="col">
-                        {editUrl && <EditPage editUrl={editUrl} />}
+                        <EditPage editUrl={editUrl} />
                       </div>
                       {(lastUpdatedAt || lastUpdatedBy) && (
                         <div className="col text--right">

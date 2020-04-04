@@ -9,7 +9,7 @@ import React from 'react';
 
 function EditPage({editUrl}) {
   return (
-    <div className="margin-vert--xl">
+    <div>
       {editUrl && (
         <a href={editUrl} target="_blank" rel="noreferrer noopener">
           <svg

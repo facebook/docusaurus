@@ -11,7 +11,12 @@ import path from 'path';
 import readingTime from 'reading-time';
 import {Feed} from 'feed';
 import {PluginOptions, BlogPost, DateLink} from './types';
-import {parse, normalizeUrl, aliasedSitePath} from '@docusaurus/utils';
+import {
+  parse,
+  normalizeUrl,
+  aliasedSitePath,
+  getEditUrl,
+} from '@docusaurus/utils';
 import {LoadContext} from '@docusaurus/types';
 
 export function truncate(fileString: string, truncateMarker: RegExp) {
@@ -109,14 +114,11 @@ export async function generateBlogPosts(
     blogFiles.map(async (relativeSource: string) => {
       const source = path.join(blogDir, relativeSource);
       const aliasedSource = aliasedSitePath(source, siteDir);
-
       const refDir = path.parse(blogDir).dir;
       const relativePath = path.relative(refDir, source);
-
       const blogFileName = path.basename(relativeSource);
-      const editBlogUrl = editUrl
-        ? normalizeUrl([editUrl, relativePath])
-        : undefined;
+
+      const editBlogUrl = getEditUrl(relativePath, editUrl);
 
       const fileString = await fs.readFile(source, 'utf-8');
       const {frontMatter, content, excerpt} = parse(fileString);
