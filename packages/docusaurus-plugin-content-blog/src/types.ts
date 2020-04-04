@@ -83,7 +83,7 @@ export interface MetaData {
   prevItem?: Paginator;
   nextItem?: Paginator;
   truncated: boolean;
-  editBlogUrl?: string;
+  editUrl?: string;
 }
 
 export interface Paginator {

@@ -155,7 +155,7 @@ export async function generateBlogPosts(
             routeBasePath,
             frontMatter.id || toUrl({date, link: linkName}),
           ]),
-          editBlogUrl: editBlogUrl,
+          editUrl: editBlogUrl,
           source: aliasedSource,
           description: frontMatter.description || excerpt,
           date,
