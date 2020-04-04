@@ -89,7 +89,8 @@ export default async function processMetadata({
     version && version !== versioning.latestVersion ? version : '';
 
   const relativePath = path.relative(siteDir, filePath);
-
+  console.log('SD ', siteDir);
+  console.log('filepath: ', filePath);
   const docsEditUrl = editUrl
     ? normalizeUrl([editUrl, posixPath(relativePath)])
     : undefined;
