@@ -114,14 +114,15 @@ describe('loadBlog', () => {
       ...blogPosts.find(v => v.metadata.title === 'date-matter').metadata,
       ...{prevItem: undefined},
     }).toEqual({
-      editUrl:
-        'https://github.com/facebook/docusaurus/edit/master/website-1x/blog/2019/01/01/date-matter',
+      editBlogUrl:
+        'https://github.com/facebook/docusaurus/edit/master/website-1x/blog/date-matter',
       permalink: '/blog/2019/01/01/date-matter',
       source: path.join('@site', pluginPath, 'date-matter.md'),
       title: 'date-matter',
       description: `date inside front matter`,
       date: new Date('2019-01-01'),
       tags: [],
+      prevItem: undefined,
       nextItem: {
         permalink: '/blog/2018/12/14/Happy-First-Birthday-Slash',
         title: 'Happy 1st Birthday Slash!',
