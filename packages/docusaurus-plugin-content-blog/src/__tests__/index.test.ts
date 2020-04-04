@@ -115,7 +115,7 @@ describe('loadBlog', () => {
       ...{prevItem: undefined},
     }).toEqual({
       editUrl:
-        'https://github.com/facebook/docusaurus/edit/master/website-1x/blog/2018/12/14/Happy-First-Birthday-Slash',
+        'https://github.com/facebook/docusaurus/edit/master/website-1x/blog/2019/01/01/date-matter',
       permalink: '/blog/2019/01/01/date-matter',
       source: path.join('@site', pluginPath, 'date-matter.md'),
       title: 'date-matter',
