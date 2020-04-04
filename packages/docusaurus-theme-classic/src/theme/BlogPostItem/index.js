@@ -29,6 +29,14 @@ const MONTHS = [
   'December',
 ];
 
+function ReadingTime(props) {
+  const {readingTime} = props;
+  if (typeof readingTime === 'undefined') {
+    return null;
+  }
+  return <> · {Math.ceil(readingTime)} min read</>;
+}
+
 function BlogPostItem(props) {
   const {
     children,
@@ -37,7 +45,7 @@ function BlogPostItem(props) {
     truncated,
     isBlogPostPage = false,
   } = props;
-  const {date, permalink, tags} = metadata;
+  const {date, permalink, tags, readingTime} = metadata;
   const {author, title} = frontMatter;
 
   const authorURL = frontMatter.author_url || frontMatter.authorURL;
@@ -60,7 +68,7 @@ function BlogPostItem(props) {
         </TitleHeading>
         <div className="margin-vert--md">
           <time dateTime={date} className={styles.blogPostDate}>
-            {month} {day}, {year}
+            {month} {day}, {year} <ReadingTime readingTime={readingTime} />
           </time>
         </div>
         <div className="avatar margin-vert--md">

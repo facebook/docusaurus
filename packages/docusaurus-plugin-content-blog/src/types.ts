@@ -31,6 +31,7 @@ export interface PluginOptions {
   remarkPlugins: string[];
   rehypePlugins: string[];
   truncateMarker: RegExp;
+  showReadingTime: boolean;
   feedOptions?: {
     type: FeedType;
     title?: string;
@@ -77,6 +78,7 @@ export interface MetaData {
   date: Date;
   tags: (Tag | string)[];
   title: string;
+  readingTime?: number;
   prevItem?: Paginator;
   nextItem?: Paginator;
   truncated: boolean;

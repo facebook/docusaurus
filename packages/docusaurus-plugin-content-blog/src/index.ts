@@ -40,6 +40,7 @@ const DEFAULT_OPTIONS: PluginOptions = {
   blogPostComponent: '@theme/BlogPostPage',
   blogTagsListComponent: '@theme/BlogTagsListPage',
   blogTagsPostsComponent: '@theme/BlogTagsPostsPage',
+  showReadingTime: true,
   remarkPlugins: [],
   rehypePlugins: [],
   truncateMarker: /<!--\s*(truncate)\s*-->/, // Regex.
