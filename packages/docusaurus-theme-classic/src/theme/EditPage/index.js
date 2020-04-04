@@ -7,11 +7,11 @@
 
 import React from 'react';
 
-function EditPage({editUrl}) {
+function EditPage({url}) {
   return (
     <div>
-      {editUrl && (
-        <a href={editUrl} target="_blank" rel="noreferrer noopener">
+      {url && (
+        <a href={url} target="_blank" rel="noreferrer noopener">
           <svg
             fill="currentColor"
             height="1.2em"
