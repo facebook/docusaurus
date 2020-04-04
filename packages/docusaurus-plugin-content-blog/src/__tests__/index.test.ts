@@ -107,7 +107,7 @@ describe('loadBlog', () => {
     });
   });
 
-  test('docs with editUrl', async () => {
+  test('blog with editUrl', async () => {
     const blogPosts = await getBlogPosts();
 
     expect({
