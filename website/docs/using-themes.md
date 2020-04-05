@@ -93,6 +93,12 @@ npm run swizzle @docusaurus/theme-classic Footer
 
 This will copy the current `<Footer />` component used by the theme to a `src/theme/Footer` directory under the root of your site, which is where Docusaurus will look for swizzled components. Docusaurus will then use swizzled component in place of the original one from the theme.
 
+Alternatively, if you wish swizzle all components, run:
+
+```bash npm2yarn
+npm run swizzle @docusaurus/theme-classic
+```
+
 **Note**: You need to restart your dev server for Docusaurus to pick up the new component.
 
 ## Official themes by Docusaurus
