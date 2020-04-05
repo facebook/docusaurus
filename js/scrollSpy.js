@@ -21,7 +21,7 @@
       return;
     }
 
-    timer = setTimeout(function () {
+    timer = setTimeout(function() {
       timer = null;
       var activeNavFound = false;
       var headings = findHeadings(); // toc nav anchors
@@ -75,7 +75,7 @@
 
   document.addEventListener('scroll', onScroll);
   document.addEventListener('resize', onScroll);
-  document.addEventListener('DOMContentLoaded', function () {
+  document.addEventListener('DOMContentLoaded', function() {
     // Cache the headings once the page has fully loaded.
     headingsCache = findHeadings();
     onScroll();
