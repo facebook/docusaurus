@@ -49,10 +49,7 @@ function extractMetadata(content) {
   for (let i = 0; i < lines.length - 1; ++i) {
     const keyvalue = lines[i].split(':');
     const key = keyvalue[0].trim();
-    let value = keyvalue
-      .slice(1)
-      .join(':')
-      .trim();
+    let value = keyvalue.slice(1).join(':').trim();
     try {
       value = JSON.parse(value);
     } catch (err) {
@@ -68,7 +65,7 @@ function extractMetadata(content) {
 function mdToHtml(Metadata, siteConfig) {
   const {baseUrl, docsUrl} = siteConfig;
   const result = {};
-  Object.keys(Metadata).forEach(id => {
+  Object.keys(Metadata).forEach((id) => {
     const metadata = Metadata[id];
     if (metadata.language !== 'en' || metadata.original_id) {
       return;

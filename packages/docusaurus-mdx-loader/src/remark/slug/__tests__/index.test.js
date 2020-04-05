@@ -57,7 +57,7 @@ describe('slug plugin', () => {
 
   test('should not overwrite `data` on headings', () => {
     const result = process('# Normal\n', [
-      function() {
+      function () {
         function transform(tree) {
           tree.children[0].data = {foo: 'bar'};
         }
@@ -80,7 +80,7 @@ describe('slug plugin', () => {
 
   test('should not overwrite `data.hProperties` on headings', () => {
     const result = process('# Normal\n', [
-      function() {
+      function () {
         function transform(tree) {
           tree.children[0].data = {hProperties: {className: ['foo']}};
         }
@@ -110,7 +110,7 @@ describe('slug plugin', () => {
         '## Something also',
       ].join('\n\n'),
       [
-        function() {
+        function () {
           function transform(tree) {
             tree.children[1].data = {hProperties: {id: 'here'}};
             tree.children[3].data = {hProperties: {id: 'something'}};

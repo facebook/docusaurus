@@ -23,7 +23,7 @@ function hasYarn(): boolean {
 }
 
 function isValidGitRepoUrl(gitRepoUrl: string): boolean {
-  return ['https://', 'git@'].some(item => gitRepoUrl.startsWith(item));
+  return ['https://', 'git@'].some((item) => gitRepoUrl.startsWith(item));
 }
 
 async function updatePkg(pkgPath: string, obj: any): Promise<void> {
@@ -43,7 +43,7 @@ export async function init(
   const templatesDir = path.resolve(__dirname, '../templates');
   const templates = fs
     .readdirSync(templatesDir)
-    .filter(d => !d.startsWith('.') && !d.startsWith('README'));
+    .filter((d) => !d.startsWith('.') && !d.startsWith('README'));
 
   const gitChoice = 'Git repository';
   const templateChoices = [...templates, gitChoice];

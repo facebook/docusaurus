@@ -38,7 +38,7 @@ const useTabGroupChoice = () => {
   return {
     tabGroupChoices,
     setTabGroupChoices: (groupId, newChoice) => {
-      setChoices(oldChoices => ({...oldChoices, [groupId]: newChoice}));
+      setChoices((oldChoices) => ({...oldChoices, [groupId]: newChoice}));
       setChoiceSyncWithLocalStorage(groupId, newChoice);
     },
   };

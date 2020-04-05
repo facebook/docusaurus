@@ -66,17 +66,17 @@ function readSidebar(sidebars = {}) {
 
   const items = {};
 
-  Object.keys(sidebars).forEach(sidebar => {
+  Object.keys(sidebars).forEach((sidebar) => {
     const categories = sidebars[sidebar];
     const sidebarItems = [];
 
-    Object.keys(categories).forEach(category => {
+    Object.keys(categories).forEach((category) => {
       const categoryItems = categories[category];
-      categoryItems.forEach(categoryItem => {
+      categoryItems.forEach((categoryItem) => {
         if (typeof categoryItem === 'object') {
           switch (categoryItem.type) {
             case 'subcategory':
-              categoryItem.ids.forEach(subcategoryItem => {
+              categoryItem.ids.forEach((subcategoryItem) => {
                 sidebarItems.push({
                   id: subcategoryItem,
                   category,
@@ -133,7 +133,7 @@ function processMetadata(file, refDir) {
   const language = utils.getLanguage(file, refDir) || 'en';
 
   const metadata = {};
-  Object.keys(result.metadata).forEach(fieldName => {
+  Object.keys(result.metadata).forEach((fieldName) => {
     if (SupportedHeaderFields.has(fieldName)) {
       metadata[fieldName] = result.metadata[fieldName];
     } else {
@@ -219,7 +219,7 @@ function generateMetadataDocs() {
 
   const enabledLanguages = env.translation
     .enabledLanguages()
-    .map(language => language.tag);
+    .map((language) => language.tag);
 
   const metadatas = {};
   const defaultMetadatas = {};
@@ -228,7 +228,7 @@ function generateMetadataDocs() {
     // metadata for english files
     const docsDir = path.join(CWD, '../', getDocsPath());
     let files = glob.sync(`${docsDir}/**`);
-    files.forEach(file => {
+    files.forEach((file) => {
       const extension = path.extname(file);
 
       if (extension === '.md' || extension === '.markdown') {
@@ -243,8 +243,8 @@ function generateMetadataDocs() {
         // create a default list of documents for each enabled language based on docs in English
         // these will get replaced if/when the localized file is downloaded from crowdin
         enabledLanguages
-          .filter(currentLanguage => currentLanguage !== 'en')
-          .forEach(currentLanguage => {
+          .filter((currentLanguage) => currentLanguage !== 'en')
+          .forEach((currentLanguage) => {
             const baseMetadata = Object.assign({}, metadata);
             baseMetadata.id = baseMetadata.id
               .toString()
@@ -277,7 +277,7 @@ function generateMetadataDocs() {
     // metadata for non-english docs
     const translatedDir = path.join(CWD, 'translated_docs');
     files = glob.sync(`${CWD}/translated_docs/**`);
-    files.forEach(file => {
+    files.forEach((file) => {
       if (!utils.getLanguage(file, translatedDir)) {
         return;
       }
@@ -297,7 +297,7 @@ function generateMetadataDocs() {
 
   // metadata for versioned docs
   const versionData = versionFallback.docData();
-  versionData.forEach(metadata => {
+  versionData.forEach((metadata) => {
     const id = metadata.localized_id;
     if (order[id]) {
       metadata.sidebar = order[id].sidebar;
@@ -329,7 +329,7 @@ function generateMetadataDocs() {
 
   // Get the titles of the previous and next ids so that we can use them in
   // navigation buttons in DocsLayout.js
-  Object.keys(metadatas).forEach(metadata => {
+  Object.keys(metadatas).forEach((metadata) => {
     if (metadatas[metadata].previous) {
       if (metadatas[metadatas[metadata].previous]) {
         metadatas[metadata].previous_title =
@@ -350,11 +350,13 @@ function generateMetadataDocs() {
 
   fs.writeFileSync(
     path.join(__dirname, '/../core/metadata.js'),
-    `${'/**\n' +
-    ' * @' +
-    'generated\n' + // separate this out for Nuclide treating @generated as readonly
+    `${
+      '/**\n' +
+      ' * @' +
+      'generated\n' + // separate this out for Nuclide treating @generated as readonly
       ' */\n' +
-      'module.exports = '}${JSON.stringify(metadatas, null, 2)};\n`,
+      'module.exports = '
+    }${JSON.stringify(metadatas, null, 2)};\n`,
   );
 }
 
@@ -366,7 +368,7 @@ function generateMetadataBlog(config = siteConfig) {
   files
     .sort()
     .reverse()
-    .forEach(file => {
+    .forEach((file) => {
       const extension = path.extname(file);
       if (extension !== '.md' && extension !== '.markdown') {
         return;
@@ -389,11 +391,13 @@ function generateMetadataBlog(config = siteConfig) {
 
   fs.writeFileSync(
     path.join(__dirname, '/../core/MetadataBlog.js'),
-    `${'/**\n' +
-    ' * @' +
-    'generated\n' + // separate this out for Nuclide treating @generated as readonly
+    `${
+      '/**\n' +
+      ' * @' +
+      'generated\n' + // separate this out for Nuclide treating @generated as readonly
       ' */\n' +
-      'module.exports = '}${JSON.stringify(sortedMetadatas, null, 2)};\n`,
+      'module.exports = '
+    }${JSON.stringify(sortedMetadatas, null, 2)};\n`,
   );
 }
 

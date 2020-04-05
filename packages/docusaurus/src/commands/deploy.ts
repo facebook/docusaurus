@@ -99,7 +99,7 @@ export async function deploy(
 
   // Build static html files, then push to deploymentBranch branch of specified repo.
   build(siteDir, cliOptions, false)
-    .then(outDir => {
+    .then((outDir) => {
       shell.cd(tempDir);
 
       if (
@@ -146,7 +146,7 @@ export async function deploy(
         `${projectName}-${deploymentBranch}`,
       );
 
-      fs.copy(fromPath, toPath, error => {
+      fs.copy(fromPath, toPath, (error) => {
         if (error) {
           throw new Error(
             `Error: Copying build assets failed with error '${error}'`,
@@ -177,7 +177,7 @@ export async function deploy(
         }
       });
     })
-    .catch(buildError => {
+    .catch((buildError) => {
       console.error(buildError);
       process.exit(1);
     });

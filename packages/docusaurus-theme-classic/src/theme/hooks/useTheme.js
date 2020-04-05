@@ -24,7 +24,7 @@ const useTheme = () => {
       : themes.light,
   );
   const setThemeSyncWithLocalStorage = useCallback(
-    newTheme => {
+    (newTheme) => {
       try {
         localStorage.setItem('theme', newTheme);
       } catch (err) {

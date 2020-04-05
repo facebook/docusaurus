@@ -13,7 +13,7 @@ import {useHistory} from '@docusaurus/router';
 
 import './styles.css';
 
-const Search = props => {
+const Search = (props) => {
   const [algoliaLoaded, setAlgoliaLoaded] = useState(false);
   const searchBarRef = useRef(null);
   const {siteConfig = {}} = useDocusaurusContext();
@@ -81,7 +81,7 @@ const Search = props => {
     props.handleSearchBarToggle(!props.isSearchBarExpanded);
   }, [props.isSearchBarExpanded]);
 
-  const handleSearchInput = useCallback(e => {
+  const handleSearchInput = useCallback((e) => {
     const needFocus = e.type !== 'mouseover';
 
     loadAlgolia(needFocus);

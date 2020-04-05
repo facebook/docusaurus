@@ -49,7 +49,7 @@ describe('loadBlog', () => {
       .replace(/-/g, '/')}/no date`;
 
     expect({
-      ...blogPosts.find(v => v.metadata.title === 'date-matter').metadata,
+      ...blogPosts.find((v) => v.metadata.title === 'date-matter').metadata,
       ...{prevItem: undefined},
     }).toEqual({
       editUrl:
@@ -70,7 +70,7 @@ describe('loadBlog', () => {
     });
 
     expect(
-      blogPosts.find(v => v.metadata.title === 'Happy 1st Birthday Slash!')
+      blogPosts.find((v) => v.metadata.title === 'Happy 1st Birthday Slash!')
         .metadata,
     ).toEqual({
       editUrl:
@@ -94,7 +94,7 @@ describe('loadBlog', () => {
     });
 
     expect({
-      ...blogPosts.find(v => v.metadata.title === 'no date').metadata,
+      ...blogPosts.find((v) => v.metadata.title === 'no date').metadata,
       ...{prevItem: undefined},
     }).toEqual({
       editUrl:
@@ -119,6 +119,6 @@ describe('loadBlog', () => {
     process.env.NODE_ENV = 'production';
     const blogPosts = await getBlogPosts();
 
-    expect(blogPosts.find(v => v.metadata.title === 'draft')).toBeUndefined();
+    expect(blogPosts.find((v) => v.metadata.title === 'draft')).toBeUndefined();
   });
 });
