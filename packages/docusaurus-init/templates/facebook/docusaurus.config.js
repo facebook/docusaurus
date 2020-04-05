@@ -103,6 +103,11 @@ module.exports = {
           editUrl:
             'https://github.com/facebook/docusaurus/edit/master/website/',
         },
+        blog: {
+          showReadingTime: true,
+          editUrl:
+            'https://github.com/facebook/docusaurus/edit/master/website-1.x/',
+        },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
         },
