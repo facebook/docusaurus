@@ -101,10 +101,10 @@ function BlogPostItem(props) {
   };
 
   return (
-    <article class="card mb-5">
+    <article className="card mb-5">
       {renderPostHeader()}
-      <section class="card-body">
-        <p class="card-text">
+      <section className="card-body">
+        <p className="card-text">
           <MDXProvider components={MDXComponents}>{children}</MDXProvider>
         </p>
       </section>

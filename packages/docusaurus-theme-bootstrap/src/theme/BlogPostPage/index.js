@@ -19,16 +19,16 @@ function BlogPostPage(props) {
   return (
     <Layout title={title} description={description}>
       {BlogPostContents && (
-        <div className="container margin-vert--xl">
+        <div className="container">
           <div className="row">
-            <div className="col col--8 col--offset-2">
+            <div className="col offset-2">
               <BlogPostItem
                 frontMatter={frontMatter}
                 metadata={metadata}
                 isBlogPostPage>
                 <BlogPostContents />
               </BlogPostItem>
-              <div>
+              <div className="my-4">
                 {editUrl && (
                   <a href={editUrl} target="_blank" rel="noreferrer noopener">
                     <svg
@@ -50,7 +50,7 @@ function BlogPostPage(props) {
                 )}
               </div>
               {(nextItem || prevItem) && (
-                <div className="margin-vert--xl">
+                <div className="mx-xl">
                   <BlogPostPaginator nextItem={nextItem} prevItem={prevItem} />
                 </div>
               )}

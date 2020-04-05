@@ -36,7 +36,7 @@ function BlogTagsListPage(props) {
         <h3>{category}</h3>
         {tagsForCategory.map((tag) => (
           <Link
-            className="padding-right--md"
+            className="pr-md"
             href={tags[tag].permalink}
             key={tag}>
             {tags[tag].name} ({tags[tag].count})
@@ -49,11 +49,11 @@ function BlogTagsListPage(props) {
 
   return (
     <Layout title="Tags" description="Blog Tags">
-      <div className="container margin-vert--xl">
+      <div className="container my-xl">
         <div className="row">
-          <div className="col col--8 col--offset-2">
+          <div className="col col-8 offset-2">
             <h1>Tags</h1>
-            <div className="margin-vert--lg">{tagsSection}</div>
+            <div className="my-5">{tagsSection}</div>
           </div>
         </div>
       </div>
