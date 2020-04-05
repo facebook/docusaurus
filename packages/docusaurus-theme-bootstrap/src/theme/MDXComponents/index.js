@@ -34,5 +34,6 @@ export default {
   h4: Heading('h4'),
   h5: Heading('h5'),
   h6: Heading('h6'),
+  // eslint-disable-next-line jsx-a11y/alt-text
   img: (props) => <img {...props} className='img-fluid'/>
 };
