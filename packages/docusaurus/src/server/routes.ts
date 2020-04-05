@@ -6,7 +6,9 @@
  */
 
 import {genChunkName, normalizeUrl} from '@docusaurus/utils';
-import _ from 'lodash';
+import has from 'lodash.has';
+import isPlainObject from 'lodash.isplainobject';
+import isString from 'lodash.isstring';
 import {stringify} from 'querystring';
 import {
   ChunkRegistry,
@@ -17,14 +19,10 @@ import {
 } from '@docusaurus/types';
 
 function isModule(value: any): value is Module {
-  if (_.isString(value)) {
+  if (isString(value)) {
     return true;
   }
-  if (
-    _.isPlainObject(value) &&
-    _.has(value, '__import') &&
-    _.has(value, 'path')
-  ) {
+  if (isPlainObject(value) && has(value, '__import') && has(value, 'path')) {
     return true;
   }
   return false;
@@ -64,7 +62,7 @@ export async function loadRoutes(
       exact,
     } = routeConfig;
 
-    if (!_.isString(routePath) || !component) {
+    if (!isString(routePath) || !component) {
       throw new Error(
         `Invalid routeConfig (Path must be a string and component is required) \n${JSON.stringify(
           routeConfig,
