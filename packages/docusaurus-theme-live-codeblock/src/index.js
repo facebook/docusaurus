@@ -7,7 +7,7 @@
 
 const path = require('path');
 
-module.exports = function() {
+module.exports = function () {
   return {
     name: 'docusaurus-theme-live-codeblock',
 

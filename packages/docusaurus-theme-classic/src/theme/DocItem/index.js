@@ -39,7 +39,7 @@ function Headings({headings, isChild}) {
   }
   return (
     <ul className={isChild ? '' : 'contents contents__left-border'}>
-      {headings.map(heading => (
+      {headings.map((heading) => (
         <li key={heading.id}>
           <a
             href={`#${heading.id}`}

@@ -27,7 +27,7 @@ function Showcase() {
           <p>{DESCRIPTION}</p>
         </div>
         <div className="row">
-          {users.map(user => (
+          {users.map((user) => (
             <div key={user.title} className="col col--4 margin-bottom--lg">
               <div className={classnames('card', styles.showcaseUser)}>
                 <div className="card__image">

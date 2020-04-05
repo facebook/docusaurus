@@ -27,7 +27,7 @@ const splitTabsToTitleAndContent = (lines, indents) => {
   let current = {
     content: [],
   };
-  lines.forEach(line => {
+  lines.forEach((line) => {
     if (indents) {
       line = line.replace(new RegExp(`^((\\t|\\s{4}){${indents}})`, 'g'), '');
     }
@@ -135,7 +135,7 @@ const cleanTheCodeTag = (content, indents) => {
   };
   const contents = content.split(/(<pre>)(.*?)(<\/pre>)/gms);
   let inCodeBlock = false;
-  const cleanContents = contents.map(c => {
+  const cleanContents = contents.map((c) => {
     if (c === '<pre>') {
       inCodeBlock = true;
       return c;
@@ -159,8 +159,8 @@ class Doc extends React.Component {
     let indents = 0;
     return content.replace(
       /(\t|\s{4})*?(<!--DOCUSAURUS_CODE_TABS-->\n)(.*?)((\n|\t|\s{4})<!--END_DOCUSAURUS_CODE_TABS-->)/gms,
-      m => {
-        const contents = m.split('\n').filter(c => {
+      (m) => {
+        const contents = m.split('\n').filter((c) => {
           if (!indents) {
             indents = (
               c.match(/((\t|\s{4})+)<!--DOCUSAURUS_CODE_TABS-->/) || []

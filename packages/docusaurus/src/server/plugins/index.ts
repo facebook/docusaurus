@@ -60,7 +60,7 @@ export async function loadPlugins({
   // We could change this in future if there are plugins which need to
   // run in certain order or depend on others for data.
   const pluginsLoadedContent = await Promise.all(
-    plugins.map(async plugin => {
+    plugins.map(async (plugin) => {
       if (!plugin.loadContent) {
         return null;
       }
@@ -84,7 +84,7 @@ export async function loadPlugins({
       );
 
       const actions: PluginContentLoadedActions = {
-        addRoute: config => pluginsRouteConfigs.push(config),
+        addRoute: (config) => pluginsRouteConfigs.push(config),
         createData: async (name, content) => {
           const modulePath = path.join(pluginContentDir, name);
           await fs.ensureDir(path.dirname(modulePath));
