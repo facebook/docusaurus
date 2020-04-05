@@ -48,7 +48,7 @@ program
   .option('--host <host>', 'use specified host (default: localhost)')
   .parse(process.argv);
 
-startDocusaurus().catch(ex => {
+startDocusaurus().catch((ex) => {
   console.error(chalk.red(`Failed to start Docusaurus server: ${ex}`));
   process.exit(1);
 });

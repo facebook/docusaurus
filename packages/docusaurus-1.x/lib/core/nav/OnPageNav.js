@@ -23,7 +23,7 @@ const Headings = ({headings}) => {
   if (!headings.length) return null;
   return (
     <ul className="toc-headings">
-      {headings.map(heading => (
+      {headings.map((heading) => (
         <li key={heading.hashLink}>
           <Link hashLink={heading.hashLink} content={heading.content} />
           <Headings headings={heading.children} />
