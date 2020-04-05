@@ -14,7 +14,7 @@ Generating Base64 & dominant colours palette for a jpeg image imported in your J
 
 `webpack.config.js`
 
-```json
+```js
 {
   /**
    * OPTION A:
