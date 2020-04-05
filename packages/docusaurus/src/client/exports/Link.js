@@ -20,8 +20,8 @@ function Link(props) {
 
   let io;
   const handleIntersection = (el, cb) => {
-    io = new window.IntersectionObserver(entries => {
-      entries.forEach(entry => {
+    io = new window.IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
         if (el === entry.target) {
           // If element is in viewport, stop listening/observing and run callback.
           // https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
@@ -38,7 +38,7 @@ function Link(props) {
     io.observe(el);
   };
 
-  const handleRef = ref => {
+  const handleRef = (ref) => {
     if (IOSupported && ref && isInternal) {
       // If IO supported and element reference found, setup Observer functionality.
       handleIntersection(ref, () => {

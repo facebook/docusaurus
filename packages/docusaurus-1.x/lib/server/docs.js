@@ -54,7 +54,7 @@ function mdToHtmlify(oldContent, mdToHtml, metadata, siteConfig) {
   let content = oldContent;
   /* Replace internal markdown linking (except in fenced blocks) */
   let fencedBlock = false;
-  const lines = content.split('\n').map(line => {
+  const lines = content.split('\n').map((line) => {
     if (line.trim().startsWith('```')) {
       fencedBlock = !fencedBlock;
     }

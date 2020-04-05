@@ -18,7 +18,7 @@ class Users extends React.Component {
       return null;
     }
 
-    const showcase = siteConfig.users.map(user => (
+    const showcase = siteConfig.users.map((user) => (
       <a href={user.infoLink} key={user.infoLink}>
         <img src={user.image} alt={user.caption} title={user.caption} />
       </a>

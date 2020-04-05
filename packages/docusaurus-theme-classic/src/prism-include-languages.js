@@ -17,7 +17,7 @@ import siteConfig from '@generated/docusaurus.config';
 
     window.Prism = Prism;
 
-    additionalLanguages.forEach(lang => {
+    additionalLanguages.forEach((lang) => {
       require(`prismjs/components/prism-${lang}`); // eslint-disable-line
     });
 

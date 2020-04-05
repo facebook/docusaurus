@@ -16,9 +16,11 @@ class Users extends React.Component {
   render() {
     const {config: siteConfig} = this.props;
     const fbUsersToShowcase = siteConfig.users.filter(
-      user => user.fbOpenSource,
+      (user) => user.fbOpenSource,
     );
-    const restToShowcase = siteConfig.users.filter(user => !user.fbOpenSource);
+    const restToShowcase = siteConfig.users.filter(
+      (user) => !user.fbOpenSource,
+    );
 
     return (
       <div className="mainContainer">

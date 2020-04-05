@@ -13,21 +13,21 @@ import Heading from '@theme/Heading';
 import styles from './styles.module.css';
 
 export default {
-  code: props => {
+  code: (props) => {
     const {children} = props;
     if (typeof children === 'string') {
       return <CodeBlock {...props} />;
     }
     return children;
   },
-  a: props => {
+  a: (props) => {
     if (/\.[^./]+$/.test(props.href)) {
       // eslint-disable-next-line jsx-a11y/anchor-has-content
       return <a {...props} />;
     }
     return <Link {...props} />;
   },
-  pre: props => <div className={styles.mdxCodeBlock} {...props} />,
+  pre: (props) => <div className={styles.mdxCodeBlock} {...props} />,
   h1: Heading('h1'),
   h2: Heading('h2'),
   h3: Heading('h3'),

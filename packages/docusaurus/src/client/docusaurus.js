@@ -27,13 +27,13 @@ const isSlowConnection = () => {
   return false;
 };
 
-const canPrefetch = routePath =>
+const canPrefetch = (routePath) =>
   !isSlowConnection() && !loaded[routePath] && !fetched[routePath];
 
-const canPreload = routePath => !isSlowConnection() && !loaded[routePath];
+const canPreload = (routePath) => !isSlowConnection() && !loaded[routePath];
 
 const docusaurus = {
-  prefetch: routePath => {
+  prefetch: (routePath) => {
     if (!canPrefetch(routePath)) {
       return false;
     }
@@ -53,7 +53,7 @@ const docusaurus = {
     }, []);
 
     // Prefetch all webpack chunk assets file needed.
-    chunkNamesNeeded.forEach(chunkName => {
+    chunkNamesNeeded.forEach((chunkName) => {
       // "__webpack_require__.gca" is a custom function provided by ChunkAssetPlugin.
       // Pass it the chunkName or chunkId you want to load and it will return the URL for that chunk.
       // eslint-disable-next-line no-undef
@@ -69,7 +69,7 @@ const docusaurus = {
     return true;
   },
 
-  preload: routePath => {
+  preload: (routePath) => {
     if (!canPreload(routePath)) {
       return false;
     }

@@ -81,7 +81,7 @@ export default function pluginContentDocs(
     docsDir: versionedDir,
     sidebarsDir: versionedSidebarsDir,
   } = versioning;
-  const versionsNames = versions.map(version => `version-${version}`);
+  const versionsNames = versions.map((version) => `version-${version}`);
 
   return {
     name: 'docusaurus-plugin-content-docs',
@@ -91,7 +91,7 @@ export default function pluginContentDocs(
         .command('docs:version')
         .arguments('<version>')
         .description('Tag a new version for docs')
-        .action(version => {
+        .action((version) => {
           docsVersion(version, siteDir, {
             path: options.path,
             sidebarPath: options.sidebarPath,
@@ -101,17 +101,18 @@ export default function pluginContentDocs(
 
     getPathsToWatch() {
       const {include} = options;
-      let globPattern = include.map(pattern => `${docsDir}/${pattern}`);
+      let globPattern = include.map((pattern) => `${docsDir}/${pattern}`);
       if (versioning.enabled) {
         const docsGlob = include
-          .map(pattern =>
+          .map((pattern) =>
             versionsNames.map(
-              versionName => `${versionedDir}/${versionName}/${pattern}`,
+              (versionName) => `${versionedDir}/${versionName}/${pattern}`,
             ),
           )
           .reduce((a, b) => a.concat(b), []);
         const sidebarsGlob = versionsNames.map(
-          versionName => `${versionedSidebarsDir}/${versionName}-sidebars.json`,
+          (versionName) =>
+            `${versionedSidebarsDir}/${versionName}-sidebars.json`,
         );
         globPattern = [...globPattern, ...sidebarsGlob, ...docsGlob];
       }
@@ -136,7 +137,7 @@ export default function pluginContentDocs(
       });
       docsPromises.push(
         Promise.all(
-          docsFiles.map(async source => {
+          docsFiles.map(async (source) => {
             const metadata: MetadataRaw = await processMetadata({
               source,
               refDir: docsDir,
@@ -152,8 +153,8 @@ export default function pluginContentDocs(
       // Metadata for versioned docs.
       if (versioning.enabled) {
         const versionedGlob = include
-          .map(pattern =>
-            versionsNames.map(versionName => `${versionName}/${pattern}`),
+          .map((pattern) =>
+            versionsNames.map((versionName) => `${versionName}/${pattern}`),
           )
           .reduce((a, b) => a.concat(b), []);
         const versionedFiles = await globby(versionedGlob, {
@@ -161,7 +162,7 @@ export default function pluginContentDocs(
         });
         docsPromises.push(
           Promise.all(
-            versionedFiles.map(async source => {
+            versionedFiles.map(async (source) => {
               const metadata = await processMetadata({
                 source,
                 refDir: versionedDir,
@@ -179,7 +180,8 @@ export default function pluginContentDocs(
       const sidebarPaths = [
         sidebarPath,
         ...versionsNames.map(
-          versionName => `${versionedSidebarsDir}/${versionName}-sidebars.json`,
+          (versionName) =>
+            `${versionedSidebarsDir}/${versionName}-sidebars.json`,
         ),
       ];
       const loadedSidebars: Sidebar = loadSidebars(sidebarPaths);
@@ -191,7 +193,7 @@ export default function pluginContentDocs(
       const docsMetadata: DocsMetadata = {};
       const permalinkToSidebar: PermalinkToSidebar = {};
       const versionToSidebars: VersionToSidebars = {};
-      Object.keys(docsMetadataRaw).forEach(currentID => {
+      Object.keys(docsMetadataRaw).forEach((currentID) => {
         const {next: nextID, previous: previousID, sidebar} =
           order[currentID] || {};
         const previous = previousID
@@ -291,7 +293,7 @@ export default function pluginContentDocs(
         metadataItems: Metadata[],
       ): Promise<RouteConfig[]> => {
         const routes = await Promise.all(
-          metadataItems.map(async metadataItem => {
+          metadataItems.map(async (metadataItem) => {
             await createData(
               // Note that this created data path must be in sync with
               // metadataPath provided to mdx-loader.
@@ -345,7 +347,7 @@ export default function pluginContentDocs(
           'version',
         );
         await Promise.all(
-          Object.keys(docsMetadataByVersion).map(async version => {
+          Object.keys(docsMetadataByVersion).map(async (version) => {
             const routes: RouteConfig[] = await genRoutes(
               docsMetadataByVersion[version],
             );
@@ -364,8 +366,9 @@ export default function pluginContentDocs(
                 content.docsSidebars,
                 Array.from(neededSidebars),
               ),
-              permalinkToSidebar: pickBy(content.permalinkToSidebar, sidebar =>
-                neededSidebars.has(sidebar),
+              permalinkToSidebar: pickBy(
+                content.permalinkToSidebar,
+                (sidebar) => neededSidebars.has(sidebar),
               ),
               version,
             };

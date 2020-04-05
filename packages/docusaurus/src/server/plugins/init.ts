@@ -16,7 +16,7 @@ export function initPlugins({
   context: LoadContext;
 }): Plugin<any>[] {
   const plugins: Plugin<any>[] = pluginConfigs
-    .map(pluginItem => {
+    .map((pluginItem) => {
       let pluginModuleImport;
       let pluginOptions = {};
 

@@ -105,7 +105,7 @@ export async function loadRoutes(
       }
 
       const newValue: ChunkNames = {};
-      Object.keys(value).forEach(key => {
+      Object.keys(value).forEach((key) => {
         newValue[key] = genRouteChunkNames(value[key], key, name);
       });
       return newValue;

@@ -19,7 +19,7 @@ export default function preload(routes, pathname) {
   const matches = matchRoutes(routes, pathname);
 
   return Promise.all(
-    matches.map(match => {
+    matches.map((match) => {
       const {component} = match.route;
 
       if (component && component.preload) {
