@@ -429,11 +429,11 @@ export default function pluginContentBlog(
             `${feedType}.xml`,
           );
           const feedContent = feedType === 'rss' ? feed.rss2() : feed.atom1();
-          return fs.writeFile(feedPath, feedContent, (err) => {
-            if (err) {
-              throw new Error(`Generating ${feedType} feed failed: ${err}`);
-            }
-          });
+          try {
+            fs.writeFileSync(feedPath, feedContent);
+          } catch (err) {
+            throw new Error(`Generating ${feedType} feed failed: ${err}`);
+          }
         }),
       );
     },
