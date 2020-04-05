@@ -15,7 +15,7 @@ class LogPlugin extends WebpackBar {
   apply(compiler) {
     super.apply(compiler);
 
-    compiler.hooks.done.tap('WebpackNiceLog', (stats) => {
+    compiler.hooks.done.tap('WebpackNiceLog', stats => {
       if (stats.hasErrors()) {
         const messages = formatWebpackMessages(
           stats.toJson('errors-only', true),

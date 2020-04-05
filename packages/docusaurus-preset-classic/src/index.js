@@ -6,7 +6,7 @@
  */
 const admonitions = require('remark-admonitions');
 
-const addAdmonitions = (pluginOptions) => {
+const addAdmonitions = pluginOptions => {
   if (pluginOptions == null) {
     return {
       remarkPlugins: [admonitions],

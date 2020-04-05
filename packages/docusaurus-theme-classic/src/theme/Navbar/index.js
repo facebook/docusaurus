@@ -125,7 +125,7 @@ function Navbar() {
   }, [setSidebarShown]);
 
   const onToggleChange = useCallback(
-    (e) => (e.target.checked ? setDarkTheme() : setLightTheme()),
+    e => (e.target.checked ? setDarkTheme() : setLightTheme()),
     [setLightTheme, setDarkTheme],
   );
 
@@ -182,14 +182,14 @@ function Navbar() {
             )}
           </Link>
           {links
-            .filter((linkItem) => linkItem.position === 'left')
+            .filter(linkItem => linkItem.position === 'left')
             .map((linkItem, i) => (
               <NavItem {...linkItem} key={i} />
             ))}
         </div>
         <div className="navbar__items navbar__items--right">
           {links
-            .filter((linkItem) => linkItem.position === 'right')
+            .filter(linkItem => linkItem.position === 'right')
             .map((linkItem, i) => (
               <NavItem {...linkItem} key={i} />
             ))}

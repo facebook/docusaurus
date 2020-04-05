@@ -30,9 +30,9 @@ function DocSidebarItem({item, onItemClick, collapsible}) {
     setCollapsed(item.collapsed);
   }
 
-  const handleItemClick = useCallback((e) => {
+  const handleItemClick = useCallback(e => {
     e.preventDefault();
-    setCollapsed((state) => !state);
+    setCollapsed(state => !state);
   });
 
   switch (type) {
@@ -54,7 +54,7 @@ function DocSidebarItem({item, onItemClick, collapsible}) {
               {label}
             </a>
             <ul className="menu__list">
-              {items.map((childItem) => (
+              {items.map(childItem => (
                 <DocSidebarItem
                   key={childItem.label}
                   item={childItem}
@@ -99,8 +99,8 @@ function mutateSidebarCollapsingState(item, path) {
     case 'category': {
       const anyChildItemsActive =
         items
-          .map((childItem) => mutateSidebarCollapsingState(childItem, path))
-          .filter((val) => val).length > 0;
+          .map(childItem => mutateSidebarCollapsingState(childItem, path))
+          .filter(val => val).length > 0;
       // eslint-disable-next-line no-param-reassign
       item.collapsed = !anyChildItemsActive;
       return anyChildItemsActive;
@@ -144,7 +144,7 @@ function DocSidebar(props) {
   }
 
   if (sidebarCollapsible) {
-    sidebarData.forEach((sidebarItem) =>
+    sidebarData.forEach(sidebarItem =>
       mutateSidebarCollapsingState(sidebarItem, path),
     );
   }
@@ -201,7 +201,7 @@ function DocSidebar(props) {
           )}
         </button>
         <ul className="menu__list">
-          {sidebarData.map((item) => (
+          {sidebarData.map(item => (
             <DocSidebarItem
               key={item.label}
               item={item}

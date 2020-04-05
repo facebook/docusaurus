@@ -21,7 +21,7 @@ const utils = require('../core/utils');
 
 const renderMarkdown = require('../core/renderMarkdown.js');
 
-module.exports = function (type) {
+module.exports = function(type) {
   console.log('feed.js triggered...');
 
   type = type || 'rss';
@@ -31,7 +31,7 @@ module.exports = function (type) {
   const MetadataPublicBlog =
     process.env.NODE_ENV === 'development'
       ? MetadataBlog
-      : MetadataBlog.filter((item) => !item.unlisted);
+      : MetadataBlog.filter(item => !item.unlisted);
 
   const feed = new Feed({
     title: `${siteConfig.title} Blog`,
@@ -43,7 +43,7 @@ module.exports = function (type) {
     updated: new Date(MetadataPublicBlog[0].date),
   });
 
-  MetadataPublicBlog.forEach((post) => {
+  MetadataPublicBlog.forEach(post => {
     const url = `${blogRootURL}/${post.path}`;
     const description = utils.blogPostHasTruncateMarker(post.content)
       ? renderMarkdown(utils.extractBlogPostBeforeTruncate(post.content))

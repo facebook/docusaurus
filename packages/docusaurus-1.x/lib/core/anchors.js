@@ -14,7 +14,7 @@ const toSlug = require('./toSlug');
 function anchors(md) {
   const originalRender = md.renderer.rules.heading_open;
 
-  md.renderer.rules.heading_open = function (tokens, idx, options, env) {
+  md.renderer.rules.heading_open = function(tokens, idx, options, env) {
     if (!env.slugger) {
       env.slugger = new GithubSlugger();
     }

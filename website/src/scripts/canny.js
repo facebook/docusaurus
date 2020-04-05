@@ -8,7 +8,7 @@
 // Provided by Canny.
 
 function canny() {
-  !(function (w, d, i, s) {
+  !(function(w, d, i, s) {
     function l() {
       if (!d.getElementById(i)) {
         let f = d.getElementsByTagName(s)[0],
@@ -20,7 +20,7 @@ function canny() {
       }
     }
     if (typeof w.Canny !== 'function') {
-      var c = function () {
+      var c = function() {
         c.q.push(arguments);
       };
       (c.q = []),

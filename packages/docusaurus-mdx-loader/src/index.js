@@ -19,7 +19,7 @@ const DEFAULT_OPTIONS = {
   remarkPlugins: [emoji, slug, rightToc],
 };
 
-module.exports = async function (fileString) {
+module.exports = async function(fileString) {
   const callback = this.async();
 
   const {data, content} = matter(fileString);

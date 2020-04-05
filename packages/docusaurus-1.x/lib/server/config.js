@@ -21,7 +21,7 @@ module.exports = function loadConfig(configPath, deleteCache = true) {
     customDocsPath: 'docs',
     docsUrl: 'docs',
   };
-  Object.keys(defaultConfig).forEach((field) => {
+  Object.keys(defaultConfig).forEach(field => {
     if (!(field in config)) {
       config[field] = defaultConfig[field];
     }

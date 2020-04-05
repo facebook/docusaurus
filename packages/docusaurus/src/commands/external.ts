@@ -15,7 +15,7 @@ export function externalCommand(cli: CommanderStatic, siteDir: string): void {
   const plugins = initPlugins({pluginConfigs, context});
 
   // Plugin Lifecycle - extendCli.
-  plugins.forEach((plugin) => {
+  plugins.forEach(plugin => {
     const {extendCli} = plugin;
 
     if (!extendCli) {
