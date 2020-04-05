@@ -29,14 +29,6 @@ const MONTHS = [
   'December',
 ];
 
-function ReadingTime(props) {
-  const {readingTime} = props;
-  if (typeof readingTime === 'undefined') {
-    return null;
-  }
-  return <> · {Math.ceil(readingTime)} min read</>;
-}
-
 function BlogPostItem(props) {
   const {
     children,
@@ -68,7 +60,10 @@ function BlogPostItem(props) {
         </TitleHeading>
         <div className="margin-vert--md">
           <time dateTime={date} className={styles.blogPostDate}>
-            {month} {day}, {year} <ReadingTime readingTime={readingTime} />
+            {month} {day}, {year}{' '}
+            {readingTime != null ? (
+              <> · {Math.ceil(readingTime)} min read</>
+            ) : null}
           </time>
         </div>
         <div className="avatar margin-vert--md">
