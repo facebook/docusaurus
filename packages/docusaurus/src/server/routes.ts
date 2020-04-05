@@ -85,7 +85,7 @@ export async function loadRoutes(
         return null;
       }
 
-      if (_.isArray(value)) {
+      if (Array.isArray(value)) {
         return value.map((val, index) =>
           genRouteChunkNames(val, `${index}`, name),
         );
@@ -113,7 +113,8 @@ export async function loadRoutes(
       return newValue;
     }
 
-    routesChunkNames[routePath] = _.assign(
+    routesChunkNames[routePath] = Object.assign(
+      {},
       routesChunkNames[routePath],
       genRouteChunkNames({component}, 'component', component),
       genRouteChunkNames(modules, 'module', routePath),

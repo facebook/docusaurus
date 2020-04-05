@@ -10,7 +10,6 @@ import chalk = require('chalk');
 import chokidar from 'chokidar';
 import express from 'express';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-import _ from 'lodash';
 import path from 'path';
 import portfinder from 'portfinder';
 import openBrowser from 'react-dev-utils/openBrowser';
@@ -64,11 +63,12 @@ export async function start(
     return posixPath(filepath);
   };
 
-  const pluginPaths: string[] = _.compact(
-    _.flatten<string | undefined>(
-      plugins.map(plugin => plugin.getPathsToWatch && plugin.getPathsToWatch()),
-    ),
-  ).map(normalizeToSiteDir);
+  const pluginPaths: string[] = ([] as string[]).concat(
+    ...plugins
+      .map<any>(plugin => plugin.getPathsToWatch && plugin.getPathsToWatch())
+      .filter(Boolean)
+      .map(normalizeToSiteDir),
+  );
   const fsWatcher = chokidar.watch([...pluginPaths, CONFIG_FILE_NAME], {
     cwd: siteDir,
     ignoreInitial: true,
