@@ -175,7 +175,7 @@ module.exports = {
          */
         truncateMarker: /<!--\s*(truncate)\s*-->/,
         /**
-         * Show estimated reading time for the blog post
+         * Show estimated reading time for the blog post.
          */
         showReadingTime: true,
         /**
