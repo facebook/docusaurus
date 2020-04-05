@@ -28,6 +28,8 @@ describe('loadBlog', () => {
       } as LoadContext,
       {
         path: pluginPath,
+        editUrl:
+          'https://github.com/facebook/docusaurus/edit/master/website-1x',
       },
     );
     const {blogPosts} = await plugin.loadContent();
@@ -50,12 +52,15 @@ describe('loadBlog', () => {
       ...blogPosts.find(v => v.metadata.title === 'date-matter').metadata,
       ...{prevItem: undefined},
     }).toEqual({
+      editUrl:
+        'https://github.com/facebook/docusaurus/edit/master/website-1x/blog/date-matter.md',
       permalink: '/blog/2019/01/01/date-matter',
       readingTime: 0.02,
       source: path.join('@site', pluginPath, 'date-matter.md'),
       title: 'date-matter',
       description: `date inside front matter`,
       date: new Date('2019-01-01'),
+      prevItem: undefined,
       tags: [],
       nextItem: {
         permalink: '/blog/2018/12/14/Happy-First-Birthday-Slash',
@@ -68,6 +73,8 @@ describe('loadBlog', () => {
       blogPosts.find(v => v.metadata.title === 'Happy 1st Birthday Slash!')
         .metadata,
     ).toEqual({
+      editUrl:
+        'https://github.com/facebook/docusaurus/edit/master/website-1x/blog/2018-12-14-Happy-First-Birthday-Slash.md',
       permalink: '/blog/2018/12/14/Happy-First-Birthday-Slash',
       readingTime: 0.01,
       source: path.join(
@@ -90,6 +97,8 @@ describe('loadBlog', () => {
       ...blogPosts.find(v => v.metadata.title === 'no date').metadata,
       ...{prevItem: undefined},
     }).toEqual({
+      editUrl:
+        'https://github.com/facebook/docusaurus/edit/master/website-1x/blog/no date.md',
       permalink: noDatePermalink,
       readingTime: 0.01,
       source: noDateSource,
@@ -97,6 +106,7 @@ describe('loadBlog', () => {
       description: `no date`,
       date: noDateSourceBirthTime,
       tags: [],
+      prevItem: undefined,
       nextItem: {
         permalink: '/blog/2020/02/27/draft',
         title: 'draft',

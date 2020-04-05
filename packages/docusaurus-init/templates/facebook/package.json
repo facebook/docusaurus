@@ -28,8 +28,8 @@
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.16.0",
-    "eslint-plugin-react-hooks": "^2.3.0",
-    "prettier": "^1.19.1",
+    "eslint-plugin-react-hooks": "^3.0.0",
+    "prettier": "^2.0.2",
     "stylelint": "^13.2.1"
   },
   "browserslist": {

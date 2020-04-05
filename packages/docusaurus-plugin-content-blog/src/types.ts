@@ -39,6 +39,7 @@ export interface PluginOptions {
     copyright: string;
     language?: string;
   };
+  editUrl?: string;
 }
 
 export interface BlogTags {
@@ -82,6 +83,7 @@ export interface MetaData {
   prevItem?: Paginator;
   nextItem?: Paginator;
   truncated: boolean;
+  editUrl?: string;
 }
 
 export interface Paginator {

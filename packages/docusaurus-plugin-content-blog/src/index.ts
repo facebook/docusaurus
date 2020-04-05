@@ -43,6 +43,7 @@ const DEFAULT_OPTIONS: PluginOptions = {
   showReadingTime: true,
   remarkPlugins: [],
   rehypePlugins: [],
+  editUrl: undefined,
   truncateMarker: /<!--\s*(truncate)\s*-->/, // Regex.
 };
 

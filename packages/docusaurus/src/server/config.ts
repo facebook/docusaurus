@@ -7,7 +7,7 @@
 
 import fs from 'fs-extra';
 import importFresh from 'import-fresh';
-import _ from 'lodash';
+import has from 'lodash.has';
 import path from 'path';
 import {CONFIG_FILE_NAME} from '../constants';
 import {DocusaurusConfig, PluginConfig} from '@docusaurus/types';
@@ -57,7 +57,7 @@ export function loadConfig(siteDir: string): DocusaurusConfig {
 
   const loadedConfig = importFresh(configPath) as Partial<DocusaurusConfig>;
   const missingFields = REQUIRED_FIELDS.filter(
-    field => !_.has(loadedConfig, field),
+    field => !has(loadedConfig, field),
   );
 
   if (missingFields.length > 0) {

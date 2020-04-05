@@ -11,7 +11,7 @@ import {
   parse,
   aliasedSitePath,
   normalizeUrl,
-  posixPath,
+  getEditUrl,
 } from '@docusaurus/utils';
 import {LoadContext} from '@docusaurus/types';
 
@@ -90,9 +90,7 @@ export default async function processMetadata({
 
   const relativePath = path.relative(siteDir, filePath);
 
-  const docsEditUrl = editUrl
-    ? normalizeUrl([editUrl, posixPath(relativePath)])
-    : undefined;
+  const docsEditUrl = getEditUrl(relativePath, editUrl);
 
   const {frontMatter = {}, excerpt} = parse(await fileStringPromise);
   const {sidebar_label, custom_edit_url} = frontMatter;
