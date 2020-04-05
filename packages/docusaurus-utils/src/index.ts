@@ -273,3 +273,9 @@ export function aliasedSitePath(filePath: string, siteDir: string) {
   // the '@site'. Let webpack loader resolve it.
   return `@site/${relativePath}`;
 }
+
+export function getEditUrl(fileRelativePath: string, editUrl?: string) {
+  return editUrl
+    ? normalizeUrl([editUrl, posixPath(fileRelativePath)])
+    : undefined;
+}
