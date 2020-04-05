@@ -1,0 +1,7 @@
+.enhancedAnchor:target:before {
+  content: '';
+  display: block;
+  height: var(--ifm-navbar-height);
+  margin: calc(var(--ifm-navbar-height) * -1) 0 0;
+  visibility: hidden;
+}

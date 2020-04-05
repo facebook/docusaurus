@@ -1,0 +1,16 @@
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+.mdxCodeBlock {
+  position: relative;
+  margin-bottom: var(--ifm-leading);
+  font-size: var(--ifm-code-font-size);
+}
+
+.mdxCodeBlock pre {
+  font-size: inherit;
+}
