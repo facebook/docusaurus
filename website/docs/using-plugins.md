@@ -175,6 +175,10 @@ module.exports = {
          */
         truncateMarker: /<!--\s*(truncate)\s*-->/,
         /**
+         * Show estimated reading time for the blog post.
+         */
+        showReadingTime: true,
+        /**
          * Blog feed
          * If feedOptions is undefined, no rss feed will be generated
          */

@@ -8,6 +8,7 @@
 import fs from 'fs-extra';
 import globby from 'globby';
 import path from 'path';
+import readingTime from 'reading-time';
 import {Feed} from 'feed';
 import {PluginOptions, BlogPost, DateLink} from './types';
 import {parse, normalizeUrl, aliasedSitePath} from '@docusaurus/utils';
@@ -85,7 +86,7 @@ export async function generateBlogPosts(
   {siteConfig, siteDir}: LoadContext,
   options: PluginOptions,
 ) {
-  const {include, routeBasePath, truncateMarker} = options;
+  const {include, routeBasePath, truncateMarker, showReadingTime} = options;
 
   if (!fs.existsSync(blogDir)) {
     return [];
@@ -144,6 +145,9 @@ export async function generateBlogPosts(
           date,
           tags: frontMatter.tags,
           title: frontMatter.title,
+          readingTime: showReadingTime
+            ? readingTime(content).minutes
+            : undefined,
           truncated: truncateMarker?.test(content) || false,
         },
       });

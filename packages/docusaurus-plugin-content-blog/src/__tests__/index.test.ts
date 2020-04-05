@@ -51,6 +51,7 @@ describe('loadBlog', () => {
       ...{prevItem: undefined},
     }).toEqual({
       permalink: '/blog/2019/01/01/date-matter',
+      readingTime: 0.02,
       source: path.join('@site', pluginPath, 'date-matter.md'),
       title: 'date-matter',
       description: `date inside front matter`,
@@ -68,6 +69,7 @@ describe('loadBlog', () => {
         .metadata,
     ).toEqual({
       permalink: '/blog/2018/12/14/Happy-First-Birthday-Slash',
+      readingTime: 0.01,
       source: path.join(
         '@site',
         pluginPath,
@@ -89,6 +91,7 @@ describe('loadBlog', () => {
       ...{prevItem: undefined},
     }).toEqual({
       permalink: noDatePermalink,
+      readingTime: 0.01,
       source: noDateSource,
       title: 'no date',
       description: `no date`,
