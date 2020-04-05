@@ -150,6 +150,11 @@ module.exports = {
          */
         path: 'blog',
         /**
+         * URL for editing a blog post, example: 'https://github.com/facebook/docusaurus/edit/master/website/blog/'
+         */
+        editUrl:
+          'https://github.com/facebook/docusaurus/edit/master/website/blog',
+        /**
          * URL route for the blog section of your site
          * do not include trailing slash
          */
