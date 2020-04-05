@@ -8,7 +8,7 @@
 import clientModules from '@generated/client-modules';
 
 function dispatchLifecycleAction(lifecycleAction, ...args) {
-  clientModules.forEach(clientModule => {
+  clientModules.forEach((clientModule) => {
     const mod = clientModule.__esModule ? clientModule.default : clientModule;
     if (mod && mod[lifecycleAction]) {
       mod[lifecycleAction](...args);
@@ -24,7 +24,7 @@ function createLifecyclesDispatcher() {
   return ['onRouteUpdate', 'onRouteUpdateDelayed'].reduce(
     (lifecycles, lifecycleAction) => {
       // eslint-disable-next-line no-param-reassign
-      lifecycles[lifecycleAction] = function(...args) {
+      lifecycles[lifecycleAction] = function (...args) {
         dispatchLifecycleAction(lifecycleAction, ...args);
       };
       return lifecycles;

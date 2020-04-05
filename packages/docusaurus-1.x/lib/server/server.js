@@ -34,7 +34,7 @@ function execute(port, host) {
 
   function removeModulePathFromCache(moduleName) {
     /* eslint-disable no-underscore-dangle */
-    Object.keys(module.constructor._pathCache).forEach(cacheKey => {
+    Object.keys(module.constructor._pathCache).forEach((cacheKey) => {
       if (cacheKey.indexOf(moduleName) > 0) {
         delete module.constructor._pathCache[cacheKey];
       }
@@ -46,7 +46,7 @@ function execute(port, host) {
   function removeModuleAndChildrenFromCache(moduleName) {
     let mod = require.resolve(moduleName);
     if (mod && (mod = require.cache[mod])) {
-      mod.children.forEach(child => {
+      mod.children.forEach((child) => {
         delete require.cache[child.id];
         removeModulePathFromCache(mod.id);
       });
@@ -121,7 +121,7 @@ function execute(port, host) {
   app.get(routing.docs(siteConfig), (req, res, next) => {
     const url = decodeURI(req.path.toString().replace(siteConfig.baseUrl, ''));
     const metakey = Object.keys(Metadata).find(
-      id => Metadata[id].permalink === url,
+      (id) => Metadata[id].permalink === url,
     );
 
     let metadata = Metadata[metakey];
@@ -137,7 +137,7 @@ function execute(port, host) {
 
     // if any of the followings is changed, reload the metadata
     const reloadTriggers = ['sidebar_label', 'hide_title', 'title'];
-    if (reloadTriggers.some(key => metadata[key] !== rawMetadata[key])) {
+    if (reloadTriggers.some((key) => metadata[key] !== rawMetadata[key])) {
       reloadMetadata();
       extractTranslations();
       reloadTranslations();
@@ -163,10 +163,7 @@ function execute(port, host) {
 
   app.get(routing.feed(siteConfig), (req, res, next) => {
     res.set('Content-Type', 'application/rss+xml');
-    const file = req.path
-      .toString()
-      .split('blog/')[1]
-      .toLowerCase();
+    const file = req.path.toString().split('blog/')[1].toLowerCase();
     if (file === 'atom.xml') {
       res.send(feed('atom'));
     } else if (file === 'feed.xml') {
@@ -250,7 +247,7 @@ function execute(port, host) {
     const parts = match[1].split('/');
     const enabledLangTags = env.translation
       .enabledLanguages()
-      .map(lang => lang.tag);
+      .map((lang) => lang.tag);
 
     for (let i = 0; i < parts.length; i++) {
       if (enabledLangTags.indexOf(parts[i]) !== -1) {
@@ -321,7 +318,7 @@ function execute(port, host) {
 
     const files = glob.sync(join(CWD, 'static', '**', '*.css'));
 
-    files.forEach(file => {
+    files.forEach((file) => {
       if (isSeparateCss(file, siteConfig.separateCss)) {
         return;
       }
@@ -342,15 +339,15 @@ function execute(port, host) {
       );
     }
 
-    Object.keys(siteConfig.colors).forEach(key => {
+    Object.keys(siteConfig.colors).forEach((key) => {
       const color = siteConfig.colors[key];
       cssContent = cssContent.replace(new RegExp(`\\$${key}`, 'g'), color);
     });
 
     if (siteConfig.fonts) {
-      Object.keys(siteConfig.fonts).forEach(key => {
+      Object.keys(siteConfig.fonts).forEach((key) => {
         const fontString = siteConfig.fonts[key]
-          .map(font => `"${font}"`)
+          .map((font) => `"${font}"`)
           .join(', ');
         cssContent = cssContent.replace(
           new RegExp(`\\$${key}`, 'g'),

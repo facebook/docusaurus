@@ -36,7 +36,7 @@ const blogPosts: BlogPost[] = [
   },
 ];
 
-const transform = filepath => {
+const transform = (filepath) => {
   const content = fs.readFileSync(filepath, 'utf-8');
   const transformedContent = linkify(content, sitePath, blogPath, blogPosts);
   return [content, transformedContent];

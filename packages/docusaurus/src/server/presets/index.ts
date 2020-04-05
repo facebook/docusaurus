@@ -23,7 +23,7 @@ export function loadPresets(
   const unflatPlugins: PluginConfig[][] = [];
   const unflatThemes: PluginConfig[][] = [];
 
-  presets.forEach(presetItem => {
+  presets.forEach((presetItem) => {
     let presetModuleImport;
     let presetOptions = {};
     if (typeof presetItem === 'string') {

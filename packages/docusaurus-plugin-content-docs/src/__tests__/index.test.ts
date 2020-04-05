@@ -47,7 +47,7 @@ test('site with wrong sidebar file', async () => {
   });
   return plugin
     .loadContent()
-    .catch(e =>
+    .catch((e) =>
       expect(e).toMatchInlineSnapshot(
         `[Error: Improper sidebars file, document with id 'goku' not found.]`,
       ),
@@ -110,7 +110,7 @@ describe('simple website', () => {
 
   test('getPathToWatch', () => {
     const pathToWatch = plugin.getPathsToWatch();
-    const matchPattern = pathToWatch.map(filepath =>
+    const matchPattern = pathToWatch.map((filepath) =>
       posixPath(path.relative(siteDir, filepath)),
     );
     expect(matchPattern).not.toEqual([]);
@@ -235,7 +235,7 @@ describe('versioned website', () => {
 
   test('getPathToWatch', () => {
     const pathToWatch = plugin.getPathsToWatch();
-    const matchPattern = pathToWatch.map(filepath =>
+    const matchPattern = pathToWatch.map((filepath) =>
       posixPath(path.relative(siteDir, filepath)),
     );
     expect(matchPattern).not.toEqual([]);

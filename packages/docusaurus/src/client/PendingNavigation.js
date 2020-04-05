@@ -72,7 +72,7 @@ class PendingNavigation extends React.Component {
             }
           }
         })
-        .catch(e => console.warn(e));
+        .catch((e) => console.warn(e));
       return false;
     }
 

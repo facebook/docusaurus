@@ -10,7 +10,7 @@ function flat(target) {
   const output = {};
 
   function step(object, prev) {
-    Object.keys(object).forEach(key => {
+    Object.keys(object).forEach((key) => {
       const value = object[key];
       const type = typeof value;
       const isObject = type === 'object' && !!value;
