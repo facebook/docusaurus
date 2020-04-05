@@ -39,7 +39,7 @@
   outline: none;
   padding: 0.4rem 0.5rem;
   position: absolute;
-  right: var(--ifm-pre-padding);
+  right: calc(var(--ifm-pre-padding) / 2);
   top: calc(var(--ifm-pre-padding) / 2);
   visibility: hidden;
   transition: opacity 200ms ease-in-out, visibility 200ms ease-in-out,
