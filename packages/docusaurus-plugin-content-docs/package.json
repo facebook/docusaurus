@@ -12,7 +12,7 @@
   "license": "MIT",
   "devDependencies": {
     "@docusaurus/types": "^2.0.0-alpha.50",
-    "commander": "^4.0.1",
+    "commander": "^5.0.0",
     "picomatch": "^2.1.1"
   },
   "dependencies": {
@@ -23,7 +23,10 @@
     "globby": "^10.0.1",
     "import-fresh": "^3.2.1",
     "loader-utils": "^1.2.3",
-    "lodash": "^4.17.15",
+    "lodash.flatmap": "^4.5.0",
+    "lodash.groupby": "^4.6.0",
+    "lodash.pick": "^4.4.0",
+    "lodash.pickby": "^4.6.0",
     "shelljs": "^0.8.3"
   },
   "peerDependencies": {

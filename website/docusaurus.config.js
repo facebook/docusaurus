@@ -46,6 +46,8 @@ module.exports = {
         },
         blog: {
           path: '../website-1.x/blog',
+          editUrl:
+            'https://github.com/facebook/docusaurus/edit/master/website-1.x/',
           postsPerPage: 3,
           feedOptions: {
             type: 'all',
@@ -98,7 +100,7 @@ module.exports = {
               label: versions[0],
               to: 'docs/introduction',
             },
-            ...versions.slice(1).map(version => ({
+            ...versions.slice(1).map((version) => ({
               label: version,
               to: `docs/${version}/introduction`,
             })),

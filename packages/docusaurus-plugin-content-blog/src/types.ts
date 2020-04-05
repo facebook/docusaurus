@@ -31,6 +31,7 @@ export interface PluginOptions {
   remarkPlugins: string[];
   rehypePlugins: string[];
   truncateMarker: RegExp;
+  showReadingTime: boolean;
   feedOptions?: {
     type: FeedType;
     title?: string;
@@ -38,6 +39,7 @@ export interface PluginOptions {
     copyright: string;
     language?: string;
   };
+  editUrl?: string;
 }
 
 export interface BlogTags {
@@ -77,9 +79,11 @@ export interface MetaData {
   date: Date;
   tags: (Tag | string)[];
   title: string;
+  readingTime?: number;
   prevItem?: Paginator;
   nextItem?: Paginator;
   truncated: boolean;
+  editUrl?: string;
 }
 
 export interface Paginator {

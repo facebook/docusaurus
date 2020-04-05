@@ -10,7 +10,7 @@ import {Configuration} from 'webpack';
 
 import path from 'path';
 
-export default function(_context: LoadContext, options: PluginOptions) {
+export default function (_context: LoadContext, options: PluginOptions) {
   const isProd = process.env.NODE_ENV === 'production';
 
   return {

@@ -25,7 +25,7 @@ export function themeAlias(
 
   const aliases: ThemeAlias = {};
 
-  themeComponentFiles.forEach(relativeSource => {
+  themeComponentFiles.forEach((relativeSource) => {
     const filePath = path.join(themePath, relativeSource);
     const fileName = fileToPath(relativeSource);
 

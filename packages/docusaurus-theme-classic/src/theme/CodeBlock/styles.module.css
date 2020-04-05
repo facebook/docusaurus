@@ -10,15 +10,18 @@
 }
 
 .codeBlockTitle {
+  border-top-left-radius: var(--ifm-global-radius);
+  border-top-right-radius: var(--ifm-global-radius);
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
   font-family: var(--ifm-font-family-monospace);
   font-weight: bold;
-  padding: var(--ifm-pre-padding);
-  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+  padding: 0.75rem var(--ifm-pre-padding);
   width: 100%;
 }
 
 .codeBlock {
   overflow: auto;
+  border-radius: var(--ifm-global-radius);
 }
 
 .codeBlockWithTitle {
@@ -30,22 +33,17 @@
   background: rgba(0, 0, 0, 0.3);
   border: none;
   border-radius: var(--ifm-global-radius);
-  color: var(--ifm-color-content);
+  color: var(--ifm-color-white);
   cursor: pointer;
-  line-height: 12px;
   opacity: 0;
   outline: none;
-  padding: 4px 8px;
+  padding: 0.4rem 0.5rem;
   position: absolute;
-  right: var(--ifm-pre-padding);
-  top: var(--ifm-pre-padding);
+  right: calc(var(--ifm-pre-padding) / 2);
+  top: calc(var(--ifm-pre-padding) / 2);
   visibility: hidden;
   transition: opacity 200ms ease-in-out, visibility 200ms ease-in-out,
     bottom 200ms ease-in-out;
-}
-
-.copyButtonWithTitle {
-  top: calc(var(--ifm-pre-padding));
 }
 
 .codeBlockTitle:hover + .codeBlockContent .copyButton,

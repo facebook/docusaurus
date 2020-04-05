@@ -150,6 +150,11 @@ module.exports = {
          */
         path: 'blog',
         /**
+         * URL for editing a blog post, example: 'https://github.com/facebook/docusaurus/edit/master/website/blog/'
+         */
+        editUrl:
+          'https://github.com/facebook/docusaurus/edit/master/website/blog/',
+        /**
          * URL route for the blog section of your site
          * do not include trailing slash
          */
@@ -174,6 +179,10 @@ module.exports = {
          * Truncate marker, can be a regex or string.
          */
         truncateMarker: /<!--\s*(truncate)\s*-->/,
+        /**
+         * Show estimated reading time for the blog post.
+         */
+        showReadingTime: true,
         /**
          * Blog feed
          * If feedOptions is undefined, no rss feed will be generated
@@ -400,12 +409,13 @@ npm install --save @docusaurus/plugin-ideal-image
 
 Modify your `docusaurus.config.js`
 
-```diff
+```js title="docusaurus.config.js"
 module.exports = {
-  ...
-+ plugins: ['@docusaurus/plugin-ideal-image'],
-  ...
-}
+  // ...
+  // highlight-next-line
+  plugins: ['@docusaurus/plugin-ideal-image'],
+  // ...
+};
 ```
 
 #### Usage

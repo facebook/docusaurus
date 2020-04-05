@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import _ from 'lodash';
 import {htmlTagObjectToString} from './htmlTags';
 import {
   Plugin,
@@ -19,7 +18,7 @@ function toString(val: string | HtmlTagObject): string {
 }
 
 export function createHtmlTagsString(tags: HtmlTags): string {
-  return _.isArray(tags) ? tags.map(toString).join('\n') : toString(tags);
+  return Array.isArray(tags) ? tags.map(toString).join('\n') : toString(tags);
 }
 
 export function loadHtmlTags(plugins: Plugin<any>[]): InjectedHtmlTags {

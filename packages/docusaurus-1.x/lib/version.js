@@ -46,7 +46,7 @@ let version;
 
 program
   .arguments('<version>')
-  .action(ver => {
+  .action((ver) => {
     version = ver;
   })
   .parse(process.argv);
@@ -85,7 +85,7 @@ if (versions.includes(version)) {
 
 function makeHeader(metadata) {
   let header = '---\n';
-  Object.keys(metadata).forEach(key => {
+  Object.keys(metadata).forEach((key) => {
     header += `${key}: ${metadata[key]}\n`;
   });
   header += '---\n';
@@ -104,7 +104,7 @@ mkdirp.sync(versionFolder);
 
 // copy necessary files to new version, changing some of its metadata to reflect the versioning
 const files = glob.sync(`${CWD}/../${readMetadata.getDocsPath()}/**`);
-files.forEach(file => {
+files.forEach((file) => {
   const ext = path.extname(file);
   if (ext !== '.md' && ext !== '.markdown') {
     return;
@@ -153,21 +153,21 @@ if (versionFallback.diffLatestSidebar()) {
   const sidebar = JSON.parse(fs.readFileSync(`${CWD}/sidebars.json`, 'utf8'));
   const versioned = {};
 
-  Object.keys(sidebar).forEach(sb => {
+  Object.keys(sidebar).forEach((sb) => {
     const versionSidebar = `version-${version}-${sb}`;
     versioned[versionSidebar] = {};
 
     const categories = sidebar[sb];
-    Object.keys(categories).forEach(category => {
+    Object.keys(categories).forEach((category) => {
       versioned[versionSidebar][category] = [];
 
       const categoryItems = categories[category];
-      categoryItems.forEach(categoryItem => {
+      categoryItems.forEach((categoryItem) => {
         let versionedCategoryItem = categoryItem;
         if (typeof categoryItem === 'object') {
           if (categoryItem.ids && categoryItem.ids.length > 0) {
             versionedCategoryItem.ids = categoryItem.ids.map(
-              id => `version-${version}-${id}`,
+              (id) => `version-${version}-${id}`,
             );
           }
         } else if (typeof categoryItem === 'string') {

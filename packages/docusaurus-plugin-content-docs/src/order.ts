@@ -11,12 +11,12 @@ import {Sidebar, SidebarItem, Order} from './types';
 export default function createOrder(allSidebars: Sidebar = {}): Order {
   const order: Order = {};
 
-  Object.keys(allSidebars).forEach(sidebarId => {
+  Object.keys(allSidebars).forEach((sidebarId) => {
     const sidebar = allSidebars[sidebarId];
 
     const ids: string[] = [];
     const indexItems = ({items}: {items: SidebarItem[]}) => {
-      items.forEach(item => {
+      items.forEach((item) => {
         switch (item.type) {
           case 'category':
             indexItems({

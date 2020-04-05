@@ -62,21 +62,21 @@ Meanwhile, CLI commands are renamed to `docusaurus <command>` (instead of `docus
 
 The `"scripts"` section of your `package.json` should be updated as follows:
 
-```json {3-6}
+```json {3-6} title="package.json"
 {
   "scripts": {
     "start": "docusaurus start",
     "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy"
-    ...
+    // ...
   }
 }
 ```
 
 A typical Docusaurus 2 `package.json` may look like this:
 
-```json
+```json title="package.json"
 {
   "scripts": {
     "start": "docusaurus start",
@@ -112,7 +112,7 @@ If you are deploying to GitHub pages, make sure to run `yarn deploy` instead of 
 
 The `.gitignore` in your `website` should contain:
 
-```
+```bash title=".gitignore"
 # dependencies
 /node_modules
 
@@ -156,7 +156,7 @@ module.exports = {
           // sidebars file relative to website dir.
           sidebarPath: require.resolve('./sidebars.json'),
         },
-        ...
+        // ...
       },
     ],
   ],
@@ -245,7 +245,7 @@ module.exports = {
 
 In Docusaurus 1, header icon and header links were root fields in `siteConfig`:
 
-```js
+```js title="siteConfig.js"
 headerIcon: 'img/docusaurus.svg',
 headerLinks: [
   { doc: "doc1", label: "Getting Started" },
@@ -424,11 +424,11 @@ We intend to implement many of the deprecated config fields as plugins in future
 
 ### Sidebar
 
-In previous version, nested sidebar category is not allowed and sidebar category can only contain doc id. However, v2 allows infinite nested sidebar and we have many types of [Sidebar Item](sidebar.md#sidebar-item) other than document.
+In previous version, nested sidebar category is not allowed and sidebar category can only contain doc id. However, v2 allows infinite nested sidebar and we have many types of [Sidebar Item](docs.md#sidebar-item) other than document.
 
 You'll have to migrate your sidebar if it contains category type. Rename `subcategory` to `category` and `ids` to `items`.
 
-```js
+```js title="sidebars.json"
 {
 - type: 'subcategory',
 + type: 'category',
@@ -615,7 +615,7 @@ So v1 users need to migrate their versioned_sidebars file
 
 Example `versioned_sidebars/version-1.0.0-sidebars.json`:
 
-```json {2-3,5-6,9-10}
+```json {2-3,5-6,9-10}  title="versioned_sidebars/version-1.0.0-sidebars.json"
 {
 + "version-1.0.0/docs": {
 - "version-1.0.0-docs": {

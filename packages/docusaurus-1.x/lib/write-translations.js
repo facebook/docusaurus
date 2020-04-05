@@ -102,27 +102,27 @@ function execute() {
       }
     }
   };
-  glob.sync(`${docsDir}/**`).forEach(file => translateDoc(file, docsDir));
+  glob.sync(`${docsDir}/**`).forEach((file) => translateDoc(file, docsDir));
   glob
     .sync(`${versionedDocsDir}/**`)
-    .forEach(file => translateDoc(file, versionedDocsDir));
+    .forEach((file) => translateDoc(file, versionedDocsDir));
 
   // look through header links for text to translate
-  siteConfig.headerLinks.forEach(link => {
+  siteConfig.headerLinks.forEach((link) => {
     if (link.label) {
       translations['localized-strings'].links[link.label] = link.label;
     }
   });
 
   // find sidebar category titles to translate
-  Object.keys(sidebars).forEach(sb => {
+  Object.keys(sidebars).forEach((sb) => {
     const categories = sidebars[sb];
-    Object.keys(categories).forEach(category => {
+    Object.keys(categories).forEach((category) => {
       translations['localized-strings'].categories[category] = category;
     });
   });
 
-  glob.sync(`${CWD}/versioned_sidebars/*`).forEach(file => {
+  glob.sync(`${CWD}/versioned_sidebars/*`).forEach((file) => {
     if (!file.endsWith('-sidebars.json')) {
       if (file.endsWith('-sidebar.json')) {
         console.warn(
@@ -139,16 +139,16 @@ function execute() {
       process.exit(1);
     }
 
-    Object.keys(sidebarContent).forEach(sb => {
+    Object.keys(sidebarContent).forEach((sb) => {
       const categories = sidebarContent[sb];
-      Object.keys(categories).forEach(category => {
+      Object.keys(categories).forEach((category) => {
         translations['localized-strings'].categories[category] = category;
       });
     });
   });
 
   // go through pages to look for text inside translate tags
-  glob.sync(`${CWD}/pages/en/**`).forEach(file => {
+  glob.sync(`${CWD}/pages/en/**`).forEach((file) => {
     const extension = nodePath.extname(file);
     if (extension === '.js') {
       const ast = babylon.parse(fs.readFileSync(file, 'utf8'), {
