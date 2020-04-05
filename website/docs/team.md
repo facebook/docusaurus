@@ -27,7 +27,7 @@ Docusaurus was originally created by Joel Marcey. Today, Docusaurus has a few hu
 - Eric Nakagawa
 - Fienny Angelina
 - Frank Li
-- Hector Ramos
+- [Héctor Ramos](https://github.com/hramos)
 - Ramón Lamana
 - Ricky Vetter
-- Sam Chou
+- [Sam Zhou](https://github.com/SamChou19815)
