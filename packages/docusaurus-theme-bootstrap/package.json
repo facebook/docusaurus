@@ -12,7 +12,9 @@
     "clipboard": "^2.0.4",
     "react-router-dom": "^5.1.2",
     "react-toggle": "^4.1.1",
-    "remark-admonitions": "^1.2.0"
+    "remark-admonitions": "^1.2.0",
+    "parse-numeric-range": "^0.0.2",
+    "prism-react-renderer": "^1.0.2",
   },
   "peerDependencies": {
     "@docusaurus/core": "^2.0.0",

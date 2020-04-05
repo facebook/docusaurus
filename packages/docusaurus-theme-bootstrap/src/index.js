@@ -8,7 +8,7 @@
 
 const path = require('path');
 
-module.exports = function context(context, options) {
+module.exports = function (_context, _options) {
   return {
     name: 'docusaurus-theme-bootstrap',
     getThemePath() {
@@ -16,7 +16,8 @@ module.exports = function context(context, options) {
     },
     getClientModules() {
       return [
-        'bootstrap/dist/css/bootstrap.min.css'
+        'bootstrap/dist/css/bootstrap.min.css',
+        path.resolve(__dirname, './prism-include-languages')
       ];
     }
   }
