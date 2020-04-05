@@ -100,7 +100,7 @@ module.exports = {
               label: versions[0],
               to: 'docs/introduction',
             },
-            ...versions.slice(1).map((version) => ({
+            ...versions.slice(1).map(version => ({
               label: version,
               to: `docs/${version}/introduction`,
             })),

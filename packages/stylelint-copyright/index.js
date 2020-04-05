@@ -12,7 +12,7 @@ const messages = stylelint.utils.ruleMessages(ruleName, {
   rejected: 'Missing copyright in the header comment',
 });
 
-module.exports = stylelint.createPlugin(ruleName, (actual) => {
+module.exports = stylelint.createPlugin(ruleName, actual => {
   return (root, result) => {
     const validOptions = stylelint.utils.validateOptions(result, ruleName, {
       actual,
@@ -22,7 +22,7 @@ module.exports = stylelint.createPlugin(ruleName, (actual) => {
       return;
     }
 
-    root.walkComments((comment) => {
+    root.walkComments(comment => {
       // Ignore root comments with copyright text.
       if (
         comment === comment.parent.first &&

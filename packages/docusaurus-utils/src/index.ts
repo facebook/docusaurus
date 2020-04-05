@@ -35,11 +35,15 @@ export async function generate(
   // This is to avoid unnecessary overwriting and we can reuse old file.
   if (!lastHash && fs.existsSync(filepath)) {
     const lastContent = await fs.readFile(filepath, 'utf8');
-    lastHash = createHash('md5').update(lastContent).digest('hex');
+    lastHash = createHash('md5')
+      .update(lastContent)
+      .digest('hex');
     fileHash.set(filepath, lastHash);
   }
 
-  const currentHash = createHash('md5').update(content).digest('hex');
+  const currentHash = createHash('md5')
+    .update(content)
+    .digest('hex');
 
   if (lastHash !== currentHash) {
     await fs.ensureDir(path.dirname(filepath));
@@ -75,7 +79,7 @@ export function fileToPath(file: string): string {
 export function encodePath(userpath: string): string {
   return userpath
     .split('/')
-    .map((item) => encodeURIComponent(item))
+    .map(item => encodeURIComponent(item))
     .join('/');
 }
 
@@ -87,7 +91,10 @@ export function docuHash(str: string): string {
   if (str === '/') {
     return 'index';
   }
-  const shortHash = createHash('md5').update(str).digest('hex').substr(0, 3);
+  const shortHash = createHash('md5')
+    .update(str)
+    .digest('hex')
+    .substr(0, 3);
   return `${kebabCase(str)}-${shortHash}`;
 }
 
@@ -193,7 +200,10 @@ export function parse(
 } {
   const options: {} = {
     excerpt: (file: matter.GrayMatterFile<string>): void => {
-      file.excerpt = file.content.trim().split('\n', 1).shift();
+      file.excerpt = file.content
+        .trim()
+        .split('\n', 1)
+        .shift();
     },
   };
 

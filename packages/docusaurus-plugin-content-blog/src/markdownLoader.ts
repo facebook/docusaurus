@@ -9,7 +9,7 @@ import {loader} from 'webpack';
 import {truncate, linkify} from './blogUtils';
 const {parseQuery, getOptions} = require('loader-utils');
 
-export = function (fileString: string) {
+export = function(fileString: string) {
   const callback = this.async();
   const {truncateMarker, siteDir, contentPath, blogPosts} = getOptions(this);
   // Linkify posts

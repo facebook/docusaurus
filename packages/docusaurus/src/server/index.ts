@@ -86,7 +86,7 @@ export async function load(
   const fallbackTheme = path.resolve(__dirname, '../client/theme-fallback');
   const pluginThemes = ([] as string[]).concat(
     ...plugins
-      .map<any>((plugin) => plugin.getThemePath && plugin.getThemePath())
+      .map<any>(plugin => plugin.getThemePath && plugin.getThemePath())
       .filter(Boolean),
   );
   const userTheme = path.resolve(siteDir, THEME_PATH);
@@ -104,7 +104,7 @@ export async function load(
       },
     }),
     injectHtmlTags: () => {
-      const stylesheetsTags = stylesheets.map((source) =>
+      const stylesheetsTags = stylesheets.map(source =>
         typeof source === 'string'
           ? `<link rel="stylesheet" href="${source}">`
           : {
@@ -115,7 +115,7 @@ export async function load(
               },
             },
       );
-      const scriptsTags = scripts.map((source) =>
+      const scriptsTags = scripts.map(source =>
         typeof source === 'string'
           ? `<script type="text/javascript" src="${source}"></script>`
           : {
@@ -141,7 +141,7 @@ export async function load(
       // import() is async so we use require() because client modules can have
       // CSS and the order matters for loading CSS.
       // We need to JSON.stringify so that if its on windows, backslash are escaped.
-      .map((module) => `  require(${JSON.stringify(module)}),`)
+      .map(module => `  require(${JSON.stringify(module)}),`)
       .join('\n')}\n];\n`,
   );
 
@@ -163,7 +163,7 @@ export async function load(
 ${Object.keys(registry)
   .sort()
   .map(
-    (key) =>
+    key =>
       // We need to JSON.stringify so that if its on windows, backslash are escaped.
       `  '${key}': [${registry[key].loader}, ${JSON.stringify(
         registry[key].modulePath,

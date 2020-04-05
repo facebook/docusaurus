@@ -35,8 +35,8 @@ export function htmlTagObjectToString(tagDefinition: any): string {
   const isVoidTag = voidHtmlTags.indexOf(tagDefinition.tagName) !== -1;
   const tagAttributes = tagDefinition.attributes || {};
   const attributes = Object.keys(tagAttributes)
-    .filter((attributeName) => tagAttributes[attributeName] !== false)
-    .map((attributeName) => {
+    .filter(attributeName => tagAttributes[attributeName] !== false)
+    .map(attributeName => {
       if (tagAttributes[attributeName] === true) {
         return attributeName;
       }

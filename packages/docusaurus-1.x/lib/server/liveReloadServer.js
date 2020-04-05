@@ -20,7 +20,7 @@ function start(port) {
 
   gaze(
     [`../${readMetadata.getDocsPath()}/**/*`, '**/*', '!node_modules/**/*'],
-    function () {
+    function() {
       this.on('all', () => {
         server.notifyClients(['/']);
       });

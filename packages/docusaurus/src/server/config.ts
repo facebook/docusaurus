@@ -45,7 +45,7 @@ const DEFAULT_CONFIG: {
 };
 
 function formatFields(fields: string[]): string {
-  return fields.map((field) => `'${field}'`).join(', ');
+  return fields.map(field => `'${field}'`).join(', ');
 }
 
 export function loadConfig(siteDir: string): DocusaurusConfig {
@@ -57,7 +57,7 @@ export function loadConfig(siteDir: string): DocusaurusConfig {
 
   const loadedConfig = importFresh(configPath) as Partial<DocusaurusConfig>;
   const missingFields = REQUIRED_FIELDS.filter(
-    (field) => !has(loadedConfig, field),
+    field => !has(loadedConfig, field),
   );
 
   if (missingFields.length > 0) {
@@ -77,7 +77,7 @@ export function loadConfig(siteDir: string): DocusaurusConfig {
   // Don't allow unrecognized fields.
   const allowedFields = [...REQUIRED_FIELDS, ...OPTIONAL_FIELDS];
   const unrecognizedFields = Object.keys(config).filter(
-    (field) => !allowedFields.includes(field),
+    field => !allowedFields.includes(field),
   );
 
   if (unrecognizedFields && unrecognizedFields.length > 0) {

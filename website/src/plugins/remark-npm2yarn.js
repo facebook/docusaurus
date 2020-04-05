@@ -8,9 +8,9 @@
 const npmToYarn = require('npm-to-yarn');
 
 // E.g. global install: 'npm i' -> 'yarn'
-const convertNpmToYarn = (npmCode) => npmToYarn(npmCode, 'yarn');
+const convertNpmToYarn = npmCode => npmToYarn(npmCode, 'yarn');
 
-const transformNode = (node) => {
+const transformNode = node => {
   const npmCode = node.value;
   const yarnCode = convertNpmToYarn(node.value);
   return [
@@ -46,7 +46,7 @@ const transformNode = (node) => {
   ];
 };
 
-const matchNode = (node) => node.type === 'code' && node.meta === 'npm2yarn';
+const matchNode = node => node.type === 'code' && node.meta === 'npm2yarn';
 const nodeForImport = {
   type: 'import',
   value:
@@ -55,7 +55,7 @@ const nodeForImport = {
 
 module.exports = () => {
   let transformed = false;
-  const transformer = (node) => {
+  const transformer = node => {
     if (matchNode(node)) {
       transformed = true;
       return transformNode(node);

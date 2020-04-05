@@ -23,7 +23,7 @@ UserLink.propTypes = {
 
 const Showcase = ({users}) => (
   <div className="showcase">
-    {users.map((user) => (
+    {users.map(user => (
       <UserLink key={user.infoLink} {...user} />
     ))}
   </div>

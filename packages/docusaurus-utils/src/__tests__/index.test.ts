@@ -27,7 +27,7 @@ describe('load utils', () => {
         '@site/versioned_docs/foo/bar.md',
       'user/docs/test.md': '@site/../docs/test.md',
     };
-    Object.keys(asserts).forEach((file) => {
+    Object.keys(asserts).forEach(file => {
       expect(aliasedSitePath(file, 'user/website')).toBe(asserts[file]);
     });
   });
@@ -42,7 +42,7 @@ describe('load utils', () => {
       'foo\\bar/lol': 'foo/bar/lol',
       'website\\docs/**/*.{md,mdx}': 'website/docs/**/*.{md,mdx}',
     };
-    Object.keys(asserts).forEach((file) => {
+    Object.keys(asserts).forEach(file => {
       expect(posixPath(file)).toBe(asserts[file]);
     });
   });
@@ -59,7 +59,7 @@ describe('load utils', () => {
       '/blog/201712/14-introducing-docusaurus':
         'Blog20171214IntroducingDocusaurusA93',
     };
-    Object.keys(asserts).forEach((file) => {
+    Object.keys(asserts).forEach(file => {
       expect(genComponentName(file)).toBe(asserts[file]);
     });
   });
@@ -75,7 +75,7 @@ describe('load utils', () => {
       '/yangshun/tay': 'yangshun-tay-48d',
       '/yangshun-tay': 'yangshun-tay-f3b',
     };
-    Object.keys(asserts).forEach((file) => {
+    Object.keys(asserts).forEach(file => {
       expect(docuHash(file)).toBe(asserts[file]);
     });
   });
@@ -91,7 +91,7 @@ describe('load utils', () => {
       'foo.js': '/foo',
       'foo/bar.js': '/foo/bar',
     };
-    Object.keys(asserts).forEach((file) => {
+    Object.keys(asserts).forEach(file => {
       expect(fileToPath(file)).toBe(asserts[file]);
     });
   });
@@ -142,7 +142,7 @@ describe('load utils', () => {
       '/users/en/': 'users-en-f7a',
       '/blog': 'blog-c06',
     };
-    Object.keys(firstAssert).forEach((str) => {
+    Object.keys(firstAssert).forEach(str => {
       expect(genChunkName(str)).toBe(firstAssert[str]);
     });
 
@@ -156,7 +156,7 @@ describe('load utils', () => {
       '/blog/1': 'blog-85-f-089',
       '/blog/2': 'blog-353-489',
     };
-    Object.keys(secondAssert).forEach((str) => {
+    Object.keys(secondAssert).forEach(str => {
       expect(genChunkName(str, undefined, 'blog')).toBe(secondAssert[str]);
     });
 
@@ -167,7 +167,7 @@ describe('load utils', () => {
       c: '4a8a08f0',
       d: '8277e091',
     };
-    Object.keys(thirdAssert).forEach((str) => {
+    Object.keys(thirdAssert).forEach(str => {
       expect(genChunkName(str, undefined, undefined, true)).toBe(
         thirdAssert[str],
       );
@@ -210,9 +210,10 @@ describe('load utils', () => {
       versions: [],
     });
     expect(idx(obj, ['translation', 'enabled'])).toEqual(true);
-    expect(
-      idx(obj, ['translation', variable]).map((lang) => lang.tag),
-    ).toEqual(['en', 'ja']);
+    expect(idx(obj, ['translation', variable]).map(lang => lang.tag)).toEqual([
+      'en',
+      'ja',
+    ]);
     expect(idx(test, ['arr', 0])).toEqual(1);
     expect(idx(undefined)).toBeUndefined();
     expect(idx(null)).toBeNull();
@@ -282,7 +283,7 @@ describe('load utils', () => {
         output: 'http://foobar.com/test/',
       },
     ];
-    asserts.forEach((testCase) => {
+    asserts.forEach(testCase => {
       expect(normalizeUrl(testCase.input)).toBe(testCase.output);
     });
 

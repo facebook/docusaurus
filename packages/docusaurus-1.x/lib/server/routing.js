@@ -26,7 +26,7 @@ function noExtension() {
 }
 
 function page(siteConfig) {
-  const gr = (regex) => regex.toString().replace(/(^\/|\/$)/gm, '');
+  const gr = regex => regex.toString().replace(/(^\/|\/$)/gm, '');
 
   if (siteConfig.docsUrl === '') {
     return new RegExp(

@@ -49,7 +49,7 @@ describe('utils', () => {
     expect(utils.getPath(null, false)).toBeNull();
 
     // transform to pretty/clean path
-    const cleanPath = (pathStr) => utils.getPath(pathStr, true);
+    const cleanPath = pathStr => utils.getPath(pathStr, true);
     expect(cleanPath('/en/users')).toBe('/en/users');
     expect(cleanPath('/docs/versioning.html')).toBe('/docs/versioning');
     expect(cleanPath('/en/users.html')).toBe('/en/users');
@@ -168,7 +168,7 @@ describe('utils', () => {
     });
     expect(utils.idx(env, ['translation', 'enabled'])).toEqual(true);
     expect(
-      utils.idx(env, ['translation', variable]).map((lang) => lang.tag),
+      utils.idx(env, ['translation', variable]).map(lang => lang.tag),
     ).toEqual(['en', 'ja']);
     expect(utils.idx(undefined)).toBeUndefined();
     expect(utils.idx(null)).toBeNull();

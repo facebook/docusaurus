@@ -18,7 +18,7 @@ function Image(props) {
       width={img.src.width || 100}
       placeholder={{lqip: img.preSrc}}
       src={img.src.src}
-      srcSet={img.src.images.map((image) => ({
+      srcSet={img.src.images.map(image => ({
         ...image,
         src: image.path,
       }))}

@@ -145,7 +145,7 @@ describe('getFile', () => {
     'docs/doc1.md': 'Just another document',
   };
   fs.existsSync = jest.fn().mockReturnValue(true);
-  fs.readFileSync = jest.fn().mockImplementation((file) => {
+  fs.readFileSync = jest.fn().mockImplementation(file => {
     const fakePath = file.replace(
       process.cwd().replace(/website-1.x\/?$/, ''),
       '',

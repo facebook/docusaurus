@@ -32,7 +32,7 @@ class Translation {
     this.load();
   }
 
-  enabledLanguages = () => this.languages.filter((lang) => lang.enabled);
+  enabledLanguages = () => this.languages.filter(lang => lang.enabled);
 
   load() {
     if (fs.existsSync(languagesFile)) {

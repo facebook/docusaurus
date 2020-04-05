@@ -15,12 +15,12 @@ function getOutputCss(output) {
 
 global.testStylelintRule = (config, tests) => {
   describe(tests.ruleName, () => {
-    const checkTestCaseContent = (testCase) =>
+    const checkTestCaseContent = testCase =>
       testCase.description || testCase.code || 'no description';
 
     if (tests.accept && tests.accept.length) {
       describe('accept cases', () => {
-        tests.accept.forEach((testCase) => {
+        tests.accept.forEach(testCase => {
           const spec = testCase.only ? it.only : it;
 
           spec(checkTestCaseContent(testCase), () => {
@@ -30,7 +30,7 @@ global.testStylelintRule = (config, tests) => {
               syntax: tests.syntax,
             };
 
-            return stylelint.lint(options).then((output) => {
+            return stylelint.lint(options).then(output => {
               expect(output.results[0].warnings).toEqual([]);
 
               if (!tests.fix) {
@@ -40,8 +40,8 @@ global.testStylelintRule = (config, tests) => {
               // Check the fix.
               return stylelint
                 .lint({...options, fix: true})
-                .then((fixedOutput) => getOutputCss(fixedOutput))
-                .then((fixedCode) => expect(fixedCode).toBe(testCase.fixed));
+                .then(fixedOutput => getOutputCss(fixedOutput))
+                .then(fixedCode => expect(fixedCode).toBe(testCase.fixed));
             });
           });
         });
@@ -50,7 +50,7 @@ global.testStylelintRule = (config, tests) => {
 
     if (tests.reject && tests.reject.length) {
       describe('reject cases', () => {
-        tests.reject.forEach((testCase) => {
+        tests.reject.forEach(testCase => {
           const skip = testCase.skip ? it.skip : it;
           const spec = testCase.only ? it.only : skip;
 
@@ -61,7 +61,7 @@ global.testStylelintRule = (config, tests) => {
               syntax: tests.syntax,
             };
 
-            return stylelint.lint(options).then((output) => {
+            return stylelint.lint(options).then(output => {
               const {warnings} = output.results[0];
               const warning = warnings[0];
 
@@ -93,8 +93,8 @@ global.testStylelintRule = (config, tests) => {
               // Check the fix.
               return stylelint
                 .lint({...options, fix: true})
-                .then((fixedOutput) => getOutputCss(fixedOutput))
-                .then((fixedCode) => expect(fixedCode).toBe(testCase.fixed));
+                .then(fixedOutput => getOutputCss(fixedOutput))
+                .then(fixedCode => expect(fixedCode).toBe(testCase.fixed));
             });
           });
         });

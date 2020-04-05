@@ -61,7 +61,7 @@ class SideNav extends React.Component {
     return null;
   }
 
-  renderCategory = (categoryItem) => {
+  renderCategory = categoryItem => {
     let ulClassName = '';
     let categoryClassName = 'navGroupCategoryTitle';
     let arrow;
@@ -89,7 +89,7 @@ class SideNav extends React.Component {
           {arrow}
         </h3>
         <ul className={ulClassName}>
-          {categoryItem.children.map((item) => {
+          {categoryItem.children.map(item => {
             switch (item.type) {
               case 'LINK':
                 return this.renderItemLink(item);
@@ -104,7 +104,7 @@ class SideNav extends React.Component {
     );
   };
 
-  renderSubcategory = (subcategoryItem) => (
+  renderSubcategory = subcategoryItem => (
     <div className="navGroup subNavGroup" key={subcategoryItem.title}>
       <h4 className="navGroupSubcategoryTitle">
         {this.getLocalizedCategoryString(subcategoryItem.title)}
@@ -113,7 +113,7 @@ class SideNav extends React.Component {
     </div>
   );
 
-  renderItemLink = (linkItem) => {
+  renderItemLink = linkItem => {
     const linkMetadata = linkItem.item;
     const itemClasses = classNames('navListItem', {
       navListItemActive: linkMetadata.id === this.props.current.id,

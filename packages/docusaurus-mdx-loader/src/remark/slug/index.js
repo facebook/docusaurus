@@ -12,7 +12,7 @@ const toString = require('mdast-util-to-string');
 const slugs = require('github-slugger')();
 
 function slug() {
-  const transformer = (ast) => {
+  const transformer = ast => {
     slugs.reset();
 
     function visitor(headingNode) {

@@ -14,16 +14,16 @@ export function loadThemeAlias(
 ): ThemeAlias {
   const aliases = {};
 
-  themePaths.forEach((themePath) => {
+  themePaths.forEach(themePath => {
     const themeAliases = themeAlias(themePath);
-    Object.keys(themeAliases).forEach((aliasKey) => {
+    Object.keys(themeAliases).forEach(aliasKey => {
       aliases[aliasKey] = themeAliases[aliasKey];
     });
   });
 
-  userThemePaths.forEach((themePath) => {
+  userThemePaths.forEach(themePath => {
     const userThemeAliases = themeAlias(themePath, false);
-    Object.keys(userThemeAliases).forEach((aliasKey) => {
+    Object.keys(userThemeAliases).forEach(aliasKey => {
       aliases[aliasKey] = userThemeAliases[aliasKey];
     });
   });
