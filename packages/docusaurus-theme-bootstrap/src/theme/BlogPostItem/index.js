@@ -53,28 +53,37 @@ function BlogPostItem(props) {
     const day = parseInt(match[2], 10);
 
     return (
-      <header>
+      <header className="">
+      <div className="card-header">
         <TitleHeading
-          className={classnames('margin-bottom--sm', styles.blogPostTitle)}>
+          className="card-title">
           {isBlogPostPage ? title : <Link to={permalink}>{title}</Link>}
         </TitleHeading>
-        <div className="margin-vert--md">
+        <div className="card-subtitle mb-4 text-muted">
           <time dateTime={date} className={styles.blogPostDate}>
             {month} {day}, {year}{' '}
             {readingTime && <> · {Math.ceil(readingTime)} min read</>}
           </time>
         </div>
-        <div className="avatar margin-vert--md">
+        </div>
+        <div className="row py-4 px-2">
+        <div className="col col-1">
           {authorImageURL && (
             <a
-              className="avatar__photo-link avatar__photo"
+              className="card-img-top"
               href={authorURL}
               target="_blank"
               rel="noreferrer noopener">
-              <img src={authorImageURL} alt={author} />
+              <img
+                className="rounded-circle"
+                src={authorImageURL}
+                alt={author}
+                style={{width: '50px'}}
+              />
             </a>
           )}
-          <div className="avatar__intro">
+          </div>
+          <div className="col">
             {author && (
               <>
                 <h4 className="avatar__name">
@@ -82,7 +91,7 @@ function BlogPostItem(props) {
                     {author}
                   </a>
                 </h4>
-                <small className="avatar__subtitle">{authorTitle}</small>
+                <small className="card-subtitle mb-4 text-muted">{authorTitle}</small>
               </>
             )}
           </div>
@@ -92,20 +101,22 @@ function BlogPostItem(props) {
   };
 
   return (
-    <article className={!isBlogPostPage ? 'margin-bottom--xl' : undefined}>
+    <article class="card mb-5">
       {renderPostHeader()}
-      <section className="markdown">
-        <MDXProvider components={MDXComponents}>{children}</MDXProvider>
+      <section class="card-body">
+        <p class="card-text">
+          <MDXProvider components={MDXComponents}>{children}</MDXProvider>
+        </p>
       </section>
       {(tags.length > 0 || truncated) && (
-        <footer className="row margin-vert--lg">
+        <footer className="row my-4 mx-1">
           {tags.length > 0 && (
             <div className="col">
               <strong>Tags:</strong>
               {tags.map(({label, permalink: tagPermalink}) => (
                 <Link
                   key={tagPermalink}
-                  className="margin-horiz--sm"
+                  className="mx-1"
                   to={tagPermalink}>
                   {label}
                 </Link>
@@ -113,7 +124,7 @@ function BlogPostItem(props) {
             </div>
           )}
           {truncated && (
-            <div className="col text--right">
+            <div className="col text-right">
               <Link
                 to={metadata.permalink}
                 aria-label={`Read more about ${title}`}>
