@@ -35,7 +35,7 @@ const noFlash = `(function() {
   }
 })();`;
 
-module.exports = function(context, options) {
+module.exports = function (context, options) {
   const {
     siteConfig: {themeConfig},
   } = context;
@@ -61,7 +61,7 @@ module.exports = function(context, options) {
 
     configureWebpack() {
       const prismLanguages = additionalLanguages
-        .map(lang => `prism-${lang}`)
+        .map((lang) => `prism-${lang}`)
         .join('|');
 
       return {

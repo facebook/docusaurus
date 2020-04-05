@@ -31,7 +31,7 @@ export function createServerConfig(
 
   const routesLocation = {};
   // Array of paths to be rendered. Relative to output directory
-  const ssgPaths = routesPaths.map(str => {
+  const ssgPaths = routesPaths.map((str) => {
     const ssgPath =
       baseUrl === '/' ? str : str.replace(new RegExp(`^${baseUrl}`), '/');
     routesLocation[ssgPath] = str;

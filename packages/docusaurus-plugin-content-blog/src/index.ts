@@ -85,7 +85,7 @@ export default function pluginContentBlog(
 
     getPathsToWatch() {
       const {include = []} = options;
-      const globPattern = include.map(pattern => `${contentPath}/${pattern}`);
+      const globPattern = include.map((pattern) => `${contentPath}/${pattern}`);
       return [...globPattern];
     },
 
@@ -151,13 +151,13 @@ export default function pluginContentBlog(
           },
           items: blogPosts
             .slice(page * postsPerPage, (page + 1) * postsPerPage)
-            .map(item => item.id),
+            .map((item) => item.id),
         });
       }
 
       const blogTags: BlogTags = {};
       const tagsPath = normalizeUrl([basePageUrl, 'tags']);
-      blogPosts.forEach(blogPost => {
+      blogPosts.forEach((blogPost) => {
         const {tags} = blogPost.metadata;
         if (!tags || tags.length === 0) {
           // TODO: Extract tags out into a separate plugin.
@@ -167,7 +167,7 @@ export default function pluginContentBlog(
         }
 
         // eslint-disable-next-line no-param-reassign
-        blogPost.metadata.tags = tags.map(tag => {
+        blogPost.metadata.tags = tags.map((tag) => {
           if (typeof tag === 'string') {
             const normalizedTag = kebabCase(tag);
             const permalink = normalizeUrl([tagsPath, normalizedTag]);
@@ -235,7 +235,7 @@ export default function pluginContentBlog(
 
       // Create routes for blog entries.
       await Promise.all(
-        blogPosts.map(async blogPost => {
+        blogPosts.map(async (blogPost) => {
           const {id, metadata} = blogPost;
           await createData(
             // Note that this created data path must be in sync with
@@ -259,7 +259,7 @@ export default function pluginContentBlog(
 
       // Create routes for blog's paginated list entries.
       await Promise.all(
-        blogListPaginated.map(async listPage => {
+        blogListPaginated.map(async (listPage) => {
           const {metadata, items} = listPage;
           const {permalink} = metadata;
           const pageMetadataPath = await createData(
@@ -272,7 +272,7 @@ export default function pluginContentBlog(
             component: blogListComponent,
             exact: true,
             modules: {
-              items: items.map(postID => {
+              items: items.map((postID) => {
                 const metadata = blogItemsToMetadata[postID];
                 // To tell routes.js this is an import and not a nested object to recurse.
                 return {
@@ -299,7 +299,7 @@ export default function pluginContentBlog(
       const tagsModule: TagsModule = {};
 
       await Promise.all(
-        Object.keys(blogTags).map(async tag => {
+        Object.keys(blogTags).map(async (tag) => {
           const {name, items, permalink} = blogTags[tag];
 
           tagsModule[tag] = {
@@ -320,7 +320,7 @@ export default function pluginContentBlog(
             component: blogTagsPostsComponent,
             exact: true,
             modules: {
-              items: items.map(postID => {
+              items: items.map((postID) => {
                 const metadata = blogItemsToMetadata[postID];
                 return {
                   content: {
@@ -422,14 +422,14 @@ export default function pluginContentBlog(
       const feedTypes = getFeedTypes(options.feedOptions?.type);
 
       await Promise.all(
-        feedTypes.map(feedType => {
+        feedTypes.map((feedType) => {
           const feedPath = path.join(
             outDir,
             options.routeBasePath,
             `${feedType}.xml`,
           );
           const feedContent = feedType === 'rss' ? feed.rss2() : feed.atom1();
-          return fs.writeFile(feedPath, feedContent, err => {
+          return fs.writeFile(feedPath, feedContent, (err) => {
             if (err) {
               throw new Error(`Generating ${feedType} feed failed: ${err}`);
             }
@@ -462,7 +462,7 @@ export default function pluginContentBlog(
       };
       const headTags: HtmlTags = [];
 
-      feedTypes.map(feedType => {
+      feedTypes.map((feedType) => {
         const feedConfig = feedsConfig[feedType] || {};
 
         if (!feedsConfig) {

@@ -12,7 +12,7 @@
   "license": "MIT",
   "devDependencies": {
     "@docusaurus/types": "^2.0.0-alpha.50",
-    "fs-extra": "^8.1.0"
+    "fs-extra": "^9.0.0"
   },
   "dependencies": {
     "@endiliey/lqip-loader": "^3.0.2",

@@ -38,7 +38,7 @@ function ComponentCreator(path) {
   - optsWebpack: [require.resolveWeak('./Pages.js'), require.resolveWeak('./doc1.md')]
   */
   const flatChunkNames = flat(chunkNames);
-  Object.keys(flatChunkNames).forEach(key => {
+  Object.keys(flatChunkNames).forEach((key) => {
     const chunkRegistry = registry[flatChunkNames[key]];
     if (chunkRegistry) {
       /* eslint-disable prefer-destructuring */
@@ -57,7 +57,7 @@ function ComponentCreator(path) {
     render: (loaded, props) => {
       // Clone the original object since we don't want to alter the original.
       const loadedModules = JSON.parse(JSON.stringify(chunkNames));
-      Object.keys(loaded).forEach(key => {
+      Object.keys(loaded).forEach((key) => {
         let val = loadedModules;
         const keyPath = key.split('.');
         for (let i = 0; i < keyPath.length - 1; i += 1) {
@@ -65,10 +65,10 @@ function ComponentCreator(path) {
         }
         val[keyPath[keyPath.length - 1]] = loaded[key].default;
         const nonDefaultKeys = Object.keys(loaded[key]).filter(
-          k => k !== 'default',
+          (k) => k !== 'default',
         );
         if (nonDefaultKeys && nonDefaultKeys.length) {
-          nonDefaultKeys.forEach(nonDefaultKey => {
+          nonDefaultKeys.forEach((nonDefaultKey) => {
             val[keyPath[keyPath.length - 1]][nonDefaultKey] =
               loaded[key][nonDefaultKey];
           });

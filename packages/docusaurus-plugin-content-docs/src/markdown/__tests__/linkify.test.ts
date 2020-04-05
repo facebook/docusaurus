@@ -24,7 +24,7 @@ const sourceToPermalink: SourceToPermalink = {
     '/docs/1.0.0/subdir/doc1',
 };
 
-const transform = filepath => {
+const transform = (filepath) => {
   const content = fs.readFileSync(filepath, 'utf-8');
   const transformedContent = linkify(
     content,

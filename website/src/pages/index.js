@@ -201,7 +201,7 @@ function Home() {
         <div className={classnames(styles.section, styles.sectionAlt)}>
           <div className="container">
             <div className="row">
-              {QUOTES.map(quote => (
+              {QUOTES.map((quote) => (
                 <div className="col" key={quote.name}>
                   <div className="avatar avatar--vertical margin-bottom--sm">
                     <Image

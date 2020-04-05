@@ -39,8 +39,8 @@ class LanguageDropDown extends React.Component {
     // add all enabled languages to dropdown
     const enabledLanguages = env.translation
       .enabledLanguages()
-      .filter(lang => lang.tag !== this.props.language)
-      .map(lang => {
+      .filter((lang) => lang.tag !== this.props.language)
+      .map((lang) => {
         // build the href so that we try to stay in current url but change the language.
         let href = siteConfig.baseUrl + lang.tag;
         if (
@@ -71,8 +71,8 @@ class LanguageDropDown extends React.Component {
     // Get the current language full name for display in the header nav
     const currentLanguage = env.translation
       .enabledLanguages()
-      .filter(lang => lang.tag === this.props.language)
-      .map(lang => lang.name);
+      .filter((lang) => lang.tag === this.props.language)
+      .map((lang) => lang.name);
 
     // add Crowdin project recruiting link
     if (siteConfig.translationRecruitingLink) {
@@ -179,10 +179,10 @@ class HeaderNav extends React.Component {
           errorStr +=
             ' It looks like there is no document with that id that exists in your docs directory. Please double check the spelling of your `doc` field and the `id` fields of your docs.';
         } else {
-          errorStr += `${'. Check the spelling of your `doc` field. If that seems sane, and a document in your docs folder exists with that `id` value, \nthen this is likely a bug in Docusaurus.' +
-            ' Docusaurus thinks one or both of translations (currently set to: '}${
-            env.translation.enabled
-          }) or versioning (currently set to: ${
+          errorStr += `${
+            '. Check the spelling of your `doc` field. If that seems sane, and a document in your docs folder exists with that `id` value, \nthen this is likely a bug in Docusaurus.' +
+            ' Docusaurus thinks one or both of translations (currently set to: '
+          }${env.translation.enabled}) or versioning (currently set to: ${
             env.versioning.enabled
           }) is enabled when maybe they should not be. \nThus my internal id for this doc is: '${id}'. Please file an issue for this possible bug on GitHub.`;
         }
@@ -236,7 +236,7 @@ class HeaderNav extends React.Component {
     const headerLinks = this.props.config.headerLinks;
     // add language drop down to end if location not specified
     let languages = false;
-    headerLinks.forEach(link => {
+    headerLinks.forEach((link) => {
       if (link.languages) {
         languages = true;
       }
@@ -245,7 +245,7 @@ class HeaderNav extends React.Component {
       headerLinks.push({languages: true});
     }
     let search = false;
-    headerLinks.forEach(link => {
+    headerLinks.forEach((link) => {
       if (
         link.doc &&
         !fs.existsSync(`${CWD}/../${readMetadata.getDocsPath()}/`)

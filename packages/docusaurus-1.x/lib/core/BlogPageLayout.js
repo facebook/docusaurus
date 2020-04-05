@@ -14,7 +14,7 @@ const MetadataBlog = require('./MetadataBlog.js');
 const MetadataPublicBlog =
   process.env.NODE_ENV === 'development'
     ? MetadataBlog
-    : MetadataBlog.filter(item => !item.unlisted);
+    : MetadataBlog.filter((item) => !item.unlisted);
 const Site = require('./Site.js');
 const utils = require('./utils.js');
 
@@ -48,7 +48,7 @@ class BlogPageLayout extends React.Component {
               {MetadataPublicBlog.slice(
                 page * perPage,
                 (page + 1) * perPage,
-              ).map(post => (
+              ).map((post) => (
                 <BlogPost
                   post={post}
                   content={post.content}

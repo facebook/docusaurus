@@ -7,7 +7,7 @@
 
 const path = require('path');
 
-module.exports = function(context) {
+module.exports = function (context) {
   const {siteConfig} = context;
   const {themeConfig} = siteConfig;
   const {gtag} = themeConfig || {};
