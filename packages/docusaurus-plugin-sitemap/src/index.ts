@@ -36,11 +36,11 @@ export default function pluginSitemap(
 
       // Write sitemap file.
       const sitemapPath = path.join(outDir, 'sitemap.xml');
-      fs.writeFile(sitemapPath, generatedSitemap, err => {
-        if (err) {
-          throw new Error(`Sitemap error: ${err}`);
-        }
-      });
+      try {
+        fs.writeFileSync(sitemapPath, generatedSitemap);
+      } catch (err) {
+        throw new Error(`Sitemap error: ${err}`);
+      }
     },
   };
 }
