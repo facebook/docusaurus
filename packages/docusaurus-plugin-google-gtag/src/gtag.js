@@ -8,7 +8,7 @@
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import siteConfig from '@generated/docusaurus.config';
 
-export default (function () {
+export default (function() {
   if (!ExecutionEnvironment.canUseDOM) {
     return null;
   }

@@ -183,7 +183,7 @@ describe('simple site', () => {
       context,
       options,
       env,
-    }).catch((e) =>
+    }).catch(e =>
       expect(e).toMatchInlineSnapshot(
         `[Error: Document id cannot include "/".]`,
       ),

@@ -68,7 +68,7 @@ const supportedPrefetchStrategy = support('prefetch')
 const preFetched = {};
 
 function prefetch(url) {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     if (preFetched[url]) {
       resolve();
       return;

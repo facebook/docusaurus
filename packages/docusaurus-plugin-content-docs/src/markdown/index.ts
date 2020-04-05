@@ -9,7 +9,7 @@ import {getOptions} from 'loader-utils';
 import {loader} from 'webpack';
 import linkify from './linkify';
 
-export = function (fileString: string) {
+export = function(fileString: string) {
   const callback = this.async();
   const {docsDir, siteDir, versionedDir, sourceToPermalink} = getOptions(this);
   return (

@@ -41,7 +41,7 @@ describe('flat', () => {
       null: null,
       undefined,
     };
-    Object.keys(primitives).forEach((key) => {
+    Object.keys(primitives).forEach(key => {
       const value = primitives[key];
       expect(
         flat({

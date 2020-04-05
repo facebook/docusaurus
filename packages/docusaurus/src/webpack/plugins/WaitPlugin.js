@@ -27,7 +27,7 @@ class WaitPlugin {
           .then(() => {
             callback();
           })
-          .catch((error) => {
+          .catch(error => {
             console.warn(`WaitPlugin error: ${error}`);
           });
       });

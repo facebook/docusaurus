@@ -26,7 +26,7 @@ if (!semver.satisfies(process.version, requiredVersion)) {
 
 function wrapCommand(fn) {
   return (...args) =>
-    fn(...args).catch((err) => {
+    fn(...args).catch(err => {
       console.error(chalk.red(err.stack));
       process.exitCode = 1;
     });
@@ -43,7 +43,7 @@ program
     wrapCommand(init)(path.resolve(rootDir), siteName, template);
   });
 
-program.arguments('<command>').action((cmd) => {
+program.arguments('<command>').action(cmd => {
   program.outputHelp();
   console.log(`  ${chalk.red(`\n  Unknown command ${chalk.yellow(cmd)}.`)}`);
   console.log();

@@ -13,7 +13,7 @@ const MetadataBlog = require('./MetadataBlog.js');
 const MetadataPublicBlog =
   process.env.NODE_ENV === 'development'
     ? MetadataBlog
-    : MetadataBlog.filter((item) => !item.unlisted);
+    : MetadataBlog.filter(item => !item.unlisted);
 
 class BlogSidebar extends React.Component {
   render() {
@@ -33,7 +33,7 @@ class BlogSidebar extends React.Component {
       {
         type: 'CATEGORY',
         title: blogSidebarTitle,
-        children: MetadataPublicBlog.slice(0, blogSidebarCount).map((item) => ({
+        children: MetadataPublicBlog.slice(0, blogSidebarCount).map(item => ({
           type: 'LINK',
           item,
         })),

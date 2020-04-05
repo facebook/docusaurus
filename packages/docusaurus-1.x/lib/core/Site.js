@@ -26,7 +26,7 @@ class Site extends React.Component {
     const hasLanguageDropdown =
       env.translation.enabled && env.translation.enabledLanguages().length > 1;
     const hasOrdinaryHeaderLinks = headerLinks.some(
-      (link) => !(link.languages || link.search),
+      link => !(link.languages || link.search),
     );
     return !(hasLanguageDropdown || hasOrdinaryHeaderLinks);
   }

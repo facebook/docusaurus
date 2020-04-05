@@ -29,13 +29,13 @@ function compile(config: Configuration[]): Promise<any> {
         reject(err);
       }
       if (stats.hasErrors()) {
-        stats.toJson('errors-only').errors.forEach((e) => {
+        stats.toJson('errors-only').errors.forEach(e => {
           console.error(e);
         });
         reject(new Error('Failed to compile with errors.'));
       }
       if (stats.hasWarnings()) {
-        stats.toJson('errors-warnings').warnings.forEach((warning) => {
+        stats.toJson('errors-warnings').warnings.forEach(warning => {
           console.warn(warning);
         });
       }
@@ -95,7 +95,7 @@ export async function build(
   }
 
   // Plugin Lifecycle - configureWebpack.
-  plugins.forEach((plugin) => {
+  plugins.forEach(plugin => {
     const {configureWebpack} = plugin;
     if (!configureWebpack) {
       return;
@@ -130,14 +130,14 @@ export async function build(
     typeof serverConfig.output.filename === 'string'
   ) {
     const serverBundle = path.join(outDir, serverConfig.output.filename);
-    fs.pathExists(serverBundle).then((exist) => {
+    fs.pathExists(serverBundle).then(exist => {
       exist && fs.unlink(serverBundle);
     });
   }
 
   // Plugin Lifecycle - postBuild.
   await Promise.all(
-    plugins.map(async (plugin) => {
+    plugins.map(async plugin => {
       if (!plugin.postBuild) {
         return;
       }

@@ -14,7 +14,7 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import './styles.css';
 import styles from './styles.module.css';
 
-const Heading = (Tag) =>
+const Heading = Tag =>
   function TargetComponent({id, ...props}) {
     const {
       siteConfig: {

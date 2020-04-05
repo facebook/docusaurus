@@ -26,7 +26,7 @@ export function getVersionsJSONFile(siteDir: string) {
   return path.join(siteDir, VERSIONS_JSON_FILE);
 }
 
-export default function (siteDir: string): Env {
+export default function(siteDir: string): Env {
   const versioning: VersioningEnv = {
     enabled: false,
     versions: [],

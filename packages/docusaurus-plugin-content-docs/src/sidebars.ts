@@ -43,7 +43,7 @@ function normalizeCategoryShorthand(
  */
 function assertItem(item: Object, keys: string[]): void {
   const unknownKeys = Object.keys(item).filter(
-    (key) => !keys.includes(key) && key !== 'type',
+    key => !keys.includes(key) && key !== 'type',
   );
 
   if (unknownKeys.length) {
@@ -150,7 +150,7 @@ export default function loadSidebars(sidebarPaths?: string[]): Sidebar {
     return {} as Sidebar;
   }
 
-  sidebarPaths.map((sidebarPath) => {
+  sidebarPaths.map(sidebarPath => {
     if (sidebarPath && fs.existsSync(sidebarPath)) {
       const sidebar = importFresh(sidebarPath) as SidebarRaw;
       Object.assign(allSidebars, sidebar);

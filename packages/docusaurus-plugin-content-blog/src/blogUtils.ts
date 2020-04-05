@@ -69,7 +69,7 @@ export async function generateBlogFeed(
     copyright: feedOptions.copyright,
   });
 
-  blogPosts.forEach((post) => {
+  blogPosts.forEach(post => {
     const {
       id,
       metadata: {title, permalink, date, description},
@@ -184,7 +184,7 @@ export function linkify(
   blogPosts: BlogPost[],
 ) {
   let fencedBlock = false;
-  const lines = fileContent.split('\n').map((line) => {
+  const lines = fileContent.split('\n').map(line => {
     if (line.trim().startsWith('```')) {
       fencedBlock = !fencedBlock;
     }
@@ -203,7 +203,7 @@ export function linkify(
       )}`;
       let blogPostPermalink = null;
 
-      blogPosts.forEach((blogPost) => {
+      blogPosts.forEach(blogPost => {
         if (blogPost.metadata.source === aliasedPostSource) {
           blogPostPermalink = blogPost.metadata.permalink;
         }

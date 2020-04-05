@@ -15,7 +15,7 @@ const path = require('path');
 
 const CWD = process.cwd();
 
-const toHex = (color) => {
+const toHex = color => {
   const hex = color.toString(16);
   return hex.length === 1 ? `0${hex}` : hex;
 };
@@ -37,7 +37,7 @@ let feature;
 
 commander
   .arguments('[feature]')
-  .action((feat) => {
+  .action(feat => {
     feature = feat;
   })
   .parse(process.argv);
@@ -85,7 +85,7 @@ if (feature === 'translations') {
     fs.copySync(`${folder}/crowdin.yaml`, `${CWD}/../crowdin.yaml`);
   }
   const files = glob.sync(`${folder}/**/*`);
-  files.forEach((file) => {
+  files.forEach(file => {
     if (fs.lstatSync(file).isDirectory()) {
       return;
     }
@@ -112,7 +112,7 @@ if (feature === 'translations') {
   // copy files for versions
   const folder = path.join(__dirname, '..', 'examples', 'versions');
   const files = glob.sync(`${folder}/**/*`);
-  files.forEach((file) => {
+  files.forEach(file => {
     if (fs.lstatSync(file).isDirectory()) {
       return;
     }
@@ -189,7 +189,7 @@ if (feature === 'translations') {
   // copy other files
   const files = glob.sync(`${folder}/**/*`);
   const {primaryColor, secondaryColor} = colorScheme();
-  files.forEach((file) => {
+  files.forEach(file => {
     if (fs.lstatSync(file).isDirectory()) {
       return;
     }
@@ -235,7 +235,7 @@ if (feature === 'translations') {
   });
 
   const svgs = glob.sync(`${CWD}/static/img/**/*.svg`);
-  svgs.forEach((file) => {
+  svgs.forEach(file => {
     // Replace primary colors of SVGs.
     const newImage = fs
       .readFileSync(file, 'utf8')
