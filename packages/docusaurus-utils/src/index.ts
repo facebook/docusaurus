@@ -8,7 +8,8 @@
 import path from 'path';
 import matter from 'gray-matter';
 import {createHash} from 'crypto';
-import _ from 'lodash';
+import camelCase from 'lodash.camelcase';
+import kebabCase from 'lodash.kebabcase';
 import escapeStringRegexp from 'escape-string-regexp';
 import fs from 'fs-extra';
 
@@ -51,13 +52,14 @@ export async function generate(
   }
 }
 
-export function objectWithKeySorted(obj: Object) {
-  // https://github.com/lodash/lodash/issues/1459#issuecomment-253969771
-  return _(obj)
-    .toPairs()
-    .sortBy(0)
-    .fromPairs()
-    .value();
+export function objectWithKeySorted(obj: {[index: string]: any}) {
+  // https://github.com/lodash/lodash/issues/1459#issuecomment-460941233
+  return Object.keys(obj)
+    .sort()
+    .reduce((acc: any, key: string) => {
+      acc[key] = obj[key];
+      return acc;
+    }, {});
 }
 
 const indexRE = /(^|.*\/)index\.(md|js|jsx|ts|tsx)$/i;
@@ -93,7 +95,15 @@ export function docuHash(str: string): string {
     .update(str)
     .digest('hex')
     .substr(0, 3);
-  return `${_.kebabCase(str)}-${shortHash}`;
+  return `${kebabCase(str)}-${shortHash}`;
+}
+
+/**
+ * Convert first string character to the upper case.
+ * E.g: docusaurus -> Docusaurus
+ */
+export function upperFirst(str: string): string {
+  return str ? str.charAt(0).toUpperCase() + str.slice(1) : '';
 }
 
 /**
@@ -105,8 +115,7 @@ export function genComponentName(pagePath: string): string {
     return 'index';
   }
   const pageHash = docuHash(pagePath);
-  const pascalCase = _.flow(_.camelCase, _.upperFirst);
-  return pascalCase(pageHash);
+  return upperFirst(camelCase(pageHash));
 }
 
 /**
