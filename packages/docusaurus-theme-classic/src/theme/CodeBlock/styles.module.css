@@ -40,14 +40,10 @@
   padding: 0.4rem 0.5rem;
   position: absolute;
   right: var(--ifm-pre-padding);
-  top: var(--ifm-pre-padding);
+  top: calc(var(--ifm-pre-padding) / 2);
   visibility: hidden;
   transition: opacity 200ms ease-in-out, visibility 200ms ease-in-out,
     bottom 200ms ease-in-out;
-}
-
-.copyButtonWithTitle {
-  top: calc(var(--ifm-pre-padding));
 }
 
 .codeBlockTitle:hover + .codeBlockContent .copyButton,
@@ -64,10 +60,4 @@
   float: left;
   min-width: 100%;
   padding: var(--ifm-pre-padding);
-}
-
-/* Disable top border radius when title is present. */
-.codeBlockTitle + .codeBlockContent .codeBlockLines {
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
 }
