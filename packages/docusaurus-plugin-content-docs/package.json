@@ -12,7 +12,7 @@
   "license": "MIT",
   "devDependencies": {
     "@docusaurus/types": "^2.0.0-alpha.50",
-    "commander": "^4.0.1",
+    "commander": "^5.0.0",
     "picomatch": "^2.1.1"
   },
   "dependencies": {

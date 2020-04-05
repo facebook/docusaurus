@@ -23,7 +23,7 @@
     "unist-util-visit": "^2.0.2"
   },
   "devDependencies": {
-    "remark": "^11.0.2",
+    "remark": "^12.0.0",
     "remark-mdx": "^1.5.8",
     "to-vfile": "^6.0.0",
     "unist-builder": "^2.0.3",
