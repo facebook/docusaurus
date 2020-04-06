@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -72,7 +72,7 @@ async function execute() {
 
   // create html files for all docs by going through all doc ids
   const mdToHtml = metadataUtils.mdToHtml(Metadata, siteConfig);
-  Object.keys(Metadata).forEach(id => {
+  Object.keys(Metadata).forEach((id) => {
     const metadata = Metadata[id];
     const file = docs.getFile(metadata);
     if (!file) {
@@ -118,7 +118,7 @@ async function execute() {
   files
     .sort()
     .reverse()
-    .forEach(file => {
+    .forEach((file) => {
       // Why normalize? In case we are on Windows.
       // Remember the nuance of glob: https://www.npmjs.com/package/glob#windows
       const normalizedFile = path.normalize(file);
@@ -137,7 +137,7 @@ async function execute() {
 
   // create html files for all blog pages (collections of article previews)
   const blogPages = blog.getPagesMarkup(MetadataBlog.length, siteConfig);
-  Object.keys(blogPages).forEach(pagePath => {
+  Object.keys(blogPages).forEach((pagePath) => {
     const targetFile = join(buildDir, 'blog', pagePath);
     writeFileAndCreateFolder(targetFile, blogPages[pagePath]);
   });
@@ -168,7 +168,7 @@ async function execute() {
   // copy all static files from docusaurus
   const libStaticDir = join(__dirname, '..', 'static');
   files = glob.sync(join(libStaticDir, '**'));
-  files.forEach(file => {
+  files.forEach((file) => {
     // Why normalize? In case we are on Windows.
     // Remember the nuance of glob: https://www.npmjs.com/package/glob#windows
     const targetFile = path.normalize(file).replace(libStaticDir, buildDir);
@@ -188,15 +188,15 @@ async function execute() {
         );
       }
 
-      Object.keys(siteConfig.colors).forEach(key => {
+      Object.keys(siteConfig.colors).forEach((key) => {
         const color = siteConfig.colors[key];
         cssContent = cssContent.replace(new RegExp(`\\$${key}`, 'g'), color);
       });
 
       if (siteConfig.fonts) {
-        Object.keys(siteConfig.fonts).forEach(key => {
+        Object.keys(siteConfig.fonts).forEach((key) => {
           const fontString = siteConfig.fonts[key]
-            .map(font => `"${font}"`)
+            .map((font) => `"${font}"`)
             .join(', ');
           cssContent = cssContent.replace(
             new RegExp(`\\$${key}`, 'g'),
@@ -216,7 +216,7 @@ async function execute() {
   // Copy all static files from user.
   const userStaticDir = join(CWD, 'static');
   files = glob.sync(join(userStaticDir, '**'), {dot: true});
-  files.forEach(file => {
+  files.forEach((file) => {
     // Why normalize? In case we are on Windows.
     // Remember the nuance of glob: https://www.npmjs.com/package/glob#windows
     const normalizedFile = path.normalize(file);
@@ -229,15 +229,15 @@ async function execute() {
       let cssContent = fs.readFileSync(normalizedFile, 'utf8');
       cssContent = `${fs.readFileSync(mainCss, 'utf8')}\n${cssContent}`;
 
-      Object.keys(siteConfig.colors).forEach(key => {
+      Object.keys(siteConfig.colors).forEach((key) => {
         const color = siteConfig.colors[key];
         cssContent = cssContent.replace(new RegExp(`\\$${key}`, 'g'), color);
       });
 
       if (siteConfig.fonts) {
-        Object.keys(siteConfig.fonts).forEach(key => {
+        Object.keys(siteConfig.fonts).forEach((key) => {
           const fontString = siteConfig.fonts[key]
-            .map(font => `"${font}"`)
+            .map((font) => `"${font}"`)
             .join(', ');
           cssContent = cssContent.replace(
             new RegExp(`\\$${key}`, 'g'),
@@ -264,7 +264,7 @@ async function execute() {
           }),
           imageminGifsicle(),
         ],
-      }).catch(error => {
+      }).catch((error) => {
         // if image compression fail, just copy it as it is
         console.error(error);
         fs.copySync(normalizedFile, targetFile);
@@ -287,10 +287,10 @@ async function execute() {
   // compile/copy pages from user
   const enabledLanguages = env.translation
     .enabledLanguages()
-    .map(lang => lang.tag);
+    .map((lang) => lang.tag);
   const userPagesDir = join(CWD, 'pages');
   files = glob.sync(join(userPagesDir, '**'));
-  files.forEach(file => {
+  files.forEach((file) => {
     // Why normalize? In case we are on Windows.
     // Remember the nuance of glob: https://www.npmjs.com/package/glob#windows
     const normalizedFile = path.normalize(file);

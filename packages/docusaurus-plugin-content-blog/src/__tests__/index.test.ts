@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -11,15 +11,15 @@ import {DocusaurusConfig, LoadContext} from '@docusaurus/types';
 import pluginContentBlog from '../index';
 
 describe('loadBlog', () => {
-  test('simple website', async () => {
-    const siteDir = path.join(__dirname, '__fixtures__', 'website');
+  const siteDir = path.join(__dirname, '__fixtures__', 'website');
+  const pluginPath = 'blog';
+  const getBlogPosts = async () => {
     const generatedFilesDir: string = path.resolve(siteDir, '.docusaurus');
     const siteConfig = {
       title: 'Hello',
       baseUrl: '/',
       url: 'https://docusaurus.io',
     } as DocusaurusConfig;
-    const pluginPath = 'blog';
     const plugin = pluginContentBlog(
       {
         siteDir,
@@ -27,10 +27,18 @@ describe('loadBlog', () => {
         generatedFilesDir,
       } as LoadContext,
       {
-        path: 'blog',
+        path: pluginPath,
+        editUrl:
+          'https://github.com/facebook/docusaurus/edit/master/website-1x',
       },
     );
     const {blogPosts} = await plugin.loadContent();
+
+    return blogPosts;
+  };
+
+  test('simple website', async () => {
+    const blogPosts = await getBlogPosts();
     const noDateSource = path.join('@site', pluginPath, 'no date.md');
     const noDateSourceBirthTime = (
       await fs.stat(noDateSource.replace('@site', siteDir))
@@ -40,30 +48,35 @@ describe('loadBlog', () => {
       .substr(0, '2019-01-01'.length)
       .replace(/-/g, '/')}/no date`;
 
-    expect(
-      blogPosts.find(v => v.metadata.title === 'date-matter').metadata,
-    ).toEqual({
+    expect({
+      ...blogPosts.find((v) => v.metadata.title === 'date-matter').metadata,
+      ...{prevItem: undefined},
+    }).toEqual({
+      editUrl:
+        'https://github.com/facebook/docusaurus/edit/master/website-1x/blog/date-matter.md',
       permalink: '/blog/2019/01/01/date-matter',
+      readingTime: 0.02,
       source: path.join('@site', pluginPath, 'date-matter.md'),
       title: 'date-matter',
       description: `date inside front matter`,
       date: new Date('2019-01-01'),
+      prevItem: undefined,
       tags: [],
       nextItem: {
         permalink: '/blog/2018/12/14/Happy-First-Birthday-Slash',
         title: 'Happy 1st Birthday Slash!',
       },
-      prevItem: {
-        permalink: noDatePermalink,
-        title: 'no date',
-      },
       truncated: false,
     });
+
     expect(
-      blogPosts.find(v => v.metadata.title === 'Happy 1st Birthday Slash!')
+      blogPosts.find((v) => v.metadata.title === 'Happy 1st Birthday Slash!')
         .metadata,
     ).toEqual({
+      editUrl:
+        'https://github.com/facebook/docusaurus/edit/master/website-1x/blog/2018-12-14-Happy-First-Birthday-Slash.md',
       permalink: '/blog/2018/12/14/Happy-First-Birthday-Slash',
+      readingTime: 0.01,
       source: path.join(
         '@site',
         pluginPath,
@@ -80,20 +93,32 @@ describe('loadBlog', () => {
       truncated: false,
     });
 
-    expect(
-      blogPosts.find(v => v.metadata.title === 'no date').metadata,
-    ).toEqual({
+    expect({
+      ...blogPosts.find((v) => v.metadata.title === 'no date').metadata,
+      ...{prevItem: undefined},
+    }).toEqual({
+      editUrl:
+        'https://github.com/facebook/docusaurus/edit/master/website-1x/blog/no date.md',
       permalink: noDatePermalink,
+      readingTime: 0.01,
       source: noDateSource,
       title: 'no date',
       description: `no date`,
       date: noDateSourceBirthTime,
       tags: [],
+      prevItem: undefined,
       nextItem: {
-        permalink: '/blog/2019/01/01/date-matter',
-        title: 'date-matter',
+        permalink: '/blog/2020/02/27/draft',
+        title: 'draft',
       },
       truncated: false,
     });
+  });
+
+  test('draft blog post not exists in production build', async () => {
+    process.env.NODE_ENV = 'production';
+    const blogPosts = await getBlogPosts();
+
+    expect(blogPosts.find((v) => v.metadata.title === 'draft')).toBeUndefined();
   });
 });

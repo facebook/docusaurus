@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -11,7 +11,7 @@ const React = require('react');
 class Head extends React.Component {
   render() {
     const links = this.props.config.headerLinks;
-    const hasBlog = links.some(link => link.blog);
+    const hasBlog = links.some((link) => link.blog);
 
     const highlight = {
       version: '9.12.0',
@@ -130,7 +130,7 @@ class Head extends React.Component {
 
         {/* External resources */}
         {this.props.config.stylesheets &&
-          this.props.config.stylesheets.map(source =>
+          this.props.config.stylesheets.map((source) =>
             source.href ? (
               <link rel="stylesheet" key={source.href} {...source} />
             ) : (
@@ -138,7 +138,7 @@ class Head extends React.Component {
             ),
           )}
         {this.props.config.scripts &&
-          this.props.config.scripts.map(source =>
+          this.props.config.scripts.map((source) =>
             source.src ? (
               <script type="text/javascript" key={source.src} {...source} />
             ) : (

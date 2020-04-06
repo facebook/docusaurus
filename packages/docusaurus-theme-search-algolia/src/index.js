@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -7,7 +7,7 @@
 
 const path = require('path');
 
-module.exports = function() {
+module.exports = function () {
   return {
     name: 'docusaurus-theme-search-algolia',
 
@@ -16,7 +16,7 @@ module.exports = function() {
     },
 
     configureWebpack() {
-      // Ensure that algolia docsearch css is its own chunk
+      // Ensure that algolia docsearch styles is its own chunk.
       return {
         optimization: {
           splitChunks: {
@@ -26,7 +26,7 @@ module.exports = function() {
                 test: /algolia\.css$/,
                 chunks: `all`,
                 enforce: true,
-                // Set priority higher than docusaurus single-css extraction
+                // Set priority higher than docusaurus single-css extraction.
                 priority: 60,
               },
             },

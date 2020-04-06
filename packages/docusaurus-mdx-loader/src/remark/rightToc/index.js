@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -14,15 +14,15 @@ const parseOptions = {
   plugins: ['jsx'],
   sourceType: 'module',
 };
-const isImport = child => child.type === 'import';
-const hasImports = index => index > -1;
-const isExport = child => child.type === 'export';
+const isImport = (child) => child.type === 'import';
+const hasImports = (index) => index > -1;
+const isExport = (child) => child.type === 'export';
 
 const isTarget = (child, name) => {
   let found = false;
   const ast = parse(child.value, parseOptions);
   traverse(ast, {
-    VariableDeclarator: path => {
+    VariableDeclarator: (path) => {
       if (path.node.id.name === name) {
         found = true;
       }
@@ -61,7 +61,7 @@ const getOrCreateExistingTargetIndex = (children, name) => {
 const plugin = (options = {}) => {
   const name = options.name || 'rightToc';
 
-  const transformer = node => {
+  const transformer = (node) => {
     const headings = search(node);
     const {children} = node;
     const targetIndex = getOrCreateExistingTargetIndex(children, name);

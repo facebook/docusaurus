@@ -1,17 +1,17 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
 
-import _ from 'lodash';
+import isPlainObject from 'lodash.isplainobject';
 import {HtmlTagObject} from '@docusaurus/types';
 import htmlTags from 'html-tags';
 import voidHtmlTags from 'html-tags/void';
 
 function assertIsHtmlTagObject(val: any): asserts val is HtmlTagObject {
-  if (!_.isPlainObject(val)) {
+  if (!isPlainObject(val)) {
     throw new Error(`"${val}" is not a valid HTML tag object`);
   }
   if (typeof val.tagName !== 'string') {
@@ -35,8 +35,8 @@ export function htmlTagObjectToString(tagDefinition: any): string {
   const isVoidTag = voidHtmlTags.indexOf(tagDefinition.tagName) !== -1;
   const tagAttributes = tagDefinition.attributes || {};
   const attributes = Object.keys(tagAttributes)
-    .filter(attributeName => tagAttributes[attributeName] !== false)
-    .map(attributeName => {
+    .filter((attributeName) => tagAttributes[attributeName] !== false)
+    .map((attributeName) => {
       if (tagAttributes[attributeName] === true) {
         return attributeName;
       }

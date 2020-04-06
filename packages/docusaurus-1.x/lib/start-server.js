@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -48,7 +48,7 @@ program
   .option('--host <host>', 'use specified host (default: localhost)')
   .parse(process.argv);
 
-startDocusaurus().catch(ex => {
+startDocusaurus().catch((ex) => {
   console.error(chalk.red(`Failed to start Docusaurus server: ${ex}`));
   process.exit(1);
 });

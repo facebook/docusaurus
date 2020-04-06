@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -8,7 +8,7 @@
 // Provided by Canny.
 
 function canny() {
-  !(function(w, d, i, s) {
+  !(function (w, d, i, s) {
     function l() {
       if (!d.getElementById(i)) {
         let f = d.getElementsByTagName(s)[0],
@@ -20,7 +20,7 @@ function canny() {
       }
     }
     if (typeof w.Canny !== 'function') {
-      var c = function() {
+      var c = function () {
         c.q.push(arguments);
       };
       (c.q = []),

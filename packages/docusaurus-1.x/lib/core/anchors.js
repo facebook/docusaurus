@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -14,7 +14,7 @@ const toSlug = require('./toSlug');
 function anchors(md) {
   const originalRender = md.renderer.rules.heading_open;
 
-  md.renderer.rules.heading_open = function(tokens, idx, options, env) {
+  md.renderer.rules.heading_open = function (tokens, idx, options, env) {
     if (!env.slugger) {
       env.slugger = new GithubSlugger();
     }

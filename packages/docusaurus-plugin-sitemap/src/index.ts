@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -12,7 +12,7 @@ import {PluginOptions} from './types';
 import createSitemap from './createSitemap';
 
 const DEFAULT_OPTIONS: PluginOptions = {
-  cacheTime: 600 * 1000, // 600 sec - cache purge period
+  cacheTime: 600 * 1000, // 600 sec - cache purge period.
   changefreq: 'weekly',
   priority: 0.5,
 };
@@ -27,20 +27,20 @@ export default function pluginSitemap(
     name: 'docusaurus-plugin-sitemap',
 
     async postBuild({siteConfig, routesPaths, outDir}: Props) {
-      // Generate sitemap
+      // Generate sitemap.
       const generatedSitemap = createSitemap(
         siteConfig,
         routesPaths,
         options,
       ).toString();
 
-      // Write sitemap file
+      // Write sitemap file.
       const sitemapPath = path.join(outDir, 'sitemap.xml');
-      fs.writeFile(sitemapPath, generatedSitemap, err => {
-        if (err) {
-          throw new Error(`Sitemap error: ${err}`);
-        }
-      });
+      try {
+        fs.writeFileSync(sitemapPath, generatedSitemap);
+      } catch (err) {
+        throw new Error(`Sitemap error: ${err}`);
+      }
     },
   };
 }

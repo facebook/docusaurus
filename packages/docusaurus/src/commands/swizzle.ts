@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -30,7 +30,7 @@ export async function swizzle(
       fromPath = path.join(fromPath, componentName);
       toPath = path.join(toPath, componentName);
 
-      // Handle single js file only.
+      // Handle single JavaScript file only.
       // E.g: if <fromPath> does not exist, we try to swizzle <fromPath>.js instead
       if (!fs.existsSync(fromPath) && fs.existsSync(`${fromPath}.js`)) {
         [fromPath, toPath] = [`${fromPath}.js`, `${toPath}.js`];

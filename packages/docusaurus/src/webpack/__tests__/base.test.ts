@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -17,7 +17,7 @@ describe('babel transpilation exclude logic', () => {
       'serverEntry.js',
       path.join('exports', 'Link.js'),
     ];
-    clientFiles.forEach(file => {
+    clientFiles.forEach((file) => {
       expect(excludeJS(path.join(clientDir, file))).toEqual(false);
     });
   });
@@ -28,7 +28,7 @@ describe('babel transpilation exclude logic', () => {
       '/website/src/components/foo.js',
       '/src/theme/SearchBar/index.js',
     ];
-    moduleFiles.forEach(file => {
+    moduleFiles.forEach((file) => {
       expect(excludeJS(file)).toEqual(false);
     });
   });
@@ -39,7 +39,7 @@ describe('babel transpilation exclude logic', () => {
       'node_modules/@docusaurus/theme-classic/theme/Layout.js',
       '/docusaurus/website/node_modules/@docusaurus/theme-search-algolia/theme/SearchBar.js',
     ];
-    moduleFiles.forEach(file => {
+    moduleFiles.forEach((file) => {
       expect(excludeJS(file)).toEqual(false);
     });
   });
@@ -52,7 +52,7 @@ describe('babel transpilation exclude logic', () => {
       '/docusaurus/website/node_modules/@docusaurus/core/node_modules/core-js/modules/_descriptors.js',
       'node_modules/docusaurus-theme-classic/node_modules/react-daypicker/index.js',
     ];
-    moduleFiles.forEach(file => {
+    moduleFiles.forEach((file) => {
       expect(excludeJS(file)).toEqual(true);
     });
   });

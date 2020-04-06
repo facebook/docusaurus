@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -12,7 +12,7 @@ import {ParsedUrlQueryInput} from 'querystring';
 export interface DocusaurusConfig {
   baseUrl: string;
   favicon: string;
-  tagline: string;
+  tagline?: string;
   title: string;
   url: string;
   organizationName?: string;
@@ -63,6 +63,8 @@ export interface StartCLIOptions {
 
 export interface BuildCLIOptions {
   bundleAnalyzer: boolean;
+  outDir: string;
+  minify: boolean;
 }
 
 export interface LoadContext {

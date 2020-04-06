@@ -1,11 +1,10 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
 
-import _ from 'lodash';
 import importFresh from 'import-fresh';
 import {LoadContext, Plugin, PluginConfig} from '@docusaurus/types';
 
@@ -16,10 +15,11 @@ export function initPlugins({
   pluginConfigs: PluginConfig[];
   context: LoadContext;
 }): Plugin<any>[] {
-  const plugins: Plugin<any>[] = _.compact(
-    pluginConfigs.map(pluginItem => {
+  const plugins: Plugin<any>[] = pluginConfigs
+    .map((pluginItem) => {
       let pluginModuleImport;
       let pluginOptions = {};
+
       if (!pluginItem) {
         return null;
       }
@@ -35,11 +35,12 @@ export function initPlugins({
         return null;
       }
 
-      // module is any valid module identifier - npm package or locally-resolved path.
+      // The pluginModuleImport value is any valid
+      // module identifier - npm package or locally-resolved path.
       const pluginModule: any = importFresh(pluginModuleImport);
       return (pluginModule.default || pluginModule)(context, pluginOptions);
-    }),
-  );
+    })
+    .filter(Boolean);
 
   return plugins;
 }

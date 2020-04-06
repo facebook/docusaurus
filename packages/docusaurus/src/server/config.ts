@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -7,12 +7,12 @@
 
 import fs from 'fs-extra';
 import importFresh from 'import-fresh';
-import _ from 'lodash';
+import has from 'lodash.has';
 import path from 'path';
 import {DocusaurusConfig, PluginConfig} from '@docusaurus/types';
 import {CONFIG_FILE_NAME} from '../constants';
 
-const REQUIRED_FIELDS = ['baseUrl', 'favicon', 'tagline', 'title', 'url'];
+const REQUIRED_FIELDS = ['baseUrl', 'favicon', 'title', 'url'];
 
 const OPTIONAL_FIELDS = [
   'organizationName',
@@ -25,6 +25,7 @@ const OPTIONAL_FIELDS = [
   'themeConfig',
   'scripts',
   'stylesheets',
+  'tagline',
 ];
 
 const DEFAULT_CONFIG: {
@@ -44,7 +45,7 @@ const DEFAULT_CONFIG: {
 };
 
 function formatFields(fields: string[]): string {
-  return fields.map(field => `'${field}'`).join(', ');
+  return fields.map((field) => `'${field}'`).join(', ');
 }
 
 export function loadConfig(siteDir: string): DocusaurusConfig {
@@ -53,10 +54,12 @@ export function loadConfig(siteDir: string): DocusaurusConfig {
   if (!fs.existsSync(configPath)) {
     throw new Error(`${CONFIG_FILE_NAME} not found`);
   }
+
   const loadedConfig = importFresh(configPath) as Partial<DocusaurusConfig>;
   const missingFields = REQUIRED_FIELDS.filter(
-    field => !_.has(loadedConfig, field),
+    (field) => !has(loadedConfig, field),
   );
+
   if (missingFields.length > 0) {
     throw new Error(
       `The required field(s) ${formatFields(
@@ -74,8 +77,9 @@ export function loadConfig(siteDir: string): DocusaurusConfig {
   // Don't allow unrecognized fields.
   const allowedFields = [...REQUIRED_FIELDS, ...OPTIONAL_FIELDS];
   const unrecognizedFields = Object.keys(config).filter(
-    field => !allowedFields.includes(field),
+    (field) => !allowedFields.includes(field),
   );
+
   if (unrecognizedFields && unrecognizedFields.length > 0) {
     throw new Error(
       `The field(s) ${formatFields(

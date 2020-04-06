@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -145,7 +145,7 @@ describe('getFile', () => {
     'docs/doc1.md': 'Just another document',
   };
   fs.existsSync = jest.fn().mockReturnValue(true);
-  fs.readFileSync = jest.fn().mockImplementation(file => {
+  fs.readFileSync = jest.fn().mockImplementation((file) => {
     const fakePath = file.replace(
       process.cwd().replace(/website-1.x\/?$/, ''),
       '',

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -49,7 +49,7 @@ const available = {};
 // given version/id of a document
 const versionFiles = {};
 const files = glob.sync(`${versionFolder}**`);
-files.forEach(file => {
+files.forEach((file) => {
   const ext = path.extname(file);
   if (ext !== '.md' && ext !== '.markdown') {
     return;
@@ -210,8 +210,8 @@ function processVersionMetadata(file, version, useVersion, language) {
 // return all metadata of versioned documents
 function docData() {
   const allIds = new Set();
-  Object.keys(versionFiles).forEach(version => {
-    Object.keys(versionFiles[version]).forEach(id => {
+  Object.keys(versionFiles).forEach((version) => {
+    Object.keys(versionFiles[version]).forEach((id) => {
       allIds.add(id);
     });
   });
@@ -219,10 +219,10 @@ function docData() {
   const metadatas = [];
 
   languages
-    .filter(language => language.enabled)
-    .forEach(language => {
-      versions.forEach(version => {
-        allIds.forEach(id => {
+    .filter((language) => language.enabled)
+    .forEach((language) => {
+      versions.forEach((version) => {
+        allIds.forEach((id) => {
           let useVersion;
           try {
             useVersion = docVersion(id, version);

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -221,11 +221,11 @@ class CleanWebpackPlugin {
     }
 
     if (hooks) {
-      hooks.done.tap('clean-webpack-plugin', stats => {
+      hooks.done.tap('clean-webpack-plugin', (stats) => {
         this.handleDone(stats);
       });
     } else {
-      compiler.plugin('done', stats => {
+      compiler.plugin('done', (stats) => {
         this.handleDone(stats);
       });
     }
@@ -281,7 +281,7 @@ class CleanWebpackPlugin {
      *
      * (relies on del's cwd: outputPath option)
      */
-    const staleFiles = this.currentAssets.filter(previousAsset => {
+    const staleFiles = this.currentAssets.filter((previousAsset) => {
       const assetCurrent = assets.includes(previousAsset) === false;
 
       return assetCurrent;
@@ -328,7 +328,7 @@ class CleanWebpackPlugin {
        * Log if verbose is enabled
        */
       if (this.verbose) {
-        deleted.forEach(file => {
+        deleted.forEach((file) => {
           const filename = path.relative(process.cwd(), file);
 
           const message = this.dry ? 'dry' : 'removed';

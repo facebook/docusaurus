@@ -1,12 +1,11 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
 
 import {generate} from '@docusaurus/utils';
-import _ from 'lodash';
 import path from 'path';
 import {
   DocusaurusConfig,
@@ -28,13 +27,18 @@ import {loadRoutes} from './routes';
 import {loadThemeAlias} from './themes';
 import {loadHtmlTags} from './html-tags';
 
-export function loadContext(siteDir: string): LoadContext {
+export function loadContext(
+  siteDir: string,
+  customOutDir?: string,
+): LoadContext {
   const generatedFilesDir: string = path.resolve(
     siteDir,
     GENERATED_FILES_DIR_NAME,
   );
   const siteConfig: DocusaurusConfig = loadConfig(siteDir);
-  const outDir = path.resolve(siteDir, BUILD_DIR_NAME);
+  const outDir = customOutDir
+    ? path.resolve(customOutDir)
+    : path.resolve(siteDir, BUILD_DIR_NAME);
   const {baseUrl} = siteConfig;
 
   return {
@@ -52,15 +56,18 @@ export function loadPluginConfigs(context: LoadContext): PluginConfig[] {
   return [
     ...presetPlugins,
     ...presetThemes,
-    // Site config should the highest priority.
+    // Site config should be the highest priority.
     ...(siteConfig.plugins || []),
     ...(siteConfig.themes || []),
   ];
 }
 
-export async function load(siteDir: string): Promise<Props> {
-  // Context
-  const context: LoadContext = loadContext(siteDir);
+export async function load(
+  siteDir: string,
+  customOutDir?: string,
+): Promise<Props> {
+  // Context.
+  const context: LoadContext = loadContext(siteDir, customOutDir);
   const {generatedFilesDir, siteConfig, outDir, baseUrl} = context;
   const genSiteConfig = generate(
     generatedFilesDir,
@@ -68,7 +75,7 @@ export async function load(siteDir: string): Promise<Props> {
     `export default ${JSON.stringify(siteConfig, null, 2)};`,
   );
 
-  // Plugins
+  // Plugins.
   const pluginConfigs: PluginConfig[] = loadPluginConfigs(context);
   const {plugins, pluginsRouteConfigs} = await loadPlugins({
     pluginConfigs,
@@ -77,13 +84,17 @@ export async function load(siteDir: string): Promise<Props> {
 
   // Themes.
   const fallbackTheme = path.resolve(__dirname, '../client/theme-fallback');
-  const pluginThemes = _.compact(
-    plugins.map(plugin => plugin.getThemePath && plugin.getThemePath()),
+  const pluginThemes = ([] as string[]).concat(
+    ...plugins
+      .map<any>((plugin) => plugin.getThemePath && plugin.getThemePath())
+      .filter(Boolean),
   );
   const userTheme = path.resolve(siteDir, THEME_PATH);
-  const alias = loadThemeAlias([fallbackTheme, ...pluginThemes, userTheme]);
+  const alias = loadThemeAlias([fallbackTheme, ...pluginThemes], [userTheme]);
 
-  // Make a fake plugin to resolve aliased theme components && inject scripts/stylesheets
+  // Make a fake plugin to:
+  // - Resolve aliased theme components
+  // - Inject scripts/stylesheets
   const {stylesheets = [], scripts = []} = siteConfig;
   plugins.push({
     name: 'docusaurus-bootstrap-plugin',
@@ -93,7 +104,7 @@ export async function load(siteDir: string): Promise<Props> {
       },
     }),
     injectHtmlTags: () => {
-      const stylesheetsTags = stylesheets.map(source =>
+      const stylesheetsTags = stylesheets.map((source) =>
         typeof source === 'string'
           ? `<link rel="stylesheet" href="${source}">`
           : {
@@ -104,7 +115,7 @@ export async function load(siteDir: string): Promise<Props> {
               },
             },
       );
-      const scriptsTags = scripts.map(source =>
+      const scriptsTags = scripts.map((source) =>
         typeof source === 'string'
           ? `<script type="text/javascript" src="${source}"></script>`
           : {
@@ -130,14 +141,14 @@ export async function load(siteDir: string): Promise<Props> {
       // import() is async so we use require() because client modules can have
       // CSS and the order matters for loading CSS.
       // We need to JSON.stringify so that if its on windows, backslash are escaped.
-      .map(module => `  require(${JSON.stringify(module)}),`)
+      .map((module) => `  require(${JSON.stringify(module)}),`)
       .join('\n')}\n];\n`,
   );
 
-  // Load extra head & body html tags
+  // Load extra head & body html tags.
   const {headTags, preBodyTags, postBodyTags} = loadHtmlTags(plugins);
 
-  // Routing
+  // Routing.
   const {
     registry,
     routesChunkNames,
@@ -152,7 +163,7 @@ export async function load(siteDir: string): Promise<Props> {
 ${Object.keys(registry)
   .sort()
   .map(
-    key =>
+    (key) =>
       // We need to JSON.stringify so that if its on windows, backslash are escaped.
       `  '${key}': [${registry[key].loader}, ${JSON.stringify(
         registry[key].modulePath,

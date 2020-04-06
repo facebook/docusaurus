@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -19,7 +19,7 @@ function BlogTagsListPage(props) {
   const {tags} = props;
 
   const tagCategories = {};
-  Object.keys(tags).forEach(tag => {
+  Object.keys(tags).forEach((tag) => {
     const category = getCategoryOfTag(tag);
     tagCategories[category] = tagCategories[category] || [];
     tagCategories[category].push(tag);
@@ -34,7 +34,7 @@ function BlogTagsListPage(props) {
     .map(([category, tagsForCategory]) => (
       <div key={category}>
         <h3>{category}</h3>
-        {tagsForCategory.map(tag => (
+        {tagsForCategory.map((tag) => (
           <Link
             className="padding-right--md"
             href={tags[tag].permalink}
@@ -45,7 +45,7 @@ function BlogTagsListPage(props) {
         <hr />
       </div>
     ))
-    .filter(item => item != null);
+    .filter((item) => item != null);
 
   return (
     <Layout title="Tags" description="Blog Tags">

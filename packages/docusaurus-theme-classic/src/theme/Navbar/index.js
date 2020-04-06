@@ -1,31 +1,31 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
 
 import React, {useCallback, useState} from 'react';
+import classnames from 'classnames';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
 import SearchBar from '@theme/SearchBar';
 import Toggle from '@theme/Toggle';
-
-import classnames from 'classnames';
-
 import useThemeContext from '@theme/hooks/useThemeContext';
 import useHideableNavbar from '@theme/hooks/useHideableNavbar';
 import useLockBodyScroll from '@theme/hooks/useLockBodyScroll';
+import useLogo from '@theme/hooks/useLogo';
 
 import styles from './styles.module.css';
 
-function NavLink({to, href, label, position, ...props}) {
+function NavLink({activeBasePath, to, href, label, position, ...props}) {
   const toUrl = useBaseUrl(to);
+  const activeBaseUrl = useBaseUrl(activeBasePath);
+
   return (
     <Link
-      className="navbar__item navbar__link"
       {...(href
         ? {
             target: '_blank',
@@ -35,6 +35,12 @@ function NavLink({to, href, label, position, ...props}) {
         : {
             activeClassName: 'navbar__link--active',
             to: toUrl,
+            ...(activeBasePath
+              ? {
+                  isActive: (_match, location) =>
+                    location.pathname.startsWith(activeBaseUrl),
+                }
+              : null),
           })}
       {...props}>
       {label}
@@ -42,18 +48,72 @@ function NavLink({to, href, label, position, ...props}) {
   );
 }
 
-function Navbar() {
-  const context = useDocusaurusContext();
-  const {siteConfig = {}} = context;
-  const {baseUrl, themeConfig = {}} = siteConfig;
-  const {navbar = {}, disableDarkMode = false} = themeConfig;
-  const {title, logo = {}, links = [], hideOnScroll = false} = navbar;
+function NavItem({items, position, ...props}) {
+  if (!items) {
+    return <NavLink className="navbar__item navbar__link" {...props} />;
+  }
 
+  return (
+    <div
+      className={classnames('navbar__item', 'dropdown', 'dropdown--hoverable', {
+        'dropdown--left': position === 'left',
+        'dropdown--right': position === 'right',
+      })}>
+      <NavLink className="navbar__item navbar__link" {...props}>
+        {props.label}
+      </NavLink>
+      <ul className="dropdown__menu">
+        {items.map((linkItemInner, i) => (
+          <li key={i}>
+            <NavLink className="navbar__item navbar__link" {...linkItemInner} />
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function MobileNavItem({items, ...props}) {
+  if (!items) {
+    return (
+      <li className="menu__list-item">
+        <NavLink className="menu__link" {...props} />
+      </li>
+    );
+  }
+
+  return (
+    <li className="menu__list-item">
+      <NavLink className="menu__link menu__link--sublist" {...props}>
+        {props.label}
+      </NavLink>
+      <ul className="menu__list">
+        {items.map((linkItemInner, i) => (
+          <li className="menu__list-item" key={i}>
+            <NavLink className="menu__link" {...linkItemInner} />
+          </li>
+        ))}
+      </ul>
+    </li>
+  );
+}
+
+function Navbar() {
+  const {
+    siteConfig: {
+      themeConfig: {
+        navbar: {title, links = [], hideOnScroll = false} = {},
+        disableDarkMode = false,
+      },
+    },
+    isClient,
+  } = useDocusaurusContext();
   const [sidebarShown, setSidebarShown] = useState(false);
   const [isSearchBarExpanded, setIsSearchBarExpanded] = useState(false);
 
   const {isDarkTheme, setLightTheme, setDarkTheme} = useThemeContext();
   const {navbarRef, isNavbarVisible} = useHideableNavbar(hideOnScroll);
+  const {logoLink, logoLinkProps, logoImageUrl, logoAlt} = useLogo();
 
   useLockBodyScroll(sidebarShown);
 
@@ -65,20 +125,9 @@ function Navbar() {
   }, [setSidebarShown]);
 
   const onToggleChange = useCallback(
-    e => (e.target.checked ? setDarkTheme() : setLightTheme()),
+    (e) => (e.target.checked ? setDarkTheme() : setLightTheme()),
     [setLightTheme, setDarkTheme],
   );
-
-  const logoLink = logo.href || baseUrl;
-  const isExternalLogoLink = /http/.test(logoLink);
-  const logoLinkProps = isExternalLogoLink
-    ? {
-        rel: 'noopener noreferrer',
-        target: '_blank',
-      }
-    : null;
-  const logoSrc = logo.srcDark && isDarkTheme ? logo.srcDark : logo.src;
-  const logoImageUrl = useBaseUrl(logoSrc);
 
   return (
     <nav
@@ -115,27 +164,34 @@ function Navbar() {
             </svg>
           </div>
           <Link className="navbar__brand" to={logoLink} {...logoLinkProps}>
-            {logo != null && (
-              <img className="navbar__logo" src={logoImageUrl} alt={logo.alt} />
+            {logoImageUrl != null && (
+              <img
+                key={isClient}
+                className="navbar__logo"
+                src={logoImageUrl}
+                alt={logoAlt}
+              />
             )}
             {title != null && (
               <strong
-                className={isSearchBarExpanded ? styles.hideLogoText : ''}>
+                className={classnames('navbar__title', {
+                  [styles.hideLogoText]: isSearchBarExpanded,
+                })}>
                 {title}
               </strong>
             )}
           </Link>
           {links
-            .filter(linkItem => linkItem.position !== 'right')
+            .filter((linkItem) => linkItem.position === 'left')
             .map((linkItem, i) => (
-              <NavLink {...linkItem} key={i} />
+              <NavItem {...linkItem} key={i} />
             ))}
         </div>
         <div className="navbar__items navbar__items--right">
           {links
-            .filter(linkItem => linkItem.position === 'right')
+            .filter((linkItem) => linkItem.position === 'right')
             .map((linkItem, i) => (
-              <NavLink {...linkItem} key={i} />
+              <NavItem {...linkItem} key={i} />
             ))}
           {!disableDarkMode && (
             <Toggle
@@ -163,10 +219,17 @@ function Navbar() {
             onClick={hideSidebar}
             to={logoLink}
             {...logoLinkProps}>
-            {logo != null && (
-              <img className="navbar__logo" src={logoImageUrl} alt={logo.alt} />
+            {logoImageUrl != null && (
+              <img
+                key={isClient}
+                className="navbar__logo"
+                src={logoImageUrl}
+                alt={logoAlt}
+              />
             )}
-            {title != null && <strong>{title}</strong>}
+            {title != null && (
+              <strong className="navbar__title">{title}</strong>
+            )}
           </Link>
           {!disableDarkMode && sidebarShown && (
             <Toggle
@@ -180,13 +243,7 @@ function Navbar() {
           <div className="menu">
             <ul className="menu__list">
               {links.map((linkItem, i) => (
-                <li className="menu__list-item" key={i}>
-                  <NavLink
-                    className="menu__link"
-                    {...linkItem}
-                    onClick={hideSidebar}
-                  />
-                </li>
+                <MobileNavItem {...linkItem} onClick={hideSidebar} key={i} />
               ))}
             </ul>
           </div>

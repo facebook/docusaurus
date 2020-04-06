@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -109,7 +109,7 @@ class MarkdownRenderer {
 
     // Allow client sites to register their own plugins
     if (siteConfig.markdownPlugins) {
-      siteConfig.markdownPlugins.forEach(plugin => {
+      siteConfig.markdownPlugins.forEach((plugin) => {
         md.use(plugin);
       });
     }
@@ -128,4 +128,4 @@ class MarkdownRenderer {
 
 const renderMarkdown = new MarkdownRenderer();
 
-module.exports = source => renderMarkdown.toHtml(source);
+module.exports = (source) => renderMarkdown.toHtml(source);

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -18,9 +18,7 @@ function BrowserWindow({children, minHeight, url}) {
           <span className={styles.dot} style={{background: '#fbbe3c'}} />
           <span className={styles.dot} style={{background: '#58cb42'}} />
         </div>
-        <div className={styles.browserWindowAddressBar}>
-          <input disabled type="text" value={url} readOnly />
-        </div>
+        <div className={styles.browserWindowAddressBar}>{url}</div>
         <div className={styles.browserWindowMenuIcon}>
           <div>
             <span className={styles.bar} />

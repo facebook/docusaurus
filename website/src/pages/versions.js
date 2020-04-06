@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -19,7 +19,7 @@ function Version() {
   const context = useDocusaurusContext();
   const {siteConfig = {}} = context;
   const latestVersion = versions[0];
-  const pastVersions = versions.filter(version => version !== latestVersion);
+  const pastVersions = versions.filter((version) => version !== latestVersion);
   const repoUrl = `https://github.com/${siteConfig.organizationName}/${siteConfig.projectName}`;
   return (
     <Layout
@@ -76,7 +76,7 @@ function Version() {
             </p>
             <table>
               <tbody>
-                {pastVersions.map(version => (
+                {pastVersions.map((version) => (
                   <tr key={version}>
                     <th>{version}</th>
                     <td>

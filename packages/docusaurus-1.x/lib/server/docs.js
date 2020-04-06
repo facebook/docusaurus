@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -54,7 +54,7 @@ function mdToHtmlify(oldContent, mdToHtml, metadata, siteConfig) {
   let content = oldContent;
   /* Replace internal markdown linking (except in fenced blocks) */
   let fencedBlock = false;
-  const lines = content.split('\n').map(line => {
+  const lines = content.split('\n').map((line) => {
     if (line.trim().startsWith('```')) {
       fencedBlock = !fencedBlock;
     }

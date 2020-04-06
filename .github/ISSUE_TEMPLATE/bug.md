@@ -41,6 +41,14 @@ labels: 'bug, needs triage'
 
 (Write what happened. Add screenshots, if applicable.)
 
+## Your Environment
+
+<!-- Include as many relevant details about the environment you experienced the bug in -->
+
+- Docusaurus version used:
+- Environment name and version (e.g. Chrome 78.0.3904.108, Node.js 10.17.0):
+- Operating system and version (desktop or mobile):
+
 ## Reproducible Demo
 
 (Paste the link to an example repo, including a `siteConfig.js`, and exact instructions to reproduce the issue.)

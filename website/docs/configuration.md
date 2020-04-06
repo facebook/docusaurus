@@ -38,8 +38,7 @@ It is recommended to check the [deployment docs](deployment.md) for more informa
 
 List the installed [themes](using-themes.md), [plugins](using-plugins.md), and [presets](presets.md) for your site in the `themes`, `plugins`, and `presets` fields, respectively. These are typically npm packages:
 
-```js
-// docusaurus.config.js
+```js title="docusaurus.config.js"
 module.exports = {
   // ...
   plugins: [
@@ -52,8 +51,7 @@ module.exports = {
 
 They can also be loaded from local directories:
 
-```js
-// docusaurus.config.js
+```js title="docusaurus.config.js"
 const path = require('path');
 
 module.exports = {
@@ -64,8 +62,7 @@ module.exports = {
 
 To specify options for a plugin or theme, replace the name of the plugin or theme in the config file with an array containing the name and an options object:
 
-```js
-// docusaurus.config.js
+```js title="docusaurus.config.js"
 module.exports = {
   // ...
   plugins: [
@@ -85,8 +82,7 @@ module.exports = {
 
 To specify options for a plugin or theme that is bundled in a preset, pass the options through the `presets` field. In this example, `docs` refers to `@docusaurus/plugin-content-docs` and `theme` refers to `@docusaurus/theme-classic`.
 
-```js
-//docusaurus.config.js
+```js title="docusaurus.config.js"
 module.exports = {
   // ...
   presets: [
@@ -113,13 +109,16 @@ Docusaurus guards `docusaurus.config.js` from unknown fields. To add a custom fi
 
 Example:
 
-```js {3-6}
-// docusaurus.config.js
+```js title="docusaurus.config.js"
 module.exports = {
+  // ...
+  // highlight-start
   customFields: {
     image: '',
     keywords: [],
   },
+  // highlight-end
+  // ...
 };
 ```
 
@@ -129,17 +128,24 @@ Your configuration object will be made available to all the components of your s
 
 Basic Example:
 
-```jsx {2,5-6}
+```jsx
 import React from 'react';
+// highlight-next-line
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 const Hello = () => {
+  // highlight-start
   const context = useDocusaurusContext();
   const {siteConfig = {}} = context;
+  // highlight-end
   const {title, tagline} = siteConfig;
 
   return <div>{`${title} · ${tagline}`}</div>;
 };
 ```
 
-> If you just want to use those fields on the client side, you could create your own JS files and import them as ES6 modules, there is no need to put them in `docusaurus.config.js`.
+:::tip
+
+If you just want to use those fields on the client side, you could create your own JS files and import them as ES6 modules, there is no need to put them in `docusaurus.config.js`.
+
+:::

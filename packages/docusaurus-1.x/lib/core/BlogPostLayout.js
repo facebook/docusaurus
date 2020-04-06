@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -38,8 +38,9 @@ class BlogPostLayout extends React.Component {
           {/* Facebook SDK require 'fb-comments' class */}
           <div
             className="fb-comments"
-            data-href={`${this.props.config.url +
-              this.props.config.baseUrl}blog/${post.path}`}
+            data-href={`${
+              this.props.config.url + this.props.config.baseUrl
+            }blog/${post.path}`}
             data-width="100%"
             data-numposts="5"
             data-order-by="time"
@@ -52,8 +53,9 @@ class BlogPostLayout extends React.Component {
         {/* Facebook SDK require 'fb-like' class */}
         <div
           className="fb-like"
-          data-href={`${this.props.config.url +
-            this.props.config.baseUrl}blog/${post.path}`}
+          data-href={`${
+            this.props.config.url + this.props.config.baseUrl
+          }blog/${post.path}`}
           data-layout="standard"
           data-share="true"
           data-width="225"

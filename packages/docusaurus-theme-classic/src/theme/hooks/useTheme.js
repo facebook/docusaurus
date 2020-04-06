@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -24,7 +24,7 @@ const useTheme = () => {
       : themes.light,
   );
   const setThemeSyncWithLocalStorage = useCallback(
-    newTheme => {
+    (newTheme) => {
       try {
         localStorage.setItem('theme', newTheme);
       } catch (err) {
@@ -60,6 +60,18 @@ const useTheme = () => {
       console.error(err);
     }
   }, [setTheme]);
+
+  useEffect(() => {
+    if (disableDarkMode) {
+      return;
+    }
+
+    window
+      .matchMedia('(prefers-color-scheme: dark)')
+      .addListener(({matches}) => {
+        setTheme(matches ? themes.dark : themes.light);
+      });
+  }, []);
 
   return {
     isDarkTheme: theme === themes.dark,

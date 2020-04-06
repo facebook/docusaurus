@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -21,7 +21,7 @@ const CWD = process.cwd();
 // generate a doc header from metadata
 function makeHeader(metadata) {
   let header = '---\n';
-  Object.keys(metadata).forEach(key => {
+  Object.keys(metadata).forEach((key) => {
     header += `${key}: ${metadata[key]}\n`;
   });
   header += '---\n';
@@ -91,7 +91,7 @@ if (fs.existsSync(`${CWD}/versioned_docs/version-${currentVersion}`)) {
   );
 
   const files = glob.sync(`${CWD}/versioned_docs/version-${newVersion}/*`);
-  files.forEach(file => {
+  files.forEach((file) => {
     const extension = path.extname(file);
     if (extension !== '.md' && extension !== '.markdown') {
       return;

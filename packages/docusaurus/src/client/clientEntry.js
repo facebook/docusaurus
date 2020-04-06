@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -10,12 +10,13 @@ import {hydrate, render} from 'react-dom';
 import {BrowserRouter} from 'react-router-dom';
 
 import routes from '@generated/routes';
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import App from './App';
 import preload from './preload';
 import docusaurus from './docusaurus';
 
 // Client-side render (e.g: running in browser) to become single-page application (SPA).
-if (typeof window !== 'undefined' && typeof document !== 'undefined') {
+if (ExecutionEnvironment.canUseDOM) {
   window.docusaurus = docusaurus;
   // For production, attempt to hydrate existing markup for performant first-load experience.
   // For development, there is no existing markup so we had to render it.

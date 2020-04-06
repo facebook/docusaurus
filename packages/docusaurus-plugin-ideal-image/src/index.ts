@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -10,8 +10,9 @@ import {Configuration} from 'webpack';
 import path from 'path';
 import {PluginOptions} from './types';
 
-export default function(_context: LoadContext, options: PluginOptions) {
+export default function (_context: LoadContext, options: PluginOptions) {
   const isProd = process.env.NODE_ENV === 'production';
+
   return {
     name: 'docusaurus-plugin-ideal-image',
 
@@ -26,7 +27,7 @@ export default function(_context: LoadContext, options: PluginOptions) {
             {
               test: /\.(png|jpe?g|gif)$/i,
               use: [
-                '@endiliey/lqip-loader',
+                '@docusaurus/lqip-loader',
                 {
                   loader: '@endiliey/responsive-loader',
                   options: {

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -10,7 +10,7 @@ import {resolve} from 'url';
 import {getSubFolder} from '@docusaurus/utils';
 import {SourceToPermalink} from '../types';
 
-export default function(
+export default function (
   fileString: string,
   filePath: string,
   docsDir: string,
@@ -36,7 +36,7 @@ export default function(
   // Replace internal markdown linking (except in fenced blocks).
   if (sourceDir) {
     let fencedBlock = false;
-    const lines = content.split('\n').map(line => {
+    const lines = content.split('\n').map((line) => {
       if (line.trim().startsWith('```')) {
         fencedBlock = !fencedBlock;
       }
@@ -66,6 +66,7 @@ export default function(
       }
       return modifiedLine;
     });
+
     content = lines.join('\n');
   }
 

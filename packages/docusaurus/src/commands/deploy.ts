@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -8,15 +8,15 @@
 import fs from 'fs-extra';
 import path from 'path';
 import shell from 'shelljs';
-import {
-  BUILD_DIR_NAME,
-  CONFIG_FILE_NAME,
-  GENERATED_FILES_DIR_NAME,
-} from '../constants';
+import {CONFIG_FILE_NAME, GENERATED_FILES_DIR_NAME} from '../constants';
 import {loadConfig} from '../server/config';
 import {build} from './build';
+import {BuildCLIOptions} from '@docusaurus/types';
 
-export async function deploy(siteDir: string): Promise<void> {
+export async function deploy(
+  siteDir: string,
+  cliOptions: Partial<BuildCLIOptions> = {},
+): Promise<void> {
   console.log('Deploy command invoked ...');
   if (!shell.which('git')) {
     throw new Error('Sorry, this script requires git');
@@ -27,7 +27,7 @@ export async function deploy(siteDir: string): Promise<void> {
     throw new Error(`Please set the GIT_USER`);
   }
 
-  // The branch that contains the latest docs changes that will be deployed
+  // The branch that contains the latest docs changes that will be deployed.
   const currentBranch =
     process.env.CURRENT_BRANCH ||
     shell.exec('git rev-parse --abbrev-ref HEAD').stdout.trim();
@@ -52,7 +52,7 @@ export async function deploy(siteDir: string): Promise<void> {
     );
   }
 
-  // We never deploy on pull request
+  // We never deploy on pull request.
   const isPullRequest =
     process.env.CI_PULL_REQUEST || process.env.CIRCLE_PULL_REQUEST;
   if (isPullRequest) {
@@ -62,7 +62,9 @@ export async function deploy(siteDir: string): Promise<void> {
 
   // github.io indicates organization repos that deploy via master. All others use gh-pages.
   const deploymentBranch =
-    projectName.indexOf('.github.io') !== -1 ? 'master' : 'gh-pages';
+    process.env.DEPLOYMENT_BRANCH || projectName.indexOf('.github.io') !== -1
+      ? 'master'
+      : 'gh-pages';
   const githubHost =
     process.env.GITHUB_HOST || siteConfig.githubHost || 'github.com';
 
@@ -72,7 +74,7 @@ export async function deploy(siteDir: string): Promise<void> {
       ? `git@${githubHost}:${organizationName}/${projectName}.git`
       : `https://${gitUser}@${githubHost}/${organizationName}/${projectName}.git`;
 
-  // Check if this is a cross-repo publish
+  // Check if this is a cross-repo publish.
   const currentRepoUrl = shell
     .exec('git config --get remote.origin.url')
     .stdout.trim();
@@ -80,23 +82,24 @@ export async function deploy(siteDir: string): Promise<void> {
     `${organizationName}/${projectName}.git`,
   );
 
-  // We don't allow deploying to the same branch unless it's a cross publish
+  // We don't allow deploying to the same branch unless it's a cross publish.
   if (currentBranch === deploymentBranch && !crossRepoPublish) {
     throw new Error(
       `Cannot deploy from a ${deploymentBranch} branch. Only to it`,
     );
   }
 
-  // Save the commit hash that triggers publish-gh-pages before checking out to deployment branch
+  // Save the commit hash that triggers publish-gh-pages before checking
+  // out to deployment branch.
   const currentCommit = shell.exec('git rev-parse HEAD').stdout.trim();
 
-  // Clear docusaurus 2 cache dir for deploy consistency
+  // Clear Docusaurus 2 cache dir for deploy consistency.
   const tempDir = path.join(siteDir, '.docusaurus');
   fs.removeSync(tempDir);
 
-  // build static html files, then push to deploymentBranch branch of specified repo
-  build(siteDir)
-    .then(() => {
+  // Build static html files, then push to deploymentBranch branch of specified repo.
+  build(siteDir, cliOptions, false)
+    .then((outDir) => {
       shell.cd(tempDir);
 
       if (
@@ -109,8 +112,9 @@ export async function deploy(siteDir: string): Promise<void> {
 
       shell.cd(`${projectName}-${deploymentBranch}`);
 
-      // If the default branch is the one we're deploying to, then we'll fail to create it.
-      // This is the case of a cross-repo publish, where we clone a github.io repo with a default master branch.
+      // If the default branch is the one we're deploying to, then we'll fail
+      // to create it. This is the case of a cross-repo publish, where we clone
+      // a github.io repo with a default master branch.
       const defaultBranch = shell
         .exec('git rev-parse --abbrev-ref HEAD')
         .stdout.trim();
@@ -136,13 +140,13 @@ export async function deploy(siteDir: string): Promise<void> {
 
       shell.cd('../..');
 
-      const fromPath = path.join(BUILD_DIR_NAME);
+      const fromPath = outDir;
       const toPath = path.join(
         GENERATED_FILES_DIR_NAME,
         `${projectName}-${deploymentBranch}`,
       );
 
-      fs.copy(fromPath, toPath, error => {
+      fs.copy(fromPath, toPath, (error) => {
         if (error) {
           throw new Error(
             `Error: Copying build assets failed with error '${error}'`,
@@ -164,14 +168,16 @@ export async function deploy(siteDir: string): Promise<void> {
           // The commit might return a non-zero value when site is up to date.
           const websiteURL =
             githubHost === 'github.com'
-              ? `https://${organizationName}.github.io/${projectName}` // gh-pages hosted repo
-              : `https://${githubHost}/pages/${organizationName}/${projectName}`; // GitHub enterprise hosting.
+              ? // gh-pages hosted repo
+                `https://${organizationName}.github.io/${projectName}`
+              : // GitHub enterprise hosting.
+                `https://${githubHost}/pages/${organizationName}/${projectName}`;
           shell.echo(`Website is live at: ${websiteURL}`);
           shell.exit(0);
         }
       });
     })
-    .catch(buildError => {
+    .catch((buildError) => {
       console.error(buildError);
       process.exit(1);
     });

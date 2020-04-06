@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -15,7 +15,7 @@ class LogPlugin extends WebpackBar {
   apply(compiler) {
     super.apply(compiler);
 
-    compiler.hooks.done.tap('WebpackNiceLog', stats => {
+    compiler.hooks.done.tap('WebpackNiceLog', (stats) => {
       if (stats.hasErrors()) {
         const messages = formatWebpackMessages(
           stats.toJson('errors-only', true),

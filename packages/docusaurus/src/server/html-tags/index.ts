@@ -1,25 +1,24 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
 
-import _ from 'lodash';
+import {htmlTagObjectToString} from './htmlTags';
 import {
   Plugin,
   InjectedHtmlTags,
   HtmlTagObject,
   HtmlTags,
 } from '@docusaurus/types';
-import {htmlTagObjectToString} from './htmlTags';
 
 function toString(val: string | HtmlTagObject): string {
   return typeof val === 'string' ? val : htmlTagObjectToString(val);
 }
 
 export function createHtmlTagsString(tags: HtmlTags): string {
-  return _.isArray(tags) ? tags.map(toString).join('\n') : toString(tags);
+  return Array.isArray(tags) ? tags.map(toString).join('\n') : toString(tags);
 }
 
 export function loadHtmlTags(plugins: Plugin<any>[]): InjectedHtmlTags {
@@ -44,6 +43,7 @@ export function loadHtmlTags(plugins: Plugin<any>[]): InjectedHtmlTags {
     },
     {headTags: '', preBodyTags: '', postBodyTags: ''},
   );
+
   return {
     headTags: htmlTags.headTags.trim(),
     preBodyTags: htmlTags.preBodyTags.trim(),

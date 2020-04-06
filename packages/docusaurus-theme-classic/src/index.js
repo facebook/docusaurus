@@ -1,11 +1,12 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
 
 const path = require('path');
+const ContextReplacementPlugin = require('webpack/lib/ContextReplacementPlugin');
 
 // Need to be inlined to prevent dark mode FOUC
 // Make sure that the 'storageKey' is the same as the one in `/theme/hooks/useTheme.js`
@@ -25,13 +26,6 @@ const noFlash = `(function() {
   }
 
   var darkQuery = window.matchMedia('(prefers-color-scheme: dark)');
-  darkQuery.addListener(function(e) {
-    if (getPreferredTheme() !== null) {
-      return;
-    }
-
-    setDataThemeAttribute(e.matches ? 'dark' : '');
-  });
 
   var preferredTheme = getPreferredTheme();
   if (preferredTheme !== null) {
@@ -41,12 +35,14 @@ const noFlash = `(function() {
   }
 })();`;
 
-module.exports = function(context, options) {
+module.exports = function (context, options) {
   const {
     siteConfig: {themeConfig},
   } = context;
-  const {disableDarkMode = false} = themeConfig || {};
+  const {disableDarkMode = false, prism: {additionalLanguages = []} = {}} =
+    themeConfig || {};
   const {customCss} = options || {};
+
   return {
     name: 'docusaurus-theme-classic',
 
@@ -59,7 +55,23 @@ module.exports = function(context, options) {
         'infima/dist/css/default/default.css',
         'remark-admonitions/styles/infima.css',
         customCss,
+        path.resolve(__dirname, './prism-include-languages'),
       ];
+    },
+
+    configureWebpack() {
+      const prismLanguages = additionalLanguages
+        .map((lang) => `prism-${lang}`)
+        .join('|');
+
+      return {
+        plugins: [
+          new ContextReplacementPlugin(
+            /prismjs[\\/]components$/,
+            new RegExp(`^./(${prismLanguages})$`),
+          ),
+        ],
+      };
     },
 
     injectHtmlTags() {

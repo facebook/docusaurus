@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -55,7 +55,9 @@ function HomeSplash(props) {
 class Index extends React.Component {
   render() {
     const {config: siteConfig, language = 'en'} = this.props;
-    const pinnedUsersToShowcase = siteConfig.users.filter(user => user.pinned);
+    const pinnedUsersToShowcase = siteConfig.users.filter(
+      (user) => user.pinned,
+    );
 
     return (
       <div>

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -8,17 +8,23 @@
 import fs from 'fs-extra';
 import globby from 'globby';
 import path from 'path';
+import readingTime from 'reading-time';
 import {Feed} from 'feed';
-import {parse, normalizeUrl, aliasedSitePath} from '@docusaurus/utils';
-import {LoadContext} from '@docusaurus/types';
 import {PluginOptions, BlogPost, DateLink} from './types';
+import {
+  parse,
+  normalizeUrl,
+  aliasedSitePath,
+  getEditUrl,
+} from '@docusaurus/utils';
+import {LoadContext} from '@docusaurus/types';
 
 export function truncate(fileString: string, truncateMarker: RegExp) {
   return fileString.split(truncateMarker, 1).shift()!;
 }
 
 // YYYY-MM-DD-{name}.mdx?
-// prefer named capture, but old Node version does not support.
+// Prefer named capture, but older Node versions do not support it.
 const FILENAME_PATTERN = /^(\d{4}-\d{1,2}-\d{1,2})-?(.*?).mdx?$/;
 
 function toUrl({date, link}: DateLink) {
@@ -63,7 +69,7 @@ export async function generateBlogFeed(
     copyright: feedOptions.copyright,
   });
 
-  blogPosts.forEach(post => {
+  blogPosts.forEach((post) => {
     const {
       id,
       metadata: {title, permalink, date, description},
@@ -85,10 +91,16 @@ export async function generateBlogPosts(
   {siteConfig, siteDir}: LoadContext,
   options: PluginOptions,
 ) {
-  const {include, routeBasePath, truncateMarker} = options;
+  const {
+    include,
+    routeBasePath,
+    truncateMarker,
+    showReadingTime,
+    editUrl,
+  } = options;
 
   if (!fs.existsSync(blogDir)) {
-    return null;
+    return [];
   }
 
   const {baseUrl = ''} = siteConfig;
@@ -102,24 +114,35 @@ export async function generateBlogPosts(
     blogFiles.map(async (relativeSource: string) => {
       const source = path.join(blogDir, relativeSource);
       const aliasedSource = aliasedSitePath(source, siteDir);
+      const refDir = path.parse(blogDir).dir;
+      const relativePath = path.relative(refDir, source);
       const blogFileName = path.basename(relativeSource);
+
+      const editBlogUrl = getEditUrl(relativePath, editUrl);
 
       const fileString = await fs.readFile(source, 'utf-8');
       const {frontMatter, content, excerpt} = parse(fileString);
+
+      if (frontMatter.draft && process.env.NODE_ENV === 'production') {
+        return;
+      }
 
       let date;
       // Extract date and title from filename.
       const match = blogFileName.match(FILENAME_PATTERN);
       let linkName = blogFileName.replace(/\.mdx?$/, '');
+
       if (match) {
         const [, dateString, name] = match;
         date = new Date(dateString);
         linkName = name;
       }
+
       // Prefer user-defined date.
       if (frontMatter.date) {
         date = new Date(frontMatter.date);
       }
+
       // Use file create time for blog.
       date = date || (await fs.stat(source)).birthtime;
       frontMatter.title = frontMatter.title || linkName;
@@ -132,11 +155,15 @@ export async function generateBlogPosts(
             routeBasePath,
             frontMatter.id || toUrl({date, link: linkName}),
           ]),
+          editUrl: editBlogUrl,
           source: aliasedSource,
           description: frontMatter.description || excerpt,
           date,
           tags: frontMatter.tags,
           title: frontMatter.title,
+          readingTime: showReadingTime
+            ? readingTime(content).minutes
+            : undefined,
           truncated: truncateMarker?.test(content) || false,
         },
       });
@@ -148,4 +175,49 @@ export async function generateBlogPosts(
   );
 
   return blogPosts;
+}
+
+export function linkify(
+  fileContent: string,
+  siteDir: string,
+  blogPath: string,
+  blogPosts: BlogPost[],
+) {
+  let fencedBlock = false;
+  const lines = fileContent.split('\n').map((line) => {
+    if (line.trim().startsWith('```')) {
+      fencedBlock = !fencedBlock;
+    }
+
+    if (fencedBlock) return line;
+
+    let modifiedLine = line;
+    const mdRegex = /(?:(?:\]\()|(?:\]:\s?))(?!https)([^'")\]\s>]+\.mdx?)/g;
+    let mdMatch = mdRegex.exec(modifiedLine);
+
+    while (mdMatch !== null) {
+      const mdLink = mdMatch[1];
+      const aliasedPostSource = `@site/${path.relative(
+        siteDir,
+        path.resolve(blogPath, mdLink),
+      )}`;
+      let blogPostPermalink = null;
+
+      blogPosts.forEach((blogPost) => {
+        if (blogPost.metadata.source === aliasedPostSource) {
+          blogPostPermalink = blogPost.metadata.permalink;
+        }
+      });
+
+      if (blogPostPermalink) {
+        modifiedLine = modifiedLine.replace(mdLink, blogPostPermalink);
+      }
+
+      mdMatch = mdRegex.exec(modifiedLine);
+    }
+
+    return modifiedLine;
+  });
+
+  return lines.join('\n');
 }

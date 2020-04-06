@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -55,6 +55,7 @@ export type SidebarItem =
 
 export type SidebarItemRaw =
   | string
+  | SidebarCategoryShorthandRaw
   | SidebarItemDoc
   | SidebarItemLink
   | SidebarItemCategoryRaw
@@ -63,13 +64,13 @@ export type SidebarItemRaw =
       [key: string]: any;
     };
 
+export interface SidebarCategoryShorthandRaw {
+  [sidebarCategory: string]: SidebarItemRaw[];
+}
+
 // Sidebar given by user that is not normalized yet. e.g: sidebars.json
 export interface SidebarRaw {
-  [sidebarId: string]:
-    | {
-        [sidebarCategory: string]: SidebarItemRaw[];
-      }
-    | SidebarItemRaw[];
+  [sidebarId: string]: SidebarCategoryShorthandRaw | SidebarItemRaw[];
 }
 
 export interface Sidebar {

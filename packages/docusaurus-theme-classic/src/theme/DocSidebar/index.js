@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -8,10 +8,10 @@
 import React, {useState, useCallback} from 'react';
 import classnames from 'classnames';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import useBaseUrl from '@docusaurus/useBaseUrl';
 import useLockBodyScroll from '@theme/hooks/useLockBodyScroll';
+import useLogo from '@theme/hooks/useLogo';
 import Link from '@docusaurus/Link';
-import isInternalUrl from '@docusaurus/utils';
+import isInternalUrl from '@docusaurus/isInternalUrl';
 
 import styles from './styles.module.css';
 
@@ -30,9 +30,9 @@ function DocSidebarItem({item, onItemClick, collapsible}) {
     setCollapsed(item.collapsed);
   }
 
-  const handleItemClick = useCallback(e => {
+  const handleItemClick = useCallback((e) => {
     e.preventDefault();
-    setCollapsed(state => !state);
+    setCollapsed((state) => !state);
   });
 
   switch (type) {
@@ -54,7 +54,7 @@ function DocSidebarItem({item, onItemClick, collapsible}) {
               {label}
             </a>
             <ul className="menu__list">
-              {items.map(childItem => (
+              {items.map((childItem) => (
                 <DocSidebarItem
                   key={childItem.label}
                   item={childItem}
@@ -99,8 +99,8 @@ function mutateSidebarCollapsingState(item, path) {
     case 'category': {
       const anyChildItemsActive =
         items
-          .map(childItem => mutateSidebarCollapsingState(childItem, path))
-          .filter(val => val).length > 0;
+          .map((childItem) => mutateSidebarCollapsingState(childItem, path))
+          .filter((val) => val).length > 0;
       // eslint-disable-next-line no-param-reassign
       item.collapsed = !anyChildItemsActive;
       return anyChildItemsActive;
@@ -115,9 +115,12 @@ function mutateSidebarCollapsingState(item, path) {
 function DocSidebar(props) {
   const [showResponsiveSidebar, setShowResponsiveSidebar] = useState(false);
   const {
-    siteConfig: {themeConfig: {navbar: {title, logo = {}} = {}}} = {},
+    siteConfig: {
+      themeConfig: {navbar: {title, hideOnScroll = false} = {}},
+    } = {},
+    isClient,
   } = useDocusaurusContext();
-  const logoUrl = useBaseUrl(logo.src);
+  const {logoLink, logoLinkProps, logoImageUrl, logoAlt} = useLogo();
 
   const {
     docsSidebars,
@@ -141,23 +144,28 @@ function DocSidebar(props) {
   }
 
   if (sidebarCollapsible) {
-    sidebarData.forEach(sidebarItem =>
+    sidebarData.forEach((sidebarItem) =>
       mutateSidebarCollapsingState(sidebarItem, path),
     );
   }
 
   return (
     <div className={styles.sidebar}>
-      <div className={styles.sidebarLogo}>
-        {logo != null && <img src={logoUrl} alt={logo.alt} />}
-        {title != null && <strong>{title}</strong>}
-      </div>
+      {hideOnScroll && (
+        <Link className={styles.sidebarLogo} to={logoLink} {...logoLinkProps}>
+          {logoImageUrl != null && (
+            <img key={isClient} src={logoImageUrl} alt={logoAlt} />
+          )}
+          {title != null && <strong>{title}</strong>}
+        </Link>
+      )}
       <div
         className={classnames('menu', 'menu--responsive', styles.menu, {
           'menu--show': showResponsiveSidebar,
         })}>
         <button
           aria-label={showResponsiveSidebar ? 'Close Menu' : 'Open Menu'}
+          aria-haspopup="true"
           className="button button--secondary button--sm menu__button"
           type="button"
           onClick={() => {
@@ -173,6 +181,7 @@ function DocSidebar(props) {
             </span>
           ) : (
             <svg
+              aria-label="Menu"
               className={styles.sidebarMenuIcon}
               xmlns="http://www.w3.org/2000/svg"
               height={MOBILE_TOGGLE_SIZE}
@@ -192,7 +201,7 @@ function DocSidebar(props) {
           )}
         </button>
         <ul className="menu__list">
-          {sidebarData.map(item => (
+          {sidebarData.map((item) => (
             <DocSidebarItem
               key={item.label}
               item={item}

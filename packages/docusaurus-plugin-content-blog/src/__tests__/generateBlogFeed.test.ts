@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -11,7 +11,7 @@ import {generateBlogFeed} from '../blogUtils';
 import {PluginOptions} from '../types';
 
 describe('blogFeed', () => {
-  ['atom', 'rss'].forEach(feedType => {
+  ['atom', 'rss'].forEach((feedType) => {
     describe(`${feedType}`, () => {
       test('can show feed without posts', async () => {
         const siteConfig = {

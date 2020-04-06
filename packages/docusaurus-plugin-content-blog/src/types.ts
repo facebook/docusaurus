@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -31,6 +31,7 @@ export interface PluginOptions {
   remarkPlugins: string[];
   rehypePlugins: string[];
   truncateMarker: RegExp;
+  showReadingTime: boolean;
   feedOptions?: {
     type: FeedType;
     title?: string;
@@ -38,6 +39,7 @@ export interface PluginOptions {
     copyright: string;
     language?: string;
   };
+  editUrl?: string;
 }
 
 export interface BlogTags {
@@ -77,9 +79,11 @@ export interface MetaData {
   date: Date;
   tags: (Tag | string)[];
   title: string;
+  readingTime?: number;
   prevItem?: Paginator;
   nextItem?: Paginator;
   truncated: boolean;
+  editUrl?: string;
 }
 
 export interface Paginator {

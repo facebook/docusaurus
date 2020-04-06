@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -31,7 +31,8 @@ export default async function getFileLastUpdate(
       : {timestamp: +temp[1], author: temp[2]};
   }
 
-  // Wrap in try/catch in case the shell commands fail (e.g. project doesn't use Git, etc).
+  // Wrap in try/catch in case the shell commands fail
+  // (e.g. project doesn't use Git, etc).
   try {
     if (!shell.which('git')) {
       if (!showedGitRequirementError) {

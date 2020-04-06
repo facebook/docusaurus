@@ -5,13 +5,15 @@ title: Creating Pages
 
 In this section, we will learn about creating ad-hoc pages in Docusaurus using React. This is most useful for creating one-off standalone pages like a showcase page, playground page or support page.
 
+The functionality of pages is powered by `@docusaurus/plugin-content-pages`.
+
 ## Adding a new page
 
 <!-- TODO: What will the user see if pages/ is empty? -->
 
 In the `/src/pages/` directory, create a file called `hello.js` with the following contents:
 
-```jsx
+```jsx title="/src/pages/hello.js"
 import React from 'react';
 import Layout from '@theme/Layout';
 
@@ -41,6 +43,12 @@ Once you save the file, the development server will automatically reload the cha
 
 Each page doesn't come with any styling. You will need to import the `Layout` component from `@theme/Layout` and wrap your contents within that component if you want the navbar and/or footer to appear.
 
+:::tip
+
+You can also create a page in TypeScript, in which case the its file name should use the `.tsx` extension, eg. `hello.tsx`.
+
+:::
+
 ## Routing
 
 If you are familiar with other static site generators like Jekyll and Next, this routing approach will feel familiar to you. Any JavaScript file you create under `/src/pages/` directory will be automatically converted to a website page, following the `/src/pages/` directory hierarchy. For example:
@@ -68,6 +76,12 @@ my-website
 │           └── styles.module.css
 .
 ```
+
+:::caution
+
+All JavaScript/TypeScript files within the `src/pages/` directory will have corresponding website paths generated for them. Do not put reusable components or test files (ending with `.test.js`) into that directory otherwise they will be turned into pages, which might not be intended.
+
+:::
 
 ## Using React
 

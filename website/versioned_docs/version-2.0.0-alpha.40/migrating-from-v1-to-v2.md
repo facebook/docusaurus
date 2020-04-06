@@ -41,8 +41,8 @@ Meanwhile, the default doc site functionalities provided by Docusaurus 1 are now
 {
   dependencies: {
 -    "docusaurus": "^1.x.x",
-+    "@docusaurus/core": "^2.0.0-alpha.40",
-+    "@docusaurus/preset-classic": "^2.0.0-alpha.40",
++    "@docusaurus/core": "^2.0.0-alpha.48",
++    "@docusaurus/preset-classic": "^2.0.0-alpha.48",
   }
 }
 ```

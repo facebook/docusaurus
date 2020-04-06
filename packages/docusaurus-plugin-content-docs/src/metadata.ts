@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -11,7 +11,7 @@ import {
   parse,
   aliasedSitePath,
   normalizeUrl,
-  posixPath,
+  getEditUrl,
 } from '@docusaurus/utils';
 import {LoadContext} from '@docusaurus/types';
 
@@ -32,7 +32,7 @@ async function lastUpdated(
 ): Promise<LastUpdateData> {
   const {showLastUpdateAuthor, showLastUpdateTime} = options;
   if (showLastUpdateAuthor || showLastUpdateTime) {
-    // Use fake data in dev for faster development
+    // Use fake data in dev for faster development.
     const fileLastUpdateData =
       process.env.NODE_ENV === 'production'
         ? await lastUpdate(filePath)
@@ -49,6 +49,7 @@ async function lastUpdated(
       };
     }
   }
+
   return {};
 }
 
@@ -83,15 +84,13 @@ export default async function processMetadata({
     }
   }
 
-  // The version portion of the url path. Eg: 'next', '1.0.0', and ''
+  // The version portion of the url path. Eg: 'next', '1.0.0', and ''.
   const versionPath =
     version && version !== versioning.latestVersion ? version : '';
 
   const relativePath = path.relative(siteDir, filePath);
 
-  const docsEditUrl = editUrl
-    ? normalizeUrl([editUrl, posixPath(relativePath)])
-    : undefined;
+  const docsEditUrl = getEditUrl(relativePath, editUrl);
 
   const {frontMatter = {}, excerpt} = parse(await fileStringPromise);
   const {sidebar_label, custom_edit_url} = frontMatter;
@@ -112,7 +111,7 @@ export default async function processMetadata({
 
   const description: string = frontMatter.description || excerpt;
 
-  // The last portion of the url path. Eg: 'foo/bar', 'bar'
+  // The last portion of the url path. Eg: 'foo/bar', 'bar'.
   const routePath =
     version && version !== 'next'
       ? id.replace(new RegExp(`^version-${version}/`), '')
@@ -126,8 +125,10 @@ export default async function processMetadata({
 
   const {lastUpdatedAt, lastUpdatedBy} = await lastUpdatedPromise;
 
-  // Assign all of object properties during instantiation (if possible) for NodeJS optimization
-  // Adding properties to object after instantiation will cause hidden class transitions.
+  // Assign all of object properties during instantiation (if possible) for
+  // NodeJS optimization.
+  // Adding properties to object after instantiation will cause hidden
+  // class transitions.
   const metadata: MetadataRaw = {
     id,
     title,

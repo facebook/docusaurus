@@ -1,10 +1,10 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
- 
+
 .browserWindow {
   border: 3px solid var(--ifm-color-emphasis-200);
   border-top-left-radius: var(--ifm-global-radius);
@@ -35,8 +35,13 @@
 
 .browserWindowAddressBar {
   flex: 1 0;
-  margin-left: 0.5rem;
-  margin-right: 1rem;
+  margin: 0 1rem 0 0.5rem;
+  border-radius: 12.5px;
+  background-color: #fff;
+  color: #666;
+  padding: 5px 15px;
+  font: 400 13px Arial;
+  user-select: none;
 }
 
 .dot {
@@ -47,17 +52,6 @@
   background-color: #bbb;
   border-radius: 50%;
   display: inline-block;
-}
-
-input[type='text'] {
-  width: 100%;
-  border-radius: 12.5px;
-  border: none;
-  background-color: white;
-  margin-top: -8px;
-  height: 25px;
-  color: #666;
-  padding: 5px 15px;
 }
 
 .browserWindowMenuIcon {

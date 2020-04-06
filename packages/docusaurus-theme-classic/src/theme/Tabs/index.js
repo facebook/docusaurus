@@ -1,11 +1,12 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
 
 import React, {useState, Children} from 'react';
+import useTabGroupChoiceContext from '@theme/hooks/useTabGroupChoiceContext';
 
 import classnames from 'classnames';
 
@@ -17,8 +18,27 @@ const keys = {
 };
 
 function Tabs(props) {
-  const {block, children, defaultValue, values} = props;
+  const {block, children, defaultValue, values, groupId} = props;
+  const {tabGroupChoices, setTabGroupChoices} = useTabGroupChoiceContext();
   const [selectedValue, setSelectedValue] = useState(defaultValue);
+
+  if (groupId != null) {
+    const relevantTabGroupChoice = tabGroupChoices[groupId];
+    if (
+      relevantTabGroupChoice != null &&
+      relevantTabGroupChoice !== selectedValue
+    ) {
+      setSelectedValue(relevantTabGroupChoice);
+    }
+  }
+
+  const changeSelectedValue = (newValue) => {
+    setSelectedValue(newValue);
+    if (groupId != null) {
+      setTabGroupChoices(groupId, newValue);
+    }
+  };
+
   const tabRefs = [];
 
   const focusNextTab = (tabs, target) => {
@@ -71,10 +91,10 @@ function Tabs(props) {
               'tab-item--active': selectedValue === value,
             })}
             key={value}
-            ref={tabControl => tabRefs.push(tabControl)}
-            onKeyDown={event => handleKeydown(tabRefs, event.target, event)}
-            onFocus={() => setSelectedValue(value)}
-            onClick={() => setSelectedValue(value)}>
+            ref={(tabControl) => tabRefs.push(tabControl)}
+            onKeyDown={(event) => handleKeydown(tabRefs, event.target, event)}
+            onFocus={() => changeSelectedValue(value)}
+            onClick={() => changeSelectedValue(value)}>
             {label}
           </li>
         ))}
@@ -82,7 +102,7 @@ function Tabs(props) {
       <div role="tabpanel" className="margin-vert--md">
         {
           Children.toArray(children).filter(
-            child => child.props.value === selectedValue,
+            (child) => child.props.value === selectedValue,
           )[0]
         }
       </div>

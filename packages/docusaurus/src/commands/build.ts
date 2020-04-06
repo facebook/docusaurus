@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -30,13 +30,13 @@ function compile(config: Configuration[]): Promise<any> {
         reject(err);
       }
       if (stats.hasErrors()) {
-        stats.toJson('errors-only').errors.forEach(e => {
+        stats.toJson('errors-only').errors.forEach((e) => {
           console.error(e);
         });
         reject(new Error('Failed to compile with errors.'));
       }
       if (stats.hasWarnings()) {
-        stats.toJson('errors-warnings').warnings.forEach(warning => {
+        stats.toJson('errors-warnings').warnings.forEach((warning) => {
           console.warn(warning);
         });
       }
@@ -48,12 +48,13 @@ function compile(config: Configuration[]): Promise<any> {
 export async function build(
   siteDir: string,
   cliOptions: Partial<BuildCLIOptions> = {},
-): Promise<void> {
+  forceTerminate: boolean = true,
+): Promise<string> {
   process.env.BABEL_ENV = 'production';
   process.env.NODE_ENV = 'production';
   console.log(chalk.blue('Creating an optimized production build...'));
 
-  const props: Props = await load(siteDir);
+  const props: Props = await load(siteDir, cliOptions.outDir);
 
   // Apply user webpack config.
   const {outDir, generatedFilesDir, plugins} = props;
@@ -62,18 +63,21 @@ export async function build(
     generatedFilesDir,
     'client-manifest.json',
   );
-  let clientConfig: Configuration = merge(createClientConfig(props), {
-    plugins: [
-      // Remove/clean build folders before building bundles.
-      new CleanWebpackPlugin({verbose: false}),
-      // Visualize size of webpack output files with an interactive zoomable treemap.
-      cliOptions.bundleAnalyzer && new BundleAnalyzerPlugin(),
-      // Generate client manifests file that will be used for server bundle
-      new ReactLoadableSSRAddon({
-        filename: clientManifestPath,
-      }),
-    ].filter(Boolean) as Plugin[],
-  });
+  let clientConfig: Configuration = merge(
+    createClientConfig(props, cliOptions.minify),
+    {
+      plugins: [
+        // Remove/clean build folders before building bundles.
+        new CleanWebpackPlugin({verbose: false}),
+        // Visualize size of webpack output files with an interactive zoomable treemap.
+        cliOptions.bundleAnalyzer && new BundleAnalyzerPlugin(),
+        // Generate client manifests file that will be used for server bundle.
+        new ReactLoadableSSRAddon({
+          filename: clientManifestPath,
+        }),
+      ].filter(Boolean) as Plugin[],
+    },
+  );
 
   let serverConfig: Configuration = createServerConfig(props);
 
@@ -91,17 +95,19 @@ export async function build(
     });
   }
 
-  // Plugin lifecycle - configureWebpack
-  plugins.forEach(plugin => {
+  // Plugin Lifecycle - configureWebpack.
+  plugins.forEach((plugin) => {
     const {configureWebpack} = plugin;
     if (!configureWebpack) {
       return;
     }
+
     clientConfig = applyConfigureWebpack(
       configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`.
       clientConfig,
       false,
     );
+
     serverConfig = applyConfigureWebpack(
       configureWebpack.bind(plugin), // The plugin lifecycle may reference `this`.
       serverConfig,
@@ -109,7 +115,8 @@ export async function build(
     );
   });
 
-  // Make sure generated client-manifest is cleaned first so we don't reuse the one from prevs build
+  // Make sure generated client-manifest is cleaned first so we don't reuse
+  // the one from previous builds.
   if (fs.existsSync(clientManifestPath)) {
     fs.unlinkSync(clientManifestPath);
   }
@@ -117,21 +124,21 @@ export async function build(
   // Run webpack to build JS bundle (client) and static html files (server).
   await compile([clientConfig, serverConfig]);
 
-  // Remove server.bundle.js because it is useless
+  // Remove server.bundle.js because it is not needed.
   if (
     serverConfig.output &&
     serverConfig.output.filename &&
     typeof serverConfig.output.filename === 'string'
   ) {
     const serverBundle = path.join(outDir, serverConfig.output.filename);
-    fs.pathExists(serverBundle).then(exist => {
+    fs.pathExists(serverBundle).then((exist) => {
       exist && fs.unlink(serverBundle);
     });
   }
 
-  /* Plugin lifecycle - postBuild */
+  // Plugin Lifecycle - postBuild.
   await Promise.all(
-    plugins.map(async plugin => {
+    plugins.map(async (plugin) => {
       if (!plugin.postBuild) {
         return;
       }
@@ -145,4 +152,6 @@ export async function build(
       relativeDir,
     )}.\n`,
   );
+  forceTerminate && !cliOptions.bundleAnalyzer && process.exit(0);
+  return outDir;
 }

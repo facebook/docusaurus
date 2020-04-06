@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -11,12 +11,12 @@ import {Sidebar, SidebarItem, Order} from './types';
 export default function createOrder(allSidebars: Sidebar = {}): Order {
   const order: Order = {};
 
-  Object.keys(allSidebars).forEach(sidebarId => {
+  Object.keys(allSidebars).forEach((sidebarId) => {
     const sidebar = allSidebars[sidebarId];
 
     const ids: string[] = [];
     const indexItems = ({items}: {items: SidebarItem[]}) => {
-      items.forEach(item => {
+      items.forEach((item) => {
         switch (item.type) {
           case 'category':
             indexItems({

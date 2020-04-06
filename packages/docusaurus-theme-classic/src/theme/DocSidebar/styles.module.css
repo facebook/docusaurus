@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -39,6 +39,8 @@
     top: 0;
     margin: 0 var(--ifm-navbar-padding-horizontal);
     height: var(--ifm-navbar-height);
+    color: inherit !important;
+    text-decoration: none !important;
   }
 
   .sidebarLogo img {

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -37,7 +37,7 @@ function BlogPostItem(props) {
     truncated,
     isBlogPostPage = false,
   } = props;
-  const {date, permalink, tags} = metadata;
+  const {date, permalink, tags, readingTime} = metadata;
   const {author, title} = frontMatter;
 
   const authorURL = frontMatter.author_url || frontMatter.authorURL;
@@ -58,23 +58,20 @@ function BlogPostItem(props) {
           className={classnames('margin-bottom--sm', styles.blogPostTitle)}>
           {isBlogPostPage ? title : <Link to={permalink}>{title}</Link>}
         </TitleHeading>
-        <div className="margin-bottom--sm">
+        <div className="margin-vert--md">
           <time dateTime={date} className={styles.blogPostDate}>
-            {month} {day}, {year}
+            {month} {day}, {year}{' '}
+            {readingTime && <> · {Math.ceil(readingTime)} min read</>}
           </time>
         </div>
-        <div className="avatar margin-bottom--md">
+        <div className="avatar margin-vert--md">
           {authorImageURL && (
             <a
-              className="avatar__photo-link"
+              className="avatar__photo-link avatar__photo"
               href={authorURL}
               target="_blank"
               rel="noreferrer noopener">
-              <img
-                className="avatar__photo"
-                src={authorImageURL}
-                alt={author}
-              />
+              <img src={authorImageURL} alt={author} />
             </a>
           )}
           <div className="avatar__intro">

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -26,7 +26,7 @@ const Metadata = require('../core/metadata.js');
 readMetadata.generateMetadataBlog(siteConfig);
 const MetadataBlog = require('../core/MetadataBlog.js');
 
-module.exports = function(callback) {
+module.exports = function (callback) {
   console.log('sitemap.js triggered...');
 
   const files = glob.sync(`${CWD}/pages/en/**/*.js`);
@@ -43,23 +43,23 @@ module.exports = function(callback) {
   // If we have a languages.js file, get all the enabled languages in there
   if (fs.existsSync(`${CWD}/languages.js`)) {
     const languages = require(`${CWD}/languages.js`);
-    enabledLanguages = languages.filter(lang => lang.enabled);
+    enabledLanguages = languages.filter((lang) => lang.enabled);
   }
 
   // Create a url mapping to all the enabled languages files
-  const urls = files.map(file => {
+  const urls = files.map((file) => {
     let url = file.split('/pages/en')[1];
     url = siteConfig.cleanUrl
       ? url.replace(/\.js$/, '')
       : url.replace(/\.js$/, '.html');
-    const links = enabledLanguages.map(lang => {
+    const links = enabledLanguages.map((lang) => {
       const langUrl = lang.tag + url;
       return {lang: lang.tag, url: langUrl};
     });
     return {url, changefreq: 'weekly', priority: 0.5, links};
   });
 
-  MetadataBlog.forEach(blog => {
+  MetadataBlog.forEach((blog) => {
     urls.push({
       url: `/blog/${utils.getPath(blog.path, siteConfig.cleanUrl)}`,
       changefreq: 'weekly',
@@ -68,12 +68,12 @@ module.exports = function(callback) {
   });
 
   Object.keys(Metadata)
-    .filter(key => Metadata[key].language === 'en')
-    .forEach(key => {
+    .filter((key) => Metadata[key].language === 'en')
+    .forEach((key) => {
       const doc = Metadata[key];
       const docUrl = utils.getPath(doc.permalink, siteConfig.cleanUrl);
       const docsPart = `${siteConfig.docsUrl ? `${siteConfig.docsUrl}/` : ''}`;
-      const links = enabledLanguages.map(lang => {
+      const links = enabledLanguages.map((lang) => {
         const langUrl = docUrl.replace(
           new RegExp(`^${docsPart}en/`),
           `${docsPart}${lang.tag}/`,

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -26,7 +26,7 @@ export function getVersionsJSONFile(siteDir: string) {
   return path.join(siteDir, VERSIONS_JSON_FILE);
 }
 
-export default function(siteDir: string): Env {
+export default function (siteDir: string): Env {
   const versioning: VersioningEnv = {
     enabled: false,
     versions: [],

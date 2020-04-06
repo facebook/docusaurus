@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -24,7 +24,7 @@ const sourceToPermalink: SourceToPermalink = {
     '/docs/1.0.0/subdir/doc1',
 };
 
-const transform = filepath => {
+const transform = (filepath) => {
   const content = fs.readFileSync(filepath, 'utf-8');
   const transformedContent = linkify(
     content,

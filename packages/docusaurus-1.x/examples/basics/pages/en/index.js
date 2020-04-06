@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -19,9 +19,9 @@ class HomeSplash extends React.Component {
     const {baseUrl, docsUrl} = siteConfig;
     const docsPart = `${docsUrl ? `${docsUrl}/` : ''}`;
     const langPart = `${language ? `${language}/` : ''}`;
-    const docUrl = doc => `${baseUrl}${docsPart}${langPart}${doc}`;
+    const docUrl = (doc) => `${baseUrl}${docsPart}${langPart}${doc}`;
 
-    const SplashContainer = props => (
+    const SplashContainer = (props) => (
       <div className="homeContainer">
         <div className="homeSplashFade">
           <div className="wrapper homeWrapper">{props.children}</div>
@@ -29,20 +29,20 @@ class HomeSplash extends React.Component {
       </div>
     );
 
-    const Logo = props => (
+    const Logo = (props) => (
       <div className="projectLogo">
         <img src={props.img_src} alt="Project Logo" />
       </div>
     );
 
-    const ProjectTitle = props => (
+    const ProjectTitle = (props) => (
       <h2 className="projectTitle">
         {props.title}
         <small>{props.tagline}</small>
       </h2>
     );
 
-    const PromoSection = props => (
+    const PromoSection = (props) => (
       <div className="section promoSection">
         <div className="promoRow">
           <div className="pluginRowBlock">{props.children}</div>
@@ -50,7 +50,7 @@ class HomeSplash extends React.Component {
       </div>
     );
 
-    const Button = props => (
+    const Button = (props) => (
       <div className="pluginWrapper buttonWrapper">
         <a className="button" href={props.href} target={props.target}>
           {props.children}
@@ -79,7 +79,7 @@ class Index extends React.Component {
     const {config: siteConfig, language = ''} = this.props;
     const {baseUrl} = siteConfig;
 
-    const Block = props => (
+    const Block = (props) => (
       <Container
         padding={['bottom', 'top']}
         id={props.id}
@@ -170,14 +170,15 @@ class Index extends React.Component {
       }
 
       const showcase = siteConfig.users
-        .filter(user => user.pinned)
-        .map(user => (
+        .filter((user) => user.pinned)
+        .map((user) => (
           <a href={user.infoLink} key={user.infoLink}>
             <img src={user.image} alt={user.caption} title={user.caption} />
           </a>
         ));
 
-      const pageUrl = page => baseUrl + (language ? `${language}/` : '') + page;
+      const pageUrl = (page) =>
+        baseUrl + (language ? `${language}/` : '') + page;
 
       return (
         <div className="productShowcaseSection paddingBottom">

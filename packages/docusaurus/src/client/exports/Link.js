@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -7,7 +7,8 @@
 
 import React, {useEffect, useRef} from 'react';
 import {NavLink} from 'react-router-dom';
-import isInternalUrl from '@docusaurus/utils';
+import isInternalUrl from '@docusaurus/isInternalUrl';
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 
 function Link(props) {
   const {to, href} = props;
@@ -15,15 +16,14 @@ function Link(props) {
   const isInternal = isInternalUrl(targetLink);
   const preloaded = useRef(false);
 
-  const IOSupported =
-    typeof window !== 'undefined' && 'IntersectionObserver' in window;
+  const IOSupported = ExecutionEnvironment.canUseIntersectionObserver;
 
   let io;
   const handleIntersection = (el, cb) => {
-    io = new window.IntersectionObserver(entries => {
-      entries.forEach(entry => {
+    io = new window.IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
         if (el === entry.target) {
-          // If element is in viewport, stop listening/observing & run callback.
+          // If element is in viewport, stop listening/observing and run callback.
           // https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
           if (entry.isIntersecting || entry.intersectionRatio > 0) {
             io.unobserve(el);
@@ -33,13 +33,14 @@ function Link(props) {
         }
       });
     });
-    // Add element to the observer
+
+    // Add element to the observer.
     io.observe(el);
   };
 
-  const handleRef = ref => {
+  const handleRef = (ref) => {
     if (IOSupported && ref && isInternal) {
-      // If IO supported and element reference found, setup Observer functionality
+      // If IO supported and element reference found, setup Observer functionality.
       handleIntersection(ref, () => {
         window.docusaurus.prefetch(targetLink);
       });
@@ -54,11 +55,12 @@ function Link(props) {
   };
 
   useEffect(() => {
-    // If IO is not supported. We prefetch by default (only once)
+    // If IO is not supported. We prefetch by default (only once).
     if (!IOSupported && isInternal) {
       window.docusaurus.prefetch(targetLink);
     }
-    // when unmount, stops intersection observer from watching
+
+    // When unmounting, stop intersection observer from watching.
     return () => {
       if (IOSupported && io) {
         io.disconnect();

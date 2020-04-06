@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/plugin-content-docs",
-  "version": "2.0.0-alpha.40",
+  "version": "2.0.0-alpha.50",
   "description": "Docs content plugin for Docusaurus",
   "main": "lib/index.js",
   "scripts": {
@@ -11,19 +11,22 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@docusaurus/types": "^2.0.0-alpha.40",
-    "commander": "^4.0.1",
+    "@docusaurus/types": "^2.0.0-alpha.50",
+    "commander": "^5.0.0",
     "picomatch": "^2.1.1"
   },
   "dependencies": {
-    "@docusaurus/mdx-loader": "^2.0.0-alpha.40",
-    "@docusaurus/utils": "^2.0.0-alpha.40",
+    "@docusaurus/mdx-loader": "^2.0.0-alpha.50",
+    "@docusaurus/utils": "^2.0.0-alpha.50",
     "execa": "^3.4.0",
     "fs-extra": "^8.1.0",
     "globby": "^10.0.1",
     "import-fresh": "^3.2.1",
     "loader-utils": "^1.2.3",
-    "lodash": "^4.17.15",
+    "lodash.flatmap": "^4.5.0",
+    "lodash.groupby": "^4.6.0",
+    "lodash.pick": "^4.4.0",
+    "lodash.pickby": "^4.6.0",
     "shelljs": "^0.8.3"
   },
   "peerDependencies": {

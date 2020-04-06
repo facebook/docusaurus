@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -25,14 +25,14 @@ if (fs.existsSync(`${CWD}/languages.js`)) {
   ];
 }
 
-const enabledLanguages = languages.filter(lang => lang.enabled);
+const enabledLanguages = languages.filter((lang) => lang.enabled);
 
 const translation = {languages: enabledLanguages};
 
 const files = glob.sync(`${CWD}/i18n/**`);
 const langRegex = /\/i18n\/(.*)\.json$/;
 
-files.forEach(file => {
+files.forEach((file) => {
   const extension = path.extname(file);
   if (extension === '.json') {
     const match = langRegex.exec(file);

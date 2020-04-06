@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -17,11 +17,12 @@ import {minify} from 'html-minifier-terser';
 import path from 'path';
 import fs from 'fs-extra';
 import routes from '@generated/routes';
+import packageJson from '../../package.json';
 import preload from './preload';
 import App from './App';
 import ssrTemplate from './templates/ssr.html.template';
 
-// Renderer for static-site-generator-webpack-plugin (async rendering via promises)
+// Renderer for static-site-generator-webpack-plugin (async rendering via promises).
 export default async function render(locals) {
   const {routesLocation, headTags, preBodyTags, postBodyTags} = locals;
   const location = routesLocation[locals.path];
@@ -29,7 +30,7 @@ export default async function render(locals) {
   const modules = new Set();
   const context = {};
   const appHtml = ReactDOMServer.renderToString(
-    <Loadable.Capture report={moduleName => modules.add(moduleName)}>
+    <Loadable.Capture report={(moduleName) => modules.add(moduleName)}>
       <StaticRouter location={location} context={context}>
         <App />
       </StaticRouter>
@@ -50,11 +51,12 @@ export default async function render(locals) {
   const manifestPath = path.join(generatedFilesDir, 'client-manifest.json');
   const manifest = JSON.parse(await fs.readFile(manifestPath, 'utf8'));
 
-  // Get all required assets for this particular page based on client manifest information
+  // Get all required assets for this particular page based on client
+  // manifest information.
   const modulesToBeLoaded = [...manifest.entrypoints, ...Array.from(modules)];
   const bundles = getBundles(manifest, modulesToBeLoaded);
-  const stylesheets = (bundles.css || []).map(b => b.file);
-  const scripts = (bundles.js || []).map(b => b.file);
+  const stylesheets = (bundles.css || []).map((b) => b.file);
+  const scripts = (bundles.js || []).map((b) => b.file);
   const {baseUrl} = locals;
 
   const renderedHtml = ejs.render(
@@ -70,13 +72,14 @@ export default async function render(locals) {
       metaAttributes,
       scripts,
       stylesheets,
+      version: packageJson.version,
     },
     {
       rmWhitespace: true,
     },
   );
 
-  // minify html with https://github.com/DanielRuf/html-minifier-terser
+  // Minify html with https://github.com/DanielRuf/html-minifier-terser
   return minify(renderedHtml, {
     removeComments: true,
     removeRedundantAttributes: true,
