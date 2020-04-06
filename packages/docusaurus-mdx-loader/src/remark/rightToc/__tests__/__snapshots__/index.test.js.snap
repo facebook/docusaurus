@@ -62,7 +62,7 @@ exports[`non text phrasing content 1`] = `
 	},
 	{
 		value: '<i>HTML</i>',
-		id: 'ihtmli',
+		id: 'html',
 		children: []
 	},
 	{

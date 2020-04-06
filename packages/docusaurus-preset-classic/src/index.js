@@ -6,7 +6,7 @@
  */
 const admonitions = require('remark-admonitions');
 
-const addAdmonitions = pluginOptions => {
+const addAdmonitions = (pluginOptions) => {
   if (pluginOptions == null) {
     return {
       remarkPlugins: [admonitions],
@@ -19,8 +19,7 @@ const addAdmonitions = pluginOptions => {
 
   const admonitionsOptions = {
     remarkPlugins: (pluginOptions.remarkPlugins || []).concat([
-      admonitions,
-      pluginOptions.admonitions || {},
+      [admonitions, pluginOptions.admonitions || {}],
     ]),
   };
 

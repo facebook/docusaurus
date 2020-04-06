@@ -8,6 +8,7 @@
 import React from 'react';
 
 import Head from '@docusaurus/Head';
+import isInternalUrl from '@docusaurus/isInternalUrl';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import DocPaginator from '@theme/DocPaginator';
@@ -38,7 +39,7 @@ function Headings({headings, isChild}) {
   }
   return (
     <ul className={isChild ? '' : 'contents contents__left-border'}>
-      {headings.map(heading => (
+      {headings.map((heading) => (
         <li key={heading.id}>
           <a
             href={`#${heading.id}`}
@@ -75,16 +76,17 @@ function DocItem(props) {
     },
   } = DocContent;
 
-  const metaImageUrl = siteUrl + useBaseUrl(metaImage);
+  const metaTitle = title ? `${title} | ${siteTitle}` : siteTitle;
+  let metaImageUrl = siteUrl + useBaseUrl(metaImage);
+  if (!isInternalUrl(metaImage)) {
+    metaImageUrl = metaImage;
+  }
 
   return (
     <>
       <Head>
-        {title && (
-          <title>
-            {title} | {siteTitle}
-          </title>
-        )}
+        <title>{metaTitle}</title>
+        <meta property="og:title" content={metaTitle} />
         {description && <meta name="description" content={description} />}
         {description && (
           <meta property="og:description" content={description} />
@@ -106,18 +108,17 @@ function DocItem(props) {
               <div className={styles.docItemContainer}>
                 <article>
                   {version && (
-                    <span
-                      style={{verticalAlign: 'top'}}
-                      className="badge badge--info">
-                      Version: {version}
-                    </span>
+                    <div>
+                      <span className="badge badge--secondary">
+                        Version: {version}
+                      </span>
+                    </div>
                   )}
                   {!hideTitle && (
                     <header>
                       <h1 className={styles.docTitle}>{title}</h1>
                     </header>
                   )}
-
                   <div className="markdown">
                     <DocContent />
                   </div>

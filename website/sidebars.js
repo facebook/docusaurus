@@ -7,21 +7,14 @@
 
 module.exports = {
   docs: {
-    Docusaurus: [
-      'introduction',
-      'design-principles',
-      'contributing',
-      'resources',
-    ],
+    Docusaurus: ['introduction', 'design-principles', 'contributing'],
     'Getting Started': ['installation', 'configuration'],
     Guides: [
       'creating-pages',
       'styling-layout',
       'static-assets',
       {
-        type: 'category',
-        label: 'Docs',
-        items: ['markdown-features', 'sidebar', 'versioning'],
+        Docs: ['docs', 'markdown-features', 'versioning'],
       },
       'blog',
       'search',
@@ -37,4 +30,19 @@ module.exports = {
       'theme-classic',
     ],
   },
+  community: [
+    'support',
+    'team',
+    'resources',
+    {
+      type: 'link',
+      href: '/showcase',
+      label: 'Showcase',
+    },
+    {
+      type: 'link',
+      href: '/feedback',
+      label: 'Feedback',
+    },
+  ],
 };

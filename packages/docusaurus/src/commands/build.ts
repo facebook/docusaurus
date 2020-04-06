@@ -24,12 +24,13 @@ import CleanWebpackPlugin from '../webpack/plugins/CleanWebpackPlugin';
 export async function build(
   siteDir: string,
   cliOptions: Partial<BuildCLIOptions> = {},
-): Promise<void> {
+  forceTerminate: boolean = true,
+): Promise<string> {
   process.env.BABEL_ENV = 'production';
   process.env.NODE_ENV = 'production';
   console.log(chalk.blue('Creating an optimized production build...'));
 
-  const props: Props = await load(siteDir);
+  const props: Props = await load(siteDir, cliOptions.outDir);
 
   // Apply user webpack config.
   const {outDir, generatedFilesDir, plugins} = props;
@@ -38,18 +39,21 @@ export async function build(
     generatedFilesDir,
     'client-manifest.json',
   );
-  let clientConfig: Configuration = merge(createClientConfig(props), {
-    plugins: [
-      // Remove/clean build folders before building bundles.
-      new CleanWebpackPlugin({verbose: false}),
-      // Visualize size of webpack output files with an interactive zoomable treemap.
-      cliOptions.bundleAnalyzer && new BundleAnalyzerPlugin(),
-      // Generate client manifests file that will be used for server bundle.
-      new ReactLoadableSSRAddon({
-        filename: clientManifestPath,
-      }),
-    ].filter(Boolean) as Plugin[],
-  });
+  let clientConfig: Configuration = merge(
+    createClientConfig(props, cliOptions.minify),
+    {
+      plugins: [
+        // Remove/clean build folders before building bundles.
+        new CleanWebpackPlugin({verbose: false}),
+        // Visualize size of webpack output files with an interactive zoomable treemap.
+        cliOptions.bundleAnalyzer && new BundleAnalyzerPlugin(),
+        // Generate client manifests file that will be used for server bundle.
+        new ReactLoadableSSRAddon({
+          filename: clientManifestPath,
+        }),
+      ].filter(Boolean) as Plugin[],
+    },
+  );
 
   let serverConfig: Configuration = createServerConfig(props);
 
@@ -68,7 +72,7 @@ export async function build(
   }
 
   // Plugin Lifecycle - configureWebpack.
-  plugins.forEach(plugin => {
+  plugins.forEach((plugin) => {
     const {configureWebpack} = plugin;
     if (!configureWebpack) {
       return;
@@ -103,14 +107,14 @@ export async function build(
     typeof serverConfig.output.filename === 'string'
   ) {
     const serverBundle = path.join(outDir, serverConfig.output.filename);
-    fs.pathExists(serverBundle).then(exist => {
+    fs.pathExists(serverBundle).then((exist) => {
       exist && fs.unlink(serverBundle);
     });
   }
 
   // Plugin Lifecycle - postBuild.
   await Promise.all(
-    plugins.map(async plugin => {
+    plugins.map(async (plugin) => {
       if (!plugin.postBuild) {
         return;
       }
@@ -124,4 +128,6 @@ export async function build(
       relativeDir,
     )}.\n`,
   );
+  forceTerminate && !cliOptions.bundleAnalyzer && process.exit(0);
+  return outDir;
 }

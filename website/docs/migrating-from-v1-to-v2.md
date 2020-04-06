@@ -5,9 +5,13 @@ title: Migrating from v1 to v2
 
 import ColorGenerator from '@site/src/components/ColorGenerator';
 
-This doc guides you through migrating an existing Docusaurus 1 site to Docusaurus 2.
+:::caution
 
-**Note: This migration guide is targeted at Docusaurus users without translation and/or versioning features and assumes the following structure:**
+This migration guide is targeted at Docusaurus users without translation and/or versioning features.
+
+:::
+
+This doc guides you through migrating an existing Docusaurus 1 site to Docusaurus 2. Your Docusaurus 1 site should have the following structure:
 
 ```sh
 ├── docs
@@ -36,8 +40,7 @@ This provides a clear distinction between Docusaurus' official packages and comm
 
 Meanwhile, the default doc site functionalities provided by Docusaurus 1 are now provided by `@docusaurus/preset-classic`. Therefore, we need to add this dependency as well:
 
-```json
-// package.json
+```json title="package.json"
 {
   dependencies: {
 -   "docusaurus": "^1.x.x",
@@ -59,21 +62,21 @@ Meanwhile, CLI commands are renamed to `docusaurus <command>` (instead of `docus
 
 The `"scripts"` section of your `package.json` should be updated as follows:
 
-```json {3-6}
+```json {3-6} title="package.json"
 {
   "scripts": {
     "start": "docusaurus start",
     "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy"
-    ...
+    // ...
   }
 }
 ```
 
 A typical Docusaurus 2 `package.json` may look like this:
 
-```json
+```json title="package.json"
 {
   "scripts": {
     "start": "docusaurus start",
@@ -109,7 +112,7 @@ If you are deploying to GitHub pages, make sure to run `yarn deploy` instead of 
 
 The `.gitignore` in your `website` should contain:
 
-```
+```bash title=".gitignore"
 # dependencies
 /node_modules
 
@@ -140,8 +143,7 @@ Rename `siteConfig.js` to `docusaurus.config.js`. In Docusaurus 2, we split each
 
 Add the following preset configuration to your `docusaurus.config.js`.
 
-```jsx
-// docusaurus.config.js
+```jsx title="docusaurus.config.js"
 module.exports = {
   // ...
   presets: [
@@ -154,7 +156,7 @@ module.exports = {
           // sidebars file relative to website dir.
           sidebarPath: require.resolve('./sidebars.json'),
         },
-        ...
+        // ...
       },
     ],
   ],
@@ -175,8 +177,7 @@ No actions needed.
 
 Deprecated. We wrote a custom CSS framework for Docusaurus 2 called Infima which uses CSS variables for theming. The docs are not quite ready yet and we will update here when it is. To overwrite Infima's CSS variables, create your own CSS file (e.g. `./src/css/custom.css`) and import it globally by passing it as an option to `@docusaurus/preset-classic`:
 
-```js {8-10}
-// docusaurus.config.js
+```js {7-9} title="docusaurus.config.js"
 module.exports = {
   // ...
   presets: [
@@ -194,9 +195,8 @@ module.exports = {
 
 Infima uses 7 shades of each color.
 
-```css
+```css title="/src/css/custom.css"
 /**
- * /src/css/custom.css
  * You can override the default Infima variables here.
  * Note: this is not a complete list of --ifm- variables.
  */
@@ -221,8 +221,7 @@ Alteratively, use the following tool to generate the different shades for your w
 
 Site meta info such as assets, SEO, copyright info are now handled by themes. To customize them, use the `themeConfig` field in your `docusaurus.config.js`:
 
-```jsx
-// docusaurus.config.js
+```jsx title="docusaurus.config.js"
 module.exports = {
   // ...
   themeConfig: {
@@ -246,7 +245,7 @@ module.exports = {
 
 In Docusaurus 1, header icon and header links were root fields in `siteConfig`:
 
-```js
+```js title="siteConfig.js"
 headerIcon: 'img/docusaurus.svg',
 headerLinks: [
   { doc: "doc1", label: "Getting Started" },
@@ -258,8 +257,7 @@ headerLinks: [
 
 Now, these two fields are both handled by the theme:
 
-```jsx {7-20}
-// docusaurus.config.js
+```jsx {6-19} title="docusaurus.config.js"
 module.exports = {
   // ...
   themeConfig: {
@@ -287,8 +285,7 @@ module.exports = {
 
 #### `algolia`
 
-```jsx {5-9}
-// docusaurus.config.js
+```jsx {4-8} title="docusaurus.config.js"
 module.exports = {
   // ...
   themeConfig: {
@@ -306,8 +303,7 @@ module.exports = {
 
 Deprecated. Pass it as a blog option to `@docusaurus/preset-classic` instead:
 
-```jsx {9}
-// docusaurus.config.js
+```jsx {8} title="docusaurus.config.js"
 module.exports = {
   // ...
   presets: [
@@ -334,8 +330,7 @@ Deprecated. Create a `CNAME` file in your `static` folder instead with your cust
 
 Deprecated. Pass it as an option to `@docusaurus/preset-classic` docs instead:
 
-```jsx {9-22}
-// docusaurus.config.js
+```jsx {8-20} title="docusaurus.config.js"
 module.exports = {
   // ...
   presets: [
@@ -366,8 +361,7 @@ module.exports = {
 
 #### `gaTrackingId`
 
-```jsx {6}
-// docusaurus.config.js
+```jsx {5} title="docusaurus.config.js"
 module.exports = {
   // ...
   themeConfig: {
@@ -381,8 +375,7 @@ module.exports = {
 
 #### `gaGtag`
 
-```jsx {6}
-// docusaurus.config.js
+```jsx {5} title="docusaurus.config.js"
 module.exports = {
   // ...
   themeConfig: {
@@ -431,11 +424,11 @@ We intend to implement many of the deprecated config fields as plugins in future
 
 ### Sidebar
 
-In previous version, nested sidebar category is not allowed and sidebar category can only contain doc id. However, v2 allows infinite nested sidebar and we have many types of [Sidebar Item](sidebar.md#sidebar-item) other than document.
+In previous version, nested sidebar category is not allowed and sidebar category can only contain doc id. However, v2 allows infinite nested sidebar and we have many types of [Sidebar Item](docs.md#sidebar-item) other than document.
 
 You'll have to migrate your sidebar if it contains category type. Rename `subcategory` to `category` and `ids` to `items`.
 
-```js
+```js title="sidebars.json"
 {
 - type: 'subcategory',
 + type: 'category',
@@ -482,9 +475,9 @@ In Docusaurus 2, the markdown syntax has been changed to [MDX](https://mdxjs.com
 
 Refer to the [multi-language support code blocks](markdown-features.mdx#multi-language-support-code-blocks) section.
 
-### Frontmatter
+### Front matter
 
-The Docusaurus frontmatter fields for the blog have been changed from camelCase to snake_case to be consistent with the docs.
+The Docusaurus front matter fields for the blog have been changed from camelCase to snake_case to be consistent with the docs.
 
 The fields `authorFBID` and `authorTwitter` have been deprecated. They are only used for generating the profile image of the author which can be done via the `author_image_url` field.
 
@@ -534,9 +527,9 @@ The versioning feature is a work in progress! Although we've implemented docs ve
 
 ## Changes from v1
 
-Read up https://v2.docusaurus.io/blog/2018/09/11/Towards-Docusaurus-2#versioning first for reasoning on v1's problem
+Read up https://v2.docusaurus.io/blog/2018/09/11/Towards-Docusaurus-2#versioning first for problems in v1's approach.
 
-### Migrate your `versioned_docs` frontmatter
+### Migrate your `versioned_docs` front matter
 
 Unlike v1, The markdown header for each versioned doc is no longer altered by using `version-${version}-${original_id}` as the value for the actual id field. See scenario below for better explanation.
 
@@ -622,7 +615,7 @@ So v1 users need to migrate their versioned_sidebars file
 
 Example `versioned_sidebars/version-1.0.0-sidebars.json`:
 
-```json {2-3,5-6,9-10}
+```json {2-3,5-6,9-10}  title="versioned_sidebars/version-1.0.0-sidebars.json"
 {
 + "version-1.0.0/docs": {
 - "version-1.0.0-docs": {
@@ -640,12 +633,11 @@ Example `versioned_sidebars/version-1.0.0-sidebars.json`:
 
 ### Populate your `versioned_sidebars` and `versioned_docs`
 
-In v2, we use snapshot approach on documentation versioning. **Every versioned docs does not depends on other version**. It is possible to have `foo.md` in `version-1.0.0` but it doesn't exist in `version-1.2.0`. This is not possible in previous version due to Docusaurus v1 fallback functionality (https://docusaurus.io/docs/en/versioning#fallback-functionality).
+In v2, we use snapshot approach for documentation versioning. **Every versioned docs does not depends on other version**. It is possible to have `foo.md` in `version-1.0.0` but it doesn't exist in `version-1.2.0`. This is not possible in previous version due to Docusaurus v1 fallback functionality (https://docusaurus.io/docs/en/versioning#fallback-functionality).
 
 For example, if your `versions.json` looks like this in v1
 
-```json
-// versions.json
+```json title="versions.json"
 ["1.1.0", "1.0.0"]
 ```
 

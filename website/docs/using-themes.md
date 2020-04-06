@@ -9,8 +9,7 @@ Like plugins, themes are designed to add functionality to your Docusaurus site. 
 
 To use themes, specify the themes in your `docusaurus.config.js`. You may use multiple themes:
 
-```js {4}
-// docusaurus.config.js
+```js {3} title="docusaurus.config.js"
 module.exports = {
   // ...
   themes: ['@docusaurus/theme-classic', '@docusaurus/theme-live-codeblock'],
@@ -52,8 +51,7 @@ website
 
 For example, a Docusaurus blog consists of a blog plugin and a blog theme.
 
-```js
-// docusaurus.config.js
+```js title="docusaurus.config.js"
 {
   theme: ['theme-blog'],
   plugins: ['plugin-content-blog'],
@@ -62,8 +60,7 @@ For example, a Docusaurus blog consists of a blog plugin and a blog theme.
 
 and if you want to use Bootstrap styling, you can swap out the theme with `theme-blog-bootstrap` (fictitious non-existing theme):
 
-```js
-// docusaurus.config.js
+```js title="docusaurus.config.js"
 {
   theme: ['theme-blog-bootstrap'],
   plugins: ['plugin-content-blog'],
@@ -96,7 +93,13 @@ npm run swizzle @docusaurus/theme-classic Footer
 
 This will copy the current `<Footer />` component used by the theme to a `src/theme/Footer` directory under the root of your site, which is where Docusaurus will look for swizzled components. Docusaurus will then use swizzled component in place of the original one from the theme.
 
-**Note**: You need to restart your dev server for Docusaurus to pick up the new component.
+Although we highly discourage swizzling of all components, if you wish to do that, run:
+
+```bash npm2yarn
+npm run swizzle @docusaurus/theme-classic
+```
+
+**Note**: You need to restart your webpack dev server in order for Docusaurus to know about the new component.
 
 ## Official themes by Docusaurus
 
@@ -164,8 +167,8 @@ website
 
 There are two lifecycle methods that are essential to theme implementation:
 
-- [getThemePath](lifecycle-apis.md#getthemepath)
-- [getClientModules](lifecycle-apis.md#getclientmodules)
+- [`getThemePath()`](lifecycle-apis.md#getthemepath)
+- [`getClientModules()`](lifecycle-apis.md#getclientmodules)
 
 <!--
 

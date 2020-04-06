@@ -9,12 +9,19 @@ To setup your site's blog, start by creating a `blog` directory.
 
 Then, add a navbar link to your blog within `docusaurus.config.js`:
 
-```js
-links: [
-  ...
-  {to: 'blog', label: 'Blog', position: 'left'}, // or position: 'right'
-  ...
-]
+```js title="docusaurus.config.js"
+module.exports = {
+  themeConfig: {
+    // ...
+    navbar: {
+      links: [
+        // ...
+        // highlight-next-line
+        {to: 'blog', label: 'Blog', position: 'left'}, // or position: 'right'
+      ],
+    },
+  },
+};
 ```
 
 ## Adding posts
@@ -91,8 +98,7 @@ feedOptions?: {
 
 Example usage:
 
-```js {9-12}
-// docusaurus.config.js
+```js {8-11} title="docusaurus.config.js"
 module.exports = {
   // ...
   presets: [
@@ -129,12 +135,11 @@ https://{your-domain}/blog/atom.xml
 
 ### Blog-only mode
 
-You can run your Docusaurus 2 site without a landing page and instead have your blog's post list page as the index page. Set the `routeBasePath` to be `'/'` to indicate it's the root path.
+You can run your Docusaurus 2 site without a landing page and instead have your blog's post list page as the index page. Set the `routeBasePath` to be `''` to indicate it's the root path.
 
 **Note:** Make sure there's no `index.js` page in `src/pages` or else there will be two files mapping to the same route!
 
-```js {10}
-// docusaurus.config.js
+```js {9} title="docusaurus.config.js"
 module.exports = {
   // ...
   presets: [
@@ -143,7 +148,7 @@ module.exports = {
       {
         blog: {
           path: './blog',
-          routeBasePath: '/', // Set this value to '/'.
+          routeBasePath: '', // Set this value to ''.
         },
       },
     ],

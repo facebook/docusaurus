@@ -17,6 +17,7 @@ import {minify} from 'html-minifier-terser';
 import path from 'path';
 import fs from 'fs-extra';
 import routes from '@generated/routes';
+import packageJson from '../../package.json';
 import preload from './preload';
 import App from './App';
 import ssrTemplate from './templates/ssr.html.template';
@@ -29,7 +30,7 @@ export default async function render(locals) {
   const modules = new Set();
   const context = {};
   const appHtml = ReactDOMServer.renderToString(
-    <Loadable.Capture report={moduleName => modules.add(moduleName)}>
+    <Loadable.Capture report={(moduleName) => modules.add(moduleName)}>
       <StaticRouter location={location} context={context}>
         <App />
       </StaticRouter>
@@ -54,8 +55,8 @@ export default async function render(locals) {
   // manifest information.
   const modulesToBeLoaded = [...manifest.entrypoints, ...Array.from(modules)];
   const bundles = getBundles(manifest, modulesToBeLoaded);
-  const stylesheets = (bundles.css || []).map(b => b.file);
-  const scripts = (bundles.js || []).map(b => b.file);
+  const stylesheets = (bundles.css || []).map((b) => b.file);
+  const scripts = (bundles.js || []).map((b) => b.file);
   const {baseUrl} = locals;
 
   const renderedHtml = ejs.render(
@@ -71,6 +72,7 @@ export default async function render(locals) {
       metaAttributes,
       scripts,
       stylesheets,
+      version: packageJson.version,
     },
     {
       rmWhitespace: true,

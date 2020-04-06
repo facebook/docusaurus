@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/theme-live-codeblock",
-  "version": "2.0.0-alpha.48",
+  "version": "2.0.0-alpha.50",
   "description": "Docusaurus Live CodeBlock",
   "main": "src/index.js",
   "publishConfig": {
@@ -10,7 +10,7 @@
   "dependencies": {
     "@philpl/buble": "^0.19.7",
     "classnames": "^2.2.6",
-    "clipboard": "^2.0.4",
+    "clipboard": "^2.0.6",
     "parse-numeric-range": "^0.0.2",
     "prism-react-renderer": "^1.0.2",
     "react-live": "^2.2.1"

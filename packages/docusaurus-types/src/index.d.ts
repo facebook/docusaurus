@@ -63,6 +63,8 @@ export interface StartCLIOptions {
 
 export interface BuildCLIOptions {
   bundleAnalyzer: boolean;
+  outDir: string;
+  minify: boolean;
 }
 
 export interface LoadContext {

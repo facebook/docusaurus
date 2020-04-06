@@ -8,7 +8,8 @@
 import path from 'path';
 import matter from 'gray-matter';
 import {createHash} from 'crypto';
-import _ from 'lodash';
+import camelCase from 'lodash.camelcase';
+import kebabCase from 'lodash.kebabcase';
 import escapeStringRegexp from 'escape-string-regexp';
 import fs from 'fs-extra';
 
@@ -34,15 +35,11 @@ export async function generate(
   // This is to avoid unnecessary overwriting and we can reuse old file.
   if (!lastHash && fs.existsSync(filepath)) {
     const lastContent = await fs.readFile(filepath, 'utf8');
-    lastHash = createHash('md5')
-      .update(lastContent)
-      .digest('hex');
+    lastHash = createHash('md5').update(lastContent).digest('hex');
     fileHash.set(filepath, lastHash);
   }
 
-  const currentHash = createHash('md5')
-    .update(content)
-    .digest('hex');
+  const currentHash = createHash('md5').update(content).digest('hex');
 
   if (lastHash !== currentHash) {
     await fs.ensureDir(path.dirname(filepath));
@@ -51,13 +48,14 @@ export async function generate(
   }
 }
 
-export function objectWithKeySorted(obj: Object) {
-  // https://github.com/lodash/lodash/issues/1459#issuecomment-253969771
-  return _(obj)
-    .toPairs()
-    .sortBy(0)
-    .fromPairs()
-    .value();
+export function objectWithKeySorted(obj: {[index: string]: any}) {
+  // https://github.com/lodash/lodash/issues/1459#issuecomment-460941233
+  return Object.keys(obj)
+    .sort()
+    .reduce((acc: any, key: string) => {
+      acc[key] = obj[key];
+      return acc;
+    }, {});
 }
 
 const indexRE = /(^|.*\/)index\.(md|js|jsx|ts|tsx)$/i;
@@ -77,7 +75,7 @@ export function fileToPath(file: string): string {
 export function encodePath(userpath: string): string {
   return userpath
     .split('/')
-    .map(item => encodeURIComponent(item))
+    .map((item) => encodeURIComponent(item))
     .join('/');
 }
 
@@ -89,11 +87,16 @@ export function docuHash(str: string): string {
   if (str === '/') {
     return 'index';
   }
-  const shortHash = createHash('md5')
-    .update(str)
-    .digest('hex')
-    .substr(0, 3);
-  return `${_.kebabCase(str)}-${shortHash}`;
+  const shortHash = createHash('md5').update(str).digest('hex').substr(0, 3);
+  return `${kebabCase(str)}-${shortHash}`;
+}
+
+/**
+ * Convert first string character to the upper case.
+ * E.g: docusaurus -> Docusaurus
+ */
+export function upperFirst(str: string): string {
+  return str ? str.charAt(0).toUpperCase() + str.slice(1) : '';
 }
 
 /**
@@ -105,8 +108,7 @@ export function genComponentName(pagePath: string): string {
     return 'index';
   }
   const pageHash = docuHash(pagePath);
-  const pascalCase = _.flow(_.camelCase, _.upperFirst);
-  return pascalCase(pageHash);
+  return upperFirst(camelCase(pageHash));
 }
 
 /**
@@ -191,10 +193,7 @@ export function parse(
 } {
   const options: {} = {
     excerpt: (file: matter.GrayMatterFile<string>): void => {
-      file.excerpt = file.content
-        .trim()
-        .split('\n', 1)
-        .shift();
+      file.excerpt = file.content.trim().split('\n', 1).shift();
     },
   };
 
@@ -253,8 +252,11 @@ export function normalizeUrl(rawUrls: string[]): string {
   const parts = str.split('?');
   str = parts.shift() + (parts.length > 0 ? '?' : '') + parts.join('&');
 
-  // Dedupe forward slashes.
-  str = str.replace(/^\/+/, '/');
+  // Dedupe forward slashes in the entire path, avoiding protocol slashes.
+  str = str.replace(/([^:]\/)\/+/g, '$1');
+
+  // Dedupe forward slashes at the beginning of the path.
+  str = str.replace(/^\/+/g, '/');
 
   return str;
 }
@@ -269,4 +271,10 @@ export function aliasedSitePath(filePath: string, siteDir: string) {
   // Cannot use path.join() as it resolves '../' and removes
   // the '@site'. Let webpack loader resolve it.
   return `@site/${relativePath}`;
+}
+
+export function getEditUrl(fileRelativePath: string, editUrl?: string) {
+  return editUrl
+    ? normalizeUrl([editUrl, posixPath(fileRelativePath)])
+    : undefined;
 }

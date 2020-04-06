@@ -1,12 +1,39 @@
 ---
-id: sidebar
-title: Sidebar
+id: docs
+title: Docs Introduction
+sidebar_label: Introduction
 ---
+
+The docs feature provides users with a way to organize Markdown files in a hierarchical format.
+
+## Document ID
+
+Every document has a unique `id`. By default, a document `id` is the name of the document (without the extension) relative to the root docs directory.
+
+For example, `greeting.md` id is `greeting` and `guide/hello.md` id is `guide/hello`.
+
+```bash
+website # root directory of your site
+└── docs
+   ├── greeting.md
+   └── guide
+      └── hello.md
+```
+
+However, the last part of the `id` can be defined by user in the front matter. For example, if `guide/hello.md`'s content is defined as below, its final `id` is `guide/part1`.
+
+```yml
+---
+id: part1
+---
+Lorem ipsum
+```
+
+## Sidebar
 
 To generate a sidebar to your Docusaurus site, you need to define a file that exports a sidebar object and pass that into the `@docusaurus/plugin-docs` plugin directly or via `@docusaurus/preset-classic`.
 
-```js {9-10}
-// docusaurus.config.js
+```js {8-9} title="docusaurus.config.js"
 module.exports = {
   // ...
   presets: [
@@ -17,14 +44,14 @@ module.exports = {
           // Sidebars filepath relative to the site dir.
           sidebarPath: require.resolve('./sidebars.js'),
         },
-        ...
+        // ...
       },
     ],
   ],
 };
 ```
 
-## Sidebar object
+### Sidebar object
 
 A sidebar object is defined like this.
 
@@ -40,8 +67,7 @@ type Sidebar = {
 
 Below is an example of a sidebar object. The key `docs` is the id of the sidebar (can be renamed to something else) and `Getting Started` is a category within the sidebar. `greeting` and `doc1` are both [sidebar item](#sidebar-item).
 
-```js
-// sidebars.js
+```js title="sidebars.js"
 module.exports = {
   docs: {
     'Getting started': ['greeting'],
@@ -50,10 +76,9 @@ module.exports = {
 };
 ```
 
-If you don't want to rely on iteration order of JavaScript object keys for the category name, the following sidebar object is also equivalent of the above.
+Keep in mind that EcmaScript does not guarantee `Object.keys({a,b}) === ['a','b']` (yet, this is generally true). If you don't want to rely on iteration order of JavaScript object keys for the category name, the following sidebar object is also equivalent of the above shorthand syntax.
 
-```js
-// sidebars.js
+```js title="sidebars.js"
 module.exports = {
   docs: [
     {
@@ -74,8 +99,7 @@ You can also have multiple sidebars for different Markdown files by adding more 
 
 Example:
 
-```js
-// sidebars.js
+```js title="sidebars.js"
 module.exports = {
   firstSidebar: {
     'Category A': ['doc1'],
@@ -87,30 +111,7 @@ module.exports = {
 };
 ```
 
-## Document ID
-
-Every document has a unique `id`. By default, a document `id` is the name of the document (without the extension) relative to the root docs directory.
-
-For example, `greeting.md` id is `greeting` and `guide/hello.md` id is `guide/hello`.
-
-```bash
-website # root directory of your site
-└── docs
-   ├── greeting.md
-   └── guide
-      └── hello.md
-```
-
-However, the last part of the `id` can be defined by user in the frontmatter. For example, if `guide/hello.md` content is defined as below, it's final `id` is `guide/part1`.
-
-```yml
----
-id: part1
----
-Lorem ipsum
-```
-
-## Sidebar item
+#### Sidebar item
 
 As the name implies, `SidebarItem` is an item defined in a Sidebar. There are a few types we support:
 
@@ -119,7 +120,7 @@ As the name implies, `SidebarItem` is an item defined in a Sidebar. There are a 
 - [Ref](#ref)
 - [Category](#category)
 
-### Doc
+#### Doc
 
 ```typescript
 type SidebarItemDoc =
@@ -147,8 +148,7 @@ Using just the [Document ID](#document-id) is perfectly valid as well, the follo
 
 Note that using this type will bind the linked doc to current sidebar, this means that if you access `doc1` page, the sidebar displayed will be the sidebar this item is on. For below case, `doc1` is bounded to `firstSidebar`.
 
-```js
-// sidebars.js
+```js title="sidebars.js"
 module.exports = {
   firstSidebar: {
     'Category A': ['doc1'],
@@ -160,7 +160,7 @@ module.exports = {
 };
 ```
 
-### Link
+#### Link
 
 ```typescript
 type SidebarItemLink = {
@@ -180,7 +180,7 @@ Sidebar item type that links to a non-document page. Example:
 }
 ```
 
-### Ref
+#### Ref
 
 ```typescript
 type SidebarItemRef = {
@@ -198,7 +198,7 @@ Sidebar item type that links to doc without bounding it to the sidebar. Example:
 }
 ```
 
-### Category
+#### Category
 
 This is used to add hierarchies to the sidebar:
 
@@ -212,8 +212,7 @@ type SidebarItemCategory = {
 
 As an example, here's how we created the subcategory for "Docs" under "Guides" in this site:
 
-```js
-// sidebars.js
+```js title="sidebars.js"
 module.exports = {
   docs: {
     Guides: [
@@ -221,24 +220,85 @@ module.exports = {
       {
         type: 'category',
         label: 'Docs',
-        items: ['markdown-features', 'sidebar'],
+        items: ['markdown-features', 'sidebar', 'versioning'],
       },
     ],
   },
 };
 ```
 
-### Collapsible categories
+**Note**: it's possible to use the shorthand syntax to create nested categories:
+
+```js title="sidebars.js"
+module.exports = {
+  docs: {
+    Guides: [
+      'creating-pages',
+      {
+        Docs: ['markdown-features', 'sidebar', 'versioning'],
+      },
+    ],
+  },
+};
+```
+
+#### Collapsible categories
 
 For sites with a sizable amount of content, we support the option to expand/collapse a category to toggle the display of its contents. Categories are collapsible by default. If you want them to be always expanded, set `themeConfig.sidebarCollapsible` to `false`:
 
-```js {5}
-// docusaurus.config.js
+```js {4} title="docusaurus.config.js"
 module.exports = {
-  ...
+  // ...
   themeConfig: {
     sidebarCollapsible: false,
-    ...
+    // ...
   },
-}
+};
 ```
+
+## Docs-only mode
+
+If you just want the documentation feature, you can follow the instructions for a "docs-only mode":
+
+1. Set the `routeBasePath` property of the `docs` object in `@docusaurus/preset-classic` in `docusaurus.config.js` to the root of your site:
+
+```js {8} title="docusaurus.config.js"
+module.exports = {
+  // ...
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        docs: {
+          routeBasePath: '', // Set to empty string.
+          // ...
+        },
+      },
+    ],
+  ],
+  // ...
+};
+```
+
+2. Set up a redirect to the initial document on the home page in `/src/pages/index.js`, e.g. for the document `getting-started`. This is needed because by default there's no page created for the root of the docs.
+
+```jsx title="src/pages/index.js"
+import React from 'react';
+
+import {Redirect} from '@docusaurus/router';
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
+function Home() {
+  return <Redirect to={useBaseUrl('/getting-started')} />;
+}
+
+export default Home;
+```
+
+Now, when visiting your site, it will show your initial document instead of a landing page.
+
+:::tip
+
+There's also a "blog-only mode", for those who only want to use the blog component of Docusaurus 2. You can use the same method detailed above, except that you need to delete the `/src/pages/index.js` file. Follow the setup instructions on [Blog-only mode](blog.md#blog-only-mode).
+
+:::

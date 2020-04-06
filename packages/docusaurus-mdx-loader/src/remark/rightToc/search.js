@@ -8,7 +8,6 @@
 const toString = require('mdast-util-to-string');
 const visit = require('unist-util-visit');
 const escapeHtml = require('escape-html');
-const slugs = require('github-slugger')();
 
 // https://github.com/syntax-tree/mdast#heading
 function toValue(node) {
@@ -40,19 +39,18 @@ function search(node) {
   let current = -1;
   let currentDepth = 0;
 
-  slugs.reset();
-
   const onHeading = (child, index, parent) => {
     const value = toString(child);
-    const id =
-      child.data && child.data.hProperties && child.data.hProperties.id;
-    const slug = slugs.slug(id || value);
 
     if (parent !== node || !value || child.depth > 3 || child.depth < 2) {
       return;
     }
 
-    const entry = {value: toValue(child), id: slug, children: []};
+    const entry = {
+      value: toValue(child),
+      id: child.data.id,
+      children: [],
+    };
 
     if (!headings.length || currentDepth >= child.depth) {
       headings.push(entry);

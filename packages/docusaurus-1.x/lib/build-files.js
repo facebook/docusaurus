@@ -42,7 +42,7 @@ generate()
   .then(() => {
     console.log("Site built successfully. Generated files in 'build' folder.");
   })
-  .catch(error => {
+  .catch((error) => {
     console.error(error);
     process.exit(1);
   });

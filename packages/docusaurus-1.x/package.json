@@ -1,7 +1,7 @@
 {
   "name": "docusaurus",
   "description": "Easy to Maintain Open Source Documentation Websites",
-  "version": "2.0.0-alpha.48",
+  "version": "2.0.0-alpha.50",
   "license": "MIT",
   "keywords": [
     "documentation",
@@ -26,16 +26,16 @@
     "docusaurus-rename-version": "./lib/rename-version.js"
   },
   "dependencies": {
-    "@babel/core": "^7.7.4",
-    "@babel/plugin-proposal-class-properties": "^7.7.4",
-    "@babel/plugin-proposal-object-rest-spread": "^7.7.4",
-    "@babel/polyfill": "^7.7.0",
-    "@babel/preset-env": "^7.7.4",
-    "@babel/preset-react": "^7.7.4",
-    "@babel/register": "^7.7.4",
-    "@babel/traverse": "^7.7.4",
-    "@babel/types": "^7.7.4",
-    "autoprefixer": "^9.7.2",
+    "@babel/core": "^7.9.0",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/plugin-proposal-object-rest-spread": "^7.9.0",
+    "@babel/polyfill": "^7.8.7",
+    "@babel/preset-env": "^7.9.0",
+    "@babel/preset-react": "^7.9.4",
+    "@babel/register": "^7.9.0",
+    "@babel/traverse": "^7.9.0",
+    "@babel/types": "^7.9.0",
+    "autoprefixer": "^9.7.5",
     "babylon": "^6.18.0",
     "chalk": "^3.0.0",
     "classnames": "^2.2.6",
@@ -77,6 +77,6 @@
     "filepath": "^1.1.0",
     "front-matter": "^3.0.2",
     "glob-promise": "^3.3.0",
-    "rimraf": "^3.0.0"
+    "rimraf": "^3.0.2"
   }
 }

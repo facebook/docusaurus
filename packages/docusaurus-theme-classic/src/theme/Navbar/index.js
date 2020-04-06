@@ -6,19 +6,17 @@
  */
 
 import React, {useCallback, useState} from 'react';
+import classnames from 'classnames';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
-import isInternalUrl from '@docusaurus/isInternalUrl';
 
 import SearchBar from '@theme/SearchBar';
 import Toggle from '@theme/Toggle';
-
-import classnames from 'classnames';
-
 import useThemeContext from '@theme/hooks/useThemeContext';
 import useHideableNavbar from '@theme/hooks/useHideableNavbar';
 import useLockBodyScroll from '@theme/hooks/useLockBodyScroll';
+import useLogo from '@theme/hooks/useLogo';
 
 import styles from './styles.module.css';
 
@@ -28,7 +26,6 @@ function NavLink({activeBasePath, to, href, label, position, ...props}) {
 
   return (
     <Link
-      className="navbar__item navbar__link"
       {...(href
         ? {
             target: '_blank',
@@ -51,17 +48,72 @@ function NavLink({activeBasePath, to, href, label, position, ...props}) {
   );
 }
 
-function Navbar() {
-  const {siteConfig = {}, isClient} = useDocusaurusContext();
-  const {baseUrl, themeConfig = {}} = siteConfig;
-  const {navbar = {}, disableDarkMode = false} = themeConfig;
-  const {title, logo = {}, links = [], hideOnScroll = false} = navbar;
+function NavItem({items, position, ...props}) {
+  if (!items) {
+    return <NavLink className="navbar__item navbar__link" {...props} />;
+  }
 
+  return (
+    <div
+      className={classnames('navbar__item', 'dropdown', 'dropdown--hoverable', {
+        'dropdown--left': position === 'left',
+        'dropdown--right': position === 'right',
+      })}>
+      <NavLink className="navbar__item navbar__link" {...props}>
+        {props.label}
+      </NavLink>
+      <ul className="dropdown__menu">
+        {items.map((linkItemInner, i) => (
+          <li key={i}>
+            <NavLink className="navbar__item navbar__link" {...linkItemInner} />
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function MobileNavItem({items, ...props}) {
+  if (!items) {
+    return (
+      <li className="menu__list-item">
+        <NavLink className="menu__link" {...props} />
+      </li>
+    );
+  }
+
+  return (
+    <li className="menu__list-item">
+      <NavLink className="menu__link menu__link--sublist" {...props}>
+        {props.label}
+      </NavLink>
+      <ul className="menu__list">
+        {items.map((linkItemInner, i) => (
+          <li className="menu__list-item" key={i}>
+            <NavLink className="menu__link" {...linkItemInner} />
+          </li>
+        ))}
+      </ul>
+    </li>
+  );
+}
+
+function Navbar() {
+  const {
+    siteConfig: {
+      themeConfig: {
+        navbar: {title, links = [], hideOnScroll = false} = {},
+        disableDarkMode = false,
+      },
+    },
+    isClient,
+  } = useDocusaurusContext();
   const [sidebarShown, setSidebarShown] = useState(false);
   const [isSearchBarExpanded, setIsSearchBarExpanded] = useState(false);
 
   const {isDarkTheme, setLightTheme, setDarkTheme} = useThemeContext();
   const {navbarRef, isNavbarVisible} = useHideableNavbar(hideOnScroll);
+  const {logoLink, logoLinkProps, logoImageUrl, logoAlt} = useLogo();
 
   useLockBodyScroll(sidebarShown);
 
@@ -73,24 +125,9 @@ function Navbar() {
   }, [setSidebarShown]);
 
   const onToggleChange = useCallback(
-    e => (e.target.checked ? setDarkTheme() : setLightTheme()),
+    (e) => (e.target.checked ? setDarkTheme() : setLightTheme()),
     [setLightTheme, setDarkTheme],
   );
-
-  const logoLink = logo.href || baseUrl;
-  let logoLinkProps = {};
-
-  if (logo.target) {
-    logoLinkProps = {target: logo.target};
-  } else if (!isInternalUrl(logoLink)) {
-    logoLinkProps = {
-      rel: 'noopener noreferrer',
-      target: '_blank',
-    };
-  }
-
-  const logoSrc = logo.srcDark && isDarkTheme ? logo.srcDark : logo.src;
-  const logoImageUrl = useBaseUrl(logoSrc);
 
   return (
     <nav
@@ -127,12 +164,12 @@ function Navbar() {
             </svg>
           </div>
           <Link className="navbar__brand" to={logoLink} {...logoLinkProps}>
-            {logo != null && (
+            {logoImageUrl != null && (
               <img
                 key={isClient}
                 className="navbar__logo"
                 src={logoImageUrl}
-                alt={logo.alt}
+                alt={logoAlt}
               />
             )}
             {title != null && (
@@ -145,16 +182,16 @@ function Navbar() {
             )}
           </Link>
           {links
-            .filter(linkItem => linkItem.position !== 'right')
+            .filter((linkItem) => linkItem.position === 'left')
             .map((linkItem, i) => (
-              <NavLink {...linkItem} key={i} />
+              <NavItem {...linkItem} key={i} />
             ))}
         </div>
         <div className="navbar__items navbar__items--right">
           {links
-            .filter(linkItem => linkItem.position === 'right')
+            .filter((linkItem) => linkItem.position === 'right')
             .map((linkItem, i) => (
-              <NavLink {...linkItem} key={i} />
+              <NavItem {...linkItem} key={i} />
             ))}
           {!disableDarkMode && (
             <Toggle
@@ -182,12 +219,12 @@ function Navbar() {
             onClick={hideSidebar}
             to={logoLink}
             {...logoLinkProps}>
-            {logo != null && (
+            {logoImageUrl != null && (
               <img
                 key={isClient}
                 className="navbar__logo"
                 src={logoImageUrl}
-                alt={logo.alt}
+                alt={logoAlt}
               />
             )}
             {title != null && (
@@ -206,13 +243,7 @@ function Navbar() {
           <div className="menu">
             <ul className="menu__list">
               {links.map((linkItem, i) => (
-                <li className="menu__list-item" key={i}>
-                  <NavLink
-                    className="menu__link"
-                    {...linkItem}
-                    onClick={hideSidebar}
-                  />
-                </li>
+                <MobileNavItem {...linkItem} onClick={hideSidebar} key={i} />
               ))}
             </ul>
           </div>

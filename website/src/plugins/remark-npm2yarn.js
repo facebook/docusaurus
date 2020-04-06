@@ -5,22 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-// This is a very naive implementation of converting npm commands to yarn commands
-// Works well for our use case since we only use either 'npm install', or 'npm run <something>'
-// Its impossible to convert it right since some commands at npm are not available in yarn and vice/versa
-const convertNpmToYarn = npmCode => {
-  // global install: 'npm i' -> 'yarn'
-  return (
-    npmCode
-      .replace(/^npm i$/gm, 'yarn')
-      // install: 'npm install --save foo' -> 'yarn add foo'
-      .replace(/npm install --save/gm, 'yarn add')
-      // run command: 'npm run start' -> 'yarn run start'
-      .replace(/npm run/gm, 'yarn run')
-  );
-};
+const npmToYarn = require('npm-to-yarn');
 
-const transformNode = node => {
+// E.g. global install: 'npm i' -> 'yarn'
+const convertNpmToYarn = (npmCode) => npmToYarn(npmCode, 'yarn');
+
+const transformNode = (node) => {
   const npmCode = node.value;
   const yarnCode = convertNpmToYarn(node.value);
   return [
@@ -56,7 +46,7 @@ const transformNode = node => {
   ];
 };
 
-const matchNode = node => node.type === 'code' && node.meta === 'npm2yarn';
+const matchNode = (node) => node.type === 'code' && node.meta === 'npm2yarn';
 const nodeForImport = {
   type: 'import',
   value:
@@ -65,7 +55,7 @@ const nodeForImport = {
 
 module.exports = () => {
   let transformed = false;
-  const transformer = node => {
+  const transformer = (node) => {
     if (matchNode(node)) {
       transformed = true;
       return transformNode(node);

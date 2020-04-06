@@ -26,7 +26,7 @@ if (!semver.satisfies(process.version, requiredVersion)) {
 
 function wrapCommand(fn) {
   return (...args) =>
-    fn(...args).catch(err => {
+    fn(...args).catch((err) => {
       console.error(chalk.red(err.stack));
       process.exitCode = 1;
     });
@@ -41,9 +41,19 @@ cli
     '--bundle-analyzer',
     'Visualize size of webpack output files with an interactive zoomable treemap (default = false)',
   )
-  .action((siteDir = '.', {bundleAnalyzer}) => {
+  .option(
+    '--out-dir <dir>',
+    'The full path for the new output directory, relative to the current workspace (default = build).',
+  )
+  .option(
+    '--no-minify',
+    'Build website without minimizing JS bundles (default = false)',
+  )
+  .action((siteDir = '.', {bundleAnalyzer, outDir, minify}) => {
     wrapCommand(build)(path.resolve(siteDir), {
       bundleAnalyzer,
+      outDir,
+      minify,
     });
   });
 
@@ -57,8 +67,12 @@ cli
 cli
   .command('deploy [siteDir]')
   .description('Deploy website to GitHub pages')
-  .action((siteDir = '.') => {
-    wrapCommand(deploy)(path.resolve(siteDir));
+  .option(
+    '--out-dir <dir>',
+    'The full path for the new output directory, relative to the current workspace (default = build).',
+  )
+  .action((siteDir = '.', {outDir}) => {
+    wrapCommand(deploy)(path.resolve(siteDir), {outDir});
   });
 
 cli
@@ -80,7 +94,7 @@ cli
     });
   });
 
-cli.arguments('<command>').action(cmd => {
+cli.arguments('<command>').action((cmd) => {
   cli.outputHelp();
   console.log(`  ${chalk.red(`\n  Unknown command ${chalk.yellow(cmd)}.`)}`);
   console.log();
