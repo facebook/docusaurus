@@ -10,11 +10,11 @@ import {StaleWhileRevalidate} from 'workbox-strategies';
 
 export default function customSW() {
   // Cache responses from external resources
-  registerRoute(context => {
+  registerRoute((context) => {
     return [
       /graph\.facebook\.com\/.*\/picture/,
       /netlify\.com\/img/,
       /avatars1\.githubusercontent/,
-    ].some(regex => context.url.href.match(regex));
+    ].some((regex) => context.url.href.match(regex));
   }, new StaleWhileRevalidate());
 }

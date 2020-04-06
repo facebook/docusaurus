@@ -12,7 +12,7 @@ import {precacheAndRoute} from 'workbox-precaching';
 (async () => {
   const precacheManifest = self.__WB_MANIFEST;
 
-  self.addEventListener('message', event => {
+  self.addEventListener('message', (event) => {
     if (event.data && event.data.type === 'SKIP_WAITING') {
       self.skipWaiting();
     }
@@ -25,7 +25,7 @@ import {precacheAndRoute} from 'workbox-precaching';
    */
   precacheAndRoute(precacheManifest, {
     urlManipulation: ({url}) => {
-      const parts = url.pathname.split('/').filter(part => part);
+      const parts = url.pathname.split('/').filter((part) => part);
       const isFile = parts[parts.length - 1].split('.').length > 1;
       const isExternal = url.hostname !== location.hostname;
       // Routes like /blog need to be redirected to the actual asset in the server
