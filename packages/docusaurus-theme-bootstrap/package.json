@@ -1,0 +1,30 @@
+{
+  "name": "docusaurus-theme-bootstrap",
+  "version": "1.0.0",
+  "description": "Bootstrap theme for docusaurus",
+  "main": "src/index.js",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@mdx-js/mdx": "^1.5.8",
+    "@mdx-js/react": "^1.5.8",
+    "classnames": "^2.2.6",
+    "clipboard": "^2.0.6",
+    "parse-numeric-range": "^0.0.2",
+    "prism-react-renderer": "^1.0.2",
+    "prismjs": "^1.19.0",
+    "react-router-dom": "^5.1.2",
+    "react-toggle": "^4.1.1"
+  },
+  "peerDependencies": {
+    "@docusaurus/core": "^2.0.0",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4",
+    "webpack": "^4.41.2"
+  },
+  "engines": {
+    "node": ">=10.9.0"
+  }
+}
