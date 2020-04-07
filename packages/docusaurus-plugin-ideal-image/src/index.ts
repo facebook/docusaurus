@@ -27,7 +27,7 @@ export default function (_context: LoadContext, options: PluginOptions) {
             {
               test: /\.(png|jpe?g|gif)$/i,
               use: [
-                '@endiliey/lqip-loader',
+                '@docusaurus/lqip-loader',
                 {
                   loader: '@endiliey/responsive-loader',
                   options: {

@@ -17,7 +17,7 @@ title: Team
 
 ## Acknowledgements
 
-React was originally created by Joel Marcey. Today, Docusaurus has a few hundred open source contributors. We’d like to recognize a few people who have made significant contributions to Docusaurus and its documentation in the past and have helped maintain them over the years:
+Docusaurus was originally created by Joel Marcey. Today, Docusaurus has a few hundred open source contributors. We’d like to recognize a few people who have made significant contributions to Docusaurus and its documentation in the past and have helped maintain them over the years:
 
 - Amy Lam
 - Cheng Lou
@@ -27,7 +27,7 @@ React was originally created by Joel Marcey. Today, Docusaurus has a few hundred
 - Eric Nakagawa
 - Fienny Angelina
 - Frank Li
-- Hector Ramos
+- [Héctor Ramos](https://github.com/hramos)
 - Ramón Lamana
 - Ricky Vetter
-- Sam Chou
+- [Sam Zhou](https://github.com/SamChou19815)

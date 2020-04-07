@@ -79,16 +79,13 @@
   "lint-staged": {
     "*.{js,jsx}": [
       "yarn lint --fix",
-      "yarn prettier",
-      "git add"
+      "yarn prettier"
     ],
     "*.{ts,tsx}": [
-      "yarn prettier",
-      "git add"
+      "yarn prettier"
     ],
     "*.md": [
-      "yarn prettier-docs",
-      "git add"
+      "yarn prettier-docs"
     ]
   },
   "husky": {
