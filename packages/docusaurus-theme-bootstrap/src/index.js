@@ -8,7 +8,7 @@
 
 const path = require('path');
 
-module.exports = function (_context, _options) {
+module.exports = function () {
   return {
     name: 'docusaurus-theme-bootstrap',
     getThemePath() {
