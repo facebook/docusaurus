@@ -14,6 +14,7 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 import DocPaginator from '@theme/DocPaginator';
 import useTOCHighlight from '@theme/hooks/useTOCHighlight';
 
+import classnames from 'classnames';
 import styles from './styles.module.css';
 
 const LINK_CLASS_NAME = 'contents__link';

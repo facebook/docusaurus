@@ -6,7 +6,6 @@
  */
 
 import React from 'react';
-import classnames from 'classnames';
 import {MDXProvider} from '@mdx-js/react';
 
 import Link from '@docusaurus/Link';
