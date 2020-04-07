@@ -16,9 +16,9 @@ const requiredVersion = require('../package.json').engines.node;
 
 if (!semver.satisfies(process.version, requiredVersion)) {
   console.log(
-    chalk.red(`\nMinimum node version not met :)`) +
+    chalk.red(`\nMinimum Node version not met :(`) +
       chalk.yellow(
-        `\nYou are using Node ${process.version}, Requirement: Node ${requiredVersion}.\n`,
+        `\n\nYou are using Node ${process.version}. We require Node ${requiredVersion} or up!\n`,
       ),
   );
   process.exit(1);
@@ -39,15 +39,15 @@ cli
   .description('Build website')
   .option(
     '--bundle-analyzer',
-    'Visualize size of webpack output files with an interactive zoomable treemap (default = false)',
+    'Visualize size of webpack output files with an interactive zoomable treemap (default: disabled)',
   )
   .option(
     '--out-dir <dir>',
-    'The full path for the new output directory, relative to the current workspace (default = build).',
+    'The full path for the new output directory, relative to the current workspace (default: build).',
   )
   .option(
     '--no-minify',
-    'Build website without minimizing JS bundles (default = false)',
+    'Build website without minimizing JS bundles (default: minification enabled)',
   )
   .action((siteDir = '.', {bundleAnalyzer, outDir, minify}) => {
     wrapCommand(build)(path.resolve(siteDir), {
@@ -69,7 +69,7 @@ cli
   .description('Deploy website to GitHub pages')
   .option(
     '--out-dir <dir>',
-    'The full path for the new output directory, relative to the current workspace (default = build).',
+    'The full path for the new output directory, relative to the current workspace (default: build).',
   )
   .action((siteDir = '.', {outDir}) => {
     wrapCommand(deploy)(path.resolve(siteDir), {outDir});
@@ -77,14 +77,17 @@ cli
 
 cli
   .command('start [siteDir]')
-  .description('Start development server')
+  .description('Start the development server')
   .option('-p, --port <port>', 'use specified port (default: 3000)')
   .option('-h, --host <host>', 'use specified host (default: localhost')
   .option(
     '--hot-only',
     'Do not fallback to page refresh if hot reload fails (default: false)',
   )
-  .option('--no-open', 'Do not open page in the browser (default: false)')
+  .option(
+    '--no-open',
+    'Do not open page in the browser (default: opening enabled)',
+  )
   .action((siteDir = '.', {port, host, hotOnly, open}) => {
     wrapCommand(start)(path.resolve(siteDir), {
       port,
