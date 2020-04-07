@@ -16,9 +16,8 @@ title: Team
 ### Fanny Vieira
 
 <br/>
-<img src="https://i.imgur.com/QMznITd.jpg4" width="58%"/>  
-&nbsp;  
 
+![](https://github.com/fanny.png)   
 [@fanny on Github](https://github.com/fanny) · [@fannyvieiira on Twitter](https://twitter.com/fannyvieiira)
 
 ### Joel Marcey  
