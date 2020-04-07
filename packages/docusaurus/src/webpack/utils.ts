@@ -44,6 +44,25 @@ export function getStyleLoaders(
       options: cssOptions,
     },
     {
+      loader: require.resolve('sass-loader'),
+      options: {
+        importLoaders: 3,
+        sourceMap: !isProd,
+      },
+    },
+    {
+      loader: require.resolve('sass-loader'),
+      options: {
+        importLoaders: 3,
+        sourceMap: !isProd,
+        modules: {
+          localIdentName: isProd
+          ? `[local]_[hash:base64:4]`
+          : `[local]_[path]`,
+        },
+      },
+    },
+    {
       // Options for PostCSS as we reference these options twice
       // Adds vendor prefixing based on your specified browser support in
       // package.json

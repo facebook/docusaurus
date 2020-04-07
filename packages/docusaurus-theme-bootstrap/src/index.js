@@ -17,7 +17,7 @@ module.exports = function (_context, _options) {
     getClientModules() {
       return [
         'bootstrap/dist/css/bootstrap.min.css',
-        path.resolve(__dirname, './prism-include-languages')
+        'bootstrap/scss/bootstrap.scss',
       ];
     }
   }

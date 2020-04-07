@@ -17,6 +17,9 @@ import {getBabelLoader, getCacheLoader, getStyleLoaders} from './utils';
 
 const CSS_REGEX = /\.css$/;
 const CSS_MODULE_REGEX = /\.module\.css$/;
+const SASS_REGEX = /\.(scss|sass)$/;
+const SASS_MODULE_REGEX = /\.module\.(scss|sass)$/;
+
 export const clientDir = path.join(__dirname, '..', 'client');
 
 export function excludeJS(modulePath: string) {
@@ -58,7 +61,7 @@ export function createBaseConfig(
     },
     devtool: isProd ? false : 'cheap-module-eval-source-map',
     resolve: {
-      extensions: ['.wasm', '.mjs', '.js', '.jsx', '.ts', '.tsx', '.json'],
+      extensions: ['.wasm', '.mjs', '.js', '.jsx', '.ts', '.tsx', '.json', '.scss'],
       symlinks: true,
       alias: {
         // https://stackoverflow.com/a/55433680/6072730
@@ -178,6 +181,25 @@ export function createBaseConfig(
             sourceMap: !isProd,
             onlyLocals: isServer,
           }),
+        },
+        // Opt-in support for SASS (using .scss or .sass extensions).
+        // By default we support SASS Modules with the
+        // extensions .module.scss or .module.sass
+        {
+          test: SASS_REGEX,
+          exclude: SASS_MODULE_REGEX,
+          use: getStyleLoaders(isServer, {
+            importLoaders: 1,
+            sourceMap: !isProd,
+          })
+        },
+        {
+          test: SASS_MODULE_REGEX,
+          exclude: CSS_MODULE_REGEX,
+          use: getStyleLoaders(isServer, {
+            importLoaders: 1,
+            sourceMap: !isProd,
+          })
         },
       ],
     },

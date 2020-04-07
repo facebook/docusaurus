@@ -53,20 +53,20 @@ function BlogPostItem(props) {
     const day = parseInt(match[2], 10);
 
     return (
-      <header className="">
+      <header>
       <div className="card-header">
         <TitleHeading
           className="card-title">
           {isBlogPostPage ? title : <Link to={permalink}>{title}</Link>}
         </TitleHeading>
-        <div className="card-subtitle mb-4 text-muted">
+        <div className="card-subtitle mb-md text-muted">
           <time dateTime={date} className={styles.blogPostDate}>
             {month} {day}, {year}{' '}
             {readingTime && <> · {Math.ceil(readingTime)} min read</>}
           </time>
         </div>
         </div>
-        <div className="row py-4 px-2">
+        <div className="row p-md-3">
         <div className="col col-1">
           {authorImageURL && (
             <a
@@ -101,7 +101,7 @@ function BlogPostItem(props) {
   };
 
   return (
-    <article className="card mb-5">
+    <article className="card mb-md-5">
       {renderPostHeader()}
       <section className="card-body">
         <p className="card-text">
@@ -109,7 +109,7 @@ function BlogPostItem(props) {
         </p>
       </section>
       {(tags.length > 0 || truncated) && (
-        <footer className="row my-4 mx-1">
+        <footer className="row my-md-3 mx-1">
           {tags.length > 0 && (
             <div className="col">
               <strong>Tags:</strong>
