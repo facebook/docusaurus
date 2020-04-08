@@ -390,7 +390,7 @@ const siteConfig = {
   },
   markdownPlugins: [
     function foo(md) {
-      md.renderer.rules.fence_custom.foo = function(
+      md.renderer.rules.fence_custom.foo = function (
         tokens,
         idx,
         options,

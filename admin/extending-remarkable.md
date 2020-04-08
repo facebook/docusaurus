@@ -53,11 +53,11 @@ Now that you have a better idea of how parsing/rendering works, we can proceed t
 The default heading renderers may look like this (you can refer to the Remarkable source code here):
 
 ```js
-md.renderer.rules.heading_open = function(tokens, idx /*, options, env */) {
+md.renderer.rules.heading_open = function (tokens, idx /*, options, env */) {
   return '<h' + tokens[idx].hLevel + '>';
 };
 
-md.renderer.rules.heading_close = function(tokens, idx /*, options, env */) {
+md.renderer.rules.heading_close = function (tokens, idx /*, options, env */) {
   return '</h' + tokens[idx].hLevel + '>\n';
 };
 ```
@@ -74,7 +74,7 @@ That's pretty straightforward: whenever these tokens are found, we render a `<hN
 In that case, we need to override our heading rules like so:
 
 ```js
-md.renderer.rules.heading_open = function(tokens, idx /*, options, env */) {
+md.renderer.rules.heading_open = function (tokens, idx /*, options, env */) {
   return (
     '<h' +
     tokens[idx].hLevel +
@@ -85,7 +85,7 @@ md.renderer.rules.heading_open = function(tokens, idx /*, options, env */) {
   );
 };
 
-md.renderer.rules.heading_close = function(tokens, idx /*, options, env */) {
+md.renderer.rules.heading_close = function (tokens, idx /*, options, env */) {
   return (
     ' <a class="hash-link" href="#' +
     toSlug(tokens[idx - 1].content) +
@@ -105,7 +105,7 @@ We now need to tell Remarkable to use our extension. We can wrap our rules in a 
 
 ```js
 function anchors(md) {
-  md.renderer.rules.heading_open = function(tokens, idx /*, options, env */) {
+  md.renderer.rules.heading_open = function (tokens, idx /*, options, env */) {
     return (
       '<h' +
       tokens[idx].hLevel +
@@ -116,7 +116,7 @@ function anchors(md) {
     );
   };
 
-  md.renderer.rules.heading_close = function(tokens, idx /*, options, env */) {
+  md.renderer.rules.heading_close = function (tokens, idx /*, options, env */) {
     return (
       ' <a class="hash-link" href="#' +
       toSlug(tokens[idx - 1].content) +

@@ -9,7 +9,7 @@ title: Team
 
 <br/>
 
-![](https://github.com/lex111.png)  
+![](https://github.com/lex111.png)
 
 [@lex111 on Github](https://github.com/lex111)
 
@@ -17,10 +17,10 @@ title: Team
 
 <br/>
 
-![](https://github.com/fanny.png)   
+![](https://github.com/fanny.png)  
 [@fanny on Github](https://github.com/fanny) · [@fannyvieiira on Twitter](https://twitter.com/fannyvieiira)
 
-### Joel Marcey  
+### Joel Marcey
 
 <br/>
 
