@@ -14,7 +14,7 @@ Modify your `docusaurus.config.js`
 module.exports = {
   plugins: [
     [
-      '@docusaurus/plugin-pwa'
+      '@docusaurus/plugin-pwa',
       {
         // Additional configuration options to pass to `workbox.injectManifest()`
         injectManifestConfig: {},
@@ -43,7 +43,7 @@ module.exports = {
       },
     ],
   ],
-}
+};
 ```
 
 ## Progressive Web App
@@ -80,7 +80,7 @@ After the site has been precached, the service worker will serve cached response
 module.exports = {
   plugins: [
     [
-      '@docusaurus/plugin-pwa'
+      '@docusaurus/plugin-pwa',
       {
         manifestTransforms: [...],
         modifyURLPrefix: {...},
@@ -121,7 +121,7 @@ Array of objects containing `tagName` and key-value pairs for attributes to inje
 module.exports = {
   plugins: [
     [
-      '@docusaurus/plugin-pwa'
+      '@docusaurus/plugin-pwa',
       {
         pwaHead: [
           {
@@ -174,7 +174,7 @@ module.exports = {
       },
     ],
   ],
-}
+};
 ```
 
 ### `swCustom`
