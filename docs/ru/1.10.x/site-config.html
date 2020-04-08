@@ -287,14 +287,14 @@
   <span class="hljs-attr">tagline</span>: <span class="hljs-string">'Generate websites!'</span>,
   <span class="hljs-attr">url</span>: <span class="hljs-string">'https://docusaurus.io'</span>,
   <span class="hljs-attr">baseUrl</span>: <span class="hljs-string">'/'</span>,
-  <span class="hljs-comment">// Для URL github.io, используйте url и baseUrl следующим образом:</span>
+  <span class="hljs-comment">// For github.io type URLS, you would combine the URL and baseUrl like:</span>
   <span class="hljs-comment">// url: 'https://reasonml.github.io',</span>
   <span class="hljs-comment">// baseUrl: '/reason-react/',</span>
   <span class="hljs-attr">defaultVersionShown</span>: <span class="hljs-string">'1.0.0'</span>,
   <span class="hljs-attr">organizationName</span>: <span class="hljs-string">'facebook'</span>,
   <span class="hljs-attr">projectName</span>: <span class="hljs-string">'docusaurus'</span>,
   <span class="hljs-attr">noIndex</span>: <span class="hljs-literal">false</span>,
-  <span class="hljs-comment">// Если ссылки в навигационном меню не требуются -&gt; headerLinks: [],</span>
+  <span class="hljs-comment">// For no header links in the top nav bar -&gt; headerLinks: [],</span>
   <span class="hljs-attr">headerLinks</span>: [
     {<span class="hljs-attr">doc</span>: <span class="hljs-string">'doc1'</span>, <span class="hljs-attr">label</span>: <span class="hljs-string">'Docs'</span>},
     {<span class="hljs-attr">page</span>: <span class="hljs-string">'help'</span>, <span class="hljs-attr">label</span>: <span class="hljs-string">'Help'</span>},
@@ -308,7 +308,7 @@
     <span class="hljs-attr">secondaryColor</span>: <span class="hljs-string">'#205C3B'</span>,
   },
   <span class="hljs-attr">editUrl</span>: <span class="hljs-string">'https://github.com/facebook/docusaurus/edit/master/docs/'</span>,
-  <span class="hljs-comment">// Переменная установлена выше</span>
+  <span class="hljs-comment">// Users variable set above</span>
   users,
   <span class="hljs-attr">disableHeaderTitle</span>: <span class="hljs-literal">true</span>,
   <span class="hljs-attr">disableTitleTagline</span>: <span class="hljs-literal">true</span>,
@@ -325,7 +325,7 @@
   },
   <span class="hljs-attr">markdownPlugins</span>: [
     <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params">md</span>) </span>{
-      md.renderer.rules.fence_custom.foo = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">
+      md.renderer.rules.fence_custom.foo = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">
         tokens,
         idx,
         options,
