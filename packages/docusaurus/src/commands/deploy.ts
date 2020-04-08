@@ -19,12 +19,12 @@ export async function deploy(
 ): Promise<void> {
   console.log('Deploy command invoked ...');
   if (!shell.which('git')) {
-    throw new Error('Sorry, this script requires git');
+    throw new Error('Git not installed or on the PATH!');
   }
 
   const gitUser = process.env.GIT_USER;
   if (!gitUser) {
-    throw new Error(`Please set the GIT_USER`);
+    throw new Error('Please set the GIT_USER environment variable!');
   }
 
   // The branch that contains the latest docs changes that will be deployed.
@@ -85,7 +85,8 @@ export async function deploy(
   // We don't allow deploying to the same branch unless it's a cross publish.
   if (currentBranch === deploymentBranch && !crossRepoPublish) {
     throw new Error(
-      `Cannot deploy from a ${deploymentBranch} branch. Only to it`,
+      `You cannot deploy from this branch (${currentBranch}).` +
+        '\nYou will need to checkout to a different branch!',
     );
   }
 
@@ -158,7 +159,7 @@ export async function deploy(
 
         const commitMessage =
           process.env.CUSTOM_COMMIT_MESSAGE ||
-          `Deploy website version based on ${currentCommit}`;
+          `Deploy website - based on ${currentCommit}`;
         const commitResults = shell.exec(`git commit -m "${commitMessage}"`);
         if (
           shell.exec(`git push --force origin ${deploymentBranch}`).code !== 0
@@ -172,7 +173,7 @@ export async function deploy(
                 `https://${organizationName}.github.io/${projectName}`
               : // GitHub enterprise hosting.
                 `https://${githubHost}/pages/${organizationName}/${projectName}`;
-          shell.echo(`Website is live at: ${websiteURL}`);
+          shell.echo(`Website is live at ${websiteURL}`);
           shell.exit(0);
         }
       });

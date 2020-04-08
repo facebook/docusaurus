@@ -11,28 +11,25 @@ title: Team
 
 ![](https://github.com/lex111.png)
 
-[@lex111 on Github](https://github.com/lex111)
+[@lex111 on GitHub](https://github.com/lex111)
 
 ### Fanny Vieira
 
 <br/>
 
-![](https://github.com/fanny.png)  
-[@fanny on Github](https://github.com/fanny) · [@fannyvieiira on Twitter](https://twitter.com/fannyvieiira)
+![](https://github.com/fanny.png) [@fanny on GitHub](https://github.com/fanny) · [@fannyvieiira on Twitter](https://twitter.com/fannyvieiira)
 
 ### Joel Marcey
 
 <br/>
 
-![](https://github.com/joelmarcey.png)  
-[@joelmarcey on Github](https://github.com/joelmarcey) · [@joelmarcey on Twitter](https://twitter.com/joelmarcey)
+![](https://github.com/joelmarcey.png) [@joelmarcey on GitHub](https://github.com/joelmarcey) · [@joelmarcey on Twitter](https://twitter.com/joelmarcey)
 
 ### Yangshun Tay
 
 <br/>
 
-![](https://github.com/yangshun.png)  
-[@yangshun on Github](https://github.com/yangshun) · [@yangshunz on Twitter](https://twitter.com/yangshunz)
+![](https://github.com/yangshun.png) [@yangshun on GitHub](https://github.com/yangshun) · [@yangshunz on Twitter](https://twitter.com/yangshunz)
 
 ## Honorary Alumni
 
@@ -40,15 +37,13 @@ title: Team
 
 <br/>
 
-![](https://github.com/endiliey.png?width=75&height=75)  
-[@endiliey on Github](https://github.com/endiliey) · [@endiliey on Twitter ](https://twitter.com/endiliey)
+![](https://github.com/endiliey.png?width=75&height=75) [@endiliey on GitHub](https://github.com/endiliey) · [@endiliey on Twitter](https://twitter.com/endiliey)
 
 ### Wei Gao
 
 <br/>
 
-![](https://avatars3.githubusercontent.com/u/2055384?s=460&u=09248b65169cb9909246dfa39b796deffc7bd251&v=4)  
-[@wgao19 on Github](https://github.com/wgao19) · [@wgao19 on Twitter](https://twitter.com/wgao19)
+![](https://avatars3.githubusercontent.com/u/2055384?s=460&u=09248b65169cb9909246dfa39b796deffc7bd251&v=4) [@wgao19 on GitHub](https://github.com/wgao19) · [@wgao19 on Twitter](https://twitter.com/wgao19)
 
 ## Acknowledgements
 
