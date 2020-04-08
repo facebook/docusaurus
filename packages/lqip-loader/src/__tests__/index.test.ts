@@ -9,7 +9,7 @@ import path from 'path';
 import Vibrant from 'node-vibrant';
 
 // @ts-ignore
-import {toPalette, toBase64, toPropertyString} from '../utils';
+import {toPalette, toBase64} from '../utils';
 // @ts-ignore
 import lqip from '../lqip';
 

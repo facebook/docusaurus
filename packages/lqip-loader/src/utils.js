@@ -12,7 +12,7 @@ const sortBy = require('lodash.sortby');
  * @description it returns a Base64 image string with required formatting
  * to work on the web (<img src=".." /> or in CSS url('..'))
  *
- * @param extension: image file extension
+ * @param extMimeType: image mime type string
  * @param data: base64 string
  * @returns {string}
  */
