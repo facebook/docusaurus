@@ -82,24 +82,24 @@
             });
         </script></nav></div><div class="container mainContainer docsContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://crowdin.com/project/docusaurus/zh-CN" target="_blank" rel="noreferrer noopener">Translate</a><h1 id="__docusaurus" class="postHeaderTitle">Installation</h1></header><article><div><span><p>Docusaurus 的设计理念，最一开始就是要易于安装和使用，让你的网站可以快速架好并运行起来。</p>
 <h2><a class="anchor" aria-hidden="true" id="安装-docusaurus"></a><a href="#安装-docusaurus" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>安装 Docusaurus</h2>
-<p>我们创建了一个简单的脚本, 它将获得为您设置的所有基础结构:</p>
+<p>我们为你归纳了一个简单的操作流程，它包括了建立 Docusaurus 站点基础架构需要执行的所有操作：</p>
 <ol>
 <li><p>确保你已经安装了最新版的 <a href="https://nodejs.org/en/download/">Node</a>。 此外我们建议你再装个 <a href="https://yarnpkg.com/en/docs/install">Yarn</a>。</p>
 <blockquote>
-<p>您必须有 Node &gt; = 8. x 与 Yarn &gt; = 1.5。</p>
+<p>Node 版本应不低于 8.x，Yarn 版本应不低于 1.5。</p>
 </blockquote></li>
-<li><p>Create a project, if none exists, and change your directory to this project's root.</p>
-<p>文档会被创建在此目录下。 根目录可能会包含其他文件。 Docusaurus的安装脚本会创建两个新目录：<code>docs</code>和<code>website</code>。</p>
+<li><p>如果没有已经创建好的 Docusaurus 项目，则新建一个目录作为新项目的根目录，然后进入其中。</p>
+<p>你将在这个目录中创建文档。 根目录可能会包含其他文件。 Docusaurus 安装脚本会创建两个新的目录：<code>docs</code> 和 <code>website</code>。</p>
 <blockquote>
-<p>通常，Docusaurus 站点的位置会是现有或新创建的 GitHub 项目。但这不是 Docusaurus 的强制要求。</p>
+<p>一般来说，把 Docusaurus 站点文件，存放在已有的或新建的 GitHub 项目目录下，是个不错的选择，不过 Docusaurus 并不强制要求你这样做。</p>
 </blockquote></li>
-<li><p>运行 Docusaurus 的安装脚本：<code>npx docusaurus-init</code>。</p>
+<li><p>运行 Docusaurus 安装脚本：<code>npx docusaurus-init</code>。</p>
 <blockquote>
-<p>如果您没有安装 Node 8.2 + ，或是您希望在全局范围内安装 Docusaurus，请运行 <code>yarn global add docusaurus-init</code> 或 <code>npm install --global docusaurus-init</code>。 安装完成后，运行 <code>docusaurus-init</code>。</p>
+<p>如果你没有安装 Node 8.2 +，或是希望全局安装 Docusaurus，执行命令 <code>yarn global add docusaurus-init</code> 或 <code>npm install --global docusaurus-init</code>。 然后，执行命令 <code>docusaurus-init</code>。</p>
 </blockquote></li>
 </ol>
 <h2><a class="anchor" aria-hidden="true" id="验证安装"></a><a href="#验证安装" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>验证安装</h2>
-<p>Along with previously existing files and directories, your root directory will now contain a structure similar to:</p>
+<p>加上前面提到的几个文件和目录，现在你的 Docusaurus 项目的目录结构应该看起来像这个样子：</p>
 <pre><code class="hljs css language-bash">root-directory
 ├── Dockerfile
 ├── README.md
@@ -126,22 +126,22 @@
     └── static
 </code></pre>
 <h2><a class="anchor" aria-hidden="true" id="运行示例网站"></a><a href="#运行示例网站" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>运行示例网站</h2>
-<p>根据 <a href="#installing-docusaurus">Installation</a> 部分所述运行 Docusaurus 的初始化脚本 <code>docusaurus-init</code> 后，你将会有一个可运行的示例网站。 要运行这个示例：</p>
+<p>在执行完<a href="#安装-docusaurus">安装 Docusaurus </a>一节中提到的 Docusaurus 初始化脚本<code>docusaurus-init</code> 之后，你会得到一个能够正常运行的示例网站，你可以基于它来建设自己的站点。 要运行这个示例：</p>
 <ol>
 <li><p><code>cd website</code></p></li>
-<li><p>在 <code>website</code> 目录下，启动Docusaurus服务器：<code>yarn start</code> 或 <code>npm start</code>。</p></li>
-<li><p>如果没有自动打开已启动的示例网站，请从 <a href="http://localhost:3000">http://localhost:3000</a> 访问示例站点。 如果 3000 端口已被占用，将使用另一个端口。 查看控制台消息以确认使用了哪个端口。</p>
-<p>You should see the example site loaded in your web browser. There's also a LiveReload server running and any changes made to the docs and files in the <code>website</code> directory will cause the page to refresh. Docusaurus将会自动选取一个随机生成的主要和次要主题颜色。</p></li>
+<li><p>在 <code>website</code> 目录下，启动 Docusaurus 本地服务器，通过执行命令 <code>yarn start</code> 或 <code>npm start</code>。</p></li>
+<li><p>如果示例站点没有自动打开，可以从 <a href="http://localhost:3000">http://localhost:3000</a> 访问它。 如果 3000 端口已被占用，将使用另一个端口。 查看控制台消息以确认使用了哪个端口。</p>
+<p>现在，你应该已经看到了浏览器中加载的示例站点。 与此同时，还有一个 LiveReload 服务也在运行，你对 <code>website</code> 目录中的文档和文件进行任何更改，都将实时刷新网页内容。 Docusaurus 会为你的网站随机生成一种主色和辅色。</p></li>
 </ol>
 <p><img src="/img/getting-started-preparation-verify.png" alt=""></p>
-<h3><a class="anchor" aria-hidden="true" id="使用代理启动服务"></a><a href="#使用代理启动服务" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>使用代理启动服务</h3>
-<p>If you are behind a corporate proxy, you need to disable it for the development server requests. It can be done using the <code>NO_PROXY</code> environment variable.</p>
+<h3><a class="anchor" aria-hidden="true" id="使用代理软件后启动本地服务器"></a><a href="#使用代理软件后启动本地服务器" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>使用代理软件后启动本地服务器</h3>
+<p>如果你使用了代理软件，那么你需要先禁用它，这样你对本地开发服务器的请求才能正常生效。 这可以通过使用 <code>NO_PROXY</code> 环境变量来完成。</p>
 <pre><code class="hljs css language-sh">SET NO_PROXY=localhost
-yarn start (or npm run start)
+yarn start （或 npm run start）
 </code></pre>
-<h2><a class="anchor" aria-hidden="true" id="updating-your-docusaurus-version"></a><a href="#updating-your-docusaurus-version" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Updating Your Docusaurus Version</h2>
-<p>在 Docusaurus 安装之后，你可以在 <code>website</code> 目录下查看最新版本，或是输入 <code>yarn outdated docusaurus</code> 或 <code>npm outdated docusaurus</code> 查看。</p>
-<p>You will see something like this:</p>
+<h2><a class="anchor" aria-hidden="true" id="更新你的-docusaurus-版本"></a><a href="#更新你的-docusaurus-版本" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>更新你的 Docusaurus 版本</h2>
+<p>安装好 Docusaurus 之后，你可以查看当前 Docusaurus 的版本号，通过在 <code>website</code> 目录下执行命令 <code>yarn outdated docusaurus</code> 或者 <code>npm outdated docusaurus</code>。</p>
+<p>你会看到类似这样的输出结果：</p>
 <pre><code class="hljs">$ yarn outdated
 Using globally installed version of Yarn
 yarn outdated v1.5.1
@@ -156,18 +156,18 @@ docusaurus 1.0.9   1.2.0  1.2.0  devDependencies https://github.com/facebook/doc
 ✨  Done in 0.41s.
 </code></pre>
 <blockquote>
-<p>如果 <code>outdated</code> 命令没有任何版本过期的通知，那你就处于最新版本。</p>
+<p>如果执行 <code>outdated</code> 命令后，输出结果中没有重要版本更新提示，就意味着你正在使用的是最新版本。</p>
 </blockquote>
-<p>You can update to the <a href="https://www.npmjs.com/package/docusaurus">latest version</a> of Docusaurus by:</p>
+<p>你可以将 Docusaurus 更新到<a href="https://www.npmjs.com/package/docusaurus">最新版本</a>，通过执行命令：</p>
 <pre><code class="hljs">yarn upgrade docusaurus --latest
 </code></pre>
 <p>或</p>
 <pre><code class="hljs">npm update docusaurus
 </code></pre>
 <blockquote>
-<p>如果你在升级后发现任何错误，请尝试清除你的 Babel 缓存。通常在 <a href="https://babeljs.io/docs/en/babel-register/#environment-variables">temporary directory</a>，或是在 <code>BABEL_DISABLE_CACHE=1</code> 的配置下运行 Docusaurus 服务（如：<code>yarn start</code>）。</p>
+<p>如果在升级之后你遇到了某些错误，可以试着清空你的 Babel 缓存（通常位于<a href="https://babeljs.io/docs/en/babel-register/#environment-variables">临时目录</a>），或试着在设置了 <code>BABEL_DISABLE_CACHE=1</code> 的情况下启动 Docusaurus 服务器（例如，通过执行命令 <code>yarn start</code>）。</p>
 </blockquote>
-</span></div></article></div><div class="docs-prevnext"><a class="docs-next button" href="/docs/zh-CN/1.10.x/site-preparation"><span>建站准备</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#安装-docusaurus">安装 Docusaurus</a></li><li><a href="#验证安装">验证安装</a></li><li><a href="#运行示例网站">运行示例网站</a><ul class="toc-headings"><li><a href="#使用代理启动服务">使用代理启动服务</a></li></ul></li><li><a href="#updating-your-docusaurus-version">Updating Your Docusaurus Version</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/docusaurus_monochrome.svg" alt="Docusaurus" width="66" height="58"/></a><div class="footerSection"><h5>Docs</h5><a href="
+</span></div></article></div><div class="docs-prevnext"><a class="docs-next button" href="/docs/zh-CN/1.10.x/site-preparation"><span>建站准备</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#安装-docusaurus">安装 Docusaurus</a></li><li><a href="#验证安装">验证安装</a></li><li><a href="#运行示例网站">运行示例网站</a><ul class="toc-headings"><li><a href="#使用代理软件后启动本地服务器">使用代理软件后启动本地服务器</a></li></ul></li><li><a href="#更新你的-docusaurus-版本">更新你的 Docusaurus 版本</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/docusaurus_monochrome.svg" alt="Docusaurus" width="66" height="58"/></a><div class="footerSection"><h5>Docs</h5><a href="
                 /docs/zh-CN/installation">Getting Started</a><a href="
                 /docs/zh-CN/versioning">Versioning</a><a href="
                 /docs/zh-CN/translation">Localization</a><a href="
