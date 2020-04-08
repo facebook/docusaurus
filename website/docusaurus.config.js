@@ -217,7 +217,7 @@ module.exports = {
             },
             {
               label: 'Help',
-              to: 'help',
+              to: 'docs/next/support',
             },
           ],
         },
