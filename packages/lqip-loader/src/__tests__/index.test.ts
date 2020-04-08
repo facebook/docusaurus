@@ -13,8 +13,8 @@ import {toPalette, toBase64, toPropertyString} from '../utils';
 // @ts-ignore
 import lqip from '../lqip';
 
-describe('@docusaurus/lqip-loader', () => {
-  describe('toBae64 utility function', () => {
+describe('lqip-loader', () => {
+  describe('toBase64', () => {
     test('should return a properly formatted Base64 image string', () => {
       const expected = 'data:image/jpeg;base64,hello world';
       const mockedMimeType = 'image/jpeg';
@@ -23,7 +23,7 @@ describe('@docusaurus/lqip-loader', () => {
     });
   });
 
-  describe('toPalette utility function', () => {
+  describe('toPalette', () => {
     let correctTestSwatch: object = {};
     let testSwatchWithNull: object = {};
 
