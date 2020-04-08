@@ -39,7 +39,7 @@ cli
   .description('Build website')
   .option(
     '--bundle-analyzer',
-    'Visualize size of webpack output files with an interactive zoomable treemap (default: disabled)',
+    'Visualize size of webpack output files with an interactive zoomable treemap (default: false)',
   )
   .option(
     '--out-dir <dir>',
@@ -47,7 +47,7 @@ cli
   )
   .option(
     '--no-minify',
-    'Build website without minimizing JS bundles (default: minification enabled)',
+    'Build website without minimizing JS bundles (default: false)',
   )
   .action((siteDir = '.', {bundleAnalyzer, outDir, minify}) => {
     wrapCommand(build)(path.resolve(siteDir), {
@@ -84,10 +84,7 @@ cli
     '--hot-only',
     'Do not fallback to page refresh if hot reload fails (default: false)',
   )
-  .option(
-    '--no-open',
-    'Do not open page in the browser (default: opening enabled)',
-  )
+  .option('--no-open', 'Do not open page in the browser (default: false)')
   .action((siteDir = '.', {port, host, hotOnly, open}) => {
     wrapCommand(start)(path.resolve(siteDir), {
       port,

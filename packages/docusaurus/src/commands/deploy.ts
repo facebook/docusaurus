@@ -167,19 +167,12 @@ export async function deploy(
           throw new Error('Error: Git push failed');
         } else if (commitResults.code === 0) {
           // The commit might return a non-zero value when site is up to date.
-          let websiteURL = '';
-          if (githubHost === 'github.com') {
-            // github.io hosting
-            if (projectName.includes('.github.io')) {
-              // domain root gh-pages hosted repo
-              websiteURL = `https://${organizationName}.github.io/`;
-            } else {
-              websiteURL = `https://${organizationName}.github.io/${projectName}/`;
-            }
-          } else {
-            // GitHub enterprise hosting.
-            websiteURL = `https://${githubHost}/pages/${organizationName}/${projectName}/`;
-          }
+          const websiteURL =
+            githubHost === 'github.com'
+              ? // gh-pages hosted repo
+                `https://${organizationName}.github.io/${projectName}`
+              : // GitHub enterprise hosting.
+                `https://${githubHost}/pages/${organizationName}/${projectName}`;
           shell.echo(`Website is live at ${websiteURL}`);
           shell.exit(0);
         }
