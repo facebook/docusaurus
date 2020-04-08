@@ -37,7 +37,6 @@ author: Joel Marcey
 author_title: Co-creator of Docusaurus 1
 author_url: https://github.com/JoelMarcey
 author_image_url: https://graph.facebook.com/611217057/picture/?height=200&width=200
-authorURL: https://github.com/JoelMarcey
 tags: [hello, docusaurus-v2]
 ---
 Welcome to this blog. This blog is created with [**Docusaurus 2 alpha**](https://v2.docusaurus.io/).
