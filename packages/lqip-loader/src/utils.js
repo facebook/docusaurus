@@ -43,7 +43,20 @@ const toPalette = (swatch) => {
   return palette;
 };
 
+/**
+ * toPropertyString
+ * @description takes a variable, converts it to the object property string & returns
+ *
+ * @param name: string
+ * @param param: any
+ * @returns {string}
+ */
+const toPropertyString = (name, param) => {
+  return param ? `,"${name}":${JSON.stringify(param)}` : '';
+};
+
 module.exports = {
   toBase64,
   toPalette,
+  toPropertyString,
 };
