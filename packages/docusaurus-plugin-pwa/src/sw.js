@@ -31,10 +31,11 @@ function getPossibleURLs(url) {
   // /blog/ => /blog/index.html
   if (urlObject.pathname.endsWith('/')) {
     possibleURLs.push(`${urlObject.href}index.html`);
+  } else {
+    // /blog => /blog/index.html
+    possibleURLs.push(`${urlObject.href}/index.html`);
   }
 
-  // /blog => /blog/index.html
-  possibleURLs.push(`${urlObject.href}/index.html`);
   return possibleURLs;
 }
 
