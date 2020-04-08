@@ -72,6 +72,11 @@ const APP_INSTALLED_KEY = 'docusaurus.pwa.appInstalled';
 
     window.addEventListener('appinstalled', () => {
       localStorage.setItem(APP_INSTALLED_KEY, true);
+
+      // After the app is installed, we register a service worker with the path
+      // `/sw?enabled`. Since the previous service worker was `/sw`, it'll be
+      // treated as a new one. The previous registration will need to be
+      // cleared, otherwise the reload popup will show.
       clearRegistrations();
     });
 
@@ -80,6 +85,10 @@ const APP_INSTALLED_KEY = 'docusaurus.pwa.appInstalled';
 
       if (localStorage.getItem(APP_INSTALLED_KEY)) {
         localStorage.removeItem(APP_INSTALLED_KEY);
+
+        // After uninstalling the app, if the user doesn't clear all data, then
+        // the previous service worker will continue serving cached files. We
+        // need to clear registrations and reload, otherwise the popup will show.
         clearRegistrations();
       }
     });
