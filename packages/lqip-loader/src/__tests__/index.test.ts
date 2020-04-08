@@ -46,17 +46,6 @@ describe('@docusaurus/lqip-loader', () => {
     });
   });
 
-  describe('toPropertyString utility function', () => {
-    test('should return a properly formatted object property string', () => {
-      const expected = ',"p1":["test"]';
-      expect(toPropertyString('p1', ['test'])).toEqual(expected);
-    });
-
-    test('should return an empty string if param is falsy', () => {
-      expect(toPropertyString('noParam', null)).toEqual('');
-    });
-  });
-
   describe('lqip library', () => {
     const imgPath = path.join(__dirname, '__fixtures__', 'endi.jpg');
     const invalidPath = path.join(__dirname, '__fixtures__', 'docusaurus.svg');

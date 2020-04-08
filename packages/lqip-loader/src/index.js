@@ -7,7 +7,6 @@
 
 const loaderUtils = require('loader-utils');
 const lqip = require('./lqip');
-const {toPropertyString} = require('./utils');
 
 module.exports = function (contentBuffer) {
   if (this.cacheable) {
@@ -61,11 +60,11 @@ module.exports = function (contentBuffer) {
     .then((data) => {
       if (data) {
         const [preSrc, palette] = data;
-        const p1 = toPropertyString('preSrc', preSrc);
-        const p2 = toPropertyString('palette', palette);
-        // JSON.stringify cannot be used on the final object because 'source'
-        // param must left unescaped
-        const result = `module.exports = {"src":${source}${p1}${p2}};`;
+        const finalObject = JSON.stringify({src: 'STUB', preSrc, palette});
+        const result = `module.exports = ${finalObject.replace(
+          '"STUB"',
+          source,
+        )};`;
         callback(null, result);
       } else {
         callback('ERROR', null);
