@@ -10,9 +10,9 @@
   "dependencies": {
     "webpack-merge": "^4.2.2",
     "webpack": "^4.41.2",
-    "workbox-build": "^5.0.0",
-    "workbox-precaching": "^5.0.0",
-    "workbox-window": "^5.0.0"
+    "workbox-build": "^5.1.2",
+    "workbox-precaching": "^5.1.2",
+    "workbox-window": "^5.1.2"
   },
   "peerDependencies": {
     "@docusaurus/core": "^2.0.0",

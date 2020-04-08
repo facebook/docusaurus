@@ -49,7 +49,7 @@ module.exports = {
           {
             tagName: 'meta',
             name: 'theme-color',
-            content: 'rgb(62, 204, 94)',
+            content: 'rgb(37, 194, 160)',
           },
           {
             tagName: 'meta',
