@@ -60,9 +60,11 @@ module.exports = function (contentBuffer) {
     .then((data) => {
       if (data) {
         const [preSrc, palette] = data;
-        const param1 = preSrc ? `, "preSrc": ${JSON.stringify(preSrc)}` : '';
-        const param2 = palette ? `, "palette": ${JSON.stringify(palette)}` : '';
-        const result = `module.exports = {"src":${source}${param1}${param2}};`;
+        const finalObject = JSON.stringify({src: 'STUB', preSrc, palette});
+        const result = `module.exports = ${finalObject.replace(
+          '"STUB"',
+          source,
+        )};`;
         callback(null, result);
       } else {
         callback('ERROR', null);
