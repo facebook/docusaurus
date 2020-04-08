@@ -190,13 +190,13 @@ export function compile(config: Configuration[]): Promise<any> {
         reject(err);
       }
       if (stats.hasErrors()) {
-        stats.toJson('errors-only').errors.forEach(e => {
+        stats.toJson('errors-only').errors.forEach((e) => {
           console.error(e);
         });
         reject(new Error('Failed to compile with errors.'));
       }
       if (stats.hasWarnings()) {
-        stats.toJson('errors-warnings').warnings.forEach(warning => {
+        stats.toJson('errors-warnings').warnings.forEach((warning) => {
           console.warn(warning);
         });
       }
