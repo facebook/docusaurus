@@ -15,6 +15,7 @@ const merge = require('webpack-merge');
 const {injectManifest} = require('workbox-build');
 
 const defaultOptions = {
+  alwaysPrecache: false,
   injectManifestConfig: {},
   pwaHead: [],
   swCustom: '',
@@ -31,6 +32,7 @@ function pluginOffline(_context, options = {}) {
   };
 
   const {
+    alwaysPrecache,
     injectManifestConfig,
     popup,
     pwaHead,
@@ -53,6 +55,7 @@ function pluginOffline(_context, options = {}) {
       return {
         plugins: [
           new webpack.EnvironmentPlugin({
+            ALWAYS_PRECACHE: alwaysPrecache.toString(),
             PWA_POPUP: popup,
             SERVICE_WORKER: path.resolve(
               `${config.output.publicPath || '/'}`,

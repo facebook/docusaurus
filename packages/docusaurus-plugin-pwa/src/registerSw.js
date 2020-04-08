@@ -29,7 +29,8 @@ const APP_INSTALLED_KEY = 'docusaurus.pwa.appInstalled';
       window.innerWidth <= MAX_MOBILE_WIDTH ||
       (navigator.connection && navigator.connection.saveData) ||
       localStorage.getItem(APP_INSTALLED_KEY) ||
-      window.location.search.includes('offline');
+      window.location.search.includes('offline') ||
+      process.env.ALWAYS_PRECACHE === 'true';
 
     const enabledParam = shouldCacheFiles ? `?enabled` : '';
     const swUrl = `${process.env.SERVICE_WORKER}${enabledParam}`;

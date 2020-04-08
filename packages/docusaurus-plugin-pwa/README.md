@@ -64,15 +64,23 @@ For a more exhaustive list of what it takes for your site to be PWA, refer to th
 >
 > Workbox takes a lot of the heavy lifting out of precaching by simplifying the API and ensuring assets are downloaded efficiently.
 
-Precaching happens dynamically and is only used when the user is visiting the site from a mobile device (<= 940px), has [reduced data usage](https://developer.mozilla.org/en-US/docs/Web/API/NetworkInformation/saveData), or if they explicitly install it as an application.
+Precaching happens dynamically and is only used when the user is visiting the site from a mobile device (<= 940px), has [reduced data usage](https://developer.mozilla.org/en-US/docs/Web/API/NetworkInformation/saveData), or if they explicitly install it as an application. You can also enable precaching completely using `alwaysPrecache`.
 
 After the site has been precached, the service worker will serve cached responses for later visits. When a new build is deployed along with a new service worker, the new one will begin installing and eventually move to a waiting state. During this waiting state, a reload popup will show and ask the user to reload the page for new content. Until the user either clears the application cache or clicks the `Refresh` button on the popup, the service worker will continue serving the old content.
 
 ## Options
 
+### `alwaysPrecache`
+
+- Type: `boolean`
+- Default: `false`
+
+Precaching is performed under [certain conditions](#precaching), but can be enabled completely by setting enabling this option.
+
 ### `injectManifestConfig`
 
 - Type: `InjectManifestOptions`
+- Default: `{}`
 
 [Workbox options](https://developers.google.com/web/tools/workbox/reference-docs/latest/module-workbox-build#.injectManifest) to pass to `workbox.injectManifest()`
 
