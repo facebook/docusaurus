@@ -9,7 +9,7 @@ To build the static files of your website for production, run:
 npm run build
 ```
 
-Once it finishes, you should see the production build under the `build/` directory.
+Once it finishes, you might want to see the production build under the `build/` directory.
 
 You can deploy your site to static site hosting services such as [ZEIT Now](https://zeit.co/now), [GitHub Pages](https://pages.github.com/), [Netlify](https://www.netlify.com/), [Render](https://render.com/static-sites), and [Surge](https://surge.sh/help/getting-started-with-surge). Docusaurus sites are statically rendered so they work without JavaScript too!
 
