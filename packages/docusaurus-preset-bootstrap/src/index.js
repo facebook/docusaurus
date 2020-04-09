@@ -5,15 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const path = require('path');
-
-module.exports = function () {
+module.exports = function preset(context, opts = {}) {
   return {
-    themes: [
-      // This is required simce the package was not published
-      path.resolve(__dirname, '../../docusaurus-theme-bootstrap'),
-    ],
-    // ['@docusaurus/plugin-content-blog', opts.blog]
-    plugins: [],
+    themes: [['@docusaurus/theme-bootstrap', opts.theme]],
+    plugins: [['@docusaurus/plugin-content-pages', opts.pages]],
   };
 };

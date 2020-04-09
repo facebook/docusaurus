@@ -1,6 +1,6 @@
 {
-  "name": "website",
-  "version": "0.0.0",
+  "name": "docusaurus-2-bootstrap-template",
+  "version": "2.0.0-alpha.50",
   "private": true,
   "scripts": {
     "start": "docusaurus start",
@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@docusaurus/core": "^2.0.0-alpha.50",
+    "@docusaurus/preset-bootstrap": "^2.0.0-alpha.50",
     "classnames": "^2.2.6",
     "react": "^16.8.4",
     "react-dom": "^16.8.4"
