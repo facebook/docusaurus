@@ -425,6 +425,10 @@ import thumbnail from './path/to/img.png';
 
 #### Options
 
+:::note
+Image compression/transformation will only happen in a production build. When developing with the local server, full, original size images will always be returned.
+:::
+
 | Option | Type | Default | Description |
 | --- | --- | --- | --- |
 | `name` | `string` | `ideal-img/[name].[hash:hex:7].[width].[ext]` | Filename template for output files. |
