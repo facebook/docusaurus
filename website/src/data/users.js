@@ -127,6 +127,16 @@ const users = [
     fbOpenSource: false,
     pinned: true,
   },
+  {
+    title: 'Tourmaline',
+    description:
+      'Fast and performant Telegram bot framework for the Crystal programming language',
+    preview: require('./showcase/tourmaline.png'),
+    website: 'https://tourmaline.dev',
+    source: 'https://github.com/protoncr/tourmaline',
+    fbOpenSource: false,
+    pinned: false,
+  },
 ];
 
 export default users;
