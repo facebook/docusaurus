@@ -13,7 +13,7 @@ function BlogPostCard() {
       <div className="card">
         {/** Author profile */}
         <div className="row no-gutters rows-col-2 m-3">
-          <div className="col- mr-3">
+          <div className="col-xs mr-3">
             <img
               style={{width: '50px'}}
               src="https://github.com/fanny.png"
