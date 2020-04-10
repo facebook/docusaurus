@@ -392,7 +392,7 @@ module.exports = {
 
 ### `@docusaurus/plugin-ideal-image`
 
-Docusaurus Plugin to generate an almost ideal image (responsive, lazy-loading, and low quality placeholder) *in the production builds*.
+Docusaurus Plugin to generate an almost ideal image (responsive, lazy-loading, and low quality placeholder) **in the production builds**.
 
 ```bash npm2yarn
 npm install --save @docusaurus/plugin-ideal-image
