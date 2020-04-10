@@ -392,7 +392,7 @@ module.exports = {
 
 ### `@docusaurus/plugin-ideal-image`
 
-Docusaurus Plugin to generate an almost ideal image (responsive, lazy-loading, and low quality placeholder)
+Docusaurus Plugin to generate an almost ideal image (responsive, lazy-loading, and low quality placeholder) *in the production builds*.
 
 ```bash npm2yarn
 npm install --save @docusaurus/plugin-ideal-image
@@ -410,7 +410,7 @@ module.exports = {
 
 #### Usage
 
-This plugin supports png, gif and jpg only
+This plugin supports the PNG, GIF and JPG formats only.
 
 ```jsx
 import Image from '@theme/IdealImage';
@@ -424,10 +424,6 @@ import thumbnail from './path/to/img.png';
 ```
 
 #### Options
-
-:::note
-Image compression/transformation will only happen in a production build. When developing with the local server, full, original size images will always be returned.
-:::
 
 | Option | Type | Default | Description |
 | --- | --- | --- | --- |
