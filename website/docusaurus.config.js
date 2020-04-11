@@ -112,7 +112,7 @@ module.exports = {
         },
         {to: 'blog', label: 'Blog', position: 'left'},
         {to: 'showcase', label: 'Showcase', position: 'left'},
-        {to: 'feedback', label: 'Feedback', position: 'left'},
+        {to: 'docs/next/support', label: 'Community', position: 'left'},
         {
           to: 'versions',
           label: `v${versions[0]}`,
@@ -162,7 +162,7 @@ module.exports = {
             },
             {
               label: 'Help',
-              to: 'help',
+              to: 'docs/next/support',
             },
           ],
         },

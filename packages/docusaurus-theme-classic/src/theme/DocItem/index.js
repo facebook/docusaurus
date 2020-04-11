@@ -102,7 +102,7 @@ function DocItem(props) {
         {permalink && <meta property="og:url" content={siteUrl + permalink} />}
       </Head>
       <div className="padding-vert--lg">
-        <div className="container">
+        <div className={classnames('container', styles.docItemWrapper)}>
           <div className="row">
             <div className={classnames('col', styles.docItemCol)}>
               <div className={styles.docItemContainer}>
