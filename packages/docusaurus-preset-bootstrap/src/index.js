@@ -5,12 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-
 module.exports = function preset(context, opts = {}) {
   return {
     themes: [['@docusaurus/theme-bootstrap', opts.theme]],
-    plugins: [
-      ['@docusaurus/plugin-content-blog', opts.blog]
-    ],
+    plugins: [['@docusaurus/plugin-content-blog', opts.blog]],
   };
 };

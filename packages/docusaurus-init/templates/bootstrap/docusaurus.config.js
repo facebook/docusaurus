@@ -55,9 +55,13 @@ module.exports = {
     },
   },
   presets: [
-    ['@docusaurus/preset-bootstrap', {
-      blog: {
-        blogListComponent: '@theme/BlogListCard'
-      }
-    }]],
+    [
+      '@docusaurus/preset-bootstrap',
+      {
+        blog: {
+          blogListComponent: '@theme/BlogListCard',
+        },
+      },
+    ],
+  ],
 };
