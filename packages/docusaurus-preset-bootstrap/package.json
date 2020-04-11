@@ -8,8 +8,8 @@
     "access": "public"
   },
   "dependencies": {
-    "@docusaurus/plugin-content-pages": "^2.0.0-alpha.50",
-    "@docusaurus/theme-bootstrap": "^2.0.0-alpha.50"
+    "@docusaurus/theme-bootstrap": "^2.0.0-alpha.50",
+    "@docusaurus/plugin-content-blog": "^2.0.0-alpha.50"
   },
   "peerDependencies": {
     "@docusaurus/core": "^2.0.0"
