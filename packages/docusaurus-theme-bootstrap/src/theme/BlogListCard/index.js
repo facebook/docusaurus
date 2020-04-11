@@ -13,21 +13,20 @@ function BlogListCard(props) {
 
   return (
     <div className="container my-5">
-      <div className="row row-cols-1">
-        {items.map(({content: BlogPostContent}) =>
+      <div className="row">
+        {items.map(({content: BlogPostContent}) => (
           <div className="col col-8 offset-2 mb-5">
-            <BlogPostCard 
+            <BlogPostCard
               key={BlogPostContent.metadata.permalink}
               frontMatter={BlogPostContent.frontMatter}
               metadata={BlogPostContent.metadata}
               truncated={BlogPostContent.metadata.truncated}
             />
           </div>
-        )}
+        ))}
       </div>
     </div>
-  )
+  );
 }
-
 
 export default BlogListCard;
