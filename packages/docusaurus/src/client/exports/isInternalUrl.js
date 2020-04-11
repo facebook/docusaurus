@@ -6,5 +6,5 @@
  */
 
 export default function isInternalUrl(url) {
-  return /^(https?:|\/\/)/.test(url) === false;
+  return /^(https?:|\/\/|mailto:|tel:)/.test(url) === false;
 }
