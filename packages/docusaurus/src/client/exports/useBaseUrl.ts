@@ -7,7 +7,7 @@
 
 import useDocusaurusContext from './useDocusaurusContext';
 
-export default function useBaseUrl(url) {
+export default function useBaseUrl(url: string): string {
   const {siteConfig} = useDocusaurusContext();
   const {baseUrl = '/'} = siteConfig || {};
 

@@ -10,10 +10,16 @@ import {hydrate, render} from 'react-dom';
 import {BrowserRouter} from 'react-router-dom';
 
 import routes from '@generated/routes';
-import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
+import ExecutionEnvironment from './exports/ExecutionEnvironment';
 import App from './App';
 import preload from './preload';
 import docusaurus from './docusaurus';
+
+declare global {
+  interface NodeModule {
+    hot?: any;
+  }
+}
 
 // Client-side render (e.g: running in browser) to become single-page application (SPA).
 if (ExecutionEnvironment.canUseDOM) {

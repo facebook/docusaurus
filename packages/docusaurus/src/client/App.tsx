@@ -9,8 +9,8 @@ import React, {useEffect, useState} from 'react';
 
 import routes from '@generated/routes';
 import siteConfig from '@generated/docusaurus.config';
-import renderRoutes from '@docusaurus/renderRoutes';
-import DocusaurusContext from '@docusaurus/context';
+import renderRoutes from './exports/renderRoutes';
+import DocusaurusContext from './exports/context';
 import PendingNavigation from './PendingNavigation';
 
 import './client-lifecycles-dispatcher';
