@@ -39,6 +39,20 @@ function compile(config: Configuration[]): Promise<any> {
           console.warn(warning);
         });
       }
+      if (
+        process.env.CI &&
+        (typeof process.env.CI !== 'string' || process.env.CI.toLowerCase() !== 'false') &&
+        stats.toJson('errors-warnings').warnings.length
+      ) {
+        console.log(
+          chalk.yellow(
+            '\nTreating warnings as errors because process.env.CI = true.\n' +
+            'Most CI servers set it automatically.\n' +
+            stats.toJson('errors-warnings').warnings
+          )
+        );
+        return reject(new Error(stats.toJson('errors-warnings').warnings.join('\n\n')));
+      }
       resolve();
     });
   });
