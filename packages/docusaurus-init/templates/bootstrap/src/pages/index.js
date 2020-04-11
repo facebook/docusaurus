@@ -1,7 +1,6 @@
 import React from 'react';
 import classnames from 'classnames';
 import Layout from '@theme/Layout';
-import BlogPostCard from '@theme/BlogPostCard';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
@@ -91,9 +90,6 @@ function Home() {
           </section>
         )}
       </main>
-      <div className="container">
-        <BlogPostCard />
-      </div>
     </Layout>
   );
 }
