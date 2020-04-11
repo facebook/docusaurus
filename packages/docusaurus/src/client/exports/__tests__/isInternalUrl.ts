@@ -27,4 +27,12 @@ describe('isInternalUrl', () => {
   test('should be false for whatever protocol links', () => {
     expect(isInternalUrl('//foo.com')).toBeFalsy();
   });
+
+  test('should be false for telephone links', () => {
+    expect(isInternalUrl('tel:+1234567890')).toBeFalsy();
+  });
+
+  test('should be false for mailto links', () => {
+    expect(isInternalUrl('mailto:someone@example.com')).toBeFalsy();
+  });
 });
