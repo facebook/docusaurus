@@ -68,7 +68,7 @@ function Link(props) {
     };
   }, [targetLink, IOSupported, isInternal]);
 
-  return !targetLink || !isInternal ? (
+  return !targetLink || !isInternal || targetLink.startsWith('#') ? (
     // eslint-disable-next-line jsx-a11y/anchor-has-content
     <a {...props} href={targetLink} />
   ) : (
