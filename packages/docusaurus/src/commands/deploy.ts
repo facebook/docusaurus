@@ -170,10 +170,8 @@ export async function deploy(
           let websiteURL = '';
           if (githubHost === 'github.com') {
             websiteURL = projectName.includes('.github.io')
-              ?
-                   `https://${organizationName}.github.io/`;
-              :
-                   `https://${organizationName}.github.io/${projectName}/`;
+              ? `https://${organizationName}.github.io/`
+              : `https://${organizationName}.github.io/${projectName}/`;
           } else {
             // GitHub enterprise hosting.
             websiteURL = `https://${githubHost}/pages/${organizationName}/${projectName}/`;
