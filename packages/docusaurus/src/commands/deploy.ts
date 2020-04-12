@@ -169,13 +169,11 @@ export async function deploy(
           // The commit might return a non-zero value when site is up to date.
           let websiteURL = '';
           if (githubHost === 'github.com') {
-            // github.io hosting
-            if (projectName.includes('.github.io')) {
-              // domain root gh-pages hosted repo
-              websiteURL = `https://${organizationName}.github.io/`;
-            } else {
-              websiteURL = `https://${organizationName}.github.io/${projectName}/`;
-            }
+            websiteURL = projectName.includes('.github.io')
+              ?
+                   `https://${organizationName}.github.io/`;
+              :
+                   `https://${organizationName}.github.io/${projectName}/`;
           } else {
             // GitHub enterprise hosting.
             websiteURL = `https://${githubHost}/pages/${organizationName}/${projectName}/`;
