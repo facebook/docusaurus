@@ -21,8 +21,9 @@ function BlogListPage(props) {
             <BlogPostCard
               frontMatter={BlogPostContent.frontMatter}
               metadata={BlogPostContent.metadata}
-              truncated={BlogPostContent.metadata.truncated}
-            />
+              truncated={BlogPostContent.metadata.truncated}>
+              <BlogPostContent />
+            </BlogPostCard>
           </div>
         ))}
       </div>

@@ -23,7 +23,7 @@ const MONTHS = [
 ];
 
 function BlogPostItem(props) {
-  const {frontMatter, metadata, truncated} = props;
+  const {children, frontMatter, metadata, truncated} = props;
 
   const {date, readingTime, tags} = metadata;
   const {author, title} = frontMatter;
@@ -63,7 +63,7 @@ function BlogPostItem(props) {
 
       <div className="card-body">
         <h3 className="card-title text-primary">{title}</h3>
-        <p className="lead">Markdown content</p>
+        <p className="lead">{children}</p>
       </div>
 
       <footer className="row no-gutters m-3 justify-content-between">
