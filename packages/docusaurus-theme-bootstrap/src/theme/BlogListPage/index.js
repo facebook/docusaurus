@@ -12,12 +12,13 @@ function BlogListPage(props) {
   const {items} = props;
 
   return (
-    <div className="container my-5">
-      <div className="row">
+    <div className="container-fluid my-5">
+      <div className="row row-cols-1 row-cols-sm-1">
         {items.map(({content: BlogPostContent}) => (
-          <div className="col col-8 offset-2 mb-5">
+          <div
+            key={BlogPostContent.metadata.permalink}
+            className="col col-md-4 offset-md-4 col-xs-6 mb-5">
             <BlogPostCard
-              key={BlogPostContent.metadata.permalink}
               frontMatter={BlogPostContent.frontMatter}
               metadata={BlogPostContent.metadata}
               truncated={BlogPostContent.metadata.truncated}
