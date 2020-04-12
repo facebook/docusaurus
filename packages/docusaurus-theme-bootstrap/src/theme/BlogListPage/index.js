@@ -6,9 +6,9 @@
  */
 
 import React from 'react';
-import BlogPostCard from '@theme/BlogPostCard';
+import BlogPostCard from '@theme/BlogPostItem';
 
-function BlogListCard(props) {
+function BlogListPage(props) {
   const {items} = props;
 
   return (
@@ -29,4 +29,4 @@ function BlogListCard(props) {
   );
 }
 
-export default BlogListCard;
+export default BlogListPage;

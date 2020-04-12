@@ -22,7 +22,7 @@ const MONTHS = [
   'December',
 ];
 
-function BlogPostCard(props) {
+function BlogPostItem(props) {
   const {frontMatter, metadata, truncated} = props;
 
   const {date, readingTime} = metadata;
@@ -82,4 +82,4 @@ function BlogPostCard(props) {
   );
 }
 
-export default BlogPostCard;
+export default BlogPostItem;
