@@ -54,5 +54,14 @@ module.exports = {
       copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
     },
   },
-  presets: [['@docusaurus/preset-bootstrap']],
+  presets: [
+    [
+      '@docusaurus/preset-bootstrap',
+      {
+        blog: {
+          editUrl: 'https://github.com/facebook/docusaurus/edit/master',
+        },
+      },
+    ],
+  ],
 };
