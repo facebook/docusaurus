@@ -17,8 +17,20 @@ import 'nprogress/nprogress.css';
 
 nprogress.configure({showSpinner: false});
 
-class PendingNavigation extends React.Component {
-  constructor(props) {
+interface Props {
+  routes: any[];
+  delay: number;
+  location: any;
+}
+interface State {
+  nextRouteHasLoaded: boolean;
+}
+
+class PendingNavigation extends React.Component<Props, State> {
+  previousLocation: any;
+  progressBarTimeout: any;
+
+  constructor(props: Props) {
     super(props);
 
     // previousLocation doesn't affect rendering, hence not stored in state.

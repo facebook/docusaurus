@@ -167,12 +167,15 @@ export async function deploy(
           throw new Error('Error: Git push failed');
         } else if (commitResults.code === 0) {
           // The commit might return a non-zero value when site is up to date.
-          const websiteURL =
-            githubHost === 'github.com'
-              ? // gh-pages hosted repo
-                `https://${organizationName}.github.io/${projectName}`
-              : // GitHub enterprise hosting.
-                `https://${githubHost}/pages/${organizationName}/${projectName}`;
+          let websiteURL = '';
+          if (githubHost === 'github.com') {
+            websiteURL = projectName.includes('.github.io')
+              ? `https://${organizationName}.github.io/`
+              : `https://${organizationName}.github.io/${projectName}/`;
+          } else {
+            // GitHub enterprise hosting.
+            websiteURL = `https://${githubHost}/pages/${organizationName}/${projectName}/`;
+          }
           shell.echo(`Website is live at ${websiteURL}`);
           shell.exit(0);
         }

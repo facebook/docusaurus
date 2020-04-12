@@ -15,6 +15,7 @@ const ExecutionEnvironment = {
   canUseDOM,
 
   canUseEventListeners:
+    // @ts-ignore
     canUseDOM && !!(window.addEventListener || window.attachEvent),
 
   canUseIntersectionObserver: canUseDOM && 'IntersectionObserver' in window,
@@ -22,4 +23,4 @@ const ExecutionEnvironment = {
   canUseViewport: canUseDOM && !!window.screen,
 };
 
-module.exports = ExecutionEnvironment;
+export default ExecutionEnvironment;

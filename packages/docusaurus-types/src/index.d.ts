@@ -45,6 +45,7 @@ export interface DocusaurusConfig {
 
 export interface DocusaurusContext {
   siteConfig?: DocusaurusConfig;
+  isClient?: boolean;
 }
 
 export interface Preset {
