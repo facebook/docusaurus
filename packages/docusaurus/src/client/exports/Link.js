@@ -6,15 +6,16 @@
  */
 
 import React, {useEffect, useRef} from 'react';
-import {NavLink} from 'react-router-dom';
+import {NavLink, Link as RRLink} from 'react-router-dom';
 import isInternalUrl from '@docusaurus/isInternalUrl';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 
-function Link(props) {
+function Link({isNavLink, ...props}) {
   const {to, href} = props;
   const targetLink = to || href;
   const isInternal = isInternalUrl(targetLink);
   const preloaded = useRef(false);
+  const LinkComponent = isNavLink ? NavLink : RRLink;
 
   const IOSupported = ExecutionEnvironment.canUseIntersectionObserver;
 
@@ -72,7 +73,7 @@ function Link(props) {
     // eslint-disable-next-line jsx-a11y/anchor-has-content
     <a {...props} href={targetLink} />
   ) : (
-    <NavLink
+    <LinkComponent
       {...props}
       onMouseEnter={onMouseEnter}
       innerRef={handleRef}

@@ -61,7 +61,7 @@ Outputs
 
 This component enables linking to internal pages as well as a powerful performance feature called preloading. Preloading is used to prefetch resources so that the resources are fetched by the time the user navigates with this component. We use an `IntersectionObserver` to fetch a low-priority request when the `<Link>` is in the viewport and then use an `onMouseOver` event to trigger a high-priority request when it is likely that a user will navigate to the requested resource.
 
-The component is a wrapper around react-router’s `<NavLink>` component that adds useful enhancements specific to Docusaurus. All props are passed through to react-router’s `<NavLink>` component.
+The component is a wrapper around react-router’s `<Link>` component that adds useful enhancements specific to Docusaurus. All props are passed through to react-router’s `<Link>` component.
 
 ```jsx {2,7}
 import React from 'react';
@@ -86,16 +86,6 @@ The target location to navigate to. Example: `/docs/introduction`.
 
 ```jsx
 <Link to="/courses" />
-```
-
-#### `activeClassName`: string
-
-The class to give the `<Link>` when it is active. The default given class is `active`. This will be joined with the `className` prop.
-
-```jsx {1}
-<Link to="/faq" activeClassName="selected">
-  FAQs
-</Link>
 ```
 
 ### `<Redirect/>`
