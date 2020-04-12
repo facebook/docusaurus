@@ -23,9 +23,9 @@ const MONTHS = [
 ];
 
 function BlogPostItem(props) {
-  const {frontMatter, metadata, truncated} = props;
+  const {children, frontMatter, metadata, truncated} = props;
 
-  const {date, readingTime} = metadata;
+  const {date, readingTime, tags} = metadata;
   const {author, title} = frontMatter;
 
   const authorURL = frontMatter.author_url || frontMatter.authorURL;
@@ -63,21 +63,34 @@ function BlogPostItem(props) {
 
       <div className="card-body">
         <h3 className="card-title text-primary">{title}</h3>
-        <p className="lead">Markdown content</p>
+        <p className="lead">{children}</p>
       </div>
 
-      <div className="text-right m-3">
-        {readingTime && (
-          <small className={truncated ? 'mx-3' : ''}>
-            {Math.ceil(readingTime)} min read
-          </small>
-        )}
-        {truncated && (
-          <a href="https://github.com/" className="stretched-link">
-            Read more
-          </a>
-        )}
-      </div>
+      <footer className="row no-gutters m-3 justify-content-between">
+        <div className="col col-xs">
+          {tags.length > 0 && (
+            <>
+              {tags.map(({label}) => (
+                <span key={label} className="badge badge-primary m-1">
+                  {label}
+                </span>
+              ))}
+            </>
+          )}
+        </div>
+        <div className="col align-self-center text-right">
+          {readingTime && (
+            <small className={truncated ? 'mr-2' : ''}>
+              {Math.ceil(readingTime)} min read
+            </small>
+          )}
+          {truncated && (
+            <a href="https://github.com/" className="stretched-link">
+              Read more
+            </a>
+          )}
+        </div>
+      </footer>
     </article>
   );
 }
