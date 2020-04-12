@@ -5,24 +5,28 @@
  * LICENSE file in the root directory of this source tree.
  */
 import React from 'react';
+import Link from '@docusaurus/Link';
 
 function BlogTagsListPage(props) {
   const {tags} = props;
   const renderAllTags = () => (
     <>
       {Object.keys(tags).map((tag) => (
-        <li key={tag} className="btn btn-primary m-2">
+        <Link
+          href={tags[tag].permalink}
+          key={tag}
+          className="btn btn-primary m-2">
           {tags[tag].name}{' '}
           <span className="badge badge-light">{tags[tag].count}</span>
-        </li>
+        </Link>
       ))}
     </>
   );
 
   return (
-    <div>
+    <div className="container my-3 justify-content-center">
       <h1 className="text-primary">Tags</h1>
-      <ul>{renderAllTags()}</ul>
+      <ul className="my-xl-4">{renderAllTags()}</ul>
     </div>
   );
 }
