@@ -19,7 +19,7 @@ function BlogPostPage(props) {
   return (
     <Layout title={title} description={description}>
       {BlogPostContents && (
-        <div className="container margin-vert--xl">
+        <div className="container margin-vert--lg">
           <div className="row">
             <div className="col col--8 col--offset-2">
               <BlogPostItem
