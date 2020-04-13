@@ -23,7 +23,7 @@ function BlogTagsPostPage(props) {
     <Layout
       title={`Posts tagged "${tagName}"`}
       description={`Blog | Tagged "${tagName}"`}>
-      <div className="container margin-vert--xl">
+      <div className="container margin-vert--lg">
         <div className="row">
           <div className="col col--8 col--offset-2">
             <h1>
