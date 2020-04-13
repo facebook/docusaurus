@@ -20,7 +20,7 @@ declare global {
 interface Props {
   readonly isNavLink?: boolean;
   readonly to?: string;
-  readonly href: string
+  readonly href: string;
 }
 
 function Link({isNavLink, ...props}: Props) {

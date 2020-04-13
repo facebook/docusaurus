@@ -6,6 +6,7 @@
  */
 
 import React from 'react';
+import Link from '@docusaurus/Link';
 
 const MONTHS = [
   'January',
@@ -63,17 +64,17 @@ function BlogPostItem(props) {
 
       <div className="card-body">
         <h3 className="card-title text-primary">{title}</h3>
-        <p className="lead">{children}</p>
+        <div className="lead">{children}</div>
       </div>
 
       <footer className="row no-gutters m-3 justify-content-between">
         <div className="col col-xs">
           {tags.length > 0 && (
             <>
-              {tags.map(({label}) => (
-                <span key={label} className="badge badge-primary m-1">
-                  {label}
-                </span>
+              {tags.map(({label, permalink: tagPermalink}) => (
+                <Link key={tagPermalink} className="m-1" to={tagPermalink}>
+                  <span className="badge badge-primary">{label}</span>
+                </Link>
               ))}
             </>
           )}
