@@ -47,7 +47,6 @@ my-website
 │   ├── doc2.md
 │   ├── doc3.md
 │   └── mdx.md
-├── package.json
 ├── src
 │   ├── css
 │   │   └── custom.css
