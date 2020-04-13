@@ -18,6 +18,49 @@ Object {
 }
 `;
 
+exports[`loadSidebars sidebars with category.collapsed property 1`] = `
+Object {
+  "docs": Array [
+    Object {
+      "collapsed": true,
+      "items": Array [
+        Object {
+          "collapsed": false,
+          "items": Array [
+            Object {
+              "id": "doc1",
+              "type": "doc",
+            },
+          ],
+          "label": "Introduction",
+          "type": "category",
+        },
+      ],
+      "label": "Test",
+      "type": "category",
+    },
+    Object {
+      "collapsed": true,
+      "items": Array [
+        Object {
+          "collapsed": false,
+          "items": Array [
+            Object {
+              "id": "doc2",
+              "type": "doc",
+            },
+          ],
+          "label": "Powering MDX",
+          "type": "category",
+        },
+      ],
+      "label": "Reference",
+      "type": "category",
+    },
+  ],
+}
+`;
+
 exports[`loadSidebars sidebars with deep level of category 1`] = `
 Object {
   "docs": Array [
