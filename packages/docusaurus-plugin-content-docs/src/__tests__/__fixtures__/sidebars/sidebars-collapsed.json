@@ -1,0 +1,21 @@
+{
+    "docs": {
+      "Test": [
+        {
+          "type": "category",
+          "label": "Introduction",
+          "items": ["doc1"],
+          "collapsed": false
+        }
+      ],
+      "Reference": [
+        {
+          "type": "category",
+          "label": "Powering MDX",
+          "items": ["doc2"],
+          "collapsed": false
+        }
+      ]
+    }
+  }
+  
