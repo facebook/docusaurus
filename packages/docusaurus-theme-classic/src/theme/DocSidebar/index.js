@@ -76,6 +76,7 @@ function DocSidebarItem({item, onItemClick, collapsible}) {
             to={href}
             {...(isInternalUrl(href)
               ? {
+                  isNavLink: true,
                   activeClassName: 'menu__link--active',
                   exact: true,
                   onClick: onItemClick,

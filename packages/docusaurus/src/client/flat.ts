@@ -9,7 +9,7 @@ function flat(target) {
   const delimiter = '.';
   const output = {};
 
-  function step(object, prev) {
+  function step(object, prev?: string) {
     Object.keys(object).forEach((key) => {
       const value = object[key];
       const type = typeof value;

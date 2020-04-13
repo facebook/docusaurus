@@ -6,5 +6,12 @@
  */
 
 import React from 'react';
+import ExecutionEnvironment from './ExecutionEnvironment';
 
-export default React.createContext({});
+function BrowserOnly({children}) {
+  return (
+    ExecutionEnvironment.canUseDOM && children != null && <>{children()}</>
+  );
+}
+
+export default BrowserOnly;

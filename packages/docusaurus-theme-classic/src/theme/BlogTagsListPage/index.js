@@ -49,7 +49,7 @@ function BlogTagsListPage(props) {
 
   return (
     <Layout title="Tags" description="Blog Tags">
-      <div className="container margin-vert--xl">
+      <div className="container margin-vert--lg">
         <div className="row">
           <div className="col col--8 col--offset-2">
             <h1>Tags</h1>

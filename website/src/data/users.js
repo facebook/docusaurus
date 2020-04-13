@@ -64,6 +64,15 @@ const users = [
     pinned: true,
   },
   {
+    title: 'GraphQL Inspector',
+    description: 'An open-source tool to help you work with GraphQL',
+    preview: require('./showcase/graphql-inspector.png'),
+    website: 'https://graphql-inspector.com',
+    source: 'https://github.com/kamilkisiela/graphql-inspector',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'Hermes',
     description: 'JavaScript engine optimized for React Native',
     preview: require('./showcase/hermes.png'),

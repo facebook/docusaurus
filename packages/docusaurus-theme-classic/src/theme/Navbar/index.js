@@ -33,6 +33,7 @@ function NavLink({activeBasePath, to, href, label, position, ...props}) {
             href,
           }
         : {
+            isNavLink: true,
             activeClassName: 'navbar__link--active',
             to: toUrl,
             ...(activeBasePath

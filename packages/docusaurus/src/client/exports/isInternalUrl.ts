@@ -5,6 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-export default function isInternalUrl(url) {
-  return /^(https?:|\/\/)/.test(url) === false;
+export default function isInternalUrl(url: string): boolean {
+  return /^(https?:|\/\/|mailto:|tel:)/.test(url) === false;
 }

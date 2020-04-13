@@ -14,6 +14,13 @@ import flat from './flat';
 const fetched = {};
 const loaded = {};
 
+declare global {
+  const __webpack_require__: any;
+  interface Navigator {
+    connection: any;
+  }
+}
+
 const isSlowConnection = () => {
   // If user is on slow or constrained connection.
   if (`connection` in navigator) {
