@@ -3,15 +3,11 @@ id: versioning
 title: Versioning
 ---
 
-You can use the version script to cut a new documentation version based on the latest content in the `docs` directory. That specific set of documentation will then be preserved and accessible even as the documentation in the `docs` directory changes moving forward.
+You can use the version script to create a new documentation version based on the latest content in the `docs` directory. That specific set of documentation will then be preserved and accessible even as the documentation in the `docs` directory changes moving forward.
 
-:::caution
+:::caution Think about it before starting to version your documentation - it can become difficult for contributors to help improve it! :::
 
-Consider well before starting to version your documentation.
-
-:::
-
-Most of the times, you don't need versioning and it will just increase your build time and introduces complexity to your codebase. Versioning is **best suited for website with high-traffic and rapid changes to documentation between versions**. If your documentation rarely changes, don't add versioning to your documentation.
+Most of the time, you don't need versioning as it will just increase your build time, and introduce complexity to your codebase. Versioning is **best suited for website with high-traffic and rapid changes to documentation between versions**. If your documentation rarely changes, don't add versioning to your documentation.
 
 To better understand how versioning works and see if it suits your needs, you can read on below.
 
@@ -61,8 +57,8 @@ npm run docusaurus docs:version 1.1.0
 When tagging a new version, the document versioning mechanism will:
 
 - Copy the full `docs/` folder contents into a new `versioned_docs/version-<version>/` folder.
-- Create a versioned sidebars file based from your current [sidebar](sidebar.md) configuration (if it exists). Saved it as `versioned_sidebars/version-<version>-sidebars.json`.
-- Append the new version number into `versions.json`.
+- Create a versioned sidebars file based from your current [sidebar](sidebar.md) configuration (if it exists) - saved as `versioned_sidebars/version-<version>-sidebars.json`.
+- Append the new version number to `versions.json`.
 
 ## Files
 
@@ -109,13 +105,13 @@ Each directory in `versioned_docs/` will represent a documentation version.
 
 ### Updating an existing version
 
-You can update multiple docs versions at the same time. Because each directory in `versioned_docs/` represents specific routes when published.
+You can update multiple docs versions at the same time because each directory in `versioned_docs/` represents specific routes when published.
 
 1. Edit any file.
 1. Commit and push changes.
 1. It will be published to the version.
 
-**Example:** When you change any file in `versioned_docs/version-2.6/`, it will only affect the docs for version `2.6`.
+Example: When you change any file in `versioned_docs/version-2.6/`, it will only affect the docs for version `2.6`.
 
 ### Deleting an existing version
 

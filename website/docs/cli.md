@@ -5,7 +5,7 @@ title: CLI
 
 Docusaurus provides a set of scripts to help you generate, serve, and deploy your website.
 
-Once your website is generated, your website package will contain the Docusaurus scripts that you may invoke with your package manager:
+Once your website is bootstrapped, the website source will contain the Docusaurus scripts that you can invoke with your package manager:
 
 ```json title="package.json"
 {
@@ -38,11 +38,11 @@ $ npm install --global docusaurus
 
 ### `docusaurus start`
 
-Builds and serves the static site with [Webpack Dev Server](https://webpack.js.org/configuration/dev-server).
+Builds and serves a preview of your site locally with [Webpack Dev Server](https://webpack.js.org/configuration/dev-server).
 
-**options**
+#### Options
 
-| Options | Default | Description |
+| Name | Default | Description |
 | --- | --- | --- |
 | `--port` | `3000` | Specifies the port of the dev server |
 | `--host` | `localhost` | Specify a host to use. E.g., if you want your server to be accessible externally, you can use `--host 0.0.0.0` |
@@ -51,7 +51,7 @@ Builds and serves the static site with [Webpack Dev Server](https://webpack.js.o
 
 :::important
 
-Please note that some functionality (for example, anchor links) will not work in dev server. When building the website, all the functionality will work as expected.
+Please note that some functionality (for example, anchor links) will not work in development. Don't freak out though, the functionality will work as expected in production.
 
 :::
 
@@ -59,11 +59,11 @@ Please note that some functionality (for example, anchor links) will not work in
 
 Compiles your site for production.
 
-**options**
+#### Options
 
-| Options | Default | Description |
+| Name | Default | Description |
 | --- | --- | --- |
-| `--bundle-analyzer` |  | Analyze your bundle with [bundle analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer) |
+| `--bundle-analyzer` | `false` | Analyze your bundle with the [webpack bundle analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer) |
 | `--out-dir` | `build` | The full path for the new output directory, relative to the current workspace. |
 | `--no-minify` | `false` | Build website without minimizing JS/CSS bundles. |
 
@@ -71,35 +71,38 @@ Compiles your site for production.
 
 :::caution
 
-We would like to discourage swizzling of components until we've minimally reached a Beta stage. The components APIs have been changing rapidly and are likely to keep changing until we reach Beta. Stick with the default appearance for now if possible to save yourself some potential pain in future.
+We highly discourage swizzling of components until we've reached a Beta stage. The components APIs have been changing rapidly and are likely to keep changing until we reach Beta. Stick with the default appearance for now if possible to save yourself some potential pain in future.
 
 :::
 
-Swizzle any Docusaurus Theme components with your own component with `docusaurus swizzle`.
+Change any Docusaurus theme components to your liking with `docusaurus swizzle`.
 
 ```shell
 docusaurus swizzle <themeName> [componentName] [siteDir]
 ```
 
-**params**
+Running the command will copy the relevant theme files to your site folder. You may then make any changes to it and Docusaurus will use it instead of the one provided from the theme.
 
-- `themeName`: name of the theme you are using
-- `swizzleComponent`: name of the component to be swizzled
+#### Options
 
-Running the above command will copy the relevant theme files to your site folder. You may then make any changes to it and Docusaurus will use it instead of the one provided from the theme.
+| Name               | Description                           |
+| ------------------ | ------------------------------------- |
+| `themeName`        | The name of the theme you are using.  |
+| `swizzleComponent` | The name of the component to swizzle. |
 
 To unswizzle a component, simply delete the files of the swizzled component.
 
-<!-- TODO a separate section for swizzle tutorial -->
-
+<!--
+TODO a separate section for swizzle tutorial.
 To learn more about swizzling, check [here](#).
+-->
 
 ### `docusaurus deploy`
 
 Deploys your site with [GitHub Pages](https://pages.github.com/).
 
-**options**
+#### Options
 
-| Options | Default | Description |
+| Name | Default | Description |
 | --- | --- | --- |
 | `--out-dir` | `build` | The full path for the new output directory, relative to the current workspace. |
