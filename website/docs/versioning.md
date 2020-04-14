@@ -5,9 +5,13 @@ title: Versioning
 
 You can use the version script to create a new documentation version based on the latest content in the `docs` directory. That specific set of documentation will then be preserved and accessible even as the documentation in the `docs` directory changes moving forward.
 
-:::caution Think about it before starting to version your documentation - it can become difficult for contributors to help improve it! :::
+:::caution
 
-Most of the time, you don't need versioning as it will just increase your build time, and introduce complexity to your codebase. Versioning is **best suited for website with high-traffic and rapid changes to documentation between versions**. If your documentation rarely changes, don't add versioning to your documentation.
+Think about it before starting to version your documentation - it can become difficult for contributors to help improve it!
+
+:::
+
+Most of the time, you don't need versioning as it will just increase your build time, and introduce complexity to your codebase. Versioning is **best suited for websites with high-traffic and rapid changes to documentation between versions**. If your documentation rarely changes, don't add versioning to your documentation.
 
 To better understand how versioning works and see if it suits your needs, you can read on below.
 

@@ -51,7 +51,7 @@ Builds and serves a preview of your site locally with [Webpack Dev Server](https
 
 :::important
 
-Please note that some functionality (for example, anchor links) will not work in development. Don't freak out though, the functionality will work as expected in production.
+Please note that some functionality (for example, anchor links) will not work in development. The functionality will work as expected in production.
 
 :::
 
