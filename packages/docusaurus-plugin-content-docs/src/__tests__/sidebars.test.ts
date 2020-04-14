@@ -132,4 +132,13 @@ describe('loadSidebars', () => {
     const result = loadSidebars([sidebarPath]);
     expect(result).toMatchSnapshot();
   });
+
+  test('sidebars with category.collapsed property at first level', async () => {
+    const sidebarPath = path.join(
+      fixtureDir,
+      'sidebars-collapsed-first-level.json',
+    );
+    const result = loadSidebars([sidebarPath]);
+    expect(result).toMatchSnapshot();
+  });
 });
