@@ -7,9 +7,10 @@
 
 import React from 'react';
 import BlogPostCard from '@theme/BlogPostItem';
+import BlogListPaginator from '@theme/BlogListPaginator';
 
 function BlogListPage(props) {
-  const {items} = props;
+  const {metadata, items} = props;
 
   return (
     <div className="container-fluid my-5">
@@ -26,6 +27,7 @@ function BlogListPage(props) {
             </BlogPostCard>
           </div>
         ))}
+        <BlogListPaginator metadata={metadata} />
       </div>
     </div>
   );
