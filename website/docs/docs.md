@@ -207,6 +207,7 @@ type SidebarItemCategory = {
   type: 'category';
   label: string; // Sidebar label text.
   items: SidebarItem[]; // Array of sidebar items.
+  collapsed: boolean; // Set the category to be collapsed or open by default
 };
 ```
 
