@@ -23,10 +23,20 @@ const MONTHS = [
   'December',
 ];
 
-function BlogPostItem(props) {
-  const {children, frontMatter, metadata, truncated} = props;
+const getReadingTime = (readingTime) => {
+  return Math.ceil(readingTime);
+};
 
-  const {date, readingTime, tags} = metadata;
+function BlogPostItem(props) {
+  const {
+    children,
+    frontMatter,
+    metadata,
+    truncated,
+    isBlogPostPage = false,
+  } = props;
+
+  const {date, readingTime, tags, permalink, editUrl} = metadata;
   const {author, title} = frontMatter;
 
   const authorURL = frontMatter.author_url || frontMatter.authorURL;
@@ -58,12 +68,38 @@ function BlogPostItem(props) {
             className="card-subtitle mb-md-4 font-weight-light"
             dateTime={date}>
             {month} {day}, {year}{' '}
+            {isBlogPostPage && readingTime && (
+              <> · {getReadingTime(readingTime)} min read</>
+            )}
           </time>
+        </div>
+        <div className="col text-right">
+          {isBlogPostPage && editUrl && (
+            <span>
+              <a href={editUrl} target="_blank" rel="noreferrer noopener">
+                <svg
+                  fill="currentColor"
+                  height="1.2em"
+                  width="1.2em"
+                  preserveAspectRatio="xMidYMid meet"
+                  viewBox="0 0 40 40"
+                  style={{
+                    marginRight: '0.3em',
+                    verticalAlign: 'sub',
+                  }}>
+                  <g>
+                    <path d="m34.5 11.7l-3 3.1-6.3-6.3 3.1-3q0.5-0.5 1.2-0.5t1.1 0.5l3.9 3.9q0.5 0.4 0.5 1.1t-0.5 1.2z m-29.5 17.1l18.4-18.5 6.3 6.3-18.4 18.4h-6.3v-6.2z" />
+                  </g>
+                </svg>
+                Edit this page
+              </a>
+            </span>
+          )}
         </div>
       </div>
 
       <div className="card-body">
-        <h3 className="card-title text-primary">{title}</h3>
+        <h3 className="card-title text-primary mr-2">{title}</h3>
         <div className="lead">{children}</div>
       </div>
 
@@ -80,15 +116,15 @@ function BlogPostItem(props) {
           )}
         </div>
         <div className="col align-self-center text-right">
-          {readingTime && (
+          {!isBlogPostPage && readingTime && (
             <small className={truncated ? 'mr-2' : ''}>
-              {Math.ceil(readingTime)} min read
+              {getReadingTime(readingTime)} min read
             </small>
           )}
           {truncated && (
-            <a href="https://github.com/" className="stretched-link">
-              Read more
-            </a>
+            <Link to={permalink} aria-label={`Read more about ${title}`}>
+              <span className="stretched-link">Read more</span>
+            </Link>
           )}
         </div>
       </footer>
