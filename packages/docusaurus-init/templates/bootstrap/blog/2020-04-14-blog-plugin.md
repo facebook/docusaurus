@@ -1,7 +1,7 @@
 ---
 title: Blog Plugin
 author: Fanny Vieira
-authorTitle: Maintaner of Docusaurus
+authorTitle: Maintainer of Docusaurus
 authorURL: https://github.com/fanny
 authorImageURL: https://github.com/fanny.png
 authorTwitter: fannyvieiira
