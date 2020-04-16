@@ -5,10 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {ReactElement} from 'react';
 import Layout from '@theme/Layout';
 
-function NotFound() {
+function NotFound(): ReactElement {
   return (
     <Layout title="Page Not Found">
       <div className="container margin-vert--xl">

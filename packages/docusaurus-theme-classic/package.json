@@ -27,5 +27,11 @@
   },
   "engines": {
     "node": ">=10.9.0"
+  },
+  "scripts": {
+    "strip-ts-types": "babel src -d lib --extensions '.tsx'"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.4"
   }
 }
