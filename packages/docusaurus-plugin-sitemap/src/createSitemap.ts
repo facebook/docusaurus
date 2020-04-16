@@ -16,10 +16,18 @@ export default function createSitemap(
 ) {
   const {url: hostname} = siteConfig;
   if (!hostname) {
-    throw new Error('Url in docusaurus.config.js cannot be empty/undefined');
+    throw new Error('url in docusaurus.config.js cannot be empty/undefined');
   }
 
-  const urls = routesPaths.map(
+  let finalizedRoutesPaths: string[] = [];
+  // filter through routes to exclude the 404 page
+  routesPaths.forEach((route: string) => {
+    if (route.indexOf('404') === -1) {
+      finalizedRoutesPaths.push(route);
+    }
+  });
+
+  const urls = finalizedRoutesPaths.map(
     (routesPath) =>
       ({
         url: routesPath,
