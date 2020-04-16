@@ -7,6 +7,7 @@
 
 import React from 'react';
 import BlogPostCard from '@theme/BlogPostItem';
+import Footer from '@theme/Footer';
 
 function BlogListPage(props) {
   const {items} = props;
@@ -26,6 +27,7 @@ function BlogListPage(props) {
             </BlogPostCard>
           </div>
         ))}
+        <Footer />
       </div>
     </div>
   );
