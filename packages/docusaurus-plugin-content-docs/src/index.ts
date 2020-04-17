@@ -444,7 +444,11 @@ export default function pluginContentDocs(
             // Allow imports from outside `docs/`, e.g. `../CODE_OF_CONDUCT.md`
             {
               test: /(\.mdx?)$/,
-              exclude: [docsDir, versionedDir].filter(Boolean),
+              exclude: [
+                docsDir,
+                versionedDir,
+                /\.\.\/.+\//, // Any directory (but not file) inside parent dirs
+              ].filter(Boolean),
               use: [
                 getCacheLoader(isServer),
                 getBabelLoader(isServer),
