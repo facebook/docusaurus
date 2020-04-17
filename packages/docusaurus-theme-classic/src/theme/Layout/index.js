@@ -24,12 +24,16 @@ function Layout(props) {
   const {
     favicon,
     title: siteTitle,
-    themeConfig: {image: defaultImage},
+    themeConfig: {
+      image: defaultImage,
+      titleTemplate: defaultTitleTemplate = '%pageTitle | %siteTitle',
+    },
     url: siteUrl,
   } = siteConfig;
   const {
     children,
     title,
+    titleTemplate,
     noFooter,
     description,
     image,
@@ -37,7 +41,11 @@ function Layout(props) {
     permalink,
     version,
   } = props;
-  const metaTitle = title ? `${title} | ${siteTitle}` : siteTitle;
+  const metaTitle = title
+    ? (titleTemplate || defaultTitleTemplate)
+        .replace(/%pageTitle/g, title)
+        .replace(/%siteTitle/g, siteTitle)
+    : siteTitle;
 
   const metaImage = image || defaultImage;
   let metaImageUrl = siteUrl + useBaseUrl(metaImage);

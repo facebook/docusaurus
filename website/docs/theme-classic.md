@@ -61,6 +61,37 @@ module.exports = {
 };
 ```
 
+### Custom title template
+
+The default title template (`'%pageTitle | %siteTitle'`) can be customized in the theme for the entire website:
+
+```js {4} title="docusaurus.config.js"
+module.exports = {
+  // ...
+  themeConfig: {
+    // Defaults to `%pageTitle | %siteTitle`
+    titleTemplate: '%pageTitle • %siteTitle',
+    // ...
+  },
+};
+```
+
+It can also be overridden on a per-page basis. For instance, the site's title may be shown first on the home page:
+
+```jsx {7} title="src/pages/index.jsx"
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+
+export default function HomePage() {
+  const {siteConfig} = useDocusaurusContext();
+
+  return (
+    <Layout titleTemplate="%siteTitle - %pageTitle" title={siteConfig.tagline}>
+      {/* ... */}
+    </Layout>
+  );
+}
+```
+
 ## Hooks
 
 ### `useThemeContext`
