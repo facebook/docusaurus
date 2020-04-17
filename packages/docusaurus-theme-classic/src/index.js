@@ -11,8 +11,8 @@ const ContextReplacementPlugin = require('webpack/lib/ContextReplacementPlugin')
 // Need to be inlined to prevent dark mode FOUC
 // Make sure that the 'storageKey' is the same as the one in `/theme/hooks/useTheme.js`
 const storageKey = 'theme';
-const noFlash = (forceDarkMode) => `(function() {
-  var forceDarkMode = ${forceDarkMode};
+const noFlash = (defaultDarkMode) => `(function() {
+  var defaultDarkMode = ${defaultDarkMode};
 
   function setDataThemeAttribute(theme) {
     document.documentElement.setAttribute('data-theme', theme);
@@ -32,7 +32,7 @@ const noFlash = (forceDarkMode) => `(function() {
   var preferredTheme = getPreferredTheme();
   if (preferredTheme !== null) {
     setDataThemeAttribute(preferredTheme);
-  } else if (darkQuery.matches || forceDarkMode) {
+  } else if (darkQuery.matches || defaultDarkMode) {
     setDataThemeAttribute('dark');
   }
 })();`;
@@ -43,7 +43,7 @@ module.exports = function (context, options) {
   } = context;
   const {
     disableDarkMode = false,
-    forceDarkMode = false,
+    defaultDarkMode = false,
     prism: {additionalLanguages = []} = {},
   } = themeConfig || {};
   const {customCss} = options || {};
@@ -90,7 +90,7 @@ module.exports = function (context, options) {
             attributes: {
               type: 'text/javascript',
             },
-            innerHTML: noFlash(forceDarkMode),
+            innerHTML: noFlash(defaultDarkMode),
           },
         ],
       };

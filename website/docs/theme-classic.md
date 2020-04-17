@@ -25,13 +25,13 @@ module.exports = {
 };
 ```
 
-With the enabled `forceDarkMode` option you could set dark mode by default. However, in this case, the user's preference will not be taken into account until they manually sets the desired mode via toggle in the navbar.
+With the enabled `defaultDarkMode` option you could set dark mode by default. However, in this case, the user's preference will not be taken into account until they manually sets the desired mode via toggle in the navbar.
 
 ```js {4} title="docusaurus.config.js"
 module.exports = {
   // ...
   themeConfig: {
-    forceDarkMode: true,
+    defaultDarkMode: true,
     // ...
   },
 };
