@@ -20,7 +20,7 @@ export default function createSitemap(
   }
 
   const urls = routesPaths
-    .filter((route: string) => route !== '/404.html')
+    .filter((route: string) => !route.endsWith('404.html'))
     .map(
       (routesPath) =>
         ({
