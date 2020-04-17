@@ -19,22 +19,16 @@ export default function createSitemap(
     throw new Error('url in docusaurus.config.js cannot be empty/undefined');
   }
 
-  let finalizedRoutesPaths: string[] = [];
-  // filter through routes to exclude the 404 page
-  routesPaths.forEach((route: string) => {
-    if (route.indexOf('404') === -1) {
-      finalizedRoutesPaths.push(route);
-    }
-  });
-
-  const urls = finalizedRoutesPaths.map(
-    (routesPath) =>
-      ({
-        url: routesPath,
-        changefreq: options.changefreq,
-        priority: options.priority,
-      } as SitemapItemOptions),
-  );
+  const urls = routesPaths
+    .filter((route: string) => route !== '/404.html')
+    .map(
+      (routesPath) =>
+        ({
+          url: routesPath,
+          changefreq: options.changefreq,
+          priority: options.priority,
+        } as SitemapItemOptions),
+    );
 
   return sitemap.createSitemap({
     hostname,

@@ -39,7 +39,7 @@ describe('createSitemap', () => {
       {
         url: 'https://example.com',
       } as DocusaurusConfig,
-      ['/', '/404', '/mypage'],
+      ['/', '/404.html', '/mypage'],
       {
         cacheTime: 600,
         changefreq: 'daily',
