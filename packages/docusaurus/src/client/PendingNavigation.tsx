@@ -14,6 +14,7 @@ import preload from './preload';
 import normalizeLocation from './normalizeLocation';
 
 import 'nprogress/nprogress.css';
+import './PendingNavigation.css';
 
 nprogress.configure({showSpinner: false});
 
