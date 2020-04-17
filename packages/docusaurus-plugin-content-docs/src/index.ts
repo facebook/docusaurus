@@ -440,6 +440,23 @@ export default function pluginContentDocs(
                 },
               ].filter(Boolean),
             },
+
+            // Allow imports from outside `docs/`, e.g. `../CODE_OF_CONDUCT.md`
+            {
+              test: /(\.mdx?)$/,
+              exclude: [docsDir, versionedDir].filter(Boolean),
+              use: [
+                getCacheLoader(isServer),
+                getBabelLoader(isServer),
+                {
+                  loader: '@docusaurus/mdx-loader',
+                  options: {
+                    remarkPlugins,
+                    rehypePlugins,
+                  },
+                },
+              ].filter(Boolean),
+            },
           ],
         },
       } as Configuration;
