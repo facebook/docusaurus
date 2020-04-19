@@ -60,6 +60,7 @@ export interface StartCLIOptions {
   host: string;
   hotOnly: boolean;
   open: boolean;
+  poll: boolean;
 }
 
 export interface BuildCLIOptions {

@@ -141,6 +141,7 @@ export async function start(
     publicPath: baseUrl,
     watchOptions: {
       ignored: /node_modules/,
+      poll: cliOptions.poll,
     },
     historyApiFallback: {
       rewrites: [{from: /\/*/, to: baseUrl}],
