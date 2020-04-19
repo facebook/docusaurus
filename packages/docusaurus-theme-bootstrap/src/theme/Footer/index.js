@@ -44,7 +44,7 @@ function Footer() {
         {links && links.length > 0 && (
           <>
             {links.map((linkItem, i) => (
-              <div className="col col-xs-1 col-xl-1 mx-4 my-5" key={i}>
+              <div className="col col-xs-1 col-xl-1 mx-4 my-4" key={i}>
                 {linkItem.title != null && <h5>{linkItem.title}</h5>}
                 <ul className="list-unstyled">
                   {linkItem.items.map((item, key) =>
