@@ -25,4 +25,8 @@
   .docPage {
     display: inherit;
   }
+
+  .docSidebarContainer {
+    display: none;
+  }
 }
