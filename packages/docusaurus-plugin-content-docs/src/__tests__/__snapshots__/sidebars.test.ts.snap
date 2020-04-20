@@ -95,26 +95,31 @@ exports[`loadSidebars sidebars with deep level of category 1`] = `
 Object {
   "docs": Array [
     Object {
+      "collapsed": true,
       "items": Array [
         Object {
           "id": "a",
           "type": "doc",
         },
         Object {
+          "collapsed": true,
           "items": Array [
             Object {
+              "collapsed": true,
               "items": Array [
                 Object {
                   "id": "c",
                   "type": "doc",
                 },
                 Object {
+                  "collapsed": true,
                   "items": Array [
                     Object {
                       "id": "d",
                       "type": "doc",
                     },
                     Object {
+                      "collapsed": true,
                       "items": Array [
                         Object {
                           "id": "e",
