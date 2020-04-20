@@ -4,6 +4,7 @@ exports[`loadSidebars sidebars link 1`] = `
 Object {
   "docs": Array [
     Object {
+      "collapsed": true,
       "items": Array [
         Object {
           "href": "https://github.com",
@@ -172,6 +173,7 @@ exports[`loadSidebars sidebars with known sidebar item type 1`] = `
 Object {
   "docs": Array [
     Object {
+      "collapsed": true,
       "items": Array [
         Object {
           "id": "foo/bar",
@@ -195,6 +197,7 @@ Object {
       "type": "category",
     },
     Object {
+      "collapsed": true,
       "items": Array [
         Object {
           "id": "hello",
