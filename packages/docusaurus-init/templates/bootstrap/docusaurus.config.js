@@ -14,6 +14,7 @@ module.exports = {
         src: 'img/logo.svg',
       },
       links: [
+        {to: 'blog', label: 'Blog', position: 'left'},
         {
           href: 'https://github.com/facebook/docusaurus',
           label: 'GitHub',
