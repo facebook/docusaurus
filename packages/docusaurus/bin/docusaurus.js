@@ -87,7 +87,7 @@ cli
   .option('--no-open', 'Do not open page in the browser (default: false)')
   .option(
     '--poll',
-    'Use polling rather than wathcing for reload (default: false)',
+    'Use polling rather than watching for reload (default: false)',
   )
   .action((siteDir = '.', {port, host, hotOnly, open, poll}) => {
     wrapCommand(start)(path.resolve(siteDir), {
