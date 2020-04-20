@@ -38,7 +38,7 @@ module.exports = {
           ],
         },
         {
-          title: 'More',
+          title: 'Social',
           items: [
             {
               label: 'GitHub',
@@ -51,7 +51,7 @@ module.exports = {
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`,
+      copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
     },
   },
   presets: [
