@@ -48,7 +48,7 @@ Builds and serves a preview of your site locally with [Webpack Dev Server](https
 | `--host` | `localhost` | Specify a host to use. E.g., if you want your server to be accessible externally, you can use `--host 0.0.0.0` |
 | `--hot-only` | `false` | Enables Hot Module Replacement without page refresh as fallback in case of build failures. More information [here](https://webpack.js.org/configuration/dev-server/#devserverhotonly). |
 | `--no-open` | `false` | Do not open automatically the page in the browser. |
-| `--poll` | `false` | Use polling of files rather than watching for live reload as a fallback in enviroments where watching doesn't work. More information [here](https://webpack.js.org/configuration/watch/#watchoptionspoll). |
+| `--poll` | `false` | Use polling of files rather than watching for live reload as a fallback in environments where watching doesn't work. More information [here](https://webpack.js.org/configuration/watch/#watchoptionspoll). |
 
 :::important
 
