@@ -196,7 +196,10 @@ module.exports = {
         src: 'https://docusaurus.io/img/oss_logo.png',
         href: 'https://opensource.facebook.com/',
       },
-      copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`,
+      copyright:
+        `Copyright © ${new Date().getFullYear()} Facebook, Inc. ` +
+        `<a href="https://opensource.facebook.com/legal/privacy/" target="_blank">Privacy Policy</a> and ` +
+        `<a href="https://opensource.facebook.com/legal/terms/" target="_blank">Terms of Use</a>.`,
     },
   },
 };
