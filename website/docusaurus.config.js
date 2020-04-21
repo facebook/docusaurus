@@ -198,8 +198,8 @@ module.exports = {
       },
       copyright:
         `Copyright © ${new Date().getFullYear()} Facebook, Inc. ` +
-        `<a href="https://opensource.facebook.com/legal/privacy/" target="_blank">Privacy Policy</a> and ` +
-        `<a href="https://opensource.facebook.com/legal/terms/" target="_blank">Terms of Use</a>.`,
+        `<a href="https://opensource.facebook.com/legal/privacy/" target="_blank">Privacy</a> and ` +
+        `<a href="https://opensource.facebook.com/legal/terms/" target="_blank">Terms</a>.`,
     },
   },
 };

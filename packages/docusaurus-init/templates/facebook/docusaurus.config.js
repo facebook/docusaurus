@@ -93,8 +93,8 @@ module.exports = {
       // Please do not remove the privacy and terms, it's a legal requirement.
       copyright:
         `Copyright © ${new Date().getFullYear()} Facebook, Inc. Built with Docusaurus. ` +
-        `<a href="https://opensource.facebook.com/legal/privacy/" target="_blank">Privacy Policy</a> and ` +
-        `<a href="https://opensource.facebook.com/legal/terms/" target="_blank">Terms of Use</a>.`,
+        `<a href="https://opensource.facebook.com/legal/privacy/" target="_blank">Privacy</a> and ` +
+        `<a href="https://opensource.facebook.com/legal/terms/" target="_blank">Terms</a>.`,
     },
   },
   presets: [
