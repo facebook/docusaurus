@@ -24,7 +24,7 @@ npm_config_registry="$CUSTOM_REGISTRY_URL" npx @docusaurus/init@"$NEW_VERSION" i
 # Stop Docker container
 if ( $(docker container inspect "$CONTAINER_NAME" > /dev/null 2>&1) ); then
   # Remove Docker container
-  docker container stop $CONTAINER_NAME
+  docker container stop $CONTAINER_NAME > /dev/null
 fi
 
 echo "The website with to-be published packages was successfully build to the $(tput setaf 2)test-website$(tput sgr 0) directory."
