@@ -49,7 +49,7 @@ function BlogPostItem(props) {
   const day = parseInt(match[2], 10);
 
   return (
-    <article className="card h-100">
+    <article className="card h-100 shadow">
       <div className="row no-gutters rows-col-2 m-3">
         <div className="col-xs mr-3">
           {authorImageURL && (

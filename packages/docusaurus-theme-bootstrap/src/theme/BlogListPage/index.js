@@ -7,12 +7,13 @@
 
 import React from 'react';
 import BlogPostCard from '@theme/BlogPostItem';
+import Footer from '@theme/Footer';
 
 function BlogListPage(props) {
   const {items} = props;
 
   return (
-    <div className="container-fluid my-5">
+    <div className="container-fluid mt-5">
       <div className="row row-cols-1 row-cols-sm-1">
         {items.map(({content: BlogPostContent}) => (
           <div
@@ -26,6 +27,7 @@ function BlogListPage(props) {
             </BlogPostCard>
           </div>
         ))}
+        <Footer />
       </div>
     </div>
   );

@@ -15,7 +15,7 @@ function BlogTagsListPage(props) {
         <Link
           href={tags[tag].permalink}
           key={tag}
-          className="btn btn-primary m-2">
+          className="btn btn-primary list-inline-item my-2">
           {tags[tag].name}{' '}
           <span className="badge badge-light">{tags[tag].count}</span>
         </Link>
@@ -26,7 +26,7 @@ function BlogTagsListPage(props) {
   return (
     <div className="container my-3 justify-content-center">
       <h1 className="text-primary">Tags</h1>
-      <ul className="my-xl-4">{renderAllTags()}</ul>
+      <ul className="my-xl-4 list-inline">{renderAllTags()}</ul>
     </div>
   );
 }
