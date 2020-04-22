@@ -18,9 +18,7 @@ function BrowserWindow({children, minHeight, url}) {
           <span className={styles.dot} style={{background: '#fbbe3c'}} />
           <span className={styles.dot} style={{background: '#58cb42'}} />
         </div>
-        <div className={styles.browserWindowAddressBar}>
-          <input disabled type="text" value={url} readOnly />
-        </div>
+        <div className={styles.browserWindowAddressBar}>{url}</div>
         <div className={styles.browserWindowMenuIcon}>
           <div>
             <span className={styles.bar} />

@@ -46,6 +46,8 @@ module.exports = {
         },
         blog: {
           path: '../website-1.x/blog',
+          editUrl:
+            'https://github.com/facebook/docusaurus/edit/master/website-1.x/',
           postsPerPage: 3,
           feedOptions: {
             type: 'all',
@@ -59,11 +61,16 @@ module.exports = {
     ],
   ],
   themeConfig: {
+    announcementBar: {
+      id: 'supportus',
+      content:
+        '⭐️ If you like Docusaurus, give it a star on <a target="_blank" rel="noopener noreferrer" href="https://github.com/facebook/docusaurus">GitHub</a>! ⭐️',
+    },
     prism: {
       theme: require('prism-react-renderer/themes/github'),
       darkTheme: require('prism-react-renderer/themes/dracula'),
     },
-    image: 'img/docusaurus.png',
+    image: 'img/docusaurus-soc.png',
     gtag: {
       trackingID: 'UA-141789564-1',
     },
@@ -80,28 +87,37 @@ module.exports = {
       logo: {
         alt: 'Docusaurus Logo',
         src: 'img/docusaurus.svg',
+        srcDark: 'img/docusaurus_keytar.svg',
       },
       links: [
         {
-          to: 'versions',
-          label: `${versions[0].substr(6)}`,
-          position: 'left',
-          style: {
-            whiteSpace: 'nowrap',
-            padding: '0.25rem 0.5rem 0.2rem 0.25rem',
-            fontSize: 'calc(0.9 * var(--ifm-font-size-base))',
-            textDecoration: 'underline',
-          },
-        },
-        {
-          to: 'docs/introduction',
-          activeBasePath: 'docs',
           label: 'Docs',
+          to: 'docs/introduction', // "fake" link
           position: 'left',
+          activeBasePath: 'docs',
+          items: [
+            {
+              label: versions[0],
+              to: 'docs/introduction',
+            },
+            ...versions.slice(1).map((version) => ({
+              label: version,
+              to: `docs/${version}/introduction`,
+            })),
+            {
+              label: 'Master/Unreleased',
+              to: 'docs/next/introduction',
+            },
+          ],
         },
         {to: 'blog', label: 'Blog', position: 'left'},
         {to: 'showcase', label: 'Showcase', position: 'left'},
-        {to: 'feedback', label: 'Feedback', position: 'left'},
+        {to: 'docs/next/support', label: 'Community', position: 'left'},
+        {
+          to: 'versions',
+          label: `v${versions[0]}`,
+          position: 'right',
+        },
         {
           href: 'https://github.com/facebook/docusaurus',
           label: 'GitHub',
@@ -113,7 +129,7 @@ module.exports = {
       style: 'dark',
       links: [
         {
-          title: 'Docs',
+          title: 'Learn',
           items: [
             {
               label: 'Introduction',
@@ -146,7 +162,7 @@ module.exports = {
             },
             {
               label: 'Help',
-              to: 'help',
+              to: 'docs/next/support',
             },
           ],
         },
@@ -174,13 +190,31 @@ module.exports = {
             },
           ],
         },
+        {
+          title: 'Legal',
+          // Please do not remove the privacy and terms, it's a legal requirement.
+          items: [
+            {
+              label: 'Privacy',
+              href: 'https://opensource.facebook.com/legal/privacy/',
+              target: '_blank',
+              rel: 'noreferrer noopener',
+            },
+            {
+              label: 'Terms',
+              href: 'https://opensource.facebook.com/legal/terms/',
+              target: '_blank',
+              rel: 'noreferrer noopener',
+            },
+          ],
+        },
       ],
       logo: {
         alt: 'Facebook Open Source Logo',
         src: 'https://docusaurus.io/img/oss_logo.png',
-        href: 'https://opensource.facebook.com/',
+        href: 'https://opensource.facebook.com',
       },
-      copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`,
+      copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc. Built with Docusaurus.`,
     },
   },
 };

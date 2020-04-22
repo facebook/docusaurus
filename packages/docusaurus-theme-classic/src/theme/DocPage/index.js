@@ -22,7 +22,7 @@ function DocPage(props) {
   const {route: baseRoute, docsMetadata, location} = props;
   // case-sensitive route such as it is defined in the sidebar
   const currentRoute =
-    baseRoute.routes.find(route => {
+    baseRoute.routes.find((route) => {
       return matchPath(location.pathname, route);
     }) || {};
   const {permalinkToSidebar, docsSidebars, version} = docsMetadata;

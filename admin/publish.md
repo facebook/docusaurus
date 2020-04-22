@@ -16,9 +16,29 @@ If you are not currently logged into npm on your CLI, do the following:
 
 If you're publishing new v2 versions, 2FA might get in the way as the pin might expire during the publishing as there are over 10 packages to publish. You're encouraged not to use the "Authorization and Publishing" 2FA option.
 
+### 0. Build skeleton website with new version (Docker required)
+
+To make sure that all packages will work correctly when they are published, you can build them locally and use them to run the skeleton website:
+
+```bash
+yarn test:build:v2
+```
+
+This command will build all the packages that it will publish to the running private npm proxy registry, and then initialize a new website in the `test-website` directory. Now you can start the dev server and/or make a production built.
+
+```bash
+cd test-website
+yarn start
+yarn build # after manual testing in browser
+```
+
+If there are no errors, you can start preparing for the new release.
+
 ### 1. Update the v2 changelog
 
 Generate a GitHub auth token by going to https://github.com/settings/tokens. Save the token somewhere for future reference.
+
+> Before running the command below, get all tags from the original repository by runnung `git fetch --tags`.
 
 ```sh
 GITHUB_AUTH=<Your GitHub auth token> yarn changelog
@@ -43,6 +63,42 @@ Make a commit and create a pull request with the changes and get it merged. An e
 
 As we have a monorepo structure, we use `lerna publish` to publish the new version of packages to npm in one shot.
 
+First, be sure to run the command below to verify that you have access to all the necessary repositories.
+
+```sh
+npm access ls-packages
+```
+
+<details>
+ <summary>The list of packages which need access (as of April 2020)</summary>
+ <pre>
+{
+  "@docusaurus/plugin-sitemap": "read-write",
+  "@docusaurus/mdx-loader": "read-write",
+  "@docusaurus/utils": "read-write",
+  "@docusaurus/core": "read-write",
+  "@docusaurus/plugin-content-blog": "read-write",
+  "@docusaurus/plugin-content-docs": "read-write",
+  "@docusaurus/plugin-content-pages": "read-write",
+  "@docusaurus/preset-classic": "read-write",
+  "@docusaurus/theme-search-algolia": "read-write",
+  "@docusaurus/theme-classic": "read-write",
+  "@docusaurus/theme-live-codeblock": "read-write",
+  "@docusaurus/plugin-google-analytics": "read-write",
+  "@docusaurus/plugin-google-gtag": "read-write",
+  "@docusaurus/init": "read-write",
+  "@docusaurus/plugin-content-docs-legacy": "read-write",
+  "@docusaurus/plugin-ideal-image": "read-write",
+  "@docusaurus/types": "read-write",
+  "docusaurus": "read-write",
+  "docusaurus-init": "read-write",
+  "stylelint-copyright": "read-write"
+}
+</pre>
+</details>
+
+If all accesses are available, you can run the command to release a new version:
+
 ```sh
 yarn lerna publish 2.0.0-alpha.41 --dist-tag next
 ```
@@ -64,6 +120,39 @@ You should receive many emails notifying you that a new version of the packages 
 - Paste the CHANGELOG changes in the textarea below
 - Hit the green "Publish release" button
 - Profit! 💰
+
+### 6. Notify people about new release (optional but desirable)
+
+After new release, it was cool to notify our users about this in the Dicsord chat (`docusaurus-users` channel) and write summaries in Twiiter using the following templates.
+
+For Discord:
+
+```
+A new version %VER% is available now! 🎉
+See release notes at the following link https://github.com/facebook/docusaurus/releases/tag/%VER%
+```
+
+For Twitter:
+
+```
+💥 A new version %VER% is available now! 💥
+
+###
+LIST HERE MAJOR FEATURES, SEE EXAMPLES BELOW
+
+- Dropdown nav 🔗
+- New code blocks features 🖥️
+- Draft blog posts ✏️
+- Announcement bar 📢
+
+..
+
+NOTE: most likely this last item will be relevant for each new release, so do not forget include it
+- Many documentation improvements and bug fixes! 🐛
+###
+
+https://github.com/facebook/docusaurus/releases/tag/%VER%
+```
 
 ## Docusaurus 1
 

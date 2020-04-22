@@ -55,7 +55,9 @@ function HomeSplash(props) {
 class Index extends React.Component {
   render() {
     const {config: siteConfig, language = 'en'} = this.props;
-    const pinnedUsersToShowcase = siteConfig.users.filter(user => user.pinned);
+    const pinnedUsersToShowcase = siteConfig.users.filter(
+      (user) => user.pinned,
+    );
 
     return (
       <div>

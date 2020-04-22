@@ -20,6 +20,9 @@ module.exports = {
   parserOptions: {
     allowImportExportEverywhere: true,
   },
+  globals: {
+    testStylelintRule: true,
+  },
   extends: ['airbnb', 'prettier', 'prettier/react'],
   plugins: ['react-hooks', 'header'],
   rules: {
@@ -60,7 +63,10 @@ module.exports = {
   },
   overrides: [
     {
-      files: ['packages/docusaurus-init/templates/classic/**/*.js'],
+      files: [
+        'packages/docusaurus-init/templates/bootstrap/**/*.js',
+        'packages/docusaurus-init/templates/classic/**/*.js',
+      ],
       rules: {
         'header/header': 'off',
       },

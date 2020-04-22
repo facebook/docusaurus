@@ -154,7 +154,7 @@ const excludePath = `${PROJECT_NAME}-${DEPLOYMENT_BRANCH}`;
 fs.copy(
   fromPath,
   toPath,
-  src => {
+  (src) => {
     if (src.indexOf('.DS_Store') !== -1) {
       return false;
     }
@@ -164,7 +164,7 @@ fs.copy(
 
     return true;
   },
-  error => {
+  (error) => {
     if (error) {
       shell.echo(`Error: Copying build assets failed with error '${error}'`);
       shell.exit(1);

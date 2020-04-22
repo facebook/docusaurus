@@ -71,7 +71,7 @@ function Versions(props) {
           <table className="versions">
             <tbody>
               {versions.map(
-                version =>
+                (version) =>
                   version !== latestVersion && (
                     <tr key={version}>
                       <th>

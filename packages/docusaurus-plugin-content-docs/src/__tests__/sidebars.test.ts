@@ -24,6 +24,17 @@ describe('loadSidebars', () => {
     expect(result).toMatchSnapshot();
   });
 
+  test('sidebars shortand and longform lead to exact same sidebar', async () => {
+    const sidebarPath1 = path.join(fixtureDir, 'sidebars-category.js');
+    const sidebarPath2 = path.join(
+      fixtureDir,
+      'sidebars-category-shorthand.js',
+    );
+    const sidebar1 = loadSidebars([sidebarPath1]);
+    const sidebar2 = loadSidebars([sidebarPath2]);
+    expect(sidebar1).toEqual(sidebar2);
+  });
+
   test('sidebars with category but category.items is not an array', async () => {
     const sidebarPath = path.join(
       fixtureDir,
@@ -90,15 +101,6 @@ describe('loadSidebars', () => {
       loadSidebars([sidebarPath]),
     ).toThrowErrorMatchingInlineSnapshot(
       `"Error loading {\\"type\\":\\"link\\",\\"label\\":\\"GitHub\\",\\"href\\":[\\"example.com\\"]}. \\"href\\" must be a string."`,
-    );
-  });
-
-  test('sidebars with invalid sidebar item', async () => {
-    const sidebarPath = path.join(fixtureDir, 'sidebars-invalid-item.json');
-    expect(() =>
-      loadSidebars([sidebarPath]),
-    ).toThrowErrorMatchingInlineSnapshot(
-      `"Unknown sidebar item \\"{\\"a\\":\\"b\\",\\"c\\":\\"d\\"}\\"."`,
     );
   });
 

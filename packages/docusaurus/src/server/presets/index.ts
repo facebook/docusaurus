@@ -6,7 +6,6 @@
  */
 
 import importFresh from 'import-fresh';
-import _ from 'lodash';
 import {
   LoadContext,
   PluginConfig,
@@ -24,7 +23,7 @@ export function loadPresets(
   const unflatPlugins: PluginConfig[][] = [];
   const unflatThemes: PluginConfig[][] = [];
 
-  presets.forEach(presetItem => {
+  presets.forEach((presetItem) => {
     let presetModuleImport;
     let presetOptions = {};
     if (typeof presetItem === 'string') {
@@ -47,7 +46,7 @@ export function loadPresets(
   });
 
   return {
-    plugins: _.compact(_.flatten<PluginConfig>(unflatPlugins)),
-    themes: _.compact(_.flatten<PluginConfig>(unflatThemes)),
+    plugins: ([] as PluginConfig[]).concat(...unflatPlugins).filter(Boolean),
+    themes: ([] as PluginConfig[]).concat(...unflatThemes).filter(Boolean),
   };
 }

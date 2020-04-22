@@ -27,6 +27,16 @@ const users = [
     pinned: false,
   },
   {
+    title: 'Build Tracker',
+    description:
+      'Track performance budgets & prevent unexpected bloat in your app',
+    preview: require('./showcase/build-tracker.png'),
+    website: 'https://buildtracker.dev',
+    source: 'https://github.com/paularmstrong/build-tracker',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'Channel.js',
     description: 'The missing constructor for creating safe async iterators',
     preview: require('./showcase/channeljs.png'),
@@ -54,6 +64,34 @@ const users = [
     pinned: true,
   },
   {
+    title: 'GraphQL Code Generator',
+    description:
+      'Generate code from your GraphQL schema and operations with a simple CLI',
+    preview: require('./showcase/graphql-codegen.png'),
+    website: 'https://graphql-code-generator.com/',
+    source: 'https://github.com/dotansimha/graphql-code-generator',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
+    title: 'GraphQL Inspector',
+    description: 'An open-source tool to help you work with GraphQL',
+    preview: require('./showcase/graphql-inspector.png'),
+    website: 'https://graphql-inspector.com',
+    source: 'https://github.com/kamilkisiela/graphql-inspector',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
+    title: 'GraphQL Mesh',
+    description: 'Query anything, run everywhere',
+    preview: require('./showcase/graphql-mesh.png'),
+    website: 'https://graphql-mesh.com',
+    source: 'https://github.com/urigo/graphql-mesh',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'Hermes',
     description: 'JavaScript engine optimized for React Native',
     preview: require('./showcase/hermes.png'),
@@ -68,6 +106,16 @@ const users = [
     preview: require('./showcase/mbt-bundle.png'),
     website: 'https://mbtbundle.org',
     source: 'https://github.com/tienvx/mbt-bundle',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
+    title: 'Motion Layout',
+    description:
+      'Create beautiful immersive React.js animations using shared components',
+    preview: require('./showcase/motion-layout.png'),
+    website: 'https://motion-layout.azurewebsites.net',
+    source: 'https://github.com/jeffersonlicet/react-motion-layout',
     fbOpenSource: false,
     pinned: false,
   },
@@ -106,6 +154,16 @@ const users = [
     source: 'https://github.com/timberio/vector',
     fbOpenSource: false,
     pinned: true,
+  },
+  {
+    title: 'Tourmaline',
+    description:
+      'Fast and performant Telegram bot framework for the Crystal programming language',
+    preview: require('./showcase/tourmaline.png'),
+    website: 'https://tourmaline.dev',
+    source: 'https://github.com/protoncr/tourmaline',
+    fbOpenSource: false,
+    pinned: false,
   },
 ];
 

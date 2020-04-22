@@ -176,6 +176,13 @@ module.exports = [
     pinned: true,
   },
   {
+    caption: 'Day.js',
+    image: '/img/users/dayjs.png',
+    infoLink: 'https://day.js.org/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Dep',
     image: '/img/users/golang-dep.svg',
     infoLink: 'https://golang.github.io/dep/',
@@ -295,6 +302,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Hazelcast Jet',
+    image: '/img/users/hazelcast-jet.svg',
+    infoLink: 'https://jet-start.sh',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Hemera',
     image: '/img/users/hemera.png',
     infoLink: 'https://hemerajs.github.io/hemera/',
@@ -351,6 +365,13 @@ module.exports = [
     pinned: true,
   },
   {
+    caption: 'LisanJS',
+    image: '/img/users/lisan.svg',
+    infoLink: 'https://lisanjs.com',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'MakeItOpen',
     image: '/img/users/makeitopen.png',
     infoLink: 'https://makeitopen.com/',
@@ -363,6 +384,13 @@ module.exports = [
     infoLink: 'https://mailgo.js.org/',
     fbOpenSource: false,
     pinned: true,
+  },
+  {
+    caption: 'manylesson',
+    image: '/img/users/manylesson.png',
+    infoLink: 'http://www.manylesson.com/',
+    fbOpenSource: false,
+    pinned: false,
   },
   {
     caption: 'Metro',

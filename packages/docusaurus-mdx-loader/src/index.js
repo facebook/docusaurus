@@ -9,9 +9,9 @@ const {getOptions} = require('loader-utils');
 const {readFile} = require('fs-extra');
 const mdx = require('@mdx-js/mdx');
 const emoji = require('remark-emoji');
-const slug = require('remark-slug');
 const matter = require('gray-matter');
 const stringifyObject = require('stringify-object');
+const slug = require('./remark/slug');
 const rightToc = require('./remark/rightToc');
 
 const DEFAULT_OPTIONS = {
@@ -19,7 +19,7 @@ const DEFAULT_OPTIONS = {
   remarkPlugins: [emoji, slug, rightToc],
 };
 
-module.exports = async function(fileString) {
+module.exports = async function (fileString) {
   const callback = this.async();
 
   const {data, content} = matter(fileString);

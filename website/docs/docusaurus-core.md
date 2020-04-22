@@ -61,7 +61,7 @@ Outputs
 
 This component enables linking to internal pages as well as a powerful performance feature called preloading. Preloading is used to prefetch resources so that the resources are fetched by the time the user navigates with this component. We use an `IntersectionObserver` to fetch a low-priority request when the `<Link>` is in the viewport and then use an `onMouseOver` event to trigger a high-priority request when it is likely that a user will navigate to the requested resource.
 
-The component is a wrapper around react-router’s `<NavLink>` component that adds useful enhancements specific to Docusaurus. All props are passed through to react-router’s `<NavLink>` component.
+The component is a wrapper around react-router’s `<Link>` component that adds useful enhancements specific to Docusaurus. All props are passed through to react-router’s `<Link>` component.
 
 ```jsx {2,7}
 import React from 'react';
@@ -88,16 +88,6 @@ The target location to navigate to. Example: `/docs/introduction`.
 <Link to="/courses" />
 ```
 
-#### `activeClassName`: string
-
-The class to give the `<Link>` when it is active. The default given class is `active`. This will be joined with the `className` prop.
-
-```jsx {1}
-<Link to="/faq" activeClassName="selected">
-  FAQs
-</Link>
-```
-
 ### `<Redirect/>`
 
 Rendering a `<Redirect>` will navigate to a new location. The new location will override the current location in the history stack, like server-side redirects (HTTP 3xx) do. You can refer to [React Router's Redirect documentation](https://reacttraining.com/react-router/web/api/Redirect) for more info on available props.
@@ -110,6 +100,24 @@ import {Redirect} from '@docusaurus/router';
 
 function Home() {
   return <Redirect to="/docs/test" />;
+}
+```
+
+### `<BrowserOnly/>`
+
+The `<BrowserOnly>` component accepts a `children` prop, a render function which will not be executed during the pre-rendering phase of the build process. This is useful for hiding code that is only meant to run in the browsers (e.g. where the `window`/`document` objects are being accessed).
+
+```jsx
+import BrowserOnly from '@docusaurus/BrowserOnly';
+
+function MyComponent() {
+  return (
+    <BrowserOnly>
+      {() => {
+        // Something that should be excluded during build process prerendering.
+      }}
+    </BrowserOnly>
+  );
 }
 ```
 

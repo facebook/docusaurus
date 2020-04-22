@@ -6,7 +6,6 @@
  */
 
 import {generate} from '@docusaurus/utils';
-import _ from 'lodash';
 import path from 'path';
 import {
   BUILD_DIR_NAME,
@@ -28,13 +27,18 @@ import {
 } from '@docusaurus/types';
 import {loadHtmlTags} from './html-tags';
 
-export function loadContext(siteDir: string): LoadContext {
+export function loadContext(
+  siteDir: string,
+  customOutDir?: string,
+): LoadContext {
   const generatedFilesDir: string = path.resolve(
     siteDir,
     GENERATED_FILES_DIR_NAME,
   );
   const siteConfig: DocusaurusConfig = loadConfig(siteDir);
-  const outDir = path.resolve(siteDir, BUILD_DIR_NAME);
+  const outDir = customOutDir
+    ? path.resolve(customOutDir)
+    : path.resolve(siteDir, BUILD_DIR_NAME);
   const {baseUrl} = siteConfig;
 
   return {
@@ -58,9 +62,12 @@ export function loadPluginConfigs(context: LoadContext): PluginConfig[] {
   ];
 }
 
-export async function load(siteDir: string): Promise<Props> {
+export async function load(
+  siteDir: string,
+  customOutDir?: string,
+): Promise<Props> {
   // Context.
-  const context: LoadContext = loadContext(siteDir);
+  const context: LoadContext = loadContext(siteDir, customOutDir);
   const {generatedFilesDir, siteConfig, outDir, baseUrl} = context;
   const genSiteConfig = generate(
     generatedFilesDir,
@@ -77,11 +84,13 @@ export async function load(siteDir: string): Promise<Props> {
 
   // Themes.
   const fallbackTheme = path.resolve(__dirname, '../client/theme-fallback');
-  const pluginThemes = _.compact(
-    plugins.map(plugin => plugin.getThemePath && plugin.getThemePath()),
+  const pluginThemes = ([] as string[]).concat(
+    ...plugins
+      .map<any>((plugin) => plugin.getThemePath && plugin.getThemePath())
+      .filter(Boolean),
   );
   const userTheme = path.resolve(siteDir, THEME_PATH);
-  const alias = loadThemeAlias([fallbackTheme, ...pluginThemes, userTheme]);
+  const alias = loadThemeAlias([fallbackTheme, ...pluginThemes], [userTheme]);
 
   // Make a fake plugin to:
   // - Resolve aliased theme components
@@ -95,7 +104,7 @@ export async function load(siteDir: string): Promise<Props> {
       },
     }),
     injectHtmlTags: () => {
-      const stylesheetsTags = stylesheets.map(source =>
+      const stylesheetsTags = stylesheets.map((source) =>
         typeof source === 'string'
           ? `<link rel="stylesheet" href="${source}">`
           : {
@@ -106,7 +115,7 @@ export async function load(siteDir: string): Promise<Props> {
               },
             },
       );
-      const scriptsTags = scripts.map(source =>
+      const scriptsTags = scripts.map((source) =>
         typeof source === 'string'
           ? `<script type="text/javascript" src="${source}"></script>`
           : {
@@ -132,7 +141,7 @@ export async function load(siteDir: string): Promise<Props> {
       // import() is async so we use require() because client modules can have
       // CSS and the order matters for loading CSS.
       // We need to JSON.stringify so that if its on windows, backslash are escaped.
-      .map(module => `  require(${JSON.stringify(module)}),`)
+      .map((module) => `  require(${JSON.stringify(module)}),`)
       .join('\n')}\n];\n`,
   );
 
@@ -154,7 +163,7 @@ export async function load(siteDir: string): Promise<Props> {
 ${Object.keys(registry)
   .sort()
   .map(
-    key =>
+    (key) =>
       // We need to JSON.stringify so that if its on windows, backslash are escaped.
       `  '${key}': [${registry[key].loader}, ${JSON.stringify(
         registry[key].modulePath,

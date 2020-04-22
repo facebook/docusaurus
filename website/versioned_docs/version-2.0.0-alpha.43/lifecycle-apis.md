@@ -16,7 +16,7 @@ Example:
 ```js {6-8}
 // docusaurus-plugin/src/index.js
 const path = require('path');
-module.exports = function(context, options) {
+module.exports = function (context, options) {
   return {
     name: 'docusaurus-plugin',
     getPathsToWatch() {
@@ -36,7 +36,7 @@ For example, this plugin below return a random integer between 1 to 10 as conten
 ```js {6-7}
 // docusaurus-plugin/src/index.js
 const path = require('path');
-module.exports = function(context, options) {
+module.exports = function (context, options) {
   return {
     name: 'docusaurus-plugin',
     async loadContent() {
@@ -93,7 +93,7 @@ For example, this plugin below create a `/roll` page which display "You won xxxx
 // website/src/components/roll.js
 import React from 'react';
 
-export default function(props) {
+export default function (props) {
   const {prizes} = props;
   const index = Math.floor(Math.random() * 3);
   return <div> You won ${prizes[index]} </div>;
@@ -152,7 +152,7 @@ For example, this plugin below modify the webpack config to transpile `.foo` fil
 
 ```js {5-12}
 // docusaurus-plugin/src/index.js
-module.exports = function(context, options) {
+module.exports = function (context, options) {
   return {
     name: 'custom-docusaurus-plugin',
     configureWebpack(config, isServer, utils) {
@@ -172,7 +172,7 @@ module.exports = function(context, options) {
 };
 ```
 
-## postBuild(props)
+## `postBuild(props)`
 
 Called when a (production) build finishes.
 
@@ -195,12 +195,12 @@ Example:
 
 ```js {5-10}
 // docusaurus-plugin/src/index.js
-module.exports = function(context, options) {
+module.exports = function (context, options) {
   return {
     name: 'docusaurus-plugin',
     async postBuild({siteConfig = {}, routesPaths = [], outDir}) {
       // Print out to console all the rendered routes
-      routesPaths.map(route => {
+      routesPaths.map((route) => {
         console.log(route);
       });
     },
@@ -216,7 +216,7 @@ Example:
 
 ```js {5-12}
 // docusaurus-plugin/src/index.js
-module.exports = function(context, options) {
+module.exports = function (context, options) {
   return {
     name: 'docusaurus-plugin',
     extendCli(cli) {
@@ -267,7 +267,7 @@ Example:
 
 ```js {5-29}
 // docusaurus-plugin/src/index.js
-module.exports = function(context, options) {
+module.exports = function (context, options) {
   return {
     name: 'docusaurus-plugin',
     injectHtmlTags() {
@@ -307,7 +307,7 @@ If you use the folder directory above, your `getThemePath` can be:
 // my-theme/src/index.js
 const path = require('path');
 
-module.exports = function(context, options) {
+module.exports = function (context, options) {
   return {
     name: 'name-of-my-theme',
     getThemePath() {
@@ -327,7 +327,7 @@ As an example, to make your theme load a `customCss` object from `options` passe
 // my-theme/src/index.js
 const path = require('path');
 
-module.exports = function(context, options) {
+module.exports = function (context, options) {
   const {customCss} = options || {};
   return {
     name: 'name-of-my-theme',
@@ -357,7 +357,7 @@ const DEFAULT_OPTIONS = {
 // A JavaScript function that returns an object.
 // `context` is provided by Docusaurus. Example: siteConfig can be accessed from context.
 // `opts` is the user-defined options.
-module.exports = function(context, opts) {
+module.exports = function (context, opts) {
   // Merge defaults with user-defined options.
   const options = {...DEFAULT_OPTIONS, ...options};
 

@@ -1,0 +1,13 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "incremental": true,
+    "lib": ["DOM"],
+    "module": "esnext",
+    "tsBuildInfoFile": "./lib/client/.tsbuildinfo",
+    "outDir": "lib/client",
+    "noImplicitAny": false,
+    "jsx": "react",
+  },
+  "include": ["src/client"]
+}

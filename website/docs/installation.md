@@ -26,7 +26,7 @@ npx @docusaurus/init@next init my-website classic
 
 If you do not specify `name` or `template`, it will prompt you for them. We recommend the `classic` template so that you can get started quickly and it contains features found in Docusaurus 1. The `classic` template contains `@docusaurus/preset-classic` which includes standard documentation, a blog, custom pages, and a CSS framework (with dark mode support). You can get up and running extremely quickly with the classic template and customize things later on when you have gained more familiarity with Docusaurus.
 
-**Important Note:** If you are setting up a new Docusaurus website for a Facebook open source project, use the `facebook` template instead, which comes with some useful Facebook-specific defaults:
+**[FB-Only]:** If you are setting up a new Docusaurus website for a Facebook open source project, use the `facebook` template instead, which comes with some useful Facebook-specific defaults:
 
 ```bash
 npx @docusaurus/init@next init my-website facebook
@@ -47,7 +47,6 @@ my-website
 │   ├── doc2.md
 │   ├── doc3.md
 │   └── mdx.md
-├── package.json
 ├── src
 │   ├── css
 │   │   └── custom.css
@@ -101,12 +100,18 @@ and contents will be generated within the `/build` directory, which can be copie
 
 There are many ways to update your Docusaurus version. One guaranteed way is to manually change the version number in `package.json` to the desired version. Note that all `@docusaurus/`-namespaced packages should be using the same version.
 
-```json
-  "dependencies": {
-    "@docusaurus/core": "^2.0.0-alpha.43",
-    "@docusaurus/preset-classic": "^2.0.0-alpha.43",
-    ...
-  } 
+:::important
+
+Please update to the latest Docusaurus 2 version shown at the top of the page, not what is shown below.
+
+:::
+
+```json title="package.json"
+"dependencies": {
+  "@docusaurus/core": "^2.0.0-alpha.49",
+  "@docusaurus/preset-classic": "^2.0.0-alpha.49",
+  // ...
+}
 ```
 
 Then, in the directory containing `package.json`, run your package manager's install command:
@@ -125,8 +130,8 @@ You should see the correct version as output.
 
 Alternatively, if you are using Yarn, you can do:
 
-```
-yarn upgrade @docusaurus/core@2.0.0-alpha.43 @docusaurus/preset-classic@2.0.0-alpha.43
+```bash
+yarn upgrade @docusaurus/core@2.0.0-alpha.49 @docusaurus/preset-classic@2.0.0-alpha.49
 ```
 
 ## Problems?

@@ -1,0 +1,22 @@
+{
+  "name": "@docusaurus/theme-bootstrap",
+  "version": "2.0.0-alpha.50",
+  "description": "Bootstrap theme for docusaurus",
+  "main": "src/index.js",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "bootstrap": "^4.4.1"
+  },
+  "peerDependencies": {
+    "@docusaurus/core": "^2.0.0",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4",
+    "webpack": "^4.41.2"
+  },
+  "engines": {
+    "node": ">=10.9.0"
+  }
+}

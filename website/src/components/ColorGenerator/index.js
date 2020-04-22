@@ -65,11 +65,11 @@ function ColorGenerator({children, minHeight, url}) {
   const [shades, setShades] = useState(COLOR_SHADES);
   const color = Color('#' + baseColor);
   const adjustedColors = Object.keys(shades)
-    .map(shade => ({
+    .map((shade) => ({
       ...shades[shade],
       variableName: shade,
     }))
-    .map(value => ({
+    .map((value) => ({
       ...value,
       hex: color.darken(value.adjustment).hex(),
     }));
@@ -77,11 +77,14 @@ function ColorGenerator({children, minHeight, url}) {
   return (
     <div>
       <p>
-        <strong className="margin-right--sm">Primary Color:</strong>{' '}
+        <label htmlFor="primary_color">
+          <strong className="margin-right--sm">Primary Color:</strong>
+        </label>{' '}
         <input
+          id="primary_color"
           className={styles.input}
           defaultValue={baseColor}
-          onChange={event => {
+          onChange={(event) => {
             const colorValue = event.target.value;
             try {
               Color('#' + colorValue);
@@ -104,7 +107,7 @@ function ColorGenerator({children, minHeight, url}) {
           <tbody>
             {adjustedColors
               .sort((a, b) => a.displayOrder - b.displayOrder)
-              .map(value => {
+              .map((value) => {
                 const {variableName, adjustment, adjustmentInput, hex} = value;
                 return (
                   <tr key={variableName}>
@@ -127,10 +130,11 @@ function ColorGenerator({children, minHeight, url}) {
                         0
                       ) : (
                         <input
+                          aria-label={`${variableName} CSS variable name`}
                           className={styles.input}
                           type="number"
                           value={adjustmentInput}
-                          onChange={event => {
+                          onChange={(event) => {
                             const newValue = parseFloat(event.target.value);
                             setShades({
                               ...shades,
@@ -159,7 +163,7 @@ function ColorGenerator({children, minHeight, url}) {
       <CodeBlock className="css">
         {adjustedColors
           .sort((a, b) => a.codeOrder - b.codeOrder)
-          .map(value => `${value.variableName}: ${value.hex.toLowerCase()};`)
+          .map((value) => `${value.variableName}: ${value.hex.toLowerCase()};`)
           .join('\n')}
       </CodeBlock>
     </div>
