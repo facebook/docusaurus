@@ -9,30 +9,25 @@ module.exports = {
   docs: [
     {
       type: 'category',
-      collapsed: true,
       label: 'level 1',
       items: [
         'a',
         {
           type: 'category',
-          collapsed: true,
           label: 'level 2',
           items: [
             {
               type: 'category',
-              collapsed: true,
               label: 'level 3',
               items: [
                 'c',
                 {
                   type: 'category',
-                  collapsed: true,
                   label: 'level 4',
                   items: [
                     'd',
                     {
                       type: 'category',
-                      collapsed: true,
                       label: 'deeper more more',
                       items: ['e'],
                     },

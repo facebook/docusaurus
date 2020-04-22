@@ -40,14 +40,12 @@ export interface SidebarItemCategory {
   type: 'category';
   label: string;
   items: SidebarItem[];
-  collapsed?: boolean;
 }
 
 export interface SidebarItemCategoryRaw {
   type: 'category';
   label: string;
   items: SidebarItemRaw[];
-  collapsed?: boolean;
 }
 
 export type SidebarItem =
@@ -83,7 +81,6 @@ export interface DocsSidebarItemCategory {
   type: 'category';
   label: string;
   items: DocsSidebarItem[];
-  collapsed?: boolean;
 }
 
 export type DocsSidebarItem = SidebarItemLink | DocsSidebarItemCategory;

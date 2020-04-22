@@ -33,7 +33,6 @@ function normalizeCategoryShorthand(
 ): SidebarItemCategoryRaw[] {
   return Object.entries(sidebar).map(([label, items]) => ({
     type: 'category',
-    collapsed: true,
     label,
     items,
   }));
@@ -57,7 +56,7 @@ function assertItem(item: Object, keys: string[]): void {
 }
 
 function assertIsCategory(item: any): asserts item is SidebarItemCategoryRaw {
-  assertItem(item, ['items', 'label', 'collapsed']);
+  assertItem(item, ['items', 'label']);
   if (typeof item.label !== 'string') {
     throw new Error(
       `Error loading ${JSON.stringify(item)}. "label" must be a string.`,
@@ -66,12 +65,6 @@ function assertIsCategory(item: any): asserts item is SidebarItemCategoryRaw {
   if (!Array.isArray(item.items)) {
     throw new Error(
       `Error loading ${JSON.stringify(item)}. "items" must be an array.`,
-    );
-  }
-  // "collapsed" is an optional property
-  if (item.hasOwnProperty('collapsed') && typeof item.collapsed !== 'boolean') {
-    throw new Error(
-      `Error loading ${JSON.stringify(item)}. "collapsed" must be a boolean.`,
     );
   }
 }
