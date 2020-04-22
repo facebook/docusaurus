@@ -67,11 +67,13 @@ export default function pluginContentDocs(
 ): Plugin<LoadedContent | null> {
   const options = {...DEFAULT_OPTIONS, ...opts};
 
-  if (opts.admonitions !== false) {
+  if (options.admonitions) {
     options.remarkPlugins = options.remarkPlugins.concat([
-      [admonitions, opts.admonitions || {}],
+      [admonitions, options.admonitions],
     ]);
   }
+
+  console.log(options);
 
   const {siteDir, generatedFilesDir, baseUrl} = context;
   const docsDir = path.resolve(siteDir, options.path);
@@ -129,11 +131,15 @@ export default function pluginContentDocs(
     },
 
     getClientModules() {
-      if (opts.admonitions === false) {
-        return [];
+      const modules = [];
+
+      if (options.admonitions) {
+        modules.push('remark-admonitions/styles/infima.css');
       }
 
-      return ['remark-admonitions/styles/infima.css'];
+      console.log(modules);
+
+      return modules;
     },
 
     // Fetches blog contents and returns metadata for the contents.

@@ -75,7 +75,7 @@ export default function pluginContentBlog(
 ): Plugin<BlogContent | null> {
   const options: PluginOptions = {...DEFAULT_OPTIONS, ...opts};
 
-  if (opts.admonitions !== false) {
+  if (options.admonitions) {
     options.remarkPlugins = options.remarkPlugins.concat([
       [admonitions, opts.admonitions || {}],
     ]);
@@ -99,11 +99,13 @@ export default function pluginContentBlog(
     },
 
     getClientModules() {
-      if (opts.admonitions === false) {
-        return [];
+      const modules = [];
+
+      if (options.admonitions) {
+        modules.push('remark-admonitions/styles/infima.css');
       }
 
-      return ['remark-admonitions/styles/infima.css'];
+      return modules;
     },
 
     // Fetches blog contents and returns metadata for the necessary routes.
