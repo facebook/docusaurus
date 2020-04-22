@@ -105,11 +105,8 @@ function mutateSidebarCollapsingState(item, path) {
         items
           .map((childItem) => mutateSidebarCollapsingState(childItem, path))
           .filter((val) => val).length > 0;
-      // only modify item.collapsed if there are child items active and the category collapsed is set to true
-      if (anyChildItemsActive && item.collapsed) {
-        // eslint-disable-next-line no-param-reassign
-        item.collapsed = !anyChildItemsActive;
-      }
+      // eslint-disable-next-line no-param-reassign
+      item.collapsed = !anyChildItemsActive;
       return anyChildItemsActive;
     }
 

@@ -4,7 +4,6 @@ exports[`loadSidebars sidebars link 1`] = `
 Object {
   "docs": Array [
     Object {
-      "collapsed": true,
       "items": Array [
         Object {
           "href": "https://github.com",
@@ -19,107 +18,30 @@ Object {
 }
 `;
 
-exports[`loadSidebars sidebars with category.collapsed property 1`] = `
-Object {
-  "docs": Array [
-    Object {
-      "collapsed": true,
-      "items": Array [
-        Object {
-          "collapsed": false,
-          "items": Array [
-            Object {
-              "id": "doc1",
-              "type": "doc",
-            },
-          ],
-          "label": "Introduction",
-          "type": "category",
-        },
-      ],
-      "label": "Test",
-      "type": "category",
-    },
-    Object {
-      "collapsed": true,
-      "items": Array [
-        Object {
-          "collapsed": false,
-          "items": Array [
-            Object {
-              "id": "doc2",
-              "type": "doc",
-            },
-          ],
-          "label": "Powering MDX",
-          "type": "category",
-        },
-      ],
-      "label": "Reference",
-      "type": "category",
-    },
-  ],
-}
-`;
-
-exports[`loadSidebars sidebars with category.collapsed property at first level 1`] = `
-Object {
-  "docs": Array [
-    Object {
-      "collapsed": false,
-      "items": Array [
-        Object {
-          "id": "doc1",
-          "type": "doc",
-        },
-      ],
-      "label": "Introduction",
-      "type": "category",
-    },
-    Object {
-      "collapsed": false,
-      "items": Array [
-        Object {
-          "id": "doc2",
-          "type": "doc",
-        },
-      ],
-      "label": "Powering MDX",
-      "type": "category",
-    },
-  ],
-}
-`;
-
 exports[`loadSidebars sidebars with deep level of category 1`] = `
 Object {
   "docs": Array [
     Object {
-      "collapsed": true,
       "items": Array [
         Object {
           "id": "a",
           "type": "doc",
         },
         Object {
-          "collapsed": true,
           "items": Array [
             Object {
-              "collapsed": true,
               "items": Array [
                 Object {
                   "id": "c",
                   "type": "doc",
                 },
                 Object {
-                  "collapsed": true,
                   "items": Array [
                     Object {
                       "id": "d",
                       "type": "doc",
                     },
                     Object {
-                      "collapsed": true,
                       "items": Array [
                         Object {
                           "id": "e",
@@ -178,7 +100,6 @@ exports[`loadSidebars sidebars with known sidebar item type 1`] = `
 Object {
   "docs": Array [
     Object {
-      "collapsed": true,
       "items": Array [
         Object {
           "id": "foo/bar",
@@ -202,7 +123,6 @@ Object {
       "type": "category",
     },
     Object {
-      "collapsed": true,
       "items": Array [
         Object {
           "id": "hello",
