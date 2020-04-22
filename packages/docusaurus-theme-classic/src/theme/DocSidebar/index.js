@@ -8,8 +8,10 @@
 import React, {useState, useCallback} from 'react';
 import classnames from 'classnames';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import useAnnouncementBarContext from '@theme/hooks/useAnnouncementBarContext';
 import useLockBodyScroll from '@theme/hooks/useLockBodyScroll';
 import useLogo from '@theme/hooks/useLogo';
+import useScrollPosition from '@theme/hooks/useScrollPosition';
 import Link from '@docusaurus/Link';
 import isInternalUrl from '@docusaurus/isInternalUrl';
 
@@ -125,6 +127,8 @@ function DocSidebar(props) {
     isClient,
   } = useDocusaurusContext();
   const {logoLink, logoLinkProps, logoImageUrl, logoAlt} = useLogo();
+  const {isAnnouncementBarClosed} = useAnnouncementBarContext();
+  const {scrollY} = useScrollPosition();
 
   const {
     docsSidebars,
@@ -173,6 +177,8 @@ function DocSidebar(props) {
       <div
         className={classnames('menu', 'menu--responsive', styles.menu, {
           'menu--show': showResponsiveSidebar,
+          [styles.menuWithAnnouncementBar]:
+            !isAnnouncementBarClosed && scrollY === 0,
         })}>
         <button
           aria-label={showResponsiveSidebar ? 'Close Menu' : 'Open Menu'}
