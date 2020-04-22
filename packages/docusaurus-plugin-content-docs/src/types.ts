@@ -21,8 +21,9 @@ export interface PluginOptions extends MetadataOptions, PathOptions {
   include: string[];
   docLayoutComponent: string;
   docItemComponent: string;
-  remarkPlugins: string[];
+  remarkPlugins: ([Function, object] | Function)[];
   rehypePlugins: string[];
+  admonitions: any;
 }
 
 export type SidebarItemDoc = {

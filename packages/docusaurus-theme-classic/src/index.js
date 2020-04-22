@@ -58,7 +58,6 @@ module.exports = function (context, options) {
     getClientModules() {
       return [
         'infima/dist/css/default/default.css',
-        'remark-admonitions/styles/infima.css',
         customCss,
         path.resolve(__dirname, './prism-include-languages'),
       ];
