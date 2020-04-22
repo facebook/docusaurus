@@ -129,7 +129,7 @@ module.exports = {
       style: 'dark',
       links: [
         {
-          title: 'Docs',
+          title: 'Learn',
           items: [
             {
               label: 'Introduction',
@@ -190,16 +190,32 @@ module.exports = {
             },
           ],
         },
+        {
+          title: 'Legal',
+          // Please do not remove the privacy and terms, it's a legal requirement.
+          items: [
+            {
+              label: 'Privacy',
+              href: 'https://opensource.facebook.com/legal/privacy/',
+              target: '_blank',
+              rel: 'noreferrer noopener',
+            },
+            {
+              label: 'Terms',
+              href: 'https://opensource.facebook.com/legal/terms/',
+              target: '_blank',
+              rel: 'noreferrer noopener',
+            },
+          ],
+        },
       ],
       logo: {
         alt: 'Facebook Open Source Logo',
         src: 'https://docusaurus.io/img/oss_logo.png',
-        href: 'https://opensource.facebook.com/',
+        href: 'https://opensource.facebook.com',
       },
       copyright:
-        `Copyright © ${new Date().getFullYear()} Facebook, Inc. ` +
-        `<a href="https://opensource.facebook.com/legal/privacy/" target="_blank">Privacy</a> and ` +
-        `<a href="https://opensource.facebook.com/legal/terms/" target="_blank">Terms</a>.`,
+        'Copyright © ${new Date().getFullYear()} Facebook, Inc. Built with Docusaurus.',
     },
   },
 };
