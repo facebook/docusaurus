@@ -73,8 +73,6 @@ export default function pluginContentDocs(
     ]);
   }
 
-  console.log(options);
-
   const {siteDir, generatedFilesDir, baseUrl} = context;
   const docsDir = path.resolve(siteDir, options.path);
   const sourceToPermalink: SourceToPermalink = {};
@@ -136,8 +134,6 @@ export default function pluginContentDocs(
       if (options.admonitions) {
         modules.push('remark-admonitions/styles/infima.css');
       }
-
-      console.log(modules);
 
       return modules;
     },
