@@ -182,6 +182,7 @@ export function getSubFolder(file: string, refDir: string): string | null {
   return match && match[1];
 }
 
+// Regex for an import statement.
 const importRegexString = '^(.*import){1}(.+){0,1}\\s[\'"](.+)[\'"];';
 
 export function parse(
@@ -196,7 +197,10 @@ export function parse(
   const options: {} = {
     excerpt: (file: matter.GrayMatterFile<string>): void => {
       let fileContent = file.content.trimLeft();
-
+      
+      // Hacky way of stripping out import statements from the excerpt
+      // TODO: Find a better way to do so, possibly by compiling the Markdown content, 
+      // stripping out HTML tags and obtaining the first line.
       if (RegExp(importRegexString).test(fileContent)) {
         fileContent = fileContent
           .replace(RegExp(importRegexString, 'gm'), '')
