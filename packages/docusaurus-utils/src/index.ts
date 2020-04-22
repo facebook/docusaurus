@@ -197,9 +197,9 @@ export function parse(
   const options: {} = {
     excerpt: (file: matter.GrayMatterFile<string>): void => {
       let fileContent = file.content.trimLeft();
-      
+
       // Hacky way of stripping out import statements from the excerpt
-      // TODO: Find a better way to do so, possibly by compiling the Markdown content, 
+      // TODO: Find a better way to do so, possibly by compiling the Markdown content,
       // stripping out HTML tags and obtaining the first line.
       if (RegExp(importRegexString).test(fileContent)) {
         fileContent = fileContent
