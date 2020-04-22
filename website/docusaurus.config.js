@@ -215,7 +215,7 @@ module.exports = {
         href: 'https://opensource.facebook.com',
       },
       copyright:
-        'Copyright © ${new Date().getFullYear()} Facebook, Inc. Built with Docusaurus.',
+        `Copyright © ${new Date().getFullYear()} Facebook, Inc. Built with Docusaurus.`,
     },
   },
 };
