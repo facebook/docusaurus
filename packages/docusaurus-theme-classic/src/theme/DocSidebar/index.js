@@ -154,7 +154,10 @@ function DocSidebar(props) {
   }
 
   return (
-    <div className={styles.sidebar}>
+    <div
+      className={classnames(styles.sidebar, {
+        [styles.sidebarWithHideableNavbar]: hideOnScroll,
+      })}>
       {hideOnScroll && (
         <Link
           tabIndex="-1"
