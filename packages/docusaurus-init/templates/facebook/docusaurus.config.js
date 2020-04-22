@@ -42,7 +42,7 @@ module.exports = {
       style: 'dark',
       links: [
         {
-          title: 'Docs',
+          title: 'Learn',
           items: [
             {
               label: 'Style Guide',
@@ -62,13 +62,17 @@ module.exports = {
               href: 'https://stackoverflow.com/questions/tagged/docusaurus',
             },
             {
+              label: 'Twitter',
+              href: 'https://twitter.com/docusaurus',
+            },
+            {
               label: 'Discord',
               href: 'https://discordapp.com/invite/docusaurus',
             },
           ],
         },
         {
-          title: 'Social',
+          title: 'More',
           items: [
             {
               label: 'Blog',
@@ -78,9 +82,23 @@ module.exports = {
               label: 'GitHub',
               href: 'https://github.com/facebook/docusaurus',
             },
+          ],
+        },
+        {
+          title: 'Legal',
+          // Please do not remove the privacy and terms, it's a legal requirement.
+          items: [
             {
-              label: 'Twitter',
-              href: 'https://twitter.com/docusaurus',
+              label: 'Privacy',
+              href: 'https://opensource.facebook.com/legal/privacy/',
+              target: '_blank',
+              rel: 'noreferrer noopener',
+            },
+            {
+              label: 'Terms',
+              href: 'https://opensource.facebook.com/legal/terms/',
+              target: '_blank',
+              rel: 'noreferrer noopener',
             },
           ],
         },
@@ -88,7 +106,7 @@ module.exports = {
       logo: {
         alt: 'Facebook Open Source Logo',
         src: 'img/oss_logo.png',
-        href: 'https://opensource.facebook.com/',
+        href: 'https://opensource.facebook.com',
       },
       // Please do not remove the credits, help to publicize Docusaurus :)
       copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc. Built with Docusaurus.`,

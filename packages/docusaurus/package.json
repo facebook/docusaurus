@@ -29,6 +29,7 @@
     "url": "https://github.com/facebook/docusaurus/issues"
   },
   "devDependencies": {
+    "@docusaurus/module-type-aliases": "^2.0.0-alpha.50",
     "@docusaurus/types": "^2.0.0-alpha.50"
   },
   "dependencies": {

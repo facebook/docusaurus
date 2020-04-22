@@ -5,39 +5,4 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-declare module '@generated/client-modules' {
-  const clientModules: readonly any[];
-  export default clientModules;
-}
-
-declare module '@generated/docusaurus.config' {
-  const config: any;
-  export default config;
-}
-
-declare module '@generated/registry' {
-  const registry: {
-    readonly [key: string]: [() => Promise<any>, string, string];
-  };
-  export default registry;
-}
-
-declare module '@generated/routes' {
-  type Route = {
-    readonly path: string;
-    readonly component: any;
-    readonly exact?: boolean;
-  };
-  const routes: Route[];
-  export default routes;
-}
-
-declare module '@generated/routesChunkNames' {
-  const routesChunkNames: any;
-  export default routesChunkNames;
-}
-
-declare module '@theme/*' {
-  const component: any;
-  export default component;
-}
+/// <reference types="@docusaurus/module-type-aliases" />
