@@ -4,6 +4,7 @@ exports[`simple website content 1`] = `
 Object {
   "docs": Array [
     Object {
+      "collapsed": true,
       "items": Array [
         Object {
           "items": Array [
@@ -36,6 +37,7 @@ Object {
       "type": "category",
     },
     Object {
+      "collapsed": true,
       "items": Array [
         Object {
           "href": "/docs/hello",
@@ -200,6 +202,7 @@ exports[`versioned website content: all sidebars 1`] = `
 Object {
   "docs": Array [
     Object {
+      "collapsed": true,
       "items": Array [
         Object {
           "href": "/docs/next/foo/bar",
@@ -211,6 +214,7 @@ Object {
       "type": "category",
     },
     Object {
+      "collapsed": true,
       "items": Array [
         Object {
           "href": "/docs/next/hello",
@@ -224,6 +228,7 @@ Object {
   ],
   "version-1.0.0/docs": Array [
     Object {
+      "collapsed": true,
       "items": Array [
         Object {
           "href": "/docs/1.0.0/foo/bar",
@@ -240,6 +245,7 @@ Object {
       "type": "category",
     },
     Object {
+      "collapsed": true,
       "items": Array [
         Object {
           "href": "/docs/1.0.0/hello",
@@ -253,6 +259,7 @@ Object {
   ],
   "version-1.0.1/docs": Array [
     Object {
+      "collapsed": true,
       "items": Array [
         Object {
           "href": "/docs/foo/bar",
@@ -264,6 +271,7 @@ Object {
       "type": "category",
     },
     Object {
+      "collapsed": true,
       "items": Array [
         Object {
           "href": "/docs/hello",
@@ -283,6 +291,7 @@ Object {
   "docsSidebars": Object {
     "version-1.0.0/docs": Array [
       Object {
+        "collapsed": true,
         "items": Array [
           Object {
             "href": "/docs/1.0.0/foo/bar",
@@ -299,6 +308,7 @@ Object {
         "type": "category",
       },
       Object {
+        "collapsed": true,
         "items": Array [
           Object {
             "href": "/docs/1.0.0/hello",
@@ -325,6 +335,7 @@ Object {
   "docsSidebars": Object {
     "version-1.0.1/docs": Array [
       Object {
+        "collapsed": true,
         "items": Array [
           Object {
             "href": "/docs/foo/bar",
@@ -336,6 +347,7 @@ Object {
         "type": "category",
       },
       Object {
+        "collapsed": true,
         "items": Array [
           Object {
             "href": "/docs/hello",
@@ -361,6 +373,7 @@ Object {
   "docsSidebars": Object {
     "docs": Array [
       Object {
+        "collapsed": true,
         "items": Array [
           Object {
             "href": "/docs/next/foo/bar",
@@ -372,6 +385,7 @@ Object {
         "type": "category",
       },
       Object {
+        "collapsed": true,
         "items": Array [
           Object {
             "href": "/docs/next/hello",
