@@ -91,7 +91,11 @@ function MobileNavItem({items, ...props}) {
       <ul className="menu__list">
         {items.map((linkItemInner, i) => (
           <li className="menu__list-item" key={i}>
-            <NavLink className="menu__link" {...linkItemInner} />
+            <NavLink
+              className="menu__link"
+              {...linkItemInner}
+              onClick={props.onClick}
+            />
           </li>
         ))}
       </ul>
