@@ -213,7 +213,8 @@ function DocSidebar(props) {
             <DocSidebarItem
               key={item.label}
               item={item}
-              onItemClick={() => {
+              onItemClick={(e) => {
+                e.target.blur();
                 setShowResponsiveSidebar(false);
               }}
               collapsible={sidebarCollapsible}
