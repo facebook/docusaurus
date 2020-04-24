@@ -28,7 +28,7 @@ export interface PluginOptions {
   blogPostComponent: string;
   blogTagsListComponent: string;
   blogTagsPostsComponent: string;
-  remarkPlugins: string[];
+  remarkPlugins: ([Function, object] | Function)[];
   rehypePlugins: string[];
   truncateMarker: RegExp;
   showReadingTime: boolean;
@@ -40,6 +40,7 @@ export interface PluginOptions {
     language?: string;
   };
   editUrl?: string;
+  admonitions: any;
 }
 
 export interface BlogTags {

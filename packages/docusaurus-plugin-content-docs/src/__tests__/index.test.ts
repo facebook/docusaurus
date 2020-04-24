@@ -149,7 +149,7 @@ describe('simple website', () => {
     expect(errors.length).toBe(0);
   });
 
-  test('content 1', async () => {
+  test('content', async () => {
     const content = await plugin.loadContent();
     const {
       docsMetadata,
@@ -203,9 +203,6 @@ describe('simple website', () => {
     const baseMetadata = JSON.parse(dataContainer['docs-route-ff2.json']);
     expect(baseMetadata.docsSidebars).toEqual(docsSidebars);
     expect(baseMetadata.permalinkToSidebar).toEqual(permalinkToSidebar);
-
-    // // Sort the route config like in src/server/plugins/index.ts for consistent snapshot ordering
-    // sortConfig(routeConfigs);
 
     expect(routeConfigs).not.toEqual([]);
     expect(routeConfigs).toMatchSnapshot();
@@ -286,7 +283,7 @@ describe('versioned website', () => {
     expect(isMatch('super/docs/hello.md', matchPattern)).toEqual(false);
   });
 
-  test('content 2', async () => {
+  test('content', async () => {
     const content = await plugin.loadContent();
     const {
       docsMetadata,

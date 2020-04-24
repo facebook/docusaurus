@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`simple website content 1 1`] = `
+exports[`simple website content 1`] = `
 Object {
   "docs": Array [
     Object {
@@ -50,7 +50,7 @@ Object {
 }
 `;
 
-exports[`simple website content 1 2`] = `
+exports[`simple website content 2`] = `
 Array [
   Object {
     "component": "@theme/DocPage",
@@ -114,7 +114,7 @@ Array [
 ]
 `;
 
-exports[`versioned website content 2 1`] = `
+exports[`versioned website content 1`] = `
 Array [
   Object {
     "component": "@theme/DocPage",
@@ -232,7 +232,7 @@ Array [
 ]
 `;
 
-exports[`versioned website content 2: all sidebars 1`] = `
+exports[`versioned website content: all sidebars 1`] = `
 Object {
   "docs": Array [
     Object {
@@ -314,7 +314,7 @@ Object {
 }
 `;
 
-exports[`versioned website content 2: base metadata for first version 1`] = `
+exports[`versioned website content: base metadata for first version 1`] = `
 Object {
   "docsSidebars": Object {
     "version-1.0.0/docs": Array [
@@ -356,7 +356,7 @@ Object {
 }
 `;
 
-exports[`versioned website content 2: base metadata for latest version 1`] = `
+exports[`versioned website content: base metadata for latest version 1`] = `
 Object {
   "docsSidebars": Object {
     "version-1.0.1/docs": Array [
@@ -392,7 +392,7 @@ Object {
 }
 `;
 
-exports[`versioned website content 2: base metadata for next version 1`] = `
+exports[`versioned website content: base metadata for next version 1`] = `
 Object {
   "docsSidebars": Object {
     "docs": Array [
@@ -428,7 +428,7 @@ Object {
 }
 `;
 
-exports[`versioned website content 2: sidebars needed for each version 1`] = `
+exports[`versioned website content: sidebars needed for each version 1`] = `
 Object {
   "1.0.0": Set {
     "version-1.0.0/docs",
