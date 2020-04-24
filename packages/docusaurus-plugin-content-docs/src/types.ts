@@ -23,6 +23,7 @@ export interface PluginOptions extends MetadataOptions, PathOptions {
   docItemComponent: string;
   remarkPlugins: string[];
   rehypePlugins: string[];
+  homePageId: string;
 }
 
 export type SidebarItemDoc = {
@@ -159,6 +160,8 @@ export type DocsBaseMetadata = Pick<
   'docsSidebars' | 'permalinkToSidebar'
 > & {
   version?: string;
+  isHomePage?: boolean;
+  homePagePath?: string;
 };
 
 export type VersioningEnv = {

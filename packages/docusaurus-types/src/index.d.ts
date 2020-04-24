@@ -105,6 +105,7 @@ export interface Plugin<T> {
     content: T;
     actions: PluginContentLoadedActions;
   }): void;
+  routesLoaded?(routes: RouteConfig[]): void;
   postBuild?(props: Props): void;
   postStart?(props: Props): void;
   configureWebpack?(

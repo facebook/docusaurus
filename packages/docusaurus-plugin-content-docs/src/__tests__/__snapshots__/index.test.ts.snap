@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`simple website content 1`] = `
+exports[`simple website content 1 1`] = `
 Object {
   "docs": Array [
     Object {
@@ -50,8 +50,17 @@ Object {
 }
 `;
 
-exports[`simple website content 2`] = `
+exports[`simple website content 1 2`] = `
 Array [
+  Object {
+    "component": "@theme/DocPage",
+    "exact": true,
+    "modules": Object {
+      "content": "@site/docs/hello.md",
+      "docsMetadata": "~docs/site-docs-hello-md-9df-base.json",
+    },
+    "path": "/docs",
+  },
   Object {
     "component": "@theme/DocPage",
     "modules": Object {
@@ -60,6 +69,22 @@ Array [
     "path": "/docs/:route",
     "priority": undefined,
     "routes": Array [
+      Object {
+        "component": "@theme/DocItem",
+        "exact": true,
+        "modules": Object {
+          "content": "@site/docs/ipsum.md",
+        },
+        "path": "/docs/ipsum",
+      },
+      Object {
+        "component": "@theme/DocItem",
+        "exact": true,
+        "modules": Object {
+          "content": "@site/docs/lorem.md",
+        },
+        "path": "/docs/lorem",
+      },
       Object {
         "component": "@theme/DocItem",
         "exact": true,
@@ -84,29 +109,40 @@ Array [
         },
         "path": "/docs/hello",
       },
-      Object {
-        "component": "@theme/DocItem",
-        "exact": true,
-        "modules": Object {
-          "content": "@site/docs/ipsum.md",
-        },
-        "path": "/docs/ipsum",
-      },
-      Object {
-        "component": "@theme/DocItem",
-        "exact": true,
-        "modules": Object {
-          "content": "@site/docs/lorem.md",
-        },
-        "path": "/docs/lorem",
-      },
     ],
   },
 ]
 `;
 
-exports[`versioned website content 1`] = `
+exports[`versioned website content 2 1`] = `
 Array [
+  Object {
+    "component": "@theme/DocPage",
+    "exact": true,
+    "modules": Object {
+      "content": "@site/versioned_docs/version-1.0.1/hello.md",
+      "docsMetadata": "~docs/site-versioned-docs-version-1-0-1-hello-md-0c7-base.json",
+    },
+    "path": "/docs",
+  },
+  Object {
+    "component": "@theme/DocPage",
+    "exact": true,
+    "modules": Object {
+      "content": "@site/versioned_docs/version-1.0.0/hello.md",
+      "docsMetadata": "~docs/site-versioned-docs-version-1-0-0-hello-md-3ef-base.json",
+    },
+    "path": "/docs/1.0.0",
+  },
+  Object {
+    "component": "@theme/DocPage",
+    "exact": true,
+    "modules": Object {
+      "content": "@site/docs/hello.md",
+      "docsMetadata": "~docs/site-docs-hello-md-9df-base.json",
+    },
+    "path": "/docs/next",
+  },
   Object {
     "component": "@theme/DocPage",
     "modules": Object {
@@ -196,7 +232,7 @@ Array [
 ]
 `;
 
-exports[`versioned website content: all sidebars 1`] = `
+exports[`versioned website content 2: all sidebars 1`] = `
 Object {
   "docs": Array [
     Object {
@@ -278,7 +314,7 @@ Object {
 }
 `;
 
-exports[`versioned website content: base metadata for first version 1`] = `
+exports[`versioned website content 2: base metadata for first version 1`] = `
 Object {
   "docsSidebars": Object {
     "version-1.0.0/docs": Array [
@@ -320,7 +356,7 @@ Object {
 }
 `;
 
-exports[`versioned website content: base metadata for latest version 1`] = `
+exports[`versioned website content 2: base metadata for latest version 1`] = `
 Object {
   "docsSidebars": Object {
     "version-1.0.1/docs": Array [
@@ -356,7 +392,7 @@ Object {
 }
 `;
 
-exports[`versioned website content: base metadata for next version 1`] = `
+exports[`versioned website content 2: base metadata for next version 1`] = `
 Object {
   "docsSidebars": Object {
     "docs": Array [
@@ -392,7 +428,7 @@ Object {
 }
 `;
 
-exports[`versioned website content: sidebars needed for each version 1`] = `
+exports[`versioned website content 2: sidebars needed for each version 1`] = `
 Object {
   "1.0.0": Set {
     "version-1.0.0/docs",

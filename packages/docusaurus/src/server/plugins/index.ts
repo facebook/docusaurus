@@ -104,6 +104,20 @@ export async function loadPlugins({
   // routes are always placed last.
   sortConfig(pluginsRouteConfigs);
 
+  // 4. Plugin Lifecycle - routesLoaded.
+  // Currently plugins run lifecycle methods in parallel and are not order-dependent.
+  // We could change this in future if there are plugins which need to
+  // run in certain order or depend on others for data.
+  await Promise.all(
+    plugins.map(async (plugin) => {
+      if (!plugin.routesLoaded) {
+        return null;
+      }
+
+      return await plugin.routesLoaded(pluginsRouteConfigs);
+    }),
+  );
+
   return {
     plugins,
     pluginsRouteConfigs,

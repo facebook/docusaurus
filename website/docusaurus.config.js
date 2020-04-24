@@ -36,6 +36,7 @@ module.exports = {
       '@docusaurus/preset-classic',
       {
         docs: {
+          homePageId: 'introduction',
           path: 'docs',
           sidebarPath: require.resolve('./sidebars.js'),
           editUrl:
@@ -77,9 +78,9 @@ module.exports = {
     algolia: {
       apiKey: '47ecd3b21be71c5822571b9f59e52544',
       indexName: 'docusaurus-2',
-      algoliaOptions: {
-        facetFilters: [`version:${versions[0]}`],
-      },
+      // algoliaOptions: {
+      //   facetFilters: [`version:${versions[0]}`],
+      // },
     },
     navbar: {
       hideOnScroll: true,
@@ -113,11 +114,11 @@ module.exports = {
         {to: 'blog', label: 'Blog', position: 'left'},
         {to: 'showcase', label: 'Showcase', position: 'left'},
         {to: 'docs/next/support', label: 'Community', position: 'left'},
-        {
-          to: 'versions',
-          label: `v${versions[0]}`,
-          position: 'right',
-        },
+        // {
+        //   to: 'versions',
+        //   label: `v${versions[0]}`,
+        //   position: 'right',
+        // },
         {
           href: 'https://github.com/facebook/docusaurus',
           label: 'GitHub',

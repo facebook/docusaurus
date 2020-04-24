@@ -93,6 +93,7 @@ describe('simple website', () => {
   const plugin = pluginContentDocs(context, {
     path: pluginPath,
     sidebarPath,
+    homePageId: 'hello',
   });
   const pluginContentDir = path.join(context.generatedFilesDir, plugin.name);
 
@@ -148,7 +149,7 @@ describe('simple website', () => {
     expect(errors.length).toBe(0);
   });
 
-  test('content', async () => {
+  test('content 1', async () => {
     const content = await plugin.loadContent();
     const {
       docsMetadata,
@@ -203,6 +204,9 @@ describe('simple website', () => {
     expect(baseMetadata.docsSidebars).toEqual(docsSidebars);
     expect(baseMetadata.permalinkToSidebar).toEqual(permalinkToSidebar);
 
+    // // Sort the route config like in src/server/plugins/index.ts for consistent snapshot ordering
+    // sortConfig(routeConfigs);
+
     expect(routeConfigs).not.toEqual([]);
     expect(routeConfigs).toMatchSnapshot();
   });
@@ -216,6 +220,7 @@ describe('versioned website', () => {
   const plugin = pluginContentDocs(context, {
     routeBasePath,
     sidebarPath,
+    homePageId: 'hello',
   });
   const env = loadEnv(siteDir);
   const {docsDir: versionedDir} = env.versioning;
@@ -281,7 +286,7 @@ describe('versioned website', () => {
     expect(isMatch('super/docs/hello.md', matchPattern)).toEqual(false);
   });
 
-  test('content', async () => {
+  test('content 2', async () => {
     const content = await plugin.loadContent();
     const {
       docsMetadata,
