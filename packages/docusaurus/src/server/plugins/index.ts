@@ -100,10 +100,6 @@ export async function loadPlugins({
     }),
   );
 
-  // Sort the route config. This ensures that route with nested
-  // routes are always placed last.
-  sortConfig(pluginsRouteConfigs);
-
   // 4. Plugin Lifecycle - routesLoaded.
   // Currently plugins run lifecycle methods in parallel and are not order-dependent.
   // We could change this in future if there are plugins which need to
@@ -117,6 +113,10 @@ export async function loadPlugins({
       return await plugin.routesLoaded(pluginsRouteConfigs);
     }),
   );
+
+  // Sort the route config. This ensures that route with nested
+  // routes are always placed last.
+  sortConfig(pluginsRouteConfigs);
 
   return {
     plugins,
