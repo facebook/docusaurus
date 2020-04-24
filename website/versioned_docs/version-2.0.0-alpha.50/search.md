@@ -22,7 +22,6 @@ To connect your docs with Algolia, add an `algolia` field in your `themeConfig`.
 themeConfig: {
     // ...
     algolia: {
-      appId: 'app-id',
       apiKey: 'api-key',
       indexName: 'index-name',
       algoliaOptions: {}, // Optional, if provided by Algolia
