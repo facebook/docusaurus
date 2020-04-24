@@ -11,6 +11,7 @@ import pickBy from 'lodash.pickby';
 import globby from 'globby';
 import fs from 'fs-extra';
 import path from 'path';
+import admonitions from 'remark-admonitions';
 import {
   normalizeUrl,
   docuHash,
@@ -57,6 +58,7 @@ const DEFAULT_OPTIONS: PluginOptions = {
   rehypePlugins: [],
   showLastUpdateTime: false,
   showLastUpdateAuthor: false,
+  admonitions: {},
 };
 
 export default function pluginContentDocs(
@@ -64,6 +66,13 @@ export default function pluginContentDocs(
   opts: Partial<PluginOptions>,
 ): Plugin<LoadedContent | null> {
   const options = {...DEFAULT_OPTIONS, ...opts};
+
+  if (options.admonitions) {
+    options.remarkPlugins = options.remarkPlugins.concat([
+      [admonitions, options.admonitions],
+    ]);
+  }
+
   const {siteDir, generatedFilesDir, baseUrl} = context;
   const docsDir = path.resolve(siteDir, options.path);
   const sourceToPermalink: SourceToPermalink = {};
@@ -117,6 +126,16 @@ export default function pluginContentDocs(
         globPattern = [...globPattern, ...sidebarsGlob, ...docsGlob];
       }
       return [...globPattern, options.sidebarPath];
+    },
+
+    getClientModules() {
+      const modules = [];
+
+      if (options.admonitions) {
+        modules.push('remark-admonitions/styles/infima.css');
+      }
+
+      return modules;
     },
 
     // Fetches blog contents and returns metadata for the contents.
