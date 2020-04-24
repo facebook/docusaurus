@@ -554,6 +554,13 @@ module.exports = [
     pinned: false,
   },
   {
+    caption: 'Quicksi',
+    image: '/img/users/quicksi.png',
+    infoLink: 'https://quicksi-bot.now.sh/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'Rawsec Inventory',
     image: '/img/users/rawsec.png',
     infoLink: 'https://inventory.rawsec.ml/docs/',
