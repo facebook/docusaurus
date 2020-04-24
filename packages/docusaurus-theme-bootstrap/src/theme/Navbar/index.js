@@ -42,56 +42,54 @@ function Navbar() {
     isClient,
   } = useDocusaurusContext();
 
+  /* const [sidebarShown, setSidebarShown] = useState(false);
+  const handleSidebar = useCallback(() => {
+    setSidebarShown(!sidebarShown);
+  }, [setSidebarShown, sidebarShown]); */
+
   const {logoLink, logoLinkProps, logoImageUrl, logoAlt} = useLogo();
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
-      <Link className="navbar-brand" to={logoLink} {...logoLinkProps}>
-        {logoImageUrl != null && (
-          <img
-            key={isClient}
-            className=""
-            width="50"
-            height="50"
-            style={{
-              maxWidth: '100%',
-            }}
-            src={logoImageUrl}
-            alt={logoAlt}
-          />
-        )}
-        {title != null && <span className="ml-2">{title}</span>}
-      </Link>
+    <div className="pos-f-t">
+      <nav className="navbar navbar-expand-lg navbar-light bg-light mb-5">
+        <Link className="navbar-brand" to={logoLink} {...logoLinkProps}>
+          {logoImageUrl != null && (
+            <img
+              key={isClient}
+              className=""
+              width="50"
+              height="50"
+              style={{
+                maxWidth: '100%',
+              }}
+              src={logoImageUrl}
+              alt={logoAlt}
+            />
+          )}
+          {title != null && <span className="ml-2">{title}</span>}
+        </Link>
 
-      <button
-        className="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarNav"
-        aria-controls="navbarNav"
-        aria-expanded="false"
-        aria-label="Toggle navigation">
-        <span className="navbar-toggler-icon" />
-      </button>
-      <div className="collapse navbar-collapse navbar-left">
-        <ul className="navbar-nav">
-          {links != null &&
-            links.length !== 0 &&
-            links
-              .filter((linkItem) => linkItem.position === 'left')
-              .map((linkItem, key) => <NavItem {...linkItem} key={key} />)}
-        </ul>
-      </div>
-      <div>
-        <ul className="navbar-nav navbar-right">
-          {links != null &&
-            links.length !== 0 &&
-            links
-              .filter((linkItem) => linkItem.position === 'right')
-              .map((linkItem, key) => <NavItem {...linkItem} key={key} />)}
-        </ul>
-      </div>
-    </nav>
+        <div className="navbar-collapse navbar-left">
+          <ul className="navbar-nav">
+            {links != null &&
+              links.length !== 0 &&
+              links
+                .filter((linkItem) => linkItem.position === 'left')
+                .map((linkItem, key) => <NavItem {...linkItem} key={key} />)}
+          </ul>
+        </div>
+
+        <div>
+          <ul className="navbar-nav navbar-right">
+            {links != null &&
+              links.length !== 0 &&
+              links
+                .filter((linkItem) => linkItem.position === 'right')
+                .map((linkItem, key) => <NavItem {...linkItem} key={key} />)}
+          </ul>
+        </div>
+      </nav>
+    </div>
   );
 }
 
