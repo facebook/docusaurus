@@ -20,14 +20,16 @@ To connect your docs with Algolia, add an `algolia` field in your `themeConfig`.
 
 ```jsx {4-9}
 // docusaurus.config.js
-themeConfig: {
-    // ....
+  themeConfig: {
+    // ...
+    // highlight-start
     algolia: {
-      appId: 'app-id',
       apiKey: 'api-key',
       indexName: 'index-name',
+      appId: 'app-id', // Optional, if you run the DocSearch crawler on your own
       algoliaOptions: {}, // Optional, if provided by Algolia
     },
+    // highlight-end
   },
 ```
 
