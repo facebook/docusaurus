@@ -28,7 +28,7 @@
     "lodash.pick": "^4.4.0",
     "lodash.pickby": "^4.6.0",
     "remark-admonitions": "^1.2.1",
-    "shelljs": "^0.8.3"
+    "shelljs": "^0.8.4"
   },
   "peerDependencies": {
     "@docusaurus/core": "^2.0.0",

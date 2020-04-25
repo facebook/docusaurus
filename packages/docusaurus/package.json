@@ -79,7 +79,7 @@
     "react-router-config": "^5.1.1",
     "react-router-dom": "^5.1.2",
     "semver": "^6.3.0",
-    "shelljs": "^0.8.3",
+    "shelljs": "^0.8.4",
     "std-env": "^2.2.1",
     "terser-webpack-plugin": "^2.3.5",
     "wait-file": "^1.0.5",
