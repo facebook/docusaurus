@@ -472,8 +472,6 @@ export default function pluginContentDocs(
     },
 
     async routesLoaded(routes) {
-      // console.log('LOL', routes);
-
       const normalizedHomeDocsRoutePath = `/${options.routeBasePath}`;
       const homeDocsRoutes = routes.filter(
         (routeConfig) => routeConfig.path === normalizedHomeDocsRoutePath,
@@ -486,8 +484,6 @@ export default function pluginContentDocs(
             route.component === options.docLayoutComponent &&
             route.path === normalizedHomeDocsRoutePath,
         );
-
-        console.log('INDEX', routes[docsHomePageRouteIndex!]);
 
         delete routes[docsHomePageRouteIndex!];
       }
