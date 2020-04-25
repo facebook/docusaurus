@@ -32,6 +32,7 @@ function DocSidebarItem({item, onItemClick, collapsible, ...props}) {
 
   const handleItemClick = useCallback((e) => {
     e.preventDefault();
+    e.target.blur();
     setCollapsed((state) => !state);
   });
 
