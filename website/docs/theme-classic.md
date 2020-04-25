@@ -138,6 +138,7 @@ module.exports = {
           // To apply the active class styling on all
           // routes starting with this path.
           activeBasePath: 'docs',
+          className: '', // Custom CSS class (for styling any item)
         },
         // ... other links
       ],
