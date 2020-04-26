@@ -11,7 +11,7 @@ import shell from 'shelljs';
 import {BuildCLIOptions} from '@docusaurus/types';
 
 import {CONFIG_FILE_NAME, GENERATED_FILES_DIR_NAME} from '../constants';
-import {loadConfig} from '../server/config';
+import loadConfig from '../server/config';
 import build from './build';
 
 export default async function deploy(

@@ -7,7 +7,7 @@
 
 import {CommanderStatic} from 'commander';
 import {loadContext, loadPluginConfigs} from '../server';
-import {initPlugins} from '../server/plugins/init';
+import initPlugins from '../server/plugins/init';
 
 export default function externalCommand(
   cli: CommanderStatic,

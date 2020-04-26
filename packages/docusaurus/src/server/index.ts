@@ -19,7 +19,7 @@ import {
   GENERATED_FILES_DIR_NAME,
   THEME_PATH,
 } from '../constants';
-import {loadClientModules} from './client-modules';
+import loadClientModules from './client-modules';
 import loadConfig from './config';
 import {loadPlugins} from './plugins';
 import {loadPresets} from './presets';

@@ -78,8 +78,11 @@ module.exports = {
         'plugin:import/warnings',
         'plugin:import/typescript',
       ],
+      rules: {
+        '@typescript-eslint/no-var-requires': 'off'
+      },
       plugins: ['@typescript-eslint'],
-      parser: '@typescript-eslint/parser'
+      parser: '@typescript-eslint/parser',
     },
   ],
 };

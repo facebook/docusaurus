@@ -23,7 +23,7 @@ function assertIsHtmlTagObject(val: any): asserts val is HtmlTagObject {
   }
 }
 
-export function htmlTagObjectToString(tagDefinition: any): string {
+export default function htmlTagObjectToString(tagDefinition: any): string {
   assertIsHtmlTagObject(tagDefinition);
   if (htmlTags.indexOf(tagDefinition.tagName) === -1) {
     throw new Error(

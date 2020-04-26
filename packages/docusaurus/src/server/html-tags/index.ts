@@ -5,13 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {htmlTagObjectToString} from './htmlTags';
 import {
   Plugin,
   InjectedHtmlTags,
   HtmlTagObject,
   HtmlTags,
 } from '@docusaurus/types';
+
+import htmlTagObjectToString from './htmlTags';
 
 function toString(val: string | HtmlTagObject): string {
   return typeof val === 'string' ? val : htmlTagObjectToString(val);

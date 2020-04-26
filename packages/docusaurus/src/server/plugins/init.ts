@@ -8,7 +8,7 @@
 import importFresh from 'import-fresh';
 import {LoadContext, Plugin, PluginConfig} from '@docusaurus/types';
 
-export function initPlugins({
+export default function initPlugins({
   pluginConfigs,
   context,
 }: {

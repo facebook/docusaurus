@@ -15,7 +15,7 @@ import {
   PluginContentLoadedActions,
   RouteConfig,
 } from '@docusaurus/types';
-import {initPlugins} from './init';
+import initPlugins from './init';
 
 export function sortConfig(routeConfigs: RouteConfig[]) {
   // Sort the route config. This ensures that route with nested
@@ -31,14 +31,26 @@ export function sortConfig(routeConfigs: RouteConfig[]) {
     if (a.priority || b.priority) {
       const priorityA = a.priority || 0;
       const priorityB = b.priority || 0;
-      const score = priorityA > priorityB ? -1 : priorityB > priorityA ? 1 : 0;
+      let score = 0;
+      if (priorityA > priorityB) {
+        score = -1;
+      } else if(priorityB > priorityA) {
+        score = 1;
+      }
 
       if (score !== 0) {
         return score;
       }
     }
 
-    return a.path > b.path ? 1 : b.path > a.path ? -1 : 0;
+    if(a.path > b.path) {
+      return 1;
+    }
+    if (b.path > a.path) {
+      return -1;
+    }
+
+    return 0;
   });
 }
 
@@ -65,7 +77,7 @@ export async function loadPlugins({
         return null;
       }
 
-      return await plugin.loadContent();
+      return plugin.loadContent();
     }),
   );
 
