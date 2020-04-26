@@ -55,10 +55,14 @@ module.exports = {
               label: 'Discord',
               href: 'https://discordapp.com/invite/docusaurus',
             },
+            {
+              label: 'Twitter',
+              href: 'https://twitter.com/docusaurus',
+            },
           ],
         },
         {
-          title: 'Social',
+          title: 'More',
           items: [
             {
               label: 'Blog',
@@ -67,10 +71,6 @@ module.exports = {
             {
               label: 'GitHub',
               href: 'https://github.com/facebook/docusaurus',
-            },
-            {
-              label: 'Twitter',
-              href: 'https://twitter.com/docusaurus',
             },
           ],
         },

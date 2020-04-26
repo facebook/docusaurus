@@ -58,8 +58,8 @@ module.exports = {
               href: 'https://discordapp.com/invite/docusaurus',
             },
             {
-              label: 'Help',
-              to: 'docs/next/support',
+              label: 'Twitter',
+              href: 'https://twitter.com/docusaurus',
             },
           ],
         },
@@ -73,10 +73,6 @@ module.exports = {
             {
               label: 'GitHub',
               href: 'https://github.com/facebook/docusaurus',
-            },
-            {
-              label: 'Twitter',
-              href: 'https://twitter.com/docusaurus',
             },
             {
               html: `

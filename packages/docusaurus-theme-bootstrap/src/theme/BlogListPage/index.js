@@ -13,7 +13,7 @@ function BlogListPage(props) {
   const {items} = props;
 
   return (
-    <div className="container-fluid p-0">
+    <div className="container-fluid">
       <div className="row row-cols-1 row-cols-sm-1">
         {items.map(({content: BlogPostContent}) => (
           <div
