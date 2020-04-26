@@ -1,5 +1,15 @@
 # Docusaurus 2 Changelog
 
+## 2.0.0-alpha.51
+
+#### :boom: Breaking Change
+
+- `infima`
+  - The following infima variables have been renamed for consistency:
+    - `--ifm-font-base-color` → `--ifm-font-color-base`
+    - `--ifm-font-base-color-inverse` → `--ifm-font-color-base-inverse`
+    - `--ifm-font-color-secondary` → `--ifm-font-color-secondary`
+
 ## 2.0.0-alpha.50 (2020-04-02)
 
 **HOTFIX for 2.0.0-alpha.49**.

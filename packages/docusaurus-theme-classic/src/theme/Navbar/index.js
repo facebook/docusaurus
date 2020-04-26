@@ -71,7 +71,7 @@ function NavItem({items, position, className, ...props}) {
           ({className: childItemClassName, ...linkItemInnerProps}, i) => (
             <li key={i}>
               <NavLink
-                className={navLinkClassNames(childItemClassName)}
+                className={classnames('dropdown__link', childItemClassName)}
                 {...linkItemInnerProps}
               />
             </li>
