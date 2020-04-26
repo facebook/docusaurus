@@ -20,7 +20,15 @@ import useLogo from '@theme/hooks/useLogo';
 
 import styles from './styles.module.css';
 
-function NavLink({activeBasePath, to, href, label, position, ...props}) {
+function NavLink({
+  activeBasePath,
+  to,
+  href,
+  label,
+  position,
+  activeClassName = 'navbar__link--active',
+  ...props
+}) {
   const toUrl = useBaseUrl(to);
   const activeBaseUrl = useBaseUrl(activeBasePath);
 
@@ -34,7 +42,7 @@ function NavLink({activeBasePath, to, href, label, position, ...props}) {
           }
         : {
             isNavLink: true,
-            activeClassName: 'navbar__link--active',
+            activeClassName,
             to: toUrl,
             ...(activeBasePath
               ? {
@@ -50,8 +58,11 @@ function NavLink({activeBasePath, to, href, label, position, ...props}) {
 }
 
 function NavItem({items, position, className, ...props}) {
-  const navLinkClassNames = (extraClassName) =>
-    classnames('navbar__item', 'navbar__link', extraClassName);
+  const navLinkClassNames = (extraClassName, isDropdownItem) =>
+    classnames(extraClassName, {
+      'navbar__item navbar__link': !isDropdownItem,
+      dropdown__link: isDropdownItem,
+    });
 
   if (!items) {
     return <NavLink className={navLinkClassNames(className)} {...props} />;
@@ -71,7 +82,8 @@ function NavItem({items, position, className, ...props}) {
           ({className: childItemClassName, ...linkItemInnerProps}, i) => (
             <li key={i}>
               <NavLink
-                className={classnames('dropdown__link', childItemClassName)}
+                activeClassName="dropdown__link--active"
+                className={navLinkClassNames(childItemClassName, true)}
                 {...linkItemInnerProps}
               />
             </li>
@@ -106,6 +118,7 @@ function MobileNavItem({items, className, ...props}) {
           ({className: childItemClassName, ...linkItemInnerProps}, i) => (
             <li className="menu__list-item" key={i}>
               <NavLink
+                activeClassName="menu__link--active"
                 className={navLinkClassNames(childItemClassName)}
                 {...linkItemInnerProps}
                 onClick={props.onClick}
