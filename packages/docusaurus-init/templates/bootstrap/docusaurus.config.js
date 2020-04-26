@@ -26,23 +26,6 @@ module.exports = {
       style: 'dark',
       links: [
         {
-          title: 'Docs',
-          items: [
-            {
-              label: 'Introduction',
-              to: 'docs/introduction',
-            },
-            {
-              label: 'Installation',
-              to: 'docs/installation',
-            },
-            {
-              label: 'Migration from v1 to v2',
-              to: 'docs/migrating-from-v1-to-v2',
-            },
-          ],
-        },
-        {
           title: 'Community',
           items: [
             {
@@ -73,13 +56,6 @@ module.exports = {
             {
               label: 'GitHub',
               href: 'https://github.com/facebook/docusaurus',
-            },
-            {
-              html: `
-                <a href="https://www.netlify.com" target="_blank" rel="noreferrer noopener" aria-label="Deploys by Netlify">
-                  <img src="https://www.netlify.com/img/global/badges/netlify-color-accent.svg" alt="Deploys by Netlify" />
-                </a>
-              `,
             },
           ],
         },
