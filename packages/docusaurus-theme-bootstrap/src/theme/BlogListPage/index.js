@@ -8,14 +8,12 @@
 import React from 'react';
 import BlogPostCard from '@theme/BlogPostItem';
 import Footer from '@theme/Footer';
-import Navbar from '@theme/Navbar';
 
 function BlogListPage(props) {
   const {items} = props;
 
   return (
     <div className="container-fluid p-0">
-      <Navbar />
       <div className="row row-cols-1 row-cols-sm-1">
         {items.map(({content: BlogPostContent}) => (
           <div
