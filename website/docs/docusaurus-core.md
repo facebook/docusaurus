@@ -105,14 +105,14 @@ function Home() {
 
 ### `<BrowserOnly/>`
 
-The `<BrowserOnly>` component accepts a `children` prop, a render function which will not be executed during the pre-rendering phase of the build process. This is useful for hiding code that is only meant to run in the browsers (e.g. where the `window`/`document` objects are being accessed).
+The `<BrowserOnly>` component accepts a `children` prop, a render function which will not be executed during the pre-rendering phase of the build process. This is useful for hiding code that is only meant to run in the browsers (e.g. where the `window`/`document` objects are being accessed). To improve SEO, with `fallback` prop you can also provide fallback content which will be displayed until the component is rendered on client-side.
 
 ```jsx
 import BrowserOnly from '@docusaurus/BrowserOnly';
 
 function MyComponent() {
   return (
-    <BrowserOnly>
+    <BrowserOnly fallback="The fallback content to display on prerendering">
       {() => {
         // Something that should be excluded during build process prerendering.
       }}
