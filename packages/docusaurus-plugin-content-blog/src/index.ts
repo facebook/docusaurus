@@ -27,7 +27,7 @@ import {
   TagsModule,
   BlogPaginated,
   FeedType,
-  BlogPost
+  BlogPost,
 } from './types';
 import {generateBlogFeed, generateBlogPosts} from './blogUtils';
 

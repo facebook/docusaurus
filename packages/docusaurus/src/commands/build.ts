@@ -45,10 +45,10 @@ function compile(config: Configuration[]): Promise<any> {
   });
 }
 
-export async function build(
+export default async function build(
   siteDir: string,
   cliOptions: Partial<BuildCLIOptions> = {},
-  forceTerminate: boolean = true,
+  forceTerminate = true,
 ): Promise<string> {
   process.env.BABEL_ENV = 'production';
   process.env.NODE_ENV = 'production';
@@ -132,7 +132,9 @@ export async function build(
   ) {
     const serverBundle = path.join(outDir, serverConfig.output.filename);
     fs.pathExists(serverBundle).then((exist) => {
-      exist && fs.unlink(serverBundle);
+      if (exist) {
+        fs.unlink(serverBundle);
+      }
     });
   }
 
@@ -152,6 +154,8 @@ export async function build(
       relativeDir,
     )}.\n`,
   );
-  forceTerminate && !cliOptions.bundleAnalyzer && process.exit(0);
+  if (forceTerminate && !cliOptions.bundleAnalyzer) {
+    process.exit(0);
+  }
   return outDir;
 }

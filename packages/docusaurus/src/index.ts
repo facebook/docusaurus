@@ -5,8 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-export {build} from './commands/build';
-export {start} from './commands/start';
-export {swizzle} from './commands/swizzle';
-export {deploy} from './commands/deploy';
-export {externalCommand} from './commands/external';
+import build from './commands/build';
+import start from './commands/start';
+import swizzle from './commands/swizzle';
+import deploy from './commands/deploy';
+import externalCommand from './commands/external';
+
+export {build, start, swizzle, deploy, externalCommand};

@@ -14,7 +14,7 @@ import {loadContext} from '../server';
 
 import chalk = require('chalk');
 
-export async function swizzle(
+export default async function swizzle(
   siteDir: string,
   themeName: string,
   componentName?: string,

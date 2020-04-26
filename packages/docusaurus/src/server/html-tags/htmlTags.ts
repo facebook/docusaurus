@@ -42,9 +42,7 @@ export function htmlTagObjectToString(tagDefinition: any): string {
       }
       return `${attributeName}="${tagAttributes[attributeName]}"`;
     });
-  return `<${[tagDefinition.tagName]
-    .concat(attributes)
-    .join(' ')}>${(!isVoidTag && tagDefinition.innerHTML) || ''}${
-    isVoidTag ? '' : `</${tagDefinition.tagName}>`
-  }`;
+  return `<${[tagDefinition.tagName].concat(attributes).join(' ')}>${
+    (!isVoidTag && tagDefinition.innerHTML) || ''
+  }${isVoidTag ? '' : `</${tagDefinition.tagName}>`}`;
 }

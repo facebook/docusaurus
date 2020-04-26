@@ -38,7 +38,7 @@ async function getPort(reqPort: string | undefined): Promise<number> {
   return port;
 }
 
-export async function start(
+export default async function start(
   siteDir: string,
   cliOptions: Partial<StartCLIOptions> = {},
 ): Promise<void> {
@@ -50,14 +50,14 @@ export async function start(
   const props = await load(siteDir);
 
   // Reload files processing.
-  const reload = () => {
+  const reload = (): void => {
     load(siteDir).catch((err) => {
       console.error(chalk.red(err.stack));
     });
   };
   const {siteConfig, plugins = []} = props;
 
-  const normalizeToSiteDir = (filepath) => {
+  const normalizeToSiteDir = (filepath): string => {
     if (filepath && path.isAbsolute(filepath)) {
       return posixPath(path.relative(siteDir, filepath));
     }
@@ -167,7 +167,9 @@ export async function start(
     if (err) {
       console.log(err);
     }
-    cliOptions.open && openBrowser(openUrl);
+    if (cliOptions.open) {
+      openBrowser(openUrl);
+    }
   });
   ['SIGINT', 'SIGTERM'].forEach((sig) => {
     process.on(sig as NodeJS.Signals, () => {

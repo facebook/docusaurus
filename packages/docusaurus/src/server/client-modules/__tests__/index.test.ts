@@ -5,10 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import path from 'path';
-
 import {loadClientModules} from '../index';
 
+/** eslint-disable @typescript-eslint/no-var-requires*/
 const pluginEmpty = require('./__fixtures__/plugin-empty');
 const pluginFooBar = require('./__fixtures__/plugin-foo-bar');
 const pluginHelloWorld = require('./__fixtures__/plugin-hello-world');

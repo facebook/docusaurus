@@ -5,10 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import path from 'path';
-
 import {loadHtmlTags} from '../index';
 
+/** eslint-disable @typescript-eslint/no-var-requires*/
 const pluginEmpty = require('./__fixtures__/plugin-empty');
 const pluginPreBodyTags = require('./__fixtures__/plugin-preBodyTags');
 const pluginHeadTags = require('./__fixtures__/plugin-headTags');

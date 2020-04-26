@@ -8,12 +8,13 @@
 import fs from 'fs-extra';
 import path from 'path';
 import shell from 'shelljs';
-import {CONFIG_FILE_NAME, GENERATED_FILES_DIR_NAME} from '../constants';
-import {loadConfig} from '../server/config';
-import {build} from './build';
 import {BuildCLIOptions} from '@docusaurus/types';
 
-export async function deploy(
+import {CONFIG_FILE_NAME, GENERATED_FILES_DIR_NAME} from '../constants';
+import {loadConfig} from '../server/config';
+import build from './build';
+
+export default async function deploy(
   siteDir: string,
   cliOptions: Partial<BuildCLIOptions> = {},
 ): Promise<void> {

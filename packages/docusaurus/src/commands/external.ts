@@ -9,7 +9,10 @@ import {CommanderStatic} from 'commander';
 import {loadContext, loadPluginConfigs} from '../server';
 import {initPlugins} from '../server/plugins/init';
 
-export function externalCommand(cli: CommanderStatic, siteDir: string): void {
+export default function externalCommand(
+  cli: CommanderStatic,
+  siteDir: string,
+): void {
   const context = loadContext(siteDir);
   const pluginConfigs = loadPluginConfigs(context);
   const plugins = initPlugins({pluginConfigs, context});

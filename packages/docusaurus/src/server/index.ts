@@ -20,7 +20,7 @@ import {
   THEME_PATH,
 } from '../constants';
 import {loadClientModules} from './client-modules';
-import {loadConfig} from './config';
+import loadConfig from './config';
 import {loadPlugins} from './plugins';
 import {loadPresets} from './presets';
 import {loadRoutes} from './routes';
