@@ -40,6 +40,12 @@ export function sortConfig(routeConfigs: RouteConfig[]) {
 
     return a.path > b.path ? 1 : b.path > a.path ? -1 : 0;
   });
+
+  routeConfigs.forEach((routeConfig) => {
+    routeConfig.routes?.sort((a, b) => {
+      return a.path > b.path ? 1 : b.path > a.path ? -1 : 0;
+    });
+  });
 }
 
 export async function loadPlugins({

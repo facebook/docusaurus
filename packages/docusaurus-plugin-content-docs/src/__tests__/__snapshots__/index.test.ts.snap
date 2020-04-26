@@ -73,22 +73,6 @@ Array [
         "component": "@theme/DocItem",
         "exact": true,
         "modules": Object {
-          "content": "@site/docs/ipsum.md",
-        },
-        "path": "/docs/ipsum",
-      },
-      Object {
-        "component": "@theme/DocItem",
-        "exact": true,
-        "modules": Object {
-          "content": "@site/docs/lorem.md",
-        },
-        "path": "/docs/lorem",
-      },
-      Object {
-        "component": "@theme/DocItem",
-        "exact": true,
-        "modules": Object {
           "content": "@site/docs/foo/bar.md",
         },
         "path": "/docs/foo/bar",
@@ -108,6 +92,22 @@ Array [
           "content": "@site/docs/hello.md",
         },
         "path": "/docs/hello",
+      },
+      Object {
+        "component": "@theme/DocItem",
+        "exact": true,
+        "modules": Object {
+          "content": "@site/docs/ipsum.md",
+        },
+        "path": "/docs/ipsum",
+      },
+      Object {
+        "component": "@theme/DocItem",
+        "exact": true,
+        "modules": Object {
+          "content": "@site/docs/lorem.md",
+        },
+        "path": "/docs/lorem",
       },
     ],
   },
