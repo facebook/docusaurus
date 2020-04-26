@@ -49,9 +49,12 @@ function NavLink({activeBasePath, to, href, label, position, ...props}) {
   );
 }
 
-function NavItem({items, position, ...props}) {
+function NavItem({items, position, className, ...props}) {
+  const navLinkClassNames = (extraClassName) =>
+    classnames('navbar__item', 'navbar__link', extraClassName);
+
   if (!items) {
-    return <NavLink className="navbar__item navbar__link" {...props} />;
+    return <NavLink className={navLinkClassNames(className)} {...props} />;
   }
 
   return (
@@ -60,44 +63,56 @@ function NavItem({items, position, ...props}) {
         'dropdown--left': position === 'left',
         'dropdown--right': position === 'right',
       })}>
-      <NavLink className="navbar__item navbar__link" {...props}>
+      <NavLink className={navLinkClassNames(className)} {...props}>
         {props.label}
       </NavLink>
       <ul className="dropdown__menu">
-        {items.map((linkItemInner, i) => (
-          <li key={i}>
-            <NavLink className="navbar__item navbar__link" {...linkItemInner} />
-          </li>
-        ))}
+        {items.map(
+          ({className: childItemClassName, ...linkItemInnerProps}, i) => (
+            <li key={i}>
+              <NavLink
+                className={navLinkClassNames(childItemClassName)}
+                {...linkItemInnerProps}
+              />
+            </li>
+          ),
+        )}
       </ul>
     </div>
   );
 }
 
-function MobileNavItem({items, ...props}) {
+function MobileNavItem({items, className, ...props}) {
+  const navLinkClassNames = (extraClassName, isSubList = false) =>
+    classnames('menu__link', extraClassName, {
+      'menu__link--sublist': isSubList,
+    });
+
   if (!items) {
     return (
       <li className="menu__list-item">
-        <NavLink className="menu__link" {...props} />
+        <NavLink className={navLinkClassNames(className)} {...props} />
       </li>
     );
   }
 
   return (
     <li className="menu__list-item">
-      <NavLink className="menu__link menu__link--sublist" {...props}>
+      <NavLink className={navLinkClassNames(className, true)} {...props}>
         {props.label}
       </NavLink>
       <ul className="menu__list">
-        {items.map((linkItemInner, i) => (
-          <li className="menu__list-item" key={i}>
-            <NavLink
-              className="menu__link"
-              {...linkItemInner}
-              onClick={props.onClick}
-            />
-          </li>
-        ))}
+        {items.map(
+          ({className: childItemClassName, ...linkItemInnerProps}, i) => (
+            <li className="menu__list-item" key={i}>
+              <NavLink
+                className={navLinkClassNames(childItemClassName)}
+                {...linkItemInnerProps}
+                onClick={props.onClick}
+              />
+            </li>
+          ),
+        )}
       </ul>
     </li>
   );
