@@ -160,6 +160,13 @@ module.exports = [
     infoLink: 'https://collective.gg/',
     fbOpenSource: false,
     pinned: false,
+  },  
+  {
+    caption: 'consistencss',
+    image: 'https://consistencss.now.sh/img/logo.svg',
+    infoLink: 'https://consistencss.now.sh/',
+    fbOpenSource: false,
+    pinned: false,
   },
   {
     caption: 'ConfigCat',
