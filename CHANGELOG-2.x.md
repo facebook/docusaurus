@@ -1,5 +1,18 @@
 # Docusaurus 2 Changelog
 
+## 2.0.0-alpha.52
+
+**HOTFIX for 2.0.0-alpha.51**.
+
+#### :bug: Bug Fix
+
+- `docusaurus-theme-classic`
+  - [#2676](https://github.com/facebook/docusaurus/pull/2676) fix(v2): allow build website without custom css ([@lex111](https://github.com/lex111))
+
+#### Committers: 1
+
+- Alexey Pyltsyn ([@lex111](https://github.com/lex111))
+
 ## 2.0.0-alpha.51
 
 #### :boom: Breaking Change
