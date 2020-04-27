@@ -23,10 +23,14 @@
     "docusaurus": "bin/docusaurus.js"
   },
   "scripts": {
-    "tsc": "tsc && node copyUntypedFiles.js"
+    "tsc": "tsc && tsc -p tsconfig.client.json && node copyUntypedFiles.js"
   },
   "bugs": {
     "url": "https://github.com/facebook/docusaurus/issues"
+  },
+  "devDependencies": {
+    "@docusaurus/module-type-aliases": "^2.0.0-alpha.50",
+    "@docusaurus/types": "^2.0.0-alpha.50"
   },
   "dependencies": {
     "@babel/core": "^7.9.0",
@@ -76,7 +80,7 @@
     "react-router-config": "^5.1.1",
     "react-router-dom": "^5.1.2",
     "semver": "^6.3.0",
-    "shelljs": "^0.8.3",
+    "shelljs": "^0.8.4",
     "std-env": "^2.2.1",
     "terser-webpack-plugin": "^2.3.5",
     "wait-file": "^1.0.5",

@@ -27,7 +27,7 @@
     "lodash.groupby": "^4.6.0",
     "lodash.pick": "^4.4.0",
     "lodash.pickby": "^4.6.0",
-    "shelljs": "^0.8.3",
+    "shelljs": "^0.8.4",
     "webpack": "^4.41.2"
   },
   "peerDependencies": {

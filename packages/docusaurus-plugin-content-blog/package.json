@@ -20,6 +20,7 @@
     "loader-utils": "^1.2.3",
     "lodash.kebabcase": "^4.1.1",
     "reading-time": "^1.2.0",
+    "remark-admonitions": "^1.2.1",
     "webpack": "^4.41.2"
   },
   "peerDependencies": {

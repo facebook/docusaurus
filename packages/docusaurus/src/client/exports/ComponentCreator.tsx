@@ -12,7 +12,7 @@ import routesChunkNames from '@generated/routesChunkNames';
 import registry from '@generated/registry';
 import flat from '../flat';
 
-function ComponentCreator(path) {
+function ComponentCreator(path: string) {
   // 404 page
   if (path === '*') {
     return Loadable({
@@ -22,8 +22,8 @@ function ComponentCreator(path) {
   }
 
   const chunkNames = routesChunkNames[path];
-  const optsModules = [];
-  const optsWebpack = [];
+  const optsModules: string[] = [];
+  const optsWebpack: string[] = [];
   const optsLoader = {};
 
   /* Prepare opts data that react-loadable needs

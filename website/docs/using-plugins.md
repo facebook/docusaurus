@@ -389,19 +389,21 @@ If you have installed `@docusaurus/preset-classic`, you don't need to install it
 ```js title="docusaurus.config.js"
 module.exports = {
   plugins: [
-    '@docusaurus/plugin-sitemap',
-    {
-      cacheTime: 600 * 1000, // 600 sec - cache purge period
-      changefreq: 'weekly',
-      priority: 0.5,
-    },
+    [
+      '@docusaurus/plugin-sitemap',
+      {
+        cacheTime: 600 * 1000, // 600 sec - cache purge period
+        changefreq: 'weekly',
+        priority: 0.5,
+      },
+    ],
   ],
 };
 ```
 
 ### `@docusaurus/plugin-ideal-image`
 
-Docusaurus Plugin to generate an almost ideal image (responsive, lazy-loading, and low quality placeholder)
+Docusaurus Plugin to generate an almost ideal image (responsive, lazy-loading, and low quality placeholder) **in the production builds**.
 
 ```bash npm2yarn
 npm install --save @docusaurus/plugin-ideal-image
@@ -409,18 +411,17 @@ npm install --save @docusaurus/plugin-ideal-image
 
 Modify your `docusaurus.config.js`
 
-```js title="docusaurus.config.js"
+```diff
 module.exports = {
-  // ...
-  // highlight-next-line
-  plugins: ['@docusaurus/plugin-ideal-image'],
-  // ...
-};
+  ...
++ plugins: ['@docusaurus/plugin-ideal-image'],
+  ...
+}
 ```
 
 #### Usage
 
-This plugin supports png, gif and jpg only
+This plugin supports the PNG, GIF and JPG formats only.
 
 ```jsx
 import Image from '@theme/IdealImage';

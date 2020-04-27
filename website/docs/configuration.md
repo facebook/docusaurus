@@ -3,13 +3,13 @@ id: configuration
 title: Configuration
 ---
 
-Docusaurus has a unique take on configurations. We encourage you to congregate information of your site into one place. We will guard the fields of this file, and facilitate making this data object accessible across your site.
+Docusaurus has a unique take on configurations. We encourage you to congregate information of your site into one place. We guard the fields of this file, and facilitate making this data object accessible across your site.
 
-Keeping a well-maintained `docusaurus.config.js` helps you, your collaborators, and your open source contributors be able to focus on documentation while still being able to customize fields.
+Keeping a well-maintained `docusaurus.config.js` helps you, your collaborators, and your open source contributors be able to focus on documentation while still being able to customize the site.
 
-## What goes into `docusaurus.config.js`?
+## What goes into a `docusaurus.config.js`?
 
-You should not have to write your `docusaurus.config.js` from scratch even if you are developing your site. All templates come with a `docusaurus.config.js` at root that includes the necessary data for the initial site.
+You should not have to write your `docusaurus.config.js` from scratch even if you are developing your site. All templates come with a `docusaurus.config.js` that includes defaults for the common options.
 
 However, it can be helpful if you have a high-level understanding of how the configurations are designed and implemented.
 
@@ -20,7 +20,7 @@ The high-level overview of Docusaurus configuration can be categorized into:
 - [Theme, Plugin, and Preset Configurations](#theme-plugin-and-preset-configurations)
 - [Custom Configurations](#custom-configurations)
 
-For exact reference to each of the configurable fields, you may refer to [**docusaurus.config.js API reference**](docusaurus.config.js.md).
+For exact reference to each of the configurable fields, you may refer to [**`docusaurus.config.js` API reference**](docusaurus.config.js.md).
 
 ### Site metadata
 
@@ -30,13 +30,13 @@ They are used in a number of places such as your site's title and headings, brow
 
 ### Deployment configurations
 
-Deployment configurations such as `projectName` and `organizationName` are used when you deploy your site with Docusaurus' `deploy` command.
+Deployment configurations such as `projectName` and `organizationName` are used when you deploy your site with the `deploy` command.
 
 It is recommended to check the [deployment docs](deployment.md) for more information.
 
 ### Theme, plugin, and preset configurations
 
-List the installed [themes](using-themes.md), [plugins](using-plugins.md), and [presets](presets.md) for your site in the `themes`, `plugins`, and `presets` fields, respectively. These are typically npm packages:
+List the [theme](using-themes.md), [plugins](using-plugins.md), and [presets](presets.md) for your site in the `themes`, `plugins`, and `presets` fields, respectively. These are typically npm packages:
 
 ```js title="docusaurus.config.js"
 module.exports = {
@@ -105,7 +105,7 @@ For further help configuring themes, plugins, and presets, see [Using Themes](us
 
 ### Custom configurations
 
-Docusaurus guards `docusaurus.config.js` from unknown fields. To add a custom field, define it on `customFields`
+Docusaurus guards `docusaurus.config.js` from unknown fields. To add custom fields, define them in `customFields`.
 
 Example:
 

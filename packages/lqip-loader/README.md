@@ -1,4 +1,6 @@
-## lqip-loader: low quality images placeholders for webpack
+# `@docusaurus/lqip-loader`
+
+Low Quality Image Placeholders (LQIP) loader for webpack.
 
 ### Installation
 
@@ -12,14 +14,11 @@ Generating Base64 & dominant colours palette for a jpeg image imported in your J
 
 > The large image file will be emitted & only 400byte of Base64 (if set to true in the loader options) will be bundled.
 
-`webpack.config.js`
+#### `webpack.config.js`
 
 ```js
 {
-  /**
-   * OPTION A:
-   * default file-loader fallback
-   **/
+  // OPTION A: default file-loader fallback
   test: /\.jpe?g$/,
   loaders: [
     {
@@ -33,10 +32,7 @@ Generating Base64 & dominant colours palette for a jpeg image imported in your J
     }
   ]
 
-  /**
-   * OPTION B:
-   * Chained with your own url-loader or file-loader
-   **/
+  // OPTION B: Chained with your own url-loader or file-loader
   test: /\.(png|jpe?g)$/,
   loaders: [
     {
@@ -56,7 +52,7 @@ Generating Base64 & dominant colours palette for a jpeg image imported in your J
 }
 ```
 
-`your-app-module.js`
+#### `your-app-module.js`
 
 ```js
 import banner from './images/banner.jpg';

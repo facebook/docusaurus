@@ -45,6 +45,7 @@ export interface DocusaurusConfig {
 
 export interface DocusaurusContext {
   siteConfig?: DocusaurusConfig;
+  isClient?: boolean;
 }
 
 export interface Preset {
@@ -59,6 +60,7 @@ export interface StartCLIOptions {
   host: string;
   hotOnly: boolean;
   open: boolean;
+  poll: boolean;
 }
 
 export interface BuildCLIOptions {

@@ -5,6 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+declare module 'remark-admonitions' {
+  type Options = any;
 
-export default React.createContext({});
+  const plugin: (options?: Options) => void;
+  export = plugin;
+}

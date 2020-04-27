@@ -25,6 +25,18 @@ module.exports = {
 };
 ```
 
+With the enabled `defaultDarkMode` option you could set dark mode by default. However, in this case, the user's preference will not be taken into account until they manually sets the desired mode via toggle in the navbar.
+
+```js {4} title="docusaurus.config.js"
+module.exports = {
+  // ...
+  themeConfig: {
+    defaultDarkMode: true,
+    // ...
+  },
+};
+```
+
 ### Meta image
 
 You can configure a default image that will be used for your meta tag, in particular `og:image` and `twitter:image`.
@@ -126,6 +138,7 @@ module.exports = {
           // To apply the active class styling on all
           // routes starting with this path.
           activeBasePath: 'docs',
+          className: '', // Custom CSS class (for styling any item)
         },
         // ... other links
       ],

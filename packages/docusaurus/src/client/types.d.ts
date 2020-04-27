@@ -5,6 +5,4 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-export default function isInternalUrl(url) {
-  return /^(https?:|\/\/)/.test(url) === false;
-}
+/// <reference types="@docusaurus/module-type-aliases" />

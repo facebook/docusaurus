@@ -17,7 +17,7 @@ import styles from './styles.module.css';
 
 const MOBILE_TOGGLE_SIZE = 24;
 
-function DocSidebarItem({item, onItemClick, collapsible}) {
+function DocSidebarItem({item, onItemClick, collapsible, ...props}) {
   const {items, href, label, type} = item;
   const [collapsed, setCollapsed] = useState(item.collapsed);
   const [prevCollapsedProp, setPreviousCollapsedProp] = useState(null);
@@ -32,6 +32,7 @@ function DocSidebarItem({item, onItemClick, collapsible}) {
 
   const handleItemClick = useCallback((e) => {
     e.preventDefault();
+    e.target.blur();
     setCollapsed((state) => !state);
   });
 
@@ -50,12 +51,14 @@ function DocSidebarItem({item, onItemClick, collapsible}) {
                 'menu__link--active': collapsible && !item.collapsed,
               })}
               href="#!"
-              onClick={collapsible ? handleItemClick : undefined}>
+              onClick={collapsible ? handleItemClick : undefined}
+              {...props}>
               {label}
             </a>
             <ul className="menu__list">
               {items.map((childItem) => (
                 <DocSidebarItem
+                  tabIndex={collapsed ? '-1' : '0'}
                   key={childItem.label}
                   item={childItem}
                   onItemClick={onItemClick}
@@ -76,6 +79,7 @@ function DocSidebarItem({item, onItemClick, collapsible}) {
             to={href}
             {...(isInternalUrl(href)
               ? {
+                  isNavLink: true,
                   activeClassName: 'menu__link--active',
                   exact: true,
                   onClick: onItemClick,
@@ -83,7 +87,8 @@ function DocSidebarItem({item, onItemClick, collapsible}) {
               : {
                   target: '_blank',
                   rel: 'noreferrer noopener',
-                })}>
+                })}
+            {...props}>
             {label}
           </Link>
         </li>
@@ -152,7 +157,11 @@ function DocSidebar(props) {
   return (
     <div className={styles.sidebar}>
       {hideOnScroll && (
-        <Link className={styles.sidebarLogo} to={logoLink} {...logoLinkProps}>
+        <Link
+          tabIndex="-1"
+          className={styles.sidebarLogo}
+          to={logoLink}
+          {...logoLinkProps}>
           {logoImageUrl != null && (
             <img key={isClient} src={logoImageUrl} alt={logoAlt} />
           )}
@@ -205,7 +214,8 @@ function DocSidebar(props) {
             <DocSidebarItem
               key={item.label}
               item={item}
-              onItemClick={() => {
+              onItemClick={(e) => {
+                e.target.blur();
                 setShowResponsiveSidebar(false);
               }}
               collapsible={sidebarCollapsible}

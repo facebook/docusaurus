@@ -16,7 +16,12 @@ function dispatchLifecycleAction(lifecycleAction, ...args) {
   });
 }
 
-function createLifecyclesDispatcher() {
+interface Dispatchers {
+  onRouteUpdate: Function;
+  onRouteUpdateDelayed: Function;
+}
+
+function createLifecyclesDispatcher(): Dispatchers {
   // TODO: Not sure whether it's better to declare an explicit object
   // with all the lifecycles. It's better for typing but quite verbose.
   // On the other hand, there's some runtime cost generating this object
@@ -30,7 +35,7 @@ function createLifecyclesDispatcher() {
       return lifecycles;
     },
     {},
-  );
+  ) as Dispatchers;
 }
 
 export default createLifecyclesDispatcher();
