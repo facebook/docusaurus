@@ -20,10 +20,10 @@ class ChunkAssetPlugin {
       mainTemplate.hooks.requireExtensions.tap(pluginName, (source, chunk) => {
         const chunkIdToName = chunk.getChunkMaps(false).name;
         const chunkNameToId = Object.create(null);
-        for (const chunkId of Object.keys(chunkIdToName)) {
+        Object.keys(chunkIdToName).forEach (chunkId => {
           const chunkName = chunkIdToName[chunkId];
           chunkNameToId[chunkName] = chunkId;
-        }
+        })
         const buf = [source];
         buf.push('');
         buf.push('// function to get chunk assets');

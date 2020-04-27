@@ -150,7 +150,7 @@ export default function loadSidebars(sidebarPaths?: string[]): Sidebar {
     return {} as Sidebar;
   }
 
-  sidebarPaths.map((sidebarPath): void => {
+  sidebarPaths.map(function (sidebarPath) {
     if (sidebarPath && fs.existsSync(sidebarPath)) {
       const sidebar = importFresh(sidebarPath) as SidebarRaw;
       Object.assign(allSidebars, sidebar);

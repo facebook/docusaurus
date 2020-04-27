@@ -6,7 +6,7 @@
  */
 
 import {RouteConfig} from '@docusaurus/types';
-import {loadRoutes} from '../routes';
+import loadRoutes from '../routes';
 
 describe('loadRoutes', () => {
   test('nested route config', async () => {
@@ -75,7 +75,7 @@ describe('loadRoutes', () => {
 
     expect(loadRoutes([routeConfigWithoutPath], '/')).rejects
       .toMatchInlineSnapshot(`
-      [Error: Invalid routeConfig (Path must be a string and component is required) 
+      [Error: Invalid routeConfig (Path must be a string and component is required)
       {"component":"hello/world.js"}]
     `);
 
@@ -85,7 +85,7 @@ describe('loadRoutes', () => {
 
     expect(loadRoutes([routeConfigWithoutComponent], '/')).rejects
       .toMatchInlineSnapshot(`
-      [Error: Invalid routeConfig (Path must be a string and component is required) 
+      [Error: Invalid routeConfig (Path must be a string and component is required)
       {"path":"/hello/world"}]
     `);
   });

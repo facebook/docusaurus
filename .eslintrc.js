@@ -83,10 +83,12 @@ module.exports = {
       ],
       rules: {
         '@typescript-eslint/no-var-requires': OFF,
+        '@typescript-eslint/camelcase': WARNING,
+        '@typescript-eslint/ban-ts-ignore': OFF,
         'prefer-object-spread': WARNING,
         'global-require': OFF,
-        '@typescript-eslint/camelcase': WARNING,
         'no-shadow': WARNING,
+        'no-param-reassign': OFF
       },
       plugins: ['@typescript-eslint'],
       parser: '@typescript-eslint/parser',

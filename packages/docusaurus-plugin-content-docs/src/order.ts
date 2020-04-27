@@ -30,6 +30,8 @@ export default function createOrder(allSidebars: Sidebar = {}): Order {
           case 'doc':
             ids.push(item.id);
             break;
+          default:
+            break;
         }
       });
     };

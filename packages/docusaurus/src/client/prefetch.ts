@@ -75,7 +75,7 @@ function prefetch(url) {
     }
 
     supportedPrefetchStrategy(url)
-      .then(() => {
+      .then(function(){
         resolve();
         preFetched[url] = true;
       })

@@ -45,7 +45,7 @@ import {
   SidebarItem,
   DocsSidebarItem,
 } from './types';
-import {docsVersion} from './version';
+import docsVersion from './version';
 
 const DEFAULT_OPTIONS: PluginOptions = {
   path: 'docs', // Path to data on filesystem, relative to site dir.
@@ -443,7 +443,7 @@ export default function pluginContentDocs(
                   options: {
                     remarkPlugins,
                     rehypePlugins,
-                    metadataPath: (mdxPath: string) => {
+                    metadataPath: (mdxPath: string): string => {
                       // Note that metadataPath must be the same/in-sync as
                       // the path from createData for each MDX.
                       const aliasedSource = aliasedSitePath(mdxPath, siteDir);

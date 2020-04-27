@@ -6,7 +6,7 @@
  */
 
 import path from 'path';
-import {loadThemeAlias} from '../index';
+import loadThemeAlias from '../index';
 
 describe('loadThemeAlias', () => {
   test('next alias can override the previous alias', () => {

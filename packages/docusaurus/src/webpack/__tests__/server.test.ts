@@ -7,7 +7,7 @@
 
 import {validate} from 'webpack';
 
-import {createServerConfig} from '../server';
+import createServerConfig from '../server';
 import loadSetup from '../../server/loadSetup';
 
 describe('webpack production config', () => {

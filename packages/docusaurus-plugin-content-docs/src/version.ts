@@ -15,7 +15,7 @@ import {
 import {Sidebar, PathOptions, SidebarItem} from './types';
 import loadSidebars from './sidebars';
 
-export function docsVersion(
+export default function docsVersion(
   version: string | null | undefined,
   siteDir: string,
   options: PathOptions,
