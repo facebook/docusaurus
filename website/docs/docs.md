@@ -293,6 +293,26 @@ module.exports = {
 };
 ```
 
+#### Toggling category open by default
+
+For sites that have collapsible categories, you may want more fine grain control over certain categories. If you want specific categories to be alwasy expanded, you can set `collapsed` to `false`:
+
+```js title="sidebars.js"
+module.exports = {
+  docs: {
+    Guides: [
+      'creating-pages',
+      {
+        type: 'category',
+        label: 'Docs',
+        collapsed: false,
+        items: ['markdown-features', 'sidebar', 'versioning'],
+      },
+    ],
+  },
+};
+```
+
 ## Docs-only mode
 
 If you just want the documentation feature, you can enable "docs-only mode".
