@@ -77,7 +77,8 @@ export default async function render(locals) {
       version: packageJson.version,
     },
     {
-      name: 'ssr-template'
+      autoTrim: false,
+      name: 'ssr-template',
     },
   );
 
