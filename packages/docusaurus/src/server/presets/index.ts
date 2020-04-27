@@ -40,8 +40,8 @@ export default function loadPresets(
       presetOptions,
     );
 
-    if(preset.plugins) unflatPlugins.push(preset.plugins);
-    if(preset.themes) unflatThemes.push(preset.themes);
+    if (preset.plugins) unflatPlugins.push(preset.plugins);
+    if (preset.themes) unflatThemes.push(preset.themes);
   });
 
   return {

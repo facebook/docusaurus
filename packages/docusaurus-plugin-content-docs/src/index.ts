@@ -332,11 +332,11 @@ export default function pluginContentDocs(
         );
 
         return routes.sort((a, b) => {
-          if(a.path > b.path) {
+          if (a.path > b.path) {
             return 1;
           }
           if (b.path > a.path) {
-           return -1;
+            return -1;
           }
           return 0;
         });

@@ -440,7 +440,7 @@ export default function pluginContentBlog(
       const feedTypes = getFeedTypes(options.feedOptions?.type);
 
       await Promise.all(
-        feedTypes.map(function(feedType) {
+        feedTypes.map(function (feedType) {
           const feedPath = path.join(
             outDir,
             options.routeBasePath,

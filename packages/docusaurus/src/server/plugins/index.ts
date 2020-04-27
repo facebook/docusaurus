@@ -34,7 +34,7 @@ export function sortConfig(routeConfigs: RouteConfig[]) {
       let score = 0;
       if (priorityA > priorityB) {
         score = -1;
-      } else if(priorityB > priorityA) {
+      } else if (priorityB > priorityA) {
         score = 1;
       }
 
@@ -43,7 +43,7 @@ export function sortConfig(routeConfigs: RouteConfig[]) {
       }
     }
 
-    if(a.path > b.path) {
+    if (a.path > b.path) {
       return 1;
     }
     if (b.path > a.path) {

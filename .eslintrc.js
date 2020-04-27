@@ -88,7 +88,7 @@ module.exports = {
         'prefer-object-spread': WARNING,
         'global-require': OFF,
         'no-shadow': WARNING,
-        'no-param-reassign': OFF
+        'no-param-reassign': OFF,
       },
       plugins: ['@typescript-eslint'],
       parser: '@typescript-eslint/parser',
