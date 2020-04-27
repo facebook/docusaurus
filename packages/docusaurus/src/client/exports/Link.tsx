@@ -17,10 +17,9 @@ declare global {
   }
 }
 
-interface Props {
+interface Props extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
   readonly isNavLink?: boolean;
   readonly to?: string;
-  readonly href: string;
 }
 
 function Link({isNavLink, ...props}: Props) {
