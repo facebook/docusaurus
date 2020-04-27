@@ -79,7 +79,11 @@ module.exports = {
         'plugin:import/typescript',
       ],
       rules: {
-        '@typescript-eslint/no-var-requires': 'off'
+        '@typescript-eslint/no-var-requires': OFF,
+        'prefer-object-spread': WARNING,
+        'global-require': OFF,
+        '@typescript-eslint/camelcase': WARNING,
+        'no-shadow': WARNING,
       },
       plugins: ['@typescript-eslint'],
       parser: '@typescript-eslint/parser',

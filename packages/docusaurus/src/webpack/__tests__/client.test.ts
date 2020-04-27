@@ -7,7 +7,7 @@
 
 import {validate} from 'webpack';
 
-import {createClientConfig} from '../client';
+import createClientConfig from '../client';
 import loadSetup from '../../server/loadSetup';
 
 describe('webpack dev config', () => {

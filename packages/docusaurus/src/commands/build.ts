@@ -15,8 +15,8 @@ import merge from 'webpack-merge';
 import {BuildCLIOptions, Props} from '@docusaurus/types';
 import {STATIC_DIR_NAME} from '../constants';
 import {load} from '../server';
-import {createClientConfig} from '../webpack/client';
-import {createServerConfig} from '../webpack/server';
+import createClientConfig from '../webpack/client';
+import createServerConfig from '../webpack/server';
 import {applyConfigureWebpack} from '../webpack/utils';
 import CleanWebpackPlugin from '../webpack/plugins/CleanWebpackPlugin';
 

@@ -10,7 +10,6 @@ import globby from 'globby';
 import path from 'path';
 import readingTime from 'reading-time';
 import {Feed} from 'feed';
-import {PluginOptions, BlogPost, DateLink} from './types';
 import {
   parse,
   normalizeUrl,
@@ -18,6 +17,8 @@ import {
   getEditUrl,
 } from '@docusaurus/utils';
 import {LoadContext} from '@docusaurus/types';
+
+import {PluginOptions, BlogPost, DateLink} from './types';
 
 export function truncate(fileString: string, truncateMarker: RegExp) {
   return fileString.split(truncateMarker, 1).shift()!;
@@ -32,58 +33,6 @@ function toUrl({date, link}: DateLink) {
     .toISOString()
     .substring(0, '2019-01-01'.length)
     .replace(/-/g, '/')}/${link}`;
-}
-
-export async function generateBlogFeed(
-  context: LoadContext,
-  options: PluginOptions,
-) {
-  if (!options.feedOptions) {
-    throw new Error(
-      'Invalid options - `feedOptions` is not expected to be null.',
-    );
-  }
-  const {siteDir, siteConfig} = context;
-  const contentPath = path.resolve(siteDir, options.path);
-  const blogPosts = await generateBlogPosts(contentPath, context, options);
-  if (blogPosts == null) {
-    return null;
-  }
-
-  const {feedOptions, routeBasePath} = options;
-  const {url: siteUrl, title, favicon} = siteConfig;
-  const blogBaseUrl = normalizeUrl([siteUrl, routeBasePath]);
-
-  const updated =
-    (blogPosts[0] && blogPosts[0].metadata.date) ||
-    new Date('2015-10-25T16:29:00.000-07:00');
-
-  const feed = new Feed({
-    id: blogBaseUrl,
-    title: feedOptions.title || `${title} Blog`,
-    updated,
-    language: feedOptions.language,
-    link: blogBaseUrl,
-    description: feedOptions.description || `${siteConfig.title} Blog`,
-    favicon: normalizeUrl([siteUrl, favicon]),
-    copyright: feedOptions.copyright,
-  });
-
-  blogPosts.forEach((post) => {
-    const {
-      id,
-      metadata: {title, permalink, date, description},
-    } = post;
-    feed.addItem({
-      title,
-      id,
-      link: normalizeUrl([siteUrl, permalink]),
-      date,
-      description,
-    });
-  });
-
-  return feed;
 }
 
 export async function generateBlogPosts(
@@ -175,6 +124,58 @@ export async function generateBlogPosts(
   );
 
   return blogPosts;
+}
+
+export async function generateBlogFeed(
+  context: LoadContext,
+  options: PluginOptions,
+) {
+  if (!options.feedOptions) {
+    throw new Error(
+      'Invalid options - `feedOptions` is not expected to be null.',
+    );
+  }
+  const {siteDir, siteConfig} = context;
+  const contentPath = path.resolve(siteDir, options.path);
+  const blogPosts = await generateBlogPosts(contentPath, context, options);
+  if (blogPosts == null) {
+    return null;
+  }
+
+  const {feedOptions, routeBasePath} = options;
+  const {url: siteUrl, title, favicon} = siteConfig;
+  const blogBaseUrl = normalizeUrl([siteUrl, routeBasePath]);
+
+  const updated =
+    (blogPosts[0] && blogPosts[0].metadata.date) ||
+    new Date('2015-10-25T16:29:00.000-07:00');
+
+  const feed = new Feed({
+    id: blogBaseUrl,
+    title: feedOptions.title || `${title} Blog`,
+    updated,
+    language: feedOptions.language,
+    link: blogBaseUrl,
+    description: feedOptions.description || `${siteConfig.title} Blog`,
+    favicon: normalizeUrl([siteUrl, favicon]),
+    copyright: feedOptions.copyright,
+  });
+
+  blogPosts.forEach((post) => {
+    const {
+      id,
+      metadata: {title, permalink, date, description},
+    } = post;
+    feed.addItem({
+      title,
+      id,
+      link: normalizeUrl([siteUrl, permalink]),
+      date,
+      description,
+    });
+  });
+
+  return feed;
 }
 
 export function linkify(

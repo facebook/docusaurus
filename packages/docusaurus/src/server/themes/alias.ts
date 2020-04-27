@@ -11,9 +11,9 @@ import path from 'path';
 import {fileToPath, posixPath, normalizeUrl} from '@docusaurus/utils';
 import {ThemeAlias} from '@docusaurus/types';
 
-export function themeAlias(
+export default function themeAlias(
   themePath: string,
-  addOriginalAlias: boolean = true,
+  addOriginalAlias = true,
 ): ThemeAlias {
   if (!fs.pathExistsSync(themePath)) {
     return {};

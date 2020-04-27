@@ -27,8 +27,7 @@ export default function initPlugins({
       if (typeof pluginItem === 'string') {
         pluginModuleImport = pluginItem;
       } else if (Array.isArray(pluginItem)) {
-        pluginModuleImport = pluginItem[0];
-        pluginOptions = pluginItem[1] || {};
+        [pluginModuleImport, pluginOptions = {}] = pluginItem;
       }
 
       if (!pluginModuleImport) {

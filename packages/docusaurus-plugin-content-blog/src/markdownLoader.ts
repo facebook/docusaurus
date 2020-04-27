@@ -7,6 +7,7 @@
 
 import {loader} from 'webpack';
 import {truncate, linkify} from './blogUtils';
+
 const {parseQuery, getOptions} = require('loader-utils');
 
 export = function (fileString: string) {

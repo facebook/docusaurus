@@ -41,7 +41,7 @@ export default function (siteDir: string): Env {
       fs.readFileSync(versionsJSONFile, 'utf8'),
     );
     if (parsedVersions && parsedVersions.length > 0) {
-      versioning.latestVersion = parsedVersions[0];
+      [versioning.latestVersion] = parsedVersions;
       versioning.enabled = true;
       versioning.versions = parsedVersions;
       versioning.docsDir = getVersionedDocsDir(siteDir);

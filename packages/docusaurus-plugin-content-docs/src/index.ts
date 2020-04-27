@@ -312,9 +312,15 @@ export default function pluginContentDocs(
           }),
         );
 
-        return routes.sort((a, b) =>
-          a.path > b.path ? 1 : b.path > a.path ? -1 : 0,
-        );
+        return routes.sort((a, b) => {
+          if(a.path > b.path) {
+            return 1;
+          }
+          if (b.path > a.path) {
+           return -1;
+          }
+          return 0;
+        });
       };
 
       const addBaseRoute = async (

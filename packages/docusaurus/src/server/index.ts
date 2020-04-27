@@ -22,9 +22,9 @@ import {
 import loadClientModules from './client-modules';
 import loadConfig from './config';
 import {loadPlugins} from './plugins';
-import {loadPresets} from './presets';
-import {loadRoutes} from './routes';
-import {loadThemeAlias} from './themes';
+import loadPresets from './presets';
+import loadRoutes from './routes';
+import loadThemeAlias from './themes';
 import {loadHtmlTags} from './html-tags';
 
 export function loadContext(

@@ -407,7 +407,7 @@ export default function pluginContentBlog(
       };
     },
 
-    async postBuild({outDir}: Props) {
+    async postBuild({outDir}: Props): Promise<void> {
       if (!options.feedOptions) {
         return;
       }
@@ -421,7 +421,7 @@ export default function pluginContentBlog(
       const feedTypes = getFeedTypes(options.feedOptions?.type);
 
       await Promise.all(
-        feedTypes.map((feedType) => {
+        feedTypes.map((feedType): void => {
           const feedPath = path.join(
             outDir,
             options.routeBasePath,
@@ -461,7 +461,7 @@ export default function pluginContentBlog(
       };
       const headTags: HtmlTags = [];
 
-      feedTypes.map((feedType) => {
+      feedTypes.map((feedType): void => {
         const feedConfig = feedsConfig[feedType] || {};
 
         if (!feedsConfig) {

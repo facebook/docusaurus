@@ -23,7 +23,7 @@ import {StartCLIOptions} from '@docusaurus/types';
 import {load} from '../server';
 
 import {CONFIG_FILE_NAME, STATIC_DIR_NAME, DEFAULT_PORT} from '../constants';
-import {createClientConfig} from '../webpack/client';
+import createClientConfig from '../webpack/client';
 import {applyConfigureWebpack} from '../webpack/utils';
 
 import chalk = require('chalk');

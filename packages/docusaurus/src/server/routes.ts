@@ -36,7 +36,7 @@ function getModulePath(target: Module): string {
   return `${target.path}${queryStr}`;
 }
 
-export async function loadRoutes(
+export default async function loadRoutes(
   pluginsRouteConfigs: RouteConfig[],
   baseUrl: string,
 ) {

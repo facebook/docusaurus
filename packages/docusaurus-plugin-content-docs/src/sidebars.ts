@@ -144,13 +144,13 @@ function normalizeSidebar(sidebars: SidebarRaw): Sidebar {
 
 export default function loadSidebars(sidebarPaths?: string[]): Sidebar {
   // We don't want sidebars to be cached because of hot reloading.
-  let allSidebars: SidebarRaw = {};
+  const allSidebars: SidebarRaw = {};
 
   if (!sidebarPaths || !sidebarPaths.length) {
     return {} as Sidebar;
   }
 
-  sidebarPaths.map((sidebarPath) => {
+  sidebarPaths.map((sidebarPath): void => {
     if (sidebarPath && fs.existsSync(sidebarPath)) {
       const sidebar = importFresh(sidebarPath) as SidebarRaw;
       Object.assign(allSidebars, sidebar);

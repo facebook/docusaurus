@@ -15,9 +15,9 @@ import {createBaseConfig} from './base';
 import ChunkAssetPlugin from './plugins/ChunkAssetPlugin';
 import LogPlugin from './plugins/LogPlugin';
 
-export function createClientConfig(
+export default function createClientConfig(
   props: Props,
-  minify: boolean = true,
+  minify = true,
 ): Configuration {
   const isProd = process.env.NODE_ENV === 'production';
   const isBuilding = process.argv[2] === 'build';

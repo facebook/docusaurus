@@ -34,7 +34,7 @@ async function updatePkg(pkgPath: string, obj: any): Promise<void> {
   await fs.outputFile(pkgPath, JSON.stringify(newPkg, null, 2));
 }
 
-export async function init(
+export default async function init(
   rootDir: string,
   siteName?: string,
   reqTemplate?: string,

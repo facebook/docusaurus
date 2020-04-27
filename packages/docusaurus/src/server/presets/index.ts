@@ -13,7 +13,7 @@ import {
   PresetConfig,
 } from '@docusaurus/types';
 
-export function loadPresets(
+export default function loadPresets(
   context: LoadContext,
 ): {
   plugins: PluginConfig[];
@@ -29,8 +29,7 @@ export function loadPresets(
     if (typeof presetItem === 'string') {
       presetModuleImport = presetItem;
     } else if (Array.isArray(presetItem)) {
-      presetModuleImport = presetItem[0];
-      presetOptions = presetItem[1] || {};
+      [presetModuleImport, presetOptions = {}] = presetItem;
     } else {
       throw new Error('Invalid presets format detected in config.');
     }
@@ -41,8 +40,8 @@ export function loadPresets(
       presetOptions,
     );
 
-    preset.plugins && unflatPlugins.push(preset.plugins);
-    preset.themes && unflatThemes.push(preset.themes);
+    if(preset.plugins) unflatPlugins.push(preset.plugins);
+    if(preset.themes) unflatThemes.push(preset.themes);
   });
 
   return {
