@@ -1,6 +1,6 @@
 # Docusaurus 2 Changelog
 
-## 2.0.0-alpha.52
+## 2.0.0-alpha.53
 
 **HOTFIX for 2.0.0-alpha.51**.
 
