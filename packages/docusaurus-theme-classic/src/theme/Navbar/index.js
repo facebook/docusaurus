@@ -29,7 +29,8 @@ function NavLink({
   ...props
 }) {
   const toUrl = useBaseUrl(to);
-  const activeBaseUrl = useBaseUrl(activeBasePath);
+  const activeBaseUrl = useBaseUrl(activeBasePath.toString());
+  const activeBasePathIsRegex = typeof activeBasePath === 'object';
 
   return (
     <Link
@@ -45,8 +46,19 @@ function NavLink({
             to: toUrl,
             ...(activeBasePath
               ? {
-                  isActive: (_match, location) =>
-                    location.pathname.startsWith(activeBaseUrl),
+                  isActive: (_match, location) => {
+                    if (activeBasePathIsRegex) {
+                      return activeBasePath.test(location.pathname);
+                    }
+
+                    if (typeof activeBasePath === 'string') {
+                      return location.pathname.startsWith(activeBaseUrl);
+                    }
+
+                    throw new Error(
+                      'activeBasePath must be a string or Regular Expression',
+                    );
+                  },
                 }
               : null),
           })}
