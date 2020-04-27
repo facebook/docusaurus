@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/utils",
-  "version": "2.0.0-alpha.50",
+  "version": "2.0.0-alpha.53",
   "description": "Node utility functions for Docusaurus packages",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
