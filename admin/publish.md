@@ -14,6 +14,8 @@ If you are not currently logged into npm on your CLI, do the following:
 
 ## Docusaurus 2
 
+<!-- TODO: describe the process of hotfix releases -->
+
 If you're publishing new v2 versions, 2FA might get in the way as the pin might expire during the publishing as there are over 10 packages to publish. You're encouraged not to use the "Authorization and Publishing" 2FA option.
 
 ### 0. Build skeleton website with new version (Docker required)
@@ -38,7 +40,7 @@ If there are no errors, you can start preparing for the new release.
 
 Generate a GitHub auth token by going to https://github.com/settings/tokens. Save the token somewhere for future reference.
 
-> Before running the command below, get all tags from the original repository by runnung `git fetch --tags`.
+> Before running the command below, get all tags from the original repository by running `git fetch --tags`.
 
 ```sh
 GITHUB_AUTH=<Your GitHub auth token> yarn changelog
@@ -97,7 +99,7 @@ npm access ls-packages
 </pre>
 </details>
 
-If all accesses are available, you can run the command to release a new version:
+If all accesses are available, build all the necessary packages with `yarn tsc`, and then you can run the command to release a new version:
 
 ```sh
 yarn lerna publish 2.0.0-alpha.41 --dist-tag next
