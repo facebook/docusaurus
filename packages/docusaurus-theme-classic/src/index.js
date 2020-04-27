@@ -46,7 +46,7 @@ module.exports = function (context, options) {
     defaultDarkMode = false,
     prism: {additionalLanguages = []} = {},
   } = themeConfig || {};
-  const {customCss} = options || {};
+  const {customCss} = options;
 
   return {
     name: 'docusaurus-theme-classic',
@@ -56,11 +56,16 @@ module.exports = function (context, options) {
     },
 
     getClientModules() {
-      return [
+      const modules = [
         'infima/dist/css/default/default.css',
-        customCss,
         path.resolve(__dirname, './prism-include-languages'),
       ];
+
+      if (customCss) {
+        modules.push(customCss);
+      }
+
+      return modules;
     },
 
     configureWebpack() {
