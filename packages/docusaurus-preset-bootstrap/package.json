@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/preset-bootstrap",
-  "version": "2.0.0-alpha.50",
+  "version": "2.0.0-alpha.51",
   "description": "Preset for bootstrap Docusaurus",
   "main": "src/index.js",
   "license": "MIT",
@@ -8,9 +8,9 @@
     "access": "public"
   },
   "dependencies": {
-    "@docusaurus/theme-bootstrap": "^2.0.0-alpha.50",
-    "@docusaurus/plugin-content-blog": "^2.0.0-alpha.50",
-    "@docusaurus/plugin-content-pages": "^2.0.0-alpha.50"
+    "@docusaurus/plugin-content-blog": "^2.0.0-alpha.51",
+    "@docusaurus/plugin-content-pages": "^2.0.0-alpha.51",
+    "@docusaurus/theme-bootstrap": "^2.0.0-alpha.51"
   },
   "peerDependencies": {
     "@docusaurus/core": "^2.0.0"

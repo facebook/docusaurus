@@ -20,7 +20,14 @@ import useLogo from '@theme/hooks/useLogo';
 
 import styles from './styles.module.css';
 
-function NavLink({activeBasePath, to, href, label, position, ...props}) {
+function NavLink({
+  activeBasePath,
+  to,
+  href,
+  label,
+  activeClassName = 'navbar__link--active',
+  ...props
+}) {
   const toUrl = useBaseUrl(to);
   const activeBaseUrl = useBaseUrl(activeBasePath);
 
@@ -34,7 +41,7 @@ function NavLink({activeBasePath, to, href, label, position, ...props}) {
           }
         : {
             isNavLink: true,
-            activeClassName: 'navbar__link--active',
+            activeClassName,
             to: toUrl,
             ...(activeBasePath
               ? {
@@ -50,8 +57,14 @@ function NavLink({activeBasePath, to, href, label, position, ...props}) {
 }
 
 function NavItem({items, position, className, ...props}) {
-  const navLinkClassNames = (extraClassName) =>
-    classnames('navbar__item', 'navbar__link', extraClassName);
+  const navLinkClassNames = (extraClassName, isDropdownItem = false) =>
+    classnames(
+      {
+        'navbar__item navbar__link': !isDropdownItem,
+        dropdown__link: isDropdownItem,
+      },
+      extraClassName,
+    );
 
   if (!items) {
     return <NavLink className={navLinkClassNames(className)} {...props} />;
@@ -63,20 +76,27 @@ function NavItem({items, position, className, ...props}) {
         'dropdown--left': position === 'left',
         'dropdown--right': position === 'right',
       })}>
-      <NavLink className={navLinkClassNames(className)} {...props}>
+      <NavLink
+        className={navLinkClassNames(className)}
+        {...props}
+        onClick={(e) => e.preventDefault()}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            e.target.parentNode.classList.toggle('dropdown--show');
+          }
+        }}>
         {props.label}
       </NavLink>
       <ul className="dropdown__menu">
-        {items.map(
-          ({className: childItemClassName, ...linkItemInnerProps}, i) => (
-            <li key={i}>
-              <NavLink
-                className={navLinkClassNames(childItemClassName)}
-                {...linkItemInnerProps}
-              />
-            </li>
-          ),
-        )}
+        {items.map(({className: childItemClassName, ...childItemProps}, i) => (
+          <li key={i}>
+            <NavLink
+              activeClassName="dropdown__link--active"
+              className={navLinkClassNames(childItemClassName, true)}
+              {...childItemProps}
+            />
+          </li>
+        ))}
       </ul>
     </div>
   );
@@ -84,9 +104,13 @@ function NavItem({items, position, className, ...props}) {
 
 function MobileNavItem({items, className, ...props}) {
   const navLinkClassNames = (extraClassName, isSubList = false) =>
-    classnames('menu__link', extraClassName, {
-      'menu__link--sublist': isSubList,
-    });
+    classnames(
+      'menu__link',
+      {
+        'menu__link--sublist': isSubList,
+      },
+      extraClassName,
+    );
 
   if (!items) {
     return (
@@ -102,17 +126,16 @@ function MobileNavItem({items, className, ...props}) {
         {props.label}
       </NavLink>
       <ul className="menu__list">
-        {items.map(
-          ({className: childItemClassName, ...linkItemInnerProps}, i) => (
-            <li className="menu__list-item" key={i}>
-              <NavLink
-                className={navLinkClassNames(childItemClassName)}
-                {...linkItemInnerProps}
-                onClick={props.onClick}
-              />
-            </li>
-          ),
-        )}
+        {items.map(({className: childItemClassName, ...childItemProps}, i) => (
+          <li className="menu__list-item" key={i}>
+            <NavLink
+              activeClassName="menu__link--active"
+              className={navLinkClassNames(childItemClassName)}
+              {...childItemProps}
+              onClick={props.onClick}
+            />
+          </li>
+        ))}
       </ul>
     </li>
   );

@@ -122,6 +122,7 @@ module.exports = {
           href: 'https://github.com/facebook/docusaurus',
           position: 'right',
           className: 'header-github-link',
+          'aria-label': 'GitHub repository',
         },
       ],
     },

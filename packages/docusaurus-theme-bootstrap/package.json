@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/theme-bootstrap",
-  "version": "2.0.0-alpha.50",
+  "version": "2.0.0-alpha.51",
   "description": "Bootstrap theme for docusaurus",
   "main": "src/index.js",
   "license": "MIT",
