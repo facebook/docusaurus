@@ -16,8 +16,6 @@ module.exports = function () {
     getClientModules() {
       return [
         'bootstrap/dist/css/bootstrap.min.css',
-        /* Ensure to use this stable version for jquery: https://github.com/jquery/jquery/issues/4665 */
-        'bootstrap/dist/js/bootstrap.min.js',
       ];
     },
   };
