@@ -116,11 +116,18 @@ function mutateSidebarCollapsingState(item, path) {
         items
           .map((childItem) => mutateSidebarCollapsingState(childItem, path))
           .filter((val) => val).length > 0;
-      // only modify item.collapsed if there are child items active and the category collapsed is set to true
-      if (anyChildItemsActive && item.collapsed) {
+
+      // Check if the user wants the category to be expanded by default
+      const shouldExpand = item.collapsed === false;
+
+      // eslint-disable-next-line no-param-reassign
+      item.collapsed = !anyChildItemsActive;
+
+      if (shouldExpand) {
         // eslint-disable-next-line no-param-reassign
-        item.collapsed = !anyChildItemsActive;
+        item.collapsed = false;
       }
+
       return anyChildItemsActive;
     }
 
