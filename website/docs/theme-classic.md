@@ -137,6 +137,8 @@ module.exports = {
           position: 'left', // or 'right'
           // To apply the active class styling on all
           // routes starting with this path.
+          // This can also be a Regular Expression.
+          // If so, it will be tested against the current URL
           activeBasePath: 'docs',
           className: '', // Custom CSS class (for styling any item)
         },
