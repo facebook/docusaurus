@@ -78,7 +78,7 @@ export default async function render(locals) {
     },
     {
       autoTrim: 'slurp',
-      name: 'ssr-template'
+      name: 'ssr-template',
     },
   );
 
