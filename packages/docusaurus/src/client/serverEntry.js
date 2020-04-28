@@ -78,7 +78,7 @@ export default async function render(locals) {
     },
     {
       name: 'ssr-template',
-      rmWhitespace: true
+      rmWhitespace: true,
     },
   );
 
