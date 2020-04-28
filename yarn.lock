@@ -4432,17 +4432,7 @@ caniuse-api@^3.0.0:
     lodash.memoize "^4.1.2"
     lodash.uniq "^4.5.0"
 
-caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000981, caniuse-lite@^1.0.30000989, caniuse-lite@^1.0.30001012, caniuse-lite@^1.0.30001015:
-  version "1.0.30001047"
-  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001047.tgz"
-  integrity sha512-eaZFO+zPTGCCi5EBK0Ri8f2qXJ1lLH0Ic/UM2wrfc0bQkSiwGEk75tZEu2Gns7uvTMKcADLh0+QdTjzcRt3owA==
-
-caniuse-lite@^1.0.30001035:
-  version "1.0.30001047"
-  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001047.tgz"
-  integrity sha512-eaZFO+zPTGCCi5EBK0Ri8f2qXJ1lLH0Ic/UM2wrfc0bQkSiwGEk75tZEu2Gns7uvTMKcADLh0+QdTjzcRt3owA==
-
-caniuse-lite@^1.0.30001036, caniuse-lite@^1.0.30001038:
+caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000981, caniuse-lite@^1.0.30000989, caniuse-lite@^1.0.30001012, caniuse-lite@^1.0.30001015, caniuse-lite@^1.0.30001035, caniuse-lite@^1.0.30001036, caniuse-lite@^1.0.30001038:
   version "1.0.30001047"
   resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001047.tgz"
   integrity sha512-eaZFO+zPTGCCi5EBK0Ri8f2qXJ1lLH0Ic/UM2wrfc0bQkSiwGEk75tZEu2Gns7uvTMKcADLh0+QdTjzcRt3owA==
@@ -8720,10 +8710,10 @@ infer-owner@^1.0.3, infer-owner@^1.0.4:
   resolved "https://registry.yarnpkg.com/infer-owner/-/infer-owner-1.0.4.tgz#c4cefcaa8e51051c2a40ba2ce8a3d27295af9467"
   integrity sha512-IClj+Xz94+d7irH5qRyfJonOdfTzuDaifE6ZPWfx0N0+/ATZCbuTPq2prFl526urkQd90WyUKIh1DfBQ2hMz9A==
 
-infima@0.2.0-alpha.6:
-  version "0.2.0-alpha.6"
-  resolved "https://registry.yarnpkg.com/infima/-/infima-0.2.0-alpha.6.tgz#69233fc055a7e9eb08fd70e1497ff8e2a68dd928"
-  integrity sha512-5Oin586QeBa5VdP8xpPuHB/BDg1D66+B5bFG67XPqKV8mD0hwKt2LJFYqoSJKGPBccxGBQpHEOFUd2sUSdhdGA==
+infima@0.2.0-alpha.9:
+  version "0.2.0-alpha.9"
+  resolved "https://registry.yarnpkg.com/infima/-/infima-0.2.0-alpha.9.tgz#2eea70b1571c8f55847e3f305ebd10814d2d09cf"
+  integrity sha512-EXsGm6WhsabOangUkHyTx1qfKJdHF3Q9na/hJe387ytOkWu/phwjsA7T/C6b2KeRTdZl/DO1tFZsFc2+Qnif7A==
 
 inflight@^1.0.4:
   version "1.0.6"
@@ -13482,10 +13472,15 @@ pretty-time@^1.1.0:
   resolved "https://registry.yarnpkg.com/pretty-time/-/pretty-time-1.1.0.tgz#ffb7429afabb8535c346a34e41873adf3d74dd0e"
   integrity sha512-28iF6xPQrP8Oa6uxE6a1biz+lWeTOAPKggvjB8HAs6nVMKZwf5bG++632Dx614hIWgUPkgivRfG+a8uAXGTIbA==
 
-prism-react-renderer@^1.0.1, prism-react-renderer@^1.0.2:
+prism-react-renderer@^1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/prism-react-renderer/-/prism-react-renderer-1.0.2.tgz#3bb9a6a42f76fc049b03266298c7068fdd4b7ea9"
   integrity sha512-0++pJyRfu4v2OxI/Us/5RLui9ESDkTiLkVCtKuPZYdpB8UQWJpnJQhPrWab053XtsKW3oM0sD69uJ6N9exm1Ag==
+
+prism-react-renderer@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/prism-react-renderer/-/prism-react-renderer-1.1.0.tgz#6fe1b33f1de1b23afbdb07663d135f9026eef4ad"
+  integrity sha512-WZAw+mBoxk1qZDD1h1WOg0BVHgyk9zqbuIBFNgP+Z71i515jGL0WZIN1FIF8EgOyh06x8Rr7HAUXxsRsoUZKyg==
 
 prismjs@^1.17.1:
   version "1.17.1"
@@ -13494,10 +13489,10 @@ prismjs@^1.17.1:
   optionalDependencies:
     clipboard "^2.0.0"
 
-prismjs@^1.19.0:
-  version "1.19.0"
-  resolved "https://registry.yarnpkg.com/prismjs/-/prismjs-1.19.0.tgz#713afbd45c3baca4b321569f2df39e17e729d4dc"
-  integrity sha512-IVFtbW9mCWm9eOIaEkNyo2Vl4NnEifis2GQ7/MLRG5TQe6t+4Sj9J5QWI9i3v+SS43uZBlCAOn+zYTVYQcPXJw==
+prismjs@^1.20.0:
+  version "1.20.0"
+  resolved "https://registry.yarnpkg.com/prismjs/-/prismjs-1.20.0.tgz#9b685fc480a3514ee7198eac6a3bf5024319ff03"
+  integrity sha512-AEDjSrVNkynnw6A+B1DsFkd6AVdTnp+/WoUixFRULlCLZVRZlVQMVWio/16jv7G1FscUxQxOQhWwApgbnxr6kQ==
   optionalDependencies:
     clipboard "^2.0.0"
 
