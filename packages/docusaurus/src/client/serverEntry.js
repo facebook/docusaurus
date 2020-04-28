@@ -62,7 +62,10 @@ export default async function render(locals) {
   const {baseUrl} = locals;
 
   const renderedHtml = eta.render(
-    ssrTemplate.trim(),
+    ssrTemplate
+      .trim()
+      .replace(/[\r\n]+/g, '\n')
+      .replace(/^\s+|\s+$/gm, ''),
     {
       appHtml,
       baseUrl,
@@ -77,7 +80,6 @@ export default async function render(locals) {
       version: packageJson.version,
     },
     {
-      autoTrim: false,
       name: 'ssr-template',
     },
   );
