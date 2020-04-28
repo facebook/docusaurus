@@ -6700,10 +6700,10 @@ esutils@^2.0.2:
   resolved "https://registry.yarnpkg.com/esutils/-/esutils-2.0.3.tgz#74d2eb4de0b8da1293711910d50775b9b710ef64"
   integrity sha512-kVscqXk4OCp68SZ0dkgEKVi6/8ij300KBWTJq32P/dYeWTSwK41WyTxalN1eRmA5Z9UU/LX9D7FWSmV9SAYx6g==
 
-eta@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/eta/-/eta-1.1.0.tgz#e43c1aa6ea1d727b59c75e928a19a7e3019efb88"
-  integrity sha512-uRJ5adkcETpARCpAkN56t13AjZePSA99A/OgNwSdc/wCthr8l+uEcvbx53R4rutwmfSBlF6VOYq7vXgooqVJNQ==
+eta@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/eta/-/eta-1.1.1.tgz#acd575025233488a66870b02223001d4cd467441"
+  integrity sha512-YRchTAXZZrrJVmlAwmLHuKmlHNJ2hO0uen8LsDqvH5kknRjh0ef+Y9kInENygCgvu7FQNJBpbyDChfMo8f5Qgw==
 
 etag@~1.8.1:
   version "1.8.1"

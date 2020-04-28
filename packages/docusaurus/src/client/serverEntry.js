@@ -62,10 +62,7 @@ export default async function render(locals) {
   const {baseUrl} = locals;
 
   const renderedHtml = eta.render(
-    ssrTemplate
-      .trim()
-      .replace(/[\r\n]+/g, '\n')
-      .replace(/^\s+|\s+$/gm, ''),
+    ssrTemplate.trim(),
     {
       appHtml,
       baseUrl,
@@ -81,6 +78,7 @@ export default async function render(locals) {
     },
     {
       name: 'ssr-template',
+      rmWhitespace: true
     },
   );
 
