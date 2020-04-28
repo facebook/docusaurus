@@ -52,9 +52,7 @@ function NavLink({
                       return activeBaseReg.test(location.pathname);
                     }
 
-                    if (activeBaseUrl) {
-                      return location.pathname.startsWith(activeBaseUrl);
-                    }
+                    return location.pathname.startsWith(activeBaseUrl);
                   },
                 }
               : null),
