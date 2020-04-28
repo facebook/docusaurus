@@ -22,7 +22,7 @@ import styles from './styles.module.css';
 
 function NavLink({
   activeBasePath,
-  activeBaseTest,
+  activeBaseRegex,
   to,
   href,
   label,
@@ -44,16 +44,12 @@ function NavLink({
             isNavLink: true,
             activeClassName,
             to: toUrl,
-            ...(activeBasePath || activeBaseTest
+            ...(activeBasePath || activeBaseRegex
               ? {
-                  isActive: (_match, location) => {
-                    if (activeBaseTest) {
-                      const activeBaseReg = new RegExp(activeBaseTest);
-                      return activeBaseReg.test(location.pathname);
-                    }
-
-                    return location.pathname.startsWith(activeBaseUrl);
-                  },
+                  isActive: (_match, location) =>
+                    activeBaseRegex
+                      ? new RegExp(activeBaseRegex).test(location.pathname)
+                      : location.pathname.startsWith(activeBaseUrl),
                 }
               : null),
           })}
