@@ -7,7 +7,7 @@
 
 import React, {useEffect, useRef} from 'react';
 
-import {NavLink, Link as RRLink} from 'react-router-dom';
+import {NavLink, Link as RRLink, LinkProps} from 'react-router-dom';
 import isInternalUrl from './isInternalUrl';
 import ExecutionEnvironment from './ExecutionEnvironment';
 
@@ -17,14 +17,14 @@ declare global {
   }
 }
 
-interface Props extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
+interface Props extends Omit<LinkProps, 'to'> {
   readonly isNavLink?: boolean;
   readonly to?: string;
 }
 
 function Link({isNavLink, ...props}: Props) {
   const {to, href} = props;
-  const targetLink = to || href;
+  const targetLink = to || href!;
   const isInternal = isInternalUrl(targetLink);
   const preloaded = useRef(false);
   const LinkComponent = isNavLink ? NavLink : RRLink;
