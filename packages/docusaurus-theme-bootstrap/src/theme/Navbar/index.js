@@ -9,6 +9,7 @@ import React, {useState, useCallback} from 'react';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
+import useLogo from '@theme/hooks/useLogo';
 import {
   Collapse,
   Navbar as NavbarBase,
@@ -16,7 +17,7 @@ import {
   NavbarBrand,
   Nav,
   NavItem as NavItemBase,
-} from 'reactstrap'
+} from 'reactstrap';
 
 function NavItem({href, label, to, ...props}) {
   const toUrl = useBaseUrl(to);
@@ -51,30 +52,35 @@ function Navbar() {
 
   const [sidebarShown, setSidebarShown] = useState(false);
   const handleToggle = useCallback(() => {
-    setSidebarShown(!sidebarShown)
-  }, [sidebarShown, setSidebarShown])
-  //const {logoLink, logoLinkProps, logoImageUrl, logoAlt} = useLogo();
+    setSidebarShown(!sidebarShown);
+  }, [sidebarShown, setSidebarShown]);
+  const {logoLink, logoLinkProps, logoImageUrl, logoAlt} = useLogo();
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light mb-5">
-      {/*<Link className="navbar-brand" to={logoLink} {...logoLinkProps}>
-        {logoImageUrl != null && (
-          <img
-            key={isClient}
-            width="50"
-            height="50"
-            style={{
-              maxWidth: '100%',
-            }}
-            src={logoImageUrl}
-            alt={logoAlt}
-          />
-        )}
-        {title != null && <span className="ml-2">{title}</span>}
-      </Link>*/}
+    <NavbarBase color="light" light expand="md">
+      <NavbarBrand>
+        <Link to={logoLink} {...logoLinkProps}>
+          {logoImageUrl != null && (
+            <img
+              key={isClient}
+              width="50"
+              height="50"
+              style={{
+                maxWidth: '100%',
+              }}
+              src={logoImageUrl}
+              alt={logoAlt}
+            />
+          )}
+          {title != null && <span className="ml-2">{title}</span>}
+        </Link>
+      </NavbarBrand>
 
-      <NavbarToggler onClick={handleToggle}/>
-      <Collapse isOpen={sidebarShown} navbar>
+      <NavbarToggler onClick={handleToggle} />
+      <Collapse
+        isOpen={sidebarShown}
+        navbar
+        className="justify-content-between">
         <Nav navbar>
           {links != null &&
             links.length !== 0 &&
@@ -91,7 +97,7 @@ function Navbar() {
               .map((linkItem, key) => <NavItem {...linkItem} key={key} />)}
         </Nav>
       </Collapse>
-    </nav>
+    </NavbarBase>
   );
 }
 
