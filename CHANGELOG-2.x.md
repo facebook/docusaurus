@@ -1,5 +1,26 @@
 # Docusaurus 2 Changelog
 
+## 2.0.0-alpha.54
+
+**HOTFIX for 2.0.0-alpha.53**.
+
+#### :bug: Bug Fix
+
+- `docusaurus-theme-classic`
+  - [#2688](https://github.com/facebook/docusaurus/pull/2688) fix(v2): add default value for options in theme classic ([@lex111](https://github.com/lex111))
+- `docusaurus-module-type-aliases`
+  - [#2687](https://github.com/facebook/docusaurus/pull/2687) fix(v2): Add all webpack module aliases to type declaration file ([@SamChou19815](https://github.com/SamChou19815))
+
+#### :memo: Documentation
+
+- [#2680](https://github.com/facebook/docusaurus/pull/2680) docs(v2): add swizzle example ([@jsjoeio](https://github.com/jsjoeio))
+
+#### Committers: 3
+
+- Alexey Pyltsyn ([@lex111](https://github.com/lex111))
+- Joe Previte ([@jsjoeio](https://github.com/jsjoeio))
+- Sam Zhou ([@SamChou19815](https://github.com/SamChou19815))
+
 ## 2.0.0-alpha.53
 
 **HOTFIX for 2.0.0-alpha.51**.
