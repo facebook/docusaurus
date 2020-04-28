@@ -46,7 +46,7 @@ module.exports = function (context, options) {
     defaultDarkMode = false,
     prism: {additionalLanguages = []} = {},
   } = themeConfig || {};
-  const {customCss} = options;
+  const {customCss} = options || {};
 
   return {
     name: 'docusaurus-theme-classic',
