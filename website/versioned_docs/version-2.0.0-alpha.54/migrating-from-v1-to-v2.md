@@ -40,7 +40,7 @@ This provides a clear distinction between Docusaurus' official packages and comm
 
 Meanwhile, the default doc site functionalities provided by Docusaurus 1 are now provided by `@docusaurus/preset-classic`. Therefore, we need to add this dependency as well:
 
-```json title="package.json"
+```diff title="package.json"
 {
   dependencies: {
 -   "docusaurus": "^1.x.x",
@@ -428,7 +428,7 @@ In previous version, nested sidebar category is not allowed and sidebar category
 
 You'll have to migrate your sidebar if it contains category type. Rename `subcategory` to `category` and `ids` to `items`.
 
-```js title="sidebars.json"
+```diff title="sidebars.json"
 {
 - type: 'subcategory',
 + type: 'category',
@@ -571,7 +571,7 @@ Since we're going for snapshot and allow people to move (and edit) docs easily i
 
 Essentially, here are the necessary changes in each versioned_docs file:
 
-```yaml {2-3,5}
+```diff {2-3,5}
 ---
 - id: version-1.0.0-hello
 + id: hello
@@ -615,7 +615,7 @@ So v1 users need to migrate their versioned_sidebars file
 
 Example `versioned_sidebars/version-1.0.0-sidebars.json`:
 
-```json {2-3,5-6,9-10}  title="versioned_sidebars/version-1.0.0-sidebars.json"
+```diff {2-3,5-6,9-10}  title="versioned_sidebars/version-1.0.0-sidebars.json"
 {
 + "version-1.0.0/docs": {
 - "version-1.0.0-docs": {
