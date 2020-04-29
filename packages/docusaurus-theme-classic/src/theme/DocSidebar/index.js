@@ -44,6 +44,26 @@ function DocSidebarItem({
     setCollapsed((state) => !state);
   });
 
+  const activePageRelativeUrl =
+    window.location.pathname + window.location.search;
+
+  // We need to know if the category item
+  // is the parent of the active page
+  // If it is, this returns true and make sure to highlight this category
+  const isCategoryOfActivePage = () => {
+    // Make sure we have items
+    if (typeof items !== 'undefined') {
+      return items.some((categoryItem) => {
+        // Grab the category item's href
+        const childHref = categoryItem.href;
+        // Compare it to the current active page
+        return activePageRelativeUrl === childHref;
+      });
+    }
+
+    return false;
+  };
+
   switch (type) {
     case 'category':
       return (
@@ -56,7 +76,8 @@ function DocSidebarItem({
             <a
               className={classnames('menu__link', {
                 'menu__link--sublist': collapsible,
-                'menu__link--active': collapsible && !item.collapsed,
+                'menu__link--active':
+                  collapsible && !item.collapsed && isCategoryOfActivePage(),
               })}
               href="#!"
               onClick={collapsible ? handleItemClick : undefined}
