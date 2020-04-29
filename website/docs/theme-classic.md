@@ -139,7 +139,7 @@ module.exports = {
           // routes starting with this path.
           // This usually isn't necessary
           activeBasePath: 'docs',
-          // activeBaseRegex: 'docs/(next|v8)'
+          activeBaseRegex: 'docs/(next|v8)', // Alternatively to above one
           className: '', // Custom CSS class (for styling any item)
         },
         // ... other links
