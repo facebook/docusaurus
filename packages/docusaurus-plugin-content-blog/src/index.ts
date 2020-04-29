@@ -470,12 +470,12 @@ export default function pluginContentBlog(
       const feedsConfig = {
         rss: {
           type: 'application/rss+xml',
-          path: 'blog/rss.xml',
+          path: 'rss.xml',
           title: `${title} Blog RSS Feed`,
         },
         atom: {
           type: 'application/atom+xml',
-          path: 'blog/atom.xml',
+          path: 'atom.xml',
           title: `${title} Blog Atom Feed`,
         },
       };
@@ -495,7 +495,7 @@ export default function pluginContentBlog(
           attributes: {
             rel: 'alternate',
             type,
-            href: normalizeUrl([baseUrl, path]),
+            href: normalizeUrl([baseUrl, options.routeBasePath, path]),
             title,
           },
         });
