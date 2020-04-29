@@ -11,7 +11,7 @@ import BlogListPaginator from '@theme/BlogListPaginator';
 
 function BlogListPage(props) {
   const {items, metadata} = props;
-  console.log(items, metadata);
+
   return (
     <div className="container-fluid mt-5">
       <div className="row row-cols-1 row-cols-sm-1">
