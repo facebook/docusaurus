@@ -39,7 +39,7 @@ function Footer() {
   const {links} = footer || {};
 
   return (
-    <footer className="container p-0 m-0">
+    <footer className="container-fluid m-0 p-0">
       <div className="row bg-light no-gutters justify-content-center">
         {links && links.length > 0 && (
           <>
