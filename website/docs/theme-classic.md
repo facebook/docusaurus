@@ -150,7 +150,7 @@ module.exports = {
 };
 ```
 
-React Router should automatically apply active link styling to links, but you can use `activeBasePath` in edge cases. For cases in which a link should be active on several different paths (such as when you have multiple doc folders under the same sidebar), you can use `activeBaseRegex`. `activeBaseRegex` overrides `activeBasePath` -- Docusaurus parses it into a regular expression that is tested against the current URL.
+React Router should automatically apply active link styling to links, but you can use `activeBasePath` in edge cases. For cases in which a link should be active on several different paths (such as when you have multiple doc folders under the same sidebar), you can use `activeBaseRegex`. `activeBaseRegex` is more flexible alternative to `activeBasePath` and takes precedence over it -- Docusaurus parses it into a regular expression that is tested against the current URL.
 
 Outbound links automatically get `target="_blank" rel="noopener noreferrer"` attributes.
 
