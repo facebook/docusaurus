@@ -7,10 +7,10 @@
 
 import React from 'react';
 import BlogPostCard from '@theme/BlogPostItem';
-import Footer from '@theme/Footer';
+import BlogListPaginator from '@theme/BlogListPaginator';
 
 function BlogListPage(props) {
-  const {items} = props;
+  const {items, metadata} = props;
 
   return (
     <div className="container-fluid mt-5">
@@ -27,7 +27,7 @@ function BlogListPage(props) {
             </BlogPostCard>
           </div>
         ))}
-        <Footer />
+        <BlogListPaginator metadata={metadata} />
       </div>
     </div>
   );
