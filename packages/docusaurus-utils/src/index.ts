@@ -12,6 +12,7 @@ import camelCase from 'lodash.camelcase';
 import kebabCase from 'lodash.kebabcase';
 import escapeStringRegexp from 'escape-string-regexp';
 import fs from 'fs-extra';
+import removeMd from 'remove-markdown';
 
 const fileHash = new Map();
 export async function generate(
@@ -185,6 +186,33 @@ export function getSubFolder(file: string, refDir: string): string | null {
 // Regex for an import statement.
 const importRegexString = '^(.*import){1}(.+){0,1}\\s[\'"](.+)[\'"];?';
 
+export function createExcerpt(fileString: string): string | undefined {
+  let fileContent = fileString.trimLeft();
+
+  if (RegExp(importRegexString).test(fileContent)) {
+    fileContent = fileContent
+      .replace(RegExp(importRegexString, 'gm'), '')
+      .trimLeft();
+  }
+
+  const fileLines = fileContent.split('\n');
+
+  for (let fileLine of fileLines) {
+    const cleanedLine = removeMd(fileLine)
+      // Remove definition of admonition.
+      .replace(/(:{3}.*)/, '')
+      // Remove Emoji names within colons include preceding whitespace.
+      .replace(/\s?(:(::|[^:\n])+:)/g, '')
+      .trim();
+
+    if (cleanedLine) {
+      return cleanedLine;
+    }
+  }
+
+  return undefined;
+}
+
 export function parse(
   fileString: string,
 ): {
@@ -196,18 +224,10 @@ export function parse(
 } {
   const options: {} = {
     excerpt: (file: matter.GrayMatterFile<string>): void => {
-      let fileContent = file.content.trimLeft();
-
       // Hacky way of stripping out import statements from the excerpt
       // TODO: Find a better way to do so, possibly by compiling the Markdown content,
       // stripping out HTML tags and obtaining the first line.
-      if (RegExp(importRegexString).test(fileContent)) {
-        fileContent = fileContent
-          .replace(RegExp(importRegexString, 'gm'), '')
-          .trimLeft();
-      }
-
-      file.excerpt = fileContent.split('\n', 1).shift();
+      file.excerpt = createExcerpt(file.content);
     },
   };
 
