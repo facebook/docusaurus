@@ -44,8 +44,13 @@ function DocSidebarItem({
     setCollapsed((state) => !state);
   });
 
-  const activePageRelativeUrl =
-    window.location.pathname + window.location.search;
+  let activePageRelativeUrl = '';
+
+  // Because this is built on the server
+  // we need to check if window is available
+  if (typeof window !== 'undefined') {
+    activePageRelativeUrl = window.location.pathname + window.location.search;
+  }
 
   // We need to know if the category item
   // is the parent of the active page
