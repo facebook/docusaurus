@@ -21,6 +21,7 @@ This is an **early and alpha release** of Docusaurus 2. We are making it availab
 - :x: You need a full production-ready solution (try [Docusaurus 1](https://docusaurus.io/) instead)
 - :x: You need the translation features present in v1
 - :x: You prefer not to work with potential breaking changes and/or features not yet working properly as we improve it during alpha period
+- :x: You need support for IE11
 
 ## A better Docusaurus is coming to town
 

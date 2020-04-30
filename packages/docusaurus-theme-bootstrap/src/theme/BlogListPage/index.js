@@ -8,6 +8,7 @@
 import React from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import BlogPostCard from '@theme/BlogPostItem';
+import BlogListPaginator from '@theme/BlogListPaginator';
 import Layout from '@theme/Layout';
 
 function BlogListPage(props) {
@@ -34,6 +35,7 @@ function BlogListPage(props) {
               </BlogPostCard>
             </div>
           ))}
+          <BlogListPaginator metadata={metadata} />
         </div>
       </div>
     </Layout>
