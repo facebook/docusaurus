@@ -183,7 +183,7 @@ export function getSubFolder(file: string, refDir: string): string | null {
 }
 
 // Regex for an import statement.
-const importRegexString = '^(.*import){1}(.+){0,1}\\s[\'"](.+)[\'"];';
+const importRegexString = '^(.*import){1}(.+){0,1}\\s[\'"](.+)[\'"];?';
 
 export function parse(
   fileString: string,
