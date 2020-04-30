@@ -84,7 +84,7 @@ describe('simple site', () => {
       title: 'baz',
       editUrl:
         'https://github.com/facebook/docusaurus/edit/master/website/docs/foo/baz.md',
-      description: '## Images',
+      description: 'Images',
     });
   });
 
@@ -228,7 +228,7 @@ describe('versioned site', () => {
       permalink: '/docs/next/foo/bar',
       source: path.join('@site', routeBasePath, sourceA),
       title: 'bar',
-      description: 'This is `next` version of bar.',
+      description: 'This is next version of bar.',
       version: 'next',
     });
     expect(dataB).toEqual({
@@ -236,7 +236,7 @@ describe('versioned site', () => {
       permalink: '/docs/next/hello',
       source: path.join('@site', routeBasePath, sourceB),
       title: 'hello',
-      description: 'Hello `next` !',
+      description: 'Hello next !',
       version: 'next',
     });
   });
@@ -286,7 +286,7 @@ describe('versioned site', () => {
       permalink: '/docs/1.0.0/foo/bar',
       source: path.join('@site', path.relative(siteDir, versionedDir), sourceA),
       title: 'bar',
-      description: 'Bar `1.0.0` !',
+      description: 'Bar 1.0.0 !',
       version: '1.0.0',
     });
     expect(dataB).toEqual({
@@ -294,7 +294,7 @@ describe('versioned site', () => {
       permalink: '/docs/1.0.0/hello',
       source: path.join('@site', path.relative(siteDir, versionedDir), sourceB),
       title: 'hello',
-      description: 'Hello `1.0.0` !',
+      description: 'Hello 1.0.0 !',
       version: '1.0.0',
     });
     expect(dataC).toEqual({
@@ -302,7 +302,7 @@ describe('versioned site', () => {
       permalink: '/docs/foo/bar',
       source: path.join('@site', path.relative(siteDir, versionedDir), sourceC),
       title: 'bar',
-      description: 'Bar `1.0.1` !',
+      description: 'Bar 1.0.1 !',
       version: '1.0.1',
     });
     expect(dataD).toEqual({
@@ -310,7 +310,7 @@ describe('versioned site', () => {
       permalink: '/docs/hello',
       source: path.join('@site', path.relative(siteDir, versionedDir), sourceD),
       title: 'hello',
-      description: 'Hello `1.0.1` !',
+      description: 'Hello 1.0.1 !',
       version: '1.0.1',
     });
   });
