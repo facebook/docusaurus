@@ -17,7 +17,10 @@ function normalizeLocation(location) {
   }
 
   let pathname = location.pathname || '/';
-  pathname = pathname.trim().replace(/\/index\.html$/, '');
+  pathname = pathname
+    .trim()
+    .replace(/\/index\.html$/, '')
+    .replace('.html', '');
 
   if (pathname === '') {
     pathname = '/';

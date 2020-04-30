@@ -34,7 +34,7 @@ describe('normalizeLocation', () => {
     });
   });
 
-  test('untouched pathnames', () => {
+  test('pathnames without html extension', () => {
     expect(
       normalizeLocation({
         pathname: '/docs/introduction',
@@ -54,7 +54,7 @@ describe('normalizeLocation', () => {
         hash: '#bar',
       }),
     ).toEqual({
-      pathname: '/docs/introduction/foo.html',
+      pathname: '/docs/introduction/foo',
       search: '',
       hash: '#bar',
     });
