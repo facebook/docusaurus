@@ -12,7 +12,9 @@ import camelCase from 'lodash.camelcase';
 import kebabCase from 'lodash.kebabcase';
 import escapeStringRegexp from 'escape-string-regexp';
 import fs from 'fs-extra';
-import removeMd from 'remove-markdown';
+// import removeMd from 'remove-markdown';
+import remark from 'remark';
+import strip from 'strip-markdown';
 
 const fileHash = new Map();
 export async function generate(
@@ -185,6 +187,10 @@ export function getSubFolder(file: string, refDir: string): string | null {
 
 // Regex for an import statement.
 const importRegexString = '^(.*import){1}(.+){0,1}\\s[\'"](.+)[\'"];?';
+
+function removeMd(markdownString: string): string {
+  return remark().use(strip).processSync(markdownString.trim()).toString();
+}
 
 export function createExcerpt(fileString: string): string | undefined {
   let fileContent = fileString.trimLeft();

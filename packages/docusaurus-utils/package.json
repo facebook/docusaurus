@@ -18,7 +18,9 @@
     "gray-matter": "^4.0.2",
     "lodash.camelcase": "^4.3.0",
     "lodash.kebabcase": "^4.1.1",
-    "remove-markdown": "^0.3.0"
+    "remark": "^12.0.0",
+    "remove-markdown": "^0.3.0",
+    "strip-markdown": "^3.1.2"
   },
   "engines": {
     "node": ">=10.9.0"
