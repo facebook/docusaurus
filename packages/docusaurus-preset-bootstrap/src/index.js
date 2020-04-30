@@ -11,6 +11,7 @@ module.exports = function preset(context, opts = {}) {
     plugins: [
       ['@docusaurus/plugin-content-pages', opts.pages],
       ['@docusaurus/plugin-content-blog', opts.blog],
+      ['@docusaurus/plugin-content-docs', opts.docs],
     ],
   };
 };
