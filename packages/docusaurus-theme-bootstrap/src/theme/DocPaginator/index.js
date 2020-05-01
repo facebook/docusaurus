@@ -12,20 +12,18 @@ function DocPaginator(props) {
   const {previous, next} = props.metadata;
 
   return (
-    <nav
-      aria-label="Blog list page navigation"
-      className="my-5 col col-xl-4 offset-xl-4 col-xs-6">
+    <nav aria-label="Blog list page navigation" className="my-5 p-0">
       <ul className="pagination justify-content-between">
         <li className="page-item">
           {previous && (
-            <Link className="page-link rounded-pill" to={previous.permalink}>
+            <Link className="page-link" to={previous.permalink}>
               &laquo; {previous.title}
             </Link>
           )}
         </li>
         <li className="page-item">
           {next && (
-            <Link className="page-link rounded-pill" to={next.permalink}>
+            <Link className="page-link" to={next.permalink}>
               {next.title} &raquo;
             </Link>
           )}

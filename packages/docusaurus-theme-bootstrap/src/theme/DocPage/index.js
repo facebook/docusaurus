@@ -17,11 +17,11 @@ function DocPage(props) {
   return (
     <Layout title="Blog page" description="My blog page">
       <div className="container mt-4">
-        <div className="row justify-content-center">
+        <section className="row justify-content-center">
           <MDXProvider components={MDXComponents}>
             {renderRoutes(baseRoute.routes)}
           </MDXProvider>
-        </div>
+        </section>
       </div>
     </Layout>
   );

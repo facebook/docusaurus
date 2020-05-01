@@ -27,7 +27,6 @@ function DocItem(props) {
   if (!isInternalUrl(metaImage)) {
     metaImageUrl = metaImage;
   }
-  console.log(metadata);
   return (
     <>
       <Head>
@@ -47,7 +46,7 @@ function DocItem(props) {
         )}
         {permalink && <meta property="og:url" content={siteUrl + permalink} />}
       </Head>
-      <main>
+      <main className="col col-8 justify-content-center">
         <DocContent />
         <DocPaginator metadata={metadata} />
       </main>
