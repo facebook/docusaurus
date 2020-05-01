@@ -6,6 +6,7 @@
  */
 
 import React, {useState, useCallback} from 'react';
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import classnames from 'classnames';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useAnnouncementBarContext from '@theme/hooks/useAnnouncementBarContext';
@@ -44,13 +45,10 @@ function DocSidebarItem({
     setCollapsed((state) => !state);
   });
 
-  let activePageRelativeUrl = '';
-
-  // Because this is built on the server
-  // we need to check if window is available
-  if (typeof window !== 'undefined') {
-    activePageRelativeUrl = window.location.pathname + window.location.search;
-  }
+  // Make sure we have access to the window
+  const activePageRelativeUrl = ExecutionEnvironment.canUseDOM
+    ? window.location.pathname + window.location.search
+    : null;
 
   // We need to know if the category item
   // is the parent of the active page
