@@ -6,6 +6,8 @@
  */
 
 import React from 'react';
+import {MDXProvider} from '@mdx-js/react';
+import MDXComponents from '@theme/MDXComponents';
 import Link from '@docusaurus/Link';
 
 const MONTHS = [
@@ -49,7 +51,7 @@ function BlogPostItem(props) {
   const day = parseInt(match[2], 10);
 
   return (
-    <article className="card h-100 shadow">
+    <article className="card shadow">
       <div className="row no-gutters rows-col-2 m-3">
         <div className="col-xs mr-3">
           {authorImageURL && (
@@ -100,7 +102,9 @@ function BlogPostItem(props) {
 
       <div className="card-body">
         <h3 className="card-title text-primary mr-2">{title}</h3>
-        <div className="lead">{children}</div>
+        <section>
+          <MDXProvider components={MDXComponents}>{children}</MDXProvider>
+        </section>
       </div>
 
       <footer className="row no-gutters m-3 justify-content-between">

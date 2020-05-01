@@ -8,7 +8,10 @@
     "access": "public"
   },
   "dependencies": {
-    "bootstrap": "^4.4.1"
+    "bootstrap": "^4.4.1",
+    "prism-react-renderer": "^1.1.0",
+    "reactstrap": "^8.4.1",
+    "@mdx-js/react": "^1.5.8"
   },
   "peerDependencies": {
     "@docusaurus/core": "^2.0.0",
