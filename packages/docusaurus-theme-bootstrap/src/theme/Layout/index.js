@@ -44,7 +44,7 @@ function Layout(props) {
   const faviconUrl = useBaseUrl(favicon);
 
   return (
-    <>
+    <div className="container-fluid vh-100 row m-0 p-0">
       <Head>
         {/* TODO: Do not assume that it is in english language */}
         <html lang="en" />
@@ -71,7 +71,7 @@ function Layout(props) {
       <Navbar />
       <div className="main-wrapper">{children}</div>
       {!noFooter && <Footer />}
-    </>
+    </div>
   );
 }
 

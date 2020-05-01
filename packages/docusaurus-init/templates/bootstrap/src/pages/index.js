@@ -59,30 +59,28 @@ function Home() {
   const context = useDocusaurusContext();
   const {siteConfig = {}} = context;
   return (
-    <div className="container-fluid h-100">
-      <Layout
-        title={`Hello from ${siteConfig.title}`}
-        description="Description will go into a meta tag in <head />">
-        <header>
-          <h1 className="hero__title">{siteConfig.title}</h1>
-          <p className="hero__subtitle">{siteConfig.tagline}</p>
-          <div className={styles.buttons}>
-            <Link to={useBaseUrl('docs/doc1')}>Get Started</Link>
-          </div>
-        </header>
-        <main>
-          {features && features.length && (
-            <section className={styles.features}>
-              <div className="row">
-                {features.map((props, idx) => (
-                  <Feature key={idx} {...props} />
-                ))}
-              </div>
-            </section>
-          )}
-        </main>
-      </Layout>
-    </div>
+    <Layout
+      title={`Hello from ${siteConfig.title}`}
+      description="Description will go into a meta tag in <head />">
+      <header>
+        <h1 className="hero__title">{siteConfig.title}</h1>
+        <p className="hero__subtitle">{siteConfig.tagline}</p>
+        <div className={styles.buttons}>
+          <Link to={useBaseUrl('docs/doc1')}>Get Started</Link>
+        </div>
+      </header>
+      <main>
+        {features && features.length && (
+          <section className={styles.features}>
+            <div className="row">
+              {features.map((props, idx) => (
+                <Feature key={idx} {...props} />
+              ))}
+            </div>
+          </section>
+        )}
+      </main>
+    </Layout>
   );
 }
 

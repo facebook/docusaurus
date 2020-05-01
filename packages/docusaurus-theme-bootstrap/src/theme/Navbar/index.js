@@ -56,7 +56,11 @@ function Navbar() {
   const {logoLink, logoLinkProps, logoImageUrl, logoAlt} = useLogo();
 
   return (
-    <NavbarBase color="light" light expand="md" className="mb-5">
+    <NavbarBase
+      color="light"
+      light
+      expand="md"
+      className="container-fluid mb-4">
       <Link to={logoLink} {...logoLinkProps}>
         {logoImageUrl != null && (
           <img
