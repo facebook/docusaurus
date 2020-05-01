@@ -8,6 +8,7 @@
 import React from 'react';
 import isInternalUrl from '@docusaurus/isInternalUrl';
 import Head from '@docusaurus/Head';
+import DocPaginator from '@theme/DocPaginator';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
@@ -26,6 +27,7 @@ function DocItem(props) {
   if (!isInternalUrl(metaImage)) {
     metaImageUrl = metaImage;
   }
+  console.log(metadata);
   return (
     <>
       <Head>
@@ -47,6 +49,7 @@ function DocItem(props) {
       </Head>
       <main>
         <DocContent />
+        <DocPaginator metadata={metadata} />
       </main>
     </>
   );
