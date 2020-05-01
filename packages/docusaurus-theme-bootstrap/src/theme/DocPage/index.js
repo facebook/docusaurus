@@ -5,28 +5,26 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-
 import React from 'react';
 import renderRoutes from '@docusaurus/renderRoutes';
 import MDXComponents from '@theme/MDXComponents';
 import Layout from '@theme/Layout';
 import {MDXProvider} from '@mdx-js/react';
 
-function DocPage (props) {
-  const {route: baseRoute, docsMetadata, location} = props;
+function DocPage(props) {
+  const {route: baseRoute} = props;
 
   return (
     <Layout title="Blog page" description="My blog page">
       <div className="container mt-4">
-        <div className="row justify-content-center" >
+        <div className="row justify-content-center">
           <MDXProvider components={MDXComponents}>
             {renderRoutes(baseRoute.routes)}
           </MDXProvider>
         </div>
       </div>
     </Layout>
-  )
-
+  );
 }
 
 export default DocPage;

@@ -11,28 +11,14 @@ import Head from '@docusaurus/Head';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
-
 function DocItem(props) {
   const {siteConfig = {}} = useDocusaurusContext();
   const {url: siteUrl, title: siteTitle} = siteConfig;
   const {content: DocContent} = props;
   const {metadata} = DocContent;
+  const {description, title, permalink} = metadata;
   const {
-    description,
-    title,
-    permalink,
-    editUrl,
-    lastUpdatedAt,
-    lastUpdatedBy,
-    version,
-  } = metadata;
-  const {
-    frontMatter: {
-      image: metaImage,
-      keywords,
-      hide_title: hideTitle,
-      hide_table_of_contents: hideTableOfContents,
-    },
+    frontMatter: {image: metaImage, keywords},
   } = DocContent;
 
   const metaTitle = title ? `${title} | ${siteTitle}` : siteTitle;
@@ -40,7 +26,8 @@ function DocItem(props) {
   if (!isInternalUrl(metaImage)) {
     metaImageUrl = metaImage;
   }
-   return (<>
+  return (
+    <>
       <Head>
         <title>{metaTitle}</title>
         <meta property="og:title" content={metaTitle} />
@@ -61,9 +48,8 @@ function DocItem(props) {
       <main>
         <DocContent />
       </main>
-    </>)
-
-
+    </>
+  );
 }
 
 export default DocItem;

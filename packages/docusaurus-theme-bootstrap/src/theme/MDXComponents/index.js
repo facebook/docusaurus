@@ -9,7 +9,19 @@ import React from 'react';
 import CodeBlock from '@theme/CodeBlock';
 import {Table} from 'reactstrap';
 
+const Heading = (tag) => {
+  return function (props) {
+    return React.createElement(tag, {className: `${tag} my-3`, ...props});
+  };
+};
+
 export default {
+  h1: Heading('h1'),
+  h2: Heading('h2'),
+  h3: Heading('h3'),
+  h4: Heading('h4'),
+  h5: Heading('h5'),
+  h6: Heading('h6'),
   code: (props) => {
     const {children} = props;
     if (typeof children === 'string') {
@@ -18,8 +30,8 @@ export default {
     return children;
   },
   table: Table,
-  blockquote: (props) => <blockquote className="blockquote-footer">{props.children}</blockquote>,
-  strong: (props) => <div className="font-weight-bolder" {...props}/>,
-  em: (props) => <div className="font-italic" {...props}/>,
-  p: (props) => <div className="font-weight-light" {...props}/>,
+  blockquote: (props) => (
+    <blockquote className="blockquote-footer">{props.children}</blockquote>
+  ),
+  p: (props) => <div className="font-weight-light">{props.children}</div>,
 };
