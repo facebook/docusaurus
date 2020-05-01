@@ -7,8 +7,7 @@
 
 import React from 'react';
 import CodeBlock from '@theme/CodeBlock';
-import Link from '@docusaurus/Link';
-import {Table, ListGroup, ListGroupItem} from 'reactstrap';
+import {Table} from 'reactstrap';
 
 export default {
   code: (props) => {
