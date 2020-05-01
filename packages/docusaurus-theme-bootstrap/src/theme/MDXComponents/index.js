@@ -8,6 +8,7 @@
 import React from 'react';
 import CodeBlock from '@theme/CodeBlock';
 import Link from '@docusaurus/Link';
+import {Table, ListGroup, ListGroupItem} from 'reactstrap';
 
 export default {
   code: (props) => {
@@ -16,5 +17,10 @@ export default {
       return <CodeBlock {...props} />;
     }
     return children;
-  }
+  },
+  table: Table,
+  blockquote: (props) => <blockquote className="blockquote-footer">{props.children}</blockquote>,
+  strong: (props) => <div className="font-weight-bolder" {...props}/>,
+  em: (props) => <div className="font-italic" {...props}/>,
+  p: (props) => <div className="font-weight-light" {...props}/>,
 };
