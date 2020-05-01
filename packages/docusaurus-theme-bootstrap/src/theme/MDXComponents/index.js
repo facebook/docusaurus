@@ -6,9 +6,15 @@
  */
 
 import React from 'react';
+import CodeBlock from '@theme/CodeBlock';
 import Link from '@docusaurus/Link';
 
-
 export default {
-
+  code: (props) => {
+    const {children} = props;
+    if (typeof children === 'string') {
+      return <CodeBlock {...props} />;
+    }
+    return children;
+  }
 };

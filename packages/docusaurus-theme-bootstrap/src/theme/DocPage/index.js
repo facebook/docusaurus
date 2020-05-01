@@ -9,17 +9,22 @@
 import React from 'react';
 import renderRoutes from '@docusaurus/renderRoutes';
 import MDXComponents from '@theme/MDXComponents';
+import Layout from '@theme/Layout';
 import {MDXProvider} from '@mdx-js/react';
 
 function DocPage (props) {
   const {route: baseRoute, docsMetadata, location} = props;
 
   return (
-    <main>
-      <MDXProvider components={MDXComponents}>
-        {renderRoutes(baseRoute.routes)}
-      </MDXProvider>
-    </main>
+    <Layout title="Blog page" description="My blog page">
+      <div className="container">
+        <div className="row justify-content-center" >
+          <MDXProvider components={MDXComponents}>
+            {renderRoutes(baseRoute.routes)}
+          </MDXProvider>
+        </div>
+      </div>
+    </Layout>
   )
 
 }
