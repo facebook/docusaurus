@@ -44,7 +44,7 @@ function Layout(props) {
   const faviconUrl = useBaseUrl(favicon);
 
   return (
-    <div className="container-fluid vh-100 row m-0 p-0">
+    <div className="container-fluid vh-100 vw-100 row m-0 p-0">
       <Head>
         {/* TODO: Do not assume that it is in english language */}
         <html lang="en" />
@@ -69,7 +69,7 @@ function Layout(props) {
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
       <Navbar />
-      <div className="main-wrapper">{children}</div>
+      <div className="vw-100 align-self-center">{children}</div>
       {!noFooter && <Footer />}
     </div>
   );

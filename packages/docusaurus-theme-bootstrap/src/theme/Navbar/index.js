@@ -60,7 +60,7 @@ function Navbar() {
       color="light"
       light
       expand="md"
-      className="container-fluid mb-4">
+      className="container-fluid mb-auto">
       <Link to={logoLink} {...logoLinkProps}>
         {logoImageUrl != null && (
           <img
