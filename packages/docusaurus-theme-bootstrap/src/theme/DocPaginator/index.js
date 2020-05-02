@@ -14,14 +14,14 @@ function DocPaginator(props) {
   return (
     <nav aria-label="Blog list page navigation" className="my-5 p-0">
       <ul className="pagination justify-content-between">
-        <li className="page-item">
+        <li className="page-item mr-2">
           {previous && (
             <Link className="page-link" to={previous.permalink}>
               &laquo; {previous.title}
             </Link>
           )}
         </li>
-        <li className="page-item">
+        <li className="page-item ml-2">
           {next && (
             <Link className="page-link" to={next.permalink}>
               {next.title} &raquo;
