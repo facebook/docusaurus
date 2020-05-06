@@ -8,6 +8,7 @@
 import React, {useState, useCallback} from 'react';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import useSidebarContext from '@theme/hooks/useSidebarContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import useLogo from '@theme/hooks/useLogo';
 import {
@@ -44,7 +45,7 @@ function NavItem({href, label, to, ...props}) {
   );
 }
 
-function Navbar({handleSidebarToggle}) {
+function Navbar() {
   const {
     siteConfig: {
       themeConfig: {navbar: {title, links = []} = {}},
@@ -56,6 +57,7 @@ function Navbar({handleSidebarToggle}) {
   const handleNavbarToggle = useCallback(() => {
     setNavbarShown(!navbarShown);
   }, [navbarShown, setNavbarShown]);
+  const {handleSidebarToggle} = useSidebarContext();
 
   const {logoLink, logoLinkProps, logoImageUrl, logoAlt} = useLogo();
 

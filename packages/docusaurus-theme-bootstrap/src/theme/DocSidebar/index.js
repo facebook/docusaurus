@@ -8,6 +8,7 @@
 import React from 'react';
 import Link from '@docusaurus/Link';
 import isInternalUrl from '@docusaurus/isInternalUrl';
+import useSidebarContext from '@theme/hooks/useSidebarContext';
 import {NavItem, Nav} from 'reactstrap';
 import classNames from 'classnames';
 
@@ -36,9 +37,10 @@ const DocSidebarItem = ({item, onItemClick, collapsible, ...props}) => {
     case 'link':
     default:
       return (
-        <li key={label}>
+        <NavItem>
           <Link
-            className="m-4"
+            key={label}
+            className="sidebar-item m-4"
             to={href}
             {...(isInternalUrl(href)
               ? {
@@ -54,13 +56,18 @@ const DocSidebarItem = ({item, onItemClick, collapsible, ...props}) => {
             {...props}>
             {label}
           </Link>
-        </li>
+        </NavItem>
       );
   }
 };
 
 const DocSidebar = (props) => {
   const {docsSidebars, sidebar: currentSidebar, sidebarCollapsible} = props;
+  const {
+    handleSidebarToggle,
+    sidebarShown,
+    setSidebarShown,
+  } = useSidebarContext();
 
   if (!currentSidebar) {
     return null;
@@ -75,31 +82,29 @@ const DocSidebar = (props) => {
   }
 
   return (
-    <div className={classNames('sidebar', {'is-open': props.sidebarShown})}>
+    <div className={classNames('sidebar', {'is-open': sidebarShown})}>
       <div className="sidebar-header">
         <button
           color="info"
           type="button"
-          onClick={props.handleSidebarToggle}
+          onClick={handleSidebarToggle}
           style={{color: '#fff'}}>
           &times;
         </button>
       </div>
       <div className="side-menu">
         <Nav vertical className="list-unstyled pb-3 mr-auto">
-          <NavItem>
-            {sidebarData.map((item) => (
-              <DocSidebarItem
-                key={item.label}
-                item={item}
-                onItemClick={(e) => {
-                  e.target.blur();
-                  props.setSidebarShown(false);
-                }}
-                collapsible={sidebarCollapsible}
-              />
-            ))}
-          </NavItem>
+          {sidebarData.map((item) => (
+            <DocSidebarItem
+              key={item.label}
+              item={item}
+              onItemClick={(e) => {
+                e.target.blur();
+                setSidebarShown(false);
+              }}
+              collapsible={sidebarCollapsible}
+            />
+          ))}
         </Nav>
       </div>
     </div>

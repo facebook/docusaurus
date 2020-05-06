@@ -5,11 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState, useCallback} from 'react';
+import React from 'react';
 
 import Head from '@docusaurus/Head';
 import isInternalUrl from '@docusaurus/isInternalUrl';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import SidebarProvider from '@theme/SidebarProvider';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
 import Navbar from '@theme/Navbar';
@@ -40,26 +41,10 @@ function Layout(props) {
   if (!isInternalUrl(metaImage)) {
     metaImageUrl = metaImage;
   }
-
   const faviconUrl = useBaseUrl(favicon);
-  const [sidebarShown, setSidebarShown] = useState(false);
-  const handleToggle = useCallback(() => {
-    setSidebarShown(!sidebarShown);
-  }, [sidebarShown, setSidebarShown]);
-
-  const myChildren = React.Children.map(children, (child) => {
-    const myProps = {
-      ...child.props,
-      handleSidebarToggle: handleToggle,
-      setSidebarShown,
-      sidebarShown,
-    };
-    const mychild = React.cloneElement(child, myProps);
-    return mychild;
-  });
 
   return (
-    <body className="container-fluid vh-100 vw-100 row m-0 p-0">
+    <div className="container-fluid vh-100 vw-100 row m-0 p-0">
       <Head>
         {/* TODO: Do not assume that it is in english language */}
         <html lang="en" />
@@ -83,12 +68,14 @@ function Layout(props) {
         {permalink && <meta property="og:url" content={siteUrl + permalink} />}
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
-      <Navbar handleSidebarToggle={handleToggle} />
-      <main className="container-fluid px-0 d-inline-flex flex-row">
-        {myChildren}
-      </main>
-      {!noFooter && <Footer />}
-    </body>
+      <SidebarProvider>
+        <Navbar />
+        <div className="container-fluid px-0 d-inline-flex flex-row">
+          {children}
+        </div>
+        {!noFooter && <Footer />}
+      </SidebarProvider>
+    </div>
   );
 }
 
