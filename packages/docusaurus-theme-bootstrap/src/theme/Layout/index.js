@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {useState, useCallback} from 'react';
 
 import Head from '@docusaurus/Head';
 import isInternalUrl from '@docusaurus/isInternalUrl';
@@ -42,6 +42,20 @@ function Layout(props) {
   }
 
   const faviconUrl = useBaseUrl(favicon);
+  const [sidebarShown, setSidebarShown] = useState(false);
+  const handleToggle = useCallback(() => {
+    setSidebarShown(!sidebarShown);
+  }, [sidebarShown, setSidebarShown]);
+
+  const myChildren = React.Children.map(children, (child) => {
+    const myProps = {
+      ...child.props,
+      handleSidebarToggle: handleToggle,
+      sidebarShown,
+    };
+    const mychild = React.cloneElement(child, myProps);
+    return mychild;
+  });
 
   return (
     <div className="container-fluid vh-100 vw-100 row m-0 p-0">
@@ -68,8 +82,10 @@ function Layout(props) {
         {permalink && <meta property="og:url" content={siteUrl + permalink} />}
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
-      <Navbar />
-      <div className="vw-100 align-self-center">{children}</div>
+      <Navbar handleSidebarToggle={handleToggle} />
+      <div className="container-fluid pl-0 d-inline-flex flex-row">
+        {myChildren}
+      </div>
       {!noFooter && <Footer />}
     </div>
   );

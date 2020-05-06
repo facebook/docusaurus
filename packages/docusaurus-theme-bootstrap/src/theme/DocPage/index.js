@@ -27,21 +27,22 @@ function DocPage(props) {
   const {sidebarCollapsible = true} = themeConfig;
 
   return (
-    <Layout title="Blog page" description="My blog page">
-      <DocSidebar
-        docsSidebars={docsSidebars}
-        path={currentRoute.path}
-        sidebar={sidebar}
-        sidebarCollapsible={sidebarCollapsible}
-      />
-      <div className="container mt-4">
-        <section className="row justify-content-center">
+    <div className="container-fluid align-items-stretch p-0">
+      <Layout title="Blog page" description="My blog page">
+        <DocSidebar
+          docsSidebars={docsSidebars}
+          path={currentRoute.path}
+          sidebar={sidebar}
+          sidebarCollapsible={sidebarCollapsible}
+        />
+
+        <section className="col offset-md-4 align-self-center mt-5">
           <MDXProvider components={MDXComponents}>
             {renderRoutes(baseRoute.routes)}
           </MDXProvider>
         </section>
-      </div>
-    </Layout>
+      </Layout>
+    </div>
   );
 }
 

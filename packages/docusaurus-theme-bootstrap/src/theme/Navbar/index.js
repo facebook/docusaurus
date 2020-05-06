@@ -16,7 +16,10 @@ import {
   NavbarToggler,
   Nav,
   NavItem as NavItemBase,
+  Button,
 } from 'reactstrap';
+
+const MOBILE_TOGGLE_SIZE = 24;
 
 function NavItem({href, label, to, ...props}) {
   const toUrl = useBaseUrl(to);
@@ -41,7 +44,7 @@ function NavItem({href, label, to, ...props}) {
   );
 }
 
-function Navbar() {
+function Navbar({handleSidebarToggle}) {
   const {
     siteConfig: {
       themeConfig: {navbar: {title, links = []} = {}},
@@ -49,10 +52,11 @@ function Navbar() {
     isClient,
   } = useDocusaurusContext();
 
-  const [sidebarShown, setSidebarShown] = useState(false);
-  const handleToggle = useCallback(() => {
-    setSidebarShown(!sidebarShown);
-  }, [sidebarShown, setSidebarShown]);
+  const [navbarShown, setNavbarShown] = useState(false);
+  const handleNavbarToggle = useCallback(() => {
+    setNavbarShown(!navbarShown);
+  }, [navbarShown, setNavbarShown]);
+
   const {logoLink, logoLinkProps, logoImageUrl, logoAlt} = useLogo();
 
   return (
@@ -61,6 +65,26 @@ function Navbar() {
       light
       expand="md"
       className="container-fluid mb-auto">
+      <Button color="info" onClick={handleSidebarToggle}>
+        <svg
+          aria-label="Menu"
+          className=""
+          xmlns="http://www.w3.org/2000/svg"
+          height={MOBILE_TOGGLE_SIZE}
+          width={MOBILE_TOGGLE_SIZE}
+          viewBox="0 0 32 32"
+          role="img"
+          focusable="false">
+          <title>Menu</title>
+          <path
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeMiterlimit="10"
+            strokeWidth="2"
+            d="M4 7h22M4 15h22M4 23h22"
+          />
+        </svg>
+      </Button>
       <Link to={logoLink} {...logoLinkProps}>
         {logoImageUrl != null && (
           <img
@@ -76,12 +100,8 @@ function Navbar() {
         )}
         {title != null && <span className="ml-2">{title}</span>}
       </Link>
-
-      <NavbarToggler onClick={handleToggle} />
-      <Collapse
-        isOpen={sidebarShown}
-        navbar
-        className="justify-content-between">
+      <NavbarToggler onClick={handleNavbarToggle} />
+      <Collapse isOpen={navbarShown} navbar className="justify-content-between">
         <Nav navbar>
           {links != null &&
             links.length !== 0 &&
