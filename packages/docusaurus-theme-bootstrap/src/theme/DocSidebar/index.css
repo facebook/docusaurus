@@ -18,8 +18,8 @@
 }
 
 .sidebar ul p {
-    color: #fff;
-    padding: 10px;
+  color: #fff;
+  padding: 10px;
 }
 
 .side-menu {
@@ -29,4 +29,20 @@
 
 .side-menu::-webkit-scrollbar {
   width: 10px;
+}
+li > a {
+  color: #fff;
+}
+@media only screen and (max-width: 500px) {
+
+    .sidebar.is-open {
+      min-width: 100%;
+      max-width: 100%;
+      width: 100%;
+      align-items: stretch;
+      margin-left: 0;
+      overflow: hidden;
+      transition: all 0.5s, height 0s;
+    }
+
 }

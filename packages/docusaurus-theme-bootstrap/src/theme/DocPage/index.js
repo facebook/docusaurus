@@ -36,7 +36,7 @@ function DocPage(props) {
           sidebarCollapsible={sidebarCollapsible}
         />
 
-        <section className="col offset-md-4 align-self-center mt-5">
+        <section className="offset-1 mr-4 mt-4 col-xl-6 offset-xl-4 p-0 justify-content-center align-self-center overflow-auto">
           <MDXProvider components={MDXComponents}>
             {renderRoutes(baseRoute.routes)}
           </MDXProvider>

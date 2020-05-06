@@ -84,7 +84,6 @@ const DocSidebar = (props) => {
           style={{color: '#fff'}}>
           &times;
         </button>
-        <h3>Sidebar</h3>
       </div>
       <div className="side-menu">
         <Nav vertical className="list-unstyled pb-3 mr-auto">
@@ -95,6 +94,7 @@ const DocSidebar = (props) => {
                 item={item}
                 onItemClick={(e) => {
                   e.target.blur();
+                  props.setSidebarShown(false);
                 }}
                 collapsible={sidebarCollapsible}
               />

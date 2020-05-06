@@ -51,6 +51,7 @@ function Layout(props) {
     const myProps = {
       ...child.props,
       handleSidebarToggle: handleToggle,
+      setSidebarShown,
       sidebarShown,
     };
     const mychild = React.cloneElement(child, myProps);
@@ -58,7 +59,7 @@ function Layout(props) {
   });
 
   return (
-    <div className="container-fluid vh-100 vw-100 row m-0 p-0">
+    <body className="container-fluid vh-100 vw-100 row m-0 p-0">
       <Head>
         {/* TODO: Do not assume that it is in english language */}
         <html lang="en" />
@@ -83,11 +84,11 @@ function Layout(props) {
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
       <Navbar handleSidebarToggle={handleToggle} />
-      <div className="container-fluid pl-0 d-inline-flex flex-row">
+      <main className="container-fluid px-0 d-inline-flex flex-row">
         {myChildren}
-      </div>
+      </main>
       {!noFooter && <Footer />}
-    </div>
+    </body>
   );
 }
 

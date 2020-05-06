@@ -65,10 +65,9 @@ function Navbar({handleSidebarToggle}) {
       light
       expand="md"
       className="container-fluid mb-auto">
-      <Button color="info" onClick={handleSidebarToggle}>
+      <Button color="info" onClick={handleSidebarToggle} className="mr-2">
         <svg
           aria-label="Menu"
-          className=""
           xmlns="http://www.w3.org/2000/svg"
           height={MOBILE_TOGGLE_SIZE}
           width={MOBILE_TOGGLE_SIZE}
