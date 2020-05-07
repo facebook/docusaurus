@@ -57,7 +57,8 @@ function Navbar() {
   const handleNavbarToggle = useCallback(() => {
     setNavbarShown(!navbarShown);
   }, [navbarShown, setNavbarShown]);
-  const {handleSidebarToggle} = useSidebarContext();
+  const {handleSidebarToggle, sidebarShown} = useSidebarContext();
+  console.log('Here:2 ', sidebarShown);
 
   const {logoLink, logoLinkProps, logoImageUrl, logoAlt} = useLogo();
 

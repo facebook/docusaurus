@@ -82,7 +82,10 @@ const DocSidebar = (props) => {
   }
 
   return (
-    <div className={classNames('sidebar', {'is-open': sidebarShown})}>
+    <div
+      className={classNames('sidebar bg-info text-whited', {
+        'is-open': sidebarShown,
+      })}>
       <div className="sidebar-header">
         <button
           color="info"

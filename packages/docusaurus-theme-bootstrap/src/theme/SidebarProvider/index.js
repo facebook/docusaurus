@@ -5,16 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState, useCallback} from 'react';
-
+import React from 'react';
+import useSidebar from '@theme/hooks/useSidebar';
 import SidebarContext from '@theme/SidebarContext';
 
 function SidebarProvider(props) {
-  const [sidebarShown, setSidebarShown] = useState(false);
-  const handleSidebarToggle = useCallback(() => {
-    setSidebarShown(!sidebarShown);
-  }, [sidebarShown, setSidebarShown]);
-
+  const {sidebarShown, setSidebarShown, handleSidebarToggle} = useSidebar();
   return (
     <SidebarContext.Provider
       value={{sidebarShown, setSidebarShown, handleSidebarToggle}}>

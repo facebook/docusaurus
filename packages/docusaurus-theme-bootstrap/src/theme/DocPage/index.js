@@ -13,6 +13,7 @@ import MDXComponents from '@theme/MDXComponents';
 import Layout from '@theme/Layout';
 import {MDXProvider} from '@mdx-js/react';
 import {matchPath} from '@docusaurus/router';
+import useSidebarContext from '@theme/hooks/useSidebarContext';
 
 function DocPage(props) {
   const {route: baseRoute, docsMetadata, location} = props;
@@ -26,9 +27,12 @@ function DocPage(props) {
   const {siteConfig: {themeConfig = {}} = {}} = useDocusaurusContext();
   const {sidebarCollapsible = true} = themeConfig;
 
+  const {sidebarShown} = useSidebarContext();
+  console.log('Here:', sidebarShown);
+
   return (
     <div className="container-fluid align-items-stretch p-0">
-      <Layout title="Blog page" description="My blog page">
+      <Layout title="Doc page" description="My Doc page">
         <DocSidebar
           docsSidebars={docsSidebars}
           path={currentRoute.path}

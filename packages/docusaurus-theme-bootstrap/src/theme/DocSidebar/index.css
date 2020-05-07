@@ -1,8 +1,6 @@
 .sidebar {
   min-width: 250px;
   max-width: 250px;
-  background: #7386D5;
-  color: #fff;
   transition: all 0.5s;
   margin-left: -250px;
 }
@@ -12,10 +10,6 @@
   transition: .5s;
 }
 
-.sidebar-header h3{
-  color: #fff;
-  padding: 1em;
-}
 
 .sidebar ul p {
   color: #fff;
@@ -30,9 +24,7 @@
 .side-menu::-webkit-scrollbar {
   width: 10px;
 }
-.sidebar-item {
-  color: #fff;
-}
+
 @media only screen and (max-width: 500px) {
 
     .sidebar.is-open {
