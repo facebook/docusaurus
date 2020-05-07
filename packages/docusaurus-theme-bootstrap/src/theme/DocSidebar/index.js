@@ -12,7 +12,7 @@ import useSidebarContext from '@theme/hooks/useSidebarContext';
 import {NavItem, Nav} from 'reactstrap';
 import classNames from 'classnames';
 
-import './index.css';
+import styles from './styles.module.css';
 
 const DocSidebarItem = ({item, onItemClick, collapsible, ...props}) => {
   const {items, href, label, type} = item;
@@ -83,10 +83,10 @@ const DocSidebar = (props) => {
 
   return (
     <div
-      className={classNames('sidebar bg-info text-whited', {
-        'is-open': sidebarShown,
+      className={classNames('bg-info text-whited', styles.sidebar, {
+        [styles.isOpen]: sidebarShown,
       })}>
-      <div className="sidebar-header">
+      <div className={styles.sidebarHeader}>
         <button
           color="info"
           type="button"
@@ -95,7 +95,7 @@ const DocSidebar = (props) => {
           &times;
         </button>
       </div>
-      <div className="side-menu">
+      <div className={styles.sideMenu}>
         <Nav vertical className="list-unstyled pb-3 mr-auto">
           {sidebarData.map((item) => (
             <DocSidebarItem

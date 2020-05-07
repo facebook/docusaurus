@@ -11,6 +11,8 @@ import Head from '@docusaurus/Head';
 import DocPaginator from '@theme/DocPaginator';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
+import useSidebarContext from '@theme/hooks/useSidebarContext';
+import {Button} from 'reactstrap';
 
 function DocItem(props) {
   const {siteConfig = {}} = useDocusaurusContext();
@@ -27,6 +29,8 @@ function DocItem(props) {
   if (!isInternalUrl(metaImage)) {
     metaImageUrl = metaImage;
   }
+  const {handleSidebarToggle} = useSidebarContext();
+
   return (
     <>
       <Head>
@@ -47,6 +51,25 @@ function DocItem(props) {
         {permalink && <meta property="og:url" content={siteUrl + permalink} />}
       </Head>
       <main className="col col-md-8 p-0">
+        <Button color="info" onClick={handleSidebarToggle} className="mr-2">
+          <svg
+            aria-label="Menu"
+            xmlns="http://www.w3.org/2000/svg"
+            height={24}
+            width={24}
+            viewBox="0 0 32 32"
+            role="img"
+            focusable="false">
+            <title>Menu</title>
+            <path
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeMiterlimit="10"
+              strokeWidth="2"
+              d="M4 7h22M4 15h22M4 23h22"
+            />
+          </svg>
+        </Button>
         <DocContent />
         <DocPaginator metadata={metadata} />
       </main>

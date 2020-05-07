@@ -8,7 +8,6 @@
 import React, {useState, useCallback} from 'react';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import useSidebarContext from '@theme/hooks/useSidebarContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import useLogo from '@theme/hooks/useLogo';
 import {
@@ -17,10 +16,7 @@ import {
   NavbarToggler,
   Nav,
   NavItem as NavItemBase,
-  Button,
 } from 'reactstrap';
-
-const MOBILE_TOGGLE_SIZE = 24;
 
 function NavItem({href, label, to, ...props}) {
   const toUrl = useBaseUrl(to);
@@ -57,8 +53,6 @@ function Navbar() {
   const handleNavbarToggle = useCallback(() => {
     setNavbarShown(!navbarShown);
   }, [navbarShown, setNavbarShown]);
-  const {handleSidebarToggle, sidebarShown} = useSidebarContext();
-  console.log('Here:2 ', sidebarShown);
 
   const {logoLink, logoLinkProps, logoImageUrl, logoAlt} = useLogo();
 
@@ -68,25 +62,6 @@ function Navbar() {
       light
       expand="md"
       className="container-fluid mb-auto">
-      <Button color="info" onClick={handleSidebarToggle} className="mr-2">
-        <svg
-          aria-label="Menu"
-          xmlns="http://www.w3.org/2000/svg"
-          height={MOBILE_TOGGLE_SIZE}
-          width={MOBILE_TOGGLE_SIZE}
-          viewBox="0 0 32 32"
-          role="img"
-          focusable="false">
-          <title>Menu</title>
-          <path
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeMiterlimit="10"
-            strokeWidth="2"
-            d="M4 7h22M4 15h22M4 23h22"
-          />
-        </svg>
-      </Button>
       <Link to={logoLink} {...logoLinkProps}>
         {logoImageUrl != null && (
           <img

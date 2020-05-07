@@ -13,7 +13,6 @@ import MDXComponents from '@theme/MDXComponents';
 import Layout from '@theme/Layout';
 import {MDXProvider} from '@mdx-js/react';
 import {matchPath} from '@docusaurus/router';
-import useSidebarContext from '@theme/hooks/useSidebarContext';
 
 function DocPage(props) {
   const {route: baseRoute, docsMetadata, location} = props;
@@ -27,26 +26,20 @@ function DocPage(props) {
   const {siteConfig: {themeConfig = {}} = {}} = useDocusaurusContext();
   const {sidebarCollapsible = true} = themeConfig;
 
-  const {sidebarShown} = useSidebarContext();
-  console.log('Here:', sidebarShown);
-
   return (
-    <div className="container-fluid align-items-stretch p-0">
-      <Layout title="Doc page" description="My Doc page">
-        <DocSidebar
-          docsSidebars={docsSidebars}
-          path={currentRoute.path}
-          sidebar={sidebar}
-          sidebarCollapsible={sidebarCollapsible}
-        />
-
-        <section className="offset-1 mr-4 mt-4 col-xl-6 offset-xl-4 p-0 justify-content-center align-self-center overflow-auto">
-          <MDXProvider components={MDXComponents}>
-            {renderRoutes(baseRoute.routes)}
-          </MDXProvider>
-        </section>
-      </Layout>
-    </div>
+    <Layout title="Doc page" description="My Doc page">
+      <DocSidebar
+        docsSidebars={docsSidebars}
+        path={currentRoute.path}
+        sidebar={sidebar}
+        sidebarCollapsible={sidebarCollapsible}
+      />
+      <section className="offset-1 mr-4 mt-4 col-xl-6 offset-xl-4 p-0 justify-content-center align-self-center overflow-auto">
+        <MDXProvider components={MDXComponents}>
+          {renderRoutes(baseRoute.routes)}
+        </MDXProvider>
+      </section>
+    </Layout>
   );
 }
 

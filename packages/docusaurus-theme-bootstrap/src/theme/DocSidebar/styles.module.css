@@ -1,0 +1,37 @@
+.sidebar {
+  min-width: 250px;
+  max-width: 250px;
+  transition: all 0.5s;
+  margin-left: -250px;
+}
+
+.isOpen {
+  margin-left: 0;
+  transition: .5s;
+}
+
+.sidebar ul p {
+  color: #fff;
+  padding: 10px;
+}
+
+.sideMenu {
+  height: calc(100vh - 260px);
+  overflow-y: scroll;
+}
+
+.sideMenu::-webkit-scrollbar {
+  width: 10px;
+}
+
+@media only screen and (max-width: 500px) {
+  .isOpen {
+    min-width: 100%;
+    max-width: 100%;
+    width: 100%;
+    align-items: stretch;
+    margin-left: 0;
+    overflow: hidden;
+    transition: all 0.5s, height 0s;
+  }
+}

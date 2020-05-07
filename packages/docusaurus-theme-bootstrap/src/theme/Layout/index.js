@@ -68,13 +68,13 @@ function Layout(props) {
         {permalink && <meta property="og:url" content={siteUrl + permalink} />}
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
+      <Navbar />
       <SidebarProvider>
-        <Navbar />
         <div className="container-fluid px-0 d-inline-flex flex-row">
           {children}
         </div>
-        {!noFooter && <Footer />}
       </SidebarProvider>
+      {!noFooter && <Footer />}
     </div>
   );
 }
