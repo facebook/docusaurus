@@ -45,36 +45,40 @@ function Layout(props) {
 
   return (
     <div className="container-fluid vh-100 vw-100 row m-0 p-0">
-      <Head>
-        {/* TODO: Do not assume that it is in english language */}
-        <html lang="en" />
-
-        {metaTitle && <title>{metaTitle}</title>}
-        {metaTitle && <meta property="og:title" content={metaTitle} />}
-        {favicon && <link rel="shortcut icon" href={faviconUrl} />}
-        {description && <meta name="description" content={description} />}
-        {description && (
-          <meta property="og:description" content={description} />
-        )}
-        {version && <meta name="docsearch:version" content={version} />}
-        {keywords && keywords.length && (
-          <meta name="keywords" content={keywords.join(',')} />
-        )}
-        {metaImage && <meta property="og:image" content={metaImageUrl} />}
-        {metaImage && <meta property="twitter:image" content={metaImageUrl} />}
-        {metaImage && (
-          <meta name="twitter:image:alt" content={`Image for ${metaTitle}`} />
-        )}
-        {permalink && <meta property="og:url" content={siteUrl + permalink} />}
-        <meta name="twitter:card" content="summary_large_image" />
-      </Head>
-      <Navbar />
       <SidebarProvider>
+        <Head>
+          {/* TODO: Do not assume that it is in english language */}
+          <html lang="en" />
+
+          {metaTitle && <title>{metaTitle}</title>}
+          {metaTitle && <meta property="og:title" content={metaTitle} />}
+          {favicon && <link rel="shortcut icon" href={faviconUrl} />}
+          {description && <meta name="description" content={description} />}
+          {description && (
+            <meta property="og:description" content={description} />
+          )}
+          {version && <meta name="docsearch:version" content={version} />}
+          {keywords && keywords.length && (
+            <meta name="keywords" content={keywords.join(',')} />
+          )}
+          {metaImage && <meta property="og:image" content={metaImageUrl} />}
+          {metaImage && (
+            <meta property="twitter:image" content={metaImageUrl} />
+          )}
+          {metaImage && (
+            <meta name="twitter:image:alt" content={`Image for ${metaTitle}`} />
+          )}
+          {permalink && (
+            <meta property="og:url" content={siteUrl + permalink} />
+          )}
+          <meta name="twitter:card" content="summary_large_image" />
+        </Head>
+        <Navbar />
         <div className="container-fluid px-0 d-inline-flex flex-row">
           {children}
         </div>
+        {!noFooter && <Footer />}
       </SidebarProvider>
-      {!noFooter && <Footer />}
     </div>
   );
 }

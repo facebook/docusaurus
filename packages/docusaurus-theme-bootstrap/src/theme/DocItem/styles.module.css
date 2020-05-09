@@ -1,0 +1,13 @@
+
+@media only screen and (max-width: 500px) {
+  .sidebarFAB {
+    position: fixed;
+    z-index: 1;
+    right: 20px;
+    bottom: 40px;
+  }
+}
+
+.sidebarFAB {
+  overflow: hidden;
+}
