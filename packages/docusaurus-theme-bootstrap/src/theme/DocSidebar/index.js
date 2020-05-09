@@ -40,7 +40,7 @@ const DocSidebarItem = ({item, onItemClick, collapsible, ...props}) => {
         <NavItem>
           <Link
             key={label}
-            className="sidebar-item m-4"
+            className="sidebar-item m-4 text-white"
             to={href}
             {...(isInternalUrl(href)
               ? {
@@ -83,7 +83,7 @@ const DocSidebar = (props) => {
 
   return (
     <div
-      className={classNames('bg-info text-whited', styles.sidebar, {
+      className={classNames('bg-info text-white', styles.sidebar, {
         [styles.isOpen]: sidebarShown,
       })}>
       <div className={styles.sidebarHeader}>
