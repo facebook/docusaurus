@@ -61,8 +61,6 @@ export function createBaseConfig(
       extensions: ['.wasm', '.mjs', '.js', '.jsx', '.ts', '.tsx', '.json'],
       symlinks: true,
       alias: {
-        // https://stackoverflow.com/a/55433680/6072730
-        ejs: 'ejs/ejs.min.js',
         '@site': siteDir,
         '@generated': generatedFilesDir,
         '@docusaurus': path.resolve(__dirname, '../client/exports'),

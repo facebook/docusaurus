@@ -147,7 +147,7 @@ module.exports = {
       {
         blog: {
           path: './blog',
-          routeBasePath: '', // Set this value to ''.
+          routeBasePath: '/', // Set this value to '/'.
         },
       },
     ],

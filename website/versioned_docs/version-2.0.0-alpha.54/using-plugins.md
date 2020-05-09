@@ -15,8 +15,7 @@ npm install --save docusaurus-plugin-name
 
 Then you add it in your site's `docusaurus.config.js`'s `plugins` option:
 
-```jsx {4}
-// docusaurus.config.js
+```jsx {3} title="docusaurus.config.js"
 module.exports = {
   // ...
   plugins: ['@docusaurus/plugin-content-pages'],
@@ -25,8 +24,7 @@ module.exports = {
 
 Docusaurus can also load plugins from your local directory, you can do something like the following:
 
-```jsx {6}
-// docusaurus.config.js
+```jsx {5} title="docusaurus.config.js"
 const path = require('path');
 
 module.exports = {
@@ -41,8 +39,7 @@ For the most basic usage of plugins, you can provide just the plugin name or the
 
 However, plugins can have options specified by wrapping the name and an options object in an array inside your config. This style is usually called `Babel Style`.
 
-```js {5-10}
-// docusaurus.config.js
+```js {4-9} title="docusaurus.config.js"
 module.exports = {
   // ...
   plugins: [
@@ -58,8 +55,7 @@ module.exports = {
 
 Example:
 
-```js
-// docusaurus.config.js
+```js title="docusaurus.config.js"
 module.exports = {
   plugins: [
     // Basic usage.
@@ -88,8 +84,7 @@ A plugin is a module which exports a function that takes two parameters and retu
 
 The exported modules for plugins are called with two parameters: `context` and `options` and returns a JavaScript object with defining the [lifecycle APIs](./lifecycle-apis.md).
 
-```js
-// my-docusaurus-plugin.js
+```js title="docusaurus.config.js"
 module.exports = function(context, options) {
   // ...
   return {
@@ -137,10 +132,13 @@ Provides the [Blog](blog.md) feature and is the default blog plugin for Docusaur
 npm install --save @docusaurus/plugin-content-blog
 ```
 
-> If you have installed `@docusaurus/preset-classic`, you don't need to install it as a dependency. You can also configure it through the [classic preset options](presets.md#docusauruspreset-classic) instead of doing it like below.
+:::tip
 
-```js
-// docusaurus.config.js
+If you have installed `@docusaurus/preset-classic`, you don't need to install it as a dependency. You can also configure it through the [classic preset options](presets.md#docusauruspreset-classic) instead of doing it like below.
+
+:::
+
+```js title="docusaurus.config.js"
 module.exports = {
   plugins: [
     [
@@ -151,6 +149,11 @@ module.exports = {
          * relative to site dir
          */
         path: 'blog',
+        /**
+         * URL for editing a blog post, example: 'https://github.com/facebook/docusaurus/edit/master/website/blog/'
+         */
+        editUrl:
+          'https://github.com/facebook/docusaurus/edit/master/website/blog/',
         /**
          * URL route for the blog section of your site
          * do not include trailing slash
@@ -168,13 +171,19 @@ module.exports = {
         /**
          * Remark and Rehype plugins passed to MDX
          */
-        remarkPlugins: [],
+        remarkPlugins: [
+          /* require('remark-math') */
+        ],
         rehypePlugins: [],
         /**
          * Truncate marker, can be a regex or string.
          */
-        truncateMarker: /<!--\s*(truncate)\s*-->/
-         /**
+        truncateMarker: /<!--\s*(truncate)\s*-->/,
+        /**
+         * Show estimated reading time for the blog post.
+         */
+        showReadingTime: true,
+        /**
          * Blog feed
          * If feedOptions is undefined, no rss feed will be generated
          */
@@ -183,8 +192,8 @@ module.exports = {
           title: '', // default to siteConfig.title
           description: '', // default to  `${siteConfig.title} Blog`
           copyright: '',
-          language: undefined; // possible values: http://www.w3.org/TR/REC-html40/struct/dirlang.html#langcodes
-        };
+          language: undefined, // possible values: http://www.w3.org/TR/REC-html40/struct/dirlang.html#langcodes
+        },
       },
     ],
   ],
@@ -201,10 +210,13 @@ Provides the [Docs](markdown-features.mdx) functionality and is the default docs
 npm install --save @docusaurus/plugin-content-docs
 ```
 
-> If you have installed `@docusaurus/preset-classic`, you don't need to install it as a dependency. You can also configure it through the [classic preset options](presets.md#docusauruspreset-classic) instead of doing it like below.
+:::tip
 
-```js
-// docusaurus.config.js
+If you have installed `@docusaurus/preset-classic`, you don't need to install it as a dependency. You can also configure it through the [classic preset options](presets.md#docusauruspreset-classic) instead of doing it like below.
+
+:::
+
+```js title="docusaurus.config.js"
 module.exports = {
   plugins: [
     [
@@ -220,7 +232,7 @@ module.exports = {
          */
         editUrl: 'https://github.com/facebook/docusaurus/edit/master/website/',
         /**
-         * URL route for the docs section of your site
+         * URL route for the blog section of your site
          * do not include trailing slash
          */
         routeBasePath: 'docs',
@@ -238,7 +250,9 @@ module.exports = {
         /**
          * Remark and Rehype plugins passed to MDX
          */
-        remarkPlugins: [],
+        remarkPlugins: [
+          /* require('remark-math') */
+        ],
         rehypePlugins: [],
         /**
          * Whether to display the author who last updated the doc.
@@ -264,10 +278,13 @@ The default pages plugin for Docusaurus. The classic template ships with this pl
 npm install --save @docusaurus/plugin-content-pages
 ```
 
-> If you have installed `@docusaurus/preset-classic`, you don't need to install it as a dependency. You can also configure it through the [classic preset options](presets.md#docusauruspreset-classic) instead of doing it like below.
+:::tip
 
-```js
-// docusaurus.config.js
+If you have installed `@docusaurus/preset-classic`, you don't need to install it as a dependency. You can also configure it through the [classic preset options](presets.md#docusauruspreset-classic) instead of doing it like below.
+
+:::
+
+```js title="docusaurus.config.js"
 module.exports = {
   plugins: [
     [
@@ -301,17 +318,22 @@ The default [Google Analytics](https://developers.google.com/analytics/devguides
 npm install --save @docusaurus/plugin-google-analytics
 ```
 
-> If you have installed `@docusaurus/preset-classic`, you don't need to install it as a dependency.
+:::tip
+
+If you have installed `@docusaurus/preset-classic`, you don't need to install it as a dependency.
+
+:::
 
 **Configuration**
 
-```js
-// docusaurus.config.js
+```js title="docusaurus.config.js"
 module.exports = {
   plugins: ['@docusaurus/plugin-google-analytics'],
   themeConfig: {
     googleAnalytics: {
       trackingID: 'UA-141789564-1',
+      // Optional fields.
+      anonymizeIP: true, // Should IPs be anonymized?
     },
   },
 };
@@ -327,17 +349,22 @@ The default [Global Site Tag (gtag.js)](https://developers.google.com/analytics/
 npm install --save @docusaurus/plugin-google-gtag
 ```
 
-> If you have installed `@docusaurus/preset-classic`, you don't need to install it as a dependency.
+:::tip
+
+If you have installed `@docusaurus/preset-classic`, you don't need to install it as a dependency.
+
+:::
 
 **Configuration**
 
-```js
-// docusaurus.config.js
+```js title="docusaurus.config.js"
 module.exports = {
   plugins: ['@docusaurus/plugin-google-gtag'],
   themeConfig: {
     gtag: {
       trackingID: 'UA-141789564-1',
+      // Optional fields.
+      anonymizeIP: true, // Should IPs be anonymized?
     },
   },
 };
@@ -353,25 +380,30 @@ This plugin creates sitemap for your site so that search engine crawlers can cra
 npm install --save @docusaurus/plugin-sitemap
 ```
 
-> If you have installed `@docusaurus/preset-classic`, you don't need to install it as a dependency. You can also configure it through the [classic preset options](presets.md#docusauruspreset-classic) instead of doing it like below.
+:::tip
 
-```js
-// docusaurus.config.js
+If you have installed `@docusaurus/preset-classic`, you don't need to install it as a dependency. You can also configure it through the [classic preset options](presets.md#docusauruspreset-classic) instead of doing it like below.
+
+:::
+
+```js title="docusaurus.config.js"
 module.exports = {
   plugins: [
-    '@docusaurus/plugin-sitemap',
-    {
-      cacheTime: 600 * 1000, // 600 sec - cache purge period
-      changefreq: 'weekly',
-      priority: 0.5,
-    },
+    [
+      '@docusaurus/plugin-sitemap',
+      {
+        cacheTime: 600 * 1000, // 600 sec - cache purge period
+        changefreq: 'weekly',
+        priority: 0.5,
+      },
+    ],
   ],
 };
 ```
 
 ### `@docusaurus/plugin-ideal-image`
 
-Docusaurus Plugin to generate an almost ideal image (responsive, lazy-loading, and low quality placeholder)
+Docusaurus Plugin to generate an almost ideal image (responsive, lazy-loading, and low quality placeholder) **in the production builds**.
 
 ```bash npm2yarn
 npm install --save @docusaurus/plugin-ideal-image
@@ -389,7 +421,7 @@ module.exports = {
 
 #### Usage
 
-This plugin supports png, gif and jpg only
+This plugin supports the PNG, GIF and JPG formats only.
 
 ```jsx
 import Image from '@theme/IdealImage';

@@ -8,10 +8,12 @@
 import React from 'react';
 import ExecutionEnvironment from './ExecutionEnvironment';
 
-function BrowserOnly({children}) {
-  return (
-    ExecutionEnvironment.canUseDOM && children != null && <>{children()}</>
-  );
+function BrowserOnly({children, fallback}) {
+  if (!ExecutionEnvironment.canUseDOM || children == null) {  
+    return fallback || null;
+  }
+  
+  return <>{children()}</>;
 }
 
 export default BrowserOnly;

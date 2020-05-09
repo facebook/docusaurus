@@ -4,19 +4,15 @@ title: Markdown Features
 description: Docusaurus uses GitHub Flavored Markdown (GFM). Find out more about Docusaurus-specific features when writing Markdown.
 ---
 
-<!--
-combining:
-- assets
-- markdown features
--->
-
 Documentation is one of your product's interfaces with your users. A well-written and well-organized set of docs helps your users understand your product quickly. Our aligned goal here is to help your users find and understand the information they need, as quickly as possible.
 
 Docusaurus 2 uses modern tooling to help you compose your interactive documentations with ease. You may embed React components, or build live coding blocks where your users may play with the code on the spot. Start sharing your eureka moments with the code your audience cannot walk away from. It is perhaps the most effective way of attracting potential users.
 
 In this section, we'd like to introduce you to the tools we've picked that we believe will help you build powerful documentation. Let us walk you through with an example.
 
-**Note:** All the following content assumes you are using `docusaurus-preset-classic`.
+:::important
+All the following content assumes you are using `@docusaurus/preset-classic` or `@docusaurus/plugin-content-docs`.
+:::
 
 ---
 
@@ -36,7 +32,7 @@ website # root directory of your site
 
 <!-- TODO: talk about where to put the docs, resolving docs outside of website directory, etc. -->
 
-In the top of the file, specify `id` the `title` in the front matter, so that Docusaurus will pick them up correctly when generating your site.
+At the top of the file, specify `id` and `title` in the front matter, so that Docusaurus will pick them up correctly when generating your site.
 
 ```yml
 ---
@@ -70,6 +66,7 @@ This will render in the browser as follows:
 import BrowserWindow from '@site/src/components/BrowserWindow';
 
 <BrowserWindow url="http://localhost:3000">
+
 <h2>Hello from Docusaurus</h2>
 
 Are you ready to create the documentation site for your open source project?
@@ -92,7 +89,7 @@ The headers are well-spaced so that the hierarchy is clear.
 
 </BrowserWindow>
 
-### Markdown Headers
+## Markdown Headers
 
 Documents use the following markdown header fields that are enclosed by a line `---` on either side:
 
@@ -124,7 +121,20 @@ image: https://i.imgur.com/mErPwqL.png
 ---
 ```
 
-### Embedding React components
+## Referencing other documents
+
+If you want to reference another document file, you could use the name of the document you want to reference. Docusaurus will convert the file path to be the final website path (and remove the `.md`).
+
+For example, if you are in `doc2.md` and you want to reference `doc1.md` and `folder/doc3.md`:
+
+```md
+I am referencing a [document](doc1.md). Reference to another [document in a folder](folder/doc3.md)
+[Relative document](../doc2.md) referencing works as well.
+```
+
+One benefit of this approach is that the links to external files will still work if you are viewing the file on GitHub.
+
+## Embedding React components with MDX
 
 Docusaurus has built-in support for [MDX](https://mdxjs.com), which allows you to write JSX within your Markdown files and render them as React components.
 
@@ -167,6 +177,7 @@ export const Highlight = ({children, color}) => (
 );
 
 <BrowserWindow minHeight={240} url="http://localhost:3000">
+
 <Highlight color="#25c2a0">Docusaurus green</Highlight> and <Highlight color="#1877F2">Facebook blue</Highlight> are my favorite colors.
 
 I can write **Markdown** alongside my _JSX_!
@@ -177,18 +188,297 @@ I can write **Markdown** alongside my _JSX_!
 
 You can also import your own components defined in other files or third-party components installed via npm! Check out the [MDX docs](https://mdxjs.com/) to see what other fancy stuff you can do with MDX.
 
-### Referencing other documents
+### Configuring plugins
 
-If you want to reference another document file, you should use the name of the document you want to reference. Docusaurus will convert the file path to be the final website path (and remove the `.md`).
+You can expand the MDX functionalities, using plugins. An MDX plugin is usually a npm package, so you install them like other npm packages using npm. Docusaurus supports both [remark](https://github.com/remarkjs/remark) and [rehype](https://github.com/rehypejs/rehype) plugins that work with MDX.
 
-For example, if you are in `doc2.md` and you want to reference `doc1.md` and `folder/doc3.md`:
+First, install your [remark](https://github.com/remarkjs/remark/blob/master/doc/plugins.md#list-of-plugins) and [rehype](https://github.com/rehypejs/rehype/blob/master/doc/plugins.md#list-of-plugins) plugins.
 
-```md
-I am referencing a [document](doc1.md). Reference to another [document in a folder](folder/doc3.md)
-[Relative document](../doc2.md) referencing works as well.
+For example:
+
+```bash npm2yarn
+npm install --save remark-images
+npm install --save rehype-truncate
 ```
 
-One benefit of this approach is that the links to external files will still work if you are viewing the file on GitHub.
+Next, import the plugins:
+
+```js
+const remarkImages = require('remark-images');
+const rehypeTruncate = require('rehype-truncate');
+```
+
+Finally, add them to the `@docusaurus/preset-classic` options in `docusaurus.config.js`:
+
+```js {10,11} title="docusaurus.config.js"
+module.exports = {
+  // ...
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        docs: {
+          sidebarPath: require.resolve('./sidebars.js'),
+          // ...
+          remarkPlugins: [remarkImages],
+          rehypePlugins: [rehypeTruncate],
+        },
+      },
+    ],
+  ],
+};
+```
+
+### Configuring plugin options
+
+Some plugins can be configured and accept their own options. In that case, use the `[plugin, pluginOptions]` syntax, like so:
+
+```jsx {10-13} title="docusaurus.config.js"
+module.exports = {
+  // ...
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        docs: {
+          sidebarPath: require.resolve('./sidebars.js'),
+          // ...
+          remarkPlugins: [
+            plugin1,
+            [plugin2, {option1: {...}}],
+          ],
+        },
+      },
+    ],
+  ],
+};
+```
+
+See more information in the [MDX documentation](https://mdxjs.com/advanced/plugins).
+
+## Tabs
+
+To show tabbed content within Markdown files, you can fall back on MDX. Docusaurus provides `<Tabs>` components out-of-the-box.
+
+```jsx
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<Tabs
+  defaultValue="apple"
+  values={[
+    { label: 'Apple', value: 'apple', },
+    { label: 'Orange', value: 'orange', },
+    { label: 'Banana', value: 'banana', },
+  ]
+}>
+<TabItem value="apple">This is an apple 🍎</TabItem>
+<TabItem value="orange">This is an orange 🍊</TabItem>
+<TabItem value="banana">This is a banana 🍌</TabItem>
+</Tabs>
+```
+
+will result in
+
+<Tabs
+  defaultValue="apple"
+  values={[
+    { label: 'Apple', value: 'apple', },
+    { label: 'Orange', value: 'orange', },
+    { label: 'Banana', value: 'banana', },
+  ]
+}>
+<TabItem value="apple">This is an apple 🍎</TabItem>
+<TabItem value="orange">This is an orange 🍊</TabItem>
+<TabItem value="banana">This is a banana 🍌</TabItem>
+</Tabs>
+
+### Syncing tab choices
+
+You may want choices of the same kind of tabs to sync with each other. For example, you might want to provide different instructions for users on Windows vs users on macOS, and you want to changing all OS-specific instructions tabs in one click. To achieve that, you can give all related tabs the same `groupId` prop. Note that doing this will persist the choice in `localStorage` and  all `<Tab>` instances with the same `groupId` will update automatically when the value of one of them is changed. Not that `groupID` are globally-namespaced.
+
+```jsx {2,14}
+<Tabs
+  groupId="operating-systems"
+  defaultValue="win"
+  values={[
+    { label: 'Windows', value: 'win', },
+    { label: 'macOS', value: 'mac', },
+  ]
+}>
+<TabItem value="win">Use Ctrl + C to copy.</TabItem>
+<TabItem value="mac">Use Command + C to copy.</TabItem>
+</Tabs>
+
+<Tabs
+  groupId="operating-systems"
+  defaultValue="win"
+  values={[
+    { label: 'Windows', value: 'win', },
+    { label: 'macOS', value: 'mac', },
+  ]
+}>
+<TabItem value="win">Use Ctrl + V to paste.</TabItem>
+<TabItem value="mac">Use Command + V to paste.</TabItem>
+</Tabs>
+```
+
+<Tabs
+  groupId="operating-systems"
+  defaultValue="win"
+  values={[
+    { label: 'Windows', value: 'win', },
+    { label: 'macOS', value: 'mac', },
+  ]
+}>
+<TabItem value="win">Use Ctrl + C to copy.</TabItem>
+<TabItem value="mac">Use Command + C to copy.</TabItem>
+</Tabs>
+
+<Tabs
+  groupId="operating-systems"
+  defaultValue="win"
+  values={[
+    { label: 'Windows', value: 'win', },
+    { label: 'macOS', value: 'mac', },
+  ]
+}>
+<TabItem value="win">Use Ctrl + V to paste.</TabItem>
+<TabItem value="mac">Use Command + V to paste.</TabItem>
+</Tabs>
+
+---
+
+Tab choices with different `groupId`s will not interfere with each other:
+
+```jsx {2,14}
+<Tabs
+  groupId="operating-systems"
+  defaultValue="win"
+  values={[
+    { label: 'Windows', value: 'win', },
+    { label: 'macOS', value: 'mac', },
+  ]
+}>
+<TabItem value="win">Windows in windows.</TabItem>
+<TabItem value="mac">macOS is macOS.</TabItem>
+</Tabs>
+
+<Tabs
+  groupId="non-mac-operating-systems"
+  defaultValue="win"
+  values={[
+    { label: 'Windows', value: 'win', },
+    { label: 'Unix', value: 'unix', },
+  ]
+}>
+<TabItem value="win">Windows is windows.</TabItem>
+<TabItem value="unix">Unix is unix.</TabItem>
+</Tabs>
+```
+
+<Tabs
+  groupId="operating-systems"
+  defaultValue="win"
+  values={[
+    { label: 'Windows', value: 'win', },
+    { label: 'macOS', value: 'mac', },
+  ]
+}>
+<TabItem value="win">Windows in windows.</TabItem>
+<TabItem value="mac">macOS is macOS.</TabItem>
+</Tabs>
+
+<Tabs
+  groupId="non-mac-operating-systems"
+  defaultValue="win"
+  values={[
+    { label: 'Windows', value: 'win', },
+    { label: 'Unix', value: 'unix', },
+  ]
+}>
+<TabItem value="win">Windows is windows.</TabItem>
+<TabItem value="unix">Unix is unix.</TabItem>
+</Tabs>
+
+## Callouts/admonitions
+
+In addition to the basic Markdown syntax, we use [remark-admonitions](https://github.com/elviswolcott/remark-admonitions) alongside MDX to add support for admonitions.
+Admonitions are wrapped by a set of 3 colons.
+
+Example:
+
+    :::note
+    The content and title *can* include markdown.
+    :::
+
+    :::tip You can specify an optional title
+    Heads up! Here's a pro-tip.
+    :::
+
+    :::info
+    Useful information.
+    :::
+
+    :::caution
+    Warning! You better pay attention!
+    :::
+
+    :::danger
+    Danger danger, mayday!
+    :::
+
+:::note
+The content and title *can* include markdown.
+:::
+
+:::tip You can specify an optional title
+Heads up! Here's a pro-tip.
+:::
+
+:::info
+Useful information.
+:::
+
+:::caution
+Warning! You better pay attention!
+:::
+
+:::danger
+Danger danger, mayday!
+:::
+
+### Specifying title
+
+You may also specify an optional title
+
+    :::note Your Title
+    The content and title *can* include markdown.
+    :::
+
+:::note Your Title
+The content and title *can* include markdown.
+:::
+
+## Code Blocks
+
+Code blocks within documentation are super-powered 💪.
+
+### Code title
+
+You can add a title to the code block by adding `title` key after the language (leave a space between them).
+
+    ```jsx title="/src/components/HelloCodeTitle.js"
+    function HelloCodeTitle(props) {
+      return <h1>Hello, {props.name}</h1>;
+    }
+    ```
+
+```jsx title="/src/components/HelloCodeTitle.js"
+function HelloCodeTitle(props) {
+  return <h1>Hello, {props.name}</h1>;
+}
+```
 
 ### Syntax highlighting
 
@@ -210,8 +500,7 @@ By default, the Prism [syntax highlighting theme](https://github.com/FormidableL
 
 For example, if you prefer to use the `dracula` highlighting theme:
 
-```js {4}
-// docusaurus.config.js
+```js {4} title="docusaurus.config.js"
 module.exports = {
   themeConfig: {
     prism: {
@@ -223,15 +512,21 @@ module.exports = {
 
 By default, Docusaurus comes with this subset of [commonly used languages](https://github.com/FormidableLabs/prism-react-renderer/blob/master/src/vendor/prism/includeLangs.js).
 
-To add syntax highlighting for any of the other [Prism supported languages](https://prismjs.com/#supported-languages), install the `prismjs` npm package, then swizzle the `CodeBlock` component and add the desired language(s) there.
+To add syntax highlighting for any of the other [Prism supported languages](https://prismjs.com/#supported-languages),
+define it in an array of additional languages.
 
 For example, if you want to add highlighting for the `powershell` language:
 
-```js
-// src/theme/CodeBlock/index.js
-import Prism from 'prism-react-renderer/prism';
-(typeof global !== 'undefined' ? global : window).Prism = Prism;
-require('prismjs/components/prism-powershell');
+```js {5} title="docusaurus.config.js"
+module.exports = {
+  // ...
+  themeConfig: {
+    prism: {
+      additionalLanguages: ['powershell'],
+    },
+    // ...
+  },
+};
 ```
 
 ### Line highlighting
@@ -258,15 +553,19 @@ function HighlightSomeText(highlight) {
 }
 ```
 
-To accomplish this, Docusaurus adds the `docusaurus-highlight-code-line` class to the highlighted lines. You will need to define your own styling for this CSS, possibly in your `src/css/custom.css` with a custom background color which is dependent on your selected syntax highlighting theme. The color given below works for the default highlighting theme (Palenight), so if you are using another theme will have to tweak the color accordingly.
+To accomplish this, Docusaurus adds the `docusaurus-highlight-code-line` class to the highlighted lines. You will need to define your own styling for this CSS, possibly in your `src/css/custom.css` with a custom background color which is dependent on your selected syntax highlighting theme. The color given below works for the default highlighting theme (Palenight), so if you are using another theme, you will have to tweak the color accordingly.
 
-```css
-/* /src/css/custom.css */
+```css title="/src/css/custom.css"
 .docusaurus-highlight-code-line {
   background-color: rgb(72, 77, 91);
   display: block;
   margin: 0 calc(-1 * var(--ifm-pre-padding));
   padding: 0 var(--ifm-pre-padding);
+}
+
+/* If you have a different syntax highlighting theme for dark mode. */
+html[data-theme='dark'] .docusaurus-highlight-code-line {
+  background-color: /* Color which works with dark mode syntax highlighting theme */
 }
 ```
 
@@ -300,6 +599,62 @@ function MyComponent(props) {
 export default MyComponent;
 ```
 
+
+You can also use comments with `highlight-next-line`, `highlight-start`, and `highlight-end` to select which lines are highlighted.
+
+    ```jsx
+    function HighlightSomeText(highlight) {
+      if (highlight) {
+        // highlight-next-line
+        return 'This text is highlighted!';
+      }
+
+      return 'Nothing highlighted';
+    }
+
+    function HighlightMoreText(highlight) {
+      // highlight-start
+      if (highlight) {
+        return 'This range is highlighted!';
+      }
+      // highlight-end
+
+      return 'Nothing highlighted';
+    }
+    ```
+
+```jsx
+function HighlightSomeText(highlight) {
+  if (highlight) {
+    // highlight-next-line
+    return 'This text is highlighted!';
+  }
+
+  return 'Nothing highlighted';
+}
+
+function HighlightMoreText(highlight) {
+  // highlight-start
+  if (highlight) {
+    return 'This range is highlighted!';
+  }
+  // highlight-end
+
+  return 'Nothing highlighted';
+}
+```
+
+Supported commenting syntax:
+
+|Language|Syntax|
+|---|---|
+|JavaScript|`/* ... */` and `// ...`|
+|JSX|`{/* ... */}`|
+|Python|`# ...`|
+|HTML|`<!-- ... -->`|
+
+If there's a syntax that is not currently supported, we are open to adding them! Pull requests welcome.
+
 ### Interactive code editor
 
 (Powered by [React Live](https://github.com/FormidableLabs/react-live))
@@ -316,9 +671,9 @@ You will also need to add the plugin to your `docusaurus.config.js`.
 
 ```js {3}
 module.exports = {
-  ...
+  // ...
   themes: ['@docusaurus/theme-live-codeblock'],
-  ...
+  // ...
 }
 ```
 
@@ -462,3 +817,5 @@ class HelloWorld {
 </Tabs>
 
 You may want to implement your own `<MultiLanguageCode />` abstraction if you find the above approach too verbose. We might just implement one in future for convenience.
+
+If you have multiple of these multi-language code tabs, and you want to sync the selection across the tab instances, refer to the [Syncing tab choices section](#syncing-tab-choices).

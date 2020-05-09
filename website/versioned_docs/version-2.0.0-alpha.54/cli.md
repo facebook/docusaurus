@@ -80,9 +80,6 @@ Change any Docusaurus theme components to your liking with `docusaurus swizzle`.
 
 ```shell
 docusaurus swizzle <themeName> [componentName] [siteDir]
-
-# example (leaving out the siteDir to indicate this directory)
-docusaurus swizzle @docusaurus/theme-classic DocSidebar
 ```
 
 Running the command will copy the relevant theme files to your site folder. You may then make any changes to it and Docusaurus will use it instead of the one provided from the theme.

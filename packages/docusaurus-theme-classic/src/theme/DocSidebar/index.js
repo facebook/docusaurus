@@ -38,6 +38,7 @@ function DocSidebarItem({
 
   const handleItemClick = useCallback((e) => {
     e.preventDefault();
+    e.target.blur();
     setCollapsed((state) => !state);
   });
 
@@ -222,7 +223,8 @@ function DocSidebar(props) {
             <DocSidebarItem
               key={item.label}
               item={item}
-              onItemClick={() => {
+              onItemClick={(e) => {
+                e.target.blur();
                 setShowResponsiveSidebar(false);
               }}
               collapsible={sidebarCollapsible}

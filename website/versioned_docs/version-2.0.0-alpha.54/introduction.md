@@ -6,7 +6,7 @@ description: Docusaurus was designed from the ground up to be easily installed a
 
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
-## :warning: Disclaimer
+## Disclaimer
 
 This is an **early and alpha release** of Docusaurus 2. We are making it available early to maximize community participation and feedback. Expect it to evolve a lot over the course of the alpha-beta period. If you are adventurous enough to be an early adopter, chat with us on [**Discord**](https://discordapp.com/invite/docusaurus) :wink:.
 
@@ -18,9 +18,10 @@ This is an **early and alpha release** of Docusaurus 2. We are making it availab
 
 **Do not use this if**
 
-- :x: You need a full production-ready solution (<small>try [Docusaurus 1](https://docusaurus.io/) instead</small>)
+- :x: You need a full production-ready solution (try [Docusaurus 1](https://docusaurus.io/) instead)
 - :x: You need the translation features present in v1
 - :x: You prefer not to work with potential breaking changes and/or features not yet working properly as we improve it during alpha period
+- :x: You need support for IE11
 
 ## A better Docusaurus is coming to town
 
@@ -82,19 +83,19 @@ Many aspects of Docusaurus 2 were inspired by the best things about Gatsby and i
 
 ### GitBook
 
-Gitbook has very clean slate design and has been used by many open source projects. With its focus shifting towards a commercial product rather than an open-source tool, many of its requirements no longer fit the needs as an open source project's doc site. As a result, many have to turn to other products. You may read about Redux's switch to Docusaurus [here](https://github.com/reduxjs/redux/issues/3161).
+GitBook has very clean design and has been used by many open source projects. With its focus shifting towards a commercial product rather than an open-source tool, many of its requirements no longer fit the needs as an open source project's documentation site. As a result, many have turned to other products. You may read about Redux's switch to Docusaurus [here](https://github.com/reduxjs/redux/issues/3161).
 
-Currently, Gitbook is only free for open-source and non-profit teams. Docusaurus is free for everyone.
+Currently, GitBook is only free for open-source and non-profit teams. Docusaurus is free for everyone.
 
 ### Jekyll
 
 Jekyll is one of the most mature static site generators around and has been a great tool to use — in fact, before Docusaurus, most of Facebook's Open Source websites are/were built on Jekyll! It is extremely simple to get started. We want to bring a similar developer experience as building a static site with Jekyll.
 
-In comparison with statically generated HTML and interactivity based on `<script />` tags, Docusaurus sites are React apps. With tooling of our current ecosystem, we hope to set new standards on doc sites performance, asset build pipeline and optimizations, and ease to setup.
+In comparison with statically generated HTML and interactivity added using `<script />` tags, Docusaurus sites are React apps. Using modern JavaScript ecosystem tooling, we hope to set new standards on doc sites performance, asset build pipeline and optimizations, and ease to setup.
 
 ### VuePress
 
-VuePress has many similarities with Docusaurus - both focus heavily on content-centric website and provides tailored documentation features out of the box. However, VuePress is powered by Vue, while Docusaurus is powered by React. If you wanted a Vue-based solution, VuePress would be a decent choice.
+VuePress has many similarities with Docusaurus - both focus heavily on content-centric website and provides tailored documentation features out of the box. However, VuePress is powered by Vue, while Docusaurus is powered by React. If you want a Vue-based solution, VuePress would be a decent choice.
 
 <!-- TODO: Add a Next.js comparison -->
 
