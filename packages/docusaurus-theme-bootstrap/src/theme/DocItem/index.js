@@ -56,7 +56,7 @@ function DocItem(props) {
       <main className="col col-md-8 p-0">
         <div className="d-flex w-100 justify-content-end mr-5">
           <Button
-            color="info"
+            color="primary"
             onClick={handleSidebarToggle}
             className={classnames('mr-2', styles.sidebarFAB)}>
             <svg
