@@ -5,11 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {useState, useCallback} from 'react';
 import Link from '@docusaurus/Link';
 import isInternalUrl from '@docusaurus/isInternalUrl';
-import useSidebarContext from '@theme/hooks/useSidebarContext';
 import {NavItem, Nav, Button} from 'reactstrap';
+import useLockBodyScroll from '@theme/hooks/useLockBodyScroll';
 import classNames from 'classnames';
 
 import styles from './styles.module.css';
@@ -27,7 +27,7 @@ const DocSidebarItem = ({item, onItemClick, collapsible, ...props}) => {
               <DocSidebarItem
                 key={childItem.label}
                 item={childItem}
-                onItemClick={onItemClick}
+                onItemClick={collapsible ? onItemClick : undefined}
               />
             ))}
           </div>
@@ -45,7 +45,7 @@ const DocSidebarItem = ({item, onItemClick, collapsible, ...props}) => {
             {...(isInternalUrl(href)
               ? {
                   isNavLink: true,
-                  activeClassName: 'menu__link--active',
+                  activeClassName: 'active',
                   exact: true,
                   onClick: onItemClick,
                 }
@@ -63,11 +63,12 @@ const DocSidebarItem = ({item, onItemClick, collapsible, ...props}) => {
 
 const DocSidebar = (props) => {
   const {docsSidebars, sidebar: currentSidebar, sidebarCollapsible} = props;
-  const {
-    handleSidebarToggle,
-    sidebarShown,
-    setSidebarShown,
-  } = useSidebarContext();
+  const [sidebarShown, setSidebarShown] = useState(true);
+  const handleSidebarToggle = useCallback(() => {
+    setSidebarShown(!sidebarShown);
+  }, [sidebarShown, setSidebarShown]);
+
+  useLockBodyScroll(sidebarShown);
 
   if (!currentSidebar) {
     return null;
