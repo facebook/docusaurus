@@ -10,10 +10,9 @@ import {useEffect} from 'react';
 function useLockBodyScroll(lock = true) {
   useEffect(() => {
     document.body.style.overflow = lock ? 'hidden' : 'visible';
-
+    window.scrollTo(0, 0);
     return () => {
       document.body.style.overflow = 'visible';
-      window.scrollTo(0, 0);
     };
   }, [lock]);
 }

@@ -9,6 +9,8 @@ import React, {useState, useCallback} from 'react';
 import Link from '@docusaurus/Link';
 import isInternalUrl from '@docusaurus/isInternalUrl';
 import {NavItem, Nav, Button} from 'reactstrap';
+import useLockBodyScroll from '@theme/hooks/useLockBodyScroll';
+import useResizeWindow from '@theme/hooks/useResizeWindow';
 import classNames from 'classnames';
 
 import styles from './styles.module.css';
@@ -67,6 +69,11 @@ const DocSidebar = (props) => {
     setSidebarShown(!sidebarShown);
   }, [sidebarShown, setSidebarShown]);
 
+  const clientWidth = useResizeWindow();
+  const isMobileDevice = clientWidth <= 500;
+  // We only want to lock the scroll in mobile devices
+  useLockBodyScroll(sidebarShown && isMobileDevice);
+
   if (!currentSidebar) {
     return null;
   }
@@ -82,7 +89,8 @@ const DocSidebar = (props) => {
   return (
     <div
       className={classNames('bg-info text-white', styles.sidebar, {
-        [styles.isOpen]: sidebarShown,
+        // Do not collapse if is a desktop device
+        [styles.isOpen]: sidebarShown || !isMobileDevice,
       })}>
       <div className={styles.sideMenu}>
         <Nav vertical className="list-unstyled p-3 mr-auto">
@@ -100,7 +108,7 @@ const DocSidebar = (props) => {
       </div>
       <div className="d-flex w-100 justify-content-end mr-5">
         <Button
-          color="primary"
+          color="secondary"
           onClick={handleSidebarToggle}
           className={classNames('mr-2', styles.sidebarFAB)}>
           <svg
