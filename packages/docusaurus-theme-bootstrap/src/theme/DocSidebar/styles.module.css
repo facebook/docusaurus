@@ -1,4 +1,5 @@
 .sidebar {
+  position: relative;
   min-width: 250px;
   max-width: 250px;
   transition: all 0.5s;
@@ -15,14 +16,6 @@
 .sidebar ul p {
   color: #fff;
   padding: 10px;
-}
-
-.sideMenu {
-  overflow-y: scroll;
-}
-
-.sideMenu::-webkit-scrollbar {
-  width: 10px;
 }
 
 .sidebarFAB {
