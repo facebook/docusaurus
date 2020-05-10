@@ -3,6 +3,8 @@
   max-width: 250px;
   transition: all 0.5s;
   margin-left: -250px;
+  min-height: 100vh;
+  top: 0;
 }
 
 .isOpen {
@@ -16,12 +18,15 @@
 }
 
 .sideMenu {
-  height: calc(100vh - 260px);
   overflow-y: scroll;
 }
 
 .sideMenu::-webkit-scrollbar {
   width: 10px;
+}
+
+.sidebarFAB {
+  display: none;
 }
 
 @media only screen and (max-width: 500px) {
@@ -30,8 +35,16 @@
     max-width: 100%;
     width: 100%;
     align-items: stretch;
-    margin-left: 0;
     overflow: hidden;
     transition: all 0.5s, height 0s;
   }
+
+  .sidebarFAB {
+    display: inline-flex;
+    position: fixed;
+    z-index: 1;
+    right: 1rem;
+    bottom: 2rem;
+  }
+
 }

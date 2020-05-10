@@ -9,7 +9,7 @@ import React from 'react';
 import Link from '@docusaurus/Link';
 import isInternalUrl from '@docusaurus/isInternalUrl';
 import useSidebarContext from '@theme/hooks/useSidebarContext';
-import {NavItem, Nav} from 'reactstrap';
+import {NavItem, Nav, Button} from 'reactstrap';
 import classNames from 'classnames';
 
 import styles from './styles.module.css';
@@ -109,6 +109,30 @@ const DocSidebar = (props) => {
             />
           ))}
         </Nav>
+      </div>
+      <div className="d-flex w-100 justify-content-end mr-5">
+        <Button
+          color="primary"
+          onClick={handleSidebarToggle}
+          className={classNames('mr-2', styles.sidebarFAB)}>
+          <svg
+            aria-label="Menu"
+            xmlns="http://www.w3.org/2000/svg"
+            height={24}
+            width={24}
+            viewBox="0 0 32 32"
+            role="img"
+            focusable="false">
+            <title>Menu</title>
+            <path
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeMiterlimit="10"
+              strokeWidth="2"
+              d="M4 7h22M4 15h22M4 23h22"
+            />
+          </svg>
+        </Button>
       </div>
     </div>
   );
