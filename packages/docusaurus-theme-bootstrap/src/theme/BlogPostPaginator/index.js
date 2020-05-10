@@ -14,14 +14,14 @@ function BlogPostPaginator(props) {
   return (
     <nav aria-label="Blog post page navigation" className="my-5">
       <ul className="pagination justify-content-between">
-        <li className="page-item">
+        <li className="pagination__item">
           {prevItem && (
             <Link className="page-link rounded-pill" to={prevItem.permalink}>
               &laquo; {prevItem.title}
             </Link>
           )}
         </li>
-        <li className="page-item">
+        <li className="pagination__item">
           {nextItem && (
             <Link className="page-link rounded-pill" to={nextItem.permalink}>
               {nextItem.title} &raquo;
