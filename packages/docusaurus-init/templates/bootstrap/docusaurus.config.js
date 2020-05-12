@@ -1,3 +1,5 @@
+/* stylelint-disable docusaurus/copyright-header */
+
 module.exports = {
   title: 'My Site',
   tagline: 'The tagline of my site',
