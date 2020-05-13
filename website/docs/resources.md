@@ -30,6 +30,7 @@ See the <a href={require('@docusaurus/useBaseUrl').default('showcase')}>showcase
 - [docusaurus-search-local](https://github.com/cmfcmf/docusaurus-search-local) - Offline/local search for Docusaurus v2
 - [docusaurus-pdf](https://github.com/KohheePeace/docusaurus-pdf) - Generate documentation into PDF format
 - [docusaurus-plugin-sass](https://github.com/rlamana/docusaurus-plugin-sass) - Sass/SCSS stylesheets support
+- [docusaurus2-dotenv](https://github.com/jonnynabors/docusaurus2-dotenv) - A Docusaurus 2 plugin that supports dotenv and other environment variables
 
 ## Enterprise usage
 

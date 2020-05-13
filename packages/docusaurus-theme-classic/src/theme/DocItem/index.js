@@ -100,6 +100,7 @@ function DocItem(props) {
           <meta name="twitter:image:alt" content={`Image for ${title}`} />
         )}
         {permalink && <meta property="og:url" content={siteUrl + permalink} />}
+        {permalink && <link rel="canonical" href={siteUrl + permalink} />}
       </Head>
       <div
         className={classnames(

@@ -87,8 +87,8 @@ function Tabs(props) {
             role="tab"
             tabIndex="0"
             aria-selected={selectedValue === value}
-            className={classnames('tab-item', styles.tabItem, {
-              'tab-item--active': selectedValue === value,
+            className={classnames('tabs__item', styles.tabItem, {
+              'tabs__item--active': selectedValue === value,
             })}
             key={value}
             ref={(tabControl) => tabRefs.push(tabControl)}
