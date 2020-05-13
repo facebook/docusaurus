@@ -35,10 +35,11 @@
 
   .search-icon {
     background-color: var(--ifm-navbar-search-input-background-color);
-    width: 30px;
-    height: 30px;
-    border-radius: 15px;
+    padding: 0 0.5rem 0 2.25rem;
+    line-height: 2rem;
+    border-radius: 2rem;
     display: inline-block;
+    height: 32px;
     vertical-align: middle;
   }
 }
