@@ -21,7 +21,7 @@ function BlogListPage(props) {
 
   return (
     <Layout title={title} description="Blog">
-      <div className="container-fluid">
+      <div className="container-fluid mt-4">
         <div className="row row-cols-1 row-cols-sm-1">
           {items.map(({content: BlogPostContent}) => (
             <div
