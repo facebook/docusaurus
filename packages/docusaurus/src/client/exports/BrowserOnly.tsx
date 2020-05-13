@@ -9,10 +9,10 @@ import React from 'react';
 import ExecutionEnvironment from './ExecutionEnvironment';
 
 function BrowserOnly({children, fallback}) {
-  if (!ExecutionEnvironment.canUseDOM || children == null) {  
+  if (!ExecutionEnvironment.canUseDOM || children == null) {
     return fallback || null;
   }
-  
+
   return <>{children()}</>;
 }
 

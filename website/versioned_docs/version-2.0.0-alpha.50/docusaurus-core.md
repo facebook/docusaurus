@@ -160,7 +160,7 @@ const Test = () => {
 
 ### `useBaseUrl`
 
-React hook to automatically append `baseUrl` to a string automatically. This is particularly useful if you don't want to hardcode your config's `baseUrl`. We highly recommend you to use this.
+React hook to automatically prepend `baseUrl` to a string automatically. This is particularly useful if you don't want to hardcode your config's `baseUrl`. We highly recommend you to use this.
 
 Example usage:
 

@@ -5,6 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-/* eslint-disable */
-'use strict';
-Object.defineProperty(exports, '__esModule', {value: true});
+import React from 'react';
+
+const ThemeContext = React.createContext({
+  isDarkTheme: false,
+  setLightTheme: () => {},
+  setDarkTheme: () => {},
+});
+
+export default ThemeContext;

@@ -5,6 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-/* eslint-disable */
-'use strict';
-Object.defineProperty(exports, '__esModule', {value: true});
+import {useContext} from 'react';
+
+import ThemeContext from '@theme/ThemeContext';
+
+function useThemeContext() {
+  return useContext(ThemeContext);
+}
+
+export default useThemeContext;

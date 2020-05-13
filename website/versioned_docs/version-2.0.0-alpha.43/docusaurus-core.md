@@ -123,7 +123,7 @@ const Test = () => {
 
 ## `useBaseUrl`
 
-React Hook to automatically append `baseUrl` to a string automatically. This is particularly useful if you don't want to hardcode your baseUrl.
+React Hook to automatically prepend `baseUrl` to a string automatically. This is particularly useful if you don't want to hardcode your baseUrl.
 
 Example usage:
 
