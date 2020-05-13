@@ -1,11 +1,12 @@
 .sidebar {
   position: relative;
-  min-width: 250px;
-  max-width: 250px;
+  min-width: 300px;
+  max-width: 300px;
   transition: all 0.5s;
-  margin-left: -250px;
+  margin-left: -300px;
   min-height: 100vh;
   top: 0;
+  font-size: 16px;
 }
 
 .isOpen {
@@ -27,6 +28,10 @@
     min-width: 100%;
     max-width: 100%;
     width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    z-index: 2;
     align-items: stretch;
     overflow: hidden;
     transition: all 0.5s, height 0s;

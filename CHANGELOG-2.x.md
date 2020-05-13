@@ -1,5 +1,20 @@
 # Docusaurus 2 Changelog
 
+## 2.0.0-alpha.55
+
+#### :boom: Breaking Change
+
+- `infima`
+  - The following Infima classes have been renamed for consistency:
+
+    - `page-item` → `pagination__item`
+    - `pagination-nav__link--label` → `pagination-nav__label`
+    - `pagination-nav__link--sublabel` → `pagination-nav__sublabel`
+    - `tab-item` → `tabs__item`
+    - `tab-item--active` → `tabs__item--active`
+
+    If you have swizzled components, you need to replace these class names.
+
 ## 2.0.0-alpha.54
 
 **HOTFIX for 2.0.0-alpha.53**.

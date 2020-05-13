@@ -64,13 +64,14 @@ const DocSidebarItem = ({item, onItemClick, ...props}) => {
 
 const DocSidebar = (props) => {
   const {docsSidebars, sidebar: currentSidebar} = props;
-  const [sidebarShown, setSidebarShown] = useState(true);
+  const clientWidth = useResizeWindow();
+  const isMobileDevice = clientWidth <= 500;
+
+  // In mobile devices initially the sidebar is closed
+  const [sidebarShown, setSidebarShown] = useState(!clientWidth);
   const handleSidebarToggle = useCallback(() => {
     setSidebarShown(!sidebarShown);
   }, [sidebarShown, setSidebarShown]);
-
-  const clientWidth = useResizeWindow();
-  const isMobileDevice = clientWidth <= 500;
   // We only want to lock the scroll in mobile devices
   useLockBodyScroll(sidebarShown && isMobileDevice);
 
