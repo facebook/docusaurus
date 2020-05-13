@@ -240,7 +240,7 @@ function Navbar() {
             ))}
           {!disableDarkMode && (
             <Toggle
-              className={styles.displayOnlyInLargeViewport}
+              className={classnames('navbar__theme-toggle', styles.displayOnlyInLargeViewport)}
               aria-label="Dark mode toggle"
               checked={isDarkTheme}
               onChange={onToggleChange}
@@ -278,6 +278,7 @@ function Navbar() {
           </Link>
           {!disableDarkMode && sidebarShown && (
             <Toggle
+              className="navbar__theme-toggle"
               aria-label="Dark mode toggle in sidebar"
               checked={isDarkTheme}
               onChange={onToggleChange}

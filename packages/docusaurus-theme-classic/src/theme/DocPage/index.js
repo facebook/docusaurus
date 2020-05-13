@@ -6,6 +6,7 @@
  */
 
 import React from 'react';
+import classnames from 'classnames';
 import {MDXProvider} from '@mdx-js/react';
 
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
@@ -39,9 +40,9 @@ function DocPage(props) {
 
   return (
     <Layout version={version} key={isClient}>
-      <div className={styles.docPage}>
+      <div className={classnames('docPage', styles.docPage)}>
         {sidebar && (
-          <div className={styles.docSidebarContainer}>
+          <div className={classnames('docSidebarContainer', styles.docSidebarContainer)}>
             <DocSidebar
               docsSidebars={docsSidebars}
               path={currentRoute.path}
@@ -50,7 +51,7 @@ function DocPage(props) {
             />
           </div>
         )}
-        <main className={styles.docMainContainer}>
+        <main className={classnames('docMainContainer', styles.docMainContainer)}>
           <MDXProvider components={MDXComponents}>
             {renderRoutes(baseRoute.routes)}
           </MDXProvider>

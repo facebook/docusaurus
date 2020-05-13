@@ -19,7 +19,7 @@ function BlogPostPage(props) {
   return (
     <Layout title={title} description={description}>
       {BlogPostContents && (
-        <div className="container margin-vert--lg">
+        <div className="container margin-vert--lg blogPost">
           <div className="row">
             <div className="col col--8 col--offset-2">
               <BlogPostItem
@@ -50,7 +50,7 @@ function BlogPostPage(props) {
                 )}
               </div>
               {(nextItem || prevItem) && (
-                <div className="margin-vert--xl">
+                <div className="margin-vert--xl pagination">
                   <BlogPostPaginator nextItem={nextItem} prevItem={prevItem} />
                 </div>
               )}

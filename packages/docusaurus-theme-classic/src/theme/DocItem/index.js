@@ -24,8 +24,8 @@ const TOP_OFFSET = 100;
 function DocTOC({headings}) {
   useTOCHighlight(LINK_CLASS_NAME, ACTIVE_LINK_CLASS_NAME, TOP_OFFSET);
   return (
-    <div className="col col--3">
-      <div className={styles.tableOfContents}>
+    <div className="col col--3 tableOfContents__container">
+      <div className={classnames('tableOfContents', styles.tableOfContents)}>
         <Headings headings={headings} />
       </div>
     </div>
@@ -108,8 +108,8 @@ function DocItem(props) {
           styles.docItemWrapper,
         )}>
         <div className="row">
-          <div className={classnames('col', styles.docItemCol)}>
-            <div className={styles.docItemContainer}>
+          <div className={classnames('col', 'docItemCol', styles.docItemCol)}>
+            <div className={classnames('docItemContainer', styles.docItemContainer)}>
               <article>
                 {version && (
                   <div>
@@ -120,7 +120,7 @@ function DocItem(props) {
                 )}
                 {!hideTitle && (
                   <header>
-                    <h1 className={styles.docTitle}>{title}</h1>
+                    <h1 className={classnames('docTitle', styles.docTitle)}>{title}</h1>
                   </header>
                 )}
                 <div className="markdown">
@@ -128,7 +128,7 @@ function DocItem(props) {
                 </div>
               </article>
               {(editUrl || lastUpdatedAt || lastUpdatedBy) && (
-                <div className="margin-vert--xl">
+                <div className="margin-vert--xl docEditContainer">
                   <div className="row">
                     <div className="col">
                       {editUrl && (
@@ -155,7 +155,7 @@ function DocItem(props) {
                       )}
                     </div>
                     {(lastUpdatedAt || lastUpdatedBy) && (
-                      <div className="col text--right">
+                      <div className="col text--right docLastUpdated">
                         <em>
                           <small>
                             Last updated{' '}
@@ -194,7 +194,7 @@ function DocItem(props) {
                   </div>
                 </div>
               )}
-              <div className="margin-vert--lg">
+              <div className="margin-vert--lg pagination">
                 <DocPaginator metadata={metadata} />
               </div>
             </div>

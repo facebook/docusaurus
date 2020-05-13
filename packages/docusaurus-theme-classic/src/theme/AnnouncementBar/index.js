@@ -6,6 +6,7 @@
  */
 
 import React, {useState, useEffect} from 'react';
+import classnames from 'classnames';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 import styles from './styles.module.css';
@@ -48,11 +49,11 @@ function AnnouncementBar() {
 
   return (
     <div
-      className={styles.announcementBar}
+      className={classnames('announcment-bar', styles.announcementBar)}
       style={{backgroundColor, color: textColor}}
       role="banner">
       <div
-        className={styles.announcementBarContent}
+        className={classnames('announcment-bar__content', styles.announcementBarContent)}
         dangerouslySetInnerHTML={{__html: content}}
       />
 

@@ -216,16 +216,16 @@ export default ({children, className: languageClassName, metastring}) => {
       {({className, style, tokens, getLineProps, getTokenProps}) => (
         <>
           {codeBlockTitle && (
-            <div style={style} className={styles.codeBlockTitle}>
+            <div style={style} className={classnames('codeBlockTitle', styles.codeBlockTitle)}>
               {codeBlockTitle}
             </div>
           )}
-          <div className={styles.codeBlockContent}>
+          <div className={classnames('codeBlockContent', styles.codeBlockContent)}>
             <button
               ref={button}
               type="button"
               aria-label="Copy code to clipboard"
-              className={classnames(styles.copyButton, {
+              className={classnames('copyButton', styles.copyButton, {
                 [styles.copyButtonWithTitle]: codeBlockTitle,
               })}
               onClick={handleCopyCode}>
@@ -233,10 +233,10 @@ export default ({children, className: languageClassName, metastring}) => {
             </button>
             <div
               tabIndex="0"
-              className={classnames(className, styles.codeBlock, {
+              className={classnames(className, 'codeBlock', styles.codeBlock, {
                 [styles.codeBlockWithTitle]: codeBlockTitle,
               })}>
-              <div ref={target} className={styles.codeBlockLines} style={style}>
+              <div ref={target} className={classnames('codeBlockLines', styles.codeBlockLines)} style={style}>
                 {tokens.map((line, i) => {
                   if (line.length === 1 && line[0].content === '') {
                     line[0].content = '\n'; // eslint-disable-line no-param-reassign
