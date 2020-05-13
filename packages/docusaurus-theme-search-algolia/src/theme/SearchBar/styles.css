@@ -34,7 +34,11 @@
   }
 
   .search-icon {
-    display: inline;
-    vertical-align: sub;
+    background-color: var(--ifm-navbar-search-input-background-color);
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    display: inline-block;
+    vertical-align: middle;
   }
 }
