@@ -1,5 +1,3 @@
-/* stylelint-disable docusaurus/copyright-header */
-
 import React from 'react';
 import classnames from 'classnames';
 import Layout from '@theme/Layout';
