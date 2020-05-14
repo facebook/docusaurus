@@ -13,6 +13,7 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import DocPaginator from '@theme/DocPaginator';
 import useTOCHighlight from '@theme/hooks/useTOCHighlight';
+import formatUrl from '@docusaurus/formatUrl';
 
 import classnames from 'classnames';
 import styles from './styles.module.css';
@@ -73,6 +74,7 @@ function DocItem(props) {
       keywords,
       hide_title: hideTitle,
       hide_table_of_contents: hideTableOfContents,
+      canonical_url: canonicalURL,
     },
   } = DocContent;
 
@@ -81,6 +83,10 @@ function DocItem(props) {
   if (!isInternalUrl(metaImage)) {
     metaImageUrl = metaImage;
   }
+
+  const formattedCanonicalURL = canonicalURL
+    ? formatUrl(canonicalURL)
+    : siteUrl + permalink;
 
   return (
     <>
@@ -99,8 +105,10 @@ function DocItem(props) {
         {metaImage && (
           <meta name="twitter:image:alt" content={`Image for ${title}`} />
         )}
-        {permalink && <meta property="og:url" content={siteUrl + permalink} />}
-        {permalink && <link rel="canonical" href={siteUrl + permalink} />}
+        {permalink && (
+          <meta property="og:url" content={formattedCanonicalURL} />
+        )}
+        {permalink && <link rel="canonical" href={formattedCanonicalURL} />}
       </Head>
       <div
         className={classnames(
