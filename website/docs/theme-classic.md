@@ -132,13 +132,23 @@ module.exports = {
     navbar: {
       links: [
         {
+          // Client-side routing, used for navigating within the website.
+          // The baseUrl will be automatically prepended to this value.
           to: 'docs/introduction',
+          // A full-page navigation, used for navigating outside of the website.
+          // You should only use either `to` or `href`.
+          href: 'https://www.facebook.com',
+          // Prepends the baseUrl to href values.
+          prependBaseUrlToHref: true,
+          // The string to be shown.
           label: 'Introduction',
+          // Left or right side of the navbar.
           position: 'left', // or 'right'
           // To apply the active class styling on all
           // routes starting with this path.
           activeBasePath: 'docs',
-          className: '', // Custom CSS class (for styling any item)
+          // Custom CSS class (for styling any item).
+          className: '',
         },
         // ... other links
       ],
@@ -148,7 +158,7 @@ module.exports = {
 };
 ```
 
-Outbound links automatically get `target="_blank" rel="noopener noreferrer"` attributes.
+Outbound (external) links automatically get `target="_blank" rel="noopener noreferrer"` attributes.
 
 ### Navbar Dropdown
 
@@ -200,7 +210,9 @@ module.exports = {
 
 ## Footer
 
-## `CodeBlock`
+TODO.
+
+## CodeBlock
 
 Docusaurus uses [Prism React Renderer](https://github.com/FormidableLabs/prism-react-renderer) to highlight code blocks.
 
