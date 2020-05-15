@@ -45,7 +45,7 @@ Each page doesn't come with any styling. You will need to import the `Layout` co
 
 :::tip
 
-You can also create a page in TypeScript, in which case the its file name should use the `.tsx` extension, eg. `hello.tsx`.
+You can also create a page in TypeScript, in which case the file name should use the `.tsx` extension, eg. `hello.tsx`.
 
 :::
 
