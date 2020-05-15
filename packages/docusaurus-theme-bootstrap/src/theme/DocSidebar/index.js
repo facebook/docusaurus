@@ -10,7 +10,6 @@ import Link from '@docusaurus/Link';
 import isInternalUrl from '@docusaurus/isInternalUrl';
 import {NavItem, Nav, Button} from 'reactstrap';
 import useLockBodyScroll from '@theme/hooks/useLockBodyScroll';
-import useResizeWindow from '@theme/hooks/useResizeWindow';
 import classNames from 'classnames';
 
 import styles from './styles.module.css';
@@ -64,16 +63,14 @@ const DocSidebarItem = ({item, onItemClick, ...props}) => {
 
 const DocSidebar = (props) => {
   const {docsSidebars, sidebar: currentSidebar} = props;
-  const clientWidth = useResizeWindow();
-  const isMobileDevice = clientWidth <= 500;
 
-  // In mobile devices initially the sidebar is closed
-  const [sidebarShown, setSidebarShown] = useState(!clientWidth);
+
+  const [sidebarShown, setSidebarShown] = useState(false);
   const handleSidebarToggle = useCallback(() => {
     setSidebarShown(!sidebarShown);
   }, [sidebarShown, setSidebarShown]);
-  // We only want to lock the scroll in mobile devices
-  useLockBodyScroll(sidebarShown && isMobileDevice);
+
+  useLockBodyScroll(sidebarShown);
 
   if (!currentSidebar) {
     return null;
@@ -88,25 +85,12 @@ const DocSidebar = (props) => {
   }
 
   return (
+    <div className={classNames('bg-info', styles.sidebar)}>
     <div
-      className={classNames('bg-info text-white', styles.sidebar, {
+      className={classNames('text-white', {
         // Do not collapse if is a desktop device
-        [styles.isOpen]: sidebarShown || !isMobileDevice,
+        [styles.isOpen]: sidebarShown,
       })}>
-      <div className={styles.sideMenu}>
-        <Nav vertical className="list-unstyled p-3 mr-auto">
-          {sidebarData.map((item) => (
-            <DocSidebarItem
-              key={item.label}
-              item={item}
-              onItemClick={(e) => {
-                e.target.blur();
-                setSidebarShown(false);
-              }}
-            />
-          ))}
-        </Nav>
-      </div>
       <div className="d-flex w-100 justify-content-end mr-5">
         <Button
           color="secondary"
@@ -130,6 +114,21 @@ const DocSidebar = (props) => {
             />
           </svg>
         </Button>
+      </div>
+      <div className={classNames(styles.sideMenu)}>
+        <Nav vertical className="list-unstyled p-3 mr-auto">
+          {sidebarData.map((item) => (
+            <DocSidebarItem
+              key={item.label}
+              item={item}
+              onItemClick={(e) => {
+                e.target.blur();
+                setSidebarShown(false);
+              }}
+            />
+          ))}
+        </Nav>
+      </div>
       </div>
     </div>
   );

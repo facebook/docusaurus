@@ -47,7 +47,7 @@ function DocItem(props) {
         )}
         {permalink && <meta property="og:url" content={siteUrl + permalink} />}
       </Head>
-      <main className="col col-md-8 p-0 overflow-hidden">
+      <main className="col col-md-8 p-0">
         <DocContent />
         <DocPaginator metadata={metadata} />
       </main>
