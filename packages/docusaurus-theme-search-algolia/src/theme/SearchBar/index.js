@@ -32,11 +32,15 @@ const Search = (props) => {
       inputSelector: '#search_input_react',
       algoliaOptions: algolia.algoliaOptions,
       autocompleteOptions: {
+        openOnFocus: true,
         autoselect: false,
+        hint: false,
       },
       // Override algolia's default selection event, allowing us to do client-side
       // navigation and avoiding a full page refresh.
       handleSelected: (_input, _event, suggestion) => {
+        _event.stopPropagation();
+
         // Use an anchor tag to parse the absolute url into a relative url
         // Alternatively, we can use new URL(suggestion.url) but it's not supported in IE.
         const a = document.createElement('a');
@@ -93,7 +97,7 @@ const Search = (props) => {
   });
 
   const handleSearchInputPressEnter = useCallback((e) => {
-    if (e.key === 'Enter') {
+    if (!e.defaultPrevented && e.key === 'Enter') {
       navigateToSearchPage(e.target.value);
     }
   });

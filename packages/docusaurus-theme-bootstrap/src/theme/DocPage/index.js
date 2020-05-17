@@ -30,7 +30,7 @@ function DocPage(props) {
         path={currentRoute.path}
         sidebar={sidebar}
       />
-      <section className="offset-1 mr-4 mt-4 col-xl-6 offset-xl-4 p-0 justify-content-center align-self-center ">
+      <section className="offset-1 mr-4 mt-4 col-xl-6 offset-xl-4 p-0 justify-content-center align-self-center overflow-hidden">
         <MDXProvider components={MDXComponents}>
           {renderRoutes(baseRoute.routes)}
         </MDXProvider>

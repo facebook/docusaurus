@@ -27,7 +27,6 @@ function DocItem(props) {
   if (!isInternalUrl(metaImage)) {
     metaImageUrl = metaImage;
   }
-
   return (
     <>
       <Head>
