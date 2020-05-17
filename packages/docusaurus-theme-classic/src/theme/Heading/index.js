@@ -36,6 +36,7 @@ const Heading = (Tag) =>
           })}
           id={id}
         />
+        {props.children}
         <a
           aria-hidden="true"
           tabIndex="-1"
@@ -44,7 +45,6 @@ const Heading = (Tag) =>
           title="Direct link to heading">
           #
         </a>
-        {props.children}
       </Tag>
     );
   };

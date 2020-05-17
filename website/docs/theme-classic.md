@@ -132,15 +132,26 @@ module.exports = {
     navbar: {
       links: [
         {
+          // Client-side routing, used for navigating within the website.
+          // The baseUrl will be automatically prepended to this value.
           to: 'docs/introduction',
+          // A full-page navigation, used for navigating outside of the website.
+          // You should only use either `to` or `href`.
+          href: 'https://www.facebook.com',
+          // Prepends the baseUrl to href values.
+          prependBaseUrlToHref: true,
+          // The string to be shown.
           label: 'Introduction',
+          // Left or right side of the navbar.
           position: 'left', // or 'right'
           // To apply the active class styling on all
           // routes starting with this path.
           // This usually isn't necessary
           activeBasePath: 'docs',
-          activeBaseRegex: 'docs/(next|v8)', // as an alternative to activeBasePath if required
-          className: '', // Custom CSS class (for styling any item)
+          // Alternative to activeBasePath if required.
+          activeBaseRegex: 'docs/(next|v8)',
+          // Custom CSS class (for styling any item).
+          className: '',
         },
         // ... other links
       ],
@@ -152,7 +163,7 @@ module.exports = {
 
 React Router should automatically apply active link styling to links, but you can use `activeBasePath` in edge cases. For cases in which a link should be active on several different paths (such as when you have multiple doc folders under the same sidebar), you can use `activeBaseRegex`. `activeBaseRegex` is a more flexible alternative to `activeBasePath` and takes precedence over it -- Docusaurus parses it into a regular expression that is tested against the current URL.
 
-Outbound links automatically get `target="_blank" rel="noopener noreferrer"` attributes.
+Outbound (external) links automatically get `target="_blank" rel="noopener noreferrer"` attributes.
 
 ### Navbar Dropdown
 
@@ -204,7 +215,9 @@ module.exports = {
 
 ## Footer
 
-## `CodeBlock`
+TODO.
+
+## CodeBlock
 
 Docusaurus uses [Prism React Renderer](https://github.com/FormidableLabs/prism-react-renderer) to highlight code blocks.
 
