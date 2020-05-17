@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+/* eslint-disable jsx-a11y/no-autofocus */
+
 import React, {useEffect, useState, useReducer, useRef} from 'react';
 
 import algoliaSearch from 'algoliasearch/lite';
@@ -19,6 +21,10 @@ import Link from '@docusaurus/Link';
 import Layout from '@theme/Layout';
 
 import styles from './styles.module.css';
+
+function pluralize(count, word) {
+  return count > 1 ? `${word}s` : word;
+}
 
 function Search() {
   const {
@@ -237,6 +243,7 @@ function Search() {
               onChange={handleSearchInputChange}
               value={searchQuery}
               autoComplete="off"
+              autoFocus
             />
           </div>
 
@@ -266,7 +273,10 @@ function Search() {
           <div
             className={classnames('col', 'col--8', styles.searchResultsColumn)}>
             {!!searchResultState.totalResults && (
-              <strong>{searchResultState.totalResults} documents found</strong>
+              <strong>
+                {searchResultState.totalResults}{' '}
+                {pluralize(searchResultState.totalResults, 'document')} found
+              </strong>
             )}
           </div>
 
