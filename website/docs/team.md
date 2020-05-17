@@ -43,9 +43,7 @@ title: Team
         </div>
       </div>
       <div class="card__body">
-        Fanny got started with web development in high school, building a project for the school kitchen. in the free time she loves contribute to Open Source, occasionaly write in
-        <a href="https://dev.to/fannyvieira"> her blog</a> about her experiences, cook and create
-        <a href="https://open.spotify.com/user/anotherfanny"> spotify playlists</a>.
+        Fanny got started with web development in high school, building a project for the school kitchen. In her free time she loves contributing to Open Source, occasionally writing on <a href="https://dev.to/fannyvieira" target="_blank">her blog</a> about her experiences, cooking, and creating <a href="https://open.spotify.com/user/anotherfanny" target="_blank">Spotify playlists</a>.
       </div>
       <div class="card__footer">
         <div class="button-group button-group--block">
