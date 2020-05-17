@@ -43,7 +43,7 @@ title: Team
         </div>
       </div>
       <div class="card__body">
-        Docusaurus founder and now ever grateful Docusaurus cheerleader to those who actually write code for it.
+        Fanny got started with web development in high school, building a project for the school kitchen. In her free time she loves contributing to Open Source, occasionally writing on <a href="https://dev.to/fannyvieira" target="_blank">her blog</a> about her experiences, cooking, and creating <a href="https://open.spotify.com/user/anotherfanny" target="_blank">Spotify playlists</a>.
       </div>
       <div class="card__footer">
         <div class="button-group button-group--block">
