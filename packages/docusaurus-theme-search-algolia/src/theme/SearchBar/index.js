@@ -32,7 +32,9 @@ const Search = (props) => {
       inputSelector: '#search_input_react',
       algoliaOptions: algolia.algoliaOptions,
       autocompleteOptions: {
+        openOnFocus: true,
         autoselect: false,
+        hint: false,
       },
       // Override algolia's default selection event, allowing us to do client-side
       // navigation and avoiding a full page refresh.
