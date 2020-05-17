@@ -14,9 +14,9 @@ export function loadThemeAlias(
 ): ThemeAlias {
   const aliases = {};
 
-  themePaths.forEach(themePath => {
+  themePaths.forEach((themePath) => {
     const themeAliases = themeAlias(themePath);
-    Object.keys(themeAliases).forEach(aliasKey => {
+    Object.keys(themeAliases).forEach((aliasKey) => {
       if (aliasKey in aliases) {
         const componentName = aliasKey.substring(aliasKey.indexOf('/') + 1);
         aliases[`@theme-init/${componentName}`] = aliases[aliasKey];
@@ -26,9 +26,9 @@ export function loadThemeAlias(
     });
   });
 
-  userThemePaths.forEach(themePath => {
+  userThemePaths.forEach((themePath) => {
     const userThemeAliases = themeAlias(themePath, false);
-    Object.keys(userThemeAliases).forEach(aliasKey => {
+    Object.keys(userThemeAliases).forEach((aliasKey) => {
       aliases[aliasKey] = userThemeAliases[aliasKey];
     });
   });

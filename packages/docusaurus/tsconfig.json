@@ -2,10 +2,12 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "incremental": true,
+    "lib": ["DOM"],
     "tsBuildInfoFile": "./lib/.tsbuildinfo",
     "rootDir": "src",
     "outDir": "lib",
     "noImplicitAny": false,
     "jsx": "react",
   },
+  "exclude": ["node_modules", "**/__tests__/**/*", "**/lib/**/*", "src/client"]
 }

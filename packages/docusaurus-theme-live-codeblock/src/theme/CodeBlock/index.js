@@ -11,8 +11,8 @@ import usePrismTheme from '@theme/hooks/usePrismTheme';
 import Playground from '@theme/Playground';
 import CodeBlock from '@theme-init/CodeBlock';
 
-const withLiveEditor = Component => {
-  const WrappedComponent = props => {
+const withLiveEditor = (Component) => {
+  const WrappedComponent = (props) => {
     const {isClient} = useDocusaurusContext();
     const prismTheme = usePrismTheme();
 

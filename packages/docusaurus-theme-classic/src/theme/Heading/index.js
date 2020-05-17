@@ -14,7 +14,7 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import './styles.css';
 import styles from './styles.module.css';
 
-const Heading = Tag =>
+const Heading = (Tag) =>
   function TargetComponent({id, ...props}) {
     const {
       siteConfig: {
@@ -36,6 +36,7 @@ const Heading = Tag =>
           })}
           id={id}
         />
+        {props.children}
         <a
           aria-hidden="true"
           tabIndex="-1"
@@ -44,7 +45,6 @@ const Heading = Tag =>
           title="Direct link to heading">
           #
         </a>
-        {props.children}
       </Tag>
     );
   };

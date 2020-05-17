@@ -10,7 +10,7 @@ import CopyWebpackPlugin from 'copy-webpack-plugin';
 import fs from 'fs-extra';
 import path from 'path';
 import ReactLoadableSSRAddon from 'react-loadable-ssr-addon';
-import webpack, {Configuration, Plugin} from 'webpack';
+import webpack, {Configuration, Plugin, Stats} from 'webpack';
 import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
 import merge from 'webpack-merge';
 import {STATIC_DIR_NAME} from '../constants';
@@ -29,13 +29,24 @@ function compile(config: Configuration[]): Promise<any> {
         reject(err);
       }
       if (stats.hasErrors()) {
-        stats.toJson('errors-only').errors.forEach(e => {
+        stats.toJson('errors-only').errors.forEach((e) => {
           console.error(e);
         });
         reject(new Error('Failed to compile with errors.'));
       }
       if (stats.hasWarnings()) {
-        stats.toJson('errors-warnings').warnings.forEach(warning => {
+        // Custom filtering warnings (see https://github.com/webpack/webpack/issues/7841).
+        let warnings = stats.toJson('errors-warnings').warnings;
+        const warningsFilter = ((config[0].stats as Stats.ToJsonOptionsObject)
+          ?.warningsFilter || []) as any[];
+
+        if (Array.isArray(warningsFilter)) {
+          warnings = warnings.filter((warning) =>
+            warningsFilter.every((str) => !warning.includes(str)),
+          );
+        }
+
+        warnings.forEach((warning) => {
           console.warn(warning);
         });
       }
@@ -95,7 +106,7 @@ export async function build(
   }
 
   // Plugin Lifecycle - configureWebpack.
-  plugins.forEach(plugin => {
+  plugins.forEach((plugin) => {
     const {configureWebpack} = plugin;
     if (!configureWebpack) {
       return;
@@ -130,14 +141,14 @@ export async function build(
     typeof serverConfig.output.filename === 'string'
   ) {
     const serverBundle = path.join(outDir, serverConfig.output.filename);
-    fs.pathExists(serverBundle).then(exist => {
+    fs.pathExists(serverBundle).then((exist) => {
       exist && fs.unlink(serverBundle);
     });
   }
 
   // Plugin Lifecycle - postBuild.
   await Promise.all(
-    plugins.map(async plugin => {
+    plugins.map(async (plugin) => {
       if (!plugin.postBuild) {
         return;
       }

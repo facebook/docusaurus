@@ -20,7 +20,7 @@ class Remarkable extends React.Component {
       );
     }
 
-    return React.Children.map(this.props.children, child => {
+    return React.Children.map(this.props.children, (child) => {
       if (typeof child === 'string') {
         return (
           <span dangerouslySetInnerHTML={{__html: renderMarkdown(child)}} />

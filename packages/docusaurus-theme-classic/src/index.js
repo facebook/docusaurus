@@ -11,7 +11,9 @@ const ContextReplacementPlugin = require('webpack/lib/ContextReplacementPlugin')
 // Need to be inlined to prevent dark mode FOUC
 // Make sure that the 'storageKey' is the same as the one in `/theme/hooks/useTheme.js`
 const storageKey = 'theme';
-const noFlash = `(function() {
+const noFlash = (defaultDarkMode) => `(function() {
+  var defaultDarkMode = ${defaultDarkMode};
+
   function setDataThemeAttribute(theme) {
     document.documentElement.setAttribute('data-theme', theme);
   }
@@ -30,17 +32,20 @@ const noFlash = `(function() {
   var preferredTheme = getPreferredTheme();
   if (preferredTheme !== null) {
     setDataThemeAttribute(preferredTheme);
-  } else if (darkQuery.matches) {
+  } else if (darkQuery.matches || defaultDarkMode) {
     setDataThemeAttribute('dark');
   }
 })();`;
 
-module.exports = function(context, options) {
+module.exports = function (context, options) {
   const {
     siteConfig: {themeConfig},
   } = context;
-  const {disableDarkMode = false, prism: {additionalLanguages = []} = {}} =
-    themeConfig || {};
+  const {
+    disableDarkMode = false,
+    defaultDarkMode = false,
+    prism: {additionalLanguages = []} = {},
+  } = themeConfig || {};
   const {customCss} = options || {};
 
   return {
@@ -51,17 +56,21 @@ module.exports = function(context, options) {
     },
 
     getClientModules() {
-      return [
+      const modules = [
         'infima/dist/css/default/default.css',
-        'remark-admonitions/styles/infima.css',
-        customCss,
         path.resolve(__dirname, './prism-include-languages'),
       ];
+
+      if (customCss) {
+        modules.push(customCss);
+      }
+
+      return modules;
     },
 
     configureWebpack() {
       const prismLanguages = additionalLanguages
-        .map(lang => `prism-${lang}`)
+        .map((lang) => `prism-${lang}`)
         .join('|');
 
       return {
@@ -85,7 +94,7 @@ module.exports = function(context, options) {
             attributes: {
               type: 'text/javascript',
             },
-            innerHTML: noFlash,
+            innerHTML: noFlash(defaultDarkMode),
           },
         ],
       };

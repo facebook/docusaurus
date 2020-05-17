@@ -32,7 +32,7 @@ function Tabs(props) {
     }
   }
 
-  const changeSelectedValue = newValue => {
+  const changeSelectedValue = (newValue) => {
     setSelectedValue(newValue);
     if (groupId != null) {
       setTabGroupChoices(groupId, newValue);
@@ -87,12 +87,12 @@ function Tabs(props) {
             role="tab"
             tabIndex="0"
             aria-selected={selectedValue === value}
-            className={classnames('tab-item', styles.tabItem, {
-              'tab-item--active': selectedValue === value,
+            className={classnames('tabs__item', styles.tabItem, {
+              'tabs__item--active': selectedValue === value,
             })}
             key={value}
-            ref={tabControl => tabRefs.push(tabControl)}
-            onKeyDown={event => handleKeydown(tabRefs, event.target, event)}
+            ref={(tabControl) => tabRefs.push(tabControl)}
+            onKeyDown={(event) => handleKeydown(tabRefs, event.target, event)}
             onFocus={() => changeSelectedValue(value)}
             onClick={() => changeSelectedValue(value)}>
             {label}
@@ -102,7 +102,7 @@ function Tabs(props) {
       <div role="tabpanel" className="margin-vert--md">
         {
           Children.toArray(children).filter(
-            child => child.props.value === selectedValue,
+            (child) => child.props.value === selectedValue,
           )[0]
         }
       </div>

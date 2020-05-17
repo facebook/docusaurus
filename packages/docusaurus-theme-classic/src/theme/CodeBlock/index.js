@@ -53,7 +53,7 @@ const getHighlightDirectiveRegex = (
   // to be more reliable, the opening and closing comment must match
   const commentPattern = languages
     .map(
-      lang =>
+      (lang) =>
         `(?:${comments[lang].start}\\s*(${directives})\\s*${comments[lang].end})`,
     )
     .join('|');
@@ -61,7 +61,7 @@ const getHighlightDirectiveRegex = (
   return new RegExp(`^\\s*(?:${commentPattern})\\s*$`);
 };
 // select comment styles based on language
-const highlightDirectiveRegex = lang => {
+const highlightDirectiveRegex = (lang) => {
   switch (lang) {
     case 'js':
     case 'javascript':
@@ -116,7 +116,9 @@ export default ({children, className: languageClassName, metastring}) => {
 
   if (metastring && highlightLinesRangeRegex.test(metastring)) {
     const highlightLinesRange = metastring.match(highlightLinesRangeRegex)[1];
-    highlightLines = rangeParser.parse(highlightLinesRange).filter(n => n > 0);
+    highlightLines = rangeParser
+      .parse(highlightLinesRange)
+      .filter((n) => n > 0);
   }
 
   if (metastring && codeBlockTitleRegex.test(metastring)) {
@@ -225,7 +227,7 @@ export default ({children, className: languageClassName, metastring}) => {
               onClick={handleCopyCode}>
               {showCopied ? 'Copied' : 'Copy'}
             </button>
-            <pre
+            <div
               tabIndex="0"
               className={classnames(className, styles.codeBlock, {
                 [styles.codeBlockWithTitle]: codeBlockTitle,
@@ -251,7 +253,7 @@ export default ({children, className: languageClassName, metastring}) => {
                   );
                 })}
               </div>
-            </pre>
+            </div>
           </div>
         </>
       )}

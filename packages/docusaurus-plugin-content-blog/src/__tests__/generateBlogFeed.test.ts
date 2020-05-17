@@ -11,7 +11,7 @@ import {LoadContext} from '@docusaurus/types';
 import {PluginOptions} from '../types';
 
 describe('blogFeed', () => {
-  ['atom', 'rss'].forEach(feedType => {
+  ['atom', 'rss'].forEach((feedType) => {
     describe(`${feedType}`, () => {
       test('can show feed without posts', async () => {
         const siteConfig = {

@@ -16,17 +16,19 @@ export default function createSitemap(
 ) {
   const {url: hostname} = siteConfig;
   if (!hostname) {
-    throw new Error('Url in docusaurus.config.js cannot be empty/undefined');
+    throw new Error('url in docusaurus.config.js cannot be empty/undefined');
   }
 
-  const urls = routesPaths.map(
-    routesPath =>
-      ({
-        url: routesPath,
-        changefreq: options.changefreq,
-        priority: options.priority,
-      } as SitemapItemOptions),
-  );
+  const urls = routesPaths
+    .filter((route: string) => !route.endsWith('404.html'))
+    .map(
+      (routesPath) =>
+        ({
+          url: routesPath,
+          changefreq: options.changefreq,
+          priority: options.priority,
+        } as SitemapItemOptions),
+    );
 
   return sitemap.createSitemap({
     hostname,

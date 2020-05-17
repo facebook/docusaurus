@@ -47,7 +47,7 @@ test('site with wrong sidebar file', async () => {
   });
   return plugin
     .loadContent()
-    .catch(e =>
+    .catch((e) =>
       expect(e).toMatchInlineSnapshot(
         `[Error: Improper sidebars file, document with id 'goku' not found.]`,
       ),
@@ -93,6 +93,7 @@ describe('simple website', () => {
   const plugin = pluginContentDocs(context, {
     path: pluginPath,
     sidebarPath,
+    homePageId: 'hello',
   });
   const pluginContentDir = path.join(context.generatedFilesDir, plugin.name);
 
@@ -110,7 +111,7 @@ describe('simple website', () => {
 
   test('getPathToWatch', () => {
     const pathToWatch = plugin.getPathsToWatch();
-    const matchPattern = pathToWatch.map(filepath =>
+    const matchPattern = pathToWatch.map((filepath) =>
       posixPath(path.relative(siteDir, filepath)),
     );
     expect(matchPattern).not.toEqual([]);
@@ -203,6 +204,9 @@ describe('simple website', () => {
     expect(baseMetadata.docsSidebars).toEqual(docsSidebars);
     expect(baseMetadata.permalinkToSidebar).toEqual(permalinkToSidebar);
 
+    // Sort the route config like in src/server/plugins/index.ts for consistent snapshot ordering
+    sortConfig(routeConfigs);
+
     expect(routeConfigs).not.toEqual([]);
     expect(routeConfigs).toMatchSnapshot();
   });
@@ -216,6 +220,7 @@ describe('versioned website', () => {
   const plugin = pluginContentDocs(context, {
     routeBasePath,
     sidebarPath,
+    homePageId: 'hello',
   });
   const env = loadEnv(siteDir);
   const {docsDir: versionedDir} = env.versioning;
@@ -235,7 +240,7 @@ describe('versioned website', () => {
 
   test('getPathToWatch', () => {
     const pathToWatch = plugin.getPathsToWatch();
-    const matchPattern = pathToWatch.map(filepath =>
+    const matchPattern = pathToWatch.map((filepath) =>
       posixPath(path.relative(siteDir, filepath)),
     );
     expect(matchPattern).not.toEqual([]);

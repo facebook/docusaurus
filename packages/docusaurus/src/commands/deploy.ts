@@ -19,12 +19,12 @@ export async function deploy(
 ): Promise<void> {
   console.log('Deploy command invoked ...');
   if (!shell.which('git')) {
-    throw new Error('Sorry, this script requires git');
+    throw new Error('Git not installed or on the PATH!');
   }
 
   const gitUser = process.env.GIT_USER;
   if (!gitUser) {
-    throw new Error(`Please set the GIT_USER`);
+    throw new Error('Please set the GIT_USER environment variable!');
   }
 
   // The branch that contains the latest docs changes that will be deployed.
@@ -85,7 +85,8 @@ export async function deploy(
   // We don't allow deploying to the same branch unless it's a cross publish.
   if (currentBranch === deploymentBranch && !crossRepoPublish) {
     throw new Error(
-      `Cannot deploy from a ${deploymentBranch} branch. Only to it`,
+      `You cannot deploy from this branch (${currentBranch}).` +
+        '\nYou will need to checkout to a different branch!',
     );
   }
 
@@ -99,7 +100,7 @@ export async function deploy(
 
   // Build static html files, then push to deploymentBranch branch of specified repo.
   build(siteDir, cliOptions, false)
-    .then(outDir => {
+    .then((outDir) => {
       shell.cd(tempDir);
 
       if (
@@ -146,7 +147,7 @@ export async function deploy(
         `${projectName}-${deploymentBranch}`,
       );
 
-      fs.copy(fromPath, toPath, error => {
+      fs.copy(fromPath, toPath, (error) => {
         if (error) {
           throw new Error(
             `Error: Copying build assets failed with error '${error}'`,
@@ -158,7 +159,7 @@ export async function deploy(
 
         const commitMessage =
           process.env.CUSTOM_COMMIT_MESSAGE ||
-          `Deploy website version based on ${currentCommit}`;
+          `Deploy website - based on ${currentCommit}`;
         const commitResults = shell.exec(`git commit -m "${commitMessage}"`);
         if (
           shell.exec(`git push --force origin ${deploymentBranch}`).code !== 0
@@ -166,18 +167,21 @@ export async function deploy(
           throw new Error('Error: Git push failed');
         } else if (commitResults.code === 0) {
           // The commit might return a non-zero value when site is up to date.
-          const websiteURL =
-            githubHost === 'github.com'
-              ? // gh-pages hosted repo
-                `https://${organizationName}.github.io/${projectName}`
-              : // GitHub enterprise hosting.
-                `https://${githubHost}/pages/${organizationName}/${projectName}`;
-          shell.echo(`Website is live at: ${websiteURL}`);
+          let websiteURL = '';
+          if (githubHost === 'github.com') {
+            websiteURL = projectName.includes('.github.io')
+              ? `https://${organizationName}.github.io/`
+              : `https://${organizationName}.github.io/${projectName}/`;
+          } else {
+            // GitHub enterprise hosting.
+            websiteURL = `https://${githubHost}/pages/${organizationName}/${projectName}/`;
+          }
+          shell.echo(`Website is live at ${websiteURL}`);
           shell.exit(0);
         }
       });
     })
-    .catch(buildError => {
+    .catch((buildError) => {
       console.error(buildError);
       process.exit(1);
     });

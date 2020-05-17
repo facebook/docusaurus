@@ -37,7 +37,7 @@ function BlogPostItem(props) {
     truncated,
     isBlogPostPage = false,
   } = props;
-  const {date, permalink, tags} = metadata;
+  const {date, permalink, tags, readingTime} = metadata;
   const {author, title} = frontMatter;
 
   const authorURL = frontMatter.author_url || frontMatter.authorURL;
@@ -60,7 +60,8 @@ function BlogPostItem(props) {
         </TitleHeading>
         <div className="margin-vert--md">
           <time dateTime={date} className={styles.blogPostDate}>
-            {month} {day}, {year}
+            {month} {day}, {year}{' '}
+            {readingTime && <> · {Math.ceil(readingTime)} min read</>}
           </time>
         </div>
         <div className="avatar margin-vert--md">

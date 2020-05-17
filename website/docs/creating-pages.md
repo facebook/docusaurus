@@ -13,7 +13,7 @@ The functionality of pages is powered by `@docusaurus/plugin-content-pages`.
 
 In the `/src/pages/` directory, create a file called `hello.js` with the following contents:
 
-```jsx
+```jsx title="/src/pages/hello.js"
 import React from 'react';
 import Layout from '@theme/Layout';
 
@@ -45,7 +45,7 @@ Each page doesn't come with any styling. You will need to import the `Layout` co
 
 :::tip
 
-You can also create a page in TypeScript, in which case the its file name should use the `.tsx` extension, eg. `hello.tsx`.
+You can also create a page in TypeScript, in which case the file name should use the `.tsx` extension, eg. `hello.tsx`.
 
 :::
 

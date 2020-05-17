@@ -365,6 +365,13 @@ module.exports = [
     pinned: true,
   },
   {
+    caption: 'LisanJS',
+    image: '/img/users/lisan.svg',
+    infoLink: 'https://lisanjs.com',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     caption: 'MakeItOpen',
     image: '/img/users/makeitopen.png',
     infoLink: 'https://makeitopen.com/',
@@ -543,6 +550,13 @@ module.exports = [
     caption: 'Quix',
     image: '/img/users/quix.png',
     infoLink: 'https://wix.github.io/quix/',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
+    caption: 'Quicksi',
+    image: '/img/users/quicksi.png',
+    infoLink: 'https://quicksi-bot.now.sh/',
     fbOpenSource: false,
     pinned: false,
   },

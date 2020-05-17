@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/theme-classic",
-  "version": "2.0.0-alpha.49",
+  "version": "2.0.0-alpha.54",
   "description": "Classic theme for Docusaurus",
   "main": "src/index.js",
   "publishConfig": {
@@ -11,11 +11,11 @@
     "@mdx-js/mdx": "^1.5.8",
     "@mdx-js/react": "^1.5.8",
     "classnames": "^2.2.6",
-    "clipboard": "^2.0.4",
-    "infima": "0.2.0-alpha.6",
+    "clipboard": "^2.0.6",
+    "infima": "0.2.0-alpha.10",
     "parse-numeric-range": "^0.0.2",
-    "prism-react-renderer": "^1.0.2",
-    "prismjs": "^1.17.1",
+    "prism-react-renderer": "^1.1.0",
+    "prismjs": "^1.20.0",
     "react-router-dom": "^5.1.2",
     "react-toggle": "^4.1.1"
   },

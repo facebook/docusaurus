@@ -10,7 +10,6 @@ import chalk = require('chalk');
 import chokidar from 'chokidar';
 import express from 'express';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-import _ from 'lodash';
 import path from 'path';
 import portfinder from 'portfinder';
 import openBrowser from 'react-dev-utils/openBrowser';
@@ -51,29 +50,33 @@ export async function start(
 
   // Reload files processing.
   const reload = () => {
-    load(siteDir).catch(err => {
+    load(siteDir).catch((err) => {
       console.error(chalk.red(err.stack));
     });
   };
   const {siteConfig, plugins = []} = props;
 
-  const normalizeToSiteDir = filepath => {
+  const normalizeToSiteDir = (filepath) => {
     if (filepath && path.isAbsolute(filepath)) {
       return posixPath(path.relative(siteDir, filepath));
     }
     return posixPath(filepath);
   };
 
-  const pluginPaths: string[] = _.compact(
-    _.flatten<string | undefined>(
-      plugins.map(plugin => plugin.getPathsToWatch && plugin.getPathsToWatch()),
-    ),
-  ).map(normalizeToSiteDir);
+  const pluginPaths: string[] = ([] as string[])
+    .concat(
+      ...plugins
+        .map<any>(
+          (plugin) => plugin.getPathsToWatch && plugin.getPathsToWatch(),
+        )
+        .filter(Boolean),
+    )
+    .map(normalizeToSiteDir);
   const fsWatcher = chokidar.watch([...pluginPaths, CONFIG_FILE_NAME], {
     cwd: siteDir,
     ignoreInitial: true,
   });
-  ['add', 'change', 'unlink', 'addDir', 'unlinkDir'].forEach(event =>
+  ['add', 'change', 'unlink', 'addDir', 'unlinkDir'].forEach((event) =>
     fsWatcher.on(event, reload),
   );
 
@@ -106,7 +109,7 @@ export async function start(
   });
 
   // Plugin Lifecycle - configureWebpack.
-  plugins.forEach(plugin => {
+  plugins.forEach((plugin) => {
     const {configureWebpack} = plugin;
     if (!configureWebpack) {
       return;
@@ -121,51 +124,58 @@ export async function start(
 
   // https://webpack.js.org/configuration/dev-server
   const devServerConfig: WebpackDevServer.Configuration = {
-    compress: true,
-    clientLogLevel: 'error',
-    hot: true,
-    hotOnly: cliOptions.hotOnly,
-    // Use 'ws' instead of 'sockjs-node' on server since we're using native
-    // websockets in `webpackHotDevClient`.
-    transportMode: 'ws',
-    // Prevent a WS client from getting injected as we're already including
-    // `webpackHotDevClient`.
-    injectClient: false,
-    quiet: true,
-    headers: {
-      'access-control-allow-origin': '*',
-    },
-    publicPath: baseUrl,
-    watchOptions: {
-      ignored: /node_modules/,
-    },
-    historyApiFallback: {
-      rewrites: [{from: /\/*/, to: baseUrl}],
-    },
-    disableHostCheck: true,
-    // Disable overlay on browser since we use CRA's overlay error reporting.
-    overlay: false,
-    host,
-    before: (app, server) => {
-      app.use(baseUrl, express.static(path.resolve(siteDir, STATIC_DIR_NAME)));
+    ...{
+      compress: true,
+      clientLogLevel: 'error',
+      hot: true,
+      hotOnly: cliOptions.hotOnly,
+      // Use 'ws' instead of 'sockjs-node' on server since we're using native
+      // websockets in `webpackHotDevClient`.
+      transportMode: 'ws',
+      // Prevent a WS client from getting injected as we're already including
+      // `webpackHotDevClient`.
+      injectClient: false,
+      quiet: true,
+      headers: {
+        'access-control-allow-origin': '*',
+      },
+      publicPath: baseUrl,
+      watchOptions: {
+        ignored: /node_modules/,
+        poll: cliOptions.poll,
+      },
+      historyApiFallback: {
+        rewrites: [{from: /\/*/, to: baseUrl}],
+      },
+      disableHostCheck: true,
+      // Disable overlay on browser since we use CRA's overlay error reporting.
+      overlay: false,
+      host,
+      before: (app, server) => {
+        app.use(
+          baseUrl,
+          express.static(path.resolve(siteDir, STATIC_DIR_NAME)),
+        );
 
-      // This lets us fetch source contents from webpack for the error overlay.
-      app.use(evalSourceMapMiddleware(server));
-      // This lets us open files from the runtime error overlay.
-      app.use(errorOverlayMiddleware());
+        // This lets us fetch source contents from webpack for the error overlay.
+        app.use(evalSourceMapMiddleware(server));
+        // This lets us open files from the runtime error overlay.
+        app.use(errorOverlayMiddleware());
 
-      // TODO: add plugins beforeDevServer and afterDevServer hook
+        // TODO: add plugins beforeDevServer and afterDevServer hook
+      },
     },
+    ...config.devServer,
   };
   const compiler = webpack(config);
   const devServer = new WebpackDevServer(compiler, devServerConfig);
-  devServer.listen(port, host, err => {
+  devServer.listen(port, host, (err) => {
     if (err) {
       console.log(err);
     }
     cliOptions.open && openBrowser(openUrl);
   });
-  ['SIGINT', 'SIGTERM'].forEach(sig => {
+  ['SIGINT', 'SIGTERM'].forEach((sig) => {
     process.on(sig as NodeJS.Signals, () => {
       devServer.close();
       process.exit();

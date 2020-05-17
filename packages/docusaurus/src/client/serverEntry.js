@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import ejs from 'ejs';
+import * as eta from 'eta';
 import React from 'react';
 import {StaticRouter} from 'react-router-dom';
 import ReactDOMServer from 'react-dom/server';
@@ -18,7 +18,9 @@ import path from 'path';
 import fs from 'fs-extra';
 import routes from '@generated/routes';
 import packageJson from '../../package.json';
+// eslint-disable-next-line import/no-unresolved
 import preload from './preload';
+// eslint-disable-next-line import/no-unresolved
 import App from './App';
 import ssrTemplate from './templates/ssr.html.template';
 
@@ -30,7 +32,7 @@ export default async function render(locals) {
   const modules = new Set();
   const context = {};
   const appHtml = ReactDOMServer.renderToString(
-    <Loadable.Capture report={moduleName => modules.add(moduleName)}>
+    <Loadable.Capture report={(moduleName) => modules.add(moduleName)}>
       <StaticRouter location={location} context={context}>
         <App />
       </StaticRouter>
@@ -55,11 +57,11 @@ export default async function render(locals) {
   // manifest information.
   const modulesToBeLoaded = [...manifest.entrypoints, ...Array.from(modules)];
   const bundles = getBundles(manifest, modulesToBeLoaded);
-  const stylesheets = (bundles.css || []).map(b => b.file);
-  const scripts = (bundles.js || []).map(b => b.file);
+  const stylesheets = (bundles.css || []).map((b) => b.file);
+  const scripts = (bundles.js || []).map((b) => b.file);
   const {baseUrl} = locals;
 
-  const renderedHtml = ejs.render(
+  const renderedHtml = eta.render(
     ssrTemplate.trim(),
     {
       appHtml,
@@ -75,6 +77,7 @@ export default async function render(locals) {
       version: packageJson.version,
     },
     {
+      name: 'ssr-template',
       rmWhitespace: true,
     },
   );

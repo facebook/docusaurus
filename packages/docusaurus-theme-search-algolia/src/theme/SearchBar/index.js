@@ -10,10 +10,11 @@ import classnames from 'classnames';
 
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useHistory} from '@docusaurus/router';
+import useSearchQuery from '@theme/hooks/useSearchQuery';
 
 import './styles.css';
 
-const Search = props => {
+const Search = (props) => {
   const [algoliaLoaded, setAlgoliaLoaded] = useState(false);
   const searchBarRef = useRef(null);
   const {siteConfig = {}} = useDocusaurusContext();
@@ -21,6 +22,7 @@ const Search = props => {
     themeConfig: {algolia},
   } = siteConfig;
   const history = useHistory();
+  const {navigateToSearchPage} = useSearchQuery();
 
   function initAlgolia(focus) {
     window.docsearch({
@@ -29,6 +31,9 @@ const Search = props => {
       indexName: algolia.indexName,
       inputSelector: '#search_input_react',
       algoliaOptions: algolia.algoliaOptions,
+      autocompleteOptions: {
+        autoselect: false,
+      },
       // Override algolia's default selection event, allowing us to do client-side
       // navigation and avoiding a full page refresh.
       handleSelected: (_input, _event, suggestion) => {
@@ -81,10 +86,16 @@ const Search = props => {
     props.handleSearchBarToggle(!props.isSearchBarExpanded);
   }, [props.isSearchBarExpanded]);
 
-  const handleSearchInput = useCallback(e => {
+  const handleSearchInput = useCallback((e) => {
     const needFocus = e.type !== 'mouseover';
 
     loadAlgolia(needFocus);
+  });
+
+  const handleSearchInputPressEnter = useCallback((e) => {
+    if (e.key === 'Enter') {
+      navigateToSearchPage(e.target.value);
+    }
   });
 
   return (
@@ -112,6 +123,7 @@ const Search = props => {
         onMouseOver={handleSearchInput}
         onFocus={handleSearchInput}
         onBlur={handleSearchInputBlur}
+        onKeyDown={handleSearchInputPressEnter}
         ref={searchBarRef}
       />
     </div>

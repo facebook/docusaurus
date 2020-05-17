@@ -9,13 +9,13 @@ To build the static files of your website for production, run:
 npm run build
 ```
 
-Once it finishes, you should see the production build under the `build/` directory.
+Once it finishes, the static files will be generated within the `build/` directory.
 
 You can deploy your site to static site hosting services such as [ZEIT Now](https://zeit.co/now), [GitHub Pages](https://pages.github.com/), [Netlify](https://www.netlify.com/), [Render](https://render.com/static-sites), and [Surge](https://surge.sh/help/getting-started-with-surge). Docusaurus sites are statically rendered so they work without JavaScript too!
 
 ## Deploying to GitHub Pages
 
-Docusaurus provides a easy way to publish to [GitHub Pages](https://pages.github.com/). Which is hosting that comes for free with every GitHub repository.
+Docusaurus provides an easy way to publish to [GitHub Pages](https://pages.github.com/). Which is hosting that comes for free with every GitHub repository.
 
 ### `docusaurus.config.js` settings
 
@@ -36,13 +36,13 @@ Example:
 
 ```jsx {3-6} title="docusaurus.config.js"
 module.exports = {
-  ...
+  // ...
   url: 'https://endiliey.github.io', // Your website URL
   baseUrl: '/',
   projectName: 'endiliey.github.io',
-  organizationName: 'endiliey'
-  ...
-}
+  organizationName: 'endiliey',
+  // ...
+};
 ```
 
 :::tip
@@ -85,7 +85,7 @@ cmd /C "set "GIT_USER=<GITHUB_USERNAME>" && yarn deploy"
 
 ### Triggering deployment with Travis CI
 
-Continuous integration (CI) services are typically used to perform routine tasks whenever new commits are checked in to source control. These tasks can be any combination of running unit tests and integration tests, automating builds, publishing packages to NPM, and deploying changes to your website. All you need to do to automate deployment of your website is to invoke the `yarn deploy` script whenever your website is updated. The following section covers how to do just that using [Travis CI](https://travis-ci.com/), a popular continuous integration service provider.
+Continuous integration (CI) services are typically used to perform routine tasks whenever new commits are checked in to source control. These tasks can be any combination of running unit tests and integration tests, automating builds, publishing packages to NPM, and deploying changes to your website. All you need to do to automate the deployment of your website is to invoke the `yarn deploy` script whenever your website is updated. The following section covers how to do just that using [Travis CI](https://travis-ci.com/), a popular continuous integration service provider.
 
 1. Go to https://github.com/settings/tokens and generate a new [personal access token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/).
 1. Using your GitHub account, [add the Travis CI app](https://github.com/marketplace/travis-ci) to the repository you want to activate.
@@ -119,7 +119,7 @@ To deploy your Docusaurus 2 sites to [Netlify](https://www.netlify.com/), first 
 module.exports = {
   url: 'https://docusaurus-2.netlify.com', // url to your site with no trailing slash
   baseUrl: '/', // base directory of your site relative to your repo
-  ...
+  // ...
 };
 ```
 
@@ -136,7 +136,7 @@ Once properly configured with the above options, your site should deploy and aut
 
 :::important
 
-Make sure to disable Netlify setting `Pretty URLs` to prevent lowercased URLs, unneccessary redirects and 404 errors.
+Make sure to disable Netlify setting `Pretty URLs` to prevent lowercased URLs, unnecessary redirects and 404 errors.
 
 :::
 
@@ -144,7 +144,7 @@ Make sure to disable Netlify setting `Pretty URLs` to prevent lowercased URLs, u
 
 Deploying your Docusaurus project to [ZEIT Now](https://zeit.co/now) will provide you with [various benefits](https://zeit.co/now) in the areas of performance and ease of use.
 
-Most importantly, however, deploying a Docusaurus project only takes a couple seconds:
+Most importantly, however, deploying a Docusaurus project only takes a couple of seconds:
 
 1. First, install their [command-line interface](https://zeit.co/download):
 
@@ -164,7 +164,7 @@ Now you can connect your site to [GitHub](https://zeit.co/github) or [GitLab](ht
 
 ## Deploying to Render
 
-Render offers [free static site hosting](https://render.com/docs/static-sites) with fully managed SSL, custom domains, a global CDN and continuous auto deploys from your Git repo. Deploy your app in just a few minutes by following these steps.
+Render offers [free static site hosting](https://render.com/docs/static-sites) with fully managed SSL, custom domains, a global CDN and continuous auto-deploy from your Git repo. Deploy your app in just a few minutes by following these steps.
 
 1. Create a new **Web Service** on Render, and give Render permission to access your Docusaurus repo.
 
@@ -182,7 +182,7 @@ That's it! Your app will be live on your Render URL as soon as the build finishe
 
 ## Deploying to Surge
 
-Surge is a [static web hosting platform](https://surge.sh/help/getting-started-with-surge), it is used to deploy your Docusaurus project from command line in a minute. Deploying your project to Surge is easy and it is also free (including a custom domain and SSL).
+Surge is a [static web hosting platform](https://surge.sh/help/getting-started-with-surge), it is used to deploy your Docusaurus project from the command line in a minute. Deploying your project to Surge is easy and it is also free (including a custom domain and SSL).
 
 Deploy your app in a matter of seconds using surge with the following steps:
 
@@ -204,7 +204,7 @@ npm run build
 surge build/
 ```
 
-First time users of Surge would be prompted to create an account from the command line(happens only once).
+First-time users of Surge would be prompted to create an account from the command line(happens only once).
 
 Confirm that the site you want to publish is in the `build` directory, a randomly generated subdomain `*.surge.sh subdomain` is always given(which can be edited).
 
@@ -216,7 +216,7 @@ If you have a domain name you can deploy your site using surge to your domain us
 surge build/ yourdomain.com
 ```
 
-You site is now deployed for free at `subdomain.surge.sh` or `yourdomain.com` depending on the method you chose.
+Your site is now deployed for free at `subdomain.surge.sh` or `yourdomain.com` depending on the method you chose.
 
 ### Setting up CNAME file
 

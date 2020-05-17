@@ -17,10 +17,22 @@ To remove the ability to switch on dark mode, there is an option `themeConfig.di
 
 ```js {4} title="docusaurus.config.js"
 module.exports = {
-  ...
+  // ...
   themeConfig: {
     disableDarkMode: false,
-    ...
+    // ...
+  },
+};
+```
+
+With the enabled `defaultDarkMode` option you could set dark mode by default. However, in this case, the user's preference will not be taken into account until they manually sets the desired mode via toggle in the navbar.
+
+```js {4} title="docusaurus.config.js"
+module.exports = {
+  // ...
+  themeConfig: {
+    defaultDarkMode: true,
+    // ...
   },
 };
 ```
@@ -31,14 +43,14 @@ You can configure a default image that will be used for your meta tag, in partic
 
 ```js {4-6} title="docusaurus.config.js"
 module.exports = {
-  ...
+  // ...
   themeConfig: {
     // Relative to your site's "static" directory.
     // Cannot be SVGs. Can be external URLs too.
     image: 'img/docusaurus.png',
-    ...
+    // ...
   },
-}
+};
 ```
 
 ### Announcement bar
@@ -47,17 +59,39 @@ Sometimes you want to announce something in your website. Just for such a case, 
 
 ```js {4-9} title="docusaurus.config.js"
 module.exports = {
-  ...
+  // ...
   themeConfig: {
     announcementBar: {
       id: 'support_us', // Any value that will identify this message
-      content: 'We are looking to revamp our docs, please fill <a target="_blank" rel="noopener noreferrer" href="#">this survey</a>',
+      content:
+        'We are looking to revamp our docs, please fill <a target="_blank" rel="noopener noreferrer" href="#">this survey</a>',
       backgroundColor: '#fafbfc', // Defaults to `#fff`
       textColor: '#091E42', // Defaults to `#000`
     },
-    ...
+    // ...
   },
-}
+};
+```
+
+## Hooks
+
+### `useThemeContext`
+
+React hook to access theme context. This context contains functions for setting light and dark mode and boolean property, indicating which mode is currently in use.
+
+Usage example:
+
+```jsx
+import React from 'react';
+// highlight-next-line
+import useThemeContext from '@theme/hooks/useThemeContext';
+
+const Test = () => {
+  // highlight-next-line
+  const {isDarkTheme, setLightTheme, setDarkTheme} = useThemeContext();
+
+  return <h1>Dark mode is now {isDarkTheme ? 'on' : 'off'}</h1>;
+};
 ```
 
 ## Navbar
@@ -70,7 +104,7 @@ To improve dark mode support, you can also set a different logo for this mode.
 
 ```js {5-11} title="docusaurus.config.js"
 module.exports = {
-  ...
+  // ...
   themeConfig: {
     navbar: {
       title: 'Site Title',
@@ -82,9 +116,9 @@ module.exports = {
         target: '_self', // by default, this value is calculated based on the `href` attribute (the external link will open in a new tab, all others in the current one)
       },
     },
-    ...
+    // ...
   },
-}
+};
 ```
 
 ### Navbar Links
@@ -93,27 +127,43 @@ You can add links to the navbar via `themeConfig.navbar.links`:
 
 ```js {5-15} title="docusaurus.config.js"
 module.exports = {
-  ...
+  // ...
   themeConfig: {
     navbar: {
       links: [
         {
+          // Client-side routing, used for navigating within the website.
+          // The baseUrl will be automatically prepended to this value.
           to: 'docs/introduction',
+          // A full-page navigation, used for navigating outside of the website.
+          // You should only use either `to` or `href`.
+          href: 'https://www.facebook.com',
+          // Prepends the baseUrl to href values.
+          prependBaseUrlToHref: true,
+          // The string to be shown.
           label: 'Introduction',
+          // Left or right side of the navbar.
           position: 'left', // or 'right'
           // To apply the active class styling on all
           // routes starting with this path.
+          // This usually isn't necessary
           activeBasePath: 'docs',
+          // Alternative to activeBasePath if required.
+          activeBaseRegex: 'docs/(next|v8)',
+          // Custom CSS class (for styling any item).
+          className: '',
         },
         // ... other links
       ],
     },
-    ...
+    // ...
   },
-}
+};
 ```
 
-Outbound links automatically get `target="_blank" rel="noopener noreferrer"` attributes.
+React Router should automatically apply active link styling to links, but you can use `activeBasePath` in edge cases. For cases in which a link should be active on several different paths (such as when you have multiple doc folders under the same sidebar), you can use `activeBaseRegex`. `activeBaseRegex` is a more flexible alternative to `activeBasePath` and takes precedence over it -- Docusaurus parses it into a regular expression that is tested against the current URL.
+
+Outbound (external) links automatically get `target="_blank" rel="noopener noreferrer"` attributes.
 
 ### Navbar Dropdown
 
@@ -121,7 +171,7 @@ Navbar items can also be dropdown items by specifying the `items`, an inner arra
 
 ```js {9-19} title="docusaurus.config.js"
 module.exports = {
-  ...
+  // ...
   themeConfig: {
     navbar: {
       links: [
@@ -142,9 +192,9 @@ module.exports = {
         },
       ],
     },
-    ...
+    // ...
   },
-}
+};
 ```
 
 ### Auto-hide sticky navbar
@@ -153,19 +203,21 @@ You can enable this cool UI feature that automatically hides the navbar when a u
 
 ```js {5} title="docusaurus.config.js"
 module.exports = {
-  ...
+  // ...
   themeConfig: {
     navbar: {
       hideOnScroll: true,
     },
-    ...
+    // ...
   },
-}
+};
 ```
 
 ## Footer
 
-## `CodeBlock`
+TODO.
+
+## CodeBlock
 
 Docusaurus uses [Prism React Renderer](https://github.com/FormidableLabs/prism-react-renderer) to highlight code blocks.
 
@@ -173,13 +225,15 @@ Docusaurus uses [Prism React Renderer](https://github.com/FormidableLabs/prism-r
 
 By default, we use [Palenight](https://github.com/FormidableLabs/prism-react-renderer/blob/master/src/themes/palenight.js) as syntax highlighting theme. You can specify a custom theme from the [list of available themes](https://github.com/FormidableLabs/prism-react-renderer/tree/master/src/themes). If you want to use a different syntax highlighting theme when the site is in dark mode, you may also do so.
 
-```js {4-5} title="docusaurus.config.js"
+```js {5-6} title="docusaurus.config.js"
 module.exports = {
+  // ...
   themeConfig: {
     prism: {
       theme: require('prism-react-renderer/themes/github'),
       darkTheme: require('prism-react-renderer/themes/dracula'),
     },
+    // ...
   },
 };
 ```
@@ -192,12 +246,12 @@ You can set a default language for code blocks if no language is added after the
 
 ```js {5} title="docusaurus.config.js"
 module.exports = {
-  ...
+  // ...
   themeConfig: {
     prism: {
       defaultLanguage: 'javascript',
     },
-    ...
+    // ...
   },
 };
 ```

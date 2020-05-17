@@ -150,6 +150,11 @@ module.exports = {
          */
         path: 'blog',
         /**
+         * URL for editing a blog post, example: 'https://github.com/facebook/docusaurus/edit/master/website/blog/'
+         */
+        editUrl:
+          'https://github.com/facebook/docusaurus/edit/master/website/blog/',
+        /**
          * URL route for the blog section of your site
          * do not include trailing slash
          */
@@ -174,6 +179,10 @@ module.exports = {
          * Truncate marker, can be a regex or string.
          */
         truncateMarker: /<!--\s*(truncate)\s*-->/,
+        /**
+         * Show estimated reading time for the blog post.
+         */
+        showReadingTime: true,
         /**
          * Blog feed
          * If feedOptions is undefined, no rss feed will be generated
@@ -227,6 +236,7 @@ module.exports = {
          * do not include trailing slash
          */
         routeBasePath: 'docs',
+        homePageId: '_index', // Document id for docs home page.
         include: ['**/*.md', '**/*.mdx'], // Extensions to include.
         /**
          * Path to sidebar configuration for showing a list of markdown pages.
@@ -380,19 +390,21 @@ If you have installed `@docusaurus/preset-classic`, you don't need to install it
 ```js title="docusaurus.config.js"
 module.exports = {
   plugins: [
-    '@docusaurus/plugin-sitemap',
-    {
-      cacheTime: 600 * 1000, // 600 sec - cache purge period
-      changefreq: 'weekly',
-      priority: 0.5,
-    },
+    [
+      '@docusaurus/plugin-sitemap',
+      {
+        cacheTime: 600 * 1000, // 600 sec - cache purge period
+        changefreq: 'weekly',
+        priority: 0.5,
+      },
+    ],
   ],
 };
 ```
 
 ### `@docusaurus/plugin-ideal-image`
 
-Docusaurus Plugin to generate an almost ideal image (responsive, lazy-loading, and low quality placeholder)
+Docusaurus Plugin to generate an almost ideal image (responsive, lazy-loading, and low quality placeholder) **in the production builds**.
 
 ```bash npm2yarn
 npm install --save @docusaurus/plugin-ideal-image
@@ -410,7 +422,7 @@ module.exports = {
 
 #### Usage
 
-This plugin supports png, gif and jpg only
+This plugin supports the PNG, GIF and JPG formats only.
 
 ```jsx
 import Image from '@theme/IdealImage';

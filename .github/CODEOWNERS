@@ -1,12 +1,6 @@
 # https://help.github.com/articles/about-codeowners/
 
-/packages/docusaurus-1.x/  @yangshun
-/packages/docusaurus-plugin-content-docs/ @yangshun
-/packages/docusaurus-plugin-content-blog/ @yangshun
-/packages/docusaurus-mdx-loader/ @yangshun
-/packages/docusaurus-theme-classic/ @yangshun @lex111 @wgao19
-/packages/docusaurus-init-1.x/  @yangshun
-/packages/docusaurus/  @yangshun
+/packages/ @yangshun
+/packages/docusaurus-theme-classic/ @lex111
 /website/  @yangshun
-/website/docs/ @wgao19
 /website-1.x/  @yangshun

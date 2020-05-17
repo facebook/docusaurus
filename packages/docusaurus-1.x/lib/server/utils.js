@@ -28,7 +28,7 @@ function getLanguage(file, refDir) {
   if (match && env.translation.enabled) {
     const enabledLanguages = env.translation
       .enabledLanguages()
-      .map(language => language.tag);
+      .map((language) => language.tag);
     if (enabledLanguages.indexOf(match[1]) !== -1) {
       return match[1];
     }
@@ -55,7 +55,7 @@ function minifyCss(cssContent) {
       zindex: false,
       from: undefined,
     })
-    .then(result => result.css);
+    .then((result) => result.css);
 }
 
 function autoPrefixCss(cssContent) {
@@ -63,12 +63,12 @@ function autoPrefixCss(cssContent) {
     .process(cssContent, {
       from: undefined,
     })
-    .then(result => result.css);
+    .then((result) => result.css);
 }
 
 function replaceAssetsLink(oldContent, location) {
   let fencedBlock = false;
-  const lines = oldContent.split('\n').map(line => {
+  const lines = oldContent.split('\n').map((line) => {
     if (line.trim().startsWith('```')) {
       fencedBlock = !fencedBlock;
     }

@@ -1,6 +1,6 @@
 {
   "name": "docusaurus-2-facebook-template",
-  "version": "2.0.0-alpha.49",
+  "version": "2.0.0-alpha.54",
   "private": true,
   "scripts": {
     "start": "docusaurus start",
@@ -13,8 +13,8 @@
     "prettier:diff": "prettier --config .prettierrc --list-different \"**/*.{js,md}\""
   },
   "dependencies": {
-    "@docusaurus/core": "^2.0.0-alpha.49",
-    "@docusaurus/preset-classic": "^2.0.0-alpha.49",
+    "@docusaurus/core": "^2.0.0-alpha.54",
+    "@docusaurus/preset-classic": "^2.0.0-alpha.54",
     "classnames": "^2.2.6",
     "react": "^16.8.4",
     "react-dom": "^16.8.4"
@@ -28,9 +28,9 @@
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.16.0",
-    "eslint-plugin-react-hooks": "^2.3.0",
-    "prettier": "^1.19.1",
-    "stylelint": "^13.2.0"
+    "eslint-plugin-react-hooks": "^3.0.0",
+    "prettier": "^2.0.2",
+    "stylelint": "^13.2.1"
   },
   "browserslist": {
     "production": [

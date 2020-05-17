@@ -25,14 +25,14 @@ if (fs.existsSync(`${CWD}/languages.js`)) {
   ];
 }
 
-const enabledLanguages = languages.filter(lang => lang.enabled);
+const enabledLanguages = languages.filter((lang) => lang.enabled);
 
 const translation = {languages: enabledLanguages};
 
 const files = glob.sync(`${CWD}/i18n/**`);
 const langRegex = /\/i18n\/(.*)\.json$/;
 
-files.forEach(file => {
+files.forEach((file) => {
   const extension = path.extname(file);
   if (extension === '.json') {
     const match = langRegex.exec(file);
