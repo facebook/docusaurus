@@ -108,7 +108,10 @@ function DocItem(props) {
           styles.docItemWrapper,
         )}>
         <div className="row">
-          <div className={classnames('col', styles.docItemCol)}>
+          <div
+            className={classnames('col', {
+              [styles.docItemCol]: !hideTableOfContents,
+            })}>
             <div className={styles.docItemContainer}>
               <article>
                 {version && (
