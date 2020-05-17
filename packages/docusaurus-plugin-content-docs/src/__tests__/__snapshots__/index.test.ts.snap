@@ -54,6 +54,15 @@ exports[`simple website content 2`] = `
 Array [
   Object {
     "component": "@theme/DocPage",
+    "exact": true,
+    "modules": Object {
+      "content": "@site/docs/hello.md",
+      "docsMetadata": "~docs/site-docs-hello-md-9df-base.json",
+    },
+    "path": "/docs",
+  },
+  Object {
+    "component": "@theme/DocPage",
     "modules": Object {
       "docsMetadata": "~docs/docs-route-ff2.json",
     },
@@ -107,6 +116,33 @@ Array [
 
 exports[`versioned website content 1`] = `
 Array [
+  Object {
+    "component": "@theme/DocPage",
+    "exact": true,
+    "modules": Object {
+      "content": "@site/versioned_docs/version-1.0.1/hello.md",
+      "docsMetadata": "~docs/site-versioned-docs-version-1-0-1-hello-md-0c7-base.json",
+    },
+    "path": "/docs",
+  },
+  Object {
+    "component": "@theme/DocPage",
+    "exact": true,
+    "modules": Object {
+      "content": "@site/versioned_docs/version-1.0.0/hello.md",
+      "docsMetadata": "~docs/site-versioned-docs-version-1-0-0-hello-md-3ef-base.json",
+    },
+    "path": "/docs/1.0.0",
+  },
+  Object {
+    "component": "@theme/DocPage",
+    "exact": true,
+    "modules": Object {
+      "content": "@site/docs/hello.md",
+      "docsMetadata": "~docs/site-docs-hello-md-9df-base.json",
+    },
+    "path": "/docs/next",
+  },
   Object {
     "component": "@theme/DocPage",
     "modules": Object {

@@ -11,6 +11,7 @@ import pickBy from 'lodash.pickby';
 import globby from 'globby';
 import fs from 'fs-extra';
 import path from 'path';
+import admonitions from 'remark-admonitions';
 import {
   normalizeUrl,
   docuHash,
@@ -45,10 +46,14 @@ import {
 } from './types';
 import {Configuration} from 'webpack';
 import {docsVersion} from './version';
+import {VERSIONS_JSON_FILE} from './constants';
+
+const REVERSED_DOCS_HOME_PAGE_ID = '_index';
 
 const DEFAULT_OPTIONS: PluginOptions = {
   path: 'docs', // Path to data on filesystem, relative to site dir.
   routeBasePath: 'docs', // URL Route.
+  homePageId: REVERSED_DOCS_HOME_PAGE_ID, // Document id for docs home page.
   include: ['**/*.{md,mdx}'], // Extensions to include.
   sidebarPath: '', // Path to sidebar configuration for showing a list of markdown pages.
   docLayoutComponent: '@theme/DocPage',
@@ -57,6 +62,7 @@ const DEFAULT_OPTIONS: PluginOptions = {
   rehypePlugins: [],
   showLastUpdateTime: false,
   showLastUpdateAuthor: false,
+  admonitions: {},
 };
 
 export default function pluginContentDocs(
@@ -64,6 +70,13 @@ export default function pluginContentDocs(
   opts: Partial<PluginOptions>,
 ): Plugin<LoadedContent | null> {
   const options = {...DEFAULT_OPTIONS, ...opts};
+
+  if (options.admonitions) {
+    options.remarkPlugins = options.remarkPlugins.concat([
+      [admonitions, options.admonitions],
+    ]);
+  }
+
   const {siteDir, generatedFilesDir, baseUrl} = context;
   const docsDir = path.resolve(siteDir, options.path);
   const sourceToPermalink: SourceToPermalink = {};
@@ -85,6 +98,10 @@ export default function pluginContentDocs(
 
   return {
     name: 'docusaurus-plugin-content-docs',
+
+    getThemePath() {
+      return path.resolve(__dirname, './theme');
+    },
 
     extendCli(cli) {
       cli
@@ -117,6 +134,16 @@ export default function pluginContentDocs(
         globPattern = [...globPattern, ...sidebarsGlob, ...docsGlob];
       }
       return [...globPattern, options.sidebarPath];
+    },
+
+    getClientModules() {
+      const modules = [];
+
+      if (options.admonitions) {
+        modules.push('remark-admonitions/styles/infima.css');
+      }
+
+      return modules;
     },
 
     // Fetches blog contents and returns metadata for the contents.
@@ -289,28 +316,96 @@ export default function pluginContentDocs(
       const aliasedSource = (source: string) =>
         `~docs/${path.relative(dataDir, source)}`;
 
+      const createDocsBaseMetadata = (version?: string): DocsBaseMetadata => {
+        const {docsSidebars, permalinkToSidebar, versionToSidebars} = content;
+        const neededSidebars: Set<string> =
+          versionToSidebars[version!] || new Set();
+
+        return {
+          docsSidebars: version
+            ? pick(docsSidebars, Array.from(neededSidebars))
+            : docsSidebars,
+          permalinkToSidebar: version
+            ? pickBy(permalinkToSidebar, (sidebar) =>
+                neededSidebars.has(sidebar),
+              )
+            : permalinkToSidebar,
+          version,
+        };
+      };
+
       const genRoutes = async (
         metadataItems: Metadata[],
       ): Promise<RouteConfig[]> => {
-        const routes = await Promise.all(
-          metadataItems.map(async (metadataItem) => {
-            await createData(
-              // Note that this created data path must be in sync with
-              // metadataPath provided to mdx-loader.
-              `${docuHash(metadataItem.source)}.json`,
-              JSON.stringify(metadataItem, null, 2),
+        const routes: RouteConfig[] = [];
+
+        await metadataItems.forEach(async (metadataItem, i) => {
+          const isDocsHomePage =
+            metadataItem.id.substr(metadataItem.id.indexOf('/') + 1) ===
+            options.homePageId;
+
+          if (isDocsHomePage) {
+            const homeDocsRoutePath =
+              routeBasePath === '' ? '/' : routeBasePath;
+            const versionDocsPathPrefix =
+              (metadataItem?.version === versioning.latestVersion
+                ? ''
+                : metadataItem.version!) ?? '';
+
+            // To show the sidebar, get the sidebar key of available sibling item.
+            metadataItem.sidebar = (
+              metadataItems[i - 1] ?? metadataItems[i + 1]
+            ).sidebar;
+            const docsBaseMetadata = createDocsBaseMetadata(
+              metadataItem.version!,
+            );
+            docsBaseMetadata.isHomePage = true;
+            docsBaseMetadata.homePagePath = normalizeUrl([
+              baseUrl,
+              homeDocsRoutePath,
+              versionDocsPathPrefix,
+              options.homePageId,
+            ]);
+            const docsBaseMetadataPath = await createData(
+              `${docuHash(metadataItem.source)}-base.json`,
+              JSON.stringify(docsBaseMetadata, null, 2),
             );
 
-            return {
+            // Add a route for docs home page.
+            addRoute({
+              path: normalizeUrl([
+                baseUrl,
+                homeDocsRoutePath,
+                versionDocsPathPrefix,
+              ]),
+              component: docLayoutComponent,
+              exact: true,
+              modules: {
+                docsMetadata: aliasedSource(docsBaseMetadataPath),
+                content: metadataItem.source,
+              },
+            });
+          }
+
+          await createData(
+            // Note that this created data path must be in sync with
+            // metadataPath provided to mdx-loader.
+            `${docuHash(metadataItem.source)}.json`,
+            JSON.stringify(metadataItem, null, 2),
+          );
+
+          // Do not create a route for a page created specifically for docs home page.
+          if (metadataItem.id !== REVERSED_DOCS_HOME_PAGE_ID) {
+            routes.push({
               path: metadataItem.permalink,
               component: docItemComponent,
               exact: true,
               modules: {
                 content: metadataItem.source,
               },
-            };
-          }),
-        );
+            });
+          }
+        });
 
         return routes.sort((a, b) =>
           a.path > b.path ? 1 : b.path > a.path ? -1 : 0,
@@ -359,19 +454,7 @@ export default function pluginContentDocs(
               isLatestVersion ? '' : version,
             ]);
             const docsBaseRoute = normalizeUrl([docsBasePermalink, ':route']);
-            const neededSidebars: Set<string> =
-              content.versionToSidebars[version] || new Set();
-            const docsBaseMetadata: DocsBaseMetadata = {
-              docsSidebars: pick(
-                content.docsSidebars,
-                Array.from(neededSidebars),
-              ),
-              permalinkToSidebar: pickBy(
-                content.permalinkToSidebar,
-                (sidebar) => neededSidebars.has(sidebar),
-              ),
-              version,
-            };
+            const docsBaseMetadata = createDocsBaseMetadata(version);
 
             // We want latest version route config to be placed last in the
             // generated routeconfig. Otherwise, `/docs/next/foo` will match
@@ -386,20 +469,44 @@ export default function pluginContentDocs(
         );
       } else {
         const routes = await genRoutes(Object.values(content.docsMetadata));
-        const docsBaseMetadata: DocsBaseMetadata = {
-          docsSidebars: content.docsSidebars,
-          permalinkToSidebar: content.permalinkToSidebar,
-        };
+        const docsBaseMetadata = createDocsBaseMetadata();
 
         const docsBaseRoute = normalizeUrl([baseUrl, routeBasePath, ':route']);
         return addBaseRoute(docsBaseRoute, docsBaseMetadata, routes);
       }
     },
 
+    async routesLoaded(routes) {
+      const normalizedHomeDocsRoutePath = `/${options.routeBasePath}`;
+      const homeDocsRoutes = routes.filter(
+        (routeConfig) => routeConfig.path === normalizedHomeDocsRoutePath,
+      );
+
+      // Remove the route for docs home page if there is a page with the same path (i.e. docs).
+      if (homeDocsRoutes.length > 1) {
+        const docsHomePageRouteIndex = routes.findIndex(
+          (route) =>
+            route.component === options.docLayoutComponent &&
+            route.path === normalizedHomeDocsRoutePath,
+        );
+
+        delete routes[docsHomePageRouteIndex!];
+      }
+    },
+
     configureWebpack(_config, isServer, utils) {
       const {getBabelLoader, getCacheLoader} = utils;
       const {rehypePlugins, remarkPlugins} = options;
+      // Suppress warnings about non-existing of versions file.
+      const stats = {
+        warningsFilter: [VERSIONS_JSON_FILE],
+      };
+
       return {
+        stats,
+        devServer: {
+          stats,
+        },
         resolve: {
           alias: {
             '~docs': dataDir,

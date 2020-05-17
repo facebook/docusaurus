@@ -100,6 +100,7 @@ function DocItem(props) {
           <meta name="twitter:image:alt" content={`Image for ${title}`} />
         )}
         {permalink && <meta property="og:url" content={siteUrl + permalink} />}
+        {permalink && <link rel="canonical" href={siteUrl + permalink} />}
       </Head>
       <div
         className={classnames(
@@ -107,7 +108,10 @@ function DocItem(props) {
           styles.docItemWrapper,
         )}>
         <div className="row">
-          <div className={classnames('col', styles.docItemCol)}>
+          <div
+            className={classnames('col', {
+              [styles.docItemCol]: !hideTableOfContents,
+            })}>
             <div className={styles.docItemContainer}>
               <article>
                 {version && (

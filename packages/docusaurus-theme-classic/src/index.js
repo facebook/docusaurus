@@ -56,12 +56,16 @@ module.exports = function (context, options) {
     },
 
     getClientModules() {
-      return [
+      const modules = [
         'infima/dist/css/default/default.css',
-        'remark-admonitions/styles/infima.css',
-        customCss,
         path.resolve(__dirname, './prism-include-languages'),
       ];
+
+      if (customCss) {
+        modules.push(customCss);
+      }
+
+      return modules;
     },
 
     configureWebpack() {

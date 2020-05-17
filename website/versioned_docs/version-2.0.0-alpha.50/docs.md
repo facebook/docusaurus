@@ -270,8 +270,8 @@ module.exports = {
       '@docusaurus/preset-classic',
       {
         docs: {
-          routeBasePath: '', // Set to empty string.
-          ...
+          routeBasePath: '/', // Set this value to '/'.
+          // ...
         },
       },
     ],

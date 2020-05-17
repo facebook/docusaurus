@@ -13,8 +13,10 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import styles from './styles.module.css';
 
-function FooterLink({to, href, label, ...props}) {
+function FooterLink({to, href, label, prependBaseUrlToHref, ...props}) {
   const toUrl = useBaseUrl(to);
+  const normalizedHref = useBaseUrl(href, true);
+
   return (
     <Link
       className="footer__link-item"
@@ -22,7 +24,7 @@ function FooterLink({to, href, label, ...props}) {
         ? {
             target: '_blank',
             rel: 'noopener noreferrer',
-            href,
+            href: prependBaseUrlToHref ? normalizedHref : href,
           }
         : {
             to: toUrl,
