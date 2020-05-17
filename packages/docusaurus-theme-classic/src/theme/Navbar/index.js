@@ -107,7 +107,7 @@ function NavItem({items, position, className, ...props}) {
   );
 }
 
-function MobileNavItem({items, className, ...props}) {
+function MobileNavItem({items, position, className, ...props}) {
   const navLinkClassNames = (extraClassName, isSubList = false) =>
     classnames(
       'menu__link',
