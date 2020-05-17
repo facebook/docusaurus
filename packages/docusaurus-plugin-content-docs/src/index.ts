@@ -46,6 +46,7 @@ import {
 } from './types';
 import {Configuration} from 'webpack';
 import {docsVersion} from './version';
+import {VERSIONS_JSON_FILE} from './constants';
 
 const DEFAULT_OPTIONS: PluginOptions = {
   path: 'docs', // Path to data on filesystem, relative to site dir.
@@ -94,6 +95,10 @@ export default function pluginContentDocs(
 
   return {
     name: 'docusaurus-plugin-content-docs',
+
+    getThemePath() {
+      return path.resolve(__dirname, './theme');
+    },
 
     extendCli(cli) {
       cli
@@ -418,7 +423,16 @@ export default function pluginContentDocs(
     configureWebpack(_config, isServer, utils) {
       const {getBabelLoader, getCacheLoader} = utils;
       const {rehypePlugins, remarkPlugins} = options;
+      // Suppress warnings about non-existing of versions file.
+      const stats = {
+        warningsFilter: [VERSIONS_JSON_FILE],
+      };
+
       return {
+        stats,
+        devServer: {
+          stats,
+        },
         resolve: {
           alias: {
             '~docs': dataDir,
