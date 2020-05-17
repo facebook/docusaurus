@@ -40,6 +40,12 @@ export function sortConfig(routeConfigs: RouteConfig[]) {
 
     return a.path > b.path ? 1 : b.path > a.path ? -1 : 0;
   });
+
+  routeConfigs.forEach((routeConfig) => {
+    routeConfig.routes?.sort((a, b) => {
+      return a.path > b.path ? 1 : b.path > a.path ? -1 : 0;
+    });
+  });
 }
 
 export async function loadPlugins({
@@ -97,6 +103,20 @@ export async function loadPlugins({
         content: pluginsLoadedContent[index],
         actions,
       });
+    }),
+  );
+
+  // 4. Plugin Lifecycle - routesLoaded.
+  // Currently plugins run lifecycle methods in parallel and are not order-dependent.
+  // We could change this in future if there are plugins which need to
+  // run in certain order or depend on others for data.
+  await Promise.all(
+    plugins.map(async (plugin) => {
+      if (!plugin.routesLoaded) {
+        return null;
+      }
+
+      return await plugin.routesLoaded(pluginsRouteConfigs);
     }),
   );
 

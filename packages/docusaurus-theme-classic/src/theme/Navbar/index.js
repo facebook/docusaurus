@@ -22,14 +22,17 @@ import styles from './styles.module.css';
 
 function NavLink({
   activeBasePath,
+  activeBaseRegex,
   to,
   href,
   label,
   activeClassName = 'navbar__link--active',
+  prependBaseUrlToHref,
   ...props
 }) {
   const toUrl = useBaseUrl(to);
   const activeBaseUrl = useBaseUrl(activeBasePath);
+  const normalizedHref = useBaseUrl(href, true);
 
   return (
     <Link
@@ -37,16 +40,18 @@ function NavLink({
         ? {
             target: '_blank',
             rel: 'noopener noreferrer',
-            href,
+            href: prependBaseUrlToHref ? normalizedHref : href,
           }
         : {
             isNavLink: true,
             activeClassName,
             to: toUrl,
-            ...(activeBasePath
+            ...(activeBasePath || activeBaseRegex
               ? {
                   isActive: (_match, location) =>
-                    location.pathname.startsWith(activeBaseUrl),
+                    activeBaseRegex
+                      ? new RegExp(activeBaseRegex).test(location.pathname)
+                      : location.pathname.startsWith(activeBaseUrl),
                 }
               : null),
           })}
