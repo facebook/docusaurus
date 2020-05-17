@@ -14,7 +14,6 @@ import {
   Collapse,
   Navbar as NavbarBase,
   NavbarToggler,
-  NavbarBrand,
   Nav,
   NavItem as NavItemBase,
 } from 'reactstrap';
@@ -57,24 +56,26 @@ function Navbar() {
   const {logoLink, logoLinkProps, logoImageUrl, logoAlt} = useLogo();
 
   return (
-    <NavbarBase color="light" light expand="md">
-      <NavbarBrand>
-        <Link to={logoLink} {...logoLinkProps}>
-          {logoImageUrl != null && (
-            <img
-              key={isClient}
-              width="50"
-              height="50"
-              style={{
-                maxWidth: '100%',
-              }}
-              src={logoImageUrl}
-              alt={logoAlt}
-            />
-          )}
-          {title != null && <span className="ml-2">{title}</span>}
-        </Link>
-      </NavbarBrand>
+    <NavbarBase
+      color="light"
+      light
+      expand="md"
+      className="container-fluid mb-auto">
+      <Link to={logoLink} {...logoLinkProps}>
+        {logoImageUrl != null && (
+          <img
+            key={isClient}
+            width="50"
+            height="50"
+            style={{
+              maxWidth: '100%',
+            }}
+            src={logoImageUrl}
+            alt={logoAlt}
+          />
+        )}
+        {title != null && <span className="ml-2">{title}</span>}
+      </Link>
 
       <NavbarToggler onClick={handleToggle} />
       <Collapse
