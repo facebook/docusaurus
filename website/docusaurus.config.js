@@ -36,6 +36,7 @@ module.exports = {
       '@docusaurus/preset-classic',
       {
         docs: {
+          homePageId: 'introduction',
           path: 'docs',
           sidebarPath: require.resolve('./sidebars.js'),
           editUrl:
