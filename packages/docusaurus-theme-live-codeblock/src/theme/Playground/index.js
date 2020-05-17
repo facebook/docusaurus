@@ -14,7 +14,7 @@ import styles from './styles.module.css';
 function Playground({children, theme, transformCode, ...props}) {
   return (
     <LiveProvider
-      code={children}
+      code={children.replace(/\n$/, '')}
       transformCode={transformCode || ((code) => `${code};`)}
       theme={theme}
       {...props}>
