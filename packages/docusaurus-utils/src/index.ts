@@ -12,9 +12,6 @@ import camelCase from 'lodash.camelcase';
 import kebabCase from 'lodash.kebabcase';
 import escapeStringRegexp from 'escape-string-regexp';
 import fs from 'fs-extra';
-// import removeMd from 'remove-markdown';
-import remark from 'remark';
-import strip from 'strip-markdown';
 
 const fileHash = new Map();
 export async function generate(
@@ -188,10 +185,6 @@ export function getSubFolder(file: string, refDir: string): string | null {
 // Regex for an import statement.
 const importRegexString = '^(.*import){1}(.+){0,1}\\s[\'"](.+)[\'"];?';
 
-function removeMd(markdownString: string): string {
-  return remark().use(strip).processSync(markdownString.trim()).toString();
-}
-
 export function createExcerpt(fileString: string): string | undefined {
   let fileContent = fileString.trimLeft();
 
@@ -204,8 +197,24 @@ export function createExcerpt(fileString: string): string | undefined {
   const fileLines = fileContent.split('\n');
 
   for (let fileLine of fileLines) {
-    const cleanedLine = removeMd(fileLine)
-      // Remove definition of admonition.
+    const cleanedLine = fileLine
+      // Remove HTML tags.
+      .replace(/<[^>]*>/g, '')
+      // Remove ATX-style headers.
+      .replace(/^\#{1,6}\s*([^#]*)\s*(\#{1,6})?/gm, '$1')
+      // Remove emphasis and strikethroughs.
+      .replace(/([\*_~]{1,3})(\S.*?\S{0,1})\1/g, '$2')
+      // Remove inline links.
+      .replace(/\[(.*?)\][\[\(].*?[\]\)]/g, '$1')
+      // Remove inline code.
+      .replace(/`(.+?)`/g, '$1')
+      // Remove images.
+      .replace(/\!\[(.*?)\][\[\(].*?[\]\)]/g, '')
+      // Remove blockquotes.
+      .replace(/^\s{0,3}>\s?/g, '')
+      // Remove footnotes.
+      .replace(/\[\^.+?\](\: .*?$)?/g, '')
+      // Remove admonition definition.
       .replace(/(:{3}.*)/, '')
       // Remove Emoji names within colons include preceding whitespace.
       .replace(/\s?(:(::|[^:\n])+:)/g, '')

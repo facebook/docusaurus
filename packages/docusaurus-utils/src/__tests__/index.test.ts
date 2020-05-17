@@ -312,7 +312,7 @@ describe('load utils', () => {
           import Component from '@site/src/components/Component';
           import Component from '@site/src/components/Component'
 
-          Lorem **ipsum** dolor sit \`amet\`, consectetur _adipiscing_ elit. [**Vestibulum**](#) ex urna, molestie et sagittis ut, varius ac justo :wink:.
+          Lorem **ipsum** dolor sit \`amet\`, consectetur _adipiscing_ elit. [**Vestibulum**](https://wiktionary.org/wiki/vestibulum) ex urna, ~molestie~ et sagittis ut, varius ac justo :wink:.
 
           Nunc porttitor libero nec vulputate venenatis. Nam nec rhoncus mauris. Morbi tempus est et nibh maximus, tempus venenatis arcu lobortis.
         `,
@@ -337,7 +337,7 @@ describe('load utils', () => {
       // Content beginning with heading
       {
         input: `
-          # Lorem ipsum dolor sit amet
+          ## Lorem ipsum dolor sit amet
 
           Nunc porttitor libero nec vulputate venenatis. Nam nec rhoncus mauris. Morbi tempus est et nibh maximus, tempus venenatis arcu lobortis.
         `,

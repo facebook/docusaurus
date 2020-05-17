@@ -2725,11 +2725,6 @@
   resolved "https://registry.yarnpkg.com/@types/relateurl/-/relateurl-0.2.28.tgz#6bda7db8653fa62643f5ee69e9f69c11a392e3a6"
   integrity sha1-a9p9uGU/piZD9e5p6facEaOS46Y=
 
-"@types/remove-markdown@^0.1.1":
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/@types/remove-markdown/-/remove-markdown-0.1.1.tgz#c79d3000df412526186b2af3808b85bee68bc907"
-  integrity sha512-SCYOFMHUqyiJU5M0V2gBB6UDdBhPwma34j0vYX0JgWaqp/74ila2Ops1jt5tB/C1UQXVXqK+is61884bITn3LQ==
-
 "@types/semver@^7.1.0":
   version "7.1.0"
   resolved "https://registry.yarnpkg.com/@types/semver/-/semver-7.1.0.tgz#c8c630d4c18cd326beff77404887596f96408408"
@@ -14564,11 +14559,6 @@ remarkable@^2.0.0:
     argparse "^1.0.10"
     autolinker "^3.11.0"
 
-remove-markdown@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/remove-markdown/-/remove-markdown-0.3.0.tgz#5e4b667493a93579728f3d52ecc1db9ca505dc98"
-  integrity sha1-XktmdJOpNXlyjz1S7MHbnKUF3Jg=
-
 remove-trailing-separator@^1.0.1:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/remove-trailing-separator/-/remove-trailing-separator-1.1.0.tgz#c24bce2a283adad5bc3f58e0d48249b92379d8ef"
@@ -15906,11 +15896,6 @@ strip-json-comments@~2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-2.0.1.tgz#3c531942e908c2697c0ec344858c286c7ca0a60a"
   integrity sha1-PFMZQukIwml8DsNEhYwobHygpgo=
-
-strip-markdown@^3.1.2:
-  version "3.1.2"
-  resolved "https://registry.yarnpkg.com/strip-markdown/-/strip-markdown-3.1.2.tgz#172f6f89f9a98896e65a65422e0507f2bbac1667"
-  integrity sha512-NjwW6CEefesmHQPs7lof/lgnSriqUnRNOWpnrNPq9A7/yOCdnhaB7DcxlhYuN7WiiRUe349aitAsTQ/ajM9Dmw==
 
 strip-outer@^1.0.0:
   version "1.0.1"

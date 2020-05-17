@@ -12,15 +12,11 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@types/remove-markdown": "^0.1.1",
     "escape-string-regexp": "^2.0.0",
     "fs-extra": "^8.1.0",
     "gray-matter": "^4.0.2",
     "lodash.camelcase": "^4.3.0",
-    "lodash.kebabcase": "^4.1.1",
-    "remark": "^12.0.0",
-    "remove-markdown": "^0.3.0",
-    "strip-markdown": "^3.1.2"
+    "lodash.kebabcase": "^4.1.1"
   },
   "engines": {
     "node": ">=10.9.0"
