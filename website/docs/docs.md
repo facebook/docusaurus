@@ -1,5 +1,5 @@
 ---
-id: docs
+id: docs-introduction
 title: Docs Introduction
 sidebar_label: Introduction
 ---
@@ -28,6 +28,42 @@ id: part1
 ---
 Lorem ipsum
 ```
+
+## Home page docs
+
+Using the `homePageId` property, you can create a home page of your docs. To do this, you can create a new document, especially for this purpose with the id as `_index`, or you could specify an existing document id.
+
+```js {8} title="docusaurus.config.js"
+module.exports = {
+  // ...
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        docs: {
+          homePageId: 'getting-started', // Defaults to `_index`
+          // ...
+        },
+      },
+    ],
+  ],
+  // ...
+};
+```
+
+Given the example above, now when you navigate to the path `/docs` you will see that the document content with id is `getting-started`. This functionality also works for docs with versioning enabled.
+
+:::important
+
+The document id of `_index` is reserved exclusively for the home doc page, so it will not work as a standalone route.
+
+:::
+
+:::note
+
+The page `docs` that you created (eg. `src/pages/docs.js`)  will take precedence over the route generated via the `homePageId` option.
+
+:::
 
 ## Sidebar
 
@@ -258,11 +294,17 @@ module.exports = {
 
 ## Docs-only mode
 
-If you just want the documentation feature, you can follow the instructions for a "docs-only mode":
+If you just want the documentation feature, you can enable "docs-only mode".
 
-1. Set the `routeBasePath` property of the `docs` object in `@docusaurus/preset-classic` in `docusaurus.config.js` to the root of your site:
+To achieve this, set the `routeBasePath` property of the `docs` object in `@docusaurus/preset-classic` in `docusaurus.config.js` to the root of your site, and also in that object set the `homePageId` property with the value of the document ID that you show as root of the docs.
 
-```js {8} title="docusaurus.config.js"
+:::note
+
+More details on functionality of home page for docs can be found in [appropriate section](#home-page-docs).
+
+:::
+
+```js {8-9} title="docusaurus.config.js"
 module.exports = {
   // ...
   presets: [
@@ -271,6 +313,7 @@ module.exports = {
       {
         docs: {
           routeBasePath: '/', // Set this value to '/'.
+          homePageId: 'getting-started', // Set to existing document id.
           // ...
         },
       },
@@ -278,21 +321,6 @@ module.exports = {
   ],
   // ...
 };
-```
-
-2. Set up a redirect to the initial document on the home page in `/src/pages/index.js`, e.g. for the document `getting-started`. This is needed because by default there's no page created for the root of the docs.
-
-```jsx title="src/pages/index.js"
-import React from 'react';
-
-import {Redirect} from '@docusaurus/router';
-import useBaseUrl from '@docusaurus/useBaseUrl';
-
-function Home() {
-  return <Redirect to={useBaseUrl('/getting-started')} />;
-}
-
-export default Home;
 ```
 
 Now, when visiting your site, it will show your initial document instead of a landing page.

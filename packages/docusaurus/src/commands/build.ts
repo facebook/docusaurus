@@ -10,7 +10,7 @@ import CopyWebpackPlugin from 'copy-webpack-plugin';
 import fs from 'fs-extra';
 import path from 'path';
 import ReactLoadableSSRAddon from 'react-loadable-ssr-addon';
-import webpack, {Configuration, Plugin} from 'webpack';
+import webpack, {Configuration, Plugin, Stats} from 'webpack';
 import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
 import merge from 'webpack-merge';
 import {STATIC_DIR_NAME} from '../constants';
@@ -35,7 +35,18 @@ function compile(config: Configuration[]): Promise<any> {
         reject(new Error('Failed to compile with errors.'));
       }
       if (stats.hasWarnings()) {
-        stats.toJson('errors-warnings').warnings.forEach((warning) => {
+        // Custom filtering warnings (see https://github.com/webpack/webpack/issues/7841).
+        let warnings = stats.toJson('errors-warnings').warnings;
+        const warningsFilter = ((config[0].stats as Stats.ToJsonOptionsObject)
+          ?.warningsFilter || []) as any[];
+
+        if (Array.isArray(warningsFilter)) {
+          warnings = warnings.filter((warning) =>
+            warningsFilter.every((str) => !warning.includes(str)),
+          );
+        }
+
+        warnings.forEach((warning) => {
           console.warn(warning);
         });
       }

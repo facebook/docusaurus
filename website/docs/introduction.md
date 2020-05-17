@@ -8,19 +8,22 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 
 ## Disclaimer
 
-This is an **early and alpha release** of Docusaurus 2. We are making it available early to maximize community participation and feedback. Expect it to evolve a lot over the course of the alpha-beta period. If you are adventurous enough to be an early adopter, chat with us on [**Discord**](https://discordapp.com/invite/docusaurus) :wink:.
+It has been a year since we made the first **alpha release** of Docusaurus 2 and things have been pretty stable since then. Many of Facebook's new open source websites are using Docusaurus 2 now. At this point, we highly encourage you to use Docusaurus 2 over Docusaurus 1 for your new websites. For feedback and questions, chat with us on [**Discord**](https://discordapp.com/invite/docusaurus) :wink:
 
 **You should use this if**
 
 - :white_check_mark: You want to contribute to Docusaurus 2
-- :white_check_mark: You want to provide feedback to make sure it suits your needs
-- :white_check_mark: You are curious about what's next as a Docusaurus user
+- :white_check_mark: You want to build a modern website with client-side routing and prerendering
+- :white_check_mark: You want to provide feedback to make sure Docusaurus 2 suits your needs
+- :white_check_mark: You are curious about what comes next as a Docusaurus user
+- :white_check_mark: You want to ease the pain of migration in future
+- :white_check_mark: You do not need support for IE11
 
 **Do not use this if**
 
-- :x: You need a full production-ready solution (try [Docusaurus 1](https://docusaurus.io/) instead)
+- :x: You need a fully production-ready solution (try [Docusaurus 1](https://docusaurus.io/) instead)
 - :x: You need the translation features present in v1
-- :x: You prefer not to work with potential breaking changes and/or features not yet working properly as we improve it during alpha period
+- :x: You prefer not to work with potential breaking changes and/or features not yet working properly as we improve it during the alpha period
 - :x: You need support for IE11
 
 ## A better Docusaurus is coming to town
@@ -29,9 +32,9 @@ This is an **early and alpha release** of Docusaurus 2. We are making it availab
 
 Docusaurus 1 used to be a pure documentation site generator. In Docusaurus 2, we rebuilt it from the ground up, allowing for more customizability but preserved the best parts of Docusaurus 1 - easy to get started, versioned docs, and i18n (_coming soon_).
 
-Beyond that, Docusaurus 2 is a **performant static site generator** and can be used to create most content-driven websites (e.g. Documentation, Blogs, Product Landing and Marketing Pages, etc) extremely fast.
+Beyond that, Docusaurus 2 is a **performant static site generator** and can be used to create common content-driven websites (e.g. Documentation, Blogs, Product Landing and Marketing Pages, etc) extremely quickly.
 
-While our main focus will still be helping you get your documentations right and well, the shared nature of building this static site generator makes it possible for you to build your whole website interface one-stop.
+While our main focus will still be helping you get your documentations right and well, it is possible to build this any kind of website using Docusaurus 2 as it is just a React application. **Docusaurus can now be used to build any website, not just documentation websites.**
 
 ## Features
 
@@ -40,7 +43,7 @@ Docusaurus is built with high attention to your experience building your site an
 - ⚛️ **Built with 💚 and React**
   - Extend and customize with React
   - Gain full control of your site's browsing experience by `swizzling` in your own components
-- 🔌 **Pluggable**
+- **Pluggable**
   - Bootstrap your site with a basic template, then pick and plug functionalities built by us and our community.
   - Open source your plugins to share with your fellow documentarians, because sharing is caring.
 - ✂️ **Developer experience**
@@ -58,14 +61,14 @@ Our shared goal — to help your users find what they need fast, and understand 
 - 📝 **Powered by MDX**
   - Write interactive components via JSX and React embedded in markdown
   - Share your code in live editors to get your users love your products on the spot
-- 🔍 **Search** Your full site is searchable
+- 🔍 **Search** - Your full site is searchable
+- 💾 **Document Versioning** - Helps you keep documentation in sync with project releases.
 - 🌍 **i18n** (_coming soon_)
-- 💾 **Document Versioning** Helps you keep documentation in sync with project releases.
 
 Docusaurus 2 is born to be compassionately accessible to all your users, and lightning fast.
 
-- ⚡️ **Lightning fast** Docusaurus 2 follows [The PRPL Pattern](https://developers.google.com/web/fundamentals/performance/prpl-pattern/) that makes sure your content loads blazing fast
-- 🦖 **Accessible** Attention to accessibility, making your site equally accessible to all users
+- ⚡️ **Lightning fast** - Docusaurus 2 follows the [PRPL Pattern](https://developers.google.com/web/fundamentals/performance/prpl-pattern/) that makes sure your content loads blazing fast
+- 🦖 **Accessible** - Attention to accessibility, making your site equally accessible to all users
 
 ## Comparison with other tools
 
