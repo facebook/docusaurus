@@ -64,7 +64,6 @@ const DocSidebarItem = ({item, onItemClick, ...props}) => {
 const DocSidebar = (props) => {
   const {docsSidebars, sidebar: currentSidebar} = props;
 
-
   const [sidebarShown, setSidebarShown] = useState(false);
   const handleSidebarToggle = useCallback(() => {
     setSidebarShown(!sidebarShown);
@@ -86,49 +85,48 @@ const DocSidebar = (props) => {
 
   return (
     <div className={classNames('bg-info', styles.sidebar)}>
-    <div
-      className={classNames('text-white', {
-        // Do not collapse if is a desktop device
-        [styles.isOpen]: sidebarShown,
-      })}>
-      <div className="d-flex w-100 justify-content-end mr-5">
-        <Button
-          color="secondary"
-          onClick={handleSidebarToggle}
-          className={classNames('mr-2', styles.sidebarFAB)}>
-          <svg
-            aria-label="Menu"
-            xmlns="http://www.w3.org/2000/svg"
-            height={24}
-            width={24}
-            viewBox="0 0 32 32"
-            role="img"
-            focusable="false">
-            <title>Menu</title>
-            <path
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeMiterlimit="10"
-              strokeWidth="2"
-              d="M4 7h22M4 15h22M4 23h22"
-            />
-          </svg>
-        </Button>
-      </div>
-      <div className={classNames(styles.sideMenu)}>
-        <Nav vertical className="list-unstyled p-3 mr-auto">
-          {sidebarData.map((item) => (
-            <DocSidebarItem
-              key={item.label}
-              item={item}
-              onItemClick={(e) => {
-                e.target.blur();
-                setSidebarShown(false);
-              }}
-            />
-          ))}
-        </Nav>
-      </div>
+      <div
+        className={classNames('text-white', {
+          [styles.isOpen]: sidebarShown,
+        })}>
+        <div className="d-flex w-100 justify-content-end mr-5">
+          <Button
+            color="secondary"
+            onClick={handleSidebarToggle}
+            className={classNames('mr-2', styles.sidebarFAB)}>
+            <svg
+              aria-label="Menu"
+              xmlns="http://www.w3.org/2000/svg"
+              height={24}
+              width={24}
+              viewBox="0 0 32 32"
+              role="img"
+              focusable="false">
+              <title>Menu</title>
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeMiterlimit="10"
+                strokeWidth="2"
+                d="M4 7h22M4 15h22M4 23h22"
+              />
+            </svg>
+          </Button>
+        </div>
+        <div className={classNames(styles.sideMenu)}>
+          <Nav vertical className="list-unstyled p-3 mr-auto">
+            {sidebarData.map((item) => (
+              <DocSidebarItem
+                key={item.label}
+                item={item}
+                onItemClick={(e) => {
+                  e.target.blur();
+                  setSidebarShown(false);
+                }}
+              />
+            ))}
+          </Nav>
+        </div>
       </div>
     </div>
   );
