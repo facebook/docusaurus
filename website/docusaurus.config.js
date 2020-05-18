@@ -99,15 +99,15 @@ module.exports = {
           items: [
             {
               label: versions[0],
-              to: 'docs/introduction',
+              to: 'docs/',
             },
             ...versions.slice(1).map((version) => ({
               label: version,
-              to: `docs/${version}/introduction`,
+              to: `docs/${version}/`,
             })),
             {
               label: 'Master/Unreleased',
-              to: 'docs/next/introduction',
+              to: 'docs/next/',
             },
           ],
         },

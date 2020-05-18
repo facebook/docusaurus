@@ -66,7 +66,7 @@ function Home() {
         <h1 className="hero__title">{siteConfig.title}</h1>
         <p className="hero__subtitle">{siteConfig.tagline}</p>
         <div className={styles.buttons}>
-          <Link to={useBaseUrl('docs/doc1')}>Get Started</Link>
+          <Link to={useBaseUrl('docs/')}>Get Started</Link>
         </div>
       </header>
       <main>
