@@ -4,13 +4,11 @@ title: Introduction
 description: Docusaurus was designed from the ground up to be easily installed and used to get your website up and running quickly.
 ---
 
-import useBaseUrl from '@docusaurus/useBaseUrl';
-
 ## Disclaimer
 
 It has been a year since we made the first **alpha release** of Docusaurus 2 and things have been pretty stable since then. Many of Facebook's new open source websites are using Docusaurus 2 now. At this point, we highly encourage you to use Docusaurus 2 over Docusaurus 1 for your new websites. For feedback and questions, chat with us on [**Discord**](https://discordapp.com/invite/docusaurus) :wink:
 
-**You should use this if**
+**You should use this if:**
 
 - :white_check_mark: You want to contribute to Docusaurus 2
 - :white_check_mark: You want to build a modern website with client-side routing and prerendering
@@ -19,7 +17,7 @@ It has been a year since we made the first **alpha release** of Docusaurus 2 and
 - :white_check_mark: You want to ease the pain of migration in future
 - :white_check_mark: You do not need support for IE11
 
-**Do not use this if**
+**Do not use this if:**
 
 - :x: You need a fully production-ready solution (try [Docusaurus 1](https://docusaurus.io/) instead)
 - :x: You need the translation features present in v1
@@ -28,7 +26,7 @@ It has been a year since we made the first **alpha release** of Docusaurus 2 and
 
 ## A better Docusaurus is coming to town
 
-<img alt="Docusaurus " src={useBaseUrl('img/slash-introducing.svg')} />
+<img alt="Docusaurus " src={require('@docusaurus/useBaseUrl').default('img/slash-introducing.svg')} />
 
 Docusaurus 1 used to be a pure documentation site generator. In Docusaurus 2, we rebuilt it from the ground up, allowing for more customizability but preserved the best parts of Docusaurus 1 - easy to get started, versioned docs, and i18n (_coming soon_).
 
@@ -44,8 +42,8 @@ Docusaurus is built with high attention to your experience building your site an
   - Extend and customize with React
   - Gain full control of your site's browsing experience by `swizzling` in your own components
 - **Pluggable**
-  - Bootstrap your site with a basic template, then pick and plug functionalities built by us and our community.
-  - Open source your plugins to share with your fellow documentarians, because sharing is caring.
+  - Bootstrap your site with a basic template, then pick and plug functionalities built by us and our community
+  - Open source your plugins to share with your fellow documentarians, because sharing is caring
 - ✂️ **Developer experience**
   - Multiple bootstrapping templates to get your site up and running, start writing your docs right now
   - Universal configuration entry point to make it more maintainable by contributors

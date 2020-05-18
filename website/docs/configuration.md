@@ -15,10 +15,10 @@ However, it can be helpful if you have a high-level understanding of how the con
 
 The high-level overview of Docusaurus configuration can be categorized into:
 
-- [Site Metadata](#site-metadata)
-- [Deployment Configurations](#deployment-configurations)
-- [Theme, Plugin, and Preset Configurations](#theme-plugin-and-preset-configurations)
-- [Custom Configurations](#custom-configurations)
+- [Site metadata](#site-metadata)
+- [Deployment configurations](#deployment-configurations)
+- [Theme, plugin, and preset configurations](#theme-plugin-and-preset-configurations)
+- [Custom configurations](#custom-configurations)
 
 For exact reference to each of the configurable fields, you may refer to [**`docusaurus.config.js` API reference**](docusaurus.config.js.md).
 
@@ -126,7 +126,7 @@ module.exports = {
 
 Your configuration object will be made available to all the components of your site. And you may access them via React context as `siteConfig`.
 
-Basic Example:
+Basic example:
 
 ```jsx
 import React from 'react';

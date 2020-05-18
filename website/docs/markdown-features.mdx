@@ -11,7 +11,9 @@ Docusaurus 2 uses modern tooling to help you compose your interactive documentat
 In this section, we'd like to introduce you to the tools we've picked that we believe will help you build powerful documentation. Let us walk you through with an example.
 
 :::important
+
 All the following content assumes you are using `@docusaurus/preset-classic` or `@docusaurus/plugin-content-docs`.
+
 :::
 
 ---
@@ -89,7 +91,7 @@ The headers are well-spaced so that the hierarchy is clear.
 
 </BrowserWindow>
 
-## Markdown Headers
+## Markdown headers
 
 Documents use the following markdown header fields that are enclosed by a line `---` on either side:
 
@@ -119,6 +121,7 @@ keywords:
   - docusaurus
 image: https://i.imgur.com/mErPwqL.png
 ---
+
 ```
 
 ## Referencing other documents
@@ -128,7 +131,8 @@ If you want to reference another document file, you could use the name of the do
 For example, if you are in `doc2.md` and you want to reference `doc1.md` and `folder/doc3.md`:
 
 ```md
-I am referencing a [document](doc1.md). Reference to another [document in a folder](folder/doc3.md)
+I am referencing a [document](doc1.md). Reference to another [document in a folder](folder/doc3.md).
+
 [Relative document](../doc2.md) referencing works as well.
 ```
 
@@ -140,7 +144,7 @@ Docusaurus has built-in support for [MDX](https://mdxjs.com), which allows you t
 
 **Note 1:** While both `.md` and `.mdx` files are parsed using MDX, some of the syntax are treated slightly differently. For the most accurate parsing and better editor support, we recommend using the `.mdx` extension for files containing MDX syntax. Let's rename the previous file to `greeting.mdx`.
 
-**Note 2:** Since all doc files are parsed using MDX, any HTML is treated as JSX. Therefore, if you need to inline-style a component, follow JSX flavor and provide style objects. This behavior is different from Docusaurus 1. See also [Migrating from v1 to v2](./migrating-from-v1-to-v2.md#convert-style-attributes-to-style-objects-in-mdx).
+**Note 2:** Since all doc files are parsed using MDX, any HTML is treated as JSX. Therefore, if you need to inline-style a component, follow JSX flavor and provide style objects. This behavior is different from Docusaurus 1. See also [Migrating from v1 to v2](migrating-from-v1-to-v2.md#convert-style-attributes-to-style-objects-in-mdx).
 
 Try this block here:
 
@@ -178,7 +182,8 @@ export const Highlight = ({children, color}) => (
 
 <BrowserWindow minHeight={240} url="http://localhost:3000">
 
-<Highlight color="#25c2a0">Docusaurus green</Highlight> and <Highlight color="#1877F2">Facebook blue</Highlight> are my favorite colors.
+<Highlight color="#25c2a0">Docusaurus green</Highlight>
+{` `}and <Highlight color="#1877F2">Facebook blue</Highlight> are my favorite colors.
 
 I can write **Markdown** alongside my _JSX_!
 
@@ -190,9 +195,9 @@ You can also import your own components defined in other files or third-party co
 
 ### Configuring plugins
 
-You can expand the MDX functionalities, using plugins. An MDX plugin is usually a npm package, so you install them like other npm packages using npm. Docusaurus supports both [remark](https://github.com/remarkjs/remark) and [rehype](https://github.com/rehypejs/rehype) plugins that work with MDX.
+You can expand the MDX functionalities, using plugins. An MDX plugin is usually a npm package, so you install them like other npm packages using npm. Docusaurus supports both [Remark](https://github.com/remarkjs/remark) and [Rehype](https://github.com/rehypejs/rehype) plugins that work with MDX.
 
-First, install your [remark](https://github.com/remarkjs/remark/blob/master/doc/plugins.md#list-of-plugins) and [rehype](https://github.com/rehypejs/rehype/blob/master/doc/plugins.md#list-of-plugins) plugins.
+First, install your [Remark](https://github.com/remarkjs/remark/blob/master/doc/plugins.md#list-of-plugins) and [Rehype](https://github.com/rehypejs/rehype/blob/master/doc/plugins.md#list-of-plugins) plugins.
 
 For example:
 
@@ -267,15 +272,14 @@ import TabItem from '@theme/TabItem';
 <Tabs
   defaultValue="apple"
   values={[
-    { label: 'Apple', value: 'apple', },
-    { label: 'Orange', value: 'orange', },
-    { label: 'Banana', value: 'banana', },
-  ]
-}>
-<TabItem value="apple">This is an apple 🍎</TabItem>
-<TabItem value="orange">This is an orange 🍊</TabItem>
-<TabItem value="banana">This is a banana 🍌</TabItem>
-</Tabs>
+    {label: 'Apple', value: 'apple'},
+    {label: 'Orange', value: 'orange'},
+    {label: 'Banana', value: 'banana'},
+  ]}>
+  <TabItem value="apple">This is an apple 🍎</TabItem>
+  <TabItem value="orange">This is an orange 🍊</TabItem>
+  <TabItem value="banana">This is a banana 🍌</TabItem>
+</Tabs>;
 ```
 
 will result in
@@ -283,27 +287,26 @@ will result in
 <Tabs
   defaultValue="apple"
   values={[
-    { label: 'Apple', value: 'apple', },
-    { label: 'Orange', value: 'orange', },
-    { label: 'Banana', value: 'banana', },
-  ]
-}>
-<TabItem value="apple">This is an apple 🍎</TabItem>
-<TabItem value="orange">This is an orange 🍊</TabItem>
-<TabItem value="banana">This is a banana 🍌</TabItem>
+    {label: 'Apple', value: 'apple'},
+    {label: 'Orange', value: 'orange'},
+    {label: 'Banana', value: 'banana'},
+  ]}>
+  <TabItem value="apple">This is an apple 🍎</TabItem>
+  <TabItem value="orange">This is an orange 🍊</TabItem>
+  <TabItem value="banana">This is a banana 🍌</TabItem>
 </Tabs>
 
 ### Syncing tab choices
 
-You may want choices of the same kind of tabs to sync with each other. For example, you might want to provide different instructions for users on Windows vs users on macOS, and you want to changing all OS-specific instructions tabs in one click. To achieve that, you can give all related tabs the same `groupId` prop. Note that doing this will persist the choice in `localStorage` and  all `<Tab>` instances with the same `groupId` will update automatically when the value of one of them is changed. Not that `groupID` are globally-namespaced.
+You may want choices of the same kind of tabs to sync with each other. For example, you might want to provide different instructions for users on Windows vs users on macOS, and you want to changing all OS-specific instructions tabs in one click. To achieve that, you can give all related tabs the same `groupId` prop. Note that doing this will persist the choice in `localStorage` and all `<Tab>` instances with the same `groupId` will update automatically when the value of one of them is changed. Not that `groupID` are globally-namespaced.
 
 ```jsx {2,14}
 <Tabs
   groupId="operating-systems"
   defaultValue="win"
   values={[
-    { label: 'Windows', value: 'win', },
-    { label: 'macOS', value: 'mac', },
+    {label: 'Windows', value: 'win'},
+    {label: 'macOS', value: 'mac'},
   ]
 }>
 <TabItem value="win">Use Ctrl + C to copy.</TabItem>
@@ -314,8 +317,8 @@ You may want choices of the same kind of tabs to sync with each other. For examp
   groupId="operating-systems"
   defaultValue="win"
   values={[
-    { label: 'Windows', value: 'win', },
-    { label: 'macOS', value: 'mac', },
+    {label: 'Windows', value: 'win'},
+    {label: 'macOS', value: 'mac'},
   ]
 }>
 <TabItem value="win">Use Ctrl + V to paste.</TabItem>
@@ -327,24 +330,22 @@ You may want choices of the same kind of tabs to sync with each other. For examp
   groupId="operating-systems"
   defaultValue="win"
   values={[
-    { label: 'Windows', value: 'win', },
-    { label: 'macOS', value: 'mac', },
-  ]
-}>
-<TabItem value="win">Use Ctrl + C to copy.</TabItem>
-<TabItem value="mac">Use Command + C to copy.</TabItem>
+    {label: 'Windows', value: 'win'},
+    {label: 'macOS', value: 'mac'},
+  ]}>
+  <TabItem value="win">Use Ctrl + C to copy.</TabItem>
+  <TabItem value="mac">Use Command + C to copy.</TabItem>
 </Tabs>
 
 <Tabs
   groupId="operating-systems"
   defaultValue="win"
   values={[
-    { label: 'Windows', value: 'win', },
-    { label: 'macOS', value: 'mac', },
-  ]
-}>
-<TabItem value="win">Use Ctrl + V to paste.</TabItem>
-<TabItem value="mac">Use Command + V to paste.</TabItem>
+    {label: 'Windows', value: 'win'},
+    {label: 'macOS', value: 'mac'},
+  ]}>
+  <TabItem value="win">Use Ctrl + V to paste.</TabItem>
+  <TabItem value="mac">Use Command + V to paste.</TabItem>
 </Tabs>
 
 ---
@@ -356,8 +357,8 @@ Tab choices with different `groupId`s will not interfere with each other:
   groupId="operating-systems"
   defaultValue="win"
   values={[
-    { label: 'Windows', value: 'win', },
-    { label: 'macOS', value: 'mac', },
+    {label: 'Windows', value: 'win'},
+    {label: 'macOS', value: 'mac'},
   ]
 }>
 <TabItem value="win">Windows in windows.</TabItem>
@@ -368,8 +369,8 @@ Tab choices with different `groupId`s will not interfere with each other:
   groupId="non-mac-operating-systems"
   defaultValue="win"
   values={[
-    { label: 'Windows', value: 'win', },
-    { label: 'Unix', value: 'unix', },
+    {label: 'Windows', value: 'win'},
+    {label: 'Unix', value: 'unix'},
   ]
 }>
 <TabItem value="win">Windows is windows.</TabItem>
@@ -381,30 +382,27 @@ Tab choices with different `groupId`s will not interfere with each other:
   groupId="operating-systems"
   defaultValue="win"
   values={[
-    { label: 'Windows', value: 'win', },
-    { label: 'macOS', value: 'mac', },
-  ]
-}>
-<TabItem value="win">Windows in windows.</TabItem>
-<TabItem value="mac">macOS is macOS.</TabItem>
+    {label: 'Windows', value: 'win'},
+    {label: 'macOS', value: 'mac'},
+  ]}>
+  <TabItem value="win">Windows in windows.</TabItem>
+  <TabItem value="mac">macOS is macOS.</TabItem>
 </Tabs>
 
 <Tabs
   groupId="non-mac-operating-systems"
   defaultValue="win"
   values={[
-    { label: 'Windows', value: 'win', },
-    { label: 'Unix', value: 'unix', },
-  ]
-}>
-<TabItem value="win">Windows is windows.</TabItem>
-<TabItem value="unix">Unix is unix.</TabItem>
+    {label: 'Windows', value: 'win'},
+    {label: 'Unix', value: 'unix'},
+  ]}>
+  <TabItem value="win">Windows is windows.</TabItem>
+  <TabItem value="unix">Unix is unix.</TabItem>
 </Tabs>
 
 ## Callouts/admonitions
 
-In addition to the basic Markdown syntax, we use [remark-admonitions](https://github.com/elviswolcott/remark-admonitions) alongside MDX to add support for admonitions.
-Admonitions are wrapped by a set of 3 colons.
+In addition to the basic Markdown syntax, we use [remark-admonitions](https://github.com/elviswolcott/remark-admonitions) alongside MDX to add support for admonitions. Admonitions are wrapped by a set of 3 colons.
 
 Example:
 
@@ -429,23 +427,33 @@ Example:
     :::
 
 :::note
-The content and title *can* include markdown.
+
+The content and title _can_ include markdown.
+
 :::
 
 :::tip You can specify an optional title
+
 Heads up! Here's a pro-tip.
+
 :::
 
 :::info
+
 Useful information.
+
 :::
 
 :::caution
+
 Warning! You better pay attention!
+
 :::
 
 :::danger
+
 Danger danger, mayday!
+
 :::
 
 ### Specifying title
@@ -457,10 +465,12 @@ You may also specify an optional title
     :::
 
 :::note Your Title
-The content and title *can* include markdown.
+
+The content and title _can_ include Markdown.
+
 :::
 
-## Code Blocks
+## Code blocks
 
 Code blocks within documentation are super-powered 💪.
 
@@ -512,8 +522,7 @@ module.exports = {
 
 By default, Docusaurus comes with this subset of [commonly used languages](https://github.com/FormidableLabs/prism-react-renderer/blob/master/src/vendor/prism/includeLangs.js).
 
-To add syntax highlighting for any of the other [Prism supported languages](https://prismjs.com/#supported-languages),
-define it in an array of additional languages.
+To add syntax highlighting for any of the other [Prism supported languages](https://prismjs.com/#supported-languages), define it in an array of additional languages.
 
 For example, if you want to add highlighting for the `powershell` language:
 
@@ -565,7 +574,7 @@ To accomplish this, Docusaurus adds the `docusaurus-highlight-code-line` class t
 
 /* If you have a different syntax highlighting theme for dark mode. */
 html[data-theme='dark'] .docusaurus-highlight-code-line {
-  background-color: /* Color which works with dark mode syntax highlighting theme */
+  background-color: ; /* Color which works with dark mode syntax highlighting theme */
 }
 ```
 
@@ -598,7 +607,6 @@ function MyComponent(props) {
 
 export default MyComponent;
 ```
-
 
 You can also use comments with `highlight-next-line`, `highlight-start`, and `highlight-end` to select which lines are highlighted.
 
@@ -646,12 +654,12 @@ function HighlightMoreText(highlight) {
 
 Supported commenting syntax:
 
-|Language|Syntax|
-|---|---|
-|JavaScript|`/* ... */` and `// ...`|
-|JSX|`{/* ... */}`|
-|Python|`# ...`|
-|HTML|`<!-- ... -->`|
+| Language   | Syntax                   |
+| ---------- | ------------------------ |
+| JavaScript | `/* ... */` and `// ...` |
+| JSX        | `{/* ... */}`            |
+| Python     | `# ...`                  |
+| HTML       | `<!-- ... -->`           |
 
 If there's a syntax that is not currently supported, we are open to adding them! Pull requests welcome.
 
@@ -674,7 +682,7 @@ module.exports = {
   // ...
   themes: ['@docusaurus/theme-live-codeblock'],
   // ...
-}
+};
 ```
 
 To use the plugin, create a code block with `live` attached to the language meta string.

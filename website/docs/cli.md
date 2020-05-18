@@ -44,8 +44,8 @@ Builds and serves a preview of your site locally with [Webpack Dev Server](https
 
 | Name | Default | Description |
 | --- | --- | --- |
-| `--port` | `3000` | Specifies the port of the dev server |
-| `--host` | `localhost` | Specify a host to use. E.g., if you want your server to be accessible externally, you can use `--host 0.0.0.0` |
+| `--port` | `3000` | Specifies the port of the dev server. |
+| `--host` | `localhost` | Specify a host to use. For example, if you want your server to be accessible externally, you can use `--host 0.0.0.0`. |
 | `--hot-only` | `false` | Enables Hot Module Replacement without page refresh as fallback in case of build failures. More information [here](https://webpack.js.org/configuration/dev-server/#devserverhotonly). |
 | `--no-open` | `false` | Do not open automatically the page in the browser. |
 | `--poll` | `false` | Use polling of files rather than watching for live reload as a fallback in environments where watching doesn't work. More information [here](https://webpack.js.org/configuration/watch/#watchoptionspoll). |
@@ -64,7 +64,7 @@ Compiles your site for production.
 
 | Name | Default | Description |
 | --- | --- | --- |
-| `--bundle-analyzer` | `false` | Analyze your bundle with the [webpack bundle analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer) |
+| `--bundle-analyzer` | `false` | Analyze your bundle with the [webpack bundle analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer). |
 | `--out-dir` | `build` | The full path for the new output directory, relative to the current workspace. |
 | `--no-minify` | `false` | Build website without minimizing JS/CSS bundles. |
 
@@ -81,7 +81,7 @@ Change any Docusaurus theme components to your liking with `docusaurus swizzle`.
 ```shell
 docusaurus swizzle <themeName> [componentName] [siteDir]
 
-# example (leaving out the siteDir to indicate this directory)
+# Example (leaving out the siteDir to indicate this directory)
 docusaurus swizzle @docusaurus/theme-classic DocSidebar
 ```
 
@@ -103,7 +103,7 @@ To learn more about swizzling, check [here](#).
 
 ### `docusaurus deploy`
 
-Deploys your site with [GitHub Pages](https://pages.github.com/).
+Deploys your site with [GitHub Pages](https://pages.github.com/). Check out the docs on [deployment](deployment.md/#deploying-to-github-pages) for more details.
 
 #### Options
 

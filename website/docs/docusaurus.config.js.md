@@ -222,7 +222,7 @@ module.exports = {
 
 ### `customFields`
 
-Docusaurus guards `docusaurus.config.js` from unknown fields. To add a custom field, define it on `customFields`
+Docusaurus guards `docusaurus.config.js` from unknown fields. To add a custom field, define it on `customFields`.
 
 - Type: `Object`
 

@@ -58,7 +58,7 @@ For example, a Docusaurus blog consists of a blog plugin and a blog theme.
 }
 ```
 
-and if you want to use Bootstrap styling, you can swap out the theme with `theme-blog-bootstrap` (fictitious non-existing theme):
+And if you want to use Bootstrap styling, you can swap out the theme with `theme-blog-bootstrap` (fictitious non-existing theme):
 
 ```js title="docusaurus.config.js"
 {
@@ -124,6 +124,8 @@ This theme provides a `@theme/SearchBar` component that integrates with Algolia 
 ```bash npm2yarn
 npm install --save @docusaurus/theme-search-algolia
 ```
+
+This theme also adds search page available at `/search` path with OpenSearch support.
 
 :::tip
 

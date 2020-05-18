@@ -187,7 +187,7 @@ Name your stylesheet files with the `.module.scss` suffix (e.g. `welcome.module.
 }
 ```
 
-```javascript
+```jsx
 import styles from './styles.module.scss';
 
 function MyComponent() {

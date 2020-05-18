@@ -188,8 +188,8 @@ To deploy your Docusaurus 2 sites to [Netlify](https://www.netlify.com/), first 
 
 ```js {2-3} title="docusaurus.config.js"
 module.exports = {
-  url: 'https://docusaurus-2.netlify.com', // url to your site with no trailing slash
-  baseUrl: '/', // base directory of your site relative to your repo
+  url: 'https://docusaurus-2.netlify.com', // Url to your site with no trailing slash
+  baseUrl: '/', // Base directory of your site relative to your repo
   // ...
 };
 ```
@@ -223,7 +223,7 @@ Most importantly, however, deploying a Docusaurus project only takes a couple of
 npm i -g now
 ```
 
-2. Run a single command inside the root directory of your project:
+1. Run a single command inside the root directory of your project:
 
 ```bash
 now
@@ -239,9 +239,9 @@ Render offers [free static site hosting](https://render.com/docs/static-sites) w
 
 1. Create a new **Web Service** on Render, and give Render permission to access your Docusaurus repo.
 
-2. Select the branch to deploy. The default is `master`.
+1. Select the branch to deploy. The default is `master`.
 
-3. Enter the following values during creation.
+1. Enter the following values during creation.
 
    | Field                 | Value         |
    | --------------------- | ------------- |
@@ -263,13 +263,13 @@ Deploy your app in a matter of seconds using surge with the following steps:
 npm install --g surge
 ```
 
-2. To build the static files of your site for production in the root directory of your project, run:
+1. To build the static files of your site for production in the root directory of your project, run:
 
 ```bash
 npm run build
 ```
 
-3. Then, run this command inside the root directory of your project:
+1. Then, run this command inside the root directory of your project:
 
 ```bash
 surge build/

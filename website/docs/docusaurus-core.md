@@ -191,7 +191,7 @@ function MyPage() {
 
 | Field | Description |
 | --- | --- |
-| `ExecutionEnvironment.canUseDOM` | `true` if on client, `false` if SSR. |
+| `ExecutionEnvironment.canUseDOM` | `true` if on client, `false` if prerendering. |
 | `ExecutionEnvironment.canUseEventListeners` | `true` if on client and has `window.addEventListener`. |
 | `ExecutionEnvironment.canUseIntersectionObserver` | `true` if on client and has `IntersectionObserver`. |
 | `ExecutionEnvironment.canUseViewport` | `true` if on client and has `window.screen`. |

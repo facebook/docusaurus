@@ -134,7 +134,7 @@ https://{your-domain}/blog/atom.xml
 
 ### Blog-only mode
 
-You can run your Docusaurus 2 site without a landing page and instead have your blog's post list page as the index page. Set the `routeBasePath` to be `''` to indicate it's the root path.
+You can run your Docusaurus 2 site without a landing page and instead have your blog's post list page as the index page. Set the `routeBasePath` to be `'/'` to indicate it's the root path.
 
 **Note:** Make sure there's no `index.js` page in `src/pages` or else there will be two files mapping to the same route!
 
