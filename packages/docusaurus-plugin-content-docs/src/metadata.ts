@@ -103,7 +103,7 @@ export default async function processMetadata({
     throw new Error('Document id cannot include "/".');
   }
 
-  // Append subdirectory as part of id/pathname.
+  // Append subdirectory as part of id.
   const id = dirName !== '.' ? `${dirName}/${baseID}` : baseID;
 
   const pathname: string = frontMatter.pathname || id;
