@@ -49,10 +49,11 @@ function Navbar() {
     isClient,
   } = useDocusaurusContext();
 
-  const [sidebarShown, setSidebarShown] = useState(false);
-  const handleToggle = useCallback(() => {
-    setSidebarShown(!sidebarShown);
-  }, [sidebarShown, setSidebarShown]);
+  const [navbarShown, setNavbarShown] = useState(false);
+  const handleNavbarToggle = useCallback(() => {
+    setNavbarShown(!navbarShown);
+  }, [navbarShown, setNavbarShown]);
+
   const {logoLink, logoLinkProps, logoImageUrl, logoAlt} = useLogo();
 
   return (
@@ -76,12 +77,8 @@ function Navbar() {
         )}
         {title != null && <span className="ml-2">{title}</span>}
       </Link>
-
-      <NavbarToggler onClick={handleToggle} />
-      <Collapse
-        isOpen={sidebarShown}
-        navbar
-        className="justify-content-between">
+      <NavbarToggler onClick={handleNavbarToggle} />
+      <Collapse isOpen={navbarShown} navbar className="justify-content-between">
         <Nav navbar>
           {links != null &&
             links.length !== 0 &&

@@ -40,7 +40,6 @@ function Layout(props) {
   if (!isInternalUrl(metaImage)) {
     metaImageUrl = metaImage;
   }
-
   const faviconUrl = useBaseUrl(favicon);
 
   return (
@@ -69,7 +68,9 @@ function Layout(props) {
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
       <Navbar />
-      <div className="vw-100 align-self-center">{children}</div>
+      <div className="container-fluid px-0 d-inline-flex flex-row">
+        {children}
+      </div>
       {!noFooter && <Footer />}
     </div>
   );
