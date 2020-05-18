@@ -24,6 +24,14 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 />;
 ```
 
+You can also import SVG images, which will be transformed into React components.
+
+```jsx title="MyComponent.js"
+import DocusaurusLogoWithKeytar from '@site/static/img/docusaurus_keytar.svg';
+
+<DocusaurusLogoWithKeytar title="test" className="blah" />
+```
+
 ### Markdown example
 
 Thanks to MDX, you can also use `useBaseUrl` utility function in Markdown files! You'd have to use `<img>` tags instead of the Markdown image syntax though. The syntax is exactly the same as in JSX.

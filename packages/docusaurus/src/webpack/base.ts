@@ -177,6 +177,10 @@ export function createBaseConfig(
             onlyLocals: isServer,
           }),
         },
+        {
+          test: /\.svg$/,
+          use: '@svgr/webpack?-prettier-svgo,+titleProp,+ref![path]',
+        },
       ],
     },
     plugins: [

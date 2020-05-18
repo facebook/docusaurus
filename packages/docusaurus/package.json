@@ -42,6 +42,7 @@
     "@babel/runtime": "^7.9.2",
     "@docusaurus/utils": "^2.0.0-alpha.54",
     "@endiliey/static-site-generator-webpack-plugin": "^4.0.0",
+    "@svgr/webpack": "^5.4.0",
     "babel-loader": "^8.1.0",
     "babel-plugin-dynamic-import-node": "^2.3.0",
     "cache-loader": "^4.1.0",
