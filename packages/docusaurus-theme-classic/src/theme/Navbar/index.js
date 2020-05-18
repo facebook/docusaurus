@@ -108,6 +108,7 @@ function NavItem({items, position, className, ...props}) {
 }
 
 function MobileNavItem({items, position, className, ...props}) {
+  // Need to destructure position from props so that it doesn't get passed on.
   const navLinkClassNames = (extraClassName, isSubList = false) =>
     classnames(
       'menu__link',
