@@ -118,13 +118,13 @@ module.exports = {
 
 Accessing the feed:
 
-The feed for RSS can be found at
+The feed for RSS can be found at:
 
 ```text
 https://{your-domain}/blog/rss.xml
 ```
 
-and for atom
+and for Atom:
 
 ```text
 https://{your-domain}/blog/atom.xml
@@ -134,9 +134,7 @@ https://{your-domain}/blog/atom.xml
 
 ### Blog-only mode
 
-You can run your Docusaurus 2 site without a landing page and instead have your blog's post list page as the index page. Set the `routeBasePath` to be `''` to indicate it's the root path.
-
-**Note:** Make sure there's no `index.js` page in `src/pages` or else there will be two files mapping to the same route!
+You can run your Docusaurus 2 site without a landing page and instead have your blog's post list page as the index page. Set the `routeBasePath` to be `'/'` to indicate it's the root path.
 
 ```js {9} title="docusaurus.config.js"
 module.exports = {
@@ -154,6 +152,12 @@ module.exports = {
   ],
 };
 ```
+
+:::note
+
+Make sure there's no `index.js` page in `src/pages` or else there will be two files mapping to the same route!
+
+:::
 
 <!--
 

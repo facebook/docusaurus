@@ -111,12 +111,12 @@ module.exports = function(context, options) {
     name: 'docusaurus-plugin',
     async contentLoaded({content, actions}) {
       const {createData, addRoute} = actions;
-      // create a data named 'prizes.json'
+      // Create a data named 'prizes.json'.
       const prizes = JSON.stringify(['$1', 'a cybertruck', 'nothing']);
       const prizesDataPath = await createData('prizes.json', prizes);
 
-      // add '/roll' page using 'website/src/component/roll.js` as the component
-      // and providing 'prizes' as props
+      // Add '/roll' page using 'website/src/component/roll.js` as the component
+      // and providing 'prizes' as props.
       addRoute({
         path: '/roll',
         component: '@site/src/components/roll.js',
@@ -201,7 +201,7 @@ module.exports = function (context, options) {
   return {
     name: 'docusaurus-plugin',
     async postBuild({siteConfig = {}, routesPaths = [], outDir}) {
-      // Print out to console all the rendered routes
+      // Print out to console all the rendered routes.
       routesPaths.map((route) => {
         console.log(route);
       });
@@ -234,7 +234,7 @@ module.exports = function (context, options) {
 
 ## `injectHtmlTags()`
 
-Inject head and/or body html tags to Docusaurus generated html.
+Inject head and/or body HTML tags to Docusaurus generated HTML.
 
 ```typescript
 function injectHtmlTags(): {
@@ -247,7 +247,7 @@ type HtmlTags = string | HtmlTagObject | (string | HtmlTagObject)[];
 
 interface HtmlTagObject {
   /**
-   * Attributes of the html tag
+   * Attributes of the HTML tag
    * E.g. `{'disabled': true, 'value': 'demo', 'rel': 'preconnect'}`
    */
   attributes?: {
@@ -368,22 +368,22 @@ module.exports = function (context, opts) {
     name: 'docusaurus-my-project-cool-plugin',
 
     async loadContent() {
-      // The loadContent hook is executed after siteConfig and env has been loaded
-      // You can return a JavaScript object that will be passed to contentLoaded hook
+      // The loadContent hook is executed after siteConfig and env has been loaded.
+      // You can return a JavaScript object that will be passed to contentLoaded hook.
     },
 
     async contentLoaded({content, actions}) {
-      // contentLoaded hook is done after loadContent hook is done
-      // actions are set of functional API provided by Docusaurus. e.g: addRoute
+      // The contentLoaded hook is done after loadContent hook is done.
+      // `actions` are set of functional API provided by Docusaurus (e.g. addRoute)
     },
 
     async routesLoaded(routes) {
-      // routesLoaded hook is done after contentLoaded hook is done
+      // The routesLoaded hook is done after contentLoaded hook is done.
       // This can be useful if you need to change any route.
     },
 
     async postBuild(props) {
-      // after docusaurus <build> finish
+      // After docusaurus <build> finish.
     },
 
     // TODO
@@ -408,7 +408,7 @@ module.exports = function (context, opts) {
     },
 
     getPathsToWatch() {
-      // Path to watch
+      // Paths to watch.
     },
 
     getThemePath() {
@@ -423,11 +423,11 @@ module.exports = function (context, opts) {
     },
 
     extendCli(cli) {
-      // Register an extra command to enhance the CLI of docusaurus
+      // Register an extra command to enhance the CLI of Docusaurus
     },
 
     injectHtmlTags() {
-      // Inject head and/or body html tags
+      // Inject head and/or body HTML tags.
     },
   };
 };

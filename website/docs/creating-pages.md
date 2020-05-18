@@ -63,7 +63,7 @@ In this component-based development era, it is encouraged to co-locate your styl
 - Add a `/src/pages/support.js` file
 - Create a `/src/pages/support/` directory and a `/src/pages/support/index.js` file.
 
-The latter is preferred as it has the benefits of letting you put files related to the page within that directory. For e.g. a CSS module file (`styles.module.css`) with styles meant to only be used on the "Support" page. **Note:** this is merely a recommended directory structure and you will still need to manually import the CSS module file within your component module (`support/index.js`).
+The latter is preferred as it has the benefits of letting you put files related to the page within that directory. For example, a CSS module file (`styles.module.css`) with styles meant to only be used on the "Support" page. **Note:** this is merely a recommended directory structure and you will still need to manually import the CSS module file within your component module (`support/index.js`).
 
 ```sh
 my-website

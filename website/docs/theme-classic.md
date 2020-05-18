@@ -57,16 +57,16 @@ module.exports = {
 
 Sometimes you want to announce something in your website. Just for such a case, you can add an announcement bar. This is a non-fixed and dismissable panel above the navbar.
 
-```js {4-9} title="docusaurus.config.js"
+```js {4-10} title="docusaurus.config.js"
 module.exports = {
   // ...
   themeConfig: {
     announcementBar: {
-      id: 'support_us', // Any value that will identify this message
+      id: 'support_us', // Any value that will identify this message.
       content:
         'We are looking to revamp our docs, please fill <a target="_blank" rel="noopener noreferrer" href="#">this survey</a>',
-      backgroundColor: '#fafbfc', // Defaults to `#fff`
-      textColor: '#091E42', // Defaults to `#000`
+      backgroundColor: '#fafbfc', // Defaults to `#fff`.
+      textColor: '#091E42', // Defaults to `#000`.
     },
     // ...
   },
@@ -86,7 +86,7 @@ import React from 'react';
 // highlight-next-line
 import useThemeContext from '@theme/hooks/useThemeContext';
 
-const Test = () => {
+const Example = () => {
   // highlight-next-line
   const {isDarkTheme, setLightTheme, setDarkTheme} = useThemeContext();
 
@@ -96,7 +96,7 @@ const Test = () => {
 
 ## Navbar
 
-### Navbar Title & Logo
+### Navbar title & logo
 
 You can add a logo and title to the navbar via `themeConfig.navbar`. Logo can be placed in [static folder](static-assets.md). Logo URL is set to base URL of your site by default. Although you can specify your own URL for the logo, if it is an external link, it will open in a new tab. In addition, you can override a value for the target attribute of logo link, it can come in handy if you are hosting docs website in a subdirectory of your main website, and in which case you probably do not need a link in the logo to the main website will open in a new tab.
 
@@ -111,9 +111,9 @@ module.exports = {
       logo: {
         alt: 'Site Logo',
         src: 'img/logo.svg',
-        srcDark: 'img/logo_dark.svg', // default to logo.src
-        href: 'https://v2.docusaurus.io/', // default to siteConfig.baseUrl
-        target: '_self', // by default, this value is calculated based on the `href` attribute (the external link will open in a new tab, all others in the current one)
+        srcDark: 'img/logo_dark.svg', // Default to `logo.src`.
+        href: 'https://v2.docusaurus.io/', // Default to `siteConfig.baseUrl`.
+        target: '_self', // By default, this value is calculated based on the `href` attribute (the external link will open in a new tab, all others in the current one).
       },
     },
     // ...
@@ -121,7 +121,7 @@ module.exports = {
 };
 ```
 
-### Navbar Links
+### Navbar links
 
 You can add links to the navbar via `themeConfig.navbar.links`:
 
@@ -165,7 +165,7 @@ React Router should automatically apply active link styling to links, but you ca
 
 Outbound (external) links automatically get `target="_blank" rel="noopener noreferrer"` attributes.
 
-### Navbar Dropdown
+### Navbar dropdown
 
 Navbar items can also be dropdown items by specifying the `items`, an inner array of navbar links.
 
@@ -213,9 +213,13 @@ module.exports = {
 };
 ```
 
+<!--
+
 ## Footer
 
 TODO.
+
+-->
 
 ## CodeBlock
 
@@ -238,7 +242,11 @@ module.exports = {
 };
 ```
 
-**Note:** If you use the line highlighting Markdown syntax, you might need to specify a different highlight background color for the dark mode syntax highlighting theme. Refer to the [docs for guidance](markdown-features.mdx#line-highlighting).
+:::note
+
+If you use the line highlighting Markdown syntax, you might need to specify a different highlight background color for the dark mode syntax highlighting theme. Refer to the [docs for guidance](markdown-features.mdx#line-highlighting).
+
+:::
 
 ### Default language
 

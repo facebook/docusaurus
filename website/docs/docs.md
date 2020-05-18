@@ -13,7 +13,7 @@ Every document has a unique `id`. By default, a document `id` is the name of the
 For example, `greeting.md` id is `greeting` and `guide/hello.md` id is `guide/hello`.
 
 ```bash
-website # root directory of your site
+website # Root directory of your site
 └── docs
    ├── greeting.md
    └── guide
@@ -61,7 +61,7 @@ The document id of `_index` is reserved exclusively for the home doc page, so it
 
 :::note
 
-The page `docs` that you created (eg. `src/pages/docs.js`)  will take precedence over the route generated via the `homePageId` option.
+The page `docs` that you created (eg. `src/pages/docs.js`) will take precedence over the route generated via the `homePageId` option.
 
 :::
 
@@ -89,7 +89,7 @@ module.exports = {
 
 ### Sidebar object
 
-A sidebar object is defined like this.
+A sidebar object is defined like this:
 
 ```typescript
 type Sidebar = {
@@ -211,8 +211,8 @@ Sidebar item type that links to a non-document page. Example:
 ```js
 {
   type: 'link',
-  label: 'Custom Label', // string - the label that should be displayed.
-  href: 'https://example.com' // string - the target URL.
+  label: 'Custom Label', // The label that should be displayed (string).
+  href: 'https://example.com' // The target URL (string).
 }
 ```
 
@@ -230,7 +230,7 @@ Sidebar item type that links to doc without bounding it to the sidebar. Example:
 ```js
 {
   type: 'ref',
-  id: 'doc1', // string - document id
+  id: 'doc1', // Document id (string).
 }
 ```
 

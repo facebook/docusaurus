@@ -151,9 +151,9 @@ module.exports = {
       '@docusaurus/preset-classic',
       {
         docs: {
-          // docs folder path relative to website dir.
+          // Docs folder path relative to website dir.
           path: '../docs',
-          // sidebars file relative to website dir.
+          // Sidebars file relative to website dir.
           sidebarPath: require.resolve('./sidebars.json'),
         },
         // ...
@@ -231,10 +231,10 @@ module.exports = {
         src: 'https://docusaurus.io/img/oss_logo.png',
         href: 'https://opensource.facebook.com/',
       },
-      copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`, // You can also put own HTML here
+      copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`, // You can also put own HTML here.
     },
     image: 'img/docusaurus.png',
-    // Equivalent to `docsSideNavCollapsible`
+    // Equivalent to `docsSideNavCollapsible`.
     sidebarCollapsible: false,
     // ...
   },
@@ -292,7 +292,7 @@ module.exports = {
     algolia: {
       apiKey: '47ecd3b21be71c5822571b9f59e52544',
       indexName: 'docusaurus-2',
-      algoliaOptions: { ... },
+      algoliaOptions: { //... },
     },
     // ...
   },
@@ -340,7 +340,7 @@ module.exports = {
         docs: {
           // Equivalent to `customDocsPath`.
           path: 'docs',
-          // Equivalent to `editUrl` but should point to `website` dir instead of `website/docs`
+          // Equivalent to `editUrl` but should point to `website` dir instead of `website/docs`.
           editUrl: 'https://github.com/facebook/docusaurus/edit/master/website',
           // Equivalent to `docsUrl`.
           routeBasePath: 'docs',
@@ -471,7 +471,7 @@ In Docusaurus 2, the markdown syntax has been changed to [MDX](https://mdxjs.com
 
 **Tips**: You might want to use some online tools like [HTML to JSX](https://transform.tools/html-to-jsx) to make the migration easier.
 
-### Language-specific Code Tabs
+### Language-specific code tabs
 
 Refer to the [multi-language support code blocks](markdown-features.mdx#multi-language-support-code-blocks) section.
 
@@ -502,7 +502,7 @@ my-project
     └── static
 ```
 
-Start the development server and fix any errors
+Start the development server and fix any errors:
 
 ```bash
 cd website

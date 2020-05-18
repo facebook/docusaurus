@@ -91,7 +91,7 @@ module.exports = function(context, options) {
     name: 'my-docusaurus-plugin',
     async loadContent() { ... },
     async contentLoaded({content, actions}) { ... },
-    /* other lifecycle api */
+    /* other lifecycle API */
   };
 };
 ```
@@ -116,7 +116,7 @@ interface LoadContext {
 
 #### Return value
 
-The returned object value should implement the [lifecycle APIs](./lifecycle-apis.md).
+The returned object value should implement the [lifecycle APIs](lifecycle-apis.md).
 
 ## Official plugins
 
@@ -428,7 +428,7 @@ This plugin supports the PNG, GIF and JPG formats only.
 import Image from '@theme/IdealImage';
 import thumbnail from './path/to/img.png';
 
-// your react code
+// your React code
 <Image img={thumbnail} />
 
 // or
