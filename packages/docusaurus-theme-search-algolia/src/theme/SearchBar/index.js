@@ -67,9 +67,11 @@ const Search = (props) => {
     );
   };
 
-  const handleSearchIcon = useCallback(() => {
+  const expandInput = useCallback(() => {
     loadAlgolia();
-
+    if (props.isSearchBarExpanded) {
+      return;
+    }
     if (algoliaLoaded) {
       searchBarRef.current.focus();
     }
@@ -78,7 +80,7 @@ const Search = (props) => {
   }, [props.isSearchBarExpanded]);
 
   const handleSearchInputBlur = useCallback(() => {
-    props.handleSearchBarToggle(!props.isSearchBarExpanded);
+    props.handleSearchBarToggle(false);
   }, [props.isSearchBarExpanded]);
 
   const handleSearchInput = useCallback((e) => {
@@ -88,17 +90,13 @@ const Search = (props) => {
   });
 
   return (
-    <div className="navbar__search" key="search-box">
-      <span
-        aria-label="expand searchbar"
-        role="button"
-        className={classnames('search-icon', {
-          'search-icon-hidden': props.isSearchBarExpanded,
-        })}
-        onClick={handleSearchIcon}
-        onKeyDown={handleSearchIcon}
-        tabIndex={0}
-      />
+    <div
+      role="button"
+      tabIndex={0}
+      className="navbar__search"
+      key="search-box"
+      onClick={expandInput}
+      onKeyDown={expandInput}>
       <input
         id="search_input_react"
         type="search"
