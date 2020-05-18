@@ -99,17 +99,14 @@ export default async function processMetadata({
   const baseID: string =
     frontMatter.id || path.basename(source, path.extname(source));
 
-  // Default base pathname is the base id.
-  const basePathname: string = frontMatter.pathname || baseID;
-
   if (baseID.includes('/')) {
     throw new Error('Document id cannot include "/".');
   }
 
   // Append subdirectory as part of id/pathname.
   const id = dirName !== '.' ? `${dirName}/${baseID}` : baseID;
-  const pathname =
-    dirName !== '.' ? `${dirName}/${basePathname}` : basePathname;
+
+  const pathname: string = frontMatter.pathname || id;
 
   // Default title is the id.
   const title: string = frontMatter.title || baseID;

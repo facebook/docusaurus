@@ -1,6 +1,7 @@
 ---
 id: baz
 title: baz
+pathname: any/pathname.html
 ---
 
 ## Images

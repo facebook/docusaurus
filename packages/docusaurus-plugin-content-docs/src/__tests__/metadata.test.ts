@@ -79,7 +79,7 @@ describe('simple site', () => {
 
     expect(data).toEqual({
       id: 'foo/baz',
-      permalink: '/docs/foo/baz',
+      permalink: '/docs/any/pathname.html', // pathname is not "affected" by markdown folder
       source: path.join('@site', routeBasePath, source),
       title: 'baz',
       editUrl:
