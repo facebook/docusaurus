@@ -110,3 +110,4 @@ Deploys your site with [GitHub Pages](https://pages.github.com/). Check out the 
 | Name | Default | Description |
 | --- | --- | --- |
 | `--out-dir` | `build` | The full path for the new output directory, relative to the current workspace. |
+| `--skip-build` | `false` | Deploy website without new its building. This may be useful when using custom deploy script. |

@@ -67,6 +67,7 @@ export interface BuildCLIOptions {
   bundleAnalyzer: boolean;
   outDir: string;
   minify: boolean;
+  skipBuild: boolean;
 }
 
 export interface LoadContext {
