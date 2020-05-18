@@ -89,7 +89,6 @@ function DocSidebarItem({
             {...(isInternalUrl(href)
               ? {
                   isNavLink: true,
-                  activeClassName: 'menu__link--active',
                   exact: true,
                   onClick: onItemClick,
                 }
