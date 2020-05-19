@@ -5,6 +5,7 @@
 #### :boom: Breaking Change
 
 - `infima`
+
   - The following Infima classes have been renamed for consistency:
 
     - `page-item` → `pagination__item`
@@ -14,6 +15,83 @@
     - `tab-item--active` → `tabs__item--active`
 
     If you have swizzled components, you need to replace these class names.
+
+- `docusaurus`
+
+  - [#2764](https://github.com/facebook/docusaurus/pull/2764) feat(v2): allow import SVG images ([@lex111](https://github.com/lex111))
+
+#### :rocket: New Feature
+
+- `docusaurus`
+  - [#2764](https://github.com/facebook/docusaurus/pull/2764) feat(v2): allow import SVG images ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-classic`
+  - [#2690](https://github.com/facebook/docusaurus/pull/2690) feat(v2): allow activeBaseTest in NavLink ([@nebrelbug](https://github.com/nebrelbug))
+  - [#2694](https://github.com/facebook/docusaurus/pull/2694) feat(v2): add canonical URL to `<head>` ([@jcomack](https://github.com/jcomack))
+- `docusaurus-plugin-content-docs`, `docusaurus-theme-classic`, `docusaurus-types`, `docusaurus`
+  - [#2652](https://github.com/facebook/docusaurus/pull/2652) feat(v2): allow home page for docs ([@lex111](https://github.com/lex111))
+- `docusaurus-plugin-content-docs`, `docusaurus-theme-search-algolia`, `docusaurus`
+  - [#2756](https://github.com/facebook/docusaurus/pull/2756) feat(v2): add search page 🔎 ([@lex111](https://github.com/lex111))
+
+#### :bug: Bug Fix
+
+- `docusaurus-plugin-content-docs`, `docusaurus-utils`
+  - [#2701](https://github.com/facebook/docusaurus/pull/2701) fix(v2): remove Markdown syntax from excerpt ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-classic`
+  - [#2765](https://github.com/facebook/docusaurus/pull/2765) fix(v2): remove invalid attr from mobile nav links ([@lex111](https://github.com/lex111))
+  - [#2760](https://github.com/facebook/docusaurus/pull/2760) fix(v2): move anchor link to right of heading ([@lex111](https://github.com/lex111))
+  - [#2758](https://github.com/facebook/docusaurus/pull/2758) fix(v2): remove extra top margin of tab item ([@lex111](https://github.com/lex111))
+  - [#2759](https://github.com/facebook/docusaurus/pull/2759) fix(v2): restore hiding of docs toc ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-search-algolia`
+  - [#2762](https://github.com/facebook/docusaurus/pull/2762) fix(v2): avoid duplication search input in navbar ([@lex111](https://github.com/lex111))
+- `lqip-loader`
+  - [#2693](https://github.com/facebook/docusaurus/pull/2693) fix(v2): add support esModule to lqip-loader ([@ykzts](https://github.com/ykzts))
+- `docusaurus-init`
+  - [#2751](https://github.com/facebook/docusaurus/pull/2751) fix(v2): fix index page features.length when 0 ([@jdeniau](https://github.com/jdeniau))
+
+#### :nail_care: Polish
+
+- `docusaurus-theme-classic`
+  - [#2773](https://github.com/facebook/docusaurus/pull/2773) chore(v2): upgrade Infima to 0.2.0-alpha.11 ([@lex111](https://github.com/lex111))
+  - [#2766](https://github.com/facebook/docusaurus/pull/2766) refactor(v2): remove extra active CSS class for menu item links ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-live-codeblock`
+  - [#2767](https://github.com/facebook/docusaurus/pull/2767) refactor(v2): add support for dark mode to live code blocks ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-search-algolia`
+  - [#2761](https://github.com/facebook/docusaurus/pull/2761) refactor(v2): improve UX of search page ([@lex111](https://github.com/lex111))
+- `docusaurus-theme-bootstrap`, `docusaurus-theme-classic`
+  - [#2729](https://github.com/facebook/docusaurus/pull/2729) chore(v2): upgrade Infima to 0.2.0-alpha.10 ([@lex111](https://github.com/lex111))
+- `docusaurus-utils`
+  - [#2696](https://github.com/facebook/docusaurus/pull/2696) refactor(v2): make semicolon optional in imports for excerpt ([@lex111](https://github.com/lex111))
+
+#### :memo: Documentation
+
+- [#2768](https://github.com/facebook/docusaurus/pull/2768) docs(v2): various improvements ([@lex111](https://github.com/lex111))
+- [#2670](https://github.com/facebook/docusaurus/pull/2670) docs(v2): add deployment workflow manual for GitHub Actions ([@artemkovalyov](https://github.com/artemkovalyov))
+
+#### :house: Internal
+
+- `docusaurus-theme-classic`, `docusaurus-theme-live-codeblock`, `docusaurus`
+  - [#2464](https://github.com/facebook/docusaurus/pull/2464) refactor(v2): add @theme-init alias to give access to initial components ([@lex111](https://github.com/lex111))
+
+#### :running_woman: Performance
+
+- `docusaurus`
+  - [#2684](https://github.com/facebook/docusaurus/pull/2684) refactor(v2): replace EJS with Eta for SSR generation ([@nebrelbug](https://github.com/nebrelbug))
+
+#### Committers: 13
+
+- Alexey Pyltsyn ([@lex111](https://github.com/lex111))
+- Artem Kovalov ([@artemkovalyov](https://github.com/artemkovalyov))
+- Ben Gubler ([@nebrelbug](https://github.com/nebrelbug))
+- Fanny ([@fanny](https://github.com/fanny))
+- Jimmy ([@jcomack](https://github.com/jcomack))
+- Jonny Nabors ([@jonnynabors](https://github.com/jonnynabors))
+- Julien Deniau ([@jdeniau](https://github.com/jdeniau))
+- Marco Moretti ([@marcosvega91](https://github.com/marcosvega91))
+- Rajiv Singh ([@iamrajiv](https://github.com/iamrajiv))
+- Sébastien Lorber ([@slorber](https://github.com/slorber))
+- Taylor Reece ([@taylorreece](https://github.com/taylorreece))
+- Yamagishi Kazutoshi ([@ykzts](https://github.com/ykzts))
+- Yangshun Tay ([@yangshun](https://github.com/yangshun))
 
 ## 2.0.0-alpha.54
 
