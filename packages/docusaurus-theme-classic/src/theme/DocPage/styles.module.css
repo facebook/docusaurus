@@ -10,7 +10,7 @@
 }
 
 .docSidebarContainer {
-  border-right: 1px solid var(--ifm-contents-border-color);
+  border-right: 1px solid var(--ifm-toc-border-color);
   box-sizing: border-box;
   width: 300px;
   position: relative;

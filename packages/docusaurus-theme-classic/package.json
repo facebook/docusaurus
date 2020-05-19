@@ -12,7 +12,7 @@
     "@mdx-js/react": "^1.5.8",
     "classnames": "^2.2.6",
     "clipboard": "^2.0.6",
-    "infima": "0.2.0-alpha.10",
+    "infima": "0.2.0-alpha.11",
     "parse-numeric-range": "^0.0.2",
     "prism-react-renderer": "^1.1.0",
     "prismjs": "^1.20.0",
