@@ -1,7 +1,7 @@
 ---
 id: baz
 title: baz
-pathname: any/pathname.html
+slug: hello.html
 ---
 
 ## Images

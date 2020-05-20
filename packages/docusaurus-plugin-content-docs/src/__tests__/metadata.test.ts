@@ -79,7 +79,7 @@ describe('simple site', () => {
 
     expect(data).toEqual({
       id: 'foo/baz',
-      permalink: '/docs/any/pathname.html', // pathname is not "affected" by markdown folder
+      permalink: '/docs/foo/hello.html',
       source: path.join('@site', routeBasePath, source),
       title: 'baz',
       editUrl:
@@ -172,7 +172,7 @@ describe('simple site', () => {
   });
 
   test('docs with invalid id', async () => {
-    const badSiteDir = path.join(fixtureDir, 'bad-site');
+    const badSiteDir = path.join(fixtureDir, 'bad-id-site');
     const options = {
       routeBasePath,
     };
@@ -186,6 +186,25 @@ describe('simple site', () => {
     }).catch((e) =>
       expect(e).toMatchInlineSnapshot(
         `[Error: Document id cannot include "/".]`,
+      ),
+    );
+  });
+
+  test('docs with invalid slug', async () => {
+    const badSiteDir = path.join(fixtureDir, 'bad-slug-site');
+    const options = {
+      routeBasePath,
+    };
+
+    return processMetadata({
+      source: 'invalid-slug.md',
+      refDir: path.join(badSiteDir, 'docs'),
+      context,
+      options,
+      env,
+    }).catch((e) =>
+      expect(e).toMatchInlineSnapshot(
+        `[Error: Document slug cannot include "/".]`,
       ),
     );
   });

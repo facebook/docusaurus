@@ -1,6 +1,5 @@
 ---
 id: docs
-pathname: any/doc/sub-path/docs.html
 title: Docs Introduction
 sidebar_label: Introduction
 ---

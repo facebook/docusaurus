@@ -98,15 +98,18 @@ export default async function processMetadata({
   // Default base id is the file name.
   const baseID: string =
     frontMatter.id || path.basename(source, path.extname(source));
-
   if (baseID.includes('/')) {
     throw new Error('Document id cannot include "/".');
   }
 
-  // Append subdirectory as part of id.
-  const id = dirName !== '.' ? `${dirName}/${baseID}` : baseID;
+  const baseSlug: string = frontMatter.slug || baseID;
+  if (baseSlug.includes('/')) {
+    throw new Error('Document slug cannot include "/".');
+  }
 
-  const pathname: string = frontMatter.pathname || id;
+  // Append subdirectory as part of id/slug.
+  const id = dirName !== '.' ? `${dirName}/${baseID}` : baseID;
+  const slug = dirName !== '.' ? `${dirName}/${baseSlug}` : baseSlug;
 
   // Default title is the id.
   const title: string = frontMatter.title || baseID;
@@ -116,8 +119,8 @@ export default async function processMetadata({
   // The last portion of the url path. Eg: 'foo/bar', 'bar'.
   const routePath =
     version && version !== 'next'
-      ? pathname.replace(new RegExp(`^version-${version}/`), '')
-      : pathname;
+      ? slug.replace(new RegExp(`^version-${version}/`), '')
+      : slug;
 
   const permalink = normalizeUrl([
     baseUrl,
