@@ -8,10 +8,10 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@docsearch/react": "^1.0.0-alpha.15",
     "algoliasearch": "^3.24.5",
     "algoliasearch-helper": "^3.1.1",
     "classnames": "^2.2.6",
-    "docsearch.js": "^2.6.3",
     "eta": "^1.1.1"
   },
   "peerDependencies": {
