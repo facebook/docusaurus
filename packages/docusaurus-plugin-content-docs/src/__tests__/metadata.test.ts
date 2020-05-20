@@ -244,7 +244,7 @@ describe('versioned site', () => {
 
     expect(dataA).toEqual({
       id: 'foo/bar',
-      permalink: '/docs/next/foo/bar',
+      permalink: '/docs/next/foo/barSlug',
       source: path.join('@site', routeBasePath, sourceA),
       title: 'bar',
       description: 'This is `next` version of bar.',
@@ -302,7 +302,7 @@ describe('versioned site', () => {
 
     expect(dataA).toEqual({
       id: 'version-1.0.0/foo/bar',
-      permalink: '/docs/1.0.0/foo/bar',
+      permalink: '/docs/1.0.0/foo/barSlug',
       source: path.join('@site', path.relative(siteDir, versionedDir), sourceA),
       title: 'bar',
       description: 'Bar `1.0.0` !',
