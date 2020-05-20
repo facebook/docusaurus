@@ -79,7 +79,7 @@ describe('simple site', () => {
 
     expect(data).toEqual({
       id: 'foo/baz',
-      permalink: '/docs/foo/hello.html',
+      permalink: '/docs/foo/bazSlug.html',
       source: path.join('@site', routeBasePath, source),
       title: 'baz',
       editUrl:
