@@ -20,11 +20,21 @@ website # root directory of your site
       └── hello.md
 ```
 
-However, the last part of the `id` can be defined by user in the front matter. For example, if `guide/hello.md`'s content is defined as below, its final `id` is `guide/part1`.
+However, the **last part** of the `id` can be defined by user in the front matter. For example, if `guide/hello.md`'s content is defined as below, its final `id` is `guide/part1`.
 
 ```yml
 ---
 id: part1
+---
+Lorem ipsum
+```
+
+In case you want more control over the last part of the document url, it is possible to add a `slug` (defaults to the id).
+
+```yml
+---
+id: part1
+slug: part1.html
 ---
 Lorem ipsum
 ```
