@@ -29,7 +29,7 @@ id: part1
 Lorem ipsum
 ```
 
-In case you want more control over the last part of the document url, it is possible to add a `slug` (defaults to the id).
+If you want more control over the last part of the document url, it is possible to add a `slug` (defaults to the id).
 
 ```yml
 ---
