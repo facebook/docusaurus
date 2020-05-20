@@ -70,6 +70,8 @@ export default function pluginContentDocs(
   opts: Partial<PluginOptions>,
 ): Plugin<LoadedContent | null> {
   const options = {...DEFAULT_OPTIONS, ...opts};
+  const homePageDocsRoutePath =
+    options.routeBasePath === '' ? '/' : options.routeBasePath;
 
   if (options.admonitions) {
     options.remarkPlugins = options.remarkPlugins.concat([
@@ -337,78 +339,82 @@ export default function pluginContentDocs(
       const genRoutes = async (
         metadataItems: Metadata[],
       ): Promise<RouteConfig[]> => {
-        const routes: RouteConfig[] = [];
+        const versionsRegex = new RegExp(versionsNames.join('|'), 'i');
 
-        await metadataItems.forEach(async (metadataItem, i) => {
-          const isDocsHomePage =
-            metadataItem.id.substr(metadataItem.id.indexOf('/') + 1) ===
-            options.homePageId;
+        const routes = await Promise.all(
+          metadataItems.map(async (metadataItem, i) => {
+            const isDocsHomePage =
+              metadataItem.id.replace(versionsRegex, '').replace(/^\//, '') ===
+              options.homePageId;
 
-          if (isDocsHomePage) {
-            const homeDocsRoutePath =
-              routeBasePath === '' ? '/' : routeBasePath;
-            const versionDocsPathPrefix =
-              (metadataItem?.version === versioning.latestVersion
-                ? ''
-                : metadataItem.version!) ?? '';
+            if (isDocsHomePage) {
+              const versionDocsPathPrefix =
+                (metadataItem?.version === versioning.latestVersion
+                  ? ''
+                  : metadataItem.version!) ?? '';
 
-            // To show the sidebar, get the sidebar key of available sibling item.
-            metadataItem.sidebar = (
-              metadataItems[i - 1] ?? metadataItems[i + 1]
-            ).sidebar;
-            const docsBaseMetadata = createDocsBaseMetadata(
-              metadataItem.version!,
-            );
-            docsBaseMetadata.isHomePage = true;
-            docsBaseMetadata.homePagePath = normalizeUrl([
-              baseUrl,
-              homeDocsRoutePath,
-              versionDocsPathPrefix,
-              options.homePageId,
-            ]);
-            const docsBaseMetadataPath = await createData(
-              `${docuHash(metadataItem.source)}-base.json`,
-              JSON.stringify(docsBaseMetadata, null, 2),
-            );
-
-            // Add a route for docs home page.
-            addRoute({
-              path: normalizeUrl([
+              // To show the sidebar, get the sidebar key of available sibling item.
+              metadataItem.sidebar = (
+                metadataItems[i - 1] ?? metadataItems[i + 1]
+              ).sidebar;
+              const docsBaseMetadata = createDocsBaseMetadata(
+                metadataItem.version!,
+              );
+              docsBaseMetadata.isHomePage = true;
+              docsBaseMetadata.homePagePath = normalizeUrl([
                 baseUrl,
-                homeDocsRoutePath,
+                homePageDocsRoutePath,
                 versionDocsPathPrefix,
-              ]),
-              component: docLayoutComponent,
-              exact: true,
-              modules: {
-                docsMetadata: aliasedSource(docsBaseMetadataPath),
-                content: metadataItem.source,
-              },
-            });
-          }
+                options.homePageId,
+              ]);
+              const docsBaseMetadataPath = await createData(
+                `${docuHash(metadataItem.source)}-base.json`,
+                JSON.stringify(docsBaseMetadata, null, 2),
+              );
 
-          await createData(
-            // Note that this created data path must be in sync with
-            // metadataPath provided to mdx-loader.
-            `${docuHash(metadataItem.source)}.json`,
-            JSON.stringify(metadataItem, null, 2),
-          );
+              // Add a route for docs home page.
+              addRoute({
+                path: normalizeUrl([
+                  baseUrl,
+                  homePageDocsRoutePath,
+                  versionDocsPathPrefix,
+                ]),
+                component: docLayoutComponent,
+                exact: true,
+                modules: {
+                  docsMetadata: aliasedSource(docsBaseMetadataPath),
+                  content: metadataItem.source,
+                },
+              });
+            }
 
-          // Do not create a route for a page created specifically for docs home page.
-          if (metadataItem.id !== REVERSED_DOCS_HOME_PAGE_ID) {
-            routes.push({
+            await createData(
+              // Note that this created data path must be in sync with
+              // metadataPath provided to mdx-loader.
+              `${docuHash(metadataItem.source)}.json`,
+              JSON.stringify(metadataItem, null, 2),
+            );
+
+            return {
               path: metadataItem.permalink,
               component: docItemComponent,
               exact: true,
               modules: {
                 content: metadataItem.source,
               },
-            });
-          }
-        });
+            };
+          }),
+        );
 
-        return routes.sort((a, b) =>
-          a.path > b.path ? 1 : b.path > a.path ? -1 : 0,
+        return (
+          routes
+            // Do not create a route for a page created specifically for docs home page.
+            .filter(
+              ({path}) =>
+                path.substr(path.lastIndexOf('/') + 1) !==
+                REVERSED_DOCS_HOME_PAGE_ID,
+            )
+            .sort((a, b) => (a.path > b.path ? 1 : b.path > a.path ? -1 : 0))
         );
       };
 
@@ -477,9 +483,8 @@ export default function pluginContentDocs(
     },
 
     async routesLoaded(routes) {
-      const normalizedHomeDocsRoutePath = `/${options.routeBasePath}`;
       const homeDocsRoutes = routes.filter(
-        (routeConfig) => routeConfig.path === normalizedHomeDocsRoutePath,
+        (routeConfig) => routeConfig.path === homePageDocsRoutePath,
       );
 
       // Remove the route for docs home page if there is a page with the same path (i.e. docs).
@@ -487,7 +492,7 @@ export default function pluginContentDocs(
         const docsHomePageRouteIndex = routes.findIndex(
           (route) =>
             route.component === options.docLayoutComponent &&
-            route.path === normalizedHomeDocsRoutePath,
+            route.path === homePageDocsRoutePath,
         );
 
         delete routes[docsHomePageRouteIndex!];
