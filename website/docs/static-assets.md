@@ -29,7 +29,7 @@ You can also import SVG images, which will be transformed into React components.
 ```jsx title="MyComponent.js"
 import DocusaurusLogoWithKeytar from '@site/static/img/docusaurus_keytar.svg';
 
-<DocusaurusLogoWithKeytar title="test" className="blah" />
+<DocusaurusLogoWithKeytar title="Docusaurus Logo" className="logo" />;
 ```
 
 ### Markdown example
