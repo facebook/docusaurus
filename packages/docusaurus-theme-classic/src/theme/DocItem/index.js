@@ -17,8 +17,8 @@ import useTOCHighlight from '@theme/hooks/useTOCHighlight';
 import classnames from 'classnames';
 import styles from './styles.module.css';
 
-const LINK_CLASS_NAME = 'contents__link';
-const ACTIVE_LINK_CLASS_NAME = 'contents__link--active';
+const LINK_CLASS_NAME = 'table-of-contents__link';
+const ACTIVE_LINK_CLASS_NAME = 'table-of-contents__link--active';
 const TOP_OFFSET = 100;
 
 function DocTOC({headings}) {
@@ -38,7 +38,10 @@ function Headings({headings, isChild}) {
     return null;
   }
   return (
-    <ul className={isChild ? '' : 'contents contents__left-border'}>
+    <ul
+      className={
+        isChild ? '' : 'table-of-contents table-of-contents__left-border'
+      }>
       {headings.map((heading) => (
         <li key={heading.id}>
           <a
@@ -108,7 +111,10 @@ function DocItem(props) {
           styles.docItemWrapper,
         )}>
         <div className="row">
-          <div className={classnames('col', styles.docItemCol)}>
+          <div
+            className={classnames('col', {
+              [styles.docItemCol]: !hideTableOfContents,
+            })}>
             <div className={styles.docItemContainer}>
               <article>
                 {version && (

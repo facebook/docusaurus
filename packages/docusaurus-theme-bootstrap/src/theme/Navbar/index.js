@@ -14,7 +14,6 @@ import {
   Collapse,
   Navbar as NavbarBase,
   NavbarToggler,
-  NavbarBrand,
   Nav,
   NavItem as NavItemBase,
 } from 'reactstrap';
@@ -50,37 +49,36 @@ function Navbar() {
     isClient,
   } = useDocusaurusContext();
 
-  const [sidebarShown, setSidebarShown] = useState(false);
-  const handleToggle = useCallback(() => {
-    setSidebarShown(!sidebarShown);
-  }, [sidebarShown, setSidebarShown]);
+  const [navbarShown, setNavbarShown] = useState(false);
+  const handleNavbarToggle = useCallback(() => {
+    setNavbarShown(!navbarShown);
+  }, [navbarShown, setNavbarShown]);
+
   const {logoLink, logoLinkProps, logoImageUrl, logoAlt} = useLogo();
 
   return (
-    <NavbarBase color="light" light expand="md">
-      <NavbarBrand>
-        <Link to={logoLink} {...logoLinkProps}>
-          {logoImageUrl != null && (
-            <img
-              key={isClient}
-              width="50"
-              height="50"
-              style={{
-                maxWidth: '100%',
-              }}
-              src={logoImageUrl}
-              alt={logoAlt}
-            />
-          )}
-          {title != null && <span className="ml-2">{title}</span>}
-        </Link>
-      </NavbarBrand>
-
-      <NavbarToggler onClick={handleToggle} />
-      <Collapse
-        isOpen={sidebarShown}
-        navbar
-        className="justify-content-between">
+    <NavbarBase
+      color="light"
+      light
+      expand="md"
+      className="container-fluid mb-auto">
+      <Link to={logoLink} {...logoLinkProps}>
+        {logoImageUrl != null && (
+          <img
+            key={isClient}
+            width="50"
+            height="50"
+            style={{
+              maxWidth: '100%',
+            }}
+            src={logoImageUrl}
+            alt={logoAlt}
+          />
+        )}
+        {title != null && <span className="ml-2">{title}</span>}
+      </Link>
+      <NavbarToggler onClick={handleNavbarToggle} />
+      <Collapse isOpen={navbarShown} navbar className="justify-content-between">
         <Nav navbar>
           {links != null &&
             links.length !== 0 &&

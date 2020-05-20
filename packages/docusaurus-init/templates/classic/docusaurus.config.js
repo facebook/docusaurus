@@ -15,7 +15,7 @@ module.exports = {
       },
       links: [
         {
-          to: 'docs/doc1',
+          to: 'docs/',
           activeBasePath: 'docs',
           label: 'Docs',
           position: 'left',
@@ -36,11 +36,11 @@ module.exports = {
           items: [
             {
               label: 'Style Guide',
-              to: 'docs/doc1',
+              to: 'docs/',
             },
             {
               label: 'Second Doc',
-              to: 'docs/doc2',
+              to: 'docs/doc2/',
             },
           ],
         },
@@ -83,6 +83,8 @@ module.exports = {
       '@docusaurus/preset-classic',
       {
         docs: {
+          // It is recommended to set document id as docs home page (`docs/` path).
+          homePageId: 'doc1',
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
           editUrl:

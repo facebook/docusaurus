@@ -80,14 +80,14 @@ function Home() {
                 'button button--outline button--secondary button--lg',
                 styles.getStarted,
               )}
-              to={useBaseUrl('docs/doc1')}>
+              to={useBaseUrl('docs/')}>
               Get Started
             </Link>
           </div>
         </div>
       </header>
       <main>
-        {features && features.length && (
+        {features && features.length > 0 && (
           <section className={styles.features}>
             <div className="container">
               <div className="row">

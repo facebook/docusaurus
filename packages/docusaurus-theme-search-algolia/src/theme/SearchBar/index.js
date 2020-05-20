@@ -10,6 +10,7 @@ import classnames from 'classnames';
 
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useHistory} from '@docusaurus/router';
+import useSearchQuery from '@theme/hooks/useSearchQuery';
 
 import './styles.css';
 
@@ -21,6 +22,7 @@ const Search = (props) => {
     themeConfig: {algolia},
   } = siteConfig;
   const history = useHistory();
+  const {navigateToSearchPage} = useSearchQuery();
 
   function initAlgolia(focus) {
     window.docsearch({
@@ -29,9 +31,16 @@ const Search = (props) => {
       indexName: algolia.indexName,
       inputSelector: '#search_input_react',
       algoliaOptions: algolia.algoliaOptions,
+      autocompleteOptions: {
+        openOnFocus: true,
+        autoselect: false,
+        hint: false,
+      },
       // Override algolia's default selection event, allowing us to do client-side
       // navigation and avoiding a full page refresh.
       handleSelected: (_input, _event, suggestion) => {
+        _event.stopPropagation();
+
         // Use an anchor tag to parse the absolute url into a relative url
         // Alternatively, we can use new URL(suggestion.url) but it's not supported in IE.
         const a = document.createElement('a');
@@ -87,6 +96,12 @@ const Search = (props) => {
     loadAlgolia(needFocus);
   });
 
+  const handleSearchInputPressEnter = useCallback((e) => {
+    if (!e.defaultPrevented && e.key === 'Enter') {
+      navigateToSearchPage(e.target.value);
+    }
+  });
+
   return (
     <div className="navbar__search" key="search-box">
       <span
@@ -112,6 +127,7 @@ const Search = (props) => {
         onMouseOver={handleSearchInput}
         onFocus={handleSearchInput}
         onBlur={handleSearchInputBlur}
+        onKeyDown={handleSearchInputPressEnter}
         ref={searchBarRef}
       />
     </div>

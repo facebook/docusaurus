@@ -16,6 +16,7 @@ describe('loadThemeAlias', () => {
 
     const alias = loadThemeAlias([theme1Path, theme2Path]);
     expect(alias).toEqual({
+      '@theme-init/Layout': path.join(theme1Path, 'Layout.js'), // TODO: Write separate test case for this?
       '@theme/Footer': path.join(theme1Path, 'Footer/index.js'),
       '@theme-original/Footer': path.join(theme1Path, 'Footer/index.js'),
       '@theme/Navbar': path.join(theme2Path, 'Navbar.js'),
