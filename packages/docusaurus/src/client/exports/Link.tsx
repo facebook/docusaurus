@@ -85,8 +85,9 @@ function Link({isNavLink, ...props}: Props) {
   return !targetLink || !isInternal || targetLink.startsWith('#') ? (
     // eslint-disable-next-line jsx-a11y/anchor-has-content
     <a
-      {...(isInternal ? props : {target: '_blank', ...props})}
       href={targetLink}
+      {...(!isInternal && {target: '_blank', rel: 'noopener noreferrer'})}
+      {...props}
     />
   ) : (
     <LinkComponent
