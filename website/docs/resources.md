@@ -9,6 +9,10 @@ A curated list of interesting Docusaurus community projects.
 
 - [F8 2019: Using Docusaurus to Create Open Source Websites](https://www.youtube.com/watch?v=QcGJsf6mgZE)
 
+## Articles
+
+- [Live code editing in Docusaurus](https://dev.to/mrmuhammadali/live-code-editing-in-docusaurus-28k)
+
 ## Showcase
 
 See the <a href={require('@docusaurus/useBaseUrl').default('showcase')}>showcase</a>.
