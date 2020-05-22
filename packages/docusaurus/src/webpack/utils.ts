@@ -100,7 +100,7 @@ export function getBabelLoader(isServer: boolean, babelOptions?: {}): Loader {
         presets: [
           isServer
             ? [
-                '@babel/env',
+                require.resolve('@babel/preset-env'),
                 {
                   targets: {
                     node: 'current',
@@ -108,7 +108,7 @@ export function getBabelLoader(isServer: boolean, babelOptions?: {}): Loader {
                 },
               ]
             : [
-                '@babel/env',
+                require.resolve('@babel/preset-env'),
                 {
                   useBuiltIns: 'usage',
                   loose: true,
@@ -119,14 +119,14 @@ export function getBabelLoader(isServer: boolean, babelOptions?: {}): Loader {
                   exclude: ['transform-typeof-symbol'],
                 },
               ],
-          '@babel/react',
-          '@babel/preset-typescript',
+          require.resolve('@babel/preset-react'),
+          require.resolve('@babel/preset-typescript'),
         ],
         plugins: [
           // Polyfills the runtime needed for async/await, generators, and friends
           // https://babeljs.io/docs/en/babel-plugin-transform-runtime
           [
-            '@babel/plugin-transform-runtime',
+            require.resolve('@babel/plugin-transform-runtime'),
             {
               corejs: false,
               helpers: true,
@@ -143,7 +143,9 @@ export function getBabelLoader(isServer: boolean, babelOptions?: {}): Loader {
             },
           ],
           // Adds syntax support for import()
-          isServer ? 'dynamic-import-node' : '@babel/syntax-dynamic-import',
+          isServer
+            ? require.resolve('babel-plugin-dynamic-import-node')
+            : require.resolve('@babel/plugin-syntax-dynamic-import'),
         ],
       },
       babelOptions,
