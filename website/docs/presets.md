@@ -40,8 +40,11 @@ Presets in some way are a shorthand function to add plugins and themes to your d
 ```js
 module.exports = function preset(context, opts = {}) {
   return {
-    themes: ['@docusaurus/themes-cool', '@docusaurus/themes-bootstrap'],
-    plugins: ['@docusaurus/plugin-blog'],
+    themes: [
+      require.resolve('@docusaurus/themes-cool'),
+      require.resolve('@docusaurus/themes-bootstrap'),
+    ],
+    plugins: [require.resolve('@docusaurus/plugin-blog')],
   };
 };
 ```
