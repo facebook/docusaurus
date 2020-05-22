@@ -102,7 +102,7 @@ export default function pluginContentBlog(
       const modules = [];
 
       if (options.admonitions) {
-        modules.push('remark-admonitions/styles/infima.css');
+        modules.push(require.resolve('remark-admonitions/styles/infima.css'));
       }
 
       return modules;
