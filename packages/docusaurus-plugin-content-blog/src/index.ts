@@ -396,7 +396,7 @@ export default function pluginContentBlog(
                 getCacheLoader(isServer),
                 getBabelLoader(isServer),
                 {
-                  loader: '@docusaurus/mdx-loader',
+                  loader: require.resolve('@docusaurus/mdx-loader'),
                   options: {
                     remarkPlugins,
                     rehypePlugins,
