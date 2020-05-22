@@ -28,10 +28,8 @@ To serve as an example page when styling markdown based Docusaurus sites.
 
 ## Emphasis
 
-<!-- prettier-ignore -->
 Emphasis, aka italics, with *asterisks* or _underscores_.
 
-<!-- prettier-ignore -->
 Strong emphasis, aka bold, with **asterisks** or __underscores__.
 
 Combined emphasis with **asterisks and _underscores_**.
@@ -49,13 +47,10 @@ Strikethrough uses two tildes. ~~Scratch this.~~
    1. Ordered sub-list
 1. And another item.
 
-<!-- prettier-ignore -->
 * Unordered list can use asterisks
 
-<!-- prettier-ignore -->
 - Or minuses
 
-<!-- prettier-ignore -->
 + Or pluses
 
 ---
