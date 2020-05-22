@@ -6,7 +6,15 @@
  */
 
 const path = require('path');
-const ContextReplacementPlugin = require('webpack/lib/ContextReplacementPlugin');
+const Module = require('module');
+
+const createRequire = Module.createRequire || Module.createRequireFromPath;
+const requireFromDocusaurusCore = createRequire(
+  require.resolve('@docusaurus/core/package.json'),
+);
+const ContextReplacementPlugin = requireFromDocusaurusCore(
+  'webpack/lib/ContextReplacementPlugin',
+);
 
 // Need to be inlined to prevent dark mode FOUC
 // Make sure that the 'storageKey' is the same as the one in `/theme/hooks/useTheme.js`
