@@ -1,0 +1,26 @@
+{
+  "name": "@docusaurus/plugin-client-redirects",
+  "version": "2.0.0-alpha.55",
+  "description": "Client redirects plugin for Docusaurus",
+  "main": "lib/index.js",
+  "scripts": {
+    "tsc": "tsc"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@docusaurus/types": "^2.0.0-alpha.55",
+    "@docusaurus/utils": "^2.0.0-alpha.55",
+    "globby": "^10.0.1"
+  },
+  "peerDependencies": {
+    "@docusaurus/core": "^2.0.0",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4"
+  },
+  "engines": {
+    "node": ">=10.9.0"
+  }
+}

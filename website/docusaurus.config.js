@@ -21,6 +21,7 @@ module.exports = {
   },
   themes: ['@docusaurus/theme-live-codeblock'],
   plugins: [
+    ['@docusaurus/plugin-client-redirects', {}],
     [
       '@docusaurus/plugin-ideal-image',
       {

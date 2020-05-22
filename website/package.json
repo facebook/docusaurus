@@ -11,6 +11,7 @@
   "dependencies": {
     "@docusaurus/core": "^2.0.0-alpha.55",
     "@docusaurus/plugin-ideal-image": "^2.0.0-alpha.55",
+    "@docusaurus/plugin-client-redirects": "^2.0.0-alpha.55",
     "@docusaurus/preset-classic": "^2.0.0-alpha.55",
     "classnames": "^2.2.6",
     "color": "^3.1.2",
