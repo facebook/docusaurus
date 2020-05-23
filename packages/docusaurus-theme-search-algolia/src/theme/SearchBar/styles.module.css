@@ -9,6 +9,13 @@
   display: none;
 }
 
+@media (min-width: 769px) and (max-width: 996px) {
+  :global(.navbar__search),
+  :global(.navbar__search-input) {
+    width: 100%;
+  }
+}
+
 @media (max-width: 768px) {
   .searchIconButton {
     display: block;
@@ -53,10 +60,10 @@
   .searchInputExpanded {
     width: 100%;
   }
+}
 
-  :global(.algolia-autocomplete) {
-    width: 100%;
-    display: flex !important;
-    justify-content: flex-end;
-  }
+:global(.algolia-autocomplete) {
+  width: 100%;
+  display: flex !important;
+  justify-content: flex-end;
 }

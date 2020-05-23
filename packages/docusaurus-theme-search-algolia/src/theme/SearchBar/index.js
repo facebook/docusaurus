@@ -35,6 +35,7 @@ const Search = ({handleSearchBarToggle, isSearchBarExpanded}) => {
         openOnFocus: true,
         autoselect: false,
         hint: false,
+        tabAutocomplete: false,
       },
       // Override algolia's default selection event, allowing us to do client-side
       // navigation and avoiding a full page refresh.
