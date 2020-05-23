@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@docusaurus/core": "^2.0.0-alpha.55",
+    "@docusaurus/theme-live-codeblock": "^2.0.0-alpha.55",
     "@docusaurus/plugin-ideal-image": "^2.0.0-alpha.55",
     "@docusaurus/preset-classic": "^2.0.0-alpha.55",
     "classnames": "^2.2.6",

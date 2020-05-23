@@ -18,7 +18,9 @@
     "@docusaurus/theme-search-algolia": "^2.0.0-alpha.55"
   },
   "peerDependencies": {
-    "@docusaurus/core": "^2.0.0"
+    "@docusaurus/core": "^2.0.0",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4"
   },
   "engines": {
     "node": ">=10.9.0"
