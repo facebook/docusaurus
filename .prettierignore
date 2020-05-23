@@ -5,6 +5,7 @@ build
 packages/docusaurus-utils/lib/
 packages/docusaurus/lib/
 packages/docusaurus-init/lib/
+packages/docusaurus-init/templates/**/*.md
 packages/docusaurus-plugin-content-blog/lib/
 packages/docusaurus-plugin-content-docs/lib/
 packages/docusaurus-plugin-content-pages/lib/
