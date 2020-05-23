@@ -3,7 +3,7 @@ id: contributing
 title: Contributing
 ---
 
-[Docusaurus 2](https://v2.docusaurus.io) is currently under alpha development. We have [early adopters who already started using it](/showcase). We are now welcoming contributors to collaborate on the next Docusaurus.
+[Docusaurus 2](https://v2.docusaurus.io/) is currently under alpha development. We have [early adopters who already started using it](/showcase). We are now welcoming contributors to collaborate on the next Docusaurus.
 
 The [Open Source Guides](https://opensource.guide/) website has a collection of resources for individuals, communities, and companies who want to learn how to run and contribute to an open source project. Contributors and people new to open source alike will find the following guides especially useful:
 
@@ -48,7 +48,7 @@ We use [GitHub Issues](https://github.com/facebook/docusaurus/issues) for our pu
 
 If you have questions about using Docusaurus, contact the Docusaurus Twitter account at [@docusaurus](https://twitter.com/docusaurus), and we will do our best to answer your questions.
 
-You can also file issues as [feature requests or enhancements](https://github.com/facebook/docusaurus/labels/feature). If you see anything you'd like to be implemented, create an issue with [feature template](https://raw.githubusercontent.com/facebook/docusaurus/master/.github/ISSUE_TEMPLATE/feature.md)
+You can also file issues as [feature requests or enhancements](https://github.com/facebook/docusaurus/labels/feature). If you see anything you'd like to be implemented, create an issue with [feature template](https://raw.githubusercontent.com/facebook/docusaurus/master/.github/ISSUE_TEMPLATE/feature.md/)
 
 ### Reporting security bugs
 
@@ -97,7 +97,7 @@ Use lower case not title case!
 
 #### Style guide
 
-[Prettier](https://prettier.io) will catch most styling issues that may exist in your code. You can check the status of your code styling by simply running `npm run prettier`.
+[Prettier](https://prettier.io/) will catch most styling issues that may exist in your code. You can check the status of your code styling by simply running `npm run prettier`.
 
 However, there are still some styles that Prettier cannot pick up.
 
@@ -124,7 +124,7 @@ We have a list of [beginner friendly issues](https://github.com/facebook/docusau
 
 ### Proposing a change
 
-If you would like to request a new feature or enhancement but are not yet thinking about opening a pull request, you can also file an issue with [feature template](https://github.com/facebook/docusaurus/issues/new?template=feature.md).
+If you would like to request a new feature or enhancement but are not yet thinking about opening a pull request, you can also file an issue with [feature template](https://github.com/facebook/docusaurus/issues/new?template=feature.md/).
 
 If you intend to change the public API (e.g., something in `docusaurus.config.js`), or make any non-trivial changes to the implementation, we recommend filing an issue with [proposal template](https://github.com/facebook/docusaurus/issues/new?template=proposal.md) and including `[Proposal]` in the title. This lets us reach an agreement on your proposal before you put significant effort into it. These types of issues should be rare.
 
@@ -138,7 +138,7 @@ Please make sure the following is done when submitting a pull request:
 
 1. Fork [the repository](https://github.com/facebook/docusaurus) and create your branch from `master`.
 1. Add the copyright notice to the top of any code new files you've added.
-1. Describe your [test plan](#test-plan) in your pull request description. Make sure to [test your changes](https://github.com/facebook/docusaurus/blob/master/admin/testing-changes-on-Docusaurus-itself.md)!
+1. Describe your [test plan](#test-plan) in your pull request description. Make sure to [test your changes](https://github.com/facebook/docusaurus/blob/master/admin/testing-changes-on-Docusaurus-itself.md/)!
 1. Make sure your code lints (`yarn prettier && yarn lint`).
 1. Make sure your Jest tests pass (`yarn test`).
 1. If you haven't already, [sign the CLA](https://code.facebook.com/cla).
