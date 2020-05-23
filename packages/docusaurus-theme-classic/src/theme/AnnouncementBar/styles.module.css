@@ -13,8 +13,6 @@
   position: relative;
   width: 100%;
   height: var(--docusaurus-announcement-bar-height);
-  display: flex;
-  align-items: center;
   background-color: var(--ifm-color-primary);
   color: var(--ifm-color-black);
 }
