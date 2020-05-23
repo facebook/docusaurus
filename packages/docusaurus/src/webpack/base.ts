@@ -8,6 +8,7 @@
 import fs from 'fs-extra';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
+import PnpWebpackPlugin from 'pnp-webpack-plugin';
 import path from 'path';
 import TerserPlugin from 'terser-webpack-plugin';
 import {Configuration, Loader} from 'webpack';
@@ -74,6 +75,10 @@ export function createBaseConfig(
         'node_modules',
         path.resolve(fs.realpathSync(process.cwd()), 'node_modules'),
       ],
+      plugins: [PnpWebpackPlugin],
+    },
+    resolveLoader: {
+      plugins: [PnpWebpackPlugin.moduleLoader(module)],
     },
     optimization: {
       removeAvailableModules: false,
