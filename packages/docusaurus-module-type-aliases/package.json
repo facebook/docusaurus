@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/module-type-aliases",
-  "version": "2.0.0-alpha.50",
+  "version": "2.0.0-alpha.55",
   "description": "Docusaurus module type aliases",
   "types": "./src/index.d.ts",
   "publishConfig": {

@@ -91,7 +91,7 @@ module.exports = function(context, options) {
     name: 'my-docusaurus-plugin',
     async loadContent() { ... },
     async contentLoaded({content, actions}) { ... },
-    /* other lifecycle api */
+    /* other lifecycle API */
   };
 };
 ```
@@ -116,7 +116,7 @@ interface LoadContext {
 
 #### Return value
 
-The returned object value should implement the [lifecycle APIs](./lifecycle-apis.md).
+The returned object value should implement the [lifecycle APIs](lifecycle-apis.md).
 
 ## Official plugins
 
@@ -145,36 +145,42 @@ module.exports = {
       '@docusaurus/plugin-content-blog',
       {
         /**
-         * Path to data on filesystem
-         * relative to site dir
+         * Path to data on filesystem relative to site dir.
          */
         path: 'blog',
         /**
-         * URL for editing a blog post, example: 'https://github.com/facebook/docusaurus/edit/master/website/blog/'
+         * URL for editing a blog post.
+         * Example: 'https://github.com/facebook/docusaurus/edit/master/website/blog/'
          */
         editUrl:
           'https://github.com/facebook/docusaurus/edit/master/website/blog/',
         /**
-         * URL route for the blog section of your site
-         * do not include trailing slash
+         * URL route for the blog section of your site.
+         * *DO NOT* include a trailing slash.
          */
         routeBasePath: 'blog',
         include: ['*.md', '*.mdx'],
         postsPerPage: 10,
         /**
-         * Theme components used by the blog pages
+         * Theme components used by the blog pages.
          */
         blogListComponent: '@theme/BlogListPage',
         blogPostComponent: '@theme/BlogPostPage',
         blogTagsListComponent: '@theme/BlogTagsListPage',
         blogTagsPostsComponent: '@theme/BlogTagsPostsPage',
         /**
-         * Remark and Rehype plugins passed to MDX
+         * Remark and Rehype plugins passed to MDX.
          */
         remarkPlugins: [
           /* require('remark-math') */
         ],
         rehypePlugins: [],
+        /**
+         * Custom Remark and Rehype plugins passed to MDX before
+         * the default Docusaurus Remark and Rehype plugins.
+         */
+        beforeDefaultRemarkPlugins: [],
+        beforeDefaultRehypePlugins: [],
         /**
          * Truncate marker, can be a regex or string.
          */
@@ -184,8 +190,8 @@ module.exports = {
          */
         showReadingTime: true,
         /**
-         * Blog feed
-         * If feedOptions is undefined, no rss feed will be generated
+         * Blog feed.
+         * If feedOptions is undefined, no rss feed will be generated.
          */
         feedOptions: {
           type: '', // required. 'rss' | 'feed' | 'all'
@@ -223,19 +229,20 @@ module.exports = {
       '@docusaurus/plugin-content-docs',
       {
         /**
-         * Path to data on filesystem
-         * relative to site dir
+         * Path to data on filesystem relative to site dir.
          */
         path: 'docs',
         /**
-         * URL for editing website repo, example: 'https://github.com/facebook/docusaurus/edit/master/website/'
+         * URL for editing a doc in the website repo.
+         * Example: 'https://github.com/facebook/docusaurus/edit/master/website/'
          */
         editUrl: 'https://github.com/facebook/docusaurus/edit/master/website/',
         /**
-         * URL route for the blog section of your site
-         * do not include trailing slash
+         * URL route for the blog section of your site.
+         * *DO NOT* include a trailing slash.
          */
         routeBasePath: 'docs',
+        homePageId: '_index', // Document id for docs home page.
         include: ['**/*.md', '**/*.mdx'], // Extensions to include.
         /**
          * Path to sidebar configuration for showing a list of markdown pages.
@@ -254,6 +261,12 @@ module.exports = {
           /* require('remark-math') */
         ],
         rehypePlugins: [],
+        /**
+         * Custom Remark and Rehype plugins passed to MDX before
+         * the default Docusaurus Remark and Rehype plugins.
+         */
+        beforeDefaultRemarkPlugins: [],
+        beforeDefaultRehypePlugins: [],
         /**
          * Whether to display the author who last updated the doc.
          */
@@ -427,7 +440,7 @@ This plugin supports the PNG, GIF and JPG formats only.
 import Image from '@theme/IdealImage';
 import thumbnail from './path/to/img.png';
 
-// your react code
+// your React code
 <Image img={thumbnail} />
 
 // or

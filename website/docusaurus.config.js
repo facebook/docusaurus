@@ -36,6 +36,7 @@ module.exports = {
       '@docusaurus/preset-classic',
       {
         docs: {
+          homePageId: 'introduction',
           path: 'docs',
           sidebarPath: require.resolve('./sidebars.js'),
           editUrl:
@@ -98,15 +99,16 @@ module.exports = {
           items: [
             {
               label: versions[0],
-              to: 'docs/introduction',
+              to: 'docs/',
+              exact: true,
             },
             ...versions.slice(1).map((version) => ({
               label: version,
-              to: `docs/${version}/introduction`,
+              to: `docs/${version}/`,
             })),
             {
               label: 'Master/Unreleased',
-              to: 'docs/next/introduction',
+              to: 'docs/next/',
             },
           ],
         },
@@ -120,8 +122,9 @@ module.exports = {
         },
         {
           href: 'https://github.com/facebook/docusaurus',
-          label: 'GitHub',
           position: 'right',
+          className: 'header-github-link',
+          'aria-label': 'GitHub repository',
         },
       ],
     },

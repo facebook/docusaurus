@@ -27,10 +27,12 @@ module.exports = async function (fileString) {
   const options = {
     ...reqOptions,
     remarkPlugins: [
+      ...(reqOptions.beforeDefaultRemarkPlugins || []),
       ...DEFAULT_OPTIONS.remarkPlugins,
       ...(reqOptions.remarkPlugins || []),
     ],
     rehypePlugins: [
+      ...(reqOptions.beforeDefaultRehypePlugins || []),
       ...DEFAULT_OPTIONS.rehypePlugins,
       ...(reqOptions.rehypePlugins || []),
     ],

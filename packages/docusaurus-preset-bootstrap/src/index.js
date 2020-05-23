@@ -7,10 +7,11 @@
 
 module.exports = function preset(context, opts = {}) {
   return {
-    themes: [['@docusaurus/theme-bootstrap', opts.theme]],
+    themes: [[require.resolve('@docusaurus/theme-bootstrap'), opts.theme]],
     plugins: [
-      ['@docusaurus/plugin-content-pages', opts.pages],
-      ['@docusaurus/plugin-content-blog', opts.blog],
+      [require.resolve('@docusaurus/plugin-content-pages'), opts.pages],
+      [require.resolve('@docusaurus/plugin-content-blog'), opts.blog],
+      [require.resolve('@docusaurus/plugin-content-docs'), opts.docs],
     ],
   };
 };

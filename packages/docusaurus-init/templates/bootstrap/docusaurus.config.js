@@ -15,6 +15,13 @@ module.exports = {
       },
       links: [
         {
+          to: 'docs/',
+          activeBasePath: 'docs',
+          label: 'Docs',
+          position: 'left',
+        },
+        {to: 'blog', label: 'Blog', position: 'left'},
+        {
           href: 'https://github.com/facebook/docusaurus',
           label: 'GitHub',
           position: 'right',
@@ -46,7 +53,7 @@ module.exports = {
           items: [
             {
               label: 'Blog',
-              to: 'blog',
+              to: 'blog/',
             },
             {
               label: 'GitHub',
@@ -62,6 +69,13 @@ module.exports = {
     [
       '@docusaurus/preset-bootstrap',
       {
+        docs: {
+          // It is recommended to set document id as docs home page (`docs/` path).
+          homePageId: 'doc1',
+          sidebarPath: require.resolve('./sidebars.js'),
+          editUrl:
+            'https://github.com/facebook/docusaurus/edit/master/website/',
+        },
         blog: {
           showReadingTime: true,
           // Please change this to your repo.

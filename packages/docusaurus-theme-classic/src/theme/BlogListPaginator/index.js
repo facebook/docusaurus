@@ -17,18 +17,14 @@ function BlogListPaginator(props) {
       <div className="pagination-nav__item">
         {previousPage && (
           <Link className="pagination-nav__link" to={previousPage}>
-            <h4 className="pagination-nav__link--label">
-              &laquo; Newer Entries
-            </h4>
+            <h4 className="pagination-nav__label">&laquo; Newer Entries</h4>
           </Link>
         )}
       </div>
       <div className="pagination-nav__item pagination-nav__item--next">
         {nextPage && (
           <Link className="pagination-nav__link" to={nextPage}>
-            <h4 className="pagination-nav__link--label">
-              Older Entries &raquo;
-            </h4>
+            <h4 className="pagination-nav__label">Older Entries &raquo;</h4>
           </Link>
         )}
       </div>

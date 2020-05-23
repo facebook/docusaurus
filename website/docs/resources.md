@@ -9,6 +9,10 @@ A curated list of interesting Docusaurus community projects.
 
 - [F8 2019: Using Docusaurus to Create Open Source Websites](https://www.youtube.com/watch?v=QcGJsf6mgZE)
 
+## Articles
+
+- [Live code editing in Docusaurus](https://dev.to/mrmuhammadali/live-code-editing-in-docusaurus-28k)
+
 ## Showcase
 
 See the <a href={require('@docusaurus/useBaseUrl').default('showcase')}>showcase</a>.
@@ -30,6 +34,7 @@ See the <a href={require('@docusaurus/useBaseUrl').default('showcase')}>showcase
 - [docusaurus-search-local](https://github.com/cmfcmf/docusaurus-search-local) - Offline/local search for Docusaurus v2
 - [docusaurus-pdf](https://github.com/KohheePeace/docusaurus-pdf) - Generate documentation into PDF format
 - [docusaurus-plugin-sass](https://github.com/rlamana/docusaurus-plugin-sass) - Sass/SCSS stylesheets support
+- [docusaurus2-dotenv](https://github.com/jonnynabors/docusaurus2-dotenv) - A Docusaurus 2 plugin that supports dotenv and other environment variables
 
 ## Enterprise usage
 

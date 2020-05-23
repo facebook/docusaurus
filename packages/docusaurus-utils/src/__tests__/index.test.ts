@@ -17,6 +17,7 @@ import {
   posixPath,
   objectWithKeySorted,
   aliasedSitePath,
+  createExcerpt,
 } from '../index';
 
 describe('load utils', () => {
@@ -291,5 +292,61 @@ describe('load utils', () => {
     ).toThrowErrorMatchingInlineSnapshot(
       `"Url must be a string. Received undefined"`,
     );
+  });
+
+  test('createExcerpt', () => {
+    const asserts = [
+      // Regular content
+      {
+        input: `
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ex urna, molestie et sagittis ut, varius ac justo.
+
+          Nunc porttitor libero nec vulputate venenatis. Nam nec rhoncus mauris. Morbi tempus est et nibh maximus, tempus venenatis arcu lobortis.
+        `,
+        output:
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ex urna, molestie et sagittis ut, varius ac justo.',
+      },
+      // Content with imports declarations and Markdown markup, as well as Emoji
+      {
+        input: `
+          import Component from '@site/src/components/Component';
+          import Component from '@site/src/components/Component'
+
+          Lorem **ipsum** dolor sit \`amet\`, consectetur _adipiscing_ elit. [**Vestibulum**](https://wiktionary.org/wiki/vestibulum) ex urna, ~molestie~ et sagittis ut, varius ac justo :wink:.
+
+          Nunc porttitor libero nec vulputate venenatis. Nam nec rhoncus mauris. Morbi tempus est et nibh maximus, tempus venenatis arcu lobortis.
+        `,
+        output:
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ex urna, molestie et sagittis ut, varius ac justo.',
+      },
+      // Content beginning with admonitions
+      {
+        input: `
+          import Component from '@site/src/components/Component'
+
+          :::caution
+
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+          :::
+
+          Nunc porttitor libero nec vulputate venenatis. Nam nec rhoncus mauris. Morbi tempus est et nibh maximus, tempus venenatis arcu lobortis.
+        `,
+        output: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      },
+      // Content beginning with heading
+      {
+        input: `
+          ## Lorem ipsum dolor sit amet
+
+          Nunc porttitor libero nec vulputate venenatis. Nam nec rhoncus mauris. Morbi tempus est et nibh maximus, tempus venenatis arcu lobortis.
+        `,
+        output: 'Lorem ipsum dolor sit amet',
+      },
+    ];
+
+    asserts.forEach((testCase) => {
+      expect(createExcerpt(testCase.input)).toEqual(testCase.output);
+    });
   });
 });

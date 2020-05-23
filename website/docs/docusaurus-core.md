@@ -73,7 +73,7 @@ const Page = () => (
       Check out my <Link to="/blog">blog</Link>!
     </p>
     <p>
-      {/* Note that external links still use `a` tags. */}
+      {/* Note that external links still use `a` tags, but automatically opens in new tab. */}
       Follow me on <a href="https://twitter.com/docusaurus">Twitter</a>!
     </p>
   </div>
@@ -105,14 +105,15 @@ function Home() {
 
 ### `<BrowserOnly/>`
 
-The `<BrowserOnly>` component accepts a `children` prop, a render function which will not be executed during the pre-rendering phase of the build process. This is useful for hiding code that is only meant to run in the browsers (e.g. where the `window`/`document` objects are being accessed).
+The `<BrowserOnly>` component accepts a `children` prop, a render function which will not be executed during the pre-rendering phase of the build process. This is useful for hiding code that is only meant to run in the browsers (e.g. where the `window`/`document` objects are being accessed). To improve SEO, you can also provide fallback content using the `fallback` prop, which will be prerendered until in the build process and replaced with the client-side only contents when viewed in the browser.
 
 ```jsx
 import BrowserOnly from '@docusaurus/BrowserOnly';
 
 function MyComponent() {
   return (
-    <BrowserOnly>
+    <BrowserOnly
+      fallback={<div>The fallback content to display on prerendering</div>}>
       {() => {
         // Something that should be excluded during build process prerendering.
       }}
@@ -150,7 +151,7 @@ const Test = () => {
 
 ### `useBaseUrl`
 
-React hook to automatically append `baseUrl` to a string automatically. This is particularly useful if you don't want to hardcode your config's `baseUrl`. We highly recommend you to use this.
+React hook to automatically prepend `baseUrl` to a string automatically. This is particularly useful if you don't want to hardcode your config's `baseUrl`. We highly recommend you to use this.
 
 Example usage:
 
@@ -190,7 +191,7 @@ function MyPage() {
 
 | Field | Description |
 | --- | --- |
-| `ExecutionEnvironment.canUseDOM` | `true` if on client, `false` if SSR. |
+| `ExecutionEnvironment.canUseDOM` | `true` if on client, `false` if prerendering. |
 | `ExecutionEnvironment.canUseEventListeners` | `true` if on client and has `window.addEventListener`. |
 | `ExecutionEnvironment.canUseIntersectionObserver` | `true` if on client and has `IntersectionObserver`. |
 | `ExecutionEnvironment.canUseViewport` | `true` if on client and has `window.screen`. |
