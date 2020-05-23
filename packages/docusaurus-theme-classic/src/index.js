@@ -65,7 +65,7 @@ module.exports = function (context, options) {
 
     getClientModules() {
       const modules = [
-        'infima/dist/css/default/default.css',
+        require.resolve('infima/dist/css/default/default.css'),
         path.resolve(__dirname, './prism-include-languages'),
       ];
 

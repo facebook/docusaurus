@@ -142,7 +142,7 @@ export default function pluginContentDocs(
       const modules = [];
 
       if (options.admonitions) {
-        modules.push('remark-admonitions/styles/infima.css');
+        modules.push(require.resolve('remark-admonitions/styles/infima.css'));
       }
 
       return modules;
@@ -522,7 +522,7 @@ export default function pluginContentDocs(
                 getCacheLoader(isServer),
                 getBabelLoader(isServer),
                 {
-                  loader: '@docusaurus/mdx-loader',
+                  loader: require.resolve('@docusaurus/mdx-loader'),
                   options: {
                     remarkPlugins,
                     rehypePlugins,
