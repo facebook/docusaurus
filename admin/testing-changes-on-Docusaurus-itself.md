@@ -31,7 +31,7 @@ Use the following code in VSCode to enable breakpoints. Please ensure you have a
       "request": "launch",
       "cwd": "${workspaceFolder}/website",
       "program": "${workspaceFolder}/website/node_modules/@docusaurus/core/bin/docusaurus.js",
-      "args": ["start"]
+      "args": ["start"],
     }
   ]
 }
