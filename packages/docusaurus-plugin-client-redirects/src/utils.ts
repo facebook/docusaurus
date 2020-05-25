@@ -8,16 +8,16 @@
 import path from 'path';
 
 export function addTrailingSlash(str: string) {
-  return str.endsWith('/') ? '' : '/';
+  return str.endsWith('/') ? str : `${str}/`;
 }
 
 export function removeTrailingSlash(str: string) {
-  return str.endsWith('/') ? str.substr(0, str.length - 2) : str;
+  return str.endsWith('/') ? str.slice(0, -1) : str;
 }
 
 // TODO does this function already exist?
 export function getFilePathForRoutePath(routePath: string) {
   const fileName = path.basename(routePath);
   const filePath = path.dirname(routePath);
-  return path.join(filePath, `${fileName}.html`);
+  return path.join(filePath, `${fileName}/index.html`);
 }
