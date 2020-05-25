@@ -38,7 +38,8 @@ const validateExtension = (ext: string) => {
 
 const addLeadingDot = (extension: string) => `.${extension}`;
 
-export function fromExtensionsRedirectCreator(
+// Create new /path that redirects to existing an /path.html
+export function toExtensionsRedirectCreator(
   extensions: string[],
 ): RedirectsCreator {
   extensions.forEach(validateExtension);
@@ -60,7 +61,8 @@ export function fromExtensionsRedirectCreator(
   };
 }
 
-export function toExtensionsRedirectCreator(
+// Create new /path.html that redirects to existing an /path
+export function fromExtensionsRedirectCreator(
   extensions: string[],
 ): RedirectsCreator {
   extensions.forEach(validateExtension);

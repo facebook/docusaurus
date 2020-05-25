@@ -31,6 +31,8 @@ function filterUnwantedRedirects(
   redirects: RedirectMetadata[],
   pluginContext: PluginContext,
 ): RedirectMetadata[] {
+  // TODO how should we warn the user of filtered redirects?
+
   // we don't want to create twice the same redirect
   redirects = uniqBy(redirects, (redirect) => redirect.fromRoutePath);
 

@@ -23,7 +23,7 @@ export default function pluginClientRedirectsPages(
     async postBuild(props: Props) {
       const pluginContext: PluginContext = {
         routesPaths: props.routesPaths,
-        siteConfig: props.siteConfig,
+        baseUrl: props.baseUrl,
         outDir: props.outDir,
         options,
       };

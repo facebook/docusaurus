@@ -15,24 +15,24 @@ export type PluginOptions = {
 
 export type UserPluginOptions = Partial<PluginOptions>;
 
+// The minimal infos the plugin needs to work
+export type PluginContext = Pick<
+  Props,
+  'routesPaths' | 'outDir' | 'baseUrl'
+> & {
+  options: PluginOptions;
+};
+
 // For a given existing route path,
 // return all the paths from which we should redirect from
 export type RedirectsCreator = (
   routePath: string,
 ) => string[] | null | undefined;
 
-// Having an in-memory representation of wanted redirects is easier to test
+// In-memory representation of redirects we want: easier to test
+// /!\ easy to be confused: "fromRoutePath" is the new page we should create,
+// that redirects to "toRoutePath" the existing Docusaurus page
 export type RedirectMetadata = {
   fromRoutePath: string;
   toRoutePath: string;
-  toUrl: string;
-  redirectPageContent: string;
-  redirectAbsoluteFilePath: string;
-};
-
-export type PluginContext = Pick<
-  Props,
-  'routesPaths' | 'siteConfig' | 'outDir'
-> & {
-  options: PluginOptions;
 };

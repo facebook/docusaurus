@@ -44,11 +44,11 @@ const createExtensionValidationTests = (
   });
 };
 
-describe('fromExtensionsRedirectCreator', () => {
-  createExtensionValidationTests(fromExtensionsRedirectCreator);
+describe('toExtensionsRedirectCreator', () => {
+  createExtensionValidationTests(toExtensionsRedirectCreator);
 
   test('should create redirects from html/htm extensions', () => {
-    const redirectCreator = fromExtensionsRedirectCreator(['html', 'htm']);
+    const redirectCreator = toExtensionsRedirectCreator(['html', 'htm']);
     expect(redirectCreator('')).toEqual([]);
     expect(redirectCreator('/')).toEqual([]);
     expect(redirectCreator('/abc.html')).toEqual(['/abc']);
@@ -57,18 +57,18 @@ describe('fromExtensionsRedirectCreator', () => {
   });
 
   test('should not create redirection for an empty extension array', () => {
-    const redirectCreator = fromExtensionsRedirectCreator([]);
+    const redirectCreator = toExtensionsRedirectCreator([]);
     expect(redirectCreator('')).toEqual([]);
     expect(redirectCreator('/')).toEqual([]);
     expect(redirectCreator('/abc.html')).toEqual([]);
   });
 });
 
-describe('toExtensionsRedirectCreator', () => {
-  createExtensionValidationTests(toExtensionsRedirectCreator);
+describe('fromExtensionsRedirectCreator', () => {
+  createExtensionValidationTests(fromExtensionsRedirectCreator);
 
   test('should create redirects to html/htm extensions', () => {
-    const redirectCreator = toExtensionsRedirectCreator(['html', 'htm']);
+    const redirectCreator = fromExtensionsRedirectCreator(['html', 'htm']);
     expect(redirectCreator('')).toEqual([]);
     expect(redirectCreator('/')).toEqual([]);
     expect(redirectCreator('/abc')).toEqual(['/abc.html', '/abc.htm']);
@@ -77,7 +77,7 @@ describe('toExtensionsRedirectCreator', () => {
   });
 
   test('should not create redirection for an empty extension array', () => {
-    const redirectCreator = toExtensionsRedirectCreator([]);
+    const redirectCreator = fromExtensionsRedirectCreator([]);
     expect(redirectCreator('')).toEqual([]);
     expect(redirectCreator('/')).toEqual([]);
     expect(redirectCreator('/abc')).toEqual([]);
