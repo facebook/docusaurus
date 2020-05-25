@@ -11,18 +11,14 @@ import {flatten} from 'lodash';
 
 import {LoadContext, Plugin, Props} from '@docusaurus/types';
 
-import {PluginOptions, RedirectsCreator} from './types';
+import {PluginOptions, UserPluginOptions, RedirectsCreator} from './types';
 import createRedirectPageContent from './createRedirectPageContent';
+import normalizePluginOptions from './normalizePluginOptions';
 import {addTrailingSlash, getFilePathForRoutePath} from './utils';
 import {
   fromExtensionsRedirectCreator,
   toExtensionsRedirectCreator,
 } from './redirectCreators';
-
-const DEFAULT_OPTIONS: PluginOptions = {
-  fromExtensions: [],
-  toExtensions: [],
-};
 
 type RedirectMetadata = {
   fromRoutePath: string;
@@ -40,9 +36,9 @@ type PluginContext = {
 
 export default function pluginClientRedirectsPages(
   _context: LoadContext,
-  opts: Partial<PluginOptions>,
+  opts: UserPluginOptions,
 ): Plugin<unknown> {
-  const options = {...DEFAULT_OPTIONS, ...opts};
+  const options = normalizePluginOptions(opts);
   return {
     name: 'docusaurus-plugin-client-redirects',
     async postBuild(props: Props) {
@@ -51,6 +47,7 @@ export default function pluginClientRedirectsPages(
       );
 
       const pluginContext: PluginContext = {props, options, redirectsCreators};
+
       // Process in 2 steps, to make code more easy to test
       const redirects: RedirectMetadata[] = collectRoutePathRedirects(
         pluginContext,

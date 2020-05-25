@@ -11,6 +11,8 @@ export type PluginOptions = {
   createRedirects?: RedirectsCreator;
 };
 
+export type UserPluginOptions = Partial<PluginOptions>;
+
 // For a given existing route path,
 // return all the paths from which we should redirect from
 export type RedirectsCreator = (
