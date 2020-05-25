@@ -6,20 +6,53 @@
  */
 
 import {RedirectsCreator} from './types';
-import {removeTrailingSlash} from './utils';
+import {removeSuffix} from './utils';
+
+const ExtensionAdditionalMessage =
+  "If the redirect extension system is not good enough for your usecase, you can create redirects yourself with the 'createRedirects' plugin option.";
+
+const validateExtension = (ext: string) => {
+  if (!ext) {
+    throw new Error(
+      `Extension=['${String(
+        ext,
+      )}'] is not allowed. ${ExtensionAdditionalMessage}`,
+    );
+  }
+  if (ext.includes('.')) {
+    throw new Error(
+      `Extension=['${ext}'] contains a . (dot) and is not allowed. ${ExtensionAdditionalMessage}`,
+    );
+  }
+  if (ext.includes('/')) {
+    throw new Error(
+      `Extension=['${ext}'] contains a / and is not allowed. ${ExtensionAdditionalMessage}`,
+    );
+  }
+  if (encodeURIComponent(ext) !== ext) {
+    throw new Error(
+      `Extension=['${ext}'] contains invalid uri characters. ${ExtensionAdditionalMessage}`,
+    );
+  }
+};
+
+const addLeadingDot = (extension: string) => `.${extension}`;
 
 export function fromExtensionsRedirectCreator(
   extensions: string[],
 ): RedirectsCreator {
-  const dottedExtensions = extensions.map((ext) => `.${ext}`);
+  extensions.forEach(validateExtension);
+
+  const dottedExtensions = extensions.map(addLeadingDot);
+
   return (fromRoutePath: string) => {
-    const extensionMatch = dottedExtensions.find((ext) =>
-      fromRoutePath.endsWith(`.${ext}`),
+    const extensionFound = dottedExtensions.find((ext) =>
+      fromRoutePath.endsWith(ext),
     );
-    if (extensionMatch) {
-      const routePathWithoutExtension = fromRoutePath.substr(
-        0,
-        fromRoutePath.length - extensionMatch.length - 1,
+    if (extensionFound) {
+      const routePathWithoutExtension = removeSuffix(
+        fromRoutePath,
+        extensionFound,
       );
       return [routePathWithoutExtension];
     }
@@ -30,12 +63,22 @@ export function fromExtensionsRedirectCreator(
 export function toExtensionsRedirectCreator(
   extensions: string[],
 ): RedirectsCreator {
+  extensions.forEach(validateExtension);
+
+  const dottedExtensions = extensions.map(addLeadingDot);
+
+  const alreadyEndsWithAnExtension = (str: string) =>
+    dottedExtensions.some((ext) => str.endsWith(ext));
+
   return (fromRoutePath: string) => {
-    if (fromRoutePath === '/') {
+    if (
+      fromRoutePath === '' ||
+      fromRoutePath.endsWith('/') ||
+      alreadyEndsWithAnExtension(fromRoutePath)
+    ) {
       return [];
     } else {
-      const fromRoutePathNoSlash = removeTrailingSlash(fromRoutePath);
-      return extensions.map((ext) => `${fromRoutePathNoSlash}.${ext}`);
+      return extensions.map((ext) => `${fromRoutePath}.${ext}`);
     }
   };
 }

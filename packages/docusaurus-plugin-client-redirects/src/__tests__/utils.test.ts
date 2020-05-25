@@ -8,11 +8,12 @@
 import {
   addTrailingSlash,
   removeTrailingSlash,
+  removeSuffix,
   getFilePathForRoutePath,
 } from '../utils';
 
 describe('addTrailingSlash', () => {
-  test('should noop', () => {
+  test('should no-op', () => {
     expect(addTrailingSlash('/abcd/')).toEqual('/abcd/');
   });
   test('should add /', () => {
@@ -21,11 +22,26 @@ describe('addTrailingSlash', () => {
 });
 
 describe('removeTrailingSlash', () => {
-  test('should noop', () => {
+  test('should no-op', () => {
     expect(removeTrailingSlash('/abcd')).toEqual('/abcd');
   });
   test('should remove /', () => {
     expect(removeTrailingSlash('/abcd/')).toEqual('/abcd');
+  });
+});
+
+describe('removeSuffix', () => {
+  test('should no-op 1', () => {
+    expect(removeSuffix('abcdef', 'ijk')).toEqual('abcdef');
+  });
+  test('should no-op 2', () => {
+    expect(removeSuffix('abcdef', 'abc')).toEqual('abcdef');
+  });
+  test('should no-op 3', () => {
+    expect(removeSuffix('abcdef', '')).toEqual('abcdef');
+  });
+  test('should remove suffix', () => {
+    expect(removeSuffix('abcdef', 'ef')).toEqual('abcd');
   });
 });
 

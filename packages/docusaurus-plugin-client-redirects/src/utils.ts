@@ -12,7 +12,14 @@ export function addTrailingSlash(str: string) {
 }
 
 export function removeTrailingSlash(str: string) {
-  return str.endsWith('/') ? str.slice(0, -1) : str;
+  return removeSuffix(str, '/');
+}
+
+export function removeSuffix(str: string, suffix: string) {
+  if (suffix === '') {
+    return str; // always returns "" otherwise!
+  }
+  return str.endsWith(suffix) ? str.slice(0, -suffix.length) : str;
 }
 
 // TODO does this function already exist?
