@@ -175,27 +175,7 @@ function Help() {
 
 ### `useHistory`
 
-Access History from docusourus/router. Avoids a full page refresh by overriding algolia's default selection event, which allows client-side navigation.
-
-Example usage:
-
-```jsx {2,13}
-import React, {useState, useRef, useCallback} from 'react';
-import {useHistory} from '@docusaurus/router';
-
-  function initAlgolia(focus) {
-    window.docsearch({
-      handleSelected: (_input, _event, suggestion) => {
-        const a = document.createElement('a');
-        a.href = suggestion.url;
-        const routePath =
-          `#__docusaurus` === a.hash
-            ? `${a.pathname}`
-            : `${a.pathname}${a.hash}`;
-        history.push(routePath);
-      },
-    });
-```
+Access history from docusourus/router. Avoids a full page refresh by overriding algolia's default selection event, which allows client-side navigation. Implemented using React Router.
 
 ## Modules
 
