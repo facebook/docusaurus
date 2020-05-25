@@ -31,7 +31,7 @@ export default function pluginClientRedirectsPages(
       const redirects: RedirectMetadata[] = collectRedirects(pluginContext);
 
       // Write files only at the end: make code more easy to test without IO
-      await writeRedirectFiles(redirects);
+      await writeRedirectFiles(redirects, pluginContext);
     },
   };
 }

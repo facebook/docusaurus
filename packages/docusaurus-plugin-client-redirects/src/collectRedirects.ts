@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import path from 'path';
 import {flatten, uniqBy} from 'lodash';
 import {
   RedirectsCreator,
@@ -13,8 +12,6 @@ import {
   RedirectMetadata,
   PluginOptions,
 } from './types';
-import createRedirectPageContent from './createRedirectPageContent';
-import {addTrailingSlash, getFilePathForRoutePath} from './utils';
 import {
   fromExtensionsRedirectCreator,
   toExtensionsRedirectCreator,
