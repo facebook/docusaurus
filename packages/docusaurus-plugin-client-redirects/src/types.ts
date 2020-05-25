@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import {Props} from '@docusaurus/types';
+
 export type PluginOptions = {
   fromExtensions: string[];
   toExtensions: string[];
@@ -18,3 +20,19 @@ export type UserPluginOptions = Partial<PluginOptions>;
 export type RedirectsCreator = (
   routePath: string,
 ) => string[] | null | undefined;
+
+// Having an in-memory representation of wanted redirects is easier to test
+export type RedirectMetadata = {
+  fromRoutePath: string;
+  toRoutePath: string;
+  toUrl: string;
+  redirectPageContent: string;
+  redirectAbsoluteFilePath: string;
+};
+
+export type PluginContext = Pick<
+  Props,
+  'routesPaths' | 'siteConfig' | 'outDir'
+> & {
+  options: PluginOptions;
+};
