@@ -6,7 +6,7 @@
  */
 
 import path from 'path';
-import {flatten} from 'lodash';
+import {flatten, uniqBy} from 'lodash';
 import {
   RedirectsCreator,
   PluginContext,
@@ -23,6 +23,26 @@ import {
 export default function collectRedirects(
   pluginContext: PluginContext,
 ): RedirectMetadata[] {
+  const redirects = doCollectRedirects(pluginContext);
+  return filterUnwantedRedirects(redirects, pluginContext);
+}
+
+function filterUnwantedRedirects(
+  redirects: RedirectMetadata[],
+  pluginContext: PluginContext,
+): RedirectMetadata[] {
+  // we don't want to create twice the same redirect
+  redirects = uniqBy(redirects, (redirect) => redirect.fromRoutePath);
+
+  // We don't want to override an existing route
+  redirects = redirects.filter(
+    (redirect) => !pluginContext.routesPaths.includes(redirect.fromRoutePath),
+  );
+
+  return redirects;
+}
+
+function doCollectRedirects(pluginContext: PluginContext): RedirectMetadata[] {
   const redirectsCreators: RedirectsCreator[] = buildRedirectCreators(
     pluginContext.options,
   );
@@ -50,7 +70,7 @@ function createRoutesPathsRedirects(
 ): RedirectMetadata[] {
   return flatten(
     pluginContext.routesPaths.map((routePath) =>
-      createRoutePathRedirects(routePath, redirectCreator, pluginContext),
+      createRoutePathRedirects(routePath, redirectCreator),
     ),
   );
 }
@@ -59,20 +79,32 @@ function createRoutesPathsRedirects(
 function createRoutePathRedirects(
   routePath: string,
   redirectCreator: RedirectsCreator,
-  {siteConfig, outDir}: PluginContext,
 ): RedirectMetadata[] {
+  /*
   // TODO do we receive absolute urls???
   if (!path.isAbsolute(routePath)) {
     return [];
   }
 
+   */
+
+  /*
   // TODO addTrailingSlash ?
-  const toUrl = addTrailingSlash(`${siteConfig.url}${routePath}`);
+  const toUrl = addTrailingSlash(`${baseUrl}${routePath}`);
 
   const redirectPageContent = createRedirectPageContent({toUrl});
 
+   */
+
   const fromRoutePaths: string[] = redirectCreator(routePath) ?? [];
 
+  return fromRoutePaths.map((fromRoutePath) => {
+    return {
+      fromRoutePath,
+      toRoutePath: routePath,
+    };
+  });
+  /*
   return fromRoutePaths.map((fromRoutePath) => {
     const redirectAbsoluteFilePath = path.join(
       outDir,
@@ -86,4 +118,6 @@ function createRoutePathRedirects(
       redirectAbsoluteFilePath,
     };
   });
+
+   */
 }
