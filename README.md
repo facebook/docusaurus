@@ -32,6 +32,10 @@ Docusaurus is available as the [`docusaurus` package](https://www.npmjs.com/pack
 
 We have also released the [`docusaurus-init` package](https://www.npmjs.com/package/docusaurus-init) to make [getting started](https://docusaurus.io/docs/en/installation/) with Docusaurus even easier.
 
+## Demo
+
+[![Runme](https://runme.io/static/button.svg)](https://runme.io/run?app_id=0dd80306-47bb-4e80-95dc-dc95eb05d3fd)- Click on button to see quick-start demo
+
 ## Contributing
 
 We've released Docusaurus because it helps us better scale and supports the many OSS projects at Facebook. We hope that other organizations can benefit from the project. We are thankful for any contributions from the community.
