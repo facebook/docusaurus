@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const eta = require('eta');
-const redirectPageTemplate = require('./template/redirectPage.html.template');
+import * as eta from 'eta';
+import redirectPageTemplate from './templates/redirectPage.template.html';
 
 type CreateRedirectPageOptions = {
   toUrl: string;
