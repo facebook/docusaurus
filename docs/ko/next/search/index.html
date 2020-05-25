@@ -87,9 +87,10 @@
 <pre><code class="hljs css language-js"><span class="hljs-keyword">const</span> siteConfig = {
   ...
   algolia: {
-    <span class="hljs-attr">apiKey</span>: <span class="hljs-string">'API 키값'</span>,
-    <span class="hljs-attr">indexName</span>: <span class="hljs-string">'인덱스명'</span>,
-    <span class="hljs-attr">algoliaOptions</span>: {} <span class="hljs-comment">// Algolia에서 받은 옵션값이 있는 경우 사용</span>
+    <span class="hljs-attr">apiKey</span>: <span class="hljs-string">'my-api-key'</span>,
+    <span class="hljs-attr">indexName</span>: <span class="hljs-string">'my-index-name'</span>,
+    <span class="hljs-attr">appId</span>: <span class="hljs-string">'app-id'</span>, <span class="hljs-comment">// Optional, if you run the DocSearch crawler on your own</span>
+    <span class="hljs-attr">algoliaOptions</span>: {} <span class="hljs-comment">// Optional, if provided by Algolia</span>
   },
   ...
 };
