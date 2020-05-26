@@ -1,4 +1,4 @@
 FROM node:14.0.0
 WORKDIR /app
-RUN npx docusaurus-init
+RUN npx @docusaurus/init@next init website classic
 ENTRYPOINT cd website && npm start
