@@ -52,6 +52,7 @@ export default async function writeRedirectFiles(
 ) {
   async function writeFile(file: FileMetadata) {
     try {
+      await fs.ensureDir(path.dirname(file.fileAbsolutePath));
       await fs.writeFile(file.fileAbsolutePath, file.fileContent);
     } catch (err) {
       throw new Error(`Redirect file creation error: ${err}`);
