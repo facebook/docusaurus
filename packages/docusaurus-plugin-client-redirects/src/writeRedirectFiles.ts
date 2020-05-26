@@ -11,7 +11,11 @@ import {memoize} from 'lodash';
 
 import {PluginContext, RedirectMetadata} from './types';
 import createRedirectPageContent from './createRedirectPageContent';
-import {addTrailingSlash, getFilePathForRoutePath} from './utils';
+import {
+  addTrailingSlash,
+  getFilePathForRoutePath,
+  removeTrailingSlash,
+} from './utils';
 
 export type WriteFilesPluginContext = Pick<PluginContext, 'baseUrl' | 'outDir'>;
 
@@ -37,7 +41,9 @@ export function toRedirectFilesMetadata(
       getFilePathForRoutePath(redirect.fromRoutePath),
     );
     const toUrl = addTrailingSlash(
-      `${pluginContext.baseUrl}${redirect.toRoutePath}`,
+      `${removeTrailingSlash(pluginContext.baseUrl)}${path.join(
+        redirect.toRoutePath,
+      )}`,
     );
     const fileContent = createPageContentMemoized(toUrl);
     return {

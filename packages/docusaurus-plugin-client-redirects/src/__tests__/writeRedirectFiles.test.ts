@@ -37,6 +37,34 @@ describe('toRedirectFilesMetadata', () => {
       'fileContent',
     );
   });
+
+  test('should create appropriate metadatas for root baseUrl', async () => {
+    const pluginContext = {
+      outDir: '/tmp/someFixedOutDir',
+      baseUrl: '/',
+    };
+    const redirectFiles = toRedirectFilesMetadata(
+      [{fromRoutePath: '/abc.html', toRoutePath: '/abc'}],
+      pluginContext,
+    );
+    expect(redirectFiles.map((f) => f.fileContent)).toMatchSnapshot(
+      'fileContent baseUrl=/',
+    );
+  });
+
+  test('should create appropriate metadatas for empty baseUrl', async () => {
+    const pluginContext = {
+      outDir: '/tmp/someFixedOutDir',
+      baseUrl: '',
+    };
+    const redirectFiles = toRedirectFilesMetadata(
+      [{fromRoutePath: '/abc.html', toRoutePath: '/abc'}],
+      pluginContext,
+    );
+    expect(redirectFiles.map((f) => f.fileContent)).toMatchSnapshot(
+      'fileContent baseUrl=empty',
+    );
+  });
 });
 
 describe('writeRedirectFiles', () => {

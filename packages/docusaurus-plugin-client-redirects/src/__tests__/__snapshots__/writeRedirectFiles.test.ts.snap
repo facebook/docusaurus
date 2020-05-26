@@ -1,5 +1,50 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`toRedirectFilesMetadata should create appropriate metadatas for empty baseUrl: fileContent baseUrl=empty 1`] = `
+Array [
+  "<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset=\\"UTF-8\\">
+    <meta http-equiv=\\"refresh\\" content=\\"0; url=/abc/\\">
+  </head>
+  <script>
+    window.location.href = '/abc/';
+  </script>
+</html>",
+]
+`;
+
+exports[`toRedirectFilesMetadata should create appropriate metadatas for root baseUrl: fileContent baseUrl=/ 1`] = `
+Array [
+  "<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset=\\"UTF-8\\">
+    <meta http-equiv=\\"refresh\\" content=\\"0; url=/abc/\\">
+  </head>
+  <script>
+    window.location.href = '/abc/';
+  </script>
+</html>",
+]
+`;
+
+exports[`toRedirectFilesMetadata should create appropriate metadatas for root baseUrl: fileContent baseUrl=empty 1`] = `
+Array [
+  "<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset=\\"UTF-8\\">
+    <meta http-equiv=\\"refresh\\" content=\\"0; url=/abc/\\">
+  </head>
+  <script>
+    window.location.href = '/abc/';
+  </script>
+</html>",
+]
+`;
+
 exports[`toRedirectFilesMetadata should create appropriate metadatas: fileContent 1`] = `
 Array [
   "<!DOCTYPE html>
