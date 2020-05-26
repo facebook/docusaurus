@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`normalizePluginOptions should reject bad createRedirects user inputs 1`] = `"createRedirects should be a function"`;
+
+exports[`normalizePluginOptions should reject bad fromExtensions user inputs 1`] = `
+"fromExtensions[0] must be a \`string\` type, but the final value was: \`null\`.
+ If \\"null\\" is intended as an empty value be sure to mark the schema as \`.nullable()\`"
+`;
+
+exports[`normalizePluginOptions should reject bad toExtensions user inputs 1`] = `
+"toExtensions[0] must be a \`string\` type, but the final value was: \`null\`.
+ If \\"null\\" is intended as an empty value be sure to mark the schema as \`.nullable()\`"
+`;

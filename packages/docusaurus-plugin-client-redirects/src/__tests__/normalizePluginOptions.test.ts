@@ -49,10 +49,7 @@ describe('normalizePluginOptions', () => {
       normalizePluginOptions({
         fromExtensions: [null, undefined, 123, true] as any,
       }),
-    ).toThrowErrorMatchingInlineSnapshot(`
-      "fromExtensions[0] must be a \`string\` type, but the final value was: \`null\`.
-       If \\"null\\" is intended as an empty value be sure to mark the schema as \`.nullable()\`"
-    `);
+    ).toThrowErrorMatchingSnapshot();
   });
 
   test('should reject bad toExtensions user inputs', () => {
@@ -60,10 +57,7 @@ describe('normalizePluginOptions', () => {
       normalizePluginOptions({
         toExtensions: [null, undefined, 123, true] as any,
       }),
-    ).toThrowErrorMatchingInlineSnapshot(`
-      "toExtensions[0] must be a \`string\` type, but the final value was: \`null\`.
-       If \\"null\\" is intended as an empty value be sure to mark the schema as \`.nullable()\`"
-    `);
+    ).toThrowErrorMatchingSnapshot();
   });
 
   test('should reject bad createRedirects user inputs', () => {
@@ -71,8 +65,6 @@ describe('normalizePluginOptions', () => {
       normalizePluginOptions({
         createRedirects: ['bad', 'value'] as any,
       }),
-    ).toThrowErrorMatchingInlineSnapshot(
-      `"createRedirects should be a function"`,
-    );
+    ).toThrowErrorMatchingSnapshot();
   });
 });
