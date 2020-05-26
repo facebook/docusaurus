@@ -10,7 +10,10 @@ import {UserPluginOptions, PluginContext, RedirectMetadata} from './types';
 
 import normalizePluginOptions from './normalizePluginOptions';
 import collectRedirects from './collectRedirects';
-import writeRedirectFiles from './writeRedirectFiles';
+import writeRedirectFiles, {
+  toRedirectFilesMetadata,
+  RedirectFileMetadata,
+} from './writeRedirectFiles';
 
 export default function pluginClientRedirectsPages(
   _context: LoadContext,
@@ -30,8 +33,13 @@ export default function pluginClientRedirectsPages(
 
       const redirects: RedirectMetadata[] = collectRedirects(pluginContext);
 
+      const redirectFiles: RedirectFileMetadata[] = toRedirectFilesMetadata(
+        redirects,
+        pluginContext,
+      );
+
       // Write files only at the end: make code more easy to test without IO
-      await writeRedirectFiles(redirects, pluginContext);
+      await writeRedirectFiles(redirectFiles);
     },
   };
 }
