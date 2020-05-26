@@ -456,8 +456,8 @@ Please refer to [creating pages](creating-pages.md) to learn how Docusaurus 2 pa
 
 The following code could be helpful for migration of various pages:
 
-- Index page - [Flux](https://github.com/facebook/flux/blob/master/website/src/pages/index.js) (recommended), [Docusaurus 2](https://github.com/facebook/docusaurus/blob/master/website/src/pages/index.js), [Hermes](https://github.com/facebook/hermes/blob/master/website/src/pages/index.js)
-- Help/Support page - [Docusaurus 2](https://github.com/facebook/docusaurus/blob/master/website/src/pages/help.js), [Flux](http://facebook.github.io/flux/support)
+- Index page - [Flux](https://github.com/facebook/flux/blob/master/website/src/pages/index.js/) (recommended), [Docusaurus 2](https://github.com/facebook/docusaurus/blob/master/website/src/pages/index.js/), [Hermes](https://github.com/facebook/hermes/blob/master/website/src/pages/index.js/)
+- Help/Support page - [Docusaurus 2](https://github.com/facebook/docusaurus/blob/master/website/src/pages/help.js/), [Flux](http://facebook.github.io/flux/support)
 
 ## Content
 

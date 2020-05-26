@@ -7,14 +7,7 @@
 
 .docTitle {
   font-size: 3rem;
-  margin-bottom: 3rem;
-}
-
-@media only screen and (max-width: 996px) {
-  .docTitle {
-    font-size: 2rem;
-    margin-bottom: 2rem;
-  }
+  margin-bottom: calc(var(--ifm-leading-desktop) * var(--ifm-leading));
 }
 
 .docItemContainer {

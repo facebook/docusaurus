@@ -142,7 +142,7 @@ export default function pluginContentDocs(
       const modules = [];
 
       if (options.admonitions) {
-        modules.push('remark-admonitions/styles/infima.css');
+        modules.push(require.resolve('remark-admonitions/styles/infima.css'));
       }
 
       return modules;
@@ -342,7 +342,7 @@ export default function pluginContentDocs(
         const versionsRegex = new RegExp(versionsNames.join('|'), 'i');
 
         const routes = await Promise.all(
-          metadataItems.map(async (metadataItem, i) => {
+          metadataItems.map(async (metadataItem) => {
             const isDocsHomePage =
               metadataItem.id.replace(versionsRegex, '').replace(/^\//, '') ===
               options.homePageId;
@@ -353,10 +353,6 @@ export default function pluginContentDocs(
                   ? ''
                   : metadataItem.version!) ?? '';
 
-              // To show the sidebar, get the sidebar key of available sibling item.
-              metadataItem.sidebar = (
-                metadataItems[i - 1] ?? metadataItems[i + 1]
-              ).sidebar;
               const docsBaseMetadata = createDocsBaseMetadata(
                 metadataItem.version!,
               );
@@ -526,7 +522,7 @@ export default function pluginContentDocs(
                 getCacheLoader(isServer),
                 getBabelLoader(isServer),
                 {
-                  loader: '@docusaurus/mdx-loader',
+                  loader: require.resolve('@docusaurus/mdx-loader'),
                   options: {
                     remarkPlugins,
                     rehypePlugins,

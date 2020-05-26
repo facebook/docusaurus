@@ -73,7 +73,7 @@ const Page = () => (
       Check out my <Link to="/blog">blog</Link>!
     </p>
     <p>
-      {/* Note that external links still use `a` tags. */}
+      {/* Note that external links still use `a` tags, but automatically opens in new tab. */}
       Follow me on <a href="https://twitter.com/docusaurus">Twitter</a>!
     </p>
   </div>

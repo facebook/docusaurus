@@ -14,7 +14,7 @@ module.exports = function () {
       return path.resolve(__dirname, './theme');
     },
     getClientModules() {
-      return ['bootstrap/dist/css/bootstrap.min.css'];
+      return [require.resolve('bootstrap/dist/css/bootstrap.min.css')];
     },
   };
 };

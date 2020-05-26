@@ -27,9 +27,9 @@ export default function (_context: LoadContext, options: PluginOptions) {
             {
               test: /\.(png|jpe?g|gif)$/i,
               use: [
-                '@docusaurus/lqip-loader',
+                require.resolve('@docusaurus/lqip-loader'),
                 {
-                  loader: '@endiliey/responsive-loader',
+                  loader: require.resolve('@endiliey/responsive-loader'),
                   options: {
                     emitFile: !isServer, // don't emit for server-side rendering
                     disable: !isProd,

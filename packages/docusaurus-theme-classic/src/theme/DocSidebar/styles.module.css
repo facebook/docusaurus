@@ -7,11 +7,17 @@
 
 @media (min-width: 997px) {
   .sidebar {
+    display: flex;
+    flex-direction: column;
     height: 100vh;
     overflow-y: auto;
     position: sticky;
     top: 0;
     padding-top: var(--ifm-navbar-height);
+  }
+
+  .sidebarWithHideableNavbar {
+    padding-top: 0;
   }
 
   .sidebar::-webkit-scrollbar {
@@ -35,10 +41,9 @@
   .sidebarLogo {
     display: flex !important;
     align-items: center;
-    position: absolute;
-    top: 0;
     margin: 0 var(--ifm-navbar-padding-horizontal);
-    height: var(--ifm-navbar-height);
+    min-height: var(--ifm-navbar-height);
+    max-height: var(--ifm-navbar-height);
     color: inherit !important;
     text-decoration: none !important;
   }
@@ -49,7 +54,12 @@
   }
 
   .menu {
+    flex-grow: 1;
     padding: 0.5rem;
+  }
+
+  .menuWithAnnouncementBar {
+    margin-bottom: var(--docusaurus-announcement-bar-height);
   }
 }
 
