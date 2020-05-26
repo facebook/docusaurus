@@ -11,6 +11,7 @@ export default `
   <head>
     <meta charset="UTF-8">
     <meta http-equiv="refresh" content="0; url=<%= it.toUrl %>">
+    <link rel="canonical" href="<%= it.toUrl %>" />
   </head>
   <script>
     window.location.href = '<%= it.toUrl %>';
