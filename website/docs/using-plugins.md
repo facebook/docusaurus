@@ -458,3 +458,78 @@ import thumbnail from './path/to/img.png';
 | `max` | `integer` |  | See `min` above |
 | `steps` | `integer` | `4` | Configure the number of images generated between `min` and `max` (inclusive) |
 | `quality` | `integer` | `85` | JPEG compression quality |
+
+### `@docusaurus/plugin-client-redirects`
+
+Docusaurus Plugin to generate **client-side redirects**.
+
+This plugin will write additional HTML pages to your static site, that redirects the user to your existing Docusaurus pages with Javascript.
+
+:::caution
+
+It is better to use server-side redirects whenever possible.
+
+Before using this plugin, you should look if your hosting provider doesn't offer this feature.
+
+As far as we know, only Github Pages does not offer server-side redirects.
+
+:::
+
+**Installation**
+
+```bash npm2yarn
+npm install --save @docusaurus/plugin-client-redirects
+```
+
+**Configuration**
+
+Main usecase: you have `/myDocusaurusPage`, and you want to redirect to this page from `/myDocusaurusPage.html`:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  plugins: [
+    [
+      '@docusaurus/plugin-sitemap',
+      {
+        fromExtension: ['html'],
+      },
+    ],
+  ],
+};
+```
+
+Second usecase: you have `/myDocusaurusPage.html`, and you want to redirect to this page from `/myDocusaurusPage`.
+
+```js title="docusaurus.config.js"
+module.exports = {
+  plugins: [
+    [
+      '@docusaurus/plugin-sitemap',
+      {
+        toExtension: ['html'],
+      },
+    ],
+  ],
+};
+```
+
+For custom redirect logic, provide your own `createRedirects` function.
+
+Let's imagine you change the url of an pexisting age, you might want to make sure the old url still works:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  plugins: [
+    [
+      '@docusaurus/plugin-sitemap',
+      {
+        createRedirects: function (existingPath) {
+          if (existingPath === '/docs/newDocPath') {
+            return ['/docs/oldDocPathFrom2019', '/docs/legacyDocPathFrom2016'];
+          }
+        },
+      },
+    ],
+  ],
+};
+```
