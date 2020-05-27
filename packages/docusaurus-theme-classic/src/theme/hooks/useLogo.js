@@ -15,7 +15,7 @@ const useLogo = () => {
     siteConfig: {baseUrl, themeConfig: {navbar: {logo = {}} = {}}} = {},
   } = useDocusaurusContext();
   const {isDarkTheme} = useThemeContext();
-  const logoLink = logo.href || baseUrl;
+  const logoLink = useBaseUrl(logo.href || baseUrl);
   let logoLinkProps = {};
 
   if (logo.target) {
