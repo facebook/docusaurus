@@ -79,44 +79,11 @@ function createRoutePathRedirects(
   routePath: string,
   redirectCreator: RedirectsCreator,
 ): RedirectMetadata[] {
-  /*
-  // TODO do we receive absolute urls???
-  if (!path.isAbsolute(routePath)) {
-    return [];
-  }
-
-   */
-
-  /*
-  // TODO addTrailingSlash ?
-  const toUrl = addTrailingSlash(`${baseUrl}${routePath}`);
-
-  const redirectPageContent = createRedirectPageContent({toUrl});
-
-   */
-
   const fromRoutePaths: string[] = redirectCreator(routePath) ?? [];
-
   return fromRoutePaths.map((fromRoutePath) => {
     return {
       fromRoutePath,
       toRoutePath: routePath,
     };
   });
-  /*
-  return fromRoutePaths.map((fromRoutePath) => {
-    const redirectAbsoluteFilePath = path.join(
-      outDir,
-      getFilePathForRoutePath(fromRoutePath),
-    );
-    return {
-      fromRoutePath,
-      toRoutePath: routePath,
-      toUrl,
-      redirectPageContent,
-      redirectAbsoluteFilePath,
-    };
-  });
-
-   */
 }
