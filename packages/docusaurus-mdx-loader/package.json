@@ -30,6 +30,6 @@
     "unist-util-remove-position": "^2.0.1"
   },
   "engines": {
-    "node": ">=10.9.0"
+    "node": ">=10.15.1"
   }
 }
