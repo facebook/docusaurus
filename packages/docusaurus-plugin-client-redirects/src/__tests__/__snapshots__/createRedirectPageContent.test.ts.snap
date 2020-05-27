@@ -6,6 +6,7 @@ exports[`createRedirectPageContent should encode uri special chars 1`] = `
   <head>
     <meta charset=\\"UTF-8\\">
     <meta http-equiv=\\"refresh\\" content=\\"0; url=https://docusaurus.io/gr/%CF%83%CE%B5%CE%BB%CE%B9%CE%B4%CE%B1%CF%82/\\">
+    <link rel=\\"canonical\\" href=\\"https://docusaurus.io/gr/%CF%83%CE%B5%CE%BB%CE%B9%CE%B4%CE%B1%CF%82/\\" />
   </head>
   <script>
     window.location.href = 'https://docusaurus.io/gr/%CF%83%CE%B5%CE%BB%CE%B9%CE%B4%CE%B1%CF%82/';
@@ -19,6 +20,7 @@ exports[`createRedirectPageContent should match snapshot 1`] = `
   <head>
     <meta charset=\\"UTF-8\\">
     <meta http-equiv=\\"refresh\\" content=\\"0; url=https://docusaurus.io/\\">
+    <link rel=\\"canonical\\" href=\\"https://docusaurus.io/\\" />
   </head>
   <script>
     window.location.href = 'https://docusaurus.io/';
