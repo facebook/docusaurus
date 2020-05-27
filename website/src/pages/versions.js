@@ -23,9 +23,10 @@ function Version() {
   const repoUrl = `https://github.com/${siteConfig.organizationName}/${siteConfig.projectName}`;
   return (
     <Layout
+      title="Versions"
       permalink="/versions"
       description="Docusaurus 2 Versions page listing all documented site versions">
-      <div className="container margin-vert--xl">
+      <div className="container margin-vert--lg">
         <h1>Docusaurus documentation versions</h1>
         <div className="margin-bottom--lg">
           <h3 id="latest">Latest version (Stable)</h3>
