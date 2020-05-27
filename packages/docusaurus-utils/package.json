@@ -19,6 +19,6 @@
     "lodash.kebabcase": "^4.1.1"
   },
   "engines": {
-    "node": ">=10.9.0"
+    "node": ">=10.15.1"
   }
 }
