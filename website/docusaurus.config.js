@@ -95,12 +95,12 @@ module.exports = {
           label: 'Docs',
           to: 'docs/introduction', // "fake" link
           position: 'left',
-          activeBasePath: 'docs',
+          activeBaseRegex: `docs/(?!next/(support|team|resources))`,
           items: [
             {
               label: versions[0],
               to: 'docs/',
-              exact: true,
+              activeBaseRegex: `docs/(?!${versions.join('|')}|next)`,
             },
             ...versions.slice(1).map((version) => ({
               label: version,
@@ -109,12 +109,18 @@ module.exports = {
             {
               label: 'Master/Unreleased',
               to: 'docs/next/',
+              activeBaseRegex: `docs/next/(?!support|team|resources)`,
             },
           ],
         },
         {to: 'blog', label: 'Blog', position: 'left'},
         {to: 'showcase', label: 'Showcase', position: 'left'},
-        {to: 'docs/next/support', label: 'Community', position: 'left'},
+        {
+          to: 'docs/next/support',
+          label: 'Community',
+          position: 'left',
+          activeBaseRegex: `docs/next/(support|team|resources)`,
+        },
         {
           to: 'versions',
           label: `v${versions[0]}`,
@@ -200,21 +206,17 @@ module.exports = {
             {
               label: 'Privacy',
               href: 'https://opensource.facebook.com/legal/privacy/',
-              target: '_blank',
-              rel: 'noreferrer noopener',
             },
             {
               label: 'Terms',
               href: 'https://opensource.facebook.com/legal/terms/',
-              target: '_blank',
-              rel: 'noreferrer noopener',
             },
           ],
         },
       ],
       logo: {
         alt: 'Facebook Open Source Logo',
-        src: 'https://docusaurus.io/img/oss_logo.png',
+        src: 'img/oss_logo.png',
         href: 'https://opensource.facebook.com',
       },
       copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc. Built with Docusaurus.`,
