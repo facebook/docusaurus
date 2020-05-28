@@ -293,9 +293,9 @@ module.exports = {
 };
 ```
 
-#### Toggling category open by default
+#### Expanded categories by default
 
-For sites that have collapsible categories, you may want more fine grain control over certain categories. If you want specific categories to be alwasy expanded, you can set `collapsed` to `false`:
+For docs that have collapsible categories, you may want more fine-grain control over certain categories. If you want specific categories to be always expanded, you can set `collapsed` to `false`:
 
 ```js title="sidebars.js"
 module.exports = {
