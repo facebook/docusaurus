@@ -10,19 +10,17 @@ module.exports = {
     {
       type: 'category',
       label: 'Docusaurus',
-      collapsed: false,
       items: ['introduction', 'design-principles', 'contributing'],
     },
     {
       type: 'category',
       label: 'Getting Started',
-      collapsed: true,
+      collapsed: false,
       items: ['installation', 'configuration'],
     },
     {
       type: 'category',
       label: 'Guides',
-      collapsed: true,
       items: [
         'creating-pages',
         'styling-layout',
@@ -39,13 +37,11 @@ module.exports = {
     {
       type: 'category',
       label: 'Advanced Guides',
-      collapsed: true,
       items: ['using-plugins', 'using-themes', 'presets'],
     },
     {
       type: 'category',
       label: 'API Reference',
-      collapsed: true,
       items: [
         'cli',
         'docusaurus-core',
