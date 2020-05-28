@@ -6,6 +6,7 @@
  */
 
 import React, {useState, useCallback} from 'react';
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import classnames from 'classnames';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useAnnouncementBarContext from '@theme/hooks/useAnnouncementBarContext';
@@ -44,6 +45,28 @@ function DocSidebarItem({
     setCollapsed((state) => !state);
   });
 
+  // Make sure we have access to the window
+  const activePageRelativeUrl = ExecutionEnvironment.canUseDOM
+    ? window.location.pathname + window.location.search
+    : null;
+
+  // We need to know if the category item
+  // is the parent of the active page
+  // If it is, this returns true and make sure to highlight this category
+  const isCategoryOfActivePage = (_items, _activePageRelativeUrl) => {
+    // Make sure we have items
+    if (typeof _items !== 'undefined') {
+      return _items.some((categoryItem) => {
+        // Grab the category item's href
+        const childHref = categoryItem.href;
+        // Compare it to the current active page
+        return _activePageRelativeUrl === childHref;
+      });
+    }
+
+    return false;
+  };
+
   switch (type) {
     case 'category':
       return (
@@ -56,7 +79,10 @@ function DocSidebarItem({
             <a
               className={classnames('menu__link', {
                 'menu__link--sublist': collapsible,
-                'menu__link--active': collapsible && !item.collapsed,
+                'menu__link--active':
+                  collapsible &&
+                  !item.collapsed &&
+                  isCategoryOfActivePage(items, activePageRelativeUrl),
               })}
               href="#!"
               onClick={collapsible ? handleItemClick : undefined}
@@ -116,8 +142,18 @@ function mutateSidebarCollapsingState(item, path) {
         items
           .map((childItem) => mutateSidebarCollapsingState(childItem, path))
           .filter((val) => val).length > 0;
+
+      // Check if the user wants the category to be expanded by default
+      const shouldExpand = item.collapsed === false;
+
       // eslint-disable-next-line no-param-reassign
       item.collapsed = !anyChildItemsActive;
+
+      if (shouldExpand) {
+        // eslint-disable-next-line no-param-reassign
+        item.collapsed = false;
+      }
+
       return anyChildItemsActive;
     }
 
