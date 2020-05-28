@@ -11,6 +11,7 @@ node_modules
 
 yarn-error.log
 build
+coverage
 .docusaurus
 .cache-loader
 types

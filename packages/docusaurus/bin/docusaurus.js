@@ -71,8 +71,12 @@ cli
     '--out-dir <dir>',
     'The full path for the new output directory, relative to the current workspace (default: build).',
   )
-  .action((siteDir = '.', {outDir}) => {
-    wrapCommand(deploy)(path.resolve(siteDir), {outDir});
+  .option(
+    '--skip-build',
+    'Skip building website before deploy it (default: false)',
+  )
+  .action((siteDir = '.', {outDir, skipBuild}) => {
+    wrapCommand(deploy)(path.resolve(siteDir), {outDir, skipBuild});
   });
 
 cli

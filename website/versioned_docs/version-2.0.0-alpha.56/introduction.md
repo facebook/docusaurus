@@ -4,34 +4,35 @@ title: Introduction
 description: Docusaurus was designed from the ground up to be easily installed and used to get your website up and running quickly.
 ---
 
-import useBaseUrl from '@docusaurus/useBaseUrl';
+## Disclaimer
 
-## :warning: Disclaimer
+It has been a year since we made the first **alpha release** of Docusaurus 2 and things have been pretty stable since then. Many of Facebook's new open source websites are using Docusaurus 2 now. At this point, we highly encourage you to use Docusaurus 2 over Docusaurus 1 for your new websites. For feedback and questions, chat with us on [**Discord**](https://discordapp.com/invite/docusaurus) :wink:
 
-This is an **early and alpha release** of Docusaurus 2. We are making it available early to maximize community participation and feedback. Expect it to evolve a lot over the course of the alpha-beta period. If you are adventurous enough to be an early adopter, chat with us on [**Discord**](https://discordapp.com/invite/docusaurus) :wink:.
-
-**You should use this if**
+**You should use this if:**
 
 - :white_check_mark: You want to contribute to Docusaurus 2
-- :white_check_mark: You want to provide feedback to make sure it suits your needs
-- :white_check_mark: You are curious about what's next as a Docusaurus user
+- :white_check_mark: You want to build a modern website with client-side routing and prerendering
+- :white_check_mark: You want to provide feedback to make sure Docusaurus 2 suits your needs
+- :white_check_mark: You are curious about what comes next as a Docusaurus user
+- :white_check_mark: You want to ease the pain of migration in future
+- :white_check_mark: You do not need support for IE11
 
-**Do not use this if**
+**Do not use this if:**
 
-- :x: You need a full production-ready solution (<small>try [Docusaurus 1](https://docusaurus.io/) instead</small>)
+- :x: You need a fully production-ready solution (try [Docusaurus 1](https://docusaurus.io/) instead)
 - :x: You need the translation features present in v1
-- :x: You prefer not to work with potential breaking changes and/or features not yet working properly as we improve it during alpha period
+- :x: You prefer not to work with potential breaking changes and/or features not yet working properly as we improve it during the alpha period
 - :x: You need support for IE11
 
 ## A better Docusaurus is coming to town
 
-<img alt="Docusaurus " src={useBaseUrl('img/slash-introducing.svg')} />
+<img alt="Docusaurus " src={require('@docusaurus/useBaseUrl').default('img/slash-introducing.svg')} />
 
 Docusaurus 1 used to be a pure documentation site generator. In Docusaurus 2, we rebuilt it from the ground up, allowing for more customizability but preserved the best parts of Docusaurus 1 - easy to get started, versioned docs, and i18n (_coming soon_).
 
-Beyond that, Docusaurus 2 is a **performant static site generator** and can be used to create most content-driven websites (e.g. Documentation, Blogs, Product Landing and Marketing Pages, etc) extremely fast.
+Beyond that, Docusaurus 2 is a **performant static site generator** and can be used to create common content-driven websites (e.g. Documentation, Blogs, Product Landing and Marketing Pages, etc) extremely quickly.
 
-While our main focus will still be helping you get your documentations right and well, the shared nature of building this static site generator makes it possible for you to build your whole website interface one-stop.
+While our main focus will still be helping you get your documentations right and well, it is possible to build this any kind of website using Docusaurus 2 as it is just a React application. **Docusaurus can now be used to build any website, not just documentation websites.**
 
 ## Features
 
@@ -40,9 +41,9 @@ Docusaurus is built with high attention to your experience building your site an
 - ⚛️ **Built with 💚 and React**
   - Extend and customize with React
   - Gain full control of your site's browsing experience by `swizzling` in your own components
-- 🔌 **Pluggable**
-  - Bootstrap your site with a basic template, then pick and plug functionalities built by us and our community.
-  - Open source your plugins to share with your fellow documentarians, because sharing is caring.
+- **Pluggable**
+  - Bootstrap your site with a basic template, then pick and plug functionalities built by us and our community
+  - Open source your plugins to share with your fellow documentarians, because sharing is caring
 - ✂️ **Developer experience**
   - Multiple bootstrapping templates to get your site up and running, start writing your docs right now
   - Universal configuration entry point to make it more maintainable by contributors
@@ -58,14 +59,14 @@ Our shared goal — to help your users find what they need fast, and understand 
 - 📝 **Powered by MDX**
   - Write interactive components via JSX and React embedded in markdown
   - Share your code in live editors to get your users love your products on the spot
-- 🔍 **Search** Your full site is searchable
+- 🔍 **Search** - Your full site is searchable
+- 💾 **Document Versioning** - Helps you keep documentation in sync with project releases.
 - 🌍 **i18n** (_coming soon_)
-- 💾 **Document Versioning** Helps you keep documentation in sync with project releases.
 
 Docusaurus 2 is born to be compassionately accessible to all your users, and lightning fast.
 
-- ⚡️ **Lightning fast** Docusaurus 2 follows [The PRPL Pattern](https://developers.google.com/web/fundamentals/performance/prpl-pattern/) that makes sure your content loads blazing fast
-- 🦖 **Accessible** Attention to accessibility, making your site equally accessible to all users
+- ⚡️ **Lightning fast** - Docusaurus 2 follows the [PRPL Pattern](https://developers.google.com/web/fundamentals/performance/prpl-pattern/) that makes sure your content loads blazing fast
+- 🦖 **Accessible** - Attention to accessibility, making your site equally accessible to all users
 
 ## Comparison with other tools
 
@@ -83,19 +84,19 @@ Many aspects of Docusaurus 2 were inspired by the best things about Gatsby and i
 
 ### GitBook
 
-Gitbook has very clean slate design and has been used by many open source projects. With its focus shifting towards a commercial product rather than an open-source tool, many of its requirements no longer fit the needs as an open source project's doc site. As a result, many have to turn to other products. You may read about Redux's switch to Docusaurus [here](https://github.com/reduxjs/redux/issues/3161).
+GitBook has very clean design and has been used by many open source projects. With its focus shifting towards a commercial product rather than an open-source tool, many of its requirements no longer fit the needs as an open source project's documentation site. As a result, many have turned to other products. You may read about Redux's switch to Docusaurus [here](https://github.com/reduxjs/redux/issues/3161).
 
-Currently, Gitbook is only free for open-source and non-profit teams. Docusaurus is free for everyone.
+Currently, GitBook is only free for open-source and non-profit teams. Docusaurus is free for everyone.
 
 ### Jekyll
 
 Jekyll is one of the most mature static site generators around and has been a great tool to use — in fact, before Docusaurus, most of Facebook's Open Source websites are/were built on Jekyll! It is extremely simple to get started. We want to bring a similar developer experience as building a static site with Jekyll.
 
-In comparison with statically generated HTML and interactivity based on `<script />` tags, Docusaurus sites are React apps. With tooling of our current ecosystem, we hope to set new standards on doc sites performance, asset build pipeline and optimizations, and ease to setup.
+In comparison with statically generated HTML and interactivity added using `<script />` tags, Docusaurus sites are React apps. Using modern JavaScript ecosystem tooling, we hope to set new standards on doc sites performance, asset build pipeline and optimizations, and ease to setup.
 
 ### VuePress
 
-VuePress has many similarities with Docusaurus - both focus heavily on content-centric website and provides tailored documentation features out of the box. However, VuePress is powered by Vue, while Docusaurus is powered by React. If you wanted a Vue-based solution, VuePress would be a decent choice.
+VuePress has many similarities with Docusaurus - both focus heavily on content-centric website and provides tailored documentation features out of the box. However, VuePress is powered by Vue, while Docusaurus is powered by React. If you want a Vue-based solution, VuePress would be a decent choice.
 
 <!-- TODO: Add a Next.js comparison -->
 

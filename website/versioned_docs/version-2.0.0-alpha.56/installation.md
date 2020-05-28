@@ -7,7 +7,7 @@ Docusaurus is essentially a set of npm [packages](https://github.com/facebook/do
 
 ## Requirements
 
-- [Node.js](https://nodejs.org/en/download/) version >= 10.9.0 or above (which can be checked by running `node -v`). You can use [nvm](https://github.com/nvm-sh/nvm) for managing multiple Node versions on a single machine installed
+- [Node.js](https://nodejs.org/en/download/) version >= 10.15.1 or above (which can be checked by running `node -v`). You can use [nvm](https://github.com/nvm-sh/nvm) for managing multiple Node versions on a single machine installed
 - [Yarn](https://yarnpkg.com/en/) version >= 1.5 (which can be checked by running `yarn version`). Yarn is a performant package manager for JavaScript and replaces the `npm` client. It is not strictly necessary but highly encouraged.
 
 ## Scaffold project website
@@ -26,7 +26,7 @@ npx @docusaurus/init@next init my-website classic
 
 If you do not specify `name` or `template`, it will prompt you for them. We recommend the `classic` template so that you can get started quickly and it contains features found in Docusaurus 1. The `classic` template contains `@docusaurus/preset-classic` which includes standard documentation, a blog, custom pages, and a CSS framework (with dark mode support). You can get up and running extremely quickly with the classic template and customize things later on when you have gained more familiarity with Docusaurus.
 
-**Important Note:** If you are setting up a new Docusaurus website for a Facebook open source project, use the `facebook` template instead, which comes with some useful Facebook-specific defaults:
+**[FB-Only]:** If you are setting up a new Docusaurus website for a Facebook open source project, use the `facebook` template instead, which comes with some useful Facebook-specific defaults:
 
 ```bash
 npx @docusaurus/init@next init my-website facebook
@@ -47,7 +47,6 @@ my-website
 │   ├── doc2.md
 │   ├── doc3.md
 │   └── mdx.md
-├── package.json
 ├── src
 │   ├── css
 │   │   └── custom.css
@@ -65,8 +64,8 @@ my-website
 
 ### Project structure rundown
 
-- `/blog/` - Contains the blog markdown files. You can delete the directory if you do not want/need a blog. More details can be found in the [blog guide](blog.md).
-- `/docs/` - Contains the markdown files for the docs. Customize the order of the docs sidebar in `sidebars.js`. More details can be found in the [docs guide](markdown-features.mdx).
+- `/blog/` - Contains the blog Markdown files. You can delete the directory if you do not want/need a blog. More details can be found in the [blog guide](blog.md).
+- `/docs/` - Contains the Markdown files for the docs. Customize the order of the docs sidebar in `sidebars.js`. More details can be found in the [docs guide](markdown-features.mdx).
 - `/src/` - Non-documentation files like pages or custom React components. You don't have to strictly put your non-documentation files in here but putting them under a centralized directory makes it easier to specify in case you need to do some sort of linting/processing
   - `/src/pages` - Any files within this directory will be converted into a website page. More details can be found in the [pages guide](creating-pages.md).
 - `/static/` - Static directory. Any contents inside here will be copied into the root of the final `build` directory.
@@ -96,6 +95,44 @@ npm run build
 ```
 
 and contents will be generated within the `/build` directory, which can be copied to any static file hosting service like [GitHub pages](https://pages.github.com/), [Now](https://zeit.co/now) or [Netlify](https://www.netlify.com/). Check out the docs on [deployment](deployment.md) for more details.
+
+## Updating your Docusaurus version
+
+There are many ways to update your Docusaurus version. One guaranteed way is to manually change the version number in `package.json` to the desired version. Note that all `@docusaurus/`-namespaced packages should be using the same version.
+
+:::important
+
+Please update to the latest Docusaurus 2 version shown at the top of the page, not what is shown below.
+
+:::
+
+```json title="package.json"
+"dependencies": {
+  "@docusaurus/core": "^2.0.0-alpha.49",
+  "@docusaurus/preset-classic": "^2.0.0-alpha.49",
+  // ...
+}
+```
+
+Then, in the directory containing `package.json`, run your package manager's install command:
+
+```bash npm2yarn
+npm install
+```
+
+To check that that the update occurred successfully, run:
+
+```bash npm2yarn
+npm docusaurus --version
+```
+
+You should see the correct version as output.
+
+Alternatively, if you are using Yarn, you can do:
+
+```bash
+yarn upgrade @docusaurus/core@2.0.0-alpha.49 @docusaurus/preset-classic@2.0.0-alpha.49
+```
 
 ## Problems?
 

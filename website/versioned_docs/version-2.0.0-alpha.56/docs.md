@@ -243,7 +243,6 @@ type SidebarItemCategory = {
   type: 'category';
   label: string; // Sidebar label text.
   items: SidebarItem[]; // Array of sidebar items.
-  collapsed: boolean; // Set the category to be collapsed or open by default
 };
 ```
 
@@ -289,26 +288,6 @@ module.exports = {
   themeConfig: {
     sidebarCollapsible: false,
     // ...
-  },
-};
-```
-
-#### Expanded categories by default
-
-For docs that have collapsible categories, you may want more fine-grain control over certain categories. If you want specific categories to be always expanded, you can set `collapsed` to `false`:
-
-```js title="sidebars.js"
-module.exports = {
-  docs: {
-    Guides: [
-      'creating-pages',
-      {
-        type: 'category',
-        label: 'Docs',
-        collapsed: false,
-        items: ['markdown-features', 'sidebar', 'versioning'],
-      },
-    ],
   },
 };
 ```

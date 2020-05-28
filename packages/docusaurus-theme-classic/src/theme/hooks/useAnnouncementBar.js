@@ -13,11 +13,7 @@ const STORAGE_ID_KEY = 'docusaurus.announcement.id';
 
 const useAnnouncementBar = () => {
   const {
-    siteConfig: {
-      themeConfig: {
-        announcementBar: {id},
-      },
-    } = {},
+    siteConfig: {themeConfig: {announcementBar: {id} = {}}} = {},
   } = useDocusaurusContext();
   const [isClosed, setClosed] = useState(true);
   const handleClose = () => {
@@ -26,6 +22,10 @@ const useAnnouncementBar = () => {
   };
 
   useEffect(() => {
+    if (!id) {
+      return;
+    }
+
     const viewedId = localStorage.getItem(STORAGE_ID_KEY);
     const isNewAnnouncement = id !== viewedId;
 

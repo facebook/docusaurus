@@ -12,10 +12,10 @@ import isInternalUrl from '@docusaurus/isInternalUrl';
 
 const useLogo = () => {
   const {
-    siteConfig: {baseUrl, themeConfig: {navbar: {logo = {}} = {}}} = {},
+    siteConfig: {themeConfig: {navbar: {logo = {}} = {}}} = {},
   } = useDocusaurusContext();
   const {isDarkTheme} = useThemeContext();
-  const logoLink = logo.href || baseUrl;
+  const logoLink = useBaseUrl(logo.href || '/');
   let logoLinkProps = {};
 
   if (logo.target) {

@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/init",
-  "version": "2.0.0-alpha.55",
+  "version": "2.0.0-alpha.56",
   "description": "Create Docusaurus app easily",
   "repository": {
     "type": "git",
@@ -29,6 +29,6 @@
     "shelljs": "^0.8.4"
   },
   "engines": {
-    "node": ">=10.9.0"
+    "node": ">=10.15.1"
   }
 }

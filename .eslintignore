@@ -2,6 +2,7 @@ __fixtures__
 dist
 node_modules
 build
+coverage
 jest.config.js
 jest.transform.js
 website-1.x/

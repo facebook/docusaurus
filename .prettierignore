@@ -1,6 +1,7 @@
 dist
 node_modules
 build
+coverage
 .docusaurus
 packages/docusaurus-utils/lib/
 packages/docusaurus/lib/
