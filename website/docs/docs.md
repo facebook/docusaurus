@@ -55,7 +55,7 @@ Given the example above, now when you navigate to the path `/docs` you will see 
 
 :::important
 
-The document id of `_index` is reserved exclusively for the home doc page, so it will not work as a standalone route.
+The document id of `_index` is reserved exclusively for the home doc page, so it will not work as a standalone route. If left to the default, the page will not show a sidebar. If you wish to have a sidebar for this page, its ID must be renamed to, for example, `index` or `introduction`.
 
 :::
 
