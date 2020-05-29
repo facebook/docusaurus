@@ -22,6 +22,10 @@
   color: var(--ifm-color-content);
 }
 
+.playgroundEditor {
+  font-family: var(--ifm-font-family-monospace) !important;
+}
+
 .playgroundPreview {
   border: 1px solid var(--ifm-color-emphasis-200);
   border-bottom-left-radius: var(--ifm-global-radius);
