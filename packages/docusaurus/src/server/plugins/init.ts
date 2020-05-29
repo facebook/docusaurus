@@ -9,6 +9,7 @@ import Module from 'module';
 import {join} from 'path';
 import importFresh from 'import-fresh';
 import {LoadContext, Plugin, PluginConfig} from '@docusaurus/types';
+import {CONFIG_FILE_NAME} from '../../constants';
 
 export function initPlugins({
   pluginConfigs,
@@ -22,9 +23,7 @@ export function initPlugins({
   // We need to fallback to createRequireFromPath since createRequire is only available in node v12.
   // See: https://nodejs.org/api/modules.html#modules_module_createrequire_filename
   const createRequire = Module.createRequire || Module.createRequireFromPath;
-  const pluginRequire = createRequire(
-    join(context.siteDir, '/docusaurus.config.js'),
-  );
+  const pluginRequire = createRequire(join(context.siteDir, CONFIG_FILE_NAME));
 
   const plugins: Plugin<any>[] = pluginConfigs
     .map((pluginItem) => {
