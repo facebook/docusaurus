@@ -538,26 +538,29 @@ module.exports = {
 };
 ```
 
-If you want to add highlighting for languages not yet supported by Prism, you can swizzle `prism-include-languages` by
+If you want to add highlighting for languages not yet supported by Prism, you can swizzle `prism-include-languages`:
 
-```bash
+```bash npm2yarn
 yarn swizzle @docusaurus/theme-classic prism-include-languages
 ```
 
 It will produce `prism-include-languages.js` in your `src/theme` folder. You can add highlighting support for custom languages by editing `prism-include-languages.js`:
 
-```js {6} title="src/theme/prism-include-languages.js"
+```js {8} title="src/theme/prism-include-languages.js"
+const prismIncludeLanguages = (Prism) => {
     // ...
 
     additionalLanguages.forEach((lang) => {
       require(`prismjs/components/prism-${lang}`); // eslint-disable-line
     });
+
     require('/path/to/your/prism-language-definition');
 
     // ...
+}
 ```
 
-You can refer to [PrismJS's official language definitions](https://github.com/PrismJS/prism/tree/master/components) when you are writing your own language definitions.
+You can refer to [Prism's official language definitions](https://github.com/PrismJS/prism/tree/master/components) when you are writing your own language definitions.
 
 ### Line highlighting
 
