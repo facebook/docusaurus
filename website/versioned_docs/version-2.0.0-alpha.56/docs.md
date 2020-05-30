@@ -296,7 +296,11 @@ module.exports = {
 
 If you just want the documentation feature, you can enable "docs-only mode".
 
-To achieve this, set the `routeBasePath` property of the `docs` object in `@docusaurus/preset-classic` in `docusaurus.config.js` to the root of your site, and also in that object set the `homePageId` property with the value of the document ID that you show as root of the docs.
+To achieve this, you could follow steps below:
+
+1. set the `routeBasePath` property of the `docs` object in `@docusaurus/preset-classic` in `docusaurus.config.js` to the root of your site.
+1. also in that object set the `homePageId` property with the value of the document ID that you show as root of the docs.
+1. remove `src/pages/index.js`.
 
 :::note
 
