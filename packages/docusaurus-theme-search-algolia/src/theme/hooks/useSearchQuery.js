@@ -7,14 +7,14 @@
 
 import {useHistory, useLocation} from '@docusaurus/router';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 const SEARCH_PARAM_QUERY = 'q';
 
 function useSearchQuery() {
   const history = useHistory();
   const location = useLocation();
-  const {siteConfig: {baseUrl} = {}} = useDocusaurusContext();
+  const baseUrl = useBaseUrl('');
 
   return {
     searchValue:
