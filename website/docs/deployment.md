@@ -11,7 +11,7 @@ npm run build
 
 Once it finishes, the static files will be generated within the `build/` directory.
 
-You can deploy your site to static site hosting services such as [ZEIT Now](https://zeit.co/now), [GitHub Pages](https://pages.github.com/), [Netlify](https://www.netlify.com/), [Render](https://render.com/static-sites), and [Surge](https://surge.sh/help/getting-started-with-surge). Docusaurus sites are statically rendered so they work without JavaScript too!
+You can deploy your site to static site hosting services such as [Vercel](https://vercel.com/), [GitHub Pages](https://pages.github.com/), [Netlify](https://www.netlify.com/), [Render](https://render.com/static-sites), and [Surge](https://surge.sh/help/getting-started-with-surge). Docusaurus sites are statically rendered so they work without JavaScript too!
 
 ## Deploying to GitHub Pages
 
@@ -210,22 +210,22 @@ Make sure to disable Netlify setting `Pretty URLs` to prevent lowercased URLs, u
 
 :::
 
-## Deploying to ZEIT Now
+## Deploying to Vercel
 
-Deploying your Docusaurus project to [ZEIT Now](https://zeit.co/now) will provide you with [various benefits](https://zeit.co/now) in the areas of performance and ease of use.
+Deploying your Docusaurus project to [Vercel](https://vercel.com/) will provide you with [various benefits](https://vercel.com/) in the areas of performance and ease of use.
 
 Most importantly, however, deploying a Docusaurus project only takes a couple of seconds:
 
-1. First, install their [command-line interface](https://zeit.co/download):
+1. First, install their [command-line interface](https://vercel.com/download):
 
 ```bash
-npm i -g now
+npm i -g vercel
 ```
 
 1. Run a single command inside the root directory of your project:
 
 ```bash
-now
+vercel
 ```
 
 **That's all.** Your docs will automatically be deployed.
