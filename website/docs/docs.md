@@ -55,7 +55,7 @@ Given the example above, now when you navigate to the path `/docs` you will see 
 
 :::important
 
-The document id of `_index` is reserved exclusively for the home doc page, so it will not work as a standalone route.
+A standalone route will not be generated for the document that serves as home docs page.
 
 :::
 
