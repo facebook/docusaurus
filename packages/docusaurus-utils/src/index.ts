@@ -204,16 +204,16 @@ export function createExcerpt(fileString: string): string | undefined {
       .replace(/^\#{1,6}\s*([^#]*)\s*(\#{1,6})?/gm, '$1')
       // Remove emphasis and strikethroughs.
       .replace(/([\*_~]{1,3})(\S.*?\S{0,1})\1/g, '$2')
+      // Remove images.
+      .replace(/\!\[(.*?)\][\[\(].*?[\]\)]/g, '$1')
+      // Remove footnotes.
+      .replace(/\[\^.+?\](\: .*?$)?/g, '')
       // Remove inline links.
       .replace(/\[(.*?)\][\[\(].*?[\]\)]/g, '$1')
       // Remove inline code.
       .replace(/`(.+?)`/g, '$1')
-      // Remove images.
-      .replace(/\!\[(.*?)\][\[\(].*?[\]\)]/g, '')
       // Remove blockquotes.
       .replace(/^\s{0,3}>\s?/g, '')
-      // Remove footnotes.
-      .replace(/\[\^.+?\](\: .*?$)?/g, '')
       // Remove admonition definition.
       .replace(/(:{3}.*)/, '')
       // Remove Emoji names within colons include preceding whitespace.
