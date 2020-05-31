@@ -38,6 +38,7 @@ author_title: Co-creator of Docusaurus 1
 author_url: https://github.com/JoelMarcey
 author_image_url: https://graph.facebook.com/611217057/picture/?height=200&width=200
 tags: [hello, docusaurus-v2]
+image: https://i.imgur.com/mErPwqL.png
 ---
 Welcome to this blog. This blog is created with [**Docusaurus 2 alpha**](https://v2.docusaurus.io/).
 
@@ -59,6 +60,7 @@ The only required field is `title`; however, we provide options to add author in
 - `title` - The blog post title.
 - `tags` - A list of strings to tag to your post.
 - `draft` - A boolean flag to indicate that the blog post is work in process and therefore should not be published yet. However, draft blog posts will be displayed during development.
+- `image`: Cover or thumbnail image that will be used when displaying the link to your post.
 
 ## Summary truncation
 
