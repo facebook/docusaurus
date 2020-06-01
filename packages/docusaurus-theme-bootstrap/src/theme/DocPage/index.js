@@ -15,14 +15,12 @@ import {matchPath} from '@docusaurus/router';
 
 function DocPage(props) {
   const {route: baseRoute, docsMetadata, location, content} = props;
-  const {
-    isHomePage,
-  } = docsMetadata;
+  const {isHomePage} = docsMetadata;
   // case-sensitive route such as it is defined in the sidebar
   const currentRoute = !isHomePage
     ? baseRoute.routes.find((route) => {
-      return matchPath(location.pathname, route);
-    }) || {}
+        return matchPath(location.pathname, route);
+      }) || {}
     : {};
   const {permalinkToSidebar, docsSidebars} = docsMetadata;
   const sidebar = isHomePage
