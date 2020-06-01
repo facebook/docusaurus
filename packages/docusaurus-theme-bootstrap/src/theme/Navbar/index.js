@@ -43,18 +43,18 @@ function NavItem({
               href: prependBaseUrlToHref ? normalizedHref : href,
             }
           : {
-            isNavLink: true,
-            activeClassName,
-            to: toUrl,
-            ...(activeBasePath || activeBaseRegex
-              ? {
-                  isActive: (_match, location) =>
-                    activeBaseRegex
-                      ? new RegExp(activeBaseRegex).test(location.pathname)
-                      : location.pathname.startsWith(activeBaseUrl),
-                }
-              : null),
-          })}
+              isNavLink: true,
+              activeClassName,
+              to: toUrl,
+              ...(activeBasePath || activeBaseRegex
+                ? {
+                    isActive: (_match, location) =>
+                      activeBaseRegex
+                        ? new RegExp(activeBaseRegex).test(location.pathname)
+                        : location.pathname.startsWith(activeBaseUrl),
+                  }
+                : null),
+            })}
         {...props}>
         {label}
       </Link>
