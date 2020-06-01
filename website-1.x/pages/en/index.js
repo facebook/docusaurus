@@ -61,6 +61,16 @@ class Index extends React.Component {
 
     return (
       <div>
+        <div className="announcement">
+          <div className="announcement-inner">
+            Black Lives Matter.
+            <a href="https://support.eji.org/give/153413/#!/donation/checkout">
+              {' '}
+              Support the Equal Justice Initiative
+            </a>
+            .
+          </div>
+        </div>
         <HomeSplash siteConfig={siteConfig} language={language} />
         <div className="announcement">
           <div className="announcement-inner">
