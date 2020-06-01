@@ -35,6 +35,7 @@ function useSearchQuery() {
       });
     },
     navigateToSearchPage: (searchValue) => {
+      // Refer to https://github.com/facebook/docusaurus/pull/2838
       history.push(`${baseUrl}search?q=${searchValue}`);
     },
   };
