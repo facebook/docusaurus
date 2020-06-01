@@ -312,7 +312,7 @@ describe('load utils', () => {
           import Component from '@site/src/components/Component';
           import Component from '@site/src/components/Component'
 
-          Lorem **ipsum** dolor sit \`amet\`, consectetur _adipiscing_ elit. [**Vestibulum**](https://wiktionary.org/wiki/vestibulum) ex urna, ~molestie~ et sagittis ut, varius ac justo :wink:.
+          Lorem **ipsum** dolor sit \`amet\`[^1], consectetur _adipiscing_ elit. [**Vestibulum**](https://wiktionary.org/wiki/vestibulum) ex urna[^bignote], ~molestie~ et sagittis ut, varius ac justo :wink:.
 
           Nunc porttitor libero nec vulputate venenatis. Nam nec rhoncus mauris. Morbi tempus est et nibh maximus, tempus venenatis arcu lobortis.
         `,
@@ -342,6 +342,20 @@ describe('load utils', () => {
           Nunc porttitor libero nec vulputate venenatis. Nam nec rhoncus mauris. Morbi tempus est et nibh maximus, tempus venenatis arcu lobortis.
         `,
         output: 'Lorem ipsum dolor sit amet',
+      },
+      // Content beginning with blockquote
+      {
+        input: `
+          > Lorem ipsum dolor sit amet
+        `,
+        output: 'Lorem ipsum dolor sit amet',
+      },
+      // Content beginning with image (eg. blog post)
+      {
+        input: `
+          ![Lorem ipsum](/img/lorem-ipsum.svg)
+        `,
+        output: 'Lorem ipsum',
       },
     ];
 
