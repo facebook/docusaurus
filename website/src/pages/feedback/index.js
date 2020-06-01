@@ -29,7 +29,7 @@ function Feedback() {
       permalink="/feedback"
       title="Feedback"
       description="Docusaurus 2 Feedback page">
-      <div
+      <main
         className={classnames(
           'container',
           'margin-vert--xl',
