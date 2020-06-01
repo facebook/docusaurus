@@ -491,7 +491,7 @@ module.exports = {
     [
       '@docusaurus/plugin-client-redirects',
       {
-        fromExtension: ['html'],
+        fromExtensions: ['html'],
       },
     ],
   ],
@@ -506,7 +506,7 @@ module.exports = {
     [
       '@docusaurus/plugin-client-redirects',
       {
-        toExtension: ['html'],
+        toExtensions: ['html'],
       },
     ],
   ],
