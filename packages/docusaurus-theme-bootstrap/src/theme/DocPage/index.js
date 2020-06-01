@@ -14,14 +14,20 @@ import {MDXProvider} from '@mdx-js/react';
 import {matchPath} from '@docusaurus/router';
 
 function DocPage(props) {
-  const {route: baseRoute, docsMetadata, location} = props;
+  const {route: baseRoute, docsMetadata, location, content} = props;
+  const {
+    isHomePage,
+  } = docsMetadata;
   // case-sensitive route such as it is defined in the sidebar
-  const currentRoute =
-    baseRoute.routes.find((route) => {
+  const currentRoute = !isHomePage
+    ? baseRoute.routes.find((route) => {
       return matchPath(location.pathname, route);
-    }) || {};
+    }) || {}
+    : {};
   const {permalinkToSidebar, docsSidebars} = docsMetadata;
-  const sidebar = permalinkToSidebar[currentRoute.path];
+  const sidebar = isHomePage
+    ? content.metadata.sidebar
+    : permalinkToSidebar[currentRoute.path];
 
   return (
     <Layout title="Doc page" description="My Doc page">
