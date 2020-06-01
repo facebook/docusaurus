@@ -72,7 +72,7 @@ function Home() {
         <div
           className={classnames(styles.announcement, styles.announcementDark)}>
           <div className={styles.announcementInner}>
-            Black Lives Matter.
+            Black Lives Matter.{' '}
             <Link to="https://support.eji.org/give/153413/#!/donation/checkout">
               Support the Equal Justice Initiative
             </Link>
