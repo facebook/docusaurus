@@ -25,7 +25,7 @@ function Playground({children, theme, transformCode, ...props}) {
         )}>
         Live Editor
       </div>
-      <LiveEditor />
+      <LiveEditor className={styles.playgroundEditor} />
       <div
         className={classnames(
           styles.playgroundHeader,

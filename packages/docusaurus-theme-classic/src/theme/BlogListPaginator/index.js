@@ -13,7 +13,7 @@ function BlogListPaginator(props) {
   const {previousPage, nextPage} = metadata;
 
   return (
-    <nav className="pagination-nav">
+    <nav className="pagination-nav" aria-label="Blog list page navigation">
       <div className="pagination-nav__item">
         {previousPage && (
           <Link className="pagination-nav__link" to={previousPage}>

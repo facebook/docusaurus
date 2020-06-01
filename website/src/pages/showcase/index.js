@@ -21,7 +21,7 @@ const DESCRIPTION =
 function Showcase() {
   return (
     <Layout title={TITLE} description={DESCRIPTION}>
-      <div className="container margin-vert--lg">
+      <main className="container margin-vert--lg">
         <div className="text--center margin-bottom--xl">
           <h1>{TITLE}</h1>
           <p>{DESCRIPTION}</p>
@@ -71,7 +71,7 @@ function Showcase() {
             </div>
           ))}
         </div>
-      </div>
+      </main>
     </Layout>
   );
 }
