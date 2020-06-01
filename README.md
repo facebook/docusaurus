@@ -17,6 +17,8 @@
 </p>
 
 > **We are working hard on Docusaurus v2. If you are new to Docusaurus, try using the new version instead of v1. See the [Docusaurus v2 website](https://v2.docusaurus.io/) for more details.**
+> 
+> You can see the clean live demo with classic theme by clicking this badge [![Runme](https://runme.io/static/button.svg)](https://runme.io/run?app_id=0dd80306-47bb-4e80-95dc-dc95eb05d3fd). 
 
 ## Introduction
 
@@ -31,10 +33,6 @@ Docusaurus is a project for easily building, deploying, and maintaining open sou
 Docusaurus is available as the [`docusaurus` package](https://www.npmjs.com/package/docusaurus) on [npm](https://www.npmjs.com).
 
 We have also released the [`docusaurus-init` package](https://www.npmjs.com/package/docusaurus-init) to make [getting started](https://docusaurus.io/docs/en/installation/) with Docusaurus even easier.
-
-## Demo
-
-[![Runme](https://runme.io/static/button.svg)](https://runme.io/run?app_id=0dd80306-47bb-4e80-95dc-dc95eb05d3fd)- Click on button to see quick-start demo
 
 ## Contributing
 
