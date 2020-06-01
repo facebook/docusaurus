@@ -489,7 +489,7 @@ Main usecase: you have `/myDocusaurusPage`, and you want to redirect to this pag
 module.exports = {
   plugins: [
     [
-      '@docusaurus/plugin-sitemap',
+      '@docusaurus/plugin-client-redirects',
       {
         fromExtension: ['html'],
       },
@@ -504,7 +504,7 @@ Second usecase: you have `/myDocusaurusPage.html`, and you want to redirect to t
 module.exports = {
   plugins: [
     [
-      '@docusaurus/plugin-sitemap',
+      '@docusaurus/plugin-client-redirects',
       {
         toExtension: ['html'],
       },
@@ -521,7 +521,7 @@ Let's imagine you change the url of an pexisting age, you might want to make sur
 module.exports = {
   plugins: [
     [
-      '@docusaurus/plugin-sitemap',
+      '@docusaurus/plugin-client-redirects',
       {
         createRedirects: function (existingPath) {
           if (existingPath === '/docs/newDocPath') {
