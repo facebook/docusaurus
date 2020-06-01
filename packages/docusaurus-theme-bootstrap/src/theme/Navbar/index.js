@@ -18,8 +18,19 @@ import {
   NavItem as NavItemBase,
 } from 'reactstrap';
 
-function NavItem({href, label, to, ...props}) {
+function NavItem({
+  activeBasePath,
+  activeBaseRegex,
+  href,
+  label,
+  to,
+  activeClassName = 'nav-link active',
+  prependBaseUrlToHref,
+  ...props
+}) {
   const toUrl = useBaseUrl(to);
+  const activeBaseUrl = useBaseUrl(activeBasePath);
+  const normalizedHref = useBaseUrl(href, true);
 
   return (
     <NavItemBase>
@@ -29,11 +40,21 @@ function NavItem({href, label, to, ...props}) {
           ? {
               target: '_blank',
               rel: 'noopener noreferrer',
-              href,
+              href: prependBaseUrlToHref ? normalizedHref : href,
             }
           : {
-              to: toUrl,
-            })}
+            isNavLink: true,
+            activeClassName,
+            to: toUrl,
+            ...(activeBasePath || activeBaseRegex
+              ? {
+                  isActive: (_match, location) =>
+                    activeBaseRegex
+                      ? new RegExp(activeBaseRegex).test(location.pathname)
+                      : location.pathname.startsWith(activeBaseUrl),
+                }
+              : null),
+          })}
         {...props}>
         {label}
       </Link>
