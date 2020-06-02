@@ -24,7 +24,7 @@ function NavItem({
   href,
   label,
   to,
-  activeClassName = 'nav-link active',
+  activeClassName = 'nav-link text-info',
   prependBaseUrlToHref,
   ...props
 }) {
