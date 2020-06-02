@@ -14,7 +14,7 @@ Object {
               "type": "link",
             },
             Object {
-              "href": "/docs/foo/baz",
+              "href": "/docs/foo/bazSlug.html",
               "label": "baz",
               "type": "link",
             },
@@ -85,7 +85,7 @@ Array [
         "modules": Object {
           "content": "@site/docs/foo/baz.md",
         },
-        "path": "/docs/foo/baz",
+        "path": "/docs/foo/bazSlug.html",
       },
       Object {
         "component": "@theme/DocItem",
@@ -159,7 +159,7 @@ Array [
         "modules": Object {
           "content": "@site/versioned_docs/version-1.0.0/foo/bar.md",
         },
-        "path": "/docs/1.0.0/foo/bar",
+        "path": "/docs/1.0.0/foo/barSlug",
       },
       Object {
         "component": "@theme/DocItem",
@@ -193,7 +193,7 @@ Array [
         "modules": Object {
           "content": "@site/docs/foo/bar.md",
         },
-        "path": "/docs/next/foo/bar",
+        "path": "/docs/next/foo/barSlug",
       },
       Object {
         "component": "@theme/DocItem",
@@ -241,7 +241,7 @@ Object {
       "collapsed": true,
       "items": Array [
         Object {
-          "href": "/docs/next/foo/bar",
+          "href": "/docs/next/foo/barSlug",
           "label": "bar",
           "type": "link",
         },
@@ -267,7 +267,7 @@ Object {
       "collapsed": true,
       "items": Array [
         Object {
-          "href": "/docs/1.0.0/foo/bar",
+          "href": "/docs/1.0.0/foo/barSlug",
           "label": "bar",
           "type": "link",
         },
@@ -330,7 +330,7 @@ Object {
         "collapsed": true,
         "items": Array [
           Object {
-            "href": "/docs/1.0.0/foo/bar",
+            "href": "/docs/1.0.0/foo/barSlug",
             "label": "bar",
             "type": "link",
           },
@@ -358,7 +358,7 @@ Object {
     ],
   },
   "permalinkToSidebar": Object {
-    "/docs/1.0.0/foo/bar": "version-1.0.0/docs",
+    "/docs/1.0.0/foo/barSlug": "version-1.0.0/docs",
     "/docs/1.0.0/foo/baz": "version-1.0.0/docs",
     "/docs/1.0.0/hello": "version-1.0.0/docs",
   },
@@ -412,7 +412,7 @@ Object {
         "collapsed": true,
         "items": Array [
           Object {
-            "href": "/docs/next/foo/bar",
+            "href": "/docs/next/foo/barSlug",
             "label": "bar",
             "type": "link",
           },
@@ -435,7 +435,7 @@ Object {
     ],
   },
   "permalinkToSidebar": Object {
-    "/docs/next/foo/bar": "docs",
+    "/docs/next/foo/barSlug": "docs",
     "/docs/next/hello": "docs",
   },
   "version": "next",
