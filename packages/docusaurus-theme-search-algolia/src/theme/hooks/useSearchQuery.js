@@ -7,12 +7,14 @@
 
 import {useHistory, useLocation} from '@docusaurus/router';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 const SEARCH_PARAM_QUERY = 'q';
 
 function useSearchQuery() {
   const history = useHistory();
   const location = useLocation();
+  const {siteConfig: {baseUrl} = {}} = useDocusaurusContext();
 
   return {
     searchValue:
@@ -33,7 +35,8 @@ function useSearchQuery() {
       });
     },
     navigateToSearchPage: (searchValue) => {
-      history.push(`/search?q=${searchValue}`);
+      // Refer to https://github.com/facebook/docusaurus/pull/2838
+      history.push(`${baseUrl}search?q=${searchValue}`);
     },
   };
 }
