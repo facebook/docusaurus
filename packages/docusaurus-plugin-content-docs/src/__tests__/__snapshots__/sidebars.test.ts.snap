@@ -157,6 +157,7 @@ exports[`loadSidebars sidebars with first level not a category 1`] = `
 Object {
   "docs": Array [
     Object {
+      "collapsed": true,
       "items": Array [
         Object {
           "id": "greeting",

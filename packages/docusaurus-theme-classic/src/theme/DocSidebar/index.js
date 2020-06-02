@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState, useCallback} from 'react';
+import React, {useState, useCallback, useEffect, useRef} from 'react';
 import classnames from 'classnames';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useAnnouncementBarContext from '@theme/hooks/useAnnouncementBarContext';
@@ -19,6 +19,14 @@ import styles from './styles.module.css';
 
 const MOBILE_TOGGLE_SIZE = 24;
 
+function usePrevious(value) {
+  const ref = useRef(value);
+  useEffect(() => {
+    ref.current = value;
+  }, [value]);
+  return ref.current;
+}
+
 const isActiveSidebarItem = (item, activePath) => {
   if (item.type === 'link') {
     return item.href === activePath;
@@ -31,17 +39,31 @@ const isActiveSidebarItem = (item, activePath) => {
   return false;
 };
 
-function DocSidebarItem({
+function DocSidebarItemCategory({
   item,
   onItemClick,
   collapsible,
   activePath,
   ...props
 }) {
-  const isActive = isActiveSidebarItem(item, activePath);
-  const {items, href, label, type} = item;
+  const {items, label} = item;
 
-  const [collapsed, setCollapsed] = useState(item.collapsed);
+  const isActive = isActiveSidebarItem(item, activePath);
+  const wasActive = usePrevious(isActive);
+
+  // active categories are always initialized as expanded
+  // the default (item.collapsed) is only used for non-active categories
+  const [collapsed, setCollapsed] = useState(() => {
+    return isActive ? false : item.collapsed;
+  });
+
+  // If we navigate to a category, it should automatically expand itself
+  useEffect(() => {
+    const justBecameActive = isActive && !wasActive;
+    if (justBecameActive && collapsed) {
+      setCollapsed(false);
+    }
+  }, [isActive, wasActive, collapsed]);
 
   const handleItemClick = useCallback(
     (e) => {
@@ -52,97 +74,82 @@ function DocSidebarItem({
     [setCollapsed],
   );
 
-  switch (type) {
-    case 'category':
-      return (
-        items.length > 0 && (
-          <li
-            className={classnames('menu__list-item', {
-              'menu__list-item--collapsed': collapsed,
-            })}
-            key={label}>
-            <a
-              className={classnames('menu__link', {
-                'menu__link--sublist': collapsible,
-                'menu__link--active':
-                  collapsible && !item.collapsed && isActive,
-              })}
-              href="#!"
-              onClick={collapsible ? handleItemClick : undefined}
-              {...props}>
-              {label}
-            </a>
-            <ul className="menu__list">
-              {items.map((childItem) => (
-                <DocSidebarItem
-                  tabIndex={collapsed ? '-1' : '0'}
-                  key={childItem.label}
-                  item={childItem}
-                  onItemClick={onItemClick}
-                  collapsible={collapsible}
-                  activePath={activePath}
-                />
-              ))}
-            </ul>
-          </li>
-        )
-      );
-
-    case 'link':
-    default:
-      return (
-        <li className="menu__list-item" key={label}>
-          <Link
-            className={classnames('menu__link', {
-              'menu__link--active': isActive,
-            })}
-            to={href}
-            {...(isInternalUrl(href)
-              ? {
-                  isNavLink: true,
-                  exact: true,
-                  onClick: onItemClick,
-                }
-              : {
-                  target: '_blank',
-                  rel: 'noreferrer noopener',
-                })}
-            {...props}>
-            {label}
-          </Link>
-        </li>
-      );
+  if (items.length === 0) {
+    return null;
   }
+
+  return (
+    <li
+      className={classnames('menu__list-item', {
+        'menu__list-item--collapsed': collapsed,
+      })}
+      key={label}>
+      <a
+        className={classnames('menu__link', {
+          'menu__link--sublist': collapsible,
+          'menu__link--active': collapsible && isActive,
+        })}
+        href="#!"
+        onClick={collapsible ? handleItemClick : undefined}
+        {...props}>
+        {label}
+      </a>
+      <ul className="menu__list">
+        {items.map((childItem) => (
+          <DocSidebarItem
+            tabIndex={collapsed ? '-1' : '0'}
+            key={childItem.label}
+            item={childItem}
+            onItemClick={onItemClick}
+            collapsible={collapsible}
+            activePath={activePath}
+          />
+        ))}
+      </ul>
+    </li>
+  );
 }
 
-// Calculate the category collapsing state when a page navigation occurs.
-// We want to automatically expand the categories which contains the current page.
-function mutateSidebarCollapsingState(item, path) {
-  const {items, href, type} = item;
-  switch (type) {
-    case 'category': {
-      const anyChildItemsActive =
-        items
-          .map((childItem) => mutateSidebarCollapsingState(childItem, path))
-          .filter((val) => val).length > 0;
+function DocSidebarItemLink({
+  item,
+  onItemClick,
+  activePath,
+  collapsible,
+  ...props
+}) {
+  const {href, label} = item;
+  const isActive = isActiveSidebarItem(item, activePath);
+  return (
+    <li className="menu__list-item" key={label}>
+      <Link
+        className={classnames('menu__link', {
+          'menu__link--active': isActive,
+        })}
+        to={href}
+        {...(isInternalUrl(href)
+          ? {
+              isNavLink: true,
+              exact: true,
+              onClick: onItemClick,
+            }
+          : {
+              target: '_blank',
+              rel: 'noreferrer noopener',
+            })}
+        {...props}>
+        {label}
+      </Link>
+    </li>
+  );
+}
 
-      // Check if the user wants the category to be expanded by default
-      const shouldExpand = item.collapsed === false;
-
-      // eslint-disable-next-line no-param-reassign
-      item.collapsed = !anyChildItemsActive;
-
-      if (shouldExpand) {
-        // eslint-disable-next-line no-param-reassign
-        item.collapsed = false;
-      }
-
-      return anyChildItemsActive;
-    }
-
+function DocSidebarItem(props) {
+  switch (props.item.type) {
+    case 'category':
+      return <DocSidebarItemCategory {...props} />;
     case 'link':
     default:
-      return href === path;
+      return <DocSidebarItemLink {...props} />;
   }
 }
 
@@ -176,12 +183,6 @@ function DocSidebar(props) {
   if (!sidebarData) {
     throw new Error(
       `Cannot find the sidebar "${currentSidebar}" in the sidebar config!`,
-    );
-  }
-
-  if (sidebarCollapsible) {
-    sidebarData.forEach((sidebarItem) =>
-      mutateSidebarCollapsingState(sidebarItem, path),
     );
   }
 

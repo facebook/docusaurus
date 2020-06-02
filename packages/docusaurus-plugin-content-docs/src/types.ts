@@ -42,7 +42,7 @@ export interface SidebarItemCategory {
   type: 'category';
   label: string;
   items: SidebarItem[];
-  collapsed?: boolean;
+  collapsed: boolean;
 }
 
 export interface SidebarItemCategoryRaw {
