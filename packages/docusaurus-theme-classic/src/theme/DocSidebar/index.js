@@ -6,7 +6,6 @@
  */
 
 import React, {useState, useCallback} from 'react';
-import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import classnames from 'classnames';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useAnnouncementBarContext from '@theme/hooks/useAnnouncementBarContext';
@@ -20,6 +19,18 @@ import styles from './styles.module.css';
 
 const MOBILE_TOGGLE_SIZE = 24;
 
+const isActiveSidebarItem = (item, activePath) => {
+  if (item.type === 'link') {
+    return item.href === activePath;
+  }
+  if (item.type === 'category') {
+    return item.items.some((subItem) =>
+      isActiveSidebarItem(subItem, activePath),
+    );
+  }
+  return false;
+};
+
 function DocSidebarItem({
   item,
   onItemClick,
@@ -27,45 +38,19 @@ function DocSidebarItem({
   activePath,
   ...props
 }) {
+  const isActive = isActiveSidebarItem(item, activePath);
   const {items, href, label, type} = item;
+
   const [collapsed, setCollapsed] = useState(item.collapsed);
-  const [prevCollapsedProp, setPreviousCollapsedProp] = useState(null);
 
-  // If the collapsing state from props changed, probably a navigation event
-  // occurred. Overwrite the component's collapsed state with the props'
-  // collapsed value.
-  if (item.collapsed !== prevCollapsedProp) {
-    setPreviousCollapsedProp(item.collapsed);
-    setCollapsed(item.collapsed);
-  }
-
-  const handleItemClick = useCallback((e) => {
-    e.preventDefault();
-    e.target.blur();
-    setCollapsed((state) => !state);
-  });
-
-  // Make sure we have access to the window
-  const activePageRelativeUrl = ExecutionEnvironment.canUseDOM
-    ? window.location.pathname + window.location.search
-    : null;
-
-  // We need to know if the category item
-  // is the parent of the active page
-  // If it is, this returns true and make sure to highlight this category
-  const isCategoryOfActivePage = (_items, _activePageRelativeUrl) => {
-    // Make sure we have items
-    if (typeof _items !== 'undefined') {
-      return _items.some((categoryItem) => {
-        // Grab the category item's href
-        const childHref = categoryItem.href;
-        // Compare it to the current active page
-        return _activePageRelativeUrl === childHref;
-      });
-    }
-
-    return false;
-  };
+  const handleItemClick = useCallback(
+    (e) => {
+      e.preventDefault();
+      e.target.blur();
+      setCollapsed((state) => !state);
+    },
+    [setCollapsed],
+  );
 
   switch (type) {
     case 'category':
@@ -80,9 +65,7 @@ function DocSidebarItem({
               className={classnames('menu__link', {
                 'menu__link--sublist': collapsible,
                 'menu__link--active':
-                  collapsible &&
-                  !item.collapsed &&
-                  isCategoryOfActivePage(items, activePageRelativeUrl),
+                  collapsible && !item.collapsed && isActive,
               })}
               href="#!"
               onClick={collapsible ? handleItemClick : undefined}
@@ -111,7 +94,7 @@ function DocSidebarItem({
         <li className="menu__list-item" key={label}>
           <Link
             className={classnames('menu__link', {
-              'menu__link--active': href === activePath,
+              'menu__link--active': isActive,
             })}
             to={href}
             {...(isInternalUrl(href)
