@@ -7,6 +7,7 @@
 
 import React from 'react';
 import renderRoutes from '@docusaurus/renderRoutes';
+import NotFound from '@theme/NotFound';
 import DocItem from '@theme/DocItem';
 import DocSidebar from '@theme/DocSidebar';
 import MDXComponents from '@theme/MDXComponents';
@@ -16,14 +17,18 @@ import {matchPath} from '@docusaurus/router';
 
 function DocPage(props) {
   const {route: baseRoute, docsMetadata, location, content} = props;
-  const {isHomePage} = docsMetadata;
+  const {
+    permalinkToSidebar,
+    docsSidebars,
+    isHomePage,
+    homePagePath,
+  } = docsMetadata;
   // case-sensitive route such as it is defined in the sidebar
   const currentRoute = !isHomePage
     ? baseRoute.routes.find((route) => {
         return matchPath(location.pathname, route);
       }) || {}
     : {};
-  const {permalinkToSidebar, docsSidebars} = docsMetadata;
   const sidebar = isHomePage
     ? content.metadata.sidebar
     : permalinkToSidebar[currentRoute.path];
