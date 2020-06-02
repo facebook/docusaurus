@@ -7,6 +7,7 @@
 
 import React from 'react';
 import renderRoutes from '@docusaurus/renderRoutes';
+import DocItem from '@theme/DocItem';
 import DocSidebar from '@theme/DocSidebar';
 import MDXComponents from '@theme/MDXComponents';
 import Layout from '@theme/Layout';
@@ -27,16 +28,24 @@ function DocPage(props) {
     ? content.metadata.sidebar
     : permalinkToSidebar[currentRoute.path];
 
+  if (!isHomePage && Object.keys(currentRoute).length === 0) {
+    return <NotFound {...props} />;
+  }
+
   return (
     <Layout title="Doc page" description="My Doc page">
       <DocSidebar
         docsSidebars={docsSidebars}
-        path={currentRoute.path}
+        path={isHomePage ? homePagePath : currentRoute.path}
         sidebar={sidebar}
       />
       <section className="offset-1 mr-4 mt-4 col-xl-6 offset-xl-4 p-0 justify-content-center align-self-center overflow-hidden">
         <MDXProvider components={MDXComponents}>
-          {renderRoutes(baseRoute.routes)}
+          {isHomePage ? (
+            <DocItem content={content} />
+          ) : (
+            renderRoutes(baseRoute.routes)
+          )}
         </MDXProvider>
       </section>
     </Layout>
