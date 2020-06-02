@@ -52,7 +52,7 @@ function DocPage(props) {
     <Layout version={version} key={isClient}>
       <div className={styles.docPage}>
         {sidebar && (
-          <div className={styles.docSidebarContainer}>
+          <div className={styles.docSidebarContainer} role="complementary">
             <DocSidebar
               docsSidebars={docsSidebars}
               path={isHomePage ? homePagePath : currentRoute.path}
