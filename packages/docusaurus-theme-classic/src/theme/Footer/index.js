@@ -15,7 +15,7 @@ import styles from './styles.module.css';
 
 function FooterLink({to, href, label, prependBaseUrlToHref, ...props}) {
   const toUrl = useBaseUrl(to);
-  const normalizedHref = useBaseUrl(href, true);
+  const normalizedHref = useBaseUrl(href, {forcePrependBaseUrl: true});
 
   return (
     <Link
