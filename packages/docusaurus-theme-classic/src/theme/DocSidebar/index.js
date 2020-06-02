@@ -54,6 +54,9 @@ function DocSidebarItemCategory({
   // active categories are always initialized as expanded
   // the default (item.collapsed) is only used for non-active categories
   const [collapsed, setCollapsed] = useState(() => {
+    if (!collapsible) {
+      return false;
+    }
     return isActive ? false : item.collapsed;
   });
 
