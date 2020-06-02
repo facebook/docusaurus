@@ -63,9 +63,8 @@ class Index extends React.Component {
       <div>
         <div className="announcement">
           <div className="announcement-inner">
-            Black Lives Matter.
+            Black Lives Matter.{' '}
             <a href="https://support.eji.org/give/153413/#!/donation/checkout">
-              {' '}
               Support the Equal Justice Initiative
             </a>
             .
@@ -85,67 +84,69 @@ class Index extends React.Component {
           </div>
         </div>
         <div className="mainContainer">
-          <Container padding={['bottom', 'top']} background="light">
-            <GridBlock
-              align="center"
-              contents={[
-                {
-                  content: `Save time and focus on your project's documentation. Simply
+          <div style={{marginTop: -40}}>
+            <Container padding={['bottom', 'top']} background="light">
+              <GridBlock
+                align="center"
+                contents={[
+                  {
+                    content: `Save time and focus on your project's documentation. Simply
                     write docs and blog posts with [Markdown](${siteConfig.baseUrl}docs/${this.props.language}/doc-markdown)
                     and Docusaurus will publish a set of static html files ready
                     to serve.`,
-                  image: `${siteConfig.baseUrl}img/undraw_typewriter.svg`,
-                  imageAlign: 'top',
-                  imageAlt: 'Markdown',
-                  title: <translate>Powered by Markdown</translate>,
-                },
-                {
-                  content: `[Extend or customize](${siteConfig.baseUrl}docs/${this.props.language}/api-pages)
+                    image: `${siteConfig.baseUrl}img/undraw_typewriter.svg`,
+                    imageAlign: 'top',
+                    imageAlt: 'Markdown',
+                    title: <translate>Powered by Markdown</translate>,
+                  },
+                  {
+                    content: `[Extend or customize](${siteConfig.baseUrl}docs/${this.props.language}/api-pages)
                     your project's layout by reusing React. Docusaurus can be
                     extended while reusing the same header and footer.`,
-                  image: `${siteConfig.baseUrl}img/undraw_react.svg`,
-                  imageAlign: 'top',
-                  imageAlt: 'React',
-                  title: <translate>Built Using React</translate>,
-                },
-                {
-                  content: `[Localization](${siteConfig.baseUrl}docs/${this.props.language}/translation)
+                    image: `${siteConfig.baseUrl}img/undraw_react.svg`,
+                    imageAlign: 'top',
+                    imageAlt: 'React',
+                    title: <translate>Built Using React</translate>,
+                  },
+                  {
+                    content: `[Localization](${siteConfig.baseUrl}docs/${this.props.language}/translation)
                     comes pre-configured. Use [Crowdin](https://crowdin.com/) to translate your docs
                     into over 70 languages.`,
-                  image: `${siteConfig.baseUrl}img/undraw_around_the_world.svg`,
-                  imageAlign: 'top',
-                  imageAlt: 'Translation',
-                  title: <translate>Ready for Translations</translate>,
-                },
-              ]}
-              layout="threeColumn"
-            />
-            <br />
-            <br />
-            <GridBlock
-              align="center"
-              contents={[
-                {
-                  content: `Support users on all versions of your project. Document
+                    image: `${siteConfig.baseUrl}img/undraw_around_the_world.svg`,
+                    imageAlign: 'top',
+                    imageAlt: 'Translation',
+                    title: <translate>Ready for Translations</translate>,
+                  },
+                ]}
+                layout="threeColumn"
+              />
+              <br />
+              <br />
+              <GridBlock
+                align="center"
+                contents={[
+                  {
+                    content: `Support users on all versions of your project. Document
                     [versioning](${siteConfig.baseUrl}docs/${this.props.language}/versioning)
                     helps you keep documentation in sync with project releases.`,
-                  image: `${siteConfig.baseUrl}img/undraw_version_control.svg`,
-                  imageAlign: 'top',
-                  imageAlt: 'Document Versioning',
-                  title: <translate>Document Versioning</translate>,
-                },
-                {
-                  content: `Make it easy for your community to [find](${siteConfig.baseUrl}docs/${this.props.language}/search) what they need in your documentation.
+                    image: `${siteConfig.baseUrl}img/undraw_version_control.svg`,
+                    imageAlign: 'top',
+                    imageAlt: 'Document Versioning',
+                    title: <translate>Document Versioning</translate>,
+                  },
+                  {
+                    content: `Make it easy for your community to [find](${siteConfig.baseUrl}docs/${this.props.language}/search) what they need in your documentation.
                     We proudly support [Algolia documentation search](https://www.algolia.com/).`,
-                  image: `${siteConfig.baseUrl}img/undraw_algolia.svg`,
-                  imageAlign: 'top',
-                  imageAlt: 'Document Search',
-                  title: <translate>Document Search</translate>,
-                },
-              ]}
-              layout="twoColumn"
-            />
-          </Container>
+                    image: `${siteConfig.baseUrl}img/undraw_algolia.svg`,
+                    imageAlign: 'top',
+                    imageAlt: 'Document Search',
+                    title: <translate>Document Search</translate>,
+                  },
+                ]}
+                layout="twoColumn"
+              />
+            </Container>
+          </div>
           <Container padding={['bottom', 'top']}>
             <GridBlock
               contents={[
