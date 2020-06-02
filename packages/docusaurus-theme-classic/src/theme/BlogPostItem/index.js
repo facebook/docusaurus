@@ -9,8 +9,10 @@ import React from 'react';
 import classnames from 'classnames';
 import {MDXProvider} from '@mdx-js/react';
 
+import Head from '@docusaurus/Head';
 import Link from '@docusaurus/Link';
 import MDXComponents from '@theme/MDXComponents';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 import styles from './styles.module.css';
 
@@ -38,12 +40,13 @@ function BlogPostItem(props) {
     isBlogPostPage = false,
   } = props;
   const {date, permalink, tags, readingTime} = metadata;
-  const {author, title} = frontMatter;
+  const {author, title, image} = frontMatter;
 
   const authorURL = frontMatter.author_url || frontMatter.authorURL;
   const authorTitle = frontMatter.author_title || frontMatter.authorTitle;
   const authorImageURL =
     frontMatter.author_image_url || frontMatter.authorImageURL;
+  const imageUrl = useBaseUrl(image, {absolute: true});
 
   const renderPostHeader = () => {
     const TitleHeading = isBlogPostPage ? 'h1' : 'h2';
@@ -92,38 +95,48 @@ function BlogPostItem(props) {
   };
 
   return (
-    <article className={!isBlogPostPage ? 'margin-bottom--xl' : undefined}>
-      {renderPostHeader()}
-      <section className="markdown">
-        <MDXProvider components={MDXComponents}>{children}</MDXProvider>
-      </section>
-      {(tags.length > 0 || truncated) && (
-        <footer className="row margin-vert--lg">
-          {tags.length > 0 && (
-            <div className="col">
-              <strong>Tags:</strong>
-              {tags.map(({label, permalink: tagPermalink}) => (
+    <>
+      <Head>
+        {image && <meta property="og:image" content={imageUrl} />}
+        {image && <meta property="twitter:image" content={imageUrl} />}
+        {image && (
+          <meta name="twitter:image:alt" content={`Image for ${title}`} />
+        )}
+      </Head>
+
+      <article className={!isBlogPostPage ? 'margin-bottom--xl' : undefined}>
+        {renderPostHeader()}
+        <section className="markdown">
+          <MDXProvider components={MDXComponents}>{children}</MDXProvider>
+        </section>
+        {(tags.length > 0 || truncated) && (
+          <footer className="row margin-vert--lg">
+            {tags.length > 0 && (
+              <div className="col">
+                <strong>Tags:</strong>
+                {tags.map(({label, permalink: tagPermalink}) => (
+                  <Link
+                    key={tagPermalink}
+                    className="margin-horiz--sm"
+                    to={tagPermalink}>
+                    {label}
+                  </Link>
+                ))}
+              </div>
+            )}
+            {truncated && (
+              <div className="col text--right">
                 <Link
-                  key={tagPermalink}
-                  className="margin-horiz--sm"
-                  to={tagPermalink}>
-                  {label}
+                  to={metadata.permalink}
+                  aria-label={`Read more about ${title}`}>
+                  <strong>Read More</strong>
                 </Link>
-              ))}
-            </div>
-          )}
-          {truncated && (
-            <div className="col text--right">
-              <Link
-                to={metadata.permalink}
-                aria-label={`Read more about ${title}`}>
-                <strong>Read More</strong>
-              </Link>
-            </div>
-          )}
-        </footer>
-      )}
-    </article>
+              </div>
+            )}
+          </footer>
+        )}
+      </article>
+    </>
   );
 }
 

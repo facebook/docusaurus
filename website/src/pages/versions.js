@@ -26,7 +26,7 @@ function Version() {
       title="Versions"
       permalink="/versions"
       description="Docusaurus 2 Versions page listing all documented site versions">
-      <div className="container margin-vert--lg">
+      <main className="container margin-vert--lg">
         <h1>Docusaurus documentation versions</h1>
         <div className="margin-bottom--lg">
           <h3 id="latest">Latest version (Stable)</h3>
@@ -96,7 +96,7 @@ function Version() {
             </table>
           </div>
         )}
-      </div>
+      </main>
     </Layout>
   );
 }

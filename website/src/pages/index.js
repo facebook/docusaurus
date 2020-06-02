@@ -69,6 +69,16 @@ function Home() {
       title={tagline}
       description={customFields.description}>
       <main>
+        <div
+          className={classnames(styles.announcement, styles.announcementDark)}>
+          <div className={styles.announcementInner}>
+            Black Lives Matter.{' '}
+            <Link to="https://support.eji.org/give/153413/#!/donation/checkout">
+              Support the Equal Justice Initiative
+            </Link>
+            .
+          </div>
+        </div>
         <div className={styles.hero}>
           <div className={styles.heroInner}>
             <h1 className={styles.heroProjectTagline}>
