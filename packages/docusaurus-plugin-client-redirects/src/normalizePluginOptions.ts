@@ -5,12 +5,19 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {PluginOptions, RedirectsCreator, UserPluginOptions} from './types';
+import {
+  PluginOptions,
+  RedirectOption,
+  RedirectsCreator,
+  UserPluginOptions,
+} from './types';
 import * as Yup from 'yup';
+import {PathnameValidator} from './redirectValidation';
 
 export const DefaultPluginOptions: PluginOptions = {
   fromExtensions: [],
   toExtensions: [],
+  redirects: [],
 };
 
 function isRedirectsCreator(value: any): value is RedirectsCreator | undefined {
@@ -20,9 +27,28 @@ function isRedirectsCreator(value: any): value is RedirectsCreator | undefined {
   return value instanceof Function;
 }
 
+const RedirectPluginOptionValidation = Yup.object<RedirectOption>({
+  to: PathnameValidator.required(),
+  // wasn't able to use .when("from")...had cyclic dependency error
+  // (https://stackoverflow.com/a/56866941/82609)
+  from: Yup.mixed<string | string[]>().test({
+    name: 'from',
+    message: '${path} contains invalid redirection value',
+    test: (from) => {
+      return Array.isArray(from)
+        ? Yup.array()
+            .of(PathnameValidator.required())
+            .required()
+            .isValidSync(from)
+        : PathnameValidator.required().isValidSync(from);
+    },
+  }),
+});
+
 const UserOptionsSchema = Yup.object().shape<UserPluginOptions>({
   fromExtensions: Yup.array().of(Yup.string().required().min(0)),
   toExtensions: Yup.array().of(Yup.string().required().min(0)),
+  redirects: Yup.array().of(RedirectPluginOptionValidation) as any, // TODO Yup expect weird typing here
   createRedirects: Yup.mixed().test(
     'createRedirects',
     'createRedirects should be a function',

@@ -10,7 +10,13 @@ import {Props} from '@docusaurus/types';
 export type PluginOptions = {
   fromExtensions: string[];
   toExtensions: string[];
+  redirects: RedirectOption[];
   createRedirects?: RedirectsCreator;
+};
+
+export type RedirectOption = {
+  to: string;
+  from: string | string[];
 };
 
 export type UserPluginOptions = Partial<PluginOptions>;

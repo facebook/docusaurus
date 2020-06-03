@@ -36,11 +36,13 @@ describe('normalizePluginOptions', () => {
         fromExtensions: ['exe', 'zip'],
         toExtensions: ['html'],
         createRedirects,
+        redirects: [{from: '/x', to: '/y'}],
       }),
     ).toEqual({
       fromExtensions: ['exe', 'zip'],
       toExtensions: ['html'],
       createRedirects,
+      redirects: [{from: '/x', to: '/y'}],
     });
   });
 

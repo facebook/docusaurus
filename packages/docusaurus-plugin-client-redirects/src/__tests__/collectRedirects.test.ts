@@ -73,6 +73,67 @@ describe('collectRedirects', () => {
     ]);
   });
 
+  test('should collect redirects from plugin option redirects', () => {
+    expect(
+      collectRedirects(
+        createTestPluginContext(
+          {
+            redirects: [
+              {
+                from: '/someLegacyPath',
+                to: '/somePath',
+              },
+              {
+                from: ['/someLegacyPathArray1', '/someLegacyPathArray2'],
+                to: '/',
+              },
+            ],
+          },
+          ['/', '/somePath'],
+        ),
+      ),
+    ).toEqual([
+      {
+        fromRoutePath: '/someLegacyPath',
+        toRoutePath: '/somePath',
+      },
+      {
+        fromRoutePath: '/someLegacyPathArray1',
+        toRoutePath: '/',
+      },
+      {
+        fromRoutePath: '/someLegacyPathArray2',
+        toRoutePath: '/',
+      },
+    ]);
+  });
+
+  test('should throw if plugin option redirects contain invalid to paths', () => {
+    expect(() =>
+      collectRedirects(
+        createTestPluginContext(
+          {
+            redirects: [
+              {
+                from: '/someLegacyPath',
+                to: '/',
+              },
+              {
+                from: '/someLegacyPath',
+                to: '/this/path/does/not/exist2',
+              },
+              {
+                from: '/someLegacyPath',
+                to: '/this/path/does/not/exist2',
+              },
+            ],
+          },
+          ['/', '/someExistingPath', '/anotherExistingPath'],
+        ),
+      ),
+    ).toThrowErrorMatchingSnapshot();
+  });
+
   test('should collect redirects with custom redirect creator', () => {
     expect(
       collectRedirects(
@@ -116,6 +177,28 @@ describe('collectRedirects', () => {
         toRoutePath: '/otherPath.html',
       },
     ]);
+  });
+
+  test('should throw if redirect creator creates invalid redirects', () => {
+    expect(() =>
+      collectRedirects(
+        createTestPluginContext(
+          {
+            createRedirects: (routePath) => {
+              if (routePath === '/') {
+                return [
+                  `https://google.com/`,
+                  `//abc`,
+                  `/def?queryString=toto`,
+                ];
+              }
+              return;
+            },
+          },
+          ['/'],
+        ),
+      ),
+    ).toThrowErrorMatchingSnapshot();
   });
 
   test('should filter unwanted redirects', () => {

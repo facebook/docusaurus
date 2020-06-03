@@ -16,9 +16,11 @@ const validPathnameTest: Yup.TestOptions = {
   test: isValidPathname,
 };
 
+export const PathnameValidator = Yup.string().test(validPathnameTest);
+
 const RedirectSchema = Yup.object<RedirectMetadata>({
-  fromRoutePath: Yup.string().required().test(validPathnameTest),
-  toRoutePath: Yup.string().required().test(validPathnameTest),
+  fromRoutePath: PathnameValidator.required(),
+  toRoutePath: PathnameValidator.required(),
 });
 
 export function validateRedirect(redirect: RedirectMetadata) {
@@ -26,6 +28,8 @@ export function validateRedirect(redirect: RedirectMetadata) {
     RedirectSchema.validateSync(redirect);
   } catch (e) {
     // Tells the user which redirect is the problem!
-    throw new Error(`${e.message}\nRedirect=${JSON.stringify(redirect)}`);
+    throw new Error(
+      `${JSON.stringify(redirect)} => Validation error: ${e.message}`,
+    );
   }
 }
