@@ -471,8 +471,6 @@ It is better to use server-side redirects whenever possible.
 
 Before using this plugin, you should look if your hosting provider doesn't offer this feature.
 
-As far as we know, only Github Pages does not offer server-side redirects.
-
 :::
 
 **Installation**
