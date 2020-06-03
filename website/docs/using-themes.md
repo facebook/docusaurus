@@ -119,7 +119,7 @@ If you have installed `@docusaurus/preset-classic`, you don't need to install it
 
 ### `@docusaurus/theme-bootstrap`
 
-The bootstrap theme for Docusaurus. You can refer to [bootstrap theme configuration](bootstrap-classic.md) for more details on the configuration.
+The bootstrap theme for Docusaurus. You can refer to [bootstrap theme configuration](theme-bootstrap.md) for more details on the configuration.
 
 ```bash npm2yarn
 npm install --save @docusaurus/theme-bootstrap
