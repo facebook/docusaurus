@@ -22,5 +22,10 @@ const RedirectSchema = Yup.object<RedirectMetadata>({
 });
 
 export function validateRedirect(redirect: RedirectMetadata) {
-  RedirectSchema.validateSync(redirect);
+  try {
+    RedirectSchema.validateSync(redirect);
+  } catch (e) {
+    // Tells the user which redirect is the problem!
+    throw new Error(`${e.message}\nRedirect=${JSON.stringify(redirect)}`);
+  }
 }

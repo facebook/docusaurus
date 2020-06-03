@@ -33,26 +33,20 @@ describe('validateRedirect', () => {
         fromRoutePath: 'https://fb.com/fromSomePath',
         toRoutePath: '/toSomePath',
       }),
-    ).toThrowErrorMatchingInlineSnapshot(
-      `"fromRoutePath is not a valid pathname. Pathname should start with / and not contain any domain or query string"`,
-    );
+    ).toThrowErrorMatchingSnapshot();
 
     expect(() =>
       validateRedirect({
         fromRoutePath: '/fromSomePath',
         toRoutePath: 'https://fb.com/toSomePath',
       }),
-    ).toThrowErrorMatchingInlineSnapshot(
-      `"toRoutePath is not a valid pathname. Pathname should start with / and not contain any domain or query string"`,
-    );
+    ).toThrowErrorMatchingSnapshot();
 
     expect(() =>
       validateRedirect({
         fromRoutePath: '/fromSomePath',
         toRoutePath: '/toSomePath?queryString=xyz',
       }),
-    ).toThrowErrorMatchingInlineSnapshot(
-      `"toRoutePath is not a valid pathname. Pathname should start with / and not contain any domain or query string"`,
-    );
+    ).toThrowErrorMatchingSnapshot();
   });
 });

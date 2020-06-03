@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`validateRedirect throw for bad redirects 1`] = `
+"fromRoutePath is not a valid pathname. Pathname should start with / and not contain any domain or query string
+Redirect={\\"fromRoutePath\\":\\"https://fb.com/fromSomePath\\",\\"toRoutePath\\":\\"/toSomePath\\"}"
+`;
+
+exports[`validateRedirect throw for bad redirects 2`] = `
+"toRoutePath is not a valid pathname. Pathname should start with / and not contain any domain or query string
+Redirect={\\"fromRoutePath\\":\\"/fromSomePath\\",\\"toRoutePath\\":\\"https://fb.com/toSomePath\\"}"
+`;
+
+exports[`validateRedirect throw for bad redirects 3`] = `
+"toRoutePath is not a valid pathname. Pathname should start with / and not contain any domain or query string
+Redirect={\\"fromRoutePath\\":\\"/fromSomePath\\",\\"toRoutePath\\":\\"/toSomePath?queryString=xyz\\"}"
+`;
