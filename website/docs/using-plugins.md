@@ -523,10 +523,8 @@ module.exports = {
       {
         redirects: [
           {
-            // : string
-            to: '/docs/newDocPath',
-            // : string | string[]
-            from: ['/docs/oldDocPathFrom2019', '/docs/legacyDocPathFrom2016'],
+            to: '/docs/newDocPath', // string
+            from: ['/docs/oldDocPathFrom2019', '/docs/legacyDocPathFrom2016'], // string | string[]
           },
         ],
       },
@@ -545,7 +543,7 @@ module.exports = {
       {
         createRedirects: function (existingPath) {
           if (existingPath === '/docs/newDocPath') {
-            return ['/docs/oldDocPathFrom2019', '/docs/legacyDocPathFrom2016'];
+            return ['/docs/oldDocPathFrom2019', '/docs/legacyDocPathFrom2016']; // string | string[]
           }
         },
       },
