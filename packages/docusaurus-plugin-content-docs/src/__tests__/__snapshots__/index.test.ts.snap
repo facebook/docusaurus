@@ -29,7 +29,7 @@ Object {
           "type": "link",
         },
         Object {
-          "href": "/docs/hello",
+          "href": "/docs",
           "label": "Hello, World !",
           "type": "link",
         },
@@ -41,7 +41,7 @@ Object {
       "collapsed": true,
       "items": Array [
         Object {
-          "href": "/docs/hello",
+          "href": "/docs",
           "label": "Hello, World !",
           "type": "link",
         },
@@ -87,14 +87,6 @@ Array [
           "content": "@site/docs/foo/baz.md",
         },
         "path": "/docs/foo/bazSlug.html",
-      },
-      Object {
-        "component": "@theme/DocItem",
-        "exact": true,
-        "modules": Object {
-          "content": "@site/docs/hello.md",
-        },
-        "path": "/docs/hello",
       },
       Object {
         "component": "@theme/DocItem",
@@ -170,14 +162,6 @@ Array [
         },
         "path": "/docs/1.0.0/foo/baz",
       },
-      Object {
-        "component": "@theme/DocItem",
-        "exact": true,
-        "modules": Object {
-          "content": "@site/versioned_docs/version-1.0.0/hello.md",
-        },
-        "path": "/docs/1.0.0/hello",
-      },
     ],
   },
   Object {
@@ -196,14 +180,6 @@ Array [
         },
         "path": "/docs/next/foo/barSlug",
       },
-      Object {
-        "component": "@theme/DocItem",
-        "exact": true,
-        "modules": Object {
-          "content": "@site/docs/hello.md",
-        },
-        "path": "/docs/next/hello",
-      },
     ],
   },
   Object {
@@ -221,14 +197,6 @@ Array [
           "content": "@site/versioned_docs/version-1.0.1/foo/bar.md",
         },
         "path": "/docs/foo/bar",
-      },
-      Object {
-        "component": "@theme/DocItem",
-        "exact": true,
-        "modules": Object {
-          "content": "@site/versioned_docs/version-1.0.1/hello.md",
-        },
-        "path": "/docs/hello",
       },
     ],
   },
@@ -254,7 +222,7 @@ Object {
       "collapsed": true,
       "items": Array [
         Object {
-          "href": "/docs/next/hello",
+          "href": "/docs/next",
           "label": "hello",
           "type": "link",
         },
@@ -285,7 +253,7 @@ Object {
       "collapsed": true,
       "items": Array [
         Object {
-          "href": "/docs/1.0.0/hello",
+          "href": "/docs/1.0.0",
           "label": "hello",
           "type": "link",
         },
@@ -311,7 +279,7 @@ Object {
       "collapsed": true,
       "items": Array [
         Object {
-          "href": "/docs/hello",
+          "href": "/docs",
           "label": "hello",
           "type": "link",
         },
@@ -348,7 +316,7 @@ Object {
         "collapsed": true,
         "items": Array [
           Object {
-            "href": "/docs/1.0.0/hello",
+            "href": "/docs/1.0.0",
             "label": "hello",
             "type": "link",
           },
@@ -387,7 +355,7 @@ Object {
         "collapsed": true,
         "items": Array [
           Object {
-            "href": "/docs/hello",
+            "href": "/docs",
             "label": "hello",
             "type": "link",
           },
@@ -425,7 +393,7 @@ Object {
         "collapsed": true,
         "items": Array [
           Object {
-            "href": "/docs/next/hello",
+            "href": "/docs/next",
             "label": "hello",
             "type": "link",
           },

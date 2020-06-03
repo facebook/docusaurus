@@ -61,7 +61,7 @@ module.exports = {
 };
 ```
 
-Given the example above, now when you navigate to the path `/docs` you will see that the document content with id is `getting-started`. This functionality also works for docs with versioning enabled.
+Given the example above, now when you navigate to the path `/docs` you will see that the document content with id is `getting-started`. This functionality also works for docs with versioning enabled. Importantly, with document serves as home docs page, it will not be available at its URL. Following the example above, this means that the `docs/getting-started` URL will be lead to a 404 error.
 
 :::important
 
