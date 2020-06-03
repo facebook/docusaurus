@@ -5,8 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {useState, useCallback} from 'react';
 import {MDXProvider} from '@mdx-js/react';
+import classnames from 'classnames';
 
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import renderRoutes from '@docusaurus/renderRoutes';
@@ -44,6 +45,23 @@ function DocPage(props) {
     isClient,
   } = useDocusaurusContext();
 
+  const [hiddenSidebar, setHiddenSidebar] = useState(false);
+  // This state (and timeout above) is necessary to prevent background blinking
+  // (since click triggers hover effect) when collapsing sidebar.
+  const [enabledSidebarEffects, setEnabledSidebarEffects] = useState(false);
+
+  const toggleSidebar = useCallback(() => {
+    if (!hiddenSidebar) {
+      setTimeout(() => {
+        setEnabledSidebarEffects(true);
+      }, 500);
+    } else {
+      setEnabledSidebarEffects(false);
+    }
+
+    setHiddenSidebar(!hiddenSidebar);
+  });
+
   if (!isHomePage && Object.keys(currentRoute).length === 0) {
     return <NotFound {...props} />;
   }
@@ -52,23 +70,50 @@ function DocPage(props) {
     <Layout version={version} key={isClient}>
       <div className={styles.docPage}>
         {sidebar && (
-          <div className={styles.docSidebarContainer} role="complementary">
+          <div
+            className={classnames(styles.docSidebarContainer, {
+              [styles.docSidebarContainerHidden]: hiddenSidebar,
+              [styles.docSidebarContainerEnabledEffects]: enabledSidebarEffects,
+            })}
+            role="complementary">
             <DocSidebar
               docsSidebars={docsSidebars}
               path={isHomePage ? homePagePath : currentRoute.path}
               sidebar={sidebar}
               sidebarCollapsible={sidebarCollapsible}
+              onToggle={toggleSidebar}
+              isHiddenSidebar={hiddenSidebar}
             />
+
+            {hiddenSidebar && (
+              <div
+                className={styles.collapsedDocSidebar}
+                aria-label="Expand sidebar"
+                tabIndex="0"
+                role="button"
+                onKeyDown={toggleSidebar}
+                onClick={toggleSidebar}
+              />
+            )}
           </div>
         )}
         <main className={styles.docMainContainer}>
-          <MDXProvider components={MDXComponents}>
-            {isHomePage ? (
-              <DocItem content={content} />
-            ) : (
-              renderRoutes(baseRoute.routes)
-            )}
-          </MDXProvider>
+          <div
+            className={classnames(
+              'container padding-vert--lg',
+              styles.docItemWrapper,
+              {
+                [styles.docItemWrapperEnhanced]: hiddenSidebar,
+              },
+            )}>
+            <MDXProvider components={MDXComponents}>
+              {isHomePage ? (
+                <DocItem content={content} />
+              ) : (
+                renderRoutes(baseRoute.routes)
+              )}
+            </MDXProvider>
+          </div>
         </main>
       </div>
     </Layout>

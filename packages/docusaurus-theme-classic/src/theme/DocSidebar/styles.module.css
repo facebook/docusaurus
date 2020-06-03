@@ -5,12 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+:root {
+  --toggle-sidebar-button-height: 35px;
+}
+
 @media (min-width: 997px) {
   .sidebar {
     display: flex;
     flex-direction: column;
     height: 100vh;
-    overflow-y: auto;
     position: sticky;
     top: 0;
     padding-top: var(--ifm-navbar-height);
@@ -18,6 +21,11 @@
 
   .sidebarWithHideableNavbar {
     padding-top: 0;
+  }
+
+  .sidebarHidden {
+    opacity: 0;
+    display: none;
   }
 
   .sidebar::-webkit-scrollbar {
@@ -80,4 +88,28 @@
   font-weight: var(--ifm-font-weight-bold);
   line-height: 0.9;
   width: 24px;
+}
+
+.toggleSidebarButton {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  border-radius: 0;
+}
+
+html[data-theme='dark'] .toggleSidebarButton {
+  background: var(--ifm-color-emphasis-200);
+  color: var(--ifm-color-content);
+  border: none;
+}
+
+html[data-theme='dark'] .toggleSidebarButton:hover,
+html[data-theme='dark'] .toggleSidebarButton:focus {
+  background: var(--ifm-color-emphasis-300);
+}
+
+.toggleSidebarButton:focus {
+  --ifm-button-background-color: var(--ifm-color-secondary-dark) !important;
+  --ifm-button-border-color: var(--ifm-color-secondary-dark);
 }

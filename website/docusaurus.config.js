@@ -62,6 +62,7 @@ module.exports = {
     ],
   ],
   themeConfig: {
+    hideableSidebar: true,
     announcementBar: {
       id: 'supportus',
       content:

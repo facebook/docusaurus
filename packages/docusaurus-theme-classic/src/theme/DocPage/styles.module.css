@@ -5,20 +5,21 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+:root {
+  --doc-sidebar-width: 300px;
+}
+
 .docPage {
   display: flex;
 }
 
 .docSidebarContainer {
   border-right: 1px solid var(--ifm-toc-border-color);
-  box-sizing: border-box;
-  width: 300px;
-  position: relative;
+  width: var(--doc-sidebar-width);
   margin-top: calc(-1 * var(--ifm-navbar-height));
-}
-
-.docMainContainer {
-  flex-grow: 1;
+  will-change: width;
+  transition: width 0.2s ease-in-out;
+  clip-path: inset(0);
 }
 
 @media (max-width: 996px) {
@@ -27,6 +28,61 @@
   }
 
   .docSidebarContainer {
-    margin-top: 0;
+    display: none;
+  }
+}
+
+.docSidebarContainerHidden {
+  width: 30px;
+  cursor: e-resize;
+  pointer-events: none;
+}
+
+.docSidebarContainerHidden:hover,
+.docSidebarContainerHidden:focus {
+  background-color: var(--ifm-color-emphasis-100);
+}
+
+.docSidebarContainerEnabledEffects {
+  pointer-events: initial;
+}
+
+.collapsedDocSidebar {
+  height: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+.collapsedDocSidebar:before {
+  content: '';
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='20px' height='20px' viewBox='0 0 20 20'%3E%3Cg%3E%3Cpath style='stroke:none;fill-rule:nonzero;fill:rgb(122,122,122);fill-opacity:1;' d='M 9.992188 10.023438 C 9.992188 10.222656 9.929688 10.421875 9.820312 10.570312 L 4.824219 18.0625 C 4.644531 18.335938 4.347656 18.515625 3.996094 18.515625 L 1 18.515625 C 0.449219 18.515625 0 18.0625 0 17.515625 C 0 17.316406 0.0585938 17.113281 0.167969 16.964844 L 4.796875 10.023438 L 0.167969 3.078125 C 0.0585938 2.929688 0 2.730469 0 2.527344 C 0 1.980469 0.449219 1.53125 1 1.53125 L 3.996094 1.53125 C 4.347656 1.53125 4.644531 1.710938 4.824219 1.980469 L 9.820312 9.472656 C 9.929688 9.621094 9.992188 9.820312 9.992188 10.023438 Z M 9.992188 10.023438 '/%3E%3Cpath style='stroke:none;fill-rule:nonzero;fill:rgb(122,122,122);fill-opacity:1;' d='M 19.980469 10.023438 C 19.980469 10.222656 19.921875 10.421875 19.8125 10.570312 L 14.816406 18.0625 C 14.636719 18.335938 14.335938 18.515625 13.988281 18.515625 L 10.988281 18.515625 C 10.441406 18.515625 9.992188 18.0625 9.992188 17.515625 C 9.992188 17.316406 10.050781 17.113281 10.160156 16.964844 L 14.785156 10.023438 L 10.160156 3.078125 C 10.050781 2.929688 9.992188 2.730469 9.992188 2.527344 C 9.992188 1.980469 10.441406 1.53125 10.988281 1.53125 L 13.988281 1.53125 C 14.335938 1.53125 14.636719 1.710938 14.816406 1.980469 L 19.8125 9.472656 C 19.921875 9.621094 19.980469 9.820312 19.980469 10.023438 Z M 19.980469 10.023438'/%3E%3C/g%3E%3C/svg%3E");
+  top: calc(100vh - 21px);
+  display: block;
+  width: 20px;
+  height: 20px;
+  position: sticky;
+  left: 4px;
+}
+
+.docMainContainer {
+  flex-grow: 1;
+}
+
+.docItemWrapperEnhanced {
+  max-width: calc(var(--ifm-container-width) + var(--doc-sidebar-width));
+}
+
+@media (min-width: 997px) and (max-width: 1320px) {
+  .docItemWrapper {
+    max-width: calc(
+      var(--ifm-container-width) - var(--doc-sidebar-width) -
+        var(--ifm-spacing-horizontal) * 2
+    );
+  }
+
+  .docItemWrapperEnhanced {
+    max-width: calc(
+      var(--ifm-container-width) - var(--ifm-spacing-horizontal) * 2
+    );
   }
 }

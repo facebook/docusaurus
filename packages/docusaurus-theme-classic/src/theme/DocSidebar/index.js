@@ -160,7 +160,10 @@ function DocSidebar(props) {
   const [showResponsiveSidebar, setShowResponsiveSidebar] = useState(false);
   const {
     siteConfig: {
-      themeConfig: {navbar: {title, hideOnScroll = false} = {}},
+      themeConfig: {
+        navbar: {title, hideOnScroll = false} = {},
+        hideableSidebar = false,
+      },
     } = {},
     isClient,
   } = useDocusaurusContext();
@@ -173,6 +176,8 @@ function DocSidebar(props) {
     path,
     sidebar: currentSidebar,
     sidebarCollapsible,
+    onToggle,
+    isHiddenSidebar,
   } = props;
 
   useLockBodyScroll(showResponsiveSidebar);
@@ -193,6 +198,7 @@ function DocSidebar(props) {
     <div
       className={classnames(styles.sidebar, {
         [styles.sidebarWithHideableNavbar]: hideOnScroll,
+        [styles.sidebarHidden]: isHiddenSidebar,
       })}>
       {hideOnScroll && (
         <Link
@@ -264,6 +270,18 @@ function DocSidebar(props) {
           ))}
         </ul>
       </div>
+
+      {hideableSidebar && (
+        <button
+          type="button"
+          className={classnames(
+            'button button--secondary',
+            styles.toggleSidebarButton,
+          )}
+          onClick={onToggle}>
+          Collapse sidebar
+        </button>
+      )}
     </div>
   );
 }
