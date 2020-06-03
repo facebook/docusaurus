@@ -513,7 +513,29 @@ module.exports = {
 
 For custom redirect logic, provide your own `createRedirects` function.
 
-Let's imagine you change the url of an pexisting age, you might want to make sure the old url still works:
+Let's imagine you change the url of an existing page, you might want to make sure the old url still works:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  plugins: [
+    [
+      '@docusaurus/plugin-client-redirects',
+      {
+        redirects: [
+          {
+            // : string
+            to: '/docs/newDocPath',
+            // : string | string[]
+            from: ['/docs/oldDocPathFrom2019', '/docs/legacyDocPathFrom2016'],
+          },
+        ],
+      },
+    ],
+  ],
+};
+```
+
+It's possible to use a function to create the redirects for each existing path:
 
 ```js title="docusaurus.config.js"
 module.exports = {
@@ -524,6 +546,33 @@ module.exports = {
         createRedirects: function (existingPath) {
           if (existingPath === '/docs/newDocPath') {
             return ['/docs/oldDocPathFrom2019', '/docs/legacyDocPathFrom2016'];
+          }
+        },
+      },
+    ],
+  ],
+};
+```
+
+Finally, it's possible to use all options at the same time:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  plugins: [
+    [
+      '@docusaurus/plugin-client-redirects',
+      {
+        fromExtensions: ['html', 'htm'],
+        toExtensions: ['exe', 'zip'],
+        redirects: [
+          {
+            to: '/docs/newDocPath',
+            from: '/docs/oldDocPath',
+          },
+        ],
+        createRedirects: function (existingPath) {
+          if (existingPath === '/docs/newDocPath2') {
+            return ['/docs/oldDocPath2'];
           }
         },
       },
