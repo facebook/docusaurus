@@ -7,7 +7,7 @@
 
 import React from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import useAnnouncementBarContext from '@theme/hooks/useAnnouncementBarContext';
+import useUserPreferencesContext from '@theme/hooks/useUserPreferencesContext';
 
 import styles from './styles.module.css';
 
@@ -19,7 +19,7 @@ function AnnouncementBar() {
   const {
     isAnnouncementBarClosed,
     closeAnnouncementBar,
-  } = useAnnouncementBarContext();
+  } = useUserPreferencesContext();
 
   if (!content || isAnnouncementBarClosed) {
     return null;
