@@ -29,9 +29,13 @@ module.exports = {
           {
             to: '/',
             from: [
-              '///redirects-plugin/test1',
-              'https://google.com/redirects-plugin/test2',
+              '/plugin-client-redirects/test1',
+              '/plugin-client-redirects/test2',
             ],
+          },
+          {
+            to: '/docs',
+            from: '/plugin-client-redirects/test3',
           },
         ],
       },
