@@ -12,6 +12,14 @@ Valid paths you can redirect to:
 "
 `;
 
+exports[`collectRedirects should throw if redirect creator creates array of array redirect 1`] = `
+"Some created redirects are invalid:
+- {\\"fromRoutePath\\":[\\"/fromPath\\"],\\"toRoutePath\\":\\"/\\"} => Validation error: fromRoutePath must be a \`string\` type, but the final value was: \`[
+  \\"\\\\\\"/fromPath\\\\\\"\\"
+]\`.
+"
+`;
+
 exports[`collectRedirects should throw if redirect creator creates invalid redirects 1`] = `
 "Some created redirects are invalid:
 - {\\"fromRoutePath\\":\\"https://google.com/\\",\\"toRoutePath\\":\\"/\\"} => Validation error: fromRoutePath is not a valid pathname. Pathname should start with / and not contain any domain or query string
