@@ -29,15 +29,29 @@ module.exports = {
           {
             to: '/',
             from: [
-              '/plugin-client-redirects/test1',
-              '/plugin-client-redirects/test2',
+              '/plugin-client-redirects-tests/toHome1',
+              '/plugin-client-redirects-tests/toHome2',
             ],
           },
           {
             to: '/docs',
-            from: '/plugin-client-redirects/test3',
+            from: '/plugin-client-redirects-tests/toDocs1',
+          },
+          {
+            to: '/docs',
+            from: '/plugin-client-redirects-tests/toDocs2',
           },
         ],
+        createRedirects: function (existingPath) {
+          if (existingPath === '/') {
+            return [
+              [
+                '/plugin-client-redirects-tests/toHome3',
+                '/plugin-client-redirects-tests/toHome4',
+              ],
+            ];
+          }
+        },
       },
     ],
     [
