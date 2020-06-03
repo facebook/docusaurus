@@ -1,6 +1,7 @@
 ---
 id: baz
 title: baz
+slug: bazSlug.html
 ---
 
 ## Images

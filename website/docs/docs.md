@@ -20,11 +20,21 @@ website # Root directory of your site
       └── hello.md
 ```
 
-However, the last part of the `id` can be defined by user in the front matter. For example, if `guide/hello.md`'s content is defined as below, its final `id` is `guide/part1`.
+However, the **last part** of the `id` can be defined by user in the front matter. For example, if `guide/hello.md`'s content is defined as below, its final `id` is `guide/part1`.
 
 ```yml
 ---
 id: part1
+---
+Lorem ipsum
+```
+
+If you want more control over the last part of the document URL, it is possible to add a `slug` (defaults to the `id`).
+
+```yml
+---
+id: part1
+slug: part1.html
 ---
 Lorem ipsum
 ```
@@ -51,7 +61,7 @@ module.exports = {
 };
 ```
 
-Given the example above, now when you navigate to the path `/docs` you will see that the document content with id is `getting-started`. This functionality also works for docs with versioning enabled.
+Given the example above, now when you navigate to the path `/docs` you will see that the document content with id is `getting-started`. This functionality also works for docs with versioning enabled. Importantly, with document serves as home docs page, it will not be available at its URL. Following the example above, this means that the `docs/getting-started` URL will be lead to a 404 error.
 
 :::important
 

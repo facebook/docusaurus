@@ -1,0 +1,5 @@
+---
+slug: hello/super
+---
+
+Lorem
