@@ -51,8 +51,8 @@ const UserOptionsSchema = Yup.object().shape<UserPluginOptions>({
 function validateUserOptions(userOptions: UserPluginOptions) {
   try {
     UserOptionsSchema.validateSync(userOptions, {
-      abortEarly: true, // Needed otherwise the message is just "2 errors occurred"
       strict: true,
+      abortEarly: true,
     });
   } catch (e) {
     throw new Error(

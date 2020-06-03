@@ -48,5 +48,19 @@ describe('validateRedirect', () => {
         toRoutePath: '/toSomePath?queryString=xyz',
       }),
     ).toThrowErrorMatchingSnapshot();
+
+    expect(() =>
+      validateRedirect({
+        fromRoutePath: null as any,
+        toRoutePath: '/toSomePath?queryString=xyz',
+      }),
+    ).toThrowErrorMatchingSnapshot();
+
+    expect(() =>
+      validateRedirect({
+        fromRoutePath: ['heyho'] as any,
+        toRoutePath: '/toSomePath?queryString=xyz',
+      }),
+    ).toThrowErrorMatchingSnapshot();
   });
 });

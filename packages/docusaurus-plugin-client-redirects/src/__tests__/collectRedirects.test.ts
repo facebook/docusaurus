@@ -201,6 +201,24 @@ describe('collectRedirects', () => {
     ).toThrowErrorMatchingSnapshot();
   });
 
+  test('should throw if redirect creator creates array of array redirect', () => {
+    expect(() =>
+      collectRedirects(
+        createTestPluginContext(
+          {
+            createRedirects: (routePath) => {
+              if (routePath === '/') {
+                return [[`/fromPath`]] as any;
+              }
+              return;
+            },
+          },
+          ['/'],
+        ),
+      ),
+    ).toThrowErrorMatchingSnapshot();
+  });
+
   test('should filter unwanted redirects', () => {
     expect(
       collectRedirects(
