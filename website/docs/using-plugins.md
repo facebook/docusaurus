@@ -463,7 +463,7 @@ import thumbnail from './path/to/img.png';
 
 Docusaurus Plugin to generate **client-side redirects**.
 
-This plugin will write additional HTML pages to your static site, that redirects the user to your existing Docusaurus pages with Javascript.
+This plugin will write additional HTML pages to your static site, that redirects the user to your existing Docusaurus pages with JavaScript.
 
 :::caution
 
