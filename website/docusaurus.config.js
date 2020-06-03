@@ -25,6 +25,15 @@ module.exports = {
       '@docusaurus/plugin-client-redirects',
       {
         fromExtensions: ['html'],
+        redirects: [
+          {
+            to: '/',
+            from: [
+              '///redirects-plugin/test1',
+              'https://google.com/redirects-plugin/test2',
+            ],
+          },
+        ],
       },
     ],
     [

@@ -29,19 +29,11 @@ function isRedirectsCreator(value: any): value is RedirectsCreator | undefined {
 
 const RedirectPluginOptionValidation = Yup.object<RedirectOption>({
   to: PathnameValidator.required(),
-  // wasn't able to use .when("from")...had cyclic dependency error
-  // (https://stackoverflow.com/a/56866941/82609)
-  from: Yup.mixed<string | string[]>().test({
-    name: 'from',
-    message: '${path} contains invalid redirection value',
-    test: (from) => {
-      return Array.isArray(from)
-        ? Yup.array()
-            .of(PathnameValidator.required())
-            .required()
-            .isValidSync(from)
-        : PathnameValidator.required().isValidSync(from);
-    },
+  // See https://stackoverflow.com/a/62177080/82609
+  from: Yup.lazy<string | string[]>((from) => {
+    return Array.isArray(from)
+      ? Yup.array().of(PathnameValidator.required()).required()
+      : PathnameValidator.required();
   }),
 });
 
@@ -57,10 +49,17 @@ const UserOptionsSchema = Yup.object().shape<UserPluginOptions>({
 });
 
 function validateUserOptions(userOptions: UserPluginOptions) {
-  UserOptionsSchema.validateSync(userOptions, {
-    abortEarly: true,
-    strict: true,
-  });
+  try {
+    UserOptionsSchema.validateSync(userOptions, {
+      abortEarly: true, // Needed otherwise the message is just "2 errors occurred"
+      strict: true,
+    });
+  } catch (e) {
+    throw new Error(
+      `Invalid @docusaurus/plugin-client-redirects options: ${e.message}
+${JSON.stringify(userOptions, null, 2)}`,
+    );
+  }
 }
 
 export default function normalizePluginOptions(

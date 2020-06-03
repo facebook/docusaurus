@@ -1,13 +1,37 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`normalizePluginOptions should reject bad createRedirects user inputs 1`] = `"createRedirects should be a function"`;
+exports[`normalizePluginOptions should reject bad createRedirects user inputs 1`] = `
+"Invalid @docusaurus/plugin-client-redirects options: createRedirects should be a function
+{
+  \\"createRedirects\\": [
+    \\"bad\\",
+    \\"value\\"
+  ]
+}"
+`;
 
 exports[`normalizePluginOptions should reject bad fromExtensions user inputs 1`] = `
-"fromExtensions[0] must be a \`string\` type, but the final value was: \`null\`.
- If \\"null\\" is intended as an empty value be sure to mark the schema as \`.nullable()\`"
+"Invalid @docusaurus/plugin-client-redirects options: fromExtensions[0] must be a \`string\` type, but the final value was: \`null\`.
+ If \\"null\\" is intended as an empty value be sure to mark the schema as \`.nullable()\`
+{
+  \\"fromExtensions\\": [
+    null,
+    null,
+    123,
+    true
+  ]
+}"
 `;
 
 exports[`normalizePluginOptions should reject bad toExtensions user inputs 1`] = `
-"toExtensions[0] must be a \`string\` type, but the final value was: \`null\`.
- If \\"null\\" is intended as an empty value be sure to mark the schema as \`.nullable()\`"
+"Invalid @docusaurus/plugin-client-redirects options: toExtensions[0] must be a \`string\` type, but the final value was: \`null\`.
+ If \\"null\\" is intended as an empty value be sure to mark the schema as \`.nullable()\`
+{
+  \\"toExtensions\\": [
+    null,
+    null,
+    123,
+    true
+  ]
+}"
 `;
