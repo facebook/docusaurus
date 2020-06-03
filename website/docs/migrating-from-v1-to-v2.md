@@ -422,7 +422,7 @@ We intend to implement many of the deprecated config fields as plugins in future
 
 ## Urls
 
-In v1, all pages were available with or without the `.html` suffix.
+In v1, all pages were available with or without the `.html` extension.
 
 For example, these 2 pages exist:
 
