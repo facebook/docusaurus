@@ -25,6 +25,9 @@ function isCategoryShorthand(
   return typeof item !== 'string' && !item.type;
 }
 
+// categories are collapsed by default, unless user set collapsed = false
+const defaultCategoryCollapsedValue = true;
+
 /**
  * Convert {category1: [item1,item2]} shorthand syntax to long-form syntax
  */
@@ -33,7 +36,7 @@ function normalizeCategoryShorthand(
 ): SidebarItemCategoryRaw[] {
   return Object.entries(sidebar).map(([label, items]) => ({
     type: 'category',
-    collapsed: true,
+    collapsed: defaultCategoryCollapsedValue,
     label,
     items,
   }));
@@ -118,7 +121,13 @@ function normalizeItem(item: SidebarItemRaw): SidebarItem[] {
   switch (item.type) {
     case 'category':
       assertIsCategory(item);
-      return [{...item, items: flatMap(item.items, normalizeItem)}];
+      return [
+        {
+          collapsed: defaultCategoryCollapsedValue,
+          ...item,
+          items: flatMap(item.items, normalizeItem),
+        },
+      ];
     case 'link':
       assertIsLink(item);
       return [item];
