@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {flatten, uniqBy, difference} from 'lodash';
+import {flatten, uniqBy, difference, groupBy} from 'lodash';
 import {
   RedirectsCreator,
   PluginContext,
@@ -18,6 +18,8 @@ import {
   toExtensionsRedirectCreator,
 } from './redirectCreators';
 import {validateRedirect} from './redirectValidation';
+
+import chalk from 'chalk';
 
 export default function collectRedirects(
   pluginContext: PluginContext,
@@ -49,11 +51,8 @@ function validateCollectedRedirects(
   }
 
   const allowedToPaths = pluginContext.routesPaths;
-
   const toPaths = redirects.map((redirect) => redirect.toRoutePath);
-
   const illegalToPaths = difference(toPaths, allowedToPaths);
-
   if (illegalToPaths.length > 0) {
     throw new Error(
       `You are trying to create client-side redirections to paths that do not exist:
@@ -70,12 +69,37 @@ function filterUnwantedRedirects(
   redirects: RedirectMetadata[],
   pluginContext: PluginContext,
 ): RedirectMetadata[] {
-  // TODO how should we warn the user of filtered redirects?
-
   // we don't want to create twice the same redirect
+  // that would lead to writing twice the same html redirection file
+  Object.entries(
+    groupBy(redirects, (redirect) => redirect.fromRoutePath),
+  ).forEach(([from, groupedFromRedirects]) => {
+    if (groupedFromRedirects.length > 1) {
+      console.error(
+        chalk.red(
+          `@docusaurus/plugin-client-redirects: multiple redirects are created with the same "from" pathname=${from}
+It is not possible to redirect the same pathname to multiple destinations:
+- ${groupedFromRedirects.map((r) => JSON.stringify(r)).join('\n- ')}
+`,
+        ),
+      );
+    }
+  });
   redirects = uniqBy(redirects, (redirect) => redirect.fromRoutePath);
 
-  // We don't want to override an existing route
+  // We don't want to override an already existing route with a redirect file!
+  const redirectsOverridingExistingPath = redirects.filter((redirect) =>
+    pluginContext.routesPaths.includes(redirect.fromRoutePath),
+  );
+  if (redirectsOverridingExistingPath.length > 0) {
+    console.error(
+      chalk.red(
+        `@docusaurus/plugin-client-redirects: some redirects would override existing paths, and will be ignored:
+- ${redirectsOverridingExistingPath.map((r) => JSON.stringify(r)).join('\n- ')}
+`,
+      ),
+    );
+  }
   redirects = redirects.filter(
     (redirect) => !pluginContext.routesPaths.includes(redirect.fromRoutePath),
   );
@@ -143,7 +167,14 @@ function createRoutePathRedirects(
   routePath: string,
   redirectCreator: RedirectsCreator,
 ): RedirectMetadata[] {
-  const fromRoutePaths: string[] = redirectCreator(routePath) ?? [];
+  const fromRoutePathsMixed: string | string[] =
+    redirectCreator(routePath) || [];
+
+  const fromRoutePaths: string[] =
+    typeof fromRoutePathsMixed === 'string'
+      ? [fromRoutePathsMixed]
+      : fromRoutePathsMixed;
+
   return fromRoutePaths.map((fromRoutePath) => {
     return {
       fromRoutePath,

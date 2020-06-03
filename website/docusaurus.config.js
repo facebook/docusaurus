@@ -41,14 +41,19 @@ module.exports = {
             to: '/docs',
             from: '/plugin-client-redirects-tests/toDocs2',
           },
+          {
+            to: '/docs',
+            from: '/plugin-client-redirects-tests/toHomeDuplicatePath',
+          },
         ],
         createRedirects: function (existingPath) {
           if (existingPath === '/') {
             return [
-              [
-                '/plugin-client-redirects-tests/toHome3',
-                '/plugin-client-redirects-tests/toHome4',
-              ],
+              '/',
+              '/docs',
+              '/plugin-client-redirects-tests/toHome3',
+              '/plugin-client-redirects-tests/toHome4',
+              '/plugin-client-redirects-tests/toHomeDuplicatePath',
             ];
           }
         },

@@ -33,7 +33,7 @@ export type PluginContext = Pick<
 // return all the paths from which we should redirect from
 export type RedirectsCreator = (
   routePath: string,
-) => string[] | null | undefined;
+) => string[] | string | null | undefined;
 
 // In-memory representation of redirects we want: easier to test
 // /!\ easy to be confused: "fromRoutePath" is the new page we should create,
