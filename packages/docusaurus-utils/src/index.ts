@@ -12,6 +12,7 @@ import camelCase from 'lodash.camelcase';
 import kebabCase from 'lodash.kebabcase';
 import escapeStringRegexp from 'escape-string-regexp';
 import fs from 'fs-extra';
+import {URL} from 'url';
 
 const fileHash = new Map();
 export async function generate(
@@ -326,4 +327,15 @@ export function getEditUrl(fileRelativePath: string, editUrl?: string) {
   return editUrl
     ? normalizeUrl([editUrl, posixPath(fileRelativePath)])
     : undefined;
+}
+
+export function isValidPathname(str: string): boolean {
+  if (!str.startsWith('/')) {
+    return false;
+  }
+  try {
+    return new URL(str, 'https://domain.com').pathname === str;
+  } catch (e) {
+    return false;
+  }
 }
