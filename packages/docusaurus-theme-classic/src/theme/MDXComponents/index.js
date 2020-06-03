@@ -16,7 +16,7 @@ export default {
   code: (props) => {
     const {children} = props;
     if (typeof children === 'string') {
-      if (children.indexOf('\n') === -1) {
+      if (!children.includes('\n')) {
         return <code {...props} />;
       }
       return <CodeBlock {...props} />;
