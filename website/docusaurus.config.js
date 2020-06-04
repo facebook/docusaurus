@@ -93,7 +93,7 @@ module.exports = {
       links: [
         {
           label: 'Docs',
-          to: 'docs/introduction', // "fake" link
+          to: 'docs', // "fake" link
           position: 'left',
           activeBaseRegex: `docs/(?!next/(support|team|resources))`,
           items: [
@@ -142,7 +142,7 @@ module.exports = {
           items: [
             {
               label: 'Introduction',
-              to: 'docs/introduction',
+              to: 'docs',
             },
             {
               label: 'Installation',
