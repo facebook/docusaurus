@@ -140,10 +140,11 @@ function normalizeItem(item: SidebarItemRaw): SidebarItem[] {
         item.type === 'subcategory'
           ? "Docusaurus v2: 'subcategory' has been renamed as 'category'"
           : '';
-      throw new Error(`Unknown sidebar item type [${item.type}]
-Sidebar item=
-${JSON.stringify(item, null, 2)}
-${extraMigrationError}`);
+      throw new Error(
+        `Unknown sidebar item type [${
+          item.type
+        }]. Sidebar item=${JSON.stringify(item)} ${extraMigrationError}`,
+      );
   }
 }
 
