@@ -7,16 +7,15 @@
 
 import {flatten, uniqBy, difference, groupBy} from 'lodash';
 import {
-  RedirectsCreator,
   PluginContext,
   RedirectMetadata,
   PluginOptions,
   RedirectOption,
 } from './types';
 import {
-  fromExtensionsRedirectCreator,
-  toExtensionsRedirectCreator,
-} from './redirectCreators';
+  createFromExtensionsRedirects,
+  createToExtensionsRedirects,
+} from './extensionRedirects';
 import {validateRedirect} from './redirectValidation';
 
 import chalk from 'chalk';
@@ -107,24 +106,27 @@ It is not possible to redirect the same pathname to multiple destinations:
   return redirects;
 }
 
+// For each plugin config option, create the appropriate redirects
 function doCollectRedirects(pluginContext: PluginContext): RedirectMetadata[] {
-  const redirectsCreators: RedirectsCreator[] = buildRedirectCreators(
-    pluginContext.options,
-  );
-
-  const optionsRedirects = collectPluginOptionRedirects(pluginContext);
-
-  const redirectCreatorsRedirects = flatten(
-    redirectsCreators.map((redirectCreator) => {
-      return createRoutesPathsRedirects(redirectCreator, pluginContext);
-    }),
-  );
-
-  return [...optionsRedirects, ...redirectCreatorsRedirects];
+  return [
+    ...createFromExtensionsRedirects(
+      pluginContext.routesPaths,
+      pluginContext.options.fromExtensions,
+    ),
+    ...createToExtensionsRedirects(
+      pluginContext.routesPaths,
+      pluginContext.options.toExtensions,
+    ),
+    ...createRedirectsOptionRedirects(pluginContext.options.redirects),
+    ...createCreateRedirectsOptionRedirects(
+      pluginContext.routesPaths,
+      pluginContext.options.createRedirects,
+    ),
+  ];
 }
 
-function collectPluginOptionRedirects(
-  pluginContext: PluginContext,
+function createRedirectsOptionRedirects(
+  redirectsOption: PluginOptions['redirects'],
 ): RedirectMetadata[] {
   // For conveniency, user can use a string or a string[]
   function optionToRedirects(option: RedirectOption): RedirectMetadata[] {
@@ -138,47 +140,31 @@ function collectPluginOptionRedirects(
     }
   }
 
-  return flatten(pluginContext.options.redirects.map(optionToRedirects));
+  return flatten(redirectsOption.map(optionToRedirects));
 }
 
-function buildRedirectCreators(options: PluginOptions): RedirectsCreator[] {
-  const redirectCreators = [
-    fromExtensionsRedirectCreator(options.fromExtensions),
-    toExtensionsRedirectCreator(options.toExtensions),
-  ];
-  options.createRedirects && redirectCreators.push(options.createRedirects);
-  return redirectCreators;
-}
-
-// Create all redirects for a list of route path
-function createRoutesPathsRedirects(
-  redirectCreator: RedirectsCreator,
-  pluginContext: PluginContext,
+// Create redirects from the "createRedirects" fn provided by the user
+function createCreateRedirectsOptionRedirects(
+  paths: string[],
+  createRedirects: PluginOptions['createRedirects'],
 ): RedirectMetadata[] {
-  return flatten(
-    pluginContext.routesPaths.map((routePath) =>
-      createRoutePathRedirects(routePath, redirectCreator),
-    ),
-  );
-}
+  function createPathRedirects(path: string): RedirectMetadata[] {
+    const fromRoutePathsMixed: string | string[] = createRedirects
+      ? createRedirects(path) || []
+      : [];
 
-// Create all redirects for a single route path
-function createRoutePathRedirects(
-  routePath: string,
-  redirectCreator: RedirectsCreator,
-): RedirectMetadata[] {
-  const fromRoutePathsMixed: string | string[] =
-    redirectCreator(routePath) || [];
+    const fromRoutePaths: string[] =
+      typeof fromRoutePathsMixed === 'string'
+        ? [fromRoutePathsMixed]
+        : fromRoutePathsMixed;
 
-  const fromRoutePaths: string[] =
-    typeof fromRoutePathsMixed === 'string'
-      ? [fromRoutePathsMixed]
-      : fromRoutePathsMixed;
+    return fromRoutePaths.map((fromRoutePath) => {
+      return {
+        fromRoutePath,
+        toRoutePath: path,
+      };
+    });
+  }
 
-  return fromRoutePaths.map((fromRoutePath) => {
-    return {
-      fromRoutePath,
-      toRoutePath: routePath,
-    };
-  });
+  return flatten(paths.map(createPathRedirects));
 }

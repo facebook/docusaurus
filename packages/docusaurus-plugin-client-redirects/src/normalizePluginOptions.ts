@@ -8,7 +8,7 @@
 import {
   PluginOptions,
   RedirectOption,
-  RedirectsCreator,
+  CreateRedirectsFnOption,
   UserPluginOptions,
 } from './types';
 import * as Yup from 'yup';
@@ -20,7 +20,9 @@ export const DefaultPluginOptions: PluginOptions = {
   redirects: [],
 };
 
-function isRedirectsCreator(value: any): value is RedirectsCreator | undefined {
+function isRedirectsCreator(
+  value: any,
+): value is CreateRedirectsFnOption | undefined {
   if (value === null || typeof value === 'undefined') {
     return true;
   }

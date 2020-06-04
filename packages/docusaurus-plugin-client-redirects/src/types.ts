@@ -11,8 +11,14 @@ export type PluginOptions = {
   fromExtensions: string[];
   toExtensions: string[];
   redirects: RedirectOption[];
-  createRedirects?: RedirectsCreator;
+  createRedirects?: CreateRedirectsFnOption;
 };
+
+// For a given existing route path,
+// return all the paths from which we should redirect from
+export type CreateRedirectsFnOption = (
+  path: string,
+) => string[] | string | null | undefined;
 
 export type RedirectOption = {
   to: string;
@@ -28,12 +34,6 @@ export type PluginContext = Pick<
 > & {
   options: PluginOptions;
 };
-
-// For a given existing route path,
-// return all the paths from which we should redirect from
-export type RedirectsCreator = (
-  routePath: string,
-) => string[] | string | null | undefined;
 
 // In-memory representation of redirects we want: easier to test
 // /!\ easy to be confused: "fromRoutePath" is the new page we should create,

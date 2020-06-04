@@ -5,8 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {RedirectsCreator} from './types';
+import {flatten} from 'lodash';
 import {removeSuffix} from './utils';
+import {RedirectMetadata} from './types';
 
 const ExtensionAdditionalMessage =
   "If the redirect extension system is not good enough for your usecase, you can create redirects yourself with the 'createRedirects' plugin option.";
@@ -39,32 +40,34 @@ const validateExtension = (ext: string) => {
 const addLeadingDot = (extension: string) => `.${extension}`;
 
 // Create new /path that redirects to existing an /path.html
-export function toExtensionsRedirectCreator(
+export function createToExtensionsRedirects(
+  paths: string[],
   extensions: string[],
-): RedirectsCreator {
+): RedirectMetadata[] {
   extensions.forEach(validateExtension);
 
   const dottedExtensions = extensions.map(addLeadingDot);
 
-  return (fromRoutePath: string) => {
-    const extensionFound = dottedExtensions.find((ext) =>
-      fromRoutePath.endsWith(ext),
-    );
+  const createPathRedirects = (path: string): RedirectMetadata[] => {
+    const extensionFound = dottedExtensions.find((ext) => path.endsWith(ext));
     if (extensionFound) {
-      const routePathWithoutExtension = removeSuffix(
-        fromRoutePath,
-        extensionFound,
-      );
-      return [routePathWithoutExtension];
+      const routePathWithoutExtension = removeSuffix(path, extensionFound);
+      return [routePathWithoutExtension].map((from) => ({
+        fromRoutePath: from,
+        toRoutePath: path,
+      }));
     }
     return [];
   };
+
+  return flatten(paths.map(createPathRedirects));
 }
 
 // Create new /path.html that redirects to existing an /path
-export function fromExtensionsRedirectCreator(
+export function createFromExtensionsRedirects(
+  paths: string[],
   extensions: string[],
-): RedirectsCreator {
+): RedirectMetadata[] {
   extensions.forEach(validateExtension);
 
   const dottedExtensions = extensions.map(addLeadingDot);
@@ -72,15 +75,16 @@ export function fromExtensionsRedirectCreator(
   const alreadyEndsWithAnExtension = (str: string) =>
     dottedExtensions.some((ext) => str.endsWith(ext));
 
-  return (fromRoutePath: string) => {
-    if (
-      fromRoutePath === '' ||
-      fromRoutePath.endsWith('/') ||
-      alreadyEndsWithAnExtension(fromRoutePath)
-    ) {
+  const createPathRedirects = (path: string): RedirectMetadata[] => {
+    if (path === '' || path.endsWith('/') || alreadyEndsWithAnExtension(path)) {
       return [];
     } else {
-      return extensions.map((ext) => `${fromRoutePath}.${ext}`);
+      return extensions.map((ext) => ({
+        fromRoutePath: `${path}.${ext}`,
+        toRoutePath: path,
+      }));
     }
   };
+
+  return flatten(paths.map(createPathRedirects));
 }

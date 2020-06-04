@@ -8,7 +8,7 @@
 import normalizePluginOptions, {
   DefaultPluginOptions,
 } from '../normalizePluginOptions';
-import {RedirectsCreator} from '../types';
+import {CreateRedirectsFnOption} from '../types';
 
 describe('normalizePluginOptions', () => {
   test('should return default options for undefined user options', () => {
@@ -28,7 +28,7 @@ describe('normalizePluginOptions', () => {
   });
 
   test('should override all default options with valid user options', () => {
-    const createRedirects: RedirectsCreator = (_routePath: string) => {
+    const createRedirects: CreateRedirectsFnOption = (_routePath: string) => {
       return [];
     };
     expect(
