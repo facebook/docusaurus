@@ -9,6 +9,7 @@ import React from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import usePrismTheme from '@theme/hooks/usePrismTheme';
 import Playground from '@theme/Playground';
+import ReactLiveScope from '@theme/ReactLiveScope';
 import CodeBlock from '@theme-init/CodeBlock';
 
 const withLiveEditor = (Component) => {
@@ -20,7 +21,7 @@ const withLiveEditor = (Component) => {
       return (
         <Playground
           key={isClient}
-          scope={{...React}}
+          scope={ReactLiveScope}
           theme={prismTheme}
           {...props}
         />
