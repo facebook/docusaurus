@@ -280,9 +280,9 @@ export default function pluginContentDocs(
 
         if (!docMetadata) {
           throw new Error(
-            `Improper sidebars file. The document id '${docId}' was used in the sidebar, but no document with this id could be found.
+            `Bad sidebars file. The document id '${docId}' was used in the sidebar, but no document with this id could be found.
 Available document ids=
-- ${Object.keys(docsMetadataRaw).join('\n- ')}`,
+- ${Object.keys(docsMetadataRaw).sort().join('\n- ')}`,
           );
         }
 

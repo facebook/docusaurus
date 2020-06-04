@@ -110,13 +110,13 @@ Array [
 `;
 
 exports[`site with wrong sidebar file 1`] = `
-[Error: Improper sidebars file. The document id 'goku' was used in the sidebar, but no document with this id could be found.
+[Error: Bad sidebars file. The document id 'goku' was used in the sidebar, but no document with this id could be found.
 Available document ids=
-- hello
-- lorem
 - foo/bar
+- foo/baz
+- hello
 - ipsum
-- foo/baz]
+- lorem]
 `;
 
 exports[`versioned website content 1`] = `
