@@ -759,6 +759,57 @@ function Clock(props) {
 }
 ```
 
+:::caution react-live and imports
+
+It is not possible to import components directly from the react-live code editor, you have to define available imports upfront.
+
+:::
+
+By default, all React imports are available. If you need more imports available, swizzle the react-live scope:
+
+```bash npm2yarn
+npm run swizzle @docusaurus/theme-live-codeblock ReactLiveScope
+```
+
+```jsx {3-15,21} title="src/theme/ReactLiveScope/index.js"
+import React from 'react';
+
+const ButtonExample = (props) => (
+  <button
+    {...props}
+    style={{
+      backgroundColor: 'white',
+      border: 'solid red',
+      borderRadius: 20,
+      padding: 10,
+      cursor: 'pointer',
+      ...props.style,
+    }}
+  />
+);
+
+// Add react-live imports you need here
+const ReactLiveScope = {
+  React,
+  ...React,
+  ButtonExample,
+};
+
+export default ReactLiveScope;
+```
+
+The `ButtonExample` component is now available to use:
+
+```jsx live
+function MyPlayground(props) {
+  return (
+    <div>
+      <ButtonExample onClick={() => alert('hey!')}>Click me</ButtonExample>
+    </div>
+  );
+}
+```
+
 ### Multi-language support code blocks
 
 With MDX, you can easily create interactive components within your documentation, for example, to display code in multiple programming languages and switching between them using a tabs component.

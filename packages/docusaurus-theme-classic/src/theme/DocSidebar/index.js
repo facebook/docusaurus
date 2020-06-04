@@ -71,7 +71,6 @@ function DocSidebarItemCategory({
   const handleItemClick = useCallback(
     (e) => {
       e.preventDefault();
-      e.target.blur();
       setCollapsed((state) => !state);
     },
     [setCollapsed],
@@ -91,9 +90,10 @@ function DocSidebarItemCategory({
         className={classnames('menu__link', {
           'menu__link--sublist': collapsible,
           'menu__link--active': collapsible && isActive,
+          [styles.menuLinkText]: !collapsible,
         })}
-        href="#!"
         onClick={collapsible ? handleItemClick : undefined}
+        href={collapsible ? '#!' : undefined}
         {...props}>
         {label}
       </a>
