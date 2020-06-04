@@ -277,9 +277,10 @@ module.exports = {
         showLastUpdateTime: false,
         /**
          * Skip the next release docs when versioning is enabled.
-         * This will not build HTML files for documents in `/docs/next` directory, only versioned docs.
+         * This will not generate HTML files in the production build for documents
+         * in `/docs/next` directory, only versioned docs.
          */
-        skipNextRelease: false,
+        excludeNextVersionDocs: false,
       },
     ],
   ],

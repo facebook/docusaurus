@@ -63,7 +63,7 @@ const DEFAULT_OPTIONS: PluginOptions = {
   showLastUpdateTime: false,
   showLastUpdateAuthor: false,
   admonitions: {},
-  skipNextRelease: false,
+  excludeNextVersionDocs: false,
 };
 
 export default function pluginContentDocs(
@@ -177,7 +177,7 @@ export default function pluginContentDocs(
       const docsMetadataRaw: DocsMetadataRaw = {};
       const docsPromises = [];
       const includeDefaultDocs = !(
-        !!options.skipNextRelease && process.argv[2] === 'build'
+        options.excludeNextVersionDocs && process.argv[2] === 'build'
       );
 
       // Metadata for default/master docs files.
