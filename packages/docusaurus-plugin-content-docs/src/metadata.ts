@@ -5,10 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs-extra';
 import path from 'path';
 import {
-  parse,
+  parseMarkdownFile,
   aliasedSitePath,
   normalizeUrl,
   getEditUrl,
@@ -65,7 +64,7 @@ export default async function processMetadata({
   const {versioning} = env;
   const filePath = path.join(refDir, source);
 
-  const fileStringPromise = fs.readFile(filePath, 'utf-8');
+  const fileMarkdownPromise = parseMarkdownFile(filePath);
   const lastUpdatedPromise = lastUpdated(filePath, options);
 
   let version;
@@ -92,7 +91,7 @@ export default async function processMetadata({
 
   const docsEditUrl = getEditUrl(relativePath, editUrl);
 
-  const {frontMatter = {}, excerpt} = parse(await fileStringPromise);
+  const {frontMatter = {}, excerpt} = await fileMarkdownPromise;
   const {sidebar_label, custom_edit_url} = frontMatter;
 
   // Default base id is the file name.

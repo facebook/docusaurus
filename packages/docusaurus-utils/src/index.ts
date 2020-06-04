@@ -228,15 +228,14 @@ export function createExcerpt(fileString: string): string | undefined {
   return undefined;
 }
 
-export function parse(
-  fileString: string,
-): {
+type ParsedMarkdown = {
   frontMatter: {
     [key: string]: any;
   };
   content: string;
   excerpt: string | undefined;
-} {
+};
+export function parseMarkdownString(markdownString: string): ParsedMarkdown {
   const options: {} = {
     excerpt: (file: matter.GrayMatterFile<string>): void => {
       // Hacky way of stripping out import statements from the excerpt
@@ -246,8 +245,21 @@ export function parse(
     },
   };
 
-  const {data: frontMatter, content, excerpt} = matter(fileString, options);
+  const {data: frontMatter, content, excerpt} = matter(markdownString, options);
   return {frontMatter, content, excerpt};
+}
+
+export async function parseMarkdownFile(
+  source: string,
+): Promise<ParsedMarkdown> {
+  const markdownString = await fs.readFile(source, 'utf-8');
+  try {
+    return parseMarkdownString(markdownString);
+  } catch (e) {
+    throw new Error(
+      `Unable to parse markdown front-matter of file [${source}]: ${e.message}`,
+    );
+  }
 }
 
 export function normalizeUrl(rawUrls: string[]): string {
