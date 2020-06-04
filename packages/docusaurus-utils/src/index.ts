@@ -245,8 +245,17 @@ export function parseMarkdownString(markdownString: string): ParsedMarkdown {
     },
   };
 
-  const {data: frontMatter, content, excerpt} = matter(markdownString, options);
-  return {frontMatter, content, excerpt};
+  try {
+    const {data: frontMatter, content, excerpt} = matter(
+      markdownString,
+      options,
+    );
+    return {frontMatter, content, excerpt};
+  } catch (e) {
+    throw new Error(`Error while parsing markdown front matter.
+This can happen if you use special characteres like : in frontmatter values (try using "" around that value)
+${e.message}`);
+  }
 }
 
 export async function parseMarkdownFile(
@@ -257,7 +266,8 @@ export async function parseMarkdownFile(
     return parseMarkdownString(markdownString);
   } catch (e) {
     throw new Error(
-      `Unable to parse markdown front-matter of file [${source}]: ${e.message}`,
+      `Error while parsing markdown file ${source}
+${e.message}`,
     );
   }
 }
