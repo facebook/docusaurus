@@ -202,7 +202,6 @@ function Navbar() {
   );
 
   const {leftLinks, rightLinks} = splitLinks(links);
-  console.debug('splitLinks(links)', splitLinks(links));
 
   return (
     <nav
