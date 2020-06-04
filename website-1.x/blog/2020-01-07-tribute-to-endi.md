@@ -1,6 +1,6 @@
 ---
 title: Tribute to Endi
-author: Joel : Marcey
+author: Joel Marcey
 authorTitle: Technical Lead and Developer Advocate at Facebook
 authorURL: https://github.com/JoelMarcey
 authorImageURL: https://graph.facebook.com/611217057/picture/?height=200&width=200
