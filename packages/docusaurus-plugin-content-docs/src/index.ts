@@ -63,6 +63,7 @@ const DEFAULT_OPTIONS: PluginOptions = {
   showLastUpdateTime: false,
   showLastUpdateAuthor: false,
   admonitions: {},
+  skipNextRelease: false,
 };
 
 export default function pluginContentDocs(
@@ -175,25 +176,30 @@ export default function pluginContentDocs(
       // Prepare metadata container.
       const docsMetadataRaw: DocsMetadataRaw = {};
       const docsPromises = [];
+      const includeDefaultDocs = !(
+        !!options.skipNextRelease && process.argv[2] === 'build'
+      );
 
       // Metadata for default/master docs files.
-      const docsFiles = await globby(include, {
-        cwd: docsDir,
-      });
-      docsPromises.push(
-        Promise.all(
-          docsFiles.map(async (source) => {
-            const metadata: MetadataRaw = await processMetadata({
-              source,
-              refDir: docsDir,
-              context,
-              options,
-              env,
-            });
-            docsMetadataRaw[metadata.id] = metadata;
-          }),
-        ),
-      );
+      if (includeDefaultDocs) {
+        const docsFiles = await globby(include, {
+          cwd: docsDir,
+        });
+        docsPromises.push(
+          Promise.all(
+            docsFiles.map(async (source) => {
+              const metadata: MetadataRaw = await processMetadata({
+                source,
+                refDir: docsDir,
+                context,
+                options,
+                env,
+              });
+              docsMetadataRaw[metadata.id] = metadata;
+            }),
+          ),
+        );
+      }
 
       // Metadata for versioned docs.
       if (versioning.enabled) {
@@ -222,13 +228,14 @@ export default function pluginContentDocs(
       }
 
       // Load the sidebars and create docs ordering.
-      const sidebarPaths = [
-        sidebarPath,
-        ...versionsNames.map(
-          (versionName) =>
-            `${versionedSidebarsDir}/${versionName}-sidebars.json`,
-        ),
-      ];
+      const sidebarPaths = versionsNames.map(
+        (versionName) => `${versionedSidebarsDir}/${versionName}-sidebars.json`,
+      );
+
+      if (includeDefaultDocs) {
+        sidebarPaths.unshift(sidebarPath);
+      }
+
       const loadedSidebars: Sidebar = loadSidebars(sidebarPaths);
       const order: Order = createOrder(loadedSidebars);
 

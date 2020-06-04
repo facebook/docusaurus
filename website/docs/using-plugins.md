@@ -275,6 +275,11 @@ module.exports = {
          * Whether to display the last date the doc was updated.
          */
         showLastUpdateTime: false,
+        /**
+         * Skip the next release docs when versioning is enabled.
+         * This will not build HTML files for documents in `/docs/next` directory, only versioned docs.
+         */
+        skipNextRelease: false,
       },
     ],
   ],
