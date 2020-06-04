@@ -20,6 +20,9 @@ import useLogo from '@theme/hooks/useLogo';
 
 import styles from './styles.module.css';
 
+// retrocompatible with v1
+const DefaultNavItemPosition = 'right';
+
 function NavLink({
   activeBasePath,
   activeBaseRegex,
@@ -61,7 +64,12 @@ function NavLink({
   );
 }
 
-function NavItem({items, position, className, ...props}) {
+function NavItem({
+  items,
+  position = DefaultNavItemPosition,
+  className,
+  ...props
+}) {
   const navLinkClassNames = (extraClassName, isDropdownItem = false) =>
     classnames(
       {
@@ -147,6 +155,21 @@ function MobileNavItem({items, position, className, ...props}) {
   );
 }
 
+// If split links by left/right
+// if position is unspecified, fallback to right (as v1)
+function splitLinks(links) {
+  const leftLinks = links.filter(
+    (linkItem) => (linkItem.position ?? DefaultNavItemPosition) === 'left',
+  );
+  const rightLinks = links.filter(
+    (linkItem) => (linkItem.position ?? DefaultNavItemPosition) === 'right',
+  );
+  return {
+    leftLinks,
+    rightLinks,
+  };
+}
+
 function Navbar() {
   const {
     siteConfig: {
@@ -177,6 +200,9 @@ function Navbar() {
     (e) => (e.target.checked ? setDarkTheme() : setLightTheme()),
     [setLightTheme, setDarkTheme],
   );
+
+  const {leftLinks, rightLinks} = splitLinks(links);
+  console.debug('splitLinks(links)', splitLinks(links));
 
   return (
     <nav
@@ -232,18 +258,14 @@ function Navbar() {
               </strong>
             )}
           </Link>
-          {links
-            .filter((linkItem) => linkItem.position === 'left')
-            .map((linkItem, i) => (
-              <NavItem {...linkItem} key={i} />
-            ))}
+          {leftLinks.map((linkItem, i) => (
+            <NavItem {...linkItem} key={i} />
+          ))}
         </div>
         <div className="navbar__items navbar__items--right">
-          {links
-            .filter((linkItem) => linkItem.position === 'right')
-            .map((linkItem, i) => (
-              <NavItem {...linkItem} key={i} />
-            ))}
+          {rightLinks.map((linkItem, i) => (
+            <NavItem {...linkItem} key={i} />
+          ))}
           {!disableDarkMode && (
             <Toggle
               className={styles.displayOnlyInLargeViewport}
