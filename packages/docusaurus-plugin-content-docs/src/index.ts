@@ -177,7 +177,7 @@ export default function pluginContentDocs(
       const docsMetadataRaw: DocsMetadataRaw = {};
       const docsPromises = [];
       const includeDefaultDocs = !(
-        !!options.skipNextRelease && process.argv[2] === 'build'
+        options.skipNextRelease && process.argv[2] === 'build'
       );
 
       // Metadata for default/master docs files.
