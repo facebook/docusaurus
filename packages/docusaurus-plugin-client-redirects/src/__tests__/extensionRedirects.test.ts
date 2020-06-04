@@ -55,10 +55,10 @@ describe('createToExtensionsRedirects', () => {
     expect(createToExtensionsRedirects([''], ext)).toEqual([]);
     expect(createToExtensionsRedirects(['/'], ext)).toEqual([]);
     expect(createToExtensionsRedirects(['/abc.html'], ext)).toEqual([
-      {fromRoutePath: '/abc', toRoutePath: '/abc.html'},
+      {from: '/abc', to: '/abc.html'},
     ]);
     expect(createToExtensionsRedirects(['/abc.htm'], ext)).toEqual([
-      {fromRoutePath: '/abc', toRoutePath: '/abc.htm'},
+      {from: '/abc', to: '/abc.htm'},
     ]);
     expect(createToExtensionsRedirects(['/abc.xyz'], ext)).toEqual([]);
   });
@@ -79,8 +79,8 @@ describe('createFromExtensionsRedirects', () => {
     expect(createFromExtensionsRedirects([''], ext)).toEqual([]);
     expect(createFromExtensionsRedirects(['/'], ext)).toEqual([]);
     expect(createFromExtensionsRedirects(['/abc'], ext)).toEqual([
-      {fromRoutePath: '/abc.html', toRoutePath: '/abc'},
-      {fromRoutePath: '/abc.htm', toRoutePath: '/abc'},
+      {from: '/abc.html', to: '/abc'},
+      {from: '/abc.htm', to: '/abc'},
     ]);
     expect(createFromExtensionsRedirects(['/def.html'], ext)).toEqual([]);
     expect(createFromExtensionsRedirects(['/def/'], ext)).toEqual([]);

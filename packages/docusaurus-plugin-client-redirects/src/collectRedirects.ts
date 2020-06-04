@@ -50,7 +50,7 @@ function validateCollectedRedirects(
   }
 
   const allowedToPaths = pluginContext.routesPaths;
-  const toPaths = redirects.map((redirect) => redirect.toRoutePath);
+  const toPaths = redirects.map((redirect) => redirect.to);
   const illegalToPaths = difference(toPaths, allowedToPaths);
   if (illegalToPaths.length > 0) {
     throw new Error(
@@ -70,25 +70,25 @@ function filterUnwantedRedirects(
 ): RedirectMetadata[] {
   // we don't want to create twice the same redirect
   // that would lead to writing twice the same html redirection file
-  Object.entries(
-    groupBy(redirects, (redirect) => redirect.fromRoutePath),
-  ).forEach(([from, groupedFromRedirects]) => {
-    if (groupedFromRedirects.length > 1) {
-      console.error(
-        chalk.red(
-          `@docusaurus/plugin-client-redirects: multiple redirects are created with the same "from" pathname=${from}
+  Object.entries(groupBy(redirects, (redirect) => redirect.from)).forEach(
+    ([from, groupedFromRedirects]) => {
+      if (groupedFromRedirects.length > 1) {
+        console.error(
+          chalk.red(
+            `@docusaurus/plugin-client-redirects: multiple redirects are created with the same "from" pathname=${from}
 It is not possible to redirect the same pathname to multiple destinations:
 - ${groupedFromRedirects.map((r) => JSON.stringify(r)).join('\n- ')}
 `,
-        ),
-      );
-    }
-  });
-  redirects = uniqBy(redirects, (redirect) => redirect.fromRoutePath);
+          ),
+        );
+      }
+    },
+  );
+  redirects = uniqBy(redirects, (redirect) => redirect.from);
 
   // We don't want to override an already existing route with a redirect file!
   const redirectsOverridingExistingPath = redirects.filter((redirect) =>
-    pluginContext.routesPaths.includes(redirect.fromRoutePath),
+    pluginContext.routesPaths.includes(redirect.from),
   );
   if (redirectsOverridingExistingPath.length > 0) {
     console.error(
@@ -100,7 +100,7 @@ It is not possible to redirect the same pathname to multiple destinations:
     );
   }
   redirects = redirects.filter(
-    (redirect) => !pluginContext.routesPaths.includes(redirect.fromRoutePath),
+    (redirect) => !pluginContext.routesPaths.includes(redirect.from),
   );
 
   return redirects;
@@ -131,11 +131,11 @@ function createRedirectsOptionRedirects(
   // For conveniency, user can use a string or a string[]
   function optionToRedirects(option: RedirectOption): RedirectMetadata[] {
     if (typeof option.from === 'string') {
-      return [{fromRoutePath: option.from, toRoutePath: option.to}];
+      return [{from: option.from, to: option.to}];
     } else {
-      return option.from.map((fromRoutePath) => ({
-        fromRoutePath,
-        toRoutePath: option.to,
+      return option.from.map((from) => ({
+        from,
+        to: option.to,
       }));
     }
   }
@@ -149,19 +149,17 @@ function createCreateRedirectsOptionRedirects(
   createRedirects: PluginOptions['createRedirects'],
 ): RedirectMetadata[] {
   function createPathRedirects(path: string): RedirectMetadata[] {
-    const fromRoutePathsMixed: string | string[] = createRedirects
+    const fromsMixed: string | string[] = createRedirects
       ? createRedirects(path) || []
       : [];
 
-    const fromRoutePaths: string[] =
-      typeof fromRoutePathsMixed === 'string'
-        ? [fromRoutePathsMixed]
-        : fromRoutePathsMixed;
+    const froms: string[] =
+      typeof fromsMixed === 'string' ? [fromsMixed] : fromsMixed;
 
-    return fromRoutePaths.map((fromRoutePath) => {
+    return froms.map((from) => {
       return {
-        fromRoutePath,
-        toRoutePath: path,
+        from,
+        to: path,
       };
     });
   }

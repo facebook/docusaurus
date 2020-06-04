@@ -38,12 +38,10 @@ export function toRedirectFilesMetadata(
   const createFileMetadata = (redirect: RedirectMetadata) => {
     const fileAbsolutePath = path.join(
       pluginContext.outDir,
-      getFilePathForRoutePath(redirect.fromRoutePath),
+      getFilePathForRoutePath(redirect.from),
     );
     const toUrl = addTrailingSlash(
-      `${removeTrailingSlash(pluginContext.baseUrl)}${path.join(
-        redirect.toRoutePath,
-      )}`,
+      `${removeTrailingSlash(pluginContext.baseUrl)}${path.join(redirect.to)}`,
     );
     const fileContent = createPageContentMemoized(toUrl);
     return {

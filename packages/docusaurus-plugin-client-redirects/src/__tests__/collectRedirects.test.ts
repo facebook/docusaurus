@@ -45,12 +45,12 @@ describe('collectRedirects', () => {
       ),
     ).toEqual([
       {
-        fromRoutePath: '/somePath.html',
-        toRoutePath: '/somePath',
+        from: '/somePath.html',
+        to: '/somePath',
       },
       {
-        fromRoutePath: '/somePath.exe',
-        toRoutePath: '/somePath',
+        from: '/somePath.exe',
+        to: '/somePath',
       },
     ]);
   });
@@ -67,8 +67,8 @@ describe('collectRedirects', () => {
       ),
     ).toEqual([
       {
-        fromRoutePath: '/otherPath',
-        toRoutePath: '/otherPath.html',
+        from: '/otherPath',
+        to: '/otherPath.html',
       },
     ]);
   });
@@ -94,16 +94,16 @@ describe('collectRedirects', () => {
       ),
     ).toEqual([
       {
-        fromRoutePath: '/someLegacyPath',
-        toRoutePath: '/somePath',
+        from: '/someLegacyPath',
+        to: '/somePath',
       },
       {
-        fromRoutePath: '/someLegacyPathArray1',
-        toRoutePath: '/',
+        from: '/someLegacyPathArray1',
+        to: '/',
       },
       {
-        fromRoutePath: '/someLegacyPathArray2',
-        toRoutePath: '/',
+        from: '/someLegacyPathArray2',
+        to: '/',
       },
     ]);
   });
@@ -151,30 +151,30 @@ describe('collectRedirects', () => {
       ),
     ).toEqual([
       {
-        fromRoutePath: '/some/path/suffix1',
-        toRoutePath: '/',
+        from: '/some/path/suffix1',
+        to: '/',
       },
       {
-        fromRoutePath: '/some/other/path/suffix2',
-        toRoutePath: '/',
-      },
-
-      {
-        fromRoutePath: '/testpath/some/path/suffix1',
-        toRoutePath: '/testpath',
-      },
-      {
-        fromRoutePath: '/testpath/some/other/path/suffix2',
-        toRoutePath: '/testpath',
+        from: '/some/other/path/suffix2',
+        to: '/',
       },
 
       {
-        fromRoutePath: '/otherPath.html/some/path/suffix1',
-        toRoutePath: '/otherPath.html',
+        from: '/testpath/some/path/suffix1',
+        to: '/testpath',
       },
       {
-        fromRoutePath: '/otherPath.html/some/other/path/suffix2',
-        toRoutePath: '/otherPath.html',
+        from: '/testpath/some/other/path/suffix2',
+        to: '/testpath',
+      },
+
+      {
+        from: '/otherPath.html/some/path/suffix1',
+        to: '/otherPath.html',
+      },
+      {
+        from: '/otherPath.html/some/other/path/suffix2',
+        to: '/otherPath.html',
       },
     ]);
   });
@@ -239,16 +239,16 @@ describe('collectRedirects', () => {
       ),
     ).toEqual([
       {
-        fromRoutePath: '/toShouldWork.html',
-        toRoutePath: '/toShouldWork',
+        from: '/toShouldWork.html',
+        to: '/toShouldWork',
       },
       {
-        fromRoutePath: '/toShouldWork.exe',
-        toRoutePath: '/toShouldWork',
+        from: '/toShouldWork.exe',
+        to: '/toShouldWork',
       },
       {
-        fromRoutePath: '/fromShouldWork',
-        toRoutePath: '/fromShouldWork.html',
+        from: '/fromShouldWork',
+        to: '/fromShouldWork.html',
       },
     ]);
   });

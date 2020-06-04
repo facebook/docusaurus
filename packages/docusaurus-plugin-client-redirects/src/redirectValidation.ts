@@ -17,8 +17,8 @@ export const PathnameValidator = Yup.string().test({
 });
 
 const RedirectSchema = Yup.object<RedirectMetadata>({
-  fromRoutePath: PathnameValidator.required(),
-  toRoutePath: PathnameValidator.required(),
+  from: PathnameValidator.required(),
+  to: PathnameValidator.required(),
 });
 
 export function validateRedirect(redirect: RedirectMetadata) {

@@ -10,56 +10,56 @@ import {validateRedirect} from '../redirectValidation';
 describe('validateRedirect', () => {
   test('validate good redirects without throwing', () => {
     validateRedirect({
-      fromRoutePath: '/fromSomePath',
-      toRoutePath: '/toSomePath',
+      from: '/fromSomePath',
+      to: '/toSomePath',
     });
     validateRedirect({
-      fromRoutePath: '/from/Some/Path',
-      toRoutePath: '/toSomePath',
+      from: '/from/Some/Path',
+      to: '/toSomePath',
     });
     validateRedirect({
-      fromRoutePath: '/fromSomePath',
-      toRoutePath: '/toSomePath',
+      from: '/fromSomePath',
+      to: '/toSomePath',
     });
     validateRedirect({
-      fromRoutePath: '/fromSomePath',
-      toRoutePath: '/to/Some/Path',
+      from: '/fromSomePath',
+      to: '/to/Some/Path',
     });
   });
 
   test('throw for bad redirects', () => {
     expect(() =>
       validateRedirect({
-        fromRoutePath: 'https://fb.com/fromSomePath',
-        toRoutePath: '/toSomePath',
+        from: 'https://fb.com/fromSomePath',
+        to: '/toSomePath',
       }),
     ).toThrowErrorMatchingSnapshot();
 
     expect(() =>
       validateRedirect({
-        fromRoutePath: '/fromSomePath',
-        toRoutePath: 'https://fb.com/toSomePath',
+        from: '/fromSomePath',
+        to: 'https://fb.com/toSomePath',
       }),
     ).toThrowErrorMatchingSnapshot();
 
     expect(() =>
       validateRedirect({
-        fromRoutePath: '/fromSomePath',
-        toRoutePath: '/toSomePath?queryString=xyz',
+        from: '/fromSomePath',
+        to: '/toSomePath?queryString=xyz',
       }),
     ).toThrowErrorMatchingSnapshot();
 
     expect(() =>
       validateRedirect({
-        fromRoutePath: null as any,
-        toRoutePath: '/toSomePath?queryString=xyz',
+        from: null as any,
+        to: '/toSomePath?queryString=xyz',
       }),
     ).toThrowErrorMatchingSnapshot();
 
     expect(() =>
       validateRedirect({
-        fromRoutePath: ['heyho'] as any,
-        toRoutePath: '/toSomePath?queryString=xyz',
+        from: ['heyho'] as any,
+        to: '/toSomePath?queryString=xyz',
       }),
     ).toThrowErrorMatchingSnapshot();
   });

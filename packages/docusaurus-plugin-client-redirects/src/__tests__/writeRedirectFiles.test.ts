@@ -20,9 +20,9 @@ describe('toRedirectFilesMetadata', () => {
 
     const redirectFiles = toRedirectFilesMetadata(
       [
-        {fromRoutePath: '/abc.html', toRoutePath: '/abc'},
-        {fromRoutePath: '/def', toRoutePath: '/def.html'},
-        {fromRoutePath: '/xyz', toRoutePath: '/'},
+        {from: '/abc.html', to: '/abc'},
+        {from: '/def', to: '/def.html'},
+        {from: '/xyz', to: '/'},
       ],
       pluginContext,
     );
@@ -44,7 +44,7 @@ describe('toRedirectFilesMetadata', () => {
       baseUrl: '/',
     };
     const redirectFiles = toRedirectFilesMetadata(
-      [{fromRoutePath: '/abc.html', toRoutePath: '/abc'}],
+      [{from: '/abc.html', to: '/abc'}],
       pluginContext,
     );
     expect(redirectFiles.map((f) => f.fileContent)).toMatchSnapshot(
@@ -58,7 +58,7 @@ describe('toRedirectFilesMetadata', () => {
       baseUrl: '',
     };
     const redirectFiles = toRedirectFilesMetadata(
-      [{fromRoutePath: '/abc.html', toRoutePath: '/abc'}],
+      [{from: '/abc.html', to: '/abc'}],
       pluginContext,
     );
     expect(redirectFiles.map((f) => f.fileContent)).toMatchSnapshot(

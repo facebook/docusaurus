@@ -36,9 +36,9 @@ export type PluginContext = Pick<
 };
 
 // In-memory representation of redirects we want: easier to test
-// /!\ easy to be confused: "fromRoutePath" is the new page we should create,
-// that redirects to "toRoutePath" the existing Docusaurus page
+// /!\ easy to be confused: "from" is the new page we should create,
+// that redirects to "to": the existing Docusaurus page
 export type RedirectMetadata = {
-  fromRoutePath: string;
-  toRoutePath: string;
+  from: string; // pathname
+  to: string; // pathname
 };

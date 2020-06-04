@@ -53,8 +53,8 @@ export function createToExtensionsRedirects(
     if (extensionFound) {
       const routePathWithoutExtension = removeSuffix(path, extensionFound);
       return [routePathWithoutExtension].map((from) => ({
-        fromRoutePath: from,
-        toRoutePath: path,
+        from: from,
+        to: path,
       }));
     }
     return [];
@@ -80,8 +80,8 @@ export function createFromExtensionsRedirects(
       return [];
     } else {
       return extensions.map((ext) => ({
-        fromRoutePath: `${path}.${ext}`,
-        toRoutePath: path,
+        from: `${path}.${ext}`,
+        to: path,
       }));
     }
   };
