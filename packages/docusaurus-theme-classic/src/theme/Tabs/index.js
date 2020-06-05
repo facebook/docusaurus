@@ -6,7 +6,7 @@
  */
 
 import React, {useState, Children} from 'react';
-import useTabGroupChoiceContext from '@theme/hooks/useTabGroupChoiceContext';
+import useUserPreferencesContext from '@theme/hooks/useUserPreferencesContext';
 
 import classnames from 'classnames';
 
@@ -19,7 +19,7 @@ const keys = {
 
 function Tabs(props) {
   const {block, children, defaultValue, values, groupId} = props;
-  const {tabGroupChoices, setTabGroupChoices} = useTabGroupChoiceContext();
+  const {tabGroupChoices, setTabGroupChoices} = useUserPreferencesContext();
   const [selectedValue, setSelectedValue] = useState(defaultValue);
 
   if (groupId != null) {

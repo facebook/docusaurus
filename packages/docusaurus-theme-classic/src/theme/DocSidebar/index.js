@@ -8,7 +8,7 @@
 import React, {useState, useCallback, useEffect, useRef} from 'react';
 import classnames from 'classnames';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import useAnnouncementBarContext from '@theme/hooks/useAnnouncementBarContext';
+import useUserPreferencesContext from '@theme/hooks/useUserPreferencesContext';
 import useLockBodyScroll from '@theme/hooks/useLockBodyScroll';
 import useLogo from '@theme/hooks/useLogo';
 import useScrollPosition from '@theme/hooks/useScrollPosition';
@@ -165,7 +165,7 @@ function DocSidebar(props) {
     isClient,
   } = useDocusaurusContext();
   const {logoLink, logoLinkProps, logoImageUrl, logoAlt} = useLogo();
-  const {isAnnouncementBarClosed} = useAnnouncementBarContext();
+  const {isAnnouncementBarClosed} = useUserPreferencesContext();
   const {scrollY} = useScrollPosition();
 
   const {

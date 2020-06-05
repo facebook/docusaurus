@@ -7,10 +7,10 @@
 
 import {useContext} from 'react';
 
-import TabGroupChoiceContext from '@theme/TabGroupChoiceContext';
+import UserPreferencesContext from '@theme/UserPreferencesContext';
 
-function useTabGroupChoiceContext() {
-  return useContext(TabGroupChoiceContext);
+function useUserPreferencesContext() {
+  return useContext(UserPreferencesContext);
 }
 
-export default useTabGroupChoiceContext;
+export default useUserPreferencesContext;
