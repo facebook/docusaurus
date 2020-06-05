@@ -45,7 +45,7 @@ module.exports = {
 };
 ```
 
-:::tip
+:::warning
 
 By default, GitHub Pages runs published files through [Jekyll](https://jekyllrb.com/). Since Jekyll will discard any files that begin with `_`, it is recommended that you disable Jekyll by adding an empty file named `.nojekyll` file to your `static` directory.
 
