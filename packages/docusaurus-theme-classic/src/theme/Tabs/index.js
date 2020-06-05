@@ -26,7 +26,8 @@ function Tabs(props) {
     const relevantTabGroupChoice = tabGroupChoices[groupId];
     if (
       relevantTabGroupChoice != null &&
-      relevantTabGroupChoice !== selectedValue
+      relevantTabGroupChoice !== selectedValue &&
+      values.some((value) => value.value === relevantTabGroupChoice)
     ) {
       setSelectedValue(relevantTabGroupChoice);
     }

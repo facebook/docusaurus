@@ -348,6 +348,36 @@ You may want choices of the same kind of tabs to sync with each other. For examp
   <TabItem value="mac">Use Command + V to paste.</TabItem>
 </Tabs>
 
+For all tab groups that have the same `groupId`, the possible values do not need to be the same. If one tab group with chooses an value that does not exist in another tab group with the same `groupId`, the tab group with the missing value won't change its tab. You can see that from the following example. Try to select Linux, and the above tab groups doesn't change.
+
+```jsx
+<Tabs
+  groupId="operating-systems"
+  defaultValue="win"
+  values={[
+    {label: 'Windows', value: 'win'},
+    {label: 'macOS', value: 'mac'},
+    {label: 'Linux', value: 'linux'},
+  ]}>
+  <TabItem value="win">I am Windows.</TabItem>
+  <TabItem value="mac">I am macOS.</TabItem>
+  <TabItem value="linux">I am Linux.</TabItem>
+</Tabs>
+```
+
+<Tabs
+  groupId="operating-systems"
+  defaultValue="win"
+  values={[
+    {label: 'Windows', value: 'win'},
+    {label: 'macOS', value: 'mac'},
+    {label: 'Linux', value: 'linux'},
+  ]}>
+  <TabItem value="win">I am Windows.</TabItem>
+  <TabItem value="mac">I am macOS.</TabItem>
+  <TabItem value="linux">I am Linux.</TabItem>
+</Tabs>
+
 ---
 
 Tab choices with different `groupId`s will not interfere with each other:
