@@ -609,6 +609,8 @@ You might want to refer to our migration PRs for [Create React App](https://gith
 
 For any questions, you can ask in the [`#docusaurus-1-to-2-migration` Discord channel](https://discordapp.com/invite/kYaNd6V). Feel free to tag [@yangshun](https://github.com/yangshun) in any migration PRs if you would like us to have a look.
 
+---
+
 ## Versioned Site
 
 :::caution
@@ -616,8 +618,6 @@ For any questions, you can ask in the [`#docusaurus-1-to-2-migration` Discord ch
 The versioning feature is a work in progress! Although we've implemented docs versioning since `2.0.0-alpha.37`, we'd like to test it out for v2 users first before we recommend v1 users to migrate to v2. There are some changes in how v2 versioning works compared to v1. In the future, we might create a script to migrate your versioned docs easier. However, if you are adventurous enough to manually migrate, feel free to do so. Be warned though, the manual migration requires lot of work.
 
 :::
-
-## Changes from v1
 
 Read up https://v2.docusaurus.io/blog/2018/09/11/Towards-Docusaurus-2#versioning first for problems in v1's approach.
 
