@@ -62,6 +62,7 @@ module.exports = {
     ],
   ],
   themeConfig: {
+    // sidebarCollapsible: false,
     announcementBar: {
       id: 'supportus',
       content:

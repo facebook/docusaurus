@@ -6,7 +6,7 @@
  */
 
 import React, {useState, useCallback, useEffect, useRef} from 'react';
-import classnames from 'classnames';
+import clsx from 'clsx';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useUserPreferencesContext from '@theme/hooks/useUserPreferencesContext';
 import useLockBodyScroll from '@theme/hooks/useLockBodyScroll';
@@ -82,12 +82,12 @@ function DocSidebarItemCategory({
 
   return (
     <li
-      className={classnames('menu__list-item', {
+      className={clsx('menu__list-item', {
         'menu__list-item--collapsed': collapsed,
       })}
       key={label}>
       <a
-        className={classnames('menu__link', {
+        className={clsx('menu__link', {
           'menu__link--sublist': collapsible,
           'menu__link--active': collapsible && isActive,
           [styles.menuLinkText]: !collapsible,
@@ -125,7 +125,7 @@ function DocSidebarItemLink({
   return (
     <li className="menu__list-item" key={label}>
       <Link
-        className={classnames('menu__link', {
+        className={clsx('menu__link', {
           'menu__link--active': isActive,
         })}
         to={href}
@@ -191,7 +191,7 @@ function DocSidebar(props) {
 
   return (
     <div
-      className={classnames(styles.sidebar, {
+      className={clsx(styles.sidebar, {
         [styles.sidebarWithHideableNavbar]: hideOnScroll,
       })}>
       {hideOnScroll && (
@@ -207,7 +207,7 @@ function DocSidebar(props) {
         </Link>
       )}
       <div
-        className={classnames('menu', 'menu--responsive', styles.menu, {
+        className={clsx('menu', 'menu--responsive', styles.menu, {
           'menu--show': showResponsiveSidebar,
           [styles.menuWithAnnouncementBar]:
             !isAnnouncementBarClosed && scrollY === 0,
@@ -222,7 +222,7 @@ function DocSidebar(props) {
           }}>
           {showResponsiveSidebar ? (
             <span
-              className={classnames(
+              className={clsx(
                 styles.sidebarMenuIcon,
                 styles.sidebarMenuCloseIcon,
               )}>

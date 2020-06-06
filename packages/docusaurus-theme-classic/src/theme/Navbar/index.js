@@ -6,7 +6,7 @@
  */
 
 import React, {useCallback, useState} from 'react';
-import classnames from 'classnames';
+import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
@@ -62,8 +62,8 @@ function NavLink({
 }
 
 function NavItem({items, position, className, ...props}) {
-  const navLinkClassNames = (extraClassName, isDropdownItem = false) =>
-    classnames(
+  const navLinkclsx = (extraClassName, isDropdownItem = false) =>
+    clsx(
       {
         'navbar__item navbar__link': !isDropdownItem,
         dropdown__link: isDropdownItem,
@@ -72,17 +72,17 @@ function NavItem({items, position, className, ...props}) {
     );
 
   if (!items) {
-    return <NavLink className={navLinkClassNames(className)} {...props} />;
+    return <NavLink className={navLinkclsx(className)} {...props} />;
   }
 
   return (
     <div
-      className={classnames('navbar__item', 'dropdown', 'dropdown--hoverable', {
+      className={clsx('navbar__item', 'dropdown', 'dropdown--hoverable', {
         'dropdown--left': position === 'left',
         'dropdown--right': position === 'right',
       })}>
       <NavLink
-        className={navLinkClassNames(className)}
+        className={navLinkclsx(className)}
         {...props}
         onClick={(e) => e.preventDefault()}
         onKeyDown={(e) => {
@@ -97,7 +97,7 @@ function NavItem({items, position, className, ...props}) {
           <li key={i}>
             <NavLink
               activeClassName="dropdown__link--active"
-              className={navLinkClassNames(childItemClassName, true)}
+              className={navLinkclsx(childItemClassName, true)}
               {...childItemProps}
             />
           </li>
@@ -109,8 +109,8 @@ function NavItem({items, position, className, ...props}) {
 
 function MobileNavItem({items, position, className, ...props}) {
   // Need to destructure position from props so that it doesn't get passed on.
-  const navLinkClassNames = (extraClassName, isSubList = false) =>
-    classnames(
+  const navLinkclsx = (extraClassName, isSubList = false) =>
+    clsx(
       'menu__link',
       {
         'menu__link--sublist': isSubList,
@@ -121,14 +121,14 @@ function MobileNavItem({items, position, className, ...props}) {
   if (!items) {
     return (
       <li className="menu__list-item">
-        <NavLink className={navLinkClassNames(className)} {...props} />
+        <NavLink className={navLinkclsx(className)} {...props} />
       </li>
     );
   }
 
   return (
     <li className="menu__list-item">
-      <NavLink className={navLinkClassNames(className, true)} {...props}>
+      <NavLink className={navLinkclsx(className, true)} {...props}>
         {props.label}
       </NavLink>
       <ul className="menu__list">
@@ -136,7 +136,7 @@ function MobileNavItem({items, position, className, ...props}) {
           <li className="menu__list-item" key={i}>
             <NavLink
               activeClassName="menu__link--active"
-              className={navLinkClassNames(childItemClassName)}
+              className={navLinkclsx(childItemClassName)}
               {...childItemProps}
               onClick={props.onClick}
             />
@@ -181,7 +181,7 @@ function Navbar() {
   return (
     <nav
       ref={navbarRef}
-      className={classnames('navbar', 'navbar--light', 'navbar--fixed-top', {
+      className={clsx('navbar', 'navbar--light', 'navbar--fixed-top', {
         'navbar-sidebar--show': sidebarShown,
         [styles.navbarHideable]: hideOnScroll,
         [styles.navbarHidden]: !isNavbarVisible,
@@ -225,7 +225,7 @@ function Navbar() {
             )}
             {title != null && (
               <strong
-                className={classnames('navbar__title', {
+                className={clsx('navbar__title', {
                   [styles.hideLogoText]: isSearchBarExpanded,
                 })}>
                 {title}

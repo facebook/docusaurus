@@ -10,7 +10,7 @@ import React, {useEffect} from 'react';
 import Image from '@theme/IdealImage';
 import Layout from '@theme/Layout';
 
-import classnames from 'classnames';
+import clsx from 'clsx';
 import styles from './styles.module.css';
 import users from '../../data/users';
 
@@ -29,7 +29,7 @@ function Showcase() {
         <div className="row">
           {users.map((user) => (
             <div key={user.title} className="col col--4 margin-bottom--lg">
-              <div className={classnames('card', styles.showcaseUser)}>
+              <div className={clsx('card', styles.showcaseUser)}>
                 <div className="card__image">
                   <Image img={user.preview} alt={user.title} />
                 </div>
