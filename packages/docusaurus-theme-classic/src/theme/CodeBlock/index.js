@@ -10,7 +10,7 @@
 import React, {useEffect, useState, useRef} from 'react';
 import classnames from 'classnames';
 import Highlight, {defaultProps} from 'prism-react-renderer';
-import Clipboard from 'clipboard';
+import copy from 'copy-text-to-clipboard';
 import rangeParser from 'parse-numeric-range';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import usePrismTheme from '@theme/hooks/usePrismTheme';
@@ -107,7 +107,6 @@ export default ({children, className: languageClassName, metastring}) => {
     setMounted(true);
   }, []);
 
-  const target = useRef(null);
   const button = useRef(null);
   let highlightLines = [];
   let codeBlockTitle = '';
@@ -127,22 +126,6 @@ export default ({children, className: languageClassName, metastring}) => {
       .split('title=')[1]
       .replace(/"+/g, '');
   }
-
-  useEffect(() => {
-    let clipboard;
-
-    if (button.current) {
-      clipboard = new Clipboard(button.current, {
-        target: () => target.current,
-      });
-    }
-
-    return () => {
-      if (clipboard) {
-        clipboard.destroy();
-      }
-    };
-  }, [button.current, target.current]);
 
   let language =
     languageClassName && languageClassName.replace(/language-/, '');
@@ -196,7 +179,7 @@ export default ({children, className: languageClassName, metastring}) => {
   }
 
   const handleCopyCode = () => {
-    window.getSelection().empty();
+    copy(code);
     setShowCopied(true);
 
     setTimeout(() => setShowCopied(false), 2000);
@@ -232,7 +215,7 @@ export default ({children, className: languageClassName, metastring}) => {
               className={classnames(className, styles.codeBlock, {
                 [styles.codeBlockWithTitle]: codeBlockTitle,
               })}>
-              <div ref={target} className={styles.codeBlockLines} style={style}>
+              <div className={styles.codeBlockLines} style={style}>
                 {tokens.map((line, i) => {
                   if (line.length === 1 && line[0].content === '') {
                     line[0].content = '\n'; // eslint-disable-line no-param-reassign

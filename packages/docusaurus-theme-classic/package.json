@@ -11,7 +11,7 @@
     "@mdx-js/mdx": "^1.5.8",
     "@mdx-js/react": "^1.5.8",
     "classnames": "^2.2.6",
-    "clipboard": "^2.0.6",
+    "copy-text-to-clipboard": "^2.2.0",
     "infima": "0.2.0-alpha.12",
     "parse-numeric-range": "^0.0.2",
     "prism-react-renderer": "^1.1.0",
