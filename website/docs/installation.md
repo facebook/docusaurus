@@ -123,7 +123,7 @@ npm install
 To check that that the update occurred successfully, run:
 
 ```bash npm2yarn
-npm docusaurus --version
+npx docusaurus --version
 ```
 
 You should see the correct version as output.
