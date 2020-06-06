@@ -45,13 +45,7 @@ test('site with wrong sidebar file', async () => {
   const plugin = pluginContentDocs(context, {
     sidebarPath,
   });
-  return plugin
-    .loadContent()
-    .catch((e) =>
-      expect(e).toMatchInlineSnapshot(
-        `[Error: Improper sidebars file, document with id 'goku' not found.]`,
-      ),
-    );
+  return plugin.loadContent().catch((e) => expect(e).toMatchSnapshot());
 });
 
 describe('empty/no docs website', () => {
