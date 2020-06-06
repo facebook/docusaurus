@@ -84,7 +84,9 @@ export function loadConfig(siteDir: string): DocusaurusConfig {
     throw new Error(
       `The field(s) ${formatFields(
         unrecognizedFields,
-      )} are not recognized in ${CONFIG_FILE_NAME}`,
+      )} are not recognized in ${CONFIG_FILE_NAME}.
+If you still want these fields to be in your configuration, put them in the 'customFields' attribute.
+See https://v2.docusaurus.io/docs/docusaurus.config.js/#customfields`,
     );
   }
 

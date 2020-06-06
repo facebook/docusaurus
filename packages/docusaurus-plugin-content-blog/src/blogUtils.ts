@@ -12,7 +12,7 @@ import readingTime from 'reading-time';
 import {Feed} from 'feed';
 import {PluginOptions, BlogPost, DateLink} from './types';
 import {
-  parse,
+  parseMarkdownFile,
   normalizeUrl,
   aliasedSitePath,
   getEditUrl,
@@ -120,8 +120,7 @@ export async function generateBlogPosts(
 
       const editBlogUrl = getEditUrl(relativePath, editUrl);
 
-      const fileString = await fs.readFile(source, 'utf-8');
-      const {frontMatter, content, excerpt} = parse(fileString);
+      const {frontMatter, content, excerpt} = await parseMarkdownFile(source);
 
       if (frontMatter.draft && process.env.NODE_ENV === 'production') {
         return;

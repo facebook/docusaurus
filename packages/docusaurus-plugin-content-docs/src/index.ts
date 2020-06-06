@@ -275,16 +275,18 @@ export default function pluginContentDocs(
       });
 
       const convertDocLink = (item: SidebarItemDoc): SidebarItemLink => {
-        const linkID = item.id;
-        const linkMetadata = docsMetadataRaw[linkID];
+        const docId = item.id;
+        const docMetadata = docsMetadataRaw[docId];
 
-        if (!linkMetadata) {
+        if (!docMetadata) {
           throw new Error(
-            `Improper sidebars file, document with id '${linkID}' not found.`,
+            `Bad sidebars file. The document id '${docId}' was used in the sidebar, but no document with this id could be found.
+Available document ids=
+- ${Object.keys(docsMetadataRaw).sort().join('\n- ')}`,
           );
         }
 
-        const {title, permalink, sidebar_label} = linkMetadata;
+        const {title, permalink, sidebar_label} = docMetadata;
 
         return {
           type: 'link',

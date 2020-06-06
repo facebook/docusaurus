@@ -20,6 +20,9 @@ import useLogo from '@theme/hooks/useLogo';
 
 import styles from './styles.module.css';
 
+// retrocompatible with v1
+const DefaultNavItemPosition = 'right';
+
 function NavLink({
   activeBasePath,
   activeBaseRegex,
@@ -61,8 +64,13 @@ function NavLink({
   );
 }
 
-function NavItem({items, position, className, ...props}) {
-  const navLinkclsx = (extraClassName, isDropdownItem = false) =>
+function NavItem({
+  items,
+  position = DefaultNavItemPosition,
+  className,
+  ...props
+}) {
+  const navLinkClassNames = (extraClassName, isDropdownItem = false) =>
     clsx(
       {
         'navbar__item navbar__link': !isDropdownItem,
@@ -72,7 +80,7 @@ function NavItem({items, position, className, ...props}) {
     );
 
   if (!items) {
-    return <NavLink className={navLinkclsx(className)} {...props} />;
+    return <NavLink className={navLinkClassNames(className)} {...props} />;
   }
 
   return (
@@ -82,7 +90,7 @@ function NavItem({items, position, className, ...props}) {
         'dropdown--right': position === 'right',
       })}>
       <NavLink
-        className={navLinkclsx(className)}
+        className={navLinkClassNames(className)}
         {...props}
         onClick={(e) => e.preventDefault()}
         onKeyDown={(e) => {
@@ -97,7 +105,7 @@ function NavItem({items, position, className, ...props}) {
           <li key={i}>
             <NavLink
               activeClassName="dropdown__link--active"
-              className={navLinkclsx(childItemClassName, true)}
+              className={navLinkClassNames(childItemClassName, true)}
               {...childItemProps}
             />
           </li>
@@ -109,7 +117,7 @@ function NavItem({items, position, className, ...props}) {
 
 function MobileNavItem({items, position, className, ...props}) {
   // Need to destructure position from props so that it doesn't get passed on.
-  const navLinkclsx = (extraClassName, isSubList = false) =>
+  const navLinkClassNames = (extraClassName, isSubList = false) =>
     clsx(
       'menu__link',
       {
@@ -121,14 +129,14 @@ function MobileNavItem({items, position, className, ...props}) {
   if (!items) {
     return (
       <li className="menu__list-item">
-        <NavLink className={navLinkclsx(className)} {...props} />
+        <NavLink className={navLinkClassNames(className)} {...props} />
       </li>
     );
   }
 
   return (
     <li className="menu__list-item">
-      <NavLink className={navLinkclsx(className, true)} {...props}>
+      <NavLink className={navLinkClassNames(className, true)} {...props}>
         {props.label}
       </NavLink>
       <ul className="menu__list">
@@ -136,7 +144,7 @@ function MobileNavItem({items, position, className, ...props}) {
           <li className="menu__list-item" key={i}>
             <NavLink
               activeClassName="menu__link--active"
-              className={navLinkclsx(childItemClassName)}
+              className={navLinkClassNames(childItemClassName)}
               {...childItemProps}
               onClick={props.onClick}
             />
@@ -145,6 +153,21 @@ function MobileNavItem({items, position, className, ...props}) {
       </ul>
     </li>
   );
+}
+
+// If split links by left/right
+// if position is unspecified, fallback to right (as v1)
+function splitLinks(links) {
+  const leftLinks = links.filter(
+    (linkItem) => (linkItem.position ?? DefaultNavItemPosition) === 'left',
+  );
+  const rightLinks = links.filter(
+    (linkItem) => (linkItem.position ?? DefaultNavItemPosition) === 'right',
+  );
+  return {
+    leftLinks,
+    rightLinks,
+  };
 }
 
 function Navbar() {
@@ -177,6 +200,8 @@ function Navbar() {
     (e) => (e.target.checked ? setDarkTheme() : setLightTheme()),
     [setLightTheme, setDarkTheme],
   );
+
+  const {leftLinks, rightLinks} = splitLinks(links);
 
   return (
     <nav
@@ -232,18 +257,14 @@ function Navbar() {
               </strong>
             )}
           </Link>
-          {links
-            .filter((linkItem) => linkItem.position === 'left')
-            .map((linkItem, i) => (
-              <NavItem {...linkItem} key={i} />
-            ))}
+          {leftLinks.map((linkItem, i) => (
+            <NavItem {...linkItem} key={i} />
+          ))}
         </div>
         <div className="navbar__items navbar__items--right">
-          {links
-            .filter((linkItem) => linkItem.position === 'right')
-            .map((linkItem, i) => (
-              <NavItem {...linkItem} key={i} />
-            ))}
+          {rightLinks.map((linkItem, i) => (
+            <NavItem {...linkItem} key={i} />
+          ))}
           {!disableDarkMode && (
             <Toggle
               className={styles.displayOnlyInLargeViewport}
