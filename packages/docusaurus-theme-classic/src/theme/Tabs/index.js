@@ -8,7 +8,7 @@
 import React, {useState, Children} from 'react';
 import useUserPreferencesContext from '@theme/hooks/useUserPreferencesContext';
 
-import classnames from 'classnames';
+import clsx from 'clsx';
 
 import styles from './styles.module.css';
 
@@ -80,7 +80,7 @@ function Tabs(props) {
       <ul
         role="tablist"
         aria-orientation="horizontal"
-        className={classnames('tabs', {
+        className={clsx('tabs', {
           'tabs--block': block,
         })}>
         {values.map(({value, label}) => (
@@ -88,7 +88,7 @@ function Tabs(props) {
             role="tab"
             tabIndex="0"
             aria-selected={selectedValue === value}
-            className={classnames('tabs__item', styles.tabItem, {
+            className={clsx('tabs__item', styles.tabItem, {
               'tabs__item--active': selectedValue === value,
             })}
             key={value}

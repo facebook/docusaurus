@@ -8,7 +8,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 
 import React, {useEffect, useState, useRef} from 'react';
-import classnames from 'classnames';
+import clsx from 'clsx';
 import Highlight, {defaultProps} from 'prism-react-renderer';
 import Clipboard from 'clipboard';
 import rangeParser from 'parse-numeric-range';
@@ -221,7 +221,7 @@ export default ({children, className: languageClassName, metastring}) => {
               ref={button}
               type="button"
               aria-label="Copy code to clipboard"
-              className={classnames(styles.copyButton, {
+              className={clsx(styles.copyButton, {
                 [styles.copyButtonWithTitle]: codeBlockTitle,
               })}
               onClick={handleCopyCode}>
@@ -229,7 +229,7 @@ export default ({children, className: languageClassName, metastring}) => {
             </button>
             <div
               tabIndex="0"
-              className={classnames(className, styles.codeBlock, {
+              className={clsx(className, styles.codeBlock, {
                 [styles.codeBlockWithTitle]: codeBlockTitle,
               })}>
               <div ref={target} className={styles.codeBlockLines} style={style}>

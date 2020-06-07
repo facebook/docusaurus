@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import classnames from 'classnames';
+import clsx from 'clsx';
 import {MDXProvider} from '@mdx-js/react';
 
 import Head from '@docusaurus/Head';
@@ -58,7 +58,7 @@ function BlogPostItem(props) {
     return (
       <header>
         <TitleHeading
-          className={classnames('margin-bottom--sm', styles.blogPostTitle)}>
+          className={clsx('margin-bottom--sm', styles.blogPostTitle)}>
           {isBlogPostPage ? title : <Link to={permalink}>{title}</Link>}
         </TitleHeading>
         <div className="margin-vert--md">

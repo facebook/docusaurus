@@ -6,7 +6,7 @@
  */
 
 import React, {useState, useRef, useCallback} from 'react';
-import classnames from 'classnames';
+import clsx from 'clsx';
 
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useHistory} from '@docusaurus/router';
@@ -109,7 +109,7 @@ const Search = ({handleSearchBarToggle, isSearchBarExpanded}) => {
         <span
           aria-label="expand searchbar"
           role="button"
-          className={classnames(styles.searchIconButton, {
+          className={clsx(styles.searchIconButton, {
             [styles.searchIconButtonHidden]: isSearchBarExpanded,
           })}
           onClick={toggleSearchInput}
@@ -122,7 +122,7 @@ const Search = ({handleSearchBarToggle, isSearchBarExpanded}) => {
           type="search"
           placeholder="Search"
           aria-label="Search"
-          className={classnames('navbar__search-input', styles.searchInput, {
+          className={clsx('navbar__search-input', styles.searchInput, {
             [styles.searchInputExpanded]: isSearchBarExpanded,
           })}
           onMouseOver={handleSearchInput}
