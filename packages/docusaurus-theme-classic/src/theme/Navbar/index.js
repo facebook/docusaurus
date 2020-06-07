@@ -6,7 +6,7 @@
  */
 
 import React, {useCallback, useState} from 'react';
-import classnames from 'classnames';
+import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
@@ -71,7 +71,7 @@ function NavItem({
   ...props
 }) {
   const navLinkClassNames = (extraClassName, isDropdownItem = false) =>
-    classnames(
+    clsx(
       {
         'navbar__item navbar__link': !isDropdownItem,
         dropdown__link: isDropdownItem,
@@ -85,7 +85,7 @@ function NavItem({
 
   return (
     <div
-      className={classnames('navbar__item', 'dropdown', 'dropdown--hoverable', {
+      className={clsx('navbar__item', 'dropdown', 'dropdown--hoverable', {
         'dropdown--left': position === 'left',
         'dropdown--right': position === 'right',
       })}>
@@ -118,7 +118,7 @@ function NavItem({
 function MobileNavItem({items, position, className, ...props}) {
   // Need to destructure position from props so that it doesn't get passed on.
   const navLinkClassNames = (extraClassName, isSubList = false) =>
-    classnames(
+    clsx(
       'menu__link',
       {
         'menu__link--sublist': isSubList,
@@ -206,7 +206,7 @@ function Navbar() {
   return (
     <nav
       ref={navbarRef}
-      className={classnames('navbar', 'navbar--light', 'navbar--fixed-top', {
+      className={clsx('navbar', 'navbar--light', 'navbar--fixed-top', {
         'navbar-sidebar--show': sidebarShown,
         [styles.navbarHideable]: hideOnScroll,
         [styles.navbarHidden]: !isNavbarVisible,
@@ -250,7 +250,7 @@ function Navbar() {
             )}
             {title != null && (
               <strong
-                className={classnames('navbar__title', {
+                className={clsx('navbar__title', {
                   [styles.hideLogoText]: isSearchBarExpanded,
                 })}>
                 {title}

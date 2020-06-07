@@ -13,7 +13,7 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 import DocPaginator from '@theme/DocPaginator';
 import useTOCHighlight from '@theme/hooks/useTOCHighlight';
 
-import classnames from 'classnames';
+import clsx from 'clsx';
 import styles from './styles.module.css';
 
 const LINK_CLASS_NAME = 'table-of-contents__link';
@@ -102,13 +102,10 @@ function DocItem(props) {
         {permalink && <link rel="canonical" href={siteUrl + permalink} />}
       </Head>
       <div
-        className={classnames(
-          'container padding-vert--lg',
-          styles.docItemWrapper,
-        )}>
+        className={clsx('container padding-vert--lg', styles.docItemWrapper)}>
         <div className="row">
           <div
-            className={classnames('col', {
+            className={clsx('col', {
               [styles.docItemCol]: !hideTableOfContents,
             })}>
             <div className={styles.docItemContainer}>
