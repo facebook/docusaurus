@@ -27,6 +27,7 @@ export interface DocusaurusConfig {
   customFields?: {
     [key: string]: any;
   };
+  configureBabel?: (isServer: boolean) => any;
   scripts?: (
     | string
     | {

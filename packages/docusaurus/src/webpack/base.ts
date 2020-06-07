@@ -37,7 +37,14 @@ export function createBaseConfig(
   isServer: boolean,
   minify: boolean,
 ): Configuration {
-  const {outDir, siteDir, baseUrl, generatedFilesDir, routesPaths} = props;
+  const {
+    outDir,
+    siteDir,
+    baseUrl,
+    generatedFilesDir,
+    routesPaths,
+    siteConfig: {configureBabel},
+  } = props;
 
   const totalPages = routesPaths.length;
   const isProd = process.env.NODE_ENV === 'production';
@@ -155,9 +162,10 @@ export function createBaseConfig(
         {
           test: /\.(j|t)sx?$/,
           exclude: excludeJS,
-          use: [getCacheLoader(isServer), getBabelLoader(isServer)].filter(
-            Boolean,
-          ) as Loader[],
+          use: [
+            getCacheLoader(isServer),
+            getBabelLoader(isServer, configureBabel?.(isServer)),
+          ].filter(Boolean) as Loader[],
         },
         {
           test: CSS_REGEX,
