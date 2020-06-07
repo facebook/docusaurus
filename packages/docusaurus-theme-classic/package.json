@@ -10,8 +10,8 @@
   "dependencies": {
     "@mdx-js/mdx": "^1.5.8",
     "@mdx-js/react": "^1.5.8",
-    "clipboard": "^2.0.6",
     "clsx": "^1.1.1",
+    "copy-text-to-clipboard": "^2.2.0",
     "infima": "0.2.0-alpha.12",
     "parse-numeric-range": "^0.0.2",
     "prism-react-renderer": "^1.1.0",
