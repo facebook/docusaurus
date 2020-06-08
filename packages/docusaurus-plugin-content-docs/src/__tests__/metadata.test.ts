@@ -46,6 +46,7 @@ describe('simple site', () => {
 
     expect(dataA).toEqual({
       id: 'foo/bar',
+      isDocsHomePage: false,
       permalink: '/docs/foo/bar',
       source: path.join('@site', routeBasePath, sourceA),
       title: 'Bar',
@@ -53,6 +54,7 @@ describe('simple site', () => {
     });
     expect(dataB).toEqual({
       id: 'hello',
+      isDocsHomePage: false,
       permalink: '/docs/hello',
       source: path.join('@site', routeBasePath, sourceB),
       title: 'Hello, World !',
@@ -79,6 +81,7 @@ describe('simple site', () => {
 
     expect(data).toEqual({
       id: 'foo/baz',
+      isDocsHomePage: false,
       permalink: '/docs/foo/bazSlug.html',
       source: path.join('@site', routeBasePath, source),
       title: 'baz',
@@ -104,6 +107,7 @@ describe('simple site', () => {
 
     expect(data).toEqual({
       id: 'lorem',
+      isDocsHomePage: false,
       permalink: '/docs/lorem',
       source: path.join('@site', routeBasePath, source),
       title: 'lorem',
@@ -133,6 +137,7 @@ describe('simple site', () => {
 
     expect(data).toEqual({
       id: 'lorem',
+      isDocsHomePage: false,
       permalink: '/docs/lorem',
       source: path.join('@site', routeBasePath, source),
       title: 'lorem',
@@ -161,6 +166,7 @@ describe('simple site', () => {
 
     expect(data).toEqual({
       id: 'ipsum',
+      isDocsHomePage: false,
       permalink: '/docs/ipsum',
       source: path.join('@site', routeBasePath, source),
       title: 'ipsum',
@@ -244,6 +250,7 @@ describe('versioned site', () => {
 
     expect(dataA).toEqual({
       id: 'foo/bar',
+      isDocsHomePage: false,
       permalink: '/docs/next/foo/barSlug',
       source: path.join('@site', routeBasePath, sourceA),
       title: 'bar',
@@ -252,6 +259,7 @@ describe('versioned site', () => {
     });
     expect(dataB).toEqual({
       id: 'hello',
+      isDocsHomePage: false,
       permalink: '/docs/next/hello',
       source: path.join('@site', routeBasePath, sourceB),
       title: 'hello',
@@ -302,6 +310,7 @@ describe('versioned site', () => {
 
     expect(dataA).toEqual({
       id: 'version-1.0.0/foo/bar',
+      isDocsHomePage: false,
       permalink: '/docs/1.0.0/foo/barSlug',
       source: path.join('@site', path.relative(siteDir, versionedDir), sourceA),
       title: 'bar',
@@ -310,6 +319,7 @@ describe('versioned site', () => {
     });
     expect(dataB).toEqual({
       id: 'version-1.0.0/hello',
+      isDocsHomePage: false,
       permalink: '/docs/1.0.0/hello',
       source: path.join('@site', path.relative(siteDir, versionedDir), sourceB),
       title: 'hello',
@@ -318,6 +328,7 @@ describe('versioned site', () => {
     });
     expect(dataC).toEqual({
       id: 'version-1.0.1/foo/bar',
+      isDocsHomePage: false,
       permalink: '/docs/foo/bar',
       source: path.join('@site', path.relative(siteDir, versionedDir), sourceC),
       title: 'bar',
@@ -326,6 +337,7 @@ describe('versioned site', () => {
     });
     expect(dataD).toEqual({
       id: 'version-1.0.1/hello',
+      isDocsHomePage: false,
       permalink: '/docs/hello',
       source: path.join('@site', path.relative(siteDir, versionedDir), sourceD),
       title: 'hello',

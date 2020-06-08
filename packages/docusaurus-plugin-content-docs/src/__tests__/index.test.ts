@@ -154,7 +154,8 @@ describe('simple website', () => {
     expect(versionToSidebars).toEqual({});
     expect(docsMetadata.hello).toEqual({
       id: 'hello',
-      permalink: '/docs/hello',
+      isDocsHomePage: true,
+      permalink: '/docs/',
       previous: {
         title: 'baz',
         permalink: '/docs/foo/bazSlug.html',
@@ -167,6 +168,7 @@ describe('simple website', () => {
 
     expect(docsMetadata['foo/bar']).toEqual({
       id: 'foo/bar',
+      isDocsHomePage: false,
       next: {
         title: 'baz',
         permalink: '/docs/foo/bazSlug.html',
@@ -294,6 +296,7 @@ describe('versioned website', () => {
     expect(docsMetadata['version-1.0.1/foo/baz']).toBeUndefined();
     expect(docsMetadata['foo/bar']).toEqual({
       id: 'foo/bar',
+      isDocsHomePage: false,
       permalink: '/docs/next/foo/barSlug',
       source: path.join('@site', routeBasePath, 'foo', 'bar.md'),
       title: 'bar',
@@ -302,12 +305,13 @@ describe('versioned website', () => {
       sidebar: 'docs',
       next: {
         title: 'hello',
-        permalink: '/docs/next/hello',
+        permalink: '/docs/next/',
       },
     });
     expect(docsMetadata['hello']).toEqual({
       id: 'hello',
-      permalink: '/docs/next/hello',
+      isDocsHomePage: true,
+      permalink: '/docs/next/',
       source: path.join('@site', routeBasePath, 'hello.md'),
       title: 'hello',
       description: 'Hello next !',
@@ -320,7 +324,8 @@ describe('versioned website', () => {
     });
     expect(docsMetadata['version-1.0.1/hello']).toEqual({
       id: 'version-1.0.1/hello',
-      permalink: '/docs/hello',
+      isDocsHomePage: true,
+      permalink: '/docs/',
       source: path.join(
         '@site',
         path.relative(siteDir, versionedDir),
@@ -338,6 +343,7 @@ describe('versioned website', () => {
     });
     expect(docsMetadata['version-1.0.0/foo/baz']).toEqual({
       id: 'version-1.0.0/foo/baz',
+      isDocsHomePage: false,
       permalink: '/docs/1.0.0/foo/baz',
       source: path.join(
         '@site',
@@ -353,7 +359,7 @@ describe('versioned website', () => {
       sidebar: 'version-1.0.0/docs',
       next: {
         title: 'hello',
-        permalink: '/docs/1.0.0/hello',
+        permalink: '/docs/1.0.0/',
       },
       previous: {
         title: 'bar',

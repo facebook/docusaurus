@@ -29,7 +29,7 @@ Object {
           "type": "link",
         },
         Object {
-          "href": "/docs",
+          "href": "/docs/",
           "label": "Hello, World !",
           "type": "link",
         },
@@ -41,7 +41,7 @@ Object {
       "collapsed": true,
       "items": Array [
         Object {
-          "href": "/docs",
+          "href": "/docs/",
           "label": "Hello, World !",
           "type": "link",
         },
@@ -72,6 +72,14 @@ Array [
     "path": "/docs/:route",
     "priority": undefined,
     "routes": Array [
+      Object {
+        "component": "@theme/DocItem",
+        "exact": true,
+        "modules": Object {
+          "content": "@site/docs/hello.md",
+        },
+        "path": "/docs/",
+      },
       Object {
         "component": "@theme/DocItem",
         "exact": true,
@@ -160,6 +168,14 @@ Array [
         "component": "@theme/DocItem",
         "exact": true,
         "modules": Object {
+          "content": "@site/versioned_docs/version-1.0.0/hello.md",
+        },
+        "path": "/docs/1.0.0/",
+      },
+      Object {
+        "component": "@theme/DocItem",
+        "exact": true,
+        "modules": Object {
           "content": "@site/versioned_docs/version-1.0.0/foo/bar.md",
         },
         "path": "/docs/1.0.0/foo/barSlug",
@@ -186,6 +202,14 @@ Array [
         "component": "@theme/DocItem",
         "exact": true,
         "modules": Object {
+          "content": "@site/docs/hello.md",
+        },
+        "path": "/docs/next/",
+      },
+      Object {
+        "component": "@theme/DocItem",
+        "exact": true,
+        "modules": Object {
           "content": "@site/docs/foo/bar.md",
         },
         "path": "/docs/next/foo/barSlug",
@@ -200,6 +224,14 @@ Array [
     "path": "/docs/:route",
     "priority": -1,
     "routes": Array [
+      Object {
+        "component": "@theme/DocItem",
+        "exact": true,
+        "modules": Object {
+          "content": "@site/versioned_docs/version-1.0.1/hello.md",
+        },
+        "path": "/docs/",
+      },
       Object {
         "component": "@theme/DocItem",
         "exact": true,
@@ -232,7 +264,7 @@ Object {
       "collapsed": true,
       "items": Array [
         Object {
-          "href": "/docs/next",
+          "href": "/docs/next/",
           "label": "hello",
           "type": "link",
         },
@@ -263,7 +295,7 @@ Object {
       "collapsed": true,
       "items": Array [
         Object {
-          "href": "/docs/1.0.0",
+          "href": "/docs/1.0.0/",
           "label": "hello",
           "type": "link",
         },
@@ -289,7 +321,7 @@ Object {
       "collapsed": true,
       "items": Array [
         Object {
-          "href": "/docs",
+          "href": "/docs/",
           "label": "hello",
           "type": "link",
         },
@@ -326,7 +358,7 @@ Object {
         "collapsed": true,
         "items": Array [
           Object {
-            "href": "/docs/1.0.0",
+            "href": "/docs/1.0.0/",
             "label": "hello",
             "type": "link",
           },
@@ -337,9 +369,9 @@ Object {
     ],
   },
   "permalinkToSidebar": Object {
+    "/docs/1.0.0/": "version-1.0.0/docs",
     "/docs/1.0.0/foo/barSlug": "version-1.0.0/docs",
     "/docs/1.0.0/foo/baz": "version-1.0.0/docs",
-    "/docs/1.0.0/hello": "version-1.0.0/docs",
   },
   "version": "1.0.0",
 }
@@ -365,7 +397,7 @@ Object {
         "collapsed": true,
         "items": Array [
           Object {
-            "href": "/docs",
+            "href": "/docs/",
             "label": "hello",
             "type": "link",
           },
@@ -376,8 +408,8 @@ Object {
     ],
   },
   "permalinkToSidebar": Object {
+    "/docs/": "version-1.0.1/docs",
     "/docs/foo/bar": "version-1.0.1/docs",
-    "/docs/hello": "version-1.0.1/docs",
   },
   "version": "1.0.1",
 }
@@ -403,7 +435,7 @@ Object {
         "collapsed": true,
         "items": Array [
           Object {
-            "href": "/docs/next",
+            "href": "/docs/next/",
             "label": "hello",
             "type": "link",
           },
@@ -414,8 +446,8 @@ Object {
     ],
   },
   "permalinkToSidebar": Object {
+    "/docs/next/": "docs",
     "/docs/next/foo/barSlug": "docs",
-    "/docs/next/hello": "docs",
   },
   "version": "next",
 }
