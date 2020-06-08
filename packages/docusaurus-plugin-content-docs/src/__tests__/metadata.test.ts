@@ -177,16 +177,16 @@ describe('simple site', () => {
       routeBasePath,
     };
 
-    return processMetadata({
-      source: 'invalid-id.md',
-      refDir: path.join(badSiteDir, 'docs'),
-      context,
-      options,
-      env,
-    }).catch((e) =>
-      expect(e).toMatchInlineSnapshot(
-        `[Error: Document id cannot include "/".]`,
-      ),
+    await expect(
+      processMetadata({
+        source: 'invalid-id.md',
+        refDir: path.join(badSiteDir, 'docs'),
+        context,
+        options,
+        env,
+      }),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
+      `"Document id cannot include \\"/\\"."`,
     );
   });
 
@@ -196,16 +196,16 @@ describe('simple site', () => {
       routeBasePath,
     };
 
-    return processMetadata({
-      source: 'invalid-slug.md',
-      refDir: path.join(badSiteDir, 'docs'),
-      context,
-      options,
-      env,
-    }).catch((e) =>
-      expect(e).toMatchInlineSnapshot(
-        `[Error: Document slug cannot include "/".]`,
-      ),
+    await expect(
+      processMetadata({
+        source: 'invalid-slug.md',
+        refDir: path.join(badSiteDir, 'docs'),
+        context,
+        options,
+        env,
+      }),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
+      `"Document slug cannot include \\"/\\"."`,
     );
   });
 });
