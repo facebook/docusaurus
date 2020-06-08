@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/theme-search-algolia",
-  "version": "2.0.0-alpha.55",
+  "version": "2.0.0-alpha.56",
   "description": "Algolia search component for Docusaurus",
   "main": "src/index.js",
   "publishConfig": {
@@ -11,7 +11,7 @@
     "@docsearch/react": "^1.0.0-alpha.17",
     "algoliasearch": "^3.24.5",
     "algoliasearch-helper": "^3.1.1",
-    "classnames": "^2.2.6",
+    "clsx": "^1.1.1",
     "eta": "^1.1.1"
   },
   "peerDependencies": {
@@ -21,6 +21,6 @@
     "react-dom": "^16.8.4"
   },
   "engines": {
-    "node": ">=10.9.0"
+    "node": ">=10.15.1"
   }
 }

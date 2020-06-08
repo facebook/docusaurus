@@ -11,7 +11,9 @@ This migration guide is targeted at Docusaurus users without translation and/or 
 
 :::
 
-This doc guides you through migrating an existing Docusaurus 1 site to Docusaurus 2. Your Docusaurus 1 site should have the following structure:
+This doc guides you through migrating an existing Docusaurus 1 site to Docusaurus 2.
+
+Your Docusaurus 1 site should have the following structure:
 
 ```sh
 ├── docs
@@ -24,6 +26,22 @@ This doc guides you through migrating an existing Docusaurus 1 site to Docusauru
     ├── sidebars.json
     ├── siteConfig.js
     └── static
+```
+
+After the migration, your Docusaurus 2 site could look like:
+
+```sh
+website
+├── blog
+├── docs
+├── src
+│   ├── components
+│   ├── css
+│   └── pages
+├── static
+├── package.json
+├── sidebars.json
+├── docusaurus.config.js
 ```
 
 ## Project setup
@@ -87,7 +105,7 @@ A typical Docusaurus 2 `package.json` may look like this:
   "dependencies": {
     "@docusaurus/core": "^2.0.0-alpha.40",
     "@docusaurus/preset-classic": "^2.0.0-alpha.40",
-    "classnames": "^2.2.6",
+    "clsx": "^1.1.1",
     "react": "^16.10.2",
     "react-dom": "^16.10.2"
   },
@@ -104,7 +122,9 @@ A typical Docusaurus 2 `package.json` may look like this:
 
 ### Update references to the `build` directory
 
-In Docusaurus 1, all the build artifacts are located within `website/build/<PROJECT_NAME>`. However, in Docusaurus 2, it is now moved to just `website/build`. Make sure that you update your deployment configuration to read the generated files from the correct `build` directory.
+In Docusaurus 1, all the build artifacts are located within `website/build/<PROJECT_NAME>`.
+
+In Docusaurus 2, it is now moved to just `website/build`. Make sure that you update your deployment configuration to read the generated files from the correct `build` directory.
 
 If you are deploying to GitHub pages, make sure to run `yarn deploy` instead of `yarn publish-gh-pages` script.
 
@@ -135,11 +155,17 @@ yarn-debug.log*
 yarn-error.log*
 ```
 
+### `README`
+
+The D1 website may have an existing README file. You can modify it to reflect the D2 changes, or copy the default [Docusaurus v2 README](https://github.com/facebook/docusaurus/blob/master/packages/docusaurus-init/templates/classic/README.md).
+
 ## Site configurations
 
 ### `docusaurus.config.js`
 
-Rename `siteConfig.js` to `docusaurus.config.js`. In Docusaurus 2, we split each functionality (blog, docs, pages) into plugins for modularity. Presets are bundles of plugins and for backward compatibility we built a `@docusaurus/preset-classic` preset which bundles most of the essential plugins present in Docusaurus 1.
+Rename `siteConfig.js` to `docusaurus.config.js`.
+
+In Docusaurus 2, we split each functionality (blog, docs, pages) into plugins for modularity. Presets are bundles of plugins and for backward compatibility we built a `@docusaurus/preset-classic` preset which bundles most of the essential plugins present in Docusaurus 1.
 
 Add the following preset configuration to your `docusaurus.config.js`.
 
@@ -165,17 +191,19 @@ module.exports = {
 
 We recommend moving the `docs` folder into the `website` folder and that is also the default directory structure in v2. [Now](https://zeit.co/now) supports [Docusaurus project deployments out-of-the-box](https://github.com/zeit/now-examples/tree/master/docusaurus) if the `docs` directory is within the `website`. It is also generally better for the docs to be within the website so that the docs and the rest of the website code are co-located within one `website` directory.
 
+If you are migrating your Docusaurus v1 website, and there are pending documentation pull requests, you can temporarily keep the `/docs` folder to its original place, to avoid producing conflicts.
+
 Refer to migration guide below for each field in `siteConfig.js`.
 
 ### Updated fields
 
 #### `baseUrl`, `tagline`, `title`, `url`, `favicon`, `organizationName`, `projectName`, `githubHost`, `scripts`, `stylesheets`
 
-No actions needed.
+No actions needed, these configuration fields were not modified.
 
 #### `colors`
 
-Deprecated. We wrote a custom CSS framework for Docusaurus 2 called Infima which uses CSS variables for theming. The docs are not quite ready yet and we will update here when it is. To overwrite Infima's CSS variables, create your own CSS file (e.g. `./src/css/custom.css`) and import it globally by passing it as an option to `@docusaurus/preset-classic`:
+Deprecated. We wrote a custom CSS framework for Docusaurus 2 called [Infima](https://facebookincubator.github.io/infima/) which uses CSS variables for theming. The docs are not quite ready yet and we will update here when it is. To overwrite Infima's CSS variables, create your own CSS file (e.g. `./src/css/custom.css`) and import it globally by passing it as an option to `@docusaurus/preset-classic`:
 
 ```js {7-9} title="docusaurus.config.js"
 module.exports = {
@@ -448,11 +476,73 @@ npm run swizzle @docusaurus/theme-classic Footer
 
 This will copy the current `<Footer />` component used by the theme to a `src/theme/Footer` directory under the root of your site, you may then edit this component for customization.
 
+Do not swizzle the Footer just to add the logo on the left. The logo is intentionally removed in v2 and moved to the bottom. Just configure the footer in `docusaurus.config.js` with `themeConfig.footer`:
+
+```js
+module.exports = {
+  themeConfig: {
+    footer: {
+      logo: {
+        alt: 'Facebook Open Source Logo',
+        src: 'img/oss_logo.png',
+        href: 'https://opensource.facebook.com',
+      },
+    },
+  },
+};
+```
+
 ### Pages
 
 Please refer to [creating pages](creating-pages.md) to learn how Docusaurus 2 pages work. After reading that, notice that you have to move `pages/en` files in v1 to `src/pages` instead.
 
+In Docusaurus v1, pages received the `siteConfig` object as props.
+
+In Docusaurus v2, get the `siteConfig` object from `useDocusaurusContext` instead.
+
+In v2, you have to apply the theme layout around each page. The Layout component takes metadata props (`permalink` is important, as it defines the canonical url of your page).
+
 `CompLibrary` is deprecated in v2, so you have to write your own React component or use Infima styles (Docs will be available soon, sorry about that! In the meanwhile, inspect the V2 website or view https://facebookincubator.github.io/infima/ to see what styles are available).
+
+You can migrate CommonJS to ES6 imports/exports.
+
+Here's a typical Docusaurus v2 page:
+
+```jsx
+import React from 'react';
+import Link from '@docusaurus/Link';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import useBaseUrl from '@docusaurus/useBaseUrl';
+import Layout from '@theme/Layout';
+
+const MyPage = () => {
+  const {siteConfig} = useDocusaurusContext();
+  return (
+    <Layout
+      permalink="/"
+      title={siteConfig.title}
+      description={siteConfig.tagline}>
+      <div className="hero text--center">
+        <div className="container ">
+          <div className="padding-vert--md">
+            <h1 className="hero__title">{siteConfig.title}</h1>
+            <p className="hero__subtitle">{siteConfig.tagline}</p>
+          </div>
+          <div>
+            <Link
+              to={useBaseUrl('/docs/get-started')}
+              className="button button--lg button--outline button--primary">
+              Get started
+            </Link>
+          </div>
+        </div>
+      </div>
+    </Layout>
+  );
+};
+
+export default MyPage;
+```
 
 The following code could be helpful for migration of various pages:
 
@@ -468,6 +558,8 @@ This feature is deprecated. You may read more about it in [this issue](https://g
 ### Update Markdown syntax to be MDX-compatible
 
 In Docusaurus 2, the markdown syntax has been changed to [MDX](https://mdxjs.com/). Hence there might be some broken syntax in the existing docs which you would have to update. A common example is self-closing tags like `<img>` and `<br>` which are valid in HTML would have to be explicitly closed now ( `<img/>` and `<br/>`). All tags in MDX documents have to be valid JSX.
+
+Frontmatter is parsed by [gray-matter](https://github.com/jonschlinkert/gray-matter). If your frontmatter use special characters like `:`, you now need to quote it: `title: Part 1: my part1 title` -> `title: Part 1: "my part1 title"`.
 
 **Tips**: You might want to use some online tools like [HTML to JSX](https://transform.tools/html-to-jsx) to make the migration easier.
 
@@ -517,6 +609,8 @@ You might want to refer to our migration PRs for [Create React App](https://gith
 
 For any questions, you can ask in the [`#docusaurus-1-to-2-migration` Discord channel](https://discordapp.com/invite/kYaNd6V). Feel free to tag [@yangshun](https://github.com/yangshun) in any migration PRs if you would like us to have a look.
 
+---
+
 ## Versioned Site
 
 :::caution
@@ -524,8 +618,6 @@ For any questions, you can ask in the [`#docusaurus-1-to-2-migration` Discord ch
 The versioning feature is a work in progress! Although we've implemented docs versioning since `2.0.0-alpha.37`, we'd like to test it out for v2 users first before we recommend v1 users to migrate to v2. There are some changes in how v2 versioning works compared to v1. In the future, we might create a script to migrate your versioned docs easier. However, if you are adventurous enough to manually migrate, feel free to do so. Be warned though, the manual migration requires lot of work.
 
 :::
-
-## Changes from v1
 
 Read up https://v2.docusaurus.io/blog/2018/09/11/Towards-Docusaurus-2#versioning first for problems in v1's approach.
 

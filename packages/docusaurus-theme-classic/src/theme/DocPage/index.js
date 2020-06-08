@@ -44,6 +44,10 @@ function DocPage(props) {
     isClient,
   } = useDocusaurusContext();
 
+  if (isHomePage) {
+    content.metadata.permalink = homePagePath;
+  }
+
   if (!isHomePage && Object.keys(currentRoute).length === 0) {
     return <NotFound {...props} />;
   }
@@ -52,7 +56,7 @@ function DocPage(props) {
     <Layout version={version} key={isClient}>
       <div className={styles.docPage}>
         {sidebar && (
-          <div className={styles.docSidebarContainer}>
+          <div className={styles.docSidebarContainer} role="complementary">
             <DocSidebar
               docsSidebars={docsSidebars}
               path={isHomePage ? homePagePath : currentRoute.path}

@@ -20,11 +20,21 @@ website # Root directory of your site
       └── hello.md
 ```
 
-However, the last part of the `id` can be defined by user in the front matter. For example, if `guide/hello.md`'s content is defined as below, its final `id` is `guide/part1`.
+However, the **last part** of the `id` can be defined by user in the front matter. For example, if `guide/hello.md`'s content is defined as below, its final `id` is `guide/part1`.
 
 ```yml
 ---
 id: part1
+---
+Lorem ipsum
+```
+
+If you want more control over the last part of the document URL, it is possible to add a `slug` (defaults to the `id`).
+
+```yml
+---
+id: part1
+slug: part1.html
 ---
 Lorem ipsum
 ```
@@ -51,11 +61,11 @@ module.exports = {
 };
 ```
 
-Given the example above, now when you navigate to the path `/docs` you will see that the document content with id is `getting-started`. This functionality also works for docs with versioning enabled.
+Given the example above, now when you navigate to the path `/docs` you will see that the document content with id is `getting-started`. This functionality also works for docs with versioning enabled. Importantly, with document serves as home docs page, it will not be available at its URL. Following the example above, this means that the `docs/getting-started` URL will be lead to a 404 error.
 
 :::important
 
-The document id of `_index` is reserved exclusively for the home doc page, so it will not work as a standalone route.
+The document id of `_index` is reserved exclusively for the home doc page, so it will not work as a standalone route. If left to the default, the page will not show a sidebar. If you wish to have a sidebar for this page, specify the document id that is listed in the sidebar file.
 
 :::
 
@@ -243,6 +253,7 @@ type SidebarItemCategory = {
   type: 'category';
   label: string; // Sidebar label text.
   items: SidebarItem[]; // Array of sidebar items.
+  collapsed: boolean; // Set the category to be collapsed or open by default
 };
 ```
 
@@ -288,6 +299,26 @@ module.exports = {
   themeConfig: {
     sidebarCollapsible: false,
     // ...
+  },
+};
+```
+
+#### Expanded categories by default
+
+For docs that have collapsible categories, you may want more fine-grain control over certain categories. If you want specific categories to be always expanded, you can set `collapsed` to `false`:
+
+```js title="sidebars.js"
+module.exports = {
+  docs: {
+    Guides: [
+      'creating-pages',
+      {
+        type: 'category',
+        label: 'Docs',
+        collapsed: false,
+        items: ['markdown-features', 'sidebar', 'versioning'],
+      },
+    ],
   },
 };
 ```

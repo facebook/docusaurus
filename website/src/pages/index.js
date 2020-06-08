@@ -13,7 +13,7 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 import Image from '@theme/IdealImage';
 import Layout from '@theme/Layout';
 
-import classnames from 'classnames';
+import clsx from 'clsx';
 
 import styles from './styles.module.css';
 
@@ -69,6 +69,15 @@ function Home() {
       title={tagline}
       description={customFields.description}>
       <main>
+        <div className={clsx(styles.announcement, styles.announcementDark)}>
+          <div className={styles.announcementInner}>
+            Black Lives Matter.{' '}
+            <Link to="https://support.eji.org/give/153413/#!/donation/checkout">
+              Support the Equal Justice Initiative
+            </Link>
+            .
+          </div>
+        </div>
         <div className={styles.hero}>
           <div className={styles.heroInner}>
             <h1 className={styles.heroProjectTagline}>
@@ -87,7 +96,7 @@ function Home() {
             <div className={styles.indexCtas}>
               <Link
                 className={styles.indexCtasGetStartedButton}
-                to={useBaseUrl('docs/introduction')}>
+                to={useBaseUrl('docs/')}>
                 Get Started
               </Link>
               <span className={styles.indexCtasGitHubButtonWrapper}>
@@ -102,8 +111,7 @@ function Home() {
             </div>
           </div>
         </div>
-        <div
-          className={classnames(styles.announcement, styles.announcementDark)}>
+        <div className={clsx(styles.announcement, styles.announcementDark)}>
           <div className={styles.announcementInner}>
             Coming from v1? Check out our{' '}
             <Link to={useBaseUrl('/docs/migrating-from-v1-to-v2')}>
@@ -121,7 +129,7 @@ function Home() {
                   alt="Powered by MDX"
                   src={useBaseUrl('img/undraw_typewriter.svg')}
                 />
-                <h2 className={classnames(styles.featureHeading)}>
+                <h2 className={clsx(styles.featureHeading)}>
                   Powered by Markdown
                 </h2>
                 <p className="padding-horiz--md">
@@ -138,7 +146,7 @@ function Home() {
                   className={styles.featureImage}
                   src={useBaseUrl('img/undraw_react.svg')}
                 />
-                <h2 className={classnames(styles.featureHeading)}>
+                <h2 className={clsx(styles.featureHeading)}>
                   Built Using React
                 </h2>
                 <p className="padding-horiz--md">
@@ -153,7 +161,7 @@ function Home() {
                   className={styles.featureImage}
                   src={useBaseUrl('img/undraw_around_the_world.svg')}
                 />
-                <h2 className={classnames(styles.featureHeading)}>
+                <h2 className={clsx(styles.featureHeading)}>
                   Ready for Translations
                 </h2>
                 <p className="padding-horiz--md">
@@ -171,7 +179,7 @@ function Home() {
                   className={styles.featureImage}
                   src={useBaseUrl('img/undraw_version_control.svg')}
                 />
-                <h2 className={classnames(styles.featureHeading)}>
+                <h2 className={clsx(styles.featureHeading)}>
                   Document Versioning
                 </h2>
                 <p className="padding-horiz--md">
@@ -186,9 +194,7 @@ function Home() {
                   className={styles.featureImage}
                   src={useBaseUrl('img/undraw_algolia.svg')}
                 />
-                <h2 className={classnames(styles.featureHeading)}>
-                  Content Search
-                </h2>
+                <h2 className={clsx(styles.featureHeading)}>Content Search</h2>
                 <p className="padding-horiz--md">
                   Make it easy for your community to find what they need in your
                   documentation. We proudly support Algolia documentation
@@ -198,7 +204,7 @@ function Home() {
             </div>
           </div>
         </div>
-        <div className={classnames(styles.section, styles.sectionAlt)}>
+        <div className={clsx(styles.section, styles.sectionAlt)}>
           <div className="container">
             <div className="row">
               {QUOTES.map((quote) => (

@@ -348,6 +348,36 @@ You may want choices of the same kind of tabs to sync with each other. For examp
   <TabItem value="mac">Use Command + V to paste.</TabItem>
 </Tabs>
 
+For all tab groups that have the same `groupId`, the possible values do not need to be the same. If one tab group with chooses an value that does not exist in another tab group with the same `groupId`, the tab group with the missing value won't change its tab. You can see that from the following example. Try to select Linux, and the above tab groups doesn't change.
+
+```jsx
+<Tabs
+  groupId="operating-systems"
+  defaultValue="win"
+  values={[
+    {label: 'Windows', value: 'win'},
+    {label: 'macOS', value: 'mac'},
+    {label: 'Linux', value: 'linux'},
+  ]}>
+  <TabItem value="win">I am Windows.</TabItem>
+  <TabItem value="mac">I am macOS.</TabItem>
+  <TabItem value="linux">I am Linux.</TabItem>
+</Tabs>
+```
+
+<Tabs
+  groupId="operating-systems"
+  defaultValue="win"
+  values={[
+    {label: 'Windows', value: 'win'},
+    {label: 'macOS', value: 'mac'},
+    {label: 'Linux', value: 'linux'},
+  ]}>
+  <TabItem value="win">I am Windows.</TabItem>
+  <TabItem value="mac">I am macOS.</TabItem>
+  <TabItem value="linux">I am Linux.</TabItem>
+</Tabs>
+
 ---
 
 Tab choices with different `groupId`s will not interfere with each other:
@@ -537,6 +567,30 @@ module.exports = {
   },
 };
 ```
+
+If you want to add highlighting for languages not yet supported by Prism, you can swizzle `prism-include-languages`:
+
+```bash npm2yarn
+yarn swizzle @docusaurus/theme-classic prism-include-languages
+```
+
+It will produce `prism-include-languages.js` in your `src/theme` folder. You can add highlighting support for custom languages by editing `prism-include-languages.js`:
+
+```js {8} title="src/theme/prism-include-languages.js"
+const prismIncludeLanguages = (Prism) => {
+    // ...
+
+    additionalLanguages.forEach((lang) => {
+      require(`prismjs/components/prism-${lang}`); // eslint-disable-line
+    });
+
+    require('/path/to/your/prism-language-definition');
+
+    // ...
+}
+```
+
+You can refer to [Prism's official language definitions](https://github.com/PrismJS/prism/tree/master/components) when you are writing your own language definitions.
 
 ### Line highlighting
 
@@ -730,6 +784,57 @@ function Clock(props) {
   return (
     <div>
       <h2>It is {date.toLocaleTimeString()}.</h2>
+    </div>
+  );
+}
+```
+
+:::caution react-live and imports
+
+It is not possible to import components directly from the react-live code editor, you have to define available imports upfront.
+
+:::
+
+By default, all React imports are available. If you need more imports available, swizzle the react-live scope:
+
+```bash npm2yarn
+npm run swizzle @docusaurus/theme-live-codeblock ReactLiveScope
+```
+
+```jsx {3-15,21} title="src/theme/ReactLiveScope/index.js"
+import React from 'react';
+
+const ButtonExample = (props) => (
+  <button
+    {...props}
+    style={{
+      backgroundColor: 'white',
+      border: 'solid red',
+      borderRadius: 20,
+      padding: 10,
+      cursor: 'pointer',
+      ...props.style,
+    }}
+  />
+);
+
+// Add react-live imports you need here
+const ReactLiveScope = {
+  React,
+  ...React,
+  ButtonExample,
+};
+
+export default ReactLiveScope;
+```
+
+The `ButtonExample` component is now available to use:
+
+```jsx live
+function MyPlayground(props) {
+  return (
+    <div>
+      <ButtonExample onClick={() => alert('hey!')}>Click me</ButtonExample>
     </div>
   );
 }

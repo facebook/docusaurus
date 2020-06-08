@@ -4,8 +4,10 @@ exports[`docsVersion first time versioning 1`] = `
 Object {
   "version-1.0.0/docs": Array [
     Object {
+      "collapsed": true,
       "items": Array [
         Object {
+          "collapsed": true,
           "items": Array [
             Object {
               "id": "version-1.0.0/foo/bar",
@@ -33,6 +35,7 @@ Object {
       "type": "category",
     },
     Object {
+      "collapsed": true,
       "items": Array [
         Object {
           "id": "version-1.0.0/hello",
@@ -50,6 +53,7 @@ exports[`docsVersion not the first time versioning 1`] = `
 Object {
   "version-2.0.0/docs": Array [
     Object {
+      "collapsed": true,
       "items": Array [
         Object {
           "id": "version-2.0.0/foo/bar",
@@ -60,6 +64,7 @@ Object {
       "type": "category",
     },
     Object {
+      "collapsed": true,
       "items": Array [
         Object {
           "id": "version-2.0.0/hello",

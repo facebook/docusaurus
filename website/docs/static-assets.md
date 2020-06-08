@@ -62,3 +62,4 @@ Keep in mind that:
 
 - By default, none of the files in `static` folder will be post-processed or minified.
 - Missing files references via hardcoded absolute paths will not be detected at compilation time, and will result in a 404 error.
+- By default, GitHub Pages runs published files through [Jekyll](https://jekyllrb.com/). Since Jekyll will discard any files that begin with `_`, it is recommended that you disable Jekyll by adding an empty file named `.nojekyll` file to your `static` directory if you are using GitHub pages for hosting.

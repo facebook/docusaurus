@@ -204,16 +204,16 @@ export function createExcerpt(fileString: string): string | undefined {
       .replace(/^\#{1,6}\s*([^#]*)\s*(\#{1,6})?/gm, '$1')
       // Remove emphasis and strikethroughs.
       .replace(/([\*_~]{1,3})(\S.*?\S{0,1})\1/g, '$2')
+      // Remove images.
+      .replace(/\!\[(.*?)\][\[\(].*?[\]\)]/g, '$1')
+      // Remove footnotes.
+      .replace(/\[\^.+?\](\: .*?$)?/g, '')
       // Remove inline links.
       .replace(/\[(.*?)\][\[\(].*?[\]\)]/g, '$1')
       // Remove inline code.
       .replace(/`(.+?)`/g, '$1')
-      // Remove images.
-      .replace(/\!\[(.*?)\][\[\(].*?[\]\)]/g, '')
       // Remove blockquotes.
       .replace(/^\s{0,3}>\s?/g, '')
-      // Remove footnotes.
-      .replace(/\[\^.+?\](\: .*?$)?/g, '')
       // Remove admonition definition.
       .replace(/(:{3}.*)/, '')
       // Remove Emoji names within colons include preceding whitespace.
@@ -228,15 +228,14 @@ export function createExcerpt(fileString: string): string | undefined {
   return undefined;
 }
 
-export function parse(
-  fileString: string,
-): {
+type ParsedMarkdown = {
   frontMatter: {
     [key: string]: any;
   };
   content: string;
   excerpt: string | undefined;
-} {
+};
+export function parseMarkdownString(markdownString: string): ParsedMarkdown {
   const options: {} = {
     excerpt: (file: matter.GrayMatterFile<string>): void => {
       // Hacky way of stripping out import statements from the excerpt
@@ -246,8 +245,31 @@ export function parse(
     },
   };
 
-  const {data: frontMatter, content, excerpt} = matter(fileString, options);
-  return {frontMatter, content, excerpt};
+  try {
+    const {data: frontMatter, content, excerpt} = matter(
+      markdownString,
+      options,
+    );
+    return {frontMatter, content, excerpt};
+  } catch (e) {
+    throw new Error(`Error while parsing markdown front matter.
+This can happen if you use special characteres like : in frontmatter values (try using "" around that value)
+${e.message}`);
+  }
+}
+
+export async function parseMarkdownFile(
+  source: string,
+): Promise<ParsedMarkdown> {
+  const markdownString = await fs.readFile(source, 'utf-8');
+  try {
+    return parseMarkdownString(markdownString);
+  } catch (e) {
+    throw new Error(
+      `Error while parsing markdown file ${source}
+${e.message}`,
+    );
+  }
 }
 
 export function normalizeUrl(rawUrls: string[]): string {

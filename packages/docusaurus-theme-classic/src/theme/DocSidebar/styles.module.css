@@ -20,24 +20,6 @@
     padding-top: 0;
   }
 
-  .sidebar::-webkit-scrollbar {
-    width: 7px;
-  }
-
-  .sidebar::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 10px;
-  }
-
-  .sidebar::-webkit-scrollbar-thumb {
-    background: #888;
-    border-radius: 10px;
-  }
-
-  .sidebar::-webkit-scrollbar-thumb:hover {
-    background: #555;
-  }
-
   .sidebarLogo {
     display: flex !important;
     align-items: center;
@@ -56,6 +38,32 @@
   .menu {
     flex-grow: 1;
     padding: 0.5rem;
+  }
+
+  .menu::-webkit-scrollbar {
+    width: 7px;
+  }
+
+  .menu::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+  }
+
+  .menu::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+  }
+
+  .menu::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+
+  .menuLinkText {
+    cursor: initial;
+  }
+
+  .menuLinkText:hover {
+    background: none;
   }
 
   .menuWithAnnouncementBar {
