@@ -19,17 +19,9 @@ function Hit({hit, children}) {
   return <Link to={hit.url}>{children}</Link>;
 }
 
-function SearchBar() {
-  const {siteConfig = {}} = useDocusaurusContext();
+function DocSearch({indexName, appId, apiKey, searchParameters}) {
   const history = useHistory();
   const [isOpen, setIsOpen] = useState(false);
-
-  const {
-    indexName,
-    appId = 'BH4D9OD16A',
-    apiKey,
-    searchParameters,
-  } = siteConfig.themeConfig.algolia;
 
   const importDocSearchModalIfNeeded = useCallback(() => {
     if (DocSearchModal) {
@@ -109,6 +101,21 @@ function SearchBar() {
         )}
     </>
   );
+}
+
+function SearchBar() {
+  const {siteConfig = {}} = useDocusaurusContext();
+
+  if (!siteConfig.themeConfig.algolia) {
+    // eslint-disable-next-line no-console
+    console.warn(`DocSearch requires an \`algolia\` field in your \`themeConfig\`.
+
+See: https://v2.docusaurus.io/docs/search/#using-algolia-docsearch`);
+
+    return null;
+  }
+
+  return <DocSearch {...siteConfig.themeConfig.algolia} />;
 }
 
 export default SearchBar;
