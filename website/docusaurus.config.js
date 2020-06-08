@@ -80,7 +80,6 @@ module.exports = {
       indexName: 'docusaurus-2',
       searchParameters: {
         facetFilters: [`version:${versions[0]}`],
-        hitsPerPage: 5,
       },
     },
     navbar: {
