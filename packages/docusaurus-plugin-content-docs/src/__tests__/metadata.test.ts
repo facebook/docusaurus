@@ -214,6 +214,26 @@ describe('simple site', () => {
       ),
     );
   });
+
+  test('docs with slug on doc home', async () => {
+    const badSiteDir = path.join(fixtureDir, 'bad-slug-on-doc-home-site');
+    const options = {
+      routeBasePath,
+      homePageId: 'docWithSlug',
+    };
+
+    await expect(
+      processMetadata({
+        source: 'docWithSlug.md',
+        refDir: path.join(badSiteDir, 'docs'),
+        context,
+        options,
+        env,
+      }),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
+      `"The docs homepage (homePageId=docWithSlug) is not allowed to have a frontmatter slug=docWithSlug.html => you have to chooser either homePageId or slug, not both"`,
+    );
+  });
 });
 
 describe('versioned site', () => {

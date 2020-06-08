@@ -7,7 +7,7 @@
 
 export interface MetadataOptions {
   routeBasePath: string;
-  homePageId: string;
+  homePageId?: string;
   editUrl?: string;
   showLastUpdateTime?: boolean;
   showLastUpdateAuthor?: boolean;
