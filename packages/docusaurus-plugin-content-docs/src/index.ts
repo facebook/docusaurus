@@ -374,10 +374,8 @@ Available document ids=
         routes: RouteConfig[],
         priority?: number,
       ) => {
-        const docsParentRoute = normalizeUrl([docsBaseRoute, ':route']);
-
         const docsBaseMetadataPath = await createData(
-          `${docuHash(docsParentRoute)}.json`,
+          `${docuHash(normalizeUrl([docsBaseRoute, 'route']))}.json`,
           JSON.stringify(docsBaseMetadata, null, 2),
         );
 
