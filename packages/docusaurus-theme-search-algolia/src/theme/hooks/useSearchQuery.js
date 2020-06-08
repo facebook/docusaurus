@@ -35,7 +35,8 @@ function useSearchQuery() {
       });
     },
     generateSearchPageHref: (searchValue) => {
-      return `/search?q=${searchValue}`;
+      // Refer to https://github.com/facebook/docusaurus/pull/2838
+      return `${baseUrl}search?q=${searchValue}`;
     },
   };
 }
