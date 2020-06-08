@@ -31,37 +31,28 @@ function SearchBar() {
     searchParameters,
   } = siteConfig.themeConfig.algolia;
 
-  const importDocSearchModalIfNeeded = useCallback(
-    function importDocSearchModalIfNeeded() {
-      if (DocSearchModal) {
-        return Promise.resolve();
-      }
+  const importDocSearchModalIfNeeded = useCallback(() => {
+    if (DocSearchModal) {
+      return Promise.resolve();
+    }
 
-      return Promise.all([
-        import('@docsearch/react/modal'),
-        import('@docsearch/react/style'),
-      ]).then(([{DocSearchModal: Modal}]) => {
-        DocSearchModal = Modal;
-      });
-    },
-    [],
-  );
+    return Promise.all([
+      import('@docsearch/react/modal'),
+      import('@docsearch/react/style'),
+    ]).then(([{DocSearchModal: Modal}]) => {
+      DocSearchModal = Modal;
+    });
+  }, []);
 
-  const onOpen = useCallback(
-    function onOpen() {
-      importDocSearchModalIfNeeded().then(() => {
-        setIsOpen(true);
-      });
-    },
-    [importDocSearchModalIfNeeded, setIsOpen],
-  );
+  const onOpen = useCallback(() => {
+    importDocSearchModalIfNeeded().then(() => {
+      setIsOpen(true);
+    });
+  }, [importDocSearchModalIfNeeded, setIsOpen]);
 
-  const onClose = useCallback(
-    function onClose() {
-      setIsOpen(false);
-    },
-    [setIsOpen],
-  );
+  const onClose = useCallback(() => {
+    setIsOpen(false);
+  }, [setIsOpen]);
 
   useDocSearchKeyboardEvents({isOpen, onOpen, onClose});
 
