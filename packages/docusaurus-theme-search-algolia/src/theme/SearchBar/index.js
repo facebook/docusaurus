@@ -19,6 +19,14 @@ function Hit({hit, children}) {
   return <Link to={hit.url}>{children}</Link>;
 }
 
+function ResultsFooter({state}) {
+  return (
+    <Link to={`/search?q=${state.query}`}>
+      See {state.context.nbHits} results
+    </Link>
+  );
+}
+
 function DocSearch({indexName, appId, apiKey, searchParameters}) {
   const history = useHistory();
   const [isOpen, setIsOpen] = useState(false);
@@ -96,6 +104,7 @@ function DocSearch({indexName, appId, apiKey, searchParameters}) {
               });
             }}
             hitComponent={Hit}
+            resultsFooterComponent={ResultsFooter}
           />,
           document.body,
         )}
