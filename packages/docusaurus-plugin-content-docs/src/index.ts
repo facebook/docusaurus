@@ -381,7 +381,8 @@ Available document ids=
           JSON.stringify(docsBaseMetadata, null, 2),
         );
 
-        // Route for /docs
+        // Parent route for /docs
+        // should allow matching /docs/* as well (exact=false)
         addRoute({
           path: docsBaseRoute,
           exact: false,
