@@ -21,10 +21,10 @@ function Hit({hit, children}) {
 }
 
 function ResultsFooter({state}) {
-  const {generateSearchPageHref} = useSearchQuery();
+  const {generateSearchPageLink} = useSearchQuery();
 
   return (
-    <Link to={generateSearchPageHref(state.query)}>
+    <Link to={generateSearchPageLink(state.query)}>
       See all {state.context.nbHits} results
     </Link>
   );
