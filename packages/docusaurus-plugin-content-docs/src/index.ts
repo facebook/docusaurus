@@ -375,7 +375,7 @@ Available document ids=
         priority?: number,
       ) => {
         const docsBaseMetadataPath = await createData(
-          `${docuHash(normalizeUrl([docsBaseRoute, 'route']))}.json`,
+          `${docuHash(normalizeUrl([docsBaseRoute, ':route']))}.json`,
           JSON.stringify(docsBaseMetadata, null, 2),
         );
 
