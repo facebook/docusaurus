@@ -39,6 +39,7 @@ function DocSearch({indexName, appId, apiKey, searchParameters}) {
     return Promise.all([
       import('@docsearch/react/modal'),
       import('@docsearch/react/style'),
+      import('./styles.css'),
     ]).then(([{DocSearchModal: Modal}]) => {
       DocSearchModal = Modal;
     });
