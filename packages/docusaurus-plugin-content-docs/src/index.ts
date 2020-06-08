@@ -69,7 +69,9 @@ export default function pluginContentDocs(
   context: LoadContext,
   opts: Partial<PluginOptions>,
 ): Plugin<LoadedContent | null> {
-  const options = {...DEFAULT_OPTIONS, ...opts};
+  const options: PluginOptions = {...DEFAULT_OPTIONS, ...opts};
+  const homePageDocsRoutePath =
+    options.routeBasePath === '' ? '/' : options.routeBasePath;
 
   if (options.admonitions) {
     options.remarkPlugins = options.remarkPlugins.concat([
@@ -95,24 +97,6 @@ export default function pluginContentDocs(
     sidebarsDir: versionedSidebarsDir,
   } = versioning;
   const versionsNames = versions.map((version) => `version-${version}`);
-
-  // Docs home page.
-  const homePageDocsRoutePath =
-    options.routeBasePath === '' ? '/' : options.routeBasePath;
-  const isDocsHomePagePath = (permalink: string) => {
-    const documentIdMatch = new RegExp(
-      `^\/(?:${homePageDocsRoutePath}\/)?(?:(?:${versions.join(
-        '|',
-      )}|next)\/)?(.*)`,
-      'i',
-    ).exec(permalink);
-
-    if (documentIdMatch) {
-      return documentIdMatch[1] === options.homePageId;
-    }
-
-    return false;
-  };
 
   return {
     name: 'docusaurus-plugin-content-docs',
@@ -291,9 +275,7 @@ Available document ids=
         return {
           type: 'link',
           label: sidebar_label || title,
-          href: isDocsHomePagePath(permalink)
-            ? permalink.replace(`/${options.homePageId}`, '')
-            : permalink,
+          href: permalink,
         };
       };
 
@@ -361,15 +343,9 @@ Available document ids=
       const genRoutes = async (
         metadataItems: Metadata[],
       ): Promise<RouteConfig[]> => {
-        const versionsRegex = new RegExp(versionsNames.join('|'), 'i');
-
         const routes = await Promise.all(
           metadataItems.map(async (metadataItem) => {
-            const isDocsHomePage =
-              metadataItem.id.replace(versionsRegex, '').replace(/^\//, '') ===
-              options.homePageId;
-
-            if (isDocsHomePage) {
+            if (metadataItem.isDocsHomePage) {
               const versionDocsPathPrefix =
                 (metadataItem?.version === versioning.latestVersion
                   ? ''
@@ -423,12 +399,8 @@ Available document ids=
           }),
         );
 
-        return (
-          routes
-            // Do not create a route for a document serve as docs home page.
-            // TODO: need way to do this filtering when generating routes for better perf.
-            .filter(({path}) => !isDocsHomePagePath(path))
-            .sort((a, b) => (a.path > b.path ? 1 : b.path > a.path ? -1 : 0))
+        return routes.sort((a, b) =>
+          a.path > b.path ? 1 : b.path > a.path ? -1 : 0,
         );
       };
 

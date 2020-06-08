@@ -59,7 +59,7 @@ export default async function processMetadata({
   options,
   env,
 }: Args): Promise<MetadataRaw> {
-  const {routeBasePath, editUrl} = options;
+  const {routeBasePath, editUrl, homePageId} = options;
   const {siteDir, baseUrl} = context;
   const {versioning} = env;
   const filePath = path.join(refDir, source);
@@ -101,6 +101,14 @@ export default async function processMetadata({
     throw new Error('Document id cannot include "/".');
   }
 
+  const isDocsHomePage = homePageId === baseID;
+
+  if (frontMatter.slug && isDocsHomePage) {
+    throw new Error(
+      `The docs homepage (homePageId=${homePageId}) is not allowed to have a frontmatter slug=${frontMatter.slug} => you have to chooser either homePageId or slug, not both`,
+    );
+  }
+
   const baseSlug: string = frontMatter.slug || baseID;
   if (baseSlug.includes('/')) {
     throw new Error('Document slug cannot include "/".');
@@ -116,10 +124,17 @@ export default async function processMetadata({
   const description: string = frontMatter.description || excerpt;
 
   // The last portion of the url path. Eg: 'foo/bar', 'bar'.
-  const routePath =
-    version && version !== 'next'
-      ? slug.replace(new RegExp(`^version-${version}/`), '')
-      : slug;
+  let routePath;
+  if (isDocsHomePage) {
+    // TODO can we remove this trailing / ?
+    // Seems it's not that easy...
+    routePath = '/';
+  } else {
+    routePath =
+      version && version !== 'next'
+        ? slug.replace(new RegExp(`^version-${version}/`), '')
+        : slug;
+  }
 
   const permalink = normalizeUrl([
     baseUrl,
@@ -136,6 +151,7 @@ export default async function processMetadata({
   // class transitions.
   const metadata: MetadataRaw = {
     id,
+    isDocsHomePage,
     title,
     description,
     source: aliasedSitePath(filePath, siteDir),

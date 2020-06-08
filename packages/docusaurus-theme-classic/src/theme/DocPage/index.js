@@ -44,10 +44,6 @@ function DocPage(props) {
     isClient,
   } = useDocusaurusContext();
 
-  if (isHomePage) {
-    content.metadata.permalink = homePagePath;
-  }
-
   if (!isHomePage && Object.keys(currentRoute).length === 0) {
     return <NotFound {...props} />;
   }
