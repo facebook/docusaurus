@@ -127,7 +127,7 @@ export default async function processMetadata({
   let routePath;
   if (isDocsHomePage) {
     // TODO can we remove this trailing / ?
-    // Seems it's not that easy...
+    // Seems it's not that easy... the sidebar disappears on homepage xD
     routePath = '/';
   } else {
     routePath =

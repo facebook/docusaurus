@@ -384,17 +384,7 @@ Available document ids=
         // Route for /docs
         addRoute({
           path: docsBaseRoute,
-          exact: true,
-          component: docLayoutComponent,
-          routes,
-          modules: {
-            docsMetadata: aliasedSource(docsBaseMetadataPath),
-          },
-          priority,
-        });
-        // Route for /docs/:route
-        addRoute({
-          path: docsParentRoute,
+          exact: false,
           component: docLayoutComponent,
           routes,
           modules: {

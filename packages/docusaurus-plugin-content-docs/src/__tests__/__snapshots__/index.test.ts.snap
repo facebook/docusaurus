@@ -57,61 +57,11 @@ exports[`simple website content 2`] = `
 Array [
   Object {
     "component": "@theme/DocPage",
-    "exact": true,
+    "exact": false,
     "modules": Object {
       "docsMetadata": "~docs/docs-route-ff2.json",
     },
     "path": "/docs",
-    "priority": undefined,
-    "routes": Array [
-      Object {
-        "component": "@theme/DocItem",
-        "exact": true,
-        "modules": Object {
-          "content": "@site/docs/hello.md",
-        },
-        "path": "/docs/",
-      },
-      Object {
-        "component": "@theme/DocItem",
-        "exact": true,
-        "modules": Object {
-          "content": "@site/docs/foo/bar.md",
-        },
-        "path": "/docs/foo/bar",
-      },
-      Object {
-        "component": "@theme/DocItem",
-        "exact": true,
-        "modules": Object {
-          "content": "@site/docs/foo/baz.md",
-        },
-        "path": "/docs/foo/bazSlug.html",
-      },
-      Object {
-        "component": "@theme/DocItem",
-        "exact": true,
-        "modules": Object {
-          "content": "@site/docs/ipsum.md",
-        },
-        "path": "/docs/ipsum",
-      },
-      Object {
-        "component": "@theme/DocItem",
-        "exact": true,
-        "modules": Object {
-          "content": "@site/docs/lorem.md",
-        },
-        "path": "/docs/lorem",
-      },
-    ],
-  },
-  Object {
-    "component": "@theme/DocPage",
-    "modules": Object {
-      "docsMetadata": "~docs/docs-route-ff2.json",
-    },
-    "path": "/docs/:route",
     "priority": undefined,
     "routes": Array [
       Object {
@@ -173,7 +123,7 @@ exports[`versioned website content 1`] = `
 Array [
   Object {
     "component": "@theme/DocPage",
-    "exact": true,
+    "exact": false,
     "modules": Object {
       "docsMetadata": "~docs/docs-1-0-0-route-660.json",
     },
@@ -208,41 +158,7 @@ Array [
   },
   Object {
     "component": "@theme/DocPage",
-    "modules": Object {
-      "docsMetadata": "~docs/docs-1-0-0-route-660.json",
-    },
-    "path": "/docs/1.0.0/:route",
-    "priority": undefined,
-    "routes": Array [
-      Object {
-        "component": "@theme/DocItem",
-        "exact": true,
-        "modules": Object {
-          "content": "@site/versioned_docs/version-1.0.0/hello.md",
-        },
-        "path": "/docs/1.0.0/",
-      },
-      Object {
-        "component": "@theme/DocItem",
-        "exact": true,
-        "modules": Object {
-          "content": "@site/versioned_docs/version-1.0.0/foo/bar.md",
-        },
-        "path": "/docs/1.0.0/foo/barSlug",
-      },
-      Object {
-        "component": "@theme/DocItem",
-        "exact": true,
-        "modules": Object {
-          "content": "@site/versioned_docs/version-1.0.0/foo/baz.md",
-        },
-        "path": "/docs/1.0.0/foo/baz",
-      },
-    ],
-  },
-  Object {
-    "component": "@theme/DocPage",
-    "exact": true,
+    "exact": false,
     "modules": Object {
       "docsMetadata": "~docs/docs-next-route-1c8.json",
     },
@@ -269,63 +185,11 @@ Array [
   },
   Object {
     "component": "@theme/DocPage",
-    "modules": Object {
-      "docsMetadata": "~docs/docs-next-route-1c8.json",
-    },
-    "path": "/docs/next/:route",
-    "priority": undefined,
-    "routes": Array [
-      Object {
-        "component": "@theme/DocItem",
-        "exact": true,
-        "modules": Object {
-          "content": "@site/docs/hello.md",
-        },
-        "path": "/docs/next/",
-      },
-      Object {
-        "component": "@theme/DocItem",
-        "exact": true,
-        "modules": Object {
-          "content": "@site/docs/foo/bar.md",
-        },
-        "path": "/docs/next/foo/barSlug",
-      },
-    ],
-  },
-  Object {
-    "component": "@theme/DocPage",
-    "exact": true,
+    "exact": false,
     "modules": Object {
       "docsMetadata": "~docs/docs-route-ff2.json",
     },
     "path": "/docs",
-    "priority": -1,
-    "routes": Array [
-      Object {
-        "component": "@theme/DocItem",
-        "exact": true,
-        "modules": Object {
-          "content": "@site/versioned_docs/version-1.0.1/hello.md",
-        },
-        "path": "/docs/",
-      },
-      Object {
-        "component": "@theme/DocItem",
-        "exact": true,
-        "modules": Object {
-          "content": "@site/versioned_docs/version-1.0.1/foo/bar.md",
-        },
-        "path": "/docs/foo/bar",
-      },
-    ],
-  },
-  Object {
-    "component": "@theme/DocPage",
-    "modules": Object {
-      "docsMetadata": "~docs/docs-route-ff2.json",
-    },
-    "path": "/docs/:route",
     "priority": -1,
     "routes": Array [
       Object {
