@@ -22,7 +22,7 @@ function Hit({hit, children}) {
 function ResultsFooter({state}) {
   return (
     <Link to={`/search?q=${state.query}`}>
-      See {state.context.nbHits} results
+      See all {state.context.nbHits} results
     </Link>
   );
 }
