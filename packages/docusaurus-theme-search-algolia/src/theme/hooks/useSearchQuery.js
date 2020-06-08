@@ -32,8 +32,8 @@ function useSearchQuery() {
         search: searchParams.toString(),
       });
     },
-    navigateToSearchPage: (searchValue) => {
-      history.push(`/search?q=${searchValue}`);
+    generateSearchPageHref: (searchValue) => {
+      return `/search?q=${searchValue}`;
     },
   };
 }

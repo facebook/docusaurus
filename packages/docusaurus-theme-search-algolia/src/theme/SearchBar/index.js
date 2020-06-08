@@ -11,6 +11,7 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useHistory} from '@docusaurus/router';
 import Link from '@docusaurus/Link';
 import Head from '@docusaurus/Head';
+import useSearchQuery from '@theme/hooks/useSearchQuery';
 import {DocSearchButton, useDocSearchKeyboardEvents} from '@docsearch/react';
 
 let DocSearchModal = null;
@@ -20,8 +21,10 @@ function Hit({hit, children}) {
 }
 
 function ResultsFooter({state}) {
+  const {generateSearchPageHref} = useSearchQuery();
+
   return (
-    <Link to={`/search?q=${state.query}`}>
+    <Link to={generateSearchPageHref(state.query)}>
       See all {state.context.nbHits} results
     </Link>
   );
