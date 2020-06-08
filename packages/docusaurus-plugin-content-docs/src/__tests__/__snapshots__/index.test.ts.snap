@@ -59,10 +59,52 @@ Array [
     "component": "@theme/DocPage",
     "exact": true,
     "modules": Object {
-      "content": "@site/docs/hello.md",
-      "docsMetadata": "~docs/site-docs-hello-md-9df-base.json",
+      "docsMetadata": "~docs/docs-route-ff2.json",
     },
     "path": "/docs",
+    "priority": undefined,
+    "routes": Array [
+      Object {
+        "component": "@theme/DocItem",
+        "exact": true,
+        "modules": Object {
+          "content": "@site/docs/hello.md",
+        },
+        "path": "/docs/",
+      },
+      Object {
+        "component": "@theme/DocItem",
+        "exact": true,
+        "modules": Object {
+          "content": "@site/docs/foo/bar.md",
+        },
+        "path": "/docs/foo/bar",
+      },
+      Object {
+        "component": "@theme/DocItem",
+        "exact": true,
+        "modules": Object {
+          "content": "@site/docs/foo/baz.md",
+        },
+        "path": "/docs/foo/bazSlug.html",
+      },
+      Object {
+        "component": "@theme/DocItem",
+        "exact": true,
+        "modules": Object {
+          "content": "@site/docs/ipsum.md",
+        },
+        "path": "/docs/ipsum",
+      },
+      Object {
+        "component": "@theme/DocItem",
+        "exact": true,
+        "modules": Object {
+          "content": "@site/docs/lorem.md",
+        },
+        "path": "/docs/lorem",
+      },
+    ],
   },
   Object {
     "component": "@theme/DocPage",
@@ -133,28 +175,36 @@ Array [
     "component": "@theme/DocPage",
     "exact": true,
     "modules": Object {
-      "content": "@site/versioned_docs/version-1.0.1/hello.md",
-      "docsMetadata": "~docs/site-versioned-docs-version-1-0-1-hello-md-0c7-base.json",
-    },
-    "path": "/docs",
-  },
-  Object {
-    "component": "@theme/DocPage",
-    "exact": true,
-    "modules": Object {
-      "content": "@site/versioned_docs/version-1.0.0/hello.md",
-      "docsMetadata": "~docs/site-versioned-docs-version-1-0-0-hello-md-3ef-base.json",
+      "docsMetadata": "~docs/docs-1-0-0-route-660.json",
     },
     "path": "/docs/1.0.0",
-  },
-  Object {
-    "component": "@theme/DocPage",
-    "exact": true,
-    "modules": Object {
-      "content": "@site/docs/hello.md",
-      "docsMetadata": "~docs/site-docs-hello-md-9df-base.json",
-    },
-    "path": "/docs/next",
+    "priority": undefined,
+    "routes": Array [
+      Object {
+        "component": "@theme/DocItem",
+        "exact": true,
+        "modules": Object {
+          "content": "@site/versioned_docs/version-1.0.0/hello.md",
+        },
+        "path": "/docs/1.0.0/",
+      },
+      Object {
+        "component": "@theme/DocItem",
+        "exact": true,
+        "modules": Object {
+          "content": "@site/versioned_docs/version-1.0.0/foo/bar.md",
+        },
+        "path": "/docs/1.0.0/foo/barSlug",
+      },
+      Object {
+        "component": "@theme/DocItem",
+        "exact": true,
+        "modules": Object {
+          "content": "@site/versioned_docs/version-1.0.0/foo/baz.md",
+        },
+        "path": "/docs/1.0.0/foo/baz",
+      },
+    ],
   },
   Object {
     "component": "@theme/DocPage",
@@ -192,6 +242,33 @@ Array [
   },
   Object {
     "component": "@theme/DocPage",
+    "exact": true,
+    "modules": Object {
+      "docsMetadata": "~docs/docs-next-route-1c8.json",
+    },
+    "path": "/docs/next",
+    "priority": undefined,
+    "routes": Array [
+      Object {
+        "component": "@theme/DocItem",
+        "exact": true,
+        "modules": Object {
+          "content": "@site/docs/hello.md",
+        },
+        "path": "/docs/next/",
+      },
+      Object {
+        "component": "@theme/DocItem",
+        "exact": true,
+        "modules": Object {
+          "content": "@site/docs/foo/bar.md",
+        },
+        "path": "/docs/next/foo/barSlug",
+      },
+    ],
+  },
+  Object {
+    "component": "@theme/DocPage",
     "modules": Object {
       "docsMetadata": "~docs/docs-next-route-1c8.json",
     },
@@ -213,6 +290,33 @@ Array [
           "content": "@site/docs/foo/bar.md",
         },
         "path": "/docs/next/foo/barSlug",
+      },
+    ],
+  },
+  Object {
+    "component": "@theme/DocPage",
+    "exact": true,
+    "modules": Object {
+      "docsMetadata": "~docs/docs-route-ff2.json",
+    },
+    "path": "/docs",
+    "priority": -1,
+    "routes": Array [
+      Object {
+        "component": "@theme/DocItem",
+        "exact": true,
+        "modules": Object {
+          "content": "@site/versioned_docs/version-1.0.1/hello.md",
+        },
+        "path": "/docs/",
+      },
+      Object {
+        "component": "@theme/DocItem",
+        "exact": true,
+        "modules": Object {
+          "content": "@site/versioned_docs/version-1.0.1/foo/bar.md",
+        },
+        "path": "/docs/foo/bar",
       },
     ],
   },

@@ -345,42 +345,6 @@ Available document ids=
       ): Promise<RouteConfig[]> => {
         const routes = await Promise.all(
           metadataItems.map(async (metadataItem) => {
-            if (metadataItem.isDocsHomePage) {
-              const versionDocsPathPrefix =
-                (metadataItem?.version === versioning.latestVersion
-                  ? ''
-                  : metadataItem.version!) ?? '';
-
-              const docsBaseMetadata = createDocsBaseMetadata(
-                metadataItem.version!,
-              );
-              docsBaseMetadata.isHomePage = true;
-              docsBaseMetadata.homePagePath = normalizeUrl([
-                baseUrl,
-                homePageDocsRoutePath,
-                versionDocsPathPrefix,
-              ]);
-              const docsBaseMetadataPath = await createData(
-                `${docuHash(metadataItem.source)}-base.json`,
-                JSON.stringify(docsBaseMetadata, null, 2),
-              );
-
-              // Add a route for docs home page.
-              addRoute({
-                path: normalizeUrl([
-                  baseUrl,
-                  homePageDocsRoutePath,
-                  versionDocsPathPrefix,
-                ]),
-                component: docLayoutComponent,
-                exact: true,
-                modules: {
-                  docsMetadata: aliasedSource(docsBaseMetadataPath),
-                  content: metadataItem.source,
-                },
-              });
-            }
-
             await createData(
               // Note that this created data path must be in sync with
               // metadataPath provided to mdx-loader.
@@ -410,13 +374,27 @@ Available document ids=
         routes: RouteConfig[],
         priority?: number,
       ) => {
+        const docsParentRoute = normalizeUrl([docsBaseRoute, ':route']);
+
         const docsBaseMetadataPath = await createData(
-          `${docuHash(docsBaseRoute)}.json`,
+          `${docuHash(docsParentRoute)}.json`,
           JSON.stringify(docsBaseMetadata, null, 2),
         );
 
+        // Route for /docs
         addRoute({
           path: docsBaseRoute,
+          exact: true,
+          component: docLayoutComponent,
+          routes,
+          modules: {
+            docsMetadata: aliasedSource(docsBaseMetadataPath),
+          },
+          priority,
+        });
+        // Route for /docs/:route
+        addRoute({
+          path: docsParentRoute,
           component: docLayoutComponent,
           routes,
           modules: {
@@ -440,12 +418,11 @@ Available document ids=
             );
 
             const isLatestVersion = version === versioning.latestVersion;
-            const docsBasePermalink = normalizeUrl([
+            const docsBaseRoute = normalizeUrl([
               baseUrl,
               routeBasePath,
               isLatestVersion ? '' : version,
             ]);
-            const docsBaseRoute = normalizeUrl([docsBasePermalink, ':route']);
             const docsBaseMetadata = createDocsBaseMetadata(version);
 
             // We want latest version route config to be placed last in the
@@ -462,8 +439,7 @@ Available document ids=
       } else {
         const routes = await genRoutes(Object.values(content.docsMetadata));
         const docsBaseMetadata = createDocsBaseMetadata();
-
-        const docsBaseRoute = normalizeUrl([baseUrl, routeBasePath, ':route']);
+        const docsBaseRoute = normalizeUrl([baseUrl, routeBasePath]);
         return addBaseRoute(docsBaseRoute, docsBaseMetadata, routes);
       }
     },

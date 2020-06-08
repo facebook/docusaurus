@@ -165,8 +165,6 @@ export type DocsBaseMetadata = Pick<
   'docsSidebars' | 'permalinkToSidebar'
 > & {
   version?: string;
-  isHomePage?: boolean;
-  homePagePath?: string;
 };
 
 export type VersioningEnv = {
