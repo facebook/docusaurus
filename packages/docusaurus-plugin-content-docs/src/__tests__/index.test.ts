@@ -45,7 +45,7 @@ test('site with wrong sidebar file', async () => {
   const plugin = pluginContentDocs(context, {
     sidebarPath,
   });
-  return plugin.loadContent().catch((e) => expect(e).toMatchSnapshot());
+  await expect(plugin.loadContent()).rejects.toThrowErrorMatchingSnapshot();
 });
 
 describe('empty/no docs website', () => {
