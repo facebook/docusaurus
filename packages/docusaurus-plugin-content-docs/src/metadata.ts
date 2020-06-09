@@ -15,7 +15,43 @@ import {
 import {LoadContext} from '@docusaurus/types';
 
 import lastUpdate from './lastUpdate';
-import {MetadataRaw, LastUpdateData, MetadataOptions, Env} from './types';
+import {
+  MetadataRaw,
+  LastUpdateData,
+  MetadataOptions,
+  Env,
+  VersioningEnv,
+} from './types';
+
+function removeVersionPrefix(str: string, version: string): string {
+  return str.replace(new RegExp(`^version-${version}/`), '');
+}
+
+function inferVersion(
+  dirName: string,
+  versioning: VersioningEnv,
+): string | undefined {
+  if (!versioning.enabled) {
+    return undefined;
+  }
+  if (/^version-/.test(dirName)) {
+    const inferredVersion = dirName
+      .split('/', 1)
+      .shift()!
+      .replace(/^version-/, '');
+    if (inferredVersion && versioning.versions.includes(inferredVersion)) {
+      return inferredVersion;
+    } else {
+      throw new Error(
+        `Can't infer version from folder=${dirName}
+Expected versions:
+- ${versioning.versions.join('- ')}`,
+      );
+    }
+  } else {
+    return 'next';
+  }
+}
 
 type Args = {
   source: string;
@@ -67,21 +103,8 @@ export default async function processMetadata({
   const fileMarkdownPromise = parseMarkdownFile(filePath);
   const lastUpdatedPromise = lastUpdated(filePath, options);
 
-  let version;
   const dirName = path.dirname(source);
-  if (versioning.enabled) {
-    if (/^version-/.test(dirName)) {
-      const inferredVersion = dirName
-        .split('/', 1)
-        .shift()!
-        .replace(/^version-/, '');
-      if (inferredVersion && versioning.versions.includes(inferredVersion)) {
-        version = inferredVersion;
-      }
-    } else {
-      version = 'next';
-    }
-  }
+  const version = inferVersion(dirName, versioning);
 
   // The version portion of the url path. Eg: 'next', '1.0.0', and ''.
   const versionPath =
@@ -101,8 +124,9 @@ export default async function processMetadata({
     throw new Error('Document id cannot include "/".');
   }
   const id = dirName !== '.' ? `${dirName}/${baseID}` : baseID;
+  const idWithoutVersion = version ? removeVersionPrefix(id, version) : id;
 
-  const isDocsHomePage = homePageId === id;
+  const isDocsHomePage = idWithoutVersion === homePageId;
   if (frontMatter.slug && isDocsHomePage) {
     throw new Error(
       `The docs homepage (homePageId=${homePageId}) is not allowed to have a frontmatter slug=${frontMatter.slug} => you have to chooser either homePageId or slug, not both`,
@@ -128,9 +152,7 @@ export default async function processMetadata({
     routePath = '/';
   } else {
     routePath =
-      version && version !== 'next'
-        ? slug.replace(new RegExp(`^version-${version}/`), '')
-        : slug;
+      version && version !== 'next' ? removeVersionPrefix(slug, version) : slug;
   }
 
   const permalink = normalizeUrl([
