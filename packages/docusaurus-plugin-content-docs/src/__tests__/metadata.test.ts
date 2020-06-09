@@ -62,6 +62,56 @@ describe('simple site', () => {
     });
   });
 
+  test('homePageId doc', async () => {
+    const source = path.join('hello.md');
+    const options = {
+      routeBasePath,
+      homePageId: 'hello',
+    };
+
+    const data = await processMetadata({
+      source,
+      refDir: docsDir,
+      context,
+      options,
+      env,
+    });
+
+    expect(data).toEqual({
+      id: 'hello',
+      isDocsHomePage: true,
+      permalink: '/docs/',
+      source: path.join('@site', routeBasePath, source),
+      title: 'Hello, World !',
+      description: `Hi, Endilie here :)`,
+    });
+  });
+
+  test('homePageId doc nested', async () => {
+    const source = path.join('foo', 'bar.md');
+    const options = {
+      routeBasePath,
+      homePageId: 'foo/bar',
+    };
+
+    const data = await processMetadata({
+      source,
+      refDir: docsDir,
+      context,
+      options,
+      env,
+    });
+
+    expect(data).toEqual({
+      id: 'foo/bar',
+      isDocsHomePage: true,
+      permalink: '/docs/',
+      source: path.join('@site', routeBasePath, source),
+      title: 'Bar',
+      description: 'This is custom description',
+    });
+  });
+
   test('docs with editUrl', async () => {
     const editUrl =
       'https://github.com/facebook/docusaurus/edit/master/website';

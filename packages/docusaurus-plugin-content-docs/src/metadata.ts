@@ -100,9 +100,9 @@ export default async function processMetadata({
   if (baseID.includes('/')) {
     throw new Error('Document id cannot include "/".');
   }
+  const id = dirName !== '.' ? `${dirName}/${baseID}` : baseID;
 
-  const isDocsHomePage = homePageId === baseID;
-
+  const isDocsHomePage = homePageId === id;
   if (frontMatter.slug && isDocsHomePage) {
     throw new Error(
       `The docs homepage (homePageId=${homePageId}) is not allowed to have a frontmatter slug=${frontMatter.slug} => you have to chooser either homePageId or slug, not both`,
@@ -113,9 +113,6 @@ export default async function processMetadata({
   if (baseSlug.includes('/')) {
     throw new Error('Document slug cannot include "/".');
   }
-
-  // Append subdirectory as part of id/slug.
-  const id = dirName !== '.' ? `${dirName}/${baseID}` : baseID;
   const slug = dirName !== '.' ? `${dirName}/${baseSlug}` : baseSlug;
 
   // Default title is the id.
