@@ -36,11 +36,12 @@ const APP_INSTALLED_KEY = 'docusaurus.pwa.appInstalled';
     const swUrl = `${process.env.SERVICE_WORKER}${enabledParam}`;
     const wb = new Workbox(swUrl);
     const registration = await wb.register();
+    const type = 'SKIP_WAITING';
 
     const handleServiceWorkerWaiting = async () => {
       // Immediately load new service worker when files aren't cached
       if (!shouldCacheFiles) {
-        wb.messageSW({type: 'SKIP_WAITING'});
+        wb.messageSW({type});
       } else if (process.env.PWA_POPUP) {
         const renderPopup = (await import('./renderPopup')).default;
 
@@ -50,7 +51,7 @@ const APP_INSTALLED_KEY = 'docusaurus.pwa.appInstalled';
               window.location.reload();
             });
 
-            wb.messageSW({type: 'SKIP_WAITING'});
+            wb.messageSW({type});
           },
         });
       }

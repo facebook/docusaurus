@@ -5,8 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-/* eslint-disable no-restricted-globals */
-
 import {PrecacheController} from 'workbox-precaching';
 
 /**
@@ -17,9 +15,9 @@ import {PrecacheController} from 'workbox-precaching';
  */
 function getPossibleURLs(url) {
   const possibleURLs = [];
-  const urlObject = new URL(url, location.href);
+  const urlObject = new URL(url, window.location.href);
 
-  if (urlObject.origin !== location.origin) {
+  if (urlObject.origin !== window.location.origin) {
     return possibleURLs;
   }
 
@@ -40,9 +38,9 @@ function getPossibleURLs(url) {
 }
 
 (async () => {
-  const precacheManifest = self.__WB_MANIFEST;
+  const precacheManifest = window.self.__WB_MANIFEST;
   const controller = new PrecacheController();
-  const isEnabled = location.search.includes('enabled');
+  const isEnabled = window.location.search.includes('enabled');
 
   if (isEnabled) {
     controller.addToCacheList(precacheManifest);
@@ -55,15 +53,15 @@ function getPossibleURLs(url) {
     }
   }
 
-  self.addEventListener('install', (event) => {
+  window.self.addEventListener('install', (event) => {
     event.waitUntil(controller.install());
   });
 
-  self.addEventListener('activate', (event) => {
+  window.self.addEventListener('activate', (event) => {
     event.waitUntil(controller.activate());
   });
 
-  self.addEventListener('fetch', async (event) => {
+  window.self.addEventListener('fetch', async (event) => {
     if (isEnabled) {
       const possibleURLs = getPossibleURLs(event.request.url);
       for (let i = 0; i < possibleURLs.length; i += 1) {
@@ -76,11 +74,11 @@ function getPossibleURLs(url) {
     }
   });
 
-  self.addEventListener('message', async (event) => {
+  window.self.addEventListener('message', async (event) => {
     const type = event.data && event.data.type;
 
     if (type === 'SKIP_WAITING') {
-      self.skipWaiting();
+      window.self.skipWaiting();
     }
   });
 })();
