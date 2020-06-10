@@ -50,7 +50,7 @@ describe('simple site', () => {
       source: path.join('@site', routeBasePath, sourceA),
       title: 'Bar',
       description: 'This is custom description',
-      isOld:false
+      isOld: false,
     });
     expect(dataB).toEqual({
       id: 'hello',
@@ -58,7 +58,7 @@ describe('simple site', () => {
       source: path.join('@site', routeBasePath, sourceB),
       title: 'Hello, World !',
       description: `Hi, Endilie here :)`,
-      isOld:false
+      isOld: false,
     });
   });
 
@@ -87,7 +87,7 @@ describe('simple site', () => {
       editUrl:
         'https://github.com/facebook/docusaurus/edit/master/website/docs/foo/baz.md',
       description: 'Images',
-      isOld:false
+      isOld: false,
     });
   });
 
@@ -112,7 +112,7 @@ describe('simple site', () => {
       title: 'lorem',
       editUrl: 'https://github.com/customUrl/docs/lorem.md',
       description: 'Lorem ipsum.',
-      isOld:false
+      isOld: false,
     });
 
     // unrelated frontmatter is not part of metadata
@@ -144,7 +144,7 @@ describe('simple site', () => {
       description: 'Lorem ipsum.',
       lastUpdatedAt: 1539502055,
       lastUpdatedBy: 'Author',
-      isOld:false
+      isOld: false,
     });
   });
 
@@ -173,7 +173,7 @@ describe('simple site', () => {
       description: 'Lorem ipsum.',
       lastUpdatedAt: 1539502055,
       lastUpdatedBy: 'Author',
-      isOld:false
+      isOld: false,
     });
   });
 
@@ -255,7 +255,7 @@ describe('versioned site', () => {
       title: 'bar',
       description: 'This is next version of bar.',
       version: 'next',
-      isOld:false
+      isOld: false,
     });
     expect(dataB).toEqual({
       id: 'hello',
@@ -264,7 +264,7 @@ describe('versioned site', () => {
       title: 'hello',
       description: 'Hello next !',
       version: 'next',
-      isOld:false
+      isOld: false,
     });
   });
 
@@ -315,7 +315,7 @@ describe('versioned site', () => {
       title: 'bar',
       description: 'Bar 1.0.0 !',
       version: '1.0.0',
-      isOld:true
+      isOld: true,
     });
     expect(dataB).toEqual({
       id: 'version-1.0.0/hello',
@@ -324,7 +324,7 @@ describe('versioned site', () => {
       title: 'hello',
       description: 'Hello 1.0.0 !',
       version: '1.0.0',
-      isOld:true
+      isOld: true,
     });
     expect(dataC).toEqual({
       id: 'version-1.0.1/foo/bar',
@@ -333,7 +333,7 @@ describe('versioned site', () => {
       title: 'bar',
       description: 'Bar 1.0.1 !',
       version: '1.0.1',
-      isOld:false
+      isOld: false,
     });
     expect(dataD).toEqual({
       id: 'version-1.0.1/hello',
@@ -342,7 +342,7 @@ describe('versioned site', () => {
       title: 'hello',
       description: 'Hello 1.0.1 !',
       version: '1.0.1',
-      isOld:false
+      isOld: false,
     });
   });
 });
