@@ -8,7 +8,7 @@
 import {PluginContext, UserPluginOptions} from '../types';
 import collectRedirects from '../collectRedirects';
 import normalizePluginOptions from '../normalizePluginOptions';
-import {removeTrailingSlash} from '../utils';
+import {removeTrailingSlash} from '@docusaurus/utils';
 
 function createTestPluginContext(
   options?: UserPluginOptions,

@@ -339,3 +339,24 @@ export function isValidPathname(str: string): boolean {
     return false;
   }
 }
+
+export function addTrailingSlash(str: string) {
+  return str.endsWith('/') ? str : `${str}/`;
+}
+
+export function removeTrailingSlash(str: string) {
+  return removeSuffix(str, '/');
+}
+
+export function removeSuffix(str: string, suffix: string) {
+  if (suffix === '') {
+    return str; // always returns "" otherwise!
+  }
+  return str.endsWith(suffix) ? str.slice(0, -suffix.length) : str;
+}
+
+export function getFilePathForRoutePath(routePath: string) {
+  const fileName = path.basename(routePath);
+  const filePath = path.dirname(routePath);
+  return path.join(filePath, `${fileName}/index.html`);
+}

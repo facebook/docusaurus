@@ -15,7 +15,7 @@ import {
   addTrailingSlash,
   getFilePathForRoutePath,
   removeTrailingSlash,
-} from './utils';
+} from '@docusaurus/utils';
 
 export type WriteFilesPluginContext = Pick<PluginContext, 'baseUrl' | 'outDir'>;
 

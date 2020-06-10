@@ -6,7 +6,7 @@
  */
 
 import {flatten} from 'lodash';
-import {removeSuffix} from './utils';
+import {removeSuffix} from '@docusaurus/utils';
 import {RedirectMetadata} from './types';
 
 const ExtensionAdditionalMessage =
