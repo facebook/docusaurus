@@ -8,17 +8,16 @@
 import React from 'react';
 
 import Head from '@docusaurus/Head';
-import isInternalUrl from '@docusaurus/isInternalUrl';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import DocPaginator from '@theme/DocPaginator';
 import useTOCHighlight from '@theme/hooks/useTOCHighlight';
 
-import classnames from 'classnames';
+import clsx from 'clsx';
 import styles from './styles.module.css';
 
-const LINK_CLASS_NAME = 'contents__link';
-const ACTIVE_LINK_CLASS_NAME = 'contents__link--active';
+const LINK_CLASS_NAME = 'table-of-contents__link';
+const ACTIVE_LINK_CLASS_NAME = 'table-of-contents__link--active';
 const TOP_OFFSET = 100;
 
 function DocTOC({headings}) {
@@ -38,7 +37,10 @@ function Headings({headings, isChild}) {
     return null;
   }
   return (
-    <ul className={isChild ? '' : 'contents contents__left-border'}>
+    <ul
+      className={
+        isChild ? '' : 'table-of-contents table-of-contents__left-border'
+      }>
       {headings.map((heading) => (
         <li key={heading.id}>
           <a
@@ -77,10 +79,7 @@ function DocItem(props) {
   } = DocContent;
 
   const metaTitle = title ? `${title} | ${siteTitle}` : siteTitle;
-  let metaImageUrl = siteUrl + useBaseUrl(metaImage);
-  if (!isInternalUrl(metaImage)) {
-    metaImageUrl = metaImage;
-  }
+  const metaImageUrl = useBaseUrl(metaImage, {absolute: true});
 
   return (
     <>
@@ -100,105 +99,108 @@ function DocItem(props) {
           <meta name="twitter:image:alt" content={`Image for ${title}`} />
         )}
         {permalink && <meta property="og:url" content={siteUrl + permalink} />}
+        {permalink && <link rel="canonical" href={siteUrl + permalink} />}
       </Head>
-      <div className="padding-vert--lg">
-        <div className="container">
-          <div className="row">
-            <div className={classnames('col', styles.docItemCol)}>
-              <div className={styles.docItemContainer}>
-                <article>
-                  {version && (
-                    <div>
-                      <span className="badge badge--secondary">
-                        Version: {version}
-                      </span>
-                    </div>
-                  )}
-                  {!hideTitle && (
-                    <header>
-                      <h1 className={styles.docTitle}>{title}</h1>
-                    </header>
-                  )}
-                  <div className="markdown">
-                    <DocContent />
-                  </div>
-                </article>
-                {(editUrl || lastUpdatedAt || lastUpdatedBy) && (
-                  <div className="margin-vert--xl">
-                    <div className="row">
-                      <div className="col">
-                        {editUrl && (
-                          <a
-                            href={editUrl}
-                            target="_blank"
-                            rel="noreferrer noopener">
-                            <svg
-                              fill="currentColor"
-                              height="1.2em"
-                              width="1.2em"
-                              preserveAspectRatio="xMidYMid meet"
-                              viewBox="0 0 40 40"
-                              style={{
-                                marginRight: '0.3em',
-                                verticalAlign: 'sub',
-                              }}>
-                              <g>
-                                <path d="m34.5 11.7l-3 3.1-6.3-6.3 3.1-3q0.5-0.5 1.2-0.5t1.1 0.5l3.9 3.9q0.5 0.4 0.5 1.1t-0.5 1.2z m-29.5 17.1l18.4-18.5 6.3 6.3-18.4 18.4h-6.3v-6.2z" />
-                              </g>
-                            </svg>
-                            Edit this page
-                          </a>
-                        )}
-                      </div>
-                      {(lastUpdatedAt || lastUpdatedBy) && (
-                        <div className="col text--right">
-                          <em>
-                            <small>
-                              Last updated{' '}
-                              {lastUpdatedAt && (
-                                <>
-                                  on{' '}
-                                  <time
-                                    dateTime={new Date(
-                                      lastUpdatedAt * 1000,
-                                    ).toISOString()}
-                                    className={styles.docLastUpdatedAt}>
-                                    {new Date(
-                                      lastUpdatedAt * 1000,
-                                    ).toLocaleDateString()}
-                                  </time>
-                                  {lastUpdatedBy && ' '}
-                                </>
-                              )}
-                              {lastUpdatedBy && (
-                                <>
-                                  by <strong>{lastUpdatedBy}</strong>
-                                </>
-                              )}
-                              {process.env.NODE_ENV === 'development' && (
-                                <div>
-                                  <small>
-                                    {' '}
-                                    (Simulated during dev for better perf)
-                                  </small>
-                                </div>
-                              )}
-                            </small>
-                          </em>
-                        </div>
-                      )}
-                    </div>
+      <div
+        className={clsx('container padding-vert--lg', styles.docItemWrapper)}>
+        <div className="row">
+          <div
+            className={clsx('col', {
+              [styles.docItemCol]: !hideTableOfContents,
+            })}>
+            <div className={styles.docItemContainer}>
+              <article>
+                {version && (
+                  <div>
+                    <span className="badge badge--secondary">
+                      Version: {version}
+                    </span>
                   </div>
                 )}
-                <div className="margin-vert--lg">
-                  <DocPaginator metadata={metadata} />
+                {!hideTitle && (
+                  <header>
+                    <h1 className={styles.docTitle}>{title}</h1>
+                  </header>
+                )}
+                <div className="markdown">
+                  <DocContent />
                 </div>
+              </article>
+              {(editUrl || lastUpdatedAt || lastUpdatedBy) && (
+                <div className="margin-vert--xl">
+                  <div className="row">
+                    <div className="col">
+                      {editUrl && (
+                        <a
+                          href={editUrl}
+                          target="_blank"
+                          rel="noreferrer noopener">
+                          <svg
+                            fill="currentColor"
+                            height="1.2em"
+                            width="1.2em"
+                            preserveAspectRatio="xMidYMid meet"
+                            viewBox="0 0 40 40"
+                            style={{
+                              marginRight: '0.3em',
+                              verticalAlign: 'sub',
+                            }}>
+                            <g>
+                              <path d="m34.5 11.7l-3 3.1-6.3-6.3 3.1-3q0.5-0.5 1.2-0.5t1.1 0.5l3.9 3.9q0.5 0.4 0.5 1.1t-0.5 1.2z m-29.5 17.1l18.4-18.5 6.3 6.3-18.4 18.4h-6.3v-6.2z" />
+                            </g>
+                          </svg>
+                          Edit this page
+                        </a>
+                      )}
+                    </div>
+                    {(lastUpdatedAt || lastUpdatedBy) && (
+                      <div className="col text--right">
+                        <em>
+                          <small>
+                            Last updated{' '}
+                            {lastUpdatedAt && (
+                              <>
+                                on{' '}
+                                <time
+                                  dateTime={new Date(
+                                    lastUpdatedAt * 1000,
+                                  ).toISOString()}
+                                  className={styles.docLastUpdatedAt}>
+                                  {new Date(
+                                    lastUpdatedAt * 1000,
+                                  ).toLocaleDateString()}
+                                </time>
+                                {lastUpdatedBy && ' '}
+                              </>
+                            )}
+                            {lastUpdatedBy && (
+                              <>
+                                by <strong>{lastUpdatedBy}</strong>
+                              </>
+                            )}
+                            {process.env.NODE_ENV === 'development' && (
+                              <div>
+                                <small>
+                                  {' '}
+                                  (Simulated during dev for better perf)
+                                </small>
+                              </div>
+                            )}
+                          </small>
+                        </em>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+              <div className="margin-vert--lg">
+                <DocPaginator metadata={metadata} />
               </div>
             </div>
-            {!hideTableOfContents && DocContent.rightToc && (
-              <DocTOC headings={DocContent.rightToc} />
-            )}
           </div>
+          {!hideTableOfContents && DocContent.rightToc && (
+            <DocTOC headings={DocContent.rightToc} />
+          )}
         </div>
       </div>
     </>

@@ -61,7 +61,7 @@ Outputs
 
 This component enables linking to internal pages as well as a powerful performance feature called preloading. Preloading is used to prefetch resources so that the resources are fetched by the time the user navigates with this component. We use an `IntersectionObserver` to fetch a low-priority request when the `<Link>` is in the viewport and then use an `onMouseOver` event to trigger a high-priority request when it is likely that a user will navigate to the requested resource.
 
-The component is a wrapper around react-router’s `<NavLink>` component that adds useful enhancements specific to Docusaurus. All props are passed through to react-router’s `<NavLink>` component.
+The component is a wrapper around react-router’s `<Link>` component that adds useful enhancements specific to Docusaurus. All props are passed through to react-router’s `<Link>` component.
 
 ```jsx {2,7}
 import React from 'react';
@@ -73,7 +73,7 @@ const Page = () => (
       Check out my <Link to="/blog">blog</Link>!
     </p>
     <p>
-      {/* Note that external links still use `a` tags. */}
+      {/* Note that external links still use `a` tags, but automatically opens in new tab. */}
       Follow me on <a href="https://twitter.com/docusaurus">Twitter</a>!
     </p>
   </div>
@@ -86,16 +86,6 @@ The target location to navigate to. Example: `/docs/introduction`.
 
 ```jsx
 <Link to="/courses" />
-```
-
-#### `activeClassName`: string
-
-The class to give the `<Link>` when it is active. The default given class is `active`. This will be joined with the `className` prop.
-
-```jsx {1}
-<Link to="/faq" activeClassName="selected">
-  FAQs
-</Link>
 ```
 
 ### `<Redirect/>`
@@ -115,14 +105,15 @@ function Home() {
 
 ### `<BrowserOnly/>`
 
-The `<BrowserOnly>` component accepts a `children` prop, a render function which will not be executed during the pre-rendering phase of the build process. This is useful for hiding code that is only meant to run in the browsers (e.g. where the `window`/`document` objects are being accessed).
+The `<BrowserOnly>` component accepts a `children` prop, a render function which will not be executed during the pre-rendering phase of the build process. This is useful for hiding code that is only meant to run in the browsers (e.g. where the `window`/`document` objects are being accessed). To improve SEO, you can also provide fallback content using the `fallback` prop, which will be prerendered until in the build process and replaced with the client-side only contents when viewed in the browser.
 
 ```jsx
 import BrowserOnly from '@docusaurus/BrowserOnly';
 
 function MyComponent() {
   return (
-    <BrowserOnly>
+    <BrowserOnly
+      fallback={<div>The fallback content to display on prerendering</div>}>
       {() => {
         // Something that should be excluded during build process prerendering.
       }}
@@ -160,7 +151,14 @@ const Test = () => {
 
 ### `useBaseUrl`
 
-React hook to automatically append `baseUrl` to a string automatically. This is particularly useful if you don't want to hardcode your config's `baseUrl`. We highly recommend you to use this.
+React hook to automatically prepend `baseUrl` to a string automatically. This is particularly useful if you don't want to hardcode your config's `baseUrl`. We highly recommend you to use this.
+
+```ts
+type BaseUrlOptions = {
+  forcePrependBaseUrl: boolean;
+  absolute: boolean;
+};
+```
 
 Example usage:
 
@@ -193,14 +191,14 @@ import React from 'react';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 
 function MyPage() {
-  const location = ExecutionEnvironment.canUseDOM ? window.href.location : null;
+  const location = ExecutionEnvironment.canUseDOM ? window.location.href : null;
   return <div>{location}</div>;
 }
 ```
 
 | Field | Description |
 | --- | --- |
-| `ExecutionEnvironment.canUseDOM` | `true` if on client, `false` if SSR. |
+| `ExecutionEnvironment.canUseDOM` | `true` if on client, `false` if prerendering. |
 | `ExecutionEnvironment.canUseEventListeners` | `true` if on client and has `window.addEventListener`. |
 | `ExecutionEnvironment.canUseIntersectionObserver` | `true` if on client and has `IntersectionObserver`. |
 | `ExecutionEnvironment.canUseViewport` | `true` if on client and has `window.screen`. |

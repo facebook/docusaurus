@@ -182,23 +182,94 @@ export function getSubFolder(file: string, refDir: string): string | null {
   return match && match[1];
 }
 
-export function parse(
-  fileString: string,
-): {
+// Regex for an import statement.
+const importRegexString = '^(.*import){1}(.+){0,1}\\s[\'"](.+)[\'"];?';
+
+export function createExcerpt(fileString: string): string | undefined {
+  let fileContent = fileString.trimLeft();
+
+  if (RegExp(importRegexString).test(fileContent)) {
+    fileContent = fileContent
+      .replace(RegExp(importRegexString, 'gm'), '')
+      .trimLeft();
+  }
+
+  const fileLines = fileContent.split('\n');
+
+  for (let fileLine of fileLines) {
+    const cleanedLine = fileLine
+      // Remove HTML tags.
+      .replace(/<[^>]*>/g, '')
+      // Remove ATX-style headers.
+      .replace(/^\#{1,6}\s*([^#]*)\s*(\#{1,6})?/gm, '$1')
+      // Remove emphasis and strikethroughs.
+      .replace(/([\*_~]{1,3})(\S.*?\S{0,1})\1/g, '$2')
+      // Remove images.
+      .replace(/\!\[(.*?)\][\[\(].*?[\]\)]/g, '$1')
+      // Remove footnotes.
+      .replace(/\[\^.+?\](\: .*?$)?/g, '')
+      // Remove inline links.
+      .replace(/\[(.*?)\][\[\(].*?[\]\)]/g, '$1')
+      // Remove inline code.
+      .replace(/`(.+?)`/g, '$1')
+      // Remove blockquotes.
+      .replace(/^\s{0,3}>\s?/g, '')
+      // Remove admonition definition.
+      .replace(/(:{3}.*)/, '')
+      // Remove Emoji names within colons include preceding whitespace.
+      .replace(/\s?(:(::|[^:\n])+:)/g, '')
+      .trim();
+
+    if (cleanedLine) {
+      return cleanedLine;
+    }
+  }
+
+  return undefined;
+}
+
+type ParsedMarkdown = {
   frontMatter: {
     [key: string]: any;
   };
   content: string;
   excerpt: string | undefined;
-} {
+};
+export function parseMarkdownString(markdownString: string): ParsedMarkdown {
   const options: {} = {
     excerpt: (file: matter.GrayMatterFile<string>): void => {
-      file.excerpt = file.content.trim().split('\n', 1).shift();
+      // Hacky way of stripping out import statements from the excerpt
+      // TODO: Find a better way to do so, possibly by compiling the Markdown content,
+      // stripping out HTML tags and obtaining the first line.
+      file.excerpt = createExcerpt(file.content);
     },
   };
 
-  const {data: frontMatter, content, excerpt} = matter(fileString, options);
-  return {frontMatter, content, excerpt};
+  try {
+    const {data: frontMatter, content, excerpt} = matter(
+      markdownString,
+      options,
+    );
+    return {frontMatter, content, excerpt};
+  } catch (e) {
+    throw new Error(`Error while parsing markdown front matter.
+This can happen if you use special characteres like : in frontmatter values (try using "" around that value)
+${e.message}`);
+  }
+}
+
+export async function parseMarkdownFile(
+  source: string,
+): Promise<ParsedMarkdown> {
+  const markdownString = await fs.readFile(source, 'utf-8');
+  try {
+    return parseMarkdownString(markdownString);
+  } catch (e) {
+    throw new Error(
+      `Error while parsing markdown file ${source}
+${e.message}`,
+    );
+  }
 }
 
 export function normalizeUrl(rawUrls: string[]): string {

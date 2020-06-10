@@ -45,6 +45,7 @@ export interface DocusaurusConfig {
 
 export interface DocusaurusContext {
   siteConfig?: DocusaurusConfig;
+  isClient?: boolean;
 }
 
 export interface Preset {
@@ -59,12 +60,14 @@ export interface StartCLIOptions {
   host: string;
   hotOnly: boolean;
   open: boolean;
+  poll: boolean;
 }
 
 export interface BuildCLIOptions {
   bundleAnalyzer: boolean;
   outDir: string;
   minify: boolean;
+  skipBuild: boolean;
 }
 
 export interface LoadContext {
@@ -103,6 +106,7 @@ export interface Plugin<T> {
     content: T;
     actions: PluginContentLoadedActions;
   }): void;
+  routesLoaded?(routes: RouteConfig[]): void;
   postBuild?(props: Props): void;
   postStart?(props: Props): void;
   configureWebpack?(

@@ -124,41 +124,48 @@ export async function start(
 
   // https://webpack.js.org/configuration/dev-server
   const devServerConfig: WebpackDevServer.Configuration = {
-    compress: true,
-    clientLogLevel: 'error',
-    hot: true,
-    hotOnly: cliOptions.hotOnly,
-    // Use 'ws' instead of 'sockjs-node' on server since we're using native
-    // websockets in `webpackHotDevClient`.
-    transportMode: 'ws',
-    // Prevent a WS client from getting injected as we're already including
-    // `webpackHotDevClient`.
-    injectClient: false,
-    quiet: true,
-    headers: {
-      'access-control-allow-origin': '*',
-    },
-    publicPath: baseUrl,
-    watchOptions: {
-      ignored: /node_modules/,
-    },
-    historyApiFallback: {
-      rewrites: [{from: /\/*/, to: baseUrl}],
-    },
-    disableHostCheck: true,
-    // Disable overlay on browser since we use CRA's overlay error reporting.
-    overlay: false,
-    host,
-    before: (app, server) => {
-      app.use(baseUrl, express.static(path.resolve(siteDir, STATIC_DIR_NAME)));
+    ...{
+      compress: true,
+      clientLogLevel: 'error',
+      hot: true,
+      hotOnly: cliOptions.hotOnly,
+      // Use 'ws' instead of 'sockjs-node' on server since we're using native
+      // websockets in `webpackHotDevClient`.
+      transportMode: 'ws',
+      // Prevent a WS client from getting injected as we're already including
+      // `webpackHotDevClient`.
+      injectClient: false,
+      quiet: true,
+      headers: {
+        'access-control-allow-origin': '*',
+      },
+      publicPath: baseUrl,
+      watchOptions: {
+        ignored: /node_modules/,
+        poll: cliOptions.poll,
+      },
+      historyApiFallback: {
+        rewrites: [{from: /\/*/, to: baseUrl}],
+      },
+      disableHostCheck: true,
+      // Disable overlay on browser since we use CRA's overlay error reporting.
+      overlay: false,
+      host,
+      before: (app, server) => {
+        app.use(
+          baseUrl,
+          express.static(path.resolve(siteDir, STATIC_DIR_NAME)),
+        );
 
-      // This lets us fetch source contents from webpack for the error overlay.
-      app.use(evalSourceMapMiddleware(server));
-      // This lets us open files from the runtime error overlay.
-      app.use(errorOverlayMiddleware());
+        // This lets us fetch source contents from webpack for the error overlay.
+        app.use(evalSourceMapMiddleware(server));
+        // This lets us open files from the runtime error overlay.
+        app.use(errorOverlayMiddleware());
 
-      // TODO: add plugins beforeDevServer and afterDevServer hook
+        // TODO: add plugins beforeDevServer and afterDevServer hook
+      },
     },
+    ...config.devServer,
   };
   const compiler = webpack(config);
   const devServer = new WebpackDevServer(compiler, devServerConfig);

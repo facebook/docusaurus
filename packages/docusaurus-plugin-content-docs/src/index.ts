@@ -11,6 +11,7 @@ import pickBy from 'lodash.pickby';
 import globby from 'globby';
 import fs from 'fs-extra';
 import path from 'path';
+import admonitions from 'remark-admonitions';
 import {
   normalizeUrl,
   docuHash,
@@ -45,10 +46,14 @@ import {
 } from './types';
 import {Configuration} from 'webpack';
 import {docsVersion} from './version';
+import {VERSIONS_JSON_FILE} from './constants';
+
+const REVERSED_DOCS_HOME_PAGE_ID = '_index';
 
 const DEFAULT_OPTIONS: PluginOptions = {
   path: 'docs', // Path to data on filesystem, relative to site dir.
   routeBasePath: 'docs', // URL Route.
+  homePageId: REVERSED_DOCS_HOME_PAGE_ID, // Document id for docs home page.
   include: ['**/*.{md,mdx}'], // Extensions to include.
   sidebarPath: '', // Path to sidebar configuration for showing a list of markdown pages.
   docLayoutComponent: '@theme/DocPage',
@@ -57,6 +62,7 @@ const DEFAULT_OPTIONS: PluginOptions = {
   rehypePlugins: [],
   showLastUpdateTime: false,
   showLastUpdateAuthor: false,
+  admonitions: {},
 };
 
 export default function pluginContentDocs(
@@ -64,6 +70,13 @@ export default function pluginContentDocs(
   opts: Partial<PluginOptions>,
 ): Plugin<LoadedContent | null> {
   const options = {...DEFAULT_OPTIONS, ...opts};
+
+  if (options.admonitions) {
+    options.remarkPlugins = options.remarkPlugins.concat([
+      [admonitions, options.admonitions],
+    ]);
+  }
+
   const {siteDir, generatedFilesDir, baseUrl} = context;
   const docsDir = path.resolve(siteDir, options.path);
   const sourceToPermalink: SourceToPermalink = {};
@@ -83,8 +96,30 @@ export default function pluginContentDocs(
   } = versioning;
   const versionsNames = versions.map((version) => `version-${version}`);
 
+  // Docs home page.
+  const homePageDocsRoutePath =
+    options.routeBasePath === '' ? '/' : options.routeBasePath;
+  const isDocsHomePagePath = (permalink: string) => {
+    const documentIdMatch = new RegExp(
+      `^\/(?:${homePageDocsRoutePath}\/)?(?:(?:${versions.join(
+        '|',
+      )}|next)\/)?(.*)`,
+      'i',
+    ).exec(permalink);
+
+    if (documentIdMatch) {
+      return documentIdMatch[1] === options.homePageId;
+    }
+
+    return false;
+  };
+
   return {
     name: 'docusaurus-plugin-content-docs',
+
+    getThemePath() {
+      return path.resolve(__dirname, './theme');
+    },
 
     extendCli(cli) {
       cli
@@ -117,6 +152,16 @@ export default function pluginContentDocs(
         globPattern = [...globPattern, ...sidebarsGlob, ...docsGlob];
       }
       return [...globPattern, options.sidebarPath];
+    },
+
+    getClientModules() {
+      const modules = [];
+
+      if (options.admonitions) {
+        modules.push(require.resolve('remark-admonitions/styles/infima.css'));
+      }
+
+      return modules;
     },
 
     // Fetches blog contents and returns metadata for the contents.
@@ -230,19 +275,25 @@ export default function pluginContentDocs(
       });
 
       const convertDocLink = (item: SidebarItemDoc): SidebarItemLink => {
-        const linkID = item.id;
-        const linkMetadata = docsMetadataRaw[linkID];
+        const docId = item.id;
+        const docMetadata = docsMetadataRaw[docId];
 
-        if (!linkMetadata) {
+        if (!docMetadata) {
           throw new Error(
-            `Improper sidebars file, document with id '${linkID}' not found.`,
+            `Bad sidebars file. The document id '${docId}' was used in the sidebar, but no document with this id could be found.
+Available document ids=
+- ${Object.keys(docsMetadataRaw).sort().join('\n- ')}`,
           );
         }
 
+        const {title, permalink, sidebar_label} = docMetadata;
+
         return {
           type: 'link',
-          label: linkMetadata.sidebar_label || linkMetadata.title,
-          href: linkMetadata.permalink,
+          label: sidebar_label || title,
+          href: isDocsHomePagePath(permalink)
+            ? permalink.replace(`/${options.homePageId}`, '')
+            : permalink,
         };
       };
 
@@ -289,11 +340,71 @@ export default function pluginContentDocs(
       const aliasedSource = (source: string) =>
         `~docs/${path.relative(dataDir, source)}`;
 
+      const createDocsBaseMetadata = (version?: string): DocsBaseMetadata => {
+        const {docsSidebars, permalinkToSidebar, versionToSidebars} = content;
+        const neededSidebars: Set<string> =
+          versionToSidebars[version!] || new Set();
+
+        return {
+          docsSidebars: version
+            ? pick(docsSidebars, Array.from(neededSidebars))
+            : docsSidebars,
+          permalinkToSidebar: version
+            ? pickBy(permalinkToSidebar, (sidebar) =>
+                neededSidebars.has(sidebar),
+              )
+            : permalinkToSidebar,
+          version,
+        };
+      };
+
       const genRoutes = async (
         metadataItems: Metadata[],
       ): Promise<RouteConfig[]> => {
+        const versionsRegex = new RegExp(versionsNames.join('|'), 'i');
+
         const routes = await Promise.all(
           metadataItems.map(async (metadataItem) => {
+            const isDocsHomePage =
+              metadataItem.id.replace(versionsRegex, '').replace(/^\//, '') ===
+              options.homePageId;
+
+            if (isDocsHomePage) {
+              const versionDocsPathPrefix =
+                (metadataItem?.version === versioning.latestVersion
+                  ? ''
+                  : metadataItem.version!) ?? '';
+
+              const docsBaseMetadata = createDocsBaseMetadata(
+                metadataItem.version!,
+              );
+              docsBaseMetadata.isHomePage = true;
+              docsBaseMetadata.homePagePath = normalizeUrl([
+                baseUrl,
+                homePageDocsRoutePath,
+                versionDocsPathPrefix,
+              ]);
+              const docsBaseMetadataPath = await createData(
+                `${docuHash(metadataItem.source)}-base.json`,
+                JSON.stringify(docsBaseMetadata, null, 2),
+              );
+
+              // Add a route for docs home page.
+              addRoute({
+                path: normalizeUrl([
+                  baseUrl,
+                  homePageDocsRoutePath,
+                  versionDocsPathPrefix,
+                ]),
+                component: docLayoutComponent,
+                exact: true,
+                modules: {
+                  docsMetadata: aliasedSource(docsBaseMetadataPath),
+                  content: metadataItem.source,
+                },
+              });
+            }
+
             await createData(
               // Note that this created data path must be in sync with
               // metadataPath provided to mdx-loader.
@@ -312,8 +423,12 @@ export default function pluginContentDocs(
           }),
         );
 
-        return routes.sort((a, b) =>
-          a.path > b.path ? 1 : b.path > a.path ? -1 : 0,
+        return (
+          routes
+            // Do not create a route for a document serve as docs home page.
+            // TODO: need way to do this filtering when generating routes for better perf.
+            .filter(({path}) => !isDocsHomePagePath(path))
+            .sort((a, b) => (a.path > b.path ? 1 : b.path > a.path ? -1 : 0))
         );
       };
 
@@ -359,19 +474,7 @@ export default function pluginContentDocs(
               isLatestVersion ? '' : version,
             ]);
             const docsBaseRoute = normalizeUrl([docsBasePermalink, ':route']);
-            const neededSidebars: Set<string> =
-              content.versionToSidebars[version] || new Set();
-            const docsBaseMetadata: DocsBaseMetadata = {
-              docsSidebars: pick(
-                content.docsSidebars,
-                Array.from(neededSidebars),
-              ),
-              permalinkToSidebar: pickBy(
-                content.permalinkToSidebar,
-                (sidebar) => neededSidebars.has(sidebar),
-              ),
-              version,
-            };
+            const docsBaseMetadata = createDocsBaseMetadata(version);
 
             // We want latest version route config to be placed last in the
             // generated routeconfig. Otherwise, `/docs/next/foo` will match
@@ -386,20 +489,43 @@ export default function pluginContentDocs(
         );
       } else {
         const routes = await genRoutes(Object.values(content.docsMetadata));
-        const docsBaseMetadata: DocsBaseMetadata = {
-          docsSidebars: content.docsSidebars,
-          permalinkToSidebar: content.permalinkToSidebar,
-        };
+        const docsBaseMetadata = createDocsBaseMetadata();
 
         const docsBaseRoute = normalizeUrl([baseUrl, routeBasePath, ':route']);
         return addBaseRoute(docsBaseRoute, docsBaseMetadata, routes);
       }
     },
 
+    async routesLoaded(routes) {
+      const homeDocsRoutes = routes.filter(
+        (routeConfig) => routeConfig.path === homePageDocsRoutePath,
+      );
+
+      // Remove the route for docs home page if there is a page with the same path (i.e. docs).
+      if (homeDocsRoutes.length > 1) {
+        const docsHomePageRouteIndex = routes.findIndex(
+          (route) =>
+            route.component === options.docLayoutComponent &&
+            route.path === homePageDocsRoutePath,
+        );
+
+        delete routes[docsHomePageRouteIndex!];
+      }
+    },
+
     configureWebpack(_config, isServer, utils) {
       const {getBabelLoader, getCacheLoader} = utils;
       const {rehypePlugins, remarkPlugins} = options;
+      // Suppress warnings about non-existing of versions file.
+      const stats = {
+        warningsFilter: [VERSIONS_JSON_FILE],
+      };
+
       return {
+        stats,
+        devServer: {
+          stats,
+        },
         resolve: {
           alias: {
             '~docs': dataDir,
@@ -414,7 +540,7 @@ export default function pluginContentDocs(
                 getCacheLoader(isServer),
                 getBabelLoader(isServer),
                 {
-                  loader: '@docusaurus/mdx-loader',
+                  loader: require.resolve('@docusaurus/mdx-loader'),
                   options: {
                     remarkPlugins,
                     rehypePlugins,

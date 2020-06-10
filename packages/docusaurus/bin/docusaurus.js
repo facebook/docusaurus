@@ -71,8 +71,12 @@ cli
     '--out-dir <dir>',
     'The full path for the new output directory, relative to the current workspace (default: build).',
   )
-  .action((siteDir = '.', {outDir}) => {
-    wrapCommand(deploy)(path.resolve(siteDir), {outDir});
+  .option(
+    '--skip-build',
+    'Skip building website before deploy it (default: false)',
+  )
+  .action((siteDir = '.', {outDir, skipBuild}) => {
+    wrapCommand(deploy)(path.resolve(siteDir), {outDir, skipBuild});
   });
 
 cli
@@ -85,12 +89,17 @@ cli
     'Do not fallback to page refresh if hot reload fails (default: false)',
   )
   .option('--no-open', 'Do not open page in the browser (default: false)')
-  .action((siteDir = '.', {port, host, hotOnly, open}) => {
+  .option(
+    '--poll',
+    'Use polling rather than watching for reload (default: false)',
+  )
+  .action((siteDir = '.', {port, host, hotOnly, open, poll}) => {
     wrapCommand(start)(path.resolve(siteDir), {
       port,
       host,
       hotOnly,
       open,
+      poll,
     });
   });
 

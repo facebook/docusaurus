@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import ejs from 'ejs';
+import * as eta from 'eta';
 import React from 'react';
 import {StaticRouter} from 'react-router-dom';
 import ReactDOMServer from 'react-dom/server';
@@ -18,7 +18,9 @@ import path from 'path';
 import fs from 'fs-extra';
 import routes from '@generated/routes';
 import packageJson from '../../package.json';
+// eslint-disable-next-line import/no-unresolved
 import preload from './preload';
+// eslint-disable-next-line import/no-unresolved
 import App from './App';
 import ssrTemplate from './templates/ssr.html.template';
 
@@ -59,7 +61,7 @@ export default async function render(locals) {
   const scripts = (bundles.js || []).map((b) => b.file);
   const {baseUrl} = locals;
 
-  const renderedHtml = ejs.render(
+  const renderedHtml = eta.render(
     ssrTemplate.trim(),
     {
       appHtml,
@@ -75,6 +77,7 @@ export default async function render(locals) {
       version: packageJson.version,
     },
     {
+      name: 'ssr-template',
       rmWhitespace: true,
     },
   );

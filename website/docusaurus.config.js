@@ -91,6 +91,7 @@ module.exports = {
       '@docusaurus/preset-classic',
       {
         docs: {
+          homePageId: 'introduction',
           path: 'docs',
           sidebarPath: require.resolve('./sidebars.js'),
           editUrl:
@@ -147,27 +148,34 @@ module.exports = {
       links: [
         {
           label: 'Docs',
-          to: 'docs/introduction', // "fake" link
+          to: 'docs', // "fake" link
           position: 'left',
-          activeBasePath: 'docs',
+          activeBaseRegex: `docs/(?!next/(support|team|resources))`,
           items: [
             {
               label: versions[0],
-              to: 'docs/introduction',
+              to: 'docs/',
+              activeBaseRegex: `docs/(?!${versions.join('|')}|next)`,
             },
             ...versions.slice(1).map((version) => ({
               label: version,
-              to: `docs/${version}/introduction`,
+              to: `docs/${version}/`,
             })),
             {
               label: 'Master/Unreleased',
-              to: 'docs/next/introduction',
+              to: 'docs/next/',
+              activeBaseRegex: `docs/next/(?!support|team|resources)`,
             },
           ],
         },
         {to: 'blog', label: 'Blog', position: 'left'},
         {to: 'showcase', label: 'Showcase', position: 'left'},
-        {to: 'docs/next/support', label: 'Community', position: 'left'},
+        {
+          to: 'docs/next/support',
+          label: 'Community',
+          position: 'left',
+          activeBaseRegex: `docs/next/(support|team|resources)`,
+        },
         {
           to: 'versions',
           label: `v${versions[0]}`,
@@ -175,8 +183,9 @@ module.exports = {
         },
         {
           href: 'https://github.com/facebook/docusaurus',
-          label: 'GitHub',
           position: 'right',
+          className: 'header-github-link',
+          'aria-label': 'GitHub repository',
         },
       ],
     },
@@ -184,11 +193,11 @@ module.exports = {
       style: 'dark',
       links: [
         {
-          title: 'Docs',
+          title: 'Learn',
           items: [
             {
               label: 'Introduction',
-              to: 'docs/introduction',
+              to: 'docs',
             },
             {
               label: 'Installation',
@@ -245,13 +254,27 @@ module.exports = {
             },
           ],
         },
+        {
+          title: 'Legal',
+          // Please do not remove the privacy and terms, it's a legal requirement.
+          items: [
+            {
+              label: 'Privacy',
+              href: 'https://opensource.facebook.com/legal/privacy/',
+            },
+            {
+              label: 'Terms',
+              href: 'https://opensource.facebook.com/legal/terms/',
+            },
+          ],
+        },
       ],
       logo: {
         alt: 'Facebook Open Source Logo',
-        src: '/img/oss_logo.png',
-        href: 'https://opensource.facebook.com/',
+        src: 'img/oss_logo.png',
+        href: 'https://opensource.facebook.com',
       },
-      copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`,
+      copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc. Built with Docusaurus.`,
     },
   },
 };

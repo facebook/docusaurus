@@ -109,7 +109,7 @@ describe('loadSidebars', () => {
     expect(() =>
       loadSidebars([sidebarPath]),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Unknown sidebar item type: superman"`,
+      `"Unknown sidebar item type [superman]. Sidebar item={\\"type\\":\\"superman\\"} "`,
     );
   });
 
@@ -125,5 +125,20 @@ describe('loadSidebars', () => {
   test('no sidebars', () => {
     const result = loadSidebars(null);
     expect(result).toEqual({});
+  });
+
+  test('sidebars with category.collapsed property', async () => {
+    const sidebarPath = path.join(fixtureDir, 'sidebars-collapsed.json');
+    const result = loadSidebars([sidebarPath]);
+    expect(result).toMatchSnapshot();
+  });
+
+  test('sidebars with category.collapsed property at first level', async () => {
+    const sidebarPath = path.join(
+      fixtureDir,
+      'sidebars-collapsed-first-level.json',
+    );
+    const result = loadSidebars([sidebarPath]);
+    expect(result).toMatchSnapshot();
   });
 });

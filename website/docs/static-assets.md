@@ -24,21 +24,30 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 />;
 ```
 
+You can also import SVG images, which will be transformed into React components.
+
+```jsx title="MyComponent.js"
+import DocusaurusLogoWithKeytar from '@site/static/img/docusaurus_keytar.svg';
+
+<DocusaurusLogoWithKeytar title="Docusaurus Logo" className="logo" />;
+```
+
 ### Markdown example
 
 Thanks to MDX, you can also use `useBaseUrl` utility function in Markdown files! You'd have to use `<img>` tags instead of the Markdown image syntax though. The syntax is exactly the same as in JSX.
 
-```txt title="my-doc.mdx"
+```jsx title="my-doc.mdx"
 ---
 id: my-doc
 title: My Doc
 ---
 
-import useBaseUrl from '@docusaurus/useBaseUrl'; // Add to the top of the file below the front matter.
+// Add to the top of the file below the front matter.
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 ...
 
-<img alt="Docusaurus with Keytar" src={useBaseUrl('img/docusaurus_keytar.svg')} />;
+<img alt="Docusaurus with Keytar" src={useBaseUrl('img/docusaurus_keytar.svg')} />
 ```
 
 You could also just use Markdown image syntax, but you would have to manually maintain the image paths yourself and isn't recommended.
@@ -53,3 +62,4 @@ Keep in mind that:
 
 - By default, none of the files in `static` folder will be post-processed or minified.
 - Missing files references via hardcoded absolute paths will not be detected at compilation time, and will result in a 404 error.
+- By default, GitHub Pages runs published files through [Jekyll](https://jekyllrb.com/). Since Jekyll will discard any files that begin with `_`, it is recommended that you disable Jekyll by adding an empty file named `.nojekyll` file to your `static` directory if you are using GitHub pages for hosting.

@@ -6,14 +6,15 @@
  */
 
 import React, {useState, useRef, useCallback} from 'react';
-import classnames from 'classnames';
+import clsx from 'clsx';
 
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useHistory} from '@docusaurus/router';
+import useSearchQuery from '@theme/hooks/useSearchQuery';
 
-import './styles.css';
+import styles from './styles.module.css';
 
-const Search = (props) => {
+const Search = ({handleSearchBarToggle, isSearchBarExpanded}) => {
   const [algoliaLoaded, setAlgoliaLoaded] = useState(false);
   const searchBarRef = useRef(null);
   const {siteConfig = {}} = useDocusaurusContext();
@@ -21,6 +22,7 @@ const Search = (props) => {
     themeConfig: {algolia},
   } = siteConfig;
   const history = useHistory();
+  const {navigateToSearchPage} = useSearchQuery();
 
   function initAlgolia(focus) {
     window.docsearch({
@@ -29,9 +31,17 @@ const Search = (props) => {
       indexName: algolia.indexName,
       inputSelector: '#search_input_react',
       algoliaOptions: algolia.algoliaOptions,
+      autocompleteOptions: {
+        openOnFocus: true,
+        autoselect: false,
+        hint: false,
+        tabAutocomplete: false,
+      },
       // Override algolia's default selection event, allowing us to do client-side
       // navigation and avoiding a full page refresh.
       handleSelected: (_input, _event, suggestion) => {
+        _event.stopPropagation();
+
         // Use an anchor tag to parse the absolute url into a relative url
         // Alternatively, we can use new URL(suggestion.url) but it's not supported in IE.
         const a = document.createElement('a');
@@ -67,19 +77,19 @@ const Search = (props) => {
     );
   };
 
-  const handleSearchIcon = useCallback(() => {
+  const toggleSearchInput = useCallback(() => {
     loadAlgolia();
 
     if (algoliaLoaded) {
       searchBarRef.current.focus();
     }
 
-    props.handleSearchBarToggle(!props.isSearchBarExpanded);
-  }, [props.isSearchBarExpanded]);
+    handleSearchBarToggle(!isSearchBarExpanded);
+  }, [isSearchBarExpanded]);
 
   const handleSearchInputBlur = useCallback(() => {
-    props.handleSearchBarToggle(!props.isSearchBarExpanded);
-  }, [props.isSearchBarExpanded]);
+    handleSearchBarToggle(!isSearchBarExpanded);
+  }, [isSearchBarExpanded]);
 
   const handleSearchInput = useCallback((e) => {
     const needFocus = e.type !== 'mouseover';
@@ -87,33 +97,41 @@ const Search = (props) => {
     loadAlgolia(needFocus);
   });
 
+  const handleSearchInputPressEnter = useCallback((e) => {
+    if (!e.defaultPrevented && e.key === 'Enter') {
+      navigateToSearchPage(e.target.value);
+    }
+  });
+
   return (
     <div className="navbar__search" key="search-box">
-      <span
-        aria-label="expand searchbar"
-        role="button"
-        className={classnames('search-icon', {
-          'search-icon-hidden': props.isSearchBarExpanded,
-        })}
-        onClick={handleSearchIcon}
-        onKeyDown={handleSearchIcon}
-        tabIndex={0}
-      />
-      <input
-        id="search_input_react"
-        type="search"
-        placeholder="Search"
-        aria-label="Search"
-        className={classnames(
-          'navbar__search-input',
-          {'search-bar-expanded': props.isSearchBarExpanded},
-          {'search-bar': !props.isSearchBarExpanded},
-        )}
-        onMouseOver={handleSearchInput}
-        onFocus={handleSearchInput}
-        onBlur={handleSearchInputBlur}
-        ref={searchBarRef}
-      />
+      <div className={styles.searchWrapper}>
+        <span
+          aria-label="expand searchbar"
+          role="button"
+          className={clsx(styles.searchIconButton, {
+            [styles.searchIconButtonHidden]: isSearchBarExpanded,
+          })}
+          onClick={toggleSearchInput}
+          onKeyDown={toggleSearchInput}
+          tabIndex={0}
+        />
+
+        <input
+          id="search_input_react"
+          type="search"
+          placeholder="Search"
+          aria-label="Search"
+          className={clsx('navbar__search-input', styles.searchInput, {
+            [styles.searchInputExpanded]: isSearchBarExpanded,
+          })}
+          onMouseOver={handleSearchInput}
+          onFocus={handleSearchInput}
+          onBlur={handleSearchInputBlur}
+          onKeyDown={handleSearchInputPressEnter}
+          ref={searchBarRef}
+        />
+      </div>
     </div>
   );
 };

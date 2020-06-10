@@ -12,14 +12,14 @@ function DocPaginator(props) {
   const {metadata} = props;
 
   return (
-    <nav className="pagination-nav">
+    <nav className="pagination-nav" aria-label="Blog list page navigation">
       <div className="pagination-nav__item">
         {metadata.previous && (
           <Link
             className="pagination-nav__link"
             to={metadata.previous.permalink}>
-            <div className="pagination-nav__link--sublabel">Previous</div>
-            <div className="pagination-nav__link--label">
+            <div className="pagination-nav__sublabel">Previous</div>
+            <div className="pagination-nav__label">
               &laquo; {metadata.previous.title}
             </div>
           </Link>
@@ -28,8 +28,8 @@ function DocPaginator(props) {
       <div className="pagination-nav__item pagination-nav__item--next">
         {metadata.next && (
           <Link className="pagination-nav__link" to={metadata.next.permalink}>
-            <div className="pagination-nav__link--sublabel">Next</div>
-            <div className="pagination-nav__link--label">
+            <div className="pagination-nav__sublabel">Next</div>
+            <div className="pagination-nav__label">
               {metadata.next.title} &raquo;
             </div>
           </Link>

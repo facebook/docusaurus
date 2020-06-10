@@ -8,6 +8,7 @@
 import fs from 'fs-extra';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
+import PnpWebpackPlugin from 'pnp-webpack-plugin';
 import path from 'path';
 import TerserPlugin from 'terser-webpack-plugin';
 import {Configuration, Loader} from 'webpack';
@@ -61,8 +62,6 @@ export function createBaseConfig(
       extensions: ['.wasm', '.mjs', '.js', '.jsx', '.ts', '.tsx', '.json'],
       symlinks: true,
       alias: {
-        // https://stackoverflow.com/a/55433680/6072730
-        ejs: 'ejs/ejs.min.js',
         '@site': siteDir,
         '@generated': generatedFilesDir,
         '@docusaurus': path.resolve(__dirname, '../client/exports'),
@@ -76,6 +75,10 @@ export function createBaseConfig(
         'node_modules',
         path.resolve(fs.realpathSync(process.cwd()), 'node_modules'),
       ],
+      plugins: [PnpWebpackPlugin],
+    },
+    resolveLoader: {
+      plugins: [PnpWebpackPlugin.moduleLoader(module)],
     },
     optimization: {
       removeAvailableModules: false,
@@ -178,6 +181,10 @@ export function createBaseConfig(
             sourceMap: !isProd,
             onlyLocals: isServer,
           }),
+        },
+        {
+          test: /\.svg$/,
+          use: '@svgr/webpack?-prettier-svgo,+titleProp,+ref![path]',
         },
       ],
     },

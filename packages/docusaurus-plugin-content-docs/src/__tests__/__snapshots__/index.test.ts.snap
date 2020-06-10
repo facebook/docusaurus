@@ -4,8 +4,10 @@ exports[`simple website content 1`] = `
 Object {
   "docs": Array [
     Object {
+      "collapsed": true,
       "items": Array [
         Object {
+          "collapsed": true,
           "items": Array [
             Object {
               "href": "/docs/foo/bar",
@@ -13,7 +15,7 @@ Object {
               "type": "link",
             },
             Object {
-              "href": "/docs/foo/baz",
+              "href": "/docs/foo/bazSlug.html",
               "label": "baz",
               "type": "link",
             },
@@ -27,7 +29,7 @@ Object {
           "type": "link",
         },
         Object {
-          "href": "/docs/hello",
+          "href": "/docs",
           "label": "Hello, World !",
           "type": "link",
         },
@@ -36,9 +38,10 @@ Object {
       "type": "category",
     },
     Object {
+      "collapsed": true,
       "items": Array [
         Object {
-          "href": "/docs/hello",
+          "href": "/docs",
           "label": "Hello, World !",
           "type": "link",
         },
@@ -52,6 +55,15 @@ Object {
 
 exports[`simple website content 2`] = `
 Array [
+  Object {
+    "component": "@theme/DocPage",
+    "exact": true,
+    "modules": Object {
+      "content": "@site/docs/hello.md",
+      "docsMetadata": "~docs/site-docs-hello-md-9df-base.json",
+    },
+    "path": "/docs",
+  },
   Object {
     "component": "@theme/DocPage",
     "modules": Object {
@@ -74,15 +86,7 @@ Array [
         "modules": Object {
           "content": "@site/docs/foo/baz.md",
         },
-        "path": "/docs/foo/baz",
-      },
-      Object {
-        "component": "@theme/DocItem",
-        "exact": true,
-        "modules": Object {
-          "content": "@site/docs/hello.md",
-        },
-        "path": "/docs/hello",
+        "path": "/docs/foo/bazSlug.html",
       },
       Object {
         "component": "@theme/DocItem",
@@ -105,8 +109,45 @@ Array [
 ]
 `;
 
+exports[`site with wrong sidebar file 1`] = `
+"Bad sidebars file. The document id 'goku' was used in the sidebar, but no document with this id could be found.
+Available document ids=
+- foo/bar
+- foo/baz
+- hello
+- ipsum
+- lorem"
+`;
+
 exports[`versioned website content 1`] = `
 Array [
+  Object {
+    "component": "@theme/DocPage",
+    "exact": true,
+    "modules": Object {
+      "content": "@site/versioned_docs/version-1.0.1/hello.md",
+      "docsMetadata": "~docs/site-versioned-docs-version-1-0-1-hello-md-0c7-base.json",
+    },
+    "path": "/docs",
+  },
+  Object {
+    "component": "@theme/DocPage",
+    "exact": true,
+    "modules": Object {
+      "content": "@site/versioned_docs/version-1.0.0/hello.md",
+      "docsMetadata": "~docs/site-versioned-docs-version-1-0-0-hello-md-3ef-base.json",
+    },
+    "path": "/docs/1.0.0",
+  },
+  Object {
+    "component": "@theme/DocPage",
+    "exact": true,
+    "modules": Object {
+      "content": "@site/docs/hello.md",
+      "docsMetadata": "~docs/site-docs-hello-md-9df-base.json",
+    },
+    "path": "/docs/next",
+  },
   Object {
     "component": "@theme/DocPage",
     "modules": Object {
@@ -121,7 +162,7 @@ Array [
         "modules": Object {
           "content": "@site/versioned_docs/version-1.0.0/foo/bar.md",
         },
-        "path": "/docs/1.0.0/foo/bar",
+        "path": "/docs/1.0.0/foo/barSlug",
       },
       Object {
         "component": "@theme/DocItem",
@@ -130,14 +171,6 @@ Array [
           "content": "@site/versioned_docs/version-1.0.0/foo/baz.md",
         },
         "path": "/docs/1.0.0/foo/baz",
-      },
-      Object {
-        "component": "@theme/DocItem",
-        "exact": true,
-        "modules": Object {
-          "content": "@site/versioned_docs/version-1.0.0/hello.md",
-        },
-        "path": "/docs/1.0.0/hello",
       },
     ],
   },
@@ -155,15 +188,7 @@ Array [
         "modules": Object {
           "content": "@site/docs/foo/bar.md",
         },
-        "path": "/docs/next/foo/bar",
-      },
-      Object {
-        "component": "@theme/DocItem",
-        "exact": true,
-        "modules": Object {
-          "content": "@site/docs/hello.md",
-        },
-        "path": "/docs/next/hello",
+        "path": "/docs/next/foo/barSlug",
       },
     ],
   },
@@ -183,14 +208,6 @@ Array [
         },
         "path": "/docs/foo/bar",
       },
-      Object {
-        "component": "@theme/DocItem",
-        "exact": true,
-        "modules": Object {
-          "content": "@site/versioned_docs/version-1.0.1/hello.md",
-        },
-        "path": "/docs/hello",
-      },
     ],
   },
 ]
@@ -200,9 +217,10 @@ exports[`versioned website content: all sidebars 1`] = `
 Object {
   "docs": Array [
     Object {
+      "collapsed": true,
       "items": Array [
         Object {
-          "href": "/docs/next/foo/bar",
+          "href": "/docs/next/foo/barSlug",
           "label": "bar",
           "type": "link",
         },
@@ -211,9 +229,10 @@ Object {
       "type": "category",
     },
     Object {
+      "collapsed": true,
       "items": Array [
         Object {
-          "href": "/docs/next/hello",
+          "href": "/docs/next",
           "label": "hello",
           "type": "link",
         },
@@ -224,9 +243,10 @@ Object {
   ],
   "version-1.0.0/docs": Array [
     Object {
+      "collapsed": true,
       "items": Array [
         Object {
-          "href": "/docs/1.0.0/foo/bar",
+          "href": "/docs/1.0.0/foo/barSlug",
           "label": "bar",
           "type": "link",
         },
@@ -240,9 +260,10 @@ Object {
       "type": "category",
     },
     Object {
+      "collapsed": true,
       "items": Array [
         Object {
-          "href": "/docs/1.0.0/hello",
+          "href": "/docs/1.0.0",
           "label": "hello",
           "type": "link",
         },
@@ -253,6 +274,7 @@ Object {
   ],
   "version-1.0.1/docs": Array [
     Object {
+      "collapsed": true,
       "items": Array [
         Object {
           "href": "/docs/foo/bar",
@@ -264,9 +286,10 @@ Object {
       "type": "category",
     },
     Object {
+      "collapsed": true,
       "items": Array [
         Object {
-          "href": "/docs/hello",
+          "href": "/docs",
           "label": "hello",
           "type": "link",
         },
@@ -283,9 +306,10 @@ Object {
   "docsSidebars": Object {
     "version-1.0.0/docs": Array [
       Object {
+        "collapsed": true,
         "items": Array [
           Object {
-            "href": "/docs/1.0.0/foo/bar",
+            "href": "/docs/1.0.0/foo/barSlug",
             "label": "bar",
             "type": "link",
           },
@@ -299,9 +323,10 @@ Object {
         "type": "category",
       },
       Object {
+        "collapsed": true,
         "items": Array [
           Object {
-            "href": "/docs/1.0.0/hello",
+            "href": "/docs/1.0.0",
             "label": "hello",
             "type": "link",
           },
@@ -312,7 +337,7 @@ Object {
     ],
   },
   "permalinkToSidebar": Object {
-    "/docs/1.0.0/foo/bar": "version-1.0.0/docs",
+    "/docs/1.0.0/foo/barSlug": "version-1.0.0/docs",
     "/docs/1.0.0/foo/baz": "version-1.0.0/docs",
     "/docs/1.0.0/hello": "version-1.0.0/docs",
   },
@@ -325,6 +350,7 @@ Object {
   "docsSidebars": Object {
     "version-1.0.1/docs": Array [
       Object {
+        "collapsed": true,
         "items": Array [
           Object {
             "href": "/docs/foo/bar",
@@ -336,9 +362,10 @@ Object {
         "type": "category",
       },
       Object {
+        "collapsed": true,
         "items": Array [
           Object {
-            "href": "/docs/hello",
+            "href": "/docs",
             "label": "hello",
             "type": "link",
           },
@@ -361,9 +388,10 @@ Object {
   "docsSidebars": Object {
     "docs": Array [
       Object {
+        "collapsed": true,
         "items": Array [
           Object {
-            "href": "/docs/next/foo/bar",
+            "href": "/docs/next/foo/barSlug",
             "label": "bar",
             "type": "link",
           },
@@ -372,9 +400,10 @@ Object {
         "type": "category",
       },
       Object {
+        "collapsed": true,
         "items": Array [
           Object {
-            "href": "/docs/next/hello",
+            "href": "/docs/next",
             "label": "hello",
             "type": "link",
           },
@@ -385,7 +414,7 @@ Object {
     ],
   },
   "permalinkToSidebar": Object {
-    "/docs/next/foo/bar": "docs",
+    "/docs/next/foo/barSlug": "docs",
     "/docs/next/hello": "docs",
   },
   "version": "next",

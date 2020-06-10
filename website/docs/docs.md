@@ -1,5 +1,5 @@
 ---
-id: docs
+id: docs-introduction
 title: Docs Introduction
 sidebar_label: Introduction
 ---
@@ -13,14 +13,14 @@ Every document has a unique `id`. By default, a document `id` is the name of the
 For example, `greeting.md` id is `greeting` and `guide/hello.md` id is `guide/hello`.
 
 ```bash
-website # root directory of your site
+website # Root directory of your site
 └── docs
    ├── greeting.md
    └── guide
       └── hello.md
 ```
 
-However, the last part of the `id` can be defined by user in the front matter. For example, if `guide/hello.md`'s content is defined as below, its final `id` is `guide/part1`.
+However, the **last part** of the `id` can be defined by user in the front matter. For example, if `guide/hello.md`'s content is defined as below, its final `id` is `guide/part1`.
 
 ```yml
 ---
@@ -28,6 +28,52 @@ id: part1
 ---
 Lorem ipsum
 ```
+
+If you want more control over the last part of the document URL, it is possible to add a `slug` (defaults to the `id`).
+
+```yml
+---
+id: part1
+slug: part1.html
+---
+Lorem ipsum
+```
+
+## Home page docs
+
+Using the `homePageId` property, you can create a home page of your docs. To do this, you can create a new document, especially for this purpose with the id as `_index`, or you could specify an existing document id.
+
+```js {8} title="docusaurus.config.js"
+module.exports = {
+  // ...
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        docs: {
+          homePageId: 'getting-started', // Defaults to `_index`
+          // ...
+        },
+      },
+    ],
+  ],
+  // ...
+};
+```
+
+Given the example above, now when you navigate to the path `/docs` you will see that the document content with id is `getting-started`. This functionality also works for docs with versioning enabled. Importantly, with document serves as home docs page, it will not be available at its URL. Following the example above, this means that the `docs/getting-started` URL will be lead to a 404 error.
+
+:::important
+
+The document id of `_index` is reserved exclusively for the home doc page, so it will not work as a standalone route. If left to the default, the page will not show a sidebar. If you wish to have a sidebar for this page, specify the document id that is listed in the sidebar file.
+
+:::
+
+:::note
+
+The page `docs` that you created (eg. `src/pages/docs.js`) will take precedence over the route generated via the `homePageId` option.
+
+:::
 
 ## Sidebar
 
@@ -53,7 +99,7 @@ module.exports = {
 
 ### Sidebar object
 
-A sidebar object is defined like this.
+A sidebar object is defined like this:
 
 ```typescript
 type Sidebar = {
@@ -175,8 +221,8 @@ Sidebar item type that links to a non-document page. Example:
 ```js
 {
   type: 'link',
-  label: 'Custom Label', // string - the label that should be displayed.
-  href: 'https://example.com' // string - the target URL.
+  label: 'Custom Label', // The label that should be displayed (string).
+  href: 'https://example.com' // The target URL (string).
 }
 ```
 
@@ -194,7 +240,7 @@ Sidebar item type that links to doc without bounding it to the sidebar. Example:
 ```js
 {
   type: 'ref',
-  id: 'doc1', // string - document id
+  id: 'doc1', // Document id (string).
 }
 ```
 
@@ -207,6 +253,7 @@ type SidebarItemCategory = {
   type: 'category';
   label: string; // Sidebar label text.
   items: SidebarItem[]; // Array of sidebar items.
+  collapsed: boolean; // Set the category to be collapsed or open by default
 };
 ```
 
@@ -256,13 +303,39 @@ module.exports = {
 };
 ```
 
+#### Expanded categories by default
+
+For docs that have collapsible categories, you may want more fine-grain control over certain categories. If you want specific categories to be always expanded, you can set `collapsed` to `false`:
+
+```js title="sidebars.js"
+module.exports = {
+  docs: {
+    Guides: [
+      'creating-pages',
+      {
+        type: 'category',
+        label: 'Docs',
+        collapsed: false,
+        items: ['markdown-features', 'sidebar', 'versioning'],
+      },
+    ],
+  },
+};
+```
+
 ## Docs-only mode
 
-If you just want the documentation feature, you can follow the instructions for a "docs-only mode":
+If you just want the documentation feature, you can enable "docs-only mode".
 
-1. Set the `routeBasePath` property of the `docs` object in `@docusaurus/preset-classic` in `docusaurus.config.js` to the root of your site:
+To achieve this, set the `routeBasePath` property of the `docs` object in `@docusaurus/preset-classic` in `docusaurus.config.js` to the root of your site, and also in that object set the `homePageId` property with the value of the document ID that you show as root of the docs.
 
-```js {8} title="docusaurus.config.js"
+:::note
+
+More details on functionality of home page for docs can be found in [appropriate section](#home-page-docs).
+
+:::
+
+```js {8-9} title="docusaurus.config.js"
 module.exports = {
   // ...
   presets: [
@@ -270,7 +343,8 @@ module.exports = {
       '@docusaurus/preset-classic',
       {
         docs: {
-          routeBasePath: '', // Set to empty string.
+          routeBasePath: '/', // Set this value to '/'.
+          homePageId: 'getting-started', // Set to existing document id.
           // ...
         },
       },
@@ -278,21 +352,6 @@ module.exports = {
   ],
   // ...
 };
-```
-
-2. Set up a redirect to the initial document on the home page in `/src/pages/index.js`, e.g. for the document `getting-started`. This is needed because by default there's no page created for the root of the docs.
-
-```jsx title="src/pages/index.js"
-import React from 'react';
-
-import {Redirect} from '@docusaurus/router';
-import useBaseUrl from '@docusaurus/useBaseUrl';
-
-function Home() {
-  return <Redirect to={useBaseUrl('/getting-started')} />;
-}
-
-export default Home;
 ```
 
 Now, when visiting your site, it will show your initial document instead of a landing page.

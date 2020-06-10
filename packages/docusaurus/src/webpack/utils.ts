@@ -9,7 +9,7 @@ import path from 'path';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import env from 'std-env';
 import merge from 'webpack-merge';
-import webpack, {Configuration, Loader} from 'webpack';
+import webpack, {Configuration, Loader, Stats} from 'webpack';
 
 import {version as cacheLoaderVersion} from 'cache-loader/package.json';
 
@@ -100,7 +100,7 @@ export function getBabelLoader(isServer: boolean, babelOptions?: {}): Loader {
         presets: [
           isServer
             ? [
-                '@babel/env',
+                require.resolve('@babel/preset-env'),
                 {
                   targets: {
                     node: 'current',
@@ -108,7 +108,7 @@ export function getBabelLoader(isServer: boolean, babelOptions?: {}): Loader {
                 },
               ]
             : [
-                '@babel/env',
+                require.resolve('@babel/preset-env'),
                 {
                   useBuiltIns: 'usage',
                   loose: true,
@@ -119,14 +119,14 @@ export function getBabelLoader(isServer: boolean, babelOptions?: {}): Loader {
                   exclude: ['transform-typeof-symbol'],
                 },
               ],
-          '@babel/react',
-          '@babel/preset-typescript',
+          require.resolve('@babel/preset-react'),
+          require.resolve('@babel/preset-typescript'),
         ],
         plugins: [
           // Polyfills the runtime needed for async/await, generators, and friends
           // https://babeljs.io/docs/en/babel-plugin-transform-runtime
           [
-            '@babel/plugin-transform-runtime',
+            require.resolve('@babel/plugin-transform-runtime'),
             {
               corejs: false,
               helpers: true,
@@ -143,7 +143,9 @@ export function getBabelLoader(isServer: boolean, babelOptions?: {}): Loader {
             },
           ],
           // Adds syntax support for import()
-          isServer ? 'dynamic-import-node' : '@babel/syntax-dynamic-import',
+          isServer
+            ? require.resolve('babel-plugin-dynamic-import-node')
+            : require.resolve('@babel/plugin-syntax-dynamic-import'),
         ],
       },
       babelOptions,
@@ -196,7 +198,18 @@ export function compile(config: Configuration[]): Promise<any> {
         reject(new Error('Failed to compile with errors.'));
       }
       if (stats.hasWarnings()) {
-        stats.toJson('errors-warnings').warnings.forEach((warning) => {
+        // Custom filtering warnings (see https://github.com/webpack/webpack/issues/7841).
+        let warnings = stats.toJson('errors-warnings').warnings;
+        const warningsFilter = ((config[0].stats as Stats.ToJsonOptionsObject)
+          ?.warningsFilter || []) as any[];
+
+        if (Array.isArray(warningsFilter)) {
+          warnings = warnings.filter((warning) =>
+            warningsFilter.every((str) => !warning.includes(str)),
+          );
+        }
+
+        warnings.forEach((warning) => {
           console.warn(warning);
         });
       }

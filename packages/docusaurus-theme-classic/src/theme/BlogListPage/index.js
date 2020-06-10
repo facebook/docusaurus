@@ -22,9 +22,9 @@ function BlogListPage(props) {
 
   return (
     <Layout title={title} description="Blog">
-      <div className="container margin-vert--xl">
+      <div className="container margin-vert--lg">
         <div className="row">
-          <div className="col col--8 col--offset-2">
+          <main className="col col--8 col--offset-2">
             {items.map(({content: BlogPostContent}) => (
               <BlogPostItem
                 key={BlogPostContent.metadata.permalink}
@@ -35,7 +35,7 @@ function BlogListPage(props) {
               </BlogPostItem>
             ))}
             <BlogListPaginator metadata={metadata} />
-          </div>
+          </main>
         </div>
       </div>
     </Layout>

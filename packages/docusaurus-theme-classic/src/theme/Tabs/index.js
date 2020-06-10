@@ -6,9 +6,9 @@
  */
 
 import React, {useState, Children} from 'react';
-import useTabGroupChoiceContext from '@theme/hooks/useTabGroupChoiceContext';
+import useUserPreferencesContext from '@theme/hooks/useUserPreferencesContext';
 
-import classnames from 'classnames';
+import clsx from 'clsx';
 
 import styles from './styles.module.css';
 
@@ -19,14 +19,15 @@ const keys = {
 
 function Tabs(props) {
   const {block, children, defaultValue, values, groupId} = props;
-  const {tabGroupChoices, setTabGroupChoices} = useTabGroupChoiceContext();
+  const {tabGroupChoices, setTabGroupChoices} = useUserPreferencesContext();
   const [selectedValue, setSelectedValue] = useState(defaultValue);
 
   if (groupId != null) {
     const relevantTabGroupChoice = tabGroupChoices[groupId];
     if (
       relevantTabGroupChoice != null &&
-      relevantTabGroupChoice !== selectedValue
+      relevantTabGroupChoice !== selectedValue &&
+      values.some((value) => value.value === relevantTabGroupChoice)
     ) {
       setSelectedValue(relevantTabGroupChoice);
     }
@@ -79,7 +80,7 @@ function Tabs(props) {
       <ul
         role="tablist"
         aria-orientation="horizontal"
-        className={classnames('tabs', {
+        className={clsx('tabs', {
           'tabs--block': block,
         })}>
         {values.map(({value, label}) => (
@@ -87,8 +88,8 @@ function Tabs(props) {
             role="tab"
             tabIndex="0"
             aria-selected={selectedValue === value}
-            className={classnames('tab-item', styles.tabItem, {
-              'tab-item--active': selectedValue === value,
+            className={clsx('tabs__item', styles.tabItem, {
+              'tabs__item--active': selectedValue === value,
             })}
             key={value}
             ref={(tabControl) => tabRefs.push(tabControl)}

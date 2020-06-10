@@ -6,15 +6,17 @@
  */
 
 import React from 'react';
-import classnames from 'classnames';
+import clsx from 'clsx';
 
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import styles from './styles.module.css';
 
-function FooterLink({to, href, label, ...props}) {
+function FooterLink({to, href, label, prependBaseUrlToHref, ...props}) {
   const toUrl = useBaseUrl(to);
+  const normalizedHref = useBaseUrl(href, {forcePrependBaseUrl: true});
+
   return (
     <Link
       className="footer__link-item"
@@ -22,7 +24,7 @@ function FooterLink({to, href, label, ...props}) {
         ? {
             target: '_blank',
             rel: 'noopener noreferrer',
-            href,
+            href: prependBaseUrlToHref ? normalizedHref : href,
           }
         : {
             to: toUrl,
@@ -52,7 +54,7 @@ function Footer() {
 
   return (
     <footer
-      className={classnames('footer', {
+      className={clsx('footer', {
         'footer--dark': footer.style === 'dark',
       })}>
       <div className="container">

@@ -20,23 +20,29 @@ module.exports = function (contentBuffer) {
   config.palette = 'palette' in config ? config.palette : false;
 
   let content = contentBuffer.toString('utf8');
-  const contentIsUrlExport = /^module.exports = "data:(.*)base64,(.*)/.test(
+  const contentIsUrlExport = /^(?:export default|module.exports =) "data:(.*)base64,(.*)/.test(
     content,
   );
-  const contentIsFileExport = /^module.exports = (.*)/.test(content);
+  const contentIsFileExport = /^(?:export default|module.exports =) (.*)/.test(
+    content,
+  );
 
   let source = '';
   const SOURCE_CHUNK = 1;
 
   if (contentIsUrlExport) {
-    source = content.match(/^module.exports = (.*)/)[SOURCE_CHUNK];
+    source = content.match(/^(?:export default|module.exports =) (.*)/)[
+      SOURCE_CHUNK
+    ];
   } else {
     if (!contentIsFileExport) {
       // eslint-disable-next-line global-require
       const fileLoader = require('file-loader');
       content = fileLoader.call(this, contentBuffer);
     }
-    source = content.match(/^module.exports = (.*);/)[SOURCE_CHUNK];
+    source = content.match(/^(?:export default|module.exports =) (.*);/)[
+      SOURCE_CHUNK
+    ];
   }
 
   const outputPromises = [];

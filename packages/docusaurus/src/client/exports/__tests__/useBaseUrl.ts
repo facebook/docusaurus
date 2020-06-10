@@ -16,6 +16,7 @@ describe('useBaseUrl', () => {
     mockedContext.mockImplementation(() => ({
       siteConfig: {
         baseUrl: '/',
+        url: 'https://v2.docusaurus.io',
       },
     }));
 
@@ -29,12 +30,19 @@ describe('useBaseUrl', () => {
     expect(useBaseUrl('/hello/byebye/')).toEqual('/hello/byebye/');
     expect(useBaseUrl('https://github.com')).toEqual('https://github.com');
     expect(useBaseUrl('//reactjs.org')).toEqual('//reactjs.org');
+    expect(useBaseUrl('https://site.com', {forcePrependBaseUrl: true})).toEqual(
+      '/https://site.com',
+    );
+    expect(useBaseUrl('/hello/byebye', {absolute: true})).toEqual(
+      'https://v2.docusaurus.io/hello/byebye',
+    );
   });
 
   test('non-empty base URL', () => {
     mockedContext.mockImplementation(() => ({
       siteConfig: {
         baseUrl: '/docusaurus/',
+        url: 'https://v2.docusaurus.io',
       },
     }));
 
@@ -48,5 +56,11 @@ describe('useBaseUrl', () => {
     expect(useBaseUrl('/hello/byebye/')).toEqual('/docusaurus/hello/byebye/');
     expect(useBaseUrl('https://github.com')).toEqual('https://github.com');
     expect(useBaseUrl('//reactjs.org')).toEqual('//reactjs.org');
+    expect(useBaseUrl('https://site.com', {forcePrependBaseUrl: true})).toEqual(
+      '/docusaurus/https://site.com',
+    );
+    expect(useBaseUrl('/hello/byebye', {absolute: true})).toEqual(
+      'https://v2.docusaurus.io/docusaurus/hello/byebye',
+    );
   });
 });

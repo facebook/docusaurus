@@ -38,6 +38,8 @@ author_title: Co-creator of Docusaurus 1
 author_url: https://github.com/JoelMarcey
 author_image_url: https://graph.facebook.com/611217057/picture/?height=200&width=200
 tags: [hello, docusaurus-v2]
+description: This is my first post on Docusaurus 2.
+image: https://i.imgur.com/mErPwqL.png
 ---
 Welcome to this blog. This blog is created with [**Docusaurus 2 alpha**](https://v2.docusaurus.io/).
 
@@ -59,6 +61,8 @@ The only required field is `title`; however, we provide options to add author in
 - `title` - The blog post title.
 - `tags` - A list of strings to tag to your post.
 - `draft` - A boolean flag to indicate that the blog post is work in process and therefore should not be published yet. However, draft blog posts will be displayed during development.
+- `description`: The description of your post, which will become the `<meta name="description" content="..."/>` and `<meta property="og:description" content="..."/>` in `<head>`, used by search engines. If this field is not present, it will default to the first line of the contents.
+- `image`: Cover or thumbnail image that will be used when displaying the link to your post.
 
 ## Summary truncation
 
@@ -118,13 +122,13 @@ module.exports = {
 
 Accessing the feed:
 
-The feed for RSS can be found at
+The feed for RSS can be found at:
 
 ```text
 https://{your-domain}/blog/rss.xml
 ```
 
-and for atom
+and for Atom:
 
 ```text
 https://{your-domain}/blog/atom.xml
@@ -134,9 +138,7 @@ https://{your-domain}/blog/atom.xml
 
 ### Blog-only mode
 
-You can run your Docusaurus 2 site without a landing page and instead have your blog's post list page as the index page. Set the `routeBasePath` to be `''` to indicate it's the root path.
-
-**Note:** Make sure there's no `index.js` page in `src/pages` or else there will be two files mapping to the same route!
+You can run your Docusaurus 2 site without a landing page and instead have your blog's post list page as the index page. Set the `routeBasePath` to be `'/'` to indicate it's the root path.
 
 ```js {9} title="docusaurus.config.js"
 module.exports = {
@@ -147,13 +149,19 @@ module.exports = {
       {
         blog: {
           path: './blog',
-          routeBasePath: '', // Set this value to ''.
+          routeBasePath: '/', // Set this value to '/'.
         },
       },
     ],
   ],
 };
 ```
+
+:::note
+
+Make sure there's no `index.js` page in `src/pages` or else there will be two files mapping to the same route!
+
+:::
 
 <!--
 

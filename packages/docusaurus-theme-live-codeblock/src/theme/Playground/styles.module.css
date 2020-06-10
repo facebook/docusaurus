@@ -13,17 +13,21 @@
 }
 
 .playgroundEditorHeader {
-  background: rgb(32, 35, 42);
-  color: #999;
+  background: var(--ifm-color-emphasis-600);
+  color: var(--ifm-color-content-inverse);
 }
 
 .playgroundPreviewHeader {
-  background: rgb(236, 236, 236);
-  color: rgb(109, 109, 109);
+  background: var(--ifm-color-emphasis-200);
+  color: var(--ifm-color-content);
+}
+
+.playgroundEditor {
+  font-family: var(--ifm-font-family-monospace) !important;
 }
 
 .playgroundPreview {
-  border: 1px solid #f0f0f0;
+  border: 1px solid var(--ifm-color-emphasis-200);
   border-bottom-left-radius: var(--ifm-global-radius);
   border-bottom-right-radius: var(--ifm-global-radius);
   position: relative;

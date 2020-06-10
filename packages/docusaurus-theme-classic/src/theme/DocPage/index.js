@@ -11,6 +11,7 @@ import {MDXProvider} from '@mdx-js/react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import renderRoutes from '@docusaurus/renderRoutes';
 import Layout from '@theme/Layout';
+import DocItem from '@theme/DocItem';
 import DocSidebar from '@theme/DocSidebar';
 import MDXComponents from '@theme/MDXComponents';
 import NotFound from '@theme/NotFound';
@@ -19,21 +20,35 @@ import {matchPath} from '@docusaurus/router';
 import styles from './styles.module.css';
 
 function DocPage(props) {
-  const {route: baseRoute, docsMetadata, location} = props;
-  // case-sensitive route such as it is defined in the sidebar
-  const currentRoute =
-    baseRoute.routes.find((route) => {
-      return matchPath(location.pathname, route);
-    }) || {};
-  const {permalinkToSidebar, docsSidebars, version} = docsMetadata;
-  const sidebar = permalinkToSidebar[currentRoute.path];
+  const {route: baseRoute, docsMetadata, location, content} = props;
   const {
-    siteConfig: {themeConfig = {}} = {},
+    permalinkToSidebar,
+    docsSidebars,
+    version,
+    isHomePage,
+    homePagePath,
+  } = docsMetadata;
+
+  // Get case-sensitive route such as it is defined in the sidebar.
+  const currentRoute = !isHomePage
+    ? baseRoute.routes.find((route) => {
+        return matchPath(location.pathname, route);
+      }) || {}
+    : {};
+
+  const sidebar = isHomePage
+    ? content.metadata.sidebar
+    : permalinkToSidebar[currentRoute.path];
+  const {
+    siteConfig: {themeConfig: {sidebarCollapsible = true} = {}} = {},
     isClient,
   } = useDocusaurusContext();
-  const {sidebarCollapsible = true} = themeConfig;
 
-  if (Object.keys(currentRoute).length === 0) {
+  if (isHomePage) {
+    content.metadata.permalink = homePagePath;
+  }
+
+  if (!isHomePage && Object.keys(currentRoute).length === 0) {
     return <NotFound {...props} />;
   }
 
@@ -41,10 +56,10 @@ function DocPage(props) {
     <Layout version={version} key={isClient}>
       <div className={styles.docPage}>
         {sidebar && (
-          <div className={styles.docSidebarContainer}>
+          <div className={styles.docSidebarContainer} role="complementary">
             <DocSidebar
               docsSidebars={docsSidebars}
-              path={currentRoute.path}
+              path={isHomePage ? homePagePath : currentRoute.path}
               sidebar={sidebar}
               sidebarCollapsible={sidebarCollapsible}
             />
@@ -52,7 +67,11 @@ function DocPage(props) {
         )}
         <main className={styles.docMainContainer}>
           <MDXProvider components={MDXComponents}>
-            {renderRoutes(baseRoute.routes)}
+            {isHomePage ? (
+              <DocItem content={content} />
+            ) : (
+              renderRoutes(baseRoute.routes)
+            )}
           </MDXProvider>
         </main>
       </div>

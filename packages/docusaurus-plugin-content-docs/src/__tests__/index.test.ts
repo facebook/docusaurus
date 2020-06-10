@@ -45,13 +45,7 @@ test('site with wrong sidebar file', async () => {
   const plugin = pluginContentDocs(context, {
     sidebarPath,
   });
-  return plugin
-    .loadContent()
-    .catch((e) =>
-      expect(e).toMatchInlineSnapshot(
-        `[Error: Improper sidebars file, document with id 'goku' not found.]`,
-      ),
-    );
+  await expect(plugin.loadContent()).rejects.toThrowErrorMatchingSnapshot();
 });
 
 describe('empty/no docs website', () => {
@@ -93,6 +87,7 @@ describe('simple website', () => {
   const plugin = pluginContentDocs(context, {
     path: pluginPath,
     sidebarPath,
+    homePageId: 'hello',
   });
   const pluginContentDir = path.join(context.generatedFilesDir, plugin.name);
 
@@ -162,7 +157,7 @@ describe('simple website', () => {
       permalink: '/docs/hello',
       previous: {
         title: 'baz',
-        permalink: '/docs/foo/baz',
+        permalink: '/docs/foo/bazSlug.html',
       },
       sidebar: 'docs',
       source: path.join('@site', pluginPath, 'hello.md'),
@@ -174,7 +169,7 @@ describe('simple website', () => {
       id: 'foo/bar',
       next: {
         title: 'baz',
-        permalink: '/docs/foo/baz',
+        permalink: '/docs/foo/bazSlug.html',
       },
       permalink: '/docs/foo/bar',
       sidebar: 'docs',
@@ -203,6 +198,9 @@ describe('simple website', () => {
     expect(baseMetadata.docsSidebars).toEqual(docsSidebars);
     expect(baseMetadata.permalinkToSidebar).toEqual(permalinkToSidebar);
 
+    // Sort the route config like in src/server/plugins/index.ts for consistent snapshot ordering
+    sortConfig(routeConfigs);
+
     expect(routeConfigs).not.toEqual([]);
     expect(routeConfigs).toMatchSnapshot();
   });
@@ -216,6 +214,7 @@ describe('versioned website', () => {
   const plugin = pluginContentDocs(context, {
     routeBasePath,
     sidebarPath,
+    homePageId: 'hello',
   });
   const env = loadEnv(siteDir);
   const {docsDir: versionedDir} = env.versioning;
@@ -295,10 +294,10 @@ describe('versioned website', () => {
     expect(docsMetadata['version-1.0.1/foo/baz']).toBeUndefined();
     expect(docsMetadata['foo/bar']).toEqual({
       id: 'foo/bar',
-      permalink: '/docs/next/foo/bar',
+      permalink: '/docs/next/foo/barSlug',
       source: path.join('@site', routeBasePath, 'foo', 'bar.md'),
       title: 'bar',
-      description: 'This is `next` version of bar.',
+      description: 'This is next version of bar.',
       version: 'next',
       sidebar: 'docs',
       next: {
@@ -311,12 +310,12 @@ describe('versioned website', () => {
       permalink: '/docs/next/hello',
       source: path.join('@site', routeBasePath, 'hello.md'),
       title: 'hello',
-      description: 'Hello `next` !',
+      description: 'Hello next !',
       version: 'next',
       sidebar: 'docs',
       previous: {
         title: 'bar',
-        permalink: '/docs/next/foo/bar',
+        permalink: '/docs/next/foo/barSlug',
       },
     });
     expect(docsMetadata['version-1.0.1/hello']).toEqual({
@@ -329,7 +328,7 @@ describe('versioned website', () => {
         'hello.md',
       ),
       title: 'hello',
-      description: 'Hello `1.0.1` !',
+      description: 'Hello 1.0.1 !',
       version: '1.0.1',
       sidebar: 'version-1.0.1/docs',
       previous: {
@@ -349,7 +348,7 @@ describe('versioned website', () => {
       ),
       title: 'baz',
       description:
-        'Baz `1.0.0` ! This will be deleted in next subsequent versions.',
+        'Baz 1.0.0 ! This will be deleted in next subsequent versions.',
       version: '1.0.0',
       sidebar: 'version-1.0.0/docs',
       next: {
@@ -358,7 +357,7 @@ describe('versioned website', () => {
       },
       previous: {
         title: 'bar',
-        permalink: '/docs/1.0.0/foo/bar',
+        permalink: '/docs/1.0.0/foo/barSlug',
       },
     });
 

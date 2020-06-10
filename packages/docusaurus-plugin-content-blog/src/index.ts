@@ -8,6 +8,7 @@
 import fs from 'fs-extra';
 import kebabCase from 'lodash.kebabcase';
 import path from 'path';
+import admonitions from 'remark-admonitions';
 import {normalizeUrl, docuHash, aliasedSitePath} from '@docusaurus/utils';
 
 import {
@@ -45,6 +46,7 @@ const DEFAULT_OPTIONS: PluginOptions = {
   rehypePlugins: [],
   editUrl: undefined,
   truncateMarker: /<!--\s*(truncate)\s*-->/, // Regex.
+  admonitions: {},
 };
 
 function assertFeedTypes(val: any): asserts val is FeedType {
@@ -72,6 +74,13 @@ export default function pluginContentBlog(
   opts: Partial<PluginOptions>,
 ): Plugin<BlogContent | null> {
   const options: PluginOptions = {...DEFAULT_OPTIONS, ...opts};
+
+  if (options.admonitions) {
+    options.remarkPlugins = options.remarkPlugins.concat([
+      [admonitions, opts.admonitions || {}],
+    ]);
+  }
+
   const {siteDir, generatedFilesDir} = context;
   const contentPath = path.resolve(siteDir, options.path);
   const dataDir = path.join(
@@ -87,6 +96,16 @@ export default function pluginContentBlog(
       const {include = []} = options;
       const globPattern = include.map((pattern) => `${contentPath}/${pattern}`);
       return [...globPattern];
+    },
+
+    getClientModules() {
+      const modules = [];
+
+      if (options.admonitions) {
+        modules.push(require.resolve('remark-admonitions/styles/infima.css'));
+      }
+
+      return modules;
     },
 
     // Fetches blog contents and returns metadata for the necessary routes.
@@ -377,7 +396,7 @@ export default function pluginContentBlog(
                 getCacheLoader(isServer),
                 getBabelLoader(isServer),
                 {
-                  loader: '@docusaurus/mdx-loader',
+                  loader: require.resolve('@docusaurus/mdx-loader'),
                   options: {
                     remarkPlugins,
                     rehypePlugins,
@@ -451,12 +470,12 @@ export default function pluginContentBlog(
       const feedsConfig = {
         rss: {
           type: 'application/rss+xml',
-          path: 'blog/rss.xml',
+          path: 'rss.xml',
           title: `${title} Blog RSS Feed`,
         },
         atom: {
           type: 'application/atom+xml',
-          path: 'blog/atom.xml',
+          path: 'atom.xml',
           title: `${title} Blog Atom Feed`,
         },
       };
@@ -476,7 +495,7 @@ export default function pluginContentBlog(
           attributes: {
             rel: 'alternate',
             type,
-            href: normalizeUrl([baseUrl, path]),
+            href: normalizeUrl([baseUrl, options.routeBasePath, path]),
             title,
           },
         });

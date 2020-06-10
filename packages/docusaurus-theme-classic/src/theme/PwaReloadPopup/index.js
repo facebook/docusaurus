@@ -6,7 +6,7 @@
  */
 
 import React, {useState} from 'react';
-import classnames from 'classnames';
+import clsx from 'clsx';
 
 import styles from './styles.module.css';
 
@@ -15,7 +15,7 @@ export default function PwaReloadPopup({onRefresh}) {
 
   return (
     isVisible && (
-      <div className={classnames('alert', 'alert--secondary', styles.popup)}>
+      <div className={clsx('alert', 'alert--secondary', styles.popup)}>
         {/* TODO: put in i18n */}
         <p>New version available</p>
         <div className={styles.buttonContainer}>

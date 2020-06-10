@@ -5,11 +5,22 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+:root {
+  --docusaurus-announcement-bar-height: auto;
+}
+
 .announcementBar {
   position: relative;
   width: 100%;
+  height: var(--docusaurus-announcement-bar-height);
   background-color: var(--ifm-color-primary);
   color: var(--ifm-color-black);
+}
+
+@media screen and (min-width: 1024px) {
+  :root {
+    --docusaurus-announcement-bar-height: 30px;
+  }
 }
 
 .announcementBarClose {
@@ -22,6 +33,7 @@
   border: none;
   cursor: pointer;
   background: none;
+  color: inherit;
   height: 100%;
 }
 

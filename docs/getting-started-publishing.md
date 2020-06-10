@@ -34,7 +34,7 @@ At this point, you can grab all of the files inside the `website/build` director
 
 Deploying your Docusaurus project to [ZEIT Now](https://zeit.co/now) will provide you with [various benefits](https://zeit.co/now) in the areas of performance and ease of use.
 
-Most importantly, however, deploying a Docusaurus project only takes a couple seconds:
+Most importantly, however, deploying a Docusaurus project only takes a couple of seconds:
 
 1. First, install their [command-line interface](https://zeit.co/download):
 
@@ -50,11 +50,11 @@ now
 
 **That's all.** Your docs will automatically be deployed.
 
-> Note that the directory structure Now supports is slightly different from the default directory structure of a Docusaurus project - The `docs` directory has to be within the `website` directory, ideally following the directory structure in this example. You will also have to specify a `customDocsPath` value in `siteConfig.js`. Take a look at the the [now-examples repository for a Docusaurus project](https://github.com/zeit/now-examples/tree/master/docusaurus).
+> Note that the directory structure Now supports is slightly different from the default directory structure of a Docusaurus project - The `docs` directory has to be within the `website` directory, ideally following the directory structure in this example. You will also have to specify a `customDocsPath` value in `siteConfig.js`. Take a look at the [now-examples repository for a Docusaurus project](https://github.com/zeit/now-examples/tree/master/docusaurus).
 
 ### Using GitHub Pages
 
-Docusaurus was designed to work really well with one of the most popular hosting solutions for open source projects: [GitHub Pages](https://pages.github.com/).
+Docusaurus was designed to work well with one of the most popular hosting solutions for open source projects: [GitHub Pages](https://pages.github.com/).
 
 #### Deploying to GitHub Pages
 
@@ -69,7 +69,7 @@ Docusaurus was designed to work really well with one of the most popular hosting
 | Name | Description |
 | --- | --- |
 | `organizationName` | The GitHub user or organization that owns the repository. If you are the owner, then it is your GitHub username. In the case of Docusaurus, that would be the "_facebook_" GitHub organization. |
-| `projectName` | The name of the GitHub repository for your project. For example, the source code for Docusaurus is hosted at https://github.com/facebook/docusaurus, so our project name in this case would be "docusaurus". |
+| `projectName` | The name of the GitHub repository for your project. For example, the source code for Docusaurus is hosted at https://github.com/facebook/docusaurus, so our project name, in this case, would be "docusaurus". |
 | `url` | Your website's URL. For projects hosted on GitHub pages, this will be "https://_username_.github.io" |
 | `baseUrl` | Base URL for your project. For projects hosted on GitHub pages, it follows the format "/_projectName_/". For https://github.com/facebook/docusaurus, `baseUrl` is `/docusaurus/`. |
 
@@ -94,7 +94,7 @@ In case you want to deploy as a user or organization site, specify the project n
 
 | Name | Description |
 | --- | --- |
-| `GIT_USER` | The username for a GitHub account that has commit access to this repo. For your own repositories, this will usually be your own GitHub username. The specified `GIT_USER` must have push access to the repository specified in the combination of `organizationName` and `projectName`. |
+| `GIT_USER` | The username for a GitHub account that has to commit access to this repo. For your repositories, this will usually be your own GitHub username. The specified `GIT_USER` must have push access to the repository specified in the combination of `organizationName` and `projectName`. |
 
 To run the script directly from the command-line, you can use the following, filling in the parameter values as appropriate.
 
@@ -132,7 +132,7 @@ However, you can automate the publishing process with continuous integration (CI
 
 ## Automating Deployments Using Continuous Integration
 
-Continuous integration (CI) services are typically used to perform routine tasks whenever new commits are checked in to source control. These tasks can be any combination of running unit tests and integration tests, automating builds, publishing packages to NPM, and yes, deploying changes to your website. All you need to do to automate deployment of your website is to invoke the `publish-gh-pages` script whenever your docs get updated. In the following section, we'll be covering how to do just that using [CircleCI](https://circleci.com/), a popular continuous integration service provider.
+Continuous integration (CI) services are typically used to perform routine tasks whenever new commits are checked in to source control. These tasks can be any combination of running unit tests and integration tests, automating builds, publishing packages to NPM, and yes, deploying changes to your website. All you need to do to automate the deployment of your website is to invoke the `publish-gh-pages` script whenever your docs get updated. In the following section, we'll be covering how to do just that using [CircleCI](https://circleci.com/), a popular continuous integration service provider.
 
 ### Using CircleCI 2.0
 
@@ -147,7 +147,7 @@ If you haven't done so already, you can [setup CircleCI](https://circleci.com/si
 1.  Copy the text below into `.circleci/config.yml`.
 
 ```yaml
-# If you only want circle to run on direct commits to master, you can uncomment this out
+# If you only want the circle to run on direct commits to master, you can uncomment this out
 # and uncomment the filters: *filter-only-master down below too
 #
 # aliases:
@@ -272,7 +272,7 @@ You can also configure Netlify to rebuild on every commit to your repository, or
 
 ### Hosting on Render
 
-Render offers free [static site](https://render.com/docs/static-sites) hosting with fully managed SSL, custom domains, a global CDN and continuous auto deploys from your Git repo. Deploy your app in just a few minutes by following these steps.
+Render offers free [static site](https://render.com/docs/static-sites) hosting with fully managed SSL, custom domains, a global CDN and continuous auto deploy from your Git repo. Deploy your app in just a few minutes by following these steps.
 
 1. Create a new **Web Service** on Render, and give Render's GitHub app permission to access your Docusaurus repo.
 

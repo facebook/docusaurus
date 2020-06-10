@@ -5,44 +5,23 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import useUserPreferencesContext from '@theme/hooks/useUserPreferencesContext';
 
 import styles from './styles.module.css';
-
-const STORAGE_DISMISS_KEY = 'docusaurus.announcement.dismiss';
-const STORAGE_ID_KEY = 'docusaurus.announcement.id';
 
 function AnnouncementBar() {
   const {
     siteConfig: {themeConfig: {announcementBar = {}}} = {},
   } = useDocusaurusContext();
-  const {id, content, backgroundColor, textColor} = announcementBar;
-  const [isClosed, setClosed] = useState(true);
-  const handleClose = () => {
-    localStorage.setItem(STORAGE_DISMISS_KEY, true);
-    setClosed(true);
-  };
+  const {content, backgroundColor, textColor} = announcementBar;
+  const {
+    isAnnouncementBarClosed,
+    closeAnnouncementBar,
+  } = useUserPreferencesContext();
 
-  useEffect(() => {
-    const viewedId = localStorage.getItem(STORAGE_ID_KEY);
-    const isNewAnnouncement = id !== viewedId;
-
-    localStorage.setItem(STORAGE_ID_KEY, id);
-
-    if (isNewAnnouncement) {
-      localStorage.setItem(STORAGE_DISMISS_KEY, false);
-    }
-
-    if (
-      isNewAnnouncement ||
-      localStorage.getItem(STORAGE_DISMISS_KEY) === 'false'
-    ) {
-      setClosed(false);
-    }
-  }, []);
-
-  if (!content || isClosed) {
+  if (!content || isAnnouncementBarClosed) {
     return null;
   }
 
@@ -59,7 +38,7 @@ function AnnouncementBar() {
       <button
         type="button"
         className={styles.announcementBarClose}
-        onClick={handleClose}
+        onClick={closeAnnouncementBar}
         aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>

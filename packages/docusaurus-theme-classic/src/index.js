@@ -6,12 +6,22 @@
  */
 
 const path = require('path');
-const ContextReplacementPlugin = require('webpack/lib/ContextReplacementPlugin');
+const Module = require('module');
+
+const createRequire = Module.createRequire || Module.createRequireFromPath;
+const requireFromDocusaurusCore = createRequire(
+  require.resolve('@docusaurus/core/package.json'),
+);
+const ContextReplacementPlugin = requireFromDocusaurusCore(
+  'webpack/lib/ContextReplacementPlugin',
+);
 
 // Need to be inlined to prevent dark mode FOUC
 // Make sure that the 'storageKey' is the same as the one in `/theme/hooks/useTheme.js`
 const storageKey = 'theme';
-const noFlash = `(function() {
+const noFlash = (defaultDarkMode) => `(function() {
+  var defaultDarkMode = ${defaultDarkMode};
+
   function setDataThemeAttribute(theme) {
     document.documentElement.setAttribute('data-theme', theme);
   }
@@ -30,7 +40,7 @@ const noFlash = `(function() {
   var preferredTheme = getPreferredTheme();
   if (preferredTheme !== null) {
     setDataThemeAttribute(preferredTheme);
-  } else if (darkQuery.matches) {
+  } else if (darkQuery.matches || defaultDarkMode) {
     setDataThemeAttribute('dark');
   }
 })();`;
@@ -39,8 +49,11 @@ module.exports = function (context, options) {
   const {
     siteConfig: {themeConfig},
   } = context;
-  const {disableDarkMode = false, prism: {additionalLanguages = []} = {}} =
-    themeConfig || {};
+  const {
+    disableDarkMode = false,
+    defaultDarkMode = false,
+    prism: {additionalLanguages = []} = {},
+  } = themeConfig || {};
   const {customCss} = options || {};
 
   return {
@@ -51,12 +64,16 @@ module.exports = function (context, options) {
     },
 
     getClientModules() {
-      return [
-        'infima/dist/css/default/default.css',
-        'remark-admonitions/styles/infima.css',
-        customCss,
+      const modules = [
+        require.resolve('infima/dist/css/default/default.css'),
         path.resolve(__dirname, './prism-include-languages'),
       ];
+
+      if (customCss) {
+        modules.push(customCss);
+      }
+
+      return modules;
     },
 
     configureWebpack() {
@@ -85,7 +102,7 @@ module.exports = function (context, options) {
             attributes: {
               type: 'text/javascript',
             },
-            innerHTML: noFlash,
+            innerHTML: noFlash(defaultDarkMode),
           },
         ],
       };

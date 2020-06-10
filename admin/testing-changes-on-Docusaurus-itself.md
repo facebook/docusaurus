@@ -30,9 +30,8 @@ Use the following code in VSCode to enable breakpoints. Please ensure you have a
       "type": "node",
       "request": "launch",
       "cwd": "${workspaceFolder}/website",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "start-debug"],
-      "port": 9229
+      "program": "${workspaceFolder}/website/node_modules/@docusaurus/core/bin/docusaurus.js",
+      "args": ["start"]
     }
   ]
 }

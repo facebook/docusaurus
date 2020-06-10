@@ -79,12 +79,12 @@ describe('simple site', () => {
 
     expect(data).toEqual({
       id: 'foo/baz',
-      permalink: '/docs/foo/baz',
+      permalink: '/docs/foo/bazSlug.html',
       source: path.join('@site', routeBasePath, source),
       title: 'baz',
       editUrl:
         'https://github.com/facebook/docusaurus/edit/master/website/docs/foo/baz.md',
-      description: '## Images',
+      description: 'Images',
     });
   });
 
@@ -172,21 +172,40 @@ describe('simple site', () => {
   });
 
   test('docs with invalid id', async () => {
-    const badSiteDir = path.join(fixtureDir, 'bad-site');
+    const badSiteDir = path.join(fixtureDir, 'bad-id-site');
     const options = {
       routeBasePath,
     };
 
-    return processMetadata({
-      source: 'invalid-id.md',
-      refDir: path.join(badSiteDir, 'docs'),
-      context,
-      options,
-      env,
-    }).catch((e) =>
-      expect(e).toMatchInlineSnapshot(
-        `[Error: Document id cannot include "/".]`,
-      ),
+    await expect(
+      processMetadata({
+        source: 'invalid-id.md',
+        refDir: path.join(badSiteDir, 'docs'),
+        context,
+        options,
+        env,
+      }),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
+      `"Document id cannot include \\"/\\"."`,
+    );
+  });
+
+  test('docs with invalid slug', async () => {
+    const badSiteDir = path.join(fixtureDir, 'bad-slug-site');
+    const options = {
+      routeBasePath,
+    };
+
+    await expect(
+      processMetadata({
+        source: 'invalid-slug.md',
+        refDir: path.join(badSiteDir, 'docs'),
+        context,
+        options,
+        env,
+      }),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
+      `"Document slug cannot include \\"/\\"."`,
     );
   });
 });
@@ -225,10 +244,10 @@ describe('versioned site', () => {
 
     expect(dataA).toEqual({
       id: 'foo/bar',
-      permalink: '/docs/next/foo/bar',
+      permalink: '/docs/next/foo/barSlug',
       source: path.join('@site', routeBasePath, sourceA),
       title: 'bar',
-      description: 'This is `next` version of bar.',
+      description: 'This is next version of bar.',
       version: 'next',
     });
     expect(dataB).toEqual({
@@ -236,7 +255,7 @@ describe('versioned site', () => {
       permalink: '/docs/next/hello',
       source: path.join('@site', routeBasePath, sourceB),
       title: 'hello',
-      description: 'Hello `next` !',
+      description: 'Hello next !',
       version: 'next',
     });
   });
@@ -283,10 +302,10 @@ describe('versioned site', () => {
 
     expect(dataA).toEqual({
       id: 'version-1.0.0/foo/bar',
-      permalink: '/docs/1.0.0/foo/bar',
+      permalink: '/docs/1.0.0/foo/barSlug',
       source: path.join('@site', path.relative(siteDir, versionedDir), sourceA),
       title: 'bar',
-      description: 'Bar `1.0.0` !',
+      description: 'Bar 1.0.0 !',
       version: '1.0.0',
     });
     expect(dataB).toEqual({
@@ -294,7 +313,7 @@ describe('versioned site', () => {
       permalink: '/docs/1.0.0/hello',
       source: path.join('@site', path.relative(siteDir, versionedDir), sourceB),
       title: 'hello',
-      description: 'Hello `1.0.0` !',
+      description: 'Hello 1.0.0 !',
       version: '1.0.0',
     });
     expect(dataC).toEqual({
@@ -302,7 +321,7 @@ describe('versioned site', () => {
       permalink: '/docs/foo/bar',
       source: path.join('@site', path.relative(siteDir, versionedDir), sourceC),
       title: 'bar',
-      description: 'Bar `1.0.1` !',
+      description: 'Bar 1.0.1 !',
       version: '1.0.1',
     });
     expect(dataD).toEqual({
@@ -310,7 +329,7 @@ describe('versioned site', () => {
       permalink: '/docs/hello',
       source: path.join('@site', path.relative(siteDir, versionedDir), sourceD),
       title: 'hello',
-      description: 'Hello `1.0.1` !',
+      description: 'Hello 1.0.1 !',
       version: '1.0.1',
     });
   });

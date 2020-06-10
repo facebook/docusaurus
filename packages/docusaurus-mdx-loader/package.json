@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/mdx-loader",
-  "version": "2.0.0-alpha.50",
+  "version": "2.0.0-alpha.56",
   "description": "Docusaurus Loader for MDX",
   "main": "src/index.js",
   "publishConfig": {
@@ -30,6 +30,6 @@
     "unist-util-remove-position": "^2.0.1"
   },
   "engines": {
-    "node": ">=10.9.0"
+    "node": ">=10.15.1"
   }
 }

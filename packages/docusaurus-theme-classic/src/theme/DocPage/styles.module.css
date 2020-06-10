@@ -10,11 +10,11 @@
 }
 
 .docSidebarContainer {
-  border-right: 1px solid var(--ifm-contents-border-color);
+  border-right: 1px solid var(--ifm-toc-border-color);
   box-sizing: border-box;
   width: 300px;
   position: relative;
-  top: calc(-1 * var(--ifm-navbar-height));
+  margin-top: calc(-1 * var(--ifm-navbar-height));
 }
 
 .docMainContainer {
@@ -24,5 +24,9 @@
 @media (max-width: 996px) {
   .docPage {
     display: inherit;
+  }
+
+  .docSidebarContainer {
+    margin-top: 0;
   }
 }

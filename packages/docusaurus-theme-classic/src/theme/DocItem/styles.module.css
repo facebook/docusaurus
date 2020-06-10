@@ -7,14 +7,7 @@
 
 .docTitle {
   font-size: 3rem;
-  margin-bottom: 3rem;
-}
-
-@media only screen and (max-width: 996px) {
-  .docTitle {
-    font-size: 2rem;
-    margin-bottom: 2rem;
-  }
+  margin-bottom: calc(var(--ifm-leading-desktop) * var(--ifm-leading));
 }
 
 .docItemContainer {
@@ -25,6 +18,14 @@
 @media only screen and (min-width: 997px) {
   .docItemCol {
     max-width: 75% !important;
+  }
+}
+
+@media (min-width: 997px) and (max-width: 1320px) {
+  .docItemWrapper {
+    max-width: calc(
+      var(--ifm-container-width) - 300px - var(--ifm-spacing-horizontal) * 2
+    );
   }
 }
 

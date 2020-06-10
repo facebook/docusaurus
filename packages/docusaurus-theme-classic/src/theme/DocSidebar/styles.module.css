@@ -7,6 +7,8 @@
 
 @media (min-width: 997px) {
   .sidebar {
+    display: flex;
+    flex-direction: column;
     height: 100vh;
     overflow-y: auto;
     position: sticky;
@@ -14,31 +16,16 @@
     padding-top: var(--ifm-navbar-height);
   }
 
-  .sidebar::-webkit-scrollbar {
-    width: 7px;
-  }
-
-  .sidebar::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 10px;
-  }
-
-  .sidebar::-webkit-scrollbar-thumb {
-    background: #888;
-    border-radius: 10px;
-  }
-
-  .sidebar::-webkit-scrollbar-thumb:hover {
-    background: #555;
+  .sidebarWithHideableNavbar {
+    padding-top: 0;
   }
 
   .sidebarLogo {
     display: flex !important;
     align-items: center;
-    position: absolute;
-    top: 0;
     margin: 0 var(--ifm-navbar-padding-horizontal);
-    height: var(--ifm-navbar-height);
+    min-height: var(--ifm-navbar-height);
+    max-height: var(--ifm-navbar-height);
     color: inherit !important;
     text-decoration: none !important;
   }
@@ -49,7 +36,38 @@
   }
 
   .menu {
+    flex-grow: 1;
     padding: 0.5rem;
+  }
+
+  .menu::-webkit-scrollbar {
+    width: 7px;
+  }
+
+  .menu::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+  }
+
+  .menu::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+  }
+
+  .menu::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+
+  .menuLinkText {
+    cursor: initial;
+  }
+
+  .menuLinkText:hover {
+    background: none;
+  }
+
+  .menuWithAnnouncementBar {
+    margin-bottom: var(--docusaurus-announcement-bar-height);
   }
 }
 
