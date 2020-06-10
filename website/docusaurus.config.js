@@ -36,8 +36,7 @@ module.exports = {
       '@docusaurus/preset-classic',
       {
         docs: {
-          // homePageId: 'introduction',
-          homePageId: 'folder/testNested',
+          homePageId: 'introduction',
           path: 'docs',
           sidebarPath: require.resolve('./sidebars.js'),
           editUrl:
