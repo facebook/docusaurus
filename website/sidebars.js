@@ -26,12 +26,7 @@ module.exports = {
         'styling-layout',
         'static-assets',
         {
-          Docs: [
-            'folder/testNested',
-            'docs-introduction',
-            'markdown-features',
-            'versioning',
-          ],
+          Docs: ['docs-introduction', 'markdown-features', 'versioning'],
         },
         'blog',
         'search',
