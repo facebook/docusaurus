@@ -384,6 +384,12 @@ Available document ids=
                 homePageDocsRoutePath,
                 versionDocsPathPrefix,
               ]);
+              if (metadataItem.latestPermalink) {
+                metadataItem.latestPermalink = normalizeUrl([
+                  baseUrl,
+                  homePageDocsRoutePath,
+                ]);
+              }
               const docsBaseMetadataPath = await createData(
                 `${docuHash(metadataItem.source)}-base.json`,
                 JSON.stringify(docsBaseMetadata, null, 2),

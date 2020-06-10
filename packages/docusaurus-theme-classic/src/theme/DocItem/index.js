@@ -69,7 +69,7 @@ function DocItem(props) {
     lastUpdatedAt,
     lastUpdatedBy,
     version,
-    isOld,
+    latestPermalink
   } = metadata;
   const {
     frontMatter: {
@@ -117,9 +117,9 @@ function DocItem(props) {
                     <span className="badge badge--secondary">
                       Version: {version}
                     </span>
-                    {isOld ? (
+                    {latestPermalink ? (
                       <span className="badge badge--secondary margin-horiz--xs">
-                        <Link to="/docs"> Go to latest version </Link>
+                        <Link to={latestPermalink}> Go to latest version </Link>
                       </span>
                     ) : null}
                   </div>

@@ -87,11 +87,6 @@ export default async function processMetadata({
   const versionPath =
     version && version !== versioning.latestVersion ? version : '';
 
-  const isOld =
-    version && version !== 'next'
-      ? version !== versioning.latestVersion
-      : false;
-
   const relativePath = path.relative(siteDir, filePath);
 
   const docsEditUrl = getEditUrl(relativePath, editUrl);
@@ -133,6 +128,11 @@ export default async function processMetadata({
     routePath,
   ]);
 
+  const latestPermalink =
+    version && version !== versioning.latestVersion
+      ? normalizeUrl([baseUrl, routeBasePath, routePath])
+      : undefined;
+
   const {lastUpdatedAt, lastUpdatedBy} = await lastUpdatedPromise;
 
   // Assign all of object properties during instantiation (if possible) for
@@ -150,7 +150,7 @@ export default async function processMetadata({
     lastUpdatedBy,
     lastUpdatedAt,
     sidebar_label,
-    isOld,
+    latestPermalink,
   };
 
   return metadata;
