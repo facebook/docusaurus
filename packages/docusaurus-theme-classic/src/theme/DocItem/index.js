@@ -121,7 +121,7 @@ function DocItem(props) {
                         <a href="/docs"> Go to latest version </a>
                       </span>
                     ) : null}
-                  </div>  
+                  </div>
                 )}
                 {!hideTitle && (
                   <header>
