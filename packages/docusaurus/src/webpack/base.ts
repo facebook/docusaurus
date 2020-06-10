@@ -43,15 +43,10 @@ export function createBaseConfig(
   const totalPages = routesPaths.length;
   const isProd = process.env.NODE_ENV === 'production';
 
-  let customBabelConfiguration;
-  try {
-    customBabelConfiguration = require(path.join(
-      siteDir,
-      BABEL_CONFIG_FILE_NAME,
-    ));
-  } catch {
-    customBabelConfiguration = undefined;
-  }
+  const customBabelConfigurationPath = path.join(
+    siteDir,
+    BABEL_CONFIG_FILE_NAME,
+  );
 
   return {
     mode: isProd ? 'production' : 'development',
@@ -168,7 +163,12 @@ export function createBaseConfig(
           exclude: excludeJS,
           use: [
             getCacheLoader(isServer),
-            getBabelLoader(isServer, customBabelConfiguration),
+            getBabelLoader(
+              isServer,
+              fs.existsSync(customBabelConfigurationPath)
+                ? customBabelConfigurationPath
+                : undefined,
+            ),
           ].filter(Boolean) as Loader[],
         },
         {

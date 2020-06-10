@@ -87,18 +87,28 @@ export function getCacheLoader(
 
 export function getBabelLoader(
   isServer: boolean,
-  babelOptions?: TransformOptions,
+  babelOptions?: TransformOptions | string,
 ): Loader {
-  const babelOptionsWithDocusaurusPreset = babelOptions ?? {
-    presets: [require.resolve('../babel/preset')],
-  };
+  let options: TransformOptions;
+  if (typeof babelOptions === 'string') {
+    options = {
+      babelrc: false,
+      configFile: babelOptions,
+      caller: {name: isServer ? 'server' : 'client'},
+    };
+  } else {
+    options = Object.assign(
+      babelOptions ?? {presets: [require.resolve('../babel/preset')]},
+      {
+        babelrc: false,
+        configFile: false,
+        caller: {name: isServer ? 'server' : 'client'},
+      },
+    );
+  }
   return {
     loader: require.resolve('babel-loader'),
-    options: Object.assign(babelOptionsWithDocusaurusPreset, {
-      babelrc: false,
-      configFile: false,
-      caller: {name: isServer ? 'server' : 'client'},
-    }),
+    options,
   };
 }
 
