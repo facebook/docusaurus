@@ -12,6 +12,7 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import DocPaginator from '@theme/DocPaginator';
 import useTOCHighlight from '@theme/hooks/useTOCHighlight';
+import Link from '@docusaurus/Link';
 
 import clsx from 'clsx';
 import styles from './styles.module.css';
@@ -118,7 +119,7 @@ function DocItem(props) {
                     </span>
                     {isOld ? (
                       <span className="badge badge--secondary margin-horiz--xs">
-                        <a href="/docs"> Go to latest version </a>
+                        <Link to="/docs"> Go to latest version </Link>
                       </span>
                     ) : null}
                   </div>
