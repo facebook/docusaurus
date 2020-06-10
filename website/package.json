@@ -11,7 +11,7 @@
   "dependencies": {
     "@docusaurus/core": "^2.0.0-alpha.56",
     "@docusaurus/plugin-ideal-image": "^2.0.0-alpha.56",
-    "@docusaurus/plugin-pwa": "^2.0.0-alpha.50",
+    "@docusaurus/plugin-pwa": "^2.0.0-alpha.56",
     "@docusaurus/preset-classic": "^2.0.0-alpha.56",
     "@docusaurus/theme-live-codeblock": "^2.0.0-alpha.56",
     "clsx": "^1.1.1",
