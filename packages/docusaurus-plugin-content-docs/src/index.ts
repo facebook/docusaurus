@@ -368,6 +368,9 @@ Available document ids=
         );
       };
 
+      // This is the base route of the document root (for a doc given version)
+      // (/docs, /docs/next, /docs/1.0 etc...)
+      // The component applies the layout and renders the appropriate doc
       const addBaseRoute = async (
         docsBaseRoute: string,
         docsBaseMetadata: DocsBaseMetadata,
@@ -379,13 +382,16 @@ Available document ids=
           JSON.stringify(docsBaseMetadata, null, 2),
         );
 
-        // Parent route for /docs
-        // should allow matching /docs/* as well (exact=false)
+        // Important: the layout component should not end with /,
+        // as it conflicts with the home doc
+        // Workaround fix for https://github.com/facebook/docusaurus/issues/2917
+        const path = docsBaseRoute === '/' ? '' : docsBaseRoute;
+
         addRoute({
-          path: docsBaseRoute,
-          exact: false,
-          component: docLayoutComponent,
-          routes,
+          path,
+          exact: false, // allow matching /docs/* as well
+          component: docLayoutComponent, // main docs component (DocPage)
+          routes, // subroute for each doc
           modules: {
             docsMetadata: aliasedSource(docsBaseMetadataPath),
           },
@@ -414,13 +420,13 @@ Available document ids=
             ]);
             const docsBaseMetadata = createDocsBaseMetadata(version);
 
-            // We want latest version route config to be placed last in the
-            // generated routeconfig. Otherwise, `/docs/next/foo` will match
-            // `/docs/:route` instead of `/docs/next/:route`.
             return addBaseRoute(
               docsBaseRoute,
               docsBaseMetadata,
               routes,
+              // We want latest version route config to be placed last in the
+              // generated routeconfig. Otherwise, `/docs/next/foo` will match
+              // `/docs/:route` instead of `/docs/next/:route`.
               isLatestVersion ? -1 : undefined,
             );
           }),
