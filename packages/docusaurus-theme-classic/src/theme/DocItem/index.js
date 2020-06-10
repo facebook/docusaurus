@@ -69,7 +69,7 @@ function DocItem(props) {
     lastUpdatedAt,
     lastUpdatedBy,
     version,
-    latestPermalink
+    latestPermalink,
   } = metadata;
   const {
     frontMatter: {
@@ -105,6 +105,16 @@ function DocItem(props) {
       </Head>
       <div
         className={clsx('container padding-vert--lg', styles.docItemWrapper)}>
+        {latestPermalink && (
+          <div class="alert alert--danger margin-bottom--md" role="alert">
+            This is archived documentation for Docusaurus{' '}
+            <strong>{version}</strong>, which is no longer actively maintained.
+            <br />
+            <br />
+            For up-to-date documentation, see the{' '}
+            <Link to={latestPermalink}> latest version </Link>.
+          </div>
+        )}
         <div className="row">
           <div
             className={clsx('col', {
@@ -117,11 +127,6 @@ function DocItem(props) {
                     <span className="badge badge--secondary">
                       Version: {version}
                     </span>
-                    {latestPermalink ? (
-                      <span className="badge badge--secondary margin-horiz--xs">
-                        <Link to={latestPermalink}> Go to latest version </Link>
-                      </span>
-                    ) : null}
                   </div>
                 )}
                 {!hideTitle && (
