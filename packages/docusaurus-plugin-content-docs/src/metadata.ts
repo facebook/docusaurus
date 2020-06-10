@@ -87,6 +87,9 @@ export default async function processMetadata({
   const versionPath =
     version && version !== versioning.latestVersion ? version : '';
 
+  const isOld =
+    version && version !== 'next' ? version !== versioning.latestVersion : true;
+
   const relativePath = path.relative(siteDir, filePath);
 
   const docsEditUrl = getEditUrl(relativePath, editUrl);
@@ -145,6 +148,7 @@ export default async function processMetadata({
     lastUpdatedBy,
     lastUpdatedAt,
     sidebar_label,
+    isOld,
   };
 
   return metadata;
