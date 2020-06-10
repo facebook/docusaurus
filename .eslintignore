@@ -14,6 +14,7 @@ packages/docusaurus-1.x/lib/core/__tests__/split-tab.test.js
 packages/docusaurus-utils/lib/
 packages/docusaurus/lib/
 packages/docusaurus-init/lib/
+packages/docusaurus-plugin-client-redirects/lib/
 packages/docusaurus-plugin-content-blog/lib/
 packages/docusaurus-plugin-content-docs/lib/
 packages/docusaurus-plugin-content-pages/lib/
