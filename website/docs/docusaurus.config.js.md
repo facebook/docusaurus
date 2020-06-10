@@ -287,27 +287,3 @@ module.exports = {
   ],
 };
 ```
-
-### `configureBabel`
-
-The function to customize Babel configuration.
-
-- Type `(isServer: boolean) => Object`
-
-Example:
-
-```js title="docusaurus.config.js"
-module.exports = {
-  // Added suppport for Flow.
-  configureBabel: (isServer) => ({
-    presets: [
-      '@babel/preset-flow',
-      // The following lines are necessary,
-      // unless you want to configure Babel from scratch.
-      isServer
-        ? require.resolve('@docusaurus/core/lib/babel/server-preset')
-        : require.resolve('@docusaurus/core/lib/babel/client-preset'),
-    ],
-  }),
-};
-```

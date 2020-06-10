@@ -15,6 +15,7 @@ import {Configuration, Loader} from 'webpack';
 
 import {Props} from '@docusaurus/types';
 import {getBabelLoader, getCacheLoader, getStyleLoaders} from './utils';
+import {BABEL_CONFIG_FILE_NAME} from '../constants';
 
 const CSS_REGEX = /\.css$/;
 const CSS_MODULE_REGEX = /\.module\.css$/;
@@ -37,17 +38,20 @@ export function createBaseConfig(
   isServer: boolean,
   minify: boolean,
 ): Configuration {
-  const {
-    outDir,
-    siteDir,
-    baseUrl,
-    generatedFilesDir,
-    routesPaths,
-    siteConfig: {configureBabel},
-  } = props;
+  const {outDir, siteDir, baseUrl, generatedFilesDir, routesPaths} = props;
 
   const totalPages = routesPaths.length;
   const isProd = process.env.NODE_ENV === 'production';
+
+  let customBabelConfiguration;
+  try {
+    customBabelConfiguration = require(path.join(
+      siteDir,
+      BABEL_CONFIG_FILE_NAME,
+    ));
+  } catch {
+    customBabelConfiguration = undefined;
+  }
 
   return {
     mode: isProd ? 'production' : 'development',
@@ -164,7 +168,7 @@ export function createBaseConfig(
           exclude: excludeJS,
           use: [
             getCacheLoader(isServer),
-            getBabelLoader(isServer, configureBabel?.(isServer)),
+            getBabelLoader(isServer, customBabelConfiguration),
           ].filter(Boolean) as Loader[],
         },
         {

@@ -1,7 +1,7 @@
 import path from 'path';
-import {TransformOptions} from '@babel/core';
+import {ConfigAPI, TransformOptions} from '@babel/core';
 
-export function babelPresets(isServer: boolean): TransformOptions {
+function getTransformOptions(isServer: boolean): TransformOptions {
   const absoluteRuntimePath = path.dirname(
     require.resolve(`@babel/runtime/package.json`),
   );
@@ -60,3 +60,10 @@ export function babelPresets(isServer: boolean): TransformOptions {
     ],
   };
 }
+
+function babelPresets(api: ConfigAPI): TransformOptions {
+  const caller = api.caller((caller) => caller?.name);
+  return getTransformOptions(caller === 'server');
+}
+
+export = babelPresets;

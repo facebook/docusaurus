@@ -9,6 +9,7 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import env from 'std-env';
 import merge from 'webpack-merge';
 import {Configuration, Loader} from 'webpack';
+import {TransformOptions} from '@babel/core';
 
 import {version as cacheLoaderVersion} from 'cache-loader/package.json';
 
@@ -84,21 +85,20 @@ export function getCacheLoader(
   };
 }
 
-export function getBabelLoader(isServer: boolean, babelOptions?: {}): Loader {
+export function getBabelLoader(
+  isServer: boolean,
+  babelOptions?: TransformOptions,
+): Loader {
+  const babelOptionsWithDocusaurusPreset = babelOptions ?? {
+    presets: [require.resolve('../babel/preset')],
+  };
   return {
     loader: require.resolve('babel-loader'),
-    options: Object.assign(
-      {
-        babelrc: false,
-        configFile: false,
-        presets: [
-          isServer
-            ? require.resolve('../babel/server-preset')
-            : require.resolve('../babel/client-preset'),
-        ],
-      },
-      babelOptions,
-    ),
+    options: Object.assign(babelOptionsWithDocusaurusPreset, {
+      babelrc: false,
+      configFile: false,
+      caller: {name: isServer ? 'server' : 'client'},
+    }),
   };
 }
 
