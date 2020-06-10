@@ -26,7 +26,6 @@ const OPTIONAL_FIELDS = [
   'scripts',
   'stylesheets',
   'tagline',
-  'configureBabel',
 ];
 
 const DEFAULT_CONFIG: {
