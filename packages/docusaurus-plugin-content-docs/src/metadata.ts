@@ -148,7 +148,8 @@ export default async function processMetadata({
   let routePath;
   if (isDocsHomePage) {
     // TODO can we remove this trailing / ?
-    // Seems it's not that easy... the sidebar disappears on homepage xD
+    // Seems it's not that easy...
+    // Related to https://github.com/facebook/docusaurus/issues/2917
     routePath = '/';
   } else {
     routePath =
