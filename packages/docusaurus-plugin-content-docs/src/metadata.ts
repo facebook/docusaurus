@@ -88,7 +88,7 @@ export default async function processMetadata({
     version && version !== versioning.latestVersion ? version : '';
 
   const isOld =
-    version && version !== 'next' ? version !== versioning.latestVersion : true;
+    version && version !== 'next' ? version !== versioning.latestVersion : false;
 
   const relativePath = path.relative(siteDir, filePath);
 
