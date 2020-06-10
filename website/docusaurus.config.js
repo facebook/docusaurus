@@ -7,6 +7,12 @@
 
 const versions = require('./versions.json');
 
+const allDocHomesPaths = [
+  '/docs',
+  '/docs/next',
+  ...versions.slice(1).map((version) => `/docs/${version}`),
+];
+
 module.exports = {
   title: 'Docusaurus',
   tagline: 'Build optimized websites quickly, focus on your content',
@@ -25,36 +31,11 @@ module.exports = {
       '@docusaurus/plugin-client-redirects',
       {
         fromExtensions: ['html'],
-        redirects: [
-          {
-            to: '/',
-            from: [
-              '/plugin-client-redirects-tests/toHome1',
-              '/plugin-client-redirects-tests/toHome2',
-            ],
-          },
-          {
-            to: '/docs',
-            from: '/plugin-client-redirects-tests/toDocs1',
-          },
-          {
-            to: '/docs',
-            from: '/plugin-client-redirects-tests/toDocs2',
-          },
-          {
-            to: '/docs',
-            from: '/plugin-client-redirects-tests/toHomeDuplicatePath',
-          },
-        ],
-        createRedirects: function (existingPath) {
-          if (existingPath === '/') {
-            return [
-              '/',
-              '/docs',
-              '/plugin-client-redirects-tests/toHome3',
-              '/plugin-client-redirects-tests/toHome4',
-              '/plugin-client-redirects-tests/toHomeDuplicatePath',
-            ];
+        createRedirects: function (path) {
+          // redirect to /docs from /docs/introduction,
+          // as introduction has been made the home doc
+          if (allDocHomesPaths.includes(path)) {
+            return [`${path}/introduction`];
           }
         },
       },
