@@ -68,6 +68,7 @@ function DocItem(props) {
     lastUpdatedAt,
     lastUpdatedBy,
     version,
+    isOld,
   } = metadata;
   const {
     frontMatter: {
@@ -115,7 +116,12 @@ function DocItem(props) {
                     <span className="badge badge--secondary">
                       Version: {version}
                     </span>
-                  </div>
+                    {isOld ? (
+                      <span className="badge badge--secondary margin-horiz--xs">
+                        <a href="/docs"> Go to latest version </a>
+                      </span>
+                    ) : null}
+                  </div>  
                 )}
                 {!hideTitle && (
                   <header>
