@@ -128,11 +128,6 @@ export default async function processMetadata({
     routePath,
   ]);
 
-  const latestPermalink =
-    version && version !== versioning.latestVersion
-      ? normalizeUrl([baseUrl, routeBasePath])
-      : undefined;
-
   const {lastUpdatedAt, lastUpdatedBy} = await lastUpdatedPromise;
 
   // Assign all of object properties during instantiation (if possible) for
@@ -150,7 +145,6 @@ export default async function processMetadata({
     lastUpdatedBy,
     lastUpdatedAt,
     sidebar_label,
-    latestPermalink,
   };
 
   return metadata;

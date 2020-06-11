@@ -65,6 +65,18 @@ const DEFAULT_OPTIONS: PluginOptions = {
   admonitions: {},
 };
 
+function getHrefFromSideBar(sidebarItems: DocsSidebarItem[]): string | null {
+  for (let sidebarItem of sidebarItems) {
+    if (sidebarItem.type === 'category') {
+      const url = getHrefFromSideBar(sidebarItem.items);
+      if (url) return url;
+    } else {
+      return sidebarItem.href;
+    }
+  }
+  return null;
+}
+
 export default function pluginContentDocs(
   context: LoadContext,
   opts: Partial<PluginOptions>,
@@ -320,7 +332,6 @@ Available document ids=
         },
         {},
       );
-
       return {
         docsMetadata,
         docsDir,
@@ -368,7 +379,6 @@ Available document ids=
             const isDocsHomePage =
               metadataItem.id.replace(versionsRegex, '').replace(/^\//, '') ===
               options.homePageId;
-
             if (isDocsHomePage) {
               const versionDocsPathPrefix =
                 (metadataItem?.version === versioning.latestVersion
@@ -462,6 +472,16 @@ Available document ids=
           Object.values(content.docsMetadata),
           'version',
         );
+        const rootUrl = getHrefFromSideBar(
+          content.docsSidebars[`version-${versioning.latestVersion}/docs`],
+        );
+        if (!rootUrl) {
+          throw new Error('Bad sidebars file. No document linked');
+        }
+        Object.values(content.docsMetadata).forEach((docMetadata) => {
+          if (docMetadata.version !== versioning.latestVersion)
+            docMetadata.latestPermalink = rootUrl;
+        });
         await Promise.all(
           Object.keys(docsMetadataByVersion).map(async (version) => {
             const routes: RouteConfig[] = await genRoutes(

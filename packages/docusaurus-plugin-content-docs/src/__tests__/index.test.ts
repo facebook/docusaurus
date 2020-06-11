@@ -306,7 +306,7 @@ describe('versioned website', () => {
         title: 'hello',
         permalink: '/docs/next/hello',
       },
-      latestPermalink: '/docs',
+      
     });
     expect(docsMetadata['hello']).toEqual({
       id: 'hello',
@@ -320,7 +320,6 @@ describe('versioned website', () => {
         title: 'bar',
         permalink: '/docs/next/foo/barSlug',
       },
-      latestPermalink: '/docs',
     });
     expect(docsMetadata['version-1.0.1/hello']).toEqual({
       id: 'version-1.0.1/hello',
@@ -364,7 +363,6 @@ describe('versioned website', () => {
         title: 'bar',
         permalink: '/docs/1.0.0/foo/barSlug',
       },
-      latestPermalink: '/docs',
     });
 
     expect(docsSidebars).toMatchSnapshot('all sidebars');

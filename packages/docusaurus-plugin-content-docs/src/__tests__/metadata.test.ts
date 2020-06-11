@@ -255,7 +255,6 @@ describe('versioned site', () => {
       title: 'bar',
       description: 'This is next version of bar.',
       version: 'next',
-      latestPermalink: '/docs',
     });
     expect(dataB).toEqual({
       id: 'hello',
@@ -264,7 +263,6 @@ describe('versioned site', () => {
       title: 'hello',
       description: 'Hello next !',
       version: 'next',
-      latestPermalink: '/docs',
     });
   });
 
@@ -315,7 +313,6 @@ describe('versioned site', () => {
       title: 'bar',
       description: 'Bar 1.0.0 !',
       version: '1.0.0',
-      latestPermalink: '/docs',
     });
     expect(dataB).toEqual({
       id: 'version-1.0.0/hello',
@@ -324,7 +321,6 @@ describe('versioned site', () => {
       title: 'hello',
       description: 'Hello 1.0.0 !',
       version: '1.0.0',
-      latestPermalink: '/docs',
     });
     expect(dataC).toEqual({
       id: 'version-1.0.1/foo/bar',
@@ -333,7 +329,6 @@ describe('versioned site', () => {
       title: 'bar',
       description: 'Bar 1.0.1 !',
       version: '1.0.1',
-      latestPermalink: undefined,
     });
     expect(dataD).toEqual({
       id: 'version-1.0.1/hello',
@@ -342,7 +337,6 @@ describe('versioned site', () => {
       title: 'hello',
       description: 'Hello 1.0.1 !',
       version: '1.0.1',
-      latestPermalink: undefined,
     });
   });
 });
