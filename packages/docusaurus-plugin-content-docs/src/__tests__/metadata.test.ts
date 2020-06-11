@@ -50,7 +50,7 @@ describe('simple site', () => {
       source: path.join('@site', routeBasePath, sourceA),
       title: 'Bar',
       description: 'This is custom description',
-      latestPermaLink: undefined,
+      latestPermalink: undefined,
     });
     expect(dataB).toEqual({
       id: 'hello',
@@ -58,7 +58,7 @@ describe('simple site', () => {
       source: path.join('@site', routeBasePath, sourceB),
       title: 'Hello, World !',
       description: `Hi, Endilie here :)`,
-      latestPermaLink: undefined,
+      latestPermalink: undefined,
     });
   });
 
@@ -87,7 +87,7 @@ describe('simple site', () => {
       editUrl:
         'https://github.com/facebook/docusaurus/edit/master/website/docs/foo/baz.md',
       description: 'Images',
-      latestPermaLink: undefined,
+      latestPermalink: undefined,
     });
   });
 
@@ -112,7 +112,7 @@ describe('simple site', () => {
       title: 'lorem',
       editUrl: 'https://github.com/customUrl/docs/lorem.md',
       description: 'Lorem ipsum.',
-      latestPermaLink: undefined,
+      latestPermalink: undefined,
     });
 
     // unrelated frontmatter is not part of metadata
@@ -144,7 +144,7 @@ describe('simple site', () => {
       description: 'Lorem ipsum.',
       lastUpdatedAt: 1539502055,
       lastUpdatedBy: 'Author',
-      latestPermaLink: undefined,
+      latestPermalink: undefined,
     });
   });
 
@@ -173,7 +173,7 @@ describe('simple site', () => {
       description: 'Lorem ipsum.',
       lastUpdatedAt: 1539502055,
       lastUpdatedBy: 'Author',
-      latestPermaLink: undefined,
+      latestPermalink: undefined,
     });
   });
 
@@ -255,7 +255,7 @@ describe('versioned site', () => {
       title: 'bar',
       description: 'This is next version of bar.',
       version: 'next',
-      latestPermaLink: undefined,
+      latestPermalink: '/docs',
     });
     expect(dataB).toEqual({
       id: 'hello',
@@ -264,7 +264,7 @@ describe('versioned site', () => {
       title: 'hello',
       description: 'Hello next !',
       version: 'next',
-      latestPermaLink: undefined,
+      latestPermalink: '/docs',
     });
   });
 
@@ -315,7 +315,7 @@ describe('versioned site', () => {
       title: 'bar',
       description: 'Bar 1.0.0 !',
       version: '1.0.0',
-      latestPermaLink: '@site/docs',
+      latestPermalink: '/docs',
     });
     expect(dataB).toEqual({
       id: 'version-1.0.0/hello',
@@ -324,7 +324,7 @@ describe('versioned site', () => {
       title: 'hello',
       description: 'Hello 1.0.0 !',
       version: '1.0.0',
-      latestPermaLink: '@site/docs',
+      latestPermalink: '/docs',
     });
     expect(dataC).toEqual({
       id: 'version-1.0.1/foo/bar',
@@ -333,7 +333,7 @@ describe('versioned site', () => {
       title: 'bar',
       description: 'Bar 1.0.1 !',
       version: '1.0.1',
-      latestPermaLink: undefined,
+      latestPermalink: undefined,
     });
     expect(dataD).toEqual({
       id: 'version-1.0.1/hello',
@@ -342,7 +342,7 @@ describe('versioned site', () => {
       title: 'hello',
       description: 'Hello 1.0.1 !',
       version: '1.0.1',
-      latestPermaLink: undefined,
+      latestPermalink: undefined,
     });
   });
 });
