@@ -306,7 +306,6 @@ describe('versioned website', () => {
         title: 'hello',
         permalink: '/docs/next/hello',
       },
-      
     });
     expect(docsMetadata['hello']).toEqual({
       id: 'hello',
