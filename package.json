@@ -26,6 +26,7 @@
     "test": "jest",
     "test:build:v2": "./admin/scripts/test-release.sh",
     "tsc": "lerna run tsc --no-private",
+    "watch": "yarn lerna run --parallel --no-private watch",
     "clear": "rm -rf website/.docusaurus && rm -rf website/node_modules/.cache && yarn lerna exec 'rm -rf lib' --ignore docusaurus"
   },
   "devDependencies": {
@@ -56,6 +57,7 @@
     "@types/webpack-dev-server": "^3.9.0",
     "@types/webpack-merge": "^4.1.5",
     "babel-eslint": "^10.0.3",
+    "concurrently": "^5.2.0",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.15.1",
     "eslint": "^6.7.1",
