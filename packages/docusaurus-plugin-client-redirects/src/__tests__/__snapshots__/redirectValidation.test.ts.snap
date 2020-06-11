@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`validateRedirect throw for bad redirects 1`] = `"{\\"from\\":\\"https://fb.com/fromSomePath\\",\\"to\\":\\"/toSomePath\\"} => Validation error: from is not a valid pathname. Pathname should start with / and not contain any domain or query string"`;
+
+exports[`validateRedirect throw for bad redirects 2`] = `"{\\"from\\":\\"/fromSomePath\\",\\"to\\":\\"https://fb.com/toSomePath\\"} => Validation error: to is not a valid pathname. Pathname should start with / and not contain any domain or query string"`;
+
+exports[`validateRedirect throw for bad redirects 3`] = `"{\\"from\\":\\"/fromSomePath\\",\\"to\\":\\"/toSomePath?queryString=xyz\\"} => Validation error: to is not a valid pathname. Pathname should start with / and not contain any domain or query string"`;
+
+exports[`validateRedirect throw for bad redirects 4`] = `"{\\"from\\":null,\\"to\\":\\"/toSomePath?queryString=xyz\\"} => Validation error: to is not a valid pathname. Pathname should start with / and not contain any domain or query string"`;
+
+exports[`validateRedirect throw for bad redirects 5`] = `"{\\"from\\":[\\"heyho\\"],\\"to\\":\\"/toSomePath?queryString=xyz\\"} => Validation error: to is not a valid pathname. Pathname should start with / and not contain any domain or query string"`;
