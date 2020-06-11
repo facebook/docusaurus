@@ -163,7 +163,7 @@ describe('simple website', () => {
       source: path.join('@site', pluginPath, 'hello.md'),
       title: 'Hello, World !',
       description: 'Hi, Endilie here :)',
-      isOld: false,
+      latestPermaLink: undefined,
     });
 
     expect(docsMetadata['foo/bar']).toEqual({
@@ -177,7 +177,7 @@ describe('simple website', () => {
       source: path.join('@site', pluginPath, 'foo', 'bar.md'),
       title: 'Bar',
       description: 'This is custom description',
-      isOld: false,
+      latestPermaLink: undefined,
     });
 
     expect(docsSidebars).toMatchSnapshot();
@@ -306,7 +306,7 @@ describe('versioned website', () => {
         title: 'hello',
         permalink: '/docs/next/hello',
       },
-      isOld: false,
+      latestPermaLink: undefined,
     });
     expect(docsMetadata['hello']).toEqual({
       id: 'hello',
@@ -320,7 +320,7 @@ describe('versioned website', () => {
         title: 'bar',
         permalink: '/docs/next/foo/barSlug',
       },
-      isOld: false,
+      latestPermaLink: undefined,
     });
     expect(docsMetadata['version-1.0.1/hello']).toEqual({
       id: 'version-1.0.1/hello',
@@ -339,7 +339,7 @@ describe('versioned website', () => {
         title: 'bar',
         permalink: '/docs/foo/bar',
       },
-      isOld: false,
+      latestPermaLink: undefined,
     });
     expect(docsMetadata['version-1.0.0/foo/baz']).toEqual({
       id: 'version-1.0.0/foo/baz',
@@ -364,7 +364,7 @@ describe('versioned website', () => {
         title: 'bar',
         permalink: '/docs/1.0.0/foo/barSlug',
       },
-      isOld: true,
+      latestPermaLink: '@site/docs',
     });
 
     expect(docsSidebars).toMatchSnapshot('all sidebars');
