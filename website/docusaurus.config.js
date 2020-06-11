@@ -27,6 +27,7 @@ module.exports = {
   },
   themes: ['@docusaurus/theme-live-codeblock'],
   plugins: [
+    './watchPlugin.js',
     [
       '@docusaurus/plugin-client-redirects',
       {
