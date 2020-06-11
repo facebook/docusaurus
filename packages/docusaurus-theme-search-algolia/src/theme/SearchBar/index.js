@@ -88,6 +88,7 @@ function DocSearch({indexName, appId, apiKey, searchParameters}) {
             indexName={indexName}
             searchParameters={searchParameters}
             onClose={onClose}
+            initialScrollY={window.scrollY}
             navigator={{
               navigate({suggestionUrl}) {
                 history.push(suggestionUrl);
