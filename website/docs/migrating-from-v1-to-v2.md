@@ -448,6 +448,43 @@ The following fields are all deprecated, you may remove from your configuration 
 
 We intend to implement many of the deprecated config fields as plugins in future. Help will be appreciated!
 
+## Urls
+
+In v1, all pages were available with or without the `.html` extension.
+
+For example, these 2 pages exist:
+
+- [https://docusaurus.io/docs/en/installation](https://docusaurus.io/docs/en/installation)
+- [https://docusaurus.io/docs/en/installation.html](https://docusaurus.io/docs/en/installation.html)
+
+If [`cleanUrl`](https://docusaurus.io/docs/en/site-config#cleanurl-boolean) was:
+
+- `true`: links would target `/installation`
+- `false`: links would target `/installation.html`
+
+In v2, by default, the canonical page is `/installation`, and not `/installation.html`.
+
+If you had `cleanUrl: false` in v1, it's possible that people published links to `/installation.html`.
+
+For SEO reasons, and avoiding breaking links, you should configure server-side redirect rules on your hosting provider.
+
+As an escape hatch, you could use [@docusaurus/plugin-client-redirects](./using-plugins.md#docusaurusplugin-client-redirects) to create client-side redirects from `/installation.html` to `/installation`.
+
+```js
+module.exports = {
+  plugins: [
+    [
+      '@docusaurus/plugin-client-redirects',
+      {
+        fromExtensions: ['html'],
+      },
+    ],
+  ],
+};
+```
+
+If you want to keep the `.html` extension as the canonical url of a page, docs can declare a `slug: installation.html` frontmatter.
+
 ## Components
 
 ### Sidebar

@@ -184,7 +184,7 @@ import React from 'react';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 
 function MyPage() {
-  const location = ExecutionEnvironment.canUseDOM ? window.href.location : null;
+  const location = ExecutionEnvironment.canUseDOM ? window.location.href : null;
   return <div>{location}</div>;
 }
 ```

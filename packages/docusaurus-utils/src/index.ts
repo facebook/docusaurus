@@ -12,6 +12,7 @@ import camelCase from 'lodash.camelcase';
 import kebabCase from 'lodash.kebabcase';
 import escapeStringRegexp from 'escape-string-regexp';
 import fs from 'fs-extra';
+import {URL} from 'url';
 
 const fileHash = new Map();
 export async function generate(
@@ -348,4 +349,36 @@ export function getEditUrl(fileRelativePath: string, editUrl?: string) {
   return editUrl
     ? normalizeUrl([editUrl, posixPath(fileRelativePath)])
     : undefined;
+}
+
+export function isValidPathname(str: string): boolean {
+  if (!str.startsWith('/')) {
+    return false;
+  }
+  try {
+    return new URL(str, 'https://domain.com').pathname === str;
+  } catch (e) {
+    return false;
+  }
+}
+
+export function addTrailingSlash(str: string) {
+  return str.endsWith('/') ? str : `${str}/`;
+}
+
+export function removeTrailingSlash(str: string) {
+  return removeSuffix(str, '/');
+}
+
+export function removeSuffix(str: string, suffix: string) {
+  if (suffix === '') {
+    return str; // always returns "" otherwise!
+  }
+  return str.endsWith(suffix) ? str.slice(0, -suffix.length) : str;
+}
+
+export function getFilePathForRoutePath(routePath: string) {
+  const fileName = path.basename(routePath);
+  const filePath = path.dirname(routePath);
+  return path.join(filePath, `${fileName}/index.html`);
 }
