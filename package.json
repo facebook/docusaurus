@@ -13,6 +13,9 @@
     "build": "yarn tsc && yarn build:v2",
     "build:v1": "yarn workspace docusaurus-1-website build",
     "build:v2": "yarn workspace docusaurus-2-website build",
+    "serve": "yarn serve:v2",
+    "serve:v1": "serve website-1.x/build/docusaurus",
+    "serve:v2": "serve website/build",
     "changelog": "lerna-changelog",
     "postinstall": "yarn tsc",
     "prettier": "prettier --config .prettierrc --write \"**/*.{js,ts}\"",
@@ -22,7 +25,8 @@
     "lerna": "lerna",
     "test": "jest",
     "test:build:v2": "./admin/scripts/test-release.sh",
-    "tsc": "lerna run tsc --no-private"
+    "tsc": "lerna run tsc --no-private",
+    "clear": "rm -rf website/.docusaurus && rm -rf website/node_modules/.cache && yarn lerna exec 'rm -rf lib' --ignore docusaurus"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
@@ -70,6 +74,8 @@
     "prettier": "^2.0.2",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
+    "rimraf": "^3.0.2",
+    "serve": "^11.3.2",
     "stylelint": "^13.2.1",
     "typescript": "^3.7.2"
   },
