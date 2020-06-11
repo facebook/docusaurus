@@ -112,7 +112,7 @@ function DocItem(props) {
             })}>
             {latestPermalink && (
               <div
-                className="alert alert--danger margin-bottom--md"
+                className="alert alert--warning margin-bottom--md"
                 role="alert">
                 {version === 'next' ? (
                   <div>
