@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`collectRedirects should throw if plugin option redirects contain invalid to paths 1`] = `
+"You are trying to create client-side redirections to paths that do not exist:
+- /this/path/does/not/exist2
+- /this/path/does/not/exist2
+
+Valid paths you can redirect to:
+- /
+- /someExistingPath
+- /anotherExistingPath
+"
+`;
+
+exports[`collectRedirects should throw if redirect creator creates array of array redirect 1`] = `
+"Some created redirects are invalid:
+- {\\"from\\":[\\"/fromPath\\"],\\"to\\":\\"/\\"} => Validation error: from must be a \`string\` type, but the final value was: \`[
+  \\"\\\\\\"/fromPath\\\\\\"\\"
+]\`.
+"
+`;
+
+exports[`collectRedirects should throw if redirect creator creates invalid redirects 1`] = `
+"Some created redirects are invalid:
+- {\\"from\\":\\"https://google.com/\\",\\"to\\":\\"/\\"} => Validation error: from is not a valid pathname. Pathname should start with / and not contain any domain or query string
+- {\\"from\\":\\"//abc\\",\\"to\\":\\"/\\"} => Validation error: from is not a valid pathname. Pathname should start with / and not contain any domain or query string
+- {\\"from\\":\\"/def?queryString=toto\\",\\"to\\":\\"/\\"} => Validation error: from is not a valid pathname. Pathname should start with / and not contain any domain or query string
+"
+`;
