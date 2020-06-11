@@ -114,12 +114,19 @@ function DocItem(props) {
               <div
                 className="alert alert--danger margin-bottom--md"
                 role="alert">
-                <div className="margin-bottom--md">
-                  This is archived documentation for Docusaurus{' '}
-                  <strong>{version}</strong>, which is no longer actively
-                  maintained.
-                </div>
-                <div>
+                {version === 'next' ? (
+                  <div>
+                    This is unreleased documentation for {siteTitle}{' '}
+                    <strong>{version}</strong> version.
+                  </div>
+                ) : (
+                  <div>
+                    This is archived documentation for {siteTitle}{' '}
+                    <strong>v{version}</strong>, which is no longer actively
+                    maintained.
+                  </div>
+                )}
+                <div className="margin-top--md">
                   For up-to-date documentation, see the{' '}
                   <strong>
                     <Link to={latestPermalink}>latest version</Link>.

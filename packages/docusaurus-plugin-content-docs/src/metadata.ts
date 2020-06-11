@@ -130,7 +130,7 @@ export default async function processMetadata({
 
   const latestPermalink =
     version && version !== versioning.latestVersion
-      ? normalizeUrl([baseUrl, routeBasePath, routePath])
+      ? normalizeUrl([baseUrl, routeBasePath])
       : undefined;
 
   const {lastUpdatedAt, lastUpdatedBy} = await lastUpdatedPromise;
