@@ -15,10 +15,12 @@ However, it can be helpful if you have a high-level understanding of how the con
 
 The high-level overview of Docusaurus configuration can be categorized into:
 
-- [Site metadata](#site-metadata)
-- [Deployment configurations](#deployment-configurations)
-- [Theme, plugin, and preset configurations](#theme-plugin-and-preset-configurations)
-- [Custom configurations](#custom-configurations)
+- [What goes into a `docusaurus.config.js`?](#what-goes-into-a-docusaurusconfigjs)
+  - [Site metadata](#site-metadata)
+  - [Deployment configurations](#deployment-configurations)
+  - [Theme, plugin, and preset configurations](#theme-plugin-and-preset-configurations)
+  - [Custom configurations](#custom-configurations)
+- [Customizing Babel Configuration](#customizing-babel-configuration)
 
 For exact reference to each of the configurable fields, you may refer to [**`docusaurus.config.js` API reference**](docusaurus.config.js.md).
 
@@ -149,3 +151,15 @@ const Hello = () => {
 If you just want to use those fields on the client side, you could create your own JS files and import them as ES6 modules, there is no need to put them in `docusaurus.config.js`.
 
 :::
+
+## Customizing Babel Configuration
+
+For new Docusaurus projects, we automatically generated a `babel.config.js` in project root.
+
+```js title="babel.config.js"
+module.exports = {
+  presets: [require.resolve('@docusaurus/core/lib/babel/preset')],
+};
+```
+
+Most of the times, this configuration will work just fine. If you want to customize it, you can directly edit this file to customize babel configuration. For your changes to take effect, you need to restart Docusaurus devserver.
