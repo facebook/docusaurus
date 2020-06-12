@@ -65,7 +65,9 @@ const DEFAULT_OPTIONS: PluginOptions = {
   admonitions: {},
 };
 
-function getFirstDocLinkOfSidebar(sidebarItems: DocsSidebarItem[]): string | null {
+function getFirstDocLinkOfSidebar(
+  sidebarItems: DocsSidebarItem[],
+): string | null {
   for (let sidebarItem of sidebarItems) {
     if (sidebarItem.type === 'category') {
       const url = getFirstDocLinkOfSidebar(sidebarItem.items);

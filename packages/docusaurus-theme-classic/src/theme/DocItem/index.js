@@ -129,7 +129,10 @@ function DocItem(props) {
                 <div className="margin-top--md">
                   For up-to-date documentation, see the{' '}
                   <strong>
-                    <Link to={latestVersionMainDocPermalink}>latest version</Link>.
+                    <Link to={latestVersionMainDocPermalink}>
+                      latest version
+                    </Link>
+                    .
                   </strong>
                 </div>
               </div>
