@@ -41,6 +41,9 @@ function DocPage(props) {
     : permalinkToSidebar[currentRoute.path];
   const {
     siteConfig: {themeConfig: {sidebarCollapsible = true} = {}} = {},
+    siteConfig: {
+      themeConfig: {sidebarCollapsibleOverrides = []},
+    },
     isClient,
   } = useDocusaurusContext();
 
@@ -61,7 +64,11 @@ function DocPage(props) {
               docsSidebars={docsSidebars}
               path={isHomePage ? homePagePath : currentRoute.path}
               sidebar={sidebar}
-              sidebarCollapsible={sidebarCollapsible}
+              sidebarCollapsible={
+                sidebarCollapsibleOverrides.includes(sidebar)
+                  ? !sidebarCollapsible
+                  : sidebarCollapsible
+              }
             />
           </div>
         )}

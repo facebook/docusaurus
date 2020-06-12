@@ -303,6 +303,21 @@ module.exports = {
 };
 ```
 
+#### Overriding themeConfig.sidebarCollapsible on some sidebars
+
+If you have multiple sidebars, and would like to collapse some but not others, you can override the `themeConfig.sidebarCollapsible` behavior on a per-sidebar basis. Set `themeConfig.sidebarCollapsibleOverrides` to a list of names of sidebars that should behave the opposite of what you have `themeConfig.sidebarCollapsible` set to.
+
+```js {5} title="docusaurus.config.js"
+module.exports = {
+  // ...
+  themeConfig: {
+    sidebarCollapsible: false,
+    sidebarCollapsibleOverrides: ['secondSidebar'],
+    // ...
+  },
+};
+```
+
 #### Expanded categories by default
 
 For docs that have collapsible categories, you may want more fine-grain control over certain categories. If you want specific categories to be always expanded, you can set `collapsed` to `false`:
