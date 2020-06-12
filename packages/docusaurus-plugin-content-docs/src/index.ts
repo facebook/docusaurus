@@ -476,7 +476,7 @@ Available document ids=
         );
         const rootUrl =
           options.homePageId && content.docsMetadata[options.homePageId]
-            ? content.docsMetadata[options.homePageId].permalink
+            ? normalizeUrl([baseUrl, routeBasePath])
             : getFirstDocLinkOfSidebar(
                 content.docsSidebars[
                   `version-${versioning.latestVersion}/docs`
