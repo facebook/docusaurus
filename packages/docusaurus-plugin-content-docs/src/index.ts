@@ -472,9 +472,11 @@ Available document ids=
           Object.values(content.docsMetadata),
           'version',
         );
-        const rootUrl = getHrefFromSideBar(
-          content.docsSidebars[`version-${versioning.latestVersion}/docs`],
-        );
+        const rootUrl = options.homePageId
+          ? normalizeUrl([baseUrl, homePageDocsRoutePath])
+          : getHrefFromSideBar(
+              content.docsSidebars[`version-${versioning.latestVersion}/docs`],
+            );
         if (!rootUrl) {
           throw new Error('Bad sidebars file. No document linked');
         }
