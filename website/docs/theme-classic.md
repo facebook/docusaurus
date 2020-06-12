@@ -94,6 +94,18 @@ const Example = () => {
 };
 ```
 
+:::note
+
+The component calling `useThemeContext` must be a child of the `Layout` component.
+
+```jsx
+<Layout>
+  <Example />
+</Layout>
+```
+
+:::
+
 ## Navbar
 
 ### Navbar title & logo
