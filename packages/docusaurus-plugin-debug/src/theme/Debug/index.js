@@ -34,7 +34,7 @@ function Debug() {
             {routes.map(({path, exact}) => (
               <li key={path}>
                 <div>Route: {path}</div>
-                <div>Is exact: {Boolean(exact)}</div>
+                <div>Is exact: {String(Boolean(exact))}</div>
               </li>
             ))}
           </ul>
