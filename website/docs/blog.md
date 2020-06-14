@@ -192,7 +192,3 @@ References
 - [v1 doc](https://docusaurus.io/docs/en/next/adding-blog)
 
 -->
-
-```
-
-```
