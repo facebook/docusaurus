@@ -48,7 +48,6 @@
     "cache-loader": "^4.1.0",
     "chalk": "^3.0.0",
     "chokidar": "^3.3.0",
-    "classnames": "^2.2.6",
     "commander": "^4.0.1",
     "copy-webpack-plugin": "^5.0.5",
     "core-js": "^2.6.5",

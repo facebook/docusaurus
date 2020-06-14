@@ -6,13 +6,20 @@
  */
 
 import useDocusaurusContext from './useDocusaurusContext';
+import isInternalUrl from './isInternalUrl';
+
+type BaseUrlOptions = {
+  forcePrependBaseUrl: boolean;
+  absolute: boolean;
+};
 
 export default function useBaseUrl(
   url: string,
-  forcePrependBaseUrl: boolean = false,
+  {forcePrependBaseUrl = false, absolute = false}: Partial<BaseUrlOptions> = {},
 ): string {
-  const {siteConfig} = useDocusaurusContext();
-  const {baseUrl = '/'} = siteConfig || {};
+  const {
+    siteConfig: {baseUrl = '/', url: siteUrl} = {},
+  } = useDocusaurusContext();
 
   if (!url) {
     return url;
@@ -22,14 +29,11 @@ export default function useBaseUrl(
     return baseUrl + url;
   }
 
-  const externalRegex = /^(https?:|\/\/)/;
-  if (externalRegex.test(url)) {
+  if (!isInternalUrl(url)) {
     return url;
   }
 
-  if (url.startsWith('/')) {
-    return baseUrl + url.slice(1);
-  }
+  const basePath = baseUrl + url.replace(/^\//, '');
 
-  return baseUrl + url;
+  return absolute ? siteUrl + basePath : basePath;
 }

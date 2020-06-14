@@ -79,7 +79,7 @@ describe('simple site', () => {
 
     expect(data).toEqual({
       id: 'foo/baz',
-      permalink: '/docs/foo/baz',
+      permalink: '/docs/foo/bazSlug.html',
       source: path.join('@site', routeBasePath, source),
       title: 'baz',
       editUrl:
@@ -172,21 +172,40 @@ describe('simple site', () => {
   });
 
   test('docs with invalid id', async () => {
-    const badSiteDir = path.join(fixtureDir, 'bad-site');
+    const badSiteDir = path.join(fixtureDir, 'bad-id-site');
     const options = {
       routeBasePath,
     };
 
-    return processMetadata({
-      source: 'invalid-id.md',
-      refDir: path.join(badSiteDir, 'docs'),
-      context,
-      options,
-      env,
-    }).catch((e) =>
-      expect(e).toMatchInlineSnapshot(
-        `[Error: Document id cannot include "/".]`,
-      ),
+    await expect(
+      processMetadata({
+        source: 'invalid-id.md',
+        refDir: path.join(badSiteDir, 'docs'),
+        context,
+        options,
+        env,
+      }),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
+      `"Document id cannot include \\"/\\"."`,
+    );
+  });
+
+  test('docs with invalid slug', async () => {
+    const badSiteDir = path.join(fixtureDir, 'bad-slug-site');
+    const options = {
+      routeBasePath,
+    };
+
+    await expect(
+      processMetadata({
+        source: 'invalid-slug.md',
+        refDir: path.join(badSiteDir, 'docs'),
+        context,
+        options,
+        env,
+      }),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
+      `"Document slug cannot include \\"/\\"."`,
     );
   });
 });
@@ -225,7 +244,7 @@ describe('versioned site', () => {
 
     expect(dataA).toEqual({
       id: 'foo/bar',
-      permalink: '/docs/next/foo/bar',
+      permalink: '/docs/next/foo/barSlug',
       source: path.join('@site', routeBasePath, sourceA),
       title: 'bar',
       description: 'This is next version of bar.',
@@ -283,7 +302,7 @@ describe('versioned site', () => {
 
     expect(dataA).toEqual({
       id: 'version-1.0.0/foo/bar',
-      permalink: '/docs/1.0.0/foo/bar',
+      permalink: '/docs/1.0.0/foo/barSlug',
       source: path.join('@site', path.relative(siteDir, versionedDir), sourceA),
       title: 'bar',
       description: 'Bar 1.0.0 !',

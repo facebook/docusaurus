@@ -109,7 +109,7 @@ describe('loadSidebars', () => {
     expect(() =>
       loadSidebars([sidebarPath]),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Unknown sidebar item type: superman"`,
+      `"Unknown sidebar item type [superman]. Sidebar item={\\"type\\":\\"superman\\"} "`,
     );
   });
 

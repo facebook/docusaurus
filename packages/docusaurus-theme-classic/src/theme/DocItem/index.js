@@ -8,13 +8,12 @@
 import React from 'react';
 
 import Head from '@docusaurus/Head';
-import isInternalUrl from '@docusaurus/isInternalUrl';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import DocPaginator from '@theme/DocPaginator';
 import useTOCHighlight from '@theme/hooks/useTOCHighlight';
 
-import classnames from 'classnames';
+import clsx from 'clsx';
 import styles from './styles.module.css';
 
 const LINK_CLASS_NAME = 'table-of-contents__link';
@@ -80,10 +79,7 @@ function DocItem(props) {
   } = DocContent;
 
   const metaTitle = title ? `${title} | ${siteTitle}` : siteTitle;
-  let metaImageUrl = siteUrl + useBaseUrl(metaImage);
-  if (!isInternalUrl(metaImage)) {
-    metaImageUrl = metaImage;
-  }
+  const metaImageUrl = useBaseUrl(metaImage, {absolute: true});
 
   return (
     <>
@@ -106,13 +102,10 @@ function DocItem(props) {
         {permalink && <link rel="canonical" href={siteUrl + permalink} />}
       </Head>
       <div
-        className={classnames(
-          'container padding-vert--lg',
-          styles.docItemWrapper,
-        )}>
+        className={clsx('container padding-vert--lg', styles.docItemWrapper)}>
         <div className="row">
           <div
-            className={classnames('col', {
+            className={clsx('col', {
               [styles.docItemCol]: !hideTableOfContents,
             })}>
             <div className={styles.docItemContainer}>

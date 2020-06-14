@@ -45,13 +45,7 @@ test('site with wrong sidebar file', async () => {
   const plugin = pluginContentDocs(context, {
     sidebarPath,
   });
-  return plugin
-    .loadContent()
-    .catch((e) =>
-      expect(e).toMatchInlineSnapshot(
-        `[Error: Improper sidebars file, document with id 'goku' not found.]`,
-      ),
-    );
+  await expect(plugin.loadContent()).rejects.toThrowErrorMatchingSnapshot();
 });
 
 describe('empty/no docs website', () => {
@@ -163,7 +157,7 @@ describe('simple website', () => {
       permalink: '/docs/hello',
       previous: {
         title: 'baz',
-        permalink: '/docs/foo/baz',
+        permalink: '/docs/foo/bazSlug.html',
       },
       sidebar: 'docs',
       source: path.join('@site', pluginPath, 'hello.md'),
@@ -175,7 +169,7 @@ describe('simple website', () => {
       id: 'foo/bar',
       next: {
         title: 'baz',
-        permalink: '/docs/foo/baz',
+        permalink: '/docs/foo/bazSlug.html',
       },
       permalink: '/docs/foo/bar',
       sidebar: 'docs',
@@ -300,7 +294,7 @@ describe('versioned website', () => {
     expect(docsMetadata['version-1.0.1/foo/baz']).toBeUndefined();
     expect(docsMetadata['foo/bar']).toEqual({
       id: 'foo/bar',
-      permalink: '/docs/next/foo/bar',
+      permalink: '/docs/next/foo/barSlug',
       source: path.join('@site', routeBasePath, 'foo', 'bar.md'),
       title: 'bar',
       description: 'This is next version of bar.',
@@ -321,7 +315,7 @@ describe('versioned website', () => {
       sidebar: 'docs',
       previous: {
         title: 'bar',
-        permalink: '/docs/next/foo/bar',
+        permalink: '/docs/next/foo/barSlug',
       },
     });
     expect(docsMetadata['version-1.0.1/hello']).toEqual({
@@ -363,7 +357,7 @@ describe('versioned website', () => {
       },
       previous: {
         title: 'bar',
-        permalink: '/docs/1.0.0/foo/bar',
+        permalink: '/docs/1.0.0/foo/barSlug',
       },
     });
 

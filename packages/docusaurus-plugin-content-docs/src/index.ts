@@ -70,8 +70,6 @@ export default function pluginContentDocs(
   opts: Partial<PluginOptions>,
 ): Plugin<LoadedContent | null> {
   const options = {...DEFAULT_OPTIONS, ...opts};
-  const homePageDocsRoutePath =
-    options.routeBasePath === '' ? '/' : options.routeBasePath;
 
   if (options.admonitions) {
     options.remarkPlugins = options.remarkPlugins.concat([
@@ -97,6 +95,24 @@ export default function pluginContentDocs(
     sidebarsDir: versionedSidebarsDir,
   } = versioning;
   const versionsNames = versions.map((version) => `version-${version}`);
+
+  // Docs home page.
+  const homePageDocsRoutePath =
+    options.routeBasePath === '' ? '/' : options.routeBasePath;
+  const isDocsHomePagePath = (permalink: string) => {
+    const documentIdMatch = new RegExp(
+      `^\/(?:${homePageDocsRoutePath}\/)?(?:(?:${versions.join(
+        '|',
+      )}|next)\/)?(.*)`,
+      'i',
+    ).exec(permalink);
+
+    if (documentIdMatch) {
+      return documentIdMatch[1] === options.homePageId;
+    }
+
+    return false;
+  };
 
   return {
     name: 'docusaurus-plugin-content-docs',
@@ -259,19 +275,25 @@ export default function pluginContentDocs(
       });
 
       const convertDocLink = (item: SidebarItemDoc): SidebarItemLink => {
-        const linkID = item.id;
-        const linkMetadata = docsMetadataRaw[linkID];
+        const docId = item.id;
+        const docMetadata = docsMetadataRaw[docId];
 
-        if (!linkMetadata) {
+        if (!docMetadata) {
           throw new Error(
-            `Improper sidebars file, document with id '${linkID}' not found.`,
+            `Bad sidebars file. The document id '${docId}' was used in the sidebar, but no document with this id could be found.
+Available document ids=
+- ${Object.keys(docsMetadataRaw).sort().join('\n- ')}`,
           );
         }
 
+        const {title, permalink, sidebar_label} = docMetadata;
+
         return {
           type: 'link',
-          label: linkMetadata.sidebar_label || linkMetadata.title,
-          href: linkMetadata.permalink,
+          label: sidebar_label || title,
+          href: isDocsHomePagePath(permalink)
+            ? permalink.replace(`/${options.homePageId}`, '')
+            : permalink,
         };
       };
 
@@ -361,7 +383,6 @@ export default function pluginContentDocs(
                 baseUrl,
                 homePageDocsRoutePath,
                 versionDocsPathPrefix,
-                options.homePageId,
               ]);
               const docsBaseMetadataPath = await createData(
                 `${docuHash(metadataItem.source)}-base.json`,
@@ -404,12 +425,9 @@ export default function pluginContentDocs(
 
         return (
           routes
-            // Do not create a route for a page created specifically for docs home page.
-            .filter(
-              ({path}) =>
-                path.substr(path.lastIndexOf('/') + 1) !==
-                REVERSED_DOCS_HOME_PAGE_ID,
-            )
+            // Do not create a route for a document serve as docs home page.
+            // TODO: need way to do this filtering when generating routes for better perf.
+            .filter(({path}) => !isDocsHomePagePath(path))
             .sort((a, b) => (a.path > b.path ? 1 : b.path > a.path ? -1 : 0))
         );
       };

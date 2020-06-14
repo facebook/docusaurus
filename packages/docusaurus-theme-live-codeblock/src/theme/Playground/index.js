@@ -7,7 +7,7 @@
 
 import * as React from 'react';
 import {LiveProvider, LiveEditor, LiveError, LivePreview} from 'react-live';
-import classnames from 'classnames';
+import clsx from 'clsx';
 
 import styles from './styles.module.css';
 
@@ -19,7 +19,7 @@ function Playground({children, theme, transformCode, ...props}) {
       theme={theme}
       {...props}>
       <div
-        className={classnames(
+        className={clsx(
           styles.playgroundHeader,
           styles.playgroundEditorHeader,
         )}>
@@ -27,7 +27,7 @@ function Playground({children, theme, transformCode, ...props}) {
       </div>
       <LiveEditor className={styles.playgroundEditor} />
       <div
-        className={classnames(
+        className={clsx(
           styles.playgroundHeader,
           styles.playgroundPreviewHeader,
         )}>

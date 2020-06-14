@@ -39,11 +39,7 @@ describe('server utils', () => {
     const css = await utils.minifyCss(testCss);
     expect(css).toMatchSnapshot();
 
-    try {
-      await utils.minifyCss(notCss);
-    } catch (error) {
-      expect(error).toMatchSnapshot();
-    }
+    await expect(utils.minifyCss(notCss)).rejects.toMatchSnapshot();
   });
 
   test('autoprefix css', async () => {

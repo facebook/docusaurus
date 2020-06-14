@@ -62,17 +62,18 @@ function Home() {
     <Layout
       title={`Hello from ${siteConfig.title}`}
       description="Description will go into a meta tag in <head />">
+      <div  className={styles.hero}>
       <header>
-        <h1 className="hero__title">{siteConfig.title}</h1>
-        <p className="hero__subtitle">{siteConfig.tagline}</p>
+        <h1>{siteConfig.title}</h1>
+        <p>{siteConfig.tagline}</p>
         <div className={styles.buttons}>
           <Link to={useBaseUrl('docs/')}>Get Started</Link>
         </div>
       </header>
       <main>
         {features && features.length > 0 && (
-          <section className={styles.features}>
-            <div className="row">
+          <section className={styles.section}>
+            <div className={styles.features}>
               {features.map((props, idx) => (
                 <Feature key={idx} {...props} />
               ))}
@@ -80,6 +81,7 @@ function Home() {
           </section>
         )}
       </main>
+      </div>
     </Layout>
   );
 }

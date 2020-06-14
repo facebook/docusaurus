@@ -153,6 +153,13 @@ const Test = () => {
 
 React hook to automatically prepend `baseUrl` to a string automatically. This is particularly useful if you don't want to hardcode your config's `baseUrl`. We highly recommend you to use this.
 
+```ts
+type BaseUrlOptions = {
+  forcePrependBaseUrl: boolean;
+  absolute: boolean;
+};
+```
+
 Example usage:
 
 ```jsx {3,11}
@@ -184,7 +191,7 @@ import React from 'react';
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 
 function MyPage() {
-  const location = ExecutionEnvironment.canUseDOM ? window.href.location : null;
+  const location = ExecutionEnvironment.canUseDOM ? window.location.href : null;
   return <div>{location}</div>;
 }
 ```

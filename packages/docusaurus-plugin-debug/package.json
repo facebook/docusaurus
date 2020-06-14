@@ -1,0 +1,25 @@
+{
+  "name": "@docusaurus/plugin-debug",
+  "version": "2.0.0-alpha.56",
+  "description": "Debug plugin for Docusaurus",
+  "main": "lib/index.js",
+  "scripts": {
+    "tsc": "tsc"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@docusaurus/types": "^2.0.0-alpha.56",
+    "@docusaurus/utils": "^2.0.0-alpha.56"
+  },
+  "peerDependencies": {
+    "@docusaurus/core": "^2.0.0",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4"
+  },
+  "engines": {
+    "node": ">=10.15.1"
+  }
+}

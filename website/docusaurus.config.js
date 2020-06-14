@@ -7,6 +7,12 @@
 
 const versions = require('./versions.json');
 
+const allDocHomesPaths = [
+  '/docs',
+  '/docs/next',
+  ...versions.slice(1).map((version) => `/docs/${version}`),
+];
+
 module.exports = {
   title: 'Docusaurus',
   tagline: 'Build optimized websites quickly, focus on your content',
@@ -21,6 +27,19 @@ module.exports = {
   },
   themes: ['@docusaurus/theme-live-codeblock'],
   plugins: [
+    [
+      '@docusaurus/plugin-client-redirects',
+      {
+        fromExtensions: ['html'],
+        createRedirects: function (path) {
+          // redirect to /docs from /docs/introduction,
+          // as introduction has been made the home doc
+          if (allDocHomesPaths.includes(path)) {
+            return [`${path}/introduction`];
+          }
+        },
+      },
+    ],
     [
       '@docusaurus/plugin-ideal-image',
       {
@@ -93,7 +112,7 @@ module.exports = {
       links: [
         {
           label: 'Docs',
-          to: 'docs/introduction', // "fake" link
+          to: 'docs', // "fake" link
           position: 'left',
           activeBaseRegex: `docs/(?!next/(support|team|resources))`,
           items: [
@@ -142,7 +161,7 @@ module.exports = {
           items: [
             {
               label: 'Introduction',
-              to: 'docs/introduction',
+              to: 'docs',
             },
             {
               label: 'Installation',

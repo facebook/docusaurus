@@ -18,6 +18,11 @@ import {
   objectWithKeySorted,
   aliasedSitePath,
   createExcerpt,
+  isValidPathname,
+  addTrailingSlash,
+  removeTrailingSlash,
+  removeSuffix,
+  getFilePathForRoutePath,
 } from '../index';
 
 describe('load utils', () => {
@@ -362,5 +367,70 @@ describe('load utils', () => {
     asserts.forEach((testCase) => {
       expect(createExcerpt(testCase.input)).toEqual(testCase.output);
     });
+  });
+
+  test('isValidPathname', () => {
+    expect(isValidPathname('/')).toBe(true);
+    expect(isValidPathname('/hey')).toBe(true);
+    expect(isValidPathname('/hey/ho')).toBe(true);
+    expect(isValidPathname('/hey/ho/')).toBe(true);
+    expect(isValidPathname('/hey/h%C3%B4/')).toBe(true);
+    expect(isValidPathname('/hey///ho///')).toBe(true); // Unexpected but valid
+    //
+    expect(isValidPathname('')).toBe(false);
+    expect(isValidPathname('hey')).toBe(false);
+    expect(isValidPathname('/hey/hô')).toBe(false);
+    expect(isValidPathname('/hey?qs=ho')).toBe(false);
+    expect(isValidPathname('https://fb.com/hey')).toBe(false);
+    expect(isValidPathname('//hey')).toBe(false);
+  });
+});
+
+describe('addTrailingSlash', () => {
+  test('should no-op', () => {
+    expect(addTrailingSlash('/abcd/')).toEqual('/abcd/');
+  });
+  test('should add /', () => {
+    expect(addTrailingSlash('/abcd')).toEqual('/abcd/');
+  });
+});
+
+describe('removeTrailingSlash', () => {
+  test('should no-op', () => {
+    expect(removeTrailingSlash('/abcd')).toEqual('/abcd');
+  });
+  test('should remove /', () => {
+    expect(removeTrailingSlash('/abcd/')).toEqual('/abcd');
+  });
+});
+
+describe('removeSuffix', () => {
+  test('should no-op 1', () => {
+    expect(removeSuffix('abcdef', 'ijk')).toEqual('abcdef');
+  });
+  test('should no-op 2', () => {
+    expect(removeSuffix('abcdef', 'abc')).toEqual('abcdef');
+  });
+  test('should no-op 3', () => {
+    expect(removeSuffix('abcdef', '')).toEqual('abcdef');
+  });
+  test('should remove suffix', () => {
+    expect(removeSuffix('abcdef', 'ef')).toEqual('abcd');
+  });
+});
+
+describe('getFilePathForRoutePath', () => {
+  test('works for /', () => {
+    expect(getFilePathForRoutePath('/')).toEqual('/index.html');
+  });
+  test('works for /somePath', () => {
+    expect(getFilePathForRoutePath('/somePath')).toEqual(
+      '/somePath/index.html',
+    );
+  });
+  test('works for /somePath/', () => {
+    expect(getFilePathForRoutePath('/somePath/')).toEqual(
+      '/somePath/index.html',
+    );
   });
 });
