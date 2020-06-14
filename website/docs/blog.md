@@ -165,17 +165,26 @@ Make sure there's no `index.js` page in `src/pages` or else there will be two fi
 
 ### Multiple blogs
 
-You can add another blog by specifying your own blog plugin in the `plugins` option. Set the `routeBasePath` to the URL route that you want your blog to be accessed on. Also, set `path` to the path to your blog folder.
+By default, the classic theme assumes only one blog per website and hence includes only one instance of the blog plugin. If you would like to have multiple blogs on a single website, it's possible too! You can add another blog by specifying another blog plugin in the `plugins` option for `docusaurus.config.js`.
 
-```js {4-10} title="docusaurus.config.js"
+Set the `routeBasePath` to the URL route that you want your second blog to be accessed on. Note that the `routeBasePath` here has to be different from the first blog or else there could be a collision of paths! Also, set `path` to the path to the directory containing your second blog's entries.
+
+```js title="docusaurus.config.js"
 module.exports = {
   // ...
   plugins: [
     [
       '@docusaurus/plugin-content-blog',
       {
-        routeBasePath: 'my-blog', // URL route for your blog
-        path: './my-blog', // path to your blog folder
+        /**
+         * URL route for the blog section of your site.
+         * *DO NOT* include a trailing slash.
+         */
+        routeBasePath: 'my-second-blog',
+        /**
+         * Path to data on filesystem relative to site dir.
+         */
+        path: './my-second-blog',
       },
     ],
   ],
