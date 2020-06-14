@@ -132,8 +132,8 @@ function DocItem(props) {
                     <Link to={latestVersionMainDocPermalink}>
                       latest version
                     </Link>
-                    .
                   </strong>
+                  .
                 </div>
               </div>
             )}
