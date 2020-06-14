@@ -116,14 +116,14 @@ jobs:
           node-version: '12.x'
       - name: Test Build
         run: |
-            if [ -e yarn.lock ]; then
-            yarn install --frozen-lockfile
-            elif [ -e package-lock.json ]; then
-            npm ci
-            else
-            npm i
-            fi
-            npm run build
+          if [ -e yarn.lock ]; then
+          yarn install --frozen-lockfile
+          elif [ -e package-lock.json ]; then
+          npm ci
+          else
+          npm i
+          fi
+          npm run build
   gh-release:
     if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
@@ -160,7 +160,6 @@ jobs:
           npm i
           fi
           npx docusaurus deploy
-
 ```
 
 1. Now when a new pull request arrives towards your repository in branch `documentation` it will automatically ensure that Docusaurus build is successful.
