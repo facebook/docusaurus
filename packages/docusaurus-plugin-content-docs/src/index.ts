@@ -71,7 +71,9 @@ function getFirstDocLinkOfSidebar(
   for (let sidebarItem of sidebarItems) {
     if (sidebarItem.type === 'category') {
       const url = getFirstDocLinkOfSidebar(sidebarItem.items);
-      if (url) return url;
+      if (url) {
+        return url;
+      }
     } else {
       return sidebarItem.href;
     }
@@ -486,8 +488,9 @@ Available document ids=
           throw new Error('Bad sidebars file. No document linked');
         }
         Object.values(content.docsMetadata).forEach((docMetadata) => {
-          if (docMetadata.version !== versioning.latestVersion)
+          if (docMetadata.version !== versioning.latestVersion) {
             docMetadata.latestVersionMainDocPermalink = rootUrl;
+          }
         });
         await Promise.all(
           Object.keys(docsMetadataByVersion).map(async (version) => {
