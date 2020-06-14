@@ -163,6 +163,10 @@ Make sure there's no `index.js` page in `src/pages` or else there will be two fi
 
 :::
 
+### Multiple blogs
+
+You can add another blog by specifying your own blog plugin in the `plugins` option. Set the `routeBasePath` to the URL route that you want your blog to be accessed on. Also, set `path` to the path to your blog folder.
+
 ```js {4-10} title="docusaurus.config.js"
 module.exports = {
   // ...
@@ -175,7 +179,8 @@ module.exports = {
       },
     ],
   ],
-}
+};
+```
 
 <!--
 
@@ -187,4 +192,7 @@ References
 - [v1 doc](https://docusaurus.io/docs/en/next/adding-blog)
 
 -->
+
+```
+
 ```
