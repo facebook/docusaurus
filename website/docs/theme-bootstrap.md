@@ -107,38 +107,6 @@ React Router should automatically apply active link styling to links, but you ca
 
 Outbound (external) links automatically get `target="_blank" rel="noopener noreferrer"` attributes.
 
-### Navbar dropdown
-
-Navbar items can also be dropdown items by specifying the `items`, an inner array of navbar links.
-
-```js {9-19} title="docusaurus.config.js"
-module.exports = {
-  // ...
-  themeConfig: {
-    navbar: {
-      links: [
-        {
-          label: 'Community',
-          position: 'left', // or 'right'
-          items: [
-            {
-              label: 'Facebook',
-              href: '...',
-            },
-            {
-              label: 'GitHub',
-              href: '...',
-            },
-            // ... more items
-          ],
-        },
-      ],
-    },
-    // ...
-  },
-};
-```
-
 
 ## Footer
 
