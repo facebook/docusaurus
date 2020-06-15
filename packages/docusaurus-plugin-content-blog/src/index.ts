@@ -441,16 +441,18 @@ export default function pluginContentBlog(
       const feedTypes = getFeedTypes(options.feedOptions?.type);
 
       await Promise.all(
-        feedTypes.map((feedType) => {
+        feedTypes.map(async (feedType) => {
           const feedPath = path.join(
             outDir,
             options.routeBasePath,
             `${feedType}.xml`,
           );
           const feedContent = feedType === 'rss' ? feed.rss2() : feed.atom1();
-          return fs.outputFile(feedPath, feedContent).catch((err) => {
+          try {
+            await fs.outputFile(feedPath, feedContent);
+          } catch (err) {
             throw new Error(`Generating ${feedType} feed failed: ${err}`);
-          });
+          }
         }),
       );
     },
