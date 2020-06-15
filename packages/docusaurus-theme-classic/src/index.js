@@ -19,39 +19,47 @@ const ContextReplacementPlugin = requireFromDocusaurusCore(
 // Need to be inlined to prevent dark mode FOUC
 // Make sure that the 'storageKey' is the same as the one in `/theme/hooks/useTheme.js`
 const storageKey = 'theme';
-const noFlash = (defaultDarkMode) => `(function() {
+const noFlash = ({defaultDarkMode = false, respectUserPreference = false}) => {
+  return `(function() {
   var defaultDarkMode = ${defaultDarkMode};
+  var respectUserPreference = ${respectUserPreference};
 
   function setDataThemeAttribute(theme) {
     document.documentElement.setAttribute('data-theme', theme);
   }
 
-  function getPreferredTheme() {
+  function getStoredTheme() {
     var theme = null;
     try {
       theme = localStorage.getItem('${storageKey}');
     } catch (err) {}
-
     return theme;
   }
 
-  var darkQuery = window.matchMedia('(prefers-color-scheme: dark)');
-
-  var preferredTheme = getPreferredTheme();
-  if (preferredTheme !== null) {
-    setDataThemeAttribute(preferredTheme);
-  } else if (darkQuery.matches || defaultDarkMode) {
-    setDataThemeAttribute('dark');
+  var storedTheme = getStoredTheme();
+  if (storedTheme !== null) {
+    setDataThemeAttribute(storedTheme);
+  }
+  else {
+    if ( respectUserPreference && window.matchMedia('(prefers-color-scheme: dark)').matches ) {
+      setDataThemeAttribute('dark');
+    }
+    else if ( respectUserPreference && window.matchMedia('(prefers-color-scheme: light)').matches ) {
+      setDataThemeAttribute('light');
+    }
+    else {
+      setDataThemeAttribute(defaultDarkMode ? 'dark' : 'light');
+    }
   }
 })();`;
+};
 
 module.exports = function (context, options) {
   const {
     siteConfig: {themeConfig},
   } = context;
   const {
-    disableDarkMode = false,
-    defaultDarkMode = false,
+    colorMode: {defaultDarkMode = false, respectUserPreference = false} = {},
     prism: {additionalLanguages = []} = {},
   } = themeConfig || {};
   const {customCss} = options || {};
@@ -92,9 +100,6 @@ module.exports = function (context, options) {
     },
 
     injectHtmlTags() {
-      if (disableDarkMode) {
-        return {};
-      }
       return {
         preBodyTags: [
           {
@@ -102,7 +107,10 @@ module.exports = function (context, options) {
             attributes: {
               type: 'text/javascript',
             },
-            innerHTML: noFlash(defaultDarkMode),
+            innerHTML: noFlash({
+              defaultDarkMode,
+              respectUserPreference,
+            }),
           },
         ],
       };

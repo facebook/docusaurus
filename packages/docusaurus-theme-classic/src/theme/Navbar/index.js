@@ -175,7 +175,7 @@ function Navbar() {
     siteConfig: {
       themeConfig: {
         navbar: {title, links = [], hideOnScroll = false} = {},
-        disableDarkMode = false,
+        colorMode: {disableSwitch: disableColorModeSwitch = false} = {},
       },
     },
     isClient,
@@ -265,7 +265,7 @@ function Navbar() {
           {rightLinks.map((linkItem, i) => (
             <NavItem {...linkItem} key={i} />
           ))}
-          {!disableDarkMode && (
+          {!disableColorModeSwitch && (
             <Toggle
               className={styles.displayOnlyInLargeViewport}
               aria-label="Dark mode toggle"
@@ -303,7 +303,7 @@ function Navbar() {
               <strong className="navbar__title">{title}</strong>
             )}
           </Link>
-          {!disableDarkMode && sidebarShown && (
+          {!disableColorModeSwitch && sidebarShown && (
             <Toggle
               aria-label="Dark mode toggle in sidebar"
               checked={isDarkTheme}

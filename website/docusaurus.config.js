@@ -81,6 +81,12 @@ module.exports = {
     ],
   ],
   themeConfig: {
+    colorMode: {
+      defaultDarkMode: false,
+      respectUserPreference: true,
+      disableSwitch: false,
+    },
+
     announcementBar: {
       id: 'supportus',
       content:
