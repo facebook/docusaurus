@@ -65,6 +65,22 @@ const DEFAULT_OPTIONS: PluginOptions = {
   admonitions: {},
 };
 
+function getFirstDocLinkOfSidebar(
+  sidebarItems: DocsSidebarItem[],
+): string | null {
+  for (let sidebarItem of sidebarItems) {
+    if (sidebarItem.type === 'category') {
+      const url = getFirstDocLinkOfSidebar(sidebarItem.items);
+      if (url) {
+        return url;
+      }
+    } else {
+      return sidebarItem.href;
+    }
+  }
+  return null;
+}
+
 export default function pluginContentDocs(
   context: LoadContext,
   opts: Partial<PluginOptions>,
@@ -302,7 +318,6 @@ Available document ids=
         },
         {},
       );
-
       return {
         docsMetadata,
         docsDir,
@@ -406,6 +421,22 @@ Available document ids=
           Object.values(content.docsMetadata),
           'version',
         );
+        const rootUrl =
+          options.homePageId && content.docsMetadata[options.homePageId]
+            ? normalizeUrl([baseUrl, routeBasePath])
+            : getFirstDocLinkOfSidebar(
+                content.docsSidebars[
+                  `version-${versioning.latestVersion}/docs`
+                ],
+              );
+        if (!rootUrl) {
+          throw new Error('Bad sidebars file. No document linked');
+        }
+        Object.values(content.docsMetadata).forEach((docMetadata) => {
+          if (docMetadata.version !== versioning.latestVersion) {
+            docMetadata.latestVersionMainDocPermalink = rootUrl;
+          }
+        });
         await Promise.all(
           Object.keys(docsMetadataByVersion).map(async (version) => {
             const routes: RouteConfig[] = await genRoutes(

@@ -1,0 +1,71 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`toRedirectFilesMetadata should create appropriate metadatas for empty baseUrl: fileContent baseUrl=empty 1`] = `
+Array [
+  "<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset=\\"UTF-8\\">
+    <meta http-equiv=\\"refresh\\" content=\\"0; url=/abc/\\">
+    <link rel=\\"canonical\\" href=\\"/abc/\\" />
+  </head>
+  <script>
+    window.location.href = '/abc/';
+  </script>
+</html>",
+]
+`;
+
+exports[`toRedirectFilesMetadata should create appropriate metadatas for root baseUrl: fileContent baseUrl=/ 1`] = `
+Array [
+  "<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset=\\"UTF-8\\">
+    <meta http-equiv=\\"refresh\\" content=\\"0; url=/abc/\\">
+    <link rel=\\"canonical\\" href=\\"/abc/\\" />
+  </head>
+  <script>
+    window.location.href = '/abc/';
+  </script>
+</html>",
+]
+`;
+
+exports[`toRedirectFilesMetadata should create appropriate metadatas: fileContent 1`] = `
+Array [
+  "<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset=\\"UTF-8\\">
+    <meta http-equiv=\\"refresh\\" content=\\"0; url=https://docusaurus.io/abc/\\">
+    <link rel=\\"canonical\\" href=\\"https://docusaurus.io/abc/\\" />
+  </head>
+  <script>
+    window.location.href = 'https://docusaurus.io/abc/';
+  </script>
+</html>",
+  "<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset=\\"UTF-8\\">
+    <meta http-equiv=\\"refresh\\" content=\\"0; url=https://docusaurus.io/def.html/\\">
+    <link rel=\\"canonical\\" href=\\"https://docusaurus.io/def.html/\\" />
+  </head>
+  <script>
+    window.location.href = 'https://docusaurus.io/def.html/';
+  </script>
+</html>",
+  "<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset=\\"UTF-8\\">
+    <meta http-equiv=\\"refresh\\" content=\\"0; url=https://docusaurus.io/\\">
+    <link rel=\\"canonical\\" href=\\"https://docusaurus.io/\\" />
+  </head>
+  <script>
+    window.location.href = 'https://docusaurus.io/';
+  </script>
+</html>",
+]
+`;

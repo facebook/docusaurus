@@ -12,6 +12,7 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import DocPaginator from '@theme/DocPaginator';
 import useTOCHighlight from '@theme/hooks/useTOCHighlight';
+import Link from '@docusaurus/Link';
 
 import clsx from 'clsx';
 import styles from './styles.module.css';
@@ -68,6 +69,7 @@ function DocItem(props) {
     lastUpdatedAt,
     lastUpdatedBy,
     version,
+    latestVersionMainDocPermalink,
   } = metadata;
   const {
     frontMatter: {
@@ -108,6 +110,33 @@ function DocItem(props) {
             className={clsx('col', {
               [styles.docItemCol]: !hideTableOfContents,
             })}>
+            {latestVersionMainDocPermalink && (
+              <div
+                className="alert alert--warning margin-bottom--md"
+                role="alert">
+                {version === 'next' ? (
+                  <div>
+                    This is unreleased documentation for {siteTitle}{' '}
+                    <strong>{version}</strong> version.
+                  </div>
+                ) : (
+                  <div>
+                    This is archived documentation for {siteTitle}{' '}
+                    <strong>v{version}</strong>, which is no longer actively
+                    maintained.
+                  </div>
+                )}
+                <div className="margin-top--md">
+                  For up-to-date documentation, see the{' '}
+                  <strong>
+                    <Link to={latestVersionMainDocPermalink}>
+                      latest version
+                    </Link>
+                  </strong>
+                  .
+                </div>
+              </div>
+            )}
             <div className={styles.docItemContainer}>
               <article>
                 {version && (

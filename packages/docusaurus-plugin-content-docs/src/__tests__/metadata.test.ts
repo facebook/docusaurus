@@ -51,6 +51,7 @@ describe('simple site', () => {
       source: path.join('@site', routeBasePath, sourceA),
       title: 'Bar',
       description: 'This is custom description',
+      latestVersionMainDocPermalink: undefined,
     });
     expect(dataB).toEqual({
       id: 'hello',
@@ -59,6 +60,7 @@ describe('simple site', () => {
       source: path.join('@site', routeBasePath, sourceB),
       title: 'Hello, World !',
       description: `Hi, Endilie here :)`,
+      latestVersionMainDocPermalink: undefined,
     });
   });
 
@@ -138,6 +140,7 @@ describe('simple site', () => {
       editUrl:
         'https://github.com/facebook/docusaurus/edit/master/website/docs/foo/baz.md',
       description: 'Images',
+      latestVersionMainDocPermalink: undefined,
     });
   });
 
@@ -163,6 +166,7 @@ describe('simple site', () => {
       title: 'lorem',
       editUrl: 'https://github.com/customUrl/docs/lorem.md',
       description: 'Lorem ipsum.',
+      latestVersionMainDocPermalink: undefined,
     });
 
     // unrelated frontmatter is not part of metadata
@@ -195,6 +199,7 @@ describe('simple site', () => {
       description: 'Lorem ipsum.',
       lastUpdatedAt: 1539502055,
       lastUpdatedBy: 'Author',
+      latestVersionMainDocPermalink: undefined,
     });
   });
 
@@ -224,6 +229,7 @@ describe('simple site', () => {
       description: 'Lorem ipsum.',
       lastUpdatedAt: 1539502055,
       lastUpdatedBy: 'Author',
+      latestVersionMainDocPermalink: undefined,
     });
   });
 
