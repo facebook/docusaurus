@@ -12,6 +12,7 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import DocPaginator from '@theme/DocPaginator';
 import useTOCHighlight from '@theme/hooks/useTOCHighlight';
+import formatUrl from '@docusaurus/formatUrl';
 
 import clsx from 'clsx';
 import styles from './styles.module.css';
@@ -75,11 +76,16 @@ function DocItem(props) {
       keywords,
       hide_title: hideTitle,
       hide_table_of_contents: hideTableOfContents,
+      canonical_url: canonicalURL,
     },
   } = DocContent;
 
   const metaTitle = title ? `${title} | ${siteTitle}` : siteTitle;
   const metaImageUrl = useBaseUrl(metaImage, {absolute: true});
+
+  const formattedCanonicalURL = canonicalURL
+    ? formatUrl(canonicalURL)
+    : siteUrl + permalink;
 
   return (
     <>
@@ -98,8 +104,10 @@ function DocItem(props) {
         {metaImage && (
           <meta name="twitter:image:alt" content={`Image for ${title}`} />
         )}
-        {permalink && <meta property="og:url" content={siteUrl + permalink} />}
-        {permalink && <link rel="canonical" href={siteUrl + permalink} />}
+        {permalink && (
+          <meta property="og:url" content={formattedCanonicalURL} />
+        )}
+        {permalink && <link rel="canonical" href={formattedCanonicalURL} />}
       </Head>
       <div
         className={clsx('container padding-vert--lg', styles.docItemWrapper)}>
