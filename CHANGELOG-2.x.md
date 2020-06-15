@@ -4,6 +4,11 @@
 
 #### :boom: Breaking Change
 
+- If you refers to modules (plugins) in your config file in a string form, you will need to replace them with `require.resolve` calls, for example:
+```diff
+- plugins: ['@docusaurus/plugin-google-analytics']
++ plugins: [require.resolve('@docusaurus/plugin-google-analytics')]
+```
 - `docusaurus-theme-classic`
   - [#2818](https://github.com/facebook/docusaurus/pull/2818) feat(v2): automatically add base url to logo link ([@lex111](https://github.com/lex111))
 - `docusaurus-theme-classic`, `docusaurus-theme-search-algolia`
