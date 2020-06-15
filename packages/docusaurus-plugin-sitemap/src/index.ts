@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs';
+import fs from 'fs-extra';
 import path from 'path';
 import {PluginOptions} from './types';
 import createSitemap from './createSitemap';
@@ -37,7 +37,7 @@ export default function pluginSitemap(
       // Write sitemap file.
       const sitemapPath = path.join(outDir, 'sitemap.xml');
       try {
-        fs.writeFileSync(sitemapPath, generatedSitemap);
+        await fs.outputFile(sitemapPath, generatedSitemap);
       } catch (err) {
         throw new Error(`Sitemap error: ${err}`);
       }
