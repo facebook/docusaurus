@@ -4,7 +4,7 @@
 
 #### :boom: Breaking Change
 
-- If you refers to modules (plugins) in your config file in a string form, you will need to replace them with `require.resolve` calls, for example:
+- If you refer to modules (plugins) in your config file in a string form, you will need to replace them with `require.resolve` calls, for example:
 ```diff
 - plugins: ['@docusaurus/plugin-google-analytics']
 + plugins: [require.resolve('@docusaurus/plugin-google-analytics')]
