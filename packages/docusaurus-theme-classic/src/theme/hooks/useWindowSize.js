@@ -15,9 +15,10 @@ function useWindowSize() {
   const isClient = typeof window === 'object';
 
   function getSize() {
-    return isClient
-      ? (window.innerWidth > desktopThresholdWidth && desktopSize) || mobileSize
-      : undefined;
+    if (isClient) {
+      return undefined;
+    }
+    return window.innerWidth > desktopThresholdWidth ? desktopSize : mobileSize;
   }
 
   const [windowSize, setWindowSize] = useState(getSize);

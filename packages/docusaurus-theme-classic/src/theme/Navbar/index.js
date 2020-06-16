@@ -205,10 +205,10 @@ function Navbar() {
   const windowSize = useWindowSize();
 
   useEffect(() => {
-    if (windowSize === desktopSize && sidebarShown) {
+    if (windowSize === desktopSize) {
       setSidebarShown(false);
     }
-  }, [windowSize]);
+  }, [windowSize, sidebarShown]);
 
   const {leftLinks, rightLinks} = splitLinks(links);
 
