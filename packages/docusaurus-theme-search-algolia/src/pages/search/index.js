@@ -9,7 +9,6 @@
 
 import React, {useEffect, useState, useReducer, useRef} from 'react';
 
-import {useLocation} from '@docusaurus/router';
 import algoliaSearch from 'algoliasearch/lite';
 import algoliaSearchHelper from 'algoliasearch-helper';
 import clsx from 'clsx';
@@ -224,13 +223,11 @@ function Search() {
     makeSearch(searchResultState.lastPage);
   }, [searchResultState.lastPage]);
 
-  const qsSearch = new URLSearchParams(useLocation().search).get('q');
-
   useEffect(() => {
-    if (qsSearch && qsSearch !== searchQuery) {
-      setSearchQuery(qsSearch);
+    if (searchValue && searchValue !== searchQuery) {
+      setSearchQuery(searchValue);
     }
-  }, [qsSearch]);
+  }, [searchValue]);
 
   return (
     <Layout title={getTitle()}>
