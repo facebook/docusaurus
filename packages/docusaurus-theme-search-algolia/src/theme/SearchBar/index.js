@@ -20,11 +20,11 @@ function Hit({hit, children}) {
   return <Link to={hit.url}>{children}</Link>;
 }
 
-function ResultsFooter({state}) {
+function ResultsFooter({state, onClose}) {
   const {generateSearchPageLink} = useSearchQuery();
 
   return (
-    <Link to={generateSearchPageLink(state.query)}>
+    <Link to={generateSearchPageLink(state.query)} onClick={onClose}>
       See all {state.context.nbHits} results
     </Link>
   );
@@ -109,7 +109,9 @@ function DocSearch({indexName, appId, apiKey, searchParameters}) {
               });
             }}
             hitComponent={Hit}
-            resultsFooterComponent={ResultsFooter}
+            resultsFooterComponent={(props) => (
+              <ResultsFooter {...props} onClose={onClose} />
+            )}
           />,
           document.body,
         )}
