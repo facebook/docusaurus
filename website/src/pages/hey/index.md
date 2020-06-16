@@ -7,4 +7,6 @@ description: custom description
 
 **hello** world
 
-[test page link (todo)](/hey/test)
+[test link with pathname](/hey/test)
+
+[test link with relative file path](./test.mdx)
