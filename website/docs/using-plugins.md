@@ -18,7 +18,7 @@ Then you add it in your site's `docusaurus.config.js`'s `plugins` option:
 ```jsx {3} title="docusaurus.config.js"
 module.exports = {
   // ...
-  plugins: ['@docusaurus/plugin-content-pages'],
+  plugins: [require.resolve('@docusaurus/plugin-content-pages')],
 };
 ```
 
@@ -44,7 +44,7 @@ module.exports = {
   // ...
   plugins: [
     [
-      '@docusaurus/plugin-xxx',
+      require.resolve('@docusaurus/plugin-xxx'),
       {
         /* options */
       },
@@ -63,7 +63,7 @@ module.exports = {
 
     // With options object (babel style)
     [
-      '@docusaurus/plugin-sitemap',
+      require.resolve('@docusaurus/plugin-sitemap'),
       {
         cacheTime: 600 * 1000,
       },
@@ -142,7 +142,7 @@ If you have installed `@docusaurus/preset-classic`, you don't need to install it
 module.exports = {
   plugins: [
     [
-      '@docusaurus/plugin-content-blog',
+      require.resolve('@docusaurus/plugin-content-blog'),
       {
         /**
          * Path to data on filesystem relative to site dir.
@@ -226,7 +226,7 @@ If you have installed `@docusaurus/preset-classic`, you don't need to install it
 module.exports = {
   plugins: [
     [
-      '@docusaurus/plugin-content-docs',
+      require.resolve('@docusaurus/plugin-content-docs'),
       {
         /**
          * Path to data on filesystem relative to site dir.
@@ -301,7 +301,7 @@ If you have installed `@docusaurus/preset-classic`, you don't need to install it
 module.exports = {
   plugins: [
     [
-      '@docusaurus/plugin-content-pages',
+      require.resolve('@docusaurus/plugin-content-pages'),
       {
         /**
          * Path to data on filesystem
@@ -341,7 +341,7 @@ If you have installed `@docusaurus/preset-classic`, you don't need to install it
 
 ```js title="docusaurus.config.js"
 module.exports = {
-  plugins: ['@docusaurus/plugin-google-analytics'],
+  plugins: [require.resolve('@docusaurus/plugin-google-analytics')],
   themeConfig: {
     googleAnalytics: {
       trackingID: 'UA-141789564-1',
@@ -372,7 +372,7 @@ If you have installed `@docusaurus/preset-classic`, you don't need to install it
 
 ```js title="docusaurus.config.js"
 module.exports = {
-  plugins: ['@docusaurus/plugin-google-gtag'],
+  plugins: [require.resolve('@docusaurus/plugin-google-gtag')],
   themeConfig: {
     gtag: {
       trackingID: 'UA-141789564-1',
@@ -403,7 +403,7 @@ If you have installed `@docusaurus/preset-classic`, you don't need to install it
 module.exports = {
   plugins: [
     [
-      '@docusaurus/plugin-sitemap',
+      require.resolve('@docusaurus/plugin-sitemap'),
       {
         cacheTime: 600 * 1000, // 600 sec - cache purge period
         changefreq: 'weekly',
@@ -427,7 +427,7 @@ Modify your `docusaurus.config.js`
 ```diff
 module.exports = {
   ...
-+ plugins: ['@docusaurus/plugin-ideal-image'],
++ plugins: [require.resolve('@docusaurus/plugin-ideal-image')],
   ...
 }
 ```
@@ -487,7 +487,7 @@ Main usecase: you have `/myDocusaurusPage`, and you want to redirect to this pag
 module.exports = {
   plugins: [
     [
-      '@docusaurus/plugin-client-redirects',
+      require.resolve('@docusaurus/plugin-client-redirects'),
       {
         fromExtensions: ['html'],
       },
@@ -502,7 +502,7 @@ Second usecase: you have `/myDocusaurusPage.html`, and you want to redirect to t
 module.exports = {
   plugins: [
     [
-      '@docusaurus/plugin-client-redirects',
+      require.resolve('@docusaurus/plugin-client-redirects'),
       {
         toExtensions: ['html'],
       },
@@ -519,7 +519,7 @@ Let's imagine you change the url of an existing page, you might want to make sur
 module.exports = {
   plugins: [
     [
-      '@docusaurus/plugin-client-redirects',
+      require.resolve('@docusaurus/plugin-client-redirects'),
       {
         redirects: [
           {
@@ -539,7 +539,7 @@ It's possible to use a function to create the redirects for each existing path:
 module.exports = {
   plugins: [
     [
-      '@docusaurus/plugin-client-redirects',
+      require.resolve('@docusaurus/plugin-client-redirects'),
       {
         createRedirects: function (existingPath) {
           if (existingPath === '/docs/newDocPath') {
@@ -558,7 +558,7 @@ Finally, it's possible to use all options at the same time:
 module.exports = {
   plugins: [
     [
-      '@docusaurus/plugin-client-redirects',
+      require.resolve('@docusaurus/plugin-client-redirects'),
       {
         fromExtensions: ['html', 'htm'],
         toExtensions: ['exe', 'zip'],
