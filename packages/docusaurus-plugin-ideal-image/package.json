@@ -4,7 +4,8 @@
   "description": "Docusaurus Plugin to generate an almost ideal image (responsive, lazy-loading, and low quality placeholder)",
   "main": "lib/index.js",
   "scripts": {
-    "tsc": "tsc && node copyUntypedFiles.js"
+    "tsc": "tsc && node copyUntypedFiles.js",
+    "watch": "node copyUntypedFiles.js && tsc --watch"
   },
   "publishConfig": {
     "access": "public"

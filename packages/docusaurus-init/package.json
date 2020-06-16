@@ -10,7 +10,8 @@
     "url": "https://github.com/facebook/docusaurus/issues"
   },
   "scripts": {
-    "tsc": "tsc"
+    "tsc": "tsc",
+    "watch": "tsc --watch"
   },
   "bin": {
     "docusaurus-init": "bin/index.js"
