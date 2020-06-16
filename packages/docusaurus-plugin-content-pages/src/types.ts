@@ -12,6 +12,7 @@ export interface PluginOptions {
   mdxPageComponent: string;
   remarkPlugins: ([Function, object] | Function)[];
   rehypePlugins: string[];
+  admonitions: any;
 }
 
 export type JSXPageMetadata = {

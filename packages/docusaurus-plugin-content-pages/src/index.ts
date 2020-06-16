@@ -16,6 +16,7 @@ import {
 } from '@docusaurus/utils';
 import {LoadContext, Plugin, ConfigureWebpackUtils} from '@docusaurus/types';
 import {Configuration, Loader} from 'webpack';
+import admonitions from 'remark-admonitions';
 
 import {PluginOptions, LoadedContent, Metadata} from './types';
 
@@ -26,6 +27,7 @@ const DEFAULT_OPTIONS: PluginOptions = {
   mdxPageComponent: '@theme/MDXPage',
   remarkPlugins: [],
   rehypePlugins: [],
+  admonitions: {},
 };
 
 const isMarkdownSource = (source: string) =>
@@ -36,6 +38,12 @@ export default function pluginContentPages(
   opts: Partial<PluginOptions>,
 ): Plugin<LoadedContent | null> {
   const options: PluginOptions = {...DEFAULT_OPTIONS, ...opts};
+  if (options.admonitions) {
+    options.remarkPlugins = options.remarkPlugins.concat([
+      [admonitions, opts.admonitions || {}],
+    ]);
+  }
+
   const contentPath = path.resolve(context.siteDir, options.path);
 
   const {siteDir, generatedFilesDir} = context;
@@ -51,6 +59,16 @@ export default function pluginContentPages(
       const {include = []} = options;
       const globPattern = include.map((pattern) => `${contentPath}/${pattern}`);
       return [...globPattern];
+    },
+
+    getClientModules() {
+      const modules = [];
+
+      if (options.admonitions) {
+        modules.push(require.resolve('remark-admonitions/styles/infima.css'));
+      }
+
+      return modules;
     },
 
     async loadContent() {
