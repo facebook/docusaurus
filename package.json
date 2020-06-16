@@ -88,11 +88,8 @@
     "stylelint-copyright": "^2.0.0"
   },
   "lint-staged": {
-    "*.{js,jsx}": [
+    "*.{js,jsx,ts,tsx}": [
       "yarn lint --fix",
-      "yarn prettier"
-    ],
-    "*.{ts,tsx}": [
       "yarn prettier"
     ],
     "*.md": [
