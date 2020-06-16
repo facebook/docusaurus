@@ -6,38 +6,44 @@
  */
 
 import path from 'path';
+import {loadContext} from '@docusaurus/core/lib/server';
 
 import pluginContentPages from '../index';
-import {LoadContext} from '@docusaurus/types';
 
 describe('docusaurus-plugin-content-pages', () => {
   test('simple pages', async () => {
     const siteDir = path.join(__dirname, '__fixtures__', 'website');
-    const siteConfig = {
-      title: 'Hello',
-      baseUrl: '/',
-      url: 'https://docusaurus.io',
-    };
-    const context = {
-      siteDir,
-      siteConfig,
-    } as LoadContext;
+    const context = loadContext(siteDir);
     const pluginPath = 'src/pages';
     const plugin = pluginContentPages(context, {
       path: pluginPath,
     });
+
     const pagesMetadatas = await plugin.loadContent();
 
     expect(pagesMetadatas).toEqual([
       {
+        type: 'jsx',
         permalink: '/',
         source: path.join('@site', pluginPath, 'index.js'),
       },
       {
+        type: 'jsx',
         permalink: '/typescript',
         source: path.join('@site', pluginPath, 'typescript.tsx'),
       },
       {
+        type: 'mdx',
+        permalink: '/hello/',
+        source: path.join('@site', pluginPath, 'hello', 'index.md'),
+      },
+      {
+        type: 'mdx',
+        permalink: '/hello/mdxPage',
+        source: path.join('@site', pluginPath, 'hello', 'mdxPage.mdx'),
+      },
+      {
+        type: 'jsx',
         permalink: '/hello/world',
         source: path.join('@site', pluginPath, 'hello', 'world.js'),
       },
