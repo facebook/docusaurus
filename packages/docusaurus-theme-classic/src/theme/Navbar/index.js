@@ -16,7 +16,7 @@ import Toggle from '@theme/Toggle';
 import useThemeContext from '@theme/hooks/useThemeContext';
 import useHideableNavbar from '@theme/hooks/useHideableNavbar';
 import useLockBodyScroll from '@theme/hooks/useLockBodyScroll';
-import useWindowSize, {desktopSize} from '@theme/hooks/useWindowSize';
+import useWindowSize, {windowSizes} from '@theme/hooks/useWindowSize';
 import useLogo from '@theme/hooks/useLogo';
 
 import styles from './styles.module.css';
@@ -205,7 +205,7 @@ function Navbar() {
   const windowSize = useWindowSize();
 
   useEffect(() => {
-    if (windowSize === desktopSize) {
+    if (windowSize === windowSizes.desktop) {
       setSidebarShown(false);
     }
   }, [windowSize, sidebarShown]);

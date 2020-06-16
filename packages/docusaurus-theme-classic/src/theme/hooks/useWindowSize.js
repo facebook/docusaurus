@@ -8,17 +8,22 @@
 import {useEffect, useState} from 'react';
 
 const desktopThresholdWidth = 996;
-const desktopSize = 'desktop';
-const mobileSize = 'mobile';
+
+const windowSizes = {
+  desktop: 'desktop',
+  mobile: 'mobile',
+};
 
 function useWindowSize() {
-  const isClient = typeof window === 'object';
+  const isClient = typeof window !== 'undefined';
 
   function getSize() {
-    if (isClient) {
+    if (!isClient) {
       return undefined;
     }
-    return window.innerWidth > desktopThresholdWidth ? desktopSize : mobileSize;
+    return window.innerWidth > desktopThresholdWidth
+      ? windowSizes.desktop
+      : windowSizes.mobile;
   }
 
   const [windowSize, setWindowSize] = useState(getSize);
@@ -39,5 +44,5 @@ function useWindowSize() {
   return windowSize;
 }
 
-export {desktopSize, mobileSize};
+export {windowSizes};
 export default useWindowSize;
