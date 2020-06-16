@@ -22,7 +22,7 @@
     "prettier": "prettier --config .prettierrc --write \"**/*.{js,ts}\"",
     "prettier:diff": "prettier --config .prettierrc --list-different \"**/*.{js,ts}\"",
     "prettier-docs": "prettier --config .prettierrc --write \"**/*.md\"",
-    "lint": "eslint --cache \"**/*.js\" && stylelint \"**/*.css\"",
+    "lint": "eslint --cache \"**/*.{js,jsx,ts,tsx}\" && stylelint \"**/*.css\"",
     "lerna": "lerna",
     "test": "jest",
     "test:build:v2": "./admin/scripts/test-release.sh",
