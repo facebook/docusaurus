@@ -208,7 +208,7 @@ function Navbar() {
     if (windowSize === windowSizes.desktop) {
       setSidebarShown(false);
     }
-  }, [windowSize, sidebarShown]);
+  }, [windowSize]);
 
   const {leftLinks, rightLinks} = splitLinks(links);
 

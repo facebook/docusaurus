@@ -180,7 +180,7 @@ function DocSidebar(props) {
   const windowSize = useWindowSize();
 
   useEffect(() => {
-    if (windowSize === windowSizes.desktop && showResponsiveSidebar) {
+    if (windowSize === windowSizes.desktop) {
       setShowResponsiveSidebar(false);
     }
   }, [windowSize]);
