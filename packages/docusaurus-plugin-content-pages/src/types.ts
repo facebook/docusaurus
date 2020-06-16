@@ -9,11 +9,23 @@ export interface PluginOptions {
   path: string;
   routeBasePath: string;
   include: string[];
+  mdxPageComponent: string;
+  remarkPlugins: ([Function, object] | Function)[];
+  rehypePlugins: string[];
 }
 
-export interface Metadata {
+export type JSXPageMetadata = {
+  type: 'jsx';
   permalink: string;
   source: string;
-}
+};
+
+export type MDXPageMetadata = {
+  type: 'mdx';
+  permalink: string;
+  source: string;
+};
+
+export type Metadata = JSXPageMetadata | MDXPageMetadata;
 
 export type LoadedContent = Metadata[];

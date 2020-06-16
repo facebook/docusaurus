@@ -11,8 +11,10 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/types": "^2.0.0-alpha.56",
+    "@docusaurus/mdx-loader": "^2.0.0-alpha.56",
     "@docusaurus/utils": "^2.0.0-alpha.56",
+    "@docusaurus/types": "^2.0.0-alpha.56",
+    "loader-utils": "^1.2.3",
     "globby": "^10.0.1"
   },
   "peerDependencies": {
