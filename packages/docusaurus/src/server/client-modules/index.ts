@@ -10,17 +10,10 @@ import {Plugin} from '@docusaurus/types';
 export function loadClientModules(plugins: Plugin<any>[]): string[] {
   return ([] as string[]).concat(
     ...plugins
+
       .map<any>(
         (plugin) => plugin.getClientModules && plugin.getClientModules(),
       )
       .filter(Boolean),
   );
 }
-
-const abc = 42;
-
-const test = {
-  abc,
-};
-
-console.debug('test', test);

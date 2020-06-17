@@ -92,7 +92,7 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
-      "yarn lint:js --fix",
+      "yarn eslint --fix",
       "yarn prettier"
     ],
     "*.md": [
