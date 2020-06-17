@@ -23,7 +23,8 @@
     "loader-utils": "^1.2.3",
     "lodash.kebabcase": "^4.1.1",
     "reading-time": "^1.2.0",
-    "remark-admonitions": "^1.2.1"
+    "remark-admonitions": "^1.2.1",
+    "yup": "^0.29.1"
   },
   "peerDependencies": {
     "@docusaurus/core": "^2.0.0",

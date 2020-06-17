@@ -10,11 +10,7 @@ import {PluginOptionSchema} from '../types';
 test('normalize options', async () => {
   let options = await PluginOptionSchema.validate({});
   expect(options).toEqual({
-    feedOptions: {
-      language: 'en',
-      copyright: '',
-      description: '',
-    },
+    feedOptions: {},
     beforeDefaultRehypePlugins: [],
     beforeDefaultRemarkPlugins: [],
     admonitions: {},
@@ -23,7 +19,7 @@ test('normalize options', async () => {
     remarkPlugins: [],
     showReadingTime: true,
     blogTagsPostsComponent: '@theme/BlogTagsPostsPage',
-    blogTagsListComponent: '@theme/BlogPostPage',
+    blogTagsListComponent: '@theme/BlogTagsListPage',
     blogPostComponent: '@theme/BlogPostPage',
     blogListComponent: '@theme/BlogListPage',
     postsPerPage: 10,
@@ -41,11 +37,7 @@ test('validate options', async () => {
     routeBasePath: 'not_blog',
   });
   expect(options).toEqual({
-    feedOptions: {
-      language: 'en',
-      copyright: '',
-      description: '',
-    },
+    feedOptions: {},
     beforeDefaultRehypePlugins: [],
     beforeDefaultRemarkPlugins: [],
     admonitions: {},
@@ -54,7 +46,7 @@ test('validate options', async () => {
     remarkPlugins: [],
     showReadingTime: true,
     blogTagsPostsComponent: '@theme/BlogTagsPostsPage',
-    blogTagsListComponent: '@theme/BlogPostPage',
+    blogTagsListComponent: '@theme/BlogTagsListPage',
     blogPostComponent: '@theme/BlogPostPage',
     blogListComponent: '@theme/BlogListPage',
     postsPerPage: 5,
@@ -90,11 +82,7 @@ test('conversion of truncateMarker to Regex', async () => {
     truncateMarker: 'tag',
   });
   expect(options).toEqual({
-    feedOptions: {
-      language: 'en',
-      copyright: '',
-      description: '',
-    },
+    feedOptions: {},
     beforeDefaultRehypePlugins: [],
     beforeDefaultRemarkPlugins: [],
     admonitions: {},
@@ -103,7 +91,7 @@ test('conversion of truncateMarker to Regex', async () => {
     remarkPlugins: [],
     showReadingTime: true,
     blogTagsPostsComponent: '@theme/BlogTagsPostsPage',
-    blogTagsListComponent: '@theme/BlogPostPage',
+    blogTagsListComponent: '@theme/BlogTagsListPage',
     blogPostComponent: '@theme/BlogPostPage',
     blogListComponent: '@theme/BlogListPage',
     postsPerPage: 10,
