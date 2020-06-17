@@ -9,7 +9,27 @@ import Module from 'module';
 import {join} from 'path';
 import importFresh from 'import-fresh';
 import {LoadContext, Plugin, PluginConfig} from '@docusaurus/types';
+import {Schema} from 'yup';
+const chalk = require('chalk');
 import {CONFIG_FILE_NAME} from '../../constants';
+
+function validate<T>(schema: Schema<T>, options: unknown) {
+  try {
+    return schema.validateSync(options, {
+      abortEarly: false,
+    });
+  } catch (error) {
+    console.log(
+      chalk.red(
+        `Validation Errors:${error.errors.reduce(
+          (formatedError, error, i) => `${formatedError}\n${i + 1}. ${error}`,
+          '',
+        )}`,
+      ),
+    );
+    process.exit(1);
+  }
+}
 
 export function initPlugins({
   pluginConfigs,
@@ -50,7 +70,22 @@ export function initPlugins({
       const pluginModule: any = importFresh(
         pluginRequire.resolve(pluginModuleImport),
       );
-      return (pluginModule.default || pluginModule)(context, pluginOptions);
+
+      const plugin = pluginModule.default || pluginModule;
+      if (plugin.validateOptions) {
+        const options = plugin.validateOptions({
+          validate,
+          options: pluginOptions,
+        });
+        pluginOptions = options;
+      }
+      if (plugin.validateThemeConfig) {
+        plugin.validateThemeConfig({
+          validate,
+          themeConfig: context.siteConfig.themeConfig,
+        });
+      }
+      return plugin(context, pluginOptions);
     })
     .filter(Boolean);
 
