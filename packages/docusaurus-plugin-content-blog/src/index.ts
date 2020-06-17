@@ -20,6 +20,7 @@ import {
   BlogPaginated,
   FeedType,
   BlogPost,
+  PluginOptionSchema,
 } from './types';
 import {
   LoadContext,
@@ -28,37 +29,12 @@ import {
   Props,
   Plugin,
   HtmlTags,
+  OptionValidationContext,
 } from '@docusaurus/types';
 import {Configuration, Loader} from 'webpack';
 import {generateBlogFeed, generateBlogPosts} from './blogUtils';
 
-const DEFAULT_OPTIONS: PluginOptions = {
-  path: 'blog', // Path to data on filesystem, relative to site dir.
-  routeBasePath: 'blog', // URL Route.
-  include: ['*.md', '*.mdx'], // Extensions to include.
-  postsPerPage: 10, // How many posts per page.
-  blogListComponent: '@theme/BlogListPage',
-  blogPostComponent: '@theme/BlogPostPage',
-  blogTagsListComponent: '@theme/BlogTagsListPage',
-  blogTagsPostsComponent: '@theme/BlogTagsPostsPage',
-  showReadingTime: true,
-  remarkPlugins: [],
-  rehypePlugins: [],
-  editUrl: undefined,
-  truncateMarker: /<!--\s*(truncate)\s*-->/, // Regex.
-  admonitions: {},
-};
-
-function assertFeedTypes(val: any): asserts val is FeedType {
-  if (typeof val !== 'string' && !['rss', 'atom', 'all'].includes(val)) {
-    throw new Error(
-      `Invalid feedOptions type: ${val}. It must be either 'rss', 'atom', or 'all'`,
-    );
-  }
-}
-
-const getFeedTypes = (type?: FeedType) => {
-  assertFeedTypes(type);
+const getFeedTypes = (type: FeedType) => {
   let feedTypes: ('rss' | 'atom')[] = [];
 
   if (type === 'all') {
@@ -71,13 +47,11 @@ const getFeedTypes = (type?: FeedType) => {
 
 export default function pluginContentBlog(
   context: LoadContext,
-  opts: Partial<PluginOptions>,
-): Plugin<BlogContent | null> {
-  const options: PluginOptions = {...DEFAULT_OPTIONS, ...opts};
-
+  options: PluginOptions,
+): Plugin<BlogContent | null, typeof PluginOptionSchema> {
   if (options.admonitions) {
     options.remarkPlugins = options.remarkPlugins.concat([
-      [admonitions, opts.admonitions || {}],
+      [admonitions, options.admonitions],
     ]);
   }
 
@@ -458,7 +432,7 @@ export default function pluginContentBlog(
     },
 
     injectHtmlTags() {
-      if (!options.feedOptions) {
+      if (!options.feedOptions?.type) {
         return {};
       }
 
@@ -507,3 +481,10 @@ export default function pluginContentBlog(
     },
   };
 }
+
+pluginContentBlog.validateOptions = ({
+  validate,
+  options,
+}: OptionValidationContext<typeof PluginOptionSchema>) => {
+  return validate(PluginOptionSchema, options);
+};

@@ -5,6 +5,40 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import * as yup from 'yup';
+
+export const PluginOptionSchema = yup
+  .object()
+  .shape({
+    path: yup.string().default('blog'),
+    routeBasePath: yup.string().default('blog'),
+    include: yup.array().of(yup.string()).default(['*.md', '*.mdx']),
+    postsPerPage: yup.number().integer().moreThan(0).default(10),
+    blogListComponent: yup.string().default('@theme/BlogListPage'),
+    blogPostComponent: yup.string().default('@theme/BlogPostPage'),
+    blogTagsListComponent: yup.string().default('@theme/BlogPostPage'),
+    blogTagsPostsComponent: yup.string().default('@theme/BlogTagsPostsPage'),
+    showReadingTime: yup.bool().default(true),
+    remarkPlugins: yup.array().of(yup.object()).default([]),
+    rehypePlugins: yup.array().of(yup.string()).default([]),
+    editUrl: yup.string().url(),
+    truncateMarker: yup
+      .mixed()
+      .transform((val) => new RegExp(val))
+      .default(/<!--\s*(truncate)\s*-->/),
+    admonitions: yup.object().default({}),
+    beforeDefaultRemarkPlugins: yup.array().of(yup.object()).default([]),
+    beforeDefaultRehypePlugins: yup.array().of(yup.object()).default([]),
+    feedOptions: yup.object().shape({
+      type: yup.string().oneOf(['rss', 'all', 'atom']),
+      title: yup.string(),
+      description: yup.string().default(''),
+      copyright: yup.string().default(''),
+      language: yup.string().default('en'),
+    }),
+  })
+  .defined();
+
 export interface BlogContent {
   blogPosts: BlogPost[];
   blogListPaginated: BlogPaginated[];
@@ -32,7 +66,7 @@ export interface PluginOptions {
   rehypePlugins: string[];
   truncateMarker: RegExp;
   showReadingTime: boolean;
-  feedOptions?: {
+  feedOptions: {
     type: FeedType;
     title?: string;
     description?: string;
@@ -41,6 +75,11 @@ export interface PluginOptions {
   };
   editUrl?: string;
   admonitions: any;
+}
+
+export interface ValidationResult {
+  options?: yup.InferType<typeof PluginOptionSchema>;
+  errors?: yup.ValidationError;
 }
 
 export interface BlogTags {

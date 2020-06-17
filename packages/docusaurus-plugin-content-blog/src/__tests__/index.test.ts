@@ -9,6 +9,7 @@ import fs from 'fs-extra';
 import path from 'path';
 import pluginContentBlog from '../index';
 import {DocusaurusConfig, LoadContext} from '@docusaurus/types';
+import {PluginOptionSchema, PluginOptions} from '../types';
 
 describe('loadBlog', () => {
   const siteDir = path.join(__dirname, '__fixtures__', 'website');
@@ -26,11 +27,11 @@ describe('loadBlog', () => {
         siteConfig,
         generatedFilesDir,
       } as LoadContext,
-      {
+      (PluginOptionSchema.validateSync({
         path: pluginPath,
         editUrl:
           'https://github.com/facebook/docusaurus/edit/master/website-1x',
-      },
+      }) as unknown) as PluginOptions,
     );
     const {blogPosts} = await plugin.loadContent();
 

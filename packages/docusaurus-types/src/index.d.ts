@@ -8,6 +8,7 @@
 import {Loader, Configuration} from 'webpack';
 import {Command} from 'commander';
 import {ParsedUrlQueryInput} from 'querystring';
+import {InferType} from 'yup';
 
 export interface DocusaurusConfig {
   baseUrl: string;
@@ -88,7 +89,7 @@ export type HtmlTags = string | HtmlTagObject | (string | HtmlTagObject)[];
 
 export interface Props extends LoadContext, InjectedHtmlTags {
   routesPaths: string[];
-  plugins: Plugin<any>[];
+  plugins: Plugin<any, unknown>[];
 }
 
 export interface PluginContentLoadedActions {
@@ -96,9 +97,10 @@ export interface PluginContentLoadedActions {
   createData(name: string, data: any): Promise<string>;
 }
 
-export interface Plugin<T> {
+export interface Plugin<T, U = unknown> {
   name: string;
   loadContent?(): Promise<T>;
+  validateOptions?(): OptionValidationResult<U>;
   contentLoaded?({
     content,
     actions,
@@ -188,4 +190,16 @@ interface HtmlTagObject {
    * The inner HTML
    */
   innerHTML?: string;
+}
+
+export type OptionValidationResult<T> = InferType<T>;
+
+export type Validate<T> = (
+  validationSchrema: T,
+  options: unknown,
+) => OptionValidationResult<T>;
+
+export interface OptionValidationContext<T> {
+  validate: Validate<T>;
+  options: OptionValidationResult<T>;
 }
