@@ -1,7 +1,3 @@
-# Docusaurus 2 Changelog
-
-## 2.0.0-alpha.57
-
 #### :rocket: New Feature
 
 - `docusaurus-plugin-content-docs`, `docusaurus-theme-classic`
@@ -11,6 +7,8 @@
   - [#2928](https://github.com/facebook/docusaurus/pull/2928) feat(v2): Implement proof-of-concept Docusaurus Debug Dashboard ([@SamChou19815](https://github.com/SamChou19815))
 - `docusaurus-init`, `docusaurus`
   - [#2903](https://github.com/facebook/docusaurus/pull/2903) feat(v2): Allow configuring babel via babel.config.js ([@SamChou19815](https://github.com/SamChou19815))
+- `docusaurus-plugin-client-redirects`, `docusaurus-utils`
+  - [#2793](https://github.com/facebook/docusaurus/pull/2793) feat(v2): docusaurus-plugin-client-redirects ([@slorber](https://github.com/slorber))
 - `docusaurus-theme-live-codeblock`
   - [#2826](https://github.com/facebook/docusaurus/pull/2826) feat(v2): allow adding components to react-live scope ([@slorber](https://github.com/slorber))
 - `docusaurus-theme-classic`, `docusaurus`
@@ -135,7 +133,7 @@
 - [@belokonm](https://github.com/belokonm)
 - hackerman ([@aeneasr](https://github.com/aeneasr))
 - moonrailgun ([@moonrailgun](https://github.com/moonrailgun))
-- tetunori ([@tetunori](https://github.com/tetunori)
+- tetunori ([@tetunori](https://github.com/tetunori))
 
 ## 2.0.0-alpha.56
 
