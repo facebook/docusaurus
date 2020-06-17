@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -36,7 +36,7 @@ const blogPosts: BlogPost[] = [
   },
 ];
 
-const transform = (filepath) => {
+const transform = (filepath: string) => {
   const content = fs.readFileSync(filepath, 'utf-8');
   const transformedContent = linkify(content, sitePath, blogPath, blogPosts);
   return [content, transformedContent];

@@ -16,7 +16,7 @@ class ChunkAssetPlugin {
       that will allow us to get the corresponding chunk asset for a webpack chunk.
       Pass it the chunkName or chunkId you want to load.
       For example: if you have a chunk named "my-chunk-name" that will map to "/0a84b5e7.c8e35c7a.js" as its corresponding output path
-      __webpack_require__.gca("my-chunk-name") will return "/0a84b5e7.c8e35c7a.js"*/
+      __webpack_require__.gca("my-chunk-name") will return "/0a84b5e7.c8e35c7a.js" */
       mainTemplate.hooks.requireExtensions.tap(pluginName, (source, chunk) => {
         const chunkIdToName = chunk.getChunkMaps(false).name;
         const chunkNameToId = Object.create(null);
