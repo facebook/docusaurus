@@ -28,9 +28,15 @@ function usePrevious(value) {
   return ref.current;
 }
 
+// Compare the 2 paths, ignoring trailing /
+const isSamePath = (path1, path2) => {
+  const normalize = (str) => (str.endsWith('/') ? str : `${str}/`);
+  return normalize(path1) === normalize(path2);
+};
+
 const isActiveSidebarItem = (item, activePath) => {
   if (item.type === 'link') {
-    return item.href === activePath;
+    return isSamePath(item.href, activePath);
   }
   if (item.type === 'category') {
     return item.items.some((subItem) =>
