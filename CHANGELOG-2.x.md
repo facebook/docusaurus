@@ -1,3 +1,7 @@
+# Docusaurus 2 Changelog
+
+## 2.0.0-alpha.57
+
 #### :rocket: New Feature
 
 - `docusaurus-plugin-content-docs`, `docusaurus-theme-classic`
