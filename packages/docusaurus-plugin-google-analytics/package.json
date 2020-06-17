@@ -7,6 +7,9 @@
     "access": "public"
   },
   "license": "MIT",
+  "dependencies": {
+    "yup": "^0.29.1"
+  },
   "peerDependencies": {
     "@docusaurus/core": "^2.0.0"
   },
