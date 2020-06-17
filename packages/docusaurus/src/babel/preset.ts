@@ -57,6 +57,12 @@ function getTransformOptions(isServer: boolean): TransformOptions {
       isServer
         ? require.resolve('babel-plugin-dynamic-import-node')
         : require.resolve('@babel/plugin-syntax-dynamic-import'),
+      // Optional chaining and nullish coalescing are supported in @babel/preset-env,
+      // but not yet supported in webpack due to support missing from acorn.
+      // These can be removed once we bumped to webpack 5.
+      // See https://github.com/facebook/docusaurus/issues/2908
+      require.resolve('@babel/plugin-proposal-optional-chaining'),
+      require.resolve('@babel/plugin-proposal-nullish-coalescing-operator'),
     ],
   };
 }
