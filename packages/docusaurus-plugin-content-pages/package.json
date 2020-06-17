@@ -14,7 +14,8 @@
   "dependencies": {
     "@docusaurus/types": "^2.0.0-alpha.56",
     "@docusaurus/utils": "^2.0.0-alpha.56",
-    "globby": "^10.0.1"
+    "globby": "^10.0.1",
+    "yup": "^0.29.1"
   },
   "peerDependencies": {
     "@docusaurus/core": "^2.0.0",
