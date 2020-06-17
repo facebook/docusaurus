@@ -13,7 +13,8 @@
   "license": "MIT",
   "dependencies": {
     "@docusaurus/types": "^2.0.0-alpha.56",
-    "sitemap": "^3.2.2"
+    "sitemap": "^3.2.2",
+    "yup": "^0.29.1"
   },
   "peerDependencies": {
     "@docusaurus/core": "^2.0.0"
