@@ -9,20 +9,13 @@ import fs from 'fs-extra';
 import path from 'path';
 import {PluginOptions} from './types';
 import createSitemap from './createSitemap';
-import {LoadContext, Props} from '@docusaurus/types';
-
-const DEFAULT_OPTIONS: PluginOptions = {
-  cacheTime: 600 * 1000, // 600 sec - cache purge period.
-  changefreq: 'weekly',
-  priority: 0.5,
-};
+import {LoadContext, Props, OptionValidationContext} from '@docusaurus/types';
+import {PluginOptionSchema} from './validation';
 
 export default function pluginSitemap(
   _context: LoadContext,
-  opts: Partial<PluginOptions>,
+  options: PluginOptions,
 ) {
-  const options = {...DEFAULT_OPTIONS, ...opts};
-
   return {
     name: 'docusaurus-plugin-sitemap',
 
@@ -44,3 +37,11 @@ export default function pluginSitemap(
     },
   };
 }
+
+pluginSitemap.validateOptions = ({
+  validate,
+  options,
+}: OptionValidationContext<typeof PluginOptionSchema>) => {
+  const validatedOptions = validate(PluginOptionSchema, options);
+  return validatedOptions;
+};
