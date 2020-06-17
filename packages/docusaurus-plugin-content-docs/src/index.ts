@@ -18,7 +18,12 @@ import {
   objectWithKeySorted,
   aliasedSitePath,
 } from '@docusaurus/utils';
-import {LoadContext, Plugin, RouteConfig} from '@docusaurus/types';
+import {
+  LoadContext,
+  Plugin,
+  RouteConfig,
+  OptionValidationContext,
+} from '@docusaurus/types';
 
 import createOrder from './order';
 import loadSidebars from './sidebars';
@@ -47,6 +52,7 @@ import {
 import {Configuration} from 'webpack';
 import {docsVersion} from './version';
 import {VERSIONS_JSON_FILE} from './constants';
+import {PluginOptionSchema} from './validation';
 
 const REVERSED_DOCS_HOME_PAGE_ID = '_index';
 
@@ -83,9 +89,8 @@ function getFirstDocLinkOfSidebar(
 
 export default function pluginContentDocs(
   context: LoadContext,
-  opts: Partial<PluginOptions>,
+  options: PluginOptions,
 ): Plugin<LoadedContent | null> {
-  const options: PluginOptions = {...DEFAULT_OPTIONS, ...opts};
   const homePageDocsRoutePath =
     options.routeBasePath === '' ? '/' : options.routeBasePath;
 
@@ -546,3 +551,11 @@ Available document ids=
     },
   };
 }
+
+pluginContentDocs.validateOptions = ({
+  validate,
+  options,
+}: OptionValidationContext<typeof PluginOptionSchema>) => {
+  const validatedOptions = validate(PluginOptionSchema, options);
+  return validatedOptions;
+};
