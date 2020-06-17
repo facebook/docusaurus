@@ -402,7 +402,7 @@ export default function pluginContentBlog(
     },
 
     async postBuild({outDir}: Props) {
-      if (!options.feedOptions) {
+      if (!options.feedOptions?.type) {
         return;
       }
 
@@ -435,7 +435,6 @@ export default function pluginContentBlog(
       if (!options.feedOptions?.type) {
         return {};
       }
-
       const feedTypes = getFeedTypes(options.feedOptions?.type);
       const {
         siteConfig: {title},
@@ -486,5 +485,7 @@ pluginContentBlog.validateOptions = ({
   validate,
   options,
 }: OptionValidationContext<typeof PluginOptionSchema>) => {
-  return validate(PluginOptionSchema, options);
+  const validatedOptions = validate(PluginOptionSchema, options);
+  console.log(validatedOptions);
+  return validatedOptions;
 };
