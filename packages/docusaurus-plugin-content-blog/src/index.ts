@@ -486,6 +486,5 @@ pluginContentBlog.validateOptions = ({
   options,
 }: OptionValidationContext<typeof PluginOptionSchema>) => {
   const validatedOptions = validate(PluginOptionSchema, options);
-  console.log(validatedOptions);
   return validatedOptions;
 };
