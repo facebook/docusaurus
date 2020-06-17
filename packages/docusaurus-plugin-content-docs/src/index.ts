@@ -54,23 +54,6 @@ import {docsVersion} from './version';
 import {VERSIONS_JSON_FILE} from './constants';
 import {PluginOptionSchema} from './validation';
 
-const REVERSED_DOCS_HOME_PAGE_ID = '_index';
-
-const DEFAULT_OPTIONS: PluginOptions = {
-  path: 'docs', // Path to data on filesystem, relative to site dir.
-  routeBasePath: 'docs', // URL Route.
-  homePageId: REVERSED_DOCS_HOME_PAGE_ID, // Document id for docs home page.
-  include: ['**/*.{md,mdx}'], // Extensions to include.
-  sidebarPath: '', // Path to sidebar configuration for showing a list of markdown pages.
-  docLayoutComponent: '@theme/DocPage',
-  docItemComponent: '@theme/DocItem',
-  remarkPlugins: [],
-  rehypePlugins: [],
-  showLastUpdateTime: false,
-  showLastUpdateAuthor: false,
-  admonitions: {},
-};
-
 function getFirstDocLinkOfSidebar(
   sidebarItems: DocsSidebarItem[],
 ): string | null {
