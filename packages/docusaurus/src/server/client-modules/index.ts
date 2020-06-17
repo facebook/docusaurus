@@ -16,3 +16,11 @@ export function loadClientModules(plugins: Plugin<any>[]): string[] {
       .filter(Boolean),
   );
 }
+
+const abc = 42;
+
+const test = {
+  abc,
+};
+
+console.debug('test', test);
