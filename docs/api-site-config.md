@@ -128,6 +128,26 @@ customDocsPath: 'website-docs';
 
 The default version for the site to be shown. If this is not set, the latest version will be shown.
 
+#### `deletedDocs` [object]
+
+Even if you delete the main file for a documentation page and delete it from your sidebar, the page will still be created for every version and for the current version due to [fallback functionality](versioning#fallback-functionality). This can lead to confusion if people find the documentation by searching and it appears to be something relevant to a particular version but actually is not.
+
+To force removal of content beginning with a certain version (including for current/next), add a `deletedDocs` object to your config, where each key is a version and the value is a `Set` of document IDs that should not be generated for that version and all later versions.
+
+Example:
+
+```js
+{
+  deletedDocs: {
+    "2.0.0": new Set([
+      "tagging"
+    ])
+  }
+}
+```
+
+Assuming the versions list is `["3.0.0", "2.0.0", "1.1.0", "1.0.0"]`, the `docs/1.0.0/tagging` and `docs/1.1.0/tagging` URLs will work but `docs/2.0.0/tagging`, `docs/3.0.0/tagging`, and `docs/tagging` will not. The files and folders for those versions will not be generated during the build.
+
 #### `docsUrl` [string]
 
 The base URL for all docs file. Set this field to `''` to remove the `docs` prefix of the documentation URL. If unset, it is defaulted to `docs`.

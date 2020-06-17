@@ -72,6 +72,8 @@ Only files in the `docs` directory and sidebar files that differ from those of t
 
 For example, a document with the original id `doc1` exists for the latest version, `1.0.0`, and has the same content as the document with the id `doc1` in the `docs` directory. When a new version `2.0.0` is created, the file for `doc1` will not be copied into `versioned_docs/version-2.0.0/`. There will still be a page for `docs/2.0.0/doc1.html`, but it will use the file from version `1.0.0`.
 
+Because of the way this fallback works, pages that you delete are not really deleted from the website unless you tell Docusaurus to skip fallback after a certain version. To do this, use the [`deletedDocs`](api-site-config.md#deleteddocs-object) option in `siteConfig.js`.
+
 ## Renaming Existing Versions
 
 To rename an existing version number to something else, first make sure the following script is in your `package.json` file:
