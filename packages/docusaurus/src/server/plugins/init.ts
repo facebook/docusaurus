@@ -16,7 +16,6 @@ import {CONFIG_FILE_NAME} from '../../constants';
 function validate<T>(schema: Schema<T>, options: unknown) {
   try {
     return schema.validateSync(options, {
-      abortEarly: false,
       strict: true,
     });
   } catch (error) {
