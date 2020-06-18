@@ -159,7 +159,7 @@ const ThemeConfigSchema = yup
       style: yup.string().oneOf(['dark', 'light']).default('light'),
       logo: yup.object().shape({
         alt: yup.string(),
-        src: yup.string().required(),
+        src: yup.string(),
         href: yup.string(),
       }),
       copyright: yup.string(),
