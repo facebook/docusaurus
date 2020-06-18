@@ -10,8 +10,8 @@ import * as yup from 'yup';
 export const PluginOptionSchema = yup
   .object()
   .shape({
-    path: yup.string().default('src/pages'),
-    routeBasePath: yup.string().default(''),
-    include: yup.array().of(yup.string()).default(['**/*.{js,jsx,ts,tsx}']),
+    path: yup.string().default('src/pages'), // Path to data on filesystem, relative to site dir.
+    routeBasePath: yup.string().default(''), // URL Route.
+    include: yup.array().of(yup.string()).default(['**/*.{js,jsx,ts,tsx}']), // Extensions to include.
   })
   .defined();
