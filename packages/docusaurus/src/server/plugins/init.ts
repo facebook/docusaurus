@@ -109,6 +109,5 @@ export function initPlugins({
       return plugin(context, pluginOptions);
     })
     .filter(Boolean);
-  console.log(context.siteConfig.themeConfig);
   return plugins;
 }
