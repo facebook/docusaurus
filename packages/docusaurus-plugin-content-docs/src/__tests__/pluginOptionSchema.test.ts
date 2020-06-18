@@ -37,11 +37,35 @@ describe('normalizePluginOptions', () => {
     expect(options).toEqual(DEFAULT_OPTIONS);
   });
 
-  // test('should reject bad path inputs', () => {
-  //   expect(() => {
-  //     PluginOptionSchema.validateSync({
-  //       path: 2,
-  //     });
-  //   }).toThrow();
-  // });
+  test('should reject bad path inputs', () => {
+    expect(() => {
+      PluginOptionSchema.validateSync({
+        path: 2,
+      });
+    }).toThrow();
+  });
+
+  test('should reject bad homePageId inputs', () => {
+    expect(() => {
+      PluginOptionSchema.validateSync({
+        homePageId: 2,
+      });
+    }).toThrow();
+  });
+
+  test('should reject bad include inputs', () => {
+    expect(() => {
+      PluginOptionSchema.validateSync({
+        include: '**/*.{md,mdx}',
+      });
+    }).toThrow();
+  });
+
+  test('should reject bad include inputs', () => {
+    expect(() => {
+      PluginOptionSchema.validateSync({
+        showLastUpdateTime: 'true',
+      });
+    }).toThrow();
+  });
 });

@@ -9,6 +9,7 @@ import {Loader, Configuration} from 'webpack';
 import {Command} from 'commander';
 import {ParsedUrlQueryInput} from 'querystring';
 import {InferType} from 'yup';
+import * as yup from 'yup';
 
 export interface DocusaurusConfig {
   baseUrl: string;
@@ -202,4 +203,13 @@ export type Validate<T> = (
 export interface OptionValidationContext<T> {
   validate: Validate<T>;
   options: unknown;
+}
+
+// A yup string without type coercion
+export class StrictString extends yup.string {
+  constructor() {
+    super();
+    // @ts-ignore
+    this.transforms = []; // remove coercion, see https://github.com/jquense/yup/issues/934
+  }
 }

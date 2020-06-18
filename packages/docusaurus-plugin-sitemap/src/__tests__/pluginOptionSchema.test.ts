@@ -25,11 +25,19 @@ describe('normalizePluginOptions', () => {
     expect(options).toEqual(DEFAULT_OPTIONS);
   });
 
-  // test('should reject bad changefreq inputs', () => {
-  //   expect(() => {
-  //     PluginOptionSchema.validateSync({
-  //       changefreq: 2,
-  //     });
-  //   }).toThrow();
-  // });
+  test('should reject bad cacheTime inputs', () => {
+    expect(() => {
+      PluginOptionSchema.validateSync({
+        cacheTime: '1',
+      });
+    }).toThrow();
+  });
+
+  test('should reject bad changefreq inputs', () => {
+    expect(() => {
+      PluginOptionSchema.validateSync({
+        changefreq: 2,
+      });
+    }).toThrow();
+  });
 });

@@ -25,11 +25,11 @@ describe('normalizePluginOptions', () => {
     expect(options).toEqual(DEFAULT_OPTIONS);
   });
 
-  // test('should reject bad path inputs', () => {
-  //   expect(() => {
-  //     PluginOptionSchema.validateSync({
-  //       path: 2,
-  //     });
-  //   }).toThrow();
-  // });
+  test('should reject bad path inputs', () => {
+    expect(() => {
+      PluginOptionSchema.validateSync({
+        path: 2,
+      });
+    }).toThrow();
+  });
 });
