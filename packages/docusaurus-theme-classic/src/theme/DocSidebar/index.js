@@ -124,7 +124,7 @@ function DocSidebarItemLink({
   item,
   onItemClick,
   activePath,
-  collapsible,
+  collapsible: _collapsible,
   ...props
 }) {
   const {href, label} = item;
