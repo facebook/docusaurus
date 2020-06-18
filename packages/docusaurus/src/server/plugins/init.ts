@@ -13,21 +13,26 @@ import {Schema} from 'yup';
 const chalk = require('chalk');
 import {CONFIG_FILE_NAME} from '../../constants';
 
+function printError(error) {
+  console.log(
+    chalk.red(
+      `Validation Errors:${error?.errors?.reduce(
+        (formatedError, error, i) => `${formatedError}\n${i + 1}. ${error}`,
+        '',
+      )}`,
+    ),
+  );
+  process.exit(1);
+}
+
 function validate<T>(schema: Schema<T>, options: unknown) {
   try {
     return schema.validateSync(options, {
-      strict: true,
+      abortEarly: false,
     });
   } catch (error) {
-    console.log(
-      chalk.red(
-        `Validation Errors:${error.errors.reduce(
-          (formatedError, error, i) => `${formatedError}\n${i + 1}. ${error}`,
-          '',
-        )}`,
-      ),
-    );
-    process.exit(1);
+    printError(error);
+    return;
   }
 }
 
