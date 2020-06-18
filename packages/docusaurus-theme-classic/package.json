@@ -18,7 +18,8 @@
     "prismjs": "^1.20.0",
     "prop-types": "^15.7.2",
     "react-router-dom": "^5.1.2",
-    "react-toggle": "^4.1.1"
+    "react-toggle": "^4.1.1",
+    "yup": "^0.29.1"
   },
   "peerDependencies": {
     "@docusaurus/core": "^2.0.0",

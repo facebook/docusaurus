@@ -12,7 +12,8 @@
     "clsx": "^1.1.1",
     "parse-numeric-range": "^0.0.2",
     "prism-react-renderer": "^1.1.0",
-    "react-live": "^2.2.1"
+    "react-live": "^2.2.1",
+    "yup": "^0.29.1"
   },
   "peerDependencies": {
     "@docusaurus/core": "^2.0.0",
