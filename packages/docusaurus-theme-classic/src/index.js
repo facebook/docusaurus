@@ -135,8 +135,8 @@ const ThemeConfigSchema = yup
     announcementBar: yup
       .object()
       .shape({
-        id: yup.string().required(),
-        content: yup.string().required(),
+        id: yup.string(),
+        content: yup.string(),
         backgroundColor: yup.string().default('#fff'),
         textColor: yup.string().default('#000'),
       })
