@@ -14,6 +14,8 @@
   "dependencies": {
     "@docusaurus/types": "^2.0.0-alpha.58",
     "@docusaurus/utils": "^2.0.0-alpha.58",
+    "@hapi/joi": "^17.1.1",
+    "@types/hapi__joi": "^17.1.2",
     "eta": "^1.1.1",
     "globby": "^10.0.1",
     "yup": "^0.29.0"

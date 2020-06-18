@@ -5,26 +5,19 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {isValidPathname} from '@docusaurus/utils';
-import * as Yup from 'yup';
+import * as Joi from '@hapi/joi';
 import {RedirectMetadata} from './types';
 
-export const PathnameValidator = Yup.string().test({
-  name: 'isValidPathname',
-  message:
-    '${path} is not a valid pathname. Pathname should start with / and not contain any domain or query string',
-  test: isValidPathname,
-});
+export const PathnameValidator = Joi.string().pattern(/^\/\w*/);
 
-const RedirectSchema = Yup.object<RedirectMetadata>({
+const RedirectSchema = Joi.object<RedirectMetadata>({
   from: PathnameValidator.required(),
   to: PathnameValidator.required(),
 });
 
 export function validateRedirect(redirect: RedirectMetadata) {
   try {
-    RedirectSchema.validateSync(redirect, {
-      strict: true,
+    RedirectSchema.validate(redirect, {
       abortEarly: true,
     });
   } catch (e) {
