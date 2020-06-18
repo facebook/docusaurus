@@ -1,6 +1,6 @@
 # Docusaurus 2 Changelog
 
-## 2.0.0-alpha.57
+## 2.0.0-alpha.58
 
 #### :rocket: New Feature
 
@@ -138,6 +138,10 @@
 - hackerman ([@aeneasr](https://github.com/aeneasr))
 - moonrailgun ([@moonrailgun](https://github.com/moonrailgun))
 - tetunori ([@tetunori](https://github.com/tetunori))
+
+## 2.0.0-alpha.57
+
+Bad release, check ## 2.0.0-alpha.58
 
 ## 2.0.0-alpha.56
 
