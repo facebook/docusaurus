@@ -8,6 +8,8 @@
 import path from 'path';
 
 import pluginContentPages from '../index';
+import {PluginOptions} from '../types';
+import {PluginOptionSchema} from '../validation';
 import {LoadContext} from '@docusaurus/types';
 
 describe('docusaurus-plugin-content-pages', () => {
@@ -23,9 +25,12 @@ describe('docusaurus-plugin-content-pages', () => {
       siteConfig,
     } as LoadContext;
     const pluginPath = 'src/pages';
-    const plugin = pluginContentPages(context, {
-      path: pluginPath,
-    });
+    const plugin = pluginContentPages(
+      context,
+      (PluginOptionSchema.validateSync({
+        path: pluginPath,
+      }) as unknown) as PluginOptions,
+    );
     const pagesMetadatas = await plugin.loadContent();
 
     expect(pagesMetadatas).toEqual([

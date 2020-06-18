@@ -100,7 +100,7 @@ export interface PluginContentLoadedActions {
 export interface Plugin<T, U = unknown> {
   name: string;
   loadContent?(): Promise<T>;
-  validateOptions?(): OptionValidationResult<U>;
+  validateOptions?(): ValidationResult<U>;
   contentLoaded?({
     content,
     actions,
@@ -192,14 +192,14 @@ interface HtmlTagObject {
   innerHTML?: string;
 }
 
-export type OptionValidationResult<T> = InferType<T>;
+export type ValidationResult<T> = InferType<T>;
 
 export type Validate<T> = (
   validationSchrema: T,
   options: unknown,
-) => OptionValidationResult<T>;
+) => ValidationResult<T>;
 
 export interface OptionValidationContext<T> {
   validate: Validate<T>;
-  options: OptionValidationResult<T>;
+  options: unknown;
 }

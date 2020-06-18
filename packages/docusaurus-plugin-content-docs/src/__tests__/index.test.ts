@@ -12,6 +12,8 @@ import commander from 'commander';
 import fs from 'fs-extra';
 import pluginContentDocs from '../index';
 import loadEnv from '../env';
+import {PluginOptions} from '../types';
+import {PluginOptionSchema} from '../validation';
 import {loadContext} from '@docusaurus/core/src/server/index';
 import {applyConfigureWebpack} from '@docusaurus/core/src/webpack/utils';
 import {RouteConfig} from '@docusaurus/types';
@@ -42,9 +44,12 @@ test('site with wrong sidebar file', async () => {
   const siteDir = path.join(__dirname, '__fixtures__', 'simple-site');
   const context = loadContext(siteDir);
   const sidebarPath = path.join(siteDir, 'wrong-sidebars.json');
-  const plugin = pluginContentDocs(context, {
-    sidebarPath,
-  });
+  const plugin = pluginContentDocs(
+    context,
+    (PluginOptionSchema.validateSync({
+      sidebarPath,
+    }) as unknown) as PluginOptions,
+  );
   await expect(plugin.loadContent()).rejects.toThrowErrorMatchingSnapshot();
 });
 
@@ -54,7 +59,10 @@ describe('empty/no docs website', () => {
 
   test('no files in docs folder', async () => {
     await fs.ensureDir(path.join(siteDir, 'docs'));
-    const plugin = pluginContentDocs(context, {});
+    const plugin = pluginContentDocs(
+      context,
+      (PluginOptionSchema.validateSync({}) as unknown) as PluginOptions,
+    );
     const content = await plugin.loadContent();
     const {docsMetadata, docsSidebars} = content;
     expect(docsMetadata).toMatchInlineSnapshot(`Object {}`);
@@ -73,7 +81,12 @@ describe('empty/no docs website', () => {
   });
 
   test('docs folder does not exist', async () => {
-    const plugin = pluginContentDocs(context, {path: '/path/does/not/exist/'});
+    const plugin = pluginContentDocs(
+      context,
+      (PluginOptionSchema.validateSync({
+        path: '/path/does/not/exist/',
+      }) as unknown) as PluginOptions,
+    );
     const content = await plugin.loadContent();
     expect(content).toBeNull();
   });
@@ -84,11 +97,14 @@ describe('simple website', () => {
   const context = loadContext(siteDir);
   const sidebarPath = path.join(siteDir, 'sidebars.json');
   const pluginPath = 'docs';
-  const plugin = pluginContentDocs(context, {
-    path: pluginPath,
-    sidebarPath,
-    homePageId: 'hello',
-  });
+  const plugin = pluginContentDocs(
+    context,
+    (PluginOptionSchema.validateSync({
+      path: pluginPath,
+      sidebarPath,
+      homePageId: 'hello',
+    }) as unknown) as PluginOptions,
+  );
   const pluginContentDir = path.join(context.generatedFilesDir, plugin.name);
 
   test('extendCli - docsVersion', () => {
@@ -215,11 +231,14 @@ describe('versioned website', () => {
   const context = loadContext(siteDir);
   const sidebarPath = path.join(siteDir, 'sidebars.json');
   const routeBasePath = 'docs';
-  const plugin = pluginContentDocs(context, {
-    routeBasePath,
-    sidebarPath,
-    homePageId: 'hello',
-  });
+  const plugin = pluginContentDocs(
+    context,
+    (PluginOptionSchema.validateSync({
+      routeBasePath,
+      sidebarPath,
+      homePageId: 'hello',
+    }) as unknown) as PluginOptions,
+  );
   const env = loadEnv(siteDir);
   const {docsDir: versionedDir} = env.versioning;
   const pluginContentDir = path.join(context.generatedFilesDir, plugin.name);

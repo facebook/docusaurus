@@ -73,7 +73,7 @@ function getFirstDocLinkOfSidebar(
 export default function pluginContentDocs(
   context: LoadContext,
   options: PluginOptions,
-): Plugin<LoadedContent | null> {
+): Plugin<LoadedContent | null, typeof PluginOptionSchema> {
   const homePageDocsRoutePath =
     options.routeBasePath === '' ? '/' : options.routeBasePath;
 
