@@ -5,4 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-// <reference types="@docusaurus/module-type-aliases" />
+// triple slash is important to keep,
+// see https://www.typescriptlang.org/docs/handbook/triple-slash-directives.html
+// eslint-disable-next-line
+/// <reference types="@docusaurus/module-type-aliases" />
