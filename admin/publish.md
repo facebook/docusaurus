@@ -18,7 +18,9 @@ If you are not currently logged into npm on your CLI, do the following:
 
 1. `npm login`
 1. Enter username, password and associated email address
-1. **Enable 2FA** on your account (preferably, select 2FA mode `Authorization`, not `Authorization and Publishing`)
+1. **Enable 2FA** on your account (preferably for D2: select 2FA mode `Authorization`, not `Authorization and Publishing`)
+
+---
 
 ## Docusaurus 2
 
@@ -36,13 +38,11 @@ Create a new branch for the release (the branch name does not matter much):
 git co -b <your_username>/<version_to_release>
 ```
 
-### 2. Build the project
+### 2. Build and test the project
 
 Run `yarn install`
 
 It should run `yarn tsc` and build the project's packages.
-
-### 3. Build the skeleton website with new version (Docker required)
 
 To make sure that all packages will work correctly when they are published, we can initialize a new D2 skeleton website, and test that it can start/built.
 
@@ -60,9 +60,9 @@ yarn build # after manual testing in browser
 
 If there are no errors, you can start preparing for the new release.
 
-**Note**: This step is also run by the CI setup on all pull requests ([exemple](https://github.com/facebook/docusaurus/pull/2954/checks?check_run_id=780871959))
+**Note**: This step is also run by the CI on all pull requests ([see](https://github.com/facebook/docusaurus/pull/2954/checks?check_run_id=780871959))
 
-### 4. Update the v2 changelog
+### 3. Update the v2 changelog
 
 The changelog uses Github labels to classify each pull request. Use the Github interface to assign each newly merged pull request to a Github label starting with `tag:`, otherwise the PR won't appear in the changelog.
 
@@ -78,7 +78,7 @@ GITHUB_AUTH=<Your GitHub auth token> yarn changelog
 
 Copy the generated contents and paste them in `CHANGELOG-2.x.md`.
 
-### 5. Cut a new version of the docs
+### 4. Cut a new version of the docs
 
 ```sh
 cd website
@@ -87,7 +87,7 @@ yarn run docusaurus docs:version 2.0.0-alpha.41
 
 Test running the website with the new version locally.
 
-### 6. Create a Pull Request
+### 5. Create a Pull Request
 
 You should still be on your local branch `<your_username>/<version_to_release>`
 
@@ -97,7 +97,7 @@ If nobody is around for a review, just wait for the CI checks to complete, check
 
 An example PR would be [#2287](https://github.com/facebook/docusaurus/pull/2287).
 
-### 7. Publish to npm
+### 6. Build and publish to npm
 
 Go back to the `master` branch, from which we'll do the release
 
@@ -154,13 +154,14 @@ Please **double-check your permissions on these 3 packages**, otherwise you'll p
   "stylelint-copyright": "read-write"
 ```
 
-If all accesses are available, build all the necessary packages with `yarn tsc`, and then run the command to release a new version:
+If all accesses are available, build all the necessary packages, and then run the lerna command to release a new version:
 
 ```sh
+yarn tsc
 yarn lerna publish 2.0.0-alpha.41 --dist-tag next
 ```
 
-_Note: The v1 packages will also be modified because it's part of the monorepo. It is not ideal but we will live with it for now._
+**Note**: The v1 packages will also be modified because it's part of the monorepo. It is not ideal but we will live with it for now.\_
 
 This command does a few things:
 
@@ -170,7 +171,7 @@ This command does a few things:
 
 You should receive many emails notifying you that a new version of the packages has been published.
 
-### 5. Create a release on GitHub
+### 7. Create a release on GitHub
 
 - Go to https://github.com/facebook/docusaurus/releases/new
 - Under the "Tag version" field, look for the newly-created tag, which is `v2.0.0-alpha.41` in this case
@@ -178,7 +179,7 @@ You should receive many emails notifying you that a new version of the packages 
 - Hit the green "Publish release" button
 - Profit! 💰
 
-### 6. Notify people about new release (optional but desirable)
+### 8. Notify people about new release (optional but desirable)
 
 After new release, it is cool to notify our users about this in the Dicsord chat (`docusaurus-users` channel) and write summaries on Twitter using the following templates.
 
@@ -210,6 +211,8 @@ NOTE: most likely this last item will be relevant for each new release, so do no
 
 https://github.com/facebook/docusaurus/releases/tag/%VER%
 ```
+
+---
 
 ## Docusaurus 1
 
