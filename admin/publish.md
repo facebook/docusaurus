@@ -8,7 +8,7 @@ Get access from the Docusaurus npm admins (@yangshun/@JoelMarcey).
 
 ## Github
 
-You need publish access to use the **the main Docusaurus repository** (not a fork).
+You need publish access to **the main Docusaurus repository** (not a fork).
 
 ## NPM
 
