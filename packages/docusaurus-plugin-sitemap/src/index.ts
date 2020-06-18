@@ -10,7 +10,7 @@ import path from 'path';
 import {PluginOptions} from './types';
 import createSitemap from './createSitemap';
 import {LoadContext, Props, OptionValidationContext} from '@docusaurus/types';
-import {PluginOptionSchema} from './validation';
+import {PluginOptionSchema} from './pluginOptionSchema';
 
 export default function pluginSitemap(
   _context: LoadContext,

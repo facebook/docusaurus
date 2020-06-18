@@ -8,7 +8,7 @@
 import * as yup from 'yup';
 
 export const PluginOptionSchema = yup.object().shape({
-  cacheTime: yup.number().default(600 * 1000),
+  cacheTime: yup.number().default(600 * 1000), // 600 sec - cache purge period.
   changefreq: yup.string().default('weekly'),
   priority: yup.number().default(0.5),
 });

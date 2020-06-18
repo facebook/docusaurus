@@ -52,7 +52,7 @@ import {
 import {Configuration} from 'webpack';
 import {docsVersion} from './version';
 import {VERSIONS_JSON_FILE} from './constants';
-import {PluginOptionSchema} from './validation';
+import {PluginOptionSchema} from './pluginOptionSchema';
 
 function getFirstDocLinkOfSidebar(
   sidebarItems: DocsSidebarItem[],

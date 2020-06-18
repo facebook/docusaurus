@@ -12,7 +12,7 @@ import {encodePath, fileToPath, aliasedSitePath} from '@docusaurus/utils';
 import {LoadContext, Plugin, OptionValidationContext} from '@docusaurus/types';
 
 import {PluginOptions, LoadedContent} from './types';
-import {PluginOptionSchema} from './validation';
+import {PluginOptionSchema} from './pluginOptionSchema';
 
 export default function pluginContentPages(
   context: LoadContext,
