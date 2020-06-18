@@ -6,7 +6,7 @@ Docusaurus is published as an npm package that can be installed via `npm` or `ya
 
 Get access from the Docusaurus npm admins (@yangshun/@JoelMarcey).
 
-## Github
+## GitHub
 
 You need publish access to **the main Docusaurus repository** (not a fork).
 
@@ -64,7 +64,7 @@ If there are no errors, you can start preparing for the new release.
 
 ### 3. Update the v2 changelog
 
-The changelog uses Github labels to classify each pull request. Use the Github interface to assign each newly merged pull request to a Github label starting with `tag:`, otherwise the PR won't appear in the changelog.
+The changelog uses GitHub labels to classify each pull request. Use the GitHub interface to assign each newly merged pull request to a GitHub label starting with `tag:`, otherwise the PR won't appear in the changelog.
 
 The `tag:` label prefix is for PRs only. Other labels are not used by the changelog tool, and it's not necessary to assign such labels to issues, only PRs.
 
