@@ -13,21 +13,38 @@ import {Schema} from 'yup';
 const chalk = require('chalk');
 import {CONFIG_FILE_NAME} from '../../constants';
 
+function printError(error) {
+  console.log(
+    chalk.red(
+      `Validation Errors:${error?.errors?.reduce(
+        (formatedError, error, i) => `${formatedError}\n${i + 1}. ${error}`,
+        '',
+      )}`,
+    ),
+  );
+  process.exit(1);
+}
+
 function validate<T>(schema: Schema<T>, options: unknown) {
   try {
     return schema.validateSync(options, {
       abortEarly: false,
     });
   } catch (error) {
-    console.log(
-      chalk.red(
-        `Validation Errors:${error.errors.reduce(
-          (formatedError, error, i) => `${formatedError}\n${i + 1}. ${error}`,
-          '',
-        )}`,
-      ),
-    );
-    process.exit(1);
+    printError(error);
+    return;
+  }
+}
+
+function validateAndStrip<T>(schema: Schema<T>, options: unknown) {
+  try {
+    return schema.validateSync(options, {
+      abortEarly: false,
+      stripUnknown: true,
+    });
+  } catch (error) {
+    printError(error);
+    return;
   }
 }
 
@@ -80,14 +97,18 @@ export function initPlugins({
         pluginOptions = options;
       }
       if (plugin.validateThemeConfig) {
-        plugin.validateThemeConfig({
-          validate,
+        const validatedTheme = plugin.validateThemeConfig({
+          validate: validateAndStrip,
           themeConfig: context.siteConfig.themeConfig,
         });
+        context.siteConfig.themeConfig = {
+          ...context.siteConfig.themeConfig,
+          ...validatedTheme,
+        };
       }
       return plugin(context, pluginOptions);
     })
     .filter(Boolean);
-
+  console.log(context.siteConfig.themeConfig);
   return plugins;
 }

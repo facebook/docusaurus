@@ -6,6 +6,7 @@
  */
 
 const path = require('path');
+const yup = require('yup');
 
 module.exports = function () {
   return {
@@ -28,4 +29,19 @@ module.exports = function () {
       };
     },
   };
+};
+
+const ThemeConfigSchema = yup.object().shape({
+  prism: yup.object().shape({
+    theme: yup.object().shape({
+      plain: yup.mixed().required(),
+      styles: yup.mixed().required(),
+    }),
+    darkTheme: yup.mixed(),
+    defaultLanguage: yup.string(),
+  }),
+});
+
+module.exports.validateThemeConfig = ({validate, themeConfig}) => {
+  return validate(ThemeConfigSchema, themeConfig);
 };
