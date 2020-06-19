@@ -44,14 +44,15 @@ function DocPageContent({currentDocRoute, docsMetadata, children}) {
   );
 }
 
+// TODO can this be abstracted into the plugin instead of the theme?
 function DocPage(props) {
   const {
-    route: {routes: subroutes},
+    route: {routes: docRoutes},
     docsMetadata,
     location,
   } = props;
-  const currentDocRoute = subroutes.find((subroute) =>
-    matchPath(location.pathname, subroute),
+  const currentDocRoute = docRoutes.find((docRoute) =>
+    matchPath(location.pathname, docRoute),
   );
   if (!currentDocRoute) {
     return <NotFound {...props} />;
@@ -61,7 +62,7 @@ function DocPage(props) {
       <DocPageContent
         currentDocRoute={currentDocRoute}
         docsMetadata={docsMetadata}>
-        {renderRoutes(subroutes)}
+        {renderRoutes(docRoutes)}
       </DocPageContent>
     </MDXProvider>
   );
