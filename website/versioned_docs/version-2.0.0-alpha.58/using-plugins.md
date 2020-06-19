@@ -238,7 +238,7 @@ module.exports = {
          */
         editUrl: 'https://github.com/facebook/docusaurus/edit/master/website/',
         /**
-         * URL route for the blog section of your site.
+         * URL route for the docs section of your site.
          * *DO NOT* include a trailing slash.
          */
         routeBasePath: 'docs',
