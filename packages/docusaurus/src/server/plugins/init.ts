@@ -9,7 +9,7 @@ import Module from 'module';
 import {join} from 'path';
 import importFresh from 'import-fresh';
 import {LoadContext, Plugin, PluginConfig} from '@docusaurus/types';
-import {Schema} from 'yup';
+import {Schema} from '@hapi/joi';
 const chalk = require('chalk');
 import {CONFIG_FILE_NAME} from '../../constants';
 
@@ -25,27 +25,29 @@ function printError(error) {
   process.exit(1);
 }
 
-function validate<T>(schema: Schema<T>, options: unknown) {
-  try {
-    return schema.validateSync(options, {
-      abortEarly: false,
-    });
-  } catch (error) {
-    printError(error);
-    return;
+function validate(schema: Schema, options: unknown) {
+  const {error, errors, value} = schema.validate(options, {
+    abortEarly: false,
+    convert: false,
+  });
+
+  if (error) {
+    printError(errors);
   }
+  return value;
 }
 
-function validateAndStrip<T>(schema: Schema<T>, options: unknown) {
-  try {
-    return schema.validateSync(options, {
-      abortEarly: false,
-      stripUnknown: true,
-    });
-  } catch (error) {
-    printError(error);
-    return;
+function validateAndStrip(schema: Schema, options: unknown) {
+  const {error, errors, value} = schema.validate(options, {
+    abortEarly: false,
+    stripUnknown: true,
+    convert: false,
+  });
+
+  if (error) {
+    printError(errors);
   }
+  return value;
 }
 
 export function initPlugins({

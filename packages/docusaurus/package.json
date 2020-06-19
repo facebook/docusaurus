@@ -31,7 +31,8 @@
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "^2.0.0-alpha.56",
-    "@docusaurus/types": "^2.0.0-alpha.56"
+    "@docusaurus/types": "^2.0.0-alpha.56",
+    "@types/hapi__joi": "^17.1.2"
   },
   "dependencies": {
     "@babel/core": "^7.9.0",
@@ -62,6 +63,7 @@
     "html-tags": "^3.1.0",
     "html-webpack-plugin": "^4.0.4",
     "import-fresh": "^3.2.1",
+    "joi": "^14.3.1",
     "lodash.has": "^4.5.2",
     "lodash.isplainobject": "^4.0.6",
     "lodash.isstring": "^4.0.1",
@@ -89,8 +91,7 @@
     "webpack-bundle-analyzer": "^3.6.1",
     "webpack-dev-server": "^3.11.0",
     "webpack-merge": "^4.2.2",
-    "webpackbar": "^4.0.0",
-    "yup": "^0.29.1"
+    "webpackbar": "^4.0.0"
   },
   "peerDependencies": {
     "react": "^16.8.4",

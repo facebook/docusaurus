@@ -5,42 +5,33 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import * as yup from 'yup';
+import * as Joi from '@hapi/joi';
 
-export const PluginOptionSchema = yup
-  .object()
-  .shape({
-    path: yup.string().default('blog'),
-    routeBasePath: yup.string().default('blog'),
-    include: yup.array().of(yup.string()).default(['*.md', '*.mdx']),
-    postsPerPage: yup.number().integer().moreThan(0).default(10),
-    blogListComponent: yup.string().default('@theme/BlogListPage'),
-    blogPostComponent: yup.string().default('@theme/BlogPostPage'),
-    blogTagsListComponent: yup.string().default('@theme/BlogTagsListPage'),
-    blogTagsPostsComponent: yup.string().default('@theme/BlogTagsPostsPage'),
-    showReadingTime: yup.bool().default(true),
-    remarkPlugins: yup.array().of(yup.object()).default([]),
-    rehypePlugins: yup.array().of(yup.string()).default([]),
-    editUrl: yup.string().url(),
-    truncateMarker: yup
-      .mixed()
-      .transform((val) => new RegExp(val))
-      .default(/<!--\s*(truncate)\s*-->/),
-    admonitions: yup.object().default({}),
-    beforeDefaultRemarkPlugins: yup.array().of(yup.object()).default([]),
-    beforeDefaultRehypePlugins: yup.array().of(yup.object()).default([]),
-    feedOptions: yup
-      .object()
-      .shape({
-        type: yup.string().oneOf(['rss', 'all', 'atom']),
-        title: yup.string(),
-        description: yup.string(),
-        copyright: yup.string(),
-        language: yup.string(),
-      })
-      .default({}),
-  })
-  .defined();
+export const PluginOptionSchema = Joi.object({
+  path: Joi.string().default('blog'),
+  routeBasePath: Joi.string().default('blog'),
+  include: Joi.array().items(Joi.string()).default(['*.md', '*.mdx']),
+  postsPerPage: Joi.number().integer().min(1).default(10),
+  blogListComponent: Joi.string().default('@theme/BlogListPage'),
+  blogPostComponent: Joi.string().default('@theme/BlogPostPage'),
+  blogTagsListComponent: Joi.string().default('@theme/BlogTagsListPage'),
+  blogTagsPostsComponent: Joi.string().default('@theme/BlogTagsPostsPage'),
+  showReadingTime: Joi.bool().default(true),
+  remarkPlugins: Joi.array().items(Joi.object()).default([]),
+  rehypePlugins: Joi.array().items(Joi.string()).default([]),
+  editUrl: Joi.string().uri(),
+  truncateMarker: Joi.any().default(/<!--\s*(truncate)\s*-->/),
+  admonitions: Joi.object().default({}),
+  beforeDefaultRemarkPlugins: Joi.array().items(Joi.object()).default([]),
+  beforeDefaultRehypePlugins: Joi.array().items(Joi.object()).default([]),
+  feedOptions: Joi.object({
+    type: Joi.string().equal('all', 'rss', 'atom'),
+    title: Joi.string(),
+    description: Joi.string(),
+    copyright: Joi.string(),
+    language: Joi.string(),
+  }).default({}),
+});
 
 export interface BlogContent {
   blogPosts: BlogPost[];
@@ -78,11 +69,6 @@ export interface PluginOptions {
   };
   editUrl?: string;
   admonitions: any;
-}
-
-export interface ValidationResult {
-  options?: yup.InferType<typeof PluginOptionSchema>;
-  errors?: yup.ValidationError;
 }
 
 export interface BlogTags {
