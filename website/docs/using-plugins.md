@@ -84,7 +84,14 @@ A plugin is a module which exports a function that takes two parameters and retu
 
 The exported modules for plugins are called with two parameters: `context` and `options` and returns a JavaScript object with defining the [lifecycle APIs](./lifecycle-apis.md).
 
-```js title="docusaurus.config.js"
+For example if you have a reference to a local folder such as this in your
+docusaurus.config.js:
+
+    plugins: [path.resolve(__dirname, 'my-plugin')],
+
+Then in the folder `my-plugin` you can create an index.js such as this
+
+```js title="index.js"
 module.exports = function(context, options) {
   // ...
   return {
@@ -95,6 +102,9 @@ module.exports = function(context, options) {
   };
 };
 ```
+
+The `my-plugin` folder could also be a fully fledged package with it's own 
+package.json and a `src/index.js` file for example
 
 #### `context`
 
