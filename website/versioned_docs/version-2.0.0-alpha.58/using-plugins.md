@@ -310,7 +310,7 @@ module.exports = {
          */
         path: 'src/pages',
         /**
-         * URL route for the blog section of your site
+         * URL route for the page section of your site
          * do not include trailing slash
          */
         routeBasePath: '',
