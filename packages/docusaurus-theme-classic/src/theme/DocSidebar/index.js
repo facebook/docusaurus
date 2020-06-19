@@ -163,7 +163,7 @@ function DocSidebarItem(props) {
   }
 }
 
-function DocSidebar(props) {
+function DocSidebar({path, sidebar, sidebarCollapsible = true}) {
   const [showResponsiveSidebar, setShowResponsiveSidebar] = useState(false);
   const {
     siteConfig: {
@@ -175,13 +175,6 @@ function DocSidebar(props) {
   const {isAnnouncementBarClosed} = useUserPreferencesContext();
   const {scrollY} = useScrollPosition();
 
-  const {
-    docsSidebars,
-    path,
-    sidebar: currentSidebar,
-    sidebarCollapsible,
-  } = props;
-
   useLockBodyScroll(showResponsiveSidebar);
   const windowSize = useWindowSize();
 
@@ -190,18 +183,6 @@ function DocSidebar(props) {
       setShowResponsiveSidebar(false);
     }
   }, [windowSize]);
-
-  if (!currentSidebar) {
-    return null;
-  }
-
-  const sidebarData = docsSidebars[currentSidebar];
-
-  if (!sidebarData) {
-    throw new Error(
-      `Cannot find the sidebar "${currentSidebar}" in the sidebar config!`,
-    );
-  }
 
   return (
     <div
@@ -264,7 +245,7 @@ function DocSidebar(props) {
           )}
         </button>
         <ul className="menu__list">
-          {sidebarData.map((item) => (
+          {sidebar.map((item) => (
             <DocSidebarItem
               key={item.label}
               item={item}

@@ -18,46 +18,52 @@ import {matchPath} from '@docusaurus/router';
 
 import styles from './styles.module.css';
 
-function DocPage(props) {
-  const {route: baseRoute, docsMetadata, location} = props;
-  // case-sensitive route such as it is defined in the sidebar
-  const currentRoute =
-    baseRoute.routes.find((route) => {
-      return matchPath(location.pathname, route);
-    }) || {};
-  const {permalinkToSidebar, docsSidebars, version} = docsMetadata;
-  const sidebar = permalinkToSidebar[currentRoute.path];
+function DocPageContent({currentDocRoute, docsMetadata, children}) {
   const {
     siteConfig: {themeConfig = {}} = {},
     isClient,
   } = useDocusaurusContext();
-
-  const {sidebarCollapsible = true} = themeConfig;
-
-  if (Object.keys(currentRoute).length === 0) {
-    return <NotFound {...props} />;
-  }
-
+  const {permalinkToSidebar, docsSidebars, version} = docsMetadata;
+  const sidebarName = permalinkToSidebar[currentDocRoute.path];
+  const sidebar = docsSidebars[sidebarName];
   return (
     <Layout version={version} key={isClient}>
       <div className={styles.docPage}>
         {sidebar && (
           <div className={styles.docSidebarContainer} role="complementary">
             <DocSidebar
-              docsSidebars={docsSidebars}
-              path={currentRoute.path}
               sidebar={sidebar}
-              sidebarCollapsible={sidebarCollapsible}
+              path={currentDocRoute.path}
+              sidebarCollapsible={themeConfig.sidebarCollapsible}
             />
           </div>
         )}
-        <main className={styles.docMainContainer}>
-          <MDXProvider components={MDXComponents}>
-            {renderRoutes(baseRoute.routes)}
-          </MDXProvider>
-        </main>
+        <main className={styles.docMainContainer}>{children}</main>
       </div>
     </Layout>
+  );
+}
+
+function DocPage(props) {
+  const {
+    route: {routes: subroutes},
+    docsMetadata,
+    location,
+  } = props;
+  const currentDocRoute = subroutes.find((subroute) =>
+    matchPath(location.pathname, subroute),
+  );
+  if (!currentDocRoute) {
+    return <NotFound {...props} />;
+  }
+  return (
+    <MDXProvider components={MDXComponents}>
+      <DocPageContent
+        currentDocRoute={currentDocRoute}
+        docsMetadata={docsMetadata}>
+        {renderRoutes(subroutes)}
+      </DocPageContent>
+    </MDXProvider>
   );
 }
 
