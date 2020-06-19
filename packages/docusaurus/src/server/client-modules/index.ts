@@ -7,7 +7,7 @@
 
 import {Plugin} from '@docusaurus/types';
 
-export function loadClientModules(plugins: Plugin<any>[]): string[] {
+export function loadClientModules(plugins: Plugin<unknown>[]): string[] {
   return ([] as string[]).concat(
     ...plugins
       .map<any>(

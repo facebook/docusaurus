@@ -21,7 +21,7 @@ const RedirectSchema = Yup.object<RedirectMetadata>({
   to: PathnameValidator.required(),
 });
 
-export function validateRedirect(redirect: RedirectMetadata) {
+export function validateRedirect(redirect: RedirectMetadata): void {
   try {
     RedirectSchema.validateSync(redirect, {
       strict: true,

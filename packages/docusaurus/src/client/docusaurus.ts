@@ -15,6 +15,7 @@ const fetched = {};
 const loaded = {};
 
 declare global {
+  // eslint-disable-next-line camelcase
   const __webpack_require__: any;
   interface Navigator {
     connection: any;

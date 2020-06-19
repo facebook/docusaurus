@@ -135,7 +135,7 @@ function normalizeItem(item: SidebarItemRaw): SidebarItem[] {
     case 'doc':
       assertIsDoc(item);
       return [item];
-    default:
+    default: {
       const extraMigrationError =
         item.type === 'subcategory'
           ? "Docusaurus v2: 'subcategory' has been renamed as 'category'"
@@ -145,6 +145,7 @@ function normalizeItem(item: SidebarItemRaw): SidebarItem[] {
           item.type
         }]. Sidebar item=${JSON.stringify(item)} ${extraMigrationError}`,
       );
+    }
   }
 }
 
@@ -168,7 +169,7 @@ function normalizeSidebar(sidebars: SidebarRaw): Sidebar {
 
 export default function loadSidebars(sidebarPaths?: string[]): Sidebar {
   // We don't want sidebars to be cached because of hot reloading.
-  let allSidebars: SidebarRaw = {};
+  const allSidebars: SidebarRaw = {};
 
   if (!sidebarPaths || !sidebarPaths.length) {
     return {} as Sidebar;

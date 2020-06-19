@@ -53,6 +53,7 @@ export function getStyleLoaders(
         // https://github.com/facebook/create-react-app/issues/2677
         ident: 'postcss',
         plugins: () => [
+          // eslint-disable-next-line @typescript-eslint/no-var-requires
           require('postcss-preset-env')({
             autoprefixer: {
               flexbox: 'no-2009',
@@ -76,12 +77,10 @@ export function getCacheLoader(
 
   return {
     loader: require.resolve('cache-loader'),
-    options: Object.assign(
-      {
-        cacheIdentifier: `cache-loader:${cacheLoaderVersion}${isServer}`,
-      },
-      cacheOptions,
-    ),
+    options: {
+      cacheIdentifier: `cache-loader:${cacheLoaderVersion}${isServer}`,
+      ...cacheOptions,
+    },
   };
 }
 
