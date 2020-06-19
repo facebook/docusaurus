@@ -14,15 +14,23 @@ import Layout from '@theme/Layout';
 import DocSidebar from '@theme/DocSidebar';
 import MDXComponents from '@theme/MDXComponents';
 import NotFound from '@theme/NotFound';
+import {DocContextProvider, useDocContext} from '@theme/DocContext';
 import {matchPath} from '@docusaurus/router';
 
 import styles from './styles.module.css';
 
+// TODO temporary test
+const DocsVersionDisplay = () => {
+  const {docsMetadata} = useDocContext();
+  return (
+    <div className="alert alert--danger margin--md">
+      Test display version={docsMetadata.version}
+    </div>
+  );
+};
+
 function DocPageContent({currentDocRoute, docsMetadata, children}) {
-  const {
-    siteConfig: {themeConfig = {}} = {},
-    isClient,
-  } = useDocusaurusContext();
+  const {siteConfig, isClient} = useDocusaurusContext();
   const {permalinkToSidebar, docsSidebars, version} = docsMetadata;
   const sidebarName = permalinkToSidebar[currentDocRoute.path];
   const sidebar = docsSidebars[sidebarName];
@@ -34,17 +42,22 @@ function DocPageContent({currentDocRoute, docsMetadata, children}) {
             <DocSidebar
               sidebar={sidebar}
               path={currentDocRoute.path}
-              sidebarCollapsible={themeConfig.sidebarCollapsible}
+              sidebarCollapsible={
+                siteConfig.themeConfig?.sidebarCollapsible ?? true
+              }
             />
           </div>
         )}
-        <main className={styles.docMainContainer}>{children}</main>
+        <main className={styles.docMainContainer}>
+          <DocsVersionDisplay />
+
+          <MDXProvider components={MDXComponents}>{children}</MDXProvider>
+        </main>
       </div>
     </Layout>
   );
 }
 
-// TODO can this be abstracted into the plugin instead of the theme?
 function DocPage(props) {
   const {
     route: {routes: docRoutes},
@@ -58,13 +71,15 @@ function DocPage(props) {
     return <NotFound {...props} />;
   }
   return (
-    <MDXProvider components={MDXComponents}>
+    <DocContextProvider
+      currentDocRoute={currentDocRoute}
+      docsMetadata={docsMetadata}>
       <DocPageContent
         currentDocRoute={currentDocRoute}
         docsMetadata={docsMetadata}>
         {renderRoutes(docRoutes)}
       </DocPageContent>
-    </MDXProvider>
+    </DocContextProvider>
   );
 }
 
