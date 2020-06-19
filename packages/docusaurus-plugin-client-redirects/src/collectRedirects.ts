@@ -49,7 +49,9 @@ function validateCollectedRedirects(
     );
   }
 
-  const allowedToPaths = pluginContext.routesPaths;
+  const allowedToPaths = pluginContext.routesPaths.map((path) =>
+    path.replace(pluginContext.baseUrl, '/'),
+  );
   const toPaths = redirects.map((redirect) => redirect.to);
   const illegalToPaths = difference(toPaths, allowedToPaths);
   if (illegalToPaths.length > 0) {
@@ -112,10 +114,12 @@ function doCollectRedirects(pluginContext: PluginContext): RedirectMetadata[] {
     ...createFromExtensionsRedirects(
       pluginContext.routesPaths,
       pluginContext.options.fromExtensions,
+      pluginContext.baseUrl,
     ),
     ...createToExtensionsRedirects(
       pluginContext.routesPaths,
       pluginContext.options.toExtensions,
+      pluginContext.baseUrl,
     ),
     ...createRedirectsOptionRedirects(pluginContext.options.redirects),
     ...createCreateRedirectsOptionRedirects(
