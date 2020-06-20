@@ -31,13 +31,13 @@ export function loadHtmlTags(plugins: Plugin<any>[]): InjectedHtmlTags {
         plugin.injectHtmlTags() || {};
       return {
         headTags: headTags
-          ? acc.headTags + '\n' + createHtmlTagsString(headTags)
+          ? `${acc.headTags}\n${createHtmlTagsString(headTags)}`
           : acc.headTags,
         preBodyTags: preBodyTags
-          ? acc.preBodyTags + '\n' + createHtmlTagsString(preBodyTags)
+          ? `${acc.preBodyTags}\n${createHtmlTagsString(preBodyTags)}`
           : acc.preBodyTags,
         postBodyTags: postBodyTags
-          ? acc.postBodyTags + '\n' + createHtmlTagsString(postBodyTags)
+          ? `${acc.postBodyTags}\n${createHtmlTagsString(postBodyTags)}`
           : acc.postBodyTags,
       };
     },

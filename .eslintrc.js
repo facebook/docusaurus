@@ -88,16 +88,11 @@ module.exports = {
 
     // TODO re-enable some these as errors
     // context: https://github.com/facebook/docusaurus/pull/2949
-    '@typescript-eslint/no-var-requires': WARNING,
     '@typescript-eslint/ban-ts-comment': WARNING,
     '@typescript-eslint/ban-types': WARNING,
-    'import/no-duplicates': WARNING,
     'import/prefer-default-export': WARNING,
     'import/no-extraneous-dependencies': WARNING,
-    'prefer-const': WARNING,
     'no-useless-escape': WARNING,
-    'prefer-object-spread': WARNING,
-    'no-return-await': WARNING,
     'prefer-template': WARNING,
     'no-shadow': WARNING,
     'no-param-reassign': WARNING,
@@ -113,7 +108,6 @@ module.exports = {
     'no-useless-return': WARNING,
     '@typescript-eslint/no-empty-function': WARNING,
     'global-require': WARNING,
-    'import/newline-after-import': WARNING,
     'prefer-destructuring': WARNING,
     yoda: WARNING,
     'no-control-regex': WARNING,
@@ -131,6 +125,14 @@ module.exports = {
       ],
       rules: {
         'header/header': OFF,
+      },
+    },
+    {
+      files: ['*.js'],
+      rules: {
+        // Make JS code directly runnable in Node.
+        '@typescript-eslint/no-var-requires': OFF,
+        '@typescript-eslint/explicit-module-boundary-types': OFF,
       },
     },
   ],

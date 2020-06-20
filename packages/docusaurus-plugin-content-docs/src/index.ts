@@ -68,7 +68,7 @@ const DEFAULT_OPTIONS: PluginOptions = {
 function getFirstDocLinkOfSidebar(
   sidebarItems: DocsSidebarItem[],
 ): string | null {
-  for (let sidebarItem of sidebarItems) {
+  for (const sidebarItem of sidebarItems) {
     if (sidebarItem.type === 'category') {
       const url = getFirstDocLinkOfSidebar(sidebarItem.items);
       if (url) {
@@ -534,7 +534,7 @@ Available document ids=
                   options: {
                     siteDir,
                     docsDir,
-                    sourceToPermalink: sourceToPermalink,
+                    sourceToPermalink,
                     versionedDir,
                   },
                 },

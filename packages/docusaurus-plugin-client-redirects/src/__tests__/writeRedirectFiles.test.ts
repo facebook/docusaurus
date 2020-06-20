@@ -69,7 +69,7 @@ describe('toRedirectFilesMetadata', () => {
 
 describe('writeRedirectFiles', () => {
   test('write the files', async () => {
-    const outDir = '/tmp/docusaurus_tests_' + Math.random();
+    const outDir = `/tmp/docusaurus_tests_${Math.random()}`;
 
     const filesMetadata = [
       {
@@ -94,7 +94,7 @@ describe('writeRedirectFiles', () => {
   });
 
   test('avoid overwriting existing files', async () => {
-    const outDir = '/tmp/docusaurus_tests_' + Math.random();
+    const outDir = `/tmp/docusaurus_tests_${Math.random()}`;
 
     const filesMetadata = [
       {

@@ -8,7 +8,7 @@
 import React from 'react';
 import {Helmet} from 'react-helmet';
 
-function Head(props) {
+function Head(props): JSX.Element {
   return <Helmet {...props} />;
 }
 

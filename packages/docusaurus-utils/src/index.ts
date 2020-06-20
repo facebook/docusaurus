@@ -197,7 +197,7 @@ export function createExcerpt(fileString: string): string | undefined {
 
   const fileLines = fileContent.split('\n');
 
-  for (let fileLine of fileLines) {
+  for (const fileLine of fileLines) {
     const cleanedLine = fileLine
       // Remove HTML tags.
       .replace(/<[^>]*>/g, '')
@@ -338,14 +338,17 @@ export function normalizeUrl(rawUrls: string[]): string {
  * don't expose user's site structure.
  * Example: some/path/to/website/docs/foo.md -> @site/docs/foo.md
  */
-export function aliasedSitePath(filePath: string, siteDir: string) {
+export function aliasedSitePath(filePath: string, siteDir: string): string {
   const relativePath = path.relative(siteDir, filePath);
   // Cannot use path.join() as it resolves '../' and removes
   // the '@site'. Let webpack loader resolve it.
   return `@site/${relativePath}`;
 }
 
-export function getEditUrl(fileRelativePath: string, editUrl?: string) {
+export function getEditUrl(
+  fileRelativePath: string,
+  editUrl?: string,
+): string | undefined {
   return editUrl
     ? normalizeUrl([editUrl, posixPath(fileRelativePath)])
     : undefined;
@@ -362,22 +365,22 @@ export function isValidPathname(str: string): boolean {
   }
 }
 
-export function addTrailingSlash(str: string) {
+export function addTrailingSlash(str: string): string {
   return str.endsWith('/') ? str : `${str}/`;
 }
 
-export function removeTrailingSlash(str: string) {
+export function removeTrailingSlash(str: string): string {
   return removeSuffix(str, '/');
 }
 
-export function removeSuffix(str: string, suffix: string) {
+export function removeSuffix(str: string, suffix: string): string {
   if (suffix === '') {
     return str; // always returns "" otherwise!
   }
   return str.endsWith(suffix) ? str.slice(0, -suffix.length) : str;
 }
 
-export function getFilePathForRoutePath(routePath: string) {
+export function getFilePathForRoutePath(routePath: string): string {
   const fileName = path.basename(routePath);
   const filePath = path.dirname(routePath);
   return path.join(filePath, `${fileName}/index.html`);
