@@ -10,6 +10,7 @@ import clsx from 'clsx';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useUserPreferencesContext from '@theme/hooks/useUserPreferencesContext';
 import useLockBodyScroll from '@theme/hooks/useLockBodyScroll';
+import useWindowSize, {windowSizes} from '@theme/hooks/useWindowSize';
 import useLogo from '@theme/hooks/useLogo';
 import useScrollPosition from '@theme/hooks/useScrollPosition';
 import Link from '@docusaurus/Link';
@@ -27,9 +28,15 @@ function usePrevious(value) {
   return ref.current;
 }
 
+// Compare the 2 paths, ignoring trailing /
+const isSamePath = (path1, path2) => {
+  const normalize = (str) => (str.endsWith('/') ? str : `${str}/`);
+  return normalize(path1) === normalize(path2);
+};
+
 const isActiveSidebarItem = (item, activePath) => {
   if (item.type === 'link') {
-    return item.href === activePath;
+    return isSamePath(item.href, activePath);
   }
   if (item.type === 'category') {
     return item.items.some((subItem) =>
@@ -117,7 +124,7 @@ function DocSidebarItemLink({
   item,
   onItemClick,
   activePath,
-  collapsible,
+  collapsible: _collapsible,
   ...props
 }) {
   const {href, label} = item;
@@ -176,6 +183,13 @@ function DocSidebar(props) {
   } = props;
 
   useLockBodyScroll(showResponsiveSidebar);
+  const windowSize = useWindowSize();
+
+  useEffect(() => {
+    if (windowSize === windowSizes.desktop) {
+      setShowResponsiveSidebar(false);
+    }
+  }, [windowSize]);
 
   if (!currentSidebar) {
     return null;

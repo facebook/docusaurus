@@ -32,8 +32,8 @@ describe('lqip-loader', () => {
       const vibrant = new Vibrant(imgPath, {});
 
       return vibrant.getPalette().then((palette) => {
-        correctTestSwatch = Object.assign({}, palette);
-        testSwatchWithNull = Object.assign({}, palette, {Vibrant: null});
+        correctTestSwatch = {...palette};
+        testSwatchWithNull = {...palette, Vibrant: null};
       });
     });
 

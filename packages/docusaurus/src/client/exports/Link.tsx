@@ -23,7 +23,7 @@ interface Props {
   readonly href: string;
 }
 
-function Link({isNavLink, ...props}: Props) {
+function Link({isNavLink, ...props}: Props): JSX.Element {
   const {to, href} = props;
   const targetLink = to || href;
   const isInternal = isInternalUrl(targetLink);

@@ -18,7 +18,7 @@ import {
   ChunkNames,
 } from '@docusaurus/types';
 
-function isModule(value: any): value is Module {
+function isModule(value: unknown): value is Module {
   if (isString(value)) {
     return true;
   }
@@ -111,12 +111,11 @@ export async function loadRoutes(
       return newValue;
     }
 
-    routesChunkNames[routePath] = Object.assign(
-      {},
-      routesChunkNames[routePath],
-      genRouteChunkNames({component}, 'component', component),
-      genRouteChunkNames(modules, 'module', routePath),
-    );
+    routesChunkNames[routePath] = {
+      ...routesChunkNames[routePath],
+      ...genRouteChunkNames({component}, 'component', component),
+      ...genRouteChunkNames(modules, 'module', routePath),
+    };
 
     const routesStr = routes
       ? `routes: [${routes.map(generateRouteCode).join(',')}],`

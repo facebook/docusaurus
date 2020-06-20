@@ -17,7 +17,7 @@ import {
 } from '@docusaurus/types';
 import {initPlugins} from './init';
 
-export function sortConfig(routeConfigs: RouteConfig[]) {
+export function sortConfig(routeConfigs: RouteConfig[]): void {
   // Sort the route config. This ensures that route with nested
   // routes is always placed last.
   routeConfigs.sort((a, b) => {
@@ -55,11 +55,11 @@ export async function loadPlugins({
   pluginConfigs: PluginConfig[];
   context: LoadContext;
 }): Promise<{
-  plugins: Plugin<any>[];
+  plugins: Plugin<unknown>[];
   pluginsRouteConfigs: RouteConfig[];
 }> {
   // 1. Plugin Lifecycle - Initialization/Constructor.
-  const plugins: Plugin<any>[] = initPlugins({pluginConfigs, context});
+  const plugins: Plugin<unknown>[] = initPlugins({pluginConfigs, context});
 
   // 2. Plugin Lifecycle - loadContent.
   // Currently plugins run lifecycle methods in parallel and are not order-dependent.
@@ -71,7 +71,7 @@ export async function loadPlugins({
         return null;
       }
 
-      return await plugin.loadContent();
+      return plugin.loadContent();
     }),
   );
 
@@ -116,7 +116,7 @@ export async function loadPlugins({
         return null;
       }
 
-      return await plugin.routesLoaded(pluginsRouteConfigs);
+      return plugin.routesLoaded(pluginsRouteConfigs);
     }),
   );
 

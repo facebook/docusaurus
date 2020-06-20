@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
 import path from 'path';
 import {ConfigAPI, TransformOptions} from '@babel/core';
 
@@ -44,6 +50,7 @@ function getTransformOptions(isServer: boolean): TransformOptions {
           // By default, it assumes @babel/runtime@7.0.0. Since we use >7.0.0, better to
           // explicitly specify the version so that it can reuse the helper better
           // See https://github.com/babel/babel/issues/10261
+          // eslint-disable-next-line @typescript-eslint/no-var-requires
           version: require('@babel/runtime/package.json').version,
           regenerator: true,
           useESModules: true,
@@ -68,8 +75,8 @@ function getTransformOptions(isServer: boolean): TransformOptions {
 }
 
 function babelPresets(api: ConfigAPI): TransformOptions {
-  const caller = api.caller((caller) => caller?.name);
-  return getTransformOptions(caller === 'server');
+  const callerName = api.caller((caller) => caller?.name);
+  return getTransformOptions(callerName === 'server');
 }
 
 export = babelPresets;
