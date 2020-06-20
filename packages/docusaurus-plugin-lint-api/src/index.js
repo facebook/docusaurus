@@ -15,7 +15,7 @@ const options = {
 };
 
 const result = markdownlint.sync(options);
-module.exports = function (context, options) {
+module.exports = function () {
   return {
     name: 'docusaurus-plugin-docs-lint-api',
     extendCli(cli) {
