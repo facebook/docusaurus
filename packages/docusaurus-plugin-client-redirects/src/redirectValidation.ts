@@ -6,9 +6,17 @@
  */
 
 import * as Joi from '@hapi/joi';
+import {isValidPathname} from '@docusaurus/utils';
 import {RedirectMetadata} from './types';
 
-export const PathnameValidator = Joi.string().pattern(/^\/\w*/);
+export const PathnameValidator = Joi.string()
+  .custom((val) => {
+    if (!isValidPathname(val)) throw new Error();
+    else return val;
+  })
+  .message(
+    '{{#label}} is not a valid pathname. Pathname should start with / and not contain any domain or query string',
+  );
 
 const RedirectSchema = Joi.object<RedirectMetadata>({
   from: PathnameValidator.required(),
@@ -16,14 +24,15 @@ const RedirectSchema = Joi.object<RedirectMetadata>({
 });
 
 export function validateRedirect(redirect: RedirectMetadata) {
-  try {
-    RedirectSchema.validate(redirect, {
-      abortEarly: true,
-    });
-  } catch (e) {
+  const {error} = RedirectSchema.validate(redirect, {
+    abortEarly: true,
+    convert: false,
+  });
+
+  if (error) {
     // Tells the user which redirect is the problem!
     throw new Error(
-      `${JSON.stringify(redirect)} => Validation error: ${e.message}`,
+      `${JSON.stringify(redirect)} => Validation error: ${error.message}`,
     );
   }
 }

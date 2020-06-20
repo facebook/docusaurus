@@ -23,18 +23,20 @@ const RedirectPluginOptionValidation = Joi.object<RedirectOption>({
   ),
 });
 
+const isString = Joi.string().required().not(null);
+
 const UserOptionsSchema = Joi.object<UserPluginOptions>({
-  fromExtensions: Joi.array().items(Joi.string().required().min(0)),
-  toExtensions: Joi.array().items(Joi.string().required().min(0)),
-  redirects: Joi.array().items(RedirectPluginOptionValidation) as any, // TODO Joi expect weird typing here
+  fromExtensions: Joi.array().items(isString),
+  toExtensions: Joi.array().items(isString),
+  redirects: Joi.array().items(RedirectPluginOptionValidation),
   createRedirects: Joi.function().arity(1),
 });
 
 function validateUserOptions(userOptions: UserPluginOptions) {
   const {error} = UserOptionsSchema.validate(userOptions, {
     abortEarly: true,
+    allowUnknown: false,
   });
-  console.log(error);
   if (error) {
     throw new Error(
       `Invalid @docusaurus/plugin-client-redirects options: ${error.message}
