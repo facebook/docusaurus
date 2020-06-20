@@ -12,9 +12,12 @@ import {DocusaurusConfig, LoadContext} from '@docusaurus/types';
 import {PluginOptionSchema} from '../types';
 
 function validateAndNormalize(schema, options) {
-  let {value, error} = schema.validate(options);
-  if (error) throw error;
-  else return value;
+  const {value, error} = schema.validate(options);
+  if (error) {
+    throw error;
+  } else {
+    return value;
+  }
 }
 
 describe('loadBlog', () => {

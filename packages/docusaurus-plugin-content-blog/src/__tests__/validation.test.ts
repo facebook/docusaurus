@@ -26,13 +26,13 @@ const defaultOptions = {
   path: 'blog',
 };
 
-test('normalize options', async () => {
-  let {value} = await PluginOptionSchema.validate({});
+test('normalize options', () => {
+  const {value} = PluginOptionSchema.validate({});
   expect(value).toEqual(defaultOptions);
 });
 
-test('validate options', async () => {
-  let {value} = await PluginOptionSchema.validate({
+test('validate options', () => {
+  const {value} = PluginOptionSchema.validate({
     path: 'not_blog',
     postsPerPage: 5,
     include: ['api/*', 'docs/*'],
@@ -48,7 +48,7 @@ test('validate options', async () => {
 });
 
 test('throw Error in case of invalid options', () => {
-  const {error, value} = PluginOptionSchema.validate({
+  const {error} = PluginOptionSchema.validate({
     path: 'not_blog',
     postsPerPage: -1,
     include: ['api/*', 'docs/*'],
@@ -59,7 +59,7 @@ test('throw Error in case of invalid options', () => {
 });
 
 test('throw Error in case of invalid feedtype', () => {
-  const {error, value} = PluginOptionSchema.validate({
+  const {error} = PluginOptionSchema.validate({
     feedOptions: {
       type: 'none',
     },
@@ -68,8 +68,8 @@ test('throw Error in case of invalid feedtype', () => {
   expect(error).toMatchSnapshot();
 });
 
-test('conversion of truncateMarker to Regex', async () => {
-  let {value} = await PluginOptionSchema.validate({
+test('conversion of truncateMarker to Regex', () => {
+  const {value} = PluginOptionSchema.validate({
     truncateMarker: 'tag',
   });
   expect(value).toEqual({
