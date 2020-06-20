@@ -8,7 +8,6 @@
 import {Loader, Configuration} from 'webpack';
 import {Command} from 'commander';
 import {ParsedUrlQueryInput} from 'querystring';
-import {InferType} from 'yup';
 
 export interface DocusaurusConfig {
   baseUrl: string;
@@ -193,19 +192,22 @@ interface HtmlTagObject {
   innerHTML?: string;
 }
 
-export type ValidationResult<T> = InferType<T>;
+export interface ValidationResult<T, E extends Error = Error> {
+  error: E;
+  value: T;
+}
 
-export type Validate<T> = (
+export type Validate<T,E extends Error> = (
   validationSchrema: T,
   options: unknown,
-) => ValidationResult<T>;
+) => ValidationResult<T,E>;
 
 export interface OptionValidationContext<T> {
-  validate: Validate<T>;
+  validate: Validate<T,Error>;
   options: unknown;
 }
 
 export interface ThemeConfigValidationContext<T> {
-  validate: Validate<T>;
+  validate: Validate<T,Error>;
   themeConfig: unknown;
 }

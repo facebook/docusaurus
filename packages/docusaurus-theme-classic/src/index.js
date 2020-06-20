@@ -112,9 +112,9 @@ module.exports = function (context, options) {
 };
 
 const NavbarLinkSchema = Joi.object({
-  items: Joi.array().optional().items(NavbarLinkSchema.default(undefined)),
+  items: Joi.array().optional().items(Joi.link('#navbarLinkSchema')),
   to: Joi.string(),
-  href: Joi.string().url(),
+  href: Joi.string().uri(),
   prependBaseUrlToHref: Joi.bool().default(true),
   label: Joi.string(),
   position: Joi.string().equal('left', 'right').default('left'),
@@ -122,58 +122,58 @@ const NavbarLinkSchema = Joi.object({
   activeBaseRegex: Joi.string(),
   className: Joi.string(),
   'aria-label': Joi.string(),
-});
+})
+  .xor('href', 'to')
+  .id('navbarLinkSchema');
 
-const ThemeConfigSchema = Joi.object()
-  .shape({
-    disableDarkMode: Joi.bool().default(false),
-    image: Joi.string(),
-    announcementBar: Joi.object()
-      .shape({
-        id: Joi.string(),
-        content: Joi.string(),
-        backgroundColor: Joi.string().default('#fff'),
-        textColor: Joi.string().default('#000'),
-      })
-      .optional(),
-    navbar: Joi.object({
-      hideOnScroll: Joi.bool().default(false),
-      links: Joi.array().items(NavbarLinkSchema),
-      title: Joi.string().required(),
-      logo: Joi.object({
-        alt: Joi.string(),
-        src: Joi.string().required(),
-        srcDark: Joi.string().when('src', (value, schema) =>
-          schema.default(value),
+const ThemeConfigSchema = Joi.object({
+  disableDarkMode: Joi.bool().default(false),
+  image: Joi.string(),
+  announcementBar: Joi.object({
+    id: Joi.string(),
+    content: Joi.string(),
+    backgroundColor: Joi.string().default('#fff'),
+    textColor: Joi.string().default('#000'),
+  }).optional(),
+  navbar: Joi.object({
+    hideOnScroll: Joi.bool().default(false),
+    links: Joi.array().items(NavbarLinkSchema),
+    title: Joi.string().required(),
+    logo: Joi.object({
+      alt: Joi.string(),
+      src: Joi.string().required(),
+      srcDark: Joi.string(),
+      href: Joi.string(),
+      target: Joi.string(),
+    }),
+  }),
+  footer: Joi.object({
+    style: Joi.string().equal('dark', 'light').default('light'),
+    logo: Joi.object({
+      alt: Joi.string(),
+      src: Joi.string(),
+      href: Joi.string(),
+    }),
+    copyright: Joi.string(),
+    links: Joi.array().items(
+      Joi.object({
+        title: Joi.string().required(),
+        items: Joi.array().items(
+          Joi.object({
+            to: Joi.string(),
+            href: Joi.string().uri(),
+            html: Joi.string(),
+            label: Joi.string(),
+          })
+            .xor('to', 'href', 'html')
+            .with('to', 'label')
+            .with('href', 'label')
+            .nand('html', 'label'),
         ),
-        href: Joi.string(),
-        target: Joi.string(),
       }),
-    }),
-    footer: Joi.object({
-      style: Joi.string().oneOf(['dark', 'light']).default('light'),
-      logo: Joi.object({
-        alt: Joi.string(),
-        src: Joi.string(),
-        href: Joi.string(),
-      }),
-      copyright: Joi.string(),
-      link: Joi.array().items(
-        Joi.object({
-          title: Joi.string().required(),
-          items: Joi.array().items(
-            Joi.object({
-              to: Joi.string(),
-              href: Joi.string().url(),
-              html: Joi.string(),
-              label: Joi.string(),
-            }),
-          ),
-        }),
-      ),
-    }),
-  })
-  .defined();
+    ),
+  }),
+});
 
 module.exports.validateThemeConfig = ({validate, themeConfig}) => {
   return validate(ThemeConfigSchema, themeConfig);

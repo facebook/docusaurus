@@ -20,7 +20,10 @@ export const PluginOptionSchema = Joi.object({
   remarkPlugins: Joi.array().items(Joi.object()).default([]),
   rehypePlugins: Joi.array().items(Joi.string()).default([]),
   editUrl: Joi.string().uri(),
-  truncateMarker: Joi.any().default(/<!--\s*(truncate)\s*-->/),
+  truncateMarker: Joi.alternatives()
+    .try(Joi.string(), Joi.object())
+    .custom((value) => new RegExp(value))
+    .default(/<!--\s*(truncate)\s*-->/),
   admonitions: Joi.object().default({}),
   beforeDefaultRemarkPlugins: Joi.array().items(Joi.object()).default([]),
   beforeDefaultRehypePlugins: Joi.array().items(Joi.object()).default([]),

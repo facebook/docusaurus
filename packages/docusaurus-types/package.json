@@ -11,7 +11,6 @@
   "dependencies": {
     "@types/webpack": "^4.41.0",
     "commander": "^4.0.1",
-    "querystring": "0.2.0",
-    "yup": "^0.29.1"
+    "querystring": "0.2.0"
   }
 }

@@ -10,42 +10,26 @@ import {join} from 'path';
 import importFresh from 'import-fresh';
 import {LoadContext, Plugin, PluginConfig} from '@docusaurus/types';
 import {Schema} from '@hapi/joi';
-const chalk = require('chalk');
 import {CONFIG_FILE_NAME} from '../../constants';
 
-function printError(error) {
-  console.log(
-    chalk.red(
-      `Validation Errors:${error?.errors?.reduce(
-        (formatedError, error, i) => `${formatedError}\n${i + 1}. ${error}`,
-        '',
-      )}`,
-    ),
-  );
-  process.exit(1);
-}
-
 function validate(schema: Schema, options: unknown) {
-  const {error, errors, value} = schema.validate(options, {
-    abortEarly: false,
+  const {error, value} = schema.validate(options, {
     convert: false,
   });
-
   if (error) {
-    printError(errors);
+    throw error;
   }
   return value;
 }
 
 function validateAndStrip(schema: Schema, options: unknown) {
-  const {error, errors, value} = schema.validate(options, {
-    abortEarly: false,
-    stripUnknown: true,
+  const {error, value} = schema.validate(options, {
     convert: false,
+    stripUnknown: true, // since the themeConfig is a shared object between plugins, it suppresses error and normalizes values relevant to the plugin
   });
 
   if (error) {
-    printError(errors);
+    throw error;
   }
   return value;
 }

@@ -35,7 +35,7 @@ import {Configuration, Loader} from 'webpack';
 import {generateBlogFeed, generateBlogPosts} from './blogUtils';
 
 const getFeedTypes = (type: FeedType) => {
-  let feedTypes: ('rss' | 'atom')[] = [];
+  let feedTypes: Array<Exclude<FeedType, 'all'>> = [];
 
   if (type === 'all') {
     feedTypes = ['rss', 'atom'];

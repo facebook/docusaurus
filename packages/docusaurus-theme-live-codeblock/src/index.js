@@ -6,7 +6,7 @@
  */
 
 const path = require('path');
-const yup = require('yup');
+const Joi = require('joi');
 
 module.exports = function () {
   return {
@@ -31,14 +31,17 @@ module.exports = function () {
   };
 };
 
-const ThemeConfigSchema = yup.object().shape({
-  prism: yup.object().shape({
-    theme: yup.object().shape({
-      plain: yup.mixed().required(),
-      styles: yup.mixed().required(),
+const ThemeConfigSchema = Joi.object({
+  prism: Joi.object({
+    theme: Joi.object({
+      plain: Joi.alternatives().try(Joi.array(), Joi.object()).required(),
+      styles: Joi.alternatives().try(Joi.array(), Joi.object()).required(),
     }),
-    darkTheme: yup.mixed(),
-    defaultLanguage: yup.string(),
+    darkTheme: Joi.object({
+      plain: Joi.alternatives().try(Joi.array(), Joi.object()).required(),
+      styles: Joi.alternatives().try(Joi.array(), Joi.object()).required(),
+    }),
+    defaultLanguage: Joi.string(),
   }),
 });
 
