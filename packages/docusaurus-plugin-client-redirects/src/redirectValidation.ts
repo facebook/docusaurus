@@ -12,6 +12,8 @@ import {RedirectMetadata} from './types';
 export const PathnameValidator = Yup.string().test({
   name: 'isValidPathname',
   message:
+    // Yup requires this format.
+    // eslint-disable-next-line no-template-curly-in-string
     '${path} is not a valid pathname. Pathname should start with / and not contain any domain or query string',
   test: isValidPathname,
 });

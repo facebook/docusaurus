@@ -6,9 +6,9 @@
  */
 
 import React from 'react';
-import {Helmet} from 'react-helmet';
+import {Helmet, HelmetProps} from 'react-helmet';
 
-function Head(props): JSX.Element {
+function Head(props: HelmetProps): JSX.Element {
   return <Helmet {...props} />;
 }
 

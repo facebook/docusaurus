@@ -6,9 +6,9 @@
  */
 
 import {ThemeAlias} from '@docusaurus/types';
-import {themeAlias} from './alias';
+import themeAlias from './alias';
 
-export function loadThemeAlias(
+export default function loadThemeAlias(
   themePaths: string[],
   userThemePaths: string[] = [],
 ): ThemeAlias {

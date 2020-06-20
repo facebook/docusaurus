@@ -7,12 +7,12 @@
 
 import {Plugin} from '@docusaurus/types';
 
-export function loadClientModules(plugins: Plugin<unknown>[]): string[] {
+export default function loadClientModules(
+  plugins: Plugin<unknown>[],
+): string[] {
   return ([] as string[]).concat(
     ...plugins
-      .map<any>(
-        (plugin) => plugin.getClientModules && plugin.getClientModules(),
-      )
+      .map((plugin) => plugin.getClientModules?.() ?? [])
       .filter(Boolean),
   );
 }

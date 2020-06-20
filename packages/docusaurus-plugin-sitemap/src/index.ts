@@ -11,7 +11,7 @@ import {PluginOptions} from './types';
 import createSitemap from './createSitemap';
 import {LoadContext, Props, Plugin} from '@docusaurus/types';
 
-const DEFAULT_OPTIONS: PluginOptions = {
+const DEFAULT_OPTIONS: Required<PluginOptions> = {
   cacheTime: 600 * 1000, // 600 sec - cache purge period.
   changefreq: 'weekly',
   priority: 0.5,

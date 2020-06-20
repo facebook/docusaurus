@@ -15,6 +15,8 @@ import path from 'path';
 import {Sidebar, PathOptions, SidebarItem} from './types';
 import loadSidebars from './sidebars';
 
+// Tests depend on non-default export for mocking.
+// eslint-disable-next-line import/prefer-default-export
 export function docsVersion(
   version: string | null | undefined,
   siteDir: string,

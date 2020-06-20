@@ -23,7 +23,7 @@ import HotModuleReplacementPlugin from 'webpack/lib/HotModuleReplacementPlugin';
 import {load} from '../server';
 import {StartCLIOptions} from '@docusaurus/types';
 import {CONFIG_FILE_NAME, STATIC_DIR_NAME, DEFAULT_PORT} from '../constants';
-import {createClientConfig} from '../webpack/client';
+import createClientConfig from '../webpack/client';
 import {applyConfigureWebpack} from '../webpack/utils';
 
 function getHost(reqHost: string | undefined): string {
@@ -36,7 +36,7 @@ async function getPort(reqPort: string | undefined): Promise<number> {
   return port;
 }
 
-export async function start(
+export default async function start(
   siteDir: string,
   cliOptions: Partial<StartCLIOptions> = {},
 ): Promise<void> {
@@ -65,9 +65,7 @@ export async function start(
   const pluginPaths: string[] = ([] as string[])
     .concat(
       ...plugins
-        .map<any>(
-          (plugin) => plugin.getPathsToWatch && plugin.getPathsToWatch(),
-        )
+        .map((plugin) => plugin.getPathsToWatch?.() ?? [])
         .filter(Boolean),
     )
     .map(normalizeToSiteDir);
@@ -172,7 +170,9 @@ export async function start(
     if (err) {
       console.log(err);
     }
-    cliOptions.open && openBrowser(openUrl);
+    if (cliOptions.open) {
+      openBrowser(openUrl);
+    }
   });
   ['SIGINT', 'SIGTERM'].forEach((sig) => {
     process.on(sig as NodeJS.Signals, () => {

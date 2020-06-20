@@ -36,6 +36,7 @@ function validateCollectedRedirects(
     .map((redirect) => {
       try {
         validateRedirect(redirect);
+        return undefined;
       } catch (e) {
         return e.message;
       }
@@ -132,12 +133,11 @@ function createRedirectsOptionRedirects(
   function optionToRedirects(option: RedirectOption): RedirectMetadata[] {
     if (typeof option.from === 'string') {
       return [{from: option.from, to: option.to}];
-    } else {
-      return option.from.map((from) => ({
-        from,
-        to: option.to,
-      }));
     }
+    return option.from.map((from) => ({
+      from,
+      to: option.to,
+    }));
   }
 
   return flatten(redirectsOption.map(optionToRedirects));

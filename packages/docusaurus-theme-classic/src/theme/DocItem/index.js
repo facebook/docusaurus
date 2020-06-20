@@ -47,6 +47,8 @@ function Headings({headings, isChild}) {
           <a
             href={`#${heading.id}`}
             className={LINK_CLASS_NAME}
+            // Developer provided the HTML, so assume it's safe.
+            // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{__html: heading.value}}
           />
           <Headings isChild headings={heading.children} />
