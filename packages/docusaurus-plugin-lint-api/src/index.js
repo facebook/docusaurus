@@ -15,7 +15,7 @@ const options = {
 };
 const result = markdownlint.sync(options);
 
-module.exports = function(context, options) {
+module.exports = function (context, options) {
   return {
     name: 'docusaurus-plugin-docs-lint-api',
     extendCli(cli) {
@@ -23,8 +23,8 @@ module.exports = function(context, options) {
         .command('lint-api')
         .description('Ensure that a  API docs follow our best practices guide')
         .action(() => {
-          console.log(result)
-        })
-    }
-  }
-}
+          console.log(result);
+        });
+    },
+  };
+};

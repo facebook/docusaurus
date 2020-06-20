@@ -8,7 +8,10 @@ const fs = require('fs');
 const path = require('path');
 const markdownIt = require('markdown-it')();
 
-const template = fs.readFileSync(path.resolve(__dirname, './template.md'), 'utf-8');
+const template = fs.readFileSync(
+  path.resolve(__dirname, './template.md'),
+  'utf-8',
+);
 const tempTokens = markdownIt.parse(template);
 const REGEX = /^(h3)((p)+(code)+)+$/;
 
@@ -29,7 +32,7 @@ module.exports = {
   description: 'Enforces the structure of an API file',
   tags: ['API', 'md', 'structure'],
   function: function rule(params, onError) {
-    console.log('here')
+    console.log('here');
     // Add file config
     const myTokens = params.tokens
       .filter(function filterTokens(token) {
@@ -39,7 +42,6 @@ module.exports = {
         return token.tag;
       });
     const tempRepresentation = getRepresentation(tempTokens);
-    console.log(tempRepresentation)
     const indexes = params.tokens
       .map(function mapToIndex(token, index) {
         const isNewSection = token.type === 'heading_open';
@@ -49,7 +51,7 @@ module.exports = {
       .filter(function filterIndexes(index) {
         return index !== undefined;
       });
-    // Extract to a method - change to a functional way?
+
     for (let i = 0; i < indexes.length; i++) {
       // slice works with undefined, in case of the index be greater than indexes length
       const content = params.tokens.slice(indexes[i], indexes[i + 1]);
