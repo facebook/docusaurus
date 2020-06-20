@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {normalizeUrl} from '@docusaurus/utils';
+import {normalizeUrl, posixPath} from '@docusaurus/utils';
 import chalk = require('chalk');
 import chokidar from 'chokidar';
 import express from 'express';
@@ -22,7 +22,6 @@ import merge from 'webpack-merge';
 import HotModuleReplacementPlugin from 'webpack/lib/HotModuleReplacementPlugin';
 import {load} from '../server';
 import {StartCLIOptions} from '@docusaurus/types';
-import {posixPath} from '@docusaurus/utils';
 import {CONFIG_FILE_NAME, STATIC_DIR_NAME, DEFAULT_PORT} from '../constants';
 import {createClientConfig} from '../webpack/client';
 import {applyConfigureWebpack} from '../webpack/utils';

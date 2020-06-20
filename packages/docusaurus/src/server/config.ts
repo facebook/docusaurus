@@ -32,10 +32,10 @@ const DEFAULT_CONFIG: {
   plugins: PluginConfig[];
   themes: PluginConfig[];
   customFields: {
-    [key: string]: any;
+    [key: string]: unknown;
   };
   themeConfig: {
-    [key: string]: any;
+    [key: string]: unknown;
   };
 } = {
   plugins: [],

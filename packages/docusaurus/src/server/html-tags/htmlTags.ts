@@ -23,7 +23,7 @@ function assertIsHtmlTagObject(val: any): asserts val is HtmlTagObject {
   }
 }
 
-export function htmlTagObjectToString(tagDefinition: any): string {
+export function htmlTagObjectToString(tagDefinition: unknown): string {
   assertIsHtmlTagObject(tagDefinition);
   if (htmlTags.indexOf(tagDefinition.tagName) === -1) {
     throw new Error(
@@ -40,13 +40,9 @@ export function htmlTagObjectToString(tagDefinition: any): string {
       if (tagAttributes[attributeName] === true) {
         return attributeName;
       }
-      return attributeName + '="' + tagAttributes[attributeName] + '"';
+      return `${attributeName}="${tagAttributes[attributeName]}"`;
     });
-  return (
-    '<' +
-    [tagDefinition.tagName].concat(attributes).join(' ') +
-    '>' +
-    ((!isVoidTag && tagDefinition.innerHTML) || '') +
-    (isVoidTag ? '' : '</' + tagDefinition.tagName + '>')
-  );
+  return `<${[tagDefinition.tagName].concat(attributes).join(' ')}>${
+    (!isVoidTag && tagDefinition.innerHTML) || ''
+  }${isVoidTag ? '' : `</${tagDefinition.tagName}>`}`;
 }

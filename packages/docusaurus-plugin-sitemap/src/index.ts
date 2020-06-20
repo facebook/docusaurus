@@ -9,7 +9,7 @@ import fs from 'fs-extra';
 import path from 'path';
 import {PluginOptions} from './types';
 import createSitemap from './createSitemap';
-import {LoadContext, Props} from '@docusaurus/types';
+import {LoadContext, Props, Plugin} from '@docusaurus/types';
 
 const DEFAULT_OPTIONS: PluginOptions = {
   cacheTime: 600 * 1000, // 600 sec - cache purge period.
@@ -20,7 +20,7 @@ const DEFAULT_OPTIONS: PluginOptions = {
 export default function pluginSitemap(
   _context: LoadContext,
   opts: Partial<PluginOptions>,
-) {
+): Plugin<void> {
   const options = {...DEFAULT_OPTIONS, ...opts};
 
   return {

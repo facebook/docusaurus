@@ -36,7 +36,7 @@ function compile(config: Configuration[]): Promise<any> {
       }
       if (stats.hasWarnings()) {
         // Custom filtering warnings (see https://github.com/webpack/webpack/issues/7841).
-        let warnings = stats.toJson('errors-warnings').warnings;
+        let {warnings} = stats.toJson('errors-warnings');
         const warningsFilter = ((config[0].stats as Stats.ToJsonOptionsObject)
           ?.warningsFilter || []) as any[];
 
@@ -142,7 +142,9 @@ export async function build(
   ) {
     const serverBundle = path.join(outDir, serverConfig.output.filename);
     fs.pathExists(serverBundle).then((exist) => {
-      exist && fs.unlink(serverBundle);
+      if (exist) {
+        fs.unlink(serverBundle);
+      }
     });
   }
 
@@ -162,6 +164,8 @@ export async function build(
       relativeDir,
     )}.\n`,
   );
-  forceTerminate && !cliOptions.bundleAnalyzer && process.exit(0);
+  if (forceTerminate && !cliOptions.bundleAnalyzer) {
+    process.exit(0);
+  }
   return outDir;
 }
