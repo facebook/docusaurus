@@ -193,21 +193,25 @@ interface HtmlTagObject {
 }
 
 export interface ValidationResult<T, E extends Error = Error> {
-  error: E;
+  error?: E;
   value: T;
 }
 
-export type Validate<T,E extends Error> = (
-  validationSchrema: T,
-  options: unknown,
-) => ValidationResult<T,E>;
+export type Validate<T, E extends Error = Error> = (
+  validationSchrema: ValidationSchema<T>,
+  options: Partial<T>,
+) => ValidationResult<T, E>;
 
-export interface OptionValidationContext<T> {
-  validate: Validate<T,Error>;
-  options: unknown;
+export interface OptionValidationContext<T, E extends Error = Error> {
+  validate: Validate<T, E>;
+  options: Partial<T>;
 }
 
-export interface ThemeConfigValidationContext<T> {
-  validate: Validate<T,Error>;
-  themeConfig: unknown;
+export interface ThemeConfigValidationContext<T, E extends Error = Error> {
+  validate: Validate<T, E>;
+  themeConfig: Partial<T>;
+}
+
+export interface ValidationSchema<T> {
+  validate(options: Partial<T>, opt: object): ValidationResult<T>;
 }

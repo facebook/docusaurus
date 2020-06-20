@@ -8,11 +8,15 @@
 import Module from 'module';
 import {join} from 'path';
 import importFresh from 'import-fresh';
-import {LoadContext, Plugin, PluginConfig} from '@docusaurus/types';
-import {Schema} from '@hapi/joi';
+import {
+  LoadContext,
+  Plugin,
+  PluginConfig,
+  ValidationSchema,
+} from '@docusaurus/types';
 import {CONFIG_FILE_NAME} from '../../constants';
 
-function validate(schema: Schema, options: unknown) {
+function validate<T>(schema: ValidationSchema<T>, options: Partial<T>) {
   const {error, value} = schema.validate(options, {
     convert: false,
   });
@@ -22,7 +26,7 @@ function validate(schema: Schema, options: unknown) {
   return value;
 }
 
-function validateAndStrip(schema: Schema, options: unknown) {
+function validateAndStrip<T>(schema: ValidationSchema<T>, options: Partial<T>) {
   const {error, value} = schema.validate(options, {
     convert: false,
     stripUnknown: true, // since the themeConfig is a shared object between plugins, it suppresses error and normalizes values relevant to the plugin

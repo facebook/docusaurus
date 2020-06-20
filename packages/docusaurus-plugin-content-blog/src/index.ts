@@ -10,6 +10,7 @@ import kebabCase from 'lodash.kebabcase';
 import path from 'path';
 import admonitions from 'remark-admonitions';
 import {normalizeUrl, docuHash, aliasedSitePath} from '@docusaurus/utils';
+import {ValidationError} from '@hapi/joi';
 
 import {
   PluginOptions,
@@ -484,7 +485,7 @@ export default function pluginContentBlog(
 pluginContentBlog.validateOptions = ({
   validate,
   options,
-}: OptionValidationContext<typeof PluginOptionSchema>) => {
+}: OptionValidationContext<PluginOptions, ValidationError>) => {
   const validatedOptions = validate(PluginOptionSchema, options);
   return validatedOptions;
 };
