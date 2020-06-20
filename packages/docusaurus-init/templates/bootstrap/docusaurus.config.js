@@ -85,4 +85,5 @@ module.exports = {
       },
     ],
   ],
+  plugins: ['@docusaurus/plugin-lint-api']
 };
