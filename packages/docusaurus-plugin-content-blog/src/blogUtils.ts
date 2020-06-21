@@ -72,10 +72,10 @@ export async function generateBlogFeed(
   blogPosts.forEach((post) => {
     const {
       id,
-      metadata: {title, permalink, date, description},
+      metadata: {title: metadataTitle, permalink, date, description},
     } = post;
     feed.addItem({
-      title,
+      title: metadataTitle,
       id,
       link: normalizeUrl([siteUrl, permalink]),
       date,

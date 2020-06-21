@@ -36,10 +36,21 @@ function getModulePath(target: Module): string {
   return `${target.path}${queryStr}`;
 }
 
-export async function loadRoutes(
+type LoadedRoutes = {
+  registry: {
+    [chunkName: string]: ChunkRegistry;
+  };
+  routesConfig: string;
+  routesChunkNames: {
+    [routePath: string]: ChunkNames;
+  };
+  routesPaths: string[];
+};
+
+export default async function loadRoutes(
   pluginsRouteConfigs: RouteConfig[],
   baseUrl: string,
-) {
+): Promise<LoadedRoutes> {
   const routesImports = [
     `import React from 'react';`,
     `import ComponentCreator from '@docusaurus/ComponentCreator';`,

@@ -10,10 +10,11 @@ import {HtmlTagObject} from '@docusaurus/types';
 import htmlTags from 'html-tags';
 import voidHtmlTags from 'html-tags/void';
 
-function assertIsHtmlTagObject(val: any): asserts val is HtmlTagObject {
+function assertIsHtmlTagObject(val: unknown): asserts val is HtmlTagObject {
   if (!isPlainObject(val)) {
     throw new Error(`"${val}" is not a valid HTML tag object`);
   }
+  // @ts-expect-error: If tagName doesn't exist, it will throw.
   if (typeof val.tagName !== 'string') {
     throw new Error(
       `${JSON.stringify(
@@ -23,7 +24,7 @@ function assertIsHtmlTagObject(val: any): asserts val is HtmlTagObject {
   }
 }
 
-export function htmlTagObjectToString(tagDefinition: unknown): string {
+export default function htmlTagObjectToString(tagDefinition: unknown): string {
   assertIsHtmlTagObject(tagDefinition);
   if (htmlTags.indexOf(tagDefinition.tagName) === -1) {
     throw new Error(

@@ -378,9 +378,7 @@ Available document ids=
           }),
         );
 
-        return routes.sort((a, b) =>
-          a.path > b.path ? 1 : b.path > a.path ? -1 : 0,
-        );
+        return routes.sort((a, b) => a.path.localeCompare(b.path));
       };
 
       // This is the base route of the document root (for a doc given version)
@@ -400,10 +398,10 @@ Available document ids=
         // Important: the layout component should not end with /,
         // as it conflicts with the home doc
         // Workaround fix for https://github.com/facebook/docusaurus/issues/2917
-        const path = docsBaseRoute === '/' ? '' : docsBaseRoute;
+        const docsPath = docsBaseRoute === '/' ? '' : docsBaseRoute;
 
         addRoute({
-          path,
+          path: docsPath,
           exact: false, // allow matching /docs/* as well
           component: docLayoutComponent, // main docs component (DocPage)
           routes, // subroute for each doc
@@ -466,7 +464,7 @@ Available document ids=
         const routes = await genRoutes(Object.values(content.docsMetadata));
         const docsBaseMetadata = createDocsBaseMetadata();
         const docsBaseRoute = normalizeUrl([baseUrl, routeBasePath]);
-        return addBaseRoute(docsBaseRoute, docsBaseMetadata, routes);
+        await addBaseRoute(docsBaseRoute, docsBaseMetadata, routes);
       }
     },
 

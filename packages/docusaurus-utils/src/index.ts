@@ -160,6 +160,8 @@ export function genChunkName(
   return chunkName;
 }
 
+// Too dynamic
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
 export function idx(target: any, keyPaths?: string | (string | number)[]): any {
   return (
     target &&
@@ -231,13 +233,15 @@ export function createExcerpt(fileString: string): string | undefined {
 
 type ParsedMarkdown = {
   frontMatter: {
+    // Returned by gray-matter
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     [key: string]: any;
   };
   content: string;
   excerpt: string | undefined;
 };
 export function parseMarkdownString(markdownString: string): ParsedMarkdown {
-  const options: {} = {
+  const options: Record<string, unknown> = {
     excerpt: (file: matter.GrayMatterFile<string>): void => {
       // Hacky way of stripping out import statements from the excerpt
       // TODO: Find a better way to do so, possibly by compiling the Markdown content,

@@ -16,12 +16,12 @@ import merge from 'webpack-merge';
 import {STATIC_DIR_NAME} from '../constants';
 import {load} from '../server';
 import {BuildCLIOptions, Props} from '@docusaurus/types';
-import {createClientConfig} from '../webpack/client';
-import {createServerConfig} from '../webpack/server';
+import createClientConfig from '../webpack/client';
+import createServerConfig from '../webpack/server';
 import {applyConfigureWebpack} from '../webpack/utils';
 import CleanWebpackPlugin from '../webpack/plugins/CleanWebpackPlugin';
 
-function compile(config: Configuration[]): Promise<any> {
+function compile(config: Configuration[]): Promise<void> {
   return new Promise((resolve, reject) => {
     const compiler = webpack(config);
     compiler.run((err, stats) => {
@@ -55,7 +55,7 @@ function compile(config: Configuration[]): Promise<any> {
   });
 }
 
-export async function build(
+export default async function build(
   siteDir: string,
   cliOptions: Partial<BuildCLIOptions> = {},
   forceTerminate: boolean = true,

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {htmlTagObjectToString} from './htmlTags';
+import htmlTagObjectToString from './htmlTags';
 import {
   Plugin,
   InjectedHtmlTags,
@@ -21,7 +21,7 @@ export function createHtmlTagsString(tags: HtmlTags): string {
   return Array.isArray(tags) ? tags.map(toString).join('\n') : toString(tags);
 }
 
-export function loadHtmlTags(plugins: Plugin<any>[]): InjectedHtmlTags {
+export function loadHtmlTags(plugins: Plugin<unknown>[]): InjectedHtmlTags {
   const htmlTags = plugins.reduce(
     (acc, plugin) => {
       if (!plugin.injectHtmlTags) {

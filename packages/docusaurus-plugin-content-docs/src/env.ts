@@ -14,15 +14,15 @@ import {
   VERSIONED_SIDEBARS_DIR,
 } from './constants';
 
-export function getVersionedDocsDir(siteDir: string) {
+export function getVersionedDocsDir(siteDir: string): string {
   return path.join(siteDir, VERSIONED_DOCS_DIR);
 }
 
-export function getVersionedSidebarsDir(siteDir: string) {
+export function getVersionedSidebarsDir(siteDir: string): string {
   return path.join(siteDir, VERSIONED_SIDEBARS_DIR);
 }
 
-export function getVersionsJSONFile(siteDir: string) {
+export function getVersionsJSONFile(siteDir: string): string {
   return path.join(siteDir, VERSIONS_JSON_FILE);
 }
 
@@ -41,6 +41,7 @@ export default function (siteDir: string): Env {
       fs.readFileSync(versionsJSONFile, 'utf8'),
     );
     if (parsedVersions && parsedVersions.length > 0) {
+      // eslint-disable-next-line prefer-destructuring
       versioning.latestVersion = parsedVersions[0];
       versioning.enabled = true;
       versioning.versions = parsedVersions;
