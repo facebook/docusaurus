@@ -40,15 +40,24 @@ const createFakeActions = (
   };
 };
 
+function normalizePluginOptions(options) {
+  let {value, error} = PluginOptionSchema.validate(options);
+  if (error) {
+    throw error;
+  } else {
+    return value;
+  }
+}
+
 test('site with wrong sidebar file', async () => {
   const siteDir = path.join(__dirname, '__fixtures__', 'simple-site');
   const context = loadContext(siteDir);
   const sidebarPath = path.join(siteDir, 'wrong-sidebars.json');
   const plugin = pluginContentDocs(
     context,
-    (PluginOptionSchema.validateSync({
+    normalizePluginOptions({
       sidebarPath,
-    }) as unknown) as PluginOptions,
+    }),
   );
   await expect(plugin.loadContent()).rejects.toThrowErrorMatchingSnapshot();
 });
@@ -59,10 +68,7 @@ describe('empty/no docs website', () => {
 
   test('no files in docs folder', async () => {
     await fs.ensureDir(path.join(siteDir, 'docs'));
-    const plugin = pluginContentDocs(
-      context,
-      (PluginOptionSchema.validateSync({}) as unknown) as PluginOptions,
-    );
+    const plugin = pluginContentDocs(context, normalizePluginOptions({}));
     const content = await plugin.loadContent();
     const {docsMetadata, docsSidebars} = content;
     expect(docsMetadata).toMatchInlineSnapshot(`Object {}`);
@@ -83,9 +89,9 @@ describe('empty/no docs website', () => {
   test('docs folder does not exist', async () => {
     const plugin = pluginContentDocs(
       context,
-      (PluginOptionSchema.validateSync({
+      normalizePluginOptions({
         path: '/path/does/not/exist/',
-      }) as unknown) as PluginOptions,
+      }),
     );
     const content = await plugin.loadContent();
     expect(content).toBeNull();
@@ -99,11 +105,11 @@ describe('simple website', () => {
   const pluginPath = 'docs';
   const plugin = pluginContentDocs(
     context,
-    (PluginOptionSchema.validateSync({
+    normalizePluginOptions({
       path: pluginPath,
       sidebarPath,
       homePageId: 'hello',
-    }) as unknown) as PluginOptions,
+    }),
   );
   const pluginContentDir = path.join(context.generatedFilesDir, plugin.name);
 
@@ -233,11 +239,11 @@ describe('versioned website', () => {
   const routeBasePath = 'docs';
   const plugin = pluginContentDocs(
     context,
-    (PluginOptionSchema.validateSync({
+    normalizePluginOptions({
       routeBasePath,
       sidebarPath,
       homePageId: 'hello',
-    }) as unknown) as PluginOptions,
+    }),
   );
   const env = loadEnv(siteDir);
   const {docsDir: versionedDir} = env.versioning;
