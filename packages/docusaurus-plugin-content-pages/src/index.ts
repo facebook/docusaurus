@@ -13,6 +13,7 @@ import {LoadContext, Plugin, OptionValidationContext} from '@docusaurus/types';
 
 import {PluginOptions, LoadedContent} from './types';
 import {PluginOptionSchema} from './pluginOptionSchema';
+import {ValidationError} from '@hapi/joi';
 
 export default function pluginContentPages(
   context: LoadContext,
@@ -79,7 +80,7 @@ export default function pluginContentPages(
 pluginContentPages.validateOptions = ({
   validate,
   options,
-}: OptionValidationContext<typeof PluginOptionSchema>) => {
+}: OptionValidationContext<PluginOptions, ValidationError>) => {
   const validatedOptions = validate(PluginOptionSchema, options);
   return validatedOptions;
 };

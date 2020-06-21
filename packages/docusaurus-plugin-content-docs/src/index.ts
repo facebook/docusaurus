@@ -53,6 +53,7 @@ import {Configuration} from 'webpack';
 import {docsVersion} from './version';
 import {VERSIONS_JSON_FILE} from './constants';
 import {PluginOptionSchema} from './pluginOptionSchema';
+import {ValidationError} from '@hapi/joi';
 
 function getFirstDocLinkOfSidebar(
   sidebarItems: DocsSidebarItem[],
@@ -538,7 +539,7 @@ Available document ids=
 pluginContentDocs.validateOptions = ({
   validate,
   options,
-}: OptionValidationContext<typeof PluginOptionSchema>) => {
+}: OptionValidationContext<PluginOptions, ValidationError>) => {
   const validatedOptions = validate(PluginOptionSchema, options);
   return validatedOptions;
 };

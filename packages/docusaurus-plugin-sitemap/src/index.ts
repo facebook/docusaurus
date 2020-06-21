@@ -11,6 +11,7 @@ import {PluginOptions} from './types';
 import createSitemap from './createSitemap';
 import {LoadContext, Props, OptionValidationContext} from '@docusaurus/types';
 import {PluginOptionSchema} from './pluginOptionSchema';
+import {ValidationError} from '@hapi/joi';
 
 export default function pluginSitemap(
   _context: LoadContext,
@@ -41,7 +42,7 @@ export default function pluginSitemap(
 pluginSitemap.validateOptions = ({
   validate,
   options,
-}: OptionValidationContext<typeof PluginOptionSchema>) => {
+}: OptionValidationContext<PluginOptions, ValidationError>) => {
   const validatedOptions = validate(PluginOptionSchema, options);
   return validatedOptions;
 };
