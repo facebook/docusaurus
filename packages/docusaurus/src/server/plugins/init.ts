@@ -8,32 +8,34 @@
 import Module from 'module';
 import {join} from 'path';
 import importFresh from 'import-fresh';
-import {LoadContext, Plugin, PluginConfig} from '@docusaurus/types';
-import {Schema} from 'yup';
-const chalk = require('chalk');
+import {
+  LoadContext,
+  Plugin,
+  PluginConfig,
+  ValidationSchema,
+} from '@docusaurus/types';
 import {CONFIG_FILE_NAME} from '../../constants';
 
-function printError(error) {
-  console.log(
-    chalk.red(
-      `Validation Errors:${error?.errors?.reduce(
-        (formatedError, error, i) => `${formatedError}\n${i + 1}. ${error}`,
-        '',
-      )}`,
-    ),
-  );
-  process.exit(1);
+function validate<T>(schema: ValidationSchema<T>, options: Partial<T>) {
+  const {error, value} = schema.validate(options, {
+    convert: false,
+  });
+  if (error) {
+    throw error;
+  }
+  return value;
 }
 
-function validate<T>(schema: Schema<T>, options: unknown) {
-  try {
-    return schema.validateSync(options, {
-      abortEarly: false,
-    });
-  } catch (error) {
-    printError(error);
-    return;
+function validateAndStrip<T>(schema: ValidationSchema<T>, options: Partial<T>) {
+  const {error, value} = schema.validate(options, {
+    convert: false,
+    stripUnknown: true, // since the themeConfig is a shared object between plugins, it suppresses error and normalizes values relevant to the plugin
+  });
+
+  if (error) {
+    throw error;
   }
+  return value;
 }
 
 export function initPlugins({
@@ -85,14 +87,17 @@ export function initPlugins({
         pluginOptions = options;
       }
       if (plugin.validateThemeConfig) {
-        plugin.validateThemeConfig({
-          validate,
+        const validatedTheme = plugin.validateThemeConfig({
+          validate: validateAndStrip,
           themeConfig: context.siteConfig.themeConfig,
         });
+        context.siteConfig.themeConfig = {
+          ...context.siteConfig.themeConfig,
+          ...validatedTheme,
+        };
       }
       return plugin(context, pluginOptions);
     })
     .filter(Boolean);
-
   return plugins;
 }

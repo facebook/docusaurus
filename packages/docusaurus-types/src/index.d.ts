@@ -8,8 +8,6 @@
 import {Loader, Configuration} from 'webpack';
 import {Command} from 'commander';
 import {ParsedUrlQueryInput} from 'querystring';
-import {InferType} from 'yup';
-import * as yup from 'yup';
 
 export interface DocusaurusConfig {
   baseUrl: string;
@@ -102,6 +100,7 @@ export interface Plugin<T, U = unknown> {
   name: string;
   loadContent?(): Promise<T>;
   validateOptions?(): ValidationResult<U>;
+  validateThemeConfig?(): ValidationResult<any>;
   contentLoaded?({
     content,
     actions,
@@ -193,14 +192,26 @@ interface HtmlTagObject {
   innerHTML?: string;
 }
 
-export type ValidationResult<T> = InferType<T>;
+export interface ValidationResult<T, E extends Error = Error> {
+  error?: E;
+  value: T;
+}
 
-export type Validate<T> = (
-  validationSchrema: T,
-  options: unknown,
-) => ValidationResult<T>;
+export type Validate<T, E extends Error = Error> = (
+  validationSchema: ValidationSchema<T>,
+  options: Partial<T>,
+) => ValidationResult<T, E>;
 
-export interface OptionValidationContext<T> {
-  validate: Validate<T>;
-  options: unknown;
+export interface OptionValidationContext<T, E extends Error = Error> {
+  validate: Validate<T, E>;
+  options: Partial<T>;
+}
+
+export interface ThemeConfigValidationContext<T, E extends Error = Error> {
+  validate: Validate<T, E>;
+  themeConfig: Partial<T>;
+}
+
+export interface ValidationSchema<T> {
+  validate(options: Partial<T>, opt: object): ValidationResult<T>;
 }
