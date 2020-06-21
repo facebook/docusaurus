@@ -19,7 +19,12 @@ export const PluginOptionSchema = Joi.object({
   showReadingTime: Joi.bool().default(true),
   remarkPlugins: Joi.array()
     .items(
-      Joi.alternatives().try(Joi.function(), Joi.array().items(Joi.function())),
+      Joi.alternatives().try(
+        Joi.function(),
+        Joi.array()
+          .items(Joi.function().required(), Joi.object().required())
+          .length(2),
+      ),
     )
     .default([]),
   rehypePlugins: Joi.array().items(Joi.string()).default([]),
