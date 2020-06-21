@@ -17,7 +17,11 @@ export const PluginOptionSchema = Joi.object({
   blogTagsListComponent: Joi.string().default('@theme/BlogTagsListPage'),
   blogTagsPostsComponent: Joi.string().default('@theme/BlogTagsPostsPage'),
   showReadingTime: Joi.bool().default(true),
-  remarkPlugins: Joi.array().items(Joi.object()).default([]),
+  remarkPlugins: Joi.array()
+    .items(
+      Joi.alternatives().try(Joi.function(), Joi.array().items(Joi.function())),
+    )
+    .default([]),
   rehypePlugins: Joi.array().items(Joi.string()).default([]),
   editUrl: Joi.string().uri(),
   truncateMarker: Joi.alternatives()
