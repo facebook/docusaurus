@@ -12,8 +12,7 @@ import commander from 'commander';
 import fs from 'fs-extra';
 import pluginContentDocs from '../index';
 import loadEnv from '../env';
-import {PluginOptions} from '../types';
-import {PluginOptionSchema} from '../pluginOptionSchema';
+import {normalizePluginOptions} from './pluginOptionSchema.test';
 import {loadContext} from '@docusaurus/core/src/server/index';
 import {applyConfigureWebpack} from '@docusaurus/core/src/webpack/utils';
 import {RouteConfig} from '@docusaurus/types';
@@ -39,15 +38,6 @@ const createFakeActions = (
     },
   };
 };
-
-function normalizePluginOptions(options) {
-  let {value, error} = PluginOptionSchema.validate(options);
-  if (error) {
-    throw error;
-  } else {
-    return value;
-  }
-}
 
 test('site with wrong sidebar file', async () => {
   const siteDir = path.join(__dirname, '__fixtures__', 'simple-site');

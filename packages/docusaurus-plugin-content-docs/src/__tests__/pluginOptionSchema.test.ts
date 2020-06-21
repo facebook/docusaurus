@@ -7,40 +7,76 @@
 
 import {PluginOptionSchema, DEFAULT_OPTIONS} from '../pluginOptionSchema';
 
-describe('normalizePluginOptions', () => {
+export function normalizePluginOptions(options) {
+  const {value, error} = PluginOptionSchema.validate(options, {
+    convert: false,
+  });
+  if (error) {
+    throw error;
+  } else {
+    return value;
+  }
+}
+
+describe('normalizeDocsPluginOptions', () => {
   test('should return default options for undefined user options', async () => {
-    let {value} = await PluginOptionSchema.validate({});
+    const {value} = await PluginOptionSchema.validate({});
     expect(value).toEqual(DEFAULT_OPTIONS);
   });
 
-  test('should fill in default options for partially defined user options', async () => {
-    let {value} = await PluginOptionSchema.validate({routeBasePath: 'docs'});
-    expect(value).toEqual(DEFAULT_OPTIONS);
+  test('should accept correctly defined user options', async () => {
+    const userOptions = {
+      path: 'my-docs', // Path to data on filesystem, relative to site dir.
+      routeBasePath: 'my-docs', // URL Route.
+      homePageId: 'home', // Document id for docs home page.
+      include: ['**/*.{md,mdx}'], // Extensions to include.
+      sidebarPath: 'my-sidebar', // Path to sidebar configuration for showing a list of markdown pages.
+      docLayoutComponent: '@theme/DocPage',
+      docItemComponent: '@theme/DocItem',
+      remarkPlugins: [],
+      rehypePlugins: [],
+      showLastUpdateTime: true,
+      showLastUpdateAuthor: true,
+      admonitions: {},
+    };
+
+    const {value} = await PluginOptionSchema.validate(userOptions);
+    expect(value).toEqual(userOptions);
   });
 
-  test('should reject bad path inputs', async () => {
-    let {error} = await PluginOptionSchema.validate({
-      path: 2,
-    });
-    expect(error).toMatchSnapshot();
+  test('should reject bad path inputs', () => {
+    expect(() => {
+      normalizePluginOptions({
+        path: 2,
+      });
+    }).toThrowErrorMatchingInlineSnapshot(`"\\"path\\" must be a string"`);
   });
 
-  test('should reject bad homePageId inputs', async () => {
-    let {error} = await PluginOptionSchema.validate({
-      path: 2,
-    });
-    expect(error).toMatchSnapshot();
+  test('should reject bad include inputs', () => {
+    expect(() => {
+      normalizePluginOptions({
+        include: '**/*.{md,mdx}',
+      });
+    }).toThrowErrorMatchingInlineSnapshot(`"\\"include\\" must be an array"`);
   });
 
-  test('should reject bad include inputs', async () => {
-    let {error} = await PluginOptionSchema.validate({include: '**/*.{md,mdx}'});
-    expect(error).toMatchSnapshot();
+  test('should reject bad showLastUpdateTime inputs', () => {
+    expect(() => {
+      normalizePluginOptions({
+        showLastUpdateTime: 'true',
+      });
+    }).toThrowErrorMatchingInlineSnapshot(
+      `"\\"showLastUpdateTime\\" must be a boolean"`,
+    );
   });
 
-  test('should reject bad include inputs', async () => {
-    let {error} = await PluginOptionSchema.validate({
-      showLastUpdateTime: 'true',
-    });
-    expect(error).toMatchSnapshot();
+  test('should reject bad remarkPlugins input', () => {
+    expect(() => {
+      normalizePluginOptions({
+        remarkPlugins: 'remark-math',
+      });
+    }).toThrowErrorMatchingInlineSnapshot(
+      `"\\"remarkPlugins\\" must be an array"`,
+    );
   });
 });

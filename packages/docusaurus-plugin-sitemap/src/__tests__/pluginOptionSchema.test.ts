@@ -5,39 +5,60 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {PluginOptionSchema} from '../pluginOptionSchema';
-import {PluginOptions} from '../types';
+import {PluginOptionSchema, DEFAULT_OPTIONS} from '../pluginOptionSchema';
 
-const DEFAULT_OPTIONS: PluginOptions = {
-  cacheTime: 600 * 1000, // 600 sec - cache purge period.
-  changefreq: 'weekly',
-  priority: 0.5,
-};
+function normalizePluginOptions(options) {
+  const {value, error} = PluginOptionSchema.validate(options, {
+    convert: false,
+  });
+  if (error) {
+    throw error;
+  } else {
+    return value;
+  }
+}
 
-describe('normalizePluginOptions', () => {
+describe('normalizeSitemapPluginOptions', () => {
   test('should return default values for empty user options', async () => {
-    let options = await PluginOptionSchema.validate({});
-    expect(options).toEqual(DEFAULT_OPTIONS);
+    const {value} = await PluginOptionSchema.validate({});
+    expect(value).toEqual(DEFAULT_OPTIONS);
   });
 
-  test('should fill in default options for partially defined user options', async () => {
-    let options = await PluginOptionSchema.validate({priority: 0.5});
-    expect(options).toEqual(DEFAULT_OPTIONS);
+  test('should accept correctly defined user options', async () => {
+    const userOptions = {
+      cacheTime: 300,
+      changefreq: 'yearly',
+      priority: 0.9,
+    };
+    const {value} = await PluginOptionSchema.validate(userOptions);
+    expect(value).toEqual(userOptions);
   });
 
-  test('should reject bad cacheTime inputs', () => {
+  test('should reject cacheTime inputs with wrong type', () => {
     expect(() => {
-      PluginOptionSchema.validateSync({
-        cacheTime: '1',
+      normalizePluginOptions({
+        cacheTime: '42',
       });
-    }).toThrow();
+    }).toThrowErrorMatchingInlineSnapshot(`"\\"cacheTime\\" must be a number"`);
+  });
+
+  test('should reject out-of-range priority inputs', () => {
+    expect(() => {
+      normalizePluginOptions({
+        priority: 2,
+      });
+    }).toThrowErrorMatchingInlineSnapshot(
+      `"\\"priority\\" must be less than or equal to 1"`,
+    );
   });
 
   test('should reject bad changefreq inputs', () => {
     expect(() => {
-      PluginOptionSchema.validateSync({
-        changefreq: 2,
+      normalizePluginOptions({
+        changefreq: 'annually',
       });
-    }).toThrow();
+    }).toThrowErrorMatchingInlineSnapshot(
+      `"\\"changefreq\\" must be one of [always, hourly, daily, weekly, monthly, yearly, never]"`,
+    );
   });
 });

@@ -5,9 +5,18 @@
  * LICENSE file in the root directory of this source tree.
  */
 import * as Joi from '@hapi/joi';
+import {PluginOptions} from './types';
+
+export const DEFAULT_OPTIONS: PluginOptions = {
+  cacheTime: 600 * 1000, // 600 sec - cache purge period.
+  changefreq: 'weekly',
+  priority: 0.5,
+};
 
 export const PluginOptionSchema = Joi.object({
-  cacheTime: Joi.number().default(600 * 1000), // 600 sec - cache purge period.
-  changefreq: Joi.string().default('weekly'),
-  priority: Joi.number().default(0.5),
+  cacheTime: Joi.number().positive().default(DEFAULT_OPTIONS.cacheTime),
+  changefreq: Joi.string()
+    .valid('always', 'hourly', 'daily', 'weekly', 'monthly', 'yearly', 'never')
+    .default(DEFAULT_OPTIONS.changefreq),
+  priority: Joi.number().min(0).max(1).default(DEFAULT_OPTIONS.priority),
 });

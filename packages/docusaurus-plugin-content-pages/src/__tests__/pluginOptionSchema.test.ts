@@ -5,31 +5,45 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {PluginOptionSchema} from '../pluginOptionSchema';
-import {PluginOptions} from '../types';
+import {PluginOptionSchema, DEFAULT_OPTIONS} from '../pluginOptionSchema';
 
-const DEFAULT_OPTIONS: PluginOptions = {
-  path: 'src/pages', // Path to data on filesystem, relative to site dir.
-  routeBasePath: '', // URL Route.
-  include: ['**/*.{js,jsx,ts,tsx}'], // Extensions to include.
-};
+export function normalizePluginOptions(options) {
+  const {value, error} = PluginOptionSchema.validate(options, {
+    convert: false,
+  });
+  if (error) {
+    throw error;
+  } else {
+    return value;
+  }
+}
 
-describe('normalizePluginOptions', () => {
+describe('normalizePagesPluginOptions', () => {
   test('should return default options for undefined user options', async () => {
-    let options = await PluginOptionSchema.validate({});
-    expect(options).toEqual(DEFAULT_OPTIONS);
+    const {value} = await PluginOptionSchema.validate({});
+    expect(value).toEqual(DEFAULT_OPTIONS);
   });
 
   test('should fill in default options for partially defined user options', async () => {
-    let options = await PluginOptionSchema.validate({path: 'src/pages'});
-    expect(options).toEqual(DEFAULT_OPTIONS);
+    const {value} = await PluginOptionSchema.validate({path: 'src/pages'});
+    expect(value).toEqual(DEFAULT_OPTIONS);
+  });
+
+  test('should accept correctly defined user options', async () => {
+    const userOptions = {
+      path: 'src/my-pages',
+      routeBasePath: 'my-pages',
+      include: ['**/*.{js,jsx,ts,tsx}'],
+    };
+    const {value} = await PluginOptionSchema.validate(userOptions);
+    expect(value).toEqual(userOptions);
   });
 
   test('should reject bad path inputs', () => {
     expect(() => {
-      PluginOptionSchema.validateSync({
-        path: 2,
+      normalizePluginOptions({
+        path: 42,
       });
-    }).toThrow();
+    }).toThrowErrorMatchingInlineSnapshot(`"\\"path\\" must be a string"`);
   });
 });
