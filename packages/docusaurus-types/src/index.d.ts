@@ -204,12 +204,3 @@ export interface OptionValidationContext<T> {
   validate: Validate<T>;
   options: unknown;
 }
-
-// A yup string without type coercion
-export class StrictString extends yup.string {
-  constructor() {
-    super();
-    // @ts-ignore
-    this.transforms = []; // remove coercion, see https://github.com/jquense/yup/issues/934
-  }
-}
