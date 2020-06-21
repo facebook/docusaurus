@@ -14,7 +14,7 @@ describe('normalizePluginOptions', () => {
   });
 
   test('should fill in default options for partially defined user options', async () => {
-    let value = await PluginOptionSchema.validate({routeBasePath: 'docs'});
+    let {value} = await PluginOptionSchema.validate({routeBasePath: 'docs'});
     expect(value).toEqual(DEFAULT_OPTIONS);
   });
 
