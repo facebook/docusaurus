@@ -65,7 +65,7 @@ export type SidebarItemRaw =
   | SidebarItemCategoryRaw
   | {
       type: string;
-      [key: string]: any;
+      [key: string]: unknown;
     };
 
 export interface SidebarCategoryShorthandRaw {

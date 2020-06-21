@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {loadClientModules} from '../index';
+import loadClientModules from '../index';
 
 import pluginEmpty from './__fixtures__/plugin-empty';
 import pluginFooBar from './__fixtures__/plugin-foo-bar';

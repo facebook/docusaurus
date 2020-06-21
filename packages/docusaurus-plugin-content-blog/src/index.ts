@@ -180,9 +180,8 @@ export default function pluginContentBlog(
               label: tag,
               permalink,
             };
-          } else {
-            return tag;
           }
+          return tag;
         });
       });
 
@@ -219,7 +218,7 @@ export default function pluginContentBlog(
         `~blog/${path.relative(dataDir, source)}`;
       const {addRoute, createData} = actions;
       const {
-        blogPosts,
+        blogPosts: loadedBlogPosts,
         blogListPaginated,
         blogTags,
         blogTagsListPath,
@@ -229,7 +228,7 @@ export default function pluginContentBlog(
 
       // Create routes for blog entries.
       await Promise.all(
-        blogPosts.map(async (blogPost) => {
+        loadedBlogPosts.map(async (blogPost) => {
           const {id, metadata} = blogPost;
           await createData(
             // Note that this created data path must be in sync with
@@ -267,12 +266,11 @@ export default function pluginContentBlog(
             exact: true,
             modules: {
               items: items.map((postID) => {
-                const metadata = blogItemsToMetadata[postID];
                 // To tell routes.js this is an import and not a nested object to recurse.
                 return {
                   content: {
                     __import: true,
-                    path: metadata.source,
+                    path: blogItemsToMetadata[postID].source,
                     query: {
                       truncated: true,
                     },
@@ -455,22 +453,26 @@ export default function pluginContentBlog(
       };
       const headTags: HtmlTags = [];
 
-      feedTypes.map((feedType) => {
+      feedTypes.forEach((feedType) => {
         const feedConfig = feedsConfig[feedType] || {};
 
         if (!feedsConfig) {
           return;
         }
 
-        const {type, path, title} = feedConfig;
+        const {type, path: feedConfigPath, title: feedConfigTitle} = feedConfig;
 
         headTags.push({
           tagName: 'link',
           attributes: {
             rel: 'alternate',
             type,
-            href: normalizeUrl([baseUrl, options.routeBasePath, path]),
-            title,
+            href: normalizeUrl([
+              baseUrl,
+              options.routeBasePath,
+              feedConfigPath,
+            ]),
+            title: feedConfigTitle,
           },
         });
       });
