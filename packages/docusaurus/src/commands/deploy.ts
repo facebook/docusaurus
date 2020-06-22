@@ -10,11 +10,11 @@ import path from 'path';
 import shell from 'shelljs';
 import {CONFIG_FILE_NAME, GENERATED_FILES_DIR_NAME} from '../constants';
 import {loadContext} from '../server';
-import {loadConfig} from '../server/config';
-import {build} from './build';
+import loadConfig from '../server/config';
+import build from './build';
 import {BuildCLIOptions} from '@docusaurus/types';
 
-export async function deploy(
+export default async function deploy(
   siteDir: string,
   cliOptions: Partial<BuildCLIOptions> = {},
 ): Promise<void> {
@@ -98,7 +98,7 @@ export async function deploy(
   // out to deployment branch.
   const currentCommit = shell.exec('git rev-parse HEAD').stdout.trim();
 
-  const runDeploy = (outDir) => {
+  const runDeploy = (outputDirectory) => {
     if (shell.cd(tempDir).code !== 0) {
       throw new Error(
         `Temp dir ${GENERATED_FILES_DIR_NAME} does not exists. Run build website first.`,
@@ -141,7 +141,7 @@ export async function deploy(
 
     shell.cd('../..');
 
-    const fromPath = outDir;
+    const fromPath = outputDirectory;
     const toPath = path.join(
       GENERATED_FILES_DIR_NAME,
       `${projectName}-${deploymentBranch}`,

@@ -17,7 +17,7 @@ function createTestPluginContext(
   return {
     outDir: '/tmp',
     baseUrl: 'https://docusaurus.io',
-    routesPaths: routesPaths,
+    routesPaths,
     options: normalizePluginOptions(options),
   };
 }
@@ -192,7 +192,7 @@ describe('collectRedirects', () => {
                   `/def?queryString=toto`,
                 ];
               }
-              return;
+              return undefined;
             },
           },
           ['/'],
@@ -208,9 +208,9 @@ describe('collectRedirects', () => {
           {
             createRedirects: (routePath) => {
               if (routePath === '/') {
-                return [[`/fromPath`]] as any;
+                return ([[`/fromPath`]] as unknown) as string;
               }
-              return;
+              return undefined;
             },
           },
           ['/'],

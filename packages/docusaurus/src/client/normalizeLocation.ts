@@ -5,10 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-// Memoize previously normalized pathnames.
-const pathnames = {};
+type Location = {pathname: string};
 
-function normalizeLocation(location) {
+// Memoize previously normalized pathnames.
+const pathnames: Record<string, string> = {};
+
+function normalizeLocation<T extends Location>(location: T): T {
   if (pathnames[location.pathname]) {
     return {
       ...location,

@@ -9,19 +9,22 @@ import chalk = require('chalk');
 import fs from 'fs-extra';
 import importFresh from 'import-fresh';
 import path from 'path';
+import {Plugin, LoadContext} from '@docusaurus/types';
 
 import {THEME_PATH} from '../constants';
 import {loadContext} from '../server';
 
-export async function swizzle(
+export default async function swizzle(
   siteDir: string,
   themeName: string,
   componentName?: string,
 ): Promise<void> {
-  const plugin: any = importFresh(themeName);
+  const plugin = importFresh(themeName) as (
+    context: LoadContext,
+  ) => Plugin<unknown>;
   const context = loadContext(siteDir);
   const pluginInstance = plugin(context);
-  let fromPath = pluginInstance.getThemePath();
+  let fromPath = pluginInstance.getThemePath?.();
 
   if (fromPath) {
     let toPath = path.resolve(siteDir, THEME_PATH);

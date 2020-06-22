@@ -15,7 +15,7 @@ import PendingNavigation from './PendingNavigation';
 
 import './client-lifecycles-dispatcher';
 
-function App() {
+function App(): JSX.Element {
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {

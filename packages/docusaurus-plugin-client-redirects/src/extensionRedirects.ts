@@ -80,12 +80,11 @@ export function createFromExtensionsRedirects(
   const createPathRedirects = (path: string): RedirectMetadata[] => {
     if (path === '' || path.endsWith('/') || alreadyEndsWithAnExtension(path)) {
       return [];
-    } else {
-      return extensions.map((ext) => ({
-        from: `${trimBaseUrl(path, baseUrl)}.${ext}`,
-        to: trimBaseUrl(path, baseUrl),
-      }));
     }
+    return extensions.map((ext) => ({
+      from: `${trimBaseUrl(path, baseUrl)}.${ext}`,
+      to: trimBaseUrl(path, baseUrl),
+    }));
   };
 
   return flatten(paths.map(createPathRedirects));

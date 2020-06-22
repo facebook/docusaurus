@@ -21,7 +21,7 @@ export const DefaultPluginOptions: PluginOptions = {
 };
 
 function isRedirectsCreator(
-  value: any,
+  value: unknown,
 ): value is CreateRedirectsFnOption | undefined {
   if (value === null || typeof value === 'undefined') {
     return true;
