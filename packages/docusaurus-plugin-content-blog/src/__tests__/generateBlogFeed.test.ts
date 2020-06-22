@@ -31,7 +31,7 @@ describe('blogFeed', () => {
             routeBasePath: 'blog',
             include: ['*.md', '*.mdx'],
             feedOptions: {
-              type: feedType as any,
+              type: feedType,
               copyright: 'Copyright',
             },
           } as PluginOptions,
@@ -62,7 +62,7 @@ describe('blogFeed', () => {
             routeBasePath: 'blog',
             include: ['*r*.md', '*.mdx'], // skip no-date.md - it won't play nice with snapshots
             feedOptions: {
-              type: feedType as any,
+              type: feedType,
               copyright: 'Copyright',
             },
           } as PluginOptions,

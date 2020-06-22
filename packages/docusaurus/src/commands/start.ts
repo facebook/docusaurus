@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {normalizeUrl} from '@docusaurus/utils';
+import {normalizeUrl, posixPath} from '@docusaurus/utils';
 import chalk = require('chalk');
 import chokidar from 'chokidar';
 import express from 'express';
@@ -22,9 +22,8 @@ import merge from 'webpack-merge';
 import HotModuleReplacementPlugin from 'webpack/lib/HotModuleReplacementPlugin';
 import {load} from '../server';
 import {StartCLIOptions} from '@docusaurus/types';
-import {posixPath} from '@docusaurus/utils';
 import {CONFIG_FILE_NAME, STATIC_DIR_NAME, DEFAULT_PORT} from '../constants';
-import {createClientConfig} from '../webpack/client';
+import createClientConfig from '../webpack/client';
 import {applyConfigureWebpack} from '../webpack/utils';
 
 function getHost(reqHost: string | undefined): string {
@@ -37,7 +36,7 @@ async function getPort(reqPort: string | undefined): Promise<number> {
   return port;
 }
 
-export async function start(
+export default async function start(
   siteDir: string,
   cliOptions: Partial<StartCLIOptions> = {},
 ): Promise<void> {
@@ -66,9 +65,7 @@ export async function start(
   const pluginPaths: string[] = ([] as string[])
     .concat(
       ...plugins
-        .map<any>(
-          (plugin) => plugin.getPathsToWatch && plugin.getPathsToWatch(),
-        )
+        .map((plugin) => plugin.getPathsToWatch?.() ?? [])
         .filter(Boolean),
     )
     .map(normalizeToSiteDir);
@@ -168,12 +165,24 @@ export async function start(
     ...config.devServer,
   };
   const compiler = webpack(config);
+  if (process.env.E2E_TEST) {
+    compiler.hooks.done.tap('done', (stats) => {
+      if (stats.hasErrors()) {
+        console.log('E2E_TEST: Project has compiler errors.');
+        process.exit(1);
+      }
+      console.log('E2E_TEST: Project can compile.');
+      process.exit(0);
+    });
+  }
   const devServer = new WebpackDevServer(compiler, devServerConfig);
   devServer.listen(port, host, (err) => {
     if (err) {
       console.log(err);
     }
-    cliOptions.open && openBrowser(openUrl);
+    if (cliOptions.open) {
+      openBrowser(openUrl);
+    }
   });
   ['SIGINT', 'SIGTERM'].forEach((sig) => {
     process.on(sig as NodeJS.Signals, () => {

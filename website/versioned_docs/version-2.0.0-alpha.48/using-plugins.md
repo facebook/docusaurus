@@ -287,7 +287,7 @@ If you have installed `@docusaurus/preset-classic`, you don't need to install it
 module.exports = {
   plugins: [
     [
-      '@docuaurus/plugin-content-pages',
+      '@docusaurus/plugin-content-pages',
       {
         /**
          * Path to data on filesystem

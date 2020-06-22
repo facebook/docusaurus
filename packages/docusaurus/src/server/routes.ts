@@ -18,7 +18,7 @@ import {
   ChunkNames,
 } from '@docusaurus/types';
 
-function isModule(value: any): value is Module {
+function isModule(value: unknown): value is Module {
   if (isString(value)) {
     return true;
   }
@@ -36,10 +36,21 @@ function getModulePath(target: Module): string {
   return `${target.path}${queryStr}`;
 }
 
-export async function loadRoutes(
+type LoadedRoutes = {
+  registry: {
+    [chunkName: string]: ChunkRegistry;
+  };
+  routesConfig: string;
+  routesChunkNames: {
+    [routePath: string]: ChunkNames;
+  };
+  routesPaths: string[];
+};
+
+export default async function loadRoutes(
   pluginsRouteConfigs: RouteConfig[],
   baseUrl: string,
-) {
+): Promise<LoadedRoutes> {
   const routesImports = [
     `import React from 'react';`,
     `import ComponentCreator from '@docusaurus/ComponentCreator';`,
@@ -111,12 +122,11 @@ export async function loadRoutes(
       return newValue;
     }
 
-    routesChunkNames[routePath] = Object.assign(
-      {},
-      routesChunkNames[routePath],
-      genRouteChunkNames({component}, 'component', component),
-      genRouteChunkNames(modules, 'module', routePath),
-    );
+    routesChunkNames[routePath] = {
+      ...routesChunkNames[routePath],
+      ...genRouteChunkNames({component}, 'component', component),
+      ...genRouteChunkNames(modules, 'module', routePath),
+    };
 
     const routesStr = routes
       ? `routes: [${routes.map(generateRouteCode).join(',')}],`

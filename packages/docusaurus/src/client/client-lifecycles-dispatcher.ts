@@ -5,9 +5,20 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+// too dynamic
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import clientModules from '@generated/client-modules';
 
-function dispatchLifecycleAction(lifecycleAction, ...args) {
+interface Dispatchers {
+  onRouteUpdate: (...args: any) => void;
+  onRouteUpdateDelayed: (...args: any) => void;
+}
+
+function dispatchLifecycleAction(
+  lifecycleAction: keyof Dispatchers,
+  ...args: any[]
+) {
   clientModules.forEach((clientModule) => {
     const mod = clientModule.__esModule ? clientModule.default : clientModule;
     if (mod && mod[lifecycleAction]) {
@@ -16,26 +27,13 @@ function dispatchLifecycleAction(lifecycleAction, ...args) {
   });
 }
 
-interface Dispatchers {
-  onRouteUpdate: Function;
-  onRouteUpdateDelayed: Function;
-}
+const clientLifecyclesDispatchers: Dispatchers = {
+  onRouteUpdate(...args) {
+    dispatchLifecycleAction('onRouteUpdate', ...args);
+  },
+  onRouteUpdateDelayed(...args) {
+    dispatchLifecycleAction('onRouteUpdateDelayed', ...args);
+  },
+};
 
-function createLifecyclesDispatcher(): Dispatchers {
-  // TODO: Not sure whether it's better to declare an explicit object
-  // with all the lifecycles. It's better for typing but quite verbose.
-  // On the other hand, there's some runtime cost generating this object
-  // on initial load.
-  return ['onRouteUpdate', 'onRouteUpdateDelayed'].reduce(
-    (lifecycles, lifecycleAction) => {
-      // eslint-disable-next-line no-param-reassign
-      lifecycles[lifecycleAction] = function (...args) {
-        dispatchLifecycleAction(lifecycleAction, ...args);
-      };
-      return lifecycles;
-    },
-    {},
-  ) as Dispatchers;
-}
-
-export default createLifecyclesDispatcher();
+export default clientLifecyclesDispatchers;

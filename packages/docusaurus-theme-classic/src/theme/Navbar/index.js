@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useState, useEffect} from 'react';
 import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
@@ -16,6 +16,7 @@ import Toggle from '@theme/Toggle';
 import useThemeContext from '@theme/hooks/useThemeContext';
 import useHideableNavbar from '@theme/hooks/useHideableNavbar';
 import useLockBodyScroll from '@theme/hooks/useLockBodyScroll';
+import useWindowSize, {windowSizes} from '@theme/hooks/useWindowSize';
 import useLogo from '@theme/hooks/useLogo';
 
 import styles from './styles.module.css';
@@ -115,7 +116,7 @@ function NavItem({
   );
 }
 
-function MobileNavItem({items, position, className, ...props}) {
+function MobileNavItem({items, position: _position, className, ...props}) {
   // Need to destructure position from props so that it doesn't get passed on.
   const navLinkClassNames = (extraClassName, isSubList = false) =>
     clsx(
@@ -200,6 +201,14 @@ function Navbar() {
     (e) => (e.target.checked ? setDarkTheme() : setLightTheme()),
     [setLightTheme, setDarkTheme],
   );
+
+  const windowSize = useWindowSize();
+
+  useEffect(() => {
+    if (windowSize === windowSizes.desktop) {
+      setSidebarShown(false);
+    }
+  }, [windowSize]);
 
   const {leftLinks, rightLinks} = splitLinks(links);
 
