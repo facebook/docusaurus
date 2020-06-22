@@ -27,9 +27,12 @@ function validate<T>(schema: ValidationSchema<T>, options: Partial<T>) {
 }
 
 function validateAndStrip<T>(schema: ValidationSchema<T>, options: Partial<T>) {
-  const {error, value} = schema.validate(options, {
+  let unkownAllowedSchema = schema;
+  if (schema.unknown) {
+    unkownAllowedSchema = schema.unknown();
+  }
+  const {error, value} = unkownAllowedSchema.validate(options, {
     convert: false,
-    stripUnknown: true, // since the themeConfig is a shared object between plugins, it suppresses error and normalizes values relevant to the plugin
   });
 
   if (error) {
