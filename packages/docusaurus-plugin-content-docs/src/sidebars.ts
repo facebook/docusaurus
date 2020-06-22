@@ -51,7 +51,7 @@ function assertItem<K extends string>(
 ): asserts item is Record<K, any> {
   const unknownKeys = Object.keys(item).filter(
     // @ts-expect-error: key is always string
-    (key) => !keys.includes(key) && key !== 'type',
+    (key) => !keys.includes(key as string) && key !== 'type',
   );
 
   if (unknownKeys.length) {

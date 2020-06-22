@@ -5,46 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import * as Joi from '@hapi/joi';
-
-export const PluginOptionSchema = Joi.object({
-  path: Joi.string().default('blog'),
-  routeBasePath: Joi.string().default('blog'),
-  include: Joi.array().items(Joi.string()).default(['*.md', '*.mdx']),
-  postsPerPage: Joi.number().integer().min(1).default(10),
-  blogListComponent: Joi.string().default('@theme/BlogListPage'),
-  blogPostComponent: Joi.string().default('@theme/BlogPostPage'),
-  blogTagsListComponent: Joi.string().default('@theme/BlogTagsListPage'),
-  blogTagsPostsComponent: Joi.string().default('@theme/BlogTagsPostsPage'),
-  showReadingTime: Joi.bool().default(true),
-  remarkPlugins: Joi.array()
-    .items(
-      Joi.alternatives().try(
-        Joi.function(),
-        Joi.array()
-          .items(Joi.function().required(), Joi.object().required())
-          .length(2),
-      ),
-    )
-    .default([]),
-  rehypePlugins: Joi.array().items(Joi.string()).default([]),
-  editUrl: Joi.string().uri(),
-  truncateMarker: Joi.alternatives()
-    .try(Joi.string(), Joi.object())
-    .custom((value) => new RegExp(value))
-    .default(/<!--\s*(truncate)\s*-->/),
-  admonitions: Joi.object().default({}),
-  beforeDefaultRemarkPlugins: Joi.array().items(Joi.object()).default([]),
-  beforeDefaultRehypePlugins: Joi.array().items(Joi.object()).default([]),
-  feedOptions: Joi.object({
-    type: Joi.string().equal('all', 'rss', 'atom'),
-    title: Joi.string(),
-    description: Joi.string(),
-    copyright: Joi.string(),
-    language: Joi.string(),
-  }).default({}),
-});
-
 export interface BlogContent {
   blogPosts: BlogPost[];
   blogListPaginated: BlogPaginated[];
@@ -57,7 +17,7 @@ export interface DateLink {
   link: string;
 }
 
-export type FeedType = 'rss' | 'atom' | 'all';
+export type FeedType = 'rss' | 'atom';
 
 export interface PluginOptions {
   path: string;
@@ -73,7 +33,7 @@ export interface PluginOptions {
   truncateMarker: RegExp;
   showReadingTime: boolean;
   feedOptions: {
-    type: FeedType;
+    type: [FeedType];
     title?: string;
     description?: string;
     copyright: string;

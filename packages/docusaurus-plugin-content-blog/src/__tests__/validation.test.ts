@@ -5,30 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {PluginOptionSchema} from '../types';
-
-const defaultOptions = {
-  feedOptions: {},
-  beforeDefaultRehypePlugins: [],
-  beforeDefaultRemarkPlugins: [],
-  admonitions: {},
-  truncateMarker: /<!--\s*(truncate)\s*-->/,
-  rehypePlugins: [],
-  remarkPlugins: [],
-  showReadingTime: true,
-  blogTagsPostsComponent: '@theme/BlogTagsPostsPage',
-  blogTagsListComponent: '@theme/BlogTagsListPage',
-  blogPostComponent: '@theme/BlogPostPage',
-  blogListComponent: '@theme/BlogListPage',
-  postsPerPage: 10,
-  include: ['*.md', '*.mdx'],
-  routeBasePath: 'blog',
-  path: 'blog',
-};
+import {PluginOptionSchema, DefaultOptions} from '../validation';
 
 test('normalize options', () => {
   const {value} = PluginOptionSchema.validate({});
-  expect(value).toEqual(defaultOptions);
+  expect(value).toEqual(DefaultOptions);
 });
 
 test('validate options', () => {
@@ -39,7 +20,7 @@ test('validate options', () => {
     routeBasePath: 'not_blog',
   });
   expect(value).toEqual({
-    ...defaultOptions,
+    ...DefaultOptions,
     postsPerPage: 5,
     include: ['api/*', 'docs/*'],
     routeBasePath: 'not_blog',
@@ -68,12 +49,12 @@ test('throw Error in case of invalid feedtype', () => {
   expect(error).toMatchSnapshot();
 });
 
-test('conversion of truncateMarker to Regex', () => {
+test('convert all feed type to array with other feed type', () => {
   const {value} = PluginOptionSchema.validate({
-    truncateMarker: 'tag',
+    feedOptions: {type: 'all'},
   });
   expect(value).toEqual({
-    ...defaultOptions,
-    truncateMarker: /tag/,
+    ...DefaultOptions,
+    feedOptions: {type: ['rss', 'atom']},
   });
 });

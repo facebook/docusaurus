@@ -19,10 +19,9 @@ import {
   BlogItemsToMetadata,
   TagsModule,
   BlogPaginated,
-  FeedType,
   BlogPost,
-  PluginOptionSchema,
 } from './types';
+import {PluginOptionSchema} from './validation';
 import {
   LoadContext,
   PluginContentLoadedActions,
@@ -34,17 +33,6 @@ import {
 } from '@docusaurus/types';
 import {Configuration, Loader} from 'webpack';
 import {generateBlogFeed, generateBlogPosts} from './blogUtils';
-
-const getFeedTypes = (type: FeedType) => {
-  let feedTypes: Array<Exclude<FeedType, 'all'>> = [];
-
-  if (type === 'all') {
-    feedTypes = ['rss', 'atom'];
-  } else {
-    feedTypes.push(type);
-  }
-  return feedTypes;
-};
 
 export default function pluginContentBlog(
   context: LoadContext,
@@ -411,7 +399,7 @@ export default function pluginContentBlog(
         return;
       }
 
-      const feedTypes = getFeedTypes(options.feedOptions?.type);
+      const feedTypes = options.feedOptions.type;
 
       await Promise.all(
         feedTypes.map(async (feedType) => {
@@ -434,7 +422,7 @@ export default function pluginContentBlog(
       if (!options.feedOptions?.type) {
         return {};
       }
-      const feedTypes = getFeedTypes(options.feedOptions?.type);
+      const feedTypes = options.feedOptions.type;
       const {
         siteConfig: {title},
         baseUrl,

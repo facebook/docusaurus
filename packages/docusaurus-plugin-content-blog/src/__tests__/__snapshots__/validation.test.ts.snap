@@ -1,5 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`throw Error in case of invalid feedtype 1`] = `[ValidationError: "feedOptions.type" must be one of [all, rss, atom]]`;
+exports[`throw Error in case of invalid feedtype 1`] = `[ValidationError: "feedOptions.type" does not match any of the allowed types]`;
 
 exports[`throw Error in case of invalid options 1`] = `[ValidationError: "postsPerPage" must be larger than or equal to 1]`;

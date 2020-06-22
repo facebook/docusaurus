@@ -86,14 +86,10 @@ export default function initPlugins({
         pluginOptions = options;
       }
       if (plugin.validateThemeConfig) {
-        const validatedTheme = plugin.validateThemeConfig({
+        plugin.validateThemeConfig({
           validate: validateAndStrip,
           themeConfig: context.siteConfig.themeConfig,
         });
-        context.siteConfig.themeConfig = {
-          ...context.siteConfig.themeConfig,
-          ...validatedTheme,
-        };
       }
       return plugin(context, pluginOptions);
     })
