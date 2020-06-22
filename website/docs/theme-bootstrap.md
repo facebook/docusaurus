@@ -20,7 +20,7 @@ Usage example:
 ```jsx
 import React from 'react';
 // highlight-next-line
-import useThemeContext from '@theme/hooks/useLogo';
+import useLogo from '@theme/hooks/useLogo';
 
 const Example = () => {
   // highlight-next-line
