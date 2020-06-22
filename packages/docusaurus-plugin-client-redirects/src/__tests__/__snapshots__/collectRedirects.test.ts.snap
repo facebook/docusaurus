@@ -14,16 +14,14 @@ Valid paths you can redirect to:
 
 exports[`collectRedirects should throw if redirect creator creates array of array redirect 1`] = `
 "Some created redirects are invalid:
-- {\\"from\\":[\\"/fromPath\\"],\\"to\\":\\"/\\"} => Validation error: from must be a \`string\` type, but the final value was: \`[
-  \\"\\\\\\"/fromPath\\\\\\"\\"
-]\`.
+- {\\"from\\":[\\"/fromPath\\"],\\"to\\":\\"/\\"} => Validation error: \\"from\\" must be a string
 "
 `;
 
 exports[`collectRedirects should throw if redirect creator creates invalid redirects 1`] = `
 "Some created redirects are invalid:
-- {\\"from\\":\\"https://google.com/\\",\\"to\\":\\"/\\"} => Validation error: from is not a valid pathname. Pathname should start with / and not contain any domain or query string
-- {\\"from\\":\\"//abc\\",\\"to\\":\\"/\\"} => Validation error: from is not a valid pathname. Pathname should start with / and not contain any domain or query string
-- {\\"from\\":\\"/def?queryString=toto\\",\\"to\\":\\"/\\"} => Validation error: from is not a valid pathname. Pathname should start with / and not contain any domain or query string
+- {\\"from\\":\\"https://google.com/\\",\\"to\\":\\"/\\"} => Validation error: \\"from\\" is not a valid pathname. Pathname should start with / and not contain any domain or query string
+- {\\"from\\":\\"//abc\\",\\"to\\":\\"/\\"} => Validation error: \\"from\\" is not a valid pathname. Pathname should start with / and not contain any domain or query string
+- {\\"from\\":\\"/def?queryString=toto\\",\\"to\\":\\"/\\"} => Validation error: \\"from\\" is not a valid pathname. Pathname should start with / and not contain any domain or query string
 "
 `;
