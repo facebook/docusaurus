@@ -7,7 +7,7 @@
 
 import path from 'path';
 
-import {loadPresets} from '../index';
+import loadPresets from '../index';
 import {LoadContext} from '@docusaurus/types';
 
 describe('loadPresets', () => {

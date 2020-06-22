@@ -15,7 +15,7 @@ import {createBaseConfig} from './base';
 import ChunkAssetPlugin from './plugins/ChunkAssetPlugin';
 import LogPlugin from './plugins/LogPlugin';
 
-export function createClientConfig(
+export default function createClientConfig(
   props: Props,
   minify: boolean = true,
 ): Configuration {
@@ -46,7 +46,7 @@ export function createClientConfig(
 
   // When building include the plugin to force terminate building if errors happened in the client bundle.
   if (isBuilding) {
-    clientConfig.plugins!.push({
+    clientConfig.plugins?.push({
       apply: (compiler) => {
         compiler.hooks.done.tap('client:done', (stats) => {
           if (stats.hasErrors()) {

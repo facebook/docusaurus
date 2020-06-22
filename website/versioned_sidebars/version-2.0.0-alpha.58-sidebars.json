@@ -1,5 +1,5 @@
 {
-  "version-2.0.0-alpha.57/docs": [
+  "version-2.0.0-alpha.58/docs": [
     {
       "collapsed": true,
       "type": "category",
@@ -7,15 +7,15 @@
       "items": [
         {
           "type": "doc",
-          "id": "version-2.0.0-alpha.57/introduction"
+          "id": "version-2.0.0-alpha.58/introduction"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-alpha.57/design-principles"
+          "id": "version-2.0.0-alpha.58/design-principles"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-alpha.57/contributing"
+          "id": "version-2.0.0-alpha.58/contributing"
         }
       ]
     },
@@ -26,11 +26,11 @@
       "items": [
         {
           "type": "doc",
-          "id": "version-2.0.0-alpha.57/installation"
+          "id": "version-2.0.0-alpha.58/installation"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-alpha.57/configuration"
+          "id": "version-2.0.0-alpha.58/configuration"
         }
       ]
     },
@@ -41,15 +41,15 @@
       "items": [
         {
           "type": "doc",
-          "id": "version-2.0.0-alpha.57/creating-pages"
+          "id": "version-2.0.0-alpha.58/creating-pages"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-alpha.57/styling-layout"
+          "id": "version-2.0.0-alpha.58/styling-layout"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-alpha.57/static-assets"
+          "id": "version-2.0.0-alpha.58/static-assets"
         },
         {
           "collapsed": true,
@@ -58,33 +58,33 @@
           "items": [
             {
               "type": "doc",
-              "id": "version-2.0.0-alpha.57/docs-introduction"
+              "id": "version-2.0.0-alpha.58/docs-introduction"
             },
             {
               "type": "doc",
-              "id": "version-2.0.0-alpha.57/markdown-features"
+              "id": "version-2.0.0-alpha.58/markdown-features"
             },
             {
               "type": "doc",
-              "id": "version-2.0.0-alpha.57/versioning"
+              "id": "version-2.0.0-alpha.58/versioning"
             }
           ]
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-alpha.57/blog"
+          "id": "version-2.0.0-alpha.58/blog"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-alpha.57/search"
+          "id": "version-2.0.0-alpha.58/search"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-alpha.57/deployment"
+          "id": "version-2.0.0-alpha.58/deployment"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-alpha.57/migrating-from-v1-to-v2"
+          "id": "version-2.0.0-alpha.58/migrating-from-v1-to-v2"
         }
       ]
     },
@@ -95,15 +95,15 @@
       "items": [
         {
           "type": "doc",
-          "id": "version-2.0.0-alpha.57/using-plugins"
+          "id": "version-2.0.0-alpha.58/using-plugins"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-alpha.57/using-themes"
+          "id": "version-2.0.0-alpha.58/using-themes"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-alpha.57/presets"
+          "id": "version-2.0.0-alpha.58/presets"
         }
       ]
     },
@@ -114,39 +114,39 @@
       "items": [
         {
           "type": "doc",
-          "id": "version-2.0.0-alpha.57/cli"
+          "id": "version-2.0.0-alpha.58/cli"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-alpha.57/docusaurus-core"
+          "id": "version-2.0.0-alpha.58/docusaurus-core"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-alpha.57/docusaurus.config.js"
+          "id": "version-2.0.0-alpha.58/docusaurus.config.js"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-alpha.57/lifecycle-apis"
+          "id": "version-2.0.0-alpha.58/lifecycle-apis"
         },
         {
           "type": "doc",
-          "id": "version-2.0.0-alpha.57/theme-classic"
+          "id": "version-2.0.0-alpha.58/theme-classic"
         }
       ]
     }
   ],
-  "version-2.0.0-alpha.57/community": [
+  "version-2.0.0-alpha.58/community": [
     {
       "type": "doc",
-      "id": "version-2.0.0-alpha.57/support"
+      "id": "version-2.0.0-alpha.58/support"
     },
     {
       "type": "doc",
-      "id": "version-2.0.0-alpha.57/team"
+      "id": "version-2.0.0-alpha.58/team"
     },
     {
       "type": "doc",
-      "id": "version-2.0.0-alpha.57/resources"
+      "id": "version-2.0.0-alpha.58/resources"
     },
     {
       "type": "link",

@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+// @ts-check
+
 const sortBy = require('lodash.sortby');
 
 /**
@@ -12,7 +14,7 @@ const sortBy = require('lodash.sortby');
  * @description it returns a Base64 image string with required formatting
  * to work on the web (<img src=".." /> or in CSS url('..'))
  *
- * @param extMimeType: image mime type string
+ * @param {string} extMimeType: image mime type string
  * @param data: base64 string
  * @returns {string}
  */
@@ -25,10 +27,11 @@ const toBase64 = (extMimeType, data) => {
  * @description takes a color swatch object, converts it to an array & returns
  * only hex color
  *
- * @param swatch
- * @returns {{palette: Array}}
+ * @param {import("node-vibrant/lib/color").Palette} swatch
+ * @returns {string[]}
  */
 const toPalette = (swatch) => {
+  /** @type {Array<{popularity: number, hex: string}>} */
   let palette = Object.keys(swatch).reduce((result, key) => {
     if (swatch[key] !== null) {
       result.push({
@@ -39,8 +42,7 @@ const toPalette = (swatch) => {
     return result;
   }, []);
   palette = sortBy(palette, ['popularity']);
-  palette = palette.map((color) => color.hex).reverse();
-  return palette;
+  return palette.map((color) => color.hex).reverse();
 };
 
 module.exports = {

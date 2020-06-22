@@ -36,6 +36,7 @@ function validateCollectedRedirects(
     .map((redirect) => {
       try {
         validateRedirect(redirect);
+        return undefined;
       } catch (e) {
         return e.message;
       }
@@ -49,7 +50,9 @@ function validateCollectedRedirects(
     );
   }
 
-  const allowedToPaths = pluginContext.routesPaths;
+  const allowedToPaths = pluginContext.routesPaths.map((path) =>
+    path.replace(pluginContext.baseUrl, '/'),
+  );
   const toPaths = redirects.map((redirect) => redirect.to);
   const illegalToPaths = difference(toPaths, allowedToPaths);
   if (illegalToPaths.length > 0) {
@@ -112,10 +115,12 @@ function doCollectRedirects(pluginContext: PluginContext): RedirectMetadata[] {
     ...createFromExtensionsRedirects(
       pluginContext.routesPaths,
       pluginContext.options.fromExtensions,
+      pluginContext.baseUrl,
     ),
     ...createToExtensionsRedirects(
       pluginContext.routesPaths,
       pluginContext.options.toExtensions,
+      pluginContext.baseUrl,
     ),
     ...createRedirectsOptionRedirects(pluginContext.options.redirects),
     ...createCreateRedirectsOptionRedirects(
@@ -132,12 +137,11 @@ function createRedirectsOptionRedirects(
   function optionToRedirects(option: RedirectOption): RedirectMetadata[] {
     if (typeof option.from === 'string') {
       return [{from: option.from, to: option.to}];
-    } else {
-      return option.from.map((from) => ({
-        from,
-        to: option.to,
-      }));
     }
+    return option.from.map((from) => ({
+      from,
+      to: option.to,
+    }));
   }
 
   return flatten(redirectsOption.map(optionToRedirects));

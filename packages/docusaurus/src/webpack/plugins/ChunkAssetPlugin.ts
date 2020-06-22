@@ -10,7 +10,7 @@ import {Template, Compiler} from 'webpack';
 const pluginName = 'chunk-asset-plugin';
 
 class ChunkAssetPlugin {
-  apply(compiler: Compiler) {
+  apply(compiler: Compiler): void {
     compiler.hooks.thisCompilation.tap(pluginName, ({mainTemplate}) => {
       /* We modify webpack runtime to add an extra function called "__webpack_require__.gca"
       that will allow us to get the corresponding chunk asset for a webpack chunk.
@@ -20,20 +20,21 @@ class ChunkAssetPlugin {
       mainTemplate.hooks.requireExtensions.tap(pluginName, (source, chunk) => {
         const chunkIdToName = chunk.getChunkMaps(false).name;
         const chunkNameToId = Object.create(null);
-        for (const chunkId of Object.keys(chunkIdToName)) {
+        Object.keys(chunkIdToName).forEach((chunkId) => {
           const chunkName = chunkIdToName[chunkId];
           chunkNameToId[chunkName] = chunkId;
-        }
+        });
         const buf = [source];
         buf.push('');
         buf.push('// function to get chunk assets');
         buf.push(
-          mainTemplate.requireFn +
-            // If chunkName is passed, we convert it to chunk id
-            // Note that jsonpScriptSrc is an internal webpack function
-            `.gca = function(chunkId) { chunkId = ${JSON.stringify(
-              chunkNameToId,
-            )}[chunkId]||chunkId; return jsonpScriptSrc(chunkId); };`,
+          // If chunkName is passed, we convert it to chunk id
+          // Note that jsonpScriptSrc is an internal webpack function
+          `${
+            mainTemplate.requireFn
+          }.gca = function(chunkId) { chunkId = ${JSON.stringify(
+            chunkNameToId,
+          )}[chunkId]||chunkId; return jsonpScriptSrc(chunkId); };`,
         );
         return Template.asString(buf);
       });

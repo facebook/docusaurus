@@ -13,6 +13,7 @@
   "license": "MIT",
   "dependencies": {
     "@docusaurus/types": "^2.0.0-alpha.58",
+    "fs-extra": "^8.1.0",
     "sitemap": "^3.2.2"
   },
   "peerDependencies": {

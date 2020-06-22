@@ -5,11 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {loadClientModules} from '../index';
+import loadClientModules from '../index';
 
-const pluginEmpty = require('./__fixtures__/plugin-empty');
-const pluginFooBar = require('./__fixtures__/plugin-foo-bar');
-const pluginHelloWorld = require('./__fixtures__/plugin-hello-world');
+import pluginEmpty from './__fixtures__/plugin-empty';
+import pluginFooBar from './__fixtures__/plugin-foo-bar';
+import pluginHelloWorld from './__fixtures__/plugin-hello-world';
 
 describe('loadClientModules', () => {
   test('empty', () => {

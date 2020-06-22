@@ -23,7 +23,7 @@ const RedirectSchema = Joi.object<RedirectMetadata>({
   to: PathnameValidator.required(),
 });
 
-export function validateRedirect(redirect: RedirectMetadata) {
+export function validateRedirect(redirect: RedirectMetadata): void {
   const {error} = RedirectSchema.validate(redirect, {
     abortEarly: true,
     convert: false,
