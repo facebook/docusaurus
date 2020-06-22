@@ -165,6 +165,16 @@ export default async function start(
     ...config.devServer,
   };
   const compiler = webpack(config);
+  if (process.env.E2E_TEST) {
+    compiler.hooks.done.tap('done', (stats) => {
+      if (stats.hasErrors()) {
+        console.log('E2E_TEST: Project has compiler errors.');
+        process.exit(1);
+      }
+      console.log('E2E_TEST: Project can compile.');
+      process.exit(0);
+    });
+  }
   const devServer = new WebpackDevServer(compiler, devServerConfig);
   devServer.listen(port, host, (err) => {
     if (err) {
