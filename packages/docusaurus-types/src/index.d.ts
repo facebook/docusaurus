@@ -226,5 +226,5 @@ export interface ThemeConfigValidationContext<T, E extends Error = Error> {
 
 export interface ValidationSchema<T> {
   validate(options: Partial<T>, opt: object): ValidationResult<T>;
-  unknown?(): ValidationSchema<T>;
+  unknown(): ValidationSchema<T>;
 }

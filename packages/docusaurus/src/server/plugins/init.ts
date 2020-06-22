@@ -27,11 +27,7 @@ function validate<T>(schema: ValidationSchema<T>, options: Partial<T>) {
 }
 
 function validateAndStrip<T>(schema: ValidationSchema<T>, options: Partial<T>) {
-  let unkownAllowedSchema = schema;
-  if (schema.unknown) {
-    unkownAllowedSchema = schema.unknown();
-  }
-  const {error, value} = unkownAllowedSchema.validate(options, {
+  const {error, value} = schema.unknown().validate(options, {
     convert: false,
   });
 
