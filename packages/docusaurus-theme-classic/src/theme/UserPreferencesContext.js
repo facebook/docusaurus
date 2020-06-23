@@ -7,14 +7,6 @@
 
 import {createContext} from 'react';
 
-const UserPreferencesContext = createContext({
-  // Tab group choice.
-  tabGroupChoices: {},
-  setTabGroupChoices: () => {},
-
-  // Announcement bar.
-  isAnnouncementBarClosed: false,
-  closeAnnouncementBar: () => {},
-});
+const UserPreferencesContext = createContext();
 
 export default UserPreferencesContext;

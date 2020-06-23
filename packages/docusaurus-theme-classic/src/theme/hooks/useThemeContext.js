@@ -10,7 +10,13 @@ import {useContext} from 'react';
 import ThemeContext from '@theme/ThemeContext';
 
 function useThemeContext() {
-  return useContext(ThemeContext);
+  const context = useContext(ThemeContext);
+  if (context == null) {
+    throw new Error(
+      '`useThemeContext` is used outside of `Layout` Component. See https://v2.docusaurus.io/docs/theme-classic#usethemecontext.',
+    );
+  }
+  return context;
 }
 
 export default useThemeContext;
