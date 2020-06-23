@@ -5,12 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {
-  useCallback,
-  useState,
-  useEffect,
-  AnchorHTMLAttributes,
-} from 'react';
+import React, {useCallback, useState, useEffect, ComponentProps} from 'react';
 import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
@@ -46,7 +41,7 @@ function NavLink({
   label?: string;
   activeClassName?: string;
   prependBaseUrlToHref?: string;
-} & AnchorHTMLAttributes<HTMLAnchorElement>) {
+} & ComponentProps<'a'>) {
   const toUrl = useBaseUrl(to);
   const activeBaseUrl = useBaseUrl(activeBasePath);
   const normalizedHref = useBaseUrl(href, {forcePrependBaseUrl: true});

@@ -5,11 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {
-  HTMLAttributes,
-  AnchorHTMLAttributes,
-  ComponentProps,
-} from 'react';
+import React, {ComponentProps} from 'react';
 import Link from '@docusaurus/Link';
 import CodeBlock from '@theme/CodeBlock';
 import Heading from '@theme/Heading';
@@ -27,14 +23,14 @@ export default {
     }
     return children;
   },
-  a: (props: AnchorHTMLAttributes<HTMLAnchorElement>): JSX.Element => {
+  a: (props: ComponentProps<'a'>): JSX.Element => {
     if (/\.[^./]+$/.test(props.href || '')) {
       // eslint-disable-next-line jsx-a11y/anchor-has-content
       return <a {...props} />;
     }
     return <Link {...props} />;
   },
-  pre: (props: HTMLAttributes<HTMLDivElement>): JSX.Element => (
+  pre: (props: ComponentProps<'div'>): JSX.Element => (
     <div className={styles.mdxCodeBlock} {...props} />
   ),
   h1: Heading('h1'),

@@ -14,7 +14,9 @@ const windowSizes = {
   mobile: 'mobile',
 } as const;
 
-function useWindowSize(): 'desktop' | 'mobile' | undefined {
+type WindowSize = keyof typeof windowSizes;
+
+function useWindowSize(): WindowSize | undefined {
   const isClient = typeof window !== 'undefined';
 
   function getSize() {

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState, Children, ReactNode} from 'react';
+import React, {useState, Children, ReactElement} from 'react';
 import useUserPreferencesContext from '@theme/hooks/useUserPreferencesContext';
 
 import clsx from 'clsx';
@@ -19,7 +19,7 @@ const keys = {
 
 type Props = {
   block?: boolean;
-  children: ReactNode;
+  children: ReactElement<{value: string}>[];
   defaultValue?: string;
   values: {value: string; label: string}[];
   groupId?: string;
@@ -112,7 +112,7 @@ function Tabs(props: Props): JSX.Element {
         {
           Children.toArray(children).filter(
             (child) =>
-              (child as React.Component<{value: string}>).props.value ===
+              (child as ReactElement<{value: string}>).props.value ===
               selectedValue,
           )[0]
         }
