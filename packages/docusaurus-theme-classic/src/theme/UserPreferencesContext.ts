@@ -7,6 +7,6 @@
 
 import {createContext} from 'react';
 
-const UserPreferencesContext = createContext();
+const UserPreferencesContext = createContext(undefined);
 
 export default UserPreferencesContext;
