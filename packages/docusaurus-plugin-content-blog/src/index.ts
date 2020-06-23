@@ -30,6 +30,7 @@ import {
   Plugin,
   HtmlTags,
   OptionValidationContext,
+  ValidationResult,
 } from '@docusaurus/types';
 import {Configuration, Loader} from 'webpack';
 import {generateBlogFeed, generateBlogPosts} from './blogUtils';
@@ -472,10 +473,13 @@ export default function pluginContentBlog(
   };
 }
 
-pluginContentBlog.validateOptions = ({
+export function validateOptions({
   validate,
   options,
-}: OptionValidationContext<PluginOptions, ValidationError>) => {
+}: OptionValidationContext<PluginOptions, ValidationError>): ValidationResult<
+  PluginOptions,
+  ValidationError
+> {
   const validatedOptions = validate(PluginOptionSchema, options);
   return validatedOptions;
-};
+}

@@ -77,15 +77,26 @@ export default function initPlugins({
       );
 
       const plugin = pluginModule.default || pluginModule;
-      if (plugin.validateOptions) {
-        const options = plugin.validateOptions({
+
+      // support both commonjs and ES modules
+      const validateOptions =
+        pluginModule.default?.validateOptions ?? pluginModule.validateOptions;
+
+      if (validateOptions) {
+        const options = validateOptions({
           validate,
           options: pluginOptions,
         });
         pluginOptions = options;
       }
-      if (plugin.validateThemeConfig) {
-        plugin.validateThemeConfig({
+
+      // support both commonjs and ES modules
+      const validateThemeConfig =
+        pluginModule.default?.validateThemeConfig ??
+        pluginModule.validateThemeConfig;
+
+      if (validateThemeConfig) {
+        validateThemeConfig({
           validate: validateAndStrip,
           themeConfig: context.siteConfig.themeConfig,
         });
