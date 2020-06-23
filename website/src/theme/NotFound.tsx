@@ -9,7 +9,7 @@ import React from 'react';
 import Layout from '@theme/Layout';
 import Feedback from '../pages/feedback';
 
-function NotFound({location}) {
+function NotFound({location}: {location: {pathname: string}}): JSX.Element {
   if (/^\/feedback/.test(location.pathname)) {
     return <Feedback />;
   }
