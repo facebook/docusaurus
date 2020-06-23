@@ -10,12 +10,14 @@ import React from 'react';
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
 
-function getCategoryOfTag(tag) {
+function getCategoryOfTag(tag: string) {
   // tag's category should be customizable
   return tag[0].toUpperCase();
 }
 
-function BlogTagsListPage(props): JSX.Element {
+type Tag = {permalink: string; name: string; count: number};
+
+function BlogTagsListPage(props: {tags: Record<string, Tag>}): JSX.Element {
   const {tags} = props;
 
   const tagCategories: {[category: string]: string[]} = {};

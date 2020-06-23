@@ -19,7 +19,7 @@ const useLogo = (): {
   logoAlt: string;
 } => {
   const {
-    siteConfig: {themeConfig: {navbar: {logo = {}} = {}}} = {},
+    siteConfig: {themeConfig: {navbar: {logo = {}} = {}} = {}} = {},
   } = useDocusaurusContext();
   const {isDarkTheme} = useThemeContext();
   const logoLink = useBaseUrl(logo.href || '/');

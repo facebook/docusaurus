@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {ReactNode} from 'react';
 import Head from '@docusaurus/Head';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
@@ -18,7 +18,18 @@ import Footer from '@theme/Footer';
 
 import './styles.css';
 
-function Layout(props) {
+type Props = {
+  children: ReactNode;
+  title?: string;
+  noFooter?: boolean;
+  description?: string;
+  image?: string;
+  keywords?: string[];
+  permalink?: string;
+  version?: string;
+};
+
+function Layout(props: Props): JSX.Element {
   const {siteConfig = {}} = useDocusaurusContext();
   const {
     favicon,

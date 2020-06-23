@@ -5,7 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useCallback, useState, useEffect} from 'react';
+import React, {
+  useCallback,
+  useState,
+  useEffect,
+  AnchorHTMLAttributes,
+} from 'react';
 import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
@@ -33,7 +38,15 @@ function NavLink({
   activeClassName = 'navbar__link--active',
   prependBaseUrlToHref,
   ...props
-}) {
+}: {
+  activeBasePath?: string;
+  activeBaseRegex?: string;
+  to?: string;
+  href?: string;
+  label?: string;
+  activeClassName?: string;
+  prependBaseUrlToHref?: string;
+} & AnchorHTMLAttributes<HTMLAnchorElement>) {
   const toUrl = useBaseUrl(to);
   const activeBaseUrl = useBaseUrl(activeBasePath);
   const normalizedHref = useBaseUrl(href, {forcePrependBaseUrl: true});
@@ -96,7 +109,8 @@ function NavItem({
         onClick={(e) => e.preventDefault()}
         onKeyDown={(e) => {
           if (e.key === 'Enter') {
-            e.target.parentNode.classList.toggle('dropdown--show');
+            ((e.target as HTMLElement)
+              .parentNode as HTMLElement).classList.toggle('dropdown--show');
           }
         }}>
         {props.label}
@@ -175,7 +189,7 @@ function Navbar(): JSX.Element {
   const {
     siteConfig: {
       themeConfig: {
-        navbar: {title, links = [], hideOnScroll = false} = {},
+        navbar: {title = '', links = [], hideOnScroll = false} = {},
         disableDarkMode = false,
       },
     },

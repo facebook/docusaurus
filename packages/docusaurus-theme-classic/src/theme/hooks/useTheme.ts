@@ -20,7 +20,7 @@ const useTheme = (): {
   setDarkTheme: () => void;
 } => {
   const {
-    siteConfig: {themeConfig: {disableDarkMode}} = {},
+    siteConfig: {themeConfig: {disableDarkMode = false} = {}} = {},
   } = useDocusaurusContext();
   const [theme, setTheme] = useState(
     typeof document !== 'undefined'

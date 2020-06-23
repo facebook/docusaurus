@@ -12,7 +12,12 @@ import Layout from '@theme/Layout';
 import BlogPostItem from '@theme/BlogPostItem';
 import BlogListPaginator from '@theme/BlogListPaginator';
 
-function BlogListPage(props): JSX.Element {
+type Props = {
+  metadata: {permalink: string; title: string};
+  items: {content}[];
+};
+
+function BlogListPage(props: Props): JSX.Element {
   const {metadata, items} = props;
   const {
     siteConfig: {title: siteTitle},

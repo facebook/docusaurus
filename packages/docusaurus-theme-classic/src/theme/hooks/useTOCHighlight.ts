@@ -12,7 +12,9 @@ function useTOCHighlight(
   linkActiveClassName: string,
   topOffset: number,
 ): void {
-  const [lastActiveLink, setLastActiveLink] = useState<any>(undefined);
+  const [lastActiveLink, setLastActiveLink] = useState<HTMLAnchorElement>(
+    undefined!,
+  );
 
   useEffect(() => {
     let headersAnchors: HTMLCollectionOf<Element>;

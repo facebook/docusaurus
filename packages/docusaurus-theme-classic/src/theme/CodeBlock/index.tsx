@@ -122,15 +122,19 @@ export default ({
   const prismTheme = usePrismTheme();
 
   if (metastring && highlightLinesRangeRegex.test(metastring)) {
-    const highlightLinesRange = metastring.match(highlightLinesRangeRegex)[1];
+    // Tested above
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const highlightLinesRange = metastring.match(highlightLinesRangeRegex)![1];
     highlightLines = rangeParser
       .parse(highlightLinesRange)
       .filter((n) => n > 0);
   }
 
   if (metastring && codeBlockTitleRegex.test(metastring)) {
+    // Tested above
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     codeBlockTitle = metastring
-      .match(codeBlockTitleRegex)[0]
+      .match(codeBlockTitleRegex)![0]
       .split('title=')[1]
       .replace(/"+/g, '');
   }
@@ -159,7 +163,10 @@ export default ({
       if (match !== null) {
         const directive = match
           .slice(1)
-          .reduce((final, item) => final || item, undefined);
+          .reduce(
+            (final: string | undefined, item) => final || item,
+            undefined,
+          );
         switch (directive) {
           case 'highlight-next-line':
             range += `${lineNumber},`;
@@ -199,6 +206,7 @@ export default ({
       key={String(mounted)}
       theme={prismTheme}
       code={code}
+      // @ts-expect-error: prism-react-renderer doesn't export Language type
       language={language}>
       {({className, style, tokens, getLineProps, getTokenProps}) => (
         <>

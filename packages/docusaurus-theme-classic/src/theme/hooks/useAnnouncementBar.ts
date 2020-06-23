@@ -16,7 +16,9 @@ const useAnnouncementBar = (): {
   closeAnnouncementBar: () => void;
 } => {
   const {
-    siteConfig: {themeConfig: {announcementBar: {id} = {}}} = {},
+    siteConfig: {
+      themeConfig: {announcementBar: {id = 'annoucement-bar'} = {}} = {},
+    } = {},
   } = useDocusaurusContext();
   const [isClosed, setClosed] = useState(true);
   const handleClose = () => {

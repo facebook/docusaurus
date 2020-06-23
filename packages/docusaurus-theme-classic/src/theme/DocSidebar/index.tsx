@@ -167,7 +167,7 @@ function DocSidebar(props): JSX.Element | null {
   const [showResponsiveSidebar, setShowResponsiveSidebar] = useState(false);
   const {
     siteConfig: {
-      themeConfig: {navbar: {title, hideOnScroll = false} = {}},
+      themeConfig: {navbar: {title = '', hideOnScroll = false} = {}} = {},
     } = {},
     isClient,
   } = useDocusaurusContext();

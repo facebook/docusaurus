@@ -8,7 +8,13 @@
 import React from 'react';
 import Link from '@docusaurus/Link';
 
-function DocPaginator(props): JSX.Element {
+type PageInfo = {permalink: string; title: string};
+
+type Props = {
+  metadata: {previous: PageInfo; next: PageInfo};
+};
+
+function DocPaginator(props: Props): JSX.Element {
   const {metadata} = props;
 
   return (

@@ -8,7 +8,7 @@
   },
   "license": "MIT",
   "scripts": {
-    "tsc": "yarn babel && yarn prettier",
+    "tsc": "tsc --noEmit && yarn babel && yarn prettier",
     "babel": "babel src -d lib --extensions \".tsx,.ts\" --copy-files",
     "prettier": "prettier --config ../../.prettierrc --write \"**/*.{js,ts}\""
   },

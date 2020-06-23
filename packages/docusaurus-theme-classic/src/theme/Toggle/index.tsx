@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
+import React, {ComponentProps} from 'react';
 import Toggle from 'react-toggle';
 
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
@@ -16,7 +16,7 @@ import styles from './styles.module.css';
 const Moon = () => <span className={clsx(styles.toggle, styles.moon)} />;
 const Sun = () => <span className={clsx(styles.toggle, styles.sun)} />;
 
-export default function (props) {
+export default function (props: ComponentProps<typeof Toggle>): JSX.Element {
   const {isClient} = useDocusaurusContext();
   return (
     <Toggle

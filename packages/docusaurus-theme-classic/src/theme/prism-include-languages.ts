@@ -7,16 +7,17 @@
 
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import siteConfig from '@generated/docusaurus.config';
+import type * as PrismNamespace from 'prismjs';
 
-const prismIncludeLanguages = (Prism): void => {
+const prismIncludeLanguages = (PrismObject: typeof PrismNamespace): void => {
   if (ExecutionEnvironment.canUseDOM) {
     const {
       themeConfig: {prism: {additionalLanguages = []} = {}},
     } = siteConfig;
 
-    window.Prism = Prism;
+    window.Prism = PrismObject;
 
-    additionalLanguages.forEach((lang) => {
+    additionalLanguages.forEach((lang: string) => {
       require(`prismjs/components/prism-${lang}`); // eslint-disable-line
     });
 
