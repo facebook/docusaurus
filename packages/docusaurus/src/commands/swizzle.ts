@@ -26,7 +26,7 @@ export default async function swizzle(
   const context = loadContext(siteDir);
   const pluginInstance = plugin(context);
   let fromPath = typescript
-    ? (pluginInstance.getTypeScriptThemePath ?? pluginInstance.getThemePath)?.()
+    ? pluginInstance.getTypeScriptThemePath?.()
     : pluginInstance.getThemePath?.();
 
   if (fromPath) {
@@ -57,5 +57,13 @@ export default async function swizzle(
     console.log(
       `\n${chalk.green('Success!')} Copied ${fromMsg} to ${toMsg}.\n`,
     );
+  } else if (typescript) {
+    console.warn(
+      chalk.yellow(
+        `${themeName} does not provide TypeScript theme code via getTypeScriptThemePath().`,
+      ),
+    );
+  } else {
+    console.warn(chalk.yellow(`${themeName} does not provide any theme code.`));
   }
 }
