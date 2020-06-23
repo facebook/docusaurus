@@ -9,12 +9,20 @@ import {useContext} from 'react';
 
 import ThemeContext from '@theme/ThemeContext';
 
-function useThemeContext(): {
+type ThemeContextProps = {
   isDarkTheme: boolean;
   setLightTheme: () => void;
   setDarkTheme: () => void;
-} {
-  return useContext(ThemeContext);
+};
+
+function useThemeContext(): ThemeContextProps {
+  const context = useContext<ThemeContextProps>(ThemeContext);
+  if (context == null) {
+    throw new Error(
+      '`useThemeContext` is used outside of `Layout` Component. See https://v2.docusaurus.io/docs/theme-classic#usethemecontext.',
+    );
+  }
+  return context;
 }
 
 export default useThemeContext;

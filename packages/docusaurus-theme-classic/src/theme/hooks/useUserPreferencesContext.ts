@@ -9,13 +9,23 @@ import {useContext} from 'react';
 
 import UserPreferencesContext from '@theme/UserPreferencesContext';
 
-function useUserPreferencesContext(): {
+type UserPreferencesContextProps = {
   tabGroupChoices: {readonly [groupId: string]: string};
   setTabGroupChoices: (groupId: string, newChoice: string) => void;
   isAnnouncementBarClosed: boolean;
   closeAnnouncementBar: () => void;
-} {
-  return useContext(UserPreferencesContext);
+};
+
+function useUserPreferencesContext(): UserPreferencesContextProps {
+  const context = useContext<UserPreferencesContextProps>(
+    UserPreferencesContext,
+  );
+  if (context == null) {
+    throw new Error(
+      '`useUserPreferencesContext` is used outside of `Layout` Component.',
+    );
+  }
+  return context;
 }
 
 export default useUserPreferencesContext;
