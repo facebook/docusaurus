@@ -84,8 +84,7 @@ A plugin is a module which exports a function that takes two parameters and retu
 
 The exported modules for plugins are called with two parameters: `context` and `options` and returns a JavaScript object with defining the [lifecycle APIs](./lifecycle-apis.md).
 
-For example if you have a reference to a local folder such as this in your
-docusaurus.config.js:
+For example if you have a reference to a local folder such as this in your docusaurus.config.js:
 
     plugins: [path.resolve(__dirname, 'my-plugin')],
 
@@ -103,8 +102,7 @@ module.exports = function(context, options) {
 };
 ```
 
-The `my-plugin` folder could also be a fully fledged package with it's own 
-package.json and a `src/index.js` file for example
+The `my-plugin` folder could also be a fully fledged package with it's own package.json and a `src/index.js` file for example
 
 #### `context`
 
@@ -474,6 +472,12 @@ import thumbnail from './path/to/img.png';
 Docusaurus Plugin to generate **client-side redirects**.
 
 This plugin will write additional HTML pages to your static site, that redirects the user to your existing Docusaurus pages with JavaScript.
+
+:::note
+
+This plugin only create redirects for the production build.
+
+:::
 
 :::caution
 
