@@ -9,7 +9,7 @@ import React, {useEffect, useState} from 'react';
 
 import routes from '@generated/routes';
 import siteConfig from '@generated/docusaurus.config';
-import globalData from '@generated/globalData.json';
+import globalData from '@generated/globalData';
 import renderRoutes from './exports/renderRoutes';
 import DocusaurusContext from './exports/context';
 import PendingNavigation from './PendingNavigation';

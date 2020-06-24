@@ -37,6 +37,11 @@ declare module '@generated/routesChunkNames' {
   export default routesChunkNames;
 }
 
+declare module '@generated/globalData' {
+  const globalData: any;
+  export default globalData;
+}
+
 declare module '@theme/*' {
   const component: any;
   export default component;
