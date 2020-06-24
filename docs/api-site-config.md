@@ -132,16 +132,16 @@ The default version for the site to be shown. If this is not set, the latest ver
 
 Even if you delete the main file for a documentation page and delete it from your sidebar, the page will still be created for every version and for the current version due to [fallback functionality](versioning#fallback-functionality). This can lead to confusion if people find the documentation by searching and it appears to be something relevant to a particular version but actually is not.
 
-To force removal of content beginning with a certain version (including for current/next), add a `deletedDocs` object to your config, where each key is a version and the value is a `Set` of document IDs that should not be generated for that version and all later versions.
+To force removal of content beginning with a certain version (including for current/next), add a `deletedDocs` object to your config, where each key is a version and the value is an array or `Set` of document IDs that should not be generated for that version and all later versions.
 
 Example:
 
 ```js
 {
   deletedDocs: {
-    "2.0.0": new Set([
+    "2.0.0": [
       "tagging"
-    ])
+    ]
   }
 }
 ```
