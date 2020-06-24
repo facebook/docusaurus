@@ -4,13 +4,6 @@ title: Markdown Features
 description: Docusaurus uses GitHub Flavored Markdown (GFM). Find out more about Docusaurus-specific features when writing Markdown.
 ---
 
-```jsx live
-	function Demo() {
-    	React.useEffect(() => console.log('mount'), [])
-    	return null
-	}
-```
-
 Documentation is one of your product's interfaces with your users. A well-written and well-organized set of docs helps your users understand your product quickly. Our aligned goal here is to help your users find and understand the information they need, as quickly as possible.
 
 Docusaurus 2 uses modern tooling to help you compose your interactive documentations with ease. You may embed React components, or build live coding blocks where your users may play with the code on the spot. Start sharing your eureka moments with the code your audience cannot walk away from. It is perhaps the most effective way of attracting potential users.
@@ -585,16 +578,16 @@ It will produce `prism-include-languages.js` in your `src/theme` folder. You can
 
 ```js {8} title="src/theme/prism-include-languages.js"
 const prismIncludeLanguages = (Prism) => {
-    // ...
+  // ...
 
-    additionalLanguages.forEach((lang) => {
-      require(`prismjs/components/prism-${lang}`); // eslint-disable-line
-    });
+  additionalLanguages.forEach((lang) => {
+    require(`prismjs/components/prism-${lang}`); // eslint-disable-line
+  });
 
-    require('/path/to/your/prism-language-definition');
+  require('/path/to/your/prism-language-definition');
 
-    // ...
-}
+  // ...
+};
 ```
 
 You can refer to [Prism's official language definitions](https://github.com/PrismJS/prism/tree/master/components) when you are writing your own language definitions.
