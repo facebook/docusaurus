@@ -48,7 +48,16 @@ export const ConfigSchema = Joi.object({
       ),
     )
     .default(DEFAULT_CONFIG.plugins),
-  themes: Joi.array().items(Joi.string()).default(DEFAULT_CONFIG.themes),
+  themes: Joi.array()
+    .items(
+      Joi.alternatives().try(
+        Joi.string(),
+        Joi.array()
+          .items(Joi.string().required(), Joi.object().required())
+          .length(2),
+      ),
+    )
+    .default(DEFAULT_CONFIG.themes),
   presets: Joi.array().items(
     Joi.alternatives().try(
       Joi.string(),
