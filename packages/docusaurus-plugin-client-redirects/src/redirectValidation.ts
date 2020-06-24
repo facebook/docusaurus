@@ -11,8 +11,11 @@ import {RedirectMetadata} from './types';
 
 export const PathnameValidator = Joi.string()
   .custom((val) => {
-    if (!isValidPathname(val)) throw new Error();
-    else return val;
+    if (!isValidPathname(val)) {
+      throw new Error();
+    } else {
+      return val;
+    }
   })
   .message(
     '{{#label}} is not a valid pathname. Pathname should start with / and not contain any domain or query string',

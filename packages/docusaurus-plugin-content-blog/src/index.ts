@@ -10,6 +10,7 @@ import kebabCase from 'lodash.kebabcase';
 import path from 'path';
 import admonitions from 'remark-admonitions';
 import {normalizeUrl, docuHash, aliasedSitePath} from '@docusaurus/utils';
+import {ValidationError} from '@hapi/joi';
 
 import {
   PluginOptions,
@@ -18,9 +19,9 @@ import {
   BlogItemsToMetadata,
   TagsModule,
   BlogPaginated,
-  FeedType,
   BlogPost,
 } from './types';
+import {PluginOptionSchema} from './validation';
 import {
   LoadContext,
   PluginContentLoadedActions,
@@ -28,56 +29,19 @@ import {
   Props,
   Plugin,
   HtmlTags,
+  OptionValidationContext,
+  ValidationResult,
 } from '@docusaurus/types';
 import {Configuration, Loader} from 'webpack';
 import {generateBlogFeed, generateBlogPosts} from './blogUtils';
 
-const DEFAULT_OPTIONS: PluginOptions = {
-  path: 'blog', // Path to data on filesystem, relative to site dir.
-  routeBasePath: 'blog', // URL Route.
-  include: ['*.md', '*.mdx'], // Extensions to include.
-  postsPerPage: 10, // How many posts per page.
-  blogListComponent: '@theme/BlogListPage',
-  blogPostComponent: '@theme/BlogPostPage',
-  blogTagsListComponent: '@theme/BlogTagsListPage',
-  blogTagsPostsComponent: '@theme/BlogTagsPostsPage',
-  showReadingTime: true,
-  remarkPlugins: [],
-  rehypePlugins: [],
-  editUrl: undefined,
-  truncateMarker: /<!--\s*(truncate)\s*-->/, // Regex.
-  admonitions: {},
-};
-
-function assertFeedTypes(val: any): asserts val is FeedType {
-  if (typeof val !== 'string' && !['rss', 'atom', 'all'].includes(val)) {
-    throw new Error(
-      `Invalid feedOptions type: ${val}. It must be either 'rss', 'atom', or 'all'`,
-    );
-  }
-}
-
-const getFeedTypes = (type?: FeedType) => {
-  assertFeedTypes(type);
-  let feedTypes: ('rss' | 'atom')[] = [];
-
-  if (type === 'all') {
-    feedTypes = ['rss', 'atom'];
-  } else {
-    feedTypes.push(type);
-  }
-  return feedTypes;
-};
-
 export default function pluginContentBlog(
   context: LoadContext,
-  opts: Partial<PluginOptions>,
-): Plugin<BlogContent | null> {
-  const options: PluginOptions = {...DEFAULT_OPTIONS, ...opts};
-
+  options: PluginOptions,
+): Plugin<BlogContent | null, typeof PluginOptionSchema> {
   if (options.admonitions) {
     options.remarkPlugins = options.remarkPlugins.concat([
-      [admonitions, opts.admonitions || {}],
+      [admonitions, options.admonitions],
     ]);
   }
 
@@ -426,7 +390,7 @@ export default function pluginContentBlog(
     },
 
     async postBuild({outDir}: Props) {
-      if (!options.feedOptions) {
+      if (!options.feedOptions?.type) {
         return;
       }
 
@@ -436,7 +400,7 @@ export default function pluginContentBlog(
         return;
       }
 
-      const feedTypes = getFeedTypes(options.feedOptions?.type);
+      const feedTypes = options.feedOptions.type;
 
       await Promise.all(
         feedTypes.map(async (feedType) => {
@@ -456,11 +420,10 @@ export default function pluginContentBlog(
     },
 
     injectHtmlTags() {
-      if (!options.feedOptions) {
+      if (!options.feedOptions?.type) {
         return {};
       }
-
-      const feedTypes = getFeedTypes(options.feedOptions?.type);
+      const feedTypes = options.feedOptions.type;
       const {
         siteConfig: {title},
         baseUrl,
@@ -508,4 +471,15 @@ export default function pluginContentBlog(
       };
     },
   };
+}
+
+export function validateOptions({
+  validate,
+  options,
+}: OptionValidationContext<PluginOptions, ValidationError>): ValidationResult<
+  PluginOptions,
+  ValidationError
+> {
+  const validatedOptions = validate(PluginOptionSchema, options);
+  return validatedOptions;
 }

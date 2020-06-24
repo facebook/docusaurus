@@ -8,6 +8,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@hapi/joi": "^17.1.1",
     "@mdx-js/mdx": "^1.5.8",
     "@mdx-js/react": "^1.5.8",
     "clsx": "^1.1.1",
@@ -27,5 +28,8 @@
   },
   "engines": {
     "node": ">=10.15.1"
+  },
+  "devDependencies": {
+    "@types/hapi__joi": "^17.1.2"
   }
 }
