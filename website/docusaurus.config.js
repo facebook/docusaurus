@@ -141,8 +141,10 @@ module.exports = {
           activeBaseRegex: `docs/next/(support|team|resources)`,
         },
         {
+          type: 'currentDocsVersion',
+          instancePath: 'docs',
           to: 'versions',
-          label: `v${versions[0]}`,
+          fallbackLabel: versions[0],
           position: 'right',
         },
         {

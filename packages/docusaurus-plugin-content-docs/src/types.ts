@@ -180,3 +180,9 @@ export interface Env {
   versioning: VersioningEnv;
   // TODO: translation
 }
+
+export type GlobalVersionMetadata = {version: string | undefined; path: string};
+export type GlobalPluginInstanceData = {
+  versionsMetadata: GlobalVersionMetadata[];
+};
+export type GlobalPluginData = Record<string, GlobalPluginInstanceData>;

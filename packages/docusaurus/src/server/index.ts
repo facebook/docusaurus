@@ -77,7 +77,7 @@ export async function load(
 
   // Plugins.
   const pluginConfigs: PluginConfig[] = loadPluginConfigs(context);
-  const {plugins, pluginsRouteConfigs} = await loadPlugins({
+  const {plugins, pluginsRouteConfigs, globalData} = await loadPlugins({
     pluginConfigs,
     context,
   });
@@ -180,12 +180,19 @@ ${Object.keys(registry)
 
   const genRoutes = generate(generatedFilesDir, 'routes.js', routesConfig);
 
+  const genGlobalData = generate(
+    generatedFilesDir,
+    'globalData.json',
+    JSON.stringify(globalData, null, 2),
+  );
+
   await Promise.all([
     genClientModules,
     genSiteConfig,
     genRegistry,
     genRoutesChunkNames,
     genRoutes,
+    genGlobalData,
   ]);
 
   const props: Props = {

@@ -57,6 +57,7 @@ export async function loadPlugins({
 }): Promise<{
   plugins: Plugin<any>[];
   pluginsRouteConfigs: RouteConfig[];
+  globalData: any;
 }> {
   // 1. Plugin Lifecycle - Initialization/Constructor.
   const plugins: Plugin<any>[] = initPlugins({pluginConfigs, context});
@@ -78,6 +79,8 @@ export async function loadPlugins({
   // 3. Plugin Lifecycle - contentLoaded.
   const pluginsRouteConfigs: RouteConfig[] = [];
 
+  const globalData = {};
+
   await Promise.all(
     plugins.map(async (plugin, index) => {
       if (!plugin.contentLoaded) {
@@ -96,6 +99,16 @@ export async function loadPlugins({
           await fs.ensureDir(path.dirname(modulePath));
           await generate(pluginContentDir, name, content);
           return modulePath;
+        },
+        setGlobalData: (dataOrFn) => {
+          if (dataOrFn instanceof Function) {
+            globalData[plugin.name] = dataOrFn(globalData[plugin.name]);
+          } else {
+            globalData[plugin.name] = {
+              ...globalData[plugin.name],
+              ...dataOrFn,
+            };
+          }
         },
       };
 
@@ -127,5 +140,6 @@ export async function loadPlugins({
   return {
     plugins,
     pluginsRouteConfigs,
+    globalData,
   };
 }

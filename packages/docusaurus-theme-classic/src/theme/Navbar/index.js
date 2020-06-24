@@ -16,6 +16,7 @@ import Toggle from '@theme/Toggle';
 import useThemeContext from '@theme/hooks/useThemeContext';
 import useHideableNavbar from '@theme/hooks/useHideableNavbar';
 import useLockBodyScroll from '@theme/hooks/useLockBodyScroll';
+import {useDocsActiveVersionMetadata} from '@theme/hooks/useDocs';
 import useWindowSize, {windowSizes} from '@theme/hooks/useWindowSize';
 import useLogo from '@theme/hooks/useLogo';
 
@@ -65,7 +66,7 @@ function NavLink({
   );
 }
 
-function NavItem({
+function BaseNavItemDesktop({
   items,
   position = DefaultNavItemPosition,
   className,
@@ -116,7 +117,7 @@ function NavItem({
   );
 }
 
-function MobileNavItem({items, position: _position, className, ...props}) {
+function BaseNavItemMobile({items, position: _position, className, ...props}) {
   // Need to destructure position from props so that it doesn't get passed on.
   const navLinkClassNames = (extraClassName, isSubList = false) =>
     clsx(
@@ -156,18 +157,43 @@ function MobileNavItem({items, position: _position, className, ...props}) {
   );
 }
 
+function BaseNavItem({mobile = false, ...props}) {
+  const Comp = mobile ? BaseNavItemMobile : BaseNavItemDesktop;
+  return <Comp {...props} />;
+}
+
+const SpecialNavItemTypes = {
+  currentDocsVersion: function CurrentDocsVersionNavItem({
+    instancePath,
+    fallbackLabel,
+    ...props
+  }) {
+    const activeVersionMetadata = useDocsActiveVersionMetadata(instancePath);
+    const label = activeVersionMetadata?.version ?? fallbackLabel;
+    return <BaseNavItem {...props} label={label} />;
+  },
+};
+
+function NavItem({type, ...props}) {
+  const CustomNavItemComponent = SpecialNavItemTypes[type];
+  if (CustomNavItemComponent) {
+    return <CustomNavItemComponent {...props} />;
+  }
+  return <BaseNavItem {...props} />;
+}
+
 // If split links by left/right
 // if position is unspecified, fallback to right (as v1)
-function splitLinks(links) {
-  const leftLinks = links.filter(
-    (linkItem) => (linkItem.position ?? DefaultNavItemPosition) === 'left',
+function splitNavItemsByPosition(items) {
+  const leftItems = items.filter(
+    (item) => (item.position ?? DefaultNavItemPosition) === 'left',
   );
-  const rightLinks = links.filter(
-    (linkItem) => (linkItem.position ?? DefaultNavItemPosition) === 'right',
+  const rightItems = items.filter(
+    (item) => (item.position ?? DefaultNavItemPosition) === 'right',
   );
   return {
-    leftLinks,
-    rightLinks,
+    leftItems,
+    rightItems,
   };
 }
 
@@ -175,7 +201,12 @@ function Navbar() {
   const {
     siteConfig: {
       themeConfig: {
-        navbar: {title, links = [], hideOnScroll = false} = {},
+        navbar: {
+          title,
+          // TODO breaking change: rename links to items
+          links: items = [],
+          hideOnScroll = false,
+        },
         disableDarkMode = false,
       },
     },
@@ -210,7 +241,7 @@ function Navbar() {
     }
   }, [windowSize]);
 
-  const {leftLinks, rightLinks} = splitLinks(links);
+  const {leftItems, rightItems} = splitNavItemsByPosition(items);
 
   return (
     <nav
@@ -222,7 +253,7 @@ function Navbar() {
       })}>
       <div className="navbar__inner">
         <div className="navbar__items">
-          {links != null && links.length !== 0 && (
+          {items != null && items.length !== 0 && (
             <div
               aria-label="Navigation bar toggle"
               className="navbar__toggle"
@@ -266,13 +297,13 @@ function Navbar() {
               </strong>
             )}
           </Link>
-          {leftLinks.map((linkItem, i) => (
-            <NavItem {...linkItem} key={i} />
+          {leftItems.map((item, i) => (
+            <NavItem {...item} key={i} />
           ))}
         </div>
         <div className="navbar__items navbar__items--right">
-          {rightLinks.map((linkItem, i) => (
-            <NavItem {...linkItem} key={i} />
+          {rightItems.map((item, i) => (
+            <NavItem {...item} key={i} />
           ))}
           {!disableDarkMode && (
             <Toggle
@@ -323,8 +354,8 @@ function Navbar() {
         <div className="navbar-sidebar__items">
           <div className="menu">
             <ul className="menu__list">
-              {links.map((linkItem, i) => (
-                <MobileNavItem {...linkItem} onClick={hideSidebar} key={i} />
+              {items.map((item, i) => (
+                <NavItem mobile {...item} onClick={hideSidebar} key={i} />
               ))}
             </ul>
           </div>

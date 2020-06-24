@@ -43,6 +43,8 @@ import {
   VersionToSidebars,
   SidebarItem,
   DocsSidebarItem,
+  GlobalPluginInstanceData,
+  GlobalPluginData,
 } from './types';
 import {Configuration} from 'webpack';
 import {docsVersion} from './version';
@@ -68,7 +70,7 @@ const DEFAULT_OPTIONS: PluginOptions = {
 function getFirstDocLinkOfSidebar(
   sidebarItems: DocsSidebarItem[],
 ): string | null {
-  for (let sidebarItem of sidebarItems) {
+  for (const sidebarItem of sidebarItems) {
     if (sidebarItem.type === 'category') {
       const url = getFirstDocLinkOfSidebar(sidebarItem.items);
       if (url) {
@@ -333,7 +335,18 @@ Available document ids=
       }
 
       const {docLayoutComponent, docItemComponent, routeBasePath} = options;
-      const {addRoute, createData} = actions;
+      const {addRoute, createData, setGlobalData} = actions;
+
+      // Initialized empty, will be muted
+      const pluginInstanceGlobalData: GlobalPluginInstanceData = {
+        versionsMetadata: [],
+      };
+
+      setGlobalData<GlobalPluginData>((globalData = {}) => ({
+        ...globalData,
+        [options.path]: pluginInstanceGlobalData,
+      }));
+
       const aliasedSource = (source: string) =>
         `~docs/${path.relative(dataDir, source)}`;
 
@@ -383,6 +396,12 @@ Available document ids=
         );
       };
 
+      // We want latest version route to have lower priority
+      // Otherwise `/docs/next/foo` would match
+      // `/docs/:route` instead of `/docs/next/:route`.
+      const getVersionRoutePriority = (version: string | undefined) =>
+        version === versioning.latestVersion ? -1 : 0;
+
       // This is the base route of the document root (for a doc given version)
       // (/docs, /docs/next, /docs/1.0 etc...)
       // The component applies the layout and renders the appropriate doc
@@ -401,6 +420,11 @@ Available document ids=
         // as it conflicts with the home doc
         // Workaround fix for https://github.com/facebook/docusaurus/issues/2917
         const path = docsBaseRoute === '/' ? '' : docsBaseRoute;
+
+        pluginInstanceGlobalData.versionsMetadata.push({
+          path,
+          version: docsBaseMetadata.version,
+        });
 
         addRoute({
           path,
@@ -437,6 +461,7 @@ Available document ids=
             docMetadata.latestVersionMainDocPermalink = rootUrl;
           }
         });
+
         await Promise.all(
           Object.keys(docsMetadataByVersion).map(async (version) => {
             const routes: RouteConfig[] = await genRoutes(
@@ -451,14 +476,11 @@ Available document ids=
             ]);
             const docsBaseMetadata = createDocsBaseMetadata(version);
 
-            return addBaseRoute(
+            await addBaseRoute(
               docsBaseRoute,
               docsBaseMetadata,
               routes,
-              // We want latest version route config to be placed last in the
-              // generated routeconfig. Otherwise, `/docs/next/foo` will match
-              // `/docs/:route` instead of `/docs/next/:route`.
-              isLatestVersion ? -1 : undefined,
+              getVersionRoutePriority(version),
             );
           }),
         );
@@ -466,8 +488,16 @@ Available document ids=
         const routes = await genRoutes(Object.values(content.docsMetadata));
         const docsBaseMetadata = createDocsBaseMetadata();
         const docsBaseRoute = normalizeUrl([baseUrl, routeBasePath]);
-        return addBaseRoute(docsBaseRoute, docsBaseMetadata, routes);
+        await addBaseRoute(docsBaseRoute, docsBaseMetadata, routes);
       }
+
+      // The global versions metadata are sorted so that current route "/docs" is last
+      // See getVersionRoutePriority() comment for why
+      pluginInstanceGlobalData.versionsMetadata.sort(
+        (a, b) =>
+          getVersionRoutePriority(b.version) -
+          getVersionRoutePriority(a.version),
+      );
     },
 
     async routesLoaded(routes) {
@@ -534,7 +564,7 @@ Available document ids=
                   options: {
                     siteDir,
                     docsDir,
-                    sourceToPermalink: sourceToPermalink,
+                    sourceToPermalink,
                     versionedDir,
                   },
                 },
