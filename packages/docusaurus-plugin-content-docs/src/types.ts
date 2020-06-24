@@ -119,7 +119,6 @@ export interface MetadataRaw extends LastUpdateData {
   sidebar_label?: string;
   editUrl?: string;
   version?: string;
-  latestVersionMainDocPermalink?: string;
 }
 
 export interface Paginator {
@@ -181,8 +180,13 @@ export interface Env {
   // TODO: translation
 }
 
-export type GlobalVersionMetadata = {version: string | undefined; path: string};
+export type GlobalVersionMetadata = {
+  version: string | undefined;
+  path: string;
+  docsPaths: string[];
+};
 export type GlobalPluginInstanceData = {
+  latestVersion: string | undefined | null;
   versionsMetadata: GlobalVersionMetadata[];
 };
 export type GlobalPluginData = Record<string, GlobalPluginInstanceData>;
