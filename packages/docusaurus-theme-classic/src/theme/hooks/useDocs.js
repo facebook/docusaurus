@@ -73,8 +73,8 @@ const findAlternateDocVersions = ({
     (v) => v !== activeVersionMetadata,
   );
 
-  const alternateDocs = alternateVersionsMetadata.map(
-    (alternateVersionMetadata) => {
+  const alternateDocs = alternateVersionsMetadata
+    .map((alternateVersionMetadata) => {
       const alternateDocPath = alternateVersionMetadata.docsPaths.find(
         (alternateDocPath) =>
           isAlternateDocVersion(alternateVersionMetadata, alternateDocPath),
@@ -87,8 +87,8 @@ const findAlternateDocVersions = ({
         isLatest: alternateVersionMetadata.version === latestVersion,
         path: alternateDocPath,
       };
-    },
-  );
+    })
+    .filter(Boolean);
 
   // Useful to return the version alternates too
   // if no doc match, the UI may want to link to a doc version's homepage
@@ -101,7 +101,7 @@ const findAlternateDocVersions = ({
   );
 
   const latestAlternateDoc = alternateDocs.find((d) => d.isLatest);
-  const latestAlternateVersion = alternateDocs.find((d) => d.isLatest);
+  const latestAlternateVersion = alternateVersions.find((d) => d.isLatest);
 
   return {
     alternateDocs,
