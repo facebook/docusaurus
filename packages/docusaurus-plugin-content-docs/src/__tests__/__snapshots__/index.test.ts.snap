@@ -109,6 +109,29 @@ Array [
 ]
 `;
 
+exports[`simple website content 3`] = `
+Object {
+  "plugin-global-data-namespace": Object {
+    "docs": Object {
+      "latestVersion": null,
+      "versionsMetadata": Array [
+        Object {
+          "docsPaths": Array [
+            "/docs/",
+            "/docs/foo/bar",
+            "/docs/foo/bazSlug.html",
+            "/docs/ipsum",
+            "/docs/lorem",
+          ],
+          "path": "/docs",
+          "version": undefined,
+        },
+      ],
+    },
+  },
+}
+`;
+
 exports[`site with wrong sidebar file 1`] = `
 "Bad sidebars file. The document id 'goku' was used in the sidebar, but no document with this id could be found.
 Available document ids=
@@ -211,6 +234,43 @@ Array [
     ],
   },
 ]
+`;
+
+exports[`versioned website content 2`] = `
+Object {
+  "plugin-global-data-namespace": Object {
+    "docs": Object {
+      "latestVersion": "1.0.1",
+      "versionsMetadata": Array [
+        Object {
+          "docsPaths": Array [
+            "/docs/next/",
+            "/docs/next/foo/barSlug",
+          ],
+          "path": "/docs/next",
+          "version": "next",
+        },
+        Object {
+          "docsPaths": Array [
+            "/docs/1.0.0/",
+            "/docs/1.0.0/foo/barSlug",
+            "/docs/1.0.0/foo/baz",
+          ],
+          "path": "/docs/1.0.0",
+          "version": "1.0.0",
+        },
+        Object {
+          "docsPaths": Array [
+            "/docs/",
+            "/docs/foo/bar",
+          ],
+          "path": "/docs",
+          "version": "1.0.1",
+        },
+      ],
+    },
+  },
+}
 `;
 
 exports[`versioned website content: all sidebars 1`] = `

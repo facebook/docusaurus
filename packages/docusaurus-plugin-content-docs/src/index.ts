@@ -385,7 +385,7 @@ Available document ids=
       // Otherwise `/docs/next/foo` would match
       // `/docs/:route` instead of `/docs/next/:route`.
       const getVersionRoutePriority = (version: string | undefined) =>
-        version === versioning.latestVersion ? -1 : 0;
+        version === versioning.latestVersion ? -1 : undefined;
 
       // This is the base route of the document root (for a doc given version)
       // (/docs, /docs/next, /docs/1.0 etc...)
@@ -465,8 +465,8 @@ Available document ids=
       // See getVersionRoutePriority() comment for why
       pluginInstanceGlobalData.versionsMetadata.sort(
         (a, b) =>
-          getVersionRoutePriority(b.version) -
-          getVersionRoutePriority(a.version),
+          (getVersionRoutePriority(b.version) ?? 0) -
+          (getVersionRoutePriority(a.version) ?? 0),
       );
     },
 

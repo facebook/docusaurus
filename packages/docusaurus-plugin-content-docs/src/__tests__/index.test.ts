@@ -24,6 +24,7 @@ const createFakeActions = (
   routeConfigs: RouteConfig[],
   contentDir,
   dataContainer?,
+  globalDataContainer?,
 ) => {
   return {
     addRoute: (config: RouteConfig) => {
@@ -34,6 +35,12 @@ const createFakeActions = (
         dataContainer[name] = content;
       }
       return path.join(contentDir, name);
+    },
+    setGlobalData: async (updateDataFn) => {
+      globalDataContainer['plugin-global-data-namespace'] = {
+        ...globalDataContainer,
+        ...updateDataFn(globalDataContainer),
+      };
     },
   };
 };
@@ -184,10 +191,12 @@ describe('simple website', () => {
 
     const routeConfigs = [];
     const dataContainer = {};
+    const globalDataContainer = {};
     const actions = createFakeActions(
       routeConfigs,
       pluginContentDir,
       dataContainer,
+      globalDataContainer,
     );
 
     await plugin.contentLoaded({
@@ -205,6 +214,7 @@ describe('simple website', () => {
 
     expect(routeConfigs).not.toEqual([]);
     expect(routeConfigs).toMatchSnapshot();
+    expect(globalDataContainer).toMatchSnapshot();
   });
 });
 
@@ -373,10 +383,12 @@ describe('versioned website', () => {
     );
     const routeConfigs = [];
     const dataContainer = {};
+    const globalDataContainer = {};
     const actions = createFakeActions(
       routeConfigs,
       pluginContentDir,
       dataContainer,
+      globalDataContainer,
     );
     await plugin.contentLoaded({
       content,
@@ -420,5 +432,6 @@ describe('versioned website', () => {
 
     expect(routeConfigs).not.toEqual([]);
     expect(routeConfigs).toMatchSnapshot();
+    expect(globalDataContainer).toMatchSnapshot();
   });
 });
