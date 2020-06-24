@@ -60,12 +60,12 @@ function DocPageContent({currentDocRoute, docsMetadata, children}) {
 
 function DocPage(props) {
   const {
-    route: {routes: docRoutes},
+    route: {routes: subroutes},
     docsMetadata,
     location,
   } = props;
-  const currentDocRoute = docRoutes.find((docRoute) =>
-    matchPath(location.pathname, docRoute),
+  const currentDocRoute = subroutes.find((subroute) =>
+    matchPath(location.pathname, subroute),
   );
   if (!currentDocRoute) {
     return <NotFound {...props} />;
@@ -77,7 +77,7 @@ function DocPage(props) {
       <DocPageContent
         currentDocRoute={currentDocRoute}
         docsMetadata={docsMetadata}>
-        {renderRoutes(docRoutes)}
+        {renderRoutes(subroutes)}
       </DocPageContent>
     </DocContextProvider>
   );
