@@ -24,6 +24,14 @@ describe('loadEnv', () => {
     expect(env.versioning.versions).toStrictEqual(['1.0.1', '1.0.0']);
   });
 
+  test('website with versioning but disabled', () => {
+    const siteDir = path.join(__dirname, '__fixtures__', 'versioned-site');
+    const env = loadEnv(siteDir, {disableVersioning: true});
+    expect(env.versioning.enabled).toBe(true);
+    expect(env.versioning.latestVersion).toBe('1.0.1');
+    expect(env.versioning.versions).toStrictEqual(['1.0.1', '1.0.0']);
+  });
+
   test('website with invalid versions.json file', () => {
     const siteDir = path.join(__dirname, '__fixtures__', 'versioned-site');
     const mock = jest.spyOn(JSON, 'parse').mockImplementationOnce(() => {

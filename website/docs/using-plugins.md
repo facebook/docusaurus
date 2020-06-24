@@ -84,8 +84,7 @@ A plugin is a module which exports a function that takes two parameters and retu
 
 The exported modules for plugins are called with two parameters: `context` and `options` and returns a JavaScript object with defining the [lifecycle APIs](./lifecycle-apis.md).
 
-For example if you have a reference to a local folder such as this in your
-docusaurus.config.js:
+For example if you have a reference to a local folder such as this in your docusaurus.config.js:
 
     plugins: [path.resolve(__dirname, 'my-plugin')],
 
@@ -103,8 +102,7 @@ module.exports = function(context, options) {
 };
 ```
 
-The `my-plugin` folder could also be a fully fledged package with it's own 
-package.json and a `src/index.js` file for example
+The `my-plugin` folder could also be a fully fledged package with it's own package.json and a `src/index.js` file for example
 
 #### `context`
 
@@ -285,6 +283,11 @@ module.exports = {
          * Whether to display the last date the doc was updated.
          */
         showLastUpdateTime: false,
+        /**
+         * By default, versioning is enabled on versioned sites.
+         * This is a way to explicitly disable the versioning feature.
+         */
+        disableVersioning: false,
       },
     ],
   ],
