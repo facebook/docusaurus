@@ -13,26 +13,7 @@ describe('loadConfig', () => {
     const fixtures = path.join(__dirname, '__fixtures__');
     const siteDir = path.join(fixtures, 'simple-site');
     const config = loadConfig(siteDir);
-    expect(config).toMatchInlineSnapshot(
-      {
-        plugins: expect.any(Array),
-      },
-      `
-      Object {
-        "baseUrl": "/",
-        "customFields": Object {},
-        "favicon": "img/docusaurus.ico",
-        "organizationName": "endiliey",
-        "plugins": Any<Array>,
-        "projectName": "hello",
-        "tagline": "Hello World",
-        "themeConfig": Object {},
-        "themes": Array [],
-        "title": "Hello",
-        "url": "https://docusaurus.io",
-      }
-    `,
-    );
+    expect(config).toMatchSnapshot();
     expect(config).not.toEqual({});
   });
 
@@ -40,24 +21,20 @@ describe('loadConfig', () => {
     const siteDir = path.join(__dirname, '__fixtures__', 'bad-site');
     expect(() => {
       loadConfig(siteDir);
-    }).toThrowErrorMatchingInlineSnapshot(
-      `"The required field(s) 'favicon', 'url' are missing from docusaurus.config.js"`,
-    );
+    }).toThrowErrorMatchingSnapshot();
   });
 
   test('website with useless field (wrong field) in siteConfig', () => {
     const siteDir = path.join(__dirname, '__fixtures__', 'wrong-site');
     expect(() => {
       loadConfig(siteDir);
-    }).toThrowErrorMatchingInlineSnapshot(
-      `"The required field(s) 'favicon' are missing from docusaurus.config.js"`,
-    );
+    }).toThrowErrorMatchingSnapshot();
   });
 
   test('website with no siteConfig', () => {
     const siteDir = path.join(__dirname, '__fixtures__', 'nonExisting');
     expect(() => {
       loadConfig(siteDir);
-    }).toThrowErrorMatchingInlineSnapshot(`"docusaurus.config.js not found"`);
+    }).toThrowErrorMatchingSnapshot();
   });
 });

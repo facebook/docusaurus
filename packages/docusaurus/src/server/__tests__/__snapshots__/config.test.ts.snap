@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`loadConfig website with incomplete siteConfig 1`] = `"\\"favicon\\" is required"`;
+
+exports[`loadConfig website with no siteConfig 1`] = `"docusaurus.config.js not found"`;
+
+exports[`loadConfig website with useless field (wrong field) in siteConfig 1`] = `"\\"favicon\\" is required"`;
+
+exports[`loadConfig website with valid siteConfig 1`] = `
+Object {
+  "baseUrl": "/",
+  "customFields": Object {},
+  "favicon": "img/docusaurus.ico",
+  "organizationName": "endiliey",
+  "plugins": Array [
+    Array [
+      "@docusaurus/plugin-content-docs",
+      Object {
+        "path": "../docs",
+      },
+    ],
+    "@docusaurus/plugin-content-pages",
+  ],
+  "projectName": "hello",
+  "tagline": "Hello World",
+  "themeConfig": Object {},
+  "themes": Array [],
+  "title": "Hello",
+  "url": "https://docusaurus.io",
+}
+`;

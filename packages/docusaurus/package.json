@@ -30,7 +30,8 @@
     "url": "https://github.com/facebook/docusaurus/issues"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "^2.0.0-alpha.58"
+    "@docusaurus/module-type-aliases": "^2.0.0-alpha.58",
+    "@types/hapi__joi": "^17.1.2"
   },
   "dependencies": {
     "@babel/core": "^7.9.0",
@@ -43,6 +44,7 @@
     "@docusaurus/types": "^2.0.0-alpha.58",
     "@docusaurus/utils": "^2.0.0-alpha.58",
     "@endiliey/static-site-generator-webpack-plugin": "^4.0.0",
+    "@hapi/joi": "^17.1.1",
     "@svgr/webpack": "^5.4.0",
     "babel-loader": "^8.1.0",
     "babel-plugin-dynamic-import-node": "^2.3.0",
