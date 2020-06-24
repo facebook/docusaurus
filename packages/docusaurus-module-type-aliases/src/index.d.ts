@@ -39,6 +39,8 @@ declare module '@generated/routesChunkNames' {
 
 declare module '@theme/*';
 
+declare module '@theme-original/*';
+
 declare module '@docusaurus/*';
 
 declare module '*.module.css' {
