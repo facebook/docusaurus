@@ -14,20 +14,9 @@ import Layout from '@theme/Layout';
 import DocSidebar from '@theme/DocSidebar';
 import MDXComponents from '@theme/MDXComponents';
 import NotFound from '@theme/NotFound';
-import {DocContextProvider, useDocContext} from '@theme/DocContext';
 import {matchPath} from '@docusaurus/router';
 
 import styles from './styles.module.css';
-
-// TODO temporary test
-const DocsVersionDisplay = () => {
-  const {docsMetadata} = useDocContext();
-  return (
-    <div className="alert alert--danger margin--md">
-      Test display version={docsMetadata.version}
-    </div>
-  );
-};
 
 function DocPageContent({currentDocRoute, docsMetadata, children}) {
   const {siteConfig, isClient} = useDocusaurusContext();
@@ -49,8 +38,6 @@ function DocPageContent({currentDocRoute, docsMetadata, children}) {
           </div>
         )}
         <main className={styles.docMainContainer}>
-          <DocsVersionDisplay />
-
           <MDXProvider components={MDXComponents}>{children}</MDXProvider>
         </main>
       </div>
@@ -60,26 +47,22 @@ function DocPageContent({currentDocRoute, docsMetadata, children}) {
 
 function DocPage(props) {
   const {
-    route: {routes: subroutes},
+    route: {routes: docRoutes},
     docsMetadata,
     location,
   } = props;
-  const currentDocRoute = subroutes.find((subroute) =>
-    matchPath(location.pathname, subroute),
+  const currentDocRoute = docRoutes.find((docRoute) =>
+    matchPath(location.pathname, docRoute),
   );
   if (!currentDocRoute) {
     return <NotFound {...props} />;
   }
   return (
-    <DocContextProvider
+    <DocPageContent
       currentDocRoute={currentDocRoute}
       docsMetadata={docsMetadata}>
-      <DocPageContent
-        currentDocRoute={currentDocRoute}
-        docsMetadata={docsMetadata}>
-        {renderRoutes(subroutes)}
-      </DocPageContent>
-    </DocContextProvider>
+      {renderRoutes(docRoutes)}
+    </DocPageContent>
   );
 }
 
