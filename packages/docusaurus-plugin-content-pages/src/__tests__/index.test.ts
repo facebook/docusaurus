@@ -9,7 +9,7 @@ import path from 'path';
 
 import pluginContentPages from '../index';
 import {LoadContext} from '@docusaurus/types';
-import {normalizePluginOptions} from './pluginOptionSchema.test';
+import normalizePluginOptions from './pluginOptionSchema.test';
 
 describe('docusaurus-plugin-content-pages', () => {
   test('simple pages', async () => {

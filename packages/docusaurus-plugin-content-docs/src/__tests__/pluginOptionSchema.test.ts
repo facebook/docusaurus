@@ -7,7 +7,7 @@
 
 import {PluginOptionSchema, DEFAULT_OPTIONS} from '../pluginOptionSchema';
 
-export function normalizePluginOptions(options) {
+export default function normalizePluginOptions(options) {
   const {value, error} = PluginOptionSchema.validate(options, {
     convert: false,
   });

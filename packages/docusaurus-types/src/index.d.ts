@@ -210,7 +210,7 @@ export interface ValidationResult<T, E extends Error = Error> {
 }
 
 export type Validate<T, E extends Error = Error> = (
-  validationSchrema: ValidationSchema<T>,
+  validationSchema: ValidationSchema<T>,
   options: Partial<T>,
 ) => ValidationResult<T, E>;
 

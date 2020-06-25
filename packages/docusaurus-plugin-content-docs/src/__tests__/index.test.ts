@@ -12,7 +12,7 @@ import commander from 'commander';
 import fs from 'fs-extra';
 import pluginContentDocs from '../index';
 import loadEnv from '../env';
-import {normalizePluginOptions} from './pluginOptionSchema.test';
+import normalizePluginOptions from './pluginOptionSchema.test';
 import {loadContext} from '@docusaurus/core/src/server/index';
 import {applyConfigureWebpack} from '@docusaurus/core/src/webpack/utils';
 import {RouteConfig} from '@docusaurus/types';
