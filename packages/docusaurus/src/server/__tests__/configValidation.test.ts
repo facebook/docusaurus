@@ -6,6 +6,7 @@
  */
 
 import {DEFAULT_CONFIG, validateConfig} from '../configValidation';
+import {DocusaurusConfig} from '@docusaurus/types';
 
 const baseConfig = {
   baseUrl: '/',
@@ -97,6 +98,15 @@ describe('validateConfig', () => {
   });
 
   test('throw error for required fields', () => {
-    expect(() => validateConfig({})).toThrowErrorMatchingSnapshot();
+    expect(
+      () =>
+        validateConfig(({
+          invalid: true,
+          preset: {},
+          stylesheets: {},
+          themes: {},
+          scripts: {},
+        } as unknown) as DocusaurusConfig), // to fields not in the type
+    ).toThrowErrorMatchingSnapshot();
   });
 });

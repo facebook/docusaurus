@@ -103,7 +103,7 @@ export function validateConfig(
       '',
     );
     formatedError = unknownFields
-      ? `These field(s) [${unknownFields}] are not recognized in ${CONFIG_FILE_NAME}.\nIf you still want these fields to be in your configuration, put them in the 'customFields' attribute.\nSee https://v2.docusaurus.io/docs/docusaurus.config.js/#customfields${formatedError}`
+      ? `${formatedError}These field(s) [${unknownFields}] are not recognized in ${CONFIG_FILE_NAME}.\nIf you still want these fields to be in your configuration, put them in the 'customFields' attribute.\nSee https://v2.docusaurus.io/docs/docusaurus.config.js/#customfields`
       : formatedError;
     throw new Error(formatedError);
   } else {

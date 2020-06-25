@@ -9,10 +9,10 @@ exports[`loadConfig website with incomplete siteConfig 1`] = `
 exports[`loadConfig website with no siteConfig 1`] = `"docusaurus.config.js not found"`;
 
 exports[`loadConfig website with useless field (wrong field) in siteConfig 1`] = `
-"These field(s) [\\"useLessField\\",] are not recognized in docusaurus.config.js.
+"\\"favicon\\" is required
+These field(s) [\\"useLessField\\",] are not recognized in docusaurus.config.js.
 If you still want these fields to be in your configuration, put them in the 'customFields' attribute.
-See https://v2.docusaurus.io/docs/docusaurus.config.js/#customfields\\"favicon\\" is required
-"
+See https://v2.docusaurus.io/docs/docusaurus.config.js/#customfields"
 `;
 
 exports[`loadConfig website with valid siteConfig 1`] = `
