@@ -25,6 +25,7 @@ export interface PluginOptions extends MetadataOptions, PathOptions {
   remarkPlugins: ([Function, object] | Function)[];
   rehypePlugins: string[];
   admonitions: any;
+  excludeNextVersionDocs: boolean;
 }
 
 export type SidebarItemDoc = {

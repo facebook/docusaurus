@@ -115,15 +115,46 @@ function docVersion(id, reqVersion) {
   // iterate through versions until a version less than or equal to the requested
   // is found, then check if that version has an available file to use
   let requestedFound = false;
+  let availableVersion = null;
+  let deletedDocs = null;
+  if (siteConfig.deletedDocs) {
+    // Config file may have either Array or Set for each version. Convert
+    // all to Set to make the check faster in the versions loop below.
+    deletedDocs = {};
+    Object.keys(siteConfig.deletedDocs).forEach((deletedDocVersion) => {
+      deletedDocs[deletedDocVersion] = new Set(
+        siteConfig.deletedDocs[deletedDocVersion],
+      );
+    });
+  }
   for (let i = 0; i < versions.length; i++) {
     if (versions[i] === reqVersion) {
       requestedFound = true;
     }
-    if (requestedFound && available[id].has(versions[i])) {
-      return versions[i];
+    if (requestedFound) {
+      // If this ID is deleted as of any version equal to or prior to
+      // the requested, return null.
+      if (
+        deletedDocs &&
+        deletedDocs[versions[i]] &&
+        deletedDocs[versions[i]].has(id)
+      ) {
+        return null;
+      }
+      if (!availableVersion && available[id].has(versions[i])) {
+        availableVersion = versions[i];
+        // Note the fallback version but keep looping in case this ID
+        // was deleted as of a previous version.
+        //
+        // If `deletedDocs` config isn't used, we can return immediately
+        // and avoid unnecessary looping.
+        if (!deletedDocs) {
+          break;
+        }
+      }
     }
   }
-  return null;
+  return availableVersion;
 }
 
 // returns whether a given file has content that differ from the
