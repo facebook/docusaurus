@@ -22,23 +22,23 @@ export interface DocusaurusConfig {
   themes?: PluginConfig[];
   presets?: PresetConfig[];
   themeConfig?: {
-    [key: string]: any;
+    [key: string]: unknown;
   };
   customFields?: {
-    [key: string]: any;
+    [key: string]: unknown;
   };
   scripts?: (
     | string
     | {
         src: string;
-        [key: string]: any;
+        [key: string]: unknown;
       }
   )[];
   stylesheets?: (
     | string
     | {
         href: string;
-        [key: string]: any;
+        [key: string]: unknown;
       }
   )[];
 }
@@ -53,7 +53,10 @@ export interface Preset {
   themes?: PluginConfig[];
 }
 
-export type PresetConfig = [string, Object] | [string] | string;
+export type PresetConfig =
+  | [string, Record<string, unknown>]
+  | [string]
+  | string;
 
 export interface StartCLIOptions {
   port: string;
@@ -127,7 +130,10 @@ export interface Plugin<T, U = unknown> {
   };
 }
 
-export type PluginConfig = [string, Object] | [string] | string;
+export type PluginConfig =
+  | [string, Record<string, unknown>]
+  | [string]
+  | string;
 
 export interface ChunkRegistry {
   loader: string;
@@ -167,11 +173,17 @@ export interface ConfigureWebpackUtils {
   getStyleLoaders: (
     isServer: boolean,
     cssOptions: {
-      [key: string]: any;
+      [key: string]: unknown;
     },
   ) => Loader[];
-  getCacheLoader: (isServer: boolean, cacheOptions?: {}) => Loader | null;
-  getBabelLoader: (isServer: boolean, babelOptions?: {}) => Loader;
+  getCacheLoader: (
+    isServer: boolean,
+    cacheOptions?: Record<string, unknown>,
+  ) => Loader | null;
+  getBabelLoader: (
+    isServer: boolean,
+    babelOptions?: Record<string, unknown>,
+  ) => Loader;
 }
 
 interface HtmlTagObject {
@@ -198,7 +210,7 @@ export interface ValidationResult<T, E extends Error = Error> {
 }
 
 export type Validate<T, E extends Error = Error> = (
-  validationSchema: ValidationSchema<T>,
+  validationSchrema: ValidationSchema<T>,
   options: Partial<T>,
 ) => ValidationResult<T, E>;
 
@@ -214,4 +226,5 @@ export interface ThemeConfigValidationContext<T, E extends Error = Error> {
 
 export interface ValidationSchema<T> {
   validate(options: Partial<T>, opt: object): ValidationResult<T>;
+  unknown(): ValidationSchema<T>;
 }

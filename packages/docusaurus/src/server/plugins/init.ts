@@ -27,9 +27,8 @@ function validate<T>(schema: ValidationSchema<T>, options: Partial<T>) {
 }
 
 function validateAndStrip<T>(schema: ValidationSchema<T>, options: Partial<T>) {
-  const {error, value} = schema.validate(options, {
+  const {error, value} = schema.unknown().validate(options, {
     convert: false,
-    stripUnknown: true, // since the themeConfig is a shared object between plugins, it suppresses error and normalizes values relevant to the plugin
   });
 
   if (error) {
@@ -38,13 +37,13 @@ function validateAndStrip<T>(schema: ValidationSchema<T>, options: Partial<T>) {
   return value;
 }
 
-export function initPlugins({
+export default function initPlugins({
   pluginConfigs,
   context,
 }: {
   pluginConfigs: PluginConfig[];
   context: LoadContext;
-}): Plugin<any>[] {
+}): Plugin<unknown>[] {
   // We need to resolve plugins from the perspective of the siteDir, since the siteDir's package.json
   // declares the dependency on these plugins.
   // We need to fallback to createRequireFromPath since createRequire is only available in node v12.
@@ -52,7 +51,7 @@ export function initPlugins({
   const createRequire = Module.createRequire || Module.createRequireFromPath;
   const pluginRequire = createRequire(join(context.siteDir, CONFIG_FILE_NAME));
 
-  const plugins: Plugin<any>[] = pluginConfigs
+  const plugins: Plugin<unknown>[] = pluginConfigs
     .map((pluginItem) => {
       let pluginModuleImport: string | undefined;
       let pluginOptions = {};
@@ -64,8 +63,7 @@ export function initPlugins({
       if (typeof pluginItem === 'string') {
         pluginModuleImport = pluginItem;
       } else if (Array.isArray(pluginItem)) {
-        pluginModuleImport = pluginItem[0];
-        pluginOptions = pluginItem[1] || {};
+        [pluginModuleImport, pluginOptions = {}] = pluginItem;
       }
 
       if (!pluginModuleImport) {
@@ -79,22 +77,29 @@ export function initPlugins({
       );
 
       const plugin = pluginModule.default || pluginModule;
-      if (plugin.validateOptions) {
-        const options = plugin.validateOptions({
+
+      // support both commonjs and ES modules
+      const validateOptions =
+        pluginModule.default?.validateOptions ?? pluginModule.validateOptions;
+
+      if (validateOptions) {
+        const options = validateOptions({
           validate,
           options: pluginOptions,
         });
         pluginOptions = options;
       }
-      if (plugin.validateThemeConfig) {
-        const validatedTheme = plugin.validateThemeConfig({
+
+      // support both commonjs and ES modules
+      const validateThemeConfig =
+        pluginModule.default?.validateThemeConfig ??
+        pluginModule.validateThemeConfig;
+
+      if (validateThemeConfig) {
+        validateThemeConfig({
           validate: validateAndStrip,
           themeConfig: context.siteConfig.themeConfig,
         });
-        context.siteConfig.themeConfig = {
-          ...context.siteConfig.themeConfig,
-          ...validatedTheme,
-        };
       }
       return plugin(context, pluginOptions);
     })
