@@ -1,10 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`loadConfig website with incomplete siteConfig 1`] = `"\\"favicon\\" is required"`;
+exports[`loadConfig website with incomplete siteConfig 1`] = `
+"\\"favicon\\" is required
+\\"url\\" is required
+"
+`;
 
 exports[`loadConfig website with no siteConfig 1`] = `"docusaurus.config.js not found"`;
 
-exports[`loadConfig website with useless field (wrong field) in siteConfig 1`] = `"\\"favicon\\" is required"`;
+exports[`loadConfig website with useless field (wrong field) in siteConfig 1`] = `
+"These field(s) [\\"useLessField\\",] are not recognized in docusaurus.config.js.
+If you still want these fields to be in your configuration, put them in the 'customFields' attribute.
+See https://v2.docusaurus.io/docs/docusaurus.config.js/#customfields\\"favicon\\" is required
+"
+`;
 
 exports[`loadConfig website with valid siteConfig 1`] = `
 Object {

@@ -5,9 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {PluginConfig} from '@docusaurus/types';
+import {PluginConfig, DocusaurusConfig} from '@docusaurus/types';
 import Joi from '@hapi/joi';
-
 import {CONFIG_FILE_NAME} from '../constants';
 
 export const DEFAULT_CONFIG: {
@@ -26,7 +25,7 @@ export const DEFAULT_CONFIG: {
   themeConfig: {},
 };
 
-export const ConfigSchema = Joi.object({
+const ConfigSchema = Joi.object({
   baseUrl: Joi.string()
     .required()
     .regex(new RegExp('/$', 'm'))
@@ -81,8 +80,33 @@ export const ConfigSchema = Joi.object({
     }),
   ),
   tagline: Joi.string(),
-}).messages({
-  'object.unknown': `The field {{#label}} is not recognized in ${CONFIG_FILE_NAME}.
-If you still want these fields to be in your configuration, put them in the 'customFields' attribute.
-See https://v2.docusaurus.io/docs/docusaurus.config.js/#customfields`,
 });
+
+export function validateConfig(
+  config: Partial<DocusaurusConfig>,
+): DocusaurusConfig {
+  const {error, value} = ConfigSchema.validate(config, {
+    abortEarly: false,
+  });
+  if (error) {
+    const unknownFields = error.details.reduce((formatedError, err) => {
+      if (err.type === 'object.unknown') {
+        return `${formatedError}"${err.path}",`;
+      }
+      return formatedError;
+    }, '');
+    let formatedError = error.details.reduce(
+      (accumalatedErr, err) =>
+        err.type !== 'object.unknown'
+          ? `${accumalatedErr}${err.message}\n`
+          : accumalatedErr,
+      '',
+    );
+    formatedError = unknownFields
+      ? `These field(s) [${unknownFields}] are not recognized in ${CONFIG_FILE_NAME}.\nIf you still want these fields to be in your configuration, put them in the 'customFields' attribute.\nSee https://v2.docusaurus.io/docs/docusaurus.config.js/#customfields${formatedError}`
+      : formatedError;
+    throw new Error(formatedError);
+  } else {
+    return value;
+  }
+}

@@ -9,9 +9,8 @@ import fs from 'fs-extra';
 import importFresh from 'import-fresh';
 import path from 'path';
 import {DocusaurusConfig} from '@docusaurus/types';
-import * as Joi from '@hapi/joi';
 import {CONFIG_FILE_NAME} from '../constants';
-import {ConfigSchema} from './configValidation';
+import {validateConfig} from './configValidation';
 
 export default function loadConfig(siteDir: string): DocusaurusConfig {
   const configPath = path.resolve(siteDir, CONFIG_FILE_NAME);
@@ -21,5 +20,5 @@ export default function loadConfig(siteDir: string): DocusaurusConfig {
   }
 
   const loadedConfig = importFresh(configPath) as Partial<DocusaurusConfig>;
-  return Joi.attempt(loadedConfig, ConfigSchema);
+  return validateConfig(loadedConfig);
 }

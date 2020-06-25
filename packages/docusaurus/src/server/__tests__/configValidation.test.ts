@@ -5,36 +5,29 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import * as Joi from '@hapi/joi';
-import {ConfigSchema, DEFAULT_CONFIG} from '../configValidation';
+import {DEFAULT_CONFIG, validateConfig} from '../configValidation';
 
-const testConfig = (config) =>
-  Joi.attempt({...DEFAULT_CONFIG, ...config}, ConfigSchema);
+const baseConfig = {
+  baseUrl: '/',
+  favicon: 'some.ico',
+  title: 'my site',
+  url: 'https://mysite.com',
+};
+
+const testConfig = (config) => validateConfig({...baseConfig, ...config});
 
 describe('validateConfig', () => {
   test('normalize config', () => {
-    const value = testConfig({
-      baseUrl: '/',
-      favicon: 'some.ico',
-      title: 'my site',
-      url: 'https://mysite.com',
-    });
+    const value = testConfig({});
     expect(value).toEqual({
       ...DEFAULT_CONFIG,
-      baseUrl: '/',
-      favicon: 'some.ico',
-      title: 'my site',
-      url: 'https://mysite.com',
+      ...baseConfig,
     });
   });
 
   test('throw error for unknown field', () => {
     expect(() => {
       testConfig({
-        baseUrl: '/',
-        favicon: 'some.ico',
-        title: 'my site',
-        url: 'https://mysite.com',
         invalid: true,
       });
     }).toThrowErrorMatchingSnapshot();
@@ -44,9 +37,6 @@ describe('validateConfig', () => {
     expect(() => {
       testConfig({
         baseUrl: 'noslash',
-        favicon: 'some.ico',
-        title: 'my site',
-        url: 'https://mysite.com',
       });
     }).toThrowErrorMatchingSnapshot();
   });
@@ -54,11 +44,6 @@ describe('validateConfig', () => {
   test('throw error if plugins is not array', () => {
     expect(() => {
       testConfig({
-        baseUrl: '/',
-        favicon: 'some.ico',
-        title: 'my site',
-        url: 'https://mysite.com',
-
         plugins: {},
       });
     }).toThrowErrorMatchingSnapshot();
@@ -67,11 +52,6 @@ describe('validateConfig', () => {
   test('throw error if themes is not array', () => {
     expect(() => {
       testConfig({
-        baseUrl: '/',
-        favicon: 'some.ico',
-        title: 'my site',
-        url: 'https://mysite.com',
-
         themes: {},
       });
     }).toThrowErrorMatchingSnapshot();
@@ -80,11 +60,6 @@ describe('validateConfig', () => {
   test('throw error if presets is not array', () => {
     expect(() => {
       testConfig({
-        baseUrl: '/',
-        favicon: 'some.ico',
-        title: 'my site',
-        url: 'https://mysite.com',
-
         presets: {},
       });
     }).toThrowErrorMatchingSnapshot();
@@ -93,11 +68,6 @@ describe('validateConfig', () => {
   test("throw error if scripts doesn't have src", () => {
     expect(() => {
       testConfig({
-        baseUrl: '/',
-        favicon: 'some.ico',
-        title: 'my site',
-        url: 'https://mysite.com',
-
         scripts: ['https://some.com', {}],
       });
     }).toThrowErrorMatchingSnapshot();
@@ -106,11 +76,6 @@ describe('validateConfig', () => {
   test("throw error if css doesn't have href", () => {
     expect(() => {
       testConfig({
-        baseUrl: '/',
-        favicon: 'some.ico',
-        title: 'my site',
-        url: 'https://mysite.com',
-
         stylesheets: ['https://somescript.com', {type: 'text/css'}],
       });
     }).toThrowErrorMatchingSnapshot();
@@ -118,20 +83,13 @@ describe('validateConfig', () => {
 
   test('custom field in config', () => {
     const value = testConfig({
-      baseUrl: '/',
-      favicon: 'some.ico',
-      title: 'my site',
-      url: 'https://mysite.com',
       customFields: {
         author: 'anshul',
       },
     });
     expect(value).toEqual({
       ...DEFAULT_CONFIG,
-      baseUrl: '/',
-      favicon: 'some.ico',
-      title: 'my site',
-      url: 'https://mysite.com',
+      ...baseConfig,
       customFields: {
         author: 'anshul',
       },
@@ -139,6 +97,6 @@ describe('validateConfig', () => {
   });
 
   test('throw error for required fields', () => {
-    expect(() => testConfig({})).toThrowErrorMatchingSnapshot();
+    expect(() => validateConfig({})).toThrowErrorMatchingSnapshot();
   });
 });
