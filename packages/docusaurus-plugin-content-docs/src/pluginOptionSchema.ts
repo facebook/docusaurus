@@ -22,6 +22,7 @@ export const DEFAULT_OPTIONS: PluginOptions = {
   showLastUpdateTime: false,
   showLastUpdateAuthor: false,
   admonitions: {},
+  excludeNextVersionDocs: false,
 };
 
 export const PluginOptionSchema = Joi.object({
@@ -47,4 +48,7 @@ export const PluginOptionSchema = Joi.object({
     DEFAULT_OPTIONS.showLastUpdateAuthor,
   ),
   admonitions: Joi.object().default(DEFAULT_OPTIONS.admonitions),
+  excludeNextVersionDocs: Joi.bool().default(
+    DEFAULT_OPTIONS.excludeNextVersionDocs,
+  ),
 });
