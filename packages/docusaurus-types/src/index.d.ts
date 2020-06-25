@@ -120,6 +120,7 @@ export interface Plugin<T, U = unknown> {
     utils: ConfigureWebpackUtils,
   ): Configuration;
   getThemePath?(): string;
+  getTypeScriptThemePath?(): string;
   getPathsToWatch?(): string[];
   getClientModules?(): string[];
   extendCli?(cli: Command): void;
