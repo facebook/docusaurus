@@ -25,6 +25,9 @@ export default function (
 
     configureWebpack(_config: Configuration, isServer: boolean) {
       return {
+        mergeStrategies: {
+          'module.rules': 'prepend',
+        },
         module: {
           rules: [
             {
