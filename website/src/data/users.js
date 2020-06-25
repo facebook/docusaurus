@@ -18,6 +18,15 @@ const users = [
     pinned: false,
   },
   {
+    title: 'Amphora Data',
+    description: 'Connecting the world’s real-time information',
+    preview: require('./showcase/amphora.png'),
+    website: 'https://www.amphoradata.com/',
+    source: 'https://github.com/amphoradata/amphoradata.github.io',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'Benthos',
     description: 'A stream processor for mundane tasks',
     preview: require('./showcase/benthos.png'),
