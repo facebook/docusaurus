@@ -7,6 +7,11 @@
     "access": "public"
   },
   "license": "MIT",
+  "scripts": {
+    "tsc": "tsc --noEmit && yarn babel && yarn prettier",
+    "babel": "babel src -d lib --extensions \".tsx,.ts\" --copy-files",
+    "prettier": "prettier --config ../../.prettierrc --write \"**/*.{js,ts}\""
+  },
   "dependencies": {
     "@hapi/joi": "^17.1.1",
     "@mdx-js/mdx": "^1.5.8",
@@ -20,6 +25,9 @@
     "prop-types": "^15.7.2",
     "react-router-dom": "^5.1.2",
     "react-toggle": "^4.1.1"
+  },
+  "devDependencies": {
+    "@docusaurus/module-type-aliases": "^2.0.0-alpha.58"
   },
   "peerDependencies": {
     "@docusaurus/core": "^2.0.0",

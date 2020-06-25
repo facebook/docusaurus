@@ -34,6 +34,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
+    "@babel/cli": "^7.9.0",
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.8.3",
     "@babel/plugin-proposal-optional-chaining": "^7.9.0",
     "@babel/preset-typescript": "^7.9.0",
@@ -52,6 +53,7 @@
     "@types/lodash.pick": "^4.4.6",
     "@types/lodash.pickby": "^4.6.6",
     "@types/node": "^13.11.0",
+    "@types/prismjs": "^1.16.1",
     "@types/react": "^16.9.38",
     "@types/react-dev-utils": "^9.0.1",
     "@types/react-helmet": "^6.0.0",

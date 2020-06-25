@@ -61,6 +61,10 @@ module.exports = function (context, options) {
     name: 'docusaurus-theme-classic',
 
     getThemePath() {
+      return path.join(__dirname, '..', 'lib', 'theme');
+    },
+
+    getTypeScriptThemePath() {
       return path.resolve(__dirname, './theme');
     },
 
