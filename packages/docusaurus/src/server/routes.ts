@@ -17,8 +17,9 @@ import {
   RouteModule,
   ChunkNames,
 } from '@docusaurus/types';
+import chalk from 'chalk';
 
-function isModule(value: any): value is Module {
+function isModule(value: unknown): value is Module {
   if (isString(value)) {
     return true;
   }
@@ -36,10 +37,21 @@ function getModulePath(target: Module): string {
   return `${target.path}${queryStr}`;
 }
 
-export async function loadRoutes(
+type LoadedRoutes = {
+  registry: {
+    [chunkName: string]: ChunkRegistry;
+  };
+  routesConfig: string;
+  routesChunkNames: {
+    [routePath: string]: ChunkNames;
+  };
+  routesPaths: string[];
+};
+
+export default async function loadRoutes(
   pluginsRouteConfigs: RouteConfig[],
   baseUrl: string,
-) {
+): Promise<LoadedRoutes> {
   const routesImports = [
     `import React from 'react';`,
     `import ComponentCreator from '@docusaurus/ComponentCreator';`,
@@ -111,12 +123,33 @@ export async function loadRoutes(
       return newValue;
     }
 
-    routesChunkNames[routePath] = Object.assign(
-      {},
-      routesChunkNames[routePath],
-      genRouteChunkNames({component}, 'component', component),
-      genRouteChunkNames(modules, 'module', routePath),
-    );
+    const alreadyExistingRouteChunkNames = routesChunkNames[routePath];
+    const chunkNames = {
+      ...genRouteChunkNames({component}, 'component', component),
+      ...genRouteChunkNames(modules, 'module', routePath),
+    };
+    // TODO is it safe to merge? that could lead to unwanted overrides
+    // See https://github.com/facebook/docusaurus/issues/2917
+    routesChunkNames[routePath] = {
+      ...alreadyExistingRouteChunkNames,
+      ...chunkNames,
+    };
+    if (alreadyExistingRouteChunkNames) {
+      console.warn(
+        chalk.red(
+          `It seems multiple routes have been created for routePath=[${routePath}], this can lead to unexpected behaviors.
+Components used for this route:
+- ${alreadyExistingRouteChunkNames.component}
+- ${chunkNames.component}
+${
+  routePath === '/'
+    ? "If you are using the docs-only/blog-only mode, don't forget to delete the homepage at ./src/pages/index.js"
+    : ''
+}
+`,
+        ),
+      );
+    }
 
     const routesStr = routes
       ? `routes: [${routes.map(generateRouteCode).join(',')}],`

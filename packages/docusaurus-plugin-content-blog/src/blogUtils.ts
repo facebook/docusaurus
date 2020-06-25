@@ -12,14 +12,14 @@ import readingTime from 'reading-time';
 import {Feed} from 'feed';
 import {PluginOptions, BlogPost, DateLink} from './types';
 import {
-  parse,
+  parseMarkdownFile,
   normalizeUrl,
   aliasedSitePath,
   getEditUrl,
 } from '@docusaurus/utils';
 import {LoadContext} from '@docusaurus/types';
 
-export function truncate(fileString: string, truncateMarker: RegExp) {
+export function truncate(fileString: string, truncateMarker: RegExp): string {
   return fileString.split(truncateMarker, 1).shift()!;
 }
 
@@ -37,7 +37,7 @@ function toUrl({date, link}: DateLink) {
 export async function generateBlogFeed(
   context: LoadContext,
   options: PluginOptions,
-) {
+): Promise<Feed | null> {
   if (!options.feedOptions) {
     throw new Error(
       'Invalid options - `feedOptions` is not expected to be null.',
@@ -72,11 +72,11 @@ export async function generateBlogFeed(
   blogPosts.forEach((post) => {
     const {
       id,
-      metadata: {title, permalink, date, description},
+      metadata: {title: metadataTitle, permalink, date, description},
     } = post;
     feed.addItem({
-      title,
-      id: id,
+      title: metadataTitle,
+      id,
       link: normalizeUrl([siteUrl, permalink]),
       date,
       description,
@@ -90,7 +90,7 @@ export async function generateBlogPosts(
   blogDir: string,
   {siteConfig, siteDir}: LoadContext,
   options: PluginOptions,
-) {
+): Promise<BlogPost[]> {
   const {
     include,
     routeBasePath,
@@ -120,8 +120,7 @@ export async function generateBlogPosts(
 
       const editBlogUrl = getEditUrl(relativePath, editUrl);
 
-      const fileString = await fs.readFile(source, 'utf-8');
-      const {frontMatter, content, excerpt} = parse(fileString);
+      const {frontMatter, content, excerpt} = await parseMarkdownFile(source);
 
       if (frontMatter.draft && process.env.NODE_ENV === 'production') {
         return;
@@ -182,14 +181,16 @@ export function linkify(
   siteDir: string,
   blogPath: string,
   blogPosts: BlogPost[],
-) {
+): string {
   let fencedBlock = false;
   const lines = fileContent.split('\n').map((line) => {
     if (line.trim().startsWith('```')) {
       fencedBlock = !fencedBlock;
     }
 
-    if (fencedBlock) return line;
+    if (fencedBlock) {
+      return line;
+    }
 
     let modifiedLine = line;
     const mdRegex = /(?:(?:\]\()|(?:\]:\s?))(?!https)([^'")\]\s>]+\.mdx?)/g;

@@ -24,6 +24,7 @@ module.exports = function preset(context, opts = {}) {
       isProd &&
         googleAnalytics &&
         require.resolve('@docusaurus/plugin-google-analytics'),
+      !isProd && require.resolve('@docusaurus/plugin-debug'),
       isProd && gtag && require.resolve('@docusaurus/plugin-google-gtag'),
       isProd && [require.resolve('@docusaurus/plugin-sitemap'), opts.sitemap],
     ],

@@ -7,6 +7,7 @@
 
 import React from 'react';
 import renderRoutes from '@docusaurus/renderRoutes';
+import NotFound from '@theme/NotFound';
 import DocSidebar from '@theme/DocSidebar';
 import MDXComponents from '@theme/MDXComponents';
 import Layout from '@theme/Layout';
@@ -22,6 +23,10 @@ function DocPage(props) {
     }) || {};
   const {permalinkToSidebar, docsSidebars} = docsMetadata;
   const sidebar = permalinkToSidebar[currentRoute.path];
+
+  if (Object.keys(currentRoute).length === 0) {
+    return <NotFound {...props} />;
+  }
 
   return (
     <Layout title="Doc page" description="My Doc page">

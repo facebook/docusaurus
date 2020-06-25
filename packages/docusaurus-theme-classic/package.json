@@ -1,17 +1,23 @@
 {
   "name": "@docusaurus/theme-classic",
-  "version": "2.0.0-alpha.56",
+  "version": "2.0.0-alpha.58",
   "description": "Classic theme for Docusaurus",
   "main": "src/index.js",
   "publishConfig": {
     "access": "public"
   },
   "license": "MIT",
+  "scripts": {
+    "tsc": "tsc --noEmit && yarn babel && yarn prettier",
+    "babel": "babel src -d lib --extensions \".tsx,.ts\" --copy-files",
+    "prettier": "prettier --config ../../.prettierrc --write \"**/*.{js,ts}\""
+  },
   "dependencies": {
+    "@hapi/joi": "^17.1.1",
     "@mdx-js/mdx": "^1.5.8",
     "@mdx-js/react": "^1.5.8",
-    "classnames": "^2.2.6",
-    "clipboard": "^2.0.6",
+    "clsx": "^1.1.1",
+    "copy-text-to-clipboard": "^2.2.0",
     "infima": "0.2.0-alpha.12",
     "parse-numeric-range": "^0.0.2",
     "prism-react-renderer": "^1.1.0",
@@ -20,6 +26,9 @@
     "react-router-dom": "^5.1.2",
     "react-toggle": "^4.1.1"
   },
+  "devDependencies": {
+    "@docusaurus/module-type-aliases": "^2.0.0-alpha.58"
+  },
   "peerDependencies": {
     "@docusaurus/core": "^2.0.0",
     "react": "^16.8.4",
@@ -27,5 +36,8 @@
   },
   "engines": {
     "node": ">=10.15.1"
+  },
+  "devDependencies": {
+    "@types/hapi__joi": "^17.1.2"
   }
 }

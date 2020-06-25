@@ -12,6 +12,7 @@ import camelCase from 'lodash.camelcase';
 import kebabCase from 'lodash.kebabcase';
 import escapeStringRegexp from 'escape-string-regexp';
 import fs from 'fs-extra';
+import {URL} from 'url';
 
 const fileHash = new Map();
 export async function generate(
@@ -59,7 +60,7 @@ export function objectWithKeySorted(obj: {[index: string]: any}) {
 }
 
 const indexRE = /(^|.*\/)index\.(md|js|jsx|ts|tsx)$/i;
-const extRE = /\.(md|js|tsx)$/;
+const extRE = /\.(md|js|ts|tsx)$/;
 
 /**
  * Convert filepath to url path.
@@ -159,6 +160,8 @@ export function genChunkName(
   return chunkName;
 }
 
+// Too dynamic
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
 export function idx(target: any, keyPaths?: string | (string | number)[]): any {
   return (
     target &&
@@ -196,7 +199,7 @@ export function createExcerpt(fileString: string): string | undefined {
 
   const fileLines = fileContent.split('\n');
 
-  for (let fileLine of fileLines) {
+  for (const fileLine of fileLines) {
     const cleanedLine = fileLine
       // Remove HTML tags.
       .replace(/<[^>]*>/g, '')
@@ -228,16 +231,17 @@ export function createExcerpt(fileString: string): string | undefined {
   return undefined;
 }
 
-export function parse(
-  fileString: string,
-): {
+type ParsedMarkdown = {
   frontMatter: {
+    // Returned by gray-matter
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     [key: string]: any;
   };
   content: string;
   excerpt: string | undefined;
-} {
-  const options: {} = {
+};
+export function parseMarkdownString(markdownString: string): ParsedMarkdown {
+  const options: Record<string, unknown> = {
     excerpt: (file: matter.GrayMatterFile<string>): void => {
       // Hacky way of stripping out import statements from the excerpt
       // TODO: Find a better way to do so, possibly by compiling the Markdown content,
@@ -246,8 +250,31 @@ export function parse(
     },
   };
 
-  const {data: frontMatter, content, excerpt} = matter(fileString, options);
-  return {frontMatter, content, excerpt};
+  try {
+    const {data: frontMatter, content, excerpt} = matter(
+      markdownString,
+      options,
+    );
+    return {frontMatter, content, excerpt};
+  } catch (e) {
+    throw new Error(`Error while parsing markdown front matter.
+This can happen if you use special characteres like : in frontmatter values (try using "" around that value)
+${e.message}`);
+  }
+}
+
+export async function parseMarkdownFile(
+  source: string,
+): Promise<ParsedMarkdown> {
+  const markdownString = await fs.readFile(source, 'utf-8');
+  try {
+    return parseMarkdownString(markdownString);
+  } catch (e) {
+    throw new Error(
+      `Error while parsing markdown file ${source}
+${e.message}`,
+    );
+  }
 }
 
 export function normalizeUrl(rawUrls: string[]): string {
@@ -315,15 +342,50 @@ export function normalizeUrl(rawUrls: string[]): string {
  * don't expose user's site structure.
  * Example: some/path/to/website/docs/foo.md -> @site/docs/foo.md
  */
-export function aliasedSitePath(filePath: string, siteDir: string) {
+export function aliasedSitePath(filePath: string, siteDir: string): string {
   const relativePath = path.relative(siteDir, filePath);
   // Cannot use path.join() as it resolves '../' and removes
   // the '@site'. Let webpack loader resolve it.
   return `@site/${relativePath}`;
 }
 
-export function getEditUrl(fileRelativePath: string, editUrl?: string) {
+export function getEditUrl(
+  fileRelativePath: string,
+  editUrl?: string,
+): string | undefined {
   return editUrl
     ? normalizeUrl([editUrl, posixPath(fileRelativePath)])
     : undefined;
+}
+
+export function isValidPathname(str: string): boolean {
+  if (!str.startsWith('/')) {
+    return false;
+  }
+  try {
+    return new URL(str, 'https://domain.com').pathname === str;
+  } catch (e) {
+    return false;
+  }
+}
+
+export function addTrailingSlash(str: string): string {
+  return str.endsWith('/') ? str : `${str}/`;
+}
+
+export function removeTrailingSlash(str: string): string {
+  return removeSuffix(str, '/');
+}
+
+export function removeSuffix(str: string, suffix: string): string {
+  if (suffix === '') {
+    return str; // always returns "" otherwise!
+  }
+  return str.endsWith(suffix) ? str.slice(0, -suffix.length) : str;
+}
+
+export function getFilePathForRoutePath(routePath: string): string {
+  const fileName = path.basename(routePath);
+  const filePath = path.dirname(routePath);
+  return path.join(filePath, `${fileName}/index.html`);
 }

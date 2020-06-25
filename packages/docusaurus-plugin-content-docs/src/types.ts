@@ -7,6 +7,7 @@
 
 export interface MetadataOptions {
   routeBasePath: string;
+  homePageId?: string;
   editUrl?: string;
   showLastUpdateTime?: boolean;
   showLastUpdateAuthor?: boolean;
@@ -24,7 +25,6 @@ export interface PluginOptions extends MetadataOptions, PathOptions {
   remarkPlugins: ([Function, object] | Function)[];
   rehypePlugins: string[];
   admonitions: any;
-  homePageId: string;
   excludeNextVersionDocs: boolean;
 }
 
@@ -66,7 +66,7 @@ export type SidebarItemRaw =
   | SidebarItemCategoryRaw
   | {
       type: string;
-      [key: string]: any;
+      [key: string]: unknown;
     };
 
 export interface SidebarCategoryShorthandRaw {
@@ -112,6 +112,7 @@ export interface LastUpdateData {
 
 export interface MetadataRaw extends LastUpdateData {
   id: string;
+  isDocsHomePage: boolean;
   title: string;
   description: string;
   source: string;
@@ -119,6 +120,7 @@ export interface MetadataRaw extends LastUpdateData {
   sidebar_label?: string;
   editUrl?: string;
   version?: string;
+  latestVersionMainDocPermalink?: string;
 }
 
 export interface Paginator {
@@ -165,8 +167,6 @@ export type DocsBaseMetadata = Pick<
   'docsSidebars' | 'permalinkToSidebar'
 > & {
   version?: string;
-  isHomePage?: boolean;
-  homePagePath?: string;
 };
 
 export type VersioningEnv = {

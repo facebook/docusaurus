@@ -5,10 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import fs from 'fs-extra';
 import path from 'path';
 import {
-  parse,
+  parseMarkdownFile,
   aliasedSitePath,
   normalizeUrl,
   getEditUrl,
@@ -16,7 +15,42 @@ import {
 import {LoadContext} from '@docusaurus/types';
 
 import lastUpdate from './lastUpdate';
-import {MetadataRaw, LastUpdateData, MetadataOptions, Env} from './types';
+import {
+  MetadataRaw,
+  LastUpdateData,
+  MetadataOptions,
+  Env,
+  VersioningEnv,
+} from './types';
+
+function removeVersionPrefix(str: string, version: string): string {
+  return str.replace(new RegExp(`^version-${version}/`), '');
+}
+
+function inferVersion(
+  dirName: string,
+  versioning: VersioningEnv,
+): string | undefined {
+  if (!versioning.enabled) {
+    return undefined;
+  }
+  if (/^version-/.test(dirName)) {
+    const inferredVersion = dirName
+      .split('/', 1)
+      .shift()!
+      .replace(/^version-/, '');
+    if (inferredVersion && versioning.versions.includes(inferredVersion)) {
+      return inferredVersion;
+    }
+    throw new Error(
+      `Can't infer version from folder=${dirName}
+Expected versions:
+- ${versioning.versions.join('- ')}`,
+    );
+  } else {
+    return 'next';
+  }
+}
 
 type Args = {
   source: string;
@@ -60,29 +94,16 @@ export default async function processMetadata({
   options,
   env,
 }: Args): Promise<MetadataRaw> {
-  const {routeBasePath, editUrl} = options;
+  const {routeBasePath, editUrl, homePageId} = options;
   const {siteDir, baseUrl} = context;
   const {versioning} = env;
   const filePath = path.join(refDir, source);
 
-  const fileStringPromise = fs.readFile(filePath, 'utf-8');
+  const fileMarkdownPromise = parseMarkdownFile(filePath);
   const lastUpdatedPromise = lastUpdated(filePath, options);
 
-  let version;
   const dirName = path.dirname(source);
-  if (versioning.enabled) {
-    if (/^version-/.test(dirName)) {
-      const inferredVersion = dirName
-        .split('/', 1)
-        .shift()!
-        .replace(/^version-/, '');
-      if (inferredVersion && versioning.versions.includes(inferredVersion)) {
-        version = inferredVersion;
-      }
-    } else {
-      version = 'next';
-    }
-  }
+  const version = inferVersion(dirName, versioning);
 
   // The version portion of the url path. Eg: 'next', '1.0.0', and ''.
   const versionPath =
@@ -92,7 +113,7 @@ export default async function processMetadata({
 
   const docsEditUrl = getEditUrl(relativePath, editUrl);
 
-  const {frontMatter = {}, excerpt} = parse(await fileStringPromise);
+  const {frontMatter = {}, excerpt} = await fileMarkdownPromise;
   const {sidebar_label, custom_edit_url} = frontMatter;
 
   // Default base id is the file name.
@@ -101,14 +122,20 @@ export default async function processMetadata({
   if (baseID.includes('/')) {
     throw new Error('Document id cannot include "/".');
   }
+  const id = dirName !== '.' ? `${dirName}/${baseID}` : baseID;
+  const idWithoutVersion = version ? removeVersionPrefix(id, version) : id;
+
+  const isDocsHomePage = idWithoutVersion === homePageId;
+  if (frontMatter.slug && isDocsHomePage) {
+    throw new Error(
+      `The docs homepage (homePageId=${homePageId}) is not allowed to have a frontmatter slug=${frontMatter.slug} => you have to chooser either homePageId or slug, not both`,
+    );
+  }
 
   const baseSlug: string = frontMatter.slug || baseID;
   if (baseSlug.includes('/')) {
     throw new Error('Document slug cannot include "/".');
   }
-
-  // Append subdirectory as part of id/slug.
-  const id = dirName !== '.' ? `${dirName}/${baseID}` : baseID;
   const slug = dirName !== '.' ? `${dirName}/${baseSlug}` : baseSlug;
 
   // Default title is the id.
@@ -117,10 +144,16 @@ export default async function processMetadata({
   const description: string = frontMatter.description || excerpt;
 
   // The last portion of the url path. Eg: 'foo/bar', 'bar'.
-  const routePath =
-    version && version !== 'next'
-      ? slug.replace(new RegExp(`^version-${version}/`), '')
-      : slug;
+  let routePath;
+  if (isDocsHomePage) {
+    // TODO can we remove this trailing / ?
+    // Seems it's not that easy...
+    // Related to https://github.com/facebook/docusaurus/issues/2917
+    routePath = '/';
+  } else {
+    routePath =
+      version && version !== 'next' ? removeVersionPrefix(slug, version) : slug;
+  }
 
   const permalink = normalizeUrl([
     baseUrl,
@@ -137,6 +170,7 @@ export default async function processMetadata({
   // class transitions.
   const metadata: MetadataRaw = {
     id,
+    isDocsHomePage,
     title,
     description,
     source: aliasedSitePath(filePath, siteDir),

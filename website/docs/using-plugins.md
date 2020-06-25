@@ -84,7 +84,18 @@ A plugin is a module which exports a function that takes two parameters and retu
 
 The exported modules for plugins are called with two parameters: `context` and `options` and returns a JavaScript object with defining the [lifecycle APIs](./lifecycle-apis.md).
 
+For example if you have a reference to a local folder such as this in your `docusaurus.config.js`:
+
 ```js title="docusaurus.config.js"
+module.exports = {
+  // ...
+  plugins: [path.resolve(__dirname, 'my-plugin')],
+};
+```
+
+Then in the folder `my-plugin` you can create an index.js such as this
+
+```js title="index.js"
 module.exports = function(context, options) {
   // ...
   return {
@@ -95,6 +106,8 @@ module.exports = function(context, options) {
   };
 };
 ```
+
+The `my-plugin` folder could also be a fully fledged package with it's own package.json and a `src/index.js` file for example
 
 #### `context`
 
@@ -238,7 +251,7 @@ module.exports = {
          */
         editUrl: 'https://github.com/facebook/docusaurus/edit/master/website/',
         /**
-         * URL route for the blog section of your site.
+         * URL route for the docs section of your site.
          * *DO NOT* include a trailing slash.
          */
         routeBasePath: 'docs',
@@ -307,7 +320,7 @@ If you have installed `@docusaurus/preset-classic`, you don't need to install it
 module.exports = {
   plugins: [
     [
-      '@docuaurus/plugin-content-pages',
+      '@docusaurus/plugin-content-pages',
       {
         /**
          * Path to data on filesystem
@@ -316,7 +329,7 @@ module.exports = {
          */
         path: 'src/pages',
         /**
-         * URL route for the blog section of your site
+         * URL route for the page section of your site
          * do not include trailing slash
          */
         routeBasePath: '',
@@ -464,3 +477,129 @@ import thumbnail from './path/to/img.png';
 | `max` | `integer` |  | See `min` above |
 | `steps` | `integer` | `4` | Configure the number of images generated between `min` and `max` (inclusive) |
 | `quality` | `integer` | `85` | JPEG compression quality |
+
+### `@docusaurus/plugin-client-redirects`
+
+Docusaurus Plugin to generate **client-side redirects**.
+
+This plugin will write additional HTML pages to your static site, that redirects the user to your existing Docusaurus pages with JavaScript.
+
+:::note
+
+This plugin only create redirects for the production build.
+
+:::
+
+:::caution
+
+It is better to use server-side redirects whenever possible.
+
+Before using this plugin, you should look if your hosting provider doesn't offer this feature.
+
+:::
+
+**Installation**
+
+```bash npm2yarn
+npm install --save @docusaurus/plugin-client-redirects
+```
+
+**Configuration**
+
+Main usecase: you have `/myDocusaurusPage`, and you want to redirect to this page from `/myDocusaurusPage.html`:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  plugins: [
+    [
+      '@docusaurus/plugin-client-redirects',
+      {
+        fromExtensions: ['html'],
+      },
+    ],
+  ],
+};
+```
+
+Second usecase: you have `/myDocusaurusPage.html`, and you want to redirect to this page from `/myDocusaurusPage`.
+
+```js title="docusaurus.config.js"
+module.exports = {
+  plugins: [
+    [
+      '@docusaurus/plugin-client-redirects',
+      {
+        toExtensions: ['html'],
+      },
+    ],
+  ],
+};
+```
+
+For custom redirect logic, provide your own `createRedirects` function.
+
+Let's imagine you change the url of an existing page, you might want to make sure the old url still works:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  plugins: [
+    [
+      '@docusaurus/plugin-client-redirects',
+      {
+        redirects: [
+          {
+            to: '/docs/newDocPath', // string
+            from: ['/docs/oldDocPathFrom2019', '/docs/legacyDocPathFrom2016'], // string | string[]
+          },
+        ],
+      },
+    ],
+  ],
+};
+```
+
+It's possible to use a function to create the redirects for each existing path:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  plugins: [
+    [
+      '@docusaurus/plugin-client-redirects',
+      {
+        createRedirects: function (existingPath) {
+          if (existingPath === '/docs/newDocPath') {
+            return ['/docs/oldDocPathFrom2019', '/docs/legacyDocPathFrom2016']; // string | string[]
+          }
+        },
+      },
+    ],
+  ],
+};
+```
+
+Finally, it's possible to use all options at the same time:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  plugins: [
+    [
+      '@docusaurus/plugin-client-redirects',
+      {
+        fromExtensions: ['html', 'htm'],
+        toExtensions: ['exe', 'zip'],
+        redirects: [
+          {
+            to: '/docs/newDocPath',
+            from: '/docs/oldDocPath',
+          },
+        ],
+        createRedirects: function (existingPath) {
+          if (existingPath === '/docs/newDocPath2') {
+            return ['/docs/oldDocPath2'];
+          }
+        },
+      },
+    ],
+  ],
+};
+```

@@ -22,7 +22,7 @@ function support(feature) {
   return false;
 }
 
-function linkPrefetchStrategy(url) {
+function linkPrefetchStrategy(url: string) {
   return new Promise((resolve, reject) => {
     if (typeof document === 'undefined') {
       reject();
@@ -43,7 +43,7 @@ function linkPrefetchStrategy(url) {
   });
 }
 
-function xhrPrefetchStrategy(url) {
+function xhrPrefetchStrategy(url: string) {
   return new Promise((resolve, reject) => {
     const req = new XMLHttpRequest();
     req.open('GET', url, true);
@@ -67,7 +67,7 @@ const supportedPrefetchStrategy = support('prefetch')
 
 const preFetched = {};
 
-function prefetch(url) {
+function prefetch(url: string): Promise<void> {
   return new Promise((resolve) => {
     if (preFetched[url]) {
       resolve();
@@ -79,6 +79,7 @@ function prefetch(url) {
         resolve();
         preFetched[url] = true;
       })
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
       .catch(() => {}); // 404s are logged to the console anyway.
   });
 }

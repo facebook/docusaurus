@@ -28,7 +28,7 @@ interface State {
 
 class PendingNavigation extends React.Component<Props, State> {
   previousLocation: any;
-  progressBarTimeout: any;
+  progressBarTimeout: NodeJS.Timeout | null;
 
   constructor(props: Props) {
     super(props);
@@ -43,7 +43,7 @@ class PendingNavigation extends React.Component<Props, State> {
 
   // Intercept location update and still show current route until next route
   // is done loading.
-  shouldComponentUpdate(nextProps, nextState) {
+  shouldComponentUpdate(nextProps: Props, nextState: State) {
     const routeDidChange = nextProps.location !== this.props.location;
     const {routes, delay = 1000} = this.props;
 

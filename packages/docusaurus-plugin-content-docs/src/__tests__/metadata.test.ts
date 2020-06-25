@@ -46,17 +46,71 @@ describe('simple site', () => {
 
     expect(dataA).toEqual({
       id: 'foo/bar',
+      isDocsHomePage: false,
       permalink: '/docs/foo/bar',
       source: path.join('@site', routeBasePath, sourceA),
       title: 'Bar',
       description: 'This is custom description',
+      latestVersionMainDocPermalink: undefined,
     });
     expect(dataB).toEqual({
       id: 'hello',
+      isDocsHomePage: false,
       permalink: '/docs/hello',
       source: path.join('@site', routeBasePath, sourceB),
       title: 'Hello, World !',
       description: `Hi, Endilie here :)`,
+      latestVersionMainDocPermalink: undefined,
+    });
+  });
+
+  test('homePageId doc', async () => {
+    const source = path.join('hello.md');
+    const options = {
+      routeBasePath,
+      homePageId: 'hello',
+    };
+
+    const data = await processMetadata({
+      source,
+      refDir: docsDir,
+      context,
+      options,
+      env,
+    });
+
+    expect(data).toEqual({
+      id: 'hello',
+      isDocsHomePage: true,
+      permalink: '/docs/',
+      source: path.join('@site', routeBasePath, source),
+      title: 'Hello, World !',
+      description: `Hi, Endilie here :)`,
+    });
+  });
+
+  test('homePageId doc nested', async () => {
+    const source = path.join('foo', 'bar.md');
+    const options = {
+      routeBasePath,
+      homePageId: 'foo/bar',
+    };
+
+    const data = await processMetadata({
+      source,
+      refDir: docsDir,
+      context,
+      options,
+      env,
+    });
+
+    expect(data).toEqual({
+      id: 'foo/bar',
+      isDocsHomePage: true,
+      permalink: '/docs/',
+      source: path.join('@site', routeBasePath, source),
+      title: 'Bar',
+      description: 'This is custom description',
     });
   });
 
@@ -79,12 +133,14 @@ describe('simple site', () => {
 
     expect(data).toEqual({
       id: 'foo/baz',
+      isDocsHomePage: false,
       permalink: '/docs/foo/bazSlug.html',
       source: path.join('@site', routeBasePath, source),
       title: 'baz',
       editUrl:
         'https://github.com/facebook/docusaurus/edit/master/website/docs/foo/baz.md',
       description: 'Images',
+      latestVersionMainDocPermalink: undefined,
     });
   });
 
@@ -104,15 +160,18 @@ describe('simple site', () => {
 
     expect(data).toEqual({
       id: 'lorem',
+      isDocsHomePage: false,
       permalink: '/docs/lorem',
       source: path.join('@site', routeBasePath, source),
       title: 'lorem',
       editUrl: 'https://github.com/customUrl/docs/lorem.md',
       description: 'Lorem ipsum.',
+      latestVersionMainDocPermalink: undefined,
     });
 
     // unrelated frontmatter is not part of metadata
-    expect(data['unrelated_frontmatter']).toBeUndefined();
+    // @ts-expect-error: It doesn't exist, so the test will show it's undefined.
+    expect(data.unrelated_frontmatter).toBeUndefined();
   });
 
   test('docs with last update time and author', async () => {
@@ -133,6 +192,7 @@ describe('simple site', () => {
 
     expect(data).toEqual({
       id: 'lorem',
+      isDocsHomePage: false,
       permalink: '/docs/lorem',
       source: path.join('@site', routeBasePath, source),
       title: 'lorem',
@@ -140,6 +200,7 @@ describe('simple site', () => {
       description: 'Lorem ipsum.',
       lastUpdatedAt: 1539502055,
       lastUpdatedBy: 'Author',
+      latestVersionMainDocPermalink: undefined,
     });
   });
 
@@ -161,6 +222,7 @@ describe('simple site', () => {
 
     expect(data).toEqual({
       id: 'ipsum',
+      isDocsHomePage: false,
       permalink: '/docs/ipsum',
       source: path.join('@site', routeBasePath, source),
       title: 'ipsum',
@@ -168,6 +230,7 @@ describe('simple site', () => {
       description: 'Lorem ipsum.',
       lastUpdatedAt: 1539502055,
       lastUpdatedBy: 'Author',
+      latestVersionMainDocPermalink: undefined,
     });
   });
 
@@ -177,16 +240,16 @@ describe('simple site', () => {
       routeBasePath,
     };
 
-    return processMetadata({
-      source: 'invalid-id.md',
-      refDir: path.join(badSiteDir, 'docs'),
-      context,
-      options,
-      env,
-    }).catch((e) =>
-      expect(e).toMatchInlineSnapshot(
-        `[Error: Document id cannot include "/".]`,
-      ),
+    await expect(
+      processMetadata({
+        source: 'invalid-id.md',
+        refDir: path.join(badSiteDir, 'docs'),
+        context,
+        options,
+        env,
+      }),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
+      `"Document id cannot include \\"/\\"."`,
     );
   });
 
@@ -196,16 +259,36 @@ describe('simple site', () => {
       routeBasePath,
     };
 
-    return processMetadata({
-      source: 'invalid-slug.md',
-      refDir: path.join(badSiteDir, 'docs'),
-      context,
-      options,
-      env,
-    }).catch((e) =>
-      expect(e).toMatchInlineSnapshot(
-        `[Error: Document slug cannot include "/".]`,
-      ),
+    await expect(
+      processMetadata({
+        source: 'invalid-slug.md',
+        refDir: path.join(badSiteDir, 'docs'),
+        context,
+        options,
+        env,
+      }),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
+      `"Document slug cannot include \\"/\\"."`,
+    );
+  });
+
+  test('docs with slug on doc home', async () => {
+    const badSiteDir = path.join(fixtureDir, 'bad-slug-on-doc-home-site');
+    const options = {
+      routeBasePath,
+      homePageId: 'docWithSlug',
+    };
+
+    await expect(
+      processMetadata({
+        source: 'docWithSlug.md',
+        refDir: path.join(badSiteDir, 'docs'),
+        context,
+        options,
+        env,
+      }),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
+      `"The docs homepage (homePageId=docWithSlug) is not allowed to have a frontmatter slug=docWithSlug.html => you have to chooser either homePageId or slug, not both"`,
     );
   });
 });
@@ -244,6 +327,7 @@ describe('versioned site', () => {
 
     expect(dataA).toEqual({
       id: 'foo/bar',
+      isDocsHomePage: false,
       permalink: '/docs/next/foo/barSlug',
       source: path.join('@site', routeBasePath, sourceA),
       title: 'bar',
@@ -252,6 +336,7 @@ describe('versioned site', () => {
     });
     expect(dataB).toEqual({
       id: 'hello',
+      isDocsHomePage: false,
       permalink: '/docs/next/hello',
       source: path.join('@site', routeBasePath, sourceB),
       title: 'hello',
@@ -302,6 +387,7 @@ describe('versioned site', () => {
 
     expect(dataA).toEqual({
       id: 'version-1.0.0/foo/bar',
+      isDocsHomePage: false,
       permalink: '/docs/1.0.0/foo/barSlug',
       source: path.join('@site', path.relative(siteDir, versionedDir), sourceA),
       title: 'bar',
@@ -310,6 +396,7 @@ describe('versioned site', () => {
     });
     expect(dataB).toEqual({
       id: 'version-1.0.0/hello',
+      isDocsHomePage: false,
       permalink: '/docs/1.0.0/hello',
       source: path.join('@site', path.relative(siteDir, versionedDir), sourceB),
       title: 'hello',
@@ -318,6 +405,7 @@ describe('versioned site', () => {
     });
     expect(dataC).toEqual({
       id: 'version-1.0.1/foo/bar',
+      isDocsHomePage: false,
       permalink: '/docs/foo/bar',
       source: path.join('@site', path.relative(siteDir, versionedDir), sourceC),
       title: 'bar',
@@ -326,6 +414,7 @@ describe('versioned site', () => {
     });
     expect(dataD).toEqual({
       id: 'version-1.0.1/hello',
+      isDocsHomePage: false,
       permalink: '/docs/hello',
       source: path.join('@site', path.relative(siteDir, versionedDir), sourceD),
       title: 'hello',

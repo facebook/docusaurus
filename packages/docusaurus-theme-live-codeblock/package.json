@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/theme-live-codeblock",
-  "version": "2.0.0-alpha.56",
+  "version": "2.0.0-alpha.58",
   "description": "Docusaurus Live CodeBlock",
   "main": "src/index.js",
   "publishConfig": {
@@ -8,12 +8,13 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@hapi/joi": "^17.1.1",
     "@philpl/buble": "^0.19.7",
-    "classnames": "^2.2.6",
-    "clipboard": "^2.0.6",
+    "clsx": "^1.1.1",
     "parse-numeric-range": "^0.0.2",
     "prism-react-renderer": "^1.1.0",
-    "react-live": "^2.2.1"
+    "react-live": "^2.2.1",
+    "yup": "^0.29.1"
   },
   "peerDependencies": {
     "@docusaurus/core": "^2.0.0",
@@ -22,5 +23,8 @@
   },
   "engines": {
     "node": ">=10.15.1"
+  },
+  "devDependencies": {
+    "@types/hapi__joi": "^17.1.2"
   }
 }

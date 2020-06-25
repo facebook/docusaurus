@@ -11,7 +11,7 @@ import React, {useEffect, useState, useReducer, useRef} from 'react';
 
 import algoliaSearch from 'algoliasearch/lite';
 import algoliaSearchHelper from 'algoliasearch-helper';
-import classnames from 'classnames';
+import clsx from 'clsx';
 
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
@@ -230,7 +230,7 @@ function Search() {
 
         <form className="row" onSubmit={(e) => e.preventDefault()}>
           <div
-            className={classnames('col', styles.searchQueryColumn, {
+            className={clsx('col', styles.searchQueryColumn, {
               'col--9': versioningEnabled,
               'col--12': !versioningEnabled,
             })}>
@@ -249,7 +249,7 @@ function Search() {
 
           {versioningEnabled && (
             <div
-              className={classnames(
+              className={clsx(
                 'col',
                 'col--3',
                 'padding-left--none',
@@ -269,9 +269,8 @@ function Search() {
           )}
         </form>
 
-        <div className={classnames('row', 'margin-vert--sm')}>
-          <div
-            className={classnames('col', 'col--8', styles.searchResultsColumn)}>
+        <div className={clsx('row', 'margin-vert--sm')}>
+          <div className={clsx('col', 'col--8', styles.searchResultsColumn)}>
             {!!searchResultState.totalResults && (
               <strong>
                 {searchResultState.totalResults}{' '}
@@ -280,7 +279,7 @@ function Search() {
             )}
           </div>
 
-          <div className={classnames('col', 'col--4', styles.searchLogoColumn)}>
+          <div className={clsx('col', 'col--4', styles.searchLogoColumn)}>
             <a
               target="_blank"
               rel="noopener noreferrer"
@@ -324,6 +323,8 @@ function Search() {
                   {breadcrumbs.length > 0 && (
                     <span
                       className={styles.searchResultItemPath}
+                      // Developer provided the HTML, so assume it's safe.
+                      // eslint-disable-next-line react/no-danger
                       dangerouslySetInnerHTML={{
                         __html: breadcrumbs.join(' › '),
                       }}
@@ -333,6 +334,8 @@ function Search() {
                   {summary && (
                     <p
                       className={styles.searchResultItemSummary}
+                      // Developer provided the HTML, so assume it's safe.
+                      // eslint-disable-next-line react/no-danger
                       dangerouslySetInnerHTML={{__html: summary}}
                     />
                   )}

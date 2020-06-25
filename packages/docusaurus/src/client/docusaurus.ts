@@ -15,7 +15,8 @@ const fetched = {};
 const loaded = {};
 
 declare global {
-  const __webpack_require__: any;
+  // eslint-disable-next-line camelcase, @typescript-eslint/no-explicit-any
+  const __webpack_require__: {gca: (name: string) => string};
   interface Navigator {
     connection: any;
   }
@@ -34,13 +35,14 @@ const isSlowConnection = () => {
   return false;
 };
 
-const canPrefetch = (routePath) =>
+const canPrefetch = (routePath: string) =>
   !isSlowConnection() && !loaded[routePath] && !fetched[routePath];
 
-const canPreload = (routePath) => !isSlowConnection() && !loaded[routePath];
+const canPreload = (routePath: string) =>
+  !isSlowConnection() && !loaded[routePath];
 
 const docusaurus = {
-  prefetch: (routePath) => {
+  prefetch: (routePath: string): boolean => {
     if (!canPrefetch(routePath)) {
       return false;
     }
@@ -49,13 +51,13 @@ const docusaurus = {
 
     // Find all webpack chunk names needed.
     const matches = matchRoutes(routes, routePath);
-    const chunkNamesNeeded = matches.reduce((arr, match) => {
-      const chunk = routesChunkNames[match.route.path];
+    const chunkNamesNeeded = matches.reduce((arr: string[], match) => {
+      const chunk = routesChunkNames[match.route.path as string];
       if (!chunk) {
         return arr;
       }
 
-      const chunkNames = Object.values(flat(chunk));
+      const chunkNames = Object.values(flat(chunk)) as string[];
       return arr.concat(chunkNames);
     }, []);
 
@@ -76,7 +78,7 @@ const docusaurus = {
     return true;
   },
 
-  preload: (routePath) => {
+  preload: (routePath: string): boolean => {
     if (!canPreload(routePath)) {
       return false;
     }
