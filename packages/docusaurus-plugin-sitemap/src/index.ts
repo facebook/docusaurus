@@ -9,7 +9,12 @@ import fs from 'fs-extra';
 import path from 'path';
 import {PluginOptions} from './types';
 import createSitemap from './createSitemap';
-import {LoadContext, Props, OptionValidationContext} from '@docusaurus/types';
+import {
+  LoadContext,
+  Props,
+  OptionValidationContext,
+  ValidationResult,
+} from '@docusaurus/types';
 import {PluginOptionSchema} from './pluginOptionSchema';
 import {ValidationError} from '@hapi/joi';
 
@@ -39,10 +44,13 @@ export default function pluginSitemap(
   };
 }
 
-pluginSitemap.validateOptions = ({
+export function validateOptions({
   validate,
   options,
-}: OptionValidationContext<PluginOptions, ValidationError>) => {
+}: OptionValidationContext<PluginOptions, ValidationError>): ValidationResult<
+  PluginOptions,
+  ValidationError
+> {
   const validatedOptions = validate(PluginOptionSchema, options);
   return validatedOptions;
-};
+}

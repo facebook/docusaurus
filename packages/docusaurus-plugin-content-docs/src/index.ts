@@ -23,6 +23,7 @@ import {
   Plugin,
   RouteConfig,
   OptionValidationContext,
+  ValidationResult,
 } from '@docusaurus/types';
 
 import createOrder from './order';
@@ -536,10 +537,13 @@ Available document ids=
   };
 }
 
-pluginContentDocs.validateOptions = ({
+export function validateOptions({
   validate,
   options,
-}: OptionValidationContext<PluginOptions, ValidationError>) => {
+}: OptionValidationContext<PluginOptions, ValidationError>): ValidationResult<
+  PluginOptions,
+  ValidationError
+> {
   const validatedOptions = validate(PluginOptionSchema, options);
   return validatedOptions;
-};
+}

@@ -9,7 +9,12 @@ import globby from 'globby';
 import fs from 'fs';
 import path from 'path';
 import {encodePath, fileToPath, aliasedSitePath} from '@docusaurus/utils';
-import {LoadContext, Plugin, OptionValidationContext} from '@docusaurus/types';
+import {
+  LoadContext,
+  Plugin,
+  OptionValidationContext,
+  ValidationResult,
+} from '@docusaurus/types';
 
 import {PluginOptions, LoadedContent} from './types';
 import {PluginOptionSchema} from './pluginOptionSchema';
@@ -77,10 +82,13 @@ export default function pluginContentPages(
   };
 }
 
-pluginContentPages.validateOptions = ({
+export function validateOptions({
   validate,
   options,
-}: OptionValidationContext<PluginOptions, ValidationError>) => {
+}: OptionValidationContext<PluginOptions, ValidationError>): ValidationResult<
+  PluginOptions,
+  ValidationError
+> {
   const validatedOptions = validate(PluginOptionSchema, options);
   return validatedOptions;
-};
+}
