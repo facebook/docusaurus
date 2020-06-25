@@ -140,7 +140,7 @@ export function applyConfigureWebpack(
 
 // Inspired by https://github.com/gatsbyjs/gatsby/blob/8e6e021014da310b9cc7d02e58c9b3efe938c665/packages/gatsby/src/utils/webpack-utils.ts#L447
 export function getLoaderUtils() {
-  const assetRelativeRoot = '/'; // TODO
+  const assetRelativeRoot = ''; // TODO
 
   const loaders = {
     file: (options = {}) => {
@@ -191,7 +191,7 @@ export function getLoaderUtils() {
     otherAssets: (): RuleSetRule => {
       return {
         use: [loaders.file()],
-        test: /\.pdf$/,
+        test: /\.(pdf|doc|docx|xls|xlsx|zip|rar)$/,
       };
     },
   };
