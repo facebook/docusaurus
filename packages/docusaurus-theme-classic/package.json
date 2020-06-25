@@ -26,7 +26,6 @@
     "react-toggle": "^4.1.1"
   },
   "devDependencies": {
-    "@babel/cli": "^7.8.4",
     "@docusaurus/module-type-aliases": "^2.0.0-alpha.58"
   },
   "peerDependencies": {
