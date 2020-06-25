@@ -7,7 +7,7 @@
 
 import * as Joi from '@hapi/joi';
 
-export const DefaultOptions = {
+export const DEFAULT_OPTIONS = {
   feedOptions: {},
   beforeDefaultRehypePlugins: [],
   beforeDefaultRemarkPlugins: [],
@@ -27,22 +27,22 @@ export const DefaultOptions = {
 };
 
 export const PluginOptionSchema = Joi.object({
-  path: Joi.string().default(DefaultOptions.path),
-  routeBasePath: Joi.string().default(DefaultOptions.routeBasePath),
-  include: Joi.array().items(Joi.string()).default(DefaultOptions.include),
+  path: Joi.string().default(DEFAULT_OPTIONS.path),
+  routeBasePath: Joi.string().default(DEFAULT_OPTIONS.routeBasePath),
+  include: Joi.array().items(Joi.string()).default(DEFAULT_OPTIONS.include),
   postsPerPage: Joi.number()
     .integer()
     .min(1)
-    .default(DefaultOptions.postsPerPage),
-  blogListComponent: Joi.string().default(DefaultOptions.blogListComponent),
-  blogPostComponent: Joi.string().default(DefaultOptions.blogPostComponent),
+    .default(DEFAULT_OPTIONS.postsPerPage),
+  blogListComponent: Joi.string().default(DEFAULT_OPTIONS.blogListComponent),
+  blogPostComponent: Joi.string().default(DEFAULT_OPTIONS.blogPostComponent),
   blogTagsListComponent: Joi.string().default(
-    DefaultOptions.blogTagsListComponent,
+    DEFAULT_OPTIONS.blogTagsListComponent,
   ),
   blogTagsPostsComponent: Joi.string().default(
-    DefaultOptions.blogTagsPostsComponent,
+    DEFAULT_OPTIONS.blogTagsPostsComponent,
   ),
-  showReadingTime: Joi.bool().default(DefaultOptions.showReadingTime),
+  showReadingTime: Joi.bool().default(DEFAULT_OPTIONS.showReadingTime),
   remarkPlugins: Joi.array()
     .items(
       Joi.alternatives().try(
@@ -52,19 +52,19 @@ export const PluginOptionSchema = Joi.object({
           .length(2),
       ),
     )
-    .default(DefaultOptions.remarkPlugins),
+    .default(DEFAULT_OPTIONS.remarkPlugins),
   rehypePlugins: Joi.array()
     .items(Joi.string())
-    .default(DefaultOptions.rehypePlugins),
+    .default(DEFAULT_OPTIONS.rehypePlugins),
   editUrl: Joi.string().uri(),
-  truncateMarker: Joi.object().default(DefaultOptions.truncateMarker),
-  admonitions: Joi.object().default(DefaultOptions.admonitions),
+  truncateMarker: Joi.object().default(DEFAULT_OPTIONS.truncateMarker),
+  admonitions: Joi.object().default(DEFAULT_OPTIONS.admonitions),
   beforeDefaultRemarkPlugins: Joi.array()
     .items(Joi.object())
-    .default(DefaultOptions.beforeDefaultRemarkPlugins),
+    .default(DEFAULT_OPTIONS.beforeDefaultRemarkPlugins),
   beforeDefaultRehypePlugins: Joi.array()
     .items(Joi.object())
-    .default(DefaultOptions.beforeDefaultRehypePlugins),
+    .default(DEFAULT_OPTIONS.beforeDefaultRehypePlugins),
   feedOptions: Joi.object({
     type: Joi.alternatives().conditional(
       Joi.string().equal('all', 'rss', 'atom'),
@@ -76,5 +76,5 @@ export const PluginOptionSchema = Joi.object({
     description: Joi.string(),
     copyright: Joi.string(),
     language: Joi.string(),
-  }).default(DefaultOptions.feedOptions),
+  }).default(DEFAULT_OPTIONS.feedOptions),
 });
