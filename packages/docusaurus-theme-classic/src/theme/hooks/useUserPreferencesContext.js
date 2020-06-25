@@ -10,7 +10,13 @@ import {useContext} from 'react';
 import UserPreferencesContext from '@theme/UserPreferencesContext';
 
 function useUserPreferencesContext() {
-  return useContext(UserPreferencesContext);
+  const context = useContext(UserPreferencesContext);
+  if (context == null) {
+    throw new Error(
+      '`useUserPreferencesContext` is used outside of `Layout` Component.',
+    );
+  }
+  return context;
 }
 
 export default useUserPreferencesContext;

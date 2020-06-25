@@ -26,6 +26,10 @@ jobs:
         run: yarn
       - name: Setup test-website project against master release
         run: yarn test:build:v2
+      - name: Start test-website project
+        run: cd test-website && yarn start --no-open
+        env:
+          E2E_TEST: true
       - name: Build test-website project
         run: cd test-website && yarn build
         env:

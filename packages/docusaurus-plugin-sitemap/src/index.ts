@@ -14,6 +14,7 @@ import {
   Props,
   OptionValidationContext,
   ValidationResult,
+  Plugin,
 } from '@docusaurus/types';
 import {PluginOptionSchema} from './pluginOptionSchema';
 import {ValidationError} from '@hapi/joi';
@@ -21,7 +22,7 @@ import {ValidationError} from '@hapi/joi';
 export default function pluginSitemap(
   _context: LoadContext,
   options: PluginOptions,
-) {
+): Plugin<void> {
   return {
     name: 'docusaurus-plugin-sitemap',
 

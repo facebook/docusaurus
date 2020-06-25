@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/theme-classic",
-  "version": "2.0.0-alpha.56",
+  "version": "2.0.0-alpha.58",
   "description": "Classic theme for Docusaurus",
   "main": "src/index.js",
   "publishConfig": {
@@ -8,6 +8,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@hapi/joi": "^17.1.1",
     "@mdx-js/mdx": "^1.5.8",
     "@mdx-js/react": "^1.5.8",
     "clsx": "^1.1.1",
@@ -27,5 +28,8 @@
   },
   "engines": {
     "node": ">=10.15.1"
+  },
+  "devDependencies": {
+    "@types/hapi__joi": "^17.1.2"
   }
 }

@@ -325,7 +325,7 @@ describe('versioned website', () => {
         permalink: '/docs/next/',
       },
     });
-    expect(docsMetadata['hello']).toEqual({
+    expect(docsMetadata.hello).toEqual({
       id: 'hello',
       isDocsHomePage: true,
       permalink: '/docs/next/',

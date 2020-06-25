@@ -15,11 +15,13 @@ import path from 'path';
 import {Sidebar, PathOptions, SidebarItem} from './types';
 import loadSidebars from './sidebars';
 
+// Tests depend on non-default export for mocking.
+// eslint-disable-next-line import/prefer-default-export
 export function docsVersion(
   version: string | null | undefined,
   siteDir: string,
   options: PathOptions,
-) {
+): void {
   if (!version) {
     throw new Error(
       'No version tag specified!. Pass the version you wish to create as an argument. Ex: 1.0.0',

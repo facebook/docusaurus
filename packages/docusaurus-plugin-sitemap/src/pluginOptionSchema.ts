@@ -7,7 +7,7 @@
 import * as Joi from '@hapi/joi';
 import {PluginOptions} from './types';
 
-export const DEFAULT_OPTIONS: PluginOptions = {
+export const DEFAULT_OPTIONS: Required<PluginOptions> = {
   cacheTime: 600 * 1000, // 600 sec - cache purge period.
   changefreq: 'weekly',
   priority: 0.5,

@@ -32,10 +32,10 @@ const DEFAULT_CONFIG: {
   plugins: PluginConfig[];
   themes: PluginConfig[];
   customFields: {
-    [key: string]: any;
+    [key: string]: unknown;
   };
   themeConfig: {
-    [key: string]: any;
+    [key: string]: unknown;
   };
 } = {
   plugins: [],
@@ -48,7 +48,7 @@ function formatFields(fields: string[]): string {
   return fields.map((field) => `'${field}'`).join(', ');
 }
 
-export function loadConfig(siteDir: string): DocusaurusConfig {
+export default function loadConfig(siteDir: string): DocusaurusConfig {
   const configPath = path.resolve(siteDir, CONFIG_FILE_NAME);
 
   if (!fs.existsSync(configPath)) {

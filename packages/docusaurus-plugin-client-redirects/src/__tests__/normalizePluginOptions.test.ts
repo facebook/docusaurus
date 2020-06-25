@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -49,7 +49,7 @@ describe('normalizePluginOptions', () => {
   test('should reject bad fromExtensions user inputs', () => {
     expect(() =>
       normalizePluginOptions({
-        fromExtensions: [null, undefined, 123, true] as any,
+        fromExtensions: ([null, undefined, 123, true] as unknown) as string[],
       }),
     ).toThrowErrorMatchingSnapshot();
   });
@@ -57,7 +57,7 @@ describe('normalizePluginOptions', () => {
   test('should reject bad toExtensions user inputs', () => {
     expect(() =>
       normalizePluginOptions({
-        toExtensions: [null, undefined, 123, true] as any,
+        toExtensions: ([null, undefined, 123, true] as unknown) as string[],
       }),
     ).toThrowErrorMatchingSnapshot();
   });
@@ -65,7 +65,10 @@ describe('normalizePluginOptions', () => {
   test('should reject bad createRedirects user inputs', () => {
     expect(() =>
       normalizePluginOptions({
-        createRedirects: ['bad', 'value'] as any,
+        createRedirects: ([
+          'bad',
+          'value',
+        ] as unknown) as CreateRedirectsFnOption,
       }),
     ).toThrowErrorMatchingSnapshot();
   });
