@@ -63,6 +63,7 @@ const ConfigSchema = Joi.object({
       Joi.array().items(Joi.string(), Joi.object()).length(2),
     ),
   ),
+
   themeConfig: Joi.object().unknown().default(DEFAULT_CONFIG.themeConfig),
   scripts: Joi.array().items(
     Joi.string(),
