@@ -1,13 +1,12 @@
 {
   // This file is not used in compilation. It is here just for a nice editor experience.
-  "extends": "../tsconfig.json",
   "compilerOptions": {
-    "lib": ["DOM"],
-    "module": "esnext",
-    "noEmit": true,
-    "noImplicitAny": false,
+    "allowJs": true,
+    "esModuleInterop": true,
     "jsx": "react",
-    "baseUrl": "src"
+    "lib": ["DOM"],
+    "noEmit": true,
+    "noImplicitAny": false
   },
   "include": ["src/"]
 }
