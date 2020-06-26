@@ -119,7 +119,7 @@ export interface Plugin<T, U = unknown> {
     config: Configuration,
     isServer: boolean,
     utils: ConfigureWebpackUtils,
-  ): Configuration & {mergeStrategies?: ConfigureWebpackFnMergeStrategies};
+  ): Configuration & {mergeStrategy?: ConfigureWebpackFnMergeStrategy};
   getThemePath?(): string;
   getTypeScriptThemePath?(): string;
   getPathsToWatch?(): string[];
@@ -133,7 +133,7 @@ export interface Plugin<T, U = unknown> {
 }
 
 export type ConfigureWebpackFn = Plugin<unknown>['configureWebpack'];
-export type ConfigureWebpackFnMergeStrategies = Record<string, MergeStrategy>;
+export type ConfigureWebpackFnMergeStrategy = Record<string, MergeStrategy>;
 
 export type PluginConfig =
   | [string, Record<string, unknown>]

@@ -130,9 +130,9 @@ export function applyConfigureWebpack(
     getBabelLoader,
   };
   if (typeof configureWebpack === 'function') {
-    const {mergeStrategies, ...res} = configureWebpack(config, isServer, utils);
+    const {mergeStrategy, ...res} = configureWebpack(config, isServer, utils);
     if (res && typeof res === 'object') {
-      return merge.strategy(mergeStrategies ?? {})(config, res);
+      return merge.strategy(mergeStrategy ?? {})(config, res);
     }
   }
   return config;

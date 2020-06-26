@@ -15,7 +15,7 @@ import path from 'path';
 import {applyConfigureWebpack} from '../utils';
 import {
   ConfigureWebpackFn,
-  ConfigureWebpackFnMergeStrategies,
+  ConfigureWebpackFnMergeStrategy,
 } from '@docusaurus/types';
 
 describe('extending generated webpack config', () => {
@@ -90,12 +90,12 @@ describe('extending generated webpack config', () => {
     };
 
     const createConfigureWebpack: (
-      mergeStrategies?: ConfigureWebpackFnMergeStrategies,
-    ) => ConfigureWebpackFn = (mergeStrategies) => () => ({
+      mergeStrategy?: ConfigureWebpackFnMergeStrategy,
+    ) => ConfigureWebpackFn = (mergeStrategy) => () => ({
       module: {
         rules: [{use: 'zzz'}],
       },
-      mergeStrategies,
+      mergeStrategy,
     });
 
     const defaultStrategyMergeConfig = applyConfigureWebpack(

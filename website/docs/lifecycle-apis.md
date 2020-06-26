@@ -273,7 +273,7 @@ module.exports = function (context, options) {
 };
 ```
 
-### Merge strategies
+### Merge strategy
 
 We merge the Webpack configuration parts of plugins into the global Webpack config using [webpack-merge](https://github.com/survivejs/webpack-merge).
 
@@ -285,7 +285,7 @@ module.exports = function (context, options) {
     name: 'custom-docusaurus-plugin',
     configureWebpack(config, isServer, utils) {
       return {
-        mergeStrategies: {'module.rules': 'prepend'},
+        mergeStrategy: {'module.rules': 'prepend'},
         module: {rules: [myRuleToPrepend]},
       };
     },
