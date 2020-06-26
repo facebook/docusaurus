@@ -18,7 +18,7 @@ import {
   getBabelLoader,
   getCacheLoader,
   getStyleLoaders,
-  getLoaderUtils,
+  getFileLoaderUtils,
 } from './utils';
 import {BABEL_CONFIG_FILE_NAME} from '../constants';
 
@@ -53,7 +53,7 @@ export function createBaseConfig(
     BABEL_CONFIG_FILE_NAME,
   );
 
-  const loaderUtils = getLoaderUtils();
+  const fileLoaderUtils = getFileLoaderUtils();
 
   return {
     mode: isProd ? 'production' : 'development',
@@ -165,9 +165,9 @@ export function createBaseConfig(
     },
     module: {
       rules: [
-        loaderUtils.rules.images(),
-        loaderUtils.rules.media(),
-        loaderUtils.rules.otherAssets(),
+        fileLoaderUtils.rules.images(),
+        fileLoaderUtils.rules.media(),
+        fileLoaderUtils.rules.otherAssets(),
         {
           test: /\.(j|t)sx?$/,
           exclude: excludeJS,

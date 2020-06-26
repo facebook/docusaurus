@@ -139,15 +139,15 @@ export function applyConfigureWebpack(
 }
 
 // Inspired by https://github.com/gatsbyjs/gatsby/blob/8e6e021014da310b9cc7d02e58c9b3efe938c665/packages/gatsby/src/utils/webpack-utils.ts#L447
-export function getLoaderUtils() {
-  const assetRelativeRoot = 'assets/';
+export function getFileLoaderUtils() {
+  const assetsRelativeRoot = 'assets/';
 
   const loaders = {
     file: (options = {}) => {
       return {
         loader: require.resolve(`file-loader`),
         options: {
-          name: `${assetRelativeRoot}[name]-[hash].[ext]`,
+          name: `${assetsRelativeRoot}[name]-[hash].[ext]`,
           ...options,
         },
       };
@@ -157,7 +157,7 @@ export function getLoaderUtils() {
         loader: require.resolve(`url-loader`),
         options: {
           limit: 10000,
-          name: `${assetRelativeRoot}[name]-[hash].[ext]`,
+          name: `${assetsRelativeRoot}[name]-[hash].[ext]`,
           fallback: require.resolve(`file-loader`),
           ...options,
         },
