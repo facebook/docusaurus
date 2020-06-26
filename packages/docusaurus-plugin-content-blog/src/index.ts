@@ -21,7 +21,7 @@ import {
   BlogPaginated,
   BlogPost,
 } from './types';
-import {PluginOptionSchema} from './validation';
+import {PluginOptionSchema} from './pluginOptionSchema';
 import {
   LoadContext,
   PluginContentLoadedActions,

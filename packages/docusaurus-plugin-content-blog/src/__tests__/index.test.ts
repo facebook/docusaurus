@@ -9,7 +9,7 @@ import fs from 'fs-extra';
 import path from 'path';
 import pluginContentBlog from '../index';
 import {DocusaurusConfig, LoadContext} from '@docusaurus/types';
-import {PluginOptionSchema} from '../validation';
+import {PluginOptionSchema} from '../pluginOptionSchema';
 
 function validateAndNormalize(schema, options) {
   const {value, error} = schema.validate(options);
