@@ -414,6 +414,32 @@ module.exports = function (context, options) {
 };
 ```
 
+## `getTypeScriptThemePath()`
+
+Similar to `getThemePath()`, it should return the path to the directory where the source code of TypeScript theme components can be found. Theme components under this path will **not** be resolved by Webpack. Therefore, it is not a replacement of `getThemePath()`. Instead, this path is purely for swizzling TypeScript theme components.
+
+If you want to support TypeScript component swizzling for your theme, you can make the path returned by `getTypeScriptThemePath()` be your source directory, and make path returned by `getThemePath()` be the compiled JavaScript output.
+
+Example:
+
+```js {6-13} title="my-theme/src/index.js"
+const path = require('path');
+
+module.exports = function (context, options) {
+  return {
+    name: 'name-of-my-theme',
+    getThemePath() {
+      // Where compiled JavaScript output lives
+      return path.join(__dirname, '..', 'lib', 'theme');
+    },
+    getTypeScriptThemePath() {
+      // Where TypeScript source code lives
+      return path.resolve(__dirname, './theme');
+    },
+  };
+};
+```
+
 ## `getClientModules()`
 
 Returns an array of paths to the modules that are to be imported in the client bundle. These modules are imported globally before React even renders the initial UI.
