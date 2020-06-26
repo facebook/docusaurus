@@ -10,7 +10,7 @@
     "url": "https://github.com/facebook/docusaurus/issues"
   },
   "scripts": {
-    "tsc": "tsc",
+    "build": "tsc",
     "watch": "tsc --watch"
   },
   "bin": {
