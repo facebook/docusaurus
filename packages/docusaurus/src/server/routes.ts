@@ -34,30 +34,25 @@ const createRouteCodeString = ({
   exact?: boolean;
   subroutesCodeStrings?: string[];
 }) => {
-  return removeSuffix(
-    `
-{
+  const str = `{
   path: '${routePath}',
   component: ComponentCreator('${routePath}','${routeHash}'),
   ${exact ? `exact: true,` : ''}
-  ${
-    subroutesCodeStrings
-      ? `  routes: [
-    ${removeSuffix(subroutesCodeStrings.join(',\n'), ',\n')},
-  ]
+${
+  subroutesCodeStrings
+    ? `  routes: [
+${removeSuffix(subroutesCodeStrings.join(',\n'), ',\n')},
+]
 `
-      : ''
-  }
-}`,
-    '',
-  );
+    : ''
+}}`;
+  return str;
 };
 
-const NotFoundRouteCode = `
-  {
-    path: '*',
-    component: ComponentCreator('*')
-  }`;
+const NotFoundRouteCode = `{
+  path: '*',
+  component: ComponentCreator('*')
+}`;
 
 const RoutesImportsCode = [
   `import React from 'react';`,
@@ -123,18 +118,19 @@ export default async function loadRoutes(
       );
     }
 
+    // Collect all page paths for injecting it later in the plugin lifecycle
+    // This is useful for plugins like sitemaps, redirects etc...
+    // If a route has subroutes, it is not necessarily a valid page path (more likely to be a wrapper)
     if (!subroutes) {
       routesPaths.push(routePath);
     }
 
-    // We hash the route to generate the key, because 2 routes can conflict
-    // with each others if they have the same path
+    // We hash the route to generate the key, because 2 routes can conflict with
+    // each others if they have the same path, ex: parent=/docs, child=/docs
     // see https://github.com/facebook/docusaurus/issues/2917
     const routeHash = simpleHash(JSON.stringify(routeConfig), 3);
     const chunkNamesKey = `${routePath}-${routeHash}`;
-
     routesChunkNames[chunkNamesKey] = {
-      ...routesChunkNames[chunkNamesKey],
       ...genRouteChunkNames(registry, {component}, 'component', component),
       ...genRouteChunkNames(registry, modules, 'module', routePath),
     };
@@ -150,8 +146,8 @@ export default async function loadRoutes(
   const routesConfig = `
 ${RoutesImportsCode}
 export default [
-  ${pluginsRouteConfigs.map(generateRouteCode).join(',')},
-  ${NotFoundRouteCode}
+${pluginsRouteConfigs.map(generateRouteCode).join(',\n')},
+${NotFoundRouteCode}
 ];\n`;
 
   return {
