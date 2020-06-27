@@ -195,6 +195,7 @@ export async function choosePort(
           console.log(chalk.red(message));
           resolve(null);
         }
+        return null;
       }),
     (err) => {
       throw new Error(
