@@ -11,8 +11,16 @@ import merge from 'webpack-merge';
 import {Configuration, Loader} from 'webpack';
 import {TransformOptions} from '@babel/core';
 import {ConfigureWebpackUtils} from '@docusaurus/types';
+import detect from 'detect-port';
+import isRoot from 'is-root';
+import chalk from 'chalk';
+import inquirer from 'inquirer';
+import clearConsole from './clearConsole';
+import getProcessForPort from './getProcessForPort';
 
 import {version as cacheLoaderVersion} from 'cache-loader/package.json';
+
+const isInteractive = process.stdout.isTTY;
 
 // Utility method to get style loaders
 export function getStyleLoaders(
@@ -147,4 +155,53 @@ export function applyConfigureWebpack(
     }
   }
   return config;
+}
+
+export async function choosePort(
+  host: string,
+  defaultPort: number,
+): Promise<number | null> {
+  return detect(defaultPort, host).then(
+    (port) =>
+      new Promise((resolve) => {
+        if (port === defaultPort) {
+          return resolve(port);
+        }
+        const message =
+          process.platform !== 'win32' && defaultPort < 1024 && !isRoot()
+            ? `Admin permissions are required to run a server on a port below 1024.`
+            : `Something is already running on port ${defaultPort}.`;
+        if (isInteractive) {
+          clearConsole();
+          const existingProcess = getProcessForPort(defaultPort);
+          const question: any = {
+            type: 'confirm',
+            name: 'shouldChangePort',
+            message: `${chalk.yellow(
+              `${message}${
+                existingProcess ? ` Probably:\n  ${existingProcess}` : ''
+              }`,
+            )}\n\nWould you like to run the app on another port instead?`,
+            default: true,
+          };
+          inquirer.prompt(question).then((answer: any) => {
+            if (answer.shouldChangePort) {
+              resolve(port);
+            } else {
+              resolve(null);
+            }
+          });
+        } else {
+          console.log(chalk.red(message));
+          resolve(null);
+        }
+      }),
+    (err) => {
+      throw new Error(
+        `${chalk.red(`Could not find an open port at ${chalk.bold(host)}.`)}\n${
+          `Network error message: ${err.message}` || err
+        }\n`,
+      );
+    },
+  );
 }
