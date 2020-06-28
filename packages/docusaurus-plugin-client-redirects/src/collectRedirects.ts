@@ -113,12 +113,10 @@ function doCollectRedirects(pluginContext: PluginContext): RedirectMetadata[] {
     ...createFromExtensionsRedirects(
       pluginContext.relativeRoutesPaths,
       pluginContext.options.fromExtensions,
-      pluginContext.baseUrl,
     ),
     ...createToExtensionsRedirects(
       pluginContext.relativeRoutesPaths,
       pluginContext.options.toExtensions,
-      pluginContext.baseUrl,
     ),
     ...createRedirectsOptionRedirects(pluginContext.options.redirects),
     ...createCreateRedirectsOptionRedirects(

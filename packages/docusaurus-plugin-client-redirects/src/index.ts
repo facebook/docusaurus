@@ -26,7 +26,7 @@ export default function pluginClientRedirectsPages(
     async postBuild(props: Props) {
       const pluginContext: PluginContext = {
         relativeRoutesPaths: props.routesPaths.map((path) =>
-          removePrefix(path, props.baseUrl),
+          trimBaseUrl(path, props.baseUrl),
         ),
         baseUrl: props.baseUrl,
         outDir: props.outDir,
@@ -46,6 +46,6 @@ export default function pluginClientRedirectsPages(
   };
 }
 
-function removePrefix(str: string, prefix: string) {
-  return str.startsWith(prefix) ? str.slice(str.length) : str;
+function trimBaseUrl(path: string, baseUrl: string) {
+  return path.startsWith(baseUrl) ? path.replace(baseUrl, '/') : path;
 }
