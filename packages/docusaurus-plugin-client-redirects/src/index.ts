@@ -25,7 +25,9 @@ export default function pluginClientRedirectsPages(
     name: 'docusaurus-plugin-client-redirects',
     async postBuild(props: Props) {
       const pluginContext: PluginContext = {
-        routesPaths: props.routesPaths,
+        relativeRoutesPaths: props.routesPaths.map((path) =>
+          removePrefix(path, props.baseUrl),
+        ),
         baseUrl: props.baseUrl,
         outDir: props.outDir,
         options,
@@ -42,4 +44,8 @@ export default function pluginClientRedirectsPages(
       await writeRedirectFiles(redirectFiles);
     },
   };
+}
+
+function removePrefix(str: string, prefix: string) {
+  return str.startsWith(prefix) ? str.slice(str.length) : str;
 }
