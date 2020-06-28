@@ -11,7 +11,7 @@ on:
       - master
 
 jobs:
-  build:
+  yarn-v1:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -26,6 +26,38 @@ jobs:
         run: yarn
       - name: Setup test-website project against master release
         run: yarn test:build:v2
+      - name: Start test-website project
+        run: cd test-website && yarn start --no-open
+        env:
+          E2E_TEST: true
+      - name: Build test-website project
+        run: cd test-website && yarn build
+        env:
+          CI: true
+  yarn-v2:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [10.x]
+    steps:
+      - uses: actions/checkout@v1
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Installation
+        run: yarn
+      - name: Setup test-website project against master release
+        run: KEEP_CONTAINER=true yarn test:build:v2
+      - name: Setup test-website project for Yarn v2
+        run: |
+          cd test-website
+          yarn set version berry
+          yarn config set pnpMode loose
+          yarn config set npmRegistryServer http://localhost:4873
+          yarn config set unsafeHttpWhitelist --json '["localhost"]'
+          yarn install
+          yarn add @mdx-js/react
       - name: Start test-website project
         run: cd test-website && yarn start --no-open
         env:
