@@ -43,6 +43,7 @@ const addLeadingDot = (extension: string) => `.${extension}`;
 export function createToExtensionsRedirects(
   paths: string[],
   extensions: string[],
+  baseUrl: string,
 ): RedirectMetadata[] {
   extensions.forEach(validateExtension);
 
@@ -53,8 +54,8 @@ export function createToExtensionsRedirects(
     if (extensionFound) {
       const routePathWithoutExtension = removeSuffix(path, extensionFound);
       return [routePathWithoutExtension].map((from) => ({
-        from: from,
-        to: path,
+        from: trimBaseUrl(from, baseUrl),
+        to: trimBaseUrl(path, baseUrl),
       }));
     }
     return [];
@@ -67,6 +68,7 @@ export function createToExtensionsRedirects(
 export function createFromExtensionsRedirects(
   paths: string[],
   extensions: string[],
+  baseUrl: string,
 ): RedirectMetadata[] {
   extensions.forEach(validateExtension);
 
@@ -78,13 +80,16 @@ export function createFromExtensionsRedirects(
   const createPathRedirects = (path: string): RedirectMetadata[] => {
     if (path === '' || path.endsWith('/') || alreadyEndsWithAnExtension(path)) {
       return [];
-    } else {
-      return extensions.map((ext) => ({
-        from: `${path}.${ext}`,
-        to: path,
-      }));
     }
+    return extensions.map((ext) => ({
+      from: `${trimBaseUrl(path, baseUrl)}.${ext}`,
+      to: trimBaseUrl(path, baseUrl),
+    }));
   };
 
   return flatten(paths.map(createPathRedirects));
+}
+
+function trimBaseUrl(path: string, baseUrl: string) {
+  return path.startsWith(baseUrl) ? path.replace(baseUrl, '/') : path;
 }

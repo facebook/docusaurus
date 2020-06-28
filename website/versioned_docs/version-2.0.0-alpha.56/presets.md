@@ -63,7 +63,7 @@ This is equivalent of doing:
 ```jsx title="docusaurus.config.js"
 module.exports = {
   themes: ['@docusaurus/themes-cool', '@docusaurus/themes-bootstrap'],
-  plugins: ['@docusaurus/plugin-blog'],
+  plugins: [require.resolve('@docusaurus/plugin-blog')],
 };
 ```
 

@@ -16,12 +16,12 @@ import merge from 'webpack-merge';
 import {STATIC_DIR_NAME} from '../constants';
 import {load} from '../server';
 import {BuildCLIOptions, Props} from '@docusaurus/types';
-import {createClientConfig} from '../webpack/client';
-import {createServerConfig} from '../webpack/server';
-import {applyConfigureWebpack, compile} from '../webpack/utils';
+import createClientConfig from '../webpack/client';
+import createServerConfig from '../webpack/server';
+import {compile, applyConfigureWebpack} from '../webpack/utils';
 import CleanWebpackPlugin from '../webpack/plugins/CleanWebpackPlugin';
 
-export async function build(
+export default async function build(
   siteDir: string,
   cliOptions: Partial<BuildCLIOptions> = {},
   forceTerminate: boolean = true,
@@ -108,7 +108,9 @@ export async function build(
   ) {
     const serverBundle = path.join(outDir, serverConfig.output.filename);
     fs.pathExists(serverBundle).then((exist) => {
-      exist && fs.unlink(serverBundle);
+      if (exist) {
+        fs.unlink(serverBundle);
+      }
     });
   }
 
@@ -128,6 +130,8 @@ export async function build(
       relativeDir,
     )}.\n`,
   );
-  forceTerminate && !cliOptions.bundleAnalyzer && process.exit(0);
+  if (forceTerminate && !cliOptions.bundleAnalyzer) {
+    process.exit(0);
+  }
   return outDir;
 }

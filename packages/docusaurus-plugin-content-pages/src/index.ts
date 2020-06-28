@@ -9,21 +9,21 @@ import globby from 'globby';
 import fs from 'fs';
 import path from 'path';
 import {encodePath, fileToPath, aliasedSitePath} from '@docusaurus/utils';
-import {LoadContext, Plugin} from '@docusaurus/types';
+import {
+  LoadContext,
+  Plugin,
+  OptionValidationContext,
+  ValidationResult,
+} from '@docusaurus/types';
 
 import {PluginOptions, LoadedContent} from './types';
-
-const DEFAULT_OPTIONS: PluginOptions = {
-  path: 'src/pages', // Path to data on filesystem, relative to site dir.
-  routeBasePath: '', // URL Route.
-  include: ['**/*.{js,jsx,ts,tsx}'], // Extensions to include.
-};
+import {PluginOptionSchema} from './pluginOptionSchema';
+import {ValidationError} from '@hapi/joi';
 
 export default function pluginContentPages(
   context: LoadContext,
-  opts: Partial<PluginOptions>,
-): Plugin<LoadedContent | null> {
-  const options = {...DEFAULT_OPTIONS, ...opts};
+  options: PluginOptions,
+): Plugin<LoadedContent | null, typeof PluginOptionSchema> {
   const contentPath = path.resolve(context.siteDir, options.path);
 
   return {
@@ -80,4 +80,15 @@ export default function pluginContentPages(
       );
     },
   };
+}
+
+export function validateOptions({
+  validate,
+  options,
+}: OptionValidationContext<PluginOptions, ValidationError>): ValidationResult<
+  PluginOptions,
+  ValidationError
+> {
+  const validatedOptions = validate(PluginOptionSchema, options);
+  return validatedOptions;
 }

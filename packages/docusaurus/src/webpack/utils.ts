@@ -5,11 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import path from 'path';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import env from 'std-env';
 import merge from 'webpack-merge';
 import webpack, {Configuration, Loader, Stats} from 'webpack';
+import {TransformOptions} from '@babel/core';
+import {ConfigureWebpackUtils} from '@docusaurus/types';
 
 import {version as cacheLoaderVersion} from 'cache-loader/package.json';
 
@@ -17,7 +18,7 @@ import {version as cacheLoaderVersion} from 'cache-loader/package.json';
 export function getStyleLoaders(
   isServer: boolean,
   cssOptions: {
-    [key: string]: any;
+    [key: string]: unknown;
   } = {},
 ): Loader[] {
   if (isServer) {
@@ -53,6 +54,7 @@ export function getStyleLoaders(
         // https://github.com/facebook/create-react-app/issues/2677
         ident: 'postcss',
         plugins: () => [
+          // eslint-disable-next-line @typescript-eslint/no-var-requires, global-require
           require('postcss-preset-env')({
             autoprefixer: {
               flexbox: 'no-2009',
@@ -68,7 +70,7 @@ export function getStyleLoaders(
 
 export function getCacheLoader(
   isServer: boolean,
-  cacheOptions?: {},
+  cacheOptions?: {[key: string]: unknown},
 ): Loader | null {
   if (env.ci || env.test) {
     return null;
@@ -76,92 +78,55 @@ export function getCacheLoader(
 
   return {
     loader: require.resolve('cache-loader'),
-    options: Object.assign(
-      {
-        cacheIdentifier: `cache-loader:${cacheLoaderVersion}${isServer}`,
-      },
-      cacheOptions,
-    ),
+    options: {
+      cacheIdentifier: `cache-loader:${cacheLoaderVersion}${isServer}`,
+      ...cacheOptions,
+    },
   };
 }
 
-export function getBabelLoader(isServer: boolean, babelOptions?: {}): Loader {
-  const absoluteRuntimePath = path.dirname(
-    require.resolve(`@babel/runtime/package.json`),
-  );
-  return {
-    loader: require.resolve('babel-loader'),
-    options: Object.assign(
+export function getBabelLoader(
+  isServer: boolean,
+  babelOptions?: TransformOptions | string,
+): Loader {
+  let options: TransformOptions;
+  if (typeof babelOptions === 'string') {
+    options = {
+      babelrc: false,
+      configFile: babelOptions,
+      caller: {name: isServer ? 'server' : 'client'},
+    };
+  } else {
+    options = Object.assign(
+      babelOptions ?? {presets: [require.resolve('../babel/preset')]},
       {
         babelrc: false,
         configFile: false,
-        // All optional newlines and whitespace will be omitted when generating code in compact mode
-        compact: true,
-        presets: [
-          isServer
-            ? [
-                require.resolve('@babel/preset-env'),
-                {
-                  targets: {
-                    node: 'current',
-                  },
-                },
-              ]
-            : [
-                require.resolve('@babel/preset-env'),
-                {
-                  useBuiltIns: 'usage',
-                  loose: true,
-                  corejs: '2',
-                  // Do not transform modules to CJS
-                  modules: false,
-                  // Exclude transforms that make all code slower
-                  exclude: ['transform-typeof-symbol'],
-                },
-              ],
-          require.resolve('@babel/preset-react'),
-          require.resolve('@babel/preset-typescript'),
-        ],
-        plugins: [
-          // Polyfills the runtime needed for async/await, generators, and friends
-          // https://babeljs.io/docs/en/babel-plugin-transform-runtime
-          [
-            require.resolve('@babel/plugin-transform-runtime'),
-            {
-              corejs: false,
-              helpers: true,
-              // By default, it assumes @babel/runtime@7.0.0. Since we use >7.0.0, better to
-              // explicitly specify the version so that it can reuse the helper better
-              // See https://github.com/babel/babel/issues/10261
-              version: require('@babel/runtime/package.json').version,
-              regenerator: true,
-              useESModules: true,
-              // Undocumented option that lets us encapsulate our runtime, ensuring
-              // the correct version is used
-              // https://github.com/babel/babel/blob/090c364a90fe73d36a30707fc612ce037bdbbb24/packages/babel-plugin-transform-runtime/src/index.js#L35-L42
-              absoluteRuntime: absoluteRuntimePath,
-            },
-          ],
-          // Adds syntax support for import()
-          isServer
-            ? require.resolve('babel-plugin-dynamic-import-node')
-            : require.resolve('@babel/plugin-syntax-dynamic-import'),
-        ],
+        caller: {name: isServer ? 'server' : 'client'},
       },
-      babelOptions,
-    ),
+    );
+  }
+  return {
+    loader: require.resolve('babel-loader'),
+    options,
   };
 }
 
 /**
  * Helper function to modify webpack config
- * @param {Object | Function} configureWebpack a webpack config or a function to modify config
- * @param {Object} config initial webpack config
- * @param {boolean} isServer indicates if this is a server webpack configuration
- * @returns {Object} final/ modified webpack config
+ * @param configureWebpack a webpack config or a function to modify config
+ * @param config initial webpack config
+ * @param isServer indicates if this is a server webpack configuration
+ * @returns final/ modified webpack config
  */
 export function applyConfigureWebpack(
-  configureWebpack: any,
+  configureWebpack:
+    | Configuration
+    | ((
+        config: Configuration,
+        isServer: boolean,
+        utils: ConfigureWebpackUtils,
+      ) => Configuration),
   config: Configuration,
   isServer: boolean,
 ): Configuration {
@@ -184,7 +149,7 @@ export function applyConfigureWebpack(
   return config;
 }
 
-export function compile(config: Configuration[]): Promise<any> {
+export function compile(config: Configuration[]): Promise<void> {
   return new Promise((resolve, reject) => {
     const compiler = webpack(config);
     compiler.run((err, stats) => {
@@ -199,7 +164,7 @@ export function compile(config: Configuration[]): Promise<any> {
       }
       if (stats.hasWarnings()) {
         // Custom filtering warnings (see https://github.com/webpack/webpack/issues/7841).
-        let warnings = stats.toJson('errors-warnings').warnings;
+        let {warnings} = stats.toJson('errors-warnings');
         const warningsFilter = ((config[0].stats as Stats.ToJsonOptionsObject)
           ?.warningsFilter || []) as any[];
 

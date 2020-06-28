@@ -8,16 +8,42 @@
 import Module from 'module';
 import {join} from 'path';
 import importFresh from 'import-fresh';
-import {LoadContext, Plugin, PluginConfig} from '@docusaurus/types';
+import {
+  LoadContext,
+  Plugin,
+  PluginConfig,
+  ValidationSchema,
+} from '@docusaurus/types';
 import {CONFIG_FILE_NAME} from '../../constants';
 
-export function initPlugins({
+function validate<T>(schema: ValidationSchema<T>, options: Partial<T>) {
+  const {error, value} = schema.validate(options, {
+    convert: false,
+  });
+  if (error) {
+    throw error;
+  }
+  return value;
+}
+
+function validateAndStrip<T>(schema: ValidationSchema<T>, options: Partial<T>) {
+  const {error, value} = schema.unknown().validate(options, {
+    convert: false,
+  });
+
+  if (error) {
+    throw error;
+  }
+  return value;
+}
+
+export default function initPlugins({
   pluginConfigs,
   context,
 }: {
   pluginConfigs: PluginConfig[];
   context: LoadContext;
-}): Plugin<any>[] {
+}): Plugin<unknown>[] {
   // We need to resolve plugins from the perspective of the siteDir, since the siteDir's package.json
   // declares the dependency on these plugins.
   // We need to fallback to createRequireFromPath since createRequire is only available in node v12.
@@ -25,7 +51,7 @@ export function initPlugins({
   const createRequire = Module.createRequire || Module.createRequireFromPath;
   const pluginRequire = createRequire(join(context.siteDir, CONFIG_FILE_NAME));
 
-  const plugins: Plugin<any>[] = pluginConfigs
+  const plugins: Plugin<unknown>[] = pluginConfigs
     .map((pluginItem) => {
       let pluginModuleImport: string | undefined;
       let pluginOptions = {};
@@ -37,8 +63,7 @@ export function initPlugins({
       if (typeof pluginItem === 'string') {
         pluginModuleImport = pluginItem;
       } else if (Array.isArray(pluginItem)) {
-        pluginModuleImport = pluginItem[0];
-        pluginOptions = pluginItem[1] || {};
+        [pluginModuleImport, pluginOptions = {}] = pluginItem;
       }
 
       if (!pluginModuleImport) {
@@ -50,9 +75,34 @@ export function initPlugins({
       const pluginModule: any = importFresh(
         pluginRequire.resolve(pluginModuleImport),
       );
-      return (pluginModule.default || pluginModule)(context, pluginOptions);
+
+      const plugin = pluginModule.default || pluginModule;
+
+      // support both commonjs and ES modules
+      const validateOptions =
+        pluginModule.default?.validateOptions ?? pluginModule.validateOptions;
+
+      if (validateOptions) {
+        const options = validateOptions({
+          validate,
+          options: pluginOptions,
+        });
+        pluginOptions = options;
+      }
+
+      // support both commonjs and ES modules
+      const validateThemeConfig =
+        pluginModule.default?.validateThemeConfig ??
+        pluginModule.validateThemeConfig;
+
+      if (validateThemeConfig) {
+        validateThemeConfig({
+          validate: validateAndStrip,
+          themeConfig: context.siteConfig.themeConfig,
+        });
+      }
+      return plugin(context, pluginOptions);
     })
     .filter(Boolean);
-
   return plugins;
 }

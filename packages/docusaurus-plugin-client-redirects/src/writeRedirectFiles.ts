@@ -54,7 +54,9 @@ export function toRedirectFilesMetadata(
   return redirects.map(createFileMetadata);
 }
 
-export async function writeRedirectFile(file: RedirectFileMetadata) {
+export async function writeRedirectFile(
+  file: RedirectFileMetadata,
+): Promise<void> {
   try {
     // User-friendly security to prevent file overrides
     if (await fs.pathExists(file.fileAbsolutePath)) {
@@ -79,6 +81,6 @@ export async function writeRedirectFile(file: RedirectFileMetadata) {
 
 export default async function writeRedirectFiles(
   redirectFiles: RedirectFileMetadata[],
-) {
+): Promise<void> {
   await Promise.all(redirectFiles.map(writeRedirectFile));
 }

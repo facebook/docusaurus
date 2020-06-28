@@ -12,7 +12,7 @@ import routesChunkNames from '@generated/routesChunkNames';
 import registry from '@generated/registry';
 import flat from '../flat';
 
-function ComponentCreator(path: string) {
+function ComponentCreator(path: string): ReturnType<typeof Loadable> {
   // 404 page
   if (path === '*') {
     return Loadable({

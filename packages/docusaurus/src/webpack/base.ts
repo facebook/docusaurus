@@ -15,12 +15,13 @@ import {Configuration, Loader} from 'webpack';
 
 import {Props} from '@docusaurus/types';
 import {getBabelLoader, getCacheLoader, getStyleLoaders} from './utils';
+import {BABEL_CONFIG_FILE_NAME} from '../constants';
 
 const CSS_REGEX = /\.css$/;
 const CSS_MODULE_REGEX = /\.module\.css$/;
 export const clientDir = path.join(__dirname, '..', 'client');
 
-export function excludeJS(modulePath: string) {
+export function excludeJS(modulePath: string): boolean {
   // always transpile client dir
   if (modulePath.startsWith(clientDir)) {
     return false;
@@ -41,6 +42,11 @@ export function createBaseConfig(
 
   const totalPages = routesPaths.length;
   const isProd = process.env.NODE_ENV === 'production';
+
+  const customBabelConfigurationPath = path.join(
+    siteDir,
+    BABEL_CONFIG_FILE_NAME,
+  );
 
   return {
     mode: isProd ? 'production' : 'development',
@@ -155,9 +161,15 @@ export function createBaseConfig(
         {
           test: /\.(j|t)sx?$/,
           exclude: excludeJS,
-          use: [getCacheLoader(isServer), getBabelLoader(isServer)].filter(
-            Boolean,
-          ) as Loader[],
+          use: [
+            getCacheLoader(isServer),
+            getBabelLoader(
+              isServer,
+              fs.existsSync(customBabelConfigurationPath)
+                ? customBabelConfigurationPath
+                : undefined,
+            ),
+          ].filter(Boolean) as Loader[],
         },
         {
           test: CSS_REGEX,

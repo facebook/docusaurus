@@ -5,32 +5,37 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import * as Joi from '@hapi/joi';
 import {isValidPathname} from '@docusaurus/utils';
-import * as Yup from 'yup';
 import {RedirectMetadata} from './types';
 
-export const PathnameValidator = Yup.string().test({
-  name: 'isValidPathname',
-  message:
-    '${path} is not a valid pathname. Pathname should start with / and not contain any domain or query string',
-  test: isValidPathname,
-});
+export const PathnameValidator = Joi.string()
+  .custom((val) => {
+    if (!isValidPathname(val)) {
+      throw new Error();
+    } else {
+      return val;
+    }
+  })
+  .message(
+    '{{#label}} is not a valid pathname. Pathname should start with / and not contain any domain or query string',
+  );
 
-const RedirectSchema = Yup.object<RedirectMetadata>({
+const RedirectSchema = Joi.object<RedirectMetadata>({
   from: PathnameValidator.required(),
   to: PathnameValidator.required(),
 });
 
-export function validateRedirect(redirect: RedirectMetadata) {
-  try {
-    RedirectSchema.validateSync(redirect, {
-      strict: true,
-      abortEarly: true,
-    });
-  } catch (e) {
+export function validateRedirect(redirect: RedirectMetadata): void {
+  const {error} = RedirectSchema.validate(redirect, {
+    abortEarly: true,
+    convert: false,
+  });
+
+  if (error) {
     // Tells the user which redirect is the problem!
     throw new Error(
-      `${JSON.stringify(redirect)} => Validation error: ${e.message}`,
+      `${JSON.stringify(redirect)} => Validation error: ${error.message}`,
     );
   }
 }

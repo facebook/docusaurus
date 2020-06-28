@@ -9,6 +9,7 @@ import path from 'path';
 
 import pluginContentPages from '../index';
 import {LoadContext} from '@docusaurus/types';
+import normalizePluginOptions from './pluginOptionSchema.test';
 
 describe('docusaurus-plugin-content-pages', () => {
   test('simple pages', async () => {
@@ -23,9 +24,12 @@ describe('docusaurus-plugin-content-pages', () => {
       siteConfig,
     } as LoadContext;
     const pluginPath = 'src/pages';
-    const plugin = pluginContentPages(context, {
-      path: pluginPath,
-    });
+    const plugin = pluginContentPages(
+      context,
+      normalizePluginOptions({
+        path: pluginPath,
+      }),
+    );
     const pagesMetadatas = await plugin.loadContent();
 
     expect(pagesMetadatas).toEqual([

@@ -28,7 +28,7 @@ describe('createSitemap', () => {
 
   test('empty site', () => {
     expect(() => {
-      createSitemap({} as any, [], {} as any);
+      createSitemap({} as DocusaurusConfig, [], {});
     }).toThrowErrorMatchingInlineSnapshot(
       `"url in docusaurus.config.js cannot be empty/undefined"`,
     );
