@@ -25,7 +25,9 @@ jobs:
       - name: Installation
         run: yarn
       - name: Setup test-website project against master release
-        run: yarn test:build:v2
+        run: |
+          yarn test:build:v2
+          rm -rf node_modules
       - name: Start test-website project
         run: cd test-website && yarn start --no-open
         env:
@@ -48,7 +50,9 @@ jobs:
       - name: Installation
         run: yarn
       - name: Setup test-website project against master release
-        run: KEEP_CONTAINER=true yarn test:build:v2
+        run: |
+          KEEP_CONTAINER=true yarn test:build:v2
+          rm -rf node_modules
       - name: Setup test-website project for Yarn v2
         run: |
           cd test-website
