@@ -63,11 +63,11 @@ export function validateOptions({options, validate}) {
 
 ## `validateThemeConfig({themeConfig,validate})`
 
-Validate `themeConfig` for the plugins and theme. This method is called before the plugin is initialized.
+Return validated and normalized configuration for the theme.
 
 ### `themeConfig`
 
-`validateThemeConfig` is called with `themeConfig` provided in `docusaurus.config.js` for validation.
+`validateThemeConfig` is called with `themeConfig` provided in `docusaurus.config.js` for validation and normalization.
 
 ### `validate`
 
@@ -75,7 +75,7 @@ Validate `themeConfig` for the plugins and theme. This method is called before t
 
 :::tip
 
-[Joi](https://www.npmjs.com/package/@hapi/joi) is recommended for validation and normalization of options.
+[Joi](https://www.npmjs.com/package/@hapi/joi) is recommended for validation and normalization of theme config.
 
 :::
 
@@ -90,7 +90,8 @@ module.exports = function (context, options) {
 };
 
 module.exports.validateThemeConfig = ({themeConfig, validate}) => {
-  validate(myValidationSchema, options);
+  const validatedThemeConfig = validate(myValidationSchema, options);
+  return validatedThemeConfig;
 };
 ```
 
@@ -105,7 +106,8 @@ export default function (context, options) {
 }
 
 export function validateThemeConfig({themeConfig, validate}) {
-  validate(myValidationSchema, options);
+  const validatedThemeConfig = validate(myValidationSchema, options);
+  return validatedThemeConfig;
 }
 ```
 
