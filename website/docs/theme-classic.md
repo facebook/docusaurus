@@ -44,7 +44,7 @@ module.exports = {
 
 With `respectPrefersColorScheme: true`, the `defaultMode` is overriden by user system preferences.
 
-You probably don't want this behavior if you only support one color mode (`disableSwitch: false`)
+You probably don't want this behavior if you only want to support one color mode, and use `disableSwitch: true`.
 
 :::
 
