@@ -282,6 +282,10 @@ export function createProjectStructure(
     versions.reverse().forEach((version, index) => {
       if (index === 0) {
         fs.copySync(
+          `${siteDir}/../docs`,
+          `${newDir}/versioned_docs/version-${version}`,
+        );
+        fs.copySync(
           `${siteDir}/versioned_docs/version-${version}`,
           `${newDir}/versioned_docs/version-${version}`,
         );
@@ -308,7 +312,7 @@ export function createProjectStructure(
     });
   }
   try {
-    fs.copySync(`${siteDir}/docs`, `${newDir}/docs`);
+    fs.copySync(`${siteDir}/../docs`, `${newDir}/docs`);
   } catch {
     fs.mkdir(`${newDir}/docs`);
   }
