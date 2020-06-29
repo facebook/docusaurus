@@ -20,7 +20,7 @@ const ContextReplacementPlugin = requireFromDocusaurusCore(
 // Need to be inlined to prevent dark mode FOUC
 // Make sure that the 'storageKey' is the same as the one in `/theme/hooks/useTheme.js`
 const storageKey = 'theme';
-const noFlash = ({defaultMode, respectPrefersColorScheme}) => {
+const noFlashColorMode = ({defaultMode, respectPrefersColorScheme}) => {
   return `(function() {
   var defaultMode = ${defaultMode};
   var respectPrefersColorScheme = ${respectPrefersColorScheme};
@@ -59,10 +59,7 @@ module.exports = function (context, options) {
   const {
     siteConfig: {themeConfig},
   } = context;
-  const {
-    colorMode: {defaultMode, respectPrefersColorScheme} = {},
-    prism: {additionalLanguages = []} = {},
-  } = themeConfig || {};
+  const {colorMode, prism: {additionalLanguages = []} = {}} = themeConfig || {};
   const {customCss} = options || {};
 
   return {
@@ -112,10 +109,7 @@ module.exports = function (context, options) {
             attributes: {
               type: 'text/javascript',
             },
-            innerHTML: noFlash({
-              defaultMode,
-              respectPrefersColorScheme,
-            }),
+            innerHTML: noFlashColorMode(colorMode),
           },
         ],
       };
