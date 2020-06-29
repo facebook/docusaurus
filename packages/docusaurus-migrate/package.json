@@ -1,0 +1,29 @@
+{
+  "name": "@docusaurus/migrate",
+  "version": "1.0.0",
+  "description": "A cli tool to migrate between different version of docusuarus",
+  "main": "lib/index.js",
+  "license": "MIT",
+  "engines": {
+    "node": ">=10.9.0"
+  },
+  "scripts": {
+    "tsc": "tsc",
+    "watch": "tsc --watch"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "bin": {
+    "docusaurus-migrate": "bin/index.js"
+  },
+  "dependencies": {
+    "@hapi/joi": "^17.1.1",
+    "@types/hapi__joi": "^17.1.3",
+    "chalk": "^4.1.0",
+    "commander": "^5.1.0",
+    "escape-html": "^1.0.3",
+    "sanitize-html": "^1.27.0",
+    "semver": "^7.3.2"
+  }
+}
