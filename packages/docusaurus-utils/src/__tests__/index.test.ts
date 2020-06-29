@@ -22,6 +22,7 @@ import {
   addTrailingSlash,
   removeTrailingSlash,
   removeSuffix,
+  removePrefix,
   getFilePathForRoutePath,
 } from '../index';
 
@@ -416,6 +417,21 @@ describe('removeSuffix', () => {
   });
   test('should remove suffix', () => {
     expect(removeSuffix('abcdef', 'ef')).toEqual('abcd');
+  });
+});
+
+describe('removePrefix', () => {
+  test('should no-op 1', () => {
+    expect(removePrefix('abcdef', 'ijk')).toEqual('abcdef');
+  });
+  test('should no-op 2', () => {
+    expect(removePrefix('abcdef', 'def')).toEqual('abcdef');
+  });
+  test('should no-op 3', () => {
+    expect(removePrefix('abcdef', '')).toEqual('abcdef');
+  });
+  test('should remove prefix', () => {
+    expect(removePrefix('abcdef', 'ab')).toEqual('cdef');
   });
 });
 
