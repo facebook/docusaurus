@@ -4,6 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+/* eslint-disable no-restricted-globals */
 
 import {PrecacheController} from 'workbox-precaching';
 
@@ -15,9 +16,9 @@ import {PrecacheController} from 'workbox-precaching';
  */
 function getPossibleURLs(url) {
   const possibleURLs = [];
-  const urlObject = new URL(url, window.location.href);
+  const urlObject = new URL(url, self.location.href);
 
-  if (urlObject.origin !== window.location.origin) {
+  if (urlObject.origin !== self.location.origin) {
     return possibleURLs;
   }
 
@@ -38,9 +39,9 @@ function getPossibleURLs(url) {
 }
 
 (async () => {
-  const precacheManifest = window.self.__WB_MANIFEST;
+  const precacheManifest = self.__WB_MANIFEST;
   const controller = new PrecacheController();
-  const isEnabled = window.location.search.includes('enabled');
+  const isEnabled = self.location.search.includes('enabled');
 
   if (isEnabled) {
     controller.addToCacheList(precacheManifest);
@@ -53,15 +54,15 @@ function getPossibleURLs(url) {
     }
   }
 
-  window.self.addEventListener('install', (event) => {
+  self.addEventListener('install', (event) => {
     event.waitUntil(controller.install());
   });
 
-  window.self.addEventListener('activate', (event) => {
+  self.addEventListener('activate', (event) => {
     event.waitUntil(controller.activate());
   });
 
-  window.self.addEventListener('fetch', async (event) => {
+  self.addEventListener('fetch', async (event) => {
     if (isEnabled) {
       const possibleURLs = getPossibleURLs(event.request.url);
       for (let i = 0; i < possibleURLs.length; i += 1) {
@@ -74,11 +75,11 @@ function getPossibleURLs(url) {
     }
   });
 
-  window.self.addEventListener('message', async (event) => {
+  self.addEventListener('message', async (event) => {
     const type = event.data && event.data.type;
 
     if (type === 'SKIP_WAITING') {
-      window.self.skipWaiting();
+      self.skipWaiting();
     }
   });
 })();
