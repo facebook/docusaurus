@@ -384,6 +384,10 @@ export function removeSuffix(str: string, suffix: string): string {
   return str.endsWith(suffix) ? str.slice(0, -suffix.length) : str;
 }
 
+export function removePrefix(str: string, prefix: string): string {
+  return str.startsWith(prefix) ? str.slice(prefix.length) : str;
+}
+
 export function getFilePathForRoutePath(routePath: string): string {
   const fileName = path.basename(routePath);
   const filePath = path.dirname(routePath);

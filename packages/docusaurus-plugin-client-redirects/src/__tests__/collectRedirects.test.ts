@@ -9,7 +9,7 @@ import {PluginContext, UserPluginOptions} from '../types';
 import collectRedirects from '../collectRedirects';
 import normalizePluginOptions from '../normalizePluginOptions';
 import {removeTrailingSlash} from '@docusaurus/utils';
-import {trimBaseUrl} from '..';
+import {trimBaseUrls} from '..';
 
 function createTestPluginContext(
   options?: UserPluginOptions,
@@ -26,10 +26,7 @@ function createTestPluginContext(
 describe('collectRedirects', () => {
   test('should trim baseUrl properly to get correct relativeRoutesPath', () => {
     const routePaths = ['/myBaseUrl/', '/myBaseUrl/path'];
-    expect(routePaths.map((path) => trimBaseUrl(path, '/myBaseUrl/'))).toEqual([
-      '/',
-      '/path',
-    ]);
+    expect(trimBaseUrls(routePaths, '/myBaseUrl/')).toEqual(['/', '/path']);
   });
 
   test('should collect no redirect for undefined config', () => {

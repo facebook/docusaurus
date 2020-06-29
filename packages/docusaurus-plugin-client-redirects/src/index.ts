@@ -14,6 +14,7 @@ import writeRedirectFiles, {
   toRedirectFilesMetadata,
   RedirectFileMetadata,
 } from './writeRedirectFiles';
+import {removePrefix} from '@docusaurus/utils';
 
 export default function pluginClientRedirectsPages(
   _context: LoadContext,
@@ -25,9 +26,7 @@ export default function pluginClientRedirectsPages(
     name: 'docusaurus-plugin-client-redirects',
     async postBuild(props: Props) {
       const pluginContext: PluginContext = {
-        relativeRoutesPaths: props.routesPaths.map((path) =>
-          trimBaseUrl(path, props.baseUrl),
-        ),
+        relativeRoutesPaths: trimBaseUrls(props.routesPaths, props.baseUrl),
         baseUrl: props.baseUrl,
         outDir: props.outDir,
         options,
@@ -46,6 +45,6 @@ export default function pluginClientRedirectsPages(
   };
 }
 
-export function trimBaseUrl(path: string, baseUrl: string): string {
-  return path.startsWith(baseUrl) ? path.replace(baseUrl, '/') : path;
+export function trimBaseUrls(paths: string[], baseUrl: string): string[] {
+  return paths.map((path) => `/${removePrefix(path, baseUrl)}`);
 }
