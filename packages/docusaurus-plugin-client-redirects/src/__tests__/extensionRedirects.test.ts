@@ -63,10 +63,10 @@ describe('createToExtensionsRedirects', () => {
     expect(createToExtensionsRedirects(['/abc.xyz'], ext)).toEqual([]);
   });
 
-  test('should create "to" redirects without baseUrl when baseUrl is used', () => {
+  test('should create "to" redirects when relativeRoutesPath contains a prefix', () => {
     expect(
       createToExtensionsRedirects(['/prefix/file.html'], ['html']),
-    ).toEqual([{from: '/file', to: '/file.html'}]);
+    ).toEqual([{from: '/prefix/file', to: '/prefix/file.html'}]);
   });
 
   test('should not create redirection for an empty extension array', () => {
@@ -92,9 +92,9 @@ describe('createFromExtensionsRedirects', () => {
     expect(createFromExtensionsRedirects(['/def/'], ext)).toEqual([]);
   });
 
-  test('should create "from" redirects without baseUrl when baseUrl is used', () => {
+  test('should create "from" redirects when relativeRoutesPath contains a prefix', () => {
     expect(createFromExtensionsRedirects(['/prefix/file'], ['html'])).toEqual([
-      {from: '/file.html', to: '/file'},
+      {from: '/prefix/file.html', to: '/prefix/file'},
     ]);
   });
 
