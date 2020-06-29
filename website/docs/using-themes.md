@@ -172,6 +172,11 @@ There are two lifecycle methods that are essential to theme implementation:
 - [`getThemePath()`](lifecycle-apis.md#getthemepath)
 - [`getClientModules()`](lifecycle-apis.md#getclientmodules)
 
+These lifecycle method are not essential but recommended:
+
+- [`validateThemeConfig({themeConfig,validate})`](lifecycle-apis.md#validatethemeconfigthemeconfigvalidate)
+- [`validateOptions({options,validate})`](lifecycle-apis.md#validateoptionsoptionsvalidate)
+
 <!--
 
 Outline

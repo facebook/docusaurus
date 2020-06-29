@@ -16,7 +16,7 @@ module.exports = {
       type: 'category',
       label: 'Getting Started',
       collapsed: false,
-      items: ['installation', 'configuration'],
+      items: ['installation', 'configuration', 'typescript-support'],
     },
     {
       type: 'category',

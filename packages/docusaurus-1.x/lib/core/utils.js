@@ -64,7 +64,7 @@ function getGitLastUpdated(filepath) {
     const silentState = shell.config.silent; // Save old silent state.
     shell.config.silent = true;
     const result = shell
-      .exec(`git log --follow --summary --format="%ct, %an" ${filepath}`)
+      .exec(`git log --follow --summary --format="%ct, %an" "${filepath}"`)
       .stdout.trim();
     shell.config.silent = silentState;
 

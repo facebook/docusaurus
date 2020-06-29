@@ -25,6 +25,15 @@ const utils = require('./utils.js');
 
 const docsPart = `${siteConfig.docsUrl ? `${siteConfig.docsUrl}/` : ''}`;
 
+// Get a list of all IDs that have been deleted in any version.
+// We will assume these should not be in the current/next version.
+const allDeletedIds = new Set();
+if (siteConfig.deletedDocs) {
+  Object.values(siteConfig.deletedDocs).forEach((idList) => {
+    idList.forEach((id) => allDeletedIds.add(id));
+  });
+}
+
 const SupportedHeaderFields = new Set([
   'id',
   'title',
@@ -238,6 +247,12 @@ function generateMetadataDocs() {
           return;
         }
         const metadata = res.metadata;
+        if (
+          allDeletedIds.has(metadata.id) ||
+          (metadata.original_id && allDeletedIds.has(metadata.original_id))
+        ) {
+          return;
+        }
         metadatas[metadata.id] = metadata;
 
         // create a default list of documents for each enabled language based on docs in English
@@ -290,6 +305,12 @@ function generateMetadataDocs() {
           return;
         }
         const metadata = res.metadata;
+        if (
+          allDeletedIds.has(metadata.id) ||
+          (metadata.original_id && allDeletedIds.has(metadata.original_id))
+        ) {
+          return;
+        }
         metadatas[metadata.id] = metadata;
       }
     });

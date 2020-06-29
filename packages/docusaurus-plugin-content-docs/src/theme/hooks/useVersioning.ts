@@ -5,13 +5,20 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-let versions: string[] = [];
+let versions: string[];
 
 try {
+  // eslint-disable-next-line global-require
   versions = require('@site/versions.json');
-} catch (e) {}
+} catch {
+  versions = [];
+}
 
-function useVersioning() {
+function useVersioning(): {
+  versioningEnabled: boolean;
+  versions: string[];
+  latestVersion: string;
+} {
   return {
     versioningEnabled: versions.length > 0,
     versions,

@@ -24,7 +24,7 @@ describe('loadSidebars', () => {
     expect(result).toMatchSnapshot();
   });
 
-  test('sidebars shortand and longform lead to exact same sidebar', async () => {
+  test('sidebars shorthand and longform lead to exact same sidebar', async () => {
     const sidebarPath1 = path.join(fixtureDir, 'sidebars-category.js');
     const sidebarPath2 = path.join(
       fixtureDir,

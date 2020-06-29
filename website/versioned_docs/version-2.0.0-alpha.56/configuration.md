@@ -42,8 +42,8 @@ List the [theme](using-themes.md), [plugins](using-plugins.md), and [presets](pr
 module.exports = {
   // ...
   plugins: [
-    '@docusaurus/plugin-content-blog',
-    '@docusaurus/plugin-content-pages',
+    require.resolve('@docusaurus/plugin-content-blog'),
+    require.resolve('@docusaurus/plugin-content-pages'),
   ],
   themes: ['@docusaurus/theme-classic'],
 };
@@ -67,7 +67,7 @@ module.exports = {
   // ...
   plugins: [
     [
-      '@docusaurus/plugin-content-blog',
+      require.resolve('@docusaurus/plugin-content-blog'),
       {
         path: 'blog',
         routeBasePath: 'blog',

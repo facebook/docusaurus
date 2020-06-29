@@ -7,19 +7,31 @@
 
 import {loader} from 'webpack';
 import {truncate, linkify} from './blogUtils';
-const {parseQuery, getOptions} = require('loader-utils');
+import {parseQuery, getOptions} from 'loader-utils';
 
-export = function (fileString: string) {
+const markdownLoader: loader.Loader = function (source) {
+  const fileString = source as string;
   const callback = this.async();
   const {truncateMarker, siteDir, contentPath, blogPosts} = getOptions(this);
+
   // Linkify posts
-  let finalContent = linkify(fileString, siteDir, contentPath, blogPosts);
+  let finalContent = linkify(
+    fileString as string,
+    siteDir,
+    contentPath,
+    blogPosts,
+  );
 
   // Truncate content if requested (e.g: file.md?truncated=true).
-  const {truncated} = this.resourceQuery && parseQuery(this.resourceQuery);
+  const truncated: string | undefined = this.resourceQuery
+    ? parseQuery(this.resourceQuery).truncated
+    : undefined;
+
   if (truncated) {
     finalContent = truncate(finalContent, truncateMarker);
   }
 
   return callback && callback(null, finalContent);
-} as loader.Loader;
+};
+
+export default markdownLoader;
