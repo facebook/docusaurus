@@ -20,10 +20,10 @@ const ContextReplacementPlugin = requireFromDocusaurusCore(
 // Need to be inlined to prevent dark mode FOUC
 // Make sure that the 'storageKey' is the same as the one in `/theme/hooks/useTheme.js`
 const storageKey = 'theme';
-const noFlash = ({defaultDarkMode = false, respectUserPreference = false}) => {
+const noFlash = ({defaultMode, respectPrefersColorScheme}) => {
   return `(function() {
-  var defaultDarkMode = ${defaultDarkMode};
-  var respectUserPreference = ${respectUserPreference};
+  var defaultMode = ${defaultMode};
+  var respectPrefersColorScheme = ${respectPrefersColorScheme};
 
   function setDataThemeAttribute(theme) {
     document.documentElement.setAttribute('data-theme', theme);
@@ -42,14 +42,14 @@ const noFlash = ({defaultDarkMode = false, respectUserPreference = false}) => {
     setDataThemeAttribute(storedTheme);
   }
   else {
-    if ( respectUserPreference && window.matchMedia('(prefers-color-scheme: dark)').matches ) {
+    if ( respectPrefersColorScheme && window.matchMedia('(prefers-color-scheme: dark)').matches ) {
       setDataThemeAttribute('dark');
     }
-    else if ( respectUserPreference && window.matchMedia('(prefers-color-scheme: light)').matches ) {
+    else if ( respectPrefersColorScheme && window.matchMedia('(prefers-color-scheme: light)').matches ) {
       setDataThemeAttribute('light');
     }
     else {
-      setDataThemeAttribute(defaultDarkMode ? 'dark' : 'light');
+      setDataThemeAttribute(defaultMode === 'dark' ? 'dark' : 'light');
     }
   }
 })();`;
@@ -60,7 +60,7 @@ module.exports = function (context, options) {
     siteConfig: {themeConfig},
   } = context;
   const {
-    colorMode: {defaultDarkMode = false, respectUserPreference = false} = {},
+    colorMode: {defaultMode, respectPrefersColorScheme} = {},
     prism: {additionalLanguages = []} = {},
   } = themeConfig || {};
   const {customCss} = options || {};
@@ -113,8 +113,8 @@ module.exports = function (context, options) {
               type: 'text/javascript',
             },
             innerHTML: noFlash({
-              defaultDarkMode,
-              respectUserPreference,
+              defaultMode,
+              respectPrefersColorScheme,
             }),
           },
         ],
@@ -139,7 +139,19 @@ const NavbarLinkSchema = Joi.object({
   .id('navbarLinkSchema');
 
 const ThemeConfigSchema = Joi.object({
-  disableDarkMode: Joi.bool().default(false),
+  disableDarkMode: Joi.any().forbidden(false).messages({
+    'any.unknown':
+      'disableDarkMode theme config is deprecated. Please use the new colorMode attribute. You likely want: config.themeConfig.colorMode.disableSwitch = true',
+  }),
+  defaultDarkMode: Joi.any().forbidden(false).messages({
+    'any.unknown':
+      'defaultDarkMode theme config is deprecated. Please use the new colorMode attribute. You likely want: config.themeConfig.colorMode.defaultMode = "dark"',
+  }),
+  colorMode: Joi.object({
+    defaultMode: Joi.string().equal('dark', 'light').default('light'),
+    respectPrefersColorScheme: Joi.bool().default(false),
+    disableSwitch: Joi.bool().default(false),
+  }),
   image: Joi.string(),
   announcementBar: Joi.object({
     id: Joi.string(),
