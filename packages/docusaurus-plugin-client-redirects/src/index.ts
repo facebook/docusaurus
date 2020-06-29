@@ -26,7 +26,9 @@ export default function pluginClientRedirectsPages(
     name: 'docusaurus-plugin-client-redirects',
     async postBuild(props: Props) {
       const pluginContext: PluginContext = {
-        relativeRoutesPaths: trimBaseUrls(props.routesPaths, props.baseUrl),
+        relativeRoutesPaths: props.routesPaths.map(
+          (path) => `/${removePrefix(path, props.baseUrl)}`,
+        ),
         baseUrl: props.baseUrl,
         outDir: props.outDir,
         options,
@@ -43,8 +45,4 @@ export default function pluginClientRedirectsPages(
       await writeRedirectFiles(redirectFiles);
     },
   };
-}
-
-export function trimBaseUrls(paths: string[], baseUrl: string): string[] {
-  return paths.map((path) => `/${removePrefix(path, baseUrl)}`);
 }
