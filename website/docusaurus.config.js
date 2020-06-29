@@ -83,8 +83,8 @@ module.exports = {
   themeConfig: {
     colorMode: {
       defaultMode: 'light',
-      respectPrefersColorScheme: true,
       disableSwitch: false,
+      respectPrefersColorScheme: true,
     },
     announcementBar: {
       id: 'supportus',

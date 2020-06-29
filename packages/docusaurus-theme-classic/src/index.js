@@ -22,7 +22,7 @@ const ContextReplacementPlugin = requireFromDocusaurusCore(
 const storageKey = 'theme';
 const noFlashColorMode = ({defaultMode, respectPrefersColorScheme}) => {
   return `(function() {
-  var defaultMode = ${defaultMode};
+  var defaultMode = '${defaultMode}';
   var respectPrefersColorScheme = ${respectPrefersColorScheme};
 
   function setDataThemeAttribute(theme) {
@@ -132,6 +132,16 @@ const NavbarLinkSchema = Joi.object({
   .xor('href', 'to')
   .id('navbarLinkSchema');
 
+const ColorModeSchema = Joi.object({
+  defaultMode: Joi.string().equal('dark', 'light').default('light'),
+  disableSwitch: Joi.bool().default(false),
+  respectPrefersColorScheme: Joi.bool().default(false),
+}).default({
+  defaultMode: 'light',
+  disableSwitch: false,
+  respectPrefersColorScheme: false,
+});
+
 const ThemeConfigSchema = Joi.object({
   disableDarkMode: Joi.any().forbidden(false).messages({
     'any.unknown':
@@ -141,11 +151,7 @@ const ThemeConfigSchema = Joi.object({
     'any.unknown':
       'defaultDarkMode theme config is deprecated. Please use the new colorMode attribute. You likely want: config.themeConfig.colorMode.defaultMode = "dark"',
   }),
-  colorMode: Joi.object({
-    defaultMode: Joi.string().equal('dark', 'light').default('light'),
-    respectPrefersColorScheme: Joi.bool().default(false),
-    disableSwitch: Joi.bool().default(false),
-  }),
+  colorMode: ColorModeSchema,
   image: Joi.string(),
   announcementBar: Joi.object({
     id: Joi.string(),
