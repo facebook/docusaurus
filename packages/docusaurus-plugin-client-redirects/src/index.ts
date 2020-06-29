@@ -46,6 +46,6 @@ export default function pluginClientRedirectsPages(
   };
 }
 
-function trimBaseUrl(path: string, baseUrl: string) {
+export function trimBaseUrl(path: string, baseUrl: string) {
   return path.startsWith(baseUrl) ? path.replace(baseUrl, '/') : path;
 }
