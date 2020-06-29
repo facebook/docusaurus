@@ -41,10 +41,11 @@ cli
   .option('--dry', 'List all possible changes')
   .action((siteDir = '.', newdir = '.', {dry}) => {
     const sitePath = path.resolve(`${process.cwd()}/${siteDir}`);
+    const newSitePath = path.resolve(`${process.cwd()}/${newdir}`);
     // eslint-disable-next-line import/no-dynamic-require
     // eslint-disable-next-line global-require
     const config = require(`${sitePath}/siteConfig`);
-    createProjectStructure(sitePath, config, newdir);
+    createProjectStructure(sitePath, config, newSitePath);
   });
 
 cli.parse(process.argv);
