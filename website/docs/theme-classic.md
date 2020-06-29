@@ -30,8 +30,8 @@ module.exports = {
       // Useful if you want to support a single color mode
       disableSwitch: false,
 
-      // If available, should we use the prefers-color-scheme media-query
-      // (instead of the hardcoded defaultMode)
+      // Should we use the prefers-color-scheme media-query,
+      // using user system preferences, instead of the hardcoded defaultMode
       respectPrefersColorScheme: false,
     },
     // ...
