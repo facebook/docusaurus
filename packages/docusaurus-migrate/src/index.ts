@@ -28,6 +28,8 @@ export function walk(dir: string): Array<string> {
 }
 
 export function createConfigFile(siteConfig: Config): DocusaurusConfig {
+  const homePageId = siteConfig.headerLinks?.filter((value) => value.doc)[0]
+    .doc;
   return {
     title: siteConfig.title ?? '',
     tagline: siteConfig.tagline,
@@ -47,8 +49,7 @@ export function createConfigFile(siteConfig: Config): DocusaurusConfig {
         {
           docs: {
             path: 'docs',
-            homePageId: siteConfig.headerLinks?.filter((value) => value.doc)[0]
-              .doc,
+            homePageId,
             showLastUpdateAuthor: true,
             showLastUpdateTime: true,
             editUrl: siteConfig.editUrl,
@@ -70,7 +71,7 @@ export function createConfigFile(siteConfig: Config): DocusaurusConfig {
           .map((link) => {
             if (link.doc) {
               return {
-                to: `docs/`,
+                to: `docs/${link.doc === homePageId ? '' : link.doc}`,
                 label: link.label,
                 position: 'left',
               };
