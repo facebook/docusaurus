@@ -36,12 +36,19 @@ export interface DocusaurusConfig {
       links: Array<object>;
     };
     footer: {
+      links: Array<{
+        title: string;
+        items: Array<{
+          label: string;
+          to: string;
+        }>;
+      }>;
       copyright?: string;
       logo: {
         src?: string;
       };
     };
-    algolia: object;
+    algolia?: object;
   };
   customFields: {
     [key: string]: unknown;

@@ -17,7 +17,6 @@ const requiredVersion = require('../package.json').engines.node;
 
 const {createProjectStructure} = require('../lib');
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function wrapCommand(fn) {
   return (...args) =>
     fn(...args).catch((err) => {
@@ -39,14 +38,11 @@ if (!semver.satisfies(process.version, requiredVersion)) {
 cli
   .command('migrate [siteDir] [newDir]')
   .description('Migrate between versions of docusaurs website')
-  .option('--dry', 'List all possible changes')
   .action((siteDir = '.', newdir = '.') => {
     const sitePath = path.resolve(siteDir);
     const newSitePath = path.resolve(newdir);
-    // eslint-disable-next-line import/no-dynamic-require
-    // eslint-disable-next-line global-require
     const config = importFresh(`${sitePath}/siteConfig`);
-    createProjectStructure(sitePath, config, newSitePath);
+    wrapCommand(createProjectStructure(sitePath, config, newSitePath));
   });
 
 cli.parse(process.argv);

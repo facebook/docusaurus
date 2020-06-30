@@ -91,12 +91,25 @@ export function createConfigFile(siteConfig: Config): DocusaurusConfig {
           .filter(Boolean),
       },
       footer: {
+        links: siteConfig.twitterUsername
+          ? [
+              {
+                title: 'Community',
+                items: [
+                  {
+                    label: 'Twitter',
+                    to: `https://twitter.com/${siteConfig.twitterUsername}`,
+                  },
+                ],
+              },
+            ]
+          : [],
         copyright: siteConfig.copyright,
         logo: {
           src: siteConfig.footerIcon,
         },
       },
-      algolia: siteConfig.algolia ? siteConfig.algolia : {},
+      algolia: siteConfig.algolia ? siteConfig.algolia : undefined,
     },
   };
 }
