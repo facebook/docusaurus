@@ -159,7 +159,7 @@ ${NotFoundRouteCode}
 }
 
 function genRouteChunkNames(
-  // TODO instead of passing a mutating the registre, return a registry slice?
+  // TODO instead of passing a mutating the registry, return a registry slice?
   registry: {
     [chunkName: string]: ChunkRegistry;
   },
