@@ -20,7 +20,7 @@ export interface DocusaurusConfig {
     [
       string,
       {
-        doc: {[key: string]: any};
+        docs: {[key: string]: any};
         blog: {[key: string]: any};
         theme: {[key: string]: any};
       },

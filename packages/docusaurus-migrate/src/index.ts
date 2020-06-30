@@ -45,7 +45,7 @@ export function createConfigFile(siteConfig: Config): DocusaurusConfig {
       [
         '@docusaurus/preset-classic',
         {
-          doc: {
+          docs: {
             path: 'docs',
             homePageId: siteConfig.headerLinks?.filter((value) => value.doc)[0]
               .doc,
@@ -70,7 +70,7 @@ export function createConfigFile(siteConfig: Config): DocusaurusConfig {
           .map((link) => {
             if (link.doc) {
               return {
-                to: `docs/${link.doc}`,
+                to: `docs/`,
                 label: link.label,
                 position: 'left',
               };
@@ -263,11 +263,11 @@ export function createProjectStructure(
             .slice(1)
             .map((version) => ({
               label: version,
-              to: `docs/${version}/${classicPreset.doc.homePageId}`,
+              to: `docs/${version}/`,
             })),
           {
             label: 'Master/Unreleased',
-            to: `docs/next/${classicPreset.doc.homePageId}`,
+            to: `docs/next/`,
             activeBaseRegex: `docs/next/(?!support|team|resources)`,
           },
         ],
@@ -316,6 +316,7 @@ export function createProjectStructure(
   }
   try {
     fs.copyFileSync(`${siteDir}/sidebars.json`, `${newDir}/sidebars.json`);
+    classicPreset.docs.sidebarPath = `${newDir}/sidebars.json`;
   } catch {
     console.log('Ignoring sidebar');
   }
