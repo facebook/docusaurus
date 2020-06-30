@@ -23,7 +23,8 @@ import {load} from '../server';
 import {StartCLIOptions} from '@docusaurus/types';
 import {CONFIG_FILE_NAME, STATIC_DIR_NAME, DEFAULT_PORT} from '../constants';
 import createClientConfig from '../webpack/client';
-import {applyConfigureWebpack, choosePort} from '../webpack/utils';
+import {applyConfigureWebpack} from '../webpack/utils';
+import choosePort from '../choosePort';
 
 function getHost(reqHost: string | undefined): string {
   return reqHost || 'localhost';
