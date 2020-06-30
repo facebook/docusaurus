@@ -6,7 +6,6 @@
  */
 
 import * as fs from 'fs-extra';
-import {execSync} from 'child_process';
 import importFresh from 'import-fresh';
 
 import {Config, DocusaurusConfig} from './types';
@@ -16,7 +15,7 @@ const DOCUSAURUS_VERSION = '^2.0.0-alpha.58';
 export function walk(dir: string): Array<string> {
   let results: Array<string> = [];
   const list = fs.readdirSync(dir);
-  list.forEach((file) => {
+  list.forEach((file: string) => {
     const fullPath = `${dir}/${file}`;
     const stat = fs.statSync(fullPath);
     if (stat && stat.isDirectory()) {
@@ -138,10 +137,12 @@ export function createProjectStructure(
     console.log('Ignoring Pages');
   }
 
-  const isStatic = fs.statSync(`${siteDir}/static`);
-
-  if (isStatic) {
+  try {
+    fs.statSync(`${siteDir}/static`);
     fs.copySync(`${siteDir}/static`, `${newDir}/static`);
+  } catch {
+    console.log('Ignoring static assets');
+    fs.mkdirSync(`${newDir}/static`);
   }
   try {
     fs.statSync(`${siteDir}/blog`);
@@ -150,7 +151,13 @@ export function createProjectStructure(
   } catch {
     console.log('NO Blog found');
   }
-  const isVersion = fs.statSync(`${siteDir}/versions.json`);
+  let isVersion = false;
+  try {
+    fs.statSync(`${siteDir}/versions.json`);
+    isVersion = true;
+  } catch {
+    console.log('Unversioned docs');
+  }
   if (isVersion) {
     const loadedVersions: Array<string> = JSON.parse(
       String(fs.readFileSync(`${siteDir}/versions.json`)),
@@ -162,11 +169,11 @@ export function createProjectStructure(
     if (isVersionedSidebar) {
       fs.mkdirpSync(`${newDir}/versioned_sidebars`);
       const sidebars: {
-        enteries: {[key: string]: object | Array<object | String>};
+        enteries: {[key: string]: object | Array<object | string>};
         version: string;
       }[] = [];
       versions.forEach((version, index) => {
-        let sidebar: {[key: string]: object | Array<object | String>};
+        let sidebar: {[key: string]: object | Array<object | string>};
         const sidebarPath = `${siteDir}/versioned_sidebars/version-${version}-sidebars.json`;
         try {
           fs.statSync(sidebarPath);
@@ -280,10 +287,6 @@ export function createProjectStructure(
         return;
       }
       fs.mkdirsSync(`${newDir}/versioned_docs/version-${version}`);
-      console.log(
-        `${newDir}/versioned_docs/version-${versions[index - 1]}`,
-        `${newDir}/versioned_docs/version-${version}`,
-      );
       fs.copySync(
         `${newDir}/versioned_docs/version-${versions[index - 1]}`,
         `${newDir}/versioned_docs/version-${version}`,
@@ -316,7 +319,7 @@ export function createProjectStructure(
   }
   fs.writeFileSync(
     `${newDir}/docusaurus.config.js`,
-    `module.exports=${JSON.stringify(config)}`,
+    `module.exports=${JSON.stringify(config, null, 2)}`,
   );
 
   const packageFile = importFresh(`${siteDir}/package.json`) as {
@@ -324,12 +327,10 @@ export function createProjectStructure(
   };
   packageFile.scripts = {
     ...packageFile.scripts,
-    ...{
-      start: 'docusaurus start',
-      build: 'docusaurus build',
-      swizzle: 'docusaurus swizzle',
-      deploy: 'docusaurus deploy',
-    },
+    start: 'docusaurus start',
+    build: 'docusaurus build',
+    swizzle: 'docusaurus swizzle',
+    deploy: 'docusaurus deploy',
   };
   if (packageFile.dependencies) {
     delete packageFile.dependencies.docusaurus;
@@ -346,6 +347,4 @@ export function createProjectStructure(
     `${newDir}/package.json`,
     JSON.stringify(packageFile, null, 2),
   );
-  console.log(newDir);
-  execSync(`npm i`, {cwd: newDir});
 }

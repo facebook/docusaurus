@@ -11,6 +11,7 @@ const chalk = require('chalk');
 const semver = require('semver');
 const cli = require('commander');
 const path = require('path');
+const importFresh = require('import-fresh');
 
 const requiredVersion = require('../package.json').engines.node;
 
@@ -39,12 +40,12 @@ cli
   .command('migrate [siteDir] [newDir]')
   .description('Migrate between versions of docusaurs website')
   .option('--dry', 'List all possible changes')
-  .action((siteDir = '.', newdir = '.', {dry}) => {
-    const sitePath = path.resolve(`${process.cwd()}/${siteDir}`);
-    const newSitePath = path.resolve(`${process.cwd()}/${newdir}`);
+  .action((siteDir = '.', newdir = '.') => {
+    const sitePath = path.resolve(siteDir);
+    const newSitePath = path.resolve(newdir);
     // eslint-disable-next-line import/no-dynamic-require
     // eslint-disable-next-line global-require
-    const config = require(`${sitePath}/siteConfig`);
+    const config = importFresh(`${sitePath}/siteConfig`);
     createProjectStructure(sitePath, config, newSitePath);
   });
 
