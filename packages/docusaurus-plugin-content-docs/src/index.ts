@@ -18,7 +18,13 @@ import {
   objectWithKeySorted,
   aliasedSitePath,
 } from '@docusaurus/utils';
-import {LoadContext, Plugin, RouteConfig} from '@docusaurus/types';
+import {
+  LoadContext,
+  Plugin,
+  RouteConfig,
+  OptionValidationContext,
+  ValidationResult,
+} from '@docusaurus/types';
 
 import createOrder from './order';
 import loadSidebars from './sidebars';
@@ -47,24 +53,8 @@ import {
 import {Configuration} from 'webpack';
 import {docsVersion} from './version';
 import {VERSIONS_JSON_FILE} from './constants';
-
-const REVERSED_DOCS_HOME_PAGE_ID = '_index';
-
-const DEFAULT_OPTIONS: PluginOptions = {
-  path: 'docs', // Path to data on filesystem, relative to site dir.
-  routeBasePath: 'docs', // URL Route.
-  homePageId: REVERSED_DOCS_HOME_PAGE_ID, // Document id for docs home page.
-  include: ['**/*.{md,mdx}'], // Extensions to include.
-  sidebarPath: '', // Path to sidebar configuration for showing a list of markdown pages.
-  docLayoutComponent: '@theme/DocPage',
-  docItemComponent: '@theme/DocItem',
-  remarkPlugins: [],
-  rehypePlugins: [],
-  showLastUpdateTime: false,
-  showLastUpdateAuthor: false,
-  admonitions: {},
-  excludeNextVersionDocs: false,
-};
+import {PluginOptionSchema} from './pluginOptionSchema';
+import {ValidationError} from '@hapi/joi';
 
 function getFirstDocLinkOfSidebar(
   sidebarItems: DocsSidebarItem[],
@@ -84,9 +74,8 @@ function getFirstDocLinkOfSidebar(
 
 export default function pluginContentDocs(
   context: LoadContext,
-  opts: Partial<PluginOptions>,
-): Plugin<LoadedContent | null> {
-  const options: PluginOptions = {...DEFAULT_OPTIONS, ...opts};
+  options: PluginOptions,
+): Plugin<LoadedContent | null, typeof PluginOptionSchema> {
   const homePageDocsRoutePath =
     options.routeBasePath === '' ? '/' : options.routeBasePath;
 
@@ -392,23 +381,18 @@ Available document ids=
       // (/docs, /docs/next, /docs/1.0 etc...)
       // The component applies the layout and renders the appropriate doc
       const addBaseRoute = async (
-        docsBaseRoute: string,
+        docsBasePath: string,
         docsBaseMetadata: DocsBaseMetadata,
         routes: RouteConfig[],
         priority?: number,
       ) => {
         const docsBaseMetadataPath = await createData(
-          `${docuHash(normalizeUrl([docsBaseRoute, ':route']))}.json`,
+          `${docuHash(normalizeUrl([docsBasePath, ':route']))}.json`,
           JSON.stringify(docsBaseMetadata, null, 2),
         );
 
-        // Important: the layout component should not end with /,
-        // as it conflicts with the home doc
-        // Workaround fix for https://github.com/facebook/docusaurus/issues/2917
-        const docsPath = docsBaseRoute === '/' ? '' : docsBaseRoute;
-
         addRoute({
-          path: docsPath,
+          path: docsBasePath,
           exact: false, // allow matching /docs/* as well
           component: docLayoutComponent, // main docs component (DocPage)
           routes, // subroute for each doc
@@ -550,4 +534,15 @@ Available document ids=
       } as Configuration;
     },
   };
+}
+
+export function validateOptions({
+  validate,
+  options,
+}: OptionValidationContext<PluginOptions, ValidationError>): ValidationResult<
+  PluginOptions,
+  ValidationError
+> {
+  const validatedOptions = validate(PluginOptionSchema, options);
+  return validatedOptions;
 }

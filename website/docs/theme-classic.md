@@ -11,31 +11,42 @@ This section is a work in progress.
 
 ## Common
 
-### Dark mode
+### Color mode - dark mode
 
-To remove the ability to switch on dark mode, there is an option `themeConfig.disableDarkMode`, which is implicitly set to `false`.
+The classic theme provides by default light and dark mode support, with a navbar switch for the user.
 
-```js {4} title="docusaurus.config.js"
+It is possible to customize the color mode support with the following configuration:
+
+```js {6-15} title="docusaurus.config.js"
 module.exports = {
   // ...
   themeConfig: {
-    disableDarkMode: false,
+    // ...
+    colorMode: {
+      // "light" | "dark"
+      defaultMode: 'light',
+
+      // Hides the switch in the navbar
+      // Useful if you want to support a single color mode
+      disableSwitch: false,
+
+      // Should we use the prefers-color-scheme media-query,
+      // using user system preferences, instead of the hardcoded defaultMode
+      respectPrefersColorScheme: false,
+    },
     // ...
   },
-};
-```
-
-With the enabled `defaultDarkMode` option you could set dark mode by default. However, in this case, the user's preference will not be taken into account until they manually sets the desired mode via toggle in the navbar.
-
-```js {4} title="docusaurus.config.js"
-module.exports = {
   // ...
-  themeConfig: {
-    defaultDarkMode: true,
-    // ...
-  },
 };
 ```
+
+:::caution
+
+With `respectPrefersColorScheme: true`, the `defaultMode` is overridden by user system preferences.
+
+If you only want to support one color mode, you likely want to ignore user system preferences.
+
+:::
 
 ### Meta image
 

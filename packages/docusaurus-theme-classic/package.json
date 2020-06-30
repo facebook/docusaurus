@@ -27,7 +27,8 @@
     "react-toggle": "^4.1.1"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "^2.0.0-alpha.58"
+    "@docusaurus/module-type-aliases": "^2.0.0-alpha.58",
+    "@types/hapi__joi": "^17.1.2"
   },
   "peerDependencies": {
     "@docusaurus/core": "^2.0.0",
@@ -36,8 +37,5 @@
   },
   "engines": {
     "node": ">=10.15.1"
-  },
-  "devDependencies": {
-    "@types/hapi__joi": "^17.1.2"
   }
 }

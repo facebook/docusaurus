@@ -63,11 +63,11 @@ export function validateOptions({options, validate}) {
 
 ## `validateThemeConfig({themeConfig,validate})`
 
-Validate `themeConfig` for the plugins and theme. This method is called before the plugin is initialized.
+Return validated and normalized configuration for the theme.
 
 ### `themeConfig`
 
-`validateThemeConfig` is called with `themeConfig` provided in `docusaurus.config.js` for validation.
+`validateThemeConfig` is called with `themeConfig` provided in `docusaurus.config.js` for validation and normalization.
 
 ### `validate`
 
@@ -75,7 +75,7 @@ Validate `themeConfig` for the plugins and theme. This method is called before t
 
 :::tip
 
-[Joi](https://www.npmjs.com/package/@hapi/joi) is recommended for validation and normalization of options.
+[Joi](https://www.npmjs.com/package/@hapi/joi) is recommended for validation and normalization of theme config.
 
 :::
 
@@ -90,7 +90,8 @@ module.exports = function (context, options) {
 };
 
 module.exports.validateThemeConfig = ({themeConfig, validate}) => {
-  validate(myValidationSchema, options);
+  const validatedThemeConfig = validate(myValidationSchema, options);
+  return validatedThemeConfig;
 };
 ```
 
@@ -105,7 +106,8 @@ export default function (context, options) {
 }
 
 export function validateThemeConfig({themeConfig, validate}) {
-  validate(myValidationSchema, options);
+  const validatedThemeConfig = validate(myValidationSchema, options);
+  return validatedThemeConfig;
 }
 ```
 
@@ -408,6 +410,32 @@ module.exports = function (context, options) {
   return {
     name: 'name-of-my-theme',
     getThemePath() {
+      return path.resolve(__dirname, './theme');
+    },
+  };
+};
+```
+
+## `getTypeScriptThemePath()`
+
+Similar to `getThemePath()`, it should return the path to the directory where the source code of TypeScript theme components can be found. Theme components under this path will **not** be resolved by Webpack. Therefore, it is not a replacement of `getThemePath()`. Instead, this path is purely for swizzling TypeScript theme components.
+
+If you want to support TypeScript component swizzling for your theme, you can make the path returned by `getTypeScriptThemePath()` be your source directory, and make path returned by `getThemePath()` be the compiled JavaScript output.
+
+Example:
+
+```js {6-13} title="my-theme/src/index.js"
+const path = require('path');
+
+module.exports = function (context, options) {
+  return {
+    name: 'name-of-my-theme',
+    getThemePath() {
+      // Where compiled JavaScript output lives
+      return path.join(__dirname, '..', 'lib', 'theme');
+    },
+    getTypeScriptThemePath() {
+      // Where TypeScript source code lives
       return path.resolve(__dirname, './theme');
     },
   };

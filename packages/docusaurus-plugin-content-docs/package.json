@@ -13,7 +13,8 @@
   "license": "MIT",
   "devDependencies": {
     "commander": "^5.0.0",
-    "picomatch": "^2.1.1"
+    "picomatch": "^2.1.1",
+    "@types/hapi__joi": "^17.1.2"
   },
   "dependencies": {
     "@docusaurus/mdx-loader": "^2.0.0-alpha.58",
@@ -22,6 +23,7 @@
     "execa": "^3.4.0",
     "fs-extra": "^8.1.0",
     "globby": "^10.0.1",
+    "@hapi/joi": "17.1.1",
     "import-fresh": "^3.2.1",
     "loader-utils": "^1.2.3",
     "lodash.flatmap": "^4.5.0",

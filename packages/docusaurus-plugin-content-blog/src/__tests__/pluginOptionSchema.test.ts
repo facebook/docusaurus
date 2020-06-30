@@ -5,11 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {PluginOptionSchema, DefaultOptions} from '../validation';
+import {PluginOptionSchema, DEFAULT_OPTIONS} from '../pluginOptionSchema';
 
 test('normalize options', () => {
   const {value} = PluginOptionSchema.validate({});
-  expect(value).toEqual(DefaultOptions);
+  expect(value).toEqual(DEFAULT_OPTIONS);
 });
 
 test('validate options', () => {
@@ -20,7 +20,7 @@ test('validate options', () => {
     routeBasePath: 'not_blog',
   });
   expect(value).toEqual({
-    ...DefaultOptions,
+    ...DEFAULT_OPTIONS,
     postsPerPage: 5,
     include: ['api/*', 'docs/*'],
     routeBasePath: 'not_blog',
@@ -54,7 +54,7 @@ test('convert all feed type to array with other feed type', () => {
     feedOptions: {type: 'all'},
   });
   expect(value).toEqual({
-    ...DefaultOptions,
+    ...DEFAULT_OPTIONS,
     feedOptions: {type: ['rss', 'atom']},
   });
 });
