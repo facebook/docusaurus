@@ -231,7 +231,7 @@ export function createProjectStructure(
                   return {
                     type: 'category',
                     label: sidebarItem.label,
-                    items: sidebarItem.ids.map((id: any) => ({
+                    items: sidebarItem.ids.map((id: string) => ({
                       type: 'doc',
                       id: `version-${sidebar.version}/${id}`,
                     })),
@@ -267,7 +267,7 @@ export function createProjectStructure(
             })),
           {
             label: 'Master/Unreleased',
-            to: 'docs/next/',
+            to: `docs/next/${classicPreset.doc.homePageId}`,
             activeBaseRegex: `docs/next/(?!support|team|resources)`,
           },
         ],
@@ -286,15 +286,22 @@ export function createProjectStructure(
         );
         return;
       }
-      fs.mkdirsSync(`${newDir}/versioned_docs/version-${version}`);
-      fs.copySync(
-        `${newDir}/versioned_docs/version-${versions[index - 1]}`,
-        `${newDir}/versioned_docs/version-${version}`,
-      );
-      fs.copySync(
-        `${siteDir}/versioned_docs/version-${version}`,
-        `${newDir}/versioned_docs/version-${version}`,
-      );
+      try {
+        fs.mkdirsSync(`${newDir}/versioned_docs/version-${version}`);
+        fs.copySync(
+          `${newDir}/versioned_docs/version-${versions[index - 1]}`,
+          `${newDir}/versioned_docs/version-${version}`,
+        );
+        fs.copySync(
+          `${siteDir}/versioned_docs/version-${version}`,
+          `${newDir}/versioned_docs/version-${version}`,
+        );
+      } catch {
+        fs.copySync(
+          `${newDir}/versioned_docs/version-${versions[index - 1]}`,
+          `${newDir}/versioned_docs/version-${version}`,
+        );
+      }
     });
     const files = walk(`${newDir}/versioned_docs`);
     files.forEach((path) => {
@@ -306,6 +313,11 @@ export function createProjectStructure(
     fs.copySync(`${siteDir}/../docs`, `${newDir}/docs`);
   } catch {
     fs.mkdir(`${newDir}/docs`);
+  }
+  try {
+    fs.copyFileSync(`${siteDir}/sidebars.json`, `${newDir}/sidebars.json`);
+  } catch {
+    console.log('Ignoring sidebar');
   }
   if (siteConfig.colors) {
     const css = `
