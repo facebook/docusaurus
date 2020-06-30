@@ -381,23 +381,18 @@ Available document ids=
       // (/docs, /docs/next, /docs/1.0 etc...)
       // The component applies the layout and renders the appropriate doc
       const addBaseRoute = async (
-        docsBaseRoute: string,
+        docsBasePath: string,
         docsBaseMetadata: DocsBaseMetadata,
         routes: RouteConfig[],
         priority?: number,
       ) => {
         const docsBaseMetadataPath = await createData(
-          `${docuHash(normalizeUrl([docsBaseRoute, ':route']))}.json`,
+          `${docuHash(normalizeUrl([docsBasePath, ':route']))}.json`,
           JSON.stringify(docsBaseMetadata, null, 2),
         );
 
-        // Important: the layout component should not end with /,
-        // as it conflicts with the home doc
-        // Workaround fix for https://github.com/facebook/docusaurus/issues/2917
-        const docsPath = docsBaseRoute === '/' ? '' : docsBaseRoute;
-
         addRoute({
-          path: docsPath,
+          path: docsBasePath,
           exact: false, // allow matching /docs/* as well
           component: docLayoutComponent, // main docs component (DocPage)
           routes, // subroute for each doc
