@@ -40,15 +40,18 @@ const noFlashColorMode = ({defaultMode, respectPrefersColorScheme}) => {
   var storedTheme = getStoredTheme();
   if (storedTheme !== null) {
     setDataThemeAttribute(storedTheme);
-  }
-  else {
-    if ( respectPrefersColorScheme && window.matchMedia('(prefers-color-scheme: dark)').matches ) {
+  } else {
+    if (
+      respectPrefersColorScheme &&
+      window.matchMedia('(prefers-color-scheme: dark)').matches
+    ) {
       setDataThemeAttribute('dark');
-    }
-    else if ( respectPrefersColorScheme && window.matchMedia('(prefers-color-scheme: light)').matches ) {
+    } else if (
+      respectPrefersColorScheme &&
+      window.matchMedia('(prefers-color-scheme: light)').matches
+    ) {
       setDataThemeAttribute('light');
-    }
-    else {
+    } else {
       setDataThemeAttribute(defaultMode === 'dark' ? 'dark' : 'light');
     }
   }

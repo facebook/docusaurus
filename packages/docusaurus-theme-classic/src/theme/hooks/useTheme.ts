@@ -8,6 +8,7 @@
 import {useState, useCallback, useEffect} from 'react';
 
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 
 const themes = {
   light: 'light',
@@ -20,7 +21,7 @@ const coerceToTheme = (theme) => {
 };
 
 const getInitialTheme = () => {
-  if (typeof document === 'undefined') {
+  if (!ExecutionEnvironment.canUseDOM) {
     return themes.light; // SSR: we don't care
   }
   return coerceToTheme(document.documentElement.getAttribute('data-theme'));

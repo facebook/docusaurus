@@ -42,7 +42,7 @@ module.exports = {
 
 :::caution
 
-With `respectPrefersColorScheme: true`, the `defaultMode` is overriden by user system preferences.
+With `respectPrefersColorScheme: true`, the `defaultMode` is overridden by user system preferences.
 
 If you only want to support one color mode, you likely want to ignore user system preferences.
 
