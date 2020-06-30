@@ -23,6 +23,8 @@
     "chalk": "^4.1.0",
     "commander": "^5.1.0",
     "escape-html": "^1.0.3",
+    "fs-extra": "^9.0.1",
+    "import-fresh": "^3.2.1",
     "sanitize-html": "^1.27.0",
     "semver": "^7.3.2"
   }

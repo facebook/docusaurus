@@ -6,47 +6,12 @@
  */
 
 import * as fs from 'fs-extra';
-import {DocusaurusConfig} from '@docusaurus/types';
 import {execSync} from 'child_process';
+import importFresh from 'import-fresh';
 
-export type Config = {
-  title?: string;
-  tagline?: string;
-  url?: string;
-  baseUrl?: string;
-  defaultVersionShown?: string;
-  organizationName?: string;
-  projectName?: string;
-  noIndex?: string;
-  headerLinks?: Array<any>;
-  headerIcon?: string;
-  favicon?: string;
-  colors?: any;
-  copyright?: string;
-  editUrl?: string;
-  users?: Array<object>;
-  disableHeaderTitle?: string;
-  disableTitleTagline?: string;
-  separateCss?: Array<object>;
-  footerIcon?: string;
-  translationRecruitingLink?: string;
-  algolia?: object;
-  gaTrackingId?: string;
-  highlight?: object;
-  markdownPlugins?: Array<() => void>;
-  scripts?: Array<{src: string; [key: string]: any} | string>;
-  stylesheets?: Array<{href: string; [key: string]: any} | string>;
-  facebookAppId?: string;
-  facebookComments?: true;
-  facebookPixelId?: string;
-  twitter?: string;
-  twitterUsername?: string;
-  twitterImage?: string;
-  ogImage?: string;
-  cleanUrl?: boolean;
-  scrollToTop?: boolean;
-  scrollToTopOptions?: object;
-};
+import {Config, DocusaurusConfig} from './types';
+
+const DOCUSAURUS_VERSION = '^2.0.0-alpha.58';
 
 export function walk(dir: string): Array<string> {
   let results: Array<string> = [];
@@ -94,6 +59,7 @@ export function createConfigFile(siteConfig: Config): DocusaurusConfig {
         },
       ],
     ],
+    plugins: [],
     themeConfig: {
       navbar: {
         title: siteConfig.title,
@@ -141,6 +107,22 @@ export function createProjectStructure(
   newDir: string,
 ): void {
   const config = createConfigFile(siteConfig);
+  const classicPreset = config.presets[0][1];
+
+  const deps: {[key: string]: string} = {
+    '@docusaurus/core': DOCUSAURUS_VERSION,
+    '@docusaurus/preset-classic': DOCUSAURUS_VERSION,
+    clsx: '^1.1.1',
+    react: '^16.10.2',
+    'react-dom': '^16.10.2',
+  };
+  if (!siteConfig.cleanUrl) {
+    deps['@docusaurus/plugin-client-redirects'] = DOCUSAURUS_VERSION;
+    config.plugins.push([
+      '@docusaurus/plugin-client-redirects',
+      {fromExtensions: ['html']},
+    ]);
+  }
   fs.mkdirpSync(`${newDir}/src/pages`);
   try {
     fs.statSync(`${siteDir}/pages/en`);
@@ -164,9 +146,7 @@ export function createProjectStructure(
   try {
     fs.statSync(`${siteDir}/blog`);
     fs.copySync(`${siteDir}/blog`, `${newDir}/blog`);
-    if (config.presets) {
-      config.presets[0][1].blog.path = 'blog';
-    }
+    classicPreset.blog.path = 'blog';
   } catch {
     console.log('NO Blog found');
   }
@@ -276,7 +256,7 @@ export function createProjectStructure(
             .slice(1)
             .map((version) => ({
               label: version,
-              to: `docs/${version}/${config.presets[0][1].doc.homePageId}`,
+              to: `docs/${version}/${classicPreset.doc.homePageId}`,
             })),
           {
             label: 'Master/Unreleased',
@@ -332,14 +312,16 @@ export function createProjectStructure(
       `;
     fs.mkdirpSync(`${newDir}/src/css/`);
     fs.writeFileSync(`${newDir}/src/css/customTheme.css`, css);
-    config.presets[0][1].theme.customCss = `${newDir}/src/css/customTheme.css`;
+    classicPreset.theme.customCss = `${newDir}/src/css/customTheme.css`;
   }
   fs.writeFileSync(
     `${newDir}/docusaurus.config.js`,
     `module.exports=${JSON.stringify(config)}`,
   );
 
-  const packageFile = require(`${siteDir}/package.json`);
+  const packageFile = importFresh(`${siteDir}/package.json`) as {
+    [key: string]: any;
+  };
   packageFile.scripts = {
     ...packageFile.scripts,
     ...{
@@ -358,13 +340,7 @@ export function createProjectStructure(
 
   packageFile.dependencies = {
     ...packageFile.dependencies,
-    ...{
-      '@docusaurus/core': '^2.0.0-alpha.58',
-      '@docusaurus/preset-classic': '^2.0.0-alpha.58',
-      clsx: '^1.1.1',
-      react: '^16.10.2',
-      'react-dom': '^16.10.2',
-    },
+    ...deps,
   };
   fs.writeFileSync(
     `${newDir}/package.json`,
