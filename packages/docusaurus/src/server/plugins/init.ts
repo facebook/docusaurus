@@ -83,11 +83,11 @@ export default function initPlugins({
         pluginModule.default?.validateOptions ?? pluginModule.validateOptions;
 
       if (validateOptions) {
-        const options = validateOptions({
+        const normalizedOptions = validateOptions({
           validate,
           options: pluginOptions,
         });
-        pluginOptions = options;
+        pluginOptions = normalizedOptions;
       }
 
       // support both commonjs and ES modules
@@ -96,10 +96,15 @@ export default function initPlugins({
         pluginModule.validateThemeConfig;
 
       if (validateThemeConfig) {
-        validateThemeConfig({
+        const normalizedThemeConfig = validateThemeConfig({
           validate: validateAndStrip,
           themeConfig: context.siteConfig.themeConfig,
         });
+
+        context.siteConfig.themeConfig = {
+          ...context.siteConfig.themeConfig,
+          ...normalizedThemeConfig,
+        };
       }
       return plugin(context, pluginOptions);
     })
