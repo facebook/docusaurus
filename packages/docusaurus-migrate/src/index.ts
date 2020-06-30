@@ -323,7 +323,7 @@ export function createProjectStructure(
   if (siteConfig.colors) {
     const css = `
       :root{
-        --ifm-color-primary: ${siteConfig.colors.primary};
+        --ifm-color-primary: ${siteConfig.colors.primaryColor};
       }
       `;
     fs.mkdirpSync(`${newDir}/src/css/`);
