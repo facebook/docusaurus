@@ -164,7 +164,9 @@ export function createProjectStructure(
   try {
     fs.statSync(`${siteDir}/blog`);
     fs.copySync(`${siteDir}/blog`, `${newDir}/blog`);
-    config.presets[0][1].blog.path = 'blog';
+    if (config.presets) {
+      config.presets[0][1].blog.path = 'blog';
+    }
   } catch {
     console.log('NO Blog found');
   }
@@ -193,33 +195,39 @@ export function createProjectStructure(
           sidebars.push({version, enteries: sidebars[index - 1].enteries});
           return;
         }
-        const newSidebar = Object.entries(sidebar).reduce((topLevel, value) => {
-          const key = value[0].replace(versionRegex, '');
-          // eslint-disable-next-line no-param-reassign
-          topLevel[key] = Object.entries(value[1]).reduce((acc, val) => {
-            acc[val[0].replace(versionRegex, '')] = (val[1] as Array<any>).map(
-              (item) => {
-                if (typeof item === 'string') {
-                  return item.replace(versionRegex, '');
-                }
-                return {
-                  type: 'category',
-                  label: item.label,
-                  ids: item.ids.map((id: string) =>
-                    id.replace(versionRegex, ''),
-                  ),
-                };
+        const newSidebar = Object.entries(sidebar).reduce(
+          (topLevel: {[key: string]: any}, value) => {
+            const key = value[0].replace(versionRegex, '');
+            // eslint-disable-next-line no-param-reassign
+            topLevel[key] = Object.entries(value[1]).reduce(
+              (acc: {[key: string]: Array<object | string>}, val) => {
+                acc[val[0].replace(versionRegex, '')] = (val[1] as Array<
+                  any
+                >).map((item) => {
+                  if (typeof item === 'string') {
+                    return item.replace(versionRegex, '');
+                  }
+                  return {
+                    type: 'category',
+                    label: item.label,
+                    ids: item.ids.map((id: string) =>
+                      id.replace(versionRegex, ''),
+                    ),
+                  };
+                });
+                return acc;
               },
+              {},
             );
-            return acc;
-          }, {});
-          return topLevel;
-        }, {});
+            return topLevel;
+          },
+          {},
+        );
         sidebars.push({version, enteries: newSidebar});
       });
       sidebars.forEach((sidebar) => {
         const newSidebar = Object.entries(sidebar.enteries).reduce(
-          (acc, val) => {
+          (acc: {[key: string]: any}, val) => {
             const key = `version-${sidebar.version}/${val[0]}`;
             // eslint-disable-next-line prefer-destructuring
             acc[key] = Object.entries(val[1]).map((value) => {
