@@ -7,7 +7,6 @@
 
 import chalk from 'chalk';
 import {execSync} from 'child_process';
-import path from 'path';
 
 const execOptions: object = {
   encoding: 'utf8',
@@ -18,11 +17,6 @@ const execOptions: object = {
   ],
 };
 
-// Checks if process is a React app
-function isProcessAReactApp(processCommand) {
-  return /^node .*react-scripts\/scripts\/start\.js\s?$/.test(processCommand);
-}
-
 // Gets process id of what is on port
 function getProcessIdOnPort(port: number): string {
   return execSync(`lsof -i:${port} -P -t -sTCP:LISTEN`, execOptions)
@@ -31,24 +25,8 @@ function getProcessIdOnPort(port: number): string {
     .trim();
 }
 
-// Gets package name in a directory
-async function getPackageNameInDirectory(
-  directory: string,
-): Promise<string | null> {
-  const packagePath = path.join(directory.trim(), 'package.json');
-
-  try {
-    return (await import(packagePath)).default.name;
-  } catch (e) {
-    return null;
-  }
-}
-
 // Gets process command
-function getProcessCommand(
-  processId: string,
-  processDirectory: string,
-): Promise<string | null> | string {
+function getProcessCommand(processId: string): Promise<string | null> | string {
   let command: Buffer | string = execSync(
     `ps -o command -p ${processId} | sed -n 2p`,
     execOptions,
@@ -56,10 +34,6 @@ function getProcessCommand(
 
   command = command.toString().replace(/\n$/, '');
 
-  if (isProcessAReactApp(command)) {
-    const packageName = getPackageNameInDirectory(processDirectory);
-    return packageName || command;
-  }
   return command;
 }
 
@@ -78,7 +52,7 @@ export default function getProcessForPort(port: number): string | null {
   try {
     const processId = getProcessIdOnPort(port);
     const directory = getDirectoryOfProcessById(processId);
-    const command = getProcessCommand(processId, directory);
+    const command = getProcessCommand(processId);
     return (
       chalk.cyan(command) +
       chalk.grey(` (pid ${processId})\n`) +
