@@ -61,7 +61,6 @@ jobs:
           yarn config set npmRegistryServer http://localhost:4873
           yarn config set unsafeHttpWhitelist --json '["localhost"]'
           yarn install
-          yarn add @mdx-js/react
       - name: Start test-website project
         run: cd test-website && yarn start --no-open
         env:
