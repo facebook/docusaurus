@@ -5,23 +5,33 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {validate} from 'webpack';
+import {
+  // @ts-expect-error: seems it's not in the typedefs???
+  validate,
+  Configuration,
+} from 'webpack';
 import path from 'path';
 
 import {applyConfigureWebpack} from '../utils';
+import {
+  ConfigureWebpackFn,
+  ConfigureWebpackFnMergeStrategy,
+} from '@docusaurus/types';
 
 describe('extending generated webpack config', () => {
   test('direct mutation on generated webpack config object', async () => {
     // fake generated webpack config
-    let config = {
+    let config: Configuration = {
       output: {
         path: __dirname,
         filename: 'bundle.js',
       },
     };
 
-    /* eslint-disable */
-    const configureWebpack = (generatedConfig, isServer) => {
+    const configureWebpack: ConfigureWebpackFn = (
+      generatedConfig,
+      isServer,
+    ) => {
       if (!isServer) {
         generatedConfig.entry = 'entry.js';
         generatedConfig.output = {
@@ -29,8 +39,8 @@ describe('extending generated webpack config', () => {
           filename: 'new.bundle.js',
         };
       }
+      return {};
     };
-    /* eslint-enable */
 
     config = applyConfigureWebpack(configureWebpack, config, false);
     expect(config).toEqual({
@@ -45,23 +55,20 @@ describe('extending generated webpack config', () => {
   });
 
   test('webpack-merge with user webpack config object', async () => {
-    // fake generated webpack config
-    let config = {
+    let config: Configuration = {
       output: {
         path: __dirname,
         filename: 'bundle.js',
       },
     };
 
-    /* eslint-disable */
-    const configureWebpack = {
+    const configureWebpack: ConfigureWebpackFn = () => ({
       entry: 'entry.js',
       output: {
         path: path.join(__dirname, 'dist'),
         filename: 'new.bundle.js',
       },
-    };
-    /* eslint-enable */
+    });
 
     config = applyConfigureWebpack(configureWebpack, config, false);
     expect(config).toEqual({
@@ -73,5 +80,55 @@ describe('extending generated webpack config', () => {
     });
     const errors = validate(config);
     expect(errors.length).toBe(0);
+  });
+
+  test('webpack-merge with custom strategy', async () => {
+    const config: Configuration = {
+      module: {
+        rules: [{use: 'xxx'}, {use: 'yyy'}],
+      },
+    };
+
+    const createConfigureWebpack: (
+      mergeStrategy?: ConfigureWebpackFnMergeStrategy,
+    ) => ConfigureWebpackFn = (mergeStrategy) => () => ({
+      module: {
+        rules: [{use: 'zzz'}],
+      },
+      mergeStrategy,
+    });
+
+    const defaultStrategyMergeConfig = applyConfigureWebpack(
+      createConfigureWebpack(),
+      config,
+      false,
+    );
+    expect(defaultStrategyMergeConfig).toEqual({
+      module: {
+        rules: [{use: 'xxx'}, {use: 'yyy'}, {use: 'zzz'}],
+      },
+    });
+
+    const prependRulesStrategyConfig = applyConfigureWebpack(
+      createConfigureWebpack({'module.rules': 'prepend'}),
+      config,
+      false,
+    );
+    expect(prependRulesStrategyConfig).toEqual({
+      module: {
+        rules: [{use: 'zzz'}, {use: 'xxx'}, {use: 'yyy'}],
+      },
+    });
+
+    const uselessMergeStrategyConfig = applyConfigureWebpack(
+      createConfigureWebpack({uselessAttributeName: 'append'}),
+      config,
+      false,
+    );
+    expect(uselessMergeStrategyConfig).toEqual({
+      module: {
+        rules: [{use: 'xxx'}, {use: 'yyy'}, {use: 'zzz'}],
+      },
+    });
   });
 });
