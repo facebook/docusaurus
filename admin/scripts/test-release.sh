@@ -27,7 +27,7 @@ git diff --name-only -- '*.json' | sed 's, ,\\&,g' | xargs git checkout --
 npm_config_registry="$CUSTOM_REGISTRY_URL" npx @docusaurus/init@"$NEW_VERSION" init test-website classic
 
 # Stop Docker container
-if ( $(docker container inspect "$CONTAINER_NAME" > /dev/null 2>&1) ); then
+if (! $KEEP_CONTAINER) && ( $(docker container inspect "$CONTAINER_NAME" > /dev/null 2>&1) ); then
   # Remove Docker container
   docker container stop $CONTAINER_NAME > /dev/null
 fi

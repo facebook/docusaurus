@@ -18,7 +18,13 @@ import {
   objectWithKeySorted,
   aliasedSitePath,
 } from '@docusaurus/utils';
-import {LoadContext, Plugin, RouteConfig} from '@docusaurus/types';
+import {
+  LoadContext,
+  Plugin,
+  RouteConfig,
+  OptionValidationContext,
+  ValidationResult,
+} from '@docusaurus/types';
 
 import createOrder from './order';
 import loadSidebars from './sidebars';
@@ -49,29 +55,13 @@ import {
 import {Configuration} from 'webpack';
 import {docsVersion} from './version';
 import {VERSIONS_JSON_FILE} from './constants';
-
-const REVERSED_DOCS_HOME_PAGE_ID = '_index';
-
-const DEFAULT_OPTIONS: PluginOptions = {
-  path: 'docs', // Path to data on filesystem, relative to site dir.
-  routeBasePath: 'docs', // URL Route.
-  homePageId: REVERSED_DOCS_HOME_PAGE_ID, // Document id for docs home page.
-  include: ['**/*.{md,mdx}'], // Extensions to include.
-  sidebarPath: '', // Path to sidebar configuration for showing a list of markdown pages.
-  docLayoutComponent: '@theme/DocPage',
-  docItemComponent: '@theme/DocItem',
-  remarkPlugins: [],
-  rehypePlugins: [],
-  showLastUpdateTime: false,
-  showLastUpdateAuthor: false,
-  admonitions: {},
-};
+import {PluginOptionSchema} from './pluginOptionSchema';
+import {ValidationError} from '@hapi/joi';
 
 export default function pluginContentDocs(
   context: LoadContext,
-  opts: Partial<PluginOptions>,
-): Plugin<LoadedContent | null> {
-  const options: PluginOptions = {...DEFAULT_OPTIONS, ...opts};
+  options: PluginOptions,
+): Plugin<LoadedContent | null, typeof PluginOptionSchema> {
   const homePageDocsRoutePath =
     options.routeBasePath === '' ? '/' : options.routeBasePath;
 
@@ -161,25 +151,30 @@ export default function pluginContentDocs(
       // Prepare metadata container.
       const docsMetadataRaw: DocsMetadataRaw = {};
       const docsPromises = [];
+      const includeDefaultDocs = !(
+        options.excludeNextVersionDocs && process.argv[2] === 'build'
+      );
 
       // Metadata for default/master docs files.
-      const docsFiles = await globby(include, {
-        cwd: docsDir,
-      });
-      docsPromises.push(
-        Promise.all(
-          docsFiles.map(async (source) => {
-            const metadata: MetadataRaw = await processMetadata({
-              source,
-              refDir: docsDir,
-              context,
-              options,
-              env,
-            });
-            docsMetadataRaw[metadata.id] = metadata;
-          }),
-        ),
-      );
+      if (includeDefaultDocs) {
+        const docsFiles = await globby(include, {
+          cwd: docsDir,
+        });
+        docsPromises.push(
+          Promise.all(
+            docsFiles.map(async (source) => {
+              const metadata: MetadataRaw = await processMetadata({
+                source,
+                refDir: docsDir,
+                context,
+                options,
+                env,
+              });
+              docsMetadataRaw[metadata.id] = metadata;
+            }),
+          ),
+        );
+      }
 
       // Metadata for versioned docs.
       if (versioning.enabled) {
@@ -208,13 +203,14 @@ export default function pluginContentDocs(
       }
 
       // Load the sidebars and create docs ordering.
-      const sidebarPaths = [
-        sidebarPath,
-        ...versionsNames.map(
-          (versionName) =>
-            `${versionedSidebarsDir}/${versionName}-sidebars.json`,
-        ),
-      ];
+      const sidebarPaths = versionsNames.map(
+        (versionName) => `${versionedSidebarsDir}/${versionName}-sidebars.json`,
+      );
+
+      if (includeDefaultDocs) {
+        sidebarPaths.unshift(sidebarPath);
+      }
+
       const loadedSidebars: Sidebar = loadSidebars(sidebarPaths);
       const order: Order = createOrder(loadedSidebars);
 
@@ -376,9 +372,7 @@ Available document ids=
           }),
         );
 
-        return routes.sort((a, b) =>
-          a.path > b.path ? 1 : b.path > a.path ? -1 : 0,
-        );
+        return routes.sort((a, b) => a.path.localeCompare(b.path));
       };
 
       // We want latest version route to have lower priority
@@ -391,29 +385,18 @@ Available document ids=
       // (/docs, /docs/next, /docs/1.0 etc...)
       // The component applies the layout and renders the appropriate doc
       const addBaseRoute = async (
-        docsBaseRoute: string,
+        docsBasePath: string,
         docsBaseMetadata: DocsBaseMetadata,
         docRoutes: RouteConfig[],
         priority?: number,
       ) => {
         const docsBaseMetadataPath = await createData(
-          `${docuHash(normalizeUrl([docsBaseRoute, ':route']))}.json`,
+          `${docuHash(normalizeUrl([docsBasePath, ':route']))}.json`,
           JSON.stringify(docsBaseMetadata, null, 2),
         );
 
-        // Important: the layout component should not end with /,
-        // as it conflicts with the home doc
-        // Workaround fix for https://github.com/facebook/docusaurus/issues/2917
-        const path = docsBaseRoute === '/' ? '' : docsBaseRoute;
-
-        pluginInstanceGlobalData.versionsMetadata.push({
-          version: docsBaseMetadata.version,
-          path,
-          docsPaths: docRoutes.map((docRoute) => docRoute.path),
-        });
-
         addRoute({
-          path,
+          path: docsBasePath,
           exact: false, // allow matching /docs/* as well
           component: docLayoutComponent, // main docs component (DocPage)
           routes: docRoutes, // subroute for each doc
@@ -545,4 +528,15 @@ Available document ids=
       } as Configuration;
     },
   };
+}
+
+export function validateOptions({
+  validate,
+  options,
+}: OptionValidationContext<PluginOptions, ValidationError>): ValidationResult<
+  PluginOptions,
+  ValidationError
+> {
+  const validatedOptions = validate(PluginOptionSchema, options);
+  return validatedOptions;
 }

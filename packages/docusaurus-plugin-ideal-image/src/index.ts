@@ -4,13 +4,16 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import {LoadContext} from '@docusaurus/types';
+import {LoadContext, Plugin} from '@docusaurus/types';
 import {PluginOptions} from './types';
 import {Configuration} from 'webpack';
 
 import path from 'path';
 
-export default function (_context: LoadContext, options: PluginOptions) {
+export default function (
+  _context: LoadContext,
+  options: PluginOptions,
+): Plugin<void> {
   const isProd = process.env.NODE_ENV === 'production';
 
   return {

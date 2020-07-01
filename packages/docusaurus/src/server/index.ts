@@ -13,12 +13,12 @@ import {
   GENERATED_FILES_DIR_NAME,
   THEME_PATH,
 } from '../constants';
-import {loadClientModules} from './client-modules';
-import {loadConfig} from './config';
+import loadClientModules from './client-modules';
+import loadConfig from './config';
 import {loadPlugins} from './plugins';
-import {loadPresets} from './presets';
-import {loadRoutes} from './routes';
-import {loadThemeAlias} from './themes';
+import loadPresets from './presets';
+import loadRoutes from './routes';
+import loadThemeAlias from './themes';
 import {
   DocusaurusConfig,
   LoadContext,
@@ -84,11 +84,9 @@ export async function load(
 
   // Themes.
   const fallbackTheme = path.resolve(__dirname, '../client/theme-fallback');
-  const pluginThemes = ([] as string[]).concat(
-    ...plugins
-      .map<any>((plugin) => plugin.getThemePath && plugin.getThemePath())
-      .filter(Boolean),
-  );
+  const pluginThemes: string[] = plugins
+    .map((plugin) => plugin.getThemePath && plugin.getThemePath())
+    .filter((x): x is string => Boolean(x));
   const userTheme = path.resolve(siteDir, THEME_PATH);
   const alias = loadThemeAlias([fallbackTheme, ...pluginThemes], [userTheme]);
 

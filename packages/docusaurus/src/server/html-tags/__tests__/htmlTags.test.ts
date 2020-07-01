@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {htmlTagObjectToString} from '../htmlTags';
+import htmlTagObjectToString from '../htmlTags';
 
 describe('htmlTagObjectToString', () => {
   test('simple html tag', () => {

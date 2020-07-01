@@ -166,6 +166,7 @@ describe('simple site', () => {
     });
 
     // unrelated frontmatter is not part of metadata
+    // @ts-expect-error: It doesn't exist, so the test will show it's undefined.
     expect(data.unrelated_frontmatter).toBeUndefined();
   });
 

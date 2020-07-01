@@ -11,9 +11,14 @@
     "access": "public"
   },
   "license": "MIT",
+  "devDependencies": {
+    "@types/hapi__joi": "^17.1.2"
+  },
   "dependencies": {
     "@docusaurus/types": "^2.0.0-alpha.58",
-    "sitemap": "^3.2.2"
+    "fs-extra": "^8.1.0",
+    "sitemap": "^3.2.2",
+    "@hapi/joi": "17.1.1"
   },
   "peerDependencies": {
     "@docusaurus/core": "^2.0.0"

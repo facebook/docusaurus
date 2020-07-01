@@ -21,7 +21,7 @@ const CSS_REGEX = /\.css$/;
 const CSS_MODULE_REGEX = /\.module\.css$/;
 export const clientDir = path.join(__dirname, '..', 'client');
 
-export function excludeJS(modulePath: string) {
+export function excludeJS(modulePath: string): boolean {
   // always transpile client dir
   if (modulePath.startsWith(clientDir)) {
     return false;

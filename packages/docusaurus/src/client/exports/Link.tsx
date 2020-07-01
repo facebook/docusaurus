@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useEffect, useRef} from 'react';
+import React, {ReactNode, useEffect, useRef} from 'react';
 
 import {NavLink, Link as RRLink} from 'react-router-dom';
 import isInternalUrl from './isInternalUrl';
@@ -21,9 +21,10 @@ interface Props {
   readonly isNavLink?: boolean;
   readonly to?: string;
   readonly href: string;
+  readonly children?: ReactNode;
 }
 
-function Link({isNavLink, ...props}: Props) {
+function Link({isNavLink, ...props}: Props): JSX.Element {
   const {to, href} = props;
   const targetLink = to || href;
   const isInternal = isInternalUrl(targetLink);
@@ -85,6 +86,7 @@ function Link({isNavLink, ...props}: Props) {
   return !targetLink || !isInternal || targetLink.startsWith('#') ? (
     // eslint-disable-next-line jsx-a11y/anchor-has-content
     <a
+      // @ts-expect-error: href specified twice needed to pass children and other user specified props
       href={targetLink}
       {...(!isInternal && {target: '_blank', rel: 'noopener noreferrer'})}
       {...props}

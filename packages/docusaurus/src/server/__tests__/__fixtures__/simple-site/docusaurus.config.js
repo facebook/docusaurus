@@ -18,7 +18,6 @@ module.exports = {
       '@docusaurus/plugin-content-docs',
       {
         path: '../docs',
-        sidebarPath: require.resolve('./sidebars.js'),
       },
     ],
     '@docusaurus/plugin-content-pages',

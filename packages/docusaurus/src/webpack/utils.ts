@@ -10,6 +10,7 @@ import env from 'std-env';
 import merge from 'webpack-merge';
 import {Configuration, Loader} from 'webpack';
 import {TransformOptions} from '@babel/core';
+import {ConfigureWebpackUtils} from '@docusaurus/types';
 
 import {version as cacheLoaderVersion} from 'cache-loader/package.json';
 
@@ -17,7 +18,7 @@ import {version as cacheLoaderVersion} from 'cache-loader/package.json';
 export function getStyleLoaders(
   isServer: boolean,
   cssOptions: {
-    [key: string]: any;
+    [key: string]: unknown;
   } = {},
 ): Loader[] {
   if (isServer) {
@@ -53,6 +54,7 @@ export function getStyleLoaders(
         // https://github.com/facebook/create-react-app/issues/2677
         ident: 'postcss',
         plugins: () => [
+          // eslint-disable-next-line @typescript-eslint/no-var-requires, global-require
           require('postcss-preset-env')({
             autoprefixer: {
               flexbox: 'no-2009',
@@ -68,7 +70,7 @@ export function getStyleLoaders(
 
 export function getCacheLoader(
   isServer: boolean,
-  cacheOptions?: {},
+  cacheOptions?: {[key: string]: unknown},
 ): Loader | null {
   if (env.ci || env.test) {
     return null;
@@ -76,12 +78,10 @@ export function getCacheLoader(
 
   return {
     loader: require.resolve('cache-loader'),
-    options: Object.assign(
-      {
-        cacheIdentifier: `cache-loader:${cacheLoaderVersion}${isServer}`,
-      },
-      cacheOptions,
-    ),
+    options: {
+      cacheIdentifier: `cache-loader:${cacheLoaderVersion}${isServer}`,
+      ...cacheOptions,
+    },
   };
 }
 
@@ -114,13 +114,19 @@ export function getBabelLoader(
 
 /**
  * Helper function to modify webpack config
- * @param {Object | Function} configureWebpack a webpack config or a function to modify config
- * @param {Object} config initial webpack config
- * @param {boolean} isServer indicates if this is a server webpack configuration
- * @returns {Object} final/ modified webpack config
+ * @param configureWebpack a webpack config or a function to modify config
+ * @param config initial webpack config
+ * @param isServer indicates if this is a server webpack configuration
+ * @returns final/ modified webpack config
  */
 export function applyConfigureWebpack(
-  configureWebpack: any,
+  configureWebpack:
+    | Configuration
+    | ((
+        config: Configuration,
+        isServer: boolean,
+        utils: ConfigureWebpackUtils,
+      ) => Configuration),
   config: Configuration,
   isServer: boolean,
 ): Configuration {
