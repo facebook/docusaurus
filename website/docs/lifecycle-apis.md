@@ -275,6 +275,28 @@ module.exports = function (context, options) {
 };
 ```
 
+### Merge strategy
+
+We merge the Webpack configuration parts of plugins into the global Webpack config using [webpack-merge](https://github.com/survivejs/webpack-merge).
+
+It is possible to specify the merge strategy. For example, if you want a webpack rule to be prepended instead of appended:
+
+```js {4-11} title="docusaurus-plugin/src/index.js"
+module.exports = function (context, options) {
+  return {
+    name: 'custom-docusaurus-plugin',
+    configureWebpack(config, isServer, utils) {
+      return {
+        mergeStrategy: {'module.rules': 'prepend'},
+        module: {rules: [myRuleToPrepend]},
+      };
+    },
+  };
+};
+```
+
+Read the [webpack-merge strategy doc](https://github.com/survivejs/webpack-merge#merging-with-strategies) for more details.
+
 ## `postBuild(props)`
 
 Called when a (production) build finishes.

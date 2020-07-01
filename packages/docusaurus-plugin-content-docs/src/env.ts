@@ -26,7 +26,12 @@ export function getVersionsJSONFile(siteDir: string): string {
   return path.join(siteDir, VERSIONS_JSON_FILE);
 }
 
-export default function (siteDir: string): Env {
+type EnvOptions = Partial<{disableVersioning: boolean}>;
+
+export default function (
+  siteDir: string,
+  options: EnvOptions = {disableVersioning: false},
+): Env {
   const versioning: VersioningEnv = {
     enabled: false,
     versions: [],
@@ -37,16 +42,18 @@ export default function (siteDir: string): Env {
 
   const versionsJSONFile = getVersionsJSONFile(siteDir);
   if (fs.existsSync(versionsJSONFile)) {
-    const parsedVersions = JSON.parse(
-      fs.readFileSync(versionsJSONFile, 'utf8'),
-    );
-    if (parsedVersions && parsedVersions.length > 0) {
-      // eslint-disable-next-line prefer-destructuring
-      versioning.latestVersion = parsedVersions[0];
-      versioning.enabled = true;
-      versioning.versions = parsedVersions;
-      versioning.docsDir = getVersionedDocsDir(siteDir);
-      versioning.sidebarsDir = getVersionedSidebarsDir(siteDir);
+    if (!options.disableVersioning) {
+      const parsedVersions = JSON.parse(
+        fs.readFileSync(versionsJSONFile, 'utf8'),
+      );
+      if (parsedVersions && parsedVersions.length > 0) {
+        // eslint-disable-next-line prefer-destructuring
+        versioning.latestVersion = parsedVersions[0];
+        versioning.enabled = true;
+        versioning.versions = parsedVersions;
+        versioning.docsDir = getVersionedDocsDir(siteDir);
+        versioning.sidebarsDir = getVersionedSidebarsDir(siteDir);
+      }
     }
   }
 

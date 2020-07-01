@@ -81,7 +81,7 @@ export default function pluginContentDocs(
   );
 
   // Versioning.
-  const env = loadEnv(siteDir);
+  const env = loadEnv(siteDir, {disableVersioning: options.disableVersioning});
   const {versioning} = env;
   const {
     versions,
