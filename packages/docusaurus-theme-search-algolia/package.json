@@ -8,7 +8,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docsearch/react": "^1.0.0-alpha.18",
+    "@docsearch/react": "^1.0.0-alpha.20",
     "algoliasearch": "^3.24.5",
     "algoliasearch-helper": "^3.1.1",
     "clsx": "^1.1.1",
