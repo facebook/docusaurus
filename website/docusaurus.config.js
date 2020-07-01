@@ -150,7 +150,7 @@ module.exports = {
           type: 'docsVersion',
           instancePath: 'docs',
           to: 'versions',
-          fallbackLabel: versions[0],
+          fallbackLabel: 'Versions',
           position: 'right',
         },
         {
