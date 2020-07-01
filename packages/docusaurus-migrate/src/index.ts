@@ -9,6 +9,7 @@ import * as fs from 'fs-extra';
 import importFresh from 'import-fresh';
 
 import {Config, DocusaurusConfig} from './types';
+import extractMetadata from './metaData';
 
 const DOCUSAURUS_VERSION = '^2.0.0-alpha.58';
 
@@ -114,6 +115,16 @@ export function createConfigFile(siteConfig: Config): DocusaurusConfig {
   };
 }
 
+function sanatizedFrontMatter(content: string): string {
+  const extractedData = extractMetadata(content);
+  const sanitizedData = `---json\n${JSON.stringify(
+    extractedData.metadata,
+    null,
+    2,
+  )}\n---\n${extractedData.rawContent}`;
+  return sanitizedData;
+}
+
 export function createProjectStructure(
   siteDir: string,
   siteConfig: Config,
@@ -161,6 +172,11 @@ export function createProjectStructure(
   try {
     fs.statSync(`${siteDir}/blog`);
     fs.copySync(`${siteDir}/blog`, `${newDir}/blog`);
+    const files = walk(`${newDir}/blog`);
+    files.forEach((file) => {
+      const content = String(fs.readFileSync(file));
+      fs.writeFileSync(file, sanatizedFrontMatter(content));
+    });
     classicPreset.blog.path = 'blog';
   } catch {
     console.log('NO Blog found');
@@ -320,11 +336,19 @@ export function createProjectStructure(
     const files = walk(`${newDir}/versioned_docs`);
     files.forEach((path) => {
       const content = fs.readFileSync(path).toString();
-      fs.writeFileSync(path, content.replace(versionRegex, ''));
+      fs.writeFileSync(
+        path,
+        sanatizedFrontMatter(content.replace(versionRegex, '')),
+      );
     });
   }
   try {
     fs.copySync(`${siteDir}/../docs`, `${newDir}/docs`);
+    const files = walk(`${newDir}/docs`);
+    files.forEach((file) => {
+      const content = String(fs.readFileSync(file));
+      fs.writeFileSync(file, sanatizedFrontMatter(content));
+    });
   } catch {
     fs.mkdir(`${newDir}/docs`);
   }

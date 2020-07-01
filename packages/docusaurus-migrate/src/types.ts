@@ -5,6 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+export type RawData = {
+  header?: string;
+  content?: string;
+};
+
+export type Data = {
+  metadata: {[key: string]: string};
+  rawContent: string;
+};
 export interface DocusaurusConfig {
   baseUrl: string;
   favicon: string;
