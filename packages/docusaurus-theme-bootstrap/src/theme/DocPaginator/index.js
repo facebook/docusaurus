@@ -12,7 +12,7 @@ function DocPaginator(props) {
   const {previous, next} = props.metadata;
 
   return (
-    <nav aria-label="Blog list page navigation" className="my-5 p-0">
+    <nav aria-label="Doc list page navigation" className="my-5 p-0">
       <ul className="pagination justify-content-between">
         <li className="page-item mr-2">
           {previous && (

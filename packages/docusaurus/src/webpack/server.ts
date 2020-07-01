@@ -15,7 +15,7 @@ import {createBaseConfig} from './base';
 import WaitPlugin from './plugins/WaitPlugin';
 import LogPlugin from './plugins/LogPlugin';
 
-export function createServerConfig(
+export default function createServerConfig(
   props: Props,
   minify: boolean = true,
 ): Configuration {

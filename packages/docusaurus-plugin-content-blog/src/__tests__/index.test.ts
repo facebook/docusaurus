@@ -9,6 +9,16 @@ import fs from 'fs-extra';
 import path from 'path';
 import pluginContentBlog from '../index';
 import {DocusaurusConfig, LoadContext} from '@docusaurus/types';
+import {PluginOptionSchema} from '../pluginOptionSchema';
+
+function validateAndNormalize(schema, options) {
+  const {value, error} = schema.validate(options);
+  if (error) {
+    throw error;
+  } else {
+    return value;
+  }
+}
 
 describe('loadBlog', () => {
   const siteDir = path.join(__dirname, '__fixtures__', 'website');
@@ -26,11 +36,11 @@ describe('loadBlog', () => {
         siteConfig,
         generatedFilesDir,
       } as LoadContext,
-      {
+      validateAndNormalize(PluginOptionSchema, {
         path: pluginPath,
         editUrl:
           'https://github.com/facebook/docusaurus/edit/master/website-1x',
-      },
+      }),
     );
     const {blogPosts} = await plugin.loadContent();
 

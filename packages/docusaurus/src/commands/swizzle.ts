@@ -9,19 +9,25 @@ import chalk = require('chalk');
 import fs from 'fs-extra';
 import importFresh from 'import-fresh';
 import path from 'path';
+import {Plugin, LoadContext} from '@docusaurus/types';
 
 import {THEME_PATH} from '../constants';
 import {loadContext} from '../server';
 
-export async function swizzle(
+export default async function swizzle(
   siteDir: string,
   themeName: string,
   componentName?: string,
+  typescript?: boolean,
 ): Promise<void> {
-  const plugin: any = importFresh(themeName);
+  const plugin = importFresh(themeName) as (
+    context: LoadContext,
+  ) => Plugin<unknown>;
   const context = loadContext(siteDir);
   const pluginInstance = plugin(context);
-  let fromPath = pluginInstance.getThemePath();
+  let fromPath = typescript
+    ? pluginInstance.getTypeScriptThemePath?.()
+    : pluginInstance.getThemePath?.();
 
   if (fromPath) {
     let toPath = path.resolve(siteDir, THEME_PATH);
@@ -29,10 +35,16 @@ export async function swizzle(
       fromPath = path.join(fromPath, componentName);
       toPath = path.join(toPath, componentName);
 
-      // Handle single JavaScript file only.
-      // E.g: if <fromPath> does not exist, we try to swizzle <fromPath>.js instead
-      if (!fs.existsSync(fromPath) && fs.existsSync(`${fromPath}.js`)) {
-        [fromPath, toPath] = [`${fromPath}.js`, `${toPath}.js`];
+      // Handle single TypeScript/JavaScript file only.
+      // E.g: if <fromPath> does not exist, we try to swizzle <fromPath>.(ts|tsx|js) instead
+      if (!fs.existsSync(fromPath)) {
+        if (fs.existsSync(`${fromPath}.ts`)) {
+          [fromPath, toPath] = [`${fromPath}.ts`, `${toPath}.ts`];
+        } else if (fs.existsSync(`${fromPath}.tsx`)) {
+          [fromPath, toPath] = [`${fromPath}.tsx`, `${toPath}.tsx`];
+        } else if (fs.existsSync(`${fromPath}.js`)) {
+          [fromPath, toPath] = [`${fromPath}.js`, `${toPath}.js`];
+        }
       }
     }
     await fs.copy(fromPath, toPath);
@@ -45,5 +57,13 @@ export async function swizzle(
     console.log(
       `\n${chalk.green('Success!')} Copied ${fromMsg} to ${toMsg}.\n`,
     );
+  } else if (typescript) {
+    console.warn(
+      chalk.yellow(
+        `${themeName} does not provide TypeScript theme code via getTypeScriptThemePath().`,
+      ),
+    );
+  } else {
+    console.warn(chalk.yellow(`${themeName} does not provide any theme code.`));
   }
 }

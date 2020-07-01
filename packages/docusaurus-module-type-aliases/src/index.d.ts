@@ -37,10 +37,9 @@ declare module '@generated/routesChunkNames' {
   export default routesChunkNames;
 }
 
-declare module '@theme/*' {
-  const component: any;
-  export default component;
-}
+declare module '@theme/*';
+
+declare module '@theme-original/*';
 
 declare module '@docusaurus/*';
 

@@ -36,6 +36,7 @@ function validateCollectedRedirects(
     .map((redirect) => {
       try {
         validateRedirect(redirect);
+        return undefined;
       } catch (e) {
         return e.message;
       }
@@ -49,7 +50,7 @@ function validateCollectedRedirects(
     );
   }
 
-  const allowedToPaths = pluginContext.routesPaths;
+  const allowedToPaths = pluginContext.relativeRoutesPaths;
   const toPaths = redirects.map((redirect) => redirect.to);
   const illegalToPaths = difference(toPaths, allowedToPaths);
   if (illegalToPaths.length > 0) {
@@ -88,7 +89,7 @@ It is not possible to redirect the same pathname to multiple destinations:
 
   // We don't want to override an already existing route with a redirect file!
   const redirectsOverridingExistingPath = redirects.filter((redirect) =>
-    pluginContext.routesPaths.includes(redirect.from),
+    pluginContext.relativeRoutesPaths.includes(redirect.from),
   );
   if (redirectsOverridingExistingPath.length > 0) {
     console.error(
@@ -100,7 +101,7 @@ It is not possible to redirect the same pathname to multiple destinations:
     );
   }
   redirects = redirects.filter(
-    (redirect) => !pluginContext.routesPaths.includes(redirect.from),
+    (redirect) => !pluginContext.relativeRoutesPaths.includes(redirect.from),
   );
 
   return redirects;
@@ -110,16 +111,16 @@ It is not possible to redirect the same pathname to multiple destinations:
 function doCollectRedirects(pluginContext: PluginContext): RedirectMetadata[] {
   return [
     ...createFromExtensionsRedirects(
-      pluginContext.routesPaths,
+      pluginContext.relativeRoutesPaths,
       pluginContext.options.fromExtensions,
     ),
     ...createToExtensionsRedirects(
-      pluginContext.routesPaths,
+      pluginContext.relativeRoutesPaths,
       pluginContext.options.toExtensions,
     ),
     ...createRedirectsOptionRedirects(pluginContext.options.redirects),
     ...createCreateRedirectsOptionRedirects(
-      pluginContext.routesPaths,
+      pluginContext.relativeRoutesPaths,
       pluginContext.options.createRedirects,
     ),
   ];
@@ -132,12 +133,11 @@ function createRedirectsOptionRedirects(
   function optionToRedirects(option: RedirectOption): RedirectMetadata[] {
     if (typeof option.from === 'string') {
       return [{from: option.from, to: option.to}];
-    } else {
-      return option.from.map((from) => ({
-        from,
-        to: option.to,
-      }));
     }
+    return option.from.map((from) => ({
+      from,
+      to: option.to,
+    }));
   }
 
   return flatten(redirectsOption.map(optionToRedirects));

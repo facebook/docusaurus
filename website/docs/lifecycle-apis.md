@@ -11,6 +11,106 @@ This section is a work in progress.
 
 Lifecycle APIs are shared by Themes and Plugins.
 
+## `validateOptions({options,validate})`
+
+Return validated and normalized options for the plugin. This method is called before the plugin is initialized.You must return options since the returned options will be passed to plugin during intialization.
+
+### `options`
+
+`validateOptions` is called with `options` passed to plugin for validation and normalization.
+
+### `validate`
+
+`validateOptions` is called with `validate` function which takes a **[Joi](https://www.npmjs.com/package/@hapi/joi)** schema and options as argument, returns validated and normalized options. `validate` will automatically handle error and validation config.
+
+:::tip
+
+[Joi](https://www.npmjs.com/package/@hapi/joi) is recommended for validation and normalization of options.
+
+:::
+
+If you don't use **[Joi](https://www.npmjs.com/package/@hapi/joi)** for validation you can throw an Error in case of invalid options and return options in case of success.
+
+```js {8-11} title="my-plugin/src/index.js"
+module.exports = function (context, options) {
+  return {
+    name: 'docusaurus-plugin',
+    // rest of methods
+  };
+};
+
+module.exports.validateOptions = ({options, validate}) => {
+  const validatedOptions = validate(myValidationSchema, options);
+  return validationOptions;
+};
+```
+
+You can also use ES modules style exports.
+
+```ts {8-11} title="my-plugin/src/index.ts"
+export default function (context, options) {
+  return {
+    name: 'docusaurus-plugin',
+    // rest of methods
+  };
+}
+
+export function validateOptions({options, validate}) {
+  const validatedOptions = validate(myValidationSchema, options);
+  return validationOptions;
+}
+```
+
+## `validateThemeConfig({themeConfig,validate})`
+
+Return validated and normalized configuration for the theme.
+
+### `themeConfig`
+
+`validateThemeConfig` is called with `themeConfig` provided in `docusaurus.config.js` for validation and normalization.
+
+### `validate`
+
+`validateThemeConfig` is called with `validate` function which takes a **[Joi](https://www.npmjs.com/package/@hapi/joi)** schema and `themeConfig` as argument, returns validated and normalized options. `validate` will automatically handle error and validation config.
+
+:::tip
+
+[Joi](https://www.npmjs.com/package/@hapi/joi) is recommended for validation and normalization of theme config.
+
+:::
+
+If you don't use **[Joi](https://www.npmjs.com/package/@hapi/joi)** for validation you can throw an Error in case of invalid options.
+
+```js {8-11} title="my-theme/src/index.js"
+module.exports = function (context, options) {
+  return {
+    name: 'docusaurus-plugin',
+    // rest of methods
+  };
+};
+
+module.exports.validateThemeConfig = ({themeConfig, validate}) => {
+  const validatedThemeConfig = validate(myValidationSchema, options);
+  return validatedThemeConfig;
+};
+```
+
+You can also use ES modules style exports.
+
+```ts {8-11} title="my-theme/src/index.ts"
+export default function (context, options) {
+  return {
+    name: 'docusaurus-plugin',
+    // rest of methods
+  };
+}
+
+export function validateThemeConfig({themeConfig, validate}) {
+  const validatedThemeConfig = validate(myValidationSchema, options);
+  return validatedThemeConfig;
+}
+```
+
 ## `getPathsToWatch()`
 
 Specifies the paths to watch for plugins and themes. The paths are watched by the dev server so that the plugin lifecycles are reloaded when contents in the watched paths change. Note that the plugins and themes modules are initially called with `context` and `options` from Node, which you may use to find the necessary directory information about the site.
@@ -310,6 +410,32 @@ module.exports = function (context, options) {
   return {
     name: 'name-of-my-theme',
     getThemePath() {
+      return path.resolve(__dirname, './theme');
+    },
+  };
+};
+```
+
+## `getTypeScriptThemePath()`
+
+Similar to `getThemePath()`, it should return the path to the directory where the source code of TypeScript theme components can be found. Theme components under this path will **not** be resolved by Webpack. Therefore, it is not a replacement of `getThemePath()`. Instead, this path is purely for swizzling TypeScript theme components.
+
+If you want to support TypeScript component swizzling for your theme, you can make the path returned by `getTypeScriptThemePath()` be your source directory, and make path returned by `getThemePath()` be the compiled JavaScript output.
+
+Example:
+
+```js {6-13} title="my-theme/src/index.js"
+const path = require('path');
+
+module.exports = function (context, options) {
+  return {
+    name: 'name-of-my-theme',
+    getThemePath() {
+      // Where compiled JavaScript output lives
+      return path.join(__dirname, '..', 'lib', 'theme');
+    },
+    getTypeScriptThemePath() {
+      // Where TypeScript source code lives
       return path.resolve(__dirname, './theme');
     },
   };

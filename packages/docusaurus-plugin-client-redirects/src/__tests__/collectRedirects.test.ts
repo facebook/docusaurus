@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -12,12 +12,12 @@ import {removeTrailingSlash} from '@docusaurus/utils';
 
 function createTestPluginContext(
   options?: UserPluginOptions,
-  routesPaths: string[] = [],
+  relativeRoutesPaths: string[] = [],
 ): PluginContext {
   return {
     outDir: '/tmp',
     baseUrl: 'https://docusaurus.io',
-    routesPaths: routesPaths,
+    relativeRoutesPaths,
     options: normalizePluginOptions(options),
   };
 }
@@ -192,7 +192,7 @@ describe('collectRedirects', () => {
                   `/def?queryString=toto`,
                 ];
               }
-              return;
+              return undefined;
             },
           },
           ['/'],
@@ -208,9 +208,9 @@ describe('collectRedirects', () => {
           {
             createRedirects: (routePath) => {
               if (routePath === '/') {
-                return [[`/fromPath`]] as any;
+                return ([[`/fromPath`]] as unknown) as string;
               }
-              return;
+              return undefined;
             },
           },
           ['/'],

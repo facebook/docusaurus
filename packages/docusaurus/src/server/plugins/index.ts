@@ -15,9 +15,9 @@ import {
   PluginContentLoadedActions,
   RouteConfig,
 } from '@docusaurus/types';
-import {initPlugins} from './init';
+import initPlugins from './init';
 
-export function sortConfig(routeConfigs: RouteConfig[]) {
+export function sortConfig(routeConfigs: RouteConfig[]): void {
   // Sort the route config. This ensures that route with nested
   // routes is always placed last.
   routeConfigs.sort((a, b) => {
@@ -31,20 +31,18 @@ export function sortConfig(routeConfigs: RouteConfig[]) {
     if (a.priority || b.priority) {
       const priorityA = a.priority || 0;
       const priorityB = b.priority || 0;
-      const score = priorityA > priorityB ? -1 : priorityB > priorityA ? 1 : 0;
+      const score = priorityB - priorityA;
 
       if (score !== 0) {
         return score;
       }
     }
 
-    return a.path > b.path ? 1 : b.path > a.path ? -1 : 0;
+    return a.path.localeCompare(b.path);
   });
 
   routeConfigs.forEach((routeConfig) => {
-    routeConfig.routes?.sort((a, b) => {
-      return a.path > b.path ? 1 : b.path > a.path ? -1 : 0;
-    });
+    routeConfig.routes?.sort((a, b) => a.path.localeCompare(b.path));
   });
 }
 
@@ -55,11 +53,11 @@ export async function loadPlugins({
   pluginConfigs: PluginConfig[];
   context: LoadContext;
 }): Promise<{
-  plugins: Plugin<any>[];
+  plugins: Plugin<unknown>[];
   pluginsRouteConfigs: RouteConfig[];
 }> {
   // 1. Plugin Lifecycle - Initialization/Constructor.
-  const plugins: Plugin<any>[] = initPlugins({pluginConfigs, context});
+  const plugins: Plugin<unknown>[] = initPlugins({pluginConfigs, context});
 
   // 2. Plugin Lifecycle - loadContent.
   // Currently plugins run lifecycle methods in parallel and are not order-dependent.
@@ -71,7 +69,7 @@ export async function loadPlugins({
         return null;
       }
 
-      return await plugin.loadContent();
+      return plugin.loadContent();
     }),
   );
 
@@ -116,7 +114,7 @@ export async function loadPlugins({
         return null;
       }
 
-      return await plugin.routesLoaded(pluginsRouteConfigs);
+      return plugin.routesLoaded(pluginsRouteConfigs);
     }),
   );
 

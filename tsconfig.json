@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es2017",
     "module": "commonjs",
-    "lib": ["es2017","es2019.array"],
+    "lib": ["es2017","es2019.array", "DOM"],
     "declaration": true,
     "declarationMap": true,
 

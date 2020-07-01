@@ -84,7 +84,18 @@ A plugin is a module which exports a function that takes two parameters and retu
 
 The exported modules for plugins are called with two parameters: `context` and `options` and returns a JavaScript object with defining the [lifecycle APIs](./lifecycle-apis.md).
 
+For example if you have a reference to a local folder such as this in your `docusaurus.config.js`:
+
 ```js title="docusaurus.config.js"
+module.exports = {
+  // ...
+  plugins: [path.resolve(__dirname, 'my-plugin')],
+};
+```
+
+Then in the folder `my-plugin` you can create an index.js such as this
+
+```js title="index.js"
 module.exports = function(context, options) {
   // ...
   return {
@@ -95,6 +106,8 @@ module.exports = function(context, options) {
   };
 };
 ```
+
+The `my-plugin` folder could also be a fully fledged package with it's own package.json and a `src/index.js` file for example
 
 #### `context`
 
@@ -238,7 +251,7 @@ module.exports = {
          */
         editUrl: 'https://github.com/facebook/docusaurus/edit/master/website/',
         /**
-         * URL route for the blog section of your site.
+         * URL route for the docs section of your site.
          * *DO NOT* include a trailing slash.
          */
         routeBasePath: 'docs',
@@ -275,6 +288,12 @@ module.exports = {
          * Whether to display the last date the doc was updated.
          */
         showLastUpdateTime: false,
+        /**
+         * Skip the next release docs when versioning is enabled.
+         * This will not generate HTML files in the production build for documents
+         * in `/docs/next` directory, only versioned docs.
+         */
+        excludeNextVersionDocs: false,
       },
     ],
   ],
@@ -301,7 +320,7 @@ If you have installed `@docusaurus/preset-classic`, you don't need to install it
 module.exports = {
   plugins: [
     [
-      '@docuaurus/plugin-content-pages',
+      '@docusaurus/plugin-content-pages',
       {
         /**
          * Path to data on filesystem
@@ -310,7 +329,7 @@ module.exports = {
          */
         path: 'src/pages',
         /**
-         * URL route for the blog section of your site
+         * URL route for the page section of your site
          * do not include trailing slash
          */
         routeBasePath: '',
@@ -464,6 +483,12 @@ import thumbnail from './path/to/img.png';
 Docusaurus Plugin to generate **client-side redirects**.
 
 This plugin will write additional HTML pages to your static site, that redirects the user to your existing Docusaurus pages with JavaScript.
+
+:::note
+
+This plugin only create redirects for the production build.
+
+:::
 
 :::caution
 

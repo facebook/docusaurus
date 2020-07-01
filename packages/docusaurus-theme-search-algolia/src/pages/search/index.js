@@ -329,6 +329,8 @@ function Search() {
                   {breadcrumbs.length > 0 && (
                     <span
                       className={styles.searchResultItemPath}
+                      // Developer provided the HTML, so assume it's safe.
+                      // eslint-disable-next-line react/no-danger
                       dangerouslySetInnerHTML={{
                         __html: breadcrumbs.join(' › '),
                       }}
@@ -338,6 +340,8 @@ function Search() {
                   {summary && (
                     <p
                       className={styles.searchResultItemSummary}
+                      // Developer provided the HTML, so assume it's safe.
+                      // eslint-disable-next-line react/no-danger
                       dangerouslySetInnerHTML={{__html: summary}}
                     />
                   )}

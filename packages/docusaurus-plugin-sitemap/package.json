@@ -1,18 +1,24 @@
 {
   "name": "@docusaurus/plugin-sitemap",
-  "version": "2.0.0-alpha.56",
+  "version": "2.0.0-alpha.58",
   "description": "Simple sitemap generation plugin for Docusaurus",
   "main": "lib/index.js",
   "scripts": {
-    "tsc": "tsc"
+    "tsc": "tsc",
+    "watch": "tsc --watch"
   },
   "publishConfig": {
     "access": "public"
   },
   "license": "MIT",
+  "devDependencies": {
+    "@types/hapi__joi": "^17.1.2"
+  },
   "dependencies": {
-    "@docusaurus/types": "^2.0.0-alpha.56",
-    "sitemap": "^3.2.2"
+    "@docusaurus/types": "^2.0.0-alpha.58",
+    "fs-extra": "^8.1.0",
+    "sitemap": "^3.2.2",
+    "@hapi/joi": "17.1.1"
   },
   "peerDependencies": {
     "@docusaurus/core": "^2.0.0"

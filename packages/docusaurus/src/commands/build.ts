@@ -16,12 +16,12 @@ import merge from 'webpack-merge';
 import {STATIC_DIR_NAME} from '../constants';
 import {load} from '../server';
 import {BuildCLIOptions, Props} from '@docusaurus/types';
-import {createClientConfig} from '../webpack/client';
-import {createServerConfig} from '../webpack/server';
+import createClientConfig from '../webpack/client';
+import createServerConfig from '../webpack/server';
 import {applyConfigureWebpack} from '../webpack/utils';
 import CleanWebpackPlugin from '../webpack/plugins/CleanWebpackPlugin';
 
-function compile(config: Configuration[]): Promise<any> {
+function compile(config: Configuration[]): Promise<void> {
   return new Promise((resolve, reject) => {
     const compiler = webpack(config);
     compiler.run((err, stats) => {
@@ -36,7 +36,7 @@ function compile(config: Configuration[]): Promise<any> {
       }
       if (stats.hasWarnings()) {
         // Custom filtering warnings (see https://github.com/webpack/webpack/issues/7841).
-        let warnings = stats.toJson('errors-warnings').warnings;
+        let {warnings} = stats.toJson('errors-warnings');
         const warningsFilter = ((config[0].stats as Stats.ToJsonOptionsObject)
           ?.warningsFilter || []) as any[];
 
@@ -55,7 +55,7 @@ function compile(config: Configuration[]): Promise<any> {
   });
 }
 
-export async function build(
+export default async function build(
   siteDir: string,
   cliOptions: Partial<BuildCLIOptions> = {},
   forceTerminate: boolean = true,
@@ -142,7 +142,9 @@ export async function build(
   ) {
     const serverBundle = path.join(outDir, serverConfig.output.filename);
     fs.pathExists(serverBundle).then((exist) => {
-      exist && fs.unlink(serverBundle);
+      if (exist) {
+        fs.unlink(serverBundle);
+      }
     });
   }
 
@@ -162,6 +164,8 @@ export async function build(
       relativeDir,
     )}.\n`,
   );
-  forceTerminate && !cliOptions.bundleAnalyzer && process.exit(0);
+  if (forceTerminate && !cliOptions.bundleAnalyzer) {
+    process.exit(0);
+  }
   return outDir;
 }

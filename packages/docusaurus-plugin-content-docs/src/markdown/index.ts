@@ -9,9 +9,11 @@ import {getOptions} from 'loader-utils';
 import {loader} from 'webpack';
 import linkify from './linkify';
 
-export = function (fileString: string) {
+const markdownLoader: loader.Loader = function (source) {
+  const fileString = source as string;
   const callback = this.async();
   const {docsDir, siteDir, versionedDir, sourceToPermalink} = getOptions(this);
+
   return (
     callback &&
     callback(
@@ -26,4 +28,6 @@ export = function (fileString: string) {
       ),
     )
   );
-} as loader.Loader;
+};
+
+export default markdownLoader;

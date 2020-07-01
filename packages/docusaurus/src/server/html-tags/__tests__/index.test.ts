@@ -5,14 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import path from 'path';
-
 import {loadHtmlTags} from '../index';
 
-const pluginEmpty = require('./__fixtures__/plugin-empty');
-const pluginPreBodyTags = require('./__fixtures__/plugin-preBodyTags');
-const pluginHeadTags = require('./__fixtures__/plugin-headTags');
-const pluginPostBodyTags = require('./__fixtures__/plugin-postBodyTags');
+import pluginEmpty from './__fixtures__/plugin-empty';
+import pluginPreBodyTags from './__fixtures__/plugin-preBodyTags';
+import pluginHeadTags from './__fixtures__/plugin-headTags';
+import pluginPostBodyTags from './__fixtures__/plugin-postBodyTags';
 
 describe('loadHtmlTags', () => {
   test('empty plugin', () => {
