@@ -146,7 +146,7 @@ module.exports = {
           activeBaseRegex: `docs/next/(support|team|resources)`,
         },
         {
-          type: 'currentDocsVersion',
+          type: 'docsVersion',
           instancePath: 'docs',
           to: 'versions',
           fallbackLabel: versions[0],

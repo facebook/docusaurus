@@ -5,197 +5,24 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {
-  useCallback,
-  useState,
-  useEffect,
-  ComponentProps,
-  ComponentType,
-} from 'react';
+import React, {useCallback, useState, useEffect} from 'react';
 import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import useBaseUrl from '@docusaurus/useBaseUrl';
 
 import SearchBar from '@theme/SearchBar';
 import Toggle from '@theme/Toggle';
 import useThemeContext from '@theme/hooks/useThemeContext';
 import useHideableNavbar from '@theme/hooks/useHideableNavbar';
 import useLockBodyScroll from '@theme/hooks/useLockBodyScroll';
-import {useDocsActiveVersionMetadata} from '@theme/hooks/useDocs';
 import useWindowSize, {windowSizes} from '@theme/hooks/useWindowSize';
 import useLogo from '@theme/hooks/useLogo';
 
 import styles from './styles.module.css';
+import NavbarItem from '@theme/NavbarItem';
 
 // retrocompatible with v1
 const DefaultNavItemPosition = 'right';
-
-function NavLink({
-  activeBasePath,
-  activeBaseRegex,
-  to,
-  href,
-  label,
-  activeClassName = 'navbar__link--active',
-  prependBaseUrlToHref,
-  ...props
-}: {
-  activeBasePath?: string;
-  activeBaseRegex?: string;
-  to?: string;
-  href?: string;
-  label?: string;
-  activeClassName?: string;
-  prependBaseUrlToHref?: string;
-} & ComponentProps<'a'>) {
-  const toUrl = useBaseUrl(to);
-  const activeBaseUrl = useBaseUrl(activeBasePath);
-  const normalizedHref = useBaseUrl(href, {forcePrependBaseUrl: true});
-
-  return (
-    <Link
-      {...(href
-        ? {
-            target: '_blank',
-            rel: 'noopener noreferrer',
-            href: prependBaseUrlToHref ? normalizedHref : href,
-          }
-        : {
-            isNavLink: true,
-            activeClassName,
-            to: toUrl,
-            ...(activeBasePath || activeBaseRegex
-              ? {
-                  isActive: (_match, location) =>
-                    activeBaseRegex
-                      ? new RegExp(activeBaseRegex).test(location.pathname)
-                      : location.pathname.startsWith(activeBaseUrl),
-                }
-              : null),
-          })}
-      {...props}>
-      {label}
-    </Link>
-  );
-}
-
-function NavItemDesktop({
-  items,
-  position = DefaultNavItemPosition,
-  className,
-  ...props
-}) {
-  const navLinkClassNames = (extraClassName, isDropdownItem = false) =>
-    clsx(
-      {
-        'navbar__item navbar__link': !isDropdownItem,
-        dropdown__link: isDropdownItem,
-      },
-      extraClassName,
-    );
-
-  if (!items) {
-    return <NavLink className={navLinkClassNames(className)} {...props} />;
-  }
-
-  return (
-    <div
-      className={clsx('navbar__item', 'dropdown', 'dropdown--hoverable', {
-        'dropdown--left': position === 'left',
-        'dropdown--right': position === 'right',
-      })}>
-      <NavLink
-        className={navLinkClassNames(className)}
-        {...props}
-        onClick={(e) => e.preventDefault()}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter') {
-            ((e.target as HTMLElement)
-              .parentNode as HTMLElement).classList.toggle('dropdown--show');
-          }
-        }}>
-        {props.label}
-      </NavLink>
-      <ul className="dropdown__menu">
-        {items.map(({className: childItemClassName, ...childItemProps}, i) => (
-          <li key={i}>
-            <NavLink
-              activeClassName="dropdown__link--active"
-              className={navLinkClassNames(childItemClassName, true)}
-              {...childItemProps}
-            />
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-
-function NavItemMobile({items, position: _position, className, ...props}) {
-  // Need to destructure position from props so that it doesn't get passed on.
-  const navLinkClassNames = (extraClassName, isSubList = false) =>
-    clsx(
-      'menu__link',
-      {
-        'menu__link--sublist': isSubList,
-      },
-      extraClassName,
-    );
-
-  if (!items) {
-    return (
-      <li className="menu__list-item">
-        <NavLink className={navLinkClassNames(className)} {...props} />
-      </li>
-    );
-  }
-
-  return (
-    <li className="menu__list-item">
-      <NavLink className={navLinkClassNames(className, true)} {...props}>
-        {props.label}
-      </NavLink>
-      <ul className="menu__list">
-        {items.map(({className: childItemClassName, ...childItemProps}, i) => (
-          <li className="menu__list-item" key={i}>
-            <NavLink
-              activeClassName="menu__link--active"
-              className={navLinkClassNames(childItemClassName)}
-              {...childItemProps}
-              onClick={props.onClick}
-            />
-          </li>
-        ))}
-      </ul>
-    </li>
-  );
-}
-
-function BaseNavItem({mobile = false, ...props}) {
-  const Comp: ComponentType<any> = mobile ? NavItemMobile : NavItemDesktop;
-  return <Comp {...props} />;
-}
-
-const SpecialNavItemTypes = {
-  currentDocsVersion: function CurrentDocsVersionNavItem({
-    instancePath,
-    fallbackLabel,
-    ...props
-  }) {
-    const activeVersionMetadata = useDocsActiveVersionMetadata(instancePath);
-    const label = activeVersionMetadata?.version ?? fallbackLabel;
-    return <BaseNavItem {...props} label={label} />;
-  },
-};
-
-function NavItem({type, ...props}) {
-  const CustomNavItemComponent = SpecialNavItemTypes[type];
-  if (CustomNavItemComponent) {
-    return <CustomNavItemComponent {...props} />;
-  }
-  return <BaseNavItem {...props} />;
-}
 
 // If split links by left/right
 // if position is unspecified, fallback to right (as v1)
@@ -216,7 +43,7 @@ function Navbar(): JSX.Element {
   const {
     siteConfig: {
       themeConfig: {
-        navbar: {title = '', link: items = [], hideOnScroll = false} = {},
+        navbar: {title = '', links: items = [], hideOnScroll = false} = {},
         colorMode: {disableSwitch: disableColorModeSwitch = false} = {},
       },
     },
@@ -308,12 +135,12 @@ function Navbar(): JSX.Element {
             )}
           </Link>
           {leftItems.map((item, i) => (
-            <NavItem {...item} key={i} />
+            <NavbarItem {...item} key={i} />
           ))}
         </div>
         <div className="navbar__items navbar__items--right">
           {rightItems.map((item, i) => (
-            <NavItem {...item} key={i} />
+            <NavbarItem {...item} key={i} />
           ))}
           {!disableColorModeSwitch && (
             <Toggle
@@ -365,7 +192,7 @@ function Navbar(): JSX.Element {
           <div className="menu">
             <ul className="menu__list">
               {items.map((item, i) => (
-                <NavItem mobile {...item} onClick={hideSidebar} key={i} />
+                <NavbarItem mobile {...item} onClick={hideSidebar} key={i} />
               ))}
             </ul>
           </div>

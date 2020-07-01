@@ -120,20 +120,78 @@ module.exports = function (context, options) {
   };
 };
 
-const NavbarLinkSchema = Joi.object({
-  items: Joi.array().optional().items(Joi.link('#navbarLinkSchema')),
+const NavbarItemPosition = Joi.string().equal('left', 'right').default('left');
+
+const DefaultNavbarItemSchema = Joi.object({
+  items: Joi.array().optional().items(Joi.link('...')),
   to: Joi.string(),
   href: Joi.string().uri(),
   prependBaseUrlToHref: Joi.bool().default(true),
   label: Joi.string(),
-  position: Joi.string().equal('left', 'right').default('left'),
+  position: NavbarItemPosition,
   activeBasePath: Joi.string(),
   activeBaseRegex: Joi.string(),
   className: Joi.string(),
   'aria-label': Joi.string(),
+}).xor('href', 'to');
+
+const DocsVersionNavbarItemSchema = Joi.object({
+  type: Joi.string().equal('docsVersion').required(),
+  to: Joi.string().required(),
+  fallbackLabel: Joi.string().required(),
+  instancePath: Joi.string().required(),
+  position: NavbarItemPosition,
+});
+
+const isOfType = (type) => {
+  let typeSchema = Joi.string().required();
+  // because equal(undefined) is not supported :/
+  if (type) {
+    typeSchema = typeSchema.equal(type);
+  }
+  return Joi.object({
+    type: typeSchema,
+  })
+    .unknown()
+    .required();
+};
+
+const NavbarItemSchema = Joi.object().when({
+  switch: [
+    {
+      is: isOfType('docsVersion'),
+      then: DocsVersionNavbarItemSchema,
+    },
+    {
+      is: isOfType(undefined),
+      then: Joi.forbidden().messages({
+        'any.unknown': 'Bad nav item type {.type}',
+      }),
+    },
+  ],
+  otherwise: DefaultNavbarItemSchema,
+});
+
+/*
+const NavbarItemSchema = Joi.object({
+  type: Joi.string().only(['docsVersion'])
 })
-  .xor('href', 'to')
-  .id('navbarLinkSchema');
+  .when(Joi.object({ type: 'docsVersion' }).unknown(), {
+    then: Joi.object({ pepperoni: Joi.boolean() })
+  })
+  .when(Joi.object().unknown(), {
+    then: Joi.object({ croutons: Joi.boolean() })
+  })
+
+ */
+
+/*
+const NavbarItemSchema = Joi.object().when('type', {
+  is: Joi.valid('docsVersion'),
+  then: DocsVersionNavbarItemSchema,
+  otherwise: DefaultNavbarItemSchema,
+});
+ */
 
 const ColorModeSchema = Joi.object({
   defaultMode: Joi.string().equal('dark', 'light').default('light'),
@@ -164,7 +222,7 @@ const ThemeConfigSchema = Joi.object({
   }).optional(),
   navbar: Joi.object({
     hideOnScroll: Joi.bool().default(false),
-    links: Joi.array().items(NavbarLinkSchema),
+    links: Joi.array().items(NavbarItemSchema),
     title: Joi.string().required(),
     logo: Joi.object({
       alt: Joi.string(),

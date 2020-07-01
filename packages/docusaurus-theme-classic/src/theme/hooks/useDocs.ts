@@ -75,9 +75,8 @@ const findAlternateDocVersions = ({
 
   const alternateDocs = alternateVersionsMetadata
     .map((alternateVersionMetadata) => {
-      const alternateDocPath = alternateVersionMetadata.docsPaths.find(
-        (alternateDocPath) =>
-          isAlternateDocVersion(alternateVersionMetadata, alternateDocPath),
+      const alternateDocPath = alternateVersionMetadata.docsPaths.find((path) =>
+        isAlternateDocVersion(alternateVersionMetadata, path),
       );
       if (!alternateDocPath) {
         return null;
