@@ -21,7 +21,7 @@ Object {
     },
   },
   "routesChunkNames": Object {
-    "/blog": Object {
+    "/blog-94e": Object {
       "component": "component---theme-blog-list-pagea-6-a-7ba",
       "items": Array [
         Object {
@@ -38,20 +38,16 @@ Object {
   "routesConfig": "
 import React from 'react';
 import ComponentCreator from '@docusaurus/ComponentCreator';
-
 export default [
-  
 {
   path: '/blog',
-  component: ComponentCreator('/blog'),
+  component: ComponentCreator('/blog','94e'),
   exact: true,
-  
 },
-  
-  {
-    path: '*',
-    component: ComponentCreator('*')
-  }
+{
+  path: '*',
+  component: ComponentCreator('*')
+}
 ];
 ",
   "routesPaths": Array [
@@ -94,16 +90,16 @@ Object {
     },
   },
   "routesChunkNames": Object {
-    "/docs/hello": Object {
+    "/docs/hello-f94": Object {
       "component": "component---theme-doc-item-178-a40",
       "content": "content---docs-helloaff-811",
       "metadata": "metadata---docs-hello-956-741",
     },
-    "/docs:route": Object {
+    "/docs:route-838": Object {
       "component": "component---theme-doc-page-1-be-9be",
       "docsMetadata": "docsMetadata---docs-routef-34-881",
     },
-    "docs/foo/baz": Object {
+    "docs/foo/baz-f88": Object {
       "component": "component---theme-doc-item-178-a40",
       "content": "content---docs-foo-baz-8-ce-61e",
       "metadata": "metadata---docs-foo-baz-2-cf-fa7",
@@ -112,32 +108,28 @@ Object {
   "routesConfig": "
 import React from 'react';
 import ComponentCreator from '@docusaurus/ComponentCreator';
-
 export default [
-  
 {
   path: '/docs:route',
-  component: ComponentCreator('/docs:route'),
+  component: ComponentCreator('/docs:route','838'),
   
   routes: [
 {
   path: '/docs/hello',
-  component: ComponentCreator('/docs/hello'),
+  component: ComponentCreator('/docs/hello','f94'),
   exact: true,
-  
 },
 {
   path: 'docs/foo/baz',
-  component: ComponentCreator('docs/foo/baz'),
+  component: ComponentCreator('docs/foo/baz','f88'),
   
-  
-}],
 },
-  
-  {
-    path: '*',
-    component: ComponentCreator('*')
-  }
+]
+},
+{
+  path: '*',
+  component: ComponentCreator('*')
+}
 ];
 ",
   "routesPaths": Array [
@@ -157,27 +149,23 @@ Object {
     },
   },
   "routesChunkNames": Object {
-    "": Object {
+    "-b2a": Object {
       "component": "component---hello-world-jse-0-f-b6c",
     },
   },
   "routesConfig": "
 import React from 'react';
 import ComponentCreator from '@docusaurus/ComponentCreator';
-
 export default [
-  
 {
   path: '',
-  component: ComponentCreator(''),
-  
+  component: ComponentCreator('','b2a'),
   
 },
-  
-  {
-    path: '*',
-    component: ComponentCreator('*')
-  }
+{
+  path: '*',
+  component: ComponentCreator('*')
+}
 ];
 ",
   "routesPaths": Array [

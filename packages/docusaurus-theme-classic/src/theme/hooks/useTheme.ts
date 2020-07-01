@@ -8,10 +8,31 @@
 import {useState, useCallback, useEffect} from 'react';
 
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 
 const themes = {
-  light: '',
+  light: 'light',
   dark: 'dark',
+};
+
+// Ensure to always return a valid theme even if input is invalid
+const coerceToTheme = (theme) => {
+  return theme === themes.dark ? themes.dark : themes.light;
+};
+
+const getInitialTheme = () => {
+  if (!ExecutionEnvironment.canUseDOM) {
+    return themes.light; // SSR: we don't care
+  }
+  return coerceToTheme(document.documentElement.getAttribute('data-theme'));
+};
+
+const storeTheme = (newTheme) => {
+  try {
+    localStorage.setItem('theme', coerceToTheme(newTheme));
+  } catch (err) {
+    console.error(err);
+  }
 };
 
 const useTheme = (): {
@@ -20,46 +41,34 @@ const useTheme = (): {
   setDarkTheme: () => void;
 } => {
   const {
-    siteConfig: {themeConfig: {disableDarkMode = false} = {}} = {},
+    siteConfig: {
+      themeConfig: {colorMode: {disableSwitch = false} = {}} = {},
+    } = {},
   } = useDocusaurusContext();
-  const [theme, setTheme] = useState(
-    typeof document !== 'undefined'
-      ? document.documentElement.getAttribute('data-theme')
-      : themes.light,
-  );
-  const setThemeSyncWithLocalStorage = useCallback(
-    (newTheme) => {
-      try {
-        localStorage.setItem('theme', newTheme);
-      } catch (err) {
-        console.error(err);
-      }
-    },
-    [setTheme],
-  );
+  const [theme, setTheme] = useState(getInitialTheme);
+
   const setLightTheme = useCallback(() => {
     setTheme(themes.light);
-    setThemeSyncWithLocalStorage(themes.light);
+    storeTheme(themes.light);
   }, []);
   const setDarkTheme = useCallback(() => {
     setTheme(themes.dark);
-    setThemeSyncWithLocalStorage(themes.dark);
+    storeTheme(themes.dark);
   }, []);
 
   useEffect(() => {
-    // @ts-expect-error: safe to set null as attribute
-    document.documentElement.setAttribute('data-theme', theme);
+    document.documentElement.setAttribute('data-theme', coerceToTheme(theme));
   }, [theme]);
 
   useEffect(() => {
-    if (disableDarkMode) {
+    if (disableSwitch) {
       return;
     }
 
     try {
       const localStorageTheme = localStorage.getItem('theme');
       if (localStorageTheme !== null) {
-        setTheme(localStorageTheme);
+        setTheme(coerceToTheme(localStorageTheme));
       }
     } catch (err) {
       console.error(err);
@@ -67,7 +76,7 @@ const useTheme = (): {
   }, [setTheme]);
 
   useEffect(() => {
-    if (disableDarkMode) {
+    if (disableSwitch) {
       return;
     }
 

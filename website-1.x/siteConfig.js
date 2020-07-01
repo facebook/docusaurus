@@ -27,6 +27,7 @@ const siteConfig = {
     {
       href: 'https://github.com/facebook/docusaurus',
       label: 'GitHub',
+      external: true,
     },
   ],
   headerIcon: 'img/docusaurus.svg',
