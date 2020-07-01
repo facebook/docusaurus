@@ -12,6 +12,7 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "@docusaurus/module-type-aliases": "^2.0.0-alpha.58",
     "commander": "^5.0.0",
     "picomatch": "^2.1.1",
     "@types/hapi__joi": "^17.1.2"

@@ -155,7 +155,6 @@ const isOfType = (type) => {
     .unknown()
     .required();
 };
-
 const NavbarItemSchema = Joi.object().when({
   switch: [
     {

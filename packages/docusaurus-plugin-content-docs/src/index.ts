@@ -51,6 +51,7 @@ import {
   DocsSidebarItem,
   GlobalPluginInstanceData,
   GlobalPluginData,
+  DocsVersion,
 } from './types';
 import {Configuration} from 'webpack';
 import {docsVersion} from './version';
@@ -331,7 +332,9 @@ Available document ids=
       const aliasedSource = (source: string) =>
         `~docs/${path.relative(dataDir, source)}`;
 
-      const createDocsBaseMetadata = (version?: string): DocsBaseMetadata => {
+      const createDocsBaseMetadata = (
+        version: DocsVersion,
+      ): DocsBaseMetadata => {
         const {docsSidebars, permalinkToSidebar, versionToSidebars} = content;
         const neededSidebars: Set<string> =
           versionToSidebars[version!] || new Set();
@@ -378,7 +381,7 @@ Available document ids=
       // We want latest version route to have lower priority
       // Otherwise `/docs/next/foo` would match
       // `/docs/:route` instead of `/docs/next/:route`.
-      const getVersionRoutePriority = (version: string | undefined) =>
+      const getVersionRoutePriority = (version: DocsVersion) =>
         version === versioning.latestVersion ? -1 : undefined;
 
       // This is the base route of the document root (for a doc given version)
@@ -395,6 +398,12 @@ Available document ids=
           JSON.stringify(docsBaseMetadata, null, 2),
         );
 
+        pluginInstanceGlobalData.versionsMetadata.push({
+          version: docsBaseMetadata.version,
+          docsBasePath,
+          docsPaths: docRoutes.map((docRoute) => docRoute.path),
+        });
+
         addRoute({
           path: docsBasePath,
           exact: false, // allow matching /docs/* as well
@@ -406,7 +415,6 @@ Available document ids=
           priority,
         });
       };
-
       // If versioning is enabled, we cleverly chunk the generated routes
       // to be by version and pick only needed base metadata.
       if (versioning.enabled) {
@@ -439,7 +447,7 @@ Available document ids=
         );
       } else {
         const routes = await genRoutes(Object.values(content.docsMetadata));
-        const docsBaseMetadata = createDocsBaseMetadata();
+        const docsBaseMetadata = createDocsBaseMetadata(null);
         const docsBaseRoute = normalizeUrl([baseUrl, routeBasePath]);
         await addBaseRoute(docsBaseRoute, docsBaseMetadata, routes);
       }

@@ -5,6 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+// eslint-disable-next-line spaced-comment
+/// <reference types="@docusaurus/module-type-aliases" />
+
+export type DocsVersion = string | null; // null = unversioned sites
+
 export interface MetadataOptions {
   routeBasePath: string;
   homePageId?: string;
@@ -166,7 +171,7 @@ export type DocsBaseMetadata = Pick<
   LoadedContent,
   'docsSidebars' | 'permalinkToSidebar'
 > & {
-  version?: string;
+  version: string | null;
 };
 
 export type VersioningEnv = {
@@ -183,12 +188,12 @@ export interface Env {
 }
 
 export type GlobalVersionMetadata = {
-  version: string | undefined;
-  path: string;
+  version: DocsVersion;
+  docsBasePath: string;
   docsPaths: string[];
 };
 export type GlobalPluginInstanceData = {
-  latestVersion: string | undefined | null;
+  latestVersion: DocsVersion;
   versionsMetadata: GlobalVersionMetadata[];
 };
 export type GlobalPluginData = Record<string, GlobalPluginInstanceData>;
