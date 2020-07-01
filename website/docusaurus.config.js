@@ -63,6 +63,7 @@ module.exports = {
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
           remarkPlugins: [require('./src/plugins/remark-npm2yarn')],
+          disableVersioning: !!process.env.DISABLE_VERSIONING,
         },
         blog: {
           path: '../website-1.x/blog',
