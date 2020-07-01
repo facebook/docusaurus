@@ -8,9 +8,9 @@
 const versions = require('./versions.json');
 
 const allDocHomesPaths = [
-  '/docs',
-  '/docs/next',
-  ...versions.slice(1).map((version) => `/docs/${version}`),
+  '/docs/',
+  '/docs/next/',
+  ...versions.slice(1).map((version) => `/docs/${version}/`),
 ];
 
 module.exports = {
@@ -82,6 +82,11 @@ module.exports = {
     ],
   ],
   themeConfig: {
+    colorMode: {
+      defaultMode: 'light',
+      disableSwitch: false,
+      respectPrefersColorScheme: true,
+    },
     announcementBar: {
       id: 'supportus',
       content:

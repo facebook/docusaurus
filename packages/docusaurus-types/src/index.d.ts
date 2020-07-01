@@ -91,7 +91,7 @@ export type HtmlTags = string | HtmlTagObject | (string | HtmlTagObject)[];
 
 export interface Props extends LoadContext, InjectedHtmlTags {
   routesPaths: string[];
-  plugins: Plugin<unknown>[];
+  plugins: Plugin<any, unknown>[];
 }
 
 export interface PluginContentLoadedActions {
@@ -99,9 +99,11 @@ export interface PluginContentLoadedActions {
   createData(name: string, data: any): Promise<string>;
 }
 
-export interface Plugin<T> {
+export interface Plugin<T, U = unknown> {
   name: string;
   loadContent?(): Promise<T>;
+  validateOptions?(): ValidationResult<U>;
+  validateThemeConfig?(): ValidationResult<any>;
   contentLoaded?({
     content,
     actions,
@@ -118,6 +120,7 @@ export interface Plugin<T> {
     utils: ConfigureWebpackUtils,
   ): Configuration;
   getThemePath?(): string;
+  getTypeScriptThemePath?(): string;
   getPathsToWatch?(): string[];
   getClientModules?(): string[];
   extendCli?(cli: Command): void;
@@ -200,4 +203,29 @@ interface HtmlTagObject {
    * The inner HTML
    */
   innerHTML?: string;
+}
+
+export interface ValidationResult<T, E extends Error = Error> {
+  error?: E;
+  value: T;
+}
+
+export type Validate<T, E extends Error = Error> = (
+  validationSchema: ValidationSchema<T>,
+  options: Partial<T>,
+) => ValidationResult<T, E>;
+
+export interface OptionValidationContext<T, E extends Error = Error> {
+  validate: Validate<T, E>;
+  options: Partial<T>;
+}
+
+export interface ThemeConfigValidationContext<T, E extends Error = Error> {
+  validate: Validate<T, E>;
+  themeConfig: Partial<T>;
+}
+
+export interface ValidationSchema<T> {
+  validate(options: Partial<T>, opt: object): ValidationResult<T>;
+  unknown(): ValidationSchema<T>;
 }

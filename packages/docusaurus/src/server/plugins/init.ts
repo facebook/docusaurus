@@ -8,8 +8,34 @@
 import Module from 'module';
 import {join} from 'path';
 import importFresh from 'import-fresh';
-import {LoadContext, Plugin, PluginConfig} from '@docusaurus/types';
+import {
+  LoadContext,
+  Plugin,
+  PluginConfig,
+  ValidationSchema,
+} from '@docusaurus/types';
 import {CONFIG_FILE_NAME} from '../../constants';
+
+function validate<T>(schema: ValidationSchema<T>, options: Partial<T>) {
+  const {error, value} = schema.validate(options, {
+    convert: false,
+  });
+  if (error) {
+    throw error;
+  }
+  return value;
+}
+
+function validateAndStrip<T>(schema: ValidationSchema<T>, options: Partial<T>) {
+  const {error, value} = schema.unknown().validate(options, {
+    convert: false,
+  });
+
+  if (error) {
+    throw error;
+  }
+  return value;
+}
 
 export default function initPlugins({
   pluginConfigs,
@@ -49,9 +75,39 @@ export default function initPlugins({
       const pluginModule: any = importFresh(
         pluginRequire.resolve(pluginModuleImport),
       );
-      return (pluginModule.default || pluginModule)(context, pluginOptions);
+
+      const plugin = pluginModule.default || pluginModule;
+
+      // support both commonjs and ES modules
+      const validateOptions =
+        pluginModule.default?.validateOptions ?? pluginModule.validateOptions;
+
+      if (validateOptions) {
+        const normalizedOptions = validateOptions({
+          validate,
+          options: pluginOptions,
+        });
+        pluginOptions = normalizedOptions;
+      }
+
+      // support both commonjs and ES modules
+      const validateThemeConfig =
+        pluginModule.default?.validateThemeConfig ??
+        pluginModule.validateThemeConfig;
+
+      if (validateThemeConfig) {
+        const normalizedThemeConfig = validateThemeConfig({
+          validate: validateAndStrip,
+          themeConfig: context.siteConfig.themeConfig,
+        });
+
+        context.siteConfig.themeConfig = {
+          ...context.siteConfig.themeConfig,
+          ...normalizedThemeConfig,
+        };
+      }
+      return plugin(context, pluginOptions);
     })
     .filter(Boolean);
-
   return plugins;
 }

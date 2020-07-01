@@ -60,7 +60,7 @@ export function objectWithKeySorted(obj: {[index: string]: any}) {
 }
 
 const indexRE = /(^|.*\/)index\.(md|js|jsx|ts|tsx)$/i;
-const extRE = /\.(md|js|tsx)$/;
+const extRE = /\.(md|js|ts|tsx)$/;
 
 /**
  * Convert filepath to url path.
@@ -80,6 +80,10 @@ export function encodePath(userpath: string): string {
     .join('/');
 }
 
+export function simpleHash(str: string, length: number): string {
+  return createHash('md5').update(str).digest('hex').substr(0, length);
+}
+
 /**
  * Given an input string, convert to kebab-case and append a hash.
  * Avoid str collision.
@@ -88,7 +92,7 @@ export function docuHash(str: string): string {
   if (str === '/') {
     return 'index';
   }
-  const shortHash = createHash('md5').update(str).digest('hex').substr(0, 3);
+  const shortHash = simpleHash(str, 3);
   return `${kebabCase(str)}-${shortHash}`;
 }
 
@@ -139,17 +143,11 @@ export function genChunkName(
   let chunkName: string | undefined = chunkNameCache.get(modulePath);
   if (!chunkName) {
     if (shortId) {
-      chunkName = createHash('md5')
-        .update(modulePath)
-        .digest('hex')
-        .substr(0, 8);
+      chunkName = simpleHash(modulePath, 8);
     } else {
       let str = modulePath;
       if (preferredName) {
-        const shortHash = createHash('md5')
-          .update(modulePath)
-          .digest('hex')
-          .substr(0, 3);
+        const shortHash = simpleHash(modulePath, 3);
         str = `${preferredName}${shortHash}`;
       }
       const name = str === '/' ? 'index' : docuHash(str);
@@ -382,6 +380,10 @@ export function removeSuffix(str: string, suffix: string): string {
     return str; // always returns "" otherwise!
   }
   return str.endsWith(suffix) ? str.slice(0, -suffix.length) : str;
+}
+
+export function removePrefix(str: string, prefix: string): string {
+  return str.startsWith(prefix) ? str.slice(prefix.length) : str;
 }
 
 export function getFilePathForRoutePath(routePath: string): string {

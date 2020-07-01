@@ -84,19 +84,28 @@ A plugin is a module which exports a function that takes two parameters and retu
 
 The exported modules for plugins are called with two parameters: `context` and `options` and returns a JavaScript object with defining the [lifecycle APIs](./lifecycle-apis.md).
 
-For example if you have a reference to a local folder such as this in your docusaurus.config.js:
+For example if you have a reference to a local folder such as this in your `docusaurus.config.js`:
 
-    plugins: [path.resolve(__dirname, 'my-plugin')],
+```js title="docusaurus.config.js"
+module.exports = {
+  // ...
+  plugins: [path.resolve(__dirname, 'my-plugin')],
+};
+```
 
 Then in the folder `my-plugin` you can create an index.js such as this
 
 ```js title="index.js"
-module.exports = function(context, options) {
+module.exports = function (context, options) {
   // ...
   return {
     name: 'my-docusaurus-plugin',
-    async loadContent() { ... },
-    async contentLoaded({content, actions}) { ... },
+    async loadContent() {
+      /* ... */
+    },
+    async contentLoaded({content, actions}) {
+      /* ... */
+    },
     /* other lifecycle API */
   };
 };
@@ -108,7 +117,7 @@ The `my-plugin` folder could also be a fully fledged package with it's own packa
 
 `context` is plugin-agnostic and the same object will be passed into all plugins used for a Docusaurus website. The `context` object contains the following fields:
 
-```js
+```ts
 interface LoadContext {
   siteDir: string;
   generatedFilesDir: string;
@@ -288,6 +297,12 @@ module.exports = {
          * This is a way to explicitly disable the versioning feature.
          */
         disableVersioning: false,
+        /**
+         * Skip the next release docs when versioning is enabled.
+         * This will not generate HTML files in the production build for documents
+         * in `/docs/next` directory, only versioned docs.
+         */
+        excludeNextVersionDocs: false,
       },
     ],
   ],
@@ -477,6 +492,12 @@ import thumbnail from './path/to/img.png';
 Docusaurus Plugin to generate **client-side redirects**.
 
 This plugin will write additional HTML pages to your static site, that redirects the user to your existing Docusaurus pages with JavaScript.
+
+:::note
+
+This plugin only create redirects for the production build.
+
+:::
 
 :::caution
 
