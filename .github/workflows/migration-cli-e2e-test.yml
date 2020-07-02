@@ -24,18 +24,14 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Installation
         run: yarn
+      - run: yarn workspace @docusaurus/migrate tsc
       - name: Migrate D1 website
-        run: yarn @docusuarus/migrate migrate ./website-1.x ./test-migrated
+        run: yarn docusaurus-migrate migrate ./website-1.x ./test-migrated
       - name: Install in Test website
         run: yarn 
-         working-directory: test-migrated
-      - name: Start Test website
-        run: yarn start --no-open
-         working-directory: test-migrated
-        env:
-          E2E_TEST: true
+        working-directory: test-migrated
       - name: Build Test website
         run: yarn build
-         working-directory: test-migrated
+        working-directory: test-migrated
         env:
           CI: true
