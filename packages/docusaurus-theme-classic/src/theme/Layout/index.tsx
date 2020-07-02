@@ -34,9 +34,15 @@ function Layout(props: Props): JSX.Element {
   const {
     favicon,
     title: siteTitle,
-    themeConfig: {image: defaultImage},
+    themeConfig: {
+      image: defaultImage,
+      navbar: {
+        logo: {src: logo},
+      },
+    },
     url: siteUrl,
   } = siteConfig;
+
   const {
     children,
     title,
@@ -47,10 +53,21 @@ function Layout(props: Props): JSX.Element {
     permalink,
     version,
   } = props;
+
+  const createOGImage = ({ogTitle, ogLogo}) => {
+    // Will add more options such as title, siteTitle, description, optional version, optional docusarus in the future
+    const url = `https://og-image.now.sh/${ogTitle}.png?images=1&images=${ogLogo}`;
+    return encodeURI(url);
+  };
+
+  const faviconUrl = useBaseUrl(favicon);
+  const logoUrl = useBaseUrl(logo, {absolute: true});
   const metaTitle = title ? `${title} | ${siteTitle}` : siteTitle;
   const metaImage = image || defaultImage;
-  const metaImageUrl = useBaseUrl(metaImage, {absolute: true});
-  const faviconUrl = useBaseUrl(favicon);
+  const localMetaImageUrl = useBaseUrl(metaImage, {absolute: true});
+  const metaImageUrl = metaImage
+    ? localMetaImageUrl
+    : createOGImage({ogTitle: metaTitle, ogLogo: logoUrl});
 
   return (
     <ThemeProvider>
@@ -70,7 +87,7 @@ function Layout(props: Props): JSX.Element {
           {keywords && keywords.length && (
             <meta name="keywords" content={keywords.join(',')} />
           )}
-          {metaImage && <meta property="og:image" content={metaImageUrl} />}
+          <meta property="og:image" content={metaImageUrl} />
           {metaImage && (
             <meta property="twitter:image" content={metaImageUrl} />
           )}
