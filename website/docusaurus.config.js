@@ -96,7 +96,6 @@ module.exports = {
       theme: require('prism-react-renderer/themes/github'),
       darkTheme: require('prism-react-renderer/themes/dracula'),
     },
-    image: 'img/docusaurus-soc.png',
     gtag: {
       trackingID: 'UA-141789564-1',
     },
