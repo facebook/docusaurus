@@ -58,7 +58,7 @@ cli
   });
 
 cli
-  .command('swizzle <themeName> [componentName] [siteDir]')
+  .command('swizzle [themeName] [componentName] [siteDir]')
   .description('Copy the theme files into website folder for customization.')
   .option(
     '--typescript',
