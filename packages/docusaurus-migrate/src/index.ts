@@ -117,19 +117,23 @@ export function createConfigFile(siteConfig: Config): DocusaurusConfig {
 
 function sanatizedFrontMatter(content: string): string {
   const extractedData = extractMetadata(content);
-  const sanitizedData = `---json\n${JSON.stringify(
-    extractedData.metadata,
-    null,
-    2,
-  )}\n---\n${extractedData.rawContent}`;
+  const extractedMetaData = Object.entries(extractedData.metadata).reduce(
+    (metaData, value) => {
+      return `${metaData}\n${value[0]}: ${
+        value[0] === 'tags' ? value[1] : `"${value[1]}"`
+      }`;
+    },
+    '',
+  );
+  const sanitizedData = `---\n${extractedMetaData}\n---\n${extractedData.rawContent}`;
   return sanitizedData;
 }
 
-export function createProjectStructure(
+export async function createProjectStructure(
   siteDir: string,
   siteConfig: Config,
   newDir: string,
-): void {
+): Promise<void> {
   const config = createConfigFile(siteConfig);
   const classicPreset = config.presets[0][1];
 
