@@ -62,7 +62,7 @@ export default async function swizzle(
       : plugins[index].getThemePath,
   );
   if (!themeName) {
-    console.log(`Installed themes:\n${themeNames.join('\n')}`);
+    console.log(`Themes available for swizzle:\n${themeNames.join('\n')}`);
   } else {
     let plugin;
     try {
@@ -145,7 +145,7 @@ export default async function swizzle(
       }
     } else {
       const components = fs.readdirSync(themePath);
-      console.log(`Available Theme Components:\n${components.join('\n')}`);
+      console.log(`Theme Components available for swizzle:\n${components.join('\n')}`);
     }
   }
 }
