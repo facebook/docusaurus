@@ -145,7 +145,9 @@ export default async function swizzle(
       }
     } else {
       const components = fs.readdirSync(themePath);
-      console.log(`Theme Components available for swizzle:\n${components.join('\n')}`);
+      console.log(
+        `Theme Components available for swizzle:\n${components.join('\n')}`,
+      );
     }
   }
 }
