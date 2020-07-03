@@ -15,6 +15,7 @@ const ignorePatterns = [
   '/packages/docusaurus-plugin-content-blog/lib',
   '/packages/docusaurus-plugin-content-docs/lib',
   '/packages/docusaurus-plugin-content-pages/lib',
+  '/packages/docusaurus-migrate/lib',
 ];
 
 module.exports = {

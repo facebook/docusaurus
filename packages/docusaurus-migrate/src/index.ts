@@ -131,9 +131,9 @@ function sanatizedFrontMatter(content: string): string {
 
 export async function createProjectStructure(
   siteDir: string,
-  siteConfig: Config,
   newDir: string,
 ): Promise<void> {
+  const siteConfig = importFresh(`${siteDir}/siteConfig`) as Config;
   const config = createConfigFile(siteConfig);
   const classicPreset = config.presets[0][1];
 
@@ -199,7 +199,13 @@ export async function createProjectStructure(
     fs.copyFile(`${siteDir}/versions.json`, `${newDir}/versions.json`);
     const versions = loadedVersions.reverse();
     const versionRegex = new RegExp(`version-(${versions.join('|')})-`, 'mgi');
-    const isVersionedSidebar = fs.statSync(`${siteDir}/versioned_sidebars`);
+    let isVersionedSidebar = false;
+    try {
+      fs.statSync(`${siteDir}/versioned_sidebars`);
+      isVersionedSidebar = true;
+    } catch {
+      console.log('No sidebar found');
+    }
     if (isVersionedSidebar) {
       fs.mkdirpSync(`${newDir}/versioned_sidebars`);
       const sidebars: {

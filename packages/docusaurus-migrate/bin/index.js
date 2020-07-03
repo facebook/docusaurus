@@ -41,8 +41,7 @@ cli
   .action((siteDir = '.', newdir = '.') => {
     const sitePath = path.resolve(siteDir);
     const newSitePath = path.resolve(newdir);
-    const config = importFresh(`${sitePath}/siteConfig`);
-    wrapCommand(createProjectStructure)(sitePath, config, newSitePath);
+    wrapCommand(createProjectStructure)(sitePath, newSitePath);
   });
 
 cli.parse(process.argv);
