@@ -15,6 +15,7 @@ const merge = require('webpack-merge');
 const {injectManifest} = require('workbox-build');
 
 const defaultOptions = {
+  debug: false,
   alwaysPrecache: false,
   injectManifestConfig: {},
   pwaHead: [],
@@ -25,13 +26,14 @@ const defaultOptions = {
 
 const isProd = process.env.NODE_ENV === 'production';
 
-function pluginOffline(_context, options = {}) {
+function plugin(_context, options = {}) {
   const pluginOptions = {
     ...defaultOptions,
     ...options,
   };
 
   const {
+    debug,
     alwaysPrecache,
     injectManifestConfig,
     popup,
@@ -86,11 +88,7 @@ function pluginOffline(_context, options = {}) {
         const serviceWorkerConfig = merge(createBaseConfig(props), {
           entry: path.resolve(__dirname, 'sw.js'),
           target: 'webworker',
-
-          output: {
-            filename: 'sw.js',
-          },
-
+          mode: debug ? 'development' : 'production',
           optimization: {
             splitChunks: false,
           },
@@ -127,4 +125,4 @@ function pluginOffline(_context, options = {}) {
   };
 }
 
-module.exports = pluginOffline;
+module.exports = plugin;

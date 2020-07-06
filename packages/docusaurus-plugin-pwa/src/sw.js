@@ -8,6 +8,15 @@
 
 import {PrecacheController} from 'workbox-precaching';
 
+async function runSWCustomCode() {
+  if (process.env.SW_CUSTOM) {
+    const customSW = await import(process.env.SW_CUSTOM);
+    if (typeof customSW.default === 'function') {
+      customSW.default();
+    }
+  }
+}
+
 /**
  * Gets different possible variations for a request URL. Similar to
  * https://git.io/JvixK
@@ -45,13 +54,7 @@ function getPossibleURLs(url) {
 
   if (isEnabled) {
     controller.addToCacheList(precacheManifest);
-
-    if (process.env.SW_CUSTOM) {
-      const customSW = await import(process.env.SW_CUSTOM);
-      if (typeof customSW.default === 'function') {
-        customSW.default();
-      }
-    }
+    await runSWCustomCode();
   }
 
   self.addEventListener('install', (event) => {

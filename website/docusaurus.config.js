@@ -53,6 +53,7 @@ module.exports = {
     [
       '@docusaurus/plugin-pwa',
       {
+        // debug: true,
         swCustom: path.resolve(__dirname, 'src/sw.js'),
         pwaHead: [
           {

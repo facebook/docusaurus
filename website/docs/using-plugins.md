@@ -615,7 +615,7 @@ module.exports = {
 
 ### `@docusaurus/plugin-pwa`
 
-Docusaurus Plugin to add PWA support using [Workbox](https://developers.google.com/web/tools/workbox). This plugin generates a [Service Worker](https://developers.google.com/web/fundamentals/primers/service-workers) in production and allows you to create fully PWA-compliant documentation site with offline and installation support.
+Docusaurus Plugin to add PWA support using [Workbox](https://developers.google.com/web/tools/workbox). This plugin generates a [Service Worker](https://developers.google.com/web/fundamentals/primers/service-workers) in production build only, and allows you to create fully PWA-compliant documentation site with offline and installation support.
 
 ```bash npm2yarn
 npm install --save @docusaurus/plugin-pwa
@@ -660,7 +660,7 @@ Having a service worker installed is not enough to make your application a PWA. 
 
 After deployment, you can use [Lighthouse](https://developers.google.com/web/tools/lighthouse) to run an audit on your site.
 
-For a more exhaustive list of what it takes for your site to be PWA, refer to the [PWA Checklist](https://developers.google.com/web/progressive-web-apps/checklist)
+For a more exhaustive list of what it takes for your site to be a PWA, refer to the [PWA Checklist](https://developers.google.com/web/progressive-web-apps/checklist)
 
 #### Precaching
 
@@ -677,6 +677,13 @@ Precaching happens dynamically and is only used when the user is visiting the si
 After the site has been precached, the service worker will serve cached responses for later visits. When a new build is deployed along with a new service worker, the new one will begin installing and eventually move to a waiting state. During this waiting state, a reload popup will show and ask the user to reload the page for new content. Until the user either clears the application cache or clicks the `reload` button on the popup, the service worker will continue serving the old content.
 
 ##### Options
+
+##### `debug`
+
+- Type: `boolean`
+- Default: `false`
+
+Turn Workbox debug mode on, logging what is happening in your Service Worker.
 
 ##### `alwaysPrecache`
 

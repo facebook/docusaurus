@@ -17,6 +17,23 @@ async function clearRegistrations() {
 const MAX_MOBILE_WIDTH = 940;
 const APP_INSTALLED_KEY = 'docusaurus.pwa.appInstalled';
 
+const isSmallWidth = () => window.innerWidth <= MAX_MOBILE_WIDTH;
+const isSaveData = () =>
+  !!(navigator.connection && navigator.connection.saveData);
+const isAppInstalled = () => !!localStorage.getItem(APP_INSTALLED_KEY);
+const isOfflineQueryString = () => window.location.search.includes('offline');
+const isForcePrecaching = () => process.env.ALWAYS_PRECACHE === 'true';
+
+const isCachingEnabled = () => {
+  return (
+    isSmallWidth() ||
+    isSaveData() ||
+    isAppInstalled() ||
+    isOfflineQueryString() ||
+    isForcePrecaching()
+  );
+};
+
 (async () => {
   if (typeof window === 'undefined') {
     return;
@@ -25,23 +42,18 @@ const APP_INSTALLED_KEY = 'docusaurus.pwa.appInstalled';
   if ('serviceWorker' in navigator) {
     const {Workbox} = await import('workbox-window');
 
-    const shouldCacheFiles =
-      window.innerWidth <= MAX_MOBILE_WIDTH ||
-      (navigator.connection && navigator.connection.saveData) ||
-      localStorage.getItem(APP_INSTALLED_KEY) ||
-      window.location.search.includes('offline') ||
-      process.env.ALWAYS_PRECACHE === 'true';
+    const cachingEnabled = isCachingEnabled();
 
-    const enabledParam = shouldCacheFiles ? `?enabled` : '';
+    const enabledParam = cachingEnabled ? `?enabled` : '';
     const swUrl = `${process.env.SERVICE_WORKER}${enabledParam}`;
     const wb = new Workbox(swUrl);
     const registration = await wb.register();
-    const type = 'SKIP_WAITING';
+    const sendSkipWaiting = () => wb.messageSW({type: 'SKIP_WAITING'});
 
     const handleServiceWorkerWaiting = async () => {
       // Immediately load new service worker when files aren't cached
-      if (!shouldCacheFiles) {
-        wb.messageSW({type});
+      if (!cachingEnabled) {
+        sendSkipWaiting();
       } else if (process.env.PWA_POPUP) {
         const renderPopup = (await import('./renderPopup')).default;
 
@@ -50,8 +62,7 @@ const APP_INSTALLED_KEY = 'docusaurus.pwa.appInstalled';
             wb.addEventListener('controlling', () => {
               window.location.reload();
             });
-
-            wb.messageSW({type});
+            sendSkipWaiting();
           },
         });
       }
