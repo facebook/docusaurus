@@ -117,7 +117,7 @@ export function createConfigFile(
   };
 }
 
-function sanitizedFrontMatter(content: string): string {
+function sanitizeFrontMatter(content: string): string {
   const extractedData = extractMetadata(content);
   const extractedMetaData = Object.entries(extractedData.metadata).reduce(
     (metaData, value) => {
@@ -146,47 +146,11 @@ export async function createProjectStructure(
     react: '^16.10.2',
     'react-dom': '^16.10.2',
   };
-  if (!siteConfig.cleanUrl) {
-    deps['@docusaurus/plugin-client-redirects'] = DOCUSAURUS_VERSION;
-    config.plugins.push([
-      '@docusaurus/plugin-client-redirects',
-      {fromExtensions: ['html']},
-    ]);
-  }
-  fs.mkdirpSync(`${newDir}/src/pages`);
-  try {
-    fs.statSync(`${siteDir}/pages/en`);
-    const indexPage = `import Layout from "@theme/Layout";
-    import React from "react";
-    
-    export default () => {
-      return <Layout />;
-    };
-    `;
-    fs.writeFileSync(`${newDir}/src/pages/index.js`, indexPage);
-  } catch {
-    console.log('Ignoring Pages');
-  }
-
-  try {
-    fs.statSync(`${siteDir}/static`);
-    fs.copySync(`${siteDir}/static`, `${newDir}/static`);
-  } catch {
-    console.log('Ignoring static assets');
-    fs.mkdirSync(`${newDir}/static`);
-  }
-  try {
-    fs.statSync(`${siteDir}/blog`);
-    fs.copySync(`${siteDir}/blog`, `${newDir}/blog`);
-    const files = walk(`${newDir}/blog`);
-    files.forEach((file) => {
-      const content = String(fs.readFileSync(file));
-      fs.writeFileSync(file, sanitizedFrontMatter(content));
-    });
-    classicPreset.blog.path = 'blog';
-  } catch {
-    console.log('NO Blog found');
-  }
+  createClientRedirects(siteConfig, deps, config);
+  createLandingPage(newDir, siteDir);
+  migrateStaticFiles(siteDir, newDir);
+  migrateBlogFiles(siteDir, newDir, classicPreset);
+  // handle versioning
   let isVersion = false;
   try {
     fs.statSync(`${siteDir}/versions.json`);
@@ -201,6 +165,7 @@ export async function createProjectStructure(
     fs.copyFile(`${siteDir}/versions.json`, `${newDir}/versions.json`);
     const versions = loadedVersions.reverse();
     const versionRegex = new RegExp(`version-(${versions.join('|')})-`, 'mgi');
+    // handle versioned sidebar
     let isVersionedSidebar = false;
     try {
       fs.statSync(`${siteDir}/versioned_sidebars`);
@@ -350,20 +315,22 @@ export async function createProjectStructure(
       const content = fs.readFileSync(path).toString();
       fs.writeFileSync(
         path,
-        sanitizedFrontMatter(content.replace(versionRegex, '')),
+        sanitizeFrontMatter(content.replace(versionRegex, '')),
       );
     });
   }
+  // Copy docs
   try {
     fs.copySync(`${siteDir}/../docs`, `${newDir}/docs`);
     const files = walk(`${newDir}/docs`);
     files.forEach((file) => {
       const content = String(fs.readFileSync(file));
-      fs.writeFileSync(file, sanitizedFrontMatter(content));
+      fs.writeFileSync(file, sanitizeFrontMatter(content));
     });
   } catch {
     fs.mkdir(`${newDir}/docs`);
   }
+  // Copy sidebar
   try {
     fs.copyFileSync(`${siteDir}/sidebars.json`, `${newDir}/sidebars.json`);
     classicPreset.docs.sidebarPath = `${newDir}/sidebars.json`;
@@ -384,7 +351,7 @@ export async function createProjectStructure(
     `${newDir}/docusaurus.config.js`,
     `module.exports=${JSON.stringify(config, null, 2)}`,
   );
-
+  // migrate packageFile
   const packageFile = importFresh(`${siteDir}/package.json`) as {
     [key: string]: any;
   };
@@ -410,4 +377,67 @@ export async function createProjectStructure(
     `${newDir}/package.json`,
     JSON.stringify(packageFile, null, 2),
   );
+}
+function migrateBlogFiles(
+  siteDir: string,
+  newDir: string,
+  classicPreset: {
+    docs: {[key: string]: any};
+    blog: {[key: string]: any};
+    theme: {[key: string]: any};
+  },
+) {
+  try {
+    fs.statSync(`${siteDir}/blog`);
+    fs.copySync(`${siteDir}/blog`, `${newDir}/blog`);
+    const files = walk(`${newDir}/blog`);
+    files.forEach((file) => {
+      const content = String(fs.readFileSync(file));
+      fs.writeFileSync(file, sanitizeFrontMatter(content));
+    });
+    classicPreset.blog.path = 'blog';
+  } catch {
+    console.log('No Blog found');
+  }
+}
+
+function migrateStaticFiles(siteDir: string, newDir: string) {
+  try {
+    fs.statSync(`${siteDir}/static`);
+    fs.copySync(`${siteDir}/static`, `${newDir}/static`);
+  } catch {
+    console.log('Ignoring static assets');
+    fs.mkdirSync(`${newDir}/static`);
+  }
+}
+
+function createLandingPage(newDir: string, siteDir: string) {
+  fs.mkdirpSync(`${newDir}/src/pages`);
+  try {
+    fs.statSync(`${siteDir}/pages/en`);
+    const indexPage = `import Layout from "@theme/Layout";
+    import React from "react";
+    
+    export default () => {
+      return <Layout />;
+    };
+    `;
+    fs.writeFileSync(`${newDir}/src/pages/index.js`, indexPage);
+  } catch {
+    console.log('Ignoring Pages');
+  }
+}
+
+function createClientRedirects(
+  siteConfig: VersionOneConfig,
+  deps: {[key: string]: string},
+  config: VersionTwoConfig,
+) {
+  if (!siteConfig.cleanUrl) {
+    deps['@docusaurus/plugin-client-redirects'] = DOCUSAURUS_VERSION;
+    config.plugins.push([
+      '@docusaurus/plugin-client-redirects',
+      {fromExtensions: ['html']},
+    ]);
+  }
 }
