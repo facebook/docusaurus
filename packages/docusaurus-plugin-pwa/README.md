@@ -1,6 +1,6 @@
 # `@docusaurus/plugin-pwa`
 
-Docusaurus Plugin to add PWA support using [Workbox](https://developers.google.com/web/tools/workbox). This plugin generates a [Service Worker](https://developers.google.com/web/fundamentals/primers/service-workers) in production and allows you to create fully PWA-compliant documentation site with offline and installation support.
+A Docusaurus Plugin that adds Progressive Web App (PWA) support using [Workbox](https://developers.google.com/web/tools/workbox). This plugin generates a [Service Worker](https://developers.google.com/web/fundamentals/primers/service-workers) in production and allows you to create fully PWA-compliant documentation site with offline and installation support.
 
 ## Installation
 
