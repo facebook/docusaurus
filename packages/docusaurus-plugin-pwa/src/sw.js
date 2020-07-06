@@ -8,6 +8,10 @@
 
 import {PrecacheController} from 'workbox-precaching';
 
+// doc advise against dynamic imports in SW
+// https://developers.google.com/web/tools/workbox/guides/using-bundlers#code_splitting_and_dynamic_imports
+// https://twitter.com/sebastienlorber/status/1280155204575518720
+// but I think it's working fine as it's inlined by webpack, need to double check?
 async function runSWCustomCode() {
   if (process.env.PWA_SW_CUSTOM) {
     const customSW = await import(process.env.PWA_SW_CUSTOM);
