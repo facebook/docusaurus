@@ -38,6 +38,8 @@ function getPossibleURLs(url) {
   // Ignore search params and hash
   urlObject.search = '';
   urlObject.hash = '';
+
+  // /blog.html
   possibleURLs.push(urlObject.href);
 
   // /blog/ => /blog/index.html
