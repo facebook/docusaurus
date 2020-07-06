@@ -13,25 +13,11 @@ const path = require('path');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const {injectManifest} = require('workbox-build');
-
-const defaultOptions = {
-  debug: false,
-  alwaysPrecache: false,
-  injectManifestConfig: {},
-  pwaHead: [],
-  swCustom: undefined,
-  swRegister: path.join(__dirname, 'registerSw.js'),
-  popup: '@theme/PwaReloadPopup',
-};
+const {PluginOptionSchema} = require('./pluginOptionSchema');
 
 const isProd = process.env.NODE_ENV === 'production';
 
 function plugin(_context, options = {}) {
-  const pluginOptions = {
-    ...defaultOptions,
-    ...options,
-  };
-
   const {
     debug,
     alwaysPrecache,
@@ -40,7 +26,7 @@ function plugin(_context, options = {}) {
     pwaHead,
     swCustom,
     swRegister,
-  } = pluginOptions;
+  } = options;
 
   return {
     name: 'docusaurus-plugin-pwa',
@@ -132,3 +118,7 @@ function plugin(_context, options = {}) {
 }
 
 module.exports = plugin;
+
+plugin.validateOptions = function validateOptions({validate, options}) {
+  return validate(PluginOptionSchema, options);
+};

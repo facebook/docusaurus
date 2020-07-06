@@ -8,6 +8,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@hapi/joi": "^17.1.1",
     "webpack-merge": "^4.2.2",
     "webpack": "^4.41.2",
     "workbox-build": "^5.1.2",
