@@ -44,6 +44,9 @@ website
 ├── docusaurus.config.js
 ```
 
+:::tip You can use the [migration command](#migration-command) to take care of some of the migration chores.  
+:::
+
 ## Project setup
 
 ### `package.json`
@@ -635,6 +638,44 @@ Start the development server and fix any errors:
 
 ```bash
 cd website
+yarn start
+```
+
+## Migration command
+
+The migration command automatically migrates your v1 website to a v2 website.
+
+The migration command migrates:
+
+- Site configurations (from `siteConfig.js` to `docusaurus.config.js`)
+- `package.json`
+- `sidebars.json`
+- `/docs`
+- `/blog`
+- `/static`
+- `versioned_sidebar.json` and `/versioned_docs` if your site uses versioning
+
+:::info Manual tweaking is still required after using the migration command. You still need to migrate your [footer](#footer), [pages](#pages) and [content](#content). :::
+
+To use the migration command, follow these steps.
+
+1. Before using the migration command, ensure that `/docs`, `/blog`, `/static`, `sidebars.json`, `siteConfig.js`, `package.json` follow the [structure](#) shown at the start of this page.
+
+2. To migrate your v1 website, run the migration command with the appropriate filesystem paths:
+
+```
+// migration command format
+npx docusaurus-migrate migrate <v1 website directory> <desired v2 website directory>
+
+// example
+npx docusaurus-migrate migrate ./v1-website ./v2-website
+```
+
+3. To view your new website locally, go into your v2 website's directory and start your development server.
+
+```bash
+cd ./v2-website
+yarn install
 yarn start
 ```
 
