@@ -69,7 +69,7 @@ const isCachingEnabled = () => {
     };
 
     // Update service worker if the next one is already in the waiting state.
-    // This happens when the user doesn't doesn't click on `reload` in the
+    // This happens when the user doesn't click on `reload` in the
     // popup.
     if (registration.waiting) {
       handleServiceWorkerWaiting();
