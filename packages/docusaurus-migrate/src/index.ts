@@ -8,7 +8,12 @@
 import * as fs from 'fs-extra';
 import importFresh from 'import-fresh';
 
-import {Config, DocusaurusConfig} from './types';
+import {
+  VersionOneConfig,
+  VersionTwoConfig,
+  ClassicPresetEntries,
+  SidebarEntries,
+} from './types';
 import extractMetadata from './metaData';
 
 const DOCUSAURUS_VERSION = '^2.0.0-alpha.58';
@@ -28,7 +33,52 @@ export function walk(dir: string): Array<string> {
   return results;
 }
 
-export function createConfigFile(siteConfig: Config): DocusaurusConfig {
+function sanitizeFrontMatter(content: string): string {
+  const extractedData = extractMetadata(content);
+  const extractedMetaData = Object.entries(extractedData.metadata).reduce(
+    (metaData, value) => {
+      return `${metaData}\n${value[0]}: ${
+        value[0] === 'tags' ? value[1] : `"${value[1]}"`
+      }`;
+    },
+    '',
+  );
+  const sanitizedData = `---\n${extractedMetaData}\n---\n${extractedData.rawContent}`;
+  return sanitizedData;
+}
+
+export async function migrateDocusaurusProject(
+  siteDir: string,
+  newDir: string,
+): Promise<void> {
+  const siteConfig = importFresh(`${siteDir}/siteConfig`) as VersionOneConfig;
+  const config = createConfigFile(siteConfig);
+  const classicPreset = config.presets[0][1];
+
+  const deps: {[key: string]: string} = {
+    '@docusaurus/core': DOCUSAURUS_VERSION,
+    '@docusaurus/preset-classic': DOCUSAURUS_VERSION,
+    clsx: '^1.1.1',
+    react: '^16.10.2',
+    'react-dom': '^16.10.2',
+  };
+  createClientRedirects(siteConfig, deps, config);
+  createLandingPage(newDir, siteDir);
+  migrateStaticFiles(siteDir, newDir);
+  migrateBlogFiles(siteDir, newDir, classicPreset);
+  handleVersioning(siteDir, newDir, config);
+  migrateLatestDocs(siteDir, newDir);
+  migrateLatestSidebar(siteDir, newDir, classicPreset, siteConfig);
+  fs.writeFileSync(
+    `${newDir}/docusaurus.config.js`,
+    `module.exports=${JSON.stringify(config, null, 2)}`,
+  );
+  migratePackageFile(siteDir, deps, newDir);
+}
+
+export function createConfigFile(
+  siteConfig: VersionOneConfig,
+): VersionTwoConfig {
   const homePageId = siteConfig.headerLinks?.filter((value) => value.doc)[0]
     .doc;
   return {
@@ -115,35 +165,11 @@ export function createConfigFile(siteConfig: Config): DocusaurusConfig {
   };
 }
 
-function sanatizedFrontMatter(content: string): string {
-  const extractedData = extractMetadata(content);
-  const extractedMetaData = Object.entries(extractedData.metadata).reduce(
-    (metaData, value) => {
-      return `${metaData}\n${value[0]}: ${
-        value[0] === 'tags' ? value[1] : `"${value[1]}"`
-      }`;
-    },
-    '',
-  );
-  const sanitizedData = `---\n${extractedMetaData}\n---\n${extractedData.rawContent}`;
-  return sanitizedData;
-}
-
-export async function createProjectStructure(
-  siteDir: string,
-  newDir: string,
-): Promise<void> {
-  const siteConfig = importFresh(`${siteDir}/siteConfig`) as Config;
-  const config = createConfigFile(siteConfig);
-  const classicPreset = config.presets[0][1];
-
-  const deps: {[key: string]: string} = {
-    '@docusaurus/core': DOCUSAURUS_VERSION,
-    '@docusaurus/preset-classic': DOCUSAURUS_VERSION,
-    clsx: '^1.1.1',
-    react: '^16.10.2',
-    'react-dom': '^16.10.2',
-  };
+function createClientRedirects(
+  siteConfig: VersionOneConfig,
+  deps: {[key: string]: string},
+  config: VersionTwoConfig,
+): void {
   if (!siteConfig.cleanUrl) {
     deps['@docusaurus/plugin-client-redirects'] = DOCUSAURUS_VERSION;
     config.plugins.push([
@@ -151,6 +177,9 @@ export async function createProjectStructure(
       {fromExtensions: ['html']},
     ]);
   }
+}
+
+function createLandingPage(newDir: string, siteDir: string): void {
   fs.mkdirpSync(`${newDir}/src/pages`);
   try {
     fs.statSync(`${siteDir}/pages/en`);
@@ -165,7 +194,9 @@ export async function createProjectStructure(
   } catch {
     console.log('Ignoring Pages');
   }
+}
 
+function migrateStaticFiles(siteDir: string, newDir: string): void {
   try {
     fs.statSync(`${siteDir}/static`);
     fs.copySync(`${siteDir}/static`, `${newDir}/static`);
@@ -173,18 +204,32 @@ export async function createProjectStructure(
     console.log('Ignoring static assets');
     fs.mkdirSync(`${newDir}/static`);
   }
+}
+
+function migrateBlogFiles(
+  siteDir: string,
+  newDir: string,
+  classicPreset: ClassicPresetEntries,
+): void {
   try {
     fs.statSync(`${siteDir}/blog`);
     fs.copySync(`${siteDir}/blog`, `${newDir}/blog`);
     const files = walk(`${newDir}/blog`);
     files.forEach((file) => {
       const content = String(fs.readFileSync(file));
-      fs.writeFileSync(file, sanatizedFrontMatter(content));
+      fs.writeFileSync(file, sanitizeFrontMatter(content));
     });
     classicPreset.blog.path = 'blog';
   } catch {
-    console.log('NO Blog found');
+    console.log('No Blog found');
   }
+}
+
+function handleVersioning(
+  siteDir: string,
+  newDir: string,
+  config: VersionTwoConfig,
+): void {
   let isVersion = false;
   try {
     fs.statSync(`${siteDir}/versions.json`);
@@ -199,169 +244,189 @@ export async function createProjectStructure(
     fs.copyFile(`${siteDir}/versions.json`, `${newDir}/versions.json`);
     const versions = loadedVersions.reverse();
     const versionRegex = new RegExp(`version-(${versions.join('|')})-`, 'mgi');
-    let isVersionedSidebar = false;
-    try {
-      fs.statSync(`${siteDir}/versioned_sidebars`);
-      isVersionedSidebar = true;
-    } catch {
-      console.log('No sidebar found');
-    }
-    if (isVersionedSidebar) {
-      fs.mkdirpSync(`${newDir}/versioned_sidebars`);
-      const sidebars: {
-        enteries: {[key: string]: object | Array<object | string>};
-        version: string;
-      }[] = [];
-      versions.forEach((version, index) => {
-        let sidebar: {[key: string]: object | Array<object | string>};
-        const sidebarPath = `${siteDir}/versioned_sidebars/version-${version}-sidebars.json`;
-        try {
-          fs.statSync(sidebarPath);
-          sidebar = JSON.parse(String(fs.readFileSync(sidebarPath)));
-        } catch {
-          sidebars.push({version, enteries: sidebars[index - 1].enteries});
-          return;
-        }
-        const newSidebar = Object.entries(sidebar).reduce(
-          (topLevel: {[key: string]: any}, value) => {
-            const key = value[0].replace(versionRegex, '');
-            // eslint-disable-next-line no-param-reassign
-            topLevel[key] = Object.entries(value[1]).reduce(
-              (acc: {[key: string]: Array<object | string>}, val) => {
-                acc[val[0].replace(versionRegex, '')] = (val[1] as Array<
-                  any
-                >).map((item) => {
-                  if (typeof item === 'string') {
-                    return item.replace(versionRegex, '');
-                  }
-                  return {
-                    type: 'category',
-                    label: item.label,
-                    ids: item.ids.map((id: string) =>
-                      id.replace(versionRegex, ''),
-                    ),
-                  };
-                });
-                return acc;
-              },
-              {},
-            );
-            return topLevel;
-          },
-          {},
-        );
-        sidebars.push({version, enteries: newSidebar});
-      });
-      sidebars.forEach((sidebar) => {
-        const newSidebar = Object.entries(sidebar.enteries).reduce(
-          (acc: {[key: string]: any}, val) => {
-            const key = `version-${sidebar.version}/${val[0]}`;
-            // eslint-disable-next-line prefer-destructuring
-            acc[key] = Object.entries(val[1]).map((value) => {
-              return {
-                type: 'category',
-                label: value[0],
-                items: (value[1] as Array<any>).map((sidebarItem) => {
-                  if (typeof sidebarItem === 'string') {
-                    return {
-                      type: 'doc',
-                      id: `version-${sidebar.version}/${sidebarItem}`,
-                    };
-                  }
-                  return {
-                    type: 'category',
-                    label: sidebarItem.label,
-                    items: sidebarItem.ids.map((id: string) => ({
-                      type: 'doc',
-                      id: `version-${sidebar.version}/${id}`,
-                    })),
-                  };
-                }),
-              };
-            });
-            return acc;
-          },
-          {},
-        );
-        fs.writeFileSync(
-          `${newDir}/versioned_sidebars/version-${sidebar.version}-sidebars.json`,
-          JSON.stringify(newSidebar, null, 2),
-        );
-      });
-      config.themeConfig.navbar.links.push({
-        label: 'Version',
-        to: 'docs', // fake link
-        position: 'right',
-        items: [
-          {
-            label: versions[versions.length - 1],
-            to: 'docs/',
-            activeBaseRegex: `docs/(?!${versions.join('|')}|next)`,
-          },
-          ...versions
-            .reverse()
-            .slice(1)
-            .map((version) => ({
-              label: version,
-              to: `docs/${version}/`,
-            })),
-          {
-            label: 'Master/Unreleased',
-            to: `docs/next/`,
-            activeBaseRegex: `docs/next/(?!support|team|resources)`,
-          },
-        ],
-      });
-    }
+    migrateVersionedSidebar(siteDir, newDir, versions, versionRegex, config);
     fs.mkdirpSync(`${newDir}/versioned_docs`);
-    versions.reverse().forEach((version, index) => {
-      if (index === 0) {
-        fs.copySync(
-          `${siteDir}/../docs`,
-          `${newDir}/versioned_docs/version-${version}`,
-        );
-        fs.copySync(
-          `${siteDir}/versioned_docs/version-${version}`,
-          `${newDir}/versioned_docs/version-${version}`,
-        );
+    migrateVersionedDocs(versions, siteDir, newDir, versionRegex);
+  }
+}
+
+function migrateVersionedDocs(
+  versions: string[],
+  siteDir: string,
+  newDir: string,
+  versionRegex: RegExp,
+): void {
+  versions.reverse().forEach((version, index) => {
+    if (index === 0) {
+      fs.copySync(
+        `${siteDir}/../docs`,
+        `${newDir}/versioned_docs/version-${version}`,
+      );
+      fs.copySync(
+        `${siteDir}/versioned_docs/version-${version}`,
+        `${newDir}/versioned_docs/version-${version}`,
+      );
+      return;
+    }
+    try {
+      fs.mkdirsSync(`${newDir}/versioned_docs/version-${version}`);
+      fs.copySync(
+        `${newDir}/versioned_docs/version-${versions[index - 1]}`,
+        `${newDir}/versioned_docs/version-${version}`,
+      );
+      fs.copySync(
+        `${siteDir}/versioned_docs/version-${version}`,
+        `${newDir}/versioned_docs/version-${version}`,
+      );
+    } catch {
+      fs.copySync(
+        `${newDir}/versioned_docs/version-${versions[index - 1]}`,
+        `${newDir}/versioned_docs/version-${version}`,
+      );
+    }
+  });
+  const files = walk(`${newDir}/versioned_docs`);
+  files.forEach((path) => {
+    const content = fs.readFileSync(path).toString();
+    fs.writeFileSync(
+      path,
+      sanitizeFrontMatter(content.replace(versionRegex, '')),
+    );
+  });
+}
+
+function migrateVersionedSidebar(
+  siteDir: string,
+  newDir: string,
+  versions: string[],
+  versionRegex: RegExp,
+  config: VersionTwoConfig,
+): void {
+  let isVersionedSidebar = false;
+  try {
+    fs.statSync(`${siteDir}/versioned_sidebars`);
+    isVersionedSidebar = true;
+  } catch {
+    console.log('No sidebar found');
+  }
+  if (isVersionedSidebar) {
+    fs.mkdirpSync(`${newDir}/versioned_sidebars`);
+    const sidebars: {
+      entries: SidebarEntries;
+      version: string;
+    }[] = [];
+    versions.forEach((version, index) => {
+      let sidebarEntries: SidebarEntries;
+      const sidebarPath = `${siteDir}/versioned_sidebars/version-${version}-sidebars.json`;
+      try {
+        fs.statSync(sidebarPath);
+        sidebarEntries = JSON.parse(String(fs.readFileSync(sidebarPath)));
+      } catch {
+        sidebars.push({version, entries: sidebars[index - 1].entries});
         return;
       }
-      try {
-        fs.mkdirsSync(`${newDir}/versioned_docs/version-${version}`);
-        fs.copySync(
-          `${newDir}/versioned_docs/version-${versions[index - 1]}`,
-          `${newDir}/versioned_docs/version-${version}`,
-        );
-        fs.copySync(
-          `${siteDir}/versioned_docs/version-${version}`,
-          `${newDir}/versioned_docs/version-${version}`,
-        );
-      } catch {
-        fs.copySync(
-          `${newDir}/versioned_docs/version-${versions[index - 1]}`,
-          `${newDir}/versioned_docs/version-${version}`,
-        );
-      }
+      const newSidebar = Object.entries(sidebarEntries).reduce(
+        (topLevel: {[key: string]: any}, value) => {
+          const key = value[0].replace(versionRegex, '');
+          // eslint-disable-next-line no-param-reassign
+          topLevel[key] = Object.entries(value[1]).reduce(
+            (
+              acc: {[key: string]: Array<Record<string, unknown> | string>},
+              val,
+            ) => {
+              acc[val[0].replace(versionRegex, '')] = (val[1] as Array<
+                any
+              >).map((item) => {
+                if (typeof item === 'string') {
+                  return item.replace(versionRegex, '');
+                }
+                return {
+                  type: 'category',
+                  label: item.label,
+                  ids: item.ids.map((id: string) =>
+                    id.replace(versionRegex, ''),
+                  ),
+                };
+              });
+              return acc;
+            },
+            {},
+          );
+          return topLevel;
+        },
+        {},
+      );
+      sidebars.push({version, entries: newSidebar});
     });
-    const files = walk(`${newDir}/versioned_docs`);
-    files.forEach((path) => {
-      const content = fs.readFileSync(path).toString();
+    sidebars.forEach((sidebar) => {
+      const newSidebar = Object.entries(sidebar.entries).reduce(
+        (acc: {[key: string]: any}, val) => {
+          const key = `version-${sidebar.version}/${val[0]}`;
+          // eslint-disable-next-line prefer-destructuring
+          acc[key] = Object.entries(val[1]).map((value) => {
+            return {
+              type: 'category',
+              label: value[0],
+              items: (value[1] as Array<any>).map((sidebarItem) => {
+                if (typeof sidebarItem === 'string') {
+                  return {
+                    type: 'doc',
+                    id: `version-${sidebar.version}/${sidebarItem}`,
+                  };
+                }
+                return {
+                  type: 'category',
+                  label: sidebarItem.label,
+                  items: sidebarItem.ids.map((id: string) => ({
+                    type: 'doc',
+                    id: `version-${sidebar.version}/${id}`,
+                  })),
+                };
+              }),
+            };
+          });
+          return acc;
+        },
+        {},
+      );
       fs.writeFileSync(
-        path,
-        sanatizedFrontMatter(content.replace(versionRegex, '')),
+        `${newDir}/versioned_sidebars/version-${sidebar.version}-sidebars.json`,
+        JSON.stringify(newSidebar, null, 2),
       );
     });
-  }
-  try {
-    fs.copySync(`${siteDir}/../docs`, `${newDir}/docs`);
-    const files = walk(`${newDir}/docs`);
-    files.forEach((file) => {
-      const content = String(fs.readFileSync(file));
-      fs.writeFileSync(file, sanatizedFrontMatter(content));
+    config.themeConfig.navbar.links.push({
+      label: 'Version',
+      to: 'docs',
+      position: 'right',
+      items: [
+        {
+          label: versions[versions.length - 1],
+          to: 'docs/',
+          activeBaseRegex: `docs/(?!${versions.join('|')}|next)`,
+        },
+        ...versions
+          .reverse()
+          .slice(1)
+          .map((version) => ({
+            label: version,
+            to: `docs/${version}/`,
+          })),
+        {
+          label: 'Master/Unreleased',
+          to: `docs/next/`,
+          activeBaseRegex: `docs/next/(?!support|team|resources)`,
+        },
+      ],
     });
-  } catch {
-    fs.mkdir(`${newDir}/docs`);
   }
+}
+
+function migrateLatestSidebar(
+  siteDir: string,
+  newDir: string,
+  classicPreset: ClassicPresetEntries,
+  siteConfig: VersionOneConfig,
+): void {
   try {
     fs.copyFileSync(`${siteDir}/sidebars.json`, `${newDir}/sidebars.json`);
     classicPreset.docs.sidebarPath = `${newDir}/sidebars.json`;
@@ -378,11 +443,26 @@ export async function createProjectStructure(
     fs.writeFileSync(`${newDir}/src/css/customTheme.css`, css);
     classicPreset.theme.customCss = `${newDir}/src/css/customTheme.css`;
   }
-  fs.writeFileSync(
-    `${newDir}/docusaurus.config.js`,
-    `module.exports=${JSON.stringify(config, null, 2)}`,
-  );
+}
 
+function migrateLatestDocs(siteDir: string, newDir: string): void {
+  try {
+    fs.copySync(`${siteDir}/../docs`, `${newDir}/docs`);
+    const files = walk(`${newDir}/docs`);
+    files.forEach((file) => {
+      const content = String(fs.readFileSync(file));
+      fs.writeFileSync(file, sanitizeFrontMatter(content));
+    });
+  } catch {
+    fs.mkdir(`${newDir}/docs`);
+  }
+}
+
+function migratePackageFile(
+  siteDir: string,
+  deps: {[key: string]: string},
+  newDir: string,
+): void {
   const packageFile = importFresh(`${siteDir}/package.json`) as {
     [key: string]: any;
   };

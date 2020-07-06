@@ -11,7 +11,6 @@ const chalk = require('chalk');
 const semver = require('semver');
 const cli = require('commander');
 const path = require('path');
-const importFresh = require('import-fresh');
 
 const requiredVersion = require('../package.json').engines.node;
 
@@ -37,7 +36,7 @@ if (!semver.satisfies(process.version, requiredVersion)) {
 
 cli
   .command('migrate [siteDir] [newDir]')
-  .description('Migrate between versions of docusaurs website')
+  .description('Migrate between versions of docusaurus website')
   .action((siteDir = '.', newdir = '.') => {
     const sitePath = path.resolve(siteDir);
     const newSitePath = path.resolve(newdir);
