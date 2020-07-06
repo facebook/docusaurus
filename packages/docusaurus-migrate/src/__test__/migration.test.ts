@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {createProjectStructure} from '../index';
+import {migrateDocusaurusProject} from '../index';
 import path from 'path';
 import fs from 'fs-extra';
 
@@ -18,7 +18,7 @@ describe('migration test', () => {
       'website',
     );
     const newDir = path.join(__dirname, '__fixtures__', 'migrated_simple_site');
-    createProjectStructure(siteDir, newDir);
+    migrateDocusaurusProject(siteDir, newDir);
     fs.removeSync(newDir);
   });
   test('complex website', () => {
@@ -33,7 +33,7 @@ describe('migration test', () => {
       '__fixtures__',
       'migrated_complex_site',
     );
-    createProjectStructure(siteDir, newDir);
+    migrateDocusaurusProject(siteDir, newDir);
     fs.removeSync(newDir);
   });
 
@@ -49,7 +49,7 @@ describe('migration test', () => {
       '__fixtures__',
       'migrated_missing_version_site',
     );
-    createProjectStructure(siteDir, newDir);
+    migrateDocusaurusProject(siteDir, newDir);
     fs.removeSync(newDir);
   });
 });

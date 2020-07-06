@@ -8,7 +8,12 @@
 import * as fs from 'fs-extra';
 import importFresh from 'import-fresh';
 
-import {VersionOneConfig, VersionTwoConfig} from './types';
+import {
+  VersionOneConfig,
+  VersionTwoConfig,
+  ClassicPresetEntries,
+  SidebarEntries,
+} from './types';
 import extractMetadata from './metaData';
 
 const DOCUSAURUS_VERSION = '^2.0.0-alpha.58';
@@ -191,7 +196,7 @@ function createLandingPage(newDir: string, siteDir: string): void {
   }
 }
 
-function migrateStaticFiles(siteDir: string, newDir: string) {
+function migrateStaticFiles(siteDir: string, newDir: string): void {
   try {
     fs.statSync(`${siteDir}/static`);
     fs.copySync(`${siteDir}/static`, `${newDir}/static`);
@@ -204,12 +209,8 @@ function migrateStaticFiles(siteDir: string, newDir: string) {
 function migrateBlogFiles(
   siteDir: string,
   newDir: string,
-  classicPreset: {
-    docs: {[key: string]: any};
-    blog: {[key: string]: any};
-    theme: {[key: string]: any};
-  },
-) {
+  classicPreset: ClassicPresetEntries,
+): void {
   try {
     fs.statSync(`${siteDir}/blog`);
     fs.copySync(`${siteDir}/blog`, `${newDir}/blog`);
@@ -228,7 +229,7 @@ function handleVersioning(
   siteDir: string,
   newDir: string,
   config: VersionTwoConfig,
-) {
+): void {
   let isVersion = false;
   try {
     fs.statSync(`${siteDir}/versions.json`);
@@ -254,7 +255,7 @@ function migrateVersionedDocs(
   siteDir: string,
   newDir: string,
   versionRegex: RegExp,
-) {
+): void {
   versions.reverse().forEach((version, index) => {
     if (index === 0) {
       fs.copySync(
@@ -300,7 +301,7 @@ function migrateVersionedSidebar(
   versions: string[],
   versionRegex: RegExp,
   config: VersionTwoConfig,
-) {
+): void {
   let isVersionedSidebar = false;
   try {
     fs.statSync(`${siteDir}/versioned_sidebars`);
@@ -311,25 +312,28 @@ function migrateVersionedSidebar(
   if (isVersionedSidebar) {
     fs.mkdirpSync(`${newDir}/versioned_sidebars`);
     const sidebars: {
-      enteries: {[key: string]: object | Array<object | string>};
+      entries: SidebarEntries;
       version: string;
     }[] = [];
     versions.forEach((version, index) => {
-      let sidebar: {[key: string]: object | Array<object | string>};
+      let sidebarEntries: SidebarEntries;
       const sidebarPath = `${siteDir}/versioned_sidebars/version-${version}-sidebars.json`;
       try {
         fs.statSync(sidebarPath);
-        sidebar = JSON.parse(String(fs.readFileSync(sidebarPath)));
+        sidebarEntries = JSON.parse(String(fs.readFileSync(sidebarPath)));
       } catch {
-        sidebars.push({version, enteries: sidebars[index - 1].enteries});
+        sidebars.push({version, entries: sidebars[index - 1].entries});
         return;
       }
-      const newSidebar = Object.entries(sidebar).reduce(
+      const newSidebar = Object.entries(sidebarEntries).reduce(
         (topLevel: {[key: string]: any}, value) => {
           const key = value[0].replace(versionRegex, '');
           // eslint-disable-next-line no-param-reassign
           topLevel[key] = Object.entries(value[1]).reduce(
-            (acc: {[key: string]: Array<object | string>}, val) => {
+            (
+              acc: {[key: string]: Array<Record<string, unknown> | string>},
+              val,
+            ) => {
               acc[val[0].replace(versionRegex, '')] = (val[1] as Array<
                 any
               >).map((item) => {
@@ -352,10 +356,10 @@ function migrateVersionedSidebar(
         },
         {},
       );
-      sidebars.push({version, enteries: newSidebar});
+      sidebars.push({version, entries: newSidebar});
     });
     sidebars.forEach((sidebar) => {
-      const newSidebar = Object.entries(sidebar.enteries).reduce(
+      const newSidebar = Object.entries(sidebar.entries).reduce(
         (acc: {[key: string]: any}, val) => {
           const key = `version-${sidebar.version}/${val[0]}`;
           // eslint-disable-next-line prefer-destructuring
@@ -420,13 +424,9 @@ function migrateVersionedSidebar(
 function migrateLatestSidebar(
   siteDir: string,
   newDir: string,
-  classicPreset: {
-    docs: {[key: string]: any};
-    blog: {[key: string]: any};
-    theme: {[key: string]: any};
-  },
+  classicPreset: ClassicPresetEntries,
   siteConfig: VersionOneConfig,
-) {
+): void {
   try {
     fs.copyFileSync(`${siteDir}/sidebars.json`, `${newDir}/sidebars.json`);
     classicPreset.docs.sidebarPath = `${newDir}/sidebars.json`;
@@ -445,7 +445,7 @@ function migrateLatestSidebar(
   }
 }
 
-function migrateLatestDocs(siteDir: string, newDir: string) {
+function migrateLatestDocs(siteDir: string, newDir: string): void {
   try {
     fs.copySync(`${siteDir}/../docs`, `${newDir}/docs`);
     const files = walk(`${newDir}/docs`);
@@ -462,7 +462,7 @@ function migratePackageFile(
   siteDir: string,
   deps: {[key: string]: string},
   newDir: string,
-) {
+): void {
   const packageFile = importFresh(`${siteDir}/package.json`) as {
     [key: string]: any;
   };
