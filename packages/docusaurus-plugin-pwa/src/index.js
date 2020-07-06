@@ -97,7 +97,7 @@ function plugin(_context, options = {}) {
           },
           plugins: [
             new webpack.EnvironmentPlugin({
-              SW_CUSTOM: swCustom,
+              PWA_SW_CUSTOM: swCustom,
             }),
             new LogPlugin({
               name: 'Service Worker',

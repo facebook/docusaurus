@@ -93,8 +93,9 @@ const isCachingEnabled = () => {
       clearRegistrations();
     });
 
-    window.addEventListener('beforeinstallprompt', (event) => {
-      event.preventDefault();
+    window.addEventListener('beforeinstallprompt', (_event) => {
+      // event.preventDefault();
+      // event.prompt();
 
       if (localStorage.getItem(APP_INSTALLED_KEY)) {
         localStorage.removeItem(APP_INSTALLED_KEY);
