@@ -22,7 +22,7 @@ const isSaveData = () =>
   !!(navigator.connection && navigator.connection.saveData);
 const isAppInstalled = () => !!localStorage.getItem(APP_INSTALLED_KEY);
 const isOfflineQueryString = () => window.location.search.includes('offline');
-const isForcePrecaching = () => process.env.ALWAYS_PRECACHE === 'true';
+const isForcePrecaching = () => process.env.PWA_ALWAYS_PRECACHE === 'true';
 
 const isCachingEnabled = () => {
   return (
@@ -45,7 +45,7 @@ const isCachingEnabled = () => {
     const cachingEnabled = isCachingEnabled();
 
     const enabledParam = cachingEnabled ? `?enabled` : '';
-    const swUrl = `${process.env.SERVICE_WORKER}${enabledParam}`;
+    const swUrl = `${process.env.PWA_SERVICE_WORKER}${enabledParam}`;
     const wb = new Workbox(swUrl);
     const registration = await wb.register();
     const sendSkipWaiting = () => wb.messageSW({type: 'SKIP_WAITING'});

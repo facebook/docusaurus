@@ -57,9 +57,9 @@ function plugin(_context, options = {}) {
       return {
         plugins: [
           new webpack.EnvironmentPlugin({
-            ALWAYS_PRECACHE: alwaysPrecache.toString(),
+            PWA_ALWAYS_PRECACHE: alwaysPrecache.toString(),
             PWA_POPUP: popup,
-            SERVICE_WORKER: path.resolve(
+            PWA_SERVICE_WORKER: path.resolve(
               `${config.output.publicPath || '/'}`,
               'sw.js',
             ),

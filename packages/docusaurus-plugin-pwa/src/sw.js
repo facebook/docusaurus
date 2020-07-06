@@ -9,8 +9,8 @@
 import {PrecacheController} from 'workbox-precaching';
 
 async function runSWCustomCode() {
-  if (process.env.SW_CUSTOM) {
-    const customSW = await import(process.env.SW_CUSTOM);
+  if (process.env.PWA_SW_CUSTOM) {
+    const customSW = await import(process.env.PWA_SW_CUSTOM);
     if (typeof customSW.default === 'function') {
       customSW.default();
     }
