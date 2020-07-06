@@ -10,15 +10,16 @@ import {render} from 'react-dom';
 
 const POPUP_CONTAINER_ID = 'pwa-popup-container';
 
+const getContainer = () => document.getElementById(POPUP_CONTAINER_ID);
+
+const createContainer = () => {
+  const container = document.createElement('div');
+  container.id = POPUP_CONTAINER_ID;
+  document.body.appendChild(container);
+};
+
 export default async function renderPopup(props) {
-  let container = document.getElementById(POPUP_CONTAINER_ID);
-  if (!container) {
-    container = document.createElement('div');
-    container.id = POPUP_CONTAINER_ID;
-    document.body.appendChild(container);
-  }
-
+  const container = getContainer() || createContainer();
   const {default: Popup} = await import(process.env.PWA_POPUP);
-
   render(<Popup {...props} />, container);
 }
