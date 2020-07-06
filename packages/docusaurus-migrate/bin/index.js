@@ -11,7 +11,6 @@ const chalk = require('chalk');
 const semver = require('semver');
 const cli = require('commander');
 const path = require('path');
-const importFresh = require('import-fresh');
 
 const requiredVersion = require('../package.json').engines.node;
 
