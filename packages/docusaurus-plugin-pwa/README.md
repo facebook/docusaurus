@@ -75,7 +75,7 @@ After the site has been precached, the service worker will serve cached response
 - Type: `boolean`
 - Default: `false`
 
-Precaching is performed under [certain conditions](#precaching), but can be enabled completely by setting enabling this option.
+Precaching is performed under [certain conditions](#precaching), but can be enabled completely with this option.
 
 ### `injectManifestConfig`
 
