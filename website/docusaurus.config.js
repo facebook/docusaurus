@@ -9,9 +9,9 @@ const path = require('path');
 const versions = require('./versions.json');
 
 const allDocHomesPaths = [
-  '/docs',
-  '/docs/next',
-  ...versions.slice(1).map((version) => `/docs/${version}`),
+  '/docs/',
+  '/docs/next/',
+  ...versions.slice(1).map((version) => `/docs/${version}/`),
 ];
 
 module.exports = {
@@ -118,6 +118,7 @@ module.exports = {
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
           remarkPlugins: [require('./src/plugins/remark-npm2yarn')],
+          disableVersioning: !!process.env.DISABLE_VERSIONING,
         },
         blog: {
           path: '../website-1.x/blog',
@@ -136,6 +137,11 @@ module.exports = {
     ],
   ],
   themeConfig: {
+    colorMode: {
+      defaultMode: 'light',
+      disableSwitch: false,
+      respectPrefersColorScheme: true,
+    },
     announcementBar: {
       id: 'supportus',
       content:

@@ -63,11 +63,11 @@ export function validateOptions({options, validate}) {
 
 ## `validateThemeConfig({themeConfig,validate})`
 
-Validate `themeConfig` for the plugins and theme. This method is called before the plugin is initialized.
+Return validated and normalized configuration for the theme.
 
 ### `themeConfig`
 
-`validateThemeConfig` is called with `themeConfig` provided in `docusaurus.config.js` for validation.
+`validateThemeConfig` is called with `themeConfig` provided in `docusaurus.config.js` for validation and normalization.
 
 ### `validate`
 
@@ -75,7 +75,7 @@ Validate `themeConfig` for the plugins and theme. This method is called before t
 
 :::tip
 
-[Joi](https://www.npmjs.com/package/@hapi/joi) is recommended for validation and normalization of options.
+[Joi](https://www.npmjs.com/package/@hapi/joi) is recommended for validation and normalization of theme config.
 
 :::
 
@@ -90,7 +90,8 @@ module.exports = function (context, options) {
 };
 
 module.exports.validateThemeConfig = ({themeConfig, validate}) => {
-  validate(myValidationSchema, options);
+  const validatedThemeConfig = validate(myValidationSchema, options);
+  return validatedThemeConfig;
 };
 ```
 
@@ -105,7 +106,8 @@ export default function (context, options) {
 }
 
 export function validateThemeConfig({themeConfig, validate}) {
-  validate(myValidationSchema, options);
+  const validatedThemeConfig = validate(myValidationSchema, options);
+  return validatedThemeConfig;
 }
 ```
 
@@ -272,6 +274,28 @@ module.exports = function (context, options) {
   };
 };
 ```
+
+### Merge strategy
+
+We merge the Webpack configuration parts of plugins into the global Webpack config using [webpack-merge](https://github.com/survivejs/webpack-merge).
+
+It is possible to specify the merge strategy. For example, if you want a webpack rule to be prepended instead of appended:
+
+```js {4-11} title="docusaurus-plugin/src/index.js"
+module.exports = function (context, options) {
+  return {
+    name: 'custom-docusaurus-plugin',
+    configureWebpack(config, isServer, utils) {
+      return {
+        mergeStrategy: {'module.rules': 'prepend'},
+        module: {rules: [myRuleToPrepend]},
+      };
+    },
+  };
+};
+```
+
+Read the [webpack-merge strategy doc](https://github.com/survivejs/webpack-merge#merging-with-strategies) for more details.
 
 ## `postBuild(props)`
 

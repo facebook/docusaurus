@@ -90,23 +90,23 @@ export function validateConfig(
     abortEarly: false,
   });
   if (error) {
-    const unknownFields = error.details.reduce((formatedError, err) => {
+    const unknownFields = error.details.reduce((formattedError, err) => {
       if (err.type === 'object.unknown') {
-        return `${formatedError}"${err.path}",`;
+        return `${formattedError}"${err.path}",`;
       }
-      return formatedError;
+      return formattedError;
     }, '');
-    let formatedError = error.details.reduce(
-      (accumalatedErr, err) =>
+    let formattedError = error.details.reduce(
+      (accumulatedErr, err) =>
         err.type !== 'object.unknown'
-          ? `${accumalatedErr}${err.message}\n`
-          : accumalatedErr,
+          ? `${accumulatedErr}${err.message}\n`
+          : accumulatedErr,
       '',
     );
-    formatedError = unknownFields
-      ? `${formatedError}These field(s) [${unknownFields}] are not recognized in ${CONFIG_FILE_NAME}.\nIf you still want these fields to be in your configuration, put them in the 'customFields' attribute.\nSee https://v2.docusaurus.io/docs/docusaurus.config.js/#customfields`
-      : formatedError;
-    throw new Error(formatedError);
+    formattedError = unknownFields
+      ? `${formattedError}These field(s) [${unknownFields}] are not recognized in ${CONFIG_FILE_NAME}.\nIf you still want these fields to be in your configuration, put them in the 'customFields' attribute.\nSee https://v2.docusaurus.io/docs/docusaurus.config.js/#customfields`
+      : formattedError;
+    throw new Error(formattedError);
   } else {
     return value;
   }

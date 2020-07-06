@@ -8,6 +8,7 @@
 import {Loader, Configuration} from 'webpack';
 import {Command} from 'commander';
 import {ParsedUrlQueryInput} from 'querystring';
+import {MergeStrategy} from 'webpack-merge';
 
 export interface DocusaurusConfig {
   baseUrl: string;
@@ -118,7 +119,7 @@ export interface Plugin<T, U = unknown> {
     config: Configuration,
     isServer: boolean,
     utils: ConfigureWebpackUtils,
-  ): Configuration;
+  ): Configuration & {mergeStrategy?: ConfigureWebpackFnMergeStrategy};
   getThemePath?(): string;
   getTypeScriptThemePath?(): string;
   getPathsToWatch?(): string[];
@@ -130,6 +131,9 @@ export interface Plugin<T, U = unknown> {
     postBodyTags?: HtmlTags;
   };
 }
+
+export type ConfigureWebpackFn = Plugin<unknown>['configureWebpack'];
+export type ConfigureWebpackFnMergeStrategy = Record<string, MergeStrategy>;
 
 export type PluginConfig =
   | [string, Record<string, unknown>]

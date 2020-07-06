@@ -96,12 +96,16 @@ module.exports = {
 Then in the folder `my-plugin` you can create an index.js such as this
 
 ```js title="index.js"
-module.exports = function(context, options) {
+module.exports = function (context, options) {
   // ...
   return {
     name: 'my-docusaurus-plugin',
-    async loadContent() { ... },
-    async contentLoaded({content, actions}) { ... },
+    async loadContent() {
+      /* ... */
+    },
+    async contentLoaded({content, actions}) {
+      /* ... */
+    },
     /* other lifecycle API */
   };
 };
@@ -113,7 +117,7 @@ The `my-plugin` folder could also be a fully fledged package with it's own packa
 
 `context` is plugin-agnostic and the same object will be passed into all plugins used for a Docusaurus website. The `context` object contains the following fields:
 
-```js
+```ts
 interface LoadContext {
   siteDir: string;
   generatedFilesDir: string;
@@ -288,6 +292,11 @@ module.exports = {
          * Whether to display the last date the doc was updated.
          */
         showLastUpdateTime: false,
+        /**
+         * By default, versioning is enabled on versioned sites.
+         * This is a way to explicitly disable the versioning feature.
+         */
+        disableVersioning: false,
         /**
          * Skip the next release docs when versioning is enabled.
          * This will not generate HTML files in the production build for documents

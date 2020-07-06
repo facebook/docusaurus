@@ -11,7 +11,6 @@ import chokidar from 'chokidar';
 import express from 'express';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
-import portfinder from 'portfinder';
 import openBrowser from 'react-dev-utils/openBrowser';
 import {prepareUrls} from 'react-dev-utils/WebpackDevServerUtils';
 import errorOverlayMiddleware from 'react-dev-utils/errorOverlayMiddleware';
@@ -25,14 +24,18 @@ import {StartCLIOptions} from '@docusaurus/types';
 import {CONFIG_FILE_NAME, STATIC_DIR_NAME, DEFAULT_PORT} from '../constants';
 import createClientConfig from '../webpack/client';
 import {applyConfigureWebpack} from '../webpack/utils';
+import choosePort from '../choosePort';
 
 function getHost(reqHost: string | undefined): string {
   return reqHost || 'localhost';
 }
 
-async function getPort(reqPort: string | undefined): Promise<number> {
+async function getPort(
+  reqPort: string | undefined,
+  host: string,
+): Promise<number | null> {
   const basePort = reqPort ? parseInt(reqPort, 10) : DEFAULT_PORT;
-  const port = await portfinder.getPortPromise({port: basePort});
+  const port = await choosePort(host, basePort);
   return port;
 }
 
@@ -78,8 +81,14 @@ export default async function start(
   );
 
   const protocol: string = process.env.HTTPS === 'true' ? 'https' : 'http';
-  const port: number = await getPort(cliOptions.port);
+
   const host: string = getHost(cliOptions.host);
+  const port: number | null = await getPort(cliOptions.port, host);
+
+  if (port === null) {
+    process.exit();
+  }
+
   const {baseUrl, headTags, preBodyTags, postBodyTags} = props;
   const urls = prepareUrls(protocol, host, port);
   const openUrl = normalizeUrl([urls.localUrlForBrowser, baseUrl]);

@@ -50,9 +50,7 @@ function validateCollectedRedirects(
     );
   }
 
-  const allowedToPaths = pluginContext.routesPaths.map((path) =>
-    path.replace(pluginContext.baseUrl, '/'),
-  );
+  const allowedToPaths = pluginContext.relativeRoutesPaths;
   const toPaths = redirects.map((redirect) => redirect.to);
   const illegalToPaths = difference(toPaths, allowedToPaths);
   if (illegalToPaths.length > 0) {
@@ -91,7 +89,7 @@ It is not possible to redirect the same pathname to multiple destinations:
 
   // We don't want to override an already existing route with a redirect file!
   const redirectsOverridingExistingPath = redirects.filter((redirect) =>
-    pluginContext.routesPaths.includes(redirect.from),
+    pluginContext.relativeRoutesPaths.includes(redirect.from),
   );
   if (redirectsOverridingExistingPath.length > 0) {
     console.error(
@@ -103,7 +101,7 @@ It is not possible to redirect the same pathname to multiple destinations:
     );
   }
   redirects = redirects.filter(
-    (redirect) => !pluginContext.routesPaths.includes(redirect.from),
+    (redirect) => !pluginContext.relativeRoutesPaths.includes(redirect.from),
   );
 
   return redirects;
@@ -113,18 +111,16 @@ It is not possible to redirect the same pathname to multiple destinations:
 function doCollectRedirects(pluginContext: PluginContext): RedirectMetadata[] {
   return [
     ...createFromExtensionsRedirects(
-      pluginContext.routesPaths,
+      pluginContext.relativeRoutesPaths,
       pluginContext.options.fromExtensions,
-      pluginContext.baseUrl,
     ),
     ...createToExtensionsRedirects(
-      pluginContext.routesPaths,
+      pluginContext.relativeRoutesPaths,
       pluginContext.options.toExtensions,
-      pluginContext.baseUrl,
     ),
     ...createRedirectsOptionRedirects(pluginContext.options.redirects),
     ...createCreateRedirectsOptionRedirects(
-      pluginContext.routesPaths,
+      pluginContext.relativeRoutesPaths,
       pluginContext.options.createRedirects,
     ),
   ];

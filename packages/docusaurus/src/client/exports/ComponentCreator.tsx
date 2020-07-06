@@ -12,7 +12,10 @@ import routesChunkNames from '@generated/routesChunkNames';
 import registry from '@generated/registry';
 import flat from '../flat';
 
-function ComponentCreator(path: string): ReturnType<typeof Loadable> {
+function ComponentCreator(
+  path: string,
+  hash: string,
+): ReturnType<typeof Loadable> {
   // 404 page
   if (path === '*') {
     return Loadable({
@@ -21,7 +24,8 @@ function ComponentCreator(path: string): ReturnType<typeof Loadable> {
     });
   }
 
-  const chunkNames = routesChunkNames[path];
+  const chunkNamesKey = `${path}-${hash}`;
+  const chunkNames = routesChunkNames[chunkNamesKey];
   const optsModules: string[] = [];
   const optsWebpack: string[] = [];
   const optsLoader = {};

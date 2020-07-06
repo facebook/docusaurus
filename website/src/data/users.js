@@ -64,6 +64,15 @@ const users = [
     pinned: true,
   },
   {
+    title: 'Eta',
+    description: 'Faster embedded JS template engine in TypeScript',
+    preview: require('./showcase/eta.png'),
+    website: 'https://eta.js.org/',
+    source: 'https://github.com/eta-dev/eta',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'Flux',
     description: 'Application architecture for building user interfaces',
     preview: require('./showcase/flux.png'),
