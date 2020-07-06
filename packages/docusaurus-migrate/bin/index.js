@@ -14,7 +14,7 @@ const path = require('path');
 
 const requiredVersion = require('../package.json').engines.node;
 
-const {createProjectStructure} = require('../lib');
+const {migrateDocusaurusProject} = require('../lib');
 
 function wrapCommand(fn) {
   return (...args) =>
@@ -40,7 +40,7 @@ cli
   .action((siteDir = '.', newdir = '.') => {
     const sitePath = path.resolve(siteDir);
     const newSitePath = path.resolve(newdir);
-    wrapCommand(createProjectStructure)(sitePath, newSitePath);
+    wrapCommand(migrateDocusaurusProject)(sitePath, newSitePath);
   });
 
 cli.parse(process.argv);
