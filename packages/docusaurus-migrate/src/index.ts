@@ -15,6 +15,7 @@ import {
   SidebarEntries,
 } from './types';
 import extractMetadata from './metaData';
+import path from 'path';
 
 const DOCUSAURUS_VERSION = '^2.0.0-alpha.58';
 
@@ -70,7 +71,7 @@ export async function migrateDocusaurusProject(
   migrateLatestDocs(siteDir, newDir);
   migrateLatestSidebar(siteDir, newDir, classicPreset, siteConfig);
   fs.writeFileSync(
-    `${newDir}/docusaurus.config.js`,
+    path.join(newDir, 'docusaurus.config.js'),
     `module.exports=${JSON.stringify(config, null, 2)}`,
   );
   migratePackageFile(siteDir, deps, newDir);
@@ -230,22 +231,18 @@ function handleVersioning(
   newDir: string,
   config: VersionTwoConfig,
 ): void {
-  let isVersion = false;
-  try {
-    fs.statSync(`${siteDir}/versions.json`);
-    isVersion = true;
-  } catch {
-    console.log('Unversioned docs');
-  }
-  if (isVersion) {
+  if (fs.existsSync(path.join(siteDir, 'versions.json'))) {
     const loadedVersions: Array<string> = JSON.parse(
-      String(fs.readFileSync(`${siteDir}/versions.json`)),
+      String(fs.readFileSync(path.join(siteDir, 'versions.json'))),
     );
-    fs.copyFile(`${siteDir}/versions.json`, `${newDir}/versions.json`);
+    fs.copyFile(
+      path.join(siteDir, 'versions.json'),
+      path.join(newDir, 'versions.json'),
+    );
     const versions = loadedVersions.reverse();
     const versionRegex = new RegExp(`version-(${versions.join('|')})-`, 'mgi');
     migrateVersionedSidebar(siteDir, newDir, versions, versionRegex, config);
-    fs.mkdirpSync(`${newDir}/versioned_docs`);
+    fs.mkdirpSync(path.join(newDir, 'versioned_docs'));
     migrateVersionedDocs(versions, siteDir, newDir, versionRegex);
   }
 }
@@ -259,37 +256,37 @@ function migrateVersionedDocs(
   versions.reverse().forEach((version, index) => {
     if (index === 0) {
       fs.copySync(
-        `${siteDir}/../docs`,
-        `${newDir}/versioned_docs/version-${version}`,
+        path.join(siteDir, '..', 'docs'),
+        path.join(newDir, 'versioned_docs', `version-${version}`),
       );
       fs.copySync(
-        `${siteDir}/versioned_docs/version-${version}`,
-        `${newDir}/versioned_docs/version-${version}`,
+        path.join(siteDir, 'versioned_docs', `version-${version}`),
+        path.join(newDir, 'versioned_docs', `version-${version}`),
       );
       return;
     }
     try {
-      fs.mkdirsSync(`${newDir}/versioned_docs/version-${version}`);
+      fs.mkdirsSync(path.join(newDir, 'versioned_docs', `version-${version}`));
       fs.copySync(
-        `${newDir}/versioned_docs/version-${versions[index - 1]}`,
-        `${newDir}/versioned_docs/version-${version}`,
+        path.join(newDir, 'versioned_docs', `version-${versions[index - 1]}`),
+        path.join(newDir, 'versioned_docs', `version-${version}`),
       );
       fs.copySync(
-        `${siteDir}/versioned_docs/version-${version}`,
-        `${newDir}/versioned_docs/version-${version}`,
+        path.join(siteDir, 'versioned_docs', `version-${version}`),
+        path.join(newDir, 'versioned_docs', `version-${version}`),
       );
     } catch {
       fs.copySync(
-        `${newDir}/versioned_docs/version-${versions[index - 1]}`,
-        `${newDir}/versioned_docs/version-${version}`,
+        path.join(newDir, 'versioned_docs', `version-${versions[index - 1]}`),
+        path.join(newDir, 'versioned_docs', `version-${version}`),
       );
     }
   });
-  const files = walk(`${newDir}/versioned_docs`);
-  files.forEach((path) => {
-    const content = fs.readFileSync(path).toString();
+  const files = walk(path.join(newDir, 'versioned_docs'));
+  files.forEach((pathToFile) => {
+    const content = fs.readFileSync(pathToFile).toString();
     fs.writeFileSync(
-      path,
+      pathToFile,
       sanitizeFrontMatter(content.replace(versionRegex, '')),
     );
   });
@@ -302,22 +299,19 @@ function migrateVersionedSidebar(
   versionRegex: RegExp,
   config: VersionTwoConfig,
 ): void {
-  let isVersionedSidebar = false;
-  try {
-    fs.statSync(`${siteDir}/versioned_sidebars`);
-    isVersionedSidebar = true;
-  } catch {
-    console.log('No sidebar found');
-  }
-  if (isVersionedSidebar) {
-    fs.mkdirpSync(`${newDir}/versioned_sidebars`);
+  if (fs.existsSync(path.join(siteDir, 'versioned_sidebars'))) {
+    fs.mkdirpSync(path.join(newDir, 'versioned_sidebars'));
     const sidebars: {
       entries: SidebarEntries;
       version: string;
     }[] = [];
     versions.forEach((version, index) => {
       let sidebarEntries: SidebarEntries;
-      const sidebarPath = `${siteDir}/versioned_sidebars/version-${version}-sidebars.json`;
+      const sidebarPath = path.join(
+        siteDir,
+        'versioned_sidebars',
+        `version-${version}-sidebars.json`,
+      );
       try {
         fs.statSync(sidebarPath);
         sidebarEntries = JSON.parse(String(fs.readFileSync(sidebarPath)));
@@ -334,6 +328,7 @@ function migrateVersionedSidebar(
               acc: {[key: string]: Array<Record<string, unknown> | string>},
               val,
             ) => {
+              console.log(val);
               acc[val[0].replace(versionRegex, '')] = (val[1] as Array<
                 any
               >).map((item) => {
@@ -390,7 +385,11 @@ function migrateVersionedSidebar(
         {},
       );
       fs.writeFileSync(
-        `${newDir}/versioned_sidebars/version-${sidebar.version}-sidebars.json`,
+        path.join(
+          newDir,
+          'versioned_sidebars',
+          `version-${sidebar.version}-sidebars.json`,
+        ),
         JSON.stringify(newSidebar, null, 2),
       );
     });
@@ -428,8 +427,11 @@ function migrateLatestSidebar(
   siteConfig: VersionOneConfig,
 ): void {
   try {
-    fs.copyFileSync(`${siteDir}/sidebars.json`, `${newDir}/sidebars.json`);
-    classicPreset.docs.sidebarPath = `${newDir}/sidebars.json`;
+    fs.copyFileSync(
+      path.join(siteDir, 'sidebars.json'),
+      path.join(newDir, 'sidebars.json'),
+    );
+    classicPreset.docs.sidebarPath = path.join(newDir, 'sidebars.json');
   } catch {
     console.log('Ignoring sidebar');
   }
@@ -439,22 +441,27 @@ function migrateLatestSidebar(
         --ifm-color-primary: ${siteConfig.colors.primaryColor};
       }
       `;
-    fs.mkdirpSync(`${newDir}/src/css/`);
-    fs.writeFileSync(`${newDir}/src/css/customTheme.css`, css);
-    classicPreset.theme.customCss = `${newDir}/src/css/customTheme.css`;
+    fs.mkdirpSync(path.join(newDir, 'src', 'css'));
+    fs.writeFileSync(path.join(newDir, 'src', 'css', 'customTheme.css'), css);
+    classicPreset.theme.customCss = path.join(
+      newDir,
+      'src',
+      'css',
+      'customTheme.css',
+    );
   }
 }
 
 function migrateLatestDocs(siteDir: string, newDir: string): void {
   try {
-    fs.copySync(`${siteDir}/../docs`, `${newDir}/docs`);
-    const files = walk(`${newDir}/docs`);
+    fs.copySync(path.join(siteDir, '..', 'docs'), path.join(newDir, 'docs'));
+    const files = walk(path.join(newDir, 'docs'));
     files.forEach((file) => {
       const content = String(fs.readFileSync(file));
       fs.writeFileSync(file, sanitizeFrontMatter(content));
     });
   } catch {
-    fs.mkdir(`${newDir}/docs`);
+    fs.mkdir(path.join(newDir, 'docs'));
   }
 }
 
@@ -485,7 +492,7 @@ function migratePackageFile(
     ...deps,
   };
   fs.writeFileSync(
-    `${newDir}/package.json`,
+    path.join(newDir, 'package.json'),
     JSON.stringify(packageFile, null, 2),
   );
 }
