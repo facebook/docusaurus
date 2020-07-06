@@ -16,6 +16,7 @@ const createContainer = () => {
   const container = document.createElement('div');
   container.id = POPUP_CONTAINER_ID;
   document.body.appendChild(container);
+  return container;
 };
 
 export default async function renderPopup(props) {
