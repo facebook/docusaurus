@@ -45,6 +45,10 @@ function plugin(_context, options = {}) {
   return {
     name: 'docusaurus-plugin-pwa',
 
+    getThemePath() {
+      return path.resolve(__dirname, './theme');
+    },
+
     getClientModules() {
       return isProd ? [swRegister] : [];
     },
