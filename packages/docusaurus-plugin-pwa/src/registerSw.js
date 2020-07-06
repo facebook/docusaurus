@@ -46,7 +46,7 @@ const APP_INSTALLED_KEY = 'docusaurus.pwa.appInstalled';
         const renderPopup = (await import('./renderPopup')).default;
 
         renderPopup({
-          onRefresh() {
+          onReload() {
             wb.addEventListener('controlling', () => {
               window.location.reload();
             });
@@ -58,7 +58,7 @@ const APP_INSTALLED_KEY = 'docusaurus.pwa.appInstalled';
     };
 
     // Update service worker if the next one is already in the waiting state.
-    // This happens when the user doesn't doesn't click on `Refresh` in the
+    // This happens when the user doesn't doesn't click on `reload` in the
     // popup.
     if (registration.waiting) {
       handleServiceWorkerWaiting();

@@ -18,7 +18,7 @@ const defaultOptions = {
   alwaysPrecache: false,
   injectManifestConfig: {},
   pwaHead: [],
-  swCustom: '',
+  swCustom: undefined,
   swRegister: path.join(__dirname, 'registerSw.js'),
   popup: '@theme/PwaReloadPopup',
 };
@@ -110,9 +110,6 @@ function pluginOffline(_context, options = {}) {
 
         const swDest = path.resolve(props.outDir, 'sw.js');
         await injectManifest({
-          swDest,
-          swSrc: swDest,
-          globDirectory: props.outDir,
           ...injectManifestConfig,
           globPatterns: [
             '**/*.{js,json,css,html}',
@@ -120,6 +117,10 @@ function pluginOffline(_context, options = {}) {
             '**/*.{woff,woff2,eot,ttf,otf}',
             ...(injectManifest.globPatterns || []),
           ],
+          // those attributes are not overrideable
+          swDest,
+          swSrc: swDest,
+          globDirectory: props.outDir,
         });
       }
     },

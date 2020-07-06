@@ -10,13 +10,12 @@ import clsx from 'clsx';
 
 import styles from './styles.module.css';
 
-export default function PwaReloadPopup({onRefresh}) {
+export default function PwaReloadPopup({onReload}) {
   const [isVisible, setIsVisible] = useState(true);
 
   return (
     isVisible && (
       <div className={clsx('alert', 'alert--secondary', styles.popup)}>
-        {/* TODO: put in i18n */}
         <p>New version available</p>
         <div className={styles.buttonContainer}>
           <button
@@ -24,9 +23,8 @@ export default function PwaReloadPopup({onRefresh}) {
             type="button"
             onClick={() => {
               setIsVisible(false);
-              onRefresh();
+              onReload();
             }}>
-            {/* TODO: put in i18n */}
             Refresh
           </button>
 
