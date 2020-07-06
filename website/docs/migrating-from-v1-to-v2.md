@@ -44,7 +44,10 @@ website
 ├── docusaurus.config.js
 ```
 
-:::tip You can use the [migration command](#migration-command) to take care of some of the migration chores.  
+:::tip
+
+You can use the [migration command](#migration-command) to take care of some of the migration chores.
+
 :::
 
 ## Project setup
@@ -655,7 +658,11 @@ The migration command migrates:
 - `/static`
 - `versioned_sidebar.json` and `/versioned_docs` if your site uses versioning
 
-:::info Manual tweaking is still required after using the migration command. You still need to migrate your [footer](#footer), [pages](#pages) and [content](#content). :::
+:::info
+
+Manual tweaking is still required after using the migration command. You still need to migrate your [footer](#footer), [pages](#pages) and [content](#content).
+
+:::
 
 To use the migration command, follow these steps.
 
