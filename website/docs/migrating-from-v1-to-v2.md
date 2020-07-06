@@ -664,7 +664,7 @@ Manual tweaking is still required after using the migration command. You still n
 
 :::
 
-To use the migration command, follow these steps.
+To use the migration command, follow these steps:
 
 1. Before using the migration command, ensure that `/docs`, `/blog`, `/static`, `sidebars.json`, `siteConfig.js`, `package.json` follow the [structure](#) shown at the start of this page.
 
