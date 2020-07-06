@@ -87,12 +87,14 @@ function plugin(_context, options = {}) {
       if (isProd) {
         const serviceWorkerConfig = merge(createBaseConfig(props), {
           entry: path.resolve(__dirname, 'sw.js'),
+          output: {
+            filename: 'sw.js',
+          },
           target: 'webworker',
           mode: debug ? 'development' : 'production',
           optimization: {
             splitChunks: false,
           },
-
           plugins: [
             new webpack.EnvironmentPlugin({
               SW_CUSTOM: swCustom,
