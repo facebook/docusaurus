@@ -36,7 +36,7 @@ if (!semver.satisfies(process.version, requiredVersion)) {
 
 cli
   .command('migrate [siteDir] [newDir]')
-  .description('Migrate between versions of docusaurs website')
+  .description('Migrate between versions of docusaurus website')
   .action((siteDir = '.', newdir = '.') => {
     const sitePath = path.resolve(siteDir);
     const newSitePath = path.resolve(newdir);

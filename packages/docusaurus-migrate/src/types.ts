@@ -14,7 +14,7 @@ export type Data = {
   metadata: {[key: string]: string};
   rawContent: string;
 };
-export interface DocusaurusConfig {
+export interface VersionTwoConfig {
   baseUrl: string;
   favicon: string;
   tagline?: string;
@@ -78,7 +78,7 @@ export interface DocusaurusConfig {
   )[];
 }
 
-export type Config = {
+export type VersionOneConfig = {
   title?: string;
   tagline?: string;
   url?: string;

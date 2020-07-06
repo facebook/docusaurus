@@ -8,7 +8,7 @@
 import * as fs from 'fs-extra';
 import importFresh from 'import-fresh';
 
-import {Config, DocusaurusConfig} from './types';
+import {VersionOneConfig, VersionTwoConfig} from './types';
 import extractMetadata from './metaData';
 
 const DOCUSAURUS_VERSION = '^2.0.0-alpha.58';
@@ -28,7 +28,9 @@ export function walk(dir: string): Array<string> {
   return results;
 }
 
-export function createConfigFile(siteConfig: Config): DocusaurusConfig {
+export function createConfigFile(
+  siteConfig: VersionOneConfig,
+): VersionTwoConfig {
   const homePageId = siteConfig.headerLinks?.filter((value) => value.doc)[0]
     .doc;
   return {
@@ -115,7 +117,7 @@ export function createConfigFile(siteConfig: Config): DocusaurusConfig {
   };
 }
 
-function sanatizedFrontMatter(content: string): string {
+function sanitizedFrontMatter(content: string): string {
   const extractedData = extractMetadata(content);
   const extractedMetaData = Object.entries(extractedData.metadata).reduce(
     (metaData, value) => {
@@ -133,7 +135,7 @@ export async function createProjectStructure(
   siteDir: string,
   newDir: string,
 ): Promise<void> {
-  const siteConfig = importFresh(`${siteDir}/siteConfig`) as Config;
+  const siteConfig = importFresh(`${siteDir}/siteConfig`) as VersionOneConfig;
   const config = createConfigFile(siteConfig);
   const classicPreset = config.presets[0][1];
 
@@ -179,7 +181,7 @@ export async function createProjectStructure(
     const files = walk(`${newDir}/blog`);
     files.forEach((file) => {
       const content = String(fs.readFileSync(file));
-      fs.writeFileSync(file, sanatizedFrontMatter(content));
+      fs.writeFileSync(file, sanitizedFrontMatter(content));
     });
     classicPreset.blog.path = 'blog';
   } catch {
@@ -348,7 +350,7 @@ export async function createProjectStructure(
       const content = fs.readFileSync(path).toString();
       fs.writeFileSync(
         path,
-        sanatizedFrontMatter(content.replace(versionRegex, '')),
+        sanitizedFrontMatter(content.replace(versionRegex, '')),
       );
     });
   }
@@ -357,7 +359,7 @@ export async function createProjectStructure(
     const files = walk(`${newDir}/docs`);
     files.forEach((file) => {
       const content = String(fs.readFileSync(file));
-      fs.writeFileSync(file, sanatizedFrontMatter(content));
+      fs.writeFileSync(file, sanitizedFrontMatter(content));
     });
   } catch {
     fs.mkdir(`${newDir}/docs`);
