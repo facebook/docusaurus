@@ -668,7 +668,7 @@ For a more exhaustive list of what it takes for your site to be a PWA, refer to 
 
 If your browser supports it, you should be able to install a Docusaurus site as an app.
 
-![pwa_install.gif](img/pwa_install.gif)
+![pwa_install.gif](/img/pwa_install.gif)
 
 #### Offline mode (precaching)
 
@@ -730,19 +730,9 @@ Use this carefully: some users may not like to be forced to use the offline mode
 [Workbox options](https://developers.google.com/web/tools/workbox/reference-docs/latest/module-workbox-build#.injectManifest) to pass to `workbox.injectManifest()`. This gives you control over which assets will be precached, and be available offline.
 
 - Type: `InjectManifestOptions`
-- Default:
+- Default: `{}`
 
-```js title="injectManifestConfig default"
-{
-  globPatterns: [
-    '**/*.{js,json,css,html}',
-    '**/*.{png,jpg,jpeg,gif,svg,ico}',
-    '**/*.{woff,woff2,eot,ttf,otf}',
-  ];
-}
-```
-
-```js
+```js title="docusaurus.config.js"
 module.exports = {
   plugins: [
     [
@@ -755,6 +745,8 @@ module.exports = {
           modifyURLPrefix: {
             //...
           },
+          // We already add regular static assets (html, images...) to be available offline
+          // You can add more files according to your needs
           globPatterns: ['**/*.{pdf,docx,xlsx}'],
           // ...
         },
@@ -783,7 +775,7 @@ interface PwaReloadPopupProps {
 
 The default theme includes an implementation for the reload popup and uses [Infima Alerts](https://facebookincubator.github.io/infima/docs/components/alert).
 
-![reload-popup-gif](img/pwa_reload.gif)
+![pwa_reload.gif](/img/pwa_reload.gif)
 
 ##### `pwaHead`
 

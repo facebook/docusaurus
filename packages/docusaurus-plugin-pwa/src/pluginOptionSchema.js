@@ -37,5 +37,7 @@ exports.PluginOptionSchema = Joi.object({
   swRegister: Joi.alternatives()
     .try(Joi.string(), Joi.bool().valid(false))
     .default(DEFAULT_OPTIONS.swRegister),
-  reloadPopup: Joi.string().default(DEFAULT_OPTIONS.reloadPopup),
+  reloadPopup: Joi.alternatives()
+    .try(Joi.string(), Joi.bool().valid(false))
+    .default(DEFAULT_OPTIONS.reloadPopup),
 });
