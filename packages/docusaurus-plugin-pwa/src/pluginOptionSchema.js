@@ -15,7 +15,7 @@ const DEFAULT_OPTIONS = {
   pwaHead: [],
   swCustom: undefined,
   swRegister: path.join(__dirname, 'registerSw.js'),
-  popup: '@theme/PwaReloadPopup',
+  reloadPopup: '@theme/PwaReloadPopup',
 };
 
 exports.PluginOptionSchema = Joi.object({
@@ -37,5 +37,5 @@ exports.PluginOptionSchema = Joi.object({
   swRegister: Joi.alternatives()
     .try(Joi.string(), Joi.bool().valid(false))
     .default(DEFAULT_OPTIONS.swRegister),
-  popup: Joi.string().default(DEFAULT_OPTIONS.popup),
+  reloadPopup: Joi.string().default(DEFAULT_OPTIONS.reloadPopup),
 });

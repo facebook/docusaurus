@@ -19,8 +19,8 @@ const createContainer = () => {
   return container;
 };
 
-export default async function renderPopup(props) {
+export default async function renderReloadPopup(props) {
   const container = getContainer() || createContainer();
-  const {default: Popup} = await import(process.env.PWA_POPUP);
-  render(<Popup {...props} />, container);
+  const {default: ReloadPopup} = await import(process.env.PWA_RELOAD_POPUP);
+  render(<ReloadPopup {...props} />, container);
 }

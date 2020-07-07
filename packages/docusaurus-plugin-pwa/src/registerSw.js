@@ -5,13 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const {PWA_SERVICE_WORKER_URL} = process.env;
+// First: read the env variables (provided by Webpack)
+const {
+  PWA_SERVICE_WORKER_URL,
+  PWA_RELOAD_POPUP,
+  PWA_OFFLINE_MODE_ACTIVATION_STRATEGIES,
+  PWA_DEBUG,
+} = process.env;
 
-const PWA_OFFLINE_MODE_ACTIVATION_STRATEGIES = JSON.parse(
-  process.env.PWA_OFFLINE_MODE_ACTIVATION_STRATEGIES,
-);
-
-const debug = process.env.PWA_DEBUG;
+const debug = PWA_DEBUG; // shortcut
 
 async function clearRegistrations() {
   const registrations = await navigator.serviceWorker.getRegistrations();
@@ -39,7 +41,7 @@ const OfflineModeActivationStrategiesImplementations = {
 function isOfflineModeEnabled() {
   if (debug) {
     console.log(
-      `Docusaurus PWA: isOfflineModeEnabled ??? activation strategies are:`,
+      `Docusaurus PWA: is offlineMode enabled? activation strategies =>`,
       PWA_OFFLINE_MODE_ACTIVATION_STRATEGIES,
     );
   }
@@ -81,7 +83,7 @@ function createServiceWorkerUrl(params) {
   }
 
   if (debug) {
-    console.log('Docusaurus PWA: debug mode enabled', {env: process.env});
+    console.log('Docusaurus PWA: debug mode enabled');
   }
 
   if ('serviceWorker' in navigator) {
@@ -100,9 +102,9 @@ function createServiceWorkerUrl(params) {
       // Immediately load new service worker when files aren't cached
       if (!offlineMode) {
         sendSkipWaiting();
-      } else if (process.env.PWA_POPUP) {
-        const renderPopup = (await import('./renderPopup')).default;
-        renderPopup({
+      } else if (PWA_RELOAD_POPUP) {
+        const renderReloadPopup = (await import('./renderReloadPopup')).default;
+        renderReloadPopup({
           onReload() {
             wb.addEventListener('controlling', () => {
               window.location.reload();
@@ -159,7 +161,6 @@ function createServiceWorkerUrl(params) {
       }
       // TODO instead of default browser install UI, show custom docusaurus prompt?
       // event.preventDefault();
-      // event.prompt();
 
       if (localStorage.getItem(APP_INSTALLED_KEY)) {
         localStorage.removeItem(APP_INSTALLED_KEY);

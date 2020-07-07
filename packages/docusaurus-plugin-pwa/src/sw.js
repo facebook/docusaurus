@@ -13,7 +13,7 @@ function parseSwParams() {
     new URLSearchParams(self.location.search).get('params'),
   );
   if (params.debug) {
-    console.log('Docusaurus Service Worker params:', params);
+    console.log('Docusaurus PWA: Service Worker params:', params);
   }
   return params;
 }

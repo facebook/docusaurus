@@ -47,7 +47,7 @@ function plugin(context, options) {
     debug,
     offlineModeActivationStrategies,
     injectManifestConfig,
-    popup,
+    reloadPopup,
     pwaHead,
     swCustom,
     swRegister,
@@ -77,10 +77,8 @@ function plugin(context, options) {
               `${config.output.publicPath || '/'}`,
               'sw.js',
             ),
-            PWA_OFFLINE_MODE_ACTIVATION_STRATEGIES: JSON.stringify(
-              offlineModeActivationStrategies,
-            ),
-            PWA_POPUP: popup,
+            PWA_OFFLINE_MODE_ACTIVATION_STRATEGIES: offlineModeActivationStrategies,
+            PWA_RELOAD_POPUP: reloadPopup,
           }),
         ],
       };

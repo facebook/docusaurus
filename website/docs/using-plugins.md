@@ -764,14 +764,16 @@ module.exports = {
 };
 ```
 
-##### `popup`
+##### `reloadPopup`
 
-- Type: `string`
+- Type: `string | false`
 - Default: `'@theme/PwaReloadPopup'`
 
-Module path to reload popup component. This popup is rendered when a new service worker is waiting to be installed. Passing in an empty string `''` will disable the popup, but this is not recommended because then users won't have a way to get up-to-date content.
+Module path to reload popup component. This popup is rendered when a new service worker is waiting to be installed, and we suggest a reload to the user.
 
-A custom component can be used as long as it accepts `onReload` as a prop. The `onReload` callback should be called when a `reload` button is clicked. This will tell the service worker to install the waiting service worker and reload the page.
+Passing `false` will disable the popup, but this is not recommended: users won't have a way to get up-to-date content.
+
+A custom component can be used, as long as it accepts `onReload` as a prop. The `onReload` callback should be called when the `reload` button is clicked. This will tell the service worker to install the waiting service worker and reload the page.
 
 ```ts
 interface PwaReloadPopupProps {
