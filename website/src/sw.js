@@ -8,7 +8,7 @@
 import {registerRoute} from 'workbox-routing';
 import {StaleWhileRevalidate} from 'workbox-strategies';
 
-export default function customSW() {
+export default function swCustom({offlineMode}) {
   // Cache responses from external resources
   registerRoute((context) => {
     return [
