@@ -45,7 +45,7 @@ function plugin(context, options) {
   const {outDir, baseUrl} = context;
   const {
     debug,
-    alwaysPrecache,
+    offlineModeActivationStrategies,
     injectManifestConfig,
     popup,
     pwaHead,
@@ -72,12 +72,15 @@ function plugin(context, options) {
       return {
         plugins: [
           new webpack.EnvironmentPlugin({
-            PWA_ALWAYS_PRECACHE: alwaysPrecache.toString(),
-            PWA_POPUP: popup,
-            PWA_SERVICE_WORKER: path.resolve(
+            PWA_DEBUG: debug,
+            PWA_SERVICE_WORKER_URL: path.resolve(
               `${config.output.publicPath || '/'}`,
               'sw.js',
             ),
+            PWA_OFFLINE_MODE_ACTIVATION_STRATEGIES: JSON.stringify(
+              offlineModeActivationStrategies,
+            ),
+            PWA_POPUP: popup,
           }),
         ],
       };

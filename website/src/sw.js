@@ -8,7 +8,11 @@
 import {registerRoute} from 'workbox-routing';
 import {StaleWhileRevalidate} from 'workbox-strategies';
 
-export default function swCustom({offlineMode}) {
+export default function swCustom(params) {
+  if (params.debug) {
+    console.log('Docusaurus PWA: running swCustom', params);
+  }
+
   // Cache responses from external resources
   registerRoute((context) => {
     return [

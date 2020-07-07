@@ -8,15 +8,29 @@
 
 import {PrecacheController} from 'workbox-precaching';
 
+function parseSwParams() {
+  const params = JSON.parse(
+    new URLSearchParams(self.location.search).get('params'),
+  );
+  if (params.debug) {
+    console.log('Docusaurus Service Worker params:', params);
+  }
+  return params;
+}
+
 // doc advise against dynamic imports in SW
 // https://developers.google.com/web/tools/workbox/guides/using-bundlers#code_splitting_and_dynamic_imports
 // https://twitter.com/sebastienlorber/status/1280155204575518720
 // but I think it's working fine as it's inlined by webpack, need to double check?
-async function runSWCustomCode() {
+async function runSWCustomCode(params) {
   if (process.env.PWA_SW_CUSTOM) {
     const customSW = await import(process.env.PWA_SW_CUSTOM);
     if (typeof customSW.default === 'function') {
-      customSW.default();
+      customSW.default(params);
+    } else if (params.debug) {
+      console.warn(
+        'Docusaurus PWA plugin swCustom should have a default export function',
+      );
     }
   }
 }
@@ -54,14 +68,16 @@ function getPossibleURLs(url) {
 }
 
 (async () => {
+  const params = parseSwParams();
+
   const precacheManifest = self.__WB_MANIFEST;
   const controller = new PrecacheController();
-  const isEnabled = self.location.search.includes('enabled');
 
-  if (isEnabled) {
+  if (params.offlineMode) {
     controller.addToCacheList(precacheManifest);
-    await runSWCustomCode();
   }
+
+  await runSWCustomCode(params);
 
   self.addEventListener('install', (event) => {
     event.waitUntil(controller.install());
@@ -72,7 +88,7 @@ function getPossibleURLs(url) {
   });
 
   self.addEventListener('fetch', async (event) => {
-    if (isEnabled) {
+    if (params.offlineMode) {
       const possibleURLs = getPossibleURLs(event.request.url);
       for (let i = 0; i < possibleURLs.length; i += 1) {
         const cacheKey = controller.getCacheKeyForURL(possibleURLs[i]);

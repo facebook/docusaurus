@@ -631,6 +631,8 @@ module.exports = {
     [
       '@docusaurus/plugin-pwa',
       {
+        debug: true,
+        offlineModeActivationStrategies: ['appInstalled', 'queryString'],
         pwaHead: [
           {
             tagName: 'link',
@@ -662,7 +664,13 @@ After deployment, you can use [Lighthouse](https://developers.google.com/web/too
 
 For a more exhaustive list of what it takes for your site to be a PWA, refer to the [PWA Checklist](https://developers.google.com/web/progressive-web-apps/checklist)
 
-#### Precaching
+#### App installation support
+
+If your browser supports it, you should be able to install a Docusaurus site as an app.
+
+#### Offline mode (precaching)
+
+We enable users to browse a Docusaurus site offline, by using service-worker precaching.
 
 > ### [What is Precaching?](https://developers.google.com/web/tools/workbox/modules/workbox-precaching)
 >
@@ -672,9 +680,15 @@ For a more exhaustive list of what it takes for your site to be a PWA, refer to 
 >
 > Workbox takes a lot of the heavy lifting out of precaching by simplifying the API and ensuring assets are downloaded efficiently.
 
-Precaching happens dynamically and is only used when the user is visiting the site from a mobile device (<= 940px), has [reduced data usage](https://developer.mozilla.org/en-US/docs/Web/API/NetworkInformation/saveData), or if they explicitly install it as an application. You can also enable precaching completely using `alwaysPrecache`.
+By default, offline mode is enabled when the site is installed as an app. See the `offlineModeActivationStrategies` option for details.
 
 After the site has been precached, the service worker will serve cached responses for later visits. When a new build is deployed along with a new service worker, the new one will begin installing and eventually move to a waiting state. During this waiting state, a reload popup will show and ask the user to reload the page for new content. Until the user either clears the application cache or clicks the `reload` button on the popup, the service worker will continue serving the old content.
+
+:::caution
+
+Offline mode / precaching requires downloading all the static assets of the site ahead of time, and can consume unnecessary bandwidth. It may not be a good idea to activate it for all kind of sites.
+
+:::
 
 ##### Options
 
@@ -683,14 +697,31 @@ After the site has been precached, the service worker will serve cached response
 - Type: `boolean`
 - Default: `false`
 
-Turn Workbox debug mode on, logging what is happening in your Service Worker.
+Turn debug mode on:
 
-##### `alwaysPrecache`
+- Workbox logs
+- Additional Docusaurus logs
+- Unoptimized SW file output
+- Source maps
 
-- Type: `boolean`
-- Default: `false`
+##### `offlineModeActivationStrategies`
 
-Precaching is performed under [certain conditions](#precaching), but can be enabled completely by setting enabling this option.
+- Type: `Array<'appInstalled' | 'mobile' | 'saveData'| 'queryString' | 'always'>`
+- Default: `['appInstalled','queryString']`
+
+Strategies used to turn the offline mode on:
+
+- `appInstalled`: activates for users having installed the site as an app
+- `queryString`: activates if queryString contains `offlineMode=true` (convenient for PWA debugging)
+- `mobile`: activates for mobile users (width <= 940px)
+- `saveData`: activates for users with `navigator.connection.saveData === true`
+- `always`: activates for all users
+
+:::caution
+
+Use this carefully: some users may not like to be forced to use the offline mode.
+
+:::
 
 ##### `injectManifestConfig`
 
@@ -822,15 +853,21 @@ module.exports = {
 - Type: `string | undefined`
 - Default: `undefined`
 
-Module to import and run after the precache manifest is registered. Useful for additional Workbox rules.
+Useful for additional Workbox rules. You can do whatever a service worker can do here, and use the full power of workbox libraries. The code is transpiled, so you can use modern ES6+ syntax here.
 
-You can do whatever a service worker can do here, and use the full power of workbox libraries. For example, to cache files from external routes:
+For example, to cache files from external routes:
 
 ```js
 import {registerRoute} from 'workbox-routing';
 import {StaleWhileRevalidate} from 'workbox-strategies';
 
-export default function customSW() {
+// default fn export receiving some useful params
+export default function swCustom(params) {
+  const {
+    debug, // :boolean
+    offlineMode, // :boolean
+  } = params;
+
   // Cache responses from external resources
   registerRoute((context) => {
     return [
@@ -842,7 +879,7 @@ export default function customSW() {
 }
 ```
 
-The module should have a `default` export, and it should be a function.
+The module should have a `default` function export, and receives some params.
 
 ##### `swRegister`
 

@@ -10,7 +10,7 @@ const path = require('path');
 
 const DEFAULT_OPTIONS = {
   debug: false,
-  alwaysPrecache: false,
+  offlineModeActivationStrategies: ['appInstalled', 'queryString'],
   injectManifestConfig: {},
   pwaHead: [],
   swCustom: undefined,
@@ -20,7 +20,13 @@ const DEFAULT_OPTIONS = {
 
 exports.PluginOptionSchema = Joi.object({
   debug: Joi.bool().default(DEFAULT_OPTIONS.debug),
-  alwaysPrecache: Joi.bool().default(DEFAULT_OPTIONS.alwaysPrecache),
+  offlineModeActivationStrategies: Joi.array()
+    .items(
+      Joi.string()
+        .valid('appInstalled', 'queryString', 'mobile', 'saveData', 'always')
+        .required(),
+    )
+    .default(DEFAULT_OPTIONS.offlineModeActivationStrategies),
   injectManifestConfig: Joi.object().default(
     DEFAULT_OPTIONS.injectManifestConfig,
   ),
