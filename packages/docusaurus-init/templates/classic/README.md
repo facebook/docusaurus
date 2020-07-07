@@ -24,6 +24,12 @@ $ yarn build
 
 This command generates static content into the `build` directory and can be served using any static contents hosting service.
 
+```
+$ CI=true yarn build
+```
+
+You can also run the build with `CI=true` which will check for warnings and fail if any are found 
+ 
 ### Deployment
 
 ```
