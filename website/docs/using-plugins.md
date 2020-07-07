@@ -668,6 +668,8 @@ For a more exhaustive list of what it takes for your site to be a PWA, refer to 
 
 If your browser supports it, you should be able to install a Docusaurus site as an app.
 
+![pwa_install.gif](img/pwa_install.gif)
+
 #### Offline mode (precaching)
 
 We enable users to browse a Docusaurus site offline, by using service-worker precaching.
@@ -779,7 +781,7 @@ interface PwaReloadPopupProps {
 
 The default theme includes an implementation for the reload popup and uses [Infima Alerts](https://facebookincubator.github.io/infima/docs/components/alert).
 
-![reload-popup-gif](img/reload.gif)
+![reload-popup-gif](img/pwa_reload.gif)
 
 ##### `pwaHead`
 
