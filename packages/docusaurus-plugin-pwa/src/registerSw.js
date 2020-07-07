@@ -6,12 +6,13 @@
  */
 
 // First: read the env variables (provided by Webpack)
-const {
-  PWA_SERVICE_WORKER_URL,
-  PWA_RELOAD_POPUP,
-  PWA_OFFLINE_MODE_ACTIVATION_STRATEGIES,
-  PWA_DEBUG,
-} = process.env;
+/* eslint-disable prefer-destructuring */
+const PWA_SERVICE_WORKER_URL = process.env.PWA_SERVICE_WORKER_URL;
+const PWA_RELOAD_POPUP = process.env.PWA_RELOAD_POPUP;
+const PWA_OFFLINE_MODE_ACTIVATION_STRATEGIES =
+  process.env.PWA_OFFLINE_MODE_ACTIVATION_STRATEGIES;
+const PWA_DEBUG = process.env.PWA_DEBUG;
+/* eslint-enable prefer-destructuring */
 
 const debug = PWA_DEBUG; // shortcut
 
@@ -39,12 +40,6 @@ const OfflineModeActivationStrategiesImplementations = {
 };
 
 function isOfflineModeEnabled() {
-  if (debug) {
-    console.log(
-      `Docusaurus PWA: is offlineMode enabled? activation strategies =>`,
-      PWA_OFFLINE_MODE_ACTIVATION_STRATEGIES,
-    );
-  }
   const activeStrategies = PWA_OFFLINE_MODE_ACTIVATION_STRATEGIES.filter(
     (strategyName) => {
       const strategyImpl =
@@ -54,13 +49,20 @@ function isOfflineModeEnabled() {
   );
   const enabled = activeStrategies.length > 0;
   if (debug) {
+    const logObject = {
+      activeStrategies,
+      availableStrategies: PWA_OFFLINE_MODE_ACTIVATION_STRATEGIES,
+    };
     if (enabled) {
       console.log(
-        'Docusaurus PWA: offline mode enabled, because of strategies:',
-        activeStrategies,
+        'Docusaurus PWA: offline mode enabled, because of activation strategies',
+        logObject,
       );
     } else {
-      console.log('Docusaurus PWA: offline mode disabled');
+      console.log(
+        'Docusaurus PWA: offline mode disabled, because none of the offlineModeActivationStrategies could be used',
+        logObject,
+      );
     }
   }
   return enabled;
