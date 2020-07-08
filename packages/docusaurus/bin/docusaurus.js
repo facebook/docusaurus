@@ -34,9 +34,11 @@ if (notifier.update && notifier.update.current !== notifier.update.latest) {
   };
 
   const docusaurusUpdateMessage = boxen(
-    `Update available ${chalk.dim(`${notifier.update.current}`)}
-    ${chalk.reset(' → ')}${chalk.green(`${notifier.update.latest}`)}
-    \nRun ${chalk.cyan('yarn upgrade @docusaurus/core@next')} to update`,
+    `Update available ${chalk.dim(`${notifier.update.current}`)}${chalk.reset(
+      ' → ',
+    )}${chalk.green(`${notifier.update.latest}`)}\nRun ${chalk.cyan(
+      'yarn upgrade @docusaurus/core@next',
+    )} to update`,
     boxenOptions,
   );
 
