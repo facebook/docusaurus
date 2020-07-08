@@ -44,6 +44,38 @@ export function getPluginNames(plugins: PluginConfig[]): string[] {
   });
 }
 
+function walk(dir: string): Array<string> {
+  let results: Array<string> = [];
+  const list = fs.readdirSync(dir);
+  list.forEach((file: string) => {
+    const fullPath = `${dir}/${file}`;
+    const stat = fs.statSync(fullPath);
+    if (stat && stat.isDirectory()) {
+      results = results.concat(walk(fullPath));
+    } else if (!/node_modules|.css/.test(fullPath)) {
+      results.push(fullPath);
+    }
+  });
+  return results;
+}
+
+function getComponentName(themePath: string): Array<string> {
+  return walk(themePath).map((filePath) =>
+    path
+      .relative(themePath, filePath)
+      .replace(/(\/|\\)index.(js|tsx|ts|jsx)/, ''),
+  );
+}
+
+function themeComponents(themePath: string): string {
+  const components = getComponentName(themePath);
+  return `Theme Components available for swizzle:\n${components.join('\n')}`;
+}
+
+function formatedThemeNames(themeNames: string[]): string {
+  return `Themes available for swizzle:\n${themeNames.join('\n')}`;
+}
+
 export default async function swizzle(
   siteDir: string,
   themeName?: string,
@@ -62,7 +94,7 @@ export default async function swizzle(
       : plugins[index].getThemePath,
   );
   if (!themeName) {
-    console.log(`Themes available for swizzle:\n${themeNames.join('\n')}`);
+    console.log(formatedThemeNames(themeNames));
   } else {
     let plugin;
     try {
@@ -78,7 +110,9 @@ export default async function swizzle(
       });
       throw new Error(
         `Theme ${themeName} not found. ${
-          suggestion ? `Did you mean "${suggestion}" ?` : ''
+          suggestion
+            ? `Did you mean "${suggestion}" ?`
+            : formatedThemeNames(themeNames)
         }`,
       );
     }
@@ -103,18 +137,18 @@ export default async function swizzle(
           } else if (fs.existsSync(`${fromPath}.js`)) {
             [fromPath, toPath] = [`${fromPath}.js`, `${toPath}.js`];
           } else {
-            const components = fs.readdirSync(themePath);
+            const components = getComponentName(themePath);
             let suggestion;
             components.forEach((name) => {
-              if (
-                leven(name.replace(/.(ts|tsx|js|jsx)/, ''), componentName) < 2
-              ) {
+              if (leven(name, componentName) < 3) {
                 suggestion = name;
               }
             });
             throw new Error(
               `Component ${componentName} not found.${
-                suggestion ? ` Did you mean "${suggestion}"?` : ''
+                suggestion
+                  ? ` Did you mean "${suggestion}"?`
+                  : `${themeComponents(themePath)}`
               }`,
             );
           }
@@ -144,10 +178,7 @@ export default async function swizzle(
         );
       }
     } else {
-      const components = fs.readdirSync(themePath);
-      console.log(
-        `Theme Components available for swizzle:\n${components.join('\n')}`,
-      );
+      console.log(themeComponents(themePath));
     }
   }
 }
