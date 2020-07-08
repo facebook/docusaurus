@@ -89,13 +89,18 @@ function getPossibleURLs(url) {
 
   self.addEventListener('fetch', async (event) => {
     if (params.offlineMode) {
-      const possibleURLs = getPossibleURLs(event.request.url);
+      const requestURL = event.request.url;
+      const possibleURLs = getPossibleURLs(requestURL);
       for (let i = 0; i < possibleURLs.length; i += 1) {
-        const cacheKey = controller.getCacheKeyForURL(possibleURLs[i]);
+        const possibleURL = possibleURLs[i];
+        const cacheKey = controller.getCacheKeyForURL(possibleURL);
         if (cacheKey) {
           if (params.debug) {
             console.log('[Docusaurus-PWA][SW]: serving cached asset', {
-              url: event.request.url,
+              requestURL,
+              possibleURL,
+              possibleURLs,
+              cacheKey,
             });
           }
           event.respondWith(caches.match(cacheKey));
