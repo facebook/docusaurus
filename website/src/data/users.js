@@ -156,6 +156,15 @@ const users = [
     pinned: false,
   },
   {
+    title: 'Tasit',
+    description: 'A JavaScript SDK for building native mobile Ethereum dapps with React Native',
+    preview: require('./showcase/tasit.png'),
+    website: 'https://docs.tasit.io/',
+    source: 'https://github.com/tasitlabs/tasit-sdk',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'uniforms',
     description: 'A set of React libraries for building forms',
     preview: require('./showcase/uniforms.png'),
