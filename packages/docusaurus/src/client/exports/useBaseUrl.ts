@@ -8,19 +8,17 @@
 import useDocusaurusContext from './useDocusaurusContext';
 import isInternalUrl from './isInternalUrl';
 
-type BaseUrlOptions = {
+type BaseUrlOptions = Partial<{
   forcePrependBaseUrl: boolean;
   absolute: boolean;
-};
+}>;
 
-export default function useBaseUrl(
+function addBaseUrl(
+  siteUrl: string | undefined,
+  baseUrl: string,
   url: string,
-  {forcePrependBaseUrl = false, absolute = false}: Partial<BaseUrlOptions> = {},
+  {forcePrependBaseUrl = false, absolute = false}: BaseUrlOptions = {},
 ): string {
-  const {
-    siteConfig: {baseUrl = '/', url: siteUrl} = {},
-  } = useDocusaurusContext();
-
   if (!url) {
     return url;
   }
@@ -36,4 +34,27 @@ export default function useBaseUrl(
   const basePath = baseUrl + url.replace(/^\//, '');
 
   return absolute ? siteUrl + basePath : basePath;
+}
+
+export type BaseUrlUtils = {
+  withBaseUrl: (url: string, options: BaseUrlOptions) => string;
+};
+
+export function useBaseUrlUtils(): BaseUrlUtils {
+  const {
+    siteConfig: {baseUrl = '/', url: siteUrl} = {},
+  } = useDocusaurusContext();
+  return {
+    withBaseUrl: (url, options) => {
+      return addBaseUrl(siteUrl, baseUrl, url, options);
+    },
+  };
+}
+
+export default function useBaseUrl(
+  url: string,
+  options: BaseUrlOptions,
+): string {
+  const {withBaseUrl} = useBaseUrlUtils();
+  return withBaseUrl(url, options);
 }

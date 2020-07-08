@@ -169,7 +169,7 @@ type BaseUrlOptions = {
 Example usage:
 
 ```jsx {3,11}
-import React, {useEffect} from 'react';
+import React from 'react';
 import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
@@ -183,6 +183,24 @@ function Help() {
       </p>
     </div>
   );
+}
+```
+
+### `useBaseUrlUtils`
+
+Sometimes `useBaseUrl` is not good enough. This hook return additional utils related to your site's base url.
+
+- `withBaseUrl`: useful if you need to add base urls to multiple urls at once
+
+```jsx {3,11}
+import React from 'react';
+import {useBaseUrlUtils} from '@docusaurus/useBaseUrl';
+
+function Component() {
+  const urls = ['/a', '/b'];
+  const {withBaseUrl} = useBaseUrlUtils();
+  const urlsWithBaseUrl = urls.map(withBaseUrl);
+  return <div className="col">{/* ... */}</div>;
 }
 ```
 
