@@ -12,13 +12,16 @@
     "@docusaurus/core": "^2.0.0-alpha.58",
     "@docusaurus/plugin-client-redirects": "^2.0.0-alpha.58",
     "@docusaurus/plugin-ideal-image": "^2.0.0-alpha.58",
+    "@docusaurus/plugin-pwa": "^2.0.0-alpha.58",
     "@docusaurus/preset-classic": "^2.0.0-alpha.58",
     "@docusaurus/theme-live-codeblock": "^2.0.0-alpha.58",
     "clsx": "^1.1.1",
     "color": "^3.1.2",
     "npm-to-yarn": "^1.0.0-2",
+    "react-dom": "^16.8.4",
     "react": "^16.8.4",
-    "react-dom": "^16.8.4"
+    "workbox-routing": "^5.0.0",
+    "workbox-strategies": "^5.0.0"
   },
   "browserslist": {
     "production": [
