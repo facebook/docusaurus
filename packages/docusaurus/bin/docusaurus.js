@@ -21,7 +21,7 @@ const boxen = require('boxen');
 const notifier = updateNotifier({
   pkg,
   updateCheckInterval: 1000 * 60 * 60 * 24, // one day
-  distTag: 'next', // check against the version that is tagged 'next' on npm
+  distTag: 'next', // compare with the version that is tagged 'next' on npm
 });
 
 if (notifier.update && notifier.update.current !== notifier.update.latest) {
@@ -34,11 +34,9 @@ if (notifier.update && notifier.update.current !== notifier.update.latest) {
   };
 
   const docusaurusUpdateMessage = boxen(
-    `Update available ${chalk.dim(`${notifier.update.current}`)}${chalk.reset(
-      ' → ',
-    )}${chalk.green(`${notifier.update.latest}`)}\nRun ${chalk.cyan(
-      'yarn upgrade @docusaurus/core@next',
-    )} to update`,
+    `Update available ${chalk.dim(`${notifier.update.current}`)}
+    ${chalk.reset(' → ')}${chalk.green(`${notifier.update.latest}`)}
+    \nRun ${chalk.cyan('yarn upgrade @docusaurus/core@next')} to update`,
     boxenOptions,
   );
 
