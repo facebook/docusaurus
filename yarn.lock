@@ -18273,7 +18273,7 @@ update-check@1.5.2:
     registry-auth-token "3.3.2"
     registry-url "3.1.0"
 
-update-notifier@^4.0.0:
+update-notifier@^4.0.0, update-notifier@^4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/update-notifier/-/update-notifier-4.1.0.tgz#4866b98c3bc5b5473c020b1250583628f9a328f3"
   integrity sha512-w3doE1qtI0/ZmgeoDoARmI5fjDoT93IfKgEGqm26dGUOh8oNpaSTsGNdYRN/SjOuo10jcJGwkEL3mroKzktkew==

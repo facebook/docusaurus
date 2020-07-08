@@ -1,7 +1,7 @@
 {
   "name": "@docusaurus/core",
   "description": "Easy to Maintain Open Source Documentation Websites",
-  "version": "2.0.0-alpha.58",
+  "version": "2.0.0-alpha.57",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
@@ -35,8 +35,8 @@
   },
   "dependencies": {
     "@babel/core": "^7.9.0",
-    "@babel/plugin-proposal-optional-chaining": "^7.10.3",
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.10.1",
+    "@babel/plugin-proposal-optional-chaining": "^7.10.3",
     "@babel/plugin-syntax-dynamic-import": "^7.8.3",
     "@babel/plugin-transform-runtime": "^7.9.0",
     "@babel/preset-env": "^7.9.0",
@@ -50,6 +50,7 @@
     "@svgr/webpack": "^5.4.0",
     "babel-loader": "^8.1.0",
     "babel-plugin-dynamic-import-node": "^2.3.0",
+    "boxen": "^4.2.0",
     "cache-loader": "^4.1.0",
     "chalk": "^3.0.0",
     "chokidar": "^3.3.0",
@@ -91,6 +92,7 @@
     "shelljs": "^0.8.4",
     "std-env": "^2.2.1",
     "terser-webpack-plugin": "^2.3.5",
+    "update-notifier": "^4.1.0",
     "url-loader": "^4.1.0",
     "wait-file": "^1.0.5",
     "webpack": "^4.41.2",
