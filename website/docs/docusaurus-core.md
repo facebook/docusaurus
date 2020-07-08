@@ -192,7 +192,7 @@ Sometimes `useBaseUrl` is not good enough. This hook return additional utils rel
 
 - `withBaseUrl`: useful if you need to add base urls to multiple urls at once
 
-```jsx {3,11}
+```jsx {2,5,6,7}
 import React from 'react';
 import {useBaseUrlUtils} from '@docusaurus/useBaseUrl';
 
