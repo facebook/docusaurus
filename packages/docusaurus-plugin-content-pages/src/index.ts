@@ -8,12 +8,7 @@
 import globby from 'globby';
 import fs from 'fs';
 import path from 'path';
-import {
-  encodePath,
-  fileToPath,
-  aliasedSitePath,
-  docuHash,
-} from '@docusaurus/utils';
+import {encodePath, fileToPath, aliasedSitePath} from '@docusaurus/utils';
 import {
   LoadContext,
   Plugin,
@@ -71,12 +66,8 @@ export default function pluginContentPages(
         return;
       }
 
-      const {addRoute, createData} = actions;
+      const {addRoute} = actions;
 
-      const configPath = await createData(
-        `${docuHash('config')}.json`,
-        JSON.stringify({siteConfig: context.siteConfig}, null, 2),
-      );
       await Promise.all(
         content.map(async (metadataItem) => {
           const {permalink, source} = metadataItem;
@@ -85,7 +76,7 @@ export default function pluginContentPages(
             component: source,
             exact: true,
             modules: {
-              config: configPath,
+              config: `${context.generatedFilesDir}/docusaurus.config.js`,
             },
           });
         }),
