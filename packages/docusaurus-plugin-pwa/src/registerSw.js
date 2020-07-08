@@ -19,7 +19,10 @@ const debug = PWA_DEBUG; // shortcut
 async function clearRegistrations() {
   const registrations = await navigator.serviceWorker.getRegistrations();
   if (debug && registrations.length > 0) {
-    console.log(`Docusaurus PWA: unregister service workers`, registrations);
+    console.log(
+      `[Docusaurus-PWA][registerSW]: unregister service workers`,
+      registrations,
+    );
   }
   registrations.forEach((registration) => {
     registration.registration.unregister();
@@ -55,12 +58,12 @@ function isOfflineModeEnabled() {
     };
     if (enabled) {
       console.log(
-        'Docusaurus PWA: offline mode enabled, because of activation strategies',
+        '[Docusaurus-PWA][registerSW]: offline mode enabled, because of activation strategies',
         logObject,
       );
     } else {
       console.log(
-        'Docusaurus PWA: offline mode disabled, because none of the offlineModeActivationStrategies could be used',
+        '[Docusaurus-PWA][registerSW]: offline mode disabled, because none of the offlineModeActivationStrategies could be used',
         logObject,
       );
     }
@@ -74,7 +77,10 @@ function createServiceWorkerUrl(params) {
     paramsQueryString,
   )}`;
   if (debug) {
-    console.log(`Docusaurus PWA: service worker url`, {url, params});
+    console.log(`[Docusaurus-PWA][registerSW]: service worker url`, {
+      url,
+      params,
+    });
   }
   return url;
 }
@@ -85,7 +91,7 @@ function createServiceWorkerUrl(params) {
   }
 
   if (debug) {
-    console.log('Docusaurus PWA: debug mode enabled');
+    console.log('[Docusaurus-PWA][registerSW]: debug mode enabled');
   }
 
   if ('serviceWorker' in navigator) {
@@ -101,6 +107,9 @@ function createServiceWorkerUrl(params) {
     const sendSkipWaiting = () => wb.messageSW({type: 'SKIP_WAITING'});
 
     const handleServiceWorkerWaiting = async () => {
+      if (debug) {
+        console.log('[Docusaurus-PWA][registerSW]: handleServiceWorkerWaiting');
+      }
       // Immediately load new service worker when files aren't cached
       if (!offlineMode) {
         sendSkipWaiting();
@@ -117,12 +126,30 @@ function createServiceWorkerUrl(params) {
       }
     };
 
+    if (debug) {
+      if (registration.active) {
+        console.log(
+          '[Docusaurus-PWA][registerSW]: registration.active',
+          registration,
+        );
+      }
+      if (registration.installing) {
+        console.log(
+          '[Docusaurus-PWA][registerSW]: registration.installing',
+          registration,
+        );
+      }
+      if (registration.waiting) {
+        console.log(
+          '[Docusaurus-PWA][registerSW]: registration.waiting',
+          registration,
+        );
+      }
+    }
+
     // Update service worker if the next one is already in the waiting state.
     // This happens when the user doesn't click on `reload` in the popup.
     if (registration.waiting) {
-      if (debug) {
-        console.log('Docusaurus PWA: registration.waiting', registration);
-      }
       handleServiceWorkerWaiting();
     }
 
@@ -130,7 +157,7 @@ function createServiceWorkerUrl(params) {
     // installing and transitions to waiting state.
     wb.addEventListener('waiting', (event) => {
       if (debug) {
-        console.log('Docusaurus PWA: event waiting', event);
+        console.log('[Docusaurus-PWA][registerSW]: event waiting', event);
       }
       handleServiceWorkerWaiting();
     });
@@ -139,14 +166,17 @@ function createServiceWorkerUrl(params) {
     // moves to waiting state in another tab.
     wb.addEventListener('externalwaiting', (event) => {
       if (debug) {
-        console.log('Docusaurus PWA: event externalwaiting', event);
+        console.log(
+          '[Docusaurus-PWA][registerSW]: event externalwaiting',
+          event,
+        );
       }
       handleServiceWorkerWaiting();
     });
 
     window.addEventListener('appinstalled', (event) => {
       if (debug) {
-        console.log('Docusaurus PWA: event appinstalled', event);
+        console.log('[Docusaurus-PWA][registerSW]: event appinstalled', event);
       }
       localStorage.setItem(APP_INSTALLED_KEY, true);
 
@@ -159,7 +189,7 @@ function createServiceWorkerUrl(params) {
 
     window.addEventListener('beforeinstallprompt', (event) => {
       if (debug) {
-        console.log('Docusaurus PWA: event appinstalled', event);
+        console.log('[Docusaurus-PWA][registerSW]: event appinstalled', event);
       }
       // TODO instead of default browser install UI, show custom docusaurus prompt?
       // event.preventDefault();
@@ -174,6 +204,8 @@ function createServiceWorkerUrl(params) {
       }
     });
   } else if (debug) {
-    console.log('Docusaurus PWA: browser does not support service workers');
+    console.log(
+      '[Docusaurus-PWA][registerSW]: browser does not support service workers',
+    );
   }
 })();

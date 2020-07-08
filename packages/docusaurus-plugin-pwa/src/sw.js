@@ -13,7 +13,7 @@ function parseSwParams() {
     new URLSearchParams(self.location.search).get('params'),
   );
   if (params.debug) {
-    console.log('Docusaurus PWA: Service Worker params:', params);
+    console.log('[Docusaurus-PWA][SW]: Service Worker params:', params);
   }
   return params;
 }
@@ -29,7 +29,7 @@ async function runSWCustomCode(params) {
       customSW.default(params);
     } else if (params.debug) {
       console.warn(
-        'Docusaurus PWA plugin swCustom should have a default export function',
+        '[Docusaurus-PWA][SW]: swCustom should have a default export function',
       );
     }
   }
@@ -93,6 +93,11 @@ function getPossibleURLs(url) {
       for (let i = 0; i < possibleURLs.length; i += 1) {
         const cacheKey = controller.getCacheKeyForURL(possibleURLs[i]);
         if (cacheKey) {
+          if (params.debug) {
+            console.log('[Docusaurus-PWA][SW]: serving cached asset', {
+              url: event.request.url,
+            });
+          }
           event.respondWith(caches.match(cacheKey));
           break;
         }
