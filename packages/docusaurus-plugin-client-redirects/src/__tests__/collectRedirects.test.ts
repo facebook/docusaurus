@@ -12,12 +12,12 @@ import {removeTrailingSlash} from '@docusaurus/utils';
 
 function createTestPluginContext(
   options?: UserPluginOptions,
-  routesPaths: string[] = [],
+  relativeRoutesPaths: string[] = [],
 ): PluginContext {
   return {
     outDir: '/tmp',
     baseUrl: 'https://docusaurus.io',
-    routesPaths,
+    relativeRoutesPaths,
     options: normalizePluginOptions(options),
   };
 }
@@ -208,7 +208,7 @@ describe('collectRedirects', () => {
           {
             createRedirects: (routePath) => {
               if (routePath === '/') {
-                return [[`/fromPath`]] as any;
+                return ([[`/fromPath`]] as unknown) as string;
               }
               return undefined;
             },

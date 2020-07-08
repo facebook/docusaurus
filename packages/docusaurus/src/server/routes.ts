@@ -5,7 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {genChunkName, normalizeUrl} from '@docusaurus/utils';
+import {
+  genChunkName,
+  normalizeUrl,
+  removeSuffix,
+  simpleHash,
+} from '@docusaurus/utils';
 import has from 'lodash.has';
 import isPlainObject from 'lodash.isplainobject';
 import isString from 'lodash.isstring';
@@ -17,6 +22,42 @@ import {
   RouteModule,
   ChunkNames,
 } from '@docusaurus/types';
+
+const createRouteCodeString = ({
+  routePath,
+  routeHash,
+  exact,
+  subroutesCodeStrings,
+}: {
+  routePath: string;
+  routeHash: string;
+  exact?: boolean;
+  subroutesCodeStrings?: string[];
+}) => {
+  const str = `{
+  path: '${routePath}',
+  component: ComponentCreator('${routePath}','${routeHash}'),
+  ${exact ? `exact: true,` : ''}
+${
+  subroutesCodeStrings
+    ? `  routes: [
+${removeSuffix(subroutesCodeStrings.join(',\n'), ',\n')},
+]
+`
+    : ''
+}}`;
+  return str;
+};
+
+const NotFoundRouteCode = `{
+  path: '*',
+  component: ComponentCreator('*')
+}`;
+
+const RoutesImportsCode = [
+  `import React from 'react';`,
+  `import ComponentCreator from '@docusaurus/ComponentCreator';`,
+].join('\n');
 
 function isModule(value: unknown): value is Module {
   if (isString(value)) {
@@ -36,14 +77,21 @@ function getModulePath(target: Module): string {
   return `${target.path}${queryStr}`;
 }
 
-export async function loadRoutes(
+type LoadedRoutes = {
+  registry: {
+    [chunkName: string]: ChunkRegistry;
+  };
+  routesConfig: string;
+  routesChunkNames: {
+    [routePath: string]: ChunkNames;
+  };
+  routesPaths: string[];
+};
+
+export default async function loadRoutes(
   pluginsRouteConfigs: RouteConfig[],
   baseUrl: string,
-) {
-  const routesImports = [
-    `import React from 'react';`,
-    `import ComponentCreator from '@docusaurus/ComponentCreator';`,
-  ];
+): Promise<LoadedRoutes> {
   const registry: {
     [chunkName: string]: ChunkRegistry;
   } = {};
@@ -58,7 +106,7 @@ export async function loadRoutes(
       path: routePath,
       component,
       modules = {},
-      routes,
+      routes: subroutes,
       exact,
     } = routeConfig;
 
@@ -70,80 +118,36 @@ export async function loadRoutes(
       );
     }
 
-    if (!routes) {
+    // Collect all page paths for injecting it later in the plugin lifecycle
+    // This is useful for plugins like sitemaps, redirects etc...
+    // If a route has subroutes, it is not necessarily a valid page path (more likely to be a wrapper)
+    if (!subroutes) {
       routesPaths.push(routePath);
     }
 
-    function genRouteChunkNames(
-      value: RouteModule | RouteModule[] | Module | null | undefined,
-      prefix?: string,
-      name?: string,
-    ) {
-      if (!value) {
-        return null;
-      }
-
-      if (Array.isArray(value)) {
-        return value.map((val, index) =>
-          genRouteChunkNames(val, `${index}`, name),
-        );
-      }
-
-      if (isModule(value)) {
-        const modulePath = getModulePath(value);
-        const chunkName = genChunkName(modulePath, prefix, name);
-        // We need to JSON.stringify so that if its on windows, backslashes are escaped.
-        const loader = `() => import(/* webpackChunkName: '${chunkName}' */ ${JSON.stringify(
-          modulePath,
-        )})`;
-
-        registry[chunkName] = {
-          loader,
-          modulePath,
-        };
-        return chunkName;
-      }
-
-      const newValue: ChunkNames = {};
-      Object.keys(value).forEach((key) => {
-        newValue[key] = genRouteChunkNames(value[key], key, name);
-      });
-      return newValue;
-    }
-
-    routesChunkNames[routePath] = {
-      ...routesChunkNames[routePath],
-      ...genRouteChunkNames({component}, 'component', component),
-      ...genRouteChunkNames(modules, 'module', routePath),
+    // We hash the route to generate the key, because 2 routes can conflict with
+    // each others if they have the same path, ex: parent=/docs, child=/docs
+    // see https://github.com/facebook/docusaurus/issues/2917
+    const routeHash = simpleHash(JSON.stringify(routeConfig), 3);
+    const chunkNamesKey = `${routePath}-${routeHash}`;
+    routesChunkNames[chunkNamesKey] = {
+      ...genRouteChunkNames(registry, {component}, 'component', component),
+      ...genRouteChunkNames(registry, modules, 'module', routePath),
     };
 
-    const routesStr = routes
-      ? `routes: [${routes.map(generateRouteCode).join(',')}],`
-      : '';
-    const exactStr = exact ? `exact: true,` : '';
-
-    return `
-{
-  path: '${routePath}',
-  component: ComponentCreator('${routePath}'),
-  ${exactStr}
-  ${routesStr}
-}`;
+    return createRouteCodeString({
+      routePath: routeConfig.path,
+      routeHash,
+      exact,
+      subroutesCodeStrings: subroutes?.map(generateRouteCode),
+    });
   }
 
-  const routes = pluginsRouteConfigs.map(generateRouteCode);
-  const notFoundRoute = `
-  {
-    path: '*',
-    component: ComponentCreator('*')
-  }`;
-
   const routesConfig = `
-${routesImports.join('\n')}
-
+${RoutesImportsCode}
 export default [
-  ${routes.join(',')},
-  ${notFoundRoute}
+${pluginsRouteConfigs.map(generateRouteCode).join(',\n')},
+${NotFoundRouteCode}
 ];\n`;
 
   return {
@@ -152,4 +156,45 @@ export default [
     routesChunkNames,
     routesPaths,
   };
+}
+
+function genRouteChunkNames(
+  // TODO instead of passing a mutating the registry, return a registry slice?
+  registry: {
+    [chunkName: string]: ChunkRegistry;
+  },
+  value: RouteModule | RouteModule[] | Module | null | undefined,
+  prefix?: string,
+  name?: string,
+) {
+  if (!value) {
+    return null;
+  }
+
+  if (Array.isArray(value)) {
+    return value.map((val, index) =>
+      genRouteChunkNames(registry, val, `${index}`, name),
+    );
+  }
+
+  if (isModule(value)) {
+    const modulePath = getModulePath(value);
+    const chunkName = genChunkName(modulePath, prefix, name);
+    // We need to JSON.stringify so that if its on windows, backslashes are escaped.
+    const loader = `() => import(/* webpackChunkName: '${chunkName}' */ ${JSON.stringify(
+      modulePath,
+    )})`;
+
+    registry[chunkName] = {
+      loader,
+      modulePath,
+    };
+    return chunkName;
+  }
+
+  const newValue: ChunkNames = {};
+  Object.keys(value).forEach((key) => {
+    newValue[key] = genRouteChunkNames(registry, value[key], key, name);
+  });
+  return newValue;
 }

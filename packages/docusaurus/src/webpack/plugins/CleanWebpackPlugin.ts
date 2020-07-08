@@ -33,6 +33,9 @@ import path from 'path';
 import {sync as delSync} from 'del';
 
 export interface Options {
+  /** @deprecated */
+  allowExternal?: unknown;
+
   /**
    * Simulate the removal of files
    *
@@ -110,7 +113,6 @@ class CleanWebpackPlugin {
             https://github.com/johnagan/clean-webpack-plugin#options-and-defaults-optional`);
     }
 
-    // @ts-ignore
     if (options.allowExternal) {
       throw new Error(
         'clean-webpack-plugin: `allowExternal` option no longer supported. Use `dangerouslyAllowCleanPatternsOutsideProject`',

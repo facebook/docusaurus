@@ -7,7 +7,7 @@
 
 import path from 'path';
 import fs from 'fs-extra';
-import {themeAlias} from '../alias';
+import themeAlias from '../alias';
 
 describe('themeAlias', () => {
   test('valid themePath 1 with components', () => {

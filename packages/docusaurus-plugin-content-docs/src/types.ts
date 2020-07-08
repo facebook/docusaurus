@@ -25,6 +25,8 @@ export interface PluginOptions extends MetadataOptions, PathOptions {
   remarkPlugins: ([Function, object] | Function)[];
   rehypePlugins: string[];
   admonitions: any;
+  disableVersioning: boolean;
+  excludeNextVersionDocs: boolean;
 }
 
 export type SidebarItemDoc = {
@@ -65,7 +67,7 @@ export type SidebarItemRaw =
   | SidebarItemCategoryRaw
   | {
       type: string;
-      [key: string]: any;
+      [key: string]: unknown;
     };
 
 export interface SidebarCategoryShorthandRaw {

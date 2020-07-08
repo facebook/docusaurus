@@ -45,9 +45,13 @@ function normalizeCategoryShorthand(
 /**
  * Check that item contains only allowed keys.
  */
-function assertItem(item: Object, keys: string[]): void {
+function assertItem<K extends string>(
+  item: any,
+  keys: K[],
+): asserts item is Record<K, any> {
   const unknownKeys = Object.keys(item).filter(
-    (key) => !keys.includes(key) && key !== 'type',
+    // @ts-expect-error: key is always string
+    (key) => !keys.includes(key as string) && key !== 'type',
   );
 
   if (unknownKeys.length) {
@@ -59,7 +63,9 @@ function assertItem(item: Object, keys: string[]): void {
   }
 }
 
-function assertIsCategory(item: any): asserts item is SidebarItemCategoryRaw {
+function assertIsCategory(
+  item: unknown,
+): asserts item is SidebarItemCategoryRaw {
   assertItem(item, ['items', 'label', 'collapsed']);
   if (typeof item.label !== 'string') {
     throw new Error(
@@ -79,7 +85,7 @@ function assertIsCategory(item: any): asserts item is SidebarItemCategoryRaw {
   }
 }
 
-function assertIsDoc(item: any): asserts item is SidebarItemDoc {
+function assertIsDoc(item: unknown): asserts item is SidebarItemDoc {
   assertItem(item, ['id']);
   if (typeof item.id !== 'string') {
     throw new Error(
@@ -88,7 +94,7 @@ function assertIsDoc(item: any): asserts item is SidebarItemDoc {
   }
 }
 
-function assertIsLink(item: any): asserts item is SidebarItemLink {
+function assertIsLink(item: unknown): asserts item is SidebarItemLink {
   assertItem(item, ['href', 'label']);
   if (typeof item.href !== 'string') {
     throw new Error(
@@ -175,7 +181,7 @@ export default function loadSidebars(sidebarPaths?: string[]): Sidebar {
     return {} as Sidebar;
   }
 
-  sidebarPaths.map((sidebarPath) => {
+  sidebarPaths.forEach((sidebarPath) => {
     if (sidebarPath && fs.existsSync(sidebarPath)) {
       const sidebar = importFresh(sidebarPath) as SidebarRaw;
       Object.assign(allSidebars, sidebar);

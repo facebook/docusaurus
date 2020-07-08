@@ -10,52 +10,18 @@ import CopyWebpackPlugin from 'copy-webpack-plugin';
 import fs from 'fs-extra';
 import path from 'path';
 import ReactLoadableSSRAddon from 'react-loadable-ssr-addon';
-import webpack, {Configuration, Plugin, Stats} from 'webpack';
+import {Configuration, Plugin} from 'webpack';
 import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
 import merge from 'webpack-merge';
 import {STATIC_DIR_NAME} from '../constants';
 import {load} from '../server';
 import {BuildCLIOptions, Props} from '@docusaurus/types';
-import {createClientConfig} from '../webpack/client';
-import {createServerConfig} from '../webpack/server';
-import {applyConfigureWebpack} from '../webpack/utils';
+import createClientConfig from '../webpack/client';
+import createServerConfig from '../webpack/server';
+import {compile, applyConfigureWebpack} from '../webpack/utils';
 import CleanWebpackPlugin from '../webpack/plugins/CleanWebpackPlugin';
 
-function compile(config: Configuration[]): Promise<any> {
-  return new Promise((resolve, reject) => {
-    const compiler = webpack(config);
-    compiler.run((err, stats) => {
-      if (err) {
-        reject(err);
-      }
-      if (stats.hasErrors()) {
-        stats.toJson('errors-only').errors.forEach((e) => {
-          console.error(e);
-        });
-        reject(new Error('Failed to compile with errors.'));
-      }
-      if (stats.hasWarnings()) {
-        // Custom filtering warnings (see https://github.com/webpack/webpack/issues/7841).
-        let {warnings} = stats.toJson('errors-warnings');
-        const warningsFilter = ((config[0].stats as Stats.ToJsonOptionsObject)
-          ?.warningsFilter || []) as any[];
-
-        if (Array.isArray(warningsFilter)) {
-          warnings = warnings.filter((warning) =>
-            warningsFilter.every((str) => !warning.includes(str)),
-          );
-        }
-
-        warnings.forEach((warning) => {
-          console.warn(warning);
-        });
-      }
-      resolve();
-    });
-  });
-}
-
-export async function build(
+export default async function build(
   siteDir: string,
   cliOptions: Partial<BuildCLIOptions> = {},
   forceTerminate: boolean = true,

@@ -8,16 +8,16 @@
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import env from 'std-env';
 import merge from 'webpack-merge';
-import {Configuration, Loader} from 'webpack';
+import webpack, {Configuration, Loader, RuleSetRule, Stats} from 'webpack';
 import {TransformOptions} from '@babel/core';
-
+import {ConfigureWebpackFn} from '@docusaurus/types';
 import {version as cacheLoaderVersion} from 'cache-loader/package.json';
 
 // Utility method to get style loaders
 export function getStyleLoaders(
   isServer: boolean,
   cssOptions: {
-    [key: string]: any;
+    [key: string]: unknown;
   } = {},
 ): Loader[] {
   if (isServer) {
@@ -53,7 +53,7 @@ export function getStyleLoaders(
         // https://github.com/facebook/create-react-app/issues/2677
         ident: 'postcss',
         plugins: () => [
-          // eslint-disable-next-line @typescript-eslint/no-var-requires
+          // eslint-disable-next-line @typescript-eslint/no-var-requires, global-require
           require('postcss-preset-env')({
             autoprefixer: {
               flexbox: 'no-2009',
@@ -69,7 +69,7 @@ export function getStyleLoaders(
 
 export function getCacheLoader(
   isServer: boolean,
-  cacheOptions?: {},
+  cacheOptions?: {[key: string]: unknown},
 ): Loader | null {
   if (env.ci || env.test) {
     return null;
@@ -113,20 +113,16 @@ export function getBabelLoader(
 
 /**
  * Helper function to modify webpack config
- * @param {Object | Function} configureWebpack a webpack config or a function to modify config
- * @param {Object} config initial webpack config
- * @param {boolean} isServer indicates if this is a server webpack configuration
- * @returns {Object} final/ modified webpack config
+ * @param configureWebpack a webpack config or a function to modify config
+ * @param config initial webpack config
+ * @param isServer indicates if this is a server webpack configuration
+ * @returns final/ modified webpack config
  */
 export function applyConfigureWebpack(
-  configureWebpack: any,
+  configureWebpack: ConfigureWebpackFn,
   config: Configuration,
   isServer: boolean,
 ): Configuration {
-  if (typeof configureWebpack === 'object') {
-    return merge(config, configureWebpack);
-  }
-
   // Export some utility functions
   const utils = {
     getStyleLoaders,
@@ -134,10 +130,105 @@ export function applyConfigureWebpack(
     getBabelLoader,
   };
   if (typeof configureWebpack === 'function') {
-    const res = configureWebpack(config, isServer, utils);
+    const {mergeStrategy, ...res} = configureWebpack(config, isServer, utils);
     if (res && typeof res === 'object') {
-      return merge(config, res);
+      return merge.strategy(mergeStrategy ?? {})(config, res);
     }
   }
   return config;
+}
+
+export function compile(config: Configuration[]): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const compiler = webpack(config);
+    compiler.run((err, stats) => {
+      if (err) {
+        reject(err);
+      }
+      if (stats.hasErrors()) {
+        stats.toJson('errors-only').errors.forEach((e) => {
+          console.error(e);
+        });
+        reject(new Error('Failed to compile with errors.'));
+      }
+      if (stats.hasWarnings()) {
+        // Custom filtering warnings (see https://github.com/webpack/webpack/issues/7841).
+        let {warnings} = stats.toJson('errors-warnings');
+        const warningsFilter = ((config[0].stats as Stats.ToJsonOptionsObject)
+          ?.warningsFilter || []) as any[];
+
+        if (Array.isArray(warningsFilter)) {
+          warnings = warnings.filter((warning) =>
+            warningsFilter.every((str) => !warning.includes(str)),
+          );
+        }
+
+        warnings.forEach((warning) => {
+          console.warn(warning);
+        });
+      }
+      resolve();
+    });
+  });
+}
+
+// Inspired by https://github.com/gatsbyjs/gatsby/blob/8e6e021014da310b9cc7d02e58c9b3efe938c665/packages/gatsby/src/utils/webpack-utils.ts#L447
+export function getFileLoaderUtils() {
+  const assetsRelativeRoot = 'assets/';
+
+  const loaders = {
+    file: (options = {}) => {
+      return {
+        loader: require.resolve(`file-loader`),
+        options: {
+          name: `${assetsRelativeRoot}[name]-[hash].[ext]`,
+          ...options,
+        },
+      };
+    },
+    url: (options = {}) => {
+      return {
+        loader: require.resolve(`url-loader`),
+        options: {
+          limit: 10000,
+          name: `${assetsRelativeRoot}[name]-[hash].[ext]`,
+          fallback: require.resolve(`file-loader`),
+          ...options,
+        },
+      };
+    },
+  };
+
+  const rules = {
+    /**
+     * Loads image assets, inlines images via a data URI if they are below
+     * the size threshold
+     */
+    images: (): RuleSetRule => {
+      return {
+        use: [loaders.url()],
+        test: /\.(ico|svg|jpg|jpeg|png|gif|webp)(\?.*)?$/,
+      };
+    },
+
+    /**
+     * Loads audio and video and inlines them via a data URI if they are below
+     * the size threshold
+     */
+    media: (): RuleSetRule => {
+      return {
+        use: [loaders.url()],
+        test: /\.(mp4|webm|ogv|wav|mp3|m4a|aac|oga|flac)$/,
+      };
+    },
+
+    otherAssets: (): RuleSetRule => {
+      return {
+        use: [loaders.file()],
+        test: /\.(pdf|doc|docx|xls|xlsx|zip|rar)$/,
+      };
+    },
+  };
+
+  return {loaders, rules};
 }

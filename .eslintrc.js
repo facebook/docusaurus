@@ -85,27 +85,23 @@ module.exports = {
     ],
     'no-unused-vars': OFF,
     '@typescript-eslint/no-unused-vars': [ERROR, {argsIgnorePattern: '^_'}],
+    '@typescript-eslint/ban-ts-comment': [
+      ERROR,
+      {'ts-expect-error': 'allow-with-description'},
+    ],
 
     // TODO re-enable some these as errors
     // context: https://github.com/facebook/docusaurus/pull/2949
-    '@typescript-eslint/ban-ts-comment': WARNING,
     '@typescript-eslint/ban-types': WARNING,
-    'import/prefer-default-export': WARNING,
     'import/no-extraneous-dependencies': WARNING,
     'no-useless-escape': WARNING,
     'prefer-template': WARNING,
-    'no-shadow': WARNING,
     'no-param-reassign': WARNING,
-    'no-else-return': WARNING,
     'no-template-curly-in-string': WARNING,
     'array-callback-return': WARNING,
     camelcase: WARNING,
-    'no-nested-ternary': WARNING,
-    'object-shorthand': WARNING,
     'no-restricted-syntax': WARNING,
     'no-unused-expressions': WARNING,
-    'consistent-return': WARNING,
-    'no-useless-return': WARNING,
     '@typescript-eslint/no-empty-function': WARNING,
     'global-require': WARNING,
     'prefer-destructuring': WARNING,
@@ -114,8 +110,6 @@ module.exports = {
     'no-empty': WARNING,
     'no-prototype-builtins': WARNING,
     'no-case-declarations': WARNING,
-    'default-case': WARNING,
-    'dot-notation': WARNING,
   },
   overrides: [
     {

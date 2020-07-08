@@ -18,6 +18,15 @@ const users = [
     pinned: false,
   },
   {
+    title: 'Amphora Data',
+    description: 'Connecting the world’s real-time information',
+    preview: require('./showcase/amphora.png'),
+    website: 'https://www.amphoradata.com/',
+    source: 'https://github.com/amphoradata/amphoradata.github.io',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'Benthos',
     description: 'A stream processor for mundane tasks',
     preview: require('./showcase/benthos.png'),
@@ -53,6 +62,15 @@ const users = [
     source: 'https://github.com/facebook/componentkit',
     fbOpenSource: true,
     pinned: true,
+  },
+  {
+    title: 'Eta',
+    description: 'Faster embedded JS template engine in TypeScript',
+    preview: require('./showcase/eta.png'),
+    website: 'https://eta.js.org/',
+    source: 'https://github.com/eta-dev/eta',
+    fbOpenSource: false,
+    pinned: false,
   },
   {
     title: 'Flux',

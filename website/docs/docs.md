@@ -329,6 +329,12 @@ If you just want the documentation feature, you can enable "docs-only mode".
 
 To achieve this, set the `routeBasePath` property of the `docs` object in `@docusaurus/preset-classic` in `docusaurus.config.js` to the root of your site, and also in that object set the `homePageId` property with the value of the document ID that you show as root of the docs.
 
+:::caution
+
+Don't forget to delete the existing homepage at `./src/pages/index.js`
+
+:::
+
 :::note
 
 More details on functionality of home page for docs can be found in [appropriate section](#home-page-docs).

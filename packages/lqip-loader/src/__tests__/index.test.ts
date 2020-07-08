@@ -7,10 +7,9 @@
 
 import path from 'path';
 import Vibrant from 'node-vibrant';
+import {Palette} from 'node-vibrant/lib/color';
 
-// @ts-ignore
 import {toPalette, toBase64} from '../utils';
-// @ts-ignore
 import lqip from '../lqip';
 
 describe('lqip-loader', () => {
@@ -24,8 +23,8 @@ describe('lqip-loader', () => {
   });
 
   describe('toPalette', () => {
-    let correctTestSwatch: object = {};
-    let testSwatchWithNull: object = {};
+    let correctTestSwatch: Palette = {};
+    let testSwatchWithNull: Palette & {Vibrant?: null} = {};
 
     beforeAll(() => {
       const imgPath = path.join(__dirname, '__fixtures__', 'endi.jpg');

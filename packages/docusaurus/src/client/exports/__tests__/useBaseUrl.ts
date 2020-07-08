@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import useBaseUrl from '../useBaseUrl';
+import useBaseUrl, {useBaseUrlUtils} from '../useBaseUrl';
 import useDocusaurusContext from '../useDocusaurusContext';
 
 jest.mock('../useDocusaurusContext', () => jest.fn(), {virtual: true});
@@ -61,6 +61,62 @@ describe('useBaseUrl', () => {
       '/docusaurus/https://site.com',
     );
     expect(useBaseUrl('/hello/byebye', {absolute: true})).toEqual(
+      'https://v2.docusaurus.io/docusaurus/hello/byebye',
+    );
+  });
+});
+
+describe('useBaseUrlUtils().withBaseUrl()', () => {
+  test('empty base URL', () => {
+    mockedContext.mockImplementation(() => ({
+      siteConfig: {
+        baseUrl: '/',
+        url: 'https://v2.docusaurus.io',
+      },
+    }));
+    const {withBaseUrl} = useBaseUrlUtils();
+
+    expect(withBaseUrl('hello')).toEqual('/hello');
+    expect(withBaseUrl('/hello')).toEqual('/hello');
+    expect(withBaseUrl('hello/')).toEqual('/hello/');
+    expect(withBaseUrl('/hello/')).toEqual('/hello/');
+    expect(withBaseUrl('hello/byebye')).toEqual('/hello/byebye');
+    expect(withBaseUrl('/hello/byebye')).toEqual('/hello/byebye');
+    expect(withBaseUrl('hello/byebye/')).toEqual('/hello/byebye/');
+    expect(withBaseUrl('/hello/byebye/')).toEqual('/hello/byebye/');
+    expect(withBaseUrl('https://github.com')).toEqual('https://github.com');
+    expect(withBaseUrl('//reactjs.org')).toEqual('//reactjs.org');
+    expect(
+      withBaseUrl('https://site.com', {forcePrependBaseUrl: true}),
+    ).toEqual('/https://site.com');
+    expect(withBaseUrl('/hello/byebye', {absolute: true})).toEqual(
+      'https://v2.docusaurus.io/hello/byebye',
+    );
+  });
+
+  test('non-empty base URL', () => {
+    mockedContext.mockImplementation(() => ({
+      siteConfig: {
+        baseUrl: '/docusaurus/',
+        url: 'https://v2.docusaurus.io',
+      },
+    }));
+    const {withBaseUrl} = useBaseUrlUtils();
+
+    expect(withBaseUrl('hello')).toEqual('/docusaurus/hello');
+    expect(withBaseUrl('/hello')).toEqual('/docusaurus/hello');
+    expect(withBaseUrl('hello/')).toEqual('/docusaurus/hello/');
+    expect(withBaseUrl('/hello/')).toEqual('/docusaurus/hello/');
+    expect(withBaseUrl('hello/byebye')).toEqual('/docusaurus/hello/byebye');
+    expect(withBaseUrl('/hello/byebye')).toEqual('/docusaurus/hello/byebye');
+    expect(withBaseUrl('hello/byebye/')).toEqual('/docusaurus/hello/byebye/');
+    expect(withBaseUrl('/hello/byebye/')).toEqual('/docusaurus/hello/byebye/');
+    expect(withBaseUrl('https://github.com')).toEqual('https://github.com');
+    expect(withBaseUrl('//reactjs.org')).toEqual('//reactjs.org');
+    expect(
+      withBaseUrl('https://site.com', {forcePrependBaseUrl: true}),
+    ).toEqual('/docusaurus/https://site.com');
+    expect(withBaseUrl('/hello/byebye', {absolute: true})).toEqual(
       'https://v2.docusaurus.io/docusaurus/hello/byebye',
     );
   });

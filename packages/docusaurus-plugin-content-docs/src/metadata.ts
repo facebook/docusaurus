@@ -41,13 +41,12 @@ function inferVersion(
       .replace(/^version-/, '');
     if (inferredVersion && versioning.versions.includes(inferredVersion)) {
       return inferredVersion;
-    } else {
-      throw new Error(
-        `Can't infer version from folder=${dirName}
+    }
+    throw new Error(
+      `Can't infer version from folder=${dirName}
 Expected versions:
 - ${versioning.versions.join('- ')}`,
-      );
-    }
+    );
   } else {
     return 'next';
   }

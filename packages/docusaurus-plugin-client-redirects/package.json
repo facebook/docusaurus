@@ -4,7 +4,7 @@
   "description": "Client redirects plugin for Docusaurus",
   "main": "lib/index.js",
   "scripts": {
-    "tsc": "tsc",
+    "build": "tsc",
     "watch": "tsc --watch"
   },
   "publishConfig": {
@@ -14,9 +14,13 @@
   "dependencies": {
     "@docusaurus/types": "^2.0.0-alpha.58",
     "@docusaurus/utils": "^2.0.0-alpha.58",
+    "@hapi/joi": "^17.1.1",
+    "@types/hapi__joi": "^17.1.2",
+    "chalk": "^3.0.0",
     "eta": "^1.1.1",
+    "fs-extra": "^8.1.0",
     "globby": "^10.0.1",
-    "yup": "^0.29.0"
+    "lodash": "^4.17.15"
   },
   "peerDependencies": {
     "@docusaurus/core": "^2.0.0",
@@ -25,8 +29,5 @@
   },
   "engines": {
     "node": ">=10.9.0"
-  },
-  "devDependencies": {
-    "@types/yup": "^0.29.0"
   }
 }
