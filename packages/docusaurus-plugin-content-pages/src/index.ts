@@ -76,7 +76,7 @@ export default function pluginContentPages(
             component: source,
             exact: true,
             modules: {
-              config: `${context.generatedFilesDir}/docusaurus.config.js`,
+              config: `@generated/docusaurus.config`,
             },
           });
         }),
