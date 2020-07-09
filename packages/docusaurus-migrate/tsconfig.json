@@ -4,6 +4,7 @@
       "incremental": true,
       "tsBuildInfoFile": "./lib/.tsbuildinfo",
       "rootDir": "src",
-      "outDir": "lib"
+      "outDir": "lib",
+      "typeRoots": [ "./external_types", "./node_modules/@types"]
     }
   }
