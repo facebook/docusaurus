@@ -14,7 +14,7 @@ const path = require('path');
 
 const requiredVersion = require('../package.json').engines.node;
 
-const {migrateDocusaurusProject} = require('../lib');
+const {migrateDocusaurusProject, migrateMDToMDX} = require('../lib');
 
 function wrapCommand(fn) {
   return (...args) =>
@@ -36,13 +36,22 @@ if (!semver.satisfies(process.version, requiredVersion)) {
 
 cli
   .command('migrate [siteDir] [newDir]')
+  .option('--mdx', 'Try to migrate MD to MDX also')
   .description('Migrate between versions of docusaurus website')
-  .action((siteDir = '.', newdir = '.') => {
+  .action((siteDir = '.', newDir = '.', {mdx}) => {
     const sitePath = path.resolve(siteDir);
-    const newSitePath = path.resolve(newdir);
-    wrapCommand(migrateDocusaurusProject)(sitePath, newSitePath);
+    const newSitePath = path.resolve(newDir);
+    wrapCommand(migrateDocusaurusProject)(sitePath, newSitePath, mdx);
   });
 
+cli
+  .command('mdx [siteDir] [newDir]')
+  .description('Migrate markdown files to MDX')
+  .action((siteDir = '.', newDir = '.') => {
+    const sitePath = path.resolve(siteDir);
+    const newSitePath = path.resolve(newDir);
+    wrapCommand(migrateMDToMDX)(sitePath, newSitePath);
+  });
 cli.parse(process.argv);
 
 if (!process.argv.slice(2).length) {

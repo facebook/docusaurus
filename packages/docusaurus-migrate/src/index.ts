@@ -14,10 +14,12 @@ import {
   ClassicPresetEntries,
   SidebarEntries,
 } from './types';
-import extractMetadata from './metaData';
+import extractMetadata from './frontMatter';
+import sanitizeMD from './sanitizeMD';
 import path from 'path';
 
-const DOCUSAURUS_VERSION = '^2.0.0-alpha.58';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const DOCUSAURUS_VERSION = require('../package.json').version;
 
 export function walk(dir: string): Array<string> {
   let results: Array<string> = [];
@@ -34,7 +36,10 @@ export function walk(dir: string): Array<string> {
   return results;
 }
 
-function sanitizeFrontMatter(content: string): string {
+function sanitizedFileContent(
+  content: string,
+  migrateMDFiles: boolean,
+): string {
   const extractedData = extractMetadata(content);
   const extractedMetaData = Object.entries(extractedData.metadata).reduce(
     (metaData, value) => {
@@ -44,13 +49,18 @@ function sanitizeFrontMatter(content: string): string {
     },
     '',
   );
-  const sanitizedData = `---\n${extractedMetaData}\n---\n${extractedData.rawContent}`;
+  const sanitizedData = `---\n${extractedMetaData}\n---\n${
+    migrateMDFiles
+      ? sanitizeMD(extractedData.rawContent)
+      : extractedData.rawContent
+  }`;
   return sanitizedData;
 }
 
 export async function migrateDocusaurusProject(
   siteDir: string,
   newDir: string,
+  migrateMdFiles: boolean = false,
 ): Promise<void> {
   const siteConfig = importFresh(`${siteDir}/siteConfig`) as VersionOneConfig;
   const config = createConfigFile(siteConfig);
@@ -66,9 +76,9 @@ export async function migrateDocusaurusProject(
   createClientRedirects(siteConfig, deps, config);
   createLandingPage(newDir, siteDir);
   migrateStaticFiles(siteDir, newDir);
-  migrateBlogFiles(siteDir, newDir, classicPreset);
-  handleVersioning(siteDir, newDir, config);
-  migrateLatestDocs(siteDir, newDir);
+  migrateBlogFiles(siteDir, newDir, classicPreset, migrateMdFiles);
+  handleVersioning(siteDir, newDir, config, migrateMdFiles);
+  migrateLatestDocs(siteDir, newDir, migrateMdFiles);
   migrateLatestSidebar(siteDir, newDir, classicPreset, siteConfig);
   fs.writeFileSync(
     path.join(newDir, 'docusaurus.config.js'),
@@ -181,9 +191,8 @@ function createClientRedirects(
 }
 
 function createLandingPage(newDir: string, siteDir: string): void {
-  fs.mkdirpSync(`${newDir}/src/pages`);
-  try {
-    fs.statSync(`${siteDir}/pages/en`);
+  fs.mkdirpSync(path.join(newDir, 'src', 'pages'));
+  if (fs.existsSync(path.join(siteDir, 'pages', 'en'))) {
     const indexPage = `import Layout from "@theme/Layout";
     import React from "react";
     
@@ -192,7 +201,7 @@ function createLandingPage(newDir: string, siteDir: string): void {
     };
     `;
     fs.writeFileSync(`${newDir}/src/pages/index.js`, indexPage);
-  } catch {
+  } else {
     console.log('Ignoring Pages');
   }
 }
@@ -211,6 +220,7 @@ function migrateBlogFiles(
   siteDir: string,
   newDir: string,
   classicPreset: ClassicPresetEntries,
+  migrateMDFiles: boolean,
 ): void {
   try {
     fs.statSync(`${siteDir}/blog`);
@@ -218,7 +228,7 @@ function migrateBlogFiles(
     const files = walk(`${newDir}/blog`);
     files.forEach((file) => {
       const content = String(fs.readFileSync(file));
-      fs.writeFileSync(file, sanitizeFrontMatter(content));
+      fs.writeFileSync(file, sanitizedFileContent(content, migrateMDFiles));
     });
     classicPreset.blog.path = 'blog';
   } catch {
@@ -230,6 +240,7 @@ function handleVersioning(
   siteDir: string,
   newDir: string,
   config: VersionTwoConfig,
+  migrateMDFiles: boolean,
 ): void {
   if (fs.existsSync(path.join(siteDir, 'versions.json'))) {
     const loadedVersions: Array<string> = JSON.parse(
@@ -243,7 +254,13 @@ function handleVersioning(
     const versionRegex = new RegExp(`version-(${versions.join('|')})-`, 'mgi');
     migrateVersionedSidebar(siteDir, newDir, versions, versionRegex, config);
     fs.mkdirpSync(path.join(newDir, 'versioned_docs'));
-    migrateVersionedDocs(versions, siteDir, newDir, versionRegex);
+    migrateVersionedDocs(
+      versions,
+      siteDir,
+      newDir,
+      versionRegex,
+      migrateMDFiles,
+    );
   }
 }
 
@@ -252,6 +269,7 @@ function migrateVersionedDocs(
   siteDir: string,
   newDir: string,
   versionRegex: RegExp,
+  migrateMDFiles: boolean,
 ): void {
   versions.reverse().forEach((version, index) => {
     if (index === 0) {
@@ -287,7 +305,7 @@ function migrateVersionedDocs(
     const content = fs.readFileSync(pathToFile).toString();
     fs.writeFileSync(
       pathToFile,
-      sanitizeFrontMatter(content.replace(versionRegex, '')),
+      sanitizedFileContent(content.replace(versionRegex, ''), migrateMDFiles),
     );
   });
 }
@@ -451,13 +469,17 @@ function migrateLatestSidebar(
   }
 }
 
-function migrateLatestDocs(siteDir: string, newDir: string): void {
+function migrateLatestDocs(
+  siteDir: string,
+  newDir: string,
+  migrateMDFiles: boolean,
+): void {
   try {
     fs.copySync(path.join(siteDir, '..', 'docs'), path.join(newDir, 'docs'));
     const files = walk(path.join(newDir, 'docs'));
     files.forEach((file) => {
       const content = String(fs.readFileSync(file));
-      fs.writeFileSync(file, sanitizeFrontMatter(content));
+      fs.writeFileSync(file, sanitizedFileContent(content, migrateMDFiles));
     });
   } catch {
     fs.mkdir(path.join(newDir, 'docs'));
@@ -494,4 +516,20 @@ function migratePackageFile(
     path.join(newDir, 'package.json'),
     JSON.stringify(packageFile, null, 2),
   );
+}
+
+export async function migrateMDToMDX(
+  siteDir: string,
+  newDir: string,
+): Promise<void> {
+  fs.mkdirpSync(newDir);
+  fs.copySync(siteDir, newDir);
+  const files = walk(newDir);
+  files.forEach((file) => {
+    fs.writeFileSync(
+      file,
+      sanitizedFileContent(String(fs.readFileSync(file)), true),
+    );
+  });
+  console.log(`Migrated ${siteDir} to ${newDir}`);
 }
