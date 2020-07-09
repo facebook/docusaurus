@@ -205,3 +205,15 @@ const ThemeConfigSchema = Joi.object({
 module.exports.validateThemeConfig = ({validate, themeConfig}) => {
   return validate(ThemeConfigSchema, themeConfig);
 };
+
+const swizzleAllowedComponents = [
+  'CodeBlock',
+  'DocSidebar',
+  'Footer',
+  'NotFound',
+  'SearchBar',
+  'hooks/useTheme',
+  'prism-include-languages',
+];
+
+module.exports.getSwizzleComponentList = () => swizzleAllowedComponents;

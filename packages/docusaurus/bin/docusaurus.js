@@ -64,12 +64,14 @@ cli
     '--typescript',
     'Copy TypeScript theme files when possible (default: false)',
   )
-  .action((themeName, componentName, siteDir = '.', {typescript}) => {
+  .option('--danger', 'Enable swizzle for internal component of themes')
+  .action((themeName, componentName, siteDir = '.', {typescript, danger}) => {
     wrapCommand(swizzle)(
       path.resolve(siteDir),
       themeName,
       componentName,
       typescript,
+      danger,
     );
   });
 

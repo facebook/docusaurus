@@ -59,16 +59,52 @@ function walk(dir: string): Array<string> {
   return results;
 }
 
-function getComponentName(themePath: string): Array<string> {
+function readComponent(themePath: string) {
   return walk(themePath).map((filePath) =>
     path
       .relative(themePath, filePath)
-      .replace(/(\/|\\)index.(js|tsx|ts|jsx)/, ''),
+      .replace(/(\/|\\)index.(js|tsx|ts|jsx)/, '')
+      .replace(/.(js|tsx|ts|jsx)/, ''),
   );
 }
 
-function themeComponents(themePath: string): string {
-  const components = getComponentName(themePath);
+function getComponentName(
+  themePath: string,
+  plugin: Plugin<unknown>,
+  danger: boolean,
+): Array<string> {
+  const allowedComponent = plugin.getSwizzleComponentList
+    ? plugin.getSwizzleComponentList()
+    : undefined;
+  if (allowedComponent) {
+    if (danger) {
+      const components = readComponent(themePath);
+      const componentMap = allowedComponent.reduce(
+        (acc: {[key: string]: boolean}, component) => {
+          acc[component] = true;
+          return acc;
+        },
+        {},
+      );
+      const colorCodedComponent = components.map((component) => {
+        if (componentMap[component]) {
+          return chalk.green(component);
+        }
+        return chalk.red(component);
+      });
+      return colorCodedComponent;
+    }
+    return allowedComponent;
+  }
+  return readComponent(themePath);
+}
+
+function themeComponents(
+  themePath: string,
+  plugin: Plugin<unknown>,
+  danger: boolean,
+): string {
+  const components = getComponentName(themePath, plugin, danger);
   return `Theme Components available for swizzle:\n${components.join('\n')}`;
 }
 
@@ -81,6 +117,7 @@ export default async function swizzle(
   themeName?: string,
   componentName?: string,
   typescript?: boolean,
+  danger?: boolean,
 ): Promise<void> {
   const context = loadContext(siteDir);
   const pluginNames = getPluginNames(loadPluginConfigs(context));
@@ -126,6 +163,7 @@ export default async function swizzle(
         let toPath = path.resolve(siteDir, THEME_PATH);
         fromPath = path.join(fromPath, componentName);
         toPath = path.join(toPath, componentName);
+        const components = getComponentName(themePath, plugin, Boolean(danger));
 
         // Handle single TypeScript/JavaScript file only.
         // E.g: if <fromPath> does not exist, we try to swizzle <fromPath>.(ts|tsx|js) instead
@@ -137,7 +175,6 @@ export default async function swizzle(
           } else if (fs.existsSync(`${fromPath}.js`)) {
             [fromPath, toPath] = [`${fromPath}.js`, `${toPath}.js`];
           } else {
-            const components = getComponentName(themePath);
             let suggestion;
             components.forEach((name) => {
               if (leven(name, componentName) < 3) {
@@ -148,12 +185,16 @@ export default async function swizzle(
               `Component ${componentName} not found.${
                 suggestion
                   ? ` Did you mean "${suggestion}"?`
-                  : `${themeComponents(themePath)}`
+                  : `${themeComponents(themePath, plugin, Boolean(danger))}`
               }`,
             );
           }
         }
-
+        if (!components.includes(componentName) && !danger) {
+          throw new Error(
+            `${componentName} is an internal component, if you want to swizzle it use "--danger" flag.`,
+          );
+        }
         await fs.copy(fromPath, toPath);
 
         const relativeDir = path.relative(process.cwd(), toPath);
@@ -178,7 +219,7 @@ export default async function swizzle(
         );
       }
     } else {
-      console.log(themeComponents(themePath));
+      console.log(themeComponents(themePath, plugin, Boolean(danger)));
     }
   }
 }
