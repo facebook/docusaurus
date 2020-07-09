@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/migrate",
-  "version": "^2.0.0-alpha.58",
+  "version": "2.0.0-alpha.58",
   "description": "A cli tool to migrate between different version of docusuarus",
   "main": "lib/index.js",
   "license": "MIT",
