@@ -156,6 +156,26 @@ const users = [
     pinned: false,
   },
   {
+    title: 'Tasit',
+    description:
+      'A JavaScript SDK for building native mobile Ethereum dapps with React Native',
+    preview: require('./showcase/tasit.png'),
+    website: 'https://docs.tasit.io/',
+    source: 'https://github.com/tasitlabs/tasit-sdk',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
+    title: 'Tourmaline',
+    description:
+      'Fast and performant Telegram bot framework for the Crystal programming language',
+    preview: require('./showcase/tourmaline.png'),
+    website: 'https://tourmaline.dev',
+    source: 'https://github.com/protoncr/tourmaline',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'uniforms',
     description: 'A set of React libraries for building forms',
     preview: require('./showcase/uniforms.png'),
@@ -172,16 +192,6 @@ const users = [
     source: 'https://github.com/timberio/vector',
     fbOpenSource: false,
     pinned: true,
-  },
-  {
-    title: 'Tourmaline',
-    description:
-      'Fast and performant Telegram bot framework for the Crystal programming language',
-    preview: require('./showcase/tourmaline.png'),
-    website: 'https://tourmaline.dev',
-    source: 'https://github.com/protoncr/tourmaline',
-    fbOpenSource: false,
-    pinned: false,
   },
 ];
 
