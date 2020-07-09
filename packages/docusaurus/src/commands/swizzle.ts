@@ -70,13 +70,16 @@ function readComponent(themePath: string) {
 
 function getComponentName(
   themePath: string,
-  plugin: Plugin<unknown>,
+  plugin: ((context: LoadContext) => Plugin<unknown>) & {
+    default?: Plugin<unknown>;
+  } & Plugin<unknown>,
   danger: boolean,
 ): Array<string> {
-  const allowedComponent = plugin.getSwizzleComponentList
-    ? plugin.getSwizzleComponentList()
-    : undefined;
-  if (allowedComponent) {
+  // support both commonjs and ES style exports
+  const getSwizzleComponentList =
+    plugin.default?.getSwizzleComponentList ?? plugin.getSwizzleComponentList;
+  if (getSwizzleComponentList) {
+    const allowedComponent = getSwizzleComponentList();
     if (danger) {
       const components = readComponent(themePath);
       const componentMap = allowedComponent.reduce(
