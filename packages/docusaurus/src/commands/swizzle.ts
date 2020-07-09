@@ -70,9 +70,11 @@ function readComponent(themePath: string) {
 
 function getComponentName(
   themePath: string,
-  plugin: ((context: LoadContext) => Plugin<unknown>) & {
-    default?: Plugin<unknown>;
-  } & Plugin<unknown>,
+  plugin: Partial<
+    ((context: LoadContext) => Plugin<unknown>) & {
+      default?: Plugin<unknown>;
+    } & Plugin<unknown>
+  >,
   danger: boolean,
 ): Array<string> {
   // support both commonjs and ES style exports
@@ -136,9 +138,9 @@ export default async function swizzle(
   if (!themeName) {
     console.log(formatedThemeNames(themeNames));
   } else {
-    let plugin;
+    let pluginModule;
     try {
-      plugin = importFresh(themeName) as (
+      pluginModule = importFresh(themeName) as (
         context: LoadContext,
       ) => Plugin<unknown>;
     } catch {
@@ -156,6 +158,7 @@ export default async function swizzle(
         }`,
       );
     }
+    const plugin = pluginModule.default ?? pluginModule;
     const pluginInstance = plugin(context);
     const themePath = typescript
       ? pluginInstance.getTypeScriptThemePath?.()
@@ -166,7 +169,11 @@ export default async function swizzle(
         let toPath = path.resolve(siteDir, THEME_PATH);
         fromPath = path.join(fromPath, componentName);
         toPath = path.join(toPath, componentName);
-        const components = getComponentName(themePath, plugin, Boolean(danger));
+        const components = getComponentName(
+          themePath,
+          pluginModule,
+          Boolean(danger),
+        );
 
         // Handle single TypeScript/JavaScript file only.
         // E.g: if <fromPath> does not exist, we try to swizzle <fromPath>.(ts|tsx|js) instead
@@ -188,7 +195,11 @@ export default async function swizzle(
               `Component ${componentName} not found.${
                 suggestion
                   ? ` Did you mean "${suggestion}"?`
-                  : `${themeComponents(themePath, plugin, Boolean(danger))}`
+                  : `${themeComponents(
+                      themePath,
+                      pluginModule,
+                      Boolean(danger),
+                    )}`
               }`,
             );
           }
@@ -222,7 +233,7 @@ export default async function swizzle(
         );
       }
     } else {
-      console.log(themeComponents(themePath, plugin, Boolean(danger)));
+      console.log(themeComponents(themePath, pluginModule, Boolean(danger)));
     }
   }
 }
