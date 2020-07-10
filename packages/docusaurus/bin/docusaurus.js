@@ -24,6 +24,11 @@ const notifier = updateNotifier({
   distTag: 'next', // compare with the version that is tagged 'next' on npm
 });
 
+// allow the user to be notified for updates on the first run
+if (notifier.lastUpdateCheck === Date.now()) {
+  notifier.lastUpdateCheck = 0;
+}
+
 if (notifier.update && notifier.update.current !== notifier.update.latest) {
   const boxenOptions = {
     padding: 1,
