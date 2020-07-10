@@ -175,26 +175,10 @@ module.exports = {
       },
       links: [
         {
+          type: 'docsVersionDropdown',
+          instancePath: 'docs',
           label: 'Docs',
-          to: 'docs', // "fake" link
           position: 'left',
-          activeBaseRegex: `docs/(?!next/(support|team|resources))`,
-          items: [
-            {
-              label: versions[0],
-              to: 'docs/',
-              activeBaseRegex: `docs/(?!${versions.join('|')}|next)`,
-            },
-            ...versions.slice(1).map((version) => ({
-              label: version,
-              to: `docs/${version}/`,
-            })),
-            {
-              label: 'Master/Unreleased',
-              to: 'docs/next/',
-              activeBaseRegex: `docs/next/(?!support|team|resources)`,
-            },
-          ],
         },
         {to: 'blog', label: 'Blog', position: 'left'},
         {to: 'showcase', label: 'Showcase', position: 'left'},
@@ -208,7 +192,6 @@ module.exports = {
           type: 'docsVersion',
           instancePath: 'docs',
           to: 'versions',
-          fallbackLabel: 'Versions',
           position: 'right',
         },
         {

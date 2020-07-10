@@ -8,6 +8,7 @@
 import groupBy from 'lodash.groupby';
 import pick from 'lodash.pick';
 import pickBy from 'lodash.pickby';
+import sortBy from 'lodash.sortby';
 import globby from 'globby';
 import fs from 'fs-extra';
 import path from 'path';
@@ -52,6 +53,8 @@ import {
   GlobalPluginInstanceData,
   GlobalPluginData,
   DocsVersion,
+  GlobalVersionMetadata,
+  GlobalVersionDocMetadata,
 } from './types';
 import {Configuration} from 'webpack';
 import {docsVersion} from './version';
@@ -319,9 +322,10 @@ Available document ids=
       const {addRoute, createData, setGlobalData} = actions;
 
       const pluginInstanceGlobalData: GlobalPluginInstanceData = {
-        latestVersion: versioning.latestVersion,
+        path: options.path,
+        latestVersionName: versioning.latestVersion,
         // Initialized empty, will be muted
-        versionsMetadata: [],
+        versions: [],
       };
 
       setGlobalData<GlobalPluginData>((globalData = {}) => ({
@@ -387,10 +391,10 @@ Available document ids=
       // This is the base route of the document root (for a doc given version)
       // (/docs, /docs/next, /docs/1.0 etc...)
       // The component applies the layout and renders the appropriate doc
-      const addBaseRoute = async (
+      const addVersionRoute = async (
         docsBasePath: string,
         docsBaseMetadata: DocsBaseMetadata,
-        docRoutes: RouteConfig[],
+        docs: Metadata[],
         priority?: number,
       ) => {
         const docsBaseMetadataPath = await createData(
@@ -398,17 +402,29 @@ Available document ids=
           JSON.stringify(docsBaseMetadata, null, 2),
         );
 
-        pluginInstanceGlobalData.versionsMetadata.push({
-          version: docsBaseMetadata.version,
-          docsBasePath,
-          docsPaths: docRoutes.map((docRoute) => docRoute.path),
+        const docsRoutes = await genRoutes(docs);
+
+        const mainDoc: Metadata =
+          docs.find((doc) => doc.unversionedId === options.homePageId) ??
+          docs[0];
+
+        const toGlobalDataDoc = (doc: Metadata): GlobalVersionDocMetadata => ({
+          id: doc.unversionedId,
+          path: doc.permalink,
+        });
+
+        pluginInstanceGlobalData.versions.push({
+          name: docsBaseMetadata.version,
+          path: docsBasePath,
+          mainDocId: mainDoc.id,
+          docs: docs.map(toGlobalDataDoc),
         });
 
         addRoute({
           path: docsBasePath,
           exact: false, // allow matching /docs/* as well
           component: docLayoutComponent, // main docs component (DocPage)
-          routes: docRoutes, // subroute for each doc
+          routes: docsRoutes, // subroute for each doc
           modules: {
             docsMetadata: aliasedSource(docsBaseMetadataPath),
           },
@@ -425,9 +441,7 @@ Available document ids=
 
         await Promise.all(
           Object.keys(docsMetadataByVersion).map(async (version) => {
-            const routes: RouteConfig[] = await genRoutes(
-              docsMetadataByVersion[version],
-            );
+            const docsMetadata = docsMetadataByVersion[version];
 
             const isLatestVersion = version === versioning.latestVersion;
             const docsBaseRoute = normalizeUrl([
@@ -437,27 +451,28 @@ Available document ids=
             ]);
             const docsBaseMetadata = createDocsBaseMetadata(version);
 
-            await addBaseRoute(
+            await addVersionRoute(
               docsBaseRoute,
               docsBaseMetadata,
-              routes,
+              docsMetadata,
               getVersionRoutePriority(version),
             );
           }),
         );
       } else {
-        const routes = await genRoutes(Object.values(content.docsMetadata));
+        const docsMetadata = Object.values(content.docsMetadata);
         const docsBaseMetadata = createDocsBaseMetadata(null);
         const docsBaseRoute = normalizeUrl([baseUrl, routeBasePath]);
-        await addBaseRoute(docsBaseRoute, docsBaseMetadata, routes);
+        await addVersionRoute(docsBaseRoute, docsBaseMetadata, docsMetadata);
       }
 
-      // The global versions metadata are sorted so that current route "/docs" is last
-      // See getVersionRoutePriority() comment for why
-      pluginInstanceGlobalData.versionsMetadata.sort(
-        (a, b) =>
-          (getVersionRoutePriority(b.version) ?? 0) -
-          (getVersionRoutePriority(a.version) ?? 0),
+      // ensure version ordering on the global data (latest first)
+      pluginInstanceGlobalData.versions = sortBy(
+        pluginInstanceGlobalData.versions,
+        (versionMetadata: GlobalVersionMetadata) => {
+          const orderedVersionNames = ['next', ...versions];
+          return orderedVersionNames.indexOf(versionMetadata.name!);
+        },
       );
     },
 

@@ -137,12 +137,19 @@ const DefaultNavbarItemSchema = Joi.object({
 
 const DocsVersionNavbarItemSchema = Joi.object({
   type: Joi.string().equal('docsVersion').required(),
-  to: Joi.string().required(),
-  fallbackLabel: Joi.string().required(),
-  instancePath: Joi.string().required(),
   position: NavbarItemPosition,
+  instancePath: Joi.string().required(),
+  to: Joi.string().required(),
 });
 
+const DocsVersionDropdownNavbarItemSchema = Joi.object({
+  type: Joi.string().equal('docsVersionDropdown').required(),
+  position: NavbarItemPosition,
+  instancePath: Joi.string().required(),
+  label: Joi.string().required(),
+});
+
+// Can this be made easier? :/
 const isOfType = (type) => {
   let typeSchema = Joi.string().required();
   // because equal(undefined) is not supported :/
@@ -155,11 +162,16 @@ const isOfType = (type) => {
     .unknown()
     .required();
 };
+
 const NavbarItemSchema = Joi.object().when({
   switch: [
     {
       is: isOfType('docsVersion'),
       then: DocsVersionNavbarItemSchema,
+    },
+    {
+      is: isOfType('docsVersionDropdown'),
+      then: DocsVersionDropdownNavbarItemSchema,
     },
     {
       is: isOfType(undefined),

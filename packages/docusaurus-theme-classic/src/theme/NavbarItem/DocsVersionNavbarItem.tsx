@@ -7,14 +7,11 @@
 
 import React from 'react';
 import DefaultNavbarItem from './DefaultNavbarItem';
-import {useDocsActiveVersionMetadata} from '@theme/hooks/useDocs';
+import {useActiveVersion, useLatestVersion} from '@theme/hooks/useDocs';
 
-export default function DocsVersionNavbarItem({
-  instancePath,
-  fallbackLabel,
-  ...props
-}) {
-  const activeVersionMetadata = useDocsActiveVersionMetadata(instancePath);
-  const label = activeVersionMetadata?.version ?? fallbackLabel;
+export default function DocsVersionNavbarItem({instancePath, ...props}) {
+  const activeVersion = useActiveVersion(instancePath);
+  const latestVersion = useLatestVersion(instancePath);
+  const label = activeVersion?.name ?? latestVersion.name;
   return <DefaultNavbarItem {...props} label={label} />;
 }

@@ -12,8 +12,7 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import DocPaginator from '@theme/DocPaginator';
 import useTOCHighlight from '@theme/hooks/useTOCHighlight';
-import Link from '@docusaurus/Link';
-import {useActiveDocAlternateVersions} from '@theme/hooks/useDocs';
+import DocVersionCallout from '@theme/DocVersionCallout';
 
 import clsx from 'clsx';
 import styles from './styles.module.css';
@@ -84,17 +83,6 @@ function DocItem(props): JSX.Element {
 
   const metaTitle = title ? `${title} | ${siteTitle}` : siteTitle;
   const metaImageUrl = useBaseUrl(metaImage, {absolute: true});
-
-  const {
-    latestAlternateDoc,
-    latestAlternateVersion,
-  } = useActiveDocAlternateVersions();
-
-  // If we are not on the latest version, we suggest user to use latest version
-  // We link to the same doc in latest version if possible, or latest version home
-  const latestAlternateDocOrVersion =
-    latestAlternateDoc ?? latestAlternateVersion;
-
   return (
     <>
       <Head>
@@ -122,33 +110,7 @@ function DocItem(props): JSX.Element {
             className={clsx('col', {
               [styles.docItemCol]: !hideTableOfContents,
             })}>
-            {latestAlternateDocOrVersion && (
-              <div
-                className="alert alert--warning margin-bottom--md"
-                role="alert">
-                {version === 'next' ? (
-                  <div>
-                    This is unreleased documentation for {siteTitle}{' '}
-                    <strong>{version}</strong> version.
-                  </div>
-                ) : (
-                  <div>
-                    This is archived documentation for {siteTitle}{' '}
-                    <strong>v{version}</strong>, which is no longer actively
-                    maintained.
-                  </div>
-                )}
-                <div className="margin-top--md">
-                  For up-to-date documentation, see the{' '}
-                  <strong>
-                    <Link to={latestAlternateDocOrVersion.path}>
-                      latest version ({latestAlternateDocOrVersion.version})
-                    </Link>
-                  </strong>
-                  .
-                </div>
-              </div>
-            )}
+            <DocVersionCallout metadata={metadata} />
             <div className={styles.docItemContainer}>
               <article>
                 {version && (

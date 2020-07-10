@@ -117,6 +117,7 @@ export interface LastUpdateData {
 }
 
 export interface MetadataRaw extends LastUpdateData {
+  unversionedId: string;
   id: string;
   isDocsHomePage: boolean;
   title: string;
@@ -187,13 +188,22 @@ export interface Env {
   // TODO: translation
 }
 
+export type GlobalVersionDocMetadata = {
+  id: string;
+  path: string;
+};
+
 export type GlobalVersionMetadata = {
-  version: DocsVersion;
-  docsBasePath: string;
-  docsPaths: string[];
+  name: DocsVersion;
+  path: string;
+  mainDocId: string; // home doc (if docs homepage configured), or first doc
+  docs: GlobalVersionDocMetadata[];
 };
+
 export type GlobalPluginInstanceData = {
-  latestVersion: DocsVersion;
-  versionsMetadata: GlobalVersionMetadata[];
+  path: string;
+  latestVersionName: DocsVersion;
+  versions: GlobalVersionMetadata[];
 };
+
 export type GlobalPluginData = Record<string, GlobalPluginInstanceData>;

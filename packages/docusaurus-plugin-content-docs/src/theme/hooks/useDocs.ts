@@ -5,16 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {useMemo} from 'react';
-
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import {matchPath, useLocation} from '@docusaurus/router';
+import {useLocation} from '@docusaurus/router';
 
-import {
-  DocsVersion,
-  GlobalPluginData,
-  GlobalVersionMetadata,
-} from '../../types';
+import {GlobalPluginData, GlobalVersionMetadata} from '../../types';
+import {createDocsGlobalDataUtils} from '../internal/docsGlobalDataUtils';
 
 const DefaultDocsPluginPath = 'docs';
 
@@ -36,127 +31,32 @@ const useDocsGlobalData = (docsPluginPath = DefaultDocsPluginPath) => {
   return docsPluginInstanceData;
 };
 
-// Note: return undefined on doc-unrelated pages!
-export const useDocsActiveVersionMetadata = (
+const useDocsGlobalDataUtils = (docsPluginPath = DefaultDocsPluginPath) => {
+  return createDocsGlobalDataUtils(useDocsGlobalData(docsPluginPath));
+};
+
+export const useVersions = (
   docsPluginPath = DefaultDocsPluginPath,
-): GlobalVersionMetadata | undefined => {
-  const {versionsMetadata} = useDocsGlobalData(docsPluginPath);
+): GlobalVersionMetadata[] => {
+  const {versions} = useDocsGlobalData(docsPluginPath);
+  return versions;
+};
+
+export const useLatestVersion = (docsPluginPath = DefaultDocsPluginPath) => {
+  const utils = useDocsGlobalDataUtils(docsPluginPath);
+  return utils.getLatestVersion();
+};
+
+// Note: return undefined on doc-unrelated pages,
+// because there's no version currently considered as active
+export const useActiveVersion = (docsPluginPath = DefaultDocsPluginPath) => {
+  const utils = useDocsGlobalDataUtils(docsPluginPath);
   const {pathname} = useLocation();
-  return useMemo(() => {
-    return versionsMetadata.find((versionMetadata) => {
-      return !!matchPath(pathname, {
-        path: versionMetadata.docsBasePath,
-        exact: false,
-        strict: false,
-      });
-    });
-  }, [docsPluginPath, versionsMetadata, pathname]);
+  return utils.getActiveVersion(pathname);
 };
 
-type AlternateVersion = {
-  version: DocsVersion;
-  isLatest: boolean;
-  path: string;
-};
-
-const findAlternateDocVersions = ({
-  latestVersion,
-  pathname,
-  activeVersionMetadata,
-  versionsMetadata,
-}: {
-  latestVersion: DocsVersion;
-  pathname: string;
-  activeVersionMetadata: GlobalVersionMetadata | undefined;
-  versionsMetadata: GlobalVersionMetadata[];
-}): {
-  alternateDocs: AlternateVersion[];
-  alternateVersions: AlternateVersion[];
-  latestAlternateDoc?: AlternateVersion;
-  latestAlternateVersion?: AlternateVersion;
-} => {
-  if (!activeVersionMetadata) {
-    return {
-      alternateDocs: [],
-      alternateVersions: [],
-    };
-  }
-
-  // We match the docs by their urls suffixes (let's call it "slug")
-  // Not taking the pluginPath/version into consideration
-  //
-  // IE these all match:
-  // - /docs/v1/docSlug
-  // - /docs/v2/docSlug
-  // - /docs/docSlug
-  // - /docs/next/docSlug
-  //
-  // For now we don't have a good way to match docs when their slugs change
-  const docSlug = pathname.replace(activeVersionMetadata.docsBasePath, '');
-  const isAlternateDocVersion = (
-    alternateVersionMetadata: GlobalVersionMetadata,
-    alternateDocPath: string,
-  ) =>
-    alternateDocPath.replace(alternateVersionMetadata.docsBasePath, '') ===
-    docSlug;
-
-  // Exclude current version from returned alternates
-  const alternateVersionsMetadata = versionsMetadata.filter(
-    (v) => v !== activeVersionMetadata,
-  );
-
-  const alternateDocs: AlternateVersion[] = alternateVersionsMetadata.flatMap(
-    (alternateVersionMetadata) => {
-      const alternateDocPath = alternateVersionMetadata.docsPaths.find((path) =>
-        isAlternateDocVersion(alternateVersionMetadata, path),
-      );
-      if (!alternateDocPath) {
-        return [];
-      }
-      return [
-        {
-          version: alternateVersionMetadata.version,
-          isLatest: alternateVersionMetadata.version === latestVersion,
-          path: alternateDocPath,
-        },
-      ];
-    },
-  );
-
-  // Useful to return the version alternates too
-  // if no doc match, the UI may want to link to a doc version's homepage
-  const alternateVersions = alternateVersionsMetadata.map(
-    (alternateVersionMetadata) => ({
-      version: alternateVersionMetadata.version,
-      isLatest: alternateVersionMetadata.version === latestVersion,
-      path: alternateVersionMetadata.docsBasePath,
-    }),
-  );
-
-  const latestAlternateDoc = alternateDocs.find((d) => d.isLatest);
-  const latestAlternateVersion = alternateVersions.find((d) => d.isLatest);
-
-  console.log('latestAlternateDoc', {alternateDocs, latestAlternateDoc});
-  return {
-    alternateDocs,
-    alternateVersions,
-    latestAlternateDoc,
-    latestAlternateVersion,
-  };
-};
-
-export const useActiveDocAlternateVersions = (
-  docsPluginPath = DefaultDocsPluginPath,
-) => {
+export const useActiveDocContext = (docsPluginPath = DefaultDocsPluginPath) => {
+  const utils = useDocsGlobalDataUtils(docsPluginPath);
   const {pathname} = useLocation();
-  const {latestVersion, versionsMetadata} = useDocsGlobalData(docsPluginPath);
-  const activeVersionMetadata = useDocsActiveVersionMetadata(docsPluginPath);
-  return useMemo(() => {
-    return findAlternateDocVersions({
-      latestVersion,
-      pathname,
-      versionsMetadata,
-      activeVersionMetadata,
-    });
-  }, [pathname, versionsMetadata, activeVersionMetadata]);
+  return utils.getActiveDocContext(pathname);
 };
