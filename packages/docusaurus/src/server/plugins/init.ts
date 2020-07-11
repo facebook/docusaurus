@@ -14,7 +14,9 @@ import {
   PluginConfig,
   ValidationSchema,
 } from '@docusaurus/types';
+import {PluginVersionInformation} from '@generated/site-metadata';
 import {CONFIG_FILE_NAME} from '../../constants';
+import {getPluginVersion} from '../versions';
 
 function validate<T>(schema: ValidationSchema<T>, options: Partial<T>) {
   const {error, value} = schema.validate(options, {
@@ -37,13 +39,17 @@ function validateAndStrip<T>(schema: ValidationSchema<T>, options: Partial<T>) {
   return value;
 }
 
+export type PluginWithVersionInformation = Plugin<unknown> & {
+  readonly version: PluginVersionInformation;
+};
+
 export default function initPlugins({
   pluginConfigs,
   context,
 }: {
   pluginConfigs: PluginConfig[];
   context: LoadContext;
-}): Plugin<unknown>[] {
+}): PluginWithVersionInformation[] {
   // We need to resolve plugins from the perspective of the siteDir, since the siteDir's package.json
   // declares the dependency on these plugins.
   // We need to fallback to createRequireFromPath since createRequire is only available in node v12.
@@ -51,7 +57,7 @@ export default function initPlugins({
   const createRequire = Module.createRequire || Module.createRequireFromPath;
   const pluginRequire = createRequire(join(context.siteDir, CONFIG_FILE_NAME));
 
-  const plugins: Plugin<unknown>[] = pluginConfigs
+  const plugins: PluginWithVersionInformation[] = pluginConfigs
     .map((pluginItem) => {
       let pluginModuleImport: string | undefined;
       let pluginOptions = {};
@@ -72,9 +78,9 @@ export default function initPlugins({
 
       // The pluginModuleImport value is any valid
       // module identifier - npm package or locally-resolved path.
-      const pluginModule: any = importFresh(
-        pluginRequire.resolve(pluginModuleImport),
-      );
+      const pluginPath = pluginRequire.resolve(pluginModuleImport);
+      const pluginModule: any = importFresh(pluginPath);
+      const pluginVersion = getPluginVersion(pluginPath, context.siteDir);
 
       const plugin = pluginModule.default || pluginModule;
 
@@ -106,7 +112,7 @@ export default function initPlugins({
           ...normalizedThemeConfig,
         };
       }
-      return plugin(context, pluginOptions);
+      return {...plugin(context, pluginOptions), version: pluginVersion};
     })
     .filter(Boolean);
   return plugins;
