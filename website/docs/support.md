@@ -28,4 +28,4 @@ For new feature requests, you can create a post on our [Canny board](/feedback),
 
 ## News
 
-For the latest news about Docusaurus, [follow **@docusaurus** on Twitter](https://twitter.com/docusaurus) and the [official Docusaurus blog](/blog) on this website.
+For the latest news about Docusaurus, [follow **@docusaurus** on Twitter](https://twitter.com/docusaurus) and the [official Docusaurus blog](/brokenlinkExample) on this website.

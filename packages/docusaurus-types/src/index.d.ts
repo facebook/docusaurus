@@ -16,6 +16,7 @@ export interface DocusaurusConfig {
   tagline?: string;
   title: string;
   url: string;
+  failOnBrokenLink: boolean;
   organizationName?: string;
   projectName?: string;
   githubHost?: string;

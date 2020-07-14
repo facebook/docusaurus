@@ -21,6 +21,42 @@ import createServerConfig from '../webpack/server';
 import {compile, applyConfigureWebpack} from '../webpack/utils';
 import CleanWebpackPlugin from '../webpack/plugins/CleanWebpackPlugin';
 
+// key=path of the page containing the broken link
+// value=paths that do not match any existing url
+type AllBrokenLinks = Record<string, string[]>;
+
+function handleBrokenLinks(
+  allBrokenLinks: AllBrokenLinks,
+  failOnBrokenLink: boolean,
+) {
+  if (Object.keys(allBrokenLinks).length === 0) {
+    return;
+  }
+
+  function pageBrokenLinkMessage(
+    pagePath: string,
+    brokenLinks: string[],
+  ): string {
+    return `\n\n- Page path = ${pagePath}:\n  -> link to ${brokenLinks.join(
+      '\n   -> link to ',
+    )}`;
+  }
+
+  const message =
+    `Broken links found!` +
+    `${Object.entries(allBrokenLinks).map(([pagePath, brokenLinks]) =>
+      pageBrokenLinkMessage(pagePath, brokenLinks),
+    )}
+`;
+
+  // Useful to ensure the CI fails in case of broken link
+  if (failOnBrokenLink) {
+    throw new Error(message);
+  } else {
+    console.error(chalk.red(message));
+  }
+}
+
 export default async function build(
   siteDir: string,
   cliOptions: Partial<BuildCLIOptions> = {},
@@ -33,7 +69,12 @@ export default async function build(
   const props: Props = await load(siteDir, cliOptions.outDir);
 
   // Apply user webpack config.
-  const {outDir, generatedFilesDir, plugins} = props;
+  const {
+    outDir,
+    generatedFilesDir,
+    plugins,
+    siteConfig: {failOnBrokenLink},
+  } = props;
 
   const clientManifestPath = path.join(
     generatedFilesDir,
@@ -55,7 +96,14 @@ export default async function build(
     },
   );
 
-  let serverConfig: Configuration = createServerConfig(props);
+  const allBrokenLinks: AllBrokenLinks = {};
+
+  let serverConfig: Configuration = createServerConfig({
+    props,
+    onStaticPageBrokenLinks: (staticPagePath, brokenLinks) => {
+      allBrokenLinks[staticPagePath] = brokenLinks;
+    },
+  });
 
   const staticDir = path.resolve(siteDir, STATIC_DIR_NAME);
   if (fs.existsSync(staticDir)) {
@@ -124,6 +172,8 @@ export default async function build(
     }),
   );
 
+  handleBrokenLinks(allBrokenLinks, failOnBrokenLink);
+
   const relativeDir = path.relative(process.cwd(), outDir);
   console.log(
     `\n${chalk.green('Success!')} Generated static files in ${chalk.cyan(
@@ -133,5 +183,6 @@ export default async function build(
   if (forceTerminate && !cliOptions.bundleAnalyzer) {
     process.exit(0);
   }
+
   return outDir;
 }

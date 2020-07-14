@@ -22,22 +22,47 @@ import packageJson from '../../package.json';
 import preload from './preload';
 // eslint-disable-next-line import/no-unresolved
 import App from './App';
+import {
+  createStatefulLinkCollector,
+  ProvideLinkCollector,
+  getBrokenLinks,
+} from './BrokenLinksChecker';
 import ssrTemplate from './templates/ssr.html.template';
 
 // Renderer for static-site-generator-webpack-plugin (async rendering via promises).
 export default async function render(locals) {
-  const {routesLocation, headTags, preBodyTags, postBodyTags} = locals;
+  const {
+    routesLocation,
+    headTags,
+    preBodyTags,
+    postBodyTags,
+    onStaticPageBrokenLinks,
+    baseUrl,
+  } = locals;
   const location = routesLocation[locals.path];
   await preload(routes, location);
   const modules = new Set();
   const context = {};
+
+  const linkCollector = createStatefulLinkCollector();
   const appHtml = ReactDOMServer.renderToString(
     <Loadable.Capture report={(moduleName) => modules.add(moduleName)}>
       <StaticRouter location={location} context={context}>
-        <App />
+        <ProvideLinkCollector linkCollector={linkCollector}>
+          <App />
+        </ProvideLinkCollector>
       </StaticRouter>
     </Loadable.Capture>,
   );
+
+  const brokenLinks = getBrokenLinks(
+    location,
+    linkCollector.getCollectedLinks(),
+    routes,
+  );
+  if (brokenLinks.length) {
+    onStaticPageBrokenLinks(location, brokenLinks);
+  }
 
   const helmet = Helmet.renderStatic();
   const htmlAttributes = helmet.htmlAttributes.toString();
@@ -59,7 +84,6 @@ export default async function render(locals) {
   const bundles = getBundles(manifest, modulesToBeLoaded);
   const stylesheets = (bundles.css || []).map((b) => b.file);
   const scripts = (bundles.js || []).map((b) => b.file);
-  const {baseUrl} = locals;
 
   const renderedHtml = eta.render(
     ssrTemplate.trim(),
