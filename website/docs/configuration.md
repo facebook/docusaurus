@@ -137,8 +137,7 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 const Hello = () => {
   // highlight-start
-  const context = useDocusaurusContext();
-  const {siteConfig = {}} = context;
+  const {siteConfig} = useDocusaurusContext();
   // highlight-end
   const {title, tagline} = siteConfig;
 

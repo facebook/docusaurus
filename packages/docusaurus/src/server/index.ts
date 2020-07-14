@@ -6,7 +6,6 @@
  */
 
 import {generate} from '@docusaurus/utils';
-import {DocusaurusSiteMetadata} from '@generated/site-metadata';
 import path, {join} from 'path';
 import {
   BUILD_DIR_NAME,
@@ -22,6 +21,7 @@ import loadRoutes from './routes';
 import loadThemeAlias from './themes';
 import {
   DocusaurusConfig,
+  DocusaurusSiteMetadata,
   LoadContext,
   PluginConfig,
   Props,

@@ -44,9 +44,28 @@ export interface DocusaurusConfig {
   )[];
 }
 
+/**
+ * - `type: 'package'`, plugin is in a different package.
+ * - `type: 'project'`, plugin is in the same docusaurus project.
+ * - `type: 'local'`, none of plugin's ancestor directory contains any package.json.
+ * - `type: 'synthetic'`, docusaurus generated internal plugin.
+ */
+export type DocusaurusPluginVersionInformation =
+  | {readonly type: 'package'; readonly version?: string}
+  | {readonly type: 'project'}
+  | {readonly type: 'local'}
+  | {readonly type: 'synthetic'};
+
+export interface DocusaurusSiteMetadata {
+  readonly docusaurusVersion: string;
+  readonly siteVersion?: string;
+  readonly pluginVersions: Record<string, DocusaurusPluginVersionInformation>;
+}
+
 export interface DocusaurusContext {
-  siteConfig?: DocusaurusConfig;
-  isClient?: boolean;
+  siteConfig: DocusaurusConfig;
+  siteMetadata: DocusaurusSiteMetadata;
+  isClient: boolean;
 }
 
 export interface Preset {
