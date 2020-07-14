@@ -23,10 +23,9 @@ import preload from './preload';
 // eslint-disable-next-line import/no-unresolved
 import App from './App';
 import {
-  createStatefulLinkCollector,
-  ProvideLinkCollector,
-  getBrokenLinks,
-} from './BrokenLinksChecker';
+  createStatefulLinksCollector,
+  ProvideLinksCollector,
+} from './LinksCollector';
 import ssrTemplate from './templates/ssr.html.template';
 
 // Renderer for static-site-generator-webpack-plugin (async rendering via promises).
@@ -36,7 +35,7 @@ export default async function render(locals) {
     headTags,
     preBodyTags,
     postBodyTags,
-    onStaticPageBrokenLinks,
+    onLinksCollected,
     baseUrl,
   } = locals;
   const location = routesLocation[locals.path];
@@ -44,25 +43,17 @@ export default async function render(locals) {
   const modules = new Set();
   const context = {};
 
-  const linkCollector = createStatefulLinkCollector();
+  const linksCollector = createStatefulLinksCollector();
   const appHtml = ReactDOMServer.renderToString(
     <Loadable.Capture report={(moduleName) => modules.add(moduleName)}>
       <StaticRouter location={location} context={context}>
-        <ProvideLinkCollector linkCollector={linkCollector}>
+        <ProvideLinksCollector linksCollector={linksCollector}>
           <App />
-        </ProvideLinkCollector>
+        </ProvideLinksCollector>
       </StaticRouter>
     </Loadable.Capture>,
   );
-
-  const brokenLinks = getBrokenLinks(
-    location,
-    linkCollector.getCollectedLinks(),
-    routes,
-  );
-  if (brokenLinks.length) {
-    onStaticPageBrokenLinks(location, brokenLinks);
-  }
+  onLinksCollected(location, linksCollector.getCollectedLinks());
 
   const helmet = Helmet.renderStatic();
   const htmlAttributes = helmet.htmlAttributes.toString();

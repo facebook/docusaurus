@@ -10,7 +10,7 @@ import Joi from '@hapi/joi';
 import {CONFIG_FILE_NAME} from '../constants';
 
 export const DEFAULT_CONFIG: {
-  failOnBrokenLink: boolean;
+  failOnBrokenLinks: boolean;
   plugins: PluginConfig[];
   themes: PluginConfig[];
   customFields: {
@@ -20,7 +20,7 @@ export const DEFAULT_CONFIG: {
     [key: string]: unknown;
   };
 } = {
-  failOnBrokenLink: false,
+  failOnBrokenLinks: false,
   plugins: [],
   themes: [],
   customFields: {},
@@ -35,7 +35,7 @@ const ConfigSchema = Joi.object({
   favicon: Joi.string().required(),
   title: Joi.string().required(),
   url: Joi.string().uri().required(),
-  failOnBrokenLink: Joi.bool().default(DEFAULT_CONFIG.failOnBrokenLink),
+  failOnBrokenLinks: Joi.bool().default(DEFAULT_CONFIG.failOnBrokenLinks),
   organizationName: Joi.string(),
   projectName: Joi.string(),
   customFields: Joi.object().unknown().default(DEFAULT_CONFIG.customFields),

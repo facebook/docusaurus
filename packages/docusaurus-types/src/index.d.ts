@@ -16,7 +16,7 @@ export interface DocusaurusConfig {
   tagline?: string;
   title: string;
   url: string;
-  failOnBrokenLink: boolean;
+  failOnBrokenLinks: boolean;
   organizationName?: string;
   projectName?: string;
   githubHost?: string;
@@ -92,6 +92,7 @@ export interface InjectedHtmlTags {
 export type HtmlTags = string | HtmlTagObject | (string | HtmlTagObject)[];
 
 export interface Props extends LoadContext, InjectedHtmlTags {
+  routes: RouteConfig[];
   routesPaths: string[];
   plugins: Plugin<any, unknown>[];
 }

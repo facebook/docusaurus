@@ -21,7 +21,7 @@ module.exports = {
   projectName: 'docusaurus',
   baseUrl: '/',
   url: 'https://v2.docusaurus.io',
-  failOnBrokenLink: true,
+  failOnBrokenLinks: true,
   favicon: 'img/docusaurus.ico',
   customFields: {
     description:

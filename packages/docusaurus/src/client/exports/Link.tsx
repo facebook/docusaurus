@@ -10,7 +10,7 @@ import React, {ReactNode, useEffect, useRef} from 'react';
 import {NavLink, Link as RRLink} from 'react-router-dom';
 import isInternalUrl from './isInternalUrl';
 import ExecutionEnvironment from './ExecutionEnvironment';
-import {useBrokenLinksChecker} from '../BrokenLinksChecker';
+import {useLinksCollector} from '../LinksCollector';
 
 declare global {
   interface Window {
@@ -26,7 +26,7 @@ interface Props {
 }
 
 function Link({isNavLink, ...props}: Props): JSX.Element {
-  const brokenLinksChecker = useBrokenLinksChecker();
+  const linksCollector = useLinksCollector();
   const {to, href} = props;
   const targetLink = to || href;
   const isInternal = isInternalUrl(targetLink);
@@ -89,7 +89,7 @@ function Link({isNavLink, ...props}: Props): JSX.Element {
   const isRegularHtmlLink = !targetLink || !isInternal || isAnchorLink;
 
   if (isInternal && !isAnchorLink) {
-    brokenLinksChecker.linkCollector.collectLink(targetLink);
+    linksCollector.collectLink(targetLink);
   }
 
   return isRegularHtmlLink ? (

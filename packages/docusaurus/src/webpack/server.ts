@@ -18,14 +18,11 @@ import LogPlugin from './plugins/LogPlugin';
 export default function createServerConfig({
   props,
   minify = true,
-  onStaticPageBrokenLinks = () => {},
+  onLinksCollected = () => {},
 }: {
   props: Props;
   minify?: boolean;
-  onStaticPageBrokenLinks?: (
-    staticPagePath: string,
-    brokenLinks: string[],
-  ) => void;
+  onLinksCollected?: (staticPagePath: string, links: string[]) => void;
 }): Configuration {
   const {
     baseUrl,
@@ -72,7 +69,7 @@ export default function createServerConfig({
           headTags,
           preBodyTags,
           postBodyTags,
-          onStaticPageBrokenLinks,
+          onLinksCollected,
         },
         paths: ssgPaths,
       }),

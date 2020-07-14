@@ -15,47 +15,13 @@ import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
 import merge from 'webpack-merge';
 import {STATIC_DIR_NAME} from '../constants';
 import {load} from '../server';
+import {handleBrokenLinks} from '../server/brokenLinks';
+
 import {BuildCLIOptions, Props} from '@docusaurus/types';
 import createClientConfig from '../webpack/client';
 import createServerConfig from '../webpack/server';
 import {compile, applyConfigureWebpack} from '../webpack/utils';
 import CleanWebpackPlugin from '../webpack/plugins/CleanWebpackPlugin';
-
-// key=path of the page containing the broken link
-// value=paths that do not match any existing url
-type AllBrokenLinks = Record<string, string[]>;
-
-function handleBrokenLinks(
-  allBrokenLinks: AllBrokenLinks,
-  failOnBrokenLink: boolean,
-) {
-  if (Object.keys(allBrokenLinks).length === 0) {
-    return;
-  }
-
-  function pageBrokenLinkMessage(
-    pagePath: string,
-    brokenLinks: string[],
-  ): string {
-    return `\n\n- Page path = ${pagePath}:\n  -> link to ${brokenLinks.join(
-      '\n   -> link to ',
-    )}`;
-  }
-
-  const message =
-    `Broken links found!` +
-    `${Object.entries(allBrokenLinks).map(([pagePath, brokenLinks]) =>
-      pageBrokenLinkMessage(pagePath, brokenLinks),
-    )}
-`;
-
-  // Useful to ensure the CI fails in case of broken link
-  if (failOnBrokenLink) {
-    throw new Error(message);
-  } else {
-    console.error(chalk.red(message));
-  }
-}
 
 export default async function build(
   siteDir: string,
@@ -73,7 +39,8 @@ export default async function build(
     outDir,
     generatedFilesDir,
     plugins,
-    siteConfig: {failOnBrokenLink},
+    siteConfig: {failOnBrokenLinks},
+    routes,
   } = props;
 
   const clientManifestPath = path.join(
@@ -96,12 +63,12 @@ export default async function build(
     },
   );
 
-  const allBrokenLinks: AllBrokenLinks = {};
+  const allCollectedLinks: Record<string, string[]> = {};
 
   let serverConfig: Configuration = createServerConfig({
     props,
-    onStaticPageBrokenLinks: (staticPagePath, brokenLinks) => {
-      allBrokenLinks[staticPagePath] = brokenLinks;
+    onLinksCollected: (staticPagePath, links) => {
+      allCollectedLinks[staticPagePath] = links;
     },
   });
 
@@ -172,7 +139,7 @@ export default async function build(
     }),
   );
 
-  handleBrokenLinks(allBrokenLinks, failOnBrokenLink);
+  handleBrokenLinks({allCollectedLinks, routes, failOnBrokenLinks});
 
   const relativeDir = path.relative(process.cwd(), outDir);
   console.log(

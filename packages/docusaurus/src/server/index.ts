@@ -215,6 +215,7 @@ ${Object.keys(registry)
     outDir,
     baseUrl,
     generatedFilesDir,
+    routes: pluginsRouteConfigs,
     routesPaths,
     plugins,
     headTags,
