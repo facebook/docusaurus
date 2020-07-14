@@ -44,6 +44,7 @@
     "@babel/preset-react": "^7.9.4",
     "@babel/preset-typescript": "^7.9.0",
     "@babel/runtime": "^7.9.2",
+    "@babel/runtime-corejs3": "^7.10.4",
     "@docusaurus/types": "^2.0.0-alpha.58",
     "@docusaurus/utils": "^2.0.0-alpha.58",
     "@endiliey/static-site-generator-webpack-plugin": "^4.0.0",
