@@ -20,6 +20,7 @@ Object {
   "baseUrl": "/",
   "customFields": Object {},
   "favicon": "img/docusaurus.ico",
+  "onBrokenLinks": "throw",
   "organizationName": "endiliey",
   "plugins": Array [
     Array [
