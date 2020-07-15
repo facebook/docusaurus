@@ -7,6 +7,7 @@
 
 import * as fs from 'fs-extra';
 import importFresh from 'import-fresh';
+import chalk from 'chalk';
 
 import {
   VersionOneConfig,
@@ -18,8 +19,8 @@ import extractMetadata from './frontMatter';
 import sanitizeMD from './sanitizeMD';
 import path from 'path';
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const DOCUSAURUS_VERSION = require('../package.json').version;
+const DOCUSAURUS_VERSION = (importFresh('../package.json') as {version: string})
+  .version;
 
 export function walk(dir: string): Array<string> {
   let results: Array<string> = [];
@@ -73,18 +74,79 @@ export async function migrateDocusaurusProject(
     react: '^16.10.2',
     'react-dom': '^16.10.2',
   };
-  createClientRedirects(siteConfig, deps, config);
-  createLandingPage(newDir, siteDir);
-  migrateStaticFiles(siteDir, newDir);
-  migrateBlogFiles(siteDir, newDir, classicPreset, migrateMdFiles);
-  handleVersioning(siteDir, newDir, config, migrateMdFiles);
-  migrateLatestDocs(siteDir, newDir, migrateMdFiles);
-  migrateLatestSidebar(siteDir, newDir, classicPreset, siteConfig);
-  fs.writeFileSync(
-    path.join(newDir, 'docusaurus.config.js'),
-    `module.exports=${JSON.stringify(config, null, 2)}`,
-  );
-  migratePackageFile(siteDir, deps, newDir);
+  try {
+    createClientRedirects(siteConfig, deps, config);
+    console.log(chalk.green('Creating Redirect for non clean URL'));
+  } catch (errorInClientRedirect) {
+    console.log(
+      chalk.red(`Error while creating redirects: ${errorInClientRedirect}`),
+    );
+  }
+  try {
+    createLandingPage(newDir, siteDir);
+    console.log(
+      chalk.green(
+        'Creating a sudo landing page please check migration page for more details',
+      ),
+    );
+  } catch (errorInLandingPage) {
+    console.log(
+      chalk.red(`Error while creating landing Page: ${errorInLandingPage}`),
+    );
+  }
+  try {
+    migrateStaticFiles(siteDir, newDir);
+    console.log(chalk.green('Migrated static folder'));
+  } catch (errorInStatic) {
+    console.log(
+      chalk.red(`Error while copying static folder: ${errorInStatic} `),
+    );
+  }
+  try {
+    migrateBlogFiles(siteDir, newDir, classicPreset, migrateMdFiles);
+  } catch (errorInMigratingBlogs) {
+    console.log(
+      chalk.red(`Error while migrating blogs: ${errorInMigratingBlogs}`),
+    );
+  }
+  try {
+    handleVersioning(siteDir, newDir, config, migrateMdFiles);
+  } catch (errorInVersion) {
+    console.log(
+      chalk.red(`Error in migrating versioned docs: ${errorInVersion}`),
+    );
+  }
+
+  try {
+    migrateLatestDocs(siteDir, newDir, migrateMdFiles);
+  } catch (errorInDoc) {
+    chalk.red(`Error in migrating docs: ${errorInDoc}`);
+  }
+
+  try {
+    migrateLatestSidebar(siteDir, newDir, classicPreset, siteConfig);
+  } catch (error) {
+    console.log(chalk.red(`Error migrating sidebar: ${error}`));
+  }
+
+  try {
+    fs.writeFileSync(
+      path.join(newDir, 'docusaurus.config.js'),
+      `module.exports=${JSON.stringify(config, null, 2)}`,
+    );
+    console.log(
+      chalk.green(`Created new Config file with new navbar and footer config`),
+    );
+  } catch (error) {
+    console.log(chalk.red(`Error creating config file: ${error}`));
+  }
+  try {
+    migratePackageFile(siteDir, deps, newDir);
+  } catch (error) {
+    console.log(
+      chalk.red(`Error file creating pacjage.json file for project: ${error}`),
+    );
+  }
 }
 
 export function createConfigFile(
@@ -207,12 +269,10 @@ function createLandingPage(newDir: string, siteDir: string): void {
 }
 
 function migrateStaticFiles(siteDir: string, newDir: string): void {
-  try {
-    fs.statSync(`${siteDir}/static`);
-    fs.copySync(`${siteDir}/static`, `${newDir}/static`);
-  } catch {
-    console.log('Ignoring static assets');
-    fs.mkdirSync(`${newDir}/static`);
+  if (fs.existsSync(path.join(siteDir, 'static'))) {
+    fs.copySync(path.join(siteDir, 'static'), path.join(newDir, 'static'));
+  } else {
+    fs.mkdirSync(path.join(newDir, 'static'));
   }
 }
 
@@ -222,17 +282,19 @@ function migrateBlogFiles(
   classicPreset: ClassicPresetEntries,
   migrateMDFiles: boolean,
 ): void {
-  try {
-    fs.statSync(`${siteDir}/blog`);
-    fs.copySync(`${siteDir}/blog`, `${newDir}/blog`);
-    const files = walk(`${newDir}/blog`);
+  if (fs.existsSync(path.join(siteDir, 'blog'))) {
+    fs.copySync(path.join(siteDir, 'blog'), path.join(newDir, 'blog'));
+    const files = walk(path.join(newDir, 'blog'));
     files.forEach((file) => {
       const content = String(fs.readFileSync(file));
       fs.writeFileSync(file, sanitizedFileContent(content, migrateMDFiles));
     });
     classicPreset.blog.path = 'blog';
-  } catch {
-    console.log('No Blog found');
+    console.log(
+      chalk.green(`Migrated blogs to version 2 with change in frontmatter`),
+    );
+  } else {
+    console.log(chalk.yellow(`Blog not found. Ignoring blogs.`));
   }
 }
 
@@ -260,6 +322,17 @@ function handleVersioning(
       newDir,
       versionRegex,
       migrateMDFiles,
+    );
+    console.log(
+      chalk.green(
+        `Migrated version docs and sidebar. Following versions are creating: \n${loadedVersions.join(
+          '\n',
+        )}`,
+      ),
+    );
+  } else {
+    console.log(
+      chalk.yellow('Versioned docs not found. Ignoring versioned docs'),
     );
   }
 }
@@ -450,7 +523,7 @@ function migrateLatestSidebar(
     );
     classicPreset.docs.sidebarPath = path.join(newDir, 'sidebars.json');
   } catch {
-    console.log('Ignoring sidebar');
+    console.log(chalk.yellow(`Sidebar not found. Ignoring sidebar`));
   }
   if (siteConfig.colors) {
     const css = `
@@ -474,15 +547,17 @@ function migrateLatestDocs(
   newDir: string,
   migrateMDFiles: boolean,
 ): void {
-  try {
+  if (fs.existsSync(path.join(siteDir, '..', 'docs'))) {
     fs.copySync(path.join(siteDir, '..', 'docs'), path.join(newDir, 'docs'));
     const files = walk(path.join(newDir, 'docs'));
     files.forEach((file) => {
       const content = String(fs.readFileSync(file));
       fs.writeFileSync(file, sanitizedFileContent(content, migrateMDFiles));
     });
-  } catch {
-    fs.mkdir(path.join(newDir, 'docs'));
+    console.log(chalk.green(`Migrated docs to version 2`));
+  } else {
+    fs.mkdirSync(path.join(newDir, 'docs'));
+    console.log(chalk.yellow(`Docs folder Not found`));
   }
 }
 
@@ -516,6 +591,7 @@ function migratePackageFile(
     path.join(newDir, 'package.json'),
     JSON.stringify(packageFile, null, 2),
   );
+  console.log(chalk.green(`Migrated package.json file.`));
 }
 
 export async function migrateMDToMDX(
