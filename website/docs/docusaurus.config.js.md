@@ -79,6 +79,14 @@ module.exports = {
 
 ## Optional fields
 
+### `onBrokenLinks`
+
+- Type: `'ignore' | 'log' | 'error' | 'throw'`
+
+The behavior of Docusaurus when it detects a broken link.
+
+By default, it throws, to ensure you never ship any broken link, but you can lower this security if needed.
+
 ### `tagline`
 
 - Type: `string`

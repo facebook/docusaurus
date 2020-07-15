@@ -10,13 +10,15 @@ import {Command} from 'commander';
 import {ParsedUrlQueryInput} from 'querystring';
 import {MergeStrategy} from 'webpack-merge';
 
+export type OnBrokenLinks = 'ignore' | 'log' | 'error' | 'throw';
+
 export interface DocusaurusConfig {
   baseUrl: string;
   favicon: string;
   tagline?: string;
   title: string;
   url: string;
-  failOnBrokenLinks: boolean;
+  onBrokenLinks: OnBrokenLinks;
   organizationName?: string;
   projectName?: string;
   githubHost?: string;
