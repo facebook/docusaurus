@@ -83,9 +83,15 @@ module.exports = {
 
 - Type: `'ignore' | 'log' | 'error' | 'throw'`
 
-The behavior of Docusaurus when it detects a broken link.
+The behavior of Docusaurus, when it detects any broken link.
 
-By default, it throws, to ensure you never ship any broken link, but you can lower this security if needed.
+By default, it throws an error, to ensure you never ship any broken link, but you can lower this security if needed.
+
+:::note
+
+The broken links detection is only available for a production build (`docusaurus build`).
+
+:::
 
 ### `tagline`
 
