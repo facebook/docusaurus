@@ -16,14 +16,10 @@ import {
 const versionLabel = (version) =>
   version.name === 'next' ? 'Next/Master' : version.name;
 
-const dropdownLabel = (label, version) => `${label}: ${versionLabel(version)}`;
-
 const getVersionMainDoc = (version) =>
   version.docs.find((doc) => doc.id === version.mainDocId);
 
 export default function DocsVersionDropdownNavbarItem({
-  label,
-  position,
   docsPluginId,
   ...props
 }) {
@@ -50,9 +46,8 @@ export default function DocsVersionDropdownNavbarItem({
   return (
     <DefaultNavbarItem
       {...props}
-      position={position}
-      label={dropdownLabel(label, dropdownVersion)}
-      to={dropdownVersion.path}
+      label={versionLabel(dropdownVersion)}
+      to={getVersionMainDoc(dropdownVersion).path}
       items={items}
     />
   );

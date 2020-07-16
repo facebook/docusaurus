@@ -176,8 +176,6 @@ module.exports = {
       items: [
         {
           type: 'docsVersionDropdown',
-          // docsPluginId: 'docs',
-          label: 'Docs',
           position: 'left',
         },
         {to: 'blog', label: 'Blog', position: 'left'},
@@ -190,7 +188,6 @@ module.exports = {
         },
         {
           type: 'docsVersion',
-          // docsPluginId: 'docs',
           to: 'versions',
           position: 'right',
         },
