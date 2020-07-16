@@ -37,11 +37,8 @@ const createFakeActions = (
       }
       return path.join(contentDir, name);
     },
-    setGlobalData: async (updateDataFn) => {
-      globalDataContainer['plugin-global-data-namespace'] = {
-        ...globalDataContainer,
-        ...updateDataFn(globalDataContainer),
-      };
+    setGlobalData: (data) => {
+      globalDataContainer.pluginName = {pluginId: data};
     },
   };
 };
@@ -173,6 +170,7 @@ describe('simple website', () => {
     expect(versionToSidebars).toEqual({});
     expect(docsMetadata.hello).toEqual({
       id: 'hello',
+      unversionedId: 'hello',
       isDocsHomePage: true,
       permalink: '/docs/',
       previous: {
@@ -187,6 +185,7 @@ describe('simple website', () => {
 
     expect(docsMetadata['foo/bar']).toEqual({
       id: 'foo/bar',
+      unversionedId: 'foo/bar',
       isDocsHomePage: false,
       next: {
         title: 'baz',
@@ -321,6 +320,7 @@ describe('versioned website', () => {
     expect(docsMetadata['version-1.0.1/foo/baz']).toBeUndefined();
     expect(docsMetadata['foo/bar']).toEqual({
       id: 'foo/bar',
+      unversionedId: 'foo/bar',
       isDocsHomePage: false,
       permalink: '/docs/next/foo/barSlug',
       source: path.join('@site', routeBasePath, 'foo', 'bar.md'),
@@ -335,6 +335,7 @@ describe('versioned website', () => {
     });
     expect(docsMetadata.hello).toEqual({
       id: 'hello',
+      unversionedId: 'hello',
       isDocsHomePage: true,
       permalink: '/docs/next/',
       source: path.join('@site', routeBasePath, 'hello.md'),
@@ -349,6 +350,7 @@ describe('versioned website', () => {
     });
     expect(docsMetadata['version-1.0.1/hello']).toEqual({
       id: 'version-1.0.1/hello',
+      unversionedId: 'hello',
       isDocsHomePage: true,
       permalink: '/docs/',
       source: path.join(
@@ -368,6 +370,7 @@ describe('versioned website', () => {
     });
     expect(docsMetadata['version-1.0.0/foo/baz']).toEqual({
       id: 'version-1.0.0/foo/baz',
+      unversionedId: 'foo/baz',
       isDocsHomePage: false,
       permalink: '/docs/1.0.0/foo/baz',
       source: path.join(

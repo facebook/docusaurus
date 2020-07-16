@@ -18,6 +18,7 @@ const useDocsDataUtils = (docsPluginId: string | undefined) => {
   return createDocsDataUtils(useDocsData(docsPluginId));
 };
 
+// versions are ordered (most recent first)
 export const useVersions = (
   docsPluginId: string | undefined,
 ): GlobalVersionMetadata[] => {

@@ -413,7 +413,10 @@ Available document ids=
           name: docsBaseMetadata.version,
           path: docsBasePath,
           mainDocId: mainDoc.unversionedId,
-          docs: docs.map(toGlobalDataDoc),
+          docs: docs
+            .map(toGlobalDataDoc)
+            // stable ordering, useful for tests
+            .sort((a, b) => a.id.localeCompare(b.id)),
         });
 
         addRoute({
