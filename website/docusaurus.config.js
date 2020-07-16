@@ -173,7 +173,7 @@ module.exports = {
         src: 'img/docusaurus.svg',
         srcDark: 'img/docusaurus_keytar.svg',
       },
-      links: [
+      items: [
         {
           type: 'docsVersionDropdown',
           // docsPluginId: 'docs',
