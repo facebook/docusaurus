@@ -25,6 +25,7 @@ export default function DocsVersionDropdownNavbarItem({
   label,
   position,
   docsPluginId,
+  ...props
 }) {
   const activeDocContext = useActiveDocContext(docsPluginId);
   const versions = useVersions(docsPluginId);
@@ -48,6 +49,7 @@ export default function DocsVersionDropdownNavbarItem({
 
   return (
     <DefaultNavbarItem
+      {...props}
       position={position}
       label={dropdownLabel(label, dropdownVersion)}
       to={dropdownVersion.path}

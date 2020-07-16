@@ -43,7 +43,7 @@ function Navbar(): JSX.Element {
   const {
     siteConfig: {
       themeConfig: {
-        navbar: {title = '', links: items = [], hideOnScroll = false} = {},
+        navbar: {title = '', items = [], hideOnScroll = false} = {},
         colorMode: {disableSwitch: disableColorModeSwitch = false} = {},
       },
     },
