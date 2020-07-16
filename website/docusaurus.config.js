@@ -176,7 +176,7 @@ module.exports = {
       links: [
         {
           type: 'docsVersionDropdown',
-          instancePath: 'docs',
+          // docsPluginId: 'docs',
           label: 'Docs',
           position: 'left',
         },
@@ -190,7 +190,7 @@ module.exports = {
         },
         {
           type: 'docsVersion',
-          instancePath: 'docs',
+          // docsPluginId: 'docs',
           to: 'versions',
           position: 'right',
         },

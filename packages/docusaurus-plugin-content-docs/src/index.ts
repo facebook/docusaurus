@@ -50,7 +50,6 @@ import {
   VersionToSidebars,
   SidebarItem,
   DocsSidebarItem,
-  GlobalPluginInstanceData,
   GlobalPluginData,
   DocsVersion,
   GlobalVersionMetadata,
@@ -321,17 +320,14 @@ Available document ids=
       const {docLayoutComponent, docItemComponent, routeBasePath} = options;
       const {addRoute, createData, setGlobalData} = actions;
 
-      const pluginInstanceGlobalData: GlobalPluginInstanceData = {
+      const pluginInstanceGlobalData: GlobalPluginData = {
         path: options.path,
         latestVersionName: versioning.latestVersion,
-        // Initialized empty, will be muted
+        // Initialized empty, will be mutated
         versions: [],
       };
 
-      setGlobalData<GlobalPluginData>((globalData = {}) => ({
-        ...globalData,
-        [options.path]: pluginInstanceGlobalData,
-      }));
+      setGlobalData<GlobalPluginData>(pluginInstanceGlobalData);
 
       const aliasedSource = (source: string) =>
         `~docs/${path.relative(dataDir, source)}`;

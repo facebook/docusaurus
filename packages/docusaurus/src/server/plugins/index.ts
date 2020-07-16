@@ -16,6 +16,8 @@ import {
 } from '@docusaurus/types';
 import initPlugins, {PluginWithVersionInformation} from './init';
 
+const DefaultPluginId = 'default';
+
 export function sortConfig(routeConfigs: RouteConfig[]): void {
   // Sort the route config. This ensures that route with nested
   // routes is always placed last.
@@ -92,24 +94,34 @@ export async function loadPlugins({
         plugin.name,
       );
 
+      const addRoute: PluginContentLoadedActions['addRoute'] = (config) =>
+        pluginsRouteConfigs.push(config);
+
+      const createData: PluginContentLoadedActions['createData'] = async (
+        name,
+        content,
+      ) => {
+        const modulePath = path.join(pluginContentDir, name);
+        await fs.ensureDir(path.dirname(modulePath));
+        await generate(pluginContentDir, name, content);
+        return modulePath;
+      };
+
+      // the plugins global data are namespaced to avoid data conflicts:
+      // - by plugin name
+      // - by plugin id (allow using multiple instances of the same plugin)
+      const setGlobalData: PluginContentLoadedActions['setGlobalData'] = (
+        data,
+      ) => {
+        const pluginId = plugin.id ?? DefaultPluginId;
+        globalData[plugin.name] = globalData[plugin.name] ?? {};
+        globalData[plugin.name][pluginId] = data;
+      };
+
       const actions: PluginContentLoadedActions = {
-        addRoute: (config) => pluginsRouteConfigs.push(config),
-        createData: async (name, content) => {
-          const modulePath = path.join(pluginContentDir, name);
-          await fs.ensureDir(path.dirname(modulePath));
-          await generate(pluginContentDir, name, content);
-          return modulePath;
-        },
-        setGlobalData: (dataOrFn) => {
-          if (dataOrFn instanceof Function) {
-            globalData[plugin.name] = dataOrFn(globalData[plugin.name]);
-          } else {
-            globalData[plugin.name] = {
-              ...globalData[plugin.name],
-              ...dataOrFn,
-            };
-          }
-        },
+        addRoute,
+        createData,
+        setGlobalData,
       };
 
       await plugin.contentLoaded({

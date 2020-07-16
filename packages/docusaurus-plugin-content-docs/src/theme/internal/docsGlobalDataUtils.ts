@@ -8,17 +8,16 @@
 import {matchPath} from '@docusaurus/router';
 
 import {
-  GlobalPluginInstanceData,
+  GlobalPluginData,
   GlobalVersionMetadata,
   GlobalVersionDocMetadata,
 } from '../../types';
 
 // Short/convenient type aliases
-type Instance = GlobalPluginInstanceData;
 type Version = GlobalVersionMetadata;
 type Doc = GlobalVersionDocMetadata;
 
-export const createDocsGlobalDataUtils = (instance: Instance) => {
+export const createDocsDataUtils = (instance: GlobalPluginData) => {
   const {versions, latestVersionName} = instance;
 
   const getLatestVersion = (): Version => {

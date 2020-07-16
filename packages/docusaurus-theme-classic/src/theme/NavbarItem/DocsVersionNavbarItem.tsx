@@ -9,9 +9,9 @@ import React from 'react';
 import DefaultNavbarItem from './DefaultNavbarItem';
 import {useActiveVersion, useLatestVersion} from '@theme/hooks/useDocs';
 
-export default function DocsVersionNavbarItem({instancePath, ...props}) {
-  const activeVersion = useActiveVersion(instancePath);
-  const latestVersion = useLatestVersion(instancePath);
+export default function DocsVersionNavbarItem({docsPluginId, ...props}) {
+  const activeVersion = useActiveVersion(docsPluginId);
+  const latestVersion = useLatestVersion(docsPluginId);
   const label = activeVersion?.name ?? latestVersion.name;
   return <DefaultNavbarItem {...props} label={label} />;
 }

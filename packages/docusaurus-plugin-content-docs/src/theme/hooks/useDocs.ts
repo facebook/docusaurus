@@ -5,58 +5,41 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import usePluginGlobalData from '@docusaurus/usePluginGlobalData';
 import {useLocation} from '@docusaurus/router';
 
-import {GlobalPluginData, GlobalVersionMetadata} from '../../types';
-import {createDocsGlobalDataUtils} from '../internal/docsGlobalDataUtils';
+import {GlobalVersionMetadata} from '../../types';
+import {createDocsDataUtils} from '../internal/docsGlobalDataUtils';
 
-const DefaultDocsPluginPath = 'docs';
-
-// Do not expose, global data shape is internal, not api surface
-const useDocsGlobalData = (docsPluginPath = DefaultDocsPluginPath) => {
-  const {globalData} = useDocusaurusContext();
-  const docsData = globalData[
-    'docusaurus-plugin-content-docs'
-  ] as GlobalPluginData;
-  if (!docsData) {
-    throw new Error('no docs plugin global data could be found');
-  }
-  const docsPluginInstanceData = docsData[docsPluginPath];
-  if (!docsPluginInstanceData) {
-    throw new Error(
-      `no docs global data could be found for instance with path=[${docsPluginPath}]`,
-    );
-  }
-  return docsPluginInstanceData;
-};
-
-const useDocsGlobalDataUtils = (docsPluginPath = DefaultDocsPluginPath) => {
-  return createDocsGlobalDataUtils(useDocsGlobalData(docsPluginPath));
+// Not exposed, not part of api surface
+const useDocsData = (docsPluginId: string | undefined) =>
+  usePluginGlobalData('docusaurus-plugin-content-docs', docsPluginId);
+const useDocsDataUtils = (docsPluginId: string | undefined) => {
+  return createDocsDataUtils(useDocsData(docsPluginId));
 };
 
 export const useVersions = (
-  docsPluginPath = DefaultDocsPluginPath,
+  docsPluginId: string | undefined,
 ): GlobalVersionMetadata[] => {
-  const {versions} = useDocsGlobalData(docsPluginPath);
+  const {versions} = useDocsData(docsPluginId);
   return versions;
 };
 
-export const useLatestVersion = (docsPluginPath = DefaultDocsPluginPath) => {
-  const utils = useDocsGlobalDataUtils(docsPluginPath);
+export const useLatestVersion = (docsPluginId: string | undefined) => {
+  const utils = useDocsDataUtils(docsPluginId);
   return utils.getLatestVersion();
 };
 
 // Note: return undefined on doc-unrelated pages,
 // because there's no version currently considered as active
-export const useActiveVersion = (docsPluginPath = DefaultDocsPluginPath) => {
-  const utils = useDocsGlobalDataUtils(docsPluginPath);
+export const useActiveVersion = (docsPluginId: string | undefined) => {
+  const utils = useDocsDataUtils(docsPluginId);
   const {pathname} = useLocation();
   return utils.getActiveVersion(pathname);
 };
 
-export const useActiveDocContext = (docsPluginPath = DefaultDocsPluginPath) => {
-  const utils = useDocsGlobalDataUtils(docsPluginPath);
+export const useActiveDocContext = (docsPluginId: string | undefined) => {
+  const utils = useDocsDataUtils(docsPluginId);
   const {pathname} = useLocation();
   return utils.getActiveDocContext(pathname);
 };

@@ -118,12 +118,11 @@ export interface Props extends LoadContext, InjectedHtmlTags {
 export interface PluginContentLoadedActions {
   addRoute(config: RouteConfig): void;
   createData(name: string, data: any): Promise<string>;
-  setGlobalData<T = unknown>(
-    dataOrFn: ((updateFn: T | undefined) => T) | T,
-  ): void;
+  setGlobalData<T = unknown>(data: T): void;
 }
 
 export interface Plugin<T, U = unknown> {
+  id?: string;
   name: string;
   loadContent?(): Promise<T>;
   validateOptions?(): ValidationResult<U>;

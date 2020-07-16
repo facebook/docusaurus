@@ -200,10 +200,8 @@ export type GlobalVersionMetadata = {
   docs: GlobalVersionDocMetadata[];
 };
 
-export type GlobalPluginInstanceData = {
+export type GlobalPluginData = {
   path: string;
   latestVersionName: DocsVersion;
   versions: GlobalVersionMetadata[];
 };
-
-export type GlobalPluginData = Record<string, GlobalPluginInstanceData>;

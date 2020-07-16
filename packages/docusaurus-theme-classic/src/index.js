@@ -138,14 +138,14 @@ const DefaultNavbarItemSchema = Joi.object({
 const DocsVersionNavbarItemSchema = Joi.object({
   type: Joi.string().equal('docsVersion').required(),
   position: NavbarItemPosition,
-  instancePath: Joi.string().required(),
+  docsPluginId: Joi.string(),
   to: Joi.string().required(),
 });
 
 const DocsVersionDropdownNavbarItemSchema = Joi.object({
   type: Joi.string().equal('docsVersionDropdown').required(),
   position: NavbarItemPosition,
-  instancePath: Joi.string().required(),
+  docsPluginId: Joi.string(),
   label: Joi.string().required(),
 });
 
