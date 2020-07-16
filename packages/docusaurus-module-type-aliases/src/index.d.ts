@@ -15,6 +15,11 @@ declare module '@generated/docusaurus.config' {
   export default config;
 }
 
+declare module '@generated/site-metadata' {
+  const siteMetadata: any;
+  export default siteMetadata;
+}
+
 declare module '@generated/registry' {
   const registry: {
     readonly [key: string]: [() => Promise<any>, string, string];

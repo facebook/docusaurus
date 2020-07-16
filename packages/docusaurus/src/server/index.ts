@@ -6,7 +6,7 @@
  */
 
 import {generate} from '@docusaurus/utils';
-import path from 'path';
+import path, {join} from 'path';
 import {
   BUILD_DIR_NAME,
   CONFIG_FILE_NAME,
@@ -21,11 +21,13 @@ import loadRoutes from './routes';
 import loadThemeAlias from './themes';
 import {
   DocusaurusConfig,
+  DocusaurusSiteMetadata,
   LoadContext,
   PluginConfig,
   Props,
 } from '@docusaurus/types';
 import {loadHtmlTags} from './html-tags';
+import {getPackageJsonVersion} from './versions';
 
 export function loadContext(
   siteDir: string,
@@ -96,6 +98,7 @@ export async function load(
   const {stylesheets = [], scripts = []} = siteConfig;
   plugins.push({
     name: 'docusaurus-bootstrap-plugin',
+    version: {type: 'synthetic'},
     configureWebpack: () => ({
       resolve: {
         alias,
@@ -184,6 +187,25 @@ ${Object.keys(registry)
     JSON.stringify(globalData, null, 2),
   );
 
+  // Version metadata.
+  const siteMetadata: DocusaurusSiteMetadata = {
+    docusaurusVersion: getPackageJsonVersion(
+      join(__dirname, '../../package.json'),
+    )!,
+    siteVersion: getPackageJsonVersion(join(siteDir, 'package.json')),
+    pluginVersions: {},
+  };
+  plugins
+    .filter(({version: {type}}) => type !== 'synthetic')
+    .forEach(({name, version}) => {
+      siteMetadata.pluginVersions[name] = version;
+    });
+  const genSiteMetadata = generate(
+    generatedFilesDir,
+    'site-metadata.json',
+    JSON.stringify(siteMetadata, null, 2),
+  );
+
   await Promise.all([
     genClientModules,
     genSiteConfig,
@@ -191,6 +213,7 @@ ${Object.keys(registry)
     genRoutesChunkNames,
     genRoutes,
     genGlobalData,
+    genSiteMetadata,
   ]);
 
   const props: Props = {

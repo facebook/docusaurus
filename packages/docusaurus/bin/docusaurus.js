@@ -13,7 +13,44 @@ const path = require('path');
 const cli = require('commander');
 const {build, swizzle, deploy, start, externalCommand} = require('../lib');
 const requiredVersion = require('../package.json').engines.node;
+const pkg = require('../package.json');
+const updateNotifier = require('update-notifier');
+const boxen = require('boxen');
 
+// notify user if @docusaurus/core is outdated
+const notifier = updateNotifier({
+  pkg,
+  updateCheckInterval: 1000 * 60 * 60 * 24, // one day
+  distTag: 'next', // compare with the version that is tagged 'next' on npm
+});
+
+// allow the user to be notified for updates on the first run
+if (notifier.lastUpdateCheck === Date.now()) {
+  notifier.lastUpdateCheck = 0;
+}
+
+if (notifier.update && notifier.update.current !== notifier.update.latest) {
+  const boxenOptions = {
+    padding: 1,
+    margin: 1,
+    align: 'center',
+    borderColor: 'yellow',
+    borderStyle: 'round',
+  };
+
+  const docusaurusUpdateMessage = boxen(
+    `Update available ${chalk.dim(`${notifier.update.current}`)}${chalk.reset(
+      ' → ',
+    )}${chalk.green(`${notifier.update.latest}`)}\nRun ${chalk.cyan(
+      'yarn upgrade @docusaurus/core@next',
+    )} to update`,
+    boxenOptions,
+  );
+
+  console.log(docusaurusUpdateMessage);
+}
+
+// notify user if node version needs to be updated
 if (!semver.satisfies(process.version, requiredVersion)) {
   console.log(
     chalk.red(`\nMinimum Node version not met :(`) +

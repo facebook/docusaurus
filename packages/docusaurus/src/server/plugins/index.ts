@@ -10,12 +10,11 @@ import fs from 'fs-extra';
 import path from 'path';
 import {
   LoadContext,
-  Plugin,
   PluginConfig,
   PluginContentLoadedActions,
   RouteConfig,
 } from '@docusaurus/types';
-import initPlugins from './init';
+import initPlugins, {PluginWithVersionInformation} from './init';
 
 export function sortConfig(routeConfigs: RouteConfig[]): void {
   // Sort the route config. This ensures that route with nested
@@ -53,12 +52,15 @@ export async function loadPlugins({
   pluginConfigs: PluginConfig[];
   context: LoadContext;
 }): Promise<{
-  plugins: Plugin<unknown>[];
+  plugins: PluginWithVersionInformation[];
   pluginsRouteConfigs: RouteConfig[];
   globalData: any;
 }> {
   // 1. Plugin Lifecycle - Initialization/Constructor.
-  const plugins: Plugin<unknown>[] = initPlugins({pluginConfigs, context});
+  const plugins: PluginWithVersionInformation[] = initPlugins({
+    pluginConfigs,
+    context,
+  });
 
   // 2. Plugin Lifecycle - loadContent.
   // Currently plugins run lifecycle methods in parallel and are not order-dependent.

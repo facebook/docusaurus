@@ -132,26 +132,42 @@ function MyComponent() {
 
 ### `useDocusaurusContext`
 
-React hook to access Docusaurus Context. Context contains `siteConfig` object from [docusaurus.config.js](docusaurus.config.js.md).
+React hook to access Docusaurus Context. Context contains `siteConfig` object from [docusaurus.config.js](docusaurus.config.js.md), and some additional site metadata.
 
 ```ts
+type DocusaurusPluginVersionInformation =
+  | {readonly type: 'package'; readonly version?: string}
+  | {readonly type: 'project'}
+  | {readonly type: 'local'}
+  | {readonly type: 'synthetic'};
+
+interface DocusaurusSiteMetadata {
+  readonly docusaurusVersion: string;
+  readonly siteVersion?: string;
+  readonly pluginVersions: Record<string, DocusaurusPluginVersionInformation>;
+}
+
 interface DocusaurusContext {
-  siteConfig?: DocusaurusConfig;
+  siteConfig: DocusaurusConfig;
+  siteMetadata: DocusaurusSiteMetadata;
 }
 ```
 
 Usage example:
 
-```jsx {2,5}
+```jsx {5,8,9}
 import React from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
-const Test = () => {
-  const context = useDocusaurusContext();
-  const {siteConfig = {}} = context;
-  const {title} = siteConfig;
-
-  return <h1>{title}</h1>;
+const MyComponent = () => {
+  const {siteConfig, siteMetadata} = useDocusaurusContext();
+  return (
+    <div>
+      <h1>{siteConfig.title}</h1>
+      <div>{siteMetadata.siteVersion}</div>
+      <div>{siteMetadata.docusaurusVersion}</div>
+    </div>
+  );
 };
 ```
 

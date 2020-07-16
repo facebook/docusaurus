@@ -25,8 +25,8 @@ function getSWBabelLoader() {
         [
           require.resolve('@babel/preset-env'),
           {
-            useBuiltIns: 'usage',
-            corejs: '2',
+            useBuiltIns: 'entry',
+            corejs: '3',
             // See https://twitter.com/jeffposnick/status/1280223070876315649
             targets: 'chrome >= 56',
           },
