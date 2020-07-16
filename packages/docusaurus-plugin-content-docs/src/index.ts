@@ -416,7 +416,7 @@ Available document ids=
         pluginInstanceGlobalData.versions.push({
           name: docsBaseMetadata.version,
           path: docsBasePath,
-          mainDocId: mainDoc.id,
+          mainDocId: mainDoc.unversionedId,
           docs: docs.map(toGlobalDataDoc),
         });
 
