@@ -5,42 +5,39 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import usePluginGlobalData from '@docusaurus/usePluginGlobalData';
 import {useLocation} from '@docusaurus/router';
 
 import {GlobalVersionMetadata} from '../../types';
-import {createDocsDataUtils} from '../internal/docsGlobalDataUtils';
+import {
+  useDocsPluginData,
+  getLatestVersion,
+  getActiveVersion,
+  getActiveDocContext,
+} from '../../client/docsClientUtils';
 
-// Not exposed, not part of api surface
-const useDocsData = (docsPluginId: string | undefined) =>
-  usePluginGlobalData('docusaurus-plugin-content-docs', docsPluginId);
-const useDocsDataUtils = (docsPluginId: string | undefined) => {
-  return createDocsDataUtils(useDocsData(docsPluginId));
-};
-
-// versions are ordered (most recent first)
+// versions are returned ordered (most recent first)
 export const useVersions = (
   docsPluginId: string | undefined,
 ): GlobalVersionMetadata[] => {
-  const {versions} = useDocsData(docsPluginId);
-  return versions;
+  const data = useDocsPluginData(docsPluginId);
+  return data.versions;
 };
 
 export const useLatestVersion = (docsPluginId: string | undefined) => {
-  const utils = useDocsDataUtils(docsPluginId);
-  return utils.getLatestVersion();
+  const data = useDocsPluginData(docsPluginId);
+  return getLatestVersion(data);
 };
 
 // Note: return undefined on doc-unrelated pages,
 // because there's no version currently considered as active
 export const useActiveVersion = (docsPluginId: string | undefined) => {
-  const utils = useDocsDataUtils(docsPluginId);
+  const data = useDocsPluginData(docsPluginId);
   const {pathname} = useLocation();
-  return utils.getActiveVersion(pathname);
+  return getActiveVersion(data, pathname);
 };
 
 export const useActiveDocContext = (docsPluginId: string | undefined) => {
-  const utils = useDocsDataUtils(docsPluginId);
+  const data = useDocsPluginData(docsPluginId);
   const {pathname} = useLocation();
-  return utils.getActiveDocContext(pathname);
+  return getActiveDocContext(data, pathname);
 };
