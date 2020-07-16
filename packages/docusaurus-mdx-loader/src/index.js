@@ -13,10 +13,11 @@ const matter = require('gray-matter');
 const stringifyObject = require('stringify-object');
 const slug = require('./remark/slug');
 const rightToc = require('./remark/rightToc');
+const relativePath = require('./remark/relativePath');
 
 const DEFAULT_OPTIONS = {
   rehypePlugins: [],
-  remarkPlugins: [emoji, slug, rightToc],
+  remarkPlugins: [emoji, slug, rightToc, relativePath],
 };
 
 module.exports = async function (fileString) {
