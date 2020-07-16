@@ -13,8 +13,8 @@ import {
   Plugin,
   PluginConfig,
   ValidationSchema,
+  DocusaurusPluginVersionInformation,
 } from '@docusaurus/types';
-import {PluginVersionInformation} from '@generated/site-metadata';
 import {CONFIG_FILE_NAME} from '../../constants';
 import {getPluginVersion} from '../versions';
 
@@ -40,7 +40,7 @@ function validateAndStrip<T>(schema: ValidationSchema<T>, options: Partial<T>) {
 }
 
 export type PluginWithVersionInformation = Plugin<unknown> & {
-  readonly version: PluginVersionInformation;
+  readonly version: DocusaurusPluginVersionInformation;
 };
 
 export default function initPlugins({

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {PluginVersionInformation} from '@generated/site-metadata';
+import {DocusaurusPluginVersionInformation} from '@docusaurus/types';
 import {existsSync, lstatSync} from 'fs-extra';
 import {dirname, join} from 'path';
 
@@ -23,7 +23,7 @@ export function getPackageJsonVersion(
 export function getPluginVersion(
   pluginPath: string,
   siteDir: string,
-): PluginVersionInformation {
+): DocusaurusPluginVersionInformation {
   let potentialPluginPackageJsonDirectory = dirname(pluginPath);
   while (potentialPluginPackageJsonDirectory !== '/') {
     const packageJsonPath = join(

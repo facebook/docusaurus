@@ -10,11 +10,12 @@ import Layout from '@theme/Layout';
 
 import registry from '@generated/registry';
 import routes from '@generated/routes';
-import siteMetadata from '@generated/site-metadata';
 
 import styles from './styles.module.css';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 function Debug() {
+  const {siteMetadata} = useDocusaurusContext();
   return (
     <Layout permalink="__docusaurus/debug" title="Debug">
       <main className={styles.Container}>

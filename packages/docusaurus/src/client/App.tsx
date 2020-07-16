@@ -9,6 +9,7 @@ import React, {useEffect, useState} from 'react';
 
 import routes from '@generated/routes';
 import siteConfig from '@generated/docusaurus.config';
+import siteMetadata from '@generated/site-metadata';
 import renderRoutes from './exports/renderRoutes';
 import DocusaurusContext from './exports/context';
 import PendingNavigation from './PendingNavigation';
@@ -23,7 +24,7 @@ function App(): JSX.Element {
   }, []);
 
   return (
-    <DocusaurusContext.Provider value={{siteConfig, isClient}}>
+    <DocusaurusContext.Provider value={{siteConfig, siteMetadata, isClient}}>
       <PendingNavigation routes={routes}>
         {renderRoutes(routes)}
       </PendingNavigation>
