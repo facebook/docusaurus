@@ -10,17 +10,21 @@ import DocsVersionNavbarItem from '@theme/NavbarItem/DocsVersionNavbarItem';
 import DefaultNavbarItem from '@theme/NavbarItem/DefaultNavbarItem';
 import DocsVersionDropdownNavbarItem from '@theme/NavbarItem/DocsVersionDropdownNavbarItem';
 
-const SpecialNavbarItemsByType = {
+const NavbarItemComponents = {
+  default: DefaultNavbarItem,
   docsVersion: DocsVersionNavbarItem,
   docsVersionDropdown: DocsVersionDropdownNavbarItem,
 };
 
-function NavbarItem({type, ...props}) {
-  const CustomNavItemComponent = SpecialNavbarItemsByType[type];
-  if (CustomNavItemComponent) {
-    return <CustomNavItemComponent {...props} />;
+const getNavbarItemComponent = (type: string = 'default') => {
+  const NavbarItemComponent = NavbarItemComponents[type];
+  if (!NavbarItemComponent) {
+    throw new Error(`No NavbarItem component found for type=${type}.`);
   }
-  return <DefaultNavbarItem {...props} />;
-}
+  return NavbarItemComponent;
+};
 
-export default NavbarItem;
+export default function NavbarItem({type, ...props}) {
+  const NavbarItemComponent = getNavbarItemComponent(type);
+  return <NavbarItemComponent {...props} />;
+}
