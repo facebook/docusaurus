@@ -114,3 +114,31 @@ export const getActiveDocContext = (
     alternateDocVersions: alternateVersionDocs,
   };
 };
+
+export type DocVersionSuggestions = {
+  // suggest the same doc, in latest version (if exist)
+  latestDocSuggestion?: GlobalDoc;
+  // suggest the latest version
+  latestVersionSuggestion?: GlobalVersion;
+};
+
+export const getDocVersionSuggestions = (
+  data: GlobalPluginData,
+  pathname: string,
+): DocVersionSuggestions => {
+  const latestVersion = getLatestVersion(data);
+  const activeDocContext = getActiveDocContext(data, pathname);
+
+  // We only suggest another doc/version if user is not using the latest version
+  const isNotOnLatestVersion = activeDocContext.activeVersion !== latestVersion;
+
+  const latestDocSuggestion: GlobalDoc | undefined = isNotOnLatestVersion
+    ? activeDocContext?.alternateDocVersions[latestVersion.name!]
+    : undefined;
+
+  const latestVersionSuggestion = isNotOnLatestVersion
+    ? latestVersion
+    : undefined;
+
+  return {latestDocSuggestion, latestVersionSuggestion};
+};

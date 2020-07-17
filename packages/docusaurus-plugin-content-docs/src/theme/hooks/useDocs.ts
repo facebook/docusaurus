@@ -8,12 +8,13 @@
 import {useLocation} from '@docusaurus/router';
 import {usePluginData, usePluginInstanceData} from '@docusaurus/useGlobalData';
 
-import {GlobalPluginData, GlobalDoc, GlobalVersion} from '../../types';
+import {GlobalPluginData, GlobalVersion} from '../../types';
 import {
   getActivePlugin,
   getLatestVersion,
   getActiveVersion,
   getActiveDocContext,
+  getDocVersionSuggestions,
 } from '../../client/docsClientUtils';
 
 const useDocsData = (): Record<string, GlobalPluginData> =>
@@ -58,30 +59,9 @@ export const useActiveDocContext = (docsPluginId: string | undefined) => {
   return getActiveDocContext(data, pathname);
 };
 
-type DocVersionSuggestions = {
-  // suggest the same doc, in latest version (if exist)
-  latestDocSuggestion?: GlobalDoc;
-  // suggest the latest version
-  latestVersionSuggestion?: GlobalVersion;
-};
-
 // Useful to say "hey, you are not on the latest docs version, please switch"
-export const useDocVersionSuggestions = (
-  docsPluginId: string | undefined,
-): DocVersionSuggestions => {
-  const latestVersion = useLatestVersion(docsPluginId);
-  const activeDocContext = useActiveDocContext(docsPluginId);
-
-  // We only suggest another doc/version if user is not using the latest version
-  const isNotOnLatestVersion = activeDocContext.activeVersion !== latestVersion;
-
-  const latestDocSuggestion: GlobalDoc | undefined = isNotOnLatestVersion
-    ? activeDocContext?.alternateDocVersions[latestVersion.name!]
-    : undefined;
-
-  const latestVersionSuggestion = isNotOnLatestVersion
-    ? latestVersion
-    : undefined;
-
-  return {latestDocSuggestion, latestVersionSuggestion};
+export const useDocVersionSuggestions = (docsPluginId: string | undefined) => {
+  const data = useDocsInstanceData(docsPluginId);
+  const {pathname} = useLocation();
+  return getDocVersionSuggestions(data, pathname);
 };
