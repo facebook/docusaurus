@@ -157,10 +157,9 @@ export interface Plugin<T, U = unknown> {
 export type ConfigureWebpackFn = Plugin<unknown>['configureWebpack'];
 export type ConfigureWebpackFnMergeStrategy = Record<string, MergeStrategy>;
 
-export type PluginConfig =
-  | [string, Record<string, unknown>]
-  | [string]
-  | string;
+export type PluginOptions = {id?: string} & Record<string, unknown>;
+
+export type PluginConfig = [string, PluginOptions] | [string] | string;
 
 export interface ChunkRegistry {
   loader: string;

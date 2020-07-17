@@ -14,7 +14,7 @@ import {
   PluginContentLoadedActions,
   RouteConfig,
 } from '@docusaurus/types';
-import initPlugins, {PluginWithVersionInformation} from './init';
+import initPlugins, {InitPlugin} from './init';
 
 const DefaultPluginId = 'default';
 
@@ -54,12 +54,12 @@ export async function loadPlugins({
   pluginConfigs: PluginConfig[];
   context: LoadContext;
 }): Promise<{
-  plugins: PluginWithVersionInformation[];
+  plugins: InitPlugin[];
   pluginsRouteConfigs: RouteConfig[];
   globalData: any;
 }> {
   // 1. Plugin Lifecycle - Initialization/Constructor.
-  const plugins: PluginWithVersionInformation[] = initPlugins({
+  const plugins: InitPlugin[] = initPlugins({
     pluginConfigs,
     context,
   });
