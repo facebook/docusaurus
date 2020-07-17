@@ -68,7 +68,7 @@ function DocVersionSuggestions(): JSX.Element {
         For up-to-date documentation, see the{' '}
         <strong>
           <Link to={suggestedDoc.path}>latest version</Link>
-        </strong>
+        </strong>{' '}
         ({latestVersionSuggestion.name}).
       </div>
     </div>

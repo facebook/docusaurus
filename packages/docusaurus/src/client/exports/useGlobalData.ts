@@ -7,7 +7,7 @@
 
 import useDocusaurusContext from './useDocusaurusContext';
 
-export function useGlobalData() {
+export default function useGlobalData() {
   const {globalData} = useDocusaurusContext();
   if (!globalData) {
     throw new Error('Docusaurus global data not found');
@@ -15,7 +15,7 @@ export function useGlobalData() {
   return globalData;
 }
 
-export function usePluginData<T = unknown>(
+export function useAllPluginInstancesData<T = unknown>(
   pluginName: string,
 ): Record<string, T> {
   const globalData = useGlobalData();
@@ -28,11 +28,11 @@ export function usePluginData<T = unknown>(
   return pluginGlobalData;
 }
 
-export function usePluginInstanceData<T = unknown>(
+export function usePluginData<T = unknown>(
   pluginName: string,
   pluginId: string = 'default',
 ): T {
-  const pluginGlobalData = usePluginData(pluginName);
+  const pluginGlobalData = useAllPluginInstancesData(pluginName);
   const pluginInstanceGlobalData = pluginGlobalData[pluginId];
   if (!pluginInstanceGlobalData) {
     throw new Error(
