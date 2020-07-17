@@ -50,7 +50,7 @@ export default function pluginContentBlog(
   const dataDir = path.join(
     generatedFilesDir,
     'docusaurus-plugin-content-blog',
-    options.id ?? 'default',
+    // options.id ?? 'default',  // TODO support multi-instance
   );
   let blogPosts: BlogPost[] = [];
 

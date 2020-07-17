@@ -81,7 +81,7 @@ export default function pluginContentDocs(
   const dataDir = path.join(
     generatedFilesDir,
     'docusaurus-plugin-content-docs',
-    options.id ?? 'default',
+    // options.id ?? 'default', // TODO support multi-instance
   );
 
   // Versioning.

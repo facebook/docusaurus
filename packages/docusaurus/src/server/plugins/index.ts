@@ -94,7 +94,8 @@ export async function loadPlugins({
       const pluginContentDir = path.join(
         context.generatedFilesDir,
         plugin.name,
-        pluginId,
+        // TODO each plugin instance should have its folder
+        // pluginId,
       );
 
       const addRoute: PluginContentLoadedActions['addRoute'] = (config) =>
