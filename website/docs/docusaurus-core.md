@@ -281,7 +281,7 @@ const MyComponent = () => {
 };
 ```
 
-### `usePluginData(pluginName: string)`
+### `useAllPluginInstancesData(pluginName: string)`
 
 Access global data created by a specific plugin. Given a plugin name, it returns the data of all the plugins instances of that name, by pluginId.
 
