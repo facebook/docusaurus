@@ -5,29 +5,48 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import usePluginGlobalData from '@docusaurus/usePluginGlobalData';
 import {matchPath} from '@docusaurus/router';
 
-import {
-  GlobalPluginData,
-  GlobalVersionMetadata,
-  GlobalVersionDocMetadata,
-} from '../types';
+import {GlobalPluginData, GlobalVersion, GlobalDoc} from '../types';
 
 // This code is not part of the api surface, not in ./theme on purpose
 
 // Short/convenient type aliases
-type Version = GlobalVersionMetadata;
-type Doc = GlobalVersionDocMetadata;
+type Version = GlobalVersion;
+type Doc = GlobalDoc;
+
+export type ActivePlugin = {
+  pluginId: string;
+  pluginData: GlobalPluginData;
+};
+
+// get the data of the plugin that is currently "active"
+// ie the docs of that plugin are currently browsed
+// it is useful to support multiple docs plugin instances
+export const getActivePlugin = (
+  allPluginDatas: Record<string, GlobalPluginData>,
+  pathname: string,
+): ActivePlugin | undefined => {
+  const activeEntry = Object.entries(allPluginDatas).find(
+    ([_id, pluginData]) => {
+      return !!matchPath(pathname, {
+        path: `/${pluginData.path}`,
+        exact: false,
+        strict: false,
+      });
+    },
+  );
+
+  return activeEntry
+    ? {pluginId: activeEntry[0], pluginData: activeEntry[1]}
+    : undefined;
+};
 
 export type ActiveDocContext = {
   activeVersion?: Version;
   activeDoc?: Doc;
   alternateDocVersions: Record<string, Doc>;
 };
-
-export const useDocsPluginData = (docsPluginId: string | undefined) =>
-  usePluginGlobalData('docusaurus-plugin-content-docs', docsPluginId);
 
 export const getLatestVersion = (data: GlobalPluginData): Version => {
   return data.versions.find(

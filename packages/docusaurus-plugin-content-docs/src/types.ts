@@ -188,20 +188,20 @@ export interface Env {
   // TODO: translation
 }
 
-export type GlobalVersionDocMetadata = {
+export type GlobalDoc = {
   id: string;
   path: string;
 };
 
-export type GlobalVersionMetadata = {
+export type GlobalVersion = {
   name: DocsVersion;
   path: string;
   mainDocId: string; // home doc (if docs homepage configured), or first doc
-  docs: GlobalVersionDocMetadata[];
+  docs: GlobalDoc[];
 };
 
 export type GlobalPluginData = {
   path: string;
   latestVersionName: DocsVersion;
-  versions: GlobalVersionMetadata[];
+  versions: GlobalVersion[];
 };

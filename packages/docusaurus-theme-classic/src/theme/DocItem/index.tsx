@@ -12,7 +12,7 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import DocPaginator from '@theme/DocPaginator';
 import useTOCHighlight from '@theme/hooks/useTOCHighlight';
-import DocVersionCallout from '@theme/DocVersionCallout';
+import DocVersionSuggestions from '@theme/DocVersionSuggestions';
 
 import clsx from 'clsx';
 import styles from './styles.module.css';
@@ -110,7 +110,7 @@ function DocItem(props): JSX.Element {
             className={clsx('col', {
               [styles.docItemCol]: !hideTableOfContents,
             })}>
-            <DocVersionCallout metadata={metadata} />
+            <DocVersionSuggestions />
             <div className={styles.docItemContainer}>
               <article>
                 {version && (

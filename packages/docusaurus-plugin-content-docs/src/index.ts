@@ -52,8 +52,8 @@ import {
   DocsSidebarItem,
   GlobalPluginData,
   DocsVersion,
-  GlobalVersionMetadata,
-  GlobalVersionDocMetadata,
+  GlobalVersion,
+  GlobalDoc,
 } from './types';
 import {Configuration} from 'webpack';
 import {docsVersion} from './version';
@@ -404,7 +404,7 @@ Available document ids=
           docs.find((doc) => doc.unversionedId === options.homePageId) ??
           docs[0];
 
-        const toGlobalDataDoc = (doc: Metadata): GlobalVersionDocMetadata => ({
+        const toGlobalDataDoc = (doc: Metadata): GlobalDoc => ({
           id: doc.unversionedId,
           path: doc.permalink,
         });
@@ -468,7 +468,7 @@ Available document ids=
       // ensure version ordering on the global data (latest first)
       pluginInstanceGlobalData.versions = sortBy(
         pluginInstanceGlobalData.versions,
-        (versionMetadata: GlobalVersionMetadata) => {
+        (versionMetadata: GlobalVersion) => {
           const orderedVersionNames = ['next', ...versions];
           return orderedVersionNames.indexOf(versionMetadata.name!);
         },
