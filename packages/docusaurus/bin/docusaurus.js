@@ -86,11 +86,13 @@ cli
     '--no-minify',
     'Build website without minimizing JS bundles (default: false)',
   )
-  .action((siteDir = '.', {bundleAnalyzer, outDir, minify}) => {
+  .option('--only-client', 'Build only client build (default: false)')
+  .action((siteDir = '.', {bundleAnalyzer, outDir, minify, onlyClient}) => {
     wrapCommand(build)(path.resolve(siteDir), {
       bundleAnalyzer,
       outDir,
       minify,
+      onlyClient,
     });
   });
 

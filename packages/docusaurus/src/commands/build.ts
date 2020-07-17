@@ -96,9 +96,12 @@ export default async function build(
   if (fs.existsSync(clientManifestPath)) {
     fs.unlinkSync(clientManifestPath);
   }
-
+  const configurations = [clientConfig];
+  if (!cliOptions.onlyClient) {
+    configurations.push(serverConfig);
+  }
   // Run webpack to build JS bundle (client) and static html files (server).
-  await compile([clientConfig, serverConfig]);
+  await compile(configurations);
 
   // Remove server.bundle.js because it is not needed.
   if (

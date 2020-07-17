@@ -91,6 +91,7 @@ export interface BuildCLIOptions {
   outDir: string;
   minify: boolean;
   skipBuild: boolean;
+  onlyClient: boolean;
 }
 
 export interface LoadContext {
