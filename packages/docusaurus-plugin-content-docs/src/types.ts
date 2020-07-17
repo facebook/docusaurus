@@ -24,6 +24,7 @@ export interface PathOptions {
 }
 
 export interface PluginOptions extends MetadataOptions, PathOptions {
+  id?: string;
   include: string[];
   docLayoutComponent: string;
   docItemComponent: string;

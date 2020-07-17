@@ -89,9 +89,12 @@ export async function loadPlugins({
         return;
       }
 
+      const pluginId = plugin.options.id ?? DefaultPluginId;
+
       const pluginContentDir = path.join(
         context.generatedFilesDir,
         plugin.name,
+        pluginId,
       );
 
       const addRoute: PluginContentLoadedActions['addRoute'] = (config) =>
@@ -113,7 +116,6 @@ export async function loadPlugins({
       const setGlobalData: PluginContentLoadedActions['setGlobalData'] = (
         data,
       ) => {
-        const pluginId = plugin.id ?? DefaultPluginId;
         globalData[plugin.name] = globalData[plugin.name] ?? {};
         globalData[plugin.name][pluginId] = data;
       };

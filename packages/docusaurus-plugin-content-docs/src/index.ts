@@ -81,6 +81,7 @@ export default function pluginContentDocs(
   const dataDir = path.join(
     generatedFilesDir,
     'docusaurus-plugin-content-docs',
+    options.id ?? 'default',
   );
 
   // Versioning.

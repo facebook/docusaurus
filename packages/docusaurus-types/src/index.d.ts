@@ -250,7 +250,9 @@ export interface ThemeConfigValidationContext<T, E extends Error = Error> {
   themeConfig: Partial<T>;
 }
 
+// TODO we should use a Joi type here
 export interface ValidationSchema<T> {
   validate(options: Partial<T>, opt: object): ValidationResult<T>;
   unknown(): ValidationSchema<T>;
+  append(data: any): ValidationSchema<T>;
 }

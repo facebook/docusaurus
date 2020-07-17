@@ -98,6 +98,7 @@ export async function load(
   const {stylesheets = [], scripts = []} = siteConfig;
   plugins.push({
     name: 'docusaurus-bootstrap-plugin',
+    options: {},
     version: {type: 'synthetic'},
     configureWebpack: () => ({
       resolve: {

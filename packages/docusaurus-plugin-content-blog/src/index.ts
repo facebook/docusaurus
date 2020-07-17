@@ -50,6 +50,7 @@ export default function pluginContentBlog(
   const dataDir = path.join(
     generatedFilesDir,
     'docusaurus-plugin-content-blog',
+    options.id ?? 'default',
   );
   let blogPosts: BlogPost[] = [];
 
