@@ -13,6 +13,7 @@ import {loadContext} from '../server';
 import loadConfig from '../server/config';
 import build from './build';
 import {BuildCLIOptions} from '@docusaurus/types';
+import {deployNotification} from '@docusaurus/utils';
 
 export default async function deploy(
   siteDir: string,
@@ -189,6 +190,7 @@ export default async function deploy(
     // Build static html files, then push to deploymentBranch branch of specified repo.
     build(siteDir, cliOptions, false)
       .then(runDeploy)
+      .then(deployNotification)
       .catch((buildError) => {
         console.error(buildError);
         process.exit(1);

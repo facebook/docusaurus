@@ -10,6 +10,7 @@ import matter from 'gray-matter';
 import {createHash} from 'crypto';
 import camelCase from 'lodash.camelcase';
 import kebabCase from 'lodash.kebabcase';
+import notifier from 'node-notifier';
 import escapeStringRegexp from 'escape-string-regexp';
 import fs from 'fs-extra';
 import {URL} from 'url';
@@ -390,4 +391,40 @@ export function getFilePathForRoutePath(routePath: string): string {
   const fileName = path.basename(routePath);
   const filePath = path.dirname(routePath);
   return path.join(filePath, `${fileName}/index.html`);
+}
+
+export function swizzleNotification(componentName: string | undefined): void {
+  notifier.notify({
+    title: 'Docusaurus',
+    message: `Successfully swizzled ${componentName}!`,
+    icon: path.join(__dirname, '../docusaurus.jpg'),
+    sound: true,
+  });
+}
+
+export function deployNotification(): void {
+  notifier.notify({
+    title: 'Docusaurus',
+    message: 'Site successfully deployed!',
+    icon: path.join(__dirname, '../docusaurus.jpg'),
+    sound: true,
+  });
+}
+
+export function startNotification(): void {
+  notifier.notify({
+    title: 'Docusaurus',
+    message: 'Site started successfully!',
+    icon: path.join(__dirname, '../docusaurus.jpg'),
+    sound: true,
+  });
+}
+
+export function buildNotification(): void {
+  notifier.notify({
+    title: 'Docusaurus',
+    message: 'Site built successfully!',
+    icon: path.join(__dirname, '../docusaurus.jpg'),
+    sound: true,
+  });
 }

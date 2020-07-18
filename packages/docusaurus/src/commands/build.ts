@@ -13,6 +13,7 @@ import ReactLoadableSSRAddon from 'react-loadable-ssr-addon';
 import webpack, {Configuration, Plugin, Stats} from 'webpack';
 import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
 import merge from 'webpack-merge';
+import {buildNotification} from '@docusaurus/utils';
 import {STATIC_DIR_NAME} from '../constants';
 import {load} from '../server';
 import {BuildCLIOptions, Props} from '@docusaurus/types';
@@ -164,6 +165,7 @@ export default async function build(
       relativeDir,
     )}.\n`,
   );
+  buildNotification();
   if (forceTerminate && !cliOptions.bundleAnalyzer) {
     process.exit(0);
   }

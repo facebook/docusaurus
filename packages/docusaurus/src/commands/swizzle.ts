@@ -10,6 +10,7 @@ import fs from 'fs-extra';
 import importFresh from 'import-fresh';
 import path from 'path';
 import {Plugin, LoadContext} from '@docusaurus/types';
+import {swizzleNotification} from '@docusaurus/utils';
 
 import {THEME_PATH} from '../constants';
 import {loadContext} from '../server';
@@ -57,6 +58,7 @@ export default async function swizzle(
     console.log(
       `\n${chalk.green('Success!')} Copied ${fromMsg} to ${toMsg}.\n`,
     );
+    swizzleNotification(componentName);
   } else if (typescript) {
     console.warn(
       chalk.yellow(

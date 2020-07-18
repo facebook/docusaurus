@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {normalizeUrl, posixPath} from '@docusaurus/utils';
+import {normalizeUrl, posixPath, startNotification} from '@docusaurus/utils';
 import chalk = require('chalk');
 import chokidar from 'chokidar';
 import express from 'express';
@@ -188,9 +188,12 @@ export default async function start(
   devServer.listen(port, host, (err) => {
     if (err) {
       console.log(err);
-    }
-    if (cliOptions.open) {
-      openBrowser(openUrl);
+    } else {
+      startNotification();
+
+      if (cliOptions.open) {
+        openBrowser(openUrl);
+      }
     }
   });
   ['SIGINT', 'SIGTERM'].forEach((sig) => {
