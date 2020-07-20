@@ -47,7 +47,7 @@ function sanitizedFileContent(
   const extractedMetaData = Object.entries(extractedData.metadata).reduce(
     (metaData, value) => {
       return `${metaData}\n${value[0]}: ${
-        value[0] === 'tags' ? value[1] : `"${value[1]}"`
+        value[0] === 'tags' || !value[0].match(/:/) ? value[1] : `"${value[1]}"`
       }`;
     },
     '',
