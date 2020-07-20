@@ -16,7 +16,7 @@ import choosePort from '../choosePort';
 
 export default async function serve(
   siteDir: string,
-  cliOptions: {port: number; build: boolean; dir: string},
+  cliOptions: {port: number; build: boolean; dir: string; host: string},
 ): Promise<void> {
   let dir = path.join(siteDir, cliOptions.dir);
   if (cliOptions.build) {
@@ -28,7 +28,7 @@ export default async function serve(
       false,
     );
   }
-  const port = await choosePort('localhost', cliOptions.port);
+  const port = await choosePort(cliOptions.host, cliOptions.port);
   const server = http.createServer((req, res) => {
     serveHandler(req, res, {
       cleanUrls: true,
@@ -37,9 +37,9 @@ export default async function serve(
   });
   console.log(
     boxen(
-      `${chalk.green(
-        `Serving ${cliOptions.dir}!`,
-      )}\n\n- Local: http://localhost:${port}`,
+      `${chalk.green(`Serving ${cliOptions.dir}!`)}\n\n- Local: http://${
+        cliOptions.host
+      }:${port}`,
       {
         borderColor: 'green',
         padding: 1,

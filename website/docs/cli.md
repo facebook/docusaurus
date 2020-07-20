@@ -118,6 +118,7 @@ Serve your built website localy.
 
 | Name | Default | Description |
 | --- | --- | --- |
-| `--port` | 3000 | Use specified port |
+| `--port` | `3000` | Use specified port |
 | `--dir` | `build` | The full path for the output directory, relative to the current workspace |
-| `--build` | false | Build website before serving |
+| `--build` | `false` | Build website before serving |
+| `--host` | `localhost` | Specify a host to use. For example, if you want your server to be accessible externally, you can use `--host 0.0.0.0`. |

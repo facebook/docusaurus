@@ -165,12 +165,22 @@ cli
   )
   .option('-p, --port <port>', 'use specified port (default: 3000)')
   .option('--build', 'Build website before serving (default: false)')
+  .option('-h, --host <host>', 'use specified host (default: localhost')
   .action(
-    (siteDir = '.', {dir = 'build', port = 3000, build: buildSite = false}) => {
+    (
+      siteDir = '.',
+      {
+        dir = 'build',
+        port = 3000,
+        host = 'localhost',
+        build: buildSite = false,
+      },
+    ) => {
       wrapCommand(serve)(path.resolve(siteDir), {
         dir,
         port,
         build: buildSite,
+        host,
       });
     },
   );
