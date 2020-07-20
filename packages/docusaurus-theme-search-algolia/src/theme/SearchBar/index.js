@@ -30,7 +30,7 @@ function ResultsFooter({state, onClose}) {
   );
 }
 
-function DocSearch({indexName, appId, apiKey, searchParameters}) {
+function DocSearch(props) {
   const history = useHistory();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -68,7 +68,7 @@ function DocSearch({indexName, appId, apiKey, searchParameters}) {
         query faster, especially on mobile. */}
         <link
           rel="preconnect"
-          href={`https://${appId}-dsn.algolia.net`}
+          href={`https://${props.appId}-dsn.algolia.net`}
           crossOrigin
         />
       </Head>
@@ -83,10 +83,6 @@ function DocSearch({indexName, appId, apiKey, searchParameters}) {
       {isOpen &&
         createPortal(
           <DocSearchModal
-            appId={appId}
-            apiKey={apiKey}
-            indexName={indexName}
-            searchParameters={searchParameters}
             onClose={onClose}
             initialScrollY={window.scrollY}
             navigator={{
@@ -109,9 +105,10 @@ function DocSearch({indexName, appId, apiKey, searchParameters}) {
               });
             }}
             hitComponent={Hit}
-            resultsFooterComponent={(props) => (
-              <ResultsFooter {...props} onClose={onClose} />
+            resultsFooterComponent={(footerProps) => (
+              <ResultsFooter {...footerProps} onClose={onClose} />
             )}
+            {...props}
           />,
           document.body,
         )}
