@@ -9,6 +9,7 @@ import React, {useState, useCallback} from 'react';
 import {createPortal} from 'react-dom';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useHistory} from '@docusaurus/router';
+import {useBaseUrlUtils} from '@docusaurus/useBaseUrl';
 import Link from '@docusaurus/Link';
 import Head from '@docusaurus/Head';
 import useSearchQuery from '@theme/hooks/useSearchQuery';
@@ -33,6 +34,7 @@ function ResultsFooter({state, onClose}) {
 function DocSearch(props) {
   const history = useHistory();
   const [isOpen, setIsOpen] = useState(false);
+  const {withBaseUrl} = useBaseUrlUtils();
 
   const importDocSearchModalIfNeeded = useCallback(() => {
     if (DocSearchModal) {
@@ -100,7 +102,7 @@ function DocSearch(props) {
 
                 return {
                   ...item,
-                  url: `${a.pathname}${a.hash}`,
+                  url: withBaseUrl(`${a.pathname}${a.hash}`),
                 };
               });
             }}
