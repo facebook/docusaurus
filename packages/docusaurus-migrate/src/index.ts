@@ -8,6 +8,7 @@
 import * as fs from 'fs-extra';
 import importFresh from 'import-fresh';
 import chalk from 'chalk';
+import glob from 'glob';
 
 import {
   VersionOneConfig,
@@ -16,6 +17,7 @@ import {
   SidebarEntries,
 } from './types';
 import extractMetadata from './frontMatter';
+import migratePage from './transform';
 import sanitizeMD from './sanitizeMD';
 import path from 'path';
 
@@ -255,14 +257,31 @@ function createClientRedirects(
 function createLandingPage(newDir: string, siteDir: string): void {
   fs.mkdirpSync(path.join(newDir, 'src', 'pages'));
   if (fs.existsSync(path.join(siteDir, 'pages', 'en'))) {
-    const indexPage = `import Layout from "@theme/Layout";
-    import React from "react";
-    
-    export default () => {
-      return <Layout />;
-    };
-    `;
-    fs.writeFileSync(`${newDir}/src/pages/index.js`, indexPage);
+    try {
+      fs.copySync(
+        path.join(siteDir, 'pages', 'en'),
+        path.join(newDir, 'src', 'pages'),
+      );
+      const files = glob.sync('**/*.js', {
+        cwd: path.join(newDir, 'src', 'pages'),
+      });
+      files.forEach((file) => {
+        console.log(file);
+        const filePath = path.join(newDir, 'src', 'pages', file);
+        const content = String(fs.readFileSync(filePath));
+        fs.writeFileSync(filePath, migratePage(content));
+      });
+    } catch (error) {
+      console.log(chalk.red(`Unable to migrate Pages : ${error}`));
+      const indexPage = `import Layout from "@theme/Layout";
+      import React from "react";
+      
+      export default () => {
+        return <Layout />;
+      };
+      `;
+      fs.writeFileSync(`${newDir}/src/pages/index.js`, indexPage);
+    }
   } else {
     console.log('Ignoring Pages');
   }

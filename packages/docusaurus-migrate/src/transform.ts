@@ -24,9 +24,9 @@ const property = (key: string, value: jscodeshift.ArrowFunctionExpression) =>
 const processCallExpression = (
   node: jscodeshift.ASTPath<jscodeshift.VariableDeclarator>,
 ) => {
-  const args = node?.value?.init?.arguments;
+  const args = (node?.value?.init as any)?.arguments[0];
   if (args.type === 'Literal') {
-    if (args.value === '../../core/CompLibrary.js') {
+    if (args.value.includes('../../core/CompLibrary')) {
       const newDeclartor = jscodeshift.variableDeclarator(
         node.value.id,
         jscodeshift.objectExpression([
@@ -57,7 +57,7 @@ const processCallExpression = (
 const processMemberExpression = (
   node: jscodeshift.ASTPath<jscodeshift.VariableDeclarator>,
 ) => {
-  const args = node?.value?.init?.object?.arguments[0];
+  const args = (node?.value?.init as any)?.object?.arguments[0];
   if (args.type === 'Literal') {
     if (args.value === '../../core/CompLibrary.js') {
       const newDeclartor = jscodeshift.variableDeclarator(
