@@ -36,7 +36,7 @@ function useSearchQuery() {
     },
     generateSearchPageLink: (searchValue) => {
       // Refer to https://github.com/facebook/docusaurus/pull/2838
-      return `${baseUrl}search?q=${searchValue}`;
+      return `${baseUrl}search?q=${encodeURIComponent(searchValue)}`;
     },
   };
 }
