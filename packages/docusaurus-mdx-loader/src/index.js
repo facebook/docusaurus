@@ -17,7 +17,7 @@ const relativePath = require('./remark/relativePath');
 
 const DEFAULT_OPTIONS = {
   rehypePlugins: [],
-  remarkPlugins: [emoji, slug, rightToc, relativePath],
+  remarkPlugins: [emoji, slug, rightToc],
 };
 
 module.exports = async function (fileString) {
@@ -30,6 +30,7 @@ module.exports = async function (fileString) {
     remarkPlugins: [
       ...(reqOptions.beforeDefaultRemarkPlugins || []),
       ...DEFAULT_OPTIONS.remarkPlugins,
+      [relativePath, {staticDir: reqOptions.staticDir}],
       ...(reqOptions.remarkPlugins || []),
     ],
     rehypePlugins: [
