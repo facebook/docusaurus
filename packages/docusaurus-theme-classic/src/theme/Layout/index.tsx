@@ -27,6 +27,7 @@ type Props = {
   keywords?: string[];
   permalink?: string;
   version?: string;
+  type?: string;
 };
 
 function Layout(props: Props): JSX.Element {
@@ -41,6 +42,10 @@ function Layout(props: Props): JSX.Element {
       },
     },
     url: siteUrl,
+    dynamicMetaImage: {
+      apiUrl = 'https://og-image.now.sh',
+      docusaurusStamp = true,
+    },
   } = siteConfig;
 
   const {
@@ -52,11 +57,19 @@ function Layout(props: Props): JSX.Element {
     keywords,
     permalink,
     version,
+    type,
   } = props;
 
-  const createOGImage = ({ogTitle, ogLogo}) => {
-    // Will add more options such as title, siteTitle, description, optional version, optional docusarus in the future
-    const url = `https://og-image.now.sh/${ogTitle}.png?images=1&images=${ogLogo}`;
+  const generateImageUrl = (
+    ogUrl,
+    ogTitle,
+    ogSiteTitle,
+    ogVersion,
+    ogLogo,
+    ogType,
+    ogStamp,
+  ) => {
+    const url = `${ogUrl}/${ogTitle}.png?siteTitle=${ogSiteTitle}&images=${ogLogo}&version=${ogVersion}&type=${ogType}&stamp=${ogStamp}`;
     return encodeURI(url);
   };
 
@@ -67,7 +80,15 @@ function Layout(props: Props): JSX.Element {
   const localMetaImageUrl = useBaseUrl(metaImage, {absolute: true});
   const metaImageUrl = metaImage
     ? localMetaImageUrl
-    : createOGImage({ogTitle: metaTitle, ogLogo: logoUrl});
+    : generateImageUrl(
+        apiUrl,
+        metaTitle,
+        title,
+        version,
+        logoUrl,
+        type,
+        docusaurusStamp,
+      );
 
   return (
     <ThemeProvider>
