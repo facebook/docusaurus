@@ -103,7 +103,7 @@ To learn more about swizzling, check [here](#).
 
 ### `docusaurus deploy`
 
-Deploys your site with [GitHub Pages](https://pages.github.com/). Check out the docs on [deployment](deployment.md/#deploying-to-github-pages) for more details. ![](./img/docusaurs.png)
+Deploys your site with [GitHub Pages](https://pages.github.com/). Check out the docs on [deployment](deployment.md/#deploying-to-github-pages) for more details.
 
 #### Options
 
