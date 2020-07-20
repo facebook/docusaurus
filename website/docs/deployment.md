@@ -15,10 +15,25 @@ You can deploy your site to static site hosting services such as [Vercel](https:
 
 ## Testing Build Local
 
-It is important to test build before deploying to a production. Docusaurus includes a `docusaurus serve` command to test build localy.
+It is important to test build before deploying to a production. Docusaurus includes a [`docusaurus serve`](cli.md#docusaurus-serve) command to test build localy.
 
 ```bash npm2yarn
 npm run serve
+```
+
+## Self Hosting
+
+:::warning
+
+It is not the most performant solution
+
+:::
+
+Docusaurus can be self hosted using [`docusaurus serve`](cli.md#docusaurus-serve). Change port using `--port` and `--host` to change host.
+
+```bash npm2yarn
+npm run serve --build --port 80 --host 0.0.0.0
+
 ```
 
 ## Deploying to GitHub Pages
