@@ -11,7 +11,14 @@ const chalk = require('chalk');
 const semver = require('semver');
 const path = require('path');
 const cli = require('commander');
-const {build, swizzle, deploy, start, externalCommand} = require('../lib');
+const {
+  build,
+  swizzle,
+  deploy,
+  start,
+  externalCommand,
+  serve,
+} = require('../lib');
 const requiredVersion = require('../package.json').engines.node;
 const pkg = require('../package.json');
 const updateNotifier = require('update-notifier');
@@ -148,6 +155,36 @@ cli
       poll,
     });
   });
+
+cli
+  .command('serve [siteDir]')
+  .description('Serve website')
+  .option(
+    '--bundle-analyzer',
+    'Visualize size of webpack output files with an interactive zoomable treemap (default: false)',
+  )
+  .option(
+    '--out-dir <dir>',
+    'The full path for the new output directory, relative to the current workspace (default: build).',
+  )
+  .option(
+    '--no-minify',
+    'Build website without minimizing JS bundles (default: false)',
+  )
+  .option('-p, --port <port>', 'use specified port (default: 3000)')
+  .action(
+    (
+      siteDir = '.',
+      {bundleAnalyzer = false, outDir = 'build', minify = true, port = 3000},
+    ) => {
+      wrapCommand(serve)(path.resolve(siteDir), {
+        bundleAnalyzer,
+        outDir,
+        minify,
+        port,
+      });
+    },
+  );
 
 cli.arguments('<command>').action((cmd) => {
   cli.outputHelp();
