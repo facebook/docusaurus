@@ -13,7 +13,7 @@ const matter = require('gray-matter');
 const stringifyObject = require('stringify-object');
 const slug = require('./remark/slug');
 const rightToc = require('./remark/rightToc');
-const relativePath = require('./remark/relativePath');
+const relativePath = require('./remark/transformImage');
 
 const DEFAULT_OPTIONS = {
   rehypePlugins: [],

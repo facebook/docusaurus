@@ -18,7 +18,7 @@ const processFixture = async (name, options) => {
   const result = await remark()
     .use(slug)
     .use(mdx)
-    .use(plugin, options)
+    .use(plugin, {...options, filePath: path})
     .process(file);
 
   return result.toString();
