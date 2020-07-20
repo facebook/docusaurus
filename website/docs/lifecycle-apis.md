@@ -442,6 +442,24 @@ module.exports = function (context, options) {
 };
 ```
 
+## `getSwizzleComponentList()`
+
+Return a list of stable component that are considered as safe for swizzling. These components will be listed in swizzle component without `--danger`. All the components are considers unstable by default. If an empty array is returned then all components are considered unstable, if `undefined` is returned then all component are considered stable.
+
+```js {0-12} title="my-theme/src/index.js"
+const swizzleAllowedComponents = [
+  'CodeBlock',
+  'DocSidebar',
+  'Footer',
+  'NotFound',
+  'SearchBar',
+  'hooks/useTheme',
+  'prism-include-languages',
+];
+
+module.exports.getSwizzleComponentList = () => swizzleAllowedComponents;
+```
+
 ## `getClientModules()`
 
 Returns an array of paths to the modules that are to be imported in the client bundle. These modules are imported globally before React even renders the initial UI.

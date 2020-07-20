@@ -70,11 +70,38 @@ function readComponent(themePath: string) {
 
 function getComponentName(
   themePath: string,
-  plugin: Partial<
-    ((context: LoadContext) => Plugin<unknown>) & {
-      default?: Plugin<unknown>;
-    } & Plugin<unknown>
-  >,
+  plugin: any,
+  danger: boolean,
+): Array<string> {
+  // support both commonjs and ES style exports
+  const getSwizzleComponentList =
+    plugin.default?.getSwizzleComponentList ?? plugin.getSwizzleComponentList;
+  if (getSwizzleComponentList) {
+    const allowedComponent = getSwizzleComponentList();
+    if (danger) {
+      return readComponent(themePath);
+    }
+    return allowedComponent;
+  }
+  return readComponent(themePath);
+}
+
+function themeComponents(
+  themePath: string,
+  plugin: Plugin<unknown>,
+  danger: boolean,
+): string {
+  const components = colorCode(themePath, plugin, danger);
+  return `Theme Components available for swizzle:\n${components.join('\n')}`;
+}
+
+function formatedThemeNames(themeNames: string[]): string {
+  return `Themes available for swizzle:\n${themeNames.join('\n')}`;
+}
+
+function colorCode(
+  themePath: string,
+  plugin: any,
   danger: boolean,
 ): Array<string> {
   // support both commonjs and ES style exports
@@ -91,30 +118,17 @@ function getComponentName(
         },
         {},
       );
-      const colorCodedComponent = components.map((component) => {
-        if (componentMap[component]) {
-          return chalk.green(component);
-        }
-        return chalk.red(component);
-      });
-      return colorCodedComponent;
+      const colorCodedComponent = components
+        .filter((component) => !componentMap[component])
+        .map((component) => chalk.red(component));
+      return [
+        ...allowedComponent.map((component) => chalk.green(component)),
+        ...colorCodedComponent,
+      ];
     }
     return allowedComponent;
   }
   return readComponent(themePath);
-}
-
-function themeComponents(
-  themePath: string,
-  plugin: Plugin<unknown>,
-  danger: boolean,
-): string {
-  const components = getComponentName(themePath, plugin, danger);
-  return `Theme Components available for swizzle:\n${components.join('\n')}`;
-}
-
-function formatedThemeNames(themeNames: string[]): string {
-  return `Themes available for swizzle:\n${themeNames.join('\n')}`;
 }
 
 export default async function swizzle(
