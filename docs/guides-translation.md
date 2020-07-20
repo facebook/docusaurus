@@ -45,7 +45,7 @@ Pages allow you to customize the layout and specific content of pages like a cus
 
 Pages with text that you want translated should be placed in `website/pages/en` directory.
 
-Wrap strings you want translated in a `<translate>` tag, and add the following `require` statement to the top of the file:
+Wrap strings that you want translated in a `<translate>` tag, and add the following `require` statement to the top of the file:
 
 ```jsx
 ...
@@ -138,7 +138,7 @@ See the generated `website/i18n/en.json` for an example.
 
 ## How Strings Get Translated
 
-Docusaurus itself does not do any translation from one language to another. Instead, it integrates [Crowdin](https://crowdin.com/) to upload translations and then downloads the appropriately translated files from Crowdin.
+Docusaurus itself does not do any translation from one language to another. Instead, it integrates [Crowdin](https://crowdin.com/) to upload translations and then download the appropriately translated files from Crowdin.
 
 ## How Docusaurus Uses String Translations
 
@@ -162,7 +162,7 @@ For other pages, Docusaurus will automatically transform all `<translate>` tags 
 
 Crowdin is a company that provides translation services. For Open Source projects, Crowdin provides free string translations.
 
-Create your translation project on [Crowdin](https://crowdin.com/). You can use [Crowdin's guides](https://support.crowdin.com/translation-process-overview/) to learn more about the translations work flow. _We suggest that you deselect and do not include "English" as a translatable language to prevent the creation of `en-US` localization files as this can lead to confusion._
+Create your translation project on [Crowdin](https://crowdin.com/). You can use [Crowdin's guides](https://support.crowdin.com/translation-process-overview/) to learn more about the translations workflow. _We suggest that you deselect and do not include "English" as a translatable language to prevent the creation of `en-US` localization files as this can lead to confusion._
 
 > Ensure in your Crowdin settings, in the Translations section, that "Duplicate Strings" are set to ["Hide - all duplicates will share the same translation"](https://support.crowdin.com/api/create-project/). This setting will ensure that identical strings between versions share a single translation.
 
@@ -213,7 +213,7 @@ You can add the following to your `package.json` to manually trigger Crowdin.
 
 ### Manual File Sync
 
-You will always want to upload your markdown files and translatable strings first and the download the translations section. So run the commands in this order:
+You will always want to upload your markdown files and translatable strings first and download the translations section. So run the commands in this order:
 
 ```bash
 CROWDIN_DOCUSAURUS_PROJECT_ID=YOUR_CROWDIN_PROJECT_ID CROWDIN_DOCUSAURUS_API_KEY=YOUR_CROWDIN_API_KEY yarn run crowdin-upload

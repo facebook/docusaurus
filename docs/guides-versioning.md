@@ -15,7 +15,7 @@ yarn examples versions
 
 This creates the `pages/en/versions.js` file.
 
-You can edit this file later on to customize how you display the versions.
+You can edit this file, later on, to customize how you display the versions.
 
 Add the following script to your `package.json` file if it doesn't already exist:
 
