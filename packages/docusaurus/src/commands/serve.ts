@@ -6,13 +6,13 @@
  */
 
 import http from 'http';
-import portFinder from 'portfinder';
 import serveHandler from 'serve-handler';
 import boxen from 'boxen';
 import chalk from 'chalk';
 import path from 'path';
 
 import build from './build';
+import choosePort from '../choosePort';
 
 export default async function serve(
   siteDir: string,
@@ -28,9 +28,7 @@ export default async function serve(
       false,
     );
   }
-  const port = await portFinder.getPortPromise({
-    port: cliOptions.port,
-  });
+  const port = await choosePort('localhost', cliOptions.port);
   const server = http.createServer((req, res) => {
     serveHandler(req, res, {
       cleanUrls: true,
