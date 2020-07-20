@@ -64,14 +64,15 @@ export function warnAboutOverridingRoutes(
 
   const allRoutes = getAllRoutes(pluginsRouteConfigs);
 
-  // Sort all the routes in lexicographical order
-  // if adjacent routes are equal, then there are overriding routes
+  // Sort the allRoutes array in lexicographical order
+  // Then check if each route is equal to the next route
+  // If yes, one of these routes will be overridden so we warn the user
   allRoutes.sort((a, b) => a.localeCompare(b));
   for (let i = 0; i < allRoutes.length - 1; i += 1) {
     if (allRoutes[i] === allRoutes[i + 1]) {
       console.warn(
         `${
-          chalk.yellow(`warning `) + chalk.bold.yellow(`Path override: `)
+          chalk.yellow(`warning `) + chalk.bold.yellow(`Routes Override: `)
         }Attempting to create page at "${
           allRoutes[i]
         }" but a page already exists at this path\n${chalk.bold.yellow(
