@@ -22,6 +22,7 @@ import {
   Env,
   VersioningEnv,
 } from './types';
+import getSlug from './slug';
 
 function removeVersionPrefix(str: string, version: string): string {
   return str.replace(new RegExp(`^version-${version}/`), '');
@@ -132,11 +133,7 @@ export default async function processMetadata({
     );
   }
 
-  const baseSlug: string = frontMatter.slug || baseID;
-  if (baseSlug.includes('/')) {
-    throw new Error('Document slug cannot include "/".');
-  }
-  const slug = dirName !== '.' ? `${dirName}/${baseSlug}` : baseSlug;
+  const slug = getSlug({baseID, dirName, frontmatterSlug: frontMatter.slug});
 
   // Default title is the id.
   const title: string = frontMatter.title || baseID;
