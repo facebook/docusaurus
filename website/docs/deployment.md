@@ -13,6 +13,14 @@ Once it finishes, the static files will be generated within the `build/` directo
 
 You can deploy your site to static site hosting services such as [Vercel](https://vercel.com/), [GitHub Pages](https://pages.github.com/), [Netlify](https://www.netlify.com/), [Render](https://render.com/static-sites), and [Surge](https://surge.sh/help/getting-started-with-surge). Docusaurus sites are statically rendered so they work without JavaScript too!
 
+## Testing Build Local
+
+It is important to test build before deploying to a production. Docusaurus includes a `docusaurus serve` command to test build localy.
+
+```bash npm2yarn
+npm run serve
+```
+
 ## Deploying to GitHub Pages
 
 Docusaurus provides an easy way to publish to [GitHub Pages](https://pages.github.com/). Which is hosting that comes for free with every GitHub repository.
