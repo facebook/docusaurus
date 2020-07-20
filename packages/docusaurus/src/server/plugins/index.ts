@@ -45,6 +45,19 @@ export function sortConfig(routeConfigs: RouteConfig[]): void {
   });
 }
 
+export function warnAboutOverridingPaths(
+  pluginsRouteConfigs: RouteConfig[],
+): void {
+  pluginsRouteConfigs.slice().sort((a, b) => a.path.localeCompare(b.path));
+  for (let i = 0; i < pluginsRouteConfigs.length - 1; i += 1) {
+    if (pluginsRouteConfigs[i].path === pluginsRouteConfigs[i + 1].path) {
+      console.warn(
+        `path for ${pluginsRouteConfigs[i].path} has been overriden`,
+      );
+    }
+  }
+}
+
 export async function loadPlugins({
   pluginConfigs,
   context,
@@ -105,6 +118,8 @@ export async function loadPlugins({
       });
     }),
   );
+
+  warnAboutOverridingPaths(pluginsRouteConfigs);
 
   // 4. Plugin Lifecycle - routesLoaded.
   // Currently plugins run lifecycle methods in parallel and are not order-dependent.
