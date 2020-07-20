@@ -32,9 +32,10 @@ function ResultsFooter({state, onClose}) {
 }
 
 function DocSearch(props) {
+  const {siteMetadata} = useDocusaurusContext();
+  const {withBaseUrl} = useBaseUrlUtils();
   const history = useHistory();
   const [isOpen, setIsOpen] = useState(false);
-  const {withBaseUrl} = useBaseUrlUtils();
 
   const importDocSearchModalIfNeeded = useCallback(() => {
     if (DocSearchModal) {
@@ -110,6 +111,14 @@ function DocSearch(props) {
             resultsFooterComponent={(footerProps) => (
               <ResultsFooter {...footerProps} onClose={onClose} />
             )}
+            transformSearchClient={(searchClient) => {
+              searchClient.addAlgoliaAgent(
+                'docusaurus',
+                siteMetadata.docusaurusVersion,
+              );
+
+              return searchClient;
+            }}
             {...props}
           />,
           document.body,
