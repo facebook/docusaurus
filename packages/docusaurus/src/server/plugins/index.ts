@@ -15,6 +15,7 @@ import {
   RouteConfig,
 } from '@docusaurus/types';
 import initPlugins, {PluginWithVersionInformation} from './init';
+import chalk from 'chalk';
 
 export function sortConfig(routeConfigs: RouteConfig[]): void {
   // Sort the route config. This ensures that route with nested
@@ -45,14 +46,37 @@ export function sortConfig(routeConfigs: RouteConfig[]): void {
   });
 }
 
-export function warnAboutOverridingPaths(
+export function warnAboutOverridingRoutes(
   pluginsRouteConfigs: RouteConfig[],
 ): void {
-  pluginsRouteConfigs.slice().sort((a, b) => a.path.localeCompare(b.path));
-  for (let i = 0; i < pluginsRouteConfigs.length - 1; i += 1) {
-    if (pluginsRouteConfigs[i].path === pluginsRouteConfigs[i + 1].path) {
+  // Accumulate all the routes by recursively exploring each RouteConfig
+  const routesAccumulator: string[] = [];
+  function getAllRoutes(routeConfigs: RouteConfig[]): string[] {
+    for (let i = 0; i < routeConfigs.length; i += 1) {
+      const routeConfig = routeConfigs[i];
+      routesAccumulator.push(routeConfig.path);
+      if (routeConfig.routes !== undefined) {
+        getAllRoutes(routeConfig.routes);
+      }
+    }
+    return routesAccumulator;
+  }
+
+  const allRoutes = getAllRoutes(pluginsRouteConfigs);
+
+  // Sort all the routes in lexicographical order
+  // if adjacent routes are equal, then there are overriding routes
+  allRoutes.sort((a, b) => a.localeCompare(b));
+  for (let i = 0; i < allRoutes.length - 1; i += 1) {
+    if (allRoutes[i] === allRoutes[i + 1]) {
       console.warn(
-        `path for ${pluginsRouteConfigs[i].path} has been overriden`,
+        `${
+          chalk.yellow(`warning `) + chalk.bold.yellow(`Path override: `)
+        }Attempting to create page at "${
+          allRoutes[i]
+        }" but a page already exists at this path\n${chalk.bold.yellow(
+          `This could lead to non-deterministic routing behavior`,
+        )}`,
       );
     }
   }
@@ -119,7 +143,7 @@ export async function loadPlugins({
     }),
   );
 
-  warnAboutOverridingPaths(pluginsRouteConfigs);
+  warnAboutOverridingRoutes(pluginsRouteConfigs);
 
   // 4. Plugin Lifecycle - routesLoaded.
   // Currently plugins run lifecycle methods in parallel and are not order-dependent.
