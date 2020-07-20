@@ -30,7 +30,10 @@ module.exports = async function (fileString) {
     remarkPlugins: [
       ...(reqOptions.beforeDefaultRemarkPlugins || []),
       ...DEFAULT_OPTIONS.remarkPlugins,
-      [relativePath, {staticDir: reqOptions.staticDir}],
+      [
+        relativePath,
+        {staticDir: reqOptions.staticDir, filePath: this.resourcePath},
+      ],
       ...(reqOptions.remarkPlugins || []),
     ],
     rehypePlugins: [

@@ -15,6 +15,16 @@ const plugin = (options) => {
     visit(root, 'image', (node) => {
       if (!url.parse(node.url).protocol) {
         if (!path.isAbsolute(node.url)) {
+          if (
+            !fs.existsSync(path.join(path.dirname(options.filePath), node.url))
+          ) {
+            throw new Error(
+              `Image ${path.join(
+                path.dirname(options.filePath),
+                node.url,
+              )} used in ${options.filePath} not found.`,
+            );
+          }
           node.type = 'jsx';
           node.value = `<img ${node.alt ? `alt={"${node.alt}"}` : ''} ${
             node.url
@@ -33,7 +43,11 @@ const plugin = (options) => {
             delete node.title;
           }
         } else if (!fs.existsSync(path.join(options.staticDir, node.url))) {
-          throw new Error(`File ${node.url} not found in ${options.staticDir}`);
+          throw new Error(
+            `Image ${path.join(options.staticDir, node.url)} used in ${
+              options.filePath
+            } not found.`,
+          );
         }
       }
     });
