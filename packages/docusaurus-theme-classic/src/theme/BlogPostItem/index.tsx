@@ -40,7 +40,7 @@ function BlogPostItem(props): JSX.Element {
     isBlogPostPage = false,
   } = props;
   const {date, permalink, tags, readingTime} = metadata;
-  const {author, title, image} = frontMatter;
+  const {author, title, image, keywords} = frontMatter;
 
   const authorURL = frontMatter.author_url || frontMatter.authorURL;
   const authorTitle = frontMatter.author_title || frontMatter.authorTitle;
@@ -97,6 +97,9 @@ function BlogPostItem(props): JSX.Element {
   return (
     <>
       <Head>
+        {keywords && keywords.length && (
+          <meta name="keywords" content={keywords.join(',')} />
+        )}
         {image && <meta property="og:image" content={imageUrl} />}
         {image && <meta property="twitter:image" content={imageUrl} />}
         {image && (
