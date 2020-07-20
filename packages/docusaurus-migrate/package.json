@@ -26,6 +26,7 @@
     "hast-util-to-text": "^2.0.0",
     "html-tags": "^3.1.0",
     "import-fresh": "^3.2.1",
+    "jscodeshift": "^0.10.0",
     "rehype-parse": "^7.0.1",
     "remark-parse": "^8.0.2",
     "remark-stringify": "^8.1.0",
@@ -34,6 +35,7 @@
     "unist-util-visit": "^2.0.2"
   },
   "devDependencies": {
-    "@types/fs-extra": "^9.0.1"
+    "@types/fs-extra": "^9.0.1",
+    "@types/jscodeshift": "^0.7.1"
   }
 }
