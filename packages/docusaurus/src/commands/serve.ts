@@ -5,19 +5,29 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import build from './build';
-import {BuildCLIOptions} from '@docusaurus/types';
 import http from 'http';
 import portFinder from 'portfinder';
 import serveHandler from 'serve-handler';
 import boxen from 'boxen';
 import chalk from 'chalk';
+import path from 'path';
+
+import build from './build';
 
 export default async function serve(
   siteDir: string,
-  cliOptions: BuildCLIOptions & {port: number},
+  cliOptions: {port: number; build: boolean; dir: string},
 ): Promise<void> {
-  const dir = await build(siteDir, cliOptions, false);
+  let dir = path.join(siteDir, cliOptions.dir);
+  if (cliOptions.build) {
+    dir = await build(
+      siteDir,
+      {
+        outDir: dir,
+      },
+      false,
+    );
+  }
   const port = await portFinder.getPortPromise({
     port: cliOptions.port,
   });
@@ -30,7 +40,7 @@ export default async function serve(
   console.log(
     boxen(
       `${chalk.green(
-        `Serving ${cliOptions.outDir}!`,
+        `Serving ${cliOptions.dir}!`,
       )}\n\n- Local: http://localhost:${port}`,
       {
         borderColor: 'green',
