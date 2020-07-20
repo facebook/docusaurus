@@ -4,7 +4,7 @@
   "description": "Debug plugin for Docusaurus",
   "main": "lib/index.js",
   "scripts": {
-    "tsc": "tsc"
+    "build": "tsc"
   },
   "publishConfig": {
     "access": "public"

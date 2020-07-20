@@ -10,7 +10,12 @@ import context from './context';
 import {DocusaurusContext} from '@docusaurus/types';
 
 function useDocusaurusContext(): DocusaurusContext {
-  return useContext(context);
+  const docusaurusContext = useContext(context);
+  if (docusaurusContext === null) {
+    // should not happen normally
+    throw new Error('Docusaurus context not provided');
+  }
+  return docusaurusContext;
 }
 
 export default useDocusaurusContext;

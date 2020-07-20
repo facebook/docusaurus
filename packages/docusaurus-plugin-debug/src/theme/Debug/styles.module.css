@@ -7,5 +7,11 @@
 
 .Container {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   margin: 1em;
+}
+
+.Section {
+  width: 500px;
 }
