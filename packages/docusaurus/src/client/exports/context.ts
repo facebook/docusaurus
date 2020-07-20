@@ -8,4 +8,4 @@
 import React from 'react';
 import {DocusaurusContext} from '@docusaurus/types';
 
-export default React.createContext<DocusaurusContext>({});
+export default React.createContext<DocusaurusContext | null>(null);

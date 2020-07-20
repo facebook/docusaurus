@@ -23,6 +23,7 @@ export const DEFAULT_OPTIONS: PluginOptions = {
   showLastUpdateAuthor: false,
   admonitions: {},
   excludeNextVersionDocs: false,
+  disableVersioning: false,
 };
 
 export const PluginOptionSchema = Joi.object({
@@ -51,4 +52,5 @@ export const PluginOptionSchema = Joi.object({
   excludeNextVersionDocs: Joi.bool().default(
     DEFAULT_OPTIONS.excludeNextVersionDocs,
   ),
+  disableVersioning: Joi.bool().default(DEFAULT_OPTIONS.disableVersioning),
 });

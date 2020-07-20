@@ -12,12 +12,35 @@ import registry from '@generated/registry';
 import routes from '@generated/routes';
 
 import styles from './styles.module.css';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 function Debug() {
+  const {siteMetadata} = useDocusaurusContext();
   return (
     <Layout permalink="__docusaurus/debug" title="Debug">
       <main className={styles.Container}>
-        <section>
+        <section className={styles.Section}>
+          <h2>Site Metadata</h2>
+          <div>Docusaurus Version: {siteMetadata.docusaurusVersion}</div>
+          <div>
+            Site Version: {siteMetadata.siteVersion || 'No version specified'}
+          </div>
+          <h3>Plugins and themes:</h3>
+          <ul>
+            {Object.entries(siteMetadata.pluginVersions).map(
+              ([name, versionInformation]) => (
+                <li key={name}>
+                  <div>Name: {name}</div>
+                  <div>Type: {versionInformation.type}</div>
+                  {versionInformation.version && (
+                    <div>Version: {versionInformation.version}</div>
+                  )}
+                </li>
+              ),
+            )}
+          </ul>
+        </section>
+        <section className={styles.Section}>
           <h2>Registry</h2>
           <ul>
             {Object.values(registry).map(([, aliasedPath, resolved]) => (
@@ -28,7 +51,7 @@ function Debug() {
             ))}
           </ul>
         </section>
-        <section>
+        <section className={styles.Section}>
           <h2>Routes</h2>
           <ul>
             {routes.map(({path, exact}) => (

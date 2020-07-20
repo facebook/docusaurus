@@ -16,7 +16,7 @@ function BlogPostPaginator(props): JSX.Element {
       <div className="pagination-nav__item">
         {prevItem && (
           <Link className="pagination-nav__link" to={prevItem.permalink}>
-            <div className="pagination-nav__sublabel">Previous Post</div>
+            <div className="pagination-nav__sublabel">Newer Post</div>
             <div className="pagination-nav__label">
               &laquo; {prevItem.title}
             </div>
@@ -26,7 +26,7 @@ function BlogPostPaginator(props): JSX.Element {
       <div className="pagination-nav__item pagination-nav__item--next">
         {nextItem && (
           <Link className="pagination-nav__link" to={nextItem.permalink}>
-            <div className="pagination-nav__sublabel">Next Post</div>
+            <div className="pagination-nav__sublabel">Older Post</div>
             <div className="pagination-nav__label">
               {nextItem.title} &raquo;
             </div>
