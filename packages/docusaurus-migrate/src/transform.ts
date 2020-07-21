@@ -145,7 +145,7 @@ export default function transformer(file: string): string {
             [
               jscodeshift.jsxElement(
                 jscodeshift.jsxOpeningElement(
-                  jscodeshift.jsxIdentifier(p.value.right.name),
+                  jscodeshift.jsxIdentifier((p.value.right as any).name),
                   [
                     jscodeshift.jsxSpreadAttribute(
                       jscodeshift.identifier('props'),
