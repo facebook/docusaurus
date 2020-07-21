@@ -24,15 +24,29 @@ const processFixture = async (name, options) => {
   return result.toString();
 };
 
-test('fail if image donot exists', async () => {
-  expect(
-    processFixture('fail', {staticDir: join(__dirname, 'fixtures')}),
-  ).rejects.toBeInstanceOf(Error);
-});
-
-test('transform md images to <img />', async () => {
-  const result = await processFixture('img', {
-    staticDir: join(__dirname, 'fixtures'),
+describe('transformImage plugin', () => {
+  test('fail if image does not exist', async () => {
+    await expect(
+      processFixture('fail', {staticDir: join(__dirname, 'fixtures')}),
+    ).rejects.toThrowErrorMatchingSnapshot();
   });
-  expect(result).toMatchSnapshot();
+  test('fail if image url is absent', async () => {
+    await expect(
+      processFixture('noUrl', {staticDir: join(__dirname, 'fixtures')}),
+    ).rejects.toThrowErrorMatchingSnapshot();
+  });
+
+  test('transform md images to <img />', async () => {
+    const result = await processFixture('img', {
+      staticDir: join(__dirname, 'fixtures'),
+    });
+    expect(result).toMatchSnapshot();
+  });
+
+  test('pathname protocol', async () => {
+    const result = await processFixture('pathname', {
+      staticDir: join(__dirname, 'fixtures'),
+    });
+    expect(result).toMatchSnapshot();
+  });
 });

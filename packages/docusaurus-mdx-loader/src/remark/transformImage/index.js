@@ -10,49 +10,72 @@ const path = require('path');
 const url = require('url');
 const fs = require('fs-extra');
 
-const plugin = (options) => {
-  const transformer = (root) => {
-    visit(root, 'image', (node) => {
-      if (!url.parse(node.url).protocol) {
-        if (!path.isAbsolute(node.url)) {
-          if (
-            !fs.existsSync(path.join(path.dirname(options.filePath), node.url))
-          ) {
-            throw new Error(
-              `Image ${path.join(
-                path.dirname(options.filePath),
-                node.url,
-              )} used in ${options.filePath} not found.`,
-            );
-          }
-          node.type = 'jsx';
-          node.value = `<img ${node.alt ? `alt={"${node.alt}"}` : ''} ${
-            node.url
-              ? `src={require("!url-loader!${
-                  node.url.startsWith('./') ? node.url : `./${node.url}`
-                }").default}`
-              : ''
-          } ${node.title ? `title={"${node.title}"}` : ''} />`;
-          if (node.url) {
-            delete node.url;
-          }
-          if (node.alt) {
-            delete node.alt;
-          }
-          if (node.title) {
-            delete node.title;
-          }
-        } else if (!fs.existsSync(path.join(options.staticDir, node.url))) {
-          throw new Error(
-            `Image ${path.join(options.staticDir, node.url)} used in ${
-              options.filePath
-            } not found.`,
-          );
-        }
-      }
-    });
-  };
+async function ensureImageFileExist(imagePath, sourceFilePath) {
+  const imageExists = await fs.exists(imagePath);
+  if (!imageExists) {
+    throw new Error(`Image ${imagePath} used in ${sourceFilePath} not found.`);
+  }
+}
 
+async function processImageNode(node, {filePath, staticDir}) {
+  if (!node.url) {
+    throw new Error(`markdown image url is mandatory. filePath=${filePath}`);
+  }
+
+  const parsedUrl = url.parse(node.url);
+  if (parsedUrl.protocol) {
+    // pathname:// is an escape hatch,
+    // in case user does not want his images to be converted to require calls going through webpack loader
+    // we don't have to document this for now,
+    // it's mostly to make next release less risky (2.0.0-alpha.59)
+    if (parsedUrl.protocol === 'pathname:') {
+      node.url = node.url.replace('pathname://', '');
+    } else {
+      // noop
+    }
+  }
+  // images without protocol
+  else if (path.isAbsolute(node.url)) {
+    // absolute paths are expected to exist in the static folder
+    const expectedImagePath = path.join(staticDir, node.url);
+    await ensureImageFileExist(expectedImagePath);
+  }
+  // We try to convert image urls without protocol to images with require calls
+  // going through webpack ensures that image assets exist at build time
+  else {
+    // relative paths are resolved against the source file's folder
+    const expectedImagePath = path.join(path.dirname(filePath), node.url);
+    await ensureImageFileExist(expectedImagePath, filePath);
+
+    node.type = 'jsx';
+    node.value = `<img ${node.alt ? `alt={"${node.alt}"}` : ''} ${
+      node.url
+        ? `src={require("!url-loader!${
+            node.url.startsWith('./') ? node.url : `./${node.url}`
+          }").default}`
+        : ''
+    } ${node.title ? `title={"${node.title}"}` : ''} />`;
+
+    if (node.url) {
+      delete node.url;
+    }
+    if (node.alt) {
+      delete node.alt;
+    }
+    if (node.title) {
+      delete node.title;
+    }
+  }
+}
+
+const plugin = (options) => {
+  const transformer = async (root) => {
+    const promises = [];
+    visit(root, 'image', (node) => {
+      promises.push(processImageNode(node, options));
+    });
+    await Promise.all(promises);
+  };
   return transformer;
 };
 

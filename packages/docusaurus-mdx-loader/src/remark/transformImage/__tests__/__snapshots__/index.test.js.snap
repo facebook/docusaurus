@@ -1,6 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`transform md images to <img /> 1`] = `
+exports[`transformImage plugin fail if image does not exist 1`] = `"Image /Users/sebastienlorber/Desktop/projects/docusaurus/packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/fixtures/img/doesNotExist.png used in undefined not found."`;
+
+exports[`transformImage plugin fail if image url is absent 1`] = `"markdown image url is mandatory. filePath=/Users/sebastienlorber/Desktop/projects/docusaurus/packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/fixtures/noUrl.md"`;
+
+exports[`transformImage plugin pathname protocol 1`] = `
+"![img](/img/unchecked.png)
+"
+`;
+
+exports[`transformImage plugin transform md images to <img /> 1`] = `
 "![img](https://example.com/img.png)
 
 <img  src={require(\\"!url-loader!./img.png\\").default}  />
