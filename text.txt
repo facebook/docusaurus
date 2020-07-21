@@ -1,0 +1,19 @@
+yarn run v1.22.4
+$ /home/agoyal/docusaurus/node_modules/.bin/docusaurus-migrate migrate ./website-1.x/ /home/agoyal/n-d1
+Starting migration from v1 to v2...
+Successfully created client redirect for non clean URL
+Error occurred while creating landing page: Error: ENOENT: no such file or directory, open '/home/agoyal/n-d1/src/pages/index.js'
+Successfully migrated static folder
+Successfully migrated blogs to version 2 with change in frontmatter
+Successfully migrated version docs and sidebar. The following doc versions have been created: 
+1.9.x
+1.10.x
+1.11.x
+1.12.0
+1.13.0
+1.14.4
+Successfully migrated docs to version 2
+Successfully created a new config file with new navbar and footer config
+Successfully migrated package.json file
+Completed migration from v1 to v2
+Done in 0.39s.

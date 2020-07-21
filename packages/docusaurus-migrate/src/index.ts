@@ -268,7 +268,7 @@ export function createConfigFile(
               };
             }
             if (link.href) {
-              return {...link, position: 'left'};
+              return {href: link.href, label: link.label, position: 'left'};
             }
             return null;
           })

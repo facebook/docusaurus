@@ -46,7 +46,7 @@ export interface VersionTwoConfig {
         src?: string;
       };
       image?: string;
-      links: Array<Record<string, unknown>>;
+      links: Array<Record<string, unknown> | null>;
     };
     footer: {
       links: Array<{
