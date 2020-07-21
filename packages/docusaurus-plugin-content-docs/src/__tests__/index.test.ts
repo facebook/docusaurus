@@ -262,8 +262,10 @@ describe('versioned website', () => {
         "docs/**/*.{md,mdx}",
         "versioned_sidebars/version-1.0.1-sidebars.json",
         "versioned_sidebars/version-1.0.0-sidebars.json",
+        "versioned_sidebars/version-withSlugs-sidebars.json",
         "versioned_docs/version-1.0.1/**/*.{md,mdx}",
         "versioned_docs/version-1.0.0/**/*.{md,mdx}",
+        "versioned_docs/version-withSlugs/**/*.{md,mdx}",
         "sidebars.json",
       ]
     `);
