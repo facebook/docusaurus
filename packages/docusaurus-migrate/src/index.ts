@@ -9,6 +9,7 @@ import * as fs from 'fs-extra';
 import importFresh from 'import-fresh';
 import chalk from 'chalk';
 import glob from 'glob';
+import Color from 'color';
 
 import {
   VersionOneConfig,
@@ -78,7 +79,9 @@ export async function migrateDocusaurusProject(
   };
   try {
     createClientRedirects(siteConfig, deps, config);
-    console.log(chalk.green('Creating Redirect for non clean URL'));
+    console.log(
+      chalk.green('Successfully created client redirect for non clean URL'),
+    );
   } catch (errorInClientRedirect) {
     console.log(
       chalk.red(`Error while creating redirects: ${errorInClientRedirect}`),
@@ -88,47 +91,55 @@ export async function migrateDocusaurusProject(
     createLandingPage(newDir, siteDir);
     console.log(
       chalk.green(
-        'Creating a sudo landing page please check migration page for more details',
+        'Successfully created a landing page (check migration page for more details)',
       ),
     );
   } catch (errorInLandingPage) {
     console.log(
-      chalk.red(`Error while creating landing Page: ${errorInLandingPage}`),
+      chalk.red(
+        `Error occurred while creating landing Page: ${errorInLandingPage}`,
+      ),
     );
   }
   try {
     migrateStaticFiles(siteDir, newDir);
-    console.log(chalk.green('Migrated static folder'));
+    console.log(chalk.green('Successfully migrated static folder'));
   } catch (errorInStatic) {
     console.log(
-      chalk.red(`Error while copying static folder: ${errorInStatic} `),
+      chalk.red(
+        `Error occurred while copying static folder: ${errorInStatic} `,
+      ),
     );
   }
   try {
     migrateBlogFiles(siteDir, newDir, classicPreset, migrateMdFiles);
   } catch (errorInMigratingBlogs) {
     console.log(
-      chalk.red(`Error while migrating blogs: ${errorInMigratingBlogs}`),
+      chalk.red(
+        `Error occurred while migrating blogs: ${errorInMigratingBlogs}`,
+      ),
     );
   }
   try {
     handleVersioning(siteDir, newDir, config, migrateMdFiles);
   } catch (errorInVersion) {
     console.log(
-      chalk.red(`Error in migrating versioned docs: ${errorInVersion}`),
+      chalk.red(
+        `Error occurred while migrating versioned docs: ${errorInVersion}`,
+      ),
     );
   }
 
   try {
     migrateLatestDocs(siteDir, newDir, migrateMdFiles);
   } catch (errorInDoc) {
-    chalk.red(`Error in migrating docs: ${errorInDoc}`);
+    chalk.red(`Error occurred while migrating docs: ${errorInDoc}`);
   }
 
   try {
     migrateLatestSidebar(siteDir, newDir, classicPreset, siteConfig);
   } catch (error) {
-    console.log(chalk.red(`Error migrating sidebar: ${error}`));
+    console.log(chalk.red(`Error occurred while migrating sidebar: ${error}`));
   }
 
   try {
@@ -137,16 +148,22 @@ export async function migrateDocusaurusProject(
       `module.exports=${JSON.stringify(config, null, 2)}`,
     );
     console.log(
-      chalk.green(`Created new Config file with new navbar and footer config`),
+      chalk.green(
+        `Successfully created a new config file with new navbar and footer config`,
+      ),
     );
   } catch (error) {
-    console.log(chalk.red(`Error creating config file: ${error}`));
+    console.log(
+      chalk.red(`Error occurred while creating config file: ${error}`),
+    );
   }
   try {
     migratePackageFile(siteDir, deps, newDir);
   } catch (error) {
     console.log(
-      chalk.red(`Error file creating pacjage.json file for project: ${error}`),
+      chalk.red(
+        `Error occurred while creating package.json file for project: ${error}`,
+      ),
     );
   }
 }
@@ -310,10 +327,12 @@ function migrateBlogFiles(
     });
     classicPreset.blog.path = 'blog';
     console.log(
-      chalk.green(`Migrated blogs to version 2 with change in frontmatter`),
+      chalk.green(
+        `Successfully migrated blogs to version 2 with change in frontmatter`,
+      ),
     );
   } else {
-    console.log(chalk.yellow(`Blog not found. Ignoring blogs.`));
+    console.log(chalk.yellow(`Blog not found. Skipping migration for blog`));
   }
 }
 
@@ -344,14 +363,16 @@ function handleVersioning(
     );
     console.log(
       chalk.green(
-        `Migrated version docs and sidebar. Following versions are creating: \n${loadedVersions.join(
+        `Migrated version docs and sidebar. The following doc versions have been created: \n${loadedVersions.join(
           '\n',
         )}`,
       ),
     );
   } else {
     console.log(
-      chalk.yellow('Versioned docs not found. Ignoring versioned docs'),
+      chalk.yellow(
+        'Versioned docs not found. Skipping migration for versioned docs',
+      ),
     );
   }
 }
@@ -542,12 +563,21 @@ function migrateLatestSidebar(
     );
     classicPreset.docs.sidebarPath = path.join(newDir, 'sidebars.json');
   } catch {
-    console.log(chalk.yellow(`Sidebar not found. Ignoring sidebar`));
+    console.log(
+      chalk.yellow(`Sidebar not found. Skipping migration for sidebar`),
+    );
   }
   if (siteConfig.colors) {
+    const primaryColor = Color(siteConfig.colors.primaryColor);
     const css = `
       :root{
-        --ifm-color-primary: ${siteConfig.colors.primaryColor};
+        --ifm-color-primary-lightest: ${primaryColor.darken(-0.3).hex()}
+        --ifm-color-primary-lighter: ${primaryColor.darken(-0.15).hex()}
+        --ifm-color-primary-light: ${primaryColor.darken(-0.1).hex()}
+        --ifm-color-primary: ${primaryColor};
+        --ifm-color-primary-dark: ${primaryColor.darken(0.1).hex()}
+        --ifm-color-primary-darker: ${primaryColor.darken(0.15).hex()}
+        --ifm-color-primary-darkest: ${primaryColor.darken(0.3).hex()}
       }
       `;
     fs.mkdirpSync(path.join(newDir, 'src', 'css'));
@@ -573,10 +603,12 @@ function migrateLatestDocs(
       const content = String(fs.readFileSync(file));
       fs.writeFileSync(file, sanitizedFileContent(content, migrateMDFiles));
     });
-    console.log(chalk.green(`Migrated docs to version 2`));
+    console.log(chalk.green(`Successfully migrated docs to version 2`));
   } else {
     fs.mkdirSync(path.join(newDir, 'docs'));
-    console.log(chalk.yellow(`Docs folder Not found`));
+    console.log(
+      chalk.yellow(`Docs folder not found. Skipping migration for docs`),
+    );
   }
 }
 
@@ -610,7 +642,7 @@ function migratePackageFile(
     path.join(newDir, 'package.json'),
     JSON.stringify(packageFile, null, 2),
   );
-  console.log(chalk.green(`Migrated package.json file.`));
+  console.log(chalk.green(`Successfully migrated package.json file.`));
 }
 
 export async function migrateMDToMDX(
@@ -626,5 +658,5 @@ export async function migrateMDToMDX(
       sanitizedFileContent(String(fs.readFileSync(file)), true),
     );
   });
-  console.log(`Migrated ${siteDir} to ${newDir}`);
+  console.log(`Succesfully migrated ${siteDir} to ${newDir}`);
 }
