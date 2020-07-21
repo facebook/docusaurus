@@ -2,7 +2,7 @@
 
 exports[`transformImage plugin fail if image does not exist 1`] = `"Image packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/fixtures/img/doesNotExist.png used in packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/fixtures/fail.md not found."`;
 
-exports[`transformImage plugin fail if image url is absent 1`] = `"markdown image url is mandatory. filePath=/Users/sebastienlorber/Desktop/projects/docusaurus/packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/fixtures/noUrl.md"`;
+exports[`transformImage plugin fail if image url is absent 1`] = `"Markdown image url is mandatory. filePath=packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/fixtures/noUrl.md"`;
 
 exports[`transformImage plugin pathname protocol 1`] = `
 "![img](/img/unchecked.png)

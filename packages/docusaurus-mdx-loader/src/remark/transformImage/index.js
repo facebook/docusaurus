@@ -10,21 +10,28 @@ const path = require('path');
 const url = require('url');
 const fs = require('fs-extra');
 
+// Needed to throw errors with computer-agnostic path messages
+// Absolute paths are too dependant of user FS
+function toRelativePath(filePath) {
+  return path.relative(process.cwd(), filePath);
+}
+
 async function ensureImageFileExist(imagePath, sourceFilePath) {
   const imageExists = await fs.exists(imagePath);
   if (!imageExists) {
-    // Need to throw computer-agnostic error message to pass unit-tests
-    const relativeImagePath = path.relative(process.cwd(), imagePath);
-    const relativeSourceFilePath = path.relative(process.cwd(), sourceFilePath);
     throw new Error(
-      `Image ${relativeImagePath} used in ${relativeSourceFilePath} not found.`,
+      `Image ${toRelativePath(imagePath)} used in ${toRelativePath(
+        sourceFilePath,
+      )} not found.`,
     );
   }
 }
 
 async function processImageNode(node, {filePath, staticDir}) {
   if (!node.url) {
-    throw new Error(`markdown image url is mandatory. filePath=${filePath}`);
+    throw new Error(
+      `Markdown image url is mandatory. filePath=${toRelativePath(filePath)}`,
+    );
   }
 
   const parsedUrl = url.parse(node.url);
