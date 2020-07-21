@@ -1,1 +1,1 @@
-![img](/img/post.png)
+![img](/img/doesNotExist.png)
