@@ -119,7 +119,7 @@ export interface MetadataRaw extends LastUpdateData {
   source: string;
   permalink: string;
   sidebar_label?: string;
-  editUrl?: string;
+  editUrl?: string | null;
   version?: string;
   latestVersionMainDocPermalink?: string;
 }
