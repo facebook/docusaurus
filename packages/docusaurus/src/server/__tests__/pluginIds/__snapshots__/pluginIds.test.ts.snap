@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ensureUniquePluginInstanceIds reject multi instance plugins with same id 1`] = `
+"Plugin plugin-docs is used 2 times with id=sameId.
+To use the same plugin multiple times on a Docusaurus site, you need to assign a unique id to each plugin instance."
+`;
+
+exports[`ensureUniquePluginInstanceIds reject multi instance plugins without id 1`] = `
+"Plugin plugin-docs is used 2 times with id=default.
+To use the same plugin multiple times on a Docusaurus site, you need to assign a unique id to each plugin instance."
+`;
+
+exports[`ensureUniquePluginInstanceIds reject multi instance plugins without id 2`] = `
+"Plugin plugin-docs is used 2 times with id=default.
+To use the same plugin multiple times on a Docusaurus site, you need to assign a unique id to each plugin instance."
+`;

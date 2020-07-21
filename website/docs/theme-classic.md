@@ -148,16 +148,18 @@ module.exports = {
 };
 ```
 
-### Navbar links
+### Navbar items
 
-You can add links to the navbar via `themeConfig.navbar.links`:
+You can add items to the navbar via `themeConfig.navbar.items`.
+
+By default, Navbar items are regular links (internal or external).
 
 ```js {5-15} title="docusaurus.config.js"
 module.exports = {
   // ...
   themeConfig: {
     navbar: {
-      links: [
+      items: [
         {
           // Client-side routing, used for navigating within the website.
           // The baseUrl will be automatically prepended to this value.
@@ -180,7 +182,7 @@ module.exports = {
           // Custom CSS class (for styling any item).
           className: '',
         },
-        // ... other links
+        // ... other items
       ],
     },
     // ...
@@ -194,14 +196,14 @@ Outbound (external) links automatically get `target="_blank" rel="noopener noref
 
 ### Navbar dropdown
 
-Navbar items can also be dropdown items by specifying the `items`, an inner array of navbar links.
+Navbar items can also be dropdown items by specifying the `items`, an inner array of navbar items.
 
 ```js {9-19} title="docusaurus.config.js"
 module.exports = {
   // ...
   themeConfig: {
     navbar: {
-      links: [
+      items: [
         {
           label: 'Community',
           position: 'left', // or 'right'
@@ -220,6 +222,46 @@ module.exports = {
       ],
     },
     // ...
+  },
+};
+```
+
+### Navbar docs version dropdown
+
+If you use docs with versioning, this special navbar item type that will render a dropdown with all your site's available versions. The user will be able to switch from one version to another, while staying on the same doc (as long as the doc id is constant across versions).
+
+```js {5-8} title="docusaurus.config.js"
+module.exports = {
+  themeConfig: {
+    navbar: {
+      items: [
+        {
+          type: 'docsVersionDropdown',
+          position: 'left',
+        },
+      ],
+    },
+  },
+};
+```
+
+### Navbar docs version
+
+If you use docs with versioning, this special navbar item type will link to the active/browsed version of your doc (depends on the current url), and fallback to the latest version.
+
+```js {5-10} title="docusaurus.config.js"
+module.exports = {
+  themeConfig: {
+    navbar: {
+      items: [
+        {
+          type: 'docsVersion',
+          position: 'left',
+          // to: "/path // by default, link to active/latest version
+          // label: "label" // by default, show active/latest version label
+        },
+      ],
+    },
   },
 };
 ```

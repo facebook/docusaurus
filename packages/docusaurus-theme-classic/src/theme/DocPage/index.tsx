@@ -18,46 +18,55 @@ import {matchPath} from '@docusaurus/router';
 
 import styles from './styles.module.css';
 
-function DocPage(props): JSX.Element {
-  const {route: baseRoute, docsMetadata, location} = props;
-  // case-sensitive route such as it is defined in the sidebar
-  const currentRoute =
-    baseRoute.routes.find((route) => {
-      return matchPath(location.pathname, route);
-    }) || {};
+function DocPageContent({
+  currentDocRoute,
+  docsMetadata,
+  children,
+}): JSX.Element {
+  const {siteConfig, isClient} = useDocusaurusContext();
   const {permalinkToSidebar, docsSidebars, version} = docsMetadata;
-  const sidebar = permalinkToSidebar[currentRoute.path];
-  const {
-    siteConfig: {themeConfig = {}} = {},
-    isClient,
-  } = useDocusaurusContext();
-
-  const {sidebarCollapsible = true} = themeConfig;
-
-  if (Object.keys(currentRoute).length === 0) {
-    return <NotFound {...props} />;
-  }
-
+  const sidebarName = permalinkToSidebar[currentDocRoute.path];
+  const sidebar = docsSidebars[sidebarName];
   return (
     <Layout version={version} key={isClient}>
       <div className={styles.docPage}>
         {sidebar && (
           <div className={styles.docSidebarContainer} role="complementary">
             <DocSidebar
-              docsSidebars={docsSidebars}
-              path={currentRoute.path}
               sidebar={sidebar}
-              sidebarCollapsible={sidebarCollapsible}
+              path={currentDocRoute.path}
+              sidebarCollapsible={
+                siteConfig.themeConfig?.sidebarCollapsible ?? true
+              }
             />
           </div>
         )}
         <main className={styles.docMainContainer}>
-          <MDXProvider components={MDXComponents}>
-            {renderRoutes(baseRoute.routes)}
-          </MDXProvider>
+          <MDXProvider components={MDXComponents}>{children}</MDXProvider>
         </main>
       </div>
     </Layout>
+  );
+}
+
+function DocPage(props) {
+  const {
+    route: {routes: docRoutes},
+    docsMetadata,
+    location,
+  } = props;
+  const currentDocRoute = docRoutes.find((docRoute) =>
+    matchPath(location.pathname, docRoute),
+  );
+  if (!currentDocRoute) {
+    return <NotFound {...props} />;
+  }
+  return (
+    <DocPageContent
+      currentDocRoute={currentDocRoute}
+      docsMetadata={docsMetadata}>
+      {renderRoutes(docRoutes)}
+    </DocPageContent>
   );
 }
 
