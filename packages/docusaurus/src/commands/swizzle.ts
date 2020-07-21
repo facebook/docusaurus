@@ -9,38 +9,46 @@ import chalk = require('chalk');
 import fs from 'fs-extra';
 import importFresh from 'import-fresh';
 import path from 'path';
-import {Plugin, LoadContext, PluginConfig} from '@docusaurus/types';
+import {
+  Plugin,
+  LoadContext,
+  PluginConfig,
+  ValidationSchema,
+} from '@docusaurus/types';
 import leven from 'leven';
 
 import {THEME_PATH} from '../constants';
 import {loadContext, loadPluginConfigs} from '../server';
 import initPlugins from '../server/plugins/init';
 
+function validate<T>(schema: ValidationSchema<T>, options: Partial<T>) {
+  const {error, value} = schema.validate(options, {
+    convert: true,
+  });
+  console.log(error, value);
+  if (error) {
+    throw error;
+  }
+  return value;
+}
+
 export function getPluginNames(plugins: PluginConfig[]): string[] {
   return plugins.map((plugin) => {
     const pluginPath = Array.isArray(plugin) ? plugin[0] : plugin;
-    if (pluginPath.includes(path.sep)) {
-      let packagePath = pluginPath.substring(
-        0,
-        pluginPath.lastIndexOf(path.sep),
-      );
-      while (packagePath) {
-        if (fs.existsSync(`${packagePath}/package.json`)) {
-          break;
-        } else {
-          packagePath = packagePath.substring(
-            0,
-            packagePath.lastIndexOf(path.sep),
-          );
-        }
+    let packagePath = path.dirname(pluginPath);
+    while (packagePath) {
+      if (fs.existsSync(path.join(packagePath, 'package.json'))) {
+        break;
+      } else {
+        packagePath = path.dirname(packagePath);
       }
-      if (packagePath === '') {
-        return pluginPath;
-      }
-      return (importFresh(`${packagePath}/package.json`) as {name: string})
-        .name as string;
     }
-    return pluginPath;
+    if (packagePath === '.') {
+      return pluginPath;
+    }
+    return (importFresh(path.join(packagePath, 'package.json')) as {
+      name: string;
+    }).name as string;
   });
 }
 
@@ -48,11 +56,11 @@ function walk(dir: string): Array<string> {
   let results: Array<string> = [];
   const list = fs.readdirSync(dir);
   list.forEach((file: string) => {
-    const fullPath = `${dir}/${file}`;
+    const fullPath = path.join(dir, file);
     const stat = fs.statSync(fullPath);
     if (stat && stat.isDirectory()) {
       results = results.concat(walk(fullPath));
-    } else if (!/node_modules|.css/.test(fullPath)) {
+    } else if (!/node_modules|.css|.d.ts|.d.map/.test(fullPath)) {
       results.push(fullPath);
     }
   });
@@ -173,7 +181,17 @@ export default async function swizzle(
       );
     }
     const plugin = pluginModule.default ?? pluginModule;
-    const pluginInstance = plugin(context);
+    const validateOptions =
+      pluginModule.default?.validateOptions ?? pluginModule.validateOptions;
+    let pluginOptions = {};
+    if (validateOptions) {
+      const normalizedOptions = validateOptions({
+        validate,
+        options: pluginOptions,
+      });
+      pluginOptions = normalizedOptions;
+    }
+    const pluginInstance = plugin(context, pluginOptions);
     const themePath = typescript
       ? pluginInstance.getTypeScriptThemePath?.()
       : pluginInstance.getThemePath?.();
