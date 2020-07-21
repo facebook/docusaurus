@@ -7,14 +7,14 @@ title: Blog
 
 To setup your site's blog, start by creating a `blog` directory.
 
-Then, add a navbar link to your blog within `docusaurus.config.js`:
+Then, add a item link to your blog within `docusaurus.config.js`:
 
 ```js title="docusaurus.config.js"
 module.exports = {
   themeConfig: {
     // ...
     navbar: {
-      links: [
+      items: [
         // ...
         // highlight-next-line
         {to: 'blog', label: 'Blog', position: 'left'}, // or position: 'right'

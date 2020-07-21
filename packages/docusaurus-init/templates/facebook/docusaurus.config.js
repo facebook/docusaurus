@@ -22,7 +22,7 @@ module.exports = {
         alt: 'My Facebook Project Logo',
         src: 'img/logo.svg',
       },
-      links: [
+      items: [
         {
           to: 'docs/',
           activeBasePath: 'docs',

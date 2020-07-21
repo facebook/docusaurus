@@ -30,6 +30,7 @@ Object {
     ],
     "@docusaurus/plugin-content-pages",
   ],
+  "presets": Array [],
   "projectName": "hello",
   "tagline": "Hello World",
   "themeConfig": Object {},

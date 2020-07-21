@@ -46,21 +46,21 @@ describe('simple site', () => {
 
     expect(dataA).toEqual({
       id: 'foo/bar',
+      unversionedId: 'foo/bar',
       isDocsHomePage: false,
       permalink: '/docs/foo/bar',
       source: path.join('@site', routeBasePath, sourceA),
       title: 'Bar',
       description: 'This is custom description',
-      latestVersionMainDocPermalink: undefined,
     });
     expect(dataB).toEqual({
       id: 'hello',
+      unversionedId: 'hello',
       isDocsHomePage: false,
       permalink: '/docs/hello',
       source: path.join('@site', routeBasePath, sourceB),
       title: 'Hello, World !',
       description: `Hi, Endilie here :)`,
-      latestVersionMainDocPermalink: undefined,
     });
   });
 
@@ -81,6 +81,7 @@ describe('simple site', () => {
 
     expect(data).toEqual({
       id: 'hello',
+      unversionedId: 'hello',
       isDocsHomePage: true,
       permalink: '/docs/',
       source: path.join('@site', routeBasePath, source),
@@ -106,6 +107,7 @@ describe('simple site', () => {
 
     expect(data).toEqual({
       id: 'foo/bar',
+      unversionedId: 'foo/bar',
       isDocsHomePage: true,
       permalink: '/docs/',
       source: path.join('@site', routeBasePath, source),
@@ -133,6 +135,7 @@ describe('simple site', () => {
 
     expect(data).toEqual({
       id: 'foo/baz',
+      unversionedId: 'foo/baz',
       isDocsHomePage: false,
       permalink: '/docs/foo/bazSlug.html',
       source: path.join('@site', routeBasePath, source),
@@ -140,7 +143,6 @@ describe('simple site', () => {
       editUrl:
         'https://github.com/facebook/docusaurus/edit/master/website/docs/foo/baz.md',
       description: 'Images',
-      latestVersionMainDocPermalink: undefined,
     });
   });
 
@@ -160,13 +162,13 @@ describe('simple site', () => {
 
     expect(data).toEqual({
       id: 'lorem',
+      unversionedId: 'lorem',
       isDocsHomePage: false,
       permalink: '/docs/lorem',
       source: path.join('@site', routeBasePath, source),
       title: 'lorem',
       editUrl: 'https://github.com/customUrl/docs/lorem.md',
       description: 'Lorem ipsum.',
-      latestVersionMainDocPermalink: undefined,
     });
 
     // unrelated frontmatter is not part of metadata
@@ -192,6 +194,7 @@ describe('simple site', () => {
 
     expect(data).toEqual({
       id: 'lorem',
+      unversionedId: 'lorem',
       isDocsHomePage: false,
       permalink: '/docs/lorem',
       source: path.join('@site', routeBasePath, source),
@@ -200,7 +203,6 @@ describe('simple site', () => {
       description: 'Lorem ipsum.',
       lastUpdatedAt: 1539502055,
       lastUpdatedBy: 'Author',
-      latestVersionMainDocPermalink: undefined,
     });
   });
 
@@ -222,6 +224,7 @@ describe('simple site', () => {
 
     expect(data).toEqual({
       id: 'ipsum',
+      unversionedId: 'ipsum',
       isDocsHomePage: false,
       permalink: '/docs/ipsum',
       source: path.join('@site', routeBasePath, source),
@@ -230,7 +233,6 @@ describe('simple site', () => {
       description: 'Lorem ipsum.',
       lastUpdatedAt: 1539502055,
       lastUpdatedBy: 'Author',
-      latestVersionMainDocPermalink: undefined,
     });
   });
 
@@ -327,6 +329,7 @@ describe('versioned site', () => {
 
     expect(dataA).toEqual({
       id: 'foo/bar',
+      unversionedId: 'foo/bar',
       isDocsHomePage: false,
       permalink: '/docs/next/foo/barSlug',
       source: path.join('@site', routeBasePath, sourceA),
@@ -336,6 +339,7 @@ describe('versioned site', () => {
     });
     expect(dataB).toEqual({
       id: 'hello',
+      unversionedId: 'hello',
       isDocsHomePage: false,
       permalink: '/docs/next/hello',
       source: path.join('@site', routeBasePath, sourceB),
@@ -387,6 +391,7 @@ describe('versioned site', () => {
 
     expect(dataA).toEqual({
       id: 'version-1.0.0/foo/bar',
+      unversionedId: 'foo/bar',
       isDocsHomePage: false,
       permalink: '/docs/1.0.0/foo/barSlug',
       source: path.join('@site', path.relative(siteDir, versionedDir), sourceA),
@@ -396,6 +401,7 @@ describe('versioned site', () => {
     });
     expect(dataB).toEqual({
       id: 'version-1.0.0/hello',
+      unversionedId: 'hello',
       isDocsHomePage: false,
       permalink: '/docs/1.0.0/hello',
       source: path.join('@site', path.relative(siteDir, versionedDir), sourceB),
@@ -405,6 +411,7 @@ describe('versioned site', () => {
     });
     expect(dataC).toEqual({
       id: 'version-1.0.1/foo/bar',
+      unversionedId: 'foo/bar',
       isDocsHomePage: false,
       permalink: '/docs/foo/bar',
       source: path.join('@site', path.relative(siteDir, versionedDir), sourceC),
@@ -414,6 +421,7 @@ describe('versioned site', () => {
     });
     expect(dataD).toEqual({
       id: 'version-1.0.1/hello',
+      unversionedId: 'hello',
       isDocsHomePage: false,
       permalink: '/docs/hello',
       source: path.join('@site', path.relative(siteDir, versionedDir), sourceD),
