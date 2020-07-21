@@ -173,6 +173,46 @@ Array [
 ]
 `;
 
+exports[`simple website content 3`] = `
+Object {
+  "pluginName": Object {
+    "pluginId": Object {
+      "latestVersionName": null,
+      "path": "docs",
+      "versions": Array [
+        Object {
+          "docs": Array [
+            Object {
+              "id": "foo/bar",
+              "path": "/docs/foo/bar",
+            },
+            Object {
+              "id": "foo/baz",
+              "path": "/docs/foo/bazSlug.html",
+            },
+            Object {
+              "id": "hello",
+              "path": "/docs/",
+            },
+            Object {
+              "id": "ipsum",
+              "path": "/docs/ipsum",
+            },
+            Object {
+              "id": "lorem",
+              "path": "/docs/lorem",
+            },
+          ],
+          "mainDocId": "hello",
+          "name": null,
+          "path": "/docs",
+        },
+      ],
+    },
+  },
+}
+`;
+
 exports[`site with wrong sidebar file 1`] = `
 "Bad sidebars file. The document id 'goku' was used in the sidebar, but no document with this id could be found.
 Available document ids=
@@ -390,6 +430,68 @@ Array [
     ],
   },
 ]
+`;
+
+exports[`versioned website content 2`] = `
+Object {
+  "pluginName": Object {
+    "pluginId": Object {
+      "latestVersionName": "1.0.1",
+      "path": "docs",
+      "versions": Array [
+        Object {
+          "docs": Array [
+            Object {
+              "id": "foo/bar",
+              "path": "/docs/next/foo/barSlug",
+            },
+            Object {
+              "id": "hello",
+              "path": "/docs/next/",
+            },
+          ],
+          "mainDocId": "hello",
+          "name": "next",
+          "path": "/docs/next",
+        },
+        Object {
+          "docs": Array [
+            Object {
+              "id": "foo/bar",
+              "path": "/docs/foo/bar",
+            },
+            Object {
+              "id": "hello",
+              "path": "/docs/",
+            },
+          ],
+          "mainDocId": "hello",
+          "name": "1.0.1",
+          "path": "/docs",
+        },
+        Object {
+          "docs": Array [
+            Object {
+              "id": "foo/bar",
+              "path": "/docs/1.0.0/foo/barSlug",
+            },
+            Object {
+              "id": "foo/baz",
+              "path": "/docs/1.0.0/foo/baz",
+            },
+            Object {
+              "id": "hello",
+              "path": "/docs/1.0.0/",
+            },
+          ],
+          "mainDocId": "hello",
+          "name": "1.0.0",
+          "path": "/docs/1.0.0",
+        },
+      ],
+    },
+  },
+}
 `;
 
 exports[`versioned website content: all sidebars 1`] = `

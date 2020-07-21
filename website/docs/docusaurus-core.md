@@ -220,6 +220,84 @@ function Component() {
 }
 ```
 
+### `useGlobalData()`
+
+React hook to access Docusaurus global data created by all the plugins.
+
+Global data is namespaced by plugin name, and plugin id.
+
+:::info
+
+Plugin id is only useful when a plugin is used multiple times on the same site. Each plugin instance is able to create its own global data.
+
+:::
+
+```ts
+type GlobalData = Record<
+  PluginName,
+  Record<
+    PluginId, // "default" by default
+    any // plugin-specific data
+  >
+>;
+```
+
+Usage example:
+
+```jsx {2,5,6,7}
+import React from 'react';
+import useGlobalData from '@docusaurus/useGlobalData';
+
+const MyComponent = () => {
+  const globalData = useDocusaurusContext();
+  const myPluginData = globalData['my-plugin']['default'];
+  return <div>{myPluginData.someAttribute}</div>;
+};
+```
+
+:::tip
+
+Inspect your site's global data at `./docusaurus/globalData.json`
+
+:::
+
+### `usePluginData(pluginName: string, pluginId?: string)`
+
+Access global data created by a specific plugin instance.
+
+This is the most convenient hook to access plugin global data, and should be used most of the time.
+
+`pluginId` is optional if you don't use multi-instance plugins.
+
+Usage example:
+
+```jsx {2,5,6}
+import React from 'react';
+import {usePluginData} from '@docusaurus/useGlobalData';
+
+const MyComponent = () => {
+  const myPluginData = usePluginData('my-plugin');
+  return <div>{myPluginData.someAttribute}</div>;
+};
+```
+
+### `useAllPluginInstancesData(pluginName: string)`
+
+Access global data created by a specific plugin. Given a plugin name, it returns the data of all the plugins instances of that name, by pluginId.
+
+Usage example:
+
+```jsx {2,5,6,7}
+import React from 'react';
+import {useAllPluginInstancesData} from '@docusaurus/useGlobalData';
+
+const MyComponent = () => {
+  const allPluginInstancesData = useAllPluginInstancesData('my-plugin');
+  const myPluginData = allPluginInstancesData['default'];
+  return <div>{myPluginData.someAttribute}</div>;
+};
+```
+
 ## Modules
 
 ### `ExecutionEnvironment`

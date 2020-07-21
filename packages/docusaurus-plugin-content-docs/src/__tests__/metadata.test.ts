@@ -79,19 +79,19 @@ describe('simple site', () => {
   test('normal docs', async () => {
     await testMeta(docsDir, path.join('foo', 'bar.md'), {
       id: 'foo/bar',
+      unversionedId: 'foo/bar',
       isDocsHomePage: false,
       permalink: '/docs/foo/bar',
       title: 'Bar',
       description: 'This is custom description',
-      latestVersionMainDocPermalink: undefined,
     });
     await testMeta(docsDir, path.join('hello.md'), {
       id: 'hello',
+      unversionedId: 'hello',
       isDocsHomePage: false,
       permalink: '/docs/hello',
       title: 'Hello, World !',
       description: `Hi, Endilie here :)`,
-      latestVersionMainDocPermalink: undefined,
     });
   });
 
@@ -108,6 +108,7 @@ describe('simple site', () => {
 
     await testMetaLocal(docsDir, path.join('hello.md'), {
       id: 'hello',
+      unversionedId: 'hello',
       isDocsHomePage: true,
       permalink: '/docs/',
       title: 'Hello, World !',
@@ -128,6 +129,7 @@ describe('simple site', () => {
 
     await testMetaLocal(docsDir, path.join('foo', 'bar.md'), {
       id: 'foo/bar',
+      unversionedId: 'foo/bar',
       isDocsHomePage: true,
       permalink: '/docs/',
       title: 'Bar',
@@ -148,25 +150,25 @@ describe('simple site', () => {
 
     await testMetaLocal(docsDir, path.join('foo', 'baz.md'), {
       id: 'foo/baz',
+      unversionedId: 'foo/baz',
       isDocsHomePage: false,
       permalink: '/docs/foo/bazSlug.html',
       title: 'baz',
       editUrl:
         'https://github.com/facebook/docusaurus/edit/master/website/docs/foo/baz.md',
       description: 'Images',
-      latestVersionMainDocPermalink: undefined,
     });
   });
 
   test('docs with custom editUrl & unrelated frontmatter', async () => {
     await testMeta(docsDir, 'lorem.md', {
       id: 'lorem',
+      unversionedId: 'lorem',
       isDocsHomePage: false,
       permalink: '/docs/lorem',
       title: 'lorem',
       editUrl: 'https://github.com/customUrl/docs/lorem.md',
       description: 'Lorem ipsum.',
-      latestVersionMainDocPermalink: undefined,
     });
   });
 
@@ -184,6 +186,7 @@ describe('simple site', () => {
 
     await testMetaLocal(docsDir, 'lorem.md', {
       id: 'lorem',
+      unversionedId: 'lorem',
       isDocsHomePage: false,
       permalink: '/docs/lorem',
       title: 'lorem',
@@ -191,7 +194,6 @@ describe('simple site', () => {
       description: 'Lorem ipsum.',
       lastUpdatedAt: 1539502055,
       lastUpdatedBy: 'Author',
-      latestVersionMainDocPermalink: undefined,
     });
   });
 
@@ -209,6 +211,7 @@ describe('simple site', () => {
 
     await testMetaLocal(docsDir, 'ipsum.md', {
       id: 'ipsum',
+      unversionedId: 'ipsum',
       isDocsHomePage: false,
       permalink: '/docs/ipsum',
       title: 'ipsum',
@@ -216,7 +219,6 @@ describe('simple site', () => {
       description: 'Lorem ipsum.',
       lastUpdatedAt: 1539502055,
       lastUpdatedBy: 'Author',
-      latestVersionMainDocPermalink: undefined,
     });
   });
 
@@ -321,6 +323,7 @@ describe('versioned site', () => {
   test('next docs', async () => {
     await testMeta(docsDir, path.join('foo', 'bar.md'), {
       id: 'foo/bar',
+      unversionedId: 'foo/bar',
       isDocsHomePage: false,
       permalink: '/docs/next/foo/barSlug',
       title: 'bar',
@@ -329,6 +332,7 @@ describe('versioned site', () => {
     });
     await testMeta(docsDir, path.join('hello.md'), {
       id: 'hello',
+      unversionedId: 'hello',
       isDocsHomePage: false,
       permalink: '/docs/next/hello',
       title: 'hello',
@@ -340,6 +344,7 @@ describe('versioned site', () => {
   test('versioned docs', async () => {
     await testMeta(versionedDir, path.join('version-1.0.0', 'foo', 'bar.md'), {
       id: 'version-1.0.0/foo/bar',
+      unversionedId: 'foo/bar',
       isDocsHomePage: false,
       permalink: '/docs/1.0.0/foo/barSlug',
       title: 'bar',
@@ -348,6 +353,7 @@ describe('versioned site', () => {
     });
     await testMeta(versionedDir, path.join('version-1.0.0', 'hello.md'), {
       id: 'version-1.0.0/hello',
+      unversionedId: 'hello',
       isDocsHomePage: false,
       permalink: '/docs/1.0.0/hello',
       title: 'hello',
@@ -356,6 +362,7 @@ describe('versioned site', () => {
     });
     await testMeta(versionedDir, path.join('version-1.0.1', 'foo', 'bar.md'), {
       id: 'version-1.0.1/foo/bar',
+      unversionedId: 'foo/bar',
       isDocsHomePage: false,
       permalink: '/docs/foo/bar',
       title: 'bar',
@@ -364,6 +371,7 @@ describe('versioned site', () => {
     });
     await testMeta(versionedDir, path.join('version-1.0.1', 'hello.md'), {
       id: 'version-1.0.1/hello',
+      unversionedId: 'hello',
       isDocsHomePage: false,
       permalink: '/docs/hello',
       title: 'hello',

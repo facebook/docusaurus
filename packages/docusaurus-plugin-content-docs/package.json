@@ -12,6 +12,7 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "@docusaurus/module-type-aliases": "^2.0.0-alpha.58",
     "commander": "^5.0.0",
     "picomatch": "^2.1.1",
     "@types/hapi__joi": "^17.1.2"
@@ -30,11 +31,12 @@
     "lodash.groupby": "^4.6.0",
     "lodash.pick": "^4.4.0",
     "lodash.pickby": "^4.6.0",
+    "lodash.sortby": "^4.6.0",
     "remark-admonitions": "^1.2.1",
-    "shelljs": "^0.8.4"
+    "shelljs": "^0.8.4",
+    "@docusaurus/core": "^2.0.0-alpha.58"
   },
   "peerDependencies": {
-    "@docusaurus/core": "^2.0.0",
     "react": "^16.8.4",
     "react-dom": "^16.8.4"
   },

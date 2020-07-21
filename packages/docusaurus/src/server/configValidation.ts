@@ -12,6 +12,7 @@ import {CONFIG_FILE_NAME} from '../constants';
 export const DEFAULT_CONFIG: {
   plugins: PluginConfig[];
   themes: PluginConfig[];
+  presets: PluginConfig[];
   customFields: {
     [key: string]: unknown;
   };
@@ -21,9 +22,25 @@ export const DEFAULT_CONFIG: {
 } = {
   plugins: [],
   themes: [],
+  presets: [],
   customFields: {},
   themeConfig: {},
 };
+
+const PluginSchema = Joi.alternatives().try(
+  Joi.string(),
+  Joi.array().items(Joi.string().required(), Joi.object().required()).length(2),
+);
+
+const ThemeSchema = Joi.alternatives().try(
+  Joi.string(),
+  Joi.array().items(Joi.string().required(), Joi.object().required()).length(2),
+);
+
+const PresetSchema = Joi.alternatives().try(
+  Joi.string(),
+  Joi.array().items(Joi.string().required(), Joi.object().required()).length(2),
+);
 
 const ConfigSchema = Joi.object({
   baseUrl: Joi.string()
@@ -37,33 +54,9 @@ const ConfigSchema = Joi.object({
   projectName: Joi.string(),
   customFields: Joi.object().unknown().default(DEFAULT_CONFIG.customFields),
   githubHost: Joi.string(),
-  plugins: Joi.array()
-    .items(
-      Joi.alternatives().try(
-        Joi.string(),
-        Joi.array()
-          .items(Joi.string().required(), Joi.object().required())
-          .length(2),
-      ),
-    )
-    .default(DEFAULT_CONFIG.plugins),
-  themes: Joi.array()
-    .items(
-      Joi.alternatives().try(
-        Joi.string(),
-        Joi.array()
-          .items(Joi.string().required(), Joi.object().required())
-          .length(2),
-      ),
-    )
-    .default(DEFAULT_CONFIG.themes),
-  presets: Joi.array().items(
-    Joi.alternatives().try(
-      Joi.string(),
-      Joi.array().items(Joi.string(), Joi.object()).length(2),
-    ),
-  ),
-
+  plugins: Joi.array().items(PluginSchema).default(DEFAULT_CONFIG.plugins),
+  themes: Joi.array().items(ThemeSchema).default(DEFAULT_CONFIG.themes),
+  presets: Joi.array().items(PresetSchema).default(DEFAULT_CONFIG.presets),
   themeConfig: Joi.object().unknown().default(DEFAULT_CONFIG.themeConfig),
   scripts: Joi.array().items(
     Joi.string(),

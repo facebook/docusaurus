@@ -131,9 +131,9 @@ export default async function processMetadata({
 
   const id =
     dirNameWithVersion !== '.' ? `${dirNameWithVersion}/${baseID}` : baseID;
-  const idWithoutVersion = version ? removeVersionPrefix(id, version) : id;
+  const unversionedId = version ? removeVersionPrefix(id, version) : id;
 
-  const isDocsHomePage = idWithoutVersion === homePageId;
+  const isDocsHomePage = unversionedId === homePageId;
   if (frontMatter.slug && isDocsHomePage) {
     throw new Error(
       `The docs homepage (homePageId=${homePageId}) is not allowed to have a frontmatter slug=${frontMatter.slug} => you have to chooser either homePageId or slug, not both`,
@@ -167,6 +167,7 @@ export default async function processMetadata({
   // Adding properties to object after instantiation will cause hidden
   // class transitions.
   const metadata: MetadataRaw = {
+    unversionedId,
     id,
     isDocsHomePage,
     title,
