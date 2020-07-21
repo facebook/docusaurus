@@ -131,9 +131,10 @@ export default async function swizzle(
   danger?: boolean,
 ): Promise<void> {
   const context = loadContext(siteDir);
-  const pluginNames = getPluginNames(loadPluginConfigs(context));
+  const pluginConfigs = loadPluginConfigs(context);
+  const pluginNames = getPluginNames(pluginConfigs);
   const plugins = initPlugins({
-    pluginConfigs: loadPluginConfigs(context),
+    pluginConfigs,
     context,
   });
   const themeNames = pluginNames.filter((_, index) =>
@@ -167,7 +168,17 @@ export default async function swizzle(
     const plugin = pluginModule.default ?? pluginModule;
     const validateOptions =
       pluginModule.default?.validateOptions ?? pluginModule.validateOptions;
-    let pluginOptions = {};
+    let pluginOptions;
+    pluginConfigs.forEach((pluginConfig) => {
+      if (Array.isArray(pluginConfig)) {
+        if (require.resolve(pluginConfig[0]) === require.resolve(themeName)) {
+          if (pluginConfig.length === 2) {
+            const [, options] = pluginConfig;
+            pluginOptions = options;
+          }
+        }
+      }
+    });
     if (validateOptions) {
       const normalizedOptions = validateOptions({
         validate: pluginOptionsValidator,
