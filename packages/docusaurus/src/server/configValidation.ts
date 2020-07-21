@@ -11,7 +11,12 @@ import {CONFIG_FILE_NAME} from '../constants';
 
 export const DEFAULT_CONFIG: Pick<
   DocusaurusConfig,
-  'onBrokenLinks' | 'plugins' | 'themes' | 'customFields' | 'themeConfig'
+  | 'onBrokenLinks'
+  | 'plugins'
+  | 'themes'
+  | 'presets'
+  | 'customFields'
+  | 'themeConfig'
 > = {
   onBrokenLinks: 'throw',
   plugins: [],
