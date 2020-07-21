@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`transformImage plugin fail if image does not exist 1`] = `"Image /Users/sebastienlorber/Desktop/projects/docusaurus/packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/fixtures/img/doesNotExist.png used in undefined not found."`;
+exports[`transformImage plugin fail if image does not exist 1`] = `"Image packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/fixtures/img/doesNotExist.png used in packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/fixtures/fail.md not found."`;
 
 exports[`transformImage plugin fail if image url is absent 1`] = `"markdown image url is mandatory. filePath=/Users/sebastienlorber/Desktop/projects/docusaurus/packages/docusaurus-mdx-loader/src/remark/transformImage/__tests__/fixtures/noUrl.md"`;
 

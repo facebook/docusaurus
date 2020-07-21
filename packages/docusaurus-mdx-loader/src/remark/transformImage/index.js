@@ -13,7 +13,12 @@ const fs = require('fs-extra');
 async function ensureImageFileExist(imagePath, sourceFilePath) {
   const imageExists = await fs.exists(imagePath);
   if (!imageExists) {
-    throw new Error(`Image ${imagePath} used in ${sourceFilePath} not found.`);
+    // Need to throw computer-agnostic error message to pass unit-tests
+    const relativeImagePath = path.relative(process.cwd(), imagePath);
+    const relativeSourceFilePath = path.relative(process.cwd(), sourceFilePath);
+    throw new Error(
+      `Image ${relativeImagePath} used in ${relativeSourceFilePath} not found.`,
+    );
   }
 }
 
@@ -38,7 +43,7 @@ async function processImageNode(node, {filePath, staticDir}) {
   else if (path.isAbsolute(node.url)) {
     // absolute paths are expected to exist in the static folder
     const expectedImagePath = path.join(staticDir, node.url);
-    await ensureImageFileExist(expectedImagePath);
+    await ensureImageFileExist(expectedImagePath, filePath);
   }
   // We try to convert image urls without protocol to images with require calls
   // going through webpack ensures that image assets exist at build time
