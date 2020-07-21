@@ -64,7 +64,8 @@ function sanitizedFileContent(
 export async function migrateDocusaurusProject(
   siteDir: string,
   newDir: string,
-  migrateMdFiles: boolean = false,
+  shouldMigrateMdFiles: boolean = false,
+  shouldMigratePages: boolean = false,
 ): Promise<void> {
   const siteConfig = importFresh(`${siteDir}/siteConfig`) as VersionOneConfig;
   const config = createConfigFile(siteConfig);
@@ -88,20 +89,38 @@ export async function migrateDocusaurusProject(
       chalk.red(`Error while creating redirects: ${errorInClientRedirect}`),
     );
   }
-  try {
-    createLandingPage(newDir, siteDir);
-    console.log(
-      chalk.green(
-        'Successfully created a landing page (check migration page for more details)',
-      ),
-    );
-  } catch (errorInLandingPage) {
-    console.log(
-      chalk.red(
-        `Error occurred while creating landing Page: ${errorInLandingPage}`,
-      ),
-    );
+  if (shouldMigratePages) {
+    try {
+      createPages(newDir, siteDir);
+      console.log(
+        chalk.green(
+          'Successfully created pages (check migration page for more details)',
+        ),
+      );
+    } catch (errorInMigratingPages) {
+      console.log(
+        chalk.red(
+          `Error occurred while creating pages: ${errorInMigratingPages}`,
+        ),
+      );
+    }
+  } else {
+    try {
+      createDefaultLandingPage(newDir);
+      console.log(
+        chalk.green(
+          'Successfully created landing page (check migration page for more details)',
+        ),
+      );
+    } catch (errorInLandingPage) {
+      console.log(
+        chalk.red(
+          `Error occurred while creating landing page: ${errorInLandingPage}`,
+        ),
+      );
+    }
   }
+
   try {
     migrateStaticFiles(siteDir, newDir);
     console.log(chalk.green('Successfully migrated static folder'));
@@ -113,7 +132,7 @@ export async function migrateDocusaurusProject(
     );
   }
   try {
-    migrateBlogFiles(siteDir, newDir, classicPreset, migrateMdFiles);
+    migrateBlogFiles(siteDir, newDir, classicPreset, shouldMigrateMdFiles);
   } catch (errorInMigratingBlogs) {
     console.log(
       chalk.red(
@@ -122,7 +141,7 @@ export async function migrateDocusaurusProject(
     );
   }
   try {
-    handleVersioning(siteDir, newDir, config, migrateMdFiles);
+    handleVersioning(siteDir, newDir, config, shouldMigrateMdFiles);
   } catch (errorInVersion) {
     console.log(
       chalk.red(
@@ -132,7 +151,7 @@ export async function migrateDocusaurusProject(
   }
 
   try {
-    migrateLatestDocs(siteDir, newDir, migrateMdFiles);
+    migrateLatestDocs(siteDir, newDir, shouldMigrateMdFiles);
   } catch (errorInDoc) {
     chalk.red(`Error occurred while migrating docs: ${errorInDoc}`);
   }
@@ -293,7 +312,7 @@ function createClientRedirects(
   }
 }
 
-function createLandingPage(newDir: string, siteDir: string): void {
+function createPages(newDir: string, siteDir: string): void {
   fs.mkdirpSync(path.join(newDir, 'src', 'pages'));
   if (fs.existsSync(path.join(siteDir, 'pages', 'en'))) {
     try {
@@ -311,18 +330,22 @@ function createLandingPage(newDir: string, siteDir: string): void {
       });
     } catch (error) {
       console.log(chalk.red(`Unable to migrate Pages : ${error}`));
-      const indexPage = `import Layout from "@theme/Layout";
+      createDefaultLandingPage(newDir);
+    }
+  } else {
+    console.log('Ignoring Pages');
+  }
+}
+
+function createDefaultLandingPage(newDir: string) {
+  const indexPage = `import Layout from "@theme/Layout";
       import React from "react";
       
       export default () => {
         return <Layout />;
       };
       `;
-      fs.writeFileSync(`${newDir}/src/pages/index.js`, indexPage);
-    }
-  } else {
-    console.log('Ignoring Pages');
-  }
+  fs.writeFileSync(`${newDir}/src/pages/index.js`, indexPage);
 }
 
 function migrateStaticFiles(siteDir: string, newDir: string): void {

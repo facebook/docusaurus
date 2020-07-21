@@ -36,12 +36,13 @@ if (!semver.satisfies(process.version, requiredVersion)) {
 
 cli
   .command('migrate [siteDir] [newDir]')
-  .option('--mdx', 'Try to migrate MD to MDX also')
+  .option('--mdx', 'Try to migrate MD to MDX too')
+  .option('--page', 'Try to migrate pages too')
   .description('Migrate between versions of docusaurus website')
-  .action((siteDir = '.', newDir = '.', {mdx}) => {
+  .action((siteDir = '.', newDir = '.', {mdx, page}) => {
     const sitePath = path.resolve(siteDir);
     const newSitePath = path.resolve(newDir);
-    wrapCommand(migrateDocusaurusProject)(sitePath, newSitePath, mdx);
+    wrapCommand(migrateDocusaurusProject)(sitePath, newSitePath, mdx, page);
   });
 
 cli
