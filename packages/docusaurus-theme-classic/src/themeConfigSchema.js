@@ -28,12 +28,14 @@ const DocsVersionNavbarItemSchema = Joi.object({
   label: Joi.string(),
   to: Joi.string(),
   docsPluginId: Joi.string(),
+  nextVersionLabel: Joi.string().default('Next'),
 });
 
 const DocsVersionDropdownNavbarItemSchema = Joi.object({
   type: Joi.string().equal('docsVersionDropdown').required(),
   position: NavbarItemPosition,
   docsPluginId: Joi.string(),
+  nextVersionLabel: Joi.string().default('Next'),
 });
 
 // Can this be made easier? :/
