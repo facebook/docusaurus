@@ -5,21 +5,20 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {PluginConfig, DocusaurusConfig} from '@docusaurus/types';
+import {DocusaurusConfig} from '@docusaurus/types';
 import Joi from '@hapi/joi';
 import {CONFIG_FILE_NAME} from '../constants';
 
-export const DEFAULT_CONFIG: {
-  plugins: PluginConfig[];
-  themes: PluginConfig[];
-  presets: PluginConfig[];
-  customFields: {
-    [key: string]: unknown;
-  };
-  themeConfig: {
-    [key: string]: unknown;
-  };
-} = {
+export const DEFAULT_CONFIG: Pick<
+  DocusaurusConfig,
+  | 'onBrokenLinks'
+  | 'plugins'
+  | 'themes'
+  | 'presets'
+  | 'customFields'
+  | 'themeConfig'
+> = {
+  onBrokenLinks: 'throw',
   plugins: [],
   themes: [],
   presets: [],
@@ -50,6 +49,9 @@ const ConfigSchema = Joi.object({
   favicon: Joi.string().required(),
   title: Joi.string().required(),
   url: Joi.string().uri().required(),
+  onBrokenLinks: Joi.string()
+    .equal('ignore', 'log', 'error', 'throw')
+    .default(DEFAULT_CONFIG.onBrokenLinks),
   organizationName: Joi.string(),
   projectName: Joi.string(),
   customFields: Joi.object().unknown().default(DEFAULT_CONFIG.customFields),

@@ -10,12 +10,15 @@ import {Command} from 'commander';
 import {ParsedUrlQueryInput} from 'querystring';
 import {MergeStrategy} from 'webpack-merge';
 
+export type OnBrokenLinks = 'ignore' | 'log' | 'error' | 'throw';
+
 export interface DocusaurusConfig {
   baseUrl: string;
   favicon: string;
   tagline?: string;
   title: string;
   url: string;
+  onBrokenLinks: OnBrokenLinks;
   organizationName?: string;
   projectName?: string;
   githubHost?: string;
@@ -111,6 +114,7 @@ export interface InjectedHtmlTags {
 export type HtmlTags = string | HtmlTagObject | (string | HtmlTagObject)[];
 
 export interface Props extends LoadContext, InjectedHtmlTags {
+  routes: RouteConfig[];
   routesPaths: string[];
   plugins: Plugin<any, unknown>[];
 }
