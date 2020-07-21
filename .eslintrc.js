@@ -78,6 +78,7 @@ module.exports = {
     '@typescript-eslint/no-inferrable-types': OFF,
     'import/first': OFF,
     'import/order': OFF,
+    'import/prefer-default-export': OFF,
     'lines-between-class-members': OFF,
     'no-use-before-define': [
       ERROR,

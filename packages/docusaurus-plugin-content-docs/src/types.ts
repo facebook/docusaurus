@@ -5,6 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+// eslint-disable-next-line spaced-comment
+/// <reference types="@docusaurus/module-type-aliases" />
+
+export type DocsVersion = string | null; // null = unversioned sites
+
 export interface MetadataOptions {
   routeBasePath: string;
   homePageId?: string;
@@ -19,6 +24,7 @@ export interface PathOptions {
 }
 
 export interface PluginOptions extends MetadataOptions, PathOptions {
+  id?: string;
   include: string[];
   docLayoutComponent: string;
   docItemComponent: string;
@@ -112,6 +118,7 @@ export interface LastUpdateData {
 }
 
 export interface MetadataRaw extends LastUpdateData {
+  unversionedId: string;
   id: string;
   isDocsHomePage: boolean;
   title: string;
@@ -121,7 +128,6 @@ export interface MetadataRaw extends LastUpdateData {
   sidebar_label?: string;
   editUrl?: string;
   version?: string;
-  latestVersionMainDocPermalink?: string;
 }
 
 export interface Paginator {
@@ -167,7 +173,7 @@ export type DocsBaseMetadata = Pick<
   LoadedContent,
   'docsSidebars' | 'permalinkToSidebar'
 > & {
-  version?: string;
+  version: string | null;
 };
 
 export type VersioningEnv = {
@@ -182,3 +188,21 @@ export interface Env {
   versioning: VersioningEnv;
   // TODO: translation
 }
+
+export type GlobalDoc = {
+  id: string;
+  path: string;
+};
+
+export type GlobalVersion = {
+  name: DocsVersion;
+  path: string;
+  mainDocId: string; // home doc (if docs homepage configured), or first doc
+  docs: GlobalDoc[];
+};
+
+export type GlobalPluginData = {
+  path: string;
+  latestVersionName: DocsVersion;
+  versions: GlobalVersion[];
+};

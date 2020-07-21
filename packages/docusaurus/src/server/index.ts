@@ -79,7 +79,7 @@ export async function load(
 
   // Plugins.
   const pluginConfigs: PluginConfig[] = loadPluginConfigs(context);
-  const {plugins, pluginsRouteConfigs} = await loadPlugins({
+  const {plugins, pluginsRouteConfigs, globalData} = await loadPlugins({
     pluginConfigs,
     context,
   });
@@ -98,6 +98,7 @@ export async function load(
   const {stylesheets = [], scripts = []} = siteConfig;
   plugins.push({
     name: 'docusaurus-bootstrap-plugin',
+    options: {},
     version: {type: 'synthetic'},
     configureWebpack: () => ({
       resolve: {
@@ -181,6 +182,12 @@ ${Object.keys(registry)
 
   const genRoutes = generate(generatedFilesDir, 'routes.js', routesConfig);
 
+  const genGlobalData = generate(
+    generatedFilesDir,
+    'globalData.json',
+    JSON.stringify(globalData, null, 2),
+  );
+
   // Version metadata.
   const siteMetadata: DocusaurusSiteMetadata = {
     docusaurusVersion: getPackageJsonVersion(
@@ -206,6 +213,7 @@ ${Object.keys(registry)
     genRegistry,
     genRoutesChunkNames,
     genRoutes,
+    genGlobalData,
     genSiteMetadata,
   ]);
 

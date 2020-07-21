@@ -42,6 +42,11 @@ declare module '@generated/routesChunkNames' {
   export default routesChunkNames;
 }
 
+declare module '@generated/globalData' {
+  const globalData: any;
+  export default globalData;
+}
+
 declare module '@theme/*';
 
 declare module '@theme-original/*';
