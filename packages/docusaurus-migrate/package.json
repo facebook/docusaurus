@@ -8,7 +8,7 @@
     "node": ">=10.9.0"
   },
   "scripts": {
-    "tsc": "tsc",
+    "build": "tsc",
     "watch": "tsc --watch"
   },
   "publishConfig": {

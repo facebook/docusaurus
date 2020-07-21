@@ -24,7 +24,8 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Installation
         run: yarn
-      - run: yarn workspace @docusaurus/migrate tsc
+      - name: Build Package
+      - run: yarn build:packages
       - name: Migrate D1 website
         run: yarn docusaurus-migrate migrate ./website-1.x ./test-migrated
       - name: Install in Test website
