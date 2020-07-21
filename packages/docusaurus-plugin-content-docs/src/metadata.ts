@@ -22,9 +22,11 @@ import {
   Env,
   VersioningEnv,
 } from './types';
+import getSlug from './slug';
+import {escapeRegExp} from 'lodash';
 
 function removeVersionPrefix(str: string, version: string): string {
-  return str.replace(new RegExp(`^version-${version}/`), '');
+  return str.replace(new RegExp(`^version-${escapeRegExp(version)}/?`), '');
 }
 
 function inferVersion(
@@ -102,8 +104,12 @@ export default async function processMetadata({
   const fileMarkdownPromise = parseMarkdownFile(filePath);
   const lastUpdatedPromise = lastUpdated(filePath, options);
 
-  const dirName = path.dirname(source);
-  const version = inferVersion(dirName, versioning);
+  const dirNameWithVersion = path.dirname(source); // ex: version-1.0.0/foo
+  const version = inferVersion(dirNameWithVersion, versioning); // ex: 1.0.0
+  const dirNameWithoutVersion = // ex: foo
+    version && version !== 'next'
+      ? removeVersionPrefix(dirNameWithVersion, version)
+      : dirNameWithVersion;
 
   // The version portion of the url path. Eg: 'next', '1.0.0', and ''.
   const versionPath =
@@ -122,7 +128,9 @@ export default async function processMetadata({
   if (baseID.includes('/')) {
     throw new Error('Document id cannot include "/".');
   }
-  const id = dirName !== '.' ? `${dirName}/${baseID}` : baseID;
+
+  const id =
+    dirNameWithVersion !== '.' ? `${dirNameWithVersion}/${baseID}` : baseID;
   const unversionedId = version ? removeVersionPrefix(id, version) : id;
 
   const isDocsHomePage = unversionedId === homePageId;
@@ -132,34 +140,24 @@ export default async function processMetadata({
     );
   }
 
-  const baseSlug: string = frontMatter.slug || baseID;
-  if (baseSlug.includes('/')) {
-    throw new Error('Document slug cannot include "/".');
-  }
-  const slug = dirName !== '.' ? `${dirName}/${baseSlug}` : baseSlug;
+  const docSlug = isDocsHomePage
+    ? '/'
+    : getSlug({
+        baseID,
+        dirName: dirNameWithoutVersion,
+        frontmatterSlug: frontMatter.slug,
+      });
 
   // Default title is the id.
   const title: string = frontMatter.title || baseID;
 
   const description: string = frontMatter.description || excerpt;
 
-  // The last portion of the url path. Eg: 'foo/bar', 'bar'.
-  let routePath;
-  if (isDocsHomePage) {
-    // TODO can we remove this trailing / ?
-    // Seems it's not that easy...
-    // Related to https://github.com/facebook/docusaurus/issues/2917
-    routePath = '/';
-  } else {
-    routePath =
-      version && version !== 'next' ? removeVersionPrefix(slug, version) : slug;
-  }
-
   const permalink = normalizeUrl([
     baseUrl,
     routeBasePath,
     versionPath,
-    routePath,
+    docSlug,
   ]);
 
   const {lastUpdatedAt, lastUpdatedBy} = await lastUpdatedPromise;

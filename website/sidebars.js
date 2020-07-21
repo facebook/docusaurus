@@ -52,9 +52,9 @@ module.exports = {
     },
   ],
   community: [
-    'support',
-    'team',
-    'resources',
+    'community/support',
+    'community/team',
+    'community/resources',
     {
       type: 'link',
       href: '/showcase',
