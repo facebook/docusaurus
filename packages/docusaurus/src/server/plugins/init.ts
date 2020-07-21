@@ -16,7 +16,10 @@ import {
 } from '@docusaurus/types';
 import {CONFIG_FILE_NAME} from '../../constants';
 
-function validate<T>(schema: ValidationSchema<T>, options: Partial<T>) {
+export function validate<T>(
+  schema: ValidationSchema<T>,
+  options: Partial<T>,
+): T {
   const {error, value} = schema.validate(options, {
     convert: false,
   });
@@ -26,7 +29,10 @@ function validate<T>(schema: ValidationSchema<T>, options: Partial<T>) {
   return value;
 }
 
-function validateAndStrip<T>(schema: ValidationSchema<T>, options: Partial<T>) {
+export function validateAndStrip<T>(
+  schema: ValidationSchema<T>,
+  options: Partial<T>,
+): T {
   const {error, value} = schema.unknown().validate(options, {
     convert: false,
   });

@@ -9,28 +9,12 @@ import chalk = require('chalk');
 import fs from 'fs-extra';
 import importFresh from 'import-fresh';
 import path from 'path';
-import {
-  Plugin,
-  LoadContext,
-  PluginConfig,
-  ValidationSchema,
-} from '@docusaurus/types';
+import {Plugin, LoadContext, PluginConfig} from '@docusaurus/types';
 import leven from 'leven';
 
 import {THEME_PATH} from '../constants';
 import {loadContext, loadPluginConfigs} from '../server';
-import initPlugins from '../server/plugins/init';
-
-function validate<T>(schema: ValidationSchema<T>, options: Partial<T>) {
-  const {error, value} = schema.validate(options, {
-    convert: true,
-  });
-  console.log(error, value);
-  if (error) {
-    throw error;
-  }
-  return value;
-}
+import initPlugins, {validate} from '../server/plugins/init';
 
 export function getPluginNames(plugins: PluginConfig[]): string[] {
   return plugins.map((plugin) => {
