@@ -8,6 +8,7 @@
 import groupBy from 'lodash.groupby';
 import pick from 'lodash.pick';
 import pickBy from 'lodash.pickby';
+import sortBy from 'lodash.sortby';
 import globby from 'globby';
 import fs from 'fs-extra';
 import path from 'path';
@@ -49,28 +50,16 @@ import {
   VersionToSidebars,
   SidebarItem,
   DocsSidebarItem,
+  GlobalPluginData,
+  DocsVersion,
+  GlobalVersion,
+  GlobalDoc,
 } from './types';
 import {Configuration} from 'webpack';
 import {docsVersion} from './version';
 import {VERSIONS_JSON_FILE} from './constants';
 import {PluginOptionSchema} from './pluginOptionSchema';
 import {ValidationError} from '@hapi/joi';
-
-function getFirstDocLinkOfSidebar(
-  sidebarItems: DocsSidebarItem[],
-): string | null {
-  for (const sidebarItem of sidebarItems) {
-    if (sidebarItem.type === 'category') {
-      const url = getFirstDocLinkOfSidebar(sidebarItem.items);
-      if (url) {
-        return url;
-      }
-    } else {
-      return sidebarItem.href;
-    }
-  }
-  return null;
-}
 
 export default function pluginContentDocs(
   context: LoadContext,
@@ -92,10 +81,11 @@ export default function pluginContentDocs(
   const dataDir = path.join(
     generatedFilesDir,
     'docusaurus-plugin-content-docs',
+    // options.id ?? 'default', // TODO support multi-instance
   );
 
   // Versioning.
-  const env = loadEnv(siteDir);
+  const env = loadEnv(siteDir, {disableVersioning: options.disableVersioning});
   const {versioning} = env;
   const {
     versions,
@@ -329,11 +319,23 @@ Available document ids=
       }
 
       const {docLayoutComponent, docItemComponent, routeBasePath} = options;
-      const {addRoute, createData} = actions;
+      const {addRoute, createData, setGlobalData} = actions;
+
+      const pluginInstanceGlobalData: GlobalPluginData = {
+        path: options.path,
+        latestVersionName: versioning.latestVersion,
+        // Initialized empty, will be mutated
+        versions: [],
+      };
+
+      setGlobalData<GlobalPluginData>(pluginInstanceGlobalData);
+
       const aliasedSource = (source: string) =>
         `~docs/${path.relative(dataDir, source)}`;
 
-      const createDocsBaseMetadata = (version?: string): DocsBaseMetadata => {
+      const createDocsBaseMetadata = (
+        version: DocsVersion,
+      ): DocsBaseMetadata => {
         const {docsSidebars, permalinkToSidebar, versionToSidebars} = content;
         const neededSidebars: Set<string> =
           versionToSidebars[version!] || new Set();
@@ -377,13 +379,19 @@ Available document ids=
         return routes.sort((a, b) => a.path.localeCompare(b.path));
       };
 
+      // We want latest version route to have lower priority
+      // Otherwise `/docs/next/foo` would match
+      // `/docs/:route` instead of `/docs/next/:route`.
+      const getVersionRoutePriority = (version: DocsVersion) =>
+        version === versioning.latestVersion ? -1 : undefined;
+
       // This is the base route of the document root (for a doc given version)
       // (/docs, /docs/next, /docs/1.0 etc...)
       // The component applies the layout and renders the appropriate doc
-      const addBaseRoute = async (
+      const addVersionRoute = async (
         docsBasePath: string,
         docsBaseMetadata: DocsBaseMetadata,
-        routes: RouteConfig[],
+        docs: Metadata[],
         priority?: number,
       ) => {
         const docsBaseMetadataPath = await createData(
@@ -391,18 +399,38 @@ Available document ids=
           JSON.stringify(docsBaseMetadata, null, 2),
         );
 
+        const docsRoutes = await genRoutes(docs);
+
+        const mainDoc: Metadata =
+          docs.find((doc) => doc.unversionedId === options.homePageId) ??
+          docs[0];
+
+        const toGlobalDataDoc = (doc: Metadata): GlobalDoc => ({
+          id: doc.unversionedId,
+          path: doc.permalink,
+        });
+
+        pluginInstanceGlobalData.versions.push({
+          name: docsBaseMetadata.version,
+          path: docsBasePath,
+          mainDocId: mainDoc.unversionedId,
+          docs: docs
+            .map(toGlobalDataDoc)
+            // stable ordering, useful for tests
+            .sort((a, b) => a.id.localeCompare(b.id)),
+        });
+
         addRoute({
           path: docsBasePath,
           exact: false, // allow matching /docs/* as well
           component: docLayoutComponent, // main docs component (DocPage)
-          routes, // subroute for each doc
+          routes: docsRoutes, // subroute for each doc
           modules: {
             docsMetadata: aliasedSource(docsBaseMetadataPath),
           },
           priority,
         });
       };
-
       // If versioning is enabled, we cleverly chunk the generated routes
       // to be by version and pick only needed base metadata.
       if (versioning.enabled) {
@@ -410,27 +438,10 @@ Available document ids=
           Object.values(content.docsMetadata),
           'version',
         );
-        const rootUrl =
-          options.homePageId && content.docsMetadata[options.homePageId]
-            ? normalizeUrl([baseUrl, routeBasePath])
-            : getFirstDocLinkOfSidebar(
-                content.docsSidebars[
-                  `version-${versioning.latestVersion}/docs`
-                ],
-              );
-        if (!rootUrl) {
-          throw new Error('Bad sidebars file. No document linked');
-        }
-        Object.values(content.docsMetadata).forEach((docMetadata) => {
-          if (docMetadata.version !== versioning.latestVersion) {
-            docMetadata.latestVersionMainDocPermalink = rootUrl;
-          }
-        });
+
         await Promise.all(
           Object.keys(docsMetadataByVersion).map(async (version) => {
-            const routes: RouteConfig[] = await genRoutes(
-              docsMetadataByVersion[version],
-            );
+            const docsMetadata = docsMetadataByVersion[version];
 
             const isLatestVersion = version === versioning.latestVersion;
             const docsBaseRoute = normalizeUrl([
@@ -440,23 +451,29 @@ Available document ids=
             ]);
             const docsBaseMetadata = createDocsBaseMetadata(version);
 
-            return addBaseRoute(
+            await addVersionRoute(
               docsBaseRoute,
               docsBaseMetadata,
-              routes,
-              // We want latest version route config to be placed last in the
-              // generated routeconfig. Otherwise, `/docs/next/foo` will match
-              // `/docs/:route` instead of `/docs/next/:route`.
-              isLatestVersion ? -1 : undefined,
+              docsMetadata,
+              getVersionRoutePriority(version),
             );
           }),
         );
       } else {
-        const routes = await genRoutes(Object.values(content.docsMetadata));
-        const docsBaseMetadata = createDocsBaseMetadata();
+        const docsMetadata = Object.values(content.docsMetadata);
+        const docsBaseMetadata = createDocsBaseMetadata(null);
         const docsBaseRoute = normalizeUrl([baseUrl, routeBasePath]);
-        await addBaseRoute(docsBaseRoute, docsBaseMetadata, routes);
+        await addVersionRoute(docsBaseRoute, docsBaseMetadata, docsMetadata);
       }
+
+      // ensure version ordering on the global data (latest first)
+      pluginInstanceGlobalData.versions = sortBy(
+        pluginInstanceGlobalData.versions,
+        (versionMetadata: GlobalVersion) => {
+          const orderedVersionNames = ['next', ...versions];
+          return orderedVersionNames.indexOf(versionMetadata.name!);
+        },
+      );
     },
 
     async routesLoaded(routes) {

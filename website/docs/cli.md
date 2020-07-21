@@ -115,3 +115,14 @@ Deploys your site with [GitHub Pages](https://pages.github.com/). Check out the 
 | --- | --- | --- |
 | `--out-dir` | `build` | The full path for the new output directory, relative to the current workspace. |
 | `--skip-build` | `false` | Deploy website without building it. This may be useful when using custom deploy script. |
+
+### `docusaurus serve`
+
+Serve your built website localy.
+
+| Name | Default | Description |
+| --- | --- | --- |
+| `--port` | `3000` | Use specified port |
+| `--dir` | `build` | The full path for the output directory, relative to the current workspace |
+| `--build` | `false` | Build website before serving |
+| `--host` | `localhost` | Specify a host to use. For example, if you want your server to be accessible externally, you can use `--host 0.0.0.0`. |

@@ -5,7 +5,7 @@
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
   "scripts": {
-    "tsc": "tsc",
+    "build": "tsc",
     "watch": "tsc --watch"
   },
   "publishConfig": {
