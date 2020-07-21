@@ -77,6 +77,7 @@ export async function migrateDocusaurusProject(
     react: '^16.10.2',
     'react-dom': '^16.10.2',
   };
+  console.log('Starting migration from v1 to v2...');
   try {
     createClientRedirects(siteConfig, deps, config);
     console.log(
@@ -166,6 +167,7 @@ export async function migrateDocusaurusProject(
       ),
     );
   }
+  console.log('Completed migration from v1 to v2');
 }
 
 export function createConfigFile(
@@ -173,7 +175,28 @@ export function createConfigFile(
 ): VersionTwoConfig {
   const homePageId = siteConfig.headerLinks?.filter((value) => value.doc)[0]
     .doc;
-  return {
+
+  const customConfigFields: Record<string, any> = {};
+  // add fields that are unknown to v2 to customConfigFields
+  Object.keys(siteConfig).forEach((key: any) => {
+    const knownFields = [
+      'title',
+      'tagline',
+      'url',
+      'baseUrl',
+      'organizationName',
+      'projectName',
+      'scripts',
+      'stylesheets',
+      'favicon',
+    ];
+    const value = siteConfig[key as keyof typeof siteConfig];
+    if (value !== undefined && !knownFields.includes(key)) {
+      customConfigFields[key] = value;
+    }
+  });
+
+  const result: VersionTwoConfig = {
     title: siteConfig.title ?? '',
     tagline: siteConfig.tagline,
     url: siteConfig.url ?? '',
@@ -183,9 +206,7 @@ export function createConfigFile(
     scripts: siteConfig.scripts,
     stylesheets: siteConfig.stylesheets,
     favicon: siteConfig.favicon ?? '',
-    customFields: {
-      users: siteConfig.users,
-    },
+    customFields: customConfigFields,
     presets: [
       [
         '@docusaurus/preset-classic',
@@ -255,6 +276,7 @@ export function createConfigFile(
       algolia: siteConfig.algolia ? siteConfig.algolia : undefined,
     },
   };
+  return result;
 }
 
 function createClientRedirects(
@@ -283,7 +305,6 @@ function createLandingPage(newDir: string, siteDir: string): void {
         cwd: path.join(newDir, 'src', 'pages'),
       });
       files.forEach((file) => {
-        console.log(file);
         const filePath = path.join(newDir, 'src', 'pages', file);
         const content = String(fs.readFileSync(filePath));
         fs.writeFileSync(filePath, migratePage(content));
@@ -363,7 +384,7 @@ function handleVersioning(
     );
     console.log(
       chalk.green(
-        `Migrated version docs and sidebar. The following doc versions have been created: \n${loadedVersions.join(
+        `Successfully migrated version docs and sidebar. The following doc versions have been created: \n${loadedVersions.join(
           '\n',
         )}`,
       ),
@@ -641,7 +662,7 @@ function migratePackageFile(
     path.join(newDir, 'package.json'),
     JSON.stringify(packageFile, null, 2),
   );
-  console.log(chalk.green(`Successfully migrated package.json file.`));
+  console.log(chalk.green(`Successfully migrated package.json file`));
 }
 
 export async function migrateMDToMDX(
