@@ -591,13 +591,13 @@ function migrateLatestSidebar(
   if (siteConfig.colors) {
     const primaryColor = Color(siteConfig.colors.primaryColor);
     const css = `:root{
-  --ifm-color-primary-lightest: ${primaryColor.darken(-0.3).hex()}
-  --ifm-color-primary-lighter: ${primaryColor.darken(-0.15).hex()}
-  --ifm-color-primary-light: ${primaryColor.darken(-0.1).hex()}
+  --ifm-color-primary-lightest: ${primaryColor.darken(-0.3).hex()};
+  --ifm-color-primary-lighter: ${primaryColor.darken(-0.15).hex()};
+  --ifm-color-primary-light: ${primaryColor.darken(-0.1).hex()};
   --ifm-color-primary: ${siteConfig.colors.primaryColor};
-  --ifm-color-primary-dark: ${primaryColor.darken(0.1).hex()}
-  --ifm-color-primary-darker: ${primaryColor.darken(0.15).hex()}
-  --ifm-color-primary-darkest: ${primaryColor.darken(0.3).hex()}
+  --ifm-color-primary-dark: ${primaryColor.darken(0.1).hex()};
+  --ifm-color-primary-darker: ${primaryColor.darken(0.15).hex()};
+  --ifm-color-primary-darkest: ${primaryColor.darken(0.3).hex()};
 }
 `;
     fs.mkdirpSync(path.join(newDir, 'src', 'css'));
