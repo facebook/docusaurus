@@ -33,10 +33,10 @@
     "lodash.pickby": "^4.6.0",
     "lodash.sortby": "^4.6.0",
     "remark-admonitions": "^1.2.1",
-    "shelljs": "^0.8.4"
+    "shelljs": "^0.8.4",
+    "@docusaurus/core": "^2.0.0-alpha.58"
   },
   "peerDependencies": {
-    "@docusaurus/core": "^2.0.0",
     "react": "^16.8.4",
     "react-dom": "^16.8.4"
   },

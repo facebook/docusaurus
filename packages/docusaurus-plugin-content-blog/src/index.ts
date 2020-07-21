@@ -10,6 +10,7 @@ import kebabCase from 'lodash.kebabcase';
 import path from 'path';
 import admonitions from 'remark-admonitions';
 import {normalizeUrl, docuHash, aliasedSitePath} from '@docusaurus/utils';
+import {STATIC_DIR_NAME} from '@docusaurus/core/lib/constants';
 import {ValidationError} from '@hapi/joi';
 
 import {
@@ -363,6 +364,7 @@ export default function pluginContentBlog(
                   options: {
                     remarkPlugins,
                     rehypePlugins,
+                    staticDir: path.join(siteDir, STATIC_DIR_NAME),
                     // Note that metadataPath must be the same/in-sync as
                     // the path from createData for each MDX.
                     metadataPath: (mdxPath: string) => {

@@ -13,6 +13,7 @@ import globby from 'globby';
 import fs from 'fs-extra';
 import path from 'path';
 import admonitions from 'remark-admonitions';
+import {STATIC_DIR_NAME} from '@docusaurus/core/lib/constants';
 import {
   normalizeUrl,
   docuHash,
@@ -524,6 +525,7 @@ Available document ids=
                   options: {
                     remarkPlugins,
                     rehypePlugins,
+                    staticDir: path.join(siteDir, STATIC_DIR_NAME),
                     metadataPath: (mdxPath: string) => {
                       // Note that metadataPath must be the same/in-sync as
                       // the path from createData for each MDX.
