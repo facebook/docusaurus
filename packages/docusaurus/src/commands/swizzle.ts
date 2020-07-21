@@ -14,7 +14,7 @@ import leven from 'leven';
 
 import {THEME_PATH} from '../constants';
 import {loadContext, loadPluginConfigs} from '../server';
-import initPlugins, {validate} from '../server/plugins/init';
+import initPlugins, {pluginOptionsValidator} from '../server/plugins/init';
 
 export function getPluginNames(plugins: PluginConfig[]): string[] {
   return plugins.map((plugin) => {
@@ -170,7 +170,7 @@ export default async function swizzle(
     let pluginOptions = {};
     if (validateOptions) {
       const normalizedOptions = validateOptions({
-        validate,
+        validate: pluginOptionsValidator,
         options: pluginOptions,
       });
       pluginOptions = normalizedOptions;
