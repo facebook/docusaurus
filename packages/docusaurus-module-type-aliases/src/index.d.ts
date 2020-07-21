@@ -15,6 +15,11 @@ declare module '@generated/docusaurus.config' {
   export default config;
 }
 
+declare module '@generated/site-metadata' {
+  const siteMetadata: any;
+  export default siteMetadata;
+}
+
 declare module '@generated/registry' {
   const registry: {
     readonly [key: string]: [() => Promise<any>, string, string];
@@ -37,27 +42,9 @@ declare module '@generated/routesChunkNames' {
   export default routesChunkNames;
 }
 
-declare module '@generated/site-metadata' {
-  /**
-   * - `type: 'package'`, plugin is in a different package.
-   * - `type: 'project'`, plugin is in the same docusaurus project.
-   * - `type: 'local'`, none of plugin's ancestor directory contains any package.json.
-   * - `type: 'synthetic'`, docusaurus generated internal plugin.
-   */
-  export type PluginVersionInformation =
-    | {readonly type: 'package'; readonly version?: string}
-    | {readonly type: 'project'}
-    | {readonly type: 'local'}
-    | {readonly type: 'synthetic'};
-
-  export type DocusaurusSiteMetadata = {
-    readonly docusaurusVersion: string;
-    readonly siteVersion?: string;
-    readonly pluginVersions: Record<string, PluginVersionInformation>;
-  };
-
-  const siteMetadata: DocusaurusSiteMetadata;
-  export default siteMetadata;
+declare module '@generated/globalData' {
+  const globalData: any;
+  export default globalData;
 }
 
 declare module '@theme/*';

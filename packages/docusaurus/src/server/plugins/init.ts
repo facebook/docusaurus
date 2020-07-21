@@ -11,15 +11,26 @@ import importFresh from 'import-fresh';
 import {
   LoadContext,
   Plugin,
+  PluginOptions,
   PluginConfig,
   ValidationSchema,
+  DocusaurusPluginVersionInformation,
 } from '@docusaurus/types';
-import {PluginVersionInformation} from '@generated/site-metadata';
 import {CONFIG_FILE_NAME} from '../../constants';
 import {getPluginVersion} from '../versions';
+import {ensureUniquePluginInstanceIds} from './pluginIds';
+import * as Joi from '@hapi/joi';
 
-function validate<T>(schema: ValidationSchema<T>, options: Partial<T>) {
-  const {error, value} = schema.validate(options, {
+function pluginOptionsValidator<T>(
+  schema: ValidationSchema<T>,
+  options: Partial<T>,
+) {
+  // All plugins can be provided an "id" for multi-instance support
+  // we don't ask the user to implement id validation, we add it automatically
+  const finalSchema = schema.append({
+    id: Joi.string(),
+  });
+  const {error, value} = finalSchema.validate(options, {
     convert: false,
   });
   if (error) {
@@ -28,8 +39,15 @@ function validate<T>(schema: ValidationSchema<T>, options: Partial<T>) {
   return value;
 }
 
-function validateAndStrip<T>(schema: ValidationSchema<T>, options: Partial<T>) {
-  const {error, value} = schema.unknown().validate(options, {
+function themeConfigValidator<T>(
+  schema: ValidationSchema<T>,
+  options: Partial<T>,
+) {
+  // A theme should only validate his "slice" of the full themeConfig,
+  // not the whole object, so we allow unknown attributes to pass a theme validation
+  const finalSchema = schema.unknown();
+
+  const {error, value} = finalSchema.validate(options, {
     convert: false,
   });
 
@@ -39,8 +57,9 @@ function validateAndStrip<T>(schema: ValidationSchema<T>, options: Partial<T>) {
   return value;
 }
 
-export type PluginWithVersionInformation = Plugin<unknown> & {
-  readonly version: PluginVersionInformation;
+export type InitPlugin = Plugin<unknown> & {
+  readonly options: PluginOptions;
+  readonly version: DocusaurusPluginVersionInformation;
 };
 
 export default function initPlugins({
@@ -49,7 +68,7 @@ export default function initPlugins({
 }: {
   pluginConfigs: PluginConfig[];
   context: LoadContext;
-}): PluginWithVersionInformation[] {
+}): InitPlugin[] {
   // We need to resolve plugins from the perspective of the siteDir, since the siteDir's package.json
   // declares the dependency on these plugins.
   // We need to fallback to createRequireFromPath since createRequire is only available in node v12.
@@ -57,10 +76,10 @@ export default function initPlugins({
   const createRequire = Module.createRequire || Module.createRequireFromPath;
   const pluginRequire = createRequire(join(context.siteDir, CONFIG_FILE_NAME));
 
-  const plugins: PluginWithVersionInformation[] = pluginConfigs
+  const plugins: InitPlugin[] = pluginConfigs
     .map((pluginItem) => {
       let pluginModuleImport: string | undefined;
-      let pluginOptions = {};
+      let pluginOptions: PluginOptions = {};
 
       if (!pluginItem) {
         return null;
@@ -90,7 +109,7 @@ export default function initPlugins({
 
       if (validateOptions) {
         const normalizedOptions = validateOptions({
-          validate,
+          validate: pluginOptionsValidator,
           options: pluginOptions,
         });
         pluginOptions = normalizedOptions;
@@ -103,7 +122,7 @@ export default function initPlugins({
 
       if (validateThemeConfig) {
         const normalizedThemeConfig = validateThemeConfig({
-          validate: validateAndStrip,
+          validate: themeConfigValidator,
           themeConfig: context.siteConfig.themeConfig,
         });
 
@@ -112,8 +131,16 @@ export default function initPlugins({
           ...normalizedThemeConfig,
         };
       }
-      return {...plugin(context, pluginOptions), version: pluginVersion};
+
+      return {
+        ...plugin(context, pluginOptions),
+        options: pluginOptions,
+        version: pluginVersion,
+      };
     })
     .filter(Boolean);
+
+  ensureUniquePluginInstanceIds(plugins);
+
   return plugins;
 }

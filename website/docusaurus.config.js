@@ -174,28 +174,10 @@ module.exports = {
         src: 'img/docusaurus.svg',
         srcDark: 'img/docusaurus_keytar.svg',
       },
-      links: [
+      items: [
         {
-          label: 'Docs',
-          to: 'docs', // "fake" link
+          type: 'docsVersionDropdown',
           position: 'left',
-          activeBaseRegex: `docs/(?!next/(support|team|resources))`,
-          items: [
-            {
-              label: versions[0],
-              to: 'docs/',
-              activeBaseRegex: `docs/(?!${versions.join('|')}|next)`,
-            },
-            ...versions.slice(1).map((version) => ({
-              label: version,
-              to: `docs/${version}/`,
-            })),
-            {
-              label: 'Master/Unreleased',
-              to: 'docs/next/',
-              activeBaseRegex: `docs/next/(?!support|team|resources)`,
-            },
-          ],
         },
         {to: 'blog', label: 'Blog', position: 'left'},
         {to: 'showcase', label: 'Showcase', position: 'left'},
@@ -206,8 +188,8 @@ module.exports = {
           activeBaseRegex: `docs/next/(support|team|resources)`,
         },
         {
+          type: 'docsVersion',
           to: 'versions',
-          label: `v${versions[0]}`,
           position: 'right',
         },
         {

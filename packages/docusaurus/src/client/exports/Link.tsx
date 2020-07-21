@@ -21,11 +21,12 @@ declare global {
 interface Props {
   readonly isNavLink?: boolean;
   readonly to?: string;
+  readonly activeClassName?: string;
   readonly href: string;
   readonly children?: ReactNode;
 }
 
-function Link({isNavLink, ...props}: Props): JSX.Element {
+function Link({isNavLink, activeClassName, ...props}: Props): JSX.Element {
   const linksCollector = useLinksCollector();
   const {to, href} = props;
   const targetLink = to || href;
@@ -106,6 +107,8 @@ function Link({isNavLink, ...props}: Props): JSX.Element {
       onMouseEnter={onMouseEnter}
       innerRef={handleRef}
       to={targetLink}
+      // avoid "React does not recognize the `activeClassName` prop on a DOM element"
+      {...(isNavLink && {activeClassName})}
     />
   );
 }

@@ -164,7 +164,7 @@ module.exports = {
         alt: 'Site Logo',
         src: 'img/logo.svg',
       },
-      links: [
+      items: [
         {
           to: 'docs/docusaurus.config.js',
           activeBasePath: 'docs',

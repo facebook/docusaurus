@@ -951,7 +951,7 @@ Let's imagine the following file structure:
 /website/docs/assets/docusaurus-asset-example.xyz
 ```
 
-### Image assets:
+### Image assets
 
 You can use images by requiring them and using an image tag through MDX:
 
@@ -959,8 +959,11 @@ You can use images by requiring them and using an image tag through MDX:
 # My markdown page
 
 <img src={require('./assets/docusaurus-asset-example-banner.png').default} />
-```
 
+or
+
+![](./assets/docusaurus-asset-example-banner.png)
+```
 The ES imports syntax also works:
 
 ```mdx
@@ -973,12 +976,7 @@ import myImageUrl from './assets/docusaurus-asset-example-banner.png';
 
 This results in displaying the image:
 
-<img
-  src={
-    require('!file-loader!./assets/docusaurus-asset-example-banner.png').default
-  }
-  style={{maxWidth: 300}}
-/>
+![](./assets/docusaurus-asset-example-banner.png)
 
 :::note
 

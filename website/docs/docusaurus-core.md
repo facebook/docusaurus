@@ -132,26 +132,42 @@ function MyComponent() {
 
 ### `useDocusaurusContext`
 
-React hook to access Docusaurus Context. Context contains `siteConfig` object from [docusaurus.config.js](docusaurus.config.js.md).
+React hook to access Docusaurus Context. Context contains `siteConfig` object from [docusaurus.config.js](docusaurus.config.js.md), and some additional site metadata.
 
 ```ts
+type DocusaurusPluginVersionInformation =
+  | {readonly type: 'package'; readonly version?: string}
+  | {readonly type: 'project'}
+  | {readonly type: 'local'}
+  | {readonly type: 'synthetic'};
+
+interface DocusaurusSiteMetadata {
+  readonly docusaurusVersion: string;
+  readonly siteVersion?: string;
+  readonly pluginVersions: Record<string, DocusaurusPluginVersionInformation>;
+}
+
 interface DocusaurusContext {
-  siteConfig?: DocusaurusConfig;
+  siteConfig: DocusaurusConfig;
+  siteMetadata: DocusaurusSiteMetadata;
 }
 ```
 
 Usage example:
 
-```jsx {2,5}
+```jsx {5,8,9}
 import React from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
-const Test = () => {
-  const context = useDocusaurusContext();
-  const {siteConfig = {}} = context;
-  const {title} = siteConfig;
-
-  return <h1>{title}</h1>;
+const MyComponent = () => {
+  const {siteConfig, siteMetadata} = useDocusaurusContext();
+  return (
+    <div>
+      <h1>{siteConfig.title}</h1>
+      <div>{siteMetadata.siteVersion}</div>
+      <div>{siteMetadata.docusaurusVersion}</div>
+    </div>
+  );
 };
 ```
 
@@ -202,6 +218,84 @@ function Component() {
   const urlsWithBaseUrl = urls.map(withBaseUrl);
   return <div className="col">{/* ... */}</div>;
 }
+```
+
+### `useGlobalData()`
+
+React hook to access Docusaurus global data created by all the plugins.
+
+Global data is namespaced by plugin name, and plugin id.
+
+:::info
+
+Plugin id is only useful when a plugin is used multiple times on the same site. Each plugin instance is able to create its own global data.
+
+:::
+
+```ts
+type GlobalData = Record<
+  PluginName,
+  Record<
+    PluginId, // "default" by default
+    any // plugin-specific data
+  >
+>;
+```
+
+Usage example:
+
+```jsx {2,5,6,7}
+import React from 'react';
+import useGlobalData from '@docusaurus/useGlobalData';
+
+const MyComponent = () => {
+  const globalData = useDocusaurusContext();
+  const myPluginData = globalData['my-plugin']['default'];
+  return <div>{myPluginData.someAttribute}</div>;
+};
+```
+
+:::tip
+
+Inspect your site's global data at `./docusaurus/globalData.json`
+
+:::
+
+### `usePluginData(pluginName: string, pluginId?: string)`
+
+Access global data created by a specific plugin instance.
+
+This is the most convenient hook to access plugin global data, and should be used most of the time.
+
+`pluginId` is optional if you don't use multi-instance plugins.
+
+Usage example:
+
+```jsx {2,5,6}
+import React from 'react';
+import {usePluginData} from '@docusaurus/useGlobalData';
+
+const MyComponent = () => {
+  const myPluginData = usePluginData('my-plugin');
+  return <div>{myPluginData.someAttribute}</div>;
+};
+```
+
+### `useAllPluginInstancesData(pluginName: string)`
+
+Access global data created by a specific plugin. Given a plugin name, it returns the data of all the plugins instances of that name, by pluginId.
+
+Usage example:
+
+```jsx {2,5,6,7}
+import React from 'react';
+import {useAllPluginInstancesData} from '@docusaurus/useGlobalData';
+
+const MyComponent = () => {
+  const allPluginInstancesData = useAllPluginInstancesData('my-plugin');
+  const myPluginData = allPluginInstancesData['default'];
+  return <div>{myPluginData.someAttribute}</div>;
+};
 ```
 
 ## Modules
