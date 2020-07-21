@@ -234,6 +234,47 @@ describe('simple site', () => {
     });
   });
 
+  test('docs with slugs', async () => {
+    async function testSlug(source: string, expectedPermalink: string) {
+      const options = {
+        routeBasePath,
+      };
+      const data = await processMetadata({
+        source,
+        refDir: docsDir,
+        context,
+        options,
+        env,
+      });
+      expect(data.permalink).toEqual(expectedPermalink);
+    }
+
+    await testSlug(path.join('rootRelativeSlug.md'), '/docs/rootRelativeSlug');
+    await testSlug(path.join('rootAbsoluteSlug.md'), '/docs/rootAbsoluteSlug');
+    await testSlug(
+      path.join('rootResolvedSlug.md'),
+      '/docs/hey/rootResolvedSlug',
+    );
+    await testSlug(
+      path.join('rootTryToEscapeSlug.md'),
+      '/docs/rootTryToEscapeSlug',
+    );
+
+    await testSlug(path.join('slugs', 'absoluteSlug.md'), '/docs/absoluteSlug');
+    await testSlug(
+      path.join('slugs', 'relativeSlug.md'),
+      '/docs/slugs/relativeSlug',
+    );
+    await testSlug(
+      path.join('slugs', 'resolvedSlug.md'),
+      '/docs/slugs/hey/resolvedSlug',
+    );
+    await testSlug(
+      path.join('slugs', 'tryToEscapeSlug.md'),
+      '/docs/tryToEscapeSlug',
+    );
+  });
+
   test('docs with invalid id', async () => {
     const badSiteDir = path.join(fixtureDir, 'bad-id-site');
     const options = {
@@ -250,25 +291,6 @@ describe('simple site', () => {
       }),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
       `"Document id cannot include \\"/\\"."`,
-    );
-  });
-
-  test('docs with invalid slug', async () => {
-    const badSiteDir = path.join(fixtureDir, 'bad-slug-site');
-    const options = {
-      routeBasePath,
-    };
-
-    await expect(
-      processMetadata({
-        source: 'invalid-slug.md',
-        refDir: path.join(badSiteDir, 'docs'),
-        context,
-        options,
-        env,
-      }),
-    ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"Document slug cannot include \\"/\\"."`,
     );
   });
 
