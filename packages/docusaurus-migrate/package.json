@@ -23,6 +23,7 @@
     "color": "^3.1.2",
     "commander": "^5.1.0",
     "fs-extra": "^9.0.1",
+    "glob": "^7.1.6",
     "hast-util-to-string": "^1.0.4",
     "hast-util-to-text": "^2.0.0",
     "html-tags": "^3.1.0",
