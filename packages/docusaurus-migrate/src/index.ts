@@ -48,7 +48,7 @@ function sanitizedFileContent(
   const extractedMetaData = Object.entries(extractedData.metadata).reduce(
     (metaData, value) => {
       return `${metaData}\n${value[0]}: ${
-        value[0] === 'tags' || !value[0].match(/:/) ? value[1] : `"${value[1]}"`
+        value[0] === 'tags' ? value[1] : `"${value[1]}"`
       }`;
     },
     '',
@@ -246,10 +246,11 @@ export function createConfigFile(
     themeConfig: {
       navbar: {
         title: siteConfig.title,
-        logo: {
-          src: siteConfig.headerIcon,
-        },
-        image: siteConfig.ogImage,
+        logo: siteConfig.headerIcon
+          ? {
+              src: siteConfig.headerIcon,
+            }
+          : undefined,
         links: (siteConfig.headerLinks ?? [])
           .map((link) => {
             if (link.doc) {

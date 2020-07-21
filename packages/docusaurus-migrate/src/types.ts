@@ -42,7 +42,7 @@ export interface VersionTwoConfig {
   themeConfig: {
     navbar: {
       title?: string;
-      logo: {
+      logo?: {
         src?: string;
       };
       image?: string;
