@@ -202,6 +202,38 @@ Object {
               "id": "lorem",
               "path": "/docs/lorem",
             },
+            Object {
+              "id": "rootAbsoluteSlug",
+              "path": "/docs/rootAbsoluteSlug",
+            },
+            Object {
+              "id": "rootRelativeSlug",
+              "path": "/docs/rootRelativeSlug",
+            },
+            Object {
+              "id": "rootResolvedSlug",
+              "path": "/docs/hey/rootResolvedSlug",
+            },
+            Object {
+              "id": "rootTryToEscapeSlug",
+              "path": "/docs/rootTryToEscapeSlug",
+            },
+            Object {
+              "id": "slugs/absoluteSlug",
+              "path": "/docs/absoluteSlug",
+            },
+            Object {
+              "id": "slugs/relativeSlug",
+              "path": "/docs/slugs/relativeSlug",
+            },
+            Object {
+              "id": "slugs/resolvedSlug",
+              "path": "/docs/slugs/hey/resolvedSlug",
+            },
+            Object {
+              "id": "slugs/tryToEscapeSlug",
+              "path": "/docs/tryToEscapeSlug",
+            },
           ],
           "mainDocId": "hello",
           "name": null,
@@ -449,6 +481,22 @@ Object {
               "id": "hello",
               "path": "/docs/next/",
             },
+            Object {
+              "id": "slugs/absoluteSlug",
+              "path": "/docs/next/absoluteSlug",
+            },
+            Object {
+              "id": "slugs/relativeSlug",
+              "path": "/docs/next/slugs/relativeSlug",
+            },
+            Object {
+              "id": "slugs/resolvedSlug",
+              "path": "/docs/next/slugs/hey/resolvedSlug",
+            },
+            Object {
+              "id": "slugs/tryToEscapeSlug",
+              "path": "/docs/next/tryToEscapeSlug",
+            },
           ],
           "mainDocId": "hello",
           "name": "next",
@@ -487,6 +535,45 @@ Object {
           "mainDocId": "hello",
           "name": "1.0.0",
           "path": "/docs/1.0.0",
+        },
+        Object {
+          "docs": Array [
+            Object {
+              "id": "rootAbsoluteSlug",
+              "path": "/docs/withSlugs/rootAbsoluteSlug",
+            },
+            Object {
+              "id": "rootRelativeSlug",
+              "path": "/docs/withSlugs/rootRelativeSlug",
+            },
+            Object {
+              "id": "rootResolvedSlug",
+              "path": "/docs/withSlugs/hey/rootResolvedSlug",
+            },
+            Object {
+              "id": "rootTryToEscapeSlug",
+              "path": "/docs/withSlugs/rootTryToEscapeSlug",
+            },
+            Object {
+              "id": "slugs/absoluteSlug",
+              "path": "/docs/withSlugs/absoluteSlug",
+            },
+            Object {
+              "id": "slugs/relativeSlug",
+              "path": "/docs/withSlugs/slugs/relativeSlug",
+            },
+            Object {
+              "id": "slugs/resolvedSlug",
+              "path": "/docs/withSlugs/slugs/hey/resolvedSlug",
+            },
+            Object {
+              "id": "slugs/tryToEscapeSlug",
+              "path": "/docs/withSlugs/tryToEscapeSlug",
+            },
+          ],
+          "mainDocId": "rootAbsoluteSlug",
+          "name": "withSlugs",
+          "path": "/docs/withSlugs",
         },
       ],
     },

@@ -436,7 +436,10 @@ Available document ids=
       // to be by version and pick only needed base metadata.
       if (versioning.enabled) {
         const docsMetadataByVersion = groupBy(
-          Object.values(content.docsMetadata),
+          // sort to ensure consistent output for tests
+          Object.values(content.docsMetadata).sort((a, b) =>
+            a.id.localeCompare(b.id),
+          ),
           'version',
         );
 
