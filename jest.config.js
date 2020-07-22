@@ -28,4 +28,7 @@ module.exports = {
     '^.+\\.[jt]sx?$': 'babel-jest',
   },
   setupFiles: ['./jest/stylelint-rule-test.js'],
+  moduleNameMapper: {
+    '@docusaurus/router': 'react-router-dom',
+  },
 };

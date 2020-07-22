@@ -301,7 +301,7 @@ module.exports = {
         alt: 'Docusaurus Logo',
         src: 'img/docusaurus.svg',
       },
-      links: [
+      items: [
         {to: 'docs/doc1', label: 'Getting Started', position: 'left'},
         {to: 'help', label: 'Help', position: 'left'},
         {

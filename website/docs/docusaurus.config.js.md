@@ -79,6 +79,20 @@ module.exports = {
 
 ## Optional fields
 
+### `onBrokenLinks`
+
+- Type: `'ignore' | 'log' | 'error' | 'throw'`
+
+The behavior of Docusaurus, when it detects any broken link.
+
+By default, it throws an error, to ensure you never ship any broken link, but you can lower this security if needed.
+
+:::note
+
+The broken links detection is only available for a production build (`docusaurus build`).
+
+:::
+
 ### `tagline`
 
 - Type: `string`
@@ -150,7 +164,7 @@ module.exports = {
         alt: 'Site Logo',
         src: 'img/logo.svg',
       },
-      links: [
+      items: [
         {
           to: 'docs/docusaurus.config.js',
           activeBasePath: 'docs',

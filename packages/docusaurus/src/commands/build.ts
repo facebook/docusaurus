@@ -10,50 +10,18 @@ import CopyWebpackPlugin from 'copy-webpack-plugin';
 import fs from 'fs-extra';
 import path from 'path';
 import ReactLoadableSSRAddon from 'react-loadable-ssr-addon';
-import webpack, {Configuration, Plugin, Stats} from 'webpack';
+import {Configuration, Plugin} from 'webpack';
 import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
 import merge from 'webpack-merge';
 import {STATIC_DIR_NAME} from '../constants';
 import {load} from '../server';
+import {handleBrokenLinks} from '../server/brokenLinks';
+
 import {BuildCLIOptions, Props} from '@docusaurus/types';
 import createClientConfig from '../webpack/client';
 import createServerConfig from '../webpack/server';
-import {applyConfigureWebpack} from '../webpack/utils';
+import {compile, applyConfigureWebpack} from '../webpack/utils';
 import CleanWebpackPlugin from '../webpack/plugins/CleanWebpackPlugin';
-
-function compile(config: Configuration[]): Promise<void> {
-  return new Promise((resolve, reject) => {
-    const compiler = webpack(config);
-    compiler.run((err, stats) => {
-      if (err) {
-        reject(err);
-      }
-      if (stats.hasErrors()) {
-        stats.toJson('errors-only').errors.forEach((e) => {
-          console.error(e);
-        });
-        reject(new Error('Failed to compile with errors.'));
-      }
-      if (stats.hasWarnings()) {
-        // Custom filtering warnings (see https://github.com/webpack/webpack/issues/7841).
-        let {warnings} = stats.toJson('errors-warnings');
-        const warningsFilter = ((config[0].stats as Stats.ToJsonOptionsObject)
-          ?.warningsFilter || []) as any[];
-
-        if (Array.isArray(warningsFilter)) {
-          warnings = warnings.filter((warning) =>
-            warningsFilter.every((str) => !warning.includes(str)),
-          );
-        }
-
-        warnings.forEach((warning) => {
-          console.warn(warning);
-        });
-      }
-      resolve();
-    });
-  });
-}
 
 export default async function build(
   siteDir: string,
@@ -67,7 +35,13 @@ export default async function build(
   const props: Props = await load(siteDir, cliOptions.outDir);
 
   // Apply user webpack config.
-  const {outDir, generatedFilesDir, plugins} = props;
+  const {
+    outDir,
+    generatedFilesDir,
+    plugins,
+    siteConfig: {onBrokenLinks},
+    routes,
+  } = props;
 
   const clientManifestPath = path.join(
     generatedFilesDir,
@@ -89,7 +63,14 @@ export default async function build(
     },
   );
 
-  let serverConfig: Configuration = createServerConfig(props);
+  const allCollectedLinks: Record<string, string[]> = {};
+
+  let serverConfig: Configuration = createServerConfig({
+    props,
+    onLinksCollected: (staticPagePath, links) => {
+      allCollectedLinks[staticPagePath] = links;
+    },
+  });
 
   const staticDir = path.resolve(siteDir, STATIC_DIR_NAME);
   if (fs.existsSync(staticDir)) {
@@ -158,14 +139,19 @@ export default async function build(
     }),
   );
 
+  handleBrokenLinks({allCollectedLinks, routes, onBrokenLinks});
+
   const relativeDir = path.relative(process.cwd(), outDir);
   console.log(
     `\n${chalk.green('Success!')} Generated static files in ${chalk.cyan(
       relativeDir,
-    )}.\n`,
+    )}.Use ${chalk.greenBright(
+      '`npm run serve`',
+    )} to test your build locally.\n`,
   );
   if (forceTerminate && !cliOptions.bundleAnalyzer) {
     process.exit(0);
   }
+
   return outDir;
 }

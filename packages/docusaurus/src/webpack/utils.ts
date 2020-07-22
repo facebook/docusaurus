@@ -8,7 +8,7 @@
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import env from 'std-env';
 import merge from 'webpack-merge';
-import {Configuration, Loader, RuleSetRule} from 'webpack';
+import webpack, {Configuration, Loader, RuleSetRule, Stats} from 'webpack';
 import {TransformOptions} from '@babel/core';
 import {ConfigureWebpackFn} from '@docusaurus/types';
 import {version as cacheLoaderVersion} from 'cache-loader/package.json';
@@ -136,6 +136,40 @@ export function applyConfigureWebpack(
     }
   }
   return config;
+}
+
+export function compile(config: Configuration[]): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const compiler = webpack(config);
+    compiler.run((err, stats) => {
+      if (err) {
+        reject(err);
+      }
+      if (stats.hasErrors()) {
+        stats.toJson('errors-only').errors.forEach((e) => {
+          console.error(e);
+        });
+        reject(new Error('Failed to compile with errors.'));
+      }
+      if (stats.hasWarnings()) {
+        // Custom filtering warnings (see https://github.com/webpack/webpack/issues/7841).
+        let {warnings} = stats.toJson('errors-warnings');
+        const warningsFilter = ((config[0].stats as Stats.ToJsonOptionsObject)
+          ?.warningsFilter || []) as any[];
+
+        if (Array.isArray(warningsFilter)) {
+          warnings = warnings.filter((warning) =>
+            warningsFilter.every((str) => !warning.includes(str)),
+          );
+        }
+
+        warnings.forEach((warning) => {
+          console.warn(warning);
+        });
+      }
+      resolve();
+    });
+  });
 }
 
 // Inspired by https://github.com/gatsbyjs/gatsby/blob/8e6e021014da310b9cc7d02e58c9b3efe938c665/packages/gatsby/src/utils/webpack-utils.ts#L447

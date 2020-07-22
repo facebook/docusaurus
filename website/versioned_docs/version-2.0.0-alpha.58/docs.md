@@ -325,9 +325,9 @@ module.exports = {
 
 ## Docs-only mode
 
-If you just want the documentation feature, you can enable "docs-only mode".
+If you only want the documentation feature, you can run your Docusaurus 2 site without a landing page and display your documentation page as the index page instead.
 
-To achieve this, set the `routeBasePath` property of the `docs` object in `@docusaurus/preset-classic` in `docusaurus.config.js` to the root of your site, and also in that object set the `homePageId` property with the value of the document ID that you show as root of the docs.
+To enable docs-only mode, set the `routeBasePath` property of the `docs` object to the root of your site. Also, set the `homePageId` property to the ID of the document that you wish to show by default.
 
 :::note
 
@@ -356,8 +356,14 @@ module.exports = {
 
 Now, when visiting your site, it will show your initial document instead of a landing page.
 
+:::caution
+
+You should delete the existing homepage at `./src/pages/index.js`, or else there will be two files mapping to the same route!
+
+:::
+
 :::tip
 
-There's also a "blog-only mode", for those who only want to use the blog component of Docusaurus 2. You can use the same method detailed above, except that you need to delete the `/src/pages/index.js` file. Follow the setup instructions on [Blog-only mode](blog.md#blog-only-mode).
+There's also a "blog-only mode" for those who only want to use the blog feature of Docusaurus 2. You can use the same method detailed above. Follow the setup instructions on [Blog-only mode](blog.md#blog-only-mode).
 
 :::

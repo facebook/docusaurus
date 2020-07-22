@@ -147,11 +147,40 @@ const users = [
     pinned: false,
   },
   {
+    title: 'Runlet',
+    description: 'A cloud-based job manager that integrates your devices',
+    preview: require('./showcase/runlet.png'),
+    website: 'https://runlet.app',
+    source: 'https://github.com/runletapp/website',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'Supabase',
     description: 'Open Source Realtime and RESTful APIs for Postgres',
     preview: require('./showcase/supabase.png'),
     website: 'https://www.supabase.io/',
     source: 'https://github.com/supabase/monorepo',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
+    title: 'Tasit',
+    description:
+      'A JavaScript SDK for building native mobile Ethereum dapps with React Native',
+    preview: require('./showcase/tasit.png'),
+    website: 'https://docs.tasit.io/',
+    source: 'https://github.com/tasitlabs/tasit-sdk',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
+    title: 'Tourmaline',
+    description:
+      'Fast and performant Telegram bot framework for the Crystal programming language',
+    preview: require('./showcase/tourmaline.png'),
+    website: 'https://tourmaline.dev',
+    source: 'https://github.com/protoncr/tourmaline',
     fbOpenSource: false,
     pinned: false,
   },
@@ -172,16 +201,6 @@ const users = [
     source: 'https://github.com/timberio/vector',
     fbOpenSource: false,
     pinned: true,
-  },
-  {
-    title: 'Tourmaline',
-    description:
-      'Fast and performant Telegram bot framework for the Crystal programming language',
-    preview: require('./showcase/tourmaline.png'),
-    website: 'https://tourmaline.dev',
-    source: 'https://github.com/protoncr/tourmaline',
-    fbOpenSource: false,
-    pinned: false,
   },
 ];
 

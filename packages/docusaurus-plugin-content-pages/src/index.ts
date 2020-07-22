@@ -75,6 +75,9 @@ export default function pluginContentPages(
             path: permalink,
             component: source,
             exact: true,
+            modules: {
+              config: `@generated/docusaurus.config`,
+            },
           });
         }),
       );
