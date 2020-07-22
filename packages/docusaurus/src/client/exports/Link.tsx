@@ -11,6 +11,7 @@ import {NavLink, Link as RRLink} from 'react-router-dom';
 import isInternalUrl from './isInternalUrl';
 import ExecutionEnvironment from './ExecutionEnvironment';
 import {useLinksCollector} from '../LinksCollector';
+import {useBaseUrlUtils} from './useBaseUrl';
 
 declare global {
   interface Window {
@@ -26,10 +27,28 @@ interface Props {
   readonly children?: ReactNode;
 }
 
-function Link({isNavLink, activeClassName, ...props}: Props): JSX.Element {
+function Link({
+  isNavLink,
+  activeClassName,
+  to,
+  href,
+  ...props
+}: Props): JSX.Element {
+  const {withBaseUrl} = useBaseUrlUtils();
   const linksCollector = useLinksCollector();
-  const {to, href} = props;
-  const targetLink = to || href;
+
+  // IMPORTANT: using to or href should not change anything
+  // For example, MDX links will ALWAYS give us the href props
+  // Using one prop or the other should not be used to distinguish
+  // internal links (/docs/myDoc) from external links (https://github.com)
+  const targetLinkUnprefixed = to || href;
+
+  // Automatically apply base url in links
+  const targetLink =
+    typeof targetLinkUnprefixed !== 'undefined'
+      ? withBaseUrl(targetLinkUnprefixed)
+      : undefined;
+
   const isInternal = isInternalUrl(targetLink);
   const preloaded = useRef(false);
   const LinkComponent = isNavLink ? NavLink : RRLink;
@@ -90,9 +109,6 @@ function Link({isNavLink, activeClassName, ...props}: Props): JSX.Element {
   const isRegularHtmlLink = !targetLink || !isInternal || isAnchorLink;
 
   if (targetLink && isInternal && !isAnchorLink) {
-    if (targetLink && targetLink.startsWith('/http')) {
-      console.log('collectLink', props);
-    }
     linksCollector.collectLink(targetLink);
   }
 

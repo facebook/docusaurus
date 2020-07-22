@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@docusaurus/mdx-loader": "^2.0.0-alpha.58",
+    "@docusaurus/core": "^2.0.0-alpha.58",
     "@docusaurus/types": "^2.0.0-alpha.58",
     "@docusaurus/utils": "^2.0.0-alpha.58",
     "execa": "^3.4.0",
@@ -33,8 +34,7 @@
     "lodash.pickby": "^4.6.0",
     "lodash.sortby": "^4.6.0",
     "remark-admonitions": "^1.2.1",
-    "shelljs": "^0.8.4",
-    "@docusaurus/core": "^2.0.0-alpha.58"
+    "shelljs": "^0.8.4"
   },
   "peerDependencies": {
     "react": "^16.8.4",

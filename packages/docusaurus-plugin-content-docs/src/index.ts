@@ -323,7 +323,7 @@ Available document ids=
       const {addRoute, createData, setGlobalData} = actions;
 
       const pluginInstanceGlobalData: GlobalPluginData = {
-        path: options.path,
+        path: normalizeUrl([baseUrl, options.path]),
         latestVersionName: versioning.latestVersion,
         // Initialized empty, will be mutated
         versions: [],

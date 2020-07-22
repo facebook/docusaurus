@@ -67,6 +67,8 @@ describe('useBaseUrl', () => {
     expect(useBaseUrl('/hello/byebye', {absolute: true})).toEqual(
       'https://v2.docusaurus.io/docusaurus/hello/byebye',
     );
+    expect(useBaseUrl('/docusaurus/')).toEqual('/docusaurus/');
+    expect(useBaseUrl('/docusaurus/hello')).toEqual('/docusaurus/hello');
   });
 });
 
@@ -125,5 +127,7 @@ describe('useBaseUrlUtils().withBaseUrl()', () => {
     expect(withBaseUrl('/hello/byebye', {absolute: true})).toEqual(
       'https://v2.docusaurus.io/docusaurus/hello/byebye',
     );
+    expect(withBaseUrl('/docusaurus/')).toEqual('/docusaurus/');
+    expect(withBaseUrl('/docusaurus/hello')).toEqual('/docusaurus/hello');
   });
 });

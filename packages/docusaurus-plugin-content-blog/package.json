@@ -16,9 +16,9 @@
   },
   "dependencies": {
     "@docusaurus/mdx-loader": "^2.0.0-alpha.58",
+    "@docusaurus/core": "^2.0.0-alpha.58",
     "@docusaurus/types": "^2.0.0-alpha.58",
     "@docusaurus/utils": "^2.0.0-alpha.58",
-    "@docusaurus/core": "2.0.0-alpha.58",
     "@hapi/joi": "^17.1.1",
     "feed": "^4.1.0",
     "fs-extra": "^8.1.0",
