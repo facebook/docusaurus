@@ -8,7 +8,7 @@ keywords:
 
 Docusaurus' own `@docusaurus/preset-classic` supports a search integration.
 
-There are two main options, you can use [Algolia DocSearch](https://community.algolia.com/docsearch/) or bring in your own `SearchBar` component.
+There are two main options, you can use [Algolia DocSearch](https://docsearch.algolia.com) or bring in your own `SearchBar` component.
 
 ## Using Algolia DocSearch
 
@@ -16,7 +16,7 @@ Algolia DocSearch works by crawling the content of your website every 24 hours a
 
 ### Connecting Algolia
 
-To connect your docs with Algolia, add an `algolia` field in your `themeConfig`. Note that you will need algolia API key and algolia index. You can [apply for DocSearch here](https://docsearch.algolia.com/apply/).
+To connect your docs with Algolia, add an `algolia` field in your `themeConfig`. [Apply for DocSearch](https://docsearch.algolia.com/apply/) to get your Algolia index and API key.
 
 ```jsx title="docusaurus.config.js"
 module.exports = {
