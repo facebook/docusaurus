@@ -22,16 +22,20 @@ declare global {
 interface Props {
   readonly isNavLink?: boolean;
   readonly to?: string;
-  readonly activeClassName?: string;
   readonly href?: string;
+  readonly activeClassName?: string;
   readonly children?: ReactNode;
+
+  // escape hatch in case broken links check is annoying for a specific link
+  readonly 'data-noBrokenLinkCheck'?: boolean;
 }
 
 function Link({
   isNavLink,
-  activeClassName,
   to,
   href,
+  activeClassName,
+  'data-noBrokenLinkCheck': noBrokenLinkCheck,
   ...props
 }: Props): JSX.Element {
   const {withBaseUrl} = useBaseUrlUtils();
@@ -108,7 +112,7 @@ function Link({
   const isAnchorLink = targetLink?.startsWith('#') ?? false;
   const isRegularHtmlLink = !targetLink || !isInternal || isAnchorLink;
 
-  if (targetLink && isInternal && !isAnchorLink) {
+  if (targetLink && isInternal && !isAnchorLink && !noBrokenLinkCheck) {
     linksCollector.collectLink(targetLink);
   }
 
