@@ -55,6 +55,15 @@ const users = [
     pinned: false,
   },
   {
+    title: 'Clutch',
+    description: 'An extensible API and UI platform for infrastructure tooling',
+    preview: require('./showcase/clutch.png'),
+    website: 'https://clutch.sh/',
+    source: 'https://github.com/lyft/clutch',
+    fbOpenSource: false,
+    pinned: false,
+  },
+  {
     title: 'Component Kit',
     description: 'A declarative UI framework for iOS',
     preview: require('./showcase/componentkit.png'),
