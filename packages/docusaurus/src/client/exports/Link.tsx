@@ -89,7 +89,7 @@ function Link({isNavLink, activeClassName, ...props}: Props): JSX.Element {
   const isAnchorLink = targetLink?.startsWith('#') ?? false;
   const isRegularHtmlLink = !targetLink || !isInternal || isAnchorLink;
 
-  if (isInternal && !isAnchorLink) {
+  if (targetLink && isInternal && !isAnchorLink) {
     if (targetLink && targetLink.startsWith('/http')) {
       console.log('collectLink', props);
     }
@@ -99,7 +99,6 @@ function Link({isNavLink, activeClassName, ...props}: Props): JSX.Element {
   return isRegularHtmlLink ? (
     // eslint-disable-next-line jsx-a11y/anchor-has-content
     <a
-      // @ts-expect-error: href specified twice needed to pass children and other user specified props
       href={targetLink}
       {...(!isInternal && {target: '_blank', rel: 'noopener noreferrer'})}
       {...props}
