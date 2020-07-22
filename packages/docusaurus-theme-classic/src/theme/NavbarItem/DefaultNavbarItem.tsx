@@ -28,10 +28,8 @@ function NavLink({
   activeClassName?: string;
   prependBaseUrlToHref?: string;
 } & ComponentProps<'a'>) {
-  const toUrl = useBaseUrl(to);
   const activeBaseUrl = useBaseUrl(activeBasePath);
   const normalizedHref = useBaseUrl(href, {forcePrependBaseUrl: true});
-
   return (
     <Link
       {...(href
@@ -43,7 +41,7 @@ function NavLink({
         : {
             isNavLink: true,
             activeClassName,
-            to: toUrl,
+            to,
             ...(activeBasePath || activeBaseRegex
               ? {
                   isActive: (_match, location) =>

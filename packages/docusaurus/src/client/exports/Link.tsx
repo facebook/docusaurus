@@ -11,6 +11,7 @@ import {NavLink, Link as RRLink} from 'react-router-dom';
 import isInternalUrl from './isInternalUrl';
 import ExecutionEnvironment from './ExecutionEnvironment';
 import {useLinksCollector} from '../LinksCollector';
+import {useBaseUrlUtils} from './useBaseUrl';
 
 declare global {
   interface Window {
@@ -21,15 +22,37 @@ declare global {
 interface Props {
   readonly isNavLink?: boolean;
   readonly to?: string;
-  readonly activeClassName?: string;
   readonly href?: string;
+  readonly activeClassName?: string;
   readonly children?: ReactNode;
+
+  // escape hatch in case broken links check is annoying for a specific link
+  readonly 'data-noBrokenLinkCheck'?: boolean;
 }
 
-function Link({isNavLink, activeClassName, ...props}: Props): JSX.Element {
+function Link({
+  isNavLink,
+  to,
+  href,
+  activeClassName,
+  'data-noBrokenLinkCheck': noBrokenLinkCheck,
+  ...props
+}: Props): JSX.Element {
+  const {withBaseUrl} = useBaseUrlUtils();
   const linksCollector = useLinksCollector();
-  const {to, href} = props;
-  const targetLink = to || href;
+
+  // IMPORTANT: using to or href should not change anything
+  // For example, MDX links will ALWAYS give us the href props
+  // Using one prop or the other should not be used to distinguish
+  // internal links (/docs/myDoc) from external links (https://github.com)
+  const targetLinkUnprefixed = to || href;
+
+  // Automatically apply base url in links
+  const targetLink =
+    typeof targetLinkUnprefixed !== 'undefined'
+      ? withBaseUrl(targetLinkUnprefixed)
+      : undefined;
+
   const isInternal = isInternalUrl(targetLink);
   const preloaded = useRef(false);
   const LinkComponent = isNavLink ? NavLink : RRLink;
@@ -89,10 +112,7 @@ function Link({isNavLink, activeClassName, ...props}: Props): JSX.Element {
   const isAnchorLink = targetLink?.startsWith('#') ?? false;
   const isRegularHtmlLink = !targetLink || !isInternal || isAnchorLink;
 
-  if (targetLink && isInternal && !isAnchorLink) {
-    if (targetLink && targetLink.startsWith('/http')) {
-      console.log('collectLink', props);
-    }
+  if (targetLink && isInternal && !isAnchorLink && !noBrokenLinkCheck) {
     linksCollector.collectLink(targetLink);
   }
 

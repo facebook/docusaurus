@@ -6,11 +6,9 @@
  */
 
 import useDocusaurusContext from './useDocusaurusContext';
-import isInternalUrl from './isInternalUrl';
+import {hasProtocol} from './isInternalUrl';
 
 type BaseUrlOptions = Partial<{
-  // note: if the url has a protocol, we never prepend it
-  // (it never makes any sense to do so)
   forcePrependBaseUrl: boolean;
   absolute: boolean;
 }>;
@@ -25,7 +23,8 @@ function addBaseUrl(
     return url;
   }
 
-  if (!isInternalUrl(url)) {
+  // it never makes sense to add a base url to an url with a protocol
+  if (hasProtocol(url)) {
     return url;
   }
 
@@ -33,7 +32,11 @@ function addBaseUrl(
     return baseUrl + url;
   }
 
-  const basePath = baseUrl + url.replace(/^\//, '');
+  // sometimes we try to add baseurl to an url that already has a baseurl
+  // we should avoid adding the baseurl twice
+  const shouldAddBaseUrl = !url.startsWith(baseUrl);
+
+  const basePath = shouldAddBaseUrl ? baseUrl + url.replace(/^\//, '') : url;
 
   return absolute ? siteUrl + basePath : basePath;
 }

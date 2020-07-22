@@ -39,7 +39,7 @@ export default async function build(
     outDir,
     generatedFilesDir,
     plugins,
-    siteConfig: {onBrokenLinks},
+    siteConfig: {baseUrl, onBrokenLinks},
     routes,
   } = props;
 
@@ -139,7 +139,13 @@ export default async function build(
     }),
   );
 
-  handleBrokenLinks({allCollectedLinks, routes, onBrokenLinks});
+  await handleBrokenLinks({
+    allCollectedLinks,
+    routes,
+    onBrokenLinks,
+    outDir,
+    baseUrl,
+  });
 
   const relativeDir = path.relative(process.cwd(), outDir);
   console.log(

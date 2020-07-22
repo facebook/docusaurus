@@ -20,12 +20,12 @@ describe('docsClientUtils', () => {
   test('getActivePlugin', () => {
     const data: Record<string, GlobalPluginData> = {
       pluginIosId: {
-        path: 'ios',
+        path: '/ios',
         latestVersionName: 'xyz',
         versions: [],
       },
       pluginAndroidId: {
-        path: 'android',
+        path: '/android',
         latestVersionName: 'xyz',
         versions: [],
       },
