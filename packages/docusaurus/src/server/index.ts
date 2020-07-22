@@ -71,11 +71,6 @@ export async function load(
   // Context.
   const context: LoadContext = loadContext(siteDir, customOutDir);
   const {generatedFilesDir, siteConfig, outDir, baseUrl} = context;
-  const genSiteConfig = generate(
-    generatedFilesDir,
-    CONFIG_FILE_NAME,
-    `export default ${JSON.stringify(siteConfig, null, 2)};`,
-  );
 
   // Plugins.
   const pluginConfigs: PluginConfig[] = loadPluginConfigs(context);
@@ -83,6 +78,14 @@ export async function load(
     pluginConfigs,
     context,
   });
+
+  // Site config must be generated after plugins
+  // We want the generated config to have been normalized by the plugins!
+  const genSiteConfig = generate(
+    generatedFilesDir,
+    CONFIG_FILE_NAME,
+    `export default ${JSON.stringify(siteConfig, null, 2)};`,
+  );
 
   // Themes.
   const fallbackTheme = path.resolve(__dirname, '../client/theme-fallback');

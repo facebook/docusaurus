@@ -9,6 +9,8 @@ import useDocusaurusContext from './useDocusaurusContext';
 import isInternalUrl from './isInternalUrl';
 
 type BaseUrlOptions = Partial<{
+  // note: if the url has a protocol, we never prepend it
+  // (it never makes any sense to do so)
   forcePrependBaseUrl: boolean;
   absolute: boolean;
 }>;
@@ -23,12 +25,12 @@ function addBaseUrl(
     return url;
   }
 
-  if (forcePrependBaseUrl) {
-    return baseUrl + url;
-  }
-
   if (!isInternalUrl(url)) {
     return url;
+  }
+
+  if (forcePrependBaseUrl) {
+    return baseUrl + url;
   }
 
   const basePath = baseUrl + url.replace(/^\//, '');
@@ -37,7 +39,7 @@ function addBaseUrl(
 }
 
 export type BaseUrlUtils = {
-  withBaseUrl: (url: string, options: BaseUrlOptions) => string;
+  withBaseUrl: (url: string, options?: BaseUrlOptions) => string;
 };
 
 export function useBaseUrlUtils(): BaseUrlUtils {
@@ -53,7 +55,7 @@ export function useBaseUrlUtils(): BaseUrlUtils {
 
 export default function useBaseUrl(
   url: string,
-  options: BaseUrlOptions,
+  options: BaseUrlOptions = {},
 ): string {
   const {withBaseUrl} = useBaseUrlUtils();
   return withBaseUrl(url, options);

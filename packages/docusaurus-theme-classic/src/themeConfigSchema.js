@@ -13,7 +13,6 @@ const DefaultNavbarItemSchema = Joi.object({
   items: Joi.array().optional().items(Joi.link('...')),
   to: Joi.string(),
   href: Joi.string().uri(),
-  prependBaseUrlToHref: Joi.bool().default(true),
   label: Joi.string(),
   position: NavbarItemPosition,
   activeBasePath: Joi.string(),
@@ -28,12 +27,14 @@ const DocsVersionNavbarItemSchema = Joi.object({
   label: Joi.string(),
   to: Joi.string(),
   docsPluginId: Joi.string(),
+  nextVersionLabel: Joi.string().default('Next'),
 });
 
 const DocsVersionDropdownNavbarItemSchema = Joi.object({
   type: Joi.string().equal('docsVersionDropdown').required(),
   position: NavbarItemPosition,
   docsPluginId: Joi.string(),
+  nextVersionLabel: Joi.string().default('Next'),
 });
 
 // Can this be made easier? :/
