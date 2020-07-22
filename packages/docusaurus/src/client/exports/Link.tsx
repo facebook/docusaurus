@@ -22,7 +22,7 @@ interface Props {
   readonly isNavLink?: boolean;
   readonly to?: string;
   readonly activeClassName?: string;
-  readonly href: string;
+  readonly href?: string;
   readonly children?: ReactNode;
 }
 
@@ -90,6 +90,9 @@ function Link({isNavLink, activeClassName, ...props}: Props): JSX.Element {
   const isRegularHtmlLink = !targetLink || !isInternal || isAnchorLink;
 
   if (isInternal && !isAnchorLink) {
+    if (targetLink && targetLink.startsWith('/http')) {
+      console.log('collectLink', props);
+    }
     linksCollector.collectLink(targetLink);
   }
 

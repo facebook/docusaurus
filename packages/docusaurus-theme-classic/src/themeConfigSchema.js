@@ -13,7 +13,6 @@ const DefaultNavbarItemSchema = Joi.object({
   items: Joi.array().optional().items(Joi.link('...')),
   to: Joi.string(),
   href: Joi.string().uri(),
-  prependBaseUrlToHref: Joi.bool().default(true),
   label: Joi.string(),
   position: NavbarItemPosition,
   activeBasePath: Joi.string(),
