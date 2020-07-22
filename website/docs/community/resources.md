@@ -1,6 +1,7 @@
 ---
 id: resources
 title: Awesome Resources
+slug: /resources
 ---
 
 A curated list of interesting Docusaurus community projects.

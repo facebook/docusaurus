@@ -80,6 +80,7 @@ module.exports = {
     'import/order': OFF,
     'import/prefer-default-export': OFF,
     'lines-between-class-members': OFF,
+    'no-lonely-if': WARNING,
     'no-use-before-define': [
       ERROR,
       {functions: false, classes: false, variables: true},
