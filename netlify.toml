@@ -22,5 +22,5 @@
     status = 200
   [[context.deploy-preview.redirects]]
     from = "/*"
-    to = "/build/:splat"
+    to = "/build/"
 

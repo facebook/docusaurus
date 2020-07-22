@@ -28,7 +28,7 @@
     "netlify:build:production": "yarn build:v2",
     "netlify:build:deployPreview": "yarn build:v2:baseUrl && yarn netlify:build:deployPreview:moveBuild && yarn netlify:build:deployPreview:redirects",
     "netlify:build:deployPreview:moveBuild": "yarn rimraf website/netlifyDeploy && mkdir website/netlifyDeploy && mv website/build website/netlifyDeploy",
-    "netlify:build:deployPreview:redirects": "echo 'Writing Netlify baseUrl deployPreview _redirects file' && echo '/build/* /build/404.html 200' >> website/netlifyDeploy/_redirects && echo '/* /build/:splat' >> website/netlifyDeploy/_redirects",
+    "netlify:build:deployPreview:redirects": "echo 'Writing Netlify baseUrl deployPreview _redirects file' && echo '/build/* /build/404.html 200' >> website/netlifyDeploy/_redirects && echo '/* /build/' >> website/netlifyDeploy/_redirects",
     "netlify:test": "yarn netlify:build:deployPreview && yarn netlify dev --debug",
     "changelog": "lerna-changelog",
     "postinstall": "yarn build:packages",
