@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`transformAsset plugin fail if asset does not exist 1`] = `"Asset packages/docusaurus-mdx-loader/src/rehype/transformAssets/__tests__/fixtures/doesNotExist.pdf used in packages/docusaurus-mdx-loader/src/rehype/transformAssets/__tests__/fixtures/fail.md not found."`;
+
+exports[`transformAsset plugin fail if asset url is absent 1`] = `"Markdown link url is mandatory. filePath=packages/docusaurus-mdx-loader/src/rehype/transformAssets/__tests__/fixtures/noUrl.md"`;
+
+exports[`transformAsset plugin pathname protocol 1`] = `
+"[asset](/img/unchecked.pdf)
+"
+`;
+
+exports[`transformAsset plugin transform md links to <img /> 1`] = `
+"[asset](https://example.com/asset.pdf)
+
+&lt;a href={require('!file-loader!./asset.pdf').default}  >&lt;/a>
+
+&lt;a href={require('!file-loader!./asset.pdf').default}  >asset&lt;/a>
+
+[asset](asset.pdf \\"Title\\") ![seet](asset)
+
+## Heading
+
+\`\`\`md
+[asset](./asset.pdf)
+\`\`\`
+
+[asset](asset.pdf)
+"
+`;

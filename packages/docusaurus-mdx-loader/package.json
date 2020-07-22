@@ -18,6 +18,7 @@
     "gray-matter": "^4.0.2",
     "loader-utils": "^1.2.3",
     "mdast-util-to-string": "^1.1.0",
+    "rehype-remark": "^8.0.0",
     "remark-emoji": "^2.1.0",
     "stringify-object": "^3.3.0",
     "unist-util-visit": "^2.0.2"
@@ -25,6 +26,7 @@
   "devDependencies": {
     "remark": "^12.0.0",
     "remark-mdx": "^1.5.8",
+    "remark-rehype": "^7.0.0",
     "to-vfile": "^6.0.0",
     "unist-builder": "^2.0.3",
     "unist-util-remove-position": "^2.0.1"

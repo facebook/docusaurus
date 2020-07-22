@@ -996,6 +996,10 @@ In the same way, you can link to existing assets by requiring them and using the
   href={require('./assets/docusaurus-asset-example-pdf.pdf').default}>
   Download this PDF !!!
 </a>
+
+or 
+
+[Download this PDF using Markdown !!!](./assets/docusaurus-asset-example-pdf.pdf)
 ```
 
 <a
@@ -1003,6 +1007,9 @@ In the same way, you can link to existing assets by requiring them and using the
   href={require('./assets/docusaurus-asset-example-pdf.pdf').default}>
   Download this PDF !!!
 </a>
+
+
+[Download this PDF using Markdown !!!](./assets/docusaurus-asset-example-pdf.pdf)
 
 ### Unknown assets
 
@@ -1016,6 +1023,10 @@ This require behavior is not supported for all file extensions, but as an escape
   href={require('!file-loader!./assets/docusaurus-asset-example.xyz').default}>
   Download this unknown file !!!
 </a>
+
+or
+
+[Download this unknown file using Markdown](./assets/docusaurus-asset-example.xyz)
 ```
 
 <a
@@ -1023,3 +1034,5 @@ This require behavior is not supported for all file extensions, but as an escape
   href={require('!file-loader!./assets/docusaurus-asset-example.xyz').default}>
   Download this unknown file !!!
 </a>
+
+[Download this unknown file using Markdown !!!](./assets/docusaurus-asset-example.xyz)
