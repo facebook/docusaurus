@@ -107,9 +107,11 @@ export function getBrokenLinksErrorMessage(
 
   return (
     `Broken links found!` +
-    `${Object.entries(allBrokenLinks).map(([pagePath, brokenLinks]) =>
-      pageBrokenLinksMessage(pagePath, brokenLinks),
-    )}
+    `${Object.entries(allBrokenLinks)
+      .map(([pagePath, brokenLinks]) =>
+        pageBrokenLinksMessage(pagePath, brokenLinks),
+      )
+      .join('\n')}
 `
   );
 }
@@ -132,7 +134,7 @@ export function handleBrokenLinks({
     // Useful to ensure the CI fails in case of broken link
     if (onBrokenLinks === 'throw') {
       throw new Error(
-        `${errorMessage}\nNote: it's possible to ignore broken links with the 'onBrokenLinks' Docusaurus configuration.`,
+        `${errorMessage}\nNote: it's possible to ignore broken links with the 'onBrokenLinks' Docusaurus configuration.\n`,
       );
     } else if (onBrokenLinks === 'error') {
       console.error(chalk.red(errorMessage));
