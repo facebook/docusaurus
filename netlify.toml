@@ -1,0 +1,17 @@
+
+[build]
+  base = "/"
+  command = "yarn netlify:build:command"
+  publish = "website/netlifyDeploy"
+
+
+[[redirects]]
+  from = "/build/*"
+  to = "/build/404.html"
+  status = 200
+
+[[redirects]]
+  from = "/*"
+  to = "/build/:splat"
+
+

@@ -25,6 +25,8 @@
     "serve:v2:ssl:gencert": "openssl req -x509 -nodes -days 365 -newkey rsa:4096 -subj \"/C=US/ST=Docusaurus/L=Anywhere/O=Dis/CN=localhost\" -keyout ./website/.docusaurus/selfsigned.key -out ./website/.docusaurus/selfsigned.crt",
     "serve:v2:ssl:message": "echo '\n\n\nServing Docusaurus with HTTPS on localhost requires to disable the Chrome security: chrome://flags/#allow-insecure-localhost\n\n\n'",
     "serve:v2:ssl:serve": "serve website/build --ssl-cert ./website/.docusaurus/selfsigned.crt --ssl-key ./website/.docusaurus/selfsigned.key",
+    "netlify:build:command": "yarn build:v2:baseUrl && mkdir website/netlifyDeploy && mv website/build website/netlifyDeploy",
+    "netlify:test": "yarn netlify:build:command && yarn netlify dev --debug",
     "changelog": "lerna-changelog",
     "postinstall": "yarn build:packages",
     "prettier": "prettier --config .prettierrc --write \"**/*.{js,ts}\"",
@@ -41,8 +43,8 @@
     "clear": "yarn rimraf website/.docusaurus && rimraf -rf website/node_modules/.cache && yarn lerna exec 'yarn rimraf lib' --ignore docusaurus"
   },
   "devDependencies": {
-    "@babel/core": "^7.9.0",
     "@babel/cli": "^7.9.0",
+    "@babel/core": "^7.9.0",
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.8.3",
     "@babel/plugin-proposal-optional-chaining": "^7.9.0",
     "@babel/preset-typescript": "^7.9.0",
@@ -92,6 +94,7 @@
     "lerna": "^3.19.0",
     "lerna-changelog": "^1.0.1",
     "lint-staged": "^10.1.2",
+    "netlify-cli": "^2.58.0",
     "nodemon": "^2.0.4",
     "prettier": "^2.0.2",
     "react": "^16.8.4",
