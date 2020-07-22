@@ -128,9 +128,7 @@ export async function migrateDocusaurusProject(
     console.log(chalk.green('Successfully migrated static folder'));
   } catch (errorInStatic) {
     console.log(
-      chalk.red(
-        `Error occurred while copying static folder: ${errorInStatic} `,
-      ),
+      chalk.red(`Error occurred while copying static folder: ${errorInStatic}`),
     );
   }
   try {
