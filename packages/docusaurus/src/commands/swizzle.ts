@@ -169,9 +169,12 @@ export default async function swizzle(
     const validateOptions =
       pluginModule.default?.validateOptions ?? pluginModule.validateOptions;
     let pluginOptions;
+    const resolvedThemeName = require.resolve(themeName);
+    // find the plugin from list of plugin and get options if specified
     pluginConfigs.forEach((pluginConfig) => {
+      // plugin can be a [string], [string,object] or string.
       if (Array.isArray(pluginConfig)) {
-        if (require.resolve(pluginConfig[0]) === require.resolve(themeName)) {
+        if (require.resolve(pluginConfig[0]) === resolvedThemeName) {
           if (pluginConfig.length === 2) {
             const [, options] = pluginConfig;
             pluginOptions = options;
@@ -180,6 +183,7 @@ export default async function swizzle(
       }
     });
     if (validateOptions) {
+      // normilize options
       const normalizedOptions = validateOptions({
         validate: pluginOptionsValidator,
         options: pluginOptions,
