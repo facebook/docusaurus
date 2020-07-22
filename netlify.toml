@@ -1,17 +1,22 @@
 
+# Note: this file's config override the Netlify UI admin config
+
+# default/production build
 [build]
   base = "/"
-  command = "yarn netlify:build:command"
+  command = "yarn netlify:build:production"
+  publish = "website/build"
+
+# we build deploy previews with a /build/ baseUrl on purpose
+# permits to test that baseUrl works fine (this often breaks!)
+[context.deploy-preview]
+  command = "yarn netlify:build:deployPreview"
   publish = "website/netlifyDeploy"
-
-
-[[redirects]]
-  from = "/build/*"
-  to = "/build/404.html"
-  status = 200
-
-[[redirects]]
-  from = "/*"
-  to = "/build/:splat"
-
+  [[context.deploy-preview.redirects]]
+    from = "/build/*"
+    to = "/build/404.html"
+    status = 200
+  [[context.deploy-preview.redirects]]
+    from = "/*"
+    to = "/build/:splat"
 
