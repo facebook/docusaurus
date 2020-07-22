@@ -29,3 +29,4 @@ packages/docusaurus-plugin-ideal-image/lib/
 packages/docusaurus-theme-classic/lib/
 
 website/netlifyDeploy
+_redirects

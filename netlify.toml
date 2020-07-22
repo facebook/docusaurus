@@ -12,6 +12,10 @@
 [context.deploy-preview]
   command = "yarn netlify:build:deployPreview"
   publish = "website/netlifyDeploy"
+
+  # TODO this does not seem to work
+  # workaroud: a _redirect file is created in website/netlifyDeploy
+  # can't we have context-based redirects with Netlify? :'(
   [[context.deploy-preview.redirects]]
     from = "/build/*"
     to = "/build/404.html"
