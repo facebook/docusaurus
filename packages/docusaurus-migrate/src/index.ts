@@ -48,7 +48,9 @@ function sanitizedFileContent(
   const extractedMetaData = Object.entries(extractedData.metadata).reduce(
     (metaData, value) => {
       return `${metaData}\n${value[0]}: ${
-        value[0] === 'tags' ? value[1] : `"${value[1]}"`
+        value[0] === 'tags' || !!String(value[1]).match(/^(\w| )+$/m)
+          ? value[1]
+          : `"${value[1]}"`
       }`;
     },
     '',
@@ -71,7 +73,7 @@ export async function migrateDocusaurusProject(
   const config = createConfigFile(siteConfig);
   const classicPreset = config.presets[0][1];
 
-  const deps: {[key: string]: string} = {
+  const deps: Record<string, string> = {
     '@docusaurus/core': DOCUSAURUS_VERSION,
     '@docusaurus/preset-classic': DOCUSAURUS_VERSION,
     clsx: '^1.1.1',
@@ -346,6 +348,7 @@ function createDefaultLandingPage(newDir: string) {
         return <Layout />;
       };
       `;
+  fs.mkdirpSync(`${newDir}/src/pages/`);
   fs.writeFileSync(`${newDir}/src/pages/index.js`, indexPage);
 }
 

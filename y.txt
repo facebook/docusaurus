@@ -1,0 +1,464 @@
+yarn run v1.22.4
+$ /home/agoyal/docusaurus/node_modules/.bin/docusaurus-migrate migrate ./website-1.x/ /home/agoyal/n-d1
+Starting migration from v1 to v2...
+Successfully created client redirect for non clean URL
+Successfully created landing page (check migration page for more details)
+Successfully migrated static folder
+Introducing Docusaurus
+Joel Marcey
+http://twitter.com/JoelMarcey
+https://graph.facebook.com/611217057/picture/?height=200&width=200
+611217057
+JoelMarcey
+[documentation, blog, docusaurus]
+How I Converted Profilo to Docusaurus in Under 2 Hours
+Christine Abernathy
+http://twitter.com/abernathyca
+https://graph.facebook.com/1424840234/picture/?height=200&width=200
+1424840234
+abernathyca
+[profilo, adoption]
+Towards Docusaurus 2
+Endilie Yacop Sucipto
+Maintainer of Docusaurus
+https://github.com/endiliey
+https://avatars1.githubusercontent.com/u/17883920?s=460&v=4
+endiliey
+[new, adoption]
+Happy 1st Birthday Slash!
+Joel Marcey
+Co-creator of Docusaurus
+https://github.com/JoelMarcey
+https://graph.facebook.com/611217057/picture/?height=200&width=200
+611217057
+JoelMarcey
+[birth]
+Docusaurus 2019 Recap
+Yangshun Tay
+Front End Engineer at Facebook
+https://github.com/yangshun
+https://avatars1.githubusercontent.com/u/1315101?s=460&v=4
+yangshunz
+[recap]
+Tribute to Endi
+Joel Marcey
+Technical Lead and Developer Advocate at Facebook
+https://github.com/JoelMarcey
+https://graph.facebook.com/611217057/picture/?height=200&width=200
+JoelMarcey
+[endi, tribute]
+Successfully migrated blogs to version 2 with change in frontmatter
+commands
+CLI Commands
+commands
+doc-markdown
+Markdown Features
+doc-markdown
+api-pages
+Pages and Styles
+api-pages
+site-config
+siteConfig.js
+site-config
+docker
+Docker
+docker
+installation
+Installation
+installation
+site-preparation
+Site Preparation
+site-preparation
+publishing
+Publishing your site
+publishing
+site-creation
+Creating your site
+site-creation
+adding-blog
+Adding a Blog
+adding-blog
+custom-pages
+Custom Pages
+custom-pages
+navigation
+Navigation and Sidebars
+navigation
+search
+Enabling Search
+search
+translation
+Translations & Localization
+translation
+versioning
+Versioning
+versioning
+tutorial-create-new-site
+Create a New Site
+tutorial-create-new-site
+tutorial-create-pages
+Create Pages
+tutorial-create-pages
+tutorial-publish-site
+Publish the Site
+tutorial-publish-site
+tutorial-setup
+Setting Up
+tutorial-setup
+tutorial-version
+Add Versions
+tutorial-version
+commands
+CLI Commands
+commands
+doc-markdown
+Markdown Features
+doc-markdown
+api-pages
+Pages and Styles
+api-pages
+site-config
+siteConfig.js
+site-config
+docker
+Docker
+docker
+installation
+Installation
+installation
+site-preparation
+Site Preparation
+site-preparation
+publishing
+Publishing your site
+publishing
+site-creation
+Creating your site
+site-creation
+adding-blog
+Adding a Blog
+adding-blog
+custom-pages
+Custom Pages
+custom-pages
+navigation
+Navigation and Sidebars
+navigation
+search
+Enabling Search
+search
+translation
+Translations & Localization
+translation
+versioning
+Versioning
+versioning
+tutorial-create-new-site
+Create a New Site
+tutorial-create-new-site
+tutorial-create-pages
+Create Pages
+tutorial-create-pages
+tutorial-publish-site
+Publish the Site
+tutorial-publish-site
+tutorial-setup
+Setting Up
+tutorial-setup
+tutorial-version
+Add Versions
+tutorial-version
+commands
+CLI Commands
+commands
+doc-markdown
+Markdown Features
+doc-markdown
+api-pages
+Pages and Styles
+api-pages
+site-config
+siteConfig.js
+site-config
+docker
+Docker
+docker
+installation
+Installation
+installation
+site-preparation
+Site Preparation
+site-preparation
+publishing
+Publishing your site
+publishing
+site-creation
+Creating your site
+site-creation
+adding-blog
+Adding a Blog
+adding-blog
+custom-pages
+Custom Pages
+custom-pages
+navigation
+Navigation and Sidebars
+navigation
+search
+Enabling Search
+search
+translation
+Translations & Localization
+translation
+versioning
+Versioning
+versioning
+tutorial-create-new-site
+Create a New Site
+tutorial-create-new-site
+tutorial-create-pages
+Create Pages
+tutorial-create-pages
+tutorial-publish-site
+Publish the Site
+tutorial-publish-site
+tutorial-setup
+Setting Up
+tutorial-setup
+tutorial-version
+Add Versions
+tutorial-version
+commands
+CLI Commands
+commands
+doc-markdown
+Markdown Features
+doc-markdown
+api-pages
+Pages and Styles
+api-pages
+site-config
+siteConfig.js
+site-config
+docker
+Docker
+docker
+installation
+Installation
+installation
+site-preparation
+Site Preparation
+site-preparation
+publishing
+Publishing your site
+publishing
+site-creation
+Creating your site
+site-creation
+adding-blog
+Adding a Blog
+adding-blog
+custom-pages
+Custom Pages
+custom-pages
+navigation
+Navigation and Sidebars
+navigation
+search
+Enabling Search
+search
+translation
+Translations & Localization
+translation
+versioning
+Versioning
+versioning
+tutorial-create-new-site
+Create a New Site
+tutorial-create-new-site
+tutorial-create-pages
+Create Pages
+tutorial-create-pages
+tutorial-publish-site
+Publish the Site
+tutorial-publish-site
+tutorial-setup
+Setting Up
+tutorial-setup
+tutorial-version
+Add Versions
+tutorial-version
+commands
+CLI Commands
+commands
+doc-markdown
+Markdown Features
+doc-markdown
+api-pages
+Pages and Styles
+api-pages
+site-config
+siteConfig.js
+site-config
+docker
+Docker
+docker
+installation
+Installation
+Docusaurus was designed from the ground up to be easily installed and used to get your website up and running quickly!
+installation
+site-preparation
+Site Preparation
+site-preparation
+publishing
+Publishing your site
+publishing
+site-creation
+Creating your site
+site-creation
+adding-blog
+Adding a Blog
+adding-blog
+custom-pages
+Custom Pages
+custom-pages
+navigation
+Navigation and Sidebars
+navigation
+search
+Enabling Search
+search
+translation
+Translations & Localization
+translation
+versioning
+Versioning
+versioning
+tutorial-create-new-site
+Create a New Site
+tutorial-create-new-site
+tutorial-create-pages
+Create Pages
+tutorial-create-pages
+tutorial-publish-site
+Publish the Site
+tutorial-publish-site
+tutorial-setup
+Setting Up
+tutorial-setup
+tutorial-version
+Add Versions
+tutorial-version
+commands
+CLI Commands
+commands
+doc-markdown
+Markdown Features
+doc-markdown
+api-pages
+Pages and Styles
+api-pages
+site-config
+siteConfig.js
+site-config
+docker
+Docker
+docker
+installation
+Installation
+installation
+site-preparation
+Site Preparation
+site-preparation
+publishing
+Publishing your site
+publishing
+site-creation
+Creating your site
+site-creation
+adding-blog
+Adding a Blog
+adding-blog
+custom-pages
+Custom Pages
+custom-pages
+navigation
+Navigation and Sidebars
+navigation
+search
+Enabling Search
+search
+translation
+Translations & Localization
+translation
+versioning
+Versioning
+versioning
+tutorial-create-new-site
+Create a New Site
+tutorial-create-new-site
+tutorial-create-pages
+Create Pages
+tutorial-create-pages
+tutorial-publish-site
+Publish the Site
+tutorial-publish-site
+tutorial-setup
+Setting Up
+tutorial-setup
+tutorial-version
+Add Versions
+tutorial-version
+Successfully migrated version docs and sidebar. The following doc versions have been created: 
+1.9.x
+1.10.x
+1.11.x
+1.12.0
+1.13.0
+1.14.4
+commands
+CLI Commands
+doc-markdown
+Markdown Features
+api-pages
+Pages and Styles
+site-config
+siteConfig.js
+docker
+Docker
+installation
+Installation
+Docusaurus was designed from the ground up to be easily installed and used to get your website up and running quickly!
+site-preparation
+Site Preparation
+publishing
+Publishing your site
+site-creation
+Creating your site
+adding-blog
+Adding a Blog
+custom-pages
+Custom Pages
+navigation
+Navigation and Sidebars
+search
+Enabling Search
+translation
+Translations & Localization
+versioning
+Versioning
+tutorial-create-new-site
+Create a New Site
+tutorial-create-pages
+Create Pages
+tutorial-publish-site
+Publish the Site
+tutorial-setup
+Setting Up
+tutorial-version
+Add Versions
+Successfully migrated docs to version 2
+Successfully created a new config file with new navbar and footer config
+Successfully migrated package.json file
+Completed migration from v1 to v2
+Done in 0.34s.
