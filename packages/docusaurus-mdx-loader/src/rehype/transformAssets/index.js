@@ -58,7 +58,7 @@ async function processLinkNode(node, index, parent, {filePath}) {
   await ensureAssetFileExist(expectedAssetPath, filePath);
 
   node.type = 'jsx';
-  node.value = `<a ${
+  node.value = `<a  target="_blank" ${
     assetPath ? `href={require('!file-loader!${assetPath}').default}` : ''
   } ${node.properties.title ? `title={${node.properties.title}}` : ''} >`;
   const {children} = node;

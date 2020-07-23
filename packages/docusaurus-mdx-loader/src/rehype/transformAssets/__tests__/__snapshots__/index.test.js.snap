@@ -12,9 +12,9 @@ exports[`transformAsset plugin pathname protocol 1`] = `
 exports[`transformAsset plugin transform md links to <img /> 1`] = `
 "[asset](https://example.com/asset.pdf)
 
-&lt;a href={require('!file-loader!./asset.pdf').default}  >&lt;/a>
+&lt;a  target=\\"\\\\_blank\\" href={require('!file-loader!./asset.pdf').default}  >&lt;/a>
 
-&lt;a href={require('!file-loader!./asset.pdf').default}  >asset&lt;/a>
+&lt;a  target=\\"\\\\_blank\\" href={require('!file-loader!./asset.pdf').default}  >asset&lt;/a>
 
 [asset](asset.pdf \\"Title\\") ![seet](asset)
 
