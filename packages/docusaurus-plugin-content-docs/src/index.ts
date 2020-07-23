@@ -12,6 +12,8 @@ import sortBy from 'lodash.sortby';
 import globby from 'globby';
 import fs from 'fs-extra';
 import path from 'path';
+import chalk from 'chalk';
+
 import admonitions from 'remark-admonitions';
 import {STATIC_DIR_NAME} from '@docusaurus/core/lib/constants';
 import {
@@ -150,6 +152,11 @@ export default function pluginContentDocs(
       const {include, sidebarPath} = options;
 
       if (!fs.existsSync(docsDir)) {
+        console.error(
+          chalk.red(
+            `No docs directory found for the docs plugin at: ${docsDir}`,
+          ),
+        );
         return null;
       }
 
@@ -323,7 +330,7 @@ Available document ids=
       const {addRoute, createData, setGlobalData} = actions;
 
       const pluginInstanceGlobalData: GlobalPluginData = {
-        path: normalizeUrl([baseUrl, options.path]),
+        path: normalizeUrl([baseUrl, options.routeBasePath]),
         latestVersionName: versioning.latestVersion,
         // Initialized empty, will be mutated
         versions: [],
