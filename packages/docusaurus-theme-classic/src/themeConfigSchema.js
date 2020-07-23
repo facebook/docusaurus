@@ -9,6 +9,9 @@ const Joi = require('@hapi/joi');
 
 const NavbarItemPosition = Joi.string().equal('left', 'right').default('left');
 
+// TODO we should probably create a custom navbar item type "dropdown"
+// having this recursive structure is bad because we only support 2 levels
+// + parent/child don't have exactly the same props
 const DefaultNavbarItemSchema = Joi.object({
   items: Joi.array().optional().items(Joi.link('...')),
   to: Joi.string(),
@@ -19,7 +22,10 @@ const DefaultNavbarItemSchema = Joi.object({
   activeBaseRegex: Joi.string(),
   className: Joi.string(),
   'aria-label': Joi.string(),
-}).xor('href', 'to');
+});
+// TODO the dropdown parent item can have no href/to
+// should check should not apply to dropdown parent item
+// .xor('href', 'to');
 
 const DocsVersionNavbarItemSchema = Joi.object({
   type: Joi.string().equal('docsVersion').required(),
