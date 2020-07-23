@@ -50,14 +50,14 @@ function sanitizedFileContent(
       return `${metaData}\n${value[0]}: ${
         value[0] === 'tags' ||
         !!String(value[1]).match(/^(\w| )+$/m) ||
-        String(value[1]).match(/^("|')(.*)+("|')$/)
+        String(value[1]).match(/^("|').+("|')$/)
           ? value[1]
           : `"${value[1]}"`
       }`;
     },
     '',
   );
-  const sanitizedData = `---\n${extractedMetaData}\n---\n${
+  const sanitizedData = `---${extractedMetaData}\n---\n${
     migrateMDFiles
       ? sanitizeMD(extractedData.rawContent)
       : extractedData.rawContent
@@ -673,13 +673,12 @@ function migrateLatestDocs(
   classicPreset: ClassicPresetEntries,
 ): void {
   if (fs.existsSync(path.join(siteDir, '..', 'docs'))) {
-    // const docsPath = path.join(
-    //   path.relative(siteDir, path.join(newDir, '..')),
-    //   'docs',
-    // );
-    classicPreset.docs.path = 'docs';
-    fs.copySync(path.join(siteDir, '..', 'docs'), path.join(newDir, 'docs'));
-    const files = walk(path.join(newDir, 'docs'));
+    const docsPath = path.join(
+      path.relative(newDir, path.join(siteDir, '..')),
+      'docs',
+    );
+    classicPreset.docs.path = docsPath;
+    const files = walk(path.join(siteDir, '..', 'docs'));
     files.forEach((file) => {
       const content = String(fs.readFileSync(file));
       fs.writeFileSync(file, sanitizedFileContent(content, migrateMDFiles));
@@ -706,6 +705,7 @@ function migratePackageFile(
     build: 'docusaurus build',
     swizzle: 'docusaurus swizzle',
     deploy: 'docusaurus deploy',
+    docusaurus: 'docusaurus',
   };
   if (packageFile.dependencies) {
     delete packageFile.dependencies.docusaurus;
