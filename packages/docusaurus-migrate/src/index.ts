@@ -48,7 +48,9 @@ function sanitizedFileContent(
   const extractedMetaData = Object.entries(extractedData.metadata).reduce(
     (metaData, value) => {
       return `${metaData}\n${value[0]}: ${
-        value[0] === 'tags' || !!String(value[1]).match(/^(\w| )+$/m)
+        value[0] === 'tags' ||
+        !!String(value[1]).match(/^(\w| )+$/m) ||
+        String(value[1]).match(/^("|')(.*)+("|')$/)
           ? value[1]
           : `"${value[1]}"`
       }`;
@@ -151,7 +153,7 @@ export async function migrateDocusaurusProject(
   }
 
   try {
-    migrateLatestDocs(siteDir, newDir, shouldMigrateMdFiles);
+    migrateLatestDocs(siteDir, newDir, shouldMigrateMdFiles, classicPreset);
   } catch (errorInDoc) {
     chalk.red(`Error occurred while migrating docs: ${errorInDoc}`);
   }
@@ -231,7 +233,6 @@ export function createConfigFile(
         '@docusaurus/preset-classic',
         {
           docs: {
-            path: 'docs',
             homePageId,
             showLastUpdateAuthor: true,
             showLastUpdateTime: true,
@@ -251,7 +252,7 @@ export function createConfigFile(
               src: siteConfig.headerIcon,
             }
           : undefined,
-        links: (siteConfig.headerLinks ?? [])
+        items: (siteConfig.headerLinks ?? [])
           .map((link) => {
             if (link.doc) {
               return {
@@ -274,6 +275,7 @@ export function createConfigFile(
           })
           .filter(Boolean),
       },
+      image: siteConfig.ogImage ? siteConfig.ogImage : undefined,
       footer: {
         links: siteConfig.twitterUsername
           ? [
@@ -294,6 +296,11 @@ export function createConfigFile(
         },
       },
       algolia: siteConfig.algolia ? siteConfig.algolia : undefined,
+      gtag: siteConfig.gaTrackingId
+        ? {
+            trackingID: siteConfig.gaTrackingId,
+          }
+        : undefined,
     },
   };
   return result;
@@ -569,7 +576,7 @@ function migrateVersionedSidebar(
         JSON.stringify(newSidebar, null, 2),
       );
     });
-    config.themeConfig.navbar.links.push({
+    config.themeConfig.navbar.items.push({
       label: 'Version',
       to: 'docs',
       position: 'right',
@@ -640,17 +647,21 @@ function migrateLatestDocs(
   siteDir: string,
   newDir: string,
   migrateMDFiles: boolean,
+  classicPreset: ClassicPresetEntries,
 ): void {
   if (fs.existsSync(path.join(siteDir, '..', 'docs'))) {
-    fs.copySync(path.join(siteDir, '..', 'docs'), path.join(newDir, 'docs'));
-    const files = walk(path.join(newDir, 'docs'));
+    const docsPath = path.join(
+      path.relative(siteDir, path.join(newDir, '..')),
+      'docs',
+    );
+    classicPreset.docs.path = docsPath;
+    const files = walk(path.join(siteDir, '..', 'docs'));
     files.forEach((file) => {
       const content = String(fs.readFileSync(file));
       fs.writeFileSync(file, sanitizedFileContent(content, migrateMDFiles));
     });
     console.log(chalk.green(`Successfully migrated docs to version 2`));
   } else {
-    fs.mkdirSync(path.join(newDir, 'docs'));
     console.log(
       chalk.yellow(`Docs folder not found. Skipping migration for docs`),
     );

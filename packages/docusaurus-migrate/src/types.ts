@@ -40,14 +40,17 @@ export interface VersionTwoConfig {
   themes?: [];
   presets: [[string, ClassicPresetEntries]];
   themeConfig: {
+    gtag?: {
+      trackingID?: string;
+    };
     navbar: {
       title?: string;
       logo?: {
         src?: string;
       };
-      image?: string;
-      links: Array<Record<string, unknown> | null>;
+      items: Array<Record<string, unknown> | null>;
     };
+    image?: string;
     footer: {
       links: Array<{
         title: string;
