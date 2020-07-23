@@ -36,6 +36,7 @@ export interface VersionTwoConfig {
   organizationName?: string;
   projectName?: string;
   githubHost?: string;
+  onBrokenLinks: string;
   plugins: Array<[string, {[key: string]: any}]>;
   themes?: [];
   presets: [[string, ClassicPresetEntries]];

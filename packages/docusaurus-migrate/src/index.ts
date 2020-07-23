@@ -251,6 +251,7 @@ export function createConfigFile(
     stylesheets: siteConfig.stylesheets,
     favicon: siteConfig.favicon ?? '',
     customFields: customConfigFields,
+    onBrokenLinks: 'log',
     presets: [
       [
         '@docusaurus/preset-classic',
