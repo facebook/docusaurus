@@ -686,6 +686,20 @@ yarn install
 yarn start
 ```
 
+#### Options
+
+You can add option flags to the migration command to automatically migrate markdown content and pages to v2. It is likely that you will still need to make some manual changes to achieve your desired result.
+
+| Name     | Description                                            |
+| -------- | ------------------------------------------------------ |
+| `--mdx`  | Add this flag to convert markdown to mdx automatically |
+| `--page` | Add this flag to migrate pages automatically           |
+
+```
+// example
+npx docusaurus-migrate migrate --mdx --page ./v1-website ./v2-website
+```
+
 ## Example migration PRs
 
 You might want to refer to our migration PRs for [Create React App](https://github.com/facebook/create-react-app/pull/7785) and [Flux](https://github.com/facebook/flux/pull/471) as examples of how a migration for a basic Docusaurus v1 site can be done.
