@@ -25,6 +25,7 @@ import {
   removeSuffix,
   removePrefix,
   getFilePathForRoutePath,
+  addLeadingSlash,
 } from '../index';
 
 describe('load utils', () => {
@@ -409,6 +410,15 @@ describe('addTrailingSlash', () => {
   });
   test('should add /', () => {
     expect(addTrailingSlash('/abcd')).toEqual('/abcd/');
+  });
+});
+
+describe('addLeadingSlash', () => {
+  test('should no-op', () => {
+    expect(addLeadingSlash('/abc')).toEqual('/abc');
+  });
+  test('should add /', () => {
+    expect(addLeadingSlash('abc')).toEqual('/abc');
   });
 });
 

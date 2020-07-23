@@ -14,13 +14,16 @@ const allDocHomesPaths = [
   ...versions.slice(1).map((version) => `/docs/${version}/`),
 ];
 
+const baseUrl = process.env.BASE_URL || '/';
+
 module.exports = {
   title: 'Docusaurus',
   tagline: 'Build optimized websites quickly, focus on your content',
   organizationName: 'facebook',
   projectName: 'docusaurus',
-  baseUrl: '/',
+  baseUrl,
   url: 'https://v2.docusaurus.io',
+  onBrokenLinks: 'throw',
   favicon: 'img/docusaurus.ico',
   customFields: {
     description:
@@ -177,6 +180,7 @@ module.exports = {
         {
           type: 'docsVersionDropdown',
           position: 'left',
+          nextVersionLabel: '2.0.0-next',
         },
         {to: 'blog', label: 'Blog', position: 'left'},
         {to: 'showcase', label: 'Showcase', position: 'left'},
@@ -187,8 +191,8 @@ module.exports = {
           activeBaseRegex: `docs/next/(support|team|resources)`,
         },
         {
-          type: 'docsVersion',
-          to: 'versions',
+          to: '/versions',
+          label: 'All versions',
           position: 'right',
         },
         {

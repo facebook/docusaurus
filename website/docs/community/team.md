@@ -1,6 +1,7 @@
 ---
 id: team
 title: Team
+slug: /team
 ---
 
 ## Active Team

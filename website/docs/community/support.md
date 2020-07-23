@@ -1,6 +1,7 @@
 ---
 id: support
 title: Support
+slug: /support
 ---
 
 Docusaurus has a community of thousands of developers.

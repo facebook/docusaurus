@@ -13,6 +13,7 @@ import globby from 'globby';
 import fs from 'fs-extra';
 import path from 'path';
 import admonitions from 'remark-admonitions';
+import {STATIC_DIR_NAME} from '@docusaurus/core/lib/constants';
 import {
   normalizeUrl,
   docuHash,
@@ -322,7 +323,7 @@ Available document ids=
       const {addRoute, createData, setGlobalData} = actions;
 
       const pluginInstanceGlobalData: GlobalPluginData = {
-        path: options.path,
+        path: normalizeUrl([baseUrl, options.path]),
         latestVersionName: versioning.latestVersion,
         // Initialized empty, will be mutated
         versions: [],
@@ -435,7 +436,10 @@ Available document ids=
       // to be by version and pick only needed base metadata.
       if (versioning.enabled) {
         const docsMetadataByVersion = groupBy(
-          Object.values(content.docsMetadata),
+          // sort to ensure consistent output for tests
+          Object.values(content.docsMetadata).sort((a, b) =>
+            a.id.localeCompare(b.id),
+          ),
           'version',
         );
 
@@ -524,6 +528,7 @@ Available document ids=
                   options: {
                     remarkPlugins,
                     rehypePlugins,
+                    staticDir: path.join(siteDir, STATIC_DIR_NAME),
                     metadataPath: (mdxPath: string) => {
                       // Note that metadataPath must be the same/in-sync as
                       // the path from createData for each MDX.

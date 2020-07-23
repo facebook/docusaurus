@@ -30,7 +30,7 @@ export const getActivePlugin = (
   const activeEntry = Object.entries(allPluginDatas).find(
     ([_id, pluginData]) => {
       return !!matchPath(pathname, {
-        path: `/${pluginData.path}`,
+        path: pluginData.path,
         exact: false,
         strict: false,
       });

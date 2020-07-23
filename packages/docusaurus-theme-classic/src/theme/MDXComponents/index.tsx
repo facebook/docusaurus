@@ -24,10 +24,6 @@ export default {
     return children;
   },
   a: (props: ComponentProps<'a'>): JSX.Element => {
-    if (/\.[^./]+$/.test(props.href || '')) {
-      // eslint-disable-next-line jsx-a11y/anchor-has-content
-      return <a {...props} />;
-    }
     return <Link {...props} />;
   },
   pre: (props: ComponentProps<'div'>): JSX.Element => (

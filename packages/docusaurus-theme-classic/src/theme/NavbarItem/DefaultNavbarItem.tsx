@@ -28,10 +28,8 @@ function NavLink({
   activeClassName?: string;
   prependBaseUrlToHref?: string;
 } & ComponentProps<'a'>) {
-  const toUrl = useBaseUrl(to);
   const activeBaseUrl = useBaseUrl(activeBasePath);
   const normalizedHref = useBaseUrl(href, {forcePrependBaseUrl: true});
-
   return (
     <Link
       {...(href
@@ -43,7 +41,7 @@ function NavLink({
         : {
             isNavLink: true,
             activeClassName,
-            to: toUrl,
+            to,
             ...(activeBasePath || activeBaseRegex
               ? {
                   isActive: (_match, location) =>
@@ -82,11 +80,17 @@ function NavItemDesktop({items, position, className, ...props}) {
       <NavLink
         className={navLinkClassNames(className)}
         {...props}
-        onClick={(e) => e.preventDefault()}
+        onClick={props.to ? undefined : (e) => e.preventDefault()}
         onKeyDown={(e) => {
-          if (e.key === 'Enter') {
+          function toggle() {
             ((e.target as HTMLElement)
               .parentNode as HTMLElement).classList.toggle('dropdown--show');
+          }
+          if (e.key === 'Enter' && !props.to) {
+            toggle();
+          }
+          if (e.key === 'Tab') {
+            toggle();
           }
         }}>
         {props.label}

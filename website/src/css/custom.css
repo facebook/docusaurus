@@ -49,6 +49,14 @@ html[data-theme='dark'] .header-github-link:before {
     no-repeat;
 }
 
+/*
+TODO temporary, should be handled by infima next release
+https://github.com/facebookincubator/infima/commit/7820399af53c182b1879aa6d7fceb4d296f78ce0
+ */
+.navbar__item.dropdown .navbar__link[href] {
+  pointer-events: all;
+}
+
 html[data-theme='light'] .DocSearch {
   /* --docsearch-primary-color: var(--ifm-color-primary); */
   /* --docsearch-text-color: var(--ifm-font-color-base); */
