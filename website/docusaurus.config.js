@@ -164,7 +164,7 @@ module.exports = {
     algolia: {
       apiKey: '47ecd3b21be71c5822571b9f59e52544',
       indexName: 'docusaurus-2',
-      algoliaOptions: {
+      searchParameters: {
         facetFilters: [`version:${versions[0]}`],
       },
     },

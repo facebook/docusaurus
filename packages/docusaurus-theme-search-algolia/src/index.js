@@ -31,26 +31,6 @@ module.exports = function (context) {
       return [pagePath];
     },
 
-    configureWebpack() {
-      // Ensure that algolia docsearch styles is its own chunk.
-      return {
-        optimization: {
-          splitChunks: {
-            cacheGroups: {
-              algolia: {
-                name: 'algolia',
-                test: /algolia\.css$/,
-                chunks: `all`,
-                enforce: true,
-                // Set priority higher than docusaurus single-css extraction.
-                priority: 60,
-              },
-            },
-          },
-        },
-      };
-    },
-
     async contentLoaded({actions: {addRoute}}) {
       addRoute({
         path: normalizeUrl([baseUrl, 'search']),
