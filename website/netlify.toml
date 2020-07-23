@@ -4,13 +4,13 @@
 # default/production build
 [build]
   base = "/"
-  command = "yarn netlify:build:production"
+  command = "yarn workspace docusaurus-2-website netlify:build:production"
   publish = "website/build"
 
 # we build deploy previews with a /build/ baseUrl on purpose
 # permits to test that baseUrl works fine (this often breaks!)
 [context.deploy-preview]
-  command = "yarn netlify:build:deployPreview"
+  command = "yarn workspace docusaurus-2-website netlify:build:deployPreview"
   publish = "website/netlifyDeploy"
 
   # TODO this does not seem to work
