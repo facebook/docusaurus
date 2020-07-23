@@ -13256,8 +13256,6 @@ lodash@^4.15.0, lodash@^4.17.11, lodash@^4.17.12, lodash@^4.17.13, lodash@^4.17.
   version "4.17.19"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.19.tgz#e48ddedbe30b3321783c5b4301fbd353bc1e4a4b"
   integrity sha512-JNvd8XER9GQX0v2qJgsaN/mzFCNA5BRe/j8JN9d+tWyGLSodKQHKFicdwNYzWwI3wjRnaKPsGj1XkBjx/F96DQ==
-<<<<<<< HEAD
-=======
 
 log-process-errors@^5.1.2:
   version "5.1.2"
@@ -13271,7 +13269,6 @@ log-process-errors@^5.1.2:
     map-obj "^4.1.0"
     moize "^5.4.4"
     supports-color "^7.1.0"
->>>>>>> 811c7ae4e9d4dec7b37fb0ea43efec8e554b0b62
 
 log-symbols@^1.0.2:
   version "1.0.2"
