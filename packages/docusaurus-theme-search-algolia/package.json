@@ -9,7 +9,7 @@
   "license": "MIT",
   "dependencies": {
     "@docsearch/react": "^1.0.0-alpha.24",
-    "algoliasearch": "^3.24.5",
+    "algoliasearch": "^4.0.0",
     "algoliasearch-helper": "^3.1.1",
     "clsx": "^1.1.1",
     "eta": "^1.1.1"
