@@ -25,8 +25,11 @@ jobs:
       - name: Installation
         run: yarn
       - name: Migrate D1 website
-        run: yarn docusaurus-migrate migrate ./website-1.x .
+        run: yarn docusaurus-migrate migrate ./website-1.x ./packages/test-migrated
+      - name: Install
+        run: yarn
       - name: Build Test website
         run: yarn build
+        working-directory: ./packages/test-migrated
         env:
           CI: true
