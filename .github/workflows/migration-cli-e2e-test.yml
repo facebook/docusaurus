@@ -26,6 +26,9 @@ jobs:
         run: yarn
       - name: Migrate D1 website
         run: yarn docusaurus-migrate migrate ./website-1.x ./test-migrated
+      - name: Install in Test website
+        run: yarn
+        working-directory: test-migrated
       - name: Build Test website
         run: yarn build
         working-directory: test-migrated
