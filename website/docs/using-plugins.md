@@ -72,6 +72,35 @@ module.exports = {
 };
 ```
 
+## Multi-instance plugins and plugin ids
+
+It is possible to use multiple times the same plugin, on the same Docusaurus website.
+
+In this case, you it is required to assign a unique id to each plugin instance.
+
+By default, the plugin id is `default`.
+
+```js {6,13} title="docusaurus.config.js"
+module.exports = {
+  plugins: [
+    [
+      '@docusaurus/plugin-xxx',
+      {
+        id: 'plugin-xxx-1',
+        // other options
+      },
+    ],
+    [
+      '@docusaurus/plugin-xxx',
+      {
+        id: 'plugin-xxx-2',
+        // other options
+      },
+    ],
+  ],
+};
+```
+
 ## Plugins design
 
 Docusaurus' implementation of the plugins system provides us with a convenient way to hook into the website's lifecycle to modify what goes on during development/build, which involves (but not limited to) extending the webpack config, modifying the data being loaded and creating new components to be used in a page.

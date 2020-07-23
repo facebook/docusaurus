@@ -5,25 +5,41 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {PluginConfig, DocusaurusConfig} from '@docusaurus/types';
+import {DocusaurusConfig} from '@docusaurus/types';
 import Joi from '@hapi/joi';
 import {CONFIG_FILE_NAME} from '../constants';
 
-export const DEFAULT_CONFIG: {
-  plugins: PluginConfig[];
-  themes: PluginConfig[];
-  customFields: {
-    [key: string]: unknown;
-  };
-  themeConfig: {
-    [key: string]: unknown;
-  };
-} = {
+export const DEFAULT_CONFIG: Pick<
+  DocusaurusConfig,
+  | 'onBrokenLinks'
+  | 'plugins'
+  | 'themes'
+  | 'presets'
+  | 'customFields'
+  | 'themeConfig'
+> = {
+  onBrokenLinks: 'throw',
   plugins: [],
   themes: [],
+  presets: [],
   customFields: {},
   themeConfig: {},
 };
+
+const PluginSchema = Joi.alternatives().try(
+  Joi.string(),
+  Joi.array().items(Joi.string().required(), Joi.object().required()).length(2),
+);
+
+const ThemeSchema = Joi.alternatives().try(
+  Joi.string(),
+  Joi.array().items(Joi.string().required(), Joi.object().required()).length(2),
+);
+
+const PresetSchema = Joi.alternatives().try(
+  Joi.string(),
+  Joi.array().items(Joi.string().required(), Joi.object().required()).length(2),
+);
 
 const ConfigSchema = Joi.object({
   baseUrl: Joi.string()
@@ -33,37 +49,16 @@ const ConfigSchema = Joi.object({
   favicon: Joi.string().required(),
   title: Joi.string().required(),
   url: Joi.string().uri().required(),
+  onBrokenLinks: Joi.string()
+    .equal('ignore', 'log', 'error', 'throw')
+    .default(DEFAULT_CONFIG.onBrokenLinks),
   organizationName: Joi.string(),
   projectName: Joi.string(),
   customFields: Joi.object().unknown().default(DEFAULT_CONFIG.customFields),
   githubHost: Joi.string(),
-  plugins: Joi.array()
-    .items(
-      Joi.alternatives().try(
-        Joi.string(),
-        Joi.array()
-          .items(Joi.string().required(), Joi.object().required())
-          .length(2),
-      ),
-    )
-    .default(DEFAULT_CONFIG.plugins),
-  themes: Joi.array()
-    .items(
-      Joi.alternatives().try(
-        Joi.string(),
-        Joi.array()
-          .items(Joi.string().required(), Joi.object().required())
-          .length(2),
-      ),
-    )
-    .default(DEFAULT_CONFIG.themes),
-  presets: Joi.array().items(
-    Joi.alternatives().try(
-      Joi.string(),
-      Joi.array().items(Joi.string(), Joi.object()).length(2),
-    ),
-  ),
-
+  plugins: Joi.array().items(PluginSchema).default(DEFAULT_CONFIG.plugins),
+  themes: Joi.array().items(ThemeSchema).default(DEFAULT_CONFIG.themes),
+  presets: Joi.array().items(PresetSchema).default(DEFAULT_CONFIG.presets),
   themeConfig: Joi.object().unknown().default(DEFAULT_CONFIG.themeConfig),
   scripts: Joi.array().items(
     Joi.string(),

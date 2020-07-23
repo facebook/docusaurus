@@ -14,13 +14,16 @@ const allDocHomesPaths = [
   ...versions.slice(1).map((version) => `/docs/${version}/`),
 ];
 
+const baseUrl = process.env.BASE_URL || '/';
+
 module.exports = {
   title: 'Docusaurus',
   tagline: 'Build optimized websites quickly, focus on your content',
   organizationName: 'facebook',
   projectName: 'docusaurus',
-  baseUrl: '/',
+  baseUrl,
   url: 'https://v2.docusaurus.io',
+  onBrokenLinks: 'throw',
   favicon: 'img/docusaurus.ico',
   customFields: {
     description:
@@ -161,7 +164,7 @@ module.exports = {
     algolia: {
       apiKey: '47ecd3b21be71c5822571b9f59e52544',
       indexName: 'docusaurus-2',
-      algoliaOptions: {
+      searchParameters: {
         facetFilters: [`version:${versions[0]}`],
       },
     },
@@ -173,28 +176,11 @@ module.exports = {
         src: 'img/docusaurus.svg',
         srcDark: 'img/docusaurus_keytar.svg',
       },
-      links: [
+      items: [
         {
-          label: 'Docs',
-          to: 'docs', // "fake" link
+          type: 'docsVersionDropdown',
           position: 'left',
-          activeBaseRegex: `docs/(?!next/(support|team|resources))`,
-          items: [
-            {
-              label: versions[0],
-              to: 'docs/',
-              activeBaseRegex: `docs/(?!${versions.join('|')}|next)`,
-            },
-            ...versions.slice(1).map((version) => ({
-              label: version,
-              to: `docs/${version}/`,
-            })),
-            {
-              label: 'Master/Unreleased',
-              to: 'docs/next/',
-              activeBaseRegex: `docs/next/(?!support|team|resources)`,
-            },
-          ],
+          nextVersionLabel: '2.0.0-next',
         },
         {to: 'blog', label: 'Blog', position: 'left'},
         {to: 'showcase', label: 'Showcase', position: 'left'},
@@ -205,8 +191,8 @@ module.exports = {
           activeBaseRegex: `docs/next/(support|team|resources)`,
         },
         {
-          to: 'versions',
-          label: `v${versions[0]}`,
+          to: '/versions',
+          label: 'All versions',
           position: 'right',
         },
         {

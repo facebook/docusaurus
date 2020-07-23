@@ -20,6 +20,7 @@ export interface DateLink {
 export type FeedType = 'rss' | 'atom';
 
 export interface PluginOptions {
+  id?: string;
   path: string;
   routeBasePath: string;
   include: string[];

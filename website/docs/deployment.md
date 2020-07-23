@@ -13,6 +13,29 @@ Once it finishes, the static files will be generated within the `build/` directo
 
 You can deploy your site to static site hosting services such as [Vercel](https://vercel.com/), [GitHub Pages](https://pages.github.com/), [Netlify](https://www.netlify.com/), [Render](https://render.com/static-sites), and [Surge](https://surge.sh/help/getting-started-with-surge). Docusaurus sites are statically rendered so they work without JavaScript too!
 
+## Testing Build Local
+
+It is important to test build before deploying to a production. Docusaurus includes a [`docusaurus serve`](cli.md#docusaurus-serve) command to test build localy.
+
+```bash npm2yarn
+npm run serve
+```
+
+## Self Hosting
+
+:::warning
+
+It is not the most performant solution
+
+:::
+
+Docusaurus can be self hosted using [`docusaurus serve`](cli.md#docusaurus-serve). Change port using `--port` and `--host` to change host.
+
+```bash npm2yarn
+npm run serve --build --port 80 --host 0.0.0.0
+
+```
+
 ## Deploying to GitHub Pages
 
 Docusaurus provides an easy way to publish to [GitHub Pages](https://pages.github.com/). Which is hosting that comes for free with every GitHub repository.
@@ -193,6 +216,42 @@ script:
 ```
 
 Now, whenever a new commit lands in `master`, Travis CI will run your suite of tests and if everything passes, your website will be deployed via the `yarn deploy` script.
+
+### Using Azure Pipelines
+
+1.  Sign Up at [Azure Pipelines](https://azure.microsoft.com/en-us/services/devops/pipelines/) if you haven't already.
+1.  Create an organization and within the organization create a project and connect your repository from GitHub.
+1.  Go to https://github.com/settings/tokens and generate a new [personal access token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/) with repository scope.
+1.  In the project page (which looks like https://dev.azure.com/ORG_NAME/REPO_NAME/_build) create a new pipeline with the following text. Also, click on edit and add a new environment variable named `GH_TOKEN` with your newly generated token as its value, then `GH_EMAIL` (your email address) and `GH_NAME` (your GitHub username). Make sure to mark them as secret. Alternatively, you can also add a file named `azure-pipelines.yml` at yout repository root.
+
+```yaml title="azure-pipelines.yml"
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- checkout: self
+  persistCredentials: true
+
+- task: NodeTool@0
+  inputs:
+    versionSpec: '10.x'
+  displayName: 'Install Node.js'
+
+- script: |
+    git config --global user.name "${GH_NAME}"
+    git config --global user.email "${GH_EMAIL}"
+    git checkout -b master
+    echo "machine github.com login ${GH_NAME} password ${GH_TOKEN}" > ~/.netrc
+    yarn && GIT_USER="${GH_NAME}" yarn deploy
+  env:
+    GH_NAME: $(GH_NAME)
+    GH_EMAIL: $(GH_EMAIL)
+    GH_TOKEN: $(GH_TOKEN)
+  displayName: 'yarn install and build'
+```
 
 ## Deploying to Netlify
 

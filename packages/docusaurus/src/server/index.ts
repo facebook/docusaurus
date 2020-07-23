@@ -71,18 +71,21 @@ export async function load(
   // Context.
   const context: LoadContext = loadContext(siteDir, customOutDir);
   const {generatedFilesDir, siteConfig, outDir, baseUrl} = context;
+
+  // Plugins.
+  const pluginConfigs: PluginConfig[] = loadPluginConfigs(context);
+  const {plugins, pluginsRouteConfigs, globalData} = await loadPlugins({
+    pluginConfigs,
+    context,
+  });
+
+  // Site config must be generated after plugins
+  // We want the generated config to have been normalized by the plugins!
   const genSiteConfig = generate(
     generatedFilesDir,
     CONFIG_FILE_NAME,
     `export default ${JSON.stringify(siteConfig, null, 2)};`,
   );
-
-  // Plugins.
-  const pluginConfigs: PluginConfig[] = loadPluginConfigs(context);
-  const {plugins, pluginsRouteConfigs} = await loadPlugins({
-    pluginConfigs,
-    context,
-  });
 
   // Themes.
   const fallbackTheme = path.resolve(__dirname, '../client/theme-fallback');
@@ -98,6 +101,7 @@ export async function load(
   const {stylesheets = [], scripts = []} = siteConfig;
   plugins.push({
     name: 'docusaurus-bootstrap-plugin',
+    options: {},
     version: {type: 'synthetic'},
     configureWebpack: () => ({
       resolve: {
@@ -181,6 +185,12 @@ ${Object.keys(registry)
 
   const genRoutes = generate(generatedFilesDir, 'routes.js', routesConfig);
 
+  const genGlobalData = generate(
+    generatedFilesDir,
+    'globalData.json',
+    JSON.stringify(globalData, null, 2),
+  );
+
   // Version metadata.
   const siteMetadata: DocusaurusSiteMetadata = {
     docusaurusVersion: getPackageJsonVersion(
@@ -206,6 +216,7 @@ ${Object.keys(registry)
     genRegistry,
     genRoutesChunkNames,
     genRoutes,
+    genGlobalData,
     genSiteMetadata,
   ]);
 
@@ -215,6 +226,7 @@ ${Object.keys(registry)
     outDir,
     baseUrl,
     generatedFilesDir,
+    routes: pluginsRouteConfigs,
     routesPaths,
     plugins,
     headTags,

@@ -15,10 +15,15 @@ import {createBaseConfig} from './base';
 import WaitPlugin from './plugins/WaitPlugin';
 import LogPlugin from './plugins/LogPlugin';
 
-export default function createServerConfig(
-  props: Props,
-  minify: boolean = true,
-): Configuration {
+export default function createServerConfig({
+  props,
+  minify = true,
+  onLinksCollected = () => {},
+}: {
+  props: Props;
+  minify?: boolean;
+  onLinksCollected?: (staticPagePath: string, links: string[]) => void;
+}): Configuration {
   const {
     baseUrl,
     routesPaths,
@@ -64,6 +69,7 @@ export default function createServerConfig(
           headTags,
           preBodyTags,
           postBodyTags,
+          onLinksCollected,
         },
         paths: ssgPaths,
       }),

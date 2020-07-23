@@ -6,7 +6,14 @@
     "start": "docusaurus start",
     "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",
-    "deploy": "docusaurus deploy"
+    "deploy": "docusaurus deploy",
+    "start:baseUrl": "BASE_URL='/build/' yarn start",
+    "build:baseUrl": "BASE_URL='/build/' yarn build",
+    "netlify:build:production": "yarn build",
+    "netlify:build:deployPreview": "yarn build:baseUrl && yarn netlify:build:deployPreview:moveBuild && yarn netlify:build:deployPreview:redirects",
+    "netlify:build:deployPreview:moveBuild": "yarn rimraf netlifyDeploy && mkdir netlifyDeploy && mv build netlifyDeploy",
+    "netlify:build:deployPreview:redirects": "echo 'Writing Netlify baseUrl deployPreview _redirects file' && echo '/build/* /build/404.html 200' >> netlifyDeploy/_redirects && echo '/* /build/' >> netlifyDeploy/_redirects",
+    "netlify:test": "yarn netlify:build:deployPreview && yarn netlify dev --debug"
   },
   "dependencies": {
     "@docusaurus/core": "^2.0.0-alpha.58",

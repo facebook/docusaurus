@@ -10,3 +10,4 @@ export {default as start} from './commands/start';
 export {default as swizzle} from './commands/swizzle';
 export {default as deploy} from './commands/deploy';
 export {default as externalCommand} from './commands/external';
+export {default as serve} from './commands/serve';
