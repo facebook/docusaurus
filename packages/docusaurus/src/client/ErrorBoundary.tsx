@@ -15,8 +15,8 @@ interface Props {
 }
 
 interface State {
-  error: Error;
-  errorInfo: React.ErrorInfo;
+  error: Error | null;
+  errorInfo: React.ErrorInfo | null;
 }
 
 class ErrorBoundary extends React.Component<Props, State> {
@@ -34,7 +34,7 @@ class ErrorBoundary extends React.Component<Props, State> {
     const {
       errorBoundary: {
         consoleHeading = 'An error occurred, here are the details.',
-      },
+      } = {},
     } = siteConfig;
 
     // Catch errors in any components below and re-render with error message
@@ -55,7 +55,7 @@ class ErrorBoundary extends React.Component<Props, State> {
     const {
       errorBoundary: {
         heading = 'An error occurred, please contact the development team.',
-      },
+      } = {},
     } = siteConfig;
 
     if (errorInfo) {
