@@ -12,6 +12,7 @@ import webpack, {Configuration, Loader, RuleSetRule, Stats} from 'webpack';
 import {TransformOptions} from '@babel/core';
 import {ConfigureWebpackFn} from '@docusaurus/types';
 import {version as cacheLoaderVersion} from 'cache-loader/package.json';
+import {STATIC_ASSETS_DIR_NAME} from '../constants';
 
 // Utility method to get style loaders
 export function getStyleLoaders(
@@ -174,14 +175,12 @@ export function compile(config: Configuration[]): Promise<void> {
 
 // Inspired by https://github.com/gatsbyjs/gatsby/blob/8e6e021014da310b9cc7d02e58c9b3efe938c665/packages/gatsby/src/utils/webpack-utils.ts#L447
 export function getFileLoaderUtils() {
-  const assetsRelativeRoot = 'assets/';
-
   const loaders = {
     file: (options = {}) => {
       return {
         loader: require.resolve(`file-loader`),
         options: {
-          name: `${assetsRelativeRoot}[name]-[hash].[ext]`,
+          name: `${STATIC_ASSETS_DIR_NAME}/[name]-[hash].[ext]`,
           ...options,
         },
       };
@@ -191,7 +190,7 @@ export function getFileLoaderUtils() {
         loader: require.resolve(`url-loader`),
         options: {
           limit: 10000,
-          name: `${assetsRelativeRoot}[name]-[hash].[ext]`,
+          name: `${STATIC_ASSETS_DIR_NAME}[name]-[hash].[ext]`,
           fallback: require.resolve(`file-loader`),
           ...options,
         },

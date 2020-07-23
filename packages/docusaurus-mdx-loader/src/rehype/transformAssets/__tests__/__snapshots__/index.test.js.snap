@@ -5,7 +5,7 @@ exports[`transformAsset plugin fail if asset does not exist 1`] = `"Asset packag
 exports[`transformAsset plugin fail if asset url is absent 1`] = `"Markdown link url is mandatory. filePath=packages/docusaurus-mdx-loader/src/rehype/transformAssets/__tests__/fixtures/noUrl.md"`;
 
 exports[`transformAsset plugin pathname protocol 1`] = `
-"[asset](/img/unchecked.pdf)
+"[asset](/asset/unchecked.pdf)
 "
 `;
 

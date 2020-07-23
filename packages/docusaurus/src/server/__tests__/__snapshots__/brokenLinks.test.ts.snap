@@ -5,7 +5,8 @@ exports[`brokenLinks getBrokenLinksErrorMessage 1`] = `
 
 - Page path = /docs/mySourcePage:
    -> link to ./myBrokenLink (resolved as: /docs/myBrokenLink)
-   -> link to ../otherBrokenLink (resolved as: /otherBrokenLink),
+   -> link to ../otherBrokenLink (resolved as: /otherBrokenLink)
+
 
 - Page path = /otherSourcePage:
    -> link to /badLink

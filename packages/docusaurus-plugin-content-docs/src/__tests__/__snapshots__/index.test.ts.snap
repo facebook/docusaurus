@@ -178,7 +178,7 @@ Object {
   "pluginName": Object {
     "pluginId": Object {
       "latestVersionName": null,
-      "path": "docs",
+      "path": "/docs",
       "versions": Array [
         Object {
           "docs": Array [
@@ -469,7 +469,7 @@ Object {
   "pluginName": Object {
     "pluginId": Object {
       "latestVersionName": "1.0.1",
-      "path": "docs",
+      "path": "/docs",
       "versions": Array [
         Object {
           "docs": Array [

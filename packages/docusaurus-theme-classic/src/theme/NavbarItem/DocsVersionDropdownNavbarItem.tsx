@@ -13,14 +13,16 @@ import {
   useActiveDocContext,
 } from '@theme/hooks/useDocs';
 
-const versionLabel = (version) =>
-  version.name === 'next' ? 'Next/Master' : version.name;
+const versionLabel = (version, nextVersionLabel) =>
+  version.name === 'next' ? nextVersionLabel : version.name;
 
 const getVersionMainDoc = (version) =>
   version.docs.find((doc) => doc.id === version.mainDocId);
 
 export default function DocsVersionDropdownNavbarItem({
+  mobile,
   docsPluginId,
+  nextVersionLabel,
   ...props
 }) {
   const activeDocContext = useActiveDocContext(docsPluginId);
@@ -35,7 +37,7 @@ export default function DocsVersionDropdownNavbarItem({
       getVersionMainDoc(version);
     return {
       isNavLink: true,
-      label: versionLabel(version),
+      label: versionLabel(version, nextVersionLabel),
       to: versionDoc.path,
       isActive: () => version === activeDocContext?.activeVersion,
     };
@@ -43,11 +45,20 @@ export default function DocsVersionDropdownNavbarItem({
 
   const dropdownVersion = activeDocContext.activeVersion ?? latestVersion;
 
+  // Mobile is handled a bit differently
+  const dropdownLabel = mobile
+    ? 'Versions'
+    : versionLabel(dropdownVersion, nextVersionLabel);
+  const dropdownTo = mobile
+    ? undefined
+    : getVersionMainDoc(dropdownVersion).path;
+
   return (
     <DefaultNavbarItem
       {...props}
-      label={versionLabel(dropdownVersion)}
-      to={getVersionMainDoc(dropdownVersion).path}
+      mobile={mobile}
+      label={dropdownLabel}
+      to={dropdownTo}
       items={items}
     />
   );
