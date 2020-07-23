@@ -5,13 +5,13 @@
 [build]
   base = "/"
   command = "yarn workspace docusaurus-2-website netlify:build:production"
-  publish = "build"
+  publish = "website/build"
 
 # we build deploy previews with a /build/ baseUrl on purpose
 # permits to test that baseUrl works fine (this often breaks!)
 [context.deploy-preview]
   command = "yarn workspace docusaurus-2-website netlify:build:deployPreview"
-  publish = "netlifyDeploy"
+  publish = "website/netlifyDeploy"
 
   # TODO this does not seem to work
   # workaroud: a _redirect file is created in website/netlifyDeploy
