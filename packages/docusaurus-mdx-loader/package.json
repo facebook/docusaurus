@@ -25,11 +25,9 @@
   "devDependencies": {
     "remark": "^12.0.0",
     "remark-mdx": "^1.5.8",
-    "remark-rehype": "^7.0.0",
     "to-vfile": "^6.0.0",
     "unist-builder": "^2.0.3",
-    "unist-util-remove-position": "^2.0.1",
-    "rehype-remark": "^8.0.0"
+    "unist-util-remove-position": "^2.0.1"
   },
   "engines": {
     "node": ">=10.15.1"
