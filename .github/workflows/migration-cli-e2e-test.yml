@@ -25,17 +25,8 @@ jobs:
       - name: Installation
         run: yarn
       - name: Migrate D1 website
-        run: yarn docusaurus-migrate migrate ./website-1.x ./test-migrated
-      - name: Install in Test website
-        run: yarn
-        working-directory: test-migrated
-      - name: Linking
-        run: yarn lerna exec -- yarn link
-      - name: Remove @docusaurus
-        run: rm -rf node_modules/@docusaurus/
-        working-directory: test-migrated
+        run: yarn docusaurus-migrate migrate ./website-1.x .
       - name: Build Test website
         run: yarn build
-        working-directory: test-migrated
         env:
           CI: true
