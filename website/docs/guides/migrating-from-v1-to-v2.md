@@ -1,6 +1,7 @@
 ---
 id: migrating-from-v1-to-v2
 title: Migrating from v1 to v2
+slug: /migrating-from-v1-to-v2
 ---
 
 import ColorGenerator from '@site/src/components/ColorGenerator';
