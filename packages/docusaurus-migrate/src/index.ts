@@ -650,12 +650,13 @@ function migrateLatestDocs(
   classicPreset: ClassicPresetEntries,
 ): void {
   if (fs.existsSync(path.join(siteDir, '..', 'docs'))) {
-    const docsPath = path.join(
-      path.relative(siteDir, path.join(newDir, '..')),
-      'docs',
-    );
-    classicPreset.docs.path = docsPath;
-    const files = walk(path.join(siteDir, '..', 'docs'));
+    // const docsPath = path.join(
+    //   path.relative(siteDir, path.join(newDir, '..')),
+    //   'docs',
+    // );
+    classicPreset.docs.path = 'docs';
+    fs.copySync(path.join(siteDir, '..', 'docs'), path.join(newDir, 'docs'));
+    const files = walk(path.join(newDir, 'docs'));
     files.forEach((file) => {
       const content = String(fs.readFileSync(file));
       fs.writeFileSync(file, sanitizedFileContent(content, migrateMDFiles));
