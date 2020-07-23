@@ -8,11 +8,9 @@
 import {join} from 'path';
 import remark from 'remark';
 import mdx from 'remark-mdx';
-import rehype from 'remark-rehype';
-import markdown from 'rehype-remark';
 import vfile from 'to-vfile';
 import plugin from '..';
-import slug from '../../../remark/slug';
+import slug from '../../slug';
 
 const processFixture = async (name, options) => {
   const path = join(__dirname, 'fixtures', `${name}.md`);
@@ -20,9 +18,7 @@ const processFixture = async (name, options) => {
   const result = await remark()
     .use(slug)
     .use(mdx)
-    .use(rehype)
     .use(plugin, {...options, filePath: path})
-    .use(markdown)
     .process(file);
 
   return result.toString();

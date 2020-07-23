@@ -28,20 +28,20 @@ async function ensureAssetFileExist(assetPath, sourceFilePath) {
 }
 
 async function processLinkNode(node, index, parent, {filePath}) {
-  if (!node.properties.href) {
+  if (!node.url) {
     throw new Error(
       `Markdown link url is mandatory. filePath=${toRelativePath(filePath)}`,
     );
   }
-  const parsedUrl = url.parse(node.properties.href);
-  const assetPath = node.properties.href;
+  const parsedUrl = url.parse(node.url);
+  const assetPath = node.url;
   if (parsedUrl.protocol) {
     // pathname:// is an escape hatch,
     // in case user does not want his assets to be converted to require calls going through webpack loader
     // we don't have to document this for now,
     // it's mostly to make next release less risky (2.0.0-alpha.59)
     if (parsedUrl.protocol === 'pathname:') {
-      node.properties.href = node.properties.href.replace('pathname://', '');
+      node.url = node.url.replace('pathname://', '');
     }
     return;
   }
@@ -60,31 +60,24 @@ async function processLinkNode(node, index, parent, {filePath}) {
   node.type = 'jsx';
   node.value = `<a  target="_blank" ${
     assetPath ? `href={require('!file-loader!${assetPath}').default}` : ''
-  } ${node.properties.title ? `title={${node.properties.title}}` : ''} >`;
+  } ${node.title ? `title={${node.title}}` : ''} >`;
   const {children} = node;
   delete node.children;
-  if (children.length === 1) {
-    parent.children.splice(index + 1, 0, children[0]);
-  } else {
-    parent.children.splice(index + 1, 0, {
-      type: 'element',
-      tagName: 'p',
-      children,
-    });
-  }
+
+  parent.children.splice(index + 1, 0, {
+    type: 'paragraph',
+    children,
+  });
+
   parent.children.splice(index + 2, 0, {type: 'jsx', value: '</a>'});
 }
 
 const plugin = (options) => {
   const transformer = async (root) => {
     const promises = [];
-    visit(
-      root,
-      (node) => node.tagName === 'a',
-      (node, index, parent) => {
-        promises.push(processLinkNode(node, index, parent, options));
-      },
-    );
+    visit(root, 'link', (node, index, parent) => {
+      promises.push(processLinkNode(node, index, parent, options));
+    });
     await Promise.all(promises);
   };
   return transformer;
