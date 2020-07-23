@@ -13,6 +13,7 @@ import globalData from '@generated/globalData';
 import siteMetadata from '@generated/site-metadata';
 import renderRoutes from './exports/renderRoutes';
 import DocusaurusContext from './exports/context';
+import ErrorBoundary from './ErrorBoundary';
 import PendingNavigation from './PendingNavigation';
 
 import './client-lifecycles-dispatcher';
@@ -24,13 +25,18 @@ function App(): JSX.Element {
     setIsClient(true);
   }, []);
 
+  const logError = process.env.NODE_ENV !== 'production';
+  const showError = process.env.NODE_ENV !== 'production';
+
   return (
-    <DocusaurusContext.Provider
-      value={{siteConfig, siteMetadata, globalData, isClient}}>
-      <PendingNavigation routes={routes}>
-        {renderRoutes(routes)}
-      </PendingNavigation>
-    </DocusaurusContext.Provider>
+    <ErrorBoundary logError={logError} showError={showError}>
+      <DocusaurusContext.Provider
+        value={{siteConfig, siteMetadata, globalData, isClient}}>
+        <PendingNavigation routes={routes}>
+          {renderRoutes(routes)}
+        </PendingNavigation>
+      </DocusaurusContext.Provider>
+    </ErrorBoundary>
   );
 }
 
