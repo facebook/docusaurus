@@ -297,6 +297,44 @@
   <span class="hljs-bullet">-</span> <span class="hljs-string">cd</span> <span class="hljs-string">website</span> <span class="hljs-string">&amp;&amp;</span> <span class="hljs-string">yarn</span> <span class="hljs-string">install</span> <span class="hljs-string">&amp;&amp;</span> <span class="hljs-string">GIT_USER="${GH_NAME}"</span> <span class="hljs-string">yarn</span> <span class="hljs-string">run</span> <span class="hljs-string">publish-gh-pages</span>
 </code></pre>
 <p>이제 <code>master</code> 브랜치에 새로운 커밋이 발생하게 되면 Travis CI는 여러분의 테스트 스위트가 실행되고 모든 테스트가 통과되면 <code>publish-gh-pages</code> 스크립트가 실행되어 여러분의 웹사이트를 배포하게 됩니다.</p>
+<h3><a class="anchor" aria-hidden="true" id="using-azure-pipelines"></a><a href="#using-azure-pipelines" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Using Azure Pipelines</h3>
+<ol>
+<li>Sign Up at <a href="https://azure.microsoft.com/en-us/services/devops/pipelines/">Azure Pipelines</a> if you haven't already.</li>
+<li>Create an organization and within the organization create a project and connect your repository from GitHub.</li>
+<li>Go to <a href="https://github.com/settings/tokens">https://github.com/settings/tokens</a> and generate a new <a href="https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/">personal access token</a> with repository scope.</li>
+<li>In the project page (which looks like <a href="https://dev.azure.com/ORG_NAME/REPO_NAME/_build">https://dev.azure.com/ORG_NAME/REPO_NAME/_build</a>) create a new pipeline with the following text. Also, click on edit and add a new environment variable named <code>GH_TOKEN</code> with your newly generated token as its value, then <code>GH_EMAIL</code> (your email address) and <code>GH_NAME</code> (your GitHub username). Make sure to mark them as secret. Alternatively, you can also add a file named <code>azure-pipelines.yml</code> at yout repository root.</li>
+</ol>
+<pre><code class="hljs css language-yaml"><span class="hljs-comment"># azure-pipelines.yml</span>
+<span class="hljs-attr">trigger:</span>
+<span class="hljs-bullet">-</span> <span class="hljs-string">master</span>
+
+<span class="hljs-attr">pool:</span>
+  <span class="hljs-attr">vmImage:</span> <span class="hljs-string">'ubuntu-latest'</span>
+
+<span class="hljs-attr">steps:</span>
+
+<span class="hljs-bullet">-</span> <span class="hljs-attr">checkout:</span> <span class="hljs-string">self</span>
+  <span class="hljs-attr">persistCredentials:</span> <span class="hljs-literal">true</span>
+
+<span class="hljs-bullet">-</span> <span class="hljs-attr">task:</span> <span class="hljs-string">NodeTool@0</span>
+  <span class="hljs-attr">inputs:</span>
+    <span class="hljs-attr">versionSpec:</span> <span class="hljs-string">'10.x'</span>
+  <span class="hljs-attr">displayName:</span> <span class="hljs-string">'Install Node.js'</span>
+
+<span class="hljs-bullet">-</span> <span class="hljs-attr">script:</span> <span class="hljs-string">|
+    git config --global user.name "${GH_NAME}"
+    git config --global user.email "${GH_EMAIL}"
+    git checkout -b master
+    echo "machine github.com login ${GH_NAME} password ${GH_TOKEN}" &gt; ~/.netrc
+    cd website
+    yarn install
+    GIT_USER="${GH_NAME}" CURRENT_BRANCH=master yarn run publish-gh-pages
+</span>  <span class="hljs-attr">env:</span>
+    <span class="hljs-attr">GH_NAME:</span> <span class="hljs-string">$(GH_NAME)</span>
+    <span class="hljs-attr">GH_EMAIL:</span> <span class="hljs-string">$(GH_EMAIL)</span>
+    <span class="hljs-attr">GH_TOKEN:</span> <span class="hljs-string">$(GH_TOKEN)</span>
+  <span class="hljs-attr">displayName:</span> <span class="hljs-string">'yarn install and build'</span>
+</code></pre>
 <h3><a class="anchor" aria-hidden="true" id="hosting-on-zeit-now"></a><a href="#hosting-on-zeit-now" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Hosting on ZEIT Now</h3>
 <p>With <a href="#using-zeit-now">ZEIT Now</a>, you can deploy your site and connect it to <a href="https://zeit.co/github">GitHub</a> or <a href="https://zeit.co/gitlab">GitLab</a> to automatically receive a new deployment every time you push a commit.</p>
 <h3><a class="anchor" aria-hidden="true" id="netlify-활용하기"></a><a href="#netlify-활용하기" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Netlify 활용하기</h3>
@@ -349,7 +387,7 @@
 </tbody>
 </table>
 <p><code>siteConfig.js</code> 파일에 GitHub Enterprise 호스트이름을 설정하는 <code>'githubHost'</code> 속성을 추가합니다. 아니면, 환경 변수로 명령어 실행 시 <code>GITHUB_HOST</code>를 설정할 수 있습니다.</p>
-</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/ko/next/site-creation"><span class="arrow-prev">← </span><span>당신만의 사이트 만들기</span></a><a class="docs-next button" href="/docs/ko/next/docker"><span>도커</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#정적-html-페이지-만들기">정적 HTML 페이지 만들기</a></li><li><a href="#정적-html-페이지-호스팅하기">정적 HTML 페이지 호스팅하기</a><ul class="toc-headings"><li><a href="#호스팅-서비스-활용하기">호스팅 서비스 활용하기</a></li><li><a href="#zeit-now-사용하기">ZEIT Now 사용하기</a></li><li><a href="#github-페이지-활용하기">GitHub 페이지 활용하기</a></li></ul></li><li><a href="#지속적인-통합-환경에서-자동으로-배포하기">지속적인 통합 환경에서 자동으로 배포하기</a><ul class="toc-headings"><li><a href="#using-circleci-20">Using CircleCI 2.0</a></li><li><a href="#팁--트릭">팁 &amp; 트릭</a></li><li><a href="#travis-ci-사용하기">Travis CI 사용하기</a></li><li><a href="#hosting-on-zeit-now">Hosting on ZEIT Now</a></li><li><a href="#netlify-활용하기">Netlify 활용하기</a></li><li><a href="#hosting-on-render">Hosting on Render</a></li><li><a href="#github-enterprise-활용하기">GitHub Enterprise 활용하기</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/docusaurus_monochrome.svg" alt="Docusaurus" width="66" height="58"/></a><div class="footerSection"><h5>Docs</h5><a href="
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/ko/next/site-creation"><span class="arrow-prev">← </span><span>당신만의 사이트 만들기</span></a><a class="docs-next button" href="/docs/ko/next/docker"><span>도커</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#정적-html-페이지-만들기">정적 HTML 페이지 만들기</a></li><li><a href="#정적-html-페이지-호스팅하기">정적 HTML 페이지 호스팅하기</a><ul class="toc-headings"><li><a href="#호스팅-서비스-활용하기">호스팅 서비스 활용하기</a></li><li><a href="#zeit-now-사용하기">ZEIT Now 사용하기</a></li><li><a href="#github-페이지-활용하기">GitHub 페이지 활용하기</a></li></ul></li><li><a href="#지속적인-통합-환경에서-자동으로-배포하기">지속적인 통합 환경에서 자동으로 배포하기</a><ul class="toc-headings"><li><a href="#using-circleci-20">Using CircleCI 2.0</a></li><li><a href="#팁--트릭">팁 &amp; 트릭</a></li><li><a href="#travis-ci-사용하기">Travis CI 사용하기</a></li><li><a href="#using-azure-pipelines">Using Azure Pipelines</a></li><li><a href="#hosting-on-zeit-now">Hosting on ZEIT Now</a></li><li><a href="#netlify-활용하기">Netlify 활용하기</a></li><li><a href="#hosting-on-render">Hosting on Render</a></li><li><a href="#github-enterprise-활용하기">GitHub Enterprise 활용하기</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/docusaurus_monochrome.svg" alt="Docusaurus" width="66" height="58"/></a><div class="footerSection"><h5>Docs</h5><a href="
                 /docs/ko/installation">Getting Started</a><a href="
                 /docs/ko/versioning">Versioning</a><a href="
                 /docs/ko/translation">Localization</a><a href="
