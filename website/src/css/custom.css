@@ -74,8 +74,7 @@ html[data-theme='light'] .DocSearch {
   /* Footer */
   --docsearch-footer-background: var(--ifm-color-white);
 }
-​
-/* Darkmode */
+
 html[data-theme='dark'] .DocSearch {
   --docsearch-text-color: var(--ifm-font-color-base);
   --docsearch-muted-color: var(--ifm-color-secondary-darkest);
