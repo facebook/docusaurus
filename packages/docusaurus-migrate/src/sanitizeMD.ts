@@ -20,7 +20,9 @@ const tags = htmlTags.reduce((acc: {[key: string]: boolean}, tag) => {
 }, {});
 
 export default function sanitizeMD(code: string): string {
-  const markdownTree = unified().use(markdown).parse(code);
+  const markdownTree = unified()
+    .use(markdown as any)
+    .parse(code);
   visit(markdownTree, 'code', (node) => {
     node.value = `\n<!--${node.value}-->\n`;
   });
@@ -29,10 +31,12 @@ export default function sanitizeMD(code: string): string {
   });
 
   const markdownString = unified()
-    .use(remarkStringify, {fence: '`', fences: true})
+    .use(remarkStringify as any, {fence: '`', fences: true})
     .stringify(markdownTree);
 
-  const htmlTree = unified().use(parse).parse(markdownString);
+  const htmlTree = unified()
+    .use(parse as any)
+    .parse(markdownString);
   visit(htmlTree, 'element', (node) => {
     if (!tags[node.tagName as string]) {
       node.type = 'text';
