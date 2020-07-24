@@ -48,7 +48,7 @@ function sanitizedFileContent(
   const extractedMetaData = Object.entries(extractedData.metadata).reduce(
     (metaData, [key, value]) => {
       return `${metaData}\n${key}: ${
-        shouldQuotifyFrontMatter([key, value]) ? value : `"${value}"`
+        shouldQuotifyFrontMatter([key, value]) ? `"${value}"` : value
       }`;
     },
     '',
