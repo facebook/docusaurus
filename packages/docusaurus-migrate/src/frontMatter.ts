@@ -50,3 +50,17 @@ export default function extractMetadata(content: string): Data {
   }
   return {metadata, rawContent: both.content};
 }
+
+// The new frontmatter parser need some special chars to
+export function shouldQuotifyFrontMatter([key, value]: [
+  string,
+  string,
+]): boolean {
+  if (key === 'tags') {
+    return false;
+  }
+  if (String(value).match(/^("|').+("|')$/)) {
+    return false;
+  }
+  return !String(value).match(/^(\w| |\.|-)+$/m);
+}
