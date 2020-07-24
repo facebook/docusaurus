@@ -17,7 +17,7 @@ import {
   ClassicPresetEntries,
   SidebarEntries,
 } from './types';
-import extractMetadata from './frontMatter';
+import extractMetadata, {shouldQuotifyFrontMatter} from './frontMatter';
 import migratePage from './transform';
 import sanitizeMD from './sanitizeMD';
 import path from 'path';
@@ -46,13 +46,9 @@ function sanitizedFileContent(
 ): string {
   const extractedData = extractMetadata(content);
   const extractedMetaData = Object.entries(extractedData.metadata).reduce(
-    (metaData, value) => {
-      return `${metaData}\n${value[0]}: ${
-        value[0] === 'tags' ||
-        !!String(value[1]).match(/^(\w| |\.|-)+$/m) ||
-        String(value[1]).match(/^("|').+("|')$/)
-          ? value[1]
-          : `"${value[1]}"`
+    (metaData, [key, value]) => {
+      return `${metaData}\n${key}: ${
+        shouldQuotifyFrontMatter([key, value]) ? `"${value}"` : value
       }`;
     },
     '',
@@ -377,7 +373,7 @@ function createPages(newDir: string, siteDir: string): void {
 function createDefaultLandingPage(newDir: string) {
   const indexPage = `import Layout from "@theme/Layout";
       import React from "react";
-      
+
       export default () => {
         return <Layout />;
       };

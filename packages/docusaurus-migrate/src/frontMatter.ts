@@ -50,3 +50,27 @@ export default function extractMetadata(content: string): Data {
   }
   return {metadata, rawContent: both.content};
 }
+
+// The new frontmatter parser need some special chars to
+export function shouldQuotifyFrontMatter([key, value]: [
+  string,
+  string,
+]): boolean {
+  if (key === 'tags') {
+    return false;
+  }
+  if (String(value).match(/^("|').+("|')$/)) {
+    return false;
+  }
+  // TODO weird graymatter case
+  // title: !something need quotes
+  // but not title: something!
+  if (!String(value).trim().match(/^\w.*/)) {
+    return true;
+  }
+  // TODO this is not ideal to have to maintain such a list of allowed chars
+  // maybe we should quotify if graymatter throws instead?
+  return !String(value).match(
+    /^([\w .\-sàáâãäåçèéêëìíîïðòóôõöùúûüýÿ!;,=+_?'`&#()[\]§%€$])+$/,
+  );
+}
