@@ -23,6 +23,7 @@ packages/docusaurus-plugin-sitemap/lib/
 packages/docusaurus-plugin-ideal-image/lib/
 packages/docusaurus-plugin-ideal-image/copyUntypedFiles.js
 packages/docusaurus-theme-classic/lib/
+packages/docusaurus-migrate/lib/
 
 packages/docusaurus-1.x/.eslintrc.js
 packages/docusaurus-init/templates/facebook/.eslintrc.js

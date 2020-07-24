@@ -260,33 +260,33 @@ Now, whenever a new commit lands in `master`, Travis CI will run your suite of t
 ```yaml
 # azure-pipelines.yml
 trigger:
-- master
+  - master
 
 pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- checkout: self
-  persistCredentials: true
+  - checkout: self
+    persistCredentials: true
 
-- task: NodeTool@0
-  inputs:
-    versionSpec: '10.x'
-  displayName: 'Install Node.js'
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '10.x'
+    displayName: 'Install Node.js'
 
-- script: |
-    git config --global user.name "${GH_NAME}"
-    git config --global user.email "${GH_EMAIL}"
-    git checkout -b master
-    echo "machine github.com login ${GH_NAME} password ${GH_TOKEN}" > ~/.netrc
-    cd website
-    yarn install
-    GIT_USER="${GH_NAME}" CURRENT_BRANCH=master yarn run publish-gh-pages
-  env:
-    GH_NAME: $(GH_NAME)
-    GH_EMAIL: $(GH_EMAIL)
-    GH_TOKEN: $(GH_TOKEN)
-  displayName: 'yarn install and build'
+  - script: |
+      git config --global user.name "${GH_NAME}"
+      git config --global user.email "${GH_EMAIL}"
+      git checkout -b master
+      echo "machine github.com login ${GH_NAME} password ${GH_TOKEN}" > ~/.netrc
+      cd website
+      yarn install
+      GIT_USER="${GH_NAME}" CURRENT_BRANCH=master yarn run publish-gh-pages
+    env:
+      GH_NAME: $(GH_NAME)
+      GH_EMAIL: $(GH_EMAIL)
+      GH_TOKEN: $(GH_TOKEN)
+    displayName: 'yarn install and build'
 ```
 
 ### Hosting on ZEIT Now
