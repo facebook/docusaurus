@@ -139,7 +139,7 @@ See: https://v2.docusaurus.io/docs/search/#using-algolia-docsearch`);
     return null;
   }
 
-  return <DocSearch {...siteConfig.themeConfig.algolia} />;
+  return <DocSearch appId="BH4D9OD16A" {...siteConfig.themeConfig.algolia} />;
 }
 
 export default SearchBar;
