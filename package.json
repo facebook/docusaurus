@@ -36,7 +36,6 @@
     "lerna": "lerna",
     "test": "jest",
     "test:build:v2": "./admin/scripts/test-release.sh",
-    "tsc": "yarn build:packages && echo '\n\nDOCUSAURUS: yarn tsc is deprecated and will be removed, use yarn build:packages instead\n\n'",
     "watch": "yarn lerna run --parallel --no-private watch",
     "clear": "yarn rimraf website/.docusaurus && rimraf -rf website/node_modules/.cache && yarn lerna exec 'yarn rimraf lib' --ignore docusaurus",
     "test:v1Migration:migrate": "rimraf website-1.x-migrated && docusaurus-migrate migrate ./website-1.x ./website-1.x-migrated && sed -i -- 's/docusaurus-1-website/docusaurus-1-website-migrated/g;' website-1.x-migrated/package.json",
