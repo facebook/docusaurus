@@ -40,6 +40,7 @@ describe('useBaseUrl', () => {
     expect(useBaseUrl('/hello/byebye', {absolute: true})).toEqual(
       'https://v2.docusaurus.io/hello/byebye',
     );
+    expect(useBaseUrl('#hello')).toEqual('#hello');
   });
 
   test('non-empty base URL', () => {
@@ -69,6 +70,7 @@ describe('useBaseUrl', () => {
     );
     expect(useBaseUrl('/docusaurus/')).toEqual('/docusaurus/');
     expect(useBaseUrl('/docusaurus/hello')).toEqual('/docusaurus/hello');
+    expect(useBaseUrl('#hello')).toEqual('#hello');
   });
 });
 
@@ -99,6 +101,7 @@ describe('useBaseUrlUtils().withBaseUrl()', () => {
     expect(withBaseUrl('/hello/byebye', {absolute: true})).toEqual(
       'https://v2.docusaurus.io/hello/byebye',
     );
+    expect(withBaseUrl('#hello')).toEqual('#hello');
   });
 
   test('non-empty base URL', () => {
@@ -129,5 +132,6 @@ describe('useBaseUrlUtils().withBaseUrl()', () => {
     );
     expect(withBaseUrl('/docusaurus/')).toEqual('/docusaurus/');
     expect(withBaseUrl('/docusaurus/hello')).toEqual('/docusaurus/hello');
+    expect(withBaseUrl('#hello')).toEqual('#hello');
   });
 });
