@@ -130,14 +130,17 @@ async function filterExistingFileLinks({
   allCollectedLinks: Record<string, string[]>;
 }): Promise<Record<string, string[]>> {
   // not easy to make this async :'(
-  function linkFileDoesNotExist(link: string): boolean {
+  function linkFileExists(link: string): boolean {
     const filePath = `${outDir}/${removePrefix(link, baseUrl)}`;
-    const exists = fs.existsSync(filePath);
-    return !exists;
+    try {
+      return fs.statSync(filePath).isFile(); // only consider files
+    } catch (e) {
+      return false;
+    }
   }
 
   return mapValues(allCollectedLinks, (links) => {
-    return links.filter(linkFileDoesNotExist);
+    return links.filter((link) => !linkFileExists(link));
   });
 }
 
