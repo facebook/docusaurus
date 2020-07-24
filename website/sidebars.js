@@ -31,7 +31,7 @@ module.exports = {
         'blog',
         'search',
         'deployment',
-        'migrating-from-v1-to-v2',
+        'guides/migrating-from-v1-to-v2',
       ],
     },
     {

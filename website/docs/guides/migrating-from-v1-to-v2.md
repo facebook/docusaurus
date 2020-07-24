@@ -1,6 +1,7 @@
 ---
 id: migrating-from-v1-to-v2
 title: Migrating from v1 to v2
+slug: /migrating-from-v1-to-v2
 ---
 
 import ColorGenerator from '@site/src/components/ColorGenerator';
@@ -43,6 +44,12 @@ website
 ├── sidebars.json
 ├── docusaurus.config.js
 ```
+
+:::tip
+
+You can use the [migration command](#migration-command) to take care of some of the migration chores.
+
+:::
 
 ## Project setup
 
@@ -637,6 +644,72 @@ Start the development server and fix any errors:
 cd website
 yarn start
 ```
+
+## Migration command
+
+The migration command automatically migrates your v1 website to a v2 website.
+
+The migration command migrates:
+
+- Site configurations (from `siteConfig.js` to `docusaurus.config.js`)
+- `package.json`
+- `sidebars.json`
+- `/docs`
+- `/blog`
+- `/static`
+- `versioned_sidebar.json` and `/versioned_docs` if your site uses versioning
+
+:::info
+
+Manual tweaking is still required after using the migration command. You still need to migrate your [footer](#footer), [pages](#pages) and [content](#content).
+
+:::
+
+To use the migration command, follow these steps:
+
+1. Before using the migration command, ensure that `/docs`, `/blog`, `/static`, `sidebars.json`, `siteConfig.js`, `package.json` follow the [structure](#) shown at the start of this page.
+
+2. To migrate your v1 website, run the migration command with the appropriate filesystem paths:
+
+```
+// migration command format
+npx docusaurus-migrate migrate <v1 website directory> <desired v2 website directory>
+
+// example
+npx docusaurus-migrate migrate ./v1-website ./v2-website
+```
+
+3. To view your new website locally, go into your v2 website's directory and start your development server.
+
+```bash
+cd ./v2-website
+yarn install
+yarn start
+```
+
+#### Options
+
+You can add option flags to the migration command to automatically migrate markdown content and pages to v2. It is likely that you will still need to make some manual changes to achieve your desired result.
+
+| Name     | Description                                            |
+| -------- | ------------------------------------------------------ |
+| `--mdx`  | Add this flag to convert markdown to mdx automatically |
+| `--page` | Add this flag to migrate pages automatically           |
+
+```
+// example using options
+npx docusaurus-migrate migrate --mdx --page ./v1-website ./v2-website
+```
+
+:::danger
+
+The migration of pages and MDX is still a work in progress. 
+
+We recommend you to try to run the pages without these options, commit, and then try to run the migration again with the --page and --mdx options. 
+
+This way, you'd be able to easily inspect and fix the diff.
+
+:::
 
 ## Example migration PRs
 
