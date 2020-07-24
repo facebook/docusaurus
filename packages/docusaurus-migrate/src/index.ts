@@ -72,6 +72,7 @@ export async function migrateDocusaurusProject(
   shouldMigratePages: boolean = false,
 ): Promise<void> {
   const siteConfig = importFresh(`${siteDir}/siteConfig`) as VersionOneConfig;
+  console.log('Starting migration from v1 to v2...');
   const config = createConfigFile(siteConfig);
   const classicPreset = config.presets[0][1];
 
@@ -82,7 +83,6 @@ export async function migrateDocusaurusProject(
     react: '^16.10.2',
     'react-dom': '^16.10.2',
   };
-  console.log('Starting migration from v1 to v2...');
   try {
     createClientRedirects(siteConfig, deps, config);
     console.log(
@@ -233,13 +233,18 @@ export function createConfigFile(
       'enableUpdateTime',
       'enableUpdateBy',
       'docsSideNavCollapsible',
+      'gaTrackingId',
     ];
     const value = siteConfig[key as keyof typeof siteConfig];
     if (value !== undefined && !knownFields.includes(key)) {
       customConfigFields[key] = value;
     }
   });
-
+  console.log(
+    `${chalk.yellow(
+      'Following Fields from siteConfig.js will be added to docusaurus.config.js in `customFields`',
+    )}\n${chalk.yellow(Object.keys(customConfigFields).join('\n'))}`,
+  );
   const result: VersionTwoConfig = {
     title: siteConfig.title ?? '',
     tagline: siteConfig.tagline,
