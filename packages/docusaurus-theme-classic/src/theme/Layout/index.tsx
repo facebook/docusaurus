@@ -9,6 +9,7 @@ import React, {ReactNode} from 'react';
 import Head from '@docusaurus/Head';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
+import DocusaurusErrorBoundary from '@docusaurus/DocusaurusErrorBoundary';
 
 import ThemeProvider from '@theme/ThemeProvider';
 import UserPreferencesProvider from '@theme/UserPreferencesProvider';
@@ -88,7 +89,9 @@ function Layout(props: Props): JSX.Element {
       </Head>
       <AnnouncementBar />
       <Navbar />
-      <div className="main-wrapper">{children}</div>
+      <div className="main-wrapper">
+        <DocusaurusErrorBoundary>{children}</DocusaurusErrorBoundary>
+      </div>
       {!noFooter && <Footer />}
     </Providers>
   );
