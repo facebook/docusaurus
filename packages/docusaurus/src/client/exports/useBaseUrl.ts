@@ -32,9 +32,11 @@ function addBaseUrl(
     return baseUrl + url;
   }
 
-  // sometimes we try to add baseurl to an url that already has a baseurl
-  // we should avoid adding the baseurl twice
-  const shouldAddBaseUrl = !url.startsWith(baseUrl);
+  const shouldAddBaseUrl =
+    // We should avoid adding the baseurl twice if it's already there
+    !url.startsWith(baseUrl) &&
+    // It does not make sense to add baseUrl to a anchor link
+    !url.startsWith('#');
 
   const basePath = shouldAddBaseUrl ? baseUrl + url.replace(/^\//, '') : url;
 
