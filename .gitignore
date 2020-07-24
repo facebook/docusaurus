@@ -30,4 +30,5 @@ packages/docusaurus-theme-classic/lib/
 packages/docusaurus-migrate/lib/
 
 website/netlifyDeploy
-_redirects
+
+website-1.x-migrated
