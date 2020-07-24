@@ -700,6 +700,7 @@ You can add option flags to the migration command to automatically migrate markd
 // example using options
 npx docusaurus-migrate migrate --mdx --page ./v1-website ./v2-website
 ```
+
 :::danger
 
 The migration of pages and MDX is still a work in progress. 
