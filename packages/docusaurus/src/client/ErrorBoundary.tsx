@@ -7,6 +7,7 @@
 
 import React from 'react';
 import {withRouter} from 'react-router-dom';
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import siteConfig from '@generated/docusaurus.config';
 
 interface Props {
@@ -38,10 +39,12 @@ class ErrorBoundary extends React.Component<Props, State> {
     } = siteConfig;
 
     // Catch errors in any components below and re-render with error message
-    this.setState({
-      error,
-      errorInfo,
-    });
+    if (ExecutionEnvironment.canUseDOM) {
+      this.setState({
+        error,
+        errorInfo,
+      });
+    }
 
     // Log our errors to the console as well
     if (logError) {
