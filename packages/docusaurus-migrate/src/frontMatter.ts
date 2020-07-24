@@ -62,5 +62,15 @@ export function shouldQuotifyFrontMatter([key, value]: [
   if (String(value).match(/^("|').+("|')$/)) {
     return false;
   }
-  return !String(value).match(/^(\w| |\.|-)+$/m);
+  // TODO weird graymatter case
+  // title: !something need quotes
+  // but not title: something!
+  if (!String(value).trim().match(/^\w.*/)) {
+    return true;
+  }
+  // TODO this is not ideal to have to maintain such a list of allowed chars
+  // maybe we should quotify if graymatter throws instead?
+  return !String(value).match(
+    /^([\w .\-sàáâãäåçèéêëìíîïðòóôõöùúûüýÿ!;,=+_?'`&#()[\]§%€$])+$/,
+  );
 }
