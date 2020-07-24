@@ -700,6 +700,15 @@ You can add option flags to the migration command to automatically migrate markd
 // example using options
 npx docusaurus-migrate migrate --mdx --page ./v1-website ./v2-website
 ```
+:::danger
+
+The migration of pages and MDX is still a work in progress. 
+
+We recommend you to try to run the pages without these options, commit, and then try to run the migration again with the --page and --mdx options. 
+
+This way, you'd be able to easily inspect and fix the diff.
+
+:::
 
 ## Example migration PRs
 
