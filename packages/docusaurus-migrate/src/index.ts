@@ -49,7 +49,7 @@ function sanitizedFileContent(
     (metaData, value) => {
       return `${metaData}\n${value[0]}: ${
         value[0] === 'tags' ||
-        !!String(value[1]).match(/^(\w| )+$/m) ||
+        !!String(value[1]).match(/^(\w| |\.|-)+$/m) ||
         String(value[1]).match(/^("|').+("|')$/)
           ? value[1]
           : `"${value[1]}"`
