@@ -36,13 +36,15 @@ function getTOC(content, headingTags = 'h2', subHeadingTags = 'h3') {
   let current;
 
   headings.forEach((heading) => {
-    const rawContent = heading.content;
-    const rendered = md.renderInline(rawContent);
-
-    const hashLink = toSlug(rawContent, slugger);
     if (!allowedHeadingLevels.includes(heading.lvl)) {
       return;
     }
+    const rawContent = heading.content;
+    const rendered = md.renderInline(rawContent);
+    const hashLink = toSlug(
+      rawContent.replace(/<([^>]+?)([^>]*?)>(.*?)<\/\1>/gi, ''),
+      slugger,
+    );
     const entry = {
       hashLink,
       rawContent,
