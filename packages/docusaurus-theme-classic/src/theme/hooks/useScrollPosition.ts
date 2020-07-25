@@ -16,8 +16,8 @@ const getScrollPosition = (): ScrollPosition => ({
 });
 
 const useScrollPosition = (
-  effect: (position: ScrollPosition) => void,
-  deps = [],
+  effect?: (position: ScrollPosition) => void,
+  deps: unknown[] = [],
 ): ScrollPosition => {
   const [scrollPosition, setScrollPosition] = useState(getScrollPosition());
 

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {useContext} from 'react';
+import {useContext, Context} from 'react';
 
 import UserPreferencesContext from '@theme/UserPreferencesContext';
 
@@ -18,7 +18,7 @@ type UserPreferencesContextProps = {
 
 function useUserPreferencesContext(): UserPreferencesContextProps {
   const context = useContext<UserPreferencesContextProps>(
-    UserPreferencesContext,
+    (UserPreferencesContext as unknown) as Context<UserPreferencesContextProps>,
   );
   if (context == null) {
     throw new Error(

@@ -8,7 +8,8 @@
   },
   "license": "MIT",
   "scripts": {
-    "build": "tsc --noEmit && yarn babel && yarn prettier",
+    "build": "yarn build:types && tsc --noEmit && yarn babel && yarn prettier",
+    "build:types": "node generate-theme-typedef.js",
     "watch": "yarn babel --watch",
     "babel": "babel src -d lib --extensions \".tsx,.ts\" --copy-files",
     "prettier": "prettier --config ../../.prettierrc --write \"**/*.{js,ts}\""

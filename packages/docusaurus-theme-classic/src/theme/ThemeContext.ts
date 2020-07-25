@@ -7,6 +7,14 @@
 
 import React from 'react';
 
-const ThemeContext = React.createContext(undefined);
+export type ThemeContextProps = {
+  isDarkTheme: boolean;
+  setLightTheme: () => void;
+  setDarkTheme: () => void;
+};
+
+const ThemeContext = React.createContext<ThemeContextProps | undefined>(
+  undefined,
+);
 
 export default ThemeContext;
