@@ -102,7 +102,7 @@ class MarkdownRenderer {
     const md = new Markdown(markdownOptions);
 
     // Register anchors plugin
-    md.use(anchors);
+    md.use(anchors, siteConfig.slugPreprocessor);
 
     // Linkify
     md.use(linkify);

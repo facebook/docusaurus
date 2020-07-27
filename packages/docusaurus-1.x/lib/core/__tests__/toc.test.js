@@ -42,7 +42,7 @@ describe('getTOC', () => {
   test('html tag in source', () => {
     const headings = getTOC(`## <a name="foo"></a> Foo`, 'h2', []);
 
-    expect(headings[0].hashLink).toEqual('foo');
+    expect(headings[0].hashLink).toEqual('a-namefooa-foo');
     expect(headings[0].rawContent).toEqual(`<a name="foo"></a> Foo`);
     expect(headings[0].content).toEqual(`<a name="foo"></a> Foo`);
   });
@@ -50,7 +50,7 @@ describe('getTOC', () => {
   test('transform markdown syntax to html syntax', () => {
     const headings = getTOC(`## <a name="foo"></a> _Foo_`, 'h2', []);
 
-    expect(headings[0].hashLink).toEqual('_foo_');
+    expect(headings[0].hashLink).toEqual('a-namefooa-_foo_');
     expect(headings[0].rawContent).toEqual(`<a name="foo"></a> _Foo_`);
     expect(headings[0].content).toEqual(`<a name="foo"></a> <em>Foo</em>`);
 
@@ -68,6 +68,16 @@ describe('getTOC', () => {
     expect(headings[0].hashLink).toEqual('function1-arraystring');
     expect(headings[0].rawContent).toEqual(`function1 [array<string>]`);
     expect(headings[0].content).toEqual(`function1 [array<string>]`);
+  });
+
+  test('test slugPreprocessor', () => {
+    const headings = getTOC(`## <a name="foo"></a> Foo`, 'h2', [], (s) =>
+      s.replace(/foo/gi, 'bar'),
+    );
+
+    expect(headings[0].hashLink).toEqual('a-namebara-bar');
+    expect(headings[0].rawContent).toEqual(`<a name="foo"></a> Foo`);
+    expect(headings[0].content).toEqual(`<a name="foo"></a> Foo`);
   });
 });
 
