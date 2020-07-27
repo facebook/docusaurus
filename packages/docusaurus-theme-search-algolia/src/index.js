@@ -10,10 +10,11 @@ const fs = require('fs');
 const eta = require('eta');
 const {normalizeUrl} = require('@docusaurus/utils');
 const openSearchTemplate = require('./templates/opensearch');
+const {validateOptions} = require('./validateOptions');
 
 const OPEN_SEARCH_FILENAME = 'opensearch.xml';
 
-module.exports = function (context) {
+function plugin(context) {
   const {
     baseUrl,
     siteConfig: {title, url, favicon},
@@ -70,4 +71,8 @@ module.exports = function (context) {
       };
     },
   };
-};
+}
+
+module.exports = plugin;
+
+plugin.validateOptions = validateOptions;
