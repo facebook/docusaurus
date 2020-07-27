@@ -17,7 +17,7 @@ const allDocHomesPaths = [
 const baseUrl = process.env.BASE_URL || '/';
 
 module.exports = {
-  title: 'Docusaurus',
+  titles: 'Docusaurus',
   tagline: 'Build optimized websites quickly, focus on your content',
   organizationName: 'facebook',
   projectName: 'docusaurus',

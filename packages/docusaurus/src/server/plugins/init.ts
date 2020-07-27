@@ -20,7 +20,10 @@ import {CONFIG_FILE_NAME} from '../../constants';
 import {getPluginVersion} from '../versions';
 import {ensureUniquePluginInstanceIds} from './pluginIds';
 import * as Joi from '@hapi/joi';
-import {isValidationDisabledEscapeHatch} from '../isValidationDisabledEscapeHatch';
+import {
+  isValidationDisabledEscapeHatch,
+  logValidationBugReportHint,
+} from '../validationUtils';
 
 function pluginOptionsValidator<T>(
   schema: ValidationSchema<T>,
@@ -35,6 +38,7 @@ function pluginOptionsValidator<T>(
     convert: false,
   });
   if (error) {
+    logValidationBugReportHint();
     if (isValidationDisabledEscapeHatch) {
       console.error(error);
       return options;
@@ -58,6 +62,7 @@ function themeConfigValidator<T>(
   });
 
   if (error) {
+    logValidationBugReportHint();
     if (isValidationDisabledEscapeHatch) {
       console.error(error);
       return themeConfig;

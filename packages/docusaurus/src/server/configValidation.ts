@@ -8,7 +8,10 @@
 import {DocusaurusConfig} from '@docusaurus/types';
 import {CONFIG_FILE_NAME} from '../constants';
 import Joi from '@hapi/joi';
-import {isValidationDisabledEscapeHatch} from './isValidationDisabledEscapeHatch';
+import {
+  isValidationDisabledEscapeHatch,
+  logValidationBugReportHint,
+} from './validationUtils';
 
 export const DEFAULT_CONFIG: Pick<
   DocusaurusConfig,
@@ -86,6 +89,7 @@ export function validateConfig(
     abortEarly: false,
   });
   if (error) {
+    logValidationBugReportHint();
     if (isValidationDisabledEscapeHatch) {
       console.error(error);
       return config as DocusaurusConfig;
