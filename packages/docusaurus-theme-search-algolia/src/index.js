@@ -10,11 +10,11 @@ const fs = require('fs');
 const eta = require('eta');
 const {normalizeUrl} = require('@docusaurus/utils');
 const openSearchTemplate = require('./templates/opensearch');
-const {validateOptions} = require('./validateOptions');
+const {validateThemeConfig} = require('./validateThemeConfig');
 
 const OPEN_SEARCH_FILENAME = 'opensearch.xml';
 
-function plugin(context) {
+function theme(context) {
   const {
     baseUrl,
     siteConfig: {title, url, favicon},
@@ -73,6 +73,6 @@ function plugin(context) {
   };
 }
 
-module.exports = plugin;
+module.exports = theme;
 
-plugin.validateOptions = validateOptions;
+theme.validateThemeConfig = validateThemeConfig;
