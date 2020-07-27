@@ -158,6 +158,21 @@ Example:
 ```js title="docusaurus.config.js"
 module.exports = {
   themeConfig: {
+    colorMode: {
+      defaultMode: 'light',
+      disableSwitch: false,
+      respectPrefersColorScheme: true,
+      switchConfig: {
+        darkIcon: '🌙',
+        darkIconStyle: {
+          marginLeft: '2px',
+        },
+        lightIcon: '☀️',
+        lightIconStyle: {
+          marginLeft: '1px',
+        },
+      },
+    },
     navbar: {
       title: 'Site Title',
       logo: {
