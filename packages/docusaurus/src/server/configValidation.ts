@@ -66,14 +66,14 @@ const ConfigSchema = Joi.object({
       src: Joi.string().required(),
       async: Joi.bool(),
       defer: Joi.bool(),
-    }).oxor('async', 'defer'),
+    }),
   ),
   stylesheets: Joi.array().items(
     Joi.string(),
     Joi.object({
       href: Joi.string().uri().required(),
       type: Joi.string().required(),
-    }),
+    }).unknown(),
   ),
   tagline: Joi.string(),
 });
