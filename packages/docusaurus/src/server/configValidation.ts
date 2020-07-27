@@ -8,6 +8,7 @@
 import {DocusaurusConfig} from '@docusaurus/types';
 import {CONFIG_FILE_NAME} from '../constants';
 import Joi from '@hapi/joi';
+import {isValidationDisabledEscapeHatch} from './isValidationDisabledEscapeHatch';
 
 export const DEFAULT_CONFIG: Pick<
   DocusaurusConfig,
@@ -85,6 +86,11 @@ export function validateConfig(
     abortEarly: false,
   });
   if (error) {
+    if (isValidationDisabledEscapeHatch) {
+      console.error(error);
+      return config as DocusaurusConfig;
+    }
+
     const unknownFields = error.details.reduce((formattedError, err) => {
       if (err.type === 'object.unknown') {
         return `${formattedError}"${err.path}",`;

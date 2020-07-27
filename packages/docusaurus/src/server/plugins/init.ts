@@ -20,6 +20,7 @@ import {CONFIG_FILE_NAME} from '../../constants';
 import {getPluginVersion} from '../versions';
 import {ensureUniquePluginInstanceIds} from './pluginIds';
 import * as Joi from '@hapi/joi';
+import {isValidationDisabledEscapeHatch} from '../isValidationDisabledEscapeHatch';
 
 function pluginOptionsValidator<T>(
   schema: ValidationSchema<T>,
@@ -34,25 +35,35 @@ function pluginOptionsValidator<T>(
     convert: false,
   });
   if (error) {
-    throw error;
+    if (isValidationDisabledEscapeHatch) {
+      console.error(error);
+      return options;
+    } else {
+      throw error;
+    }
   }
   return value;
 }
 
 function themeConfigValidator<T>(
   schema: ValidationSchema<T>,
-  options: Partial<T>,
+  themeConfig: Partial<T>,
 ) {
   // A theme should only validate his "slice" of the full themeConfig,
   // not the whole object, so we allow unknown attributes to pass a theme validation
   const finalSchema = schema.unknown();
 
-  const {error, value} = finalSchema.validate(options, {
+  const {error, value} = finalSchema.validate(themeConfig, {
     convert: false,
   });
 
   if (error) {
-    throw error;
+    if (isValidationDisabledEscapeHatch) {
+      console.error(error);
+      return themeConfig;
+    } else {
+      throw error;
+    }
   }
   return value;
 }
