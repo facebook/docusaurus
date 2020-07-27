@@ -16,12 +16,6 @@
 .toggle::before {
   position: absolute;
 }
-.dark::before {
-  content: '\1F31C';
-}
-.light::before {
-  content: '\1F31E';
-}
 
 /**
  * styles for React Toggle
