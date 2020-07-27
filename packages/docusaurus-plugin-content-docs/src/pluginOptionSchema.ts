@@ -37,12 +37,19 @@ export const PluginOptionSchema = Joi.object({
   docItemComponent: Joi.string().default(DEFAULT_OPTIONS.docItemComponent),
   remarkPlugins: Joi.array()
     .items(
-      Joi.array().items(Joi.function(), Joi.object()).length(2),
+      Joi.array()
+        .items(Joi.function().required(), Joi.object().required())
+        .length(2),
       Joi.function(),
     )
     .default(DEFAULT_OPTIONS.remarkPlugins),
   rehypePlugins: Joi.array()
-    .items(Joi.string())
+    .items(
+      Joi.array()
+        .items(Joi.function().required(), Joi.object().required())
+        .length(2),
+      Joi.function(),
+    )
     .default(DEFAULT_OPTIONS.rehypePlugins),
   showLastUpdateTime: Joi.bool().default(DEFAULT_OPTIONS.showLastUpdateTime),
   showLastUpdateAuthor: Joi.bool().default(
