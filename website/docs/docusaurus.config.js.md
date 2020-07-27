@@ -167,7 +167,7 @@ module.exports = {
         darkIconStyle: {
           marginLeft: '2px',
         },
-        lightIcon: '☀️',
+        lightIcon: '\u2600',
         lightIconStyle: {
           marginLeft: '1px',
         },
