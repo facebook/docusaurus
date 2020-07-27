@@ -102,6 +102,15 @@ const ColorModeSchema = Joi.object({
   defaultMode: Joi.string().equal('dark', 'light').default('light'),
   disableSwitch: Joi.bool().default(false),
   respectPrefersColorScheme: Joi.bool().default(false),
+  switchConfig: Joi.object({
+    darkIcon: Joi.string().default('🌜'),
+    darkIconStyle: Joi.object(),
+    lightIcon: Joi.string().default('🌞'),
+    lightIconStyle: Joi.object(),
+  }).default({
+    darkIcon: '🌜',
+    lightIcon: '🌞',
+  }),
 }).default({
   defaultMode: 'light',
   disableSwitch: false,
