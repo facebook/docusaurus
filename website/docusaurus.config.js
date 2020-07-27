@@ -147,18 +147,6 @@ module.exports = {
       defaultMode: 'light',
       disableSwitch: false,
       respectPrefersColorScheme: true,
-      switchConfig: {
-        darkIconStyle: `
-          content: '\\1F319';
-          margin-top: 1px;
-          margin-left: 2px;
-        `,
-        lightIconStyle: `
-          content: '\\2600';
-          color: #ffd557;
-          margin-left: 1px;
-        `,
-      },
     },
     announcementBar: {
       id: 'supportus',
