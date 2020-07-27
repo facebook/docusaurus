@@ -13,17 +13,27 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import clsx from 'clsx';
 import styles from './styles.module.css';
 
-const Moon = () => <span className={clsx(styles.toggle, styles.moon)} />;
-const Sun = () => <span className={clsx(styles.toggle, styles.sun)} />;
+const Dark = ({style}) => (
+  <span className={clsx(styles.toggle, styles.dark)} style={style} />
+);
+const Light = ({style}) => (
+  <span className={clsx(styles.toggle, styles.light)} style={style} />
+);
 
 export default function (props: ComponentProps<typeof Toggle>): JSX.Element {
-  const {isClient} = useDocusaurusContext();
+  const {isClient, siteConfig = {}} = useDocusaurusContext();
+
+  const {
+    themeConfig: {
+      switchConfig: {darkIconStyle, lightIconStyle},
+    },
+  } = siteConfig;
   return (
     <Toggle
       disabled={!isClient}
       icons={{
-        checked: <Moon />,
-        unchecked: <Sun />,
+        checked: <Dark style={darkIconStyle} />,
+        unchecked: <Light style={lightIconStyle} />,
       }}
       {...props}
     />

@@ -16,10 +16,10 @@
 .toggle::before {
   position: absolute;
 }
-.moon::before {
+.dark::before {
   content: '\1F31C';
 }
-.sun::before {
+.light::before {
   content: '\1F31E';
 }
 
