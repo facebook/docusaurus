@@ -128,17 +128,7 @@ function DocSearch(props) {
 }
 
 function SearchBar() {
-  const {siteConfig = {}} = useDocusaurusContext();
-
-  if (!siteConfig.themeConfig.algolia) {
-    // eslint-disable-next-line no-console
-    console.warn(`DocSearch requires an \`algolia\` field in your \`themeConfig\`.
-
-See: https://v2.docusaurus.io/docs/search/#using-algolia-docsearch`);
-
-    return null;
-  }
-
+  const {siteConfig} = useDocusaurusContext();
   return <DocSearch {...siteConfig.themeConfig.algolia} />;
 }
 
