@@ -28,7 +28,7 @@ export const DEFAULT_OPTIONS = {
 
 export const PluginOptionSchema = Joi.object({
   path: Joi.string().default(DEFAULT_OPTIONS.path),
-  routeBasePath: Joi.string().default(DEFAULT_OPTIONS.routeBasePath),
+  routeBasePath: Joi.string().allow('').default(DEFAULT_OPTIONS.routeBasePath),
   include: Joi.array().items(Joi.string()).default(DEFAULT_OPTIONS.include),
   postsPerPage: Joi.number()
     .integer()

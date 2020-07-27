@@ -29,7 +29,7 @@ export const DEFAULT_OPTIONS: PluginOptions = {
 export const PluginOptionSchema = Joi.object({
   path: Joi.string().default(DEFAULT_OPTIONS.path),
   editUrl: Joi.string().uri(),
-  routeBasePath: Joi.string().default(DEFAULT_OPTIONS.routeBasePath),
+  routeBasePath: Joi.string().allow('').default(DEFAULT_OPTIONS.routeBasePath),
   homePageId: Joi.string().default(DEFAULT_OPTIONS.homePageId),
   include: Joi.array().items(Joi.string()).default(DEFAULT_OPTIONS.include),
   sidebarPath: Joi.string().default(DEFAULT_OPTIONS.sidebarPath),
