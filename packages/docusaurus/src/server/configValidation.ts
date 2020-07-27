@@ -6,8 +6,8 @@
  */
 
 import {DocusaurusConfig} from '@docusaurus/types';
-import Joi from '@hapi/joi';
 import {CONFIG_FILE_NAME} from '../constants';
+import Joi from '@hapi/joi';
 
 export const DEFAULT_CONFIG: Pick<
   DocusaurusConfig,
