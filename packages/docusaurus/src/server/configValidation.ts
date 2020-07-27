@@ -71,7 +71,7 @@ const ConfigSchema = Joi.object({
   stylesheets: Joi.array().items(
     Joi.string(),
     Joi.object({
-      href: Joi.string().uri().required(),
+      href: Joi.string().required(),
       type: Joi.string().required(),
     }).unknown(),
   ),
