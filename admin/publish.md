@@ -101,7 +101,7 @@ Test running the website with the new version locally.
 
 You should still be on your local branch `<your_username>/<version_to_release>`
 
-Make a commit/push, create a pull request with the changes. 
+Make a commit/push, create a pull request with the changes.
 
 Don't merge it, just check that the CI is ok with your changes.
 
