@@ -15,6 +15,7 @@ import {
   RouteConfig,
 } from '@docusaurus/types';
 import initPlugins, {InitPlugin} from './init';
+import chalk from 'chalk';
 
 const DefaultPluginId = 'default';
 
@@ -143,6 +144,14 @@ export async function loadPlugins({
       if (!plugin.routesLoaded) {
         return null;
       }
+
+      // TODO remove this deprecated lifecycle soon
+      // deprecated since alpha-60
+      console.error(
+        chalk.red(
+          'plugin routesLoaded lifecycle is deprecated. If you think we should keep this lifecycle, please open a Github issue with your usecase',
+        ),
+      );
 
       return plugin.routesLoaded(pluginsRouteConfigs);
     }),
