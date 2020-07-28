@@ -18,7 +18,7 @@ export default function normalizePluginOptions(options) {
   }
 }
 
-// remark and rehype plugins are of function type
+// the type of remark/rehype plugins is function
 const remarkRehypePluginStub = () => {};
 
 describe('normalizeDocsPluginOptions', () => {

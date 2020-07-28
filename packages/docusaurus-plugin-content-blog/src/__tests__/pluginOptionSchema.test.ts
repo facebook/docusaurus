@@ -7,7 +7,7 @@
 
 import {PluginOptionSchema, DEFAULT_OPTIONS} from '../pluginOptionSchema';
 
-// remark and rehype plugins are of function type
+// the type of remark/rehype plugins is function
 const remarkRehypePluginStub = () => {};
 
 test('should normalize options', () => {
@@ -31,9 +31,10 @@ test('should accept correctly defined user options', () => {
   });
 });
 
-test('should accept correctly defined remark and rehype plugin options', async () => {
+test('should accept valid user options', async () => {
   const userOptions = {
     ...DEFAULT_OPTIONS,
+    routebasePath: '',
     beforeDefaultRemarkPlugins: [],
     beforeDefaultRehypePlugins: [remarkRehypePluginStub],
     remarkPlugins: [remarkRehypePluginStub, {option1: '42'}],
