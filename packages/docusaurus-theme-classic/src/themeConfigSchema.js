@@ -144,7 +144,7 @@ const ThemeConfigSchema = Joi.object({
         'themeConfig.navbar.links has been renamed as themeConfig.navbar.items',
     }),
     items: Joi.array().items(NavbarItemSchema),
-    title: Joi.string().required(),
+    title: Joi.string().allow('', null),
     logo: Joi.object({
       alt: Joi.string(),
       src: Joi.string().required(),

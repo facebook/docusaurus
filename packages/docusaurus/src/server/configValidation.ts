@@ -6,8 +6,8 @@
  */
 
 import {DocusaurusConfig} from '@docusaurus/types';
-import Joi from '@hapi/joi';
 import {CONFIG_FILE_NAME} from '../constants';
+import Joi from '@hapi/joi';
 
 export const DEFAULT_CONFIG: Pick<
   DocusaurusConfig,
@@ -66,14 +66,14 @@ const ConfigSchema = Joi.object({
       src: Joi.string().required(),
       async: Joi.bool(),
       defer: Joi.bool(),
-    }).oxor('async', 'defer'),
+    }),
   ),
   stylesheets: Joi.array().items(
     Joi.string(),
     Joi.object({
-      href: Joi.string().uri().required(),
+      href: Joi.string().required(),
       type: Joi.string().required(),
-    }),
+    }).unknown(),
   ),
   tagline: Joi.string(),
 });
