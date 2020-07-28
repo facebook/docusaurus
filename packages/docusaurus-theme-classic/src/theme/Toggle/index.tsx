@@ -30,8 +30,13 @@ export default function (props: ComponentProps<typeof Toggle>): JSX.Element {
   const {
     themeConfig: {
       colorMode: {
-        switchConfig: {darkIcon, darkIconStyle, lightIcon, lightIconStyle},
-      },
+        switchConfig: {
+          darkIcon = '🌜',
+          darkIconStyle = {},
+          lightIcon = '🌞',
+          lightIconStyle = {},
+        } = {},
+      } = {},
     },
   } = siteConfig;
   return (
