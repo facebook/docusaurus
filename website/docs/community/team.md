@@ -4,157 +4,60 @@ title: Team
 slug: /team
 ---
 
+import TeamProfileCard from "@site/src/components/TeamProfileCard"
+
 ## Active Team
 
 <div className="row">
-  <div className="col col--6 margin-bottom--lg">
-    <div className="card card--full-height">
-      <div className="card__header">
-        <div className="avatar avatar--vertical">
-          <img
-            className="avatar__photo avatar__photo--xl"
-            src="https://github.com/lex111.png"
-          />
-          <div className="avatar__intro">
-            <h3 className="avatar__name">Alexey Pyltsyn</h3>
-          </div>
-        </div>
-      </div>
-      <div className="card__body">
-        Obsessed open-source enthusiast 👋 Eternal amateur at everything 🤷‍♂️ Maintainer of Russian docs on PHP, React, Kubernetes and much more 🧐
-      </div>
-      <div className="card__footer">
-        <div className="button-group button-group--block">
-          <a className="button button--secondary" href="https://github.com/lex111">GitHub</a>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div className="col col--6 margin-bottom--lg">
-    <div className="card card--full-height">
-      <div className="card__header">
-        <div className="avatar avatar--vertical">
-          <img
-            className="avatar__photo avatar__photo--xl"
-            src="https://github.com/fanny.png"
-          />
-          <div className="avatar__intro">
-            <h3 className="avatar__name">Fanny Vieira</h3>
-          </div>
-        </div>
-      </div>
-      <div className="card__body">
-        Fanny got started with web development in high school, building a project for the school kitchen. In her free time she loves contributing to Open Source, occasionally writing on <a href="https://dev.to/fannyvieira" target="_blank">her blog</a> about her experiences, cooking, and creating <a href="https://open.spotify.com/user/anotherfanny" target="_blank">Spotify playlists</a>.
-      </div>
-      <div className="card__footer">
-        <div className="button-group button-group--block">
-          <a className="button button--secondary" href="https://github.com/fanny">GitHub</a>
-          <a className="button button--secondary" href="https://twitter.com/fannyvieiira">Twitter</a>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div className="col col--6 margin-bottom--lg">
-    <div className="card card--full-height">
-      <div className="card__header">
-        <div className="avatar avatar--vertical">
-          <img
-            className="avatar__photo avatar__photo--xl"
-            src="https://github.com/JoelMarcey.png"
-          />
-          <div className="avatar__intro">
-            <h3 className="avatar__name">Joel Marcey</h3>
-          </div>
-        </div>
-      </div>
-      <div className="card__body">
-        Docusaurus founder and now ever grateful Docusaurus cheerleader to those who actually write code for it.
-      </div>
-      <div className="card__footer">
-        <div className="button-group button-group--block">
-          <a className="button button--secondary" href="https://github.com/JoelMarcey">GitHub</a>
-          <a className="button button--secondary" href="https://twitter.com/joelmarcey">Twitter</a>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div className="col col--6 margin-bottom--lg">
-    <div className="card card--full-height">
-      <div className="card__header">
-        <div className="avatar avatar--vertical">
-          <img
-            className="avatar__photo avatar__photo--xl"
-            src="https://github.com/yangshun.png"
-          />
-          <div className="avatar__intro">
-            <h3 className="avatar__name">Yangshun Tay</h3>
-          </div>
-        </div>
-      </div>
-      <div className="card__body">
-        Full Front End Stack developer who likes working on the Jamstack. Working on Docusaurus made him Facebook's unofficial part-time Open Source webmaster, which is an awesome role to be in.
-      </div>
-      <div className="card__footer">
-        <div className="button-group button-group--block">
-          <a className="button button--secondary" href="https://github.com/yangshun">GitHub</a>
-          <a className="button button--secondary" href="https://twitter.com/yangshunz">Twitter</a>
-        </div>
-      </div>
-    </div>
-  </div>
+  <TeamProfileCard 
+    name="Alexey Pyltsyn" 
+    githubUrl="https://github.com/lex111"
+  >
+    Obsessed open-source enthusiast 👋 Eternal amateur at everything 🤷‍♂️ Maintainer of Russian docs on PHP, React, Kubernetes and much more 🧐
+  </TeamProfileCard>
+  <TeamProfileCard 
+    name="Fanny Vieira" 
+    githubUrl="https://github.com/fanny"
+    twitterUrl="https://twitter.com/fannyvieiira"
+  >
+    Fanny got started with web development in high school, building a project for the school kitchen. In her free time she loves contributing to Open Source, occasionally writing on <a href="https://dev.to/fannyvieira" target="_blank">her blog</a> about her experiences, cooking, and creating <a href="https://open.spotify.com/user/anotherfanny" target="_blank">Spotify playlists</a>.
+  </TeamProfileCard>
+  <TeamProfileCard 
+    name="Joel Marcey" 
+    githubUrl="https://github.com/JoelMarcey"
+    twitterUrl="https://twitter.com/joelmarcey"
+  >
+    Docusaurus founder and now ever grateful Docusaurus cheerleader to those who actually write code for it.
+  </TeamProfileCard>
+  <TeamProfileCard 
+    name="Sébastien Lorber" 
+    githubUrl="https://github.com/slorber"
+    twitterUrl="https://twitter.com/sebastienlorber"
+  >
+    React lover since 2014. Freelance, helping Facebook ship Docusaurus v2.
+  </TeamProfileCard>
+  <TeamProfileCard 
+    name="Yangshun Tay" 
+    githubUrl="https://github.com/yangshun"
+    twitterUrl="https://twitter.com/yangshunz"
+  >
+    Full Front End Stack developer who likes working on the Jamstack. Working on Docusaurus made him Facebook's unofficial part-time Open Source webmaster, which is an awesome role to be in.
+  </TeamProfileCard>
 </div>
 
 ## Honorary Alumni
 
 <div className="row">
-  <div className="col col--6 margin-bottom--lg">
-    <div className="card card--full-height">
-      <div className="card__header">
-        <div className="avatar avatar--vertical">
-          <img
-            className="avatar__photo avatar__photo--xl"
-            src="https://github.com/endiliey.png"
-          />
-          <div className="avatar__intro">
-            <h3 className="avatar__name">Endilie Yacop Sucipto</h3>
-          </div>
-        </div>
-      </div>
-      <div className="card__body">
-        Maintainer @docusaurus · 🔥🔥🔥
-      </div>
-      <div className="card__footer">
-        <div className="button-group button-group--block">
-          <a className="button button--secondary" href="https://github.com/endiliey">GitHub</a>
-          <a className="button button--secondary" href="https://twitter.com/endiliey">Twitter</a>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div className="col col--6 margin-bottom--lg">
-    <div className="card card--full-height">
-      <div className="card__header">
-        <div className="avatar avatar--vertical">
-          <img
-            className="avatar__photo avatar__photo--xl"
-            src="https://github.com/wgao19.png"
-          />
-          <div className="avatar__intro">
-            <h3 className="avatar__name">Wei Gao</h3>
-          </div>
-        </div>
-      </div>
-      <div className="card__body">
-        👩🏻‍🌾 Work in progress React developer, maintains Docusaurus, writes docs and spams this world with many websites.
-      </div>
-      <div className="card__footer">
-        <div className="button-group button-group--block">
-          <a className="button button--secondary" href="https://github.com/wgao19">GitHub</a>
-          <a className="button button--secondary" href="https://twitter.com/wgao19">Twitter</a>
-        </div>
-      </div>
-    </div>
-  </div>
+  <TeamProfileCard name="Endilie Yacop Sucipto" githubUrl="https://github.com/endiliey" twitterUrl="https://twitter.com/endiliey">
+    Maintainer @docusaurus · 🔥🔥🔥
+  </TeamProfileCard>
+  <TeamProfileCard 
+    name="Wei Gao" 
+    githubUrl="https://github.com/wgao19"
+    twitterUrl="https://twitter.com/wgao19"
+  >
+    🏻‍🌾 Work in progress React developer, maintains Docusaurus, writes docs and spams this world with many websites.
+  </TeamProfileCard>
 </div>
 
 ## Acknowledgements
