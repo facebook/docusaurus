@@ -30,6 +30,13 @@ interface Props {
   readonly 'data-noBrokenLinkCheck'?: boolean;
 }
 
+// TODO all this wouldn't be necessary if we used ReactRouter basename feature
+// We don't automatically add base urls to all links,
+// only the "safe" ones, starting with / (like /docs/introduction)
+// this is because useBaseUrl() actually transforms relative links
+// like "introduction" to "/baseUrl/introduction" => bad behavior to fix
+const shouldAddBaseUrlAutomatically = (to: string) => to.startsWith('/');
+
 function Link({
   isNavLink,
   to,
@@ -47,12 +54,17 @@ function Link({
   // internal links (/docs/myDoc) from external links (https://github.com)
   const targetLinkUnprefixed = to || href;
 
+  function maybeAddBaseUrl(str: string) {
+    return shouldAddBaseUrlAutomatically(str)
+      ? withBaseUrl(str)
+      : targetLinkUnprefixed;
+  }
+
   // TODO we should use ReactRouter basename feature instead!
   // Automatically apply base url in links that start with /
   const targetLink =
-    typeof targetLinkUnprefixed !== 'undefined' &&
-    targetLinkUnprefixed.startsWith('/')
-      ? withBaseUrl(targetLinkUnprefixed)
+    typeof targetLinkUnprefixed !== 'undefined'
+      ? maybeAddBaseUrl(targetLinkUnprefixed)
       : undefined;
 
   const isInternal = isInternalUrl(targetLink);
