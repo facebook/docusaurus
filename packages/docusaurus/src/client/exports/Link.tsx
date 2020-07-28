@@ -11,6 +11,7 @@ import {NavLink, Link as RRLink} from 'react-router-dom';
 import isInternalUrl from './isInternalUrl';
 import ExecutionEnvironment from './ExecutionEnvironment';
 import {useLinksCollector} from '../LinksCollector';
+import {useBaseUrlUtils} from './useBaseUrl';
 
 declare global {
   interface Window {
@@ -37,13 +38,22 @@ function Link({
   'data-noBrokenLinkCheck': noBrokenLinkCheck,
   ...props
 }: Props): JSX.Element {
+  const {withBaseUrl} = useBaseUrlUtils();
   const linksCollector = useLinksCollector();
 
   // IMPORTANT: using to or href should not change anything
   // For example, MDX links will ALWAYS give us the href props
   // Using one prop or the other should not be used to distinguish
   // internal links (/docs/myDoc) from external links (https://github.com)
-  const targetLink = to || href;
+  const targetLinkUnprefixed = to || href;
+
+  // TODO we should use ReactRouter basename feature instead!
+  // Automatically apply base url in links that start with /
+  const targetLink =
+    typeof targetLinkUnprefixed !== 'undefined' &&
+    targetLinkUnprefixed.startsWith('/')
+      ? withBaseUrl(targetLinkUnprefixed)
+      : undefined;
 
   const isInternal = isInternalUrl(targetLink);
   const preloaded = useRef(false);
