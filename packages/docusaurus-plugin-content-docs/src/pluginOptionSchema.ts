@@ -29,7 +29,7 @@ export const DEFAULT_OPTIONS: PluginOptions = {
 export const PluginOptionSchema = Joi.object({
   path: Joi.string().default(DEFAULT_OPTIONS.path),
   editUrl: Joi.string().uri(),
-  routeBasePath: Joi.string().default(DEFAULT_OPTIONS.routeBasePath),
+  routeBasePath: Joi.string().allow('').default(DEFAULT_OPTIONS.routeBasePath),
   homePageId: Joi.string().default(DEFAULT_OPTIONS.homePageId),
   include: Joi.array().items(Joi.string()).default(DEFAULT_OPTIONS.include),
   sidebarPath: Joi.string().default(DEFAULT_OPTIONS.sidebarPath),
@@ -37,12 +37,19 @@ export const PluginOptionSchema = Joi.object({
   docItemComponent: Joi.string().default(DEFAULT_OPTIONS.docItemComponent),
   remarkPlugins: Joi.array()
     .items(
-      Joi.array().items(Joi.function(), Joi.object()).length(2),
+      Joi.array()
+        .items(Joi.function().required(), Joi.object().required())
+        .length(2),
       Joi.function(),
     )
     .default(DEFAULT_OPTIONS.remarkPlugins),
   rehypePlugins: Joi.array()
-    .items(Joi.string())
+    .items(
+      Joi.array()
+        .items(Joi.function().required(), Joi.object().required())
+        .length(2),
+      Joi.function(),
+    )
     .default(DEFAULT_OPTIONS.rehypePlugins),
   showLastUpdateTime: Joi.bool().default(DEFAULT_OPTIONS.showLastUpdateTime),
   showLastUpdateAuthor: Joi.bool().default(

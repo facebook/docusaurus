@@ -5,21 +5,24 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {PluginConfig, DocusaurusConfig} from '@docusaurus/types';
-import Joi from '@hapi/joi';
+import {DocusaurusConfig} from '@docusaurus/types';
 import {CONFIG_FILE_NAME} from '../constants';
+import Joi from '@hapi/joi';
+import {
+  isValidationDisabledEscapeHatch,
+  logValidationBugReportHint,
+} from './validationUtils';
 
-export const DEFAULT_CONFIG: {
-  plugins: PluginConfig[];
-  themes: PluginConfig[];
-  presets: PluginConfig[];
-  customFields: {
-    [key: string]: unknown;
-  };
-  themeConfig: {
-    [key: string]: unknown;
-  };
-} = {
+export const DEFAULT_CONFIG: Pick<
+  DocusaurusConfig,
+  | 'onBrokenLinks'
+  | 'plugins'
+  | 'themes'
+  | 'presets'
+  | 'customFields'
+  | 'themeConfig'
+> = {
+  onBrokenLinks: 'throw',
   plugins: [],
   themes: [],
   presets: [],
@@ -50,6 +53,9 @@ const ConfigSchema = Joi.object({
   favicon: Joi.string().required(),
   title: Joi.string().required(),
   url: Joi.string().uri().required(),
+  onBrokenLinks: Joi.string()
+    .equal('ignore', 'log', 'error', 'throw')
+    .default(DEFAULT_CONFIG.onBrokenLinks),
   organizationName: Joi.string(),
   projectName: Joi.string(),
   customFields: Joi.object().unknown().default(DEFAULT_CONFIG.customFields),
@@ -64,14 +70,14 @@ const ConfigSchema = Joi.object({
       src: Joi.string().required(),
       async: Joi.bool(),
       defer: Joi.bool(),
-    }).oxor('async', 'defer'),
+    }),
   ),
   stylesheets: Joi.array().items(
     Joi.string(),
     Joi.object({
-      href: Joi.string().uri().required(),
+      href: Joi.string().required(),
       type: Joi.string().required(),
-    }),
+    }).unknown(),
   ),
   tagline: Joi.string(),
 });
@@ -83,6 +89,12 @@ export function validateConfig(
     abortEarly: false,
   });
   if (error) {
+    logValidationBugReportHint();
+    if (isValidationDisabledEscapeHatch) {
+      console.error(error);
+      return config as DocusaurusConfig;
+    }
+
     const unknownFields = error.details.reduce((formattedError, err) => {
       if (err.type === 'object.unknown') {
         return `${formattedError}"${err.path}",`;

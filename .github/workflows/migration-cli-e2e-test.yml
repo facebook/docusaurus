@@ -1,0 +1,32 @@
+name: MIGRATION CLI E2E TEST
+
+on:
+  # Trigger the workflow on push or pull request,
+  # but only for the master branch
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [10.x]
+    steps:
+      - uses: actions/checkout@v1
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Installation
+        run: yarn
+      - name: Migrate D1 website
+        run: yarn test:v1Migration:migrate
+      - name: Build D1 migrated website
+        run: yarn test:v1Migration:build
+        env:
+          CI: true

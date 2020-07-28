@@ -10,6 +10,7 @@ import React, {ReactNode, useEffect, useRef} from 'react';
 import {NavLink, Link as RRLink} from 'react-router-dom';
 import isInternalUrl from './isInternalUrl';
 import ExecutionEnvironment from './ExecutionEnvironment';
+import {useLinksCollector} from '../LinksCollector';
 
 declare global {
   interface Window {
@@ -20,14 +21,30 @@ declare global {
 interface Props {
   readonly isNavLink?: boolean;
   readonly to?: string;
+  readonly href?: string;
   readonly activeClassName?: string;
-  readonly href: string;
   readonly children?: ReactNode;
+
+  // escape hatch in case broken links check is annoying for a specific link
+  readonly 'data-noBrokenLinkCheck'?: boolean;
 }
 
-function Link({isNavLink, activeClassName, ...props}: Props): JSX.Element {
-  const {to, href} = props;
+function Link({
+  isNavLink,
+  to,
+  href,
+  activeClassName,
+  'data-noBrokenLinkCheck': noBrokenLinkCheck,
+  ...props
+}: Props): JSX.Element {
+  const linksCollector = useLinksCollector();
+
+  // IMPORTANT: using to or href should not change anything
+  // For example, MDX links will ALWAYS give us the href props
+  // Using one prop or the other should not be used to distinguish
+  // internal links (/docs/myDoc) from external links (https://github.com)
   const targetLink = to || href;
+
   const isInternal = isInternalUrl(targetLink);
   const preloaded = useRef(false);
   const LinkComponent = isNavLink ? NavLink : RRLink;
@@ -84,10 +101,16 @@ function Link({isNavLink, activeClassName, ...props}: Props): JSX.Element {
     };
   }, [targetLink, IOSupported, isInternal]);
 
-  return !targetLink || !isInternal || targetLink.startsWith('#') ? (
+  const isAnchorLink = targetLink?.startsWith('#') ?? false;
+  const isRegularHtmlLink = !targetLink || !isInternal || isAnchorLink;
+
+  if (targetLink && isInternal && !isAnchorLink && !noBrokenLinkCheck) {
+    linksCollector.collectLink(targetLink);
+  }
+
+  return isRegularHtmlLink ? (
     // eslint-disable-next-line jsx-a11y/anchor-has-content
     <a
-      // @ts-expect-error: href specified twice needed to pass children and other user specified props
       href={targetLink}
       {...(!isInternal && {target: '_blank', rel: 'noopener noreferrer'})}
       {...props}

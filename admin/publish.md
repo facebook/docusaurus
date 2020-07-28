@@ -30,11 +30,16 @@ If you're publishing new v2 versions, 2FA might get in the way as the pin might 
 
 ### 1. Git setup
 
-Use the **master branch** (up to date) of the **main Docusaurus repository** (not a fork).
+From the **master branch** (up to date, main repo, not a fork), create a new branch for the release.
 
-Create a new branch for the release (the branch name does not matter much):
+The branch name does not matter much, but you can use the `<your_username>/<version_to_release>` pattern.
 
 ```sh
+# up to date master
+git co master
+git pull
+
+# create a new release branch
 git co -b <your_username>/<version_to_release>
 ```
 
@@ -42,7 +47,7 @@ git co -b <your_username>/<version_to_release>
 
 Run `yarn install`
 
-It should run `yarn tsc` and build the project's packages.
+It should run `yarn build:packages` and build the project's packages.
 
 To make sure that all packages will work correctly when they are published, we can initialize a new D2 skeleton website, and test that it can start/built.
 
@@ -70,6 +75,12 @@ The `tag:` label prefix is for PRs only. Other labels are not used by the change
 
 Generate a GitHub auth token by going to https://github.com/settings/tokens (the only permission needed is `public_repo`). Save the token somewhere for future reference.
 
+Fetch the tags from Github (lerna-changelog looks for commits since last tag by default):
+
+```sh
+git fetch --tags
+```
+
 Generate the changelog with:
 
 ```sh
@@ -81,8 +92,7 @@ Copy the generated contents and paste them in `CHANGELOG-2.x.md`.
 ### 4. Cut a new version of the docs
 
 ```sh
-cd website
-yarn run docusaurus docs:version 2.0.0-alpha.41
+yarn workspace docusaurus-2-website docusaurus docs:version 2.0.0-alpha.59
 ```
 
 Test running the website with the new version locally.
@@ -91,22 +101,17 @@ Test running the website with the new version locally.
 
 You should still be on your local branch `<your_username>/<version_to_release>`
 
-Make a commit/push, create a pull request with the changes and get it merged.
+Make a commit/push, create a pull request with the changes. 
+
+Don't merge it, just check that the CI is ok with your changes.
 
 If nobody is around for a review, just wait for the CI checks to complete, check the deploy preview, and merge it.
 
-An example PR would be [#2287](https://github.com/facebook/docusaurus/pull/2287).
+An example PR would be [#3114](https://github.com/facebook/docusaurus/pull/3114).
 
 ### 6. Build and publish to npm
 
-Go back to the `master` branch, from which we'll do the release
-
-```
-git checkout master
-git pull
-```
-
-**Note**: the `git pull` is useful to update `master` with your recently merged PR. Unfortunately if you are unlucky this might as well include other code from other merged PRs. In such case you should ensure the extra code works correctly, and include it in the changelog. (**TODO**: make the release process more robust?)
+Stay on your local branch `<your_username>/<version_to_release>`
 
 As we have a monorepo structure, we use `lerna publish` to publish the new version of packages to npm in one shot.
 
@@ -157,7 +162,7 @@ Please **double-check your permissions on these 3 packages**, otherwise you'll p
 If all accesses are available, build all the necessary packages, and then run the lerna command to release a new version:
 
 ```sh
-yarn tsc
+yarn build:packages
 yarn lerna publish 2.0.0-alpha.41 --dist-tag next
 ```
 
@@ -167,9 +172,11 @@ This command does a few things:
 
 - Modifies the versions of all the `package.json` in the repository to be `2.0.0-alpha.41` and creates a commit
 - Creates a new Git tag `v2.0.0-alpha.41`
-- Pushes the new commit and Git tag to `master`
+- Pushes the new release commit on your branch, and add a git tag
 
 You should receive many emails notifying you that a new version of the packages has been published.
+
+Now that the release is done, **merge the pull request**.
 
 ### 7. Create a release on GitHub
 

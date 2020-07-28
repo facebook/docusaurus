@@ -1,0 +1,26 @@
+
+# Note: this file's config override the Netlify UI admin config
+
+# default/production build
+[build]
+  base = "/"
+  command = "yarn workspace docusaurus-2-website netlify:build:production"
+  publish = "website/build"
+
+# we build deploy previews with a /build/ baseUrl on purpose
+# permits to test that baseUrl works fine (this often breaks!)
+[context.deploy-preview]
+  command = "yarn workspace docusaurus-2-website netlify:build:deployPreview"
+  publish = "website/netlifyDeploy"
+
+  # TODO this does not seem to work
+  # workaroud: a _redirect file is created in website/netlifyDeploy
+  # can't we have context-based redirects with Netlify? :'(
+  [[context.deploy-preview.redirects]]
+    from = "/build/*"
+    to = "/build/404.html"
+    status = 200
+  [[context.deploy-preview.redirects]]
+    from = "/*"
+    to = "/build/"
+

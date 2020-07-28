@@ -318,6 +318,10 @@ Set this to `true` if you want to enable the scroll to top button at the bottom 
 
 Optional options configuration for the scroll to top button. You do not need to use this, even if you set `scrollToTop` to `true`; it just provides you more configuration control of the button. You can find more options [here](https://github.com/vfeskov/vanilla-back-to-top/blob/v7.1.14/OPTIONS.md). By default, we set the zIndex option to 100.
 
+#### `slugPreprocessor` [function]
+
+Define the slug preprocessor function if you want to customize the text used for generating the hash links. Function provides the base string as the first argument and must always return a string.
+
 #### `stylesheets` [array]
 
 An array of CSS sources to load. The values can be either strings or plain objects of attribute-value maps. The link tag will be inserted in the HTML head.
@@ -463,6 +467,9 @@ const siteConfig = {
   scrollToTopOptions: {
     zIndex: 100,
   },
+  // Remove the HTML tags and HTML tags content before generating the slug
+  slugPreprocessor: (slugBase) =>
+    slugBase.replace(/<([^>]+?)([^>]*?)>(.*?)<\/\1>/gi, ''),
 };
 
 module.exports = siteConfig;

@@ -28,7 +28,7 @@ export const DEFAULT_OPTIONS = {
 
 export const PluginOptionSchema = Joi.object({
   path: Joi.string().default(DEFAULT_OPTIONS.path),
-  routeBasePath: Joi.string().default(DEFAULT_OPTIONS.routeBasePath),
+  routeBasePath: Joi.string().allow('').default(DEFAULT_OPTIONS.routeBasePath),
   include: Joi.array().items(Joi.string()).default(DEFAULT_OPTIONS.include),
   postsPerPage: Joi.number()
     .integer()
@@ -45,16 +45,19 @@ export const PluginOptionSchema = Joi.object({
   showReadingTime: Joi.bool().default(DEFAULT_OPTIONS.showReadingTime),
   remarkPlugins: Joi.array()
     .items(
-      Joi.alternatives().try(
-        Joi.function(),
-        Joi.array()
-          .items(Joi.function().required(), Joi.object().required())
-          .length(2),
-      ),
+      Joi.array()
+        .items(Joi.function().required(), Joi.object().required())
+        .length(2),
+      Joi.function(),
     )
     .default(DEFAULT_OPTIONS.remarkPlugins),
   rehypePlugins: Joi.array()
-    .items(Joi.string())
+    .items(
+      Joi.array()
+        .items(Joi.function().required(), Joi.object().required())
+        .length(2),
+      Joi.function(),
+    )
     .default(DEFAULT_OPTIONS.rehypePlugins),
   editUrl: Joi.string().uri(),
   truncateMarker: Joi.object().default(DEFAULT_OPTIONS.truncateMarker),

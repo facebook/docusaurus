@@ -12,16 +12,20 @@ import {useActiveVersion, useLatestVersion} from '@theme/hooks/useDocs';
 const getVersionMainDoc = (version) =>
   version.docs.find((doc) => doc.id === version.mainDocId);
 
+const versionLabel = (version, nextVersionLabel) =>
+  version.name === 'next' ? nextVersionLabel : version.name;
+
 export default function DocsVersionNavbarItem({
   label: staticLabel,
   to: staticTo,
   docsPluginId,
+  nextVersionLabel,
   ...props
 }) {
   const activeVersion = useActiveVersion(docsPluginId);
   const latestVersion = useLatestVersion(docsPluginId);
   const version = activeVersion ?? latestVersion;
-  const label = staticLabel ?? version.name;
+  const label = staticLabel ?? versionLabel(version, nextVersionLabel);
   const path = staticTo ?? getVersionMainDoc(version).path;
   return <DefaultNavbarItem {...props} label={label} to={path} />;
 }

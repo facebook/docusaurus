@@ -15,6 +15,8 @@ import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
 import merge from 'webpack-merge';
 import {STATIC_DIR_NAME} from '../constants';
 import {load} from '../server';
+import {handleBrokenLinks} from '../server/brokenLinks';
+
 import {BuildCLIOptions, Props} from '@docusaurus/types';
 import createClientConfig from '../webpack/client';
 import createServerConfig from '../webpack/server';
@@ -33,7 +35,13 @@ export default async function build(
   const props: Props = await load(siteDir, cliOptions.outDir);
 
   // Apply user webpack config.
-  const {outDir, generatedFilesDir, plugins} = props;
+  const {
+    outDir,
+    generatedFilesDir,
+    plugins,
+    siteConfig: {baseUrl, onBrokenLinks},
+    routes,
+  } = props;
 
   const clientManifestPath = path.join(
     generatedFilesDir,
@@ -55,7 +63,14 @@ export default async function build(
     },
   );
 
-  let serverConfig: Configuration = createServerConfig(props);
+  const allCollectedLinks: Record<string, string[]> = {};
+
+  let serverConfig: Configuration = createServerConfig({
+    props,
+    onLinksCollected: (staticPagePath, links) => {
+      allCollectedLinks[staticPagePath] = links;
+    },
+  });
 
   const staticDir = path.resolve(siteDir, STATIC_DIR_NAME);
   if (fs.existsSync(staticDir)) {
@@ -124,6 +139,14 @@ export default async function build(
     }),
   );
 
+  await handleBrokenLinks({
+    allCollectedLinks,
+    routes,
+    onBrokenLinks,
+    outDir,
+    baseUrl,
+  });
+
   const relativeDir = path.relative(process.cwd(), outDir);
   console.log(
     `\n${chalk.green('Success!')} Generated static files in ${chalk.cyan(
@@ -135,5 +158,6 @@ export default async function build(
   if (forceTerminate && !cliOptions.bundleAnalyzer) {
     process.exit(0);
   }
+
   return outDir;
 }
