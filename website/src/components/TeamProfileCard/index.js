@@ -7,9 +7,15 @@
 
 import React from 'react';
 
-export default function TeamProfile({name, children, githubUrl, twitterUrl}) {
+export default function TeamProfileCard({
+  className,
+  name,
+  children,
+  githubUrl,
+  twitterUrl,
+}) {
   return (
-    <div className="col col--6 margin-bottom--lg">
+    <div className={className}>
       <div className="card card--full-height">
         <div className="card__header">
           <div className="avatar avatar--vertical">

@@ -6,58 +6,60 @@ slug: /team
 
 import TeamProfileCard from "@site/src/components/TeamProfileCard"
 
+export function TeamProfileCardCol(props) { return <TeamProfileCard {...props} className={'col col--6 margin-bottom--lg'}/> }
+
 ## Active Team
 
 <div className="row">
-  <TeamProfileCard 
+  <TeamProfileCardCol 
     name="Alexey Pyltsyn" 
     githubUrl="https://github.com/lex111"
   >
     Obsessed open-source enthusiast 👋 Eternal amateur at everything 🤷‍♂️ Maintainer of Russian docs on PHP, React, Kubernetes and much more 🧐
-  </TeamProfileCard>
-  <TeamProfileCard 
+  </TeamProfileCardCol>
+  <TeamProfileCardCol 
     name="Fanny Vieira" 
     githubUrl="https://github.com/fanny"
     twitterUrl="https://twitter.com/fannyvieiira"
   >
     Fanny got started with web development in high school, building a project for the school kitchen. In her free time she loves contributing to Open Source, occasionally writing on <a href="https://dev.to/fannyvieira" target="_blank">her blog</a> about her experiences, cooking, and creating <a href="https://open.spotify.com/user/anotherfanny" target="_blank">Spotify playlists</a>.
-  </TeamProfileCard>
-  <TeamProfileCard 
+  </TeamProfileCardCol>
+  <TeamProfileCardCol 
     name="Joel Marcey" 
     githubUrl="https://github.com/JoelMarcey"
     twitterUrl="https://twitter.com/joelmarcey"
   >
     Docusaurus founder and now ever grateful Docusaurus cheerleader to those who actually write code for it.
-  </TeamProfileCard>
-  <TeamProfileCard 
+  </TeamProfileCardCol>
+  <TeamProfileCardCol 
     name="Sébastien Lorber" 
     githubUrl="https://github.com/slorber"
     twitterUrl="https://twitter.com/sebastienlorber"
   >
     React lover since 2014. Freelance, helping Facebook ship Docusaurus v2.
-  </TeamProfileCard>
-  <TeamProfileCard 
+  </TeamProfileCardCol>
+  <TeamProfileCardCol 
     name="Yangshun Tay" 
     githubUrl="https://github.com/yangshun"
     twitterUrl="https://twitter.com/yangshunz"
   >
     Full Front End Stack developer who likes working on the Jamstack. Working on Docusaurus made him Facebook's unofficial part-time Open Source webmaster, which is an awesome role to be in.
-  </TeamProfileCard>
+  </TeamProfileCardCol>
 </div>
 
 ## Honorary Alumni
 
 <div className="row">
-  <TeamProfileCard name="Endilie Yacop Sucipto" githubUrl="https://github.com/endiliey" twitterUrl="https://twitter.com/endiliey">
+  <TeamProfileCardCol name="Endilie Yacop Sucipto" githubUrl="https://github.com/endiliey" twitterUrl="https://twitter.com/endiliey">
     Maintainer @docusaurus · 🔥🔥🔥
-  </TeamProfileCard>
-  <TeamProfileCard 
+  </TeamProfileCardCol>
+  <TeamProfileCardCol 
     name="Wei Gao" 
     githubUrl="https://github.com/wgao19"
     twitterUrl="https://twitter.com/wgao19"
   >
     🏻‍🌾 Work in progress React developer, maintains Docusaurus, writes docs and spams this world with many websites.
-  </TeamProfileCard>
+  </TeamProfileCardCol>
 </div>
 
 ## Acknowledgements
