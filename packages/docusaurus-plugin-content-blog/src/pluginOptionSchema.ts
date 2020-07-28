@@ -63,10 +63,20 @@ export const PluginOptionSchema = Joi.object({
   truncateMarker: Joi.object().default(DEFAULT_OPTIONS.truncateMarker),
   admonitions: Joi.object().default(DEFAULT_OPTIONS.admonitions),
   beforeDefaultRemarkPlugins: Joi.array()
-    .items(Joi.object())
+    .items(
+      Joi.array()
+        .items(Joi.function().required(), Joi.object().required())
+        .length(2),
+      Joi.function(),
+    )
     .default(DEFAULT_OPTIONS.beforeDefaultRemarkPlugins),
   beforeDefaultRehypePlugins: Joi.array()
-    .items(Joi.object())
+    .items(
+      Joi.array()
+        .items(Joi.function().required(), Joi.object().required())
+        .length(2),
+      Joi.function(),
+    )
     .default(DEFAULT_OPTIONS.beforeDefaultRehypePlugins),
   feedOptions: Joi.object({
     type: Joi.alternatives().conditional(
@@ -75,8 +85,8 @@ export const PluginOptionSchema = Joi.object({
         then: Joi.custom((val) => (val === 'all' ? ['rss', 'atom'] : [val])),
       },
     ),
-    title: Joi.string(),
-    description: Joi.string(),
+    title: Joi.string().allow(''),
+    description: Joi.string().allow(''),
     copyright: Joi.string(),
     language: Joi.string(),
   }).default(DEFAULT_OPTIONS.feedOptions),

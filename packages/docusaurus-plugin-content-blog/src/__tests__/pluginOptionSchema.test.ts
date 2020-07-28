@@ -7,28 +7,46 @@
 
 import {PluginOptionSchema, DEFAULT_OPTIONS} from '../pluginOptionSchema';
 
-test('normalize options', () => {
+// remark and rehype plugins are of function type
+const remarkRehypePluginStub = () => {};
+
+test('should normalize options', () => {
   const {value} = PluginOptionSchema.validate({});
   expect(value).toEqual(DEFAULT_OPTIONS);
 });
 
-test('validate options', () => {
-  const {value} = PluginOptionSchema.validate({
-    path: 'not_blog',
-    postsPerPage: 5,
-    include: ['api/*', 'docs/*'],
-    routeBasePath: 'not_blog',
-  });
-  expect(value).toEqual({
+test('should accept correctly defined user options', () => {
+  const userOptions = {
     ...DEFAULT_OPTIONS,
+    feedOptions: {type: 'rss', title: 'myTitle'},
+    path: 'not_blog',
+    routeBasePath: '',
     postsPerPage: 5,
     include: ['api/*', 'docs/*'],
-    routeBasePath: 'not_blog',
-    path: 'not_blog',
+  };
+  const {value} = PluginOptionSchema.validate(userOptions);
+  expect(value).toEqual({
+    ...userOptions,
+    feedOptions: {type: ['rss'], title: 'myTitle'},
   });
 });
 
-test('throw Error in case of invalid options', () => {
+test('should accept correctly defined remark and rehype plugin options', async () => {
+  const userOptions = {
+    ...DEFAULT_OPTIONS,
+    beforeDefaultRemarkPlugins: [],
+    beforeDefaultRehypePlugins: [remarkRehypePluginStub],
+    remarkPlugins: [remarkRehypePluginStub, {option1: '42'}],
+    rehypePlugins: [
+      remarkRehypePluginStub,
+      [remarkRehypePluginStub, {option1: '42'}],
+    ],
+  };
+  const {value} = await PluginOptionSchema.validate(userOptions);
+  expect(value).toEqual(userOptions);
+});
+
+test('should throw Error in case of invalid options', () => {
   const {error} = PluginOptionSchema.validate({
     path: 'not_blog',
     postsPerPage: -1,
@@ -39,7 +57,7 @@ test('throw Error in case of invalid options', () => {
   expect(error).toMatchSnapshot();
 });
 
-test('throw Error in case of invalid feedtype', () => {
+test('should throw Error in case of invalid feedtype', () => {
   const {error} = PluginOptionSchema.validate({
     feedOptions: {
       type: 'none',
@@ -49,7 +67,7 @@ test('throw Error in case of invalid feedtype', () => {
   expect(error).toMatchSnapshot();
 });
 
-test('convert all feed type to array with other feed type', () => {
+test('should convert all feed type to array with other feed type', () => {
   const {value} = PluginOptionSchema.validate({
     feedOptions: {type: 'all'},
   });
