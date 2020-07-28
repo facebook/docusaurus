@@ -23,6 +23,7 @@
     "@docusaurus/plugin-pwa": "^2.0.0-alpha.59",
     "@docusaurus/preset-classic": "^2.0.0-alpha.59",
     "@docusaurus/theme-live-codeblock": "^2.0.0-alpha.59",
+    "@docusaurus/plugin-search": "^2.0.0-alpha.59",
     "clsx": "^1.1.1",
     "color": "^3.1.2",
     "npm-to-yarn": "^1.0.0-2",

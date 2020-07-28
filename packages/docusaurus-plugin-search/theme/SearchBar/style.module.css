@@ -1,0 +1,28 @@
+.modal {
+  background: #f5f6f7;
+  width: 550px;
+  height: 300px;
+  margin: 0 auto;
+}
+
+.result {
+  overflow-y: scroll;
+  padding: 2px;
+}
+
+.overlay {
+  background-color: rgba(101, 108, 133, 0.8);
+  height: 100vh;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  z-index: 200;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.body {
+  overflow: hidden !important;
+}

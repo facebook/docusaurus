@@ -1,0 +1,39 @@
+{
+  "name": "@docusaurus/plugin-search",
+  "version": "2.0.0-alpha.59",
+  "description": "Search Plugin for Docusaurus",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@docusaurus/types": "^2.0.0-alpha.37",
+    "fs-extra": "^9.0.1",
+    "fuse.js": "^6.4.0",
+    "glob": "^7.1.6",
+    "hast-util-to-string": "^1.0.4",
+    "lodash-es": "^4.17.15",
+    "react-modal": "^3.11.2",
+    "rehype": "^11.0.0",
+    "unist-util-find": "^1.0.1",
+    "unist-util-parents": "^1.0.3",
+    "unist-util-visit": "^2.0.3",
+    "clsx": "^1.1.1"
+  },
+  "peerDependencies": {
+    "@docusaurus/core": "^2.0.0",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4"
+  },
+  "engines": {
+    "node": ">=10.9.0"
+  },
+  "devDependencies": {
+    "react-modal": "^3.11.2"
+  }
+}

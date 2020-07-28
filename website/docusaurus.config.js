@@ -110,6 +110,12 @@ module.exports = {
         ],
       },
     ],
+    [
+      '@docusaurus/plugin-search',
+      {
+        include: ['docs/*'],
+      },
+    ],
   ],
   presets: [
     [
