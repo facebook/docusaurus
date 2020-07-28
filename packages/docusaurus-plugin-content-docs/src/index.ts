@@ -68,9 +68,6 @@ export default function pluginContentDocs(
   context: LoadContext,
   options: PluginOptions,
 ): Plugin<LoadedContent | null, typeof PluginOptionSchema> {
-  const homePageDocsRoutePath =
-    options.routeBasePath === '' ? '/' : options.routeBasePath;
-
   if (options.admonitions) {
     options.remarkPlugins = options.remarkPlugins.concat([
       [admonitions, options.admonitions],
@@ -485,23 +482,6 @@ Available document ids=
           return orderedVersionNames.indexOf(versionMetadata.name!);
         },
       );
-    },
-
-    async routesLoaded(routes) {
-      const homeDocsRoutes = routes.filter(
-        (routeConfig) => routeConfig.path === homePageDocsRoutePath,
-      );
-
-      // Remove the route for docs home page if there is a page with the same path (i.e. docs).
-      if (homeDocsRoutes.length > 1) {
-        const docsHomePageRouteIndex = routes.findIndex(
-          (route) =>
-            route.component === options.docLayoutComponent &&
-            route.path === homePageDocsRoutePath,
-        );
-
-        delete routes[docsHomePageRouteIndex!];
-      }
     },
 
     configureWebpack(_config, isServer, utils) {
