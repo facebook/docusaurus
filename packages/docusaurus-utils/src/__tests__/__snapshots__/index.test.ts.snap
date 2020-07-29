@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`getFinalRoutes should get final routes correctly 1`] = `
+Array [
+  Object {
+    "component": "",
+    "path": "/docs/someDoc",
+  },
+  Object {
+    "component": "",
+    "path": "/docs/someOtherDoc",
+  },
+  Object {
+    "component": "",
+    "path": "/community",
+  },
+]
+`;

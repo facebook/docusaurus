@@ -11,7 +11,7 @@ import chalk from 'chalk';
 import fs from 'fs-extra';
 import {mapValues, pickBy, flatMap} from 'lodash';
 import {RouteConfig, OnBrokenLinks} from '@docusaurus/types';
-import {removePrefix} from '@docusaurus/utils';
+import {removePrefix, getFinalRoutes} from '@docusaurus/utils';
 
 function toReactRouterRoutes(routes: RouteConfig[]): RRRouteConfig[] {
   // @ts-expect-error: types incompatible???
@@ -59,10 +59,6 @@ function getPageBrokenLinks({
 // For this reason, we only consider the "final routes", that do not have subroutes
 // We also need to remove the match all 404 route
 function filterIntermediateRoutes(routesInput: RouteConfig[]): RouteConfig[] {
-  function getFinalRoutes(route: RouteConfig): RouteConfig[] {
-    return route.routes ? flatMap(route.routes, getFinalRoutes) : [route];
-  }
-
   const routesWithout404 = routesInput.filter((route) => route.path !== '*');
   return flatMap(routesWithout404, getFinalRoutes);
 }
