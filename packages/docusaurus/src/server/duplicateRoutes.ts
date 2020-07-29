@@ -12,13 +12,14 @@ export function getAllDuplicateRoutes(
 ): string[] {
   const routesSeen: Record<string, any> = {};
   const duplicateRoutes: string[] = [];
+  // recursively explore each routeConfig and check for duplicate paths
   function getDuplicateRoutes(routeConfigs: RouteConfig[]): string[] {
     for (let i = 0; i < routeConfigs.length; i += 1) {
       const routeConfig = routeConfigs[i];
       if (routesSeen.hasOwnProperty(routeConfig.path)) {
         duplicateRoutes.push(routeConfig.path);
       } else {
-        routesSeen[routeConfig.path] = true; // dummy value
+        routesSeen[routeConfig.path] = true;
       }
       if (routeConfig.routes !== undefined) {
         getDuplicateRoutes(routeConfig.routes);
