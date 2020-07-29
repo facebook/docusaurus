@@ -79,14 +79,20 @@ const testLevel = (node: Node) =>
   node.tagName === LEVEL.lv1 ||
   node.tagName === LEVEL.lv2;
 
+const testHeading = (node: Node) => node.tagName === LEVEL.lv0;
+
+const getHeading = (node: Node) => find(node, testHeading);
+
 export default function scrap(data: string): DataNode[] {
   const file = rehype().parse(data);
   const nodes: Array<DataNode> = [];
+  const heading = getHeading(file);
   visit(parent(file), testLevel as any, (node) => {
     nodes.push({
       type: node.tagName as string,
       anchor: extractAnchor(getAnchor(node as Node)),
       body: toText(node).trim().replace(/#$/m, '').trim(),
+      heading,
     });
   });
   return nodes;

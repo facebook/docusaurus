@@ -1,0 +1,63 @@
+.modal {
+  background: #f5f6f7;
+  width: 550px;
+  height: 60vh;
+  margin: 60px auto;
+  overflow-y: auto;
+  transform: 0.2s;
+  overflow: hidden;
+}
+
+.result {
+  padding: 2px;
+  height: 90%;
+  overflow: auto;
+  scrollbar-width: thin;
+}
+
+.search {
+  display: flex;
+  justify-content: center;
+}
+
+.search_input {
+  width: 90%;
+  height: 10%;
+  margin-top: 5px;
+  border-radius: 0;
+  border: black solid 2px;
+}
+
+.overlay {
+  background-color: rgba(101, 108, 133, 0.8);
+  height: 100vh;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  z-index: 200;
+  display: flex;
+  justify-content: start;
+  flex-direction: column;
+}
+
+.data_node {
+  border: none;
+  background-color: #f0f1f2;
+}
+
+.group {
+  margin-left: 0;
+  padding: 0;
+}
+
+.search_item {
+  border-radius: 5px;
+  border: black solid 2px;
+  display: flex;
+  justify-content: start;
+  padding: 10px 0;
+  margin-left: 0;
+  width: 95%;
+  margin: 5px auto;
+}

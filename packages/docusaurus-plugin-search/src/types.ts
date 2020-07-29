@@ -29,6 +29,7 @@ export interface DataNode {
   type: string;
   anchor?: string;
   body: string;
+  heading?: string;
 }
 
 export interface pluginOptions {
