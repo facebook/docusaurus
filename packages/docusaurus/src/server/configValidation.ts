@@ -61,8 +61,8 @@ const ConfigSchema = Joi.object({
   onDuplicateRoutes: Joi.string()
     .equal('ignore', 'log', 'warn', 'throw')
     .default(DEFAULT_CONFIG.onDuplicateRoutes),
-  organizationName: Joi.string(),
-  projectName: Joi.string(),
+  organizationName: Joi.string().allow(''),
+  projectName: Joi.string().allow(''),
   customFields: Joi.object().unknown().default(DEFAULT_CONFIG.customFields),
   githubHost: Joi.string(),
   plugins: Joi.array().items(PluginSchema).default(DEFAULT_CONFIG.plugins),
@@ -84,7 +84,7 @@ const ConfigSchema = Joi.object({
       type: Joi.string().required(),
     }).unknown(),
   ),
-  tagline: Joi.string(),
+  tagline: Joi.string().allow(''),
 });
 
 export function validateConfig(
