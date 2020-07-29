@@ -58,6 +58,11 @@ export function handleDuplicateRoutes(
       console.warn(chalk.yellow(finalMessage));
     } else if (onDuplicateRoutes === 'throw') {
       throw new Error(finalMessage);
+    } else {
+      // should not reach here if validation is done correctly
+      throw new Error(
+        'unexpected onDuplicateRoutes value: ${onDuplicateRoutes}',
+      );
     }
   }
 }
