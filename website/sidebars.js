@@ -45,7 +45,7 @@ module.exports = {
       items: [
         'cli',
         'docusaurus-core',
-        'docusaurus.config.js',
+        'api/docusaurus.config.js',
         'lifecycle-apis',
         'theme-classic',
       ],

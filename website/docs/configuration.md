@@ -22,7 +22,7 @@ The high-level overview of Docusaurus configuration can be categorized into:
   - [Custom configurations](#custom-configurations)
 - [Customizing Babel Configuration](#customizing-babel-configuration)
 
-For exact reference to each of the configurable fields, you may refer to [**`docusaurus.config.js` API reference**](docusaurus.config.js.md).
+For exact reference to each of the configurable fields, you may refer to [**`docusaurus.config.js` API reference**](api/docusaurus.config.js.md).
 
 ### Site metadata
 
