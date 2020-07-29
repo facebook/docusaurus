@@ -8,6 +8,9 @@
 import {Loader, Configuration} from 'webpack';
 import {Command} from 'commander';
 import {ParsedUrlQueryInput} from 'querystring';
+import {MergeStrategy} from 'webpack-merge';
+
+export type OnBrokenLinks = 'ignore' | 'log' | 'error' | 'throw';
 
 export interface DocusaurusConfig {
   baseUrl: string;
@@ -15,6 +18,7 @@ export interface DocusaurusConfig {
   tagline?: string;
   title: string;
   url: string;
+  onBrokenLinks: OnBrokenLinks;
   organizationName?: string;
   projectName?: string;
   githubHost?: string;
@@ -22,30 +26,50 @@ export interface DocusaurusConfig {
   themes?: PluginConfig[];
   presets?: PresetConfig[];
   themeConfig?: {
-    [key: string]: any;
+    [key: string]: unknown;
   };
   customFields?: {
-    [key: string]: any;
+    [key: string]: unknown;
   };
   scripts?: (
     | string
     | {
         src: string;
-        [key: string]: any;
+        [key: string]: unknown;
       }
   )[];
   stylesheets?: (
     | string
     | {
         href: string;
-        [key: string]: any;
+        [key: string]: unknown;
       }
   )[];
 }
 
+/**
+ * - `type: 'package'`, plugin is in a different package.
+ * - `type: 'project'`, plugin is in the same docusaurus project.
+ * - `type: 'local'`, none of plugin's ancestor directory contains any package.json.
+ * - `type: 'synthetic'`, docusaurus generated internal plugin.
+ */
+export type DocusaurusPluginVersionInformation =
+  | {readonly type: 'package'; readonly version?: string}
+  | {readonly type: 'project'}
+  | {readonly type: 'local'}
+  | {readonly type: 'synthetic'};
+
+export interface DocusaurusSiteMetadata {
+  readonly docusaurusVersion: string;
+  readonly siteVersion?: string;
+  readonly pluginVersions: Record<string, DocusaurusPluginVersionInformation>;
+}
+
 export interface DocusaurusContext {
-  siteConfig?: DocusaurusConfig;
-  isClient?: boolean;
+  siteConfig: DocusaurusConfig;
+  siteMetadata: DocusaurusSiteMetadata;
+  globalData: Record<string, any>;
+  isClient: boolean;
 }
 
 export interface Preset {
@@ -53,7 +77,10 @@ export interface Preset {
   themes?: PluginConfig[];
 }
 
-export type PresetConfig = [string, Object] | [string] | string;
+export type PresetConfig =
+  | [string, Record<string, unknown>]
+  | [string]
+  | string;
 
 export interface StartCLIOptions {
   port: string;
@@ -87,18 +114,23 @@ export interface InjectedHtmlTags {
 export type HtmlTags = string | HtmlTagObject | (string | HtmlTagObject)[];
 
 export interface Props extends LoadContext, InjectedHtmlTags {
+  routes: RouteConfig[];
   routesPaths: string[];
-  plugins: Plugin<any>[];
+  plugins: Plugin<any, unknown>[];
 }
 
 export interface PluginContentLoadedActions {
   addRoute(config: RouteConfig): void;
   createData(name: string, data: any): Promise<string>;
+  setGlobalData<T = unknown>(data: T): void;
 }
 
-export interface Plugin<T> {
+export interface Plugin<T, U = unknown> {
+  id?: string;
   name: string;
   loadContent?(): Promise<T>;
+  validateOptions?(): ValidationResult<U>;
+  validateThemeConfig?(): ValidationResult<any>;
   contentLoaded?({
     content,
     actions,
@@ -106,15 +138,16 @@ export interface Plugin<T> {
     content: T;
     actions: PluginContentLoadedActions;
   }): void;
-  routesLoaded?(routes: RouteConfig[]): void;
+  routesLoaded?(routes: RouteConfig[]): void; // TODO remove soon, deprecated (alpha-60)
   postBuild?(props: Props): void;
   postStart?(props: Props): void;
   configureWebpack?(
     config: Configuration,
     isServer: boolean,
     utils: ConfigureWebpackUtils,
-  ): Configuration;
+  ): Configuration & {mergeStrategy?: ConfigureWebpackFnMergeStrategy};
   getThemePath?(): string;
+  getTypeScriptThemePath?(): string;
   getPathsToWatch?(): string[];
   getClientModules?(): string[];
   extendCli?(cli: Command): void;
@@ -125,7 +158,12 @@ export interface Plugin<T> {
   };
 }
 
-export type PluginConfig = [string, Object] | [string] | string;
+export type ConfigureWebpackFn = Plugin<unknown>['configureWebpack'];
+export type ConfigureWebpackFnMergeStrategy = Record<string, MergeStrategy>;
+
+export type PluginOptions = {id?: string} & Record<string, unknown>;
+
+export type PluginConfig = [string, PluginOptions] | [string] | string;
 
 export interface ChunkRegistry {
   loader: string;
@@ -165,11 +203,17 @@ export interface ConfigureWebpackUtils {
   getStyleLoaders: (
     isServer: boolean,
     cssOptions: {
-      [key: string]: any;
+      [key: string]: unknown;
     },
   ) => Loader[];
-  getCacheLoader: (isServer: boolean, cacheOptions?: {}) => Loader | null;
-  getBabelLoader: (isServer: boolean, babelOptions?: {}) => Loader;
+  getCacheLoader: (
+    isServer: boolean,
+    cacheOptions?: Record<string, unknown>,
+  ) => Loader | null;
+  getBabelLoader: (
+    isServer: boolean,
+    babelOptions?: Record<string, unknown>,
+  ) => Loader;
 }
 
 interface HtmlTagObject {
@@ -188,4 +232,31 @@ interface HtmlTagObject {
    * The inner HTML
    */
   innerHTML?: string;
+}
+
+export interface ValidationResult<T, E extends Error = Error> {
+  error?: E;
+  value: T;
+}
+
+export type Validate<T, E extends Error = Error> = (
+  validationSchema: ValidationSchema<T>,
+  options: Partial<T>,
+) => ValidationResult<T, E>;
+
+export interface OptionValidationContext<T, E extends Error = Error> {
+  validate: Validate<T, E>;
+  options: Partial<T>;
+}
+
+export interface ThemeConfigValidationContext<T, E extends Error = Error> {
+  validate: Validate<T, E>;
+  themeConfig: Partial<T>;
+}
+
+// TODO we should use a Joi type here
+export interface ValidationSchema<T> {
+  validate(options: Partial<T>, opt: object): ValidationResult<T>;
+  unknown(): ValidationSchema<T>;
+  append(data: any): ValidationSchema<T>;
 }

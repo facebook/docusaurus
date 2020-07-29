@@ -187,7 +187,7 @@ describe('docsVersion', () => {
       ),
     );
     expect(versionsPath).toEqual(getVersionsJSONFile(versionedSiteDir));
-    expect(versions).toEqual(['2.0.0', '1.0.1', '1.0.0']);
+    expect(versions).toEqual(['2.0.0', '1.0.1', '1.0.0', 'withSlugs']);
     expect(consoleMock).toHaveBeenCalledWith('Version 2.0.0 created!');
 
     copyMock.mockRestore();

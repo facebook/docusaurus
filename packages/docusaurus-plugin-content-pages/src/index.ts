@@ -14,9 +14,17 @@ import {
   aliasedSitePath,
   docuHash,
 } from '@docusaurus/utils';
-import {LoadContext, Plugin, ConfigureWebpackUtils} from '@docusaurus/types';
+import {
+  LoadContext,
+  Plugin,
+  OptionValidationContext,
+  ValidationResult,
+  ConfigureWebpackUtils,
+} from '@docusaurus/types';
 import {Configuration, Loader} from 'webpack';
 import admonitions from 'remark-admonitions';
+import {PluginOptionSchema} from './pluginOptionSchema';
+import {ValidationError} from '@hapi/joi';
 
 import {PluginOptions, LoadedContent, Metadata} from './types';
 
@@ -36,17 +44,17 @@ const isMarkdownSource = (source: string) =>
 export default function pluginContentPages(
   context: LoadContext,
   opts: Partial<PluginOptions>,
-): Plugin<LoadedContent | null> {
+): Plugin<LoadedContent | null, typeof PluginOptionSchema> {
   const options: PluginOptions = {...DEFAULT_OPTIONS, ...opts};
   if (options.admonitions) {
     options.remarkPlugins = options.remarkPlugins.concat([
       [admonitions, opts.admonitions || {}],
     ]);
   }
+  const {siteConfig, siteDir, generatedFilesDir} = context;
 
-  const contentPath = path.resolve(context.siteDir, options.path);
+  const contentPath = path.resolve(siteDir, options.path);
 
-  const {siteDir, generatedFilesDir} = context;
   const dataDir = path.join(
     generatedFilesDir,
     'docusaurus-plugin-content-pages',
@@ -73,7 +81,6 @@ export default function pluginContentPages(
 
     async loadContent() {
       const {include} = options;
-      const {siteConfig, siteDir} = context;
       const pagesDir = contentPath;
 
       if (!fs.existsSync(pagesDir)) {
@@ -138,6 +145,9 @@ export default function pluginContentPages(
               path: permalink,
               component: source,
               exact: true,
+              modules: {
+                config: `@generated/docusaurus.config`,
+              },
             });
           }
         }),
@@ -194,4 +204,15 @@ export default function pluginContentPages(
       };
     },
   };
+}
+
+export function validateOptions({
+  validate,
+  options,
+}: OptionValidationContext<PluginOptions, ValidationError>): ValidationResult<
+  PluginOptions,
+  ValidationError
+> {
+  const validatedOptions = validate(PluginOptionSchema, options);
+  return validatedOptions;
 }

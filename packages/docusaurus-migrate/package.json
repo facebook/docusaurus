@@ -1,0 +1,43 @@
+{
+  "name": "@docusaurus/migrate",
+  "version": "2.0.0-alpha.60",
+  "description": "A cli tool to migrate between different version of docusuarus",
+  "main": "lib/index.js",
+  "license": "MIT",
+  "engines": {
+    "node": ">=10.9.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "bin": {
+    "docusaurus-migrate": "bin/index.js"
+  },
+  "dependencies": {
+    "@mapbox/hast-util-to-jsx": "^1.0.0",
+    "chalk": "^4.1.0",
+    "color": "^3.1.2",
+    "commander": "^5.1.0",
+    "fs-extra": "^9.0.1",
+    "glob": "^7.1.6",
+    "hast-util-to-string": "^1.0.4",
+    "hast-util-to-text": "^2.0.0",
+    "html-tags": "^3.1.0",
+    "import-fresh": "^3.2.1",
+    "jscodeshift": "^0.10.0",
+    "rehype-parse": "^7.0.1",
+    "remark-parse": "^8.0.2",
+    "remark-stringify": "^8.1.0",
+    "semver": "^7.3.2",
+    "unified": "^9.0.0",
+    "unist-util-visit": "^2.0.2"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^9.0.1",
+    "@types/jscodeshift": "^0.7.1"
+  }
+}

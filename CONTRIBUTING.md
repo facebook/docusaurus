@@ -38,7 +38,7 @@ To make a fix to the published versions you must edit the corresponding markdown
 
 We have `#docusaurus-dev` on [Discord](https://discord.gg/docusaurus) to discuss all things Docusaurus development.
 
-To participate in Docusaurus 2 dev, we have the [`#docusaurus-2-dev`](https://discord.gg/9wrnhY) channel.
+To participate in Docusaurus 2 dev, we have the [`#docusaurus-2-dev`](https://discord.gg/n8nQEAS) channel.
 
 ### Triaging Issues and Pull Requests
 

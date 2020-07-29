@@ -15,6 +15,11 @@ declare module '@generated/docusaurus.config' {
   export default config;
 }
 
+declare module '@generated/site-metadata' {
+  const siteMetadata: any;
+  export default siteMetadata;
+}
+
 declare module '@generated/registry' {
   const registry: {
     readonly [key: string]: [() => Promise<any>, string, string];
@@ -37,10 +42,14 @@ declare module '@generated/routesChunkNames' {
   export default routesChunkNames;
 }
 
-declare module '@theme/*' {
-  const component: any;
-  export default component;
+declare module '@generated/globalData' {
+  const globalData: any;
+  export default globalData;
 }
+
+declare module '@theme/*';
+
+declare module '@theme-original/*';
 
 declare module '@docusaurus/*';
 

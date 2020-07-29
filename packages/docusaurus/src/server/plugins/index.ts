@@ -10,14 +10,16 @@ import fs from 'fs-extra';
 import path from 'path';
 import {
   LoadContext,
-  Plugin,
   PluginConfig,
   PluginContentLoadedActions,
   RouteConfig,
 } from '@docusaurus/types';
-import {initPlugins} from './init';
+import initPlugins, {InitPlugin} from './init';
+import chalk from 'chalk';
 
-export function sortConfig(routeConfigs: RouteConfig[]) {
+const DefaultPluginId = 'default';
+
+export function sortConfig(routeConfigs: RouteConfig[]): void {
   // Sort the route config. This ensures that route with nested
   // routes is always placed last.
   routeConfigs.sort((a, b) => {
@@ -31,20 +33,18 @@ export function sortConfig(routeConfigs: RouteConfig[]) {
     if (a.priority || b.priority) {
       const priorityA = a.priority || 0;
       const priorityB = b.priority || 0;
-      const score = priorityA > priorityB ? -1 : priorityB > priorityA ? 1 : 0;
+      const score = priorityB - priorityA;
 
       if (score !== 0) {
         return score;
       }
     }
 
-    return a.path > b.path ? 1 : b.path > a.path ? -1 : 0;
+    return a.path.localeCompare(b.path);
   });
 
   routeConfigs.forEach((routeConfig) => {
-    routeConfig.routes?.sort((a, b) => {
-      return a.path > b.path ? 1 : b.path > a.path ? -1 : 0;
-    });
+    routeConfig.routes?.sort((a, b) => a.path.localeCompare(b.path));
   });
 }
 
@@ -55,11 +55,15 @@ export async function loadPlugins({
   pluginConfigs: PluginConfig[];
   context: LoadContext;
 }): Promise<{
-  plugins: Plugin<any>[];
+  plugins: InitPlugin[];
   pluginsRouteConfigs: RouteConfig[];
+  globalData: any;
 }> {
   // 1. Plugin Lifecycle - Initialization/Constructor.
-  const plugins: Plugin<any>[] = initPlugins({pluginConfigs, context});
+  const plugins: InitPlugin[] = initPlugins({
+    pluginConfigs,
+    context,
+  });
 
   // 2. Plugin Lifecycle - loadContent.
   // Currently plugins run lifecycle methods in parallel and are not order-dependent.
@@ -71,12 +75,14 @@ export async function loadPlugins({
         return null;
       }
 
-      return await plugin.loadContent();
+      return plugin.loadContent();
     }),
   );
 
   // 3. Plugin Lifecycle - contentLoaded.
   const pluginsRouteConfigs: RouteConfig[] = [];
+
+  const globalData = {};
 
   await Promise.all(
     plugins.map(async (plugin, index) => {
@@ -84,19 +90,42 @@ export async function loadPlugins({
         return;
       }
 
+      const pluginId = plugin.options.id ?? DefaultPluginId;
+
       const pluginContentDir = path.join(
         context.generatedFilesDir,
         plugin.name,
+        // TODO each plugin instance should have its folder
+        // pluginId,
       );
 
+      const addRoute: PluginContentLoadedActions['addRoute'] = (config) =>
+        pluginsRouteConfigs.push(config);
+
+      const createData: PluginContentLoadedActions['createData'] = async (
+        name,
+        content,
+      ) => {
+        const modulePath = path.join(pluginContentDir, name);
+        await fs.ensureDir(path.dirname(modulePath));
+        await generate(pluginContentDir, name, content);
+        return modulePath;
+      };
+
+      // the plugins global data are namespaced to avoid data conflicts:
+      // - by plugin name
+      // - by plugin id (allow using multiple instances of the same plugin)
+      const setGlobalData: PluginContentLoadedActions['setGlobalData'] = (
+        data,
+      ) => {
+        globalData[plugin.name] = globalData[plugin.name] ?? {};
+        globalData[plugin.name][pluginId] = data;
+      };
+
       const actions: PluginContentLoadedActions = {
-        addRoute: (config) => pluginsRouteConfigs.push(config),
-        createData: async (name, content) => {
-          const modulePath = path.join(pluginContentDir, name);
-          await fs.ensureDir(path.dirname(modulePath));
-          await generate(pluginContentDir, name, content);
-          return modulePath;
-        },
+        addRoute,
+        createData,
+        setGlobalData,
       };
 
       await plugin.contentLoaded({
@@ -116,7 +145,15 @@ export async function loadPlugins({
         return null;
       }
 
-      return await plugin.routesLoaded(pluginsRouteConfigs);
+      // TODO remove this deprecated lifecycle soon
+      // deprecated since alpha-60
+      console.error(
+        chalk.red(
+          'plugin routesLoaded lifecycle is deprecated. If you think we should keep this lifecycle, please open a Github issue with your usecase',
+        ),
+      );
+
+      return plugin.routesLoaded(pluginsRouteConfigs);
     }),
   );
 
@@ -127,5 +164,6 @@ export async function loadPlugins({
   return {
     plugins,
     pluginsRouteConfigs,
+    globalData,
   };
 }

@@ -14,14 +14,19 @@ import TerserPlugin from 'terser-webpack-plugin';
 import {Configuration, Loader} from 'webpack';
 
 import {Props} from '@docusaurus/types';
-import {getBabelLoader, getCacheLoader, getStyleLoaders} from './utils';
+import {
+  getBabelLoader,
+  getCacheLoader,
+  getStyleLoaders,
+  getFileLoaderUtils,
+} from './utils';
 import {BABEL_CONFIG_FILE_NAME} from '../constants';
 
 const CSS_REGEX = /\.css$/;
 const CSS_MODULE_REGEX = /\.module\.css$/;
 export const clientDir = path.join(__dirname, '..', 'client');
 
-export function excludeJS(modulePath: string) {
+export function excludeJS(modulePath: string): boolean {
   // always transpile client dir
   if (modulePath.startsWith(clientDir)) {
     return false;
@@ -47,6 +52,8 @@ export function createBaseConfig(
     siteDir,
     BABEL_CONFIG_FILE_NAME,
   );
+
+  const fileLoaderUtils = getFileLoaderUtils();
 
   return {
     mode: isProd ? 'production' : 'development',
@@ -158,6 +165,9 @@ export function createBaseConfig(
     },
     module: {
       rules: [
+        fileLoaderUtils.rules.images(),
+        fileLoaderUtils.rules.media(),
+        fileLoaderUtils.rules.otherAssets(),
         {
           test: /\.(j|t)sx?$/,
           exclude: excludeJS,

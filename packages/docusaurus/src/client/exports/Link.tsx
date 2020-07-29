@@ -5,11 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useEffect, useRef} from 'react';
+import React, {ReactNode, useEffect, useRef} from 'react';
 
 import {NavLink, Link as RRLink} from 'react-router-dom';
 import isInternalUrl from './isInternalUrl';
 import ExecutionEnvironment from './ExecutionEnvironment';
+import {useLinksCollector} from '../LinksCollector';
+import {useBaseUrlUtils} from './useBaseUrl';
 
 declare global {
   interface Window {
@@ -20,12 +22,51 @@ declare global {
 interface Props {
   readonly isNavLink?: boolean;
   readonly to?: string;
-  readonly href: string;
+  readonly href?: string;
+  readonly activeClassName?: string;
+  readonly children?: ReactNode;
+
+  // escape hatch in case broken links check is annoying for a specific link
+  readonly 'data-noBrokenLinkCheck'?: boolean;
 }
 
-function Link({isNavLink, ...props}: Props) {
-  const {to, href} = props;
-  const targetLink = to || href;
+// TODO all this wouldn't be necessary if we used ReactRouter basename feature
+// We don't automatically add base urls to all links,
+// only the "safe" ones, starting with / (like /docs/introduction)
+// this is because useBaseUrl() actually transforms relative links
+// like "introduction" to "/baseUrl/introduction" => bad behavior to fix
+const shouldAddBaseUrlAutomatically = (to: string) => to.startsWith('/');
+
+function Link({
+  isNavLink,
+  to,
+  href,
+  activeClassName,
+  'data-noBrokenLinkCheck': noBrokenLinkCheck,
+  ...props
+}: Props): JSX.Element {
+  const {withBaseUrl} = useBaseUrlUtils();
+  const linksCollector = useLinksCollector();
+
+  // IMPORTANT: using to or href should not change anything
+  // For example, MDX links will ALWAYS give us the href props
+  // Using one prop or the other should not be used to distinguish
+  // internal links (/docs/myDoc) from external links (https://github.com)
+  const targetLinkUnprefixed = to || href;
+
+  function maybeAddBaseUrl(str: string) {
+    return shouldAddBaseUrlAutomatically(str)
+      ? withBaseUrl(str)
+      : targetLinkUnprefixed;
+  }
+
+  // TODO we should use ReactRouter basename feature instead!
+  // Automatically apply base url in links that start with /
+  const targetLink =
+    typeof targetLinkUnprefixed !== 'undefined'
+      ? maybeAddBaseUrl(targetLinkUnprefixed)
+      : undefined;
+
   const isInternal = isInternalUrl(targetLink);
   const preloaded = useRef(false);
   const LinkComponent = isNavLink ? NavLink : RRLink;
@@ -82,7 +123,14 @@ function Link({isNavLink, ...props}: Props) {
     };
   }, [targetLink, IOSupported, isInternal]);
 
-  return !targetLink || !isInternal || targetLink.startsWith('#') ? (
+  const isAnchorLink = targetLink?.startsWith('#') ?? false;
+  const isRegularHtmlLink = !targetLink || !isInternal || isAnchorLink;
+
+  if (targetLink && isInternal && !isAnchorLink && !noBrokenLinkCheck) {
+    linksCollector.collectLink(targetLink);
+  }
+
+  return isRegularHtmlLink ? (
     // eslint-disable-next-line jsx-a11y/anchor-has-content
     <a
       href={targetLink}
@@ -95,6 +143,8 @@ function Link({isNavLink, ...props}: Props) {
       onMouseEnter={onMouseEnter}
       innerRef={handleRef}
       to={targetLink}
+      // avoid "React does not recognize the `activeClassName` prop on a DOM element"
+      {...(isNavLink && {activeClassName})}
     />
   );
 }

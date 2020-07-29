@@ -8,6 +8,10 @@
 import isInternalUrl from '../isInternalUrl';
 
 describe('isInternalUrl', () => {
+  test('should be true for empty links', () => {
+    expect(isInternalUrl('')).toBeTruthy();
+  });
+
   test('should be true for root relative links', () => {
     expect(isInternalUrl('/foo/bar')).toBeTruthy();
   });
@@ -34,5 +38,13 @@ describe('isInternalUrl', () => {
 
   test('should be false for mailto links', () => {
     expect(isInternalUrl('mailto:someone@example.com')).toBeFalsy();
+  });
+
+  test('should be false for undefined links', () => {
+    expect(isInternalUrl(undefined)).toBeFalsy();
+  });
+
+  test('should be true for root relative links', () => {
+    expect(isInternalUrl('//reactjs.org')).toBeFalsy();
   });
 });

@@ -12,6 +12,7 @@ import commander from 'commander';
 import fs from 'fs-extra';
 import pluginContentDocs from '../index';
 import loadEnv from '../env';
+import normalizePluginOptions from './pluginOptionSchema.test';
 import {loadContext} from '@docusaurus/core/src/server/index';
 import {applyConfigureWebpack} from '@docusaurus/core/src/webpack/utils';
 import {RouteConfig} from '@docusaurus/types';
@@ -24,6 +25,7 @@ const createFakeActions = (
   routeConfigs: RouteConfig[],
   contentDir,
   dataContainer?,
+  globalDataContainer?,
 ) => {
   return {
     addRoute: (config: RouteConfig) => {
@@ -35,6 +37,9 @@ const createFakeActions = (
       }
       return path.join(contentDir, name);
     },
+    setGlobalData: (data) => {
+      globalDataContainer.pluginName = {pluginId: data};
+    },
   };
 };
 
@@ -42,9 +47,12 @@ test('site with wrong sidebar file', async () => {
   const siteDir = path.join(__dirname, '__fixtures__', 'simple-site');
   const context = loadContext(siteDir);
   const sidebarPath = path.join(siteDir, 'wrong-sidebars.json');
-  const plugin = pluginContentDocs(context, {
-    sidebarPath,
-  });
+  const plugin = pluginContentDocs(
+    context,
+    normalizePluginOptions({
+      sidebarPath,
+    }),
+  );
   await expect(plugin.loadContent()).rejects.toThrowErrorMatchingSnapshot();
 });
 
@@ -54,7 +62,7 @@ describe('empty/no docs website', () => {
 
   test('no files in docs folder', async () => {
     await fs.ensureDir(path.join(siteDir, 'docs'));
-    const plugin = pluginContentDocs(context, {});
+    const plugin = pluginContentDocs(context, normalizePluginOptions({}));
     const content = await plugin.loadContent();
     const {docsMetadata, docsSidebars} = content;
     expect(docsMetadata).toMatchInlineSnapshot(`Object {}`);
@@ -73,7 +81,12 @@ describe('empty/no docs website', () => {
   });
 
   test('docs folder does not exist', async () => {
-    const plugin = pluginContentDocs(context, {path: '/path/does/not/exist/'});
+    const plugin = pluginContentDocs(
+      context,
+      normalizePluginOptions({
+        path: '/path/does/not/exist/',
+      }),
+    );
     const content = await plugin.loadContent();
     expect(content).toBeNull();
   });
@@ -84,11 +97,14 @@ describe('simple website', () => {
   const context = loadContext(siteDir);
   const sidebarPath = path.join(siteDir, 'sidebars.json');
   const pluginPath = 'docs';
-  const plugin = pluginContentDocs(context, {
-    path: pluginPath,
-    sidebarPath,
-    homePageId: 'hello',
-  });
+  const plugin = pluginContentDocs(
+    context,
+    normalizePluginOptions({
+      path: pluginPath,
+      sidebarPath,
+      homePageId: 'hello',
+    }),
+  );
   const pluginContentDir = path.join(context.generatedFilesDir, plugin.name);
 
   test('extendCli - docsVersion', () => {
@@ -154,7 +170,9 @@ describe('simple website', () => {
     expect(versionToSidebars).toEqual({});
     expect(docsMetadata.hello).toEqual({
       id: 'hello',
-      permalink: '/docs/hello',
+      unversionedId: 'hello',
+      isDocsHomePage: true,
+      permalink: '/docs/',
       previous: {
         title: 'baz',
         permalink: '/docs/foo/bazSlug.html',
@@ -163,11 +181,12 @@ describe('simple website', () => {
       source: path.join('@site', pluginPath, 'hello.md'),
       title: 'Hello, World !',
       description: 'Hi, Endilie here :)',
-      latestVersionMainDocPermalink: undefined,
     });
 
     expect(docsMetadata['foo/bar']).toEqual({
       id: 'foo/bar',
+      unversionedId: 'foo/bar',
+      isDocsHomePage: false,
       next: {
         title: 'baz',
         permalink: '/docs/foo/bazSlug.html',
@@ -177,17 +196,18 @@ describe('simple website', () => {
       source: path.join('@site', pluginPath, 'foo', 'bar.md'),
       title: 'Bar',
       description: 'This is custom description',
-      latestVersionMainDocPermalink: undefined,
     });
 
     expect(docsSidebars).toMatchSnapshot();
 
     const routeConfigs = [];
     const dataContainer = {};
+    const globalDataContainer = {};
     const actions = createFakeActions(
       routeConfigs,
       pluginContentDir,
       dataContainer,
+      globalDataContainer,
     );
 
     await plugin.contentLoaded({
@@ -205,6 +225,7 @@ describe('simple website', () => {
 
     expect(routeConfigs).not.toEqual([]);
     expect(routeConfigs).toMatchSnapshot();
+    expect(globalDataContainer).toMatchSnapshot();
   });
 });
 
@@ -213,11 +234,14 @@ describe('versioned website', () => {
   const context = loadContext(siteDir);
   const sidebarPath = path.join(siteDir, 'sidebars.json');
   const routeBasePath = 'docs';
-  const plugin = pluginContentDocs(context, {
-    routeBasePath,
-    sidebarPath,
-    homePageId: 'hello',
-  });
+  const plugin = pluginContentDocs(
+    context,
+    normalizePluginOptions({
+      routeBasePath,
+      sidebarPath,
+      homePageId: 'hello',
+    }),
+  );
   const env = loadEnv(siteDir);
   const {docsDir: versionedDir} = env.versioning;
   const pluginContentDir = path.join(context.generatedFilesDir, plugin.name);
@@ -245,8 +269,10 @@ describe('versioned website', () => {
         "docs/**/*.{md,mdx}",
         "versioned_sidebars/version-1.0.1-sidebars.json",
         "versioned_sidebars/version-1.0.0-sidebars.json",
+        "versioned_sidebars/version-withSlugs-sidebars.json",
         "versioned_docs/version-1.0.1/**/*.{md,mdx}",
         "versioned_docs/version-1.0.0/**/*.{md,mdx}",
+        "versioned_docs/version-withSlugs/**/*.{md,mdx}",
         "sidebars.json",
       ]
     `);
@@ -296,6 +322,8 @@ describe('versioned website', () => {
     expect(docsMetadata['version-1.0.1/foo/baz']).toBeUndefined();
     expect(docsMetadata['foo/bar']).toEqual({
       id: 'foo/bar',
+      unversionedId: 'foo/bar',
+      isDocsHomePage: false,
       permalink: '/docs/next/foo/barSlug',
       source: path.join('@site', routeBasePath, 'foo', 'bar.md'),
       title: 'bar',
@@ -304,12 +332,14 @@ describe('versioned website', () => {
       sidebar: 'docs',
       next: {
         title: 'hello',
-        permalink: '/docs/next/hello',
+        permalink: '/docs/next/',
       },
     });
-    expect(docsMetadata['hello']).toEqual({
+    expect(docsMetadata.hello).toEqual({
       id: 'hello',
-      permalink: '/docs/next/hello',
+      unversionedId: 'hello',
+      isDocsHomePage: true,
+      permalink: '/docs/next/',
       source: path.join('@site', routeBasePath, 'hello.md'),
       title: 'hello',
       description: 'Hello next !',
@@ -322,7 +352,9 @@ describe('versioned website', () => {
     });
     expect(docsMetadata['version-1.0.1/hello']).toEqual({
       id: 'version-1.0.1/hello',
-      permalink: '/docs/hello',
+      unversionedId: 'hello',
+      isDocsHomePage: true,
+      permalink: '/docs/',
       source: path.join(
         '@site',
         path.relative(siteDir, versionedDir),
@@ -337,10 +369,11 @@ describe('versioned website', () => {
         title: 'bar',
         permalink: '/docs/foo/bar',
       },
-      latestVersionMainDocPermalink: undefined,
     });
     expect(docsMetadata['version-1.0.0/foo/baz']).toEqual({
       id: 'version-1.0.0/foo/baz',
+      unversionedId: 'foo/baz',
+      isDocsHomePage: false,
       permalink: '/docs/1.0.0/foo/baz',
       source: path.join(
         '@site',
@@ -356,7 +389,7 @@ describe('versioned website', () => {
       sidebar: 'version-1.0.0/docs',
       next: {
         title: 'hello',
-        permalink: '/docs/1.0.0/hello',
+        permalink: '/docs/1.0.0/',
       },
       previous: {
         title: 'bar',
@@ -370,10 +403,12 @@ describe('versioned website', () => {
     );
     const routeConfigs = [];
     const dataContainer = {};
+    const globalDataContainer = {};
     const actions = createFakeActions(
       routeConfigs,
       pluginContentDir,
       dataContainer,
+      globalDataContainer,
     );
     await plugin.contentLoaded({
       content,
@@ -417,5 +452,6 @@ describe('versioned website', () => {
 
     expect(routeConfigs).not.toEqual([]);
     expect(routeConfigs).toMatchSnapshot();
+    expect(globalDataContainer).toMatchSnapshot();
   });
 });

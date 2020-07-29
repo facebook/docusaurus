@@ -17,9 +17,10 @@ export interface DateLink {
   link: string;
 }
 
-export type FeedType = 'rss' | 'atom' | 'all';
+export type FeedType = 'rss' | 'atom';
 
 export interface PluginOptions {
+  id?: string;
   path: string;
   routeBasePath: string;
   include: string[];
@@ -32,8 +33,8 @@ export interface PluginOptions {
   rehypePlugins: string[];
   truncateMarker: RegExp;
   showReadingTime: boolean;
-  feedOptions?: {
-    type: FeedType;
+  feedOptions: {
+    type: [FeedType];
     title?: string;
     description?: string;
     copyright: string;

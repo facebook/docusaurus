@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {loadRoutes} from '../routes';
+import loadRoutes from '../routes';
 import {RouteConfig} from '@docusaurus/types';
 
 describe('loadRoutes', () => {

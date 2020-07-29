@@ -1,8 +1,16 @@
 # Publishing Instructions
 
-Docusaurus is published as an npm package that can be installed via `npm` or `yarn`. Get access from the Docusaurus npm admins (@yangshun/@JoelMarcey).
+Docusaurus is published as an npm package that can be installed via `npm` or `yarn`.
 
-## Log in to npm
+# Check publish rights
+
+Get access from the Docusaurus npm admins (@yangshun/@JoelMarcey).
+
+## GitHub
+
+You need publish access to **the main Docusaurus repository** (not a fork).
+
+## NPM
 
 Publishing will only work if you are logged into npm with an account with publishing rights to the package.
 
@@ -10,25 +18,46 @@ If you are not currently logged into npm on your CLI, do the following:
 
 1. `npm login`
 1. Enter username, password and associated email address
-1. Make sure you have 2FA enabled on your account (preferably just for authorization)
+1. **Enable 2FA** on your account (preferably for D2: select 2FA mode `Authorization`, not `Authorization and Publishing`)
+
+---
 
 ## Docusaurus 2
 
 <!-- TODO: describe the process of hotfix releases -->
 
-If you're publishing new v2 versions, 2FA might get in the way as the pin might expire during the publishing as there are over 10 packages to publish. You're encouraged not to use the "Authorization and Publishing" 2FA option.
+If you're publishing new v2 versions, 2FA might get in the way as the pin might expire during the publishing as there are over 10 packages to publish. Use 2FA mode `Authorization`, not `Authorization and Publishing`.
 
-### 0. Build skeleton website with new version (Docker required)
+### 1. Git setup
 
-To make sure that all packages will work correctly when they are published, you can build them locally and use them to run the skeleton website:
+From the **master branch** (up to date, main repo, not a fork), create a new branch for the release.
 
-```bash
+The branch name does not matter much, but you can use the `<your_username>/<version_to_release>` pattern.
+
+```sh
+# up to date master
+git co master
+git pull
+
+# create a new release branch
+git co -b <your_username>/<version_to_release>
+```
+
+### 2. Build and test the project
+
+Run `yarn install`
+
+It should run `yarn build:packages` and build the project's packages.
+
+To make sure that all packages will work correctly when they are published, we can initialize a new D2 skeleton website, and test that it can start/built.
+
+```sh
 yarn test:build:v2
 ```
 
 This command will build all the packages that it will publish to the running private npm proxy registry, and then initialize a new website in the `test-website` directory. Now you can start the dev server and/or make a production built.
 
-```bash
+```sh
 cd test-website
 yarn start
 yarn build # after manual testing in browser
@@ -36,11 +65,23 @@ yarn build # after manual testing in browser
 
 If there are no errors, you can start preparing for the new release.
 
-### 1. Update the v2 changelog
+**Note**: This step is also run by the CI on all pull requests ([see](https://github.com/facebook/docusaurus/pull/2954/checks?check_run_id=780871959))
 
-Generate a GitHub auth token by going to https://github.com/settings/tokens. Save the token somewhere for future reference.
+### 3. Update the v2 changelog
 
-> Before running the command below, get all tags from the original repository by running `git fetch --tags`.
+The changelog uses GitHub labels to classify each pull request. Use the GitHub interface to assign each newly merged pull request to a GitHub label starting with `tag:`, otherwise the PR won't appear in the changelog.
+
+The `tag:` label prefix is for PRs only. Other labels are not used by the changelog tool, and it's not necessary to assign such labels to issues, only PRs.
+
+Generate a GitHub auth token by going to https://github.com/settings/tokens (the only permission needed is `public_repo`). Save the token somewhere for future reference.
+
+Fetch the tags from Github (lerna-changelog looks for commits since last tag by default):
+
+```sh
+git fetch --tags
+```
+
+Generate the changelog with:
 
 ```sh
 GITHUB_AUTH=<Your GitHub auth token> yarn changelog
@@ -48,20 +89,29 @@ GITHUB_AUTH=<Your GitHub auth token> yarn changelog
 
 Copy the generated contents and paste them in `CHANGELOG-2.x.md`.
 
-### 2. Cut a new version of the docs
+**Note**: sometimes `lerna-changelog` gives an empty changelog ([bug report](https://github.com/lerna/lerna-changelog/issues/354)). Adding the `--from` options seems to help (`yarn changelog --from v2.0.0-alpha.60`).
+
+### 4. Cut a new version of the docs
 
 ```sh
-cd website
-yarn run docusaurus docs:version 2.0.0-alpha.41
+yarn workspace docusaurus-2-website docusaurus docs:version 2.0.0-alpha.59
 ```
 
 Test running the website with the new version locally.
 
-### 3. Create a Pull Request
+### 5. Create a Pull Request
 
-Make a commit and create a pull request with the changes and get it merged. An example PR would be [#2287](https://github.com/facebook/docusaurus/pull/2287). Make sure the preview loads fine and is showing the new version.
+You should still be on your local branch `<your_username>/<version_to_release>`
 
-### 4. Publish to npm
+Make a commit/push, create a pull request with the changes.
+
+**Don't merge it yet**, but wait for the CI checks to complete.
+
+An example PR would be [#3114](https://github.com/facebook/docusaurus/pull/3114).
+
+### 6. Build and publish to npm
+
+Stay on your local branch `<your_username>/<version_to_release>`
 
 As we have a monorepo structure, we use `lerna publish` to publish the new version of packages to npm in one shot.
 
@@ -99,23 +149,36 @@ npm access ls-packages
 </pre>
 </details>
 
-If all accesses are available, build all the necessary packages with `yarn tsc`, and then you can run the command to release a new version:
+It can happen that some accesses not granted, as an admin might add you to the @docusaurus NPM organisation, but you don't have access to the packages that are not in that organisation.
+
+Please **double-check your permissions on these 3 packages**, otherwise you'll publish a half-release and will have to release a new version.
+
+```
+  "docusaurus": "read-write",
+  "docusaurus-init": "read-write",
+  "stylelint-copyright": "read-write"
+```
+
+If all accesses are available, build all the necessary packages, and then run the lerna command to release a new version:
 
 ```sh
+yarn build:packages
 yarn lerna publish 2.0.0-alpha.41 --dist-tag next
 ```
 
-_Note: The v1 packages will also be modified because it's part of the monorepo. It is not ideal but we will live with it for now._
+**Note**: The v1 packages will also be modified because it's part of the monorepo. It is not ideal but we will live with it for now.\_
 
 This command does a few things:
 
 - Modifies the versions of all the `package.json` in the repository to be `2.0.0-alpha.41` and creates a commit
 - Creates a new Git tag `v2.0.0-alpha.41`
-- Pushes the new commit and Git tag to `master`
+- Pushes the new release commit on your branch, and add a git tag
 
 You should receive many emails notifying you that a new version of the packages has been published.
 
-### 5. Create a release on GitHub
+Now that the release is done, **merge the pull request**.
+
+### 7. Create a release on GitHub
 
 - Go to https://github.com/facebook/docusaurus/releases/new
 - Under the "Tag version" field, look for the newly-created tag, which is `v2.0.0-alpha.41` in this case
@@ -123,9 +186,9 @@ You should receive many emails notifying you that a new version of the packages 
 - Hit the green "Publish release" button
 - Profit! 💰
 
-### 6. Notify people about new release (optional but desirable)
+### 8. Notify people about new release (optional but desirable)
 
-After new release, it was cool to notify our users about this in the Dicsord chat (`docusaurus-users` channel) and write summaries in Twiiter using the following templates.
+After new release, it is cool to notify our users about this in the Dicsord chat (`docusaurus-users` channel) and write summaries on Twitter using the following templates.
 
 For Discord:
 
@@ -155,6 +218,8 @@ NOTE: most likely this last item will be relevant for each new release, so do no
 
 https://github.com/facebook/docusaurus/releases/tag/%VER%
 ```
+
+---
 
 ## Docusaurus 1
 

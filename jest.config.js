@@ -15,6 +15,7 @@ const ignorePatterns = [
   '/packages/docusaurus-plugin-content-blog/lib',
   '/packages/docusaurus-plugin-content-docs/lib',
   '/packages/docusaurus-plugin-content-pages/lib',
+  '/packages/docusaurus-migrate/lib',
 ];
 
 module.exports = {
@@ -28,4 +29,7 @@ module.exports = {
     '^.+\\.[jt]sx?$': 'babel-jest',
   },
   setupFiles: ['./jest/stylelint-rule-test.js'],
+  moduleNameMapper: {
+    '@docusaurus/router': 'react-router-dom',
+  },
 };

@@ -96,7 +96,7 @@ blogSidebarTitle: { default: 'Recent posts', all: 'All blog posts' },
 
 Docusaurus provides an RSS feed for your blog posts. Both RSS and Atom feed formats are supported. This data is automatically added to your website page's HTML `<HEAD>` tag.
 
-A summary of the post's text is provided in the RSS feed up to the `<!--truncate-->`. If no `<!--truncate-->` tag is found, then all text up to 250 characters is used.
+A summary of the post's text is provided in the RSS feed up to the `<!--truncate-->`. If no `<!--truncate-->` tag is found, then all text up to 250 characters are used.
 
 ## Social Buttons
 

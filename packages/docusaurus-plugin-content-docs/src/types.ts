@@ -5,8 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+// eslint-disable-next-line spaced-comment
+/// <reference types="@docusaurus/module-type-aliases" />
+
+export type DocsVersion = string | null; // null = unversioned sites
+
 export interface MetadataOptions {
   routeBasePath: string;
+  homePageId?: string;
   editUrl?: string;
   showLastUpdateTime?: boolean;
   showLastUpdateAuthor?: boolean;
@@ -18,13 +24,15 @@ export interface PathOptions {
 }
 
 export interface PluginOptions extends MetadataOptions, PathOptions {
+  id?: string;
   include: string[];
   docLayoutComponent: string;
   docItemComponent: string;
   remarkPlugins: ([Function, object] | Function)[];
   rehypePlugins: string[];
   admonitions: any;
-  homePageId: string;
+  disableVersioning: boolean;
+  excludeNextVersionDocs: boolean;
 }
 
 export type SidebarItemDoc = {
@@ -65,7 +73,7 @@ export type SidebarItemRaw =
   | SidebarItemCategoryRaw
   | {
       type: string;
-      [key: string]: any;
+      [key: string]: unknown;
     };
 
 export interface SidebarCategoryShorthandRaw {
@@ -110,15 +118,16 @@ export interface LastUpdateData {
 }
 
 export interface MetadataRaw extends LastUpdateData {
+  unversionedId: string;
   id: string;
+  isDocsHomePage: boolean;
   title: string;
   description: string;
   source: string;
   permalink: string;
   sidebar_label?: string;
-  editUrl?: string;
+  editUrl?: string | null;
   version?: string;
-  latestVersionMainDocPermalink?: string;
 }
 
 export interface Paginator {
@@ -164,9 +173,7 @@ export type DocsBaseMetadata = Pick<
   LoadedContent,
   'docsSidebars' | 'permalinkToSidebar'
 > & {
-  version?: string;
-  isHomePage?: boolean;
-  homePagePath?: string;
+  version: string | null;
 };
 
 export type VersioningEnv = {
@@ -181,3 +188,21 @@ export interface Env {
   versioning: VersioningEnv;
   // TODO: translation
 }
+
+export type GlobalDoc = {
+  id: string;
+  path: string;
+};
+
+export type GlobalVersion = {
+  name: DocsVersion;
+  path: string;
+  mainDocId: string; // home doc (if docs homepage configured), or first doc
+  docs: GlobalDoc[];
+};
+
+export type GlobalPluginData = {
+  path: string;
+  latestVersionName: DocsVersion;
+  versions: GlobalVersion[];
+};

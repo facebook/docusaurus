@@ -5,21 +5,25 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+const path = require('path');
 const versions = require('./versions.json');
 
 const allDocHomesPaths = [
-  '/docs',
-  '/docs/next',
-  ...versions.slice(1).map((version) => `/docs/${version}`),
+  '/docs/',
+  '/docs/next/',
+  ...versions.slice(1).map((version) => `/docs/${version}/`),
 ];
+
+const baseUrl = process.env.BASE_URL || '/';
 
 module.exports = {
   title: 'Docusaurus',
   tagline: 'Build optimized websites quickly, focus on your content',
   organizationName: 'facebook',
   projectName: 'docusaurus',
-  baseUrl: '/',
+  baseUrl,
   url: 'https://v2.docusaurus.io',
+  onBrokenLinks: 'throw',
   favicon: 'img/docusaurus.ico',
   customFields: {
     description:
@@ -49,6 +53,63 @@ module.exports = {
         steps: 2, // the max number of images generated between min and max (inclusive)
       },
     ],
+    [
+      '@docusaurus/plugin-pwa',
+      {
+        debug: false,
+        offlineModeActivationStrategies: ['appInstalled', 'queryString'],
+        // swRegister: false,
+        swCustom: path.resolve(__dirname, 'src/sw.js'),
+        pwaHead: [
+          {
+            tagName: 'link',
+            rel: 'icon',
+            href: '/img/docusaurus.png',
+          },
+          {
+            tagName: 'link',
+            rel: 'manifest',
+            href: '/manifest.json',
+          },
+          {
+            tagName: 'meta',
+            name: 'theme-color',
+            content: 'rgb(37, 194, 160)',
+          },
+          {
+            tagName: 'meta',
+            name: 'apple-mobile-web-app-capable',
+            content: 'yes',
+          },
+          {
+            tagName: 'meta',
+            name: 'apple-mobile-web-app-status-bar-style',
+            content: '#000',
+          },
+          {
+            tagName: 'link',
+            rel: 'apple-touch-icon',
+            href: '/img/docusaurus.png',
+          },
+          {
+            tagName: 'link',
+            rel: 'mask-icon',
+            href: '/img/docusaurus.svg',
+            color: 'rgb(62, 204, 94)',
+          },
+          {
+            tagName: 'meta',
+            name: 'msapplication-TileImage',
+            content: '/img/docusaurus.png',
+          },
+          {
+            tagName: 'meta',
+            name: 'msapplication-TileColor',
+            content: '#000',
+          },
+        ],
+      },
+    ],
   ],
   presets: [
     [
@@ -63,6 +124,7 @@ module.exports = {
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
           remarkPlugins: [require('./src/plugins/remark-npm2yarn')],
+          disableVersioning: !!process.env.DISABLE_VERSIONING,
         },
         blog: {
           path: '../website-1.x/blog',
@@ -84,6 +146,11 @@ module.exports = {
     ],
   ],
   themeConfig: {
+    colorMode: {
+      defaultMode: 'light',
+      disableSwitch: false,
+      respectPrefersColorScheme: true,
+    },
     announcementBar: {
       id: 'supportus',
       content:
@@ -100,7 +167,7 @@ module.exports = {
     algolia: {
       apiKey: '47ecd3b21be71c5822571b9f59e52544',
       indexName: 'docusaurus-2',
-      algoliaOptions: {
+      searchParameters: {
         facetFilters: [`version:${versions[0]}`],
       },
     },
@@ -112,28 +179,11 @@ module.exports = {
         src: 'img/docusaurus.svg',
         srcDark: 'img/docusaurus_keytar.svg',
       },
-      links: [
+      items: [
         {
-          label: 'Docs',
-          to: 'docs', // "fake" link
+          type: 'docsVersionDropdown',
           position: 'left',
-          activeBaseRegex: `docs/(?!next/(support|team|resources))`,
-          items: [
-            {
-              label: versions[0],
-              to: 'docs/',
-              activeBaseRegex: `docs/(?!${versions.join('|')}|next)`,
-            },
-            ...versions.slice(1).map((version) => ({
-              label: version,
-              to: `docs/${version}/`,
-            })),
-            {
-              label: 'Master/Unreleased',
-              to: 'docs/next/',
-              activeBaseRegex: `docs/next/(?!support|team|resources)`,
-            },
-          ],
+          nextVersionLabel: '2.0.0-next',
         },
         {to: 'blog', label: 'Blog', position: 'left'},
         {to: 'showcase', label: 'Showcase', position: 'left'},
@@ -144,8 +194,8 @@ module.exports = {
           activeBaseRegex: `docs/next/(support|team|resources)`,
         },
         {
-          to: 'versions',
-          label: `v${versions[0]}`,
+          to: '/versions',
+          label: 'All versions',
           position: 'right',
         },
         {

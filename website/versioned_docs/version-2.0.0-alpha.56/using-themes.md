@@ -54,7 +54,7 @@ For example, a Docusaurus blog consists of a blog plugin and a blog theme.
 ```js title="docusaurus.config.js"
 {
   theme: ['theme-blog'],
-  plugins: ['plugin-content-blog'],
+  plugins: [require.resolve('plugin-content-blog')],
 }
 ```
 
@@ -63,7 +63,7 @@ And if you want to use Bootstrap styling, you can swap out the theme with `theme
 ```js title="docusaurus.config.js"
 {
   theme: ['theme-blog-bootstrap'],
-  plugins: ['plugin-content-blog'],
+  plugins: [require.resolve('plugin-content-blog')],
 }
 ```
 

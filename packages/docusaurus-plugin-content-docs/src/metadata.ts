@@ -15,7 +15,44 @@ import {
 import {LoadContext} from '@docusaurus/types';
 
 import lastUpdate from './lastUpdate';
-import {MetadataRaw, LastUpdateData, MetadataOptions, Env} from './types';
+import {
+  MetadataRaw,
+  LastUpdateData,
+  MetadataOptions,
+  Env,
+  VersioningEnv,
+} from './types';
+import getSlug from './slug';
+import {escapeRegExp} from 'lodash';
+
+function removeVersionPrefix(str: string, version: string): string {
+  return str.replace(new RegExp(`^version-${escapeRegExp(version)}/?`), '');
+}
+
+function inferVersion(
+  dirName: string,
+  versioning: VersioningEnv,
+): string | undefined {
+  if (!versioning.enabled) {
+    return undefined;
+  }
+  if (/^version-/.test(dirName)) {
+    const inferredVersion = dirName
+      .split('/', 1)
+      .shift()!
+      .replace(/^version-/, '');
+    if (inferredVersion && versioning.versions.includes(inferredVersion)) {
+      return inferredVersion;
+    }
+    throw new Error(
+      `Can't infer version from folder=${dirName}
+Expected versions:
+- ${versioning.versions.join('- ')}`,
+    );
+  } else {
+    return 'next';
+  }
+}
 
 type Args = {
   source: string;
@@ -59,7 +96,7 @@ export default async function processMetadata({
   options,
   env,
 }: Args): Promise<MetadataRaw> {
-  const {routeBasePath, editUrl} = options;
+  const {routeBasePath, editUrl, homePageId} = options;
   const {siteDir, baseUrl} = context;
   const {versioning} = env;
   const filePath = path.join(refDir, source);
@@ -67,21 +104,12 @@ export default async function processMetadata({
   const fileMarkdownPromise = parseMarkdownFile(filePath);
   const lastUpdatedPromise = lastUpdated(filePath, options);
 
-  let version;
-  const dirName = path.dirname(source);
-  if (versioning.enabled) {
-    if (/^version-/.test(dirName)) {
-      const inferredVersion = dirName
-        .split('/', 1)
-        .shift()!
-        .replace(/^version-/, '');
-      if (inferredVersion && versioning.versions.includes(inferredVersion)) {
-        version = inferredVersion;
-      }
-    } else {
-      version = 'next';
-    }
-  }
+  const dirNameWithVersion = path.dirname(source); // ex: version-1.0.0/foo
+  const version = inferVersion(dirNameWithVersion, versioning); // ex: 1.0.0
+  const dirNameWithoutVersion = // ex: foo
+    version && version !== 'next'
+      ? removeVersionPrefix(dirNameWithVersion, version)
+      : dirNameWithVersion;
 
   // The version portion of the url path. Eg: 'next', '1.0.0', and ''.
   const versionPath =
@@ -101,31 +129,35 @@ export default async function processMetadata({
     throw new Error('Document id cannot include "/".');
   }
 
-  const baseSlug: string = frontMatter.slug || baseID;
-  if (baseSlug.includes('/')) {
-    throw new Error('Document slug cannot include "/".');
+  const id =
+    dirNameWithVersion !== '.' ? `${dirNameWithVersion}/${baseID}` : baseID;
+  const unversionedId = version ? removeVersionPrefix(id, version) : id;
+
+  const isDocsHomePage = unversionedId === homePageId;
+  if (frontMatter.slug && isDocsHomePage) {
+    throw new Error(
+      `The docs homepage (homePageId=${homePageId}) is not allowed to have a frontmatter slug=${frontMatter.slug} => you have to chooser either homePageId or slug, not both`,
+    );
   }
 
-  // Append subdirectory as part of id/slug.
-  const id = dirName !== '.' ? `${dirName}/${baseID}` : baseID;
-  const slug = dirName !== '.' ? `${dirName}/${baseSlug}` : baseSlug;
+  const docSlug = isDocsHomePage
+    ? '/'
+    : getSlug({
+        baseID,
+        dirName: dirNameWithoutVersion,
+        frontmatterSlug: frontMatter.slug,
+      });
 
   // Default title is the id.
   const title: string = frontMatter.title || baseID;
 
   const description: string = frontMatter.description || excerpt;
 
-  // The last portion of the url path. Eg: 'foo/bar', 'bar'.
-  const routePath =
-    version && version !== 'next'
-      ? slug.replace(new RegExp(`^version-${version}/`), '')
-      : slug;
-
   const permalink = normalizeUrl([
     baseUrl,
     routeBasePath,
     versionPath,
-    routePath,
+    docSlug,
   ]);
 
   const {lastUpdatedAt, lastUpdatedBy} = await lastUpdatedPromise;
@@ -135,7 +167,9 @@ export default async function processMetadata({
   // Adding properties to object after instantiation will cause hidden
   // class transitions.
   const metadata: MetadataRaw = {
+    unversionedId,
     id,
+    isDocsHomePage,
     title,
     description,
     source: aliasedSitePath(filePath, siteDir),

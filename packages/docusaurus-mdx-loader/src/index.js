@@ -13,6 +13,7 @@ const matter = require('gray-matter');
 const stringifyObject = require('stringify-object');
 const slug = require('./remark/slug');
 const rightToc = require('./remark/rightToc');
+const transformImage = require('./remark/transformImage');
 
 const DEFAULT_OPTIONS = {
   rehypePlugins: [],
@@ -29,6 +30,10 @@ module.exports = async function (fileString) {
     remarkPlugins: [
       ...(reqOptions.beforeDefaultRemarkPlugins || []),
       ...DEFAULT_OPTIONS.remarkPlugins,
+      [
+        transformImage,
+        {staticDir: reqOptions.staticDir, filePath: this.resourcePath},
+      ],
       ...(reqOptions.remarkPlugins || []),
     ],
     rehypePlugins: [

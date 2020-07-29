@@ -34,9 +34,9 @@ function useSearchQuery() {
         search: searchParams.toString(),
       });
     },
-    navigateToSearchPage: (searchValue) => {
+    generateSearchPageLink: (searchValue) => {
       // Refer to https://github.com/facebook/docusaurus/pull/2838
-      history.push(`${baseUrl}search?q=${searchValue}`);
+      return `${baseUrl}search?q=${encodeURIComponent(searchValue)}`;
     },
   };
 }

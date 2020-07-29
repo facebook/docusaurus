@@ -145,7 +145,7 @@ npm install --save docusaurus-plugin-sass
 ```jsx {3} title="docusaurus.config.js"
 module.exports = {
   // ...
-  plugins: ['docusaurus-plugin-sass'],
+  plugins: [require.resolve('docusaurus-plugin-sass')],
   // ...
 };
 ```

@@ -13,7 +13,7 @@ export default function createSitemap(
   siteConfig: DocusaurusConfig,
   routesPaths: string[],
   options: PluginOptions,
-) {
+): sitemap.Sitemap {
   const {url: hostname} = siteConfig;
   if (!hostname) {
     throw new Error('url in docusaurus.config.js cannot be empty/undefined');

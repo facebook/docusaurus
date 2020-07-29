@@ -210,7 +210,7 @@ You can find the full list of supported themes in the Highlight.js [`styles`](ht
 
 ### Registering additional languages
 
-While Highlight.js provides support for [many popular languages out of the box](https://highlightjs.org/static/demo/), you may find the need to register additional language support. For these cases, we provide an escape valve by exposing the `hljs` constant as part of the `highlight` config key. This in turn allows you to call [`registerLanguage`](http://highlightjs.readthedocs.io/en/latest/api.html#registerlanguage-name-language):
+While Highlight.js provides support for [many popular languages out of the box](https://highlightjs.org/static/demo/), you may find the need to register additional language support. For these cases, we provide an escape valve by exposing the `hljs` constant as part of the `highlight` config key. This, in turn, allows you to call [`registerLanguage`](http://highlightjs.readthedocs.io/en/latest/api.html#registerlanguage-name-language):
 
 ```js
 {

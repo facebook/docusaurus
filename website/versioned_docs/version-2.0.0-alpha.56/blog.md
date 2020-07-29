@@ -170,7 +170,7 @@ module.exports = {
   // ...
   plugins: [
     [
-      '@docusaurus/plugin-content-blog',
+      require.resolve('@docusaurus/plugin-content-blog'),
       {
         /**
          * URL route for the blog section of your site.

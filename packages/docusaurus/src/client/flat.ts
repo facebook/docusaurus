@@ -5,7 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-function flat(target) {
+// Too dynamic
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function flat(target: unknown): any {
   const delimiter = '.';
   const output = {};
 

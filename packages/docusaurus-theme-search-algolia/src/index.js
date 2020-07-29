@@ -10,10 +10,11 @@ const fs = require('fs');
 const eta = require('eta');
 const {normalizeUrl} = require('@docusaurus/utils');
 const openSearchTemplate = require('./templates/opensearch');
+const {validateThemeConfig} = require('./validateThemeConfig');
 
 const OPEN_SEARCH_FILENAME = 'opensearch.xml';
 
-module.exports = function (context) {
+function theme(context) {
   const {
     baseUrl,
     siteConfig: {title, url, favicon},
@@ -29,26 +30,6 @@ module.exports = function (context) {
 
     getPathsToWatch() {
       return [pagePath];
-    },
-
-    configureWebpack() {
-      // Ensure that algolia docsearch styles is its own chunk.
-      return {
-        optimization: {
-          splitChunks: {
-            cacheGroups: {
-              algolia: {
-                name: 'algolia',
-                test: /algolia\.css$/,
-                chunks: `all`,
-                enforce: true,
-                // Set priority higher than docusaurus single-css extraction.
-                priority: 60,
-              },
-            },
-          },
-        },
-      };
     },
 
     async contentLoaded({actions: {addRoute}}) {
@@ -90,4 +71,8 @@ module.exports = function (context) {
       };
     },
   };
-};
+}
+
+module.exports = theme;
+
+theme.validateThemeConfig = validateThemeConfig;

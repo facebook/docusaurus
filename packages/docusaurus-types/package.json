@@ -1,6 +1,6 @@
 {
   "name": "@docusaurus/types",
-  "version": "2.0.0-alpha.56",
+  "version": "2.0.0-alpha.60",
   "description": "Common used typings for Docusaurus packages",
   "main": "./src/index.js",
   "types": "./src/index.d.ts",
@@ -11,6 +11,7 @@
   "dependencies": {
     "@types/webpack": "^4.41.0",
     "commander": "^4.0.1",
-    "querystring": "0.2.0"
+    "querystring": "0.2.0",
+    "webpack-merge": "^4.2.2"
   }
 }

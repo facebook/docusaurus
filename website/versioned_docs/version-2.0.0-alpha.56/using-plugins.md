@@ -18,7 +18,7 @@ Then you add it in your site's `docusaurus.config.js`'s `plugins` option:
 ```jsx {3} title="docusaurus.config.js"
 module.exports = {
   // ...
-  plugins: ['@docusaurus/plugin-content-pages'],
+  plugins: [require.resolve('@docusaurus/plugin-content-pages')],
 };
 ```
 
@@ -44,7 +44,7 @@ module.exports = {
   // ...
   plugins: [
     [
-      '@docusaurus/plugin-xxx',
+      require.resolve('@docusaurus/plugin-xxx'),
       {
         /* options */
       },
@@ -59,7 +59,7 @@ Example:
 module.exports = {
   plugins: [
     // Basic usage.
-    '@docusaurus/plugin-google-analytics',
+    require.resolve('@docusaurus/plugin-google-analytics'),
 
     // With options object (babel style)
     [
@@ -142,7 +142,7 @@ If you have installed `@docusaurus/preset-classic`, you don't need to install it
 module.exports = {
   plugins: [
     [
-      '@docusaurus/plugin-content-blog',
+      require.resolve('@docusaurus/plugin-content-blog'),
       {
         /**
          * Path to data on filesystem relative to site dir.
@@ -226,7 +226,7 @@ If you have installed `@docusaurus/preset-classic`, you don't need to install it
 module.exports = {
   plugins: [
     [
-      '@docusaurus/plugin-content-docs',
+      require.resolve('@docusaurus/plugin-content-docs'),
       {
         /**
          * Path to data on filesystem relative to site dir.
@@ -301,7 +301,7 @@ If you have installed `@docusaurus/preset-classic`, you don't need to install it
 module.exports = {
   plugins: [
     [
-      '@docusaurus/plugin-content-pages',
+      require.resolve('@docusaurus/plugin-content-pages'),
       {
         /**
          * Path to data on filesystem
@@ -341,7 +341,7 @@ If you have installed `@docusaurus/preset-classic`, you don't need to install it
 
 ```js title="docusaurus.config.js"
 module.exports = {
-  plugins: ['@docusaurus/plugin-google-analytics'],
+  plugins: [require.resolve('@docusaurus/plugin-google-analytics')],
   themeConfig: {
     googleAnalytics: {
       trackingID: 'UA-141789564-1',
@@ -372,7 +372,7 @@ If you have installed `@docusaurus/preset-classic`, you don't need to install it
 
 ```js title="docusaurus.config.js"
 module.exports = {
-  plugins: ['@docusaurus/plugin-google-gtag'],
+  plugins: [require.resolve('@docusaurus/plugin-google-gtag')],
   themeConfig: {
     gtag: {
       trackingID: 'UA-141789564-1',
@@ -403,7 +403,7 @@ If you have installed `@docusaurus/preset-classic`, you don't need to install it
 module.exports = {
   plugins: [
     [
-      '@docusaurus/plugin-sitemap',
+      require.resolve('@docusaurus/plugin-sitemap'),
       {
         cacheTime: 600 * 1000, // 600 sec - cache purge period
         changefreq: 'weekly',
@@ -427,7 +427,7 @@ Modify your `docusaurus.config.js`
 ```diff
 module.exports = {
   ...
-+ plugins: ['@docusaurus/plugin-ideal-image'],
++ plugins: [require.resolve('@docusaurus/plugin-ideal-image')],
   ...
 }
 ```

@@ -14,6 +14,9 @@ import escapeStringRegexp from 'escape-string-regexp';
 import fs from 'fs-extra';
 import {URL} from 'url';
 
+// @ts-expect-error: no typedefs :s
+import resolvePathnameUnsafe from 'resolve-pathname';
+
 const fileHash = new Map();
 export async function generate(
   generatedFilesDir: string,
@@ -60,7 +63,7 @@ export function objectWithKeySorted(obj: {[index: string]: any}) {
 }
 
 const indexRE = /(^|.*\/)index\.(md|mdx|js|jsx|ts|tsx)$/i;
-const extRE = /\.(md|mdx|js|tsx)$/;
+const extRE = /\.(md|mdx|js|jsx|ts|tsx)$/;
 
 /**
  * Convert filepath to url path.
@@ -80,6 +83,10 @@ export function encodePath(userpath: string): string {
     .join('/');
 }
 
+export function simpleHash(str: string, length: number): string {
+  return createHash('md5').update(str).digest('hex').substr(0, length);
+}
+
 /**
  * Given an input string, convert to kebab-case and append a hash.
  * Avoid str collision.
@@ -88,7 +95,7 @@ export function docuHash(str: string): string {
   if (str === '/') {
     return 'index';
   }
-  const shortHash = createHash('md5').update(str).digest('hex').substr(0, 3);
+  const shortHash = simpleHash(str, 3);
   return `${kebabCase(str)}-${shortHash}`;
 }
 
@@ -139,17 +146,11 @@ export function genChunkName(
   let chunkName: string | undefined = chunkNameCache.get(modulePath);
   if (!chunkName) {
     if (shortId) {
-      chunkName = createHash('md5')
-        .update(modulePath)
-        .digest('hex')
-        .substr(0, 8);
+      chunkName = simpleHash(modulePath, 8);
     } else {
       let str = modulePath;
       if (preferredName) {
-        const shortHash = createHash('md5')
-          .update(modulePath)
-          .digest('hex')
-          .substr(0, 3);
+        const shortHash = simpleHash(modulePath, 3);
         str = `${preferredName}${shortHash}`;
       }
       const name = str === '/' ? 'index' : docuHash(str);
@@ -160,6 +161,8 @@ export function genChunkName(
   return chunkName;
 }
 
+// Too dynamic
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
 export function idx(target: any, keyPaths?: string | (string | number)[]): any {
   return (
     target &&
@@ -197,7 +200,7 @@ export function createExcerpt(fileString: string): string | undefined {
 
   const fileLines = fileContent.split('\n');
 
-  for (let fileLine of fileLines) {
+  for (const fileLine of fileLines) {
     const cleanedLine = fileLine
       // Remove HTML tags.
       .replace(/<[^>]*>/g, '')
@@ -231,13 +234,15 @@ export function createExcerpt(fileString: string): string | undefined {
 
 type ParsedMarkdown = {
   frontMatter: {
+    // Returned by gray-matter
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     [key: string]: any;
   };
   content: string;
   excerpt: string | undefined;
 };
 export function parseMarkdownString(markdownString: string): ParsedMarkdown {
-  const options: {} = {
+  const options: Record<string, unknown> = {
     excerpt: (file: matter.GrayMatterFile<string>): void => {
       // Hacky way of stripping out import statements from the excerpt
       // TODO: Find a better way to do so, possibly by compiling the Markdown content,
@@ -338,14 +343,17 @@ export function normalizeUrl(rawUrls: string[]): string {
  * don't expose user's site structure.
  * Example: some/path/to/website/docs/foo.md -> @site/docs/foo.md
  */
-export function aliasedSitePath(filePath: string, siteDir: string) {
+export function aliasedSitePath(filePath: string, siteDir: string): string {
   const relativePath = path.relative(siteDir, filePath);
   // Cannot use path.join() as it resolves '../' and removes
   // the '@site'. Let webpack loader resolve it.
   return `@site/${relativePath}`;
 }
 
-export function getEditUrl(fileRelativePath: string, editUrl?: string) {
+export function getEditUrl(
+  fileRelativePath: string,
+  editUrl?: string,
+): string | undefined {
   return editUrl
     ? normalizeUrl([editUrl, posixPath(fileRelativePath)])
     : undefined;
@@ -356,28 +364,40 @@ export function isValidPathname(str: string): boolean {
     return false;
   }
   try {
+    // weird, but is there a better way?
     return new URL(str, 'https://domain.com').pathname === str;
   } catch (e) {
     return false;
   }
 }
 
-export function addTrailingSlash(str: string) {
+// resolve pathname and fail fast if resolution fails
+export function resolvePathname(to: string, from?: string) {
+  return resolvePathnameUnsafe(to, from);
+}
+export function addLeadingSlash(str: string): string {
+  return str.startsWith('/') ? str : `/${str}`;
+}
+export function addTrailingSlash(str: string): string {
   return str.endsWith('/') ? str : `${str}/`;
 }
 
-export function removeTrailingSlash(str: string) {
+export function removeTrailingSlash(str: string): string {
   return removeSuffix(str, '/');
 }
 
-export function removeSuffix(str: string, suffix: string) {
+export function removeSuffix(str: string, suffix: string): string {
   if (suffix === '') {
     return str; // always returns "" otherwise!
   }
   return str.endsWith(suffix) ? str.slice(0, -suffix.length) : str;
 }
 
-export function getFilePathForRoutePath(routePath: string) {
+export function removePrefix(str: string, prefix: string): string {
+  return str.startsWith(prefix) ? str.slice(prefix.length) : str;
+}
+
+export function getFilePathForRoutePath(routePath: string): string {
   const fileName = path.basename(routePath);
   const filePath = path.dirname(routePath);
   return path.join(filePath, `${fileName}/index.html`);

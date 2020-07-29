@@ -1,24 +1,35 @@
 {
   "name": "docusaurus-2-website",
-  "version": "2.0.0-alpha.56",
+  "version": "2.0.0-alpha.60",
   "private": true,
   "scripts": {
+    "docusaurus": "docusaurus",
     "start": "docusaurus start",
     "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",
-    "deploy": "docusaurus deploy"
+    "deploy": "docusaurus deploy",
+    "start:baseUrl": "BASE_URL='/build/' yarn start",
+    "build:baseUrl": "BASE_URL='/build/' yarn build",
+    "netlify:build:production": "yarn build",
+    "netlify:build:deployPreview": "yarn build:baseUrl && yarn netlify:build:deployPreview:moveBuild && yarn netlify:build:deployPreview:redirects",
+    "netlify:build:deployPreview:moveBuild": "yarn rimraf netlifyDeploy && mkdir netlifyDeploy && mv build netlifyDeploy",
+    "netlify:build:deployPreview:redirects": "echo 'Writing Netlify baseUrl deployPreview _redirects file' && echo '/build/* /build/404.html 200' >> netlifyDeploy/_redirects && echo '/* /build/' >> netlifyDeploy/_redirects",
+    "netlify:test": "yarn netlify:build:deployPreview && yarn netlify dev --debug"
   },
   "dependencies": {
-    "@docusaurus/core": "^2.0.0-alpha.56",
-    "@docusaurus/plugin-ideal-image": "^2.0.0-alpha.56",
-    "@docusaurus/plugin-client-redirects": "^2.0.0-alpha.56",
-    "@docusaurus/preset-classic": "^2.0.0-alpha.56",
-    "@docusaurus/theme-live-codeblock": "^2.0.0-alpha.56",
+    "@docusaurus/core": "^2.0.0-alpha.60",
+    "@docusaurus/plugin-client-redirects": "^2.0.0-alpha.60",
+    "@docusaurus/plugin-ideal-image": "^2.0.0-alpha.60",
+    "@docusaurus/plugin-pwa": "^2.0.0-alpha.60",
+    "@docusaurus/preset-classic": "^2.0.0-alpha.60",
+    "@docusaurus/theme-live-codeblock": "^2.0.0-alpha.60",
     "clsx": "^1.1.1",
     "color": "^3.1.2",
     "npm-to-yarn": "^1.0.0-2",
     "react": "^16.8.4",
-    "react-dom": "^16.8.4"
+    "react-dom": "^16.8.4",
+    "workbox-routing": "^5.0.0",
+    "workbox-strategies": "^5.0.0"
   },
   "browserslist": {
     "production": [

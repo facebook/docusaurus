@@ -1,23 +1,28 @@
 {
   "name": "@docusaurus/plugin-content-docs",
-  "version": "2.0.0-alpha.56",
+  "version": "2.0.0-alpha.60",
   "description": "Docs content plugin for Docusaurus",
   "main": "lib/index.js",
   "scripts": {
-    "tsc": "tsc"
+    "build": "tsc",
+    "watch": "tsc --watch"
   },
   "publishConfig": {
     "access": "public"
   },
   "license": "MIT",
   "devDependencies": {
-    "@docusaurus/types": "^2.0.0-alpha.56",
+    "@docusaurus/module-type-aliases": "^2.0.0-alpha.60",
+    "@types/hapi__joi": "^17.1.2",
     "commander": "^5.0.0",
     "picomatch": "^2.1.1"
   },
   "dependencies": {
-    "@docusaurus/mdx-loader": "^2.0.0-alpha.56",
-    "@docusaurus/utils": "^2.0.0-alpha.56",
+    "@docusaurus/core": "^2.0.0-alpha.60",
+    "@docusaurus/mdx-loader": "^2.0.0-alpha.60",
+    "@docusaurus/types": "^2.0.0-alpha.60",
+    "@docusaurus/utils": "^2.0.0-alpha.60",
+    "@hapi/joi": "17.1.1",
     "execa": "^3.4.0",
     "fs-extra": "^8.1.0",
     "globby": "^10.0.1",
@@ -27,11 +32,11 @@
     "lodash.groupby": "^4.6.0",
     "lodash.pick": "^4.4.0",
     "lodash.pickby": "^4.6.0",
+    "lodash.sortby": "^4.6.0",
     "remark-admonitions": "^1.2.1",
     "shelljs": "^0.8.4"
   },
   "peerDependencies": {
-    "@docusaurus/core": "^2.0.0",
     "react": "^16.8.4",
     "react-dom": "^16.8.4"
   },

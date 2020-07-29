@@ -9,13 +9,15 @@ import React, {useEffect, useState} from 'react';
 
 import routes from '@generated/routes';
 import siteConfig from '@generated/docusaurus.config';
+import globalData from '@generated/globalData';
+import siteMetadata from '@generated/site-metadata';
 import renderRoutes from './exports/renderRoutes';
 import DocusaurusContext from './exports/context';
 import PendingNavigation from './PendingNavigation';
 
 import './client-lifecycles-dispatcher';
 
-function App() {
+function App(): JSX.Element {
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
@@ -23,7 +25,8 @@ function App() {
   }, []);
 
   return (
-    <DocusaurusContext.Provider value={{siteConfig, isClient}}>
+    <DocusaurusContext.Provider
+      value={{siteConfig, siteMetadata, globalData, isClient}}>
       <PendingNavigation routes={routes}>
         {renderRoutes(routes)}
       </PendingNavigation>

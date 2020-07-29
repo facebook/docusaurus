@@ -8,7 +8,13 @@
 import React from 'react';
 import ExecutionEnvironment from './ExecutionEnvironment';
 
-function BrowserOnly({children, fallback}) {
+function BrowserOnly({
+  children,
+  fallback,
+}: {
+  children?: () => JSX.Element;
+  fallback?: JSX.Element;
+}): JSX.Element | null {
   if (!ExecutionEnvironment.canUseDOM || children == null) {
     return fallback || null;
   }

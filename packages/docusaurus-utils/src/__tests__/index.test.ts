@@ -8,6 +8,7 @@
 import path from 'path';
 import {
   fileToPath,
+  simpleHash,
   docuHash,
   genComponentName,
   genChunkName,
@@ -22,7 +23,9 @@ import {
   addTrailingSlash,
   removeTrailingSlash,
   removeSuffix,
+  removePrefix,
   getFilePathForRoutePath,
+  addLeadingSlash,
 } from '../index';
 
 describe('load utils', () => {
@@ -67,6 +70,21 @@ describe('load utils', () => {
     };
     Object.keys(asserts).forEach((file) => {
       expect(genComponentName(file)).toBe(asserts[file]);
+    });
+  });
+
+  test('simpleHash', () => {
+    const asserts = {
+      '': 'd41',
+      '/foo-bar': '096',
+      '/foo/bar': '1df',
+      '/endi/lie': '9fa',
+      '/endi-lie': 'fd3',
+      '/yangshun/tay': '48d',
+      '/yangshun-tay': 'f3b',
+    };
+    Object.keys(asserts).forEach((file) => {
+      expect(simpleHash(file, 3)).toBe(asserts[file]);
     });
   });
 
@@ -395,6 +413,15 @@ describe('addTrailingSlash', () => {
   });
 });
 
+describe('addLeadingSlash', () => {
+  test('should no-op', () => {
+    expect(addLeadingSlash('/abc')).toEqual('/abc');
+  });
+  test('should add /', () => {
+    expect(addLeadingSlash('abc')).toEqual('/abc');
+  });
+});
+
 describe('removeTrailingSlash', () => {
   test('should no-op', () => {
     expect(removeTrailingSlash('/abcd')).toEqual('/abcd');
@@ -416,6 +443,21 @@ describe('removeSuffix', () => {
   });
   test('should remove suffix', () => {
     expect(removeSuffix('abcdef', 'ef')).toEqual('abcd');
+  });
+});
+
+describe('removePrefix', () => {
+  test('should no-op 1', () => {
+    expect(removePrefix('abcdef', 'ijk')).toEqual('abcdef');
+  });
+  test('should no-op 2', () => {
+    expect(removePrefix('abcdef', 'def')).toEqual('abcdef');
+  });
+  test('should no-op 3', () => {
+    expect(removePrefix('abcdef', '')).toEqual('abcdef');
+  });
+  test('should remove prefix', () => {
+    expect(removePrefix('abcdef', 'ab')).toEqual('cdef');
   });
 });
 

@@ -16,7 +16,7 @@ module.exports = {
       type: 'category',
       label: 'Getting Started',
       collapsed: false,
-      items: ['installation', 'configuration'],
+      items: ['installation', 'configuration', 'typescript-support'],
     },
     {
       type: 'category',
@@ -31,7 +31,7 @@ module.exports = {
         'blog',
         'search',
         'deployment',
-        'migrating-from-v1-to-v2',
+        'guides/migrating-from-v1-to-v2',
       ],
     },
     {
@@ -52,9 +52,9 @@ module.exports = {
     },
   ],
   community: [
-    'support',
-    'team',
-    'resources',
+    'community/support',
+    'community/team',
+    'community/resources',
     {
       type: 'link',
       href: '/showcase',

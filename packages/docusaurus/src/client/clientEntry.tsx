@@ -17,7 +17,7 @@ import docusaurus from './docusaurus';
 
 declare global {
   interface NodeModule {
-    hot?: any;
+    hot?: {accept: () => void};
   }
 }
 

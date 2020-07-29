@@ -10,6 +10,8 @@ import kebabCase from 'lodash.kebabcase';
 import path from 'path';
 import admonitions from 'remark-admonitions';
 import {normalizeUrl, docuHash, aliasedSitePath} from '@docusaurus/utils';
+import {STATIC_DIR_NAME} from '@docusaurus/core/lib/constants';
+import {ValidationError} from '@hapi/joi';
 
 import {
   PluginOptions,
@@ -18,9 +20,9 @@ import {
   BlogItemsToMetadata,
   TagsModule,
   BlogPaginated,
-  FeedType,
   BlogPost,
 } from './types';
+import {PluginOptionSchema} from './pluginOptionSchema';
 import {
   LoadContext,
   PluginContentLoadedActions,
@@ -28,56 +30,19 @@ import {
   Props,
   Plugin,
   HtmlTags,
+  OptionValidationContext,
+  ValidationResult,
 } from '@docusaurus/types';
 import {Configuration, Loader} from 'webpack';
 import {generateBlogFeed, generateBlogPosts} from './blogUtils';
 
-const DEFAULT_OPTIONS: PluginOptions = {
-  path: 'blog', // Path to data on filesystem, relative to site dir.
-  routeBasePath: 'blog', // URL Route.
-  include: ['*.md', '*.mdx'], // Extensions to include.
-  postsPerPage: 10, // How many posts per page.
-  blogListComponent: '@theme/BlogListPage',
-  blogPostComponent: '@theme/BlogPostPage',
-  blogTagsListComponent: '@theme/BlogTagsListPage',
-  blogTagsPostsComponent: '@theme/BlogTagsPostsPage',
-  showReadingTime: true,
-  remarkPlugins: [],
-  rehypePlugins: [],
-  editUrl: undefined,
-  truncateMarker: /<!--\s*(truncate)\s*-->/, // Regex.
-  admonitions: {},
-};
-
-function assertFeedTypes(val: any): asserts val is FeedType {
-  if (typeof val !== 'string' && !['rss', 'atom', 'all'].includes(val)) {
-    throw new Error(
-      `Invalid feedOptions type: ${val}. It must be either 'rss', 'atom', or 'all'`,
-    );
-  }
-}
-
-const getFeedTypes = (type?: FeedType) => {
-  assertFeedTypes(type);
-  let feedTypes: ('rss' | 'atom')[] = [];
-
-  if (type === 'all') {
-    feedTypes = ['rss', 'atom'];
-  } else {
-    feedTypes.push(type);
-  }
-  return feedTypes;
-};
-
 export default function pluginContentBlog(
   context: LoadContext,
-  opts: Partial<PluginOptions>,
-): Plugin<BlogContent | null> {
-  const options: PluginOptions = {...DEFAULT_OPTIONS, ...opts};
-
+  options: PluginOptions,
+): Plugin<BlogContent | null, typeof PluginOptionSchema> {
   if (options.admonitions) {
     options.remarkPlugins = options.remarkPlugins.concat([
-      [admonitions, opts.admonitions || {}],
+      [admonitions, options.admonitions],
     ]);
   }
 
@@ -86,6 +51,7 @@ export default function pluginContentBlog(
   const dataDir = path.join(
     generatedFilesDir,
     'docusaurus-plugin-content-blog',
+    // options.id ?? 'default',  // TODO support multi-instance
   );
   let blogPosts: BlogPost[] = [];
 
@@ -205,9 +171,8 @@ export default function pluginContentBlog(
               label: tag,
               permalink,
             };
-          } else {
-            return tag;
           }
+          return tag;
         });
       });
 
@@ -244,7 +209,7 @@ export default function pluginContentBlog(
         `~blog/${path.relative(dataDir, source)}`;
       const {addRoute, createData} = actions;
       const {
-        blogPosts,
+        blogPosts: loadedBlogPosts,
         blogListPaginated,
         blogTags,
         blogTagsListPath,
@@ -254,7 +219,7 @@ export default function pluginContentBlog(
 
       // Create routes for blog entries.
       await Promise.all(
-        blogPosts.map(async (blogPost) => {
+        loadedBlogPosts.map(async (blogPost) => {
           const {id, metadata} = blogPost;
           await createData(
             // Note that this created data path must be in sync with
@@ -292,12 +257,11 @@ export default function pluginContentBlog(
             exact: true,
             modules: {
               items: items.map((postID) => {
-                const metadata = blogItemsToMetadata[postID];
                 // To tell routes.js this is an import and not a nested object to recurse.
                 return {
                   content: {
                     __import: true,
-                    path: metadata.source,
+                    path: blogItemsToMetadata[postID].source,
                     query: {
                       truncated: true,
                     },
@@ -400,6 +364,7 @@ export default function pluginContentBlog(
                   options: {
                     remarkPlugins,
                     rehypePlugins,
+                    staticDir: path.join(siteDir, STATIC_DIR_NAME),
                     // Note that metadataPath must be the same/in-sync as
                     // the path from createData for each MDX.
                     metadataPath: (mdxPath: string) => {
@@ -428,7 +393,7 @@ export default function pluginContentBlog(
     },
 
     async postBuild({outDir}: Props) {
-      if (!options.feedOptions) {
+      if (!options.feedOptions?.type) {
         return;
       }
 
@@ -438,10 +403,10 @@ export default function pluginContentBlog(
         return;
       }
 
-      const feedTypes = getFeedTypes(options.feedOptions?.type);
+      const feedTypes = options.feedOptions.type;
 
       await Promise.all(
-        feedTypes.map((feedType) => {
+        feedTypes.map(async (feedType) => {
           const feedPath = path.join(
             outDir,
             options.routeBasePath,
@@ -449,7 +414,7 @@ export default function pluginContentBlog(
           );
           const feedContent = feedType === 'rss' ? feed.rss2() : feed.atom1();
           try {
-            fs.writeFileSync(feedPath, feedContent);
+            await fs.outputFile(feedPath, feedContent);
           } catch (err) {
             throw new Error(`Generating ${feedType} feed failed: ${err}`);
           }
@@ -458,11 +423,10 @@ export default function pluginContentBlog(
     },
 
     injectHtmlTags() {
-      if (!options.feedOptions) {
+      if (!options.feedOptions?.type) {
         return {};
       }
-
-      const feedTypes = getFeedTypes(options.feedOptions?.type);
+      const feedTypes = options.feedOptions.type;
       const {
         siteConfig: {title},
         baseUrl,
@@ -481,22 +445,26 @@ export default function pluginContentBlog(
       };
       const headTags: HtmlTags = [];
 
-      feedTypes.map((feedType) => {
+      feedTypes.forEach((feedType) => {
         const feedConfig = feedsConfig[feedType] || {};
 
         if (!feedsConfig) {
           return;
         }
 
-        const {type, path, title} = feedConfig;
+        const {type, path: feedConfigPath, title: feedConfigTitle} = feedConfig;
 
         headTags.push({
           tagName: 'link',
           attributes: {
             rel: 'alternate',
             type,
-            href: normalizeUrl([baseUrl, options.routeBasePath, path]),
-            title,
+            href: normalizeUrl([
+              baseUrl,
+              options.routeBasePath,
+              feedConfigPath,
+            ]),
+            title: feedConfigTitle,
           },
         });
       });
@@ -506,4 +474,15 @@ export default function pluginContentBlog(
       };
     },
   };
+}
+
+export function validateOptions({
+  validate,
+  options,
+}: OptionValidationContext<PluginOptions, ValidationError>): ValidationResult<
+  PluginOptions,
+  ValidationError
+> {
+  const validatedOptions = validate(PluginOptionSchema, options);
+  return validatedOptions;
 }

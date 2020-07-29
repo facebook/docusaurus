@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -63,6 +63,12 @@ describe('createToExtensionsRedirects', () => {
     expect(createToExtensionsRedirects(['/abc.xyz'], ext)).toEqual([]);
   });
 
+  test('should create "to" redirects when relativeRoutesPath contains a prefix', () => {
+    expect(
+      createToExtensionsRedirects(['/prefix/file.html'], ['html']),
+    ).toEqual([{from: '/prefix/file', to: '/prefix/file.html'}]);
+  });
+
   test('should not create redirection for an empty extension array', () => {
     const ext: string[] = [];
     expect(createToExtensionsRedirects([''], ext)).toEqual([]);
@@ -84,6 +90,12 @@ describe('createFromExtensionsRedirects', () => {
     ]);
     expect(createFromExtensionsRedirects(['/def.html'], ext)).toEqual([]);
     expect(createFromExtensionsRedirects(['/def/'], ext)).toEqual([]);
+  });
+
+  test('should create "from" redirects when relativeRoutesPath contains a prefix', () => {
+    expect(createFromExtensionsRedirects(['/prefix/file'], ['html'])).toEqual([
+      {from: '/prefix/file.html', to: '/prefix/file'},
+    ]);
   });
 
   test('should not create redirection for an empty extension array', () => {

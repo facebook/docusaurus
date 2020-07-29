@@ -5,13 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {normalizeUrl} from '@docusaurus/utils';
+import {normalizeUrl, posixPath} from '@docusaurus/utils';
 import chalk = require('chalk');
 import chokidar from 'chokidar';
 import express from 'express';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
-import portfinder from 'portfinder';
 import openBrowser from 'react-dev-utils/openBrowser';
 import {prepareUrls} from 'react-dev-utils/WebpackDevServerUtils';
 import errorOverlayMiddleware from 'react-dev-utils/errorOverlayMiddleware';
@@ -22,22 +21,25 @@ import merge from 'webpack-merge';
 import HotModuleReplacementPlugin from 'webpack/lib/HotModuleReplacementPlugin';
 import {load} from '../server';
 import {StartCLIOptions} from '@docusaurus/types';
-import {posixPath} from '@docusaurus/utils';
 import {CONFIG_FILE_NAME, STATIC_DIR_NAME, DEFAULT_PORT} from '../constants';
-import {createClientConfig} from '../webpack/client';
+import createClientConfig from '../webpack/client';
 import {applyConfigureWebpack} from '../webpack/utils';
+import choosePort from '../choosePort';
 
 function getHost(reqHost: string | undefined): string {
   return reqHost || 'localhost';
 }
 
-async function getPort(reqPort: string | undefined): Promise<number> {
+async function getPort(
+  reqPort: string | undefined,
+  host: string,
+): Promise<number | null> {
   const basePort = reqPort ? parseInt(reqPort, 10) : DEFAULT_PORT;
-  const port = await portfinder.getPortPromise({port: basePort});
+  const port = await choosePort(host, basePort);
   return port;
 }
 
-export async function start(
+export default async function start(
   siteDir: string,
   cliOptions: Partial<StartCLIOptions> = {},
 ): Promise<void> {
@@ -66,9 +68,7 @@ export async function start(
   const pluginPaths: string[] = ([] as string[])
     .concat(
       ...plugins
-        .map<any>(
-          (plugin) => plugin.getPathsToWatch && plugin.getPathsToWatch(),
-        )
+        .map((plugin) => plugin.getPathsToWatch?.() ?? [])
         .filter(Boolean),
     )
     .map(normalizeToSiteDir);
@@ -81,8 +81,14 @@ export async function start(
   );
 
   const protocol: string = process.env.HTTPS === 'true' ? 'https' : 'http';
-  const port: number = await getPort(cliOptions.port);
+
   const host: string = getHost(cliOptions.host);
+  const port: number | null = await getPort(cliOptions.port, host);
+
+  if (port === null) {
+    process.exit();
+  }
+
   const {baseUrl, headTags, preBodyTags, postBodyTags} = props;
   const urls = prepareUrls(protocol, host, port);
   const openUrl = normalizeUrl([urls.localUrlForBrowser, baseUrl]);
@@ -168,12 +174,24 @@ export async function start(
     ...config.devServer,
   };
   const compiler = webpack(config);
+  if (process.env.E2E_TEST) {
+    compiler.hooks.done.tap('done', (stats) => {
+      if (stats.hasErrors()) {
+        console.log('E2E_TEST: Project has compiler errors.');
+        process.exit(1);
+      }
+      console.log('E2E_TEST: Project can compile.');
+      process.exit(0);
+    });
+  }
   const devServer = new WebpackDevServer(compiler, devServerConfig);
   devServer.listen(port, host, (err) => {
     if (err) {
       console.log(err);
     }
-    cliOptions.open && openBrowser(openUrl);
+    if (cliOptions.open) {
+      openBrowser(openUrl);
+    }
   });
   ['SIGINT', 'SIGTERM'].forEach((sig) => {
     process.on(sig as NodeJS.Signals, () => {

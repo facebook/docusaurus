@@ -15,7 +15,7 @@ yarn examples versions
 
 This creates the `pages/en/versions.js` file.
 
-You can edit this file later on to customize how you display the versions.
+You can edit this file, later on, to customize how you display the versions.
 
 Add the following script to your `package.json` file if it doesn't already exist:
 
@@ -71,6 +71,8 @@ If you wish to change the documentation for a past version, you can access the f
 Only files in the `docs` directory and sidebar files that differ from those of the latest version will get copied each time a new version is specified. If there is no change across versions, Docusaurus will use the file from the latest version with that file.
 
 For example, a document with the original id `doc1` exists for the latest version, `1.0.0`, and has the same content as the document with the id `doc1` in the `docs` directory. When a new version `2.0.0` is created, the file for `doc1` will not be copied into `versioned_docs/version-2.0.0/`. There will still be a page for `docs/2.0.0/doc1.html`, but it will use the file from version `1.0.0`.
+
+Because of the way this fallback works, pages that you delete are not really deleted from the website unless you tell Docusaurus to skip fallback after a certain version. To do this, use the [`deletedDocs`](api-site-config.md#deleteddocs-object) option in `siteConfig.js`.
 
 ## Renaming Existing Versions
 

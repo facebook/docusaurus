@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -69,7 +69,7 @@ describe('toRedirectFilesMetadata', () => {
 
 describe('writeRedirectFiles', () => {
   test('write the files', async () => {
-    const outDir = '/tmp/docusaurus_tests_' + Math.random();
+    const outDir = `/tmp/docusaurus_tests_${Math.random()}`;
 
     const filesMetadata = [
       {
@@ -94,7 +94,7 @@ describe('writeRedirectFiles', () => {
   });
 
   test('avoid overwriting existing files', async () => {
-    const outDir = '/tmp/docusaurus_tests_' + Math.random();
+    const outDir = `/tmp/docusaurus_tests_${Math.random()}`;
 
     const filesMetadata = [
       {
