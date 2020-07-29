@@ -7,6 +7,6 @@ description: custom description
 
 **hello** world
 
-[test link with pathname](/hey/test)
+[test link with absolute path](/hey/test)
 
-[test link with relative file path](./test.mdx)
+[test link with relative path](./test)
