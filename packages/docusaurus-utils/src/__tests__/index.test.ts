@@ -26,10 +26,7 @@ import {
   removePrefix,
   getFilePathForRoutePath,
   addLeadingSlash,
-  getFinalRoutes,
 } from '../index';
-import flatMap from 'lodash.flatmap';
-import {RouteConfig} from '@docusaurus/types';
 
 describe('load utils', () => {
   test('aliasedSitePath', () => {
@@ -477,25 +474,5 @@ describe('getFilePathForRoutePath', () => {
     expect(getFilePathForRoutePath('/somePath/')).toEqual(
       '/somePath/index.html',
     );
-  });
-});
-
-describe('getFinalRoutes', () => {
-  test('should get final routes correctly', () => {
-    const routes: RouteConfig[] = [
-      {
-        path: '/docs',
-        component: '',
-        routes: [
-          {path: '/docs/someDoc', component: ''},
-          {path: '/docs/someOtherDoc', component: ''},
-        ],
-      },
-      {
-        path: '/community',
-        component: '',
-      },
-    ];
-    expect(flatMap(routes, getFinalRoutes)).toMatchSnapshot();
   });
 });

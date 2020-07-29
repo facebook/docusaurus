@@ -11,7 +11,7 @@ import Joi from '@hapi/joi';
 import {
   isValidationDisabledEscapeHatch,
   logValidationBugReportHint,
-} from './validationUtils';
+} from './utils';
 
 export const DEFAULT_CONFIG: Pick<
   DocusaurusConfig,

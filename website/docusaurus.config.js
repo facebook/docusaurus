@@ -128,7 +128,6 @@ module.exports = {
         },
         blog: {
           path: '../website-1.x/blog',
-          routeBasePath: '/',
           editUrl:
             'https://github.com/facebook/docusaurus/edit/master/website-1.x/',
           postsPerPage: 3,

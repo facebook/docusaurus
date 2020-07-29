@@ -11,7 +11,8 @@ import chalk from 'chalk';
 import fs from 'fs-extra';
 import {mapValues, pickBy, flatMap} from 'lodash';
 import {RouteConfig, OnBrokenLinks} from '@docusaurus/types';
-import {removePrefix, getFinalRoutes} from '@docusaurus/utils';
+import {removePrefix} from '@docusaurus/utils';
+import {getFinalRoutes} from './utils';
 
 function toReactRouterRoutes(routes: RouteConfig[]): RRRouteConfig[] {
   // @ts-expect-error: types incompatible???

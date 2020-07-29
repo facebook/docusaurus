@@ -6,7 +6,7 @@
  */
 import chalk from 'chalk';
 import {RouteConfig, OnDuplicateRoutes} from '@docusaurus/types';
-import {getFinalRoutes} from '@docusaurus/utils';
+import {getFinalRoutes} from './utils';
 import {flatMap} from 'lodash';
 
 export function getAllDuplicateRoutes(

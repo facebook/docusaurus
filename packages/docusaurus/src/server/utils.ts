@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 import chalk from 'chalk';
+import flatMap from 'lodash.flatmap';
+import {RouteConfig} from '@docusaurus/types';
 
 // TODO temporary escape hatch for alpha-60: to be removed soon
 // Our validation schemas might be buggy at first
@@ -31,3 +33,7 @@ export const logValidationBugReportHint = () => {
     )}\n`,
   );
 };
+
+export function getFinalRoutes(route: RouteConfig): RouteConfig[] {
+  return route.routes ? flatMap(route.routes, getFinalRoutes) : [route];
+}
