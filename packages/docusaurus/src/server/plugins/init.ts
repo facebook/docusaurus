@@ -28,7 +28,7 @@ import {
 export function pluginOptionsValidator<T>(
   schema: ValidationSchema<T>,
   options: Partial<T>,
-): T {
+): Partial<T> {
   // All plugins can be provided an "id" for multi-instance support
   // we don't ask the user to implement id validation, we add it automatically
   const finalSchema = schema.append({
@@ -52,7 +52,7 @@ export function pluginOptionsValidator<T>(
 export function themeConfigValidator<T>(
   schema: ValidationSchema<T>,
   themeConfig: Partial<T>,
-) {
+): Partial<T> {
   // A theme should only validate his "slice" of the full themeConfig,
   // not the whole object, so we allow unknown attributes to pass a theme validation
   const finalSchema = schema.unknown();
