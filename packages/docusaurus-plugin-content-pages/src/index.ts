@@ -28,27 +28,16 @@ import {ValidationError} from '@hapi/joi';
 
 import {PluginOptions, LoadedContent, Metadata} from './types';
 
-const DEFAULT_OPTIONS: PluginOptions = {
-  path: 'src/pages', // Path to data on filesystem, relative to site dir.
-  routeBasePath: '', // URL Route.
-  include: ['**/*.{js,jsx,ts,tsx,md,mdx}'], // Extensions to include.
-  mdxPageComponent: '@theme/MDXPage',
-  remarkPlugins: [],
-  rehypePlugins: [],
-  admonitions: {},
-};
-
 const isMarkdownSource = (source: string) =>
   source.endsWith('.md') || source.endsWith('.mdx');
 
 export default function pluginContentPages(
   context: LoadContext,
-  opts: Partial<PluginOptions>,
+  options: PluginOptions,
 ): Plugin<LoadedContent | null, typeof PluginOptionSchema> {
-  const options: PluginOptions = {...DEFAULT_OPTIONS, ...opts};
   if (options.admonitions) {
     options.remarkPlugins = options.remarkPlugins.concat([
-      [admonitions, opts.admonitions || {}],
+      [admonitions, options.admonitions || {}],
     ]);
   }
   const {siteConfig, siteDir, generatedFilesDir} = context;
