@@ -12,6 +12,8 @@ import sortBy from 'lodash.sortby';
 import globby from 'globby';
 import fs from 'fs-extra';
 import path from 'path';
+import chalk from 'chalk';
+
 import admonitions from 'remark-admonitions';
 import {STATIC_DIR_NAME} from '@docusaurus/core/lib/constants';
 import {
@@ -66,9 +68,6 @@ export default function pluginContentDocs(
   context: LoadContext,
   options: PluginOptions,
 ): Plugin<LoadedContent | null, typeof PluginOptionSchema> {
-  const homePageDocsRoutePath =
-    options.routeBasePath === '' ? '/' : options.routeBasePath;
-
   if (options.admonitions) {
     options.remarkPlugins = options.remarkPlugins.concat([
       [admonitions, options.admonitions],
@@ -150,6 +149,11 @@ export default function pluginContentDocs(
       const {include, sidebarPath} = options;
 
       if (!fs.existsSync(docsDir)) {
+        console.error(
+          chalk.red(
+            `No docs directory found for the docs plugin at: ${docsDir}`,
+          ),
+        );
         return null;
       }
 
@@ -323,7 +327,7 @@ Available document ids=
       const {addRoute, createData, setGlobalData} = actions;
 
       const pluginInstanceGlobalData: GlobalPluginData = {
-        path: options.path,
+        path: normalizeUrl([baseUrl, options.routeBasePath]),
         latestVersionName: versioning.latestVersion,
         // Initialized empty, will be mutated
         versions: [],
@@ -478,23 +482,6 @@ Available document ids=
           return orderedVersionNames.indexOf(versionMetadata.name!);
         },
       );
-    },
-
-    async routesLoaded(routes) {
-      const homeDocsRoutes = routes.filter(
-        (routeConfig) => routeConfig.path === homePageDocsRoutePath,
-      );
-
-      // Remove the route for docs home page if there is a page with the same path (i.e. docs).
-      if (homeDocsRoutes.length > 1) {
-        const docsHomePageRouteIndex = routes.findIndex(
-          (route) =>
-            route.component === options.docLayoutComponent &&
-            route.path === homePageDocsRoutePath,
-        );
-
-        delete routes[docsHomePageRouteIndex!];
-      }
     },
 
     configureWebpack(_config, isServer, utils) {

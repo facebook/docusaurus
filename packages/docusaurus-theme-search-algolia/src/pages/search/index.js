@@ -223,6 +223,12 @@ function Search() {
     makeSearch(searchResultState.lastPage);
   }, [searchResultState.lastPage]);
 
+  useEffect(() => {
+    if (searchValue && searchValue !== searchQuery) {
+      setSearchQuery(searchValue);
+    }
+  }, [searchValue]);
+
   return (
     <Layout title={getTitle()}>
       <div className="container margin-vert--lg">

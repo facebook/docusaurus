@@ -138,7 +138,7 @@ export interface Plugin<T, U = unknown> {
     content: T;
     actions: PluginContentLoadedActions;
   }): void;
-  routesLoaded?(routes: RouteConfig[]): void;
+  routesLoaded?(routes: RouteConfig[]): void; // TODO remove soon, deprecated (alpha-60)
   postBuild?(props: Props): void;
   postStart?(props: Props): void;
   configureWebpack?(

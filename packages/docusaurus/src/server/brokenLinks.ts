@@ -8,8 +8,10 @@
 import {matchRoutes, RouteConfig as RRRouteConfig} from 'react-router-config';
 import resolvePathname from 'resolve-pathname';
 import chalk from 'chalk';
+import fs from 'fs-extra';
 import {mapValues, pickBy, flatMap} from 'lodash';
 import {RouteConfig, OnBrokenLinks} from '@docusaurus/types';
+import {removePrefix} from '@docusaurus/utils';
 
 function toReactRouterRoutes(routes: RouteConfig[]): RRRouteConfig[] {
   // @ts-expect-error: types incompatible???
@@ -107,37 +109,82 @@ export function getBrokenLinksErrorMessage(
 
   return (
     `Broken links found!` +
-    `${Object.entries(allBrokenLinks).map(([pagePath, brokenLinks]) =>
-      pageBrokenLinksMessage(pagePath, brokenLinks),
-    )}
+    `${Object.entries(allBrokenLinks)
+      .map(([pagePath, brokenLinks]) =>
+        pageBrokenLinksMessage(pagePath, brokenLinks),
+      )
+      .join('\n')}
 `
   );
 }
 
-export function handleBrokenLinks({
+// If a file actually exist on the file system, we know the link is valid
+// even if docusaurus does not know about this file, so we don't report it
+async function filterExistingFileLinks({
+  baseUrl,
+  outDir,
+  allCollectedLinks,
+}: {
+  baseUrl: string;
+  outDir: string;
+  allCollectedLinks: Record<string, string[]>;
+}): Promise<Record<string, string[]>> {
+  // not easy to make this async :'(
+  function linkFileExists(link: string): boolean {
+    const filePath = `${outDir}/${removePrefix(link, baseUrl)}`;
+    try {
+      return fs.statSync(filePath).isFile(); // only consider files
+    } catch (e) {
+      return false;
+    }
+  }
+
+  return mapValues(allCollectedLinks, (links) => {
+    return links.filter((link) => !linkFileExists(link));
+  });
+}
+
+export async function handleBrokenLinks({
   allCollectedLinks,
   onBrokenLinks,
   routes,
+  baseUrl,
+  outDir,
 }: {
   allCollectedLinks: Record<string, string[]>;
   onBrokenLinks: OnBrokenLinks;
   routes: RouteConfig[];
+  baseUrl: string;
+  outDir: string;
 }) {
   if (onBrokenLinks === 'ignore') {
     return;
   }
-  const allBrokenLinks = getAllBrokenLinks({allCollectedLinks, routes});
+
+  // If we link to a file like /myFile.zip, and the file actually exist for the file system
+  // it is not a broken link, it may simply be a link to an existing static file...
+  const allCollectedLinksFiltered = await filterExistingFileLinks({
+    allCollectedLinks,
+    baseUrl,
+    outDir,
+  });
+
+  const allBrokenLinks = getAllBrokenLinks({
+    allCollectedLinks: allCollectedLinksFiltered,
+    routes,
+  });
+
   const errorMessage = getBrokenLinksErrorMessage(allBrokenLinks);
   if (errorMessage) {
+    const finalMessage = `${errorMessage}\nNote: it's possible to ignore broken links with the 'onBrokenLinks' Docusaurus configuration.\n\n`;
+
     // Useful to ensure the CI fails in case of broken link
     if (onBrokenLinks === 'throw') {
-      throw new Error(
-        `${errorMessage}\nNote: it's possible to ignore broken links with the 'onBrokenLinks' Docusaurus configuration.`,
-      );
+      throw new Error(finalMessage);
     } else if (onBrokenLinks === 'error') {
-      console.error(chalk.red(errorMessage));
+      console.error(chalk.red(finalMessage));
     } else if (onBrokenLinks === 'log') {
-      console.log(chalk.blue(errorMessage));
+      console.log(chalk.blue(finalMessage));
     } else {
       throw new Error(`unexpected onBrokenLinks value=${onBrokenLinks}`);
     }

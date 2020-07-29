@@ -9,18 +9,26 @@ const Joi = require('@hapi/joi');
 
 const NavbarItemPosition = Joi.string().equal('left', 'right').default('left');
 
+// TODO we should probably create a custom navbar item type "dropdown"
+// having this recursive structure is bad because we only support 2 levels
+// + parent/child don't have exactly the same props
 const DefaultNavbarItemSchema = Joi.object({
   items: Joi.array().optional().items(Joi.link('...')),
   to: Joi.string(),
   href: Joi.string().uri(),
-  prependBaseUrlToHref: Joi.bool().default(true),
   label: Joi.string(),
   position: NavbarItemPosition,
   activeBasePath: Joi.string(),
   activeBaseRegex: Joi.string(),
   className: Joi.string(),
   'aria-label': Joi.string(),
-}).xor('href', 'to');
+})
+  // We allow any unknown attributes on the links
+  // (users may need additional attributes like target, aria-role, data-customAttribute...)
+  .unknown();
+// TODO the dropdown parent item can have no href/to
+// should check should not apply to dropdown parent item
+// .xor('href', 'to');
 
 const DocsVersionNavbarItemSchema = Joi.object({
   type: Joi.string().equal('docsVersion').required(),
@@ -28,12 +36,14 @@ const DocsVersionNavbarItemSchema = Joi.object({
   label: Joi.string(),
   to: Joi.string(),
   docsPluginId: Joi.string(),
+  nextVersionLabel: Joi.string().default('Next'),
 });
 
 const DocsVersionDropdownNavbarItemSchema = Joi.object({
   type: Joi.string().equal('docsVersionDropdown').required(),
   position: NavbarItemPosition,
   docsPluginId: Joi.string(),
+  nextVersionLabel: Joi.string().default('Next'),
 });
 
 // Can this be made easier? :/
@@ -128,7 +138,7 @@ const ThemeConfigSchema = Joi.object({
         'themeConfig.navbar.links has been renamed as themeConfig.navbar.items',
     }),
     items: Joi.array().items(NavbarItemSchema),
-    title: Joi.string().required(),
+    title: Joi.string().allow('', null),
     logo: Joi.object({
       alt: Joi.string(),
       src: Joi.string().required(),

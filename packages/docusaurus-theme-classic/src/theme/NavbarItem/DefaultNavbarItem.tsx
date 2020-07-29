@@ -28,10 +28,11 @@ function NavLink({
   activeClassName?: string;
   prependBaseUrlToHref?: string;
 } & ComponentProps<'a'>) {
+  // TODO all this seems hacky
+  // {to: 'version'} should probably be forbidden, in favor of {to: '/version'}
   const toUrl = useBaseUrl(to);
   const activeBaseUrl = useBaseUrl(activeBasePath);
   const normalizedHref = useBaseUrl(href, {forcePrependBaseUrl: true});
-
   return (
     <Link
       {...(href
@@ -82,11 +83,17 @@ function NavItemDesktop({items, position, className, ...props}) {
       <NavLink
         className={navLinkClassNames(className)}
         {...props}
-        onClick={(e) => e.preventDefault()}
+        onClick={props.to ? undefined : (e) => e.preventDefault()}
         onKeyDown={(e) => {
-          if (e.key === 'Enter') {
+          function toggle() {
             ((e.target as HTMLElement)
               .parentNode as HTMLElement).classList.toggle('dropdown--show');
+          }
+          if (e.key === 'Enter' && !props.to) {
+            toggle();
+          }
+          if (e.key === 'Tab') {
+            toggle();
           }
         }}>
         {props.label}
