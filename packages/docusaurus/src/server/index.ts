@@ -28,7 +28,7 @@ import {
 } from '@docusaurus/types';
 import {loadHtmlTags} from './html-tags';
 import {getPackageJsonVersion} from './versions';
-import {handleDuplicateRoutes} from './duplicatePaths';
+import {handleDuplicateRoutes} from './duplicateRoutes';
 
 export function loadContext(
   siteDir: string,
