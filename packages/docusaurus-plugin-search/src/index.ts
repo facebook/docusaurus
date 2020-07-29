@@ -59,7 +59,7 @@ export default function search(
             };
           });
         })
-        .flat();
+        .reduce((acc, curr) => [...acc, ...curr]);
       const index = Fuse.createIndex(['body'], results);
       await writeFile(
         join(props.outDir, 'search_index.json'),

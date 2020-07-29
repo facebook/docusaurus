@@ -9,6 +9,7 @@ import React, {useState, useCallback} from 'react';
 import styles from './style.module.css';
 import {groupBy, sortBy} from 'lodash-es';
 import {useHistory} from '@docusaurus/router';
+import {useBaseUrlUtils} from '@docusaurus/useBaseUrl';
 
 const ELEMENTS = {
   h1: 30,
@@ -38,12 +39,13 @@ const rank = (list) => {
   return ranked.map(({key}) => ({key, value: sortType(data[key])}));
 };
 export default function ({fuse, isOpen, setOpen}) {
+  const {withBaseUrl} = useBaseUrlUtils();
   const history = useHistory();
   const [data, setData] = useState([]);
   const handleClick = useCallback((url) => {
     setOpen(false);
     setData([]);
-    history.push(url);
+    history.push(withBaseUrl(url));
   });
   return isOpen ? (
     <div className={styles.overlay}>
@@ -66,7 +68,7 @@ export default function ({fuse, isOpen, setOpen}) {
                       className={styles.data_node}
                       type="button"
                       onClick={() =>
-                        handleClick(`/${page.key}#${dataNode.anchor}`)
+                        handleClick(`${page.key}#${dataNode.anchor}`)
                       }>
                       {dataNode.body.slice(0, 40)}
                     </button>

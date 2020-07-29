@@ -6,18 +6,20 @@
  */
 
 import React, {useState} from 'react';
+import {useBaseUrlUtils} from '@docusaurus/useBaseUrl';
+
 import Modal from '../SearchModal';
 
 import Fuse from 'fuse.js';
 
 export default function () {
+  const {withBaseUrl} = useBaseUrlUtils();
   const [fuse, setFuse] = useState(null);
-  console.log(fuse);
   const [open, setOpen] = useState(false);
   const getData = React.useCallback(() => {
     return Promise.all([
-      fetch('/search_index.json').then((res) => res.json()),
-      fetch('/search_result.json').then((res) => res.json()),
+      fetch(withBaseUrl('search_index.json')).then((res) => res.json()),
+      fetch(withBaseUrl('search_result.json')).then((res) => res.json()),
     ]).then((res) => {
       setFuse(
         new Fuse(

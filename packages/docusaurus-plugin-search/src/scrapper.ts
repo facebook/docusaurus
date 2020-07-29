@@ -86,7 +86,7 @@ const getHeading = (node: Node) => find(node, testHeading);
 export default function scrap(data: string): DataNode[] {
   const file = rehype().parse(data);
   const nodes: Array<DataNode> = [];
-  const heading = getHeading(file);
+  const heading = toText(getHeading(file));
   visit(parent(file), testLevel as any, (node) => {
     nodes.push({
       type: node.tagName as string,
