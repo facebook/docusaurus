@@ -7,8 +7,29 @@
 import {
   getAllDuplicateRoutes,
   getDuplicateRoutesMessage,
+  handleDuplicateRoutes,
 } from '../duplicateRoutes';
 import {RouteConfig} from '@docusaurus/types';
+
+const routes: RouteConfig[] = [
+  {
+    path: '/',
+    component: '',
+    routes: [
+      {path: '/search', component: ''},
+      {path: '/sameDoc', component: ''},
+    ],
+  },
+  {
+    path: '/',
+    component: '',
+    routes: [
+      {path: '/search', component: ''},
+      {path: '/sameDoc', component: ''},
+      {path: '/uniqueDoc', component: ''},
+    ],
+  },
+];
 
 describe('duplicateRoutes', () => {
   test('getDuplicateRoutesMessage', () => {
@@ -22,25 +43,12 @@ describe('duplicateRoutes', () => {
   });
 
   test('getAllDuplicateRoutes', () => {
-    const routes: RouteConfig[] = [
-      {
-        path: '/',
-        component: '',
-        routes: [
-          {path: '/search', component: ''},
-          {path: '/sameDoc', component: ''},
-        ],
-      },
-      {
-        path: '/',
-        component: '',
-        routes: [
-          {path: '/search', component: ''},
-          {path: '/sameDoc', component: ''},
-          {path: '/uniqueDoc', component: ''},
-        ],
-      },
-    ];
     expect(getAllDuplicateRoutes(routes)).toMatchSnapshot();
+  });
+
+  test('handleDuplicateRoutes', () => {
+    expect(() => {
+      handleDuplicateRoutes(routes, 'throw');
+    }).toThrowErrorMatchingSnapshot();
   });
 });

@@ -80,7 +80,7 @@ export async function load(
     context,
   });
 
-  handleDuplicateRoutes(pluginsRouteConfigs, 'warn');
+  handleDuplicateRoutes(pluginsRouteConfigs, siteConfig.onDuplicateRoutes);
 
   // Site config must be generated after plugins
   // We want the generated config to have been normalized by the plugins!
