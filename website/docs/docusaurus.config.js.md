@@ -97,7 +97,7 @@ The broken links detection is only available for a production build (`docusaurus
 
 - Type: `'ignore' | 'log' | 'warn' | 'throw'`
 
-The behavior of Docusaurus when it detects any [duplicate routes](./guides/creating-pages.md#duplicate-routes).
+The behavior of Docusaurus when it detects any [duplicate routes](/guides/creating-pages.md#duplicate-routes).
 
 By default, it displays warning after you run `yarn start` or `yarn build`.
 

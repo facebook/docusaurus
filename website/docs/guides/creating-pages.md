@@ -1,6 +1,7 @@
 ---
 id: creating-pages
 title: Creating Pages
+slug: /creating-pages
 ---
 
 In this section, we will learn about creating ad-hoc pages in Docusaurus using React. This is most useful for creating one-off standalone pages like a showcase page, playground page or support page.

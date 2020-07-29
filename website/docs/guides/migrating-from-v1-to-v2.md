@@ -538,7 +538,7 @@ module.exports = {
 
 ### Pages
 
-Please refer to [creating pages](creating-pages.md) to learn how Docusaurus 2 pages work. After reading that, notice that you have to move `pages/en` files in v1 to `src/pages` instead.
+Please refer to [creating pages](guides/creating-pages.md) to learn how Docusaurus 2 pages work. After reading that, notice that you have to move `pages/en` files in v1 to `src/pages` instead.
 
 In Docusaurus v1, pages received the `siteConfig` object as props.
 
