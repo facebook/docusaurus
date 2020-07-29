@@ -16,6 +16,9 @@ import {readFile, writeFile} from 'fs-extra';
 import {join, dirname} from 'path';
 import Fuse from 'fuse.js';
 
+const flat = <T>(arr: Array<Array<T>>) =>
+  arr.reduce((acc, curr) => [...acc, ...curr]);
+
 export default function search(
   _: LoadContext,
   options: pluginOptions,
@@ -40,7 +43,7 @@ export default function search(
           promisify(glob)(`${pattern}/index.html`, {cwd: props.outDir}),
         ),
       );
-      const uniquefiles = new Set(files.flat(1));
+      const uniquefiles = new Set(flat(files));
       const scrapedData = await Promise.all(
         Array.from(uniquefiles).map(async (file) => {
           const content = await readFile(join(props.outDir, file));
@@ -48,8 +51,8 @@ export default function search(
         }),
       );
       let id = 0;
-      const results = scrapedData
-        .map((page) => {
+      const results = flat(
+        scrapedData.map((page) => {
           return page.dataNodes.map((dataNode) => {
             id += 1;
             return {
@@ -58,8 +61,8 @@ export default function search(
               ...dataNode,
             };
           });
-        })
-        .reduce((acc, curr) => [...acc, ...curr]);
+        }),
+      );
       const index = Fuse.createIndex(['body'], results);
       await writeFile(
         join(props.outDir, 'search_index.json'),
