@@ -12,6 +12,8 @@ import {MergeStrategy} from 'webpack-merge';
 
 export type OnBrokenLinks = 'ignore' | 'log' | 'error' | 'throw';
 
+export type OnDuplicatePaths = 'ignore' | 'log' | 'warn' | 'throw';
+
 export interface DocusaurusConfig {
   baseUrl: string;
   favicon: string;
@@ -19,6 +21,7 @@ export interface DocusaurusConfig {
   title: string;
   url: string;
   onBrokenLinks: OnBrokenLinks;
+  onDuplicatePaths: OnDuplicatePaths;
   organizationName?: string;
   projectName?: string;
   githubHost?: string;

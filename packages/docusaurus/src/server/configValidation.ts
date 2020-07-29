@@ -16,6 +16,7 @@ import {
 export const DEFAULT_CONFIG: Pick<
   DocusaurusConfig,
   | 'onBrokenLinks'
+  | 'onDuplicatePaths'
   | 'plugins'
   | 'themes'
   | 'presets'
@@ -23,6 +24,7 @@ export const DEFAULT_CONFIG: Pick<
   | 'themeConfig'
 > = {
   onBrokenLinks: 'throw',
+  onDuplicatePaths: 'warn',
   plugins: [],
   themes: [],
   presets: [],
@@ -56,6 +58,9 @@ const ConfigSchema = Joi.object({
   onBrokenLinks: Joi.string()
     .equal('ignore', 'log', 'error', 'throw')
     .default(DEFAULT_CONFIG.onBrokenLinks),
+  onDuplicatePaths: Joi.string()
+    .equal('ignore', 'log', 'warn', 'throw')
+    .default(DEFAULT_CONFIG.onDuplicatePaths),
   organizationName: Joi.string(),
   projectName: Joi.string(),
   customFields: Joi.object().unknown().default(DEFAULT_CONFIG.customFields),

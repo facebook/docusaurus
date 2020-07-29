@@ -28,6 +28,7 @@ import {
 } from '@docusaurus/types';
 import {loadHtmlTags} from './html-tags';
 import {getPackageJsonVersion} from './versions';
+import {warnAboutOverridingRoutes} from './duplicatePaths';
 
 export function loadContext(
   siteDir: string,
@@ -78,6 +79,8 @@ export async function load(
     pluginConfigs,
     context,
   });
+
+  warnAboutOverridingRoutes(pluginsRouteConfigs);
 
   // Site config must be generated after plugins
   // We want the generated config to have been normalized by the plugins!
