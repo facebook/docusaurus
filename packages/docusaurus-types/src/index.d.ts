@@ -193,7 +193,6 @@ export interface RouteConfig {
   routes?: RouteConfig[];
   exact?: boolean;
   priority?: number;
-  props?: object;
 }
 
 export interface ThemeAlias {

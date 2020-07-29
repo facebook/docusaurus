@@ -29,8 +29,8 @@ export interface PluginOptions {
   blogPostComponent: string;
   blogTagsListComponent: string;
   blogTagsPostsComponent: string;
-  remarkPlugins: ([Function, object] | Function)[];
   blogDescription: string;
+  remarkPlugins: ([Function, object] | Function)[];
   rehypePlugins: string[];
   truncateMarker: RegExp;
   showReadingTime: boolean;
@@ -68,12 +68,12 @@ export interface BlogPaginatedMetadata {
   totalCount: number;
   previousPage: string | null;
   nextPage: string | null;
+  blogDescription: string;
 }
 
 export interface BlogPaginated {
   metadata: BlogPaginatedMetadata;
   items: string[];
-  blogSiteDescription: string;
 }
 
 export interface MetaData {

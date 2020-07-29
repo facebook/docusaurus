@@ -25,7 +25,6 @@ function BlogListPage(props: Props): JSX.Element {
   const isBlogOnlyMode = metadata.permalink === '/';
   const title = isBlogOnlyMode ? siteTitle : 'Blog';
   const {blogDescription} = metadata;
-
   return (
     <Layout title={title} description={blogDescription}>
       <div className="container margin-vert--xl">
