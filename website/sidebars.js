@@ -22,7 +22,7 @@ module.exports = {
       type: 'category',
       label: 'Guides',
       items: [
-        'creating-pages',
+        'guides/creating-pages',
         'styling-layout',
         'static-assets',
         {
