@@ -18,7 +18,7 @@ export function getAllDuplicateRoutes(
       if (routesSeen.hasOwnProperty(routeConfig.path)) {
         duplicateRoutes.push(routeConfig.path);
       } else {
-        routesSeen[routeConfig.path] = true; // dummy value for object
+        routesSeen[routeConfig.path] = true; // dummy value
       }
       if (routeConfig.routes !== undefined) {
         getDuplicateRoutes(routeConfig.routes);
@@ -58,43 +58,6 @@ export function handleDuplicateRoutes(
       console.warn(chalk.yellow(finalMessage));
     } else if (onDuplicateRoutes === 'throw') {
       throw new Error(finalMessage);
-    }
-  }
-}
-
-export function warnAboutOverridingRoutes(
-  pluginsRouteConfigs: RouteConfig[],
-): void {
-  // Accumulate all the routes by recursively exploring each RouteConfig
-  const routesAccumulator: string[] = [];
-  function getAllRoutes(routeConfigs: RouteConfig[]): string[] {
-    for (let i = 0; i < routeConfigs.length; i += 1) {
-      const routeConfig = routeConfigs[i];
-      routesAccumulator.push(routeConfig.path);
-      if (routeConfig.routes !== undefined) {
-        getAllRoutes(routeConfig.routes);
-      }
-    }
-    return routesAccumulator;
-  }
-
-  const allRoutes = getAllRoutes(pluginsRouteConfigs);
-
-  // Sort the allRoutes array in lexicographical order
-  // Then check if each route is equal to the next route
-  // If yes, one of these routes will be overridden so we warn the user
-  allRoutes.sort((a, b) => a.localeCompare(b));
-  for (let i = 0; i < allRoutes.length - 1; i += 1) {
-    if (allRoutes[i] === allRoutes[i + 1]) {
-      console.warn(
-        `${
-          chalk.yellow(`warning `) + chalk.bold.yellow(`Routes Override: `)
-        }Attempting to create page at "${
-          allRoutes[i]
-        }" but a page already exists at this path\n${chalk.bold.yellow(
-          `This could lead to non-deterministic routing behavior`,
-        )}`,
-      );
     }
   }
 }
