@@ -135,7 +135,6 @@ module.exports = {
             type: 'all',
             copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`,
           },
-          blogDescription: 'Test description....',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
