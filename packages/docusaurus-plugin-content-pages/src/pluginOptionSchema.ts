@@ -6,6 +6,11 @@
  */
 import * as Joi from '@hapi/joi';
 import {PluginOptions} from './types';
+import {
+  RemarkPluginsSchema,
+  RehypePluginsSchema,
+  AdmonitionsSchema,
+} from '@docusaurus/utils-validation';
 
 export const DEFAULT_OPTIONS: PluginOptions = {
   path: 'src/pages', // Path to data on filesystem, relative to site dir.
@@ -22,21 +27,7 @@ export const PluginOptionSchema = Joi.object({
   routeBasePath: Joi.string().default(DEFAULT_OPTIONS.routeBasePath),
   include: Joi.array().items(Joi.string()).default(DEFAULT_OPTIONS.include),
   mdxPageComponent: Joi.string().default(DEFAULT_OPTIONS.mdxPageComponent),
-  remarkPlugins: Joi.array()
-    .items(
-      Joi.array()
-        .items(Joi.function().required(), Joi.object().required())
-        .length(2),
-      Joi.function(),
-    )
-    .default(DEFAULT_OPTIONS.remarkPlugins),
-  rehypePlugins: Joi.array()
-    .items(
-      Joi.array()
-        .items(Joi.function().required(), Joi.object().required())
-        .length(2),
-      Joi.function(),
-    )
-    .default(DEFAULT_OPTIONS.rehypePlugins),
-  admonitions: Joi.object().default(DEFAULT_OPTIONS.admonitions),
+  remarkPlugins: RemarkPluginsSchema.default(DEFAULT_OPTIONS.remarkPlugins),
+  rehypePlugins: RehypePluginsSchema.default(DEFAULT_OPTIONS.rehypePlugins),
+  admonitions: AdmonitionsSchema.default(DEFAULT_OPTIONS.admonitions),
 });

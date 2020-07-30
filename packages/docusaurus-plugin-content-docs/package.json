@@ -22,6 +22,7 @@
     "@docusaurus/mdx-loader": "2.0.0-alpha.60",
     "@docusaurus/types": "2.0.0-alpha.60",
     "@docusaurus/utils": "2.0.0-alpha.60",
+    "@docusaurus/utils-validation": "2.0.0-alpha.60",
     "@hapi/joi": "17.1.1",
     "execa": "^3.4.0",
     "fs-extra": "^8.1.0",
