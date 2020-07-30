@@ -10,5 +10,6 @@
 }
 
 .tabItem:focus {
-  background-color: var(--ifm-hover-overlay);
+  background-color: transparent;
+  outline: none;
 }
