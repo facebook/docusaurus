@@ -164,7 +164,8 @@ module.exports = {
       respectPrefersColorScheme: true,
       switchConfig: {
         darkIcon: '🌙',
-        darkIconStyle: {
+        darkIconStyle: { // Style object passed to inline CSS
+        // For more information about styling options visit: https://reactjs.org/docs/dom-elements.html#style
           marginLeft: '2px',
         },
         lightIcon: '\u2600',
