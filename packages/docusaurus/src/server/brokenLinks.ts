@@ -8,10 +8,10 @@
 import {matchRoutes, RouteConfig as RRRouteConfig} from 'react-router-config';
 import resolvePathname from 'resolve-pathname';
 import fs from 'fs-extra';
-import {mapValues, pickBy, flatMap} from 'lodash';
+import {mapValues, pickBy} from 'lodash';
 import {RouteConfig, ReportingSeverity} from '@docusaurus/types';
 import {removePrefix} from '@docusaurus/utils';
-import {getFinalRoutes, reportMessage} from './utils';
+import {getAllFinalRoutes, reportMessage} from './utils';
 
 function toReactRouterRoutes(routes: RouteConfig[]): RRRouteConfig[] {
   // @ts-expect-error: types incompatible???
@@ -60,7 +60,7 @@ function getPageBrokenLinks({
 // We also need to remove the match all 404 route
 function filterIntermediateRoutes(routesInput: RouteConfig[]): RouteConfig[] {
   const routesWithout404 = routesInput.filter((route) => route.path !== '*');
-  return flatMap(routesWithout404, getFinalRoutes);
+  return getAllFinalRoutes(routesWithout404);
 }
 
 export function getAllBrokenLinks({

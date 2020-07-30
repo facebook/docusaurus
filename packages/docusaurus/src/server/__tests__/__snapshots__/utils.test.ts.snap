@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`getFinalRoutes should get final routes correctly 1`] = `
+exports[`getAllFinalRoutes should get final routes correctly 1`] = `
 Array [
   Object {
     "component": "",

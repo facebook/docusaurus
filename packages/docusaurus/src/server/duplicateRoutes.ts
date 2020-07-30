@@ -5,13 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 import {RouteConfig, ReportingSeverity} from '@docusaurus/types';
-import {getFinalRoutes, reportMessage} from './utils';
-import {flatMap} from 'lodash';
+import {getAllFinalRoutes, reportMessage} from './utils';
 
 export function getAllDuplicateRoutes(
   pluginsRouteConfigs: RouteConfig[],
 ): string[] {
-  const allRoutes: string[] = flatMap(pluginsRouteConfigs, getFinalRoutes).map(
+  const allRoutes: string[] = getAllFinalRoutes(pluginsRouteConfigs).map(
     (routeConfig) => routeConfig.path,
   );
   const seenRoutes: Record<string, any> = {};
