@@ -12,8 +12,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@docusaurus/types": "^2.0.0-alpha.60",
-    "@docusaurus/utils": "^2.0.0-alpha.60",
+    "@docusaurus/types": "2.0.0-alpha.60",
+    "@docusaurus/utils": "2.0.0-alpha.60",
     "@hapi/joi": "^17.1.1",
     "@types/hapi__joi": "^17.1.2",
     "chalk": "^3.0.0",
