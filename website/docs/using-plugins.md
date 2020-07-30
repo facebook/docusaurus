@@ -376,6 +376,15 @@ module.exports = {
          */
         routeBasePath: '',
         include: ['**/*.{js,jsx}'],
+        /**
+         * Theme component used by markdown pages.
+         */
+        mdxPageComponent: '@theme/MDXPage',
+        /**
+         * Remark and Rehype plugins passed to MDX
+         */
+        remarkPlugins: [],
+        rehypePlugins: [],
       },
     ],
   ],
