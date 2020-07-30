@@ -163,6 +163,24 @@ Don't forget to delete the existing homepage at `./src/pages/index.js` or else t
 
 :::
 
+You can also add meta description to the blog list page for better SEO:
+
+```js {8} title="docusaurus.config.js"
+module.exports = {
+  // ...
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        blog: {
+          blogDescription: 'A docusaurus powered blog!',
+        },
+      },
+    ],
+  ],
+};
+```
+
 ### Multiple blogs
 
 By default, the classic theme assumes only one blog per website and hence includes only one instance of the blog plugin. If you would like to have multiple blogs on a single website, it's possible too! You can add another blog by specifying another blog plugin in the `plugins` option for `docusaurus.config.js`.
