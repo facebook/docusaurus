@@ -13,8 +13,6 @@ import kebabCase from 'lodash.kebabcase';
 import escapeStringRegexp from 'escape-string-regexp';
 import fs from 'fs-extra';
 import {URL} from 'url';
-import {flatMap} from 'lodash';
-import {RouteConfig} from '@docusaurus/types';
 
 // @ts-expect-error: no typedefs :s
 import resolvePathnameUnsafe from 'resolve-pathname';
@@ -403,8 +401,4 @@ export function getFilePathForRoutePath(routePath: string): string {
   const fileName = path.basename(routePath);
   const filePath = path.dirname(routePath);
   return path.join(filePath, `${fileName}/index.html`);
-}
-
-export function getFinalRoutes(route: RouteConfig): RouteConfig[] {
-  return route.routes ? flatMap(route.routes, getFinalRoutes) : [route];
 }
