@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useState, Children, ReactElement} from 'react';
+import React, {useState, Children, ReactElement, useEffect} from 'react';
 import useUserPreferencesContext from '@theme/hooks/useUserPreferencesContext';
 
 import clsx from 'clsx';
@@ -15,6 +15,7 @@ import styles from './styles.module.css';
 const keys = {
   left: 37,
   right: 39,
+  tab: 9,
 };
 
 type Props = {
@@ -29,6 +30,7 @@ function Tabs(props: Props): JSX.Element {
   const {block, children, defaultValue, values, groupId} = props;
   const {tabGroupChoices, setTabGroupChoices} = useUserPreferencesContext();
   const [selectedValue, setSelectedValue] = useState(defaultValue);
+  const [tabPressed, setTabPressed] = useState(false);
 
   if (groupId != null) {
     const relevantTabGroupChoice = tabGroupChoices[groupId];
@@ -83,6 +85,16 @@ function Tabs(props: Props): JSX.Element {
     }
   };
 
+  const handleTab = (event) => {
+    if (event.keyCode === keys.tab) {
+      setTabPressed(true);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleTab);
+  }, []);
+
   return (
     <div>
       <ul
@@ -99,11 +111,18 @@ function Tabs(props: Props): JSX.Element {
             className={clsx('tabs__item', styles.tabItem, {
               'tabs__item--active': selectedValue === value,
             })}
+            style={tabPressed ? {} : {outline: 'none'}}
             key={value}
             ref={(tabControl) => tabRefs.push(tabControl)}
-            onKeyDown={(event) => handleKeydown(tabRefs, event.target, event)}
+            onKeyDown={(event) => {
+              handleKeydown(tabRefs, event.target, event);
+              handleTab(event);
+            }}
             onFocus={() => changeSelectedValue(value)}
-            onClick={() => changeSelectedValue(value)}>
+            onClick={() => {
+              changeSelectedValue(value);
+              setTabPressed(false);
+            }}>
             {label}
           </li>
         ))}
