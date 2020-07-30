@@ -138,6 +138,20 @@ const ColorModeSchema = Joi.object({
   }).default(DEFAULT_COLOR_MODE_CONFIG.switchConfig),
 }).default(DEFAULT_COLOR_MODE_CONFIG);
 
+const FooterLinkItemSchema = Joi.object({
+  to: Joi.string(),
+  href: Joi.string().uri(),
+  html: Joi.string(),
+  label: Joi.string(),
+})
+  .xor('to', 'href', 'html')
+  .with('to', 'label')
+  .with('href', 'label')
+  .nand('html', 'label')
+  // We allow any unknown attributes on the links
+  // (users may need additional attributes like target, aria-role, data-customAttribute...)
+  .unknown();
+
 const ThemeConfigSchema = Joi.object({
   // TODO temporary (@alpha-58)
   disableDarkMode: Joi.any().forbidden(false).messages({
@@ -185,18 +199,7 @@ const ThemeConfigSchema = Joi.object({
     links: Joi.array().items(
       Joi.object({
         title: Joi.string().required(),
-        items: Joi.array().items(
-          Joi.object({
-            to: Joi.string(),
-            href: Joi.string().uri(),
-            html: Joi.string(),
-            label: Joi.string(),
-          })
-            .xor('to', 'href', 'html')
-            .with('to', 'label')
-            .with('href', 'label')
-            .nand('html', 'label'),
-        ),
+        items: Joi.array().items(FooterLinkItemSchema).default([]),
       }),
     ),
   }),
