@@ -6,7 +6,7 @@
  */
 import chalk from 'chalk';
 import flatMap from 'lodash.flatmap';
-import {RouteConfig} from '@docusaurus/types';
+import {RouteConfig, ReportingSeverity} from '@docusaurus/types';
 
 // TODO temporary escape hatch for alpha-60: to be removed soon
 // Our validation schemas might be buggy at first
@@ -42,10 +42,9 @@ export function getAllFinalRoutes(routeConfig: RouteConfig[]): RouteConfig[] {
   return flatMap(routeConfig, getFinalRoutes);
 }
 
-// Report message to user through the console with varying severity
 export function reportMessage(
   message: string,
-  reportingSeverity: string,
+  reportingSeverity: ReportingSeverity,
 ): void {
   switch (reportingSeverity) {
     case 'ignore':
