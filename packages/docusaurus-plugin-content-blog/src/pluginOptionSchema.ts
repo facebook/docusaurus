@@ -43,7 +43,9 @@ export const PluginOptionSchema = Joi.object({
   blogTagsPostsComponent: Joi.string().default(
     DEFAULT_OPTIONS.blogTagsPostsComponent,
   ),
-  blogDescription: Joi.string().default(DEFAULT_OPTIONS.blogDescription),
+  blogDescription: Joi.string()
+    .allow('')
+    .default(DEFAULT_OPTIONS.blogDescription),
   showReadingTime: Joi.bool().default(DEFAULT_OPTIONS.showReadingTime),
   remarkPlugins: Joi.array()
     .items(
