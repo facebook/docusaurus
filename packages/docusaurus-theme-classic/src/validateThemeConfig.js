@@ -40,7 +40,10 @@ const DefaultNavbarItemSchema = Joi.object({
   activeBaseRegex: Joi.string(),
   className: Joi.string(),
   'aria-label': Joi.string(),
-});
+})
+  // We allow any unknown attributes on the links
+  // (users may need additional attributes like target, aria-role, data-customAttribute...)
+  .unknown();
 // TODO the dropdown parent item can have no href/to
 // should check should not apply to dropdown parent item
 // .xor('href', 'to');

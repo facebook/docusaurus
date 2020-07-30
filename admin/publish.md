@@ -89,6 +89,8 @@ GITHUB_AUTH=<Your GitHub auth token> yarn changelog
 
 Copy the generated contents and paste them in `CHANGELOG-2.x.md`.
 
+**Note**: sometimes `lerna-changelog` gives an empty changelog ([bug report](https://github.com/lerna/lerna-changelog/issues/354)). Adding the `--from` options seems to help (`yarn changelog --from v2.0.0-alpha.60`).
+
 ### 4. Cut a new version of the docs
 
 ```sh
@@ -101,11 +103,9 @@ Test running the website with the new version locally.
 
 You should still be on your local branch `<your_username>/<version_to_release>`
 
-Make a commit/push, create a pull request with the changes. 
+Make a commit/push, create a pull request with the changes.
 
-Don't merge it, just check that the CI is ok with your changes.
-
-If nobody is around for a review, just wait for the CI checks to complete, check the deploy preview, and merge it.
+**Don't merge it yet**, but wait for the CI checks to complete.
 
 An example PR would be [#3114](https://github.com/facebook/docusaurus/pull/3114).
 

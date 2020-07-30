@@ -8,6 +8,10 @@
 import {DocusaurusConfig} from '@docusaurus/types';
 import {CONFIG_FILE_NAME} from '../constants';
 import Joi from '@hapi/joi';
+import {
+  isValidationDisabledEscapeHatch,
+  logValidationBugReportHint,
+} from './validationUtils';
 
 export const DEFAULT_CONFIG: Pick<
   DocusaurusConfig,
@@ -52,8 +56,8 @@ const ConfigSchema = Joi.object({
   onBrokenLinks: Joi.string()
     .equal('ignore', 'log', 'error', 'throw')
     .default(DEFAULT_CONFIG.onBrokenLinks),
-  organizationName: Joi.string(),
-  projectName: Joi.string(),
+  organizationName: Joi.string().allow(''),
+  projectName: Joi.string().allow(''),
   customFields: Joi.object().unknown().default(DEFAULT_CONFIG.customFields),
   githubHost: Joi.string(),
   plugins: Joi.array().items(PluginSchema).default(DEFAULT_CONFIG.plugins),
@@ -75,7 +79,7 @@ const ConfigSchema = Joi.object({
       type: Joi.string().required(),
     }).unknown(),
   ),
-  tagline: Joi.string(),
+  tagline: Joi.string().allow(''),
 });
 
 export function validateConfig(
@@ -85,6 +89,12 @@ export function validateConfig(
     abortEarly: false,
   });
   if (error) {
+    logValidationBugReportHint();
+    if (isValidationDisabledEscapeHatch) {
+      console.error(error);
+      return config as DocusaurusConfig;
+    }
+
     const unknownFields = error.details.reduce((formattedError, err) => {
       if (err.type === 'object.unknown') {
         return `${formattedError}"${err.path}",`;

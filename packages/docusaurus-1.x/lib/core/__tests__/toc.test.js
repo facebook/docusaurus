@@ -69,6 +69,16 @@ describe('getTOC', () => {
     expect(headings[0].rawContent).toEqual(`function1 [array<string>]`);
     expect(headings[0].content).toEqual(`function1 [array<string>]`);
   });
+
+  test('test slugPreprocessor', () => {
+    const headings = getTOC(`## <a name="foo"></a> Foo`, 'h2', [], (s) =>
+      s.replace(/foo/gi, 'bar'),
+    );
+
+    expect(headings[0].hashLink).toEqual('a-namebara-bar');
+    expect(headings[0].rawContent).toEqual(`<a name="foo"></a> Foo`);
+    expect(headings[0].content).toEqual(`<a name="foo"></a> Foo`);
+  });
 });
 
 describe('insertTOC', () => {

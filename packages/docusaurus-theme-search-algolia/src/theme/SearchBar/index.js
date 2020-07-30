@@ -81,6 +81,7 @@ function DocSearch(props) {
         onFocus={importDocSearchModalIfNeeded}
         onMouseOver={importDocSearchModalIfNeeded}
         onClick={onOpen}
+        aria-label="Search"
       />
 
       {isOpen &&
