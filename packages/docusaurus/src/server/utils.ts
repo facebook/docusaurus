@@ -34,6 +34,7 @@ export const logValidationBugReportHint = () => {
   );
 };
 
+// Recursively get the final routes (routes with no subroutes)
 export function getFinalRoutes(route: RouteConfig): RouteConfig[] {
   return route.routes ? flatMap(route.routes, getFinalRoutes) : [route];
 }
