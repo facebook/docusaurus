@@ -43,7 +43,7 @@ describe('duplicateRoutes', () => {
   });
 
   test('getAllDuplicateRoutes', () => {
-    expect(getAllDuplicateRoutes(routes)).toMatchSnapshot();
+    expect(getAllDuplicateRoutes(routes)).toEqual(['/search', '/sameDoc']);
   });
 
   test('handleDuplicateRoutes', () => {

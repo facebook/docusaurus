@@ -23,6 +23,10 @@ describe('getAllFinalRoutes', () => {
         component: '',
       },
     ];
-    expect(getAllFinalRoutes(routes)).toMatchSnapshot();
+    expect(getAllFinalRoutes(routes)).toEqual([
+      routes[0].routes[0],
+      routes[0].routes[1],
+      routes[1],
+    ]);
   });
 });

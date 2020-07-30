@@ -1,12 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`duplicateRoutes getAllDuplicateRoutes 1`] = `
-Array [
-  "/search",
-  "/sameDoc",
-]
-`;
-
 exports[`duplicateRoutes getDuplicateRoutesMessage 1`] = `
 "Attempting to create page at /, but a page already exists at this route
 Attempting to create page at /, but a page already exists at this route
