@@ -17,7 +17,7 @@
   },
   "peerDependencies": {
     "@docusaurus/core": "^2.0.0",
-    "@docusaurus/utils": "^2.0.0-alpha.54",
+    "@docusaurus/utils": "2.0.0-alpha.60",
     "react": "^16.8.4",
     "react-dom": "^16.8.4"
   },
