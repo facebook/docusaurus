@@ -16,7 +16,6 @@
     "escape-string-regexp": "^2.0.0",
     "fs-extra": "^8.1.0",
     "gray-matter": "^4.0.2",
-    "lodash": "^4.17.19",
     "lodash.camelcase": "^4.3.0",
     "lodash.kebabcase": "^4.1.1",
     "resolve-pathname": "^3.0.0"
