@@ -20,7 +20,7 @@ export const DEFAULT_OPTIONS = {
   blogTagsListComponent: '@theme/BlogTagsListPage',
   blogPostComponent: '@theme/BlogPostPage',
   blogListComponent: '@theme/BlogListPage',
-  blogDescription: '',
+  blogDescription: 'Blog',
   postsPerPage: 10,
   include: ['*.md', '*.mdx'],
   routeBasePath: 'blog',

@@ -27,7 +27,7 @@ function BlogListPage(props: Props): JSX.Element {
   const {blogDescription} = metadata;
   return (
     <Layout title={title} description={blogDescription}>
-      <div className="container margin-vert--xl">
+      <div className="container margin-vert--lg">
         <div className="row">
           <main className="col col--8 col--offset-2">
             {items.map(({content: BlogPostContent}) => (

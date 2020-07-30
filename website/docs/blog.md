@@ -173,7 +173,7 @@ module.exports = {
       '@docusaurus/preset-classic',
       {
         blog: {
-          blogDescription: 'A docusuarus powered blog!',
+          blogDescription: 'A docusaurus powered blog!',
         },
       },
     ],
